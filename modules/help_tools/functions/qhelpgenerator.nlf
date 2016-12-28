@@ -1,0 +1,54 @@
+//=============================================================================
+// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+function qhelpgenerator(varargin)
+
+	if (nargin() ~= 3)
+    error(_('Wrong number of input arguments.'));
+  end 
+	
+	src_in = varargin{1};
+	dir_out = varargin{2};
+	destination_file = varargin{3};
+	file_generated =  [dir_out, destination_file];
+
+	if ~isfile([src_in, '/helpproject.qhp'])
+		error(_('helpproject.qhp is missing.'))
+	end
+
+	qhelpgenerator_filename = 'qhelpgenerator'; 
+  QTDIR_BINARIES = getenv('QTDIR_BINARIES');
+  if ~strcmp(QTDIR_BINARIES, '')
+    new_qhelpgenerator_filename = [QTDIR_BINARIES, '/qhelpgenerator'];
+    if isfile(new_qhelpgenerator_filename)
+      qhelpgenerator_filename = new_qhelpgenerator_filename;
+    end
+  end
+  if isfile(file_generated)
+  	[res, msg] = rmfile(file_generated);
+  	if res
+  		error(msg)
+  	end
+  end
+  
+	cmd = [qhelpgenerator_filename, ' "', src_in, '/helpproject.qhp"', ' -o "', file_generated, '"'];
+	[res, msg] = unix(cmd);
+	if res
+		error(msg)
+	end
+endfunction

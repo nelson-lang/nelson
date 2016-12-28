@@ -1,0 +1,72 @@
+//=============================================================================
+// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+R = 0i;
+assert_istrue(isreal(R));
+//=============================================================================
+R = 0*i;
+assert_istrue(isreal(R));
+//=============================================================================
+R = i*0;
+assert_istrue(isreal(R));
+//=============================================================================
+R = 0.*i;
+assert_istrue(isreal(R));
+//=============================================================================
+R = i.*0;
+assert_istrue(isreal(R));
+//=============================================================================
+R = i .* 0;
+assert_istrue(isreal(R));
+//=============================================================================
+R = 0 .* i;
+assert_istrue(isreal(R));
+//=============================================================================
+R = [0*i 1];
+assert_istrue(isreal(R));
+//=============================================================================
+R = [0i 1];
+assert_istrue(isreal(R));
+//=============================================================================
+R = complex([0*i]);
+assert_isfalse(isreal(R));
+//=============================================================================
+R = [eps*i 1];
+assert_isfalse(isreal(R));
+//=============================================================================
+R = 0 * [i i];
+assert_istrue(isreal(R));
+//=============================================================================
+R = 0 * [i  0i];
+assert_istrue(isreal(R));
+//=============================================================================
+R = [0 0] * [2;3];
+assert_istrue(isreal(R));
+//=============================================================================
+R = [0i 0] * [2;3];
+assert_istrue(isreal(R));
+//=============================================================================
+R = [complex(0,0) 0] * [2;3];
+assert_istrue(isreal(R));
+//=============================================================================
+R = [1 2 3 4] .* 2i;
+assert_isfalse(isreal(R));
+//=============================================================================
+R = 2i .* [1 2 3 4];
+assert_isfalse(isreal(R));
+//=============================================================================

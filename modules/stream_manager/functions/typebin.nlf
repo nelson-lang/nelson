@@ -1,0 +1,94 @@
+//=============================================================================
+// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+function res = typebin(strtype)
+	switch(strtype)
+	case 'sparsedouble'
+		res = 201;
+	case 'sparselogical'
+		res = 204;
+	case 'ndarraylogical'
+		res = 104;
+	case 'ndarrayuint8'
+		res = 181;
+	case 'ndarrayint8'
+		res = 182;
+	case 'ndarrayuint16'
+		res = 183;
+	case 'ndarrayint16'
+		res = 184;
+	case 'ndarrayuint32'
+		res = 185;	
+	case 'ndarrayint32'
+		res = 186;	
+	case 'ndarrayuint64'
+		res = 187;	
+	case 'ndarrayint64'
+		res = 188;	
+	case 'ndarraysingle'
+		res = 102;	
+	case 'ndarraydouble'
+		res = 101;	
+	case 'ndarraystring'
+		res = 110;	
+	case 'ndarraycell'
+		res = 117;	
+	case 'cell'
+		res = 17;	
+	case 'struct'
+		res = 15;	
+	case 'logical'
+		res = 4;	
+	case 'uint8'
+		res = 81;	
+	case 'int8'
+		res = 82;	
+	case 'uint16'
+		res = 83;	
+	case 'int16'
+		res = 84;	
+	case 'uint32'
+		res = 85;	
+	case 'int32'
+		res = 86;	
+	case 'uint64'
+		res = 87;	
+	case 'int64'
+		res = 88;	
+	case 'single'
+		res = 2;	
+	case 'double'
+		res = 1;	
+	case 'string'
+		res = 10;		
+	case 'function_handle'
+		res = 14;	
+	case 'handle'
+		res = 9;
+	case 'generic'
+		res = 1000;	
+	otherwise
+		res = -1;
+	end
+	if (res == -1)
+		if isclass(data)
+			res = 2000;
+		end
+	end
+endfunction
+

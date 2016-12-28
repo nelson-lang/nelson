@@ -1,0 +1,92 @@
+#==============================================================================
+# Copyright (c) 2016-2017 Allan CORNET (Nelson)
+#==============================================================================
+# LICENCE_BLOCK_BEGIN
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 2 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# LICENCE_BLOCK_END
+#==============================================================================
+include_directories(
+${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/include
+)
+#==============================================================================	
+FILE(
+GLOB
+MAINCLI_SRC
+"${CMAKE_CURRENT_SOURCE_DIR}/nelson_cli/*.cpp"
+)
+#==============================================================================	
+ADD_EXECUTABLE(
+	nelson-cli
+	${MAINCLI_SRC}
+)
+#==============================================================================	
+target_link_libraries(nelson-cli
+nlsEngine
+)
+#==============================================================================
+FILE(
+GLOB
+MAINADVCLI_SRC
+"${CMAKE_CURRENT_SOURCE_DIR}/nelson_adv_cli/*.cpp"
+)
+#==============================================================================	
+ADD_EXECUTABLE(
+	nelson-adv-cli
+	${MAINADVCLI_SRC}
+)
+#==============================================================================	
+target_link_libraries(nelson-adv-cli
+nlsEngine
+)
+#==============================================================================
+FILE(
+GLOB
+MAINGUI_SRC
+"${CMAKE_CURRENT_SOURCE_DIR}/nelson_gui/*.cpp"
+)
+#==============================================================================	
+ADD_EXECUTABLE(
+	nelson-gui
+	${MAINGUI_SRC}
+)
+#==============================================================================	
+target_link_libraries(nelson-gui
+nlsEngine
+)
+#==============================================================================
+add_custom_target(Name ALL
+    COMMAND nelson-cli --quiet --file "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/gettext/generatemo.nls"
+    DEPENDS nelson-cli
+)
+#==============================================================================
+add_custom_target(updatelocalization
+    COMMAND nelson-cli --quiet --file "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/gettext/generatepo.nls"
+    DEPENDS nelson-cli
+)
+#==============================================================================
+add_custom_target(buildhelp
+    COMMAND ${CMAKE_COMMAND} -E env 'QTDIR_BINARIES=${QTDIR_BINARIES}' ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/nelson-cli  --quiet --file "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/buildhelp/buildhelp.nls"
+    DEPENDS nelson-cli
+)
+#==============================================================================
+add_custom_target(tests
+    COMMAND nelson-cli --quiet --file "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/tests/runtests.nls"
+    DEPENDS nelson-cli
+)
+#==============================================================================
+install(TARGETS nelson-adv-cli RUNTIME DESTINATION ${LIBRARY_OUTPUT})
+install(TARGETS nelson-cli RUNTIME DESTINATION ${LIBRARY_OUTPUT})
+install(TARGETS nelson-gui RUNTIME DESTINATION ${LIBRARY_OUTPUT})
+#==============================================================================
+

@@ -1,0 +1,24 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<QtHelpProject version = "1.0">
+<namespace>org.nelson.help</namespace>
+<virtualFolder>help</virtualFolder>
+<customFilter name = "NelSon">
+<filterAttribute>NelSon</filterAttribute>
+</customFilter>
+<filterSection>
+<filterAttribute>NelSon</filterAttribute>
+<toc>
+<section title = "NelSon" ref = "homepage.html"/>
+</toc>
+<keywords>
+<keyword name = "licence" id = "NelSon::licence" ref = "licence.html"/>
+<keyword name = "changes" id = "NelSon::changes" ref = "changes.html"/>
+</keywords>
+<files>
+<file>*.html</file>
+<file>*.png</file>
+</files>
+</filterSection>
+</QtHelpProject>
+
+

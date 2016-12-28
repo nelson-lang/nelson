@@ -1,0 +1,49 @@
+table, th, td{
+		border: 0px solid black;
+    border-collapse: collapse;
+}
+
+th, td{
+		padding: 10px;
+    text-align: left;
+}
+
+h3 {
+    color: #000063;
+    font-weight: bold;
+    font-size:130%;
+    margin-bottom: 10px;
+}
+
+.programlisting {
+    font-family: monospace;
+    font-size: 100%;
+    background-color:#EEEEFF;
+    border-color:#CCCCCC;
+    border-style:solid;
+    border-width:2px medium;
+    width:80%;
+    color:#333333;
+    line-height:100%;
+    padding:10px;
+}
+
+table.revhistory
+{ 
+  width:80%;
+  border-color:#CCCCCC;
+  border-style:solid;
+  border-width:2px medium;
+  margin-bottom: 10px;
+}
+
+.refname {
+    color: #ff6c0a;
+}
+
+pre {
+	display: inline;
+  background: #eaeef3;
+}
+
+

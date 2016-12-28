@@ -1,0 +1,549 @@
+//=============================================================================
+// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+function status = test_run(varargin)
+  // status = test_run(modules)
+  // status = test_run(file_to_test)
+  // status = test_run(modules, options)
+  // status = test_run(file_to_test, options)
+  // status = test_run(modules, options, output_file)
+  // status = test_run(file_to_test, output_file)
+  
+  status = true;
+  modules_list = [];
+  file_to_test = [];
+  output_file = [];
+  options = 'all';
+  supported_options = {'all', 'all_tests', 'unitary_tests', 'nonreg_tests', 'benchs'};
+  
+  if (nargin == 0)
+    modules_list = getmodules();
+  else
+    param1 = varargin{1};
+    if size(param1) == [0 0] & (strcmp(class(param1), 'double') == true)
+      modules_list = getmodules();
+    else
+      if ischar(param1)
+        if ~ismodule(param1)
+          if isfile(param1)
+            file_to_test = param1;
+          else
+            error(_('a valid module name expected.'));
+          end
+        else
+          modules_list = {param1};
+        end
+      else
+        if iscell(param1)
+          for p = param1
+            if ~ischar(p{1})
+              error(_('a valid module name expected.'));
+            else
+              if ~ismodule(p{1})
+                error(_('a valid module name expected.'));
+              end
+            end
+          end
+          modules_list = param1;
+        else
+          error(_('a cell of modules name.'));
+        end
+      end
+    end
+  end
+  
+  if (nargin > 1)
+    param2 = varargin{2};
+    if size(param2) == [0 0] & (strcmp(class(param2), 'double') == true)
+      options = 'all';
+    else
+      if ischar(param2)
+          found_option = false;
+          for k = 1:length(supported_options)
+            if strcmp(param2, supported_options{k}) == 1
+              found_option = true;
+            end
+          end
+          if ~found_option
+            error(_('"all", "all_tests", "unitary_tests", "nonreg_tests", "benchs" expected as second input arguments.'));
+          else
+            options = param2;
+          end
+      else
+          error(_('"all", "all_tests", "unitary_tests", "nonreg_tests", "benchs" expected as second input arguments.'));
+      end
+    end
+  end
+
+  xml_outputfile = '';
+  if (nargin > 2)
+    param3 = varargin{3};
+    if ischar(param3)
+      if length(param3) == size(param3, 2) & length(param3) > 2
+        xml_outputfile = param3;
+      end
+    end
+  end
+  
+  test_suites = create_test_suites();
+  
+  if isfile(file_to_test)
+    test_suite = create_test_suite();
+    test_case = create_test_case(file_to_test);
+    test_suite.test_cases_list = test_case; 
+    test_suites.tests_list = test_suite;
+  else
+    nelson_version = version('-number');
+    nelson_version_str = ['Nelson', '-', int2str(nelson_version(1)), '.', int2str(nelson_version(2)), '.', int2str(nelson_version(3)), '.', int2str(nelson_version(4))];
+    for m = modules_list
+      test_suite = create_test_suite();
+      test_suite.name = m{1};
+      tests_list = [];
+      tests_dir = [modulepath(m{1}), '/tests/'];
+      
+      if isdir(tests_dir)
+        switch (options)
+          case 'all'
+            unitary_tests = dir([tests_dir, 'test_*.nls']);
+            nonreg_tests = dir([tests_dir, 'bug_*.nls']);
+            bench_tests = dir([tests_dir, 'bench_*.nls']);
+            all_tests = [unitary_tests; nonreg_tests; bench_tests];
+            tests_list = all_tests;
+
+          case 'all_tests'
+            unitary_tests = dir([tests_dir, 'test_*.nls']);
+            nonreg_tests = dir([tests_dir, 'bug_*.nls']);
+            all_tests = [unitary_tests; nonreg_tests];
+            tests_list = all_tests;
+
+          case 'unitary_tests'
+            tests_list = dir([tests_dir, 'test_*.nls']);
+
+          case 'nonreg_tests'
+            tests_list = dir([tests_dir, 'nonreg_*.nls']);
+
+          case 'benchs'
+            tests_list = dir([tests_dir, 'bench_*.nls']);
+
+          otherwise
+            error(_('option not managed.'));
+          end
+      end
+
+      nbTestCasesMax = 0;
+      if ~isempty(tests_list)
+        for t = tests_list
+          test_case = create_test_case([tests_dir, t.name]);
+          test_case.classname = [nelson_version_str, '.', test_suite.name];
+          if isempty(test_suite.test_cases_list)
+            test_suite.test_cases_list = test_case; 
+          else
+            test_suite.test_cases_list = [test_suite.test_cases_list, test_case];
+          end
+          nbTestCases = length(test_suite.test_cases_list);
+          if nbTestCases > nbTestCasesMax
+            nbTestCasesMax = nbTestCases;
+          end
+        end
+      end
+      if isempty(test_suites.tests_list)
+        test_suites.tests_list = test_suite;
+      else
+        test_suites.tests_list = [test_suites.tests_list, test_suite];
+      end
+    end
+  end
+
+
+  nbTestSuites = length(test_suites.tests_list);
+  
+  lenCharsTestCasesMax = length(int2str(nbTestCasesMax));
+  lenCharsTestSuitesMax = length(int2str(nbTestSuites));
+  
+  k = 1;
+  for ts = test_suites.tests_list
+    fprintf(stdout, [' ', uniformizeNumbers(k, lenCharsTestSuitesMax), '/', int2str(nbTestSuites), ' - ', '[', ts.name, '] :', char(10)]);
+    l = 1;
+    nbTestCases = length(ts.test_cases_list);
+    for tc = ts.test_cases_list
+      tc = run_test_case(tc, ts.name, l, nbTestCases, lenCharsTestCasesMax);
+      test_suites.tests_list(k).time = test_suites.tests_list(k).time + tc.time;
+      if tc.isbench
+        test_suites.tests_list(k).bench = test_suites.tests_list(k).bench + 1;
+        test_suites.bench = test_suites.bench + 1;
+        if strcmp(tc.status, 'Fail') == true
+          status = false;
+        end
+      else
+        test_suites.tests_list(k).tests = test_suites.tests_list(k).tests + 1;
+        test_suites.tests = test_suites.tests + 1;
+        if strcmp(tc.status, 'Pass') == true
+          test_suites.tests_list(k).passed = test_suites.tests_list(k).passed + 1;
+          test_suites.passed = test_suites.passed + 1;
+        else
+          if strcmp(tc.status, 'Fail') == true
+            test_suites.tests_list(k).errors = test_suites.tests_list(k).errors + 1;
+            test_suites.errors = test_suites.errors + 1;
+            status = false;
+          else
+            if strcmp(tc.status, 'Skip') == true | strcmp(tc.status, 'Interactive') == true | strcmp(tc.status, 'No display') == true
+              test_suites.tests_list(k).disabled = test_suites.tests_list(k).disabled + 1;
+              test_suites.disabled = test_suites.disabled + 1;
+            else
+              status = false;
+              error([tc.status, ' ', _('not managed.')]);
+            end
+          end
+        end
+      end
+      test_suites.tests_list(k).test_cases_list(l) = tc;
+      test_suites.time = test_suites.time + test_suites.tests_list(k).time;
+      l = l + 1;
+    end
+    k = k + 1;
+    disp(' ');
+  end
+
+  disp_summary(test_suites);
+
+  if strcmp(xml_outputfile, '') == false;
+    res = save_as_xml(test_suites, xml_outputfile);
+  end
+endfunction
+//=============================================================================
+function res = save_as_xml(test_suites, xmlFileDestination)
+  res = false;
+  if ispc()
+    eol = char([13, 10]);
+  else
+    eol = char(10);
+  end
+  fp = fopen(xmlFileDestination, 'wt');
+  if fp ~= -1
+    fprintf(fp, ['<?xml version="1.0"?>', eol]);
+    fprintf(fp, ['<testsuites tests="', int2str(test_suites.tests), '" disabled="', int2str(test_suites.disabled), '" time="', int2str(test_suites.time), '" errors="', int2str(test_suites.errors),'">', eol]);
+
+    for t = test_suites.tests_list
+      fprintf(fp, ['  <testsuite name="', t.name, '" id="', t.id, '" time="', int2str(t.time), '" tests="', int2str(t.tests), '" skipped="', int2str(t.disabled),'" errors="', int2str(t.errors), '" hostname="', t.hostname, '" timestamp="', t.timestamp, '" ', '>', eol]);
+      fprintf(fp, ['    <properties>', eol]);
+      fprintf(fp, ['      <property name="', 'environment', '" value="', t.environment,'"/>', eol]);
+      fprintf(fp, ['    </properties>', eol]);
+
+      for tc = t.test_cases_list
+        if tc.isbench
+            if strcmp(tc.status, 'Fail') == true
+                fprintf(fp, ['    <testcase name="', tc.name, '" time="', int2str(tc.time), '" classname="', tc.classname, '">', eol]);
+                fprintf(fp, ['      <error type="error" message="', _('test failed'), '">', tc.msg, '</error>', eol]);
+                fprintf(fp, ['    </testcase>', eol]);
+            else
+              fprintf(fp, ['    <testcase name="', tc.name, '" time="', int2str(tc.time), '" classname="', tc.classname, '">', eol]);
+              //fprintf(fp, ['      <system-out>', '<![CDATA[', tc.msg, ']]', '<system-out/>', eol]);
+              fprintf(fp, ['    </testcase>', eol]);
+            end
+        else
+          if strcmp(tc.status, 'Pass') == true
+            fprintf(fp, ['    <testcase name="', tc.name, '" time="', int2str(tc.time), '" classname="', tc.classname, '">', eol]);
+            //fprintf(fp, ['      <system-out>', '<![CDATA[', tc.msg, ']]', '<system-out/>', eol]);
+            fprintf(fp, ['    </testcase>', eol]);
+          else
+            if strcmp(tc.status, 'Fail') == true
+                fprintf(fp, ['    <testcase name="', tc.name, '" time="', int2str(tc.time), '" classname="', tc.classname, '">', eol]);
+                fprintf(fp, ['      <error type="error" message="', _('test failed'), '">', tc.msg, '</error>', eol]);
+                fprintf(fp, ['    </testcase>', eol]);
+            else
+              if strcmp(tc.status, 'Skip') == true | strcmp(tc.status, 'Interactive') == true | strcmp(tc.status, 'No display') == true
+                fprintf(fp, ['    <testcase name="', tc.name, '" time="', int2str(tc.time), '" classname="', tc.classname, '"/>', eol]);
+                fprintf(fp, ['      <skipped/>', eol]);
+              end
+            end
+          end
+        end
+      end
+      fprintf(fp, ['  </testsuite>', eol]);
+    end
+    fprintf(fp, ['</testsuites>', eol]);
+    fclose(fp);
+    res = true;
+  end
+endfunction
+//=============================================================================
+function disp_summary(test_suites)
+  fprintf(stdout, ['  //==========================================================================', char(10)]);
+  fprintf(stdout, ['  ', _('Summary:'), char(10)]);
+  fprintf(stdout, ['  ', _('Tests:'), ' ', int2str(test_suites.tests), char(10)]);
+  fprintf(stdout, ['  ', _('Passed:'), ' ', int2str(test_suites.passed), char(10)]);
+  fprintf(stdout, ['  ', _('Failed:'), ' ', int2str(test_suites.errors), char(10)]);
+  fprintf(stdout, ['  ', _('Skipped:'), ' ',  int2str(test_suites.disabled), char(10)]);
+  fprintf(stdout, ['  ', _('Benchs:'), ' ', int2str(test_suites.bench), char(10)]);
+  fprintf(stdout, ['  ', _('Time:'), ' ', int2str(test_suites.time), ' ms', char(10)]);
+  fprintf(stdout, ['  //===========================================================================', char(10)]);
+endfunction
+//=============================================================================
+function res = haveDisplay()
+  res = true;
+  if ~ispc()
+    DISPLAY_ENV = getenv('DISPLAY');
+    res = ~strcmp(DISPLAY_ENV, '');
+  end
+endfunction
+//=============================================================================
+function r = isbench(filename)
+  [p, fwext] = fileparts(filename);
+  r = strncmp(fwext, 'bench_', 5);
+endfunction
+//=============================================================================
+function test_case_res = run_test_case(test, module_name, index, indexMax, nbTestCasesMax)
+  test_case_res = test;
+  is_bench = test.isbench;
+
+  startChars = [' ', uniformizeNumbers(index, nbTestCasesMax), '/', uniformizeNumbers(indexMax, nbTestCasesMax),' - [', module_name, '] ', test_case_res.name];
+  fprintf(stdout, startChars);
+
+  if (~haveDisplay() & test_case_res.options.with_display)
+    test_case_res.status = 'No display';
+    test_case_res.time = 0.;
+  else
+    if (test_case_res.options.not_fixed)
+      test_case_res.status = 'Skip';
+      test_case_res.time = 0.;
+    else
+      if (test_case_res.options.interactive_test)
+        test_case_res.status = 'Interactive';
+        test_case_res.time = 0.;
+      else
+        is_all_platforms =  ~test_case_res.options.windows_only & ~test_case_res.options.mac_only & ~test_case_res.options.unix_only;
+        is_current_platform = (ispc() & test_case_res.options.windows_only) | (ismac() & test_case_res.options.mac_only) | (isunix() & ~ismac() & test_case_res.options.unix_only);
+        if (is_all_platforms | is_current_platform)
+
+          testfile = test.filename;
+          [p, f, e] = fileparts(testfile);
+
+          outputfile = [tempdir(), '/' , f, '.output'];
+          r = rmfile(outputfile);
+          
+          redirect_err = [tempdir(), '/' , f, '.err'];
+          r = rmfile(redirect_err);
+          
+          if is_bench
+            timeout = int2str(500);
+          else
+            timeout = int2str(50);
+          end
+  
+        cmd = '';
+
+        if test_case_res.options.english_imposed
+          cmd = [' --language', ' ', 'en_US'];
+        end
+
+        cmd = [cmd, ' --quiet', ' ', '--timeout', ' ', timeout, ' ', '--execute', ' ', '"[test_res, test_msg, test_timing] = test_runfile(''', testfile, ''');savebin(''', outputfile, ''', ''test_res'', ''test_msg'', ''test_timing''); exit(double(test_res));" 2>"' , redirect_err, '"'];
+
+        if test_case_res.options.cli_mode
+          [res, msg] = call_nelson_cli(cmd);
+        else
+          if test_case_res.options.gui_mode
+            [res, msg] = call_nelson_gui(cmd);
+          else
+            if test_case_res.options.adv_cli_mode
+              [res, msg] = call_nelson_adv_cli(cmd);
+            else
+              [res, msg] = call_nelson_cli(cmd);
+            end
+          end
+        end
+        test_case_res.msg = msg;
+          if res ~= 1
+            test_case_res.status = 'Fail';
+            test_timing = 0;
+          else
+            if isfile(outputfile)
+              loadbin(outputfile);
+              r = rmfile(outputfile);
+              if (test_res)
+                if is_bench
+                  test_case_res.status = [int2str(test_timing), ' ms'];
+                else
+                  test_case_res.status = 'Pass';
+                end
+                test_case_res.time = test_timing;
+              end
+              // delete error redirection if test is OK
+              // no need to conserve in this case
+              if isfile(redirect_err)
+                r = rmfile(redirect_err);
+              end
+            else
+              test_case_res.status = 'Fail';
+              test_case_res.time = 0;
+            end
+          end
+        else 
+          test_case_res.status = 'Skip';
+          test_case_res.time = 0.;
+        end
+      end
+    end
+  end
+
+  nbCharsStart = length(startChars);
+  nb_spaces = 80 - nbCharsStart - length(test_case_res.status);
+  fprintf(stdout, [char(ones(1, nb_spaces) * double(' ')), test_case_res.status, char(10)]);
+
+  if strcmp(test_case_res.status, 'Fail') == true
+    disp(['      run(''', test.filename, ''')']);
+    disp(' ');
+  end
+endfunction
+//=============================================================================
+function test_case = create_test_case(filename)
+  test_case.filename = filename;
+  test_case.options = test_parsetags(filename);
+  test_case.msg = '';
+
+  [p, f, e] = fileparts(filename);
+  test_case.name = f;
+  test_case.classname = '';
+  test_case.status = ''; // 'Pass', 'Fail', or 'Skip'. '' not evaluated. 
+  test_case.time = 0;
+  test_case.isbench = isbench(filename);
+endfunction
+//=============================================================================
+function info = get_environment_test()
+  platform = '';
+  if ismac()
+    platform = 'macos';
+  else  
+    if isunix()
+      platform = 'unix';
+    else
+      if ispc()
+        platform = 'windows';
+      else
+        platform = 'unknow';
+      end
+    end
+  end
+  compiler = version('-compiler');
+  compiler_str = [];
+  for c = compiler
+    compiler_str = [compiler_str, ' ', c{1}];
+  end
+  info = ['Nelson', ' ', version(), ' ', platform, ' ', compiler_str];  
+endfunction
+//=============================================================================
+function res = get_hostname()
+  res = '';
+  if ispc()
+    res = getenv('COMPUTERNAME');
+  else
+    [r, msg] = unix('hostname');
+    res = msg;
+  end
+endfunction
+//=============================================================================
+function test_suite = create_test_suite()
+  test_suite.name = '';
+  test_suite.tests = 0;
+  test_suite.disabled = 0;
+  test_suite.errors = 0;
+  test_suite.passed = 0;
+  test_suite.bench = 0;
+  test_suite.hostname = get_hostname();
+  test_suite.id = createGUID();
+  test_suite.package = '';
+  test_suite.skipped = 0;
+  test_suite.time = 0;
+  test_suite.timestamp = timestamp(); // 2017-01-21T16:17:18
+  test_suite.environment = get_environment_test();
+  test_suite.test_cases_list = struct([]);
+endfunction
+//=============================================================================
+function test_suites = create_test_suites()
+  test_suites.disabled = 0;
+  test_suites.errors = 0;
+  test_suites.name = '';
+  test_suites.passed = 0;
+  test_suites.tests = 0;
+  test_suites.bench = 0;
+  test_suites.time = 0;
+  test_suites.tests_list = struct([]);
+endfunction
+//=============================================================================
+function t = timestamp()
+  n = now();
+  v = datevec(n);
+  year_str = int2str(v(1));
+  
+  month_str = int2str(v(2));
+  if length(month_str) == 1
+    month_str = ['0', month_str];
+  end
+  
+  day_str = int2str(v(3));
+  if length(day_str) == 1
+    day_str = ['0', day_str];
+  end
+  
+  hour_str = int2str(v(4));
+  if length(hour_str) == 1
+    hour_str = ['0', hour_str];
+  end
+  
+  min_str = int2str(v(5));
+  if length(min_str) == 1
+    min_str = ['0', min_str];
+  end
+  
+  sec_str = int2str(v(6));
+  if length(sec_str) == 1
+    sec_str = ['0', sec_str];
+  end
+
+  t = [year_str, '-', month_str, '-', day_str, 'T', hour_str, ':', min_str, ':', sec_str];
+endfunction
+//=============================================================================
+function [res, msg] = call_nelson_cli(command)
+  nelson_bin_path = modulepath(nelsonroot(), 'nelson', 'bin');
+  nelson_exe_path = ['"', nelson_bin_path, '/', 'nelson-cli', '"'];
+  cmd = [nelson_exe_path, ' ' , command];
+  [res, msg] = unix(cmd);
+endfunction
+//=============================================================================
+function [res, msg] = call_nelson_adv_cli(command)
+  nelson_bin_path = modulepath(nelsonroot(), 'nelson', 'bin');
+  nelson_exe_path = ['"', nelson_bin_path, '/', 'nelson-adv-cli', '"'];
+  cmd = [nelson_exe_path, ' ' , command];
+  [res, msg] = unix(cmd);
+endfunction
+//=============================================================================
+function [res, msg] = call_nelson_gui(command)
+  nelson_bin_path = modulepath(nelsonroot(), 'nelson', 'bin');
+  nelson_exe_path = ['"', nelson_bin_path, '/', 'nelson-gui', '"'];
+  cmd = [nelson_exe_path, ' ' , command];
+  [res, msg] = unix(cmd);
+endfunction
+//=============================================================================
+function res = uniformizeNumbers(value, len)
+  res = int2str(value);
+  for k = 1:(len - length(res))
+    if length(res) < len
+      res = ['0', res];
+    end
+  end
+endfunction
+//=============================================================================

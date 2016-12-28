@@ -1,0 +1,90 @@
+//=============================================================================
+// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+function buildhelp(varargin)
+  if nargin() > 1
+    error(_('Wrong number of input arguments.'));
+  end
+   
+  if nargin() == 0
+  	changes_md = [nelsonroot(), '/CHANGELOG.md'];
+  	
+    for k = getavailablelanguages()
+      dir_src = [nelsonroot(), '/modules/main/help/', k{1}, '/html'];
+      changes_html = [dir_src, '/changelog.html'];
+      generate_changelog_html = false;
+      if isfile(changes_html)
+        html_file_info = dir(changes_html);
+        md_file_info = dir(changes_md);
+      	generate_changelog_html = md_file_info.datenum > html_file_info.datenum;
+      else
+        generate_changelog_html = true;
+      end
+      if generate_changelog_html
+        markdown(changes_md, changes_html);
+      end
+      dir_dst = [nelsonroot(), '/modules/main/help/', k{1}, '/'];
+      if isdir(dir_src)
+        qhelpgenerator(dir_src,  dir_dst, 'org.nelson.help.qch')
+        disp(['help ''', 'homepage', ''' (', k{1}, ') generated.']);
+      end
+    end
+    run([nelsonroot() '/modules/' 'modules.nls']);
+    for m = modules_list
+      module_path = [nelsonroot() '/modules/' m{1}];
+      buildhelp_from_path(m{1}, module_path);
+    end
+  else
+    module = varargin{1};
+    module_path = modulepath(module);
+    buildhelp_from_path(m{1}, module_path);
+  end
+endfunction
+//=============================================================================
+function buildhelp_from_path(module, module_path)
+  for k = getavailablelanguages()
+    src = [module_path, '/help/', k{1}, '/xml'];
+    if isdir(src)
+      if ispc() | ismac()
+        dstbuild = [tempdir(), '/build_help/modules/', module, '/help/', k{1}, '/'];
+      else
+        username = getenv('USER');
+        dstbuild = [tempdir(), '/', username, '/build_help/modules/', module, '/help/', k{1}, '/'];
+      end
+      if isdir(dstbuild)
+        [res, msg] = rmdir(dstbuild, 's');
+        if ~res
+          error(msg);
+        end
+      end
+      res = mkdir(dstbuild);
+      if ~res
+        error(msg);
+      end
+      p = xmldoctohelp(src, dstbuild, module);
+      if isfile(p)
+        disp(['help ''', module, ''' (', k{1}, ') generated.']);
+        dst = [module_path, '/help/', k{1}];
+        copyfile(p, dst, 'f');
+      else
+        disp([module, _(' file was not generated.')]);  
+      end
+    end
+  end
+endfunction
+//=============================================================================

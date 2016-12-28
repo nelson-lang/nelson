@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+	<copyright>SAME AS NELSON SOFTWARE</copyright>
+
+	<language>en_US</language>
+	<keyword>finish</keyword>
+	<short_description>User finish file.</short_description>
+
+
+	<description>
+<p><b>finish.nls</b> in the preference directory is automatically loaded at exit of  NelSon.</p>
+</description>
+
+
+	<used_function></used_function>
+	<bibliography></bibliography>
+
+	<see_also>
+		<see_also_item>
+			<link linkend="${core}prefdir">prefdir</link>
+		</see_also_item>
+		<see_also_item>
+			<link linkend="${engine}startup">startup</link>
+		</see_also_item>
+	</see_also>
+
+	<history>
+		<history_item>
+			<history_version>1.0.0</history_version>
+			<history_description>initial version</history_description>
+		</history_item>
+	</history>
+
+	<authors>
+		<author_item>Allan CORNET</author_item>
+	</authors>
+</xmldoc>

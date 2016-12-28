@@ -1,0 +1,310 @@
+//=============================================================================
+// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+function savebin(varargin)
+% savebin(filename, 'var1','varN')
+% savebin(filename)
+
+	version_nlbfile = 1;
+	tag_nlbfile = 96;
+
+	if (nargin == 0)
+		error(_('Wrong number of input arguments.'))
+	end
+	filename = varargin{1};
+	if nargin == 1
+		names = who('caller');
+		for k = 1:length(names)
+			mtx{k} = acquirevar('caller', names{k})
+		end
+	else
+		names = {};
+		for k = 2:nargin()
+			if (~ischar(varargin{k}))
+				error(_('Wrong type for argument #1. string expected.'))
+			end
+			names{k - 1} = varargin{k};
+			mtx{k - 1} = acquirevar('caller', names{k - 1});
+		end
+	end
+ 	fw = fopen(filename,'wb');
+	if (fw == -1)
+		error([_('Impossible to open: '), filename]);
+	end
+	
+ 	fwrite(fw, tag_nlbfile, 'int', 'l');
+	fwrite(fw, version_nlbfile, 'int', 'l');
+	
+	nbVariables = length(names);
+	fwrite(fw, nbVariables, 'int', 'l');
+	for k = 1:nbVariables
+		fwrite(fw, length(names{k}), 'int', 'l')
+		fwrite(fw, names{k}, 'double', 'l');
+	end
+
+	for k = 1:nbVariables
+		save_data(fw, mtx{k});	
+	end
+
+	fclose(fw);
+endfunction
+//=============================================================================
+function save_data(fd, data)
+	if isclass(data)
+		function_save = 'class_save_data';
+	else
+		function_save = [class(data), '_save_data'];
+	end
+	feval(function_save, fd, data)
+endfunction
+//=============================================================================
+function sparse_save_data(fd, data)
+	[I, J, V, m, n, nnz] = IJV(data);
+	save_data(fd, I);
+	save_data(fd, J);
+	save_data(fd, V);
+	save_data(fd, m);	
+	save_data(fd, n);
+	save_data(fd, nnz);	
+endfunction
+//=============================================================================
+function sparsedouble_save_data(fd, data)
+	fwrite(fd, int64(typebin(class(data))), 'int64', 'l');
+	sparse_save_data(fd, data);
+endfunction
+//=============================================================================
+function sparselogical_save_data(fd, data)
+	fwrite(fd, int64(typebin(class(data))), 'int64', 'l');
+	sparse_save_data(fd, data)
+endfunction
+//=============================================================================
+function ndarraygeneric_save_data(fd, data)
+	fwrite(fd, int64(typebin(class(data))), 'int64', 'l');
+	dim = size(data);
+	len = length(dim);
+	fwrite(fd, len, 'double', 'l');
+	fwrite(fd, dim, 'double', 'l');
+
+	if ~isempty(data)
+		d = reshape(data, 1, []);
+		save_data(fd, d);
+	end
+endfunction	
+//=============================================================================
+function ndarraylogical_save_data(fd, data)
+	ndarraygeneric_save_data(fd, data)
+endfunction
+//=============================================================================
+function ndarrayuint8_save_data(fd, data)
+	ndarraygeneric_save_data(fd, data)
+endfunction
+//=============================================================================
+function ndarrayint8_save_data(fd, data)
+	ndarraygeneric_save_data(fd, data)
+endfunction
+//=============================================================================
+function ndarrayuint16_save_data(fd, data)
+	ndarraygeneric_save_data(fd, data)
+endfunction
+//=============================================================================
+function ndarrayint16_save_data(fd, data)
+	ndarraygeneric_save_data(fd, data)
+endfunction
+//=============================================================================
+function ndarrayuint32_save_data(fd, data)
+	ndarraygeneric_save_data(fd, data)
+endfunction	
+//=============================================================================
+function ndarrayint32_save_data(fd, data)
+	ndarraygeneric_save_data(fd, data)
+endfunction	
+//=============================================================================
+function ndarrayuint64_save_data(fd, data)
+	ndarraygeneric_save_data(fd, data)
+endfunction	
+//=============================================================================
+function ndarrayint64_save_data(fd, data)
+	ndarraygeneric_save_data(fd, data)
+endfunction	
+//=============================================================================
+function ndarraysingle_save_data(fd, data)
+	ndarraygeneric_save_data(fd, data)
+endfunction	
+//=============================================================================
+function ndarraydouble_save_data(fd, data)
+	ndarraygeneric_save_data(fd, data)
+endfunction	
+//=============================================================================
+function ndarraystring_save_data(fd, data)
+	ndarraygeneric_save_data(fd, data)
+endfunction	
+//=============================================================================
+function generic_cell_save_data(fd, data)
+	fwrite(fd, int64(typebin(class(data))), 'int64', 'l');
+	dim = size(data);
+	len = length(dim);
+	fwrite(fd, len, 'double', 'l');
+	fwrite(fd, dim, 'double', 'l');
+
+	if ~isempty(data)
+		prod = 1;
+		for k = 1:len
+			prod = prod * dim(k);
+		end
+		for k = 1:prod
+			save_data(fd, data{k});
+		end
+	end
+endfunction	
+//=============================================================================
+function ndarraycell_save_data(fd, data)
+	generic_cell_save_data(fd, data)
+endfunction	
+//=============================================================================
+function cell_save_data(fd, data)
+	generic_cell_save_data(fd, data)
+endfunction	
+//=============================================================================
+function struct_save_data(fd, data)
+	fwrite(fd, int64(typebin(class(data))), 'int64', 'l');
+	dim = size(data);
+	len = length(dim);
+	fwrite(fd, len, 'double', 'l');
+	fwrite(fd, dim, 'double', 'l');
+	names = fieldnames(data);
+	save_data(fd, names);
+	c = struct2cell(data);
+	save_data(fd, c);	
+endfunction	
+//=============================================================================
+function generic_notcomplex_save_data(fd, data, typestr)
+	fwrite(fd, int64(typebin(class(data))), 'int64', 'l');
+	dim = size(data);
+	len = length(dim);
+	fwrite(fd, len, 'double', 'l');
+	fwrite(fd, dim, 'double', 'l');
+
+	if ~isempty(data)
+		fwrite(fd, data, typestr, 'l');
+	end
+endfunction	
+//=============================================================================
+function uint8_save_data(fd, data)
+	generic_notcomplex_save_data(fd, data, 'uint8');
+endfunction	
+//=============================================================================
+function int8_save_data(fd, data)
+	generic_notcomplex_save_data(fd, data, 'int8')
+endfunction	
+//=============================================================================
+function uint16_save_data(fd, data)
+	generic_notcomplex_save_data(fd, data, 'uint16')
+endfunction	
+//=============================================================================
+function int16_save_data(fd, data)
+	generic_notcomplex_save_data(fd, data, 'int16')
+endfunction	
+//=============================================================================
+function uint32_save_data(fd, data)
+	generic_notcomplex_save_data(fd, data, 'uint32')
+endfunction	
+//=============================================================================
+function int32_save_data(fd, data)
+	generic_notcomplex_save_data(fd, data, 'int32')
+endfunction	
+//=============================================================================
+function uint64_save_data(fd, data)
+	generic_notcomplex_save_data(fd, data, 'uint64')
+endfunction	
+//=============================================================================
+function int64_save_data(fd, data)
+	generic_notcomplex_save_data(fd, data, 'int64')
+endfunction	
+//=============================================================================
+function generic_complex_save_data(fd, data, typestr)
+	fwrite(fd, int64(typebin(class(data))), 'int64', 'l');
+	dim = size(data);
+	len = length(dim);
+	fwrite(fd, len, 'double', 'l');
+	fwrite(fd, dim, 'double', 'l');
+
+	fwrite(fd, isreal(data), 'logical', 'l');
+	if ~isempty(data)
+		if (isreal(data))
+			fwrite(fd, data, typestr, 'l');
+		else
+			fwrite(fd, real(data), typestr, 'l');
+			fwrite(fd, imag(data), typestr, 'l');
+		end
+	end
+endfunction	
+//=============================================================================
+function single_save_data(fd, data)
+	generic_complex_save_data(fd, data, 'single')
+endfunction	
+//=============================================================================
+function logical_save_data(fd, data)
+	generic_notcomplex_save_data(fd, data, 'logical')
+endfunction	
+//=============================================================================
+function double_save_data(fd, data)
+	generic_complex_save_data(fd, data, 'double')
+endfunction	
+//=============================================================================
+function string_save_data(fd, data)
+	% unicode saved as uint32
+	generic_notcomplex_save_data(fd, data, 'uint32')
+endfunction		
+//=============================================================================
+function function_handle_save_data(fd, data)
+	fwrite(fd, int64(typebin(class(data))), 'int64', 'l');
+  f = func2str(data);
+	string_save_data(fd, f);
+endfunction	
+//=============================================================================
+function handle_save_data(fd, data)
+	error(_('not yet implemented.'))
+	fwrite(fd, int64(typebin(class(data))), 'int64', 'l');
+	dim = size(data);
+	len = length(dim);
+	fwrite(fd, len, 'double', 'l');
+	fwrite(fd, dim, 'double', 'l');
+
+endfunction
+//=============================================================================
+function generic_save_data(fd, data)
+	error(_('not yet implemented.'))
+	fwrite(fd, int64(typebin(class(data))), 'int64', 'l');
+	dim = size(data);
+	len = length(dim);
+	fwrite(fd, len, 'double', 'l');
+	fwrite(fd, dim, 'double', 'l');
+
+endfunction
+//=============================================================================
+function class_save_data(fd, data)
+	classname = class(data);
+	fwrite(fd, 2000, 'int64', 'l');
+	dim = size(data);
+	len = length(dim);
+	fwrite(fd, len, 'double', 'l');
+	fwrite(fd, dim, 'double', 'l');
+	function_to_call = [classname,'_save_data'];
+	feval(function_save, fd, data);
+endfunction
+//=============================================================================

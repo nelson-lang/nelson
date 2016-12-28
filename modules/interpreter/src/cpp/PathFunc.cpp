@@ -1,0 +1,229 @@
+//=============================================================================
+#include <boost/filesystem.hpp>
+#include <boost/filesystem/path.hpp>
+#include <boost/filesystem/operations.hpp>
+#include <boost/algorithm/string.hpp>
+#include "PathFunc.hpp"
+#include "characters_encoding.hpp"
+#include "FileWatcherManager.hpp"
+//=============================================================================
+namespace Nelson {
+    //=============================================================================
+    bool PathFunc::isdir(std::wstring path)
+    {
+        boost::filesystem::path data_dir(path);
+        bool bRes = false;
+        try
+        {
+            bRes = boost::filesystem::is_directory(data_dir);
+        }
+        catch (const boost::filesystem::filesystem_error& e)
+        {
+            if (e.code() == boost::system::errc::permission_denied)
+            {
+            }
+            bRes = false;
+        }
+        return bRes;
+    }
+    //=============================================================================
+    PathFunc::PathFunc(std::wstring path)
+    {
+        if (isdir(path))
+        {
+            _path = uniformizePathName(path);
+            FileWatcherManager::getInstance()->addWacth(_path);
+        }
+        else
+        {
+            _path = L"";
+        }
+        rehash();
+    }
+    //=============================================================================
+    std::wstring PathFunc::uniformizePathName(std::wstring pathname)
+    {
+        std::wstring pathModified = pathname;
+#ifdef _MSC_VER
+        if (boost::algorithm::ends_with(pathModified, L":"))
+        {
+            pathModified.push_back(L'/');
+        }
+#endif
+        if (boost::algorithm::ends_with(pathModified, L"\\") ||
+                boost::algorithm::ends_with(pathModified, L"/"))
+        {
+            pathModified.pop_back();
+#ifdef _MSC_VER
+            if (boost::algorithm::ends_with(pathModified, L":"))
+            {
+                pathModified.push_back(L'/');
+            }
+#else
+            if (pathModified.empty())
+            {
+                pathModified.push_back(L'/');
+            }
+#endif
+            std::wstring cpstr = pathModified;
+            try
+            {
+                boost::filesystem::path p(pathModified);
+                p = boost::filesystem::absolute(p);
+                pathModified = p.generic_wstring();
+            }
+            catch (const boost::filesystem::filesystem_error&)
+            {
+                pathModified = cpstr;
+            }
+        }
+        boost::replace_all(pathModified, L"\\", L"/");
+        return pathModified;
+    }
+    //=============================================================================
+    bool PathFunc::comparePathname(std::wstring path1, std::wstring path2)
+    {
+        std::wstring pstr1 = uniformizePathName(path1);
+        std::wstring pstr2 = uniformizePathName(path2);
+        boost::filesystem::path p1(pstr1);
+        boost::filesystem::path p2(pstr2);
+        bool res = false;
+        try
+        {
+            boost::filesystem::equivalent(p1, p2);
+        }
+        catch (boost::filesystem::filesystem_error const &)
+        {
+            res = (p1 == p2);
+        }
+        return res;
+    }
+    //=============================================================================
+    PathFunc::~PathFunc()
+    {
+        FileWatcherManager::getInstance()->removeWatch(_path);
+        for (boost::unordered_map<std::wstring, FileFunc *>::iterator it = mapFiles.begin(); it != mapFiles.end(); ++it)
+        {
+            if (it->second)
+            {
+                delete it->second;
+                it->second = nullptr;
+            }
+        }
+        mapFiles.clear();
+        _path = L"";
+    }
+    //=============================================================================
+    wstringVector PathFunc::getFunctionsName()
+    {
+        wstringVector functionsName;
+        for (boost::unordered_map<std::wstring, FileFunc *>::iterator it = mapFiles.begin(); it != mapFiles.end(); ++it)
+        {
+            if (it->second)
+            {
+                functionsName.push_back(it->second->getName());
+            }
+        }
+        return functionsName;
+    }
+    //=============================================================================
+    wstringVector PathFunc::getFunctionsFilename()
+    {
+        wstringVector functionsFilename;
+        for (boost::unordered_map<std::wstring, FileFunc *>::iterator it = mapFiles.begin(); it != mapFiles.end(); ++it)
+        {
+            if (it->second)
+            {
+                functionsFilename.push_back(it->second->getFilename());
+            }
+        }
+        return functionsFilename;
+    }
+    //=============================================================================
+    std::wstring PathFunc::getPath()
+    {
+        return _path;
+    }
+    //=============================================================================
+    bool PathFunc::isSupportedFuncFilename(std::wstring name)
+    {
+        for (sizeType k = 0; k < (sizeType)name.size(); k++)
+        {
+            int c = name[k];
+            bool bSupportedChar = (c >= 65 && c <= 90) || (c >= 97 && c <= 122) || (c == '_') || (c >= 48 && c <= 57);
+            if (!bSupportedChar)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    //=============================================================================
+    void PathFunc::rehash()
+    {
+        if (_path != L"")
+        {
+            try
+            {
+                boost::filesystem::directory_iterator end_iter;
+                for (boost::filesystem::directory_iterator dir_iter(_path); dir_iter != end_iter; ++dir_iter)
+                {
+                    boost::filesystem::path current = dir_iter->path();
+                    if (boost::iequals(current.extension().generic_wstring(), ".nlf"))
+                    {
+                        std::wstring name = current.stem().generic_wstring();
+                        if (isSupportedFuncFilename(name))
+                        {
+                            FileFunc *ff = new FileFunc(_path, name);
+                            if (ff)
+                            {
+                                mapFiles.emplace(name, ff);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (const boost::filesystem::filesystem_error& )
+            {
+            }
+        }
+    }
+    //=============================================================================
+    bool PathFunc::findFuncName(const std::wstring functionName, std::wstring &filename)
+    {
+        boost::unordered_map<std::wstring, FileFunc *>::iterator found = mapFiles.find(functionName);
+        if (found != mapFiles.end())
+        {
+            filename = found->second->getFilename();
+            return true;
+        }
+        return false;
+    }
+    //=============================================================================
+    bool PathFunc::findFuncName(const std::wstring functionName, FileFunc **ff)
+    {
+        boost::unordered_map<std::wstring, FileFunc *>::iterator found = mapFiles.find(functionName);
+        if (found != mapFiles.end())
+        {
+            *ff = found->second;
+            return true;
+        }
+        return false;
+    }
+    //=============================================================================
+    bool PathFunc::findFuncByHash(size_t hashid, std::wstring &functionName)
+    {
+        bool res = false;
+        for (boost::unordered_map<std::wstring, FileFunc *>::iterator it = mapFiles.begin(); it != mapFiles.end(); it++)
+        {
+            if (it->second->getHashID() == hashid)
+            {
+                functionName = it->first;
+                res = true;
+            }
+        }
+        return res;
+    }
+    //=============================================================================
+}
+//=============================================================================

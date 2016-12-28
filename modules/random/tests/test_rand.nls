@@ -1,0 +1,64 @@
+//=============================================================================
+// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+rng('default');
+r = rng();
+assert_isequal(class(r), 'struct');
+assert_isequal(fieldnames(r), {'Type'; 'Seed'; 'State'});
+assert_isequal(size(r), [1 1]);
+assert_isequal(r.Type, 'twister');
+assert_isequal(r.Seed, uint32(0));
+assert_isequal(size(r.State), [624, 1]);
+assert_isequal(class(r.State), 'uint32');
+//=============================================================================
+res = rand(3,3);
+ref = [0.5488,     0.8443,     0.5449;  
+       0.5928,     0.6028,     0.8473; 
+       0.7152,     0.8579,     0.4237]; 
+assert_isapprox(res, ref, 1e-4);
+//=============================================================================
+res = rand(3,3);
+ref = [0.6236,     0.4376,     0.0567;  
+       0.6459,     0.2975,     0.9637; 
+       0.3844,     0.8918,     0.2727];
+assert_isapprox(res, ref, 1e-4);
+//=============================================================================
+res = rand(3, 3);
+ref = [0.3834,     0.8122,     0.5680;  
+       0.4777,     0.5289,     0.3928;  
+       0.7917,     0.4800,     0.9256]; 
+assert_isapprox(res, ref, 1e-4);
+//=============================================================================
+r = rng();
+//=============================================================================
+R1 = rand(3, 3);
+ref = [0.8361,     0.0871,     0.3682;  
+       0.0710,     0.6482,     0.8326;  
+       0.3374,     0.0202,     0.9572];
+assert_isapprox(R1, ref, 1e-4);
+//=============================================================================
+rng('default');
+rng(r);
+//=============================================================================
+R2 = rand(3, 3);
+ref = [0.8361,     0.0871,     0.3682;  
+       0.0710,     0.6482,     0.8326;  
+       0.3374,     0.0202,     0.9572];
+assert_isapprox(R2, ref, 1e-4);
+assert_isequal(R1, R2);
+//=============================================================================

@@ -1,0 +1,36 @@
+//=============================================================================
+// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+assert_isequal(nargin('intmax'), -1);
+assert_isequal(nargout('intmax'), -1);
+//=============================================================================
+assert_isequal(intmax(), intmax('int32'));
+assert_isequal(intmax('int32'), int32(2147483647));
+assert_isequal(intmax('int8'), int8(127)); 
+assert_isequal(intmax('uint8'), uint8(255));
+assert_isequal(intmax('int16'), int16(32767)); 
+assert_isequal(intmax('uint16'), uint16(65535));
+assert_isequal(intmax('uint32'), uint32(4294967295));
+assert_isequal(intmax('int64'), int64(9223372036854775807U)); 
+assert_isequal(intmax('uint64'), uint64(18446744073709551615U));
+//=============================================================================
+assert_checkerror('intmax(''uint64'', 3)', _('Wrong number of input arguments.'));
+assert_checkerror('intmax(3)', _('Wrong type for argument #1: string expected.'));
+assert_checkerror('intmax(''t'')', _('The name of an integer class expected.'));
+assert_checkerror('[a, b] = intmax()', _('Wrong numbers of output arguments.'));
+//=============================================================================

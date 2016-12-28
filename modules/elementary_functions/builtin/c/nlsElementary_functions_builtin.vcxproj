@@ -1,0 +1,287 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{EF56F7F5-0444-466D-A7A2-CAE8D2EAABC3}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>nlsElementary_functions_builtin</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)bin/$(PlatformName)/</OutDir>
+    <TargetName>lib$(ProjectName)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <TargetName>lib$(ProjectName)</TargetName>
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)bin/$(PlatformName)/</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)bin/$(PlatformName)/</OutDir>
+    <TargetName>lib$(ProjectName)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <TargetName>lib$(ProjectName)</TargetName>
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)bin/$(PlatformName)/</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSELEMENTARY_FUNCTIONS_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/elementary_functions/builtin/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <OpenMPSupport>true</OpenMPSupport>
+      <DisableSpecificWarnings>4190</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost/lib</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSELEMENTARY_FUNCTIONS_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/elementary_functions/builtin/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <OpenMPSupport>true</OpenMPSupport>
+      <DisableSpecificWarnings>4190</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost/lib</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSELEMENTARY_FUNCTIONS_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/elementary_functions/builtin/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <OpenMPSupport>true</OpenMPSupport>
+      <DisableSpecificWarnings>4190</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost/lib</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSELEMENTARY_FUNCTIONS_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/elementary_functions/builtin/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <OpenMPSupport>true</OpenMPSupport>
+      <DisableSpecificWarnings>4190</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost/lib</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\cpp\andBuiltin.cpp" />
+    <ClCompile Include="..\cpp\colonBuiltin.cpp" />
+    <ClCompile Include="..\cpp\complexBuiltin.cpp" />
+    <ClCompile Include="..\cpp\ctransposeBuiltin.cpp" />
+    <ClCompile Include="..\cpp\dispBuiltin.cpp" />
+    <ClCompile Include="..\cpp\eqBuiltin.cpp" />
+    <ClCompile Include="..\cpp\geBuiltin.cpp" />
+    <ClCompile Include="..\cpp\gtBuiltin.cpp" />
+    <ClCompile Include="..\cpp\horzcatBuiltin.cpp" />
+    <ClCompile Include="..\cpp\imagBuiltin.cpp" />
+    <ClCompile Include="..\cpp\isapproxBuiltin.cpp" />
+    <ClCompile Include="..\cpp\isequalBuiltin.cpp" />
+    <ClCompile Include="..\cpp\isequalnBuiltin.cpp" />
+    <ClCompile Include="..\cpp\ldivideBuiltin.cpp" />
+    <ClCompile Include="..\cpp\leBuiltin.cpp" />
+    <ClCompile Include="..\cpp\Gateway.cpp" />
+    <ClCompile Include="..\cpp\lengthBuiltin.cpp" />
+    <ClCompile Include="..\cpp\ltBuiltin.cpp" />
+    <ClCompile Include="..\cpp\minusBuiltin.cpp" />
+    <ClCompile Include="..\cpp\mpowerBuiltin.cpp" />
+    <ClCompile Include="..\cpp\mtimesBuiltin.cpp" />
+    <ClCompile Include="..\cpp\neBuiltin.cpp" />
+    <ClCompile Include="..\cpp\notBuiltin.cpp" />
+    <ClCompile Include="..\cpp\numelBuiltin.cpp" />
+    <ClCompile Include="..\cpp\orBuiltin.cpp" />
+    <ClCompile Include="..\cpp\plusBuiltin.cpp" />
+    <ClCompile Include="..\cpp\powerBuiltin.cpp" />
+    <ClCompile Include="..\cpp\rdivideBuiltin.cpp" />
+    <ClCompile Include="..\cpp\realBuiltin.cpp" />
+    <ClCompile Include="..\cpp\reshapeBuiltin.cpp" />
+    <ClCompile Include="..\cpp\shortcutandBuiltin.cpp" />
+    <ClCompile Include="..\cpp\shortcutorBuiltin.cpp" />
+    <ClCompile Include="..\cpp\sizeBuiltin.cpp" />
+    <ClCompile Include="..\cpp\subsindexBuiltin.cpp" />
+    <ClCompile Include="..\cpp\timesBuiltin.cpp" />
+    <ClCompile Include="..\cpp\transposeBuiltin.cpp" />
+    <ClCompile Include="..\cpp\uminusBuiltin.cpp" />
+    <ClCompile Include="..\cpp\uplusBuiltin.cpp" />
+    <ClCompile Include="..\cpp\vertcatBuiltin.cpp" />
+    <ClCompile Include="dllMain.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\error_manager\src\c\nlsError_manager.vcxproj">
+      <Project>{d0ef0ceb-a3bd-44ab-91b3-f33db1870f8d}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\i18n\src\c\nlsI18n.vcxproj">
+      <Project>{eca1e952-8391-4e71-9a91-0e7fd2854320}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\interpreter\src\c\nlsInterpreter.vcxproj">
+      <Project>{17135b09-bc25-448e-9750-c09a87fde6f8}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\overload\src\c\nlsOverload.vcxproj">
+      <Project>{937bee8b-e934-45f1-98ef-33aaf951e5e9}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\types\src\c\nlsTypes.vcxproj">
+      <Project>{ab85e897-56b7-4792-8a8e-f3797be2b7cc}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\c\nlsElementary_functions.vcxproj">
+      <Project>{c87973dd-f66c-4f35-b875-5e0a0a47b3e7}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\andBuiltin.hpp" />
+    <ClInclude Include="..\include\colonBuiltin.hpp" />
+    <ClInclude Include="..\include\complexBuiltin.hpp" />
+    <ClInclude Include="..\include\ctransposeBuiltin.hpp" />
+    <ClInclude Include="..\include\dispBuiltin.hpp" />
+    <ClInclude Include="..\include\eqBuiltin.hpp" />
+    <ClInclude Include="..\include\geBuiltin.hpp" />
+    <ClInclude Include="..\include\gtBuiltin.hpp" />
+    <ClInclude Include="..\include\horzcatBuiltin.hpp" />
+    <ClInclude Include="..\include\imagBuiltin.hpp" />
+    <ClInclude Include="..\include\isapproxBuiltin.hpp" />
+    <ClInclude Include="..\include\isequalBuiltin.hpp" />
+    <ClInclude Include="..\include\isequalnBuiltin.hpp" />
+    <ClInclude Include="..\include\ldivideBuiltin.hpp" />
+    <ClInclude Include="..\include\leBuiltin.hpp" />
+    <ClInclude Include="..\include\lengthBuiltin.hpp" />
+    <ClInclude Include="..\include\ltBuiltin.hpp" />
+    <ClInclude Include="..\include\minusBuiltin.hpp" />
+    <ClInclude Include="..\include\mpowerBuiltin.hpp" />
+    <ClInclude Include="..\include\mtimesBuiltin.hpp" />
+    <ClInclude Include="..\include\neBuiltin.hpp" />
+    <ClInclude Include="..\include\nlsElementary_functions_builtin_exports.h" />
+    <ClInclude Include="..\include\notBuiltin.hpp" />
+    <ClInclude Include="..\include\numelBuiltin.hpp" />
+    <ClInclude Include="..\include\orBuiltin.hpp" />
+    <ClInclude Include="..\include\plusBuiltin.hpp" />
+    <ClInclude Include="..\include\powerBuiltin.hpp" />
+    <ClInclude Include="..\include\rdivideBuiltin.hpp" />
+    <ClInclude Include="..\include\realBuiltin.hpp" />
+    <ClInclude Include="..\include\reshapeBuiltin.hpp" />
+    <ClInclude Include="..\include\shortcutandBuiltin.hpp" />
+    <ClInclude Include="..\include\shortcutorBuiltin.hpp" />
+    <ClInclude Include="..\include\sizeBuiltin.hpp" />
+    <ClInclude Include="..\include\subsindexBuiltin.hpp" />
+    <ClInclude Include="..\include\timesBuiltin.hpp" />
+    <ClInclude Include="..\include\transposeBuiltin.hpp" />
+    <ClInclude Include="..\include\uminusBuiltin.hpp" />
+    <ClInclude Include="..\include\uplusBuiltin.hpp" />
+    <ClInclude Include="..\include\vertcatBuiltin.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\etc\finish.nls" />
+    <None Include="..\..\etc\startup.nls" />
+    <None Include="..\..\loader.nls" />
+    <None Include="..\..\module.iss" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resources.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

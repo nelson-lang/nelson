@@ -1,0 +1,72 @@
+//=============================================================================
+// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+function [r, msg, timing] = test_runfile(filename)
+	if ~isfile(filename)
+		error(_('An existing filename expected.'));
+	end
+
+	options = test_parsetags(filename);
+
+	if (options.check_ref)
+		[p, f, e] = fileparts(filename);
+		dia_ref = [p, '/', f, '.ref'];
+		if ~isfile(dia_ref)
+			error(_('reference diary expected.'));
+		end
+
+		// save previous diary
+		previousDiaryFile = diary('get','DiaryFile');
+		previousDiaryMode = diary('get','Diary');
+		diary('off')
+
+		[p, f, e] = fileparts(filename);
+		dia_res = [tempdir(), '/', f, '.res'];
+		rm = rmfile(dia_res);
+		diary(dia_res);
+		diary('on');
+	end
+	
+    // 'options' variable protected of clear('all') in test files
+	varlock('local', 'options')
+
+	tic();
+	r = run(filename, 'errcatch');
+	timing = toc();
+	restoredefaultpath();
+	varunlock('local','options')
+	if ~r
+		msg = lasterror();
+	else
+		msg = '';
+	end
+	
+	if (options.check_ref)
+		// restore previous diary
+		try 
+			diary(previousDiaryMode);
+			diary(previousDiaryFile);
+		catch
+		end
+		res = diff_file(dia_res, dia_ref, false);
+		if (strcmp(res, '') == false)
+			r = false;
+			msg = {_('output res and ref are not equal.'), dia_res, dia_ref, res}; 
+		end
+	end
+endfunction

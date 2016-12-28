@@ -1,0 +1,41 @@
+//=============================================================================
+// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+A = sparse([]);
+assert_isequal(size(A), [0 0]);
+assert_isequal(class(A), 'sparsedouble');
+assert_istrue(issparse(A));
+A(10, 11) = 1;
+assert_isequal(size(A), [10 11]);
+[a, b, c, d, e] = IJV(A);
+ref_a = 10;
+ref_b = 11;
+ref_c = 1;
+ref_d = 10;
+ref_e = 11;
+assert_isequal(a, ref_a);
+assert_isequal(b, ref_b);
+assert_isequal(c, ref_c);
+assert_isequal(d, ref_d);
+assert_isequal(e, ref_e);
+//=============================================================================
+a = logical(sparse(1));
+assert_isequal(class(a), 'sparselogical');
+assert_isequal(size(a), [1 1]);
+assert_istrue(full(a(1, 1)));
+//=============================================================================

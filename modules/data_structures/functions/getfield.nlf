@@ -1,0 +1,46 @@
+//=============================================================================
+// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+function f = getfield(s, varargin)
+	if (isempty(varargin) == false)
+		fieldstr = varargin{1};
+		if (length(varargin) == 1 & ischar(fieldstr))
+			f = s.(fieldstr);
+		else
+			f = s;
+			for i = 1:length(varargin)
+				idx = varargin{i};
+				if (iscell(idx))
+					f = f(idx{:});
+				elseif ischar(idx)
+					try
+						f = f.(idx);
+					catch
+						tmp = cell(1, length(f));
+						[tmp{:}] = deal(f.(idx));
+						f = tmp{1};
+					end
+				else
+					error(_('Invalid Input(s) must be strings or cell arrays.'));
+				end
+			end
+		end
+	else
+		error(_('Wrong numbers of input arguments.'));	
+	end
+endfunction
