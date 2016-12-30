@@ -20,6 +20,7 @@
 ;==============================================================================
 ; Qt 5.X Help assistant
 Source: {#RootPath}bin\{#BinPath}\assistant.exe; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\sqldrivers\*.dll; DestDir: {app}\bin\{#BinPath}\sqldrivers\;
 ;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\libnlsHelp_browser.dll; DestDir: {app}\bin\{#BinPath}\;
 Source: {#RootPath}bin\{#BinPath}\libnlsHelp_browser_builtin.dll; DestDir: {app}\bin\{#BinPath}\;
