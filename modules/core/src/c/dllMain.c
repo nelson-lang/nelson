@@ -36,8 +36,6 @@ int WINAPI DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)
             break;
         case DLL_THREAD_ATTACH:
             break;
-        case DLL_THREAD_DETACH:
-            break;
     }
     return 1;
 }
