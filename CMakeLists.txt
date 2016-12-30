@@ -20,22 +20,26 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 #==============================================================================	
 set(CMAKE_INSTALL_PREFIX "$ENV{HOME}")
 #==============================================================================	
+set (Nelson_VERSION_MAJOR_DEFAULT 0)
+set (Nelson_VERSION_MINOR_DEFAULT 1)
+set (Nelson_VERSION_MAINTENANCE_DEFAULT 1)
+#==============================================================================	
 if(DEFINED ENV{NELSON_VERSION_MAJOR})
 	set (Nelson_VERSION_MAJOR $ENV{NELSON_VERSION_MAJOR})
 else()
-	set (Nelson_VERSION_MAJOR 0)
+	set (Nelson_VERSION_MAJOR ${Nelson_VERSION_MAJOR_DEFAULT})
 endif()
 #==============================================================================	
 if(DEFINED ENV{Nelson_VERSION_MINOR})
 	set (Nelson_VERSION_MINOR $ENV{Nelson_VERSION_MINOR})
 else()
-	set (Nelson_VERSION_MINOR 1)
+	set (Nelson_VERSION_MINOR ${Nelson_VERSION_MINOR_DEFAULT})
 endif()
 #==============================================================================	
 if(DEFINED ENV{NELSON_VERSION_MAINTENANCE})
 	set (Nelson_VERSION_MAINTENANCE $ENV{NELSON_VERSION_MAINTENANCE})
 else()
-	set (Nelson_VERSION_MAINTENANCE 0)
+	set (Nelson_VERSION_MAINTENANCE ${Nelson_VERSION_MAINTENANCE_DEFAULT})
 endif()
 #==============================================================================	
 if(DEFINED ENV{NELSON_VERSION_BUILD})
@@ -192,4 +196,5 @@ install(FILES ${CMAKE_SOURCE_DIR}/CHANGELOG.md DESTINATION ${ROOT_OUTPUT})
 install(FILES ${CMAKE_SOURCE_DIR}/CONTRIBUTORS.md DESTINATION ${ROOT_OUTPUT})
 install(FILES ${CMAKE_SOURCE_DIR}/README.md DESTINATION ${ROOT_OUTPUT})
 install(FILES ${CMAKE_SOURCE_DIR}/THIRDPARTY.md DESTINATION ${ROOT_OUTPUT})
+install(FILES ${CMAKE_SOURCE_DIR}/CLA.md DESTINATION ${ROOT_OUTPUT})
 #==============================================================================
