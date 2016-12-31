@@ -1,3 +1,7 @@
+Bug Fixes:
+---------
+  [#8](http://github.com/Nelson-numerical-software/nelson/issues/8): test_nargin & test_nargout failed in Windows binary version
+
 ## 0.1.1 alpha (2016-12-30)
 
 Bug Fixes:
