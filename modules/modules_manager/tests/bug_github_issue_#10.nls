@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2017 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -16,5 +16,9 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-addpath([fileparts(nfilename('fullpath')), '/../functions']);
+// <-- Issue URL -->
+// https://github.com/Nelson-numerical-software/nelson/issues/10
+// <-- Short Description -->
+// module_skeleton does not build/load
 //=============================================================================
+run([nelsonroot(), '/module_skeleton/loader.nls'])

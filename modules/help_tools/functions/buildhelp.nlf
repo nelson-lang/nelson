@@ -52,7 +52,7 @@ function buildhelp(varargin)
   else
     module = varargin{1};
     module_path = modulepath(module);
-    buildhelp_from_path(m{1}, module_path);
+    buildhelp_from_path(module, module_path);
   end
 endfunction
 //=============================================================================
