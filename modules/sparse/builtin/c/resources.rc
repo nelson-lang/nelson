@@ -70,7 +70,7 @@ BEGIN
             VALUE "ProductName", "Nelson (sparse_builtin)"
             VALUE "ProductVersion", "0, 1, 1, 0"
              VALUE "FileVersion", "0, 1, 1, 0"
-            VALUE "LegalCopyright", "Nelson Copyright (C) 2016"
+            VALUE "LegalCopyright", "Nelson Copyright (C) 2016-2017"
             VALUE "Comments", "All rights reserved."
             VALUE "CompanyName", "Allan CORNET"
         END

@@ -21,7 +21,7 @@
 #ifndef GENERATED_INFO
 #define NELSON_X64
 #define NELSON_DEBUG
-#define CURRENT_YEAR "2016"
+#define CURRENT_YEAR "2017"
 #define APPLICATION_VERSION "0.0.1.0"
 #endif
 #define APPLICATION_NAME "Nelson"
