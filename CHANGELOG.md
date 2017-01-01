@@ -1,7 +1,10 @@
+## 0.1.2 alpha (2017-01-01)
+
 Bug Fixes:
 ---------
-  [#10](http://github.com/Nelson-numerical-software/nelson/issues/10): module_skeleton did not build/load
-  [#8](http://github.com/Nelson-numerical-software/nelson/issues/8): test_nargin & test_nargout failed in Windows binary version
+  [#11](http://github.com/Nelson-numerical-software/nelson/issues/11): colon constructor failed with some special values.
+  [#10](http://github.com/Nelson-numerical-software/nelson/issues/10): module_skeleton did not build/load.
+  [#8](http://github.com/Nelson-numerical-software/nelson/issues/8): test_nargin & test_nargout failed in Windows binary version.
 
 ## 0.1.1 alpha (2016-12-30)
 
