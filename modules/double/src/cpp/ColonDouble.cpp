@@ -68,7 +68,7 @@ namespace Nelson {
             }
         }
         double dn = (double) ((((high - low) / step) + 1));
-        int n = (int)ceil((double)(dn));
+        int n = (int)round((double)(dn));
         ArrayOf V = ArrayOf::doubleVectorConstructor(n);
         double *pV = (double*)V.getReadWriteDataPointer();
         if (dn == (double(n)))
