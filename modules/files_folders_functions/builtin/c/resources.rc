@@ -48,8 +48,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 0,1,1,0
- PRODUCTVERSION 0,1,1,0
+ FILEVERSION 0,1,2,0
+ PRODUCTVERSION 0,1,2,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -68,8 +68,8 @@ BEGIN
             VALUE "InternalName", "files_folders_functions_builtin"
             VALUE "OriginalFilename", "libnlsfiles_folders_functions_builtin.dll"
             VALUE "ProductName", "Nelson (files_folders_functions_builtin)"
-            VALUE "ProductVersion", "0, 1, 1, 0"
-             VALUE "FileVersion", "0, 1, 1, 0"
+            VALUE "ProductVersion", "0, 1, 2, 0"
+             VALUE "FileVersion", "0, 1, 2, 0"
             VALUE "LegalCopyright", "Nelson Copyright (C) 2016-2017"
             VALUE "Comments", "All rights reserved."
             VALUE "CompanyName", "Allan CORNET"
