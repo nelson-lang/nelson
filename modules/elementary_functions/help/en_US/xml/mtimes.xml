@@ -31,7 +31,7 @@
 	</param_output>
 
 	<description>
-		<p><b>C = mtimes(A, B)</b> performs matrix multiplication operation: A * B variables.</p>
+		<p><b>C = mtimes(A, B)</b> performs matrix multiplication operation: A * B.</p>
 	</description>
 
 
