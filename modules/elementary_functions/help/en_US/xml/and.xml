@@ -31,7 +31,7 @@
 	</param_output>
 
 	<description>
-		<p><b>C = and(A, B)</b> performs a logical <b>AND</b> operations.</p>
+		<p><b>C = and(A, B)</b> performs a logical <b>AND</b> operation.</p>
 	</description>
 
 
