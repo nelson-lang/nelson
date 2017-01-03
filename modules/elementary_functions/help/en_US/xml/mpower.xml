@@ -31,7 +31,7 @@
 	</param_output>
 
 	<description>
-		<p><b>C = minus(A, B)</b> performs matrix power operation: A^B variables.</p>
+		<p><b>C = mpower(A, B)</b> performs matrix power operation: A^B</p>
 	</description>
 
 
