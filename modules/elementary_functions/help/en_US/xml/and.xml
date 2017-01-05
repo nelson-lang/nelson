@@ -58,14 +58,14 @@ C == D]]>
 			<link linkend="${elementary_functions}or">or</link>
 		</see_also_item>
 		<see_also_item>
-			<link linkend="${elementary_functions}xor">xor</link>
+			<link linkend="${logical}xor">xor</link>
 		</see_also_item>
 
 		<see_also_item>
-			<link linkend="${elementary_functions}all">all</link>
+			<link linkend="${logical}all">all</link>
 		</see_also_item>
 		<see_also_item>
-			<link linkend="${elementary_functions}any">any</link>
+			<link linkend="${logical}any">any</link>
 		</see_also_item>
 		<see_also_item>
 			<link linkend="${elementary_functions}not">not</link>
