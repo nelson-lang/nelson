@@ -74,17 +74,19 @@ static const nlsGateway gateway[] =
     { "lt", Nelson::ElementaryFunctionsGateway::ltBuiltin, 1, 2 },
     { "ldivide", Nelson::ElementaryFunctionsGateway::ldivideBuiltin, 1, 2 },
     { "minus", Nelson::ElementaryFunctionsGateway::minusBuiltin, 1, 2 },
-    { "mpower", Nelson::ElementaryFunctionsGateway::mpowerBuiltin, 1, 2 },
     { "mtimes", Nelson::ElementaryFunctionsGateway::mtimesBuiltin, 1, 2 },
     { "ne", Nelson::ElementaryFunctionsGateway::neBuiltin, 1, 2 },
-    { "not", Nelson::ElementaryFunctionsGateway::notBuiltin, 1, 1 },
-    { "or", Nelson::ElementaryFunctionsGateway::orBuiltin, 1, 2 },
+	{ "not", Nelson::ElementaryFunctionsGateway::notBuiltin, 1, 1 },
+
+	{ "or", Nelson::ElementaryFunctionsGateway::orBuiltin, 1, 2 },
     { "power", Nelson::ElementaryFunctionsGateway::powerBuiltin, 1, 2 },
     { "rdivide", Nelson::ElementaryFunctionsGateway::rdivideBuiltin, 1, 2 },
     { "shortcutor", Nelson::ElementaryFunctionsGateway::shortcutorBuiltin, 1, 2 },
     { "shortcutand", Nelson::ElementaryFunctionsGateway::shortcutandBuiltin, 1, 2 },
     { "subsindex", Nelson::ElementaryFunctionsGateway::subsindexBuiltin, 1, 1 },
-    { "times", Nelson::ElementaryFunctionsGateway::timesBuiltin, 1, 2 },
+	//"subsasgn"
+	//"subsref"
+	{ "times", Nelson::ElementaryFunctionsGateway::timesBuiltin, 1, 2 },
     { "transpose", Nelson::ElementaryFunctionsGateway::transposeBuiltin, 1, 1 },
     { "uminus", Nelson::ElementaryFunctionsGateway::uminusBuiltin, 1, 1 },
     { "uplus", Nelson::ElementaryFunctionsGateway::uplusBuiltin, 1, 1 },
