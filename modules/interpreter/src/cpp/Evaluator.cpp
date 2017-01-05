@@ -556,13 +556,13 @@ namespace Nelson {
                 break;
                 case OP_RDIV:
                 {
-                    ArrayOfVector argsOut = CallOperatorFunction(this, "rdivide", expression(t->down), expression(t->down->right), 1);
+                    ArrayOfVector argsOut = CallOperatorFunction(this, "mrdivide", expression(t->down), expression(t->down->right), 1);
                     retval = argsOut[0];
                 }
                 break;
                 case OP_LDIV:
                 {
-                    ArrayOfVector argsOut = CallOperatorFunction(this, "ldivide", expression(t->down), expression(t->down->right), 1);
+                    ArrayOfVector argsOut = CallOperatorFunction(this, "mldivide", expression(t->down), expression(t->down->right), 1);
                     retval = argsOut[0];
                 }
                 break;

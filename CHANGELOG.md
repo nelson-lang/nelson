@@ -1,3 +1,7 @@
+Bug Fixes:
+---------
+  [#13](http://github.com/Nelson-numerical-software/nelson/issues/13): mldivide and mrdivide builtin were missing.
+
 ## 0.1.2 alpha (2017-01-01)
 
 Bug Fixes:

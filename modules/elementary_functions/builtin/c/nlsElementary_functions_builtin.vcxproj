@@ -186,7 +186,9 @@
     <ClCompile Include="..\cpp\lengthBuiltin.cpp" />
     <ClCompile Include="..\cpp\ltBuiltin.cpp" />
     <ClCompile Include="..\cpp\minusBuiltin.cpp" />
+    <ClCompile Include="..\cpp\mldivideBuiltin.cpp" />
     <ClCompile Include="..\cpp\mpowerBuiltin.cpp" />
+    <ClCompile Include="..\cpp\mrdivideBuiltin.cpp" />
     <ClCompile Include="..\cpp\mtimesBuiltin.cpp" />
     <ClCompile Include="..\cpp\neBuiltin.cpp" />
     <ClCompile Include="..\cpp\notBuiltin.cpp" />
@@ -250,7 +252,9 @@
     <ClInclude Include="..\include\lengthBuiltin.hpp" />
     <ClInclude Include="..\include\ltBuiltin.hpp" />
     <ClInclude Include="..\include\minusBuiltin.hpp" />
+    <ClInclude Include="..\include\mldivideBuiltin.hpp" />
     <ClInclude Include="..\include\mpowerBuiltin.hpp" />
+    <ClInclude Include="..\include\mrdivideBuiltin.hpp" />
     <ClInclude Include="..\include\mtimesBuiltin.hpp" />
     <ClInclude Include="..\include\neBuiltin.hpp" />
     <ClInclude Include="..\include\nlsElementary_functions_builtin_exports.h" />

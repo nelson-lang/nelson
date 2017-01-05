@@ -26,6 +26,9 @@
 #include "geBuiltin.hpp"
 #include "gtBuiltin.hpp"
 #include "ldivideBuiltin.hpp"
+#include "mldivideBuiltin.hpp"
+#include "mrdivideBuiltin.hpp"
+#include "rdivideBuiltin.hpp"
 #include "leBuiltin.hpp"
 #include "ltBuiltin.hpp"
 #include "minusBuiltin.hpp"
@@ -35,7 +38,6 @@
 #include "notBuiltin.hpp"
 #include "orBuiltin.hpp"
 #include "powerBuiltin.hpp"
-#include "rdivideBuiltin.hpp"
 #include "shortcutorBuiltin.hpp"
 #include "shortcutandBuiltin.hpp"
 #include "subsindexBuiltin.hpp"
@@ -63,33 +65,35 @@ const std::wstring gatewayName = L"elementary_functions";
 static const nlsGateway gateway[] =
 {
     { "plus", Nelson::ElementaryFunctionsGateway::plusBuiltin, 1, 2 },
+    { "minus", Nelson::ElementaryFunctionsGateway::minusBuiltin, 1, 2 },
+    { "uminus", Nelson::ElementaryFunctionsGateway::uminusBuiltin, 1, 1 },
+    { "uplus", Nelson::ElementaryFunctionsGateway::uplusBuiltin, 1, 1 },
+
     { "and", Nelson::ElementaryFunctionsGateway::andBuiltin, 1, 2 },
     { "colon", Nelson::ElementaryFunctionsGateway::colonBuiltin, 1, 2 },
     { "ctranspose", Nelson::ElementaryFunctionsGateway::ctransposeBuiltin, 1, 1 },
+    { "transpose", Nelson::ElementaryFunctionsGateway::transposeBuiltin, 1, 1 },
     { "disp", Nelson::ElementaryFunctionsGateway::dispBuiltin, 0, 1 },
     { "eq", Nelson::ElementaryFunctionsGateway::eqBuiltin, 1, 2 },
     { "ge", Nelson::ElementaryFunctionsGateway::geBuiltin, 1, 2 },
     { "gt", Nelson::ElementaryFunctionsGateway::gtBuiltin, 1, 2 },
     { "le", Nelson::ElementaryFunctionsGateway::leBuiltin, 1, 2 },
     { "lt", Nelson::ElementaryFunctionsGateway::ltBuiltin, 1, 2 },
-    { "ldivide", Nelson::ElementaryFunctionsGateway::ldivideBuiltin, 1, 2 },
-    { "minus", Nelson::ElementaryFunctionsGateway::minusBuiltin, 1, 2 },
-    { "mtimes", Nelson::ElementaryFunctionsGateway::mtimesBuiltin, 1, 2 },
     { "ne", Nelson::ElementaryFunctionsGateway::neBuiltin, 1, 2 },
-	{ "not", Nelson::ElementaryFunctionsGateway::notBuiltin, 1, 1 },
-
-	{ "or", Nelson::ElementaryFunctionsGateway::orBuiltin, 1, 2 },
-    { "power", Nelson::ElementaryFunctionsGateway::powerBuiltin, 1, 2 },
+    { "ldivide", Nelson::ElementaryFunctionsGateway::ldivideBuiltin, 1, 2 },
     { "rdivide", Nelson::ElementaryFunctionsGateway::rdivideBuiltin, 1, 2 },
+    { "mldivide", Nelson::ElementaryFunctionsGateway::mldivideBuiltin, 1, 2 },
+    { "mrdivide", Nelson::ElementaryFunctionsGateway::mrdivideBuiltin, 1, 2 },
+    { "mtimes", Nelson::ElementaryFunctionsGateway::mtimesBuiltin, 1, 2 },
+    { "times", Nelson::ElementaryFunctionsGateway::timesBuiltin, 1, 2 },
+    { "not", Nelson::ElementaryFunctionsGateway::notBuiltin, 1, 1 },
+    { "or", Nelson::ElementaryFunctionsGateway::orBuiltin, 1, 2 },
+    { "power", Nelson::ElementaryFunctionsGateway::powerBuiltin, 1, 2 },
     { "shortcutor", Nelson::ElementaryFunctionsGateway::shortcutorBuiltin, 1, 2 },
     { "shortcutand", Nelson::ElementaryFunctionsGateway::shortcutandBuiltin, 1, 2 },
     { "subsindex", Nelson::ElementaryFunctionsGateway::subsindexBuiltin, 1, 1 },
-	//"subsasgn"
-	//"subsref"
-	{ "times", Nelson::ElementaryFunctionsGateway::timesBuiltin, 1, 2 },
-    { "transpose", Nelson::ElementaryFunctionsGateway::transposeBuiltin, 1, 1 },
-    { "uminus", Nelson::ElementaryFunctionsGateway::uminusBuiltin, 1, 1 },
-    { "uplus", Nelson::ElementaryFunctionsGateway::uplusBuiltin, 1, 1 },
+    //"subsasgn"
+    //"subsref"
     { "size", Nelson::ElementaryFunctionsGateway::sizeBuiltin, -1, 2 },
     { "length", Nelson::ElementaryFunctionsGateway::lengthBuiltin, 1, 1 },
     { "reshape", Nelson::ElementaryFunctionsGateway::reshapeBuiltin, 1, -1 },
@@ -102,7 +106,6 @@ static const nlsGateway gateway[] =
     { "isequaln", Nelson::ElementaryFunctionsGateway::isequalnBuiltin, 1, -1 },
     { "numel", Nelson::ElementaryFunctionsGateway::numelBuiltin, 1, 1 },
     { "isapprox", Nelson::ElementaryFunctionsGateway::isapproxBuiltin, 1, -2},
-
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

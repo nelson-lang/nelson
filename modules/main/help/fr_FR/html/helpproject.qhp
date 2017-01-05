@@ -2,17 +2,17 @@
 <QtHelpProject version = "1.0">
 <namespace>org.nelson.help</namespace>
 <virtualFolder>help</virtualFolder>
-<customFilter name = "NelSon">
-<filterAttribute>NelSon</filterAttribute>
+<customFilter name = "Nelson">
+<filterAttribute>Nelson</filterAttribute>
 </customFilter>
 <filterSection>
-<filterAttribute>NelSon</filterAttribute>
+<filterAttribute>Nelson</filterAttribute>
 <toc>
-<section title = "NelSon" ref = "homepage.html"/>
+<section title = "Nelson" ref = "homepage.html"/>
 </toc>
 <keywords>
-<keyword name = "licence" id = "NelSon::licence" ref = "licence.html"/>
-<keyword name = "changes" id = "NelSon::changes" ref = "changes.html"/>
+<keyword name = "licence" id = "Nelson::licence" ref = "licence.html"/>
+<keyword name = "changes" id = "Nelson::changes" ref = "changes.html"/>
 </keywords>
 <files>
 <file>*.html</file>
