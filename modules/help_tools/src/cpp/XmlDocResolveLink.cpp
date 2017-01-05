@@ -49,6 +49,7 @@ namespace Nelson {
             boost::replace_all(modulename, L"${", L"");
             boost::replace_all(modulename, L"}", L"");
             boost::container::vector<module> modules = GetModules(true);
+            bool bFound = false;
             for (size_t k = 0; k < modules.size(); k++)
             {
                 if (modules[k].modulename == modulename)
@@ -58,37 +59,37 @@ namespace Nelson {
                     if (isQtHelp)
                     {
                         resolvedlink = L"qthelp://org.nelson.modules." + modulename + std::wstring(L".help/help/") + name + L".html";
-                        return true;
+                        bFound = true;
+                        return bFound;
                     }
                     else
                     {
                         filepath = modules[k].modulepath + L"/" + L"help" + L"/" + language + L"/" + L"xml" + L"/" + name + utf8_to_wstring(XML_FILE_EXTENSION);
                         if (IsFile(filepath))
                         {
-                            bool bRes = false;
-                            resolvedlink = RelativePath(directorysource, filepath, bRes);
-                            if (bRes)
-                            {
-                                boost::replace_all(resolvedlink, L".xml", L".html");
-                                return true;
-                            }
+                            resolvedlink = name + L".html";
+                            bFound = true;
+                            return bFound;
                         }
                         if (language != L"en_US")
                         {
                             filepath = modules[k].modulepath + L"/" + L"help" + L"/" + L"en_US" + L"/" + L"xml" + L"/" + linkname + utf8_to_wstring(XML_FILE_EXTENSION);
                             if (IsFile(filepath))
                             {
-                                bool bRes = false;
-                                resolvedlink = RelativePath(directorysource, filepath, bRes);
-                                if (bRes)
-                                {
-                                    boost::replace_all(resolvedlink, L".xml", L".html");
-                                    return true;
-                                }
+                                resolvedlink = name + L".html";
+                                bFound = true;
+                                return bFound;
                             }
                         }
                     }
                 }
+            }
+            if (!isQtHelp)
+            {
+                std::wstring name = linkname;
+                boost::replace_all(name, std::wstring(L"${") + modulename + L"}", L"");
+                resolvedlink = name + L".html";
+                return true;
             }
             return false;
         }
