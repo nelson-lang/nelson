@@ -43,7 +43,9 @@ function buildhelpweb(varargin)
       srclist{end + 1} = src;
     end
   end
-  xmldoctohtml(srclist, dirdest, 'NelSon');
+  vervec = version('-number');
+  title = ['Nelson', ' ', int2str(vervec(1)), '.', int2str(vervec(2)), '.', int2str(vervec(3)), '.', int2str(vervec(4))];
+  xmldoctohtml(srclist, dirdest, title);
 
 endfunction
 //=============================================================================
