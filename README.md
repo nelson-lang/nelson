@@ -12,6 +12,8 @@ and others state of art numerical libraries.
 
 ## Features:
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/8865bc705b2d459c839b169e580d0526)](https://www.codacy.com/app/Nelson-numerical-software/nelson?utm_source=github.com&utm_medium=referral&utm_content=Nelson-numerical-software/nelson&utm_campaign=badger)
+
 - Types managed by Nelson:
   * double and double complex: scalar, vector, matrix 2D, N dimensions array, sparse matrix.
   * single and single complex: scalar, vector, matrix 2D, N dimensions array, sparse matrix. 
