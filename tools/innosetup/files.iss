@@ -17,7 +17,7 @@
 ; LICENCE_BLOCK_END
 ;==============================================================================
 #include RootPath + "root.iss"
-#include RootPath + "locales/locales.iss"
+#include RootPath + "locale/locale.iss"
 #include RootPath + "resources/resources.iss"
 #include RootPath + "etc/etc.iss"
 #include RootPath + "bin/bin.iss"

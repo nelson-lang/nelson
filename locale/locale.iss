@@ -16,6 +16,6 @@
 ; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ; LICENCE_BLOCK_END
 ;==============================================================================
-Source: {#RootPath}locales\en_US\LC_MESSAGES\nelson.mo; DestDir: {app}\locales\en_US\LC_MESSAGES\; AfterInstall: AfterNelsonInstall();
-Source: {#RootPath}locales\fr_FR\LC_MESSAGES\nelson.mo; DestDir: {app}\locales\fr_FR\LC_MESSAGES\;
+Source: {#RootPath}locale\en_US\LC_MESSAGES\nelson.mo; DestDir: {app}\locale\en_US\LC_MESSAGES\; AfterInstall: AfterNelsonInstall();
+Source: {#RootPath}locale\fr_FR\LC_MESSAGES\nelson.mo; DestDir: {app}\locale\fr_FR\LC_MESSAGES\;
 ;==============================================================================

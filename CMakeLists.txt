@@ -187,7 +187,7 @@ include(CPack)
 #==============================================================================
 add_subdirectory(modules)
 add_subdirectory(etc)
-add_subdirectory(locales)
+add_subdirectory(locale)
 add_subdirectory(module_skeleton)
 add_subdirectory(resources)
 #==============================================================================

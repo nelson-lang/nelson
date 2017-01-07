@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+// Copyright (c) 2017 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -16,47 +16,10 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-if ispc()
-  MSGFMT = ['"', nelsonroot(), '/tools/gettext/bin/msgfmt.exe', '"']; 
-else
-  if ismac()
-    MSGFMT = '/usr/local/bin/msgfmt';
-    if ~isfile(MSGFMT)
-      MSGFMT = 'msgfmt';
-    end
-  else
-    MSGFMT = 'msgfmt'; 
-  end
-end
-
-DOMAIN = 'nelson';
-
-langs = getavailablelanguages();
-
-for l = langs
-	posrc = [nelsonroot(), '/locale/', l{1}, '/LC_MESSAGES/', DOMAIN, '.po'];
-	modst = [nelsonroot(), '/locale/', l{1}, '/LC_MESSAGES/', DOMAIN, '.mo'];
-	dir_posrc = dir(posrc);
-	dir_modst = dir(modst);
-	needToUpdate = true;
-	if ~isempty(dir_posrc)
-		if ~isempty(dir_modst)
-			if dir_modst.datenum > dir_posrc.datenum
-				needToUpdate = false;
-			end
-		end
-		if needToUpdate
-			disp([_('Update translations:'), ' ', l{1}]);
-			MSGFMT_CMD = [MSGFMT, ' --output-file="', modst, '" "', posrc, '"'];
-			[r, errmsg] = unix(MSGFMT_CMD);
-			if r != 0
-				error(errmsg);
-			end
-		else
-			disp([_('Translations up-to-date:'), ' ', l{1}]);
-		end
-	end
-end
-
-exit
+// <-- Issue URL -->
+// https://github.com/Nelson-numerical-software/nelson/issues/17
+// <-- Short Description -->
+// 'locales' directory renamed as 'locale' (more standard).
 //=============================================================================
+assert_istrue(isdir([nelsonroot(), '/locale']));
+assert_isfalse(isdir([nelsonroot(), '/locales']));

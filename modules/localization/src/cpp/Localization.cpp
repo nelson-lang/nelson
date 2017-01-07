@@ -123,7 +123,7 @@ namespace Nelson {
     {
         if (isSupportedLanguage(lang))
         {
-            std::wstring localesPath = getNelsonPathDynamic() + L"/locales/";
+            std::wstring localesPath = getNelsonPathDynamic() + L"/locale/";
             boost::locale::generator gen;
             try
             {

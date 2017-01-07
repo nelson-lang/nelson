@@ -16,8 +16,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # LICENCE_BLOCK_END
 #==============================================================================
-install(FILES ${CMAKE_SOURCE_DIR}/locales/en_US/LC_MESSAGES/nelson.mo DESTINATION ${ROOT_OUTPUT}/locales/en_US/LC_MESSAGES)
-install(FILES ${CMAKE_SOURCE_DIR}/locales/fr_FR/LC_MESSAGES/nelson.mo DESTINATION ${ROOT_OUTPUT}/locales/fr_FR/LC_MESSAGES)
+install(FILES ${CMAKE_SOURCE_DIR}/locale/en_US/LC_MESSAGES/nelson.mo DESTINATION ${ROOT_OUTPUT}/locale/en_US/LC_MESSAGES)
+install(FILES ${CMAKE_SOURCE_DIR}/locale/fr_FR/LC_MESSAGES/nelson.mo DESTINATION ${ROOT_OUTPUT}/locale/fr_FR/LC_MESSAGES)
 #==============================================================================
 
 
