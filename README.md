@@ -5,6 +5,9 @@
     / /\  |  __| |_\ | (_) | | | |
     \_\ \/ \___|_|\__/\___/|_| |_|
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/8865bc705b2d459c839b169e580d0526)](https://www.codacy.com/app/Nelson-numerical-software/nelson?utm_source=github.com&utm_medium=referral&utm_content=Nelson-numerical-software/nelson&utm_campaign=badger)
+[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/602/badge)](https://bestpractices.coreinfrastructure.org/projects/602) 
+[![GitHub license](https://img.shields.io/badge/license-GPL2-blue.svg)](https://github.com/Nelson-numerical-software/nelson/blob/master/COPYING.md)
 
 NelSon is a numerical interpreter in the spirit of Octave and 
 others commercial products, using modern C/C++ libraries (Boost, Eigen, ...)
@@ -12,7 +15,6 @@ and others state of art numerical libraries.
 
 ## Features:
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/8865bc705b2d459c839b169e580d0526)](https://www.codacy.com/app/Nelson-numerical-software/nelson?utm_source=github.com&utm_medium=referral&utm_content=Nelson-numerical-software/nelson&utm_campaign=badger)
 
 - Types managed by Nelson:
   * double and double complex: scalar, vector, matrix 2D, N dimensions array, sparse matrix.
