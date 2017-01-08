@@ -9,6 +9,7 @@
 [![Code Climate](https://codeclimate.com/github/Nelson-numerical-software/nelson/badges/gpa.svg)](https://codeclimate.com/github/Nelson-numerical-software/nelson)
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/602/badge)](https://bestpractices.coreinfrastructure.org/projects/602) 
 [![GitHub license](https://img.shields.io/badge/license-GPL2-blue.svg)](https://github.com/Nelson-numerical-software/nelson/blob/master/COPYING.md)
+[![CLA assistant](https://cla-assistant.io/readme/badge/Nelson-numerical-software/nelson)](https://cla-assistant.io/Nelson-numerical-software/nelson)
 
 NelSon is a numerical interpreter in the spirit of Octave and 
 others commercial products, using modern C/C++ libraries (Boost, Eigen, ...)
