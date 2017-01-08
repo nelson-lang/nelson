@@ -11,19 +11,21 @@
 [![GitHub license](https://img.shields.io/badge/license-GPL2-blue.svg)](https://github.com/Nelson-numerical-software/nelson/blob/master/COPYING.md)
 [![CLA assistant](https://cla-assistant.io/readme/badge/Nelson-numerical-software/nelson)](https://cla-assistant.io/Nelson-numerical-software/nelson)
 
-The aim of Nelson is providing a powerful open computing environment for 
+
+Nelson is a numerical interpreter providing a powerful open computing environment for 
 engineering and scientific applications using modern C/C++ libraries (Boost, Eigen, …)
 and others state of art numerical libraries.
-It has sophisticated data structures (including cell, struct, linear systems…),
+
+It has sophisticated data structures (including cell, struct, linear systems, …),
 an interpreter and a high level programming language.
+
 Nelson has been developped to be an open/modular system where an user can define 
 these own data types and operations on these data types by using overload.
 
 [Web site](https://nelson-numerical-software.github.io/nelson-website/)
 
+
 ## Features:
-
-
 - Types managed by Nelson:
   * double and double complex: scalar, vector, matrix 2D, N dimensions array, sparse matrix.
   * single and single complex: scalar, vector, matrix 2D, N dimensions array, sparse matrix. 
@@ -44,4 +46,5 @@ these own data types and operations on these data types by using overload.
 - Arch Linux (ARM v7)
 
 Allan CORNET (nelson.numerical.computation@gmail.com)
+
 dedicated to my parents
