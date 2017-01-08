@@ -36,6 +36,7 @@ ArrayOfVector Nelson::FilesFoldersGateway::relativepathBuiltin(Evaluator* eval, 
     std::wstring param1 = argIn[0].getContentsAsWideString();
     std::wstring param2 = argIn[1].getContentsAsWideString();
     bool bSuccess = false;
+
     retval.push_back(ArrayOf::stringConstructor(RelativePath(param1, param2, bSuccess)));
     return retval;
 }
