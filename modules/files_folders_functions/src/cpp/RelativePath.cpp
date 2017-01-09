@@ -38,11 +38,6 @@ namespace Nelson {
         }
         else
         {
-			bool needToAddDot = !(result[0] == L'/' || result[0] == L'\\' || result[0] == L'.');
-			if (needToAddDot)
-			{
-				result = L"./" + result;
-			}
             bSuccess = true;
         }
         return result;
