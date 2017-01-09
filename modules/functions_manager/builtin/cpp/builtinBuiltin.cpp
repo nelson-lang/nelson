@@ -19,6 +19,8 @@
 #include "builtinBuiltin.hpp"
 #include "Error.hpp"
 #include "characters_encoding.hpp"
+#include "PathFuncManager.hpp"
+#include "BuiltInFunctionDefManager.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -30,7 +32,23 @@ ArrayOfVector Nelson::FunctionsGateway::builtinBuiltin(Evaluator* eval, int nLhs
     }
     Context *context = eval->getContext();
     FunctionDef *funcDef = nullptr;
-    std::string fname = argIn[0].getContentsAsCString();
+	ArrayOf param1 = argIn[0];
+	std::string fname = "";
+	if (param1.isFunctionHandle()) 
+	{
+		function_handle fh = param1.getContentsAsFunctionHandle();
+		std::wstring functionname;
+		bool found = PathFuncManager::getInstance()->find(fh, functionname);
+		if (!found)
+		{
+			found = BuiltInFunctionDefManager::getInstance()->find(fh, functionname);
+		}
+		fname = wstring_to_utf8(functionname);
+	} 
+	else
+	{
+		fname = argIn[0].getContentsAsCString();
+	}
     if (!context->lookupFunction(fname, funcDef, true))
     {
         Error(eval, _W("function \'") + utf8_to_wstring(fname) + _W("\' is not a builtin."));
