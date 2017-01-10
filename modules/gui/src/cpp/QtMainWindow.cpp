@@ -26,6 +26,7 @@
 #include <QtWidgets/QFileDialog>
 #include <QtGui/QClipboard>
 #include <QtGui/QCloseEvent>
+#include <QtGui/QDesktopServices>
 #include "QtMainWindow.h"
 #include "QStringConverter.hpp"
 #include "characters_encoding.hpp"
@@ -116,7 +117,7 @@ QtMainWindow::~QtMainWindow()
         delete helpMenu;
         helpMenu = nullptr;
     }
-    if (mainMenuBar)
+	if (mainMenuBar)
     {
         delete mainMenuBar;
         mainMenuBar = nullptr;
@@ -188,6 +189,18 @@ void QtMainWindow::about()
     std::string version = std::string(NELSON_PRODUCT_NAME) + " " + std::string(NELSON_VERSION_STRING);
     std::string aboutText = version + "\n" + "Copyright 2016-2017 Allan CORNET";
     QMessageBox::about(this, _("About Nelson...").c_str(), aboutText.c_str());
+}
+//=============================================================================
+void QtMainWindow::website()
+{
+	QString link = "https://nelson-numerical-software.github.io/nelson-website/";
+	QDesktopServices::openUrl(QUrl(link));
+}
+//=============================================================================
+void QtMainWindow::bugAndRequest()
+{
+	QString link = "https://github.com/Nelson-numerical-software/nelson/issues";
+	QDesktopServices::openUrl(QUrl(link));
 }
 //=============================================================================
 void QtMainWindow::help()
@@ -355,7 +368,17 @@ void QtMainWindow::createMenus()
     helpAct->setStatusTip(TR("Documentation"));
     connect(helpAct, SIGNAL(triggered()), this, SLOT(help()));
     helpMenu->addAction(helpAct);
-    // about
+    // website
+	webAct = new QAction(TR("Nelson &website"), this);
+	webAct->setStatusTip(TR("Nelson website"));
+	connect(webAct, SIGNAL(triggered()), this, SLOT(website()));
+	helpMenu->addAction(webAct);
+	// bugs and requests
+	bugAct = new QAction(TR("B&ugs and Requests"), this);
+	bugAct->setStatusTip(TR("Bugs and Requests"));
+	connect(bugAct, SIGNAL(triggered()), this, SLOT(bugAndRequest()));
+	helpMenu->addAction(bugAct);
+	// about
     aboutAct = new QAction(TR("&About"), this);
     aboutAct->setStatusTip(TR("About"));
     connect(aboutAct, SIGNAL(triggered()), this, SLOT(about()));

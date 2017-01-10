@@ -1,3 +1,9 @@
+
+Features:
+---------
+
+  Add website and bug reports link in help menu.
+
 Bug Fixes:
 ---------
 

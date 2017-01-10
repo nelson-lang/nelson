@@ -18,33 +18,27 @@
 //=============================================================================
 run([nelsonroot() '/modules/' 'modules.nls']);
 for k = modules_list
-	switch k{1}
-		case 'gui'
-			if (strcmp(getnelsonmode(), 'GUI') == true)
-				addmodule([nelsonroot() '/modules/' k{1}], k{1});
-			end
-		case 'help_browser'
-			if (strcmp(getnelsonmode(), 'GUI') == true | ...
-				strcmp(getnelsonmode(), 'ADVANCED_ENGINE') == true | ...
-				 strcmp(getnelsonmode(), 'ADVANCED_TERMINAL') == true)
-					addmodule([nelsonroot() '/modules/' k{1}], k{1});
-			end
-		otherwise
-			addmodule([nelsonroot() '/modules/' k{1}], k{1});
-	end
+  switch k{1}
+    case 'gui'
+      if (strcmp(getnelsonmode(), 'GUI') == true)
+        addmodule([nelsonroot() '/modules/' k{1}], k{1});
+      end
+    case 'help_browser'
+      if (strcmp(getnelsonmode(), 'GUI') == true | ...
+        strcmp(getnelsonmode(), 'ADVANCED_ENGINE') == true | ...
+         strcmp(getnelsonmode(), 'ADVANCED_TERMINAL') == true)
+          addmodule([nelsonroot() '/modules/' k{1}], k{1});
+      end
+    otherwise
+      addmodule([nelsonroot() '/modules/' k{1}], k{1});
+  end
 end
 %==============================================================================
 clear('all');
 if (isquietmode() == false)
-	banner();
-	disp(version());
-	disp(version('-date'));
-	disp(' ');
-	if strcmp(getnelsonmode(), 'GUI') == true
-		inserthtml(_('For bugs and requests, please <a href="mailto:nelson.numerical.computation@gmail.com">email me</a>.'))
-	else
-		disp(_('For bugs and requests, please mailto: nelson.numerical.computation@gmail.com'))
-	end
+  banner();
+  disp(version());
+  disp(version('-date'));
 end
 cd(nelsonroot());
 %==============================================================================
