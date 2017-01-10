@@ -20,6 +20,8 @@
 #include "Which.hpp"
 #include "Error.hpp"
 #include "ToCellString.hpp"
+#include "BuiltInFunctionDefManager.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -39,7 +41,35 @@ ArrayOfVector Nelson::FunctionsGateway::whichBuiltin(Evaluator* eval, int nLhs, 
         if (argIn[0].isSingleString())
         {
             std::wstring wfunctionname = argIn[0].getContentsAsWideString();
-            retval.push_back(ArrayOf::stringConstructor(Which(wfunctionname)));
+			if (nLhs == 0) 
+			{
+				Interface *io = eval->getInterface();
+				if (io)
+				{
+					FuncPtr fptr = nullptr;
+					bool found = BuiltInFunctionDefManager::getInstance()->find(wstring_to_utf8(wfunctionname), fptr);
+					std::wstring path = Which(wfunctionname);
+					if (found)
+					{
+						io->outputMessage(_W("built-in") + L" (" + path + L")");
+					}
+					else
+					{
+						if (path == L"")
+						{
+							io->outputMessage(L"'" + wfunctionname + L"' " + _W("not found."));
+						}
+						else
+						{
+							io->outputMessage(path);
+						}
+					}
+				}
+			}
+			else
+			{
+				retval.push_back(ArrayOf::stringConstructor(Which(wfunctionname)));
+			}
         }
         else
         {
