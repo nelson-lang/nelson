@@ -117,7 +117,7 @@ QtMainWindow::~QtMainWindow()
         delete helpMenu;
         helpMenu = nullptr;
     }
-	if (mainMenuBar)
+    if (mainMenuBar)
     {
         delete mainMenuBar;
         mainMenuBar = nullptr;
@@ -193,14 +193,14 @@ void QtMainWindow::about()
 //=============================================================================
 void QtMainWindow::website()
 {
-	QString link = "https://nelson-numerical-software.github.io/nelson-website/";
-	QDesktopServices::openUrl(QUrl(link));
+    QString link = "https://nelson-numerical-software.github.io/nelson-website/";
+    QDesktopServices::openUrl(QUrl(link));
 }
 //=============================================================================
 void QtMainWindow::bugAndRequest()
 {
-	QString link = "https://github.com/Nelson-numerical-software/nelson/issues";
-	QDesktopServices::openUrl(QUrl(link));
+    QString link = "https://github.com/Nelson-numerical-software/nelson/issues";
+    QDesktopServices::openUrl(QUrl(link));
 }
 //=============================================================================
 void QtMainWindow::help()
@@ -369,16 +369,16 @@ void QtMainWindow::createMenus()
     connect(helpAct, SIGNAL(triggered()), this, SLOT(help()));
     helpMenu->addAction(helpAct);
     // website
-	webAct = new QAction(TR("Nelson &website"), this);
-	webAct->setStatusTip(TR("Nelson website"));
-	connect(webAct, SIGNAL(triggered()), this, SLOT(website()));
-	helpMenu->addAction(webAct);
-	// bugs and requests
-	bugAct = new QAction(TR("B&ugs and Requests"), this);
-	bugAct->setStatusTip(TR("Bugs and Requests"));
-	connect(bugAct, SIGNAL(triggered()), this, SLOT(bugAndRequest()));
-	helpMenu->addAction(bugAct);
-	// about
+    webAct = new QAction(TR("Nelson &website"), this);
+    webAct->setStatusTip(TR("Nelson website"));
+    connect(webAct, SIGNAL(triggered()), this, SLOT(website()));
+    helpMenu->addAction(webAct);
+    // bugs and requests
+    bugAct = new QAction(TR("B&ugs and Requests"), this);
+    bugAct->setStatusTip(TR("Bugs and Requests"));
+    connect(bugAct, SIGNAL(triggered()), this, SLOT(bugAndRequest()));
+    helpMenu->addAction(bugAct);
+    // about
     aboutAct = new QAction(TR("&About"), this);
     aboutAct->setStatusTip(TR("About"));
     connect(aboutAct, SIGNAL(triggered()), this, SLOT(about()));

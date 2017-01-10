@@ -26,8 +26,8 @@ namespace Nelson {
     //=============================================================================
     ArrayOf Cd(std::wstring newpath)
     {
-		path previous_pwd = current_path();
-		try
+        path previous_pwd = current_path();
+        try
         {
             current_path(newpath);
         }
@@ -36,13 +36,13 @@ namespace Nelson {
             e.what();
             throw Exception(_W("Cannot change directory: '") + newpath + L"'.");
         }
-         return ArrayOf::stringConstructor(previous_pwd.generic_wstring());
+        return ArrayOf::stringConstructor(previous_pwd.generic_wstring());
     }
     //=============================================================================
     ArrayOf Cd(std::string newpath)
     {
-		path previous_pwd = current_path();
-		try
+        path previous_pwd = current_path();
+        try
         {
             current_path(newpath);
         }

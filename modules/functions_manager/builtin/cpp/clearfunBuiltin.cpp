@@ -34,24 +34,22 @@ ArrayOfVector Nelson::FunctionsGateway::clearfunBuiltin(Evaluator* eval, int nLh
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-	ArrayOf param1 = argIn[0];
-	std::wstring functionname;
-
+    ArrayOf param1 = argIn[0];
+    std::wstring functionname;
     if (param1.isSingleString())
     {
-		functionname = argIn[0].getContentsAsWideString();
+        functionname = argIn[0].getContentsAsWideString();
     }
-	else if (param1.isFunctionHandle())
-	{
-		function_handle fh = param1.getContentsAsFunctionHandle();
-		BuiltInFunctionDefManager::getInstance()->find(fh, functionname);
-	}
-	else
-	{
-		Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
-	}
-	retval.push_back(ArrayOf::logicalConstructor(ClearBuiltin(functionname)));
-
-	return retval;
+    else if (param1.isFunctionHandle())
+    {
+        function_handle fh = param1.getContentsAsFunctionHandle();
+        BuiltInFunctionDefManager::getInstance()->find(fh, functionname);
+    }
+    else
+    {
+        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+    }
+    retval.push_back(ArrayOf::logicalConstructor(ClearBuiltin(functionname)));
+    return retval;
 }
 //=============================================================================

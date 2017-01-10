@@ -27,8 +27,8 @@ ArrayOfVector Nelson::EngineGateway::getnelsonmodeBuiltin(Evaluator* eval, int n
     ArrayOfVector retval;
     if (argIn.size() != 0)
     {
-		Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-	}
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
     if (nLhs > 1)
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);

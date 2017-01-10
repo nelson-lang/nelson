@@ -33,8 +33,8 @@ public:
 private slots:
     void about();
     void help();
-	void website();
-	void bugAndRequest();
+    void website();
+    void bugAndRequest();
 
     void cutText();
     void copyText();
@@ -69,10 +69,10 @@ private:
 
     QMenu *helpMenu;
     QAction *helpAct;
-	QAction *webAct;
-	QAction *bugAct;
+    QAction *webAct;
+    QAction *bugAct;
 
-	QAction *aboutAct;
+    QAction *aboutAct;
 
     QtTerminal *qtTerminal;
     bool bClosed;

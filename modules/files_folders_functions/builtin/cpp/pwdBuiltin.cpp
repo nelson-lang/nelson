@@ -38,18 +38,18 @@ ArrayOfVector Nelson::FilesFoldersGateway::pwdBuiltin(Evaluator* eval, int nLhs,
     {
         Error(eval, _W("Impossible to get current directory."));
     }
-	if (nLhs == 0) 
-	{
-		Interface *io = eval->getInterface();
-		if (io)
-		{
-			io->outputMessage(pwd);
-		}
-	}
-	else
-	{
-		retval.push_back(ArrayOf::stringConstructor(pwd));
-	}
+    if (nLhs == 0)
+    {
+        Interface *io = eval->getInterface();
+        if (io)
+        {
+            io->outputMessage(pwd);
+        }
+    }
+    else
+    {
+        retval.push_back(ArrayOf::stringConstructor(pwd));
+    }
     return retval;
 }
 //=============================================================================

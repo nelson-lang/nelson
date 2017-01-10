@@ -36,17 +36,16 @@ ArrayOfVector Nelson::FilesFoldersGateway::relativepathBuiltin(Evaluator* eval, 
     std::wstring param1 = argIn[0].getContentsAsWideString();
     std::wstring param2 = argIn[1].getContentsAsWideString();
     bool bSuccess = false;
-
-	std::wstring result = RelativePath(param1, param2, bSuccess);
-	if (bSuccess) 
-	{
-		bool needToAddDot = !(result[0] == L'/' || result[0] == L'\\' || result[0] == L'.');
-		if (needToAddDot)
-		{
-			result = L"./" + result;
-		}
-	}
-	retval.push_back(ArrayOf::stringConstructor(result));
-	return retval;
+    std::wstring result = RelativePath(param1, param2, bSuccess);
+    if (bSuccess)
+    {
+        bool needToAddDot = !(result[0] == L'/' || result[0] == L'\\' || result[0] == L'.');
+        if (needToAddDot)
+        {
+            result = L"./" + result;
+        }
+    }
+    retval.push_back(ArrayOf::stringConstructor(result));
+    return retval;
 }
 //=============================================================================

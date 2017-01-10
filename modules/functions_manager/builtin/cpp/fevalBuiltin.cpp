@@ -36,13 +36,13 @@ ArrayOfVector Nelson::FunctionsGateway::fevalBuiltin(Evaluator* eval, int nLhs, 
     ArrayOf param1 = argIn[0];
     if (param1.isFunctionHandle())
     {
-		std::wstring functionname;
-		function_handle fh = param1.getContentsAsFunctionHandle();
-		bool found = PathFuncManager::getInstance()->find(fh, functionname);
-		if (!found)
-		{
-			found = BuiltInFunctionDefManager::getInstance()->find(fh, functionname);
-		}
+        std::wstring functionname;
+        function_handle fh = param1.getContentsAsFunctionHandle();
+        bool found = PathFuncManager::getInstance()->find(fh, functionname);
+        if (!found)
+        {
+            found = BuiltInFunctionDefManager::getInstance()->find(fh, functionname);
+        }
         if (found)
         {
             fname = wstring_to_utf8(functionname);
