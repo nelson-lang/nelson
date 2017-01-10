@@ -49,7 +49,7 @@ ArrayOfVector Nelson::FunctionsGateway::builtinBuiltin(Evaluator* eval, int nLhs
 	{
 		fname = argIn[0].getContentsAsCString();
 	}
-    if (!context->lookupFunction(fname, funcDef, true))
+	if (!context->lookupFunction(fname, funcDef, true))
     {
         Error(eval, _W("function \'") + utf8_to_wstring(fname) + _W("\' is not a builtin."));
     }

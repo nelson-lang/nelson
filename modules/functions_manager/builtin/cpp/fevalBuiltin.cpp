@@ -19,6 +19,8 @@
 #include "fevalBuiltin.hpp"
 #include "Error.hpp"
 #include "characters_encoding.hpp"
+#include "PathFuncManager.hpp"
+#include "BuiltInFunctionDefManager.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -34,11 +36,16 @@ ArrayOfVector Nelson::FunctionsGateway::fevalBuiltin(Evaluator* eval, int nLhs, 
     ArrayOf param1 = argIn[0];
     if (param1.isFunctionHandle())
     {
-        function_handle fh = param1.getContentsAsFunctionHandle();
-        FunctionDef *funcDef = (FunctionDef *)fh;
-        if (eval->getContext()->getGlobalScope()->isPointerOnFunction(funcDef))
+		std::wstring functionname;
+		function_handle fh = param1.getContentsAsFunctionHandle();
+		bool found = PathFuncManager::getInstance()->find(fh, functionname);
+		if (!found)
+		{
+			found = BuiltInFunctionDefManager::getInstance()->find(fh, functionname);
+		}
+        if (found)
         {
-            fname = funcDef->name;
+            fname = wstring_to_utf8(functionname);
         }
         else
         {
@@ -47,7 +54,7 @@ ArrayOfVector Nelson::FunctionsGateway::fevalBuiltin(Evaluator* eval, int nLhs, 
     }
     else
     {
-        fname = argIn[0].getContentsAsCString();
+        fname = param1.getContentsAsCString();
     }
     if (!context->lookupFunction(fname, funcDef))
     {
