@@ -53,15 +53,6 @@
 
 </examples>
 
-	<see_also>
-		<see_also_item>
-			<link linkend="${help_tools}markdown">markdown</link>
-		</see_also_item>
-		<see_also_item>
-			<link linkend="${stream_manager}fileread">fileread</link>
-		</see_also_item>
-	</see_also>
-
 	<history>
 		<history_item>
 			<history_version>1.0.0</history_version>
