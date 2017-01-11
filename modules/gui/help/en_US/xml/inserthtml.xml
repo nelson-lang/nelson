@@ -17,8 +17,6 @@
 		</param_input_item>
 	</param_input>
 
-	<param_output>
-
 
 	<description><p><b>inserthtml</b>inserts html code in GUI console.</p>
 </description>
