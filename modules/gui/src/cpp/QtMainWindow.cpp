@@ -141,7 +141,7 @@ QtMainWindow::QtMainWindow()
     createMenus();
     setWindowTitle(TR("Nelson"));
     setMinimumSize(640, 480);
-    resize(800, 600);
+    resize(840, 600);
     qtTerminal = new QtTerminal(this);
     setFocusProxy(qtTerminal);
     setCentralWidget(qtTerminal);
