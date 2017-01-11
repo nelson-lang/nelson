@@ -17,6 +17,10 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 function buildhelp(varargin)
+// build Nelson help files
+// buildhelp() build help of Nelson
+// buildhelp(module_name) build help of a module loaded in Nelson
+//
   if nargin() > 1
     error(_('Wrong number of input arguments.'));
   end
