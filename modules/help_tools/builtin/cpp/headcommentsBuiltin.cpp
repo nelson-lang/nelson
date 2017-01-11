@@ -90,7 +90,21 @@ ArrayOfVector Nelson::HelpToolsGateway::headcommentsBuiltin(Evaluator* eval, int
         {
             case HEADCOMMENTS_ERROR::NO_ERROR:
             {
-                retval.push_back(ToCellStringAsColumn(comments));
+				if (nLhs == 0)
+				{
+					Interface *io = eval->getInterface();
+					if (io)
+					{
+						for (size_t i = 0; i < comments.size(); i++)
+						{
+							io->outputMessage(comments[i] + L"\n");
+						}
+					}
+				}
+				else
+				{
+					retval.push_back(ToCellStringAsColumn(comments));
+				}
             }
             break;
             case HEADCOMMENTS_ERROR::NOT_A_MACRO:
