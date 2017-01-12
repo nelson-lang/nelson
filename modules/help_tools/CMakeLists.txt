@@ -83,6 +83,7 @@ ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../modules_manager/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../files_folders_functions/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../data_structures/src/include
 )
 #==============================================================================	
 ADD_LIBRARY(
@@ -103,6 +104,7 @@ nlsCharacters_encoding
 nlsI18n
 nlsFiles_folders_functions
 nlsModules_manager
+nlsData_structures
 )
 #==============================================================================
 set_target_properties(${module_library_builtin_name}

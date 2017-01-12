@@ -26,6 +26,6 @@ namespace Nelson {
     bool findImageTag(std::wstring text, wstringVector &imagesTag);
     bool copyImages(wstringVector srcImages, wstringVector dstImages);
     bool copyImage(std::wstring srcImage, std::wstring dstImage);
-    std::wstring uuid_file_extension();
+	std::wstring crcFile(std::wstring filename);
 }
 //=============================================================================

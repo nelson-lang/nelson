@@ -25,8 +25,10 @@
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
-
+#include <boost/crc.hpp>
+#include <sstream>
 #include "ImageTagHelpers.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
     //=============================================================================
@@ -120,13 +122,32 @@ namespace Nelson {
         return copyImages(srcImages, dstImages);
     }
     //=============================================================================
-    std::wstring uuid_file_extension()
-    {
-        boost::uuids::random_generator generator;
-        boost::uuids::uuid uuid = generator();
-        return boost::uuids::to_wstring(uuid);
-    }
-    //=============================================================================
+#ifndef PRIVATE_BUFFER_SIZE
+#define PRIVATE_BUFFER_SIZE  1024
+#endif
+	std::wstring crcFile(std::wstring filename)
+	{
+		std::wstring res = L"";
+		std::ifstream  ifs(filename.c_str(), std::ios_base::binary);
+
+		if (ifs)
+		{
+			boost::crc_32_type  result;
+			do
+			{
+				char buffer[PRIVATE_BUFFER_SIZE];
+				ifs.read(buffer, PRIVATE_BUFFER_SIZE);
+				result.process_bytes(buffer, ifs.gcount());
+			}
+			while (ifs);
+			ifs.close();
+			std::stringstream ss;
+			ss << std::hex << std::uppercase << result.checksum();
+			res = utf8_to_wstring(ss.str());
+		}
+		return res;
+	}
+	//=============================================================================
 }
 //=============================================================================
 

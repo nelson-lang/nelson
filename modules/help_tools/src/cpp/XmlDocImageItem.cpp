@@ -74,8 +74,17 @@ namespace Nelson {
             {
                 extension = absolutePath.extension().generic_wstring();
             }
-            std::wstring newfilename = filename + L"_" + uuid_file_extension() + extension;
-            boost::replace_all(tag, oldPath, newfilename);
+			std::wstring crc = crcFile(newPath);
+			std::wstring newfilename;
+			if (crc == L"")
+			{
+				newfilename = filename + extension;
+			}
+			else
+			{
+				newfilename = filename + L"_" + crc + extension;
+			}
+			boost::replace_all(tag, oldPath, newfilename);
             imageSource = newPath;
             imageDestination = this->destDirectory + L"/" + newfilename;
         }
