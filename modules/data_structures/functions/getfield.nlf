@@ -17,30 +17,53 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 function f = getfield(s, varargin)
-	if (isempty(varargin) == false)
-		fieldstr = varargin{1};
-		if (length(varargin) == 1 & ischar(fieldstr))
-			f = s.(fieldstr);
-		else
-			f = s;
-			for i = 1:length(varargin)
-				idx = varargin{i};
-				if (iscell(idx))
-					f = f(idx{:});
-				elseif ischar(idx)
-					try
-						f = f.(idx);
-					catch
-						tmp = cell(1, length(f));
-						[tmp{:}] = deal(f.(idx));
-						f = tmp{1};
-					end
-				else
-					error(_('Invalid Input(s) must be strings or cell arrays.'));
-				end
-			end
-		end
-	else
-		error(_('Wrong numbers of input arguments.'));	
-	end
+//## Returns value of a field in a struct.
+//### Syntax
+//    getfield(st, field)
+//### Input argument
+//st
+//
+//       a structure.
+//field
+//
+//       a string.
+//### Output argument
+//value
+//
+//       the value of a field from a structure.
+//### Description
+//value = getfield(st, field) returns the value of the field named field from a structure.
+//### Example
+//<pre>
+//example.b = 'nelson'
+//example.c = []
+//getfield(example, 'b')
+// </pre>
+
+  if (isempty(varargin) == false)
+    fieldstr = varargin{1};
+    if (length(varargin) == 1 & ischar(fieldstr))
+      f = s.(fieldstr);
+    else
+      f = s;
+      for i = 1:length(varargin)
+        idx = varargin{i};
+        if (iscell(idx))
+          f = f(idx{:});
+        elseif ischar(idx)
+          try
+            f = f.(idx);
+          catch
+            tmp = cell(1, length(f));
+            [tmp{:}] = deal(f.(idx));
+            f = tmp{1};
+          end
+        else
+          error(_('Invalid Input(s) must be strings or cell arrays.'));
+        end
+      end
+    end
+  else
+    error(_('Wrong numbers of input arguments.'));  
+  end
 endfunction
