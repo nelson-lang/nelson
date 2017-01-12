@@ -22,6 +22,7 @@
 #include "markdownBuiltin.hpp"
 #include "Error.hpp"
 #include "Markdown.hpp"
+#include "IsCellOfStrings.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -111,15 +112,35 @@ ArrayOfVector Nelson::HelpToolsGateway::markdownBuiltin(Evaluator* eval, int nLh
     else
     {
         // argIn.size() == 1
-        std::wstring stringInput = argIn[0].getContentsAsWideString();
-        std::wstring stringOutput;
-        if (MarkdownString(stringInput, stringOutput))
+		ArrayOf param1 = argIn[0];
+		std::wstring stringInput;
+		if (IsCellOfString(param1))
+		{
+			wstringVector vstr = param1.getContentAsWideStringColumnVector();
+			for (size_t k = 0; k < vstr.size(); k++)
+			{
+				stringInput = stringInput + L"\n" + vstr[k];
+			}
+		}
+		else
+		{
+			if (param1.isSingleString())
+			{
+				stringInput = param1.getContentsAsWideString();
+			}
+			else
+			{
+				Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+			}
+		}
+		std::wstring stringOutput = L"";
+		if (MarkdownString(stringInput, stringOutput))
         {
             retval.push_back(ArrayOf::stringConstructor(stringOutput));
         }
         else
         {
-            Error(eval, _W("Error"));
+            Error(eval, _W("Error markdown generation."));
         }
     }
     return retval;
