@@ -30,11 +30,10 @@ const std::wstring gatewayName = L"help_tools";
 static const nlsGateway gateway[] =
 {
     { "markdown", Nelson::HelpToolsGateway::markdownBuiltin, 1, 2 },
-    { "headcomments", Nelson::HelpToolsGateway::headcommentsBuiltin, 1, -1 },
+    { "headcomments", Nelson::HelpToolsGateway::headcommentsBuiltin, 1, 1 },
     { "xmldocchecker", Nelson::HelpToolsGateway::xmldoccheckerBuiltin, 2, 1 },
-    { "xmldocbuild", Nelson::HelpToolsGateway::xmldocbuildBuiltin, 5, 1 },
-    { "htmltopdf", Nelson::HelpToolsGateway::htmltopdfBuiltin, 2, 0 },
-
+    { "xmldocbuild", Nelson::HelpToolsGateway::xmldocbuildBuiltin, 1, 5 },
+    { "htmltopdf", Nelson::HelpToolsGateway::htmltopdfBuiltin, 0, 2 },
 };
 //=============================================================================
 static bool initializeHelpToolsModule(Nelson::Evaluator* eval)
