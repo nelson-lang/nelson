@@ -17,21 +17,21 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 function qhelpgenerator(varargin)
-
-	if (nargin() ~= 3)
+// internal function not documented
+  if (nargin() ~= 3)
     error(_('Wrong number of input arguments.'));
   end 
-	
-	src_in = varargin{1};
-	dir_out = varargin{2};
-	destination_file = varargin{3};
-	file_generated =  [dir_out, destination_file];
+  
+  src_in = varargin{1};
+  dir_out = varargin{2};
+  destination_file = varargin{3};
+  file_generated =  [dir_out, destination_file];
 
-	if ~isfile([src_in, '/helpproject.qhp'])
-		error(_('helpproject.qhp is missing.'))
-	end
+  if ~isfile([src_in, '/helpproject.qhp'])
+    error(_('helpproject.qhp is missing.'))
+  end
 
-	qhelpgenerator_filename = 'qhelpgenerator'; 
+  qhelpgenerator_filename = 'qhelpgenerator'; 
   QTDIR_BINARIES = getenv('QTDIR_BINARIES');
   if ~strcmp(QTDIR_BINARIES, '')
     new_qhelpgenerator_filename = [QTDIR_BINARIES, '/qhelpgenerator'];
@@ -40,15 +40,15 @@ function qhelpgenerator(varargin)
     end
   end
   if isfile(file_generated)
-  	[res, msg] = rmfile(file_generated);
-  	if res
-  		error(msg)
-  	end
+    [res, msg] = rmfile(file_generated);
+    if res
+      error(msg)
+    end
   end
   
-	cmd = [qhelpgenerator_filename, ' "', src_in, '/helpproject.qhp"', ' -o "', file_generated, '"'];
-	[res, msg] = unix(cmd);
-	if res
-		error(msg)
-	end
+  cmd = [qhelpgenerator_filename, ' "', src_in, '/helpproject.qhp"', ' -o "', file_generated, '"'];
+  [res, msg] = unix(cmd);
+  if res
+    error(msg)
+  end
 endfunction

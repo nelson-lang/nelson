@@ -48,6 +48,9 @@
 
   <see_also>
     <see_also_item>
+      <link linkend="${help_tools}xmldocbuild">xmldocbuild</link>
+    </see_also_item>
+    <see_also_item>
       <link linkend="${help_tools}buildhelp">buildhelp</link>
     </see_also_item>
     <see_also_item>
