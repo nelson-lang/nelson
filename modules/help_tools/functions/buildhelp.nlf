@@ -26,8 +26,8 @@ function buildhelp(varargin)
   end
    
   if nargin() == 0
-  	changes_md = [nelsonroot(), '/CHANGELOG.md'];
-  	
+    changes_md = [nelsonroot(), '/CHANGELOG.md'];
+    
     for k = getavailablelanguages()
       dir_src = [nelsonroot(), '/modules/main/help/', k{1}, '/html'];
       changes_html = [dir_src, '/changelog.html'];
@@ -35,7 +35,7 @@ function buildhelp(varargin)
       if isfile(changes_html)
         html_file_info = dir(changes_html);
         md_file_info = dir(changes_md);
-      	generate_changelog_html = md_file_info.datenum > html_file_info.datenum;
+        generate_changelog_html = md_file_info.datenum > html_file_info.datenum;
       else
         generate_changelog_html = true;
       end
