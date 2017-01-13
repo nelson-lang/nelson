@@ -22,13 +22,14 @@
 #include "characters_encoding.hpp"
 #include "MacroFunctionDef.hpp"
 #include "ToCellString.hpp"
+#include "IsFile.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector Nelson::HelpToolsGateway::headcommentsBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if ((argIn.size() == 0) || (argIn.size() > 2))
+    if (argIn.size() != 1)
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
@@ -43,25 +44,32 @@ ArrayOfVector Nelson::HelpToolsGateway::headcommentsBuiltin(Evaluator* eval, int
         std::wstring functionName = L"";
         if (arg1.isSingleString())
         {
-            functionName = arg1.getContentsAsWideString();
-            Context *context = eval->getContext();
-            FunctionDef *funcDef = nullptr;
-            if (context->lookupFunction(wstring_to_utf8(functionName), funcDef))
-            {
-                if (funcDef->type() == NLS_MACRO_FUNCTION)
-                {
-                    MacroFunctionDef *fm = (MacroFunctionDef *)funcDef;
-                    filename = fm->fileName;
-                }
-                else
-                {
-                    Error(eval, _W("built-in have no comments."));
-                }
-            }
-            else
-            {
-                Error(eval, _W("function does not exist."));
-            }
+			functionName = arg1.getContentsAsWideString();
+			if (IsFile(functionName)) 
+			{
+				filename = functionName;
+			}
+			else
+			{
+				Context *context = eval->getContext();
+				FunctionDef *funcDef = nullptr;
+				if (context->lookupFunction(wstring_to_utf8(functionName), funcDef))
+				{
+					if (funcDef->type() == NLS_MACRO_FUNCTION)
+					{
+						MacroFunctionDef *fm = (MacroFunctionDef *)funcDef;
+						filename = fm->fileName;
+					}
+					else
+					{
+						Error(eval, _W("built-in have no comments."));
+					}
+				}
+				else
+				{
+					Error(eval, _W("function does not exist."));
+				}
+			}
         }
         else if (arg1.isFunctionHandle())
         {
@@ -118,9 +126,6 @@ ArrayOfVector Nelson::HelpToolsGateway::headcommentsBuiltin(Evaluator* eval, int
             }
             break;
         }
-    }
-    else if (argIn.size() == 2)
-    {
     }
     return retval;
 }
