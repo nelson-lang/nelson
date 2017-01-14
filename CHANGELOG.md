@@ -2,6 +2,8 @@
 Features:
 ---------
 
+  Add sparse support for acos, asin, atan, cos, cosh, sin, sinh, tan, tanh.
+
   Add website and bug reports link in help menu.
 
 Bug Fixes:
