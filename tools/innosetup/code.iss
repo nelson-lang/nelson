@@ -95,3 +95,26 @@ begin
   Result := not (VCVersionInstalled(VC_2015_REDIST_X86_MIN));
 #endif
 end;
+
+Procedure URLLabelOnClick(Sender: TObject);
+var
+  ErrorCode: Integer;
+begin
+  ShellExec('open', 'https://nelson-numerical-software.github.io/nelson-website/', '', '', SW_SHOWNORMAL, ewNoWait, ErrorCode);
+end;
+
+Procedure InitializeWizard;
+var
+  URLLabel: TNewStaticText;
+begin
+  URLLabel := TNewStaticText.Create(WizardForm);
+  URLLabel.Caption := 'Nelson''s website';
+  URLLabel.Cursor := crHand;
+  URLLabel.OnClick := @URLLabelOnClick;
+  URLLabel.Parent := WizardForm;
+  { Alter Font *after* setting Parent so the correct defaults are inherited first }
+  URLLabel.Font.Style := URLLabel.Font.Style + [fsUnderline];
+  URLLabel.Font.Color := clBlue;
+  URLLabel.Top := WizardForm.ClientHeight - URLLabel.Height - 15;
+  URLLabel.Left := ScaleX(20);
+end;
