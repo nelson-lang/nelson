@@ -128,8 +128,11 @@ namespace Nelson {
 	std::wstring crcFile(std::wstring filename)
 	{
 		std::wstring res = L"";
+#ifdef _MSC_VER
 		std::ifstream  ifs(filename.c_str(), std::ios_base::binary);
-
+#else
+		std::ifstream  ifs(wstring_to_utf8(filename).c_str(), std::ios_base::binary);
+#endif
 		if (ifs)
 		{
 			boost::crc_32_type  result;
