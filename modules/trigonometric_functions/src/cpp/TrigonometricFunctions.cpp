@@ -731,16 +731,9 @@ namespace Nelson {
                 R.ensureSingleOwner();
                 singlecomplex* Az = reinterpret_cast<singlecomplex*>((float*)A.getDataPointer());
                 singlecomplex* Rz = reinterpret_cast<singlecomplex*>((float*)R.getDataPointer());
-#if defined(__APPLE__) || defined(__MACH__)
-				for (indexType z = 0; z < A.getLength(); z++)
-				{
-					Rz[z] = asin(Az[z]);
-				}
-#else
 				Eigen::Map<Eigen::MatrixXcf> matA(Az, 1, A.getLength());
                 Eigen::Map<Eigen::MatrixXcf> matR(Rz, 1, R.getLength());
                 matR = matA.array().asin();
-#endif
 				if (R.allReal())
 				{
 					R.promoteType(NLS_SINGLE);
@@ -756,18 +749,9 @@ namespace Nelson {
                 R.ensureSingleOwner();
                 doublecomplex* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
                 doublecomplex* Rz = reinterpret_cast<doublecomplex*>((double*)R.getDataPointer());
-#if defined(__APPLE__) || defined(__MACH__)
-				// Workaround bug eigen 3.3.1
-				// https://forum.kde.org/viewtopic.php?f=74&t=138434
-				for (indexType z = 0; z < A.getLength(); z++)
-				{
-					Rz[z] = asin(Az[z]);
-				}
-#else
 				Eigen::Map<Eigen::MatrixXcd> matA(Az, 1, A.getLength());
                 Eigen::Map<Eigen::MatrixXcd> matR(Rz, 1, R.getLength());
                 matR = matA.array().asin();
-#endif
 				if (R.allReal())
 				{
 					R.promoteType(NLS_DOUBLE);
