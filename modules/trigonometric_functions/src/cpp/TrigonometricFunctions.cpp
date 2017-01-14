@@ -678,7 +678,13 @@ namespace Nelson {
                 Eigen::Map<Eigen::MatrixXcf> matA(Az, 1, A.getLength());
                 Eigen::Map<Eigen::MatrixXcf> matR(Rz, 1, R.getLength());
                 matR = matA.array().asin();
-                return R;
+#if defined(__APPLE__) || defined(__MACH__)
+				if (R.allReal())
+				{
+					R.promoteType(NLS_SINGLE);
+				}
+#endif
+				return R;
             }
             case NLS_DOUBLE:
             case NLS_DCOMPLEX:
@@ -692,7 +698,13 @@ namespace Nelson {
                 Eigen::Map<Eigen::MatrixXcd> matA(Az, 1, A.getLength());
                 Eigen::Map<Eigen::MatrixXcd> matR(Rz, 1, R.getLength());
                 matR = matA.array().asin();
-                return R;
+#if defined(__APPLE__) || defined(__MACH__)
+				if (R.allReal())
+				{
+					R.promoteType(NLS_DOUBLE);
+				}
+#endif
+				return R;
             }
             break;
             default:
