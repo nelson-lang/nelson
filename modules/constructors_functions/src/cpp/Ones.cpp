@@ -16,6 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <Eigen/Dense>
 #include "Ones.hpp"
 #include "Error.hpp"
 //=============================================================================
@@ -28,61 +29,184 @@ namespace Nelson {
     //=============================================================================
     ArrayOf Ones(Evaluator *eval, Dimensions dims, Class cl)
     {
-        switch (cl)
-        {
-            case NLS_SINGLE:
-            {
-                indexType nbElements = dims.getElementCount();
-                single * mat = (single*)ArrayOf::allocateArrayOf(cl, nbElements);
-                if (((int)nbElements % 2) == 0)
-                {
-                    for (indexType k = 0; k < nbElements; k = k + 2)
-                    {
-                        mat[k] = (single)1.0;
-                        mat[k + 1] = (single)1.0;
-                    }
-                }
-                else
-                {
-                    for (indexType k = 0; k < nbElements; k++)
-                    {
-                        mat[k] = (single)1.0;
-                    }
-                }
-                return ArrayOf(cl, dims, mat, false);
-            }
-            break;
-            case NLS_DOUBLE:
-            {
-                indexType nbElements = dims.getElementCount();
-                double * mat = (double*)ArrayOf::allocateArrayOf(cl, nbElements);
-                /*if (((int)nbElements % 2) == 0)
-                {
-                    for (indexType k = 0; k < nbElements; k = k + 2)
-                    {
-                        mat[k] = (double)1.0;
-                        mat[k+1] = (double)1.0;
-                    }
-                }
-                else
-                {
-                    for (indexType k = 0; k < nbElements; k++)
-                    {
-                        mat[k] = (double)1.0;
-                    }
-                }*/
-                indexType k = 0;
-                while(k < nbElements)
-                {
-                    mat[k++] = (double)1.0;
-                }
-                return ArrayOf(cl, dims, mat, false);
-            }
-            break;
-            default:
-                Error(eval, ERROR_TYPE_NOT_SUPPORTED);
-        }
-        return ArrayOf();
+		switch (cl)
+		{
+		case NLS_LOGICAL:
+		{
+			indexType nbElements = dims.getElementCount();
+			logical * mat = nullptr;
+			if (nbElements != 0)
+			{
+				mat = (logical*)ArrayOf::allocateArrayOf(cl, nbElements);
+				Eigen::Map<Eigen::Matrix<logical, Eigen::Dynamic, Eigen::Dynamic>> matEigen((logical*)mat, 1, dims.getElementCount());
+				matEigen.setOnes();
+			}
+			return ArrayOf(cl, dims, mat, false);
+		}
+		break;
+		case NLS_INT8:
+		{
+			indexType nbElements = dims.getElementCount();
+			int8 * mat = nullptr;
+			if (nbElements != 0)
+			{
+				mat = (int8*)ArrayOf::allocateArrayOf(cl, nbElements);
+				Eigen::Map<Eigen::Matrix<int8, Eigen::Dynamic, Eigen::Dynamic>> matEigen((int8*)mat, 1, dims.getElementCount());
+				matEigen.setOnes();
+			}
+			return ArrayOf(cl, dims, mat, false);
+		}
+		break;
+		case NLS_UINT8:
+		{
+			indexType nbElements = dims.getElementCount();
+			uint8 * mat = nullptr;
+			if (nbElements != 0)
+			{
+				mat = (uint8*)ArrayOf::allocateArrayOf(cl, nbElements);
+				Eigen::Map<Eigen::Matrix<uint8, Eigen::Dynamic, Eigen::Dynamic>> matEigen((uint8*)mat, 1, dims.getElementCount());
+				matEigen.setOnes();
+			}
+			return ArrayOf(cl, dims, mat, false);
+		}
+		break;
+		case NLS_INT16:
+		{
+			indexType nbElements = dims.getElementCount();
+			int16 * mat = nullptr;
+			if (nbElements != 0)
+			{
+				mat = (int16*)ArrayOf::allocateArrayOf(cl, nbElements);
+				Eigen::Map<Eigen::Matrix<int16, Eigen::Dynamic, Eigen::Dynamic>> matEigen((int16*)mat, 1, dims.getElementCount());
+				matEigen.setOnes();
+			}
+			return ArrayOf(cl, dims, mat, false);
+		}
+		break;
+		case NLS_UINT16:
+		{
+			indexType nbElements = dims.getElementCount();
+			uint16 * mat = nullptr;
+			if (nbElements != 0)
+			{
+				mat = (uint16*)ArrayOf::allocateArrayOf(cl, nbElements);
+				Eigen::Map<Eigen::Matrix<uint16, Eigen::Dynamic, Eigen::Dynamic>> matEigen((uint16*)mat, 1, dims.getElementCount());
+				matEigen.setOnes();
+			}
+			return ArrayOf(cl, dims, mat, false);
+		}
+		break;
+		case NLS_INT32:
+		{
+			indexType nbElements = dims.getElementCount();
+			int32 * mat = nullptr;
+			if (nbElements != 0)
+			{
+				mat = (int32*)ArrayOf::allocateArrayOf(cl, nbElements);
+				Eigen::Map<Eigen::Matrix<int32, Eigen::Dynamic, Eigen::Dynamic>> matEigen((int32*)mat, 1, dims.getElementCount());
+				matEigen.setOnes();
+			}
+			return ArrayOf(cl, dims, mat, false);
+		}
+		break;
+		case NLS_UINT32:
+		{
+			indexType nbElements = dims.getElementCount();
+			uint32 * mat = nullptr;
+			if (nbElements != 0)
+			{
+				mat = (uint32*)ArrayOf::allocateArrayOf(cl, nbElements);
+				Eigen::Map<Eigen::Matrix<uint32, Eigen::Dynamic, Eigen::Dynamic>> matEigen((uint32*)mat, 1, dims.getElementCount());
+				matEigen.setOnes();
+			}
+			return ArrayOf(cl, dims, mat, false);
+		}
+		break;
+		case NLS_INT64:
+		{
+			indexType nbElements = dims.getElementCount();
+			int64 * mat = nullptr;
+			if (nbElements != 0)
+			{
+				mat = (int64*)ArrayOf::allocateArrayOf(cl, nbElements);
+				Eigen::Map<Eigen::Matrix<int64, Eigen::Dynamic, Eigen::Dynamic>> matEigen((int64*)mat, 1, dims.getElementCount());
+				matEigen.setOnes();
+			}
+			return ArrayOf(cl, dims, mat, false);
+		}
+		break;
+		case NLS_UINT64:
+		{
+			indexType nbElements = dims.getElementCount();
+			uint64 * mat = nullptr;
+			if (nbElements != 0)
+			{
+				mat = (uint64*)ArrayOf::allocateArrayOf(cl, nbElements);
+				Eigen::Map<Eigen::Matrix<uint64, Eigen::Dynamic, Eigen::Dynamic>> matEigen((uint64*)mat, 1, dims.getElementCount());
+				matEigen.setOnes();
+			}
+			return ArrayOf(cl, dims, mat, false);
+		}
+		break;
+		case NLS_SINGLE:
+		{
+			indexType nbElements = dims.getElementCount();
+			single * mat = nullptr;
+			if (nbElements != 0)
+			{
+				mat = (single*)ArrayOf::allocateArrayOf(cl, nbElements);
+				Eigen::Map<Eigen::Matrix<single, Eigen::Dynamic, Eigen::Dynamic>> matEigen((single*)mat, 1, dims.getElementCount());
+				matEigen.setOnes();
+			}
+			return ArrayOf(cl, dims, mat, false);
+		}
+		break;
+		case NLS_DOUBLE:
+		{
+			indexType nbElements = dims.getElementCount();
+			double * mat = nullptr;
+			if (nbElements != 0)
+			{
+				mat = (double*)ArrayOf::allocateArrayOf(cl, nbElements);
+				Eigen::Map<Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic>> matEigen((double*)mat, 1, dims.getElementCount());
+				matEigen.setOnes();
+			}
+			return ArrayOf(cl, dims, mat, false);
+		}
+		break;
+		case NLS_SCOMPLEX:
+		{
+			indexType nbElements = dims.getElementCount();
+			single * mat = nullptr;
+			if (nbElements != 0)
+			{
+				mat = (single*)ArrayOf::allocateArrayOf(cl, nbElements * 2);
+				singlecomplex* Cz = reinterpret_cast<singlecomplex*>(mat);
+				Eigen::Map<Eigen::Matrix<singlecomplex, Eigen::Dynamic, Eigen::Dynamic>> matEigen((singlecomplex*)Cz, 1, dims.getElementCount());
+				matEigen.setOnes();
+			}
+			return ArrayOf(cl, dims, mat, false);
+		}
+		break;
+		case NLS_DCOMPLEX:
+		{
+			indexType nbElements = dims.getElementCount();
+			double * mat = nullptr;
+			if (nbElements != 0)
+			{
+				mat = (double*)ArrayOf::allocateArrayOf(cl, nbElements * 2);
+				doublecomplex* Cz = reinterpret_cast<doublecomplex*>(mat);
+				Eigen::Map<Eigen::Matrix<doublecomplex, Eigen::Dynamic, Eigen::Dynamic>> matEigen((doublecomplex*)Cz, 1, dims.getElementCount());
+				matEigen.setOnes();
+			}
+			return ArrayOf(cl, dims, mat, false);
+		}
+		break;
+
+		default:
+			Error(eval, ERROR_TYPE_NOT_SUPPORTED);
+		}
+		return ArrayOf();
     }
     //=============================================================================
 }
