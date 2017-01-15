@@ -34,7 +34,7 @@
 
   </param_output>
 
-  <description><p><b>true</b> build a matrix of true.</p>
+  <description><p><b>any</b> returns true if any of the elements of a matrix satisfy some condition.</p>
 </description>
 
 
