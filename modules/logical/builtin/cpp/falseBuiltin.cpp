@@ -75,7 +75,7 @@ ArrayOfVector Nelson::LogicalGateway::falseBuiltin(Evaluator* eval, int nLhs, co
         }
         if (idxMax == 1)
         {
-            dim[1] = 1;
+            dim[1] = dim[0];
         }
         dim.simplify();
         retval.push_back(FalseConstructor(dim, bIsSparse));
