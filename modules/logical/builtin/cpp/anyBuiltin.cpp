@@ -40,16 +40,6 @@ ArrayOfVector Nelson::LogicalGateway::anyBuiltin(Evaluator* eval, int nLhs, cons
     if (!bSuccess)
     {
         OverloadRequired(eval, argIn, Nelson::OVERLOAD_TYPE::UNARY);
-        /*
-        ArrayOf A = argIn[0];
-        indexType dim = 0;
-        if (argIn.size() > 1)
-        {
-        	ArrayOf d = argIn[1];
-        	dim = d.getContentAsScalarIndex(false) - 1;
-        }
-        retval.push_back(Any(A, dim));
-        */
     }
     return retval;
 }

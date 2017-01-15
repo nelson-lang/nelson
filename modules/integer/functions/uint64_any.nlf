@@ -19,7 +19,7 @@
 function r = uint64_any(varargin)
 	if (nargin() == 1)
 		r = logical_any(logical(varargin{1}));
-	elseif (nargin() == 1)
+	elseif (nargin() == 2)
 			r = logical_any(logical(varargin{1}), varargin{2});
 	else
 			error(_('Wrong number of input arguments.'));

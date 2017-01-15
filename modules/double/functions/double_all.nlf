@@ -17,12 +17,12 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 function r = double_all(varargin)
-	if (nargin() == 1)
-		r = logical_all(logical(varargin{1}));
-	elseif (nargin() == 1)
-			r = logical_all(logical(varargin{1}), varargin{2});
-	else
-			error(_('Wrong number of input arguments.'));
-	end
+  if (nargin() == 1)
+    r = logical_all(logical(varargin{1}));
+  elseif (nargin() == 2)
+      r = logical_all(logical(varargin{1}), varargin{2});
+  else
+      error(_('Wrong number of input arguments.'));
+  end
 endfunction
 //=============================================================================
