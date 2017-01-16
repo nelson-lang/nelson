@@ -25,14 +25,14 @@ using namespace Nelson;
 ArrayOfVector Nelson::I18nGateway::gettextBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-	if (nLhs > 1)
-	{
-		Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-	}
-	if (argIn.size() != 1)
-	{
-		Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-	}
+    if (nLhs > 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    if (argIn.size() != 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
     std::wstring txt = argIn[0].getContentsAsWideString();
     retval.push_back(ArrayOf::stringConstructor(gettextw(txt)));
     return retval;

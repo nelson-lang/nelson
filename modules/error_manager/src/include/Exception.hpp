@@ -128,20 +128,20 @@ namespace Nelson {
     template <class T> T* new_with_exception(size_t len)
     {
         T* ptr = nullptr;
-		if (len != 0)
-		{
-			try
-			{
-				ptr = new T[len];
-				memset(ptr, 0, sizeof(T)*len);
-			}
-			catch (std::bad_alloc &e)
-			{
-				e.what();
-				ptr = nullptr;
-				throw Exception(ERROR_MEMORY_ALLOCATION);
-			}
-		}
+        if (len != 0)
+        {
+            try
+            {
+                ptr = new T[len];
+                memset(ptr, 0, sizeof(T)*len);
+            }
+            catch (std::bad_alloc &e)
+            {
+                e.what();
+                ptr = nullptr;
+                throw Exception(ERROR_MEMORY_ALLOCATION);
+            }
+        }
         return ptr;
     }
     //=============================================================================

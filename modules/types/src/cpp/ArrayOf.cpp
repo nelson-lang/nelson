@@ -2646,10 +2646,10 @@ break;
                 {
                     index[i].toOrdinalType();
                     indexType *idx = (indexType *)index[i].getDataPointer();
-					if (idx != nullptr)
-					{
-						dimsDest[i] = idx[index[i].getDimensions().getElementCount() - 1];
-					}
+                    if (idx != nullptr)
+                    {
+                        dimsDest[i] = idx[index[i].getDimensions().getElementCount() - 1];
+                    }
                 }
             }
             if (bEmpty)

@@ -481,9 +481,9 @@ namespace Nelson {
         const std::string functionNameFromFile = pathFunction.stem().generic_string();
         if (!boost::iequals(functionNameFromFile, fptr->name))
         {
-			std::string name = fptr->name;
+            std::string name = fptr->name;
             delete fptr;
-			fptr = nullptr;
+            fptr = nullptr;
             throw Exception(_("filename and function name are not same (") + name + _(" vs ") + functionNameFromFile + "). " + _("function not loaded."));
         }
         return fptr;

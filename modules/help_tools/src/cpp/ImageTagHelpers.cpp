@@ -125,32 +125,32 @@ namespace Nelson {
 #ifndef PRIVATE_BUFFER_SIZE
 #define PRIVATE_BUFFER_SIZE  1024
 #endif
-	std::wstring crcFile(std::wstring filename)
-	{
-		std::wstring res = L"";
+    std::wstring crcFile(std::wstring filename)
+    {
+        std::wstring res = L"";
 #ifdef _MSC_VER
-		std::ifstream  ifs(filename.c_str(), std::ios_base::binary);
+        std::ifstream  ifs(filename.c_str(), std::ios_base::binary);
 #else
-		std::ifstream  ifs(wstring_to_utf8(filename).c_str(), std::ios_base::binary);
+        std::ifstream  ifs(wstring_to_utf8(filename).c_str(), std::ios_base::binary);
 #endif
-		if (ifs)
-		{
-			boost::crc_32_type  result;
-			do
-			{
-				char buffer[PRIVATE_BUFFER_SIZE];
-				ifs.read(buffer, PRIVATE_BUFFER_SIZE);
-				result.process_bytes(buffer, ifs.gcount());
-			}
-			while (ifs);
-			ifs.close();
-			std::stringstream ss;
-			ss << std::hex << std::uppercase << result.checksum();
-			res = utf8_to_wstring(ss.str());
-		}
-		return res;
-	}
-	//=============================================================================
+        if (ifs)
+        {
+            boost::crc_32_type  result;
+            do
+            {
+                char buffer[PRIVATE_BUFFER_SIZE];
+                ifs.read(buffer, PRIVATE_BUFFER_SIZE);
+                result.process_bytes(buffer, ifs.gcount());
+            }
+            while (ifs);
+            ifs.close();
+            std::stringstream ss;
+            ss << std::hex << std::uppercase << result.checksum();
+            res = utf8_to_wstring(ss.str());
+        }
+        return res;
+    }
+    //=============================================================================
 }
 //=============================================================================
 

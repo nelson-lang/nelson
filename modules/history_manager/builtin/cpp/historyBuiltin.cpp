@@ -133,21 +133,21 @@ static ArrayOfVector historyBuiltin_no_rhs(Evaluator* eval, int nLhs, const Arra
     ArrayOfVector retval;
     HistoryManager *ptrHistoryManager = (HistoryManager *)eval->HistoryManager;
     wstringVector res = ptrHistoryManager->get();
-	if (nLhs == 0)
-	{
-		Interface *io = eval->getInterface();
-		if (io) 
-		{
-			for (size_t k = 0; k < res.size(); k++)
-			{
-				io->outputMessage(std::to_wstring(k + 1) + L" : " + res[k] + L"\n");
-			}
-		}
-	}
-	else
-	{
-		retval.push_back(ToCellStringAsColumn(res));
-	}
+    if (nLhs == 0)
+    {
+        Interface *io = eval->getInterface();
+        if (io)
+        {
+            for (size_t k = 0; k < res.size(); k++)
+            {
+                io->outputMessage(std::to_wstring(k + 1) + L" : " + res[k] + L"\n");
+            }
+        }
+    }
+    else
+    {
+        retval.push_back(ToCellStringAsColumn(res));
+    }
     return retval;
 }
 //=============================================================================

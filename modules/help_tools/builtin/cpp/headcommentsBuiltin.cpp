@@ -44,32 +44,32 @@ ArrayOfVector Nelson::HelpToolsGateway::headcommentsBuiltin(Evaluator* eval, int
         std::wstring functionName = L"";
         if (arg1.isSingleString())
         {
-			functionName = arg1.getContentsAsWideString();
-			if (IsFile(functionName)) 
-			{
-				filename = functionName;
-			}
-			else
-			{
-				Context *context = eval->getContext();
-				FunctionDef *funcDef = nullptr;
-				if (context->lookupFunction(wstring_to_utf8(functionName), funcDef))
-				{
-					if (funcDef->type() == NLS_MACRO_FUNCTION)
-					{
-						MacroFunctionDef *fm = (MacroFunctionDef *)funcDef;
-						filename = fm->fileName;
-					}
-					else
-					{
-						Error(eval, _W("built-in have no comments."));
-					}
-				}
-				else
-				{
-					Error(eval, _W("function does not exist."));
-				}
-			}
+            functionName = arg1.getContentsAsWideString();
+            if (IsFile(functionName))
+            {
+                filename = functionName;
+            }
+            else
+            {
+                Context *context = eval->getContext();
+                FunctionDef *funcDef = nullptr;
+                if (context->lookupFunction(wstring_to_utf8(functionName), funcDef))
+                {
+                    if (funcDef->type() == NLS_MACRO_FUNCTION)
+                    {
+                        MacroFunctionDef *fm = (MacroFunctionDef *)funcDef;
+                        filename = fm->fileName;
+                    }
+                    else
+                    {
+                        Error(eval, _W("built-in have no comments."));
+                    }
+                }
+                else
+                {
+                    Error(eval, _W("function does not exist."));
+                }
+            }
         }
         else if (arg1.isFunctionHandle())
         {
@@ -98,21 +98,21 @@ ArrayOfVector Nelson::HelpToolsGateway::headcommentsBuiltin(Evaluator* eval, int
         {
             case HEADCOMMENTS_ERROR::NO_ERROR:
             {
-				if (nLhs == 0)
-				{
-					Interface *io = eval->getInterface();
-					if (io)
-					{
-						for (size_t i = 0; i < comments.size(); i++)
-						{
-							io->outputMessage(comments[i] + L"\n");
-						}
-					}
-				}
-				else
-				{
-					retval.push_back(ToCellStringAsColumn(comments));
-				}
+                if (nLhs == 0)
+                {
+                    Interface *io = eval->getInterface();
+                    if (io)
+                    {
+                        for (size_t i = 0; i < comments.size(); i++)
+                        {
+                            io->outputMessage(comments[i] + L"\n");
+                        }
+                    }
+                }
+                else
+                {
+                    retval.push_back(ToCellStringAsColumn(comments));
+                }
             }
             break;
             case HEADCOMMENTS_ERROR::NOT_A_MACRO:

@@ -61,11 +61,11 @@ namespace Nelson {
                 Eigen::Map<Eigen::MatrixXcf> matA(Az, 1, A.getLength());
                 Eigen::Map<Eigen::MatrixXcf> matR(Rz, 1, R.getLength());
                 matR = matA.array().cos();
-				if (R.allReal())
-				{
-					R.promoteType(NLS_SINGLE);
-				}
-				return R;
+                if (R.allReal())
+                {
+                    R.promoteType(NLS_SINGLE);
+                }
+                return R;
             }
             case NLS_SINGLE:
             {
@@ -87,10 +87,10 @@ namespace Nelson {
                 Eigen::Map<Eigen::MatrixXcd> matA(Az, 1, A.getLength());
                 Eigen::Map<Eigen::MatrixXcd> matR(Rz, 1, R.getLength());
                 matR = matA.array().cos();
-				if (R.allReal())
-				{
-					R.promoteType(NLS_DOUBLE);
-				}
+                if (R.allReal())
+                {
+                    R.promoteType(NLS_DOUBLE);
+                }
                 return R;
             }
             break;
@@ -152,11 +152,11 @@ namespace Nelson {
                 Eigen::Map<Eigen::MatrixXcf> matA(Az, 1, A.getLength());
                 Eigen::Map<Eigen::MatrixXcf> matR(Rz, 1, R.getLength());
                 matR = matA.array().sin();
-				if (R.allReal())
-				{
-					R.promoteType(NLS_SINGLE);
-				}
-				return R;
+                if (R.allReal())
+                {
+                    R.promoteType(NLS_SINGLE);
+                }
+                return R;
             }
             case NLS_SINGLE:
             {
@@ -166,7 +166,7 @@ namespace Nelson {
                 Eigen::Map<Eigen::MatrixXf> matA((single*)A.getDataPointer(), 1, A.getLength());
                 Eigen::Map<Eigen::MatrixXf> matR((single*)R.getDataPointer(), 1, R.getLength());
                 matR = matA.array().sin();
-				return R;
+                return R;
             }
             break;
             case NLS_DCOMPLEX:
@@ -178,10 +178,10 @@ namespace Nelson {
                 Eigen::Map<Eigen::MatrixXcd> matA(Az, 1, A.getLength());
                 Eigen::Map<Eigen::MatrixXcd> matR(Rz, 1, R.getLength());
                 matR = matA.array().sin();
-				if (R.allReal())
-				{
-					R.promoteType(NLS_DOUBLE);
-				}
+                if (R.allReal())
+                {
+                    R.promoteType(NLS_DOUBLE);
+                }
                 return R;
             }
             break;
@@ -243,11 +243,11 @@ namespace Nelson {
                 Eigen::Map<Eigen::MatrixXcf> matA(Az, 1, A.getLength());
                 Eigen::Map<Eigen::MatrixXcf> matR(Rz, 1, R.getLength());
                 matR = matA.array().tan();
-				if (R.allReal())
-				{
-					R.promoteType(NLS_SINGLE);
-				}
-				return R;
+                if (R.allReal())
+                {
+                    R.promoteType(NLS_SINGLE);
+                }
+                return R;
             }
             case NLS_SINGLE:
             {
@@ -269,10 +269,10 @@ namespace Nelson {
                 Eigen::Map<Eigen::MatrixXcd> matA(Az, 1, A.getLength());
                 Eigen::Map<Eigen::MatrixXcd> matR(Rz, 1, R.getLength());
                 matR = matA.array().tan();
-				if (R.allReal())
-				{
-					R.promoteType(NLS_DOUBLE);
-				}
+                if (R.allReal())
+                {
+                    R.promoteType(NLS_DOUBLE);
+                }
                 return R;
             }
             break;
@@ -339,11 +339,11 @@ namespace Nelson {
                 {
                     Rz[z] = cosh(Az[z]);
                 }
-				if (R.allReal())
-				{
-					R.promoteType(NLS_SINGLE);
-				}
-				return R;
+                if (R.allReal())
+                {
+                    R.promoteType(NLS_SINGLE);
+                }
+                return R;
             }
             case NLS_SINGLE:
             {
@@ -371,10 +371,10 @@ namespace Nelson {
                 {
                     Rz[z] = cosh(Az[z]);
                 }
-				if (R.allReal())
-				{
-					R.promoteType(NLS_DOUBLE);
-				}
+                if (R.allReal())
+                {
+                    R.promoteType(NLS_DOUBLE);
+                }
                 return R;
             }
             break;
@@ -447,11 +447,11 @@ namespace Nelson {
                 {
                     Rz[z] = sinh(Az[z]);
                 }
-				if (R.allReal())
-				{
-					R.promoteType(NLS_SINGLE);
-				}
-				return R;
+                if (R.allReal())
+                {
+                    R.promoteType(NLS_SINGLE);
+                }
+                return R;
             }
             case NLS_SINGLE:
             {
@@ -479,10 +479,10 @@ namespace Nelson {
                 {
                     Rz[z] = sinh(Az[z]);
                 }
-				if (R.allReal())
-				{
-					R.promoteType(NLS_DOUBLE);
-				}
+                if (R.allReal())
+                {
+                    R.promoteType(NLS_DOUBLE);
+                }
                 return R;
             }
             break;
@@ -552,10 +552,10 @@ namespace Nelson {
                 {
                     Rz[z] = tanh(Az[z]);
                 }
-				if (R.allReal())
-				{
-					R.promoteType(NLS_SINGLE);
-				}
+                if (R.allReal())
+                {
+                    R.promoteType(NLS_SINGLE);
+                }
                 return R;
             }
             case NLS_SINGLE:
@@ -584,11 +584,11 @@ namespace Nelson {
                 {
                     Rz[z] = tanh(Az[z]);
                 }
-				if (R.allReal())
-				{
-					R.promoteType(NLS_DOUBLE);
-				}
-				return R;
+                if (R.allReal())
+                {
+                    R.promoteType(NLS_DOUBLE);
+                }
+                return R;
             }
             break;
             case NLS_DOUBLE:
@@ -658,11 +658,11 @@ namespace Nelson {
                 Eigen::Map<Eigen::MatrixXcf> matA(Az, 1, A.getLength());
                 Eigen::Map<Eigen::MatrixXcf> matR(Rz, 1, R.getLength());
                 matR = matA.array().acos();
-				if (R.allReal())
-				{
-					R.promoteType(NLS_SINGLE);
-				}
-				return R;
+                if (R.allReal())
+                {
+                    R.promoteType(NLS_SINGLE);
+                }
+                return R;
             }
             case NLS_DOUBLE:
             case NLS_DCOMPLEX:
@@ -676,11 +676,11 @@ namespace Nelson {
                 Eigen::Map<Eigen::MatrixXcd> matA(Az, 1, A.getLength());
                 Eigen::Map<Eigen::MatrixXcd> matR(Rz, 1, R.getLength());
                 matR = matA.array().acos();
-				if (R.allReal())
-				{
-					R.promoteType(NLS_DOUBLE);
-				}
-				return R;
+                if (R.allReal())
+                {
+                    R.promoteType(NLS_DOUBLE);
+                }
+                return R;
             }
             break;
             default:
@@ -731,14 +731,14 @@ namespace Nelson {
                 R.ensureSingleOwner();
                 singlecomplex* Az = reinterpret_cast<singlecomplex*>((float*)A.getDataPointer());
                 singlecomplex* Rz = reinterpret_cast<singlecomplex*>((float*)R.getDataPointer());
-				Eigen::Map<Eigen::MatrixXcf> matA(Az, 1, A.getLength());
+                Eigen::Map<Eigen::MatrixXcf> matA(Az, 1, A.getLength());
                 Eigen::Map<Eigen::MatrixXcf> matR(Rz, 1, R.getLength());
                 matR = matA.array().asin();
-				if (R.allReal())
-				{
-					R.promoteType(NLS_SINGLE);
-				}
-				return R;
+                if (R.allReal())
+                {
+                    R.promoteType(NLS_SINGLE);
+                }
+                return R;
             }
             case NLS_DOUBLE:
             case NLS_DCOMPLEX:
@@ -749,14 +749,14 @@ namespace Nelson {
                 R.ensureSingleOwner();
                 doublecomplex* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
                 doublecomplex* Rz = reinterpret_cast<doublecomplex*>((double*)R.getDataPointer());
-				Eigen::Map<Eigen::MatrixXcd> matA(Az, 1, A.getLength());
+                Eigen::Map<Eigen::MatrixXcd> matA(Az, 1, A.getLength());
                 Eigen::Map<Eigen::MatrixXcd> matR(Rz, 1, R.getLength());
                 matR = matA.array().asin();
-				if (R.allReal())
-				{
-					R.promoteType(NLS_DOUBLE);
-				}
-				return R;
+                if (R.allReal())
+                {
+                    R.promoteType(NLS_DOUBLE);
+                }
+                return R;
             }
             break;
             default:
@@ -817,11 +817,11 @@ namespace Nelson {
                 {
                     Rz[z] = atan(Az[z]);
                 }
-				if (R.allReal())
-				{
-					R.promoteType(NLS_SINGLE);
-				}
-				return R;
+                if (R.allReal())
+                {
+                    R.promoteType(NLS_SINGLE);
+                }
+                return R;
             }
             case NLS_DOUBLE:
             case NLS_DCOMPLEX:
@@ -843,11 +843,11 @@ namespace Nelson {
                 {
                     Rz[z] = atan(Az[z]);
                 }
-				if (R.allReal())
-				{
-					R.promoteType(NLS_DOUBLE);
-				}
-				return R;
+                if (R.allReal())
+                {
+                    R.promoteType(NLS_DOUBLE);
+                }
+                return R;
             }
             break;
             default:

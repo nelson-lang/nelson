@@ -38,7 +38,7 @@ ArrayOfVector Nelson::ElementaryFunctionsGateway::ceilBuiltin(Evaluator* eval, i
     retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
     if (!bSuccess)
     {
-		retval.push_back(Ceil(argIn[0]));
+        retval.push_back(Ceil(argIn[0]));
     }
     return retval;
 }
