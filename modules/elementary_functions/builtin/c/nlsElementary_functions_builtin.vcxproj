@@ -168,11 +168,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\andBuiltin.cpp" />
+    <ClCompile Include="..\cpp\ceilBuiltin.cpp" />
     <ClCompile Include="..\cpp\colonBuiltin.cpp" />
     <ClCompile Include="..\cpp\complexBuiltin.cpp" />
     <ClCompile Include="..\cpp\ctransposeBuiltin.cpp" />
     <ClCompile Include="..\cpp\dispBuiltin.cpp" />
     <ClCompile Include="..\cpp\eqBuiltin.cpp" />
+    <ClCompile Include="..\cpp\fixBuiltin.cpp" />
+    <ClCompile Include="..\cpp\floorBuiltin.cpp" />
     <ClCompile Include="..\cpp\geBuiltin.cpp" />
     <ClCompile Include="..\cpp\gtBuiltin.cpp" />
     <ClCompile Include="..\cpp\horzcatBuiltin.cpp" />
@@ -199,6 +202,7 @@
     <ClCompile Include="..\cpp\rdivideBuiltin.cpp" />
     <ClCompile Include="..\cpp\realBuiltin.cpp" />
     <ClCompile Include="..\cpp\reshapeBuiltin.cpp" />
+    <ClCompile Include="..\cpp\roundBuiltin.cpp" />
     <ClCompile Include="..\cpp\shortcutandBuiltin.cpp" />
     <ClCompile Include="..\cpp\shortcutorBuiltin.cpp" />
     <ClCompile Include="..\cpp\sizeBuiltin.cpp" />
@@ -235,11 +239,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\andBuiltin.hpp" />
+    <ClInclude Include="..\include\ceilBuiltin.hpp" />
     <ClInclude Include="..\include\colonBuiltin.hpp" />
     <ClInclude Include="..\include\complexBuiltin.hpp" />
     <ClInclude Include="..\include\ctransposeBuiltin.hpp" />
     <ClInclude Include="..\include\dispBuiltin.hpp" />
     <ClInclude Include="..\include\eqBuiltin.hpp" />
+    <ClInclude Include="..\include\fixBuiltin.hpp" />
+    <ClInclude Include="..\include\floorBuiltin.hpp" />
     <ClInclude Include="..\include\geBuiltin.hpp" />
     <ClInclude Include="..\include\gtBuiltin.hpp" />
     <ClInclude Include="..\include\horzcatBuiltin.hpp" />
@@ -266,6 +273,7 @@
     <ClInclude Include="..\include\rdivideBuiltin.hpp" />
     <ClInclude Include="..\include\realBuiltin.hpp" />
     <ClInclude Include="..\include\reshapeBuiltin.hpp" />
+    <ClInclude Include="..\include\roundBuiltin.hpp" />
     <ClInclude Include="..\include\shortcutandBuiltin.hpp" />
     <ClInclude Include="..\include\shortcutorBuiltin.hpp" />
     <ClInclude Include="..\include\sizeBuiltin.hpp" />

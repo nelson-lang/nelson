@@ -57,6 +57,10 @@
 #include "numelBuiltin.hpp"
 #include "isapproxBuiltin.hpp"
 #include "uplusBuiltin.hpp"
+#include "ceilBuiltin.hpp"
+#include "floorBuiltin.hpp"
+#include "roundBuiltin.hpp"
+#include "fixBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -106,6 +110,10 @@ static const nlsGateway gateway[] =
     { "isequaln", Nelson::ElementaryFunctionsGateway::isequalnBuiltin, 1, -1 },
     { "numel", Nelson::ElementaryFunctionsGateway::numelBuiltin, 1, 1 },
     { "isapprox", Nelson::ElementaryFunctionsGateway::isapproxBuiltin, 1, -2},
+	{ "ceil", Nelson::ElementaryFunctionsGateway::ceilBuiltin, 1, 1 },
+	{ "floor", Nelson::ElementaryFunctionsGateway::floorBuiltin, 1, 1 },
+	{ "fix", Nelson::ElementaryFunctionsGateway::fixBuiltin, 1, 1 },
+	{ "round", Nelson::ElementaryFunctionsGateway::roundBuiltin, 1, 1 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)
