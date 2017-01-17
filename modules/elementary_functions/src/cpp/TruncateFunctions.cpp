@@ -40,7 +40,37 @@ namespace Nelson {
         return single(int64((single)a));
     }
     //=============================================================================
-    template <class T>
+	static double ceilDouble(double a)
+	{
+		return ceil(a);
+	}
+	//=============================================================================
+	static single ceilSingle(single a)
+	{
+		return ceil(a);
+	}
+	//=============================================================================
+	static double roundDouble(double a)
+	{
+		return round(a);
+	}
+	//=============================================================================
+	static single roundSingle(single a)
+	{
+		return round(a);
+	}
+	//=============================================================================
+	static double floorDouble(double a)
+	{
+		return floor(a);
+	}
+	//=============================================================================
+	static single floorSingle(single a)
+	{
+		return round(a);
+	}
+	//=============================================================================
+	template <class T>
     ArrayOf truncateArray(ArrayOf arrayIn, T(*ptrFunc)(T))
     {
         size_t len = arrayIn.getLength();
@@ -91,13 +121,13 @@ namespace Nelson {
                 {
                     case TRUNCATE_LEVEL::CEIL:
                     {
-                        ptr = &(ceil);
+                        ptr = &(ceilSingle);
                         return truncateArray<single>(arrayIn, ptr);
                     }
                     break;
                     case TRUNCATE_LEVEL::ROUND:
                     {
-                        ptr = &(round);
+                        ptr = &(roundSingle);
                         return truncateArray<single>(arrayIn, ptr);
                     }
                     break;
@@ -109,7 +139,7 @@ namespace Nelson {
                     break;
                     case TRUNCATE_LEVEL::FLOOR:
                     {
-                        ptr = &(floor);
+                        ptr = &(floorSingle);
                         return truncateArray<single>(arrayIn, ptr);
                     }
                     break;
@@ -124,13 +154,13 @@ namespace Nelson {
                 {
                     case TRUNCATE_LEVEL::CEIL:
                     {
-                        ptr = &(ceil);
+                        ptr = &(ceilDouble);
                         return truncateArray<double>(arrayIn, ptr);
                     }
                     break;
                     case TRUNCATE_LEVEL::ROUND:
                     {
-                        ptr = &(round);
+                        ptr = &(roundDouble);
                         return truncateArray<double>(arrayIn, ptr);
                     }
                     break;
@@ -142,7 +172,7 @@ namespace Nelson {
                     break;
                     case TRUNCATE_LEVEL::FLOOR:
                     {
-                        ptr = &(floor);
+                        ptr = &(floorDouble);
                         return truncateArray<double>(arrayIn, ptr);
                     }
                     break;
