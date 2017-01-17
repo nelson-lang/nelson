@@ -37,29 +37,7 @@ include_directories(
 FILE(
 GLOB
 ELEMENTARY_FUNCTIONS_SRC
-"${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/ComplexConstructor.cpp"
-"${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/DotLeftDivide.cpp"
-"${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/DotPower.cpp"
-"${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/DotRightDivide.cpp"
-"${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/Transpose.cpp"
-"${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/DotTranspose.cpp"
-"${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/Equals.cpp"
-"${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/GreaterEquals.cpp"
-"${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/GreaterThan.cpp"
-"${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/ImagPart.cpp"
-"${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/LeftDivide.cpp"
-"${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/LessEquals.cpp"
-"${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/LessThan.cpp"
-"${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/Negate.cpp"
-"${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/Not.cpp"
-"${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/NotEquals.cpp"
-"${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/Or.cpp"
-"${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/Power.cpp"
-"${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/RealPart.cpp"
-"${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/RightDivide.cpp"
-"${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/ConcatenateNdArray.cpp"
-"${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/IsApprox.cpp"
-
+"${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp"
 )
 # DotMultiply.cpp
 # Multiplication.cpp
