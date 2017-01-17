@@ -79,7 +79,7 @@ namespace Nelson {
         T *dp = (T*)arrayIn.getDataPointer();
         for (size_t i = 0; i < len * 2; i++)
         {
-            if (isfinite(dp[i]))
+            if (std::isfinite(dp[i]))
             {
                 rp[i] = (ptrFunc)((T)dp[i]);
             }
@@ -264,7 +264,7 @@ namespace Nelson {
                         double *dp = (double*)R.getDataPointer();
                         for (size_t i = 0; i < len; i++)
                         {
-                            if (isfinite(dp[i]))
+                            if (std::isfinite(dp[i]))
                             {
                                 dp[i] = double(int(dp[i]));
                             }
