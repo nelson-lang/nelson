@@ -439,8 +439,8 @@ namespace Nelson {
 #endif
         if (!fr)
         {
-            return false;
-        }
+			throw Exception(_W("Cannot open:") + L" " + nlf_filename);
+		}
         ParserState pstate = ParseError;
         resetAstBackupPosition();
         boost::container::vector<ASTPtr> ptAst;
