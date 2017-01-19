@@ -2,14 +2,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nelson\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
+"PO-Revision-Date: 2017-01-19 19:18+0000\n"
 "Last-Translator: Allan CORNET <nelson.numerical.computation@gmail.com>\n"
-"Language-Team: nelson\n"
+"Language-Team: French "
+"<https://hosted.weblate.org/projects/nelson/translations/fr/>\n"
 "Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 2.11-dev\n"
 
 msgid "Cannot apply numeric operation "
 msgstr "Vous ne pouvez pas appliquer une opération numérique"
@@ -45,19 +47,19 @@ msgid "isapprox returns more than one output argument."
 msgstr "isapprox retourne plus qu'un argument en sortie."
 
 msgid "isapprox must return an logical."
-msgstr ""
+msgstr "isapprox doit retourner un logical."
 
 msgid "Assertion failed: expected and computed values are too different."
 msgstr ""
 
 msgid "isequaln returns more than one output argument."
-msgstr ""
+msgstr "isequaln retourne plus qu'un argument de sortie."
 
 msgid "isequaln must return an logical."
-msgstr ""
+msgstr "isequaln doit retourner un logical."
 
 msgid "isequaln returns an unexpected error."
-msgstr ""
+msgstr "isequaln retourne une erreur inattendue."
 
 msgid "Assertion failed: expected and computed values are different."
 msgstr ""
@@ -81,7 +83,7 @@ msgid "Size vector should be a row vector with real elements."
 msgstr ""
 
 msgid "'single' or 'double' expected at last argument."
-msgstr ""
+msgstr "'single' ou 'double' attendu en dernier argument."
 
 msgid "'like' expected at n - 2 argument."
 msgstr "'like' attendu à l'argument n-2."
@@ -204,7 +206,7 @@ msgid "requires a valid fieldname."
 msgstr "nécessite un nom de champs valide."
 
 msgid "complex comparaison not defined."
-msgstr ""
+msgstr "comparaison de complexes non défini."
 
 msgid "Invalid range."
 msgstr "Plage non valide"
@@ -241,22 +243,22 @@ msgid ""
 msgstr ""
 
 msgid "Conversion to double from handle is not possible."
-msgstr ""
+msgstr "La conversion d'un double vers un handle n'est pas possible."
 
 msgid "Conversion to double from cell is not possible."
-msgstr ""
+msgstr "La conversion d'un double vers une cell n'est pas possible."
 
 msgid "Undefined function 'double' for input arguments of type '"
 msgstr ""
 
 msgid "Conversion to double from struct is not possible."
-msgstr ""
+msgstr "La conversion d'un double vers une struct n'est pas possible."
 
 msgid "Invalid conversion: unimplemented sparse type."
-msgstr ""
+msgstr "Conversion invalide: type sparse non implémenté."
 
 msgid "Invalid conversion: unimplemented type."
-msgstr ""
+msgstr "Conversion invalide: type non implémenté."
 
 msgid "File not found."
 msgstr "Fichier non trouvé."
