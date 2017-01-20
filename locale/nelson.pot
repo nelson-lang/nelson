@@ -1,4 +1,3 @@
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: nelson\n"
@@ -81,7 +80,7 @@ msgstr ""
 msgid "Size vector should be a row vector with real elements."
 msgstr ""
 
-msgid "'single' or 'double' expected at last argument."
+msgid "A supported type expected at last argument."
 msgstr ""
 
 msgid "'like' expected at n - 2 argument."
@@ -510,49 +509,13 @@ msgstr ""
 msgid "Not an existing directory:"
 msgstr ""
 
+msgid "built-in"
+msgstr ""
+
+msgid "not found."
+msgstr ""
+
 msgid "#2 Argument must be '-all' or  '-module'."
-msgstr ""
-
-msgid "a valid function definition expected."
-msgstr ""
-
-msgid "filename and function name are not same ("
-msgstr ""
-
-msgid "). function not loaded."
-msgstr ""
-
-msgid "' already defined."
-msgstr ""
-
-msgid "Argument must be a valid filename."
-msgstr ""
-
-msgid "CryptText Function not loaded."
-msgstr ""
-
-msgid "UncryptText Function not loaded."
-msgstr ""
-
-msgid "UncryptText Function required."
-msgstr ""
-
-msgid " is defined in memory only."
-msgstr ""
-
-msgid " file does not exist."
-msgstr ""
-
-msgid " cannot read file."
-msgstr ""
-
-msgid " is already a protected macro."
-msgstr ""
-
-msgid " not a macro."
-msgstr ""
-
-msgid " not found."
 msgstr ""
 
 msgid "#1 Argument must contain a valid function_handle."
@@ -660,6 +623,18 @@ msgstr ""
 msgid "Documentation"
 msgstr ""
 
+msgid "Nelson &website"
+msgstr ""
+
+msgid "Nelson website"
+msgstr ""
+
+msgid "B&ugs and Requests"
+msgstr ""
+
+msgid "Bugs and Requests"
+msgstr ""
+
 msgid "&About"
 msgstr ""
 
@@ -718,6 +693,9 @@ msgid "pdf file not generated."
 msgstr ""
 
 msgid "pdf cannot generated in this engine mode."
+msgstr ""
+
+msgid "Error markdown generation."
 msgstr ""
 
 msgid "Existing directory expected."
@@ -814,9 +792,6 @@ msgstr ""
 msgid "file does not exist."
 msgstr ""
 
-msgid "not found."
-msgstr ""
-
 msgid "has no property."
 msgstr ""
 
@@ -907,10 +882,10 @@ msgstr ""
 msgid "Argument #1: valid value expected."
 msgstr ""
 
-msgid "function "
+msgid "function"
 msgstr ""
 
-msgid " undefined."
+msgid "undefined."
 msgstr ""
 
 msgid "System error detected: "
@@ -1043,6 +1018,9 @@ msgstr ""
 msgid "mismatched parenthesis"
 msgstr ""
 
+msgid "Maximum name length exceeded."
+msgstr ""
+
 msgid "unterminated string"
 msgstr ""
 
@@ -1053,16 +1031,19 @@ msgstr ""
 msgid "malformed floating point constant"
 msgstr ""
 
-msgid "function"
+msgid "Cannot open:"
 msgstr ""
 
-msgid "undefined."
+msgid "a valid function definition expected."
 msgstr ""
 
-msgid ") vs "
+msgid "filename and function name are not same ("
 msgstr ""
 
-msgid ". function not loaded."
+msgid " vs "
+msgstr ""
+
+msgid "function not loaded."
 msgstr ""
 
 #, c-format
@@ -1247,6 +1228,9 @@ msgid "expecting expression after '=' in keyword assignment"
 msgstr ""
 
 msgid "expecting keyword identifier after '/' in keyword assignment"
+msgstr ""
+
+msgid "Core Function not loaded."
 msgstr ""
 
 msgid "Input following 'like' is not a logical array."
@@ -1443,6 +1427,9 @@ msgstr ""
 msgid "only one output argument expected."
 msgstr ""
 
+msgid "'single' or 'double' expected at last argument."
+msgstr ""
+
 msgid "Too many dimensions! Current limit is"
 msgstr ""
 
@@ -1621,6 +1608,12 @@ msgstr ""
 msgid "Impossible to open file."
 msgstr ""
 
+msgid "ID not supported."
+msgstr ""
+
+msgid "Wrong value for #1 argument: a valid file ID expected."
+msgstr ""
+
 msgid "Wrong value for machine format."
 msgstr ""
 
@@ -1649,9 +1642,6 @@ msgid "Memory allocation error... You may have run out of memory!"
 msgstr ""
 
 msgid "Endian conversion not supported for this file identifier."
-msgstr ""
-
-msgid "Wrong value for #1 argument: a valid file ID expected."
 msgstr ""
 
 msgid "Unable to open file "
@@ -2547,19 +2537,7 @@ msgstr ""
 msgid "Fieldnames in structs must match."
 msgstr ""
 
-msgid ""
-"For bugs and requests, please <a href=\"mailto:nelson.numerical."
-"computation@gmail.com\">email me</a>."
-msgstr ""
-
-msgid ""
-"For bugs and requests, please mailto: nelson.numerical.computation@gmail.com"
-msgstr ""
-
 msgid "assert_checkerror fails."
-msgstr ""
-
-msgid "Wrong number of input arguments2."
 msgstr ""
 
 msgid "assert_isfalse fails."
@@ -2649,7 +2627,15 @@ msgstr ""
 msgid "a cell of modules name."
 msgstr ""
 
+msgid ""
+"\"all\", \"all_tests\", \"unitary_tests\", \"nonreg_tests\", \"benchs\" "
+"expected as second input arguments."
+msgstr ""
+
 msgid "option not managed."
+msgstr ""
+
+msgid "test failed"
 msgstr ""
 
 msgid "Summary:"
@@ -2665,6 +2651,9 @@ msgid "Failed:"
 msgstr ""
 
 msgid "Skipped:"
+msgstr ""
+
+msgid "Benchs:"
 msgstr ""
 
 msgid "Time:"
