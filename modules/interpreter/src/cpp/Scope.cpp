@@ -253,9 +253,9 @@ namespace Nelson {
         return variablesTab.unlockVariable(varname);
     }
     //=============================================================================
-    stringVector Scope::getVariablesList()
+    stringVector Scope::getVariablesList(bool withPersistent)
     {
-        return variablesTab.getVariablesList();
+        return variablesTab.getVariablesList(withPersistent);
     }
     //=============================================================================
     stringVector Scope::getBuiltinsList()

@@ -33,7 +33,7 @@ ArrayOfVector Nelson::MemoryGateway::whoBuiltin(Evaluator* eval, int nLhs, const
     }
     if (argIn.size() == 0)
     {
-        variablesName = Who(eval, LOCAL_SCOPE);
+		variablesName = Who(eval, LOCAL_SCOPE, false);
     }
     else if (argIn.size() == 1)
     {
@@ -48,19 +48,19 @@ ArrayOfVector Nelson::MemoryGateway::whoBuiltin(Evaluator* eval, int nLhs, const
         }
         if (param1.compare(L"global") == 0)
         {
-            variablesName = Who(eval, GLOBAL_SCOPE);
+            variablesName = Who(eval, GLOBAL_SCOPE, false);
         }
         else if (param1.compare(L"base") == 0)
         {
-            variablesName = Who(eval, BASE_SCOPE);
+            variablesName = Who(eval, BASE_SCOPE, false);
         }
         else if (param1.compare(L"local") == 0)
         {
-            variablesName = Who(eval, LOCAL_SCOPE);
+            variablesName = Who(eval, LOCAL_SCOPE, false);
         }
         else if (param1.compare(L"caller") == 0)
         {
-            variablesName = Who(eval, CALLER_SCOPE);
+            variablesName = Who(eval, CALLER_SCOPE, false);
         }
         else
         {

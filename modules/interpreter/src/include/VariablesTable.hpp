@@ -39,7 +39,7 @@ namespace Nelson {
         bool isVariable(const key_type& key);
         bool deleteVariable(const key_type& key);
         bool insertVariable(const key_type& key, const value_type& val);
-        stringVector getVariablesList();
+        stringVector getVariablesList(bool withPersistent);
         bool isLockedVariable(std::string key);
         bool lockVariable(std::string key);
         bool unlockVariable(std::string key);

@@ -34,7 +34,7 @@ namespace Nelson {
     bool ClearAllGlobalVariables(Evaluator* eval)
     {
         bool bUnlocked = true;
-        stringVector names = eval->getContext()->getGlobalScope()->getVariablesList();
+        stringVector names = eval->getContext()->getGlobalScope()->getVariablesList(true);
         for (size_t k = 0; k < names.size(); k++)
         {
             if (!eval->getContext()->getGlobalScope()->deleteVariable(names[k]))
@@ -45,5 +45,22 @@ namespace Nelson {
         return bUnlocked;
     }
     //=============================================================================
+	bool ClearAllPersistentVariables(Evaluator* eval)
+	{
+		bool bUnlocked = true;
+		stringVector names = eval->getContext()->getGlobalScope()->getVariablesList(true);
+		for (size_t k = 0; k < names.size(); k++)
+		{
+			if (!eval->getContext()->getGlobalScope()->isVariablePersistent(names[k]))
+			{
+				if (!eval->getContext()->getGlobalScope()->deleteVariable(names[k]))
+				{
+					bUnlocked = false;
+				}
+			}
+		}
+		return bUnlocked;
+	}
+	//=============================================================================
 }
 //=============================================================================

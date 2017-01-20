@@ -87,12 +87,23 @@ namespace Nelson {
         return false;
     }
     //=============================================================================
-    stringVector VariablesTable::getVariablesList()
+    stringVector VariablesTable::getVariablesList(bool withPersistent)
     {
         stringVector retlist;
         for (auto it = variablesMap.begin(); it != variablesMap.end(); ++it)
         {
-            retlist.push_back(it->first);
+			if (!withPersistent)
+			{
+				if (it->first.at(0) != '_')
+				{
+					retlist.push_back(it->first);
+
+				}
+			}
+			else
+			{
+				retlist.push_back(it->first);
+			}
         }
         return retlist;
     }

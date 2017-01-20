@@ -21,29 +21,29 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-    stringVector Who(Evaluator* eval, SCOPE_LEVEL scopeLevel)
+    stringVector Who(Evaluator* eval, SCOPE_LEVEL scopeLevel, bool withPersistent)
     {
         stringVector names;
         switch (scopeLevel)
         {
             case GLOBAL_SCOPE:
             {
-                names = eval->getContext()->getGlobalScope()->getVariablesList();
+                names = eval->getContext()->getGlobalScope()->getVariablesList(withPersistent);
             }
             break;
             case BASE_SCOPE:
             {
-                names = eval->getContext()->getBaseScope()->getVariablesList();
+                names = eval->getContext()->getBaseScope()->getVariablesList(withPersistent);
             }
             break;
             case CALLER_SCOPE:
             {
-                names = eval->getContext()->getCallerScope()->getVariablesList();
+                names = eval->getContext()->getCallerScope()->getVariablesList(withPersistent);
             }
             break;
             case LOCAL_SCOPE:
             {
-                names = eval->getContext()->getCurrentScope()->getVariablesList();
+                names = eval->getContext()->getCurrentScope()->getVariablesList(withPersistent);
             }
             break;
             default:

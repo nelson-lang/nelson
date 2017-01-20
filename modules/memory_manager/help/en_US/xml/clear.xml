@@ -38,7 +38,7 @@
 		</param_input_item>
 		<param_input_item>
 			<param_name>functions</param_name>
-			<param_description>clears cache of macros functions.</param_description>
+			<param_description>clears cache of macros functions and associated persistent variables.</param_description>
 		</param_input_item>
 	</param_input>
 

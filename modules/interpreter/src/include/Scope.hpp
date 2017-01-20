@@ -205,7 +205,7 @@ namespace Nelson {
         bool inLoop();
 
         /* Get symbols list*/
-        stringVector getVariablesList();
+        stringVector getVariablesList(bool withPersistent);
         stringVector getBuiltinsList();
 
         /**

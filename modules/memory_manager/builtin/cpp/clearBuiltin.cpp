@@ -73,6 +73,7 @@ ArrayOfVector Nelson::MemoryGateway::clearBuiltin(Evaluator* eval, int nLhs, con
             else if (arg1.compare(L"functions") == 0)
             {
                 ClearMacroCache(eval);
+				ClearAllPersistentVariables(eval);
             }
             else
             {

@@ -2,6 +2,8 @@
 Features:
 ---------
 
+  Update persistent variables behavior (clear functions).
+
   Add ceil, floor, round, fix functions.
 
   Add sparse support for acos, asin, atan, cos, cosh, sin, sinh, tan, tanh.

@@ -26,5 +26,6 @@ namespace Nelson {
     NLSMEMORY_MANAGER_IMPEXP bool ClearGlobalVariable(Evaluator* eval, std::wstring variable);
     NLSMEMORY_MANAGER_IMPEXP bool ClearGlobalVariable(Evaluator* eval, std::string variable);
     NLSMEMORY_MANAGER_IMPEXP bool ClearAllGlobalVariables(Evaluator* eval);
+	NLSMEMORY_MANAGER_IMPEXP bool ClearAllPersistentVariables(Evaluator* eval);
 }
 //=============================================================================

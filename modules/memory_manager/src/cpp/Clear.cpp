@@ -40,7 +40,7 @@ namespace Nelson {
     bool ClearAllVariables(Evaluator* eval)
     {
         bool bUnlocked = true;
-        stringVector names = eval->getContext()->getCurrentScope()->getVariablesList();
+        stringVector names = eval->getContext()->getCurrentScope()->getVariablesList(true);
         for (size_t k = 0; k < names.size(); k++)
         {
             if (ClearVariable(eval, names[k]))
