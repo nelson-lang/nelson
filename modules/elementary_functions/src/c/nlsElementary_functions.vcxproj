@@ -165,7 +165,6 @@
   <ItemGroup>
     <ClInclude Include="..\..\src\include\And.hpp" />
     <ClInclude Include="..\..\src\include\DotLeftDivide.hpp" />
-    <ClInclude Include="..\..\src\include\DotMultiply.hpp" />
     <ClInclude Include="..\..\src\include\DotPower.hpp" />
     <ClInclude Include="..\..\src\include\DotRightDivide.hpp" />
     <ClInclude Include="..\..\src\include\DotTranspose.hpp" />
@@ -175,7 +174,6 @@
     <ClInclude Include="..\..\src\include\LeftDivide.hpp" />
     <ClInclude Include="..\..\src\include\LessEquals.hpp" />
     <ClInclude Include="..\..\src\include\LessThan.hpp" />
-    <ClInclude Include="..\..\src\include\Multiplication.hpp" />
     <ClInclude Include="..\..\src\include\Negate.hpp" />
     <ClInclude Include="..\..\src\include\nlsElementary_functions_exports.h" />
     <ClInclude Include="..\..\src\include\Not.hpp" />

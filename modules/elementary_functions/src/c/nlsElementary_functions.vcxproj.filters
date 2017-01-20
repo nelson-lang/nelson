@@ -18,12 +18,6 @@
     <ClInclude Include="..\..\src\include\nlsElementary_functions_exports.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\include\Multiplication.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\include\DotMultiply.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\include\LeftDivide.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
