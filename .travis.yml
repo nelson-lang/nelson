@@ -42,7 +42,7 @@ before_script:
   - echo -e "using gcc \x3a \x3a $GCC ;" > user-config.jam; cat user-config.jam
   - ./bootstrap.sh --prefix=/usr/local/boost --with-libraries=thread,date_time,filesystem,system,program_options,regex,chrono,locale
   - ./b2 -q -d0 --user-config=user-config.jam headers
-  - sudo ./b2 -q -d0 --user-config=user-config.jam cxxflags="-std=c++11 -fPIC" threading=multi link=dynamic install
+  - sudo ./b2 -q -d0 --user-config=user-config.jam cxxflags="-std=c++11 -fPIC" threading=multi link=shared install
   - popd
   
 script:
