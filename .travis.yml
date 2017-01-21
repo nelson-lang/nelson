@@ -25,12 +25,12 @@ before_install:
   - sudo apt-get install cmake
   - sudo apt-get install libffi-dev
   - sudo apt-get install libicu-dev
-  - sudo apt-get install libeigen3-dev
   - sudo apt-get install libxml2-dev
   - sudo apt-get -y install qt55base
   - sudo apt-get -y install qt55tools
 
 install:
+  - if [ $TRAVIS_OS_NAME == linux ]; then hg clone https://bitbucket.org/eigen/eigen#3.3 /tmp/eigen && mkdir /tmp/eigen-build && cd /tmp/eigen-build && cmake . /tmp/eigen && make && sudo make install && cd -; fi
 
   - DEPS_DIR="${TRAVIS_BUILD_DIR}/deps"
   - mkdir -p ${DEPS_DIR} && cd ${DEPS_DIR}
