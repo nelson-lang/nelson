@@ -32,7 +32,7 @@ install:
   - if [ $TRAVIS_OS_NAME == linux ]; then hg clone https://bitbucket.org/eigen/eigen#3.3 /tmp/eigen && mkdir /tmp/eigen-build && cd /tmp/eigen-build && cmake . /tmp/eigen && make && sudo make install && cd -; fi
 
   - DEPS_DIR="${TRAVIS_BUILD_DIR}/deps"
-  - if [[ ! -d ${DEPS_DIR}/ ]]; then
+  - if [[ -d ${DEPS_DIR} ]]; then
       rm -rf  ${DEPS_DIR}
     fi
   - mkdir -p ${DEPS_DIR} && cd ${DEPS_DIR}
