@@ -26,9 +26,8 @@ before_install:
   - sudo apt-get install libffi-dev
   - sudo apt-get install libicu-dev
   - sudo apt-get install libxml2-dev
-  - sudo apt-get -y install qt55base5-dev
-  - sudo apt-get -y install qt55tools5-dev-tools
-  - sudo apt-get install qt55tools5-dev-tools
+  - sudo apt-get -y install qt55base
+  - sudo apt-get -y install qt55tools
 
 install:
 
