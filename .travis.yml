@@ -25,6 +25,7 @@ before_install:
   - sudo apt-get install cmake
   - sudo apt-get install libffi-dev
   - sudo apt-get install libicu-dev
+  - sudo apt-get install eigen3
   - sudo apt-get install libxml2-dev
   - sudo apt-get -y install qt55base
   - sudo apt-get -y install qt55tools
