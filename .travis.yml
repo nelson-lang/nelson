@@ -20,6 +20,7 @@ matrix:
 
 before_install:
   - sudo add-apt-repository --yes ppa:beineri/opt-qt551-trusty
+  - sudo add-apt-repository --yes ppa:ostogvin/tjo-develop
   - sudo apt-get update -qq
   - sudo apt-get install pkg-config
   - sudo apt-get install cmake
@@ -28,26 +29,13 @@ before_install:
   - sudo apt-get install libxml2-dev
   - sudo apt-get -y install qt55base
   - sudo apt-get -y install qt55tools
+  - sudo apt-get -y install boost1.60
 
 install:
   - if [ $TRAVIS_OS_NAME == linux ]; then hg clone https://bitbucket.org/eigen/eigen#3.3 /tmp/eigen && mkdir /tmp/eigen-build && cd /tmp/eigen-build && cmake . /tmp/eigen && make && sudo make install && cd -; fi
 
-before_script:
-  - export CC=$USE_CC; export CXX=$USE_CXX
-  - export BUILD_ROOT=$(pwd)
-  - cd $HOME
-  - curl https://netcologne.dl.sourceforge.net/project/boost/boost/1.62.0/boost_1_62_0.tar.bz2 | tar xj
-  - pushd "boost_1_62_0"
-  - export GCC=$(which $CXX)
-  - echo -e "using gcc \x3a \x3a $GCC ;" > user-config.jam; cat user-config.jam
-  - ./bootstrap.sh --prefix=/usr/local/boost --with-libraries=thread,date_time,filesystem,system,program_options,regex,chrono,locale
-  - ./b2 -q -d0 --user-config=user-config.jam headers
-  - sudo ./b2 -q -d0 --user-config=user-config.jam cxxflags="-std=c++11 -fPIC" threading=multi link=shared install
-  - popd
-  
 script:
   - source /opt/qt55/bin/qt55-env.sh
-  - export BOOST_INCLUDEDIR=/usr/local/boost
   - echo ${COMPILER}
   - cd ${TRAVIS_BUILD_DIR} 
   - cmake -G "Unix Makefiles"
