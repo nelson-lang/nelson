@@ -41,7 +41,7 @@ install:
       mkdir -p ${DEPS_DIR} && cd ${DEPS_DIR};
       if [[ "${BOOST_VERSION}" == "1.61.0" ]]; then BOOST_URL="http://sourceforge.net/projects/boost/files/boost/1.61.0/boost_1_61_0.tar.gz"; fi;
       if [[ "${BOOST_URL}" != "" ]]; then mkdir boost && travis_retry wget -O - ${BOOST_URL} | tar --strip-components=1 -xz -C boost; fi;
-      cd boost/tools/build && ./bootstrap.sh -with-libraries=program_options,filesystem,system,thread,chrono,regex,locale && ./b2 install --prefix=${DEPS_DIR}/b2;
+      cd boost/tools/build && ./bootstrap.sh && ./b2 install --prefix=${DEPS_DIR}/b2;
       cd ${TRAVIS_BUILD_DIR};
     fi
   - export PATH=${DEPS_DIR}/b2/bin:${PATH}
