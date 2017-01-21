@@ -5,6 +5,12 @@ os:
 - linux
 
 before_install:
+ # g++6
+ - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+  
+ # Qt5
+ - sudo apt-add-repository --yes ppa:canonical-qt5-edgers/ubuntu1204-qt5
+  
  - sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa
  - sudo apt-get update -qq
  - sudo apt-get install qtbase5-dev qtdeclarative5-dev libqt5webkit5-dev libsqlite3-dev
@@ -16,7 +22,16 @@ before_install:
  - sudo apt-get install libicu-dev
  - sudo apt-get install libxml2-dev
  
+install:
+  # g++6
+  - sudo apt-get remove g++
+  - sudo apt-get install -qq g++-6
 
+  # Qt5
+  - yes | sudo apt-get install -qq --force-yes qtdeclarative5-dev
+
+
+env: CXX="g++-6" CXXFLAGS="-std=c++11 -Wall -Wno-error"
 
 branches:
   only:
