@@ -1,0 +1,21 @@
+language: cpp
+sudo: required
+compiler: gcc
+os:
+- linux
+
+before_install:
+- sudo apt-get update -qq
+- sudo apt-get install -qq pkg-config libboost1.60-all-dev cmake libffi-dev libicu-dev qtbase5-dev qttools5-dev-tools libxml2-dev
+
+branches:
+  only:
+  - master
+  
+  
+script:
+  - cmake -G "Unix Makefiles"
+  - make
+  
+notifications:
+  email: true
