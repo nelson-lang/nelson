@@ -42,22 +42,16 @@ before_script:
   - echo -e "using gcc \x3a \x3a $GCC ;" > user-config.jam; cat user-config.jam
   - ./bootstrap.sh --prefix=/usr/local/boost --with-libraries=thread,date_time,filesystem,system,program_options,regex,chrono,locale
   - ./b2 -q -d0 --user-config=user-config.jam headers
-  - sudo ./b2 -q -d0 --user-config=user-config.jam cxxflags="-std=c++11 -fPIC" threading=multi link=static install
+  - sudo ./b2 -q -d0 --user-config=user-config.jam cxxflags="-std=c++11 -fPIC" threading=multi link=dynamic install
   - popd
   
 script:
   - source /opt/qt55/bin/qt55-env.sh
+  - export BOOST_INCLUDEDIR=/usr/local/boost
   - echo ${COMPILER}
-  - echo ${CXX}
-  - $CXX --version
-  - |-
-    JAM="using clang : : ${CXX} ;"
-
-  - echo "With Boost ${BOOST_VERSION}"
-  - echo "Travis build directory ${TRAVIS_BUILD_DIR}" 
   - cd ${TRAVIS_BUILD_DIR} 
   - cmake -G "Unix Makefiles"
   - make
   
 notifications:
-  email: true
+  email: false
