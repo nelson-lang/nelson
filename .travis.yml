@@ -59,7 +59,8 @@ script:
     JAM="using clang : : ${CXX} ;"
 
   - echo "With Boost ${BOOST_VERSION}"
-  
+  - echo "Travis build directory ${TRAVIS_BUILD_DIR}" 
+  - cd ${TRAVIS_BUILD_DIR} 
   - cmake -G "Unix Makefiles"
   - make
   
