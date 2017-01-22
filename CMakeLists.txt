@@ -131,7 +131,7 @@ ENDIF()
 #==============================================================================
 FIND_PACKAGE(PkgConfig REQUIRED)
 FIND_PACKAGE(libffi REQUIRED)
-FIND_PACKAGE(Boost 1.60.0 COMPONENTS system filesystem locale thread chrono regex REQUIRED)
+FIND_PACKAGE(Boost 1.60.0 COMPONENTS system filesystem locale thread chrono regex date_time REQUIRED)
 FIND_PACKAGE(Qt5Widgets REQUIRED)
 FIND_PACKAGE(Qt5PrintSupport REQUIRED)
 FIND_PACKAGE(LibXml2 REQUIRED)
