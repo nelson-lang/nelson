@@ -34,7 +34,7 @@ before_install:
     brew install libxml2
     brew install cmake
     brew install qt5
-	fi
+  fi
   if [ $TRAVIS_OS_NAME == linux ]; then
     sudo add-apt-repository --yes ppa:beineri/opt-qt551-trusty
     sudo apt-get update -qq
