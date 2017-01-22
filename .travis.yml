@@ -1,4 +1,4 @@
-# Travis Linux 64 bits & Macos
+# Travis: Macos
 
 language: cpp
 
@@ -8,89 +8,46 @@ cache:
 
 matrix:
   include:
+
+    # Ubuntu 14.04.4 LTS (Trusty Tahr)
     - os: linux
       dist: trusty
       sudo: required
-    - compiler: gcc
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-6
-      env: COMPILER=g++-6 TEST_CXX14=true BOOST_VERSION=1.61.0
 
+    # Xcode 8.2
     - os: osx
-      sudo: required
       osx_image: xcode8.2
+      sudo: required
 
-before_install:
-  - if [ $TRAVIS_OS_NAME == linux ]; then
-      sudo add-apt-repository --yes ppa:beineri/opt-qt551-trusty
-      sudo apt-get update -qq
-      sudo apt-get install gettext
-      sudo apt-get install pkg-config
-      sudo apt-get install cmake
-      sudo apt-get install libffi-dev
-      sudo apt-get install libicu-dev
-      sudo apt-get install libxml2-dev
-      sudo apt-get -y install qt55base
-      sudo apt-get -y install qt55tools
-    fi
-
-  - if [ $TRAVIS_OS_NAME == osx ]; then
-      brew install libffi
-      brew install pkg-config libffi 
-      brew link --force libffi
-      brew install pkgconfig
-      brew install icu4c
-      brew link icu4c —-force
-      brew install gettext
-      brew link gettext -—force
-      brew install boost
-      brew install libxml2
-      brew install cmake
-      brew install qt5
-    fi
+before_install: 
+  if [ "$TRAVIS_OS_NAME" == "osx" ]; then
+    brew update
+    brew install libffi
+    brew install pkg-config libffi 
+    brew link --force libffi
+    brew install pkgconfig
+    brew install icu4c
+    brew link icu4c —-force
+    brew install gettext
+    brew link gettext -—force
+    brew install boost
+    brew install libxml2
+    brew install cmake
+    brew install qt5
+	fi
+  if [ $TRAVIS_OS_NAME == linux ]; then
+    sudo add-apt-repository --yes ppa:beineri/opt-qt551-trusty
+    sudo apt-get update -qq
+    sudo apt-get install gettext
+    sudo apt-get install pkg-config
+    sudo apt-get install cmake
+    sudo apt-get install libffi-dev
+    sudo apt-get install libicu-dev
+    sudo apt-get install libxml2-dev
+    sudo apt-get -y install qt55base
+    sudo apt-get -y install qt55tools
+  fi
 
 install:
   - if [ $TRAVIS_OS_NAME == linux ]; then hg clone https://bitbucket.org/eigen/eigen#3.3 /tmp/eigen && mkdir /tmp/eigen-build && cd /tmp/eigen-build && cmake . /tmp/eigen && make && sudo make install && cd -; fi
   - if [ $TRAVIS_OS_NAME == osx ]; then hg clone https://bitbucket.org/eigen/eigen#3.3 /tmp/eigen && mkdir /tmp/eigen-build && cd /tmp/eigen-build && cmake . /tmp/eigen && make && sudo make install && cd -; fi
-
-before_script:
-  - if [ $TRAVIS_OS_NAME == linux ]; then
-      export CC=$USE_CC; export CXX=$USE_CXX
-      export BUILD_ROOT=$(pwd)
-      cd $HOME
-      curl https://netcologne.dl.sourceforge.net/project/boost/boost/1.62.0/boost_1_62_0.tar.bz2 | tar xj
-      pushd "boost_1_62_0"
-      export GCC=$(which $CXX)
-      echo -e "using gcc \x3a \x3a $GCC ;" > user-config.jam; cat user-config.jam
-      ./bootstrap.sh --prefix=/usr/local/boost --with-libraries=thread,date_time,filesystem,system,program_options,chrono,regex,locale
-      ./b2 -q -d0 --user-config=user-config.jam headers
-      sudo ./b2 -q -d0 --user-config=user-config.jam cxxflags="-std=c++11 -fPIC" threading=multi link=shared install
-      popd
-    fi
-
-script:
-  - echo ${COMPILER}
-  - if [ $TRAVIS_OS_NAME == linux ]; then
-     source /opt/qt55/bin/qt55-env.sh
-    fi
-
-  - cd ${TRAVIS_BUILD_DIR} 
-  - if [ $TRAVIS_OS_NAME == linux ]; then
-      cmake -G "Unix Makefiles" -DBOOST_ROOT=/usr/local/boost
-    fi
-  - if [ $TRAVIS_OS_NAME == osx ]; then
-      export PATH=/usr/local/opt/qt5/bin:$PATH
-      cmake -G "Unix Makefiles"
-    fi
-
-  - make -j4
-  - make buildhelp
-  - make package
-  - make tests
-  
-notifications:
-  email: true
