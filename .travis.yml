@@ -1,7 +1,7 @@
 # Travis: Macos
 
 language: cpp
-      sudo: required
+sudo: required
 
 cache:
   directories:
