@@ -52,8 +52,10 @@ script:
   - echo ${COMPILER}
   - cd ${TRAVIS_BUILD_DIR} 
   - cmake -G "Unix Makefiles" -DBOOST_ROOT=/usr/local/boost
-  - make
+  - make -j4
+  - make buildhelp
+  - make package
   - make tests
   
 notifications:
-  email: false
+  email: true
