@@ -51,10 +51,8 @@ before_install:
       brew install pkg-config libffi;
       brew link --force libffi;
       brew install pkgconfig;
-      brew install icu4c;
-      brew link --force  icu4c;
       brew install gettext;
-      brew linkt --force gettex;
+      brew link --force gettext;
       brew install boost;
       brew install libxml2;
       brew install cmake;
