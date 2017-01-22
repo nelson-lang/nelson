@@ -46,6 +46,7 @@ these own data types and operations on these data types by using overload.
 - Linux Debian 32 bit & 64 bit (intel x86)
 - Mac Os X Sierra  (intel x86)
 - Arch Linux (ARM v7)
+- Linux Ubuntu 14.04 (trusty) (Travis CI)
 
 Allan CORNET (nelson.numerical.computation@gmail.com)
 

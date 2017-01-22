@@ -16,6 +16,8 @@ We can absolutely use your help, no matter what level of programming skill you h
 
 ## How to build Nelson ?
 
+You can also see [.travis.yml](https://github.com/Nelson-numerical-software/nelson/blob/master/.travis.yml) file to help you to see dependencies.
+
 ### Linux
 
 * On debian/ubuntu distribution:
