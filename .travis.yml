@@ -39,7 +39,6 @@ before_install:
       sudo apt-get install libicu-dev;
       sudo apt-get install libxml2-dev;
       sudo apt-get install qt5-default;
-      sudo apt-get install qtbase5-dev;
       elif [ `uname` = "Darwin" ]; 
       then brew install libffi;
       brew install autoconf;
@@ -60,8 +59,43 @@ before_install:
       fi
 
 install:
-  - if [ $TRAVIS_OS_NAME == linux ]; then hg clone https://bitbucket.org/eigen/eigen#3.3 /tmp/eigen && mkdir /tmp/eigen-build && cd /tmp/eigen-build && cmake . /tmp/eigen && make && sudo make install && cd -; fi
+  - if [ `uname` = "Linux" ]; then hg clone https://bitbucket.org/eigen/eigen#3.3 /tmp/eigen && mkdir /tmp/eigen-build && cd /tmp/eigen-build && cmake . /tmp/eigen && make && sudo make install && cd -; fi
 
-  
+before_script:
+  - if [ `uname` = "Linux" ]; then
+      export CC=$USE_CC; export CXX=$USE_CXX
+      export BUILD_ROOT=$(pwd)
+      cd $HOME
+      curl https://netcologne.dl.sourceforge.net/project/boost/boost/1.62.0/boost_1_62_0.tar.bz2 | tar xj
+      pushd "boost_1_62_0"
+      export GCC=$(which $CXX)
+      echo -e "using gcc \x3a \x3a $GCC ;" > user-config.jam; cat user-config.jam
+      ./bootstrap.sh --prefix=/usr/local/boost --with-libraries=thread,date_time,filesystem,system,program_options,chrono,regex,locale
+      ./b2 -q -d0 --user-config=user-config.jam headers
+      sudo ./b2 -q -d0 --user-config=user-config.jam cxxflags="-std=c++11 -fPIC" threading=multi link=shared install
+      popd
+    fi
+
+script:
+  - echo ${COMPILER}
+  - if [ `uname` = "Linux" ]; then
+     source /opt/qt55/bin/qt55-env.sh
+    fi
+
+  - cd ${TRAVIS_BUILD_DIR} 
+  - if [ $TRAVIS_OS_NAME == linux ];
+    then cmake -G "Unix Makefiles" -DBOOST_ROOT=/usr/local/boost;
+    fi
+  - if [ $TRAVIS_OS_NAME == osx ];
+    then export PATH=/usr/local/opt/qt5/bin:$PATH;
+    cmake -G "Unix Makefiles";
+    fi
+
+  - make
+  - make buildhelp
+  - make package
+  - make tests
+
+
 notifications:
   email: false
