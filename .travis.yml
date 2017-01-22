@@ -7,6 +7,10 @@ cache:
   directories:
     - ${TRAVIS_BUILD_DIR}/deps
 
+branches:
+  only:
+    - master
+
 matrix:
   include:
     - os: linux
@@ -50,8 +54,7 @@ before_install:
           brew install boost
           brew install libxml2
           brew install cmake
-          brew install qt5
-      fi
+          brew install qt5; fi
 
 install:
   - if [ $TRAVIS_OS_NAME == linux ]; then hg clone https://bitbucket.org/eigen/eigen#3.3 /tmp/eigen && mkdir /tmp/eigen-build && cd /tmp/eigen-build && cmake . /tmp/eigen && make && sudo make install && cd -; fi
