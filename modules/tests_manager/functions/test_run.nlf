@@ -23,6 +23,7 @@ function status = test_run(varargin)
   // status = test_run(file_to_test, options)
   // status = test_run(modules, options, output_file)
   // status = test_run(file_to_test, output_file)
+  // status = test_run('minimal_tests', output_file)
   
   status = true;
   modules_list = [];
@@ -30,6 +31,7 @@ function status = test_run(varargin)
   output_file = [];
   options = 'all';
   supported_options = {'all', 'all_tests', 'unitary_tests', 'nonreg_tests', 'benchs'};
+  is_minimal_tests = false;
   
   if (nargin == 0)
     modules_list = getmodules();
@@ -39,14 +41,19 @@ function status = test_run(varargin)
       modules_list = getmodules();
     else
       if ischar(param1)
-        if ~ismodule(param1)
-          if isfile(param1)
-            file_to_test = param1;
-          else
-            error(_('a valid module name expected.'));
-          end
+        if strcmp('minimal_tests', param1)
+          run([nelsonroot(), '/modules/tests_manager/minimal_tests.nls']);
+          is_minimal_tests = true;
         else
-          modules_list = {param1};
+          if ~ismodule(param1)
+            if isfile(param1)
+              file_to_test = param1;
+            else
+              error(_('a valid module name expected.'));
+            end
+          else
+            modules_list = {param1};
+          end
         end
       else
         if iscell(param1)
@@ -102,49 +109,48 @@ function status = test_run(varargin)
   
   test_suites = create_test_suites();
   
-  if isfile(file_to_test)
-    test_suite = create_test_suite();
-    test_case = create_test_case(file_to_test);
-    test_suite.test_cases_list = test_case; 
-    test_suites.tests_list = test_suite;
-  else
+  if is_minimal_tests
     nelson_version = version('-number');
     nelson_version_str = ['Nelson', '-', int2str(nelson_version(1)), '.', int2str(nelson_version(2)), '.', int2str(nelson_version(3)), '.', int2str(nelson_version(4))];
-    for m = modules_list
-      test_suite = create_test_suite();
-      test_suite.name = m{1};
-      tests_list = [];
-      tests_dir = [modulepath(m{1}), '/tests/'];
-      
-      if isdir(tests_dir)
-        switch (options)
-          case 'all'
-            unitary_tests = dir([tests_dir, 'test_*.nls']);
-            nonreg_tests = dir([tests_dir, 'bug_*.nls']);
-            bench_tests = dir([tests_dir, 'bench_*.nls']);
-            all_tests = [unitary_tests; nonreg_tests; bench_tests];
-            tests_list = all_tests;
-
-          case 'all_tests'
-            unitary_tests = dir([tests_dir, 'test_*.nls']);
-            nonreg_tests = dir([tests_dir, 'bug_*.nls']);
-            all_tests = [unitary_tests; nonreg_tests];
-            tests_list = all_tests;
-
-          case 'unitary_tests'
-            tests_list = dir([tests_dir, 'test_*.nls']);
-
-          case 'nonreg_tests'
-            tests_list = dir([tests_dir, 'nonreg_*.nls']);
-
-          case 'benchs'
-            tests_list = dir([tests_dir, 'bench_*.nls']);
-
-          otherwise
-            error(_('option not managed.'));
+    for m = minimal_tests
+      if length(m) == 1
+        if length(m{1}) == 1
+          if ~ismodule(m{1}{1})
+            error(_('a valid module name expected.'));
           end
+          test_suite = create_test_suite();
+          test_suite.name = m{1}{1};
+          tests_list = [];
+          tests_dir = [modulepath(m{1}{1}), '/tests/'];
+          if isdir(tests_dir)
+            tests_list = dir([tests_dir, 'test_*.nls']);
+          end
+        else
+          if length(m{1}) == 2
+            if ~ismodule(m{1}{1})
+              error(_('a valid module name expected.'));
+            end
+            test_suite = create_test_suite();
+            test_suite.name = m{1}{1};
+            tests_dir = [modulepath(m{1}{1}), '/tests/'];
+            k = 1;
+            for f = m{1}{2}
+              filename = [tests_dir, [f, '.nls']];
+              if isfile(filename)
+                tests_list(k) = dir(filename);
+                k = k + 1;
+              else
+                error([_('invalid filename:'), filename]);
+              end
+            end
+          else
+            error('minimal tests file not valid.');
+          end
+        end
+      else
+        error('minimal tests file not valid.');
       end
-
+      
       nbTestCasesMax = 0;
       if ~isempty(tests_list)
         for t = tests_list
@@ -167,6 +173,76 @@ function status = test_run(varargin)
         test_suites.tests_list = [test_suites.tests_list, test_suite];
       end
     end
+  else
+
+    if isfile(file_to_test)
+      test_suite = create_test_suite();
+      test_case = create_test_case(file_to_test);
+      test_suite.test_cases_list = test_case; 
+      test_suites.tests_list = test_suite;
+    else
+      nelson_version = version('-number');
+      nelson_version_str = ['Nelson', '-', int2str(nelson_version(1)), '.', int2str(nelson_version(2)), '.', int2str(nelson_version(3)), '.', int2str(nelson_version(4))];
+      for m = modules_list
+        test_suite = create_test_suite();
+        test_suite.name = m{1};
+        tests_list = [];
+        tests_dir = [modulepath(m{1}), '/tests/'];
+        
+        if isdir(tests_dir)
+          switch (options)
+            case 'all'
+              unitary_tests = dir([tests_dir, 'test_*.nls']);
+              nonreg_tests = dir([tests_dir, 'bug_*.nls']);
+              bench_tests = dir([tests_dir, 'bench_*.nls']);
+              all_tests = [unitary_tests; nonreg_tests; bench_tests];
+              tests_list = all_tests;
+
+            case 'all_tests'
+              unitary_tests = dir([tests_dir, 'test_*.nls']);
+              nonreg_tests = dir([tests_dir, 'bug_*.nls']);
+              all_tests = [unitary_tests; nonreg_tests];
+              tests_list = all_tests;
+
+            case 'unitary_tests'
+              tests_list = dir([tests_dir, 'test_*.nls']);
+
+            case 'nonreg_tests'
+              tests_list = dir([tests_dir, 'nonreg_*.nls']);
+
+            case 'benchs'
+              tests_list = dir([tests_dir, 'bench_*.nls']);
+
+            otherwise
+              error(_('option not managed.'));
+            end
+        end
+
+        nbTestCasesMax = 0;
+        if ~isempty(tests_list)
+          for t = tests_list
+            test_case = create_test_case([tests_dir, t.name]);
+            test_case.classname = [nelson_version_str, '.', test_suite.name];
+            if isempty(test_suite.test_cases_list)
+              test_suite.test_cases_list = test_case; 
+            else
+              test_suite.test_cases_list = [test_suite.test_cases_list, test_case];
+            end
+            nbTestCases = length(test_suite.test_cases_list);
+            if nbTestCases > nbTestCasesMax
+              nbTestCasesMax = nbTestCases;
+            end
+          end
+        end
+        if isempty(test_suites.tests_list)
+          test_suites.tests_list = test_suite;
+        else
+          test_suites.tests_list = [test_suites.tests_list, test_suite];
+        end
+      end
+    end
+
+
   end
 
 

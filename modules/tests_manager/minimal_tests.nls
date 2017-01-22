@@ -16,10 +16,16 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-r = test_run('minimal_tests', [], [nelsonroot(), '/tests.xml']);
-if r == false
-	exit(1);
-else
-	exit();
-end
-//=============================================================================
+minimal_tests = {
+ { 'assert_functions' };
+ { 'tests_manager', {'test_adv_cli_mode', 'test_cli_mode', 'test_gui_mode', 'test_interactive_mode', 'test_mac_only', 'test_not_fixed'} };
+ { 'random' }; 
+ { 'sparse' };
+ { 'integer' };
+ { 'elementary_functions' };
+ { 'string' };
+ { 'types' };
+ { 'stream_manager', {'test_load', 'test_saveload'} }; 
+
+
+};
