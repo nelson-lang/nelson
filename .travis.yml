@@ -51,7 +51,7 @@ before_install:
       brew link --force libffi;
       brew install pkgconfig;
       brew install icu4c;
-      brew link icu4c —-force;
+      brew link icu4c;
       brew install gettext;
       brew link gettext -—force;
       brew install boost;
@@ -65,6 +65,10 @@ install:
   - if [ `uname` = "Linux" ]; then hg clone https://bitbucket.org/eigen/eigen#3.3 /tmp/eigen && mkdir /tmp/eigen-build && cd /tmp/eigen-build && cmake . /tmp/eigen && make && sudo make install && cd -; fi
 
 before_script:
+  - if [ `uname` = "Darwin" ];
+      ln -s /usr/local/Cellar/icu4c/58.2/bin/icu-config /usr/local/bin/icu-config;
+      ln -s /usr/local/Cellar/icu4c/58.2/include/* /usr/local/include;
+    fi
   - if [ `uname` = "Linux" ];
     then export CC=$USE_CC; export CXX=$USE_CXX;
     export BUILD_ROOT=$(pwd);
