@@ -45,10 +45,8 @@ before_install:
       sudo apt-get install libxml2-dev;
       elif [ `uname` = "Darwin" ]; 
       then brew install libffi;
-      brew install autoconf;
-      brew install automake;
-      brew install libtool;
-      brew install pkg-config libffi;
+      brew install icu4c;
+      brew install pkg-config;
       brew link --force libffi;
       brew install pkgconfig;
       brew install gettext;
