@@ -50,11 +50,14 @@ bool StartNelsonMainScript(Evaluator* eval)
                 if (io)
                 {
                     io->errorMessage(errmsg);
+					io->errorMessage(e.getFormattedErrorMessage() + L"\n");
                 }
                 else
                 {
                     errmsg = errmsg + L"\n";
                     fwprintf(stderr, errmsg.c_str());
+					fwprintf(stderr, e.getFormattedErrorMessage().c_str());
+					fwprintf(stderr, L"\n");
                 }
             }
             return true;
