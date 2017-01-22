@@ -370,6 +370,10 @@ function test_case_res = run_test_case(test, module_name, index, indexMax, nbTes
           if res ~= 1
             test_case_res.status = 'Fail';
             test_timing = 0;
+            if isfile(outputfile)
+              loadbin(outputfile);
+              test_case_res.msg = test_msg.message;
+            end
           else
             if isfile(outputfile)
               loadbin(outputfile);
@@ -406,6 +410,10 @@ function test_case_res = run_test_case(test, module_name, index, indexMax, nbTes
 
   if strcmp(test_case_res.status, 'Fail') == true
     disp(['      run(''', test.filename, ''')']);
+    if strcmp(test_case_res.msg, '') == false
+      disp(_('      Error:'));
+      disp(['            ', test_case_res.msg]);
+    end
     disp(' ');
   end
 endfunction

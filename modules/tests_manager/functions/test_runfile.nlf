@@ -17,56 +17,56 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 function [r, msg, timing] = test_runfile(filename)
-	if ~isfile(filename)
-		error(_('An existing filename expected.'));
-	end
+  if ~isfile(filename)
+    error(_('An existing filename expected.'));
+  end
 
-	options = test_parsetags(filename);
+  options = test_parsetags(filename);
 
-	if (options.check_ref)
-		[p, f, e] = fileparts(filename);
-		dia_ref = [p, '/', f, '.ref'];
-		if ~isfile(dia_ref)
-			error(_('reference diary expected.'));
-		end
+  if (options.check_ref)
+    [p, f, e] = fileparts(filename);
+    dia_ref = [p, '/', f, '.ref'];
+    if ~isfile(dia_ref)
+      error(_('reference diary expected.'));
+    end
 
-		// save previous diary
-		previousDiaryFile = diary('get','DiaryFile');
-		previousDiaryMode = diary('get','Diary');
-		diary('off')
+    // save previous diary
+    previousDiaryFile = diary('get','DiaryFile');
+    previousDiaryMode = diary('get','Diary');
+    diary('off')
 
-		[p, f, e] = fileparts(filename);
-		dia_res = [tempdir(), '/', f, '.res'];
-		rm = rmfile(dia_res);
-		diary(dia_res);
-		diary('on');
-	end
-	
+    [p, f, e] = fileparts(filename);
+    dia_res = [tempdir(), '/', f, '.res'];
+    rm = rmfile(dia_res);
+    diary(dia_res);
+    diary('on');
+  end
+  
     // 'options' variable protected of clear('all') in test files
-	varlock('local', 'options')
+  varlock('local', 'options')
 
-	tic();
-	r = run(filename, 'errcatch');
-	timing = toc();
-	restoredefaultpath();
-	varunlock('local','options')
-	if ~r
-		msg = lasterror();
-	else
-		msg = '';
-	end
-	
-	if (options.check_ref)
-		// restore previous diary
-		try 
-			diary(previousDiaryMode);
-			diary(previousDiaryFile);
-		catch
-		end
-		res = diff_file(dia_res, dia_ref, false);
-		if (strcmp(res, '') == false)
-			r = false;
-			msg = {_('output res and ref are not equal.'), dia_res, dia_ref, res}; 
-		end
-	end
+  tic();
+  r = run(filename, 'errcatch');
+  timing = toc();
+  restoredefaultpath();
+  varunlock('local','options');
+  if ~r
+    msg = lasterror();
+  else
+    msg = '';
+  end
+  
+  if (options.check_ref)
+    // restore previous diary
+    try 
+      diary(previousDiaryMode);
+      diary(previousDiaryFile);
+    catch
+    end
+    res = diff_file(dia_res, dia_ref, false);
+    if (strcmp(res, '') == false)
+      r = false;
+      msg = {_('output res and ref are not equal.'), dia_res, dia_ref, res}; 
+    end
+  end
 endfunction
