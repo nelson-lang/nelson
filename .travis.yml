@@ -66,7 +66,7 @@ install:
 
 before_script:
   - if [ `uname` = "Darwin" ];
-      ln -s /usr/local/Cellar/icu4c/58.2/bin/icu-config /usr/local/bin/icu-config;
+      then ln -s /usr/local/Cellar/icu4c/58.2/bin/icu-config /usr/local/bin/icu-config;
       ln -s /usr/local/Cellar/icu4c/58.2/include/* /usr/local/include;
     fi
   - if [ `uname` = "Linux" ];
