@@ -30,12 +30,12 @@ matrix:
 
 
 before_install:
-    - if [ `uname` = "Linux" ]; then
-        echo linux 1
-        echo linux 2
-      elif [ `uname` = "Darwin" ]; then
-        echo macos 1
-        echo macos 2;
+    - if [ `uname` = "Linux" ]; then \
+        echo linux 1 \
+        echo linux 2 \
+      elif [ `uname` = "Darwin" ]; then \
+        echo macos 1 \
+        echo macos 2 \
       fi
 
 install:
