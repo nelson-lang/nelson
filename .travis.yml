@@ -14,6 +14,7 @@ branches:
 matrix:
   include:
     - os: linux
+      dist: trusty
       env: ARCH="x86_64"
       compiler: gcc
       addons:
