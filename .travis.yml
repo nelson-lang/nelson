@@ -109,8 +109,9 @@ script:
 
   - make
   - make buildhelp
+  - make tests_minimal
   - make package
-  - make tests
+  - make tests_all
 
 
 notifications:

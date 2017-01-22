@@ -16,10 +16,10 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-r = test_run('minimal_tests', [], [nelsonroot(), '/tests.xml']);
+r = test_run('minimal_tests', [], [nelsonroot(), '/tests_minimal.xml']);
 if r == false
-	exit(1);
+  exit(1);
 else
-	exit();
+  exit();
 end
 //=============================================================================

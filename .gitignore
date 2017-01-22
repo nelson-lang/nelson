@@ -17,7 +17,8 @@
 # LICENCE_BLOCK_END
 #==============================================================================
 # This .gitignore for Nelson
-tests.xml
+tests_all.xml
+tests_minimal.xml
 /$tf
 /bin/win32/LICENSE_1_0.txt
 /bin/x64/LICENSE_1_0.txt

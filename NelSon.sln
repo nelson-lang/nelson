@@ -264,7 +264,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nlsTests_manager_builtin", 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nlsTests_manager", "modules\tests_manager\src\c\nlsTests_manager.vcxproj", "{221D076E-3B43-42CC-8EE7-159424BE4CF2}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "run_tests", "tools\tests\run_tests.vcxproj", "{FCADF332-CE82-457E-82F2-722A8EAFFA35}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "run_tests_minimal", "tools\tests_minimal\run_tests.vcxproj", "{FCADF332-CE82-457E-82F2-722A8EAFFA35}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
