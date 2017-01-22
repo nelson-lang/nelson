@@ -54,10 +54,10 @@ help_browser
 dynamic_link
 help_tools
 localization
-assert_functions
-tests_manager
 modules_manager
 engine
+assert_functions
+tests_manager
 main
 )
 #==============================================================================	
