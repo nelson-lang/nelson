@@ -17,45 +17,45 @@
 # LICENCE_BLOCK_END
 #==============================================================================
 CMAKE_MINIMUM_REQUIRED(VERSION 3.1)
-#==============================================================================	
+#============================================================================== 
 set(CMAKE_INSTALL_PREFIX "$ENV{HOME}")
-#==============================================================================	
+#============================================================================== 
 set (Nelson_VERSION_MAJOR_DEFAULT 0)
 set (Nelson_VERSION_MINOR_DEFAULT 1)
 set (Nelson_VERSION_MAINTENANCE_DEFAULT 2)
-#==============================================================================	
+#============================================================================== 
 if(DEFINED ENV{NELSON_VERSION_MAJOR})
-	set (Nelson_VERSION_MAJOR $ENV{NELSON_VERSION_MAJOR})
+  set (Nelson_VERSION_MAJOR $ENV{NELSON_VERSION_MAJOR})
 else()
-	set (Nelson_VERSION_MAJOR ${Nelson_VERSION_MAJOR_DEFAULT})
+  set (Nelson_VERSION_MAJOR ${Nelson_VERSION_MAJOR_DEFAULT})
 endif()
-#==============================================================================	
+#============================================================================== 
 if(DEFINED ENV{Nelson_VERSION_MINOR})
-	set (Nelson_VERSION_MINOR $ENV{Nelson_VERSION_MINOR})
+  set (Nelson_VERSION_MINOR $ENV{Nelson_VERSION_MINOR})
 else()
-	set (Nelson_VERSION_MINOR ${Nelson_VERSION_MINOR_DEFAULT})
+  set (Nelson_VERSION_MINOR ${Nelson_VERSION_MINOR_DEFAULT})
 endif()
-#==============================================================================	
+#============================================================================== 
 if(DEFINED ENV{NELSON_VERSION_MAINTENANCE})
-	set (Nelson_VERSION_MAINTENANCE $ENV{NELSON_VERSION_MAINTENANCE})
+  set (Nelson_VERSION_MAINTENANCE $ENV{NELSON_VERSION_MAINTENANCE})
 else()
-	set (Nelson_VERSION_MAINTENANCE ${Nelson_VERSION_MAINTENANCE_DEFAULT})
+  set (Nelson_VERSION_MAINTENANCE ${Nelson_VERSION_MAINTENANCE_DEFAULT})
 endif()
-#==============================================================================	
+#============================================================================== 
 if(DEFINED ENV{NELSON_VERSION_BUILD})
-	set (Nelson_VERSION_BUILD $ENV{NELSON_VERSION_BUILD})
+  set (Nelson_VERSION_BUILD $ENV{NELSON_VERSION_BUILD})
 else()
-	string(TIMESTAMP Nelson_VERSION_BUILD "%d%m%Y%H%M%S")
+  string(TIMESTAMP Nelson_VERSION_BUILD "%d%m%Y%H%M%S")
 endif()
-#==============================================================================	
+#============================================================================== 
 SET(CMAKE_BUILD_TYPE "Release")
 SET(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMake/")
 SET(BUILD_SHARED_LIBS "true")
-#==============================================================================	
+#============================================================================== 
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
   message( SEND_ERROR "On Windows, please uses Visual studio solution." )
 ENDIF()
-#==============================================================================	
+#============================================================================== 
 IF (EXISTS ${CMAKE_SOURCE_DIR}/modules/core/src/include/Nelson_VERSION.h)
 ELSE()
 configure_file (
@@ -63,7 +63,7 @@ configure_file (
   "${CMAKE_SOURCE_DIR}/modules/core/src/include/Nelson_VERSION.h"
   )
 ENDIF()
-#==============================================================================	
+#============================================================================== 
 include(CheckCXXCompilerFlag)
 CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
 if(COMPILER_SUPPORTS_CXX11)
@@ -71,22 +71,22 @@ if(COMPILER_SUPPORTS_CXX11)
 else()
   message(FATAL_ERROR "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
 endif()
-#==============================================================================	
+#============================================================================== 
 CHECK_CXX_COMPILER_FLAG("-fPIC" COMPILER_SUPPORTS_FPIC)
 if (COMPILER_SUPPORTS_FPIC)
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC")
 endif()
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=hidden")
-#==============================================================================	
+#============================================================================== 
 include(CheckSymbolExists)
 check_symbol_exists("fseek64" "stdio.h" HAVE_FSEEK64)
-check_symbol_exists("ftell64" "stdio.h" HAVE_FTELL64)	
+check_symbol_exists("ftell64" "stdio.h" HAVE_FTELL64) 
 #==============================================================================
 SET(CMAKE_INSTALL_RPATH ".")
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   set (CMAKE_MACOSX_RPATH 1)
 ENDIF()
-#==============================================================================	
+#============================================================================== 
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   SET(BITNESS 32)
     IF(CMAKE_SIZEOF_VOID_P EQUAL 8)
@@ -136,11 +136,10 @@ FIND_PACKAGE(Qt5Widgets REQUIRED)
 FIND_PACKAGE(Qt5PrintSupport REQUIRED)
 FIND_PACKAGE(LibXml2 REQUIRED)
 FIND_PACKAGE(icu REQUIRED)
-FIND_PACKAGE(icu REQUIRED)
-#==============================================================================	
+#============================================================================== 
 add_definitions(-DBOOST_ALL_NO_LIB)
 add_definitions(-DBOOST_ALL_DYN_LINK)
-#==============================================================================	
+#============================================================================== 
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   set(BIN_DIRECTORY ${PROJECT_BINARY_DIR}/bin/linux${BITNESS})
 ENDIF()
@@ -155,24 +154,24 @@ IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   IF(EXISTS "/opt/local/include")
     INCLUDE_DIRECTORIES(/opt/local/include)
   ENDIF()
-  IF(EXISTS "/opt/local/lib")	
+  IF(EXISTS "/opt/local/lib") 
     LINK_DIRECTORIES(/opt/local/lib) 
   ENDIF()
 ENDIF()
-#==============================================================================	
+#============================================================================== 
 set(INSTALL_DIRECTORY "${CMAKE_INSTALL_PREFIX}Nelson-${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE}")
-#==============================================================================	
+#============================================================================== 
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   set(LIBRARY_OUTPUT "Nelson-${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE}/bin/macosx64/")
 ELSE()
   set(LIBRARY_OUTPUT "Nelson-${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE}/bin/linux${BITNESS}/")
 ENDIF()
 set(ROOT_OUTPUT "Nelson-${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE}/")
-#==============================================================================	
+#============================================================================== 
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY  ${BIN_DIRECTORY})
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY  ${BIN_DIRECTORY})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY  ${BIN_DIRECTORY})
-#==============================================================================	
+#============================================================================== 
 set(CPACK_PACKAGE_NAME "Nelson")
 set(CPACK_PACKAGE_VENDOR "Allan CORNET")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "An numerical software")
