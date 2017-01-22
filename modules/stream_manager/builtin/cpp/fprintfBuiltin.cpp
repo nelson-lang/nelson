@@ -88,7 +88,7 @@ ArrayOfVector Nelson::StreamGateway::fprintfBuiltin(Evaluator* eval, int nLhs, c
             FILE *filepointer = (FILE*)f->getFilePointer();
             if (filepointer)
             {
-                fprintf(filepointer, msg.c_str());
+				fprintf(filepointer, "%s", msg.c_str());
             }
             else
             {
@@ -100,17 +100,6 @@ ArrayOfVector Nelson::StreamGateway::fprintfBuiltin(Evaluator* eval, int nLhs, c
     {
         Error(eval, _W("Wrong value for #1 argument: a valid file ID expected."));
     }
-    /*
-        if (param1.isSingleString())
-        {
-            std::wstring param = param1.getContentsAsWideString();
-            Interface *io = eval->getInterface();
-            if (io)
-            {
-                io->outputMessage(param);
-            }
-        }
-    	*/
     return retval;
 }
 //=============================================================================
