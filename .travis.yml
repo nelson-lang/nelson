@@ -34,7 +34,7 @@ matrix:
 before_install:
     - if [ `uname` = "Linux" ];
       then sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa
-      sudo sudo apt-get update -qq;
+      sudo sudo apt-get update;
       sudo apt-get install qtbase5-dev qtdeclarative5-dev libqt5webkit5-dev libsqlite3-dev;
       sudo apt-get install qt5-default qttools5-dev-tools;
       sudo apt-get install gettext;
@@ -52,9 +52,9 @@ before_install:
       brew link --force libffi;
       brew install pkgconfig;
       brew install icu4c;
-      brew link icu4c;
+      brew link --force  icu4c;
       brew install gettext;
-      brew link gettext -—force;
+      brew linkt --force gettex;
       brew install boost;
       brew install libxml2;
       brew install cmake;
@@ -66,10 +66,6 @@ install:
   - if [ `uname` = "Linux" ]; then hg clone https://bitbucket.org/eigen/eigen#3.3 /tmp/eigen && mkdir /tmp/eigen-build && cd /tmp/eigen-build && cmake . /tmp/eigen && make && sudo make install && cd -; fi
 
 before_script:
-  - if [ `uname` = "Darwin" ];
-      then ln -s /usr/local/Cellar/icu4c/58.2/bin/icu-config /usr/local/bin/icu-config;
-      ln -s /usr/local/Cellar/icu4c/58.2/include/* /usr/local/include;
-    fi
   - if [ `uname` = "Linux" ];
     then export CC=$USE_CC; export CXX=$USE_CXX;
     export BUILD_ROOT=$(pwd);
@@ -86,9 +82,6 @@ before_script:
 
 script:
   - echo ${COMPILER}
-  - if [ `uname` = "Linux" ]; 
-    then source /opt/qt55/bin/qt55-env.sh;
-    fi
 
   - cd ${TRAVIS_BUILD_DIR} 
   - if [ $TRAVIS_OS_NAME == linux ];
