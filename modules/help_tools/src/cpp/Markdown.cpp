@@ -38,7 +38,6 @@ enum renderer_type
 //=============================================================================
 struct option_data
 {
-    char *basename;
     int done;
 
     /* time reporting */
@@ -66,7 +65,6 @@ bool Nelson::MarkdownFile(std::wstring inputMarkdownFilename, std::wstring outpu
     void(*renderer_free)(hoedown_renderer *) = nullptr;
     hoedown_document *document;
     struct option_data data;
-    data.basename = "";
     data.done = 0;
     data.show_time = 0;
     data.iunit = DEF_IUNIT;
@@ -128,7 +126,6 @@ bool Nelson::MarkdownString(std::string inputMarkdownString, std::string &output
     void(*renderer_free)(hoedown_renderer *) = nullptr;
     hoedown_document *document;
     struct option_data data;
-    data.basename = "";
     data.done = 0;
     data.show_time = 0;
     data.iunit = DEF_IUNIT;
