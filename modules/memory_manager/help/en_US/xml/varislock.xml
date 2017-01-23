@@ -49,10 +49,10 @@ y = 4
 
 	<see_also>
 		<see_also_item>
-			<link linkend="${memory_manager}clear">varlock</link>
+			<link linkend="${memory_manager}varlock">varlock</link>
 		</see_also_item>
 		<see_also_item>
-			<link linkend="${memory_manager}who">varunlock</link>
+			<link linkend="${memory_manager}varunlock">varunlock</link>
 		</see_also_item>
 	</see_also>
 
