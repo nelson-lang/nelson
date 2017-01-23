@@ -94,6 +94,9 @@ ArrayOfVector Nelson::MemoryGateway::whoBuiltin(Evaluator* eval, int nLhs, const
                 nbchar = 1 + nbchar + variablesName[k].size();
             }
         }
+		if (variablesName.size() > 0) {
+			io->outputMessage("\n");
+		}
     }
     else
     {
