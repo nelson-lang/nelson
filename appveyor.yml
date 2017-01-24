@@ -1,14 +1,17 @@
 version: 0.1.2.{build}
 image: Visual Studio 2015
 
-branches:
-  only:
-    - master
-
 environment:
   VS_VERSION: vs2015
   QTDIR64: C:\Qt\5.7\msvc2015_64
   QTDIR = C:\Qt\5.7\msvc2015_64
+
+branches:
+  only:
+    - master
+
+platform:
+- x64
   
 before_build:
 - git clone https://github.com/Nelson-numerical-software/nelson-thirdparty-x64.git c:\build_chain\nelson-thirdparty-x64
