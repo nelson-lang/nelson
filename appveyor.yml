@@ -9,13 +9,12 @@ environment:
   VS_VERSION: vs2015
 
 before_build:
-- git clone https://github.com/Nelson-numerical-software/nelson-thirdparty-x64.git
-- git clone https://github.com/Nelson-numerical-software/nelson-thirdparty-win32.git
+- git clone https://github.com/Nelson-numerical-software/nelson-thirdparty-x64.git c:\build_chain\nelson-thirdparty-x64
+- git clone https://github.com/Nelson-numerical-software/nelson-thirdparty-win32.git c:\build_chain\nelson-thirdparty-win32
 - dir
 
 install:
-- choco install -y curl InnoSetup
-  - call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86
+- call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86
 
 notifications:
 - provider: Email
