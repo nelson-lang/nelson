@@ -22,7 +22,8 @@ after_build:
 - c:\build_chain/nelson/bin/x64/nelson-cli --quiet -f c:\build_chain/nelson/tools/buildhelp/buildhelp.nls
 - c:\build_chain/nelson/bin/x64/nelson-cli --quiet -f c:\build_chain/nelson/tools/tests_minimal/runtests_minimal.nls
 - c:\build_chain/nelson/bin/x64/nelson-cli --quiet -f c:\build_chain/nelson/tools/innosetup/innosetup.nls
-
+- "C:\Program Files (x86)\Inno Setup 5\iscc.exe" "c:\build_chain/nelson/tools/innosetup/Nelson.iss" /O"c:\build_chain/"
+- c:\build_chain/nelson/bin/x64/nelson-cli --quiet -f c:\build_chain/nelson/tools/tests_all/runtests_all.nls
 
 install:
 - choco install -y InnoSetup
@@ -30,6 +31,7 @@ install:
 - call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x64
 
 build_script:
+- cd "c:\build_chain\nelson"
 - msbuild nelson.sln /p:Configuration=Release /p:Platform=x64 /target:"NelSon-gui"
 
 notifications:
