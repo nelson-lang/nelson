@@ -1,0 +1,26 @@
+version: 0.1.2.{build}
+image: Visual Studio 2015
+
+branches:
+  only:
+    - master
+
+environment:
+  VS_VERSION: vs2015
+
+before_build:
+- git clone https://github.com/Nelson-numerical-software/nelson-thirdparty-x64.git
+- git clone https://github.com/Nelson-numerical-software/nelson-thirdparty-win32.git
+- dir
+
+install:
+- choco install -y curl InnoSetup
+  - call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86
+
+notifications:
+- provider: Email
+  to:
+  - nelson.numerical.computation@gmail.com
+
+# clone directory
+clone_folder: c:\build_chain\Nelson
