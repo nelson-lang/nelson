@@ -7,14 +7,18 @@ branches:
 
 environment:
   VS_VERSION: vs2015
-
+  QTDIR32: C:\Qt\5.7\msvc2015
+  QTDIR64: C:\Qt\5.7\msvc2015_64
+  QTDIR = C:\Qt\5.7\msvc2015_64
+  
 before_build:
 - git clone https://github.com/Nelson-numerical-software/nelson-thirdparty-x64.git c:\build_chain\nelson-thirdparty-x64
 - git clone https://github.com/Nelson-numerical-software/nelson-thirdparty-win32.git c:\build_chain\nelson-thirdparty-win32
-- dir
+- cd c:\build_chain\nelson-thirdparty-x64
+- call  "install.bat"
 
 install:
-- call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86
+- call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x64
 
 notifications:
 - provider: Email
