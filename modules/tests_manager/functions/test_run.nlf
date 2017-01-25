@@ -448,7 +448,7 @@ function test_case_res = run_test_case(test, module_name, index, indexMax, nbTes
             test_timing = 0;
             if isfile(outputfile)
               loadbin(outputfile);
-              test_case_res.msg = test_msg.message;
+              test_case_res.msg = test_msg;
             end
           else
             if isfile(outputfile)
@@ -488,7 +488,13 @@ function test_case_res = run_test_case(test, module_name, index, indexMax, nbTes
     disp(['      run(''', test.filename, ''')']);
     if strcmp(test_case_res.msg, '') == false
       disp(_('      Error:'));
+      if strcmp(class(test_case_res.msg), 'cell') == 1
+        for k = test_case_res.msg
+         disp(['            ', k]);
+        end
+      else
       disp(['            ', test_case_res.msg]);
+      end
     end
     disp(' ');
   end
