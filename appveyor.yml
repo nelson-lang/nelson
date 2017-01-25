@@ -15,7 +15,7 @@ platform:
 
 init:
   - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
-  
+  - ps: $blockRdp = $true
 before_build:
 - git clone https://github.com/Nelson-numerical-software/nelson-thirdparty-x64.git c:\build_chain\nelson-thirdparty-x64
 - cd "c:\build_chain\nelson-thirdparty-x64"
