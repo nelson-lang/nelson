@@ -20,7 +20,6 @@ before_build:
 
 after_build:
 - c:\build_chain/nelson/bin/x64/nelson-cli --quiet -f c:\build_chain/nelson/tools/buildhelp/buildhelp.nls
-- c:\build_chain/nelson/bin/x64/nelson-cli --quiet -f c:\build_chain/nelson/tools/tests_minimal/runtests_minimal.nls
 - c:\build_chain/nelson/bin/x64/nelson-cli --quiet -f c:\build_chain/nelson/tools/tests_all/runtests_all.nls
 
 install:
