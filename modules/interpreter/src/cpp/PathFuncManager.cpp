@@ -34,6 +34,22 @@ namespace Nelson {
     //=============================================================================
     PathFuncManager* PathFuncManager::m_pInstance = nullptr;
     //=============================================================================
+	static std::ifstream & safegetline(std::ifstream &os, std::string &line)
+	{
+		std::string myline;
+		if (getline(os, myline)) {
+			if (myline.size() && myline[myline.size() - 1] == '\r')
+			{
+				line = myline.substr(0, myline.size() - 1);
+			}
+			else
+			{
+				line = myline;
+			}
+		}
+		return os;
+	}
+	//=============================================================================
     PathFuncManager::PathFuncManager()
     {
         _userPath = nullptr;
@@ -686,7 +702,7 @@ namespace Nelson {
 #endif
             if (jsonFile.is_open())
             {
-                while (std::getline(jsonFile, tmpline))
+                while (safegetline(jsonFile, tmpline))
                 {
                     jsonString += tmpline + '\n';
                 }

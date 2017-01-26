@@ -26,7 +26,23 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-    bool HtmlFileToPdfFile(std::wstring htmlsrcfilename, std::wstring pdfdestfilename)
+	static std::ifstream & safegetline(std::ifstream &os, std::string &line)
+	{
+		std::string myline;
+		if (getline(os, myline)) {
+			if (myline.size() && myline[myline.size() - 1] == '\r')
+			{
+				line = myline.substr(0, myline.size() - 1);
+			}
+			else
+			{
+				line = myline;
+			}
+		}
+		return os;
+	}
+	//=============================================================================
+	bool HtmlFileToPdfFile(std::wstring htmlsrcfilename, std::wstring pdfdestfilename)
     {
         std::ifstream istream;
 #ifdef _MSC_VER
@@ -40,7 +56,7 @@ namespace Nelson {
             while (!istream.eof())
             {
                 std::string buffer;
-                std::getline(istream, buffer);
+                safegetline(istream, buffer);
                 lines = lines + utf8_to_wstring(buffer);
             }
             istream.close();

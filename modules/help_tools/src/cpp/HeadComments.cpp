@@ -28,6 +28,23 @@
 #include "Comments.hpp"
 //=============================================================================
 namespace Nelson {
+	//=============================================================================
+	static std::ifstream & safegetline(std::ifstream &os, std::string &line)
+	{
+		std::string myline;
+		if (getline(os, myline)) {
+			if (myline.size() && myline[myline.size() - 1] == '\r')
+			{
+				line = myline.substr(0, myline.size() - 1);
+			}
+			else
+			{
+				line = myline;
+			}
+		}
+		return os;
+	}
+	//=============================================================================
     static bool isEmptyLine(std::string line)
     {
         std::string str = boost::algorithm::trim_left_copy(line);
@@ -92,7 +109,7 @@ namespace Nelson {
             std::string line;
             while (!istream.eof())
             {
-                std::getline(istream, line);
+                safegetline(istream, line);
                 if (!isCommentedLine(line) && (!isEmptyLine(line)))
                 {
                     break;
@@ -102,7 +119,7 @@ namespace Nelson {
             {
                 while (!istream.eof())
                 {
-                    std::getline(istream, line);
+                    safegetline(istream, line);
                     if (!isEmptyLine(line))
                     {
                         break;
@@ -113,7 +130,7 @@ namespace Nelson {
                     comments.push_back(utf8_to_wstring(removeCommentCharacters(line)));
                     while (!istream.eof())
                     {
-                        std::getline(istream, line);
+                        safegetline(istream, line);
                         if (isCommentedLine(line))
                         {
                             comments.push_back(utf8_to_wstring(removeCommentCharacters(line)));

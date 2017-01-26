@@ -31,7 +31,7 @@ namespace Nelson {
     using dtl::elemInfo;
     using dtl::uniHunk;
     //=============================================================================
-	std::ifstream & safegetline(std::ifstream &os, std::string &line)
+	static std::ifstream & safegetline(std::ifstream &os, std::string &line)
 	{
 		std::string myline;
 		if (getline(os, myline)) {
