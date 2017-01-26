@@ -34,22 +34,23 @@ namespace Nelson {
     //=============================================================================
     PathFuncManager* PathFuncManager::m_pInstance = nullptr;
     //=============================================================================
-	static std::ifstream & safegetline(std::ifstream &os, std::string &line)
-	{
-		std::string myline;
-		if (getline(os, myline)) {
-			if (myline.size() && myline[myline.size() - 1] == '\r')
-			{
-				line = myline.substr(0, myline.size() - 1);
-			}
-			else
-			{
-				line = myline;
-			}
-		}
-		return os;
-	}
-	//=============================================================================
+    static std::ifstream & safegetline(std::ifstream &os, std::string &line)
+    {
+        std::string myline;
+        if (getline(os, myline))
+        {
+            if (myline.size() && myline[myline.size() - 1] == '\r')
+            {
+                line = myline.substr(0, myline.size() - 1);
+            }
+            else
+            {
+                line = myline;
+            }
+        }
+        return os;
+    }
+    //=============================================================================
     PathFuncManager::PathFuncManager()
     {
         _userPath = nullptr;
@@ -455,8 +456,8 @@ namespace Nelson {
 #endif
         if (!fr)
         {
-			throw Exception(_W("Cannot open:") + L" " + nlf_filename);
-		}
+            throw Exception(_W("Cannot open:") + L" " + nlf_filename);
+        }
         ParserState pstate = ParseError;
         resetAstBackupPosition();
         boost::container::vector<ASTPtr> ptAst;

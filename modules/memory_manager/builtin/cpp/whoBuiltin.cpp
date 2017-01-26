@@ -33,7 +33,7 @@ ArrayOfVector Nelson::MemoryGateway::whoBuiltin(Evaluator* eval, int nLhs, const
     }
     if (argIn.size() == 0)
     {
-		variablesName = Who(eval, LOCAL_SCOPE, false);
+        variablesName = Who(eval, LOCAL_SCOPE, false);
     }
     else if (argIn.size() == 1)
     {
@@ -94,9 +94,10 @@ ArrayOfVector Nelson::MemoryGateway::whoBuiltin(Evaluator* eval, int nLhs, const
                 nbchar = 1 + nbchar + variablesName[k].size();
             }
         }
-		if (variablesName.size() > 0) {
-			io->outputMessage("\n");
-		}
+        if (variablesName.size() > 0)
+        {
+            io->outputMessage("\n");
+        }
     }
     else
     {

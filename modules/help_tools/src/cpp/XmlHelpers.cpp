@@ -23,22 +23,23 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-	static std::ifstream & safegetline(std::ifstream &os, std::string &line)
-	{
-		std::string myline;
-		if (getline(os, myline)) {
-			if (myline.size() && myline[myline.size() - 1] == '\r')
-			{
-				line = myline.substr(0, myline.size() - 1);
-			}
-			else
-			{
-				line = myline;
-			}
-		}
-		return os;
-	}
-	//=============================================================================
+    static std::ifstream & safegetline(std::ifstream &os, std::string &line)
+    {
+        std::string myline;
+        if (getline(os, myline))
+        {
+            if (myline.size() && myline[myline.size() - 1] == '\r')
+            {
+                line = myline.substr(0, myline.size() - 1);
+            }
+            else
+            {
+                line = myline;
+            }
+        }
+        return os;
+    }
+    //=============================================================================
     std::wstring getXmlFileEncoding(std::wstring filename)
     {
         std::wstring encoding = L"UTF-8";

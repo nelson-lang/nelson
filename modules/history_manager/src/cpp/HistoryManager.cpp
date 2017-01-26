@@ -42,22 +42,23 @@ namespace Nelson {
 #define DEFAULT_SAVELASTNCOMMANDS  250000
 #define DEFAULT_SAVEAFTERNCOMMANDS 0
     //=============================================================================
-	static std::ifstream & safegetline(std::ifstream &os, std::string &line)
-	{
-		std::string myline;
-		if (getline(os, myline)) {
-			if (myline.size() && myline[myline.size() - 1] == '\r')
-			{
-				line = myline.substr(0, myline.size() - 1);
-			}
-			else
-			{
-				line = myline;
-			}
-		}
-		return os;
-	}
-	//=============================================================================
+    static std::ifstream & safegetline(std::ifstream &os, std::string &line)
+    {
+        std::string myline;
+        if (getline(os, myline))
+        {
+            if (myline.size() && myline[myline.size() - 1] == '\r')
+            {
+                line = myline.substr(0, myline.size() - 1);
+            }
+            else
+            {
+                line = myline;
+            }
+        }
+        return os;
+    }
+    //=============================================================================
     HistoryManager::HistoryManager()
     {
         bAllowDuplicatedLines = false;

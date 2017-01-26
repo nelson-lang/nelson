@@ -31,23 +31,24 @@ namespace Nelson {
     using dtl::elemInfo;
     using dtl::uniHunk;
     //=============================================================================
-	static std::ifstream & safegetline(std::ifstream &os, std::string &line)
-	{
-		std::string myline;
-		if (getline(os, myline)) {
-			if (myline.size() && myline[myline.size() - 1] == '\r') 
-			{
-				line = myline.substr(0, myline.size() - 1);
-			}
-			else 
-			{
-				line = myline;
-			}
-		}
-		return os;
-	}
-	//=============================================================================
-	bool FileDiff(std::wstring filename1, std::wstring filename2, logical eolcompare, std::wstring &res)
+    static std::ifstream & safegetline(std::ifstream &os, std::string &line)
+    {
+        std::string myline;
+        if (getline(os, myline))
+        {
+            if (myline.size() && myline[myline.size() - 1] == '\r')
+            {
+                line = myline.substr(0, myline.size() - 1);
+            }
+            else
+            {
+                line = myline;
+            }
+        }
+        return os;
+    }
+    //=============================================================================
+    bool FileDiff(std::wstring filename1, std::wstring filename2, logical eolcompare, std::wstring &res)
     {
         typedef std::string elem;
         typedef std::vector<elem> sequence;
@@ -61,28 +62,28 @@ namespace Nelson {
 #endif
         elem buf;
         sequence ALines, BLines;
-		if (!eolcompare)
-		{
-			while (safegetline(Aifs, buf))
-			{
-				ALines.push_back(buf);
-			}
-			while (safegetline(Bifs, buf))
-			{
-				BLines.push_back(buf);
-			}
-		}
-		else
-		{
-			while (getline(Aifs, buf))
-			{
-				ALines.push_back(buf);
-			}
-			while (getline(Bifs, buf))
-			{
-				BLines.push_back(buf);
-			}
-		}
+        if (!eolcompare)
+        {
+            while (safegetline(Aifs, buf))
+            {
+                ALines.push_back(buf);
+            }
+            while (safegetline(Bifs, buf))
+            {
+                BLines.push_back(buf);
+            }
+        }
+        else
+        {
+            while (getline(Aifs, buf))
+            {
+                ALines.push_back(buf);
+            }
+            while (getline(Bifs, buf))
+            {
+                BLines.push_back(buf);
+            }
+        }
         Diff<elem> diff(ALines, BLines);
         diff.onHuge();
         diff.compose();

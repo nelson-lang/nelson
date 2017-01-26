@@ -88,7 +88,7 @@ ArrayOfVector Nelson::StreamGateway::fprintfBuiltin(Evaluator* eval, int nLhs, c
             FILE *filepointer = (FILE*)f->getFilePointer();
             if (filepointer)
             {
-				fprintf(filepointer, "%s", msg.c_str());
+                fprintf(filepointer, "%s", msg.c_str());
             }
             else
             {

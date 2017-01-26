@@ -92,18 +92,17 @@ namespace Nelson {
         stringVector retlist;
         for (auto it = variablesMap.begin(); it != variablesMap.end(); ++it)
         {
-			if (!withPersistent)
-			{
-				if (it->first.at(0) != '_')
-				{
-					retlist.push_back(it->first);
-
-				}
-			}
-			else
-			{
-				retlist.push_back(it->first);
-			}
+            if (!withPersistent)
+            {
+                if (it->first.at(0) != '_')
+                {
+                    retlist.push_back(it->first);
+                }
+            }
+            else
+            {
+                retlist.push_back(it->first);
+            }
         }
         return retlist;
     }
