@@ -4,7 +4,7 @@
 
 	<language>en_US</language>
 	<keyword>int64</keyword>
-	<short_description>Converts to 64-bit signed intege.</short_description>
+	<short_description>Converts to 64-bit signed integer.</short_description>
 
 	<syntax>
 		<syntax_item>Y = int64(X)</syntax_item>

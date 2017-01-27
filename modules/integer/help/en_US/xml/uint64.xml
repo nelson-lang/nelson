@@ -4,7 +4,7 @@
 
 	<language>en_US</language>
 	<keyword>uint64</keyword>
-	<short_description>Converts to 64-bit unsigned intege.</short_description>
+	<short_description>Converts to 64-bit unsigned integer.</short_description>
 
 	<syntax>
 		<syntax_item>Y = uint64(X)</syntax_item>
