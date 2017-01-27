@@ -20,9 +20,9 @@
 //=============================================================================
 #include <string>
 #include "nlsOs_functions_exports.h"
+#include "Types.hpp"
 //=============================================================================
 namespace Nelson {
-    NLSOS_FUNCTIONS_IMPEXP std::wstring SearchVariableEnvironmentW(std::wstring fileToSearch, std::wstring envVarName);
-    NLSOS_FUNCTIONS_IMPEXP std::string SearchVariableEnvironmentU(std::string fileToSearch, std::string envVarName);
+    NLSOS_FUNCTIONS_IMPEXP wstringVector SearchVariableEnvironmentW(std::wstring fileToSearch, std::wstring envVarName);
 }
 //=============================================================================

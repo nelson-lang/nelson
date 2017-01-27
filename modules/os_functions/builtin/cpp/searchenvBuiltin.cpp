@@ -19,6 +19,7 @@
 #include "searchenvBuiltin.hpp"
 #include "Error.hpp"
 #include "SearchVariableEnvironment.hpp"
+#include "ToCellString.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -47,8 +48,8 @@ ArrayOfVector Nelson::OsFunctionsGateway::searchenvBuiltin(Evaluator* eval, int 
     {
         varEnvName = argIn[1].getContentsAsWideString();
     }
-    std::wstring res = SearchVariableEnvironmentW(fileToSearch, varEnvName);
-    retval.push_back(ArrayOf::stringConstructor(res));
+    wstringVector res = SearchVariableEnvironmentW(fileToSearch, varEnvName);
+    retval.push_back(ToCellStringAsColumn(res));
     return retval;
 }
 //=============================================================================

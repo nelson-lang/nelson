@@ -2,6 +2,8 @@
 Features:
 ---------
 
+  Rework searchenv to return a cell of strings.
+
   Update persistent variables behavior (clear functions).
 
   Add ceil, floor, round, fix functions.
