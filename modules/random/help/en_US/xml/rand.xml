@@ -112,7 +112,7 @@ rand(3, 2, 'like', v)
 
   <see_also>
     <see_also_item>
-      <link linkend="${random}rand">rng</link>
+      <link linkend="${random}rng">rng</link>
     </see_also_item>
     <see_also_item>
       <link linkend="${random}randn">randn</link>
