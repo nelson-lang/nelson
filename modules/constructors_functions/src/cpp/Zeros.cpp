@@ -28,7 +28,7 @@ namespace Nelson {
     //=============================================================================
     ArrayOf Zeros(Evaluator *eval, Dimensions dims, Class cl)
     {
-		dims.simplify();
+        dims.simplify();
         switch (cl)
         {
             case NLS_LOGICAL:

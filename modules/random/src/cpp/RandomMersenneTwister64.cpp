@@ -97,50 +97,50 @@ namespace Nelson {
         {
             case RNG_DISTRIBUTION_UNIFORM_REAL:
             {
-				// rows to columns order
-				size_t k = 0;
-				size_t p = (nbElements / lastDim);
-				for (size_t k = 0; k < p; k++)
-				{
-					for (size_t l = 0; l < lastDim; l++)
-					{
-						ar[k * lastDim + l] = (*uniform_real_generator)();
-						// We reject voluntary the next random value for simulate complex number array
-						(*uniform_real_generator)();
-					}
-				}
+                // rows to columns order
+                size_t k = 0;
+                size_t p = (nbElements / lastDim);
+                for (size_t k = 0; k < p; k++)
+                {
+                    for (size_t l = 0; l < lastDim; l++)
+                    {
+                        ar[k * lastDim + l] = (*uniform_real_generator)();
+                        // We reject voluntary the next random value for simulate complex number array
+                        (*uniform_real_generator)();
+                    }
+                }
             }
             break;
             case RNG_DISTRIBUTION_UNIFORM_INT:
             {
-				// rows to columns order
-				size_t k = 0;
-				size_t p = (nbElements / lastDim);
-				for (size_t k = 0; k < p; k++)
-				{
-					for (size_t l = 0; l < lastDim; l++)
-					{
-						ar[k * lastDim + l] = (double)(*uniform_int_generator)();
-						// We reject voluntary the next random value for simulate complex number array
-						(*uniform_int_generator)();
-					}
-				}
+                // rows to columns order
+                size_t k = 0;
+                size_t p = (nbElements / lastDim);
+                for (size_t k = 0; k < p; k++)
+                {
+                    for (size_t l = 0; l < lastDim; l++)
+                    {
+                        ar[k * lastDim + l] = (double)(*uniform_int_generator)();
+                        // We reject voluntary the next random value for simulate complex number array
+                        (*uniform_int_generator)();
+                    }
+                }
             }
             break;
             case RNG_DISTRIBUTION_NORMAL:
             {
-				// rows to columns order
-				size_t k = 0;
-				size_t p = (nbElements / lastDim);
-				for (size_t k = 0; k < p; k++)
-				{
-					for (size_t l = 0; l < lastDim; l++)
-					{
-						ar[k * lastDim + l] = (double)(*normal_real_generator)();
-						// We reject voluntary the next random value for simulate complex number array
-						(*normal_real_generator)();
-					}
-				}
+                // rows to columns order
+                size_t k = 0;
+                size_t p = (nbElements / lastDim);
+                for (size_t k = 0; k < p; k++)
+                {
+                    for (size_t l = 0; l < lastDim; l++)
+                    {
+                        ar[k * lastDim + l] = (double)(*normal_real_generator)();
+                        // We reject voluntary the next random value for simulate complex number array
+                        (*normal_real_generator)();
+                    }
+                }
             }
             break;
         }
@@ -152,50 +152,50 @@ namespace Nelson {
         {
             case RNG_DISTRIBUTION_UNIFORM_REAL:
             {
-				// rows to columns order
-				size_t k = 0;
-				size_t p = (nbElements / lastDim);
-				for (size_t k = 0; k < p; k++)
-				{
-					for (size_t l = 0; l < lastDim; l++)
-					{
-						ar[k * lastDim + l] = (single)(*uniform_real_generator)();
-						// We reject voluntary the next random value for simulate complex number array
-						(*uniform_real_generator)();
-					}
-				}
+                // rows to columns order
+                size_t k = 0;
+                size_t p = (nbElements / lastDim);
+                for (size_t k = 0; k < p; k++)
+                {
+                    for (size_t l = 0; l < lastDim; l++)
+                    {
+                        ar[k * lastDim + l] = (single)(*uniform_real_generator)();
+                        // We reject voluntary the next random value for simulate complex number array
+                        (*uniform_real_generator)();
+                    }
+                }
             }
             break;
             case RNG_DISTRIBUTION_UNIFORM_INT:
             {
-				// rows to columns order
-				size_t k = 0;
-				size_t p = (nbElements / lastDim);
-				for (size_t k = 0; k < p; k++)
-				{
-					for (size_t l = 0; l < lastDim; l++)
-					{
-						ar[k * lastDim + l] = (single)(*uniform_int_generator)();
-						// We reject voluntary the next random value for simulate complex number array
-						(*uniform_int_generator)();
-					}
-				}
+                // rows to columns order
+                size_t k = 0;
+                size_t p = (nbElements / lastDim);
+                for (size_t k = 0; k < p; k++)
+                {
+                    for (size_t l = 0; l < lastDim; l++)
+                    {
+                        ar[k * lastDim + l] = (single)(*uniform_int_generator)();
+                        // We reject voluntary the next random value for simulate complex number array
+                        (*uniform_int_generator)();
+                    }
+                }
             }
             break;
             case RNG_DISTRIBUTION_NORMAL:
             {
-				// rows to columns order
-				size_t k = 0;
-				size_t p = (nbElements / lastDim);
-				for (size_t k = 0; k < p; k++)
-				{
-					for (size_t l = 0; l < lastDim; l++)
-					{
-						ar[k * lastDim + l] = (single)(*normal_real_generator)();
-						// We reject voluntary the next random value for simulate complex number array
-						(*normal_real_generator)();
-					}
-				}
+                // rows to columns order
+                size_t k = 0;
+                size_t p = (nbElements / lastDim);
+                for (size_t k = 0; k < p; k++)
+                {
+                    for (size_t l = 0; l < lastDim; l++)
+                    {
+                        ar[k * lastDim + l] = (single)(*normal_real_generator)();
+                        // We reject voluntary the next random value for simulate complex number array
+                        (*normal_real_generator)();
+                    }
+                }
             }
             break;
         }

@@ -53,21 +53,21 @@ namespace Nelson {
         return result;
     }
     //=============================================================================
-	wstringVector SearchVariableEnvironmentW(std::wstring fileToSearch, std::wstring envVarName)
+    wstringVector SearchVariableEnvironmentW(std::wstring fileToSearch, std::wstring envVarName)
     {
-		wstringVector res;
-		std::wstring envValue = GetVariableEnvironment(envVarName, L"");
-		wstringVector envValuevector = splitEnvironmentPath(envValue);
-		for (size_t k = 0; k < envValuevector.size(); k++)
-		{
-			boost::filesystem::path fullpath(envValuevector[k]);
-			fullpath /= fileToSearch;
-			if (boost::filesystem::exists(fullpath) && !boost::filesystem::is_directory(fullpath))
-			{
-				res.push_back(fullpath.generic_wstring());
-			}
-		}
-		return res;
+        wstringVector res;
+        std::wstring envValue = GetVariableEnvironment(envVarName, L"");
+        wstringVector envValuevector = splitEnvironmentPath(envValue);
+        for (size_t k = 0; k < envValuevector.size(); k++)
+        {
+            boost::filesystem::path fullpath(envValuevector[k]);
+            fullpath /= fileToSearch;
+            if (boost::filesystem::exists(fullpath) && !boost::filesystem::is_directory(fullpath))
+            {
+                res.push_back(fullpath.generic_wstring());
+            }
+        }
+        return res;
     }
     //=============================================================================
 }

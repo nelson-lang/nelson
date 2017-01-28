@@ -29,7 +29,7 @@ namespace Nelson {
     //=============================================================================
     ArrayOf RandNormal(Evaluator *eval, Dimensions dims, Class cl)
     {
-		dims.simplify();
+        dims.simplify();
         if (eval->RandomEngine == nullptr)
         {
             Error(eval, _W("random engine not initialized."));
