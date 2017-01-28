@@ -29,6 +29,7 @@ namespace Nelson {
     //=============================================================================
     ArrayOf Ones(Evaluator *eval, Dimensions dims, Class cl)
     {
+		dims.simplify();
         switch (cl)
         {
             case NLS_LOGICAL:
