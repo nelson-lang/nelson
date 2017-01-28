@@ -493,7 +493,11 @@ function test_case_res = run_test_case(test, module_name, index, indexMax, nbTes
          disp(['            ', k]);
         end
       else
-      disp(['            ', test_case_res.msg]);
+        if strcmp(class(test_case_res.msg), 'struct') == true
+          disp(['            ', test_case_res.msg.message]);
+        else
+          disp(['            ', test_case_res.msg]);
+        end
       end
     end
     disp(' ');
