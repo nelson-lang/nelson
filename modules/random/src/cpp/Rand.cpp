@@ -29,6 +29,7 @@ namespace Nelson {
     //=============================================================================
     ArrayOf Rand(Evaluator *eval, Dimensions dims, Class cl)
     {
+		dims.simplify();
         if (eval->RandomEngine == nullptr)
         {
             Error(eval, _W("random engine not initialized."));
@@ -40,7 +41,7 @@ namespace Nelson {
             {
                 indexType nbElements = dims.getElementCount();
                 single * mat = (single*)ArrayOf::allocateArrayOf(cl, nbElements);
-                randEngine->getValuesAsSingle(mat, nbElements);
+                randEngine->getValuesAsSingle(mat, nbElements, dims.getColumns());
                 return ArrayOf(cl, dims, mat, false);
             }
             break;
@@ -48,7 +49,7 @@ namespace Nelson {
             {
                 indexType nbElements = dims.getElementCount();
                 double * mat = (double*)ArrayOf::allocateArrayOf(cl, nbElements);
-                randEngine->getValuesAsDouble(mat, nbElements);
+                randEngine->getValuesAsDouble(mat, nbElements, dims.getColumns());
                 return ArrayOf(cl, dims, mat, false);
             }
             break;

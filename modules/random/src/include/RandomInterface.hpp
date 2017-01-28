@@ -40,8 +40,8 @@ namespace Nelson {
         virtual double getValueAsDouble(RNG_DISTRIBUTION_TYPE _type = RNG_DISTRIBUTION_UNIFORM_REAL) = 0;
         virtual single getValueAsSingle(RNG_DISTRIBUTION_TYPE _type = RNG_DISTRIBUTION_UNIFORM_REAL) = 0;
 
-        virtual void getValuesAsDouble(double *ar, size_t nbElements, RNG_DISTRIBUTION_TYPE _type = RNG_DISTRIBUTION_UNIFORM_REAL) = 0;
-        virtual void getValuesAsSingle(single *ar, size_t nbElements, RNG_DISTRIBUTION_TYPE _type = RNG_DISTRIBUTION_UNIFORM_REAL) = 0;
+        virtual void getValuesAsDouble(double *ar, indexType nbElements, indexType lastDim, RNG_DISTRIBUTION_TYPE _type = RNG_DISTRIBUTION_UNIFORM_REAL) = 0;
+        virtual void getValuesAsSingle(single *ar, indexType nbElements, indexType lastDim, RNG_DISTRIBUTION_TYPE _type = RNG_DISTRIBUTION_UNIFORM_REAL) = 0;
 
         virtual void setMinMaxUniformIntDistribution(int _min, int _max) = 0;
         virtual void getMinMaxUniformIntDistribution(int &_min, int &_max) = 0;

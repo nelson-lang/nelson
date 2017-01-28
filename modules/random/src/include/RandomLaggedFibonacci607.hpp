@@ -48,8 +48,8 @@ namespace Nelson {
         double getValueAsDouble(RNG_DISTRIBUTION_TYPE _type = RNG_DISTRIBUTION_UNIFORM_REAL);
         single getValueAsSingle(RNG_DISTRIBUTION_TYPE _type = RNG_DISTRIBUTION_UNIFORM_REAL);
 
-        void getValuesAsDouble(double *ar, size_t nbElements, RNG_DISTRIBUTION_TYPE _type = RNG_DISTRIBUTION_UNIFORM_REAL);
-        void getValuesAsSingle(single *ar, size_t nbElements, RNG_DISTRIBUTION_TYPE _type = RNG_DISTRIBUTION_UNIFORM_REAL);
+        void getValuesAsDouble(double *ar, indexType nbElements, indexType lastDim, RNG_DISTRIBUTION_TYPE _type = RNG_DISTRIBUTION_UNIFORM_REAL);
+        void getValuesAsSingle(single *ar, indexType nbElements, indexType lastDim, RNG_DISTRIBUTION_TYPE _type = RNG_DISTRIBUTION_UNIFORM_REAL);
 
         boost::container::vector<uint32> getState();
         void setState(boost::container::vector<uint32>_state);

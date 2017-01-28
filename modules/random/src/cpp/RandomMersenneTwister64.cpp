@@ -91,75 +91,111 @@ namespace Nelson {
         return nan("");
     }
     //=============================================================================
-    void RandomMersenneTwister64::getValuesAsDouble(double *ar, size_t nbElements, RNG_DISTRIBUTION_TYPE _type)
+    void RandomMersenneTwister64::getValuesAsDouble(double *ar, indexType nbElements, indexType lastDim, RNG_DISTRIBUTION_TYPE _type)
     {
         switch (_type)
         {
             case RNG_DISTRIBUTION_UNIFORM_REAL:
             {
-                size_t k = 0;
-                while (k < nbElements)
-                {
-                    ar[k] = (*uniform_real_generator)();
-                    k++;
-                }
+				// rows to columns order
+				size_t k = 0;
+				size_t p = (nbElements / lastDim);
+				for (size_t k = 0; k < p; k++)
+				{
+					for (size_t l = 0; l < lastDim; l++)
+					{
+						ar[k * lastDim + l] = (*uniform_real_generator)();
+						// We reject voluntary the next random value for simulate complex number array
+						(*uniform_real_generator)();
+					}
+				}
             }
             break;
             case RNG_DISTRIBUTION_UNIFORM_INT:
             {
-                size_t k = 0;
-                while (k < nbElements)
-                {
-                    ar[k] = (double)(*uniform_int_generator)();
-                    k++;
-                }
+				// rows to columns order
+				size_t k = 0;
+				size_t p = (nbElements / lastDim);
+				for (size_t k = 0; k < p; k++)
+				{
+					for (size_t l = 0; l < lastDim; l++)
+					{
+						ar[k * lastDim + l] = (double)(*uniform_int_generator)();
+						// We reject voluntary the next random value for simulate complex number array
+						(*uniform_int_generator)();
+					}
+				}
             }
             break;
             case RNG_DISTRIBUTION_NORMAL:
             {
-                size_t k = 0;
-                while (k < nbElements)
-                {
-                    ar[k] = (double)(*normal_real_generator)();
-                    k++;
-                }
+				// rows to columns order
+				size_t k = 0;
+				size_t p = (nbElements / lastDim);
+				for (size_t k = 0; k < p; k++)
+				{
+					for (size_t l = 0; l < lastDim; l++)
+					{
+						ar[k * lastDim + l] = (double)(*normal_real_generator)();
+						// We reject voluntary the next random value for simulate complex number array
+						(*normal_real_generator)();
+					}
+				}
             }
             break;
         }
     }
     //=============================================================================
-    void RandomMersenneTwister64::getValuesAsSingle(single *ar, size_t nbElements, RNG_DISTRIBUTION_TYPE _type)
+    void RandomMersenneTwister64::getValuesAsSingle(single *ar, indexType nbElements, indexType lastDim, RNG_DISTRIBUTION_TYPE _type)
     {
         switch (_type)
         {
             case RNG_DISTRIBUTION_UNIFORM_REAL:
             {
-                size_t k = 0;
-                while (k < nbElements)
-                {
-                    ar[k] = (single)(*uniform_real_generator)();
-                    k++;
-                }
+				// rows to columns order
+				size_t k = 0;
+				size_t p = (nbElements / lastDim);
+				for (size_t k = 0; k < p; k++)
+				{
+					for (size_t l = 0; l < lastDim; l++)
+					{
+						ar[k * lastDim + l] = (single)(*uniform_real_generator)();
+						// We reject voluntary the next random value for simulate complex number array
+						(*uniform_real_generator)();
+					}
+				}
             }
             break;
             case RNG_DISTRIBUTION_UNIFORM_INT:
             {
-                size_t k = 0;
-                while (k < nbElements)
-                {
-                    ar[k] = (single)(*uniform_int_generator)();
-                    k++;
-                }
+				// rows to columns order
+				size_t k = 0;
+				size_t p = (nbElements / lastDim);
+				for (size_t k = 0; k < p; k++)
+				{
+					for (size_t l = 0; l < lastDim; l++)
+					{
+						ar[k * lastDim + l] = (single)(*uniform_int_generator)();
+						// We reject voluntary the next random value for simulate complex number array
+						(*uniform_int_generator)();
+					}
+				}
             }
             break;
             case RNG_DISTRIBUTION_NORMAL:
             {
-                size_t k = 0;
-                while (k < nbElements)
-                {
-                    ar[k] = (single)(*normal_real_generator)();
-                    k++;
-                }
+				// rows to columns order
+				size_t k = 0;
+				size_t p = (nbElements / lastDim);
+				for (size_t k = 0; k < p; k++)
+				{
+					for (size_t l = 0; l < lastDim; l++)
+					{
+						ar[k * lastDim + l] = (single)(*normal_real_generator)();
+						// We reject voluntary the next random value for simulate complex number array
+						(*normal_real_generator)();
+					}
+				}
             }
             break;
         }

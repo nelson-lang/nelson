@@ -15,6 +15,8 @@ Features:
 Bug Fixes:
 ---------
 
+  [#19](http://github.com/Nelson-numerical-software/nelson/issues/19): rand & randn did not use Column-major order.
+
   [#17](http://github.com/Nelson-numerical-software/nelson/issues/17): 'locales' directory renamed as 'locale' (more standard).
 
   [#13](http://github.com/Nelson-numerical-software/nelson/issues/13): mldivide and mrdivide builtin were missing.

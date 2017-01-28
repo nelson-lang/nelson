@@ -96,7 +96,7 @@ namespace Nelson {
         return (single)nan("");
     }
     //=============================================================================
-    void RandomLaggedFibonacci607::getValuesAsDouble(double *ar, size_t nbElements, RNG_DISTRIBUTION_TYPE _type)
+    void RandomLaggedFibonacci607::getValuesAsDouble(double *ar, indexType nbElements, indexType lastDim, RNG_DISTRIBUTION_TYPE _type)
     {
         switch (_type)
         {
@@ -143,7 +143,7 @@ namespace Nelson {
         }
     }
     //=============================================================================
-    void RandomLaggedFibonacci607::getValuesAsSingle(single *ar, size_t nbElements, RNG_DISTRIBUTION_TYPE _type)
+    void RandomLaggedFibonacci607::getValuesAsSingle(single *ar, indexType nbElements, indexType lastDim, RNG_DISTRIBUTION_TYPE _type)
     {
         switch (_type)
         {
