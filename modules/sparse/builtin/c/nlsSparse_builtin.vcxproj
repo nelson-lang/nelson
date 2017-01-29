@@ -189,6 +189,8 @@
     <ClCompile Include="..\cpp\fullBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\IJVBuiltin.cpp" />
+    <ClCompile Include="..\cpp\nnzBuiltin.cpp" />
+    <ClCompile Include="..\cpp\nzmaxBuiltin.cpp" />
     <ClCompile Include="..\cpp\sparseBuiltin.cpp" />
     <ClCompile Include="..\cpp\sparsedouble_ctransposeBuiltin.cpp" />
     <ClCompile Include="..\cpp\sparsedouble_dispBuiltin.cpp" />
@@ -213,6 +215,8 @@
     <ClInclude Include="..\include\fullBuiltin.hpp" />
     <ClInclude Include="..\include\IJVBuiltin.hpp" />
     <ClInclude Include="..\include\nlsSparse_builtin_exports.h" />
+    <ClInclude Include="..\include\nnzBuiltin.hpp" />
+    <ClInclude Include="..\include\nzmaxBuiltin.hpp" />
     <ClInclude Include="..\include\sparseBuiltin.hpp" />
     <ClInclude Include="..\include\sparsedouble_ctransposeBuiltin.hpp" />
     <ClInclude Include="..\include\sparsedouble_dispBuiltin.hpp" />

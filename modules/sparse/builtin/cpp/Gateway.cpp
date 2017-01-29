@@ -34,24 +34,8 @@
 #include "sparselogical_vertcat_sparselogicalBuiltin.hpp"
 #include "sparselogical_ctransposeBuiltin.hpp"
 #include "sparsedouble_ctransposeBuiltin.hpp"
-/*
-#include "sparsedouble_plus_sparsedoubleBuiltin.hpp"
-#include "sparsedouble_minus_sparsedoubleBuiltin.hpp"
-#include "sparsedouble_eq_sparsedoubleBuiltin.hpp"
-#include "sparselogical_doubleBuiltin.hpp"
-
-
-#include "sparselogical_eq_sparselogicalBuiltin.hpp"
-#include "sparsedouble_cosBuiltin.hpp"
-#include "sparsedouble_sinBuiltin.hpp"
-#include "sparsedouble_tanBuiltin.hpp"
-#include "sparsedouble_coshBuiltin.hpp"
-#include "sparsedouble_sinhBuiltin.hpp"
-#include "sparsedouble_tanhBuiltin.hpp"
-#include "sparsedouble_acosBuiltin.hpp"
-#include "sparsedouble_asinBuiltin.hpp"
-#include "sparsedouble_atanBuiltin.hpp"
-*/
+#include "nnzBuiltin.hpp"
+#include "nzmaxBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -77,23 +61,8 @@ static const nlsGateway gateway[] =
     { "sparsedouble_horzcat_sparsedouble", Nelson::SparseGateway::sparsedouble_horzcat_sparsedoubleBuiltin, 1, 2 },
     { "sparselogical_ctranspose", Nelson::SparseGateway::sparselogical_ctransposeBuiltin, 1, 1 },
     { "sparsedouble_ctranspose", Nelson::SparseGateway::sparsedouble_ctransposeBuiltin, 1, 1 },
-
-    /*
-    { "sparselogical_double", sparselogical_doubleBuiltin, 0, 1);
-    { "sparsedouble_plus_sparsedouble", sparsedouble_plus_sparsedoubleBuiltin, 0, 1);
-    { "sparsedouble_minus_sparsedouble", sparsedouble_minus_sparsedoubleBuiltin, 0, 1);
-    { "sparsedouble_eq_sparsedouble", sparsedouble_eq_sparsedoubleBuiltin, 2, 1);
-    { "sparselogical_eq_sparselogical", sparselogical_eq_sparselogicalBuiltin, 2, 1);
-    { "sparsedouble_cos", sparsedouble_cosBuiltin, 0, 1);
-    { "sparsedouble_sin", sparsedouble_sinBuiltin, 0, 1);
-    { "sparsedouble_tan", sparsedouble_tanBuiltin, 0, 1);
-    { "sparsedouble_cosh", sparsedouble_coshBuiltin, 0, 1);
-    { "sparsedouble_sinh", sparsedouble_sinhBuiltin, 0, 1);
-    { "sparsedouble_tanh", sparsedouble_tanhBuiltin, 0, 1);
-    { "sparsedouble_acos", sparsedouble_acosBuiltin, 0, 1);
-    { "sparsedouble_asin", sparsedouble_asinBuiltin, 0, 1);
-    { "sparsedouble_atan", sparsedouble_atanBuiltin, 0, 1);
-    */
+	{ "nnz", Nelson::SparseGateway::nnzBuiltin, 1, 1 },
+	{ "nzmax", Nelson::SparseGateway::nzmaxBuiltin, 1, 1 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

@@ -16,13 +16,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "numelBuiltin.hpp"
+#include "nzmaxBuiltin.hpp"
 #include "Error.hpp"
+#include "OverloadFunction.hpp"
 #include "OverloadUnaryOperator.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::ElementaryFunctionsGateway::numelBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector Nelson::SparseGateway::nzmaxBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (argIn.size() != 1)
@@ -33,8 +34,14 @@ ArrayOfVector Nelson::ElementaryFunctionsGateway::numelBuiltin(Evaluator* eval, 
     {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-	ArrayOf param1 = argIn[0];
-	retval.push_back(ArrayOf::doubleConstructor(param1.numel()));
+    // Call overload if it exists
+    bool bSuccess = false;
+    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    if (!bSuccess)
+    {
+		ArrayOf R(argIn[0]);
+		retval.push_back(ArrayOf::doubleConstructor(R.nzmax()));
+	}
     return retval;
 }
 //=============================================================================

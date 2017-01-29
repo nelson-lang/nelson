@@ -45,6 +45,8 @@ NLSTYPES_IMPEXP void* CopySparseMatrixDynamicFunction(Class dclass, indexType ro
 //=============================================================================
 NLSTYPES_IMPEXP indexType CountNonzerosDynamicFunction(Class dclass, indexType rows, indexType cols, const void *cp) throw(Exception);
 //=============================================================================
+NLSTYPES_IMPEXP indexType CountNonzerosMaxDynamicFunction(Class dclass, indexType rows, indexType cols, const void *cp) throw(Exception);
+//=============================================================================
 NLSTYPES_IMPEXP void* SparseMatrixConstructorDynamicFunction(Class dclass, indexType rows, indexType cols, ArrayOfMatrix m) throw(Exception);
 //=============================================================================
 NLSTYPES_IMPEXP void* GetSparseVectorSubsetsDynamicFunction(Class dclass, indexType rows, indexType cols, const void* src, const indexType* indx, indexType irows, indexType icols) throw(Exception);

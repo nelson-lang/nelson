@@ -16,25 +16,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "numelBuiltin.hpp"
-#include "Error.hpp"
-#include "OverloadUnaryOperator.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
-ArrayOfVector Nelson::ElementaryFunctionsGateway::numelBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    ArrayOfVector retval;
-    if (argIn.size() != 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+namespace Nelson {
+    namespace SparseGateway {
+        ArrayOfVector nnzBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
     }
-    if (nLhs > 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-	ArrayOf param1 = argIn[0];
-	retval.push_back(ArrayOf::doubleConstructor(param1.numel()));
-    return retval;
 }
 //=============================================================================

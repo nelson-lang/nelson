@@ -45,7 +45,9 @@ extern "C"
     //=============================================================================
     NLSSPARSE_IMPEXP void* Eigen_CopySparseMatrix(Class dclass, indexType rows, indexType cols, const void* cp) throw(Exception);
     //=============================================================================
-    NLSSPARSE_IMPEXP indexType Eigen_CountNonzeros(Class dclass, indexType rows, indexType cols, const void *cp) throw(Exception);
+	NLSSPARSE_IMPEXP indexType Eigen_CountNonzerosMax(Class dclass, indexType rows, indexType cols, const void *cp) throw(Exception);
+	//=============================================================================
+	NLSSPARSE_IMPEXP indexType Eigen_CountNonzeros(Class dclass, indexType rows, indexType cols, const void *cp) throw(Exception);
     //=============================================================================
     NLSSPARSE_IMPEXP void* Eigen_SparseMatrixConstructor(Class dclass, indexType rows, indexType cols, ArrayOfMatrix m) throw(Exception);
     //=============================================================================

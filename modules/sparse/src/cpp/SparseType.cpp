@@ -41,6 +41,7 @@ template <class T> void* Eigen_EyeSparseMatrixConstructor(indexType rows, indexT
         spMat->setIdentity();
         spMat->finalize();
         spMat->makeCompressed();
+		spMat->data().squeeze();
         return (void*)spMat;
     }
     return nullptr;
@@ -96,6 +97,7 @@ void* Eigen_LogicalSparseMatrixConstructor(indexType rows, indexType cols, bool 
     }
     spMat->finalize();
     spMat->makeCompressed();
+	spMat->data().squeeze();
     return (void*)spMat;
 }
 //=============================================================================
@@ -211,8 +213,9 @@ template <class T>void* Eigen_MakeSparseArrayOf(indexType rows, indexType cols, 
         spMat = nullptr;
         throw Exception(ERROR_MEMORY_ALLOCATION);
     }
-    spMat->makeCompressed();
-    return (void*)spMat;
+	spMat->makeCompressed();
+	spMat->data().squeeze();
+	return (void*)spMat;
 }
 //=============================================================================
 void* Eigen_MakeSparseArrayOf(Class dclass, indexType rows, indexType cols, const void* cp) throw(Exception)
@@ -245,7 +248,8 @@ void* Eigen_MakeSparseArrayOf(Class dclass, indexType rows, indexType cols, cons
                 throw Exception(ERROR_MEMORY_ALLOCATION);
             }
             spMat->makeCompressed();
-            return (void*)spMat;
+			spMat->data().squeeze();
+			return (void*)spMat;
         }
         break;
         default:
@@ -271,7 +275,8 @@ template <class T>void* Eigen_CopySparseMatrix(indexType rows, indexType cols, c
         throw Exception(ERROR_MEMORY_ALLOCATION);
     }
     copiedpMat->makeCompressed();
-    return (void *)copiedpMat;
+	copiedpMat->data().squeeze();
+	return (void *)copiedpMat;
 }
 //=============================================================================
 void* Eigen_CopySparseMatrix(Class dclass, indexType rows, indexType cols, const void* cp) throw(Exception)
@@ -307,6 +312,12 @@ template <class T>indexType Eigen_CountNonzeros(const void *cp)
     return spMat->nonZeros();
 }
 //=============================================================================
+template <class T>indexType Eigen_CountNonzerosMax(const void *cp)
+{
+	Eigen::SparseMatrix<T, 0, signedIndexType> *spMat = (Eigen::SparseMatrix<T, 0, signedIndexType> *)cp;
+	return spMat->data().allocatedSize();
+}
+//=============================================================================
 indexType Eigen_CountNonzeros(Class dclass, indexType rows, indexType cols, const void *cp) throw(Exception)
 {
     switch (dclass)
@@ -333,6 +344,34 @@ indexType Eigen_CountNonzeros(Class dclass, indexType rows, indexType cols, cons
         break;
     }
     return 0;
+}
+//=============================================================================
+indexType Eigen_CountNonzerosMax(Class dclass, indexType rows, indexType cols, const void *cp) throw(Exception)
+{
+	switch (dclass)
+	{
+	case NLS_LOGICAL:
+	{
+		return Eigen_CountNonzerosMax<logical>(cp);
+	}
+	break;
+	case NLS_DOUBLE:
+	{
+		return Eigen_CountNonzerosMax<double>(cp);
+	}
+	break;
+	case NLS_DCOMPLEX:
+	{
+		return Eigen_CountNonzerosMax<doublecomplex>(cp);
+	}
+	break;
+	default:
+	{
+		throw Exception(_W("Unsupported type in CountNonzerosMax."));
+	}
+	break;
+	}
+	return 0;
 }
 //=============================================================================
 void* Eigen_SparseMatrixConstructor(Class dclass, indexType rows, indexType cols, ArrayOfMatrix m) throw(Exception)

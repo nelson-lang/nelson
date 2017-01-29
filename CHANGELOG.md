@@ -2,6 +2,8 @@
 Features:
 ---------
 
+  Add nnz, nzmax, numel functions.
+
   Rework searchenv to return a cell of strings.
 
   Update persistent variables behavior (clear functions).

@@ -40,7 +40,8 @@
 		<example_item_description></example_item_description>
 		<example_item_data>
 			<![CDATA[numel(ones(3, 0))
-numel(ones(3,4))]]>
+numel(ones(3,4))
+numel(ones(3,4,5))]]>
 		</example_item_data>
 	</example_item>
 
@@ -52,7 +53,7 @@ numel(ones(3,4))]]>
 			<link linkend="${elementary_functions}size">size</link>
 		</see_also_item>
 		<see_also_item>
-			<link linkend="${elementary_functions}numel">numel</link>
+			<link linkend="${elementary_functions}length">length</link>
 		</see_also_item>
 	</see_also>
 

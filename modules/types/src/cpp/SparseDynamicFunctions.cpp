@@ -167,6 +167,22 @@ void* CopySparseMatrixDynamicFunction(Class dclass, indexType rows, indexType co
     return Eigen_CopySparseMatrixPtr(dclass, rows, cols, cp);
 }
 //=============================================================================
+indexType CountNonzerosMaxDynamicFunction(Class dclass, indexType rows, indexType cols, const void *cp) throw(Exception)
+{
+	typedef indexType(*PROC_CountNonzerosMax)(Class dclass, indexType rows, indexType cols, const void *cp);
+	static PROC_CountNonzerosMax Eigen_CountNonzerosMaxPtr = nullptr;
+	initSparseDynamicLibrary();
+	if (!Eigen_CountNonzerosMaxPtr)
+	{
+		Eigen_CountNonzerosMaxPtr = reinterpret_cast<PROC_CountNonzerosMax>(get_function(nlsSparseHandleDynamicLibrary, "Eigen_CountNonzerosMax"));
+		if (!Eigen_CountNonzerosMaxPtr)
+		{
+			throw Exception(_W("Sparse Function not loaded."));
+		}
+	}
+	return Eigen_CountNonzerosMaxPtr(dclass, rows, cols, cp);
+}
+//=============================================================================
 indexType CountNonzerosDynamicFunction(Class dclass, indexType rows, indexType cols, const void *cp) throw(Exception)
 {
     typedef indexType(*PROC_CountNonzeros)(Class dclass, indexType rows, indexType cols, const void *cp);

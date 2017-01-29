@@ -853,6 +853,17 @@ namespace Nelson {
          */
         indexType nnz();
 
+		/*
+		 * Amount of storage allocated for nonzero matrix elements
+		 */
+		indexType nzmax();
+
+		/*
+		 * number of elements
+		 */
+		indexType numel();
+
+
         bool isCell();
 
         const bool isStruct() const;
