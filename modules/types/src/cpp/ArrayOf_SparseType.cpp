@@ -80,13 +80,8 @@ namespace Nelson {
         {
             return 0;
         }
-#ifdef		__NLS_USE_SPARSE_EIGEN
         return CountNonzerosDynamicFunction(dp->dataClass, dp->dimensions[0], dp->dimensions[1],
                                             dp->getData());
-#else
-        return CountNonzeros(dp->dataClass, dp->dimensions[0], dp->dimensions[1],
-                             dp->getData());
-#endif
     }
     //=============================================================================
     void ArrayOf::makeSparse()
@@ -118,17 +113,10 @@ namespace Nelson {
         {
             throw Exception(_W("Cannot make sparse."));
         }
-#ifdef __NLS_USE_SPARSE_EIGEN
         dp = dp->putData(dp->dataClass, dp->dimensions,
                          MakeSparseArrayOfDynamicFunction(dp->dataClass, dp->dimensions[0], dp->dimensions[1], dp->getData()),
                          true,
                          dp->fieldNames);
-#else
-        dp = dp->putData(dp->dataClass, dp->dimensions,
-                         MakeSparseArrayOf(dp->dataClass, dp->dimensions[0], dp->dimensions[1], dp->getData()),
-                         true,
-                         dp->fieldNames);
-#endif
     }
     //=============================================================================
 

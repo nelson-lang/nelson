@@ -27,5 +27,3 @@
 #if (defined(_LP64) || defined(_WIN64))
 #define NLS_INDEX_TYPE_64
 #endif
-
-#define __NLS_USE_SPARSE_EIGEN

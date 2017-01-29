@@ -47,14 +47,8 @@
 #include "IEEEFP.hpp"
 #include "characters_encoding.hpp"
 #include <Eigen/Dense>
-
-
-#ifdef __NLS_USE_SPARSE_EIGEN
 #include "SparseType.hpp"
 #include "SparseDynamicFunctions.hpp"
-#else
-#include "Sparse.hpp"
-#endif
 
 
 #ifdef _MSC_VER
@@ -962,21 +956,12 @@ namespace Nelson {
             }
             else
             {
-#ifdef				__NLS_USE_SPARSE_EIGEN
                 dp = dp->putData(dp->dataClass,dp->dimensions,
                                  CopySparseMatrixDynamicFunction(dp->dataClass,
                                          dp->dimensions[0],
                                          dp->dimensions[1],
                                          dp->getData()),
                                  dp->sparse,dp->fieldNames);
-#else
-                dp = dp->putData(dp->dataClass,dp->dimensions,
-                                 CopySparseMatrix(dp->dataClass,
-                                                  dp->dimensions[0],
-                                                  dp->dimensions[1],
-                                                  dp->getData()),
-                                 dp->sparse,dp->fieldNames);
-#endif
             }
         }
     }
@@ -1964,7 +1949,6 @@ namespace Nelson {
         // Do nothing for promoting to same class (no-op).
         if (isSparse())
         {
-#ifdef			__NLS_USE_SPARSE_EIGEN
             dp = dp->putData(dstClass,dp->dimensions,
                              TypeConvertSparseDynamicFunction(dp->dataClass,
                                      dp->dimensions[0],
@@ -1972,15 +1956,6 @@ namespace Nelson {
                                      dp->getData(),
                                      dstClass),
                              true);
-#else
-            dp = dp->putData(dstClass, dp->dimensions,
-                             TypeConvertSparse(dp->dataClass,
-                                               dp->dimensions[0],
-                                               dp->dimensions[1],
-                                               dp->getData(),
-                                               dstClass),
-                             true);
-#endif
             return;
         }
         if (dstClass == dp->dataClass)
@@ -2455,7 +2430,6 @@ break;
             indexType indx = (indexType)(index - 1);
             indexType row = (indexType)(indx % getDimensionLength(0));
             indexType col = (indexType)(indx / getDimensionLength(0));
-#ifdef __NLS_USE_SPARSE_EIGEN
             return ArrayOf(dp->dataClass, retdims,
                            GetSparseScalarElementDynamicFunction(dp->dataClass,
                                    getDimensionLength(0),
@@ -2463,15 +2437,6 @@ break;
                                    dp->getData(),
                                    row + 1, col + 1),
                            true);
-#else
-            return ArrayOf(dp->dataClass, retdims,
-                           GetSparseScalarElement(dp->dataClass,
-                                                  getDimensionLength(0),
-                                                  getDimensionLength(1),
-                                                  dp->getData(),
-                                                  row + 1, col + 1),
-                           true);
-#endif
         }
         else
         {
@@ -2539,7 +2504,6 @@ break;
                         indexType  indx = index.getContentsAsInteger32Scalar() - 1;
                         indexType  row = indx % getDimensionLength(0);
                         indexType  col = indx / getDimensionLength(0);
-#ifdef __NLS_USE_SPARSE_EIGEN
                         return ArrayOf(dp->dataClass, retdims,
                                        GetSparseScalarElementDynamicFunction(dp->dataClass,
                                                getDimensionLength(0),
@@ -2547,18 +2511,8 @@ break;
                                                dp->getData(),
                                                row + 1, col + 1),
                                        true);
-#else
-                        return ArrayOf(dp->dataClass, retdims,
-                                       GetSparseScalarElement(dp->dataClass,
-                                                              getDimensionLength(0),
-                                                              getDimensionLength(1),
-                                                              dp->getData(),
-                                                              row + 1, col + 1),
-                                       true);
-#endif
                     }
                     else
-#ifdef __NLS_USE_SPARSE_EIGEN
                         return ArrayOf(dp->dataClass, retdims,
                                        GetSparseVectorSubsetsDynamicFunction(dp->dataClass,
                                                getDimensionLength(0),
@@ -2569,18 +2523,6 @@ break;
                                                index.getDimensionLength(0),
                                                index.getDimensionLength(1)),
                                        true);
-#else
-                        return ArrayOf(dp->dataClass, retdims,
-                                       GetSparseVectorSubsets(dp->dataClass,
-                                                              getDimensionLength(0),
-                                                              getDimensionLength(1),
-                                                              dp->getData(),
-                                                              (const indexType*)
-                                                              index.dp->getData(),
-                                                              index.getDimensionLength(0),
-                                                              index.getDimensionLength(1)),
-                                       true);
-#endif
                 }
                 //
                 // The output is the same size as the _index_, not the
@@ -2686,7 +2628,6 @@ break;
                     }
                     if ((outDims[0] == 1) && (outDims[1] == 1))
                     {
-#ifdef					__NLS_USE_SPARSE_EIGEN
                         return ArrayOf(dp->dataClass, outDims,
                                        GetSparseScalarElementDynamicFunction(dp->dataClass,
                                                getDimensionLength(0),
@@ -2695,20 +2636,9 @@ break;
                                                *((const indexType*)indx[0]),
                                                *((const indexType*)indx[1])),
                                        true);
-#else
-                        return ArrayOf(dp->dataClass, outDims,
-                                       GetSparseScalarElement(dp->dataClass,
-                                                              getDimensionLength(0),
-                                                              getDimensionLength(1),
-                                                              dp->getData(),
-                                                              *((const indexType*)indx[0]),
-                                                              *((const indexType*)indx[1])),
-                                       true);
-#endif
                     }
                     else
                     {
-#ifdef __NLS_USE_SPARSE_EIGEN
                         return ArrayOf(dp->dataClass, outDims,
                                        GetSparseNDimSubsetsDynamicFunction(dp->dataClass,
                                                getDimensionLength(0),
@@ -2719,18 +2649,6 @@ break;
                                                (const indexType*)indx[1],
                                                outDims[1]),
                                        true);
-#else
-                        return ArrayOf(dp->dataClass, outDims,
-                                       GetSparseNDimSubsets(dp->dataClass,
-                                                            getDimensionLength(0),
-                                                            getDimensionLength(1),
-                                                            dp->getData(),
-                                                            (const indexType*)indx[0],
-                                                            outDims[0],
-                                                            (const indexType*)indx[1],
-                                                            outDims[1]),
-                                       true);
-#endif
                     }
                 }
                 qp = allocateArrayOf(dp->dataClass, outDims.getElementCount(), dp->fieldNames);
@@ -2964,21 +2882,12 @@ break;
         {
             indexType rows = getDimensionLength(0);
             indexType cols = getDimensionLength(1);
-#ifdef __NLS_USE_SPARSE_EIGEN
             void *qp = SetSparseVectorSubsetsDynamicFunction(dp->dataClass, rows, cols, dp->getData(),
                        (const indexType*)index.dp->getData(),
                        index.getDimensionLength(0),
                        index.getDimensionLength(1),
                        data.getDataPointer(),
                        advance);
-#else
-            void *qp = SetSparseVectorSubsets(dp->dataClass, rows, cols, dp->getData(),
-                                              (const indexType*)index.dp->getData(),
-                                              index.getDimensionLength(0),
-                                              index.getDimensionLength(1),
-                                              data.getDataPointer(),
-                                              advance);
-#endif
             Dimensions newdim;
             newdim[0] = rows;
             newdim[1] = cols;
@@ -3128,7 +3037,6 @@ break;
                 }
                 indexType rows = getDimensionLength(0);
                 indexType cols = getDimensionLength(1);
-#ifdef __NLS_USE_SPARSE_EIGEN
                 void *qp = SetSparseNDimSubsetsDynamicFunction(dp->dataClass, rows, cols,
                            dp->getData(),
                            (const indexType*)indx[0],
@@ -3136,15 +3044,6 @@ break;
                            (const indexType*)indx[1],
                            argLengths[1],
                            data.getDataPointer(), (int)advance);
-#else
-                void *qp = SetSparseNDimSubsets(dp->dataClass, rows, cols,
-                                                dp->getData(),
-                                                (const indexType*)indx[0],
-                                                argLengths[0],
-                                                (const indexType*)indx[1],
-                                                argLengths[1],
-                                                data.getDataPointer(), advance);
-#endif
                 Dimensions newdim;
                 newdim[0] = rows;
                 newdim[1] = cols;
@@ -3204,19 +3103,11 @@ break;
             {
                 indexType rows = getDimensionLength(0);
                 indexType cols = getDimensionLength(1);
-#ifdef __NLS_USE_SPARSE_EIGEN
                 void *cp = DeleteSparseMatrixVectorSubsetDynamicFunction(dp->dataClass, rows, cols,
                            dp->getData(),
                            (const indexType *)
                            arg.getDataPointer(),
                            arg.getLength());
-#else
-                void *cp = DeleteSparseMatrixVectorSubset(dp->dataClass,rows,cols,
-                           dp->getData(),
-                           (const indexType *)
-                           arg.getDataPointer(),
-                           arg.getLength());
-#endif
                 Dimensions newdim;
                 newdim[0] = rows;
                 newdim[1] = cols;
@@ -3405,27 +3296,15 @@ break;
                     indexType  cols = getDimensionLength(1);
                     if (singletonDimension == 0)
                     {
-#ifdef __NLS_USE_SPARSE_EIGEN
                         dp = dp->putData(dp->dataClass, retDims,
                                          DeleteSparseMatrixRowsDynamicFunction(dp->dataClass, rows, cols,
                                                  dp->getData(), deletionMap), true);
-#else
-                        dp = dp->putData(dp->dataClass, retDims,
-                                         DeleteSparseMatrixRows(dp->dataClass, rows, cols,
-                                                                dp->getData(), deletionMap), true);
-#endif
                     }
                     else if (singletonDimension == 1)
                     {
-#ifdef __NLS_USE_SPARSE_EIGEN
                         dp = dp->putData(dp->dataClass, retDims,
                                          DeleteSparseMatrixColsDynamicFunction(dp->dataClass, rows, cols,
                                                  dp->getData(), deletionMap), true);
-#else
-                        dp = dp->putData(dp->dataClass, retDims,
-                                         DeleteSparseMatrixCols(dp->dataClass, rows, cols,
-                                                                dp->getData(), deletionMap), true);
-#endif
                     }
                     else
                     {
@@ -4394,17 +4273,10 @@ break;
         }
         if (isSparse())
         {
-#ifdef __NLS_USE_SPARSE_EIGEN
             return CountNonzerosDynamicFunction(dp->dataClass,
                                                 getDimensionLength(0),
                                                 getDimensionLength(1),
                                                 dp->getData());
-#else
-            return CountNonzeros(dp->dataClass,
-                                 getDimensionLength(0),
-                                 getDimensionLength(1),
-                                 dp->getData());
-#endif
         }
         // OK - its not sparse... now what?
         switch (dp->dataClass)

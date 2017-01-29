@@ -27,12 +27,7 @@
 #include <cstdio>
 #include "SparseDisplay.hpp"
 
-#ifdef __NLS_USE_SPARSE_EIGEN
 #include "SparseType.hpp"
-#else
-#include "Sparse.hpp"
-#include "SparseTemplates.hpp"
-#endif
 #include "Interface.hpp"
 #include "IEEEFP.hpp"
 using boost::io::group;
@@ -182,7 +177,6 @@ namespace Nelson {
                 }
                 else
                 {
-#ifdef __NLS_USE_SPARSE_EIGEN
                     Eigen::SparseMatrix<double, 0, signedIndexType> *spMat = (Eigen::SparseMatrix<double, 0, signedIndexType> *)a.getSparseDataPointer();
                     for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k)
                     {
@@ -201,25 +195,6 @@ namespace Nelson {
                             io->outputMessage(msg);
                         }
                     }
-#else
-                    const double **src = (const double**)a.getSparseDataPointer();
-                    for (size_t p = 0; p < cols; p++)
-                    {
-                        RLEDecoder<double> A(src[p], rows);
-                        A.update();
-                        while (A.more())
-                        {
-                            if (eval->GetInterruptPending())
-                            {
-                                break;
-                            }
-                            std::string strNumber = printNumber(A.value(), eval->getCurrentOutputFormatDisplay());
-                            std::string msg = str(boost::format("\t(%d,%d)\t%s\n") % (A.row() + 1) % (p + 1) % strNumber.c_str());
-                            io->outputMessage(msg);
-                            A.advance();
-                        }
-                    }
-#endif
                 }
             }
             io->outputMessage("\n");
@@ -248,7 +223,6 @@ namespace Nelson {
                 }
                 else
                 {
-#ifdef __NLS_USE_SPARSE_EIGEN
                     Eigen::SparseMatrix<doublecomplex, 0, signedIndexType> *spMat = (Eigen::SparseMatrix<doublecomplex, 0, signedIndexType> *)a.getSparseDataPointer();
                     for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k)
                     {
@@ -267,24 +241,6 @@ namespace Nelson {
                             io->outputMessage(msg);
                         }
                     }
-#else
-                    for (size_t p = 0; p < cols; p++)
-                    {
-                        RLEDecoderComplex<double> A(src[p], rows);
-                        A.update();
-                        while (A.more())
-                        {
-                            if (eval->GetInterruptPending())
-                            {
-                                break;
-                            }
-                            std::string strNumber = printNumber(A.value_real(), A.value_imag(), eval->getCurrentOutputFormatDisplay());
-                            std::string msg = str(boost::format("\t(%d,%d)\t%s\n") % (A.row() + 1) % (p + 1) % strNumber.c_str());
-                            io->outputMessage(msg);
-                            A.advance();
-                        }
-                    }
-#endif
                 }
             }
             io->outputMessage("\n");
@@ -313,7 +269,6 @@ namespace Nelson {
                 }
                 else
                 {
-#ifdef __NLS_USE_SPARSE_EIGEN
                     Eigen::SparseMatrix<logical, 0, signedIndexType> *spMat = (Eigen::SparseMatrix<logical, 0, signedIndexType> *)a.getSparseDataPointer();
                     for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k)
                     {
@@ -339,31 +294,6 @@ namespace Nelson {
                             io->outputMessage(msg);
                         }
                     }
-#else
-                    for (size_t p = 0; p < cols; p++)
-                    {
-                        RLEDecoder<logical> A(src[p], rows);
-                        A.update();
-                        while (A.more())
-                        {
-                            if (eval->GetInterruptPending())
-                            {
-                                break;
-                            }
-                            std::string msg = "";
-                            if (A.value())
-                            {
-                                msg = str(boost::format("\t(%d,%d) true\n") % (A.row() + 1) % (p + 1));
-                            }
-                            else
-                            {
-                                msg = str(boost::format("\t(%d,%d) false\n") % (A.row() + 1) % (p + 1));
-                            }
-                            io->outputMessage(msg);
-                            A.advance();
-                        }
-                    }
-#endif
                 }
             }
             io->outputMessage("\n");

@@ -20,14 +20,9 @@
 #include "Error.hpp"
 #include "OverloadFunction.hpp"
 #include "OverloadUnaryOperator.hpp"
-//#include "Sparse.hpp"
 #include "SparseConstructors.hpp"
 #include "CheckIJV.hpp"
-#ifdef __NLS_USE_SPARSE_EIGEN
 #include "SparseType.hpp"
-#else
-#include "Sparse.hpp"
-#endif
 //=============================================================================
 using namespace Nelson;
 //=============================================================================

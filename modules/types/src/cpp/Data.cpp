@@ -37,12 +37,8 @@
 // DEALINGS IN THE SOFTWARE.
 
 #include "Data.hpp"
-#ifdef __NLS_USE_SPARSE_EIGEN
 #include "SparseType.hpp"
 #include "SparseDynamicFunctions.hpp"
-#else
-#include "Sparse.hpp"
-#endif
 
 
 namespace Nelson {
@@ -145,11 +141,7 @@ namespace Nelson {
             }
             else if (sparse)
             {
-#ifdef __NLS_USE_SPARSE_EIGEN
                 DeleteSparseMatrixDynamicFunction(dataClass, dimensions[0], dimensions[1], cp);
-#else
-                DeleteSparseMatrix(dataClass,dimensions[0],dimensions[1],cp);
-#endif
             }
             else
             {
