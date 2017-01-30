@@ -18,5 +18,5 @@
 //=============================================================================
 function id = SEEK_SET()
 % Return the numerical value to pass to fseek to perform action position file relative to the beginning.
-	id = -1;
+  id = -1;
 endfunction

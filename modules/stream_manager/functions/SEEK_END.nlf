@@ -18,5 +18,5 @@
 //=============================================================================
 function id = SEEK_END()
 % Return the numerical value to pass to fseek to perform action position file relative  to the end.
-	id = 1;
+  id = 1;
 endfunction

@@ -48,6 +48,7 @@
   <p>'bof' or -1 : beginning of file.</p>
   <p>'cof' or 0 : current position in file.</p>
   <p>'eof' or 1 : end of file.</p>
+  <p> <b>offset</b> may be one of the predefined variables <b>SEEK_CUR</b> (current position, or 0), <b>SEEK_SET</b> (beginning, or -1), or <b>SEEK_END</b> (end of file, or 1).</p>
 </description>
 
   <used_function></used_function>
@@ -61,7 +62,7 @@
     <example_item_data><![CDATA[
 fileID = fopen([tempdir(), '/fseek.txt'],'wt');
 fprintf(fileID, 'son is beautiful.');
-fseek(fileID, 0, 'bof');
+fseek(fileID, SEEK_CUR, 'bof');
 fprintf(fileID, 'sun');
 fclose(fileID);
 R = fileread([tempdir(), '/fseek.txt'])]]>
