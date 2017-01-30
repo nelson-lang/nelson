@@ -1,0 +1,46 @@
+//=============================================================================
+// Copyright (c) 2017 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+// <-- Issue URL -->
+// https://github.com/Nelson-numerical-software/nelson/issues/22
+// <-- Short Description -->
+// last output argument of 'IJV' did not return nzmax.
+//=============================================================================
+I1 = [1; 2; 3];
+J1 = [3; 1; 2];
+V1 = [32; 42; 53];
+M1 = 5;
+N1 = 4;
+NZMAX1 = 10;
+sp = sparse(I1, J1, V1, M1, N1, NZMAX1);
+[I2, J2, V2, M2, N2, NZMAX2] = IJV(sp);
+I_REF = [ 2; 3; 1];
+J_REF = [ 1; 2; 3];
+V_REF = [ 42; 53; 32];
+M_REF = 5;
+N_REF = 4;
+NZMAX_REF = 10;
+SP_REF = sparse(I_REF, J_REF, V_REF, M_REF, N_REF, NZMAX_REF);
+assert_isequal(I_REF, I2);
+assert_isequal(J_REF, J2);
+assert_isequal(V_REF, V2);
+assert_isequal(M_REF, M2);
+assert_isequal(N_REF, N2);
+assert_isequal(NZMAX_REF, NZMAX2);
+assert_isequal(SP_REF, sp);
+//=============================================================================

@@ -95,7 +95,7 @@ ArrayOfVector Nelson::SparseGateway::IJVBuiltin(Evaluator* eval, int nLhs, const
             }
             if (nLhs > 5)
             {
-                ArrayOf NNZ = ArrayOf::doubleConstructor((double)nnz);
+                ArrayOf NNZ = ArrayOf::doubleConstructor((double)A.nzmax());
                 retval.push_back(NNZ);
             }
         }
