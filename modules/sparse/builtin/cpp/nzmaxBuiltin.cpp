@@ -39,9 +39,9 @@ ArrayOfVector Nelson::SparseGateway::nzmaxBuiltin(Evaluator* eval, int nLhs, con
     retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
     if (!bSuccess)
     {
-		ArrayOf R(argIn[0]);
-		retval.push_back(ArrayOf::doubleConstructor(R.nzmax()));
-	}
+        ArrayOf R(argIn[0]);
+        retval.push_back(ArrayOf::doubleConstructor(R.nzmax()));
+    }
     return retval;
 }
 //=============================================================================

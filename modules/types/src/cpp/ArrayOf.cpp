@@ -4265,55 +4265,54 @@ break;
         return accum;
     }
 
-	indexType ArrayOf::nzmax()
-	{
-		if (isSparse())
-		{
-			if (isEmpty())
-			{
-				return 0;
-			}
-			return CountNonzerosMaxDynamicFunction(dp->dataClass,
-				getDimensionLength(0),
-				getDimensionLength(1),
-				dp->getData());
-		}
-
-		switch (dp->dataClass)
-		{
-		case NLS_LOGICAL:
-		case NLS_INT8:
-		case NLS_UINT8:
-		case NLS_STRING:
-		case NLS_INT16:
-		case NLS_UINT16:
-		case NLS_INT32:
-		case NLS_UINT32:
-		case NLS_INT64:
-		case NLS_UINT64:
-		case NLS_SINGLE:
-		case NLS_DOUBLE:
-		case NLS_SCOMPLEX:
-		case NLS_DCOMPLEX:
-			return numel();
-		case NLS_CELL_ARRAY:
-			throw Exception(_W("Undefined function 'nzmax' for input arguments of type 'cell'."));
-		case NLS_STRUCT_ARRAY:
-			throw Exception(_W("Undefined function 'nzmax' for input arguments of type 'struct'."));
-		default:
-			throw Exception(_W("Undefined function 'nzmax' for input arguments."));
-		}
-	}
+    indexType ArrayOf::nzmax()
+    {
+        if (isSparse())
+        {
+            if (isEmpty())
+            {
+                return 0;
+            }
+            return CountNonzerosMaxDynamicFunction(dp->dataClass,
+                                                   getDimensionLength(0),
+                                                   getDimensionLength(1),
+                                                   dp->getData());
+        }
+        switch (dp->dataClass)
+        {
+            case NLS_LOGICAL:
+            case NLS_INT8:
+            case NLS_UINT8:
+            case NLS_STRING:
+            case NLS_INT16:
+            case NLS_UINT16:
+            case NLS_INT32:
+            case NLS_UINT32:
+            case NLS_INT64:
+            case NLS_UINT64:
+            case NLS_SINGLE:
+            case NLS_DOUBLE:
+            case NLS_SCOMPLEX:
+            case NLS_DCOMPLEX:
+                return numel();
+            case NLS_CELL_ARRAY:
+                throw Exception(_W("Undefined function 'nzmax' for input arguments of type 'cell'."));
+            case NLS_STRUCT_ARRAY:
+                throw Exception(_W("Undefined function 'nzmax' for input arguments of type 'struct'."));
+            default:
+                throw Exception(_W("Undefined function 'nzmax' for input arguments."));
+        }
+    }
 
     indexType ArrayOf::nnz()
     {
         if (isSparse())
         {
-			if (isEmpty())
-			{
-				return 0;
-			}
-			return CountNonzerosDynamicFunction(dp->dataClass,
+            if (isEmpty())
+            {
+                return 0;
+            }
+            return CountNonzerosDynamicFunction(dp->dataClass,
                                                 getDimensionLength(0),
                                                 getDimensionLength(1),
                                                 dp->getData());
@@ -4326,8 +4325,8 @@ break;
             case NLS_INT8:
                 return DoCountNNZReal<int8>(dp->getData(),getLength());
             case NLS_UINT8:
-				return DoCountNNZReal<uint8>(dp->getData(), getLength());
-			case NLS_STRING:
+                return DoCountNNZReal<uint8>(dp->getData(), getLength());
+            case NLS_STRING:
                 return DoCountNNZReal<charType>(dp->getData(),getLength());
             case NLS_INT16:
                 return DoCountNNZReal<int16>(dp->getData(),getLength());
@@ -4349,21 +4348,21 @@ break;
                 return DoCountNNZComplex<float>(dp->getData(),getLength());
             case NLS_DCOMPLEX:
                 return DoCountNNZComplex<double>(dp->getData(),getLength());
-			case NLS_CELL_ARRAY:
-				throw Exception(_W("Undefined function 'nnz' for input arguments of type 'cell'."));
+            case NLS_CELL_ARRAY:
+                throw Exception(_W("Undefined function 'nnz' for input arguments of type 'cell'."));
             case NLS_STRUCT_ARRAY:
-				throw Exception(_W("Undefined function 'nnz' for input arguments of type 'struct'."));
-			default:
-				throw Exception(_W("Undefined function 'nnz' for input arguments."));
-		}
+                throw Exception(_W("Undefined function 'nnz' for input arguments of type 'struct'."));
+            default:
+                throw Exception(_W("Undefined function 'nnz' for input arguments."));
+        }
         return 0;
     }
     //=============================================================================
-	indexType ArrayOf::numel()
-	{
-		Dimensions dims = getDimensions();
-		return dims.getElementCount();
-	}
-	//=============================================================================
+    indexType ArrayOf::numel()
+    {
+        Dimensions dims = getDimensions();
+        return dims.getElementCount();
+    }
+    //=============================================================================
 }
 //=============================================================================

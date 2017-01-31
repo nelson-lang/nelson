@@ -40,7 +40,7 @@ ArrayOfVector Nelson::SparseGateway::nnzBuiltin(Evaluator* eval, int nLhs, const
     if (!bSuccess)
     {
         ArrayOf R(argIn[0]);
-		retval.push_back(ArrayOf::doubleConstructor(R.nnz()));
+        retval.push_back(ArrayOf::doubleConstructor(R.nnz()));
     }
     return retval;
 }

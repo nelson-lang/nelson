@@ -33,8 +33,8 @@ ArrayOfVector Nelson::ElementaryFunctionsGateway::numelBuiltin(Evaluator* eval, 
     {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-	ArrayOf param1 = argIn[0];
-	retval.push_back(ArrayOf::doubleConstructor(param1.numel()));
+    ArrayOf param1 = argIn[0];
+    retval.push_back(ArrayOf::doubleConstructor(param1.numel()));
     return retval;
 }
 //=============================================================================

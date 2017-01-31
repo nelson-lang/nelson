@@ -133,9 +133,8 @@ namespace Nelson {
             case NLS_DOUBLE:
             {
                 Eigen::SparseMatrix<double, 0, signedIndexType> *spmat = (Eigen::SparseMatrix<double, 0, signedIndexType>*) res.getSparseDataPointer();
-				indexType nonZeros = (indexType)spmat->nonZeros();
-
-				if (nnz >= nonZeros)
+                indexType nonZeros = (indexType)spmat->nonZeros();
+                if (nnz >= nonZeros)
                 {
                     spmat->reserve(nnz - nonZeros);
                     spmat->finalize();
