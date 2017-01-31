@@ -30,9 +30,35 @@ ArrayOfVector Nelson::StringGateway::strfindBuiltin(Evaluator* eval, int nLhs, c
     {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() != 2)
+    if (!(argIn.size() == 2 || argIn.size() == 4))
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    bool forceAsCell = false;
+    if (argIn.size() == 4)
+    {
+        ArrayOf param3 = argIn[2];
+        ArrayOf param4 = argIn[3];
+        if (param3.isSingleString())
+        {
+            std::wstring str = param3.getContentsAsWideString();
+            if (str != L"ForceCellOutput")
+            {
+                Error(eval, _W("'ForceCellOutput' expected as third input argument."));
+            }
+        }
+        else
+        {
+            Error(eval, ERROR_WRONG_ARGUMENT_3_TYPE_STRING_EXPECTED);
+        }
+        if (param4.isScalar() && param4.isLogical())
+        {
+            forceAsCell = param4.getContentAsLogicalScalar();
+        }
+        else
+        {
+            Error(eval, ERROR_WRONG_ARGUMENT_4_TYPE_LOGICAL_EXPECTED);
+        }
     }
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
@@ -51,7 +77,31 @@ ArrayOfVector Nelson::StringGateway::strfindBuiltin(Evaluator* eval, int nLhs, c
                     {
                         if ((B.isRowVector() && !B.isEmpty()) || B.isEmpty(true))
                         {
-                            retval.push_back(StringFind(A.getContentsAsWideString(), B.getContentsAsWideString()));
+                            if (forceAsCell)
+                            {
+                                Dimensions dimA(1, 1);
+                                size_t nbElements = 1;
+                                ArrayOf *elements = nullptr;
+                                try
+                                {
+                                    elements = new ArrayOf[nbElements];
+                                }
+                                catch (std::bad_alloc &e)
+                                {
+                                    e.what();
+                                    Error(eval, ERROR_MEMORY_ALLOCATION);
+                                }
+                                for (size_t k = 0; k < nbElements; k++)
+                                {
+                                    ArrayOf *cellA = (ArrayOf*)(A.getDataPointer());
+                                    elements[k] = StringFind(A.getContentsAsWideString(), B.getContentsAsWideString());
+                                }
+                                retval.push_back(ArrayOf(NLS_CELL_ARRAY, dimA, elements));
+                            }
+                            else
+                            {
+                                retval.push_back(StringFind(A.getContentsAsWideString(), B.getContentsAsWideString()));
+                            }
                         }
                         else
                         {

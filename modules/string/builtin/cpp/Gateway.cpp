@@ -49,7 +49,7 @@ static const nlsGateway gateway[] =
     { "lower", Nelson::StringGateway::tolowerBuiltin, 1, 1 },
     { "toupper", Nelson::StringGateway::toupperBuiltin, 1, 1 },
     { "upper", Nelson::StringGateway::toupperBuiltin, 1, 1 },
-    { "strfind", Nelson::StringGateway::strfindBuiltin, 1, 2 },
+    { "strfind", Nelson::StringGateway::strfindBuiltin, 1, 4 },
     { "string_vertcat_string", Nelson::StringGateway::string_vertcat_stringBuiltin, 1, 2 },
     { "string_horzcat_string", Nelson::StringGateway::string_horzcat_stringBuiltin, 1, 2 },
     { "ndarraystring_vertcat_ndarraystring", Nelson::StringGateway::ndarraystring_vertcat_ndarraystringBuiltin, 1, 2 },

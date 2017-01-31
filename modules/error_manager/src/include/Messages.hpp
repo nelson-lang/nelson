@@ -61,6 +61,8 @@
 #define ERROR_WRONG_ARGUMENT_1_TYPE_LOGICAL_EXPECTED _W("Wrong type for argument #1: logical expected.")
 #define ERROR_WRONG_ARGUMENT_2_TYPE_LOGICAL_EXPECTED _W("Wrong type for argument #2: logical expected.")
 #define ERROR_WRONG_ARGUMENT_3_TYPE_LOGICAL_EXPECTED _W("Wrong type for argument #3: logical expected.")
+#define ERROR_WRONG_ARGUMENT_4_TYPE_LOGICAL_EXPECTED _W("Wrong type for argument #4: logical expected.")
+
 #define ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_LOGICAL_EXPECTED _W("Wrong type for argument #1: sparse logical expected.")
 #define ERROR_WRONG_ARGUMENT_2_TYPE_SPARSE_LOGICAL_EXPECTED _W("Wrong type for argument #2: sparse logical expected.")
 
