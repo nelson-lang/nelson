@@ -17,6 +17,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 function [r, msg, timing] = test_runfile(filename)
+// internal function
+// not documented
   if ~isfile(filename)
     error(_('An existing filename expected.'));
   end

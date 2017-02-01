@@ -17,4 +17,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 // <--CLI MODE-->
+test_run([nelsonroot(), '/modules/string/tests/test_strfind.nls']);
+
 test_run({'assert_functions'})

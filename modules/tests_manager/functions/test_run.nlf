@@ -180,6 +180,7 @@ function status = test_run(varargin)
       test_case = create_test_case(file_to_test);
       test_suite.test_cases_list = test_case; 
       test_suites.tests_list = test_suite;
+      nbTestCasesMax = 1;
     else
       nelson_version = version('-number');
       nelson_version_str = ['Nelson', '-', int2str(nelson_version(1)), '.', int2str(nelson_version(2)), '.', int2str(nelson_version(3)), '.', int2str(nelson_version(4))];
