@@ -17,30 +17,30 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 function r = test_makeref(filename)
-	if ~isfile(filename)
-		error(_('An existing filename expected.'));
-	end
+  if ~isfile(filename)
+    error(_('An existing filename expected.'));
+  end
 
-	options = test_parsetags(filename);
-	if (options.check_ref == false)
-		error(_('<--CHECK REF--> tag expected.'));
-	end
-	// save previous diary
-	previousDiaryFile = diary('get','DiaryFile');
-	previousDiaryMode = diary('get','Diary');
-	if (strcmp(previousDiaryMode, 'on') == true)
-		diary('off');
-	end
-	
-	[p, f, e] = fileparts(filename);
-	dia_ref = [p, '/', f, '.ref']
-	rm = rmfile(dia_ref);
-	diary(dia_ref);
-	diary('on');
-	r = run(filename, 'errcatch');
-	diary('off');
+  options = test_parsetags(filename);
+  if (options.check_ref == false)
+    error(_('<--CHECK REF--> tag expected.'));
+  end
+  // save previous diary
+  previousDiaryFile = diary('get','DiaryFile');
+  previousDiaryMode = diary('get','Diary');
+  if (strcmp(previousDiaryMode, 'on') == true)
+    diary('off');
+  end
+  
+  [p, f, e] = fileparts(filename);
+  dia_ref = [p, '/', f, '.ref']
+  rm = rmfile(dia_ref);
+  diary(dia_ref);
+  diary('on');
+  r = run(filename, 'errcatch');
+  diary('off');
 
   // restore previous diary
-	diary(previousDiaryFile);
-	diary(previousDiaryMode);
+  diary(previousDiaryFile);
+  diary(previousDiaryMode);
 endfunction
