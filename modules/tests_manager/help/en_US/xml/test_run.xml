@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+
+  <language>en_US</language>
+  <keyword>test_run</keyword>
+  <short_description>Runs tests</short_description>
+
+  <syntax>
+    <syntax_item>status = test_run()</syntax_item>
+    <syntax_item>status = test_run(module_name)</syntax_item>
+    <syntax_item>status = test_run(module_name, options)</syntax_item>
+    <syntax_item>status = test_run(module_name, options, xunitfile)</syntax_item>
+  </syntax>
+  
+  <param_input>
+    
+    <param_input_item>
+      <param_name>module_name</param_name>
+      <param_description>a string or a cell of string: module name or list of modules or filename.</param_description>
+    </param_input_item>
+
+    <param_input_item>
+      <param_name>options</param_name>
+      <param_description>a string or a cell of string: supported options 'all', 'all_tests', 'unitary_tests', 'nonreg_tests' or 'benchs'.</param_description>
+    </param_input_item>
+
+
+    <param_input_item>
+      <param_name>xunitfile</param_name>
+      <param_description>a string: filename to export results as a xml file compatible with Xunit format.</param_description>
+    </param_input_item>
+  </param_input>
+
+  <param_output>
+    <param_output_item>
+      <param_name>status</param_name>
+      <param_description>a logical: true if tests pass.</param_description>
+    </param_output_item>
+  </param_output>
+
+  <description>
+  <p><b>test_run</b> function searchs 'test_*.nls', 'bug_*.nls', and 'bench_*.nls' files, executes them, and displays a report about success or failures.</p>
+  
+  <p>Each test or bench is executed in a separated process using the 'unix' command.</p>
+  <p>That enables the current command to continue, even if the test as created an unstable environment.</p>
+  <p>It also enables the tests to be independent from one another.</p>
+  <p>Some special tags can be inserted in the .nls files to help the processing of the corresponding test.</p>
+  <p>These tags are expected to be found in Nelson comments:</p>
+  
+  <p><b>&lt;--NOT FIXED--&gt;</b> This test is skipped because it is a reported bug, but it is not yet fixed. </p>
+  <p><b>&lt;--INTERACTIVE TEST--&gt;</b> This test is skipped because it is interactive test.</p>
+  <p><b>&lt;--CLI MODE--&gt;</b> This test will be executed by nelson-cli executable (default).</p>
+  <p><b>&lt;--ADV-CLI MODE--&gt;</b> This test will be executed by nelson-adv-cli executable.</p>
+  <p><b>&lt;--GUI MODE--&gt;</b> This test will be executed by nelson-gui executable.</p>
+  <p><b>&lt;--CHECK REF--&gt;</b> This test will compare .ref available in same directory with output generated. see <b>test_makeref</b> to generate .ref file.</p>
+  <p><b>&lt;--ENGLISH IMPOSED--&gt;</b> This test will be executed with the en_US language.</p>
+  <p><b>&lt;--WINDOWS ONLY--&gt;</b> This test will be executed only on Windows.</p>
+  <p><b>&lt;--MACOS ONLY--&gt;</b>  This test will be executed only on Macos.</p>
+  <p><b>&lt;--UNIX ONLY--&gt;</b>  This test will be executed only on Unix.</p>
+  <p><b>&lt;--WITH DISPLAY--&gt;</b> This test will be executed only if a display output is available.</p>
+
+
+  </description>
+  <used_function></used_function>
+  <bibliography></bibliography>
+
+<examples>
+
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description></example_item_description>
+    <example_item_data><![CDATA[test_run('string');]]>
+    </example_item_data>
+  </example_item>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description></example_item_description>
+    <example_item_data><![CDATA[test_run({'string', 'time'})]]>
+    </example_item_data>
+  </example_item>
+
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description></example_item_description>
+    <example_item_data><![CDATA[test_run({'string', 'time'}, 'all', [tempdir(), '/tests.xml'])]]>
+    </example_item_data>
+  </example_item>
+</examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${assert_functions}assert">assert</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${tests_manager}test_makeref">test_makeref</link>
+    </see_also_item>
+
+  </see_also>
+
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>
+
+
