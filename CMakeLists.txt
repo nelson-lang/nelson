@@ -45,7 +45,7 @@ endif()
 if(DEFINED ENV{NELSON_VERSION_BUILD})
   set (Nelson_VERSION_BUILD $ENV{NELSON_VERSION_BUILD})
 else()
-  string(TIMESTAMP Nelson_VERSION_BUILD "%d%m%Y%H%M%S")
+  string(TIMESTAMP Nelson_VERSION_BUILD "%Y%m%d%H%M%S")
 endif()
 #============================================================================== 
 SET(CMAKE_BUILD_TYPE "Release")
