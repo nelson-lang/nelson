@@ -431,7 +431,7 @@ function test_case_res = run_test_case(test, module_name, index, indexMax, nbTes
 				if ispc()
 				  redirect_to_file = ['" 2>&1"' , redirect_err, '"'];
         else
-				  redirect_to_file = ['" 2>&1 | tee "' , redirect_err, '"'];
+				  redirect_to_file = [' 2>&1 | tee "' , redirect_err, '"'];
         end
         cmd = [cmd, ' --quiet', ' ', '--timeout', ' ', timeout, ' ', '--execute', ' ', cmd_to_execute, ' ', redirect_to_file];
 
