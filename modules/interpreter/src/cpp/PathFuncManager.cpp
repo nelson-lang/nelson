@@ -16,6 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <errno.h>
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/operations.hpp>
 #include <boost/filesystem.hpp>
@@ -452,11 +453,19 @@ namespace Nelson {
 #ifdef _MSC_BUILD
         fr = _wfopen(nlf_filename.c_str(), L"rt");
 #else
-        fr = fopen(wstring_to_utf8(nlf_filename).c_str(), "rt");
+        fr = fopen(wstring_to_utf8(nlf_filename).c_str(), "r");
 #endif
         if (!fr)
         {
-            throw Exception(_W("Cannot open:") + L" " + nlf_filename);
+			std::string msg1;
+			int errnum = errno;
+			char buff[4096];
+			snprintf(buff, sizeof(buff), _("Value of errno: %d").c_str(), errno);
+			msg1 = buff;
+			std::string msg2;
+			snprintf(buff, sizeof(buff), _("Error opening file: %s").c_str(), strerror(errnum));
+			msg2 = buff;
+            throw Exception(_W("Cannot open:") + L" " + nlf_filename + L"\n" + utf8_to_wstring(msg1) + L"\n" + utf8_to_wstring(msg2));
         }
         ParserState pstate = ParseError;
         resetAstBackupPosition();
