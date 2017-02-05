@@ -41,8 +41,8 @@ static const nlsGateway gateway[] =
     { "now", Nelson::TimeGateway::nowBuiltin, 1, 0 },
     { "clock", Nelson::TimeGateway::clockBuiltin, 1, 0 },
     { "cputime", Nelson::TimeGateway::cputimeBuiltin, 1, 1 },
-    { "datenum", Nelson::TimeGateway::datenumBuiltin, 6, 1 },
-    { "datevec", Nelson::TimeGateway::datevecBuiltin, -2, 1 },
+    { "datenum", Nelson::TimeGateway::datenumBuiltin, 1, 6 },
+    { "datevec", Nelson::TimeGateway::datevecBuiltin, 6, 1 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

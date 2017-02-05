@@ -2,6 +2,8 @@
 Features:
 ---------
 
+   datevec updated to manage vectors, matrix.
+
   Add nnz, nzmax, numel functions.
 
   Rework searchenv to return a cell of strings.

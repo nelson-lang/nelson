@@ -20,61 +20,142 @@
 #include "datevecBuiltin.hpp"
 #include "Error.hpp"
 #include "DateVector.hpp"
+#include "OverloadFunction.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector Nelson::TimeGateway::datevecBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (argIn.size() != 1)
+    ArrayOfVector retval;
+    if (argIn.size() == 0)
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    ArrayOf param1 = argIn[0];
-    double dt = param1.getContentsAsDoubleScalar();
-    double Y = 0, M = 0, D = 0, H = 0, MM = 0, S = 0;
-    DateVector(dt, Y, M, D, H, MM, S);
-    ArrayOfVector retval;
-    if (nLhs < 2)
+    if (nLhs > 6)
     {
-        double *dval = (double *)ArrayOf::allocateArrayOf(NLS_DOUBLE, 6);
-        dval[0] = Y;
-        dval[1] = M;
-        dval[2] = D;
-        dval[3] = H;
-        dval[4] = MM;
-        dval[5] = S;
-        Dimensions dim(1, 6);
-        retval.push_back(ArrayOf(NLS_DOUBLE, dim, dval));
+        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    else
+    bool bSuccess = false;
+    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    if (!bSuccess)
     {
-        if (nLhs > 6)
+        if (argIn.size() != 1)
         {
-            Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+            Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        }
+        ArrayOf param1 = argIn[0];
+        if (((param1.getDataClass() == NLS_DOUBLE) || (param1.getDataClass() == NLS_DCOMPLEX)) && (!param1.isSparse()))
+        {
+            if (param1.getDataClass() == NLS_DCOMPLEX)
+            {
+                param1.promoteType(NLS_DOUBLE);
+            }
+            indexType len = param1.getLength();
+            double *ptd = (double*)param1.getDataPointer();
+            if (nLhs < 2)
+            {
+                double *res = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, 6 * len);
+                for (indexType k = 0; k < len; k++)
+                {
+                    double DT, Y, M, D, H, MN, S;
+                    DT = ptd[k];
+                    DateVector(DT, Y, M, D, H, MN, S);
+                    res[k] = Y;
+                    res[k + len ] = M;
+                    res[k + len * 2] = D;
+                    res[k + len * 3] = H;
+                    res[k + len * 4] = MN;
+                    res[k + len * 5] = S;
+                }
+                Dimensions dim(len, 6);
+                retval.push_back(ArrayOf(NLS_DOUBLE, dim, res));
+            }
+            else
+            {
+                double *Y = nullptr;
+                double *M = nullptr;
+                double *D = nullptr;
+                double *H = nullptr;
+                double *MN = nullptr;
+                double *S = nullptr;
+                if (nLhs > 1)
+                {
+                    Y = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, len);
+                    M = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, len);
+                }
+                if (nLhs > 2)
+                {
+                    D = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, len);
+                }
+                if (nLhs > 3)
+                {
+                    H = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, len);
+                }
+                if (nLhs > 4)
+                {
+                    MN = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, len);
+                }
+                if (nLhs > 5)
+                {
+                    S = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, len);
+                }
+                for (indexType k = 0; k < len; k++)
+                {
+                    double DT = ptd[k];
+                    double V1, V2, V3, V4, V5, V6;
+                    DateVector(DT, V1, V2, V3, V4, V5, V6);
+                    if (nLhs > 1)
+                    {
+                        Y[k] = V1;
+                        M[k] = V2;
+                    }
+                    if (nLhs > 2)
+                    {
+                        D[k] = V3;
+                    }
+                    if (nLhs > 3)
+                    {
+                        H[k] = V4;
+                    }
+                    if (nLhs > 4)
+                    {
+                        MN[k] = V5;
+                    }
+                    if (nLhs > 5)
+                    {
+                        S[k] = V6;
+                    }
+                }
+                Dimensions dimParam1 = param1.getDimensions();
+                dimParam1.simplify();
+                dimParam1.setDimensionLength(0, 1);
+                Dimensions dim(param1.getDimensions().getRows(), dimParam1.getElementCount());
+                if (nLhs > 1)
+                {
+                    retval.push_back(ArrayOf(NLS_DOUBLE, dim, Y));
+                    retval.push_back(ArrayOf(NLS_DOUBLE, dim, M));
+                }
+                if (nLhs > 2)
+                {
+                    retval.push_back(ArrayOf(NLS_DOUBLE, dim, D));
+                }
+                if (nLhs > 3)
+                {
+                    retval.push_back(ArrayOf(NLS_DOUBLE, dim, H));
+                }
+                if (nLhs > 4)
+                {
+                    retval.push_back(ArrayOf(NLS_DOUBLE, dim, MN));
+                }
+                if (nLhs > 5)
+                {
+                    retval.push_back(ArrayOf(NLS_DOUBLE, dim, S));
+                }
+            }
         }
         else
         {
-            if (nLhs > 1)
-            {
-                retval.push_back(ArrayOf::doubleConstructor(Y));
-                retval.push_back(ArrayOf::doubleConstructor(M));
-            }
-            if (nLhs > 2)
-            {
-                retval.push_back(ArrayOf::doubleConstructor(D));
-            }
-            if (nLhs > 3)
-            {
-                retval.push_back(ArrayOf::doubleConstructor(H));
-            }
-            if (nLhs > 4)
-            {
-                retval.push_back(ArrayOf::doubleConstructor(MM));
-            }
-            if (nLhs > 5)
-            {
-                retval.push_back(ArrayOf::doubleConstructor(S));
-            }
+            Error(eval, ERROR_TYPE_NOT_SUPPORTED);
         }
     }
     return retval;
