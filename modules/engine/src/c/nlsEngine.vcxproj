@@ -172,6 +172,7 @@
     <ClCompile Include="..\cpp\FinishNelsonMainScript.cpp" />
     <ClCompile Include="..\cpp\FinishNelsonUserScript.cpp" />
     <ClCompile Include="..\cpp\MainEvaluator.cpp" />
+    <ClCompile Include="..\cpp\MaxOpenedFiles.cpp" />
     <ClCompile Include="..\cpp\ProgramOptions.cpp" />
     <ClCompile Include="..\cpp\RecursionStack.cpp" />
     <ClCompile Include="..\cpp\SetNelSonEnvironmentVariables.cpp" />
@@ -191,6 +192,7 @@
     <ClInclude Include="..\include\MainGuiObjectDynamic.hpp" />
     <ClInclude Include="..\include\FinishNelsonMainScript.hpp" />
     <ClInclude Include="..\include\FinishNelsonUserScript.hpp" />
+    <ClInclude Include="..\include\MaxOpenedFiles.hpp" />
     <ClInclude Include="..\include\ProgramOptions.hpp" />
     <ClInclude Include="..\include\RecursionStack.hpp" />
     <ClInclude Include="..\include\StartNelsonMainScript.hpp" />

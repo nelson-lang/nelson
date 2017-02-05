@@ -46,6 +46,7 @@
 #include "ProgramOptions.hpp"
 #include "Localization.hpp"
 #include "TimeoutThread.hpp"
+#include "MaxOpenedFiles.hpp"
 //=============================================================================
 static void ErrorCommandLineMessage_startup_exclusive(NELSON_ENGINE_MODE _mode)
 {
@@ -243,6 +244,7 @@ static int StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
         ErrorPathDetection(_mode);
         return exitCode;
     }
+	setMaxOpenedFiles();
 #ifdef _MSC_VER
 #if _MSC_VER < 1900
     _set_output_format(_TWO_DIGIT_EXPONENT);
