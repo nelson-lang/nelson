@@ -44,14 +44,19 @@ function [r, msg, timing] = test_runfile(filename)
     diary('on');
   end
   
-    // 'options' variable protected of clear('all') in test files
+  current_path_test_runfile = path();
+  // 'options' variable protected of clear('all') in test files
   varlock('local', 'options')
+  varlock('local', 'current_path_test_runfile')
 
   tic();
   r = run(filename, 'errcatch');
   timing = toc();
-  restoredefaultpath();
+  
   varunlock('local','options');
+  varunlock('local', 'current_path_test_runfile')
+  path(current_path_test_runfile);
+  
   if ~r
     msg = lasterror();
   else
