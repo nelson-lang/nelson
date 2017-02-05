@@ -428,13 +428,8 @@ function test_case_res = run_test_case(test, module_name, index, indexMax, nbTes
           cmd = [' --language', ' ', 'en_US'];
         end
         cmd_to_execute = ['"[test_res, test_msg, test_timing] = test_runfile(''',  testfile, ''');savebin(''', outputfile, ''', ''test_res'', ''test_msg'', ''test_timing''); exit(double(test_res));"'];
-				if ispc()
-				  redirect_to_file = ['" 2>&1"' , redirect_err, '"'];
-        else
-				  redirect_to_file = [' 2>&1 | tee "' , redirect_err, '"'];
-        end
+				redirect_to_file = ['" 2>&1"' , redirect_err, '"'];
         cmd = [cmd, ' --quiet', ' ', '--timeout', ' ', timeout, ' ', '--execute', ' ', cmd_to_execute, ' ', redirect_to_file];
-
 
         if test_case_res.options.cli_mode
           [res, msg] = call_nelson_cli(cmd);
