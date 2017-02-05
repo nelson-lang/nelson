@@ -59,7 +59,7 @@ R = fileread([tempdir(), '/fprintf.txt'])]]>
     </see_also_item>
     
     <see_also_item>
-      <link linkend="${stream_manager}fread">fileread</link>
+      <link linkend="${stream_manager}fread">fread</link>
     </see_also_item>
   </see_also>
 
