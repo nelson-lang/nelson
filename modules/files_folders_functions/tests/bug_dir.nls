@@ -19,10 +19,10 @@
 __dir1  = [tempdir(), '/bug_dir_1'];
 mkdir(__dir1);
 for k = 1:10
-	path = [tempdir(), '/bug_dir_1/file_', int2str(k)]
-	if ~isfile(path)
-		p = fopen(path, 'wt');
-		fclose(p);
+	file_name_to_create = [tempdir(), '/bug_dir_1/file_', int2str(k)];
+	if ~isfile(file_name_to_create)
+		fp = fopen(file_name_to_create, 'wt');
+		fclose(fp);
 	end
 end
 
