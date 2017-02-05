@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+
+  <language>en_US</language>
+  <keyword>fileread</keyword>
+  <short_description>Read contents of file as text.</short_description>
+
+  <syntax>
+    <syntax_item>str = fileread(filename)</syntax_item>
+  </syntax>
+  
+  <param_input>
+
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>a string: a file name</param_description>
+    </param_input_item>
+  </param_input>
+  
+  <param_output>
+
+    <param_output_item>
+      <param_name>str</param_name>
+      <param_description>a string.</param_description>
+    </param_output_item>
+  </param_output>
+
+  <description>
+    <p><b>fileread</b> read contents of file as text.</p>
+
+</description>
+
+  <used_function></used_function>
+  <bibliography></bibliography>
+
+<examples>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description></example_item_description>
+    <example_item_data><![CDATA[str = fileread([nelsonroot(),'/CHANGELOG.md'])]]>
+    </example_item_data>
+  
+  </example_item>
+
+</examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${stream_manager}fgetl">fgetl</link>
+    </see_also_item>
+  </see_also>
+
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>
+
+
