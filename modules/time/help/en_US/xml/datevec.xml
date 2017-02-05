@@ -8,6 +8,8 @@
 
   <syntax>
     <syntax_item>[Y, M, D, H, MN, S] = datevec(dv)</syntax_item>
+    <syntax_item>V = datevec(dv)</syntax_item>
+
   </syntax>
   
   <param_input>
@@ -22,6 +24,11 @@
       <param_name>Y, M, D, H, MN, S</param_name>
       <param_description>double: Year, Month, Day, Hour, Minutes, Seconds.</param_description>
     </param_output_item>
+    <param_output_item>
+      <param_name>V</param_name>
+      <param_description>a vector of double: [Year, Month, Day, Hour, Minutes, Seconds].</param_description>
+    </param_output_item>
+
   </param_output>
 
   <description>
