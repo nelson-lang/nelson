@@ -17,6 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #if defined(__APPLE__) || defined(__MACH__)
+#define _DARWIN_UNLIMITED_STREAMS
 #include <sys/resource.h>
 #endif
 #include "MaxOpenedFiles.hpp"
