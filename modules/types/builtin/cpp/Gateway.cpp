@@ -47,7 +47,7 @@ const std::wstring gatewayName = L"types";
 //=============================================================================
 static const nlsGateway gateway[] =
 {
-    { "class", Nelson::TypeGateway::classBuiltin, 1, 1 },
+    { "class", Nelson::TypeGateway::classBuiltin, 1, 2 },
     { "ischar", Nelson::TypeGateway::ischarBuiltin, 1, 1 },
     { "isfloat", Nelson::TypeGateway::isfloatBuiltin, 1, 1 },
     { "iscell", Nelson::TypeGateway::iscellBuiltin, 1, 1 },
