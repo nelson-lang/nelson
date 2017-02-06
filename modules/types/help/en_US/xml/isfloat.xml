@@ -4,7 +4,7 @@
 
 	<language>en_US</language>
 	<keyword>isfloat</keyword>
-	<short_description>Return true if variable var is a single matrix.</short_description>
+	<short_description>Return true if variable var is a single or double matrix.</short_description>
 
 	<syntax>
 		<syntax_item>res = isfloat(var)</syntax_item>
@@ -24,7 +24,7 @@
 		</param_output_item>
 	</param_output>
 
-	<description><b>isfloat</b> returns a logical 1 if the argument is a single matrix and a logical 0 otherwise.</description>
+	<description><b>isfloat</b> returns a logical 1 if the argument is a single or double matrix and a logical 0 otherwise.</description>
 
 	<used_function></used_function>
 	<bibliography></bibliography>
