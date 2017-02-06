@@ -16,18 +16,23 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-assert_isequal(nargin('issingle'), 1);
-assert_isequal(nargout('issingle'), 1);
+assert_isequal(nargin('isstruct'), 1);
+assert_isequal(nargout('isstruct'), 1);
 //=============================================================================
-A = 3.6;
-res = issingle(A);
+A = 1;
+res = isstruct(A);
 assert_isfalse(res);
 //=============================================================================
-B = single([1 ; 3]);
-res = issingle(B);
+B = struct();
+res = isstruct(B);
 assert_istrue(res);
 //=============================================================================
-B = sparse([1 ; 3]);
-res = issingle(B);
-assert_isfalse(res);
+C.a = 1;
+C.B = 'hello';
+res = isstruct(C);
+assert_istrue(res);
+//=============================================================================
+B = struct([]);
+res = isstruct(B);
+assert_istrue(res);
 //=============================================================================
