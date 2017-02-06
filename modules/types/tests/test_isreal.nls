@@ -16,6 +16,9 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+assert_isequal(nargin('isreal'), 1);
+assert_isequal(nargout('isreal'), 1);
+//=============================================================================
 R = complex(13);
 assert_isfalse(isreal(R));
 //=============================================================================
@@ -39,7 +42,6 @@ assert_isfalse(isreal(R1));
 assert_isfalse(isreal(R2));
 assert_istrue(isreal(R));
 //=============================================================================
-
 R = isreal(1+0i);
 assert_istrue(R);
 //=============================================================================
