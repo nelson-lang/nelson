@@ -25,7 +25,7 @@ minimal_tests = {
  { 'elementary_functions' };
  { 'string' };
  { 'types' };
- { 'stream_manager', {'test_load', 'test_saveload'} }; 
+ { 'stream_manager' }; 
 
 
 };
