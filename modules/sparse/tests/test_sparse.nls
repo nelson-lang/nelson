@@ -39,3 +39,5 @@ assert_isequal(class(a), 'sparselogical');
 assert_isequal(size(a), [1 1]);
 assert_istrue(full(a(1, 1)));
 //=============================================================================
+assert_checkerror('S = sparse(zeros(3, 3), 3, 3)', _('in I, J, V format, all three vectors must be the same size or be scalars.'));
+//=============================================================================
