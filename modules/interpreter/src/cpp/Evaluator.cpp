@@ -461,11 +461,15 @@ namespace Nelson {
         }
         else if (t->type == const_float_node)
         {
-            retval = ArrayOf::singleConstructor(((float)atof(t->text.c_str())));
+			boost::replace_all(t->text, "D", "e");
+			boost::replace_all(t->text, "d", "e");
+			retval = ArrayOf::singleConstructor(((float)atof(t->text.c_str())));
         }
         else if (t->type == const_double_node)
         {
-            retval = ArrayOf::doubleConstructor(atof(t->text.c_str()));
+			boost::replace_all(t->text, "D", "e");
+			boost::replace_all(t->text, "d", "e");
+			retval = ArrayOf::doubleConstructor(atof(t->text.c_str()));
         }
         else if (t->type == string_const_node)
         {
@@ -473,6 +477,8 @@ namespace Nelson {
         }
         else if (t->type == const_complex_node || t->type == const_dcomplex_node)
         {
+			boost::replace_all(t->text, "D", "e");
+			boost::replace_all(t->text, "d", "e");
             double val = atof(t->text.c_str());
             if (val == 0.)
             {
@@ -480,7 +486,7 @@ namespace Nelson {
             }
             else
             {
-                retval = ArrayOf::dcomplexConstructor(0, val);
+				retval = ArrayOf::dcomplexConstructor(0, val);
             }
         }
         else if (t->type == reserved_node)
