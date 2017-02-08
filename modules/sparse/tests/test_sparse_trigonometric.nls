@@ -54,7 +54,6 @@ REF = sparse([1;2], [1;2], [1.5708; 1.5708], 3, 2);
 R = asin(A);
 if ismac()
    assert_isapprox(real(R), real(REF), 1e-4);
-   assert_isapprox(imag(R), sparse([ 7.82510964072825e-09, 0; 0, 7.82510964072825e-09]), 1e-4);
 else
   assert_isapprox(R, REF, 1e-4);
 end
