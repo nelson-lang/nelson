@@ -19,6 +19,8 @@ Features:
 Bug Fixes:
 ---------
 
+  [#26](http://github.com/Nelson-numerical-software/nelson/issues/26): 7.853981633974482790D-01 was not correctly parsed.
+
   [#22](http://github.com/Nelson-numerical-software/nelson/issues/22): last output argument of 'IJV' did not return nzmax.
 
   [#19](http://github.com/Nelson-numerical-software/nelson/issues/19): rand & randn did not use Column-major order.
