@@ -34,8 +34,8 @@ const std::wstring gatewayName = L"time";
 //=============================================================================
 static const nlsGateway gateway[] =
 {
-    { "tic", Nelson::TimeGateway::ticBuiltin, 1, 0 },
-    { "toc", Nelson::TimeGateway::tocBuiltin, 1, 1 },
+    { "tic", Nelson::TimeGateway::ticBuiltin, 0, 0 },
+    { "toc", Nelson::TimeGateway::tocBuiltin, 1, 0 },
     { "calendar", Nelson::TimeGateway::calendarBuiltin, 1, 2 },
     { "sleep", Nelson::TimeGateway::sleepBuiltin, 1, 1 },
     { "now", Nelson::TimeGateway::nowBuiltin, 1, 0 },
