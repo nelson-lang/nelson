@@ -36,7 +36,7 @@ static const nlsGateway gateway[] =
 {
     { "tic", Nelson::TimeGateway::ticBuiltin, 1, 0 },
     { "toc", Nelson::TimeGateway::tocBuiltin, 1, 1 },
-    { "calendar", Nelson::TimeGateway::calendarBuiltin, 1, 1 },
+    { "calendar", Nelson::TimeGateway::calendarBuiltin, 1, 2 },
     { "sleep", Nelson::TimeGateway::sleepBuiltin, 1, 1 },
     { "now", Nelson::TimeGateway::nowBuiltin, 1, 0 },
     { "clock", Nelson::TimeGateway::clockBuiltin, 1, 0 },
