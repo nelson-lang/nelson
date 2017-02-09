@@ -45,10 +45,10 @@ t = toc()
 
   <see_also>
     <see_also_item>
-      <link linkend="${time}datenum">toc</link>
+      <link linkend="${time}toc">toc</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${time}datevec">sleep</link>
+      <link linkend="${time}sleep">sleep</link>
     </see_also_item>
 
   </see_also>
