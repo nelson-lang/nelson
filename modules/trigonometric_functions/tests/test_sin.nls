@@ -1,0 +1,67 @@
+//=============================================================================
+// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+assert_isequal(nargin('sin'), 1);
+assert_isequal(nargout('sin'), 1);
+//=============================================================================
+assert_isequal(sin(NaN), NaN);
+assert_isequal(sin(Inf), NaN);
+assert_isequal(sin(-Inf), NaN);
+//=============================================================================
+A = sin(0);
+REF = 0;
+assert_isequal(A, REF);
+//=============================================================================
+A = sin(-0);
+REF = 0;
+assert_isequal(A, REF);
+//=============================================================================
+A = sin(sparse(zeros(3,3)));
+REF = sparse(zeros(3, 3));
+assert_isequal(A, REF);
+//=============================================================================
+X = [5.235987755982988157D-01;
+  7.853981633974482790D-01;
+  1.047197551196597631D+00;
+  1.570796326794896558D+00;
+  2.094395102393195263D+00;
+  2.356194490192344837D+00;
+  2.617993877991494411D+00;
+  3.141592653589793116D+00];
+REF = [4.999999999999999503D-01;
+    7.071067811865475028D-01;
+    8.660254037844385893D-01;
+    1.000000000000000000D-00;
+    8.660254037844387616D-01;
+    7.071067811865475893D-01;
+    4.999999999999999602D-01;
+    1.224646799147353177D-16];
+A = sin(X);
+assert_isapprox(A, REF, 1e-4);
+//=============================================================================
+A = rand(100,100);
+//=============================================================================
+C = sin(-A) + sin(A);
+assert_isequal(size(C(C == 0)), [10000 1]); 
+//=============================================================================
+A = zeros(1000, 1000);
+C = sin(A);
+assert_isapprox(C, A); 
+//=============================================================================
+assert_checkerror('sin(''a'')', _('function string_sin undefined.'));
+//=============================================================================
