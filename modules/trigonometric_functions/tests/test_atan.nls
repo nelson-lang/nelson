@@ -19,12 +19,12 @@
 assert_isequal(nargin('atan'), 1);
 assert_isequal(nargout('atan'), 1);
 //=============================================================================
-if ismac()
-  assert_isequal(atan(NaN), NaN);
-  assert_isequal(atan(-NaN), NaN);
-else
+if ispc()
   assert_isequal(atan(NaN), complex(NaN, NaN));
   assert_isequal(atan(-NaN), complex(NaN, NaN));
+else
+  assert_isequal(real(atan(NaN)), NaN);
+  assert_isequal(real(atan(-NaN)), NaN);
 end
 assert_isequal(atan(Inf), pi * 0.5);
 assert_isequal(atan(-Inf), -pi * 0.5);
