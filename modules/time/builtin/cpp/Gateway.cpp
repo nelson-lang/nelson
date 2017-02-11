@@ -40,7 +40,7 @@ static const nlsGateway gateway[] =
     { "sleep", Nelson::TimeGateway::sleepBuiltin, 1, 1 },
     { "now", Nelson::TimeGateway::nowBuiltin, 1, 0 },
     { "clock", Nelson::TimeGateway::clockBuiltin, 1, 0 },
-    { "cputime", Nelson::TimeGateway::cputimeBuiltin, 1, 1 },
+    { "cputime", Nelson::TimeGateway::cputimeBuiltin, 1, 0 },
     { "datenum", Nelson::TimeGateway::datenumBuiltin, 1, 6 },
     { "datevec", Nelson::TimeGateway::datevecBuiltin, 6, 1 },
 };
