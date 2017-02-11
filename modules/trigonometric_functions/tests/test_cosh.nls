@@ -31,7 +31,7 @@ assert_isapprox(y1, y2, 1e-4);
 A = rand(3, 3, 3);
 y1 = cosh(complex(zeros(3, 3, 3), A));
 y2 = complex(cos(A));
-assert_isequal(y1, y2);
+assert_isapprox(y1, y2, 1e-4);
 //=============================================================================
 A = cosh(0);
 REF = 1;
