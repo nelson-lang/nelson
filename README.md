@@ -15,7 +15,7 @@
 [![Build Status](https://travis-ci.org/Nelson-numerical-software/nelson.svg?branch=master)](https://travis-ci.org/Nelson-numerical-software/nelson)
 [![Build status](https://ci.appveyor.com/api/projects/status/github/Nelson-numerical-software/nelson?svg=true)](https://ci.appveyor.com/project/Nelson-numerical-software/nelson)
 
-Nelson is a array programming language providing a powerful open computing environment for 
+Nelson is an array programming language providing a powerful open computing environment for 
 engineering and scientific applications using modern C/C++ libraries (Boost, Eigen, …)
 and others state of art numerical libraries.
 
