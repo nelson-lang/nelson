@@ -35,8 +35,8 @@ build_script:
 - msbuild nelson.sln /p:Configuration=Release /p:Platform=x64 /target:"NelSon-gui"
 
 artifacts:
-  - path: ./nelson/*.exe
-  - path: ./nelson/tests_all.xml
+  - path: ./*.exe
+  - path: ./tests_all.xml
 
 notifications:
 - provider: Email
