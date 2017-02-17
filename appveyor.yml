@@ -21,16 +21,21 @@ before_build:
 after_build:
 - c:\build_chain/nelson/bin/x64/nelson-cli --quiet -f c:\build_chain/nelson/tools/buildhelp/buildhelp.nls
 - c:\build_chain/nelson/bin/x64/nelson-cli --quiet -f c:\build_chain/nelson/tools/tests_minimal/runtests_minimal.nls
+- c:\build_chain/nelson/bin/x64/nelson-cli --quiet -f c:\build_chain/nelson/tools/innosetup/innosetup.nls
+- iscc c:\build_chain/nelson/tools/innosetup/Nelson.iss
 - c:\build_chain/nelson/bin/x64/nelson-cli --quiet -f c:\build_chain/nelson/tools/tests_all/runtests_all.nls
 
 install:
-- choco install -y InnoSetup
-- SET PATH=C:\Program Files (x86)\MSBuild\14.0\Bin\;%PATH%%
+- choco install -y curl InnoSetup
+- SET PATH="C:\Program Files (x86)\MSBuild\14.0\Bin\";"C:\Program Files (x86)\Inno Setup 5";%PATH%%
 - call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x64
 
 build_script:
 - cd "c:\build_chain\nelson"
 - msbuild nelson.sln /p:Configuration=Release /p:Platform=x64 /target:"NelSon-gui"
+
+artifacts:
+  - path: c:\build_chain/nelson/*.exe
 
 notifications:
 - provider: Email
