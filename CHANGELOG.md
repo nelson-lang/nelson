@@ -1,3 +1,9 @@
+Bug Fixes:
+---------
+
+  [#34](http://github.com/Nelson-numerical-software/nelson/issues/34): Windows installer did not copy module_skeleton help files at the good place.
+
+
 ## 0.1.3 alpha (2017-02-11)
 
 Features:

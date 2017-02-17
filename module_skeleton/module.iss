@@ -27,5 +27,5 @@ Source: {#RootPath}\{#MODULE_NAME}\etc\finish.nls; DestDir: {app}\{#MODULE_NAME}
 Source: {#RootPath}\{#MODULE_NAME}\functions\*.nlf; DestDir: {app}\{#MODULE_NAME}\functions\;
 ;==============================================================================
 Source: {#RootPath}\{#MODULE_NAME}\help\en_US\images\*.png; DestDir: {app}\{#MODULE_NAME}\help\en_US\images\;
-Source: {#RootPath}\{#MODULE_NAME}\help\en_US\xml\*.xml; DestDir: {app}\{#MODULE_NAME}\xml;
+Source: {#RootPath}\{#MODULE_NAME}\help\en_US\xml\*.xml; DestDir: {app}\{#MODULE_NAME}\help\en_US\xml\;
 ;==============================================================================
