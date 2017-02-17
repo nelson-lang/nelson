@@ -120,3 +120,5 @@ notifications:
       - nelson.numerical.computation@gmail.com
     on_success: never
     on_failure: always
+
+  slack: nelson-software:MD73E5wbxFedQnxuaNbgbB5p
