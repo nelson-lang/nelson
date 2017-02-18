@@ -1,3 +1,8 @@
+Features:
+---------
+
+  which(function_name, '-all') without output argument display paths.
+
 Bug Fixes:
 ---------
 
