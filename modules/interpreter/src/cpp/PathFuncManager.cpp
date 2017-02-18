@@ -137,7 +137,7 @@ namespace Nelson {
         }
         if (!res)
         {
-            for (boost::container::vector<PathFunc *>::reverse_iterator it = _pathFuncVector.rbegin(); it != _pathFuncVector.rend(); ++it)
+            for (boost::container::vector<PathFunc *>::iterator it = _pathFuncVector.begin(); it != _pathFuncVector.end(); ++it)
             {
                 PathFunc *pf = *it;
                 if (pf)

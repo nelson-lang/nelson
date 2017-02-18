@@ -2,6 +2,8 @@ Bug Fixes:
 ---------
 
   [#34](http://github.com/Nelson-numerical-software/nelson/issues/34): Windows installer did not copy module_skeleton help files at the good place.
+  
+  [#30](http://github.com/Nelson-numerical-software/nelson/issues/30): Search path order for functions was wrong.
 
 
 ## 0.1.3 alpha (2017-02-11)
@@ -9,7 +11,7 @@ Bug Fixes:
 Features:
 ---------
 
-   datevec updated to manage vectors, matrix.
+  datevec updated to manage vectors, matrix.
 
   Add nnz, nzmax, numel functions.
 

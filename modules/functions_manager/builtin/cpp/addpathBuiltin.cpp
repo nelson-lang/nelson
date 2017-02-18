@@ -108,6 +108,8 @@ ArrayOfVector Nelson::FunctionsGateway::addpathBuiltin(Evaluator* eval, int nLhs
         if (bRes)
         {
             PathFuncManager::getInstance()->addPath(params[k], begin);
+			stringVector exceptedFunctionsName = eval->getCallers(true);
+			PathFuncManager::getInstance()->clearCache(exceptedFunctionsName);
         }
         else
         {
