@@ -17,48 +17,29 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 function doc(varargin)
-	helpbrowser();
-	helpbrowser('-hide', 'bookmarks');
-	
-	homepage = [nelsonroot(), '/modules/main/help/', getlanguage(), '/', 'org.nelson.help.qch'];
-	if ~isfile(homepage)
-		homepage = [nelsonroot(), '/modules/main/help/', getdefaultlanguage(), '/', 'org.nelson.help.qch'];
-	end
-	if isfile(homepage)
-		helpbrowser('-register', homepage);
-	end
-	[modules_name, modules_path] = getmodules();
-	len = length(modules_name);
-	for idx = [1:len]
-		module_name = modules_name{idx};
-		module_path = modules_path{idx};
-		help_file = [module_path, '/help/', getlanguage(), '/', 'org.nelson.modules.', module_name, '.help.qch'];
-		if ~isfile(help_file)
-			help_file = [module_path, '/help/', getdefaultlanguage(), '/', 'org.nelson.modules.', module_name, '.help.qch'];
-		end
-		if isfile(help_file)
-			helpbrowser('-register', help_file);
-		end
-	end
-	if nargin() > 1
-		error(_('Wrong number of input arguments.'));
-	end
-	if nargin() == 1
-		name = varargin{1};
-		if ~ischar(name)
-			error(_('Wrong type for argument #1: string expected.'));
-		end
-		p = which(name,'-module');
-		if isempty(p) 
-			helpbrowser('-name', name);
-		else
-			if length(p) == 1
-				id = [p{1}, '::', name];
-				helpbrowser('-identifier', id);
-			else
-				helpbrowser('-name', name);
-			end
-		end
-	end
+  if nargin() > 1
+    error(_('Wrong number of input arguments.'));
+  end
+  if ~indexhelp()
+    helpbrowser();
+    helpbrowser('-hide', 'bookmarks');
+  end
+  if nargin() == 1
+    name = varargin{1};
+    if ~ischar(name)
+      error(_('Wrong type for argument #1: string expected.'));
+    end
+    p = which(name,'-module');
+    if isempty(p) 
+      helpbrowser('-name', name);
+    else
+      if length(p) == 1
+        id = [p{1}, '::', name];
+        helpbrowser('-identifier', id);
+      else
+        helpbrowser('-name', name);
+      end
+    end
+  end
 endfunction
 %==============================================================================

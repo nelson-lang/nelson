@@ -32,3 +32,5 @@
 #define __stringify(x) __quote(x)
 
 #define NELSON_VERSION_STRING __stringify(NELSON_VERSION_MAJOR) "." __stringify(NELSON_VERSION_MINOR) "." __stringify(NELSON_VERSION_MAINTENANCE) "." __stringify(NELSON_VERSION_BUILD)
+#define NELSON_VERSION_NMMM_STRING  NELSON_PRODUCT_NAME "-" __stringify(NELSON_VERSION_MAJOR) "." __stringify(NELSON_VERSION_MINOR) "." __stringify(NELSON_VERSION_MAINTENANCE)
+

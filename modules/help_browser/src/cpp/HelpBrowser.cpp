@@ -158,13 +158,11 @@ namespace Nelson {
             qprocess->terminate();
             qprocess->waitForFinished(3000);
         }
-        clearCache();
         bOpenHomepage = true;
     }
     //=============================================================================
     HelpBrowser::HelpBrowser()
     {
-        clearCache();
         qprocess = new QProcess();
     }
     //=============================================================================
@@ -199,6 +197,7 @@ namespace Nelson {
     //=============================================================================
     void HelpBrowser::clearCache()
     {
+		closeBrowser();
         QString cacheLocation = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
         std::wstring cachePath = QStringTowstring(cacheLocation) + std::wstring(L"/help");
         std::wstring msgError = L"";

@@ -1,0 +1,82 @@
+//=============================================================================
+// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+function r = indexhelp(varargin)
+// private function used to index help files
+// indexhelp(true) forces indexing
+  force = false;
+  if nargin > 1
+    error(_('Wrong number of input arguments.'));
+  end
+  if nargin == 1
+    force = varargin{1};
+    if ~islogical(force)
+      error(_('Wrong type for argument #1: logical expected.'));
+    end
+    if ~isscalar(force)
+      error(_('Wrong size for argument #1: scalar expected.'));
+    end
+  end
+  pref_help = [prefdir(), '/help_index.bin'];
+  if ~isfile(pref_help) | force
+    r = reindexhelp(pref_help);
+  else
+    loadbin(pref_help);
+    [modules_name, modules_path] = getmodules();
+    if ~isequal(help_list, modules_name)
+      r = reindexhelp(pref_help);
+    else
+      r = false;
+    end
+  end
+endfunction
+//=============================================================================
+function r = reindexhelp(pref_help)
+    helpbrowser('-clearcache');
+    helpbrowser();
+    helpbrowser('-hide', 'bookmarks');
+    homepage = [nelsonroot(), '/modules/main/help/', getlanguage(), '/', 'org.nelson.help.qch'];
+    if ~isfile(homepage) 
+      homepage = [nelsonroot(), '/modules/main/help/', getdefaultlanguage(), '/', 'org.nelson.help.qch']; 
+    end
+    fprintf(stdout, [char(10), _('Indexing help files'), ' ']);
+    fprintf(stdout, '.');
+    if isfile(homepage)
+      helpbrowser('-register', homepage);
+    end
+    [modules_name, modules_path] = getmodules();
+    len = length(modules_name);
+    for idx = [1:len]
+      module_name = modules_name{idx};
+      module_path = modules_path{idx};
+      help_file = [module_path, '/help/', getlanguage(), '/', 'org.nelson.modules.', module_name, '.help.qch'];
+      if ~isfile(help_file)
+        help_file = [module_path, '/help/', getdefaultlanguage(), '/', 'org.nelson.modules.', module_name, '.help.qch'];
+      end
+      if isfile(help_file)
+        helpbrowser();
+        helpbrowser('-hide', 'bookmarks');
+        helpbrowser('-register', help_file);
+      end
+      fprintf(stdout,'.');
+    end
+    help_list = modules_name;
+    savebin(pref_help, 'help_list');
+    r = true;
+endfunction
+//=============================================================================

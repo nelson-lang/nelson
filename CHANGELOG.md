@@ -7,7 +7,9 @@ Bug Fixes:
 ---------
 
   [#34](http://github.com/Nelson-numerical-software/nelson/issues/34): Windows installer did not copy module_skeleton help files at the good place.
-  
+
+  [#31](http://github.com/Nelson-numerical-software/nelson/issues/31): doc function was too slow (indexing at each restart).
+
   [#30](http://github.com/Nelson-numerical-software/nelson/issues/30): Search path order for functions was wrong.
 
 

@@ -24,31 +24,36 @@ function buildhelp(varargin)
   if nargin() > 1
     error(_('Wrong number of input arguments.'));
   end
-   
+  if ismodule('help_browser')
+    helpbrowser('-clearcache');
+  end
+  pref_help = [prefdir(), '/help_index.bin'];
+  if isfile(pref_help)
+    rmfile(pref_help);
+  end
   if nargin() == 0
     changes_md = [nelsonroot(), '/CHANGELOG.md'];
-    
+    run([nelsonroot() '/modules/' 'modules.nls']);
     for k = getavailablelanguages()
       dir_src = [nelsonroot(), '/modules/main/help/', k{1}, '/html'];
-      changes_html = [dir_src, '/changelog.html'];
-      generate_changelog_html = false;
-      if isfile(changes_html)
-        html_file_info = dir(changes_html);
-        md_file_info = dir(changes_md);
-        generate_changelog_html = md_file_info.datenum > html_file_info.datenum;
-      else
-        generate_changelog_html = true;
-      end
-      if generate_changelog_html
-        markdown(changes_md, changes_html);
-      end
-      dir_dst = [nelsonroot(), '/modules/main/help/', k{1}, '/'];
       if isdir(dir_src)
+        changes_html = [dir_src, '/changelog.html'];
+        generate_changelog_html = false;
+        if isfile(changes_html)
+          html_file_info = dir(changes_html);
+          md_file_info = dir(changes_md);
+          generate_changelog_html = md_file_info.datenum > html_file_info.datenum;
+        else
+          generate_changelog_html = true;
+        end
+        if generate_changelog_html
+          markdown(changes_md, changes_html);
+        end
+        dir_dst = [nelsonroot(), '/modules/main/help/', k{1}, '/'];
         qhelpgenerator(dir_src,  dir_dst, 'org.nelson.help.qch')
         disp(['help ''', 'homepage', ''' (', k{1}, ') generated.']);
       end
     end
-    run([nelsonroot() '/modules/' 'modules.nls']);
     for m = modules_list
       module_path = [nelsonroot() '/modules/' m{1}];
       buildhelp_from_path(m{1}, module_path);
@@ -82,11 +87,14 @@ function buildhelp_from_path(module, module_path)
       end
       p = xmldoctohelp(src, dstbuild, module);
       if isfile(p)
-        disp(['help ''', module, ''' (', k{1}, ') generated.']);
         dst = [module_path, '/help/', k{1}];
-        copyfile(p, dst, 'f');
+        if copyfile(p, dst, 'f')
+          disp(['help ''', module, ''' (', k{1}, ') generated.']);
+        else
+          disp(_('Impossible to copy help file generated.'));
+        end
       else
-        disp([module, _(' file was not generated.')]);  
+        disp([module, _(' file was not generated.')]);
       end
     end
   end

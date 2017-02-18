@@ -35,11 +35,11 @@ namespace Nelson {
         void syncBrowser();
         void sendCommand(const std::wstring &cmd);
         void destroy();
+		void clearCache();
 
     private:
         HelpBrowser();
         HelpBrowser(HelpBrowser const&) {};
-        void clearCache();
         std::wstring getQhcFilename();
         std::wstring getQhcPath();
         static HelpBrowser *m_pInstance;
