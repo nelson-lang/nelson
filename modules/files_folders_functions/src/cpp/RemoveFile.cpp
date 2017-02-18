@@ -34,7 +34,7 @@ namespace Nelson {
             {
                 boost::filesystem::path p = filename;
                 boost::filesystem::remove(p);
-                res = IsFile(filename);
+                res = !IsFile(filename);
             }
             catch (boost::filesystem::filesystem_error const & e)
             {

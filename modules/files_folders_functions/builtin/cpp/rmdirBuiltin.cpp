@@ -45,7 +45,10 @@ ArrayOfVector Nelson::FilesFoldersGateway::rmdirBuiltin(Evaluator* eval, int nLh
         bool res = RemoveDirectory(arg1, bbSubfolder, errorMessage);
         if (nLhs == 0)
         {
-            Error(eval, errorMessage);
+			if (res == false)
+			{
+				Error(eval, errorMessage);
+			}
         }
         else
         {

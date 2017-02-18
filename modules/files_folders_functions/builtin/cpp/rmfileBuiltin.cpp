@@ -42,7 +42,7 @@ ArrayOfVector Nelson::FilesFoldersGateway::rmfileBuiltin(Evaluator* eval, int nL
         case 0:
         {
             bRes = RemoveFile(filenameToDelete, msg);
-            if (!bRes)
+            if (bRes == false)
             {
                 Error(eval, msg);
             }
