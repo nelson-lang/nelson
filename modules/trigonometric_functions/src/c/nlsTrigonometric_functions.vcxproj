@@ -165,8 +165,10 @@
   <ItemGroup>
     <ClInclude Include="..\..\src\include\nlsTrigonometric_functions_exports.h" />
     <ClInclude Include="..\..\src\include\TrigonometricFunctions.hpp" />
+    <ClInclude Include="..\include\MatrixCosinus.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\cpp\MatrixCosinus.cpp" />
     <ClCompile Include="..\cpp\TrigonometricFunctions.cpp" />
   </ItemGroup>
   <ItemGroup>

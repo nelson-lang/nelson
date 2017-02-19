@@ -329,7 +329,11 @@ namespace Nelson {
          * Returns TRUE if we are 2-Dimensional.
          */
         const bool is2D() const;
-        /**
+		/**
+		* Returns TRUE if we are 2-Dimensional and rows == cols.
+		*/
+		const bool isSquare() const;
+		/**
          * Returns TRUE if we are a vector.
          */
         const bool isVector() const;

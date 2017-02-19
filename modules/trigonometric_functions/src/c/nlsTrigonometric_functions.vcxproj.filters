@@ -21,9 +21,15 @@
     <ClInclude Include="..\..\src\include\nlsTrigonometric_functions_exports.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\MatrixCosinus.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\TrigonometricFunctions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\MatrixCosinus.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

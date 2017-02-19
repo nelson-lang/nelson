@@ -172,6 +172,7 @@
     <ClCompile Include="..\cpp\atanBuiltin.cpp" />
     <ClCompile Include="..\cpp\cosBuiltin.cpp" />
     <ClCompile Include="..\cpp\coshBuiltin.cpp" />
+    <ClCompile Include="..\cpp\cosmBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\sinBuiltin.cpp" />
     <ClCompile Include="..\cpp\sinhBuiltin.cpp" />
@@ -208,6 +209,7 @@
     <ClInclude Include="..\include\atanBuiltin.hpp" />
     <ClInclude Include="..\include\cosBuiltin.hpp" />
     <ClInclude Include="..\include\coshBuiltin.hpp" />
+    <ClInclude Include="..\include\cosmBuiltin.hpp" />
     <ClInclude Include="..\include\nlsTrigonometric_functions_builtin_exports.h" />
     <ClInclude Include="..\include\sinBuiltin.hpp" />
     <ClInclude Include="..\include\sinhBuiltin.hpp" />

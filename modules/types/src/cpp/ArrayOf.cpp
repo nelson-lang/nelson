@@ -1661,6 +1661,14 @@ namespace Nelson {
         return dp->dimensions.is2D();
     }
 
+	/**
+	* Returns TRUE if we are 2-Dimensional and cols == rows.
+	*/
+	const bool ArrayOf::isSquare() const
+	{
+		return dp->dimensions.isSquare();
+	}
+
     /**
      * Returns TRUE if we are a vector.
      */

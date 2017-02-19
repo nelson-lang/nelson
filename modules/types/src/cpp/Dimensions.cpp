@@ -380,4 +380,10 @@ namespace Nelson {
         return length <= 2;
         //return (getElementCount() == (getRows()*getColumns()));
     }
+
+	const bool Dimensions::isSquare() const
+	{
+		return is2D() && (getRows() == getColumns());
+	}
+
 }
