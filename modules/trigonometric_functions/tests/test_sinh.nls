@@ -46,5 +46,5 @@ A = zeros(1000, 1000);
 C = sinh(A);
 assert_isapprox(C, A); 
 //=============================================================================
-assert_checkerror('sinh(''a'')', _('function string_sinh undefined.'));
+assert_checkerror('sinh(''a'')', [_('function'), ' ', 'string_sinh', ' ', _('undefined.')]);
 //=============================================================================

@@ -41,5 +41,5 @@ A = cosh(sparse(zeros(3,3)));
 REF = sparse(ones(3, 3));
 assert_isequal(A, REF);
 //=============================================================================
-assert_checkerror('cosh(''a'')', _('function string_cosh undefined.'));
+assert_checkerror('cosh(''a'')', [_('function'), ' ', 'string_cosh', ' ', _('undefined.')]);
 //=============================================================================
