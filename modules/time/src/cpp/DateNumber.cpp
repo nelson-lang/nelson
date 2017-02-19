@@ -156,56 +156,8 @@ namespace Nelson {
 
 		if (count_date_separator_0 == 1 && count_date_separator_1 == 1)
 		{
-			boost::posix_time::ptime pt(boost::posix_time::not_a_date_time);
-			boost::algorithm::replace_all(datestring, L".", L"-");
-			boost::algorithm::replace_all(datestring, L",", L"-");
-
-			std::wistringstream is(datestring);
-
-			if (count_time_separator == 2)
-			{
-				// L"%b.%m,%Y %H:%M:%S"
-				std::locale format = std::locale(std::locale::classic(), new boost::posix_time::wtime_input_facet(L"%b-%m-%Y %H:%M:%S"));
-				is.imbue(format);
-				is >> pt;
-				if (pt != boost::posix_time::ptime())
-				{
-					boost::gregorian::date d = pt.date();
-					double year = d.year();
-					double month = d.month().as_number();
-					double day = d.day().as_number();
-					double hours = pt.time_of_day().hours();
-					double minutes = pt.time_of_day().minutes();
-					double secondes = pt.time_of_day().seconds();
-					double res = DateNumber(year, month, day, hours, minutes, secondes);
-					bParsed = true;
-					return res;
-				}
-
-			}
-			else
-			{
-				// L"%b.%m,%Y"
-				boost::algorithm::replace_all(datestring, L".", L"-");
-				boost::algorithm::replace_all(datestring, L",", L"-");
-
-				std::locale format = std::locale(std::locale::classic(), new boost::posix_time::wtime_input_facet(L"%b-%m-%Y"));
-				is.imbue(format);
-				is >> pt;
-				if (pt != boost::posix_time::ptime())
-				{
-					boost::gregorian::date d = pt.date();
-					double year = d.year();
-					double month = d.month().as_number();
-					double day = d.day().as_number();
-					double hours = 0;
-					double minutes = 0;
-					double secondes = 0;
-					double res = DateNumber(year, month, day, hours, minutes, secondes);
-					bParsed = true;
-					return res;
-				}
-			}
+			bParsed = true;
+			return nan("");
 		}
 		else
 		{
