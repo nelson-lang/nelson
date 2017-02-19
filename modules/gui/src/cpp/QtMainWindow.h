@@ -51,6 +51,7 @@ private slots:
 private:
     void createMenus();
     virtual void closeEvent(QCloseEvent *event);
+	void executeCommand(std::wstring cmd);
 
     QMenuBar *mainMenuBar;
     QMenu *fileMenu;

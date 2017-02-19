@@ -203,11 +203,30 @@ void QtMainWindow::bugAndRequest()
     QDesktopServices::openUrl(QUrl(link));
 }
 //=============================================================================
+void QtMainWindow::executeCommand(std::wstring cmd)
+{
+	if (qtTerminal)
+	{
+		std::wstring _cmd = cmd + L";";
+		void *veval = GetNelsonMainEvaluatorDynamicFunction();
+		Nelson::Evaluator *eval = (Nelson::Evaluator *)veval;
+		if (!qtTerminal->isAtPrompt())
+		{
+			eval->evaluateString(wstring_to_utf8(_cmd), false);
+		}
+		else
+		{
+			qtTerminal->outputMessage(L"\n");
+			qtTerminal->sendReturnKey();
+			_cmd = _cmd + L"\n";
+			eval->commandQueue.add(Nelson::wstring_to_utf8(_cmd), true);
+		}
+	}
+}
+//=============================================================================
 void QtMainWindow::help()
 {
-    void *veval = GetNelsonMainEvaluatorDynamicFunction();
-    Nelson::Evaluator *eval = (Nelson::Evaluator *)veval;
-    eval->evaluateString("doc", false);
+	executeCommand(L"doc");
 }
 //=============================================================================
 void QtMainWindow::cutText()
@@ -258,22 +277,7 @@ void QtMainWindow::clearConsole()
 //=============================================================================
 void QtMainWindow::pwdDisplay()
 {
-    if (qtTerminal)
-    {
-        void *veval = GetNelsonMainEvaluatorDynamicFunction();
-        Nelson::Evaluator *eval = (Nelson::Evaluator *)veval;
-        if (!qtTerminal->isAtPrompt())
-        {
-            eval->evaluateString("disp(pwd());", false);
-        }
-        else
-        {
-            qtTerminal->outputMessage(L"\n");
-            qtTerminal->sendReturnKey();
-            std::wstring cmd = L"disp(pwd());\n";
-            eval->commandQueue.add(Nelson::wstring_to_utf8(cmd), true);
-        }
-    }
+	executeCommand(L"disp(pwd())");
 }
 //=============================================================================
 void QtMainWindow::changeDir()
