@@ -64,7 +64,7 @@ void InitGuiObjects(void)
     {
         NelSonQtApp = new QApplication(argc, argv);
         QCoreApplication::setApplicationName("Nelson");
-		QCoreApplication::setOrganizationDomain("https://nelson-numerical-software.github.io/nelson-website/");
+        QCoreApplication::setOrganizationDomain("https://nelson-numerical-software.github.io/nelson-website/");
         AddPathToEnvironmentVariable(std::wstring(L"PATH"), GetQtPath(L"BinariesPath"));
     }
 }

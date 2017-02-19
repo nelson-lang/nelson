@@ -100,57 +100,56 @@ ArrayOfVector Nelson::FunctionsGateway::whichBuiltin(Evaluator* eval, int nLhs, 
         if (wparam2.compare(L"-all") == 0)
         {
             wstringVector res = WhichAll(wfunctionname);
-			if (nLhs == 0)
-			{
-				Interface *io = eval->getInterface();
-				if (io)
-				{
-					for (size_t k = 0; k < res.size(); k++)
-					{
-						if (k == 0)
-						{
-							io->outputMessage(res[k] + L"\n");
-						}
-						else 
-						{
-							io->outputMessage(res[k] + L" % " + _W("Shadowed") + L"\n");
-						}
-					}
-				}
-				else
-				{
-					retval.push_back(ToCellStringAsColumn(res));
-				}
-			}
-			else
-			{
-				retval.push_back(ToCellStringAsColumn(res));
-			}
+            if (nLhs == 0)
+            {
+                Interface *io = eval->getInterface();
+                if (io)
+                {
+                    for (size_t k = 0; k < res.size(); k++)
+                    {
+                        if (k == 0)
+                        {
+                            io->outputMessage(res[k] + L"\n");
+                        }
+                        else
+                        {
+                            io->outputMessage(res[k] + L" % " + _W("Shadowed") + L"\n");
+                        }
+                    }
+                }
+                else
+                {
+                    retval.push_back(ToCellStringAsColumn(res));
+                }
+            }
+            else
+            {
+                retval.push_back(ToCellStringAsColumn(res));
+            }
         }
-		else if (wparam2.compare(L"-module") == 0)
-		{
-			wstringVector res = WhichModule(wfunctionname);
-
-			if (nLhs == 0)
-			{
-				Interface *io = eval->getInterface();
-				if (io)
-				{
-					for (size_t k = 0; k < res.size(); k++)
-					{
-						io->outputMessage(res[k] + L"\n");
-					}
-				}
-				else
-				{
-					retval.push_back(ToCellStringAsColumn(res));
-				}
-			}
-			else
-			{
-				retval.push_back(ToCellStringAsColumn(res));
-			}
-		}
+        else if (wparam2.compare(L"-module") == 0)
+        {
+            wstringVector res = WhichModule(wfunctionname);
+            if (nLhs == 0)
+            {
+                Interface *io = eval->getInterface();
+                if (io)
+                {
+                    for (size_t k = 0; k < res.size(); k++)
+                    {
+                        io->outputMessage(res[k] + L"\n");
+                    }
+                }
+                else
+                {
+                    retval.push_back(ToCellStringAsColumn(res));
+                }
+            }
+            else
+            {
+                retval.push_back(ToCellStringAsColumn(res));
+            }
+        }
         else
         {
             Error(eval, _W("#2 Argument must be \'-all\' or  \'-module\'."));

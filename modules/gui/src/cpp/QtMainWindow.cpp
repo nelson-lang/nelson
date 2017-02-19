@@ -205,28 +205,28 @@ void QtMainWindow::bugAndRequest()
 //=============================================================================
 void QtMainWindow::executeCommand(std::wstring cmd)
 {
-	if (qtTerminal)
-	{
-		std::wstring _cmd = cmd + L";";
-		void *veval = GetNelsonMainEvaluatorDynamicFunction();
-		Nelson::Evaluator *eval = (Nelson::Evaluator *)veval;
-		if (!qtTerminal->isAtPrompt())
-		{
-			eval->evaluateString(wstring_to_utf8(_cmd), false);
-		}
-		else
-		{
-			qtTerminal->outputMessage(L"\n");
-			qtTerminal->sendReturnKey();
-			_cmd = _cmd + L"\n";
-			eval->commandQueue.add(Nelson::wstring_to_utf8(_cmd), true);
-		}
-	}
+    if (qtTerminal)
+    {
+        std::wstring _cmd = cmd + L";";
+        void *veval = GetNelsonMainEvaluatorDynamicFunction();
+        Nelson::Evaluator *eval = (Nelson::Evaluator *)veval;
+        if (!qtTerminal->isAtPrompt())
+        {
+            eval->evaluateString(wstring_to_utf8(_cmd), false);
+        }
+        else
+        {
+            qtTerminal->outputMessage(L"\n");
+            qtTerminal->sendReturnKey();
+            _cmd = _cmd + L"\n";
+            eval->commandQueue.add(Nelson::wstring_to_utf8(_cmd), true);
+        }
+    }
 }
 //=============================================================================
 void QtMainWindow::help()
 {
-	executeCommand(L"doc");
+    executeCommand(L"doc");
 }
 //=============================================================================
 void QtMainWindow::cutText()
@@ -277,7 +277,7 @@ void QtMainWindow::clearConsole()
 //=============================================================================
 void QtMainWindow::pwdDisplay()
 {
-	executeCommand(L"disp(pwd())");
+    executeCommand(L"disp(pwd())");
 }
 //=============================================================================
 void QtMainWindow::changeDir()

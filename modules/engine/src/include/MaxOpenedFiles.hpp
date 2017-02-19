@@ -21,7 +21,7 @@
 #include "nlsEngine_exports.h"
 //=============================================================================
 namespace Nelson {
-	#define MIN_OPENFILES 10240 
-	NLSENGINE_IMPEXP bool setMaxOpenedFiles();
+#define MIN_OPENFILES 10240
+    NLSENGINE_IMPEXP bool setMaxOpenedFiles();
 }
 //=============================================================================

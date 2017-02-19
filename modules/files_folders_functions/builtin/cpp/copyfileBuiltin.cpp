@@ -81,7 +81,7 @@ ArrayOfVector Nelson::FilesFoldersGateway::copyfileBuiltin(Evaluator* eval, int 
             {
                 retval.push_back(ArrayOf::stringConstructor(errorMessage));
             }
-			if (nLhs > 2)
+            if (nLhs > 2)
             {
                 Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }

@@ -112,181 +112,171 @@ namespace Nelson {
     //=============================================================================
     double DateNumber(std::wstring datestring, bool &bParsed)
     {
-		const std::locale formats_without_date[] =
-		{
-			std::locale(std::locale::classic(), new boost::posix_time::wtime_input_facet(L"%H:%M:%S")),
-			std::locale(std::locale::classic(), new boost::posix_time::wtime_input_facet(L"%H:%M")),
-		};
-
-		const std::locale formats_without_time[] =
-		{
-			std::locale(std::locale::classic(), new boost::posix_time::wtime_input_facet(L"%m/%d/%Y")),
-			std::locale(std::locale::classic(), new boost::posix_time::wtime_input_facet(L"%m/%d/%y")),
-			std::locale(std::locale::classic(), new boost::posix_time::wtime_input_facet(L"%Y/%m/%d")),
-			std::locale(std::locale::classic(), new boost::posix_time::wtime_input_facet(L"%d-%b-%Y")),
-			std::locale(std::locale::classic(), new boost::posix_time::wtime_input_facet(L"%Y-%m-%d")),
-		};
-
+        const std::locale formats_without_date[] =
+        {
+            std::locale(std::locale::classic(), new boost::posix_time::wtime_input_facet(L"%H:%M:%S")),
+            std::locale(std::locale::classic(), new boost::posix_time::wtime_input_facet(L"%H:%M")),
+        };
+        const std::locale formats_without_time[] =
+        {
+            std::locale(std::locale::classic(), new boost::posix_time::wtime_input_facet(L"%m/%d/%Y")),
+            std::locale(std::locale::classic(), new boost::posix_time::wtime_input_facet(L"%m/%d/%y")),
+            std::locale(std::locale::classic(), new boost::posix_time::wtime_input_facet(L"%Y/%m/%d")),
+            std::locale(std::locale::classic(), new boost::posix_time::wtime_input_facet(L"%d-%b-%Y")),
+            std::locale(std::locale::classic(), new boost::posix_time::wtime_input_facet(L"%Y-%m-%d")),
+        };
         const std::locale formats_date_time[] =
         {
             std::locale(std::locale::classic(), new boost::posix_time::wtime_input_facet(L"%d-%b-%Y %H:%M:%S")),
             std::locale(std::locale::classic(), new boost::posix_time::wtime_input_facet(L"%b.%m.%Y %H:%M:%S")),
             std::locale(std::locale::classic(), new boost::posix_time::wtime_input_facet(L"%Y-%m-%d %H:%M:%S")),
         };
-
-		bool haveAMPM = boost::algorithm::contains(datestring, L" AM") || boost::algorithm::contains(datestring, L" PM");
-		bool haveAM = boost::algorithm::contains(datestring, L" AM");
-		bool havePM = boost::algorithm::contains(datestring, L" PM");
-		if (haveAM)
-		{
-			boost::replace_all(datestring, L" AM", "");
-		}
-		if (havePM)
-		{
-			boost::replace_all(datestring, L" PM", "");
-		}
-
-		size_t count_time_separator = std::count(datestring.begin(), datestring.end(), L':');
-		size_t count_date_separator_0 = std::count(datestring.begin(), datestring.end(), L',');
-		size_t count_date_separator_1 = std::count(datestring.begin(), datestring.end(), L'.');
-		size_t count_date_separator_2 = std::count(datestring.begin(), datestring.end(), L'/');
-		size_t count_date_separator_3 = std::count(datestring.begin(), datestring.end(), L'-');
-
-		bParsed = false;
-
-		if (count_date_separator_0 == 1 && count_date_separator_1 == 1)
-		{
-			bParsed = true;
-			return nan("");
-		}
-		else
-		{
-			bool is_without_date = (count_time_separator > 0) && ((count_date_separator_1 != 3) || (count_date_separator_2 != 3) || (count_date_separator_3 != 3));
-			bool is_without_time = (count_time_separator == 0);
-			bool is_with_date_time = count_time_separator > 0;
-			boost::posix_time::ptime pt(boost::posix_time::not_a_date_time);
-
-			if (is_without_date)
-			{
-				boost::posix_time::ptime t(boost::posix_time::second_clock::local_time());
-				boost::gregorian::date currentdate = t.date();
-
-				const size_t formats_n = sizeof(formats_without_date) / sizeof(formats_without_date[0]);
-				size_t i = 0;
-				for (i; i < formats_n; ++i)
-				{
-					std::wistringstream is(datestring);
-					is.imbue(formats_without_date[i]);
-					is >> pt;
-					if (pt != boost::posix_time::ptime())
-					{
-						break;
-					}
-				}
-				if (pt != boost::posix_time::ptime())
-				{
-					boost::gregorian::date d = pt.date();
-					double year = currentdate.year();
-					double month = 1;
-					double day = 1;
-					double hours = pt.time_of_day().hours();
-					if (havePM)
-					{
-						if (hours < 12)
-						{
-							hours = hours + 12;
-						}
-					}
-					double minutes = pt.time_of_day().minutes();
-					double secondes = pt.time_of_day().seconds();
-					double res = DateNumber(year, month, day, hours, minutes, secondes);
-					bParsed = true;
-					return res;
-				}
-			}
-			if (is_without_time)
-			{
-				if (count_date_separator_2 == 1) 
-				{
-					std::locale format = std::locale(std::locale::classic(), new boost::posix_time::wtime_input_facet(L"%m/%d"));
-					std::wistringstream is(datestring);
-					is.imbue(format);
-					is >> pt;
-					if (pt != boost::posix_time::ptime())
-					{
-						boost::posix_time::ptime t(boost::posix_time::second_clock::local_time());
-						boost::gregorian::date currentdate = t.date();
-						boost::gregorian::date d = pt.date();
-						double year = currentdate.year();
-						double month = d.month().as_number();
-						double day = d.day().as_number();
-						double hours = 0;
-						double minutes = 0;
-						double secondes = 0;
-						double res = DateNumber(year, month, day, hours, minutes, secondes);
-						bParsed = true;
-						return res;
-					}
-
-				}
-				else
-				{
-					const size_t formats_n = sizeof(formats_without_time) / sizeof(formats_without_time[0]);
-					size_t i = 0;
-					for (i; i < formats_n; ++i)
-					{
-						std::wistringstream is(datestring);
-						is.imbue(formats_without_time[i]);
-						is >> pt;
-						if (pt != boost::posix_time::ptime())
-						{
-							break;
-						}
-					}
-				}
-	
-				if (pt != boost::posix_time::ptime())
-				{
-					boost::gregorian::date d = pt.date();
-					double year = d.year();
-					double month = d.month().as_number();
-					double day = d.day().as_number();
-					double hours = 0;
-					double minutes = 0;
-					double secondes = 0;
-					double res = DateNumber(year, month, day, hours, minutes, secondes);
-					bParsed = true;
-					return res;
-				}
-			}
-			if (is_with_date_time)
-			{
-				const size_t formats_n = sizeof(formats_date_time) / sizeof(formats_date_time[0]);
-				size_t i = 0;
-				for (i; i < formats_n; ++i)
-				{
-					std::wistringstream is(datestring);
-					is.imbue(formats_date_time[i]);
-					is >> pt;
-					if (pt != boost::posix_time::ptime())
-					{
-						break;
-					}
-				}
-				if (pt != boost::posix_time::ptime())
-				{
-					boost::gregorian::date d = pt.date();
-					double year = d.year();
-					double month = d.month().as_number();
-					double day = d.day().as_number();
-					double hours = pt.time_of_day().hours();
-					double minutes = pt.time_of_day().minutes();
-					double secondes = pt.time_of_day().seconds();
-					double res = DateNumber(year, month, day, hours, minutes, secondes);
-					bParsed = true;
-					return res;
-				}
-			}
+        bool haveAMPM = boost::algorithm::contains(datestring, L" AM") || boost::algorithm::contains(datestring, L" PM");
+        bool haveAM = boost::algorithm::contains(datestring, L" AM");
+        bool havePM = boost::algorithm::contains(datestring, L" PM");
+        if (haveAM)
+        {
+            boost::replace_all(datestring, L" AM", "");
+        }
+        if (havePM)
+        {
+            boost::replace_all(datestring, L" PM", "");
+        }
+        size_t count_time_separator = std::count(datestring.begin(), datestring.end(), L':');
+        size_t count_date_separator_0 = std::count(datestring.begin(), datestring.end(), L',');
+        size_t count_date_separator_1 = std::count(datestring.begin(), datestring.end(), L'.');
+        size_t count_date_separator_2 = std::count(datestring.begin(), datestring.end(), L'/');
+        size_t count_date_separator_3 = std::count(datestring.begin(), datestring.end(), L'-');
+        bParsed = false;
+        if (count_date_separator_0 == 1 && count_date_separator_1 == 1)
+        {
+            bParsed = true;
+            return nan("");
+        }
+        else
+        {
+            bool is_without_date = (count_time_separator > 0) && ((count_date_separator_1 != 3) || (count_date_separator_2 != 3) || (count_date_separator_3 != 3));
+            bool is_without_time = (count_time_separator == 0);
+            bool is_with_date_time = count_time_separator > 0;
+            boost::posix_time::ptime pt(boost::posix_time::not_a_date_time);
+            if (is_without_date)
+            {
+                boost::posix_time::ptime t(boost::posix_time::second_clock::local_time());
+                boost::gregorian::date currentdate = t.date();
+                const size_t formats_n = sizeof(formats_without_date) / sizeof(formats_without_date[0]);
+                size_t i = 0;
+                for (i; i < formats_n; ++i)
+                {
+                    std::wistringstream is(datestring);
+                    is.imbue(formats_without_date[i]);
+                    is >> pt;
+                    if (pt != boost::posix_time::ptime())
+                    {
+                        break;
+                    }
+                }
+                if (pt != boost::posix_time::ptime())
+                {
+                    boost::gregorian::date d = pt.date();
+                    double year = currentdate.year();
+                    double month = 1;
+                    double day = 1;
+                    double hours = pt.time_of_day().hours();
+                    if (havePM)
+                    {
+                        if (hours < 12)
+                        {
+                            hours = hours + 12;
+                        }
+                    }
+                    double minutes = pt.time_of_day().minutes();
+                    double secondes = pt.time_of_day().seconds();
+                    double res = DateNumber(year, month, day, hours, minutes, secondes);
+                    bParsed = true;
+                    return res;
+                }
+            }
+            if (is_without_time)
+            {
+                if (count_date_separator_2 == 1)
+                {
+                    std::locale format = std::locale(std::locale::classic(), new boost::posix_time::wtime_input_facet(L"%m/%d"));
+                    std::wistringstream is(datestring);
+                    is.imbue(format);
+                    is >> pt;
+                    if (pt != boost::posix_time::ptime())
+                    {
+                        boost::posix_time::ptime t(boost::posix_time::second_clock::local_time());
+                        boost::gregorian::date currentdate = t.date();
+                        boost::gregorian::date d = pt.date();
+                        double year = currentdate.year();
+                        double month = d.month().as_number();
+                        double day = d.day().as_number();
+                        double hours = 0;
+                        double minutes = 0;
+                        double secondes = 0;
+                        double res = DateNumber(year, month, day, hours, minutes, secondes);
+                        bParsed = true;
+                        return res;
+                    }
+                }
+                else
+                {
+                    const size_t formats_n = sizeof(formats_without_time) / sizeof(formats_without_time[0]);
+                    size_t i = 0;
+                    for (i; i < formats_n; ++i)
+                    {
+                        std::wistringstream is(datestring);
+                        is.imbue(formats_without_time[i]);
+                        is >> pt;
+                        if (pt != boost::posix_time::ptime())
+                        {
+                            break;
+                        }
+                    }
+                }
+                if (pt != boost::posix_time::ptime())
+                {
+                    boost::gregorian::date d = pt.date();
+                    double year = d.year();
+                    double month = d.month().as_number();
+                    double day = d.day().as_number();
+                    double hours = 0;
+                    double minutes = 0;
+                    double secondes = 0;
+                    double res = DateNumber(year, month, day, hours, minutes, secondes);
+                    bParsed = true;
+                    return res;
+                }
+            }
+            if (is_with_date_time)
+            {
+                const size_t formats_n = sizeof(formats_date_time) / sizeof(formats_date_time[0]);
+                size_t i = 0;
+                for (i; i < formats_n; ++i)
+                {
+                    std::wistringstream is(datestring);
+                    is.imbue(formats_date_time[i]);
+                    is >> pt;
+                    if (pt != boost::posix_time::ptime())
+                    {
+                        break;
+                    }
+                }
+                if (pt != boost::posix_time::ptime())
+                {
+                    boost::gregorian::date d = pt.date();
+                    double year = d.year();
+                    double month = d.month().as_number();
+                    double day = d.day().as_number();
+                    double hours = pt.time_of_day().hours();
+                    double minutes = pt.time_of_day().minutes();
+                    double secondes = pt.time_of_day().seconds();
+                    double res = DateNumber(year, month, day, hours, minutes, secondes);
+                    bParsed = true;
+                    return res;
+                }
+            }
         }
         return nan("");
     }

@@ -43,11 +43,11 @@ ArrayOfVector Nelson::HelpBrowserGateway::helpbrowserBuiltin(Evaluator* eval, in
         {
             HelpBrowser::getInstance()->closeBrowser();
         }
-		else if (param1 == L"-clearcache")
-		{
-			HelpBrowser::getInstance()->clearCache();
-		}
-		else if (param1 == L"-sync")
+        else if (param1 == L"-clearcache")
+        {
+            HelpBrowser::getInstance()->clearCache();
+        }
+        else if (param1 == L"-sync")
         {
             HelpBrowser::getInstance()->syncBrowser();
         }

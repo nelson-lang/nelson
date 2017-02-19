@@ -457,14 +457,14 @@ namespace Nelson {
 #endif
         if (!fr)
         {
-			std::string msg1;
-			int errnum = errno;
-			char buff[4096];
-			snprintf(buff, sizeof(buff), _("Value of errno: %d").c_str(), errno);
-			msg1 = buff;
-			std::string msg2;
-			snprintf(buff, sizeof(buff), _("Error opening file: %s").c_str(), strerror(errnum));
-			msg2 = buff;
+            std::string msg1;
+            int errnum = errno;
+            char buff[4096];
+            snprintf(buff, sizeof(buff), _("Value of errno: %d").c_str(), errno);
+            msg1 = buff;
+            std::string msg2;
+            snprintf(buff, sizeof(buff), _("Error opening file: %s").c_str(), strerror(errnum));
+            msg2 = buff;
             throw Exception(_W("Cannot open:") + L" " + nlf_filename + L"\n" + utf8_to_wstring(msg1) + L"\n" + utf8_to_wstring(msg2));
         }
         ParserState pstate = ParseError;

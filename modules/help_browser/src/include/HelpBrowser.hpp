@@ -35,7 +35,7 @@ namespace Nelson {
         void syncBrowser();
         void sendCommand(const std::wstring &cmd);
         void destroy();
-		void clearCache();
+        void clearCache();
 
     private:
         HelpBrowser();

@@ -63,11 +63,11 @@ ArrayOfVector Nelson::FunctionsGateway::rmpathBuiltin(Evaluator* eval, int nLhs,
                     io->warningMessage(_W("Warning: Not in path:") + L" " + pathToRemove + L"\n");
                 }
             }
-			else
-			{
-				stringVector exceptedFunctionsName = eval->getCallers(true);
-				PathFuncManager::getInstance()->clearCache(exceptedFunctionsName);
-			}
+            else
+            {
+                stringVector exceptedFunctionsName = eval->getCallers(true);
+                PathFuncManager::getInstance()->clearCache(exceptedFunctionsName);
+            }
         }
         else
         {
