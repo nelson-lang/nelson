@@ -1,7 +1,9 @@
 Features:
 ---------
 
-  Add cosm function.
+  Add 'str2double' function.
+
+  Add 'cosm' function.
 
   which(function_name, '-all') without output argument display paths.
 
@@ -22,13 +24,13 @@ Features:
 
   datevec updated to manage vectors, matrix.
 
-  Add nnz, nzmax, numel functions.
+  Add 'nnz', 'nzmax', 'numel' functions.
 
-  Rework searchenv to return a cell of strings.
+  Rework 'searchenv' to return a cell of strings.
 
   Update persistent variables behavior (clear functions).
 
-  Add ceil, floor, round, fix functions.
+  Add 'ceil', 'floor', 'round', 'fix' functions.
 
   Add sparse support for acos, asin, atan, cos, cosh, sin, sinh, tan, tanh.
 

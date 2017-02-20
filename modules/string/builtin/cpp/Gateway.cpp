@@ -32,6 +32,7 @@
 #include "ndarraystring_isequalBuiltin.hpp"
 #include "sprintfBuiltin.hpp"
 #include "int2strBuiltin.hpp"
+#include "str2doubleBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -60,6 +61,8 @@ static const nlsGateway gateway[] =
     { "ndarraystring_isequaln", Nelson::StringGateway::ndarraystring_isequalBuiltin, 1, 2 },
     { "sprintf", Nelson::StringGateway::sprintfBuiltin, 2, -1},
     { "int2str", Nelson::StringGateway::int2strBuiltin, 1, 1 },
+	{ "str2double", Nelson::StringGateway::str2doubleBuiltin, 1, 1 },
+
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

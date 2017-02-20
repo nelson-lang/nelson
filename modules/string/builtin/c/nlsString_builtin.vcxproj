@@ -174,6 +174,7 @@
     <ClCompile Include="..\cpp\ndarraystring_isequalBuiltin.cpp" />
     <ClCompile Include="..\cpp\ndarraystring_vertcat_ndarraystringBuiltin.cpp" />
     <ClCompile Include="..\cpp\sprintfBuiltin.cpp" />
+    <ClCompile Include="..\cpp\str2doubleBuiltin.cpp" />
     <ClCompile Include="..\cpp\strcmpBuiltin.cpp" />
     <ClCompile Include="..\cpp\strfindBuiltin.cpp" />
     <ClCompile Include="..\cpp\string_dispBuiltin.cpp" />
@@ -219,6 +220,7 @@
     <ClInclude Include="..\include\ndarraystring_vertcat_ndarraystringBuiltin.hpp" />
     <ClInclude Include="..\include\nlsString_builtin_exports.h" />
     <ClInclude Include="..\include\sprintfBuiltin.hpp" />
+    <ClInclude Include="..\include\str2doubleBuiltin.hpp" />
     <ClInclude Include="..\include\strfindBuiltin.hpp" />
     <ClInclude Include="..\include\string_horzcat_stringBuiltin.hpp" />
     <ClInclude Include="..\include\string_isequalBuiltin.hpp" />

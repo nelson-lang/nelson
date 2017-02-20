@@ -171,6 +171,8 @@
     <ClCompile Include="..\cpp\StringFormat.cpp" />
     <ClCompile Include="..\cpp\StringIsEqual.cpp" />
     <ClCompile Include="..\cpp\StringPrintf.cpp" />
+    <ClCompile Include="..\cpp\StringToDouble.cpp" />
+    <ClCompile Include="..\cpp\StringToDoubleComplex.cpp" />
     <ClCompile Include="..\cpp\ToChar.cpp" />
     <ClCompile Include="..\cpp\ToLower.cpp" />
     <ClCompile Include="..\cpp\ToUpper.cpp" />
@@ -188,6 +190,8 @@
     <ClInclude Include="..\include\StringFormat.hpp" />
     <ClInclude Include="..\include\StringIsEqual.hpp" />
     <ClInclude Include="..\include\StringPrintf.hpp" />
+    <ClInclude Include="..\include\StringToDoubleComplex.hpp" />
+    <ClInclude Include="..\include\StringToDouble.hpp" />
     <ClInclude Include="..\include\ToLower.hpp" />
     <ClInclude Include="..\include\ToUpper.hpp" />
     <ClInclude Include="..\include\VertCatString.hpp" />

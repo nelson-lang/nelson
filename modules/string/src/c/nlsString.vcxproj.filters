@@ -54,6 +54,12 @@
     <ClCompile Include="..\cpp\IntegerToString.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\StringToDouble.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\StringToDoubleComplex.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\include\ToChar.hpp">
@@ -93,6 +99,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\IntegerToString.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\StringToDouble.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\StringToDoubleComplex.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
