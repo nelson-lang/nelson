@@ -22,6 +22,6 @@
 #include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
-	NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf MatrixCos(ArrayOf A);
+    NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf MatrixCos(ArrayOf A);
 }
 //=============================================================================

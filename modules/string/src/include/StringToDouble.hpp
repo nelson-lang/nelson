@@ -20,15 +20,15 @@
 #include "nlsString_exports.h"
 //=============================================================================
 namespace Nelson {
-	//=============================================================================
+    //=============================================================================
 #define NanString L"NaN"
 #define InfString L"Inf"
 #define NegInfString L"-Inf"
 #define PosInfString L"+Inf"
 #define NegNanString L"-NaN" /* no sense but it can be used */
 #define PosNanString L"+NaN" /* no sense but it can be used */
-	//=============================================================================
-	NLSSTRING_IMPEXP double stringToDouble(std::wstring str, bool &wasConverted);
-	//=============================================================================
+    //=============================================================================
+    NLSSTRING_IMPEXP double stringToDouble(std::wstring str, bool &wasConverted);
+    //=============================================================================
 }
 //=============================================================================

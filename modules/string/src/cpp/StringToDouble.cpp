@@ -24,108 +24,110 @@
 #include "StringToDouble.hpp"
 //=============================================================================
 namespace Nelson {
-	//=============================================================================
-	#define STR2DOUBLE_MAX_DIGIT_FORMAT L"%lg"
-	//=============================================================================
-	static std::wstring ToUpper(std::wstring A)
-	{
-		std::wstring res = A;
-		transform(res.begin(), res.end(), res.begin(), towupper);
-		return res;
-	}
-	//=============================================================================
-	static double returnInfinity(bool bPositive)
-	{
-		double v = 0 - 0;
-		double p = 100;
-		if (!bPositive) p = -p;
-		return (double)p / (double)v;
-	}
-	//=============================================================================
-	double stringToDouble(std::wstring str, bool &wasConverted)
-	{
-		double res = nan("");
-		wasConverted = false;
-		if (str.empty()) 
-		{
-			res = nan("");
-			wasConverted = true;
-		}
-		else
-		{
-			std::wstring STR = ToUpper(str);
-			if (STR.compare(ToUpper(NanString)) == 0 || STR.compare(ToUpper(NegNanString)) == 0 ||
-				STR.compare(ToUpper(PosNanString)) == 0)
-			{
-				res = nan("");
-				wasConverted = true;
-			}
-			else if (STR.compare(ToUpper(NegInfString)) == 0)
-			{
-				res = returnInfinity(false);
-				wasConverted = true;
-			}
-			else if (STR.compare(ToUpper(InfString)) == 0 || STR.compare(ToUpper(PosInfString)) == 0)
-			{
-				res = returnInfinity(true);
-				wasConverted = true;
-			}
-			else
-			{
-				STR = str;
-				if (boost::algorithm::contains(str, L","))
-				{
-					boost::replace_all(STR, L",", L"");
-				}
-				if (boost::algorithm::contains(STR, L" "))
-				{
-					boost::algorithm::trim_left(STR);
-					boost::algorithm::trim_right(STR);
-
-				}
-				if (boost::algorithm::contains(STR, L"d"))
-				{
-					boost::replace_all(STR, L"d", L"e");
-				}
-				if (boost::algorithm::contains(STR, L"D"))
-				{
-					boost::replace_all(STR, L"D", L"e");
-				}
-				double v = nan("");
-				int err = swscanf(STR.c_str(), STR2DOUBLE_MAX_DIGIT_FORMAT, &v);
-				if (err == 1)
-				{
-					double v2 = 0.;
-					wchar_t * pEnd = NULL;
-					v2 = wcstod(STR.c_str(), &pEnd);
-					if (pEnd != nullptr)
-					{
-						if (wcslen(pEnd) == 0)
-						{
-							res = v2;
-							wasConverted = true;
-						}
-						else
-						{
-							res = nan("");
-							wasConverted = true;
-						}
-					}
-					else
-					{
-						wasConverted = true;
-						res = nan("");
-					}
-				}
-				else
-				{
-					wasConverted = true;
-					res = nan("");
-				}
-			}
-		}
-		return res;
-	}
-	//=============================================================================
+    //=============================================================================
+#define STR2DOUBLE_MAX_DIGIT_FORMAT L"%lg"
+    //=============================================================================
+    static std::wstring ToUpper(std::wstring A)
+    {
+        std::wstring res = A;
+        transform(res.begin(), res.end(), res.begin(), towupper);
+        return res;
+    }
+    //=============================================================================
+    static double returnInfinity(bool bPositive)
+    {
+        double v = 0 - 0;
+        double p = 100;
+        if (!bPositive)
+        {
+            p = -p;
+        }
+        return (double)p / (double)v;
+    }
+    //=============================================================================
+    double stringToDouble(std::wstring str, bool &wasConverted)
+    {
+        double res = nan("");
+        wasConverted = false;
+        if (str.empty())
+        {
+            res = nan("");
+            wasConverted = true;
+        }
+        else
+        {
+            std::wstring STR = ToUpper(str);
+            if (STR.compare(ToUpper(NanString)) == 0 || STR.compare(ToUpper(NegNanString)) == 0 ||
+                    STR.compare(ToUpper(PosNanString)) == 0)
+            {
+                res = nan("");
+                wasConverted = true;
+            }
+            else if (STR.compare(ToUpper(NegInfString)) == 0)
+            {
+                res = returnInfinity(false);
+                wasConverted = true;
+            }
+            else if (STR.compare(ToUpper(InfString)) == 0 || STR.compare(ToUpper(PosInfString)) == 0)
+            {
+                res = returnInfinity(true);
+                wasConverted = true;
+            }
+            else
+            {
+                STR = str;
+                if (boost::algorithm::contains(str, L","))
+                {
+                    boost::replace_all(STR, L",", L"");
+                }
+                if (boost::algorithm::contains(STR, L" "))
+                {
+                    boost::algorithm::trim_left(STR);
+                    boost::algorithm::trim_right(STR);
+                }
+                if (boost::algorithm::contains(STR, L"d"))
+                {
+                    boost::replace_all(STR, L"d", L"e");
+                }
+                if (boost::algorithm::contains(STR, L"D"))
+                {
+                    boost::replace_all(STR, L"D", L"e");
+                }
+                double v = nan("");
+                int err = swscanf(STR.c_str(), STR2DOUBLE_MAX_DIGIT_FORMAT, &v);
+                if (err == 1)
+                {
+                    double v2 = 0.;
+                    wchar_t * pEnd = NULL;
+                    v2 = wcstod(STR.c_str(), &pEnd);
+                    if (pEnd != nullptr)
+                    {
+                        if (wcslen(pEnd) == 0)
+                        {
+                            res = v2;
+                            wasConverted = true;
+                        }
+                        else
+                        {
+                            res = nan("");
+                            wasConverted = true;
+                        }
+                    }
+                    else
+                    {
+                        wasConverted = true;
+                        res = nan("");
+                    }
+                }
+                else
+                {
+                    wasConverted = true;
+                    res = nan("");
+                }
+            }
+        }
+        return res;
+    }
+    //=============================================================================
 }
 //=============================================================================

@@ -215,10 +215,10 @@ namespace Nelson {
          */
         const bool is2D() const;
 
-		/**
-		* Returns true if we have exactly 2 dimensions allocated and cols == rows.
-		*/
-		const bool isSquare() const;
-	};
+        /**
+        * Returns true if we have exactly 2 dimensions allocated and cols == rows.
+        */
+        const bool isSquare() const;
+    };
 }
 

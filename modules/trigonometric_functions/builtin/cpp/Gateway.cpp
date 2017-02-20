@@ -43,7 +43,7 @@ static const nlsGateway gateway[] =
     { "acos", Nelson::TrigonometricGateway::acosBuiltin, 1, 1 },
     { "asin", Nelson::TrigonometricGateway::asinBuiltin, 1, 1 },
     { "atan", Nelson::TrigonometricGateway::atanBuiltin, 1, 1 },
-	{ "cosm", Nelson::TrigonometricGateway::cosmBuiltin, 1, 1 },
+    { "cosm", Nelson::TrigonometricGateway::cosmBuiltin, 1, 1 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

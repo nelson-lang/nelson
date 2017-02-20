@@ -381,9 +381,9 @@ namespace Nelson {
         //return (getElementCount() == (getRows()*getColumns()));
     }
 
-	const bool Dimensions::isSquare() const
-	{
-		return is2D() && (getRows() == getColumns());
-	}
+    const bool Dimensions::isSquare() const
+    {
+        return is2D() && (getRows() == getColumns());
+    }
 
 }

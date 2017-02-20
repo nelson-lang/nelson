@@ -21,116 +21,108 @@
 #include "ClassName.hpp"
 //=============================================================================
 namespace Nelson {
-	//=============================================================================
-	ArrayOf MatrixCos(ArrayOf A)
-	{
-		if (!A.isSquare())
-		{
-			throw Exception(_("Square matrix expected."));
-		}
-		if (A.isEmpty())
-		{
-			ArrayOf R(A);
-			R.ensureSingleOwner();
-			return R;
-		}
-		if (A.isSparse())
-		{
-			throw Exception(_("Undefined function 'cosm' for input arguments of type") + " '" + ClassName(A) + "'.");
-		}
-		switch (A.getDataClass())
-		{
-		case NLS_CELL_ARRAY:
-		case NLS_STRUCT_ARRAY:
-		case NLS_LOGICAL:
-		case NLS_UINT8:
-		case NLS_INT8:
-		case NLS_UINT16:
-		case NLS_INT16:
-		case NLS_UINT32:
-		case NLS_INT32:
-		case NLS_UINT64:
-		case NLS_INT64:
-		case NLS_STRING:
-		{
-			throw Exception(_("Undefined function 'cosm' for input arguments of type") + " '" + ClassName(A) + "'.");
-		}
-		break;
-		case NLS_SCOMPLEX:
-		{
-			// 0.5*(expm(i*A) + expm(-i*A))
-			// 0.5*(expm(B) + expm(C)) with B = i*A and C = -i*A 
-			ArrayOf R(A);
-			R.ensureSingleOwner();
-
-			singlecomplex* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
-			singlecomplex* Rz = reinterpret_cast<singlecomplex*>((single*)R.getDataPointer());
-
-			Eigen::Map<Eigen::MatrixXcf> matA(Az, (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
-			Eigen::Map<Eigen::MatrixXcf> matR(Rz, (Eigen::Index)R.getDimensions().getRows(), (Eigen::Index)R.getDimensions().getColumns());
-
-			singlecomplex I(0, 1);
-			singlecomplex minusI(0, -1);
-
-			matR = 0.5 * (((I*matA).exp()) + ((minusI* matA).exp()));
-			if (R.allReal())
-			{
-				R.promoteType(NLS_SINGLE);
-			}
-			return R;
-		}
-		case NLS_SINGLE:
-		{
-			ArrayOf R(A);
-			R.ensureSingleOwner();
-			Eigen::Map<Eigen::MatrixXf> matA((single*)A.getDataPointer(), (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
-			Eigen::Map<Eigen::MatrixXf> matR((single*)R.getDataPointer(), (Eigen::Index)R.getDimensions().getRows(), (Eigen::Index)R.getDimensions().getColumns());
-			matR = matA.cos();
-			return R;
-		}
-		break;
-		case NLS_DCOMPLEX:
-		{
-			// 0.5*(expm(i*A) + expm(-i*A))
-			// 0.5*(expm(B) + expm(C)) with B = i*A and C = -i*A 
-			ArrayOf R(A);
-			R.ensureSingleOwner();
-
-			doublecomplex* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
-			doublecomplex* Rz = reinterpret_cast<doublecomplex*>((double*)R.getDataPointer());
-
-			Eigen::Map<Eigen::MatrixXcd> matA(Az, (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
-			Eigen::Map<Eigen::MatrixXcd> matR(Rz, (Eigen::Index)R.getDimensions().getRows(), (Eigen::Index)R.getDimensions().getColumns());
-
-			doublecomplex I(0, 1);
-			doublecomplex minusI(0, -1);
-			
-			matR = 0.5 * (((I*matA).exp()) + ((minusI* matA).exp()));
-			if (R.allReal())
-			{
-				R.promoteType(NLS_DOUBLE);
-			}
-			return R;
-		}
-		break;
-		case NLS_DOUBLE:
-		{
-			ArrayOf R(A);
-			R.ensureSingleOwner();
-			Eigen::Map<Eigen::MatrixXd> matA((double*)A.getDataPointer(), (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
-			Eigen::Map<Eigen::MatrixXd> matR((double*)R.getDataPointer(), (Eigen::Index)R.getDimensions().getRows(), (Eigen::Index)R.getDimensions().getColumns());
-			matR = matA.cos();
-			return R;
-		}
-		break;
-		default:
-		{
-			throw Exception(_W("Invalid conversion."));
-		}
-		break;
-		}
-		return ArrayOf();
-	}
-	//=============================================================================
+    //=============================================================================
+    ArrayOf MatrixCos(ArrayOf A)
+    {
+        if (!A.isSquare())
+        {
+            throw Exception(_("Square matrix expected."));
+        }
+        if (A.isEmpty())
+        {
+            ArrayOf R(A);
+            R.ensureSingleOwner();
+            return R;
+        }
+        if (A.isSparse())
+        {
+            throw Exception(_("Undefined function 'cosm' for input arguments of type") + " '" + ClassName(A) + "'.");
+        }
+        switch (A.getDataClass())
+        {
+            case NLS_CELL_ARRAY:
+            case NLS_STRUCT_ARRAY:
+            case NLS_LOGICAL:
+            case NLS_UINT8:
+            case NLS_INT8:
+            case NLS_UINT16:
+            case NLS_INT16:
+            case NLS_UINT32:
+            case NLS_INT32:
+            case NLS_UINT64:
+            case NLS_INT64:
+            case NLS_STRING:
+            {
+                throw Exception(_("Undefined function 'cosm' for input arguments of type") + " '" + ClassName(A) + "'.");
+            }
+            break;
+            case NLS_SCOMPLEX:
+            {
+                // 0.5*(expm(i*A) + expm(-i*A))
+                // 0.5*(expm(B) + expm(C)) with B = i*A and C = -i*A
+                ArrayOf R(A);
+                R.ensureSingleOwner();
+                singlecomplex* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
+                singlecomplex* Rz = reinterpret_cast<singlecomplex*>((single*)R.getDataPointer());
+                Eigen::Map<Eigen::MatrixXcf> matA(Az, (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
+                Eigen::Map<Eigen::MatrixXcf> matR(Rz, (Eigen::Index)R.getDimensions().getRows(), (Eigen::Index)R.getDimensions().getColumns());
+                singlecomplex I(0, 1);
+                singlecomplex minusI(0, -1);
+                matR = 0.5 * (((I*matA).exp()) + ((minusI* matA).exp()));
+                if (R.allReal())
+                {
+                    R.promoteType(NLS_SINGLE);
+                }
+                return R;
+            }
+            case NLS_SINGLE:
+            {
+                ArrayOf R(A);
+                R.ensureSingleOwner();
+                Eigen::Map<Eigen::MatrixXf> matA((single*)A.getDataPointer(), (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
+                Eigen::Map<Eigen::MatrixXf> matR((single*)R.getDataPointer(), (Eigen::Index)R.getDimensions().getRows(), (Eigen::Index)R.getDimensions().getColumns());
+                matR = matA.cos();
+                return R;
+            }
+            break;
+            case NLS_DCOMPLEX:
+            {
+                // 0.5*(expm(i*A) + expm(-i*A))
+                // 0.5*(expm(B) + expm(C)) with B = i*A and C = -i*A
+                ArrayOf R(A);
+                R.ensureSingleOwner();
+                doublecomplex* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
+                doublecomplex* Rz = reinterpret_cast<doublecomplex*>((double*)R.getDataPointer());
+                Eigen::Map<Eigen::MatrixXcd> matA(Az, (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
+                Eigen::Map<Eigen::MatrixXcd> matR(Rz, (Eigen::Index)R.getDimensions().getRows(), (Eigen::Index)R.getDimensions().getColumns());
+                doublecomplex I(0, 1);
+                doublecomplex minusI(0, -1);
+                matR = 0.5 * (((I*matA).exp()) + ((minusI* matA).exp()));
+                if (R.allReal())
+                {
+                    R.promoteType(NLS_DOUBLE);
+                }
+                return R;
+            }
+            break;
+            case NLS_DOUBLE:
+            {
+                ArrayOf R(A);
+                R.ensureSingleOwner();
+                Eigen::Map<Eigen::MatrixXd> matA((double*)A.getDataPointer(), (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
+                Eigen::Map<Eigen::MatrixXd> matR((double*)R.getDataPointer(), (Eigen::Index)R.getDimensions().getRows(), (Eigen::Index)R.getDimensions().getColumns());
+                matR = matA.cos();
+                return R;
+            }
+            break;
+            default:
+            {
+                throw Exception(_W("Invalid conversion."));
+            }
+            break;
+        }
+        return ArrayOf();
+    }
+    //=============================================================================
 }
 //=============================================================================
