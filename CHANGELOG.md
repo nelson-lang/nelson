@@ -1,6 +1,8 @@
 Features:
 ---------
 
+  Add 'mat2str' function (sparse managed).
+
   Add 'str2double' function.
 
   Add 'cosm' function.

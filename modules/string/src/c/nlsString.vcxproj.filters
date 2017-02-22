@@ -60,6 +60,9 @@
     <ClCompile Include="..\cpp\StringToDoubleComplex.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\MatrixToString.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\include\ToChar.hpp">
@@ -105,6 +108,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\StringToDoubleComplex.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\MatrixToString.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

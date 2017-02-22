@@ -33,6 +33,7 @@
 #include "sprintfBuiltin.hpp"
 #include "int2strBuiltin.hpp"
 #include "str2doubleBuiltin.hpp"
+#include "mat2strBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -62,7 +63,7 @@ static const nlsGateway gateway[] =
     { "sprintf", Nelson::StringGateway::sprintfBuiltin, 2, -1},
     { "int2str", Nelson::StringGateway::int2strBuiltin, 1, 1 },
     { "str2double", Nelson::StringGateway::str2doubleBuiltin, 1, 1 },
-
+    { "mat2str", Nelson::StringGateway::mat2strBuiltin, 1, -2 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)
