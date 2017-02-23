@@ -207,7 +207,7 @@ namespace Nelson {
         int32 *qp;
         if (getLength() != 1)
         {
-            throw Exception(_W("Expected a scalar."));
+            throw Exception(ERROR_SCALAR_EXPECTED);
         }
         promoteType(NLS_INT32);
         qp = (int32*)dp->getData();
@@ -219,7 +219,7 @@ namespace Nelson {
         int64 *qp;
         if (getLength() != 1)
         {
-            throw Exception(_W("Expected a scalar."));
+            throw Exception(ERROR_SCALAR_EXPECTED);
         }
         promoteType(NLS_INT64);
         qp = (int64*)dp->getData();
@@ -231,7 +231,7 @@ namespace Nelson {
         uint64 *qp;
         if (getLength() != 1)
         {
-            throw Exception(_W("Expected a scalar."));
+            throw Exception(ERROR_SCALAR_EXPECTED);
         }
         promoteType(NLS_UINT64);
         qp = (uint64*)dp->getData();

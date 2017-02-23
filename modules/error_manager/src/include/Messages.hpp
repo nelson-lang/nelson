@@ -198,3 +198,5 @@
 #define ERROR_DIMENSIONS_NOT_CONSISTENT _W("Dimensions concatenated are not consistent.")
 
 #define ERROR_FIELDNAMES_MUST_MATCH _W("Fieldnames in structs must match.")
+
+#define ERROR_SCALAR_EXPECTED _W("A scalar expected.")

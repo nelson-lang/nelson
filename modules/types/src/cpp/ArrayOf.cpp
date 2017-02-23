@@ -4126,7 +4126,7 @@ break;
         indexType idx = 0;
         if (getLength() != 1)
         {
-            throw Exception(_W("Expected a scalar."));
+            throw Exception(ERROR_SCALAR_EXPECTED);
         }
         promoteType(NLS_DOUBLE);
         double *qp = (double*)dp->getData();
