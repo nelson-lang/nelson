@@ -35,12 +35,12 @@ namespace Nelson {
         std::wstring res;
         if (!A.is2D())
         {
-            throw Exception(_W("Input matrix must be 2-D."));
+            throw Exception(_W("A 2D matrix expected."));
         }
         bool canBeConvert = A.isNumeric() || A.isLogical() || A.isString();
         if (!canBeConvert)
         {
-            throw Exception(_W("Input matrix must be numeric."));
+            throw Exception(_W("An numeric matrix expected."));
         }
         if (A.isSparse())
         {
@@ -111,7 +111,7 @@ namespace Nelson {
                                     }
                                     else
                                     {
-                                        swprintf(buffer, formatNumber.c_str(), complexVal.real());
+                                        swprintf(buffer, 1024, formatNumber.c_str(), complexVal.real());
                                         realPartStr = buffer;
                                     }
                                 }
@@ -134,7 +134,7 @@ namespace Nelson {
                                     }
                                     else
                                     {
-                                        swprintf(buffer, formatNumber.c_str(), complexVal.imag());
+                                        swprintf(buffer, 1024, formatNumber.c_str(), complexVal.imag());
                                         imagPartStr = buffer;
                                     }
                                 }
@@ -199,7 +199,7 @@ namespace Nelson {
                                     }
                                     else
                                     {
-                                        swprintf(buffer, formatNumber.c_str(), complexVal.real());
+                                        swprintf(buffer, 1024, formatNumber.c_str(), complexVal.real());
                                         realPartStr = buffer;
                                     }
                                 }
@@ -222,7 +222,7 @@ namespace Nelson {
                                     }
                                     else
                                     {
-                                        swprintf(buffer, formatNumber.c_str(), complexVal.imag());
+                                        swprintf(buffer, 1024, formatNumber.c_str(), complexVal.imag());
                                         imagPartStr = buffer;
                                     }
                                 }
@@ -284,7 +284,7 @@ namespace Nelson {
                                     }
                                     else
                                     {
-                                        swprintf(buffer, formatNumber.c_str(), val);
+                                        swprintf(buffer, 1024, formatNumber.c_str(), val);
                                         res = res + buffer + L" ";
                                     }
                                 }
@@ -324,7 +324,7 @@ namespace Nelson {
                                     }
                                     else
                                     {
-                                        swprintf(buffer, formatNumber.c_str(), val);
+                                        swprintf(buffer, 1024, formatNumber.c_str(), val);
                                         res = res + buffer + L" ";
                                     }
                                 }

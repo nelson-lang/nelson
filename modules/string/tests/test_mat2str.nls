@@ -98,5 +98,5 @@ assert_isequal(R, REF);
 assert_checkerror('mat2str()', _('Wrong number of input arguments.'));
 assert_checkerror('mat2str(''nelson'')', _('type not supported.'));
 assert_checkerror('mat2str(ones(8,9), [1 1])', _('A scalar expected.'));
-assert_checkerror('mat2str(rand(2, 2, 3))', _('Input matrix must be 2-D.'));
+assert_checkerror('mat2str(rand(2, 2, 3))', _('A 2D matrix expected.'));
 //=============================================================================
