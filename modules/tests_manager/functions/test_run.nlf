@@ -313,10 +313,10 @@ function res = save_as_xml(test_suites, xmlFileDestination)
   fp = fopen(xmlFileDestination, 'wt');
   if fp ~= -1
     fprintf(fp, ['<?xml version="1.0"?>', eol]);
-    fprintf(fp, ['<testsuites tests="', int2str(test_suites.tests), '" disabled="', int2str(test_suites.disabled), '" time="', int2str(test_suites.time), '" errors="', int2str(test_suites.errors),'">', eol]);
+    fprintf(fp, ['<testsuites tests="', int2str(test_suites.tests), '" disabled="', int2str(test_suites.disabled), '" time="', mat2str(test_suites.time, 2), '" errors="', int2str(test_suites.errors),'">', eol]);
 
     for t = test_suites.tests_list
-      fprintf(fp, ['  <testsuite name="', t.name, '" id="', t.id, '" time="', int2str(t.time), '" tests="', int2str(t.tests), '" skipped="', int2str(t.disabled),'" errors="', int2str(t.errors), '" hostname="', t.hostname, '" timestamp="', t.timestamp, '" ', '>', eol]);
+      fprintf(fp, ['  <testsuite name="', t.name, '" id="', t.id, '" time="', mat2str(t.time, 2), '" tests="', int2str(t.tests), '" skipped="', int2str(t.disabled),'" errors="', int2str(t.errors), '" hostname="', t.hostname, '" timestamp="', t.timestamp, '" ', '>', eol]);
       fprintf(fp, ['    <properties>', eol]);
       fprintf(fp, ['      <property name="', 'environment', '" value="', t.environment,'"/>', eol]);
       fprintf(fp, ['    </properties>', eol]);
@@ -324,27 +324,27 @@ function res = save_as_xml(test_suites, xmlFileDestination)
       for tc = t.test_cases_list
         if tc.isbench
             if strcmp(tc.status, 'Fail') == true
-                fprintf(fp, ['    <testcase name="', tc.name, '" time="', int2str(tc.time), '" classname="', tc.classname, '">', eol]);
+                fprintf(fp, ['    <testcase name="', tc.name, '" time="', mat2str(tc.time, 2), '" classname="', tc.classname, '">', eol]);
                 fprintf(fp, ['      <error type="error" message="', _('test failed'), '">', tc.msg, '</error>', eol]);
                 fprintf(fp, ['    </testcase>', eol]);
             else
-              fprintf(fp, ['    <testcase name="', tc.name, '" time="', int2str(tc.time), '" classname="', tc.classname, '">', eol]);
+              fprintf(fp, ['    <testcase name="', tc.name, '" time="', mat2str(tc.time, 2), '" classname="', tc.classname, '">', eol]);
               //fprintf(fp, ['      <system-out>', '<![CDATA[', tc.msg, ']]', '<system-out/>', eol]);
               fprintf(fp, ['    </testcase>', eol]);
             end
         else
           if strcmp(tc.status, 'Pass') == true
-            fprintf(fp, ['    <testcase name="', tc.name, '" time="', int2str(tc.time), '" classname="', tc.classname, '">', eol]);
+            fprintf(fp, ['    <testcase name="', tc.name, '" time="', mat2str(tc.time, 2), '" classname="', tc.classname, '">', eol]);
             //fprintf(fp, ['      <system-out>', '<![CDATA[', tc.msg, ']]', '<system-out/>', eol]);
             fprintf(fp, ['    </testcase>', eol]);
           else
             if strcmp(tc.status, 'Fail') == true
-                fprintf(fp, ['    <testcase name="', tc.name, '" time="', int2str(tc.time), '" classname="', tc.classname, '">', eol]);
+                fprintf(fp, ['    <testcase name="', tc.name, '" time="', mat2str(tc.time, 2), '" classname="', tc.classname, '">', eol]);
                 fprintf(fp, ['      <error type="error" message="', _('test failed'), '">', tc.msg, '</error>', eol]);
                 fprintf(fp, ['    </testcase>', eol]);
             else
               if strcmp(tc.status, 'Skip') == true | strcmp(tc.status, 'Interactive') == true | strcmp(tc.status, 'No display') == true
-                fprintf(fp, ['    <testcase name="', tc.name, '" time="', int2str(tc.time), '" classname="', tc.classname, '"/>', eol]);
+                fprintf(fp, ['    <testcase name="', tc.name, '" time="', mat2str(tc.time, 2), '" classname="', tc.classname, '"/>', eol]);
                 fprintf(fp, ['      <skipped/>', eol]);
               end
             end
@@ -367,7 +367,7 @@ function disp_summary(test_suites)
   fprintf(stdout, ['  ', _('Failed:'), ' ', int2str(test_suites.errors), char(10)]);
   fprintf(stdout, ['  ', _('Skipped:'), ' ',  int2str(test_suites.disabled), char(10)]);
   fprintf(stdout, ['  ', _('Benchs:'), ' ', int2str(test_suites.bench), char(10)]);
-  fprintf(stdout, ['  ', _('Time:'), ' ', int2str(test_suites.time), ' ms', char(10)]);
+  fprintf(stdout, ['  ', _('Time:'), ' ', mat2str(test_suites.time, 2), ' ms', char(10)]);
   fprintf(stdout, ['  //===========================================================================', char(10)]);
 endfunction
 //=============================================================================
@@ -458,7 +458,7 @@ function test_case_res = run_test_case(test, module_name, index, indexMax, nbTes
               r = rmfile(outputfile);
               if (test_res)
                 if is_bench
-                  test_case_res.status = [int2str(test_timing), ' ms'];
+                  test_case_res.status = [mat2str(test_timing, 2), ' ms'];
                 else
                   test_case_res.status = 'Pass';
                 end
