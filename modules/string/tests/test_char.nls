@@ -57,7 +57,7 @@ assert_isequal(double(char([1,0,3])), [1,0,3]);
 // better choice compared to others
 R = char([], '');
 assert_isequal(size(R), [0 0])
-assert_isequal(class(R), 'string')
+assert_isequal(class(R), 'char')
 //=============================================================================
 // better choice compared to others
 R = char(zeros(0, 4), '');
