@@ -64,7 +64,7 @@ namespace Nelson {
 #ifdef _MSC_BUILD
 			fw = _wfopen(filenameDestination.c_str(), L"wt");
 #else
-			fw = fopen(wstring_to_utf8(filenameDestination).c_str(), "rt");
+			fw = fopen(wstring_to_utf8(filenameDestination).c_str(), "wt");
 #endif
 		}
 
