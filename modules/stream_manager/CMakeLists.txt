@@ -81,7 +81,8 @@ nlsInterpreter
 nlsOverload
 nlsTypes
 nlsI18n
-nlsCharacters_encoding)
+nlsCharacters_encoding
+${BOOST_LIBRARY})
 #==============================================================================
 set_target_properties(${module_library_builtin_name}
                       PROPERTIES 
