@@ -144,7 +144,7 @@ assert_isequal(R, REF);
 //=============================================================================
 // dlmwrite(filename, M, '-append', delimiter, r, c, eol)
 A = 1;
-dlmwrite(filename, A);
+dlmwrite(filename, A, ',', 0, 0, 'pc');
 B = 2;
 dlmwrite(filename, B, '-append', ';', 1, 1, 'pc');
 R = fileread(filename);
@@ -153,7 +153,7 @@ assert_isequal(R, REF);
 //=============================================================================
 // dlmwrite(filename, M, '-append', delimiter, r, c, eol, precision)
 A = 1;
-dlmwrite(filename, A);
+dlmwrite(filename, A, ',', 0, 0, 'pc');
 B = 2;
 dlmwrite(filename, B, '-append', ';', 1, 1, 'pc', 5);
 R = fileread(filename);
