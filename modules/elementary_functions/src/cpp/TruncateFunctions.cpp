@@ -201,7 +201,7 @@ namespace Nelson {
                 }
             }
             break;
-            case NLS_STRING:
+            case NLS_CHAR:
             {
                 size_t len = arrayIn.getLength();
                 void *ptr = ArrayOf::allocateArrayOf(NLS_DOUBLE, len);

@@ -23,7 +23,7 @@
 //=============================================================================
 namespace Nelson {
     namespace StringGateway {
-        ArrayOfVector string_horzcat_stringBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+        ArrayOfVector char_horzcat_charBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
     }
 }
 //=============================================================================

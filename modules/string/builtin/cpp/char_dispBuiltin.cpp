@@ -16,43 +16,28 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "string_vertcat_stringBuiltin.hpp"
+#include "char_dispBuiltin.hpp"
 #include "Error.hpp"
-#include "VertCatString.hpp"
+#include "StringDisplay.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::StringGateway::string_vertcat_stringBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector Nelson::StringGateway::char_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 2)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
     if (nLhs > 1)
     {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    ArrayOf A = argIn[0];
-    ArrayOf B = argIn[1];
-    if (!A.isString())
+    if (argIn.size() != 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    if (!argIn[0].isString())
     {
         Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
-    if (!B.isString())
-    {
-        Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
-    }
-    if (!A.isEmpty(true) && !B.isEmpty(true))
-    {
-        Dimensions dimsA = A.getDimensions();
-        Dimensions dimsB = B.getDimensions();
-        if (dimsA.getColumns() != dimsB.getColumns())
-        {
-            Error(eval, ERROR_DIMENSIONS_NOT_CONSISTENT);
-        }
-    }
-    retval.push_back(VertCatString(A, B));
+    StringDisplay(eval, argIn[0], true);
     return retval;
 }
 //=============================================================================

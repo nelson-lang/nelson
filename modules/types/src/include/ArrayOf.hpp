@@ -78,7 +78,7 @@ namespace Nelson {
      *   - NLS_DOUBLE - 64-bit floating point
      *   - NLS_SCOMPLEX - 32-bit complex floating point
      *   - NLS_DCOMPLEX - 64-bit complex floating point
-     *   - NLS_STRING - a string class
+     *   - NLS_CHAR - a string class
      *
      * The Dimensions class is used to record the dimensions of the given ArrayOf.
      * The Dimension class represents an n-tuple of integers that record the
@@ -510,13 +510,13 @@ namespace Nelson {
          */
         static ArrayOf dcomplexConstructor(double aval, double bval);
         /**
-         * String constructor - Construct an NLS_STRING object with the given
+         * String constructor - Construct an NLS_CHAR object with the given
          * string as a value.
          */
         static ArrayOf stringConstructor(std::string aval);
 
         /**
-        * String constructor - Construct an NLS_STRING object with the given
+        * String constructor - Construct an NLS_CHAR object with the given
         * string as a value.
         */
         static ArrayOf stringConstructor(std::wstring aval);

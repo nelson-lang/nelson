@@ -101,7 +101,7 @@ namespace Nelson {
         NLS_DOUBLE,
         NLS_SCOMPLEX,
         NLS_DCOMPLEX,
-        NLS_STRING,
+        NLS_CHAR,
     } Class;
     typedef boost::container::vector<std::string> stringVector;
     typedef boost::container::vector<std::wstring> wstringVector;
@@ -123,7 +123,7 @@ namespace Nelson {
 #define		NLS_DOUBLE_STR "double"
 #define		NLS_SCOMPLEX_STR "single"
 #define		NLS_DCOMPLEX_STR "double"
-#define		NLS_STRING_STR "string"
+#define		NLS_CHAR_STR "char"
 #define		NLS_FUNCTION_HANDLE_STR "function_handle"
 #define		NLS_HANDLE_STR "handle"
 #define		NLS_GENERIC_STR "generic"

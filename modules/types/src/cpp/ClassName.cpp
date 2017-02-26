@@ -80,8 +80,8 @@ namespace Nelson {
             case NLS_INT64:
                 classString = NLS_INT64_STR;
                 break;
-            case NLS_STRING:
-                classString = NLS_STRING_STR;
+            case NLS_CHAR:
+                classString = NLS_CHAR_STR;
                 break;
             default:
                 break;

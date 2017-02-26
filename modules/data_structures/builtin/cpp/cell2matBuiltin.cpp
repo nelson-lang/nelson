@@ -16,27 +16,28 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "string_isequalBuiltin.hpp"
+#include "cell2matBuiltin.hpp"
 #include "Error.hpp"
-#include "StringIsEqual.hpp"
+#include "CellToMat.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::StringGateway::string_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector Nelson::DataStructuresGateway::cell2matBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    if (argIn.size() != 2)
+    if (argIn.size() != 1)
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    ArrayOf param1 = argIn[0];
-    ArrayOf param2 = argIn[1];
-    bool bRes = StringIsEqual(param1, param2);
-    retval.push_back(ArrayOf::logicalConstructor(bRes));
+    else if (argIn[0].getDataClass() != NLS_CELL_ARRAY)
+    {
+        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_CELL_EXPECTED);
+    }
+    else
+    {
+		ArrayOf res;
+		retval.push_back(CellToMat(argIn[0]));
+    }
     return retval;
 }
 //=============================================================================

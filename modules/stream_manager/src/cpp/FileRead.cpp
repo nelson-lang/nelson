@@ -114,13 +114,13 @@ namespace Nelson {
                     sizeToRead = sizeToRead / sizeof(double);
                 }
                 break;
-                case NLS_STRING:
+                case NLS_CHAR:
                 {
                     sizeToRead = sizeToRead / sizeof(char);
                 }
             }
         }
-        if (classPrecision == NLS_STRING)
+        if (classPrecision == NLS_CHAR)
         {
             char *str = nullptr;
             try

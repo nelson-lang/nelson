@@ -61,13 +61,13 @@ namespace Nelson {
         charType *ptrC = nullptr;
         charType *ptrA = (charType *)A.getDataPointer();
         charType *ptrB = (charType *)B.getDataPointer();
-        pRes = ArrayOf::allocateArrayOf(NLS_STRING, newSize);
+        pRes = ArrayOf::allocateArrayOf(NLS_CHAR, newSize);
         ptrC = (charType*)pRes;
         Eigen::Map<Eigen::Matrix<charType, Eigen::Dynamic, Eigen::Dynamic>> matA(ptrA, dimsA.getRows(), dimsA.getColumns());
         Eigen::Map<Eigen::Matrix<charType, Eigen::Dynamic, Eigen::Dynamic>> matB(ptrB, dimsB.getRows(), dimsB.getColumns());
         Eigen::Map<Eigen::Matrix<charType, Eigen::Dynamic, Eigen::Dynamic>> matC(ptrC, dimsC.getRows(), dimsC.getColumns());
         matC << matA, matB;
-        return ArrayOf(NLS_STRING, dimsC, pRes);
+        return ArrayOf(NLS_CHAR, dimsC, pRes);
     }
     //=============================================================================
     ArrayOf HorzCatNdArrayString(ArrayOf A, ArrayOf B)

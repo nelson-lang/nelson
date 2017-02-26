@@ -16,7 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-function r = string_any(varargin)
+function r = char_any(varargin)
 	if (nargin() == 1)
 		r = logical_any(logical(double(varargin{1})));
 	elseif (nargin() == 2)

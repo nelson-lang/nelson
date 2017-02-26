@@ -176,7 +176,7 @@ namespace Nelson {
                 return ToDouble<single>(A);
             }
             break;
-            case NLS_STRING:
+            case NLS_CHAR:
             {
                 if (A.isSparse())
                 {

@@ -6,45 +6,24 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 2 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-assert_isequal(nargin('sinh'), 1);
-assert_isequal(nargout('sinh'), 1);
+#pragma once
 //=============================================================================
-assert_isequal(sinh(NaN), NaN);
-assert_isequal(sinh(Inf), Inf);
-assert_isequal(sinh(-Inf), -Inf);
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
-A = sinh(0);
-REF = 0;
-assert_isequal(A, REF);
-//=============================================================================
-A = sinh(-0);
-REF = 0;
-assert_isequal(A, REF);
-//=============================================================================
-A = sinh(sparse(zeros(3,3)));
-REF = sparse(zeros(3, 3));
-assert_isequal(A, REF);
-//=============================================================================
-X = [0.0000 + 0.0000i   0.0000 + 1.5708i   0.0000 + 3.1416i   0.0000 + 4.7124i];
-C = sinh(X);
-R = real(C);
-I = imag(C);
-assert_isequal(R, [0 0 0 0]);
-assert_isapprox(I, [0 1 0 -1], 1e-4);
-//=============================================================================
-A = zeros(1000, 1000);
-C = sinh(A);
-assert_isapprox(C, A); 
-//=============================================================================
-assert_checkerror('sinh(''a'')', [_('function'), ' ', 'char_sinh', ' ', _('undefined.')]);
+namespace Nelson {
+    namespace StringGateway {
+        ArrayOfVector char_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    }
+}
 //=============================================================================

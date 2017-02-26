@@ -44,20 +44,20 @@ function res = typebin(strtype)
 		res = 102;	
 	case 'ndarraydouble'
 		res = 101;	
-	case 'ndarraystring'
+	case 'ndarraychar'
 		res = 110;	
 	case 'ndarraycell'
 		res = 117;	
 	case 'cell'
 		res = 17;	
 	case 'struct'
-		res = 15;	
+		res = 15;
 	case 'logical'
-		res = 4;	
+		res = 4;
 	case 'uint8'
-		res = 81;	
+		res = 81;
 	case 'int8'
-		res = 82;	
+		res = 82;
 	case 'uint16'
 		res = 83;	
 	case 'int16'
@@ -74,8 +74,8 @@ function res = typebin(strtype)
 		res = 2;	
 	case 'double'
 		res = 1;	
-	case 'string'
-		res = 10;		
+	case 'char'
+		res = 10;
 	case 'function_handle'
 		res = 14;	
 	case 'handle'

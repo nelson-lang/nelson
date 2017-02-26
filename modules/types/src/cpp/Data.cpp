@@ -225,7 +225,7 @@ namespace Nelson {
                         delete[] rp;
                     }
                     break;
-                    case NLS_STRING:
+                    case NLS_CHAR:
                     {
                         charType *rp = (charType *)cp;
                         delete[] rp;

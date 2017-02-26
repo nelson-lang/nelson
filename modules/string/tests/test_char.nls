@@ -62,7 +62,7 @@ assert_isequal(class(R), 'string')
 // better choice compared to others
 R = char(zeros(0, 4), '');
 assert_isequal(size(R), [0 0])
-assert_isequal(class(R), 'string')
+assert_isequal(class(R), 'char')
 //=============================================================================
 // same choice than octave 4.0
 R = char('test', '', 'strings', {'', 'with', '', 'gaps'}, {''}, '.');
@@ -79,11 +79,11 @@ assert_isequal(R, REF);
 //=============================================================================
 R = char(zeros(0, 4));
 assert_isequal(size(R), [0 4])
-assert_isequal(class(R), 'string')
+assert_isequal(class(R), 'char')
 //=============================================================================
 R = char(zeros(3, 0, 4));
 assert_isequal(size(R), [3, 0, 4])
-assert_isequal(class(R), 'string')
+assert_isequal(class(R), 'char')
 //=============================================================================
 A = ['A';'B';'C'];
 B = ['A','B','C'];

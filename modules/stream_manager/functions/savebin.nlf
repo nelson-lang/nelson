@@ -150,7 +150,7 @@ function ndarraydouble_save_data(fd, data)
   ndarraygeneric_save_data(fd, data)
 endfunction 
 //=============================================================================
-function ndarraystring_save_data(fd, data)
+function ndarraychar_save_data(fd, data)
   ndarraygeneric_save_data(fd, data)
 endfunction 
 //=============================================================================
@@ -266,7 +266,7 @@ function double_save_data(fd, data)
   generic_complex_save_data(fd, data, 'double')
 endfunction 
 //=============================================================================
-function string_save_data(fd, data)
+function char_save_data(fd, data)
   % unicode saved as uint32
   generic_notcomplex_save_data(fd, data, 'uint32')
 endfunction   
@@ -274,7 +274,7 @@ endfunction
 function function_handle_save_data(fd, data)
   fwrite(fd, int64(typebin(class(data))), 'int64', 'l');
   f = func2str(data);
-  string_save_data(fd, f);
+  char_save_data(fd, f);
 endfunction 
 //=============================================================================
 function handle_save_data(fd, data)

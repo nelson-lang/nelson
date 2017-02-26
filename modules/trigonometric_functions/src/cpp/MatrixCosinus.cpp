@@ -51,7 +51,7 @@ namespace Nelson {
             case NLS_INT32:
             case NLS_UINT64:
             case NLS_INT64:
-            case NLS_STRING:
+            case NLS_CHAR:
             {
                 throw Exception(_("Undefined function 'cosm' for input arguments of type") + " '" + ClassName(A) + "'.");
             }

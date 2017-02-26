@@ -16,13 +16,13 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "ndarraystring_vertcat_ndarraystringBuiltin.hpp"
+#include "ndarraychar_horzcat_ndarraycharBuiltin.hpp"
 #include "Error.hpp"
-#include "VertCatString.hpp"
+#include "HorzCatString.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::StringGateway::ndarraystring_vertcat_ndarraystringBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector Nelson::StringGateway::ndarraychar_horzcat_ndarraycharBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (argIn.size() != 2)
@@ -35,17 +35,17 @@ ArrayOfVector Nelson::StringGateway::ndarraystring_vertcat_ndarraystringBuiltin(
     }
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
-    if (!A.isNdArrayLogical())
+    if (!A.isNdArrayDoubleType())
     {
         Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
-    if (!B.isNdArrayLogical())
+    if (!B.isNdArrayDoubleType())
     {
         Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
     }
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
-    if (dimsA.getColumns() != dimsB.getColumns())
+    if (dimsA.getRows() != dimsB.getRows())
     {
         Error(eval, ERROR_DIMENSIONS_NOT_CONSISTENT);
     }
@@ -55,7 +55,7 @@ ArrayOfVector Nelson::StringGateway::ndarraystring_vertcat_ndarraystringBuiltin(
     }
     for (indexType k = 0; k < dimsA.getLength(); k++)
     {
-        if (k != 0)
+        if (k != 1)
         {
             if (dimsA.getDimensionLength(k) != dimsB.getDimensionLength(k))
             {
@@ -63,7 +63,7 @@ ArrayOfVector Nelson::StringGateway::ndarraystring_vertcat_ndarraystringBuiltin(
             }
         }
     }
-    retval.push_back(VertCatNdArrayString(A, B));
+    retval.push_back(HorzCatNdArrayString(A, B));
     return retval;
 }
 //=============================================================================

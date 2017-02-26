@@ -32,7 +32,7 @@ static ArrayOf StringVectorToString(wstringVector V, Dimensions DimsV)
     if (V.size() == 0)
     {
         strArr = ArrayOf::emptyConstructor(Dimensions(1, 0));
-        strArr.promoteType(NLS_STRING);
+        strArr.promoteType(NLS_CHAR);
     }
     else
     {

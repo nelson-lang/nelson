@@ -63,7 +63,7 @@ assert_isequal(res, 'logical');
 //=============================================================================
 A = 'Nelson';
 res = class(A);
-assert_isequal(res, 'string');
+assert_isequal(res, 'char');
 //=============================================================================
 A = int8(3);
 res = class(A);

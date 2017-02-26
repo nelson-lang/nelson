@@ -359,7 +359,7 @@ namespace Nelson {
                 return (void*)new_with_exception<double>(2 * length);
             }
             break;
-            case NLS_STRING:
+            case NLS_CHAR:
             {
                 return (void*)new_with_exception<charType>(length);
             }
@@ -463,7 +463,7 @@ namespace Nelson {
 #endif
             }
             break;
-            case NLS_STRING:
+            case NLS_CHAR:
             {
                 throw Exception(_W("Cannot convert string data types to indices."));
             }
@@ -1134,7 +1134,7 @@ namespace Nelson {
                 }
             }
             break;
-            case NLS_STRING:
+            case NLS_CHAR:
             {
                 charType *ptr = (charType*)dp->getWriteableData();
                 charType symbol = ptr[0];
@@ -1337,7 +1337,7 @@ namespace Nelson {
                 return sizeof(float)*2;
             case NLS_DCOMPLEX:
                 return sizeof(double)*2;
-            case NLS_STRING:
+            case NLS_CHAR:
                 return sizeof(charType);
         }
         return 0;
@@ -1717,7 +1717,7 @@ namespace Nelson {
         bool res;
         switch (dp->dataClass)
         {
-            case NLS_STRING:
+            case NLS_CHAR:
             case NLS_LOGICAL:
             case NLS_UINT8:
             case NLS_INT8:
@@ -1982,7 +1982,7 @@ case caseLabel: \
   for (indexType i=0;i<count;i++) convCode; \
 } \
 break;
-            case NLS_STRING:
+            case NLS_CHAR:
             {
                 charType* sp = (charType *)dp->getData();
                 switch (dstClass)
@@ -2008,7 +2008,7 @@ break;
                 const logical* sp = (const logical *) dp->getData();
                 switch (dstClass)
                 {
-                        caseMacro(NLS_STRING, charType, qp[i] = (charType)sp[i]);
+                        caseMacro(NLS_CHAR, charType, qp[i] = (charType)sp[i]);
                         caseMacro(NLS_UINT8,uint8,qp[i] = (uint8) sp[i]);
                         caseMacro(NLS_INT8,int8,qp[i] = (int8) sp[i]);
                         caseMacro(NLS_UINT16,uint16,qp[i] = (uint16) sp[i]);
@@ -2029,7 +2029,7 @@ break;
                 const uint8* sp = (const uint8 *) dp->getData();
                 switch (dstClass)
                 {
-                        caseMacro(NLS_STRING, charType, qp[i] = (charType)sp[i]);
+                        caseMacro(NLS_CHAR, charType, qp[i] = (charType)sp[i]);
                         caseMacro(NLS_LOGICAL,logical,qp[i] = (sp[i]==0) ? 0 : 1);
                         caseMacro(NLS_INT8,int8,qp[i] = (int8) sp[i]);
                         caseMacro(NLS_UINT16,uint16,qp[i] = (uint16) sp[i]);
@@ -2050,7 +2050,7 @@ break;
                 const int8* sp = (const int8 *) dp->getData();
                 switch (dstClass)
                 {
-                        caseMacro(NLS_STRING, charType, qp[i] = (charType)sp[i]);
+                        caseMacro(NLS_CHAR, charType, qp[i] = (charType)sp[i]);
                         caseMacro(NLS_LOGICAL,logical,qp[i] = (sp[i]==0) ? 0 : 1);
                         caseMacro(NLS_UINT8,uint8,qp[i] = (uint8) sp[i]);
                         caseMacro(NLS_UINT16,uint16,qp[i] = (uint16) sp[i]);
@@ -2071,7 +2071,7 @@ break;
                 const uint16* sp = (const uint16 *) dp->getData();
                 switch (dstClass)
                 {
-                        caseMacro(NLS_STRING, charType, qp[i] = (charType)sp[i]);
+                        caseMacro(NLS_CHAR, charType, qp[i] = (charType)sp[i]);
                         caseMacro(NLS_LOGICAL,logical,qp[i] = (sp[i]==0) ? 0 : 1);
                         caseMacro(NLS_UINT8,uint8,qp[i] = (uint8) sp[i]);
                         caseMacro(NLS_INT8,int8,qp[i] = (int8) sp[i]);
@@ -2092,7 +2092,7 @@ break;
                 const int16* sp = (const int16 *) dp->getData();
                 switch (dstClass)
                 {
-                        caseMacro(NLS_STRING, charType, qp[i] = (charType)sp[i]);
+                        caseMacro(NLS_CHAR, charType, qp[i] = (charType)sp[i]);
                         caseMacro(NLS_LOGICAL,logical,qp[i] = (sp[i]==0) ? 0 : 1);
                         caseMacro(NLS_UINT8,uint8,qp[i] = (uint8) sp[i]);
                         caseMacro(NLS_INT8,int8,qp[i] = (int8) sp[i]);
@@ -2113,7 +2113,7 @@ break;
                 const uint32* sp = (const uint32 *) dp->getData();
                 switch (dstClass)
                 {
-                        caseMacro(NLS_STRING, charType, qp[i] = (charType)sp[i]);
+                        caseMacro(NLS_CHAR, charType, qp[i] = (charType)sp[i]);
                         caseMacro(NLS_LOGICAL,logical,qp[i] = (sp[i]==0) ? 0 : 1);
                         caseMacro(NLS_UINT8,uint8,qp[i] = (uint8) sp[i]);
                         caseMacro(NLS_INT8,int8,qp[i] = (int8) sp[i]);
@@ -2134,7 +2134,7 @@ break;
                 const int32* sp = (const int32 *) dp->getData();
                 switch (dstClass)
                 {
-                        caseMacro(NLS_STRING, charType, qp[i] = (charType)sp[i]);
+                        caseMacro(NLS_CHAR, charType, qp[i] = (charType)sp[i]);
                         caseMacro(NLS_LOGICAL,logical,qp[i] = (sp[i]==0) ? 0 : 1);
                         caseMacro(NLS_UINT8,uint8,qp[i] = (uint8) sp[i]);
                         caseMacro(NLS_INT8,int8,qp[i] = (int8) sp[i]);
@@ -2155,7 +2155,7 @@ break;
                 const int64* sp = (const int64 *)dp->getData();
                 switch (dstClass)
                 {
-                        caseMacro(NLS_STRING, charType, qp[i] = (charType)sp[i]);
+                        caseMacro(NLS_CHAR, charType, qp[i] = (charType)sp[i]);
                         caseMacro(NLS_LOGICAL, logical, qp[i] = (sp[i] == 0) ? 0 : 1);
                         caseMacro(NLS_UINT8, uint8, qp[i] = (uint8)sp[i]);
                         caseMacro(NLS_INT8, int8, qp[i] = (int8)sp[i]);
@@ -2176,7 +2176,7 @@ break;
                 const uint64* sp = (const uint64 *)dp->getData();
                 switch (dstClass)
                 {
-                        caseMacro(NLS_STRING, charType, qp[i] = (charType)sp[i]);
+                        caseMacro(NLS_CHAR, charType, qp[i] = (charType)sp[i]);
                         caseMacro(NLS_LOGICAL, logical, qp[i] = (sp[i] == 0) ? 0 : 1);
                         caseMacro(NLS_UINT8, uint8, qp[i] = (uint8)sp[i]);
                         caseMacro(NLS_INT8, int8, qp[i] = (int8)sp[i]);
@@ -2197,7 +2197,7 @@ break;
                 const float* sp = (const float *) dp->getData();
                 switch (dstClass)
                 {
-                        caseMacro(NLS_STRING, charType, qp[i] = (charType)sp[i]);
+                        caseMacro(NLS_CHAR, charType, qp[i] = (charType)sp[i]);
                         caseMacro(NLS_LOGICAL,logical,qp[i] = (sp[i]==0) ? 0 : 1);
                         caseMacro(NLS_UINT8,uint8,qp[i] = (uint8) sp[i]);
                         caseMacro(NLS_INT8,int8,qp[i] = (int8) sp[i]);
@@ -2218,7 +2218,7 @@ break;
                 const double* sp = (const double *) dp->getData();
                 switch (dstClass)
                 {
-                        caseMacro(NLS_STRING, charType, qp[i] = (charType)sp[i]);
+                        caseMacro(NLS_CHAR, charType, qp[i] = (charType)sp[i]);
                         caseMacro(NLS_LOGICAL,logical,qp[i] = (sp[i]==0) ? 0 : 1);
                         caseMacro(NLS_UINT8,uint8,qp[i] = (uint8) sp[i]);
                         caseMacro(NLS_INT8,int8,qp[i] = (int8) sp[i]);
@@ -2239,7 +2239,7 @@ break;
                 const float* sp = (const float *) dp->getData();
                 switch (dstClass)
                 {
-                        caseMacro(NLS_STRING, charType, qp[i] = (charType)sp[i << 1]);
+                        caseMacro(NLS_CHAR, charType, qp[i] = (charType)sp[i << 1]);
                         caseMacro(NLS_LOGICAL,logical,qp[i] = ((sp[i<<1]==0.0) && (sp[(i<<1) + 1] == 0.0)) ? 0 : 1);
                         caseMacro(NLS_UINT8,uint8,qp[i] = (uint8) sp[i<<1]);
                         caseMacro(NLS_INT8,int8,qp[i] = (int8) sp[i<<1]);
@@ -2268,7 +2268,7 @@ break;
                 const double* sp = (const double *) dp->getData();
                 switch (dstClass)
                 {
-                        caseMacro(NLS_STRING, charType, qp[i] = (charType)sp[i << 1]);
+                        caseMacro(NLS_CHAR, charType, qp[i] = (charType)sp[i << 1]);
                         caseMacro(NLS_LOGICAL,logical,qp[i] = ((sp[i<<1]==0.0) && (sp[(i<<1) + 1] == 0.0)) ? 0 : 1);
                         caseMacro(NLS_UINT8,uint8,qp[i] = (uint8) sp[i<<1]);
                         caseMacro(NLS_INT8,int8,qp[i] = (int8) sp[i<<1]);
@@ -2792,7 +2792,7 @@ break;
                 delete[] rp;
             }
             break;
-            case NLS_STRING:
+            case NLS_CHAR:
             {
                 charType *rp = (charType *)dp;
                 delete[] rp;
@@ -3415,7 +3415,7 @@ break;
     {
         if (isEmpty())
         {
-            if (dp->dataClass == NLS_STRING)
+            if (dp->dataClass == NLS_CHAR)
             {
                 io->outputMessage("''");
             }
@@ -3449,7 +3449,7 @@ break;
                         io->outputMessage(std::string(" class ") + dp->getStructTypeName());
                     }
                     break;
-                case NLS_STRING:
+                case NLS_CHAR:
                 {
                     Dimensions dims = dp->dimensions;
                     if (dims.isRowVector())
@@ -3782,7 +3782,7 @@ break;
                 io->outputMessage(msgBuffer);
                 break;
             }
-            case NLS_STRING:
+            case NLS_CHAR:
             {
                 // ??? need to be updated ?
                 const char *ap;
@@ -3919,7 +3919,7 @@ break;
                 io->outputMessage("  <logical>  ");
                 nominalWidth = 2;
                 break;
-            case NLS_STRING:
+            case NLS_CHAR:
                 io->outputMessage("  <string>  ");
                 nominalWidth = 1;
                 break;
@@ -4023,7 +4023,7 @@ break;
                     colsInThisPage = (colsInThisPage > colsPerPage) ?
                                      colsPerPage : colsInThisPage;
                     if (dp->dimensions.getElementCount() > 1 &&
-                            dp->dataClass != NLS_STRING)
+                            dp->dataClass != NLS_CHAR)
                     {
                         snprintf(msgBuffer, MSGBUFLEN, _("\nColumns %d to %d\n").c_str(),
                                  k*colsPerPage+1,k*colsPerPage+colsInThisPage);
@@ -4291,7 +4291,7 @@ break;
             case NLS_LOGICAL:
             case NLS_INT8:
             case NLS_UINT8:
-            case NLS_STRING:
+            case NLS_CHAR:
             case NLS_INT16:
             case NLS_UINT16:
             case NLS_INT32:
@@ -4334,7 +4334,7 @@ break;
                 return DoCountNNZReal<int8>(dp->getData(),getLength());
             case NLS_UINT8:
                 return DoCountNNZReal<uint8>(dp->getData(), getLength());
-            case NLS_STRING:
+            case NLS_CHAR:
                 return DoCountNNZReal<charType>(dp->getData(),getLength());
             case NLS_INT16:
                 return DoCountNNZReal<int16>(dp->getData(),getLength());

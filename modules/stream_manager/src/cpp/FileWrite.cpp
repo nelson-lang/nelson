@@ -44,7 +44,7 @@ namespace Nelson {
                 case NLS_DOUBLE:
                 case NLS_SCOMPLEX:
                 case NLS_DCOMPLEX:
-                case NLS_STRING:
+                case NLS_CHAR:
                 {
                     ArrayOf toWrite(src);
                     toWrite.promoteType(destClass);
@@ -58,7 +58,7 @@ namespace Nelson {
                         }
                         else if ((fp->getFileName() == L"stdout") || (fp->getFileName() == L"stderr"))
                         {
-                            toWrite.promoteType(NLS_STRING);
+                            toWrite.promoteType(NLS_CHAR);
                             std::string str = toWrite.getContentsAsCString();
                             if (bIsLittleEndian != isLittleEndianFormat())
                             {
@@ -110,7 +110,7 @@ namespace Nelson {
                                 }
                             }
                             size_t written = 0;
-                            if ((destClass == src.getDataClass()) && destClass == NLS_STRING)
+                            if ((destClass == src.getDataClass()) && destClass == NLS_CHAR)
                             {
                                 std::string str = toWrite.getContentsAsCString();
                                 if (bIsLittleEndian != isLittleEndianFormat())

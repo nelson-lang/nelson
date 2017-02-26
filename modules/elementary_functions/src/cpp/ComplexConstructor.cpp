@@ -177,7 +177,7 @@ namespace Nelson {
             case NLS_HANDLE:
             case NLS_CELL_ARRAY:
             case NLS_STRUCT_ARRAY:
-            case NLS_STRING:
+            case NLS_CHAR:
             case NLS_LOGICAL:
             default:
             {

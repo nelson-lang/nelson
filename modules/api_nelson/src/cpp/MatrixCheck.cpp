@@ -67,15 +67,15 @@ namespace Nelson {
                   (Aclass == NLS_DOUBLE) ||
                   (Aclass == NLS_SCOMPLEX) ||
                   (Aclass == NLS_DCOMPLEX) ||
-                  (Aclass == NLS_STRING)) )
+                  (Aclass == NLS_CHAR)) )
         {
             return;
         }
-        if ((Aclass < NLS_INT32) || (Aclass == NLS_STRING))
+        if ((Aclass < NLS_INT32) || (Aclass == NLS_CHAR))
         {
             Aclass = NLS_INT32;
         }
-        if ((Bclass < NLS_INT32) || (Bclass == NLS_STRING))
+        if ((Bclass < NLS_INT32) || (Bclass == NLS_CHAR))
         {
             Bclass = NLS_INT32;
         }

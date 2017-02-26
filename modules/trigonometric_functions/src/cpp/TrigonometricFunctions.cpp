@@ -47,7 +47,7 @@ namespace Nelson {
             case NLS_INT32:
             case NLS_UINT64:
             case NLS_INT64:
-            case NLS_STRING:
+            case NLS_CHAR:
             {
                 throw Exception(_("Undefined function 'cos' for input arguments of type") +" '" + ClassName(A) + "'.");
             }
@@ -138,7 +138,7 @@ namespace Nelson {
             case NLS_INT32:
             case NLS_UINT64:
             case NLS_INT64:
-            case NLS_STRING:
+            case NLS_CHAR:
             {
                 throw Exception(_("Undefined function 'sin' for input arguments of type") + " '" + ClassName(A) + "'.");
             }
@@ -229,7 +229,7 @@ namespace Nelson {
             case NLS_INT32:
             case NLS_UINT64:
             case NLS_INT64:
-            case NLS_STRING:
+            case NLS_CHAR:
             {
                 throw Exception(_("Undefined function 'tan' for input arguments of type") + " '" + ClassName(A) + "'.");
             }
@@ -320,7 +320,7 @@ namespace Nelson {
             case NLS_INT32:
             case NLS_UINT64:
             case NLS_INT64:
-            case NLS_STRING:
+            case NLS_CHAR:
             {
                 throw Exception(_("Undefined function 'cosh' for input arguments of type") + " '" + ClassName(A) + "'.");
             }
@@ -428,7 +428,7 @@ namespace Nelson {
             case NLS_INT32:
             case NLS_UINT64:
             case NLS_INT64:
-            case NLS_STRING:
+            case NLS_CHAR:
             {
                 throw Exception(_("Undefined function 'sinh' for input arguments of type") + " '" + ClassName(A) + "'.");
             }
@@ -533,7 +533,7 @@ namespace Nelson {
             case NLS_INT32:
             case NLS_UINT64:
             case NLS_INT64:
-            case NLS_STRING:
+            case NLS_CHAR:
             {
                 throw Exception(_("Undefined function 'tanh' for input arguments of type") + " '" + ClassName(A) + "'.");
             }
@@ -641,7 +641,7 @@ namespace Nelson {
             case NLS_INT32:
             case NLS_UINT64:
             case NLS_INT64:
-            case NLS_STRING:
+            case NLS_CHAR:
             {
                 throw Exception(_("Undefined function 'acos' for input arguments of type") + " '" + ClassName(A) + "'.");
             }
@@ -717,7 +717,7 @@ namespace Nelson {
             case NLS_INT32:
             case NLS_UINT64:
             case NLS_INT64:
-            case NLS_STRING:
+            case NLS_CHAR:
             {
                 throw Exception(_("Undefined function 'asin' for input arguments of type") + " '" + ClassName(A) + "'.");
             }
@@ -793,7 +793,7 @@ namespace Nelson {
             case NLS_INT32:
             case NLS_UINT64:
             case NLS_INT64:
-            case NLS_STRING:
+            case NLS_CHAR:
             {
                 throw Exception(_("Undefined function 'atan' for input arguments of type") + " '" + ClassName(A) + "'.");
             }

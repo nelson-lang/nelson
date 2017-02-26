@@ -73,7 +73,7 @@ namespace Nelson {
         }
         else if (str == L"char")
         {
-            return NLS_STRING;
+            return NLS_CHAR;
         }
         bOK = false;
         return NLS_UINT8;

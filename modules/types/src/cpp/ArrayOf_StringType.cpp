@@ -27,7 +27,7 @@ namespace Nelson {
     */
     const bool ArrayOf::isString() const
     {
-        return (dp->dataClass == NLS_STRING) && (!dp->sparse);
+        return (dp->dataClass == NLS_CHAR) && (!dp->sparse);
     }
     //=============================================================================
     const bool ArrayOf::isSingleString() const
@@ -37,7 +37,7 @@ namespace Nelson {
     //=============================================================================
     const bool ArrayOf::isNdArrayStringType() const
     {
-        return (dp->dataClass == NLS_STRING) && (!dp->sparse) && !is2D();
+        return (dp->dataClass == NLS_CHAR) && (!dp->sparse) && !is2D();
     }
     //=============================================================================
     ArrayOf ArrayOf::stringConstructor(std::wstring astr)
@@ -53,9 +53,9 @@ namespace Nelson {
         {
             dim[0] = 1;
         }
-        cp = (charType *)allocateArrayOf(NLS_STRING, length);
+        cp = (charType *)allocateArrayOf(NLS_CHAR, length);
         memcpy(cp, astr.c_str(), length * sizeof(charType));
-        return ArrayOf(NLS_STRING, dim, cp);
+        return ArrayOf(NLS_CHAR, dim, cp);
     }
     //=============================================================================
     ArrayOf ArrayOf::stringConstructor(std::string astr)
@@ -72,7 +72,7 @@ namespace Nelson {
     std::wstring ArrayOf::getContentsAsArrayOfCharacters() const
     {
         std::wstring str = L"";
-        if (dp->dataClass == NLS_STRING)
+        if (dp->dataClass == NLS_CHAR)
         {
             charType *buffer = nullptr;
             const charType *qp = nullptr;
@@ -108,7 +108,7 @@ namespace Nelson {
         }
         else
         {
-            if (dp->dataClass != NLS_STRING)
+            if (dp->dataClass != NLS_CHAR)
             {
                 throw Exception(_W("Unable to convert supplied object to a string."));
             }
@@ -135,7 +135,7 @@ namespace Nelson {
     wstringVector ArrayOf::getContentAsWideStringVector(bool bCheckVector) const
     {
         wstringVector res;
-        if (dp->dataClass == NLS_STRING)
+        if (dp->dataClass == NLS_CHAR)
         {
             if (is2D())
             {
@@ -178,7 +178,7 @@ namespace Nelson {
                 res.reserve(nbElements);
                 for (indexType k = 0; k < nbElements; k++)
                 {
-                    if (arg[k].getDataClass() != NLS_STRING)
+                    if (arg[k].getDataClass() != NLS_CHAR)
                     {
                         res.clear();
                         throw Exception(_W("A cell of string expected."));
@@ -223,7 +223,7 @@ namespace Nelson {
             res.reserve(nbElements);
             for (indexType k = 0; k < nbElements; k++)
             {
-                if (arg[k].getDataClass() != NLS_STRING)
+                if (arg[k].getDataClass() != NLS_CHAR)
                 {
                     res.clear();
                     throw Exception(_W("A cell of string expected."));
@@ -267,7 +267,7 @@ namespace Nelson {
             res.reserve(nbElements);
             for (indexType k = 0; k < nbElements; k++)
             {
-                if (arg[k].getDataClass() != NLS_STRING)
+                if (arg[k].getDataClass() != NLS_CHAR)
                 {
                     res.clear();
                     throw Exception(_W("A cell of string expected."));

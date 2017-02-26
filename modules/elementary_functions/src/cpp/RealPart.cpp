@@ -65,7 +65,7 @@ namespace Nelson {
                 throw Exception(_W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_real'");
             }
             break;
-            case NLS_STRING:
+            case NLS_CHAR:
             {
                 size_t len = arrayIn.getLength();
                 void *ptr = ArrayOf::allocateArrayOf(NLS_DOUBLE, len);

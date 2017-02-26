@@ -16,28 +16,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "string_dispBuiltin.hpp"
-#include "Error.hpp"
-#include "StringDisplay.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
-ArrayOfVector Nelson::StringGateway::string_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    ArrayOfVector retval;
-    if (nLhs > 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+namespace Nelson {
+    namespace DataStructuresGateway {
+        ArrayOfVector cell2matBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
     }
-    if (argIn.size() != 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (!argIn[0].isString())
-    {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
-    }
-    StringDisplay(eval, argIn[0], true);
-    return retval;
 }
 //=============================================================================

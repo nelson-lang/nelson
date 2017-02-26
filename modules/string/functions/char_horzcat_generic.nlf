@@ -16,13 +16,11 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-function r = string_all(varargin)
-  if (nargin() == 1)
-    r = logical_all(logical(double(varargin{1})));
-  elseif (nargin() == 2)
-      r = logical_all(logical(double(varargin{1})), varargin{2});
-  else
-      error(_('Wrong number of input arguments.'));
-  end
+function r = char_horzcat_generic(varargin)
+	if (nargin() == 2)
+		r = [varargin{1}, char(varargin{2})];
+	else
+			error(_('Wrong number of input arguments.'));
+	end
 endfunction
 //=============================================================================

@@ -16,14 +16,27 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "char_isequalBuiltin.hpp"
+#include "Error.hpp"
+#include "StringIsEqual.hpp"
 //=============================================================================
-#include "ArrayOf.hpp"
-#include "Evaluator.hpp"
+using namespace Nelson;
 //=============================================================================
-namespace Nelson {
-    namespace StringGateway {
-        ArrayOfVector string_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+ArrayOfVector Nelson::StringGateway::char_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+    if (nLhs > 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
+    if (argIn.size() != 2)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    ArrayOf param1 = argIn[0];
+    ArrayOf param2 = argIn[1];
+    bool bRes = StringIsEqual(param1, param2);
+    retval.push_back(ArrayOf::logicalConstructor(bRes));
+    return retval;
 }
 //=============================================================================

@@ -1,6 +1,8 @@
 Features:
 ---------
 
+  Rename 'string' type to 'char' type, 'string' type will be added later.
+
   Add 'dlmwrite' function.
 
   Add 'mat2str' function (sparse managed).

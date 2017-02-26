@@ -72,9 +72,9 @@ namespace Nelson {
         {
             destClass = NLS_LOGICAL;
         }
-        else if (classname.compare(L"string") == 0)
+        else if (classname.compare(L"char") == 0)
         {
-            destClass = NLS_STRING;
+            destClass = NLS_CHAR;
         }
         else if (classname.compare(L"cell") == 0)
         {

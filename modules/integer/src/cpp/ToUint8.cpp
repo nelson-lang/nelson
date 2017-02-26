@@ -316,7 +316,7 @@ namespace Nelson {
                 return ArrayOf(destClass, a.getDimensions(), pDest, a.isSparse());
             }
             break;
-            case NLS_STRING:
+            case NLS_CHAR:
             {
                 charType *pSrc = (charType*)a.getDataPointer();
                 uint8 *pDest = (uint8*)ArrayOf::allocateArrayOf(destClass, a.getLength());

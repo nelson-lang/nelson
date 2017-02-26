@@ -55,7 +55,7 @@ ArrayOfVector Nelson::StringGateway::sprintfBuiltin(Evaluator * eval, int nLhs, 
             if (nLhs > 1)
             {
                 ArrayOf strArr = ArrayOf::emptyConstructor(Dimensions(1, 0));
-                strArr.promoteType(NLS_STRING);
+                strArr.promoteType(NLS_CHAR);
                 retval.push_back(strArr);
                 retval.push_back(ArrayOf::stringConstructor(error_message));
             }
@@ -69,7 +69,7 @@ ArrayOfVector Nelson::StringGateway::sprintfBuiltin(Evaluator * eval, int nLhs, 
             if (result == L"")
             {
                 ArrayOf strArr = ArrayOf::emptyConstructor(Dimensions(1, 0));
-                strArr.promoteType(NLS_STRING);
+                strArr.promoteType(NLS_CHAR);
                 retval.push_back(strArr);
             }
             else

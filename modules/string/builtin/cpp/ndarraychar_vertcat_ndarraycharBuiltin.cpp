@@ -16,27 +16,54 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "ndarraystring_isequalBuiltin.hpp"
+#include "ndarraychar_vertcat_ndarraycharBuiltin.hpp"
 #include "Error.hpp"
-#include "StringIsEqual.hpp"
+#include "VertCatString.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::StringGateway::ndarraystring_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector Nelson::StringGateway::ndarraychar_vertcat_ndarraycharBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
     if (argIn.size() != 2)
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    ArrayOf param1 = argIn[0];
-    ArrayOf param2 = argIn[1];
-    bool bRes = StringIsEqual(param1, param2);
-    retval.push_back(ArrayOf::logicalConstructor(bRes));
+    if (nLhs > 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    ArrayOf A = argIn[0];
+    ArrayOf B = argIn[1];
+    if (!A.isNdArrayLogical())
+    {
+        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+    }
+    if (!B.isNdArrayLogical())
+    {
+        Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
+    }
+    Dimensions dimsA = A.getDimensions();
+    Dimensions dimsB = B.getDimensions();
+    if (dimsA.getColumns() != dimsB.getColumns())
+    {
+        Error(eval, ERROR_DIMENSIONS_NOT_CONSISTENT);
+    }
+    if (dimsA.getLength() != dimsB.getLength())
+    {
+        Error(eval, ERROR_DIMENSIONS_NOT_CONSISTENT);
+    }
+    for (indexType k = 0; k < dimsA.getLength(); k++)
+    {
+        if (k != 0)
+        {
+            if (dimsA.getDimensionLength(k) != dimsB.getDimensionLength(k))
+            {
+                Error(eval, ERROR_DIMENSIONS_NOT_CONSISTENT);
+            }
+        }
+    }
+    retval.push_back(VertCatNdArrayString(A, B));
     return retval;
 }
 //=============================================================================

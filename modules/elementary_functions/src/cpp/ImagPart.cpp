@@ -65,7 +65,7 @@ namespace Nelson {
                 throw Exception(_W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_imag'");
             }
             break;
-            case NLS_STRING:
+            case NLS_CHAR:
             case NLS_DOUBLE:
             case NLS_LOGICAL:
             {

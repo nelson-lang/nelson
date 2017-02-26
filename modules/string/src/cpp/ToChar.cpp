@@ -219,7 +219,7 @@ namespace Nelson {
                 throw Exception(_W("Conversion to char from complex is not possible."));
             }
             break;
-            case NLS_STRING:
+            case NLS_CHAR:
             {
                 if (A.isSparse())
                 {

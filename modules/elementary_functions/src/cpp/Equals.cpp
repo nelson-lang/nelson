@@ -193,7 +193,7 @@ namespace Nelson {
                 equalsfunccomplex<double>(Clen, (logical*)Cp, (double*)A.getDataPointer(), Astride, (double*)B.getDataPointer(), Bstride);
             }
             break;
-            case NLS_STRING:
+            case NLS_CHAR:
             {
                 equalsfuncreal<charType>(Clen, (logical*)Cp, (charType*)A.getDataPointer(), Astride, (charType*)B.getDataPointer(), Bstride);
             }

@@ -16,43 +16,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "string_horzcat_stringBuiltin.hpp"
-#include "Error.hpp"
-#include "HorzCatString.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
-ArrayOfVector Nelson::StringGateway::string_horzcat_stringBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    ArrayOfVector retval;
-    if (argIn.size() != 2)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+namespace Nelson {
+    namespace StringGateway {
+        ArrayOfVector ndarraychar_vertcat_ndarraycharBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
     }
-    if (nLhs > 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    ArrayOf A = argIn[0];
-    ArrayOf B = argIn[1];
-    if (!A.isString())
-    {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
-    }
-    if (!B.isString())
-    {
-        Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
-    }
-    if (!A.isEmpty(true) && !B.isEmpty(true))
-    {
-        Dimensions dimsA = A.getDimensions();
-        Dimensions dimsB = B.getDimensions();
-        if (dimsA.getRows() != dimsB.getRows())
-        {
-            Error(eval, ERROR_DIMENSIONS_NOT_CONSISTENT);
-        }
-    }
-    retval.push_back(HorzCatString(A, B));
-    return retval;
 }
 //=============================================================================

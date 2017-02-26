@@ -47,7 +47,7 @@
 <p>'single'</p>
 <p>'double'</p>
 <p>'logical'</p>
-<p>'string'</p>
+<p>'char'</p>
 <p>'int8'</p>
 <p>'int16'</p>
 <p>'int32'</p>

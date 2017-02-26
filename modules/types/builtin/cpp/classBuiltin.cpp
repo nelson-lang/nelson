@@ -64,7 +64,7 @@ ArrayOfVector Nelson::TypeGateway::classBuiltin(Evaluator* eval, int nLhs, const
                     (newType == NLS_DOUBLE_STR) ||
                     (newType == NLS_SCOMPLEX_STR) ||
                     (newType == NLS_DCOMPLEX_STR) ||
-                    (newType == NLS_STRING_STR) ||
+                    (newType == NLS_CHAR_STR) ||
                     (newType == NLS_FUNCTION_HANDLE_STR) ||
                     (newType == NLS_HANDLE_STR) ||
                     (newType == NLS_GENERIC_STR))

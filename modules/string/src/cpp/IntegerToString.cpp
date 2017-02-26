@@ -119,7 +119,7 @@ namespace Nelson {
                 case NLS_INT64:
                 case NLS_SINGLE:
                 case NLS_DOUBLE:
-                case NLS_STRING:
+                case NLS_CHAR:
                 {
                     A.promoteType(NLS_DOUBLE);
                     result = toString(A);

@@ -23,7 +23,7 @@
 //=============================================================================
 namespace Nelson {
     namespace StringGateway {
-        ArrayOfVector ndarraystring_vertcat_ndarraystringBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+        ArrayOfVector char_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
     }
 }
 //=============================================================================
