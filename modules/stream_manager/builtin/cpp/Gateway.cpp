@@ -30,6 +30,7 @@
 #include "frewindBuiltin.hpp"
 #include "fseekBuiltin.hpp"
 #include "fsizeBuiltin.hpp"
+#include "dlmwriteBuiltin.hpp"
 #include "Interface.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -49,7 +50,8 @@ static const nlsGateway gateway[] =
     { "ftell", Nelson::StreamGateway::ftellBuiltin, 1, 1 },
     { "frewind", Nelson::StreamGateway::frewindBuiltin, 0, 1 },
     { "fseek", Nelson::StreamGateway::fseekBuiltin, 1, 3 },
-    { "fsize", Nelson::StreamGateway::fsizeBuiltin, 1, 1 }
+    { "fsize", Nelson::StreamGateway::fsizeBuiltin, 1, 1 },
+	{ "dlmwrite", Nelson::StreamGateway::dlmwriteBuiltin, 0, -3 },
 };
 //=============================================================================
 static bool initializeModule(Nelson::Evaluator* eval)

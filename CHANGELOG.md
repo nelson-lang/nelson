@@ -1,6 +1,8 @@
 Features:
 ---------
 
+  Add 'dlmwrite' function.
+
   Add 'mat2str' function (sparse managed).
 
   Add 'str2double' function.
