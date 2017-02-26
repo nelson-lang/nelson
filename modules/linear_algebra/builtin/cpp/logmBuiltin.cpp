@@ -16,12 +16,22 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "logmBuiltin.hpp"
+#include "Error.hpp"
 //=============================================================================
-#include "nlsLogical_exports.h"
-#include "ArrayOf.hpp"
+using namespace Nelson;
 //=============================================================================
-namespace Nelson {
-    NLSLOGICAL_IMPEXP ArrayOf AndLogical(ArrayOf A, ArrayOf B);
+ArrayOfVector Nelson::LinearAlgebraGateway::logmBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+    if (argIn.size() != 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+	if (nLhs > 1)
+	{
+		Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+	}
+    return retval;
 }
 //=============================================================================

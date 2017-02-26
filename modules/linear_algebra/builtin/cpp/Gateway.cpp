@@ -16,12 +16,23 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "NelsonGateway.hpp"
+#include "logmBuiltin.hpp"
 //=============================================================================
-#include "nlsLogical_exports.h"
-#include "ArrayOf.hpp"
+using namespace Nelson;
 //=============================================================================
-namespace Nelson {
-    NLSLOGICAL_IMPEXP ArrayOf AndLogical(ArrayOf A, ArrayOf B);
-}
+const std::wstring gatewayName = L"linear_algebra";
+//=============================================================================
+static const nlsGateway gateway[] =
+{
+    { "logm", Nelson::LinearAlgebraGateway::logmBuiltin, 1, 1 },
+};
+//=============================================================================
+NLSGATEWAYFUNC(gateway)
+//=============================================================================
+NLSGATEWAYINFO(gateway)
+//=============================================================================
+NLSGATEWAYREMOVE(gateway)
+//=============================================================================
+NLSGATEWAYNAME()
 //=============================================================================

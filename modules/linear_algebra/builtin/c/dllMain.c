@@ -16,12 +16,29 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include <Windows.h>
 //=============================================================================
-#include "nlsLogical_exports.h"
-#include "ArrayOf.hpp"
+#ifdef _DEBUG
+#pragma comment(lib, "boost_system-vc140-mt-gd-1_61.lib")
+#pragma comment(lib, "boost_filesystem-vc140-mt-gd-1_61.lib")
+#else
+#pragma comment(lib, "boost_system-vc140-mt-1_61.lib")
+#pragma comment(lib, "boost_filesystem-vc140-mt-1_61.lib")
+#endif
 //=============================================================================
-namespace Nelson {
-    NLSLOGICAL_IMPEXP ArrayOf AndLogical(ArrayOf A, ArrayOf B);
+int WINAPI DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)
+{
+    switch (reason)
+    {
+        case DLL_PROCESS_ATTACH:
+            break;
+        case DLL_PROCESS_DETACH:
+            break;
+        case DLL_THREAD_ATTACH:
+            break;
+        case DLL_THREAD_DETACH:
+            break;
+    }
+    return 1;
 }
 //=============================================================================

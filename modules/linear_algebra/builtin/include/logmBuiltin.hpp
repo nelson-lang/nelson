@@ -18,10 +18,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsLogical_exports.h"
 #include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    NLSLOGICAL_IMPEXP ArrayOf AndLogical(ArrayOf A, ArrayOf B);
+    namespace LinearAlgebraGateway {
+        ArrayOfVector logmBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    }
 }
 //=============================================================================

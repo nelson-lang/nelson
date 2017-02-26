@@ -58,4 +58,5 @@ Source: {#RootPath}modules\modules.nls; DestDir: {app}\modules\;
 #include "help_browser/module.iss"
 #include "assert_functions/module.iss"
 #include "tests_manager/module.iss"
+#include "linear_algebra/module.iss"
 ;==============================================================================

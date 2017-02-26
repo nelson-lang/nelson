@@ -18,10 +18,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsLogical_exports.h"
-#include "ArrayOf.hpp"
-//=============================================================================
-namespace Nelson {
-    NLSLOGICAL_IMPEXP ArrayOf AndLogical(ArrayOf A, ArrayOf B);
-}
+#ifdef _MSC_VER
+#ifdef NLSLINEAR_ALGEBRA_EXPORTS
+#define NLSLINEAR_ALGEBRA_IMPEXP __declspec(dllexport)
+#else
+#define NLSLINEAR_ALGEBRA_IMPEXP __declspec(dllimport)
+#endif
+#else
+#define NLSLINEAR_ALGEBRA_IMPEXP __attribute__ ((visibility ("default")))
+#endif
 //=============================================================================

@@ -52,6 +52,7 @@ modules_list = {
 'help_browser';
 'assert_functions';
 'tests_manager';
+'linear_algebra';
 };
 %==============================================================================
 % modules sorted for help
@@ -79,6 +80,7 @@ modules_help_list = {
 'trigonometric_functions';
 'sparse';
 'logical';
+'linear_algebra';
 'function_handle';
 'time';
 'random';

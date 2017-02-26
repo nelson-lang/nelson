@@ -18,10 +18,10 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsLogical_exports.h"
+#include "nlsLinear_algebra_exports.h"
 #include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
-    NLSLOGICAL_IMPEXP ArrayOf AndLogical(ArrayOf A, ArrayOf B);
+	NLSLINEAR_ALGEBRA_IMPEXP ArrayOf LogMatrix(ArrayOf M);
 }
 //=============================================================================

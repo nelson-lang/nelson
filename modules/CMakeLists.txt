@@ -58,6 +58,7 @@ modules_manager
 engine
 assert_functions
 tests_manager
+linear_algebra
 main
 )
 #==============================================================================	

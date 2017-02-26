@@ -16,12 +16,15 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include "nlsLogical_exports.h"
-#include "ArrayOf.hpp"
+#include "LogMatrix.hpp"
 //=============================================================================
 namespace Nelson {
-    NLSLOGICAL_IMPEXP ArrayOf AndLogical(ArrayOf A, ArrayOf B);
+	//=============================================================================
+	ArrayOf LogMatrix(ArrayOf M)
+	{
+		ArrayOf res;
+		return res;
+	}
+	//=============================================================================
 }
 //=============================================================================
