@@ -68,9 +68,9 @@ ArrayOfVector Nelson::LinearAlgebraGateway::schurBuiltin(Evaluator* eval, int nL
 		}
 		else
 		{
-			ArrayOf U;
-			SchurDecomposition(argIn[0], asComplex, U);
-			retval.push_back(U);
+			ArrayOf T;
+			SchurDecomposition(argIn[0], asComplex, T);
+			retval.push_back(T);
 		}
 	}
 	return retval;

@@ -22,7 +22,7 @@
 //=============================================================================
 namespace Nelson {
 	//=============================================================================
-	void SchurDecomposition(ArrayOf A, bool asComplex, ArrayOf &U)
+	void SchurDecomposition(ArrayOf A, bool asComplex, ArrayOf &T)
 	{
 		bool isSupportedTypes = (A.getDataClass() == NLS_DOUBLE || A.getDataClass() == NLS_SINGLE ||
 			A.getDataClass() == NLS_DCOMPLEX || A.getDataClass() == NLS_SCOMPLEX) && !A.isSparse();
@@ -52,15 +52,15 @@ namespace Nelson {
 				singlecomplex* Az = reinterpret_cast<singlecomplex*>((double*)A.getDataPointer());
 				Eigen::Map<Eigen::MatrixXcf> matA(Az, (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
 
-				ArrayOf U_temp(A);
-				U_temp.ensureSingleOwner();
+				ArrayOf T_temp(A);
+				T_temp.ensureSingleOwner();
 
-				singlecomplex* Uz = reinterpret_cast<singlecomplex*>((double*)U_temp.getDataPointer());
-				Eigen::Map<Eigen::MatrixXcf> matU(Uz, (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
+				singlecomplex* Tz = reinterpret_cast<singlecomplex*>((double*)T_temp.getDataPointer());
+				Eigen::Map<Eigen::MatrixXcf> matT(Tz, (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
 
 				Eigen::ComplexSchur<Eigen::MatrixXcf> schur(matA);
-				matU = schur.matrixU();
-				U = U_temp;
+				matT = schur.matrixT();
+				T = T_temp;
 			}
 			else
 			{
@@ -68,47 +68,47 @@ namespace Nelson {
 				doublecomplex* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
 				Eigen::Map<Eigen::MatrixXcd> matA(Az, (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
 
-				ArrayOf U_temp(A);
-				U_temp.ensureSingleOwner();
+				ArrayOf T_temp(A);
+				T_temp.ensureSingleOwner();
 
-				doublecomplex* Uz = reinterpret_cast<doublecomplex*>((double*)U_temp.getDataPointer());
-				Eigen::Map<Eigen::MatrixXcd> matU(Uz, (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
+				doublecomplex* Tz = reinterpret_cast<doublecomplex*>((double*)T_temp.getDataPointer());
+				Eigen::Map<Eigen::MatrixXcd> matT(Tz, (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
 
 				Eigen::ComplexSchur<Eigen::MatrixXcd> schur(matA);
-				matU = schur.matrixU();
-				U = U_temp;
+				matT = schur.matrixT();
+				T = T_temp;
 			}
 		}
 		else
 		{
-			ArrayOf U_temp(A);
-			U_temp.ensureSingleOwner();
+			ArrayOf T_temp(A);
+			T_temp.ensureSingleOwner();
 
 			if (A.getDataClass() == NLS_SINGLE)
 			{
 				Eigen::Map<Eigen::MatrixXf> matA((single*)A.getDataPointer(), (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
-				Eigen::Map<Eigen::MatrixXf> matU((single*)U_temp.getDataPointer(), (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
+				Eigen::Map<Eigen::MatrixXf> matT((single*)T_temp.getDataPointer(), (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
 				Eigen::RealSchur<Eigen::MatrixXf> schur(matA);
-				matU = schur.matrixU();
+				matT = schur.matrixT();
 			}
 			else
 			{
 				Eigen::Map<Eigen::MatrixXd> matA((double*)A.getDataPointer(), (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
-				Eigen::Map<Eigen::MatrixXd> matU((double*)U_temp.getDataPointer(), (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
+				Eigen::Map<Eigen::MatrixXd> matT((double*)T_temp.getDataPointer(), (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
 				Eigen::RealSchur<Eigen::MatrixXd> schur(matA);
-				matU = schur.matrixU();
+				matT = schur.matrixT();
 			}
-			U = U_temp;
+			T = T_temp;
 		}
-		if (U.allReal())
+		if (T.allReal())
 		{
-			if (U.getDataClass() == NLS_SINGLE || U.getDataClass() == NLS_SCOMPLEX)
+			if (T.getDataClass() == NLS_SINGLE || T.getDataClass() == NLS_SCOMPLEX)
 			{
-				U.promoteType(NLS_SINGLE);
+				T.promoteType(NLS_SINGLE);
 			}
 			else
 			{
-				U.promoteType(NLS_DOUBLE);
+				T.promoteType(NLS_DOUBLE);
 			}
 		}
 	}

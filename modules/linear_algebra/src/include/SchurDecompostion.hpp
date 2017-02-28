@@ -22,7 +22,7 @@
 #include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
-	NLSLINEAR_ALGEBRA_IMPEXP void SchurDecomposition(ArrayOf A, bool asComplex, ArrayOf &U);
+	NLSLINEAR_ALGEBRA_IMPEXP void SchurDecomposition(ArrayOf A, bool asComplex, ArrayOf &T);
 	NLSLINEAR_ALGEBRA_IMPEXP void SchurDecomposition(ArrayOf A, bool asComplex, ArrayOf &U, ArrayOf &T);
 }
 //=============================================================================
