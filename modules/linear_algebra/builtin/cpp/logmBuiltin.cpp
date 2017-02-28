@@ -18,6 +18,9 @@
 //=============================================================================
 #include "logmBuiltin.hpp"
 #include "Error.hpp"
+#include "OverloadFunction.hpp"
+#include "OverloadRequired.hpp"
+#include "LogMatrix.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -32,6 +35,22 @@ ArrayOfVector Nelson::LinearAlgebraGateway::logmBuiltin(Evaluator* eval, int nLh
 	{
 		Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
 	}
-    return retval;
+	// Call overload if it exists
+	bool bSuccess = false;
+	retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+	if (!bSuccess)
+	{
+		if ((argIn[0].getDataClass() == NLS_STRUCT_ARRAY) ||
+			(argIn[0].getDataClass() == NLS_CELL_ARRAY) ||
+			argIn[0].isSparse() ||
+			argIn[0].isLogical() ||
+			argIn[0].isString() ||
+			argIn[0].isIntegerType())
+		{
+			OverloadRequired(eval, argIn, Nelson::FUNCTION);
+		}
+		retval.push_back(LogMatrix(argIn[0]));
+	}
+	return retval;
 }
 //=============================================================================

@@ -18,10 +18,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsLinear_algebra_exports.h"
 #include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-	NLSLINEAR_ALGEBRA_IMPEXP ArrayOf LogMatrix(ArrayOf A);
+    namespace LinearAlgebraGateway {
+        ArrayOfVector expmBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    }
 }
 //=============================================================================

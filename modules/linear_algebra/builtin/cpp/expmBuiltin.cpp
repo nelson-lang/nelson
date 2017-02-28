@@ -16,12 +16,41 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "expmBuiltin.hpp"
+#include "Error.hpp"
+#include "OverloadFunction.hpp"
+#include "OverloadRequired.hpp"
+#include "ExpMatrix.hpp"
 //=============================================================================
-#include "nlsLinear_algebra_exports.h"
-#include "ArrayOf.hpp"
+using namespace Nelson;
 //=============================================================================
-namespace Nelson {
-	NLSLINEAR_ALGEBRA_IMPEXP ArrayOf LogMatrix(ArrayOf A);
+ArrayOfVector Nelson::LinearAlgebraGateway::expmBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+    if (argIn.size() != 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+	if (nLhs > 1)
+	{
+		Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+	}
+	// Call overload if it exists
+	bool bSuccess = false;
+	retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+	if (!bSuccess)
+	{
+		if ((argIn[0].getDataClass() == NLS_STRUCT_ARRAY) ||
+			(argIn[0].getDataClass() == NLS_CELL_ARRAY) ||
+			argIn[0].isSparse() ||
+			argIn[0].isLogical() ||
+			argIn[0].isString() ||
+			argIn[0].isIntegerType())
+		{
+			OverloadRequired(eval, argIn, Nelson::FUNCTION);
+		}
+		retval.push_back(ExpMatrix(argIn[0]));
+	}
+	return retval;
 }
 //=============================================================================

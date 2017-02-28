@@ -185,11 +185,15 @@
     <ResourceCompile Include="resources.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\ExpMatrix.hpp" />
     <ClInclude Include="..\include\LogMatrix.hpp" />
     <ClInclude Include="..\include\nlsLinear_algebra_exports.h" />
+    <ClInclude Include="..\include\SchurDecompostion.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\cpp\ExpMatrix.cpp" />
     <ClCompile Include="..\cpp\LogMatrix.cpp" />
+    <ClCompile Include="..\cpp\SchurDecompostion.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -16,28 +16,63 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
-#include "logmBuiltin.hpp"
 #include "schurBuiltin.hpp"
-#include "expmBuiltin.hpp"
+#include "Error.hpp"
+#include "OverloadFunction.hpp"
+#include "OverloadRequired.hpp"
+#include "SchurDecompostion.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-const std::wstring gatewayName = L"linear_algebra";
-//=============================================================================
-static const nlsGateway gateway[] =
+ArrayOfVector Nelson::LinearAlgebraGateway::schurBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    { "logm", Nelson::LinearAlgebraGateway::logmBuiltin, 1, 1 },
-	{ "schur", Nelson::LinearAlgebraGateway::schurBuiltin, 2, 2 },
-	{ "expm", Nelson::LinearAlgebraGateway::expmBuiltin, 1, 1 },
+    ArrayOfVector retval;
+    if (argIn.size() > 2 || argIn.size() < 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+	if (nLhs > 2)
+	{
+		Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+	}
+	// Call overload if it exists
+	bool bSuccess = false;
+	retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+	if (!bSuccess)
+	{
+		if ((argIn[0].getDataClass() == NLS_STRUCT_ARRAY) ||
+			(argIn[0].getDataClass() == NLS_CELL_ARRAY) ||
+			argIn[0].isSparse() ||
+			argIn[0].isLogical() ||
+			argIn[0].isString() ||
+			argIn[0].isIntegerType())
+		{
+			OverloadRequired(eval, argIn, Nelson::FUNCTION);
+		}
 
-};
-//=============================================================================
-NLSGATEWAYFUNC(gateway)
-//=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+		bool asComplex = false;
+
+		if (argIn.size() == 2)
+		{
+			ArrayOf param2 = argIn[1];
+			asComplex = (param2.getContentAsLogicalScalar() != 0);
+		}
+
+		if (nLhs == 2)
+		{
+			ArrayOf U;
+			ArrayOf T;
+			SchurDecomposition(argIn[0], asComplex, U, T);
+			retval.push_back(U);
+			retval.push_back(T);
+		}
+		else
+		{
+			ArrayOf U;
+			SchurDecomposition(argIn[0], asComplex, U);
+			retval.push_back(U);
+		}
+	}
+	return retval;
+}
 //=============================================================================

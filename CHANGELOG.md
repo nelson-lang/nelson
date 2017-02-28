@@ -1,6 +1,8 @@
 Features:
 ---------
 
+  Add 'expm' function (single, double, sparse double managed).
+
   Rename 'string' type to 'char' type, 'string' type will be added later.
 
   Add 'dlmwrite' function.

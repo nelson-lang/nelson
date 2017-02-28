@@ -167,8 +167,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\cpp\expmBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\logmBuiltin.cpp" />
+    <ClCompile Include="..\cpp\schurBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
@@ -207,8 +209,10 @@
     <ResourceCompile Include="resources.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\expmBuiltin.hpp" />
     <ClInclude Include="..\include\logmBuiltin.hpp" />
     <ClInclude Include="..\include\nlsLinear_algebra_builtin_exports.h" />
+    <ClInclude Include="..\include\schurBuiltin.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
