@@ -105,7 +105,7 @@ ENDIF()
 IF (EXISTS ${MYEIGEN})
   set(EIGEN3_INCLUDE_DIR ${MYEIGEN})
 ELSE()
-  FIND_PACKAGE(Eigen3 3.2.8 REQUIRED)
+  FIND_PACKAGE(Eigen3 3.3 REQUIRED)
 ENDIF()
 #==============================================================================
 IF(DEFINED ENV{QTDIR})
