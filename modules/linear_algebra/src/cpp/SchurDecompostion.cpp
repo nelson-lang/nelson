@@ -16,6 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include "lapack_eigen.hpp"
 #include <Eigen/Eigenvalues> 
 #include "SchurDecompostion.hpp"
 #include "ClassName.hpp"
