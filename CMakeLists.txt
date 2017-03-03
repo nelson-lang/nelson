@@ -129,6 +129,8 @@ ELSE()
   ENDIF()
 ENDIF()
 #==============================================================================
+FIND_PACKAGE(BLAS REQUIRED)
+FIND_PACKAGE(LAPACK REQUIRED)
 FIND_PACKAGE(PkgConfig REQUIRED)
 FIND_PACKAGE(libffi REQUIRED)
 FIND_PACKAGE(Boost 1.60.0 COMPONENTS system filesystem locale thread chrono regex date_time REQUIRED)
