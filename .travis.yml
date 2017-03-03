@@ -74,6 +74,7 @@ before_install:
       brew install libxml2;
       brew install cmake;
       brew install qt5;
+      brew install homebrew/science/openblas
       fi
 
 install:
