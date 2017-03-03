@@ -15,6 +15,20 @@ a C++ template library for linear algebra: matrices, vectors, numerical solvers,
 http://eigen.tuxfamily.org
 http://eigen.tuxfamily.org/index.php?title=Main_Page#License
 
+BLAS
+Basic Linear Algebra Subprograms
+http://www.netlib.org/blas/
+http://www.netlib.org/blas/#_licensing
+
+LAPACK
+Linear Algebra PACKage
+http://www.netlib.org/lapack/
+http://www.netlib.org/lapack/#_licensing
+
+OpenBLAS
+OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version.
+http://www.openblas.net/
+
 SimpleFileWatcher
 a C++ wrapper for OS file monitoring systems
 https://github.com/apetrone/simplefilewatcher
