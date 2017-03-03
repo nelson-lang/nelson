@@ -21,8 +21,9 @@
 #define EIGEN_USE_BLAS
 #define EIGEN_USE_LAPACKE_STRICT
 //=============================================================================
-#ifdef _MSC_VER
 #include <complex>
+//=============================================================================
+#ifdef _MSC_VER
 #define lapack_complex_float std::complex<float>
 #define lapack_complex_double std::complex<double>
 #endif
