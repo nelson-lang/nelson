@@ -33,6 +33,7 @@ You can also see [.travis.yml](https://github.com/Nelson-numerical-software/nels
         sudo apt-get install qtbase5-dev
         sudo apt-get install qttools5-dev-tools
         sudo apt-get install libxml2-dev
+        sudo apt-get install liblapack-dev
         ```
     - Creates Nelson main directory
         ```bash
@@ -86,6 +87,8 @@ You can also see [.travis.yml](https://github.com/Nelson-numerical-software/nels
         pacman -S libxml2
         pacman -S gcc
         pacman -S make
+        pacman -S blas
+        pacman -S lapack
         exit
         ```
     - Creates Nelson main directory
@@ -142,6 +145,7 @@ You can also see [.travis.yml](https://github.com/Nelson-numerical-software/nels
         brew install boost
         brew install libxml2
         brew install cmake
+        brew install homebrew/science/openblas
         ```
     - Qt 5.6 or more
     You can install from Qt.io or brew
