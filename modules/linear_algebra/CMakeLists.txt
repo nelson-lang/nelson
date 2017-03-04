@@ -34,14 +34,14 @@ ${Boost_INCLUDE_DIRS}
 #==============================================================================	
 FILE(
 GLOB
-SINGLE_SRC
+LINEAR_ALGEBRA_SRC
 "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp"
 )
 #==============================================================================	
 ADD_LIBRARY(
 	${module_library_name}
 	SHARED 
-	${SINGLE_SRC}
+	${LINEAR_ALGEBRA_SRC}
 )
 #==============================================================================	
 target_link_libraries(${module_library_name}
@@ -60,7 +60,7 @@ set_target_properties(${module_library_name}
 #==============================================================================	
 FILE(
 GLOB
-SINGLE_BUILTIN
+LINEAR_ALGEBRA_BUILTIN
 "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp"
 )
 #==============================================================================	
@@ -76,7 +76,7 @@ ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
 ADD_LIBRARY(
 	${module_library_builtin_name}
 	SHARED 
-	${SINGLE_BUILTIN}
+	${LINEAR_ALGEBRA_BUILTIN}
 )
 #==============================================================================	
 target_link_libraries(${module_library_builtin_name}
