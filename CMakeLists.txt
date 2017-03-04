@@ -153,6 +153,7 @@ IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   set(CMAKE_OSX_ARCHITECTURES "x86_64")
   set(Boost_NO_SYSTEM_PATHS "TRUE")
   set(MAC_FRAMEWORK_FOUNDATION_LIBRARY "-framework Foundation")
+  set(MAC_LAPACKE_LIBRARY "-framework Accelerate /opt/local/lib/lapack/liblapacke.dylib")
     
   # macports paths
   IF(EXISTS "/opt/local/include")
