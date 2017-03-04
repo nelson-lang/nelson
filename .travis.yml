@@ -61,8 +61,8 @@ before_install:
       sudo apt-get install libffi-dev;
       sudo apt-get install libicu-dev;
       sudo apt-get install libxml2-dev;
-      sudo apt-get install -y libopenblas-dev;
-      sudo apt-get install -y liblapack-dev;
+      sudo apt-get install liblapack-dev;
+      sudo apt-get install liblapacke-dev;
       elif [ `uname` = "Darwin" ]; 
       then brew install libffi;
       brew install icu4c;
