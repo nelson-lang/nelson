@@ -65,6 +65,7 @@ before_install:
       sudo apt-get install liblapacke-dev;
       elif [ `uname` = "Darwin" ]; 
       then brew install libffi;
+      brew install homebrew/dupes/lapack;
       brew install icu4c;
       brew link --force icu4c;
       brew install pkg-config;
