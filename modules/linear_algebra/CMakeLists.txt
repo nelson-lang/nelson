@@ -52,6 +52,7 @@ nlsI18n
 nlsElementary_functions
 ${BLAS_LIBRARIES}
 ${LAPACK_LIBRARIES}
+${LAPACKE_LIBRARIES}
 )
 #==============================================================================	
 set_target_properties(${module_library_name}
