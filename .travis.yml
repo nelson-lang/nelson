@@ -65,6 +65,7 @@ before_install:
       sudo apt-get install liblapacke-dev;
       elif [ `uname` = "Darwin" ]; 
       then brew update;
+      brew link --overwrite gcc
       brew install homebrew/science/openblas;
       brew install libffi;
       brew install icu4c;
