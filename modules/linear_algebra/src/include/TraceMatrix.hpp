@@ -16,31 +16,12 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
-#include "logmBuiltin.hpp"
-#include "schurBuiltin.hpp"
-#include "expmBuiltin.hpp"
-#include "invBuiltin.hpp"
-#include "traceBuiltin.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "nlsLinear_algebra_exports.h"
+#include "ArrayOf.hpp"
 //=============================================================================
-const std::wstring gatewayName = L"linear_algebra";
-//=============================================================================
-static const nlsGateway gateway[] =
-{
-    { "logm", Nelson::LinearAlgebraGateway::logmBuiltin, 1, 1 },
-	{ "schur", Nelson::LinearAlgebraGateway::schurBuiltin, 2, 2 },
-	{ "expm", Nelson::LinearAlgebraGateway::expmBuiltin, 1, 1 },
-	{ "inv", Nelson::LinearAlgebraGateway::invBuiltin, 1, 1 },
-	{ "trace", Nelson::LinearAlgebraGateway::traceBuiltin, 1, 1 },
-};
-//=============================================================================
-NLSGATEWAYFUNC(gateway)
-//=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+namespace Nelson {
+	NLSLINEAR_ALGEBRA_IMPEXP ArrayOf TraceMatrix(ArrayOf A);
+}
 //=============================================================================
