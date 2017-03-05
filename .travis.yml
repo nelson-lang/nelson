@@ -76,6 +76,7 @@ before_install:
       brew install libxml2;
       brew install cmake;
       brew install qt5;
+      brew untap homebrew/science;
       brew tap staticfloat/julia;
       brew install openblas-julia;
       fi
