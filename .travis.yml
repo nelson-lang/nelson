@@ -65,7 +65,6 @@ before_install:
       sudo apt-get install liblapacke-dev;
       elif [ `uname` = "Darwin" ]; 
       then brew install libffi;
-      brew install homebrew/dupes/lapack;
       brew install icu4c;
       brew link --force icu4c;
       brew install pkg-config;
@@ -77,6 +76,8 @@ before_install:
       brew install libxml2;
       brew install cmake;
       brew install qt5;
+      brew tap staticfloat/julia;
+      brew install openblas-julia;
       fi
 
 install:
