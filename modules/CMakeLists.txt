@@ -32,6 +32,7 @@ double
 single
 sparse
 constructors_functions
+linear_algebra
 console
 logical
 time
@@ -58,7 +59,6 @@ modules_manager
 engine
 assert_functions
 tests_manager
-linear_algebra
 main
 )
 #==============================================================================	
