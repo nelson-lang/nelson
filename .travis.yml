@@ -70,11 +70,7 @@ before_install:
       brew rm --force $(brew deps --HEAD julia);
       brew install -v --only-dependencies --HEAD julia;
       brew install -v staticfloat/juliadeps/libgfortran;
-      export LDFLAGS="-L$(brew --prefix openblas-julia)/lib";
-      export OpenBLAS_LIB_DIR="$(brew --prefix openblas-julia)/lib";
-      export OpenBLAS_LIB=-lopenblas
-
-      
+      brew install --force openblas-julia
       brew install libffi;
       brew install icu4c;
       brew link --force icu4c;
