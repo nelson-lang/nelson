@@ -65,8 +65,6 @@ before_install:
       sudo apt-get install liblapacke-dev;
       elif [ `uname` = "Darwin" ]; 
       then brew update;
-      brew link --overwrite gcc
-      brew install homebrew/science/openblas;
       brew install libffi;
       brew install icu4c;
       brew link --force icu4c;
@@ -79,7 +77,6 @@ before_install:
       brew install libxml2;
       brew install cmake;
       brew install qt5;
-
       fi
 
 install:
@@ -99,6 +96,22 @@ before_script:
     ./b2 -q -d0 --user-config=user-config.jam headers;
     sudo ./b2 -q -d0 --user-config=user-config.jam cxxflags="-std=c++11 -fPIC" threading=multi link=shared install;
     popd;
+    fi
+
+  - if [ $TRAVIS_OS_NAME == osx ];
+    then export BUILD_ROOT=$(pwd);
+    cd $HOME;
+    curl -O http://coudert.name/software/gfortran-6.3-Sierra.dmg;
+    sudo hdiutil attach gfortran-6.3-Sierra.dmg;
+    sudo installer -package /Volumes/gfortran-6.3-Sierra/gfortran.pkg -target /;
+    sudo hdiutil detach /Volumes/gfortran-6.3-Sierra;
+    cd $HOME;
+    curl http://www.netlib.org/lapack/lapack-3.7.0.tgz | tar xj;
+    cd lapack-3.7.0;
+    cmake .;
+    make;
+    sudo make install;
+    cd $BUILD_ROOT;
     fi
 
 script:
