@@ -48,6 +48,8 @@ matrix:
       compiler: clang
       osx_image: xcode8.2
 
+  allow_failures:
+    - os: osx
 
 before_install:
     - if [ `uname` = "Linux" ];
