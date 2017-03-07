@@ -160,7 +160,7 @@ IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   IF(EXISTS "/usr/local/opt/openblas-julia/include")
     LINK_DIRECTORIES(/usr/local/opt/openblas-julia/lib)
     set(MAC_LAPACKE_LIBRARY -lopenblas)
-  ELSE
+  ELSE()
     set(MAC_LAPACKE_LIBRARY -lblas -llapack -llapacke)
   ENDIF()
   # macports paths
