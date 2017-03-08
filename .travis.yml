@@ -112,6 +112,7 @@ before_script:
     pwd;
     ls;
     mkdir lapack-build;
+    cd lapack-build;
     cmake ../lapack-3.7.0;
     cmake .;
     make;
