@@ -109,6 +109,8 @@ before_script:
     sudo hdiutil detach /Volumes/gfortran-6.3-Sierra;
     cd $HOME;
     curl http://www.netlib.org/lapack/lapack-3.7.0.tgz | tar xj;
+    pwd;
+    ls;
     mkdir lapack-build;
     cmake ../lapack-3.7.0;
     cmake .;
