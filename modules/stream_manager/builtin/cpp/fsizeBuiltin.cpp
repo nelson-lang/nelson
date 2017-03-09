@@ -51,8 +51,8 @@ ArrayOfVector Nelson::StreamGateway::fsizeBuiltin(Evaluator* eval, int nLhs, con
         if (fm->isOpened(iValue))
         {
             File *f = fm->getFile(iValue);
-            int64 sz = FileSize(f);
-            retval.push_back(ArrayOf::doubleConstructor((double)sz));
+            double sz = (double)FileSize(f);
+            retval.push_back(ArrayOf::doubleConstructor(sz));
         }
         else
         {

@@ -32,7 +32,7 @@ namespace Nelson {
             FILE *fileptr = (FILE*)fp->getFilePointer();
             if (fileptr)
             {
-                pos = (int64)NLSFTELL(fileptr);
+                pos = static_cast<int64>(NLSFTELL(fileptr));
             }
         }
         return pos;

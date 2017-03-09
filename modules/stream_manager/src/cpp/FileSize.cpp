@@ -35,7 +35,7 @@ namespace Nelson {
             if (fileptr)
             {
                 // save current file position
-                int64 curpos = (int64)NLSFTELL(fileptr);
+                int64 curpos = static_cast<int64>(NLSFTELL(fileptr));
                 // move to end of file
                 int res;
                 int ORIGIN = SEEK_END;
@@ -47,14 +47,13 @@ namespace Nelson {
                 res = NLSFSEEK(fileptr, offset, ORIGIN);
                 if (res == 0)
                 {
-                    int64 eofpos = (int64)NLSFTELL(fileptr);
-                    sz = eofpos;
+                    sz = static_cast<int64>(NLSFTELL(fileptr));
                 }
                 ORIGIN = SEEK_SET;
 #if (defined(_LP64) || defined(_WIN64))
                 offset = curpos;
 #else
-                offset = (long)curpos;
+                offset = static_cast<long int>(curpos);
 #endif
                 // restore to initial position
                 NLSFSEEK(fileptr, offset, ORIGIN);
