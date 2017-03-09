@@ -26,6 +26,8 @@ cache:
     - ${TRAVIS_BUILD_DIR}/deps
     - /usr/local/include
     - /usr/local/lib
+    - ${HOME}/lapack-build
+    - ${HOME}/lapack-3.7.0
     
 branches:
   only:
