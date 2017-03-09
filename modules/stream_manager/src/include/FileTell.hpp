@@ -40,7 +40,7 @@
 				#define NLSFTELL ftell
 			#endif
 		#else
-			#define NLSFTELL ftell;
+			#define NLSFTELL ftell
 		#endif
 	#endif
 #endif
