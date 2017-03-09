@@ -24,7 +24,9 @@ sudo: required
 cache:
   directories:
     - ${TRAVIS_BUILD_DIR}/deps
-
+    - /usr/local/include
+    - /usr/local/lib
+    
 branches:
   only:
     - master
@@ -82,8 +84,8 @@ before_install:
       fi
 
 install:
-  - if [ `uname` = "Linux" ]; then hg clone https://bitbucket.org/eigen/eigen#3.3 /tmp/eigen && mkdir /tmp/eigen-build && cd /tmp/eigen-build && cmake . /tmp/eigen && make && sudo make install && cd -; fi
-  - if [ $TRAVIS_OS_NAME == osx ]; then hg clone https://bitbucket.org/eigen/eigen#3.3 /tmp/eigen && mkdir /tmp/eigen-build && cd /tmp/eigen-build && cmake . /tmp/eigen && make && sudo make install && cd -; fi
+  - if [ `uname` = "Linux" ]; then hg clone https://bitbucket.org/eigen/eigen#3.3 /tmp/eigen && mkdir /tmp/eigen-build && cd /tmp/eigen-build && cmake . /tmp/eigen && make -j3 && sudo make install && cd -; fi
+  - if [ $TRAVIS_OS_NAME == osx ]; then hg clone https://bitbucket.org/eigen/eigen#3.3 /tmp/eigen && mkdir /tmp/eigen-build && cd /tmp/eigen-build && cmake . /tmp/eigen && make -j3 && sudo make install && cd -; fi
 
 before_script:
   - if [ `uname` = "Linux" ];
@@ -112,7 +114,7 @@ before_script:
     mkdir lapack-build;
     cd lapack-build;
     cmake -DLAPACKE=ON ../lapack-3.7.0;
-    make;
+    make -j3;
     sudo make install;
     cd $BUILD_ROOT;
     fi
@@ -129,7 +131,7 @@ script:
     cmake -G "Unix Makefiles";
     fi
 
-  - make
+  - make -j2
   - make buildhelp
   - make tests_minimal
   - make package
