@@ -24,10 +24,6 @@ sudo: required
 cache:
   directories:
     - ${TRAVIS_BUILD_DIR}/deps
-    - /usr/local/include
-    - /usr/local/lib
-    - ${HOME}/lapack-build
-    - ${HOME}/lapack-3.7.0
     
 branches:
   only:
@@ -113,7 +109,7 @@ before_script:
     sudo hdiutil detach /Volumes/gfortran-6.3-Sierra;
     cd $BUILD_ROOT;
     cd ..;
-    git clone https://github.com/Nelson-numerical-software/nelson-thirdparty-macosx.git
+    git clone https://github.com/Nelson-numerical-software/nelson-thirdparty-macosx.git;
     fi
 
 script:
