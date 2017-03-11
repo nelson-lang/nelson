@@ -111,14 +111,9 @@ before_script:
     sudo hdiutil attach gfortran-6.3-Sierra.dmg;
     sudo installer -package /Volumes/gfortran-6.3-Sierra/gfortran.pkg -target /;
     sudo hdiutil detach /Volumes/gfortran-6.3-Sierra;
-    cd $HOME;
-    curl http://www.netlib.org/lapack/lapack-3.7.0.tgz | tar xj;
-    mkdir lapack-build;
-    cd lapack-build;
-    cmake -DLAPACKE=ON ../lapack-3.7.0;
-    make -j3;
-    sudo make install;
     cd $BUILD_ROOT;
+    cd ..;
+    git clone https://github.com/Nelson-numerical-software/nelson-thirdparty-macosx.git
     fi
 
 script:
