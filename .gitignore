@@ -56,6 +56,7 @@ tests_minimal.xml
 /modules/*/*/cpp/moc_*.cpp
 /modules/*/moc_*.cpp
 /modules/*/*_automoc.cpp
+/modules/gui/nlsGui_automoc.dir
 /modules/*/help/en_US/md/*.html
 /modules/main/nelson_cli/x64
 /modules/main/nelson_cli/Debug
