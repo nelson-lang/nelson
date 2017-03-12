@@ -37,8 +37,8 @@ namespace Nelson {
         }
         if (A.isEmpty())
         {
-            ArrayOf U(A);
-            U.ensureSingleOwner();
+			T = ArrayOf::emptyConstructor(A.getDimensions());
+			T.promoteType(A.getDataClass());
             return;
         }
         if (asComplex || A.isComplex())
@@ -48,7 +48,11 @@ namespace Nelson {
                 A.promoteType(NLS_SCOMPLEX);
                 singlecomplex* Az = reinterpret_cast<singlecomplex*>((double*)A.getDataPointer());
                 Eigen::Map<Eigen::MatrixXcf> matA(Az, (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
-                ArrayOf T_temp(A);
+				if (!matA.allFinite())
+				{
+					throw Exception(_("Input argument must not contain NaN or Inf."));
+				}
+				ArrayOf T_temp(A);
                 T_temp.ensureSingleOwner();
                 singlecomplex* Tz = reinterpret_cast<singlecomplex*>((double*)T_temp.getDataPointer());
                 Eigen::Map<Eigen::MatrixXcf> matT(Tz, (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
@@ -61,6 +65,10 @@ namespace Nelson {
                 A.promoteType(NLS_DCOMPLEX);
                 doublecomplex* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
                 Eigen::Map<Eigen::MatrixXcd> matA(Az, (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
+				if (!matA.allFinite())
+				{
+					throw Exception(_("Input argument must not contain NaN or Inf."));
+				}
                 ArrayOf T_temp(A);
                 T_temp.ensureSingleOwner();
                 doublecomplex* Tz = reinterpret_cast<doublecomplex*>((double*)T_temp.getDataPointer());
@@ -77,14 +85,22 @@ namespace Nelson {
             if (A.getDataClass() == NLS_SINGLE)
             {
                 Eigen::Map<Eigen::MatrixXf> matA((single*)A.getDataPointer(), (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
-                Eigen::Map<Eigen::MatrixXf> matT((single*)T_temp.getDataPointer(), (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
-                Eigen::RealSchur<Eigen::MatrixXf> schur(matA);
+				if (!matA.allFinite())
+				{
+					throw Exception(_("Input argument must not contain NaN or Inf."));
+				}
+				Eigen::Map<Eigen::MatrixXf> matT((single*)T_temp.getDataPointer(), (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
+				Eigen::RealSchur<Eigen::MatrixXf> schur(matA);
                 matT = schur.matrixT();
             }
             else
             {
                 Eigen::Map<Eigen::MatrixXd> matA((double*)A.getDataPointer(), (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
-                Eigen::Map<Eigen::MatrixXd> matT((double*)T_temp.getDataPointer(), (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
+				if (!matA.allFinite())
+				{
+					throw Exception(_("Input argument must not contain NaN or Inf."));
+				}
+				Eigen::Map<Eigen::MatrixXd> matT((double*)T_temp.getDataPointer(), (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
                 Eigen::RealSchur<Eigen::MatrixXd> schur(matA);
                 matT = schur.matrixT();
             }
@@ -117,10 +133,10 @@ namespace Nelson {
         }
         if (A.isEmpty())
         {
-            ArrayOf U(A);
-            U.ensureSingleOwner();
-            ArrayOf T(A);
-            T.ensureSingleOwner();
+			U = ArrayOf::emptyConstructor(A.getDimensions());
+			U.promoteType(A.getDataClass());
+			T = ArrayOf::emptyConstructor(A.getDimensions());
+			T.promoteType(A.getDataClass());
             return;
         }
         if (asComplex || A.isComplex())
@@ -128,7 +144,11 @@ namespace Nelson {
             A.promoteType(NLS_DCOMPLEX);
             doublecomplex* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
             Eigen::Map<Eigen::MatrixXcd> matA(Az, (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
-            ArrayOf U_temp(A);
+			if (!matA.allFinite())
+			{
+				throw Exception(_("Input argument must not contain NaN or Inf."));
+			}
+			ArrayOf U_temp(A);
             U_temp.ensureSingleOwner();
             ArrayOf T_temp(A);
             T_temp.ensureSingleOwner();
@@ -145,7 +165,11 @@ namespace Nelson {
         else
         {
             Eigen::Map<Eigen::MatrixXd> matA((double*)A.getDataPointer(), (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
-            ArrayOf U_temp(A);
+			if (!matA.allFinite())
+			{
+				throw Exception(_("Input argument must not contain NaN or Inf."));
+			}
+			ArrayOf U_temp(A);
             U_temp.ensureSingleOwner();
             ArrayOf T_temp(A);
             T_temp.ensureSingleOwner();

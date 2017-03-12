@@ -53,7 +53,15 @@ ArrayOfVector Nelson::LinearAlgebraGateway::schurBuiltin(Evaluator* eval, int nL
         if (argIn.size() == 2)
         {
             ArrayOf param2 = argIn[1];
-            asComplex = (param2.getContentAsLogicalScalar() != 0);
+			std::wstring str = param2.getContentsAsWideString();
+			if (str == L"complex" || str == L"real")
+			{
+				if (str == L"complex") asComplex = true;
+			}
+			else
+			{
+				Error(eval, _W("Second input argument must be 'real' or 'complex'."));
+			}
         }
         if (nLhs == 2)
         {

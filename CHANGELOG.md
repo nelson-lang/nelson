@@ -6,6 +6,8 @@ Compilation:
 Features:
 ---------
 
+  Add 'schur' function.
+
   Add 'inv' function.
 
   Add 'expm' function (single, double, sparse double managed).
