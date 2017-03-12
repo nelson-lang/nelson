@@ -23,13 +23,13 @@
 #include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
-	//=============================================================================
-	NLSSTREAM_MANAGER_IMPEXP void delimitedWrite(ArrayOf mat, 
-		std::wstring filenameDestination,
-		bool bAppend,
-		std::wstring delimiter,
-		int64 rowsOffset, int64 colsOffset,
-		std::wstring formatPrecision,
-		bool isNewLinePc);
+    //=============================================================================
+    NLSSTREAM_MANAGER_IMPEXP void delimitedWrite(ArrayOf mat,
+            std::wstring filenameDestination,
+            bool bAppend,
+            std::wstring delimiter,
+            int64 rowsOffset, int64 colsOffset,
+            std::wstring formatPrecision,
+            bool isNewLinePc);
 }
 //=============================================================================

@@ -26,87 +26,86 @@
 #include "ComplexConstructor.hpp"
 //=============================================================================
 namespace Nelson {
-	//=============================================================================
-	ArrayOf LogMatrix(ArrayOf A)
-	{
-		if (!A.isSquare())
-		{
-			throw Exception(_("Square matrix expected."));
-		}
-		if (A.isEmpty())
-		{
-			ArrayOf R(A);
-			R.ensureSingleOwner();
-			return R;
-		}
-		if (A.isSparse())
-		{
-			throw Exception(_("Undefined function 'cosm' for input arguments of type") + " '" + ClassName(A) + "'.");
-		}
-		switch (A.getDataClass())
-		{
-		case NLS_CELL_ARRAY:
-		case NLS_STRUCT_ARRAY:
-		case NLS_LOGICAL:
-		case NLS_UINT8:
-		case NLS_INT8:
-		case NLS_UINT16:
-		case NLS_INT16:
-		case NLS_UINT32:
-		case NLS_INT32:
-		case NLS_UINT64:
-		case NLS_INT64:
-		case NLS_CHAR:
-		{
-			throw Exception(_("Undefined function 'cosm' for input arguments of type") + " '" + ClassName(A) + "'.");
-		}
-		break;
+    //=============================================================================
+    ArrayOf LogMatrix(ArrayOf A)
+    {
+        if (!A.isSquare())
+        {
+            throw Exception(_("Square matrix expected."));
+        }
+        if (A.isEmpty())
+        {
+            ArrayOf R(A);
+            R.ensureSingleOwner();
+            return R;
+        }
+        if (A.isSparse())
+        {
+            throw Exception(_("Undefined function 'cosm' for input arguments of type") + " '" + ClassName(A) + "'.");
+        }
+        switch (A.getDataClass())
+        {
+            case NLS_CELL_ARRAY:
+            case NLS_STRUCT_ARRAY:
+            case NLS_LOGICAL:
+            case NLS_UINT8:
+            case NLS_INT8:
+            case NLS_UINT16:
+            case NLS_INT16:
+            case NLS_UINT32:
+            case NLS_INT32:
+            case NLS_UINT64:
+            case NLS_INT64:
+            case NLS_CHAR:
+            {
+                throw Exception(_("Undefined function 'cosm' for input arguments of type") + " '" + ClassName(A) + "'.");
+            }
+            break;
+            case NLS_DCOMPLEX:
+            {
+                /*
+                ArrayOf R(A);
+                ArrayOf RealPart(A);
+                ArrayOf ImagPart(A);
 
-		case NLS_DCOMPLEX:
-		{
-			/*
-			ArrayOf R(A);
-			ArrayOf RealPart(A);
-			ArrayOf ImagPart(A);
+                RealPart.promoteType(NLS_DOUBLE);
+                ImagPart.promoteType(NLS_DOUBLE);
 
-			RealPart.promoteType(NLS_DOUBLE);
-			ImagPart.promoteType(NLS_DOUBLE);
+                Eigen::Map<Eigen::MatrixXd> matRealPart((double*)RealPart.getDataPointer(), (Eigen::Index)R.getDimensions().getRows(), (Eigen::Index)R.getDimensions().getColumns());
+                Eigen::Map<Eigen::MatrixXd> matImagPart((double*)ImagPart.getDataPointer(), (Eigen::Index)R.getDimensions().getRows(), (Eigen::Index)R.getDimensions().getColumns());
 
-			Eigen::Map<Eigen::MatrixXd> matRealPart((double*)RealPart.getDataPointer(), (Eigen::Index)R.getDimensions().getRows(), (Eigen::Index)R.getDimensions().getColumns());
-			Eigen::Map<Eigen::MatrixXd> matImagPart((double*)ImagPart.getDataPointer(), (Eigen::Index)R.getDimensions().getRows(), (Eigen::Index)R.getDimensions().getColumns());
 
-			
-			doublecomplex* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
-			Eigen::Map<Eigen::Matrix<doublecomplex, -1, -1>> matA(Az, (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
+                doublecomplex* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
+                Eigen::Map<Eigen::Matrix<doublecomplex, -1, -1>> matA(Az, (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
 
-			doublecomplex* Rz = reinterpret_cast<doublecomplex*>((double*)R.getDataPointer());
-			Eigen::Map<Eigen::Matrix<doublecomplex, -1, -1>> matR(Rz, (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
-			
-			auto aa = matA.log();
-			std::cout << aa;
-			return R;
-			*/
-		}
-		break;
-		case NLS_DOUBLE:
-		{
-			ArrayOf R(A);
-			R.ensureSingleOwner();
-			Eigen::Map<Eigen::MatrixXd> matA((double*)A.getDataPointer(), (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
-			Eigen::Map<Eigen::MatrixXd> matR((double*)R.getDataPointer(), (Eigen::Index)R.getDimensions().getRows(), (Eigen::Index)R.getDimensions().getColumns());
-			auto res = matA.log();
-			matR = res.array();
-			return R;
-		}
-		break;
-		default:
-		{
-			throw Exception(_W("Invalid conversion."));
-		}
-		break;
-		}
-		return ArrayOf();
-	}
-	//=============================================================================
+                doublecomplex* Rz = reinterpret_cast<doublecomplex*>((double*)R.getDataPointer());
+                Eigen::Map<Eigen::Matrix<doublecomplex, -1, -1>> matR(Rz, (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
+
+                auto aa = matA.log();
+                std::cout << aa;
+                return R;
+                */
+            }
+            break;
+            case NLS_DOUBLE:
+            {
+                ArrayOf R(A);
+                R.ensureSingleOwner();
+                Eigen::Map<Eigen::MatrixXd> matA((double*)A.getDataPointer(), (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
+                Eigen::Map<Eigen::MatrixXd> matR((double*)R.getDataPointer(), (Eigen::Index)R.getDimensions().getRows(), (Eigen::Index)R.getDimensions().getColumns());
+                auto res = matA.log();
+                matR = res.array();
+                return R;
+            }
+            break;
+            default:
+            {
+                throw Exception(_W("Invalid conversion."));
+            }
+            break;
+        }
+        return ArrayOf();
+    }
+    //=============================================================================
 }
 //=============================================================================

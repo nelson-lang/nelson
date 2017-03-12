@@ -22,6 +22,6 @@
 #include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
-	NLSLINEAR_ALGEBRA_IMPEXP ArrayOf TraceMatrix(ArrayOf A);
+    NLSLINEAR_ALGEBRA_IMPEXP ArrayOf TraceMatrix(ArrayOf A);
 }
 //=============================================================================

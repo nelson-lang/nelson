@@ -24,25 +24,25 @@
 #include "Types.hpp"
 //=============================================================================
 #if _MSC_VER
-	#if defined(_WIN64)
-		#define NLSFTELL _ftelli64
-	#else
-		#define NLSFTELL ftell
-	#endif
+#if defined(_WIN64)
+#define NLSFTELL _ftelli64
 #else
-	#if defined(__APPLE__) || defined(__MACH__)
-		#define NLSFTELL ftell
-	#else
-		#if  defined(_LP64)
-			#if defined(HAVE_FTELL64)
-				#define NLSFTELL ftell64
-			#else
-				#define NLSFTELL ftell
-			#endif
-		#else
-			#define NLSFTELL ftell
-		#endif
-	#endif
+#define NLSFTELL ftell
+#endif
+#else
+#if defined(__APPLE__) || defined(__MACH__)
+#define NLSFTELL ftell
+#else
+#if  defined(_LP64)
+#if defined(HAVE_FTELL64)
+#define NLSFTELL ftell64
+#else
+#define NLSFTELL ftell
+#endif
+#else
+#define NLSFTELL ftell
+#endif
+#endif
 #endif
 //=============================================================================
 namespace Nelson {

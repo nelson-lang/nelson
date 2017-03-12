@@ -51,7 +51,7 @@ static const nlsGateway gateway[] =
     { "frewind", Nelson::StreamGateway::frewindBuiltin, 0, 1 },
     { "fseek", Nelson::StreamGateway::fseekBuiltin, 1, 3 },
     { "fsize", Nelson::StreamGateway::fsizeBuiltin, 1, 1 },
-	{ "dlmwrite", Nelson::StreamGateway::dlmwriteBuiltin, 0, -3 },
+    { "dlmwrite", Nelson::StreamGateway::dlmwriteBuiltin, 0, -3 },
 };
 //=============================================================================
 static bool initializeModule(Nelson::Evaluator* eval)

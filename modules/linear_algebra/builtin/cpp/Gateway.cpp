@@ -30,10 +30,10 @@ const std::wstring gatewayName = L"linear_algebra";
 static const nlsGateway gateway[] =
 {
     { "logm", Nelson::LinearAlgebraGateway::logmBuiltin, 1, 1 },
-	{ "schur", Nelson::LinearAlgebraGateway::schurBuiltin, 2, 2 },
-	{ "expm", Nelson::LinearAlgebraGateway::expmBuiltin, 1, 1 },
-	{ "inv", Nelson::LinearAlgebraGateway::invBuiltin, 1, 1 },
-	{ "trace", Nelson::LinearAlgebraGateway::traceBuiltin, 1, 1 },
+    { "schur", Nelson::LinearAlgebraGateway::schurBuiltin, 2, 2 },
+    { "expm", Nelson::LinearAlgebraGateway::expmBuiltin, 1, 1 },
+    { "inv", Nelson::LinearAlgebraGateway::invBuiltin, 1, 1 },
+    { "trace", Nelson::LinearAlgebraGateway::traceBuiltin, 1, 1 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

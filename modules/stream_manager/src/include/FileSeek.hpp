@@ -25,25 +25,25 @@
 #include "Types.hpp"
 //=============================================================================
 #if _MSC_VER
-	#if defined(_WIN64)
-		#define NLSFSEEK _fseeki64
-	#else
-		#define NLSFSEEK fseek
-	#endif
+#if defined(_WIN64)
+#define NLSFSEEK _fseeki64
 #else
-	#if defined(__APPLE__) || defined(__MACH__)
-		#define NLSFSEEK fseek
-	#else
-		#if defined(_LP64)
-			#if defined(HAVE_FSEEK64)
-				#define NLSFSEEK fseek64
-			#else
-				#define NLSFSEEK fseek
-			#endif
-		#else
-			#define NLSFSEEK fseek
-		#endif
-	#endif
+#define NLSFSEEK fseek
+#endif
+#else
+#if defined(__APPLE__) || defined(__MACH__)
+#define NLSFSEEK fseek
+#else
+#if defined(_LP64)
+#if defined(HAVE_FSEEK64)
+#define NLSFSEEK fseek64
+#else
+#define NLSFSEEK fseek
+#endif
+#else
+#define NLSFSEEK fseek
+#endif
+#endif
 #endif
 //=============================================================================
 namespace Nelson {
