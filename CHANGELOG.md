@@ -1,3 +1,8 @@
+Compilation:
+---------
+
+  LAPACKE used for linear algebra functions. On Windows, OpenBLAS used. On others platforms reference library LAPACKE used.
+
 Features:
 ---------
 
