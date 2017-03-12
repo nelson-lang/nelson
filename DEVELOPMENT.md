@@ -89,6 +89,7 @@ You can also see [.travis.yml](https://github.com/Nelson-numerical-software/nels
         pacman -S make
         pacman -S blas
         pacman -S lapack
+        pacman -S lapacke
         exit
         ```
     - Creates Nelson main directory
@@ -126,7 +127,7 @@ You can also see [.travis.yml](https://github.com/Nelson-numerical-software/nels
 ### MacOs
 
 * Prerequirements:
-    - install xcode 6.1 and command line version
+    - install xcode 6.1 or above and command line version
     - install homebrew for mac
         ```bash
         ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
@@ -145,8 +146,15 @@ You can also see [.travis.yml](https://github.com/Nelson-numerical-software/nels
         brew install boost
         brew install libxml2
         brew install cmake
+        ```
+    - Install LAPACKE
+    By default easier way is to build and install reference LAPACK library (https://github.com/Reference-LAPACK/lapack-release).
+    LAPACKE prebuild is available for macos Sierra in nelson-thirdparty-macosx git repository.
+    You can also use optimized CPU version with OpenBLAS
+        ```bash
         brew install homebrew/science/openblas
         ```
+    
     - Qt 5.6 or more
     You can install from Qt.io or brew
     Current brew version does not package Qt help assistant
