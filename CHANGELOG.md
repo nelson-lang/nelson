@@ -6,6 +6,8 @@ Compilation:
 Features:
 ---------
 
+  Add 'trace' function.
+
   Add 'schur' function.
 
   Add 'inv' function.
