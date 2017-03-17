@@ -58,33 +58,13 @@ namespace Nelson {
             case NLS_INT64:
             case NLS_CHAR:
             {
-                throw Exception(_("Undefined function 'cosm' for input arguments of type") + " '" + ClassName(A) + "'.");
+                throw Exception(_("Undefined function 'logm' for input arguments of type") + " '" + ClassName(A) + "'.");
             }
             break;
+			case NLS_SCOMPLEX:
             case NLS_DCOMPLEX:
             {
-                /*
-                ArrayOf R(A);
-                ArrayOf RealPart(A);
-                ArrayOf ImagPart(A);
-
-                RealPart.promoteType(NLS_DOUBLE);
-                ImagPart.promoteType(NLS_DOUBLE);
-
-                Eigen::Map<Eigen::MatrixXd> matRealPart((double*)RealPart.getDataPointer(), (Eigen::Index)R.getDimensions().getRows(), (Eigen::Index)R.getDimensions().getColumns());
-                Eigen::Map<Eigen::MatrixXd> matImagPart((double*)ImagPart.getDataPointer(), (Eigen::Index)R.getDimensions().getRows(), (Eigen::Index)R.getDimensions().getColumns());
-
-
-                doublecomplex* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
-                Eigen::Map<Eigen::Matrix<doublecomplex, -1, -1>> matA(Az, (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
-
-                doublecomplex* Rz = reinterpret_cast<doublecomplex*>((double*)R.getDataPointer());
-                Eigen::Map<Eigen::Matrix<doublecomplex, -1, -1>> matR(Rz, (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
-
-                auto aa = matA.log();
-                std::cout << aa;
-                return R;
-                */
+				throw Exception(_("Not implemented."));
             }
             break;
             case NLS_DOUBLE:
@@ -93,14 +73,23 @@ namespace Nelson {
                 R.ensureSingleOwner();
                 Eigen::Map<Eigen::MatrixXd> matA((double*)A.getDataPointer(), (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
                 Eigen::Map<Eigen::MatrixXd> matR((double*)R.getDataPointer(), (Eigen::Index)R.getDimensions().getRows(), (Eigen::Index)R.getDimensions().getColumns());
-                auto res = matA.log();
-                matR = res.array();
-                return R;
+				matR = matA.log().array();
+				return R;
             }
             break;
-            default:
+			case NLS_SINGLE:
+			{
+				ArrayOf R(A);
+				R.ensureSingleOwner();
+				Eigen::Map<Eigen::MatrixXf> matA((single*)A.getDataPointer(), (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
+				Eigen::Map<Eigen::MatrixXf> matR((single*)R.getDataPointer(), (Eigen::Index)R.getDimensions().getRows(), (Eigen::Index)R.getDimensions().getColumns());
+				matR = matA.log().array();
+				return R;
+			}
+			break;
+			default:
             {
-                throw Exception(_W("Invalid conversion."));
+                throw Exception(_W("Invalid type."));
             }
             break;
         }
