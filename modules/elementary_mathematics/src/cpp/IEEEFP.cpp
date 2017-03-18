@@ -22,41 +22,12 @@
 //=============================================================================
 bool IsInfinite(float t)
 {
-    union
-    {
-        float f;
-        unsigned int i;
-    } u;
-    u.f = t;
-    if (((u.i & 0x7f800000) == 0x7f800000) && ((u.i & 0x007fffff) == 0))
-    {
-        return true;
-    }
-    return false;
+	return std::isinf(t);
 }
 //=============================================================================
 bool IsInfinite(double t)
 {
-    union
-    {
-        double d;
-        unsigned int i[2];
-    } u;
-    u.d = t;
-#if (WORDS_BIGENDIAN!=1)
-    if( ((u.i[1] & 0x7ff00000) == 0x7ff00000)
-            && (((u.i[1] & 0x000fffff) == 0) && (u.i[0] == 0)))
-    {
-        return true;
-    }
-#else
-    if( ((u.i[0] & 0x7ff00000) == 0x7ff00000)
-            && (((u.i[0] & 0x000fffff) == 0) && (u.i[1] == 0)))
-    {
-        return true;
-    }
-#endif
-    return false;
+	return std::isinf(t);
 }
 //=============================================================================
 bool IsNaN(int t)
@@ -71,51 +42,22 @@ bool IsNaN(unsigned int t)
 //=============================================================================
 bool IsNaN(float t)
 {
-    union
-    {
-        float f;
-        unsigned int i;
-    } u;
-    u.f = t;
-    if (((u.i & 0x7f800000) == 0x7f800000) && ((u.i & 0x007fffff) != 0))
-    {
-        return true;
-    }
-    return false;
+	return std::isnan(t);
 }
 //=============================================================================
 bool IsNaN(double t)
 {
-    union
-    {
-        double d;
-        unsigned int i[2];
-    } u;
-    u.d = t;
-#if (WORDS_BIGENDIAN!=1)
-    if( ((u.i[1] & 0x7ff00000) == 0x7ff00000)
-            && (((u.i[1] & 0x000fffff) != 0) || (u.i[0] != 0)))
-    {
-        return true;
-    }
-#else
-    if( ((u.i[0] & 0x7ff00000) == 0x7ff00000)
-            && (((u.i[0] & 0x000fffff) != 0) || (u.i[1] != 0)))
-    {
-        return true;
-    }
-#endif
-    return false;
+	return std::isnan(t);
 }
 //=============================================================================
 bool IsFinite(float t)
 {
-    return (!(IsNaN(t) || IsInfinite(t)));
+	return std::isfinite(t);
 }
 //=============================================================================
 bool IsFinite(double t)
 {
-    return (!(IsNaN(t) || IsInfinite(t)));
+	return std::isfinite(t);
 }
 //=============================================================================
 bool IsIntegerForm(double t)
