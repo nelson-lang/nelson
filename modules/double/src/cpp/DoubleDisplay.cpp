@@ -22,7 +22,6 @@
 #include <cstdio>
 #include <stdarg.h>  // For va_start, etc.
 #include <memory>    // For std::unique_ptr
-#include "IEEEFP.hpp"
 #include "DoubleDisplay.hpp"
 #include "StringFormat.hpp"
 #include "characters_encoding.hpp"
@@ -73,7 +72,7 @@ namespace Nelson {
         }
         else
         {
-            if (IsNaN(number))
+            if (std::isnan(number))
             {
                 strNumber = L" NaN";
             }
