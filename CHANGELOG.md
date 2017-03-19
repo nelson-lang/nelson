@@ -6,6 +6,8 @@ Compilation:
 Features:
 ---------
 
+  Rework double and single matrix 2D display.
+
   Add 'trace' function.
 
   Add 'schur' function.

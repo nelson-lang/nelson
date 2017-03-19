@@ -16,27 +16,13 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "single_dispBuiltin.hpp"
-#include "SingleDisplay.hpp"
-#include "Error.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "nlsSingle_exports.h"
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
-ArrayOfVector Nelson::SingleGateway::single_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    ArrayOfVector retval;
-    if (argIn.size() != 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    else if (!argIn[0].isSingleType() || argIn[0].isSparse())
-    {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_SINGLE_EXPECTED);
-    }
-    else
-    {
-		SingleDisplay(eval, argIn[0]);
-	}
-    return retval;
+namespace Nelson {
+	NLSSINGLE_IMPEXP void SingleDisplay(Evaluator *eval, ArrayOf A);
 }
 //=============================================================================

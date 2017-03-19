@@ -18,13 +18,12 @@
 //=============================================================================
 #define _CRT_SECURE_NO_WARNINGS
 #include <boost/algorithm/string.hpp>
-#include <Eigen/Dense>
 #include <iostream>
 #include <iomanip>
 #include <cstdio>
 #include <stdarg.h>  // For va_start, etc.
 #include <memory>    // For std::unique_ptr
-#include "DoubleDisplay.hpp"
+#include "SingleDisplay.hpp"
 #include "StringFormat.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
@@ -37,27 +36,27 @@ namespace Nelson {
 		return utf8_to_wstring(buffer);
 	}
 	//=============================================================================
-	bool isInteger(double val)
+	static bool isInteger(single val)
 	{
-		uint64_t  valAsInt = *reinterpret_cast<uint64_t*>(&val);
-		int  exponent = ((valAsInt >> 52) & 0x7FF) - 1023;
+		int  valAsInt = *reinterpret_cast<int*>(&val);
+		int  exponent = ((valAsInt >> 23) & 0xFF) - 127;
 
-		int bitsInFraction = 52 - exponent;
-		uint64_t mask = exponent < 0
-			? 0x7FFFFFFFFFFFFFFFLL
-			: exponent > 52
+		int bitsInFraction = 23 - exponent;
+		int mask = exponent < 0
+			? 0x7FFFFFFF
+			: exponent > 23
 			? 0x00
-			: (1LL << bitsInFraction) - 1;
+			: (1 << bitsInFraction) - 1;
 
 		return !(valAsInt & mask);
 	}
 	//=============================================================================
-	static bool IsIntegerValues(ArrayOf A, double &minVal, double &maxVal)
+	static bool IsIntegerValues(ArrayOf A, single &minVal, single &maxVal)
 	{
 		bool res = true;
-		if (A.getDataClass() == NLS_DOUBLE)
+		if (A.getDataClass() == NLS_SINGLE)
 		{
-			double *pValueA = (double*)A.getDataPointer();
+			single *pValueA = (single*)A.getDataPointer();
 			maxVal = pValueA[0];
 			minVal = pValueA[0];
 
@@ -80,9 +79,9 @@ namespace Nelson {
 				}
 			}
 		}
-		else // NLS_DCOMPLEX
+		else // NLS_SCOMPLEX
 		{
-			double *pValueA = (double*)A.getDataPointer();
+			single *pValueA = (single*)A.getDataPointer();
 			maxVal = pValueA[0];
 			for (indexType k = 0; k < A.getLength() * 2; k++)
 			{
@@ -106,7 +105,7 @@ namespace Nelson {
 		return res;
 	}
 	//=============================================================================
-	static std::wstring printNumber(double number, OutputFormatDisplay currentFormat, bool asInteger, bool asScalar)
+	static std::wstring printNumber(single number, OutputFormatDisplay currentFormat, bool asInteger, bool asScalar)
 	{
 		std::wstring strNumber = L"";
 		strNumber.reserve(64);
@@ -119,7 +118,7 @@ namespace Nelson {
 			{
 				if (asInteger)
 				{
-					if (fabs(number) < 1e9) 
+					if (fabs(number) < 1e9)
 					{
 						strNumber = std::to_wstring((int64)number);
 					}
@@ -205,7 +204,7 @@ namespace Nelson {
 		return strNumber;
 	}
 	//=============================================================================
-	static std::wstring printNumber(double realpart, double imagpart, OutputFormatDisplay currentFormat, bool asInteger, bool asScalar)
+	static std::wstring printNumber(single realpart, single imagpart, OutputFormatDisplay currentFormat, bool asInteger, bool asScalar)
 	{
 		std::wstring strNumber = L"";
 		strNumber.reserve(128);
@@ -232,7 +231,7 @@ namespace Nelson {
 		return strNumber;
 	}
 	//=============================================================================
-	void DoubleDisplay(Evaluator *eval, ArrayOf A)
+	void SingleDisplay(Evaluator *eval, ArrayOf A)
 	{
 		Dimensions dimsA = A.getDimensions();
 		Interface *io = eval->getInterface();
@@ -262,19 +261,19 @@ namespace Nelson {
 		}
 		else
 		{
-			double maxDouble = 0;
-			double minDouble = 0;
+			single maxDouble = 0;
+			single minDouble = 0;
 			bool asInteger = IsIntegerValues(A, minDouble, maxDouble);
 			indexType columns = dimsA.getColumns();
 			indexType  rows = dimsA.getRows();
-			double *pValueA = (double*)A.getDataPointer();
+			single *pValueA = (single*)A.getDataPointer();
 			if (A.isScalar())
 			{
 				io->outputMessage(L"  ");
 				std::wstring strNumber;
 				if (A.isComplex())
 				{
-					doublecomplex *cplx = reinterpret_cast<doublecomplex*>(pValueA);
+					singlecomplex *cplx = reinterpret_cast<singlecomplex*>(pValueA);
 					strNumber = printNumber(cplx->real(), cplx->imag(), eval->getCurrentOutputFormatDisplay(), false, true);
 				}
 				else
