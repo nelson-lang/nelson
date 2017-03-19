@@ -70,7 +70,7 @@ function [r, msg, timing] = test_runfile(filename)
       diary(previousDiaryFile);
     catch
     end
-    res = diff_file(dia_res, dia_ref, false);
+    res = diff_file(dia_ref, dia_res, false);
     if (strcmp(res, '') == false)
       r = false;
       msg = {_('output res and ref are not equal.'), dia_res, dia_ref, res}; 
