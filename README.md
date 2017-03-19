@@ -29,6 +29,8 @@ these own data types and operations on these data types by using overload.
 
 
 ## Features:
+
+[![Join the chat at https://gitter.im/nelson-numerical-software/Lobby](https://badges.gitter.im/nelson-numerical-software/Lobby.svg)](https://gitter.im/nelson-numerical-software/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 - Types managed by Nelson:
   * double and double complex: scalar, vector, matrix 2D, N dimensions array, sparse matrix.
   * single and single complex: scalar, vector, matrix 2D, N dimensions array, sparse matrix. 
