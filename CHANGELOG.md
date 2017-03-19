@@ -6,6 +6,8 @@ Compilation:
 Features:
 ---------
 
+  Add 'isnan' function.
+
   Rework double and single matrix 2D display.
 
   Add 'trace' function.

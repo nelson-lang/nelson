@@ -186,6 +186,7 @@
     <ClInclude Include="..\include\ConcatenateNdArray.hpp" />
     <ClInclude Include="..\include\ImagPart.hpp" />
     <ClInclude Include="..\include\IsApprox.hpp" />
+    <ClInclude Include="..\include\IsNaN.hpp" />
     <ClInclude Include="..\include\RealPart.hpp" />
     <ClInclude Include="..\include\TruncateFunctions.hpp" />
   </ItemGroup>
@@ -202,6 +203,7 @@
     <ClCompile Include="..\cpp\GreaterThan.cpp" />
     <ClCompile Include="..\cpp\ImagPart.cpp" />
     <ClCompile Include="..\cpp\IsApprox.cpp" />
+    <ClCompile Include="..\cpp\IsNan.cpp" />
     <ClCompile Include="..\cpp\LeftDivide.cpp" />
     <ClCompile Include="..\cpp\LessEquals.cpp" />
     <ClCompile Include="..\cpp\LessThan.cpp" />

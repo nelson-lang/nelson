@@ -183,6 +183,7 @@
     <ClCompile Include="..\cpp\isapproxBuiltin.cpp" />
     <ClCompile Include="..\cpp\isequalBuiltin.cpp" />
     <ClCompile Include="..\cpp\isequalnBuiltin.cpp" />
+    <ClCompile Include="..\cpp\isnanBuiltin.cpp" />
     <ClCompile Include="..\cpp\ldivideBuiltin.cpp" />
     <ClCompile Include="..\cpp\leBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
@@ -254,6 +255,7 @@
     <ClInclude Include="..\include\isapproxBuiltin.hpp" />
     <ClInclude Include="..\include\isequalBuiltin.hpp" />
     <ClInclude Include="..\include\isequalnBuiltin.hpp" />
+    <ClInclude Include="..\include\isnanBuiltin.hpp" />
     <ClInclude Include="..\include\ldivideBuiltin.hpp" />
     <ClInclude Include="..\include\leBuiltin.hpp" />
     <ClInclude Include="..\include\lengthBuiltin.hpp" />
