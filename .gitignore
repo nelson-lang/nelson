@@ -98,6 +98,7 @@ install_manifest.txt
 Nelson-*-Darwin.tar.Z
 Nelson-*-Linux.tar.Z
 bin/linux32
+bin/linux64
 bin/linux64/nelson-cli
 bin/linux32/nelson-cli
 bin/macosx64/nelson-cli
