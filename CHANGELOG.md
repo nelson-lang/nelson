@@ -1,3 +1,11 @@
+
+Bug Fixes:
+---------
+
+  [#41](http://github.com/Nelson-numerical-software/nelson/issues/41): test_makeref starts a new clear session to create a ref file.
+
+
+
 ## 0.1.4 alpha (2017-03-19)
 
 Compilation:
