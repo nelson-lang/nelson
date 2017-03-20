@@ -25,22 +25,38 @@ function r = test_makeref(filename)
   if (options.check_ref == false)
     error(_('<--CHECK REF--> tag expected.'));
   end
-  // save previous diary
-  previousDiaryFile = diary('get','DiaryFile');
-  previousDiaryMode = diary('get','Diary');
-  if (strcmp(previousDiaryMode, 'on') == true)
-    diary('off');
-  end
-  
   [p, f, e] = fileparts(filename);
-  dia_ref = [p, '/', f, '.ref']
+  dia_ref = [p, '/', f, '.ref'];
+  // delete previous .ref
   rm = rmfile(dia_ref);
-  diary(dia_ref);
-  diary('on');
-  r = run(filename, 'errcatch');
-  diary('off');
-
-  // restore previous diary
-  diary(previousDiaryFile);
-  diary(previousDiaryMode);
+  r = test_makerefile(filename, options, dia_ref);
+  r = (r == 1);
 endfunction
+//=============================================================================
+function r = test_makerefile(filename, options, ref_dest)
+  cmd = '';
+  if (options.english_imposed)
+    cmd = [' --language', ' ', 'en_US'];
+  end
+  cmd_to_execute = ['"diary(''', ref_dest, '''); diary(''on'');r=run(''', filename, ''', ''errcatch''); diary(''off''); exit(double(r));"'];
+  cmd = [cmd, ' --quiet', ' --execute', ' ', cmd_to_execute];
+
+  nelson_bin_path = modulepath(nelsonroot(), 'nelson', 'bin');
+
+  if options.cli_mode
+   nelson_exe_path = ['"', nelson_bin_path, '/', 'nelson-cli', '"'];
+  else
+    if test_case_res.options.gui_mode
+      nelson_exe_path = ['"', nelson_bin_path, '/', 'nelson-gui', '"'];
+    else
+      if test_case_res.options.adv_cli_mode
+        nelson_exe_path = ['"', nelson_bin_path, '/', 'nelson-adv-cli', '"'];
+      else
+        nelson_exe_path = ['"', nelson_bin_path, '/', 'nelson-cli', '"'];
+      end
+    end
+  end
+  cmd = [nelson_exe_path, ' ' , cmd];
+  [r, msg] = unix(cmd);
+endfunction
+//=============================================================================
