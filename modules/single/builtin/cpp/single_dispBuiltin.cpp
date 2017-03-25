@@ -35,8 +35,8 @@ ArrayOfVector Nelson::SingleGateway::single_dispBuiltin(Evaluator* eval, int nLh
     }
     else
     {
-		SingleDisplay(eval, argIn[0]);
-	}
+        SingleDisplay(eval, argIn[0]);
+    }
     return retval;
 }
 //=============================================================================

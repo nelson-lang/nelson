@@ -115,7 +115,7 @@ static const nlsGateway gateway[] =
     { "floor", Nelson::ElementaryFunctionsGateway::floorBuiltin, 1, 1 },
     { "fix", Nelson::ElementaryFunctionsGateway::fixBuiltin, 1, 1 },
     { "round", Nelson::ElementaryFunctionsGateway::roundBuiltin, 1, 1 },
-	{ "isnan", Nelson::ElementaryFunctionsGateway::isnanBuiltin, 1, 1 },
+    { "isnan", Nelson::ElementaryFunctionsGateway::isnanBuiltin, 1, 1 },
 
 };
 //=============================================================================

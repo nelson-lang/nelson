@@ -23,6 +23,6 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-	NLSSINGLE_IMPEXP void SingleDisplay(Evaluator *eval, ArrayOf A);
+    NLSSINGLE_IMPEXP void SingleDisplay(Evaluator *eval, ArrayOf A);
 }
 //=============================================================================

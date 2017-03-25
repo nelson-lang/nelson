@@ -61,10 +61,10 @@ namespace Nelson {
                 throw Exception(_("Undefined function 'logm' for input arguments of type") + " '" + ClassName(A) + "'.");
             }
             break;
-			case NLS_SCOMPLEX:
+            case NLS_SCOMPLEX:
             case NLS_DCOMPLEX:
             {
-				throw Exception(_("Not implemented."));
+                throw Exception(_("Not implemented."));
             }
             break;
             case NLS_DOUBLE:
@@ -73,21 +73,21 @@ namespace Nelson {
                 R.ensureSingleOwner();
                 Eigen::Map<Eigen::MatrixXd> matA((double*)A.getDataPointer(), (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
                 Eigen::Map<Eigen::MatrixXd> matR((double*)R.getDataPointer(), (Eigen::Index)R.getDimensions().getRows(), (Eigen::Index)R.getDimensions().getColumns());
-				matR = matA.log().array();
-				return R;
+                matR = matA.log().array();
+                return R;
             }
             break;
-			case NLS_SINGLE:
-			{
-				ArrayOf R(A);
-				R.ensureSingleOwner();
-				Eigen::Map<Eigen::MatrixXf> matA((single*)A.getDataPointer(), (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
-				Eigen::Map<Eigen::MatrixXf> matR((single*)R.getDataPointer(), (Eigen::Index)R.getDimensions().getRows(), (Eigen::Index)R.getDimensions().getColumns());
-				matR = matA.log().array();
-				return R;
-			}
-			break;
-			default:
+            case NLS_SINGLE:
+            {
+                ArrayOf R(A);
+                R.ensureSingleOwner();
+                Eigen::Map<Eigen::MatrixXf> matA((single*)A.getDataPointer(), (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
+                Eigen::Map<Eigen::MatrixXf> matR((single*)R.getDataPointer(), (Eigen::Index)R.getDimensions().getRows(), (Eigen::Index)R.getDimensions().getColumns());
+                matR = matA.log().array();
+                return R;
+            }
+            break;
+            default:
             {
                 throw Exception(_W("Invalid type."));
             }

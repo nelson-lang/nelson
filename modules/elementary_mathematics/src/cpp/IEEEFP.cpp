@@ -22,12 +22,12 @@
 //=============================================================================
 bool IsInfinite(float t)
 {
-	return std::isinf(t);
+    return std::isinf(t);
 }
 //=============================================================================
 bool IsInfinite(double t)
 {
-	return std::isinf(t);
+    return std::isinf(t);
 }
 //=============================================================================
 bool IsNaN(int t)
@@ -42,22 +42,22 @@ bool IsNaN(unsigned int t)
 //=============================================================================
 bool IsNaN(float t)
 {
-	return std::isnan(t);
+    return std::isnan(t);
 }
 //=============================================================================
 bool IsNaN(double t)
 {
-	return std::isnan(t);
+    return std::isnan(t);
 }
 //=============================================================================
 bool IsFinite(float t)
 {
-	return std::isfinite(t);
+    return std::isfinite(t);
 }
 //=============================================================================
 bool IsFinite(double t)
 {
-	return std::isfinite(t);
+    return std::isfinite(t);
 }
 //=============================================================================
 bool IsIntegerForm(double t)
