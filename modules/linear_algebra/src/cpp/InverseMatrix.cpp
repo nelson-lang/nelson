@@ -87,8 +87,8 @@ namespace Nelson {
             {
                 ArrayOf R(A);
                 R.ensureSingleOwner();
-                doublecomplex* Az = reinterpret_cast<doublecomplex*>((single*)A.getDataPointer());
-                doublecomplex* Rz = reinterpret_cast<doublecomplex*>((single*)R.getDataPointer());
+                doublecomplex* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
+                doublecomplex* Rz = reinterpret_cast<doublecomplex*>((double*)R.getDataPointer());
                 Eigen::Map<Eigen::MatrixXcd> matA(Az, (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
                 Eigen::Map<Eigen::MatrixXcd> matR(Rz, (Eigen::Index)R.getDimensions().getRows(), (Eigen::Index)R.getDimensions().getColumns());
                 if (matA.hasNaN())

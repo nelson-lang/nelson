@@ -16,36 +16,41 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
-#include "logmBuiltin.hpp"
-#include "schurBuiltin.hpp"
-#include "expmBuiltin.hpp"
-#include "invBuiltin.hpp"
-#include "traceBuiltin.hpp"
-#include "svdBuiltin.hpp"
 #include "rcondBuiltin.hpp"
+#include "Error.hpp"
+#include "OverloadFunction.hpp"
+#include "OverloadRequired.hpp"
+#include "ReciprocalConditionNumber.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-const std::wstring gatewayName = L"linear_algebra";
-//=============================================================================
-static const nlsGateway gateway[] =
+ArrayOfVector Nelson::LinearAlgebraGateway::rcondBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    { "logm", Nelson::LinearAlgebraGateway::logmBuiltin, 1, 1 },
-    { "schur", Nelson::LinearAlgebraGateway::schurBuiltin, 2, 2 },
-    { "expm", Nelson::LinearAlgebraGateway::expmBuiltin, 1, 1 },
-    { "inv", Nelson::LinearAlgebraGateway::invBuiltin, 1, 1 },
-    { "trace", Nelson::LinearAlgebraGateway::traceBuiltin, 1, 1 },
-	{ "svd", Nelson::LinearAlgebraGateway::svdBuiltin, 3, 1 },
-	{ "rcond", Nelson::LinearAlgebraGateway::rcondBuiltin, 1, 1 },
-
-};
-//=============================================================================
-NLSGATEWAYFUNC(gateway)
-//=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+    ArrayOfVector retval;
+    if (argIn.size() != 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    if (nLhs > 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    // Call overload if it exists
+    bool bSuccess = false;
+    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    if (!bSuccess)
+    {
+        if ((argIn[0].getDataClass() == NLS_STRUCT_ARRAY) ||
+                (argIn[0].getDataClass() == NLS_CELL_ARRAY) ||
+                argIn[0].isSparse() ||
+                argIn[0].isLogical() ||
+                argIn[0].isString() ||
+                argIn[0].isIntegerType())
+        {
+            OverloadRequired(eval, argIn, Nelson::FUNCTION);
+        }
+        retval.push_back(ReciprocalConditionNumber(argIn[0]));
+    }
+    return retval;
+}
 //=============================================================================

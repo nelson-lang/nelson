@@ -171,7 +171,9 @@
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\invBuiltin.cpp" />
     <ClCompile Include="..\cpp\logmBuiltin.cpp" />
+    <ClCompile Include="..\cpp\rcondBuiltin.cpp" />
     <ClCompile Include="..\cpp\schurBuiltin.cpp" />
+    <ClCompile Include="..\cpp\svdBuiltin.cpp" />
     <ClCompile Include="..\cpp\traceBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
@@ -215,7 +217,9 @@
     <ClInclude Include="..\include\invBuiltin.hpp" />
     <ClInclude Include="..\include\logmBuiltin.hpp" />
     <ClInclude Include="..\include\nlsLinear_algebra_builtin_exports.h" />
+    <ClInclude Include="..\include\rcondBuiltin.hpp" />
     <ClInclude Include="..\include\schurBuiltin.hpp" />
+    <ClInclude Include="..\include\svdBuiltin.hpp" />
     <ClInclude Include="..\include\traceBuiltin.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
