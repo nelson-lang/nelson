@@ -22,6 +22,6 @@
 #include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
-	NLSLINEAR_ALGEBRA_IMPEXP ArrayOf ReciprocalConditionNumber(ArrayOf A);
+    NLSLINEAR_ALGEBRA_IMPEXP ArrayOf ReciprocalConditionNumber(const ArrayOf A);
 }
 //=============================================================================

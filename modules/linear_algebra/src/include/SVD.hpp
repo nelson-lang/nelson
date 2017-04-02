@@ -22,8 +22,8 @@
 #include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
-	NLSLINEAR_ALGEBRA_IMPEXP void SVD(ArrayOf A, ArrayOf &s);
-	NLSLINEAR_ALGEBRA_IMPEXP void SVD(ArrayOf A, ArrayOf &U, ArrayOf &S);
-	NLSLINEAR_ALGEBRA_IMPEXP void SVD(ArrayOf A, ArrayOf &U, ArrayOf &S, ArrayOf &V);
+    NLSLINEAR_ALGEBRA_IMPEXP void SVD(ArrayOf A, ArrayOf &s);
+    NLSLINEAR_ALGEBRA_IMPEXP void SVD(ArrayOf A, ArrayOf &U, ArrayOf &S);
+    NLSLINEAR_ALGEBRA_IMPEXP void SVD(ArrayOf A, ArrayOf &U, ArrayOf &S, ArrayOf &V);
 }
 //=============================================================================

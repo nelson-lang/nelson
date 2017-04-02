@@ -49,40 +49,40 @@ ArrayOfVector Nelson::LinearAlgebraGateway::svdBuiltin(Evaluator* eval, int nLhs
         {
             OverloadRequired(eval, argIn, Nelson::FUNCTION);
         }
-		switch (nLhs)
-		{
-		case 0:
-		case 1:
-		{
-			ArrayOf s;
-			SVD(argIn[0], s);
-			retval.push_back(s);
-		}
-		break;
-		case 2:
-		{
-			ArrayOf U;
-			ArrayOf S;
-			SVD(argIn[0], U, S);
-			retval.push_back(U);
-			retval.push_back(S);
-		}
-		break;
-		case 3:
-		{
-			ArrayOf U;
-			ArrayOf S;
-			ArrayOf V;
-			SVD(argIn[0], U, S, V);
-			retval.push_back(U);
-			retval.push_back(S);
-			retval.push_back(V);
-		}
-		break;
-		default:
-			Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-		break;
-		}
+        switch (nLhs)
+        {
+            case 0:
+            case 1:
+            {
+                ArrayOf s;
+                SVD(argIn[0], s);
+                retval.push_back(s);
+            }
+            break;
+            case 2:
+            {
+                ArrayOf U;
+                ArrayOf S;
+                SVD(argIn[0], U, S);
+                retval.push_back(U);
+                retval.push_back(S);
+            }
+            break;
+            case 3:
+            {
+                ArrayOf U;
+                ArrayOf S;
+                ArrayOf V;
+                SVD(argIn[0], U, S, V);
+                retval.push_back(U);
+                retval.push_back(S);
+                retval.push_back(V);
+            }
+            break;
+            default:
+                Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                break;
+        }
     }
     return retval;
 }

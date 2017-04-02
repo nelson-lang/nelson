@@ -23,78 +23,66 @@
 #include "ClassName.hpp"
 //=============================================================================
 namespace Nelson {
-	//=============================================================================
-	void SVD(ArrayOf A, ArrayOf &s)
-	{
-
-	}
-	//=============================================================================
-	void SVD(ArrayOf A, ArrayOf &S, ArrayOf &V) 
-	{
-
-	}
-	//=============================================================================
-	void SVD(ArrayOf A, ArrayOf &U, ArrayOf &S, ArrayOf &V)
-	{
-		bool isSupportedTypes = (A.getDataClass() == NLS_DOUBLE || A.getDataClass() == NLS_SINGLE ||
-			A.getDataClass() == NLS_DCOMPLEX || A.getDataClass() == NLS_SCOMPLEX) && !A.isSparse();
-		if (!isSupportedTypes)
-		{
-			throw Exception(_("Undefined function 'svd' for input arguments of type") + " '" + ClassName(A) + "'.");
-		}
-		if (A.isEmpty())
-		{
-
-		}
-		else
-		{
-			if (A.getDataClass() == NLS_DOUBLE || A.getDataClass() == NLS_DCOMPLEX)
-			{
-				if (A.getDataClass() == NLS_DOUBLE)
-				{
-					Eigen::Map<Eigen::MatrixXd> matA((double*)A.getDataPointer(), (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
-
-					Dimensions dimsU(matA.rows(), matA.rows());
-					Dimensions dimsS(matA.rows(), matA.cols());
-					Dimensions dimsV(matA.cols(), matA.cols());
-
-					double *ptU = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsU.getElementCount());
-					double *ptS = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsS.getElementCount());
-					double *ptV = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsV.getElementCount());
-
-					Eigen::Map<Eigen::MatrixXd> matU(ptU, dimsU.getRows(), dimsU.getColumns());
-					Eigen::Map<Eigen::MatrixXd> matS(ptS, dimsS.getRows(), dimsS.getColumns());
-					Eigen::Map<Eigen::MatrixXd> matV(ptV, dimsV.getRows(), dimsV.getColumns());
-
-					Eigen::BDCSVD<Eigen::MatrixXd> svd(matA, Eigen::ComputeFullU | Eigen::ComputeFullV);
-
-					matU = svd.matrixU();
-					matV = svd.matrixV();
-
-					Eigen::MatrixXd matS1 = svd.singularValues();
-					size_t r = 0;
-					for (size_t c = 0; c < dimsS.getColumns(); c++)
-					{
-						if (r < matS1.size())
-						{
-							matS(r, c) = matS1(r);
-							r++;
-						}
-						else
-						{
-							break;
-						}
-					}
-
-
-					U = ArrayOf(NLS_DOUBLE, dimsU, ptU);
-					S = ArrayOf(NLS_DOUBLE, dimsS, ptS);
-					V = ArrayOf(NLS_DOUBLE, dimsV, ptV);
-
-				}
-			}
-		}
-	}
-	//=============================================================================
+    //=============================================================================
+    void SVD(ArrayOf A, ArrayOf &s)
+    {
+    }
+    //=============================================================================
+    void SVD(ArrayOf A, ArrayOf &S, ArrayOf &V)
+    {
+    }
+    //=============================================================================
+    void SVD(ArrayOf A, ArrayOf &U, ArrayOf &S, ArrayOf &V)
+    {
+        bool isSupportedTypes = (A.getDataClass() == NLS_DOUBLE || A.getDataClass() == NLS_SINGLE ||
+                                 A.getDataClass() == NLS_DCOMPLEX || A.getDataClass() == NLS_SCOMPLEX) && !A.isSparse();
+        if (!isSupportedTypes)
+        {
+            throw Exception(_("Undefined function 'svd' for input arguments of type") + " '" + ClassName(A) + "'.");
+        }
+        if (A.isEmpty())
+        {
+        }
+        else
+        {
+            if (A.getDataClass() == NLS_DOUBLE || A.getDataClass() == NLS_DCOMPLEX)
+            {
+                if (A.getDataClass() == NLS_DOUBLE)
+                {
+                    Eigen::Map<Eigen::MatrixXd> matA((double*)A.getDataPointer(), (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
+                    Dimensions dimsU(matA.rows(), matA.rows());
+                    Dimensions dimsS(matA.rows(), matA.cols());
+                    Dimensions dimsV(matA.cols(), matA.cols());
+                    double *ptU = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsU.getElementCount());
+                    double *ptS = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsS.getElementCount());
+                    double *ptV = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsV.getElementCount());
+                    Eigen::Map<Eigen::MatrixXd> matU(ptU, dimsU.getRows(), dimsU.getColumns());
+                    Eigen::Map<Eigen::MatrixXd> matS(ptS, dimsS.getRows(), dimsS.getColumns());
+                    Eigen::Map<Eigen::MatrixXd> matV(ptV, dimsV.getRows(), dimsV.getColumns());
+                    Eigen::BDCSVD<Eigen::MatrixXd> svd(matA, Eigen::ComputeFullU | Eigen::ComputeFullV);
+                    matU = svd.matrixU();
+                    matV = svd.matrixV();
+                    Eigen::MatrixXd matS1 = svd.singularValues();
+                    size_t r = 0;
+                    for (size_t c = 0; c < dimsS.getColumns(); c++)
+                    {
+                        if (r < matS1.size())
+                        {
+                            matS(r, c) = matS1(r);
+                            r++;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                    U = ArrayOf(NLS_DOUBLE, dimsU, ptU);
+                    S = ArrayOf(NLS_DOUBLE, dimsS, ptS);
+                    V = ArrayOf(NLS_DOUBLE, dimsV, ptV);
+                }
+            }
+        }
+    }
+    //=============================================================================
 }
 //=============================================================================

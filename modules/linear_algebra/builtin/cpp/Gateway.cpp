@@ -36,8 +36,8 @@ static const nlsGateway gateway[] =
     { "expm", Nelson::LinearAlgebraGateway::expmBuiltin, 1, 1 },
     { "inv", Nelson::LinearAlgebraGateway::invBuiltin, 1, 1 },
     { "trace", Nelson::LinearAlgebraGateway::traceBuiltin, 1, 1 },
-	{ "svd", Nelson::LinearAlgebraGateway::svdBuiltin, 3, 1 },
-	{ "rcond", Nelson::LinearAlgebraGateway::rcondBuiltin, 1, 1 },
+    { "svd", Nelson::LinearAlgebraGateway::svdBuiltin, 3, 1 },
+    { "rcond", Nelson::LinearAlgebraGateway::rcondBuiltin, 1, 1 },
 
 };
 //=============================================================================
