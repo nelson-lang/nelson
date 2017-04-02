@@ -37,13 +37,12 @@ namespace Nelson {
     //=============================================================================
     static double returnInfinity(bool bPositive)
     {
-        double v = 0 - 0;
-        double p = 100;
+		double res = std::numeric_limits<double>::infinity();
         if (!bPositive)
         {
-            p = -p;
+			res = -res;
         }
-        return (double)p / (double)v;
+        return res;
     }
     //=============================================================================
     double stringToDouble(std::wstring str, bool &wasConverted)
