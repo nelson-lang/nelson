@@ -195,6 +195,7 @@
     <ClCompile Include="..\cpp\mpowerBuiltin.cpp" />
     <ClCompile Include="..\cpp\mrdivideBuiltin.cpp" />
     <ClCompile Include="..\cpp\mtimesBuiltin.cpp" />
+    <ClCompile Include="..\cpp\ndimsBuiltin.cpp" />
     <ClCompile Include="..\cpp\neBuiltin.cpp" />
     <ClCompile Include="..\cpp\notBuiltin.cpp" />
     <ClCompile Include="..\cpp\numelBuiltin.cpp" />
@@ -267,6 +268,7 @@
     <ClInclude Include="..\include\mpowerBuiltin.hpp" />
     <ClInclude Include="..\include\mrdivideBuiltin.hpp" />
     <ClInclude Include="..\include\mtimesBuiltin.hpp" />
+    <ClInclude Include="..\include\ndimsBuiltin.hpp" />
     <ClInclude Include="..\include\neBuiltin.hpp" />
     <ClInclude Include="..\include\nlsElementary_functions_builtin_exports.h" />
     <ClInclude Include="..\include\notBuiltin.hpp" />

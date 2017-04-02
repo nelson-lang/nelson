@@ -104,7 +104,7 @@ namespace Nelson {
             break;
             default:
             {
-                throw Exception(_("Undefined function 'isnan' for input arguments of type") + " '" + ClassName(A) + "'.");
+                throw Exception(_("Undefined function 'isinf' for input arguments of type") + " '" + ClassName(A) + "'.");
             }
             break;
         }
