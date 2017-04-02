@@ -6,6 +6,7 @@ Bug Fixes:
 
   [#39](http://github.com/Nelson-numerical-software/nelson/issues/39): inv([0 0;i() 3]) did not return [Inf, Inf; Inf, Inf] on ARM platform.
 
+  [#24](http://github.com/Nelson-numerical-software/nelson/issues/24): isnan & isinf added.
 
 
 ## 0.1.4 alpha (2017-03-19)
