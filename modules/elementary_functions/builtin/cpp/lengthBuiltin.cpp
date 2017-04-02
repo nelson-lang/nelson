@@ -39,12 +39,11 @@ ArrayOfVector Nelson::ElementaryFunctionsGateway::lengthBuiltin(Evaluator* eval,
     retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
     if (!bSuccess)
     {
-		ArrayOf param1 = argIn[0];
-		if (param1.isClassStruct())
-		{
-			Error(eval, _("Undefined function 'length' for input arguments of type") + " '" + ClassName(param1) + "'.");
-		}
-
+        ArrayOf param1 = argIn[0];
+        if (param1.isClassStruct())
+        {
+            Error(eval, _("Undefined function 'length' for input arguments of type") + " '" + ClassName(param1) + "'.");
+        }
         double len = 0;
         Dimensions sze(param1.getDimensions());
         for (indexType i = 0; i < sze.getLength(); i++)

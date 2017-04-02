@@ -31,12 +31,12 @@ namespace Nelson {
             return L"";
         }
         std::vector<wchar_t> buff;
-		size_t len = wcslen(format);
-		size_t size = 1024;
-		if (len >= 1024)
-		{
-			size = len * 2;
-		}
+        size_t len = wcslen(format);
+        size_t size = 1024;
+        if (len >= 1024)
+        {
+            size = len * 2;
+        }
         buff.resize(size);
         va_list ap;
         va_start(ap, format);
@@ -68,13 +68,13 @@ namespace Nelson {
             return "";
         }
         std::vector<char> buff;
-		size_t len = strlen(format);
-		size_t size = 1024;
-		if (len >= 1024)
-		{
-			size = len * 2;
-		}
-		buff.resize(size);
+        size_t len = strlen(format);
+        size_t size = 1024;
+        if (len >= 1024)
+        {
+            size = len * 2;
+        }
+        buff.resize(size);
         va_list ap;
         va_start(ap, format);
         while (true)

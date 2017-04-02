@@ -28,7 +28,6 @@ ArrayOfVector Nelson::ElementaryFunctionsGateway::sizeBuiltin(Evaluator* eval, i
     ArrayOfVector retval;
     bool bChooseDimension = false;
     indexType dimval = 0;
-
     switch (argIn.size())
     {
         case 1:
@@ -74,13 +73,12 @@ ArrayOfVector Nelson::ElementaryFunctionsGateway::sizeBuiltin(Evaluator* eval, i
     retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
     if (!bSuccess)
     {
-		ArrayOf param1 = argIn[0];
-		if (param1.isClassStruct())
-		{
-			Error(eval, _("Undefined function 'size' for input arguments of type") + " '" + ClassName(param1) + "'.");
-		}
-
-		Dimensions sze(param1.getDimensions());
+        ArrayOf param1 = argIn[0];
+        if (param1.isClassStruct())
+        {
+            Error(eval, _("Undefined function 'size' for input arguments of type") + " '" + ClassName(param1) + "'.");
+        }
+        Dimensions sze(param1.getDimensions());
         sze.simplify();
         if (bChooseDimension)
         {

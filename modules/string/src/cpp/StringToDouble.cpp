@@ -37,10 +37,10 @@ namespace Nelson {
     //=============================================================================
     static double returnInfinity(bool bPositive)
     {
-		double res = std::numeric_limits<double>::infinity();
+        double res = std::numeric_limits<double>::infinity();
         if (!bPositive)
         {
-			res = -res;
+            res = -res;
         }
         return res;
     }
