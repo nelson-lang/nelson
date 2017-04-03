@@ -1,3 +1,7 @@
+Features:
+---------
+
+  Add 'rcond' function.
 
 Bug Fixes:
 ---------
