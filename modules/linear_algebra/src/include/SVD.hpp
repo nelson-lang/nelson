@@ -22,15 +22,15 @@
 #include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
-	//=============================================================================
-	typedef enum
-	{
-		SVD_DEFAULT,
-		SVD_ECON,
-		SVD_0
-	} SVD_FLAG;
-	//=============================================================================
-	NLSLINEAR_ALGEBRA_IMPEXP void SVD(ArrayOf A, ArrayOf &s);
+    //=============================================================================
+    typedef enum
+    {
+        SVD_DEFAULT,
+        SVD_ECON,
+        SVD_0
+    } SVD_FLAG;
+    //=============================================================================
+    NLSLINEAR_ALGEBRA_IMPEXP void SVD(ArrayOf A, ArrayOf &s);
     NLSLINEAR_ALGEBRA_IMPEXP void SVD(ArrayOf A, SVD_FLAG flag, ArrayOf &U, ArrayOf &S);
     NLSLINEAR_ALGEBRA_IMPEXP void SVD(ArrayOf A, SVD_FLAG flag, ArrayOf &U, ArrayOf &S, ArrayOf &V);
 }

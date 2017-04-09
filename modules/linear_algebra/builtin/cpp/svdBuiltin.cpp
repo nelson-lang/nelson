@@ -49,35 +49,35 @@ ArrayOfVector Nelson::LinearAlgebraGateway::svdBuiltin(Evaluator* eval, int nLhs
         {
             OverloadRequired(eval, argIn, Nelson::FUNCTION);
         }
-		SVD_FLAG svdFlag = SVD_FLAG::SVD_DEFAULT;
-		if (argIn.size() == 2)
-		{
-			ArrayOf param2 = argIn[1];
-			if (param2.isSingleString())
-			{
-				std::wstring paramAsString = param2.getContentsAsWideString();
-				if (L"econ" == paramAsString)
-				{
-					svdFlag = SVD_FLAG::SVD_ECON;
-				}
-				else
-				{
-					Error(eval, _W("svd(X, 0) or svd(X, 'econ') expected."));
-				}
-			}
-			else
-			{
-				indexType paramAsIndex = param2.getContentAsScalarIndex(true);
-				if (paramAsIndex == 0)
-				{
-					svdFlag = SVD_FLAG::SVD_0;
-				}
-				else
-				{
-					Error(eval, _W("svd(X, 0) or svd(X, 'econ') expected."));
-				}
-			}
-		}
+        SVD_FLAG svdFlag = SVD_FLAG::SVD_DEFAULT;
+        if (argIn.size() == 2)
+        {
+            ArrayOf param2 = argIn[1];
+            if (param2.isSingleString())
+            {
+                std::wstring paramAsString = param2.getContentsAsWideString();
+                if (L"econ" == paramAsString)
+                {
+                    svdFlag = SVD_FLAG::SVD_ECON;
+                }
+                else
+                {
+                    Error(eval, _W("svd(X, 0) or svd(X, 'econ') expected."));
+                }
+            }
+            else
+            {
+                indexType paramAsIndex = param2.getContentAsScalarIndex(true);
+                if (paramAsIndex == 0)
+                {
+                    svdFlag = SVD_FLAG::SVD_0;
+                }
+                else
+                {
+                    Error(eval, _W("svd(X, 0) or svd(X, 'econ') expected."));
+                }
+            }
+        }
         switch (nLhs)
         {
             case 0:
