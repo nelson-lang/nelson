@@ -40,8 +40,8 @@ namespace Nelson {
 		int lda = m;
 		double *superb = new_with_exception<double>(std::min(m, n) - 1);
 		double *ds = new_with_exception<double>(std::min(m, n));
-		double *u = new_with_exception<double>(ldu * m);
-		double *vt = new_with_exception<double>(ldvt * n);
+		double *u = nullptr;
+		double *vt = nullptr;
 
 		Eigen::Map<Eigen::MatrixXd> matA((double*)A.getDataPointer(), (Eigen::Index)m, (Eigen::Index)n);
 		if (!matA.allFinite())
@@ -54,10 +54,6 @@ namespace Nelson {
 		{
 			throw Exception(_("LAPACKE_dgesvd error."));
 		}
-		delete[] u;
-		u = nullptr;
-		delete[] vt;
-		vt = nullptr;
 		delete[] superb;
 		superb = nullptr;
 		Dimensions dimsS(std::min(m, n), 1);
@@ -76,12 +72,10 @@ namespace Nelson {
 		int lda = m;
 		double *superb = new_with_exception<double>((std::min(m, n) - 1));
 		double *ds = new_with_exception<double>(std::min(m, n));
-		double *u = new_with_exception<double>(ldu * m * 2);
-		double *vt = new_with_exception<double>(ldvt * n * 2);
 
 		doublecomplex* Rz = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
-		doublecomplex* uz = reinterpret_cast<doublecomplex*>(u);
-		doublecomplex* vtz = reinterpret_cast<doublecomplex*>(vt);
+		doublecomplex* uz = nullptr;
+		doublecomplex* vtz = nullptr;
 
 		Eigen::Map<Eigen::MatrixXcd> matA(Rz, (Eigen::Index)m, (Eigen::Index)n);
 		if (!matA.allFinite())
@@ -94,10 +88,6 @@ namespace Nelson {
 		{
 			throw Exception(_("LAPACKE_zgesvd error."));
 		}
-		delete[] u;
-		u = nullptr;
-		delete[] vt;
-		vt = nullptr;
 		delete[] superb;
 		superb = nullptr;
 		Dimensions dimsS(std::min(m, n), 1);
@@ -116,8 +106,8 @@ namespace Nelson {
 		int lda = m;
 		single *superb = new_with_exception<single>(std::min(m, n) - 1);
 		single *ds = new_with_exception<single>(std::min(m, n));
-		single *u = new_with_exception<single>(ldu * m);
-		single *vt = new_with_exception<single>(ldvt * n);
+		single *u = nullptr;
+		single *vt = nullptr;
 
 		Eigen::Map<Eigen::MatrixXf> matA((single*)A.getDataPointer(), (Eigen::Index)m, (Eigen::Index)n);
 		if (!matA.allFinite())
@@ -130,10 +120,6 @@ namespace Nelson {
 		{
 			throw Exception(_("LAPACKE_sgesvd error."));
 		}
-		delete[] u;
-		u = nullptr;
-		delete[] vt;
-		vt = nullptr;
 		delete[] superb;
 		superb = nullptr;
 		Dimensions dimsS(std::min(m, n), 1);
@@ -152,12 +138,10 @@ namespace Nelson {
 		int lda = m;
 		single *superb = new_with_exception<single>((std::min(m, n) - 1));
 		single *ds = new_with_exception<single>(std::min(m, n));
-		single *u = new_with_exception<single>(ldu * m * 2);
-		single *vt = new_with_exception<single>(ldvt * n * 2);
 
 		singlecomplex* Rz = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
-		singlecomplex* uz = reinterpret_cast<singlecomplex*>(u);
-		singlecomplex* vtz = reinterpret_cast<singlecomplex*>(vt);
+		singlecomplex* uz = nullptr;
+		singlecomplex* vtz = nullptr;
 
 		Eigen::Map<Eigen::MatrixXcf> matA(Rz, (Eigen::Index)m, (Eigen::Index)n);
 		if (!matA.allFinite())
@@ -170,10 +154,6 @@ namespace Nelson {
 		{
 			throw Exception(_("LAPACKE_cgesvd error."));
 		}
-		delete[] u;
-		u = nullptr;
-		delete[] vt;
-		vt = nullptr;
 		delete[] superb;
 		superb = nullptr;
 		Dimensions dimsS(std::min(m, n), 1);
@@ -197,6 +177,10 @@ namespace Nelson {
 		{
 			char JOBU = 'A';
 			char JOBVT = 'A';
+			if (!withV) 
+			{
+				JOBVT = 'N';
+			}
 
 			int ldu = m;
 			int ldvt = n;
@@ -206,11 +190,17 @@ namespace Nelson {
 
 			double *superb = new_with_exception<double>(minMN - 1);
 			double *dstemp = new_with_exception<double>(minMN);
-			double *u = new_with_exception<double>(ldu * m * 2);
-			double *vt = new_with_exception<double>(ldvt * n * 2);
 
+			double *u = new_with_exception<double>(ldu * m * 2);
 			doublecomplex* uz = reinterpret_cast<doublecomplex*>(u);
-			doublecomplex* vtz = reinterpret_cast<doublecomplex*>(vt);
+
+			double *vt = nullptr;
+			doublecomplex* vtz = nullptr;
+			if (withV)
+			{
+				vt = new_with_exception<double>(ldvt * n * 2);
+				vtz = reinterpret_cast<doublecomplex*>(vt);
+			}
 
 			int info = LAPACKE_zgesvd(LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, Rz, lda, dstemp, uz, ldu, vtz, ldvt, superb);
 			if (info > 0)
@@ -241,11 +231,6 @@ namespace Nelson {
 				Eigen::Map<Eigen::MatrixXcd> matV(vtz, minMN, minMN);
 				matV = matV.transpose().eval();
 				V = ArrayOf(NLS_DCOMPLEX, dimsV, vt);
-			}
-			else
-			{
-				delete[] vt;
-				vt = nullptr;
 			}
 		}
 		else if (flag == SVD_ECON)
@@ -297,6 +282,10 @@ namespace Nelson {
 
 			char JOBU = 'S';
 			char JOBVT = 'S';
+			if (!withV)
+			{
+				JOBVT = 'N';
+			}
 
 			int ldu = m;
 
@@ -309,10 +298,17 @@ namespace Nelson {
 			double *superb = new_with_exception<double>(minMN - 1);
 			double *dstemp = new_with_exception<double>(minMN);
 			double *u = new_with_exception<double>(ldu * m * 2);
-			double *vt = new_with_exception<double>(ldvt * n * 2);
 
 			doublecomplex* uz = reinterpret_cast<doublecomplex*>(u);
-			doublecomplex* vtz = reinterpret_cast<doublecomplex*>(vt);
+
+			double *vt = nullptr;
+			doublecomplex* vtz = nullptr;
+
+			if (withV)
+			{
+				vt = new_with_exception<double>(ldvt * n * 2);
+				vtz = reinterpret_cast<doublecomplex*>(vt);
+			}
 
 			int info = LAPACKE_zgesvd(LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, Rz, lda, dstemp, uz, ldu, vtz, ldvt, superb);
 			if (info > 0)
@@ -361,11 +357,6 @@ namespace Nelson {
 				vt = nullptr;
 				V = ArrayOf(NLS_DCOMPLEX, dimsV, vt2);
 			}
-			else
-			{
-				delete[] vt;
-				vt = nullptr;
-			}
 		}
 	}
 	//=============================================================================
@@ -385,7 +376,10 @@ namespace Nelson {
 		{
 			char JOBU = 'A';
 			char JOBVT = 'A';
-
+			if (!withV)
+			{
+				JOBVT = 'N';
+			}
 			int ldu = m;
 			int ldvt = n;
 			int lda = m;
@@ -395,7 +389,12 @@ namespace Nelson {
 			single *superb = new_with_exception<single>(minMN - 1);
 			single *dstemp = new_with_exception<single>(minMN);
 			single *u = new_with_exception<single>(ldu * m);
-			single *vt = new_with_exception<single>(ldvt * n);
+			
+			single *vt = nullptr;
+			if (withV)
+			{
+				vt = new_with_exception<single>(ldvt * n);
+			}
 
 			int info = LAPACKE_sgesvd(LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, (single*)A.getDataPointer(), lda, dstemp, u, ldu, vt, ldvt, superb);
 			if (info > 0)
@@ -426,11 +425,6 @@ namespace Nelson {
 				Eigen::Map<Eigen::MatrixXf> matV(vt, minMN, minMN);
 				matV = matV.transpose().eval();
 				V = ArrayOf(NLS_SINGLE, dimsV, vt);
-			}
-			else
-			{
-				delete[] vt;
-				vt = nullptr;
 			}
 		}
 		else if (flag == SVD_ECON)
@@ -495,7 +489,12 @@ namespace Nelson {
 			single *superb = new_with_exception<single>(minMN - 1);
 			single *dstemp = new_with_exception<single>(minMN);
 			single *u = new_with_exception<single>(ldu * m);
-			single *vt = new_with_exception<single>(ldvt * n);
+
+			single *vt = nullptr;
+			if (withV)
+			{
+				vt = new_with_exception<single>(ldvt * n);
+			}
 
 			int info = LAPACKE_sgesvd(LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, (single*)A.getDataPointer(), lda, dstemp, u, ldu, vt, ldvt, superb);
 			if (info > 0)
@@ -544,11 +543,6 @@ namespace Nelson {
 				vt = nullptr;
 				V = ArrayOf(NLS_SINGLE, dimsV, vt2);
 			}
-			else
-			{
-				delete[] vt;
-				vt = nullptr;
-			}
 		}
 	}
 	//=============================================================================
@@ -568,7 +562,10 @@ namespace Nelson {
 		{
 			char JOBU = 'A';
 			char JOBVT = 'A';
-
+			if (!withV)
+			{
+				JOBVT = 'N';
+			}
 			int ldu = m;
 			int ldvt = n;
 			int lda = m;
@@ -578,7 +575,11 @@ namespace Nelson {
 			double *superb = new_with_exception<double>(minMN - 1);
 			double *dstemp = new_with_exception<double>(minMN);
 			double *u = new_with_exception<double>(ldu * m);
-			double *vt = new_with_exception<double>(ldvt * n);
+			double *vt = nullptr;
+			if (withV)
+			{
+				vt = new_with_exception<double>(ldvt * n);
+			}
 
 			int info = LAPACKE_dgesvd(LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, (double*)A.getDataPointer(), lda, dstemp, u, ldu, vt, ldvt, superb);
 			if (info > 0)
@@ -610,11 +611,6 @@ namespace Nelson {
 				matV = matV.transpose().eval();
 				V = ArrayOf(NLS_DOUBLE, dimsV, vt);
 			}
-			else
-			{
-				delete[] vt;
-				vt = nullptr;
-			}
 		}
 		else if (flag == SVD_ECON)
 		{
@@ -666,7 +662,10 @@ namespace Nelson {
 
 			char JOBU = 'S';
 			char JOBVT = 'S';
-
+			if (!withV)
+			{
+				JOBVT = 'N';
+			}
 			int ldu = m;
 
 			int ldvt = n;
@@ -678,7 +677,11 @@ namespace Nelson {
 			double *superb = new_with_exception<double>(minMN - 1);
 			double *dstemp = new_with_exception<double>(minMN);
 			double *u = new_with_exception<double>(ldu * m);
-			double *vt = new_with_exception<double>(ldvt * n);
+			double *vt = nullptr;
+			if (withV)
+			{
+				vt = new_with_exception<double>(ldvt * n);
+			}
 
 			int info = LAPACKE_dgesvd(LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, (double*)A.getDataPointer(), lda, dstemp, u, ldu, vt, ldvt, superb);
 			if (info > 0)
@@ -701,7 +704,6 @@ namespace Nelson {
 					matS(k, k) = matStmp(k);
 				}
 				S = ArrayOf(NLS_DOUBLE, dimsS, ds);
-
 			}
 			else
 			{
@@ -712,7 +714,6 @@ namespace Nelson {
 					matS(k, k) = matStmp(k);
 				}
 				S = ArrayOf(NLS_DOUBLE, dimsS, ds);
-
 			}
 			delete[] dstemp;
 			dstemp = nullptr;
@@ -728,11 +729,6 @@ namespace Nelson {
 				vt = nullptr;
 
 				V = ArrayOf(NLS_DOUBLE, dimsV, vt2);
-			}
-			else
-			{
-				delete[] vt;
-				vt = nullptr;
 			}
 		}
 	}
@@ -754,7 +750,10 @@ namespace Nelson {
 		{
 			char JOBU = 'A';
 			char JOBVT = 'A';
-
+			if (!withV)
+			{
+				JOBVT = 'N';
+			}
 			int ldu = m;
 			int ldvt = n;
 			int lda = m;
@@ -764,10 +763,16 @@ namespace Nelson {
 			single *superb = new_with_exception<single>(minMN - 1);
 			single *dstemp = new_with_exception<single>(minMN);
 			single *u = new_with_exception<single>(ldu * m * 2);
-			single *vt = new_with_exception<single>(ldvt * n * 2);
+			single *vt = nullptr;
+			singlecomplex* vtz = nullptr;
+
+			if (withV)
+			{
+				vt = new_with_exception<single>(ldvt * n * 2);
+				vtz = reinterpret_cast<singlecomplex*>(vt);
+			}
 
 			singlecomplex* uz = reinterpret_cast<singlecomplex*>(u);
-			singlecomplex* vtz = reinterpret_cast<singlecomplex*>(vt);
 
 			int info = LAPACKE_cgesvd(LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, Rz, lda, dstemp, uz, ldu, vtz, ldvt, superb);
 			if (info > 0)
@@ -799,11 +804,6 @@ namespace Nelson {
 				matV = matV.transpose().eval();
 				V = ArrayOf(NLS_SCOMPLEX, dimsV, vt);
 			}
-			else
-			{
-				delete[] vt;
-				vt = nullptr;
-			}
 		}
 		else if (flag == SVD_ECON)
 		{
@@ -854,7 +854,10 @@ namespace Nelson {
 
 			char JOBU = 'S';
 			char JOBVT = 'S';
-
+			if (!withV)
+			{
+				JOBVT = 'N';
+			}
 			int ldu = m;
 
 			int ldvt = n;
@@ -866,10 +869,16 @@ namespace Nelson {
 			single *superb = new_with_exception<single>(minMN - 1);
 			single *dstemp = new_with_exception<single>(minMN);
 			single *u = new_with_exception<single>(ldu * m * 2);
-			single *vt = new_with_exception<single>(ldvt * n * 2);
 
 			singlecomplex* uz = reinterpret_cast<singlecomplex*>(u);
-			singlecomplex* vtz = reinterpret_cast<singlecomplex*>(vt);
+
+			single *vt = nullptr;
+			singlecomplex* vtz = nullptr;
+			if (withV)
+			{
+				vt = new_with_exception<single>(ldvt * n * 2);
+				vtz = reinterpret_cast<singlecomplex*>(vt);
+			}
 
 			int info = LAPACKE_cgesvd(LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, Rz, lda, dstemp, uz, ldu, vtz, ldvt, superb);
 			if (info > 0)
@@ -917,11 +926,6 @@ namespace Nelson {
 				delete[] vt;
 				vt = nullptr;
 				V = ArrayOf(NLS_SCOMPLEX, dimsV, vt2);
-			}
-			else
-			{
-				delete[] vt;
-				vt = nullptr;
 			}
 		}
 	}
