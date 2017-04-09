@@ -1,6 +1,8 @@
 Features:
 ---------
 
+  Add 'svd' function.
+
   Add 'rcond' function.
 
 Bug Fixes:
