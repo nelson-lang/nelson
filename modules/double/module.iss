@@ -16,17 +16,19 @@
 ; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ; LICENCE_BLOCK_END
 ;==============================================================================
+#define MODULE_NAME "double"
+;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\libnlsDouble.dll; DestDir: {app}\bin\{#BinPath}\;
 Source: {#RootPath}bin\{#BinPath}\libnlsDouble_builtin.dll; DestDir: {app}\bin\{#BinPath}\;
 ;==============================================================================
-Source: {#RootPath}modules\double\loader.nls; DestDir: {app}\modules\double\;
-Source: {#RootPath}modules\double\etc\startup.nls; DestDir: {app}\modules\double\etc\;
-Source: {#RootPath}modules\double\etc\finish.nls; DestDir: {app}\modules\double\etc\;
+Source: {#RootPath}modules\{#MODULE_NAME}\loader.nls; DestDir: {app}\modules\{#MODULE_NAME}\;
+Source: {#RootPath}modules\{#MODULE_NAME}\etc\startup.nls; DestDir: {app}\modules\{#MODULE_NAME}\etc\;
+Source: {#RootPath}modules\{#MODULE_NAME}\etc\finish.nls; DestDir: {app}\modules\{#MODULE_NAME}\etc\;
 ;==============================================================================
-Source: {#RootPath}modules\double\functions\*.nlf; DestDir: {app}\modules\double\functions\;
+Source: {#RootPath}modules\{#MODULE_NAME}\functions\*.nlf; DestDir: {app}\modules\{#MODULE_NAME}\functions\;
 ;==============================================================================
-Source: {#RootPath}modules\double\help\*.qch; DestDir: {app}\modules\double\help\; Flags: recursesubdirs
+Source: {#RootPath}modules\{#MODULE_NAME}\help\*.qch; DestDir: {app}\modules\{#MODULE_NAME}\help\; Flags: recursesubdirs
 ;==============================================================================
-Source: {#RootPath}modules\double\tests\*.nls; DestDir: {app}\modules\double\tests\; Flags: recursesubdirs
-Source: {#RootPath}modules\double\tests\*.ref; DestDir: {app}\modules\double\tests\; Flags: recursesubdirs
+Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.nls; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs
+Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.ref; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs
 ;==============================================================================
