@@ -1355,67 +1355,6 @@ namespace Nelson {
         return getElementSize()*getLength();
     }
 
-#define caseReal(caseLabel,dpType) \
-  case caseLabel:\
-  {\
-    const dpType* qp = (const dpType*) dp->getData();\
-    indexType N = dp->dimensions[0];\
-    indexType i, j;\
-    for (i=0;i<N;i++)\
-      for (j=1;j<N;j++)\
-        if (qp[i+j*N] != qp[j+i*N]) return false;\
-    return true;\
-  }
-
-#define caseComplex(caseLabel,dpType) \
-  case caseLabel:\
-  {\
-    const dpType* qp = (const dpType*) dp->getData();\
-    indexType N = dp->dimensions[0];\
-    indexType i, j;\
-    for (i=0;i<N;i++)\
-      for (j=1;j<N;j++) {\
-        if (qp[2*(i+j*N)] != qp[2*(j+i*N)]) return false;\
-        if (qp[2*(i+j*N)+1] != -qp[2*(j+i*N)+1]) return false;\
-      }\
-    return true;\
-  }
-
-    const bool ArrayOf::isSymmetric() const
-    {
-        if (!is2D())
-        {
-            return false;
-        }
-        if (isReferenceType())
-        {
-            return false;
-        }
-        if (isSparse())
-        {
-            throw Exception(_W("Cannot determine symmetry of sparse arrays"));
-        }
-        switch(dp->dataClass)
-        {
-                caseReal(NLS_INT8,int8);
-                caseReal(NLS_INT16,int16);
-                caseReal(NLS_INT32,int32);
-                caseReal(NLS_UINT8,uint8);
-                caseReal(NLS_UINT16,uint16);
-                caseReal(NLS_UINT32,uint32);
-                caseReal(NLS_INT64, int64);
-                caseReal(NLS_UINT64, uint64);
-                caseReal(NLS_SINGLE,float);
-                caseReal(NLS_DOUBLE,double);
-                caseComplex(NLS_SCOMPLEX,float);
-                caseComplex(NLS_DCOMPLEX,double);
-        }
-        return false;
-    }
-
-#undef caseReal
-#undef caseComplex
-
     /**
      * Returns true if we are positive.
      */

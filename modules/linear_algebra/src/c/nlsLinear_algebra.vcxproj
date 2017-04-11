@@ -191,6 +191,7 @@
   <ItemGroup>
     <ClInclude Include="..\include\ExpMatrix.hpp" />
     <ClInclude Include="..\include\InverseMatrix.hpp" />
+    <ClInclude Include="..\include\IsSymmetric.hpp" />
     <ClInclude Include="..\include\lapack_eigen.hpp" />
     <ClInclude Include="..\include\LogMatrix.hpp" />
     <ClInclude Include="..\include\nlsLinear_algebra_exports.h" />
@@ -202,6 +203,7 @@
   <ItemGroup>
     <ClCompile Include="..\cpp\ExpMatrix.cpp" />
     <ClCompile Include="..\cpp\InverseMatrix.cpp" />
+    <ClCompile Include="..\cpp\IsSymmetric.cpp" />
     <ClCompile Include="..\cpp\LogMatrix.cpp" />
     <ClCompile Include="..\cpp\ReciprocalConditionNumber.cpp" />
     <ClCompile Include="..\cpp\SchurDecompostion.cpp" />

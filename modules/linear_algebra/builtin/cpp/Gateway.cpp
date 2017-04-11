@@ -24,6 +24,7 @@
 #include "traceBuiltin.hpp"
 #include "svdBuiltin.hpp"
 #include "rcondBuiltin.hpp"
+#include "issymmetricBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -38,7 +39,7 @@ static const nlsGateway gateway[] =
     { "trace", Nelson::LinearAlgebraGateway::traceBuiltin, 1, 1 },
     { "svd", Nelson::LinearAlgebraGateway::svdBuiltin, 3, 2 },
     { "rcond", Nelson::LinearAlgebraGateway::rcondBuiltin, 1, 1 },
-
+	{ "issymmetric", Nelson::LinearAlgebraGateway::issymmetricBuiltin, 1, 2 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

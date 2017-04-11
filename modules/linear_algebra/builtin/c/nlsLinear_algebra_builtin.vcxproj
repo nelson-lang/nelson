@@ -170,6 +170,7 @@
     <ClCompile Include="..\cpp\expmBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\invBuiltin.cpp" />
+    <ClCompile Include="..\cpp\issymmetricBuiltin.cpp" />
     <ClCompile Include="..\cpp\logmBuiltin.cpp" />
     <ClCompile Include="..\cpp\rcondBuiltin.cpp" />
     <ClCompile Include="..\cpp\schurBuiltin.cpp" />
@@ -215,6 +216,7 @@
   <ItemGroup>
     <ClInclude Include="..\include\expmBuiltin.hpp" />
     <ClInclude Include="..\include\invBuiltin.hpp" />
+    <ClInclude Include="..\include\issymmetricBuiltin.hpp" />
     <ClInclude Include="..\include\logmBuiltin.hpp" />
     <ClInclude Include="..\include\nlsLinear_algebra_builtin_exports.h" />
     <ClInclude Include="..\include\rcondBuiltin.hpp" />

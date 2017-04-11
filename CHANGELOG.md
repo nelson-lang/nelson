@@ -1,6 +1,8 @@
 Features:
 ---------
 
+  Add 'issymmetric' function.
+
   Add 'svd' function.
 
   Add 'rcond' function.
