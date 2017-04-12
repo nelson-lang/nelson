@@ -16,12 +16,14 @@
 ; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ; LICENCE_BLOCK_END
 ;==============================================================================
+#define MODULE_NAME "functions_manager"
+;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\libnlsFunctions_manager.dll; DestDir: {app}\bin\{#BinPath}\;
 Source: {#RootPath}bin\{#BinPath}\libnlsFunctions_manager_builtin.dll; DestDir: {app}\bin\{#BinPath}\;
 ;==============================================================================
-Source: {#RootPath}modules\functions_manager\loader.nls; DestDir: {app}\modules\history_manager\;
-Source: {#RootPath}modules\functions_manager\etc\startup.nls; DestDir: {app}\modules\functions_manager\etc\;
-Source: {#RootPath}modules\functions_manager\etc\finish.nls; DestDir: {app}\modules\functions_manager\etc\;
+Source: {#RootPath}modules\{#MODULE_NAME}\loader.nls; DestDir: {app}\modules\{#MODULE_NAME}\;
+Source: {#RootPath}modules\{#MODULE_NAME}\etc\startup.nls; DestDir: {app}\modules\{#MODULE_NAME}\etc\;
+Source: {#RootPath}modules\{#MODULE_NAME}\etc\finish.nls; DestDir: {app}\modules\{#MODULE_NAME}\etc\;
 ;==============================================================================
 ;Source: {#RootPath}modules\functions_manager\functions\*.nlf; DestDir: {app}\modules\functions_manager\functions\;
 ;==============================================================================

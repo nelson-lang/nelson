@@ -16,16 +16,18 @@
 ; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ; LICENCE_BLOCK_END
 ;==============================================================================
+#define MODULE_NAME "api_nelson"
+;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\libnlsAssert_functions.dll; DestDir: {app}\bin\{#BinPath}\;
 Source: {#RootPath}bin\{#BinPath}\libnlsAssert_functions_builtin.dll; DestDir: {app}\bin\{#BinPath}\;
 ;==============================================================================
-Source: {#RootPath}modules\assert_functions\loader.nls; DestDir: {app}\modules\assert_functions\;
-Source: {#RootPath}modules\assert_functions\etc\startup.nls; DestDir: {app}\modules\assert_functions\etc\;
-Source: {#RootPath}modules\assert_functions\etc\finish.nls; DestDir: {app}\modules\assert_functions\etc\;
+Source: {#RootPath}modules\{#MODULE_NAME}\loader.nls; DestDir: {app}\modules\{#MODULE_NAME}\;
+Source: {#RootPath}modules\{#MODULE_NAME}\etc\startup.nls; DestDir: {app}\modules\{#MODULE_NAME}\etc\;
+Source: {#RootPath}modules\{#MODULE_NAME}\etc\finish.nls; DestDir: {app}\modules\{#MODULE_NAME}\etc\;
 ;==============================================================================
-;Source: {#RootPath}modules\assert_functions\functions\*.nlf; DestDir: {app}\modules\assert_functions\functions\;
+;Source: {#RootPath}modules\{#MODULE_NAME}\functions\*.nlf; DestDir: {app}\modules\{#MODULE_NAME}\functions\;
 ;==============================================================================
-Source: {#RootPath}modules\assert_functions\help\*.qch; DestDir: {app}\modules\assert_functions\help\; Flags: recursesubdirs
+Source: {#RootPath}modules\{#MODULE_NAME}\help\*.qch; DestDir: {app}\modules\{#MODULE_NAME}\help\; Flags: recursesubdirs
 ;==============================================================================
-Source: {#RootPath}modules\assert_functions\tests\*.nls; DestDir: {app}\modules\assert_functions\tests\; Flags: recursesubdirs
+Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.nls; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs
 ;==============================================================================

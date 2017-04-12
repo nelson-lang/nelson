@@ -33,13 +33,13 @@ Source: {#RootPath}modules\{#MODULE_NAME}\loader.nls; DestDir: {app}\modules\{#M
 Source: {#RootPath}modules\{#MODULE_NAME}\etc\startup.nls; DestDir: {app}\modules\{#MODULE_NAME}\etc\;
 Source: {#RootPath}modules\{#MODULE_NAME}\etc\finish.nls; DestDir: {app}\modules\{#MODULE_NAME}\etc\;
 ;==============================================================================
-Source: {#RootPath}modules\help_tools\resources\about.txt; DestDir: {app}\modules\help_tools\resources\;
-Source: {#RootPath}modules\help_tools\resources\highlight.pack.js; DestDir: {app}\modules\help_tools\resources\;
-Source: {#RootPath}modules\help_tools\resources\mono-blue.css; DestDir: {app}\modules\help_tools\resources\;
-Source: {#RootPath}modules\help_tools\resources\nelson_help_collection.qhc; DestDir: {app}\modules\help_tools\resources\;
-Source: {#RootPath}modules\help_tools\resources\style.css; DestDir: {app}\modules\help_tools\resources\;
+Source: {#RootPath}modules\{#MODULE_NAME}\resources\about.txt; DestDir: {app}\modules\{#MODULE_NAME}\resources\;
+Source: {#RootPath}modules\{#MODULE_NAME}\resources\highlight.pack.js; DestDir: {app}\modules\{#MODULE_NAME}\resources\;
+Source: {#RootPath}modules\{#MODULE_NAME}\resources\mono-blue.css; DestDir: {app}\modules\{#MODULE_NAME}\resources\;
+Source: {#RootPath}modules\{#MODULE_NAME}\resources\nelson_help_collection.qhc; DestDir: {app}\modules\{#MODULE_NAME}\resources\;
+Source: {#RootPath}modules\{#MODULE_NAME}\resources\style.css; DestDir: {app}\modules\{#MODULE_NAME}\resources\;
 ;==============================================================================
-Source: {#RootPath}modules\help_tools\functions\*.nlf; DestDir: {app}\modules\help_tools\functions\;
+Source: {#RootPath}modules\{#MODULE_NAME}\functions\*.nlf; DestDir: {app}\modules\{#MODULE_NAME}\functions\;
 ;==============================================================================
-Source: {#RootPath}modules\help_tools\help\*.qch; DestDir: {app}\modules\help_tools\help\; Flags: recursesubdirs
+Source: {#RootPath}modules\{#MODULE_NAME}\help\*.qch; DestDir: {app}\modules\{#MODULE_NAME}\help\; Flags: recursesubdirs
 ;==============================================================================
