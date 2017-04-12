@@ -16,7 +16,7 @@
 ; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ; LICENCE_BLOCK_END
 ;==============================================================================
-#define MODULE_NAME "api_nelson"
+#define MODULE_NAME "assert_functions"
 ;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\libnlsAssert_functions.dll; DestDir: {app}\bin\{#BinPath}\;
 Source: {#RootPath}bin\{#BinPath}\libnlsAssert_functions_builtin.dll; DestDir: {app}\bin\{#BinPath}\;
