@@ -1,6 +1,8 @@
 Features:
 ---------
 
+  Optimize constructors allocation for eye, ones, Inf, NaN, rand, randn functions.
+
   Add 'issymmetric' function.
 
   Add 'svd' function.

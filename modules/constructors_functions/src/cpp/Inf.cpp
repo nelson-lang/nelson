@@ -28,7 +28,7 @@ namespace Nelson {
     //=============================================================================
     ArrayOf Inf(uint32 m, uint32 n)
     {
-        double *mat = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, m * n);
+        double *mat = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, m * n, Nelson::stringVector(), false);
         Eigen::Map<Eigen::MatrixXd> matInf(mat, m, n);
         Eigen::MatrixXd matOne(m, n);
         Eigen::MatrixXd matZero(m, n);

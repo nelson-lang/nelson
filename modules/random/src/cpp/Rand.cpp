@@ -40,7 +40,7 @@ namespace Nelson {
             case NLS_SINGLE:
             {
                 indexType nbElements = dims.getElementCount();
-                single * mat = (single*)ArrayOf::allocateArrayOf(cl, nbElements);
+                single * mat = (single*)ArrayOf::allocateArrayOf(cl, nbElements, Nelson::stringVector(), false);
                 randEngine->getValuesAsSingle(mat, nbElements, dims.getColumns());
                 return ArrayOf(cl, dims, mat, false);
             }
@@ -48,7 +48,7 @@ namespace Nelson {
             case NLS_DOUBLE:
             {
                 indexType nbElements = dims.getElementCount();
-                double * mat = (double*)ArrayOf::allocateArrayOf(cl, nbElements);
+                double * mat = (double*)ArrayOf::allocateArrayOf(cl, nbElements, Nelson::stringVector(), false);
                 randEngine->getValuesAsDouble(mat, nbElements, dims.getColumns());
                 return ArrayOf(cl, dims, mat, false);
             }

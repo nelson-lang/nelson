@@ -55,9 +55,11 @@ namespace Nelson {
                     else
                     {
                         double *mat = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, m * n);
-                        Eigen::Map<Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic>> matEye(mat, n, m);
-                        matEye.setIdentity();
-                        vmat = (void*)mat;
+						for (size_t i = 0; i < std::min(m, n); i++)
+						{
+							mat[i * n + i] = 1;
+						}
+						vmat = (void*)mat;
                     }
                 }
                 break;
@@ -81,9 +83,11 @@ namespace Nelson {
                         throw Exception(_W("sparse not supported."));
                     }
                     single *mat = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, m * n);
-                    Eigen::Map<Eigen::Matrix<single, Eigen::Dynamic, Eigen::Dynamic>> matEye(mat, n, m);
-                    matEye.setIdentity();
-                    vmat = (void*)mat;
+					for (size_t i = 0; i < std::min(m, n); i++)
+					{
+						mat[i * n + i] = (single)1;
+					}
+					vmat = (void*)mat;
                 }
                 break;
                 case NLS_LOGICAL:
@@ -95,10 +99,12 @@ namespace Nelson {
                     else
                     {
                         logical *mat = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, m * n);
-                        Eigen::Map<Eigen::Matrix<logical, Eigen::Dynamic, Eigen::Dynamic>> matEye(mat, n, m);
-                        matEye.setIdentity();
-                        vmat = (void*)mat;
-                    }
+						for (size_t i = 0; i < std::min(m, n); i++)
+						{
+							mat[i * n + i] = (logical)1;
+						}
+						vmat = (void*)mat;
+					}
                 }
                 break;
                 case NLS_INT8:
@@ -108,10 +114,12 @@ namespace Nelson {
                         throw Exception(_W("sparse not supported."));
                     }
                     int8 *mat = (int8*)ArrayOf::allocateArrayOf(NLS_INT8, m * n);
-                    Eigen::Map<Eigen::Matrix<int8, Eigen::Dynamic, Eigen::Dynamic>> matEye(mat, n, m);
-                    matEye.setIdentity();
-                    vmat = (void*)mat;
-                }
+					for (size_t i = 0; i < std::min(m, n); i++)
+					{
+						mat[i * n + i] = (int8)1;
+					}
+					vmat = (void*)mat;
+				}
                 break;
                 case NLS_INT16:
                 {
@@ -120,9 +128,11 @@ namespace Nelson {
                         throw Exception(_W("sparse not supported."));
                     }
                     int16 *mat = (int16*)ArrayOf::allocateArrayOf(NLS_INT16, m * n);
-                    Eigen::Map<Eigen::Matrix<int16, Eigen::Dynamic, Eigen::Dynamic>> matEye(mat, n, m);
-                    matEye.setIdentity();
-                    vmat = (void*)mat;
+					for (size_t i = 0; i < std::min(m, n); i++)
+					{
+						mat[i * n + i] = (int16)1;
+					}
+					vmat = (void*)mat;
                 }
                 break;
                 case NLS_INT32:
@@ -132,9 +142,11 @@ namespace Nelson {
                         throw Exception(_W("sparse not supported."));
                     }
                     int32 *mat = (int32*)ArrayOf::allocateArrayOf(NLS_INT32, m * n);
-                    Eigen::Map<Eigen::Matrix<int32, Eigen::Dynamic, Eigen::Dynamic>> matEye(mat, n, m);
-                    matEye.setIdentity();
-                    vmat = (void*)mat;
+					for (size_t i = 0; i < std::min(m, n); i++)
+					{
+						mat[i * n + i] = (int32)1;
+					}
+					vmat = (void*)mat;
                 }
                 break;
                 case NLS_INT64:
@@ -144,9 +156,11 @@ namespace Nelson {
                         throw Exception(_W("sparse not supported."));
                     }
                     int64 *mat = (int64*)ArrayOf::allocateArrayOf(NLS_INT64, m * n);
-                    Eigen::Map<Eigen::Matrix<int64, Eigen::Dynamic, Eigen::Dynamic>> matEye(mat, n, m);
-                    matEye.setIdentity();
-                    vmat = (void*)mat;
+					for (size_t i = 0; i < std::min(m, n); i++)
+					{
+						mat[i * n + i] = (int64)1;
+					}
+					vmat = (void*)mat;
                 }
                 break;
                 case NLS_UINT8:
@@ -156,9 +170,11 @@ namespace Nelson {
                         throw Exception(_W("sparse not supported."));
                     }
                     uint8 *mat = (uint8*)ArrayOf::allocateArrayOf(NLS_UINT8, m * n);
-                    Eigen::Map<Eigen::Matrix<uint8, Eigen::Dynamic, Eigen::Dynamic>> matEye(mat, n, m);
-                    matEye.setIdentity();
-                    vmat = (void*)mat;
+					for (size_t i = 0; i < std::min(m, n); i++)
+					{
+						mat[i * n + i] = (uint8)1;
+					}
+					vmat = (void*)mat;
                 }
                 break;
                 case NLS_UINT16:
@@ -168,9 +184,11 @@ namespace Nelson {
                         throw Exception(_W("sparse not supported."));
                     }
                     uint16 *mat = (uint16*)ArrayOf::allocateArrayOf(NLS_UINT16, m * n);
-                    Eigen::Map<Eigen::Matrix<uint16, Eigen::Dynamic, Eigen::Dynamic>> matEye(mat, n, m);
-                    matEye.setIdentity();
-                    vmat = (void*)mat;
+					for (size_t i = 0; i < std::min(m, n); i++)
+					{
+						mat[i * n + i] = (uint16)1;
+					}
+					vmat = (void*)mat;
                 }
                 break;
                 case NLS_UINT32:
@@ -180,9 +198,11 @@ namespace Nelson {
                         throw Exception(_W("sparse not supported."));
                     }
                     uint32 *mat = (uint32*)ArrayOf::allocateArrayOf(NLS_UINT32, m * n);
-                    Eigen::Map<Eigen::Matrix<uint32, Eigen::Dynamic, Eigen::Dynamic>> matEye(mat, n, m);
-                    matEye.setIdentity();
-                    vmat = (void*)mat;
+					for (size_t i = 0; i < std::min(m, n); i++)
+					{
+						mat[i * n + i] = (uint32)1;
+					}
+					vmat = (void*)mat;
                 }
                 break;
                 case NLS_UINT64:
@@ -192,9 +212,11 @@ namespace Nelson {
                         throw Exception(_W("sparse not supported."));
                     }
                     uint64 *mat = (uint64*)ArrayOf::allocateArrayOf(NLS_UINT64, m * n);
-                    Eigen::Map<Eigen::Matrix<uint64, Eigen::Dynamic, Eigen::Dynamic>> matEye(mat, n, m);
-                    matEye.setIdentity();
-                    vmat = (void*)mat;
+					for (size_t i = 0; i < std::min(m, n); i++)
+					{
+						mat[i * n + i] = (int8)1;
+					}
+					vmat = (void*)mat;
                 }
                 break;
                 default:

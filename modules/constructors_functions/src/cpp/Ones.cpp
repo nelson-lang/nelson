@@ -38,7 +38,7 @@ namespace Nelson {
                 logical * mat = nullptr;
                 if (nbElements != 0)
                 {
-                    mat = (logical*)ArrayOf::allocateArrayOf(cl, nbElements);
+                    mat = (logical*)ArrayOf::allocateArrayOf(cl, nbElements, Nelson::stringVector(), false);
                     Eigen::Map<Eigen::Matrix<logical, Eigen::Dynamic, Eigen::Dynamic>> matEigen((logical*)mat, 1, dims.getElementCount());
                     matEigen.setOnes();
                 }
@@ -51,7 +51,7 @@ namespace Nelson {
                 int8 * mat = nullptr;
                 if (nbElements != 0)
                 {
-                    mat = (int8*)ArrayOf::allocateArrayOf(cl, nbElements);
+                    mat = (int8*)ArrayOf::allocateArrayOf(cl, nbElements, Nelson::stringVector(), false);
                     Eigen::Map<Eigen::Matrix<int8, Eigen::Dynamic, Eigen::Dynamic>> matEigen((int8*)mat, 1, dims.getElementCount());
                     matEigen.setOnes();
                 }
@@ -64,7 +64,7 @@ namespace Nelson {
                 uint8 * mat = nullptr;
                 if (nbElements != 0)
                 {
-                    mat = (uint8*)ArrayOf::allocateArrayOf(cl, nbElements);
+                    mat = (uint8*)ArrayOf::allocateArrayOf(cl, nbElements, Nelson::stringVector(), false);
                     Eigen::Map<Eigen::Matrix<uint8, Eigen::Dynamic, Eigen::Dynamic>> matEigen((uint8*)mat, 1, dims.getElementCount());
                     matEigen.setOnes();
                 }
@@ -77,7 +77,7 @@ namespace Nelson {
                 int16 * mat = nullptr;
                 if (nbElements != 0)
                 {
-                    mat = (int16*)ArrayOf::allocateArrayOf(cl, nbElements);
+                    mat = (int16*)ArrayOf::allocateArrayOf(cl, nbElements, Nelson::stringVector(), false);
                     Eigen::Map<Eigen::Matrix<int16, Eigen::Dynamic, Eigen::Dynamic>> matEigen((int16*)mat, 1, dims.getElementCount());
                     matEigen.setOnes();
                 }
@@ -90,7 +90,7 @@ namespace Nelson {
                 uint16 * mat = nullptr;
                 if (nbElements != 0)
                 {
-                    mat = (uint16*)ArrayOf::allocateArrayOf(cl, nbElements);
+                    mat = (uint16*)ArrayOf::allocateArrayOf(cl, nbElements, Nelson::stringVector(), false);
                     Eigen::Map<Eigen::Matrix<uint16, Eigen::Dynamic, Eigen::Dynamic>> matEigen((uint16*)mat, 1, dims.getElementCount());
                     matEigen.setOnes();
                 }
@@ -103,7 +103,7 @@ namespace Nelson {
                 int32 * mat = nullptr;
                 if (nbElements != 0)
                 {
-                    mat = (int32*)ArrayOf::allocateArrayOf(cl, nbElements);
+                    mat = (int32*)ArrayOf::allocateArrayOf(cl, nbElements, Nelson::stringVector(), false);
                     Eigen::Map<Eigen::Matrix<int32, Eigen::Dynamic, Eigen::Dynamic>> matEigen((int32*)mat, 1, dims.getElementCount());
                     matEigen.setOnes();
                 }
@@ -116,7 +116,7 @@ namespace Nelson {
                 uint32 * mat = nullptr;
                 if (nbElements != 0)
                 {
-                    mat = (uint32*)ArrayOf::allocateArrayOf(cl, nbElements);
+                    mat = (uint32*)ArrayOf::allocateArrayOf(cl, nbElements, Nelson::stringVector(), false);
                     Eigen::Map<Eigen::Matrix<uint32, Eigen::Dynamic, Eigen::Dynamic>> matEigen((uint32*)mat, 1, dims.getElementCount());
                     matEigen.setOnes();
                 }
@@ -129,7 +129,7 @@ namespace Nelson {
                 int64 * mat = nullptr;
                 if (nbElements != 0)
                 {
-                    mat = (int64*)ArrayOf::allocateArrayOf(cl, nbElements);
+                    mat = (int64*)ArrayOf::allocateArrayOf(cl, nbElements, Nelson::stringVector(), false);
                     Eigen::Map<Eigen::Matrix<int64, Eigen::Dynamic, Eigen::Dynamic>> matEigen((int64*)mat, 1, dims.getElementCount());
                     matEigen.setOnes();
                 }
@@ -142,7 +142,7 @@ namespace Nelson {
                 uint64 * mat = nullptr;
                 if (nbElements != 0)
                 {
-                    mat = (uint64*)ArrayOf::allocateArrayOf(cl, nbElements);
+                    mat = (uint64*)ArrayOf::allocateArrayOf(cl, nbElements, Nelson::stringVector(), false);
                     Eigen::Map<Eigen::Matrix<uint64, Eigen::Dynamic, Eigen::Dynamic>> matEigen((uint64*)mat, 1, dims.getElementCount());
                     matEigen.setOnes();
                 }
@@ -155,7 +155,7 @@ namespace Nelson {
                 single * mat = nullptr;
                 if (nbElements != 0)
                 {
-                    mat = (single*)ArrayOf::allocateArrayOf(cl, nbElements);
+                    mat = (single*)ArrayOf::allocateArrayOf(cl, nbElements, Nelson::stringVector(), false);
                     Eigen::Map<Eigen::Matrix<single, Eigen::Dynamic, Eigen::Dynamic>> matEigen((single*)mat, 1, dims.getElementCount());
                     matEigen.setOnes();
                 }
@@ -168,7 +168,7 @@ namespace Nelson {
                 double * mat = nullptr;
                 if (nbElements != 0)
                 {
-                    mat = (double*)ArrayOf::allocateArrayOf(cl, nbElements);
+                    mat = (double*)ArrayOf::allocateArrayOf(cl, nbElements, Nelson::stringVector(), false);
                     Eigen::Map<Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic>> matEigen((double*)mat, 1, dims.getElementCount());
                     matEigen.setOnes();
                 }
@@ -181,7 +181,7 @@ namespace Nelson {
                 single * mat = nullptr;
                 if (nbElements != 0)
                 {
-                    mat = (single*)ArrayOf::allocateArrayOf(cl, nbElements * 2);
+                    mat = (single*)ArrayOf::allocateArrayOf(cl, nbElements * 2, Nelson::stringVector(), false);
                     singlecomplex* Cz = reinterpret_cast<singlecomplex*>(mat);
                     Eigen::Map<Eigen::Matrix<singlecomplex, Eigen::Dynamic, Eigen::Dynamic>> matEigen((singlecomplex*)Cz, 1, dims.getElementCount());
                     matEigen.setOnes();
@@ -195,7 +195,7 @@ namespace Nelson {
                 double * mat = nullptr;
                 if (nbElements != 0)
                 {
-                    mat = (double*)ArrayOf::allocateArrayOf(cl, nbElements * 2);
+                    mat = (double*)ArrayOf::allocateArrayOf(cl, nbElements * 2, Nelson::stringVector(), false);
                     doublecomplex* Cz = reinterpret_cast<doublecomplex*>(mat);
                     Eigen::Map<Eigen::Matrix<doublecomplex, Eigen::Dynamic, Eigen::Dynamic>> matEigen((doublecomplex*)Cz, 1, dims.getElementCount());
                     matEigen.setOnes();

@@ -28,7 +28,7 @@ namespace Nelson {
     //=============================================================================
     ArrayOf NaN(indexType m, indexType n)
     {
-        double *mat = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, m * n);
+        double *mat = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, m * n, Nelson::stringVector(), false);
         Eigen::Map<Eigen::MatrixXd> matNaN(mat, m, n);
         matNaN.setZero();
         matNaN = matNaN.cwiseQuotient(matNaN);

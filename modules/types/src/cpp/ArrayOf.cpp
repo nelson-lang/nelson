@@ -258,7 +258,7 @@ namespace Nelson {
         return true;
     }
 
-    void* ArrayOf::allocateArrayOf(Class type, indexType length, const stringVector& names)
+    void* ArrayOf::allocateArrayOf(Class type, indexType length, const stringVector& names, bool initializeValues)
     {
         switch (type)
         {
@@ -296,72 +296,72 @@ namespace Nelson {
             }
             case NLS_LOGICAL:
             {
-                return (void*)new_with_exception<logical>(length);
+                return (void*)new_with_exception<logical>(length, initializeValues);
             }
             break;
             case NLS_UINT8:
             {
-                return (void*)new_with_exception<uint8>(length);
+                return (void*)new_with_exception<uint8>(length, initializeValues);
             }
             break;
             case NLS_INT8:
             {
-                return (void*)new_with_exception<int8>(length);
+                return (void*)new_with_exception<int8>(length, initializeValues);
             }
             break;
             case NLS_UINT16:
             {
-                return (void*)new_with_exception<uint16>(length);
+                return (void*)new_with_exception<uint16>(length, initializeValues);
             }
             break;
             case NLS_INT16:
             {
-                return (void*)new_with_exception<int16>(length);
+                return (void*)new_with_exception<int16>(length, initializeValues);
             }
             break;
             case NLS_UINT32:
             {
-                return (void*)new_with_exception<uint32>(length);
+                return (void*)new_with_exception<uint32>(length, initializeValues);
             }
             break;
             case NLS_INT32:
             {
-                return (void*)new_with_exception<int32>(length);
+                return (void*)new_with_exception<int32>(length, initializeValues);
             }
             break;
             case NLS_UINT64:
             {
-                return (void*)new_with_exception<uint64>(length);
+                return (void*)new_with_exception<uint64>(length, initializeValues);
             }
             break;
             case NLS_INT64:
             {
-                return (void*)new_with_exception<int64>(length);
+                return (void*)new_with_exception<int64>(length, initializeValues);
             }
             break;
             case NLS_SINGLE:
             {
-                return (void *)new_with_exception<float>(length);
+                return (void *)new_with_exception<single>(length, initializeValues);
             }
             break;
             case NLS_DOUBLE:
             {
-                return (void*)new_with_exception<double>(length);
+                return (void*)new_with_exception<double>(length, initializeValues);
             }
             break;
             case NLS_SCOMPLEX:
             {
-                return (void*)new_with_exception<float>(2 * length);
+                return (void*)new_with_exception<float>(2 * length, initializeValues);
             }
             break;
             case NLS_DCOMPLEX:
             {
-                return (void*)new_with_exception<double>(2 * length);
+                return (void*)new_with_exception<double>(2 * length, initializeValues);
             }
             break;
             case NLS_CHAR:
             {
-                return (void*)new_with_exception<charType>(length);
+                return (void*)new_with_exception<charType>(length, initializeValues);
             }
             break;
         }

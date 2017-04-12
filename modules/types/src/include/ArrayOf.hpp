@@ -137,7 +137,7 @@ namespace Nelson {
         /**
          * Allocate an array.
          */
-        static void* allocateArrayOf(Class, indexType length, const stringVector& names = stringVector());
+        static void* allocateArrayOf(Class, indexType length, const stringVector& names = stringVector(), bool initializeValues = true);
         /** Convert us to an index type
          * Convert the current object to an ordinal one.  This has different
          * meanings for different data types.

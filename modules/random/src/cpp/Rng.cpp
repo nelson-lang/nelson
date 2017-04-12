@@ -118,7 +118,7 @@ namespace Nelson {
             {
                 RandomMersenneTwister *randEngine = (RandomMersenneTwister *)eval->RandomEngine;
                 boost::container::vector<uint32> uint32State = randEngine->getState();
-                uint32 * mat = (uint32*)ArrayOf::allocateArrayOf(NLS_UINT32, uint32State.size());
+                uint32 * mat = (uint32*)ArrayOf::allocateArrayOf(NLS_UINT32, uint32State.size(), Nelson::stringVector(), false);
                 for (size_t k = 0; k < uint32State.size(); k++)
                 {
                     mat[k] = uint32State[k];
@@ -133,7 +133,7 @@ namespace Nelson {
             {
                 RandomMersenneTwister64 *randEngine = (RandomMersenneTwister64 *)eval->RandomEngine;
                 boost::container::vector<uint64> uint64State = randEngine->getState();
-                uint64 * mat = (uint64*)ArrayOf::allocateArrayOf(NLS_UINT64, uint64State.size());
+                uint64 * mat = (uint64*)ArrayOf::allocateArrayOf(NLS_UINT64, uint64State.size(), Nelson::stringVector(), false);
                 for (size_t k = 0; k < uint64State.size(); k++)
                 {
                     mat[k] = uint64State[k];
@@ -148,7 +148,7 @@ namespace Nelson {
             {
                 RandomLaggedFibonacci607 *randEngine = (RandomLaggedFibonacci607 *)eval->RandomEngine;
                 boost::container::vector<uint32> uint32State = randEngine->getState();
-                uint32 * mat = (uint32*)ArrayOf::allocateArrayOf(NLS_UINT32, uint32State.size());
+                uint32 * mat = (uint32*)ArrayOf::allocateArrayOf(NLS_UINT32, uint32State.size(), Nelson::stringVector(), false);
                 for (size_t k = 0; k < uint32State.size(); k++)
                 {
                     mat[k] = uint32State[k];
