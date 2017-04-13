@@ -21,22 +21,22 @@ set(module_library_name nlsEngine)
 set(module_library_builtin_name ${module_library_name}_builtin)
 #==============================================================================
 include_directories(
-	${Boost_INCLUDE_DIRS}
-	${CMAKE_CURRENT_SOURCE_DIR}/src/include
-	${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
-	${CMAKE_CURRENT_SOURCE_DIR}/../dynamic_link/src/include
-	${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
-	${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
-	${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
-	${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
-	${CMAKE_CURRENT_SOURCE_DIR}/../memory_manager/src/include
-	${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include
-	${CMAKE_CURRENT_SOURCE_DIR}/../os_functions/src/include
-	${CMAKE_CURRENT_SOURCE_DIR}/../modules_manager/src/include
-	${CMAKE_CURRENT_SOURCE_DIR}/../terminal/src/include
-	${CMAKE_CURRENT_SOURCE_DIR}/../gui/src/include
-	${CMAKE_CURRENT_SOURCE_DIR}/../localization/src/include
-	${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
+${Boost_INCLUDE_DIRS}
+${CMAKE_CURRENT_SOURCE_DIR}/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../dynamic_link/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../memory_manager/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../os_functions/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../modules_manager/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../terminal/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../gui/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../localization/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
 )
 #==============================================================================	
 FILE(
@@ -51,7 +51,7 @@ ADD_LIBRARY(
 	${ENGINE_SRC}
 )
 #==============================================================================	
-target_link_libraries(${module_library_name} 
+target_link_libraries(${module_library_name}
 nlsCore
 nlsDynamic_link
 nlsInterpreter
@@ -61,7 +61,8 @@ nlsCharacters_encoding
 nlsMemory_manager
 nlsLocalization
 nlsI18n
-${BOOST_LIBRARY})
+${BOOST_LIBRARY}
+)
 #==============================================================================
 set_target_properties(${module_library_name}
                       PROPERTIES 

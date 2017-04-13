@@ -23,9 +23,7 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-    static uint64 _timeout_seconds = 0;
-    //=============================================================================
-    void timeout(void)
+    void timeout(uint64 _timeout_seconds)
     {
         boost::this_thread::sleep_for(boost::chrono::seconds(_timeout_seconds));
         // https://msdn.microsoft.com/en-us/library/windows/desktop/ms681382(v=vs.85).aspx
@@ -35,8 +33,7 @@ namespace Nelson {
     //=============================================================================
     bool TimeoutThread(uint64 _timeoutseconds)
     {
-        _timeout_seconds = _timeoutseconds;
-        boost::thread timeout_thread(timeout);
+        boost::thread timeout_thread(timeout, _timeoutseconds);
         timeout_thread.detach();
         return false;
     }
