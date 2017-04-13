@@ -17,15 +17,14 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <boost/thread/thread.hpp>
-#include <boost/chrono/chrono.hpp>
-#include <boost/date_time/posix_time/posix_time.hpp>
 #include "TimeoutThread.hpp"
+#include "Sleep.hpp"
 //=============================================================================
 namespace Nelson {
     //=============================================================================
     void timeout(uint64 _timeout_seconds)
     {
-        boost::this_thread::sleep_for(boost::chrono::seconds(_timeout_seconds));
+		SleepSeconds(_timeout_seconds);
         // https://msdn.microsoft.com/en-us/library/windows/desktop/ms681382(v=vs.85).aspx
         // WAIT_TIMEOUT (258)
         exit(258);

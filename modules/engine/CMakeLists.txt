@@ -37,6 +37,7 @@ ${CMAKE_CURRENT_SOURCE_DIR}/../terminal/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../gui/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../localization/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../time/src/include
 )
 #==============================================================================	
 FILE(
@@ -61,6 +62,7 @@ nlsCharacters_encoding
 nlsMemory_manager
 nlsLocalization
 nlsI18n
+nlsTime
 ${BOOST_LIBRARY}
 )
 #==============================================================================
