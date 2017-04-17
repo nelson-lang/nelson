@@ -1,3 +1,7 @@
+Features:
+---------
+
+  add more output information in the result file of test_run function.
 
 
 ## 0.1.5 alpha (2017-04-17)
