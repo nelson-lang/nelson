@@ -23,6 +23,6 @@
 //=============================================================================
 namespace Nelson {
     NLSLINEAR_ALGEBRA_IMPEXP bool IsSymmetric(ArrayOf A, bool skew);
-	NLSLINEAR_ALGEBRA_IMPEXP bool IsSymmetric(ArrayOf A, double tol);
+    NLSLINEAR_ALGEBRA_IMPEXP bool IsSymmetric(ArrayOf A, double tol);
 }
 //=============================================================================

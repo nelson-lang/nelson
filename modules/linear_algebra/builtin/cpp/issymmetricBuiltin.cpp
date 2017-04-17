@@ -27,7 +27,6 @@ using namespace Nelson;
 ArrayOfVector Nelson::LinearAlgebraGateway::issymmetricBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-
     if (!(argIn.size() == 1 || argIn.size() == 2))
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
@@ -36,45 +35,43 @@ ArrayOfVector Nelson::LinearAlgebraGateway::issymmetricBuiltin(Evaluator* eval, 
     {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-
-	bool skew = false;
-	double tol = 0;
-	bool withTol = false;
-	if (argIn.size() == 2)
-	{
-		ArrayOf param2 = argIn[1];
-		if (param2.isSingleString())
-		{
-			withTol = false;
-			std::wstring str = param2.getContentsAsWideString();
-			if (str == L"skew" || str == L"nonskew")
-			{
-				if (str == L"skew")
-				{
-					skew = true;
-				}
-				else
-				{
-					skew = false;
-				}
-			}
-			else
-			{
-				Error(eval, _W("Second input must be 'skew' or 'nonskew'."));
-			}
-		}
-		else
-		{
-			withTol = true;
-			tol = param2.getContentsAsDoubleScalar();
-			if (!std::isfinite(tol) || tol < 0.)
-			{
-				Error(eval, _W("Second input must be finite and >= 0."));
-			}
-		}
-	}
-	
-	// Call overload if it exists
+    bool skew = false;
+    double tol = 0;
+    bool withTol = false;
+    if (argIn.size() == 2)
+    {
+        ArrayOf param2 = argIn[1];
+        if (param2.isSingleString())
+        {
+            withTol = false;
+            std::wstring str = param2.getContentsAsWideString();
+            if (str == L"skew" || str == L"nonskew")
+            {
+                if (str == L"skew")
+                {
+                    skew = true;
+                }
+                else
+                {
+                    skew = false;
+                }
+            }
+            else
+            {
+                Error(eval, _W("Second input must be 'skew' or 'nonskew'."));
+            }
+        }
+        else
+        {
+            withTol = true;
+            tol = param2.getContentsAsDoubleScalar();
+            if (!std::isfinite(tol) || tol < 0.)
+            {
+                Error(eval, _W("Second input must be finite and >= 0."));
+            }
+        }
+    }
+    // Call overload if it exists
     bool bSuccess = false;
     retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
     if (!bSuccess)
@@ -87,14 +84,14 @@ ArrayOfVector Nelson::LinearAlgebraGateway::issymmetricBuiltin(Evaluator* eval, 
         {
             OverloadRequired(eval, argIn, Nelson::FUNCTION);
         }
-		if (withTol)
-		{
-			retval.push_back(ArrayOf::logicalConstructor(IsSymmetric(argIn[0], tol)));
-		}
-		else
-		{
-			retval.push_back(ArrayOf::logicalConstructor(IsSymmetric(argIn[0], skew)));
-		}
+        if (withTol)
+        {
+            retval.push_back(ArrayOf::logicalConstructor(IsSymmetric(argIn[0], tol)));
+        }
+        else
+        {
+            retval.push_back(ArrayOf::logicalConstructor(IsSymmetric(argIn[0], skew)));
+        }
     }
     return retval;
 }

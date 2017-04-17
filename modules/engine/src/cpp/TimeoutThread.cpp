@@ -24,7 +24,7 @@ namespace Nelson {
     //=============================================================================
     void timeout(uint64 _timeout_seconds)
     {
-		SleepSeconds(_timeout_seconds);
+        SleepSeconds(_timeout_seconds);
         // https://msdn.microsoft.com/en-us/library/windows/desktop/ms681382(v=vs.85).aspx
         // WAIT_TIMEOUT (258)
         exit(258);

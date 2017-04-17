@@ -22,7 +22,7 @@
 #include "nlsTime_exports.h"
 //=============================================================================
 namespace Nelson {
-	NLSTIME_IMPEXP void SleepSeconds(uint64 tValue);
+    NLSTIME_IMPEXP void SleepSeconds(uint64 tValue);
     NLSTIME_IMPEXP bool Sleep(Evaluator* eval, double tValue);
 }
 //=============================================================================

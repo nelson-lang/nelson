@@ -24,11 +24,11 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-	void SleepSeconds(uint64 tValue)
-	{
-		boost::this_thread::sleep_for(boost::chrono::seconds(tValue));
-	}
-	//=============================================================================
+    void SleepSeconds(uint64 tValue)
+    {
+        boost::this_thread::sleep_for(boost::chrono::seconds(tValue));
+    }
+    //=============================================================================
     bool Sleep(Evaluator* eval, double tValue)
     {
         if (tValue > 0)
