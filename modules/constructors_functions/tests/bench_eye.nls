@@ -16,5 +16,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-A = eye(10000);
+N = 5000; // works on all platforms with at least 4 Go Ram
+A = eye(N);
 //=============================================================================
