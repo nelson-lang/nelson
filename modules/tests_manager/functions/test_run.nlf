@@ -325,22 +325,50 @@ function res = save_as_xml(test_suites, xmlFileDestination)
         if tc.isbench
             if strcmp(tc.status, 'Fail') == true
                 fprintf(fp, ['    <testcase name="', tc.name, '" time="', mat2str(tc.time, 2), '" classname="', tc.classname, '">', eol]);
-                fprintf(fp, ['      <error type="error" message="', _('test failed'), '">', tc.msg, '</error>', eol]);
+                if isstruct(tc.msg)
+                  msg = tc.msg.message;
+                else
+                  msg = tc.msg;
+                end
+                if length(msg) > 0
+                  fprintf(fp, ['      <error type="error" message="', _('test failed'), '">', msg, '</error>', eol]);
+                end
                 fprintf(fp, ['    </testcase>', eol]);
             else
               fprintf(fp, ['    <testcase name="', tc.name, '" time="', mat2str(tc.time, 2), '" classname="', tc.classname, '">', eol]);
-              //fprintf(fp, ['      <system-out>', '<![CDATA[', tc.msg, ']]', '<system-out/>', eol]);
+              if isstruct(tc.msg)
+                msg = tc.msg.message;
+              else
+                msg = tc.msg;
+              end
+              if length(msg) > 0
+                fprintf(fp, ['      <system-out>', '<![CDATA[', msg, ']]', '<system-out/>', eol]);
+              end
               fprintf(fp, ['    </testcase>', eol]);
             end
         else
           if strcmp(tc.status, 'Pass') == true
             fprintf(fp, ['    <testcase name="', tc.name, '" time="', mat2str(tc.time, 2), '" classname="', tc.classname, '">', eol]);
-            //fprintf(fp, ['      <system-out>', '<![CDATA[', tc.msg, ']]', '<system-out/>', eol]);
+            if isstruct(tc.msg)
+              msg = tc.msg.message;
+            else
+              msg = tc.msg;
+            end
+            if length(msg) > 0
+              fprintf(fp, ['      <system-out>', '<![CDATA[', msg, ']]', '<system-out/>', eol]);
+            end
             fprintf(fp, ['    </testcase>', eol]);
           else
             if strcmp(tc.status, 'Fail') == true
                 fprintf(fp, ['    <testcase name="', tc.name, '" time="', mat2str(tc.time, 2), '" classname="', tc.classname, '">', eol]);
-                fprintf(fp, ['      <error type="error" message="', _('test failed'), '">', tc.msg, '</error>', eol]);
+                if isstruct(tc.msg)
+                  msg = tc.msg.message;
+                else
+                  msg = tc.msg;
+                end
+                if length(msg) > 0
+                  fprintf(fp, ['      <error type="error" message="', _('test failed'), '">', msg, '</error>', eol]);
+                end
                 fprintf(fp, ['    </testcase>', eol]);
             else
               if strcmp(tc.status, 'Skip') == true | strcmp(tc.status, 'Interactive') == true | strcmp(tc.status, 'No display') == true
