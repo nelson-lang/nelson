@@ -331,7 +331,7 @@ function res = save_as_xml(test_suites, xmlFileDestination)
                   msg = tc.msg;
                 end
                 if length(msg) > 0
-                  fprintf(fp, ['      <error type="error" message="', _('test failed'), '">', msg, '</error>', eol]);
+                  fprintf(fp, ['      <error type="error" message="', _('test failed'), '">', '<![CDATA[', msg, ']]>', '</error>', eol]);
                 end
                 fprintf(fp, ['    </testcase>', eol]);
             else
@@ -342,7 +342,7 @@ function res = save_as_xml(test_suites, xmlFileDestination)
                 msg = tc.msg;
               end
               if length(msg) > 0
-                fprintf(fp, ['      <system-out>', '<![CDATA[', msg, ']]', '<system-out/>', eol]);
+                fprintf(fp, ['      <system-out>', '<![CDATA[', msg, ']]>', '<system-out/>', eol]);
               end
               fprintf(fp, ['    </testcase>', eol]);
             end
@@ -355,7 +355,7 @@ function res = save_as_xml(test_suites, xmlFileDestination)
               msg = tc.msg;
             end
             if length(msg) > 0
-              fprintf(fp, ['      <system-out>', '<![CDATA[', msg, ']]', '<system-out/>', eol]);
+              fprintf(fp, ['      <system-out>', '<![CDATA[', msg, ']]>', '<system-out/>', eol]);
             end
             fprintf(fp, ['    </testcase>', eol]);
           else
@@ -367,7 +367,7 @@ function res = save_as_xml(test_suites, xmlFileDestination)
                   msg = tc.msg;
                 end
                 if length(msg) > 0
-                  fprintf(fp, ['      <error type="error" message="', _('test failed'), '">', msg, '</error>', eol]);
+                  fprintf(fp, ['      <error type="error" message="', _('test failed'), '">', '<![CDATA[', msg, ']]>', '</error>', eol]);
                 end
                 fprintf(fp, ['    </testcase>', eol]);
             else
