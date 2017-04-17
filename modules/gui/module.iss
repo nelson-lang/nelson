@@ -16,7 +16,7 @@
 ; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ; LICENCE_BLOCK_END
 ;==============================================================================
-#define MODULE_NAME "functions_manager"
+#define MODULE_NAME "gui"
 ;==============================================================================
 ; Qt platforms
 Source: {#RootPath}bin\{#BinPath}\platforms\qminimal.dll; DestDir: {app}\bin\{#BinPath}\platforms\;
