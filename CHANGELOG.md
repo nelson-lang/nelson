@@ -1,6 +1,14 @@
 Features:
 ---------
 
+  add ishandle builtin
+
+  add set, get, invoke, isvalid builtin used by handle objects.
+
+  extends clear function to call delete if "handle_TYPEHANDLE_clear" function is defined.
+
+  add handle object type.
+
   add more output information in the result file of test_run function.
 
 

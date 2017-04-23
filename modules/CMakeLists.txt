@@ -51,6 +51,7 @@ data_structures
 history_manager
 terminal
 gui
+handle
 help_browser
 dynamic_link
 help_tools

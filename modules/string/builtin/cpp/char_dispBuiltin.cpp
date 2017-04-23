@@ -25,7 +25,7 @@ using namespace Nelson;
 ArrayOfVector Nelson::StringGateway::char_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1)
+    if (nLhs > 0)
     {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }

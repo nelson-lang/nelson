@@ -33,7 +33,7 @@ namespace Nelson {
         }
         ArrayOfVector argsIn;
         argsIn.push_back(a);
-        int nargout = 1;
+        int nargout = 0;
         ArrayOfVector res = funcDef->evaluateFunction(eval, argsIn, nargout);
     }
     //=============================================================================

@@ -84,7 +84,7 @@ ArrayOfVector Nelson::MemoryGateway::clearBuiltin(Evaluator* eval, int nLhs, con
                 Context *ctxt = eval->getContext();
                 if (ctxt->isLockedVariable(wstring_to_utf8(arg1)))
                 {
-                    Error(eval, _W("variable is locked."));
+                    Error(eval, _W("variable is locked:") + arg1);
                 }
                 ClearVariable(eval, arg1);
             }
@@ -100,7 +100,7 @@ ArrayOfVector Nelson::MemoryGateway::clearBuiltin(Evaluator* eval, int nLhs, con
             {
                 if (ctxt->getGlobalScope()->isLockedVariable(wstring_to_utf8(arg2)))
                 {
-                    Error(eval, _W("variable is locked."));
+                    Error(eval, _W("variable is locked:") + arg2);
                 }
                 ClearGlobalVariable(eval, arg2);
             }
@@ -115,7 +115,7 @@ ArrayOfVector Nelson::MemoryGateway::clearBuiltin(Evaluator* eval, int nLhs, con
                     }
                     if (ctxt->isLockedVariable(wstring_to_utf8(arg)))
                     {
-                        Error(eval, _W("variable is locked."));
+                        Error(eval, _W("variable is locked:") + arg);
                     }
                     ClearVariable(eval, arg);
                 }
@@ -134,7 +134,7 @@ ArrayOfVector Nelson::MemoryGateway::clearBuiltin(Evaluator* eval, int nLhs, con
                 }
                 if (ctxt->isLockedVariable(wstring_to_utf8(arg)))
                 {
-                    Error(eval, _W("variable is locked."));
+                    Error(eval, _W("variable is locked:") + arg);
                 }
                 ClearVariable(eval, arg);
             }

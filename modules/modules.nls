@@ -53,6 +53,7 @@ modules_list = {
 'assert_functions';
 'tests_manager';
 'linear_algebra';
+'handle';
 };
 %==============================================================================
 % modules sorted for help
@@ -93,5 +94,6 @@ modules_help_list = {
 'help_tools';
 'localization';
 'i18n';
+'handle';
 };
 %==============================================================================

@@ -29,6 +29,10 @@ ArrayOfVector Nelson::ElementaryFunctionsGateway::dispBuiltin(Evaluator* eval, i
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
+	if (nLhs > 0)
+	{
+		Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+	}
     OverloadDisplay(eval, argIn[0]);
     return retval;
 }
