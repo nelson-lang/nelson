@@ -3409,8 +3409,7 @@ break;
                 case NLS_HANDLE:
                     if (dp->dimensions.isScalar())
                     {
-                        snprintf(msgBuffer, MSGBUFLEN, "[%d]", *((const nelson_handle*)dp->getData()));
-                        io->outputMessage(msgBuffer);
+                        io->outputMessage("[handle]");
                     }
                     else
                     {

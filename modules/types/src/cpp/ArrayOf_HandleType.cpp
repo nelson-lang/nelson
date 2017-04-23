@@ -16,3 +16,41 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include "ArrayOf.hpp"
+#include "Data.hpp"
+#include "HandleManager.hpp"
+//=============================================================================
+namespace Nelson
+{
+	//=============================================================================
+	const bool ArrayOf::isHandle() const
+	{
+		bool ishandle = (dp->dataClass == NLS_HANDLE);
+		return ishandle;
+	}
+	//=============================================================================
+	ArrayOf ArrayOf::handleConstructor(HandleGenericObject *ptr)
+	{
+		nelson_handle *ptrObject = (nelson_handle *)ArrayOf::allocateArrayOf(NLS_HANDLE, 1);
+		Dimensions dims(1, 1);
+		ptrObject[0] = HandleManager::getInstance()->addHandle(ptr);
+		return ArrayOf(NLS_HANDLE, dims, (void *)ptrObject);
+	}
+	//=============================================================================
+	HandleGenericObject *ArrayOf::getContentsAsHandleScalar()
+	{
+		if (!isHandle())
+		{
+			throw Exception(_W("Expected a handle scalar."));
+		}
+		if (!isScalar())
+		{
+			throw Exception(_W("Expected a handle scalar."));
+		}
+		nelson_handle *qp = (nelson_handle*)dp->getData();
+		nelson_handle hl = (*qp);
+		return HandleManager::getInstance()->getPointer(hl);
+	}
+	//=============================================================================
+}
+//=============================================================================

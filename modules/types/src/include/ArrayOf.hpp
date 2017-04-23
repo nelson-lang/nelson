@@ -46,6 +46,7 @@
 #include "Types.hpp"
 #include "Exception.hpp"
 #include "Interface.hpp"
+#include "HandleGenericObject.hpp"
 
 namespace Nelson {
 
@@ -885,7 +886,11 @@ namespace Nelson {
         void scalarToMatrix(Dimensions newDimensions);
 
         void deleteArrayOf(void *dp, Class dataclass);
-    };
+
+		const bool isHandle() const;
+		static ArrayOf handleConstructor(HandleGenericObject *ptr);
+		HandleGenericObject *getContentsAsHandleScalar();
+};
 
     void dumpAllArrayOfs();
 

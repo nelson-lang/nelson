@@ -48,6 +48,12 @@
     <ClInclude Include="..\include\IsValidVariableName.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\HandleManager.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\HandleGenericObject.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\Dimensions.cpp">
@@ -102,6 +108,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\ArrayOf_HandleType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\HandleManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\HandleGenericObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

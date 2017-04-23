@@ -200,3 +200,7 @@
 #define ERROR_FIELDNAMES_MUST_MATCH _W("Fieldnames in structs must match.")
 
 #define ERROR_SCALAR_EXPECTED _W("A scalar expected.")
+
+#define ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED _W("Wrong type for argument #1: handle expected.")
+#define ERROR_WRONG_ARGUMENT_2_TYPE_HANDLE_EXPECTED _W("Wrong type for argument #2: handle expected.")
+#define ERROR_WRONG_ARGUMENT_X_TYPE_HANDLE_EXPECTED _W("Wrong type for argument #%d: handle expected.")

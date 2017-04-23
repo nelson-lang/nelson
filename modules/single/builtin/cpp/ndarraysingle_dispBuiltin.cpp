@@ -24,7 +24,11 @@ using namespace Nelson;
 ArrayOfVector Nelson::SingleGateway::ndarraysingle_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 1)
+	if (nLhs > 0)
+	{
+		Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+	}
+	if (argIn.size() != 1)
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }

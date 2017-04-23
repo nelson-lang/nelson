@@ -40,6 +40,7 @@
 #include "isrealBuiltin.hpp"
 #include "isemptyBuiltin.hpp"
 #include "isclassBuiltin.hpp"
+#include "ishandleBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -70,6 +71,7 @@ static const nlsGateway gateway[] =
     { "isreal", Nelson::TypeGateway::isrealBuiltin, 1, 1 },
     { "isempty", Nelson::TypeGateway::isemptyBuiltin, 1, 1 },
     { "isclass", Nelson::TypeGateway::isclassBuiltin, 1, 1 },
+	{ "ishandle", Nelson::TypeGateway::ishandleBuiltin, 1, 1 },
 
 };
 //=============================================================================

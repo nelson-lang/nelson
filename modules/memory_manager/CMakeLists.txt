@@ -48,6 +48,7 @@ nlsCharacters_encoding
 nlsInterpreter
 nlsError_manager
 nlsI18n
+nlsTypes
 )
 #==============================================================================	
 set_target_properties(${module_library_name}

@@ -201,6 +201,8 @@
     <ClInclude Include="..\..\src\include\SparseDynamicFunctions.hpp" />
     <ClInclude Include="..\..\src\include\StringToClass.hpp" />
     <ClInclude Include="..\..\src\include\Types.hpp" />
+    <ClInclude Include="..\include\HandleGenericObject.hpp" />
+    <ClInclude Include="..\include\HandleManager.hpp" />
     <ClInclude Include="..\include\IsValidVariableName.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -220,6 +222,8 @@
     <ClCompile Include="..\cpp\ClassName.cpp" />
     <ClCompile Include="..\cpp\Data.cpp" />
     <ClCompile Include="..\cpp\Dimensions.cpp" />
+    <ClCompile Include="..\cpp\HandleGenericObject.cpp" />
+    <ClCompile Include="..\cpp\HandleManager.cpp" />
     <ClCompile Include="..\cpp\IsValidFieldname.cpp" />
     <ClCompile Include="..\cpp\IsValidVariableName.cpp" />
     <ClCompile Include="..\cpp\SparseDynamicFunctions.cpp" />
