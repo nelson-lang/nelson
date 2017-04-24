@@ -26,59 +26,58 @@ namespace Nelson {
     //=============================================================================
     void HandleDisplay(Evaluator *eval, ArrayOf A)
     {
-		if (eval)
-		{
-			bool doOverload = false;
-			std::wstring handleTypeName = utf8_to_wstring(NLS_HANDLE_STR);
-			Interface *io = eval->getInterface();
-			if (io)
-			{
-				Dimensions dimsA = A.getDimensions();
-				if (!A.isEmpty())
-				{
-					nelson_handle *qp = (nelson_handle*)A.getDataPointer();
-					for (indexType k = 0; k < dimsA.getElementCount(); k++)
-					{
-						nelson_handle hl = qp[k];
-						HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-						if (hlObj)
-						{
-							std::wstring currentType = hlObj->getCategory();
-							if (currentType != L"" || currentType != utf8_to_wstring(NLS_HANDLE_STR))
-							{
-								handleTypeName = currentType;
-								break;
-							}
-						}
-					}
-					if (handleTypeName != utf8_to_wstring(NLS_HANDLE_STR))
-					{
-						std::wstring ufunctionNameDispHandle = L"handle_" + handleTypeName + L"_disp";
-						std::string functionNameDispHandle = wstring_to_utf8(ufunctionNameDispHandle);
-						Context *context = eval->getContext();
-						FunctionDef *funcDef = nullptr;
-						if (context->lookupFunction(functionNameDispHandle, funcDef))
-						{
-							if ((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION))
-							{
-								int nLhs = 0;
-								ArrayOfVector argIn;
-								argIn.push_back(A);
-								funcDef->evaluateFunction(eval, argIn, nLhs);
-								doOverload = true;
-							}
-						}
-					}
-				}
-
-				if (!doOverload)
-				{
-					io->outputMessage(L"[" + handleTypeName + L"] - size: ");
-					dimsA.printMe(io);
-					io->outputMessage("\n");
-				}
-			}
-		}
+        if (eval)
+        {
+            bool doOverload = false;
+            std::wstring handleTypeName = utf8_to_wstring(NLS_HANDLE_STR);
+            Interface *io = eval->getInterface();
+            if (io)
+            {
+                Dimensions dimsA = A.getDimensions();
+                if (!A.isEmpty())
+                {
+                    nelson_handle *qp = (nelson_handle*)A.getDataPointer();
+                    for (indexType k = 0; k < dimsA.getElementCount(); k++)
+                    {
+                        nelson_handle hl = qp[k];
+                        HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
+                        if (hlObj)
+                        {
+                            std::wstring currentType = hlObj->getCategory();
+                            if (currentType != L"" || currentType != utf8_to_wstring(NLS_HANDLE_STR))
+                            {
+                                handleTypeName = currentType;
+                                break;
+                            }
+                        }
+                    }
+                    if (handleTypeName != utf8_to_wstring(NLS_HANDLE_STR))
+                    {
+                        std::wstring ufunctionNameDispHandle = L"handle_" + handleTypeName + L"_disp";
+                        std::string functionNameDispHandle = wstring_to_utf8(ufunctionNameDispHandle);
+                        Context *context = eval->getContext();
+                        FunctionDef *funcDef = nullptr;
+                        if (context->lookupFunction(functionNameDispHandle, funcDef))
+                        {
+                            if ((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION))
+                            {
+                                int nLhs = 0;
+                                ArrayOfVector argIn;
+                                argIn.push_back(A);
+                                funcDef->evaluateFunction(eval, argIn, nLhs);
+                                doOverload = true;
+                            }
+                        }
+                    }
+                }
+                if (!doOverload)
+                {
+                    io->outputMessage(L"[" + handleTypeName + L"] - size: ");
+                    dimsA.printMe(io);
+                    io->outputMessage("\n");
+                }
+            }
+        }
     }
     //=============================================================================
 }

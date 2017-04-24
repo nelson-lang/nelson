@@ -21,22 +21,20 @@
 #include <string>
 #include "nlsTypes_exports.h"
 //=============================================================================
-namespace Nelson
-{
-	//=============================================================================
-	class NLSTYPES_IMPEXP HandleGenericObject 
-	{
-	private:
-		std::wstring category;
-		void *ptr;
-	public:
-		HandleGenericObject(std::wstring _category, void *_ptr);
-		~HandleGenericObject();
-		void setCategory(std::wstring _category);
-		std::wstring getCategory();
-		void setPointer(void *_ptr);
-		void *getPointer();
-	};
-	//=============================================================================
+namespace Nelson {
+    //=============================================================================
+    class NLSTYPES_IMPEXP HandleGenericObject {
+    private:
+        std::wstring category;
+        void *ptr;
+    public:
+        HandleGenericObject(std::wstring _category, void *_ptr);
+        ~HandleGenericObject();
+        void setCategory(std::wstring _category);
+        std::wstring getCategory();
+        void setPointer(void *_ptr);
+        void *getPointer();
+    };
+    //=============================================================================
 }
 //=============================================================================

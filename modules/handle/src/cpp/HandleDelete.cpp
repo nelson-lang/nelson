@@ -25,50 +25,50 @@ namespace Nelson {
     //=============================================================================
     void HandleDelete(Evaluator *eval, ArrayOf A)
     {
-		if (A.isHandle())
-		{
-			Dimensions dimsA = A.getDimensions();
-			nelson_handle *qp = (nelson_handle*)A.getDataPointer();
-			for (indexType k = 0; k < dimsA.getElementCount(); k++)
-			{
-				bool doOverload = false;
-				nelson_handle hl = qp[k];
-				HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-				if (hlObj)
-				{
-					std::wstring handleTypeName = hlObj->getCategory();
-					if (!handleTypeName.empty())
-					{
-						std::wstring ufunctionNameClearHandle = L"handle_" + handleTypeName + L"_delete";
-						std::string functionNameClearHandle = wstring_to_utf8(ufunctionNameClearHandle);
-						Context *context = eval->getContext();
-						FunctionDef *funcDef = nullptr;
-						if (context->lookupFunction(functionNameClearHandle, funcDef))
-						{
-							if ((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION))
-							{
-								int nLhs = 0;
-								ArrayOfVector argIn;
-								nelson_handle *ptrObject = (nelson_handle *)ArrayOf::allocateArrayOf(NLS_HANDLE, 1);
-								Dimensions dims(1, 1);
-								ptrObject[0] = hl;
-								argIn.push_back(ArrayOf(NLS_HANDLE, dims, (void *)ptrObject));
-								funcDef->evaluateFunction(eval, argIn, nLhs);
-								doOverload = true;
-							}
-						}
-					}
-					if (!doOverload)
-					{
-						void * ptr = (void *)hlObj->getPointer();
-						delete[] ptr;
-						hlObj->setPointer(nullptr);
-					}
-				}
-				HandleManager::getInstance()->removeHandle(hl);
-			}
-		}
-	}
+        if (A.isHandle())
+        {
+            Dimensions dimsA = A.getDimensions();
+            nelson_handle *qp = (nelson_handle*)A.getDataPointer();
+            for (indexType k = 0; k < dimsA.getElementCount(); k++)
+            {
+                bool doOverload = false;
+                nelson_handle hl = qp[k];
+                HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
+                if (hlObj)
+                {
+                    std::wstring handleTypeName = hlObj->getCategory();
+                    if (!handleTypeName.empty())
+                    {
+                        std::wstring ufunctionNameClearHandle = L"handle_" + handleTypeName + L"_delete";
+                        std::string functionNameClearHandle = wstring_to_utf8(ufunctionNameClearHandle);
+                        Context *context = eval->getContext();
+                        FunctionDef *funcDef = nullptr;
+                        if (context->lookupFunction(functionNameClearHandle, funcDef))
+                        {
+                            if ((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION))
+                            {
+                                int nLhs = 0;
+                                ArrayOfVector argIn;
+                                nelson_handle *ptrObject = (nelson_handle *)ArrayOf::allocateArrayOf(NLS_HANDLE, 1);
+                                Dimensions dims(1, 1);
+                                ptrObject[0] = hl;
+                                argIn.push_back(ArrayOf(NLS_HANDLE, dims, (void *)ptrObject));
+                                funcDef->evaluateFunction(eval, argIn, nLhs);
+                                doOverload = true;
+                            }
+                        }
+                    }
+                    if (!doOverload)
+                    {
+                        void * ptr = (void *)hlObj->getPointer();
+                        delete[] ptr;
+                        hlObj->setPointer(nullptr);
+                    }
+                }
+                HandleManager::getInstance()->removeHandle(hl);
+            }
+        }
+    }
     //=============================================================================
 }
 //=============================================================================

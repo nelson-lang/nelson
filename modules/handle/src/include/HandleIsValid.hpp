@@ -22,6 +22,6 @@
 #include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
-	NLSHANDLE_IMPEXP ArrayOf HandleIsValid(ArrayOf A);
+    NLSHANDLE_IMPEXP ArrayOf HandleIsValid(ArrayOf A);
 }
 //=============================================================================

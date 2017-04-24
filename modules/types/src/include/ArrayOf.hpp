@@ -887,10 +887,10 @@ namespace Nelson {
 
         void deleteArrayOf(void *dp, Class dataclass);
 
-		const bool isHandle() const;
-		static ArrayOf handleConstructor(HandleGenericObject *ptr);
-		HandleGenericObject *getContentsAsHandleScalar();
-};
+        const bool isHandle() const;
+        static ArrayOf handleConstructor(HandleGenericObject *ptr);
+        HandleGenericObject *getContentsAsHandleScalar();
+    };
 
     void dumpAllArrayOfs();
 

@@ -20,19 +20,19 @@
 #include "HandleManager.hpp"
 //=============================================================================
 namespace Nelson {
-	//=============================================================================
-	ArrayOf HandleIsValid(ArrayOf A)
-	{
-		Dimensions dimsA = A.getDimensions();
-		Dimensions dimsRes = A.getDimensions();
-		nelson_handle *handles = (nelson_handle *)A.getDataPointer();
-		logical *l = (logical *)ArrayOf::allocateArrayOf(NLS_LOGICAL, dimsA.getElementCount());
-		for (indexType k = 0; k < dimsA.getElementCount(); k++)
-		{
-			l[k] = HandleManager::getInstance()->isValid(handles[k]);
-		}
-		return ArrayOf(NLS_LOGICAL, dimsRes, (void*)l);
-	}
-	//=============================================================================
+    //=============================================================================
+    ArrayOf HandleIsValid(ArrayOf A)
+    {
+        Dimensions dimsA = A.getDimensions();
+        Dimensions dimsRes = A.getDimensions();
+        nelson_handle *handles = (nelson_handle *)A.getDataPointer();
+        logical *l = (logical *)ArrayOf::allocateArrayOf(NLS_LOGICAL, dimsA.getElementCount());
+        for (indexType k = 0; k < dimsA.getElementCount(); k++)
+        {
+            l[k] = HandleManager::getInstance()->isValid(handles[k]);
+        }
+        return ArrayOf(NLS_LOGICAL, dimsRes, (void*)l);
+    }
+    //=============================================================================
 }
 //=============================================================================

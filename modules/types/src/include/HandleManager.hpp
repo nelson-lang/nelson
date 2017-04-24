@@ -25,23 +25,23 @@
 #include "HandleGenericObject.hpp"
 //=============================================================================
 namespace Nelson {
-	//=============================================================================
-	class NLSTYPES_IMPEXP HandleManager {
-		//=============================================================================
-	public:
-		static HandleManager *getInstance();
-		void destroy();
-		nelson_handle addHandle(HandleGenericObject *ptr);
-		bool removeHandle(nelson_handle hl);
-		HandleGenericObject *getPointer(nelson_handle hl);
-		bool isValid(nelson_handle hl);
-		//=============================================================================
-	private:
-		HandleManager();
-		boost::unordered_map<nelson_handle, HandleGenericObject *> handleMap;
-		static HandleManager *m_pInstance;
-		//=============================================================================
-	};
-	//=============================================================================
+    //=============================================================================
+    class NLSTYPES_IMPEXP HandleManager {
+        //=============================================================================
+    public:
+        static HandleManager *getInstance();
+        void destroy();
+        nelson_handle addHandle(HandleGenericObject *ptr);
+        bool removeHandle(nelson_handle hl);
+        HandleGenericObject *getPointer(nelson_handle hl);
+        bool isValid(nelson_handle hl);
+        //=============================================================================
+    private:
+        HandleManager();
+        boost::unordered_map<nelson_handle, HandleGenericObject *> handleMap;
+        static HandleManager *m_pInstance;
+        //=============================================================================
+    };
+    //=============================================================================
 }
 //=============================================================================
