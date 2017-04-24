@@ -29,15 +29,15 @@ ArrayOfVector Nelson::HandleGateway::handle_isvalidBuiltin(Evaluator* eval, int 
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-	ArrayOf param1 = argIn[0];
-	if (param1.isHandle())
-	{
-		retval.push_back(HandleIsValid(param1));
-	}
-	else
-	{
-		Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED);
-	}
-	return retval;
+    ArrayOf param1 = argIn[0];
+    if (param1.isHandle())
+    {
+        retval.push_back(HandleIsValid(param1));
+    }
+    else
+    {
+        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED);
+    }
+    return retval;
 }
 //=============================================================================

@@ -19,53 +19,51 @@
 #include "HandleGenericObject.hpp"
 #include "Exception.hpp"
 //=============================================================================
-namespace Nelson
-{
-	//=============================================================================
-	HandleGenericObject::HandleGenericObject(std::wstring _category, void *_ptr)
-	{
-		if (_category.empty())
-		{
-			throw Exception(_W("handle must have a type."));
-		}
-		if (_ptr == nullptr)
-		{
-			throw Exception(_W("handle must have a pointer."));
-		}
-
-		this->category = _category;
-		this->ptr = _ptr;
-	}
-	//=============================================================================
-	HandleGenericObject::~HandleGenericObject()
-	{
-		this->category.clear();
-		this->ptr = nullptr;
-	}
-	//=============================================================================
-	void HandleGenericObject::setCategory(std::wstring _category)
-	{
-		if (_category.empty())
-		{
-			throw Exception(_W("handle must have a type."));
-		}
-		this->category = _category;
-	}
-	//=============================================================================
-	std::wstring HandleGenericObject::getCategory()
-	{
-		return this->category;
-	}
-	//=============================================================================
-	void HandleGenericObject::setPointer(void *_ptr)
-	{
-		this->ptr = _ptr;
-	}
-	//=============================================================================
-	void *HandleGenericObject::getPointer()
-	{
-		return this->ptr;
-	}
-	//=============================================================================
+namespace Nelson {
+    //=============================================================================
+    HandleGenericObject::HandleGenericObject(std::wstring _category, void *_ptr)
+    {
+        if (_category.empty())
+        {
+            throw Exception(_W("handle must have a type."));
+        }
+        if (_ptr == nullptr)
+        {
+            throw Exception(_W("handle must have a pointer."));
+        }
+        this->category = _category;
+        this->ptr = _ptr;
+    }
+    //=============================================================================
+    HandleGenericObject::~HandleGenericObject()
+    {
+        this->category.clear();
+        this->ptr = nullptr;
+    }
+    //=============================================================================
+    void HandleGenericObject::setCategory(std::wstring _category)
+    {
+        if (_category.empty())
+        {
+            throw Exception(_W("handle must have a type."));
+        }
+        this->category = _category;
+    }
+    //=============================================================================
+    std::wstring HandleGenericObject::getCategory()
+    {
+        return this->category;
+    }
+    //=============================================================================
+    void HandleGenericObject::setPointer(void *_ptr)
+    {
+        this->ptr = _ptr;
+    }
+    //=============================================================================
+    void *HandleGenericObject::getPointer()
+    {
+        return this->ptr;
+    }
+    //=============================================================================
 }
 //=============================================================================

@@ -68,25 +68,25 @@ ArrayOfVector Nelson::TypeGateway::isaBuiltin(Evaluator* eval, int nLhs, const A
     }
     else
     {
-		bool res = false;
+        bool res = false;
         std::wstring currentClassName;
         ClassName(param1, currentClassName);
-		if (currentClassName == utf8_to_wstring(NLS_HANDLE_STR))
-		{
-			if (classnameExpected == utf8_to_wstring(NLS_HANDLE_STR))
-			{
-				res = true;
-			}
-			else
-			{
-				HandleGenericObject *ptr = param1.getContentsAsHandleScalar();
-				res = (ptr->getCategory() == classnameExpected);
-			}
-		}
-		else
-		{
-			res = (currentClassName == classnameExpected);
-		}
+        if (currentClassName == utf8_to_wstring(NLS_HANDLE_STR))
+        {
+            if (classnameExpected == utf8_to_wstring(NLS_HANDLE_STR))
+            {
+                res = true;
+            }
+            else
+            {
+                HandleGenericObject *ptr = param1.getContentsAsHandleScalar();
+                res = (ptr->getCategory() == classnameExpected);
+            }
+        }
+        else
+        {
+            res = (currentClassName == classnameExpected);
+        }
         retval.push_back(ArrayOf::logicalConstructor(res));
     }
     return retval;

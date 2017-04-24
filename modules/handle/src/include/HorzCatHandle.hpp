@@ -22,6 +22,6 @@
 #include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
-	NLSHANDLE_IMPEXP ArrayOf HorzCatHandle(ArrayOf A, ArrayOf B);
+    NLSHANDLE_IMPEXP ArrayOf HorzCatHandle(ArrayOf A, ArrayOf B);
 }
 //=============================================================================

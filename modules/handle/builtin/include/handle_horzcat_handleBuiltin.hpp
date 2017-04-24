@@ -22,8 +22,8 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-	namespace HandleGateway {
-		ArrayOfVector handle_horzcat_handleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-	}
+    namespace HandleGateway {
+        ArrayOfVector handle_horzcat_handleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    }
 }
 //=============================================================================

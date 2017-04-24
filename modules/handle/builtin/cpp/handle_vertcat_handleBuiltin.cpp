@@ -24,18 +24,18 @@ using namespace Nelson;
 //=============================================================================
 ArrayOfVector Nelson::HandleGateway::handle_vertcat_handleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-	ArrayOfVector retval;
-	if (argIn.size() != 2)
-	{
-		Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-	}
-	if (nLhs > 1)
-	{
-		Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-	}
-	ArrayOf A = argIn[0];
-	ArrayOf B = argIn[1];
-	retval.push_back(VertCatHandle(A, B));
-	return retval;
+    ArrayOfVector retval;
+    if (argIn.size() != 2)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    if (nLhs > 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    ArrayOf A = argIn[0];
+    ArrayOf B = argIn[1];
+    retval.push_back(VertCatHandle(A, B));
+    return retval;
 }
 //=============================================================================
