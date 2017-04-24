@@ -31,7 +31,7 @@ namespace Nelson {
 		{
 			l[k] = HandleManager::getInstance()->isValid(handles[k]);
 		}
-		return ArrayOf::ArrayOf(NLS_LOGICAL, dimsRes, (void*)l);
+		return ArrayOf(NLS_LOGICAL, dimsRes, (void*)l);
 	}
 	//=============================================================================
 }
