@@ -57,7 +57,6 @@ namespace Nelson {
         indexType newRowsSize = dimsA.getRows() + dimsB.getRows();
         indexType newSize = newColumnsSize * newRowsSize;
         Dimensions dimsC = Dimensions(newRowsSize, newColumnsSize);
-        charType *ptrC = nullptr;
         charType *ptrA = (charType *)A.getDataPointer();
         charType *ptrB = (charType *)B.getDataPointer();
 		charType *ptrC = (charType*)ArrayOf::allocateArrayOf(NLS_CHAR, newSize);
