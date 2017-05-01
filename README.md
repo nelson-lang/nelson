@@ -37,9 +37,12 @@ these own data types and operations on these data types by using overload.
   * logical: scalar, vector, matrix 2D, N dimensions array, sparse matrix.
   * string (UNICODE supported).
   * integers 8, 16, 32, 64 signed and unsigned: scalar, vector, matrix 2D, N dimensions array.
+  * handle objects.
+
 - Help engine
  Generate help files using Nelson dedicated functions.
  View your generated help files as html, pdf or directly in Nelson help viewer.
+
 - Tests engine
  Validate your algorithm using Nelson dedicated functions.
  Export the test results under the xUnit reports format.
