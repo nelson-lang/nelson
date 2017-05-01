@@ -35,11 +35,11 @@ ArrayOfVector Nelson::DataStructuresGateway::fieldnamesBuiltin(Evaluator* eval, 
     retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
     if (!bSuccess)
     {
-		if (argIn.size() != 1)
-		{
-			Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-		}
-		ArrayOf arg1 = argIn[0];
+        if (argIn.size() != 1)
+        {
+            Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        }
+        ArrayOf arg1 = argIn[0];
         if (arg1.isClassStruct())
         {
             Error(eval, utf8_to_wstring(arg1.getStructType()) + L"_fieldnames "  + _W("not defined."));

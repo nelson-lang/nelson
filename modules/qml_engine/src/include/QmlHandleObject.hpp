@@ -26,7 +26,7 @@ namespace Nelson {
     //=============================================================================
     class NLSQML_ENGINE_IMPEXP QmlHandleObject : public HandleGenericObject {
     public:
-		QmlHandleObject( void *_ptr);
+        QmlHandleObject( void *_ptr);
         ~QmlHandleObject();
     };
     //=============================================================================

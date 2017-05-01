@@ -25,37 +25,37 @@ using namespace Nelson;
 //=============================================================================
 ArrayOfVector Nelson::QmlEngineGateway::handle_QML_fieldnamesBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-	if (argIn.size() == 0 || argIn.size() > 2)
-	{
-		Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-	}
-	if (nLhs > 1)
-	{
-		Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-	}
-	bool fullList = false;
-	ArrayOfVector retval;
-	if (argIn.size() == 2)
-	{
-		ArrayOf param2 = argIn[1];
-		std::wstring param2str = param2.getContentsAsWideString();
-		if (param2str == L"-full")
-		{
-			fullList = true;
-		}
-		else
-		{
-			Error(eval, _W("Unrecognized option. \"-full\" expected."));
-		}
-	}
-	ArrayOf param1 = argIn[0];
-	if (!param1.isHandle())
-	{
-		Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
-	}
-	wstringVector fieldnames;
-	fieldnamesQmlHandleObject(param1, fullList, fieldnames);
-	retval.push_back(ToCellStringAsColumn(fieldnames));
-	return retval;
+    if (argIn.size() == 0 || argIn.size() > 2)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    if (nLhs > 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    bool fullList = false;
+    ArrayOfVector retval;
+    if (argIn.size() == 2)
+    {
+        ArrayOf param2 = argIn[1];
+        std::wstring param2str = param2.getContentsAsWideString();
+        if (param2str == L"-full")
+        {
+            fullList = true;
+        }
+        else
+        {
+            Error(eval, _W("Unrecognized option. \"-full\" expected."));
+        }
+    }
+    ArrayOf param1 = argIn[0];
+    if (!param1.isHandle())
+    {
+        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
+    }
+    wstringVector fieldnames;
+    fieldnamesQmlHandleObject(param1, fullList, fieldnames);
+    retval.push_back(ToCellStringAsColumn(fieldnames));
+    return retval;
 }
 //=============================================================================

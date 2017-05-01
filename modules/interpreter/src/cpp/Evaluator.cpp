@@ -1757,20 +1757,20 @@ namespace Nelson {
             {
                 ArrayOf expr(expression(t->down->right));
                 ArrayOf c(assignExpression(t->down, expr));
-				if (!c.isHandle())
-				{
-					bool bInserted = context->insertVariable(t->down->text, c);
-					if (!bInserted)
-					{
-						Error(this, _W("Redefining permanent variable."));
-					}
-					if (printIt)
-					{
-						io->outputMessage(t->down->text);
-						io->outputMessage(L" =\n\n");
-						OverloadDisplay(this, c);
-					}
-				}
+                if (!c.isHandle())
+                {
+                    bool bInserted = context->insertVariable(t->down->text, c);
+                    if (!bInserted)
+                    {
+                        Error(this, _W("Redefining permanent variable."));
+                    }
+                    if (printIt)
+                    {
+                        io->outputMessage(t->down->text);
+                        io->outputMessage(L" =\n\n");
+                        OverloadDisplay(this, c);
+                    }
+                }
             }
         }
         else if (t->opNum == (OP_MULTICALL))
@@ -2261,12 +2261,12 @@ namespace Nelson {
             }
             else
             {
-				std::string fieldname = t->down->text;
-				if (r.isHandle())
-				{
-					setHandle(r, fieldname, value);
-				}
-				else if (r.isStruct() || r.isEmpty())
+                std::string fieldname = t->down->text;
+                if (r.isHandle())
+                {
+                    setHandle(r, fieldname, value);
+                }
+                else if (r.isStruct() || r.isEmpty())
                 {
                     r.setFieldAsList(fieldname, value);
                 }
@@ -2291,14 +2291,14 @@ namespace Nelson {
                 e.what();
                 Error(this, ERROR_DYNAMIC_FIELD_STRING_EXPECTED);
             }
-			if (r.isHandle())
-			{
-				setHandle(r, field, value);
-			}
-			else
-			{
-				r.setFieldAsList(field, value);
-			}
+            if (r.isHandle())
+            {
+                setHandle(r, field, value);
+            }
+            else
+            {
+                r.setFieldAsList(field, value);
+            }
             popID();
             return;
         }
@@ -4082,31 +4082,31 @@ namespace Nelson {
                 }
                 else if (rv.size() == 0)
                 {
-					r = ArrayOf::emptyConstructor();
-					Error(this, ERROR_EMPTY_EXPRESSION);
+                    r = ArrayOf::emptyConstructor();
+                    Error(this, ERROR_EMPTY_EXPRESSION);
                 }
             }
             if (t->opNum == (OP_DOT))
             {
-				std::string fieldname = t->down->text;
-				if (r.isHandle())
-				{
-					rv = getHandle(r, fieldname);
-				}
-				else
-				{
-					rv = r.getFieldAsList(fieldname);
-				}
-				if (rv.size() == 1)
-				{
-					r = rv[0];
-					rv = ArrayOfVector();
-				}
-				else if (rv.size() == 0)
-				{
-					r = ArrayOf::emptyConstructor();
-					rv = ArrayOfVector();
-				}
+                std::string fieldname = t->down->text;
+                if (r.isHandle())
+                {
+                    rv = getHandle(r, fieldname);
+                }
+                else
+                {
+                    rv = r.getFieldAsList(fieldname);
+                }
+                if (rv.size() == 1)
+                {
+                    r = rv[0];
+                    rv = ArrayOfVector();
+                }
+                else if (rv.size() == 0)
+                {
+                    r = ArrayOf::emptyConstructor();
+                    rv = ArrayOfVector();
+                }
             }
             if (t->opNum == (OP_DOTDYN))
             {
@@ -4121,14 +4121,14 @@ namespace Nelson {
                     e.what();
                     Error(this, _W("dynamic field reference to structure requires a string argument"));
                 }
-				if (r.isHandle())
-				{
-					rv = getHandle(r, field);
-				}
-				else
-				{
-					rv = r.getFieldAsList(field);
-				}
+                if (r.isHandle())
+                {
+                    rv = getHandle(r, field);
+                }
+                else
+                {
+                    rv = r.getFieldAsList(field);
+                }
                 if (rv.size() <= 1)
                 {
                     r = rv[0];
@@ -4656,76 +4656,76 @@ namespace Nelson {
         bQuietMode = _quiet;
     }
     //=============================================================================
-	void Evaluator::setHandle(ArrayOf r, std::string fieldname, ArrayOfVector fieldvalue)
-	{
-		if (!r.isScalar())
-		{
-			Error(this, ERROR_SCALAR_EXPECTED);
-		}
-		if (fieldvalue.size() != 1)
-		{
-			Error(this, _W("Right hand values must satisfy left hand side expression."));
-		}
-		nelson_handle *qp = (nelson_handle*)r.getDataPointer();
-		nelson_handle hl = qp[0];
-		HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-		if (hlObj == nullptr)
-		{
-			Error(this, _W("Valid handle expected."));
-		}
-		std::wstring currentType = hlObj->getCategory();
-		std::wstring ufunctionNameSetHandle = L"handle_" + currentType + L"_set";
-		std::string functionNameSetHandle = wstring_to_utf8(ufunctionNameSetHandle);
-		Context *context = this->getContext();
-		FunctionDef *funcDef = nullptr;
-		if (!context->lookupFunction(functionNameSetHandle, funcDef))
-		{
-			Error(this, _W("Function not found."));
-		}
-		if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION)))
-		{
-			Error(this, _W("Type function not valid."));
-		}
-		int nLhs = 0;
-		ArrayOfVector argIn;
-		argIn.push_back(r);
-		argIn.push_back(ArrayOf::stringConstructor(fieldname));
-		argIn.push_back(fieldvalue[0]);
-		funcDef->evaluateFunction(this, argIn, nLhs);
-	}
-	//=============================================================================
-	ArrayOfVector Evaluator::getHandle(ArrayOf r, std::string fieldname)
-	{
-		if (!r.isScalar())
-		{
-			Error(this, ERROR_SCALAR_EXPECTED);
-		}
-		nelson_handle *qp = (nelson_handle*)r.getDataPointer();
-		nelson_handle hl = qp[0];
-		HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-		if (hlObj == nullptr)
-		{
-			Error(this, _W("Valid handle expected."));
-		}
-		std::wstring currentType = hlObj->getCategory();
-		std::wstring ufunctionNameGetHandle = L"handle_" + currentType + L"_get";
-		std::string functionNameGetHandle = wstring_to_utf8(ufunctionNameGetHandle);
-		Context *context = this->getContext();
-		FunctionDef *funcDef = nullptr;
-		if (!context->lookupFunction(functionNameGetHandle, funcDef))
-		{
-			Error(this, _W("Function not found."));
-		}
-		if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION)))
-		{
-			Error(this, _W("Type function not valid."));
-		}
-		int nLhs = 1;
-		ArrayOfVector argIn;
-		argIn.push_back(r);
-		argIn.push_back(ArrayOf::stringConstructor(fieldname));
-		return funcDef->evaluateFunction(this, argIn, nLhs);
-	}
-	//=============================================================================
+    void Evaluator::setHandle(ArrayOf r, std::string fieldname, ArrayOfVector fieldvalue)
+    {
+        if (!r.isScalar())
+        {
+            Error(this, ERROR_SCALAR_EXPECTED);
+        }
+        if (fieldvalue.size() != 1)
+        {
+            Error(this, _W("Right hand values must satisfy left hand side expression."));
+        }
+        nelson_handle *qp = (nelson_handle*)r.getDataPointer();
+        nelson_handle hl = qp[0];
+        HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
+        if (hlObj == nullptr)
+        {
+            Error(this, _W("Valid handle expected."));
+        }
+        std::wstring currentType = hlObj->getCategory();
+        std::wstring ufunctionNameSetHandle = L"handle_" + currentType + L"_set";
+        std::string functionNameSetHandle = wstring_to_utf8(ufunctionNameSetHandle);
+        Context *context = this->getContext();
+        FunctionDef *funcDef = nullptr;
+        if (!context->lookupFunction(functionNameSetHandle, funcDef))
+        {
+            Error(this, _W("Function not found."));
+        }
+        if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION)))
+        {
+            Error(this, _W("Type function not valid."));
+        }
+        int nLhs = 0;
+        ArrayOfVector argIn;
+        argIn.push_back(r);
+        argIn.push_back(ArrayOf::stringConstructor(fieldname));
+        argIn.push_back(fieldvalue[0]);
+        funcDef->evaluateFunction(this, argIn, nLhs);
+    }
+    //=============================================================================
+    ArrayOfVector Evaluator::getHandle(ArrayOf r, std::string fieldname)
+    {
+        if (!r.isScalar())
+        {
+            Error(this, ERROR_SCALAR_EXPECTED);
+        }
+        nelson_handle *qp = (nelson_handle*)r.getDataPointer();
+        nelson_handle hl = qp[0];
+        HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
+        if (hlObj == nullptr)
+        {
+            Error(this, _W("Valid handle expected."));
+        }
+        std::wstring currentType = hlObj->getCategory();
+        std::wstring ufunctionNameGetHandle = L"handle_" + currentType + L"_get";
+        std::string functionNameGetHandle = wstring_to_utf8(ufunctionNameGetHandle);
+        Context *context = this->getContext();
+        FunctionDef *funcDef = nullptr;
+        if (!context->lookupFunction(functionNameGetHandle, funcDef))
+        {
+            Error(this, _W("Function not found."));
+        }
+        if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION)))
+        {
+            Error(this, _W("Type function not valid."));
+        }
+        int nLhs = 1;
+        ArrayOfVector argIn;
+        argIn.push_back(r);
+        argIn.push_back(ArrayOf::stringConstructor(fieldname));
+        return funcDef->evaluateFunction(this, argIn, nLhs);
+    }
+    //=============================================================================
 }
 //=============================================================================

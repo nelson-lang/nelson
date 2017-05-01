@@ -36,60 +36,60 @@ ArrayOfVector Nelson::HandleGateway::handle_fieldnamesBuiltin(Evaluator* eval, i
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
-	if (param1.isHandle())
-	{
-		if (param1.isScalar())
-		{
-			nelson_handle *qp = (nelson_handle*)param1.getDataPointer();
-			if (qp == nullptr)
-			{
-				Error(eval, _W("Invalid handle."));
-			}
-			nelson_handle hl = qp[0];
-			HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-			if (hlObj == nullptr)
-			{
-				Error(eval, _W("Invalid handle."));
-			}
-			std::wstring handleTypeName = hlObj->getCategory();
-			if (handleTypeName == utf8_to_wstring(NLS_HANDLE_STR) || handleTypeName == L"")
-			{
-				Error(eval, _W("Invalid handle."));
-			}
-			std::wstring ufunctionNameGetHandle = L"handle_" + handleTypeName + L"_fieldnames";
-			std::string functionNameGetHandle = wstring_to_utf8(ufunctionNameGetHandle);
-			Context *context = eval->getContext();
-			FunctionDef *funcDef = nullptr;
-			if (!context->lookupFunction(functionNameGetHandle, funcDef))
-			{
-				std::wstring msg = ufunctionNameGetHandle + L" " + _W("not defined.");
-				Error(eval, msg);
-			}
-			if ((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION))
-			{
-				ArrayOfVector argInCopy;
-				argInCopy.push_back(param1);
-				if (argIn.size() == 2)
-				{
-					argInCopy.push_back(argIn[1]);
-				}
-				retval = funcDef->evaluateFunction(eval, argInCopy, nLhs);
-			}
-			else
-			{
-				std::wstring msg = ufunctionNameGetHandle + L" " + _W("not defined.");
-				Error(eval, msg);
-			}
-		}
-		else
-		{
-			Error(eval, ERROR_SIZE_SCALAR_EXPECTED);
-		}
-	}
-	else
-	{
-		Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
-	}
+    if (param1.isHandle())
+    {
+        if (param1.isScalar())
+        {
+            nelson_handle *qp = (nelson_handle*)param1.getDataPointer();
+            if (qp == nullptr)
+            {
+                Error(eval, _W("Invalid handle."));
+            }
+            nelson_handle hl = qp[0];
+            HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
+            if (hlObj == nullptr)
+            {
+                Error(eval, _W("Invalid handle."));
+            }
+            std::wstring handleTypeName = hlObj->getCategory();
+            if (handleTypeName == utf8_to_wstring(NLS_HANDLE_STR) || handleTypeName == L"")
+            {
+                Error(eval, _W("Invalid handle."));
+            }
+            std::wstring ufunctionNameGetHandle = L"handle_" + handleTypeName + L"_fieldnames";
+            std::string functionNameGetHandle = wstring_to_utf8(ufunctionNameGetHandle);
+            Context *context = eval->getContext();
+            FunctionDef *funcDef = nullptr;
+            if (!context->lookupFunction(functionNameGetHandle, funcDef))
+            {
+                std::wstring msg = ufunctionNameGetHandle + L" " + _W("not defined.");
+                Error(eval, msg);
+            }
+            if ((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION))
+            {
+                ArrayOfVector argInCopy;
+                argInCopy.push_back(param1);
+                if (argIn.size() == 2)
+                {
+                    argInCopy.push_back(argIn[1]);
+                }
+                retval = funcDef->evaluateFunction(eval, argInCopy, nLhs);
+            }
+            else
+            {
+                std::wstring msg = ufunctionNameGetHandle + L" " + _W("not defined.");
+                Error(eval, msg);
+            }
+        }
+        else
+        {
+            Error(eval, ERROR_SIZE_SCALAR_EXPECTED);
+        }
+    }
+    else
+    {
+        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
+    }
     return retval;
 }
 //=============================================================================

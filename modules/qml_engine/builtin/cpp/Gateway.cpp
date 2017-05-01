@@ -31,11 +31,11 @@ const std::wstring gatewayName = L"qml_engine";
 static const nlsGateway gateway[] =
 {
     { "qml_loadfile", Nelson::QmlEngineGateway::qml_loadfileBuiltin, 1, 1 },
-	{ "handle_QML_delete", Nelson::QmlEngineGateway::handle_QML_deleteBuiltin, 0, 1 },
-	{ "handle_QML_disp", Nelson::QmlEngineGateway::handle_QML_dispBuiltin, 0, 1 },
-	{ "handle_QML_get", Nelson::QmlEngineGateway::handle_QML_getBuiltin, 1, 2 },
-	{ "handle_QML_set", Nelson::QmlEngineGateway::handle_QML_setBuiltin, 1, 3 },
-	{ "handle_QML_fieldnames", Nelson::QmlEngineGateway::handle_QML_fieldnamesBuiltin, 1, 1 },
+    { "handle_QML_delete", Nelson::QmlEngineGateway::handle_QML_deleteBuiltin, 0, 1 },
+    { "handle_QML_disp", Nelson::QmlEngineGateway::handle_QML_dispBuiltin, 0, 1 },
+    { "handle_QML_get", Nelson::QmlEngineGateway::handle_QML_getBuiltin, 1, 2 },
+    { "handle_QML_set", Nelson::QmlEngineGateway::handle_QML_setBuiltin, 1, 3 },
+    { "handle_QML_fieldnames", Nelson::QmlEngineGateway::handle_QML_fieldnamesBuiltin, 1, 1 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

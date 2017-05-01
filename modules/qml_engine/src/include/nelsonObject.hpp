@@ -20,16 +20,15 @@
 //=============================================================================
 #include <QtCore/QObject>
 //=============================================================================
-class nelsonObject : public QObject
-{
-	Q_OBJECT
+class nelsonObject : public QObject {
+    Q_OBJECT
 public:
-	explicit nelsonObject(QObject *parent = 0);
+    explicit nelsonObject(QObject *parent = 0);
 
 signals:
-	public:
-		Q_INVOKABLE void disp(QString msg);
-		Q_INVOKABLE void evaluate(QString msg);
-		Q_INVOKABLE void processevent();
+public:
+    Q_INVOKABLE void disp(QString msg);
+    Q_INVOKABLE void evaluate(QString msg);
+    Q_INVOKABLE void processevent();
 };
 //=============================================================================

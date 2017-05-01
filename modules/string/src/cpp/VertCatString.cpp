@@ -59,7 +59,7 @@ namespace Nelson {
         Dimensions dimsC = Dimensions(newRowsSize, newColumnsSize);
         charType *ptrA = (charType *)A.getDataPointer();
         charType *ptrB = (charType *)B.getDataPointer();
-		charType *ptrC = (charType*)ArrayOf::allocateArrayOf(NLS_CHAR, newSize);
+        charType *ptrC = (charType*)ArrayOf::allocateArrayOf(NLS_CHAR, newSize);
         Eigen::Map<Eigen::Matrix<charType, Eigen::Dynamic, Eigen::Dynamic>> matA(ptrA, dimsA.getRows(), dimsA.getColumns());
         Eigen::Map<Eigen::Matrix<charType, Eigen::Dynamic, Eigen::Dynamic>> matB(ptrB, dimsB.getRows(), dimsB.getColumns());
         Eigen::Map<Eigen::Matrix<charType, Eigen::Dynamic, Eigen::Dynamic>> matC(ptrC, dimsC.getRows(), dimsC.getColumns());

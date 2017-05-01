@@ -30,13 +30,13 @@ namespace Nelson {
             case NLS_HANDLE:
             {
                 classString = NLS_HANDLE_STR;
-				/*
-				HandleGenericObject *hl = In.getContentsAsHandleScalar();
-				if (hl)
-				{
-					classString = wstring_to_utf8(hl->getCategory());
-				}
-				*/
+                /*
+                HandleGenericObject *hl = In.getContentsAsHandleScalar();
+                if (hl)
+                {
+                	classString = wstring_to_utf8(hl->getCategory());
+                }
+                */
             }
             break;
             case NLS_CELL_ARRAY:

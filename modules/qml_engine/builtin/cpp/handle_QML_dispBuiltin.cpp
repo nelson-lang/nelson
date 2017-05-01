@@ -32,10 +32,9 @@ ArrayOfVector Nelson::QmlEngineGateway::handle_QML_dispBuiltin(Evaluator* eval, 
     {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-
-	ArrayOf param1 = argIn[0];
-	DispQmlHandleObject(eval, param1);
-	ArrayOfVector retval;
+    ArrayOf param1 = argIn[0];
+    DispQmlHandleObject(eval, param1);
+    ArrayOfVector retval;
     return retval;
 }
 //=============================================================================

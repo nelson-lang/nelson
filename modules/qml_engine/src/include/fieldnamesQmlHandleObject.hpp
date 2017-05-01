@@ -23,9 +23,9 @@
 #include "QmlHandleObject.hpp"
 //=============================================================================
 namespace Nelson {
-	//=============================================================================
-	NLSQML_ENGINE_IMPEXP void fieldnamesQmlHandleObject(ArrayOf A, bool fullList, wstringVector &fieldnames);
-	NLSQML_ENGINE_IMPEXP void fieldnamesQmlHandleObject(QmlHandleObject *qmlHandle, bool fullList, wstringVector &fieldnames);
-	//=============================================================================
+    //=============================================================================
+    NLSQML_ENGINE_IMPEXP void fieldnamesQmlHandleObject(ArrayOf A, bool fullList, wstringVector &fieldnames);
+    NLSQML_ENGINE_IMPEXP void fieldnamesQmlHandleObject(QmlHandleObject *qmlHandle, bool fullList, wstringVector &fieldnames);
+    //=============================================================================
 }
 //=============================================================================

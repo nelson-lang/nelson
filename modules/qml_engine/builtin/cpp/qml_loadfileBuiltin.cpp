@@ -32,11 +32,10 @@ ArrayOfVector Nelson::QmlEngineGateway::qml_loadfileBuiltin(Evaluator* eval, int
     {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-
-	ArrayOf param1 = argIn[0];
-	QmlHandleObject *qmlhandle = QmlEngine::getInstance()->loadQmlFile(param1.getContentsAsWideString());
-	ArrayOfVector retval;
-	retval.push_back(ArrayOf::handleConstructor(qmlhandle));
+    ArrayOf param1 = argIn[0];
+    QmlHandleObject *qmlhandle = QmlEngine::getInstance()->loadQmlFile(param1.getContentsAsWideString());
+    ArrayOfVector retval;
+    retval.push_back(ArrayOf::handleConstructor(qmlhandle));
     return retval;
 }
 //=============================================================================

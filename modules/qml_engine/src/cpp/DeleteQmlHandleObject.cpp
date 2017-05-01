@@ -22,64 +22,61 @@
 #include "QmlHandleObject.hpp"
 //=============================================================================
 namespace Nelson {
-	//=============================================================================
-	bool DeleteQmlHandleObject(ArrayOf A)
-	{
-		bool res = false;
-		if (A.isHandle())
-		{
-			if (!A.isEmpty())
-			{
-				if (A.isScalar())
-				{
-					nelson_handle *qp = (nelson_handle*)A.getDataPointer();
-					nelson_handle hl = qp[0];
-					HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-					if (hlObj)
-					{
-						if (hlObj->getCategory() != L"QML")
-						{
-							throw Exception(_W("QML handle expected."));
-						}
-
-						QmlHandleObject *qmlhandleobj = (QmlHandleObject *)hlObj;
-						void *ptr = qmlhandleobj->getPointer();
-						if (ptr)
-						{
-							bool deletedByTheParent = false;
-
-							QObject *qobj = (QObject *)ptr;
-							QObject *qobjParent = qobj->parent();
-							if (qobjParent != nullptr)
-							{
-								bool isWindow = qobjParent->isWindowType();
-								if (isWindow)
-								{
-									delete qobjParent;
-									deletedByTheParent = true;
-								}
-							}
-							if (!deletedByTheParent)
-							{
-								qobj->deleteLater();
-								delete qobj;
-							}
-
-							qmlhandleobj->setPointer(nullptr);
-						}
-						delete qmlhandleobj;
-					}
-					HandleManager::getInstance()->removeHandle(hl);
-					res = true;
-				}
-				else
-				{
-					throw Exception(_W("QML scalar handle expected."));
-				}
-			}
-		}
-		return res;
-	}
-	//=============================================================================
+    //=============================================================================
+    bool DeleteQmlHandleObject(ArrayOf A)
+    {
+        bool res = false;
+        if (A.isHandle())
+        {
+            if (!A.isEmpty())
+            {
+                if (A.isScalar())
+                {
+                    nelson_handle *qp = (nelson_handle*)A.getDataPointer();
+                    nelson_handle hl = qp[0];
+                    HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
+                    if (hlObj)
+                    {
+                        if (hlObj->getCategory() != L"QML")
+                        {
+                            throw Exception(_W("QML handle expected."));
+                        }
+                        QmlHandleObject *qmlhandleobj = (QmlHandleObject *)hlObj;
+                        void *ptr = qmlhandleobj->getPointer();
+                        if (ptr)
+                        {
+                            bool deletedByTheParent = false;
+                            QObject *qobj = (QObject *)ptr;
+                            QObject *qobjParent = qobj->parent();
+                            if (qobjParent != nullptr)
+                            {
+                                bool isWindow = qobjParent->isWindowType();
+                                if (isWindow)
+                                {
+                                    delete qobjParent;
+                                    deletedByTheParent = true;
+                                }
+                            }
+                            if (!deletedByTheParent)
+                            {
+                                qobj->deleteLater();
+                                delete qobj;
+                            }
+                            qmlhandleobj->setPointer(nullptr);
+                        }
+                        delete qmlhandleobj;
+                    }
+                    HandleManager::getInstance()->removeHandle(hl);
+                    res = true;
+                }
+                else
+                {
+                    throw Exception(_W("QML scalar handle expected."));
+                }
+            }
+        }
+        return res;
+    }
+    //=============================================================================
 }
 //=============================================================================

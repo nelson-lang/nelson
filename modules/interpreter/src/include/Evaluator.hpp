@@ -690,11 +690,11 @@ namespace Nelson {
         bool isQuietMode();
         void setQuietMode(bool _quiet);
 
-	private:
-		void setHandle(ArrayOf r, std::string fieldname, ArrayOfVector fieldvalue);
-		ArrayOfVector getHandle(ArrayOf r, std::string fieldname);
+    private:
+        void setHandle(ArrayOf r, std::string fieldname, ArrayOfVector fieldvalue);
+        ArrayOfVector getHandle(ArrayOf r, std::string fieldname);
 
-   };
+    };
     NLSINTERPRETER_IMPEXP void sigInterrupt(int arg);
     NLSINTERPRETER_IMPEXP void ExitInterrupt(int arg);
 }

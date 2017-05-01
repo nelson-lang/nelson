@@ -29,55 +29,53 @@ using namespace Nelson;
 static Evaluator *eval = nullptr;
 //=============================================================================
 nelsonObject::nelsonObject(QObject *parent) :
-	QObject(parent)
+    QObject(parent)
 {
-	if (eval == nullptr)
-	{
-		eval = (Evaluator *)GetNelsonMainEvaluatorDynamicFunction();
-	}
+    if (eval == nullptr)
+    {
+        eval = (Evaluator *)GetNelsonMainEvaluatorDynamicFunction();
+    }
 }
 //=============================================================================
 void nelsonObject::disp(QString msg)
 {
-	if (eval)
-	{
-		Interface *io = eval->getInterface();
-		if (io)
-		{
-			std::wstring wstr = L"disp('" + QStringTowstring(msg) + L"');\n";
-			std::string ustr = wstring_to_utf8(wstr);
-			eval->commandQueue.add(ustr);
-		}
-	}
+    if (eval)
+    {
+        Interface *io = eval->getInterface();
+        if (io)
+        {
+            std::wstring wstr = L"disp('" + QStringTowstring(msg) + L"');\n";
+            std::string ustr = wstring_to_utf8(wstr);
+            eval->commandQueue.add(ustr);
+        }
+    }
 }
 //=============================================================================
 void nelsonObject::evaluate(QString msg)
 {
-	if (eval)
-	{
-		std::wstring wstr = QStringTowstring(msg);
-		std::string ustr = wstring_to_utf8(wstr);
-
-		Interface *io = eval->getInterface();
-		if (io)
-		{
-/*
-			if (io->isAtPrompt())
-			{
-				eval->commandQueue.add(ustr + "\n");
-			}
-			else
-			{
-				eval->evaluateString(ustr + "\n");
-			}
-*/
-		}
-
-	}
+    if (eval)
+    {
+        std::wstring wstr = QStringTowstring(msg);
+        std::string ustr = wstring_to_utf8(wstr);
+        Interface *io = eval->getInterface();
+        if (io)
+        {
+            /*
+            			if (io->isAtPrompt())
+            			{
+            				eval->commandQueue.add(ustr + "\n");
+            			}
+            			else
+            			{
+            				eval->evaluateString(ustr + "\n");
+            			}
+            */
+        }
+    }
 }
 //=============================================================================
 void nelsonObject::processevent()
 {
-	ProcessEvents();
+    ProcessEvents();
 }
 //=============================================================================

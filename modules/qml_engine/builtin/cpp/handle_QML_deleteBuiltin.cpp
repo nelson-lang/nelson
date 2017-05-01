@@ -32,12 +32,12 @@ ArrayOfVector Nelson::QmlEngineGateway::handle_QML_deleteBuiltin(Evaluator* eval
     {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-	ArrayOf param1 = argIn[0];
-	if (param1.isHandle())
-	{
-		bool res = DeleteQmlHandleObject(param1);
-	}
-	ArrayOfVector retval;
+    ArrayOf param1 = argIn[0];
+    if (param1.isHandle())
+    {
+        bool res = DeleteQmlHandleObject(param1);
+    }
+    ArrayOfVector retval;
     return retval;
 }
 //=============================================================================

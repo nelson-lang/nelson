@@ -60,16 +60,16 @@ namespace Nelson {
                     }
                     if (!doOverload)
                     {
-						std::wstring msg;
-						if (handleTypeName.empty())
-						{
-							msg = L"delete " + _W("not defined.");
-						}
-						else
-						{
-							msg = L"handle_" + handleTypeName + L"_delete" + L" " + _W("not defined.");
-						}
-						throw Exception(msg);
+                        std::wstring msg;
+                        if (handleTypeName.empty())
+                        {
+                            msg = L"delete " + _W("not defined.");
+                        }
+                        else
+                        {
+                            msg = L"handle_" + handleTypeName + L"_delete" + L" " + _W("not defined.");
+                        }
+                        throw Exception(msg);
                     }
                 }
                 HandleManager::getInstance()->removeHandle(hl);

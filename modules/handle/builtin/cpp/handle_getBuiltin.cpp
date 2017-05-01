@@ -69,9 +69,9 @@ ArrayOfVector Nelson::HandleGateway::handle_getBuiltin(Evaluator* eval, int nLhs
                     if ((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION))
                     {
                         ArrayOfVector argInCopy;
-						argInCopy.push_back(param1);
-						argInCopy.push_back(argIn[1]);
-						retval = funcDef->evaluateFunction(eval, argInCopy, nLhs);
+                        argInCopy.push_back(param1);
+                        argInCopy.push_back(argIn[1]);
+                        retval = funcDef->evaluateFunction(eval, argInCopy, nLhs);
                         doOverload = true;
                     }
                 }

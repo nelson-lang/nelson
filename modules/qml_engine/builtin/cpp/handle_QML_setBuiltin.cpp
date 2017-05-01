@@ -32,14 +32,12 @@ ArrayOfVector Nelson::QmlEngineGateway::handle_QML_setBuiltin(Evaluator* eval, i
     {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-
-	ArrayOf param1 = argIn[0];
-	ArrayOf param2 = argIn[1];
-	std::wstring propertyName = param2.getContentsAsWideString();
-	ArrayOf param3 = argIn[2];
-
-	ArrayOfVector retval;
-	SetQmlHandleObject(param1, propertyName, param3);
+    ArrayOf param1 = argIn[0];
+    ArrayOf param2 = argIn[1];
+    std::wstring propertyName = param2.getContentsAsWideString();
+    ArrayOf param3 = argIn[2];
+    ArrayOfVector retval;
+    SetQmlHandleObject(param1, propertyName, param3);
     return retval;
 }
 //=============================================================================

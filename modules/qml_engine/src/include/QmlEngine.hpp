@@ -21,15 +21,15 @@
 #include "QmlHandleObject.hpp"
 //=============================================================================
 namespace Nelson {
-	//=============================================================================
-	class NLSQML_ENGINE_IMPEXP QmlEngine {
-	public:
-		static QmlEngine *getInstance();
-		QmlHandleObject *loadQmlFile(std::wstring filename);
-	private:
-		QmlEngine();
-		static QmlEngine *m_pInstance;
-	};
-	//=============================================================================
+    //=============================================================================
+    class NLSQML_ENGINE_IMPEXP QmlEngine {
+    public:
+        static QmlEngine *getInstance();
+        QmlHandleObject *loadQmlFile(std::wstring filename);
+    private:
+        QmlEngine();
+        static QmlEngine *m_pInstance;
+    };
+    //=============================================================================
 }
 //=============================================================================

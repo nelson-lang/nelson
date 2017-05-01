@@ -32,66 +32,66 @@
 #include "nelsonObject.hpp"
 //=============================================================================
 namespace Nelson {
-	//=============================================================================
-	QmlEngine* QmlEngine::m_pInstance = nullptr;
-	QQmlEngine *qmlengine = nullptr;
-	//=============================================================================
-	QmlEngine *QmlEngine::getInstance()
-	{
-		if (m_pInstance == nullptr)
-		{
-			m_pInstance = new QmlEngine();
-		}
-		return m_pInstance;
-	}
-	//=============================================================================
-	QmlHandleObject *QmlEngine::loadQmlFile(std::wstring filename)
-	{
-		QPointer<QQmlComponent> component = new QQmlComponent(qmlengine, QUrl::fromLocalFile(wstringToQString(filename)));
-		if (component)
-		{
-			QObject *topLevel = component->create();
-			if (!topLevel && component->isError())
-			{
-				throw Exception(QStringTowstring(component->errorString()));
-			}
-			if (!topLevel->isWindowType())
-			{
-				QQuickView *view = new QQuickView();
-				view->setSource(QUrl::fromLocalFile(wstringToQString(filename)));
-				view->show();
-				topLevel = view->rootObject();
-				topLevel->setParent(view);
-				if (!topLevel && component->isError())
-				{
-					throw Exception(QStringTowstring(component->errorString()));
-				}
-			}
-			QmlHandleObject * qmlHandle = nullptr;
-			try
-			{
-				qmlHandle = new QmlHandleObject(topLevel);
-			}
-			catch (std::bad_alloc &e)
-			{
-				e.what();
-				qmlHandle = nullptr;
-				throw Exception(ERROR_MEMORY_ALLOCATION);
-			}
-			return qmlHandle;
-		}
-		return nullptr;
-	}
-	//=============================================================================
-	QmlEngine::QmlEngine()
-	{
-		qmlengine = new QQmlEngine();
-		if (qmlengine)
-		{
-			QJSValue nelsonObj = qmlengine->newQObject(new nelsonObject());
-			qmlengine->globalObject().setProperty("nelson", nelsonObj);
-		}
-	}
-	//=============================================================================
+    //=============================================================================
+    QmlEngine* QmlEngine::m_pInstance = nullptr;
+    QQmlEngine *qmlengine = nullptr;
+    //=============================================================================
+    QmlEngine *QmlEngine::getInstance()
+    {
+        if (m_pInstance == nullptr)
+        {
+            m_pInstance = new QmlEngine();
+        }
+        return m_pInstance;
+    }
+    //=============================================================================
+    QmlHandleObject *QmlEngine::loadQmlFile(std::wstring filename)
+    {
+        QPointer<QQmlComponent> component = new QQmlComponent(qmlengine, QUrl::fromLocalFile(wstringToQString(filename)));
+        if (component)
+        {
+            QObject *topLevel = component->create();
+            if (!topLevel && component->isError())
+            {
+                throw Exception(QStringTowstring(component->errorString()));
+            }
+            if (!topLevel->isWindowType())
+            {
+                QQuickView *view = new QQuickView();
+                view->setSource(QUrl::fromLocalFile(wstringToQString(filename)));
+                view->show();
+                topLevel = view->rootObject();
+                topLevel->setParent(view);
+                if (!topLevel && component->isError())
+                {
+                    throw Exception(QStringTowstring(component->errorString()));
+                }
+            }
+            QmlHandleObject * qmlHandle = nullptr;
+            try
+            {
+                qmlHandle = new QmlHandleObject(topLevel);
+            }
+            catch (std::bad_alloc &e)
+            {
+                e.what();
+                qmlHandle = nullptr;
+                throw Exception(ERROR_MEMORY_ALLOCATION);
+            }
+            return qmlHandle;
+        }
+        return nullptr;
+    }
+    //=============================================================================
+    QmlEngine::QmlEngine()
+    {
+        qmlengine = new QQmlEngine();
+        if (qmlengine)
+        {
+            QJSValue nelsonObj = qmlengine->newQObject(new nelsonObject());
+            qmlengine->globalObject().setProperty("nelson", nelsonObj);
+        }
+    }
+    //=============================================================================
 }
 //=============================================================================
