@@ -107,19 +107,26 @@ namespace Nelson {
                     break;
                     case QMetaType::Int:
                     {
+						int32 v = B.getContentsAsInteger32Scalar();
+						qobj->setProperty(wstring_to_utf8(propertyName).c_str(), v);
                     }
                     break;
                     case QMetaType::UInt:
                     {
-                    }
+
+					}
                     break;
                     case QMetaType::Double:
                     {
-                    }
+						double v = B.getContentsAsDoubleScalar();
+						qobj->setProperty(wstring_to_utf8(propertyName).c_str(), v);
+					}
                     break;
                     case QMetaType::Float:
                     {
-                    }
+						single v = B.getContentsAsSingleScalar();
+						qobj->setProperty(wstring_to_utf8(propertyName).c_str(), v);
+					}
                     break;
                     case QMetaType::QString:
                     {
