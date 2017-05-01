@@ -2264,52 +2264,7 @@ namespace Nelson {
 				std::string fieldname = t->down->text;
 				if (r.isHandle())
 				{
-					if (r.isScalar())
-					{
-						if (value.size() != 1)
-						{
-							throw Exception(_W("Right hand values must satisfy left hand side expression."));
-						}
-						nelson_handle *qp = (nelson_handle*)r.getDataPointer();
-						nelson_handle hl = qp[0];
-						HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-						if (hlObj)
-						{
-							std::wstring currentType = hlObj->getCategory();
-							std::wstring ufunctionNameSetHandle = L"handle_" + currentType + L"_set";
-							std::string functionNameSetHandle = wstring_to_utf8(ufunctionNameSetHandle);
-							Context *context = this->getContext();
-							FunctionDef *funcDef = nullptr;
-							if (context->lookupFunction(functionNameSetHandle, funcDef))
-							{
-								if ((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION))
-								{
-									int nLhs = 0;
-									ArrayOfVector argIn;
-									argIn.push_back(r);
-									argIn.push_back(ArrayOf::stringConstructor(fieldname));
-									argIn.push_back(value[0]);
-									funcDef->evaluateFunction(this, argIn, nLhs);
-								}
-								else
-								{
-									throw Exception(_W("Type function not valid."));
-								}
-							}
-							else
-							{
-								throw Exception(_W("Function not found."));
-							}
-						}
-						else
-						{
-							throw Exception(_W("Valid handle expected."));
-						}
-					}
-					else
-					{
-						Error(this, ERROR_SCALAR_EXPECTED);
-					}
+					setHandle(r, fieldname, value);
 				}
 				else if (r.isStruct() || r.isEmpty())
                 {
@@ -2338,52 +2293,7 @@ namespace Nelson {
             }
 			if (r.isHandle())
 			{
-				if (r.isScalar())
-				{
-					if (value.size() != 1)
-					{
-						throw Exception(_W("Right hand values must satisfy left hand side expression."));
-					}
-					nelson_handle *qp = (nelson_handle*)r.getDataPointer();
-					nelson_handle hl = qp[0];
-					HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-					if (hlObj)
-					{
-						std::wstring currentType = hlObj->getCategory();
-						std::wstring ufunctionNameSetHandle = L"handle_" + currentType + L"_set";
-						std::string functionNameSetHandle = wstring_to_utf8(ufunctionNameSetHandle);
-						Context *context = this->getContext();
-						FunctionDef *funcDef = nullptr;
-						if (context->lookupFunction(functionNameSetHandle, funcDef))
-						{
-							if ((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION))
-							{
-								int nLhs = 0;
-								ArrayOfVector argIn;
-								argIn.push_back(r);
-								argIn.push_back(ArrayOf::stringConstructor(field));
-								argIn.push_back(value[0]);
-								funcDef->evaluateFunction(this, argIn, nLhs);
-							}
-							else
-							{
-								throw Exception(_W("Type function not valid."));
-							}
-						}
-						else
-						{
-							throw Exception(_W("Function not found."));
-						}
-					}
-					else
-					{
-						throw Exception(_W("Valid handle expected."));
-					}
-				}
-				else
-				{
-					Error(this, ERROR_SCALAR_EXPECTED);
-				}
+				setHandle(r, field, value);
 			}
 			else
 			{
@@ -4181,48 +4091,7 @@ namespace Nelson {
 				std::string fieldname = t->down->text;
 				if (r.isHandle())
 				{
-					if (r.isScalar())
-					{
-						nelson_handle *qp = (nelson_handle*)r.getDataPointer();
-						nelson_handle hl = qp[0];
-						HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-						if (hlObj)
-						{
-							std::wstring currentType = hlObj->getCategory();
-							std::wstring ufunctionNameGetHandle = L"handle_" + currentType + L"_get";
-							std::string functionNameGetHandle = wstring_to_utf8(ufunctionNameGetHandle);
-							Context *context = this->getContext();
-							FunctionDef *funcDef = nullptr;
-							if (context->lookupFunction(functionNameGetHandle, funcDef))
-							{
-								if ((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION))
-								{
-									int nLhs = 1;
-									ArrayOfVector argIn;
-									argIn.push_back(r);
-									argIn.push_back(ArrayOf::stringConstructor(fieldname));
-									rv = funcDef->evaluateFunction(this, argIn, nLhs);
-								}
-								else
-								{
-									throw Exception(_W("Type function not valid."));
-								}
-							}
-							else
-							{
-								throw Exception(_W("Function not found."));
-							}
-						}
-						else
-						{
-							throw Exception(_W("Valid handle expected."));
-						}
-					}
-					else
-					{
-						r = ArrayOf::emptyConstructor();
-						Error(this, ERROR_SCALAR_EXPECTED);
-					}
+					rv = getHandle(r, fieldname);
 				}
 				else
 				{
@@ -4254,48 +4123,7 @@ namespace Nelson {
                 }
 				if (r.isHandle())
 				{
-					if (r.isScalar())
-					{
-						nelson_handle *qp = (nelson_handle*)r.getDataPointer();
-						nelson_handle hl = qp[0];
-						HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-						if (hlObj)
-						{
-							std::wstring currentType = hlObj->getCategory();
-							std::wstring ufunctionNameGetHandle = L"handle_" + currentType + L"_get";
-							std::string functionNameGetHandle = wstring_to_utf8(ufunctionNameGetHandle);
-							Context *context = this->getContext();
-							FunctionDef *funcDef = nullptr;
-							if (context->lookupFunction(functionNameGetHandle, funcDef))
-							{
-								if ((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION))
-								{
-									int nLhs = 1;
-									ArrayOfVector argIn;
-									argIn.push_back(r);
-									argIn.push_back(ArrayOf::stringConstructor(field));
-									rv = funcDef->evaluateFunction(this, argIn, nLhs);
-								}
-								else
-								{
-									throw Exception(_W("Type function not valid."));
-								}
-							}
-							else
-							{
-								throw Exception(_W("Function not found."));
-							}
-						}
-						else
-						{
-							throw Exception(_W("Valid handle expected."));
-						}
-					}
-					else
-					{
-						r = ArrayOf::emptyConstructor();
-						Error(this, ERROR_SCALAR_EXPECTED);
-					}
+					rv = getHandle(r, field);
 				}
 				else
 				{
@@ -4828,7 +4656,76 @@ namespace Nelson {
         bQuietMode = _quiet;
     }
     //=============================================================================
-
+	void Evaluator::setHandle(ArrayOf r, std::string fieldname, ArrayOfVector fieldvalue)
+	{
+		if (!r.isScalar())
+		{
+			Error(this, ERROR_SCALAR_EXPECTED);
+		}
+		if (fieldvalue.size() != 1)
+		{
+			Error(this, _W("Right hand values must satisfy left hand side expression."));
+		}
+		nelson_handle *qp = (nelson_handle*)r.getDataPointer();
+		nelson_handle hl = qp[0];
+		HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
+		if (hlObj == nullptr)
+		{
+			Error(this, _W("Valid handle expected."));
+		}
+		std::wstring currentType = hlObj->getCategory();
+		std::wstring ufunctionNameSetHandle = L"handle_" + currentType + L"_set";
+		std::string functionNameSetHandle = wstring_to_utf8(ufunctionNameSetHandle);
+		Context *context = this->getContext();
+		FunctionDef *funcDef = nullptr;
+		if (!context->lookupFunction(functionNameSetHandle, funcDef))
+		{
+			Error(this, _W("Function not found."));
+		}
+		if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION)))
+		{
+			Error(this, _W("Type function not valid."));
+		}
+		int nLhs = 0;
+		ArrayOfVector argIn;
+		argIn.push_back(r);
+		argIn.push_back(ArrayOf::stringConstructor(fieldname));
+		argIn.push_back(fieldvalue[0]);
+		funcDef->evaluateFunction(this, argIn, nLhs);
+	}
+	//=============================================================================
+	ArrayOfVector Evaluator::getHandle(ArrayOf r, std::string fieldname)
+	{
+		if (!r.isScalar())
+		{
+			Error(this, ERROR_SCALAR_EXPECTED);
+		}
+		nelson_handle *qp = (nelson_handle*)r.getDataPointer();
+		nelson_handle hl = qp[0];
+		HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
+		if (hlObj == nullptr)
+		{
+			Error(this, _W("Valid handle expected."));
+		}
+		std::wstring currentType = hlObj->getCategory();
+		std::wstring ufunctionNameGetHandle = L"handle_" + currentType + L"_get";
+		std::string functionNameGetHandle = wstring_to_utf8(ufunctionNameGetHandle);
+		Context *context = this->getContext();
+		FunctionDef *funcDef = nullptr;
+		if (!context->lookupFunction(functionNameGetHandle, funcDef))
+		{
+			Error(this, _W("Function not found."));
+		}
+		if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION)))
+		{
+			Error(this, _W("Type function not valid."));
+		}
+		int nLhs = 1;
+		ArrayOfVector argIn;
+		argIn.push_back(r);
+		argIn.push_back(ArrayOf::stringConstructor(fieldname));
+		return funcDef->evaluateFunction(this, argIn, nLhs);
+	}
+	//=============================================================================
 }
 //=============================================================================
-
