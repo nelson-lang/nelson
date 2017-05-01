@@ -33,6 +33,7 @@
 #include "handle_deleteBuiltin.hpp"
 #include "handle_invokeBuiltin.hpp"
 #include "handle_isvalidBuiltin.hpp"
+#include "handle_fieldnamesBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -55,6 +56,8 @@ static const nlsGateway gateway[] =
     { "handle_disp", Nelson::HandleGateway::handle_dispBuiltin, 0, 1 },
     { "handle_delete", Nelson::HandleGateway::handle_deleteBuiltin, 0, 1 },
     { "handle_isvalid", Nelson::HandleGateway::handle_isvalidBuiltin, 1, 1 },
+	{ "handle_fieldnames", Nelson::HandleGateway::handle_fieldnamesBuiltin, 1, 1 },
+
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

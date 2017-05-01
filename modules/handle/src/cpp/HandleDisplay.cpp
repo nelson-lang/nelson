@@ -18,7 +18,6 @@
 //=============================================================================
 #include "HandleDisplay.hpp"
 #include "HandleGenericObject.hpp"
-#include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================

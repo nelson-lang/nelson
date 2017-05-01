@@ -60,9 +60,16 @@ namespace Nelson {
                     }
                     if (!doOverload)
                     {
-                        void * ptr = (void *)hlObj->getPointer();
-                        delete[] ptr;
-                        hlObj->setPointer(nullptr);
+						std::wstring msg;
+						if (handleTypeName.empty())
+						{
+							msg = L"delete " + _W("not defined.");
+						}
+						else
+						{
+							msg = L"handle_" + handleTypeName + L"_delete" + L" " + _W("not defined.");
+						}
+						throw Exception(msg);
                     }
                 }
                 HandleManager::getInstance()->removeHandle(hl);

@@ -72,7 +72,6 @@ namespace Nelson {
         {
             if (it->second != nullptr)
             {
-                delete it->second;
                 it->second = nullptr;
             }
             handleMap.erase(it);

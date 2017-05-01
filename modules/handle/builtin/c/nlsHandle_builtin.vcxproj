@@ -172,6 +172,7 @@
     <ClCompile Include="..\cpp\handle_deleteBuiltin.cpp" />
     <ClCompile Include="..\cpp\handle_dispBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
+    <ClCompile Include="..\cpp\handle_fieldnamesBuiltin.cpp" />
     <ClCompile Include="..\cpp\handle_getBuiltin.cpp" />
     <ClCompile Include="..\cpp\handle_invokeBuiltin.cpp" />
     <ClCompile Include="..\cpp\handle_isvalidBuiltin.cpp" />
@@ -214,6 +215,7 @@
     <ClInclude Include="..\include\deleteBuiltin.hpp" />
     <ClInclude Include="..\include\getBuiltin.hpp" />
     <ClInclude Include="..\include\handle_deleteBuiltin.hpp" />
+    <ClInclude Include="..\include\handle_fieldnamesBuiltin.hpp" />
     <ClInclude Include="..\include\handle_getBuiltin.hpp" />
     <ClInclude Include="..\include\handle_invokeBuiltin.hpp" />
     <ClInclude Include="..\include\handle_isvalidBuiltin.hpp" />
