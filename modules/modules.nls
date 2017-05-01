@@ -54,6 +54,7 @@ modules_list = {
 'tests_manager';
 'linear_algebra';
 'handle';
+'qml_engine';
 };
 %==============================================================================
 % modules sorted for help
@@ -95,5 +96,6 @@ modules_help_list = {
 'localization';
 'i18n';
 'handle';
+'qml_engine';
 };
 %==============================================================================

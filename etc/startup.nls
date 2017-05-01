@@ -29,6 +29,12 @@ for k = modules_list
          strcmp(getnelsonmode(), 'ADVANCED_TERMINAL') == true)
           addmodule([nelsonroot() '/modules/' k{1}], k{1});
       end
+    case 'qml_engine'
+      if (strcmp(getnelsonmode(), 'GUI') == true | ...
+        strcmp(getnelsonmode(), 'ADVANCED_ENGINE') == true | ...
+         strcmp(getnelsonmode(), 'ADVANCED_TERMINAL') == true)
+          addmodule([nelsonroot() '/modules/' k{1}], k{1});
+      end
     otherwise
       addmodule([nelsonroot() '/modules/' k{1}], k{1});
   end
