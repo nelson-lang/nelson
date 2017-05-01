@@ -254,7 +254,7 @@ namespace Nelson {
         }
         if (dp->dataClass != NLS_STRUCT_ARRAY)
         {
-            throw Exception(_W("Cannot apply A.field_name = B to non struct-array object A."));
+            throw Exception(ERROR_ASSIGN_TO_NON_STRUCT);
         }
         if (!isScalar())
         {
@@ -305,7 +305,7 @@ namespace Nelson {
         }
         if (!this->isStruct())
         {
-            throw Exception(_W("Cannot apply A.field_name = B to non struct-array object A."));
+            throw Exception(ERROR_ASSIGN_TO_NON_STRUCT);
         }
         if ((int)data.size() < getLength())
         {
