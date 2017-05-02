@@ -18,11 +18,11 @@
 //=============================================================================
 #include "NelsonGateway.hpp"
 #include "qml_loadfileBuiltin.hpp"
-#include "handle_QML_deleteBuiltin.hpp"
-#include "handle_QML_dispBuiltin.hpp"
-#include "handle_QML_getBuiltin.hpp"
-#include "handle_QML_setBuiltin.hpp"
-#include "handle_QML_fieldnamesBuiltin.hpp"
+#include "QObject_deleteBuiltin.hpp"
+#include "QObject_dispBuiltin.hpp"
+#include "QObject_getBuiltin.hpp"
+#include "QObject_setBuiltin.hpp"
+#include "QObject_fieldnamesBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -31,11 +31,11 @@ const std::wstring gatewayName = L"qml_engine";
 static const nlsGateway gateway[] =
 {
     { "qml_loadfile", Nelson::QmlEngineGateway::qml_loadfileBuiltin, 1, 1 },
-    { "handle_QML_delete", Nelson::QmlEngineGateway::handle_QML_deleteBuiltin, 0, 1 },
-    { "handle_QML_disp", Nelson::QmlEngineGateway::handle_QML_dispBuiltin, 0, 1 },
-    { "handle_QML_get", Nelson::QmlEngineGateway::handle_QML_getBuiltin, 1, 2 },
-    { "handle_QML_set", Nelson::QmlEngineGateway::handle_QML_setBuiltin, 1, 3 },
-    { "handle_QML_fieldnames", Nelson::QmlEngineGateway::handle_QML_fieldnamesBuiltin, 1, 1 },
+    { "QObject_delete", Nelson::QmlEngineGateway::QObject_deleteBuiltin, 0, 1 },
+    { "QObject_disp", Nelson::QmlEngineGateway::QObject_dispBuiltin, 0, 1 },
+    { "QObject_get", Nelson::QmlEngineGateway::QObject_getBuiltin, 1, 2 },
+    { "QObject_set", Nelson::QmlEngineGateway::QObject_setBuiltin, 1, 3 },
+    { "QObject_fieldnames", Nelson::QmlEngineGateway::QObject_fieldnamesBuiltin, 1, 1 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

@@ -52,7 +52,7 @@ namespace Nelson {
                     }
                     if (handleTypeName != utf8_to_wstring(NLS_HANDLE_STR))
                     {
-                        std::wstring ufunctionNameDispHandle = L"handle_" + handleTypeName + L"_disp";
+                        std::wstring ufunctionNameDispHandle = handleTypeName + L"_disp";
                         std::string functionNameDispHandle = wstring_to_utf8(ufunctionNameDispHandle);
                         Context *context = eval->getContext();
                         FunctionDef *funcDef = nullptr;

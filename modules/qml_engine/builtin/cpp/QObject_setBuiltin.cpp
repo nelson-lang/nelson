@@ -16,15 +16,28 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "QObject_setBuiltin.hpp"
+#include "Error.hpp"
+#include "SetQmlHandleObject.hpp"
 //=============================================================================
-#include "ArrayOf.hpp"
-#include "Evaluator.hpp"
+using namespace Nelson;
 //=============================================================================
-namespace Nelson {
-    namespace QmlEngineGateway {
-        ArrayOfVector handle_QML_getBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    };
-};
+ArrayOfVector Nelson::QmlEngineGateway::QObject_setBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    if (argIn.size() != 3)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    if (nLhs > 0)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    ArrayOf param1 = argIn[0];
+    ArrayOf param2 = argIn[1];
+    std::wstring propertyName = param2.getContentsAsWideString();
+    ArrayOf param3 = argIn[2];
+    ArrayOfVector retval;
+    SetQmlHandleObject(param1, propertyName, param3);
+    return retval;
+}
 //=============================================================================
-

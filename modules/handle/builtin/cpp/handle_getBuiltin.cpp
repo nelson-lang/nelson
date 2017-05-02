@@ -60,7 +60,7 @@ ArrayOfVector Nelson::HandleGateway::handle_getBuiltin(Evaluator* eval, int nLhs
             if (handleTypeName != utf8_to_wstring(NLS_HANDLE_STR))
             {
                 bool doOverload = false;
-                std::wstring ufunctionNameGetHandle = L"handle_" + handleTypeName + L"_get";
+                std::wstring ufunctionNameGetHandle = handleTypeName + L"_get";
                 std::string functionNameGetHandle = wstring_to_utf8(ufunctionNameGetHandle);
                 Context *context = eval->getContext();
                 FunctionDef *funcDef = nullptr;

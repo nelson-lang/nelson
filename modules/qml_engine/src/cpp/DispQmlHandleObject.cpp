@@ -184,12 +184,12 @@ namespace Nelson {
                         nelson_handle *qp = (nelson_handle*)A.getDataPointer();
                         nelson_handle hl = qp[0];
                         HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-                        if (hlObj->getCategory() != L"QML")
+                        if (hlObj->getCategory() != L"QObject")
                         {
-                            throw Exception(_W("QML handle expected."));
+                            throw Exception(_W("QObject handle expected."));
                         }
                         Dimensions dimsA = A.getDimensions();
-                        io->outputMessage(L"[QML] - size: ");
+                        io->outputMessage(L"[QObject] - size: ");
                         dimsA.printMe(io);
                         io->outputMessage("\n");
                         io->outputMessage("\n");
@@ -206,7 +206,7 @@ namespace Nelson {
                 }
                 else
                 {
-                    Error(eval, _W("QML handle expected."));
+                    Error(eval, _W("QObject handle expected."));
                 }
             }
         }

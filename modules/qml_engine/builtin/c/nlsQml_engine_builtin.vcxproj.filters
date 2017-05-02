@@ -24,19 +24,19 @@
     <ClCompile Include="..\cpp\qml_loadfileBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\handle_QML_deleteBuiltin.cpp">
+    <ClCompile Include="..\cpp\QObject_deleteBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\handle_QML_dispBuiltin.cpp">
+    <ClCompile Include="..\cpp\QObject_dispBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\handle_QML_getBuiltin.cpp">
+    <ClCompile Include="..\cpp\QObject_fieldnamesBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\handle_QML_fieldnamesBuiltin.cpp">
+    <ClCompile Include="..\cpp\QObject_getBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\handle_QML_setBuiltin.cpp">
+    <ClCompile Include="..\cpp\QObject_setBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -50,19 +50,19 @@
     <ClInclude Include="..\include\qml_loadfileBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\handle_QML_deleteBuiltin.hpp">
+    <ClInclude Include="..\include\QObject_deleteBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\handle_QML_dispBuiltin.hpp">
+    <ClInclude Include="..\include\QObject_dispBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\handle_QML_getBuiltin.hpp">
+    <ClInclude Include="..\include\QObject_fieldnamesBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\handle_QML_fieldnamesBuiltin.hpp">
+    <ClInclude Include="..\include\QObject_getBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\handle_QML_setBuiltin.hpp">
+    <ClInclude Include="..\include\QObject_setBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

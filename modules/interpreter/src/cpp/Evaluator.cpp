@@ -4674,7 +4674,7 @@ namespace Nelson {
             Error(this, _W("Valid handle expected."));
         }
         std::wstring currentType = hlObj->getCategory();
-        std::wstring ufunctionNameSetHandle = L"handle_" + currentType + L"_set";
+        std::wstring ufunctionNameSetHandle = currentType + L"_set";
         std::string functionNameSetHandle = wstring_to_utf8(ufunctionNameSetHandle);
         Context *context = this->getContext();
         FunctionDef *funcDef = nullptr;
@@ -4708,7 +4708,7 @@ namespace Nelson {
             Error(this, _W("Valid handle expected."));
         }
         std::wstring currentType = hlObj->getCategory();
-        std::wstring ufunctionNameGetHandle = L"handle_" + currentType + L"_get";
+        std::wstring ufunctionNameGetHandle = currentType + L"_get";
         std::string functionNameGetHandle = wstring_to_utf8(ufunctionNameGetHandle);
         Context *context = this->getContext();
         FunctionDef *funcDef = nullptr;

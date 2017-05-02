@@ -39,7 +39,7 @@ namespace Nelson {
                     std::wstring handleTypeName = hlObj->getCategory();
                     if (!handleTypeName.empty())
                     {
-                        std::wstring ufunctionNameClearHandle = L"handle_" + handleTypeName + L"_delete";
+                        std::wstring ufunctionNameClearHandle = handleTypeName + L"_delete";
                         std::string functionNameClearHandle = wstring_to_utf8(ufunctionNameClearHandle);
                         Context *context = eval->getContext();
                         FunctionDef *funcDef = nullptr;
@@ -67,7 +67,7 @@ namespace Nelson {
                         }
                         else
                         {
-                            msg = L"handle_" + handleTypeName + L"_delete" + L" " + _W("not defined.");
+                            msg = handleTypeName + L"_delete" + L" " + _W("not defined.");
                         }
                         throw Exception(msg);
                     }

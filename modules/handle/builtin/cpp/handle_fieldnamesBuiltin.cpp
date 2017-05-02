@@ -56,7 +56,7 @@ ArrayOfVector Nelson::HandleGateway::handle_fieldnamesBuiltin(Evaluator* eval, i
             {
                 Error(eval, _W("Invalid handle."));
             }
-            std::wstring ufunctionNameGetHandle = L"handle_" + handleTypeName + L"_fieldnames";
+            std::wstring ufunctionNameGetHandle = handleTypeName + L"_fieldnames";
             std::string functionNameGetHandle = wstring_to_utf8(ufunctionNameGetHandle);
             Context *context = eval->getContext();
             FunctionDef *funcDef = nullptr;

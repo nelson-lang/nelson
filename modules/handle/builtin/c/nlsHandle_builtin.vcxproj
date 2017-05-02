@@ -177,7 +177,6 @@
     <ClCompile Include="..\cpp\handle_invokeBuiltin.cpp" />
     <ClCompile Include="..\cpp\handle_isvalidBuiltin.cpp" />
     <ClCompile Include="..\cpp\handle_setBuiltin.cpp" />
-    <ClCompile Include="..\cpp\handle_testBuiltin.cpp" />
     <ClCompile Include="..\cpp\handle_vertcat_handleBuiltin.cpp" />
     <ClCompile Include="..\cpp\handle_horzcat_handleBuiltin.cpp" />
     <ClCompile Include="..\cpp\invokeBuiltin.cpp" />
@@ -220,7 +219,6 @@
     <ClInclude Include="..\include\handle_invokeBuiltin.hpp" />
     <ClInclude Include="..\include\handle_isvalidBuiltin.hpp" />
     <ClInclude Include="..\include\handle_setBuiltin.hpp" />
-    <ClInclude Include="..\include\handle_testBuiltin.hpp" />
     <ClInclude Include="..\include\invokeBuiltin.hpp" />
     <ClInclude Include="..\include\isvalidBuiltin.hpp" />
     <ClInclude Include="..\include\nlsHandle_builtin_exports.h" />

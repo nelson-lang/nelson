@@ -16,28 +16,28 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "handle_QML_setBuiltin.hpp"
+#include "QObject_deleteBuiltin.hpp"
 #include "Error.hpp"
-#include "SetQmlHandleObject.hpp"
+#include "DeleteQmlHandleObject.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::QmlEngineGateway::handle_QML_setBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector Nelson::QmlEngineGateway::QObject_deleteBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (argIn.size() != 3)
+    if (argIn.size() != 1)
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 0)
+    if (nLhs != 0)
     {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
-    ArrayOf param2 = argIn[1];
-    std::wstring propertyName = param2.getContentsAsWideString();
-    ArrayOf param3 = argIn[2];
+    if (param1.isHandle())
+    {
+        bool res = DeleteQmlHandleObject(param1);
+    }
     ArrayOfVector retval;
-    SetQmlHandleObject(param1, propertyName, param3);
     return retval;
 }
 //=============================================================================

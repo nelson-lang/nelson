@@ -37,9 +37,9 @@ namespace Nelson {
                     HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
                     if (hlObj)
                     {
-                        if (hlObj->getCategory() != L"QML")
+                        if (hlObj->getCategory() != L"QObject")
                         {
-                            throw Exception(_W("QML handle expected."));
+                            throw Exception(_W("QObject handle expected."));
                         }
                         QmlHandleObject *qmlhandleobj = (QmlHandleObject *)hlObj;
                         void *ptr = qmlhandleobj->getPointer();
@@ -71,7 +71,7 @@ namespace Nelson {
                 }
                 else
                 {
-                    throw Exception(_W("QML scalar handle expected."));
+                    throw Exception(_W("QObject scalar handle expected."));
                 }
             }
         }

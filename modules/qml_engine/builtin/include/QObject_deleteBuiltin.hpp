@@ -23,7 +23,7 @@
 //=============================================================================
 namespace Nelson {
     namespace QmlEngineGateway {
-        ArrayOfVector handle_QML_setBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+        ArrayOfVector QObject_deleteBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
     };
 };
 //=============================================================================

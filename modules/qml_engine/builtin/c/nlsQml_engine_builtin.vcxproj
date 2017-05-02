@@ -191,11 +191,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\Gateway.cpp" />
-    <ClCompile Include="..\cpp\handle_QML_deleteBuiltin.cpp" />
-    <ClCompile Include="..\cpp\handle_QML_dispBuiltin.cpp" />
-    <ClCompile Include="..\cpp\handle_QML_fieldnamesBuiltin.cpp" />
-    <ClCompile Include="..\cpp\handle_QML_getBuiltin.cpp" />
-    <ClCompile Include="..\cpp\handle_QML_setBuiltin.cpp" />
+    <ClCompile Include="..\cpp\QObject_deleteBuiltin.cpp" />
+    <ClCompile Include="..\cpp\QObject_dispBuiltin.cpp" />
+    <ClCompile Include="..\cpp\QObject_fieldnamesBuiltin.cpp" />
+    <ClCompile Include="..\cpp\QObject_getBuiltin.cpp" />
+    <ClCompile Include="..\cpp\QObject_setBuiltin.cpp" />
     <ClCompile Include="..\cpp\qml_loadfileBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
@@ -203,11 +203,11 @@
     <Text Include="..\..\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\handle_QML_deleteBuiltin.hpp" />
-    <ClInclude Include="..\include\handle_QML_dispBuiltin.hpp" />
-    <ClInclude Include="..\include\handle_QML_fieldnamesBuiltin.hpp" />
-    <ClInclude Include="..\include\handle_QML_getBuiltin.hpp" />
-    <ClInclude Include="..\include\handle_QML_setBuiltin.hpp" />
+    <ClInclude Include="..\include\QObject_deleteBuiltin.hpp" />
+    <ClInclude Include="..\include\QObject_dispBuiltin.hpp" />
+    <ClInclude Include="..\include\QObject_fieldnamesBuiltin.hpp" />
+    <ClInclude Include="..\include\QObject_getBuiltin.hpp" />
+    <ClInclude Include="..\include\QObject_setBuiltin.hpp" />
     <ClInclude Include="..\include\nlsQml_engine_builtin_exports.h" />
     <ClInclude Include="..\include\qml_loadfileBuiltin.hpp" />
   </ItemGroup>

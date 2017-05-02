@@ -22,8 +22,9 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace HandleGateway {
-        ArrayOfVector handle_testBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    }
-}
+    namespace QmlEngineGateway {
+        ArrayOfVector QObject_getBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    };
+};
 //=============================================================================
+

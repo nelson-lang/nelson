@@ -16,13 +16,13 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "handle_QML_dispBuiltin.hpp"
+#include "QObject_dispBuiltin.hpp"
 #include "Error.hpp"
 #include "DispQmlHandleObject.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::QmlEngineGateway::handle_QML_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector Nelson::QmlEngineGateway::QObject_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     if (argIn.size() != 1)
     {

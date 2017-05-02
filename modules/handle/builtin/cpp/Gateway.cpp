@@ -24,7 +24,6 @@
 #include "invokeBuiltin.hpp"
 #include "isvalidBuiltin.hpp"
 //=============================================================================
-#include "handle_testBuiltin.hpp"
 #include "handle_horzcat_handleBuiltin.hpp"
 #include "handle_vertcat_handleBuiltin.hpp"
 #include "handle_dispBuiltin.hpp"
@@ -47,7 +46,6 @@ static const nlsGateway gateway[] =
     { "invoke", Nelson::HandleGateway::invokeBuiltin, 1, 1 },
     { "isvalid", Nelson::HandleGateway::isvalidBuiltin, 1, 1 },
 
-    { "handle_test", Nelson::HandleGateway::handle_testBuiltin, 1, 1 },
     { "handle_vertcat_handle", Nelson::HandleGateway::handle_vertcat_handleBuiltin, 1, 2 },
     { "handle_horzcat_handle", Nelson::HandleGateway::handle_horzcat_handleBuiltin, 1, 2 },
     { "handle_get", Nelson::HandleGateway::handle_getBuiltin, 1, 1 },

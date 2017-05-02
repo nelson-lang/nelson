@@ -39,17 +39,17 @@ namespace Nelson {
         nelson_handle *qp = (nelson_handle*)A.getDataPointer();
         if (qp == nullptr)
         {
-            throw Exception(_W("QML valid handle expected."));
+            throw Exception(_W("QObject valid handle expected."));
         }
         nelson_handle hl = qp[0];
         HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
         if (hlObj == nullptr)
         {
-            throw Exception(_W("QML valid handle expected."));
+            throw Exception(_W("QObject valid handle expected."));
         }
-        if (hlObj->getCategory() != L"QML")
+        if (hlObj->getCategory() != L"QObject")
         {
-            throw Exception(_W("QML handle expected."));
+            throw Exception(_W("QObject handle expected."));
         }
         QmlHandleObject *qmlhandleobj = (QmlHandleObject *)hlObj;
         fieldnamesQmlHandleObject(qmlhandleobj, fullList, fieldnames);
@@ -61,7 +61,7 @@ namespace Nelson {
         fieldnames.clear();
         if (ptr == nullptr)
         {
-            throw Exception(_W("QML valid handle expected."));
+            throw Exception(_W("QObject valid handle expected."));
         }
         QObject *qobj = (QObject *)ptr;
         const QMetaObject *meta = qobj->metaObject();

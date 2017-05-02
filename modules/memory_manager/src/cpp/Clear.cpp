@@ -42,7 +42,7 @@ namespace Nelson {
                         std::wstring handleTypeName = hlObj->getCategory();
                         if (!handleTypeName.empty())
                         {
-                            std::wstring ufunctionNameClearHandle = L"handle_" + handleTypeName + L"_clear";
+                            std::wstring ufunctionNameClearHandle = handleTypeName + L"_clear";
                             std::string functionNameClearHandle = wstring_to_utf8(ufunctionNameClearHandle);
                             Context *context = eval->getContext();
                             FunctionDef *funcDef = nullptr;

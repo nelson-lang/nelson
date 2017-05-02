@@ -16,25 +16,15 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "handle_testBuiltin.hpp"
-#include "Error.hpp"
-#include "HandleGenericObject.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
-ArrayOfVector Nelson::HandleGateway::handle_testBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    ArrayOfVector retval;
-    size_t N = 3;
-    double *ptr = new double[N];
-    static double q = 0;
-    for (size_t k = 0; k < N; k++)
-    {
-        ptr[k] = q;
-        q = q + 1;
-    }
-    HandleGenericObject *hobj = new HandleGenericObject(L"HL_DOUBLE", ptr);
-    retval.push_back(ArrayOf::handleConstructor(hobj));
-    return retval;
-}
+namespace Nelson {
+    namespace QmlEngineGateway {
+        ArrayOfVector QObject_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    };
+};
 //=============================================================================
+
