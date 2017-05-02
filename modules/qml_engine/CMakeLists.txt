@@ -23,6 +23,7 @@ set(module_library_builtin_name ${module_library_name}_builtin)
 include_directories(
 ${EIGEN3_INCLUDE_DIR}
 ${Boost_INCLUDE_DIRS}
+${Qt5Widgets_INCLUDES}
 ${CMAKE_CURRENT_SOURCE_DIR}/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../handle/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
@@ -56,6 +57,7 @@ nlsI18n
 nlsString
 nlsCharacters_encoding
 nlsApi_nelson
+${Qt5Widgets_LIBRARIES}
 )
 #============================================================================== 
 set_target_properties(${module_library_name}
