@@ -20,6 +20,12 @@ set(module_name qml_engine)
 set(module_library_name nlsQml_engine)
 set(module_library_builtin_name ${module_library_name}_builtin)
 #==============================================================================
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_AUTOMOC ON)
+add_definitions(${Qt5Widgets_DEFINITIONS})
+add_definitions("-std=c++11")
+set(CMAKE_CXX_FLAGS "${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
+#==============================================================================
 include_directories(
 ${EIGEN3_INCLUDE_DIR}
 ${Boost_INCLUDE_DIRS}
