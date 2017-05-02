@@ -26,6 +26,7 @@ ${Boost_INCLUDE_DIRS}
 ${Qt5Widgets_INCLUDES}
 ${CMAKE_CURRENT_SOURCE_DIR}/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../handle/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../gui/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
@@ -50,6 +51,7 @@ ADD_LIBRARY(
 #============================================================================== 
 target_link_libraries(${module_library_name}
 nlsHandle
+nlsGui
 nlsError_manager
 nlsInterpreter
 nlsTypes
