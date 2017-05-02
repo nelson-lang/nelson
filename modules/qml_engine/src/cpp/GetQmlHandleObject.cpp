@@ -178,7 +178,7 @@ namespace Nelson {
                         arrayInt32[2] = qcolor.blue();
                         arrayInt32[3] = qcolor.alpha();
                         Dimensions dims(1, 4);
-                        res = ArrayOf::ArrayOf(NLS_INT32, dims, arrayInt32);
+                        res = ArrayOf(NLS_INT32, dims, (void*)arrayInt32);
                     }
                     break;
                     case QMetaType::QDate:
@@ -189,7 +189,7 @@ namespace Nelson {
                         arrayInt32[1] = qdate.month();
                         arrayInt32[2] = qdate.day();
                         Dimensions dims(1, 3);
-                        res = ArrayOf::ArrayOf(NLS_INT32, dims, arrayInt32);
+                        res = ArrayOf(NLS_INT32, dims, (void*)arrayInt32);
                     }
                     break;
                     case QMetaType::QPoint:
@@ -199,7 +199,7 @@ namespace Nelson {
                         arrayInt32[0] = qpoint.x();
                         arrayInt32[1] = qpoint.y();
                         Dimensions dims(1, 2);
-                        res = ArrayOf::ArrayOf(NLS_INT32, dims, arrayInt32);
+                        res = ArrayOf(NLS_INT32, dims, (void*)arrayInt32);
                     }
                     break;
                     case QMetaType::QPointF:
@@ -209,7 +209,7 @@ namespace Nelson {
                         arrayDouble[0] = qpointf.x();
                         arrayDouble[1] = qpointf.y();
                         Dimensions dims(1, 2);
-                        res = ArrayOf::ArrayOf(NLS_DOUBLE, dims, arrayDouble);
+                        res = ArrayOf(NLS_DOUBLE, dims, (void*)arrayDouble);
                     }
                     break;
                     case QMetaType::QSize:
@@ -219,7 +219,7 @@ namespace Nelson {
                         arrayInt32[0] = qsize.width();
                         arrayInt32[1] = qsize.height();
                         Dimensions dims(1, 2);
-                        res = ArrayOf::ArrayOf(NLS_INT32, dims, arrayInt32);
+                        res = ArrayOf(NLS_INT32, dims, (void*)arrayInt32);
                     }
                     break;
                     case QMetaType::QSizeF:
@@ -229,7 +229,7 @@ namespace Nelson {
                         arrayDouble[0] = qsizef.width();
                         arrayDouble[1] = qsizef.height();
                         Dimensions dims(1, 2);
-                        res = ArrayOf::ArrayOf(NLS_INT32, dims, arrayDouble);
+                        res = ArrayOf(NLS_INT32, dims, (void*)arrayDouble);
                     }
                     break;
                     case QMetaType::QRect:
@@ -241,7 +241,7 @@ namespace Nelson {
                         arrayInt32[2] = qrect.width();
                         arrayInt32[3] = qrect.height();
                         Dimensions dims(1, 4);
-                        res = ArrayOf::ArrayOf(NLS_INT32, dims, arrayInt32);
+                        res = ArrayOf(NLS_INT32, dims, (void*)arrayInt32);
                     }
                     break;
                     case QMetaType::QRectF:
@@ -253,7 +253,7 @@ namespace Nelson {
                         arrayDouble[2] = (double)qrectf.width();
                         arrayDouble[3] = (double)qrectf.height();
                         Dimensions dims(1, 4);
-                        res = ArrayOf::ArrayOf(NLS_DOUBLE, dims, arrayDouble);
+                        res = ArrayOf(NLS_DOUBLE, dims, (void*)arrayDouble);
                     }
                     break;
                     case QMetaType::QMatrix4x4:
@@ -266,7 +266,7 @@ namespace Nelson {
                         {
                             arraySingle[k] = ptr[k];
                         }
-                        res = ArrayOf::ArrayOf(NLS_DOUBLE, dims, arraySingle);
+                        res = ArrayOf(NLS_DOUBLE, dims, (void*)arraySingle);
                     }
                     break;
                     case QMetaType::QQuaternion:
@@ -278,7 +278,7 @@ namespace Nelson {
                         arraySingle[2] = qq.y();
                         arraySingle[3] = qq.z();
                         Dimensions dims(1, 4);
-                        res = ArrayOf::ArrayOf(NLS_SINGLE, dims, arraySingle);
+                        res = ArrayOf(NLS_SINGLE, dims, (void*)arraySingle);
                     }
                     break;
                     case QMetaType::QVector2D:
@@ -288,7 +288,7 @@ namespace Nelson {
                         arraySingle[0] = qvector2d.x();
                         arraySingle[1] = qvector2d.y();
                         Dimensions dims(1, 2);
-                        res = ArrayOf::ArrayOf(NLS_SINGLE, dims, arraySingle);
+                        res = ArrayOf(NLS_SINGLE, dims, (void*)arraySingle);
                     }
                     break;
                     case QMetaType::QVector3D:
@@ -299,7 +299,7 @@ namespace Nelson {
                         arraySingle[1] = qvector3d.y();
                         arraySingle[2] = qvector3d.z();
                         Dimensions dims(1, 3);
-                        res = ArrayOf::ArrayOf(NLS_SINGLE, dims, arraySingle);
+                        res = ArrayOf(NLS_SINGLE, dims, (void*)arraySingle);
                     }
                     break;
                     case QMetaType::QVector4D:
@@ -311,7 +311,7 @@ namespace Nelson {
                         arraySingle[2] = qvector4d.z();
                         arraySingle[3] = qvector4d.w();
                         Dimensions dims(1,4);
-                        res = ArrayOf::ArrayOf(NLS_SINGLE, dims, arraySingle);
+                        res = ArrayOf(NLS_SINGLE, dims, (void*)arraySingle);
                     }
                     break;
                     case QMetaType::LongLong:
