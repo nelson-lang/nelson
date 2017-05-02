@@ -16,8 +16,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
 #include <QtQml/QQmlComponent>
 #include "fieldnamesQmlHandleObject.hpp"
 #include "Exception.hpp"
