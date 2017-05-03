@@ -20,11 +20,8 @@ set(module_name qml_engine)
 set(module_library_name nlsQml_engine)
 set(module_library_builtin_name ${module_library_name}_builtin)
 #==============================================================================
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
-add_definitions(${Qt5Widgets_DEFINITIONS})
-add_definitions("-std=c++11")
-set(CMAKE_CXX_FLAGS "${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
 #==============================================================================
 include_directories(
 ${EIGEN3_INCLUDE_DIR}
@@ -56,16 +53,16 @@ ADD_LIBRARY(
 )
 #============================================================================== 
 target_link_libraries(${module_library_name}
-nlsHandle
-nlsGui
-nlsError_manager
-nlsInterpreter
-nlsTypes
-nlsI18n
-nlsString
-nlsCharacters_encoding
 nlsApi_nelson
+nlsGui
+nlsInterpreter
+nlsCharacters_encoding
+nlsTypes
+nlsError_manager
+nlsI18n
 ${Qt5Widgets_LIBRARIES}
+${Qt5Qml_LIBRARIES}
+${Qt5Quick_LIBRARIES}
 )
 #============================================================================== 
 set_target_properties(${module_library_name}
