@@ -57,6 +57,15 @@ before_install:
       sudo sudo apt-get update;
       sudo apt-get install qtbase5-dev qtdeclarative5-dev libqt5webkit5-dev libsqlite3-dev;
       sudo apt-get install qt5-default qttools5-dev-tools;
+      sudo apt-get install libqt5qml-graphicaleffects;
+      sudo apt-get install libqt5opengl5-dev;
+      sudo apt-get install qtbase5-private-dev;
+      sudo apt-get install qtdeclarative5-dev;
+      sudo apt-get install qtdeclarative5-controls-plugin;
+      sudo apt-get install qtdeclarative5-quicklayouts-plugin;
+      sudo apt-get install qtdeclarative5-qtquick2-plugin;
+      sudo apt-get install qtdeclarative5-dialogs-plugin;
+      sudo apt-get install qtdeclarative5-window-plugin;
       sudo apt-get install gettext;
       sudo apt-get install pkg-config;
       sudo apt-get install cmake;
