@@ -781,17 +781,30 @@ namespace Nelson {
         */
         logical getContentAsLogicalScalar() const;
 
-        /**
-         * Get our contents as an integer scalar 64.
-         * Throws an exception if we are not a scalar integer type.
-         */
-        int64 getContentsAsInteger64Scalar();
+		/**
+		* Get our contents as an integer 8 bits scalar.
+		* Throws an exception if we are not a scalar integer type.
+		*/
+		int8 getContentsAsInteger8Scalar();
+
+		/**
+		* Get our contents as an unsigned integer 8 bits scalar.
+		* Throws an exception if we are not a scalar integer type.
+		*/
+		uint8 getContentsAsUnsignedInteger8Scalar();
 
         /**
         * Get our contents as an integer scalar.
         * Throws an exception if we are not a scalar integer type.
         */
         int32 getContentsAsInteger32Scalar();
+
+		/**
+		* Get our contents as an unsigned integer scalar.
+		* Throws an exception if we are not a scalar integer type.
+		*/
+		uint32 getContentsAsUnsignedInteger32Scalar();
+
         /**
          * Get our contents as a double scalar.
          * Throws an exception if we are not scalar or cannot meaningfully
@@ -804,6 +817,12 @@ namespace Nelson {
         * Throws an exception if we are not a scalar integer type.
         */
         uint64 getContentsAsUnsignedInt64Scalar();
+
+		/**
+		* Get our contents as an integer scalar 64.
+		* Throws an exception if we are not a scalar integer type.
+		*/
+		int64 getContentsAsInteger64Scalar();
 
         /**
         * Get our contents as a index type scalar.
