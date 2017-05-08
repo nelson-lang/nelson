@@ -19,6 +19,7 @@
 #include "ClassName.hpp"
 #include "characters_encoding.hpp"
 #include "HandleGenericObject.hpp"
+#include "HandleManager.hpp"
 //=============================================================================
 namespace Nelson {
     //=============================================================================
@@ -30,11 +31,16 @@ namespace Nelson {
             case NLS_HANDLE:
             {
                 classString = NLS_HANDLE_STR;
-                HandleGenericObject *hl = In.getContentsAsHandleScalar();
-                if (hl)
-                {
-                	classString = wstring_to_utf8(hl->getCategory());
-                }
+				nelson_handle *qp = (nelson_handle*)In.getDataPointer();
+				if (qp)
+				{
+					nelson_handle hl = qp[0];
+					HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
+					if (hlObj != nullptr)
+					{
+						classString = wstring_to_utf8(hlObj->getCategory());
+					}
+				}
             }
             break;
             case NLS_CELL_ARRAY:
