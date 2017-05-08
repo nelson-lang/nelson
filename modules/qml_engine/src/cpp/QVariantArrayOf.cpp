@@ -39,6 +39,7 @@
 #include "IsCellOfStrings.hpp"
 #include "GetQmlHandleObject.hpp"
 #include "QmlHandleObject.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 	//=============================================================================
@@ -87,7 +88,15 @@ namespace Nelson {
 
 		case QVariant::Type::List:
 		{
-			return canBeConvertedToArrayOf(Q);
+			QList<QVariant> qlistVariant = qvariant_cast<QList<QVariant>>(Q);
+			for (int k = 0; k < qlistVariant.size(); k++)
+			{
+				if (!canBeConvertedToArrayOf(qlistVariant[k]))
+				{
+					return false;
+				}
+			}
+			return true;
 		}
 		break;
 
@@ -474,7 +483,7 @@ namespace Nelson {
 		break;
 		case QVariant::Type::List:
 		{
-			QList<QVariant> qlistVariant = qvariant_cast<QList<QVariant>>(Q);
+			QVariantList qlistVariant = qvariant_cast<QVariantList>(Q);
 			Dimensions dimsCellArray(1, qlistVariant.size());
 			ArrayOf *cellArray = (ArrayOf *)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, dimsCellArray.getElementCount());
 			for (int k = 0; k < qlistVariant.size(); k++)
@@ -494,7 +503,13 @@ namespace Nelson {
 				fieldnames.push_back(QStringTowstring(iter.key()));
 				fieldvalues.push_back(QVariantToArrayOf(iter.value()));
 			}
-			res = ArrayOf::structConstructor(fieldnames, fieldvalues);
+
+			ArrayOf structArray = ArrayOf::emptyConstructor(0, 0);
+			for (size_t k = 0; k < fieldnames.size(); k++)
+			{
+				structArray.setField(wstring_to_utf8(fieldnames[k]), fieldvalues[k]);
+			}
+			res = structArray;
 		}
 		break;
 		default:
@@ -956,10 +971,6 @@ namespace Nelson {
 
 		case QVariant::Type::List:
 		{
-			if (!A.isVector())
-			{
-				throw Exception(_W("cell vector expected."));
-			}
 			if (!A.isCell())
 			{
 				throw Exception(_W("cell expected."));

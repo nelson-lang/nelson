@@ -88,7 +88,14 @@ namespace Nelson {
             {
 				QVariant::Type qtype = propertyValue.type();
 				QVariant v = ArrayOfToQVariant(B, qtype);
-				qobj->setProperty(wstring_to_utf8(propertyName).c_str(), v);
+				if (v.isValid())
+				{
+					qobj->setProperty(wstring_to_utf8(propertyName).c_str(), v);
+				}
+				else
+				{
+					throw Exception(_W("QVariant invalid."));
+				}
             }
         }
     }
