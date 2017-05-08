@@ -16,31 +16,15 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "nlsQml_engine_exports.h"
+#pragma once
+//=============================================================================
 #include "ArrayOf.hpp"
-#include "QmlHandleObject.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    class NLSQML_ENGINE_IMPEXP QmlEngine {
-    public:
-        static QmlEngine *getInstance();
-        QmlHandleObject *loadQmlFile(std::wstring filename);
-		QmlHandleObject *setData(std::wstring data);
-		void clearComponentCache();
-		wstringVector importPathList();
-		wstringVector pluginPathList();
-		void addImportPath(std::wstring path);
-		void addPluginPath(std::wstring path);
-		std::wstring offlineStoragePath();
-		void setOfflineStoragePath(std::wstring dir);
-		void collectGarbage();
-		void evaluateString(std::wstring program);
-		void evaluateFile(std::wstring filename);
-	private:
-        QmlEngine();
-        static QmlEngine *m_pInstance;
-    };
-    //=============================================================================
-}
+	namespace QmlEngineGateway {
+		ArrayOfVector qml_evaluatefileBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+	};
+};
 //=============================================================================
+

@@ -191,6 +191,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\Gateway.cpp" />
+    <ClCompile Include="..\cpp\qml_evaluatefileBuiltin.cpp" />
+    <ClCompile Include="..\cpp\qml_evaluatestringBuiltin.cpp" />
+    <ClCompile Include="..\cpp\qml_loadstringBuiltin.cpp" />
+    <ClCompile Include="..\cpp\qml_undefineBuiltin.cpp" />
     <ClCompile Include="..\cpp\QObject_deleteBuiltin.cpp" />
     <ClCompile Include="..\cpp\QObject_dispBuiltin.cpp" />
     <ClCompile Include="..\cpp\QObject_fieldnamesBuiltin.cpp" />
@@ -203,6 +207,10 @@
     <Text Include="..\..\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\qml_evaluatefileBuiltin.hpp" />
+    <ClInclude Include="..\include\qml_evaluatestringBuiltin.hpp" />
+    <ClInclude Include="..\include\qml_loadstringBuiltin.hpp" />
+    <ClInclude Include="..\include\qml_undefineBuiltin.hpp" />
     <ClInclude Include="..\include\QObject_deleteBuiltin.hpp" />
     <ClInclude Include="..\include\QObject_dispBuiltin.hpp" />
     <ClInclude Include="..\include\QObject_fieldnamesBuiltin.hpp" />
