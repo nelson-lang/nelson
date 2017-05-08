@@ -17,7 +17,20 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <QtQml/QQmlComponent>
-#include <QtCore/qrect.h>
+#include <QtGui/QQuaternion>
+#include <QtGui/QColor>
+#include <QtGui/QVector2D>
+#include <QtGui/QMatrix4x4>
+#include <QtGui/QMatrix>
+#include <QtGui/QTransform>
+#include <QtCore/QUrl>
+#include <QtCore/QBitArray>
+#include <QtCore/QLine>
+#include <QtCore/QLineF>
+#include <QtCore/QRect.h>
+#include <QtCore/QDatetime>
+#include <QtCore/QStringList>
+#include <QtCore/QUuid>
 #include "DispQmlHandleObject.hpp"
 #include "HandleManager.hpp"
 #include "QmlHandleObject.hpp"
@@ -29,7 +42,132 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-    static void DispQmlHandleObject(Interface *io, QmlHandleObject *qmlHandle)
+	static void dispParent(QObject *qobj, std::wstring &msg)
+	{
+		QObject *parent = qobj->parent();
+		std::wstring line;
+		if (parent)
+		{
+			line = L"\t" + std::wstring(L"parent") + L": " + L"handle" + L"\n";
+		}
+		msg = msg + line;
+	}
+	//=============================================================================
+	static void dispChildren(QObject *qobj, std::wstring &msg)
+	{
+		QObjectList childs = qobj->children();
+		int s = childs.size();
+		std::wstring line;
+		if (s > 0)
+		{
+			line = L"\t" + std::wstring(L"children") + L": " + L"handle 1x" + std::to_wstring(s) + L"\n";
+			msg = msg + line;
+		}
+	}
+	//=============================================================================
+	static void dispQRect(QRect qrect, std::wstring fieldname, std::wstring &msg)
+	{
+		int x = qrect.x();
+		int y = qrect.y();
+		int w = qrect.width();
+		int h = qrect.height();
+		std::wstring wstr = L"x:" + std::to_wstring(x) + L" " +
+			L"y:" + std::to_wstring(y) + L" " +
+			L"w:" + std::to_wstring(w) + L" " +
+			L"h:" + std::to_wstring(h);
+		msg = msg + L"\t" + fieldname + L": " + wstr + L"\n";
+	}
+	//=============================================================================
+	static void dispQRectF(QRectF qrectf, std::wstring fieldname, std::wstring &msg)
+	{
+		double x = qrectf.x();
+		double y = qrectf.y();
+		double w = qrectf.width();
+		double h = qrectf.height();
+		double intpart;
+		std::wstring wstr;
+		std::wstring wstr_x;
+		std::wstring wstr_y;
+		std::wstring wstr_w;
+		std::wstring wstr_h;
+		if (std::modf(x, &intpart) == 0.0)
+		{
+			wstr_x = std::to_wstring(int(x));
+		}
+		else
+		{
+			wstr_x = std::to_wstring(x);
+		}
+		if (std::modf(y, &intpart) == 0.0)
+		{
+			wstr_y = std::to_wstring(int(y));
+		}
+		else
+		{
+			wstr_y = std::to_wstring(y);
+		}
+		if (std::modf(w, &intpart) == 0.0)
+		{
+			wstr_w = std::to_wstring(int(w));
+		}
+		else
+		{
+			wstr_w = std::to_wstring(w);
+		}
+		if (std::modf(h, &intpart) == 0.0)
+		{
+			wstr_h = std::to_wstring(int(h));
+		}
+		else
+		{
+			wstr_h = std::to_wstring(h);
+		}
+		wstr = L"x:" + wstr_x + L" " + L"y:" + wstr_y + L" " + L"w:" + wstr_w + L" " + L"h:" + wstr_h;
+		msg = msg + L"\t" + fieldname + L": " + L"QRectF" + L" " + wstr + L"\n";
+	}
+	//=============================================================================
+	static void dispQPoint(QPoint qpoint, std::wstring fieldname, std::wstring &msg)
+	{
+		int x = qpoint.x();
+		int y = qpoint.y();
+		std::wstring wstr = L"x:" + std::to_wstring(x) + L" " + L"y:" + std::to_wstring(y);
+		msg = msg + L"\t" + fieldname + L": " + wstr + L"\n";
+	}
+	//=============================================================================
+	static void dispQPointF(QPointF qpointf, std::wstring fieldname, std::wstring &msg)
+	{
+		double x = qpointf.x();
+		double y = qpointf.y();
+		double intpart;
+		std::wstring wstr;
+		if (std::modf(x, &intpart) == 0.0 &&
+			std::modf(y, &intpart) == 0.0)
+		{
+			wstr = L"x:" + std::to_wstring(int(x)) + L" " +
+				L"y:" + std::to_wstring(int(y));
+		}
+		else
+		{
+			wstr = L"x:" + std::to_wstring(x) + L" " +
+				L"y:" + std::to_wstring(y);
+		}
+		msg = msg + L"\t" + fieldname + L": " + L"QRectF" + L" " + wstr + L"\n";
+	}
+	//=============================================================================
+	static void dispQColor(QColor qcolor, std::wstring fieldname, std::wstring &msg)
+	{
+		int r = qcolor.red();
+		int g = qcolor.green();
+		int b = qcolor.blue();
+		int a = qcolor.alpha();
+		std::wstring wstr = L"r:" + std::to_wstring(r) + L" " +
+			L"g:" + std::to_wstring(g) + L" " +
+			L"b:" + std::to_wstring(b) + L" " +
+			L"a:" + std::to_wstring(a);
+		msg = msg + L"\t" + fieldname + L": " + L"QColor" + L" " + wstr + L"\n";
+	}
+	//=============================================================================
+	static void DispQmlHandleObject(Interface *io, QmlHandleObject *qmlHandle)
     {
         if (qmlHandle != nullptr)
         {
@@ -38,129 +176,102 @@ namespace Nelson {
             QObject *qobj = (QObject *)qmlHandle->getPointer();
             if (qobj)
             {
-                std::wstring msg;
-                std::wstring line;
-                QObject *parent = qobj->parent();
-                if (parent)
-                {
-                    line = L"\t" + std::wstring(L"parent") + L": " + L"handle" + L"\n";
-                }
-                else
-                {
-                    line = L"\t" + std::wstring(L"parent") + L": " + L"handle  []" + L"\n";
-                }
-                msg = msg + line;
-                QObjectList childs = qobj->children();
-                int s = childs.size();
-                if (s > 0)
-                {
-                    line = L"\t" + std::wstring(L"children") + L": " + L"handle 1x" + std::to_wstring(s) + L"\n";
-                }
-                else
-                {
-                    line = L"\t" + std::wstring(L"children") + L": " + L"handle []" + L"\n";
-                }
-                msg = msg + line;
-                for (size_t k = 0; k < wfieldnames.size(); k++)
-                {
-                    if (wfieldnames[k] == L"parent")
-                    {
-                    }
-                    else if (wfieldnames[k] == L"children")
-                    {
-                    }
-                    else
-                    {
-                        QVariant propertyValue = qobj->property(wstring_to_utf8(wfieldnames[k]).c_str());
-                        if (propertyValue.isValid())
-                        {
-                            switch (propertyValue.type())
-                            {
-                                case QMetaType::QRect:
-                                {
-                                    QRect qrect = propertyValue.toRect();
-                                    int x = qrect.x();
-                                    int y = qrect.y();
-                                    int w = qrect.width();
-                                    int h = qrect.height();
-                                    std::wstring wstr = L"x:" + std::to_wstring(x) + L" " +
-                                                        L"y:" + std::to_wstring(y) + L" " +
-                                                        L"w:" + std::to_wstring(w) + L" " +
-                                                        L"h:" + std::to_wstring(h);
-                                    line = L"\t" + wfieldnames[k] + L": " + wstr + L"\n";
-                                }
-                                break;
-                                case QMetaType::QRectF:
-                                {
-                                    QRectF qrect = propertyValue.toRectF();
-                                    double x = qrect.x();
-                                    double y = qrect.y();
-                                    double w = qrect.width();
-                                    double h = qrect.height();
-                                    double intpart;
-                                    std::wstring wstr;
-                                    if (std::modf(x, &intpart) == 0.0 &&
-                                            std::modf(y, &intpart) == 0.0 &&
-                                            std::modf(w, &intpart) == 0.0 &&
-                                            std::modf(h, &intpart) == 0.0)
-                                    {
-                                        wstr = L"x:" + std::to_wstring(int(x)) + L" " +
-                                               L"y:" + std::to_wstring(int(y)) + L" " +
-                                               L"w:" + std::to_wstring(int(w)) + L" " +
-                                               L"h:" + std::to_wstring(int(h));
-                                    }
-                                    else
-                                    {
-                                        wstr = L"x:" + std::to_wstring(x) + L" " +
-                                               L"y:" + std::to_wstring(y) + L" " +
-                                               L"w:" + std::to_wstring(w) + L" " +
-                                               L"h:" + std::to_wstring(h);
-                                    }
-                                    line = L"\t" + wfieldnames[k] + L": " + QStringTowstring(propertyValue.typeName()) + L" " + wstr + L"\n";
-                                }
-                                break;
-                                case QMetaType::QPoint:
-                                {
-                                }
-                                break;
-                                case QMetaType::QPointF:
-                                {
-                                    QPointF qpointf = propertyValue.toPointF();
-                                    double x = qpointf.x();
-                                    double y = qpointf.y();
-                                    double intpart;
-                                    std::wstring wstr;
-                                    if (std::modf(x, &intpart) == 0.0 &&
-                                            std::modf(y, &intpart) == 0.0)
-                                    {
-                                        wstr = L"x:" + std::to_wstring(int(x)) + L" " +
-                                               L"y:" + std::to_wstring(int(y));
-                                    }
-                                    else
-                                    {
-                                        wstr = L"x:" + std::to_wstring(x) + L" " +
-                                               L"y:" + std::to_wstring(y);
-                                    }
-                                    line = L"\t" + wfieldnames[k] + L": " + QStringTowstring(propertyValue.typeName()) + L" " + wstr + L"\n";
-                                }
-                                break;
-                                default:
-                                {
-                                    if (propertyValue.canConvert<QString>())
-                                    {
-                                        line = L"\t" + wfieldnames[k] + L": " + QStringTowstring(propertyValue.typeName()) + L" " + QStringTowstring(propertyValue.toString()) + L"\n";
-                                    }
-                                    else
-                                    {
-                                        line = L"\t" + wfieldnames[k] + L": " + QStringTowstring(propertyValue.typeName()) + L" " + L"handle" + L"\n";
-                                    }
-                                }
-                                break;
-                            }
-                        }
-                    }
-                    msg = msg + line;
-                }
+				std::wstring msg;
+				for (size_t k = 0; k < wfieldnames.size(); k++)
+				{
+					if (wfieldnames[k] == L"parent")
+					{
+						dispParent(qobj, msg);
+					}
+					else if (wfieldnames[k] == L"children")
+					{
+						dispChildren(qobj, msg);
+					}
+					else
+					{
+						QVariant propertyValue = qobj->property(wstring_to_utf8(wfieldnames[k]).c_str());
+						if (propertyValue.isValid())
+						{
+							switch (propertyValue.type())
+							{
+							case QVariant::Type::Rect:
+							{
+								QRect qrect = propertyValue.toRect();
+								dispQRect(qrect, wfieldnames[k], msg);
+							}
+							break;
+
+							case QVariant::Type::RectF:
+							{
+								QRectF qrect = propertyValue.toRectF();
+								dispQRectF(qrect, wfieldnames[k], msg);
+							}
+							break;
+
+							case QVariant::Type::Point:
+							{
+								QPoint qpoint = propertyValue.toPoint();
+								dispQPoint(qpoint, wfieldnames[k], msg);
+							}
+							break;
+
+							case QVariant::Type::PointF:
+							{
+								QPointF qpointf = propertyValue.toPointF();
+								dispQPointF(qpointf, wfieldnames[k], msg);
+							}
+							break;
+
+							case QVariant::Type::Color:
+							{
+								QColor qcolor = qvariant_cast<QColor>(propertyValue);
+								dispQColor(qcolor, wfieldnames[k], msg);
+							}
+							break;
+
+							case QVariant::Type::Bool:
+							case QVariant::Type::Int:
+							case QVariant::Type::UInt:
+							case QVariant::Type::LongLong:
+							case QVariant::Type::ULongLong:
+							case QVariant::Type::Double:
+							case QVariant::Type::Char:
+							case QVariant::Type::String:
+							case QVariant::Type::StringList:
+							case QVariant::Type::ByteArray:
+							case QVariant::Type::BitArray:
+							case QVariant::Type::Date:
+							case QVariant::Type::Time:
+							case QVariant::Type::DateTime:
+							case QVariant::Type::Url:
+							case QVariant::Type::Size:
+							case QVariant::Type::SizeF:
+							case QVariant::Type::Line:
+							case QVariant::Type::LineF:
+							case QVariant::Type::Uuid:
+							case QVariant::Type::Matrix:
+							case QVariant::Type::Transform:
+							case QVariant::Type::Matrix4x4:
+							case QVariant::Type::Vector2D:
+							case QVariant::Type::Vector3D:
+							case QVariant::Type::Vector4D:
+							case QVariant::Type::Quaternion:
+							default:
+							{
+								if (propertyValue.canConvert<QString>())
+								{
+									msg = msg + L"\t" + wfieldnames[k] + L": " + QStringTowstring(propertyValue.typeName()) + L" " + QStringTowstring(propertyValue.toString()) + L"\n";
+								}
+								else
+								{
+									msg = msg + L"\t" + wfieldnames[k] + L": " + QStringTowstring(propertyValue.typeName()) + L" " + L"handle" + L"\n";
+								}
+							}
+							break;
+							}
+						}
+					}
+				}
                 if (!msg.empty())
                 {
                     io->outputMessage(msg);
