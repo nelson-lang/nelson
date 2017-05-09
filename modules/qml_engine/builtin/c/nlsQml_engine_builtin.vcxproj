@@ -191,9 +191,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\Gateway.cpp" />
+    <ClCompile Include="..\cpp\qml_addimportpathBuiltin.cpp" />
+    <ClCompile Include="..\cpp\qml_addpluginpathBuiltin.cpp" />
+    <ClCompile Include="..\cpp\qml_clearcomponentcacheBuiltin.cpp" />
+    <ClCompile Include="..\cpp\qml_collectgarbageBuiltin.cpp" />
     <ClCompile Include="..\cpp\qml_evaluatefileBuiltin.cpp" />
     <ClCompile Include="..\cpp\qml_evaluatestringBuiltin.cpp" />
+    <ClCompile Include="..\cpp\qml_importpathlistBuiltin.cpp" />
     <ClCompile Include="..\cpp\qml_loadstringBuiltin.cpp" />
+    <ClCompile Include="..\cpp\qml_offlinestoragepathBuiltin.cpp" />
+    <ClCompile Include="..\cpp\qml_pluginpathlistBuiltin.cpp" />
+    <ClCompile Include="..\cpp\qml_setofflinestoragepathBuiltin.cpp" />
     <ClCompile Include="..\cpp\qml_undefineBuiltin.cpp" />
     <ClCompile Include="..\cpp\QObject_deleteBuiltin.cpp" />
     <ClCompile Include="..\cpp\QObject_dispBuiltin.cpp" />
@@ -207,9 +215,17 @@
     <Text Include="..\..\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\qml_addimportpathBuiltin.hpp" />
+    <ClInclude Include="..\include\qml_addpluginpathBuiltin.hpp" />
+    <ClInclude Include="..\include\qml_clearcomponentcacheBuiltin.hpp" />
+    <ClInclude Include="..\include\qml_collectgarbageBuiltin.hpp" />
     <ClInclude Include="..\include\qml_evaluatefileBuiltin.hpp" />
     <ClInclude Include="..\include\qml_evaluatestringBuiltin.hpp" />
+    <ClInclude Include="..\include\qml_importpathlistBuiltin.hpp" />
     <ClInclude Include="..\include\qml_loadstringBuiltin.hpp" />
+    <ClInclude Include="..\include\qml_offlinestoragepathBuiltin.hpp" />
+    <ClInclude Include="..\include\qml_pluginpathlistBuiltin.hpp" />
+    <ClInclude Include="..\include\qml_setofflinestoragepathBuiltin.hpp" />
     <ClInclude Include="..\include\qml_undefineBuiltin.hpp" />
     <ClInclude Include="..\include\QObject_deleteBuiltin.hpp" />
     <ClInclude Include="..\include\QObject_dispBuiltin.hpp" />

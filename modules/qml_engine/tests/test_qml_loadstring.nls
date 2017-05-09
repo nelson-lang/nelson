@@ -18,13 +18,15 @@
 //=============================================================================
 // <--GUI MODE-->
 //=============================================================================
-assert_isequal(nargin('qml_loadfile'), 1);
-assert_isequal(nargout('qml_loadfile'), 1);
+assert_isequal(nargin('qml_loadstring'), 1);
+assert_isequal(nargout('qml_loadstring'), 1);
 //=============================================================================
 qml_file_ok = [modulepath('qml_engine'), '/tests/test_qml_loadfile_ok.qml'];
-qobj = qml_loadfile(qml_file_ok);
+txt = fileread(qml_file_ok);
+qobj = qml_loadstring(txt);
 delete(qobj);
 //=============================================================================
 qml_file_ko = [modulepath('qml_engine'), '/tests/test_qml_loadfile_ko.qml'];
-assert_checkerror('qobj = qml_loadfile(qml_file_ko);', _('Window wigdet expected.'));
+txt = fileread(qml_file_ko);
+assert_checkerror('qobj = qml_loadstring(txt);', _('Window wigdet expected.'));
 //=============================================================================

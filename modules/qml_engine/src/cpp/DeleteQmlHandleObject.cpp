@@ -45,23 +45,9 @@ namespace Nelson {
                         void *ptr = qmlhandleobj->getPointer();
                         if (ptr)
                         {
-                            bool deletedByTheParent = false;
                             QObject *qobj = (QObject *)ptr;
-                            QObject *qobjParent = qobj->parent();
-                            if (qobjParent != nullptr)
-                            {
-                                bool isWindow = qobjParent->isWindowType();
-                                if (isWindow)
-                                {
-                                    delete qobjParent;
-                                    deletedByTheParent = true;
-                                }
-                            }
-                            if (!deletedByTheParent)
-                            {
-                                qobj->deleteLater();
-                                delete qobj;
-                            }
+                            qobj->deleteLater();
+                            delete qobj;
                             qmlhandleobj->setPointer(nullptr);
                         }
                         delete qmlhandleobj;

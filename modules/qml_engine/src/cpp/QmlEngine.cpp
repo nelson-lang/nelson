@@ -53,7 +53,13 @@ namespace Nelson {
 			QObject *topLevel = component->create();
 			if (!topLevel && component->isError())
 			{
+				component->deleteLater();
 				throw Exception(QStringTowstring(component->errorString()));
+			}
+			if (!topLevel->isWindowType())
+			{
+				component->deleteLater();
+				throw Exception(_W("Window wigdet expected."));
 			}
 			QmlHandleObject * qmlHandle = nullptr;
 			try
@@ -62,6 +68,7 @@ namespace Nelson {
 			}
 			catch (std::bad_alloc &e)
 			{
+				component->deleteLater();
 				e.what();
 				qmlHandle = nullptr;
 				throw Exception(ERROR_MEMORY_ALLOCATION);
@@ -80,7 +87,13 @@ namespace Nelson {
 			QObject *topLevel = component->create();
 			if (!topLevel && component->isError())
 			{
+				component->deleteLater();
 				throw Exception(QStringTowstring(component->errorString()));
+			}
+			if (!topLevel->isWindowType())
+			{
+				component->deleteLater();
+				throw Exception(_W("Window wigdet expected."));
 			}
 			QmlHandleObject * qmlHandle = nullptr;
 			try
@@ -89,6 +102,7 @@ namespace Nelson {
 			}
 			catch (std::bad_alloc &e)
 			{
+				component->deleteLater();
 				e.what();
 				qmlHandle = nullptr;
 				throw Exception(ERROR_MEMORY_ALLOCATION);

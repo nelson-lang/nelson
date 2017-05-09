@@ -6,25 +6,25 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 2 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-// <--GUI MODE-->
+#pragma once
 //=============================================================================
-assert_isequal(nargin('qml_loadfile'), 1);
-assert_isequal(nargout('qml_loadfile'), 1);
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
-qml_file_ok = [modulepath('qml_engine'), '/tests/test_qml_loadfile_ok.qml'];
-qobj = qml_loadfile(qml_file_ok);
-delete(qobj);
+namespace Nelson {
+    namespace QmlEngineGateway {
+        ArrayOfVector qml_setofflinestoragepathBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    };
+};
 //=============================================================================
-qml_file_ko = [modulepath('qml_engine'), '/tests/test_qml_loadfile_ko.qml'];
-assert_checkerror('qobj = qml_loadfile(qml_file_ko);', _('Window wigdet expected.'));
-//=============================================================================
+

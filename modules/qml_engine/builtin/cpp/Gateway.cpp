@@ -22,6 +22,15 @@
 #include "qml_evaluatefileBuiltin.hpp"
 #include "qml_evaluatestringBuiltin.hpp"
 #include "qml_undefineBuiltin.hpp"
+#include "qml_clearcomponentcacheBuiltin.hpp"
+#include "qml_collectgarbageBuiltin.hpp"
+#include "qml_importpathlistBuiltin.hpp"
+#include "qml_pluginpathlistBuiltin.hpp"
+#include "qml_offlinestoragepathBuiltin.hpp"
+#include "qml_addimportpathBuiltin.hpp"
+#include "qml_addpluginpathBuiltin.hpp"
+#include "qml_setofflinestoragepathBuiltin.hpp"
+//=============================================================================
 #include "QObject_deleteBuiltin.hpp"
 #include "QObject_dispBuiltin.hpp"
 #include "QObject_getBuiltin.hpp"
@@ -39,6 +48,14 @@ static const nlsGateway gateway[] =
 	{ "qml_evaluatestring", Nelson::QmlEngineGateway::qml_evaluatestringBuiltin, 0, 1 },
 	{ "qml_evaluatefile", Nelson::QmlEngineGateway::qml_evaluatefileBuiltin, 0, 1 },
 	{ "qml_undefine", Nelson::QmlEngineGateway::qml_undefineBuiltin, 0, 1 },
+	{ "qml_clearcomponentcache", Nelson::QmlEngineGateway::qml_clearcomponentcacheBuiltin, 0, 0 },
+	{ "qml_collectgarbage", Nelson::QmlEngineGateway::qml_collectgarbageBuiltin, 0, 0 },
+	{ "qml_importpathlist", Nelson::QmlEngineGateway::qml_importpathlistBuiltin, 1, 0 },
+	{ "qml_pluginpathlist", Nelson::QmlEngineGateway::qml_pluginpathlistBuiltin, 1, 0 },
+	{ "qml_offlinestoragepath", Nelson::QmlEngineGateway::qml_offlinestoragepathBuiltin, 1, 0 },
+	{ "qml_setofflinestoragepath", Nelson::QmlEngineGateway::qml_setofflinestoragepathBuiltin, 0, 1 },
+	{ "qml_addimportpath", Nelson::QmlEngineGateway::qml_addimportpathBuiltin, 0, 1 },
+	{ "qml_addpluginpath", Nelson::QmlEngineGateway::qml_addpluginpathBuiltin, 0, 1 },
 
 	{ "QObject_delete", Nelson::QmlEngineGateway::QObject_deleteBuiltin, 0, 1 },
     { "QObject_disp", Nelson::QmlEngineGateway::QObject_dispBuiltin, 0, 1 },
