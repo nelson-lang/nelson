@@ -25,116 +25,112 @@
 #include "QVariantArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
-	//=============================================================================
+    //=============================================================================
 #define NB_PARAMS_MAX 10
-	//=============================================================================
-	ArrayOf invokeQObject(ArrayOf A, std::wstring wmethodname, ArrayOfVector params, bool &haveReturnValue)
-	{
-		ArrayOf res;
-		haveReturnValue = false;
-		if (params.size() > NB_PARAMS_MAX)
-		{
-			throw Exception(_W("Only 10 input parameters expected."));
-		}
-		if (!A.isHandle())
-		{
-			throw Exception(ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
-		}
-		if (!A.isScalar())
-		{
-			throw Exception(ERROR_SIZE_SCALAR_EXPECTED);
-		}
-		nelson_handle *qp = (nelson_handle*)A.getDataPointer();
-		if (qp == nullptr)
-		{
-			throw Exception(_W("QObject valid handle expected."));
-		}
-		nelson_handle hl = qp[0];
-		HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-		if (hlObj == nullptr)
-		{
-			throw Exception(_W("QObject valid handle expected."));
-		}
-		if (hlObj->getCategory() != L"QObject")
-		{
-			throw Exception(_W("QObject handle expected."));
-		}
-		QmlHandleObject *qmlhandleobj = (QmlHandleObject *)hlObj;
-		void *ptr = qmlhandleobj->getPointer();
-		if (ptr == nullptr)
-		{
-			throw Exception(_W("QObject valid handle expected."));
-		}
-		QObject *qobj = (QObject *)ptr;
-		const QMetaObject *metaObject = qobj->metaObject();
-
-		std::string methodname = wstring_to_utf8(wmethodname);
-
-		QMetaMethod metaMethodFound;
-		bool methodFound = false;
-		for (int i = 0; i < metaObject->methodCount(); i++)
-		{
-			QMetaMethod metaMethod = metaObject->method(i);
-			QMetaMethod::MethodType methodType = metaMethod.methodType();
-			QByteArray name = metaMethod.name();
-			std::string str = std::string(name);
-			if (methodType == QMetaMethod::Method || methodType == QMetaMethod::Slot)
-			{
-				if (str == methodname)
-				{
-					metaMethodFound = metaMethod;
-					methodFound = true;
-					break;
-				}
-			}
-		}
-
-		if (methodFound)
-		{
-			QVariant qparams[NB_PARAMS_MAX];
-			QGenericArgument arg[NB_PARAMS_MAX];
-			for (size_t k = 0; k < params.size(); k++)
-			{
-				qparams[k] = ArrayOfToQVariant(params[k]);
-				arg[k] = Q_ARG(QVariant, qparams[k]);
-			}
-
-			bool ok;
-			if (metaMethodFound.returnType() == QMetaType::Void) 
-			{
-				ok = metaMethodFound.invoke(qobj, Qt::DirectConnection,
-					arg[0], arg[1], arg[2], arg[3], arg[4], arg[5], arg[6], arg[7], arg[8], arg[9]);
-				haveReturnValue = false;
-			}
-			else 
-			{
-				QVariant result;
-				ok = metaMethodFound.invoke(qobj, Qt::DirectConnection, Q_RETURN_ARG(QVariant, result),
-					arg[0], arg[1], arg[2], arg[3], arg[4], arg[5], arg[6], arg[7], arg[8], arg[9]);
-				haveReturnValue = true;
-				if (ok)
-				{
-					if (!result.isValid())
-					{
-						haveReturnValue = false;
-					}
-					else
-					{
-						res = QVariantToArrayOf(result);
-					}
-				}
-			}
-			if (!ok)
-			{
-				throw Exception(_W("Invalid parameters"));
-			}
-		}
-		else
-		{
-			throw Exception(_W("method not found."));
-		}
-		return res;
-	}
-	//=============================================================================
+    //=============================================================================
+    ArrayOf invokeQObject(ArrayOf A, std::wstring wmethodname, ArrayOfVector params, bool &haveReturnValue)
+    {
+        ArrayOf res;
+        haveReturnValue = false;
+        if (params.size() > NB_PARAMS_MAX)
+        {
+            throw Exception(_W("Only 10 input parameters expected."));
+        }
+        if (!A.isHandle())
+        {
+            throw Exception(ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
+        }
+        if (!A.isScalar())
+        {
+            throw Exception(ERROR_SIZE_SCALAR_EXPECTED);
+        }
+        nelson_handle *qp = (nelson_handle*)A.getDataPointer();
+        if (qp == nullptr)
+        {
+            throw Exception(_W("QObject valid handle expected."));
+        }
+        nelson_handle hl = qp[0];
+        HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
+        if (hlObj == nullptr)
+        {
+            throw Exception(_W("QObject valid handle expected."));
+        }
+        if (hlObj->getCategory() != L"QObject")
+        {
+            throw Exception(_W("QObject handle expected."));
+        }
+        QmlHandleObject *qmlhandleobj = (QmlHandleObject *)hlObj;
+        void *ptr = qmlhandleobj->getPointer();
+        if (ptr == nullptr)
+        {
+            throw Exception(_W("QObject valid handle expected."));
+        }
+        QObject *qobj = (QObject *)ptr;
+        const QMetaObject *metaObject = qobj->metaObject();
+        std::string methodname = wstring_to_utf8(wmethodname);
+        QMetaMethod metaMethodFound;
+        bool methodFound = false;
+        for (int i = 0; i < metaObject->methodCount(); i++)
+        {
+            QMetaMethod metaMethod = metaObject->method(i);
+            QMetaMethod::MethodType methodType = metaMethod.methodType();
+            QByteArray name = metaMethod.name();
+            std::string str = std::string(name);
+            if (methodType == QMetaMethod::Method || methodType == QMetaMethod::Slot)
+            {
+                if (str == methodname)
+                {
+                    metaMethodFound = metaMethod;
+                    methodFound = true;
+                    break;
+                }
+            }
+        }
+        if (methodFound)
+        {
+            QVariant qparams[NB_PARAMS_MAX];
+            QGenericArgument arg[NB_PARAMS_MAX];
+            for (size_t k = 0; k < params.size(); k++)
+            {
+                qparams[k] = ArrayOfToQVariant(params[k]);
+                arg[k] = Q_ARG(QVariant, qparams[k]);
+            }
+            bool ok;
+            if (metaMethodFound.returnType() == QMetaType::Void)
+            {
+                ok = metaMethodFound.invoke(qobj, Qt::DirectConnection,
+                                            arg[0], arg[1], arg[2], arg[3], arg[4], arg[5], arg[6], arg[7], arg[8], arg[9]);
+                haveReturnValue = false;
+            }
+            else
+            {
+                QVariant result;
+                ok = metaMethodFound.invoke(qobj, Qt::DirectConnection, Q_RETURN_ARG(QVariant, result),
+                                            arg[0], arg[1], arg[2], arg[3], arg[4], arg[5], arg[6], arg[7], arg[8], arg[9]);
+                haveReturnValue = true;
+                if (ok)
+                {
+                    if (!result.isValid())
+                    {
+                        haveReturnValue = false;
+                    }
+                    else
+                    {
+                        res = QVariantToArrayOf(result);
+                    }
+                }
+            }
+            if (!ok)
+            {
+                throw Exception(_W("Invalid parameters"));
+            }
+        }
+        else
+        {
+            throw Exception(_W("method not found."));
+        }
+        return res;
+    }
+    //=============================================================================
 }
 //=============================================================================

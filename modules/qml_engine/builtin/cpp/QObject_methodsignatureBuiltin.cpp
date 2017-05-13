@@ -24,21 +24,19 @@ using namespace Nelson;
 //=============================================================================
 ArrayOfVector Nelson::QmlEngineGateway::QObject_methodsignatureBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-	if (argIn.size() != 2)
-	{
-		Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-	}
-	if (nLhs > 1)
-	{
-		Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-	}
-
-	ArrayOf param2 = argIn[1];
-	std::wstring propertyName = param2.getContentsAsWideString();
-
-	ArrayOfVector retval;
-	ArrayOf res = methodSignatureQObject(argIn[0], propertyName);
-	retval.push_back(res);
-	return retval;
+    if (argIn.size() != 2)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    if (nLhs > 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    ArrayOf param2 = argIn[1];
+    std::wstring propertyName = param2.getContentsAsWideString();
+    ArrayOfVector retval;
+    ArrayOf res = methodSignatureQObject(argIn[0], propertyName);
+    retval.push_back(res);
+    return retval;
 }
 //=============================================================================

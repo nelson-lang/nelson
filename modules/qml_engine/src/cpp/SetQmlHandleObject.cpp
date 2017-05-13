@@ -81,21 +81,21 @@ namespace Nelson {
             QVariant propertyValue = qobj->property(wstring_to_utf8(propertyName).c_str());
             if (!propertyValue.isValid())
             {
-				QVariant v = ArrayOfToQVariant(B);
-				qobj->setProperty(wstring_to_utf8(propertyName).c_str(), v);
-			}
+                QVariant v = ArrayOfToQVariant(B);
+                qobj->setProperty(wstring_to_utf8(propertyName).c_str(), v);
+            }
             else
             {
-				QVariant::Type qtype = propertyValue.type();
-				QVariant v = ArrayOfToQVariant(B, qtype);
-				if (v.isValid())
-				{
-					qobj->setProperty(wstring_to_utf8(propertyName).c_str(), v);
-				}
-				else
-				{
-					throw Exception(_W("QVariant invalid."));
-				}
+                QVariant::Type qtype = propertyValue.type();
+                QVariant v = ArrayOfToQVariant(B, qtype);
+                if (v.isValid())
+                {
+                    qobj->setProperty(wstring_to_utf8(propertyName).c_str(), v);
+                }
+                else
+                {
+                    throw Exception(_W("QVariant invalid."));
+                }
             }
         }
     }

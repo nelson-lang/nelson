@@ -33,8 +33,8 @@ ArrayOfVector Nelson::QmlEngineGateway::QObject_methodsBuiltin(Evaluator* eval, 
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOfVector retval;
-	ArrayOf res = methodsQObject(argIn[0]);
-	retval.push_back(res);
+    ArrayOf res = methodsQObject(argIn[0]);
+    retval.push_back(res);
     return retval;
 }
 //=============================================================================

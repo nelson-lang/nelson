@@ -31,8 +31,8 @@ ArrayOfVector Nelson::HandleGateway::handle_methodsBuiltin(Evaluator* eval, int 
     ArrayOf param1 = argIn[0];
     if (param1.isHandle())
     {
-		Error(eval, _W("Invalid handle."));
-	}
+        Error(eval, _W("Invalid handle."));
+    }
     else
     {
         Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED);

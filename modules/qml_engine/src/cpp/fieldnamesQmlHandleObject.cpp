@@ -56,59 +56,53 @@ namespace Nelson {
         fieldnamesQmlHandleObject(qmlhandleobj, fullList, fieldnames);
     }
     //=============================================================================
-	void fieldnamesQmlHandleObject(QmlHandleObject *qmlHandle, bool fullList, wstringVector &fieldnames)
-	{
-		void *ptr = qmlHandle->getPointer();
-		fieldnames.clear();
-		if (ptr == nullptr)
-		{
-			throw Exception(_W("QObject valid handle expected."));
-		}
-		QObject *qobj = (QObject *)ptr;
-		const QMetaObject *meta = qobj->metaObject();
-		stringVector allFields;
-
-		for (int i = 0; i < meta->propertyCount(); i++)
-		{
-			QMetaProperty property = meta->property(i);
-			const char *name = property.name();
-			if (std::find(allFields.begin(), allFields.end(), name) == allFields.end())
-			{
-				allFields.push_back(name);
-			}
-		}
-
-		QList<QByteArray> names = qobj->dynamicPropertyNames();
-		for (int k = 0; k < names.size(); k++)
-		{
-			std::string name = std::string(names[k]);
-			if (std::find(allFields.begin(), allFields.end(), name) == allFields.end())
-			{
-				allFields.push_back(name);
-			}
-		}
-
-		if (std::find(allFields.begin(), allFields.end(), "parent") == allFields.end())
-		{
-			QObject *parent = qobj->parent();
-			if (parent)
-			{
-				allFields.push_back(std::string("parent"));
-			}
-		}
-
-		if (std::find(allFields.begin(), allFields.end(), "children") == allFields.end())
-		{
-			QObjectList childs = qobj->children();
-			int s = childs.size();
-			if (s > 0)
-			{
-				allFields.push_back(std::string("children"));
-			}
-		}
-
-		std::sort(allFields.begin(), allFields.end());
-
+    void fieldnamesQmlHandleObject(QmlHandleObject *qmlHandle, bool fullList, wstringVector &fieldnames)
+    {
+        void *ptr = qmlHandle->getPointer();
+        fieldnames.clear();
+        if (ptr == nullptr)
+        {
+            throw Exception(_W("QObject valid handle expected."));
+        }
+        QObject *qobj = (QObject *)ptr;
+        const QMetaObject *meta = qobj->metaObject();
+        stringVector allFields;
+        for (int i = 0; i < meta->propertyCount(); i++)
+        {
+            QMetaProperty property = meta->property(i);
+            const char *name = property.name();
+            if (std::find(allFields.begin(), allFields.end(), name) == allFields.end())
+            {
+                allFields.push_back(name);
+            }
+        }
+        QList<QByteArray> names = qobj->dynamicPropertyNames();
+        for (int k = 0; k < names.size(); k++)
+        {
+            std::string name = std::string(names[k]);
+            if (std::find(allFields.begin(), allFields.end(), name) == allFields.end())
+            {
+                allFields.push_back(name);
+            }
+        }
+        if (std::find(allFields.begin(), allFields.end(), "parent") == allFields.end())
+        {
+            QObject *parent = qobj->parent();
+            if (parent)
+            {
+                allFields.push_back(std::string("parent"));
+            }
+        }
+        if (std::find(allFields.begin(), allFields.end(), "children") == allFields.end())
+        {
+            QObjectList childs = qobj->children();
+            int s = childs.size();
+            if (s > 0)
+            {
+                allFields.push_back(std::string("children"));
+            }
+        }
+        std::sort(allFields.begin(), allFields.end());
         if (fullList)
         {
             for (size_t k = 0; k < allFields.size(); k++)
@@ -129,17 +123,17 @@ namespace Nelson {
                     QVariant propertyValue = qobj->property(allFields[k].c_str());
                     if (propertyValue.isValid())
                     {
-						if (canBeConvertedToArrayOf(propertyValue))
+                        if (canBeConvertedToArrayOf(propertyValue))
                         {
-							fieldnames.push_back(utf8_to_wstring(allFields[k]));
+                            fieldnames.push_back(utf8_to_wstring(allFields[k]));
                         }
-						else
+                        else
                         {
-							QObject * obj = qvariant_cast<QObject *>(propertyValue);
+                            QObject * obj = qvariant_cast<QObject *>(propertyValue);
                             if (obj != nullptr)
                             {
-								fieldnames.push_back(utf8_to_wstring(allFields[k]));
-							}
+                                fieldnames.push_back(utf8_to_wstring(allFields[k]));
+                            }
                         }
                     }
                 }

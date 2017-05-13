@@ -115,7 +115,7 @@ namespace Nelson {
         else
         {
             QVariant propertyValue = qobj->property(wstring_to_utf8(propertyName).c_str());
-			res = QVariantToArrayOf(propertyValue);
+            res = QVariantToArrayOf(propertyValue);
         }
         return res;
     }

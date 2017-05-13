@@ -26,19 +26,19 @@ namespace Nelson {
     public:
         static QmlEngine *getInstance();
         QmlHandleObject *loadQmlFile(std::wstring filename);
-		QmlHandleObject *setData(std::wstring data);
-		void evaluateString(std::wstring program);
-		void evaluateFile(std::wstring filename);
-		void collectGarbage();
-		void clearComponentCache();
-		wstringVector importPathList();
-		wstringVector pluginPathList();
-		std::wstring offlineStoragePath();
+        QmlHandleObject *setData(std::wstring data);
+        void evaluateString(std::wstring program);
+        void evaluateFile(std::wstring filename);
+        void collectGarbage();
+        void clearComponentCache();
+        wstringVector importPathList();
+        wstringVector pluginPathList();
+        std::wstring offlineStoragePath();
 
-		void addImportPath(std::wstring path);
-		void addPluginPath(std::wstring path);
-		void setOfflineStoragePath(std::wstring dir);
-	private:
+        void addImportPath(std::wstring path);
+        void addPluginPath(std::wstring path);
+        void setOfflineStoragePath(std::wstring dir);
+    private:
         QmlEngine();
         static QmlEngine *m_pInstance;
     };

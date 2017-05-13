@@ -37,14 +37,14 @@ ArrayOfVector Nelson::HandleGateway::handle_dispBuiltin(Evaluator* eval, int nLh
     {
         Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED);
     }
-	Interface *io = eval->getInterface();
-	if (io)
-	{
-		Dimensions dimsParam1 = param1.getDimensions();
-		io->outputMessage(L"[handle] - size: ");
-		dimsParam1.printMe(io);
-		io->outputMessage("\n");
-	}
+    Interface *io = eval->getInterface();
+    if (io)
+    {
+        Dimensions dimsParam1 = param1.getDimensions();
+        io->outputMessage(L"[handle] - size: ");
+        dimsParam1.printMe(io);
+        io->outputMessage("\n");
+    }
     return retval;
 }
 //=============================================================================

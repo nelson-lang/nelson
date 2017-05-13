@@ -27,73 +27,73 @@
 #include "QVariantArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
-	//=============================================================================
-	void UndefineDynamicProperty(ArrayOf A, std::wstring propertyName)
-	{
-		ArrayOf res;
-		if (!A.isHandle())
-		{
-			throw Exception(ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
-		}
-		if (!A.isScalar())
-		{
-			throw Exception(ERROR_SIZE_SCALAR_EXPECTED);
-		}
-		nelson_handle *qp = (nelson_handle*)A.getDataPointer();
-		if (qp == nullptr)
-		{
-			throw Exception(_W("QObject valid handle expected."));
-		}
-		nelson_handle hl = qp[0];
-		HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-		if (hlObj == nullptr)
-		{
-			throw Exception(_W("QObject valid handle expected."));
-		}
-		if (hlObj->getCategory() != L"QObject")
-		{
-			throw Exception(_W("QObject handle expected."));
-		}
-		QmlHandleObject *qmlhandleobj = (QmlHandleObject *)hlObj;
-		void *ptr = qmlhandleobj->getPointer();
-		if (ptr == nullptr)
-		{
-			throw Exception(_W("QObject valid handle expected."));
-		}
-		QObject *qobj = (QObject *)ptr;
-		if (propertyName == L"parent")
-		{
-			throw Exception(_W("'parent' can not modified."));
-		}
-		else if (propertyName == L"children")
-		{
-			throw Exception(_W("'children' can not modified."));
-		}
-		else
-		{
-			bool isDynamicProperty = false;
-			QList<QByteArray> names = qobj->dynamicPropertyNames();
-			std::string upropertyname = wstring_to_utf8(propertyName);
-			for (int k = 0; k < names.size(); k++)
-			{
-				std::string name = std::string(names[k]);
-				if (name == upropertyname)
-				{
-					isDynamicProperty = true;
-					break;
-				}
-			}
-			if (isDynamicProperty)
-			{
-				QVariant undefined = QVariant();
-				qobj->setProperty(upropertyname.c_str(), undefined);
-			}
-			else
-			{
-				throw Exception(_W("'" + upropertyname + "'" + " can not modified."));
-			}
-		}
-	}
-	//=============================================================================
+    //=============================================================================
+    void UndefineDynamicProperty(ArrayOf A, std::wstring propertyName)
+    {
+        ArrayOf res;
+        if (!A.isHandle())
+        {
+            throw Exception(ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
+        }
+        if (!A.isScalar())
+        {
+            throw Exception(ERROR_SIZE_SCALAR_EXPECTED);
+        }
+        nelson_handle *qp = (nelson_handle*)A.getDataPointer();
+        if (qp == nullptr)
+        {
+            throw Exception(_W("QObject valid handle expected."));
+        }
+        nelson_handle hl = qp[0];
+        HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
+        if (hlObj == nullptr)
+        {
+            throw Exception(_W("QObject valid handle expected."));
+        }
+        if (hlObj->getCategory() != L"QObject")
+        {
+            throw Exception(_W("QObject handle expected."));
+        }
+        QmlHandleObject *qmlhandleobj = (QmlHandleObject *)hlObj;
+        void *ptr = qmlhandleobj->getPointer();
+        if (ptr == nullptr)
+        {
+            throw Exception(_W("QObject valid handle expected."));
+        }
+        QObject *qobj = (QObject *)ptr;
+        if (propertyName == L"parent")
+        {
+            throw Exception(_W("'parent' can not modified."));
+        }
+        else if (propertyName == L"children")
+        {
+            throw Exception(_W("'children' can not modified."));
+        }
+        else
+        {
+            bool isDynamicProperty = false;
+            QList<QByteArray> names = qobj->dynamicPropertyNames();
+            std::string upropertyname = wstring_to_utf8(propertyName);
+            for (int k = 0; k < names.size(); k++)
+            {
+                std::string name = std::string(names[k]);
+                if (name == upropertyname)
+                {
+                    isDynamicProperty = true;
+                    break;
+                }
+            }
+            if (isDynamicProperty)
+            {
+                QVariant undefined = QVariant();
+                qobj->setProperty(upropertyname.c_str(), undefined);
+            }
+            else
+            {
+                throw Exception(_W("'" + upropertyname + "'" + " can not modified."));
+            }
+        }
+    }
+    //=============================================================================
 }
 //=============================================================================

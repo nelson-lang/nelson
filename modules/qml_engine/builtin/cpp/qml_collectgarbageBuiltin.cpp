@@ -24,16 +24,16 @@ using namespace Nelson;
 //=============================================================================
 ArrayOfVector Nelson::QmlEngineGateway::qml_collectgarbageBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-	if (argIn.size() != 0)
-	{
-		Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-	}
-	if (nLhs != 0)
-	{
-		Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-	}
-	QmlEngine::getInstance()->collectGarbage();
-	ArrayOfVector retval;
-	return retval;
+    if (argIn.size() != 0)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    if (nLhs != 0)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    QmlEngine::getInstance()->collectGarbage();
+    ArrayOfVector retval;
+    return retval;
 }
 //=============================================================================

@@ -53,10 +53,10 @@ static const nlsGateway gateway[] =
     { "set", Nelson::HandleGateway::setBuiltin, 1, 1 },
     { "invoke", Nelson::HandleGateway::invokeBuiltin, 1, 2 },
     { "isvalid", Nelson::HandleGateway::isvalidBuiltin, 1, 1 },
-	{ "methods", Nelson::HandleGateway::methodsBuiltin, 1, 1 },
-	{ "properties", Nelson::HandleGateway::propertiesBuiltin, 1, 1 },
-	{ "isprop", Nelson::HandleGateway::ispropBuiltin, 1, 2 },
-	{ "ismethod", Nelson::HandleGateway::ismethodBuiltin, 1, 2 },
+    { "methods", Nelson::HandleGateway::methodsBuiltin, 1, 1 },
+    { "properties", Nelson::HandleGateway::propertiesBuiltin, 1, 1 },
+    { "isprop", Nelson::HandleGateway::ispropBuiltin, 1, 2 },
+    { "ismethod", Nelson::HandleGateway::ismethodBuiltin, 1, 2 },
 
     { "handle_vertcat_handle", Nelson::HandleGateway::handle_vertcat_handleBuiltin, 1, 2 },
     { "handle_horzcat_handle", Nelson::HandleGateway::handle_horzcat_handleBuiltin, 1, 2 },
@@ -67,10 +67,10 @@ static const nlsGateway gateway[] =
     { "handle_delete", Nelson::HandleGateway::handle_deleteBuiltin, 0, 1 },
     { "handle_isvalid", Nelson::HandleGateway::handle_isvalidBuiltin, 1, 1 },
     { "handle_fieldnames", Nelson::HandleGateway::handle_fieldnamesBuiltin, 1, 1 },
-	{ "handle_methods", Nelson::HandleGateway::handle_methodsBuiltin, 1, 1 },
-	{ "handle_ismethod", Nelson::HandleGateway::handle_ismethodBuiltin, 1, 2 },
-	{ "handle_isprop", Nelson::HandleGateway::handle_ispropBuiltin, 1, 2 },
-	{ "handle_properties", Nelson::HandleGateway::handle_propertiesBuiltin, 1, 1 },
+    { "handle_methods", Nelson::HandleGateway::handle_methodsBuiltin, 1, 1 },
+    { "handle_ismethod", Nelson::HandleGateway::handle_ismethodBuiltin, 1, 2 },
+    { "handle_isprop", Nelson::HandleGateway::handle_ispropBuiltin, 1, 2 },
+    { "handle_properties", Nelson::HandleGateway::handle_propertiesBuiltin, 1, 1 },
 
 };
 //=============================================================================

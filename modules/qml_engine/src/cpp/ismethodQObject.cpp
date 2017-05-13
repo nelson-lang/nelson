@@ -24,65 +24,63 @@
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
-	//=============================================================================
-	bool ismethodQObject(QmlHandleObject *qmlhandleobj, std::wstring methodname)
-	{
-		void *ptr = qmlhandleobj->getPointer();
-		if (ptr == nullptr)
-		{
-			throw Exception(_W("QObject valid handle expected."));
-		}
-		QObject *qobj = (QObject *)ptr;
-		const QMetaObject *metaObject = qobj->metaObject();
-
-		std::string umethodname = wstring_to_utf8(methodname);
-
-		for (int i = 0; i < metaObject->methodCount(); i++)
-		{
-			QMetaMethod metaMethod = metaObject->method(i);
-			QMetaMethod::MethodType methodType = metaMethod.methodType();
-			QByteArray name = metaMethod.name();
-			std::string str = std::string(name);
-			if (methodType == QMetaMethod::Method || methodType == QMetaMethod::Slot) 
-			{
-				if (str == umethodname)
-				{
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-	//=============================================================================
-	ArrayOf ismethodQObject(ArrayOf A, std::wstring methodname)
-	{
-		if (!A.isHandle())
-		{
-			throw Exception(ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
-		}
-		if (!A.isScalar())
-		{
-			throw Exception(ERROR_SIZE_SCALAR_EXPECTED);
-		}
-		nelson_handle *qp = (nelson_handle*)A.getDataPointer();
-		if (qp == nullptr)
-		{
-			throw Exception(_W("QObject valid handle expected."));
-		}
-		nelson_handle hl = qp[0];
-		HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-		if (hlObj == nullptr)
-		{
-			throw Exception(_W("QObject valid handle expected."));
-		}
-		if (hlObj->getCategory() != L"QObject")
-		{
-			throw Exception(_W("QObject handle expected."));
-		}
-		QmlHandleObject *qmlhandleobj = (QmlHandleObject *)hlObj;
-		bool res = ismethodQObject(qmlhandleobj, methodname);
-		return ArrayOf::logicalConstructor(res);
-	}
-	//=============================================================================
+    //=============================================================================
+    bool ismethodQObject(QmlHandleObject *qmlhandleobj, std::wstring methodname)
+    {
+        void *ptr = qmlhandleobj->getPointer();
+        if (ptr == nullptr)
+        {
+            throw Exception(_W("QObject valid handle expected."));
+        }
+        QObject *qobj = (QObject *)ptr;
+        const QMetaObject *metaObject = qobj->metaObject();
+        std::string umethodname = wstring_to_utf8(methodname);
+        for (int i = 0; i < metaObject->methodCount(); i++)
+        {
+            QMetaMethod metaMethod = metaObject->method(i);
+            QMetaMethod::MethodType methodType = metaMethod.methodType();
+            QByteArray name = metaMethod.name();
+            std::string str = std::string(name);
+            if (methodType == QMetaMethod::Method || methodType == QMetaMethod::Slot)
+            {
+                if (str == umethodname)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    //=============================================================================
+    ArrayOf ismethodQObject(ArrayOf A, std::wstring methodname)
+    {
+        if (!A.isHandle())
+        {
+            throw Exception(ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
+        }
+        if (!A.isScalar())
+        {
+            throw Exception(ERROR_SIZE_SCALAR_EXPECTED);
+        }
+        nelson_handle *qp = (nelson_handle*)A.getDataPointer();
+        if (qp == nullptr)
+        {
+            throw Exception(_W("QObject valid handle expected."));
+        }
+        nelson_handle hl = qp[0];
+        HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
+        if (hlObj == nullptr)
+        {
+            throw Exception(_W("QObject valid handle expected."));
+        }
+        if (hlObj->getCategory() != L"QObject")
+        {
+            throw Exception(_W("QObject handle expected."));
+        }
+        QmlHandleObject *qmlhandleobj = (QmlHandleObject *)hlObj;
+        bool res = ismethodQObject(qmlhandleobj, methodname);
+        return ArrayOf::logicalConstructor(res);
+    }
+    //=============================================================================
 }
 //=============================================================================

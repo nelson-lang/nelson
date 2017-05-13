@@ -32,20 +32,20 @@ ArrayOfVector Nelson::QmlEngineGateway::QObject_invokeBuiltin(Evaluator* eval, i
     {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-	ArrayOf param2 = argIn[1];
-	std::wstring methodname = param2.getContentsAsWideString();
-	ArrayOfVector params;
-	for (size_t k = 2; k < argIn.size(); k++)
-	{
-		params.push_back(argIn[k]);
-	}
+    ArrayOf param2 = argIn[1];
+    std::wstring methodname = param2.getContentsAsWideString();
+    ArrayOfVector params;
+    for (size_t k = 2; k < argIn.size(); k++)
+    {
+        params.push_back(argIn[k]);
+    }
     ArrayOfVector retval;
-	bool haveFunctionReturn = false;
-	ArrayOf res = invokeQObject(argIn[0], methodname, params, haveFunctionReturn);
-	if (haveFunctionReturn)
-	{
-		retval.push_back(res);
-	}
+    bool haveFunctionReturn = false;
+    ArrayOf res = invokeQObject(argIn[0], methodname, params, haveFunctionReturn);
+    if (haveFunctionReturn)
+    {
+        retval.push_back(res);
+    }
     return retval;
 }
 //=============================================================================

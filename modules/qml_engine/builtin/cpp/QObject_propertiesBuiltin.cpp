@@ -42,32 +42,32 @@ ArrayOfVector Nelson::QmlEngineGateway::QObject_propertiesBuiltin(Evaluator* eva
     }
     wstringVector fieldnames;
     fieldnamesQmlHandleObject(param1, fullList, fieldnames);
-	if (nLhs == 0)
-	{
-		Interface *io = eval->getInterface();
-		if (io)
-		{
-			std::wstring msg;
-			if (fieldnames.size() == 0)
-			{
-				msg = _W("No property for class: QObject.") + L"\n";
-			}
-			else
-			{
-				msg = _W("Properties for class: QObject:") + L"\n\n";
-				for (size_t k = 0; k < fieldnames.size(); k++)
-				{
-					msg = msg + std::wstring(L"\t") + fieldnames[k] + std::wstring(L"\n");
-				}
-				msg = msg + std::wstring(L"\n");
-			}
-			io->outputMessage(msg);
-		}
-	}
-	else
-	{
-		retval.push_back(ToCellStringAsColumn(fieldnames));
-	}
+    if (nLhs == 0)
+    {
+        Interface *io = eval->getInterface();
+        if (io)
+        {
+            std::wstring msg;
+            if (fieldnames.size() == 0)
+            {
+                msg = _W("No property for class: QObject.") + L"\n";
+            }
+            else
+            {
+                msg = _W("Properties for class: QObject:") + L"\n\n";
+                for (size_t k = 0; k < fieldnames.size(); k++)
+                {
+                    msg = msg + std::wstring(L"\t") + fieldnames[k] + std::wstring(L"\n");
+                }
+                msg = msg + std::wstring(L"\n");
+            }
+            io->outputMessage(msg);
+        }
+    }
+    else
+    {
+        retval.push_back(ToCellStringAsColumn(fieldnames));
+    }
     return retval;
 }
 //=============================================================================

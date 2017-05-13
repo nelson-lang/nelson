@@ -23,20 +23,20 @@ using namespace Nelson;
 //=============================================================================
 ArrayOfVector Nelson::HandleGateway::handle_ispropBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-	ArrayOfVector retval;
-	if (argIn.size() != 2)
-	{
-		Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-	}
-	ArrayOf param1 = argIn[0];
-	if (param1.isHandle())
-	{
-		Error(eval, _W("Invalid handle."));
-	}
-	else
-	{
-		Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED);
-	}
-	return retval;
+    ArrayOfVector retval;
+    if (argIn.size() != 2)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    ArrayOf param1 = argIn[0];
+    if (param1.isHandle())
+    {
+        Error(eval, _W("Invalid handle."));
+    }
+    else
+    {
+        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED);
+    }
+    return retval;
 }
 //=============================================================================

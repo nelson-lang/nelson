@@ -31,16 +31,16 @@ ArrayOfVector Nelson::HandleGateway::handle_isvalidBuiltin(Evaluator* eval, int 
     ArrayOf param1 = argIn[0];
     if (param1.isHandle())
     {
-		Dimensions dimsparam1 = param1.getDimensions();
-		if (param1.isEmpty())
-		{
-			retval.push_back(ArrayOf::emptyConstructor(dimsparam1));
-		}
-		else
-		{
-			logical *resArray = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, dimsparam1.getElementCount());
-			retval.push_back(ArrayOf(NLS_LOGICAL, dimsparam1, resArray));
-		}
+        Dimensions dimsparam1 = param1.getDimensions();
+        if (param1.isEmpty())
+        {
+            retval.push_back(ArrayOf::emptyConstructor(dimsparam1));
+        }
+        else
+        {
+            logical *resArray = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, dimsparam1.getElementCount());
+            retval.push_back(ArrayOf(NLS_LOGICAL, dimsparam1, resArray));
+        }
     }
     else
     {

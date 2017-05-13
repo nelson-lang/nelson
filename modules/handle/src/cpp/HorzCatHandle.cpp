@@ -65,7 +65,7 @@ namespace Nelson {
         {
             HandleGenericObject *hlObjA = HandleManager::getInstance()->getPointer(ptrA[0]);
             HandleGenericObject *hlObjB = HandleManager::getInstance()->getPointer(ptrB[0]);
-			if (hlObjA->getCategory() != hlObjB->getCategory() || (hlObjA == nullptr || hlObjB == nullptr))
+            if (hlObjA->getCategory() != hlObjB->getCategory() || (hlObjA == nullptr || hlObjB == nullptr))
             {
                 throw Exception(_W("Handles being catenated have incompatible classes."));
             }

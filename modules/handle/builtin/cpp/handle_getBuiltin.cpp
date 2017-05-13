@@ -36,10 +36,10 @@ ArrayOfVector Nelson::HandleGateway::handle_getBuiltin(Evaluator* eval, int nLhs
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
-	if (param1.isHandle())
-	{
-		Error(eval, _W("Invalid handle."));
-	}
+    if (param1.isHandle())
+    {
+        Error(eval, _W("Invalid handle."));
+    }
     return retval;
 }
 //=============================================================================
