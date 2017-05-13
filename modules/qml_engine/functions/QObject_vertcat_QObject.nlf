@@ -16,5 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-addgateway(modulepath(nelsonroot(), 'qml_engine', 'builtin'));
-addpath(modulepath(nelsonroot(), 'qml_engine', 'functions'))
+function r = QObject_vertcat_QObject(A, B)
+  r = handle_vertcat_handle(A, B);
+endfunction
+//=============================================================================
