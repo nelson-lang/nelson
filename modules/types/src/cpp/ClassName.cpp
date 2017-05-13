@@ -31,14 +31,23 @@ namespace Nelson {
             case NLS_HANDLE:
             {
                 classString = NLS_HANDLE_STR;
+				/* handle can be 'handle' or another type but not mixed */
+				Dimensions dimsIn = In.getDimensions();
 				nelson_handle *qp = (nelson_handle*)In.getDataPointer();
 				if (qp)
 				{
-					nelson_handle hl = qp[0];
-					HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-					if (hlObj != nullptr)
+					for (size_t k = 0; k < dimsIn.getElementCount(); k++)
 					{
-						classString = wstring_to_utf8(hlObj->getCategory());
+						nelson_handle hl = qp[k];
+						HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
+						if (hlObj != nullptr)
+						{
+							std::string current = wstring_to_utf8(hlObj->getCategory());
+							if (classString != current && current != NLS_HANDLE_STR)
+							{
+								classString = current;
+							}
+						}
 					}
 				}
             }
