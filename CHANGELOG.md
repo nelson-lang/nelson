@@ -1,7 +1,9 @@
 Features:
 ---------
 
-  add ishandle builtin
+  add QML handles and provides an interface to Qt5 QML.
+
+  add ishandle, isprop, ismethod, method, properties builtin
 
   add set, get, invoke, isvalid builtin used by handle objects.
 
