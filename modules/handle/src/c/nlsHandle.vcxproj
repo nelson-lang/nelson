@@ -164,8 +164,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\HandleDelete.cpp" />
-    <ClCompile Include="..\cpp\HandleDisplay.cpp" />
-    <ClCompile Include="..\cpp\HandleIsValid.cpp" />
     <ClCompile Include="..\cpp\HorzCatHandle.cpp" />
     <ClCompile Include="..\cpp\VertCatHandle.cpp" />
     <ClCompile Include="dllMain.c" />
@@ -173,8 +171,6 @@
   <ItemGroup>
     <ClInclude Include="..\..\src\include\nlsHandle_exports.h" />
     <ClInclude Include="..\include\HandleDelete.hpp" />
-    <ClInclude Include="..\include\HandleDisplay.hpp" />
-    <ClInclude Include="..\include\HandleIsValid.hpp" />
     <ClInclude Include="..\include\HorzCatHandle.hpp" />
     <ClInclude Include="..\include\VertCatHandle.hpp" />
   </ItemGroup>

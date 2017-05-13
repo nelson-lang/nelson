@@ -16,18 +16,16 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "handle_getBuiltin.hpp"
+#include "QObject_propertiesBuiltin.hpp"
 #include "Error.hpp"
-#include "HandleManager.hpp"
-#include "HandleGenericObject.hpp"
-#include "characters_encoding.hpp"
+#include "ToCellString.hpp"
+#include "fieldnamesQmlHandleObject.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::HandleGateway::handle_getBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector Nelson::QmlEngineGateway::QObject_propertiesBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
-    if (argIn.size() == 0)
+    if (argIn.size() != 1)
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
@@ -35,10 +33,40 @@ ArrayOfVector Nelson::HandleGateway::handle_getBuiltin(Evaluator* eval, int nLhs
     {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
+    bool fullList = false;
+    ArrayOfVector retval;
     ArrayOf param1 = argIn[0];
-	if (param1.isHandle())
+    if (!param1.isHandle())
+    {
+        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
+    }
+    wstringVector fieldnames;
+    fieldnamesQmlHandleObject(param1, fullList, fieldnames);
+	if (nLhs == 0)
 	{
-		Error(eval, _W("Invalid handle."));
+		Interface *io = eval->getInterface();
+		if (io)
+		{
+			std::wstring msg;
+			if (fieldnames.size() == 0)
+			{
+				msg = _W("No property for class: QObject.") + L"\n";
+			}
+			else
+			{
+				msg = _W("Properties for class: QObject:") + L"\n\n";
+				for (size_t k = 0; k < fieldnames.size(); k++)
+				{
+					msg = msg + std::wstring(L"\t") + fieldnames[k] + std::wstring(L"\n");
+				}
+				msg = msg + std::wstring(L"\n");
+			}
+			io->outputMessage(msg);
+		}
+	}
+	else
+	{
+		retval.push_back(ToCellStringAsColumn(fieldnames));
 	}
     return retval;
 }

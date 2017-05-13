@@ -16,30 +16,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "handle_getBuiltin.hpp"
-#include "Error.hpp"
-#include "HandleManager.hpp"
-#include "HandleGenericObject.hpp"
-#include "characters_encoding.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
-ArrayOfVector Nelson::HandleGateway::handle_getBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    ArrayOfVector retval;
-    if (argIn.size() == 0)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+namespace Nelson {
+    namespace HandleGateway {
+        ArrayOfVector ismethodBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
     }
-    if (nLhs > 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    ArrayOf param1 = argIn[0];
-	if (param1.isHandle())
-	{
-		Error(eval, _W("Invalid handle."));
-	}
-    return retval;
 }
 //=============================================================================

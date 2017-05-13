@@ -171,6 +171,11 @@
     <ClCompile Include="..\cpp\DispQmlHandleObject.cpp" />
     <ClCompile Include="..\cpp\fieldnamesQmlHandleObject.cpp" />
     <ClCompile Include="..\cpp\GetQmlHandleObject.cpp" />
+    <ClCompile Include="..\cpp\invokeQObject.cpp" />
+    <ClCompile Include="..\cpp\ismethodQObject.cpp" />
+    <ClCompile Include="..\cpp\ispropQObject.cpp" />
+    <ClCompile Include="..\cpp\methodSignatureQObject.cpp" />
+    <ClCompile Include="..\cpp\methodsQObject.cpp" />
     <ClCompile Include="..\cpp\moc_nelsonObject.cpp" />
     <ClCompile Include="..\cpp\nelsonObject.cpp" />
     <ClCompile Include="..\cpp\QmlEngine.cpp" />
@@ -186,6 +191,11 @@
     <ClInclude Include="..\include\DispQmlHandleObject.hpp" />
     <ClInclude Include="..\include\fieldnamesQmlHandleObject.hpp" />
     <ClInclude Include="..\include\GetQmlHandleObject.hpp" />
+    <ClInclude Include="..\include\invokeQObject.hpp" />
+    <ClInclude Include="..\include\ismethodQObject.hpp" />
+    <ClInclude Include="..\include\ispropQObject.hpp" />
+    <ClInclude Include="..\include\methodSignatureQObject.hpp" />
+    <ClInclude Include="..\include\methodsQObject.hpp" />
     <ClInclude Include="..\include\QmlHandleObject.hpp" />
     <ClInclude Include="..\include\QVariantArrayOf.hpp" />
     <ClInclude Include="..\include\SetQmlHandleObject.hpp" />

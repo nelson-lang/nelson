@@ -16,30 +16,29 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "handle_getBuiltin.hpp"
+#include "QObject_methodsignatureBuiltin.hpp"
 #include "Error.hpp"
-#include "HandleManager.hpp"
-#include "HandleGenericObject.hpp"
-#include "characters_encoding.hpp"
+#include "methodSignatureQObject.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::HandleGateway::handle_getBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector Nelson::QmlEngineGateway::QObject_methodsignatureBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
-    if (argIn.size() == 0)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    ArrayOf param1 = argIn[0];
-	if (param1.isHandle())
+	if (argIn.size() != 2)
 	{
-		Error(eval, _W("Invalid handle."));
+		Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
 	}
-    return retval;
+	if (nLhs > 1)
+	{
+		Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+	}
+
+	ArrayOf param2 = argIn[1];
+	std::wstring propertyName = param2.getContentsAsWideString();
+
+	ArrayOfVector retval;
+	ArrayOf res = methodSignatureQObject(argIn[0], propertyName);
+	retval.push_back(res);
+	return retval;
 }
 //=============================================================================

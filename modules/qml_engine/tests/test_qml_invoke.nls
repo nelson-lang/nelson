@@ -6,40 +6,33 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 2 of the License, or
 // (at your option) any later version.
-//
+// 
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-//
+// 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "handle_getBuiltin.hpp"
-#include "Error.hpp"
-#include "HandleManager.hpp"
-#include "HandleGenericObject.hpp"
-#include "characters_encoding.hpp"
+// <--GUI MODE-->
 //=============================================================================
-using namespace Nelson;
+assert_isequal(nargin('invoke'), 2);
+assert_isequal(nargout('invoke'), 1);
 //=============================================================================
-ArrayOfVector Nelson::HandleGateway::handle_getBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    ArrayOfVector retval;
-    if (argIn.size() == 0)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    ArrayOf param1 = argIn[0];
-	if (param1.isHandle())
-	{
-		Error(eval, _W("Invalid handle."));
-	}
-    return retval;
-}
+qml_file_ok = [modulepath('qml_engine'), '/tests/test_qml_methods.qml'];
+qobj = qml_loadfile(qml_file_ok);
+//=============================================================================
+R = invoke(qobj.children(2), 'myQmlFunction1', 1);
+REF = {1, int32(1),  int32(2),  int32(3)};
+assert_isequal(R, REF);
+//=============================================================================
+R = invoke(qobj.children(2), 'myQmlFunction1', 'hello');
+REF = {'hello', int32(1),  int32(2),  int32(3)};
+assert_isequal(R, REF);
+//=============================================================================
+R = invoke(qobj.children(2), 'myQmlFunction3', 'hello');
+REF = [];
+assert_isequal(R, REF);
 //=============================================================================

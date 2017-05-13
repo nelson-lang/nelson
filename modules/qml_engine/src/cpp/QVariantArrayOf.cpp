@@ -32,6 +32,8 @@
 #include <QtCore/QDatetime>
 #include <QtCore/QStringList>
 #include <QtCore/QUuid>
+#include <QtCore/QMetaType>
+#include <QtQml/QJSValue>
 #include "QVariantArrayOf.hpp"
 #include "Exception.hpp"
 #include "QStringConverter.hpp"
@@ -514,6 +516,11 @@ namespace Nelson {
 		break;
 		default:
 		{
+			const char *name = Q.typeName();
+			if(strcmp(name,"QJSValue") == 0) {
+				Q = Q.value<QJSValue>().toVariant();
+				return QVariantToArrayOf(Q);
+			}
 			QObject * obj = qvariant_cast<QObject *>(Q);
 			if (obj == nullptr)
 			{

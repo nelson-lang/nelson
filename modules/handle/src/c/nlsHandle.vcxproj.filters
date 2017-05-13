@@ -15,16 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\cpp\HandleDisplay.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="dllMain.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\HandleDelete.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\HandleIsValid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\VertCatHandle.cpp">
@@ -38,13 +32,7 @@
     <ClInclude Include="..\..\src\include\nlsHandle_exports.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\HandleDisplay.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\HandleDelete.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\HandleIsValid.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\VertCatHandle.hpp">

@@ -207,6 +207,13 @@
     <ClCompile Include="..\cpp\QObject_dispBuiltin.cpp" />
     <ClCompile Include="..\cpp\QObject_fieldnamesBuiltin.cpp" />
     <ClCompile Include="..\cpp\QObject_getBuiltin.cpp" />
+    <ClCompile Include="..\cpp\QObject_invokeBuiltin.cpp" />
+    <ClCompile Include="..\cpp\QObject_ismethodBuiltin.cpp" />
+    <ClCompile Include="..\cpp\QObject_ispropBuiltin.cpp" />
+    <ClCompile Include="..\cpp\QObject_isvalidBuiltin.cpp" />
+    <ClCompile Include="..\cpp\QObject_methodsBuiltin.cpp" />
+    <ClCompile Include="..\cpp\QObject_methodsignatureBuiltin.cpp" />
+    <ClCompile Include="..\cpp\QObject_propertiesBuiltin.cpp" />
     <ClCompile Include="..\cpp\QObject_setBuiltin.cpp" />
     <ClCompile Include="..\cpp\qml_loadfileBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
@@ -231,6 +238,13 @@
     <ClInclude Include="..\include\QObject_dispBuiltin.hpp" />
     <ClInclude Include="..\include\QObject_fieldnamesBuiltin.hpp" />
     <ClInclude Include="..\include\QObject_getBuiltin.hpp" />
+    <ClInclude Include="..\include\QObject_invokeBuiltin.hpp" />
+    <ClInclude Include="..\include\QObject_ismethodBuiltin.hpp" />
+    <ClInclude Include="..\include\QObject_ispropBuiltin.hpp" />
+    <ClInclude Include="..\include\QObject_isvalidBuiltin.hpp" />
+    <ClInclude Include="..\include\QObject_methodsBuiltin.hpp" />
+    <ClInclude Include="..\include\QObject_methodsignatureBuiltin.hpp" />
+    <ClInclude Include="..\include\QObject_propertiesBuiltin.hpp" />
     <ClInclude Include="..\include\QObject_setBuiltin.hpp" />
     <ClInclude Include="..\include\nlsQml_engine_builtin_exports.h" />
     <ClInclude Include="..\include\qml_loadfileBuiltin.hpp" />

@@ -310,7 +310,7 @@ namespace Nelson {
                     else
                     {
                         Dimensions dimsA = A.getDimensions();
-                        io->outputMessage(L"[QML] - size: ");
+                        io->outputMessage(L"[QObject] - size: ");
                         dimsA.printMe(io);
                         io->outputMessage("\n");
                     }

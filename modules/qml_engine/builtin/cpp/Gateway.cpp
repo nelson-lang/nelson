@@ -36,6 +36,13 @@
 #include "QObject_getBuiltin.hpp"
 #include "QObject_setBuiltin.hpp"
 #include "QObject_fieldnamesBuiltin.hpp"
+#include "QObject_isvalidBuiltin.hpp"
+#include "QObject_methodsBuiltin.hpp"
+#include "QObject_invokeBuiltin.hpp"
+#include "QObject_ispropBuiltin.hpp"
+#include "QObject_ismethodBuiltin.hpp"
+#include "QObject_methodsignatureBuiltin.hpp"
+#include "QObject_propertiesBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -62,6 +69,13 @@ static const nlsGateway gateway[] =
     { "QObject_get", Nelson::QmlEngineGateway::QObject_getBuiltin, 1, 2 },
     { "QObject_set", Nelson::QmlEngineGateway::QObject_setBuiltin, 1, 3 },
     { "QObject_fieldnames", Nelson::QmlEngineGateway::QObject_fieldnamesBuiltin, 1, 1 },
+	{ "QObject_isvalid", Nelson::QmlEngineGateway::QObject_isvalidBuiltin, 1, 1 },
+	{ "QObject_methods", Nelson::QmlEngineGateway::QObject_methodsBuiltin, 1, 1 },
+	{ "QObject_invoke", Nelson::QmlEngineGateway::QObject_invokeBuiltin, -1, -2 },
+	{ "QObject_isprop", Nelson::QmlEngineGateway::QObject_ispropBuiltin, 1, 2 },
+	{ "QObject_ismethod", Nelson::QmlEngineGateway::QObject_ismethodBuiltin, 1, 2 },
+	{ "QObject_methodsignature", Nelson::QmlEngineGateway::QObject_methodsignatureBuiltin, 1, 2 },
+	{ "QObject_properties", Nelson::QmlEngineGateway::QObject_propertiesBuiltin, 1, 1 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

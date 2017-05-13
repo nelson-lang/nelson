@@ -17,6 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <QtQml/QQmlComponent>
+#include <algorithm>
 #include "fieldnamesQmlHandleObject.hpp"
 #include "Exception.hpp"
 #include "HandleManager.hpp"

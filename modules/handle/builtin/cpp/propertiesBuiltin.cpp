@@ -16,18 +16,17 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "handle_getBuiltin.hpp"
+#include "propertiesBuiltin.hpp"
 #include "Error.hpp"
-#include "HandleManager.hpp"
-#include "HandleGenericObject.hpp"
-#include "characters_encoding.hpp"
+#include "OverloadFunction.hpp"
+#include "OverloadRequired.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::HandleGateway::handle_getBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector Nelson::HandleGateway::propertiesBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() == 0)
+    if (argIn.size() != 1)
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
@@ -35,11 +34,12 @@ ArrayOfVector Nelson::HandleGateway::handle_getBuiltin(Evaluator* eval, int nLhs
     {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    ArrayOf param1 = argIn[0];
-	if (param1.isHandle())
-	{
-		Error(eval, _W("Invalid handle."));
-	}
+    bool bSuccess = false;
+    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    if (!bSuccess)
+    {
+        OverloadRequired(eval, argIn, Nelson::UNARY);
+    }
     return retval;
 }
 //=============================================================================
