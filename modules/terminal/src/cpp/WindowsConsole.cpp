@@ -692,3 +692,8 @@ std::wstring WindowsConsole::getConsoleTitle()
     return std::wstring(title);
 }
 //=============================================================================
+bool WindowsConsole::isAtPrompt()
+{
+    return false;
+}
+//=============================================================================

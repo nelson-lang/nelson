@@ -150,11 +150,42 @@ std::wstring QtTerminal::getLine(std::wstring prompt)
     setCursorWidth(QFontMetrics(font()).width(QChar('x')));
     // restore default icon cursor
     QApplication::restoreOverrideCursor();
+    if (eval == nullptr)
+    {
+        void *veval = GetNelsonMainEvaluatorDynamicFunction();
+        eval = (Nelson::Evaluator *)veval;
+    }
+    bool wasInterruptByAction = false;
     while (lineToSend.empty())
     {
         Nelson::ProcessEvents(true);
+        if (!eval->commandQueue.isEmpty())
+        {
+            wasInterruptByAction = true;
+            break;
+        }
     }
-    std::wstring line = lineToSend;
+    std::wstring line;
+    if (wasInterruptByAction)
+    {
+        QTextCursor cursor = textCursor();
+        cursor.movePosition(QTextCursor::StartOfLine);
+        cursor.movePosition(QTextCursor::Right, QTextCursor::MoveAnchor, 0);
+        cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor);
+        cursor.insertText(Nelson::wstringToQString(L""));
+        line = L"\n";
+    }
+    else
+    {
+        line = lineToSend;
+    }
+    if (!wasInterruptByAction)
+    {
+        while (lineToSend.empty())
+        {
+            Nelson::ProcessEvents(true);
+        }
+    }
     lineToSend.clear();
     Nelson::ProcessEvents();
     // disable cursor text

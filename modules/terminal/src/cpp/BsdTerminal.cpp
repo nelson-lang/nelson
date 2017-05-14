@@ -27,6 +27,7 @@
 BsdTerminal::BsdTerminal()
 {
     linenoiseSetMultiLine(1);
+    atPrompt = false;
 }
 //=============================================================================
 BsdTerminal::~BsdTerminal()
@@ -35,6 +36,7 @@ BsdTerminal::~BsdTerminal()
 //=============================================================================
 std::wstring BsdTerminal::getTextLine(std::wstring prompt, bool bIsInput)
 {
+    atPrompt = true;
     if (prompt != L"")
     {
         fprintf(stdout, "%s", "\n");
@@ -67,6 +69,7 @@ std::wstring BsdTerminal::getTextLine(std::wstring prompt, bool bIsInput)
         }
         Nelson::History::setToken(L"");
     }
+    atPrompt = false;
     return retLineW;
 }
 //=============================================================================
@@ -129,4 +132,8 @@ void BsdTerminal::clearTerminal()
     linenoiseClearScreen();
 }
 //=============================================================================
-
+bool BsdTerminal::isAtPrompt()
+{
+    return atPrompt;
+}
+//=============================================================================

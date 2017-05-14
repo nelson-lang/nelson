@@ -43,12 +43,15 @@ std::wstring GuiTerminal::getTextLine(std::wstring prompt, bool bIsInput)
         this->diary.writeMessage(L"\n");
         this->diary.writeMessage(prompt);
         line = qtterm->getLine(prompt);
-        this->diary.writeMessage(line);
-        if (bIsInput)
+        if (line != L"\n")
         {
-            if (boost::algorithm::ends_with(line, L"\n"))
+            this->diary.writeMessage(line);
+            if (bIsInput)
             {
-                line.pop_back();
+                if (boost::algorithm::ends_with(line, L"\n"))
+                {
+                    line.pop_back();
+                }
             }
         }
     }
@@ -58,7 +61,10 @@ std::wstring GuiTerminal::getTextLine(std::wstring prompt, bool bIsInput)
     }
     else
     {
-        Nelson::History::addLine(line);
+        if (line != L"\n")
+        {
+            Nelson::History::addLine(line);
+        }
     }
     return line;
 }
@@ -185,3 +191,11 @@ void GuiTerminal::setBufferScreenLine(int newMax)
     }
 }
 //=============================================================================
+bool GuiTerminal::isAtPrompt()
+{
+    if (qtterm)
+    {
+        return qtterm->isAtPrompt();
+    }
+    return false;
+}

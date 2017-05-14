@@ -209,17 +209,18 @@ void QtMainWindow::executeCommand(std::wstring cmd)
     {
         std::wstring _cmd = cmd + L";";
         void *veval = GetNelsonMainEvaluatorDynamicFunction();
-        Nelson::Evaluator *eval = (Nelson::Evaluator *)veval;
-        if (!qtTerminal->isAtPrompt())
+        if (veval != nullptr)
         {
-            eval->evaluateString(wstring_to_utf8(_cmd), false);
-        }
-        else
-        {
-            qtTerminal->outputMessage(L"\n");
-            qtTerminal->sendReturnKey();
-            _cmd = _cmd + L"\n";
-            eval->commandQueue.add(Nelson::wstring_to_utf8(_cmd), true);
+            Nelson::Evaluator *eval = (Nelson::Evaluator *)veval;
+            std::string ustr = wstring_to_utf8(_cmd);
+            if (qtTerminal->isAtPrompt())
+            {
+                eval->commandQueue.add(ustr + "\n", true);
+            }
+            else
+            {
+                eval->evaluateString(ustr + "\n");
+            }
         }
     }
 }

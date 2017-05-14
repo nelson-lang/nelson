@@ -79,5 +79,6 @@ namespace Nelson {
         virtual void warningMessage(std::wstring msg) = 0;
 
         virtual void clearTerminal() = 0;
+        virtual bool isAtPrompt() = 0;
     };
 }

@@ -4502,7 +4502,19 @@ namespace Nelson {
                 FileWatcherManager::getInstance()->update();
             }
             prompt = buildPrompt();
-            if (commandQueue.isEmpty())
+            if (cmdline == "\n")
+            {
+                if (!commandQueue.isEmpty())
+                {
+                    commandQueue.get(cmdline);
+                }
+                else
+                {
+                    // DO NOTHING
+                    cmdline.clear();
+                }
+            }
+            if (cmdline.empty())
             {
                 cmdline = io->getLine(prompt);
                 if (cmdline.empty())
@@ -4519,10 +4531,6 @@ namespace Nelson {
                         cmdline.push_back('\n');
                     }
                 }
-            }
-            else
-            {
-                commandQueue.get(cmdline);
             }
             // scan the line and tokenize it
             resetAstBackupPosition();
@@ -4541,6 +4549,11 @@ namespace Nelson {
                     while (!enoughInput)
                     {
                         cmdline = io->getLine("");
+                        if (cmdline == "\n")
+                        {
+                            cmdline = "";
+                            return;
+                        }
                         // User pressed ctrl-D (or equivalent) - stop looking for
                         if (cmdline.size() == 0)
                         {
@@ -4593,6 +4606,7 @@ namespace Nelson {
                 size_t stackdepth;
                 stackdepth = cstack.size();
                 bool tresult = evaluateString(cmdline, false);
+                cmdline.clear();
                 while (cstack.size() > stackdepth)
                 {
                     cstack.pop_back();

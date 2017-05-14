@@ -85,4 +85,7 @@ public:
 
     bool setConsoleTitle(std::wstring title);
     std::wstring getConsoleTitle();
+
+    bool isAtPrompt();
+
 };
