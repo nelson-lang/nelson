@@ -27,6 +27,8 @@
 #include "Evaluator.hpp"
 #include "ActionMenu.hpp"
 #include "NelsonHistory.hpp"
+#include "ProcessEventsDynamicFunction.hpp"
+#include "GetNelsonMainEvaluatorDynamicFunction.hpp"
 //=============================================================================
 #ifdef CR_1
 #undef CR_1
@@ -84,6 +86,7 @@ static BOOL CtrlHandler(DWORD fdwCtrlType)
 //=============================================================================
 WindowsConsole::WindowsConsole(bool _bWithColors)
 {
+	atPrompt = false;
     HWND hwnd = GetConsoleWindow();
     // commented: workaround for fwrite(1,110) crash on windows
     //int old =_setmode(_fileno(stdin), _O_U16TEXT);
@@ -138,6 +141,7 @@ WindowsConsole::~WindowsConsole()
 //=============================================================================
 std::wstring WindowsConsole::getTextLine(std::wstring prompt, bool bIsInput)
 {
+	atPrompt = true;
     std::wstring cmdline = L"";
     if (prompt != L"")
     {
@@ -155,7 +159,30 @@ std::wstring WindowsConsole::getTextLine(std::wstring prompt, bool bIsInput)
     {
         bool bIsAction = false;
         wchar_t cur_char = getCharacter(bIsAction);
-        if ((cur_char == CR_1) || (cur_char == CR_2))
+
+		if (bIsAction)
+		{
+			if (bIsInput)
+			{
+				Nelson::History::setToken(L"");
+				if (boost::algorithm::ends_with(cmdline, L"\n"))
+				{
+					cmdline.pop_back();
+				}
+			}
+			else
+			{
+				lineObj.clearCurrentLine(false);
+			}
+			atPrompt = false;
+			if (cmdline.empty())
+			{
+				cmdline = L"\n";
+			}
+
+			return cmdline;
+		} 
+		else if ((cur_char == CR_1) || (cur_char == CR_2))
         {
             cmdline = lineObj.getCurrentLine();
             lineObj.putCharacter(L'\n', LineManager::STANDARD_INPUT);
@@ -176,21 +203,10 @@ std::wstring WindowsConsole::getTextLine(std::wstring prompt, bool bIsInput)
             {
                 cmdline = L"\n";
             }
+			atPrompt = false;
             return cmdline;
         }
-        else if (bIsAction)
-        {
-            if (bIsInput)
-            {
-                Nelson::History::setToken(L"");
-                if (boost::algorithm::ends_with(cmdline, L"\n"))
-                {
-                    cmdline.pop_back();
-                }
-            }
-            return cmdline;
-        }
-        else
+        else 
         {
             lineObj.putCharacter(cur_char, LineManager::STANDARD_INPUT);
             lineObj.addCharacterCurrentLine(cur_char);
@@ -201,6 +217,7 @@ std::wstring WindowsConsole::getTextLine(std::wstring prompt, bool bIsInput)
             }
         }
     }
+	atPrompt = false;
     return cmdline;
 }
 //=============================================================================
@@ -423,6 +440,8 @@ wchar_t WindowsConsole::keysEventsFilter(INPUT_RECORD irBuffer, bool &bIsChar, b
     return ch;
 }
 //=============================================================================
+static Nelson::Evaluator *eval = nullptr;
+//=============================================================================
 wchar_t WindowsConsole::getCharacter(bool &bIsAction)
 {
     wchar_t wch = L'\0';
@@ -441,9 +460,38 @@ wchar_t WindowsConsole::getCharacter(bool &bIsAction)
         HMENU hmenu = GetSystemMenu(hwnd, FALSE);
         EnableMenuItem(hmenu, SC_CLOSE, MF_GRAYED);
         bIsAction = false;
+
+		while (TRUE)
+		{
+			::WaitForSingleObject(Win32InputStream, 150);
+			DWORD nbEventsAvailable = 0;
+			GetNumberOfConsoleInputEvents(Win32InputStream, &nbEventsAvailable);
+			if (nbEventsAvailable > 0)
+			{
+				PeekConsoleInputW(Win32InputStream, &irBuffer, 1, &nbEventsAvailable);
+				break;
+			}
+			else
+			{
+				ProcessEventsDynamicFunction(false);
+			}
+			if (eval == nullptr)
+			{
+				void *veval = GetNelsonMainEvaluatorDynamicFunction();
+				eval = (Nelson::Evaluator *)veval;
+			}
+
+			if (!eval->commandQueue.isEmpty())
+			{
+				bIsAction = true;
+				return L'\n';
+			}
+		}
+		/*
         ::WaitForSingleObject(Win32InputStream, INFINITE);
         ::PeekConsoleInputW(Win32InputStream, &irBuffer, 1, &n);
-        switch (irBuffer.EventType)
+        */
+		switch (irBuffer.EventType)
         {
             case KEY_EVENT:
             {
@@ -694,6 +742,6 @@ std::wstring WindowsConsole::getConsoleTitle()
 //=============================================================================
 bool WindowsConsole::isAtPrompt()
 {
-    return false;
+    return atPrompt;
 }
 //=============================================================================

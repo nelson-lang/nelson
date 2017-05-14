@@ -272,7 +272,7 @@ void LineManager::newLine(void)
     max_pos = 0;
 }
 //=============================================================================
-void LineManager::clearCurrentLine(void)
+void LineManager::clearCurrentLine(bool withPrompt)
 {
     current_line_buffer.clear();
     current_line_buffer.push_back(L'\0');
@@ -280,7 +280,7 @@ void LineManager::clearCurrentLine(void)
     std::wstring blanks(max_pos, L' ');
     printCharacters(blanks, LineManager::STANDARD_INPUT);
     putCharacter(L'\r',LineManager::STANDARD_INPUT);
-    displayPrompt();
+    if (withPrompt) displayPrompt();
     newLine();
 }
 //=============================================================================

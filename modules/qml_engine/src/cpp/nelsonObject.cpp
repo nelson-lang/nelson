@@ -60,16 +60,14 @@ void nelsonObject::evaluate(QString msg)
         Interface *io = eval->getInterface();
         if (io)
         {
-            /*
-            			if (io->isAtPrompt())
-            			{
-            				eval->commandQueue.add(ustr + "\n");
-            			}
-            			else
-            			{
-            				eval->evaluateString(ustr + "\n");
-            			}
-            */
+			if (io->isAtPrompt())
+			{
+				eval->commandQueue.add(ustr + "\n", true);
+			}
+			else
+			{
+				eval->evaluateString(ustr + "\n");
+			}
         }
     }
 }
