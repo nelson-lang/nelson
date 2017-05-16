@@ -143,11 +143,6 @@ std::wstring WindowsConsole::getTextLine(std::wstring prompt, bool bIsInput)
 {
 	atPrompt = true;
     std::wstring cmdline = L"";
-    if (prompt != L"")
-    {
-        lineObj.putCharacter(L'\n', LineManager::STANDARD_INPUT);
-        diary.writeMessage(L"\n");
-    }
     lineObj.newLine();
     lineObj.setCurrentPrompt(prompt);
     lineObj.displayPrompt();

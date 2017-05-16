@@ -72,8 +72,6 @@ std::wstring BasicTerminal::getTextLine(std::wstring prompt, bool bIsInput)
 std::string BasicTerminal::getTextLine(std::string prompt, bool bIsInput)
 {
     atPrompt = true;
-    fprintf(stdout, "%s", "\n");
-    this->diary.writeMessage("\n");
     fprintf(stdout, "%s", prompt.c_str());
     this->diary.writeMessage(prompt);
     char buffer[CMD_BUFFER_SIZE];

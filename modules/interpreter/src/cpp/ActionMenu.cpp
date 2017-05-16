@@ -28,7 +28,7 @@ namespace Nelson {
         Evaluator *eval = (Evaluator *)GetNelsonMainEvaluatorDynamicFunction();
         if (eval)
         {
-            eval->commandQueue.add("quit;\n");
+			eval->addCommandToQueue(L"quit;");
         }
     }
     //=============================================================================
@@ -37,7 +37,7 @@ namespace Nelson {
         Evaluator *eval = (Evaluator *)GetNelsonMainEvaluatorDynamicFunction();
         if (eval)
         {
-            eval->commandQueue.add("help;\n");
+			eval->addCommandToQueue(L"help;");
         }
     }
     //=============================================================================
@@ -46,7 +46,7 @@ namespace Nelson {
         Evaluator *eval = (Evaluator *)GetNelsonMainEvaluatorDynamicFunction();
         if (eval)
         {
-            eval->commandQueue.add("pause;\n");
+            eval->addCommandToQueue(L"pause;");
         }
     }
     //=============================================================================
@@ -55,7 +55,7 @@ namespace Nelson {
         Evaluator *eval = (Evaluator *)GetNelsonMainEvaluatorDynamicFunction();
         if (eval)
         {
-            eval->commandQueue.add("abort;\n");
+			eval->addCommandToQueue(L"abort;");
         }
     }
     //=============================================================================

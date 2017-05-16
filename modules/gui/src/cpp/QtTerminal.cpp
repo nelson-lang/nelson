@@ -140,10 +140,6 @@ void QtTerminal::sendReturnKey()
 //=============================================================================
 std::wstring QtTerminal::getLine(std::wstring prompt)
 {
-    if (!prompt.empty())
-    {
-        printNewLine();
-    }
     printPrompt(Nelson::wstringToQString(prompt));
     promptBlock = document()->lastBlock();
     // enable cursor text

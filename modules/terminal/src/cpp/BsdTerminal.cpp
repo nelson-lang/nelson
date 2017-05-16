@@ -37,10 +37,8 @@ BsdTerminal::~BsdTerminal()
 std::wstring BsdTerminal::getTextLine(std::wstring prompt, bool bIsInput)
 {
     atPrompt = true;
-    if (prompt != L"")
+    if (!prompt.empty())
     {
-        fprintf(stdout, "%s", "\n");
-        this->diary.writeMessage(L"\n");
         this->diary.writeMessage(prompt);
     }
     char *line = linenoise(wstring_to_utf8(prompt).c_str());

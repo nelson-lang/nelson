@@ -45,6 +45,7 @@ if (isquietmode() == false)
   banner();
   disp(version());
   disp(version('-date'));
+  disp(' ');
 end
 cd(nelsonroot());
 %==============================================================================

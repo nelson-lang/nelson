@@ -690,6 +690,8 @@ namespace Nelson {
         bool isQuietMode();
         void setQuietMode(bool _quiet);
 
+		void addCommandToQueue(std::wstring command, bool bIsPriority = false);
+
     private:
         void setHandle(ArrayOf r, std::string fieldname, ArrayOfVector fieldvalue);
         ArrayOfVector getHandle(ArrayOf r, std::string fieldname);

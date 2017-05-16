@@ -56,16 +56,16 @@ void nelsonObject::evaluate(QString msg)
     if (eval)
     {
         std::wstring wstr = QStringTowstring(msg);
-        std::string ustr = wstring_to_utf8(wstr);
         Interface *io = eval->getInterface();
         if (io)
         {
 			if (io->isAtPrompt())
 			{
-				eval->commandQueue.add(ustr + "\n", true);
+				eval->addCommandToQueue(wstr, true);
 			}
 			else
 			{
+				std::string ustr = wstring_to_utf8(wstr);
 				eval->evaluateString(ustr + "\n");
 			}
         }

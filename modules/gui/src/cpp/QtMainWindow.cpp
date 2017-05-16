@@ -177,8 +177,8 @@ void QtMainWindow::runFile()
                 Nelson::Evaluator *eval = (Nelson::Evaluator *)veval;
                 qtTerminal->outputMessage(L"\n");
                 qtTerminal->sendReturnKey();
-                std::wstring cmd = L"run('" + filename + L"');\n";
-                eval->commandQueue.add(Nelson::wstring_to_utf8(cmd), true);
+                std::wstring cmd = L"run('" + filename + L"');";
+                eval->addCommandToQueue(cmd, true);
             }
         }
     }
@@ -212,14 +212,14 @@ void QtMainWindow::executeCommand(std::wstring cmd)
         if (veval != nullptr)
         {
             Nelson::Evaluator *eval = (Nelson::Evaluator *)veval;
-            std::string ustr = wstring_to_utf8(_cmd);
             if (qtTerminal->isAtPrompt())
             {
-                eval->commandQueue.add(ustr + "\n", true);
+				eval->addCommandToQueue(cmd, true);
             }
             else
-            {
-                eval->evaluateString(ustr + "\n");
+			{
+				std::string ustr = wstring_to_utf8(_cmd);
+				eval->evaluateString(ustr + "\n");
             }
         }
     }

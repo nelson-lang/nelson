@@ -280,8 +280,11 @@ void LineManager::clearCurrentLine(bool withPrompt)
     std::wstring blanks(max_pos, L' ');
     printCharacters(blanks, LineManager::STANDARD_INPUT);
     putCharacter(L'\r',LineManager::STANDARD_INPUT);
-    if (withPrompt) displayPrompt();
-    newLine();
+	if (withPrompt)
+	{
+		displayPrompt();
+		newLine();
+	}
 }
 //=============================================================================
 std::wstring LineManager::getCurrentPrompt()
