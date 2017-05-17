@@ -27,7 +27,7 @@
 #include <QtCore/QLine>
 #include <QtCore/QLineF>
 #include <QtCore/QRect>
-#include <QtCore/QDatetime>
+#include <QtCore/QDateTime>
 #include <QtCore/QStringList>
 #include <QtCore/QUuid>
 #include <QtCore/QMetaType>
