@@ -48,6 +48,8 @@ ApplicationWindow {
       MouseArea {
         anchors.fill: parent
         drag.target: rect
+        onPositionChanged: nelson.call('drag_demo_callback', rect.x, rect.y)
+
       }
 
       Rectangle {
@@ -58,7 +60,7 @@ ApplicationWindow {
 
         MouseArea {
           anchors.fill: parent
-          onClicked: console.log(rect.x, ", ", rect.y)
+          
         }
       }
     }

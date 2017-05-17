@@ -41,6 +41,7 @@
 #define CR_2 L'\r'
 //=============================================================================
 static bool bCONTROLC = false;
+static bool bInterruptGetChar = false;
 //=============================================================================
 static void ControlC_Command(void)
 {
@@ -252,8 +253,15 @@ void WindowsConsole::outputMessage(std::string msg)
 //=============================================================================
 void WindowsConsole::outputMessage(std::wstring msg)
 {
-    lineObj.printCharacters(msg, lineObj.STANDARD_OUTPUT);
-    diary.writeMessage(msg);
+	std::wstring _msg = msg;
+	if (atPrompt)
+	{
+		_msg = L"\n" + msg;
+		atPrompt = false;
+		bInterruptGetChar = true;
+	}
+    lineObj.printCharacters(_msg, lineObj.STANDARD_OUTPUT);
+    diary.writeMessage(_msg);
 }
 //=============================================================================
 void WindowsConsole::errorMessage(std::string msg)
@@ -263,8 +271,15 @@ void WindowsConsole::errorMessage(std::string msg)
 //=============================================================================
 void WindowsConsole::errorMessage(std::wstring msg)
 {
-    lineObj.printCharacters(msg + L"\n", lineObj.ERROR_OUTPUT);
-    diary.writeMessage(msg);
+	std::wstring _msg = msg + L"\n";
+	if (atPrompt)
+	{
+		_msg = L"\n" + msg;
+		atPrompt = false;
+		bInterruptGetChar = true;
+	}
+	lineObj.printCharacters(_msg, lineObj.ERROR_OUTPUT);
+    diary.writeMessage(_msg);
 }
 //=============================================================================
 void WindowsConsole::warningMessage(std::string msg)
@@ -274,8 +289,16 @@ void WindowsConsole::warningMessage(std::string msg)
 //=============================================================================
 void WindowsConsole::warningMessage(std::wstring msg)
 {
-    lineObj.printCharacters(msg + L"\n", lineObj.WARNING_OUTPUT);
-    diary.writeMessage(msg);
+	std::wstring _msg = msg + L"\n";
+	if (atPrompt)
+	{
+		_msg = L"\n" + msg;
+		atPrompt = false;
+		bInterruptGetChar = true;
+	}
+
+	lineObj.printCharacters(_msg, lineObj.WARNING_OUTPUT);
+    diary.writeMessage(_msg);
 }
 //=============================================================================
 bool WindowsConsole::isCTRLPressed(INPUT_RECORD irBuffer)
@@ -476,9 +499,10 @@ wchar_t WindowsConsole::getCharacter(bool &bIsAction)
 				eval = (Nelson::Evaluator *)veval;
 			}
 
-			if (!eval->commandQueue.isEmpty())
+			if (!eval->commandQueue.isEmpty() || bInterruptGetChar)
 			{
 				bIsAction = true;
+				bInterruptGetChar = false;
 				return L'\n';
 			}
 		}

@@ -879,6 +879,14 @@ void linenoiseEditDeletePrevWord(struct linenoiseState *l)
     refreshLine(l);
 }
 
+static int bStopReadLine = 0;
+
+void interruptReadLine()
+{
+	bStopReadLine = 1;
+	write(STDIN_FILENO, ENTER, 1);
+}
+
 /* This function is the core of the line editing capability of linenoise.
  * It expects 'fd' to be already in "raw mode" so that every key pressed
  * will be returned ASAP to read().
@@ -943,6 +951,10 @@ static int linenoiseEdit(int stdin_fd, int stdout_fd, char *buf, size_t buflen, 
         switch(c)
         {
             case ENTER:    /* enter */
+				if (bStopReadLine)
+				{
+					bStopReadLine = 0;
+				}
                 history_len--;
                 free(history[history_len]);
                 if (mlmode)

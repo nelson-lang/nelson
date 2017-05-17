@@ -23,6 +23,7 @@
 #include "QStringConverter.hpp"
 #include "characters_encoding.hpp"
 #include "ProcessEvents.hpp"
+#include "QVariantArrayOf.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -75,5 +76,81 @@ void nelsonObject::evaluate(QString msg)
 void nelsonObject::processevent()
 {
     ProcessEvents();
+}
+//=============================================================================
+QVariant nelsonObject::call(const QString &functionName, const QVariant &arg1)
+{
+	QVariantList qArgs;
+	qArgs.push_back(arg1);
+	return call(functionName, qArgs);
+}
+//=============================================================================
+QVariant nelsonObject::call(const QString &functionName, const QVariant &arg1, const QVariant &arg2)
+{
+	QVariantList qArgs;
+	qArgs.push_back(arg1);
+	qArgs.push_back(arg2);
+	return call(functionName, qArgs);
+}
+//=============================================================================
+QVariant nelsonObject::call(const QString &functionName)
+{
+	return call(functionName, QVariantList());
+}
+//=============================================================================
+QVariant nelsonObject::call(const QString &functionName, const QVariantList& args)
+{
+	QVariant res;
+	if (eval)
+	{
+		std::wstring wfunctionName = QStringTowstring(functionName);
+		std::string ufunctionName = wstring_to_utf8(wfunctionName);
+		Context *context = eval->getContext();
+		FunctionDef *funcDef = nullptr;
+
+		if (context->lookupFunction(ufunctionName, funcDef))
+		{
+			if ((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION))
+			{
+				ArrayOfVector argIn;
+				for (int k = 0; k < args.size(); k++)
+				{
+					argIn.push_back(QVariantToArrayOf(args[k]));
+				}
+				int nLhs = funcDef->outputArgCount();
+				ArrayOfVector resVector;
+				try
+				{
+					resVector = funcDef->evaluateFunction(eval, argIn, nLhs);
+				}
+				catch (Exception e)
+				{
+					throw Exception(_W("error function."));
+				}
+				if (resVector.size() == 0)
+				{
+					res = QVariant();
+				}
+				else if (resVector.size() == 1)
+				{
+					res = ArrayOfToQVariant(resVector[0]);
+				}
+				else
+				{
+					QVariantList qlistVariant;
+					for (int j = 0; j < resVector.size(); j++)
+					{
+						qlistVariant.push_back(ArrayOfToQVariant(resVector[j]));
+					}
+					res = qlistVariant;
+				}
+			}
+			else
+			{
+				throw Exception(_W("function not found."));
+			}
+		}
+	}
+	return res;
 }
 //=============================================================================
