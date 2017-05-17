@@ -16,8 +16,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
 #include <QtGui/QQuaternion>
 #include <QtGui/QColor>
 #include <QtGui/QVector2D>
@@ -28,7 +26,7 @@
 #include <QtCore/QBitArray>
 #include <QtCore/QLine>
 #include <QtCore/QLineF>
-#include <QtCore/QRect.h>
+#include <QtCore/QRect>
 #include <QtCore/QDatetime>
 #include <QtCore/QStringList>
 #include <QtCore/QUuid>
