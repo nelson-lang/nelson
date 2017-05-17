@@ -16,8 +16,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
 #include "qml_offlinestoragepathBuiltin.hpp"
 #include "Error.hpp"
 #include "QmlEngine.hpp"

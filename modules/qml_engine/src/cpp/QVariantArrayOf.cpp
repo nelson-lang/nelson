@@ -127,7 +127,6 @@ namespace Nelson {
             case QVariant::Type::Hash:
             case QVariant::Type::EasingCurve:
             case QVariant::Type::ModelIndex:
-            case QVariant::Type::PersistentModelIndex:
             case QVariant::Type::Font:
             case QVariant::Type::Pixmap:
             case QVariant::Type::Brush:
@@ -572,13 +571,13 @@ namespace Nelson {
             case QVariant::Type::LongLong:
             {
                 int64 v = A.getContentsAsInteger64Scalar();
-                res = v;
+                res = QVariant((long long)v);
             }
             break;
             case QVariant::Type::ULongLong:
             {
-                int64 v = A.getContentsAsUnsignedInt64Scalar();
-                res = v;
+                uint64 v = A.getContentsAsUnsignedInt64Scalar();
+                res = QVariant((unsigned long long)v);
             }
             break;
             case QVariant::Type::Double:
@@ -977,7 +976,7 @@ namespace Nelson {
             T *nlsArray = (T*)A.getDataPointer();
             for (size_t k = 0; k < dimsA.getElementCount(); k++)
             {
-                QVariant element = nlsArray[k];
+                QVariant element = QVariant(nlsArray[k]);
                 qlistVariant.push_back(element);
             }
             QVariant res = qlistVariant;
@@ -1087,7 +1086,7 @@ namespace Nelson {
                 }
                 else
                 {
-                    res = NelsonTypeToQVariant<uint64>(A);
+                    res = NelsonTypeToQVariant<unsigned long long>(A);
                 }
             }
             break;
@@ -1099,7 +1098,7 @@ namespace Nelson {
                 }
                 else
                 {
-                    res = NelsonTypeToQVariant<int64>(A);
+                    res = NelsonTypeToQVariant<long long>(A);
                 }
             }
             break;
