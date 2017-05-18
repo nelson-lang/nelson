@@ -26,7 +26,7 @@
 #include "QStringConverter.hpp"
 #include "Exception.hpp"
 #include "characters_encoding.hpp"
-#include "nelsonObject.hpp"
+#include "nelsonObject.h"
 #include "QVariantArrayOf.hpp"
 //=============================================================================
 namespace Nelson {

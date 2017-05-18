@@ -126,7 +126,7 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="..\include\nelsonObject.hpp">
+    <CustomBuild Include="..\cpp\nelsonObject.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
   </ItemGroup>

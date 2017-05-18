@@ -16,7 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "nelsonObject.hpp"
+#include "nelsonObject.h"
 #include "GetNelsonMainEvaluatorDynamicFunction.hpp"
 #include "Evaluator.hpp"
 #include "Interface.hpp"
