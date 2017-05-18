@@ -27,8 +27,8 @@
 #include <QtCore/QBitArray>
 #include <QtCore/QLine>
 #include <QtCore/QLineF>
-#include <QtCore/QRect.h>
-#include <QtCore/QDatetime>
+#include <QtCore/QRect>
+#include <QtCore/QDateTime>
 #include <QtCore/QStringList>
 #include <QtCore/QUuid>
 #include "DispQmlHandleObject.hpp"
