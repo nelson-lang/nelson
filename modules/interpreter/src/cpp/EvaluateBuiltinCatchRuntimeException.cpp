@@ -102,6 +102,7 @@ namespace Nelson {
 #else
     static void signal_handler(int signal_code)
     {
+        error_code = signal_code;
         std::longjmp(buf, 1);
     }
 #endif
@@ -122,19 +123,16 @@ namespace Nelson {
         }
         _set_se_translator(NULL);
 #else
+        error_code = 0;
         signal(SIGSEGV, signal_handler);
         signal(SIGFPE, signal_handler);
         signal(SIGILL, signal_handler);
-        error_code = 0;
         if (!(setjmp(buf)))
         {
             outputs = fptr(eval, nargout, inputs);
         }
         else
         {
-            signal(SIGSEGV, SIG_DFL);
-            signal(SIGFPE, SIG_DFL);
-            signal(SIGILL, SIG_DFL);
             std::string error_message = "";
             switch (error_code)
             {
@@ -155,10 +153,13 @@ namespace Nelson {
                 break;
                 default:
                 {
-                    error_message = _("System error detected.");
+                    error_message = _("System error detected.") + " " + _("Error code:") + std::to_string(error_code);
                 }
                 break;
             }
+            signal(SIGSEGV, SIG_DFL);
+            signal(SIGFPE, SIG_DFL);
+            signal(SIGILL, SIG_DFL);
             Error(eval, error_message);
         }
         signal(SIGSEGV, SIG_DFL);
