@@ -20,6 +20,7 @@
 #include "DeleteQmlHandleObject.hpp"
 #include "HandleManager.hpp"
 #include "QmlHandleObject.hpp"
+#include <QtQml/QQmlEngine>
 //=============================================================================
 namespace Nelson {
     //=============================================================================
@@ -46,8 +47,14 @@ namespace Nelson {
                         if (ptr)
                         {
                             QObject *qobj = (QObject *)ptr;
-                            qobj->deleteLater();
-                            delete qobj;
+                            if (qobj->isWindowType())
+                            {
+                                qobj->~QObject();
+                            }
+                            else
+                            {
+                                delete qobj;
+                            }
                             qmlhandleobj->setPointer(nullptr);
                         }
                         delete qmlhandleobj;
