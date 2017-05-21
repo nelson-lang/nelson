@@ -20,7 +20,7 @@ Window {
     Button {
         text: "Button"
         anchors.centerIn: parent 
-        onClicked: nelson.evaluate("A = 3;")
+        onClicked: nelson.disp('button pressed.')
         objectName: "myButton"
     }
 }

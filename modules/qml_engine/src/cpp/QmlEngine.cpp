@@ -16,12 +16,13 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <QtCore/qfile.h>
-#include <QtCore/qpointer.h>
-#include <QtCore/qscopedpointer.h>
+#include <QtCore/QFile>
+#include <QtCore/QPointer>
+#include <QtCore/QScopedPointer>
 #include <QtQml/QQmlEngine>
 #include <QtQml/QQmlComponent>
 #include <QtQml/QQmlProperty>
+#include <QtQml/QQmlContext>
 #include "QmlEngine.hpp"
 #include "QStringConverter.hpp"
 #include "Exception.hpp"
@@ -48,6 +49,9 @@ namespace Nelson {
         QPointer<QQmlComponent> component = new QQmlComponent(qmlengine);
         if (component)
         {
+			// clear cache to reload
+			qmlengine->clearComponentCache();
+
             QString qdata = wstringToQString(data).toUtf8();
             component->setData(qdata.toUtf8(), QUrl::fromLocalFile(wstringToQString(L"")));
             QObject *topLevel = component->create();
@@ -83,6 +87,9 @@ namespace Nelson {
         QPointer<QQmlComponent> component = new QQmlComponent(qmlengine);
         if (component)
         {
+			// clear cache to reload
+			qmlengine->clearComponentCache();
+
             component->loadUrl(QUrl::fromLocalFile(wstringToQString(filename)));
             QObject *topLevel = component->create();
             if (!topLevel && component->isError())
@@ -119,8 +126,10 @@ namespace Nelson {
         {
             throw Exception(_W("QML engine not initialized."));
         }
-        QJSValue nelsonObj = qmlengine->newQObject(new nelsonObject());
-        qmlengine->globalObject().setProperty("nelson", nelsonObj);
+		nelsonObject *qobjnelson = new nelsonObject();
+		QQmlContext *ctxt = qmlengine->rootContext();
+		ctxt->setContextProperty("nelson", qobjnelson);
+		QQmlEngine::setObjectOwnership(qobjnelson, QQmlEngine::CppOwnership);
     }
     //=============================================================================
     void QmlEngine::clearComponentCache()
