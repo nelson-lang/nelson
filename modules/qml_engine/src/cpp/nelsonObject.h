@@ -31,10 +31,10 @@ public:
     Q_INVOKABLE void disp(QString msg);
     Q_INVOKABLE void evaluate(QString msg);
     Q_INVOKABLE void processevent();
-	Q_INVOKABLE QVariant call(const QString &functionName, const QVariantList& args);
-	Q_INVOKABLE QVariant call(const QString &functionName);
-	Q_INVOKABLE QVariant call(const QString &functionName, const QVariant &arg1);
-	Q_INVOKABLE QVariant call(const QString &functionName, const QVariant &arg1, const QVariant &arg2);
+    Q_INVOKABLE QVariant call(const QString &functionName, const QVariantList& args);
+    Q_INVOKABLE QVariant call(const QString &functionName);
+    Q_INVOKABLE QVariant call(const QString &functionName, const QVariant &arg1);
+    Q_INVOKABLE QVariant call(const QString &functionName, const QVariant &arg1, const QVariant &arg2);
 
 };
 //=============================================================================

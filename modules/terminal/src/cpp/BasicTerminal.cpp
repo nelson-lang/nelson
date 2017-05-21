@@ -114,10 +114,10 @@ size_t BasicTerminal::getTerminalWidth()
 //=============================================================================
 void BasicTerminal::outputMessage(std::wstring msg)
 {
-	if (atPrompt)
-	{
-		outputMessage(L"\n");
-	}
+    if (atPrompt)
+    {
+        outputMessage(L"\n");
+    }
     outputMessage(wstring_to_utf8(msg));
 }
 //=============================================================================

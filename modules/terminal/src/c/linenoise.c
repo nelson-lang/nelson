@@ -883,8 +883,8 @@ static int bStopReadLine = 0;
 
 void interruptReadLine()
 {
-	bStopReadLine = 1;
-	write(STDIN_FILENO, ENTER, 1);
+    bStopReadLine = 1;
+    write(STDIN_FILENO, ENTER, 1);
 }
 
 /* This function is the core of the line editing capability of linenoise.
@@ -951,10 +951,10 @@ static int linenoiseEdit(int stdin_fd, int stdout_fd, char *buf, size_t buflen, 
         switch(c)
         {
             case ENTER:    /* enter */
-				if (bStopReadLine)
-				{
-					bStopReadLine = 0;
-				}
+                if (bStopReadLine)
+                {
+                    bStopReadLine = 0;
+                }
                 history_len--;
                 free(history[history_len]);
                 if (mlmode)

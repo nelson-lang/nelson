@@ -142,7 +142,7 @@ public:
     /**
     * clear current line
     */
-	void clearCurrentLine(bool withPrompt = true);
+    void clearCurrentLine(bool withPrompt = true);
 
     /**
     * set prompt used by terminal

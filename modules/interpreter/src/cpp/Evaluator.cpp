@@ -4741,16 +4741,16 @@ namespace Nelson {
         return funcDef->evaluateFunction(this, argIn, nLhs);
     }
     //=============================================================================
-	void Evaluator::addCommandToQueue(std::wstring command, bool bIsPriority)
-	{
-		wchar_t ch = *command.rbegin();
-		if (ch != L'\n')
-		{
-			command.push_back('\n');
-		}
-		std::string ucmd = wstring_to_utf8(command);
-		this->commandQueue.add(ucmd, bIsPriority);
-	}
-	//=============================================================================
+    void Evaluator::addCommandToQueue(std::wstring command, bool bIsPriority)
+    {
+        wchar_t ch = *command.rbegin();
+        if (ch != L'\n')
+        {
+            command.push_back('\n');
+        }
+        std::string ucmd = wstring_to_utf8(command);
+        this->commandQueue.add(ucmd, bIsPriority);
+    }
+    //=============================================================================
 }
 //=============================================================================

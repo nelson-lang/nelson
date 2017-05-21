@@ -214,12 +214,12 @@ void QtMainWindow::executeCommand(std::wstring cmd)
             Nelson::Evaluator *eval = (Nelson::Evaluator *)veval;
             if (qtTerminal->isAtPrompt())
             {
-				eval->addCommandToQueue(cmd, true);
+                eval->addCommandToQueue(cmd, true);
             }
             else
-			{
-				std::string ustr = wstring_to_utf8(_cmd);
-				eval->evaluateString(ustr + "\n");
+            {
+                std::string ustr = wstring_to_utf8(_cmd);
+                eval->evaluateString(ustr + "\n");
             }
         }
     }
