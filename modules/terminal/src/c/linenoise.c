@@ -103,7 +103,14 @@
  *
  */
 
+#include <sys/time.h>
+#include <sys/types.h>
+#include <sys/select.h>
+#include <sys/ioctl.h>
+
+#include <ctype.h>
 #include <termios.h>
+
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -111,11 +118,9 @@
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
-#include <sys/types.h>
-#include <sys/ioctl.h>
-#include <unistd.h>
 #include "linenoise.h"
 #include "NelsonHistory.h"
+#include "ProcessEventsDynamicFunction.hpp"
 
 #define LINENOISE_DEFAULT_HISTORY_MAX_LEN 100
 #define LINENOISE_MAX_LINE 4096
@@ -887,6 +892,20 @@ void interruptReadLine()
     write(STDIN_FILENO, ENTER, 1);
 }
 
+
+int kbhit()
+{
+	struct timeval tv;
+	fd_set fds;
+	tv.tv_sec = 0;
+	tv.tv_usec = 0;
+	FD_ZERO(&fds);
+	FD_SET(STDIN_FILENO, &fds); //STDIN_FILENO is 0
+	select(STDIN_FILENO + 1, &fds, NULL, NULL, &tv);
+	return FD_ISSET(STDIN_FILENO, &fds) || bStopReadLine;
+}
+
+
 /* This function is the core of the line editing capability of linenoise.
  * It expects 'fd' to be already in "raw mode" so that every key pressed
  * will be returned ASAP to read().
@@ -926,6 +945,12 @@ static int linenoiseEdit(int stdin_fd, int stdout_fd, char *buf, size_t buflen, 
         char c;
         int nread;
         char seq[3];
+
+		while (!kbhit())
+		{
+			ProcessEventsDynamicFunctionWithoutWait();
+		}
+
         nread = read(l.ifd,&c,1);
         if (nread <= 0)
         {
