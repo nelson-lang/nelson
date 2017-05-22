@@ -1722,7 +1722,7 @@ namespace Nelson {
         FunctionDef *fdef;
         if (haveEventsLoop())
         {
-            ProcessEventsDynamicFunction(false);
+			ProcessEventsDynamicFunctionWithoutWait();
         }
         if (t == nullptr)
         {

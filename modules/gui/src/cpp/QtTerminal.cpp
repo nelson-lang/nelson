@@ -92,19 +92,23 @@ void QtTerminal::banner()
     QString nelsonPath = Nelson::wstringToQString(Nelson::GetRootPath());
     QString fileName = nelsonPath + "/resources/banner_nelson.png";
     textCursor().insertBlock();
-    QImageReader reader(fileName);
-    if (reader.canRead())
-    {
-        QImage image = reader.read();
-        if (!image.isNull())
-        {
-            QTextImageFormat imageFormat;
-            imageFormat.setName(fileName);
-            textCursor().insertImage(imageFormat);
-            textCursor().insertBlock();
-        }
-        repaint();
-    }
+	QFile qfile(fileName);
+	if (qfile.exists())
+	{
+		QImageReader reader(fileName);
+		if (reader.canRead())
+		{
+			QImage image = reader.read();
+			if (!image.isNull())
+			{
+				QTextImageFormat imageFormat;
+				imageFormat.setName(fileName);
+				textCursor().insertImage(imageFormat);
+				textCursor().insertBlock();
+			}
+			repaint();
+		}
+	}
 }
 //=============================================================================
 void QtTerminal::printPrompt(QString prompt)
