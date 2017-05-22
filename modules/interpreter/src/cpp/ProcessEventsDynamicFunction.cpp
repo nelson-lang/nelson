@@ -55,11 +55,11 @@ static void ProcessEventsDynamicFunction(bool bWait)
 //=============================================================================
 void ProcessEventsDynamicFunctionWithoutWait()
 {
-	ProcessEventsDynamicFunction(false);
+    ProcessEventsDynamicFunction(false);
 }
 //=============================================================================
 void ProcessEventsDynamicFunctionWait()
 {
-	ProcessEventsDynamicFunction(true);
+    ProcessEventsDynamicFunction(true);
 }
 //=============================================================================

@@ -487,8 +487,8 @@ wchar_t WindowsConsole::getCharacter(bool &bIsAction)
             }
             else
             {
-				ProcessEventsDynamicFunctionWithoutWait();
-			}
+                ProcessEventsDynamicFunctionWithoutWait();
+            }
             if (eval == nullptr)
             {
                 void *veval = GetNelsonMainEvaluatorDynamicFunction();
