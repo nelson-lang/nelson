@@ -68,6 +68,8 @@ void linenoiseSetMultiLine(int ml);
 void linenoisePrintKeyCodes(void);
 
 void interruptReadLine();
+void clearLine();
+
 
 #ifdef __cplusplus
 }

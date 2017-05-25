@@ -893,12 +893,9 @@ void linenoiseEditDeletePrevWord(struct linenoiseState *l)
 }
 
 
-
-
-/* Move cursor on the left. */
 void clearLine()
 {
-    printf("\33[2K");
+    printf("\33[2K\r");
 }
 
 
@@ -951,6 +948,11 @@ static int linenoiseEdit(int stdin_fd, int stdout_fd, char *buf, size_t buflen, 
     l.buflen--; /* Make sure there is always space for the nulterm */
     /* The latest history entry is always our current buffer, that
      * initially is just an empty string. */
+    if (bStopReadLine) 
+{
+    clearLine();
+bStopReadLine = 0;
+}
     linenoiseHistoryAdd("");
     if (write(l.ofd,prompt,l.plen) == -1)
     {
@@ -970,7 +972,6 @@ static int linenoiseEdit(int stdin_fd, int stdout_fd, char *buf, size_t buflen, 
             {
                 history_len--;
                 free(history[history_len]);
-                bStopReadLine = 0;
                 clearLine();
                 return -1;
             }
@@ -992,7 +993,6 @@ static int linenoiseEdit(int stdin_fd, int stdout_fd, char *buf, size_t buflen, 
         {
             history_len--;
             free(history[history_len]);
-            bStopReadLine = 0;
             clearLine();
             return -1;
         }
@@ -1040,6 +1040,7 @@ static int linenoiseEdit(int stdin_fd, int stdout_fd, char *buf, size_t buflen, 
                     refreshLine(&l);
                     hintsCallback = hc;
                 }
+		printf("\r\n");
                 return (int)l.len;
             case CTRL_C:     /* ctrl-c */
                 errno = EAGAIN;
@@ -1243,7 +1244,7 @@ static int linenoiseRaw(char *buf, size_t buflen, const char *prompt)
     }
     count = linenoiseEdit(STDIN_FILENO, STDOUT_FILENO, buf, buflen, prompt);
     disableRawMode(STDIN_FILENO);
-    printf("\n");
+
     return count;
 }
 
