@@ -168,11 +168,7 @@ std::wstring QtTerminal::getLine(std::wstring prompt)
     std::wstring line;
     if (wasInterruptByAction)
     {
-        QTextCursor cursor = textCursor();
-        cursor.movePosition(QTextCursor::StartOfLine);
-        cursor.movePosition(QTextCursor::Right, QTextCursor::MoveAnchor, 0);
-        cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor);
-        cursor.insertText(Nelson::wstringToQString(L""));
+		clearLine();
         line = L"\n";
     }
     else
@@ -564,6 +560,15 @@ void QtTerminal::clc()
 {
     clearTerminal();
     updateHistoryToken();
+}
+//=============================================================================
+void QtTerminal::clearLine()
+{
+	QTextCursor cursor = textCursor();
+	cursor.movePosition(QTextCursor::StartOfLine);
+	cursor.movePosition(QTextCursor::Right, QTextCursor::MoveAnchor, 0);
+	cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor);
+	cursor.insertText(Nelson::wstringToQString(L""));
 }
 //=============================================================================
 void QtTerminal::stopRun()

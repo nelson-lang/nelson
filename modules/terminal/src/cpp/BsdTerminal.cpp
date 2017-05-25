@@ -103,7 +103,7 @@ void BsdTerminal::outputMessage(std::wstring msg)
     std::string _msg = wstring_to_utf8(msg);
     if (atPrompt)
     {
-        // _msg = "\n" + _msg;
+		clearLine();
         atPrompt = false;
         interruptReadLine();
     }
