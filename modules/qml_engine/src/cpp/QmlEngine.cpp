@@ -49,9 +49,8 @@ namespace Nelson {
         QPointer<QQmlComponent> component = new QQmlComponent(qmlengine);
         if (component)
         {
-			// clear cache to reload
-			qmlengine->clearComponentCache();
-
+            // clear cache to reload
+            qmlengine->clearComponentCache();
             QString qdata = wstringToQString(data).toUtf8();
             component->setData(qdata.toUtf8(), QUrl::fromLocalFile(wstringToQString(L"")));
             QObject *topLevel = component->create();
@@ -87,9 +86,8 @@ namespace Nelson {
         QPointer<QQmlComponent> component = new QQmlComponent(qmlengine);
         if (component)
         {
-			// clear cache to reload
-			qmlengine->clearComponentCache();
-
+            // clear cache to reload
+            qmlengine->clearComponentCache();
             component->loadUrl(QUrl::fromLocalFile(wstringToQString(filename)));
             QObject *topLevel = component->create();
             if (!topLevel && component->isError())
@@ -126,10 +124,10 @@ namespace Nelson {
         {
             throw Exception(_W("QML engine not initialized."));
         }
-		nelsonObject *qobjnelson = new nelsonObject();
-		QQmlContext *ctxt = qmlengine->rootContext();
-		ctxt->setContextProperty("nelson", qobjnelson);
-		QQmlEngine::setObjectOwnership(qobjnelson, QQmlEngine::CppOwnership);
+        nelsonObject *qobjnelson = new nelsonObject();
+        QQmlContext *ctxt = qmlengine->rootContext();
+        ctxt->setContextProperty("nelson", qobjnelson);
+        QQmlEngine::setObjectOwnership(qobjnelson, QQmlEngine::CppOwnership);
     }
     //=============================================================================
     void QmlEngine::clearComponentCache()

@@ -910,14 +910,14 @@ void interruptReadLine()
 
 int kbhit()
 {
-	struct timeval tv;
-	fd_set fds;
-	tv.tv_sec = 0;
-	tv.tv_usec = 0;
-	FD_ZERO(&fds);
-	FD_SET(STDIN_FILENO, &fds); //STDIN_FILENO is 0
-	select(STDIN_FILENO + 1, &fds, NULL, NULL, &tv);
-	return FD_ISSET(STDIN_FILENO, &fds) || bStopReadLine;
+    struct timeval tv;
+    fd_set fds;
+    tv.tv_sec = 0;
+    tv.tv_usec = 0;
+    FD_ZERO(&fds);
+    FD_SET(STDIN_FILENO, &fds); //STDIN_FILENO is 0
+    select(STDIN_FILENO + 1, &fds, NULL, NULL, &tv);
+    return FD_ISSET(STDIN_FILENO, &fds) || bStopReadLine;
 }
 
 
@@ -962,7 +962,6 @@ static int linenoiseEdit(int stdin_fd, int stdout_fd, char *buf, size_t buflen, 
         char c;
         int nread;
         char seq[3];
-
 
 		while (!kbhit())
 		{

@@ -34,72 +34,68 @@ static bool messageVerbose = false;
 //===================================================================================
 void QtMessageVerbose(bool bVerbose)
 {
-	messageVerbose = bVerbose;
+    messageVerbose = bVerbose;
 }
 //===================================================================================
 bool IsQtMessageVerbose()
 {
-	return messageVerbose;
+    return messageVerbose;
 }
 //===================================================================================
 static void QtMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
-	QByteArray localMsg = msg.toLocal8Bit();
-	std::string str(localMsg);
-
-	if (!messageVerbose)
-	{
-		return;
-	}
-
-	switch (type)
-	{
-
-	case QtDebugMsg:
-	{
-		Evaluator *eval = (Evaluator *)GetNelsonMainEvaluatorDynamicFunction();
-		if (eval)
-		{
-			Interface *io = eval->getInterface();
-			if (io)
-			{
-				io->outputMessage(str);
-			}
-		}
-	}
-	break;
-
+    QByteArray localMsg = msg.toLocal8Bit();
+    std::string str(localMsg);
+    if (!messageVerbose)
+    {
+        //	return;
+    }
+    switch (type)
+    {
+        case QtDebugMsg:
+        {
+            Evaluator *eval = (Evaluator *)GetNelsonMainEvaluatorDynamicFunction();
+            if (eval)
+            {
+                Interface *io = eval->getInterface();
+                if (io)
+                {
+                    io->outputMessage(str);
+                }
+            }
+        }
+        break;
 #if QT_VERSION > QT_VERSION_CHECK(5, 5, 0)
-	case QtInfoMsg:
+        case QtInfoMsg:
 #endif
-	case QtWarningMsg:
-	{
-		Evaluator *eval = (Evaluator *)GetNelsonMainEvaluatorDynamicFunction();
-		if (eval)
-		{
-			Interface *io = eval->getInterface();
-			if (io)
-			{
-				io->warningMessage(str);
-			}
-		}
-	}
-	break;
-	case QtCriticalMsg:
-	case QtFatalMsg:
-	{
-		Evaluator *eval = (Evaluator *)GetNelsonMainEvaluatorDynamicFunction();
-		if (eval)
-		{
-			Interface *io = eval->getInterface();
-			if (io)
-			{
-				io->errorMessage(str);
-			}
-		}
-	}
-	break;
-	}
+        case QtWarningMsg:
+        {
+            Evaluator *eval = (Evaluator *)GetNelsonMainEvaluatorDynamicFunction();
+            if (eval)
+            {
+                Interface *io = eval->getInterface();
+                if (io)
+                {
+                    io->warningMessage(str);
+                }
+            }
+        }
+        break;
+        case QtCriticalMsg:
+        case QtFatalMsg:
+        {
+            Evaluator *eval = (Evaluator *)GetNelsonMainEvaluatorDynamicFunction();
+            if (eval)
+            {
+                Interface *io = eval->getInterface();
+                if (io)
+                {
+                    io->errorMessage(str);
+                }
+            }
+        }
+        break;
+    }
 }
 //===================================================================================
 #if defined  _MSC_VER || defined __APPLE__
@@ -113,66 +109,66 @@ static int argc = 1;
 //===================================================================================
 void InitGuiObjects(void)
 {
-	qInstallMessageHandler(QtMessageOutput);
-	if (NelSonQtApp == nullptr)
-	{
-		NelSonQtApp = new QApplication(argc, argv);
-		QCoreApplication::setApplicationName("Nelson");
-		QCoreApplication::setOrganizationDomain("https://nelson-numerical-software.github.io/nelson-website/");
-		AddPathToEnvironmentVariable(std::wstring(L"PATH"), GetQtPath(L"BinariesPath"));
-	}
+    qInstallMessageHandler(QtMessageOutput);
+    if (NelSonQtApp == nullptr)
+    {
+        NelSonQtApp = new QApplication(argc, argv);
+        QCoreApplication::setApplicationName("Nelson");
+        QCoreApplication::setOrganizationDomain("https://nelson-numerical-software.github.io/nelson-website/");
+        AddPathToEnvironmentVariable(std::wstring(L"PATH"), GetQtPath(L"BinariesPath"));
+    }
 }
 //===================================================================================
 void *CreateGuiEvaluator(void* vcontext, NELSON_ENGINE_MODE _mode)
 {
-	CreateConsole();
-	NelSonQtMainWindow = new QtMainWindow();
-	if (NelSonQtMainWindow)
-	{
-		GuiTerminal *nlsTerm = new GuiTerminal((void*)NelSonQtMainWindow);
-		if (nlsTerm)
-		{
-			Evaluator *mainEvaluator = new Evaluator((Context*)vcontext, nlsTerm, _mode);
-			if (mainEvaluator)
-			{
-				mainEvaluator->mainGuiObject = (void*)NelSonQtMainWindow;
-			}
-			return (void*)mainEvaluator;
-		}
-	}
-	return nullptr;
+    CreateConsole();
+    NelSonQtMainWindow = new QtMainWindow();
+    if (NelSonQtMainWindow)
+    {
+        GuiTerminal *nlsTerm = new GuiTerminal((void*)NelSonQtMainWindow);
+        if (nlsTerm)
+        {
+            Evaluator *mainEvaluator = new Evaluator((Context*)vcontext, nlsTerm, _mode);
+            if (mainEvaluator)
+            {
+                mainEvaluator->mainGuiObject = (void*)NelSonQtMainWindow;
+            }
+            return (void*)mainEvaluator;
+        }
+    }
+    return nullptr;
 }
 //===================================================================================
 void *CreateMainGuiObject(void)
 {
-	CreateConsole();
-	NelSonQtMainWindow = new QtMainWindow();
-	return (void*)NelSonQtMainWindow;
+    CreateConsole();
+    NelSonQtMainWindow = new QtMainWindow();
+    return (void*)NelSonQtMainWindow;
 }
 //===================================================================================
 void DestroyMainGuiObject(void *term)
 {
-	if (NelSonQtApp)
-	{
-		if (NelSonQtMainWindow)
-		{
-			delete NelSonQtMainWindow;
-			NelSonQtMainWindow = nullptr;
-		}
-		if (term)
-		{
-			GuiTerminal *nlsTerm = (GuiTerminal *)term;
-			delete nlsTerm;
-			nlsTerm = nullptr;
-		}
-		delete NelSonQtApp;
-		NelSonQtApp = nullptr;
-	}
-	DestroyConsole();
+    if (NelSonQtApp)
+    {
+        if (NelSonQtMainWindow)
+        {
+            delete NelSonQtMainWindow;
+            NelSonQtMainWindow = nullptr;
+        }
+        if (term)
+        {
+            GuiTerminal *nlsTerm = (GuiTerminal *)term;
+            delete nlsTerm;
+            nlsTerm = nullptr;
+        }
+        delete NelSonQtApp;
+        NelSonQtApp = nullptr;
+    }
+    DestroyConsole();
 }
 //===================================================================================
 void *GetMainGuiObject(void)
 {
-	return (void*)NelSonQtMainWindow;
+    return (void*)NelSonQtMainWindow;
 }
 //===================================================================================
