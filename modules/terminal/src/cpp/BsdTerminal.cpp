@@ -59,6 +59,13 @@ std::wstring BsdTerminal::getTextLine(std::wstring prompt, bool bIsInput)
         }
         this->diary.writeMessage(retLineW);
     }
+    else
+    {
+        retLineW = L"\n";
+    atPrompt = false;
+    return retLineW;
+    
+    }
     if (bIsInput)
     {
         if (boost::algorithm::ends_with(retLineW, L"\n"))
@@ -94,11 +101,15 @@ size_t BsdTerminal::getTerminalWidth()
 //=============================================================================
 void BsdTerminal::outputMessage(std::wstring msg)
 {
-    if (atPrompt)
+   std::string _msg = wstring_to_utf8(msg);
+   if (atPrompt)
     {
-        outputMessage(L"\n");
+
+       // _msg = "\n" + _msg;
+        atPrompt = false;
+	interruptReadLine();
     }
-    outputMessage(wstring_to_utf8(msg));
+    outputMessage(_msg);
 }
 //=============================================================================
 void BsdTerminal::outputMessage(std::string msg)

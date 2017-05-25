@@ -103,6 +103,10 @@
  *
  */
 
+#include <boost/chrono/chrono.hpp>
+#include <boost/thread/thread.hpp>
+
+
 #include <sys/time.h>
 #include <sys/types.h>
 #include <sys/select.h>
@@ -121,6 +125,10 @@
 #include "linenoise.h"
 #include "NelsonHistory.h"
 #include "ProcessEventsDynamicFunction.hpp"
+#include "Evaluator.hpp"
+#include "GetNelsonMainEvaluatorDynamicFunction.hpp"
+
+static Nelson::Evaluator *eval = nullptr;
 
 #define LINENOISE_DEFAULT_HISTORY_MAX_LEN 100
 #define LINENOISE_MAX_LINE 4096
@@ -222,8 +230,7 @@ static int isUnsupportedTerm(void)
     }
     for (j = 0; unsupported_term[j]; j++)
         if (!strcasecmp(term,unsupported_term[j]))
-        {
-            return 1;
+        {            return 1;
         }
     return 0;
 }
@@ -501,13 +508,13 @@ void linenoiseAddCompletion(linenoiseCompletions *lc, const char *str)
 {
     size_t len = strlen(str);
     char *copy, **cvec;
-    copy = malloc(len+1);
+    copy = (char*)malloc(len+1);
     if (copy == NULL)
     {
         return;
     }
     memcpy(copy,str,len+1);
-    cvec = realloc(lc->cvec,sizeof(char*)*(lc->len+1));
+    cvec = (char**)realloc(lc->cvec,sizeof(char*)*(lc->len+1));
     if (cvec == NULL)
     {
         free(copy);
@@ -537,13 +544,13 @@ static void abInit(struct abuf *ab)
 
 static void abAppend(struct abuf *ab, const char *s, int len)
 {
-    char *new = realloc(ab->b,ab->len+len);
-    if (new == NULL)
+    char *newchar = (char*)realloc(ab->b,ab->len+len);
+    if (newchar == NULL)
     {
         return;
     }
-    memcpy(new+ab->len,s,len);
-    ab->b = new;
+    memcpy(newchar+ab->len,s,len);
+    ab->b = newchar;
     ab->len += len;
 }
 
@@ -884,14 +891,22 @@ void linenoiseEditDeletePrevWord(struct linenoiseState *l)
     refreshLine(l);
 }
 
+
+
+
+/* Move cursor on the left. */
+void clearLine()
+{
+   printf("\33[2K");
+}
+
+
 static int bStopReadLine = 0;
 
 void interruptReadLine()
 {
     bStopReadLine = 1;
-    write(STDIN_FILENO, ENTER, 1);
 }
-
 
 int kbhit()
 {
@@ -940,16 +955,56 @@ static int linenoiseEdit(int stdin_fd, int stdout_fd, char *buf, size_t buflen, 
     {
         return -1;
     }
+    bStopReadLine = 0;
+
     while(1)
     {
         char c;
         int nread;
         char seq[3];
 
+
 		while (!kbhit())
 		{
 			ProcessEventsDynamicFunctionWithoutWait();
+                   boost::this_thread::sleep_for(boost::chrono::milliseconds(10));
+ 
+		if (bStopReadLine)
+		{
+                    history_len--;
+                    free(history[history_len]);
+
+			bStopReadLine = 0;
+clearLine();
+return -1;
+ 		}
+
+
+            if (eval == nullptr)
+            {
+                void *veval = GetNelsonMainEvaluatorDynamicFunction();
+                eval = (Nelson::Evaluator *)veval;
+            }
+  	    if (!eval->commandQueue.isEmpty())
+            {
+                    history_len--;
+                    free(history[history_len]);
+
+                clearLine();
+                bStopReadLine = 1;
+                return-1;
+            }
+           
 		}
+		if (bStopReadLine)
+		{
+                    history_len--;
+                    free(history[history_len]);
+
+			bStopReadLine = 0;
+clearLine();
+return -1;
+ 		}
 
         nread = read(l.ifd,&c,1);
         if (nread <= 0)
@@ -1221,7 +1276,7 @@ static char *linenoiseNoTTY(void)
             }
             maxlen *= 2;
             char *oldval = line;
-            line = realloc(line,maxlen);
+            line = (char*)realloc(line,maxlen);
             if (line == NULL)
             {
                 if (oldval)
@@ -1346,7 +1401,7 @@ int linenoiseHistoryAdd(const char *line)
     /* Initialization on first call. */
     if (history == NULL)
     {
-        history = malloc(sizeof(char*)*history_max_len);
+        history = (char**)malloc(sizeof(char*)*history_max_len);
         if (history == NULL)
         {
             return 0;
@@ -1382,7 +1437,7 @@ int linenoiseHistoryAdd(const char *line)
  * than the amount of items already inside the history. */
 int linenoiseHistorySetMaxLen(int len)
 {
-    char **new;
+    char **newchar;
     if (len < 1)
     {
         return 0;
@@ -1390,8 +1445,8 @@ int linenoiseHistorySetMaxLen(int len)
     if (history)
     {
         int tocopy = history_len;
-        new = malloc(sizeof(char*)*len);
-        if (new == NULL)
+        newchar = (char**)malloc(sizeof(char*)*len);
+        if (newchar == NULL)
         {
             return 0;
         }
@@ -1405,10 +1460,10 @@ int linenoiseHistorySetMaxLen(int len)
             }
             tocopy = len;
         }
-        memset(new,0,sizeof(char*)*len);
-        memcpy(new,history+(history_len-tocopy), sizeof(char*)*tocopy);
+        memset(newchar,0,sizeof(char*)*len);
+        memcpy(newchar,history+(history_len-tocopy), sizeof(char*)*tocopy);
         free(history);
-        history = new;
+        history = newchar;
     }
     history_max_len = len;
     if (history_len > history_max_len)
@@ -1466,3 +1521,4 @@ int linenoiseHistoryLoad(const char *filename)
     fclose(fp);
     return 0;
 }
+

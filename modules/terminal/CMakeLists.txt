@@ -38,7 +38,7 @@ GLOB
 TERMINAL_SRC
 "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/BasicTerminal.cpp"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/BsdTerminal.cpp"
-"${CMAKE_CURRENT_SOURCE_DIR}/src/c/linenoise.c"
+"${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/linenoise.cpp"
 )
 #==============================================================================	
 ADD_LIBRARY(
