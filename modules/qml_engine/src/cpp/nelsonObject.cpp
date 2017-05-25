@@ -40,7 +40,7 @@ nelsonObject::nelsonObject(QObject *parent) :
 //=============================================================================
 void nelsonObject::disp(QString msg)
 {
-	call("disp", msg);
+    call("disp", msg);
 }
 //=============================================================================
 void nelsonObject::evaluate(QString msg)
@@ -86,37 +86,37 @@ QVariant nelsonObject::call(const QString &functionName, const QVariant &arg1, c
 //=============================================================================
 QVariant nelsonObject::call(const QString &functionName, const QVariant &arg1, const QVariant &arg2, const QVariant &arg3)
 {
-	QVariantList qArgs;
-	qArgs.push_back(arg1);
-	qArgs.push_back(arg2);
-	qArgs.push_back(arg3);
-	return call(functionName, qArgs);
+    QVariantList qArgs;
+    qArgs.push_back(arg1);
+    qArgs.push_back(arg2);
+    qArgs.push_back(arg3);
+    return call(functionName, qArgs);
 }
 //=============================================================================
 QVariant nelsonObject::call(const QString &functionName, const QVariant &arg1, const QVariant &arg2, const QVariant &arg3, const QVariant &arg4)
 {
-	QVariantList qArgs;
-	qArgs.push_back(arg1);
-	qArgs.push_back(arg2);
-	qArgs.push_back(arg3);
-	qArgs.push_back(arg4);
-	return call(functionName, qArgs);
+    QVariantList qArgs;
+    qArgs.push_back(arg1);
+    qArgs.push_back(arg2);
+    qArgs.push_back(arg3);
+    qArgs.push_back(arg4);
+    return call(functionName, qArgs);
 }
 //=============================================================================
 QVariant nelsonObject::call(const QString &functionName, const QVariant &arg1, const QVariant &arg2, const QVariant &arg3, const QVariant &arg4, const QVariant &arg5)
 {
-	QVariantList qArgs;
-	qArgs.push_back(arg1);
-	qArgs.push_back(arg2);
-	qArgs.push_back(arg3);
-	qArgs.push_back(arg4);
-	qArgs.push_back(arg5);
-	return call(functionName, qArgs);
+    QVariantList qArgs;
+    qArgs.push_back(arg1);
+    qArgs.push_back(arg2);
+    qArgs.push_back(arg3);
+    qArgs.push_back(arg4);
+    qArgs.push_back(arg5);
+    return call(functionName, qArgs);
 }
 //=============================================================================
 QVariant nelsonObject::call(const QString &functionName, const QVariant &arg1, const QVariant &arg2, const QVariant &arg3, const QVariant &arg4, const QVariant &arg5, const QVariant &arg6)
 {
-	throw Exception(_W("Too many input arguments."));
+    throw Exception(_W("Too many input arguments."));
 }
 //=============================================================================
 QVariant nelsonObject::call(const QString &functionName)

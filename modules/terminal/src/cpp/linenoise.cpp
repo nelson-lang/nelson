@@ -230,7 +230,8 @@ static int isUnsupportedTerm(void)
     }
     for (j = 0; unsupported_term[j]; j++)
         if (!strcasecmp(term,unsupported_term[j]))
-        {            return 1;
+        {
+            return 1;
         }
     return 0;
 }
@@ -897,7 +898,7 @@ void linenoiseEditDeletePrevWord(struct linenoiseState *l)
 /* Move cursor on the left. */
 void clearLine()
 {
-   printf("\33[2K");
+    printf("\33[2K");
 }
 
 
@@ -956,55 +957,45 @@ static int linenoiseEdit(int stdin_fd, int stdout_fd, char *buf, size_t buflen, 
         return -1;
     }
     bStopReadLine = 0;
-
     while(1)
     {
         char c;
         int nread;
         char seq[3];
-
-		while (!kbhit())
-		{
-			ProcessEventsDynamicFunctionWithoutWait();
-                   boost::this_thread::sleep_for(boost::chrono::milliseconds(10));
- 
-		if (bStopReadLine)
-		{
-                    history_len--;
-                    free(history[history_len]);
-
-			bStopReadLine = 0;
-clearLine();
-return -1;
- 		}
-
-
+        while (!kbhit())
+        {
+            ProcessEventsDynamicFunctionWithoutWait();
+            boost::this_thread::sleep_for(boost::chrono::milliseconds(10));
+            if (bStopReadLine)
+            {
+                history_len--;
+                free(history[history_len]);
+                bStopReadLine = 0;
+                clearLine();
+                return -1;
+            }
             if (eval == nullptr)
             {
                 void *veval = GetNelsonMainEvaluatorDynamicFunction();
                 eval = (Nelson::Evaluator *)veval;
             }
-  	    if (!eval->commandQueue.isEmpty())
+            if (!eval->commandQueue.isEmpty())
             {
-                    history_len--;
-                    free(history[history_len]);
-
+                history_len--;
+                free(history[history_len]);
                 clearLine();
                 bStopReadLine = 1;
                 return-1;
             }
-           
-		}
-		if (bStopReadLine)
-		{
-                    history_len--;
-                    free(history[history_len]);
-
-			bStopReadLine = 0;
-clearLine();
-return -1;
- 		}
-
+        }
+        if (bStopReadLine)
+        {
+            history_len--;
+            free(history[history_len]);
+            bStopReadLine = 0;
+            clearLine();
+            return -1;
+        }
         nread = read(l.ifd,&c,1);
         if (nread <= 0)
         {

@@ -35,10 +35,10 @@ public:
     Q_INVOKABLE QVariant call(const QString &functionName);
     Q_INVOKABLE QVariant call(const QString &functionName, const QVariant &arg1);
     Q_INVOKABLE QVariant call(const QString &functionName, const QVariant &arg1, const QVariant &arg2);
-	Q_INVOKABLE QVariant call(const QString &functionName, const QVariant &arg1, const QVariant &arg2, const QVariant &arg3);
-	Q_INVOKABLE QVariant call(const QString &functionName, const QVariant &arg1, const QVariant &arg2, const QVariant &arg3, const QVariant &arg4);
-	Q_INVOKABLE QVariant call(const QString &functionName, const QVariant &arg1, const QVariant &arg2, const QVariant &arg3, const QVariant &arg4, const QVariant &arg5);
-	Q_INVOKABLE QVariant call(const QString &functionName, const QVariant &arg1, const QVariant &arg2, const QVariant &arg3, const QVariant &arg4, const QVariant &arg5, const QVariant &arg6);
+    Q_INVOKABLE QVariant call(const QString &functionName, const QVariant &arg1, const QVariant &arg2, const QVariant &arg3);
+    Q_INVOKABLE QVariant call(const QString &functionName, const QVariant &arg1, const QVariant &arg2, const QVariant &arg3, const QVariant &arg4);
+    Q_INVOKABLE QVariant call(const QString &functionName, const QVariant &arg1, const QVariant &arg2, const QVariant &arg3, const QVariant &arg4, const QVariant &arg5);
+    Q_INVOKABLE QVariant call(const QString &functionName, const QVariant &arg1, const QVariant &arg2, const QVariant &arg3, const QVariant &arg4, const QVariant &arg5, const QVariant &arg6);
 
 };
 //=============================================================================

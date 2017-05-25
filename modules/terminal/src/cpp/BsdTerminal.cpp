@@ -62,9 +62,8 @@ std::wstring BsdTerminal::getTextLine(std::wstring prompt, bool bIsInput)
     else
     {
         retLineW = L"\n";
-    atPrompt = false;
-    return retLineW;
-    
+        atPrompt = false;
+        return retLineW;
     }
     if (bIsInput)
     {
@@ -101,13 +100,12 @@ size_t BsdTerminal::getTerminalWidth()
 //=============================================================================
 void BsdTerminal::outputMessage(std::wstring msg)
 {
-   std::string _msg = wstring_to_utf8(msg);
-   if (atPrompt)
+    std::string _msg = wstring_to_utf8(msg);
+    if (atPrompt)
     {
-
-       // _msg = "\n" + _msg;
+        // _msg = "\n" + _msg;
         atPrompt = false;
-	interruptReadLine();
+        interruptReadLine();
     }
     outputMessage(_msg);
 }
