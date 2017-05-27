@@ -31,6 +31,7 @@
 #include "characters_encoding.hpp"
 #include "nelsonObject.h"
 #include "QVariantArrayOf.hpp"
+#include "MainGuiObject.hpp"
 //=============================================================================
 namespace Nelson {
     //=============================================================================
@@ -108,9 +109,12 @@ namespace Nelson {
 
 		if (qf.exists())
 		{
+			qmlengine->clearComponentCache();
+			QQuickWindow * QMainWindowParent = (QQuickWindow*)GetMainGuiObject();
 			QPointer<QQuickView> view = new QQuickView(qmlengine, nullptr);
 			view->setSource(QUrl::fromLocalFile(wstringToQString(filename)));
 			topLevel = view->rootObject();
+
 			if (topLevel == nullptr)
 			{
 				view->deleteLater();
@@ -119,6 +123,7 @@ namespace Nelson {
 			topLevel->setParent(view);
 			view->show();
 			topLevel = topLevel->parent();
+			topLevel->setParent(QMainWindowParent);
 			return allocateQmlHandle(topLevel);
 		}
 		else
