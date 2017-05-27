@@ -477,7 +477,7 @@ wchar_t WindowsConsole::getCharacter(bool &bIsAction)
         bIsAction = false;
         while (TRUE)
         {
-            ::WaitForSingleObject(Win32InputStream, 150);
+            ::WaitForSingleObject(Win32InputStream, 30);
             DWORD nbEventsAvailable = 0;
             GetNumberOfConsoleInputEvents(Win32InputStream, &nbEventsAvailable);
             if (nbEventsAvailable > 0)
