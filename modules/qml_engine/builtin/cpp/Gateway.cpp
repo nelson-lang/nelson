@@ -47,6 +47,7 @@
 #include "QObject_iswidgettypeBuiltin.hpp"
 #include "QObject_iswindowtypeBuiltin.hpp"
 #include "QObject_classnameBuiltin.hpp"
+#include "QObject_rootBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -84,6 +85,7 @@ static const nlsGateway gateway[] =
 	{ "QObject_iswidgettype", Nelson::QmlEngineGateway::QObject_iswidgettypeBuiltin, 1, 1 },
 	{ "QObject_iswindowtype", Nelson::QmlEngineGateway::QObject_iswindowtypeBuiltin, 1, 1 },
 	{ "QObject_classname", Nelson::QmlEngineGateway::QObject_classnameBuiltin, 1, 1 },
+	{ "QObject_root", Nelson::QmlEngineGateway::QObject_rootBuiltin, 1, 0 },
 
 };
 //=============================================================================

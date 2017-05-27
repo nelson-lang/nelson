@@ -94,7 +94,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSQML_ENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/qml_engine/src/include;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/data_structures/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(QTDIR)/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/qml_engine/src/include;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/data_structures/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(QTDIR)/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
@@ -112,7 +112,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSQML_ENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/qml_engine/src/include;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/data_structures/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(QTDIR)/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/qml_engine/src/include;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/data_structures/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(QTDIR)/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
@@ -132,7 +132,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSQML_ENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/qml_engine/src/include;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/data_structures/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(QTDIR)/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/qml_engine/src/include;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/data_structures/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(QTDIR)/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
@@ -154,7 +154,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSQML_ENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/qml_engine/src/include;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/data_structures/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(QTDIR)/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/qml_engine/src/include;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/data_structures/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(QTDIR)/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
@@ -184,6 +184,7 @@
     <ClCompile Include="..\cpp\QmlEngine.cpp" />
     <ClCompile Include="..\cpp\QmlHandleObject.cpp" />
     <ClCompile Include="..\cpp\QVariantArrayOf.cpp" />
+    <ClCompile Include="..\cpp\rootQObject.cpp" />
     <ClCompile Include="..\cpp\SetQmlHandleObject.cpp" />
     <ClCompile Include="..\cpp\UndefineDynamicProperty.cpp" />
     <ClCompile Include="dllMain.c" />
@@ -204,6 +205,7 @@
     <ClInclude Include="..\include\methodsQObject.hpp" />
     <ClInclude Include="..\include\QmlHandleObject.hpp" />
     <ClInclude Include="..\include\QVariantArrayOf.hpp" />
+    <ClInclude Include="..\include\rootQObject.hpp" />
     <ClInclude Include="..\include\SetQmlHandleObject.hpp" />
     <ClInclude Include="..\include\UndefineDynamicProperty.hpp" />
     <CustomBuild Include="..\cpp\nelsonObject.h">

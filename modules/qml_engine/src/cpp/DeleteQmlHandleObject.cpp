@@ -17,10 +17,11 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <QtQml/QQmlComponent>
+#include <QtQml/QQmlEngine>
 #include "DeleteQmlHandleObject.hpp"
 #include "HandleManager.hpp"
 #include "QmlHandleObject.hpp"
-#include <QtQml/QQmlEngine>
+#include "MainGuiObject.hpp"
 //=============================================================================
 namespace Nelson {
     //=============================================================================
@@ -47,16 +48,23 @@ namespace Nelson {
                         if (ptr)
                         {
                             QObject *qobj = (QObject *)ptr;
-							qobj->deleteLater();
-                            if (qobj->isWindowType())
-                            {
-                                qobj->~QObject();
-                            }
-                            else
-                            {
-                                delete qobj;
-                            }
-                            qmlhandleobj->setPointer(nullptr);
+							QObject * qobjMainWindow = (QObject *)GetMainGuiObject();
+							if (qobj == qobjMainWindow)
+							{
+								qmlhandleobj->setPointer(nullptr);
+							}
+							else
+							{
+								qobj->deleteLater();
+								if (qobj->isWindowType())
+								{
+									qobj->~QObject();
+								}
+								else
+								{
+									delete qobj;
+								}
+							}
                         }
                         delete qmlhandleobj;
                     }
