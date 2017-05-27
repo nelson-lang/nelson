@@ -16,34 +16,27 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "nlsQml_engine_exports.h"
-#include "ArrayOf.hpp"
-#include "QmlHandleObject.hpp"
+#include "qml_createqquickviewBuiltin.hpp"
+#include "Error.hpp"
+#include "QmlEngine.hpp"
 //=============================================================================
-namespace Nelson {
-    //=============================================================================
-    class NLSQML_ENGINE_IMPEXP QmlEngine {
-    public:
-        static QmlEngine *getInstance();
-        QmlHandleObject *loadQmlFile(std::wstring filename);
-        QmlHandleObject *setData(std::wstring data);
-		QmlHandleObject *createQQuickView(std::wstring filename);
-
-        void evaluateString(std::wstring program);
-        void evaluateFile(std::wstring filename);
-        void collectGarbage();
-        void clearComponentCache();
-        wstringVector importPathList();
-        wstringVector pluginPathList();
-        std::wstring offlineStoragePath();
-
-        void addImportPath(std::wstring path);
-        void addPluginPath(std::wstring path);
-        void setOfflineStoragePath(std::wstring dir);
-    private:
-        QmlEngine();
-        static QmlEngine *m_pInstance;
-    };
-    //=============================================================================
+using namespace Nelson;
+//=============================================================================
+ArrayOfVector Nelson::QmlEngineGateway::qml_createqquickviewBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    if (argIn.size() != 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    if (nLhs > 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+	ArrayOf param1 = argIn[0];
+	std::wstring filename = param1.getContentsAsWideString();
+	QmlHandleObject *qmlhandle = QmlEngine::getInstance()->createQQuickView(filename);
+	ArrayOfVector retval;
+	retval.push_back(ArrayOf::handleConstructor(qmlhandle));
+    return retval;
 }
 //=============================================================================

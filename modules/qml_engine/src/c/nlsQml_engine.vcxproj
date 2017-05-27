@@ -167,6 +167,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\cpp\classnameQObject.cpp" />
     <ClCompile Include="..\cpp\DeleteQmlHandleObject.cpp" />
     <ClCompile Include="..\cpp\DispQmlHandleObject.cpp" />
     <ClCompile Include="..\cpp\fieldnamesQmlHandleObject.cpp" />
@@ -174,6 +175,8 @@
     <ClCompile Include="..\cpp\invokeQObject.cpp" />
     <ClCompile Include="..\cpp\ismethodQObject.cpp" />
     <ClCompile Include="..\cpp\ispropQObject.cpp" />
+    <ClCompile Include="..\cpp\iswidgettypeQObject.cpp" />
+    <ClCompile Include="..\cpp\iswindowtypeQObject.cpp" />
     <ClCompile Include="..\cpp\methodSignatureQObject.cpp" />
     <ClCompile Include="..\cpp\methodsQObject.cpp" />
     <ClCompile Include="..\cpp\moc_nelsonObject.cpp" />
@@ -187,6 +190,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\include\nlsQml_engine_exports.h" />
+    <ClInclude Include="..\include\classnameQObject.hpp" />
     <ClInclude Include="..\include\DeleteQmlHandleObject.hpp" />
     <ClInclude Include="..\include\DispQmlHandleObject.hpp" />
     <ClInclude Include="..\include\fieldnamesQmlHandleObject.hpp" />
@@ -194,6 +198,8 @@
     <ClInclude Include="..\include\invokeQObject.hpp" />
     <ClInclude Include="..\include\ismethodQObject.hpp" />
     <ClInclude Include="..\include\ispropQObject.hpp" />
+    <ClInclude Include="..\include\iswidgettypeQObject.hpp" />
+    <ClInclude Include="..\include\iswindowtypeQObject.hpp" />
     <ClInclude Include="..\include\methodSignatureQObject.hpp" />
     <ClInclude Include="..\include\methodsQObject.hpp" />
     <ClInclude Include="..\include\QmlHandleObject.hpp" />

@@ -195,6 +195,7 @@
     <ClCompile Include="..\cpp\qml_addpluginpathBuiltin.cpp" />
     <ClCompile Include="..\cpp\qml_clearcomponentcacheBuiltin.cpp" />
     <ClCompile Include="..\cpp\qml_collectgarbageBuiltin.cpp" />
+    <ClCompile Include="..\cpp\qml_createqquickviewBuiltin.cpp" />
     <ClCompile Include="..\cpp\qml_evaluatefileBuiltin.cpp" />
     <ClCompile Include="..\cpp\qml_evaluatestringBuiltin.cpp" />
     <ClCompile Include="..\cpp\qml_importpathlistBuiltin.cpp" />
@@ -203,6 +204,7 @@
     <ClCompile Include="..\cpp\qml_pluginpathlistBuiltin.cpp" />
     <ClCompile Include="..\cpp\qml_setofflinestoragepathBuiltin.cpp" />
     <ClCompile Include="..\cpp\qml_undefineBuiltin.cpp" />
+    <ClCompile Include="..\cpp\QObject_classnameBuiltin.cpp" />
     <ClCompile Include="..\cpp\QObject_deleteBuiltin.cpp" />
     <ClCompile Include="..\cpp\QObject_dispBuiltin.cpp" />
     <ClCompile Include="..\cpp\QObject_fieldnamesBuiltin.cpp" />
@@ -211,6 +213,8 @@
     <ClCompile Include="..\cpp\QObject_ismethodBuiltin.cpp" />
     <ClCompile Include="..\cpp\QObject_ispropBuiltin.cpp" />
     <ClCompile Include="..\cpp\QObject_isvalidBuiltin.cpp" />
+    <ClCompile Include="..\cpp\QObject_iswidgettypeBuiltin.cpp" />
+    <ClCompile Include="..\cpp\QObject_iswindowtypeBuiltin.cpp" />
     <ClCompile Include="..\cpp\QObject_methodsBuiltin.cpp" />
     <ClCompile Include="..\cpp\QObject_methodsignatureBuiltin.cpp" />
     <ClCompile Include="..\cpp\QObject_propertiesBuiltin.cpp" />
@@ -226,6 +230,7 @@
     <ClInclude Include="..\include\qml_addpluginpathBuiltin.hpp" />
     <ClInclude Include="..\include\qml_clearcomponentcacheBuiltin.hpp" />
     <ClInclude Include="..\include\qml_collectgarbageBuiltin.hpp" />
+    <ClInclude Include="..\include\qml_createqquickviewBuiltin.hpp" />
     <ClInclude Include="..\include\qml_evaluatefileBuiltin.hpp" />
     <ClInclude Include="..\include\qml_evaluatestringBuiltin.hpp" />
     <ClInclude Include="..\include\qml_importpathlistBuiltin.hpp" />
@@ -234,14 +239,19 @@
     <ClInclude Include="..\include\qml_pluginpathlistBuiltin.hpp" />
     <ClInclude Include="..\include\qml_setofflinestoragepathBuiltin.hpp" />
     <ClInclude Include="..\include\qml_undefineBuiltin.hpp" />
+    <ClInclude Include="..\include\QObject_classnameBuiltin.hpp" />
     <ClInclude Include="..\include\QObject_deleteBuiltin.hpp" />
     <ClInclude Include="..\include\QObject_dispBuiltin.hpp" />
     <ClInclude Include="..\include\QObject_fieldnamesBuiltin.hpp" />
+    <ClInclude Include="..\include\QObject_findchildBuiltin.hpp" />
+    <ClInclude Include="..\include\QObject_findchildrenBuiltin.hpp" />
     <ClInclude Include="..\include\QObject_getBuiltin.hpp" />
     <ClInclude Include="..\include\QObject_invokeBuiltin.hpp" />
     <ClInclude Include="..\include\QObject_ismethodBuiltin.hpp" />
     <ClInclude Include="..\include\QObject_ispropBuiltin.hpp" />
     <ClInclude Include="..\include\QObject_isvalidBuiltin.hpp" />
+    <ClInclude Include="..\include\QObject_iswidgettypeBuiltin.hpp" />
+    <ClInclude Include="..\include\QObject_iswindowtypeBuiltin.hpp" />
     <ClInclude Include="..\include\QObject_methodsBuiltin.hpp" />
     <ClInclude Include="..\include\QObject_methodsignatureBuiltin.hpp" />
     <ClInclude Include="..\include\QObject_propertiesBuiltin.hpp" />

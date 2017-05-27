@@ -16,6 +16,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <QtQuick/QQuickView>
+#include <QtQuick/QQuickItem>
 #include <QtCore/QFile>
 #include <QtCore/QPointer>
 #include <QtCore/QScopedPointer>
@@ -44,7 +46,23 @@ namespace Nelson {
         return m_pInstance;
     }
     //=============================================================================
-    QmlHandleObject *QmlEngine::setData(std::wstring data)
+	static QmlHandleObject *allocateQmlHandle(QObject *qobj)
+	{
+		QmlHandleObject * qmlHandle = nullptr;
+		try
+		{
+			qmlHandle = new QmlHandleObject(qobj);
+		}
+		catch (std::bad_alloc &e)
+		{
+			e.what();
+			qmlHandle = nullptr;
+			throw Exception(ERROR_MEMORY_ALLOCATION);
+		}
+		return qmlHandle;
+	}
+	//=============================================================================
+	QmlHandleObject *QmlEngine::setData(std::wstring data)
     {
         QPointer<QQmlComponent> component = new QQmlComponent(qmlengine);
         if (component)
@@ -54,30 +72,13 @@ namespace Nelson {
             QString qdata = wstringToQString(data).toUtf8();
             component->setData(qdata.toUtf8(), QUrl::fromLocalFile(wstringToQString(L"")));
             QObject *topLevel = component->create();
-            if (!topLevel && component->isError())
+			if (!topLevel && component->isError())
             {
                 component->deleteLater();
                 throw Exception(QStringTowstring(component->errorString()));
             }
-            if (!topLevel->isWindowType())
-            {
-                component->deleteLater();
-                throw Exception(_W("Window wigdet expected."));
-            }
-            QmlHandleObject * qmlHandle = nullptr;
-            try
-            {
-                qmlHandle = new QmlHandleObject(topLevel);
-            }
-            catch (std::bad_alloc &e)
-            {
-                component->deleteLater();
-                e.what();
-                qmlHandle = nullptr;
-                throw Exception(ERROR_MEMORY_ALLOCATION);
-            }
-            return qmlHandle;
-        }
+			return allocateQmlHandle(topLevel);
+		}
         return nullptr;
     }
     //=============================================================================
@@ -95,29 +96,39 @@ namespace Nelson {
                 component->deleteLater();
                 throw Exception(QStringTowstring(component->errorString()));
             }
-            if (!topLevel->isWindowType())
-            {
-                component->deleteLater();
-                throw Exception(_W("Window wigdet expected."));
-            }
-            QmlHandleObject * qmlHandle = nullptr;
-            try
-            {
-                qmlHandle = new QmlHandleObject(topLevel);
-            }
-            catch (std::bad_alloc &e)
-            {
-                component->deleteLater();
-                e.what();
-                qmlHandle = nullptr;
-                throw Exception(ERROR_MEMORY_ALLOCATION);
-            }
-            return qmlHandle;
-        }
+			return allocateQmlHandle(topLevel);
+		}
         return nullptr;
     }
     //=============================================================================
-    QmlEngine::QmlEngine()
+	QmlHandleObject *QmlEngine::createQQuickView(std::wstring filename)
+	{
+		QObject *topLevel = nullptr;
+		QFile qf(wstringToQString(filename));
+
+		if (qf.exists())
+		{
+			QPointer<QQuickView> view = new QQuickView(qmlengine, nullptr);
+			view->setSource(QUrl::fromLocalFile(wstringToQString(filename)));
+			topLevel = view->rootObject();
+			if (topLevel == nullptr)
+			{
+				view->deleteLater();
+				throw Exception(_W("Cannot create QQuickView."));
+			}
+			topLevel->setParent(view);
+			view->show();
+			topLevel = topLevel->parent();
+			return allocateQmlHandle(topLevel);
+		}
+		else
+		{
+			throw Exception(_W("File does not exist:") + L"\n" + filename);
+		}
+		return allocateQmlHandle(topLevel);
+	}
+	//=============================================================================
+	QmlEngine::QmlEngine()
     {
         qmlengine = new QQmlEngine();
         if (qmlengine == nullptr)

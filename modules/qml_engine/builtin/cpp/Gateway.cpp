@@ -30,6 +30,7 @@
 #include "qml_addimportpathBuiltin.hpp"
 #include "qml_addpluginpathBuiltin.hpp"
 #include "qml_setofflinestoragepathBuiltin.hpp"
+#include "qml_createqquickviewBuiltin.hpp"
 //=============================================================================
 #include "QObject_deleteBuiltin.hpp"
 #include "QObject_dispBuiltin.hpp"
@@ -43,6 +44,9 @@
 #include "QObject_ismethodBuiltin.hpp"
 #include "QObject_methodsignatureBuiltin.hpp"
 #include "QObject_propertiesBuiltin.hpp"
+#include "QObject_iswidgettypeBuiltin.hpp"
+#include "QObject_iswindowtypeBuiltin.hpp"
+#include "QObject_classnameBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -63,6 +67,7 @@ static const nlsGateway gateway[] =
     { "qml_setofflinestoragepath", Nelson::QmlEngineGateway::qml_setofflinestoragepathBuiltin, 0, 1 },
     { "qml_addimportpath", Nelson::QmlEngineGateway::qml_addimportpathBuiltin, 0, 1 },
     { "qml_addpluginpath", Nelson::QmlEngineGateway::qml_addpluginpathBuiltin, 0, 1 },
+	{ "qml_createqquickview", Nelson::QmlEngineGateway::qml_createqquickviewBuiltin, 1, 1 },
 
     { "QObject_delete", Nelson::QmlEngineGateway::QObject_deleteBuiltin, 0, 1 },
     { "QObject_disp", Nelson::QmlEngineGateway::QObject_dispBuiltin, 0, 1 },
@@ -76,6 +81,10 @@ static const nlsGateway gateway[] =
     { "QObject_ismethod", Nelson::QmlEngineGateway::QObject_ismethodBuiltin, 1, 2 },
     { "QObject_methodsignature", Nelson::QmlEngineGateway::QObject_methodsignatureBuiltin, 1, 2 },
     { "QObject_properties", Nelson::QmlEngineGateway::QObject_propertiesBuiltin, 1, 1 },
+	{ "QObject_iswidgettype", Nelson::QmlEngineGateway::QObject_iswidgettypeBuiltin, 1, 1 },
+	{ "QObject_iswindowtype", Nelson::QmlEngineGateway::QObject_iswindowtypeBuiltin, 1, 1 },
+	{ "QObject_classname", Nelson::QmlEngineGateway::QObject_classnameBuiltin, 1, 1 },
+
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)
