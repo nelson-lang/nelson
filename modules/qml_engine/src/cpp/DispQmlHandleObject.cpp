@@ -48,7 +48,7 @@ namespace Nelson {
         std::wstring line;
         if (parent)
         {
-            line = L"\t" + std::wstring(L"parent") + L": " + L"handle" + L"\n";
+            line = L"\t" + utf8_to_wstring(QOBJECT_PROPERTY_PARENT_STR) + L": " + L"handle" + L"\n";
         }
         msg = msg + line;
     }
@@ -60,7 +60,7 @@ namespace Nelson {
         std::wstring line;
         if (s > 0)
         {
-            line = L"\t" + std::wstring(L"children") + L": " + L"handle 1x" + std::to_wstring(s) + L"\n";
+            line = L"\t" + utf8_to_wstring(QOBJECT_PROPERTY_CHILDREN_STR) + L": " + L"handle 1x" + std::to_wstring(s) + L"\n";
             msg = msg + line;
         }
     }
@@ -179,15 +179,20 @@ namespace Nelson {
                 std::wstring msg;
                 for (size_t k = 0; k < wfieldnames.size(); k++)
                 {
-                    if (wfieldnames[k] == L"parent")
+                    if (wfieldnames[k] == utf8_to_wstring(QOBJECT_PROPERTY_PARENT_STR))
                     {
                         dispParent(qobj, msg);
                     }
-                    else if (wfieldnames[k] == L"children")
+                    else if (wfieldnames[k] == utf8_to_wstring(QOBJECT_PROPERTY_CHILDREN_STR))
                     {
                         dispChildren(qobj, msg);
                     }
-                    else
+					else if (wfieldnames[k] == utf8_to_wstring(QOBJECT_PROPERTY_CLASSNAME_STR))
+					{
+						std::string name = qobj->metaObject()->className();
+						msg = msg + L"\t" + wfieldnames[k] + L": " +  utf8_to_wstring(name) + L"\n";
+					}
+					else
                     {
                         QVariant propertyValue = qobj->property(wstring_to_utf8(wfieldnames[k]).c_str());
                         if (propertyValue.isValid())
@@ -276,7 +281,7 @@ namespace Nelson {
         }
     }
     //=============================================================================
-    void DispQmlHandleObject(Evaluator *eval, ArrayOf A)
+	void DispQmlHandleObject(Evaluator *eval, ArrayOf A)
     {
         if (eval != nullptr)
         {

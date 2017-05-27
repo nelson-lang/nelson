@@ -85,24 +85,29 @@ namespace Nelson {
                 allFields.push_back(name);
             }
         }
-        if (std::find(allFields.begin(), allFields.end(), "parent") == allFields.end())
+        if (std::find(allFields.begin(), allFields.end(), QOBJECT_PROPERTY_PARENT_STR) == allFields.end())
         {
             QObject *parent = qobj->parent();
             if (parent)
             {
-                allFields.push_back(std::string("parent"));
+                allFields.push_back(std::string(QOBJECT_PROPERTY_PARENT_STR));
             }
         }
-        if (std::find(allFields.begin(), allFields.end(), "children") == allFields.end())
+        if (std::find(allFields.begin(), allFields.end(), QOBJECT_PROPERTY_CHILDREN_STR) == allFields.end())
         {
             QObjectList childs = qobj->children();
             int s = childs.size();
             if (s > 0)
             {
-                allFields.push_back(std::string("children"));
+                allFields.push_back(std::string(QOBJECT_PROPERTY_CHILDREN_STR));
             }
         }
-        std::sort(allFields.begin(), allFields.end());
+		if (std::find(allFields.begin(), allFields.end(), QOBJECT_PROPERTY_CLASSNAME_STR) == allFields.end())
+		{
+			allFields.push_back(std::string(QOBJECT_PROPERTY_CLASSNAME_STR));
+		}
+
+		std::sort(allFields.begin(), allFields.end());
         if (fullList)
         {
             for (size_t k = 0; k < allFields.size(); k++)
@@ -114,7 +119,7 @@ namespace Nelson {
         {
             for (size_t k = 0; k < allFields.size(); k++)
             {
-                if (allFields[k] == "parent" || allFields[k] == "children")
+                if (allFields[k] == QOBJECT_PROPERTY_PARENT_STR || allFields[k] == QOBJECT_PROPERTY_CHILDREN_STR || allFields[k] == QOBJECT_PROPERTY_CLASSNAME_STR)
                 {
                     fieldnames.push_back(utf8_to_wstring(allFields[k]));
                 }

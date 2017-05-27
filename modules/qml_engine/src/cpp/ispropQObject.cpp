@@ -54,7 +54,7 @@ namespace Nelson {
                 return true;
             }
         }
-        if (upropertyName == "parent")
+        if (upropertyName == QOBJECT_PROPERTY_PARENT_STR)
         {
             QObject *parent = qobj->parent();
             if (parent)
@@ -62,7 +62,7 @@ namespace Nelson {
                 return true;
             }
         }
-        if (upropertyName == "children")
+        if (upropertyName == QOBJECT_PROPERTY_CHILDREN_STR)
         {
             QObjectList childs = qobj->children();
             int s = childs.size();

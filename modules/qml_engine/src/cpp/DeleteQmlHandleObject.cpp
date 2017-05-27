@@ -47,6 +47,7 @@ namespace Nelson {
                         if (ptr)
                         {
                             QObject *qobj = (QObject *)ptr;
+							qobj->deleteLater();
                             if (qobj->isWindowType())
                             {
                                 qobj->~QObject();

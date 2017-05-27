@@ -61,11 +61,11 @@ namespace Nelson {
             throw Exception(_W("QObject valid handle expected."));
         }
         QObject *qobj = (QObject *)ptr;
-        if (propertyName == L"parent")
+        if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_PARENT_STR))
         {
             throw Exception(_W("'parent' can not modified."));
         }
-        else if (propertyName == L"children")
+        else if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_CHILDREN_STR))
         {
             throw Exception(_W("'children' can not modified."));
         }

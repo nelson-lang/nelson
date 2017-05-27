@@ -60,7 +60,7 @@ namespace Nelson {
             throw Exception(_W("QObject valid handle expected."));
         }
         QObject *qobj = (QObject *)ptr;
-        if (propertyName == L"parent")
+        if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_PARENT_STR))
         {
             QObject *qparent = qobj->parent();
             if (qparent)
@@ -83,7 +83,12 @@ namespace Nelson {
                 throw Exception(_W("No parent."));
             }
         }
-        else if (propertyName == L"children")
+		else if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_CLASSNAME_STR))
+		{
+			std::string name = std::string(qobj->metaObject()->className());
+			res = ArrayOf::stringConstructor(name);
+		}
+		else if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_CHILDREN_STR))
         {
             QObjectList childs = qobj->children();
             int nbChilds = childs.size();

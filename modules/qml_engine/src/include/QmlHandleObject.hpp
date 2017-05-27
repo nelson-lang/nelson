@@ -22,6 +22,10 @@
 #include "HandleGenericObject.hpp"
 #include "nlsQml_engine_exports.h"
 //=============================================================================
+#define QOBJECT_PROPERTY_PARENT_STR "parent"
+#define QOBJECT_PROPERTY_CHILDREN_STR "children"
+#define QOBJECT_PROPERTY_CLASSNAME_STR "className"
+//=============================================================================
 namespace Nelson {
     //=============================================================================
     class NLSQML_ENGINE_IMPEXP QmlHandleObject : public HandleGenericObject {
