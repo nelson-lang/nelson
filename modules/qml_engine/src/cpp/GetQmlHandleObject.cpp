@@ -98,24 +98,27 @@ namespace Nelson {
                 res = ArrayOf::emptyConstructor(dims);
                 res.promoteType(NLS_HANDLE);
             }
-            Dimensions dims(1, nbChilds);
-            nelson_handle *nh = (nelson_handle*)ArrayOf::allocateArrayOf(NLS_HANDLE, nbChilds);
-            for (int k = 0; k < nbChilds; k++)
-            {
-                QmlHandleObject * qmlHandle = nullptr;
-                try
-                {
-                    qmlHandle = new QmlHandleObject(childs[k]);
-                }
-                catch (std::bad_alloc &e)
-                {
-                    e.what();
-                    qmlHandle = nullptr;
-                    throw Exception(ERROR_MEMORY_ALLOCATION);
-                }
-                nh[k] = HandleManager::getInstance()->addHandle(qmlHandle);
-            }
-            res = ArrayOf(NLS_HANDLE, dims, (void *)nh);
+			else
+			{
+				Dimensions dims(1, nbChilds);
+				nelson_handle *nh = (nelson_handle*)ArrayOf::allocateArrayOf(NLS_HANDLE, nbChilds);
+				for (int k = 0; k < nbChilds; k++)
+				{
+					QmlHandleObject * qmlHandle = nullptr;
+					try
+					{
+						qmlHandle = new QmlHandleObject(childs[k]);
+					}
+					catch (std::bad_alloc &e)
+					{
+						e.what();
+						qmlHandle = nullptr;
+						throw Exception(ERROR_MEMORY_ALLOCATION);
+					}
+					nh[k] = HandleManager::getInstance()->addHandle(qmlHandle);
+				}
+				res = ArrayOf(NLS_HANDLE, dims, (void *)nh);
+			}
         }
         else
         {

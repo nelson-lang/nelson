@@ -32,6 +32,7 @@
 #include <QtCore/QUuid>
 #include <QtCore/QMetaType>
 #include <QtQml/QJSValue>
+#include <QtQml/QQmlListProperty>
 #include "QVariantArrayOf.hpp"
 #include "Exception.hpp"
 #include "QStringConverter.hpp"
@@ -40,6 +41,7 @@
 #include "GetQmlHandleObject.hpp"
 #include "QmlHandleObject.hpp"
 #include "characters_encoding.hpp"
+#include "HandleManager.hpp"
 //=============================================================================
 namespace Nelson {
     //=============================================================================
@@ -138,7 +140,45 @@ namespace Nelson {
             case QVariant::Type::Region:
             default:
             {
-                res = false;
+				if (Q.type() == (int)QMetaType::QObjectStar || Q.canConvert<QObject *>()) 
+				{
+					return true;
+				}
+				QQmlListReference ref = Q.value<QQmlListReference>();
+				if (ref.isValid() && ref.canCount() && ref.canAt()) {
+					int len = ref.count();
+					if (len > 0)
+					{
+						return true;
+					}
+				}
+				const char *name = Q.typeName();
+				if (strncmp(name, "QQmlListProperty<", 17) == 0)
+				{
+					QQmlListProperty<QObject> *list = reinterpret_cast<QQmlListProperty<QObject>*>(Q.data());
+					int nbChilds = 0;
+					if (list->count && list->at)
+					{
+						nbChilds = list->count(list);
+					}
+					if (nbChilds > 0)
+					{
+						res = true;
+					}
+					else
+					{
+						res = false;
+					}
+					
+				}
+				else if (strcmp(name, "QJSValue") == 0)
+				{
+					res = true;
+				}
+				else
+				{
+					res = false;
+				}
             }
             break;
         }
@@ -509,8 +549,108 @@ namespace Nelson {
             break;
             default:
             {
+				if (Q.type() == (int)QMetaType::QObjectStar || Q.canConvert<QObject *>())
+				{
+					QObject *qobject = Q.value<QObject *>();
+					if (qobject)
+					{
+						Dimensions dims(1, 1);
+						nelson_handle *nh = (nelson_handle*)ArrayOf::allocateArrayOf(NLS_HANDLE, 1);
+						QmlHandleObject * qmlHandle = nullptr;
+						try
+						{
+							qmlHandle = new QmlHandleObject(qobject);
+						}
+						catch (std::bad_alloc &e)
+						{
+							e.what();
+							qmlHandle = nullptr;
+							throw Exception(ERROR_MEMORY_ALLOCATION);
+						}
+						nh[0] = HandleManager::getInstance()->addHandle(qmlHandle);
+						res = ArrayOf(NLS_HANDLE, dims, (void *)nh);
+						return res;
+					}
+				}
+
+				QQmlListReference ref = Q.value<QQmlListReference>();
+				if (ref.isValid() && ref.canCount() && ref.canAt()) 
+				{
+					int nbChilds = ref.count();
+					if (nbChilds == 0)
+					{
+						Dimensions dims(0, 0);
+						res = ArrayOf::emptyConstructor(dims);
+						res.promoteType(NLS_HANDLE);
+						return res;
+					}
+					else
+					{
+						Dimensions dims(1, nbChilds);
+						nelson_handle *nh = (nelson_handle*)ArrayOf::allocateArrayOf(NLS_HANDLE, nbChilds);
+						for (int k = 0; k < nbChilds; k++)
+						{
+							QObject *qobj = ref.at(k);
+							QmlHandleObject * qmlHandle = nullptr;
+							try
+							{
+								qmlHandle = new QmlHandleObject(qobj);
+							}
+							catch (std::bad_alloc &e)
+							{
+								e.what();
+								qmlHandle = nullptr;
+								throw Exception(ERROR_MEMORY_ALLOCATION);
+							}
+							nh[k] = HandleManager::getInstance()->addHandle(qmlHandle);
+						}
+						res = ArrayOf(NLS_HANDLE, dims, (void *)nh);
+						return res;
+					}
+				}
+
                 const char *name = Q.typeName();
-                if(strcmp(name,"QJSValue") == 0)
+				if (strncmp(name, "QQmlListProperty<", 17) == 0)
+				{
+					QQmlListProperty<QObject> *list = reinterpret_cast<QQmlListProperty<QObject>*>(Q.data());
+					int nbChilds = 0;
+					if (list->count && list->at)
+					{
+						nbChilds = list->count(list);
+					}
+
+					if (nbChilds == 0)
+					{
+						Dimensions dims(0, 0);
+						res = ArrayOf::emptyConstructor(dims);
+						res.promoteType(NLS_HANDLE);
+						return res;
+					}
+					else
+					{
+						Dimensions dims(1, nbChilds);
+						nelson_handle *nh = (nelson_handle*)ArrayOf::allocateArrayOf(NLS_HANDLE, nbChilds);
+						for (int k = 0; k < nbChilds; k++)
+						{
+							QObject *qobj = list->at(list, k);
+							QmlHandleObject * qmlHandle = nullptr;
+							try
+							{
+								qmlHandle = new QmlHandleObject(qobj);
+							}
+							catch (std::bad_alloc &e)
+							{
+								e.what();
+								qmlHandle = nullptr;
+								throw Exception(ERROR_MEMORY_ALLOCATION);
+							}
+							nh[k] = HandleManager::getInstance()->addHandle(qmlHandle);
+						}
+						res = ArrayOf(NLS_HANDLE, dims, (void *)nh);
+						return res;
+					}
+				}
+                else if(strcmp(name,"QJSValue") == 0)
                 {
                     Q = Q.value<QJSValue>().toVariant();
                     return QVariantToArrayOf(Q);
