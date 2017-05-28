@@ -24,61 +24,60 @@
 #include "MainGuiObject.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    bool DeleteQmlHandleObject(ArrayOf A)
-    {
-        bool res = false;
-        if (A.isHandle())
-        {
-            if (!A.isEmpty())
-            {
-                if (A.isScalar())
-                {
-                    nelson_handle *qp = (nelson_handle*)A.getDataPointer();
-                    nelson_handle hl = qp[0];
-                    HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-                    if (hlObj)
-                    {
-                        if (hlObj->getCategory() != L"QObject")
-                        {
-                            throw Exception(_W("QObject handle expected."));
-                        }
-                        QmlHandleObject *qmlhandleobj = (QmlHandleObject *)hlObj;
-                        void *ptr = qmlhandleobj->getPointer();
-                        if (ptr)
-                        {
-                            QObject *qobj = (QObject *)ptr;
-                            QObject * qobjMainWindow = (QObject *)GetMainGuiObject();
-                            if (qobj == qobjMainWindow)
-                            {
-                                qmlhandleobj->setPointer(nullptr);
-                            }
-                            else
-                            {
-                                qobj->deleteLater();
-                                if (qobj->isWindowType())
-                                {
-                                    qobj->~QObject();
-                                }
-                                else
-                                {
-                                    delete qobj;
-                                }
-                            }
-                        }
-                        delete qmlhandleobj;
-                    }
-                    HandleManager::getInstance()->removeHandle(hl);
-                    res = true;
-                }
-                else
-                {
-                    throw Exception(_W("QObject scalar handle expected."));
-                }
-            }
-        }
-        return res;
-    }
-    //=============================================================================
+	//=============================================================================
+	bool DeleteQmlHandleObject(ArrayOf A)
+	{
+		bool res = false;
+		if (A.isHandle())
+		{
+			if (!A.isEmpty())
+			{
+				if (A.isScalar())
+				{
+					nelson_handle *qp = (nelson_handle*)A.getDataPointer();
+					nelson_handle hl = qp[0];
+					HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
+					if (hlObj)
+					{
+						if (hlObj->getCategory() != QOBJECT_CATEGORY_STR)
+						{
+							throw Exception(_W("QObject handle expected."));
+						}
+						QmlHandleObject *qmlhandleobj = (QmlHandleObject *)hlObj;
+						void *ptr = qmlhandleobj->getPointer();
+						if (ptr)
+						{
+							QObject *qobj = (QObject *)ptr;
+							QObject * qobjMainWindow = (QObject *)GetMainGuiObject();
+							if (qobj == qobjMainWindow)
+							{
+								qmlhandleobj->setPointer(nullptr);
+							}
+							else
+							{
+								if (qobj->isWindowType())
+								{
+									qobj->~QObject();
+								}
+								else
+								{
+									delete qobj;
+								}
+							}
+						}
+						delete qmlhandleobj;
+					}
+					HandleManager::getInstance()->removeHandle(hl);
+					res = true;
+				}
+				else
+				{
+					throw Exception(_W("QObject scalar handle expected."));
+				}
+			}
+		}
+		return res;
+	}
+	//=============================================================================
 }
 //=============================================================================

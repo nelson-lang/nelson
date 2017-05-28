@@ -295,7 +295,7 @@ namespace Nelson {
                         nelson_handle *qp = (nelson_handle*)A.getDataPointer();
                         nelson_handle hl = qp[0];
                         HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-                        if (hlObj->getCategory() != L"QObject")
+                        if (hlObj->getCategory() != QOBJECT_CATEGORY_STR)
                         {
                             throw Exception(_W("QObject handle expected."));
                         }

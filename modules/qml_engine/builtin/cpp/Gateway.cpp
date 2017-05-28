@@ -50,6 +50,7 @@
 #include "QObject_rootBuiltin.hpp"
 #include "QObject_findchildBuiltin.hpp"
 #include "QObject_findchildrenBuiltin.hpp"
+#include "QObject_usedBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -90,6 +91,7 @@ static const nlsGateway gateway[] =
     { "QObject_root", Nelson::QmlEngineGateway::QObject_rootBuiltin, 1, 0 },
     { "QObject_findchild", Nelson::QmlEngineGateway::QObject_findchildBuiltin, 1, 2 },
     { "QObject_findchildren", Nelson::QmlEngineGateway::QObject_findchildrenBuiltin, 1, 2 },
+	{ "QObject_used", Nelson::QmlEngineGateway::QObject_usedBuiltin, 1, 0 },
 
 };
 //=============================================================================

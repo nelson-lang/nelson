@@ -16,24 +16,24 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "QObject_usedBuiltin.hpp"
+#include "Error.hpp"
+#include "usedQObject.hpp"
 //=============================================================================
-#include <string>
-#include "HandleGenericObject.hpp"
-#include "nlsQml_engine_exports.h"
+using namespace Nelson;
 //=============================================================================
-#define QOBJECT_CATEGORY_STR L"QObject"
-#define QOBJECT_PROPERTY_PARENT_STR "parent"
-#define QOBJECT_PROPERTY_CHILDREN_STR "children"
-#define QOBJECT_PROPERTY_CLASSNAME_STR "className"
-//=============================================================================
-namespace Nelson {
-    //=============================================================================
-    class NLSQML_ENGINE_IMPEXP QmlHandleObject : public HandleGenericObject {
-    public:
-        QmlHandleObject( void *_ptr);
-        ~QmlHandleObject();
-    };
-    //=============================================================================
+ArrayOfVector Nelson::QmlEngineGateway::QObject_usedBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    if (argIn.size() != 0)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    if (nLhs > 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    ArrayOfVector retval;
+    retval.push_back(usedQObject());
+    return retval;
 }
 //=============================================================================

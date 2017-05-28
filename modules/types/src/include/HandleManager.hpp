@@ -19,6 +19,7 @@
 #pragma once
 //=============================================================================
 #include <string>
+#include <vector>
 #include <boost/unordered_map.hpp>
 #include "nlsTypes_exports.h"
 #include "Types.hpp"
@@ -35,7 +36,8 @@ namespace Nelson {
         bool removeHandle(nelson_handle hl);
         HandleGenericObject *getPointer(nelson_handle hl);
         bool isValid(nelson_handle hl);
-        //=============================================================================
+		std::vector<nelson_handle> getAllHandlesOfCategory(std::wstring category);
+		//=============================================================================
     private:
         HandleManager();
         boost::unordered_map<nelson_handle, HandleGenericObject *> handleMap;

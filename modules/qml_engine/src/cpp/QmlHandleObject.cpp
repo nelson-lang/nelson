@@ -21,7 +21,7 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-    QmlHandleObject::QmlHandleObject(void *_ptr) : HandleGenericObject(std::wstring(L"QObject"), _ptr)
+    QmlHandleObject::QmlHandleObject(void *_ptr) : HandleGenericObject(std::wstring(QOBJECT_CATEGORY_STR), _ptr)
     {
     }
     //=============================================================================

@@ -16,24 +16,35 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include <string>
-#include "HandleGenericObject.hpp"
-#include "nlsQml_engine_exports.h"
-//=============================================================================
-#define QOBJECT_CATEGORY_STR L"QObject"
-#define QOBJECT_PROPERTY_PARENT_STR "parent"
-#define QOBJECT_PROPERTY_CHILDREN_STR "children"
-#define QOBJECT_PROPERTY_CLASSNAME_STR "className"
+#include <QtQml/QQmlComponent>
+#include "usedQObject.hpp"
+#include "HandleManager.hpp"
+#include "QmlHandleObject.hpp"
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-    class NLSQML_ENGINE_IMPEXP QmlHandleObject : public HandleGenericObject {
-    public:
-        QmlHandleObject( void *_ptr);
-        ~QmlHandleObject();
-    };
+    ArrayOf usedQObject()
+    {
+		ArrayOf res;
+		std::vector<nelson_handle> used = HandleManager::getInstance()->getAllHandlesOfCategory(QOBJECT_CATEGORY_STR);
+		size_t nbHandles = used.size();
+		if (nbHandles > 0)
+		{
+			Dimensions dims(1, nbHandles);
+			nelson_handle *nh = (nelson_handle*)ArrayOf::allocateArrayOf(NLS_HANDLE, nbHandles);
+			for (int k = 0; k < nbHandles; k++)
+			{
+				nh[k] = used[k];
+			}
+			res = ArrayOf(NLS_HANDLE, dims, (void *)nh);
+		}
+		else
+		{
+			res = ArrayOf::emptyConstructor(Dimensions(0, 0));
+			res.promoteType(NLS_HANDLE);
+		}
+        return res;
+    }
     //=============================================================================
 }
 //=============================================================================

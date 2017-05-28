@@ -34,7 +34,7 @@ namespace Nelson {
         }
         std::wstring className;
         ClassName(A, className);
-        if (className != L"QObject")
+        if (className != QOBJECT_CATEGORY_STR)
         {
             throw Exception(_W("QObject handle expected."));
         }

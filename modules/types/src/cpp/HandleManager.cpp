@@ -100,5 +100,23 @@ namespace Nelson {
         return false;
     }
     //=============================================================================
+	std::vector<nelson_handle> HandleManager::getAllHandlesOfCategory(std::wstring category)
+	{
+		std::vector<nelson_handle> res;
+		boost::unordered_map<nelson_handle, HandleGenericObject *>::iterator it = handleMap.begin();
+		while (it != handleMap.end())
+		{
+			if (it->second != nullptr)
+			{
+				if (category == it->second->getCategory())
+				{
+					res.push_back(it->first);
+				}
+			}
+			++it;
+		}
+		return res;
+	}
+	//=============================================================================
 }
 //=============================================================================

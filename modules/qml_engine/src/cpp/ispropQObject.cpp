@@ -95,7 +95,7 @@ namespace Nelson {
         {
             throw Exception(_W("QObject valid handle expected."));
         }
-        if (hlObj->getCategory() != L"QObject")
+        if (hlObj->getCategory() != QOBJECT_CATEGORY_STR)
         {
             throw Exception(_W("QObject handle expected."));
         }

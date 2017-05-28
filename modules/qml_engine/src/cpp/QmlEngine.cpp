@@ -78,7 +78,12 @@ namespace Nelson {
                 component->deleteLater();
                 throw Exception(QStringTowstring(component->errorString()));
             }
-            return allocateQmlHandle(topLevel);
+			if (topLevel->isWindowType())
+			{
+				QQuickWindow * QMainWindowParent = (QQuickWindow*)GetMainGuiObject();
+				topLevel->setParent(QMainWindowParent);
+			}
+			return allocateQmlHandle(topLevel);
         }
         return nullptr;
     }
@@ -97,6 +102,11 @@ namespace Nelson {
                 component->deleteLater();
                 throw Exception(QStringTowstring(component->errorString()));
             }
+			if (topLevel->isWindowType())
+			{
+				QQuickWindow * QMainWindowParent = (QQuickWindow*)GetMainGuiObject();
+				topLevel->setParent(QMainWindowParent);
+			}
             return allocateQmlHandle(topLevel);
         }
         return nullptr;

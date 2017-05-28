@@ -20,6 +20,7 @@
 #include "Error.hpp"
 #include "ClassName.hpp"
 #include "iswidgettypeQObject.hpp"
+#include "QmlHandleObject.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -39,7 +40,7 @@ ArrayOfVector Nelson::QmlEngineGateway::QObject_iswidgettypeBuiltin(Evaluator* e
     {
         std::wstring className;
         ClassName(param1, className);
-        if (className != L"QObject")
+        if (className != QOBJECT_CATEGORY_STR)
         {
             Error(eval, _W("QObject handle expected."));
         }
