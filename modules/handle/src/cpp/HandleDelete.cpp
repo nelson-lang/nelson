@@ -31,11 +31,11 @@ namespace Nelson {
             nelson_handle *qp = (nelson_handle*)A.getDataPointer();
             for (indexType k = 0; k < dimsA.getElementCount(); k++)
             {
-                bool doOverload = false;
                 nelson_handle hl = qp[k];
                 HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
                 if (hlObj)
                 {
+                    bool doOverload = false;
                     std::wstring handleTypeName = hlObj->getCategory();
                     if (!handleTypeName.empty())
                     {

@@ -218,10 +218,10 @@ namespace Nelson {
             if (buffer)
             {
                 n = fread(buffer, sizeof(char), cpos, fr);
+                buffer[n] = '\n';
+                buffer[n + 1] = 0;
             }
             fclose(fr);
-            buffer[n] = '\n';
-            buffer[n + 1] = 0;
             size_t stackdepth = eval->cstack.size();
             eval->setCLI(true);
             try
