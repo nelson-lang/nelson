@@ -27,6 +27,7 @@ namespace Nelson {
     //=============================================================================
     ArrayOf rootQObject()
     {
+		ArrayOf res;
         QWindow * parent = (QWindow *)GetMainGuiObject();
         if (parent)
         {
@@ -41,9 +42,14 @@ namespace Nelson {
                 qmlHandle = nullptr;
                 throw Exception(ERROR_MEMORY_ALLOCATION);
             }
-            return ArrayOf::handleConstructor(qmlHandle);
+            res = ArrayOf::handleConstructor(qmlHandle);
         }
-        return ArrayOf::handleConstructor(nullptr);
+		else
+		{
+			res = ArrayOf::emptyConstructor(Dimensions(0, 0));
+			res.promoteType(NLS_HANDLE);
+		}
+        return res;
     }
     //=============================================================================
 }
