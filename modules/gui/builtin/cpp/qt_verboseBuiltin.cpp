@@ -16,30 +16,31 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
-#include "bannerBuiltin.hpp"
-#include "inserthtmlBuiltin.hpp"
-#include "uigetdirBuiltin.hpp"
 #include "qt_verboseBuiltin.hpp"
+#include "Error.hpp"
+#include "MainGuiObject.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-const std::wstring gatewayName = L"gui";
-//=============================================================================
-static const nlsGateway gateway[] =
+ArrayOfVector Nelson::GuiGateway::qt_verboseBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    { "banner", Nelson::GuiGateway::bannerBuiltin, 0, 0 },
-    { "inserthtml", Nelson::GuiGateway::inserthtmlBuiltin, 0, 1 },
-    { "uigetdir", Nelson::GuiGateway::uigetdirBuiltin, 1, 2 },
-	{ "qt_verbose", Nelson::GuiGateway::qt_verboseBuiltin, 1, 1 },
-
-};
-//=============================================================================
-NLSGATEWAYFUNC(gateway)
-//=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+    if (argIn.size() > 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    if (nLhs > 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+	bool previous = IsQtMessageVerbose();
+	ArrayOfVector retval;
+	if (argIn.size() == 1)
+	{
+		ArrayOf param1 = argIn[0];
+		logical newVerbose = param1.getContentAsLogicalScalar();
+		QtMessageVerbose((newVerbose == 1));
+	}
+	retval.push_back(ArrayOf::logicalConstructor(previous));
+	return retval;
+}
 //=============================================================================
