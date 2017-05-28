@@ -70,7 +70,7 @@ static const nlsGateway gateway[] =
     { "qml_setofflinestoragepath", Nelson::QmlEngineGateway::qml_setofflinestoragepathBuiltin, 0, 1 },
     { "qml_addimportpath", Nelson::QmlEngineGateway::qml_addimportpathBuiltin, 0, 1 },
     { "qml_addpluginpath", Nelson::QmlEngineGateway::qml_addpluginpathBuiltin, 0, 1 },
-	{ "qml_createqquickview", Nelson::QmlEngineGateway::qml_createqquickviewBuiltin, 1, 1 },
+    { "qml_createqquickview", Nelson::QmlEngineGateway::qml_createqquickviewBuiltin, 1, 1 },
 
     { "QObject_delete", Nelson::QmlEngineGateway::QObject_deleteBuiltin, 0, 1 },
     { "QObject_disp", Nelson::QmlEngineGateway::QObject_dispBuiltin, 0, 1 },
@@ -84,12 +84,12 @@ static const nlsGateway gateway[] =
     { "QObject_ismethod", Nelson::QmlEngineGateway::QObject_ismethodBuiltin, 1, 2 },
     { "QObject_methodsignature", Nelson::QmlEngineGateway::QObject_methodsignatureBuiltin, 1, 2 },
     { "QObject_properties", Nelson::QmlEngineGateway::QObject_propertiesBuiltin, 1, 1 },
-	{ "QObject_iswidgettype", Nelson::QmlEngineGateway::QObject_iswidgettypeBuiltin, 1, 1 },
-	{ "QObject_iswindowtype", Nelson::QmlEngineGateway::QObject_iswindowtypeBuiltin, 1, 1 },
-	{ "QObject_classname", Nelson::QmlEngineGateway::QObject_classnameBuiltin, 1, 1 },
-	{ "QObject_root", Nelson::QmlEngineGateway::QObject_rootBuiltin, 1, 0 },
-	{ "QObject_findchild", Nelson::QmlEngineGateway::QObject_findchildBuiltin, 1, 2 },
-	{ "QObject_findchildren", Nelson::QmlEngineGateway::QObject_findchildrenBuiltin, 1, 2 },
+    { "QObject_iswidgettype", Nelson::QmlEngineGateway::QObject_iswidgettypeBuiltin, 1, 1 },
+    { "QObject_iswindowtype", Nelson::QmlEngineGateway::QObject_iswindowtypeBuiltin, 1, 1 },
+    { "QObject_classname", Nelson::QmlEngineGateway::QObject_classnameBuiltin, 1, 1 },
+    { "QObject_root", Nelson::QmlEngineGateway::QObject_rootBuiltin, 1, 0 },
+    { "QObject_findchild", Nelson::QmlEngineGateway::QObject_findchildBuiltin, 1, 2 },
+    { "QObject_findchildren", Nelson::QmlEngineGateway::QObject_findchildrenBuiltin, 1, 2 },
 
 };
 //=============================================================================

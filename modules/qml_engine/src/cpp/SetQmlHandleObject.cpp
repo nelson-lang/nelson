@@ -71,51 +71,51 @@ namespace Nelson {
         QObject *qobj = (QObject *)ptr;
         if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_PARENT_STR))
         {
-			if (!B.isHandle())
-			{
-				throw Exception(ERROR_WRONG_ARGUMENT_2_TYPE_HANDLE_EXPECTED);
-			}
-			if (!B.isScalar())
-			{
-				throw Exception(ERROR_SIZE_SCALAR_EXPECTED);
-			}
-			nelson_handle *qpParent = (nelson_handle*)B.getDataPointer();
-			if (qpParent == nullptr)
-			{
-				throw Exception(_W("QObject valid handle expected."));
-			}
-			nelson_handle hlParent = qpParent[0];
-			HandleGenericObject *hlObjParent = HandleManager::getInstance()->getPointer(hlParent);
-			if (hlObjParent == nullptr)
-			{
-				throw Exception(_W("QObject valid handle expected."));
-			}
-			if (hlObjParent->getCategory() != L"QObject")
-			{
-				throw Exception(_W("QObject handle expected."));
-			}
-			QmlHandleObject *qmlhandleobjparent = (QmlHandleObject *)hlObjParent;
-			void *ptr = qmlhandleobjparent->getPointer();
-			if (ptr == nullptr)
-			{
-				throw Exception(_W("QObject valid handle expected."));
-			}
-			QObject *qobjParent = (QObject *)ptr;
-			if (qobjParent == qobj)
-			{
-				throw Exception(_W("QObject parent egals to the child."));
-			}
-			qobj->setParent(qobjParent);
+            if (!B.isHandle())
+            {
+                throw Exception(ERROR_WRONG_ARGUMENT_2_TYPE_HANDLE_EXPECTED);
+            }
+            if (!B.isScalar())
+            {
+                throw Exception(ERROR_SIZE_SCALAR_EXPECTED);
+            }
+            nelson_handle *qpParent = (nelson_handle*)B.getDataPointer();
+            if (qpParent == nullptr)
+            {
+                throw Exception(_W("QObject valid handle expected."));
+            }
+            nelson_handle hlParent = qpParent[0];
+            HandleGenericObject *hlObjParent = HandleManager::getInstance()->getPointer(hlParent);
+            if (hlObjParent == nullptr)
+            {
+                throw Exception(_W("QObject valid handle expected."));
+            }
+            if (hlObjParent->getCategory() != L"QObject")
+            {
+                throw Exception(_W("QObject handle expected."));
+            }
+            QmlHandleObject *qmlhandleobjparent = (QmlHandleObject *)hlObjParent;
+            void *ptr = qmlhandleobjparent->getPointer();
+            if (ptr == nullptr)
+            {
+                throw Exception(_W("QObject valid handle expected."));
+            }
+            QObject *qobjParent = (QObject *)ptr;
+            if (qobjParent == qobj)
+            {
+                throw Exception(_W("QObject parent egals to the child."));
+            }
+            qobj->setParent(qobjParent);
         }
         else if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_CHILDREN_STR))
         {
             throw Exception(_W("'children' can not modified."));
         }
-		else if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_CLASSNAME_STR))
-		{
-			throw Exception(_W("'className' can not modified."));
-		}
-		else
+        else if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_CLASSNAME_STR))
+        {
+            throw Exception(_W("'className' can not modified."));
+        }
+        else
         {
             QVariant propertyValue = qobj->property(wstring_to_utf8(propertyName).c_str());
             if (!propertyValue.isValid())

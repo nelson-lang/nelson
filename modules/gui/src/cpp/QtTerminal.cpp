@@ -168,7 +168,7 @@ std::wstring QtTerminal::getLine(std::wstring prompt)
     std::wstring line;
     if (wasInterruptByAction)
     {
-		clearLine();
+        clearLine();
         line = L"\n";
     }
     else
@@ -564,11 +564,11 @@ void QtTerminal::clc()
 //=============================================================================
 void QtTerminal::clearLine()
 {
-	QTextCursor cursor = textCursor();
-	cursor.movePosition(QTextCursor::StartOfLine);
-	cursor.movePosition(QTextCursor::Right, QTextCursor::MoveAnchor, 0);
-	cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor);
-	cursor.insertText(Nelson::wstringToQString(L""));
+    QTextCursor cursor = textCursor();
+    cursor.movePosition(QTextCursor::StartOfLine);
+    cursor.movePosition(QTextCursor::Right, QTextCursor::MoveAnchor, 0);
+    cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor);
+    cursor.insertText(Nelson::wstringToQString(L""));
 }
 //=============================================================================
 void QtTerminal::stopRun()

@@ -254,7 +254,7 @@ void WindowsConsole::outputMessage(std::wstring msg)
     std::wstring _msg = msg;
     if (atPrompt)
     {
-		lineObj.clearCurrentLine(false);
+        lineObj.clearCurrentLine(false);
         atPrompt = false;
         bInterruptGetChar = true;
     }

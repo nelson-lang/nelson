@@ -72,7 +72,7 @@ namespace Nelson {
         pRes = ArrayOf::allocateArrayOf(NLS_HANDLE, newSize);
         if (newSize != 0)
         {
-	    nelson_handle *ptrC = (nelson_handle*)pRes;
+            nelson_handle *ptrC = (nelson_handle*)pRes;
             Eigen::Map<Eigen::Matrix<nelson_handle, Eigen::Dynamic, Eigen::Dynamic>> matA(ptrA, dimsA.getRows(), dimsA.getColumns());
             Eigen::Map<Eigen::Matrix<nelson_handle, Eigen::Dynamic, Eigen::Dynamic>> matB(ptrB, dimsB.getRows(), dimsB.getColumns());
             Eigen::Map<Eigen::Matrix<nelson_handle, Eigen::Dynamic, Eigen::Dynamic>> matC(ptrC, dimsC.getRows(), dimsC.getColumns());

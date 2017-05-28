@@ -36,7 +36,7 @@ public slots:
     void errorMessage(std::wstring msg);
     void warningMessage(std::wstring msg);
     void clearTerminal();
-	void clearLine();
+    void clearLine();
     void banner();
     void insertHtml(std::wstring msg);
 

@@ -83,12 +83,12 @@ namespace Nelson {
                 throw Exception(_W("No parent."));
             }
         }
-		else if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_CLASSNAME_STR))
-		{
-			std::string name = std::string(qobj->metaObject()->className());
-			res = ArrayOf::stringConstructor(name);
-		}
-		else if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_CHILDREN_STR))
+        else if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_CLASSNAME_STR))
+        {
+            std::string name = std::string(qobj->metaObject()->className());
+            res = ArrayOf::stringConstructor(name);
+        }
+        else if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_CHILDREN_STR))
         {
             QObjectList childs = qobj->children();
             int nbChilds = childs.size();
@@ -98,27 +98,27 @@ namespace Nelson {
                 res = ArrayOf::emptyConstructor(dims);
                 res.promoteType(NLS_HANDLE);
             }
-			else
-			{
-				Dimensions dims(1, nbChilds);
-				nelson_handle *nh = (nelson_handle*)ArrayOf::allocateArrayOf(NLS_HANDLE, nbChilds);
-				for (int k = 0; k < nbChilds; k++)
-				{
-					QmlHandleObject * qmlHandle = nullptr;
-					try
-					{
-						qmlHandle = new QmlHandleObject(childs[k]);
-					}
-					catch (std::bad_alloc &e)
-					{
-						e.what();
-						qmlHandle = nullptr;
-						throw Exception(ERROR_MEMORY_ALLOCATION);
-					}
-					nh[k] = HandleManager::getInstance()->addHandle(qmlHandle);
-				}
-				res = ArrayOf(NLS_HANDLE, dims, (void *)nh);
-			}
+            else
+            {
+                Dimensions dims(1, nbChilds);
+                nelson_handle *nh = (nelson_handle*)ArrayOf::allocateArrayOf(NLS_HANDLE, nbChilds);
+                for (int k = 0; k < nbChilds; k++)
+                {
+                    QmlHandleObject * qmlHandle = nullptr;
+                    try
+                    {
+                        qmlHandle = new QmlHandleObject(childs[k]);
+                    }
+                    catch (std::bad_alloc &e)
+                    {
+                        e.what();
+                        qmlHandle = nullptr;
+                        throw Exception(ERROR_MEMORY_ALLOCATION);
+                    }
+                    nh[k] = HandleManager::getInstance()->addHandle(qmlHandle);
+                }
+                res = ArrayOf(NLS_HANDLE, dims, (void *)nh);
+            }
         }
         else
         {

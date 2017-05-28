@@ -102,12 +102,11 @@ namespace Nelson {
                 allFields.push_back(std::string(QOBJECT_PROPERTY_CHILDREN_STR));
             }
         }
-		if (std::find(allFields.begin(), allFields.end(), QOBJECT_PROPERTY_CLASSNAME_STR) == allFields.end())
-		{
-			allFields.push_back(std::string(QOBJECT_PROPERTY_CLASSNAME_STR));
-		}
-
-		std::sort(allFields.begin(), allFields.end());
+        if (std::find(allFields.begin(), allFields.end(), QOBJECT_PROPERTY_CLASSNAME_STR) == allFields.end())
+        {
+            allFields.push_back(std::string(QOBJECT_PROPERTY_CLASSNAME_STR));
+        }
+        std::sort(allFields.begin(), allFields.end());
         if (fullList)
         {
             for (size_t k = 0; k < allFields.size(); k++)

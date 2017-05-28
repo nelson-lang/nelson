@@ -27,7 +27,7 @@ namespace Nelson {
         static QmlEngine *getInstance();
         QmlHandleObject *loadQmlFile(std::wstring filename);
         QmlHandleObject *setData(std::wstring data);
-		QmlHandleObject *createQQuickView(std::wstring filename);
+        QmlHandleObject *createQQuickView(std::wstring filename);
 
         void evaluateString(std::wstring program);
         void evaluateFile(std::wstring filename);

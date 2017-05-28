@@ -48,23 +48,23 @@ namespace Nelson {
                         if (ptr)
                         {
                             QObject *qobj = (QObject *)ptr;
-							QObject * qobjMainWindow = (QObject *)GetMainGuiObject();
-							if (qobj == qobjMainWindow)
-							{
-								qmlhandleobj->setPointer(nullptr);
-							}
-							else
-							{
-								qobj->deleteLater();
-								if (qobj->isWindowType())
-								{
-									qobj->~QObject();
-								}
-								else
-								{
-									delete qobj;
-								}
-							}
+                            QObject * qobjMainWindow = (QObject *)GetMainGuiObject();
+                            if (qobj == qobjMainWindow)
+                            {
+                                qmlhandleobj->setPointer(nullptr);
+                            }
+                            else
+                            {
+                                qobj->deleteLater();
+                                if (qobj->isWindowType())
+                                {
+                                    qobj->~QObject();
+                                }
+                                else
+                                {
+                                    delete qobj;
+                                }
+                            }
                         }
                         delete qmlhandleobj;
                     }

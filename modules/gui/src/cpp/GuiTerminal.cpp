@@ -112,7 +112,7 @@ void GuiTerminal::outputMessage(std::wstring msg)
         std::wstring _msg = msg;
         if (qtterm->isAtPrompt())
         {
-			qtterm->clearLine();
+            qtterm->clearLine();
             qtterm->sendReturnKey();
         }
         qtterm->outputMessage(_msg);

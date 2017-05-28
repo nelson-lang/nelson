@@ -33,17 +33,17 @@ ArrayOfVector Nelson::QmlEngineGateway::QObject_findchildBuiltin(Evaluator* eval
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOfVector retval;
-	ArrayOf param1 = argIn[0];
-	ArrayOf param2 = argIn[1];
-	std::wstring fieldname = param2.getContentsAsWideString();
-	bool bRecursively = false;
-	if (argIn.size() == 3)
-	{
-		ArrayOf param3 = argIn[2];
-		logical l = param3.getContentAsLogicalScalar();
-		bRecursively = (l == 1);
-	}
-	retval.push_back(findchildQObject(param1, fieldname, bRecursively));
+    ArrayOf param1 = argIn[0];
+    ArrayOf param2 = argIn[1];
+    std::wstring fieldname = param2.getContentsAsWideString();
+    bool bRecursively = false;
+    if (argIn.size() == 3)
+    {
+        ArrayOf param3 = argIn[2];
+        logical l = param3.getContentAsLogicalScalar();
+        bRecursively = (l == 1);
+    }
+    retval.push_back(findchildQObject(param1, fieldname, bRecursively));
     return retval;
 }
 //=============================================================================

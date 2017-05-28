@@ -948,11 +948,11 @@ static int linenoiseEdit(int stdin_fd, int stdout_fd, char *buf, size_t buflen, 
     l.buflen--; /* Make sure there is always space for the nulterm */
     /* The latest history entry is always our current buffer, that
      * initially is just an empty string. */
-    if (bStopReadLine) 
-{
-    clearLine();
-bStopReadLine = 0;
-}
+    if (bStopReadLine)
+    {
+        clearLine();
+        bStopReadLine = 0;
+    }
     linenoiseHistoryAdd("");
     if (write(l.ofd,prompt,l.plen) == -1)
     {
@@ -1040,7 +1040,7 @@ bStopReadLine = 0;
                     refreshLine(&l);
                     hintsCallback = hc;
                 }
-		printf("\r\n");
+                printf("\r\n");
                 return (int)l.len;
             case CTRL_C:     /* ctrl-c */
                 errno = EAGAIN;
@@ -1244,7 +1244,6 @@ static int linenoiseRaw(char *buf, size_t buflen, const char *prompt)
     }
     count = linenoiseEdit(STDIN_FILENO, STDOUT_FILENO, buf, buflen, prompt);
     disableRawMode(STDIN_FILENO);
-
     return count;
 }
 

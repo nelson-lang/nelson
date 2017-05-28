@@ -24,27 +24,27 @@
 #include "MainGuiObject.hpp"
 //=============================================================================
 namespace Nelson {
-	//=============================================================================
-	ArrayOf rootQObject()
-	{
-		QWindow * parent = (QWindow *)GetMainGuiObject();
-		if (parent)
-		{
-			QmlHandleObject * qmlHandle = nullptr;
-			try
-			{
-				qmlHandle = new QmlHandleObject(parent);
-			}
-			catch (std::bad_alloc &e)
-			{
-				e.what();
-				qmlHandle = nullptr;
-				throw Exception(ERROR_MEMORY_ALLOCATION);
-			}
-			return ArrayOf::handleConstructor(qmlHandle);
-		}
-		return ArrayOf::handleConstructor(nullptr);
-	}
-	//=============================================================================
+    //=============================================================================
+    ArrayOf rootQObject()
+    {
+        QWindow * parent = (QWindow *)GetMainGuiObject();
+        if (parent)
+        {
+            QmlHandleObject * qmlHandle = nullptr;
+            try
+            {
+                qmlHandle = new QmlHandleObject(parent);
+            }
+            catch (std::bad_alloc &e)
+            {
+                e.what();
+                qmlHandle = nullptr;
+                throw Exception(ERROR_MEMORY_ALLOCATION);
+            }
+            return ArrayOf::handleConstructor(qmlHandle);
+        }
+        return ArrayOf::handleConstructor(nullptr);
+    }
+    //=============================================================================
 }
 //=============================================================================

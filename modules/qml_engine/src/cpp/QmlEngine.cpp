@@ -47,23 +47,23 @@ namespace Nelson {
         return m_pInstance;
     }
     //=============================================================================
-	static QmlHandleObject *allocateQmlHandle(QObject *qobj)
-	{
-		QmlHandleObject * qmlHandle = nullptr;
-		try
-		{
-			qmlHandle = new QmlHandleObject(qobj);
-		}
-		catch (std::bad_alloc &e)
-		{
-			e.what();
-			qmlHandle = nullptr;
-			throw Exception(ERROR_MEMORY_ALLOCATION);
-		}
-		return qmlHandle;
-	}
-	//=============================================================================
-	QmlHandleObject *QmlEngine::setData(std::wstring data)
+    static QmlHandleObject *allocateQmlHandle(QObject *qobj)
+    {
+        QmlHandleObject * qmlHandle = nullptr;
+        try
+        {
+            qmlHandle = new QmlHandleObject(qobj);
+        }
+        catch (std::bad_alloc &e)
+        {
+            e.what();
+            qmlHandle = nullptr;
+            throw Exception(ERROR_MEMORY_ALLOCATION);
+        }
+        return qmlHandle;
+    }
+    //=============================================================================
+    QmlHandleObject *QmlEngine::setData(std::wstring data)
     {
         QPointer<QQmlComponent> component = new QQmlComponent(qmlengine);
         if (component)
@@ -73,13 +73,13 @@ namespace Nelson {
             QString qdata = wstringToQString(data).toUtf8();
             component->setData(qdata.toUtf8(), QUrl::fromLocalFile(wstringToQString(L"")));
             QObject *topLevel = component->create();
-			if (!topLevel && component->isError())
+            if (!topLevel && component->isError())
             {
                 component->deleteLater();
                 throw Exception(QStringTowstring(component->errorString()));
             }
-			return allocateQmlHandle(topLevel);
-		}
+            return allocateQmlHandle(topLevel);
+        }
         return nullptr;
     }
     //=============================================================================
@@ -97,43 +97,41 @@ namespace Nelson {
                 component->deleteLater();
                 throw Exception(QStringTowstring(component->errorString()));
             }
-			return allocateQmlHandle(topLevel);
-		}
+            return allocateQmlHandle(topLevel);
+        }
         return nullptr;
     }
     //=============================================================================
-	QmlHandleObject *QmlEngine::createQQuickView(std::wstring filename)
-	{
-		QObject *topLevel = nullptr;
-		QFile qf(wstringToQString(filename));
-
-		if (qf.exists())
-		{
-			qmlengine->clearComponentCache();
-			QQuickWindow * QMainWindowParent = (QQuickWindow*)GetMainGuiObject();
-			QPointer<QQuickView> view = new QQuickView(qmlengine, nullptr);
-			view->setSource(QUrl::fromLocalFile(wstringToQString(filename)));
-			topLevel = view->rootObject();
-
-			if (topLevel == nullptr)
-			{
-				view->deleteLater();
-				throw Exception(_W("Cannot create QQuickView."));
-			}
-			topLevel->setParent(view);
-			view->show();
-			topLevel = topLevel->parent();
-			topLevel->setParent(QMainWindowParent);
-			return allocateQmlHandle(topLevel);
-		}
-		else
-		{
-			throw Exception(_W("File does not exist:") + L"\n" + filename);
-		}
-		return allocateQmlHandle(topLevel);
-	}
-	//=============================================================================
-	QmlEngine::QmlEngine()
+    QmlHandleObject *QmlEngine::createQQuickView(std::wstring filename)
+    {
+        QObject *topLevel = nullptr;
+        QFile qf(wstringToQString(filename));
+        if (qf.exists())
+        {
+            qmlengine->clearComponentCache();
+            QQuickWindow * QMainWindowParent = (QQuickWindow*)GetMainGuiObject();
+            QPointer<QQuickView> view = new QQuickView(qmlengine, nullptr);
+            view->setSource(QUrl::fromLocalFile(wstringToQString(filename)));
+            topLevel = view->rootObject();
+            if (topLevel == nullptr)
+            {
+                view->deleteLater();
+                throw Exception(_W("Cannot create QQuickView."));
+            }
+            topLevel->setParent(view);
+            view->show();
+            topLevel = topLevel->parent();
+            topLevel->setParent(QMainWindowParent);
+            return allocateQmlHandle(topLevel);
+        }
+        else
+        {
+            throw Exception(_W("File does not exist:") + L"\n" + filename);
+        }
+        return allocateQmlHandle(topLevel);
+    }
+    //=============================================================================
+    QmlEngine::QmlEngine()
     {
         qmlengine = new QQmlEngine();
         if (qmlengine == nullptr)

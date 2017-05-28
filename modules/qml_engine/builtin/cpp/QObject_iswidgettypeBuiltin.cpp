@@ -37,13 +37,13 @@ ArrayOfVector Nelson::QmlEngineGateway::QObject_iswidgettypeBuiltin(Evaluator* e
     ArrayOf param1 = argIn[0];
     if (param1.isHandle())
     {
-		std::wstring className;
-		ClassName(param1, className);
-		if (className != L"QObject")
-		{
-			Error(eval, _W("QObject handle expected."));
-		}
-		retval.push_back(iswidgettypeQObject(param1));
+        std::wstring className;
+        ClassName(param1, className);
+        if (className != L"QObject")
+        {
+            Error(eval, _W("QObject handle expected."));
+        }
+        retval.push_back(iswidgettypeQObject(param1));
     }
     else
     {

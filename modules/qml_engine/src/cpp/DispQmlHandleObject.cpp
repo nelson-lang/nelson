@@ -187,12 +187,12 @@ namespace Nelson {
                     {
                         dispChildren(qobj, msg);
                     }
-					else if (wfieldnames[k] == utf8_to_wstring(QOBJECT_PROPERTY_CLASSNAME_STR))
-					{
-						std::string name = qobj->metaObject()->className();
-						msg = msg + L"\t" + wfieldnames[k] + L": " +  utf8_to_wstring(name) + L"\n";
-					}
-					else
+                    else if (wfieldnames[k] == utf8_to_wstring(QOBJECT_PROPERTY_CLASSNAME_STR))
+                    {
+                        std::string name = qobj->metaObject()->className();
+                        msg = msg + L"\t" + wfieldnames[k] + L": " +  utf8_to_wstring(name) + L"\n";
+                    }
+                    else
                     {
                         QVariant propertyValue = qobj->property(wstring_to_utf8(wfieldnames[k]).c_str());
                         if (propertyValue.isValid())
@@ -281,7 +281,7 @@ namespace Nelson {
         }
     }
     //=============================================================================
-	void DispQmlHandleObject(Evaluator *eval, ArrayOf A)
+    void DispQmlHandleObject(Evaluator *eval, ArrayOf A)
     {
         if (eval != nullptr)
         {

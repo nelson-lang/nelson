@@ -23,65 +23,64 @@
 #include "QStringConverter.hpp"
 //=============================================================================
 namespace Nelson {
-	//=============================================================================
-	ArrayOf findchildQObject(ArrayOf H, std::wstring fieldname, bool bRecursively)
-	{
-		ArrayOf res = ArrayOf::emptyConstructor(Dimensions(0, 0));
-		res.promoteType(NLS_HANDLE);
-
-		if (!H.isHandle())
-		{
-			throw Exception(ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
-		}
-		if (!H.isScalar())
-		{
-			throw Exception(ERROR_SIZE_SCALAR_EXPECTED);
-		}
-		nelson_handle *qp = (nelson_handle*)H.getDataPointer();
-		if (qp == nullptr)
-		{
-			throw Exception(_W("QObject valid handle expected."));
-		}
-		nelson_handle hl = qp[0];
-		HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-		if (hlObj == nullptr)
-		{
-			throw Exception(_W("QObject valid handle expected."));
-		}
-		if (hlObj->getCategory() != L"QObject")
-		{
-			throw Exception(_W("QObject handle expected."));
-		}
-		QmlHandleObject *qmlhandleobj = (QmlHandleObject *)hlObj;
-		void *ptr = qmlhandleobj->getPointer();
-		if (ptr == nullptr)
-		{
-			throw Exception(_W("QObject valid handle expected."));
-		}
-		QObject *qobj = (QObject *)ptr;
-		Qt::FindChildOption option = Qt::FindDirectChildrenOnly;
-		if (bRecursively)
-		{
-			option = Qt::FindChildrenRecursively;
-		}
-		QObject *qobjfound = qobj->findChild<QObject*>(wstringToQString(fieldname), option);
-		if (qobjfound != nullptr)
-		{
-			QmlHandleObject * qmlHandle = nullptr;
-			try
-			{
-				qmlHandle = new QmlHandleObject(qobjfound);
-			}
-			catch (std::bad_alloc &e)
-			{
-				e.what();
-				qmlHandle = nullptr;
-				throw Exception(ERROR_MEMORY_ALLOCATION);
-			}
-			res = ArrayOf::handleConstructor(qmlHandle);
-		}
-		return res;
-	}
-	//=============================================================================
+    //=============================================================================
+    ArrayOf findchildQObject(ArrayOf H, std::wstring fieldname, bool bRecursively)
+    {
+        ArrayOf res = ArrayOf::emptyConstructor(Dimensions(0, 0));
+        res.promoteType(NLS_HANDLE);
+        if (!H.isHandle())
+        {
+            throw Exception(ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
+        }
+        if (!H.isScalar())
+        {
+            throw Exception(ERROR_SIZE_SCALAR_EXPECTED);
+        }
+        nelson_handle *qp = (nelson_handle*)H.getDataPointer();
+        if (qp == nullptr)
+        {
+            throw Exception(_W("QObject valid handle expected."));
+        }
+        nelson_handle hl = qp[0];
+        HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
+        if (hlObj == nullptr)
+        {
+            throw Exception(_W("QObject valid handle expected."));
+        }
+        if (hlObj->getCategory() != L"QObject")
+        {
+            throw Exception(_W("QObject handle expected."));
+        }
+        QmlHandleObject *qmlhandleobj = (QmlHandleObject *)hlObj;
+        void *ptr = qmlhandleobj->getPointer();
+        if (ptr == nullptr)
+        {
+            throw Exception(_W("QObject valid handle expected."));
+        }
+        QObject *qobj = (QObject *)ptr;
+        Qt::FindChildOption option = Qt::FindDirectChildrenOnly;
+        if (bRecursively)
+        {
+            option = Qt::FindChildrenRecursively;
+        }
+        QObject *qobjfound = qobj->findChild<QObject*>(wstringToQString(fieldname), option);
+        if (qobjfound != nullptr)
+        {
+            QmlHandleObject * qmlHandle = nullptr;
+            try
+            {
+                qmlHandle = new QmlHandleObject(qobjfound);
+            }
+            catch (std::bad_alloc &e)
+            {
+                e.what();
+                qmlHandle = nullptr;
+                throw Exception(ERROR_MEMORY_ALLOCATION);
+            }
+            res = ArrayOf::handleConstructor(qmlHandle);
+        }
+        return res;
+    }
+    //=============================================================================
 }
 //=============================================================================

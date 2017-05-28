@@ -35,20 +35,20 @@ ArrayOfVector Nelson::QmlEngineGateway::QObject_iswindowtypeBuiltin(Evaluator* e
     }
     ArrayOfVector retval;
     ArrayOf param1 = argIn[0];
-	if (param1.isHandle())
-	{
-		std::wstring className;
-		ClassName(param1, className);
-		if (className != L"QObject")
-		{
-			Error(eval, _W("QObject handle expected."));
-		}
-		retval.push_back(iswindowtypeQObject(param1));
-	}
-	else
-	{
-		Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
-	}
-	return retval;
+    if (param1.isHandle())
+    {
+        std::wstring className;
+        ClassName(param1, className);
+        if (className != L"QObject")
+        {
+            Error(eval, _W("QObject handle expected."));
+        }
+        retval.push_back(iswindowtypeQObject(param1));
+    }
+    else
+    {
+        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
+    }
+    return retval;
 }
 //=============================================================================
