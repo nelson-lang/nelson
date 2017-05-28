@@ -48,7 +48,7 @@ static void QtMessageOutput(QtMsgType type, const QMessageLogContext &context, c
     std::string str(localMsg);
     if (!messageVerbose)
     {
-        //return;
+        return;
     }
     switch (type)
     {
