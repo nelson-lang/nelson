@@ -148,7 +148,7 @@ QVariant nelsonObject::call(const QString &functionName, const QVariantList& arg
                 {
                     resVector = funcDef->evaluateFunction(eval, argIn, nLhs);
                 }
-                catch (Exception e)
+                catch (Exception &e)
                 {
                     throw Exception(_W("error function."));
                 }

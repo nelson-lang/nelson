@@ -205,7 +205,6 @@ namespace Nelson {
     //=============================================================================
     std::wstring QmlEngine::offlineStoragePath()
     {
-        std::wstring res;
         if (qmlengine == nullptr)
         {
             throw Exception(_W("QML engine not initialized."));

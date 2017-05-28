@@ -35,7 +35,7 @@ ArrayOfVector Nelson::QmlEngineGateway::QObject_deleteBuiltin(Evaluator* eval, i
     ArrayOf param1 = argIn[0];
     if (param1.isHandle())
     {
-        bool res = DeleteQmlHandleObject(param1);
+        DeleteQmlHandleObject(param1);
     }
     ArrayOfVector retval;
     return retval;
