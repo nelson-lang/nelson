@@ -171,6 +171,8 @@
     <ClCompile Include="..\cpp\DeleteQmlHandleObject.cpp" />
     <ClCompile Include="..\cpp\DispQmlHandleObject.cpp" />
     <ClCompile Include="..\cpp\fieldnamesQmlHandleObject.cpp" />
+    <ClCompile Include="..\cpp\findchildQObject.cpp" />
+    <ClCompile Include="..\cpp\findchildrenQObject.cpp" />
     <ClCompile Include="..\cpp\GetQmlHandleObject.cpp" />
     <ClCompile Include="..\cpp\invokeQObject.cpp" />
     <ClCompile Include="..\cpp\ismethodQObject.cpp" />
@@ -195,6 +197,8 @@
     <ClInclude Include="..\include\DeleteQmlHandleObject.hpp" />
     <ClInclude Include="..\include\DispQmlHandleObject.hpp" />
     <ClInclude Include="..\include\fieldnamesQmlHandleObject.hpp" />
+    <ClInclude Include="..\include\findchildQObject.hpp" />
+    <ClInclude Include="..\include\findchildrenQObject.hpp" />
     <ClInclude Include="..\include\GetQmlHandleObject.hpp" />
     <ClInclude Include="..\include\invokeQObject.hpp" />
     <ClInclude Include="..\include\ismethodQObject.hpp" />

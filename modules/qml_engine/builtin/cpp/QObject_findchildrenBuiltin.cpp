@@ -18,12 +18,13 @@
 //=============================================================================
 #include "QObject_findchildrenBuiltin.hpp"
 #include "Error.hpp"
+#include "findchildrenQObject.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector Nelson::QmlEngineGateway::QObject_findchildrenBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-	if (argIn.size() != 2)
+	if (!(argIn.size() == 2 || argIn.size() == 3))
 	{
 		Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
 	}
@@ -32,6 +33,17 @@ ArrayOfVector Nelson::QmlEngineGateway::QObject_findchildrenBuiltin(Evaluator* e
 		Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
 	}
 	ArrayOfVector retval;
+	ArrayOf param1 = argIn[0];
+	ArrayOf param2 = argIn[1];
+	std::wstring fieldname = param2.getContentsAsWideString();
+	bool bRecursively = false;
+	if (argIn.size() == 3)
+	{
+		ArrayOf param3 = argIn[2];
+		logical l = param3.getContentAsLogicalScalar();
+		bRecursively = (l == 1);
+	}
+	retval.push_back(findchildrenQObject(param1, fieldname, bRecursively));
 	return retval;
 }
 //=============================================================================

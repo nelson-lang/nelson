@@ -40,7 +40,7 @@ Rectangle {
   Rectangle { color: "#fbd45c"; width: parent.width/3.0; height: row_height; x: 2*width; y: height; }
 
   Text {
-
+    objectName: "textField"
     y: 2*row_height;
 
     width: parent.width;

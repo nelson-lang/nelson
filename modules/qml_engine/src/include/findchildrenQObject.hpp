@@ -6,20 +6,24 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 2 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-qml_file = [modulepath('qml_engine'), '/examples/qcharts_demo/QChartGallery.qml'];
-qobj = qml_createqquickview(qml_file);
-qobj.title = 'Nelson <--> qcharts demo';
-//child_text = qobj.children(2).children(5);
-child_text = QObject_findchild(qobj, 'textField', true);
-child_text.text = 'Nelson with QCharts.js';
+#pragma once
+//=============================================================================
+#include "nlsQml_engine_exports.h"
+#include "ArrayOf.hpp"
+//=============================================================================
+namespace Nelson {
+	//=============================================================================
+	NLSQML_ENGINE_IMPEXP ArrayOf findchildrenQObject(ArrayOf H, std::wstring fieldname, bool bRecursively = false);
+	//=============================================================================
+}
 //=============================================================================
