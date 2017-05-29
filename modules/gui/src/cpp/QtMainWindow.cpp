@@ -42,11 +42,6 @@ using namespace Nelson;
 //=============================================================================
 QtMainWindow::~QtMainWindow()
 {
-    if (qtTerminal)
-    {
-        delete qtTerminal;
-        qtTerminal = nullptr;
-    }
     if (runAct)
     {
         delete runAct;
@@ -122,6 +117,11 @@ QtMainWindow::~QtMainWindow()
         delete mainMenuBar;
         mainMenuBar = nullptr;
     }
+	if (qtTerminal)
+	{
+		delete qtTerminal;
+		qtTerminal = nullptr;
+	}
 }
 //=============================================================================
 QtMainWindow::QtMainWindow()
