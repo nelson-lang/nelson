@@ -18,6 +18,7 @@
 //=============================================================================
 #include <QtQml/QQmlComponent>
 #include <QtQml/QQmlEngine>
+#include <QtGui/QWindow>
 #include "DeleteQmlHandleObject.hpp"
 #include "HandleManager.hpp"
 #include "QmlHandleObject.hpp"
@@ -57,7 +58,8 @@ namespace Nelson {
 							{
 								if (qobj->isWindowType())
 								{
-									qobj->~QObject();
+									QWindow *w = static_cast<QWindow*>(qobj);
+									w->destroy();
 								}
 								else
 								{
