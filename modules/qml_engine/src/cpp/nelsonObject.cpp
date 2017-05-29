@@ -45,23 +45,7 @@ void nelsonObject::disp(QString msg)
 //=============================================================================
 void nelsonObject::evaluate(QString msg)
 {
-    if (eval)
-    {
-        std::wstring wstr = QStringTowstring(msg);
-        Interface *io = eval->getInterface();
-        if (io)
-        {
-            if (io->isAtPrompt())
-            {
-                eval->addCommandToQueue(wstr, true);
-            }
-            else
-            {
-                std::string ustr = wstring_to_utf8(wstr);
-                eval->evaluateString(ustr + "\n");
-            }
-        }
-    }
+	call("execstr", msg);
 }
 //=============================================================================
 void nelsonObject::processevent()
