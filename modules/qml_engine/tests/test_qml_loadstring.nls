@@ -24,9 +24,14 @@ assert_isequal(nargout('qml_loadstring'), 1);
 qml_file_ok = [modulepath('qml_engine'), '/tests/test_qml_loadfile_ok.qml'];
 txt = fileread(qml_file_ok);
 qobj = qml_loadstring(txt);
+assert_istrue(QObject_iswindowtype(qobj));
 delete(qobj);
 //=============================================================================
 qml_file_ko = [modulepath('qml_engine'), '/tests/test_qml_loadfile_ko.qml'];
 txt = fileread(qml_file_ko);
-assert_checkerror('qobj = qml_loadstring(txt);', _('Window wigdet expected.'));
+qobj = qml_loadstring(txt);
+assert_isfalse(QObject_iswindowtype(qobj));
+assert_isfalse(QObject_iswidgettype(qobj));
+//=============================================================================
+delete(qobj);
 //=============================================================================

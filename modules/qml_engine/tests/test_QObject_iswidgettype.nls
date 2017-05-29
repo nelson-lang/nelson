@@ -25,3 +25,5 @@ qml_file_ok = [modulepath('qml_engine'), '/tests/test_qml_loadfile_ok.qml'];
 qobj = qml_loadfile(qml_file_ok);
 assert_isfalse(QObject_iswidgettype(qobj));
 //=============================================================================
+delete(qobj);
+//=============================================================================

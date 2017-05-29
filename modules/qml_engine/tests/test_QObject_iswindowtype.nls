@@ -27,3 +27,5 @@ assert_istrue(QObject_iswindowtype(qobj));
 child = qobj.children(1);
 assert_isfalse(QObject_iswindowtype(child));
 //=============================================================================
+delete(qobj);
+//=============================================================================
