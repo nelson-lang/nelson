@@ -21,12 +21,12 @@
 assert_isequal(nargin('qml_loadfile'), 1);
 assert_isequal(nargout('qml_loadfile'), 1);
 //=============================================================================
-qml_file_ok = [modulepath('qml_engine'), '/tests/test_qml_loadfile_ok.qml'];
+qml_file_ok = [modulepath('qml_engine'), '/tests/test_qml_loadfile_window.qml'];
 qobj = qml_loadfile(qml_file_ok);
 assert_istrue(QObject_iswindowtype(qobj));
 delete(qobj);
 //=============================================================================
-qml_file_ko = [modulepath('qml_engine'), '/tests/test_qml_loadfile_ko.qml'];
+qml_file_ko = [modulepath('qml_engine'), '/tests/test_qml_loadfile_rectangle.qml'];
 qobj = qml_loadfile(qml_file_ko);
 assert_isfalse(QObject_iswindowtype(qobj));
 assert_isfalse(QObject_iswidgettype(qobj));

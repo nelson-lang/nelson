@@ -18,7 +18,7 @@
 //=============================================================================
 // <--GUI MODE-->
 //=============================================================================
-qml_file_ok = [modulepath('qml_engine'), '/tests/test_qml_loadfile_ok.qml'];
+qml_file_ok = [modulepath('qml_engine'), '/tests/test_qml_loadfile_window.qml'];
 qobj = qml_loadfile(qml_file_ok);
 //=============================================================================
 H = [qobj; qobj];

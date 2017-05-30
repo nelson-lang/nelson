@@ -21,7 +21,7 @@
 assert_isequal(nargin('QObject_iswidgettype'), 1);
 assert_isequal(nargout('QObject_iswidgettype'), 1);
 //=============================================================================
-qml_file_ok = [modulepath('qml_engine'), '/tests/test_qml_loadfile_ok.qml'];
+qml_file_ok = [modulepath('qml_engine'), '/tests/test_qml_loadfile_window.qml'];
 qobj = qml_loadfile(qml_file_ok);
 assert_isfalse(QObject_iswidgettype(qobj));
 //=============================================================================
