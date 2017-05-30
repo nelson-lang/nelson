@@ -59,9 +59,9 @@ const std::wstring gatewayName = L"qml_engine";
 static const nlsGateway gateway[] =
 {
     { "qml_loadfile", Nelson::QmlEngineGateway::qml_loadfileBuiltin, 1, 1 },
-    { "qml_loadstring", Nelson::QmlEngineGateway::qml_loadstringBuiltin, 1, 1 },
-    { "qml_evaluatestring", Nelson::QmlEngineGateway::qml_evaluatestringBuiltin, 0, 1 },
-    { "qml_evaluatefile", Nelson::QmlEngineGateway::qml_evaluatefileBuiltin, 0, 1 },
+    { "qml_loadstring", Nelson::QmlEngineGateway::qml_loadstringBuiltin, 0, 1 },
+    { "qml_evaluatestring", Nelson::QmlEngineGateway::qml_evaluatestringBuiltin, 1, 1 },
+    { "qml_evaluatefile", Nelson::QmlEngineGateway::qml_evaluatefileBuiltin, 1, 1 },
     { "qml_undefine", Nelson::QmlEngineGateway::qml_undefineBuiltin, 0, 1 },
     { "qml_clearcomponentcache", Nelson::QmlEngineGateway::qml_clearcomponentcacheBuiltin, 0, 0 },
     { "qml_collectgarbage", Nelson::QmlEngineGateway::qml_collectgarbageBuiltin, 0, 0 },

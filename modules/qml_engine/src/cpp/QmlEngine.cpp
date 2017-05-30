@@ -256,7 +256,18 @@ namespace Nelson {
         }
     }
     //=============================================================================
-    void QmlEngine::evaluateString(std::wstring program)
+	static QVariant QJsValueToQVariant(QJSValue value)
+	{
+		if (value.isBool())
+			return value.toBool();
+		if (value.isNumber())
+			return value.toNumber();
+		if (value.isVariant())
+			return value.toVariant();
+		return value.toString();
+	}
+	//=============================================================================
+	ArrayOf QmlEngine::evaluateString(std::wstring program, bool &withOuput)
     {
         if (qmlengine == nullptr)
         {
@@ -264,9 +275,15 @@ namespace Nelson {
         }
         QJSValue evaluationResult = qmlengine->evaluate(wstringToQString(program));
         errorMessage(evaluationResult);
-    }
+		withOuput = !evaluationResult.isUndefined();
+		if (withOuput)
+		{
+			return QVariantToArrayOf(QJsValueToQVariant(evaluationResult));
+		}
+		return ArrayOf();
+	}
     //=============================================================================
-    void QmlEngine::evaluateFile(std::wstring filename)
+    ArrayOf QmlEngine::evaluateFile(std::wstring filename, bool &withOuput)
     {
         QFile qf(wstringToQString(filename));
         if (!qf.exists())
@@ -283,6 +300,12 @@ namespace Nelson {
         }
         QJSValue evaluationResult = qmlengine->evaluate(source, wstringToQString(filename));
         errorMessage(evaluationResult);
+		withOuput = !evaluationResult.isUndefined();
+		if (withOuput)
+		{
+			return QVariantToArrayOf(QJsValueToQVariant(evaluationResult));
+		}
+		return ArrayOf();
     }
     //=============================================================================
 }

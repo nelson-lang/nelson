@@ -28,13 +28,18 @@ ArrayOfVector Nelson::QmlEngineGateway::qml_evaluatefileBuiltin(Evaluator* eval,
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs != 0)
+    if (nLhs > 1)
     {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
-    QmlEngine::getInstance()->evaluateFile(param1.getContentsAsWideString());
     ArrayOfVector retval;
-    return retval;
+	bool bWithOuput;
+	ArrayOf res = QmlEngine::getInstance()->evaluateFile(param1.getContentsAsWideString(), bWithOuput);
+	if (bWithOuput)
+	{
+		retval.push_back(res);
+	}
+	return retval;
 }
 //=============================================================================
