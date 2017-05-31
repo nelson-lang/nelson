@@ -203,7 +203,7 @@
     <ClCompile Include="..\cpp\qml_offlinestoragepathBuiltin.cpp" />
     <ClCompile Include="..\cpp\qml_pluginpathlistBuiltin.cpp" />
     <ClCompile Include="..\cpp\qml_setofflinestoragepathBuiltin.cpp" />
-    <ClCompile Include="..\cpp\qml_undefineBuiltin.cpp" />
+    <ClCompile Include="..\cpp\QObject_undefineBuiltin.cpp" />
     <ClCompile Include="..\cpp\QObject_classnameBuiltin.cpp" />
     <ClCompile Include="..\cpp\QObject_deleteBuiltin.cpp" />
     <ClCompile Include="..\cpp\QObject_dispBuiltin.cpp" />
@@ -242,7 +242,7 @@
     <ClInclude Include="..\include\qml_offlinestoragepathBuiltin.hpp" />
     <ClInclude Include="..\include\qml_pluginpathlistBuiltin.hpp" />
     <ClInclude Include="..\include\qml_setofflinestoragepathBuiltin.hpp" />
-    <ClInclude Include="..\include\qml_undefineBuiltin.hpp" />
+    <ClInclude Include="..\include\QObject_undefineBuiltin.hpp" />
     <ClInclude Include="..\include\QObject_classnameBuiltin.hpp" />
     <ClInclude Include="..\include\QObject_deleteBuiltin.hpp" />
     <ClInclude Include="..\include\QObject_dispBuiltin.hpp" />

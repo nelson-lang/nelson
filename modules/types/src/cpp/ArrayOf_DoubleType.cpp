@@ -72,7 +72,7 @@ namespace Nelson {
     {
         if (isComplex() || isReferenceType() || isString() || isSparse() || !isScalar())
         {
-            throw Exception(_W("Expected a real valued scalar."));
+            throw Exception(_W("Expected a real value scalar."));
         }
         promoteType(NLS_DOUBLE);
         double *qp = (double*)dp->getData();

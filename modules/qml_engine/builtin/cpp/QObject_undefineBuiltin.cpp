@@ -16,15 +16,27 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "QObject_undefineBuiltin.hpp"
+#include "UndefineDynamicProperty.hpp"
+#include "Error.hpp"
 //=============================================================================
-#include "ArrayOf.hpp"
-#include "Evaluator.hpp"
+using namespace Nelson;
 //=============================================================================
-namespace Nelson {
-    namespace QmlEngineGateway {
-        ArrayOfVector qml_undefineBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    };
-};
+ArrayOfVector Nelson::QmlEngineGateway::QObject_undefineBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    if (argIn.size() != 2)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    if (nLhs != 0)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    ArrayOf param1 = argIn[0];
+    ArrayOf param2 = argIn[1];
+    std::wstring propertyName = param2.getContentsAsWideString();
+    ArrayOfVector retval;
+    UndefineDynamicProperty(param1, propertyName);
+    return retval;
+}
 //=============================================================================
-

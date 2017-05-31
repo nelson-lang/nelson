@@ -6,37 +6,30 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 2 of the License, or
 // (at your option) any later version.
-//
+// 
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-//
+// 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "qml_undefineBuiltin.hpp"
-#include "UndefineDynamicProperty.hpp"
-#include "Error.hpp"
+// <--GUI MODE-->
 //=============================================================================
-using namespace Nelson;
+assert_isequal(nargin('QObject_undefine'), 2);
+assert_isequal(nargout('QObject_undefine'), 0);
 //=============================================================================
-ArrayOfVector Nelson::QmlEngineGateway::qml_undefineBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    if (argIn.size() != 2)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    ArrayOf param1 = argIn[0];
-    ArrayOf param2 = argIn[1];
-    std::wstring propertyName = param2.getContentsAsWideString();
-    ArrayOfVector retval;
-    UndefineDynamicProperty(param1, propertyName);
-    return retval;
-}
+qml_file = [modulepath('qml_engine'), '/tests/test_qvariant.qml'];
+qobj = qml_loadfile(qml_file);
 //=============================================================================
+qobj.toto = 1;
+assert_isequal(qobj.toto, 1);
+assert_checkerror('qobj.toto = ''1'';', _('Expected a real value scalar.'));
+QObject_undefine(qobj, 'toto');
+qobj.toto = '1';
+assert_isequal(qobj.toto, '1');
+
+//=============================================================================
+
