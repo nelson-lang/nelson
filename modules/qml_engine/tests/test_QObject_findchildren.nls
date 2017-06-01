@@ -20,11 +20,14 @@
 //=============================================================================
 qml_file = [modulepath('qml_engine'), '/examples/qcharts_demo/QChartGallery.qml'];
 qobj = qml_createqquickview(qml_file);
-child_text = QObject_findchild(qobj, 'textField', false);
+child_text = QObject_findchildren(qobj, 'textField', false);
 assert_istrue(isempty(child_text));
-child_text = QObject_findchild(qobj, 'textField', true);
+child_text = QObject_findchildren(qobj, 'textField', true);
 assert_isfalse(isempty(child_text));
 assert_isequal(size(child_text), [1 1]);
+//=============================================================================
+charts_obj = QObject_findchildren(qobj, 'chart', true);
+assert_isequal(size(charts_obj), [1 5])
 //=============================================================================
 delete(qobj);
 //=============================================================================

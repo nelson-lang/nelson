@@ -110,6 +110,7 @@ Rectangle {
     spacing: chart_spacing;
 
     Chart {
+      objectName: "chart"
       id: chart_line;
       width: chart_width;
       height: chart_height;
@@ -121,6 +122,7 @@ Rectangle {
     }
 
     Chart {
+      objectName: "chart"
       id: chart_polar;
       width: chart_width;
       height: chart_height;
@@ -132,6 +134,7 @@ Rectangle {
     }
 
     Chart {
+      objectName: "chart"
       id: chart_radar;
       width: chart_width;
       height: chart_height;
@@ -143,6 +146,7 @@ Rectangle {
     }
 
     Chart {
+      objectName: "chart"
       id: chart_pie;
       width: chart_width;
       height: chart_height;
@@ -154,6 +158,7 @@ Rectangle {
     }
 
     Chart {
+      objectName: "chart"
       id: chart_bar;
       width: chart_width;
       height: chart_height;

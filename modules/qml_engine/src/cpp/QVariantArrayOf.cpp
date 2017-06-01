@@ -173,7 +173,8 @@ namespace Nelson {
                 }
                 else if (strcmp(name, "QJSValue") == 0)
                 {
-                    res = true;
+					QVariant v = Q.value<QJSValue>().toVariant();
+					res = v.isValid();
                 }
                 else
                 {
