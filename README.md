@@ -46,6 +46,18 @@ these own data types and operations on these data types by using overload.
 - Tests engine
  Validate your algorithm using Nelson dedicated functions.
  Export the test results under the xUnit reports format.
+ 
+## Resources
+
+- **Homepage:** <https://nelson-numerical-software.github.io/nelson-website/>
+- **Binaries:** <https://github.com/Nelson-numerical-software/nelson/releases>
+- **Documentation:** <https://nelson-numerical-software.github.io/nelson-website/help/en_US/>
+- **Source code:** <https://github.com/Nelson-numerical-software/nelson>
+- **Gitter:** <https://gitter.im/nelson-numerical-software/Lobby>
+- **YouTube:** <https://www.youtube.com/channel/UCdZMnH0HC9XflNGAFFiRX9g>
+- **Twitter:** <https://twitter.com/Nelson_software>
+- **Mastodon:** <https://mastodon.social/web/getting-started>
+
 
 ## Tested and supported platforms:
 - Windows 8, 10 32 bit & 64 bit (intel x86)
