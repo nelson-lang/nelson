@@ -81,7 +81,7 @@ add_custom_target(buildhelp
 )
 #==============================================================================
 add_custom_target(tests_all
-    COMMAND nelson-cli --quiet --file "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/tests_all/runtests_all.nls"
+    COMMAND nelson-adv-cli --quiet --file "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/tests_all/runtests_all.nls"
     DEPENDS nelson-cli
 )
 #==============================================================================
