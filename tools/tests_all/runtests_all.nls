@@ -17,7 +17,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 try
-  r = test_run([], [], [nelsonroot(), '/tests_all.xml']);
+  all_modules = getmodules();
+  r = test_run(all_modules, [], [nelsonroot(), '/tests_all.xml']);
 catch
   r = false
 end
