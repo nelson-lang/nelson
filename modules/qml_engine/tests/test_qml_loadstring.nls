@@ -17,6 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 // <--GUI MODE-->
+// <--WITH DISPLAY-->
 //=============================================================================
 assert_isequal(nargin('qml_loadstring'), 1);
 assert_isequal(nargout('qml_loadstring'), 1);

@@ -78,7 +78,8 @@ namespace Nelson {
         bool firstMacTag = true;
         bool firstLinuxTag = true;
         bool firstWithDisplayTag = true;
-        if (istream.is_open())
+		bool firstReleaseOnlyTag = true;
+		if (istream.is_open())
         {
             std::string line;
             while (!istream.eof())
@@ -253,7 +254,18 @@ namespace Nelson {
                     options.setUnixOnly(true);
                     firstLinuxTag = false;
                 }
-            }
+				if (boost::algorithm::contains(removedLeftBlank, RELEASE_ONLY_TAG) && firstReleaseOnlyTag)
+				{
+					if (!firstReleaseOnlyTag)
+					{
+						msg = _W("duplicated tag detected: <--RELEASE ONLY-->.");
+						istream.close();
+						return false;
+					}
+					options.setReleaseOnly(true);
+					firstReleaseOnlyTag = false;
+				}
+			}
             istream.close();
             if (options.isGuiMode() || options.isAdvCliMode())
             {

@@ -59,6 +59,7 @@
   <p><b>&lt;--MACOS ONLY--&gt;</b>  This test will be executed only on Macos.</p>
   <p><b>&lt;--UNIX ONLY--&gt;</b>  This test will be executed only on Unix.</p>
   <p><b>&lt;--WITH DISPLAY--&gt;</b> This test will be executed only if a display output is available.</p>
+  <p><b>&lt;--RELEASE ONLY--&gt;</b> This test will be executed only if nelson is an release (not in debug mode).</p>
   <p></p>
   <p>To avoid to block the application, tests have an execution timer of 50 seconds and the benchs have a timer of 500 seconds.</p>
 

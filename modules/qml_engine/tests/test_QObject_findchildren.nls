@@ -17,6 +17,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 // <--GUI MODE-->
+// <--RELEASE ONLY-->
+// <--WITH DISPLAY-->
 //=============================================================================
 qml_file = [modulepath('qml_engine'), '/examples/qcharts_demo/QChartGallery.qml'];
 qobj = qml_createqquickview(qml_file);

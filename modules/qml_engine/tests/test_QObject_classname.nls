@@ -17,6 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 // <--GUI MODE-->
+// <--WITH DISPLAY-->
 //=============================================================================
 qml_file = [modulepath('qml_engine'), '/tests/test_qml_loadfile_window.qml'];
 qobj1 = qml_loadfile(qml_file);

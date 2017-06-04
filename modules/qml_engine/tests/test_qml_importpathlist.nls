@@ -17,6 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 // <--GUI MODE-->
+// <--WITH DISPLAY-->
 //=============================================================================
 assert_isequal(nargin('qml_importpathlist'), 0);
 assert_isequal(nargout('qml_importpathlist'), 1);
