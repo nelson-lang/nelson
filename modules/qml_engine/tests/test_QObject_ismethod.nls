@@ -31,6 +31,8 @@ assert_istrue(r);
 r = ismethod(qobj.children(2), 'myQmlFunction3');
 assert_istrue(r);
 r = ismethod(qobj.children(2), 'myQmlFunction4');
+assert_istrue(r);
+r = ismethod(qobj.children(2), 'myQmlFunction5');
 assert_isfalse(r);
 //=============================================================================
 delete(qobj);
