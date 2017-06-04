@@ -96,6 +96,10 @@ install:
 
 before_script:
   - if [ `uname` = "Linux" ];
+    then export DISPLAY=:99.0;
+    sh -e /etc/init.d/xvfb start";
+    fi
+  - if [ `uname` = "Linux" ];
     then export CC=$USE_CC; export CXX=$USE_CXX;
     export BUILD_ROOT=$(pwd);
     cd $HOME;
