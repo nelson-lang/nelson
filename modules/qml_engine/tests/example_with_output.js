@@ -6,8 +6,7 @@ function getAge(name) {
   case "mother":
     return 56;
   }
-  return unknown;
+  return 0;
 }
 
-
-a = getAge("mother")
+getAge("mother");
