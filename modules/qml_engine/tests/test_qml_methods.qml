@@ -29,6 +29,10 @@ Window {
         a = 1 + 1;
         }
 
+    function myQmlFunction4() {
+        nelson.call('rrrr');
+        }
+
    }
 
 }

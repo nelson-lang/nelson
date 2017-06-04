@@ -16,6 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <QtCore/QDebug>
 #include "nelsonObject.h"
 #include "GetNelsonMainEvaluatorDynamicFunction.hpp"
 #include "Evaluator.hpp"
@@ -100,7 +101,8 @@ QVariant nelsonObject::call(const QString &functionName, const QVariant &arg1, c
 //=============================================================================
 QVariant nelsonObject::call(const QString &functionName, const QVariant &arg1, const QVariant &arg2, const QVariant &arg3, const QVariant &arg4, const QVariant &arg5, const QVariant &arg6)
 {
-    throw Exception(_W("Too many input arguments."));
+	qCritical() << "Too many input arguments.";
+	return QVariant();
 }
 //=============================================================================
 QVariant nelsonObject::call(const QString &functionName)
@@ -134,7 +136,8 @@ QVariant nelsonObject::call(const QString &functionName, const QVariantList& arg
                 }
                 catch (Exception &e)
                 {
-                    throw Exception(_W("error function."));
+					qCritical() << "error function.";
+					return QVariant();
                 }
                 if (resVector.size() == 0)
                 {
@@ -156,9 +159,15 @@ QVariant nelsonObject::call(const QString &functionName, const QVariantList& arg
             }
             else
             {
-                throw Exception(_W("function not found."));
-            }
+				qCritical() << "function not found.";
+				return QVariant();
+			}
         }
+		else
+		{
+			qCritical() << "function not found.";
+			return QVariant();
+		}
     }
     return res;
 }
