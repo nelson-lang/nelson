@@ -647,7 +647,7 @@ namespace Nelson {
                         for (int k = 0; k < nbChilds; k++)
                         {
                             QObject *qobj = list->at(list, k);
-							nelson_handle nh_found = HandleManager::getInstance()->findByPointerValue(qobjfound[k]);
+							nelson_handle nh_found = HandleManager::getInstance()->findByPointerValue(qobj);
 							if (nh_found != -1)
 							{
 								nh[k] = nh_found;
