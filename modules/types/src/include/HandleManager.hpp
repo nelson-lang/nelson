@@ -37,6 +37,7 @@ namespace Nelson {
         HandleGenericObject *getPointer(nelson_handle hl);
         bool isValid(nelson_handle hl);
 		std::vector<nelson_handle> getAllHandlesOfCategory(std::wstring category);
+		nelson_handle findByPointerValue(void *ptr);
 		//=============================================================================
     private:
         HandleManager();

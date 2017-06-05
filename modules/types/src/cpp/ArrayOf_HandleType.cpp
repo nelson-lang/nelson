@@ -28,6 +28,14 @@ namespace Nelson {
         return ishandle;
     }
     //=============================================================================
+	ArrayOf ArrayOf::handleConstructor(nelson_handle hl)
+	{
+		nelson_handle *ptrObject = (nelson_handle *)ArrayOf::allocateArrayOf(NLS_HANDLE, 1);
+		Dimensions dims(1, 1);
+		ptrObject[0] = hl;
+		return ArrayOf(NLS_HANDLE, dims, (void *)ptrObject);
+	}
+	//=============================================================================
     ArrayOf ArrayOf::handleConstructor(HandleGenericObject *ptr)
     {
         nelson_handle *ptrObject = (nelson_handle *)ArrayOf::allocateArrayOf(NLS_HANDLE, 1);

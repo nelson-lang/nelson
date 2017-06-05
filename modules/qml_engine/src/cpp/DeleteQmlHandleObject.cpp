@@ -66,6 +66,7 @@ namespace Nelson {
 									delete qobj;
 								}
 							}
+							qmlhandleobj->setPointer(nullptr);
 						}
 						delete qmlhandleobj;
 					}

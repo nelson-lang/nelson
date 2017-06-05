@@ -78,7 +78,8 @@ namespace Nelson {
                 component->deleteLater();
                 throw Exception(QStringTowstring(component->errorString()));
             }
-			if (topLevel->isWindowType())
+			std::string classname = std::string(topLevel->metaObject()->className());
+			if (topLevel->isWindowType() || (classname == "QQuickAbstractMessageDialog"))
 			{
 				QQuickWindow * QMainWindowParent = (QQuickWindow*)GetMainGuiObject();
 				topLevel->setParent(QMainWindowParent);
@@ -102,7 +103,8 @@ namespace Nelson {
                 component->deleteLater();
                 throw Exception(QStringTowstring(component->errorString()));
             }
-			if (topLevel->isWindowType())
+			std::string classname = std::string(topLevel->metaObject()->className());
+			if (topLevel->isWindowType() || (classname == "QQuickAbstractMessageDialog"))
 			{
 				QQuickWindow * QMainWindowParent = (QQuickWindow*)GetMainGuiObject();
 				topLevel->setParent(QMainWindowParent);

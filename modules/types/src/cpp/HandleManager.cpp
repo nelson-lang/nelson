@@ -53,7 +53,7 @@ namespace Nelson {
         boost::unordered_map<nelson_handle, HandleGenericObject *>::iterator it = handleMap.begin();
         while (it != handleMap.end())
         {
-            if (it->second == ptr)
+            if (it->second->getPointer() == ptr->getPointer())
             {
                 return it->first;
             }
@@ -65,7 +65,26 @@ namespace Nelson {
         return id;
     }
     //=============================================================================
-    bool HandleManager::removeHandle(nelson_handle hl)
+	nelson_handle HandleManager::findByPointerValue(void *ptr)
+	{
+		if (ptr != nullptr)
+		{
+			boost::unordered_map<nelson_handle, HandleGenericObject *>::iterator it = handleMap.begin();
+			while (it != handleMap.end())
+			{
+				if (it->second != nullptr)
+				{
+					if (it->second->getPointer() == ptr)
+					{
+						return it->first;
+					}
+				}
+			}
+		}
+		return -1;
+	}
+	//=============================================================================
+	bool HandleManager::removeHandle(nelson_handle hl)
     {
         boost::unordered_map<nelson_handle, HandleGenericObject *>::iterator it = handleMap.find(hl);
         if (it != handleMap.end())

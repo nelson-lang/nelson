@@ -557,20 +557,28 @@ namespace Nelson {
                     {
                         Dimensions dims(1, 1);
                         nelson_handle *nh = (nelson_handle*)ArrayOf::allocateArrayOf(NLS_HANDLE, 1);
-                        QmlHandleObject * qmlHandle = nullptr;
-                        try
-                        {
-                            qmlHandle = new QmlHandleObject(qobject);
-                        }
-                        catch (std::bad_alloc &e)
-                        {
-                            e.what();
-                            qmlHandle = nullptr;
-                            throw Exception(ERROR_MEMORY_ALLOCATION);
-                        }
-                        nh[0] = HandleManager::getInstance()->addHandle(qmlHandle);
-                        res = ArrayOf(NLS_HANDLE, dims, (void *)nh);
-                        return res;
+						nelson_handle nh_found = HandleManager::getInstance()->findByPointerValue(qobject);
+						if (nh_found != -1)
+						{
+							nh[0] = nh_found;
+						}
+						else
+						{
+							QmlHandleObject * qmlHandle = nullptr;
+							try
+							{
+								qmlHandle = new QmlHandleObject(qobject);
+							}
+							catch (std::bad_alloc &e)
+							{
+								e.what();
+								qmlHandle = nullptr;
+								throw Exception(ERROR_MEMORY_ALLOCATION);
+							}
+							nh[0] = HandleManager::getInstance()->addHandle(qmlHandle);
+						}
+						res = ArrayOf(NLS_HANDLE, dims, (void *)nh);
+						return res;
                     }
                 }
                 QQmlListReference ref = Q.value<QQmlListReference>();
@@ -591,18 +599,26 @@ namespace Nelson {
                         for (int k = 0; k < nbChilds; k++)
                         {
                             QObject *qobj = ref.at(k);
-                            QmlHandleObject * qmlHandle = nullptr;
-                            try
-                            {
-                                qmlHandle = new QmlHandleObject(qobj);
-                            }
-                            catch (std::bad_alloc &e)
-                            {
-                                e.what();
-                                qmlHandle = nullptr;
-                                throw Exception(ERROR_MEMORY_ALLOCATION);
-                            }
-                            nh[k] = HandleManager::getInstance()->addHandle(qmlHandle);
+							nelson_handle nh_found = HandleManager::getInstance()->findByPointerValue(qobj);
+							if (nh_found != -1)
+							{
+								nh[k] = nh_found;
+							}
+							else
+							{
+								QmlHandleObject * qmlHandle = nullptr;
+								try
+								{
+									qmlHandle = new QmlHandleObject(qobj);
+								}
+								catch (std::bad_alloc &e)
+								{
+									e.what();
+									qmlHandle = nullptr;
+									throw Exception(ERROR_MEMORY_ALLOCATION);
+								}
+								nh[k] = HandleManager::getInstance()->addHandle(qmlHandle);
+							}
                         }
                         res = ArrayOf(NLS_HANDLE, dims, (void *)nh);
                         return res;
@@ -631,18 +647,26 @@ namespace Nelson {
                         for (int k = 0; k < nbChilds; k++)
                         {
                             QObject *qobj = list->at(list, k);
-                            QmlHandleObject * qmlHandle = nullptr;
-                            try
-                            {
-                                qmlHandle = new QmlHandleObject(qobj);
-                            }
-                            catch (std::bad_alloc &e)
-                            {
-                                e.what();
-                                qmlHandle = nullptr;
-                                throw Exception(ERROR_MEMORY_ALLOCATION);
-                            }
-                            nh[k] = HandleManager::getInstance()->addHandle(qmlHandle);
+							nelson_handle nh_found = HandleManager::getInstance()->findByPointerValue(qobjfound[k]);
+							if (nh_found != -1)
+							{
+								nh[k] = nh_found;
+							}
+							else
+							{
+								QmlHandleObject * qmlHandle = nullptr;
+								try
+								{
+									qmlHandle = new QmlHandleObject(qobj);
+								}
+								catch (std::bad_alloc &e)
+								{
+									e.what();
+									qmlHandle = nullptr;
+									throw Exception(ERROR_MEMORY_ALLOCATION);
+								}
+								nh[k] = HandleManager::getInstance()->addHandle(qmlHandle);
+							}
                         }
                         res = ArrayOf(NLS_HANDLE, dims, (void *)nh);
                         return res;
