@@ -23,9 +23,9 @@ Source: {#RootPath}bin\{#BinPath}\platforms\qminimal.dll; DestDir: {app}\bin\{#B
 Source: {#RootPath}bin\{#BinPath}\platforms\qoffscreen.dll; DestDir: {app}\bin\{#BinPath}\platforms\;
 Source: {#RootPath}bin\{#BinPath}\platforms\qwindows.dll; DestDir: {app}\bin\{#BinPath}\platforms\;
 ;==============================================================================
-; Qt 5.6 Gui
-Source: {#RootPath}bin\{#BinPath}\icudt56.dll; DestDir: {app}\bin\{#BinPath}\;
-Source: {#RootPath}bin\{#BinPath}\icuuc56.dll; DestDir: {app}\bin\{#BinPath}\;
+; Qt 5.x Gui
+Source: {#RootPath}bin\{#BinPath}\icudt5?.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\icuuc5?.dll; DestDir: {app}\bin\{#BinPath}\;
 Source: {#RootPath}bin\{#BinPath}\Qt5Widgets.dll; DestDir: {app}\bin\{#BinPath}\;
 Source: {#RootPath}bin\{#BinPath}\Qt5Core.dll; DestDir: {app}\bin\{#BinPath}\;
 Source: {#RootPath}bin\{#BinPath}\Qt5Gui.dll; DestDir: {app}\bin\{#BinPath}\;
@@ -40,7 +40,7 @@ Source: {#RootPath}modules\{#MODULE_NAME}\loader.nls; DestDir: {app}\modules\{#M
 Source: {#RootPath}modules\{#MODULE_NAME}\etc\startup.nls; DestDir: {app}\modules\{#MODULE_NAME}\etc\;
 Source: {#RootPath}modules\{#MODULE_NAME}\etc\finish.nls; DestDir: {app}\modules\{#MODULE_NAME}\etc\;
 ;==============================================================================
-;Source: {#RootPath}modules\{#MODULE_NAME}\functions\*.nlf; DestDir: {app}\modules\gui\functions\;
+Source: {#RootPath}modules\{#MODULE_NAME}\functions\*.nlf; DestDir: {app}\modules\gui\functions\;
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\help\*.qch; DestDir: {app}\modules\{#MODULE_NAME}\help\; Flags: recursesubdirs
 ;==============================================================================

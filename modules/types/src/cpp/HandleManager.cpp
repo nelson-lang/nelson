@@ -79,6 +79,7 @@ namespace Nelson {
 						return it->first;
 					}
 				}
+				++it;
 			}
 		}
 		return -1;

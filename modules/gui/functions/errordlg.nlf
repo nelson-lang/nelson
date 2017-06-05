@@ -1,0 +1,120 @@
+//=============================================================================
+// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+function h = errordlg(errorstring, dlgname, mode)
+
+  if nargin < 1
+    errorstring = _('This is the default error string.');
+  else
+      if ~ischar(dlgname) & ~iscellstr(dlgname)
+        error(_('Wrong type for argument #1: string expected.'));
+      end
+  end
+  
+  if nargin < 2
+    dlgname = _('Error Dialog');
+  else
+    if ~ischar(dlgname)
+      error(_('Wrong type for argument #2: string expected.'));
+    end
+  end
+  
+  if nargin < 3
+    mode = 'nonmodal';
+  else
+    if ~ischar(mode)
+      error(_('Wrong type for argument #3: string expected.'));
+    end
+    if strcmp(mode, 'modal') == false & strcmp(mode, 'nonmodal') == false & strcmp(mode, 'on') == false
+      error(_('Wrong value for argument #3: ''modal'', ''nonmodal'', ''on'' expected.'));
+    end
+  end
+  
+  if nargin > 3
+    error(_('Wrong number of input arguments.'));
+  end
+
+  qmltxt = '
+import QtQuick 2.2
+import QtQuick.Dialogs 1.1
+
+MessageDialog {
+    id: messageDialog
+    icon: StandardIcon.Critical
+    title: ""
+    text: ""
+    Component.onCompleted: visible = false
+}';
+
+  bfound = false;
+  if strcmp(mode, 'modal') == true | strcmp(mode, 'on') == true
+    dlg_list = QObject_findchildren(QObject_root(), 'errorDialogBox', true);
+    if ~isempty(dlg_list)
+      for dlg = dlg_list
+        if (strcmp(dlg.title, dlgname) == true)
+          h = dlg;
+          bfound = true;
+          break;
+        end
+      end
+    end
+  end
+  if ~bfound
+    h = qml_loadstring(qmltxt);
+  else
+    bfirst = true
+    for dlg = dlg_list
+      if (strcmp(dlg.title, dlgname) == true & bfirst)
+        h = dlg;
+        bfirst = false;
+      else
+        delete(dlg);
+      end
+    end
+  end
+  
+  if iscellstr(errorstring)
+    array_text = char(errorstring);
+    txt = '';
+    for k = 1:size(array_text, 1)
+      txt = [txt, char(10), array_text(k, :)];
+    end
+    h.text = txt;
+  else
+    h.text = errorstring;
+  end
+  h.title = dlgname;
+  h.objectName = 'errorDialogBox';
+  h.visible = true;
+  if strcmp(mode, 'modal') == true
+    h.modality = qml_evaluatestring('Qt.WindowModal');
+    while(true)
+      if (h.visible == false) 
+        break;
+      end
+      if  h.clickedButton ~= 0
+        break;
+      end
+      sleep(0.1);
+    end
+    delete(h);
+  else
+    h.modality = qml_evaluatestring('Qt.NonModal');
+  end
+  
+endfunction

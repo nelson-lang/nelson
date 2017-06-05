@@ -17,4 +17,4 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 addgateway(modulepath(nelsonroot(), 'qml_engine', 'builtin'));
-addpath(modulepath(nelsonroot(), 'qml_engine', 'functions'))
+addpath(modulepath(nelsonroot(), 'qml_engine', 'functions'));
