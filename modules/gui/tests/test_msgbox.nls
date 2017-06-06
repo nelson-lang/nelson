@@ -1,0 +1,44 @@
+//=============================================================================
+// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+// <--INTERACTIVE TEST-->
+// <--GUI MODE-->
+//=============================================================================
+assert_isequal(nargin('msgbox'), -1);
+assert_isequal(nargout('msgbox'), -1);
+//=============================================================================
+h = msgbox('message');
+h = msgbox({'Operation' 'Completed'});
+h = msgbox('message', 'modal');
+h = msgbox('message', 'nonmodal');
+h = msgbox('message', 'on');
+h = msgbox('message', 'title');
+h = msgbox('message', 'title', 'modal');
+h = msgbox('message', 'title', 'nonmodal');
+h = msgbox('message', 'title', 'on');
+h = msgbox('message', 'title', 'none');
+h = msgbox('message', 'title', 'error');
+h = msgbox('message', 'title', 'help');
+h = msgbox('message', 'title', 'warn');
+h = msgbox('message', 'title', 'question');
+h = msgbox('message', 'title', 'none', 'modal');
+h = msgbox('message', 'title', 'error', 'nonmodal');
+h = msgbox('message', 'title', 'help', 'on')
+assert_checkerror('h = msgbox(''message'', ''title'', ''toto'')', _('Wrong value for #3 argument. A valid icon or mode expected.'));
+assert_checkerror('h = msgbox(''message'', ''title'', ''warn'', ''one'')', _('Wrong value for #4 argument. A valid mode expected.'));
+assert_checkerror('h = msgbox(''message'', ''title'', ''question'', ''two'')', _('Wrong value for #4 argument. A valid mode expected.'));
