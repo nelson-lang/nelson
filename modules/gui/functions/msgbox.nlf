@@ -211,7 +211,11 @@ function txt = cellstr_to_txt(cstr)
   array_text = char(cstr);
   txt = '';
   for k = 1:size(array_text, 1)
-   txt = [txt, char(10), array_text(k, :)];
+    if k == 1
+      txt = [array_text(k, :)];
+    else
+      txt = [txt, char(10), array_text(k, :)];
+    end
   end
 endfunction
 //=============================================================================

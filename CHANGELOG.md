@@ -1,9 +1,13 @@
 Features:
 ---------
 
+  add 'heldlg', 'msgbox', 'errordlg', 'warndlg' functions based on QML.
+
+  add 'questdlg' function (Creates a question dialog box) based on QML.
+
   add QML handles and provides an interface to Qt5 QML.
 
-  add ishandle, isprop, ismethod, method, properties builtin
+  add ishandle, isprop, ismethod, method, properties builtin.
 
   add set, get, invoke, isvalid builtin used by handle objects.
 

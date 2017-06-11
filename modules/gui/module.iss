@@ -41,6 +41,7 @@ Source: {#RootPath}modules\{#MODULE_NAME}\etc\startup.nls; DestDir: {app}\module
 Source: {#RootPath}modules\{#MODULE_NAME}\etc\finish.nls; DestDir: {app}\modules\{#MODULE_NAME}\etc\;
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\functions\*.nlf; DestDir: {app}\modules\gui\functions\;
+Source: {#RootPath}modules\{#MODULE_NAME}\qml\*.*; DestDir: {app}\modules\gui\qml\;
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\help\*.qch; DestDir: {app}\modules\{#MODULE_NAME}\help\; Flags: recursesubdirs
 ;==============================================================================
