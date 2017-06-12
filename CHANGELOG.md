@@ -1,6 +1,8 @@
 Features:
 ---------
 
+  add '==', '~=', 'isequal', 'isequaln' overload for handle and QObject.
+
   add 'heldlg', 'msgbox', 'errordlg', 'warndlg' functions based on QML.
 
   add 'questdlg' function (Creates a question dialog box) based on QML.

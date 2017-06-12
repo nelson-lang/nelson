@@ -16,5 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-addgateway(modulepath(nelsonroot(), 'handle', 'builtin'));
-addpath(modulepath(nelsonroot(), 'handle', 'functions'));
+function r = QObject_eq_QObject(A, B)
+  r = handle_eq_handle(A, B);
+endfunction
+//=============================================================================

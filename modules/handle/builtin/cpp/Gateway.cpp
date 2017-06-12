@@ -30,6 +30,10 @@
 //=============================================================================
 #include "handle_horzcat_handleBuiltin.hpp"
 #include "handle_vertcat_handleBuiltin.hpp"
+#include "handle_eq_handleBuiltin.hpp"
+#include "handle_isequalBuiltin.hpp"
+#include "generic_eq_handleBuiltin.hpp"
+#include "handle_eq_genericBuiltin.hpp"
 #include "handle_dispBuiltin.hpp"
 #include "handle_setBuiltin.hpp"
 #include "handle_getBuiltin.hpp"
@@ -60,7 +64,13 @@ static const nlsGateway gateway[] =
 
     { "handle_vertcat_handle", Nelson::HandleGateway::handle_vertcat_handleBuiltin, 1, 2 },
     { "handle_horzcat_handle", Nelson::HandleGateway::handle_horzcat_handleBuiltin, 1, 2 },
-    { "handle_get", Nelson::HandleGateway::handle_getBuiltin, 1, 1 },
+	{ "handle_eq_handle", Nelson::HandleGateway::handle_eq_handleBuiltin, 1, 2 },
+	{ "generic_eq_handle", Nelson::HandleGateway::generic_eq_handleBuiltin, 1, 2 },
+	{ "handle_eq_generic", Nelson::HandleGateway::handle_eq_genericBuiltin, 1, 2 },
+	{ "handle_isequal", Nelson::HandleGateway::handle_isequalBuiltin, 1, 2 },
+	{ "handle_isequaln", Nelson::HandleGateway::handle_isequalBuiltin, 1, 2 },
+
+	{ "handle_get", Nelson::HandleGateway::handle_getBuiltin, 1, 1 },
     { "handle_set", Nelson::HandleGateway::handle_setBuiltin, 1, 1 },
     { "handle_invoke", Nelson::HandleGateway::handle_invokeBuiltin, 1, 1 },
     { "handle_disp", Nelson::HandleGateway::handle_dispBuiltin, 0, 1 },

@@ -16,5 +16,11 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-addgateway(modulepath(nelsonroot(), 'handle', 'builtin'));
-addpath(modulepath(nelsonroot(), 'handle', 'functions'));
+// <--GUI MODE-->
+// <--WITH DISPLAY-->
+//=============================================================================
+h = msgbox({'Operation' 'Completed'});
+assert_istrue(h == h);
+assert_isfalse(h == QObject_root());
+assert_isequal(h, h);
+//=============================================================================

@@ -168,13 +168,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\deleteBuiltin.cpp" />
+    <ClCompile Include="..\cpp\generic_eq_handleBuiltin.cpp" />
     <ClCompile Include="..\cpp\getBuiltin.cpp" />
     <ClCompile Include="..\cpp\handle_deleteBuiltin.cpp" />
     <ClCompile Include="..\cpp\handle_dispBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
+    <ClCompile Include="..\cpp\handle_eq_genericBuiltin.cpp" />
+    <ClCompile Include="..\cpp\handle_eq_handleBuiltin.cpp" />
     <ClCompile Include="..\cpp\handle_fieldnamesBuiltin.cpp" />
     <ClCompile Include="..\cpp\handle_getBuiltin.cpp" />
     <ClCompile Include="..\cpp\handle_invokeBuiltin.cpp" />
+    <ClCompile Include="..\cpp\handle_isequalBuiltin.cpp" />
     <ClCompile Include="..\cpp\handle_ismethodBuiltin.cpp" />
     <ClCompile Include="..\cpp\handle_ispropBuiltin.cpp" />
     <ClCompile Include="..\cpp\handle_isvalidBuiltin.cpp" />
@@ -220,11 +224,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\deleteBuiltin.hpp" />
+    <ClInclude Include="..\include\generic_eq_handleBuiltin.hpp" />
     <ClInclude Include="..\include\getBuiltin.hpp" />
     <ClInclude Include="..\include\handle_deleteBuiltin.hpp" />
+    <ClInclude Include="..\include\handle_eq_genericBuiltin.hpp" />
+    <ClInclude Include="..\include\handle_eq_handleBuiltin.hpp" />
     <ClInclude Include="..\include\handle_fieldnamesBuiltin.hpp" />
     <ClInclude Include="..\include\handle_getBuiltin.hpp" />
     <ClInclude Include="..\include\handle_invokeBuiltin.hpp" />
+    <ClInclude Include="..\include\handle_isequalBuiltin.hpp" />
     <ClInclude Include="..\include\handle_ismethodBuiltin.hpp" />
     <ClInclude Include="..\include\handle_ispropBuiltin.hpp" />
     <ClInclude Include="..\include\handle_isvalidBuiltin.hpp" />
