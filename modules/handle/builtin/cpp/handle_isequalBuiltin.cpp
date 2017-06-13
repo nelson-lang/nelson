@@ -35,10 +35,10 @@ ArrayOfVector Nelson::HandleGateway::handle_isequalBuiltin(Evaluator* eval, int 
     }
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
-	if (!A.isHandle())
-	{
-		Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
-	}
+    if (!A.isHandle())
+    {
+        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
+    }
     retval.push_back(ArrayOf::logicalConstructor(IsEqualHandle(A, B)));
     return retval;
 }

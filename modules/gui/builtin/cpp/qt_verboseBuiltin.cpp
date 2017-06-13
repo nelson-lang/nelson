@@ -32,15 +32,15 @@ ArrayOfVector Nelson::GuiGateway::qt_verboseBuiltin(Evaluator* eval, int nLhs, c
     {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-	bool previous = IsQtMessageVerbose();
-	ArrayOfVector retval;
-	if (argIn.size() == 1)
-	{
-		ArrayOf param1 = argIn[0];
-		logical newVerbose = param1.getContentAsLogicalScalar();
-		QtMessageVerbose((newVerbose == 1));
-	}
-	retval.push_back(ArrayOf::logicalConstructor(previous));
-	return retval;
+    bool previous = IsQtMessageVerbose();
+    ArrayOfVector retval;
+    if (argIn.size() == 1)
+    {
+        ArrayOf param1 = argIn[0];
+        logical newVerbose = param1.getContentAsLogicalScalar();
+        QtMessageVerbose((newVerbose == 1));
+    }
+    retval.push_back(ArrayOf::logicalConstructor(previous));
+    return retval;
 }
 //=============================================================================

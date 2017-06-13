@@ -27,7 +27,7 @@ namespace Nelson {
     //=============================================================================
     ArrayOf rootQObject()
     {
-		ArrayOf res;
+        ArrayOf res;
         QWindow * parent = (QWindow *)GetMainGuiObject();
         if (parent)
         {
@@ -44,11 +44,11 @@ namespace Nelson {
             }
             res = ArrayOf::handleConstructor(qmlHandle);
         }
-		else
-		{
-			res = ArrayOf::emptyConstructor(Dimensions(0, 0));
-			res.promoteType(NLS_HANDLE);
-		}
+        else
+        {
+            res = ArrayOf::emptyConstructor(Dimensions(0, 0));
+            res.promoteType(NLS_HANDLE);
+        }
         return res;
     }
     //=============================================================================

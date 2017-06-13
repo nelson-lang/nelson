@@ -46,7 +46,7 @@ void nelsonObject::disp(QString msg)
 //=============================================================================
 void nelsonObject::evaluate(QString msg)
 {
-	call("execstr", msg);
+    call("execstr", msg);
 }
 //=============================================================================
 void nelsonObject::processevent()
@@ -101,8 +101,8 @@ QVariant nelsonObject::call(const QString &functionName, const QVariant &arg1, c
 //=============================================================================
 QVariant nelsonObject::call(const QString &functionName, const QVariant &arg1, const QVariant &arg2, const QVariant &arg3, const QVariant &arg4, const QVariant &arg5, const QVariant &arg6)
 {
-	qCritical() << "Too many input arguments.";
-	return QVariant();
+    qCritical() << "Too many input arguments.";
+    return QVariant();
 }
 //=============================================================================
 QVariant nelsonObject::call(const QString &functionName)
@@ -136,8 +136,8 @@ QVariant nelsonObject::call(const QString &functionName, const QVariantList& arg
                 }
                 catch (Exception &e)
                 {
-					qCritical() << "error function.";
-					return QVariant();
+                    qCritical() << "error function.";
+                    return QVariant();
                 }
                 if (resVector.size() == 0)
                 {
@@ -159,15 +159,15 @@ QVariant nelsonObject::call(const QString &functionName, const QVariantList& arg
             }
             else
             {
-				qCritical() << "function not found.";
-				return QVariant();
-			}
+                qCritical() << "function not found.";
+                return QVariant();
+            }
         }
-		else
-		{
-			qCritical() << "function not found.";
-			return QVariant();
-		}
+        else
+        {
+            qCritical() << "function not found.";
+            return QVariant();
+        }
     }
     return res;
 }

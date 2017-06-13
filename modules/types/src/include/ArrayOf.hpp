@@ -908,7 +908,7 @@ namespace Nelson {
 
         const bool isHandle() const;
         static ArrayOf handleConstructor(HandleGenericObject *ptr);
-		static ArrayOf handleConstructor(nelson_handle hl);
+        static ArrayOf handleConstructor(nelson_handle hl);
 
         HandleGenericObject *getContentsAsHandleScalar();
     };

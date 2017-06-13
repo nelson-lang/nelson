@@ -71,7 +71,7 @@ static const nlsGateway gateway[] =
     { "qml_addpluginpath", Nelson::QmlEngineGateway::qml_addpluginpathBuiltin, 0, 1 },
     { "qml_createqquickview", Nelson::QmlEngineGateway::qml_createqquickviewBuiltin, 1, 1 },
 
-	{ "QObject_undefine", Nelson::QmlEngineGateway::QObject_undefineBuiltin, 0, 2 },
+    { "QObject_undefine", Nelson::QmlEngineGateway::QObject_undefineBuiltin, 0, 2 },
     { "QObject_delete", Nelson::QmlEngineGateway::QObject_deleteBuiltin, 0, 1 },
     { "QObject_disp", Nelson::QmlEngineGateway::QObject_dispBuiltin, 0, 1 },
     { "QObject_get", Nelson::QmlEngineGateway::QObject_getBuiltin, 1, 2 },
@@ -89,7 +89,7 @@ static const nlsGateway gateway[] =
     { "QObject_classname", Nelson::QmlEngineGateway::QObject_classnameBuiltin, 1, 1 },
     { "QObject_root", Nelson::QmlEngineGateway::QObject_rootBuiltin, 1, 0 },
     { "QObject_findchildren", Nelson::QmlEngineGateway::QObject_findchildrenBuiltin, 1, 2 },
-	{ "QObject_used", Nelson::QmlEngineGateway::QObject_usedBuiltin, 1, 0 },
+    { "QObject_used", Nelson::QmlEngineGateway::QObject_usedBuiltin, 1, 0 },
 
 };
 //=============================================================================

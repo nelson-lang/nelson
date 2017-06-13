@@ -117,11 +117,11 @@ QtMainWindow::~QtMainWindow()
         delete mainMenuBar;
         mainMenuBar = nullptr;
     }
-	if (qtTerminal)
-	{
-		delete qtTerminal;
-		qtTerminal = nullptr;
-	}
+    if (qtTerminal)
+    {
+        delete qtTerminal;
+        qtTerminal = nullptr;
+    }
 }
 //=============================================================================
 QtMainWindow::QtMainWindow()

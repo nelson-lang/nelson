@@ -29,8 +29,8 @@ namespace Nelson {
         QmlHandleObject *setData(std::wstring data);
         QmlHandleObject *createQQuickView(std::wstring filename);
 
-		ArrayOf evaluateString(std::wstring program, bool &withOuput);
-		ArrayOf evaluateFile(std::wstring filename, bool &withOuput);
+        ArrayOf evaluateString(std::wstring program, bool &withOuput);
+        ArrayOf evaluateFile(std::wstring filename, bool &withOuput);
         void collectGarbage();
         void clearComponentCache();
         wstringVector importPathList();

@@ -50,7 +50,7 @@ namespace Nelson {
         bool _unixOnly;
         bool _withDisplay;
         bool _releaseOnly;
-        
+
     public:
         TestTags() {
             _notFixed = false;

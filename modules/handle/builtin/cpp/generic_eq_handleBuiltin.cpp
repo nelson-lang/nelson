@@ -35,7 +35,7 @@ ArrayOfVector Nelson::HandleGateway::generic_eq_handleBuiltin(Evaluator* eval, i
     }
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
-	retval.push_back(EqHandle(A, B));
-	return retval;
+    retval.push_back(EqHandle(A, B));
+    return retval;
 }
 //=============================================================================
