@@ -20,7 +20,9 @@ run([nelsonroot() '/modules/' 'modules.nls']);
 for k = modules_list
   switch k{1}
     case 'gui'
-      if (strcmp(getnelsonmode(), 'GUI') == true)
+      if (strcmp(getnelsonmode(), 'GUI') == true | ...
+        strcmp(getnelsonmode(), 'ADVANCED_ENGINE') == true | ...
+         strcmp(getnelsonmode(), 'ADVANCED_TERMINAL') == true)
         addmodule([nelsonroot() '/modules/' k{1}], k{1});
       end
     case 'help_browser'

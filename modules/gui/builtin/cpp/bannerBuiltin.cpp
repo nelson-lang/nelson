@@ -20,6 +20,8 @@
 #include "Error.hpp"
 #include "Interface.hpp"
 #include "GuiTerminal.hpp"
+#include "Banner.hpp"
+#include "NelSon_engine_mode.h"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -38,8 +40,21 @@ ArrayOfVector Nelson::GuiGateway::bannerBuiltin(Evaluator* eval, int nLhs, const
         Interface *io = eval->getInterface();
         if (io)
         {
-            GuiTerminal *gtio = (GuiTerminal *)io;
-            gtio->banner();
+			NELSON_ENGINE_MODE _mode = (NELSON_ENGINE_MODE)eval->getNelsonEngineMode();
+			switch (_mode)
+			{
+			case GUI:
+			{
+				GuiTerminal *gtio = (GuiTerminal *)io;
+				gtio->banner();
+			}
+			break;
+			default:
+			{
+				Banner(eval);
+			}
+			break;
+			}
         }
     }
     ArrayOfVector retval;

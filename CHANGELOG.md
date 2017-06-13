@@ -1,6 +1,8 @@
 Features:
 ---------
 
+  gui module also loaded in advanced cli mode.
+
   add '==', '~=', 'isequal', 'isequaln' overload for handle and QObject.
 
   add 'heldlg', 'msgbox', 'errordlg', 'warndlg' functions based on QML.
