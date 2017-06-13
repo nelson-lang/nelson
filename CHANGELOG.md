@@ -13,7 +13,7 @@ Features:
 
   add set, get, invoke, isvalid builtin used by handle objects.
 
-  extends clear function to call delete if "handle_TYPEHANDLE_clear" function is defined.
+  extends clear function to call delete if 'handle\_TYPEHANDLE\_clear' function is defined.
 
   add handle object type.
 
