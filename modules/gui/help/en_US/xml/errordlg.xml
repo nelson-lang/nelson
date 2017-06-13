@@ -38,6 +38,8 @@
 
   <description><p><b>errordlg</b> creates an error dialog box.</p>
   <p><b>h = errordlg(text_error, title, 'on')</b> specifies whether to replace an existing dialog box having the same name.</p>
+  <p><img src="../images/errordlg_1.png"/></p>
+  
 </description>
 
 
