@@ -40,21 +40,21 @@ ArrayOfVector Nelson::GuiGateway::bannerBuiltin(Evaluator* eval, int nLhs, const
         Interface *io = eval->getInterface();
         if (io)
         {
-			NELSON_ENGINE_MODE _mode = (NELSON_ENGINE_MODE)eval->getNelsonEngineMode();
-			switch (_mode)
-			{
-			case GUI:
-			{
-				GuiTerminal *gtio = (GuiTerminal *)io;
-				gtio->banner();
-			}
-			break;
-			default:
-			{
-				Banner(eval);
-			}
-			break;
-			}
+            NELSON_ENGINE_MODE _mode = (NELSON_ENGINE_MODE)eval->getNelsonEngineMode();
+            switch (_mode)
+            {
+                case GUI:
+                {
+                    GuiTerminal *gtio = (GuiTerminal *)io;
+                    gtio->banner();
+                }
+                break;
+                default:
+                {
+                    Banner(eval);
+                }
+                break;
+            }
         }
     }
     ArrayOfVector retval;
