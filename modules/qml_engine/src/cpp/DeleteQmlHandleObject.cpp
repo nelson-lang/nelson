@@ -33,10 +33,11 @@ namespace Nelson {
         {
             if (!A.isEmpty())
             {
-                if (A.isScalar())
+                Dimensions dims = A.getDimensions();
+                nelson_handle *qp = (nelson_handle*)A.getDataPointer();
+                for (size_t k = 0; k < dims.getElementCount(); k++)
                 {
-                    nelson_handle *qp = (nelson_handle*)A.getDataPointer();
-                    nelson_handle hl = qp[0];
+                    nelson_handle hl = qp[k];
                     HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
                     if (hlObj)
                     {
@@ -69,14 +70,14 @@ namespace Nelson {
                             qmlhandleobj->setPointer(nullptr);
                         }
                         delete qmlhandleobj;
+                        HandleManager::getInstance()->removeHandle(hl);
+                        res = true;
                     }
-                    HandleManager::getInstance()->removeHandle(hl);
-                    res = true;
                 }
-                else
-                {
-                    throw Exception(_W("QObject scalar handle expected."));
-                }
+            }
+            else
+            {
+                throw Exception(_W("QObject scalar handle expected."));
             }
         }
         return res;
