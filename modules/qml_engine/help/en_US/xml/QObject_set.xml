@@ -3,8 +3,8 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
-  <keyword>set</keyword>
-  <short_description>Set a property value of an handle object.</short_description>
+  <keyword>QObject_set</keyword>
+  <short_description>Set a property value of an QObject handle (set).</short_description>
 
   <syntax>
     <syntax_item>R = set(h, property_name, value)</syntax_item>
@@ -13,7 +13,7 @@
   <param_input>
     <param_input_item>
       <param_name>h</param_name>
-      <param_description>an handle object.</param_description>
+      <param_description>an QObject handle.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>property_name</param_name>
@@ -35,23 +35,31 @@
   </param_output>
 
   <description>
-    <p>This routine can be used to modify the value of a specified property from an handle object.</p>
+    <p>This routine can be used to modify the value of a specified property from an QObject object.</p>
 </description>
 
   <used_function></used_function>
   <bibliography></bibliography>
 
 
+<examples>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description></example_item_description>
+    <example_item_data><![CDATA[h = errordlg()
+h.visible = false; // or set(h, 'visible', false)
+h.title = 'new title' // or set(h, 'title', 'new title')
+h.visible = true;]]>
+    </example_item_data>
+  </example_item>
+
+</examples>
+
+
   <see_also>
     <see_also_item>
-      <link linkend="${qml_engine}QObject_set">QObject_set (set)</link>
-    </see_also_item>
-
-    <see_also_item>
-      <link linkend="${handle}get">get</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${handle}invoke">invoke</link>
+      <link linkend="${handle}set">set</link>
     </see_also_item>
 
   </see_also>
