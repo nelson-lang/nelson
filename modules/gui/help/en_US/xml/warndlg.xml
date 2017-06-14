@@ -4,21 +4,21 @@
 
   <language>en_US</language>
   <keyword>helpdlg</keyword>
-  <short_description>Creates a help dialog box.</short_description>
+  <short_description>Creates a warning dialog box.</short_description>
 
   <syntax>
-  <syntax_item>h = helpdlg()</syntax_item>
-  <syntax_item>h = helpdlg(text_help)</syntax_item>
-  <syntax_item>h = helpdlg(text_help, title)</syntax_item>
-  <syntax_item>h = helpdlg(text_help, title, 'on')</syntax_item>
+  <syntax_item>h = warndlg()</syntax_item>
+  <syntax_item>h = warndlg(text_warning)</syntax_item>
+  <syntax_item>h = warndlg(text_warning, title)</syntax_item>
+  <syntax_item>h = warndlg(text_warning, title, 'on')</syntax_item>
 
   </syntax>
   
   <param_input>
 
     <param_input_item>
-      <param_name>text_help</param_name>
-      <param_description>a string or a cell of string: the help message.</param_description>
+      <param_name>text_warning</param_name>
+      <param_description>a string or a cell of string: the warning message.</param_description>
     </param_input_item>
 
     <param_input_item>
@@ -36,8 +36,8 @@
     </param_output_item>
   </param_output>
 
-  <description><p><b>errordlg</b> creates an help dialog box.</p>
-  <p><b>h = helpdlg(text_help, title, 'on')</b> specifies whether to replace an existing dialog box having the same name.</p>
+  <description><p><b>errordlg</b> creates an warning dialog box.</p>
+  <p><b>h = warndlg(text_warning, title, 'on')</b> specifies whether to replace an existing dialog box having the same name.</p>
   
 </description>
 
@@ -50,22 +50,14 @@
   <example_item>
     <example_item_type>nelson</example_item_type>
     <example_item_description></example_item_description>
-    <example_item_data><![CDATA[h = helpdlg()]]>
+    <example_item_data><![CDATA[h = warndlg()]]>
     </example_item_data>
   </example_item>
 
   <example_item>
     <example_item_type>nelson</example_item_type>
     <example_item_description></example_item_description>
-    <example_item_data><![CDATA[h = helpdlg('help string')]]>
-    </example_item_data>
-  </example_item>
-
-
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description></example_item_description>
-    <example_item_data><![CDATA[h = helpdlg('help string', 'dialog title')]]>
+    <example_item_data><![CDATA[h = warndlg('help string')]]>
     </example_item_data>
   </example_item>
 
@@ -73,8 +65,16 @@
   <example_item>
     <example_item_type>nelson</example_item_type>
     <example_item_description></example_item_description>
-    <example_item_data><![CDATA[h = helpdlg('help string', 'dialog title')
-h = helpdlg('help string', 'dialog title', 'on')]]>
+    <example_item_data><![CDATA[h = warndlg('help string', 'dialog title')]]>
+    </example_item_data>
+  </example_item>
+
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description></example_item_description>
+    <example_item_data><![CDATA[h = warndlg('help string', 'dialog title')
+h = warndlg('help string', 'dialog title', 'on')]]>
     </example_item_data>
   </example_item>
 
@@ -82,7 +82,7 @@ h = helpdlg('help string', 'dialog title', 'on')]]>
 
   <see_also>
     <see_also_item>
-      <link linkend="${gui}warndlg">warndlg</link>
+      <link linkend="${gui}helpdlg">helpdlg</link>
     </see_also_item>
     <see_also_item>
       <link linkend="${gui}errordlg">errordlg</link>
