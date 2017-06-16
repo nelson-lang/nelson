@@ -1,15 +1,13 @@
 Features:
 ---------
 
-  gui module also loaded in advanced cli mode.
-
-  add '==', '~=', 'isequal', 'isequaln' overload for handle and QObject.
+  The QML engine enables nelson programs to display and manipulate graphical content using Qt's QML framework.
 
   add 'heldlg', 'msgbox', 'errordlg', 'warndlg' functions based on QML.
 
   add 'questdlg' function (Creates a question dialog box) based on QML.
 
-  add QML handles and provides an interface to Qt5 QML.
+  add '==', '~=', 'isequal', 'isequaln' overload for handle and QObject.
 
   add ishandle, isprop, ismethod, method, properties builtin.
 
@@ -18,6 +16,8 @@ Features:
   extends clear function to call delete if 'handle\_TYPEHANDLE\_clear' function is defined.
 
   add handle object type.
+
+  gui module also loaded in advanced cli mode.
 
   add more output information in the result file of test_run function.
 

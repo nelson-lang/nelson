@@ -39,6 +39,8 @@ these own data types and operations on these data types by using overload.
   * integers 8, 16, 32, 64 signed and unsigned: scalar, vector, matrix 2D, N dimensions array.
   * handle objects.
 
+- The QML engine enables nelson programs to display and manipulate graphical content using Qt's QML framework.
+
 - Help engine
  Generate help files using Nelson dedicated functions.
  View your generated help files as html, pdf or directly in Nelson help viewer.
@@ -56,7 +58,6 @@ these own data types and operations on these data types by using overload.
 - **Gitter:** <https://gitter.im/nelson-numerical-software/Lobby>
 - **YouTube:** <https://www.youtube.com/channel/UCdZMnH0HC9XflNGAFFiRX9g>
 - **Twitter:** <https://twitter.com/Nelson_software>
-- **Mastodon:** <https://mastodon.social/web/getting-started>
 
 
 ## Tested and supported platforms:
