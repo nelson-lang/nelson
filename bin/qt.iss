@@ -37,7 +37,6 @@ Source: {#RootPath}bin\{#BinPath}\Qt53DQuickExtras.dll; DestDir: {app}\bin\{#Bin
 Source: {#RootPath}bin\{#BinPath}\Qt53DQuickInput.dll; DestDir: {app}\bin\{#BinPath}\
 Source: {#RootPath}bin\{#BinPath}\Qt53DQuickRender.dll; DestDir: {app}\bin\{#BinPath}\
 Source: {#RootPath}bin\{#BinPath}\Qt53DRender.dll; DestDir: {app}\bin\{#BinPath}\
-Source: {#RootPath}bin\{#BinPath}\Qt5CLucene.dll; DestDir: {app}\bin\{#BinPath}\
 Source: {#RootPath}bin\{#BinPath}\Qt5Concurrent.dll; DestDir: {app}\bin\{#BinPath}\
 Source: {#RootPath}bin\{#BinPath}\Qt5Core.dll; DestDir: {app}\bin\{#BinPath}\
 Source: {#RootPath}bin\{#BinPath}\Qt5DBus.dll; DestDir: {app}\bin\{#BinPath}\
@@ -68,4 +67,5 @@ Source: {#RootPath}bin\{#BinPath}\Qt5Widgets.dll; DestDir: {app}\bin\{#BinPath}\
 Source: {#RootPath}bin\{#BinPath}\Qt5WinExtras.dll; DestDir: {app}\bin\{#BinPath}\
 ;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\assistant.exe; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\Qt5CLucene.dll; DestDir: {app}\bin\{#BinPath}\; Flags: skipifsourcedoesntexist
 ;==============================================================================
