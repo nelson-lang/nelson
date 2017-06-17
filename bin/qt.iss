@@ -20,9 +20,9 @@
 ;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\qt.conf; DestDir: {app}\bin\{#BinPath}\
 ;==============================================================================
-Source: {#RootPath}bin\{#BinPath}\plugins\*.dll; DestDir: {app}\bin\{#BinPath}\plugins; Flags: recursesubdirs
+Source: {#RootPath}bin\{#BinPath}\plugins\*; DestDir: {app}\bin\{#BinPath}\plugins; Flags: recursesubdirs
 ;==============================================================================
-Source: {#RootPath}bin\{#BinPath}\qml\*.dll; DestDir: {app}\bin\{#BinPath}\qml; Flags: recursesubdirs
+Source: {#RootPath}bin\{#BinPath}\qml\*; DestDir: {app}\bin\{#BinPath}\qml; Flags: recursesubdirs
 ;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\d3dcompiler_*.dll; DestDir: {app}\bin\{#BinPath}\
 Source: {#RootPath}bin\{#BinPath}\libEGL.dll; DestDir: {app}\bin\{#BinPath}\
