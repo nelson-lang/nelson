@@ -67,3 +67,5 @@ Source: {#RootPath}bin\{#BinPath}\Qt5WebView.dll; DestDir: {app}\bin\{#BinPath}\
 Source: {#RootPath}bin\{#BinPath}\Qt5Widgets.dll; DestDir: {app}\bin\{#BinPath}\
 Source: {#RootPath}bin\{#BinPath}\Qt5WinExtras.dll; DestDir: {app}\bin\{#BinPath}\
 ;==============================================================================
+Source: {#RootPath}bin\{#BinPath}\assistant.exe; DestDir: {app}\bin\{#BinPath}\;
+;==============================================================================
