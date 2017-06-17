@@ -18,21 +18,6 @@
 ;==============================================================================
 #define MODULE_NAME "gui"
 ;==============================================================================
-; Qt platforms
-Source: {#RootPath}bin\{#BinPath}\platforms\qminimal.dll; DestDir: {app}\bin\{#BinPath}\platforms\;
-Source: {#RootPath}bin\{#BinPath}\platforms\qoffscreen.dll; DestDir: {app}\bin\{#BinPath}\platforms\;
-Source: {#RootPath}bin\{#BinPath}\platforms\qwindows.dll; DestDir: {app}\bin\{#BinPath}\platforms\;
-;==============================================================================
-; Qt 5.x Gui
-Source: {#RootPath}bin\{#BinPath}\icudt5?.dll; DestDir: {app}\bin\{#BinPath}\;
-Source: {#RootPath}bin\{#BinPath}\icuuc5?.dll; DestDir: {app}\bin\{#BinPath}\;
-Source: {#RootPath}bin\{#BinPath}\Qt5Widgets.dll; DestDir: {app}\bin\{#BinPath}\;
-Source: {#RootPath}bin\{#BinPath}\Qt5Core.dll; DestDir: {app}\bin\{#BinPath}\;
-Source: {#RootPath}bin\{#BinPath}\Qt5Gui.dll; DestDir: {app}\bin\{#BinPath}\;
-Source: {#RootPath}bin\{#BinPath}\Qt5PrintSupport.dll; DestDir: {app}\bin\{#BinPath}\;
-Source: {#RootPath}bin\{#BinPath}\libEGL.dll; DestDir: {app}\bin\{#BinPath}\;
-Source: {#RootPath}bin\{#BinPath}\libGLESv2.dll; DestDir: {app}\bin\{#BinPath}\;
-;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\libnlsGui.dll; DestDir: {app}\bin\{#BinPath}\;
 Source: {#RootPath}bin\{#BinPath}\libnlsGui_builtin.dll; DestDir: {app}\bin\{#BinPath}\;
 ;==============================================================================
