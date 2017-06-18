@@ -38,7 +38,7 @@ ArrayOfVector Nelson::GuiGateway::inserthtmlBuiltin(Evaluator* eval, int nLhs, c
     {
         Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
-    std::wstring msg = param1.getContentsAsWideString();
+    std::wstring msg = param1.getContentAsWideString();
     if (eval)
     {
         Interface *io = eval->getInterface();

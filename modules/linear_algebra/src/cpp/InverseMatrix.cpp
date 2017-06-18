@@ -234,7 +234,7 @@ namespace Nelson {
             return RES;
         }
         ArrayOf rCondArray = ReciprocalConditionNumber(A);
-        double rcond = rCondArray.getContentsAsDoubleScalar();
+        double rcond = rCondArray.getContentAsDoubleScalar();
         ArrayOf R;
         if (A.getDataClass() == NLS_DOUBLE || A.getDataClass() == NLS_DCOMPLEX)
         {

@@ -44,7 +44,7 @@ ArrayOfVector Nelson::LinearAlgebraGateway::issymmetricBuiltin(Evaluator* eval, 
         if (param2.isSingleString())
         {
             withTol = false;
-            std::wstring str = param2.getContentsAsWideString();
+            std::wstring str = param2.getContentAsWideString();
             if (str == L"skew" || str == L"nonskew")
             {
                 if (str == L"skew")
@@ -64,7 +64,7 @@ ArrayOfVector Nelson::LinearAlgebraGateway::issymmetricBuiltin(Evaluator* eval, 
         else
         {
             withTol = true;
-            tol = param2.getContentsAsDoubleScalar();
+            tol = param2.getContentAsDoubleScalar();
             if (!std::isfinite(tol) || tol < 0.)
             {
                 Error(eval, _W("Second input must be finite and >= 0."));

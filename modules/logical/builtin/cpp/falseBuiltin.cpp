@@ -45,7 +45,7 @@ ArrayOfVector Nelson::LogicalGateway::falseBuiltin(Evaluator* eval, int nLhs, co
             indexType pos = argIn.size() - 2;
             if (argIn[pos].isSingleString())
             {
-                std::wstring arg = argIn[pos].getContentsAsWideString();
+                std::wstring arg = argIn[pos].getContentAsWideString();
                 if (arg.compare(L"like") == 0)
                 {
                     ArrayOf arg = argIn[pos + 1];

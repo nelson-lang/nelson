@@ -30,7 +30,7 @@ static ArrayOfVector historyBuiltin_size_one_rhs(Evaluator* eval, int nLhs, cons
     ArrayOf arg1 = argIn[0];
     if (arg1.isSingleString())
     {
-        std::wstring str = arg1.getContentsAsWideString();
+        std::wstring str = arg1.getContentAsWideString();
         HistoryManager *ptrHistoryManager = (HistoryManager *)eval->HistoryManager;
         if (str == L"size")
         {
@@ -158,7 +158,7 @@ static ArrayOfVector historyBuiltin_two_rhs(Evaluator* eval, int nLhs, const Arr
     ArrayOf arg2 = argIn[1];
     if (arg1.isSingleString())
     {
-        std::wstring str = arg1.getContentsAsWideString();
+        std::wstring str = arg1.getContentAsWideString();
         HistoryManager *ptrHistoryManager = (HistoryManager *)eval->HistoryManager;
         if (str == L"size")
         {
@@ -170,7 +170,7 @@ static ArrayOfVector historyBuiltin_two_rhs(Evaluator* eval, int nLhs, const Arr
             {
                 if (arg2.getDataClass() == NLS_DOUBLE)
                 {
-                    double dvalue = arg2.getContentsAsDoubleScalar();
+                    double dvalue = arg2.getContentAsDoubleScalar();
                     if (!std::isfinite(dvalue))
                     {
                         Error(eval, ERROR_WRONG_ARGUMENT_2_FINITE_SCALAR_INTEGER_VALUE_EXPECTED);
@@ -229,7 +229,7 @@ static ArrayOfVector historyBuiltin_two_rhs(Evaluator* eval, int nLhs, const Arr
             {
                 if (arg2.isScalar())
                 {
-                    double dvalue = arg2.getContentsAsDoubleScalar();
+                    double dvalue = arg2.getContentAsDoubleScalar();
                     if (!std::isfinite(dvalue))
                     {
                         Error(eval, ERROR_WRONG_ARGUMENT_2_FINITE_SCALAR_INTEGER_VALUE_EXPECTED);
@@ -300,7 +300,7 @@ static ArrayOfVector historyBuiltin_two_rhs(Evaluator* eval, int nLhs, const Arr
             }
             if (arg2.isSingleString())
             {
-                std::wstring str = arg2.getContentsAsWideString();
+                std::wstring str = arg2.getContentAsWideString();
                 HistoryManager *ptrHistoryManager = (HistoryManager *)eval->HistoryManager;
                 ptrHistoryManager->appendLine(str);
             }
@@ -310,7 +310,7 @@ static ArrayOfVector historyBuiltin_two_rhs(Evaluator* eval, int nLhs, const Arr
                 ArrayOf *arg = (ArrayOf*)(cell.getDataPointer());
                 for (indexType k = 0; k < arg2.getDimensions().getElementCount(); k++)
                 {
-                    ptrHistoryManager->appendLine(arg[k].getContentsAsWideString());
+                    ptrHistoryManager->appendLine(arg[k].getContentAsWideString());
                 }
             }
             else
@@ -328,7 +328,7 @@ static ArrayOfVector historyBuiltin_two_rhs(Evaluator* eval, int nLhs, const Arr
             {
                 if (arg2.isSingleString())
                 {
-                    std::wstring filename = arg2.getContentsAsWideString();
+                    std::wstring filename = arg2.getContentAsWideString();
                     ptrHistoryManager->setFilename(filename);
                 }
                 else
@@ -351,7 +351,7 @@ static ArrayOfVector historyBuiltin_two_rhs(Evaluator* eval, int nLhs, const Arr
             {
                 if (arg2.isSingleString())
                 {
-                    std::wstring filename = arg2.getContentsAsWideString();
+                    std::wstring filename = arg2.getContentAsWideString();
                     ptrHistoryManager->loadFromFile(filename);
                 }
                 else
@@ -374,7 +374,7 @@ static ArrayOfVector historyBuiltin_two_rhs(Evaluator* eval, int nLhs, const Arr
             {
                 if (arg2.isSingleString())
                 {
-                    std::wstring filename = arg2.getContentsAsWideString();
+                    std::wstring filename = arg2.getContentAsWideString();
                     ptrHistoryManager->saveToFile(filename);
                 }
                 else
@@ -443,7 +443,7 @@ static ArrayOfVector historyBuiltin_two_rhs(Evaluator* eval, int nLhs, const Arr
             {
                 if (arg2.isScalar())
                 {
-                    double dvalue = arg2.getContentsAsDoubleScalar();
+                    double dvalue = arg2.getContentAsDoubleScalar();
                     if (!std::isfinite(dvalue))
                     {
                         Error(eval, ERROR_WRONG_ARGUMENT_2_SCALAR_INTEGER_VALUE_EXPECTED);
@@ -513,7 +513,7 @@ static ArrayOfVector historyBuiltin_two_rhs(Evaluator* eval, int nLhs, const Arr
                 {
                     if (arg2.getDataClass() == NLS_DOUBLE)
                     {
-                        double dvalue = arg2.getContentsAsDoubleScalar();
+                        double dvalue = arg2.getContentAsDoubleScalar();
                         if (!std::isfinite(dvalue))
                         {
                             Error(eval, ERROR_WRONG_ARGUMENT_2_SCALAR_INTEGER_VALUE_EXPECTED);

@@ -64,12 +64,12 @@ namespace Nelson {
         return stringConstructor(str);
     }
     //=============================================================================
-    std::string ArrayOf::getContentsAsCString(void) const
+    std::string ArrayOf::getContentAsCString(void) const
     {
-        return wstring_to_utf8(getContentsAsWideString());
+        return wstring_to_utf8(getContentAsWideString());
     }
     //=============================================================================
-    std::wstring ArrayOf::getContentsAsArrayOfCharacters() const
+    std::wstring ArrayOf::getContentAsArrayOfCharacters() const
     {
         std::wstring str = L"";
         if (dp->dataClass == NLS_CHAR)
@@ -91,7 +91,7 @@ namespace Nelson {
         return str;
     }
     //=============================================================================
-    std::wstring ArrayOf::getContentsAsWideString(void) const
+    std::wstring ArrayOf::getContentAsWideString(void) const
     {
         std::wstring str = L"";
         if (isSingleString())
@@ -158,7 +158,7 @@ namespace Nelson {
             }
             else
             {
-                res.push_back(getContentsAsWideString());
+                res.push_back(getContentAsWideString());
             }
         }
         else
@@ -185,7 +185,7 @@ namespace Nelson {
                     }
                     else
                     {
-                        res.push_back(arg[k].getContentsAsWideString());
+                        res.push_back(arg[k].getContentAsWideString());
                     }
                 }
             }
@@ -230,7 +230,7 @@ namespace Nelson {
                 }
                 else
                 {
-                    res.push_back(arg[k].getContentsAsWideString());
+                    res.push_back(arg[k].getContentAsWideString());
                 }
             }
         }
@@ -274,7 +274,7 @@ namespace Nelson {
                 }
                 else
                 {
-                    res.push_back(arg[k].getContentsAsWideString());
+                    res.push_back(arg[k].getContentAsWideString());
                 }
             }
         }

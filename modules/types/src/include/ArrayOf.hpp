@@ -744,15 +744,15 @@ namespace Nelson {
          * Get our contents as a C-string (UTF-8). Only works for STRING types.
          * Throws an exception for non-string types.
          */
-        std::string getContentsAsCString(void) const;
+        std::string getContentAsCString(void) const;
 
         /**
         * Get our contents as a wide string (UTF-16). Only works for STRING types.
         * Throws an exception for non-string types.
         */
-        std::wstring getContentsAsWideString() const;
+        std::wstring getContentAsWideString() const;
 
-        std::wstring getContentsAsArrayOfCharacters() const;
+        std::wstring getContentAsArrayOfCharacters() const;
 
         /**
         * Get our contents as a vector wide string (UTF-16). Only works for CELL of STRING types.
@@ -785,44 +785,44 @@ namespace Nelson {
         * Get our contents as an integer 8 bits scalar.
         * Throws an exception if we are not a scalar integer type.
         */
-        int8 getContentsAsInteger8Scalar();
+        int8 getContentAsInteger8Scalar();
 
         /**
         * Get our contents as an unsigned integer 8 bits scalar.
         * Throws an exception if we are not a scalar integer type.
         */
-        uint8 getContentsAsUnsignedInteger8Scalar();
+        uint8 getContentAsUnsignedInteger8Scalar();
 
         /**
         * Get our contents as an integer scalar.
         * Throws an exception if we are not a scalar integer type.
         */
-        int32 getContentsAsInteger32Scalar();
+        int32 getContentAsInteger32Scalar();
 
         /**
         * Get our contents as an unsigned integer scalar.
         * Throws an exception if we are not a scalar integer type.
         */
-        uint32 getContentsAsUnsignedInteger32Scalar();
+        uint32 getContentAsUnsignedInteger32Scalar();
 
         /**
          * Get our contents as a double scalar.
          * Throws an exception if we are not scalar or cannot meaningfully
          * be converted to a double precision value.
          */
-        double getContentsAsDoubleScalar();
+        double getContentAsDoubleScalar();
 
         /**
         * Get our contents as an unsigned integer scalar 64.
         * Throws an exception if we are not a scalar integer type.
         */
-        uint64 getContentsAsUnsignedInt64Scalar();
+        uint64 getContentAsUnsignedInt64Scalar();
 
         /**
         * Get our contents as an integer scalar 64.
         * Throws an exception if we are not a scalar integer type.
         */
-        int64 getContentsAsInteger64Scalar();
+        int64 getContentAsInteger64Scalar();
 
         /**
         * Get our contents as a index type scalar.
@@ -838,21 +838,21 @@ namespace Nelson {
         * Throws an exception if we are not scalar or cannot meaningfully
         * be converted to a double precision value.
         */
-        doublecomplex getContentsAsDoubleComplexScalar();
+        doublecomplex getContentAsDoubleComplexScalar();
 
         /**
         * Get our contents as a float scalar.
         * Throws an exception if we are not scalar or cannot meaningfully
         * be converted to a double precision value.
         */
-        single getContentsAsSingleScalar();
+        single getContentAsSingleScalar();
 
         /**
         * Get our contents as a single complex scalar.
         * Throws an exception if we are not scalar or cannot meaningfully
         * be converted to a single precision value.
         */
-        std::complex<single> getContentsAsSingleComplexScalar();
+        std::complex<single> getContentAsSingleComplexScalar();
 
         /**
          * Returns true if the given Class is either NLS_CELL_ARRAY or
@@ -893,7 +893,7 @@ namespace Nelson {
         const bool isClassStruct() const;
 
         static ArrayOf functionHandleConstructor(std::wstring functionName, function_handle fptr);
-        function_handle getContentsAsFunctionHandle();
+        function_handle getContentAsFunctionHandle();
         bool isFunctionHandle();
 
         const bool isLogical() const;
@@ -910,7 +910,7 @@ namespace Nelson {
         static ArrayOf handleConstructor(HandleGenericObject *ptr);
         static ArrayOf handleConstructor(nelson_handle hl);
 
-        HandleGenericObject *getContentsAsHandleScalar();
+        HandleGenericObject *getContentAsHandleScalar();
     };
 
     void dumpAllArrayOfs();

@@ -52,7 +52,7 @@ ArrayOfVector Nelson::DataStructuresGateway::cellBuiltin(Evaluator* eval, int nL
                 if (argIn[0].isScalar())
                 {
                     ArrayOf arg = argIn[0];
-                    double dindex = arg.getContentsAsDoubleScalar();
+                    double dindex = arg.getContentAsDoubleScalar();
                     if (!std::isfinite(dindex))
                     {
                         Error(eval, ERROR_WRONG_ARGUMENT_1_FINITE_SCALAR_INTEGER_VALUE_EXPECTED);
@@ -128,7 +128,7 @@ ArrayOfVector Nelson::DataStructuresGateway::cellBuiltin(Evaluator* eval, int nL
                 if (argIn[k].isScalar())
                 {
                     ArrayOf arg = argIn[k];
-                    double dindex = arg.getContentsAsDoubleScalar();
+                    double dindex = arg.getContentAsDoubleScalar();
                     if (!std::isfinite(dindex))
                     {
                         Error(eval, StringFormat(ERROR_WRONG_ARGUMENT_X_FINITE_SCALAR_INTEGER_VALUE_EXPECTED.c_str(), k + 1));

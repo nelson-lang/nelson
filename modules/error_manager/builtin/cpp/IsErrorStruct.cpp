@@ -98,13 +98,13 @@ namespace Nelson {
             {
                 return false;
             }
-            message = msgArray.getContentsAsWideString();
-            identifier = idArray.getContentsAsWideString();
-            filename = fileArray.getContentsAsWideString();
-            name = nameArray.getContentsAsWideString();
+            message = msgArray.getContentAsWideString();
+            identifier = idArray.getContentAsWideString();
+            filename = fileArray.getContentAsWideString();
+            name = nameArray.getContentAsWideString();
             if (!lineArray.isEmpty())
             {
-                line = (int)lineArray.getContentsAsDoubleScalar();
+                line = (int)lineArray.getContentAsDoubleScalar();
             }
         }
         e.setMessage(message);

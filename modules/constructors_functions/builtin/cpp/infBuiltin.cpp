@@ -44,7 +44,7 @@ ArrayOfVector Nelson::ConstructorsGateway::infBuiltin(Evaluator* eval, int nLhs,
             if (argIn[0].isNumeric())
             {
                 p = argIn[0];
-                m = p.getContentsAsInteger32Scalar();
+                m = p.getContentAsInteger32Scalar();
                 n = m;
             }
             else
@@ -57,7 +57,7 @@ ArrayOfVector Nelson::ConstructorsGateway::infBuiltin(Evaluator* eval, int nLhs,
             if (argIn[0].isNumeric())
             {
                 p = argIn[1];
-                n = p.getContentsAsInteger32Scalar();
+                n = p.getContentAsInteger32Scalar();
             }
             else
             {

@@ -55,7 +55,7 @@ ArrayOfVector Nelson::LinearAlgebraGateway::svdBuiltin(Evaluator* eval, int nLhs
             ArrayOf param2 = argIn[1];
             if (param2.isSingleString())
             {
-                std::wstring paramAsString = param2.getContentsAsWideString();
+                std::wstring paramAsString = param2.getContentAsWideString();
                 if (L"econ" == paramAsString)
                 {
                     svdFlag = SVD_FLAG::SVD_ECON;

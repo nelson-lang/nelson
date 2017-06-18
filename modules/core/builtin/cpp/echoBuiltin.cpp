@@ -52,7 +52,7 @@ ArrayOfVector Nelson::CoreGateway::echoBuiltin(Evaluator* eval, int nLhs, const 
         if (argIn[0].isSingleString())
         {
             bool bMode = false;
-            std::wstring arg = argIn[0].getContentsAsWideString();
+            std::wstring arg = argIn[0].getContentAsWideString();
             if (arg.compare(L"on") == 0)
             {
                 bMode = true;

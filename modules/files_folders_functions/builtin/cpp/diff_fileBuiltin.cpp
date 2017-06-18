@@ -37,8 +37,8 @@ ArrayOfVector Nelson::FilesFoldersGateway::diff_fileBuiltin(Evaluator* eval, int
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];
     logical eolCompare = true;
-    std::wstring filename1 = param1.getContentsAsWideString();
-    std::wstring filename2 = param2.getContentsAsWideString();
+    std::wstring filename1 = param1.getContentAsWideString();
+    std::wstring filename2 = param2.getContentAsWideString();
     if (argIn.size() == 3)
     {
         ArrayOf param3 = argIn[2];

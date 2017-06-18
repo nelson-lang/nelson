@@ -36,7 +36,7 @@ ArrayOfVector Nelson::FunctionsGateway::userpathBuiltin(Evaluator* eval, int nLh
         ArrayOf param1 = argIn[0];
         if (param1.isSingleString())
         {
-            std::wstring paramstr = param1.getContentsAsWideString();
+            std::wstring paramstr = param1.getContentAsWideString();
             if (paramstr == L"clear")
             {
                 PathFuncManager::getInstance()->clearUserPath(true);

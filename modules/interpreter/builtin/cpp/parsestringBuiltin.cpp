@@ -36,7 +36,7 @@ ArrayOfVector Nelson::InterpreterGateway::parsestringBuiltin(Evaluator* eval, in
     std::string command;
     if (argIn[0].isSingleString())
     {
-        command = argIn[0].getContentsAsCString();
+        command = argIn[0].getContentAsCString();
     }
     else
     {

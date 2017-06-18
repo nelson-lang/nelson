@@ -51,7 +51,7 @@ ArrayOfVector Nelson::TimeGateway::datenumBuiltin(Evaluator* eval, int nLhs, con
             {
                 if (param1.isScalar())
                 {
-                    year = param1.getContentsAsDoubleScalar();
+                    year = param1.getContentAsDoubleScalar();
                 }
                 else if (param1.isEmpty())
                 {
@@ -117,7 +117,7 @@ ArrayOfVector Nelson::TimeGateway::datenumBuiltin(Evaluator* eval, int nLhs, con
             {
                 if (param1.isSingleString())
                 {
-                    std::wstring strdate = param1.getContentsAsWideString();
+                    std::wstring strdate = param1.getContentAsWideString();
                     bool bParsed;
                     res = DateNumber(strdate, bParsed);
                     if (!bParsed)
@@ -138,8 +138,8 @@ ArrayOfVector Nelson::TimeGateway::datenumBuiltin(Evaluator* eval, int nLhs, con
             ArrayOf param2 = argIn[1];
             if (param1.isSingleString() && param2.isSingleString())
             {
-                std::wstring datestr = param1.getContentsAsWideString();
-                std::wstring dateformat = param2.getContentsAsWideString();
+                std::wstring datestr = param1.getContentAsWideString();
+                std::wstring dateformat = param2.getContentAsWideString();
                 bool bParsed = false;
                 res = DateNumber(datestr, dateformat, bParsed);
                 if (!bParsed)
@@ -160,19 +160,19 @@ ArrayOfVector Nelson::TimeGateway::datenumBuiltin(Evaluator* eval, int nLhs, con
             {
                 Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_DOUBLE_EXPECTED);
             }
-            year = param1.getContentsAsDoubleScalar();
+            year = param1.getContentAsDoubleScalar();
             ArrayOf param2 = argIn[1];
             if (!param2.isNumeric())
             {
                 Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_DOUBLE_EXPECTED);
             }
-            month = param2.getContentsAsDoubleScalar();
+            month = param2.getContentAsDoubleScalar();
             ArrayOf param3 = argIn[2];
             if (!param3.isNumeric())
             {
                 Error(eval, ERROR_WRONG_ARGUMENT_3_TYPE_DOUBLE_EXPECTED);
             }
-            day = param3.getContentsAsDoubleScalar();
+            day = param3.getContentAsDoubleScalar();
             res = DateNumber(year, month, day, hour, min, sec);
         }
         break;
@@ -183,37 +183,37 @@ ArrayOfVector Nelson::TimeGateway::datenumBuiltin(Evaluator* eval, int nLhs, con
             {
                 Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_DOUBLE_EXPECTED);
             }
-            year = param1.getContentsAsDoubleScalar();
+            year = param1.getContentAsDoubleScalar();
             ArrayOf param2 = argIn[1];
             if (!param2.isNumeric())
             {
                 Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_DOUBLE_EXPECTED);
             }
-            month = param2.getContentsAsDoubleScalar();
+            month = param2.getContentAsDoubleScalar();
             ArrayOf param3 = argIn[2];
             if (!param3.isNumeric())
             {
                 Error(eval, ERROR_WRONG_ARGUMENT_3_TYPE_DOUBLE_EXPECTED);
             }
-            day = param3.getContentsAsDoubleScalar();
+            day = param3.getContentAsDoubleScalar();
             ArrayOf param4 = argIn[3];
             if (!param4.isNumeric())
             {
                 Error(eval, ERROR_WRONG_ARGUMENT_4_TYPE_DOUBLE_EXPECTED);
             }
-            hour = param4.getContentsAsDoubleScalar();
+            hour = param4.getContentAsDoubleScalar();
             ArrayOf param5 = argIn[4];
             if (!param5.isNumeric())
             {
                 Error(eval, ERROR_WRONG_ARGUMENT_5_TYPE_DOUBLE_EXPECTED);
             }
-            min = param5.getContentsAsDoubleScalar();
+            min = param5.getContentAsDoubleScalar();
             ArrayOf param6 = argIn[5];
             if (!param6.isNumeric())
             {
                 Error(eval, ERROR_WRONG_ARGUMENT_6_TYPE_DOUBLE_EXPECTED);
             }
-            sec = param6.getContentsAsDoubleScalar();
+            sec = param6.getContentAsDoubleScalar();
             res = DateNumber(year, month, day, hour, min, sec);
         }
         break;

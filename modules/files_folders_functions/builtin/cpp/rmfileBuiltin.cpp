@@ -34,7 +34,7 @@ ArrayOfVector Nelson::FilesFoldersGateway::rmfileBuiltin(Evaluator* eval, int nL
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
-    std::wstring filenameToDelete = param1.getContentsAsWideString();
+    std::wstring filenameToDelete = param1.getContentAsWideString();
     std::wstring msg = L"";
     bool bRes = false;
     switch (nLhs)

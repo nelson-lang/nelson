@@ -42,7 +42,7 @@ ArrayOfVector Nelson::StringGateway::str2doubleBuiltin(Evaluator* eval, int nLhs
         ArrayOf param1 = argIn[0];
         if (param1.isString())
         {
-            std::wstring str = argIn[0].getContentsAsArrayOfCharacters();
+            std::wstring str = argIn[0].getContentAsArrayOfCharacters();
             bool wasConverted = false;
             doublecomplex value = stringToDoubleComplex(str, wasConverted);
             ArrayOf output = ArrayOf::dcomplexConstructor(value.real(), value.imag());
@@ -67,7 +67,7 @@ ArrayOfVector Nelson::StringGateway::str2doubleBuiltin(Evaluator* eval, int nLhs
                     ArrayOf element = cellParam1[k];
                     if (element.isString())
                     {
-                        std::wstring str = element.getContentsAsArrayOfCharacters();
+                        std::wstring str = element.getContentAsArrayOfCharacters();
                         bool wasConverted = false;
                         outPutAsComplex[k] = stringToDoubleComplex(str, wasConverted);
                     }

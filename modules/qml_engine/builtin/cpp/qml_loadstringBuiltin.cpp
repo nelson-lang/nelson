@@ -33,7 +33,7 @@ ArrayOfVector Nelson::QmlEngineGateway::qml_loadstringBuiltin(Evaluator* eval, i
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
-    QmlHandleObject *qmlhandle = QmlEngine::getInstance()->setData(param1.getContentsAsWideString());
+    QmlHandleObject *qmlhandle = QmlEngine::getInstance()->setData(param1.getContentAsWideString());
     ArrayOfVector retval;
     retval.push_back(ArrayOf::handleConstructor(qmlhandle));
     return retval;

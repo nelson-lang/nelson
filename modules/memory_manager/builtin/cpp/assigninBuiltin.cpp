@@ -37,7 +37,7 @@ ArrayOfVector Nelson::MemoryGateway::assigninBuiltin(Evaluator* eval, int nLhs, 
     {
         Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
-    std::string scopename = argIn[0].getContentsAsCString();
+    std::string scopename = argIn[0].getContentAsCString();
     if (!((scopename.compare("global") == 0) || (scopename.compare("base") == 0) || (scopename.compare("caller") == 0) || (scopename.compare("local") == 0)))
     {
         Error(eval, _W("#1 Argument must contain a string: \'global\', \'base\', \'local\' or \'caller\' expected."));
@@ -46,7 +46,7 @@ ArrayOfVector Nelson::MemoryGateway::assigninBuiltin(Evaluator* eval, int nLhs, 
     {
         Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
     }
-    std::string varname = argIn[1].getContentsAsCString();
+    std::string varname = argIn[1].getContentAsCString();
     if (!IsValidVariableName(varname))
     {
         Error(eval, _W("#2 Argument must contain a valid variable name."));

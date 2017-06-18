@@ -33,7 +33,7 @@ namespace Nelson {
         Interface *io = eval->getInterface();
         if (io)
         {
-            function_handle fh = Var.getContentsAsFunctionHandle();
+            function_handle fh = Var.getContentAsFunctionHandle();
             std::wstring functionname;
             bool found = PathFuncManager::getInstance()->find(fh, functionname);
             if (!found)

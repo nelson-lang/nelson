@@ -40,13 +40,13 @@ ArrayOfVector Nelson::ConstructorsGateway::nanBuiltin(Evaluator* eval, int nLhs,
     else if (argIn.size() > 0)
     {
         p = argIn[0];
-        m = p.getContentsAsInteger32Scalar();
+        m = p.getContentAsInteger32Scalar();
         n = m;
     }
     if (argIn.size() > 1)
     {
         p = argIn[1];
-        n = p.getContentsAsInteger32Scalar();
+        n = p.getContentAsInteger32Scalar();
     }
     ArrayOf Mat = NaN(m, n);
     retval.push_back(Mat);

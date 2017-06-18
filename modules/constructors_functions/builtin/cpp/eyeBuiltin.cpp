@@ -48,7 +48,7 @@ ArrayOfVector Nelson::ConstructorsGateway::eyeBuiltin(Evaluator* eval, int nLhs,
         ArrayOf lastarg = argIn[nRhs - 1];
         if (lastarg.isSingleString())
         {
-            std::wstring strarg = lastarg.getContentsAsWideString();
+            std::wstring strarg = lastarg.getContentAsWideString();
             destClass = StringToClass(strarg);
             nRhs--;
         }
@@ -60,7 +60,7 @@ ArrayOfVector Nelson::ConstructorsGateway::eyeBuiltin(Evaluator* eval, int nLhs,
                 indexType pos = argIn.size() - 2;
                 if (argIn[pos].isSingleString())
                 {
-                    std::wstring arg = argIn[pos].getContentsAsWideString();
+                    std::wstring arg = argIn[pos].getContentAsWideString();
                     if (arg.compare(L"like") == 0)
                     {
                         ArrayOf arg = argIn[pos + 1];

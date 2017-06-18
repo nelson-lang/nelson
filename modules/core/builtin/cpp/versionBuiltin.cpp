@@ -53,7 +53,7 @@ ArrayOfVector Nelson::CoreGateway::versionBuiltin(Evaluator* eval, int nLhs, con
         std::wstring option;
         if (argIn[0].isSingleString())
         {
-            option = argIn[0].getContentsAsWideString();
+            option = argIn[0].getContentAsWideString();
         }
         else
         {

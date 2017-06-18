@@ -43,13 +43,13 @@ ArrayOfVector Nelson::HelpToolsGateway::markdownBuiltin(Evaluator* eval, int nLh
         std::wstring filenameOut = L"";
         if (argIn[0].isSingleString())
         {
-            filenameIn = argIn[0].getContentsAsWideString();
+            filenameIn = argIn[0].getContentAsWideString();
         }
         else
         {
             Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
-        filenameOut = argIn[1].getContentsAsWideString();
+        filenameOut = argIn[1].getContentAsWideString();
         boost::filesystem::path pathIn(filenameIn);
         bool IsDirIn = false;
         try
@@ -126,7 +126,7 @@ ArrayOfVector Nelson::HelpToolsGateway::markdownBuiltin(Evaluator* eval, int nLh
         {
             if (param1.isSingleString())
             {
-                stringInput = param1.getContentsAsWideString();
+                stringInput = param1.getContentAsWideString();
             }
             else
             {

@@ -39,7 +39,7 @@ ArrayOfVector Nelson::FunctionsGateway::rmpathBuiltin(Evaluator* eval, int nLhs,
     ArrayOf param1 = argIn[0];
     if (param1.isSingleString())
     {
-        std::wstring pathToRemove = param1.getContentsAsWideString();
+        std::wstring pathToRemove = param1.getContentAsWideString();
         boost::filesystem::path data_dir(pathToRemove);
         bool bRes = false;
         try

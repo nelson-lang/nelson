@@ -37,7 +37,7 @@ ArrayOfVector Nelson::OsFunctionsGateway::winopenBuiltin(Evaluator* eval, int nL
     std::wstring cmd = L"";
     if (argIn[0].isSingleString())
     {
-        cmd = argIn[0].getContentsAsWideString();
+        cmd = argIn[0].getContentAsWideString();
     }
     else
     {

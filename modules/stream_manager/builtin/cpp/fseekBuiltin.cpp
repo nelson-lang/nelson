@@ -41,7 +41,7 @@ ArrayOfVector Nelson::StreamGateway::fseekBuiltin(Evaluator* eval, int nLhs, con
     int ORIGIN;
     if (param3.isSingleString())
     {
-        std::wstring str = param3.getContentsAsWideString();
+        std::wstring str = param3.getContentAsWideString();
         if ((str == L"bof") || (str == L"set"))
         {
             ORIGIN = -1;
@@ -61,7 +61,7 @@ ArrayOfVector Nelson::StreamGateway::fseekBuiltin(Evaluator* eval, int nLhs, con
     }
     else
     {
-        int iValue = (int)param3.getContentsAsDoubleScalar();
+        int iValue = (int)param3.getContentAsDoubleScalar();
         switch (iValue)
         {
             case -1:
@@ -78,13 +78,13 @@ ArrayOfVector Nelson::StreamGateway::fseekBuiltin(Evaluator* eval, int nLhs, con
             break;
         }
     }
-    int64 iOffset = (int64)param2.getContentsAsDoubleScalar();
+    int64 iOffset = (int64)param2.getContentAsDoubleScalar();
     FilesManager *fm = (FilesManager *)(eval->FileManager);
     if (fm == nullptr)
     {
         Error(eval, _W("Problem with file manager."));
     }
-    int32 iValue = (int32)param1.getContentsAsDoubleScalar();
+    int32 iValue = (int32)param1.getContentAsDoubleScalar();
     if (fm->isOpened(iValue))
     {
         File *f = fm->getFile(iValue);

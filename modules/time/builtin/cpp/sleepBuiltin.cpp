@@ -40,7 +40,7 @@ ArrayOfVector Nelson::TimeGateway::sleepBuiltin(Evaluator* eval, int nLhs, const
     if (!bSuccess)
     {
         ArrayOf Parameter1 = argIn[0];
-        double dValue = Parameter1.getContentsAsDoubleScalar();
+        double dValue = Parameter1.getContentAsDoubleScalar();
         Sleep(eval, dValue);
     }
     return retval;

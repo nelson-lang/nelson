@@ -35,7 +35,7 @@ ArrayOfVector Nelson::DynamicLinkGateway::addgatewayBuiltin(Evaluator* eval, int
     }
     if (argIn[0].isSingleString())
     {
-        std::wstring dynlibName = argIn[0].getContentsAsWideString();
+        std::wstring dynlibName = argIn[0].getContentAsWideString();
         AddGateway(eval, dynlibName);
     }
     else

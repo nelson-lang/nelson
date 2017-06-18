@@ -42,20 +42,20 @@ ArrayOfVector Nelson::TimeGateway::calendarBuiltin(Evaluator* eval, int nLhs, co
         case 1:
         {
             ArrayOf param1 = argIn[0];
-            double d = param1.getContentsAsDoubleScalar();
+            double d = param1.getContentAsDoubleScalar();
             cal = new Calendar(d);
         }
         break;
         case 2:
         {
             ArrayOf param1 = argIn[0];
-            uint64 cyear = param1.getContentsAsUnsignedInt64Scalar();
+            uint64 cyear = param1.getContentAsUnsignedInt64Scalar();
             if (cyear < 1400 || cyear > 9999)
             {
                 Error(eval, ERROR_WRONG_ARGUMENT_1_VALUE);
             }
             ArrayOf param2 = argIn[1];
-            int32 cmonth = param2.getContentsAsInteger32Scalar();
+            int32 cmonth = param2.getContentAsInteger32Scalar();
             if (cmonth > 0 && cmonth < 13)
             {
                 cal = new Calendar(cyear, (uint8)cmonth);

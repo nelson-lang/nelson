@@ -34,7 +34,7 @@ ArrayOfVector Nelson::QmlEngineGateway::QObject_undefineBuiltin(Evaluator* eval,
     }
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];
-    std::wstring propertyName = param2.getContentsAsWideString();
+    std::wstring propertyName = param2.getContentAsWideString();
     ArrayOfVector retval;
     UndefineDynamicProperty(param1, propertyName);
     return retval;

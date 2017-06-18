@@ -35,7 +35,7 @@ ArrayOfVector Nelson::QmlEngineGateway::qml_evaluatefileBuiltin(Evaluator* eval,
     ArrayOf param1 = argIn[0];
     ArrayOfVector retval;
     bool bWithOuput;
-    ArrayOf res = QmlEngine::getInstance()->evaluateFile(param1.getContentsAsWideString(), bWithOuput);
+    ArrayOf res = QmlEngine::getInstance()->evaluateFile(param1.getContentAsWideString(), bWithOuput);
     if (bWithOuput)
     {
         retval.push_back(res);

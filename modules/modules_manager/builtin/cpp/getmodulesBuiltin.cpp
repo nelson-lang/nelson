@@ -40,7 +40,7 @@ ArrayOfVector Nelson::ModulesManagerGateway::getmodulesBuiltin(Evaluator* eval, 
         std::wstring param;
         if (argIn[0].isSingleString())
         {
-            param = argIn[0].getContentsAsWideString();
+            param = argIn[0].getContentAsWideString();
         }
         else
         {

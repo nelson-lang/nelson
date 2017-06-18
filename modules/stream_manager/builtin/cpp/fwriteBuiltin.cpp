@@ -35,7 +35,7 @@ static  ArrayOfVector fwriteBuiltinFiveRhs(Evaluator* eval, int nLhs, const Arra
     ArrayOfVector retval;
     ArrayOf param5 = argIn[4];
     bool bIsLittleEndian = true;
-    std::wstring arg = param5.getContentsAsWideString();
+    std::wstring arg = param5.getContentAsWideString();
     if ((arg == L"n") || (arg == L"native"))
     {
         bIsLittleEndian = isLittleEndianFormat();
@@ -58,7 +58,7 @@ static  ArrayOfVector fwriteBuiltinFiveRhs(Evaluator* eval, int nLhs, const Arra
     Class classDest = NLS_UINT8;
     if (param3.isSingleString())
     {
-        std::wstring precisionStr = param3.getContentsAsWideString();
+        std::wstring precisionStr = param3.getContentAsWideString();
         bool bOK = false;
         classDest = precisionFromString(precisionStr, bOK);
         if (!bOK)
@@ -83,7 +83,7 @@ static  ArrayOfVector fwriteBuiltinFiveRhs(Evaluator* eval, int nLhs, const Arra
             Error(eval, _W("Cannot write sparse type."));
         }
         FilesManager *fm = (FilesManager *)(eval->FileManager);
-        int32 iValue = (int32)param1.getContentsAsDoubleScalar();
+        int32 iValue = (int32)param1.getContentAsDoubleScalar();
         if (fm->isOpened(iValue))
         {
             File *f = fm->getFile(iValue);

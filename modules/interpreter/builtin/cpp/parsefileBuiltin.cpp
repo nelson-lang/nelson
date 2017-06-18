@@ -39,7 +39,7 @@ ArrayOfVector Nelson::InterpreterGateway::parsefileBuiltin(Evaluator* eval, int 
     std::wstring filename;
     if (argIn[0].isSingleString())
     {
-        filename = argIn[0].getContentsAsWideString();
+        filename = argIn[0].getContentAsWideString();
     }
     else
     {

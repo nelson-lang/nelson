@@ -67,7 +67,7 @@ namespace Nelson {
         bool bEq = false;
         if (A.isSingleString() && B.isSingleString())
         {
-            bEq = compareString(A.getContentsAsWideString(), B.getContentsAsWideString(), bCaseSensitive, len);
+            bEq = compareString(A.getContentAsWideString(), B.getContentAsWideString(), bCaseSensitive, len);
         }
         else
         {
@@ -122,7 +122,7 @@ namespace Nelson {
                         ArrayOf elementB = cellB[k];
                         if (elementA.isSingleString() && elementB.isSingleString())
                         {
-                            Cp[k] = compareString(elementA.getContentsAsWideString(), elementB.getContentsAsWideString(), bCaseSensitive, len);
+                            Cp[k] = compareString(elementA.getContentAsWideString(), elementB.getContentAsWideString(), bCaseSensitive, len);
                         }
                         else if (elementA.isString() && elementB.isString())
                         {
@@ -240,7 +240,7 @@ namespace Nelson {
                         ArrayOf elementA = cellA[k];
                         if (elementA.isString() && scalar2.isString())
                         {
-                            Cp[k] = compareString(elementA.getContentsAsWideString(), scalar2.getContentsAsWideString(), bCaseSensitive, len);
+                            Cp[k] = compareString(elementA.getContentAsWideString(), scalar2.getContentAsWideString(), bCaseSensitive, len);
                         }
                         else
                         {

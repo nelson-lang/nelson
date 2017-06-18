@@ -42,7 +42,7 @@ static ArrayOfVector runBuiltinThreeRhs(Evaluator* eval, int nLhs, const ArrayOf
     }
     if (argIn[1].isSingleString())
     {
-        std::wstring arg2 = argIn[1].getContentsAsWideString();
+        std::wstring arg2 = argIn[1].getContentAsWideString();
         if (arg2.compare(L"errcatch") == 0)
         {
             bErrorCatch = true;
@@ -66,7 +66,7 @@ static ArrayOfVector runBuiltinThreeRhs(Evaluator* eval, int nLhs, const ArrayOf
     }
     if (argIn[0].isSingleString())
     {
-        wpath = argIn[0].getContentsAsWideString();
+        wpath = argIn[0].getContentAsWideString();
     }
     else
     {
@@ -128,7 +128,7 @@ static ArrayOfVector runBuiltinTwoRhs(Evaluator* eval, int nLhs, const ArrayOfVe
     {
         if (argIn[1].isSingleString())
         {
-            std::wstring arg2 = argIn[1].getContentsAsWideString();
+            std::wstring arg2 = argIn[1].getContentAsWideString();
             if (arg2.compare(L"errcatch") == 0)
             {
                 bErrorCatch = true;
@@ -153,7 +153,7 @@ static ArrayOfVector runBuiltinTwoRhs(Evaluator* eval, int nLhs, const ArrayOfVe
     }
     if (argIn[0].isSingleString())
     {
-        wpath = argIn[0].getContentsAsWideString();
+        wpath = argIn[0].getContentAsWideString();
     }
     else
     {
@@ -206,7 +206,7 @@ static ArrayOfVector runBuiltinOneRhs(Evaluator* eval, int nLhs, const ArrayOfVe
     }
     if (argIn[0].isSingleString())
     {
-        std::wstring wpath = argIn[0].getContentsAsWideString();
+        std::wstring wpath = argIn[0].getContentAsWideString();
         try
         {
             EvaluateScriptFile(eval, wpath.c_str(), true);

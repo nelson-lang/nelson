@@ -41,7 +41,7 @@ ArrayOfVector Nelson::StreamGateway::frewindBuiltin(Evaluator* eval, int nLhs, c
         Error(eval, _W("Problem with file manager."));
     }
     ArrayOf param1 = argIn[0];
-    int32 iValue = (int32)param1.getContentsAsDoubleScalar();
+    int32 iValue = (int32)param1.getContentAsDoubleScalar();
     if (fm->isOpened(iValue))
     {
         File *f = fm->getFile(iValue);

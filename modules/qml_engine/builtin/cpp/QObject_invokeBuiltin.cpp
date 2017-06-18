@@ -33,7 +33,7 @@ ArrayOfVector Nelson::QmlEngineGateway::QObject_invokeBuiltin(Evaluator* eval, i
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param2 = argIn[1];
-    std::wstring methodname = param2.getContentsAsWideString();
+    std::wstring methodname = param2.getContentAsWideString();
     ArrayOfVector params;
     for (size_t k = 2; k < argIn.size(); k++)
     {

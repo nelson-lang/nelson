@@ -41,7 +41,7 @@ ArrayOfVector Nelson::TypeGateway::isaBuiltin(Evaluator* eval, int nLhs, const A
     {
         Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
     }
-    std::wstring classnameExpected = param2.getContentsAsWideString();
+    std::wstring classnameExpected = param2.getContentAsWideString();
     if (classnameExpected == L"numeric")
     {
         retval.push_back(ArrayOf::logicalConstructor(param1.isNumeric()));
@@ -79,7 +79,7 @@ ArrayOfVector Nelson::TypeGateway::isaBuiltin(Evaluator* eval, int nLhs, const A
             }
             else
             {
-                HandleGenericObject *ptr = param1.getContentsAsHandleScalar();
+                HandleGenericObject *ptr = param1.getContentAsHandleScalar();
                 res = (ptr->getCategory() == classnameExpected);
             }
         }

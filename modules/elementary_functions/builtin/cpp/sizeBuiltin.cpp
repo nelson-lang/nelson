@@ -41,7 +41,7 @@ ArrayOfVector Nelson::ElementaryFunctionsGateway::sizeBuiltin(Evaluator* eval, i
             ArrayOf param1(argIn[1]);
             if (param1.isSingleString())
             {
-                std::wstring str = param1.getContentsAsWideString();
+                std::wstring str = param1.getContentAsWideString();
                 if ((str == L"r") || (str == L"c"))
                 {
                     if (str == L"r")

@@ -1469,8 +1469,8 @@ namespace Nelson {
                 return false;
             }
             // if x is a string do a string, string compare.
-            std::wstring s1 = getContentsAsWideString();
-            std::wstring s2 = x.getContentsAsWideString();
+            std::wstring s1 = getContentAsWideString();
+            std::wstring s2 = x.getContentAsWideString();
             bool retval = (s1.compare(s2) == 0);
             return retval;
         }
@@ -2410,7 +2410,7 @@ break;
         {
             if (index.getLength() == 1)
             {
-                double idx = index.getContentsAsDoubleScalar();
+                double idx = index.getContentAsDoubleScalar();
                 int64 iidx = (int64)idx;
                 if (idx != (double)iidx || idx < 0)
                 {
@@ -2448,7 +2448,7 @@ break;
                 {
                     if (index.getLength() == 1)
                     {
-                        indexType  indx = index.getContentsAsInteger32Scalar() - 1;
+                        indexType  indx = index.getContentAsInteger32Scalar() - 1;
                         indexType  row = indx % getDimensionLength(0);
                         indexType  col = indx / getDimensionLength(0);
                         return ArrayOf(dp->dataClass, retdims,
@@ -3395,7 +3395,7 @@ break;
                     {
                         if (dims.getColumns() < (indexType)(io->getTerminalWidth() - 3))
                         {
-                            std::wstring str = getContentsAsWideString();
+                            std::wstring str = getContentAsWideString();
                             str = L"\'" + str + L"\'";
                             io->outputMessage(str);
                             return;

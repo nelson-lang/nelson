@@ -59,7 +59,7 @@ namespace Nelson {
                         else if ((fp->getFileName() == L"stdout") || (fp->getFileName() == L"stderr"))
                         {
                             toWrite.promoteType(NLS_CHAR);
-                            std::string str = toWrite.getContentsAsCString();
+                            std::string str = toWrite.getContentAsCString();
                             if (bIsLittleEndian != isLittleEndianFormat())
                             {
                                 for (size_t k = 0; k < str.size(); k++)
@@ -112,7 +112,7 @@ namespace Nelson {
                             size_t written = 0;
                             if ((destClass == src.getDataClass()) && destClass == NLS_CHAR)
                             {
-                                std::string str = toWrite.getContentsAsCString();
+                                std::string str = toWrite.getContentAsCString();
                                 if (bIsLittleEndian != isLittleEndianFormat())
                                 {
                                     for (size_t k = 0; k < str.size(); k++)

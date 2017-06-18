@@ -39,7 +39,7 @@ ArrayOfVector Nelson::InterpreterGateway::max_recursion_depthBuiltin(Evaluator* 
         ArrayOf param1 = argIn[0];
         if (param1.isSingleString())
         {
-            std::wstring param = param1.getContentsAsWideString();
+            std::wstring param = param1.getContentAsWideString();
             if (param == L"max")
             {
                 eval->getContext()->setRecursionDepth(eval->getContext()->getMaximumRecursionDepth());

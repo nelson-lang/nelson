@@ -43,7 +43,7 @@ ArrayOfVector Nelson::ElementaryFunctionsGateway::isapproxBuiltin(Evaluator* eva
         if (argIn.size() == 3)
         {
             ArrayOf param3 = argIn[2];
-            precision = param3.getContentsAsDoubleScalar();
+            precision = param3.getContentAsDoubleScalar();
         }
         ArrayOf param1 = argIn[0];
         ArrayOf param2 = argIn[1];

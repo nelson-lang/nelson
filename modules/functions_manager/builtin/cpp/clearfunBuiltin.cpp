@@ -38,11 +38,11 @@ ArrayOfVector Nelson::FunctionsGateway::clearfunBuiltin(Evaluator* eval, int nLh
     std::wstring functionname;
     if (param1.isSingleString())
     {
-        functionname = argIn[0].getContentsAsWideString();
+        functionname = argIn[0].getContentAsWideString();
     }
     else if (param1.isFunctionHandle())
     {
-        function_handle fh = param1.getContentsAsFunctionHandle();
+        function_handle fh = param1.getContentAsFunctionHandle();
         BuiltInFunctionDefManager::getInstance()->find(fh, functionname);
     }
     else

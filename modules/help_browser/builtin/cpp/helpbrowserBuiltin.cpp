@@ -38,7 +38,7 @@ ArrayOfVector Nelson::HelpBrowserGateway::helpbrowserBuiltin(Evaluator* eval, in
     }
     else if (argIn.size() == 1)
     {
-        std::wstring param1 = argIn[0].getContentsAsWideString();
+        std::wstring param1 = argIn[0].getContentAsWideString();
         if (param1 == L"-close")
         {
             HelpBrowser::getInstance()->closeBrowser();
@@ -58,8 +58,8 @@ ArrayOfVector Nelson::HelpBrowserGateway::helpbrowserBuiltin(Evaluator* eval, in
     }
     else if (argIn.size() == 2)
     {
-        std::wstring param1 = argIn[0].getContentsAsWideString();
-        std::wstring param2 = argIn[1].getContentsAsWideString();
+        std::wstring param1 = argIn[0].getContentAsWideString();
+        std::wstring param2 = argIn[1].getContentAsWideString();
         if (param1 == L"-register")
         {
             HelpBrowser::getInstance()->registerHelpFile(param2);

@@ -44,7 +44,7 @@ ArrayOfVector Nelson::IntegerGateway::intminBuiltin(Evaluator* eval, int nLhs, c
         {
             Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
-        std::wstring classInt = param1.getContentsAsWideString();
+        std::wstring classInt = param1.getContentAsWideString();
         if (classInt == L"int8")
         {
             retval.push_back(ArrayOf::int8Constructor(-128));

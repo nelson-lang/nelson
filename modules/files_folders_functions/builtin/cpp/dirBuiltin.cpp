@@ -52,7 +52,7 @@ ArrayOfVector Nelson::FilesFoldersGateway::dirBuiltin(Evaluator* eval, int nLhs,
             {
                 Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
             }
-            woption = argIn[1].getContentsAsWideString();
+            woption = argIn[1].getContentAsWideString();
             if (woption == L"-s")
             {
                 bSubDirectories = true;
@@ -68,7 +68,7 @@ ArrayOfVector Nelson::FilesFoldersGateway::dirBuiltin(Evaluator* eval, int nLhs,
             {
                 Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
             }
-            wpath = argIn[0].getContentsAsWideString();
+            wpath = argIn[0].getContentAsWideString();
         }
         break;
         default:

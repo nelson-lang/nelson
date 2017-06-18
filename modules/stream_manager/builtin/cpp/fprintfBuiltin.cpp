@@ -43,7 +43,7 @@ ArrayOfVector Nelson::StreamGateway::fprintfBuiltin(Evaluator* eval, int nLhs, c
     double dID = 1;
     if (param1.isDoubleType() && param1.isScalar())
     {
-        dID = param1.getContentsAsDoubleScalar();
+        dID = param1.getContentAsDoubleScalar();
     }
     ArrayOf param2 = argIn[1];
     std::string msg;
@@ -51,7 +51,7 @@ ArrayOfVector Nelson::StreamGateway::fprintfBuiltin(Evaluator* eval, int nLhs, c
     {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    msg = param2.getContentsAsCString();
+    msg = param2.getContentAsCString();
     FilesManager *fm = (FilesManager *)(eval->FileManager);
     int32 iValue = (int32)dID;
     if (fm == nullptr)

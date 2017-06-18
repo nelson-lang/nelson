@@ -39,7 +39,7 @@ ArrayOfVector Nelson::HelpToolsGateway::xmldoccheckerBuiltin(Evaluator* eval, in
     ArrayOf arg1 = argIn[0];
     if (arg1.isSingleString())
     {
-        std::wstring fileOrDirName = arg1.getContentsAsWideString();
+        std::wstring fileOrDirName = arg1.getContentAsWideString();
         boost::filesystem::path pathIn(fileOrDirName);
         bool IsFileIn = false;
         try

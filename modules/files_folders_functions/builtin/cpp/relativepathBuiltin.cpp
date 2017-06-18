@@ -33,8 +33,8 @@ ArrayOfVector Nelson::FilesFoldersGateway::relativepathBuiltin(Evaluator* eval, 
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    std::wstring param1 = argIn[0].getContentsAsWideString();
-    std::wstring param2 = argIn[1].getContentsAsWideString();
+    std::wstring param1 = argIn[0].getContentAsWideString();
+    std::wstring param2 = argIn[1].getContentAsWideString();
     bool bSuccess = false;
     std::wstring result = RelativePath(param1, param2, bSuccess);
     if (bSuccess)

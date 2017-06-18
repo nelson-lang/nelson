@@ -37,7 +37,7 @@ ArrayOfVector Nelson::FunctionsGateway::macroargsBuiltin(Evaluator* eval, int nL
     std::wstring wfunctionname;
     if (argIn[0].isSingleString())
     {
-        wfunctionname = argIn[0].getContentsAsWideString();
+        wfunctionname = argIn[0].getContentAsWideString();
     }
     else
     {

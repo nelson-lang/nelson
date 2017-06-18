@@ -35,7 +35,7 @@ ArrayOfVector Nelson::DynamicLinkGateway::removegatewayBuiltin(Evaluator* eval, 
     }
     if (argIn[0].isSingleString())
     {
-        std::wstring dynlibName = argIn[0].getContentsAsWideString();
+        std::wstring dynlibName = argIn[0].getContentAsWideString();
         RemoveGateway(eval, dynlibName);
     }
     else

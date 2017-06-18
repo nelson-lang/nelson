@@ -108,7 +108,7 @@ ArrayOfVector Nelson::StreamGateway::fopenBuiltin(Evaluator* eval, int nLhs, con
             ArrayOf param1 = argIn[0];
             if (param1.isDoubleType())
             {
-                int32 iValue = (int32)param1.getContentsAsDoubleScalar();
+                int32 iValue = (int32)param1.getContentAsDoubleScalar();
                 FilesManager *fm = (FilesManager *)(eval->FileManager);
                 File *_file = fm->getFile(iValue);
                 if (nLhs > 2)
@@ -134,7 +134,7 @@ ArrayOfVector Nelson::StreamGateway::fopenBuiltin(Evaluator* eval, int nLhs, con
             }
             else if (param1.isSingleString())
             {
-                filename = param1.getContentsAsWideString();
+                filename = param1.getContentAsWideString();
                 if (filename == L"all")
                 {
                     return FopenAll(eval);
@@ -156,8 +156,8 @@ ArrayOfVector Nelson::StreamGateway::fopenBuiltin(Evaluator* eval, int nLhs, con
             ArrayOf param2 = argIn[1];
             if (param1.isSingleString() && param2.isSingleString())
             {
-                filename = param1.getContentsAsWideString();
-                mode = param2.getContentsAsWideString();
+                filename = param1.getContentAsWideString();
+                mode = param2.getContentAsWideString();
                 return Fopen(eval, filename, mode);
             }
             else

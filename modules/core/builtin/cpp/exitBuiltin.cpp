@@ -47,7 +47,7 @@ ArrayOfVector Nelson::CoreGateway::exitBuiltin(Evaluator* eval, int nLhs, const 
             {
                 Error(eval, ERROR_WRONG_ARGUMENT_1_SIZE_SCALAR_EXPECTED);
             }
-            double dValue = param1.getContentsAsDoubleScalar();
+            double dValue = param1.getContentAsDoubleScalar();
             iValue = (int)dValue;
             if ((double)iValue != dValue)
             {

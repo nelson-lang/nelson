@@ -45,7 +45,7 @@ ArrayOfVector Nelson::HistoryManagerGateway::history_managerBuiltin(Evaluator* e
         if (argIn[0].isString())
         {
             bool bOldMode = false;
-            std::wstring arg = argIn[0].getContentsAsWideString();
+            std::wstring arg = argIn[0].getContentAsWideString();
             if (eval->HistoryManager)
             {
                 bOldMode = true;

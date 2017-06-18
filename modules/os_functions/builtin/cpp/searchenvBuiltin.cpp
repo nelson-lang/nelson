@@ -38,7 +38,7 @@ ArrayOfVector Nelson::OsFunctionsGateway::searchenvBuiltin(Evaluator* eval, int 
     std::wstring fileToSearch = L"";
     if (argIn[0].isSingleString())
     {
-        fileToSearch = argIn[0].getContentsAsWideString();
+        fileToSearch = argIn[0].getContentAsWideString();
     }
     else
     {
@@ -46,7 +46,7 @@ ArrayOfVector Nelson::OsFunctionsGateway::searchenvBuiltin(Evaluator* eval, int 
     }
     if (argIn.size() == 2)
     {
-        varEnvName = argIn[1].getContentsAsWideString();
+        varEnvName = argIn[1].getContentAsWideString();
     }
     wstringVector res = SearchVariableEnvironmentW(fileToSearch, varEnvName);
     retval.push_back(ToCellStringAsColumn(res));

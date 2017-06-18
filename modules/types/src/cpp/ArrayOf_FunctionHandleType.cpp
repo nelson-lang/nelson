@@ -30,14 +30,14 @@ namespace Nelson {
         return false;
     }
     //=============================================================================
-    function_handle ArrayOf::getContentsAsFunctionHandle()
+    function_handle ArrayOf::getContentAsFunctionHandle()
     {
         function_handle fh = 0;
         std::string classString = this->getStructType();
         if (classString == NLS_FUNCTION_HANDLE_STR)
         {
             ArrayOf value1 = this->getField(NLS_FUNCTION_HANDLE_STR);
-            fh = value1.getContentsAsUnsignedInt64Scalar();
+            fh = value1.getContentAsUnsignedInt64Scalar();
         }
         else
         {

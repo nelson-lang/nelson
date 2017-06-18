@@ -53,7 +53,7 @@ namespace Nelson {
         return ArrayOf(NLS_SCOMPLEX, dim, data);
     }
     //=============================================================================
-    single ArrayOf::getContentsAsSingleScalar()
+    single ArrayOf::getContentAsSingleScalar()
     {
         single *qp;
         if (isComplex() || isReferenceType() || isString())
@@ -65,7 +65,7 @@ namespace Nelson {
         return (*qp);
     }
     //=============================================================================
-    std::complex<single> ArrayOf::getContentsAsSingleComplexScalar()
+    std::complex<single> ArrayOf::getContentAsSingleComplexScalar()
     {
         if (isReferenceType() || isString())
         {

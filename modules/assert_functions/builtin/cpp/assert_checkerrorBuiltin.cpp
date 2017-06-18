@@ -39,8 +39,8 @@ ArrayOfVector Nelson::AssertFunctionsGateway::assert_checkerrorBuiltin(Evaluator
     std::wstring expectedmsg = L"";
     std::wstring msg = L"";
     bool res = false;
-    command = param1.getContentsAsWideString();
-    expectedmsg = param2.getContentsAsWideString();
+    command = param1.getContentAsWideString();
+    expectedmsg = param2.getContentAsWideString();
     if (expectedmsg == L"")
     {
         Error(eval, _W("empty string not allowed as expected message."));

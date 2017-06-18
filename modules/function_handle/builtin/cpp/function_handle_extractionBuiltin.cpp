@@ -33,7 +33,7 @@ ArrayOfVector Nelson::FunctionHandleGateway::function_handle_extractionBuiltin(E
         ArrayOf Arg1 = argIn[0];
         if (Arg1.isFunctionHandle())
         {
-            function_handle fh = Arg1.getContentsAsFunctionHandle();
+            function_handle fh = Arg1.getContentAsFunctionHandle();
             FunctionDef *funcDef = nullptr;
             std::wstring functionName;
             bool found = PathFuncManager::getInstance()->find(fh, functionName);

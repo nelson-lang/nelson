@@ -47,7 +47,7 @@ ArrayOfVector Nelson::InterpreterGateway::iskeywordBuiltin(Evaluator* eval, int 
         {
             Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
-        std::wstring warg = argIn[0].getContentsAsWideString();
+        std::wstring warg = argIn[0].getContentAsWideString();
         retval.push_back(ArrayOf::logicalConstructor(isKeyword(warg)));
     }
     return retval;

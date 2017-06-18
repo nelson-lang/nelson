@@ -37,7 +37,7 @@ ArrayOfVector Nelson::FunctionsGateway::fevalBuiltin(Evaluator* eval, int nLhs, 
     if (param1.isFunctionHandle())
     {
         std::wstring functionname;
-        function_handle fh = param1.getContentsAsFunctionHandle();
+        function_handle fh = param1.getContentAsFunctionHandle();
         bool found = PathFuncManager::getInstance()->find(fh, functionname);
         if (!found)
         {
@@ -54,7 +54,7 @@ ArrayOfVector Nelson::FunctionsGateway::fevalBuiltin(Evaluator* eval, int nLhs, 
     }
     else
     {
-        fname = param1.getContentsAsCString();
+        fname = param1.getContentAsCString();
     }
     if (!context->lookupFunction(fname, funcDef))
     {

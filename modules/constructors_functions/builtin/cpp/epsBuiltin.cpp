@@ -61,7 +61,7 @@ ArrayOfVector Nelson::ConstructorsGateway::epsBuiltin(Evaluator* eval, int nLhs,
         }
         else if (argIn[0].isSingleString())
         {
-            std::wstring arg = argIn[0].getContentsAsWideString();
+            std::wstring arg = argIn[0].getContentAsWideString();
             if (arg.compare(L"single") == 0)
             {
                 retval.push_back(ArrayOf::singleConstructor(Epsilon((single)1.0)));

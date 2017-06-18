@@ -44,7 +44,7 @@ ArrayOfVector Nelson::HelpToolsGateway::xmldocbuildBuiltin(Evaluator* eval, int 
     wstringVector listOfDirectories;
     if (argSourceDirs.isSingleString())
     {
-        std::wstring dir = argSourceDirs.getContentsAsWideString();
+        std::wstring dir = argSourceDirs.getContentAsWideString();
         listOfDirectories.push_back(dir);
     }
     else if (argSourceDirs.isCell())
@@ -63,15 +63,15 @@ ArrayOfVector Nelson::HelpToolsGateway::xmldocbuildBuiltin(Evaluator* eval, int 
         }
     }
     ArrayOf argDestinationDir = argIn[1];
-    std::wstring dstDirectory = argDestinationDir.getContentsAsWideString();
+    std::wstring dstDirectory = argDestinationDir.getContentAsWideString();
     if (!IsDirectory(dstDirectory))
     {
         Error(eval, _W("Existing directory expected."));
     }
     ArrayOf argMainTitle = argIn[2];
-    std::wstring mainTitle = argMainTitle.getContentsAsWideString();
+    std::wstring mainTitle = argMainTitle.getContentAsWideString();
     ArrayOf argExportFormat = argIn[3];
-    std::wstring exportFormat = argExportFormat.getContentsAsWideString();
+    std::wstring exportFormat = argExportFormat.getContentAsWideString();
     if ((exportFormat != L"help") && (exportFormat != L"html"))
     {
         Error(eval, _W("format not supported: 'help' or 'html' expected."));

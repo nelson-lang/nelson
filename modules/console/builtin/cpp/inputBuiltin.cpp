@@ -35,7 +35,7 @@ ArrayOfVector Nelson::ConsoleGateway::inputBuiltin(Evaluator* eval, int nLhs, co
     std::wstring param2;
     if (argIn[0].isSingleString())
     {
-        param1 = argIn[0].getContentsAsWideString();
+        param1 = argIn[0].getContentAsWideString();
     }
     else
     {
@@ -45,7 +45,7 @@ ArrayOfVector Nelson::ConsoleGateway::inputBuiltin(Evaluator* eval, int nLhs, co
     {
         if (argIn[1].isSingleString())
         {
-            param2 = argIn[1].getContentsAsWideString();
+            param2 = argIn[1].getContentAsWideString();
         }
         else
         {

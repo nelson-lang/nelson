@@ -35,7 +35,7 @@ ArrayOfVector Nelson::TestsManagerGateway::test_parsetagsBuiltin(Evaluator* eval
     }
     TestTags tags;
     ArrayOf param1 = argIn[0];
-    std::wstring value = param1.getContentsAsWideString();
+    std::wstring value = param1.getContentAsWideString();
     std::wstring msg;
     if (!ParseTags(eval, value, tags, msg))
     {

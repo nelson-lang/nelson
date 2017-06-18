@@ -39,7 +39,7 @@ ArrayOfVector Nelson::StreamGateway::fgetsBuiltin(Evaluator* eval, int nLhs, con
     if (argIn.size() == 2)
     {
         ArrayOf param2 = argIn[1];
-        nbCharacters = (int)param2.getContentsAsDoubleScalar();
+        nbCharacters = (int)param2.getContentAsDoubleScalar();
         if (nbCharacters >= 0)
         {
             if (std::isinf((double)nbCharacters))
@@ -60,7 +60,7 @@ ArrayOfVector Nelson::StreamGateway::fgetsBuiltin(Evaluator* eval, int nLhs, con
         {
             Error(eval, _W("Problem with file manager."));
         }
-        int32 iValue = (int32)param1.getContentsAsDoubleScalar();
+        int32 iValue = (int32)param1.getContentAsDoubleScalar();
         if (fm->isStdStream(iValue))
         {
             Error(eval, _W("Not implemented for requested file identifier."));

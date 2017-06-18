@@ -37,7 +37,7 @@ ArrayOfVector Nelson::FilesFoldersGateway::mkdirBuiltin(Evaluator* eval, int nLh
         {
             if (argIn[1].isSingleString())
             {
-                newDir = argIn[1].getContentsAsWideString();
+                newDir = argIn[1].getContentAsWideString();
             }
             else
             {
@@ -46,7 +46,7 @@ ArrayOfVector Nelson::FilesFoldersGateway::mkdirBuiltin(Evaluator* eval, int nLh
         }
         if (argIn[0].isSingleString())
         {
-            parentDir = argIn[0].getContentsAsWideString();
+            parentDir = argIn[0].getContentAsWideString();
         }
         else
         {

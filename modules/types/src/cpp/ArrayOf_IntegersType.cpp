@@ -202,7 +202,7 @@ namespace Nelson {
 #endif
     }
     //=============================================================================
-    uint8 ArrayOf::getContentsAsUnsignedInteger8Scalar()
+    uint8 ArrayOf::getContentAsUnsignedInteger8Scalar()
     {
         uint8 *qp;
         if (getLength() != 1)
@@ -214,7 +214,7 @@ namespace Nelson {
         return (*qp);
     }
     //=============================================================================
-    int8 ArrayOf::getContentsAsInteger8Scalar()
+    int8 ArrayOf::getContentAsInteger8Scalar()
     {
         int8 *qp;
         if (getLength() != 1)
@@ -226,7 +226,7 @@ namespace Nelson {
         return (*qp);
     }
     //=============================================================================
-    int32 ArrayOf::getContentsAsInteger32Scalar()
+    int32 ArrayOf::getContentAsInteger32Scalar()
     {
         int32 *qp;
         if (getLength() != 1)
@@ -238,7 +238,7 @@ namespace Nelson {
         return (*qp);
     }
     //=============================================================================
-    uint32 ArrayOf::getContentsAsUnsignedInteger32Scalar()
+    uint32 ArrayOf::getContentAsUnsignedInteger32Scalar()
     {
         uint32 *qp;
         if (getLength() != 1)
@@ -250,7 +250,7 @@ namespace Nelson {
         return (*qp);
     }
     //=============================================================================
-    int64 ArrayOf::getContentsAsInteger64Scalar()
+    int64 ArrayOf::getContentAsInteger64Scalar()
     {
         int64 *qp;
         if (getLength() != 1)
@@ -262,7 +262,7 @@ namespace Nelson {
         return (*qp);
     }
     //=============================================================================
-    uint64 ArrayOf::getContentsAsUnsignedInt64Scalar()
+    uint64 ArrayOf::getContentAsUnsignedInt64Scalar()
     {
         uint64 *qp;
         if (getLength() != 1)

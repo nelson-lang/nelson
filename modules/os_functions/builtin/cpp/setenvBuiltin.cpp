@@ -37,7 +37,7 @@ ArrayOfVector Nelson::OsFunctionsGateway::setenvBuiltin(Evaluator* eval, int nLh
     std::wstring varEnvValue = L"";
     if (argIn[0].isSingleString())
     {
-        varEnvName = argIn[0].getContentsAsWideString();
+        varEnvName = argIn[0].getContentAsWideString();
     }
     else
     {
@@ -45,7 +45,7 @@ ArrayOfVector Nelson::OsFunctionsGateway::setenvBuiltin(Evaluator* eval, int nLh
     }
     if (argIn.size() == 2)
     {
-        varEnvValue = argIn[1].getContentsAsWideString();
+        varEnvValue = argIn[1].getContentAsWideString();
     }
     if (!SetVariableEnvironmentW(varEnvName, varEnvValue))
     {

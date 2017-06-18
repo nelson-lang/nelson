@@ -61,7 +61,7 @@ ArrayOfVector Nelson::OsFunctionsGateway::computerBuiltin(Evaluator* eval, int n
         {
             Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
-        std::wstring warg = argIn[0].getContentsAsWideString();
+        std::wstring warg = argIn[0].getContentAsWideString();
         if (warg.compare(L"arch") != 0)
         {
             Error(eval, _W("Unknown command option."));

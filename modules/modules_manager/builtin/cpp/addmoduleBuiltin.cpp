@@ -37,7 +37,7 @@ ArrayOfVector Nelson::ModulesManagerGateway::addmoduleBuiltin(Evaluator* eval, i
     std::wstring moduleshortname = L"";
     if (argIn[0].isSingleString())
     {
-        modulerootpath = argIn[0].getContentsAsWideString();
+        modulerootpath = argIn[0].getContentAsWideString();
     }
     else
     {
@@ -45,7 +45,7 @@ ArrayOfVector Nelson::ModulesManagerGateway::addmoduleBuiltin(Evaluator* eval, i
     }
     if (argIn[1].isSingleString())
     {
-        moduleshortname = argIn[1].getContentsAsWideString();
+        moduleshortname = argIn[1].getContentAsWideString();
     }
     else
     {

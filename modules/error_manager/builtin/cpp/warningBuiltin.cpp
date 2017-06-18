@@ -35,7 +35,7 @@ ArrayOfVector Nelson::ErrorManagerGateway::warningBuiltin(Evaluator* eval, int n
     retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
     if (!bSuccess)
     {
-        std::wstring msg = argIn[0].getContentsAsWideString();
+        std::wstring msg = argIn[0].getContentAsWideString();
         Warning(eval, msg);
     }
     return retval;

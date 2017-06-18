@@ -40,7 +40,7 @@ ArrayOfVector Nelson::FunctionsGateway::whichBuiltin(Evaluator* eval, int nLhs, 
     {
         if (argIn[0].isSingleString())
         {
-            std::wstring wfunctionname = argIn[0].getContentsAsWideString();
+            std::wstring wfunctionname = argIn[0].getContentAsWideString();
             if (nLhs == 0)
             {
                 Interface *io = eval->getInterface();
@@ -82,7 +82,7 @@ ArrayOfVector Nelson::FunctionsGateway::whichBuiltin(Evaluator* eval, int nLhs, 
         std::wstring wfunctionname;
         if (argIn[0].isSingleString())
         {
-            wfunctionname = argIn[0].getContentsAsWideString();
+            wfunctionname = argIn[0].getContentAsWideString();
         }
         else
         {
@@ -91,7 +91,7 @@ ArrayOfVector Nelson::FunctionsGateway::whichBuiltin(Evaluator* eval, int nLhs, 
         std::wstring wparam2;
         if (argIn[1].isSingleString())
         {
-            wparam2 = argIn[1].getContentsAsWideString();
+            wparam2 = argIn[1].getContentAsWideString();
         }
         else
         {

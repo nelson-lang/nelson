@@ -41,7 +41,7 @@ ArrayOfVector Nelson::StringGateway::strfindBuiltin(Evaluator* eval, int nLhs, c
         ArrayOf param4 = argIn[3];
         if (param3.isSingleString())
         {
-            std::wstring str = param3.getContentsAsWideString();
+            std::wstring str = param3.getContentAsWideString();
             if (str != L"ForceCellOutput")
             {
                 Error(eval, _W("'ForceCellOutput' expected as third input argument."));
@@ -94,13 +94,13 @@ ArrayOfVector Nelson::StringGateway::strfindBuiltin(Evaluator* eval, int nLhs, c
                                 for (size_t k = 0; k < nbElements; k++)
                                 {
                                     ArrayOf *cellA = (ArrayOf*)(A.getDataPointer());
-                                    elements[k] = StringFind(A.getContentsAsWideString(), B.getContentsAsWideString());
+                                    elements[k] = StringFind(A.getContentAsWideString(), B.getContentAsWideString());
                                 }
                                 retval.push_back(ArrayOf(NLS_CELL_ARRAY, dimA, elements));
                             }
                             else
                             {
-                                retval.push_back(StringFind(A.getContentsAsWideString(), B.getContentsAsWideString()));
+                                retval.push_back(StringFind(A.getContentAsWideString(), B.getContentAsWideString()));
                             }
                         }
                         else
@@ -136,8 +136,8 @@ ArrayOfVector Nelson::StringGateway::strfindBuiltin(Evaluator* eval, int nLhs, c
                             {
                                 if ((B.isRowVector() && !B.isEmpty()) || B.isEmpty(true))
                                 {
-                                    std::wstring valB = B.getContentsAsWideString();
-                                    elements[k] = StringFind(cellA[k].getContentsAsWideString(), valB);
+                                    std::wstring valB = B.getContentAsWideString();
+                                    elements[k] = StringFind(cellA[k].getContentAsWideString(), valB);
                                 }
                                 else
                                 {

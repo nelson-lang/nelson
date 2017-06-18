@@ -38,7 +38,7 @@ ArrayOfVector Nelson::OsFunctionsGateway::systemBuiltin(Evaluator* eval, int nLh
     {
         if (argIn[1].isSingleString())
         {
-            std::wstring flag = argIn[1].getContentsAsWideString();
+            std::wstring flag = argIn[1].getContentAsWideString();
             if (flag.compare(L"-echo") == 0)
             {
                 bEcho = true;
@@ -64,7 +64,7 @@ ArrayOfVector Nelson::OsFunctionsGateway::systemBuiltin(Evaluator* eval, int nLh
     std::wstring cmd = L"";
     if (argIn[0].isSingleString())
     {
-        cmd = argIn[0].getContentsAsWideString();
+        cmd = argIn[0].getContentAsWideString();
     }
     else
     {
@@ -75,7 +75,7 @@ ArrayOfVector Nelson::OsFunctionsGateway::systemBuiltin(Evaluator* eval, int nLh
     if (bEcho)
     {
         Interface *io = eval->getInterface();
-        std::wstring msg = ret.getContentsAsWideString();
+        std::wstring msg = ret.getContentAsWideString();
         io->outputMessage(msg);
     }
     ArrayOf err = ArrayOf::doubleConstructor((double)ierr);

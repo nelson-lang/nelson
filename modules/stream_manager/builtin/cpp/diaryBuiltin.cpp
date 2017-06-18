@@ -41,7 +41,7 @@ ArrayOfVector Nelson::StreamGateway::diaryBuiltin(Evaluator* eval, int nLhs, con
     {
         if (argIn[0].isSingleString())
         {
-            std::wstring param = argIn[0].getContentsAsWideString();
+            std::wstring param = argIn[0].getContentAsWideString();
             if (param.compare(L"on") == 0)
             {
                 if (nLhs != 0)
@@ -94,12 +94,12 @@ ArrayOfVector Nelson::StreamGateway::diaryBuiltin(Evaluator* eval, int nLhs, con
             {
                 Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }
-            std::wstring param1 = argIn[0].getContentsAsWideString();
+            std::wstring param1 = argIn[0].getContentAsWideString();
             if (param1.compare(L"get") != 0)
             {
                 Error(eval, _W("#1 Argument \'get\' expected."));
             }
-            std::wstring param2 = argIn[1].getContentsAsWideString();
+            std::wstring param2 = argIn[1].getContentAsWideString();
             if (param2.compare(L"Diary") == 0)
             {
                 if (io->diary.getState())
@@ -138,13 +138,13 @@ ArrayOfVector Nelson::StreamGateway::diaryBuiltin(Evaluator* eval, int nLhs, con
                 (argIn[1].isSingleString()) &&
                 (argIn[2].isSingleString()) )
         {
-            std::wstring param1 = argIn[0].getContentsAsWideString();
+            std::wstring param1 = argIn[0].getContentAsWideString();
             if (param1.compare(L"set") != 0)
             {
                 Error(eval, _W("#1 Argument \'set\' expected."));
             }
-            std::wstring param3 = argIn[2].getContentsAsWideString();
-            std::wstring param2 = argIn[1].getContentsAsWideString();
+            std::wstring param3 = argIn[2].getContentAsWideString();
+            std::wstring param2 = argIn[1].getContentAsWideString();
             if (param2.compare(L"Diary") == 0)
             {
                 if ((param3.compare(L"off") == 0) || (param3.compare(L"on") == 0))

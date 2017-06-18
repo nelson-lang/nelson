@@ -44,7 +44,7 @@ ArrayOfVector Nelson::FunctionsGateway::addpathBuiltin(Evaluator* eval, int nLhs
         ArrayOf lastParam = argIn[lastpos];
         if (lastParam.isSingleString())
         {
-            std::wstring option = lastParam.getContentsAsWideString();
+            std::wstring option = lastParam.getContentAsWideString();
             if ((option == L"-begin") || (option == L"-end"))
             {
                 if (option == L"-begin")
@@ -82,7 +82,7 @@ ArrayOfVector Nelson::FunctionsGateway::addpathBuiltin(Evaluator* eval, int nLhs
         ArrayOf param = argIn[k];
         if (param.isSingleString())
         {
-            params.push_back(param.getContentsAsWideString());
+            params.push_back(param.getContentAsWideString());
         }
         else
         {

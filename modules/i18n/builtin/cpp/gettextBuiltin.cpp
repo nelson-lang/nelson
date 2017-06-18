@@ -33,7 +33,7 @@ ArrayOfVector Nelson::I18nGateway::gettextBuiltin(Evaluator* eval, int nLhs, con
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    std::wstring txt = argIn[0].getContentsAsWideString();
+    std::wstring txt = argIn[0].getContentAsWideString();
     retval.push_back(ArrayOf::stringConstructor(gettextw(txt)));
     return retval;
 }

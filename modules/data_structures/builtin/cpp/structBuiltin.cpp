@@ -58,7 +58,7 @@ ArrayOfVector Nelson::DataStructuresGateway::structBuiltin(Evaluator* eval, int 
             {
                 Error(eval, _W("requires pairs of field names and values."));
             }
-            std::string field = argIn[i].getContentsAsCString();
+            std::string field = argIn[i].getContentAsCString();
             if (!IsValidFieldname(field))
             {
                 Error(eval, _W("requires a valid fieldname."));

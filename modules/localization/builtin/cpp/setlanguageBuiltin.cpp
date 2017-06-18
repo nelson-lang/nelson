@@ -34,7 +34,7 @@ ArrayOfVector Nelson::LocalizationGateway::setlanguageBuiltin(Evaluator* eval, i
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    std::wstring desiredLang = argIn[0].getContentsAsWideString();
+    std::wstring desiredLang = argIn[0].getContentAsWideString();
     if (Localization::Instance()->isSupportedLanguage(desiredLang))
     {
         retval.push_back(ArrayOf::logicalConstructor(Localization::Instance()->setLanguage(desiredLang, true)));

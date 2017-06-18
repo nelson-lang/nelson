@@ -39,7 +39,7 @@ ArrayOfVector Nelson::FilesFoldersGateway::isdirBuiltin(Evaluator* eval, int nLh
     }
     else if (argIn[0].isSingleString())
     {
-        std::wstring wpath = argIn[0].getContentsAsWideString();
+        std::wstring wpath = argIn[0].getContentAsWideString();
         retval.push_back(ArrayOf::logicalConstructor(IsDirectory(wpath)));
     }
     else
@@ -61,7 +61,7 @@ ArrayOfVector Nelson::FilesFoldersGateway::isdirBuiltin(Evaluator* eval, int nLh
                     ArrayOf *arg = (ArrayOf*)(cell.getDataPointer());
                     if (arg[k].isSingleString())
                     {
-                        bmat[k] = IsDirectory(arg[k].getContentsAsWideString());
+                        bmat[k] = IsDirectory(arg[k].getContentAsWideString());
                     }
                     else
                     {

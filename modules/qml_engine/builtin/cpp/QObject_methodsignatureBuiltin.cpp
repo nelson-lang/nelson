@@ -33,7 +33,7 @@ ArrayOfVector Nelson::QmlEngineGateway::QObject_methodsignatureBuiltin(Evaluator
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param2 = argIn[1];
-    std::wstring propertyName = param2.getContentsAsWideString();
+    std::wstring propertyName = param2.getContentAsWideString();
     ArrayOfVector retval;
     ArrayOf res = methodSignatureQObject(argIn[0], propertyName);
     retval.push_back(res);

@@ -39,7 +39,7 @@ ArrayOfVector Nelson::CoreGateway::nfilenameBuiltin(Evaluator* eval, int nLhs, c
     {
         if (argIn[0].isSingleString())
         {
-            std::wstring argstr = argIn[0].getContentsAsWideString();
+            std::wstring argstr = argIn[0].getContentAsWideString();
             if ((argstr.compare(L"fullpath") == 0) || (argstr.compare(L"fullpathext") == 0))
             {
                 if (argstr.compare(L"fullpath") == 0)

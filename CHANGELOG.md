@@ -6,7 +6,7 @@ Features:
   ```
   qml_demos // for demonstrations
   ```
-  
+
   Qt 5.9 used on Windows binaries
 
   add 'heldlg', 'msgbox', 'errordlg', 'warndlg' functions based on QML.
@@ -26,6 +26,12 @@ Features:
   gui module also loaded in advanced cli mode.
 
   add more output information in the result file of test_run function.
+
+Bug Fixes:
+---------
+
+  [#43](http://github.com/Nelson-numerical-software/nelson/issues/43): rename getContentsAsWideString to getContentAsWideString.
+
 
 
 ## 0.1.5 alpha (2017-04-17)

@@ -78,12 +78,12 @@ namespace Nelson {
         if (a.isScalar())
         {
             Eigen::Map<Eigen::MatrixXf> matB((single*)b.getDataPointer(), mB, nB);
-            matC = a.getContentsAsSingleScalar() + matB.array();
+            matC = a.getContentAsSingleScalar() + matB.array();
         }
         else if (b.isScalar())
         {
             Eigen::Map<Eigen::MatrixXf> matA((single*)a.getDataPointer(), mA, nA);
-            matC = matA.array() + b.getContentsAsSingleScalar();
+            matC = matA.array() + b.getContentAsSingleScalar();
         }
         else
         {

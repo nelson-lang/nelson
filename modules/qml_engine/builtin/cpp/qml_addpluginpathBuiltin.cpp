@@ -33,7 +33,7 @@ ArrayOfVector Nelson::QmlEngineGateway::qml_addpluginpathBuiltin(Evaluator* eval
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
-    QmlEngine::getInstance()->addPluginPath(param1.getContentsAsWideString());
+    QmlEngine::getInstance()->addPluginPath(param1.getContentAsWideString());
     ArrayOfVector retval;
     return retval;
 }

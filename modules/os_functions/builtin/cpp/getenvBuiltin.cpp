@@ -35,7 +35,7 @@ ArrayOfVector Nelson::OsFunctionsGateway::getenvBuiltin(Evaluator* eval, int nLh
     ArrayOfVector retval;
     if (argIn[0].isSingleString())
     {
-        std::wstring varEnvName = argIn[0].getContentsAsWideString();
+        std::wstring varEnvName = argIn[0].getContentAsWideString();
         std::wstring ret = GetVariableEnvironment(varEnvName);
         retval.push_back(ArrayOf::stringConstructor(ret));
     }

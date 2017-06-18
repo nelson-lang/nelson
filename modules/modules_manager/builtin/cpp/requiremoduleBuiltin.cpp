@@ -37,7 +37,7 @@ ArrayOfVector Nelson::ModulesManagerGateway::requiremoduleBuiltin(Evaluator* eva
     std::wstring moduleshortname = L"";
     if (argIn[0].isSingleString())
     {
-        moduleshortname = argIn[0].getContentsAsWideString();
+        moduleshortname = argIn[0].getContentAsWideString();
     }
     else
     {

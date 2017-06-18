@@ -44,7 +44,7 @@ ArrayOfVector Nelson::HelpToolsGateway::headcommentsBuiltin(Evaluator* eval, int
         std::wstring functionName = L"";
         if (arg1.isSingleString())
         {
-            functionName = arg1.getContentsAsWideString();
+            functionName = arg1.getContentAsWideString();
             if (IsFile(functionName))
             {
                 filename = functionName;
@@ -73,7 +73,7 @@ ArrayOfVector Nelson::HelpToolsGateway::headcommentsBuiltin(Evaluator* eval, int
         }
         else if (arg1.isFunctionHandle())
         {
-            function_handle fh = arg1.getContentsAsFunctionHandle();
+            function_handle fh = arg1.getContentAsFunctionHandle();
             FunctionDef *fun = (FunctionDef *)fh;
             if (eval->getContext()->getGlobalScope()->isPointerOnFunction(fun))
             {

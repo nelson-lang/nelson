@@ -42,7 +42,7 @@ ArrayOfVector Nelson::FunctionHandleGateway::func2strBuiltin(Evaluator* eval, in
     {
         if (arg1.isFunctionHandle())
         {
-            function_handle fh = arg1.getContentsAsFunctionHandle();
+            function_handle fh = arg1.getContentAsFunctionHandle();
             std::wstring functionname;
             bool found = PathFuncManager::getInstance()->find(fh, functionname);
             if (!found)

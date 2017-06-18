@@ -36,7 +36,7 @@ ArrayOfVector Nelson::FunctionHandleGateway::str2funcBuiltin(Evaluator* eval, in
     std::wstring wfunctionname;
     if (argIn[0].isSingleString())
     {
-        wfunctionname = argIn[0].getContentsAsWideString();
+        wfunctionname = argIn[0].getContentAsWideString();
     }
     else
     {

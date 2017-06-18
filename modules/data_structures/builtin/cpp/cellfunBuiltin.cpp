@@ -397,7 +397,7 @@ static ArrayOfVector isclass_cellfunBuiltin(Evaluator* eval, int nLhs, const Arr
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param3 = argIn[2];
-    std::wstring classExpected = param3.getContentsAsWideString();
+    std::wstring classExpected = param3.getContentAsWideString();
     ArrayOf Cell = argIn[1];
     indexType nbElements = Cell.getDimensions().getElementCount();
     logical  *matLogical = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, Cell.getDimensions().getElementCount());
@@ -445,7 +445,7 @@ ArrayOfVector Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int
     {
         if (argIn[nbElementsInput - 2].isSingleString())
         {
-            std::wstring argName = argIn[nbElementsInput - 2].getContentsAsWideString();
+            std::wstring argName = argIn[nbElementsInput - 2].getContentAsWideString();
             if (argName == L"UniformOutput")
             {
                 if (argIn[nbElementsInput - 1].isLogical())
@@ -466,7 +466,7 @@ ArrayOfVector Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int
                 ArrayOf param = argIn[nbElementsInput - 1];
                 if (param.isFunctionHandle())
                 {
-                    errorFunc = param.getContentsAsFunctionHandle();
+                    errorFunc = param.getContentAsFunctionHandle();
                     bHaveErrorHandlerArgs = true;
                 }
                 else
@@ -480,7 +480,7 @@ ArrayOfVector Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int
     {
         if (argIn[nbElementsInput - 4].isSingleString())
         {
-            std::wstring argName = argIn[nbElementsInput - 4].getContentsAsWideString();
+            std::wstring argName = argIn[nbElementsInput - 4].getContentAsWideString();
             if (argName == L"UniformOutput")
             {
                 if (argIn[nbElementsInput - 5].isLogical())
@@ -514,7 +514,7 @@ ArrayOfVector Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int
                     }
                     else
                     {
-                        errorFunc = param.getContentsAsFunctionHandle();
+                        errorFunc = param.getContentAsFunctionHandle();
                         bHaveErrorHandlerArgs = true;
                     }
                 }
@@ -543,7 +543,7 @@ ArrayOfVector Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int
     {
         if (param1.isSingleString())
         {
-            std::wstring functionName = param1.getContentsAsWideString();
+            std::wstring functionName = param1.getContentAsWideString();
             if (functionName == L"isempty")
             {
                 return isempty_cellfunBuiltin(eval, nLhs, argIn);
@@ -586,7 +586,7 @@ ArrayOfVector Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int
         }
         else
         {
-            function_handle fh = param1.getContentsAsFunctionHandle();
+            function_handle fh = param1.getContentAsFunctionHandle();
             std::wstring functionName;
             if (PathFuncManager::getInstance()->find(fh, functionName))
             {

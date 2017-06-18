@@ -44,7 +44,7 @@ namespace Nelson {
         return ArrayOf(NLS_HANDLE, dims, (void *)ptrObject);
     }
     //=============================================================================
-    HandleGenericObject *ArrayOf::getContentsAsHandleScalar()
+    HandleGenericObject *ArrayOf::getContentAsHandleScalar()
     {
         if (!isHandle())
         {

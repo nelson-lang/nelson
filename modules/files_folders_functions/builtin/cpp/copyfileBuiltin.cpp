@@ -31,7 +31,7 @@ ArrayOfVector Nelson::FilesFoldersGateway::copyfileBuiltin(Evaluator* eval, int 
         bool bForce = false;
         if (argIn.size() == 3)
         {
-            std::wstring arg3 = argIn[2].getContentsAsWideString();
+            std::wstring arg3 = argIn[2].getContentAsWideString();
             if ((arg3 == L"f") || (arg3 == L"F"))
             {
                 bForce = true;
@@ -44,11 +44,11 @@ ArrayOfVector Nelson::FilesFoldersGateway::copyfileBuiltin(Evaluator* eval, int 
         bool bRes = false;
         std::wstring errorMessage = L"";
         ArrayOf arg2 = argIn[1];
-        std::wstring dest = arg2.getContentsAsWideString();
+        std::wstring dest = arg2.getContentAsWideString();
         ArrayOf arg1 = argIn[0];
         if (arg1.isSingleString())
         {
-            std::wstring src = arg1.getContentsAsWideString();
+            std::wstring src = arg1.getContentAsWideString();
             if (IsFile(src))
             {
                 bRes = CopyFile(src, dest, bForce, errorMessage);

@@ -42,7 +42,7 @@ ArrayOfVector Nelson::StreamGateway::fcloseBuiltin(Evaluator* eval, int nLhs, co
         {
             Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         }
-        int32 iValue = (int32)param1.getContentsAsDoubleScalar();
+        int32 iValue = (int32)param1.getContentAsDoubleScalar();
         if (fm->isOpened(iValue))
         {
             if (FileClose(fm, iValue))
@@ -65,7 +65,7 @@ ArrayOfVector Nelson::StreamGateway::fcloseBuiltin(Evaluator* eval, int nLhs, co
         {
             Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         }
-        std::wstring str = param1.getContentsAsWideString();
+        std::wstring str = param1.getContentAsWideString();
         if (str == L"all")
         {
             Nelson::FilesManager *nfm = new Nelson::FilesManager();

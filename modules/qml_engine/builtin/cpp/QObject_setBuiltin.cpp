@@ -34,7 +34,7 @@ ArrayOfVector Nelson::QmlEngineGateway::QObject_setBuiltin(Evaluator* eval, int 
     }
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];
-    std::wstring propertyName = param2.getContentsAsWideString();
+    std::wstring propertyName = param2.getContentAsWideString();
     ArrayOf param3 = argIn[2];
     ArrayOfVector retval;
     SetQmlHandleObject(param1, propertyName, param3);

@@ -37,7 +37,7 @@ ArrayOfVector Nelson::AssertFunctionsGateway::assert_isfalseBuiltin(Evaluator* e
     if (argIn.size() == 2)
     {
         ArrayOf param2 = argIn[1];
-        modifiedmsg = param2.getContentsAsWideString();
+        modifiedmsg = param2.getContentAsWideString();
     }
     ArrayOf param1 = argIn[0];
     if (!param1.isLogical())

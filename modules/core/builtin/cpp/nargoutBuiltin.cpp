@@ -53,11 +53,11 @@ ArrayOfVector Nelson::CoreGateway::nargoutBuiltin(Evaluator* eval, int nLhs, con
         std::wstring name;
         if (param1.isSingleString())
         {
-            name = param1.getContentsAsWideString();
+            name = param1.getContentAsWideString();
         }
         else if (param1.isFunctionHandle())
         {
-            function_handle fh = param1.getContentsAsFunctionHandle();
+            function_handle fh = param1.getContentAsFunctionHandle();
             FunctionDef *funcDef = (FunctionDef *)fh;
             if (eval->getContext()->getGlobalScope()->isPointerOnFunction(funcDef))
             {

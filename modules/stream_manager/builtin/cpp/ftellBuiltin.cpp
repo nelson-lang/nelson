@@ -36,7 +36,7 @@ ArrayOfVector Nelson::StreamGateway::ftellBuiltin(Evaluator* eval, int nLhs, con
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
-    int32 iValue = (int32)param1.getContentsAsDoubleScalar();
+    int32 iValue = (int32)param1.getContentAsDoubleScalar();
     FilesManager *fm = (FilesManager *)(eval->FileManager);
     if (fm == nullptr)
     {

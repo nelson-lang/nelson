@@ -26,8 +26,8 @@ namespace Nelson {
         bool bRes;
         if (A.isFunctionHandle() && B.isFunctionHandle())
         {
-            function_handle fhA = A.getContentsAsFunctionHandle();
-            function_handle fhB = B.getContentsAsFunctionHandle();
+            function_handle fhA = A.getContentAsFunctionHandle();
+            function_handle fhB = B.getContentAsFunctionHandle();
             bRes = (fhA == fhB);
         }
         else

@@ -320,7 +320,7 @@ namespace Nelson {
                 B.reshape(dimsVector[i]),
                           resAsArrayOf = VertCatString(resAsArrayOf, B);
             }
-            res = resAsArrayOf.getContentsAsArrayOfCharacters();
+            res = resAsArrayOf.getContentAsArrayOfCharacters();
             dims[0] = resAsArrayOf.getDimensions().getRows();
             dims[1] = resAsArrayOf.getDimensions().getColumns();
         }

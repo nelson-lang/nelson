@@ -33,7 +33,7 @@ ArrayOfVector Nelson::QmlEngineGateway::qml_createqquickviewBuiltin(Evaluator* e
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
-    std::wstring filename = param1.getContentsAsWideString();
+    std::wstring filename = param1.getContentAsWideString();
     QmlHandleObject *qmlhandle = QmlEngine::getInstance()->createQQuickView(filename);
     ArrayOfVector retval;
     retval.push_back(ArrayOf::handleConstructor(qmlhandle));

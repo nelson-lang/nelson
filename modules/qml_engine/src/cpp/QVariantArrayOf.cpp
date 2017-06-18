@@ -717,43 +717,43 @@ namespace Nelson {
             break;
             case QVariant::Type::Int:
             {
-                int32 v = A.getContentsAsInteger32Scalar();
+                int32 v = A.getContentAsInteger32Scalar();
                 res = v;
             }
             break;
             case QVariant::Type::UInt:
             {
-                uint32 v = A.getContentsAsUnsignedInteger32Scalar();
+                uint32 v = A.getContentAsUnsignedInteger32Scalar();
                 res = v;
             }
             break;
             case QVariant::Type::LongLong:
             {
-                int64 v = A.getContentsAsInteger64Scalar();
+                int64 v = A.getContentAsInteger64Scalar();
                 res = QVariant((long long)v);
             }
             break;
             case QVariant::Type::ULongLong:
             {
-                uint64 v = A.getContentsAsUnsignedInt64Scalar();
+                uint64 v = A.getContentAsUnsignedInt64Scalar();
                 res = QVariant((unsigned long long)v);
             }
             break;
             case QVariant::Type::Double:
             {
-                double v = A.getContentsAsDoubleScalar();
+                double v = A.getContentAsDoubleScalar();
                 res = v;
             }
             break;
             case QVariant::Type::Char:
             {
-                int8 v = A.getContentsAsInteger8Scalar();
+                int8 v = A.getContentAsInteger8Scalar();
                 res = v;
             }
             break;
             case QVariant::Type::String:
             {
-                std::wstring wstr = A.getContentsAsWideString();
+                std::wstring wstr = A.getContentAsWideString();
                 res = wstringToQString(wstr);
             }
             break;
@@ -852,7 +852,7 @@ namespace Nelson {
             break;
             case QVariant::Type::Url:
             {
-                std::wstring wstr = A.getContentsAsWideString();
+                std::wstring wstr = A.getContentAsWideString();
                 QUrl qurl(wstringToQString(wstr));
                 res = qurl;
             }
@@ -971,7 +971,7 @@ namespace Nelson {
             break;
             case QVariant::Type::Uuid:
             {
-                std::wstring wstr = A.getContentsAsWideString();
+                std::wstring wstr = A.getContentAsWideString();
                 QUuid quuid(wstringToQString(wstr));
                 res = quuid;
             }

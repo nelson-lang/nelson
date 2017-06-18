@@ -2163,7 +2163,7 @@ namespace Nelson {
             try
             {
                 ArrayOf fname(expression(t->down));
-                field = fname.getContentsAsCString();
+                field = fname.getContentAsCString();
             }
             catch (Exception &e)
             {
@@ -2284,7 +2284,7 @@ namespace Nelson {
             try
             {
                 ArrayOf fname(expression(t->down));
-                field = fname.getContentsAsCString();
+                field = fname.getContentAsCString();
             }
             catch (Exception &e)
             {
@@ -4114,7 +4114,7 @@ namespace Nelson {
                 try
                 {
                     ArrayOf fname(expression(t->down));
-                    field = fname.getContentsAsCString();
+                    field = fname.getContentAsCString();
                 }
                 catch (Exception &e)
                 {

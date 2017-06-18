@@ -47,7 +47,7 @@ ArrayOfVector Nelson::StringGateway::mat2strBuiltin(Evaluator* eval, int nLhs, c
             ArrayOf param2 = argIn[1];
             if (param3.isSingleString())
             {
-                std::wstring str = param3.getContentsAsWideString();
+                std::wstring str = param3.getContentAsWideString();
                 if (str == L"class")
                 {
                     withClass = true;
@@ -71,7 +71,7 @@ ArrayOfVector Nelson::StringGateway::mat2strBuiltin(Evaluator* eval, int nLhs, c
             ArrayOf param2 = argIn[1];
             if (param2.isSingleString())
             {
-                std::wstring str = param2.getContentsAsWideString();
+                std::wstring str = param2.getContentAsWideString();
                 if (str == L"class")
                 {
                     defautPrecision = 15;

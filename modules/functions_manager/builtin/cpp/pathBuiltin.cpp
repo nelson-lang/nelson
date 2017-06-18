@@ -76,7 +76,7 @@ ArrayOfVector Nelson::FunctionsGateway::pathBuiltin(Evaluator* eval, int nLhs, c
         {
             Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
-        std::wstring p = param1.getContentsAsWideString();
+        std::wstring p = param1.getContentAsWideString();
         wstringVector paths;
 #ifdef _MSC_VER
         boost::split(paths, p, boost::is_any_of(L";"));
@@ -103,8 +103,8 @@ ArrayOfVector Nelson::FunctionsGateway::pathBuiltin(Evaluator* eval, int nLhs, c
         {
             Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
         }
-        std::wstring p1 = param1.getContentsAsWideString();
-        std::wstring p2 = param2.getContentsAsWideString();
+        std::wstring p1 = param1.getContentAsWideString();
+        std::wstring p2 = param2.getContentAsWideString();
         wstringVector paths1;
 #ifdef _MSC_VER
         boost::split(paths1, p1, boost::is_any_of(L";"));

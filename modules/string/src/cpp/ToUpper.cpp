@@ -29,7 +29,7 @@ namespace Nelson {
         ArrayOf res;
         if (A.isSingleString())
         {
-            return ArrayOf::stringConstructor(ToUpper(A.getContentsAsWideString()));
+            return ArrayOf::stringConstructor(ToUpper(A.getContentAsWideString()));
         }
         else if (A.getDataClass() == NLS_CELL_ARRAY)
         {
@@ -48,7 +48,7 @@ namespace Nelson {
                     {
                         Error(eval, ERROR_TYPE_CELL_OF_STRINGS_EXPECTED);
                     }
-                    element[k] = ArrayOf::stringConstructor(ToUpper(element[k].getContentsAsWideString()));
+                    element[k] = ArrayOf::stringConstructor(ToUpper(element[k].getContentAsWideString()));
                 }
                 return res;
             }

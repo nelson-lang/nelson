@@ -43,7 +43,7 @@ ArrayOfVector Nelson::StreamGateway::fsizeBuiltin(Evaluator* eval, int nLhs, con
         {
             Error(eval, _W("Problem with file manager."));
         }
-        int32 iValue = (int32)param1.getContentsAsDoubleScalar();
+        int32 iValue = (int32)param1.getContentAsDoubleScalar();
         if (fm->isStdStream(iValue))
         {
             Error(eval, _W("Not implemented for requested file identifier."));

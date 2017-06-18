@@ -39,7 +39,7 @@ ArrayOfVector Nelson::CoreGateway::execstrBuiltin(Evaluator* eval, int nLhs, con
     std::wstring line;
     if (argIn[0].isSingleString())
     {
-        line = argIn[0].getContentsAsWideString();
+        line = argIn[0].getContentAsWideString();
     }
     else
     {
@@ -50,7 +50,7 @@ ArrayOfVector Nelson::CoreGateway::execstrBuiltin(Evaluator* eval, int nLhs, con
         if (argIn[1].isSingleString())
         {
             std::wstring catchstr;
-            catchstr = argIn[1].getContentsAsWideString();
+            catchstr = argIn[1].getContentAsWideString();
             if ((catchstr.compare(L"errcatch") == 0) || (catchstr.compare(L"nocatch") == 0))
             {
                 if (catchstr.compare(L"errcatch") == 0)

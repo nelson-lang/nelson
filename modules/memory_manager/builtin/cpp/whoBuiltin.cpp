@@ -40,7 +40,7 @@ ArrayOfVector Nelson::MemoryGateway::whoBuiltin(Evaluator* eval, int nLhs, const
         std::wstring param1;
         if (argIn[0].isSingleString())
         {
-            param1 = argIn[0].getContentsAsWideString();
+            param1 = argIn[0].getContentAsWideString();
         }
         else
         {

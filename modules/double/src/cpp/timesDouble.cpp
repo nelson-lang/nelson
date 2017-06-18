@@ -27,7 +27,7 @@ namespace Nelson {
         if (a.isScalar() && b.isScalar())
         {
             // s .* s
-            return ArrayOf::doubleConstructor(a.getContentsAsDoubleScalar() * b.getContentsAsDoubleScalar());
+            return ArrayOf::doubleConstructor(a.getContentAsDoubleScalar() * b.getContentAsDoubleScalar());
         }
         else
         {
@@ -40,7 +40,7 @@ namespace Nelson {
                 indexType Clen;
                 if (a.isScalar())
                 {
-                    double da = a.getContentsAsDoubleScalar();
+                    double da = a.getContentAsDoubleScalar();
                     dimsC = b.getDimensions();
                     Clen = dimsC.getElementCount();
                     Cp = new_with_exception<double>(Clen);
@@ -50,7 +50,7 @@ namespace Nelson {
                 }
                 else
                 {
-                    double db = b.getContentsAsDoubleScalar();
+                    double db = b.getContentAsDoubleScalar();
                     dimsC = a.getDimensions();
                     Clen = dimsC.getElementCount();
                     Cp = new_with_exception<double>(Clen);

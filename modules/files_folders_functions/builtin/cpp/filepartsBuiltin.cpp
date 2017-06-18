@@ -37,7 +37,7 @@ ArrayOfVector Nelson::FilesFoldersGateway::filepartsBuiltin(Evaluator* eval, int
             }
             if (argIn[1].isSingleString())
             {
-                wtype = argIn[1].getContentsAsWideString();
+                wtype = argIn[1].getContentAsWideString();
                 if (wtype.compare(L"path") == 0)
                 {
                     // OK
@@ -69,7 +69,7 @@ ArrayOfVector Nelson::FilesFoldersGateway::filepartsBuiltin(Evaluator* eval, int
         }
         if (argIn[0].isSingleString())
         {
-            wpath = argIn[0].getContentsAsWideString();
+            wpath = argIn[0].getContentAsWideString();
         }
         else
         {

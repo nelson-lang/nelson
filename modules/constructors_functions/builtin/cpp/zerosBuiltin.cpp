@@ -43,7 +43,7 @@ ArrayOfVector Nelson::ConstructorsGateway::zerosBuiltin(Evaluator* eval, int nLh
             ArrayOf Arg = argIn[argIn.size() - 2];
             if (Arg.isSingleString())
             {
-                std::wstring paramstr = Arg.getContentsAsWideString();
+                std::wstring paramstr = Arg.getContentAsWideString();
                 if (paramstr == L"like")
                 {
                     ArrayOf lastArg = argIn[argIn.size() - 1];
@@ -108,7 +108,7 @@ ArrayOfVector Nelson::ConstructorsGateway::zerosBuiltin(Evaluator* eval, int nLh
         ArrayOf lastArg = argIn[argIn.size() - 1];
         if (lastArg.isSingleString() && bCheckClassName)
         {
-            std::wstring paramstr = lastArg.getContentsAsWideString();
+            std::wstring paramstr = lastArg.getContentAsWideString();
             if (paramstr == L"int8")
             {
                 cl = NLS_INT8;

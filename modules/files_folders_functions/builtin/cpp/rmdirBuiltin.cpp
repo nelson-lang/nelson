@@ -28,10 +28,10 @@ ArrayOfVector Nelson::FilesFoldersGateway::rmdirBuiltin(Evaluator* eval, int nLh
     if (argIn.size() == 1 || argIn.size() == 2)
     {
         bool bbSubfolder = false;
-        std::wstring arg1 = argIn[0].getContentsAsWideString();
+        std::wstring arg1 = argIn[0].getContentAsWideString();
         if (argIn.size() == 2)
         {
-            std::wstring arg2 = argIn[1].getContentsAsWideString();
+            std::wstring arg2 = argIn[1].getContentAsWideString();
             if ((arg2 == L"s") || (arg2 == L"S"))
             {
                 bbSubfolder = true;

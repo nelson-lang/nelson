@@ -40,7 +40,7 @@ ArrayOfVector Nelson::GuiGateway::uigetdirBuiltin(Evaluator* eval, int nLhs, con
     {
         if (argIn[0].isSingleString())
         {
-            pathOrigin = argIn[0].getContentsAsWideString();
+            pathOrigin = argIn[0].getContentAsWideString();
         }
         else
         {
@@ -51,7 +51,7 @@ ArrayOfVector Nelson::GuiGateway::uigetdirBuiltin(Evaluator* eval, int nLhs, con
     {
         if (argIn[1].isSingleString())
         {
-            title= argIn[1].getContentsAsWideString();
+            title= argIn[1].getContentAsWideString();
         }
         else
         {

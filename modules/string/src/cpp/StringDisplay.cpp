@@ -30,7 +30,7 @@ namespace Nelson {
         Interface *io = eval->getInterface();
         if (Var.isSingleString())
         {
-            std::wstring msg = Var.getContentsAsWideString();
+            std::wstring msg = Var.getContentAsWideString();
             if (msg.size() == 0)
             {
                 if (!bFromBuiltin)

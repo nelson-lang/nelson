@@ -38,7 +38,7 @@ ArrayOfVector Nelson::QmlEngineGateway::QObject_fieldnamesBuiltin(Evaluator* eva
     if (argIn.size() == 2)
     {
         ArrayOf param2 = argIn[1];
-        std::wstring param2str = param2.getContentsAsWideString();
+        std::wstring param2str = param2.getContentAsWideString();
         if (param2str == L"-full")
         {
             fullList = true;

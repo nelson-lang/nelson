@@ -68,7 +68,7 @@ namespace Nelson {
         return ArrayOf(NLS_DCOMPLEX, dim, data);
     }
     //=============================================================================
-    double ArrayOf::getContentsAsDoubleScalar()
+    double ArrayOf::getContentAsDoubleScalar()
     {
         if (isComplex() || isReferenceType() || isString() || isSparse() || !isScalar())
         {
@@ -79,7 +79,7 @@ namespace Nelson {
         return (*qp);
     }
     //=============================================================================
-    doublecomplex ArrayOf::getContentsAsDoubleComplexScalar()
+    doublecomplex ArrayOf::getContentAsDoubleComplexScalar()
     {
         if (isReferenceType() || isString() || isSparse() || !isScalar())
         {

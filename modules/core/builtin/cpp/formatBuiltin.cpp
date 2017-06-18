@@ -76,7 +76,7 @@ ArrayOfVector Nelson::CoreGateway::formatBuiltin(Evaluator* eval, int nLhs, cons
     {
         if (argIn[0].isSingleString())
         {
-            std::wstring str = argIn[0].getContentsAsWideString();
+            std::wstring str = argIn[0].getContentAsWideString();
             if (str.compare(L"get")== 0)
             {
                 if (nLhs > 1)

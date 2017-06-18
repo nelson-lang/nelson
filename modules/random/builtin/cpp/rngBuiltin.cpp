@@ -64,7 +64,7 @@ ArrayOfVector Nelson::RandomGateway::rngBuiltin(Evaluator* eval, int nLhs, const
             ArrayOf arg1 = argIn[0];
             if (arg1.isSingleString())
             {
-                std::wstring param = arg1.getContentsAsWideString();
+                std::wstring param = arg1.getContentAsWideString();
                 if (!((param == L"default") || (param == L"shuffle") || (param == L"enginelist")))
                 {
                     Error(eval, _W("'default', 'shuffle' or 'enginelist' expected."));
@@ -98,7 +98,7 @@ ArrayOfVector Nelson::RandomGateway::rngBuiltin(Evaluator* eval, int nLhs, const
             }
             else if (arg1.isNumeric())
             {
-                double s = arg1.getContentsAsDoubleScalar();
+                double s = arg1.getContentAsDoubleScalar();
                 ArrayOf backupCurrentRngStruct;
                 if (nLhs == 1)
                 {
@@ -113,8 +113,8 @@ ArrayOfVector Nelson::RandomGateway::rngBuiltin(Evaluator* eval, int nLhs, const
             else if (arg1.isStruct())
             {
                 ArrayOfVector elements = splitRngStruct(eval, arg1);
-                std::wstring genname = elements[0].getContentsAsWideString();
-                double s = elements[1].getContentsAsDoubleScalar();
+                std::wstring genname = elements[0].getContentAsWideString();
+                double s = elements[1].getContentAsDoubleScalar();
                 RngSetEngine(eval, s, genname);
                 RngSetState(eval, elements[2]);
             }
@@ -130,8 +130,8 @@ ArrayOfVector Nelson::RandomGateway::rngBuiltin(Evaluator* eval, int nLhs, const
             ArrayOf arg2 = argIn[1];
             if (arg1.isNumeric() && arg2.isSingleString())
             {
-                double s = arg1.getContentsAsDoubleScalar();
-                std::wstring genname = arg2.getContentsAsWideString();
+                double s = arg1.getContentAsDoubleScalar();
+                std::wstring genname = arg2.getContentAsWideString();
                 if (!isRngType(genname))
                 {
                     Error(eval, _W("A valid generator name expected."));
@@ -149,12 +149,12 @@ ArrayOfVector Nelson::RandomGateway::rngBuiltin(Evaluator* eval, int nLhs, const
             }
             else if (arg1.isSingleString() && arg2.isSingleString())
             {
-                std::wstring param = arg1.getContentsAsWideString();
+                std::wstring param = arg1.getContentAsWideString();
                 if (param != L"shuffle")
                 {
                     Error(eval, _W("'shuffle' expected."));
                 }
-                std::wstring genname = arg2.getContentsAsWideString();
+                std::wstring genname = arg2.getContentAsWideString();
                 if (!isRngType(genname))
                 {
                     Error(eval, _W("A valid generator name expected."));

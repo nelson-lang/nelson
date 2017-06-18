@@ -123,14 +123,14 @@ namespace Nelson {
             if (DestinationClass == NLS_SCOMPLEX)
             {
                 single *ps = (single*)ptrdst;
-                single A = arrayA.getContentsAsSingleScalar();
+                single A = arrayA.getContentAsSingleScalar();
                 single *psB = (single*)arrayB.getDataPointer();
                 ComplexScalarArray<single>(A, psB, ps, len);
             }
             else
             {
                 double *pd = (double*)ptrdst;
-                double A = arrayA.getContentsAsDoubleScalar();
+                double A = arrayA.getContentAsDoubleScalar();
                 double *pdB = (double*)arrayB.getDataPointer();
                 ComplexScalarArray<double>(A, pdB, pd, len);
             }
@@ -144,14 +144,14 @@ namespace Nelson {
             {
                 single *ps = (single*)ptrdst;
                 single *psA = (single*)arrayA.getDataPointer();
-                single B = arrayB.getContentsAsSingleScalar();
+                single B = arrayB.getContentAsSingleScalar();
                 ComplexArrayScalar<single>(psA, B, ps, len);
             }
             else
             {
                 double *pd = (double*)ptrdst;
                 double *pdA = (double*)arrayA.getDataPointer();
-                double B = arrayB.getContentsAsDoubleScalar();
+                double B = arrayB.getContentAsDoubleScalar();
                 ComplexArrayScalar<double>(pdA, B, pd, len);
             }
         }

@@ -37,7 +37,7 @@ ArrayOfVector Nelson::ErrorManagerGateway::lasterrorBuiltin(Evaluator* eval, int
             ArrayOf arg1 = argIn[0];
             if (arg1.isSingleString())
             {
-                std::wstring str = arg1.getContentsAsWideString();
+                std::wstring str = arg1.getContentAsWideString();
                 if (str == L"reset")
                 {
                     eval->setLastException(Exception(L""));

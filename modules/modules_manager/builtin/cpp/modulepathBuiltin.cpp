@@ -55,7 +55,7 @@ ArrayOfVector Nelson::ModulesManagerGateway::modulepathBuiltin(Evaluator* eval, 
         std::wstring moduleshortname = L"";
         if (argIn[0].isSingleString())
         {
-            moduleshortname = argIn[0].getContentsAsWideString();
+            moduleshortname = argIn[0].getContentAsWideString();
         }
         else
         {
@@ -77,7 +77,7 @@ ArrayOfVector Nelson::ModulesManagerGateway::modulepathBuiltin(Evaluator* eval, 
         std::wstring option = L"";
         if (argIn[0].isSingleString())
         {
-            modulerootpath = argIn[0].getContentsAsWideString();
+            modulerootpath = argIn[0].getContentAsWideString();
         }
         else
         {
@@ -85,7 +85,7 @@ ArrayOfVector Nelson::ModulesManagerGateway::modulepathBuiltin(Evaluator* eval, 
         }
         if (argIn[1].isSingleString())
         {
-            moduleshortname = argIn[1].getContentsAsWideString();
+            moduleshortname = argIn[1].getContentAsWideString();
         }
         else
         {
@@ -93,7 +93,7 @@ ArrayOfVector Nelson::ModulesManagerGateway::modulepathBuiltin(Evaluator* eval, 
         }
         if (argIn[2].isSingleString())
         {
-            option = argIn[2].getContentsAsWideString();
+            option = argIn[2].getContentAsWideString();
         }
         else
         {

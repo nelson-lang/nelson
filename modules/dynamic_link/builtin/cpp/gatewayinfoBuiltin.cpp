@@ -36,7 +36,7 @@ ArrayOfVector Nelson::DynamicLinkGateway::gatewayinfoBuiltin(Evaluator* eval, in
     }
     if (argIn[0].isSingleString())
     {
-        std::wstring dynlibName = argIn[0].getContentsAsWideString();
+        std::wstring dynlibName = argIn[0].getContentAsWideString();
         std::wstring moduleName = L"";
         stringVector builtinList;
         std::wstring errorMessage = L"";

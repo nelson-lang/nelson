@@ -25,16 +25,16 @@ namespace Nelson {
     //=============================================================================
     ArrayOf colon_double(ArrayOf a, ArrayOf b)
     {
-        double A = a.getContentsAsDoubleScalar();
-        double B = b.getContentsAsDoubleScalar();
+        double A = a.getContentAsDoubleScalar();
+        double B = b.getContentAsDoubleScalar();
         return double_colon(A, B);
     }
     //=============================================================================
     ArrayOf colon_double(ArrayOf a, ArrayOf b, ArrayOf c)
     {
-        double A = a.getContentsAsDoubleScalar();
-        double B = b.getContentsAsDoubleScalar();
-        double C = c.getContentsAsDoubleScalar();
+        double A = a.getContentAsDoubleScalar();
+        double B = b.getContentAsDoubleScalar();
+        double C = c.getContentAsDoubleScalar();
         return double_colon(A, B, C);
     }
     //=============================================================================

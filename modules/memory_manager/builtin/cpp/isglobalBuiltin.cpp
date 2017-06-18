@@ -38,7 +38,7 @@ ArrayOfVector Nelson::MemoryGateway::isglobalBuiltin(Evaluator* eval, int nLhs, 
     {
         Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
-    std::string arg = argIn[0].getContentsAsCString();
+    std::string arg = argIn[0].getContentAsCString();
     if (!IsValidVariableName(arg))
     {
         Error(eval, _W("Argument must contain a valid variable name."));

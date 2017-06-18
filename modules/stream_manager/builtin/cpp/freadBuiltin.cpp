@@ -47,7 +47,7 @@ static ArrayOfVector freadBuiltinFiveRhs(Evaluator* eval, int nLhs, const ArrayO
     ArrayOf param3 = argIn[2];
     ArrayOf param4 = argIn[3];
     ArrayOf param5 = argIn[4];
-    std::wstring arg = param5.getContentsAsWideString();
+    std::wstring arg = param5.getContentAsWideString();
     if ((arg == L"n") || (arg == L"native"))
     {
         bIsLittleEndian = isLittleEndianFormat();
@@ -67,7 +67,7 @@ static ArrayOfVector freadBuiltinFiveRhs(Evaluator* eval, int nLhs, const ArrayO
     skipSize = (size_t)param4.getContentAsScalarIndex();
     if (param3.isSingleString())
     {
-        std::wstring precisionStr = param3.getContentsAsWideString();
+        std::wstring precisionStr = param3.getContentAsWideString();
         bool bOK = false;
         classDest = precisionFromString(precisionStr, bOK);
         if (!bOK)
@@ -121,7 +121,7 @@ static ArrayOfVector freadBuiltinFiveRhs(Evaluator* eval, int nLhs, const ArrayO
         }
         else
         {
-            double dsize = (double)param2.getContentsAsDoubleScalar();
+            double dsize = (double)param2.getContentAsDoubleScalar();
             if (std::isinf(dsize))
             {
                 if (dsize > 0)
@@ -139,7 +139,7 @@ static ArrayOfVector freadBuiltinFiveRhs(Evaluator* eval, int nLhs, const ArrayO
             }
         }
         FilesManager *fm = (FilesManager *)(eval->FileManager);
-        int32 iValue = (int32)param1.getContentsAsDoubleScalar();
+        int32 iValue = (int32)param1.getContentAsDoubleScalar();
         if (fm == nullptr)
         {
             Error(eval, _W("Problem with file manager."));

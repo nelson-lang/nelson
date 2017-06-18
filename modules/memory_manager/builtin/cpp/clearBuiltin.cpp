@@ -55,7 +55,7 @@ ArrayOfVector Nelson::MemoryGateway::clearBuiltin(Evaluator* eval, int nLhs, con
         }
         if (argIn.size() == 1)
         {
-            std::wstring arg1 = argIn[0].getContentsAsWideString();
+            std::wstring arg1 = argIn[0].getContentAsWideString();
             if (arg1.compare(L"global") == 0)
             {
                 ClearAllGlobalVariables(eval);
@@ -93,8 +93,8 @@ ArrayOfVector Nelson::MemoryGateway::clearBuiltin(Evaluator* eval, int nLhs, con
         {
             // clear global varname
             // clear varname1 varname2
-            std::wstring arg1 = argIn[0].getContentsAsWideString();
-            std::wstring arg2 = argIn[1].getContentsAsWideString();
+            std::wstring arg1 = argIn[0].getContentAsWideString();
+            std::wstring arg2 = argIn[1].getContentAsWideString();
             Context *ctxt = eval->getContext();
             if (arg1 == L"global")
             {
@@ -108,7 +108,7 @@ ArrayOfVector Nelson::MemoryGateway::clearBuiltin(Evaluator* eval, int nLhs, con
             {
                 for (size_t k = 0; k < argIn.size(); k++)
                 {
-                    std::wstring arg = argIn[k].getContentsAsWideString();
+                    std::wstring arg = argIn[k].getContentAsWideString();
                     if (!IsValidVariableName(arg))
                     {
                         Error(eval, _W("A valid variable name expected."));
@@ -127,7 +127,7 @@ ArrayOfVector Nelson::MemoryGateway::clearBuiltin(Evaluator* eval, int nLhs, con
             Context *ctxt = eval->getContext();
             for (size_t k = 0; k < argIn.size(); k++)
             {
-                std::wstring arg = argIn[k].getContentsAsWideString();
+                std::wstring arg = argIn[k].getContentAsWideString();
                 if (!IsValidVariableName(arg))
                 {
                     Error(eval, _W("A valid variable name expected."));

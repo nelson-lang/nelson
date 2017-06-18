@@ -35,7 +35,7 @@ ArrayOfVector Nelson::QmlEngineGateway::QObject_findchildrenBuiltin(Evaluator* e
     ArrayOfVector retval;
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];
-    std::wstring fieldname = param2.getContentsAsWideString();
+    std::wstring fieldname = param2.getContentAsWideString();
     bool bRecursively = false;
     if (argIn.size() == 3)
     {

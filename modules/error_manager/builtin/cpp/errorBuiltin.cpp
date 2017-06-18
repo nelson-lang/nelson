@@ -38,7 +38,7 @@ ArrayOfVector Nelson::ErrorManagerGateway::errorBuiltin(Evaluator* eval, int nLh
     {
         if (argIn[0].isSingleString())
         {
-            std::wstring msg = argIn[0].getContentsAsWideString();
+            std::wstring msg = argIn[0].getContentAsWideString();
             if (msg.compare(L"") != 0)
             {
                 if (eval->getCallerFunctionName().compare("EvaluateScript") == 0)
