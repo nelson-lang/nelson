@@ -63,6 +63,7 @@
 #include "fixBuiltin.hpp"
 #include "isnanBuiltin.hpp"
 #include "isinfBuiltin.hpp"
+#include "isfiniteBuiltin.hpp"
 #include "ndimsBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -119,7 +120,8 @@ static const nlsGateway gateway[] =
     { "round", Nelson::ElementaryFunctionsGateway::roundBuiltin, 1, 1 },
     { "isnan", Nelson::ElementaryFunctionsGateway::isnanBuiltin, 1, 1 },
     { "isinf", Nelson::ElementaryFunctionsGateway::isinfBuiltin, 1, 1 },
-    { "ndims", Nelson::ElementaryFunctionsGateway::ndimsBuiltin, 1, 1 },
+	{ "isfinite", Nelson::ElementaryFunctionsGateway::isfiniteBuiltin, 1, 1 },
+	{ "ndims", Nelson::ElementaryFunctionsGateway::ndimsBuiltin, 1, 1 },
 
 };
 //=============================================================================

@@ -186,6 +186,7 @@
     <ClInclude Include="..\include\ConcatenateNdArray.hpp" />
     <ClInclude Include="..\include\ImagPart.hpp" />
     <ClInclude Include="..\include\IsApprox.hpp" />
+    <ClInclude Include="..\include\IsFinite.hpp" />
     <ClInclude Include="..\include\IsInf.hpp" />
     <ClInclude Include="..\include\IsNaN.hpp" />
     <ClInclude Include="..\include\RealPart.hpp" />
@@ -204,6 +205,7 @@
     <ClCompile Include="..\cpp\GreaterThan.cpp" />
     <ClCompile Include="..\cpp\ImagPart.cpp" />
     <ClCompile Include="..\cpp\IsApprox.cpp" />
+    <ClCompile Include="..\cpp\IsFinite.cpp" />
     <ClCompile Include="..\cpp\IsInf.cpp" />
     <ClCompile Include="..\cpp\IsNan.cpp" />
     <ClCompile Include="..\cpp\LeftDivide.cpp" />
