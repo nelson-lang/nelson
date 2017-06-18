@@ -16,6 +16,11 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-qml_file = [modulepath('qml_engine'), '/examples/d3_demo/bubbles.qml'];
-qobj = qml_createqquickview(qml_file);
+qobj = QObject_findchildren(QObject_root(), 'd3_demo', true);
+if isempty(qobj)
+  qml_file = [modulepath('qml_engine'), '/examples/d3_demo/bubbles.qml'];
+  qobj = qml_createqquickview(qml_file);
+else
+  qobj.visible = true;
+end
 //=============================================================================

@@ -44,7 +44,8 @@ import "content"
 
 Item {
     id: window
-//    title: "hellp"
+    objectName: "dynamic_scene_demo"
+
     property int activeSuns: 0
     property int centerOffset: 72
 

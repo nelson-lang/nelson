@@ -16,10 +16,11 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-qobj = QObject_findchildren(QObject_root(), 'component_gallery', true);
+qobj = QObject_findchildren(QObject_root(), 'dynamic_scene_demo', true);
 if isempty(qobj)
-  qml_file = [modulepath('qml_engine'), '/examples/component_gallery/main.qml'];
-  qobj = qml_loadfile(qml_file);
+  qml_file = [modulepath('qml_engine'), '/examples/dynamic_scene_demo/dynamicscene.qml'];
+  qobj = qml_createqquickview(qml_file);
+  qobj.title = 'Nelson demo dynamic scene';
 else
   qobj.visible = true;
 end

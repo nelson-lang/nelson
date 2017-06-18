@@ -5,6 +5,8 @@ import "d3.min.js" as D3
 
 Rectangle {
     id: bubbleContainer
+    objectName: "d3_demo"
+
     width: 800
     height: 600
     clip: true

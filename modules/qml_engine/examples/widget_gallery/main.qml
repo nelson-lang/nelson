@@ -46,6 +46,8 @@ ApplicationWindow {
     visible: true
     width: 800
     height: 1280
+    objectName: "widget_gallery"
+
 
     Rectangle {
         color: "#212126"

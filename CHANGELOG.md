@@ -3,7 +3,11 @@ Features:
 
   The QML engine enables nelson programs to display and manipulate graphical content using Qt's QML framework.
 
-  Qt 5.9 used
+  ```
+  qml_demos // for demonstrations
+  ```
+  
+  Qt 5.9 used on Windows binaries
 
   add 'heldlg', 'msgbox', 'errordlg', 'warndlg' functions based on QML.
 

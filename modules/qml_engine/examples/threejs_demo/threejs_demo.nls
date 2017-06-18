@@ -16,7 +16,12 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-qml_file = [modulepath('qml_engine'), '/examples/threejs_demo/main.qml'];
-qobj = qml_loadfile(qml_file);
-qobj.title = 'Nelson - ThreeJS - BufferGeometry - Lines';
+qobj = QObject_findchildren(QObject_root(), 'threejs_demo', true);
+if isempty(qobj)
+  qml_file = [modulepath('qml_engine'), '/examples/threejs_demo/main.qml'];
+  qobj = qml_loadfile(qml_file);
+  qobj.title = 'Nelson - ThreeJS - BufferGeometry - Lines';
+else
+  qobj.visible = true;
+end
 //=============================================================================

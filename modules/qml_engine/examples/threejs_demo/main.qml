@@ -4,6 +4,8 @@ import QtCanvas3D 1.0
 import QtQuick.Window 2.2
 import "glcode.js" as GLCode
 Window {
+    objectName: "threejs_demo"
+
     width: 640;    height: 480
     visible: true
     Canvas3D {

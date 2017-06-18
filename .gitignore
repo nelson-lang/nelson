@@ -29,6 +29,8 @@ tests_minimal.xml
 /bin/win32/nelson-cli.exe
 /bin/x64/nelson-cli.exe
 *.settings
+*.qmlc
+*.jsc
 *.user
 *.opensdf
 *.dll

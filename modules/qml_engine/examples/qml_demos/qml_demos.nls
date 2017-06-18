@@ -16,9 +16,10 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-qobj = QObject_findchildren(QObject_root(), 'component_gallery', true);
+qobj = QObject_findchildren(QObject_root(), 'qml_demos', true);
 if isempty(qobj)
-  qml_file = [modulepath('qml_engine'), '/examples/component_gallery/main.qml'];
+  qml_file = [modulepath('qml_engine'), '/examples/qml_demos/main.qml'];
+  addpath([modulepath('qml_engine'), '/examples/qml_demos/']);
   qobj = qml_loadfile(qml_file);
 else
   qobj.visible = true;

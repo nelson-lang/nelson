@@ -19,6 +19,7 @@ import "QChart.js"        as Charts
 import "QChartGallery.js" as ChartsData
 
 Rectangle {
+  objectName: "qcharts_demo"
 
   property int chart_width: 300;
   property int chart_height: 300;

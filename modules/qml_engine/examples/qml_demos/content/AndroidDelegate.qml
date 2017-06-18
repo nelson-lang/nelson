@@ -1,9 +1,9 @@
 /****************************************************************************
 **
-** Copyright (C) 2015 The Qt Company Ltd.
-** Contact: http://www.qt.io/licensing/
+** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+** Contact: http://www.qt-project.org/legal
 **
-** This file is part of the examples of the Qt Toolkit.
+** This file is part of the Qt Quick Controls module of the Qt Toolkit.
 **
 ** $QT_BEGIN_LICENSE:BSD$
 ** You may use this file under the terms of the BSD license as follows:
@@ -17,8 +17,8 @@
 **     notice, this list of conditions and the following disclaimer in
 **     the documentation and/or other materials provided with the
 **     distribution.
-**   * Neither the name of The Qt Company Ltd nor the names of its
-**     contributors may be used to endorse or promote products derived
+**   * Neither the name of Digia Plc and its Subsidiary(-ies) nor the names
+**     of its contributors may be used to endorse or promote products derived
 **     from this software without specific prior written permission.
 **
 **
@@ -38,42 +38,55 @@
 **
 ****************************************************************************/
 
-import QtQuick 2.0
-import QtQuick.Window 2.2
 
-import "content" as Content
 
-Window {
+
+
+import QtQuick 2.2
+
+Item {
     id: root
-    width: 640; height: 320
-    color: "#646464"
-    objectName: "clock"
+    width: parent.width
+    height: 88
 
-    ListView {
-        id: clockview
+    property alias text: textitem.text
+    signal clicked
+
+    Rectangle {
         anchors.fill: parent
-        orientation: ListView.Horizontal
-        cacheBuffer: 2000
-        snapMode: ListView.SnapOneItem
-        highlightRangeMode: ListView.ApplyRange
+        color: "#11ffffff"
+        visible: mouse.pressed
+    }
 
-        delegate: Content.Clock { city: cityName; shift: timeShift }
-        model: ListModel {
-            ListElement { cityName: "New York"; timeShift: -4 }
-            ListElement { cityName: "London"; timeShift: 0 }
-            ListElement { cityName: "Oslo"; timeShift: 1 }
-        }
+    Text {
+        id: textitem
+        color: "white"
+        font.pixelSize: 32
+        text: modelData
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: parent.left
+        anchors.leftMargin: 30
+    }
+
+    Rectangle {
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.margins: 15
+        height: 1
+        color: "#424246"
     }
 
     Image {
-        anchors.left: parent.left
-        anchors.bottom: parent.bottom
-        anchors.margins: 10
-        source: "content/arrow.png"
-        rotation: -90
-        opacity: clockview.atXBeginning ? 0 : 0.5
-        Behavior on opacity { NumberAnimation { duration: 500 } }
+        anchors.right: parent.right
+        anchors.rightMargin: 20
+        anchors.verticalCenter: parent.verticalCenter
+        source: "../images/navigation_next_item.png"
     }
 
-   onClosing: {nelson.call('callback_close_clock')}
+    MouseArea {
+        id: mouse
+        anchors.fill: parent
+        onClicked: root.clicked()
+
+    }
 }

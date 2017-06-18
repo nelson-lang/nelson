@@ -9,7 +9,7 @@ Window {
     width: 360
     height: 360
     title: "Qml Window"
-    objectName: "MyWindow"
+    objectName: "basic_window"
     Text {
         id: text
         text: "Hello world!"

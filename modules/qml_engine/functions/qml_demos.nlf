@@ -16,7 +16,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-qml_file = [modulepath('qml_engine'), '/examples/dynamic_scene_demo/dynamicscene.qml'];
-qobj = qml_createqquickview(qml_file);
-qobj.title = 'Nelson demo dynamic scene';
+function qml_demos()
+  filename_demo = [modulepath('qml_engine'), '/examples/qml_demos/qml_demos.nls'];
+  run(filename_demo);
+endfunction
 //=============================================================================

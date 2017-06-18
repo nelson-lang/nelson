@@ -59,6 +59,8 @@ Item {
     property alias city: cityLabel.text
     property int hours
     property int minutes
+    property int previous_minutes : 0
+    property bool first : true
     property int seconds
     property real shift
     property bool night: false
@@ -70,6 +72,14 @@ Item {
         night = ( hours < 7 || hours > 19 )
         minutes = internationalTime ? date.getUTCMinutes() + ((clock.shift % 1) * 60) : date.getMinutes()
         seconds = date.getUTCSeconds();
+        if (minutes != previous_minutes && first == false) {
+        	nelson.disp(city + ' ' + hours + ':' + minutes + ':' + seconds)
+        	previous_minutes = minutes;
+        } else {
+          previous_minutes = minutes;
+          first = false;
+        }
+        
     }
 
     Timer {

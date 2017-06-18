@@ -16,11 +16,10 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-qobj = QObject_findchildren(QObject_root(), 'component_gallery', true);
-if isempty(qobj)
-  qml_file = [modulepath('qml_engine'), '/examples/component_gallery/main.qml'];
-  qobj = qml_loadfile(qml_file);
-else
-  qobj.visible = true;
-end
-//=============================================================================
+function callback_checkboxes(checked_list)
+  l = 1
+  for k = checked_list
+  	disp(['Checkbox ', int2str(l), ' :', int2str(k)]);
+  	l = l + 1:
+  end
+endfunction

@@ -7,6 +7,7 @@ ApplicationWindow {
     width: 640
     height: 480
     visible: true
+    objectName: "colors"
 
     Rectangle {
         id: page

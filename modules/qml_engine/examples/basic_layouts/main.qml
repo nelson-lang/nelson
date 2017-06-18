@@ -45,6 +45,7 @@ import QtQuick.Layouts 1.0
 ApplicationWindow {
     visible: true
     title: "Basic layouts"
+    objectName: "basic_layouts"
     property int margin: 11
     width: mainLayout.implicitWidth + 2 * margin
     height: mainLayout.implicitHeight + 2 * margin
@@ -69,6 +70,7 @@ ApplicationWindow {
                 }
                 Button {
                     text: "Button"
+                    onClicked: nelson.disp('Button clicked')
                 }
             }
         }

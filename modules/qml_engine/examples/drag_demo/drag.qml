@@ -7,6 +7,7 @@ ApplicationWindow {
   width: 800
   height: 600
   visible: true
+  objectName: "drag_demo"
 
   Rectangle {
     id: container

@@ -47,6 +47,8 @@ import "content"
 ApplicationWindow {
     visible: true
     title: "Component Gallery"
+    objectName: "component_gallery"
+
 
     width: 640
     height: 420
