@@ -40,7 +40,7 @@ namespace Nelson {
                     boost::this_thread::sleep_for(boost::chrono::milliseconds(uint64(10)));
                     if (eval->haveEventsLoop())
                     {
-                        ProcessEventsDynamicFunction(false);
+                        ProcessEventsDynamicFunctionWithoutWait();
                     }
                 }
             }
@@ -56,7 +56,7 @@ namespace Nelson {
                     bContinue = !(difftime.count() > int64(tValue*1e9));
                     if (eval->haveEventsLoop())
                     {
-                        ProcessEventsDynamicFunction(false);
+                        ProcessEventsDynamicFunctionWithoutWait();
                     }
                 }
                 while (!eval->GetInterruptPending() && (bContinue == true));

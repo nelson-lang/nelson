@@ -52,6 +52,7 @@ history_manager
 terminal
 gui
 handle
+qml_engine
 help_browser
 dynamic_link
 help_tools

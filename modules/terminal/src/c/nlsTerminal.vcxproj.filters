@@ -27,10 +27,10 @@
     <ClInclude Include="..\..\src\include\BasicTerminal.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="linenoise.h">
+    <ClInclude Include="..\..\src\include\BsdTerminal.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\include\BsdTerminal.hpp">
+    <ClInclude Include="..\cpp\linenoise.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -47,10 +47,10 @@
     <ClCompile Include="dllMain.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="linenoise.c">
+    <ClCompile Include="..\cpp\BsdTerminal.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\BsdTerminal.cpp">
+    <ClCompile Include="..\cpp\linenoise.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

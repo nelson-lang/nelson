@@ -1,13 +1,29 @@
 Features:
 ---------
 
-  add ishandle builtin
+  The QML engine enables nelson programs to display and manipulate graphical content using Qt's QML framework.
+
+  ```
+  qml_demos // for demonstrations
+  ```
+  
+  Qt 5.9 used on Windows binaries
+
+  add 'heldlg', 'msgbox', 'errordlg', 'warndlg' functions based on QML.
+
+  add 'questdlg' function (Creates a question dialog box) based on QML.
+
+  add '==', '~=', 'isequal', 'isequaln' overload for handle and QObject.
+
+  add ishandle, isprop, ismethod, method, properties builtin.
 
   add set, get, invoke, isvalid builtin used by handle objects.
 
-  extends clear function to call delete if "handle_TYPEHANDLE_clear" function is defined.
+  extends clear function to call delete if 'handle\_TYPEHANDLE\_clear' function is defined.
 
   add handle object type.
+
+  gui module also loaded in advanced cli mode.
 
   add more output information in the result file of test_run function.
 

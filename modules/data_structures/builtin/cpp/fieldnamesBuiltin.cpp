@@ -31,14 +31,14 @@ ArrayOfVector Nelson::DataStructuresGateway::fieldnamesBuiltin(Evaluator* eval, 
     {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() != 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
     bool bSuccess = false;
     retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
     if (!bSuccess)
     {
+        if (argIn.size() != 1)
+        {
+            Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        }
         ArrayOf arg1 = argIn[0];
         if (arg1.isClassStruct())
         {

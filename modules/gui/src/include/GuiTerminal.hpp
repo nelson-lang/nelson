@@ -65,6 +65,8 @@ public:
     void insertHtml(std::wstring msg);
     int  getBufferScreenLine();
     void setBufferScreenLine(int newMax);
+    bool isAtPrompt();
+
 private:
     std::wstring getTextLine(std::wstring prompt, bool bIsInput = false);
 };

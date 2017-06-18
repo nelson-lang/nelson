@@ -168,19 +168,31 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\deleteBuiltin.cpp" />
+    <ClCompile Include="..\cpp\generic_eq_handleBuiltin.cpp" />
     <ClCompile Include="..\cpp\getBuiltin.cpp" />
     <ClCompile Include="..\cpp\handle_deleteBuiltin.cpp" />
     <ClCompile Include="..\cpp\handle_dispBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
+    <ClCompile Include="..\cpp\handle_eq_genericBuiltin.cpp" />
+    <ClCompile Include="..\cpp\handle_eq_handleBuiltin.cpp" />
+    <ClCompile Include="..\cpp\handle_fieldnamesBuiltin.cpp" />
     <ClCompile Include="..\cpp\handle_getBuiltin.cpp" />
     <ClCompile Include="..\cpp\handle_invokeBuiltin.cpp" />
+    <ClCompile Include="..\cpp\handle_isequalBuiltin.cpp" />
+    <ClCompile Include="..\cpp\handle_ismethodBuiltin.cpp" />
+    <ClCompile Include="..\cpp\handle_ispropBuiltin.cpp" />
     <ClCompile Include="..\cpp\handle_isvalidBuiltin.cpp" />
+    <ClCompile Include="..\cpp\handle_methodsBuiltin.cpp" />
+    <ClCompile Include="..\cpp\handle_propertiesBuiltin.cpp" />
     <ClCompile Include="..\cpp\handle_setBuiltin.cpp" />
-    <ClCompile Include="..\cpp\handle_testBuiltin.cpp" />
     <ClCompile Include="..\cpp\handle_vertcat_handleBuiltin.cpp" />
     <ClCompile Include="..\cpp\handle_horzcat_handleBuiltin.cpp" />
     <ClCompile Include="..\cpp\invokeBuiltin.cpp" />
+    <ClCompile Include="..\cpp\ismethodBuiltin.cpp" />
+    <ClCompile Include="..\cpp\ispropBuiltin.cpp" />
     <ClCompile Include="..\cpp\isvalidBuiltin.cpp" />
+    <ClCompile Include="..\cpp\methodsBuiltin.cpp" />
+    <ClCompile Include="..\cpp\propertiesBuiltin.cpp" />
     <ClCompile Include="..\cpp\setBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
@@ -212,19 +224,31 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\deleteBuiltin.hpp" />
+    <ClInclude Include="..\include\generic_eq_handleBuiltin.hpp" />
     <ClInclude Include="..\include\getBuiltin.hpp" />
     <ClInclude Include="..\include\handle_deleteBuiltin.hpp" />
+    <ClInclude Include="..\include\handle_eq_genericBuiltin.hpp" />
+    <ClInclude Include="..\include\handle_eq_handleBuiltin.hpp" />
+    <ClInclude Include="..\include\handle_fieldnamesBuiltin.hpp" />
     <ClInclude Include="..\include\handle_getBuiltin.hpp" />
     <ClInclude Include="..\include\handle_invokeBuiltin.hpp" />
+    <ClInclude Include="..\include\handle_isequalBuiltin.hpp" />
+    <ClInclude Include="..\include\handle_ismethodBuiltin.hpp" />
+    <ClInclude Include="..\include\handle_ispropBuiltin.hpp" />
     <ClInclude Include="..\include\handle_isvalidBuiltin.hpp" />
+    <ClInclude Include="..\include\handle_methodsBuiltin.hpp" />
+    <ClInclude Include="..\include\handle_propertiesBuiltin.hpp" />
     <ClInclude Include="..\include\handle_setBuiltin.hpp" />
-    <ClInclude Include="..\include\handle_testBuiltin.hpp" />
     <ClInclude Include="..\include\invokeBuiltin.hpp" />
+    <ClInclude Include="..\include\ismethodBuiltin.hpp" />
+    <ClInclude Include="..\include\ispropBuiltin.hpp" />
     <ClInclude Include="..\include\isvalidBuiltin.hpp" />
+    <ClInclude Include="..\include\methodsBuiltin.hpp" />
     <ClInclude Include="..\include\nlsHandle_builtin_exports.h" />
     <ClInclude Include="..\include\handle_dispBuiltin.hpp" />
     <ClInclude Include="..\include\handle_vertcat_handleBuiltin.hpp" />
     <ClInclude Include="..\include\handle_horzcat_handleBuiltin.hpp" />
+    <ClInclude Include="..\include\propertiesBuiltin.hpp" />
     <ClInclude Include="..\include\setBuiltin.hpp" />
   </ItemGroup>
   <ItemGroup>

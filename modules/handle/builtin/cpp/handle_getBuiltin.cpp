@@ -36,67 +36,9 @@ ArrayOfVector Nelson::HandleGateway::handle_getBuiltin(Evaluator* eval, int nLhs
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
-    if (!param1.isEmpty())
+    if (param1.isHandle())
     {
-        nelson_handle *qp = (nelson_handle*)param1.getDataPointer();
-        std::wstring handleTypeName = utf8_to_wstring(NLS_HANDLE_STR);
-        if (qp)
-        {
-            Dimensions dimsParam1 = param1.getDimensions();
-            for (indexType k = 0; k < dimsParam1.getElementCount(); k++)
-            {
-                nelson_handle hl = qp[k];
-                HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-                if (hlObj)
-                {
-                    std::wstring currentType = hlObj->getCategory();
-                    if (currentType != L"" || currentType != utf8_to_wstring(NLS_HANDLE_STR))
-                    {
-                        handleTypeName = currentType;
-                        break;
-                    }
-                }
-            }
-            if (handleTypeName != utf8_to_wstring(NLS_HANDLE_STR))
-            {
-                bool doOverload = false;
-                std::wstring ufunctionNameGetHandle = L"handle_" + handleTypeName + L"_get";
-                std::string functionNameGetHandle = wstring_to_utf8(ufunctionNameGetHandle);
-                Context *context = eval->getContext();
-                FunctionDef *funcDef = nullptr;
-                if (context->lookupFunction(functionNameGetHandle, funcDef))
-                {
-                    if ((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION))
-                    {
-                        ArrayOfVector argIn;
-                        argIn.push_back(param1);
-                        funcDef->evaluateFunction(eval, argIn, nLhs);
-                        doOverload = true;
-                    }
-                }
-                if (!doOverload)
-                {
-                    std::wstring msg = ufunctionNameGetHandle + L" " + _W("not defined.");
-                    Error(eval, msg);
-                }
-            }
-            else
-            {
-                Error(eval, _W("Invalid handle."));
-            }
-        }
-        else
-        {
-            Error(eval, _W("Invalid handle."));
-        }
-    }
-    else
-    {
-        if (nLhs > 0)
-        {
-            Dimensions dims(0, 0);
-            retval.push_back(ArrayOf::emptyConstructor(dims));
-        }
+        Error(eval, _W("Invalid handle."));
     }
     return retval;
 }

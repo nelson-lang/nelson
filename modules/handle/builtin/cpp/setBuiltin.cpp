@@ -60,7 +60,7 @@ ArrayOfVector Nelson::HandleGateway::setBuiltin(Evaluator* eval, int nLhs, const
             if (handleTypeName != utf8_to_wstring(NLS_HANDLE_STR))
             {
                 bool doOverload = false;
-                std::wstring ufunctionNameGetHandle = L"handle_" + handleTypeName + L"_set";
+                std::wstring ufunctionNameGetHandle = handleTypeName + L"_set";
                 std::string functionNameGetHandle = wstring_to_utf8(ufunctionNameGetHandle);
                 Context *context = eval->getContext();
                 FunctionDef *funcDef = nullptr;
@@ -68,9 +68,8 @@ ArrayOfVector Nelson::HandleGateway::setBuiltin(Evaluator* eval, int nLhs, const
                 {
                     if ((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION))
                     {
-                        ArrayOfVector argIn;
-                        argIn.push_back(param1);
-                        funcDef->evaluateFunction(eval, argIn, nLhs);
+                        ArrayOfVector argInCopy(argIn);
+                        funcDef->evaluateFunction(eval, argInCopy, nLhs);
                         doOverload = true;
                     }
                 }

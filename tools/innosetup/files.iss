@@ -21,6 +21,7 @@
 #include RootPath + "resources/resources.iss"
 #include RootPath + "etc/etc.iss"
 #include RootPath + "bin/bin.iss"
+#include RootPath + "bin/qt.iss"
 #include RootPath + "modules/modules.iss"
 #include RootPath + "tools/tools.iss"
 #include RootPath + "module_skeleton/module.iss"

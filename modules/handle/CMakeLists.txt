@@ -30,7 +30,9 @@ ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include
 )
 #============================================================================== 
 FILE(
@@ -52,6 +54,7 @@ nlsTypes
 nlsI18n
 nlsString
 nlsApi_nelson
+nlsCore
 nlsCharacters_encoding
 )
 #============================================================================== 

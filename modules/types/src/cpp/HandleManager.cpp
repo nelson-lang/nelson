@@ -53,7 +53,7 @@ namespace Nelson {
         boost::unordered_map<nelson_handle, HandleGenericObject *>::iterator it = handleMap.begin();
         while (it != handleMap.end())
         {
-            if (it->second == ptr)
+            if (it->second->getPointer() == ptr->getPointer())
             {
                 return it->first;
             }
@@ -65,6 +65,26 @@ namespace Nelson {
         return id;
     }
     //=============================================================================
+    nelson_handle HandleManager::findByPointerValue(void *ptr)
+    {
+        if (ptr != nullptr)
+        {
+            boost::unordered_map<nelson_handle, HandleGenericObject *>::iterator it = handleMap.begin();
+            while (it != handleMap.end())
+            {
+                if (it->second != nullptr)
+                {
+                    if (it->second->getPointer() == ptr)
+                    {
+                        return it->first;
+                    }
+                }
+                ++it;
+            }
+        }
+        return -1;
+    }
+    //=============================================================================
     bool HandleManager::removeHandle(nelson_handle hl)
     {
         boost::unordered_map<nelson_handle, HandleGenericObject *>::iterator it = handleMap.find(hl);
@@ -72,7 +92,6 @@ namespace Nelson {
         {
             if (it->second != nullptr)
             {
-                delete it->second;
                 it->second = nullptr;
             }
             handleMap.erase(it);
@@ -99,6 +118,24 @@ namespace Nelson {
             return true;
         }
         return false;
+    }
+    //=============================================================================
+    std::vector<nelson_handle> HandleManager::getAllHandlesOfCategory(std::wstring category)
+    {
+        std::vector<nelson_handle> res;
+        boost::unordered_map<nelson_handle, HandleGenericObject *>::iterator it = handleMap.begin();
+        while (it != handleMap.end())
+        {
+            if (it->second != nullptr)
+            {
+                if (category == it->second->getCategory())
+                {
+                    res.push_back(it->first);
+                }
+            }
+            ++it;
+        }
+        return res;
     }
     //=============================================================================
 }

@@ -19,7 +19,9 @@
 try
   r = test_run([], [], [nelsonroot(), '/tests_all.xml']);
 catch
-  r = false
+  m = lasterror();
+  disp(m.message);
+  r = false;
 end
 exit();
 //=============================================================================

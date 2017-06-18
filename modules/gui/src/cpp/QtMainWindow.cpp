@@ -42,11 +42,6 @@ using namespace Nelson;
 //=============================================================================
 QtMainWindow::~QtMainWindow()
 {
-    if (qtTerminal)
-    {
-        delete qtTerminal;
-        qtTerminal = nullptr;
-    }
     if (runAct)
     {
         delete runAct;
@@ -122,6 +117,11 @@ QtMainWindow::~QtMainWindow()
         delete mainMenuBar;
         mainMenuBar = nullptr;
     }
+    if (qtTerminal)
+    {
+        delete qtTerminal;
+        qtTerminal = nullptr;
+    }
 }
 //=============================================================================
 QtMainWindow::QtMainWindow()
@@ -177,8 +177,8 @@ void QtMainWindow::runFile()
                 Nelson::Evaluator *eval = (Nelson::Evaluator *)veval;
                 qtTerminal->outputMessage(L"\n");
                 qtTerminal->sendReturnKey();
-                std::wstring cmd = L"run('" + filename + L"');\n";
-                eval->commandQueue.add(Nelson::wstring_to_utf8(cmd), true);
+                std::wstring cmd = L"run('" + filename + L"');";
+                eval->addCommandToQueue(cmd, true);
             }
         }
     }
@@ -209,17 +209,18 @@ void QtMainWindow::executeCommand(std::wstring cmd)
     {
         std::wstring _cmd = cmd + L";";
         void *veval = GetNelsonMainEvaluatorDynamicFunction();
-        Nelson::Evaluator *eval = (Nelson::Evaluator *)veval;
-        if (!qtTerminal->isAtPrompt())
+        if (veval != nullptr)
         {
-            eval->evaluateString(wstring_to_utf8(_cmd), false);
-        }
-        else
-        {
-            qtTerminal->outputMessage(L"\n");
-            qtTerminal->sendReturnKey();
-            _cmd = _cmd + L"\n";
-            eval->commandQueue.add(Nelson::wstring_to_utf8(_cmd), true);
+            Nelson::Evaluator *eval = (Nelson::Evaluator *)veval;
+            if (qtTerminal->isAtPrompt())
+            {
+                eval->addCommandToQueue(cmd, true);
+            }
+            else
+            {
+                std::string ustr = wstring_to_utf8(_cmd);
+                eval->evaluateString(ustr + "\n");
+            }
         }
     }
 }

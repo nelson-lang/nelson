@@ -26,23 +26,73 @@
 #include "GetQtPath.hpp"
 #include "AddPathToEnvironmentVariable.hpp"
 #include "Nelson_VERSION.h"
+#include "GetNelsonMainEvaluatorDynamicFunction.hpp"
 //===================================================================================
 static QApplication *NelSonQtApp = nullptr;
 static QtMainWindow* NelSonQtMainWindow = nullptr;
+static bool messageVerbose = false;
 //===================================================================================
-static void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
+void QtMessageVerbose(bool bVerbose)
+{
+    messageVerbose = bVerbose;
+}
+//===================================================================================
+bool IsQtMessageVerbose()
+{
+    return messageVerbose;
+}
+//===================================================================================
+static void QtMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
     QByteArray localMsg = msg.toLocal8Bit();
+    std::string str(localMsg);
+    if (!messageVerbose)
+    {
+        return;
+    }
     switch (type)
     {
         case QtDebugMsg:
+        {
+            Evaluator *eval = (Evaluator *)GetNelsonMainEvaluatorDynamicFunction();
+            if (eval)
+            {
+                Interface *io = eval->getInterface();
+                if (io)
+                {
+                    io->outputMessage(str);
+                }
+            }
+        }
+        break;
 #if QT_VERSION > QT_VERSION_CHECK(5, 5, 0)
         case QtInfoMsg:
 #endif
         case QtWarningMsg:
+        {
+            Evaluator *eval = (Evaluator *)GetNelsonMainEvaluatorDynamicFunction();
+            if (eval)
+            {
+                Interface *io = eval->getInterface();
+                if (io)
+                {
+                    io->warningMessage(str);
+                }
+            }
+        }
+        break;
         case QtCriticalMsg:
         case QtFatalMsg:
         {
+            Evaluator *eval = (Evaluator *)GetNelsonMainEvaluatorDynamicFunction();
+            if (eval)
+            {
+                Interface *io = eval->getInterface();
+                if (io)
+                {
+                    io->errorMessage(str);
+                }
+            }
         }
         break;
     }
@@ -59,7 +109,7 @@ static int argc = 1;
 //===================================================================================
 void InitGuiObjects(void)
 {
-    qInstallMessageHandler(myMessageOutput);
+    qInstallMessageHandler(QtMessageOutput);
     if (NelSonQtApp == nullptr)
     {
         NelSonQtApp = new QApplication(argc, argv);

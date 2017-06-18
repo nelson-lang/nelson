@@ -38,7 +38,7 @@ static void initGuiDynamicLibrary(void)
     }
 }
 //=============================================================================
-void ProcessEventsDynamicFunction(bool bWait)
+static void ProcessEventsDynamicFunction(bool bWait)
 {
     typedef void (*PROC_ProcessEvents) (bool);
     static PROC_ProcessEvents ProcessEventsPtr = nullptr;
@@ -51,5 +51,15 @@ void ProcessEventsDynamicFunction(bool bWait)
     {
         ProcessEventsPtr(bWait);
     }
+}
+//=============================================================================
+void ProcessEventsDynamicFunctionWithoutWait()
+{
+    ProcessEventsDynamicFunction(false);
+}
+//=============================================================================
+void ProcessEventsDynamicFunctionWait()
+{
+    ProcessEventsDynamicFunction(true);
 }
 //=============================================================================

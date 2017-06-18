@@ -4,10 +4,12 @@
 
 	<language>en_US</language>
 	<keyword>fieldnames</keyword>
-	<short_description>Returns field names of a structure.</short_description>
+	<short_description>Returns field names of a structure or an handle.</short_description>
 
 	<syntax>
 		<syntax_item>names = fieldnames(st)</syntax_item>
+		<syntax_item>names = fieldnames(h)</syntax_item>
+		<syntax_item>names = fieldnames(h, '-full')</syntax_item>
 	</syntax>
 	
 	<param_input>
@@ -15,6 +17,11 @@
 			<param_name>st</param_name>
 			<param_description>a structure</param_description>
 		</param_input_item>
+		<param_input_item>
+			<param_name>h</param_name>
+			<param_description>a handle object</param_description>
+		</param_input_item>
+		
 	</param_input>
 
 	<param_output>
@@ -27,6 +34,8 @@
 
 	<description>
 		<p><b>names = fieldnames(st)</b> returns a cell of strings with the names of the fields in the input structure.</p>
+		<p><b>names = fieldnames(h)</b> returns a cell of strings with the names of the properties in the handle (without hidden).</p>
+		<p><b>names = fieldnames(h, '-full')</b> returns a cell of strings with the names of the all properties in the handle.</p>
 	</description>
 
 

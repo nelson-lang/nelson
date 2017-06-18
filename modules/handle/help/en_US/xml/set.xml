@@ -44,6 +44,10 @@
 
   <see_also>
     <see_also_item>
+      <link linkend="${qml_engine}QObject_set">QObject_set (set)</link>
+    </see_also_item>
+
+    <see_also_item>
       <link linkend="${handle}get">get</link>
     </see_also_item>
     <see_also_item>

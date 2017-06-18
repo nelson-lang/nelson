@@ -57,6 +57,15 @@ before_install:
       sudo sudo apt-get update;
       sudo apt-get install qtbase5-dev qtdeclarative5-dev libqt5webkit5-dev libsqlite3-dev;
       sudo apt-get install qt5-default qttools5-dev-tools;
+      sudo apt-get install libqt5qml-graphicaleffects;
+      sudo apt-get install libqt5opengl5-dev;
+      sudo apt-get install qtbase5-private-dev;
+      sudo apt-get install qtdeclarative5-dev;
+      sudo apt-get install qtdeclarative5-controls-plugin;
+      sudo apt-get install qtdeclarative5-quicklayouts-plugin;
+      sudo apt-get install qtdeclarative5-qtquick2-plugin;
+      sudo apt-get install qtdeclarative5-dialogs-plugin;
+      sudo apt-get install qtdeclarative5-window-plugin;
       sudo apt-get install gettext;
       sudo apt-get install pkg-config;
       sudo apt-get install cmake;
@@ -83,9 +92,13 @@ before_install:
 
 install:
   - if [ `uname` = "Linux" ]; then hg clone https://bitbucket.org/eigen/eigen#3.3 /tmp/eigen && mkdir /tmp/eigen-build && cd /tmp/eigen-build && cmake . /tmp/eigen && make -j3 && sudo make install && cd -; fi
-  - if [ $TRAVIS_OS_NAME == osx ]; then hg clone https://bitbucket.org/eigen/eigen#3.3 /tmp/eigen && mkdir /tmp/eigen-build && cd /tmp/eigen-build && cmake . /tmp/eigen && make -j3 && sudo make install && cd -; fi
+  - if [ $TRAVIS_OS_NAME == osx ]; then hg clone https://bitbucket.org/eigen/eigen#3.3 /tmp/eigen && mkdir /tmp/eigen-build && cd /tmp/eigen-build && FC="nofortran" cmake . /tmp/eigen && make -j3 && sudo make install && cd -; fi
 
 before_script:
+  - if [ `uname` = "Linux" ];
+    then export DISPLAY=:99.0;
+    sh -e /etc/init.d/xvfb start;
+    fi
   - if [ `uname` = "Linux" ];
     then export CC=$USE_CC; export CXX=$USE_CXX;
     export BUILD_ROOT=$(pwd);

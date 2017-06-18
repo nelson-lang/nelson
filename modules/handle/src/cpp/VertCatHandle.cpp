@@ -58,14 +58,13 @@ namespace Nelson {
         indexType newSize = newColumnsSize * newRowsSize;
         Dimensions dimsC = Dimensions(newRowsSize, newColumnsSize);
         void * pRes = nullptr;
-        nelson_handle *ptrC = nullptr;
         nelson_handle *ptrA = (nelson_handle *)A.getDataPointer();
         nelson_handle *ptrB = (nelson_handle *)B.getDataPointer();
         if (newSize != 0)
         {
             HandleGenericObject *hlObjA = HandleManager::getInstance()->getPointer(ptrA[0]);
             HandleGenericObject *hlObjB = HandleManager::getInstance()->getPointer(ptrB[0]);
-            if (hlObjA->getCategory() != hlObjB->getCategory())
+            if (hlObjA->getCategory() != hlObjB->getCategory() || (hlObjA == nullptr || hlObjB == nullptr))
             {
                 throw Exception(_W("Handles being catenated have incompatible classes."));
             }
@@ -73,7 +72,7 @@ namespace Nelson {
         pRes = ArrayOf::allocateArrayOf(NLS_HANDLE, newSize);
         if (newSize != 0)
         {
-            ptrC = (nelson_handle*)pRes;
+            nelson_handle *ptrC = (nelson_handle*)pRes;
             Eigen::Map<Eigen::Matrix<nelson_handle, Eigen::Dynamic, Eigen::Dynamic>> matA(ptrA, dimsA.getRows(), dimsA.getColumns());
             Eigen::Map<Eigen::Matrix<nelson_handle, Eigen::Dynamic, Eigen::Dynamic>> matB(ptrB, dimsB.getRows(), dimsB.getColumns());
             Eigen::Map<Eigen::Matrix<nelson_handle, Eigen::Dynamic, Eigen::Dynamic>> matC(ptrC, dimsC.getRows(), dimsC.getColumns());

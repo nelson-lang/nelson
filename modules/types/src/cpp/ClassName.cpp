@@ -18,6 +18,8 @@
 //=============================================================================
 #include "ClassName.hpp"
 #include "characters_encoding.hpp"
+#include "HandleGenericObject.hpp"
+#include "HandleManager.hpp"
 //=============================================================================
 namespace Nelson {
     //=============================================================================
@@ -29,6 +31,25 @@ namespace Nelson {
             case NLS_HANDLE:
             {
                 classString = NLS_HANDLE_STR;
+                /* handle can be 'handle' or another type but not mixed */
+                Dimensions dimsIn = In.getDimensions();
+                nelson_handle *qp = (nelson_handle*)In.getDataPointer();
+                if (qp)
+                {
+                    for (size_t k = 0; k < dimsIn.getElementCount(); k++)
+                    {
+                        nelson_handle hl = qp[k];
+                        HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
+                        if (hlObj != nullptr)
+                        {
+                            std::string current = wstring_to_utf8(hlObj->getCategory());
+                            if (classString != current && current != NLS_HANDLE_STR)
+                            {
+                                classString = current;
+                            }
+                        }
+                    }
+                }
             }
             break;
             case NLS_CELL_ARRAY:

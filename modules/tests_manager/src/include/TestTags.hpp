@@ -34,6 +34,7 @@ namespace Nelson {
 #define MACOS_ONLY_TAG 	     "<--MACOS ONLY-->"
 #define UNIX_ONLY_TAG 	     "<--UNIX ONLY-->"
 #define WITH_DISPLAY_TAG 	 "<--WITH DISPLAY-->"
+#define RELEASE_ONLY_TAG 	 "<--RELEASE ONLY-->"
 
     class NLSTESTS_MANAGER_IMPEXP TestTags {
     private:
@@ -48,6 +49,8 @@ namespace Nelson {
         bool _macOnly;
         bool _unixOnly;
         bool _withDisplay;
+        bool _releaseOnly;
+
     public:
         TestTags() {
             _notFixed = false;
@@ -61,6 +64,7 @@ namespace Nelson {
             _macOnly = false;
             _unixOnly = false;
             _withDisplay = false;
+            _releaseOnly = false;
         }
 
         bool isWithDisplay() {
@@ -98,6 +102,10 @@ namespace Nelson {
             return _unixOnly;
         }
 
+        bool isReleaseOnly() {
+            return _releaseOnly;
+        }
+
         void setWithDisplay(bool val) {
             _withDisplay = val;
         }
@@ -132,6 +140,10 @@ namespace Nelson {
         void setUnixOnly(bool val) {
             _unixOnly = val;
         }
+        void setReleaseOnly(bool val) {
+            _releaseOnly = val;
+        }
+
     };
 }
 //=============================================================================

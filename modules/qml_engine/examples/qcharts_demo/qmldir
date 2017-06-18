@@ -1,0 +1,18 @@
+### qmldir ---
+##
+## Author: Julien Wintz
+## Created: Thu Feb 13 14:36:00 2014 (+0100)
+## Version:
+## Last-Updated:
+##           By:
+##     Update #: 45
+######################################################################
+##
+### Change Log:
+##
+######################################################################
+
+module jbQuick.Charts
+
+Chart  1.0 QChart.qml
+Charts 1.0 QChart.js

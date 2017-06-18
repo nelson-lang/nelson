@@ -65,6 +65,8 @@ ArrayOfVector Nelson::TestsManagerGateway::test_parsetagsBuiltin(Evaluator* eval
     fieldvalues.push_back(ArrayOf::logicalConstructor(tags.isMacOnly()));
     fieldnames.push_back(L"unix_only");
     fieldvalues.push_back(ArrayOf::logicalConstructor(tags.isUnixOnly()));
+    fieldnames.push_back(L"release_only");
+    fieldvalues.push_back(ArrayOf::logicalConstructor(tags.isReleaseOnly()));
     ArrayOf stack = ArrayOf::structConstructor(fieldnames, fieldvalues);
     retval.push_back(stack);
     return retval;

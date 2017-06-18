@@ -202,6 +202,30 @@ namespace Nelson {
 #endif
     }
     //=============================================================================
+    uint8 ArrayOf::getContentsAsUnsignedInteger8Scalar()
+    {
+        uint8 *qp;
+        if (getLength() != 1)
+        {
+            throw Exception(ERROR_SCALAR_EXPECTED);
+        }
+        promoteType(NLS_UINT8);
+        qp = (uint8*)dp->getData();
+        return (*qp);
+    }
+    //=============================================================================
+    int8 ArrayOf::getContentsAsInteger8Scalar()
+    {
+        int8 *qp;
+        if (getLength() != 1)
+        {
+            throw Exception(ERROR_SCALAR_EXPECTED);
+        }
+        promoteType(NLS_INT8);
+        qp = (int8*)dp->getData();
+        return (*qp);
+    }
+    //=============================================================================
     int32 ArrayOf::getContentsAsInteger32Scalar()
     {
         int32 *qp;
@@ -211,6 +235,18 @@ namespace Nelson {
         }
         promoteType(NLS_INT32);
         qp = (int32*)dp->getData();
+        return (*qp);
+    }
+    //=============================================================================
+    uint32 ArrayOf::getContentsAsUnsignedInteger32Scalar()
+    {
+        uint32 *qp;
+        if (getLength() != 1)
+        {
+            throw Exception(ERROR_SCALAR_EXPECTED);
+        }
+        promoteType(NLS_UINT32);
+        qp = (uint32*)dp->getData();
         return (*qp);
     }
     //=============================================================================

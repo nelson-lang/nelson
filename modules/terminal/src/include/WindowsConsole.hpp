@@ -45,7 +45,7 @@ private:
     bool bHaveHisOwnWindow;
     bool bWithColors;
     std::wstring getTextLine(std::wstring prompt, bool bIsInput);
-
+    bool atPrompt;
 public:
 
     WindowsConsole(bool _bWithColors = true);
@@ -85,4 +85,7 @@ public:
 
     bool setConsoleTitle(std::wstring title);
     std::wstring getConsoleTitle();
+
+    bool isAtPrompt();
+
 };

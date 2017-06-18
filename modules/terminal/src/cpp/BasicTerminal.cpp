@@ -71,8 +71,7 @@ std::wstring BasicTerminal::getTextLine(std::wstring prompt, bool bIsInput)
 //=============================================================================
 std::string BasicTerminal::getTextLine(std::string prompt, bool bIsInput)
 {
-    fprintf(stdout, "%s", "\n");
-    this->diary.writeMessage("\n");
+    atPrompt = true;
     fprintf(stdout, "%s", prompt.c_str());
     this->diary.writeMessage(prompt);
     char buffer[CMD_BUFFER_SIZE];
@@ -89,6 +88,7 @@ std::string BasicTerminal::getTextLine(std::string prompt, bool bIsInput)
             retLine.pop_back();
         }
     }
+    atPrompt = false;
     return retLine;
 }
 //=============================================================================
@@ -114,6 +114,10 @@ size_t BasicTerminal::getTerminalWidth()
 //=============================================================================
 void BasicTerminal::outputMessage(std::wstring msg)
 {
+    if (atPrompt)
+    {
+        outputMessage(L"\n");
+    }
     outputMessage(wstring_to_utf8(msg));
 }
 //=============================================================================
@@ -164,10 +168,16 @@ BasicTerminal::BasicTerminal()
     	 setbuf(stdin, NULL);
     #endif
     */
+    atPrompt = false;
 }
 //=============================================================================
 BasicTerminal::~BasicTerminal()
 {
+}
+//=============================================================================
+bool BasicTerminal::isAtPrompt()
+{
+    return atPrompt;
 }
 //=============================================================================
 

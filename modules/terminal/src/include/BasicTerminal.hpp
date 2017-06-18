@@ -59,8 +59,11 @@ public:
     void warningMessage(std::string msg);
 
     void clearTerminal();
+    bool isAtPrompt();
+
 private:
     std::wstring getTextLine(std::wstring prompt, bool bIsInput);
     std::string getTextLine(std::string prompt, bool bIsInput);
+    bool atPrompt;
 };
 //=============================================================================

@@ -92,18 +92,22 @@ void QtTerminal::banner()
     QString nelsonPath = Nelson::wstringToQString(Nelson::GetRootPath());
     QString fileName = nelsonPath + "/resources/banner_nelson.png";
     textCursor().insertBlock();
-    QImageReader reader(fileName);
-    if (reader.canRead())
+    QFile qfile(fileName);
+    if (qfile.exists())
     {
-        QImage image = reader.read();
-        if (!image.isNull())
+        QImageReader reader(fileName);
+        if (reader.canRead())
         {
-            QTextImageFormat imageFormat;
-            imageFormat.setName(fileName);
-            textCursor().insertImage(imageFormat);
-            textCursor().insertBlock();
+            QImage image = reader.read();
+            if (!image.isNull())
+            {
+                QTextImageFormat imageFormat;
+                imageFormat.setName(fileName);
+                textCursor().insertImage(imageFormat);
+                textCursor().insertBlock();
+            }
+            repaint();
         }
-        repaint();
     }
 }
 //=============================================================================
@@ -140,21 +144,44 @@ void QtTerminal::sendReturnKey()
 //=============================================================================
 std::wstring QtTerminal::getLine(std::wstring prompt)
 {
-    if (!prompt.empty())
-    {
-        printNewLine();
-    }
     printPrompt(Nelson::wstringToQString(prompt));
     promptBlock = document()->lastBlock();
     // enable cursor text
     setCursorWidth(QFontMetrics(font()).width(QChar('x')));
     // restore default icon cursor
     QApplication::restoreOverrideCursor();
+    if (eval == nullptr)
+    {
+        void *veval = GetNelsonMainEvaluatorDynamicFunction();
+        eval = (Nelson::Evaluator *)veval;
+    }
+    bool wasInterruptByAction = false;
     while (lineToSend.empty())
     {
         Nelson::ProcessEvents(true);
+        if (!eval->commandQueue.isEmpty())
+        {
+            wasInterruptByAction = true;
+            break;
+        }
     }
-    std::wstring line = lineToSend;
+    std::wstring line;
+    if (wasInterruptByAction)
+    {
+        clearLine();
+        line = L"\n";
+    }
+    else
+    {
+        line = lineToSend;
+    }
+    if (!wasInterruptByAction)
+    {
+        while (lineToSend.empty())
+        {
+            Nelson::ProcessEvents(true);
+        }
+    }
     lineToSend.clear();
     Nelson::ProcessEvents();
     // disable cursor text
@@ -533,6 +560,15 @@ void QtTerminal::clc()
 {
     clearTerminal();
     updateHistoryToken();
+}
+//=============================================================================
+void QtTerminal::clearLine()
+{
+    QTextCursor cursor = textCursor();
+    cursor.movePosition(QTextCursor::StartOfLine);
+    cursor.movePosition(QTextCursor::Right, QTextCursor::MoveAnchor, 0);
+    cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor);
+    cursor.insertText(Nelson::wstringToQString(L""));
 }
 //=============================================================================
 void QtTerminal::stopRun()

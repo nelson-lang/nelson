@@ -60,4 +60,5 @@ Source: {#RootPath}modules\modules.nls; DestDir: {app}\modules\;
 #include "tests_manager/module.iss"
 #include "linear_algebra/module.iss"
 #include "handle/module.iss"
+#include "qml_engine/module.iss"
 ;==============================================================================

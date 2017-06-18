@@ -412,6 +412,11 @@ function r = isbench(filename)
   r = strncmp(fwext, 'bench_', 5);
 endfunction
 //=============================================================================
+function r = is_release()
+  ver_comp = version('-compiler');
+  r = strcmp(ver_comp{2}, 'release');
+endfunction
+//=============================================================================
 function test_case_res = run_test_case(test, module_name, index, indexMax, nbTestCasesMax)
   test_case_res = test;
   is_bench = test.isbench;
@@ -419,60 +424,65 @@ function test_case_res = run_test_case(test, module_name, index, indexMax, nbTes
   startChars = [' ', uniformizeNumbers(index, nbTestCasesMax), '/', uniformizeNumbers(indexMax, nbTestCasesMax),' - [', module_name, '] ', test_case_res.name];
   fprintf(stdout, startChars);
 
-  if (~haveDisplay() & test_case_res.options.with_display)
-    test_case_res.status = 'No display';
-    test_case_res.time = 0.;
-  else
-    if (test_case_res.options.not_fixed)
+  if (test_case_res.options.release_only & ~is_release())
       test_case_res.status = 'Skip';
       test_case_res.time = 0.;
+  else
+    if (~haveDisplay() & test_case_res.options.with_display)
+      test_case_res.status = 'No display';
+      test_case_res.time = 0.;
     else
-      if (test_case_res.options.interactive_test)
-        test_case_res.status = 'Interactive';
+      if (test_case_res.options.not_fixed)
+        test_case_res.status = 'Skip';
         test_case_res.time = 0.;
       else
-        is_all_platforms =  ~test_case_res.options.windows_only & ~test_case_res.options.mac_only & ~test_case_res.options.unix_only;
-        is_current_platform = (ispc() & test_case_res.options.windows_only) | (ismac() & test_case_res.options.mac_only) | (isunix() & ~ismac() & test_case_res.options.unix_only);
-        if (is_all_platforms | is_current_platform)
-
-          testfile = test.filename;
-          [p, f, e] = fileparts(testfile);
-
-          outputfile = [tempdir(), '/' , f, '.output'];
-          r = rmfile(outputfile);
-          
-          redirect_err = [tempdir(), '/' , f, '.err'];
-          r = rmfile(redirect_err);
-          
-          if is_bench
-            timeout = int2str(500);
-          else
-            timeout = int2str(50);
-          end
-  
-        cmd = '';
-
-        if test_case_res.options.english_imposed
-          cmd = [' --language', ' ', 'en_US'];
-        end
-        cmd_to_execute = ['"[test_res, test_msg, test_timing] = test_runfile(''',  testfile, ''');savebin(''', outputfile, ''', ''test_res'', ''test_msg'', ''test_timing''); exit(double(test_res));"'];
-        redirect_to_file = [' 2>&1 "' , redirect_err, '"'];
-        cmd = [cmd, ' --quiet', ' ', '--timeout', ' ', timeout, ' ', '--execute', ' ', cmd_to_execute, ' ', redirect_to_file];
-
-        if test_case_res.options.cli_mode
-          [res, msg] = call_nelson_cli(cmd);
+        if (test_case_res.options.interactive_test)
+          test_case_res.status = 'Interactive';
+          test_case_res.time = 0.;
         else
-          if test_case_res.options.gui_mode
-            [res, msg] = call_nelson_gui(cmd);
-          else
-            if test_case_res.options.adv_cli_mode
-              [res, msg] = call_nelson_adv_cli(cmd);
+          is_all_platforms =  ~test_case_res.options.windows_only & ~test_case_res.options.mac_only & ~test_case_res.options.unix_only;
+          is_current_platform = (ispc() & test_case_res.options.windows_only) | (ismac() & test_case_res.options.mac_only) | (isunix() & ~ismac() & test_case_res.options.unix_only);
+          if (is_all_platforms | is_current_platform)
+
+            testfile = test.filename;
+            [p, f, e] = fileparts(testfile);
+
+            outputfile = [tempdir(), '/' , f, '.output'];
+            r = rmfile(outputfile);
+          
+            redirect_err = [tempdir(), '/' , f, '.err'];
+            r = rmfile(redirect_err);
+          
+            if is_bench
+              timeout = int2str(500);
             else
-              [res, msg] = call_nelson_cli(cmd);
+              timeout = int2str(50);
+            end
+  
+          cmd = '';
+
+          if test_case_res.options.english_imposed
+            cmd = [' --language', ' ', 'en_US'];
+          end
+          cmd_to_execute = ['"[test_res, test_msg, test_timing] = test_runfile(''',  testfile, ''');savebin(''', outputfile, ''', ''test_res'', ''test_msg'', ''test_timing''); exit(double(test_res));"'];
+          redirect_to_file = [' 2>&1 "' , redirect_err, '"'];
+          cmd = [cmd, ' --quiet', ' ', '--timeout', ' ', timeout, ' ', '--execute', ' ', cmd_to_execute, ' ', redirect_to_file];
+
+          if test_case_res.options.cli_mode
+            [res, msg] = call_nelson_cli(cmd);
+          else
+            if test_case_res.options.gui_mode
+              [res, msg] = call_nelson_gui(cmd);
+            else
+              if test_case_res.options.adv_cli_mode
+                [res, msg] = call_nelson_adv_cli(cmd);
+              else
+                [res, msg] = call_nelson_cli(cmd);
+              end
             end
           end
-        end
-        test_case_res.msg = msg;
+          
+          test_case_res.msg = msg;
           if res ~= 1
             test_case_res.status = 'Fail';
             test_timing = 0;
@@ -508,6 +518,8 @@ function test_case_res = run_test_case(test, module_name, index, indexMax, nbTes
         end
       end
     end
+  end
+
   end
 
   nbCharsStart = length(startChars);

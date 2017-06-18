@@ -27,6 +27,7 @@
 BsdTerminal::BsdTerminal()
 {
     linenoiseSetMultiLine(1);
+    atPrompt = false;
 }
 //=============================================================================
 BsdTerminal::~BsdTerminal()
@@ -35,10 +36,9 @@ BsdTerminal::~BsdTerminal()
 //=============================================================================
 std::wstring BsdTerminal::getTextLine(std::wstring prompt, bool bIsInput)
 {
-    if (prompt != L"")
+    atPrompt = true;
+    if (!prompt.empty())
     {
-        fprintf(stdout, "%s", "\n");
-        this->diary.writeMessage(L"\n");
         this->diary.writeMessage(prompt);
     }
     char *line = linenoise(wstring_to_utf8(prompt).c_str());
@@ -59,6 +59,12 @@ std::wstring BsdTerminal::getTextLine(std::wstring prompt, bool bIsInput)
         }
         this->diary.writeMessage(retLineW);
     }
+    else
+    {
+        retLineW = L"\n";
+        atPrompt = false;
+        return retLineW;
+    }
     if (bIsInput)
     {
         if (boost::algorithm::ends_with(retLineW, L"\n"))
@@ -67,6 +73,7 @@ std::wstring BsdTerminal::getTextLine(std::wstring prompt, bool bIsInput)
         }
         Nelson::History::setToken(L"");
     }
+    atPrompt = false;
     return retLineW;
 }
 //=============================================================================
@@ -93,7 +100,14 @@ size_t BsdTerminal::getTerminalWidth()
 //=============================================================================
 void BsdTerminal::outputMessage(std::wstring msg)
 {
-    outputMessage(wstring_to_utf8(msg));
+    std::string _msg = wstring_to_utf8(msg);
+    if (atPrompt)
+    {
+        clearLine();
+        atPrompt = false;
+        interruptReadLine();
+    }
+    outputMessage(_msg);
 }
 //=============================================================================
 void BsdTerminal::outputMessage(std::string msg)
@@ -129,4 +143,8 @@ void BsdTerminal::clearTerminal()
     linenoiseClearScreen();
 }
 //=============================================================================
-
+bool BsdTerminal::isAtPrompt()
+{
+    return atPrompt;
+}
+//=============================================================================

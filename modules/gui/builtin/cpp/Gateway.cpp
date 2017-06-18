@@ -20,6 +20,7 @@
 #include "bannerBuiltin.hpp"
 #include "inserthtmlBuiltin.hpp"
 #include "uigetdirBuiltin.hpp"
+#include "qt_verboseBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -30,6 +31,8 @@ static const nlsGateway gateway[] =
     { "banner", Nelson::GuiGateway::bannerBuiltin, 0, 0 },
     { "inserthtml", Nelson::GuiGateway::inserthtmlBuiltin, 0, 1 },
     { "uigetdir", Nelson::GuiGateway::uigetdirBuiltin, 1, 2 },
+    { "qt_verbose", Nelson::GuiGateway::qt_verboseBuiltin, 1, 1 },
+
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

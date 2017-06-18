@@ -31,15 +31,15 @@ namespace Nelson {
             nelson_handle *qp = (nelson_handle*)A.getDataPointer();
             for (indexType k = 0; k < dimsA.getElementCount(); k++)
             {
-                bool doOverload = false;
                 nelson_handle hl = qp[k];
                 HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
                 if (hlObj)
                 {
+                    bool doOverload = false;
                     std::wstring handleTypeName = hlObj->getCategory();
                     if (!handleTypeName.empty())
                     {
-                        std::wstring ufunctionNameClearHandle = L"handle_" + handleTypeName + L"_delete";
+                        std::wstring ufunctionNameClearHandle = handleTypeName + L"_delete";
                         std::string functionNameClearHandle = wstring_to_utf8(ufunctionNameClearHandle);
                         Context *context = eval->getContext();
                         FunctionDef *funcDef = nullptr;
@@ -60,9 +60,16 @@ namespace Nelson {
                     }
                     if (!doOverload)
                     {
-                        void * ptr = (void *)hlObj->getPointer();
-                        delete[] ptr;
-                        hlObj->setPointer(nullptr);
+                        std::wstring msg;
+                        if (handleTypeName.empty())
+                        {
+                            msg = L"delete " + _W("not defined.");
+                        }
+                        else
+                        {
+                            msg = handleTypeName + L"_delete" + L" " + _W("not defined.");
+                        }
+                        throw Exception(msg);
                     }
                 }
                 HandleManager::getInstance()->removeHandle(hl);
