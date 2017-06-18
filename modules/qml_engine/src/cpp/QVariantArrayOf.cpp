@@ -198,44 +198,44 @@ namespace Nelson {
         {
             case QVariant::Type::Bool:
             {
-                res = ArrayOf::logicalConstructor(Q.toBool());
+                return ArrayOf::logicalConstructor(Q.toBool());
             }
             break;
             case QVariant::Type::Int:
             {
-                res = ArrayOf::int32Constructor(Q.toInt());
+                return ArrayOf::int32Constructor(Q.toInt());
             }
             break;
             case QVariant::Type::UInt:
             {
-                res = ArrayOf::uint32Constructor(Q.toUInt());
+                return ArrayOf::uint32Constructor(Q.toUInt());
             }
             break;
             case QVariant::Type::LongLong:
             {
-                res = ArrayOf::int64Constructor(Q.toLongLong());
+                return ArrayOf::int64Constructor(Q.toLongLong());
             }
             break;
             case QVariant::Type::ULongLong:
             {
-                res = ArrayOf::uint64Constructor(Q.toULongLong());
+                return ArrayOf::uint64Constructor(Q.toULongLong());
             }
             break;
             case QVariant::Type::Double:
             {
-                res = ArrayOf::doubleConstructor(Q.toDouble());
+                return ArrayOf::doubleConstructor(Q.toDouble());
             }
             break;
             case QVariant::Type::Char:
             {
                 char c = qvariant_cast<char>(Q);
                 int8 i8 = (int8)c;
-                res = ArrayOf::int8Constructor(i8);
+                return ArrayOf::int8Constructor(i8);
             }
             break;
             case QVariant::Type::String:
             {
-                res = ArrayOf::stringConstructor(QStringTowstring(Q.toString()));
+                return ArrayOf::stringConstructor(QStringTowstring(Q.toString()));
             }
             break;
             case QVariant::Type::StringList:
@@ -246,7 +246,7 @@ namespace Nelson {
                 {
                     wvector.push_back(QStringTowstring(stringlist[k]));
                 }
-                res = ToCellStringAsRow(wvector);
+                return ToCellStringAsRow(wvector);
             }
             break;
             case QVariant::Type::ByteArray:
@@ -260,7 +260,7 @@ namespace Nelson {
                     arrayInt8[k] = (int8)data[k];
                 }
                 Dimensions dims(1, count);
-                res = ArrayOf(NLS_INT8, dims, (void*)arrayInt8);
+                return ArrayOf(NLS_INT8, dims, (void*)arrayInt8);
             }
             break;
             case QVariant::Type::BitArray:
@@ -273,7 +273,7 @@ namespace Nelson {
                     arrayLogical[k] = (logical)qbitarray[k];
                 }
                 Dimensions dims(1, count);
-                res = ArrayOf(NLS_LOGICAL, dims, (void*)arrayLogical);
+                return ArrayOf(NLS_LOGICAL, dims, (void*)arrayLogical);
             }
             break;
             case QVariant::Type::Date:
@@ -284,7 +284,7 @@ namespace Nelson {
                 arrayInt32[1] = qdate.month();
                 arrayInt32[2] = qdate.day();
                 Dimensions dims(1, 3);
-                res = ArrayOf(NLS_INT32, dims, (void*)arrayInt32);
+                return ArrayOf(NLS_INT32, dims, (void*)arrayInt32);
             }
             break;
             case QVariant::Type::Time:
@@ -296,7 +296,7 @@ namespace Nelson {
                 arrayInt32[2] = qtime.second();
                 arrayInt32[3] = qtime.msec();
                 Dimensions dims(1, 4);
-                res = ArrayOf(NLS_INT32, dims, (void*)arrayInt32);
+                return ArrayOf(NLS_INT32, dims, (void*)arrayInt32);
             }
             break;
             case QVariant::Type::DateTime:
@@ -314,7 +314,7 @@ namespace Nelson {
                 arrayInt32[5] = qtime.second();
                 arrayInt32[6] = qtime.msec();
                 Dimensions dims(1, 7);
-                res = ArrayOf(NLS_INT32, dims, (void*)arrayInt32);
+                return ArrayOf(NLS_INT32, dims, (void*)arrayInt32);
             }
             break;
             case QVariant::Type::Url:
@@ -332,7 +332,7 @@ namespace Nelson {
                 arrayInt32[2] = qrect.width();
                 arrayInt32[3] = qrect.height();
                 Dimensions dims(1, 4);
-                res = ArrayOf(NLS_INT32, dims, (void*)arrayInt32);
+                return ArrayOf(NLS_INT32, dims, (void*)arrayInt32);
             }
             break;
             case QVariant::Type::RectF:
@@ -344,7 +344,7 @@ namespace Nelson {
                 arrayDouble[2] = (double)qrectf.width();
                 arrayDouble[3] = (double)qrectf.height();
                 Dimensions dims(1, 4);
-                res = ArrayOf(NLS_DOUBLE, dims, (void*)arrayDouble);
+                return ArrayOf(NLS_DOUBLE, dims, (void*)arrayDouble);
             }
             break;
             case QVariant::Type::Size:
@@ -354,7 +354,7 @@ namespace Nelson {
                 arrayInt32[0] = qsize.width();
                 arrayInt32[1] = qsize.height();
                 Dimensions dims(1, 2);
-                res = ArrayOf(NLS_INT32, dims, (void*)arrayInt32);
+                return ArrayOf(NLS_INT32, dims, (void*)arrayInt32);
             }
             break;
             case QVariant::Type::SizeF:
@@ -364,7 +364,7 @@ namespace Nelson {
                 arrayDouble[0] = qsizef.width();
                 arrayDouble[1] = qsizef.height();
                 Dimensions dims(1, 2);
-                res = ArrayOf(NLS_INT32, dims, (void*)arrayDouble);
+                return ArrayOf(NLS_INT32, dims, (void*)arrayDouble);
             }
             break;
             case QVariant::Type::Line:
@@ -376,7 +376,7 @@ namespace Nelson {
                 arrayInt32[2] = qline.x2();
                 arrayInt32[3] = qline.y2();
                 Dimensions dims(1, 4);
-                res = ArrayOf(NLS_INT32, dims, (void*)arrayInt32);
+                return ArrayOf(NLS_INT32, dims, (void*)arrayInt32);
             }
             break;
             case QVariant::Type::LineF:
@@ -388,7 +388,7 @@ namespace Nelson {
                 arrayDouble[2] = (double)qlinef.x2();
                 arrayDouble[3] = (double)qlinef.y2();
                 Dimensions dims(1, 4);
-                res = ArrayOf(NLS_DOUBLE, dims, (void*)arrayDouble);
+                return ArrayOf(NLS_DOUBLE, dims, (void*)arrayDouble);
             }
             break;
             case QVariant::Type::Point:
@@ -398,7 +398,7 @@ namespace Nelson {
                 arrayInt32[0] = qpoint.x();
                 arrayInt32[1] = qpoint.y();
                 Dimensions dims(1, 2);
-                res = ArrayOf(NLS_INT32, dims, (void*)arrayInt32);
+                return ArrayOf(NLS_INT32, dims, (void*)arrayInt32);
             }
             break;
             case QVariant::Type::PointF:
@@ -408,13 +408,13 @@ namespace Nelson {
                 arrayDouble[0] = (double)qpointf.x();
                 arrayDouble[1] = (double)qpointf.y();
                 Dimensions dims(1, 2);
-                res = ArrayOf(NLS_DOUBLE, dims, (void*)arrayDouble);
+                return ArrayOf(NLS_DOUBLE, dims, (void*)arrayDouble);
             }
             break;
             case QVariant::Type::Uuid:
             {
                 QUuid quuid = Q.toUuid();
-                res = ArrayOf::stringConstructor(QStringTowstring(quuid.toString()));
+                return ArrayOf::stringConstructor(QStringTowstring(quuid.toString()));
             }
             break;
             case QVariant::Type::Color:
@@ -426,7 +426,7 @@ namespace Nelson {
                 arrayInt32[2] = qcolor.blue();
                 arrayInt32[3] = qcolor.alpha();
                 Dimensions dims(1, 4);
-                res = ArrayOf(NLS_INT32, dims, (void*)arrayInt32);
+                return ArrayOf(NLS_INT32, dims, (void*)arrayInt32);
             }
             break;
             case QVariant::Type::Matrix:
@@ -440,7 +440,7 @@ namespace Nelson {
                 arrayDouble[4] = (double)qmatrix.dx();
                 arrayDouble[5] = (double)qmatrix.dy();
                 Dimensions dims(1, 6);
-                res = ArrayOf(NLS_DOUBLE, dims, (void*)arrayDouble);
+                return ArrayOf(NLS_DOUBLE, dims, (void*)arrayDouble);
             }
             break;
             case QVariant::Type::Transform:
@@ -457,7 +457,7 @@ namespace Nelson {
                 arrayDouble[7] = (double)qtransform.m32();
                 arrayDouble[8] = (double)qtransform.m33();
                 Dimensions dims(3, 3);
-                res = ArrayOf(NLS_DOUBLE, dims, (void*)arrayDouble);
+                return ArrayOf(NLS_DOUBLE, dims, (void*)arrayDouble);
             }
             break;
             case QVariant::Type::Matrix4x4:
@@ -470,7 +470,7 @@ namespace Nelson {
                     arraySingle[k] = (single)data[k];
                 }
                 Dimensions dims(4, 4);
-                res = ArrayOf(NLS_SINGLE, dims, (void*)arraySingle);
+                return ArrayOf(NLS_SINGLE, dims, (void*)arraySingle);
             }
             break;
             case QVariant::Type::Vector2D:
@@ -480,7 +480,7 @@ namespace Nelson {
                 arraySingle[0] = qvector2d.x();
                 arraySingle[1] = qvector2d.y();
                 Dimensions dims(1, 2);
-                res = ArrayOf(NLS_SINGLE, dims, (void*)arraySingle);
+                return ArrayOf(NLS_SINGLE, dims, (void*)arraySingle);
             }
             break;
             case QVariant::Type::Vector3D:
@@ -491,7 +491,7 @@ namespace Nelson {
                 arraySingle[1] = qvector3d.y();
                 arraySingle[2] = qvector3d.z();
                 Dimensions dims(1, 3);
-                res = ArrayOf(NLS_SINGLE, dims, (void*)arraySingle);
+                return ArrayOf(NLS_SINGLE, dims, (void*)arraySingle);
             }
             break;
             case QVariant::Type::Vector4D:
@@ -503,7 +503,7 @@ namespace Nelson {
                 arraySingle[2] = qvector4d.z();
                 arraySingle[3] = qvector4d.w();
                 Dimensions dims(1, 4);
-                res = ArrayOf(NLS_SINGLE, dims, (void*)arraySingle);
+                return ArrayOf(NLS_SINGLE, dims, (void*)arraySingle);
             }
             break;
             case QVariant::Type::Quaternion:
@@ -515,7 +515,7 @@ namespace Nelson {
                 arraySingle[2] = qq.y();
                 arraySingle[3] = qq.z();
                 Dimensions dims(1, 4);
-                res = ArrayOf(NLS_SINGLE, dims, (void*)arraySingle);
+                return ArrayOf(NLS_SINGLE, dims, (void*)arraySingle);
             }
             break;
             case QVariant::Type::List:
@@ -527,7 +527,7 @@ namespace Nelson {
                 {
                     cellArray[k] = QVariantToArrayOf(qlistVariant[k]);
                 }
-                res = ArrayOf(NLS_CELL_ARRAY, dimsCellArray, cellArray);
+                return ArrayOf(NLS_CELL_ARRAY, dimsCellArray, cellArray);
             }
             break;
             case QVariant::Type::Map:
@@ -545,7 +545,7 @@ namespace Nelson {
                 {
                     structArray.setField(wstring_to_utf8(fieldnames[k]), fieldvalues[k]);
                 }
-                res = structArray;
+                return structArray;
             }
             break;
             default:
@@ -577,8 +577,7 @@ namespace Nelson {
                             }
                             nh[0] = HandleManager::getInstance()->addHandle(qmlHandle);
                         }
-                        res = ArrayOf(NLS_HANDLE, dims, (void *)nh);
-                        return res;
+                        return ArrayOf(NLS_HANDLE, dims, (void *)nh);
                     }
                 }
                 QQmlListReference ref = Q.value<QQmlListReference>();
@@ -620,8 +619,7 @@ namespace Nelson {
                                 nh[k] = HandleManager::getInstance()->addHandle(qmlHandle);
                             }
                         }
-                        res = ArrayOf(NLS_HANDLE, dims, (void *)nh);
-                        return res;
+                        return ArrayOf(NLS_HANDLE, dims, (void *)nh);
                     }
                 }
                 const char *name = Q.typeName();
@@ -668,8 +666,7 @@ namespace Nelson {
                                 nh[k] = HandleManager::getInstance()->addHandle(qmlHandle);
                             }
                         }
-                        res = ArrayOf(NLS_HANDLE, dims, (void *)nh);
-                        return res;
+                        return ArrayOf(NLS_HANDLE, dims, (void *)nh);
                     }
                 }
                 else if(strcmp(name,"QJSValue") == 0)
@@ -694,7 +691,7 @@ namespace Nelson {
                     qmlHandle = nullptr;
                     throw Exception(ERROR_MEMORY_ALLOCATION);
                 }
-                res = ArrayOf::handleConstructor(qmlHandle);
+                return ArrayOf::handleConstructor(qmlHandle);
             }
             break;
         }
