@@ -41,11 +41,6 @@ ApplicationWindow {
                 CheckBox { id:chk2; text: "checkbox 2"; checked: false }
                 CheckBox { id:chk3; text: "checkbox 3"; checked: true }
                 CheckBox { id:chk4; text: "checkbox 4"; checked: false }
-                CheckBox { id:chk5; text: "checkbox 5"; checked: true }
-                CheckBox { id:chk6; text: "checkbox 6"; checked: false }
-                CheckBox { id:chk7; text: "checkbox 7"; checked: true }
-                CheckBox { id:chk8; text: "checkbox 8"; checked: false }
-                CheckBox { id:chk9; text: "checkbox 9"; checked: true }
             }
         }
 
@@ -56,7 +51,7 @@ ApplicationWindow {
         y:110
         text: "Valid"
         onClicked: {
-						nelson.call('callback_checkboxes', [chk1.checked, chk2.checked, chk3.checked, chk4.checked, chk5.checked, chk6.checked, chk7.checked, chk8.checked]);
+          nelson.call('callback_checkboxes', chk1.checked, chk2.checked, chk3.checked, chk4.checked);
         }
     }
 }

@@ -16,10 +16,9 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-function callback_checkboxes(checked_list)
-  l = 1
-  for k = checked_list
-  	disp(['Checkbox ', int2str(l), ' :', int2str(k)]);
-  	l = l + 1:
-  end
+function callback_checkboxes(c1, c2, c3, c4)
+  disp(['Checkbox 1 :', int2str(c1)]);
+  disp(['Checkbox 2 :', int2str(c2)]);
+  disp(['Checkbox 3 :', int2str(c3)]);
+  disp(['Checkbox 4 :', int2str(c4)]);
 endfunction

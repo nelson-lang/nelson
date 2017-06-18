@@ -5,8 +5,8 @@ import "content"
 
 ApplicationWindow {
     visible: true
-    width: 800
-    height: 1280
+    width: 500
+    height: 700
     objectName: "qml_demos"
 
     Rectangle {
@@ -57,6 +57,26 @@ ApplicationWindow {
     ListModel {
         id: pageModel
         ListElement {
+            title: "d3 demo"
+            page: "d3_demo"
+        }
+        ListElement {
+            title: "qcharts <--> Nelson"
+            page: "qcharts_demo"
+        }
+        ListElement {
+            title: "threejs <--> Nelson"
+            page: "threejs_demo"
+        }
+        ListElement {
+            title: "clock"
+            page: "clock"
+        }
+        ListElement {
+            title: "drag demo"
+            page: "drag_demo"
+        }
+        ListElement {
             title: "basic layouts"
             page: "basic_layouts"
         }
@@ -69,43 +89,21 @@ ApplicationWindow {
             page: "checkboxes"
         }
         ListElement {
-            title: "clock"
-            page: "clock"
-        }
-        ListElement {
             title: "colors"
             page: "colors"
         }
-        
         ListElement {
             title: "component gallery"
             page: "component_gallery"
-        }
-        ListElement {
-            title: "d3 demo"
-            page: "d3_demo"
-        }
-        ListElement {
-            title: "drag demo"
-            page: "drag_demo"
         }
         ListElement {
             title: "dynamic scene"
             page: "dynamic_scene_demo"
         }
         ListElement {
-            title: "qcharts <--> Nelson"
-            page: "qcharts_demo"
-        }
-        ListElement {
-            title: "threejs <--> Nelson"
-            page: "threejs_demo"
-        }
-        ListElement {
             title: "widget gallery"
             page: "widget_gallery"
         }
-        
     }
 
     StackView {
