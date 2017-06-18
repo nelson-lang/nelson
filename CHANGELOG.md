@@ -9,6 +9,8 @@ Features:
 
   Qt 5.9 used on Windows binaries
 
+  add CONTRIBUTING.md and CODE_OF_CONDUCT.md files
+
   add 'heldlg', 'msgbox', 'errordlg', 'warndlg' functions based on QML.
 
   add 'questdlg' function (Creates a question dialog box) based on QML.
