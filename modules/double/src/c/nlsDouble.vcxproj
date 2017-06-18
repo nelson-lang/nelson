@@ -165,6 +165,7 @@
   <ItemGroup>
     <ClCompile Include="..\cpp\DoubleIsEqual.cpp" />
     <ClCompile Include="..\cpp\DoubleIsEqualn.cpp" />
+    <ClCompile Include="..\cpp\GeDouble.cpp" />
     <ClCompile Include="..\cpp\GtDouble.cpp" />
     <ClCompile Include="..\cpp\HorzCatDouble.cpp" />
     <ClCompile Include="..\cpp\LeDouble.cpp" />
@@ -185,6 +186,7 @@
     <ClCompile Include="..\cpp\UminusDouble.cpp" />
     <ClInclude Include="..\include\DoubleIsEqual.hpp" />
     <ClInclude Include="..\include\DoubleIsEqualn.hpp" />
+    <ClInclude Include="..\include\GeDouble.hpp" />
     <ClInclude Include="..\include\GtDouble.hpp" />
     <ClInclude Include="..\include\HorzCatDouble.hpp" />
     <ClInclude Include="..\include\LeDouble.hpp" />

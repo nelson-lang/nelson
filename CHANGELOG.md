@@ -31,7 +31,7 @@ Bug Fixes:
 ---------
 
   [#43](http://github.com/Nelson-numerical-software/nelson/issues/43): rename getContentsAsWideString to getContentAsWideString.
-
+  [#27](http://github.com/Nelson-numerical-software/nelson/issues/27): >= operator was not implemented.
 
 
 ## 0.1.5 alpha (2017-04-17)
