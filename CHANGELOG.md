@@ -27,6 +27,8 @@ Features:
 
   gui module also loaded in advanced cli mode.
 
+  add 'sind', 'cosd', 'tand' functions.
+
   add more output information in the result file of test_run function.
 
 Bug Fixes:

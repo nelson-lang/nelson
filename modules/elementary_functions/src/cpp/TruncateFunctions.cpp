@@ -238,35 +238,42 @@ namespace Nelson {
             case NLS_INT64:
             case NLS_SINGLE:
             {
-                ArrayOf R(arrayIn);
-                R.promoteType(NLS_DOUBLE);
-                switch (level)
+				ArrayOf InputAsDouble(arrayIn);
+				InputAsDouble.ensureSingleOwner();
+				InputAsDouble.promoteType(NLS_DOUBLE);
+
+				ArrayOf OutputAsDouble(arrayIn);
+				OutputAsDouble.ensureSingleOwner();
+				OutputAsDouble.promoteType(NLS_DOUBLE);
+
+				switch (level)
                 {
                     case TRUNCATE_LEVEL::CEIL:
                     {
                         // to speed up computations, we use a vector with eigen library and MKL
-                        Eigen::Map<Eigen::MatrixXd> matA((double*)R.getDataPointer(), 1, R.getLength());
-                        Eigen::Map<Eigen::MatrixXd> matR((double*)R.getDataPointer(), 1, R.getLength());
+                        Eigen::Map<Eigen::MatrixXd> matA((double*)InputAsDouble.getDataPointer(), 1, InputAsDouble.getLength());
+                        Eigen::Map<Eigen::MatrixXd> matR((double*)OutputAsDouble.getDataPointer(), 1, OutputAsDouble.getLength());
                         matR = matA.array().ceil();
                     }
                     break;
                     case TRUNCATE_LEVEL::ROUND:
                     {
                         // to speed up computations, we use a vector with eigen library and MKL
-                        Eigen::Map<Eigen::MatrixXd> matA((double*)R.getDataPointer(), 1, R.getLength());
-                        Eigen::Map<Eigen::MatrixXd> matR((double*)R.getDataPointer(), 1, R.getLength());
+                        Eigen::Map<Eigen::MatrixXd> matA((double*)InputAsDouble.getDataPointer(), 1, InputAsDouble.getLength());
+                        Eigen::Map<Eigen::MatrixXd> matR((double*)OutputAsDouble.getDataPointer(), 1, OutputAsDouble.getLength());
                         matR = matA.array().round();
                     }
                     break;
                     case TRUNCATE_LEVEL::FIX:
                     {
-                        size_t len = arrayIn.getLength();
-                        double *dp = (double*)R.getDataPointer();
+                        size_t len = InputAsDouble.getLength();
+						double *dp = (double*)InputAsDouble.getDataPointer();
+						double *ptr = (double*)OutputAsDouble.getDataPointer();
                         for (size_t i = 0; i < len; i++)
                         {
                             if (std::isfinite(dp[i]))
                             {
-                                dp[i] = double(int(dp[i]));
+								ptr[i] = double(int(dp[i]));
                             }
                         }
                     }
@@ -274,14 +281,14 @@ namespace Nelson {
                     case TRUNCATE_LEVEL::FLOOR:
                     {
                         // to speed up computations, we use a vector with eigen library and MKL
-                        Eigen::Map<Eigen::MatrixXd> matA((double*)R.getDataPointer(), 1, R.getLength());
-                        Eigen::Map<Eigen::MatrixXd> matR((double*)R.getDataPointer(), 1, R.getLength());
+                        Eigen::Map<Eigen::MatrixXd> matA((double*)InputAsDouble.getDataPointer(), 1, InputAsDouble.getLength());
+                        Eigen::Map<Eigen::MatrixXd> matR((double*)OutputAsDouble.getDataPointer(), 1, OutputAsDouble.getLength());
                         matR = matA.array().floor();
                     }
                     break;
                 }
-                R.promoteType(arrayIn.getDataClass());
-                return R;
+				OutputAsDouble.promoteType(arrayIn.getDataClass());
+                return OutputAsDouble;
             }
             break;
         }

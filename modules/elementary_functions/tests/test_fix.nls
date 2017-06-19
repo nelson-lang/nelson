@@ -49,3 +49,8 @@ assert_isequal(fix(Inf), Inf);
 assert_isequal(fix(-Inf), -Inf);
 assert_isequal(fix(zeros(0, 3)), zeros(0, 3));
 //=============================================================================
+x = 0.3333;
+r = fix(x);
+assert_isequal(r, 0);
+assert_isequal(x, 0.3333);
+//=============================================================================

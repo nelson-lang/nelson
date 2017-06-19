@@ -16,5 +16,12 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-addgateway(modulepath(nelsonroot(), 'trigonometric_functions', 'builtin'))
-addpath(modulepath(nelsonroot(), 'trigonometric_functions', 'functions'))
+function r = tand(x)
+  I0 = x * inv(180);
+  I90 = (x - 90) * inv(180);
+  r = tan(I0 .* pi);
+  r(I0 == fix (I0) & isfinite (I0)) = 0;
+  r(I90 == fix (I90) & isfinite (I90)) = Inf;
+endfunction
+//=============================================================================
+

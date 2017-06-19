@@ -16,5 +16,10 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-addgateway(modulepath(nelsonroot(), 'trigonometric_functions', 'builtin'))
-addpath(modulepath(nelsonroot(), 'trigonometric_functions', 'functions'))
+function r = sind (x)
+  I = x * inv(180);
+  r = sin (I .* pi);
+  IDX = I == fix(I) & isfinite (I);
+  r(IDX) = 0;
+endfunction
+//=============================================================================
