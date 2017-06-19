@@ -1,51 +1,44 @@
+<h2>0.1.6 alpha (2017-06-19)</h2>
+
 <h2>Features:</h2>
 
-<p>The QML engine enables nelson programs to display and manipulate graphical content using Qt&#39;s QML framework.</p>
+<ul>
+<li><p>The QML engine enables nelson programs to display and manipulate graphical content using Qt&#39;s QML framework.</p>
 
-<pre><code>  qml_demos // for demonstrations
-</code></pre>
-
-<p>Qt 5.9 used on Windows binaries</p>
-
-<p>add CONTRIBUTING.md and CODE_OF_CONDUCT.md files</p>
-
-<p>add &#39;heldlg&#39;, &#39;msgbox&#39;, &#39;errordlg&#39;, &#39;warndlg&#39; functions based on QML.</p>
-
-<p>add &#39;questdlg&#39; function (Creates a question dialog box) based on QML.</p>
-
-<p>add &#39;==&#39;, &#39;~=&#39;, &#39;isequal&#39;, &#39;isequaln&#39; overload for handle and QObject.</p>
-
-<p>add ishandle, isprop, ismethod, method, properties builtin.</p>
-
-<p>add set, get, invoke, isvalid builtin used by handle objects.</p>
-
-<p>extends clear function to call delete if &#39;handle_TYPEHANDLE_clear&#39; function is defined.</p>
-
-<p>add handle object type.</p>
-
-<p>gui module also loaded in advanced cli mode.</p>
-
-<p>add &#39;sind&#39;, &#39;cosd&#39;, &#39;tand&#39; functions.</p>
-
-<p>add more output information in the result file of test_run function.</p>
+<pre><code>qml_demos // for demonstrations
+</code></pre></li>
+<li><p>Qt 5.9 used on Windows binaries</p></li>
+<li><p>add CONTRIBUTING.md , CODE_OF_CONDUCT.md and ROADMAP.md files</p></li>
+<li><p>add &#39;heldlg&#39;, &#39;msgbox&#39;, &#39;errordlg&#39;, &#39;warndlg&#39; functions based on QML.</p></li>
+<li><p>add &#39;questdlg&#39; function (Creates a question dialog box) based on QML.</p></li>
+<li><p>add &#39;==&#39;, &#39;~=&#39;, &#39;isequal&#39;, &#39;isequaln&#39; overload for handle and QObject.</p></li>
+<li><p>add ishandle, isprop, ismethod, method, properties builtin.</p></li>
+<li><p>add set, get, invoke, isvalid builtin used by handle objects.</p></li>
+<li><p>extends clear function to call delete if &#39;TYPEHANDLE_clear&#39; function is defined.</p></li>
+<li><p>add handle object type.</p></li>
+<li><p>gui module also loaded in advanced cli mode.</p></li>
+<li><p>add &#39;sind&#39;, &#39;cosd&#39;, &#39;tand&#39; functions.</p></li>
+<li><p>add more output information in the result file of test_run function.</p></li>
+</ul>
 
 <h2>Bug Fixes:</h2>
 
-<p><a href="http://github.com/Nelson-numerical-software/nelson/issues/47">#47</a>: add isfinite builtin.
-  <a href="http://github.com/Nelson-numerical-software/nelson/issues/43">#43</a>: rename getContentsAsWideString to getContentAsWideString.
-  <a href="http://github.com/Nelson-numerical-software/nelson/issues/27">#27</a>: &gt;= operator was not implemented.</p>
+<p><a href="http://github.com/Nelson-numerical-software/nelson/issues/47">#47</a>: add isfinite builtin.</p>
+
+<p><a href="http://github.com/Nelson-numerical-software/nelson/issues/43">#43</a>: rename getContentsAsWideString to getContentAsWideString.</p>
+
+<p><a href="http://github.com/Nelson-numerical-software/nelson/issues/27">#27</a>: &gt;= operator was not implemented.</p>
 
 <h2>0.1.5 alpha (2017-04-17)</h2>
 
 <h2>Features:</h2>
 
-<p>Optimize constructors allocation for eye, ones, Inf, NaN, rand, randn functions.</p>
-
-<p>Add &#39;issymmetric&#39; function.</p>
-
-<p>Add &#39;svd&#39; function.</p>
-
-<p>Add &#39;rcond&#39; function.</p>
+<ul>
+<li>Optimize constructors allocation for eye, ones, Inf, NaN, rand, randn functions.</li>
+<li>Add &#39;issymmetric&#39; function.</li>
+<li>Add &#39;svd&#39; function.</li>
+<li>Add &#39;rcond&#39; function.</li>
+</ul>
 
 <h2>Bug Fixes:</h2>
 
@@ -65,29 +58,20 @@
 
 <h2>Features:</h2>
 
-<p>Add &#39;isnan&#39; function.</p>
-
-<p>Rework double and single matrix 2D display.</p>
-
-<p>Add &#39;trace&#39; function.</p>
-
-<p>Add &#39;schur&#39; function.</p>
-
-<p>Add &#39;inv&#39; function.</p>
-
-<p>Add &#39;expm&#39; function (single, double, sparse double managed).</p>
-
-<p>Rename &#39;string&#39; type to &#39;char&#39; type, &#39;string&#39; type will be added later.</p>
-
-<p>Add &#39;dlmwrite&#39; function.</p>
-
-<p>Add &#39;mat2str&#39; function (sparse managed).</p>
-
-<p>Add &#39;str2double&#39; function.</p>
-
-<p>Add &#39;cosm&#39; function.</p>
-
-<p>which(function_name, &#39;-all&#39;) without output argument display paths.</p>
+<ul>
+<li>Add &#39;isnan&#39; function.</li>
+<li>Rework double and single matrix 2D display.</li>
+<li>Add &#39;trace&#39; function.</li>
+<li>Add &#39;schur&#39; function.</li>
+<li>Add &#39;inv&#39; function.</li>
+<li>Add &#39;expm&#39; function (single, double, sparse double managed).</li>
+<li>Rename &#39;string&#39; type to &#39;char&#39; type, &#39;string&#39; type will be added later.</li>
+<li>Add &#39;dlmwrite&#39; function.</li>
+<li>Add &#39;mat2str&#39; function (sparse managed).</li>
+<li>Add &#39;str2double&#39; function.</li>
+<li>Add &#39;cosm&#39; function.</li>
+<li>which(function_name, &#39;-all&#39;) without output argument display paths.</li>
+</ul>
 
 <h2>Bug Fixes:</h2>
 
@@ -101,19 +85,15 @@
 
 <h2>Features:</h2>
 
-<p>datevec updated to manage vectors, matrix.</p>
-
-<p>Add &#39;nnz&#39;, &#39;nzmax&#39;, &#39;numel&#39; functions.</p>
-
-<p>Rework &#39;searchenv&#39; to return a cell of strings.</p>
-
-<p>Update persistent variables behavior (clear functions).</p>
-
-<p>Add &#39;ceil&#39;, &#39;floor&#39;, &#39;round&#39;, &#39;fix&#39; functions.</p>
-
-<p>Add sparse support for acos, asin, atan, cos, cosh, sin, sinh, tan, tanh.</p>
-
-<p>Add website and bug reports link in help menu.</p>
+<ul>
+<li>datevec updated to manage vectors, matrix.</li>
+<li>Add &#39;nnz&#39;, &#39;nzmax&#39;, &#39;numel&#39; functions.</li>
+<li>Rework &#39;searchenv&#39; to return a cell of strings.</li>
+<li>Update persistent variables behavior (clear functions).</li>
+<li>Add &#39;ceil&#39;, &#39;floor&#39;, &#39;round&#39;, &#39;fix&#39; functions.</li>
+<li>Add sparse support for acos, asin, atan, cos, cosh, sin, sinh, tan, tanh.</li>
+<li>Add website and bug reports link in help menu.</li>
+</ul>
 
 <h2>Bug Fixes:</h2>
 
@@ -147,4 +127,6 @@
 
 <h2>0.1.0 alpha (2016-12-28)</h2>
 
-<p>Initial import in github of Nelson</p>
+<ul>
+<li>Initial import in github of Nelson</li>
+</ul>

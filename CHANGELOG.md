@@ -15,7 +15,7 @@ Features:
 * add '==', '~=', 'isequal', 'isequaln' overload for handle and QObject.
 * add ishandle, isprop, ismethod, method, properties builtin.
 * add set, get, invoke, isvalid builtin used by handle objects.
-* extends clear function to call delete if 'handle\_TYPEHANDLE\_clear' function is defined.
+* extends clear function to call delete if 'TYPEHANDLE\_clear' function is defined.
 * add handle object type.
 * gui module also loaded in advanced cli mode.
 * add 'sind', 'cosd', 'tand' functions.
