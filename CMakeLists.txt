@@ -22,7 +22,7 @@ set(CMAKE_INSTALL_PREFIX "$ENV{HOME}")
 #============================================================================== 
 set (Nelson_VERSION_MAJOR_DEFAULT 0)
 set (Nelson_VERSION_MINOR_DEFAULT 1)
-set (Nelson_VERSION_MAINTENANCE_DEFAULT 5)
+set (Nelson_VERSION_MAINTENANCE_DEFAULT 6)
 #============================================================================== 
 if(DEFINED ENV{NELSON_VERSION_MAJOR})
   set (Nelson_VERSION_MAJOR $ENV{NELSON_VERSION_MAJOR})
