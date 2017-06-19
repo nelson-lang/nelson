@@ -1,35 +1,23 @@
 Features:
 ---------
 
-  The QML engine enables nelson programs to display and manipulate graphical content using Qt's QML framework.
+* The QML engine enables nelson programs to display and manipulate graphical content using Qt's QML framework.
 
   ```
   qml_demos // for demonstrations
   ```
-
-  Qt 5.9 used on Windows binaries
-
-  add CONTRIBUTING.md and CODE\_OF\_CONDUCT.md files
-
-  add 'heldlg', 'msgbox', 'errordlg', 'warndlg' functions based on QML.
-
-  add 'questdlg' function (Creates a question dialog box) based on QML.
-
-  add '==', '~=', 'isequal', 'isequaln' overload for handle and QObject.
-
-  add ishandle, isprop, ismethod, method, properties builtin.
-
-  add set, get, invoke, isvalid builtin used by handle objects.
-
-  extends clear function to call delete if 'handle\_TYPEHANDLE\_clear' function is defined.
-
-  add handle object type.
-
-  gui module also loaded in advanced cli mode.
-
-  add 'sind', 'cosd', 'tand' functions.
-
-  add more output information in the result file of test_run function.
+* Qt 5.9 used on Windows binaries
+* add CONTRIBUTING.md , CODE\_OF\_CONDUCT.md and ROADMAP.md files
+* add 'heldlg', 'msgbox', 'errordlg', 'warndlg' functions based on QML.
+* add 'questdlg' function (Creates a question dialog box) based on QML.
+* add '==', '~=', 'isequal', 'isequaln' overload for handle and QObject.
+* add ishandle, isprop, ismethod, method, properties builtin.
+* add set, get, invoke, isvalid builtin used by handle objects.
+* extends clear function to call delete if 'handle\_TYPEHANDLE\_clear' function is defined.
+* add handle object type.
+* gui module also loaded in advanced cli mode.
+* add 'sind', 'cosd', 'tand' functions.
+* add more output information in the result file of test_run function.
 
 Bug Fixes:
 ---------
@@ -44,13 +32,10 @@ Bug Fixes:
 Features:
 ---------
 
-  Optimize constructors allocation for eye, ones, Inf, NaN, rand, randn functions.
-
-  Add 'issymmetric' function.
-
-  Add 'svd' function.
-
-  Add 'rcond' function.
+* Optimize constructors allocation for eye, ones, Inf, NaN, rand, randn functions.
+* Add 'issymmetric' function.
+* Add 'svd' function.
+* Add 'rcond' function.
 
 Bug Fixes:
 ---------
@@ -74,29 +59,18 @@ Compilation:
 Features:
 ---------
 
-  Add 'isnan' function.
-
-  Rework double and single matrix 2D display.
-
-  Add 'trace' function.
-
-  Add 'schur' function.
-
-  Add 'inv' function.
-
-  Add 'expm' function (single, double, sparse double managed).
-
-  Rename 'string' type to 'char' type, 'string' type will be added later.
-
-  Add 'dlmwrite' function.
-
-  Add 'mat2str' function (sparse managed).
-
-  Add 'str2double' function.
-
-  Add 'cosm' function.
-
-  which(function_name, '-all') without output argument display paths.
+* Add 'isnan' function.
+* Rework double and single matrix 2D display.
+* Add 'trace' function.
+* Add 'schur' function.
+* Add 'inv' function.
+* Add 'expm' function (single, double, sparse double managed).
+* Rename 'string' type to 'char' type, 'string' type will be added later.
+* Add 'dlmwrite' function.
+* Add 'mat2str' function (sparse managed).
+* Add 'str2double' function.
+* Add 'cosm' function.
+* which(function_name, '-all') without output argument display paths.
 
 Bug Fixes:
 ---------
@@ -113,19 +87,13 @@ Bug Fixes:
 Features:
 ---------
 
-  datevec updated to manage vectors, matrix.
-
-  Add 'nnz', 'nzmax', 'numel' functions.
-
-  Rework 'searchenv' to return a cell of strings.
-
-  Update persistent variables behavior (clear functions).
-
-  Add 'ceil', 'floor', 'round', 'fix' functions.
-
-  Add sparse support for acos, asin, atan, cos, cosh, sin, sinh, tan, tanh.
-
-  Add website and bug reports link in help menu.
+* datevec updated to manage vectors, matrix.
+* Add 'nnz', 'nzmax', 'numel' functions.
+* Rework 'searchenv' to return a cell of strings.
+* Update persistent variables behavior (clear functions).
+* Add 'ceil', 'floor', 'round', 'fix' functions.
+* Add sparse support for acos, asin, atan, cos, cosh, sin, sinh, tan, tanh.
+* Add website and bug reports link in help menu.
 
 Bug Fixes:
 ---------
@@ -147,6 +115,7 @@ Bug Fixes:
 
 Bug Fixes:
 ---------
+
   [#11](http://github.com/Nelson-numerical-software/nelson/issues/11): colon constructor failed with some special values.
   
   [#10](http://github.com/Nelson-numerical-software/nelson/issues/10): module_skeleton did not build/load.
@@ -161,4 +130,4 @@ Bug Fixes:
   [#5](http://github.com/Nelson-numerical-software/nelson/issues/5): help browser did not work on some Windows
 
 ## 0.1.0 alpha (2016-12-28)
-  Initial import in github of Nelson
+* Initial import in github of Nelson
