@@ -1,0 +1,68 @@
+//=============================================================================
+// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+// <--GUI MODE-->
+// <--WITH DISPLAY-->
+// <--RELEASE ONLY-->
+//=============================================================================
+  qml_file = [modulepath('qml_engine'), '/examples/basic_layouts/main.qml'];
+  qobj = qml_loadfile(qml_file);
+//=============================================================================
+  qml_file = [modulepath('qml_engine'), '/examples/basic_window/hello.qml'];
+  qobj = qml_loadfile(qml_file);
+//=============================================================================
+  qml_file = [modulepath('qml_engine'), '/examples/checkboxes/checkboxes.qml'];
+  addpath([modulepath('qml_engine'), '/examples/checkboxes/'])
+  qobj = qml_loadfile(qml_file);
+//=============================================================================
+  qml_file = [modulepath('qml_engine'), '/examples/clock/clocks.qml'];
+  addpath([modulepath('qml_engine'), '/examples/clock/']);
+  qobj = qml_loadfile(qml_file);
+//=============================================================================
+  qml_file = [modulepath('qml_engine'), '/examples/colors/main.qml'];
+  qobj = qml_loadfile(qml_file);
+//=============================================================================
+  qml_file = [modulepath('qml_engine'), '/examples/component_gallery/main.qml'];
+  qobj = qml_loadfile(qml_file);
+//=============================================================================
+  qml_file = [modulepath('qml_engine'), '/examples/d3_demo/bubbles.qml'];
+  qobj = qml_createqquickview(qml_file);
+//=============================================================================
+  qml_file = [modulepath('qml_engine'), '/examples/drag_demo/drag.qml'];
+  addpath([modulepath('qml_engine'), '/examples/drag_demo/']);
+  qobj = qml_loadfile(qml_file);
+//=============================================================================
+  qml_file = [modulepath('qml_engine'), '/examples/dynamic_scene_demo/dynamicscene.qml'];
+  qobj = qml_createqquickview(qml_file);
+  qobj.title = 'Nelson demo dynamic scene';
+//=============================================================================
+  qml_file = [modulepath('qml_engine'), '/examples/qcharts_demo/QChartGallery.qml'];
+  qobj = qml_createqquickview(qml_file)
+  qobj.title = 'Nelson <--> qcharts demo';
+//=============================================================================
+  qml_file = [modulepath('qml_engine'), '/examples/qml_demos/main.qml'];
+  addpath([modulepath('qml_engine'), '/examples/qml_demos/']);
+  qobj = qml_loadfile(qml_file);
+//=============================================================================
+  qml_file = [modulepath('qml_engine'), '/examples/threejs_demo/main.qml'];
+  qobj = qml_loadfile(qml_file);
+  qobj.title = 'Nelson - ThreeJS - BufferGeometry - Lines';
+//=============================================================================
+  qml_file = [modulepath('qml_engine'), '/examples/widget_gallery/main.qml'];
+  qobj = qml_loadfile(qml_file);
+//=============================================================================
