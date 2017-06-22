@@ -1,3 +1,9 @@
+Bug Fixes:
+---------
+
+  [#50](http://github.com/Nelson-numerical-software/nelson/issues/50): qml demos did not start on adv-cli mode.
+
+
 ## 0.1.6 alpha (2017-06-19)
 
 Features:

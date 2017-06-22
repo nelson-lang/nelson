@@ -16,7 +16,12 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-qobj = QObject_findchildren(QObject_root(), 'dynamic_scene_demo', true);
+root = QObject_root();
+if ~isempty(root)
+  qobj = QObject_findchildren(QObject_root(), 'dynamic_scene_demo', true);
+else
+  qobj = [];
+end
 if isempty(qobj)
   qml_file = [modulepath('qml_engine'), '/examples/dynamic_scene_demo/dynamicscene.qml'];
   qobj = qml_createqquickview(qml_file);

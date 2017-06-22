@@ -16,7 +16,12 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-qobj = QObject_findchildren(QObject_root(), 'qml_demos', true);
+root = QObject_root();
+if ~isempty(root)
+  qobj = QObject_findchildren(QObject_root(), 'qml_demos', true);
+else
+  qobj = [];
+end
 if isempty(qobj)
   qml_file = [modulepath('qml_engine'), '/examples/qml_demos/main.qml'];
   addpath([modulepath('qml_engine'), '/examples/qml_demos/']);
