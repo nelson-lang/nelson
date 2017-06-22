@@ -125,6 +125,7 @@ bin/macosx64/nelson-gui
 *.ipdb
 *.iobj
 /tools/gettext/generatepo/Debug
+/tools/gettext/generatemo/Release
 *.opendb
 /tools/gettext/generatemo/Debug
 /tools/gettext/generatemo/Debug/generatemo.log
