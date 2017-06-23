@@ -7,7 +7,7 @@ environment:
   QTDIR: C:\Qt\5.9\msvc2015_64
   BUILD_CHAIN_DIR: c:\build_chain\nelson
   TESTS_RESULT_DIR: c:\build_chain\nelson
-
+  NLS_VERSION: 0.1.6.0
 branches:
   only:
     - master
@@ -25,8 +25,8 @@ after_build:
 - c:\build_chain/nelson/bin/x64/nelson-cli --quiet -f c:\build_chain/nelson/tools/tests_minimal/runtests_minimal.nls
 - c:\build_chain/nelson/bin/x64/nelson-cli --quiet -e run('c:\build_chain/nelson/tools/innosetup/innosetup.nls');exit
 - iscc c:\build_chain/nelson/tools/innosetup/Nelson.iss
-- c:/build_chain/nelson/Nelson-%APPVEYOR_BUILD_VERSION%-x86-64.exe /VERYSILENT /SUPPRESSMSGBOXES
-- "c:/Program Files/Nelson-%APPVEYOR_BUILD_VERSION%.0 (64 bits)/bin/x64/nelson-adv-cli --quiet -f c:/Program Files/Nelson-%APPVEYOR_BUILD_VERSION%.0 (64 bits)/tools/tests_all/runtests_all.nls"
+- c:/build_chain/nelson/Nelson-%NLS_VERSION%-x86-64.exe /VERYSILENT /SUPPRESSMSGBOXES
+- "c:/Program Files/Nelson-%NLS_VERSION% (64 bits)/bin/x64/nelson-adv-cli --quiet -f c:/Program Files/Nelson-%APPVEYOR_BUILD_VERSION%.0 (64 bits)/tools/tests_all/runtests_all.nls"
 
 install:
 - choco install -y curl InnoSetup
