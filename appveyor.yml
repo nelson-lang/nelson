@@ -25,7 +25,7 @@ after_build:
 - c:\build_chain/nelson/bin/x64/nelson-cli --quiet -e run('c:\build_chain/nelson/tools/innosetup/innosetup.nls');exit
 - iscc c:\build_chain/nelson/tools/innosetup/Nelson.iss
 - c:/build_chain/nelson/Nelson-%APPVEYOR_BUILD_VERSION%-x86-64.exe /VERYSILENT /SUPPRESSMSGBOXES
-- 'c:/Program Files/Nelson-%APPVEYOR_BUILD_VERSION%.0 (64 bits)/bin/x64/nelson-adv-cli--quiet -f "c:/Program Files/Nelson-%APPVEYOR_BUILD_VERSION%.0 (64 bits)/tools/tests_all/runtests_all.nls"'
+- "c:/Program Files/Nelson-%APPVEYOR_BUILD_VERSION%.0 (64 bits)/bin/x64/nelson-adv-cli" --quiet -f "c:/Program Files/Nelson-%APPVEYOR_BUILD_VERSION%.0 (64 bits)/tools/tests_all/runtests_all.nls"
 
 install:
 - choco install -y curl InnoSetup
