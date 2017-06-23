@@ -17,4 +17,5 @@
 ; LICENCE_BLOCK_END
 ;==============================================================================
 Source: {#RootPath}tools\gettext\bin\*.*; DestDir: {app}\tools\gettext\bin\;
+Source: {#RootPath}tools\tests_all\*.*; DestDir: {app}\tools\tests_all\;
 ;==============================================================================

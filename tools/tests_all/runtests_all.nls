@@ -17,7 +17,11 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 try
-  r = test_run([], [], [nelsonroot(), '/tests_all.xml']);
+  TESTS_RESULT_DIR = getenv('TESTS_RESULT_DIR');
+  if strcmp(TESTS_RESULT_DIR, '') == true
+    TESTS_RESULT_DIR = nelsonroot();
+  end
+  r = test_run([], [], [TESTS_RESULT_DIR, '/tests_all.xml']);
 catch
   m = lasterror();
   disp(m.message);
