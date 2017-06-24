@@ -16,12 +16,33 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "COM_methodsBuiltin.hpp"
+#include "Error.hpp"
+#include "ToCellString.hpp"
+#include "methodsComHandleObject.hpp"
 //=============================================================================
-#include "nlsCom_engine_exports.h"
-#include "ComHandleObject.hpp"
+using namespace Nelson;
 //=============================================================================
-namespace Nelson {
-	NLSCOM_ENGINE_IMPEXP ComHandleObject *ActiveXServer(std::wstring progId, std::wstring machine);
+ArrayOfVector Nelson::ComEngineGateway::COM_methodsBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+	if (argIn.size() != 1)
+	{
+		Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+	}
+	if (nLhs > 1)
+	{
+		Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+	}
+	bool fullList = false;
+	ArrayOfVector retval;
+	ArrayOf param1 = argIn[0];
+	if (!param1.isHandle())
+	{
+		Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
+	}
+	wstringVector methods;
+	methodsComHandleObject(param1, methods);
+	retval.push_back(ToCellStringAsColumn(methods));
+	return retval;
 }
 //=============================================================================

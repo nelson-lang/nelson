@@ -16,12 +16,22 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
 #include "nlsCom_engine_exports.h"
+#include "ArrayOf.hpp"
 #include "ComHandleObject.hpp"
 //=============================================================================
 namespace Nelson {
-	NLSCOM_ENGINE_IMPEXP ComHandleObject *ActiveXServer(std::wstring progId, std::wstring machine);
+	//=============================================================================
+	class NLSCOM_ENGINE_IMPEXP ComEngine {
+	public:
+		static ComEngine *getInstance();
+		void create();
+		void finish();
+	private:
+		bool isInitialized;
+		ComEngine();
+		static ComEngine *m_pInstance;
+	};
+	//=============================================================================
 }
 //=============================================================================

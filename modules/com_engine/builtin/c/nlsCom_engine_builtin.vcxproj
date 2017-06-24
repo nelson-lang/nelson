@@ -168,6 +168,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\actxserverBuiltin.cpp" />
+    <ClCompile Include="..\cpp\COM_dispBuiltin.cpp" />
+    <ClCompile Include="..\cpp\COM_fieldnamesBuiltin.cpp" />
+    <ClCompile Include="..\cpp\COM_methodsBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
@@ -193,6 +196,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\actxserverBuiltin.hpp" />
+    <ClInclude Include="..\include\COM_dispBuiltin.hpp" />
+    <ClInclude Include="..\include\COM_fieldnamesBuiltin.hpp" />
+    <ClInclude Include="..\include\COM_methodsBuiltin.hpp" />
     <ClInclude Include="..\include\nlsCom_engine_builtin_exports.h" />
   </ItemGroup>
   <ItemGroup>
@@ -203,6 +209,9 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resources.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\CMakeLists.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

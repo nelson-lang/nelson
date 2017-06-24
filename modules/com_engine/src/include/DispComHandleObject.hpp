@@ -19,9 +19,13 @@
 #pragma once
 //=============================================================================
 #include "nlsCom_engine_exports.h"
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 #include "ComHandleObject.hpp"
 //=============================================================================
 namespace Nelson {
-	NLSCOM_ENGINE_IMPEXP ComHandleObject *ActiveXServer(std::wstring progId, std::wstring machine);
+	//=============================================================================
+	NLSCOM_ENGINE_IMPEXP void DispComHandleObject(Evaluator *eval, ArrayOf A);
+	//=============================================================================
 }
 //=============================================================================

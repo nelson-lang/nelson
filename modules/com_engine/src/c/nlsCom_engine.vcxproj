@@ -172,6 +172,9 @@
     <ProjectReference Include="..\..\..\i18n\src\c\nlsI18n.vcxproj">
       <Project>{eca1e952-8391-4e71-9a91-0e7fd2854320}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\interpreter\src\c\nlsInterpreter.vcxproj">
+      <Project>{17135b09-bc25-448e-9750-c09a87fde6f8}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\types\src\c\nlsTypes.vcxproj">
       <Project>{ab85e897-56b7-4792-8a8e-f3797be2b7cc}</Project>
     </ProjectReference>
@@ -184,13 +187,24 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\ActiveXServer.hpp" />
+    <ClInclude Include="..\include\ComEngine.hpp" />
     <ClInclude Include="..\include\ComHandleObject.hpp" />
+    <ClInclude Include="..\include\DispComHandleObject.hpp" />
+    <ClInclude Include="..\include\fieldnamesComHandleObject.hpp" />
+    <ClInclude Include="..\include\methodsComHandleObject.hpp" />
     <ClInclude Include="..\include\nlsCom_engine_exports.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\ActiveXServer.cpp" />
+    <ClCompile Include="..\cpp\ComEngine.cpp" />
     <ClCompile Include="..\cpp\ComHandleObject.cpp" />
+    <ClCompile Include="..\cpp\DispComHandleObject.cpp" />
+    <ClCompile Include="..\cpp\fieldnamesComHandleObject.cpp" />
+    <ClCompile Include="..\cpp\methodsComHandleObject .cpp" />
     <ClCompile Include="dllMain.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\CMakeLists.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
