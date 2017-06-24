@@ -171,6 +171,7 @@
     <ClCompile Include="..\cpp\COM_dispBuiltin.cpp" />
     <ClCompile Include="..\cpp\COM_fieldnamesBuiltin.cpp" />
     <ClCompile Include="..\cpp\COM_methodsBuiltin.cpp" />
+    <ClCompile Include="..\cpp\COM_usedBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
@@ -199,6 +200,7 @@
     <ClInclude Include="..\include\COM_dispBuiltin.hpp" />
     <ClInclude Include="..\include\COM_fieldnamesBuiltin.hpp" />
     <ClInclude Include="..\include\COM_methodsBuiltin.hpp" />
+    <ClInclude Include="..\include\COM_usedBuiltin.hpp" />
     <ClInclude Include="..\include\nlsCom_engine_builtin_exports.h" />
   </ItemGroup>
   <ItemGroup>

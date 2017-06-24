@@ -16,34 +16,24 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "usedQObject.hpp"
-#include "HandleManager.hpp"
-#include "QmlHandleObject.hpp"
+#include "COM_usedBuiltin.hpp"
+#include "Error.hpp"
+#include "usedComHandleObject.hpp"
 //=============================================================================
-namespace Nelson {
-    //=============================================================================
-    ArrayOf usedQObject()
-    {
-        ArrayOf res;
-        std::vector<nelson_handle> used = HandleManager::getInstance()->getAllHandlesOfCategory(QOBJECT_CATEGORY_STR);
-        size_t nbHandles = used.size();
-        if (nbHandles > 0)
-        {
-            Dimensions dims(1, nbHandles);
-            nelson_handle *nh = (nelson_handle*)ArrayOf::allocateArrayOf(NLS_HANDLE, nbHandles);
-            for (int k = 0; k < nbHandles; k++)
-            {
-                nh[k] = used[k];
-            }
-            res = ArrayOf(NLS_HANDLE, dims, (void *)nh);
-        }
-        else
-        {
-            res = ArrayOf::emptyConstructor(Dimensions(0, 0));
-            res.promoteType(NLS_HANDLE);
-        }
-        return res;
-    }
-    //=============================================================================
+using namespace Nelson;
+//=============================================================================
+ArrayOfVector Nelson::ComEngineGateway::COM_usedBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+	if (argIn.size() != 0)
+	{
+		Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+	}
+	if (nLhs > 1)
+	{
+		Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+	}
+	ArrayOfVector retval;
+	retval.push_back(usedComHandleObject());
+	return retval;
 }
 //=============================================================================

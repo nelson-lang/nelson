@@ -193,6 +193,7 @@
     <ClInclude Include="..\include\fieldnamesComHandleObject.hpp" />
     <ClInclude Include="..\include\methodsComHandleObject.hpp" />
     <ClInclude Include="..\include\nlsCom_engine_exports.h" />
+    <ClInclude Include="..\include\usedComHandleObject.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\ActiveXServer.cpp" />
@@ -201,6 +202,7 @@
     <ClCompile Include="..\cpp\DispComHandleObject.cpp" />
     <ClCompile Include="..\cpp\fieldnamesComHandleObject.cpp" />
     <ClCompile Include="..\cpp\methodsComHandleObject .cpp" />
+    <ClCompile Include="..\cpp\usedComHandleObject.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>

@@ -22,6 +22,7 @@
 #include "COM_dispBuiltin.hpp"
 #include "COM_fieldnamesBuiltin.hpp"
 #include "COM_methodsBuiltin.hpp"
+#include "COM_usedBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -32,7 +33,7 @@ static const nlsGateway gateway[] =
     { "actxserver", Nelson::ComEngineGateway::actxserverBuiltin, 1, -2 },
 	{ "COM_disp", Nelson::ComEngineGateway::COM_dispBuiltin, 0, 1 },
 	{ "COM_fieldnames", Nelson::ComEngineGateway::COM_fieldnamesBuiltin, 1, 1 },
-	{ "COM_methods", Nelson::ComEngineGateway::COM_methodsBuiltin, 1, 1 },
+	{ "COM_used", Nelson::ComEngineGateway::COM_usedBuiltin, 1, 1 },
 
 };
 //=============================================================================
