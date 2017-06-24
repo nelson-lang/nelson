@@ -55,6 +55,7 @@ modules_list = {
 'linear_algebra';
 'handle';
 'qml_engine';
+'com_engine';
 };
 %==============================================================================
 % modules sorted for help
@@ -97,5 +98,6 @@ modules_help_list = {
 'i18n';
 'handle';
 'qml_engine';
+'com_engine';
 };
 %==============================================================================

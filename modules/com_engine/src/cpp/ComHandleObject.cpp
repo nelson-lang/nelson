@@ -16,17 +16,17 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "QmlHandleObject.hpp"
+#include "ComHandleObject.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    QmlHandleObject::QmlHandleObject(void *_ptr) : HandleGenericObject(std::wstring(QOBJECT_CATEGORY_STR), _ptr)
-    {
-    }
-    //=============================================================================
-    QmlHandleObject::~QmlHandleObject()
-    {
-    }
-    //=============================================================================
+	//=============================================================================
+	ComHandleObject::ComHandleObject(void *_ptr) : HandleGenericObject(std::wstring(COM_CATEGORY_STR), _ptr)
+	{
+	}
+	//=============================================================================
+	ComHandleObject::~ComHandleObject()
+	{
+	}
+	//=============================================================================
 }
 //=============================================================================

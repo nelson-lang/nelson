@@ -16,17 +16,21 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "QmlHandleObject.hpp"
+#pragma once
+//=============================================================================
+#include <string>
+#include "HandleGenericObject.hpp"
+#include "nlsCom_engine_exports.h"
+//=============================================================================
+#define COM_CATEGORY_STR L"COM"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    QmlHandleObject::QmlHandleObject(void *_ptr) : HandleGenericObject(std::wstring(QOBJECT_CATEGORY_STR), _ptr)
-    {
-    }
-    //=============================================================================
-    QmlHandleObject::~QmlHandleObject()
-    {
-    }
-    //=============================================================================
+	//=============================================================================
+	class NLSCOM_ENGINE_IMPEXP ComHandleObject : public HandleGenericObject {
+	public:
+		ComHandleObject(void *_ptr);
+		~ComHandleObject();
+	};
+	//=============================================================================
 }
 //=============================================================================

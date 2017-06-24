@@ -16,17 +16,26 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "QmlHandleObject.hpp"
+#include "actxserverBuiltin.hpp"
+#include "Error.hpp"
 //=============================================================================
-namespace Nelson {
-    //=============================================================================
-    QmlHandleObject::QmlHandleObject(void *_ptr) : HandleGenericObject(std::wstring(QOBJECT_CATEGORY_STR), _ptr)
+using namespace Nelson;
+//=============================================================================
+ArrayOfVector Nelson::ComEngineGateway::actxserverBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+#ifdef _MSC_VER
+    if (argIn.size() != 1)
     {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    //=============================================================================
-    QmlHandleObject::~QmlHandleObject()
+    if (nLhs != 1)
     {
+        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    //=============================================================================
+ else
+    Error(eval, _W("Not implemented on this platform."));
+#endif
+    return retval;
 }
 //=============================================================================

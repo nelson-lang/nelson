@@ -16,17 +16,29 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "QmlHandleObject.hpp"
+#include <Windows.h>
 //=============================================================================
-namespace Nelson {
-    //=============================================================================
-    QmlHandleObject::QmlHandleObject(void *_ptr) : HandleGenericObject(std::wstring(QOBJECT_CATEGORY_STR), _ptr)
+#ifdef _DEBUG
+#pragma comment(lib, "boost_system-vc140-mt-gd-1_61.lib")
+#pragma comment(lib, "boost_filesystem-vc140-mt-gd-1_61.lib")
+#else
+#pragma comment(lib, "boost_system-vc140-mt-1_61.lib")
+#pragma comment(lib, "boost_filesystem-vc140-mt-1_61.lib")
+#endif
+//=============================================================================
+int WINAPI DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)
+{
+    switch (reason)
     {
+        case DLL_PROCESS_ATTACH:
+            break;
+        case DLL_PROCESS_DETACH:
+            break;
+        case DLL_THREAD_ATTACH:
+            break;
+        case DLL_THREAD_DETACH:
+            break;
     }
-    //=============================================================================
-    QmlHandleObject::~QmlHandleObject()
-    {
-    }
-    //=============================================================================
+    return 1;
 }
 //=============================================================================
