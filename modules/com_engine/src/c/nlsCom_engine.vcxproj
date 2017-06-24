@@ -189,8 +189,12 @@
     <ClInclude Include="..\include\ActiveXServer.hpp" />
     <ClInclude Include="..\include\ComEngine.hpp" />
     <ClInclude Include="..\include\ComHandleObject.hpp" />
+    <ClInclude Include="..\include\ComHelpers.hpp" />
+    <ClInclude Include="..\include\DeleteComHandleObject.hpp" />
     <ClInclude Include="..\include\DispComHandleObject.hpp" />
     <ClInclude Include="..\include\fieldnamesComHandleObject.hpp" />
+    <ClInclude Include="..\include\ismethodComHandleObject.hpp" />
+    <ClInclude Include="..\include\ispropComHandleObject.hpp" />
     <ClInclude Include="..\include\methodsComHandleObject.hpp" />
     <ClInclude Include="..\include\nlsCom_engine_exports.h" />
     <ClInclude Include="..\include\usedComHandleObject.hpp" />
@@ -199,8 +203,12 @@
     <ClCompile Include="..\cpp\ActiveXServer.cpp" />
     <ClCompile Include="..\cpp\ComEngine.cpp" />
     <ClCompile Include="..\cpp\ComHandleObject.cpp" />
+    <ClCompile Include="..\cpp\ComHelpers.cpp" />
+    <ClCompile Include="..\cpp\DeleteComHandleObject.cpp" />
     <ClCompile Include="..\cpp\DispComHandleObject.cpp" />
     <ClCompile Include="..\cpp\fieldnamesComHandleObject.cpp" />
+    <ClCompile Include="..\cpp\ismethodComHandleObject.cpp" />
+    <ClCompile Include="..\cpp\ispropComHandleObject.cpp" />
     <ClCompile Include="..\cpp\methodsComHandleObject .cpp" />
     <ClCompile Include="..\cpp\usedComHandleObject.cpp" />
     <ClCompile Include="dllMain.c" />

@@ -168,8 +168,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\actxserverBuiltin.cpp" />
+    <ClCompile Include="..\cpp\COM_deleteBuiltin.cpp" />
     <ClCompile Include="..\cpp\COM_dispBuiltin.cpp" />
     <ClCompile Include="..\cpp\COM_fieldnamesBuiltin.cpp" />
+    <ClCompile Include="..\cpp\COM_ismethodBuiltin.cpp" />
+    <ClCompile Include="..\cpp\COM_ispropBuiltin.cpp" />
+    <ClCompile Include="..\cpp\COM_isvalidBuiltin.cpp" />
     <ClCompile Include="..\cpp\COM_methodsBuiltin.cpp" />
     <ClCompile Include="..\cpp\COM_usedBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
@@ -197,8 +201,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\actxserverBuiltin.hpp" />
+    <ClInclude Include="..\include\COM_deleteBuiltin.hpp" />
     <ClInclude Include="..\include\COM_dispBuiltin.hpp" />
     <ClInclude Include="..\include\COM_fieldnamesBuiltin.hpp" />
+    <ClInclude Include="..\include\COM_ismethodBuiltin.hpp" />
+    <ClInclude Include="..\include\COM_ispropBuiltin.hpp" />
+    <ClInclude Include="..\include\COM_isvalidBuiltin.hpp" />
     <ClInclude Include="..\include\COM_methodsBuiltin.hpp" />
     <ClInclude Include="..\include\COM_usedBuiltin.hpp" />
     <ClInclude Include="..\include\nlsCom_engine_builtin_exports.h" />

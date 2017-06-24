@@ -23,6 +23,10 @@
 #include "COM_fieldnamesBuiltin.hpp"
 #include "COM_methodsBuiltin.hpp"
 #include "COM_usedBuiltin.hpp"
+#include "COM_deleteBuiltin.hpp"
+#include "COM_ismethodBuiltin.hpp"
+#include "COM_ispropBuiltin.hpp"
+#include "COM_isvalidBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -34,12 +38,15 @@ static const nlsGateway gateway[] =
 	{ "COM_disp", Nelson::ComEngineGateway::COM_dispBuiltin, 0, 1 },
 	{ "COM_fieldnames", Nelson::ComEngineGateway::COM_fieldnamesBuiltin, 1, 1 },
 	{ "COM_used", Nelson::ComEngineGateway::COM_usedBuiltin, 1, 1 },
-
+	{ "COM_delete", Nelson::ComEngineGateway::COM_deleteBuiltin, 0, 1 },
+	{ "COM_isvalid", Nelson::ComEngineGateway::COM_isvalidBuiltin, 1, 1 },
+	{ "COM_isprop", Nelson::ComEngineGateway::COM_ispropBuiltin, 1, 1 },
+	{ "COM_ismethod", Nelson::ComEngineGateway::COM_ismethodBuiltin, 1, 1 },
 };
 //=============================================================================
 static bool initializeComModule(Nelson::Evaluator* eval)
 {
-	ComEngine::getInstance()->create();;
+	ComEngine::getInstance()->create();
 	return true;
 }
 //=============================================================================
