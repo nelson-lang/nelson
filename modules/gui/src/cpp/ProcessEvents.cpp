@@ -32,7 +32,7 @@ namespace Nelson {
             doOnce = false;
             timerLoopEvents.start();
         }
-        if (timerLoopEvents.elapsed() > 10)
+        if (timerLoopEvents.elapsed() > 20)
         {
             timerLoopEvents.restart();
             if (bWaitEvents)

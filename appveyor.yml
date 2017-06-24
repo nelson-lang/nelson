@@ -25,10 +25,15 @@ after_build:
 - c:\build_chain/nelson/bin/x64/nelson-cli --quiet -f c:\build_chain/nelson/tools/tests_minimal/runtests_minimal.nls
 - c:\build_chain/nelson/bin/x64/nelson-cli --quiet -e run('c:\build_chain/nelson/tools/innosetup/innosetup.nls');exit
 - iscc c:\build_chain/nelson/tools/innosetup/Nelson.iss
-- copy /Y c:\build_chain/nelson/Nelson-*.exe c:\build_chain/nelson/Nelson_install.exe
-- move /Y c:\build_chain/nelson/Nelson_install.exe c:\build_chain\Nelson_install.exe
+- echo ici 1
+- copy /Y c:\build_chain\nelson\Nelson-*.exe c:\build_chain\nelson\Nelson_install.exe
+- echo ici 2
+- move /Y c:\build_chain\nelson\Nelson_install.exe c:\build_chain\Nelson_install.exe
+- echo ici 3
 - c:\build_chain\Nelson_install.exe /VERYSILENT /SUPPRESSMSGBOXES /DIR="c:\build_chain\nelson-install"
+- echo ici 4
 - "c:/build_chain/nelson-install/bin/x64/nelson-adv-cli --quiet -f c:/build_chain/nelson-install/tools/tests_all/runtests_all.nls"
+- echo ici 5
 
 install:
 - choco install -y curl InnoSetup

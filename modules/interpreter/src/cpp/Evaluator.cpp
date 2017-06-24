@@ -4498,8 +4498,8 @@ namespace Nelson {
             {
                 // clear macros cache at the prompt
                 stringVector exceptedFunctionsName = this->getCallers(true);
-                PathFuncManager::getInstance()->clearCache(exceptedFunctionsName);
-                FileWatcherManager::getInstance()->update();
+                //PathFuncManager::getInstance()->clearCache(exceptedFunctionsName);
+                //FileWatcherManager::getInstance()->update();
             }
             prompt = buildPrompt();
             if (cmdline == "\n")
