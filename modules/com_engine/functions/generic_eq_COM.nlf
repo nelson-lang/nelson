@@ -16,8 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-if ispc()
-  addgateway(modulepath(nelsonroot(), 'com_engine', 'builtin'));
-  addpath(modulepath(nelsonroot(), 'com_engine', 'functions'));
-end
+function r = generic_eq_COM(A, B)
+  r = generic_eq_handle(A, B);
+endfunction
 //=============================================================================
