@@ -187,6 +187,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\ActiveXServer.hpp" />
+    <ClInclude Include="..\include\classnameComHandleObject.hpp" />
     <ClInclude Include="..\include\ComEngine.hpp" />
     <ClInclude Include="..\include\ComHandleObject.hpp" />
     <ClInclude Include="..\include\ComHelpers.hpp" />
@@ -201,6 +202,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\ActiveXServer.cpp" />
+    <ClCompile Include="..\cpp\classnameComHandleObject.cpp" />
     <ClCompile Include="..\cpp\ComEngine.cpp" />
     <ClCompile Include="..\cpp\ComHandleObject.cpp" />
     <ClCompile Include="..\cpp\ComHelpers.cpp" />

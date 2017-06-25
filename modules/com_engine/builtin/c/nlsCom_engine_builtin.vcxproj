@@ -168,6 +168,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\actxserverBuiltin.cpp" />
+    <ClCompile Include="..\cpp\COM_classBuiltin.cpp" />
     <ClCompile Include="..\cpp\COM_deleteBuiltin.cpp" />
     <ClCompile Include="..\cpp\COM_dispBuiltin.cpp" />
     <ClCompile Include="..\cpp\COM_fieldnamesBuiltin.cpp" />
@@ -201,6 +202,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\actxserverBuiltin.hpp" />
+    <ClInclude Include="..\include\COM_classBuiltin.hpp" />
     <ClInclude Include="..\include\COM_deleteBuiltin.hpp" />
     <ClInclude Include="..\include\COM_dispBuiltin.hpp" />
     <ClInclude Include="..\include\COM_fieldnamesBuiltin.hpp" />
