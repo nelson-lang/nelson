@@ -27,6 +27,7 @@
 #include "COM_ismethodBuiltin.hpp"
 #include "COM_ispropBuiltin.hpp"
 #include "COM_isvalidBuiltin.hpp"
+#include "COM_classBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -42,6 +43,7 @@ static const nlsGateway gateway[] =
 	{ "COM_isvalid", Nelson::ComEngineGateway::COM_isvalidBuiltin, 1, 1 },
 	{ "COM_isprop", Nelson::ComEngineGateway::COM_ispropBuiltin, 1, 1 },
 	{ "COM_ismethod", Nelson::ComEngineGateway::COM_ismethodBuiltin, 1, 1 },
+	{ "COM_class", Nelson::ComEngineGateway::COM_classBuiltin, 1, 1 },
 };
 //=============================================================================
 static bool initializeComModule(Nelson::Evaluator* eval)

@@ -991,7 +991,7 @@ namespace Nelson {
         }
         if (!isScalar())
         {
-            throw Exception(_W("Scalar expected."));
+            throw Exception(ERROR_SCALAR_EXPECTED);
         }
         if (newDimensions.isScalar())
         {
@@ -2326,7 +2326,7 @@ break;
     {
         if (!scalarValue.isScalar())
         {
-            throw Exception(_W("Scalar expected."));
+            throw Exception(ERROR_SCALAR_EXPECTED);
         }
         uint64 length = (uint64)this->getLength();
         if (index >= length)

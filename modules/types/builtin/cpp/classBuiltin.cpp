@@ -17,6 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "classBuiltin.hpp"
+#include "OverloadFunction.hpp"
 #include "ClassName.hpp"
 #include "Error.hpp"
 //=============================================================================
@@ -31,8 +32,13 @@ ArrayOfVector Nelson::TypeGateway::classBuiltin(Evaluator* eval, int nLhs, const
     }
     if (argIn.size() == 1)
     {
-        std::string str = ClassName(argIn[0]);
-        retval.push_back(ArrayOf::stringConstructor(str));
+		bool bSuccess = false;
+		retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+		if (!bSuccess)
+		{
+			std::string str = ClassName(argIn[0]);
+			retval.push_back(ArrayOf::stringConstructor(str));
+		}
     }
     else if (argIn.size() == 2)
     {

@@ -22,84 +22,20 @@
 #include "DispComHandleObject.hpp"
 #include "Error.hpp"
 #include "HandleManager.hpp"
+#include "classnameComHandleObject.hpp"
 //=============================================================================
 namespace Nelson {
-	//=============================================================================
-	static bool getClassInfoFromVariant(VARIANT *pVariant, std::wstring &className, std::wstring &classTypeName)
-	{
-		bool haveError = true;
-		classTypeName = L"Unknown";
-		className = L"Unknown";
-		IProvideClassInfo *ci = nullptr;
-		ITypeInfo *ti = nullptr;
-		unsigned int tiCount = 0;
-		HRESULT hr;
-
-		if (pVariant->pdispVal->QueryInterface(IID_IProvideClassInfo, (void**)&ci) == S_OK)
-		{
-			ci->GetClassInfo(&ti);
-			ci->Release();
-		}
-
-		if (ti == NULL && (hr = pVariant->pdispVal->GetTypeInfoCount(&tiCount)) == S_OK && tiCount == 1)
-		{
-			pVariant->pdispVal->GetTypeInfo(0, LOCALE_USER_DEFAULT, &ti);
-		}
-
-		if (ti != NULL)
-		{
-			ITypeLib *pTypeLib = NULL;
-			BSTR bSTRclassName;
-			BSTR bSTRClassType;
-
-			if (SUCCEEDED(ti->GetContainingTypeLib(&pTypeLib, 0)))
-			{
-				if (SUCCEEDED(pTypeLib->GetDocumentation(MEMBERID_NIL, &bSTRclassName, NULL, NULL, NULL)))
-				{
-					className = std::wstring(bSTRclassName);
-					SysFreeString(bSTRclassName);
-				}
-			}
-
-			if (SUCCEEDED(ti->GetDocumentation(MEMBERID_NIL, &bSTRClassType, NULL, NULL, NULL)))
-			{
-				classTypeName = std::wstring(bSTRClassType);
-				SysFreeString(bSTRClassType);
-			}
-			haveError = false;
-		}
-		ti->Release();
-		return haveError;
-	}
 	//=============================================================================
 	static void DispComHandleObject(Interface *io, ComHandleObject *comHandle)
 	{
 		if (comHandle != nullptr)
 		{
-				
-			VARIANT *pVariantDisp = (VARIANT *)comHandle->getPointer();
-			if (pVariantDisp == nullptr)
-			{
-				throw Exception(_W("Invalid VARIANT."));
-			}
-			if (pVariantDisp->vt != VT_DISPATCH)
-			{
-				throw Exception(_W("Invalid VARIANT type."));
-			}
-			else
-			{
-				std::wstring className;
-				std::wstring classTypeName;
-				bool res = getClassInfoFromVariant(pVariantDisp, className, classTypeName);
-				if (res)
-				{
-					throw Exception(_W("Invalid VARIANT."));
-				}
-				std::wstring fullClassName = COM_CATEGORY_STR + std::wstring(L".") + className + classTypeName;
-				io->outputMessage(fullClassName);
-			}
+			std::wstring fullClassName;
+			classnameComHandle(comHandle, fullClassName);
+			io->outputMessage(L"\t" + fullClassName);
 			io->outputMessage("\n");
 		}
+		io->outputMessage("\n");
 	}
 	//=============================================================================
 	void DispComHandleObject(Evaluator *eval, ArrayOf A)
