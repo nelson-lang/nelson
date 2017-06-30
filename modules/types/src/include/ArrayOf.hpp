@@ -793,6 +793,18 @@ namespace Nelson {
         */
         uint8 getContentAsUnsignedInteger8Scalar();
 
+		/**
+		* Get our contents as an integer scalar.
+		* Throws an exception if we are not a scalar integer type.
+		*/
+		int16 getContentAsInteger16Scalar();
+
+		/**
+		* Get our contents as an unsigned integer scalar.
+		* Throws an exception if we are not a scalar integer type.
+		*/
+		uint16 getContentAsUnsignedInteger16Scalar();
+
         /**
         * Get our contents as an integer scalar.
         * Throws an exception if we are not a scalar integer type.

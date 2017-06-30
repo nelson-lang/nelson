@@ -16,6 +16,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <boost/algorithm/string.hpp>
+#include <atlconv.h>
 #include "ComHelpers.hpp"
 //=============================================================================
 namespace Nelson {
@@ -26,13 +28,21 @@ namespace Nelson {
 		unsigned int tiCount;
 		HRESULT hr;
 
+		DISPID dispID;
+		LPOLESTR name = W2OLE((wchar_t*)methodToSearch.c_str());
+		hr = pDisp->GetIDsOfNames(IID_NULL, &name, 1, LOCALE_USER_DEFAULT, &dispID);
+		if (FAILED(hr))
+		{
+			return false;
+		}
+
 		if ((hr = pDisp->GetTypeInfoCount(&tiCount)) == S_OK && tiCount == 1)
 		{
 			TYPEATTR *pAttr;
 
 			hr = pDisp->GetTypeInfo(0, LOCALE_USER_DEFAULT, &ti);
 			hr = ti->GetTypeAttr(&pAttr);
-			for (int k = 0; k<pAttr->cFuncs; k++)
+			for (int k = 0; k < pAttr->cFuncs; k++)
 			{
 				FUNCDESC *pFuncDesc;
 				BSTR name;
@@ -41,7 +51,7 @@ namespace Nelson {
 				if (pFuncDesc->invkind & (DISPATCH_METHOD))
 				{
 					std::wstring method = std::wstring(name);
-					if (method == methodToSearch)
+					if (boost::iequals(method, methodToSearch))
 					{
 						return true;
 					}
@@ -60,13 +70,21 @@ namespace Nelson {
 		unsigned int tiCount;
 		HRESULT hr;
 
+		DISPID dispID;
+		LPOLESTR name = W2OLE((wchar_t*)propertyToSearch.c_str());
+		hr = pDisp->GetIDsOfNames(IID_NULL, &name, 1, LOCALE_USER_DEFAULT, &dispID);
+		if (FAILED(hr))
+		{
+			return false;
+		}
+
 		if ((hr = pDisp->GetTypeInfoCount(&tiCount)) == S_OK && tiCount == 1)
 		{
 			TYPEATTR *pAttr;
 
 			hr = pDisp->GetTypeInfo(0, LOCALE_USER_DEFAULT, &ti);
 			hr = ti->GetTypeAttr(&pAttr);
-			for (int k = 0; k<pAttr->cFuncs; k++)
+			for (int k = 0; k < pAttr->cFuncs; k++)
 			{
 				FUNCDESC *pFuncDesc;
 				BSTR name;
@@ -75,7 +93,7 @@ namespace Nelson {
 				if (pFuncDesc->invkind & (DISPATCH_PROPERTYGET))
 				{
 					std::wstring method = std::wstring(name);
-					if (method == propertyToSearch)
+					if (boost::iequals(method, propertyToSearch))
 					{
 						return true;
 					}
@@ -94,13 +112,21 @@ namespace Nelson {
 		unsigned int tiCount;
 		HRESULT hr;
 
+		DISPID dispID;
+		LPOLESTR name = W2OLE((wchar_t*)propertyToSearch.c_str());
+		hr = pDisp->GetIDsOfNames(IID_NULL, &name, 1, LOCALE_USER_DEFAULT, &dispID);
+		if (FAILED(hr))
+		{
+			return false;
+		}
+
 		if ((hr = pDisp->GetTypeInfoCount(&tiCount)) == S_OK && tiCount == 1)
 		{
 			TYPEATTR *pAttr;
 
 			hr = pDisp->GetTypeInfo(0, LOCALE_USER_DEFAULT, &ti);
 			hr = ti->GetTypeAttr(&pAttr);
-			for (int k = 0; k<pAttr->cFuncs; k++)
+			for (int k = 0; k < pAttr->cFuncs; k++)
 			{
 				FUNCDESC *pFuncDesc;
 				BSTR name;
@@ -109,7 +135,7 @@ namespace Nelson {
 				if (pFuncDesc->invkind & (DISPATCH_PROPERTYPUT))
 				{
 					std::wstring method = std::wstring(name);
-					if (method == propertyToSearch)
+					if (boost::iequals(method, propertyToSearch))
 					{
 						return true;
 					}

@@ -186,6 +186,7 @@
     <ResourceCompile Include="resources.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\cpp\invokeCOM.hpp" />
     <ClInclude Include="..\include\ActiveXServer.hpp" />
     <ClInclude Include="..\include\classnameComHandleObject.hpp" />
     <ClInclude Include="..\include\ComEngine.hpp" />
@@ -194,11 +195,15 @@
     <ClInclude Include="..\include\DeleteComHandleObject.hpp" />
     <ClInclude Include="..\include\DispComHandleObject.hpp" />
     <ClInclude Include="..\include\fieldnamesComHandleObject.hpp" />
+    <ClInclude Include="..\include\GetComHandleObject.hpp" />
+    <ClInclude Include="..\include\invokeComHandleObject.hpp" />
     <ClInclude Include="..\include\ismethodComHandleObject.hpp" />
     <ClInclude Include="..\include\ispropComHandleObject.hpp" />
     <ClInclude Include="..\include\methodsComHandleObject.hpp" />
     <ClInclude Include="..\include\nlsCom_engine_exports.h" />
+    <ClInclude Include="..\include\SetComHandleObject.hpp" />
     <ClInclude Include="..\include\usedComHandleObject.hpp" />
+    <ClInclude Include="..\include\VariantConversionHelpers.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\ActiveXServer.cpp" />
@@ -209,10 +214,20 @@
     <ClCompile Include="..\cpp\DeleteComHandleObject.cpp" />
     <ClCompile Include="..\cpp\DispComHandleObject.cpp" />
     <ClCompile Include="..\cpp\fieldnamesComHandleObject.cpp" />
+    <ClCompile Include="..\cpp\GetComHandleObject.cpp" />
+    <ClCompile Include="..\cpp\invokeCOM.cpp">
+      <ExceptionHandling Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Sync</ExceptionHandling>
+      <ExceptionHandling Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Sync</ExceptionHandling>
+      <ExceptionHandling Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Sync</ExceptionHandling>
+      <ExceptionHandling Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Sync</ExceptionHandling>
+    </ClCompile>
+    <ClCompile Include="..\cpp\invokeComHandleObject.cpp" />
     <ClCompile Include="..\cpp\ismethodComHandleObject.cpp" />
     <ClCompile Include="..\cpp\ispropComHandleObject.cpp" />
     <ClCompile Include="..\cpp\methodsComHandleObject .cpp" />
+    <ClCompile Include="..\cpp\SetComHandleObject.cpp" />
     <ClCompile Include="..\cpp\usedComHandleObject.cpp" />
+    <ClCompile Include="..\cpp\VariantConversionHelpers.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>

@@ -18,15 +18,9 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <string>
 #include <Windows.h>
 #include <Ole2.h>
-#include <string>
 //=============================================================================
-namespace Nelson {
-	//=============================================================================
-	bool isMethodCom(IDispatch *pDisp, std::wstring methodToSearch);
-	bool isPropertyGetCom(IDispatch *pDisp, std::wstring propertyToSearch);
-	bool isPropertyPutCom(IDispatch *pDisp, std::wstring propertyToSearch);
-	//=============================================================================
-}
+bool invokeCom(int autoType, VARIANT *pvResult, std::wstring &errorMessage, IDispatch *pDisp, std::wstring propertyName, int cArgs...);
 //=============================================================================

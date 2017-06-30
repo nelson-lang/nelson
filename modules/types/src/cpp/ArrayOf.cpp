@@ -276,6 +276,7 @@ namespace Nelson {
                 }
                 return dp;
             }
+			break;
             case NLS_STRUCT_ARRAY:
             {
                 if (!haveValidFieldNames(names))
@@ -294,6 +295,7 @@ namespace Nelson {
                 }
                 return dp;
             }
+			break;
             case NLS_LOGICAL:
             {
                 return (void*)new_with_exception<logical>(length, initializeValues);

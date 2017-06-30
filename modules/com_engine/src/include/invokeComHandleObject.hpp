@@ -18,15 +18,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <Windows.h>
-#include <Ole2.h>
-#include <string>
+#include "nlsCom_engine_exports.h"
+#include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
-	//=============================================================================
-	bool isMethodCom(IDispatch *pDisp, std::wstring methodToSearch);
-	bool isPropertyGetCom(IDispatch *pDisp, std::wstring propertyToSearch);
-	bool isPropertyPutCom(IDispatch *pDisp, std::wstring propertyToSearch);
-	//=============================================================================
+    //=============================================================================
+    NLSCOM_ENGINE_IMPEXP ArrayOf invokeComHandleObject(ArrayOf A, std::wstring wmethodname, ArrayOfVector params, bool &haveReturnValue);
+    //=============================================================================
 }
 //=============================================================================

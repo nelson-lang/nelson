@@ -16,17 +16,36 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "COM_invokeBuiltin.hpp"
+#include "Error.hpp"
+#include "invokeComHandleObject.hpp"
 //=============================================================================
-#include <Windows.h>
-#include <Ole2.h>
-#include <string>
+using namespace Nelson;
 //=============================================================================
-namespace Nelson {
-	//=============================================================================
-	bool isMethodCom(IDispatch *pDisp, std::wstring methodToSearch);
-	bool isPropertyGetCom(IDispatch *pDisp, std::wstring propertyToSearch);
-	bool isPropertyPutCom(IDispatch *pDisp, std::wstring propertyToSearch);
-	//=============================================================================
+ArrayOfVector Nelson::ComEngineGateway::COM_invokeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    if (argIn.size() < 2)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    if (nLhs > 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    ArrayOf param2 = argIn[1];
+    std::wstring methodname = param2.getContentAsWideString();
+    ArrayOfVector params;
+    for (size_t k = 2; k < argIn.size(); k++)
+    {
+        params.push_back(argIn[k]);
+    }
+    ArrayOfVector retval;
+    bool haveFunctionReturn = false;
+    ArrayOf res = invokeComHandleObject(argIn[0], methodname, params, haveFunctionReturn);
+    if (haveFunctionReturn)
+    {
+        retval.push_back(res);
+    }
+    return retval;
 }
 //=============================================================================

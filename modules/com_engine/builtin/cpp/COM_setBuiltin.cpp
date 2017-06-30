@@ -16,17 +16,28 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "COM_setBuiltin.hpp"
+#include "Error.hpp"
+#include "SetComHandleObject.hpp"
 //=============================================================================
-#include <Windows.h>
-#include <Ole2.h>
-#include <string>
+using namespace Nelson;
 //=============================================================================
-namespace Nelson {
-	//=============================================================================
-	bool isMethodCom(IDispatch *pDisp, std::wstring methodToSearch);
-	bool isPropertyGetCom(IDispatch *pDisp, std::wstring propertyToSearch);
-	bool isPropertyPutCom(IDispatch *pDisp, std::wstring propertyToSearch);
-	//=============================================================================
+ArrayOfVector Nelson::ComEngineGateway::COM_setBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    if (argIn.size() != 3)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    if (nLhs > 0)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    ArrayOf param1 = argIn[0];
+    ArrayOf param2 = argIn[1];
+    std::wstring propertyName = param2.getContentAsWideString();
+    ArrayOf param3 = argIn[2];
+    ArrayOfVector retval;
+    SetComHandleObject(param1, propertyName, param3);
+    return retval;
 }
 //=============================================================================

@@ -226,31 +226,55 @@ namespace Nelson {
         return (*qp);
     }
     //=============================================================================
-    int32 ArrayOf::getContentAsInteger32Scalar()
+    int16 ArrayOf::getContentAsInteger16Scalar()
     {
-        int32 *qp;
+        int16 *qp;
         if (getLength() != 1)
         {
             throw Exception(ERROR_SCALAR_EXPECTED);
         }
-        promoteType(NLS_INT32);
-        qp = (int32*)dp->getData();
+        promoteType(NLS_INT16);
+        qp = (int16*)dp->getData();
         return (*qp);
     }
     //=============================================================================
-    uint32 ArrayOf::getContentAsUnsignedInteger32Scalar()
+    uint16 ArrayOf::getContentAsUnsignedInteger16Scalar()
     {
-        uint32 *qp;
+        uint16 *qp;
         if (getLength() != 1)
         {
             throw Exception(ERROR_SCALAR_EXPECTED);
         }
-        promoteType(NLS_UINT32);
-        qp = (uint32*)dp->getData();
+        promoteType(NLS_UINT16);
+        qp = (uint16*)dp->getData();
         return (*qp);
     }
     //=============================================================================
-    int64 ArrayOf::getContentAsInteger64Scalar()
+	int32 ArrayOf::getContentAsInteger32Scalar()
+	{
+		int32 *qp;
+		if (getLength() != 1)
+		{
+			throw Exception(ERROR_SCALAR_EXPECTED);
+		}
+		promoteType(NLS_INT32);
+		qp = (int32*)dp->getData();
+		return (*qp);
+	}
+	//=============================================================================
+	uint32 ArrayOf::getContentAsUnsignedInteger32Scalar()
+	{
+		uint32 *qp;
+		if (getLength() != 1)
+		{
+			throw Exception(ERROR_SCALAR_EXPECTED);
+		}
+		promoteType(NLS_UINT32);
+		qp = (uint32*)dp->getData();
+		return (*qp);
+	}
+	//=============================================================================
+	int64 ArrayOf::getContentAsInteger64Scalar()
     {
         int64 *qp;
         if (getLength() != 1)

@@ -18,15 +18,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <Windows.h>
-#include <Ole2.h>
-#include <string>
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-	//=============================================================================
-	bool isMethodCom(IDispatch *pDisp, std::wstring methodToSearch);
-	bool isPropertyGetCom(IDispatch *pDisp, std::wstring propertyToSearch);
-	bool isPropertyPutCom(IDispatch *pDisp, std::wstring propertyToSearch);
-	//=============================================================================
-}
+    namespace ComEngineGateway {
+        ArrayOfVector COM_invokeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    };
+};
 //=============================================================================
+

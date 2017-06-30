@@ -37,7 +37,14 @@ namespace Nelson {
 		unsigned int tiCount = 0;
 		HRESULT hr;
 
-		if (pVariant->pdispVal->QueryInterface(IID_IProvideClassInfo, (void**)&ci) == S_OK)
+		IDispatch *pDisp = pVariant->pdispVal;
+		if (pDisp == nullptr)
+		{
+			return false;
+		}
+
+
+		if (hr = pDisp->QueryInterface(IID_IProvideClassInfo, (void**)&ci) == S_OK)
 		{
 			ci->GetClassInfo(&ti);
 			ci->Release();
