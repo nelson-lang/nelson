@@ -224,7 +224,7 @@
     <ClCompile Include="..\cpp\invokeComHandleObject.cpp" />
     <ClCompile Include="..\cpp\ismethodComHandleObject.cpp" />
     <ClCompile Include="..\cpp\ispropComHandleObject.cpp" />
-    <ClCompile Include="..\cpp\methodsComHandleObject .cpp" />
+    <ClCompile Include="..\cpp\methodsComHandleObject.cpp" />
     <ClCompile Include="..\cpp\SetComHandleObject.cpp" />
     <ClCompile Include="..\cpp\usedComHandleObject.cpp" />
     <ClCompile Include="..\cpp\VariantConversionHelpers.cpp" />
