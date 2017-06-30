@@ -17,6 +17,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <Windows.h>
+#include <Ole2.h>
+#include <atlconv.h>
 #include <boost/algorithm/string.hpp>
 #include "ActiveXServer.hpp"
 #include "Exception.hpp"
@@ -89,6 +91,54 @@ namespace Nelson {
 		pVariantApplication->pdispVal = pdispApplication;
 
 		res = new ComHandleObject(pVariantApplication);
+		return res;
+	}
+	//=============================================================================
+	ComHandleObject *GetRunningActiveXServer(std::wstring progId)
+	{
+		IUnknown *pUnknown;
+		CLSID clsApplication;
+		IDispatch * pdispApplication = nullptr;
+		VARIANT *pVariantApplication = nullptr;
+		HRESULT hRes = S_FALSE;
+
+		LPOLESTR idName = W2OLE((wchar_t*)progId.c_str());
+
+		if (progId[0] == L'{')
+		{
+			if (FAILED(CLSIDFromString(idName, &clsApplication)))
+			{
+				throw Exception(_W("Invalid PROGID."));
+			}
+		}
+		else
+		{
+			if (FAILED(CLSIDFromProgID(idName, &clsApplication)))
+			{
+				throw Exception(_W("Invalid PROGID."));
+			}
+		}
+
+
+		hRes = GetActiveObject(clsApplication, NULL, &pUnknown);
+		if (FAILED(hRes))
+		{
+			throw Exception(_W("Server is not running on this system."));
+		}
+
+		hRes = pUnknown->QueryInterface(IID_IDispatch, (void **)&pdispApplication);
+		pUnknown->Release();
+
+		if (FAILED(hRes))
+		{
+			throw Exception(_W("Fails to connect to server."));
+		}
+
+		pVariantApplication = new VARIANT;
+		VariantInit(pVariantApplication);
+		pVariantApplication->vt = VT_DISPATCH;
+		pVariantApplication->pdispVal = pdispApplication;
+		ComHandleObject* res = new ComHandleObject(pVariantApplication);
 		return res;
 	}
 	//=============================================================================

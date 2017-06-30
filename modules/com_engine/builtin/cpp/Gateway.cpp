@@ -19,6 +19,7 @@
 #include "NelsonGateway.hpp"
 #include "ComEngine.hpp"
 #include "actxserverBuiltin.hpp"
+#include "actxGetRunningServerBuiltin.hpp"
 #include "COM_dispBuiltin.hpp"
 #include "COM_fieldnamesBuiltin.hpp"
 #include "COM_methodsBuiltin.hpp"
@@ -39,6 +40,7 @@ const std::wstring gatewayName = L"com_engine";
 static const nlsGateway gateway[] =
 {
     { "actxserver", Nelson::ComEngineGateway::actxserverBuiltin, 1, -2 },
+	{ "actxGetRunningServer", Nelson::ComEngineGateway::actxGetRunningServerBuiltin, 1, 1 },
 	{ "COM_disp", Nelson::ComEngineGateway::COM_dispBuiltin, 0, 1 },
 	{ "COM_fieldnames", Nelson::ComEngineGateway::COM_fieldnamesBuiltin, 1, 1 },
 	{ "COM_methods", Nelson::ComEngineGateway::COM_methodsBuiltin, 1, 1 },

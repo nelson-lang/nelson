@@ -18,11 +18,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsCom_engine_exports.h"
-#include "ComHandleObject.hpp"
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-	NLSCOM_ENGINE_IMPEXP ComHandleObject *ActiveXServer(std::wstring progId, std::wstring machine);
-	NLSCOM_ENGINE_IMPEXP ComHandleObject *GetRunningActiveXServer(std::wstring progId);
-}
+    namespace ComEngineGateway {
+        ArrayOfVector actxGetRunningServerBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    };
+};
 //=============================================================================
+

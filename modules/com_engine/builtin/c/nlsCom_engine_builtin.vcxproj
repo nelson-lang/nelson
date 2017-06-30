@@ -167,6 +167,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\cpp\actxGetRunningServerBuiltin.cpp" />
     <ClCompile Include="..\cpp\actxserverBuiltin.cpp" />
     <ClCompile Include="..\cpp\COM_classBuiltin.cpp" />
     <ClCompile Include="..\cpp\COM_deleteBuiltin.cpp" />
@@ -204,6 +205,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\actxGetRunningServerBuiltin.hpp" />
     <ClInclude Include="..\include\actxserverBuiltin.hpp" />
     <ClInclude Include="..\include\COM_classBuiltin.hpp" />
     <ClInclude Include="..\include\COM_deleteBuiltin.hpp" />
