@@ -30,36 +30,34 @@ ArrayOfVector Nelson::ComEngineGateway::actxserverBuiltin(Evaluator* eval, int n
     {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-
-	std::wstring progid = L"";
-	std::wstring machine = L"";
-	switch (argIn.size())
-	{
-	case 1:
-	{
-		progid = argIn[0].getContentAsWideString();
-	}
-	break;
-	case 3:
-	{
-		std::wstring type = argIn[2].getContentAsWideString();
-		if (!(type == L"machine" ))
-		{
-			Error(eval, _W("'machine' value expected."));
-		}
-		progid = argIn[0].getContentAsWideString();
-	}
-		break;
-
-	case 2:
-	default:
-	{
-		Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-	}
-	break;
-	}
-	ComHandleObject *comhandle = ActiveXServer(progid, machine);
-	retval.push_back(ArrayOf::handleConstructor(comhandle));
+    std::wstring progid = L"";
+    std::wstring machine = L"";
+    switch (argIn.size())
+    {
+        case 1:
+        {
+            progid = argIn[0].getContentAsWideString();
+        }
+        break;
+        case 3:
+        {
+            std::wstring type = argIn[2].getContentAsWideString();
+            if (!(type == L"machine" ))
+            {
+                Error(eval, _W("'machine' value expected."));
+            }
+            progid = argIn[0].getContentAsWideString();
+        }
+        break;
+        case 2:
+        default:
+        {
+            Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        }
+        break;
+    }
+    ComHandleObject *comhandle = ActiveXServer(progid, machine);
+    retval.push_back(ArrayOf::handleConstructor(comhandle));
 #else
     Error(eval, _W("Not implemented on this platform."));
 #endif

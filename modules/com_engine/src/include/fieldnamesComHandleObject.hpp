@@ -23,9 +23,9 @@
 #include "ComHandleObject.hpp"
 //=============================================================================
 namespace Nelson {
-	//=============================================================================
-	NLSCOM_ENGINE_IMPEXP void fieldnamesComHandleObject(ArrayOf A, bool fullList, wstringVector &fieldnames);
-	NLSCOM_ENGINE_IMPEXP void fieldnamesComHandleObject(ComHandleObject *comHandle, bool fullList, wstringVector &fieldnames);
-	//=============================================================================
+    //=============================================================================
+    NLSCOM_ENGINE_IMPEXP void fieldnamesComHandleObject(ArrayOf A, bool fullList, wstringVector &fieldnames);
+    NLSCOM_ENGINE_IMPEXP void fieldnamesComHandleObject(ComHandleObject *comHandle, bool fullList, wstringVector &fieldnames);
+    //=============================================================================
 }
 //=============================================================================

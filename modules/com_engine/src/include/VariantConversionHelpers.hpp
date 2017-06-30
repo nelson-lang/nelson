@@ -23,9 +23,9 @@
 #include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
-	//=============================================================================
-	NLSCOM_ENGINE_IMPEXP bool ComVariantToNelson(VARIANT *variant, ArrayOf &res, std::wstring &errorMessage);
-	NLSCOM_ENGINE_IMPEXP bool NelsonToComVariant(ArrayOf A, VARIANT* variant, std::wstring &errorMessage);
-	//=============================================================================
+    //=============================================================================
+    NLSCOM_ENGINE_IMPEXP bool ComVariantToNelson(VARIANT *variant, ArrayOf &res, std::wstring &errorMessage);
+    NLSCOM_ENGINE_IMPEXP bool NelsonToComVariant(ArrayOf A, VARIANT* variant, std::wstring &errorMessage);
+    //=============================================================================
 }
 //=============================================================================

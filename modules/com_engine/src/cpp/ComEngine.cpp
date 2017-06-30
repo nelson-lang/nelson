@@ -20,37 +20,37 @@
 #include "ComEngine.hpp"
 //=============================================================================
 namespace Nelson {
-	//=============================================================================
-	ComEngine* ComEngine::m_pInstance = nullptr;
-	//=============================================================================
-	ComEngine *ComEngine::getInstance()
-	{
-		if (m_pInstance == nullptr)
-		{
-			m_pInstance = new ComEngine();
-		}
-		return m_pInstance;
-	}
-	//=============================================================================
-	ComEngine::ComEngine()
-	{
-		isInitialized = false;
-	}
-	//=============================================================================
-	void ComEngine::create()
-	{
-		if (!isInitialized)
-		{
-			::CoInitialize(NULL);
-			isInitialized = true;
-		}
-	}
-	//=============================================================================
-	void ComEngine::finish()
-	{
-		::CoUninitialize();
-		isInitialized = false;
-	}
-	//=============================================================================
+    //=============================================================================
+    ComEngine* ComEngine::m_pInstance = nullptr;
+    //=============================================================================
+    ComEngine *ComEngine::getInstance()
+    {
+        if (m_pInstance == nullptr)
+        {
+            m_pInstance = new ComEngine();
+        }
+        return m_pInstance;
+    }
+    //=============================================================================
+    ComEngine::ComEngine()
+    {
+        isInitialized = false;
+    }
+    //=============================================================================
+    void ComEngine::create()
+    {
+        if (!isInitialized)
+        {
+            ::CoInitialize(NULL);
+            isInitialized = true;
+        }
+    }
+    //=============================================================================
+    void ComEngine::finish()
+    {
+        ::CoUninitialize();
+        isInitialized = false;
+    }
+    //=============================================================================
 }
 //=============================================================================

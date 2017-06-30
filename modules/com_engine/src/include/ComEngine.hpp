@@ -21,17 +21,17 @@
 #include "ComHandleObject.hpp"
 //=============================================================================
 namespace Nelson {
-	//=============================================================================
-	class NLSCOM_ENGINE_IMPEXP ComEngine {
-	public:
-		static ComEngine *getInstance();
-		void create();
-		void finish();
-	private:
-		bool isInitialized;
-		ComEngine();
-		static ComEngine *m_pInstance;
-	};
-	//=============================================================================
+    //=============================================================================
+    class NLSCOM_ENGINE_IMPEXP ComEngine {
+    public:
+        static ComEngine *getInstance();
+        void create();
+        void finish();
+    private:
+        bool isInitialized;
+        ComEngine();
+        static ComEngine *m_pInstance;
+    };
+    //=============================================================================
 }
 //=============================================================================

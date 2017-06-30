@@ -60,57 +60,54 @@ namespace Nelson {
         {
             throw Exception(_W("COM valid handle expected."));
         }
-		VARIANT *pVariant = (VARIANT*)ptr;
-
-		VARIANT *pVarResult;
-		try
-		{
-			pVarResult = new VARIANT;
-		}
-		catch (std::bad_alloc &e)
-		{
-			pVarResult = nullptr;
-			throw Exception(ERROR_MEMORY_ALLOCATION);
-		}
-
-		VariantInit(pVarResult);
-		std::wstring errorMessage;
-
-		VARIANT *param;
-		try
-		{
-			param = new VARIANT();
-		}
-		catch (std::bad_alloc &e)
-		{
-			delete pVarResult;
-			throw Exception(ERROR_MEMORY_ALLOCATION);
-		}
-		VariantInit(param);
-		bool bSuccess = NelsonToComVariant(B, param, errorMessage);
-		if (!bSuccess)
-		{
-			throw Exception(errorMessage);
-		}
-		errorMessage = L"";
-		bSuccess = invokeCom(DISPATCH_PROPERTYPUT, pVarResult, errorMessage, pVariant->pdispVal, propertyName, 1, param);
-		if (bSuccess)
-		{
-			bSuccess = ComVariantToNelson(pVarResult, res, errorMessage);
-			delete pVarResult;
-			pVarResult = nullptr;
-			if (!bSuccess)
-			{
-				throw Exception(errorMessage);
-			}
-		}
-		else
-		{
-			delete pVarResult;
-			pVarResult = nullptr;
-			throw Exception(errorMessage);
-		}
-	}
+        VARIANT *pVariant = (VARIANT*)ptr;
+        VARIANT *pVarResult;
+        try
+        {
+            pVarResult = new VARIANT;
+        }
+        catch (std::bad_alloc &e)
+        {
+            pVarResult = nullptr;
+            throw Exception(ERROR_MEMORY_ALLOCATION);
+        }
+        VariantInit(pVarResult);
+        std::wstring errorMessage;
+        VARIANT *param;
+        try
+        {
+            param = new VARIANT();
+        }
+        catch (std::bad_alloc &e)
+        {
+            delete pVarResult;
+            throw Exception(ERROR_MEMORY_ALLOCATION);
+        }
+        VariantInit(param);
+        bool bSuccess = NelsonToComVariant(B, param, errorMessage);
+        if (!bSuccess)
+        {
+            throw Exception(errorMessage);
+        }
+        errorMessage = L"";
+        bSuccess = invokeCom(DISPATCH_PROPERTYPUT, pVarResult, errorMessage, pVariant->pdispVal, propertyName, 1, param);
+        if (bSuccess)
+        {
+            bSuccess = ComVariantToNelson(pVarResult, res, errorMessage);
+            delete pVarResult;
+            pVarResult = nullptr;
+            if (!bSuccess)
+            {
+                throw Exception(errorMessage);
+            }
+        }
+        else
+        {
+            delete pVarResult;
+            pVarResult = nullptr;
+            throw Exception(errorMessage);
+        }
+    }
     //=============================================================================
 }
 //=============================================================================

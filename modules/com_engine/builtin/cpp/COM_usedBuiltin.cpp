@@ -24,16 +24,16 @@ using namespace Nelson;
 //=============================================================================
 ArrayOfVector Nelson::ComEngineGateway::COM_usedBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-	if (argIn.size() != 0)
-	{
-		Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-	}
-	if (nLhs > 1)
-	{
-		Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-	}
-	ArrayOfVector retval;
-	retval.push_back(usedComHandleObject());
-	return retval;
+    if (argIn.size() != 0)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    if (nLhs > 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    ArrayOfVector retval;
+    retval.push_back(usedComHandleObject());
+    return retval;
 }
 //=============================================================================

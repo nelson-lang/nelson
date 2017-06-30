@@ -24,9 +24,9 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-	NLSCOM_ENGINE_IMPEXP void classnameComHandle(ArrayOf A, std::wstring &classname);
-	NLSCOM_ENGINE_IMPEXP void classnameComHandle(ComHandleObject *comHandle, std::wstring &classname);
-	NLSCOM_ENGINE_IMPEXP void classnameComHandle(ArrayOf A, wstringVector &classname);
-	//=============================================================================
+    NLSCOM_ENGINE_IMPEXP void classnameComHandle(ArrayOf A, std::wstring &classname);
+    NLSCOM_ENGINE_IMPEXP void classnameComHandle(ComHandleObject *comHandle, std::wstring &classname);
+    NLSCOM_ENGINE_IMPEXP void classnameComHandle(ArrayOf A, wstringVector &classname);
+    //=============================================================================
 }
 //=============================================================================

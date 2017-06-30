@@ -25,24 +25,24 @@ using namespace Nelson;
 //=============================================================================
 ArrayOfVector Nelson::ComEngineGateway::COM_methodsBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-	if (argIn.size() != 1)
-	{
-		Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-	}
-	if (nLhs > 1)
-	{
-		Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-	}
-	bool fullList = false;
-	ArrayOfVector retval;
-	ArrayOf param1 = argIn[0];
-	if (!param1.isHandle())
-	{
-		Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
-	}
-	wstringVector methods;
-	methodsComHandleObject(param1, methods);
-	retval.push_back(ToCellStringAsColumn(methods));
-	return retval;
+    if (argIn.size() != 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    if (nLhs > 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    bool fullList = false;
+    ArrayOfVector retval;
+    ArrayOf param1 = argIn[0];
+    if (!param1.isHandle())
+    {
+        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
+    }
+    wstringVector methods;
+    methodsComHandleObject(param1, methods);
+    retval.push_back(ToCellStringAsColumn(methods));
+    return retval;
 }
 //=============================================================================

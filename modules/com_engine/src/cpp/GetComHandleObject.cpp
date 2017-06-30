@@ -60,44 +60,41 @@ namespace Nelson {
         {
             throw Exception(_W("COM valid handle expected."));
         }
-		VARIANT *pVariant = (VARIANT*)ptr;
-
-
-		VARIANT *pVarResult;
-		try
-		{
-			pVarResult = new VARIANT;
-		}
-		catch (std::bad_alloc)
-		{
-			pVarResult = nullptr;
-		}
-
-		if (pVarResult)
-		{
-			VariantInit(pVarResult);
-			std::wstring errorMessage;
-			bool bSuccess = invokeCom(DISPATCH_PROPERTYGET, pVarResult, errorMessage, pVariant->pdispVal, propertyName, 0);
-			if (bSuccess)
-			{
-				bSuccess = ComVariantToNelson(pVarResult, res, errorMessage);
-				if (!bSuccess)
-				{
-					delete pVarResult;
-					throw Exception(errorMessage);
-				}
-			}
-			else
-			{
-				delete pVarResult;
-				throw Exception(errorMessage);
-			}
-		}
-		else
-		{
-			throw Exception(ERROR_MEMORY_ALLOCATION);
-		}
-		return res;
+        VARIANT *pVariant = (VARIANT*)ptr;
+        VARIANT *pVarResult;
+        try
+        {
+            pVarResult = new VARIANT;
+        }
+        catch (std::bad_alloc)
+        {
+            pVarResult = nullptr;
+        }
+        if (pVarResult)
+        {
+            VariantInit(pVarResult);
+            std::wstring errorMessage;
+            bool bSuccess = invokeCom(DISPATCH_PROPERTYGET, pVarResult, errorMessage, pVariant->pdispVal, propertyName, 0);
+            if (bSuccess)
+            {
+                bSuccess = ComVariantToNelson(pVarResult, res, errorMessage);
+                if (!bSuccess)
+                {
+                    delete pVarResult;
+                    throw Exception(errorMessage);
+                }
+            }
+            else
+            {
+                delete pVarResult;
+                throw Exception(errorMessage);
+            }
+        }
+        else
+        {
+            throw Exception(ERROR_MEMORY_ALLOCATION);
+        }
+        return res;
     }
     //=============================================================================
 }

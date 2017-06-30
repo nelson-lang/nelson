@@ -27,138 +27,130 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-	static bool getClassInfoFromVariant(VARIANT *pVariant, std::wstring &className, std::wstring &classTypeName)
-	{
-		bool haveError = true;
-		classTypeName = L"Unknown";
-		className = L"Unknown";
-		IProvideClassInfo *ci = nullptr;
-		ITypeInfo *ti = nullptr;
-		unsigned int tiCount = 0;
-		HRESULT hr;
-
-		IDispatch *pDisp = pVariant->pdispVal;
-		if (pDisp == nullptr)
-		{
-			return false;
-		}
-
-
-		if (hr = pDisp->QueryInterface(IID_IProvideClassInfo, (void**)&ci) == S_OK)
-		{
-			ci->GetClassInfo(&ti);
-			ci->Release();
-		}
-
-		if (ti == NULL && (hr = pVariant->pdispVal->GetTypeInfoCount(&tiCount)) == S_OK && tiCount == 1)
-		{
-			pVariant->pdispVal->GetTypeInfo(0, LOCALE_USER_DEFAULT, &ti);
-		}
-
-		if (ti != NULL)
-		{
-			ITypeLib *pTypeLib = NULL;
-			BSTR bSTRclassName;
-			BSTR bSTRClassType;
-
-			if (SUCCEEDED(ti->GetContainingTypeLib(&pTypeLib, 0)))
-			{
-				if (SUCCEEDED(pTypeLib->GetDocumentation(MEMBERID_NIL, &bSTRclassName, NULL, NULL, NULL)))
-				{
-					className = std::wstring(bSTRclassName);
-					SysFreeString(bSTRclassName);
-				}
-			}
-
-			if (SUCCEEDED(ti->GetDocumentation(MEMBERID_NIL, &bSTRClassType, NULL, NULL, NULL)))
-			{
-				classTypeName = std::wstring(bSTRClassType);
-				SysFreeString(bSTRClassType);
-			}
-			haveError = false;
-		}
-		ti->Release();
-		return haveError;
-	}
-	//=============================================================================
-	void classnameComHandle(ComHandleObject *comHandle, std::wstring &classname)
-	{
-		classname = COM_CATEGORY_STR;
-		if (comHandle)
-		{
-			VARIANT *pVariant = (VARIANT *)comHandle->getPointer();
-			std::wstring className;
-			std::wstring classTypeName;
-			bool res = getClassInfoFromVariant(pVariant, className, classTypeName);
-			if (!res)
-			{
-				classname = COM_CATEGORY_STR + std::wstring(L".") + className + classTypeName;
-			}
-		}
-	}
-	//=============================================================================
-	void classnameComHandle(ArrayOf A, std::wstring &classname)
-	{
-		if (!A.isHandle())
-		{
-			throw Exception(ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
-		}
-		ClassName(A, classname);
-		if (classname != COM_CATEGORY_STR)
-		{
-			throw Exception(_W("COM handle expected."));
-		}
-		if (!A.isScalar())
-		{
-			throw Exception(ERROR_SCALAR_EXPECTED);
-		}
-
-		nelson_handle *qp = (nelson_handle*)A.getDataPointer();
-		nelson_handle hl = qp[0];
-		HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-		if (hlObj->getCategory() != COM_CATEGORY_STR)
-		{
-			throw Exception(_W("COM handle expected."));
-		}
-		ComHandleObject *comhandleobj = (ComHandleObject *)hlObj;
-		if (comhandleobj)
-		{
-			classnameComHandle(comhandleobj, classname);
-		}
-	}
-	//=============================================================================
-	void classnameComHandle(ArrayOf A, wstringVector &classname)
-	{
-		classname.clear();
-		if (!A.isHandle())
-		{
-			throw Exception(ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
-		}
-		std::wstring className;
-		ClassName(A, className);
-		if (className != COM_CATEGORY_STR)
-		{
-			throw Exception(_W("COM handle expected."));
-		}
-		Dimensions dimsA = A.getDimensions();
-		nelson_handle *qp = (nelson_handle*)A.getDataPointer();
-		if (qp)
-		{
-			stringVector names;
-			for (size_t k = 0; k < dimsA.getElementCount(); k++)
-			{
-				nelson_handle hl = qp[k];
-				HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-				if (hlObj != nullptr)
-				{
-					ComHandleObject *comhandleobj = (ComHandleObject *)hlObj;
-					std::wstring name;
-					classnameComHandle(comhandleobj, name);
-					classname.push_back(name);
-				}
-			}
-		}
-	}
+    static bool getClassInfoFromVariant(VARIANT *pVariant, std::wstring &className, std::wstring &classTypeName)
+    {
+        bool haveError = true;
+        classTypeName = L"Unknown";
+        className = L"Unknown";
+        IProvideClassInfo *ci = nullptr;
+        ITypeInfo *ti = nullptr;
+        unsigned int tiCount = 0;
+        HRESULT hr;
+        IDispatch *pDisp = pVariant->pdispVal;
+        if (pDisp == nullptr)
+        {
+            return false;
+        }
+        if (hr = pDisp->QueryInterface(IID_IProvideClassInfo, (void**)&ci) == S_OK)
+        {
+            ci->GetClassInfo(&ti);
+            ci->Release();
+        }
+        if (ti == NULL && (hr = pVariant->pdispVal->GetTypeInfoCount(&tiCount)) == S_OK && tiCount == 1)
+        {
+            pVariant->pdispVal->GetTypeInfo(0, LOCALE_USER_DEFAULT, &ti);
+        }
+        if (ti != NULL)
+        {
+            ITypeLib *pTypeLib = NULL;
+            BSTR bSTRclassName;
+            BSTR bSTRClassType;
+            if (SUCCEEDED(ti->GetContainingTypeLib(&pTypeLib, 0)))
+            {
+                if (SUCCEEDED(pTypeLib->GetDocumentation(MEMBERID_NIL, &bSTRclassName, NULL, NULL, NULL)))
+                {
+                    className = std::wstring(bSTRclassName);
+                    SysFreeString(bSTRclassName);
+                }
+            }
+            if (SUCCEEDED(ti->GetDocumentation(MEMBERID_NIL, &bSTRClassType, NULL, NULL, NULL)))
+            {
+                classTypeName = std::wstring(bSTRClassType);
+                SysFreeString(bSTRClassType);
+            }
+            haveError = false;
+        }
+        ti->Release();
+        return haveError;
+    }
+    //=============================================================================
+    void classnameComHandle(ComHandleObject *comHandle, std::wstring &classname)
+    {
+        classname = COM_CATEGORY_STR;
+        if (comHandle)
+        {
+            VARIANT *pVariant = (VARIANT *)comHandle->getPointer();
+            std::wstring className;
+            std::wstring classTypeName;
+            bool res = getClassInfoFromVariant(pVariant, className, classTypeName);
+            if (!res)
+            {
+                classname = COM_CATEGORY_STR + std::wstring(L".") + className + classTypeName;
+            }
+        }
+    }
+    //=============================================================================
+    void classnameComHandle(ArrayOf A, std::wstring &classname)
+    {
+        if (!A.isHandle())
+        {
+            throw Exception(ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
+        }
+        ClassName(A, classname);
+        if (classname != COM_CATEGORY_STR)
+        {
+            throw Exception(_W("COM handle expected."));
+        }
+        if (!A.isScalar())
+        {
+            throw Exception(ERROR_SCALAR_EXPECTED);
+        }
+        nelson_handle *qp = (nelson_handle*)A.getDataPointer();
+        nelson_handle hl = qp[0];
+        HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
+        if (hlObj->getCategory() != COM_CATEGORY_STR)
+        {
+            throw Exception(_W("COM handle expected."));
+        }
+        ComHandleObject *comhandleobj = (ComHandleObject *)hlObj;
+        if (comhandleobj)
+        {
+            classnameComHandle(comhandleobj, classname);
+        }
+    }
+    //=============================================================================
+    void classnameComHandle(ArrayOf A, wstringVector &classname)
+    {
+        classname.clear();
+        if (!A.isHandle())
+        {
+            throw Exception(ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
+        }
+        std::wstring className;
+        ClassName(A, className);
+        if (className != COM_CATEGORY_STR)
+        {
+            throw Exception(_W("COM handle expected."));
+        }
+        Dimensions dimsA = A.getDimensions();
+        nelson_handle *qp = (nelson_handle*)A.getDataPointer();
+        if (qp)
+        {
+            stringVector names;
+            for (size_t k = 0; k < dimsA.getElementCount(); k++)
+            {
+                nelson_handle hl = qp[k];
+                HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
+                if (hlObj != nullptr)
+                {
+                    ComHandleObject *comhandleobj = (ComHandleObject *)hlObj;
+                    std::wstring name;
+                    classnameComHandle(comhandleobj, name);
+                    classname.push_back(name);
+                }
+            }
+        }
+    }
     //=============================================================================
 }
 //=============================================================================

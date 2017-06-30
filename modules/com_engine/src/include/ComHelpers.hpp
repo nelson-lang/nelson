@@ -23,10 +23,10 @@
 #include <string>
 //=============================================================================
 namespace Nelson {
-	//=============================================================================
-	bool isMethodCom(IDispatch *pDisp, std::wstring methodToSearch);
-	bool isPropertyGetCom(IDispatch *pDisp, std::wstring propertyToSearch);
-	bool isPropertyPutCom(IDispatch *pDisp, std::wstring propertyToSearch);
-	//=============================================================================
+    //=============================================================================
+    bool isMethodCom(IDispatch *pDisp, std::wstring methodToSearch);
+    bool isPropertyGetCom(IDispatch *pDisp, std::wstring propertyToSearch);
+    bool isPropertyPutCom(IDispatch *pDisp, std::wstring propertyToSearch);
+    //=============================================================================
 }
 //=============================================================================

@@ -25,12 +25,12 @@
 #define COM_CATEGORY_STR L"COM"
 //=============================================================================
 namespace Nelson {
-	//=============================================================================
-	class NLSCOM_ENGINE_IMPEXP ComHandleObject : public HandleGenericObject {
-	public:
-		ComHandleObject(void *_ptr);
-		~ComHandleObject();
-	};
-	//=============================================================================
+    //=============================================================================
+    class NLSCOM_ENGINE_IMPEXP ComHandleObject : public HandleGenericObject {
+    public:
+        ComHandleObject(void *_ptr);
+        ~ComHandleObject();
+    };
+    //=============================================================================
 }
 //=============================================================================

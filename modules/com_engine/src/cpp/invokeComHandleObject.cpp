@@ -67,82 +67,77 @@ namespace Nelson {
         {
             throw Exception(_W("COM valid handle expected."));
         }
-		VARIANT *pVariant = (VARIANT*)ptr;
-
-		VARIANT *pVarResult;
-		try
-		{
-			pVarResult = new VARIANT;
-		}
-		catch (std::bad_alloc)
-		{
-			throw Exception(ERROR_MEMORY_ALLOCATION);
-		}
-	
-		if (pVarResult)
-		{
-			size_t nbParams = params.size();
-			VARIANT *args = nullptr;
-			if (nbParams > 0)
-			{
-				try
-				{
-					args = new VARIANT[nbParams];
-				}
-				catch (std::bad_alloc)
-				{
-					delete pVarResult;
-					pVarResult = nullptr;
-					throw Exception(ERROR_MEMORY_ALLOCATION);
-				}
-
-				std::wstring errorMessage;
-				for (size_t k = 0; k < nbParams; k++)
-				{
-					bool bSuccess = NelsonToComVariant(params[k], &args[k], errorMessage);
-					if (!bSuccess)
-					{
-						delete[] args;
-						args = nullptr;
-					}
-				}
-			}
-			std::wstring errorMessage;
-			bool bSuccess = invokeCom(DISPATCH_METHOD | DISPATCH_PROPERTYGET, pVarResult, errorMessage, pVariant->pdispVal, W2OLE((wchar_t*)wmethodname.c_str()), (int)nbParams, args);
-
-			if (args)
-			{
-				delete[] args;
-				args = nullptr;
-			}
-
-			if (bSuccess)
-			{
-				if (pVarResult->vt == VT_EMPTY)
-				{
-					haveReturnValue = false;
-					delete pVarResult;
-					pVarResult = nullptr;
-				}
-				else
-				{
-					haveReturnValue = true;
-					bSuccess = ComVariantToNelson(pVarResult, res, errorMessage);
-					if (!bSuccess)
-					{
-						delete pVarResult;
-						pVarResult = nullptr;
-						throw Exception(errorMessage);
-					}
-				}
-			}
-			else
-			{
-				delete pVarResult;
-				pVarResult = nullptr;
-				throw Exception(errorMessage);
-			}
-		}
+        VARIANT *pVariant = (VARIANT*)ptr;
+        VARIANT *pVarResult;
+        try
+        {
+            pVarResult = new VARIANT;
+        }
+        catch (std::bad_alloc)
+        {
+            throw Exception(ERROR_MEMORY_ALLOCATION);
+        }
+        if (pVarResult)
+        {
+            size_t nbParams = params.size();
+            VARIANT *args = nullptr;
+            if (nbParams > 0)
+            {
+                try
+                {
+                    args = new VARIANT[nbParams];
+                }
+                catch (std::bad_alloc)
+                {
+                    delete pVarResult;
+                    pVarResult = nullptr;
+                    throw Exception(ERROR_MEMORY_ALLOCATION);
+                }
+                std::wstring errorMessage;
+                for (size_t k = 0; k < nbParams; k++)
+                {
+                    bool bSuccess = NelsonToComVariant(params[k], &args[k], errorMessage);
+                    if (!bSuccess)
+                    {
+                        delete[] args;
+                        args = nullptr;
+                    }
+                }
+            }
+            std::wstring errorMessage;
+            bool bSuccess = invokeCom(DISPATCH_METHOD | DISPATCH_PROPERTYGET, pVarResult, errorMessage, pVariant->pdispVal, W2OLE((wchar_t*)wmethodname.c_str()), (int)nbParams, args);
+            if (args)
+            {
+                delete[] args;
+                args = nullptr;
+            }
+            if (bSuccess)
+            {
+                if (pVarResult->vt == VT_EMPTY)
+                {
+                    haveReturnValue = false;
+                    delete pVarResult;
+                    pVarResult = nullptr;
+                }
+                else
+                {
+                    haveReturnValue = true;
+                    bSuccess = ComVariantToNelson(pVarResult, res, errorMessage);
+                    if (!bSuccess)
+                    {
+                        delete pVarResult;
+                        pVarResult = nullptr;
+                        throw Exception(errorMessage);
+                    }
+                }
+            }
+            else
+            {
+                delete pVarResult;
+                pVarResult = nullptr;
+                throw Exception(errorMessage);
+            }
+        }
         return res;
     }
     //=============================================================================

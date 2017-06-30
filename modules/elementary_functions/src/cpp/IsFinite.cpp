@@ -57,7 +57,7 @@ namespace Nelson {
             {
                 C = ArrayOf(NLS_LOGICAL, A.getDimensions(), NULL);
                 void *Cp = C.allocateArrayOf(NLS_LOGICAL, A.getLength());
-				boolean_isfinite<single>(A.getLength(), (logical*)Cp, (const single*)A.getDataPointer());
+                boolean_isfinite<single>(A.getLength(), (logical*)Cp, (const single*)A.getDataPointer());
                 C.setDataPointer(Cp);
             }
             break;

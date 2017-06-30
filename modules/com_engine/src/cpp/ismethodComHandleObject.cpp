@@ -34,7 +34,7 @@ namespace Nelson {
             throw Exception(_W("COM valid handle expected."));
         }
         VARIANT *pVariant = (VARIANT *)ptr;
-		return isMethodCom(pVariant->pdispVal, methodname);
+        return isMethodCom(pVariant->pdispVal, methodname);
     }
     //=============================================================================
     ArrayOf ismethodComHandleObject(ArrayOf A, std::wstring methodname)

@@ -25,60 +25,60 @@
 #include "classnameComHandleObject.hpp"
 //=============================================================================
 namespace Nelson {
-	//=============================================================================
-	static void DispComHandleObject(Interface *io, ComHandleObject *comHandle)
-	{
-		if (comHandle != nullptr)
-		{
-			std::wstring fullClassName;
-			classnameComHandle(comHandle, fullClassName);
-			io->outputMessage(L"\t" + fullClassName);
-			io->outputMessage("\n");
-		}
-		io->outputMessage("\n");
-	}
-	//=============================================================================
-	void DispComHandleObject(Evaluator *eval, ArrayOf A)
-	{
-		if (eval != nullptr)
-		{
-			Interface *io = eval->getInterface();
-			if (io)
-			{
-				if (A.isHandle())
-				{
-					if (A.isScalar())
-					{
-						nelson_handle *qp = (nelson_handle*)A.getDataPointer();
-						nelson_handle hl = qp[0];
-						HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-						if (hlObj->getCategory() != COM_CATEGORY_STR)
-						{
-							throw Exception(_W("COM handle expected."));
-						}
-						Dimensions dimsA = A.getDimensions();
-						io->outputMessage(L"[COM] - size: ");
-						dimsA.printMe(io);
-						io->outputMessage("\n");
-						io->outputMessage("\n");
-						ComHandleObject *comhandleobj = (ComHandleObject *)hlObj;
-						DispComHandleObject(io, comhandleobj);
-					}
-					else
-					{
-						Dimensions dimsA = A.getDimensions();
-						io->outputMessage(L"[COM] - size: ");
-						dimsA.printMe(io);
-						io->outputMessage("\n");
-					}
-				}
-				else
-				{
-					Error(eval, _W("COM handle expected."));
-				}
-			}
-		}
-	}
-	//=============================================================================
+    //=============================================================================
+    static void DispComHandleObject(Interface *io, ComHandleObject *comHandle)
+    {
+        if (comHandle != nullptr)
+        {
+            std::wstring fullClassName;
+            classnameComHandle(comHandle, fullClassName);
+            io->outputMessage(L"\t" + fullClassName);
+            io->outputMessage("\n");
+        }
+        io->outputMessage("\n");
+    }
+    //=============================================================================
+    void DispComHandleObject(Evaluator *eval, ArrayOf A)
+    {
+        if (eval != nullptr)
+        {
+            Interface *io = eval->getInterface();
+            if (io)
+            {
+                if (A.isHandle())
+                {
+                    if (A.isScalar())
+                    {
+                        nelson_handle *qp = (nelson_handle*)A.getDataPointer();
+                        nelson_handle hl = qp[0];
+                        HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
+                        if (hlObj->getCategory() != COM_CATEGORY_STR)
+                        {
+                            throw Exception(_W("COM handle expected."));
+                        }
+                        Dimensions dimsA = A.getDimensions();
+                        io->outputMessage(L"[COM] - size: ");
+                        dimsA.printMe(io);
+                        io->outputMessage("\n");
+                        io->outputMessage("\n");
+                        ComHandleObject *comhandleobj = (ComHandleObject *)hlObj;
+                        DispComHandleObject(io, comhandleobj);
+                    }
+                    else
+                    {
+                        Dimensions dimsA = A.getDimensions();
+                        io->outputMessage(L"[COM] - size: ");
+                        dimsA.printMe(io);
+                        io->outputMessage("\n");
+                    }
+                }
+                else
+                {
+                    Error(eval, _W("COM handle expected."));
+                }
+            }
+        }
+    }
+    //=============================================================================
 }
 //=============================================================================

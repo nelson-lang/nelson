@@ -22,7 +22,7 @@
 #include "ComHandleObject.hpp"
 //=============================================================================
 namespace Nelson {
-	NLSCOM_ENGINE_IMPEXP ComHandleObject *ActiveXServer(std::wstring progId, std::wstring machine);
-	NLSCOM_ENGINE_IMPEXP ComHandleObject *GetRunningActiveXServer(std::wstring progId);
+    NLSCOM_ENGINE_IMPEXP ComHandleObject *ActiveXServer(std::wstring progId, std::wstring machine);
+    NLSCOM_ENGINE_IMPEXP ComHandleObject *GetRunningActiveXServer(std::wstring progId);
 }
 //=============================================================================
