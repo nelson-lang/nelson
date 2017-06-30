@@ -85,7 +85,16 @@ namespace Nelson {
 			}
 		}
 
-		VARIANT *pVariantApplication = new VARIANT;
+		VARIANT *pVariantApplication;
+		try
+		{
+			pVariantApplication = new VARIANT;
+		}
+		catch (std::bad_alloc)
+		{
+			throw Exception(ERROR_MEMORY_ALLOCATION);
+		}
+
 		VariantInit(pVariantApplication);
 		pVariantApplication->vt = VT_DISPATCH;
 		pVariantApplication->pdispVal = pdispApplication;
@@ -134,7 +143,14 @@ namespace Nelson {
 			throw Exception(_W("Fails to connect to server."));
 		}
 
-		pVariantApplication = new VARIANT;
+		try
+		{
+			pVariantApplication = new VARIANT;
+		}
+		catch (std::bad_alloc)
+		{
+			throw Exception(ERROR_MEMORY_ALLOCATION);
+		}
 		VariantInit(pVariantApplication);
 		pVariantApplication->vt = VT_DISPATCH;
 		pVariantApplication->pdispVal = pdispApplication;
