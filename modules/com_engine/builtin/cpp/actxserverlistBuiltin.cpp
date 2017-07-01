@@ -16,16 +16,24 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "actxserverlistBuiltin.hpp"
+#include "Error.hpp"
+#include "ActiveXServer.hpp"
 //=============================================================================
-#include "nlsCom_engine_exports.h"
-#include "ComHandleObject.hpp"
-#include "ArrayOf.hpp"
+using namespace Nelson;
 //=============================================================================
-namespace Nelson {
-    NLSCOM_ENGINE_IMPEXP ComHandleObject *ActiveXServer(std::wstring progId, std::wstring machine);
-    NLSCOM_ENGINE_IMPEXP ComHandleObject *GetRunningActiveXServer(std::wstring progId);
-	NLSCOM_ENGINE_IMPEXP ArrayOf ActiveXContolList();
-	NLSCOM_ENGINE_IMPEXP ArrayOf ActiveXServerList();
+ArrayOfVector Nelson::ComEngineGateway::actxserverlistBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    if (argIn.size() != 0)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    if (nLhs > 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    ArrayOfVector retval;
+    retval.push_back(ActiveXServerList());
+    return retval;
 }
 //=============================================================================

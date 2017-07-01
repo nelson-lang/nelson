@@ -141,5 +141,237 @@ namespace Nelson {
         return res;
     }
     //=============================================================================
+	static std::wstring reg_enum_key(HKEY hkey, DWORD i)
+	{
+		wchar_t buf[4096];
+		DWORD size_buf = sizeof(buf);
+		FILETIME ft;
+		LSTATUS err = RegEnumKeyExW(hkey, i, buf, &size_buf, NULL, NULL, NULL, &ft);
+		if (err == ERROR_SUCCESS)
+		{
+			return std::wstring(buf);
+		}
+		return std::wstring();
+	}
+	//=============================================================================
+	static std::wstring GetStringRegKey(HKEY hKey, const std::wstring &strValueName)
+	{
+		WCHAR szBuffer[4096];
+		DWORD dwBufferSize = sizeof(szBuffer);
+		ULONG nError;
+		nError = RegQueryValueExW(hKey, strValueName.c_str(), 0, NULL, (LPBYTE)szBuffer, &dwBufferSize);
+		if (ERROR_SUCCESS == nError)
+		{
+			return std::wstring(szBuffer);
+		}
+		return std::wstring();
+	}
+	//=============================================================================
+	ArrayOf ActiveXContolList()
+	{
+		ArrayOf res;
+		HKEY hclsid;
+		LONG err = RegOpenKeyExW(HKEY_LOCAL_MACHINE, L"SOFTWARE\\CLASSES\\CLSID", 0, KEY_READ, &hclsid);
+		bool found = false;
+
+		if (err != ERROR_SUCCESS)
+		{
+			RegCloseKey(hclsid);
+			throw Exception("Cannot read registry.");
+		}
+
+		wstringVector fieldsName;
+		wstringVector fieldsProgId;
+		wstringVector fieldsFilename;
+
+		for (int i = 0; !found; i++)
+		{
+			std::wstring clsidString = reg_enum_key(hclsid, i);
+
+			if (!clsidString.empty())
+			{
+				if (clsidString != L"CLSID")
+				{
+					std::wstring name;
+					std::wstring progid;
+					std::wstring filename;
+
+					HKEY hKey;
+					std::wstring subKey;
+
+					subKey = L"SOFTWARE\\CLASSES\\CLSID\\";
+					subKey = subKey + clsidString;
+					subKey = subKey + L"\\Control";
+					LONG lRes = RegOpenKeyExW(HKEY_LOCAL_MACHINE, subKey.c_str(), 0, KEY_READ, &hKey);
+					if (lRes == ERROR_SUCCESS)
+					{
+						RegCloseKey(hKey);
+						subKey = L"SOFTWARE\\CLASSES\\CLSID\\";
+						subKey = subKey + clsidString;
+						subKey = subKey + L"\\VersionIndependentProgID";
+						LONG lRes = RegOpenKeyExW(HKEY_LOCAL_MACHINE, subKey.c_str(), 0, KEY_READ, &hKey);
+						if (lRes == ERROR_SUCCESS)
+						{
+							name = GetStringRegKey(hKey, L"");
+						}
+						RegCloseKey(hKey);
+
+						subKey = L"SOFTWARE\\CLASSES\\CLSID\\";
+						subKey = subKey + clsidString;
+						subKey = subKey + L"\\ProgID";
+						lRes = RegOpenKeyExW(HKEY_LOCAL_MACHINE, subKey.c_str(), 0, KEY_READ, &hKey);
+						if (lRes == ERROR_SUCCESS)
+						{
+							progid = GetStringRegKey(hKey, L"");
+						}
+						RegCloseKey(hKey);
+
+						subKey = L"SOFTWARE\\CLASSES\\CLSID\\";
+						subKey = subKey + clsidString;
+						subKey = subKey + L"\\InprocServer32";
+						lRes = RegOpenKeyExW(HKEY_LOCAL_MACHINE, subKey.c_str(), 0, KEY_READ, &hKey);
+						if (lRes == ERROR_SUCCESS)
+						{
+							filename = GetStringRegKey(hKey, L"");
+						}
+						RegCloseKey(hKey);
+
+						if (!filename.empty() && !name.empty() && !progid.empty())
+						{
+							fieldsName.push_back(name);
+							fieldsProgId.push_back(progid);
+							fieldsFilename.push_back(filename);
+						}
+					}
+				}
+			}
+			else
+			{
+				break;
+			}
+		}
+		RegCloseKey(hclsid);
+
+		Dimensions dims(fieldsName.size(), 3);
+		ArrayOf* cell = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, dims.getElementCount());
+		for (size_t k = 0; k < fieldsName.size(); k = k + 1)
+		{
+			cell[k] = ArrayOf::stringConstructor(fieldsName[k]);
+		}
+		for (size_t k = 0; k < fieldsProgId.size(); k = k + 1)
+		{
+			cell[k + fieldsName.size()] = ArrayOf::stringConstructor(fieldsProgId[k]);
+		}
+		for (size_t k = 0; k < fieldsFilename.size(); k = k + 1)
+		{
+			cell[k + fieldsName.size() + fieldsProgId.size()] = ArrayOf::stringConstructor(fieldsFilename[k]);
+		}
+		res = ArrayOf(NLS_CELL_ARRAY, dims, cell);
+		return res;
+	}
+	//=============================================================================
+	ArrayOf ActiveXServerList()
+	{
+		ArrayOf res;
+		HKEY hclsid;
+		LONG err = RegOpenKeyExW(HKEY_LOCAL_MACHINE, L"SOFTWARE\\CLASSES\\CLSID", 0, KEY_READ, &hclsid);
+		bool found = false;
+
+		if (err != ERROR_SUCCESS)
+		{
+			RegCloseKey(hclsid);
+			throw Exception("Cannot read registry.");
+		}
+
+		wstringVector fieldsName;
+		wstringVector fieldsProgId;
+		wstringVector fieldsFilename;
+
+		for (int i = 0; !found; i++)
+		{
+			std::wstring clsidString = reg_enum_key(hclsid, i);
+
+			if (!clsidString.empty())
+			{
+				if (clsidString != L"CLSID")
+				{
+					std::wstring name;
+					std::wstring progid;
+					std::wstring filename;
+
+					HKEY hKey;
+					std::wstring subKey;
+
+					subKey = L"SOFTWARE\\CLASSES\\CLSID\\";
+					subKey = subKey + clsidString;
+					subKey = subKey + L"\\TypeLib";
+					LONG lRes = RegOpenKeyExW(HKEY_LOCAL_MACHINE, subKey.c_str(), 0, KEY_READ, &hKey);
+					if (lRes == ERROR_SUCCESS)
+					{
+						RegCloseKey(hKey);
+						subKey = L"SOFTWARE\\CLASSES\\CLSID\\";
+						subKey = subKey + clsidString;
+						subKey = subKey + L"\\VersionIndependentProgID";
+						LONG lRes = RegOpenKeyExW(HKEY_LOCAL_MACHINE, subKey.c_str(), 0, KEY_READ, &hKey);
+						if (lRes == ERROR_SUCCESS)
+						{
+							name = GetStringRegKey(hKey, L"");
+						}
+						RegCloseKey(hKey);
+
+						subKey = L"SOFTWARE\\CLASSES\\CLSID\\";
+						subKey = subKey + clsidString;
+						subKey = subKey + L"\\ProgID";
+						lRes = RegOpenKeyExW(HKEY_LOCAL_MACHINE, subKey.c_str(), 0, KEY_READ, &hKey);
+						if (lRes == ERROR_SUCCESS)
+						{
+							progid = GetStringRegKey(hKey, L"");
+						}
+						RegCloseKey(hKey);
+
+						subKey = L"SOFTWARE\\CLASSES\\CLSID\\";
+						subKey = subKey + clsidString;
+						subKey = subKey + L"\\InprocServer32";
+						lRes = RegOpenKeyExW(HKEY_LOCAL_MACHINE, subKey.c_str(), 0, KEY_READ, &hKey);
+						if (lRes == ERROR_SUCCESS)
+						{
+							filename = GetStringRegKey(hKey, L"");
+						}
+						RegCloseKey(hKey);
+
+						if (!filename.empty() && !name.empty() && !progid.empty())
+						{
+							fieldsName.push_back(name);
+							fieldsProgId.push_back(progid);
+							fieldsFilename.push_back(filename);
+						}
+					}
+				}
+			}
+			else
+			{
+				break;
+			}
+		}
+		RegCloseKey(hclsid);
+
+		Dimensions dims(fieldsName.size(), 3);
+		ArrayOf* cell = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, dims.getElementCount());
+		for (size_t k = 0; k < fieldsName.size(); k = k + 1)
+		{
+			cell[k] = ArrayOf::stringConstructor(fieldsName[k]);
+		}
+		for (size_t k = 0; k < fieldsProgId.size(); k = k + 1)
+		{
+			cell[k + fieldsName.size()] = ArrayOf::stringConstructor(fieldsProgId[k]);
+		}
+		for (size_t k = 0; k < fieldsFilename.size(); k = k + 1)
+		{
+			cell[k + fieldsName.size() + fieldsProgId.size()] = ArrayOf::stringConstructor(fieldsFilename[k]);
+		}
+		res = ArrayOf(NLS_CELL_ARRAY, dims, cell);
+		return res;
+	}
+	//=============================================================================
 }
 //=============================================================================

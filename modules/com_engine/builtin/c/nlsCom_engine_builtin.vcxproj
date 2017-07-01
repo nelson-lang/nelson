@@ -167,8 +167,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\cpp\actxcontrollistBuiltin.cpp" />
     <ClCompile Include="..\cpp\actxGetRunningServerBuiltin.cpp" />
     <ClCompile Include="..\cpp\actxserverBuiltin.cpp" />
+    <ClCompile Include="..\cpp\actxserverlistBuiltin.cpp" />
     <ClCompile Include="..\cpp\COM_classBuiltin.cpp" />
     <ClCompile Include="..\cpp\COM_deleteBuiltin.cpp" />
     <ClCompile Include="..\cpp\COM_dispBuiltin.cpp" />
@@ -205,8 +207,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\actxcontrollistBuiltin.hpp" />
     <ClInclude Include="..\include\actxGetRunningServerBuiltin.hpp" />
     <ClInclude Include="..\include\actxserverBuiltin.hpp" />
+    <ClInclude Include="..\include\actxserverlistBuiltin.hpp" />
     <ClInclude Include="..\include\COM_classBuiltin.hpp" />
     <ClInclude Include="..\include\COM_deleteBuiltin.hpp" />
     <ClInclude Include="..\include\COM_dispBuiltin.hpp" />
