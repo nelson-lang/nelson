@@ -1872,7 +1872,7 @@ namespace Nelson {
                 }
                 else
                 {
-                    m = functionExpression(fdef, t->down, 1, true);
+                    m = functionExpression(fdef, t->down, 0, true);
                 }
                 if (m.size() > 0)
                 {
@@ -1892,7 +1892,7 @@ namespace Nelson {
                 }
                 else
                 {
-                    if (printIt && (fdef->outputArgCount() != 0) && (state < NLS_STATE_QUIT))
+                    if (printIt && (m.size() > 0) && (state < NLS_STATE_QUIT))
                     {
                         io->outputMessage(L"\nans =\n\n");
                         OverloadDisplay(this, b);

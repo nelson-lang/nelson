@@ -1,3 +1,9 @@
+
+Features:
+---------
+
+  Better management of varargout without output.
+
 Bug Fixes:
 ---------
 
