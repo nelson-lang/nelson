@@ -66,7 +66,7 @@ namespace Nelson {
         {
             pVarResult = new VARIANT;
         }
-        catch (std::bad_alloc &e)
+        catch (std::bad_alloc)
         {
             pVarResult = nullptr;
             throw Exception(ERROR_MEMORY_ALLOCATION);
@@ -78,7 +78,7 @@ namespace Nelson {
         {
             param = new VARIANT();
         }
-        catch (std::bad_alloc &e)
+        catch (std::bad_alloc)
         {
             delete pVarResult;
             throw Exception(ERROR_MEMORY_ALLOCATION);

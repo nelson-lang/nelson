@@ -20,11 +20,8 @@
 #include "invokeCOM.hpp"
 #include "Exception.hpp"
 //=============================================================================
-bool invokeCom(int autoType, VARIANT *pvResult, std::wstring &errorMessage, IDispatch *pDisp, std::wstring propertyName, int cArgs ...)
+bool invokeCom(int autoType, VARIANT *pvResult, std::wstring &errorMessage, IDispatch *pDisp, std::wstring propertyName, int cArgs, VARIANT *pArgs)
 {
-    VARIANT *pArgs = NULL;
-    va_list marker;
-    va_start(marker, cArgs);
     EXCEPINFO excepinfo;
     if (!pDisp)
     {
@@ -42,25 +39,6 @@ bool invokeCom(int autoType, VARIANT *pvResult, std::wstring &errorMessage, IDis
         errorMessage = _W("method not found.");
         return false;
     }
-    try
-    {
-        pArgs = new VARIANT[cArgs + 1];
-    }
-    catch (std::bad_alloc)
-    {
-        errorMessage = std::wstring(ERROR_MEMORY_ALLOCATION);
-        return false;
-    }
-    if (pArgs == nullptr)
-    {
-        errorMessage = std::wstring(ERROR_MEMORY_ALLOCATION);
-        return false;
-    }
-    for (int i = 0; i < cArgs; i++)
-    {
-        pArgs[i] = va_arg(marker, VARIANT);
-    }
-    va_end(marker);
     dp.cArgs = cArgs;
     dp.rgvarg = pArgs;
     if (autoType & DISPATCH_PROPERTYPUT)
@@ -77,12 +55,6 @@ bool invokeCom(int autoType, VARIANT *pvResult, std::wstring &errorMessage, IDis
     {
         invokeFails = true;
     }
-    for (int i = 0; i < cArgs; i++)
-    {
-        VariantClear(&pArgs[i]);
-    }
-    delete[] pArgs;
-    pArgs = NULL;
     if (FAILED(hr) || invokeFails)
     {
         errorMessage = _W("Error detected:") + L"\n";

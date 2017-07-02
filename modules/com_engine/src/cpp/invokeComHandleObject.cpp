@@ -67,7 +67,7 @@ namespace Nelson {
         {
             throw Exception(_W("COM valid handle expected."));
         }
-        VARIANT *pVariant = (VARIANT*)ptr;
+        const VARIANT *pVariant = (VARIANT*)ptr;
         VARIANT *pVarResult;
         try
         {
@@ -85,7 +85,7 @@ namespace Nelson {
             {
                 try
                 {
-                    args = new VARIANT[nbParams];
+                    args = new VARIANT[nbParams + 1];
                 }
                 catch (std::bad_alloc)
                 {
@@ -101,11 +101,12 @@ namespace Nelson {
                     {
                         delete[] args;
                         args = nullptr;
+						throw Exception(errorMessage);
                     }
                 }
             }
             std::wstring errorMessage;
-            bool bSuccess = invokeCom(DISPATCH_METHOD | DISPATCH_PROPERTYGET, pVarResult, errorMessage, pVariant->pdispVal, W2OLE((wchar_t*)wmethodname.c_str()), (int)nbParams, args);
+            bool bSuccess = invokeCom(DISPATCH_METHOD | DISPATCH_PROPERTYGET, pVarResult, errorMessage, pVariant->pdispVal, wmethodname, (int)nbParams, args);
             if (args)
             {
                 delete[] args;

@@ -1,0 +1,46 @@
+//=============================================================================
+// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+% Database connection with ADODB.Connection COM interface
+% Require a database engine installed on your PC
+% Some example strings for common databases:
+% Oracle - PROVIDER=OraOLEDB.Oracle; Data Source=MyOracleDB; User Id=myUsername; Password=myPassword;
+% MS SQL Server -  PROVIDER=SQLOLEDB; Data Source=myServerAddress; Initial Catalog=myDataBase; User Id=myUsername; Password=myPassword;
+% MySQL  - driver=MySQL ODBC 3.51 Driver; Server=myServerAddress; Database=myDataBase; UID=username; PWD=password; 
+% Access - PROVIDER=Microsoft.Jet.OLEDB.4.0; Data Source=C:\mydatabase.mdb;User Id=myUsername; Password=myPassword;
+% Access 2007 - PROVIDER=Microsoft.ACE.OLEDB.12.0; Data Source=C:\mydatabase.accdb; Persist Security Info=False;
+//=============================================================================
+pConn = actxserver('ADODB.Connection')
+commandInvoke = ['Provider=Microsoft.Jet.OLEDB.4.0;Data Source=', modulepath('com_engine'), '/examples/ADODB_test.mdb', ';User Id=admin;Password=;'];
+set(pConn,'CursorLocation', 3)
+invoke(pConn, 'Open', commandInvoke);
+set(pConn,'CommandTimeout',60)
+sqlQuery = 'select LASTNAME from TestTable';
+invoke(pConn,'BeginTrans');
+pData = invoke(pConn, 'Execute', sqlQuery);
+invoke(pConn,'CommitTrans'); 
+get(pData,'recordcount')
+data = invoke(pData, 'getrows')
+% another request
+sqlQuery = 'select * from TestTable order by lastname, firstname';
+invoke(pConn,'BeginTrans');
+pData = invoke(pConn, 'Execute', sqlQuery);
+invoke(pConn,'CommitTrans'); 
+get(pData,'recordcount')
+data = invoke(pData, 'getrows')
+//=============================================================================

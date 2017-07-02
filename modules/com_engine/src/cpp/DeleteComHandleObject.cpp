@@ -46,14 +46,8 @@ namespace Nelson {
                         VARIANT *pVariant = (VARIANT *)comhandleobj->getPointer();
                         if (pVariant)
                         {
-                            if (pVariant->vt == VT_DISPATCH)
-                            {
-                                pVariant->pdispVal->Release();
-                            }
-                            if (!SUCCEEDED(VariantClear(pVariant)))
-                            {
-                            }
-                            delete pVariant;
+							VariantClear(pVariant);
+							delete pVariant;
                             comhandleobj->setPointer(nullptr);
                         }
                         delete comhandleobj;

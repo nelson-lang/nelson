@@ -24,7 +24,7 @@ using namespace Nelson;
 //=============================================================================
 ArrayOfVector Nelson::ComEngineGateway::COM_getBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (argIn.size() != 2)
+    if (argIn.size() < 2)
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
@@ -34,9 +34,14 @@ ArrayOfVector Nelson::ComEngineGateway::COM_getBuiltin(Evaluator* eval, int nLhs
     }
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];
+	ArrayOfVector params;
+	for (size_t k = 2; k < argIn.size(); k++)
+	{
+		params.push_back(argIn[k]);
+	}
     std::wstring propertyName = param2.getContentAsWideString();
     ArrayOfVector retval;
-    retval.push_back(GetComHandleObject(param1, propertyName));
+    retval.push_back(GetComHandleObject(param1, propertyName, params));
     return retval;
 }
 //=============================================================================
