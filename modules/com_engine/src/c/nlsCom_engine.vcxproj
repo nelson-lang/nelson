@@ -190,6 +190,7 @@
     <ClInclude Include="..\include\ActiveXServer.hpp" />
     <ClInclude Include="..\include\classnameComHandleObject.hpp" />
     <ClInclude Include="..\include\ComEngine.hpp" />
+    <ClInclude Include="..\include\ComExcelHelpers.hpp" />
     <ClInclude Include="..\include\ComHandleObject.hpp" />
     <ClInclude Include="..\include\ComHelpers.hpp" />
     <ClInclude Include="..\include\DeleteComHandleObject.hpp" />
@@ -209,6 +210,7 @@
     <ClCompile Include="..\cpp\ActiveXServer.cpp" />
     <ClCompile Include="..\cpp\classnameComHandleObject.cpp" />
     <ClCompile Include="..\cpp\ComEngine.cpp" />
+    <ClCompile Include="..\cpp\ComExcelHelpers.cpp" />
     <ClCompile Include="..\cpp\ComHandleObject.cpp" />
     <ClCompile Include="..\cpp\ComHelpers.cpp" />
     <ClCompile Include="..\cpp\DeleteComHandleObject.cpp" />

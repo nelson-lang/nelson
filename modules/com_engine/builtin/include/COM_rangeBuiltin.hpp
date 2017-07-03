@@ -16,31 +16,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <Windows.h>
+#pragma once
 //=============================================================================
-#ifdef _DEBUG
-#pragma comment(lib, "boost_system-vc140-mt-gd-1_61.lib")
-#pragma comment(lib, "boost_filesystem-vc140-mt-gd-1_61.lib")
-#pragma comment(lib, "boost_regex-vc140-mt-gd-1_61.lib")
-#else
-#pragma comment(lib, "boost_system-vc140-mt-1_61.lib")
-#pragma comment(lib, "boost_filesystem-vc140-mt-1_61.lib")
-#pragma comment(lib, "boost_regex-vc140-mt-1_61.lib")
-#endif
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
-int WINAPI DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)
-{
-    switch (reason)
-    {
-        case DLL_PROCESS_ATTACH:
-            break;
-        case DLL_PROCESS_DETACH:
-            break;
-        case DLL_THREAD_ATTACH:
-            break;
-        case DLL_THREAD_DETACH:
-            break;
-    }
-    return 1;
+namespace Nelson {
+	namespace ComEngineGateway {
+		ArrayOfVector COM_rangeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+	}
 }
 //=============================================================================

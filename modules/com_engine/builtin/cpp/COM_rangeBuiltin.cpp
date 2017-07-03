@@ -16,31 +16,38 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <Windows.h>
+#include "COM_rangeBuiltin.hpp"
+#include "Error.hpp"
+#include "ComExcelHelpers.hpp"
 //=============================================================================
-#ifdef _DEBUG
-#pragma comment(lib, "boost_system-vc140-mt-gd-1_61.lib")
-#pragma comment(lib, "boost_filesystem-vc140-mt-gd-1_61.lib")
-#pragma comment(lib, "boost_regex-vc140-mt-gd-1_61.lib")
-#else
-#pragma comment(lib, "boost_system-vc140-mt-1_61.lib")
-#pragma comment(lib, "boost_filesystem-vc140-mt-1_61.lib")
-#pragma comment(lib, "boost_regex-vc140-mt-1_61.lib")
-#endif
+using namespace Nelson;
 //=============================================================================
-int WINAPI DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)
+ArrayOfVector Nelson::ComEngineGateway::COM_rangeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    switch (reason)
-    {
-        case DLL_PROCESS_ATTACH:
-            break;
-        case DLL_PROCESS_DETACH:
-            break;
-        case DLL_THREAD_ATTACH:
-            break;
-        case DLL_THREAD_DETACH:
-            break;
-    }
-    return 1;
+	if ((argIn.size() == 0) || (argIn.size() > 2))
+	{
+		Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+	}
+	if (nLhs > 1)
+	{
+		Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+	}
+
+	ArrayOfVector retval;
+	if (argIn.size() == 1)
+	{
+		ArrayOf param1 = argIn[0];
+		std::wstring range = param1.getContentAsWideString();
+		retval.push_back(ArrayOf::logicalConstructor(isValidRange(range)));
+	}
+	else
+	{
+		ArrayOf param1 = argIn[0];
+		ArrayOf param2 = argIn[1];
+		indexType m = param1.getContentAsScalarIndex();
+		indexType n = param2.getContentAsScalarIndex();
+		retval.push_back(ArrayOf::stringConstructor(xlsIndexToRange(m, n)));
+	}
+	return retval;
 }
 //=============================================================================

@@ -181,6 +181,7 @@
     <ClCompile Include="..\cpp\COM_ispropBuiltin.cpp" />
     <ClCompile Include="..\cpp\COM_isvalidBuiltin.cpp" />
     <ClCompile Include="..\cpp\COM_methodsBuiltin.cpp" />
+    <ClCompile Include="..\cpp\COM_rangeBuiltin.cpp" />
     <ClCompile Include="..\cpp\COM_setBuiltin.cpp" />
     <ClCompile Include="..\cpp\COM_usedBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
@@ -221,6 +222,7 @@
     <ClInclude Include="..\include\COM_ispropBuiltin.hpp" />
     <ClInclude Include="..\include\COM_isvalidBuiltin.hpp" />
     <ClInclude Include="..\include\COM_methodsBuiltin.hpp" />
+    <ClInclude Include="..\include\COM_rangeBuiltin.hpp" />
     <ClInclude Include="..\include\COM_setBuiltin.hpp" />
     <ClInclude Include="..\include\COM_usedBuiltin.hpp" />
     <ClInclude Include="..\include\nlsCom_engine_builtin_exports.h" />
