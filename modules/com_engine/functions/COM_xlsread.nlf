@@ -110,21 +110,53 @@ function [numeric_data, text_data, raw_data] = COM_xlsread(varargin)
   if isempty(range)
     eRange =  wsheet.UsedRange;
   else
-    eRange = get(excelApplication.Activesheet,'Range','A1:B2');
+    eRange = get(excelApplication.Activesheet,'Range', range);
   end
   data = eRange.value;
 
   excelApplication.Quit;
   delete(excelApplication);
   clear excelApplication
-
+  
+  if isempty(data)
+    raw_data = [];
+    text_data = {};
+    numeric_data = [];
+    return
+  end
+  
+  text_data = cell(size(data));
+  text_data(:) = {''};
   is_char = cellfun('isclass', data, 'char');
+  
+  any_text = any(is_char(:));
+  if ~any_text
+    text_data = {};
+  else
+    text_data(is_char) = data(is_char);
+    data(is_char)={NaN};
+  end
+  clear is_char
+
   is_empty = cellfun('isempty', data);
+  data(is_empty) = {NaN};
+
+  numeric_data = cellfun('double', data,'UniformOutput', true);
+  clear temp_cell
+  is_nan = isnan(numeric_data);
+  if all(is_nan(:))
+    numeric_data = [];
+    raw_data = data
+    return;
+  end
+
+  if all(cellfun('islogical', data))
+    numeric_data = logical(numeric_data);
+  end
+    
+  if isempty(numeric_data)
+    numeric_data = [];
+  end
   raw_data = data;
-  raw_data(is_empty) = {NaN};
-  text_data = data;
-  text_data(~is_char) = {''};
-  numeric_data = raw_data;
-  numeric_data(is_char) = {NaN};
-endfunction
+  endfunction
 //=============================================================================
