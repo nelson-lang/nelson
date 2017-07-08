@@ -1,6 +1,30 @@
 <h2>Features:</h2>
 
-<p>Better management of varargout without output.</p>
+<ul>
+<li><p>On Windows, Nelson can read/write all excel 97-2016 file formats (Excel required) based on COM: </p>
+
+<ul>
+<li>COM_xlsread : read a xls/xlsx file.</li>
+<li>COM_xlswrite : write a xls/xlsx file.</li>
+<li>COM_xlsfinfo : get informations about xls/xlsx file.</li>
+<li>COM_range : function helper to check if string is a valid range. </li>
+</ul></li>
+<li><p>Component Object Model (COM) client interface: binary-interface standard for software components on Windows. </p>
+
+<ul>
+<li>actxcontrollist : get list all available control services installed on current Windows. </li>
+<li>actxserverlist : get list all available active X services installed on current Windows. </li>
+<li>actxGetRunningServer : get COM handle of an existing COM server.</li>
+<li>actxserver : creates a COM server.</li>
+<li>COM_used : get list of COM handle currently used in current Nelson&#39;s session.</li>
+<li>iscom : determines if it is a COM handle. </li>
+<li>overload on : class, delete, disp, fieldnames, get, set, invoke, ismethod, isprop,  isvalid, methods. </li>
+<li>add COM handle. </li>
+<li>see examples in [modulepath(&#39;com_engine&#39;), &#39;/examples/&#39;] directory.</li>
+</ul></li>
+<li><p>Better management of varargout without output. </p></li>
+<li><p>Add &quot;&lt;--EXCEL REQUIRED--&gt;&quot; tag managed by test engine.</p></li>
+</ul>
 
 <h2>Bug Fixes:</h2>
 
