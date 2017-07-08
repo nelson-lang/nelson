@@ -17,5 +17,5 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 function r = cell_isequaln(a, b)
-	r = ndarraycell_isequal(a, b);
+  r = ndarraycell_isequaln(a, b);
 endfunction
