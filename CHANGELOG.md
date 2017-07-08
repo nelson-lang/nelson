@@ -2,7 +2,9 @@
 Features:
 ---------
 
-  Better management of varargout without output.
+* Better management of varargout without output.
+* Add "<--EXCEL REQUIRED-->" tag managed by test engine.
+
 
 Bug Fixes:
 ---------

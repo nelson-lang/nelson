@@ -35,6 +35,7 @@ namespace Nelson {
 #define UNIX_ONLY_TAG 	     "<--UNIX ONLY-->"
 #define WITH_DISPLAY_TAG 	 "<--WITH DISPLAY-->"
 #define RELEASE_ONLY_TAG 	 "<--RELEASE ONLY-->"
+#define EXCEL_REQUIRED_TAG 	 "<--EXCEL REQUIRED-->"
 
     class NLSTESTS_MANAGER_IMPEXP TestTags {
     private:
@@ -50,6 +51,7 @@ namespace Nelson {
         bool _unixOnly;
         bool _withDisplay;
         bool _releaseOnly;
+		bool _excelRequired;
 
     public:
         TestTags() {
@@ -65,6 +67,7 @@ namespace Nelson {
             _unixOnly = false;
             _withDisplay = false;
             _releaseOnly = false;
+			_excelRequired = false;
         }
 
         bool isWithDisplay() {
@@ -106,6 +109,10 @@ namespace Nelson {
             return _releaseOnly;
         }
 
+		bool isExcelRequired() {
+			return _excelRequired;
+		}
+
         void setWithDisplay(bool val) {
             _withDisplay = val;
         }
@@ -143,7 +150,9 @@ namespace Nelson {
         void setReleaseOnly(bool val) {
             _releaseOnly = val;
         }
-
+		void setExcelRequired(bool val) {
+			_excelRequired = val;
+		}
     };
 }
 //=============================================================================
