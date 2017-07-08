@@ -45,12 +45,15 @@ function [numeric_data, text_data, raw_data] = COM_xlsread(varargin)
     sheet_or_range = varargin{2};
     if isnumeric(sheet_or_range)
       sheet = double(sheet_or_range);
+      if ~isscalar(sheet)
+        error(_('A scalar integer value expected.'));
+      end
     else
       is_range = strfind(sheet_or_range, ':');
       if isscalar(is_range)
         range = sheet_or_range;
       else
-        error(_('A valid range expected.'));
+        sheet = sheet_or_range;
       end
     end
   end
