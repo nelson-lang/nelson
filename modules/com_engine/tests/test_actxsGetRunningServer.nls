@@ -16,13 +16,15 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-// <--WINDOWS ONLY-->
+// <--EXCEL REQUIRED-->
 //=============================================================================
-assert_isequal(nargin('actxserver'), -2);
-assert_isequal(nargout('actxserver'), 1);
+assert_isequal(nargin('actxGetRunningServer'), 1);
+assert_isequal(nargout('actxGetRunningServer'), 1);
 //=============================================================================
-pTextToSpeech = actxserver('Sapi.SpVoice');
-delete(pTextToSpeech);
-//=============================================================================
-assert_checkerror('actxserver(''3Sapi3.SpVoice'')', _('Error CLSIDFromProgID.'));
+h1 = actxserver('Excel.Application');
+h2 = actxGetRunningServer('Excel.Application');
+assert_isequal(class(h1), class(h2));
+assert_isfalse(isequal(h1, h2));
+delete(h2);
+delete(h1);
 //=============================================================================
