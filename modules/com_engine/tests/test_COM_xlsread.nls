@@ -66,3 +66,9 @@ numeric_data_ref = [1,  NaN,  NaN,  NaN,  NaN;
 assert_isequal(numeric_data, numeric_data_ref);
 assert_isequal(text_data, {});
 //=============================================================================
+[numeric_data, text_data] = COM_xlsread([nelsonroot(), '/modules/com_engine/tests/format_excel97.xls'], 2, 'A1:B2');
+numeric_data_ref = [1,  NaN;
+   NaN,    2];
+assert_isequal(numeric_data, numeric_data_ref);
+assert_isequal(text_data, {});
+//=============================================================================

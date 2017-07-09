@@ -29,7 +29,7 @@ function varargout = COM_xlsfinfo(filename)
   catch
     error(_('Excel application expected.'));
   end
-  
+  excelApplication.DisplayAlerts = false;
   workBooks = excelApplication.workbooks;
   workBook = invoke( workBooks, 'Open', filename);
   for i = 1:500
