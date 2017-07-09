@@ -16,7 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================   
-function varargout = COM_xlswrite(varargin)
+function varargout = COM_xlswrite(filename, value_to_save, varargin)
   status = false;
   message = '';
   
@@ -30,13 +30,11 @@ function varargout = COM_xlswrite(varargin)
     error(_('Wrong number of output arguments.'));
   end
   
-  filename = varargin{1};
-  value_to_save = varargin{2};
   sheet = 1;
   range = '';
 
   if nRhs == 3
-    sheet_or_range = varargin{3};
+    sheet_or_range = varargin{1};
     if isnumeric(sheet_or_range)
       sheet = double(sheet_or_range);
     else
@@ -44,22 +42,26 @@ function varargout = COM_xlswrite(varargin)
       if isscalar(is_range)
         range = sheet_or_range;
       else
-        status = false;
-        message = _('A valid range expected.');
-        if nLhs > 0
-          varargout{1} = status;
-          varargout{2} = message;
-          return;
+        if ischar(sheet_or_range)
+          sheet = sheet_or_range;
         else
-          error(message);
+          status = false;
+          message = _('A valid range expected.');
+          if nLhs > 0
+            varargout{1} = status;
+            varargout{2} = message;
+            return;
+          else
+            error(message);
+          end
         end
       end
     end
   end
   
   if nRhs == 4
-    sheet = varargin{3};
-    range = varargin{4};
+    sheet = varargin{1};
+    range = varargin{2};
     is_range = strfind(range, ':');
     if ~isscalar(is_range)
       status = false;
