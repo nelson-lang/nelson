@@ -21,7 +21,7 @@
 assert_isequal(nargin('actxcontrollist'), 0);
 assert_isequal(nargout('actxcontrollist'), 1);
 //=============================================================================
-r = actxcontrollist();
+r = actxcontrollist()
 assert_isequal(size(r, 2), 3);
 assert_istrue(iscellstr(r));
 //=============================================================================
