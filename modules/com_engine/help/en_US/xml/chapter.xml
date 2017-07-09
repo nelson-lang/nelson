@@ -4,7 +4,7 @@
   <language>en_US</language>
   <module_name>com_engine</module_name>
   <chapter>COM engine</chapter>
-  <chapter_description> COM interface (Windows)</chapter_description>
+  <chapter_description>Component Object Model (COM) client interface: binary-interface standard for software components on Windows.</chapter_description>
 
 </xmldoc>
 
