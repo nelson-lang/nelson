@@ -5,7 +5,6 @@ Features:
   * COM_xlsread : read a xls/xlsx file.
   * COM_xlswrite : write a xls/xlsx file.
   * COM_xlsfinfo : get informations about xls/xlsx file.
-  * COM_range : function helper to check if string is a valid range. 
 
 * Component Object Model (COM) client interface: binary-interface standard for software components on Windows. 
   * actxcontrollist : get list all available control services installed on current Windows. 
