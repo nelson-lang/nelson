@@ -37,19 +37,25 @@
   qml_file = [modulepath('qml_engine'), '/examples/colors/main.qml'];
   qobj = qml_loadfile(qml_file);
 //=============================================================================
+if ispc()
   qml_file = [modulepath('qml_engine'), '/examples/component_gallery/main.qml'];
   qobj = qml_loadfile(qml_file);
+end
 //=============================================================================
+if ispc()
   qml_file = [modulepath('qml_engine'), '/examples/d3_demo/bubbles.qml'];
   qobj = qml_createqquickview(qml_file);
+end
 //=============================================================================
   qml_file = [modulepath('qml_engine'), '/examples/drag_demo/drag.qml'];
   addpath([modulepath('qml_engine'), '/examples/drag_demo/']);
   qobj = qml_loadfile(qml_file);
 //=============================================================================
+if ispc()
   qml_file = [modulepath('qml_engine'), '/examples/dynamic_scene_demo/dynamicscene.qml'];
   qobj = qml_createqquickview(qml_file);
   qobj.title = 'Nelson demo dynamic scene';
+end
 //=============================================================================
   qml_file = [modulepath('qml_engine'), '/examples/qcharts_demo/QChartGallery.qml'];
   qobj = qml_createqquickview(qml_file)
@@ -59,9 +65,11 @@
   addpath([modulepath('qml_engine'), '/examples/qml_demos/']);
   qobj = qml_loadfile(qml_file);
 //=============================================================================
+if ispc()
   qml_file = [modulepath('qml_engine'), '/examples/threejs_demo/main.qml'];
   qobj = qml_loadfile(qml_file);
   qobj.title = 'Nelson - ThreeJS - BufferGeometry - Lines';
+end
 //=============================================================================
   qml_file = [modulepath('qml_engine'), '/examples/widget_gallery/main.qml'];
   qobj = qml_loadfile(qml_file);
