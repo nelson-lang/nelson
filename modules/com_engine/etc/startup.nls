@@ -16,7 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-if ~ispc()
+if ispc()
   addgateway(modulepath(nelsonroot(), 'com_engine', 'builtin'));
   addpath(modulepath(nelsonroot(), 'com_engine', 'functions'));
 else
