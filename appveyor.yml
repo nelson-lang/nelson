@@ -34,7 +34,7 @@ install:
 
 build_script:
 - cd "c:\build_chain\nelson"
-- msbuild nelson.sln /p:Configuration=Release /p:Platform=x%platform% /target:"NelSon-gui"
+- msbuild nelson.sln /p:Configuration=Release /p:Platform=%platform% /target:"NelSon-gui"
 
 artifacts:
   - path: ./*.exe
