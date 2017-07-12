@@ -4,7 +4,7 @@ image: Visual Studio 2015
 environment:
   VS_VERSION: vs2015
   QTDIR64: C:\Qt\5.9\msvc2015_64
-  QTDIR: C:\Qt\5.9\msvc2015_64
+  QTDIR32: C:\Qt\5.9\msvc2015
   BUILD_CHAIN_DIR: c:\build_chain\nelson
 
 branches:
@@ -16,6 +16,7 @@ platform:
 - win32
 
 before_build:
+- if not %platform%==win32 (set QTDIR=%QTDIR64%) else (set QTDIR=%QTDIR32%)
 - git clone https://github.com/Nelson-numerical-software/nelson-thirdparty-%platform%.git c:\build_chain\nelson-thirdparty-%platform%
 - cd "c:\build_chain\nelson-thirdparty-%platform%"
 - install.bat

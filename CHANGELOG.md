@@ -20,6 +20,7 @@ Features:
 * Better management of varargout without output. 
 * Add "<--EXCEL REQUIRED-->" tag managed by test engine.
 
+* APPVEYOR updated to build windows 32 & 64 bits versions.
 
 Bug Fixes:
 ---------
