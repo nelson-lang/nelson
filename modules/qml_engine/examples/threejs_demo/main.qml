@@ -1,7 +1,7 @@
 // main.qml
 import QtQuick 2.4
 import QtCanvas3D 1.0
-import QtQuick.Window 2.2
+import QtQuick.Window 2.
 import "glcode.js" as GLCode
 Window {
     objectName: "threejs_demo"

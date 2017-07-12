@@ -1,3 +1,26 @@
+Features:
+---------
+
+* On Windows, Nelson can read/write all excel 97-2016 file formats (Excel required) based on COM: 
+  * COM_xlsread : read a xls/xlsx file.
+  * COM_xlswrite : write a xls/xlsx file.
+  * COM_xlsfinfo : get informations about xls/xlsx file.
+
+* Component Object Model (COM) client interface: binary-interface standard for software components on Windows. 
+  * actxcontrollist : get list all available control services installed on current Windows. 
+  * actxserverlist : get list all available active X services installed on current Windows. 
+  * actxGetRunningServer : get COM handle of an existing COM server.
+  * actxserver : creates a COM server.
+  * COM_used : get list of COM handle currently used in current Nelson's session.
+  * iscom : determines if it is a COM handle. 
+  * overload on : class, delete, disp, fieldnames, get, set, invoke, ismethod, isprop,  isvalid, methods. 
+  * add COM handle. 
+  * see examples in [modulepath('com_engine'), '/examples/'] directory.
+
+* Better management of varargout without output. 
+* Add "<--EXCEL REQUIRED-->" tag managed by test engine.
+
+
 Bug Fixes:
 ---------
 

@@ -1,0 +1,51 @@
+//=============================================================================
+// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+% write a xml file
+xmlDoc = actxserver('Microsoft.XMLDOM')
+
+% create root element
+oRoot = invoke(xmlDoc, 'createElement', 'Root');
+invoke(xmlDoc, 'appendChild', oRoot);
+
+% add element
+oElement = invoke(xmlDoc, 'selectSingleNode', 'Root');
+% create a child
+oElement = invoke(xmlDoc, 'createElement' , 'element'); 
+
+pdocumentElement = xmlDoc.documentElement;
+% add child to root element
+invoke(pdocumentElement, 'appendChild', oElement);
+
+oName = invoke(xmlDoc,'createElement','name');
+oName.Text = 'CORNET';
+invoke(oElement, 'appendChild', oName);
+
+oFirstname = invoke(xmlDoc,'createElement','firstname');
+set(oFirstname,'Text', 'Allan');
+invoke(oElement, 'appendChild', oFirstname);
+
+
+% Save file
+invoke(xmlDoc, 'Save', [tempdir(), '/write.xml']);
+disp(fileread([tempdir(), '/write.xml']))
+
+delete(xmlDoc);
+clear xmlDoc
+//=============================================================================
+

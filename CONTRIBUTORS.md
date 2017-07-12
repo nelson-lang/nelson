@@ -8,4 +8,4 @@ contributed from an organization can be listed under the organization
 that actually holds the copyright for their contributions.
 Those individuals should have their names indented and be marked with a '-'
  
-* Allan CORNET (allan.cornet@gmail.com)
+* Allan CORNET (nelson.numerical.computation@gmail.com)

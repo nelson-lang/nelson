@@ -16,7 +16,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <QtQml/QQmlComponent>
 #include "usedQObject.hpp"
 #include "HandleManager.hpp"
 #include "QmlHandleObject.hpp"

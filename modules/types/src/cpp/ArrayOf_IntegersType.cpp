@@ -226,6 +226,30 @@ namespace Nelson {
         return (*qp);
     }
     //=============================================================================
+    int16 ArrayOf::getContentAsInteger16Scalar()
+    {
+        int16 *qp;
+        if (getLength() != 1)
+        {
+            throw Exception(ERROR_SCALAR_EXPECTED);
+        }
+        promoteType(NLS_INT16);
+        qp = (int16*)dp->getData();
+        return (*qp);
+    }
+    //=============================================================================
+    uint16 ArrayOf::getContentAsUnsignedInteger16Scalar()
+    {
+        uint16 *qp;
+        if (getLength() != 1)
+        {
+            throw Exception(ERROR_SCALAR_EXPECTED);
+        }
+        promoteType(NLS_UINT16);
+        qp = (uint16*)dp->getData();
+        return (*qp);
+    }
+    //=============================================================================
     int32 ArrayOf::getContentAsInteger32Scalar()
     {
         int32 *qp;

@@ -238,15 +238,13 @@ namespace Nelson {
             case NLS_INT64:
             case NLS_SINGLE:
             {
-				ArrayOf InputAsDouble(arrayIn);
-				InputAsDouble.ensureSingleOwner();
-				InputAsDouble.promoteType(NLS_DOUBLE);
-
-				ArrayOf OutputAsDouble(arrayIn);
-				OutputAsDouble.ensureSingleOwner();
-				OutputAsDouble.promoteType(NLS_DOUBLE);
-
-				switch (level)
+                ArrayOf InputAsDouble(arrayIn);
+                InputAsDouble.ensureSingleOwner();
+                InputAsDouble.promoteType(NLS_DOUBLE);
+                ArrayOf OutputAsDouble(arrayIn);
+                OutputAsDouble.ensureSingleOwner();
+                OutputAsDouble.promoteType(NLS_DOUBLE);
+                switch (level)
                 {
                     case TRUNCATE_LEVEL::CEIL:
                     {
@@ -267,13 +265,13 @@ namespace Nelson {
                     case TRUNCATE_LEVEL::FIX:
                     {
                         size_t len = InputAsDouble.getLength();
-						double *dp = (double*)InputAsDouble.getDataPointer();
-						double *ptr = (double*)OutputAsDouble.getDataPointer();
+                        double *dp = (double*)InputAsDouble.getDataPointer();
+                        double *ptr = (double*)OutputAsDouble.getDataPointer();
                         for (size_t i = 0; i < len; i++)
                         {
                             if (std::isfinite(dp[i]))
                             {
-								ptr[i] = double(int(dp[i]));
+                                ptr[i] = double(int(dp[i]));
                             }
                         }
                     }
@@ -287,7 +285,7 @@ namespace Nelson {
                     }
                     break;
                 }
-				OutputAsDouble.promoteType(arrayIn.getDataClass());
+                OutputAsDouble.promoteType(arrayIn.getDataClass());
                 return OutputAsDouble;
             }
             break;

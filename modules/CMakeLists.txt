@@ -53,6 +53,7 @@ terminal
 gui
 handle
 qml_engine
+com_engine
 help_browser
 dynamic_link
 help_tools

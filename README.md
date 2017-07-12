@@ -41,6 +41,10 @@ these own data types and operations on these data types by using overload.
 
 - The QML engine enables nelson programs to display and manipulate graphical content using Qt's QML framework.
 
+- Component Object Model (COM) client interface: binary-interface standard for software components on Windows.
+
+- Write/Read xlsx files on Windows using COM.
+
 - Help engine
  Generate help files using Nelson dedicated functions.
  View your generated help files as html, pdf or directly in Nelson help viewer.
