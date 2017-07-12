@@ -1,0 +1,47 @@
+//=============================================================================
+// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+// starts excel and save file
+excelApplication = actxserver('Excel.Application');
+eWorkbook = excelApplication.Workbooks.Add;
+excelApplication.Visible = true;
+eSheets = excelApplication.ActiveWorkbook.Sheets;
+eSheet1 = get(eSheets, 'Item', 1);
+eSheet1.Activate
+A = [pi() 2.4; 3.4444 4.5555];
+eActivesheetRange = get(excelApplication.Activesheet,'Range','A1:B2');
+eActivesheetRange.Value = A;
+eActivesheetRange.Value
+
+eRange = get(excelApplication.Activesheet,'Range','A1:B2');
+B = eRange.Value;
+B = reshape([B{:}], size(B));
+
+destfilename =  [getenv('TEMP'), '\myfile.xls'];
+if isfile(destfilename)
+  rmfile(destfilename);
+end
+
+invoke(eWorkbook, 'SaveAs', destfilename)
+eWorkbook.Saved = 1;
+
+eWorkbook.Close;
+excelApplication.Quit;
+delete(excelApplication)
+clear excelApplication
+//=============================================================================

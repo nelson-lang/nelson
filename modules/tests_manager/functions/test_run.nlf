@@ -417,6 +417,29 @@ function r = is_release()
   r = strcmp(ver_comp{2}, 'release');
 endfunction
 //=============================================================================
+function r = have_excel()
+  r = false;
+  if ispc()
+    if ismodule('com_engine')
+      persistent excel_detected;
+      if isempty(excel_detected)
+        try
+          excelApplication = actxserver('Excel.Application');
+          excelApplication.Quit;
+          delete(excelApplication);
+          excel_detected = true;
+          r = excel_detected;
+        catch
+          excel_detected = false;
+          r = excel_detected;
+        end
+      else
+        r = excel_detected;
+      end
+    end
+  end
+endfunction
+//=============================================================================
 function test_case_res = run_test_case(test, module_name, index, indexMax, nbTestCasesMax)
   test_case_res = test;
   is_bench = test.isbench;
@@ -424,102 +447,106 @@ function test_case_res = run_test_case(test, module_name, index, indexMax, nbTes
   startChars = [' ', uniformizeNumbers(index, nbTestCasesMax), '/', uniformizeNumbers(indexMax, nbTestCasesMax),' - [', module_name, '] ', test_case_res.name];
   fprintf(stdout, startChars);
 
-  if (test_case_res.options.release_only & ~is_release())
+  if (test_case_res.options.excel_required & ~have_excel())
+    test_case_res.status = 'Skip';
+    test_case_res.time = 0.;
+  else
+    if (test_case_res.options.release_only & ~is_release())
       test_case_res.status = 'Skip';
       test_case_res.time = 0.;
-  else
-    if (~haveDisplay() & test_case_res.options.with_display)
-      test_case_res.status = 'No display';
-      test_case_res.time = 0.;
     else
-      if (test_case_res.options.not_fixed)
-        test_case_res.status = 'Skip';
+      if (~haveDisplay() & test_case_res.options.with_display)
+        test_case_res.status = 'No display';
         test_case_res.time = 0.;
       else
-        if (test_case_res.options.interactive_test)
-          test_case_res.status = 'Interactive';
-          test_case_res.time = 0.;
-        else
-          is_all_platforms =  ~test_case_res.options.windows_only & ~test_case_res.options.mac_only & ~test_case_res.options.unix_only;
-          is_current_platform = (ispc() & test_case_res.options.windows_only) | (ismac() & test_case_res.options.mac_only) | (isunix() & ~ismac() & test_case_res.options.unix_only);
-          if (is_all_platforms | is_current_platform)
-
-            testfile = test.filename;
-            [p, f, e] = fileparts(testfile);
-
-            outputfile = [tempdir(), '/' , f, '.output'];
-            r = rmfile(outputfile);
-          
-            redirect_err = [tempdir(), '/' , f, '.err'];
-            r = rmfile(redirect_err);
-          
-            if is_bench
-              timeout = int2str(500);
-            else
-              timeout = int2str(50);
-            end
-  
-          cmd = '';
-
-          if test_case_res.options.english_imposed
-            cmd = [' --language', ' ', 'en_US'];
-          end
-          cmd_to_execute = ['"[test_res, test_msg, test_timing] = test_runfile(''',  testfile, ''');savebin(''', outputfile, ''', ''test_res'', ''test_msg'', ''test_timing''); exit(double(test_res));"'];
-          redirect_to_file = [' 2>&1 "' , redirect_err, '"'];
-          cmd = [cmd, ' --quiet', ' ', '--timeout', ' ', timeout, ' ', '--execute', ' ', cmd_to_execute, ' ', redirect_to_file];
-
-          if test_case_res.options.cli_mode
-            [res, msg] = call_nelson_cli(cmd);
-          else
-            if test_case_res.options.gui_mode
-              [res, msg] = call_nelson_gui(cmd);
-            else
-              if test_case_res.options.adv_cli_mode
-                [res, msg] = call_nelson_adv_cli(cmd);
-              else
-                [res, msg] = call_nelson_cli(cmd);
-              end
-            end
-          end
-          
-          test_case_res.msg = msg;
-          if res ~= 1
-            test_case_res.status = 'Fail';
-            test_timing = 0;
-            if isfile(outputfile)
-              loadbin(outputfile);
-              test_case_res.msg = test_msg;
-            end
-          else
-            if isfile(outputfile)
-              loadbin(outputfile);
-              r = rmfile(outputfile);
-              if (test_res)
-                if is_bench
-                  test_case_res.status = [mat2str(test_timing, 2), ' ms'];
-                else
-                  test_case_res.status = 'Pass';
-                end
-                test_case_res.time = test_timing;
-              end
-              // delete error redirection if test is OK
-              // no need to conserve in this case
-              if isfile(redirect_err)
-                r = rmfile(redirect_err);
-              end
-            else
-              test_case_res.status = 'Fail';
-              test_case_res.time = 0;
-            end
-          end
-        else 
+        if (test_case_res.options.not_fixed)
           test_case_res.status = 'Skip';
           test_case_res.time = 0.;
+        else
+          if (test_case_res.options.interactive_test)
+            test_case_res.status = 'Interactive';
+            test_case_res.time = 0.;
+          else
+            is_all_platforms =  ~test_case_res.options.windows_only & ~test_case_res.options.mac_only & ~test_case_res.options.unix_only;
+            is_current_platform = (ispc() & test_case_res.options.windows_only) | (ismac() & test_case_res.options.mac_only) | (isunix() & ~ismac() & test_case_res.options.unix_only);
+            if (is_all_platforms | is_current_platform)
+
+              testfile = test.filename;
+              [p, f, e] = fileparts(testfile);
+
+              outputfile = [tempdir(), '/' , f, '.output'];
+              r = rmfile(outputfile);
+
+              redirect_err = [tempdir(), '/' , f, '.err'];
+              r = rmfile(redirect_err);
+
+              if is_bench
+                timeout = int2str(500);
+              else
+                timeout = int2str(50);
+              end
+
+              cmd = '';
+
+              if test_case_res.options.english_imposed
+                cmd = [' --language', ' ', 'en_US'];
+              end
+              cmd_to_execute = ['"[test_res, test_msg, test_timing] = test_runfile(''',  testfile, ''');savebin(''', outputfile, ''', ''test_res'', ''test_msg'', ''test_timing''); exit(double(test_res));"'];
+              redirect_to_file = [' 2>&1 "' , redirect_err, '"'];
+              cmd = [cmd, ' --quiet', ' ', '--timeout', ' ', timeout, ' ', '--execute', ' ', cmd_to_execute, ' ', redirect_to_file];
+
+              if test_case_res.options.cli_mode
+                [res, msg] = call_nelson_cli(cmd);
+              else
+                if test_case_res.options.gui_mode
+                  [res, msg] = call_nelson_gui(cmd);
+                else
+                  if test_case_res.options.adv_cli_mode
+                    [res, msg] = call_nelson_adv_cli(cmd);
+                  else
+                    [res, msg] = call_nelson_cli(cmd);
+                  end
+                end
+              end
+
+              test_case_res.msg = msg;
+              if res ~= 1
+                test_case_res.status = 'Fail';
+                test_timing = 0;
+                if isfile(outputfile)
+                  loadbin(outputfile);
+                  test_case_res.msg = test_msg;
+                end
+              else
+                if isfile(outputfile)
+                  loadbin(outputfile);
+                  r = rmfile(outputfile);
+                  if (test_res)
+                    if is_bench
+                      test_case_res.status = [mat2str(test_timing, 2), ' ms'];
+                    else
+                      test_case_res.status = 'Pass';
+                    end
+                    test_case_res.time = test_timing;
+                  end
+                  // delete error redirection if test is OK
+                  // no need to conserve in this case
+                  if isfile(redirect_err)
+                    r = rmfile(redirect_err);
+                  end
+                else
+                  test_case_res.status = 'Fail';
+                  test_case_res.time = 0;
+                end
+              end
+            else
+              test_case_res.status = 'Skip';
+              test_case_res.time = 0.;
+            end
+          end
         end
       end
     end
-  end
-
   end
 
   nbCharsStart = length(startChars);
@@ -527,18 +554,18 @@ function test_case_res = run_test_case(test, module_name, index, indexMax, nbTes
   fprintf(stdout, [char(ones(1, nb_spaces) * double(' ')), test_case_res.status, char(10)]);
 
   if strcmp(test_case_res.status, 'Fail') == true
-    disp(['      run(''', test.filename, ''')']);
+    disp(['    run(''', test.filename, ''')']);
     if strcmp(test_case_res.msg, '') == false
-      disp(_('      Error:'));
+      disp(_('    Error:'));
       if strcmp(class(test_case_res.msg), 'cell') == 1
         for k = test_case_res.msg
-         disp(['            ', k]);
+          disp(['      ', k]);
         end
       else
         if strcmp(class(test_case_res.msg), 'struct') == true
-          disp(['            ', test_case_res.msg.message]);
+          disp(['      ', test_case_res.msg.message]);
         else
-          disp(['            ', test_case_res.msg]);
+          disp(['      ', test_case_res.msg]);
         end
       end
     end

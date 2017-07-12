@@ -37,7 +37,8 @@ namespace Nelson {
             {
                 if (!IsExistingModuleName(moduleshortname) && !IsExistingModulePath(modulerootpath))
                 {
-                    EvaluateScriptFile(eval, pathmainloader.generic_wstring().c_str());
+					RegisterModule(moduleshortname, modulerootpath);
+					EvaluateScriptFile(eval, pathmainloader.generic_wstring().c_str());
                 }
                 else
                 {
@@ -57,11 +58,10 @@ namespace Nelson {
                         }
                     }
                 }
-                RegisterModule(moduleshortname, modulerootpath);
             }
             else
             {
-                Error(eval, _W("loader.nls does not exist."));
+                Error(eval, _W("startup.nls does not exist."));
             }
         }
         else

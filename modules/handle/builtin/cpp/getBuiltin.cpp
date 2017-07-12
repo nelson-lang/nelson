@@ -26,7 +26,7 @@ using namespace Nelson;
 ArrayOfVector Nelson::HandleGateway::getBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() == 0 || argIn.size() > 2)
+    if (argIn.size() == 0)
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
