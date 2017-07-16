@@ -67,9 +67,9 @@ ArrayOfVector Nelson::TestsManagerGateway::test_parsetagsBuiltin(Evaluator* eval
     fieldvalues.push_back(ArrayOf::logicalConstructor(tags.isUnixOnly()));
     fieldnames.push_back(L"release_only");
     fieldvalues.push_back(ArrayOf::logicalConstructor(tags.isReleaseOnly()));
-	fieldnames.push_back(L"excel_required");
-	fieldvalues.push_back(ArrayOf::logicalConstructor(tags.isExcelRequired()));
-	ArrayOf stack = ArrayOf::structConstructor(fieldnames, fieldvalues);
+    fieldnames.push_back(L"excel_required");
+    fieldvalues.push_back(ArrayOf::logicalConstructor(tags.isExcelRequired()));
+    ArrayOf stack = ArrayOf::structConstructor(fieldnames, fieldvalues);
     retval.push_back(stack);
     return retval;
 }

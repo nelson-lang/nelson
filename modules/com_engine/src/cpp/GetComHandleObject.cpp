@@ -72,41 +72,40 @@ namespace Nelson {
         }
         if (pVarResult)
         {
-			size_t nbParams = params.size();
-			VARIANT *args = nullptr;
-			if (nbParams > 0)
-			{
-				try
-				{
-					args = new VARIANT[nbParams];
-				}
-				catch (std::bad_alloc)
-				{
-					delete pVarResult;
-					pVarResult = nullptr;
-					throw Exception(ERROR_MEMORY_ALLOCATION);
-				}
-				std::wstring errorMessage;
-				for (size_t k = 0; k < nbParams; k++)
-				{
-					bool bSuccess = NelsonToComVariant(params[k], &args[k], errorMessage);
-					if (!bSuccess)
-					{
-						delete[] args;
-						args = nullptr;
-						throw Exception(errorMessage);
-					}
-				}
-			}
-
+            size_t nbParams = params.size();
+            VARIANT *args = nullptr;
+            if (nbParams > 0)
+            {
+                try
+                {
+                    args = new VARIANT[nbParams];
+                }
+                catch (std::bad_alloc)
+                {
+                    delete pVarResult;
+                    pVarResult = nullptr;
+                    throw Exception(ERROR_MEMORY_ALLOCATION);
+                }
+                std::wstring errorMessage;
+                for (size_t k = 0; k < nbParams; k++)
+                {
+                    bool bSuccess = NelsonToComVariant(params[k], &args[k], errorMessage);
+                    if (!bSuccess)
+                    {
+                        delete[] args;
+                        args = nullptr;
+                        throw Exception(errorMessage);
+                    }
+                }
+            }
             VariantInit(pVarResult);
             std::wstring errorMessage;
             bool bSuccess = invokeCom(DISPATCH_PROPERTYGET | DISPATCH_METHOD, pVarResult, errorMessage, pVariant->pdispVal, propertyName, (int)nbParams, args);
-			if (args)
-			{
-				delete[] args;
-				args = nullptr;
-			}
+            if (args)
+            {
+                delete[] args;
+                args = nullptr;
+            }
             if (bSuccess)
             {
                 bSuccess = ComVariantToNelson(pVarResult, res, errorMessage);

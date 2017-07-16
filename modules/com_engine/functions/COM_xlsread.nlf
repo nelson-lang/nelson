@@ -66,7 +66,7 @@ function [numeric_data, text_data, raw_data] = COM_xlsread(varargin)
     error(_('Valid filename expected.'));
   else
     [path, name, ext] = fileparts(filename);
-    if ~isempty(strfind(path, '.'))
+    if ~isempty(strfind(path, '..'))
       error(_('An absolute path expected.'));
     end
     idx_sep = strfind(path, '/');

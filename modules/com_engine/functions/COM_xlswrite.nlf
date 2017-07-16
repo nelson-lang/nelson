@@ -88,7 +88,7 @@ function varargout = COM_xlswrite(filename, value_to_save, varargin)
     end
   else
     [path, name, ext] = fileparts(filename);
-    if ~isempty(strfind(path, '.'))
+    if ~isempty(strfind(path, '..'))
       error(_('An absolute path expected.'));
     end
     idx_sep = strfind(path, '/');

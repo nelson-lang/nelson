@@ -24,7 +24,7 @@
 #include "Types.hpp"
 //=============================================================================
 namespace Nelson {
-	NLSCOM_ENGINE_IMPEXP std::wstring xlsIndexToRange(indexType m, indexType n);
-	NLSCOM_ENGINE_IMPEXP bool isValidRange(std::wstring range);
+    NLSCOM_ENGINE_IMPEXP std::wstring xlsIndexToRange(indexType m, indexType n);
+    NLSCOM_ENGINE_IMPEXP bool isValidRange(std::wstring range);
 }
 //=============================================================================

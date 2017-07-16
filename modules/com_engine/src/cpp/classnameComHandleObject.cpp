@@ -69,7 +69,7 @@ namespace Nelson {
                 SysFreeString(bSTRClassType);
             }
             haveError = false;
-			ti->Release();
+            ti->Release();
         }
         return haveError;
     }

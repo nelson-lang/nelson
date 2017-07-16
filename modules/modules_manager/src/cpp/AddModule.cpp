@@ -37,8 +37,8 @@ namespace Nelson {
             {
                 if (!IsExistingModuleName(moduleshortname) && !IsExistingModulePath(modulerootpath))
                 {
-					RegisterModule(moduleshortname, modulerootpath);
-					EvaluateScriptFile(eval, pathmainloader.generic_wstring().c_str());
+                    RegisterModule(moduleshortname, modulerootpath);
+                    EvaluateScriptFile(eval, pathmainloader.generic_wstring().c_str());
                 }
                 else
                 {
