@@ -27,6 +27,8 @@ Features:
 Bug Fixes:
 ---------
 
+  [#53](http://github.com/Nelson-numerical-software/nelson/issues/53): COM_xlsread did not support path with dot '.'
+
   [#50](http://github.com/Nelson-numerical-software/nelson/issues/50): qml demos did not start on adv-cli mode.
 
 
@@ -57,9 +59,9 @@ Bug Fixes:
 ---------
 
   [#47](http://github.com/Nelson-numerical-software/nelson/issues/47): add isfinite builtin.
-  
+
   [#43](http://github.com/Nelson-numerical-software/nelson/issues/43): rename getContentsAsWideString to getContentAsWideString.
-  
+
   [#27](http://github.com/Nelson-numerical-software/nelson/issues/27): >= operator was not implemented.
 
 
