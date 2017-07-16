@@ -25,7 +25,7 @@
 namespace Nelson {
     NLSCOM_ENGINE_IMPEXP ComHandleObject *ActiveXServer(std::wstring progId, std::wstring machine);
     NLSCOM_ENGINE_IMPEXP ComHandleObject *GetRunningActiveXServer(std::wstring progId);
-	NLSCOM_ENGINE_IMPEXP ArrayOf ActiveXContolList();
-	NLSCOM_ENGINE_IMPEXP ArrayOf ActiveXServerList();
+    NLSCOM_ENGINE_IMPEXP ArrayOf ActiveXContolList();
+    NLSCOM_ENGINE_IMPEXP ArrayOf ActiveXServerList();
 }
 //=============================================================================

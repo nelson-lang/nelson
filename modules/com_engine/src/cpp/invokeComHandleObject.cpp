@@ -101,7 +101,7 @@ namespace Nelson {
                     {
                         delete[] args;
                         args = nullptr;
-						throw Exception(errorMessage);
+                        throw Exception(errorMessage);
                     }
                 }
             }

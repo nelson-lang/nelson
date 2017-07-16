@@ -79,8 +79,7 @@ namespace Nelson {
         bool firstLinuxTag = true;
         bool firstWithDisplayTag = true;
         bool firstReleaseOnlyTag = true;
-		bool firstExcelRequiredTag = true;
-
+        bool firstExcelRequiredTag = true;
         if (istream.is_open())
         {
             std::string line;
@@ -267,18 +266,18 @@ namespace Nelson {
                     options.setReleaseOnly(true);
                     firstReleaseOnlyTag = false;
                 }
-				if (boost::algorithm::contains(removedLeftBlank, EXCEL_REQUIRED_TAG) && firstExcelRequiredTag)
-				{
-					if (!firstExcelRequiredTag)
-					{
-						msg = _W("duplicated tag detected: <--EXCEL REQUIRED-->.");
-						istream.close();
-						return false;
-					}
-					options.setExcelRequired(true);
-					firstExcelRequiredTag = false;
-				}
-			}
+                if (boost::algorithm::contains(removedLeftBlank, EXCEL_REQUIRED_TAG) && firstExcelRequiredTag)
+                {
+                    if (!firstExcelRequiredTag)
+                    {
+                        msg = _W("duplicated tag detected: <--EXCEL REQUIRED-->.");
+                        istream.close();
+                        return false;
+                    }
+                    options.setExcelRequired(true);
+                    firstExcelRequiredTag = false;
+                }
+            }
             istream.close();
             if (options.isGuiMode() || options.isAdvCliMode())
             {

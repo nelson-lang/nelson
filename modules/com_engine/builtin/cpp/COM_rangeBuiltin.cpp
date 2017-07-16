@@ -24,30 +24,29 @@ using namespace Nelson;
 //=============================================================================
 ArrayOfVector Nelson::ComEngineGateway::COM_rangeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-	if ((argIn.size() == 0) || (argIn.size() > 2))
-	{
-		Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-	}
-	if (nLhs > 1)
-	{
-		Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-	}
-
-	ArrayOfVector retval;
-	if (argIn.size() == 1)
-	{
-		ArrayOf param1 = argIn[0];
-		std::wstring range = param1.getContentAsWideString();
-		retval.push_back(ArrayOf::logicalConstructor(isValidRange(range)));
-	}
-	else
-	{
-		ArrayOf param1 = argIn[0];
-		ArrayOf param2 = argIn[1];
-		indexType m = param1.getContentAsScalarIndex();
-		indexType n = param2.getContentAsScalarIndex();
-		retval.push_back(ArrayOf::stringConstructor(xlsIndexToRange(m, n)));
-	}
-	return retval;
+    if ((argIn.size() == 0) || (argIn.size() > 2))
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    if (nLhs > 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    ArrayOfVector retval;
+    if (argIn.size() == 1)
+    {
+        ArrayOf param1 = argIn[0];
+        std::wstring range = param1.getContentAsWideString();
+        retval.push_back(ArrayOf::logicalConstructor(isValidRange(range)));
+    }
+    else
+    {
+        ArrayOf param1 = argIn[0];
+        ArrayOf param2 = argIn[1];
+        indexType m = param1.getContentAsScalarIndex();
+        indexType n = param2.getContentAsScalarIndex();
+        retval.push_back(ArrayOf::stringConstructor(xlsIndexToRange(m, n)));
+    }
+    return retval;
 }
 //=============================================================================

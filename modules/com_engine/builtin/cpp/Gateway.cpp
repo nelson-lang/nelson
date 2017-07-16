@@ -44,9 +44,9 @@ static const nlsGateway gateway[] =
 {
     { "actxserver", Nelson::ComEngineGateway::actxserverBuiltin, 1, -2 },
     { "actxGetRunningServer", Nelson::ComEngineGateway::actxGetRunningServerBuiltin, 1, 1 },
-	{ "actxcontrollist", Nelson::ComEngineGateway::actxcontrollistBuiltin, 1, 0 },
-	{ "actxserverlist", Nelson::ComEngineGateway::actxserverlistBuiltin, 1, 0 },
-	{ "COM_disp", Nelson::ComEngineGateway::COM_dispBuiltin, 0, 1 },
+    { "actxcontrollist", Nelson::ComEngineGateway::actxcontrollistBuiltin, 1, 0 },
+    { "actxserverlist", Nelson::ComEngineGateway::actxserverlistBuiltin, 1, 0 },
+    { "COM_disp", Nelson::ComEngineGateway::COM_dispBuiltin, 0, 1 },
     { "COM_fieldnames", Nelson::ComEngineGateway::COM_fieldnamesBuiltin, 1, 1 },
     { "COM_methods", Nelson::ComEngineGateway::COM_methodsBuiltin, 1, 1 },
     { "COM_used", Nelson::ComEngineGateway::COM_usedBuiltin, 1, 1 },
@@ -58,7 +58,7 @@ static const nlsGateway gateway[] =
     { "COM_get", Nelson::ComEngineGateway::COM_getBuiltin, 1, 2 },
     { "COM_set", Nelson::ComEngineGateway::COM_setBuiltin, 1, 3 },
     { "COM_invoke", Nelson::ComEngineGateway::COM_invokeBuiltin, 1, 2 },
-	{ "COM_range", Nelson::ComEngineGateway::COM_rangeBuiltin, 1, -1 },
+    { "COM_range", Nelson::ComEngineGateway::COM_rangeBuiltin, 1, -1 },
 };
 //=============================================================================
 static bool initializeComModule(Nelson::Evaluator* eval)
