@@ -29,6 +29,12 @@ OpenBLAS
 OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version.
 http://www.openblas.net/
 
+FFTW
+FFTW is a C subroutine library for computing the discrete Fourier transform (DFT) in one or more dimensions
+http://www.fftw.org/index.html
+Free software, released under the GNU General Public License (GPL).
+Non-free licenses may also be purchased.
+
 SimpleFileWatcher
 a C++ wrapper for OS file monitoring systems
 https://github.com/apetrone/simplefilewatcher
