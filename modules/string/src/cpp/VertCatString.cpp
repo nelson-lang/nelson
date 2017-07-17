@@ -35,7 +35,6 @@ namespace Nelson {
         }
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsB = B.getDimensions();
-        void * pRes = nullptr;
         if (!A.isEmpty(true) && !B.isEmpty(true))
         {
             if (dimsA.getColumns() != dimsB.getColumns())

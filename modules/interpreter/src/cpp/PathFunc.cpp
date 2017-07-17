@@ -231,7 +231,7 @@ namespace Nelson {
     bool PathFunc::findFuncByHash(size_t hashid, std::wstring &functionName)
     {
         bool res = false;
-        for (boost::unordered_map<std::wstring, FileFunc *>::iterator it = mapFiles.begin(); it != mapFiles.end(); it++)
+        for (boost::unordered_map<std::wstring, FileFunc *>::iterator it = mapFiles.begin(); it != mapFiles.end(); ++it)
         {
             if (it->second->getHashID() == hashid)
             {

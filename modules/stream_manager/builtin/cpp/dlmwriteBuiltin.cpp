@@ -320,7 +320,7 @@ ArrayOfVector Nelson::StreamGateway::dlmwriteBuiltin(Evaluator* eval, int nLhs, 
                     }
                     param2 = resVect[0];
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     throw;
                 }

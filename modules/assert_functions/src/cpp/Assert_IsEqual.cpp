@@ -53,7 +53,7 @@ namespace Nelson {
                         Error(eval, _W("isequaln must return an logical."));
                     }
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     Error(eval, _W("isequaln returns an unexpected error."));
                 }

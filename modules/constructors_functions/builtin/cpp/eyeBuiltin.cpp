@@ -69,7 +69,7 @@ ArrayOfVector Nelson::ConstructorsGateway::eyeBuiltin(Evaluator* eval, int nLhs,
                         if (argIn.size() - 2 == 0)
                         {
                             m = 1;
-                            n = 1;
+                            //n = 1;
                         }
                         nRhs = argIn.size() - 2;
                     }

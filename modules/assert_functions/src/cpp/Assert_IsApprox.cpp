@@ -54,7 +54,7 @@ namespace Nelson {
                         Error(eval, _W("isapprox must return an logical."));
                     }
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     throw;
                 }

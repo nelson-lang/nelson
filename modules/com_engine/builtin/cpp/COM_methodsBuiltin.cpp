@@ -33,7 +33,6 @@ ArrayOfVector Nelson::ComEngineGateway::COM_methodsBuiltin(Evaluator* eval, int 
     {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    bool fullList = false;
     ArrayOfVector retval;
     ArrayOf param1 = argIn[0];
     if (!param1.isHandle())

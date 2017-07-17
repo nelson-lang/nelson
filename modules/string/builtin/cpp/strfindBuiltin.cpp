@@ -93,7 +93,7 @@ ArrayOfVector Nelson::StringGateway::strfindBuiltin(Evaluator* eval, int nLhs, c
                                 }
                                 for (size_t k = 0; k < nbElements; k++)
                                 {
-                                    ArrayOf *cellA = (ArrayOf*)(A.getDataPointer());
+                                    //ArrayOf *cellA = (ArrayOf*)(A.getDataPointer());
                                     elements[k] = StringFind(A.getContentAsWideString(), B.getContentAsWideString());
                                 }
                                 retval.push_back(ArrayOf(NLS_CELL_ARRAY, dimA, elements));

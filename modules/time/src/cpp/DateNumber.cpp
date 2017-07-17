@@ -131,7 +131,7 @@ namespace Nelson {
             std::locale(std::locale::classic(), new boost::posix_time::wtime_input_facet(L"%b.%m.%Y %H:%M:%S")),
             std::locale(std::locale::classic(), new boost::posix_time::wtime_input_facet(L"%Y-%m-%d %H:%M:%S")),
         };
-        bool haveAMPM = boost::algorithm::contains(datestring, L" AM") || boost::algorithm::contains(datestring, L" PM");
+        //bool haveAMPM = boost::algorithm::contains(datestring, L" AM") || boost::algorithm::contains(datestring, L" PM");
         bool haveAM = boost::algorithm::contains(datestring, L" AM");
         bool havePM = boost::algorithm::contains(datestring, L" PM");
         if (haveAM)

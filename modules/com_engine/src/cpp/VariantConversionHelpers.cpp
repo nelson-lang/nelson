@@ -242,7 +242,6 @@ namespace Nelson {
                             VARIANT *pvar;
                             HRESULT hr;
                             FLOAT cellVal;
-                            long arrDims[2] = {0, 0};
                             Dimensions dims(2);
                             for (int k = 0; k < dimCount; k++)
                             {
@@ -260,6 +259,7 @@ namespace Nelson {
                             }
                             else
                             {
+								long arrDims[2] = { 0, 0 };
                                 for (int dimNum = 0; dimNum < dimCount; dimNum++)
                                 {
                                     arrDims[0] = dimNum;
@@ -296,7 +296,6 @@ namespace Nelson {
                             VARIANT *pvar;
                             HRESULT hr;
                             DOUBLE cellVal;
-                            long arrDims[2] = { 0, 0 };
                             Dimensions dims(2);
                             for (int k = 0; k < dimCount; k++)
                             {
@@ -314,7 +313,8 @@ namespace Nelson {
                             }
                             else
                             {
-                                for (int dimNum = 0; dimNum < dimCount; dimNum++)
+								long arrDims[2] = { 0, 0 };
+								for (int dimNum = 0; dimNum < dimCount; dimNum++)
                                 {
                                     arrDims[0] = dimNum;
                                     for (int k = 0; k < dims.getColumns(); k++)
@@ -350,7 +350,6 @@ namespace Nelson {
                             VARIANT *pvar;
                             HRESULT hr;
                             BYTE cellVal;
-                            long arrDims[2] = { 0, 0 };
                             Dimensions dims(2);
                             for (int k = 0; k < dimCount; k++)
                             {
@@ -368,7 +367,8 @@ namespace Nelson {
                             }
                             else
                             {
-                                for (int dimNum = 0; dimNum < dimCount; dimNum++)
+								long arrDims[2] = { 0, 0 };
+								for (int dimNum = 0; dimNum < dimCount; dimNum++)
                                 {
                                     arrDims[0] = dimNum;
                                     for (int k = 0; k < dims.getColumns(); k++)
@@ -404,7 +404,6 @@ namespace Nelson {
                             VARIANT *pvar;
                             HRESULT hr;
                             SHORT cellVal;
-                            long arrDims[2] = { 0, 0 };
                             Dimensions dims(2);
                             for (int k = 0; k < dimCount; k++)
                             {
@@ -422,7 +421,8 @@ namespace Nelson {
                             }
                             else
                             {
-                                for (int dimNum = 0; dimNum < dimCount; dimNum++)
+								long arrDims[2] = { 0, 0 };
+								for (int dimNum = 0; dimNum < dimCount; dimNum++)
                                 {
                                     arrDims[0] = dimNum;
                                     for (int k = 0; k < dims.getColumns(); k++)

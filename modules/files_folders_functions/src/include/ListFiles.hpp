@@ -24,6 +24,6 @@
 #include "FileInfo.hpp"
 //=============================================================================
 namespace Nelson {
-    NLSFILES_FOLDERS_FUNCTIONS_IMPEXP boost::container::vector<FileInfo> ListFiles(const std::wstring directory, bool bSubdirectories = false);
+    NLSFILES_FOLDERS_FUNCTIONS_IMPEXP boost::container::vector<FileInfo> ListFiles(const std::wstring &directory, bool bSubdirectories = false);
 }
 //=============================================================================

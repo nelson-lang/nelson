@@ -98,7 +98,6 @@ namespace Nelson {
             case RNG_DISTRIBUTION_UNIFORM_REAL:
             {
                 // rows to columns order
-                size_t k = 0;
                 size_t p = (nbElements / lastDim);
                 for (size_t k = 0; k < p; k++)
                 {
@@ -114,7 +113,6 @@ namespace Nelson {
             case RNG_DISTRIBUTION_UNIFORM_INT:
             {
                 // rows to columns order
-                size_t k = 0;
                 size_t p = (nbElements / lastDim);
                 for (size_t k = 0; k < p; k++)
                 {
@@ -130,7 +128,6 @@ namespace Nelson {
             case RNG_DISTRIBUTION_NORMAL:
             {
                 // rows to columns order
-                size_t k = 0;
                 size_t p = (nbElements / lastDim);
                 for (size_t k = 0; k < p; k++)
                 {
@@ -153,7 +150,6 @@ namespace Nelson {
             case RNG_DISTRIBUTION_UNIFORM_REAL:
             {
                 // rows to columns order
-                size_t k = 0;
                 size_t p = (nbElements / lastDim);
                 for (size_t k = 0; k < p; k++)
                 {
@@ -169,7 +165,6 @@ namespace Nelson {
             case RNG_DISTRIBUTION_UNIFORM_INT:
             {
                 // rows to columns order
-                size_t k = 0;
                 size_t p = (nbElements / lastDim);
                 for (size_t k = 0; k < p; k++)
                 {
@@ -185,7 +180,6 @@ namespace Nelson {
             case RNG_DISTRIBUTION_NORMAL:
             {
                 // rows to columns order
-                size_t k = 0;
                 size_t p = (nbElements / lastDim);
                 for (size_t k = 0; k < p; k++)
                 {

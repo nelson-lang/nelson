@@ -97,7 +97,7 @@ namespace Nelson {
                 int err = swscanf(STR.c_str(), STR2DOUBLE_MAX_DIGIT_FORMAT, &v);
                 if (err == 1)
                 {
-                    double v2 = 0.;
+                    double v2;
                     wchar_t * pEnd = NULL;
                     v2 = wcstod(STR.c_str(), &pEnd);
                     if (pEnd != nullptr)

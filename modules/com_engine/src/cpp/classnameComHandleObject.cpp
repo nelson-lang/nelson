@@ -41,7 +41,8 @@ namespace Nelson {
         {
             return false;
         }
-        if (hr = pDisp->QueryInterface(IID_IProvideClassInfo, (void**)&ci) == S_OK)
+		hr = pDisp->QueryInterface(IID_IProvideClassInfo, (void**)&ci);
+        if (hr == S_OK)
         {
             ci->GetClassInfo(&ti);
             ci->Release();

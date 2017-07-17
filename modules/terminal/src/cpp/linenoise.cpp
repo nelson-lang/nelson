@@ -415,7 +415,6 @@ static void freeCompletions(linenoiseCompletions *lc)
 static int completeLine(struct linenoiseState *ls)
 {
     linenoiseCompletions lc = { 0, NULL };
-    int nread, nwritten;
     char c = 0;
     completionCallback(ls->buf,&lc);
     if (lc.len == 0)
@@ -442,7 +441,7 @@ static int completeLine(struct linenoiseState *ls)
             {
                 refreshLine(ls);
             }
-            nread = read(ls->ifd,&c,1);
+            int nread = read(ls->ifd,&c,1);
             if (nread <= 0)
             {
                 freeCompletions(&lc);
@@ -469,7 +468,7 @@ static int completeLine(struct linenoiseState *ls)
                     /* Update buffer and return */
                     if (i < lc.len)
                     {
-                        nwritten = snprintf(ls->buf,ls->buflen,"%s",lc.cvec[i]);
+						int nwritten = snprintf(ls->buf,ls->buflen,"%s",lc.cvec[i]);
                         ls->len = ls->pos = nwritten;
                     }
                     stop = 1;
@@ -564,13 +563,13 @@ static void abFree(struct abuf *ab)
  * to the right of the prompt. */
 void refreshShowHints(struct abuf *ab, struct linenoiseState *l, int plen)
 {
-    char seq[64];
     if (hintsCallback && plen+l->len < l->cols)
     {
         int color = -1, bold = 0;
         char *hint = hintsCallback(l->buf,&color,&bold);
         if (hint)
         {
+			char seq[64];
             int hintlen = strlen(hint);
             int hintmaxlen = l->cols-(plen+l->len);
             if (hintlen > hintmaxlen)
@@ -1450,7 +1449,7 @@ int linenoiseHistorySetMaxLen(int len)
             }
             tocopy = len;
         }
-        memset(newchar,0,sizeof(char*)*len);
+        memset(newchar, 0, sizeof(char*)*len);
         memcpy(newchar,history+(history_len-tocopy), sizeof(char*)*tocopy);
         free(history);
         history = newchar;

@@ -257,10 +257,9 @@ namespace Nelson {
         bRes = bRes  && parseOptionWithValue(timeoutOption, bFind, _timeout_str);
         if (bFind)
         {
-            long long ll = 0;
             try
             {
-                ll = boost::lexical_cast<long long>(_timeout_str);
+				long long ll = boost::lexical_cast<long long>(_timeout_str);
                 if (ll > 0)
                 {
                     _timeout = (uint64)ll;
