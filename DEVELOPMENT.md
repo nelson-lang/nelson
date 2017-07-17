@@ -34,6 +34,8 @@ You can also see [.travis.yml](https://github.com/Nelson-numerical-software/nels
         sudo apt-get install qttools5-dev-tools
         sudo apt-get install libxml2-dev
         sudo apt-get install liblapack-dev
+        sudo apt-get install fftw3;
+        sudo apt-get install fftw3-dev;
         ```
     - Creates Nelson main directory
         ```bash
@@ -90,6 +92,7 @@ You can also see [.travis.yml](https://github.com/Nelson-numerical-software/nels
         pacman -S blas
         pacman -S lapack
         pacman -S lapacke
+        pacman -S fftw
         exit
         ```
     - Creates Nelson main directory
@@ -146,6 +149,7 @@ You can also see [.travis.yml](https://github.com/Nelson-numerical-software/nels
         brew install boost
         brew install libxml2
         brew install cmake
+        brew install fftw
         ```
     - Install LAPACKE
     By default easier way is to build and install reference LAPACK library (https://github.com/Reference-LAPACK/lapack-release).

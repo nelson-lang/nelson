@@ -74,6 +74,8 @@ before_install:
       sudo apt-get install libxml2-dev;
       sudo apt-get install liblapack-dev;
       sudo apt-get install liblapacke-dev;
+      sudo apt-get install fftw3;
+      sudo apt-get install fftw3-dev;
       elif [ `uname` = "Darwin" ]; 
       then brew update;
       brew install libffi;
@@ -88,6 +90,7 @@ before_install:
       brew install libxml2;
       brew install cmake;
       brew install qt5;
+      brew install fftw;
       fi
 
 install:
