@@ -159,7 +159,7 @@ namespace Nelson {
         Scope* active;
         if (scopestack.back()->isVariablePersistent(varname))
         {
-            std::string mapName = scopestack.back()->getMangledName(varname);
+            /*std::string mapName = */scopestack.back()->getMangledName(varname);
             active = scopestack.front();
         }
         else if (scopestack.back()->isVariableGlobal(varname))

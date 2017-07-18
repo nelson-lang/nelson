@@ -139,7 +139,7 @@ namespace Nelson {
         return res;
     }
     //=============================================================================
-    boost::container::vector<FileInfo> ListFiles(const std::wstring directory, bool bSubdirectories)
+    boost::container::vector<FileInfo> ListFiles(const std::wstring &directory, bool bSubdirectories)
     {
         boost::container::vector<FileInfo> res;
         std::size_t foundstar = directory.find_first_of(L"*");

@@ -51,7 +51,7 @@ namespace Nelson {
     //=============================================================================
     double getTotalVirtualMemory()
     {
-        double res = 0L;
+        double res;
         MEMORYSTATUSEX memInfo;
         memInfo.dwLength = sizeof(MEMORYSTATUSEX);
         GlobalMemoryStatusEx(&memInfo);
@@ -62,7 +62,7 @@ namespace Nelson {
     //=============================================================================
     double getTotalVirtualMemoryUsed()
     {
-        double res = 0L;
+        double res;
         MEMORYSTATUSEX memInfo;
         memInfo.dwLength = sizeof(MEMORYSTATUSEX);
         GlobalMemoryStatusEx(&memInfo);
@@ -73,7 +73,7 @@ namespace Nelson {
     //=============================================================================
     double getTotalVirtualMemoryByNelson()
     {
-        double res = 0L;
+        double res;
         PROCESS_MEMORY_COUNTERS_EX pmc;
         GetProcessMemoryInfo(GetCurrentProcess(), (PROCESS_MEMORY_COUNTERS*)&pmc, sizeof(pmc));
         SIZE_T virtualMemUsedByMe = pmc.PrivateUsage;
@@ -83,7 +83,7 @@ namespace Nelson {
     //=============================================================================
     double getTotalPhysicalMemory()
     {
-        double res = 0L;
+        double res;
         MEMORYSTATUSEX memInfo;
         memInfo.dwLength = sizeof(MEMORYSTATUSEX);
         GlobalMemoryStatusEx(&memInfo);
@@ -94,7 +94,7 @@ namespace Nelson {
     //=============================================================================
     double getTotalPhysicalMemoryUsed()
     {
-        double res = 0L;
+        double res;
         MEMORYSTATUSEX memInfo;
         memInfo.dwLength = sizeof(MEMORYSTATUSEX);
         GlobalMemoryStatusEx(&memInfo);
@@ -105,7 +105,7 @@ namespace Nelson {
     //=============================================================================
     double getTotalPhysicalMemoryByNelson()
     {
-        double res = 0L;
+        double res;
         PROCESS_MEMORY_COUNTERS_EX pmc;
         GetProcessMemoryInfo(GetCurrentProcess(), (PROCESS_MEMORY_COUNTERS*)&pmc, sizeof(pmc));
         SIZE_T physMemUsedByMe = pmc.WorkingSetSize;
@@ -116,7 +116,7 @@ namespace Nelson {
 #else
     double getTotalVirtualMemory()
     {
-        double res = 0L;
+		double res;
 #if defined(__APPLE__) || defined(__MACH__)
         struct statfs stats;
         if (0 == statfs("/", &stats))
@@ -133,7 +133,7 @@ namespace Nelson {
     //=============================================================================
     double getTotalVirtualMemoryUsed()
     {
-        double res = 0L;
+        double res;
 #if defined(__APPLE__) || defined(__MACH__)
         xsw_usage vmusage = { 0 };
         size_t size = sizeof(vmusage);
@@ -155,7 +155,7 @@ namespace Nelson {
     //=============================================================================
     double getTotalVirtualMemoryByNelson()
     {
-        double res = 0L;
+        double res = 0;
 #if defined(__APPLE__) || defined(__MACH__)
         struct task_basic_info t_info;
         mach_msg_type_number_t t_info_count = TASK_BASIC_INFO_COUNT;
@@ -191,7 +191,7 @@ namespace Nelson {
     //=============================================================================
     double getTotalPhysicalMemory()
     {
-        double res = 0L;
+        double res;
 #if defined(__APPLE__) || defined(__MACH__)
         unsigned int physmem;
         size_t len = sizeof physmem;
@@ -211,7 +211,7 @@ namespace Nelson {
     //=============================================================================
     double getTotalPhysicalMemoryUsed()
     {
-        double res = 0L;
+        double res;
 #if defined(__APPLE__) || defined(__MACH__)
         vm_size_t page_size;
         mach_port_t mach_port;
@@ -238,7 +238,7 @@ namespace Nelson {
     //=============================================================================
     double getTotalPhysicalMemoryByNelson()
     {
-        double res = 0L;
+        double res;
 #if defined(__APPLE__) || defined(__MACH__)
         struct task_basic_info t_info;
         mach_msg_type_number_t t_info_count = TASK_BASIC_INFO_COUNT;

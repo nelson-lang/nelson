@@ -316,7 +316,6 @@ namespace Nelson {
     //=============================================================================
     bool PathFuncManager::setUserPath(const std::wstring path, bool saveToFile)
     {
-        bool res = false;
         clearUserPath();
         _userPath = new PathFunc(path);
         if (saveToFile)
@@ -341,7 +340,6 @@ namespace Nelson {
     //=============================================================================
     void PathFuncManager::resetUserPath()
     {
-        std::wstring preferedUserPath = L"";
         std::wstring prefDir = getPreferencesPath();
         std::wstring userPathFile = prefDir + L"/userpath.conf";
         try
@@ -604,7 +602,6 @@ namespace Nelson {
         }
         if (!bSet)
         {
-            std::wstring preferedUserPath = L"";
             std::wstring prefDir;
             std::wstring userPathFile;
             try
@@ -660,7 +657,6 @@ namespace Nelson {
                 if (isDir(userpathDir))
                 {
                     setUserPath(userpathDir);
-                    bSet = true;
                 }
             }
 #else
@@ -681,7 +677,6 @@ namespace Nelson {
                 if (isDir(userpathDir))
                 {
                     setUserPath(userpathDir);
-                    bSet = true;
                 }
             }
 #endif
@@ -740,7 +735,6 @@ namespace Nelson {
         {
             up = _userPath->getPath();
         }
-        std::wstring preferedUserPath = L"";
         std::wstring prefDir = getPreferencesPath();
         std::wstring userPathFile = prefDir + L"/userpath.conf";
         boost::property_tree::ptree pt;

@@ -144,7 +144,6 @@ namespace Nelson {
                 for (indexType i = 0; i < rows; i++)
                 {
                     std::wstring str;
-                    charType *buffer = nullptr;
                     const charType *qp = nullptr;
                     qp = (const charType*)dp->getData();
                     for (indexType j = 0; j < columns; j++)

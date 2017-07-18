@@ -532,7 +532,7 @@ void QtTerminal::helpOnSelection()
             {
                 eval->evaluateString(Nelson::wstring_to_utf8(cmd), true);
             }
-            catch (Exception e)
+            catch (Exception)
             {
             }
         }
