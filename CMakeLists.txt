@@ -146,6 +146,8 @@ FIND_PACKAGE(Qt5Quick REQUIRED)
 FIND_PACKAGE(Qt5PrintSupport REQUIRED)
 FIND_PACKAGE(LibXml2 REQUIRED)
 FIND_PACKAGE(icu REQUIRED)
+FIND_PACKAGE(fftw REQUIRED)
+
 #============================================================================== 
 add_definitions(-DBOOST_ALL_NO_LIB)
 add_definitions(-DBOOST_ALL_DYN_LINK)
