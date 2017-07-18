@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{59D86CCC-61D2-4BB7-80C0-E0CCB668AA7F}</ProjectGuid>
+    <ProjectGuid>{334358e4-25ea-402e-b3e4-52d4dadde077}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>nlsDouble</RootNamespace>
+    <RootNamespace>nlsFftw_builtin</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -92,10 +92,11 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSDOUBLE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSFFTW_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/double/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/fftw/builtin/include;$(SolutionDir)modules/fftw/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
+      <DisableSpecificWarnings>4190</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -109,10 +110,11 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSDOUBLE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSFFTW_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/double/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/fftw/builtin/include;$(SolutionDir)modules/fftw/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
+      <DisableSpecificWarnings>4190</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -128,10 +130,11 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSDOUBLE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSFFTW_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/double/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/fftw/builtin/include;$(SolutionDir)modules/fftw/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
+      <DisableSpecificWarnings>4190</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -149,10 +152,11 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSDOUBLE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSFFTW_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/double/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/fftw/builtin/include;$(SolutionDir)modules/fftw/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
+      <DisableSpecificWarnings>4190</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -166,15 +170,6 @@
     <ProjectReference Include="..\..\..\api_nelson\src\c\nlsApi_nelson.vcxproj">
       <Project>{1c76cdc6-19d8-429a-9ec1-817ad139f80d}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\characters_encoding\src\c\nlsCharacters_encoding.vcxproj">
-      <Project>{a75dc538-eefa-4873-888b-a034a7ee72c5}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\elementary_functions\src\c\nlsElementary_functions.vcxproj">
-      <Project>{c87973dd-f66c-4f35-b875-5e0a0a47b3e7}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\elementary_mathematics\src\c\nlsElementary_mathematics.vcxproj">
-      <Project>{84bdbee5-b19d-4529-b616-01456e6c7768}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\error_manager\src\c\nlsError_manager.vcxproj">
       <Project>{d0ef0ceb-a3bd-44ab-91b3-f33db1870f8d}</Project>
     </ProjectReference>
@@ -184,61 +179,36 @@
     <ProjectReference Include="..\..\..\interpreter\src\c\nlsInterpreter.vcxproj">
       <Project>{17135b09-bc25-448e-9750-c09a87fde6f8}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\string\src\c\nlsString.vcxproj">
-      <Project>{601eba38-309b-4b7b-919e-e736690a82b5}</Project>
+    <ProjectReference Include="..\..\..\overload\src\c\nlsOverload.vcxproj">
+      <Project>{937bee8b-e934-45f1-98ef-33aaf951e5e9}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\types\src\c\nlsTypes.vcxproj">
       <Project>{ab85e897-56b7-4792-8a8e-f3797be2b7cc}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\c\nlsFftw.vcxproj">
+      <Project>{627d8c31-de31-41ff-a562-f3f850c70e28}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\cpp\fftBuiltin.cpp" />
+    <ClCompile Include="..\cpp\Gateway.cpp" />
+    <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\fftBuiltin.hpp" />
+    <ClInclude Include="..\include\nlsFftw_builtin_exports.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\etc\finish.nls" />
+    <None Include="..\..\etc\startup.nls" />
+    <None Include="..\..\loader.nls" />
     <None Include="..\..\module.iss" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resources.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\include\ColonDouble.hpp" />
-    <ClInclude Include="..\include\DoubleDisplay.hpp" />
-    <ClInclude Include="..\include\DoubleIsEqual.hpp" />
-    <ClInclude Include="..\include\DoubleIsEqualn.hpp" />
-    <ClInclude Include="..\include\GeDouble.hpp" />
-    <ClInclude Include="..\include\GtDouble.hpp" />
-    <ClInclude Include="..\include\HorzCatDouble.hpp" />
-    <ClInclude Include="..\include\LeDouble.hpp" />
-    <ClInclude Include="..\include\LtDouble.hpp" />
-    <ClInclude Include="..\include\MinusDouble.hpp" />
-    <ClInclude Include="..\include\MtimesDouble.hpp" />
-    <ClInclude Include="..\include\NeqDouble.hpp" />
-    <ClInclude Include="..\include\nlsDouble_exports.h" />
-    <ClInclude Include="..\include\PlusDouble.hpp" />
-    <ClInclude Include="..\include\timesDouble.hpp" />
-    <ClInclude Include="..\include\ToDouble.hpp" />
-    <ClInclude Include="..\include\UminusDouble.hpp" />
-    <ClInclude Include="..\include\VertCatDouble.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\cpp\ColonDouble.cpp" />
-    <ClCompile Include="..\cpp\DoubleDisplay.cpp" />
-    <ClCompile Include="..\cpp\DoubleIsEqual.cpp" />
-    <ClCompile Include="..\cpp\DoubleIsEqualn.cpp" />
-    <ClCompile Include="..\cpp\GeDouble.cpp" />
-    <ClCompile Include="..\cpp\GtDouble.cpp" />
-    <ClCompile Include="..\cpp\HorzCatDouble.cpp" />
-    <ClCompile Include="..\cpp\LeDouble.cpp" />
-    <ClCompile Include="..\cpp\LtDouble.cpp" />
-    <ClCompile Include="..\cpp\MinusDouble.cpp" />
-    <ClCompile Include="..\cpp\MtimesDouble.cpp" />
-    <ClCompile Include="..\cpp\NeqDouble.cpp" />
-    <ClCompile Include="..\cpp\PlusDouble.cpp" />
-    <ClCompile Include="..\cpp\timesDouble.cpp" />
-    <ClCompile Include="..\cpp\ToDouble.cpp" />
-    <ClCompile Include="..\cpp\UminusDouble.cpp" />
-    <ClCompile Include="..\cpp\VertCatDouble.cpp" />
-    <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -54,6 +54,7 @@ gui
 handle
 qml_engine
 com_engine
+fftw
 help_browser
 dynamic_link
 help_tools

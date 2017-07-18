@@ -62,4 +62,5 @@ Source: {#RootPath}modules\modules.nls; DestDir: {app}\modules\;
 #include "handle/module.iss"
 #include "qml_engine/module.iss"
 #include "com_engine/module.iss"
+#include "fftw/module.iss"
 ;==============================================================================
