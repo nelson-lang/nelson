@@ -116,7 +116,7 @@ namespace Nelson {
 #else
     double getTotalVirtualMemory()
     {
-		double res;
+        double res;
 #if defined(__APPLE__) || defined(__MACH__)
         struct statfs stats;
         if (0 == statfs("/", &stats))

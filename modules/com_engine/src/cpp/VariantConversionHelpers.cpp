@@ -259,7 +259,7 @@ namespace Nelson {
                             }
                             else
                             {
-								long arrDims[2] = { 0, 0 };
+                                long arrDims[2] = { 0, 0 };
                                 for (int dimNum = 0; dimNum < dimCount; dimNum++)
                                 {
                                     arrDims[0] = dimNum;
@@ -313,8 +313,8 @@ namespace Nelson {
                             }
                             else
                             {
-								long arrDims[2] = { 0, 0 };
-								for (int dimNum = 0; dimNum < dimCount; dimNum++)
+                                long arrDims[2] = { 0, 0 };
+                                for (int dimNum = 0; dimNum < dimCount; dimNum++)
                                 {
                                     arrDims[0] = dimNum;
                                     for (int k = 0; k < dims.getColumns(); k++)
@@ -367,8 +367,8 @@ namespace Nelson {
                             }
                             else
                             {
-								long arrDims[2] = { 0, 0 };
-								for (int dimNum = 0; dimNum < dimCount; dimNum++)
+                                long arrDims[2] = { 0, 0 };
+                                for (int dimNum = 0; dimNum < dimCount; dimNum++)
                                 {
                                     arrDims[0] = dimNum;
                                     for (int k = 0; k < dims.getColumns(); k++)
@@ -421,8 +421,8 @@ namespace Nelson {
                             }
                             else
                             {
-								long arrDims[2] = { 0, 0 };
-								for (int dimNum = 0; dimNum < dimCount; dimNum++)
+                                long arrDims[2] = { 0, 0 };
+                                for (int dimNum = 0; dimNum < dimCount; dimNum++)
                                 {
                                     arrDims[0] = dimNum;
                                     for (int k = 0; k < dims.getColumns(); k++)

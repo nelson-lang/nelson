@@ -67,22 +67,21 @@ namespace Nelson {
 #else
         istream.open(wstring_to_utf8(filename));
 #endif
-        
         if (istream.is_open())
         {
-			bool firstCliTag = true;
-			bool firstAdvCliTag = true;
-			bool firstGuiTag = true;
-			bool firstNotFixedTag = true;
-			bool firstInteractiveTag = true;
-			bool firstCheckRefTag = true;
-			bool firstEnglishTag = true;
-			bool firstWindowsTag = true;
-			bool firstMacTag = true;
-			bool firstLinuxTag = true;
-			bool firstWithDisplayTag = true;
-			bool firstReleaseOnlyTag = true;
-			bool firstExcelRequiredTag = true;
+            bool firstCliTag = true;
+            bool firstAdvCliTag = true;
+            bool firstGuiTag = true;
+            bool firstNotFixedTag = true;
+            bool firstInteractiveTag = true;
+            bool firstCheckRefTag = true;
+            bool firstEnglishTag = true;
+            bool firstWindowsTag = true;
+            bool firstMacTag = true;
+            bool firstLinuxTag = true;
+            bool firstWithDisplayTag = true;
+            bool firstReleaseOnlyTag = true;
+            bool firstExcelRequiredTag = true;
             std::string line;
             while (!istream.eof())
             {

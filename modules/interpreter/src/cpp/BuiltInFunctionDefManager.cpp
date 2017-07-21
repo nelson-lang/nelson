@@ -100,10 +100,10 @@ namespace Nelson {
             {
                 BuiltInFunctionDef *p = (BuiltInFunctionDef*)(*it);
                 delete p;
-				boost::container::vector<FuncPtr>::iterator it_to_delete = it;
+                boost::container::vector<FuncPtr>::iterator it_to_delete = it;
                 clearCache();
-				builtinVector.erase(it_to_delete);
-			}
+                builtinVector.erase(it_to_delete);
+            }
         }
         return false;
     }
@@ -116,9 +116,9 @@ namespace Nelson {
             {
                 BuiltInFunctionDef *p = (BuiltInFunctionDef*)(*it);
                 delete p;
-				boost::container::vector<FuncPtr>::iterator it_to_delete = it;
-				clearCache();
-				builtinVector.erase(it_to_delete);
+                boost::container::vector<FuncPtr>::iterator it_to_delete = it;
+                clearCache();
+                builtinVector.erase(it_to_delete);
             }
         }
         return false;

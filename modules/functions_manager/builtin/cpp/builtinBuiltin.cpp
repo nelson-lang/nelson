@@ -42,10 +42,10 @@ ArrayOfVector Nelson::FunctionsGateway::builtinBuiltin(Evaluator* eval, int nLhs
         if (!found)
         {
             found = BuiltInFunctionDefManager::getInstance()->find(fh, functionname);
-			if (!found)
-			{
-				Error(eval, _W("function handle not defined."));
-			}
+            if (!found)
+            {
+                Error(eval, _W("function handle not defined."));
+            }
         }
         fname = wstring_to_utf8(functionname);
     }

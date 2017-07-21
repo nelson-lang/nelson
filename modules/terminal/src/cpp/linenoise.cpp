@@ -468,7 +468,7 @@ static int completeLine(struct linenoiseState *ls)
                     /* Update buffer and return */
                     if (i < lc.len)
                     {
-						int nwritten = snprintf(ls->buf,ls->buflen,"%s",lc.cvec[i]);
+                        int nwritten = snprintf(ls->buf,ls->buflen,"%s",lc.cvec[i]);
                         ls->len = ls->pos = nwritten;
                     }
                     stop = 1;
@@ -569,7 +569,7 @@ void refreshShowHints(struct abuf *ab, struct linenoiseState *l, int plen)
         char *hint = hintsCallback(l->buf,&color,&bold);
         if (hint)
         {
-			char seq[64];
+            char seq[64];
             int hintlen = strlen(hint);
             int hintmaxlen = l->cols-(plen+l->len);
             if (hintlen > hintmaxlen)

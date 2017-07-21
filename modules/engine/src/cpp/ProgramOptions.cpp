@@ -259,7 +259,7 @@ namespace Nelson {
         {
             try
             {
-				long long ll = boost::lexical_cast<long long>(_timeout_str);
+                long long ll = boost::lexical_cast<long long>(_timeout_str);
                 if (ll > 0)
                 {
                     _timeout = (uint64)ll;

@@ -38,29 +38,29 @@ namespace Nelson {
         {
             TYPEATTR *pAttr;
             hr = pDisp->GetTypeInfo(0, LOCALE_USER_DEFAULT, &ti);
-			if (FAILED(hr))
-			{
-				return false;
-			}
+            if (FAILED(hr))
+            {
+                return false;
+            }
             hr = ti->GetTypeAttr(&pAttr);
-			if (FAILED(hr))
-			{
-				return false;
-			}
-			for (int k = 0; k < pAttr->cFuncs; k++)
+            if (FAILED(hr))
+            {
+                return false;
+            }
+            for (int k = 0; k < pAttr->cFuncs; k++)
             {
                 FUNCDESC *pFuncDesc;
                 BSTR name;
                 hr = ti->GetFuncDesc(k, &pFuncDesc);
-				if (FAILED(hr))
-				{
-					return false;
-				}
+                if (FAILED(hr))
+                {
+                    return false;
+                }
                 hr = ti->GetDocumentation(pFuncDesc->memid, &name, NULL, NULL, NULL);
-				if (FAILED(hr))
-				{
-					return false;
-				}
+                if (FAILED(hr))
+                {
+                    return false;
+                }
                 if (pFuncDesc->invkind & (DISPATCH_METHOD))
                 {
                     std::wstring method = std::wstring(name);
@@ -93,29 +93,29 @@ namespace Nelson {
         {
             TYPEATTR *pAttr;
             hr = pDisp->GetTypeInfo(0, LOCALE_USER_DEFAULT, &ti);
-			if (FAILED(hr))
-			{
-				return false;
-			}
-			hr = ti->GetTypeAttr(&pAttr);
-			if (FAILED(hr))
-			{
-				return false;
-			}
-			for (int k = 0; k < pAttr->cFuncs; k++)
+            if (FAILED(hr))
+            {
+                return false;
+            }
+            hr = ti->GetTypeAttr(&pAttr);
+            if (FAILED(hr))
+            {
+                return false;
+            }
+            for (int k = 0; k < pAttr->cFuncs; k++)
             {
                 FUNCDESC *pFuncDesc;
                 BSTR name;
                 hr = ti->GetFuncDesc(k, &pFuncDesc);
-				if (FAILED(hr))
-				{
-					return false;
-				}
+                if (FAILED(hr))
+                {
+                    return false;
+                }
                 hr = ti->GetDocumentation(pFuncDesc->memid, &name, NULL, NULL, NULL);
-				if (FAILED(hr))
-				{
-					return false;
-				}
+                if (FAILED(hr))
+                {
+                    return false;
+                }
                 if (pFuncDesc->invkind & (DISPATCH_PROPERTYGET))
                 {
                     std::wstring method = std::wstring(name);
@@ -148,29 +148,29 @@ namespace Nelson {
         {
             TYPEATTR *pAttr;
             hr = pDisp->GetTypeInfo(0, LOCALE_USER_DEFAULT, &ti);
-			if (FAILED(hr))
-			{
-				return false;
-			}
+            if (FAILED(hr))
+            {
+                return false;
+            }
             hr = ti->GetTypeAttr(&pAttr);
-			if (FAILED(hr))
-			{
-				return false;
-			}
+            if (FAILED(hr))
+            {
+                return false;
+            }
             for (int k = 0; k < pAttr->cFuncs; k++)
             {
                 FUNCDESC *pFuncDesc;
                 BSTR name;
                 hr = ti->GetFuncDesc(k, &pFuncDesc);
-				if (FAILED(hr))
-				{
-					return false;
-				}
+                if (FAILED(hr))
+                {
+                    return false;
+                }
                 hr = ti->GetDocumentation(pFuncDesc->memid, &name, NULL, NULL, NULL);
-				if (FAILED(hr))
-				{
-					return false;
-				}
+                if (FAILED(hr))
+                {
+                    return false;
+                }
                 if (pFuncDesc->invkind & (DISPATCH_PROPERTYPUT))
                 {
                     std::wstring method = std::wstring(name);

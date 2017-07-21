@@ -70,29 +70,29 @@ namespace Nelson {
         {
             TYPEATTR *pAttr;
             hr = pVariant->pdispVal->GetTypeInfo(0, LOCALE_USER_DEFAULT, &ti);
-			if (FAILED(hr))
-			{
-				return;
-			}
+            if (FAILED(hr))
+            {
+                return;
+            }
             hr = ti->GetTypeAttr(&pAttr);
-			if (FAILED(hr))
-			{
-				return;
-			}
-			for (int k = 0; k<pAttr->cFuncs; k++)
+            if (FAILED(hr))
+            {
+                return;
+            }
+            for (int k = 0; k<pAttr->cFuncs; k++)
             {
                 FUNCDESC *pFuncDesc;
                 BSTR name;
                 hr = ti->GetFuncDesc(k, &pFuncDesc);
-				if (FAILED(hr))
-				{
-					return;
-				}
+                if (FAILED(hr))
+                {
+                    return;
+                }
                 hr = ti->GetDocumentation(pFuncDesc->memid, &name, NULL, NULL, NULL);
-				if (FAILED(hr))
-				{
-					return;
-				}
+                if (FAILED(hr))
+                {
+                    return;
+                }
                 if (pFuncDesc->invkind & (DISPATCH_METHOD))
                 {
                     std::wstring method = std::wstring(name);

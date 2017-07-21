@@ -91,7 +91,7 @@ namespace Nelson {
         }
         else
         {
-			bool bRes = false;
+            bool bRes = false;
             if (A.isSparse())
             {
                 error_message = _W("Type not managed in this case.");
