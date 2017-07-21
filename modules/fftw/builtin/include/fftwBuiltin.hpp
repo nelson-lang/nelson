@@ -16,32 +16,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <Windows.h>
+#pragma once
 //=============================================================================
-#ifdef _DEBUG
-#pragma comment(lib, "boost_system-vc140-mt-gd-1_61.lib")
-#pragma comment(lib, "boost_filesystem-vc140-mt-gd-1_61.lib")
-#else
-#pragma comment(lib, "boost_system-vc140-mt-1_61.lib")
-#pragma comment(lib, "boost_filesystem-vc140-mt-1_61.lib")
-#endif
-#pragma comment(lib, "libfftw3-3.lib")
-#pragma comment(lib, "libfftw3f-3.lib")
-#pragma comment(lib, "libfftw3l-3.lib")
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
-int WINAPI DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)
-{
-    switch (reason)
-    {
-        case DLL_PROCESS_ATTACH:
-            break;
-        case DLL_PROCESS_DETACH:
-            break;
-        case DLL_THREAD_ATTACH:
-            break;
-        case DLL_THREAD_DETACH:
-            break;
+namespace Nelson {
+    namespace FftwGateway {
+        ArrayOfVector fftwBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
     }
-    return 1;
 }
 //=============================================================================

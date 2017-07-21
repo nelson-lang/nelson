@@ -16,14 +16,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "fftBuiltin.hpp"
+#include "ifftBuiltin.hpp"
 #include "Error.hpp"
 #include "OverloadFunction.hpp"
-#include "Fft.hpp"
+#include "InverseFft.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::FftwGateway::fftBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector Nelson::FftwGateway::ifftBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (argIn.size() < 1)
@@ -44,7 +44,7 @@ ArrayOfVector Nelson::FftwGateway::fftBuiltin(Evaluator* eval, int nLhs, const A
         {
             case 1:
             {
-                res = Fft(argIn[0]);
+                res = InverseFft(argIn[0]);
             }
             break;
             case 2:
@@ -53,12 +53,12 @@ ArrayOfVector Nelson::FftwGateway::fftBuiltin(Evaluator* eval, int nLhs, const A
                 ArrayOf N = argIn[1];
                 if (N.isNumeric() && N.isEmpty())
                 {
-                    res = Fft(X);
+                    res = InverseFft(X);
                 }
                 else
                 {
                     indexType n = N.getContentAsScalarIndex(false);
-                    res = Fft(X, n);
+                    res = InverseFft(X, n);
                 }
             }
             break;
@@ -71,15 +71,15 @@ ArrayOfVector Nelson::FftwGateway::fftBuiltin(Evaluator* eval, int nLhs, const A
                 indexType n;
                 if(N.isNumeric() && N.isEmpty())
                 {
-                    // fft(X, [], dim)
+                    // ifft(X, [], dim)
                     n =  X.getDimensionLength((int)dim);
                 }
                 else
                 {
-                    // fft(X, n, dim)
+                    // ifft(X, n, dim)
                     n = N.getContentAsScalarIndex(false);
                 }
-                res = Fft(X, n, dim);
+                res = InverseFft(X, n, dim);
             }
             break;
             default:

@@ -191,7 +191,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\fftBuiltin.cpp" />
+    <ClCompile Include="..\cpp\fftwBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
+    <ClCompile Include="..\cpp\ifftBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
@@ -199,6 +201,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\fftBuiltin.hpp" />
+    <ClInclude Include="..\include\fftwBuiltin.hpp" />
+    <ClInclude Include="..\include\ifftBuiltin.hpp" />
     <ClInclude Include="..\include\nlsFftw_builtin_exports.h" />
   </ItemGroup>
   <ItemGroup>

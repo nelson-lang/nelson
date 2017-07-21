@@ -16,14 +16,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "Fftw.hpp"
+#pragma once
+//=============================================================================
+#include "nlsFftw_exports.h"
+#include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-	ArrayOf fftw(ArrayOf a)
-    {
-		return ArrayOf();
-    }
-    //=============================================================================
+	NLSFFTW_IMPEXP ArrayOf InverseFft(ArrayOf X, indexType n, indexType dim);
+	NLSFFTW_IMPEXP ArrayOf InverseFft(ArrayOf X, indexType n);
+	NLSFFTW_IMPEXP ArrayOf InverseFft(ArrayOf X);
 }
 //=============================================================================
