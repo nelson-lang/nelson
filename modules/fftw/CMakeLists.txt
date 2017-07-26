@@ -47,7 +47,6 @@ ADD_LIBRARY(
   ${module_library_name}
   SHARED 
   ${FFTW_SRC}
-  ${FFTW_LIBRARY}
 )
 #============================================================================== 
 target_link_libraries(${module_library_name}
@@ -60,6 +59,7 @@ nlsI18n
 nlsString
 nlsApi_nelson
 nlsCharacters_encoding
+${FFTW_LIBRARIES}
 )
 #============================================================================== 
 set_target_properties(${module_library_name}
