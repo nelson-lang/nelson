@@ -27,7 +27,13 @@ qobj = qml_loadfile(qml_file_ok);
 r = methods(qobj);
 assert_istrue(iscellstr(r));
 //=============================================================================
-r = methods(qobj.children(2));
+if ismac()
+  idx = 3;
+else
+  idx = 2;
+end
+//=============================================================================
+r = methods(qobj.children(idx));
 ok = 0;
 for e = r
   if strcmp(e, 'myQmlFunction1') == 1 | strcmp(e, 'myQmlFunction2') == 1 | strcmp(e, 'myQmlFunction3') == 1

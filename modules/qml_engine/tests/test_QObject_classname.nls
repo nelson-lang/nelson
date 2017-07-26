@@ -23,8 +23,17 @@ qml_file = [modulepath('qml_engine'), '/tests/test_qml_loadfile_window.qml'];
 qobj1 = qml_loadfile(qml_file);
 //=============================================================================
 assert_isequal(QObject_classname(qobj1), 'QQuickWindow');
-assert_isequal(QObject_classname(qobj1.children), 'QQuickText');
+if ismac()
+  ref = {'QQuickRootItem';'QQuickText'};
+  assert_isequal(QObject_classname(qobj1.children), ref);
+else
+  assert_isequal(QObject_classname(qobj1.children), 'QQuickText');
+end
 //=============================================================================
-assert_isequal(qobj1.className, 'QQuickWindow');
-assert_isequal(qobj1.children.className, 'QQuickText');
+if ismac()
+  assert_isequal(qobj1.className, 'QQuickWindow');
+else
+  assert_isequal(qobj1.className, 'QQuickWindow');
+  assert_isequal(qobj1.children.className, 'QQuickText');
+end
 //=============================================================================
