@@ -25,15 +25,21 @@ assert_isequal(nargout('methods'), 1);
 qml_file_ok = [modulepath('qml_engine'), '/tests/test_qml_methods.qml'];
 qobj = qml_loadfile(qml_file_ok);
 //=============================================================================
-r = ismethod(qobj.children(2), 'myQmlFunction1');
+if ismac()
+  idx = 3;
+else
+  idx = 2;
+end
+//=============================================================================
+r = ismethod(qobj.children(idx), 'myQmlFunction1');
 assert_istrue(r);
-r = ismethod(qobj.children(2), 'myQmlFunction2');
+r = ismethod(qobj.children(idx), 'myQmlFunction2');
 assert_istrue(r);
-r = ismethod(qobj.children(2), 'myQmlFunction3');
+r = ismethod(qobj.children(idx), 'myQmlFunction3');
 assert_istrue(r);
-r = ismethod(qobj.children(2), 'myQmlFunction4');
+r = ismethod(qobj.children(idx), 'myQmlFunction4');
 assert_istrue(r);
-r = ismethod(qobj.children(2), 'myQmlFunction5');
+r = ismethod(qobj.children(idx), 'myQmlFunction5');
 assert_isfalse(r);
 //=============================================================================
 delete(qobj);

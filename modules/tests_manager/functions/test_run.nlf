@@ -402,8 +402,10 @@ endfunction
 function res = haveDisplay()
   res = true;
   if ~ispc()
-    DISPLAY_ENV = getenv('DISPLAY');
-    res = ~strcmp(DISPLAY_ENV, '');
+    if ~ismac()
+      DISPLAY_ENV = getenv('DISPLAY');
+      res = ~strcmp(DISPLAY_ENV, '');
+    end
   end
 endfunction
 //=============================================================================
