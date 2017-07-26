@@ -23,6 +23,7 @@ set(module_library_builtin_name ${module_library_name}_builtin)
 include_directories(
 ${EIGEN3_INCLUDE_DIR}
 ${Boost_INCLUDE_DIRS}
+${FFTW_INCLUDES}
 ${CMAKE_CURRENT_SOURCE_DIR}/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_mathematics/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_functions/src/include
@@ -46,6 +47,7 @@ ADD_LIBRARY(
   ${module_library_name}
   SHARED 
   ${FFTW_SRC}
+  ${FFTW_LIBRARY}
 )
 #============================================================================== 
 target_link_libraries(${module_library_name}
