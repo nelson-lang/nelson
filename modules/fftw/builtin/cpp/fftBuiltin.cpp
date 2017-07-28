@@ -72,7 +72,14 @@ ArrayOfVector Nelson::FftwGateway::fftBuiltin(Evaluator* eval, int nLhs, const A
                 if(N.isNumeric() && N.isEmpty())
                 {
                     // fft(X, [], dim)
-                    n =  X.getDimensionLength((int)dim);
+					if (X.isScalar())
+					{
+						n = 1;
+					}
+					else
+					{
+						n = X.getDimensionLength((int)dim);
+					}
                 }
                 else
                 {

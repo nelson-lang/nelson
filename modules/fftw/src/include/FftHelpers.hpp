@@ -32,9 +32,9 @@ namespace Nelson {
 	    HYBRID
 	};
 	//=============================================================================
-	indexType computeDim(ArrayOf X);
-	ArrayOf scomplexFFTW(ArrayOf X, indexType n, indexType dim, bool asInverse);
-	ArrayOf dcomplexFFTW(ArrayOf X, indexType n, indexType dim, bool asInverse);
+	indexType computeDim(const ArrayOf X);
+	ArrayOf scomplexFFTW(const ArrayOf X, indexType n, indexType dim, bool asInverse);
+	ArrayOf dcomplexFFTW(const ArrayOf X, indexType n, indexType dim, bool asInverse);
 	//=============================================================================
 	NLSFFTW_IMPEXP std::wstring getDoubleWisdomInformation();
 	NLSFFTW_IMPEXP std::wstring getSingleWisdomInformation();

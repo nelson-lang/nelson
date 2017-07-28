@@ -298,6 +298,7 @@ namespace Nelson {
 		}
 		delete[] buffer;
 		buffer = nullptr;
+		outDim.simplify();
 		ArrayOf res = ArrayOf(NLS_SCOMPLEX, outDim, ob);
 		if (res.allReal())
 		{
@@ -361,6 +362,7 @@ namespace Nelson {
 		}
 		delete[] buffer;
 		buffer = nullptr;
+		outDim.simplify();
 		ArrayOf res = ArrayOf(NLS_DCOMPLEX, outDim, ob);
 		if (res.allReal())
 		{
@@ -369,14 +371,22 @@ namespace Nelson {
 		return res;
 	}
 	//=============================================================================
-	indexType computeDim(ArrayOf X)
+	indexType computeDim(const ArrayOf X)
 	{
-		Dimensions dimsX = X.getDimensions();
 		indexType d = 0;
-		indexType len = dimsX.getLength();
-		while (dimsX[d] == 1 && d < len)
+		if (X.isScalar())
 		{
-			d++;
+			d = 1;
+		}
+		else
+		{
+			Dimensions dimsX = Dimensions(X.getDimensions());
+			indexType len = dimsX.getLength();
+			while (dimsX[d] == 1 && d < len)
+			{
+				d++;
+			}
+			dimsX.simplify();
 		}
 		return d;
 	}

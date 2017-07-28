@@ -31,7 +31,7 @@ namespace Nelson {
         }
         if (X.isScalar() || X.isEmpty())
         {
-            return X;
+            return ArrayOf(X);
         }
         Class classX = X.getDataClass();
         if (classX <= NLS_SCOMPLEX && classX != NLS_DOUBLE)
