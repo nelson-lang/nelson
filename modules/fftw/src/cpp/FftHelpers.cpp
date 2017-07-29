@@ -16,6 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#define _CRT_SECURE_NO_WARNINGS
 #include <fftw3.h>
 #include "FftHelpers.hpp"
 #include "characters_encoding.hpp"
@@ -394,16 +395,30 @@ namespace Nelson {
 	std::wstring getDoubleWisdomInformation()
 	{
 		char *buffer = fftw_export_wisdom_to_string();
-		std::wstring res = utf8_to_wstring(buffer);
-		free(buffer);
+		std::wstring res;
+		if (buffer)
+		{
+			res = utf8_to_wstring(buffer);
+			/* According to the FFTW documentation, we should free 'buffer'
+			   string but doing makes Nelson crash :( !!!
+			*/
+			// free(buffer);
+		}
 		return res;
 	}
 	//=============================================================================
 	std::wstring getSingleWisdomInformation()
 	{
 		char *buffer = fftwf_export_wisdom_to_string();
-		std::wstring res = utf8_to_wstring(buffer);
-		free(buffer);
+		std::wstring res;
+		if (buffer)
+		{
+			res = utf8_to_wstring(buffer);
+			/* According to the FFTW documentation, we should free 'buffer'
+			string but doing makes Nelson crash :( !!!
+			*/
+			// free(buffer);
+		}
 		return res;
 	}
 	//=============================================================================

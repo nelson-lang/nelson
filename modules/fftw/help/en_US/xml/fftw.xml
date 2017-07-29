@@ -58,11 +58,9 @@
     <example_item_description></example_item_description>
     <example_item_data><![CDATA[w = fftw('dwisdom')
 M = rand(1000);
-tic; fft(X); toc
+tic; fft(M); toc
 fftw('dwisdom', w)
-tic; fft(X); toc
-
-]]>
+tic; fft(M); toc]]>
     </example_item_data>
   </example_item>
 

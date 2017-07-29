@@ -1,0 +1,62 @@
+//=============================================================================
+// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+assert_isequal(nargin('fftw'), 2);
+assert_isequal(nargout('fftw'), 1);
+//=============================================================================
+m = fftw('planner');
+assert_isequal(m, 'estimate');
+//=============================================================================
+fftw('planner', 'estimate');
+m = fftw('planner');
+assert_isequal(m, 'estimate');
+//=============================================================================
+fftw('planner', 'measure');
+m = fftw('planner');
+assert_isequal(m, 'measure');
+//=============================================================================
+fftw('planner', 'patient');
+m = fftw('planner');
+assert_isequal(m, 'patient');
+//=============================================================================
+fftw('planner', 'exhaustive');
+m = fftw('planner');
+assert_isequal(m, 'exhaustive');
+//=============================================================================
+fftw('planner', 'hybrid');
+m = fftw('planner');
+assert_isequal(m, 'hybrid');
+//=============================================================================
+fftw('planner', []);
+m = fftw('planner');
+assert_isequal(m, 'estimate');
+//=============================================================================
+wd = fftw('dwisdom')
+assert_istrue(strncmp(wd, '(fftw-', 6));
+//=============================================================================
+ws= fftw('swisdom')
+assert_istrue(strncmp(ws, '(fftw-', 6));
+//=============================================================================
+fftw('dwisdom', []);
+fftw('swisdom', []);
+//=============================================================================
+ws2= fftw('swisdom');
+wd2= fftw('dwisdom');
+assert_isequal(wd, wd2);
+assert_isequal(ws, ws2);
+//=============================================================================

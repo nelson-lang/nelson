@@ -118,19 +118,19 @@ ArrayOfVector Nelson::FftwGateway::fftwBuiltin(Evaluator* eval, int nLhs, const 
 				{
 					setPlannerInformation(FftPlannerMethod::ESTIMATE);
 				}
-				else if (fieldname == L"measure")
+				else if (fieldvalue == L"measure")
 				{
 					setPlannerInformation(FftPlannerMethod::MEASURE);
 				}
-				else if (fieldname == L"patient")
+				else if (fieldvalue == L"patient")
 				{
 					setPlannerInformation(FftPlannerMethod::PATIENT);
 				}
-				else if (fieldname == L"exhaustive")
+				else if (fieldvalue == L"exhaustive")
 				{
 					setPlannerInformation(FftPlannerMethod::EXHAUSTIVE);
 				}
-				else if (fieldname == L"hybrid")
+				else if (fieldvalue == L"hybrid")
 				{
 					setPlannerInformation(FftPlannerMethod::HYBRID);
 				}
