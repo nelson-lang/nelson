@@ -18,6 +18,9 @@
 ;==============================================================================
 #define MODULE_NAME "fftw"
 ;==============================================================================
+Source: {#RootPath}bin\{#BinPath}\libfftw3f-3.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\libfftw3-3.dll; DestDir: {app}\bin\{#BinPath}\;
+;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\libnlsFftw.dll; DestDir: {app}\bin\{#BinPath}\;
 Source: {#RootPath}bin\{#BinPath}\libnlsFftw_builtin.dll; DestDir: {app}\bin\{#BinPath}\;
 ;==============================================================================
