@@ -18,7 +18,8 @@
 //=============================================================================
 #include "ctransposeBuiltin.hpp"
 #include "Error.hpp"
-#include "OverloadUnaryOperator.hpp"
+#include "OverloadFunction.hpp"
+#include "ComplexTranspose.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -29,7 +30,12 @@ ArrayOfVector Nelson::ElementaryFunctionsGateway::ctransposeBuiltin(Evaluator* e
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    retval.push_back(OverloadUnaryOperator(eval, argIn[0], "ctranspose"));
+	bool bSuccess = false;
+	retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+	if (!bSuccess)
+	{
+		retval.push_back(ComplexTranspose(argIn[0]));
+	}
     return retval;
 }
 //=============================================================================

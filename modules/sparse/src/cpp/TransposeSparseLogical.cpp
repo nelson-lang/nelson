@@ -16,26 +16,40 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "transposeBuiltin.hpp"
-#include "Error.hpp"
-#include "Transpose.hpp"
-#include "OverloadFunction.hpp"
+#include <Eigen/Dense>
+#include <Eigen/Sparse>
+#include "TransposeSparseLogical.hpp"
 //=============================================================================
-using namespace Nelson;
-//=============================================================================
-ArrayOfVector Nelson::ElementaryFunctionsGateway::transposeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    ArrayOfVector retval;
-    if (argIn.size() != 1)
+namespace Nelson {
+    //=============================================================================
+    ArrayOf TransposeSparseLogical(ArrayOf A)
     {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        ArrayOf C;
+		if (A.isEmpty())
+		{
+			Dimensions dimsC(A.getDimensions().getColumns(), A.getDimensions().getRows());
+			C = ArrayOf(NLS_LOGICAL, dimsC, (void*)nullptr, true);
+		}
+		else
+		{
+			Eigen::SparseMatrix<logical, 0, signedIndexType> *spMatA = (Eigen::SparseMatrix<logical, 0, signedIndexType> *)A.getSparseDataPointer();
+			Eigen::SparseMatrix<logical, 0, signedIndexType> *spMatC;
+			try
+			{
+				spMatC = new Eigen::SparseMatrix<logical, 0, signedIndexType>(spMatA->cols(), spMatA->rows());
+			}
+			catch (std::bad_alloc &e)
+			{
+				e.what();
+				spMatC = nullptr;
+				throw Exception(ERROR_MEMORY_ALLOCATION);
+			}
+			*spMatC = spMatA->transpose();
+			Dimensions dimsC = Dimensions(spMatC->rows(), spMatC->cols());
+			C = ArrayOf(NLS_LOGICAL, dimsC, (void*)spMatC, true);
+		}
+        return C;
     }
-	bool bSuccess = false;
-	retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
-	if (!bSuccess)
-	{
-		retval.push_back(Transpose(argIn[0]));
-	}
-	return retval;
+    //=============================================================================
 }
 //=============================================================================

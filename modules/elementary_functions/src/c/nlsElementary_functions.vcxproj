@@ -183,6 +183,7 @@
     <ClInclude Include="..\..\src\include\RightDivide.hpp" />
     <ClInclude Include="..\..\src\include\Transpose.hpp" />
     <ClInclude Include="..\include\ComplexConstructor.hpp" />
+    <ClInclude Include="..\include\ComplexTranspose.hpp" />
     <ClInclude Include="..\include\ConcatenateNdArray.hpp" />
     <ClInclude Include="..\include\ImagPart.hpp" />
     <ClInclude Include="..\include\IsApprox.hpp" />
@@ -196,6 +197,7 @@
     <ClCompile Include="..\cpp\And.cpp" />
     <ClCompile Include="..\cpp\ComplexConstructor.cpp" />
     <ClCompile Include="..\cpp\ConcatenateNdArray.cpp" />
+    <ClCompile Include="..\cpp\ComplexTranspose.cpp" />
     <ClCompile Include="..\cpp\DotLeftDivide.cpp" />
     <ClCompile Include="..\cpp\DotPower.cpp" />
     <ClCompile Include="..\cpp\DotRightDivide.cpp" />

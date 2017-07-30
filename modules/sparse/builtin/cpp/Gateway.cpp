@@ -34,6 +34,8 @@
 #include "sparselogical_vertcat_sparselogicalBuiltin.hpp"
 #include "sparselogical_ctransposeBuiltin.hpp"
 #include "sparsedouble_ctransposeBuiltin.hpp"
+#include "sparselogical_transposeBuiltin.hpp"
+#include "sparsedouble_transposeBuiltin.hpp"
 #include "nnzBuiltin.hpp"
 #include "nzmaxBuiltin.hpp"
 //=============================================================================
@@ -63,6 +65,9 @@ static const nlsGateway gateway[] =
     { "sparsedouble_ctranspose", Nelson::SparseGateway::sparsedouble_ctransposeBuiltin, 1, 1 },
     { "nnz", Nelson::SparseGateway::nnzBuiltin, 1, 1 },
     { "nzmax", Nelson::SparseGateway::nzmaxBuiltin, 1, 1 },
+	{ "sparselogical_transpose", Nelson::SparseGateway::sparselogical_transposeBuiltin, 1, 1 },
+	{ "sparsedouble_transpose", Nelson::SparseGateway::sparsedouble_transposeBuiltin, 1, 1 },
+
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

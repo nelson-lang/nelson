@@ -129,7 +129,7 @@ namespace Nelson {
             Month[k] = v;
             v++;
         }
-        Dimensions dimCal(NBR_WEEK_IN_A_MONTH_MAX, NBR_DAY_IN_A_WEEK);
+        Dimensions dimCal(NBR_DAY_IN_A_WEEK, NBR_WEEK_IN_A_MONTH_MAX);
         ArrayOf Cal = ArrayOf(NLS_DOUBLE, dimCal, Month);
         return Transpose(Cal);
     }

@@ -2,6 +2,8 @@
 Features:
 ---------
 
+* transpose and complex conjugate transpose manage all types of available in Nelson.
+
 * FFTW module:
   * fft function based on FFTW library
   * ifft function based on FFTW library

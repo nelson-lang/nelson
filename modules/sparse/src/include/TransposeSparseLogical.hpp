@@ -16,26 +16,12 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "transposeBuiltin.hpp"
-#include "Error.hpp"
-#include "Transpose.hpp"
-#include "OverloadFunction.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "nlsSparse_exports.h"
+#include "ArrayOf.hpp"
 //=============================================================================
-ArrayOfVector Nelson::ElementaryFunctionsGateway::transposeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    ArrayOfVector retval;
-    if (argIn.size() != 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-	bool bSuccess = false;
-	retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
-	if (!bSuccess)
-	{
-		retval.push_back(Transpose(argIn[0]));
-	}
-	return retval;
+namespace Nelson {
+    NLSSPARSE_IMPEXP ArrayOf TransposeSparseLogical(ArrayOf A);
 }
 //=============================================================================
