@@ -16,5 +16,33 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-addgateway(modulepath(nelsonroot(), 'fftw', 'builtin'));
-addpath(modulepath(nelsonroot(), 'fftw', 'functions'))
+function Y = fftn(varargin)
+  // N-D fast Fourier transform
+  // Y = fftn(X)
+  // Y = fftn(X, dims)
+  
+  if ~(nargin() == 1 | nargin() == 2)
+    error(_('Wrong number of input arguments.'));
+  end
+  X = varargin{1};
+  if nargin() == 2
+    dims = varargin{2};
+  else
+    dims = size(X);
+  end
+  dims = dims(:)';
+  if (numel(dims) < ndims(X))
+    points = size(X);
+    dims = [dims, points((numel(dims) + 1):end)];
+  end
+  Y = X;
+  if ~issingle(Y)
+    Y = double(Y);
+   end
+   if (numel(Y) ~= 0)
+     for n=1:numel(dims)
+       Y = fft(Y, dims(n), n);
+     end
+    end
+endfunction
+//=============================================================================
