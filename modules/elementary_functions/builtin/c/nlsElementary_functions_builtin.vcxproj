@@ -171,6 +171,7 @@
     <ClCompile Include="..\cpp\ceilBuiltin.cpp" />
     <ClCompile Include="..\cpp\colonBuiltin.cpp" />
     <ClCompile Include="..\cpp\complexBuiltin.cpp" />
+    <ClCompile Include="..\cpp\conjBuiltin.cpp" />
     <ClCompile Include="..\cpp\ctransposeBuiltin.cpp" />
     <ClCompile Include="..\cpp\dispBuiltin.cpp" />
     <ClCompile Include="..\cpp\eqBuiltin.cpp" />
@@ -246,6 +247,7 @@
     <ClInclude Include="..\include\ceilBuiltin.hpp" />
     <ClInclude Include="..\include\colonBuiltin.hpp" />
     <ClInclude Include="..\include\complexBuiltin.hpp" />
+    <ClInclude Include="..\include\conjBuiltin.hpp" />
     <ClInclude Include="..\include\ctransposeBuiltin.hpp" />
     <ClInclude Include="..\include\dispBuiltin.hpp" />
     <ClInclude Include="..\include\eqBuiltin.hpp" />

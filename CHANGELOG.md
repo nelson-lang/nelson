@@ -2,6 +2,8 @@
 Features:
 ---------
 
+* conj : complex conjugate builtin added.
+
 * transpose and complex conjugate transpose manage all types of available in Nelson.
 
 * FFTW module:

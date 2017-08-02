@@ -182,6 +182,7 @@
     <ClInclude Include="..\..\src\include\Power.hpp" />
     <ClInclude Include="..\..\src\include\RightDivide.hpp" />
     <ClInclude Include="..\..\src\include\Transpose.hpp" />
+    <ClInclude Include="..\include\ComplexConjugate.hpp" />
     <ClInclude Include="..\include\ComplexConstructor.hpp" />
     <ClInclude Include="..\include\ComplexTranspose.hpp" />
     <ClInclude Include="..\include\ConcatenateNdArray.hpp" />
@@ -195,6 +196,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\And.cpp" />
+    <ClCompile Include="..\cpp\ComplexConjugate.cpp" />
     <ClCompile Include="..\cpp\ComplexConstructor.cpp" />
     <ClCompile Include="..\cpp\ConcatenateNdArray.cpp" />
     <ClCompile Include="..\cpp\ComplexTranspose.cpp" />
