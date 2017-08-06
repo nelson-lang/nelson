@@ -46,8 +46,16 @@ namespace Nelson {
             if (mainEvaluator == nullptr)
             {
                 std::wstring effectiveLang = Localization::Instance()->initializeLocalization(lang);
-                Context *context = new Context;
-                if (context)
+                Context *context;
+				try
+				{
+					context = new Context;
+				}
+				catch (std::bad_alloc &)
+				{
+					context = nullptr;
+				}
+                if (context != nullptr)
                 {
                     mainEvaluator = new Evaluator(context, io, _mode);
                     Localization::Instance()->setLanguage(effectiveLang, false);
@@ -61,31 +69,54 @@ namespace Nelson {
     {
         if (mainEvaluator == nullptr)
         {
-            Context *context = new Context;
-            std::wstring effectiveLang = Localization::Instance()->initializeLocalization(lang);
+            Context *context;
+			try
+			{
+				context = new Context;
+			}
+			catch (std::bad_alloc &)
+			{
+				context = nullptr;
+			}
+			std::wstring effectiveLang = Localization::Instance()->initializeLocalization(lang);
             if (context)
             {
                 switch (_mode)
                 {
                     case BASIC_ENGINE:
                     {
-                        fprintf(stderr, _("This mode is not yet implemented.\n").c_str());
+                        fprintf(stderr, "%s", _("This mode is not yet implemented.\n").c_str());
                         exit(1);
                     }
                     break;
                     case ADVANCED_ENGINE:
                     {
                         InitGuiObjectsDynamic();
-                        fprintf(stderr, _("This mode is not yet implemented.\n").c_str());
+                        fprintf(stderr, "%s", _("This mode is not yet implemented.\n").c_str());
                         exit(1);
                     }
                     break;
                     case BASIC_TERMINAL:
                     {
-                        BasicTerminal *nlsTerm = new BasicTerminal();
+                        BasicTerminal *nlsTerm;
+						try
+						{
+							nlsTerm = new BasicTerminal();
+						}
+						catch (std::bad_alloc)
+						{
+							nlsTerm = nullptr;
+						}
                         if (nlsTerm)
                         {
-                            mainEvaluator = new Evaluator(context, nlsTerm, _mode);
+							try
+							{
+								mainEvaluator = new Evaluator(context, nlsTerm, _mode);
+							}
+							catch (std::bad_alloc &)
+							{
+								mainEvaluator = nullptr;
+							}
                             mainEvaluator->mainGuiObject = nullptr;
                         }
                     }
@@ -94,13 +125,36 @@ namespace Nelson {
                     {
                         InitGuiObjectsDynamic();
 #ifdef _MSC_VER
-                        WindowsConsole *nlsTerm = new WindowsConsole();
+                        WindowsConsole *nlsTerm;
+						try
+						{
+							nlsTerm = new WindowsConsole();
+						}
+						catch (std::bad_alloc)
+						{
+							nlsTerm = nullptr;
+						}
 #else
-                        BsdTerminal *nlsTerm = new BsdTerminal();
+                        BsdTerminal *nlsTerm;
+						try
+						{
+							nlsTerm = new BsdTerminal();
+						}
+						catch (std::bad_alloc)
+						{
+							nlsTerm = nullptr;
+						}
 #endif
-                        if (nlsTerm)
+                        if (nlsTerm != nullptr)
                         {
-                            mainEvaluator = new Evaluator(context, nlsTerm, _mode);
+							try
+							{
+								mainEvaluator = new Evaluator(context, nlsTerm, _mode);
+							}
+							catch (std::bad_alloc &)
+							{
+								mainEvaluator = nullptr;
+							}
                         }
                     }
                     break;
@@ -112,7 +166,7 @@ namespace Nelson {
                     break;
                     default:
                     {
-                        fprintf(stderr, _("unknow engine.\n").c_str());
+                        fprintf(stderr, "%s", _("unknow engine.\n").c_str());
                         exit(1);
                     }
                     break;

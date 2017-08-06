@@ -67,7 +67,7 @@ namespace Nelson {
         }
         if (bSorted)
         {
-            std::sort(strList.begin(), strList.begin());
+            std::sort(strList.begin(), strList.end());
         }
         return strList;
     }

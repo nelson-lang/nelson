@@ -134,6 +134,7 @@ namespace Nelson {
                                 }
                                 catch (std::out_of_range&)
                                 {
+									w = result;
                                 }
                                 std::string u = wstring_to_utf8(w);
                                 int64 nseek = (int64)u.length();

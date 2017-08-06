@@ -235,8 +235,16 @@ namespace Nelson {
     bool PathFuncManager::addPath(const std::wstring path, bool begin)
     {
         bool res = false;
-        PathFunc *pf = new PathFunc(path);
-        if (pf)
+        PathFunc *_pf;
+		try
+		{
+			_pf = new PathFunc(path);
+		}
+		catch (std::bad_alloc)
+		{
+			_pf = nullptr;
+		}
+        if (_pf != nullptr)
         {
             for (boost::container::vector<PathFunc *>::iterator it = _pathFuncVector.begin(); it != _pathFuncVector.end(); ++it)
             {
@@ -246,17 +254,18 @@ namespace Nelson {
                     boost::filesystem::path p1 {pf->getPath()}, p2 {path};
                     if (boost::filesystem::equivalent(p1, p2))
                     {
+						delete _pf;
                         return true;
                     }
                 }
             }
             if (begin)
             {
-                _pathFuncVector.insert(_pathFuncVector.begin(), pf);
+                _pathFuncVector.insert(_pathFuncVector.begin(), _pf);
             }
             else
             {
-                _pathFuncVector.push_back(pf);
+                _pathFuncVector.push_back(_pf);
             }
             res = true;
         }

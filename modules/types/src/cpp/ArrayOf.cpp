@@ -101,7 +101,7 @@ namespace Nelson {
         {
             sprintf(tbuf,"   NaN");
         }
-        else if ( (fabs(num)>=0.1f && fabs(num)<1.0f) || num == 0.0f)
+        else if ( (fabs(num)>=0.1f && fabs(num)<1.0f) || num <= std::numeric_limits<single>::epsilon())
         {
             sprintf(tbuf,"  %0.15f",num);
         }
@@ -150,7 +150,7 @@ namespace Nelson {
         {
             sprintf(tbuf,"   NaN");
         }
-        else if ((fabs(num)>=0.1f && fabs(num)<1.0f) || num == 0.0f)
+        else if ((fabs(num)>=0.1f && fabs(num)<1.0f) || num <= std::numeric_limits<single>::epsilon())
         {
             sprintf(tbuf,"  %0.8f",num);
         }
@@ -1433,10 +1433,10 @@ namespace Nelson {
                 caseMacro(NLS_INT32,int32,qp[i]==0);
                 caseMacro(NLS_UINT64, uint64, qp[i] == 0);
                 caseMacro(NLS_INT64, int64, qp[i] == 0);
-                caseMacro(NLS_SINGLE,float,qp[i]==0.0f);
-                caseMacro(NLS_DOUBLE,double,qp[i]==0.0);
-                caseMacro(NLS_SCOMPLEX,float,qp[i<<1]==0.0f);
-                caseMacro(NLS_DCOMPLEX,double,qp[i<<1]==0.0);
+                caseMacro(NLS_SINGLE,float,qp[i] <= std::numeric_limits<single>::epsilon());
+                caseMacro(NLS_DOUBLE,double,qp[i] <= std::numeric_limits<double>::epsilon());
+                caseMacro(NLS_SCOMPLEX,float,qp[i<<1] <= std::numeric_limits<single>::epsilon());
+                caseMacro(NLS_DCOMPLEX,double,qp[i<<1] <= std::numeric_limits<double>::epsilon());
             default:
                 throw Exception(_W("Unable to convert variable type to test for if/while statement"));
         }
@@ -1497,6 +1497,12 @@ namespace Nelson {
         bool retval = false;
         switch(x.dp->dataClass)
         {
+		case NLS_CELL_ARRAY:
+		case NLS_CHAR:
+		case NLS_HANDLE:
+		case NLS_STRUCT_ARRAY:
+			retval = false;
+			break;
                 caseMacroReal(NLS_LOGICAL,logical);
                 caseMacroReal(NLS_UINT8,uint8);
                 caseMacroReal(NLS_INT8,int8);
@@ -1941,6 +1947,12 @@ break;
                         caseMacro(NLS_DOUBLE,double,qp[i] = (double) sp[i]);
                         caseMacro(NLS_SCOMPLEX,float,qp[i<<1] = (float) sp[i]);
                         caseMacro(NLS_DCOMPLEX,double,qp[i<<1] = (double) sp[i]);
+						default:
+						{
+
+						}
+						break;
+
                 }
             }
             break;
@@ -1962,6 +1974,12 @@ break;
                         caseMacro(NLS_DOUBLE,double,qp[i] = (double) sp[i]);
                         caseMacro(NLS_SCOMPLEX,float,qp[i<<1] = (float) sp[i]);
                         caseMacro(NLS_DCOMPLEX,double,qp[i<<1] = (double) sp[i]);
+				default:
+				{
+
+				}
+				break;
+
                 }
             }
             break;
@@ -1983,6 +2001,12 @@ break;
                         caseMacro(NLS_DOUBLE,double,qp[i] = (double) sp[i]);
                         caseMacro(NLS_SCOMPLEX,float,qp[i<<1] = (float) sp[i]);
                         caseMacro(NLS_DCOMPLEX,double,qp[i<<1] = (double) sp[i]);
+				default:
+				{
+
+				}
+				break;
+
                 }
             }
             break;
@@ -2004,6 +2028,12 @@ break;
                         caseMacro(NLS_DOUBLE,double,qp[i] = (double) sp[i]);
                         caseMacro(NLS_SCOMPLEX,float,qp[i<<1] = (float) sp[i]);
                         caseMacro(NLS_DCOMPLEX,double,qp[i<<1] = (double) sp[i]);
+				default:
+				{
+
+				}
+				break;
+
                 }
             }
             break;
@@ -2025,6 +2055,12 @@ break;
                         caseMacro(NLS_DOUBLE,double,qp[i] = (double) sp[i]);
                         caseMacro(NLS_SCOMPLEX,float,qp[i<<1] = (float) sp[i]);
                         caseMacro(NLS_DCOMPLEX,double,qp[i<<1] = (double) sp[i]);
+				default:
+				{
+
+				}
+				break;
+
                 }
             }
             break;
@@ -2046,6 +2082,12 @@ break;
                         caseMacro(NLS_DOUBLE,double,qp[i] = (double) sp[i]);
                         caseMacro(NLS_SCOMPLEX,float,qp[i<<1] = (float) sp[i]);
                         caseMacro(NLS_DCOMPLEX,double,qp[i<<1] = (double) sp[i]);
+				default:
+				{
+
+				}
+				break;
+
                 }
             }
             break;
@@ -2067,6 +2109,12 @@ break;
                         caseMacro(NLS_DOUBLE,double,qp[i] = (double) sp[i]);
                         caseMacro(NLS_SCOMPLEX,float,qp[i<<1] = (float) sp[i]);
                         caseMacro(NLS_DCOMPLEX,double,qp[i<<1] = (double) sp[i]);
+				default:
+				{
+
+				}
+				break;
+
                 }
             }
             break;
@@ -2088,6 +2136,12 @@ break;
                         caseMacro(NLS_DOUBLE,double,qp[i] = (double) sp[i]);
                         caseMacro(NLS_SCOMPLEX,float,qp[i<<1] = (float) sp[i]);
                         caseMacro(NLS_DCOMPLEX,double,qp[i<<1] = (double) sp[i]);
+				default:
+				{
+
+				}
+				break;
+
                 }
             }
             break;
@@ -2109,6 +2163,12 @@ break;
                         caseMacro(NLS_DOUBLE, double, qp[i] = (double)sp[i]);
                         caseMacro(NLS_SCOMPLEX, float, qp[i << 1] = (float)sp[i]);
                         caseMacro(NLS_DCOMPLEX, double, qp[i << 1] = (double)sp[i]);
+				default:
+				{
+
+				}
+				break;
+
                 }
             }
             break;
@@ -2130,6 +2190,12 @@ break;
                         caseMacro(NLS_DOUBLE, double, qp[i] = (double)sp[i]);
                         caseMacro(NLS_SCOMPLEX, float, qp[i << 1] = (float)sp[i]);
                         caseMacro(NLS_DCOMPLEX, double, qp[i << 1] = (double)sp[i]);
+				default:
+				{
+
+				}
+				break;
+
                 }
             }
             break;
@@ -2151,6 +2217,12 @@ break;
                         caseMacro(NLS_DOUBLE,double,qp[i] = (double) sp[i]);
                         caseMacro(NLS_SCOMPLEX,float,qp[i<<1] = (float) sp[i]);
                         caseMacro(NLS_DCOMPLEX,double,qp[i<<1] = (double) sp[i]);
+				default:
+				{
+
+				}
+				break;
+
                 }
             }
             break;
@@ -2172,6 +2244,12 @@ break;
                         caseMacro(NLS_SINGLE,float,qp[i] = (float) sp[i]);
                         caseMacro(NLS_SCOMPLEX,float,qp[i<<1] = (float) sp[i]);
                         caseMacro(NLS_DCOMPLEX,double,qp[i<<1] = (double) sp[i]);
+				default:
+				{
+
+				}
+				break;
+
                 }
             }
             break;
@@ -2201,6 +2279,12 @@ break;
                     break;
                     caseMacro(NLS_DOUBLE,double,qp[i] = (double) sp[i<<1]);
                     caseMacro(NLS_DCOMPLEX,double, {qp[i<<1]=(double)sp[i<<1]; qp[(i<<1)+1]=(double)sp[(i<<1)+1];});
+					default:
+					{
+
+					}
+					break;
+
                 }
             }
             break;
@@ -2230,6 +2314,12 @@ break;
                     }
                     break;
                     caseMacro(NLS_SCOMPLEX,float, {qp[i<<1]=(float)sp[i<<1]; qp[(i<<1)+1]=(float)sp[(i<<1)+1];});
+					default:
+					{
+
+					}
+					break;
+
                 }
             }
             break;
@@ -2389,9 +2479,8 @@ break;
         }
         else
         {
-            void *qp = nullptr;
             int ndx = (int)index;
-            qp = allocateArrayOf(dp->dataClass, 1, dp->fieldNames);
+			void *qp = allocateArrayOf(dp->dataClass, 1, dp->fieldNames);
             copyElements(ndx, qp, 0, 1);
             return ArrayOf(dp->dataClass, retdims, qp, dp->sparse, dp->fieldNames);
         }
@@ -2558,14 +2647,7 @@ break;
             }
             if (outDims.getElementCount() == 0)
             {
-                if (isSparse())
-                {
-                    return ArrayOf::emptyConstructor(outDims, false);
-                }
-                else
-                {
-                    return ArrayOf::emptyConstructor(outDims, false);
-                }
+				return ArrayOf::emptyConstructor(outDims, isSparse());
             }
             else
             {
@@ -3620,6 +3702,10 @@ break;
     {
         switch (dcls)
         {
+			case NLS_STRUCT_ARRAY:
+			{
+			}
+			break;
             case NLS_HANDLE:
             {
             }
@@ -4012,7 +4098,7 @@ break;
                     io->outputMessage(msgBuffer);
                     for (sizeType m=2; m<dp->dimensions.getLength(); m++)
                     {
-                        snprintf(msgBuffer,MSGBUFLEN,",%d",wdims[m]+1);
+                        snprintf(msgBuffer,MSGBUFLEN,",%d",(int)wdims[m]+1);
                         io->outputMessage(msgBuffer);
                     }
                     snprintf(msgBuffer,MSGBUFLEN,") =\n\n");

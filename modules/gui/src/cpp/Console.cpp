@@ -42,9 +42,9 @@ namespace Nelson {
         if (AllocConsole())
         {
             HWND hNelSonConsole = GetConsoleWindow();
-            freopen("CONIN$", "r", stdin);
-            freopen("CONOUT$", "w", stdout);
-            freopen("CONOUT$", "w", stderr);
+            FILE *fpCONIN = freopen("CONIN$", "r", stdin);
+			FILE *fpCONOUT = freopen("CONOUT$", "w", stdout);
+			FILE *fpCONERR = freopen("CONOUT$", "w", stderr);
             if (hNelSonConsole)
             {
                 ShowWindow(hNelSonConsole, SW_HIDE);

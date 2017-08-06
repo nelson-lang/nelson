@@ -60,8 +60,16 @@ namespace Nelson {
     //=============================================================================
     bool BuiltInFunctionDefManager::add(std::string name, BuiltInFuncPtr fptr, int argc_in, int argc_out, std::wstring dynlibname, std::wstring modulename)
     {
-        BuiltInFunctionDef *f2def = new BuiltInFunctionDef();
-        if (f2def)
+        BuiltInFunctionDef *f2def;
+		try
+		{
+			f2def = new BuiltInFunctionDef();
+		}
+		catch (std::bad_alloc)
+		{
+			f2def = nullptr;
+		}
+        if (f2def != nullptr)
         {
             stringVector args;
             f2def->hashid = std::hash<std::wstring>()(utf8_to_wstring(name) + L"_" + modulename);

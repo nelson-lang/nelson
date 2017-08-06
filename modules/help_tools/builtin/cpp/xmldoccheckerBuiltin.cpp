@@ -62,6 +62,7 @@ ArrayOfVector Nelson::HelpToolsGateway::xmldoccheckerBuiltin(Evaluator* eval, in
             xmlDoc->readFile();
             errorRes = xmlDoc->getError();
             warningRes = xmlDoc->getWarning();
+			delete xmlDoc;
             if (nLhs == 0)
             {
                 Interface *io = eval->getInterface();

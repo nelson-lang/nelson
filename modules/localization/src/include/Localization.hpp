@@ -38,6 +38,7 @@ namespace Nelson {
     private:
         Localization();
         Localization(Localization const&) {};
+
         static Localization *m_pInstance;
 
         std::wstring currentLanguage;

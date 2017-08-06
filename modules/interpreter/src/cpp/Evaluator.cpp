@@ -483,7 +483,7 @@ namespace Nelson {
             boost::replace_all(t->text, "D", "e");
             boost::replace_all(t->text, "d", "e");
             double val = atof(t->text.c_str());
-            if (val == 0.)
+            if (val <= std::numeric_limits<double>::epsilon())
             {
                 retval = ArrayOf::doubleConstructor(0.);
             }
@@ -1864,16 +1864,9 @@ namespace Nelson {
                     lookupFunction(t->down->text, fdef))
             {
                 //	m = functionExpression(fdef,t->down,1,true);
-                if (fdef->type() == NLS_BUILT_IN_FUNCTION)
-                {
-                    // We manage case lhs == 0 in builtin
-                    // example toc or who
-                    m = functionExpression(fdef, t->down, 0, true);
-                }
-                else
-                {
-                    m = functionExpression(fdef, t->down, 0, true);
-                }
+				// We manage case lhs == 0 in builtin
+				// example toc or who
+				m = functionExpression(fdef, t->down, 0, true);
                 if (m.size() > 0)
                 {
                     b = m[0];
@@ -1882,22 +1875,11 @@ namespace Nelson {
                 {
                     bUpdateAns = false;
                 }
-                if (fdef->type() == NLS_BUILT_IN_FUNCTION)
-                {
-                    if (printIt && (m.size() > 0) && (state < NLS_STATE_QUIT))
-                    {
-                        io->outputMessage(L"\nans =\n\n");
-                        OverloadDisplay(this, b);
-                    }
-                }
-                else
-                {
-                    if (printIt && (m.size() > 0) && (state < NLS_STATE_QUIT))
-                    {
-                        io->outputMessage(L"\nans =\n\n");
-                        OverloadDisplay(this, b);
-                    }
-                }
+				if (printIt && (m.size() > 0) && (state < NLS_STATE_QUIT))
+				{
+					io->outputMessage(L"\nans =\n\n");
+					OverloadDisplay(this, b);
+				}
             }
             else if (t->opNum == OP_RHS)
             {
@@ -3448,11 +3430,12 @@ namespace Nelson {
         {
             e.what();
             InCLI = CLIFlagsave;
-            throw ;
+			popID();
+			delete[] keywordNdx;
+			delete[] argTypeMap;
+			throw ;
         }
-        popID();
-        delete[] keywordNdx;
-        delete[] argTypeMap;
+		return n;
     }
 
     int COST(int a, int b)
@@ -3502,13 +3485,20 @@ namespace Nelson {
     bool Evaluator::adjustBreakpoint(StackEntry& bp, bool dbstep)
     {
         char *cname = strdup(bp.detail.c_str());
-        bool isFun;
-        FuncPtr val;
-        isFun = context->lookupFunction(cname, val);
+        bool isFun = false;
+        FuncPtr val = nullptr;
+		if (cname != nullptr)
+		{
+			isFun = context->lookupFunction(cname, val);
+		}
         if (!isFun)
         {
             return false;
         }
+		if (val == nullptr)
+		{
+			return false;
+		}
         if (val->type() == NLS_MACRO_FUNCTION)
         {
             MacroFunctionDef *mptr;
@@ -3526,7 +3516,7 @@ namespace Nelson {
                 char buffer[2048];
                 if (dbstep)
                 {
-                    sprintf(buffer, _("Unable to step the specified number of lines, execution will continue\n").c_str());
+					sprintf(buffer, "%s", _("Unable to step the specified number of lines, execution will continue\n").c_str());
                     inStepMode = false;
                 }
                 else
@@ -3678,7 +3668,7 @@ namespace Nelson {
         ArrayOf r;
         ArrayOfVector m;
         bool isVar;
-        bool isFun;
+        bool isFun = false;
         FunctionDef *funcDef;
         pushID(t->context());
         // Try to satisfy the rhs expression with what functions we have already

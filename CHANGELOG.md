@@ -13,6 +13,7 @@ Features:
 
 * APPVEYOR updated to build windows 32 & 64 bits versions.
 
+* more 50 warnings fixed (Thanks to PVS-Studio analyzer).
 
 ## 0.1.7 alpha (2017-07-16)
 

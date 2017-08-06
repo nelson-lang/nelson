@@ -152,6 +152,8 @@ namespace Nelson {
 			matTransposed = matOrigin.transpose().eval();
 		}
 		break;
+		default:
+		break;
 		}
 		Res.reshape(dimsRes);
 		return Res;

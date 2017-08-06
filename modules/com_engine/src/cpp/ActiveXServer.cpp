@@ -172,7 +172,6 @@ namespace Nelson {
         ArrayOf res;
         HKEY hclsid;
         LONG err = RegOpenKeyExW(HKEY_LOCAL_MACHINE, L"SOFTWARE\\CLASSES\\CLSID", 0, KEY_READ, &hclsid);
-        bool found = false;
         if (err != ERROR_SUCCESS)
         {
             RegCloseKey(hclsid);
@@ -181,7 +180,7 @@ namespace Nelson {
         wstringVector fieldsName;
         wstringVector fieldsProgId;
         wstringVector fieldsFilename;
-        for (int i = 0; !found; i++)
+        for (int i = 0; true; i++)
         {
             std::wstring clsidString = reg_enum_key(hclsid, i);
             if (!clsidString.empty())
@@ -265,7 +264,6 @@ namespace Nelson {
         ArrayOf res;
         HKEY hclsid;
         LONG err = RegOpenKeyExW(HKEY_LOCAL_MACHINE, L"SOFTWARE\\CLASSES\\CLSID", 0, KEY_READ, &hclsid);
-        bool found = false;
         if (err != ERROR_SUCCESS)
         {
             RegCloseKey(hclsid);
@@ -274,7 +272,7 @@ namespace Nelson {
         wstringVector fieldsName;
         wstringVector fieldsProgId;
         wstringVector fieldsFilename;
-        for (int i = 0; !found; i++)
+        for (int i = 0; true; i++)
         {
             std::wstring clsidString = reg_enum_key(hclsid, i);
             if (!clsidString.empty())

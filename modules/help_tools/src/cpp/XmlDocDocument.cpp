@@ -1286,6 +1286,7 @@ namespace Nelson {
         {
             errorMessage.push_back(utf8_to_wstring(DESCRIPTION_TAG) + L": " + e.getMessage());
             this->bReadOk = false;
+			delete ptrDescription;
             return false;
         }
         items.push_back(ptrDescription);
@@ -2705,19 +2706,19 @@ namespace Nelson {
                     val = std::string((char*)linkendItemNode->content);
                     if (val.empty())
                     {
-                        xmlFreeDoc(doc);
                         this->errorMessage.push_back(_W("line ") + std::to_wstring(linkendItemNode->line) + _W(": ") + utf8_to_wstring(XML_LINKEND_TAG) + L" " + _W("is empty."));
                         this->bReadOk = false;
+						xmlFreeDoc(doc);
                         return false;
                     }
                     url = utf8_to_wstring(val);
                 }
                 else
                 {
-                    xmlFreeDoc(doc);
                     this->errorMessage.push_back(_W("line ") + std::to_wstring(linkendItemNode->line) + _W(": ") + utf8_to_wstring(XML_LINKEND_TAG) + L" " + _W("has no property."));
                     this->bReadOk = false;
-                    return false;
+					xmlFreeDoc(doc);
+					return false;
                 }
             }
         }
@@ -2730,19 +2731,19 @@ namespace Nelson {
             }
             if (str.empty())
             {
-                xmlFreeDoc(doc);
                 this->errorMessage.push_back(_W("line ") + std::to_wstring(linkItemNode->line) + _W(": ") + utf8_to_wstring(XML_LINKEND_TAG) + L" " + _W("is empty."));
                 this->bReadOk = false;
-                return false;
+				xmlFreeDoc(doc);
+				return false;
             }
             name = utf8_to_wstring(str);
         }
         else
         {
-            xmlFreeDoc(doc);
             this->errorMessage.push_back(_W("line ") + std::to_wstring(linkItemNode->line) + _W(": ") + utf8_to_wstring(XML_LINK_TAG) + L" " + _W("has no property."));
             this->bReadOk = false;
-            return false;
+			xmlFreeDoc(doc);
+			return false;
         }
         return true;
     }
@@ -2772,6 +2773,7 @@ namespace Nelson {
         {
             errorMessage.push_back(utf8_to_wstring(IMAGE_TAG) + L": " + e.getMessage());
             this->bReadOk = false;
+			delete ptrImageItem;
             return false;
         }
         items.push_back(ptrImageItem);
@@ -2820,7 +2822,7 @@ namespace Nelson {
         if (pathToSplit.has_parent_path())
         {
             this->directoryDestination = pathToSplit.parent_path().generic_wstring();
-            if (this->directoryDestination[this->directoryDestination.size() - 1] != '/' || this->directoryDestination[this->directoryDestination.size() - 1] != '\\')
+            if (this->directoryDestination[this->directoryDestination.size() - 1] != '/' && this->directoryDestination[this->directoryDestination.size() - 1] != '\\')
             {
                 this->directoryDestination.push_back('/');
             }

@@ -191,6 +191,7 @@
     <ClInclude Include="..\include\IsFinite.hpp" />
     <ClInclude Include="..\include\IsInf.hpp" />
     <ClInclude Include="..\include\IsNaN.hpp" />
+    <ClInclude Include="..\include\Prod.hpp" />
     <ClInclude Include="..\include\RealPart.hpp" />
     <ClInclude Include="..\include\TruncateFunctions.hpp" />
   </ItemGroup>
@@ -220,6 +221,7 @@
     <ClCompile Include="..\cpp\NotEquals.cpp" />
     <ClCompile Include="..\cpp\Or.cpp" />
     <ClCompile Include="..\cpp\Power.cpp" />
+    <ClCompile Include="..\cpp\Prod.cpp" />
     <ClCompile Include="..\cpp\RealPart.cpp" />
     <ClCompile Include="..\cpp\RightDivide.cpp" />
     <ClCompile Include="..\cpp\Transpose.cpp" />

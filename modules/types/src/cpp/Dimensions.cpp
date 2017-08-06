@@ -69,10 +69,12 @@ namespace Nelson {
 
     Dimensions::Dimensions(indexType dimCount) throw (Exception)
     {
+#ifndef NLS_INDEX_TYPE_64
         if (dimCount < 0)
         {
             throw Exception(_W("Illegal argument to Dimensions constructor"));
         }
+#endif
         memset(data, 0, sizeof(indexType)*dimCount);
         length = dimCount;
     }
@@ -183,7 +185,11 @@ namespace Nelson {
         testableDims = (point.length < length) ? point.length : length;
         for (indexType i = 0; i < testableDims; i++)
         {
-            if ((point.data[i] < 0) || (point.data[i] >= data[i]))
+#ifdef NLS_INDEX_TYPE_64
+            if (point.data[i] >= data[i])
+#else
+			if ((point.data[i] < 0) || (point.data[i] >= data[i]))
+#endif
             {
                 throw Exception(_W("Index exceeds dimensions."));
             }
@@ -336,7 +342,7 @@ namespace Nelson {
     void Dimensions::reset()
     {
         length = 0;
-        memset(data, 0, sizeof(int)*maxDims);
+        memset(data, 0, sizeof(int*)*maxDims);
     }
 
     void Dimensions::zeroOut()

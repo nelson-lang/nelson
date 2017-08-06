@@ -37,6 +37,7 @@ MacroFunctionDef::MacroFunctionDef()
 {
     localFunction = false;
     nextFunction = nullptr;
+	prevFunction = nullptr;
     code = nullptr;
     ptAst.clear();
 }
@@ -351,8 +352,16 @@ void Nelson::FreezeMacroFunction(MacroFunctionDef *fptr, Serialize *s)
 //=============================================================================
 MacroFunctionDef* Nelson::ThawMacroFunction(Serialize *s)
 {
-    MacroFunctionDef *t = new MacroFunctionDef();
-    if (t)
+    MacroFunctionDef *t;
+	try
+	{
+		t = new MacroFunctionDef();
+	}
+	catch (std::bad_alloc)
+	{
+		t = nullptr;
+	}
+    if (t != nullptr)
     {
         t->name = s->getString();
         t->arguments = s->getStringVector();
