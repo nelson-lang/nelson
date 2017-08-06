@@ -23,16 +23,5 @@
 //=============================================================================
 namespace Nelson {
     NLSINTEGER_IMPEXP ArrayOf ToInt16(ArrayOf a);
-    NLSINTEGER_IMPEXP int16 ToInt16(int8 a);
-    NLSINTEGER_IMPEXP int16 ToInt16(float a);
-    NLSINTEGER_IMPEXP int16 ToInt16(double a);
-    NLSINTEGER_IMPEXP int16 ToInt16(uint8 a);
-    NLSINTEGER_IMPEXP int16 ToInt16(int16 a);
-    NLSINTEGER_IMPEXP int16 ToInt16(uint16 a);
-    NLSINTEGER_IMPEXP int16 ToInt16(int32 a);
-    NLSINTEGER_IMPEXP int16 ToInt16(uint32 a);
-    NLSINTEGER_IMPEXP int16 ToInt16(int64 a);
-    NLSINTEGER_IMPEXP int16 ToInt16(uint64 a);
-
 }
 //=============================================================================

@@ -17,103 +17,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "ToInt8.hpp"
-#include "IntegerSaturate.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    int8 ToInt8(int8 a)
-    {
-        return (int8)a;
-    }
-    //=============================================================================
-    int8 ToInt8(float a)
-    {
-        return RealToIntX<int8, float>(a);
-    }
-    //=============================================================================
-    int8 ToInt8(double a)
-    {
-        return RealToIntX<int8, double>(a);
-    }
-    //=============================================================================
-    int8 ToInt8(uint8 a)
-    {
-        if (a > std::numeric_limits<int8>::max())
-        {
-            return std::numeric_limits<int8>::max();
-        }
-        return (int8)a;
-    }
-    //=============================================================================
-    int8 ToInt8(int16 a)
-    {
-        if (a > std::numeric_limits<int8>::max())
-        {
-            return std::numeric_limits<int8>::max();
-        }
-        if (a < std::numeric_limits<int8>::min())
-        {
-            return std::numeric_limits<int8>::min();
-        }
-        return (int8)a;
-    }
-    //=============================================================================
-    int8 ToInt8(uint16 a)
-    {
-        if (a > std::numeric_limits<int8>::max())
-        {
-            return std::numeric_limits<int8>::max();
-        }
-        return (int8)a;
-    }
-    //=============================================================================
-    int8 ToInt8(int32 a)
-    {
-        if (a > std::numeric_limits<int8>::max())
-        {
-            return std::numeric_limits<int8>::max();
-        }
-        if (a < std::numeric_limits<int8>::min())
-        {
-            return std::numeric_limits<int8>::min();
-        }
-        return (int8)a;
-    }
-    //=============================================================================
-    int8 ToInt8(uint32 a)
-    {
-        if ((int64)a >(int64)std::numeric_limits<int8>::max())
-        {
-            return std::numeric_limits<int8>::max();
-        }
-        if ((int64)a < (int64)std::numeric_limits<int8>::min())
-        {
-            return std::numeric_limits<int8>::min();
-        }
-        return (int8)a;
-    }
-    //=============================================================================
-    int8 ToInt8(int64 a)
-    {
-        if ((int64)a >(int64)std::numeric_limits<int8>::max())
-        {
-            return std::numeric_limits<int8>::max();
-        }
-        if ((int64)a < (int64)std::numeric_limits<int8>::min())
-        {
-            return std::numeric_limits<int8>::min();
-        }
-        return (int8)a;
-    }
-    //=============================================================================
-    int8 ToInt8(uint64 a)
-    {
-        if (a > std::numeric_limits<int8>::max())
-        {
-            return std::numeric_limits<int8>::max();
-        }
-        return (int8)a;
-    }
     //=============================================================================
     ArrayOf ToInt8(ArrayOf a)
     {
@@ -153,174 +58,24 @@ namespace Nelson {
                 }
             }
             break;
-            case NLS_LOGICAL:
-            {
-                int8 *pDest = (int8*)ArrayOf::allocateArrayOf(destClass, a.getLength());
-                logical *pSrc = (logical*)a.getDataPointer();
-#if defined(__NLS_WITH_OPENMP)
-                #pragma omp parallel for
-#endif
-                for (indexType k = 0; k < a.getLength(); k++)
-                {
-                    pDest[k] = ToInt8(pSrc[k]);
-                }
-                return ArrayOf(destClass, a.getDimensions(), pSrc, a.isSparse());
-            }
-            break;
-            case NLS_UINT8:
-            {
-                int8 *pDest = (int8*)ArrayOf::allocateArrayOf(destClass, a.getLength());
-                uint8 *pSrc = (uint8*)a.getDataPointer();
-#if defined(__NLS_WITH_OPENMP)
-                #pragma omp parallel for
-#endif
-                for (indexType k = 0; k < a.getLength(); k++)
-                {
-                    pDest[k] = ToInt8(pSrc[k]);
-                }
-                return ArrayOf(destClass, a.getDimensions(), pDest, a.isSparse());
-            }
-            break;
-            case NLS_INT8:
-            {
-                int8 *pDest = (int8*)ArrayOf::allocateArrayOf(destClass, a.getLength());
-                int8 *pInt8In = (int8*)a.getDataPointer();
-#if defined(__NLS_WITH_OPENMP)
-                #pragma omp parallel for
-#endif
-                for (indexType k = 0; k < a.getLength(); k++)
-                {
-                    pDest[k] = ToInt8(pInt8In[k]);
-                }
-                return ArrayOf(destClass, a.getDimensions(), pDest, a.isSparse());
-            }
-            break;
-            case NLS_UINT16:
-            {
-                int8 *pDest = (int8*)ArrayOf::allocateArrayOf(destClass, a.getLength());
-                uint16 *pSrc = (uint16*)a.getDataPointer();
-#if defined(__NLS_WITH_OPENMP)
-                #pragma omp parallel for
-#endif
-                for (indexType k = 0; k < a.getLength(); k++)
-                {
-                    pDest[k] = ToInt8(pSrc[k]);
-                }
-                return ArrayOf(destClass, a.getDimensions(), pDest, a.isSparse());
-            }
-            break;
-            case NLS_INT16:
-            {
-                int8 *pDest = (int8*)ArrayOf::allocateArrayOf(destClass, a.getLength());
-                int16 *pSrc = (int16*)a.getDataPointer();
-#if defined(__NLS_WITH_OPENMP)
-                #pragma omp parallel for
-#endif
-                for (indexType k = 0; k < a.getLength(); k++)
-                {
-                    pDest[k] = ToInt8(pSrc[k]);
-                }
-                return ArrayOf(destClass, a.getDimensions(), pDest, a.isSparse());
-            }
-            break;
-            case NLS_UINT32:
-            {
-                int8 *pDest = (int8*)ArrayOf::allocateArrayOf(destClass, a.getLength());
-                uint32 *pSrc = (uint32*)a.getDataPointer();
-#if defined(__NLS_WITH_OPENMP)
-                #pragma omp parallel for
-#endif
-                for (indexType k = 0; k < a.getLength(); k++)
-                {
-                    pDest[k] = ToInt8(pSrc[k]);
-                }
-                return ArrayOf(destClass, a.getDimensions(), pDest, a.isSparse());
-            }
-            break;
-            case NLS_INT32:
-            {
-                int8 *pDest = (int8*)ArrayOf::allocateArrayOf(destClass, a.getLength());
-                int32 *pSrc = (int32*)a.getDataPointer();
-#if defined(__NLS_WITH_OPENMP)
-                #pragma omp parallel for
-#endif
-                for (indexType k = 0; k < a.getLength(); k++)
-                {
-                    pDest[k] = ToInt8(pSrc[k]);
-                }
-                return ArrayOf(destClass, a.getDimensions(), pDest, a.isSparse());
-            }
-            break;
-            case NLS_UINT64:
-            {
-                int8 *pDest = (int8*)ArrayOf::allocateArrayOf(destClass, a.getLength());
-                uint64 *pSrc = (uint64*)a.getDataPointer();
-#if defined(__NLS_WITH_OPENMP)
-                #pragma omp parallel for
-#endif
-                for (indexType k = 0; k < a.getLength(); k++)
-                {
-                    pDest[k] = ToInt8(pSrc[k]);
-                }
-                return ArrayOf(destClass, a.getDimensions(), pDest, a.isSparse());
-            }
-            break;
-            case NLS_INT64:
-            {
-                int8 *pDest = (int8*)ArrayOf::allocateArrayOf(destClass, a.getLength());
-                int64 *pSrc = (int64*)a.getDataPointer();
-#if defined(__NLS_WITH_OPENMP)
-                #pragma omp parallel for
-#endif
-                for (indexType k = 0; k < a.getLength(); k++)
-                {
-                    pDest[k] = ToInt8(pSrc[k]);
-                }
-                return ArrayOf(destClass, a.getDimensions(), pDest, a.isSparse());
-            }
-            break;
-            case NLS_SINGLE:
-            {
-                int8 *pDest = (int8*)ArrayOf::allocateArrayOf(destClass, a.getLength());
-                float *pSrc = (float*)a.getDataPointer();
-#if defined(__NLS_WITH_OPENMP)
-                #pragma omp parallel for
-#endif
-                for (indexType k = 0; k < a.getLength(); k++)
-                {
-                    pDest[k] = ToInt8(pSrc[k]);
-                }
-                return ArrayOf(destClass, a.getDimensions(), pDest, a.isSparse());
-            }
-            break;
-            case NLS_DOUBLE:
-            {
-                int8 *pDest = (int8*)ArrayOf::allocateArrayOf(destClass, a.getLength());
-                double *pSrc = (double*)a.getDataPointer();
-#if defined(__NLS_WITH_OPENMP)
-                #pragma omp parallel for
-#endif
-                for (indexType k = 0; k < a.getLength(); k++)
-                {
-                    pDest[k] = ToInt8(pSrc[k]);
-                }
-                return ArrayOf(destClass, a.getDimensions(), pDest, a.isSparse());
-            }
-            break;
-            case NLS_CHAR:
-            {
-                charType *pSrc = (charType*)a.getDataPointer();
-                int8 *pDest = (int8*)ArrayOf::allocateArrayOf(destClass, a.getLength());
-#if defined(__NLS_WITH_OPENMP)
-                #pragma omp parallel for
-#endif
-                for (indexType k = 0; k < a.getLength(); k++)
-                {
-                    pDest[k] = ToInt8(pSrc[k]);
-                }
-                return ArrayOf(destClass, a.getDimensions(), pDest, a.isSparse());
-            }
-            break;
+			case NLS_LOGICAL:
+			case NLS_UINT8:
+			case NLS_INT8:
+			case NLS_UINT16:
+			case NLS_INT16:
+			case NLS_UINT32:
+			case NLS_INT32:
+			case NLS_UINT64:
+			case NLS_INT64:
+			case NLS_CHAR:
+			case NLS_SINGLE:
+			case NLS_DOUBLE:
+			{
+				ArrayOf res(a);
+				res.promoteType(NLS_INT8);
+				return res;
+			}
+			break;
             default:
             {
                 throw Exception(_W("Invalid conversion."));

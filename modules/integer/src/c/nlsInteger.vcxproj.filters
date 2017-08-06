@@ -80,9 +80,6 @@
     <ClInclude Include="..\..\src\include\ToInt16.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\include\IntegerSaturate.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\HorzCatInteger.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>

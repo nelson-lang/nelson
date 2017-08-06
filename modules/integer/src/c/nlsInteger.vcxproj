@@ -187,7 +187,6 @@
     <ClCompile Include="..\cpp\VertCatInteger.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\src\include\IntegerSaturate.hpp" />
     <ClInclude Include="..\..\src\include\nlsInteger_exports.h" />
     <ClInclude Include="..\..\src\include\ToInt16.hpp" />
     <ClInclude Include="..\..\src\include\ToInt32.hpp" />

@@ -16,16 +16,16 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <algorithm>
 #include "Prod.hpp"
 #include "Exception.hpp"
 #include "ClassName.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    template <class T>
-    void RealProdT(const T* sp, T* dp, int planes, int planesize, int linesize, bool withnan)
+	//=============================================================================
+	template <class T>
+    void RealProdT(const T* sp, T* dp, size_t planes, size_t planesize, size_t linesize, bool withnan)
     {
-        T accum;
         for (size_t i = 0; i < planes; i++)
         {
             for (size_t j = 0; j < planesize; j++)
@@ -52,7 +52,7 @@ namespace Nelson {
     }
     //=============================================================================
     template <class T>
-    void ComplexProdT(const T* sp, T* dp, int planes, int planesize, int linesize, bool withnan)
+    void ComplexProdT(const T* sp, T* dp, size_t planes, size_t planesize, size_t linesize, bool withnan)
     {
         for (size_t i = 0; i < planes; i++)
         {
@@ -113,7 +113,7 @@ namespace Nelson {
             indexType workDim;
             if (d == 0)
             {
-                int l = 0;
+				size_t l = 0;
                 while (dimsA[l] == 1)
                 {
                     l++;
@@ -126,9 +126,9 @@ namespace Nelson {
             }
             Dimensions dimsRes = dimsA;
             dimsRes.setDimensionLength(workDim, 1);
-            int planecount;
-            int planesize = 1;
-            int linesize = dimsA[workDim];
+            size_t planecount;
+			size_t planesize = 1;
+			size_t linesize = dimsA[workDim];
             for (size_t l = 0; l < workDim; l++)
             {
                 planesize *= dimsA[l];
@@ -149,18 +149,41 @@ namespace Nelson {
                 case NLS_INT32:
                 case NLS_UINT64:
                 case NLS_INT64:
+				{
+					A.promoteType(NLS_DOUBLE);
+					double *ptr = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsRes.getElementCount());
+					RealProdT<double>((const double *)A.getDataPointer(), (double *)ptr, planecount, planesize, linesize, false);
+					res = ArrayOf(NLS_DOUBLE, dimsRes, ptr);
+					res.promoteType(classA);
+				}
+				break;
                 case NLS_SINGLE:
+				{
+					single *ptr = (single*)ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount());
+					RealProdT<single>((const single *)A.getDataPointer(), (single *)ptr, planecount, planesize, linesize, withnan);
+					res = ArrayOf(classA, dimsRes, ptr);
+				}
+				break;
                 case NLS_DOUBLE:
                 {
                     double *ptr = (double*) ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount());
                     RealProdT<double>((const double *)A.getDataPointer(), (double *)ptr, planecount, planesize, linesize, withnan);
-                    res = ArrayOf(NLS_DOUBLE, dimsRes, ptr);
+                    res = ArrayOf(classA, dimsRes, ptr);
                 }
                 break;
                 case NLS_SCOMPLEX:
+				{
+					single *ptr = (single*)ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount());
+					ComplexProdT<single>((const single *)A.getDataPointer(), (single *)ptr, planecount, planesize, linesize, withnan);
+					res = ArrayOf(classA, dimsRes, ptr);
+				}
+				break;
                 case NLS_DCOMPLEX:
                 {
-                }
+					double *ptr = (double*)ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount());
+					ComplexProdT<double>((const double *)A.getDataPointer(), (double *)ptr, planecount, planesize, linesize, withnan);
+					res = ArrayOf(classA, dimsRes, ptr);
+				}
                 break;
                 default:
                 {

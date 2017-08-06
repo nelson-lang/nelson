@@ -36,6 +36,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 
+#include <algorithm>
 #include <boost/algorithm/string.hpp>
 #include <inttypes.h>
 #include <math.h>
@@ -1777,7 +1778,30 @@ namespace Nelson {
             break;
         }
     }
-
+	//=============================================================================
+	template <class TIN, class TOUT> void saturate(const void * pIn, void *pOut, indexType count)
+	{
+		const TIN* sp = (const TIN *)pIn;
+		TOUT* qp = (TOUT*)pOut;
+		for (indexType i = 0; i < count; i++)
+		{
+			TIN min = (TIN)std::numeric_limits<TOUT>::min();
+			TIN max = (TIN)std::numeric_limits<TOUT>::max();
+			if (sp[i] > max)
+			{
+				qp[i] = std::numeric_limits<TOUT>::max();
+			}
+			else if (sp[i] < min)
+			{
+				qp[i] = std::numeric_limits<TOUT>::min();
+			}
+			else
+			{
+				qp[i] = (TOUT)sp[i];
+			}
+		}
+	}
+	//=============================================================================
     /**
      * Promote our data to a new type.
      *
@@ -1947,10 +1971,10 @@ break;
                         caseMacro(NLS_INT32,int32,qp[i] = (int32) sp[i]);
                         caseMacro(NLS_UINT64, uint64, qp[i] = (uint64)sp[i]);
                         caseMacro(NLS_INT64, int64, qp[i] = (int64)sp[i]);
-                        caseMacro(NLS_SINGLE,float,qp[i] = (float) sp[i]);
-                        caseMacro(NLS_DOUBLE,double,qp[i] = (double) sp[i]);
-                        caseMacro(NLS_SCOMPLEX,float,qp[i<<1] = (float) sp[i]);
-                        caseMacro(NLS_DCOMPLEX,double,qp[i<<1] = (double) sp[i]);
+                        caseMacro(NLS_SINGLE, single, qp[i] = (single) sp[i]);
+                        caseMacro(NLS_DOUBLE, double, qp[i] = (double) sp[i]);
+                        caseMacro(NLS_SCOMPLEX, single, qp[i<<1] = (single) sp[i]);
+                        caseMacro(NLS_DCOMPLEX, double, qp[i<<1] = (double) sp[i]);
                     default:
                     {
                     }
@@ -1972,9 +1996,9 @@ break;
                         caseMacro(NLS_INT32,int32,qp[i] = (int32) sp[i]);
                         caseMacro(NLS_UINT64, uint64, qp[i] = (uint64)sp[i]);
                         caseMacro(NLS_INT64, int64, qp[i] = (int64)sp[i]);
-                        caseMacro(NLS_SINGLE,float,qp[i] = (float) sp[i]);
+                        caseMacro(NLS_SINGLE, single,qp[i] = (single) sp[i]);
                         caseMacro(NLS_DOUBLE,double,qp[i] = (double) sp[i]);
-                        caseMacro(NLS_SCOMPLEX,float,qp[i<<1] = (float) sp[i]);
+                        caseMacro(NLS_SCOMPLEX,single,qp[i<<1] = (single) sp[i]);
                         caseMacro(NLS_DCOMPLEX,double,qp[i<<1] = (double) sp[i]);
                     default:
                     {
@@ -1997,9 +2021,9 @@ break;
                         caseMacro(NLS_INT32,int32,qp[i] = (int32) sp[i]);
                         caseMacro(NLS_UINT64, uint64, qp[i] = (uint64)sp[i]);
                         caseMacro(NLS_INT64, int64, qp[i] = (int64)sp[i]);
-                        caseMacro(NLS_SINGLE,float,qp[i] = (float) sp[i]);
+                        caseMacro(NLS_SINGLE, single,qp[i] = (single) sp[i]);
                         caseMacro(NLS_DOUBLE,double,qp[i] = (double) sp[i]);
-                        caseMacro(NLS_SCOMPLEX,float,qp[i<<1] = (float) sp[i]);
+                        caseMacro(NLS_SCOMPLEX, single,qp[i<<1] = (single) sp[i]);
                         caseMacro(NLS_DCOMPLEX,double,qp[i<<1] = (double) sp[i]);
                     default:
                     {
@@ -2022,9 +2046,9 @@ break;
                         caseMacro(NLS_INT32,int32,qp[i] = (int32) sp[i]);
                         caseMacro(NLS_UINT64, uint64, qp[i] = (uint64)sp[i]);
                         caseMacro(NLS_INT64, int64, qp[i] = (int64)sp[i]);
-                        caseMacro(NLS_SINGLE,float,qp[i] = (float) sp[i]);
+                        caseMacro(NLS_SINGLE, single,qp[i] = (single) sp[i]);
                         caseMacro(NLS_DOUBLE,double,qp[i] = (double) sp[i]);
-                        caseMacro(NLS_SCOMPLEX,float,qp[i<<1] = (float) sp[i]);
+                        caseMacro(NLS_SCOMPLEX, single,qp[i<<1] = (single) sp[i]);
                         caseMacro(NLS_DCOMPLEX,double,qp[i<<1] = (double) sp[i]);
 				default:
 				{
@@ -2048,9 +2072,9 @@ break;
                         caseMacro(NLS_INT32,int32,qp[i] = (int32) sp[i]);
                         caseMacro(NLS_UINT64, uint64, qp[i] = (uint64)sp[i]);
                         caseMacro(NLS_INT64, int64, qp[i] = (int64)sp[i]);
-                        caseMacro(NLS_SINGLE,float,qp[i] = (float) sp[i]);
+                        caseMacro(NLS_SINGLE, single,qp[i] = (single) sp[i]);
                         caseMacro(NLS_DOUBLE,double,qp[i] = (double) sp[i]);
-                        caseMacro(NLS_SCOMPLEX,float,qp[i<<1] = (float) sp[i]);
+                        caseMacro(NLS_SCOMPLEX, single,qp[i<<1] = (single) sp[i]);
                         caseMacro(NLS_DCOMPLEX,double,qp[i<<1] = (double) sp[i]);
                     default:
                     {
@@ -2073,9 +2097,9 @@ break;
                         caseMacro(NLS_INT32,int32,qp[i] = (int32) sp[i]);
                         caseMacro(NLS_UINT64, uint64, qp[i] = (uint64)sp[i]);
                         caseMacro(NLS_INT64, int64, qp[i] = (int64)sp[i]);
-                        caseMacro(NLS_SINGLE,float,qp[i] = (float) sp[i]);
+                        caseMacro(NLS_SINGLE, single,qp[i] = (single) sp[i]);
                         caseMacro(NLS_DOUBLE,double,qp[i] = (double) sp[i]);
-                        caseMacro(NLS_SCOMPLEX,float,qp[i<<1] = (float) sp[i]);
+                        caseMacro(NLS_SCOMPLEX, single,qp[i<<1] = (single) sp[i]);
                         caseMacro(NLS_DCOMPLEX,double,qp[i<<1] = (double) sp[i]);
                     default:
                     {
@@ -2098,9 +2122,9 @@ break;
                         caseMacro(NLS_INT32,int32,qp[i] = (int32) sp[i]);
                         caseMacro(NLS_UINT64, uint64, qp[i] = (uint64)sp[i]);
                         caseMacro(NLS_INT64, int64, qp[i] = (int64)sp[i]);
-                        caseMacro(NLS_SINGLE,float,qp[i] = (float) sp[i]);
+                        caseMacro(NLS_SINGLE, single,qp[i] = (single) sp[i]);
                         caseMacro(NLS_DOUBLE,double,qp[i] = (double) sp[i]);
-                        caseMacro(NLS_SCOMPLEX,float,qp[i<<1] = (float) sp[i]);
+                        caseMacro(NLS_SCOMPLEX, single,qp[i<<1] = (single) sp[i]);
                         caseMacro(NLS_DCOMPLEX,double,qp[i<<1] = (double) sp[i]);
                     default:
                     {
@@ -2123,9 +2147,9 @@ break;
                         caseMacro(NLS_UINT32,uint32,qp[i] = (uint32) sp[i]);
                         caseMacro(NLS_UINT64, uint64, qp[i] = (uint64)sp[i]);
                         caseMacro(NLS_INT64, int64, qp[i] = (int64)sp[i]);
-                        caseMacro(NLS_SINGLE,float,qp[i] = (float) sp[i]);
+                        caseMacro(NLS_SINGLE, single,qp[i] = (single) sp[i]);
                         caseMacro(NLS_DOUBLE,double,qp[i] = (double) sp[i]);
-                        caseMacro(NLS_SCOMPLEX,float,qp[i<<1] = (float) sp[i]);
+                        caseMacro(NLS_SCOMPLEX, single,qp[i<<1] = (single) sp[i]);
                         caseMacro(NLS_DCOMPLEX,double,qp[i<<1] = (double) sp[i]);
                     default:
                     {
@@ -2148,9 +2172,9 @@ break;
                         caseMacro(NLS_UINT32, uint32, qp[i] = (uint32)sp[i]);
                         caseMacro(NLS_UINT64, uint64, qp[i] = (uint64)sp[i]);
                         caseMacro(NLS_INT64, int64, qp[i] = (int64)sp[i]);
-                        caseMacro(NLS_SINGLE, float, qp[i] = (float)sp[i]);
+                        caseMacro(NLS_SINGLE, single, qp[i] = (single)sp[i]);
                         caseMacro(NLS_DOUBLE, double, qp[i] = (double)sp[i]);
-                        caseMacro(NLS_SCOMPLEX, float, qp[i << 1] = (float)sp[i]);
+                        caseMacro(NLS_SCOMPLEX, single, qp[i << 1] = (single)sp[i]);
                         caseMacro(NLS_DCOMPLEX, double, qp[i << 1] = (double)sp[i]);
                     default:
                     {
@@ -2173,9 +2197,9 @@ break;
                         caseMacro(NLS_UINT32, uint32, qp[i] = (uint32)sp[i]);
                         caseMacro(NLS_UINT64, uint64, qp[i] = (uint64)sp[i]);
                         caseMacro(NLS_INT64, int64, qp[i] = (int64)sp[i]);
-                        caseMacro(NLS_SINGLE, float, qp[i] = (float)sp[i]);
+                        caseMacro(NLS_SINGLE, single, qp[i] = (single)sp[i]);
                         caseMacro(NLS_DOUBLE, double, qp[i] = (double)sp[i]);
-                        caseMacro(NLS_SCOMPLEX, float, qp[i << 1] = (float)sp[i]);
+                        caseMacro(NLS_SCOMPLEX, single, qp[i << 1] = (single)sp[i]);
                         caseMacro(NLS_DCOMPLEX, double, qp[i << 1] = (double)sp[i]);
                     default:
                     {
@@ -2186,23 +2210,55 @@ break;
             break;
             case NLS_SINGLE:
             {
-                const float* sp = (const float *) dp->getData();
+                const single* sp = (const float *) dp->getData();
                 switch (dstClass)
                 {
-                        caseMacro(NLS_CHAR, charType, qp[i] = (charType)sp[i]);
-                        caseMacro(NLS_LOGICAL,logical,qp[i] = (sp[i]==0) ? 0 : 1);
-                        caseMacro(NLS_UINT8,uint8,qp[i] = (uint8) sp[i]);
-                        caseMacro(NLS_INT8,int8,qp[i] = (int8) sp[i]);
-                        caseMacro(NLS_UINT16,uint16,qp[i] = (uint16) sp[i]);
-                        caseMacro(NLS_INT16,int16,qp[i] = (int16) sp[i]);
-                        caseMacro(NLS_UINT32,uint32,qp[i] = (uint32) sp[i]);
-                        caseMacro(NLS_INT32,int32,qp[i] = (int32) sp[i]);
-                        caseMacro(NLS_UINT64, uint64, qp[i] = (uint64)sp[i]);
-                        caseMacro(NLS_INT64, int64, qp[i] = (int64)sp[i]);
-                        caseMacro(NLS_DOUBLE,double,qp[i] = (double) sp[i]);
-                        caseMacro(NLS_SCOMPLEX,float,qp[i<<1] = (float) sp[i]);
-                        caseMacro(NLS_DCOMPLEX,double,qp[i<<1] = (double) sp[i]);
-                    default:
+					caseMacro(NLS_CHAR, charType, qp[i] = (charType)sp[i]);
+                    caseMacro(NLS_LOGICAL,logical,qp[i] = (sp[i]==0) ? 0 : 1);
+					case NLS_UINT8:
+					{
+						saturate<single, uint8>(dp->getData(), dstPtr, count);
+					}
+					break;
+					case NLS_INT8:
+					{
+						saturate<single, int8>(dp->getData(), dstPtr, count);
+					}
+					break;
+					case NLS_UINT16:
+					{
+						saturate<single, uint16>(dp->getData(), dstPtr, count);
+					}
+					break;
+					case NLS_INT16:
+					{
+						saturate<single, int16>(dp->getData(), dstPtr, count);
+					}
+					break;
+					case NLS_UINT32:
+					{
+						saturate<single, uint32>(dp->getData(), dstPtr, count);
+					}
+					break;
+					case NLS_INT32:
+					{
+						saturate<single, int32>(dp->getData(), dstPtr, count);
+					}
+					break;
+					case NLS_INT64:
+					{
+						saturate<single, int64>(dp->getData(), dstPtr, count);
+					}
+					break;
+					case NLS_UINT64:
+					{
+						saturate<single, uint64>(dp->getData(), dstPtr, count);
+					}
+					break;
+					caseMacro(NLS_DOUBLE, double, qp[i] = (single) sp[i]);
+					caseMacro(NLS_SCOMPLEX, single, qp[i<<1] = (single) sp[i]);
+					caseMacro(NLS_DCOMPLEX, double, qp[i<<1] = (single) sp[i]);
+					default:
                     {
                     }
                     break;
@@ -2214,19 +2270,51 @@ break;
                 const double* sp = (const double *) dp->getData();
                 switch (dstClass)
                 {
-                        caseMacro(NLS_CHAR, charType, qp[i] = (charType)sp[i]);
-                        caseMacro(NLS_LOGICAL,logical,qp[i] = (sp[i]==0) ? 0 : 1);
-                        caseMacro(NLS_UINT8,uint8,qp[i] = (uint8) sp[i]);
-                        caseMacro(NLS_INT8,int8,qp[i] = (int8) sp[i]);
-                        caseMacro(NLS_UINT16,uint16,qp[i] = (uint16) sp[i]);
-                        caseMacro(NLS_INT16,int16,qp[i] = (int16) sp[i]);
-                        caseMacro(NLS_UINT32,uint32,qp[i] = (uint32) sp[i]);
-                        caseMacro(NLS_INT32,int32,qp[i] = (int32) sp[i]);
-                        caseMacro(NLS_UINT64, uint64, qp[i] = (uint64)sp[i]);
-                        caseMacro(NLS_INT64, int64, qp[i] = (int64)sp[i]);
-                        caseMacro(NLS_SINGLE,float,qp[i] = (float) sp[i]);
-                        caseMacro(NLS_SCOMPLEX,float,qp[i<<1] = (float) sp[i]);
-                        caseMacro(NLS_DCOMPLEX,double,qp[i<<1] = (double) sp[i]);
+					caseMacro(NLS_CHAR, charType, qp[i] = (charType)sp[i]);
+                    caseMacro(NLS_LOGICAL,logical,qp[i] = (sp[i]==0) ? 0 : 1);
+					case NLS_UINT8:
+					{
+						saturate<double, uint8>(dp->getData(), dstPtr, count);
+					}
+					break;
+					case NLS_INT8:
+					{
+						saturate<double, int8>(dp->getData(), dstPtr, count);
+					}
+					break;
+					case NLS_UINT16:
+					{
+						saturate<double, uint16>(dp->getData(), dstPtr, count);
+					}
+					break;
+					case NLS_INT16:
+					{
+						saturate<double, int16>(dp->getData(), dstPtr, count);
+					}
+					break;
+					case NLS_UINT32:
+					{
+						saturate<double, uint32>(dp->getData(), dstPtr, count);
+					}
+					break;
+					case NLS_INT32:
+					{
+						saturate<double, int32>(dp->getData(), dstPtr, count);
+					}
+					break;
+					case NLS_INT64:
+					{
+						saturate<double, int64>(dp->getData(), dstPtr, count);
+					}
+					break;
+					case NLS_UINT64:
+					{
+						saturate<double, uint64>(dp->getData(), dstPtr, count);
+					}
+					break;
+					caseMacro(NLS_SINGLE, single, qp[i] = (single)sp[i]);
+                    caseMacro(NLS_SCOMPLEX, single, qp[i<<1] = (single) sp[i]);
+                    caseMacro(NLS_DCOMPLEX, single, qp[i<<1] = (double) sp[i]);
                     default:
                     {
                     }
@@ -2282,7 +2370,7 @@ break;
                         caseMacro(NLS_INT32,int32,qp[i] = (int32) sp[i<<1]);
                         caseMacro(NLS_UINT64, uint64, qp[i] = (uint64)sp[i << 1]);
                         caseMacro(NLS_INT64, int64, qp[i] = (int64)sp[i << 1]);
-                        caseMacro(NLS_SINGLE,float,qp[i] = (float) sp[i<<1]);
+                        caseMacro(NLS_SINGLE, single,qp[i] = (single) sp[i<<1]);
                     case NLS_DOUBLE:
                     {
                         doublecomplex* Az = reinterpret_cast<doublecomplex*>((double*)sp);
@@ -2301,7 +2389,7 @@ break;
             }
             break;
         }
-        dp = dp->putData(dstClass,dp->dimensions,dstPtr);
+        dp = dp->putData(dstClass, dp->dimensions, dstPtr);
     }
 
 #undef caseMacro

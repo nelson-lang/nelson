@@ -23,16 +23,5 @@
 //=============================================================================
 namespace Nelson {
     NLSINTEGER_IMPEXP ArrayOf ToInt8(ArrayOf a);
-    NLSINTEGER_IMPEXP int8 ToInt8(int8 a);
-    NLSINTEGER_IMPEXP int8 ToInt8(float a);
-    NLSINTEGER_IMPEXP int8 ToInt8(double a);
-    NLSINTEGER_IMPEXP int8 ToInt8(uint8 a);
-    NLSINTEGER_IMPEXP int8 ToInt8(int16 a);
-    NLSINTEGER_IMPEXP int8 ToInt8(uint16 a);
-    NLSINTEGER_IMPEXP int8 ToInt8(int32 a);
-    NLSINTEGER_IMPEXP int8 ToInt8(uint32 a);
-    NLSINTEGER_IMPEXP int8 ToInt8(int64 a);
-    NLSINTEGER_IMPEXP int8 ToInt8(uint64 a);
-
 }
 //=============================================================================

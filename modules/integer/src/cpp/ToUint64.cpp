@@ -17,91 +17,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "ToUint64.hpp"
-#include "IntegerSaturate.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    uint64 ToUint64(int8 a)
-    {
-        if (a > std::numeric_limits<uint64>::max())
-        {
-            return std::numeric_limits<uint64>::max();
-        }
-        if (a < std::numeric_limits<uint64>::min())
-        {
-            return std::numeric_limits<uint64>::min();
-        }
-        return (uint64)a;
-    }
-    //=============================================================================
-    uint64 ToUint64(float a)
-    {
-        return RealToIntX<uint64, float>(a);
-    }
-    //=============================================================================
-    uint64 ToUint64(double a)
-    {
-        return RealToIntX<uint64, double>(a);
-    }
-    //=============================================================================
-    uint64 ToUint64(uint8 a)
-    {
-        return (uint64)a;
-    }
-    //=============================================================================
-    uint64 ToUint64(int16 a)
-    {
-        if (a > std::numeric_limits<uint64>::max())
-        {
-            return std::numeric_limits<uint64>::max();
-        }
-        if (a < std::numeric_limits<uint64>::min())
-        {
-            return std::numeric_limits<uint64>::min();
-        }
-        return (uint64)a;
-    }
-    //=============================================================================
-    uint64 ToUint64(uint16 a)
-    {
-        return (uint64)a;
-    }
-    //=============================================================================
-    uint64 ToUint64(int32 a)
-    {
-        if (a > std::numeric_limits<uint64>::max())
-        {
-            return std::numeric_limits<uint64>::max();
-        }
-        if (a < std::numeric_limits<uint64>::min())
-        {
-            return std::numeric_limits<uint64>::min();
-        }
-        return (uint64)a;
-    }
-    //=============================================================================
-    uint64 ToUint64(uint32 a)
-    {
-        return (uint64)a;
-    }
-    //=============================================================================
-    uint64 ToUint64(int64 a)
-    {
-        if (a > (int64)std::numeric_limits<uint64>::max())
-        {
-            return std::numeric_limits<uint64>::max();
-        }
-        if (a < (int64)std::numeric_limits<uint64>::min())
-        {
-            return std::numeric_limits<uint64>::min();
-        }
-        return (uint64)a;
-    }
-    //=============================================================================
-    uint64 ToUint64(uint64 a)
-    {
-        return (uint64)a;
-    }
     //=============================================================================
     ArrayOf ToUint64(ArrayOf a)
     {
@@ -142,171 +59,21 @@ namespace Nelson {
             }
             break;
             case NLS_LOGICAL:
-            {
-                uint64 *pDest = (uint64*)ArrayOf::allocateArrayOf(destClass, a.getLength());
-                logical *pSrc = (logical*)a.getDataPointer();
-#if defined(__NLS_WITH_OPENMP)
-                #pragma omp parallel for
-#endif
-                for (indexType k = 0; k < a.getLength(); k++)
-                {
-                    pDest[k] = ToUint64(pSrc[k]);
-                }
-                return ArrayOf(destClass, a.getDimensions(), pSrc, a.isSparse());
-            }
-            break;
             case NLS_INT8:
-            {
-                uint64 *pDest = (uint64*)ArrayOf::allocateArrayOf(destClass, a.getLength());
-                int8 *pSrc = (int8*)a.getDataPointer();
-#if defined(__NLS_WITH_OPENMP)
-                #pragma omp parallel for
-#endif
-                for (indexType k = 0; k < a.getLength(); k++)
-                {
-                    pDest[k] = ToUint64(pSrc[k]);
-                }
-                return ArrayOf(destClass, a.getDimensions(), pDest, a.isSparse());
-            }
-            break;
             case NLS_INT16:
-            {
-                uint64 *pDest = (uint64*)ArrayOf::allocateArrayOf(destClass, a.getLength());
-                int16 *pSrc = (int16*)a.getDataPointer();
-#if defined(__NLS_WITH_OPENMP)
-                #pragma omp parallel for
-#endif
-                for (indexType k = 0; k < a.getLength(); k++)
-                {
-                    pDest[k] = ToUint64(pSrc[k]);
-                }
-                return ArrayOf(destClass, a.getDimensions(), pDest, a.isSparse());
-            }
-            break;
             case NLS_INT32:
-            {
-                uint64 *pDest = (uint64*)ArrayOf::allocateArrayOf(destClass, a.getLength());
-                int32 *pSrc = (int32*)a.getDataPointer();
-#if defined(__NLS_WITH_OPENMP)
-                #pragma omp parallel for
-#endif
-                for (indexType k = 0; k < a.getLength(); k++)
-                {
-                    pDest[k] = ToUint64(pSrc[k]);
-                }
-                return ArrayOf(destClass, a.getDimensions(), pDest, a.isSparse());
-            }
-            break;
             case NLS_INT64:
-            {
-                uint64 *pDest = (uint64*)ArrayOf::allocateArrayOf(destClass, a.getLength());
-                int64 *pSrc = (int64*)a.getDataPointer();
-#if defined(__NLS_WITH_OPENMP)
-                #pragma omp parallel for
-#endif
-                for (indexType k = 0; k < a.getLength(); k++)
-                {
-                    pDest[k] = ToUint64(pSrc[k]);
-                }
-                return ArrayOf(destClass, a.getDimensions(), pDest, a.isSparse());
-            }
-            break;
             case NLS_UINT8:
-            {
-                uint64 *pDest = (uint64*)ArrayOf::allocateArrayOf(destClass, a.getLength());
-                uint8 *pSrc = (uint8*)a.getDataPointer();
-#if defined(__NLS_WITH_OPENMP)
-                #pragma omp parallel for
-#endif
-                for (indexType k = 0; k < a.getLength(); k++)
-                {
-                    pDest[k] = ToUint64(pSrc[k]);
-                }
-                return ArrayOf(destClass, a.getDimensions(), pDest, a.isSparse());
-            }
-            break;
             case NLS_UINT16:
-            {
-                uint64 *pDest = (uint64*)ArrayOf::allocateArrayOf(destClass, a.getLength());
-                uint16 *pSrc = (uint16*)a.getDataPointer();
-#if defined(__NLS_WITH_OPENMP)
-                #pragma omp parallel for
-#endif
-                for (indexType k = 0; k < a.getLength(); k++)
-                {
-                    pDest[k] = ToUint64(pSrc[k]);
-                }
-                return ArrayOf(destClass, a.getDimensions(), pDest, a.isSparse());
-            }
-            break;
             case NLS_UINT32:
-            {
-                uint64 *pDest = (uint64*)ArrayOf::allocateArrayOf(destClass, a.getLength());
-                uint32 *pSrc = (uint32*)a.getDataPointer();
-#if defined(__NLS_WITH_OPENMP)
-                #pragma omp parallel for
-#endif
-                for (indexType k = 0; k < a.getLength(); k++)
-                {
-                    pDest[k] = ToUint64(pSrc[k]);
-                }
-                return ArrayOf(destClass, a.getDimensions(), pDest, a.isSparse());
-            }
-            break;
             case NLS_UINT64:
-            {
-                uint64 *pDest = (uint64*)ArrayOf::allocateArrayOf(destClass, a.getLength());
-                uint64 *pSrc = (uint64*)a.getDataPointer();
-#if defined(__NLS_WITH_OPENMP)
-                #pragma omp parallel for
-#endif
-                for (indexType k = 0; k < a.getLength(); k++)
-                {
-                    pDest[k] = ToUint64(pSrc[k]);
-                }
-                return ArrayOf(destClass, a.getDimensions(), pDest, a.isSparse());
-            }
-            break;
             case NLS_SINGLE:
-            {
-                uint64 *pDest = (uint64*)ArrayOf::allocateArrayOf(destClass, a.getLength());
-                float *pSrc = (float*)a.getDataPointer();
-#if defined(__NLS_WITH_OPENMP)
-                #pragma omp parallel for
-#endif
-                for (indexType k = 0; k < a.getLength(); k++)
-                {
-                    pDest[k] = ToUint64(pSrc[k]);
-                }
-                return ArrayOf(destClass, a.getDimensions(), pDest, a.isSparse());
-            }
-            break;
             case NLS_DOUBLE:
-            {
-                uint64 *pDest = (uint64*)ArrayOf::allocateArrayOf(destClass, a.getLength());
-                double *pSrc = (double*)a.getDataPointer();
-#if defined(__NLS_WITH_OPENMP)
-                #pragma omp parallel for
-#endif
-                for (indexType k = 0; k < a.getLength(); k++)
-                {
-                    pDest[k] = ToUint64(pSrc[k]);
-                }
-                return ArrayOf(destClass, a.getDimensions(), pDest, a.isSparse());
-            }
-            break;
             case NLS_CHAR:
             {
-                charType *pSrc = (charType*)a.getDataPointer();
-                uint64 *pDest = (uint64*)ArrayOf::allocateArrayOf(destClass, a.getLength());
-#if defined(__NLS_WITH_OPENMP)
-                #pragma omp parallel for
-#endif
-                for (indexType k = 0; k < a.getLength(); k++)
-                {
-                    pDest[k] = ToUint64(pSrc[k]);
-                }
-                return ArrayOf(destClass, a.getDimensions(), pDest, a.isSparse());
+				ArrayOf res(a);
+				res.promoteType(NLS_UINT64);
+				return res;
             }
             break;
             default:
