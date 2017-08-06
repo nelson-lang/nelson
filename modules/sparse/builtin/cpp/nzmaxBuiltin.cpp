@@ -40,7 +40,7 @@ ArrayOfVector Nelson::SparseGateway::nzmaxBuiltin(Evaluator* eval, int nLhs, con
     if (!bSuccess)
     {
         ArrayOf R(argIn[0]);
-        retval.push_back(ArrayOf::doubleConstructor(R.nzmax()));
+        retval.push_back(ArrayOf::doubleConstructor((double)R.nzmax()));
     }
     return retval;
 }

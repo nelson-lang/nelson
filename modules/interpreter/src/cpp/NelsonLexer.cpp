@@ -72,7 +72,7 @@ int tokenActive;
 int tokenType;
 ParseRHS tokenValue;
 
-keywordStruct ts, *p;
+keywordStruct ts, *ptrb;
 
 void clearTextBufferLexer()
 {
@@ -116,7 +116,7 @@ void LexerException(std::string msg)
         }
         else
         {
-            sprintf(buffer, _("Lexical error").c_str());
+            sprintf(buffer, "%s", _("Lexical error").c_str());
         }
     }
     throw Exception(buffer);
@@ -131,11 +131,11 @@ inline void popBracket(char t)
 {
     if (bracketStackSize <= 0)
     {
-        LexerException(_("mismatched parenthesis").c_str());
+        LexerException(_("mismatched parenthesis"));
     }
     if (bracketStack[--bracketStackSize] != t)
     {
-        LexerException(_("mismatched parenthesis").c_str());
+        LexerException(_("mismatched parenthesis"));
     }
 }
 
@@ -194,12 +194,12 @@ inline bool testSpecialFuncs()
         throw Exception(_("Maximum name length exceeded."));
     }
     keyword[cp - datap] = 0;
-    ts.word = keyword;
-    p = (keywordStruct*)
-        bsearch(&ts, keyWord, KEYWORDCOUNT,
-                sizeof(keywordStruct),
-                compareKeyword);
-    if (p != nullptr)
+    strcpy(ts.word, keyword);
+    ptrb = (keywordStruct*)
+           bsearch(&ts, keyWord, KEYWORDCOUNT,
+                   sizeof(keywordStruct),
+                   compareKeyword);
+    if (ptrb != nullptr)
     {
         return false;
     }
@@ -351,7 +351,8 @@ void lexString()
     discardChar();
     int curchar = currentChar();
     char ch = datap[1];
-    while ((curchar != '\'') || ((curchar == '\'') && (ch == '\'')) && !testNewline())
+	size_t len = strlen(datap);
+    while ((curchar != '\'') || ((ch == '\'') && !testNewline()))
     {
         if ((currentChar() == '\'') && (ch == '\''))
         {
@@ -360,7 +361,7 @@ void lexString()
         *strptr++ = curchar;
         discardChar();
         curchar = currentChar();
-        if (strlen(datap) > 1)
+        if (len > 1)
         {
             ch = datap[1];
         }
@@ -371,7 +372,7 @@ void lexString()
     }
     if (testNewline())
     {
-        LexerException(_("unterminated string").c_str());
+        LexerException(_("unterminated string"));
     }
     discardChar();
     *strptr++ = '\0';
@@ -397,14 +398,14 @@ void lexIdentifier()
         discardChar();
     }
     ident[i] = '\0';
-    ts.word = ident;
-    p = (keywordStruct*)
-        bsearch(&ts,keyWord,KEYWORDCOUNT,
-                sizeof(keywordStruct),
-                compareKeyword);
-    if (p != nullptr)
+    strcpy(ts.word, ident);
+    ptrb = (keywordStruct*)
+           bsearch(&ts,keyWord,KEYWORDCOUNT,
+                   sizeof(keywordStruct),
+                   compareKeyword);
+    if (ptrb != nullptr)
     {
-        setTokenType(p->token);
+        setTokenType(ptrb->token);
         if (strcmp(ident,"end") == 0)
         {
             if (bracketStackSize==0)
@@ -421,10 +422,10 @@ void lexIdentifier()
         // to match them up.  But we need this information to determine
         // if more text is needed...
         tokenValue.isToken = false;
-        tokenValue.v.p = allocateAbstractSyntaxTree(reserved_node, p->ordinal, (int)ContextInt());
-        if ((p->token == FOR) || (p->token == WHILE) ||
-                (p->token == IF) || (p->token == ELSEIF) ||
-                (p->token == CASE))
+        tokenValue.v.p = allocateAbstractSyntaxTree(reserved_node, ptrb->ordinal, (int)ContextInt());
+        if ((ptrb->token == FOR) || (ptrb->token == WHILE) ||
+                (ptrb->token == IF) || (ptrb->token == ELSEIF) ||
+                (ptrb->token == CASE))
         {
             vcFlag = 1;
             inBlock++;
@@ -1002,9 +1003,17 @@ namespace Nelson {
         lexState = Initial;
         vcStackSize = 0;
         clearTextBufferLexer();
-        textbuffer = (char*) calloc(strlen(buf)+1,sizeof(char));
+        size_t len = 1;
+        if (buf != nullptr)
+        {
+            len = strlen(buf) + 1;
+        }
+        textbuffer = (char*) calloc(len, sizeof(char));
         datap = textbuffer;
-        strcpy(textbuffer,buf);
+        if (buf != nullptr && textbuffer != nullptr)
+        {
+            strcpy(textbuffer, buf);
+        }
         linestart = datap;
         lineNumber = 0;
     }

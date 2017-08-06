@@ -206,6 +206,14 @@ namespace Nelson {
     {
         if (!a.isDoubleType() || !b.isDoubleType())
         {
+			if (a.isNdArrayDoubleType())
+			{
+				throw Exception(ERROR_WRONG_ARGUMENTS_SIZE_2D_MATRIX_EXPECTED);
+			}
+			if (b.isNdArrayDoubleType())
+			{
+				throw Exception(ERROR_WRONG_ARGUMENTS_SIZE_2D_MATRIX_EXPECTED);
+			}
             throw Exception(ERROR_WRONG_ARGUMENTS_TYPE_DOUBLE_EXPECTED);
         }
         if (a.isSparse() || b.isSparse())

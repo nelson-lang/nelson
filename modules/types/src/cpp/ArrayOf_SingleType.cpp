@@ -26,12 +26,12 @@ namespace Nelson {
     */
     const bool ArrayOf::isSingleType() const
     {
-        return (dp->dataClass == NLS_SINGLE) || (dp->dataClass == NLS_SCOMPLEX) && (!dp->sparse) && is2D();
+		return (!dp->sparse) && is2D() && ((dp->dataClass == NLS_SINGLE) || (dp->dataClass == NLS_SCOMPLEX));
     }
     //=============================================================================
     const bool ArrayOf::isNdArraySingleType() const
     {
-        return (dp->dataClass == NLS_SINGLE) || (dp->dataClass == NLS_SCOMPLEX) && (!dp->sparse) && !is2D();
+		return (!dp->sparse) && !is2D() && ((dp->dataClass == NLS_SINGLE) || (dp->dataClass == NLS_SCOMPLEX));
     }
     //=============================================================================
     ArrayOf ArrayOf::singleConstructor(float aval)

@@ -24,7 +24,7 @@
 #include "dynamic_library.hpp"
 //=============================================================================
 namespace Nelson {
-    class NLSLOCALIZATION_IMPEXP Localization {
+    class NLSLOCALIZATION_IMPEXP Localization { //-V690
     public:
         static Localization *Instance();
         std::wstring getCurrentLanguage();
@@ -38,6 +38,7 @@ namespace Nelson {
     private:
         Localization();
         Localization(Localization const&) {};
+
         static Localization *m_pInstance;
 
         std::wstring currentLanguage;

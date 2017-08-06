@@ -204,6 +204,7 @@
     <ClCompile Include="..\cpp\orBuiltin.cpp" />
     <ClCompile Include="..\cpp\plusBuiltin.cpp" />
     <ClCompile Include="..\cpp\powerBuiltin.cpp" />
+    <ClCompile Include="..\cpp\prodBuiltin.cpp" />
     <ClCompile Include="..\cpp\rdivideBuiltin.cpp" />
     <ClCompile Include="..\cpp\realBuiltin.cpp" />
     <ClCompile Include="..\cpp\reshapeBuiltin.cpp" />
@@ -280,6 +281,7 @@
     <ClInclude Include="..\include\orBuiltin.hpp" />
     <ClInclude Include="..\include\plusBuiltin.hpp" />
     <ClInclude Include="..\include\powerBuiltin.hpp" />
+    <ClInclude Include="..\include\prodBuiltin.hpp" />
     <ClInclude Include="..\include\rdivideBuiltin.hpp" />
     <ClInclude Include="..\include\realBuiltin.hpp" />
     <ClInclude Include="..\include\reshapeBuiltin.hpp" />

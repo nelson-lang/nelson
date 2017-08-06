@@ -25,29 +25,29 @@ namespace Nelson {
     ArrayOf CtransposeSparseLogical(ArrayOf A)
     {
         ArrayOf C;
-		if (A.isEmpty())
-		{
-			Dimensions dimsC(A.getDimensions().getColumns(), A.getDimensions().getRows());
-			C = ArrayOf(NLS_LOGICAL, dimsC, (void*)nullptr, true);
-		}
-		else
-		{
-			Eigen::SparseMatrix<logical, 0, signedIndexType> *spMatA = (Eigen::SparseMatrix<logical, 0, signedIndexType> *)A.getSparseDataPointer();
-			Eigen::SparseMatrix<logical, 0, signedIndexType> *spMatC;
-			try
-			{
-				spMatC = new Eigen::SparseMatrix<logical, 0, signedIndexType>(spMatA->cols(), spMatA->rows());
-			}
-			catch (std::bad_alloc &e)
-			{
-				e.what();
-				spMatC = nullptr;
-				throw Exception(ERROR_MEMORY_ALLOCATION);
-			}
-			*spMatC = spMatA->adjoint();
-			Dimensions dimsC = Dimensions(spMatC->rows(), spMatC->cols());
-			C = ArrayOf(NLS_LOGICAL, dimsC, (void*)spMatC, true);
-		}
+        if (A.isEmpty())
+        {
+            Dimensions dimsC(A.getDimensions().getColumns(), A.getDimensions().getRows());
+            C = ArrayOf(NLS_LOGICAL, dimsC, (void*)nullptr, true);
+        }
+        else
+        {
+            Eigen::SparseMatrix<logical, 0, signedIndexType> *spMatA = (Eigen::SparseMatrix<logical, 0, signedIndexType> *)A.getSparseDataPointer();
+            Eigen::SparseMatrix<logical, 0, signedIndexType> *spMatC;
+            try
+            {
+                spMatC = new Eigen::SparseMatrix<logical, 0, signedIndexType>(spMatA->cols(), spMatA->rows());
+            }
+            catch (std::bad_alloc &e)
+            {
+                e.what();
+                spMatC = nullptr;
+                throw Exception(ERROR_MEMORY_ALLOCATION);
+            }
+            *spMatC = spMatA->adjoint();
+            Dimensions dimsC = Dimensions(spMatC->rows(), spMatC->cols());
+            C = ArrayOf(NLS_LOGICAL, dimsC, (void*)spMatC, true);
+        }
         return C;
     }
     //=============================================================================

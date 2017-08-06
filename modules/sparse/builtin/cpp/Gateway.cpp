@@ -65,8 +65,8 @@ static const nlsGateway gateway[] =
     { "sparsedouble_ctranspose", Nelson::SparseGateway::sparsedouble_ctransposeBuiltin, 1, 1 },
     { "nnz", Nelson::SparseGateway::nnzBuiltin, 1, 1 },
     { "nzmax", Nelson::SparseGateway::nzmaxBuiltin, 1, 1 },
-	{ "sparselogical_transpose", Nelson::SparseGateway::sparselogical_transposeBuiltin, 1, 1 },
-	{ "sparsedouble_transpose", Nelson::SparseGateway::sparsedouble_transposeBuiltin, 1, 1 },
+    { "sparselogical_transpose", Nelson::SparseGateway::sparselogical_transposeBuiltin, 1, 1 },
+    { "sparsedouble_transpose", Nelson::SparseGateway::sparsedouble_transposeBuiltin, 1, 1 },
 
 };
 //=============================================================================

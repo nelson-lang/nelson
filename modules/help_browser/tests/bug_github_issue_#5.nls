@@ -23,8 +23,8 @@
 //=============================================================================
 // <--WINDOWS ONLY-->
 bin_path = modulepath(nelsonroot,'help_browser','bin');
-assert_istrue(isdir([bin_path, '/sqldrivers']));
-assert_istrue(isfile([bin_path, '/sqldrivers/qsqlite.dll']));
-assert_istrue(isfile([bin_path, '/sqldrivers/qsqlmysql.dll']));
-assert_istrue(isfile([bin_path, '/sqldrivers/qsqlodbc.dll']));
-assert_istrue(isfile([bin_path, '/sqldrivers/qsqlpsql.dll']));
+assert_istrue(isdir([bin_path, '/plugins/sqldrivers']));
+assert_istrue(isfile([bin_path, '/plugins/sqldrivers/qsqlite.dll']));
+assert_istrue(isfile([bin_path, '/plugins/sqldrivers/qsqlmysql.dll']));
+assert_istrue(isfile([bin_path, '/plugins/sqldrivers/qsqlodbc.dll']));
+assert_istrue(isfile([bin_path, '/plugins/sqldrivers/qsqlpsql.dll']));

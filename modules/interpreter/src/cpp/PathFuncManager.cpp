@@ -99,7 +99,7 @@ namespace Nelson {
         return find(ptr->hashid, functionName);
     }
     //=============================================================================
-    bool PathFuncManager::find(const std::string name, FuncPtr &ptr)
+    bool PathFuncManager::find(const std::string &name, FuncPtr &ptr)
     {
         bool res = false;
         boost::unordered_map<std::string, FuncPtr>::const_iterator found = cachedPathFunc.find(name);
@@ -128,7 +128,7 @@ namespace Nelson {
         return res;
     }
     //=============================================================================
-    bool PathFuncManager::find(const std::wstring functionName, FileFunc **ff)
+    bool PathFuncManager::find(const std::wstring &functionName, FileFunc **ff)
     {
         bool res = false;
         if (_userPath)
@@ -153,7 +153,7 @@ namespace Nelson {
         return res;
     }
     //=============================================================================
-    bool PathFuncManager::find(const std::wstring functionName, std::wstring &filename)
+    bool PathFuncManager::find(const std::wstring &functionName, std::wstring &filename)
     {
         bool res = false;
         if (_userPath)
@@ -178,7 +178,7 @@ namespace Nelson {
         return res;
     }
     //=============================================================================
-    bool PathFuncManager::find(const std::wstring functionName, wstringVector &filesname)
+    bool PathFuncManager::find(const std::wstring &functionName, wstringVector &filesname)
     {
         bool res = false;
         filesname.clear();
@@ -232,11 +232,19 @@ namespace Nelson {
         return res;
     }
     //=============================================================================
-    bool PathFuncManager::addPath(const std::wstring path, bool begin)
+    bool PathFuncManager::addPath(const std::wstring &path, bool begin)
     {
         bool res = false;
-        PathFunc *pf = new PathFunc(path);
-        if (pf)
+        PathFunc *_pf;
+        try
+        {
+            _pf = new PathFunc(path);
+        }
+        catch (std::bad_alloc)
+        {
+            _pf = nullptr;
+        }
+        if (_pf != nullptr)
         {
             for (boost::container::vector<PathFunc *>::iterator it = _pathFuncVector.begin(); it != _pathFuncVector.end(); ++it)
             {
@@ -246,24 +254,25 @@ namespace Nelson {
                     boost::filesystem::path p1 {pf->getPath()}, p2 {path};
                     if (boost::filesystem::equivalent(p1, p2))
                     {
+                        delete _pf;
                         return true;
                     }
                 }
             }
             if (begin)
             {
-                _pathFuncVector.insert(_pathFuncVector.begin(), pf);
+                _pathFuncVector.insert(_pathFuncVector.begin(), _pf);
             }
             else
             {
-                _pathFuncVector.push_back(pf);
+                _pathFuncVector.push_back(_pf);
             }
             res = true;
         }
         return res;
     }
     //=============================================================================
-    bool PathFuncManager::removePath(const std::wstring path)
+    bool PathFuncManager::removePath(const std::wstring &path)
     {
         bool res = false;
         for (boost::container::vector<PathFunc *>::iterator it = _pathFuncVector.begin(); it != _pathFuncVector.end(); ++it)
@@ -314,7 +323,7 @@ namespace Nelson {
         return _path;
     }
     //=============================================================================
-    bool PathFuncManager::setUserPath(const std::wstring path, bool saveToFile)
+    bool PathFuncManager::setUserPath(const std::wstring &path, bool saveToFile)
     {
         clearUserPath();
         _userPath = new PathFunc(path);
@@ -369,7 +378,7 @@ namespace Nelson {
         }
     }
     //=============================================================================
-    void PathFuncManager::rehash(const std::wstring path)
+    void PathFuncManager::rehash(const std::wstring &path)
     {
         if (_userPath != nullptr)
         {
@@ -444,7 +453,7 @@ namespace Nelson {
         return p;
     }
     //=============================================================================
-    MacroFunctionDef *PathFuncManager::processFile(std::wstring nlf_filename)
+    MacroFunctionDef *PathFuncManager::processFile(const std::wstring &nlf_filename)
     {
         MacroFunctionDef *fptr = nullptr;
         FILE *fr = nullptr;
@@ -551,7 +560,7 @@ namespace Nelson {
         cachedPathFunc = backup;
     }
     //=============================================================================
-    bool PathFuncManager::isDir(std::wstring pathname)
+    bool PathFuncManager::isDir(const std::wstring &pathname)
     {
         boost::filesystem::path data_dir(pathname);
         bool bRes = false;
@@ -569,7 +578,7 @@ namespace Nelson {
         return bRes;
     }
     //=============================================================================
-    bool PathFuncManager::isFile(std::wstring filename)
+    bool PathFuncManager::isFile(const std::wstring &filename)
     {
         boost::filesystem::path data_dir(filename);
         bool bRes = false;

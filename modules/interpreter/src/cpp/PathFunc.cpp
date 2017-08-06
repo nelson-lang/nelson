@@ -26,7 +26,7 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-    bool PathFunc::isdir(std::wstring path)
+    bool PathFunc::isdir(const std::wstring &path)
     {
         boost::filesystem::path data_dir(path);
         bool bRes = false;
@@ -58,7 +58,7 @@ namespace Nelson {
         rehash();
     }
     //=============================================================================
-    std::wstring PathFunc::uniformizePathName(std::wstring pathname)
+    std::wstring PathFunc::uniformizePathName(const std::wstring &pathname)
     {
         std::wstring pathModified = pathname;
 #ifdef _MSC_VER
@@ -98,7 +98,7 @@ namespace Nelson {
         return pathModified;
     }
     //=============================================================================
-    bool PathFunc::comparePathname(std::wstring path1, std::wstring path2)
+    bool PathFunc::comparePathname(const std::wstring &path1, const std::wstring &path2)
     {
         std::wstring pstr1 = uniformizePathName(path1);
         std::wstring pstr2 = uniformizePathName(path2);
@@ -162,7 +162,7 @@ namespace Nelson {
         return _path;
     }
     //=============================================================================
-    bool PathFunc::isSupportedFuncFilename(std::wstring name)
+    bool PathFunc::isSupportedFuncFilename(const std::wstring &name)
     {
         for (sizeType k = 0; k < (sizeType)name.size(); k++)
         {
@@ -191,8 +191,16 @@ namespace Nelson {
                         std::wstring name = current.stem().generic_wstring();
                         if (isSupportedFuncFilename(name))
                         {
-                            FileFunc *ff = new FileFunc(_path, name);
-                            if (ff)
+                            FileFunc *ff;
+                            try
+                            {
+                                ff = new FileFunc(_path, name);
+                            }
+                            catch (std::bad_alloc &)
+                            {
+                                ff = nullptr;
+                            }
+                            if (ff != nullptr)
                             {
                                 mapFiles.emplace(name, ff);
                             }

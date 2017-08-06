@@ -97,12 +97,12 @@ namespace Nelson {
         }
     }
     //=============================================================================
-    bool Exception::matches(std::wstring tst_msg)
+    bool Exception::matches(const std::wstring &tst_msg)
     {
         return (msg.compare(tst_msg) == 0);
     }
     //=============================================================================
-    bool Exception::matches(std::string tst_msg)
+    bool Exception::matches(const std::string &tst_msg)
     {
         return (msg.compare(utf8_to_wstring(tst_msg)) == 0);
     }
@@ -128,22 +128,22 @@ namespace Nelson {
         position = position_in;
     }
     //=============================================================================
-    void Exception::setMessage(std::string msg_in)
+    void Exception::setMessage(const std::string &msg_in)
     {
         msg = utf8_to_wstring(msg_in);
     }
     //=============================================================================
-    void Exception::setMessage(std::wstring msg_in)
+    void Exception::setMessage(const std::wstring &msg_in)
     {
         msg = msg_in;
     }
     //=============================================================================
-    void Exception::setFunctionName(std::wstring functionname)
+    void Exception::setFunctionName(const std::wstring &functionname)
     {
         this->functionname = functionname;
     }
     //=============================================================================
-    void Exception::setFunctionName(std::string functionname)
+    void Exception::setFunctionName(const std::string &functionname)
     {
         this->functionname = utf8_to_wstring(functionname);
     }
@@ -175,7 +175,7 @@ namespace Nelson {
         return formattedMessage;
     }
     //=============================================================================
-    void Exception::setFileName(std::wstring filename)
+    void Exception::setFileName(const std::wstring &filename)
     {
         this->filename = filename;
     }
@@ -195,12 +195,12 @@ namespace Nelson {
         return this->identifier;
     }
     //=============================================================================
-    void Exception::setIdentifier(std::wstring identifier_in)
+    void Exception::setIdentifier(const std::wstring &identifier_in)
     {
         this->identifier = identifier_in;
     }
     //=============================================================================
-    void Exception::setIdentifier(std::string identifier_in)
+    void Exception::setIdentifier(const std::string &identifier_in)
     {
         this->identifier = utf8_to_wstring(identifier_in);
     }

@@ -55,6 +55,7 @@ namespace Nelson {
         down = nullptr;
         right = nullptr;
         opNum = OP_NULL;
+		m_context = 0;
     }
 
     AST::AST(NODE_TYPE ntype, const char* name, int context)
@@ -374,8 +375,16 @@ namespace Nelson {
         {
             return nullptr;
         }
-        ASTPtr t = new AST();
-        if (t)
+        ASTPtr t;
+        try
+        {
+            t = new AST();
+        }
+        catch (std::bad_alloc)
+        {
+            t = nullptr;
+        }
+        if (t != nullptr)
         {
             t->type = (NODE_TYPE)s->getByte();
             t->tokenNumber = s->getInt();

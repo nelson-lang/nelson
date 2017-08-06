@@ -164,7 +164,10 @@ namespace Nelson {
     //=============================================================================
     ArrayOf double_times_double(ArrayOf a, ArrayOf b)
     {
-        if (!a.isDoubleType() || !b.isDoubleType())
+		Class classA = a.getDataClass();
+		Class classB = b.getDataClass();
+		bool isSupportedClass = ((classA == NLS_DOUBLE || classA == NLS_DCOMPLEX) && (classB == NLS_DOUBLE || classB == NLS_DCOMPLEX));
+        if (!isSupportedClass)
         {
             throw Exception(ERROR_WRONG_ARGUMENTS_TYPE_DOUBLE_EXPECTED);
         }

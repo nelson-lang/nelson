@@ -141,3 +141,4 @@ bin/macosx64/nelson-gui
 /tools/buildhelp/x64/Debug
 /tools/buildhelp/win32/Release
 /tools/buildhelp/win32/Debug
+*.plog

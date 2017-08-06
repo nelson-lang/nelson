@@ -109,8 +109,8 @@ namespace Nelson {
             else
             {
                 Dimensions dims(1, nbChilds);
-                nelson_handle *nh = (nelson_handle*)ArrayOf::allocateArrayOf(NLS_HANDLE, nbChilds);
-                for (int k = 0; k < nbChilds; k++)
+                nelson_handle *nh = (nelson_handle*)ArrayOf::allocateArrayOf(NLS_HANDLE, (indexType)nbChilds);
+                for (size_t k = 0; k < (size_t)nbChilds; k++)
                 {
                     nelson_handle nh_found = HandleManager::getInstance()->findByPointerValue(childs[k]);
                     if (nh_found != -1)

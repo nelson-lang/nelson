@@ -145,8 +145,7 @@ void BasicTerminal::warningMessage(std::wstring msg)
 //=============================================================================
 void BasicTerminal::warningMessage(std::string msg)
 {
-    fprintf(stdout, "%s", msg.c_str());
-    this->diary.writeMessage(msg);
+    outputMessage(msg);
 }
 //=============================================================================
 void BasicTerminal::clearTerminal()

@@ -25,9 +25,10 @@
 //=============================================================================
 
 namespace Nelson {
+    //=============================================================================
     typedef ArrayOfVector APtr;
     typedef APtr(*BuiltInFuncPtr) (Evaluator*, int, const APtr&);
-
+    //=============================================================================
     class NLSINTERPRETER_IMPEXP BuiltInFunctionDef : public FunctionDef {
     public:
         /**
@@ -80,8 +81,6 @@ namespace Nelson {
 
         virtual ArrayOfVector evaluateFunction(Evaluator *, ArrayOfVector&, int);
     };
-
-
-
+    //=============================================================================
 }
 //=============================================================================

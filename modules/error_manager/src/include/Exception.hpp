@@ -88,8 +88,8 @@ namespace Nelson {
         /**
          * compares messages
          */
-        bool matches(std::string tst_msg);
-        bool matches(std::wstring tst_msg);
+        bool matches(const std::string &tst_msg);
+        bool matches(const std::wstring &tst_msg);
         /**
          * Get the message member function.
         */
@@ -105,21 +105,21 @@ namespace Nelson {
         int getLine();
         int getPosition();
         void setLinePosition(int line_in, int position_in);
-        void setMessage(std::string msg_in);
-        void setMessage(std::wstring msg_in);
+        void setMessage(const std::string &msg_in);
+        void setMessage(const std::wstring &msg_in);
 
-        void setFunctionName(std::wstring functionname);
-        void setFunctionName(std::string functionname);
+        void setFunctionName(const std::wstring &functionname);
+        void setFunctionName(const std::string &functionname);
 
-        void setFileName(std::wstring filename);
+        void setFileName(const std::wstring &filename);
 
         std::wstring getFunctionName();
 
         bool isEmpty();
 
         std::wstring getIdentifier();
-        void setIdentifier(std::wstring identifier_in);
-        void setIdentifier(std::string identifier_in);
+        void setIdentifier(const std::wstring &identifier_in);
+        void setIdentifier(const std::string &identifier_in);
 
     };
 

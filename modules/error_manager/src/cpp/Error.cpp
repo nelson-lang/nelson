@@ -45,15 +45,16 @@ namespace Nelson {
         int isize = (int)eval->cstack.size();
         if (isize - 2 >= 0)
         {
-            Pos = eval->cstack[isize - 2].tokid >> 16;
+			size_t pos = isize - 2;
+            Pos = eval->cstack[pos].tokid >> 16;
         }
         return Pos;
     }
     //=============================================================================
     static std::wstring getCurrentEvaluateFilename(Evaluator *eval)
     {
-        int isize = (int)eval->evaluatedFilenames.size();
-        if (isize - 1 >= 0)
+        size_t isize = eval->evaluatedFilenames.size();
+	    if (isize - 1 >= 0)
         {
             return eval->evaluatedFilenames[isize - 1];
         }
@@ -86,7 +87,7 @@ namespace Nelson {
         return wfilename;
     }
     //=============================================================================
-    void Error(Evaluator *eval, std::wstring msg)
+    void Error(Evaluator *eval, const std::wstring &msg)
     {
         int LinePosition = -1;
         int ColumnPosition = -1;
@@ -101,7 +102,7 @@ namespace Nelson {
         throw Exception(msg, FunctionName, LinePosition, ColumnPosition, FileName);
     }
     //=============================================================================
-    void Error(Evaluator *eval, std::wstring msg, std::wstring functionname)
+    void Error(Evaluator *eval, const std::wstring &msg, const std::wstring &functionname)
     {
         int LinePosition = -1;
         int ColumnPosition = -1;
@@ -120,12 +121,12 @@ namespace Nelson {
         throw Exception(msg, FunctionName, LinePosition, ColumnPosition, FileName);
     }
     //=============================================================================
-    void Error(Evaluator *eval, std::string msg)
+    void Error(Evaluator *eval, const std::string &msg)
     {
         Error(eval, utf8_to_wstring(msg));
     }
     //=============================================================================
-    void Error(Evaluator *eval, std::string msg, std::string functionname)
+    void Error(Evaluator *eval, const std::string &msg, const std::string &functionname)
     {
         Error(eval, utf8_to_wstring(msg), utf8_to_wstring(functionname));
     }

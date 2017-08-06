@@ -25,7 +25,7 @@
 //=============================================================================
 template <class T> void* Eigen_EyeSparseMatrixConstructor(indexType rows, indexType cols)
 {
-    if (cols * rows)
+    if (cols * rows > 0)
     {
         Eigen::SparseMatrix<T, 0, signedIndexType> *spMat;
         try
@@ -137,7 +137,7 @@ template <class T>void* Eigen_MakeDenseArrayOf(indexType rows, indexType cols, c
 {
     Eigen::SparseMatrix<T, 0, signedIndexType> *spMat = (Eigen::SparseMatrix<T, 0, signedIndexType> *)cp;
     T *pMat = nullptr;
-    if (rows * cols)
+    if (rows * cols > 0)
     {
         try
         {
@@ -173,7 +173,7 @@ void* Eigen_MakeDenseArrayOf(Class dclass, indexType rows, indexType cols, const
         {
             Eigen::SparseMatrix<doublecomplex, 0, signedIndexType> *spMat = (Eigen::SparseMatrix<doublecomplex, 0, signedIndexType> *)cp;
             double *pMat = nullptr;
-            if (rows * cols)
+            if (rows * cols > 0)
             {
                 doublecomplex *pzMat = nullptr;
                 try

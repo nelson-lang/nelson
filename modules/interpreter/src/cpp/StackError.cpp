@@ -41,10 +41,11 @@ namespace Nelson {
                     j++;
                 }
                 ErrorInfo ei;
-                std::wstring filename = utf8_to_wstring(eval->cstack[j - 1].cname.c_str());
-                std::wstring functionname = utf8_to_wstring(eval->cstack[j - 1].detail.c_str());
-                int lineposition = eval->cstack[j - 1].tokid & 0x0000FFFF;
-                int columposition = eval->cstack[j - 1].tokid >> 16;
+				StackEntry ste = eval->cstack[j - 1];
+                std::wstring filename = utf8_to_wstring(ste.cname.c_str());
+                std::wstring functionname = utf8_to_wstring(ste.detail.c_str());
+                int lineposition = ste.tokid & 0x0000FFFF;
+                int columposition = ste.tokid >> 16;
                 ei.set(filename, functionname, lineposition, columposition);
                 vectErrorInfo.push_back(ei);
                 i = j;

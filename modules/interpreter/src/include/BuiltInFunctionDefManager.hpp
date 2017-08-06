@@ -28,9 +28,9 @@ namespace Nelson {
     class NLSINTERPRETER_IMPEXP BuiltInFunctionDefManager {
     public:
         static BuiltInFunctionDefManager *getInstance();
-        bool add(std::string name, BuiltInFuncPtr fptr, int argc_in, int argc_out, std::wstring dynlibname, std::wstring modulename);
+        bool add(const std::string &name, BuiltInFuncPtr fptr, int argc_in, int argc_out, const std::wstring &dynlibname, const std::wstring &modulename);
 
-        bool remove(std::string name);
+        bool remove(const std::string &name);
         bool remove(FuncPtr ptr);
         bool remove(BuiltInFunctionDef *ptr);
         bool remove(BuiltInFuncPtr fptr);
@@ -40,9 +40,9 @@ namespace Nelson {
 
         boost::container::vector<FuncPtr> getTable();
         stringVector getNameList();
-        bool find(const std::string name, FuncPtr &ptr);
-        bool find(const std::string name, wstringVector &paths);
-        bool find(const std::string name, std::wstring &path);
+        bool find(const std::string &name, FuncPtr &ptr);
+        bool find(const std::string &name, wstringVector &paths);
+        bool find(const std::string &name, std::wstring &path);
         bool find(size_t hashid, std::wstring &functionname);
 
 

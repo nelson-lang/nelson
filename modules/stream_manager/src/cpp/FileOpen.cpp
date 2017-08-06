@@ -82,7 +82,15 @@ namespace Nelson {
             fopenError = FOPEN_INVALID_MODE;
             return fopenError;
         }
-        File *file = new File();
+        File *file;
+        try
+        {
+            file = new File();
+        }
+        catch (std::bad_alloc)
+        {
+            file = nullptr;
+        }
         if (!file)
         {
             fileposition = -1;

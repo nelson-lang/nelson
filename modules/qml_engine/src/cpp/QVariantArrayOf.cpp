@@ -254,8 +254,8 @@ namespace Nelson {
                 QByteArray qbytearray = Q.toByteArray();
                 int count = qbytearray.count();
                 const char* data = qbytearray.data();
-                int8 *arrayInt8 = (int8*)ArrayOf::allocateArrayOf(NLS_INT8, count);
-                for (int k = 0; k < count; k++)
+                int8 *arrayInt8 = (int8*)ArrayOf::allocateArrayOf(NLS_INT8, (indexType)count);
+                for (size_t k = 0; k < (size_t)count; k++)
                 {
                     arrayInt8[k] = (int8)data[k];
                 }
@@ -642,7 +642,7 @@ namespace Nelson {
                     {
                         Dimensions dims(1, nbChilds);
                         nelson_handle *nh = (nelson_handle*)ArrayOf::allocateArrayOf(NLS_HANDLE, nbChilds);
-                        for (int k = 0; k < nbChilds; k++)
+                        for (int k = 0; k < (int)nbChilds; k++)
                         {
                             QObject *qobj = list->at(list, k);
                             nelson_handle nh_found = HandleManager::getInstance()->findByPointerValue(qobj);
@@ -780,7 +780,7 @@ namespace Nelson {
                 QByteArray qbytearray((int)dimsA.getElementCount(), ' ');
                 int count = qbytearray.count();
                 char* data = qbytearray.data();
-                for (int k = 0; k < count; k++)
+                for (size_t k = 0; k < (size_t)count; k++)
                 {
                     data[k] = (char)arrayInt8[k];
                 }
@@ -798,7 +798,7 @@ namespace Nelson {
                 logical *arrayLogical = (logical*)A.getDataPointer();
                 QBitArray qbitarray((int)dimsA.getElementCount());
                 int count = qbitarray.count();
-                for (int k = 0; k < count; k++)
+                for (int k = 0; k < (int)count; k++)
                 {
                     qbitarray[k] = (bool)arrayLogical[k];
                 }

@@ -361,7 +361,7 @@ namespace Nelson {
             superb = nullptr;
             Dimensions dimsU(maxMN, maxMN);
             U = ArrayOf(NLS_SINGLE, dimsU, u);
-            single *ds = new_with_exception<single>(minMN *  maxMN);
+            single *ds = new_with_exception<single>((size_t)(minMN *  maxMN));
             Dimensions dimsS(m, n);
             Eigen::Map<Eigen::VectorXf> matStmp(dstemp, minMN);
             Eigen::Map<Eigen::MatrixXf> matS(ds, maxMN, minMN);
@@ -428,13 +428,13 @@ namespace Nelson {
             int lda = m;
             int minMN = std::min(m, n);
             int maxMN = std::max(m, n);
-            single *superb = new_with_exception<single>(minMN - 1);
-            single *dstemp = new_with_exception<single>(minMN);
-            single *u = new_with_exception<single>(ldu * m);
+            single *superb = new_with_exception<single>((size_t)(minMN - 1));
+            single *dstemp = new_with_exception<single>((size_t)minMN);
+            single *u = new_with_exception<single>((size_t)(ldu * m));
             single *vt = nullptr;
             if (withV)
             {
-                vt = new_with_exception<single>(ldvt * n);
+                vt = new_with_exception<single>((size_t)(ldvt * n));
             }
             int info = LAPACKE_sgesvd(LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, (single*)A.getDataPointer(), lda, dstemp, u, ldu, vt, ldvt, superb);
             if (info > 0)
@@ -447,7 +447,7 @@ namespace Nelson {
             Eigen::Map<Eigen::VectorXf> matStmp(dstemp, minMN);
             if (m > n)
             {
-                single *ds = new_with_exception<single>(n *  n);
+                single *ds = new_with_exception<single>((size_t)(n *  n));
                 Eigen::Map<Eigen::MatrixXf> matS(ds, n, n);
                 for (size_t k = 0; k < minMN; k++)
                 {
@@ -457,9 +457,9 @@ namespace Nelson {
             }
             else
             {
-                single *ds = new_with_exception<single>(minMN *  maxMN);
+                single *ds = new_with_exception<single>((size_t)(minMN *  maxMN));
                 Eigen::Map<Eigen::MatrixXf> matS(ds, m, m);
-                for (size_t k = 0; k < minMN; k++)
+                for (size_t k = 0; k < (size_t)minMN; k++)
                 {
                     matS(k, k) = matStmp(k);
                 }
@@ -470,7 +470,7 @@ namespace Nelson {
             if (withV)
             {
                 Eigen::Map<Eigen::MatrixXf> matV(vt, ldvt, n);
-                single *vt2 = new_with_exception<single>(ldvt * n);
+                single *vt2 = new_with_exception<single>((size_t)(ldvt * n));
                 Eigen::Map<Eigen::MatrixXf> matV2(vt2, n, ldvt);
                 matV2 = matV.transpose().eval();
                 delete[] vt;
@@ -503,9 +503,9 @@ namespace Nelson {
             int lda = m;
             int minMN = std::min(m, n);
             int maxMN = std::max(m, n);
-            double *superb = new_with_exception<double>(minMN - 1);
-            double *dstemp = new_with_exception<double>(minMN);
-            double *u = new_with_exception<double>(ldu * m);
+            double *superb = new_with_exception<double>((size_t)(minMN - 1));
+            double *dstemp = new_with_exception<double>((size_t)minMN);
+            double *u = new_with_exception<double>((size_t)(ldu * m));
             double *vt = nullptr;
             if (withV)
             {
@@ -520,7 +520,7 @@ namespace Nelson {
             superb = nullptr;
             Dimensions dimsU(maxMN, maxMN);
             U = ArrayOf(NLS_DOUBLE, dimsU, u);
-            double *ds = new_with_exception<double>(minMN *  maxMN);
+            double *ds = new_with_exception<double>((size_t)(minMN *  maxMN));
             Dimensions dimsS(m, n);
             Eigen::Map<Eigen::VectorXd> matStmp(dstemp, minMN);
             Eigen::Map<Eigen::MatrixXd> matS(ds, maxMN, minMN);
@@ -591,13 +591,13 @@ namespace Nelson {
             int lda = m;
             int minMN = std::min(m, n);
             int maxMN = std::max(m, n);
-            double *superb = new_with_exception<double>(minMN - 1);
-            double *dstemp = new_with_exception<double>(minMN);
-            double *u = new_with_exception<double>(ldu * m);
+            double *superb = new_with_exception<double>((size_t)(minMN - 1));
+            double *dstemp = new_with_exception<double>((size_t)minMN);
+            double *u = new_with_exception<double>((size_t)(ldu * m));
             double *vt = nullptr;
             if (withV)
             {
-                vt = new_with_exception<double>(ldvt * n);
+                vt = new_with_exception<double>((size_t)(ldvt * n));
             }
             int info = LAPACKE_dgesvd(LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, (double*)A.getDataPointer(), lda, dstemp, u, ldu, vt, ldvt, superb);
             if (info > 0)
@@ -612,7 +612,7 @@ namespace Nelson {
             {
                 double *ds = new_with_exception<double>(n *  n);
                 Eigen::Map<Eigen::MatrixXd> matS(ds, n, n);
-                for (size_t k = 0; k < minMN; k++)
+                for (size_t k = 0; k < (size_t)minMN; k++)
                 {
                     matS(k, k) = matStmp(k);
                 }
@@ -620,9 +620,9 @@ namespace Nelson {
             }
             else
             {
-                double *ds = new_with_exception<double>(minMN *  maxMN);
+                double *ds = new_with_exception<double>((size_t)(minMN *  maxMN));
                 Eigen::Map<Eigen::MatrixXd> matS(ds, m, m);
-                for (size_t k = 0; k < minMN; k++)
+                for (size_t k = 0; k < (size_t)minMN; k++)
                 {
                     matS(k, k) = matStmp(k);
                 }
@@ -633,7 +633,7 @@ namespace Nelson {
             if (withV)
             {
                 Eigen::Map<Eigen::MatrixXd> matV(vt, ldvt, n);
-                double *vt2 = new_with_exception<double>(ldvt * n);
+                double *vt2 = new_with_exception<double>((size_t)(ldvt * n));
                 Eigen::Map<Eigen::MatrixXd> matV2(vt2, n, ldvt);
                 matV2 = matV.transpose().eval();
                 delete[] vt;
@@ -667,14 +667,14 @@ namespace Nelson {
             int lda = m;
             int minMN = std::min(m, n);
             int maxMN = std::max(m, n);
-            single *superb = new_with_exception<single>(minMN - 1);
-            single *dstemp = new_with_exception<single>(minMN);
-            single *u = new_with_exception<single>(ldu * m * 2);
+            single *superb = new_with_exception<single>((size_t)(minMN - 1));
+            single *dstemp = new_with_exception<single>((size_t)(minMN));
+            single *u = new_with_exception<single>((size_t)(ldu * m * 2));
             single *vt = nullptr;
             singlecomplex* vtz = nullptr;
             if (withV)
             {
-                vt = new_with_exception<single>(ldvt * n * 2);
+                vt = new_with_exception<single>((size_t)(ldvt * n * 2));
                 vtz = reinterpret_cast<singlecomplex*>(vt);
             }
             singlecomplex* uz = reinterpret_cast<singlecomplex*>(u);
@@ -687,7 +687,7 @@ namespace Nelson {
             superb = nullptr;
             Dimensions dimsU(maxMN, maxMN);
             U = ArrayOf(NLS_SCOMPLEX, dimsU, u);
-            single *ds = new_with_exception<single>(minMN *  maxMN);
+            single *ds = new_with_exception<single>((size_t)(minMN *  maxMN));
             Dimensions dimsS(m, n);
             Eigen::Map<Eigen::VectorXf> matStmp(dstemp, minMN);
             Eigen::Map<Eigen::MatrixXf> matS(ds, maxMN, minMN);
@@ -758,15 +758,15 @@ namespace Nelson {
             int lda = m;
             int minMN = std::min(m, n);
             int maxMN = std::max(m, n);
-            single *superb = new_with_exception<single>(minMN - 1);
-            single *dstemp = new_with_exception<single>(minMN);
-            single *u = new_with_exception<single>(ldu * m * 2);
+            single *superb = new_with_exception<single>((size_t)(minMN - 1));
+            single *dstemp = new_with_exception<single>((size_t)(minMN));
+            single *u = new_with_exception<single>((size_t)(ldu * m * 2));
             singlecomplex* uz = reinterpret_cast<singlecomplex*>(u);
             single *vt = nullptr;
             singlecomplex* vtz = nullptr;
             if (withV)
             {
-                vt = new_with_exception<single>(ldvt * n * 2);
+                vt = new_with_exception<single>((size_t)(ldvt * n * 2));
                 vtz = reinterpret_cast<singlecomplex*>(vt);
             }
             int info = LAPACKE_cgesvd(LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, Rz, lda, dstemp, uz, ldu, vtz, ldvt, superb);
@@ -780,9 +780,9 @@ namespace Nelson {
             Eigen::Map<Eigen::VectorXf> matStmp(dstemp, minMN);
             if (m > n)
             {
-                single *ds = new_with_exception<single>(n *  n);
+                single *ds = new_with_exception<single>((size_t)(n *  n));
                 Eigen::Map<Eigen::MatrixXf> matS(ds, n, n);
-                for (size_t k = 0; k < minMN; k++)
+                for (size_t k = 0; k < (size_t)minMN; k++)
                 {
                     matS(k, k) = matStmp(k);
                 }
@@ -790,9 +790,9 @@ namespace Nelson {
             }
             else
             {
-                single *ds = new_with_exception<single>(minMN *  maxMN);
+                single *ds = new_with_exception<single>((size_t)(minMN *  maxMN));
                 Eigen::Map<Eigen::MatrixXf> matS(ds, m, m);
-                for (size_t k = 0; k < minMN; k++)
+                for (size_t k = 0; k < (size_t)minMN; k++)
                 {
                     matS(k, k) = matStmp(k);
                 }
@@ -803,7 +803,7 @@ namespace Nelson {
             if (withV)
             {
                 Eigen::Map<Eigen::MatrixXcf> matV(vtz, ldvt, n);
-                single *vt2 = new_with_exception<single>(ldvt * n * 2);
+                single *vt2 = new_with_exception<single>((size_t)(ldvt * n * 2));
                 singlecomplex* vt2z = reinterpret_cast<singlecomplex*>(vt2);
                 Eigen::Map<Eigen::MatrixXcf> matV2(vt2z, n, ldvt);
                 matV2 = matV.transpose().eval();

@@ -37,6 +37,7 @@ MacroFunctionDef::MacroFunctionDef()
 {
     localFunction = false;
     nextFunction = nullptr;
+    prevFunction = nullptr;
     code = nullptr;
     ptAst.clear();
 }
@@ -266,7 +267,7 @@ ArrayOfVector MacroFunctionDef::evaluateFunction(Evaluator *eval, ArrayOfVector&
             int explicitCount = (int)returnVals.size() - 1;
             // For each explicit argument (that we have), insert it
             // into the scope.
-            for (int i = 0; i<explicitCount; i++)
+            for (size_t i = 0; i < explicitCount; i++)
             {
                 if (!context->lookupVariableLocally(returnVals[i], a))
                 {
@@ -301,7 +302,7 @@ ArrayOfVector MacroFunctionDef::evaluateFunction(Evaluator *eval, ArrayOfVector&
                 {
                     throw Exception(_W("Not enough outputs in varargout to satisfy call"));
                 }
-                for (int i = 0; i<toFill; i++)
+                for (size_t i = 0; i < (size_t)toFill; i++)
                 {
                     outputs[explicitCount + i] = dp[i];
                 }
@@ -351,8 +352,16 @@ void Nelson::FreezeMacroFunction(MacroFunctionDef *fptr, Serialize *s)
 //=============================================================================
 MacroFunctionDef* Nelson::ThawMacroFunction(Serialize *s)
 {
-    MacroFunctionDef *t = new MacroFunctionDef();
-    if (t)
+    MacroFunctionDef *t;
+    try
+    {
+        t = new MacroFunctionDef();
+    }
+    catch (std::bad_alloc)
+    {
+        t = nullptr;
+    }
+    if (t != nullptr)
     {
         t->name = s->getString();
         t->arguments = s->getStringVector();

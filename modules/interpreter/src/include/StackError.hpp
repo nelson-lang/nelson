@@ -42,7 +42,7 @@ namespace Nelson {
             this->lineposition = -1;
             this->columposition = -1;
         };
-        void set(std::wstring _filename, std::wstring _functionname, int _lineposition, int _columposition) {
+        void set(const std::wstring &_filename, const std::wstring &_functionname, int _lineposition, int _columposition) {
             this->filename = _filename;
             this->functionname = _functionname;
             this->lineposition = _lineposition;

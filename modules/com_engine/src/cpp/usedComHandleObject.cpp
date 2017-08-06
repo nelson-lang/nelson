@@ -31,7 +31,7 @@ namespace Nelson {
         {
             Dimensions dims(1, nbHandles);
             nelson_handle *nh = (nelson_handle*)ArrayOf::allocateArrayOf(NLS_HANDLE, nbHandles);
-            for (int k = 0; k < nbHandles; k++)
+            for (size_t k = 0; k < nbHandles; k++)
             {
                 nh[k] = used[k];
             }

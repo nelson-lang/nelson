@@ -40,10 +40,10 @@ namespace Nelson {
     private:
         boost::unordered_map<std::wstring, FileFunc *> mapFiles;
         std::wstring _path;
-        bool isSupportedFuncFilename(std::wstring name);
-        std::wstring uniformizePathName(std::wstring pathname);
-        bool comparePathname(std::wstring path1, std::wstring path2);
-        bool isdir(std::wstring path);
+        bool isSupportedFuncFilename(const std::wstring &name);
+        std::wstring uniformizePathName(const std::wstring &pathname);
+        bool comparePathname(const std::wstring &path1, const std::wstring &path2);
+        bool isdir(const std::wstring &path);
     };
 }
 //=============================================================================

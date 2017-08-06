@@ -30,12 +30,12 @@ ArrayOfVector Nelson::ElementaryFunctionsGateway::transposeBuiltin(Evaluator* ev
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-	bool bSuccess = false;
-	retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
-	if (!bSuccess)
-	{
-		retval.push_back(Transpose(argIn[0]));
-	}
-	return retval;
+    bool bSuccess = false;
+    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    if (!bSuccess)
+    {
+        retval.push_back(Transpose(argIn[0]));
+    }
+    return retval;
 }
 //=============================================================================
