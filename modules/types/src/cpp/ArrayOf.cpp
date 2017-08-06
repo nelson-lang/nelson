@@ -193,7 +193,11 @@ namespace Nelson {
             uint64 addr = *i;
             ArrayOf *aptr = (ArrayOf *) addr;
             std::cout << "ArrayOf Number " << j << " = " << aptr->getReferenceCount() << "\n";
-            printf("  Address = %08x\n",addr);
+#ifdef NLS_INDEX_TYPE_64
+			printf("  Address = %llx\n", addr);
+#else
+			printf("  Address = %08x\n", addr);
+#endif
             aptr->printMe(1000,80);
             ++i;
             j++;
@@ -2022,10 +2026,11 @@ break;
                         caseMacro(NLS_DOUBLE,double,qp[i] = (double) sp[i]);
                         caseMacro(NLS_SCOMPLEX,float,qp[i<<1] = (float) sp[i]);
                         caseMacro(NLS_DCOMPLEX,double,qp[i<<1] = (double) sp[i]);
-                    default:
-                    {
-                    }
-                    break;
+				default:
+				{
+
+				}
+				break;
                 }
             }
             break;

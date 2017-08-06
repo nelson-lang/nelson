@@ -4,7 +4,7 @@ Features:
 
 * conj : complex conjugate builtin added.
 
-* transpose and complex conjugate transpose manage all types of available in Nelson.
+* transpose and complex conjugate transpose manage all types available in Nelson.
 
 * FFTW module:
   * fft function based on FFTW library
