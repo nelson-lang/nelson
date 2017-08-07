@@ -68,7 +68,7 @@ namespace Nelson {
         {
             Dimensions dims(1, qobjfound.size());
             nelson_handle *nh = (nelson_handle*)ArrayOf::allocateArrayOf(NLS_HANDLE, qobjfound.size());
-            for (size_t k = 0; k < (size_t)qobjfound.size(); k++)
+            for (int k = 0; k < qobjfound.size(); k++)
             {
                 nelson_handle nh_found = HandleManager::getInstance()->findByPointerValue(qobjfound[k]);
                 if (nh_found != -1)

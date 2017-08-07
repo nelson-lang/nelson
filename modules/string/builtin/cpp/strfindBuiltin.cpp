@@ -53,7 +53,7 @@ ArrayOfVector Nelson::StringGateway::strfindBuiltin(Evaluator* eval, int nLhs, c
         }
         if (param4.isScalar() && param4.isLogical())
         {
-            forceAsCell = param4.getContentAsLogicalScalar() == 0 ? false:true;
+            forceAsCell = param4.getContentAsLogicalScalar();
         }
         else
         {

@@ -46,16 +46,8 @@ namespace Nelson {
             if (mainEvaluator == nullptr)
             {
                 std::wstring effectiveLang = Localization::Instance()->initializeLocalization(lang);
-                Context *context;
-                try
-                {
-                    context = new Context;
-                }
-                catch (std::bad_alloc &)
-                {
-                    context = nullptr;
-                }
-                if (context != nullptr)
+                Context *context = new Context;
+                if (context)
                 {
                     mainEvaluator = new Evaluator(context, io, _mode);
                     Localization::Instance()->setLanguage(effectiveLang, false);
@@ -69,15 +61,7 @@ namespace Nelson {
     {
         if (mainEvaluator == nullptr)
         {
-            Context *context;
-            try
-            {
-                context = new Context;
-            }
-            catch (std::bad_alloc &)
-            {
-                context = nullptr;
-            }
+            Context *context = new Context;
             std::wstring effectiveLang = Localization::Instance()->initializeLocalization(lang);
             if (context)
             {
@@ -85,38 +69,23 @@ namespace Nelson {
                 {
                     case BASIC_ENGINE:
                     {
-                        fprintf(stderr, "%s", _("This mode is not yet implemented.\n").c_str());
+                        fprintf(stderr, _("This mode is not yet implemented.\n").c_str());
                         exit(1);
                     }
                     break;
                     case ADVANCED_ENGINE:
                     {
                         InitGuiObjectsDynamic();
-                        fprintf(stderr, "%s", _("This mode is not yet implemented.\n").c_str());
+                        fprintf(stderr, _("This mode is not yet implemented.\n").c_str());
                         exit(1);
                     }
                     break;
                     case BASIC_TERMINAL:
                     {
-                        BasicTerminal *nlsTerm;
-                        try
-                        {
-                            nlsTerm = new BasicTerminal();
-                        }
-                        catch (std::bad_alloc)
-                        {
-                            nlsTerm = nullptr;
-                        }
+                        BasicTerminal *nlsTerm = new BasicTerminal();
                         if (nlsTerm)
                         {
-                            try
-                            {
-                                mainEvaluator = new Evaluator(context, nlsTerm, _mode);
-                            }
-                            catch (std::bad_alloc &)
-                            {
-                                mainEvaluator = nullptr;
-                            }
+                            mainEvaluator = new Evaluator(context, nlsTerm, _mode);
                             mainEvaluator->mainGuiObject = nullptr;
                         }
                     }
@@ -125,36 +94,13 @@ namespace Nelson {
                     {
                         InitGuiObjectsDynamic();
 #ifdef _MSC_VER
-                        WindowsConsole *nlsTerm;
-                        try
-                        {
-                            nlsTerm = new WindowsConsole();
-                        }
-                        catch (std::bad_alloc)
-                        {
-                            nlsTerm = nullptr;
-                        }
+                        WindowsConsole *nlsTerm = new WindowsConsole();
 #else
-                        BsdTerminal *nlsTerm;
-                        try
-                        {
-                            nlsTerm = new BsdTerminal();
-                        }
-                        catch (std::bad_alloc)
-                        {
-                            nlsTerm = nullptr;
-                        }
+                        BsdTerminal *nlsTerm = new BsdTerminal();
 #endif
-                        if (nlsTerm != nullptr)
+                        if (nlsTerm)
                         {
-                            try
-                            {
-                                mainEvaluator = new Evaluator(context, nlsTerm, _mode);
-                            }
-                            catch (std::bad_alloc &)
-                            {
-                                mainEvaluator = nullptr;
-                            }
+                            mainEvaluator = new Evaluator(context, nlsTerm, _mode);
                         }
                     }
                     break;
@@ -166,7 +112,7 @@ namespace Nelson {
                     break;
                     default:
                     {
-                        fprintf(stderr, "%s", _("unknow engine.\n").c_str());
+                        fprintf(stderr, _("unknow engine.\n").c_str());
                         exit(1);
                     }
                     break;

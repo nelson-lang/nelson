@@ -136,7 +136,7 @@ namespace Nelson {
         /**
          * Delete a function from the current scope.
          */
-        void deleteFunction(const std::string &funcName);
+        void deleteFunction(const std::string funcName);
         bool deleteBuiltin(void *fptr);
 
         /**
@@ -156,7 +156,7 @@ namespace Nelson {
         /**
          * Delete a variable name from the global variables list.
          */
-        void deleteGlobalVariablePointer(const std::string &varName);
+        void deleteGlobalVariablePointer(std::string varName);
         /**
          * Check to see if a variable is globally defined.
          */
@@ -178,7 +178,7 @@ namespace Nelson {
          * Mangle the name of a variable by prepending
          * a "_scopename_" to the name of the variable.
          */
-        std::string getMangledName(const std::string &varName);
+        std::string getMangledName(std::string varName);
         /**
          * Dump the scope.
          */
@@ -213,7 +213,7 @@ namespace Nelson {
          * replace the variable with an empty variable, but deletes
          * the variable from the symbol table completely.
          */
-        bool deleteVariable(const std::string &var);
+        bool deleteVariable(std::string var);
 
 
         bool isPointerOnFunction(FuncPtr val);
@@ -225,11 +225,11 @@ namespace Nelson {
         int getNargOut();
 
         stringVector getLockedVariables();
-        bool isLockedVariable(const std::string &varname);
-        bool lockVariable(const std::string &varname);
-        bool unlockVariable(const std::string &varname);
+        bool isLockedVariable(std::string varname);
+        bool lockVariable(std::string varname);
+        bool unlockVariable(std::string varname);
 
-        bool isVariable(const std::string &varname);
+        bool isVariable(std::string varname);
 
     };
     //=============================================================================

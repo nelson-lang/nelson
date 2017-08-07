@@ -65,7 +65,7 @@ namespace Nelson {
         return BuiltInFunctionDefManager::getInstance()->remove((BuiltInFuncPtr) fptr);
     }
     //=============================================================================
-    void Scope::deleteFunction(const std::string &funcName)
+    void Scope::deleteFunction(const std::string funcName)
     {
         BuiltInFunctionDefManager::getInstance()->remove(funcName);
     }
@@ -155,7 +155,7 @@ namespace Nelson {
         }
     }
     //=============================================================================
-    void Scope::deleteGlobalVariablePointer(const std::string &varName)
+    void Scope::deleteGlobalVariablePointer(std::string varName)
     {
         stringVector::iterator i = std::find(globalVars.begin(),
                                              globalVars.end(),
@@ -223,12 +223,12 @@ namespace Nelson {
         return foundName;
     }
     //=============================================================================
-    std::string Scope::getMangledName(const std::string &varName)
+    std::string Scope::getMangledName(std::string varName)
     {
         return (std::string("_") + name + std::string("_") + varName);
     }
     //=============================================================================
-    bool Scope::deleteVariable(const std::string &var)
+    bool Scope::deleteVariable(std::string var)
     {
         return variablesTab.deleteVariable(var);
     }
@@ -238,17 +238,17 @@ namespace Nelson {
         return variablesTab.getLockedVariables();
     }
     //=============================================================================
-    bool Scope::isLockedVariable(const std::string &varname)
+    bool Scope::isLockedVariable(std::string varname)
     {
         return variablesTab.isLockedVariable(varname);
     }
     //=============================================================================
-    bool Scope::lockVariable(const std::string &varname)
+    bool Scope::lockVariable(std::string varname)
     {
         return variablesTab.lockVariable(varname);
     }
     //=============================================================================
-    bool Scope::unlockVariable(const std::string &varname)
+    bool Scope::unlockVariable(std::string varname)
     {
         return variablesTab.unlockVariable(varname);
     }
@@ -283,7 +283,7 @@ namespace Nelson {
         return this->nargout;
     }
     //=============================================================================
-    bool Scope::isVariable(const std::string &varname)
+    bool Scope::isVariable(std::string varname)
     {
         return variablesTab.isVariable(varname);
     }

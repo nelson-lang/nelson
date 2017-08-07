@@ -33,19 +33,14 @@ ArrayOfVector Nelson::DoubleGateway::double_dispBuiltin(Evaluator* eval, int nLh
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-	else
-	{
-		Class classA = argIn[0].getDataClass();
-		bool isSupportedType = (classA == NLS_DCOMPLEX || classA == NLS_DOUBLE);
-		if (!isSupportedType || (argIn[0].isSparse()))
-		{
-			Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_DOUBLE_EXPECTED);
-		}
-		else
-		{
-			DoubleDisplay(eval, argIn[0]);
-		}
-	}
+    else  if (!argIn[0].isDoubleType() || (argIn[0].isSparse()))
+    {
+        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_DOUBLE_EXPECTED);
+    }
+    else
+    {
+        DoubleDisplay(eval, argIn[0]);
+    }
     return retval;
 }
 //=============================================================================

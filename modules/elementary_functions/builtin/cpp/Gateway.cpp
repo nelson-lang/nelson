@@ -66,7 +66,6 @@
 #include "isfiniteBuiltin.hpp"
 #include "ndimsBuiltin.hpp"
 #include "conjBuiltin.hpp"
-#include "prodBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -124,8 +123,7 @@ static const nlsGateway gateway[] =
     { "isinf", Nelson::ElementaryFunctionsGateway::isinfBuiltin, 1, 1 },
     { "isfinite", Nelson::ElementaryFunctionsGateway::isfiniteBuiltin, 1, 1 },
     { "ndims", Nelson::ElementaryFunctionsGateway::ndimsBuiltin, 1, 1 },
-    { "conj", Nelson::ElementaryFunctionsGateway::conjBuiltin, 1, 1 },
-    { "prod", Nelson::ElementaryFunctionsGateway::prodBuiltin, 1, 4 },
+	{ "conj", Nelson::ElementaryFunctionsGateway::conjBuiltin, 1, 1 },
 
 };
 //=============================================================================

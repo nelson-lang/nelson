@@ -22,8 +22,8 @@
 #include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
-    NLSFFTW_IMPEXP ArrayOf InverseFft(ArrayOf X, indexType n, indexType dim);
-    NLSFFTW_IMPEXP ArrayOf InverseFft(ArrayOf X, indexType n);
-    NLSFFTW_IMPEXP ArrayOf InverseFft(ArrayOf X);
+	NLSFFTW_IMPEXP ArrayOf InverseFft(ArrayOf X, indexType n, indexType dim);
+	NLSFFTW_IMPEXP ArrayOf InverseFft(ArrayOf X, indexType n);
+	NLSFFTW_IMPEXP ArrayOf InverseFft(ArrayOf X);
 }
 //=============================================================================

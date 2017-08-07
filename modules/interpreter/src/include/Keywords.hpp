@@ -58,7 +58,7 @@ namespace Nelson {
     */
     typedef struct
     {
-        char word[IDENTIFIER_LENGTH_MAX + 1];
+        const char *word;
         int  token;
         int  ordinal;
     } keywordStruct;

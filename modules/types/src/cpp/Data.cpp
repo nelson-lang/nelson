@@ -147,23 +147,7 @@ namespace Nelson {
             {
                 switch (dataClass)
                 {
-					case NLS_CELL_ARRAY:
-					{
-						// TO DO
-					}
-					break;
-					case NLS_HANDLE:
-					{
-						nelson_handle *rp = (nelson_handle*)cp;
-						delete[] rp;
-					}
-					break;
-					case NLS_STRUCT_ARRAY:
-					{
-						// TO DO
-					}
-					break;
-					case NLS_LOGICAL:
+                    case NLS_LOGICAL:
                     {
                         logical *rp = (logical*)cp;
                         delete[] rp;

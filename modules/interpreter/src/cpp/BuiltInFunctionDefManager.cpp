@@ -58,18 +58,10 @@ namespace Nelson {
         return false;
     }
     //=============================================================================
-    bool BuiltInFunctionDefManager::add(const std::string &name, BuiltInFuncPtr fptr, int argc_in, int argc_out, const std::wstring &dynlibname, const std::wstring &modulename)
+    bool BuiltInFunctionDefManager::add(std::string name, BuiltInFuncPtr fptr, int argc_in, int argc_out, std::wstring dynlibname, std::wstring modulename)
     {
-        BuiltInFunctionDef *f2def;
-		try
-		{
-			f2def = new BuiltInFunctionDef();
-		}
-		catch (std::bad_alloc)
-		{
-			f2def = nullptr;
-		}
-        if (f2def != nullptr)
+        BuiltInFunctionDef *f2def = new BuiltInFunctionDef();
+        if (f2def)
         {
             stringVector args;
             f2def->hashid = std::hash<std::wstring>()(utf8_to_wstring(name) + L"_" + modulename);
@@ -84,7 +76,7 @@ namespace Nelson {
         return false;
     }
     //=============================================================================
-    bool BuiltInFunctionDefManager::remove(const std::string &name)
+    bool BuiltInFunctionDefManager::remove(std::string name)
     {
         for (boost::container::vector<FuncPtr>::iterator it = builtinVector.begin(); it != builtinVector.end(); ++it)
         {
@@ -201,7 +193,7 @@ namespace Nelson {
         return false;
     }
     //=============================================================================
-    bool BuiltInFunctionDefManager::find(const std::string &name, std::wstring &path)
+    bool BuiltInFunctionDefManager::find(const std::string name, std::wstring &path)
     {
         bool res = false;
         if (builtinVector.size() > 0)
@@ -235,7 +227,7 @@ namespace Nelson {
         return res;
     }
     //=============================================================================
-    bool BuiltInFunctionDefManager::find(const std::string &name, wstringVector &paths)
+    bool BuiltInFunctionDefManager::find(const std::string name, wstringVector &paths)
     {
         bool res = false;
         if (builtinVector.size() > 0)
@@ -252,7 +244,7 @@ namespace Nelson {
         return res;
     }
     //=============================================================================
-    bool BuiltInFunctionDefManager::find(const std::string &name, FuncPtr &ptr)
+    bool BuiltInFunctionDefManager::find(const std::string name, FuncPtr &ptr)
     {
         if (builtinVector.size() > 0)
         {

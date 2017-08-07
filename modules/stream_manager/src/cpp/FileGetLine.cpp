@@ -46,7 +46,7 @@ namespace Nelson {
                         if (readline.length() > 0)
                         {
                             int sizeRemove = 1;
-                            size_t index = readline.find('\r');
+                            size_t index = readline.find("\r");
                             if (index != std::string::npos)
                             {
                                 if (readline.length() > index + 1 && readline[index + 1] == '\n')
@@ -55,7 +55,7 @@ namespace Nelson {
                                 }
                                 else
                                 {
-                                    size_t temp = readline.find('\n');
+                                    size_t temp = readline.find("\n");
                                     if (temp != std::string::npos && temp < index)
                                     {
                                         index = temp;
@@ -64,7 +64,7 @@ namespace Nelson {
                             }
                             else
                             {
-                                index = readline.find('\n');
+                                index = readline.find("\n");
                             }
                             if (index == std::string::npos)
                             {
@@ -134,7 +134,6 @@ namespace Nelson {
                                 }
                                 catch (std::out_of_range&)
                                 {
-                                    w = result;
                                 }
                                 std::string u = wstring_to_utf8(w);
                                 int64 nseek = (int64)u.length();

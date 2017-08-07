@@ -107,7 +107,7 @@ namespace Nelson {
         return retlist;
     }
     //=============================================================================
-    bool VariablesTable::isLockedVariable(const std::string& key)
+    bool VariablesTable::isLockedVariable(std::string key)
     {
         if (!lockedVariables.empty())
         {
@@ -116,7 +116,7 @@ namespace Nelson {
         return false;
     }
     //=============================================================================
-    bool VariablesTable::lockVariable(const std::string &key)
+    bool VariablesTable::lockVariable(std::string key)
     {
         if (!isLockedVariable(key))
         {
@@ -134,7 +134,7 @@ namespace Nelson {
         return false;
     }
     //=============================================================================
-    bool VariablesTable::unlockVariable(const std::string &key)
+    bool VariablesTable::unlockVariable(std::string key)
     {
         if (isLockedVariable(key))
         {

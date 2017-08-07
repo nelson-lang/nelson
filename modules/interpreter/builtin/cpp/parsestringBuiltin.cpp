@@ -48,7 +48,7 @@ ArrayOfVector Nelson::InterpreterGateway::parsestringBuiltin(Evaluator* eval, in
     {
         parserState = parseString(command + "\n");
     }
-    catch (const Exception)
+    catch (const Exception &)
     {
         parserState = ParseError;
         eval->setLastException(previousException);

@@ -201,7 +201,7 @@ namespace Nelson {
                         long lb, ub;
                         SafeArrayGetLBound(arr, k + 1, &lb);
                         SafeArrayGetUBound(arr, k + 1, &ub);
-                        dims.setDimensionLength(k, (indexType)ub - lb + 1);
+                        dims.setDimensionLength(k, ub - lb + 1);
                     }
                     switch (subtype)
                     {
@@ -218,7 +218,7 @@ namespace Nelson {
                             }
                             else
                             {
-                                for (size_t k = 0; k < (size_t)dims.getElementCount(); k++)
+                                for (int k = 0; k < dims.getElementCount(); k++)
                                 {
                                     ArrayOf element;
                                     if (ComVariantToNelson(&pvar[k], element, errorMessage))
@@ -248,7 +248,7 @@ namespace Nelson {
                                 long lb, ub;
                                 SafeArrayGetLBound(arr, k + 1, &lb);
                                 SafeArrayGetUBound(arr, k + 1, &ub);
-                                dims.setDimensionLength(k, (indexType)ub - lb + 1);
+                                dims.setDimensionLength(k, ub - lb + 1);
                             }
                             single* pSingle = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, dims.getElementCount(), Nelson::stringVector(), true);
                             hr = SafeArrayAccessData(arr, (void **)&pvar);
@@ -881,7 +881,7 @@ namespace Nelson {
                         {
                             int32 *data = nullptr;
                             SafeArrayAccessData(arr, (void**)&data);
-                            for (size_t k = 0; k < dims.getElementCount(); k++)
+                            for (int k = 0; k < dims.getElementCount(); k++)
                             {
                                 data[k] = pInt32[k];
                             }

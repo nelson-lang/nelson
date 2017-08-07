@@ -42,6 +42,7 @@ namespace Nelson {
     //=============================================================================
     ArrayOf ArrayOf::stringConstructor(std::wstring astr)
     {
+        charType *cp = nullptr;
         indexType length = astr.length();
         Dimensions dim(0, length);
         if (length == 0)
@@ -52,7 +53,7 @@ namespace Nelson {
         {
             dim[0] = 1;
         }
-		charType *cp = (charType *)allocateArrayOf(NLS_CHAR, length);
+        cp = (charType *)allocateArrayOf(NLS_CHAR, length);
         memcpy(cp, astr.c_str(), length * sizeof(charType));
         return ArrayOf(NLS_CHAR, dim, cp);
     }
@@ -73,9 +74,11 @@ namespace Nelson {
         std::wstring str = L"";
         if (dp->dataClass == NLS_CHAR)
         {
+            charType *buffer = nullptr;
+            const charType *qp = nullptr;
             indexType M = getLength();
-			charType *buffer = new_with_exception<charType>(M + 1);
-			const charType *qp = (const charType*)dp->getData();
+            buffer = new_with_exception<charType>(M + 1);
+            qp = (const charType*)dp->getData();
             memcpy(buffer, qp, M * sizeof(charType));
             buffer[M] = 0;
             str = buffer;
@@ -93,9 +96,11 @@ namespace Nelson {
         std::wstring str = L"";
         if (isSingleString())
         {
+            charType *buffer = nullptr;
+            const charType *qp = nullptr;
             indexType M = getLength();
-			charType *buffer = new_with_exception<charType>(M + 1);
-			const charType *qp = (const charType*)dp->getData();
+            buffer = new_with_exception<charType>(M + 1);
+            qp = (const charType*)dp->getData();
             memcpy(buffer, qp, M * sizeof(charType));
             buffer[M] = 0;
             str = buffer;
@@ -139,7 +144,8 @@ namespace Nelson {
                 for (indexType i = 0; i < rows; i++)
                 {
                     std::wstring str;
-                    const charType *qp = (const charType*)dp->getData();
+                    const charType *qp = nullptr;
+                    qp = (const charType*)dp->getData();
                     for (indexType j = 0; j < columns; j++)
                     {
                         size_t idx = i + j * rows;

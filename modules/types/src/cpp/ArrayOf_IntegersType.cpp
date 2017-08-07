@@ -127,8 +127,7 @@ namespace Nelson {
         }
         if (minval < maxval)
         {
- 
-			if (stepsize < 0)
+            if (stepsize < 0)
             {
                 Cdim[0] = 1;
                 Cdim[1] = 0;

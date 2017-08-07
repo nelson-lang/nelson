@@ -79,7 +79,7 @@ ArrayOfVector Nelson::CoreGateway::execstrBuiltin(Evaluator* eval, int nLhs, con
         {
             EvaluateCommand(eval, line, true);
         }
-        catch (const Exception)
+        catch (const Exception &)
         {
             bRes = false;
         }

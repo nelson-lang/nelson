@@ -137,7 +137,7 @@ namespace Nelson {
             pstate = parseFile(fr, absolutePath.generic_string().c_str());
             pt = getAstUsed();
         }
-        catch (Exception)
+        catch (Exception &)
         {
             deleteAstVector(getAstUsed());
             resetAstBackupPosition();

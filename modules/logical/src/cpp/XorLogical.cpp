@@ -24,9 +24,7 @@ namespace Nelson {
     //=============================================================================
     static inline logical NLSXOR(logical a, logical b)
     {
-        bool aa = a == 0 ? false : true;
-        bool bb = b == 0 ? false : true;
-        return bool(aa) != bool(bb);
+        return (!a && b) || (a && !b);
     }
     //=============================================================================
     static void boolXor(size_t n, logical* c, const logical* a, const int stride1, const logical *b, const int stride2)

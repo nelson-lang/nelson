@@ -23,10 +23,6 @@ namespace Nelson {
     //=============================================================================
     BuiltInFunctionDef::BuiltInFunctionDef()
     {
-        fileName = L"";
-        retCount = -1;
-        argCount = -1;
-        fptr = nullptr;
     }
     //=============================================================================
     BuiltInFunctionDef::~BuiltInFunctionDef()

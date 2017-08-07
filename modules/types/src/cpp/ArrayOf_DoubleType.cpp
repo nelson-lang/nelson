@@ -27,17 +27,17 @@ namespace Nelson {
     //=============================================================================
     const bool ArrayOf::isDoubleSparseType() const
     {
-		return (dp->sparse && is2D() && ((dp->dataClass == NLS_DOUBLE) || (dp->dataClass == NLS_DCOMPLEX)));
+        return (dp->dataClass == NLS_DOUBLE) || (dp->dataClass == NLS_DCOMPLEX) && (dp->sparse) && is2D();
     }
     //=============================================================================
     const bool ArrayOf::isDoubleType() const
     {
-		return (!dp->sparse && is2D() && ((dp->dataClass == NLS_DOUBLE) || (dp->dataClass == NLS_DCOMPLEX)));
+        return (dp->dataClass == NLS_DOUBLE) || (dp->dataClass == NLS_DCOMPLEX) && (!dp->sparse) && is2D();
     }
     //=============================================================================
     const bool ArrayOf::isNdArrayDoubleType() const
     {
-		return (!dp->sparse && !is2D() && (dp->dataClass == NLS_DOUBLE || dp->dataClass == NLS_DCOMPLEX));
+        return (dp->dataClass == NLS_DOUBLE) || (dp->dataClass == NLS_DCOMPLEX) && (!dp->sparse) && !is2D();
     }
     //=============================================================================
     ArrayOf ArrayOf::doubleConstructor(double aval)

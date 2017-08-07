@@ -415,7 +415,7 @@ void LineManager::copyLine(std::wstring line)
     {
         printCharacters(line, LineManager::STANDARD_INPUT);
         current_line_buffer = boost::container::vector<wchar_t>(line.begin(), line.end());
-        cur_pos = max_pos = line.size();
+        cur_pos = max_pos = (int)line.size();
     }
 }
 //=============================================================================

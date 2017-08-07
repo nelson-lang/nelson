@@ -49,7 +49,7 @@ namespace Nelson {
         {
             ps = parseFile(fr, wstring_to_utf8(filename).c_str());
         }
-        catch (const Exception)
+        catch (const Exception &)
         {
             if (bIgnoreException)
             {

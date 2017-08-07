@@ -134,7 +134,7 @@ QVariant nelsonObject::call(const QString &functionName, const QVariantList& arg
                 {
                     resVector = funcDef->evaluateFunction(eval, argIn, nLhs);
                 }
-                catch (Exception)
+                catch (Exception &)
                 {
                     qCritical() << "error function.";
                     return QVariant();
