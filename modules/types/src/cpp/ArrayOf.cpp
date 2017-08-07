@@ -2255,9 +2255,9 @@ break;
 						saturate<single, uint64>(dp->getData(), dstPtr, count);
 					}
 					break;
-					caseMacro(NLS_DOUBLE, double, qp[i] = (single) sp[i]);
+					caseMacro(NLS_DOUBLE, double, qp[i] = (double) sp[i]);
 					caseMacro(NLS_SCOMPLEX, single, qp[i<<1] = (single) sp[i]);
-					caseMacro(NLS_DCOMPLEX, double, qp[i<<1] = (single) sp[i]);
+					caseMacro(NLS_DCOMPLEX, double, qp[i<<1] = (double) sp[i]);
 					default:
                     {
                     }
@@ -2312,9 +2312,9 @@ break;
 						saturate<double, uint64>(dp->getData(), dstPtr, count);
 					}
 					break;
-					caseMacro(NLS_SINGLE, single, qp[i] = (single)sp[i]);
-                    caseMacro(NLS_SCOMPLEX, single, qp[i<<1] = (single) sp[i]);
-                    caseMacro(NLS_DCOMPLEX, single, qp[i<<1] = (double) sp[i]);
+					caseMacro(NLS_SINGLE, double, qp[i] = (single)sp[i]);
+                    caseMacro(NLS_SCOMPLEX, double, qp[i<<1] = (single) sp[i]);
+                    caseMacro(NLS_DCOMPLEX, double, qp[i<<1] = (double) sp[i]);
                     default:
                     {
                     }
