@@ -19,8 +19,8 @@
 #include "ToInt16.hpp"
 //=============================================================================
 namespace Nelson {
-	//=============================================================================
-	ArrayOf ToInt16(ArrayOf a)
+    //=============================================================================
+    ArrayOf ToInt16(ArrayOf a)
     {
         std::string destType = "int16";
         Class destClass = NLS_INT16;
@@ -69,12 +69,12 @@ namespace Nelson {
             case NLS_SINGLE:
             case NLS_DOUBLE:
             case NLS_CHAR:
-			{
-				ArrayOf res(a);
-				res.promoteType(NLS_INT16);
-				return res;
-			}
-			break;
+            {
+                ArrayOf res(a);
+                res.promoteType(NLS_INT16);
+                return res;
+            }
+            break;
             default:
             {
                 throw Exception(_W("Invalid conversion."));

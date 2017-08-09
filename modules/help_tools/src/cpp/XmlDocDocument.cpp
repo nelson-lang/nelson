@@ -2708,7 +2708,7 @@ namespace Nelson {
                         xmlFreeDoc(doc);
                         this->errorMessage.push_back(_W("line ") + std::to_wstring(linkendItemNode->line) + _W(": ") + utf8_to_wstring(XML_LINKEND_TAG) + L" " + _W("is empty."));
                         this->bReadOk = false;
-						xmlFreeDoc(doc);
+                        xmlFreeDoc(doc);
                         return false;
                     }
                     url = utf8_to_wstring(val);

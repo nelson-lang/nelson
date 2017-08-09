@@ -71,9 +71,9 @@ namespace Nelson {
             case NLS_DOUBLE:
             case NLS_CHAR:
             {
-				ArrayOf res(a);
-				res.promoteType(NLS_INT32);
-				return res;
+                ArrayOf res(a);
+                res.promoteType(NLS_INT32);
+                return res;
             }
             break;
             default:

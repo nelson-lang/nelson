@@ -22,50 +22,50 @@
 #include "ClassName.hpp"
 //=============================================================================
 namespace Nelson {
-	//=============================================================================
-	ArrayOf InverseFft(ArrayOf X, indexType n, indexType dim)
-	{
-		if (X.isReferenceType() || X.isHandle())
-		{
-			throw Exception(_("Undefined function 'ifft' for input arguments of type") + " '" + ClassName(X) + "'.");
-		}
-		if (X.isScalar() || X.isEmpty())
-		{
-			return ArrayOf(X);
-		}
-		Class classX = X.getDataClass();
-		if (classX <= NLS_SCOMPLEX && classX != NLS_DOUBLE)
-		{
-			X.promoteType(NLS_SCOMPLEX);
-		}
-		else
-		{
-			X.promoteType(NLS_DCOMPLEX);
-		}
-		ArrayOf res;
-		if (X.getDataClass() == NLS_SCOMPLEX)
-		{
-			res = scomplexFFTW(X, n, dim, true);
-		}
-		else
-		{
-			res = dcomplexFFTW(X, n, dim, true);
-		}
-		return res;
-	}
-	//=============================================================================
-	ArrayOf InverseFft(ArrayOf X, indexType n)
-	{
-		indexType dim = computeDim(X);
-		return InverseFft(X, n, dim);
-	}
-	//=============================================================================
-	ArrayOf InverseFft(ArrayOf X)
-	{
-		indexType dim = computeDim(X);
-		indexType n = X.getDimensionLength((int)dim);
-		return InverseFft(X, n, dim);
-	}
-	//=============================================================================
+    //=============================================================================
+    ArrayOf InverseFft(ArrayOf X, indexType n, indexType dim)
+    {
+        if (X.isReferenceType() || X.isHandle())
+        {
+            throw Exception(_("Undefined function 'ifft' for input arguments of type") + " '" + ClassName(X) + "'.");
+        }
+        if (X.isScalar() || X.isEmpty())
+        {
+            return ArrayOf(X);
+        }
+        Class classX = X.getDataClass();
+        if (classX <= NLS_SCOMPLEX && classX != NLS_DOUBLE)
+        {
+            X.promoteType(NLS_SCOMPLEX);
+        }
+        else
+        {
+            X.promoteType(NLS_DCOMPLEX);
+        }
+        ArrayOf res;
+        if (X.getDataClass() == NLS_SCOMPLEX)
+        {
+            res = scomplexFFTW(X, n, dim, true);
+        }
+        else
+        {
+            res = dcomplexFFTW(X, n, dim, true);
+        }
+        return res;
+    }
+    //=============================================================================
+    ArrayOf InverseFft(ArrayOf X, indexType n)
+    {
+        indexType dim = computeDim(X);
+        return InverseFft(X, n, dim);
+    }
+    //=============================================================================
+    ArrayOf InverseFft(ArrayOf X)
+    {
+        indexType dim = computeDim(X);
+        indexType n = X.getDimensionLength((int)dim);
+        return InverseFft(X, n, dim);
+    }
+    //=============================================================================
 }
 //=============================================================================

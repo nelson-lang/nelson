@@ -58,24 +58,24 @@ namespace Nelson {
                 }
             }
             break;
-			case NLS_LOGICAL:
-			case NLS_UINT8:
-			case NLS_INT8:
-			case NLS_UINT16:
-			case NLS_INT16:
-			case NLS_UINT32:
-			case NLS_INT32:
-			case NLS_UINT64:
-			case NLS_INT64:
-			case NLS_CHAR:
-			case NLS_SINGLE:
-			case NLS_DOUBLE:
-			{
-				ArrayOf res(a);
-				res.promoteType(NLS_INT8);
-				return res;
-			}
-			break;
+            case NLS_LOGICAL:
+            case NLS_UINT8:
+            case NLS_INT8:
+            case NLS_UINT16:
+            case NLS_INT16:
+            case NLS_UINT32:
+            case NLS_INT32:
+            case NLS_UINT64:
+            case NLS_INT64:
+            case NLS_CHAR:
+            case NLS_SINGLE:
+            case NLS_DOUBLE:
+            {
+                ArrayOf res(a);
+                res.promoteType(NLS_INT8);
+                return res;
+            }
+            break;
             default:
             {
                 throw Exception(_W("Invalid conversion."));

@@ -86,7 +86,7 @@ namespace Nelson {
     //=============================================================================
     FileWatcherManager::FileWatcherManager()
     {
-		fileWatcher = (void *)new FW::FileWatcher();
+        fileWatcher = (void *)new FW::FileWatcher();
     }
     //=============================================================================
     FileWatcherManager *FileWatcherManager::getInstance()

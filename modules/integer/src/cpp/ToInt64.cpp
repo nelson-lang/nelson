@@ -28,7 +28,8 @@ namespace Nelson {
         {
             throw Exception(_("Conversion to '") + destType + _("' from sparse matrix is not possible."));
         }
-        switch (a.getDataClass())
+        Class classA = a.getDataClass();
+        switch (classA)
         {
             case NLS_DCOMPLEX:
             case NLS_SCOMPLEX:
@@ -70,12 +71,12 @@ namespace Nelson {
             case NLS_SINGLE:
             case NLS_DOUBLE:
             case NLS_CHAR:
-			{
-				ArrayOf res(a);
-				res.promoteType(NLS_INT64);
-				return res;
-			}
-			break;
+            {
+                ArrayOf res(a);
+                res.promoteType(NLS_INT64);
+                return res;
+            }
+            break;
             default:
             {
                 throw Exception(_W("Invalid conversion."));

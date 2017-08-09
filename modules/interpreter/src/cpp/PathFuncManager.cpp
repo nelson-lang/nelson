@@ -111,7 +111,7 @@ namespace Nelson {
         else
         {
             FileFunc *ff = nullptr;
-			std::wstring wstr = utf8_to_wstring(name);
+            std::wstring wstr = utf8_to_wstring(name);
             if (find(wstr, &ff))
             {
                 if (ff)
