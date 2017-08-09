@@ -2,6 +2,8 @@
 Features:
 ---------
 
+* prod : product of array elements builtin added.
+
 * conj : complex conjugate builtin added.
 
 * transpose and complex conjugate transpose manage all types available in Nelson.
