@@ -1779,27 +1779,50 @@ namespace Nelson {
         }
     }
     //=============================================================================
-    template <class TIN, class TOUT> void saturate(const void * pIn, void *pOut, indexType count)
+    template <class TIN, class TOUT> void saturate(Class classIn, Class classOut, const void * pIn, void *pOut, indexType count)
     {
         const TIN* sp = (const TIN *)pIn;
         TOUT* qp = (TOUT*)pOut;
-        for (indexType i = 0; i < count; i++)
-        {
-            TIN min = (TIN)std::numeric_limits<TOUT>::min();
-            TIN max = (TIN)std::numeric_limits<TOUT>::max();
-            if (sp[i] >= max)
-            {
-                qp[i] = std::numeric_limits<TOUT>::max();
-            }
-            else if (sp[i] < min)
-            {
-                qp[i] = std::numeric_limits<TOUT>::min();
-            }
-            else
-            {
-                qp[i] = (TOUT)sp[i];
-            }
-        }
+		if (classIn > classOut)
+		{
+			for (indexType i = 0; i < count; i++)
+			{
+				TIN min = (TIN)std::numeric_limits<TOUT>::min();
+				TIN max = (TIN)std::numeric_limits<TOUT>::max();
+				if (sp[i] >= max)
+				{
+					qp[i] = std::numeric_limits<TOUT>::max();
+				}
+				else if (sp[i] < min)
+				{
+					qp[i] = std::numeric_limits<TOUT>::min();
+				}
+				else
+				{
+					qp[i] = (TOUT)sp[i];
+				}
+			}
+		}
+		else
+		{
+			for (indexType i = 0; i < count; i++)
+			{
+				TOUT min = (TOUT)std::numeric_limits<TOUT>::min();
+				TOUT max = (TOUT)std::numeric_limits<TOUT>::max();
+				if (sp[i] >= max)
+				{
+					qp[i] = std::numeric_limits<TOUT>::max();
+				}
+				else if (sp[i] < min)
+				{
+					qp[i] = std::numeric_limits<TOUT>::min();
+				}
+				else
+				{
+					qp[i] = (TOUT)sp[i];
+				}
+			}
+		}
     }
     //=============================================================================
     /**
@@ -2020,37 +2043,37 @@ break;
                         caseMacro(NLS_DCOMPLEX, double, qp[i << 1] = (double)sp[i]);
                     case NLS_INT8:
                     {
-                        saturate<uint8, int8>(dp->getData(), dstPtr, count);
+                        saturate<uint8, int8>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_UINT16:
                     {
-                        saturate<uint8, uint16>(dp->getData(), dstPtr, count);
+                        saturate<uint8, uint16>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_INT16:
                     {
-                        saturate<uint8, int16>(dp->getData(), dstPtr, count);
+                        saturate<uint8, int16>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_UINT32:
                     {
-                        saturate<uint8, uint32>(dp->getData(), dstPtr, count);
+                        saturate<uint8, uint32>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_INT32:
                     {
-                        saturate<uint8, int32>(dp->getData(), dstPtr, count);
+                        saturate<uint8, int32>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_UINT64:
                     {
-                        saturate<uint8, uint64>(dp->getData(), dstPtr, count);
+                        saturate<uint8, uint64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_INT64:
                     {
-                        saturate<uint8, int64>(dp->getData(), dstPtr, count);
+                        saturate<uint8, int64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     default:
@@ -2073,37 +2096,37 @@ break;
                         caseMacro(NLS_DCOMPLEX, double, qp[i << 1] = (double)sp[i]);
                     case NLS_UINT8:
                     {
-                        saturate<int8, uint8>(dp->getData(), dstPtr, count);
+                        saturate<int8, uint8>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_UINT16:
                     {
-                        saturate<int8, uint16>(dp->getData(), dstPtr, count);
+                        saturate<int8, uint16>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_INT16:
                     {
-                        saturate<int8, int16>(dp->getData(), dstPtr, count);
+                        saturate<int8, int16>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_UINT32:
                     {
-                        saturate<int8, uint32>(dp->getData(), dstPtr, count);
+                        saturate<int8, uint32>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_INT32:
                     {
-                        saturate<int8, int32>(dp->getData(), dstPtr, count);
+                        saturate<int8, int32>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_UINT64:
                     {
-                        saturate<int8, uint64>(dp->getData(), dstPtr, count);
+                        saturate<int8, uint64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_INT64:
                     {
-                        saturate<int8, int64>(dp->getData(), dstPtr, count);
+                        saturate<int8, int64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     default:
@@ -2126,37 +2149,37 @@ break;
                         caseMacro(NLS_DCOMPLEX, double, qp[i << 1] = (double)sp[i]);
                     case NLS_UINT8:
                     {
-                        saturate<uint16, uint8>(dp->getData(), dstPtr, count);
+                        saturate<uint16, uint8>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_INT8:
                     {
-                        saturate<uint16, int8>(dp->getData(), dstPtr, count);
+                        saturate<uint16, int8>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_INT16:
                     {
-                        saturate<uint16, int16>(dp->getData(), dstPtr, count);
+                        saturate<uint16, int16>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_UINT32:
                     {
-                        saturate<uint16, uint32>(dp->getData(), dstPtr, count);
+                        saturate<uint16, uint32>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_INT32:
                     {
-                        saturate<uint16, int32>(dp->getData(), dstPtr, count);
+                        saturate<uint16, int32>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_UINT64:
                     {
-                        saturate<uint16, uint64>(dp->getData(), dstPtr, count);
+                        saturate<uint16, uint64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_INT64:
                     {
-                        saturate<uint16, int64>(dp->getData(), dstPtr, count);
+                        saturate<uint16, int64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     default:
@@ -2179,37 +2202,37 @@ break;
                         caseMacro(NLS_DCOMPLEX, double, qp[i << 1] = (double)sp[i]);
                     case NLS_UINT8:
                     {
-                        saturate<int16, uint8>(dp->getData(), dstPtr, count);
+                        saturate<int16, uint8>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_INT8:
                     {
-                        saturate<int16, int8>(dp->getData(), dstPtr, count);
+                        saturate<int16, int8>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_UINT16:
                     {
-                        saturate<int16, uint16>(dp->getData(), dstPtr, count);
+                        saturate<int16, uint16>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_UINT32:
                     {
-                        saturate<int16, uint32>(dp->getData(), dstPtr, count);
+                        saturate<int16, uint32>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_INT32:
                     {
-                        saturate<int16, int32>(dp->getData(), dstPtr, count);
+                        saturate<int16, int32>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_UINT64:
                     {
-                        saturate<int16, uint64>(dp->getData(), dstPtr, count);
+                        saturate<int16, uint64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_INT64:
                     {
-                        saturate<int16, int64>(dp->getData(), dstPtr, count);
+                        saturate<int16, int64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     default:
@@ -2232,37 +2255,37 @@ break;
                         caseMacro(NLS_DCOMPLEX, double, qp[i << 1] = (double)sp[i]);
                     case NLS_INT8:
                     {
-                        saturate<uint32, int8>(dp->getData(), dstPtr, count);
+                        saturate<uint32, int8>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_UINT8:
                     {
-                        saturate<uint32, uint8>(dp->getData(), dstPtr, count);
+                        saturate<uint32, uint8>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_UINT16:
                     {
-                        saturate<uint32, uint16>(dp->getData(), dstPtr, count);
+                        saturate<uint32, uint16>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_INT16:
                     {
-                        saturate<uint32, int16>(dp->getData(), dstPtr, count);
+                        saturate<uint32, int16>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_INT32:
                     {
-                        saturate<uint32, int32>(dp->getData(), dstPtr, count);
+                        saturate<uint32, int32>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_UINT64:
                     {
-                        saturate<uint32, uint64>(dp->getData(), dstPtr, count);
+                        saturate<uint32, uint64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_INT64:
                     {
-                        saturate<uint32, int64>(dp->getData(), dstPtr, count);
+                        saturate<uint32, int64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     default:
@@ -2285,37 +2308,37 @@ break;
                         caseMacro(NLS_DCOMPLEX, double, qp[i << 1] = (double)sp[i]);
                     case NLS_UINT8:
                     {
-                        saturate<int32, uint8>(dp->getData(), dstPtr, count);
+                        saturate<int32, uint8>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_INT8:
                     {
-                        saturate<int32, int8>(dp->getData(), dstPtr, count);
+                        saturate<int32, int8>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_UINT16:
                     {
-                        saturate<int32, uint16>(dp->getData(), dstPtr, count);
+                        saturate<int32, uint16>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_INT16:
                     {
-                        saturate<int32, int16>(dp->getData(), dstPtr, count);
+                        saturate<int32, int16>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_UINT32:
                     {
-                        saturate<int32, uint32>(dp->getData(), dstPtr, count);
+                        saturate<int32, uint32>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_UINT64:
                     {
-                        saturate<int32, uint64>(dp->getData(), dstPtr, count);
+                        saturate<int32, uint64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_INT64:
                     {
-                        saturate<int32, int64>(dp->getData(), dstPtr, count);
+                        saturate<int32, int64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     default:
@@ -2338,37 +2361,37 @@ break;
                         caseMacro(NLS_DCOMPLEX, double, qp[i << 1] = (double)sp[i]);
                     case NLS_UINT8:
                     {
-                        saturate<int64, uint8>(dp->getData(), dstPtr, count);
+                        saturate<int64, uint8>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_INT8:
                     {
-                        saturate<int64, int8>(dp->getData(), dstPtr, count);
+                        saturate<int64, int8>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_UINT16:
                     {
-                        saturate<int64, uint16>(dp->getData(), dstPtr, count);
+                        saturate<int64, uint16>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_INT16:
                     {
-                        saturate<int64, int16>(dp->getData(), dstPtr, count);
+                        saturate<int64, int16>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_UINT32:
                     {
-                        saturate<int64, uint32>(dp->getData(), dstPtr, count);
+                        saturate<int64, uint32>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_INT32:
                     {
-                        saturate<int64, int32>(dp->getData(), dstPtr, count);
+                        saturate<int64, int32>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_UINT64:
                     {
-                        saturate<int64, uint64>(dp->getData(), dstPtr, count);
+                        saturate<int64, uint64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     default:
@@ -2391,37 +2414,37 @@ break;
                         caseMacro(NLS_DCOMPLEX, double, qp[i << 1] = (double)sp[i]);
                     case NLS_UINT8:
                     {
-                        saturate<uint64, uint8>(dp->getData(), dstPtr, count);
+                        saturate<uint64, uint8>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_INT8:
                     {
-                        saturate<uint64, int8>(dp->getData(), dstPtr, count);
+                        saturate<uint64, int8>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_UINT16:
                     {
-                        saturate<uint64, uint16>(dp->getData(), dstPtr, count);
+                        saturate<uint64, uint16>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_INT16:
                     {
-                        saturate<uint64, int16>(dp->getData(), dstPtr, count);
+                        saturate<uint64, int16>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_UINT32:
                     {
-                        saturate<uint64, uint32>(dp->getData(), dstPtr, count);
+                        saturate<uint64, uint32>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_INT32:
                     {
-                        saturate<uint64, int32>(dp->getData(), dstPtr, count);
+                        saturate<uint64, int32>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_INT64:
                     {
-                        saturate<uint64, int64>(dp->getData(), dstPtr, count);
+                        saturate<uint64, int64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     default:
@@ -2443,42 +2466,42 @@ break;
                         caseMacro(NLS_DCOMPLEX, double, qp[i << 1] = (double)sp[i]);
                     case NLS_UINT8:
                     {
-                        saturate<single, uint8>(dp->getData(), dstPtr, count);
+                        saturate<single, uint8>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_INT8:
                     {
-                        saturate<single, int8>(dp->getData(), dstPtr, count);
+                        saturate<single, int8>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_UINT16:
                     {
-                        saturate<single, uint16>(dp->getData(), dstPtr, count);
+                        saturate<single, uint16>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_INT16:
                     {
-                        saturate<single, int16>(dp->getData(), dstPtr, count);
+                        saturate<single, int16>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_UINT32:
                     {
-                        saturate<single, uint32>(dp->getData(), dstPtr, count);
+                        saturate<single, uint32>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_INT32:
                     {
-                        saturate<single, int32>(dp->getData(), dstPtr, count);
+                        saturate<single, int32>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_INT64:
                     {
-                        saturate<single, int64>(dp->getData(), dstPtr, count);
+                        saturate<single, int64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_UINT64:
                     {
-                        saturate<single, uint64>(dp->getData(), dstPtr, count);
+                        saturate<single, uint64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     default:
@@ -2500,42 +2523,42 @@ break;
                         caseMacro(NLS_DCOMPLEX, double, qp[i << 1] = (double)sp[i]);
                     case NLS_UINT8:
                     {
-                        saturate<double, uint8>(dp->getData(), dstPtr, count);
+                        saturate<double, uint8>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_INT8:
                     {
-                        saturate<double, int8>(dp->getData(), dstPtr, count);
+                        saturate<double, int8>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_UINT16:
                     {
-                        saturate<double, uint16>(dp->getData(), dstPtr, count);
+                        saturate<double, uint16>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_INT16:
                     {
-                        saturate<double, int16>(dp->getData(), dstPtr, count);
+                        saturate<double, int16>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_UINT32:
                     {
-                        saturate<double, uint32>(dp->getData(), dstPtr, count);
+                        saturate<double, uint32>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_INT32:
                     {
-                        saturate<double, int32>(dp->getData(), dstPtr, count);
+                        saturate<double, int32>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_INT64:
                     {
-                        saturate<double, int64>(dp->getData(), dstPtr, count);
+                        saturate<double, int64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     case NLS_UINT64:
                     {
-                        saturate<double, uint64>(dp->getData(), dstPtr, count);
+                        saturate<double, uint64>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     default:
@@ -2565,7 +2588,7 @@ break;
                     caseMacro(NLS_DCOMPLEX, double, { qp[i << 1] = (double)sp[i << 1]; qp[(i << 1) + 1] = (double)sp[(i << 1) + 1]; });
                     case NLS_UINT8:
                     {
-                        saturate<single, uint8>(dp->getData(), dstPtr, count);
+                        saturate<single, uint8>(dp->dataClass, dstClass, dp->getData(), dstPtr, count);
                     }
                     break;
                     /*
