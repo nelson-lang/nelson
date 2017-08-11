@@ -54,7 +54,7 @@ function buildhelp(varargin)
         disp(['help ''', 'homepage', ''' (', k{1}, ') generated.']);
       end
     end
-    for m = modules_list
+    for m = modules_help_list
       module_path = [nelsonroot() '/modules/' m{1}];
       buildhelp_from_path(m{1}, module_path);
     end
