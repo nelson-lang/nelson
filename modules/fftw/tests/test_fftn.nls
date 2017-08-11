@@ -16,27 +16,17 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-function Y = fft2(varargin)
-// two-dimension fast Fourier transform
-  nRhs = nargin();
-  if ~(nRhs == 1 | nRhs == 3)
-    error(_('Wrong number of input arguments.'));
-  end
-  X = varargin{1};
-  if (nRhs == 1)
-    if (ndims(X) == 1)
-      Y = fftn(X);
-    else
-      Y = fft(fft(X, [], 2), [], 1);
-    end
-  else
-    mr = varargin{2};
-    nc = varargin{3};
-    if (ndims(X) == 1)
-       Y = fftn(X, [mr, nc]);
-    else
-       Y = fft(fft(X, nc, 2), mr, 1);
-    end
-  end
-endfunction
+assert_isequal(nargin('fftn'), -1);
+assert_isequal(nargout('fftn'), 1);
 //=============================================================================
+f = zeros(5, 5);
+f(1:5,4:5) = 1;
+Y = fftn(f);
+REF = [  10.0000 + 0.0000i  -2.5000 + 7.6942i  -2.5000 - 1.8164i  -2.5000 + 1.8164i  -2.5000 - 7.6942i;
+   0.0000 + 0.0000i   0.0000 + 0.0000i   0.0000 + 0.0000i   0.0000 + 0.0000i   0.0000 + 0.0000i;
+   0.0000 + 0.0000i   0.0000 + 0.0000i   0.0000 + 0.0000i   0.0000 + 0.0000i   0.0000 + 0.0000i;
+   0.0000 + 0.0000i   0.0000 + 0.0000i   0.0000 + 0.0000i   0.0000 + 0.0000i   0.0000 + 0.0000i;
+   0.0000 + 0.0000i   0.0000 + 0.0000i   0.0000 + 0.0000i   0.0000 + 0.0000i   0.0000 + 0.0000i];
+assert_isapprox(Y, REF, 1e-4);
+//=============================================================================
+

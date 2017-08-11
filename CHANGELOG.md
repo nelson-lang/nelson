@@ -9,9 +9,8 @@ Features:
 * transpose and complex conjugate transpose manage all types available in Nelson.
 
 * FFTW module:
-  * fft function based on FFTW library
-  * ifft function based on FFTW library
-  * fftw function to manage FFTW wisdom data
+  * fft, ifft, fftn, ifftn functions based on FFTW library.
+  * fftw function to manage FFTW wisdom data.
 
 * APPVEYOR updated to build windows 32 & 64 bits versions.
 
