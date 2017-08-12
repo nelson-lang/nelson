@@ -39,6 +39,8 @@ these own data types and operations on these data types by using overload.
   * integers 8, 16, 32, 64 signed and unsigned: scalar, vector, matrix 2D, N dimensions array.
   * handle objects.
 
+- Fast Fourrier Transformation functions based on FFTW. 
+
 - The QML engine enables nelson programs to display and manipulate graphical content using Qt's QML framework.
 
 - Component Object Model (COM) client interface: binary-interface standard for software components on Windows.
