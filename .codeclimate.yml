@@ -17,4 +17,4 @@
 # LICENCE_BLOCK_END
 #==============================================================================
 exclude_paths:
-  - modules/qml_engine/examples/**/*
+- "modules/qml_engine/examples/"
