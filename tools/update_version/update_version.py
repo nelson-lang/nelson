@@ -27,7 +27,12 @@ def get_appveyor_build_number():
 def get_appveyor_build_version():
 	return os.getenv('APPVEYOR_BUILD_VERSION');
 
+def use_appveyor_variables():
+	return get_appveyor_repo_commit() is not None and get_appveyor_build_number() is not None and get_appveyor_build_version() is not None;
+
 if __name__ == '__main__':
-	print(get_appveyor_repo_commit())
-	print(get_appveyor_build_number())
-	print(get_appveyor_build_version())
+
+	if use_appveyor_variables() is True:
+		print(get_appveyor_repo_commit())
+		print(get_appveyor_build_number())
+		print(get_appveyor_build_version())
