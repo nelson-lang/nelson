@@ -69,7 +69,7 @@ BEGIN
             VALUE "OriginalFilename", "libnlslocalization.dll"
             VALUE "ProductName", "Nelson (localization)"
             VALUE "ProductVersion", "0,1,8,0"
-             VALUE "FileVersion", "0,1,8,0"
+            VALUE "FileVersion", "0,1,8,0"
             VALUE "LegalCopyright", "Nelson Copyright (C) 2016-2017"
             VALUE "Comments", "All rights reserved."
             VALUE "CompanyName", "Allan CORNET"
