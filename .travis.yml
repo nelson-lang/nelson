@@ -18,8 +18,10 @@
 #==============================================================================
 # Travis: Linux Ubuntu trusty & Macos X
 
-language: cpp
 sudo: required
+language: cpp
+python:
+ - "3.5"
 
 cache:
   directories:
