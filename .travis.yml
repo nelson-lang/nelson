@@ -130,7 +130,7 @@ before_script:
 
 script:
   - echo ${COMPILER}
-
+  - python3 ./tools/update_version/update_version.py
   - cd ${TRAVIS_BUILD_DIR} 
   - if [ $TRAVIS_OS_NAME == linux ];
     then cmake -G "Unix Makefiles" -DBOOST_ROOT=/usr/local/boost;

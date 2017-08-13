@@ -30,9 +30,24 @@ def get_appveyor_build_version():
 def use_appveyor_variables():
 	return get_appveyor_repo_commit() is not None and get_appveyor_build_number() is not None and get_appveyor_build_version() is not None;
 
+def get_travis_build_number():
+	return os.getenv('TRAVIS_BUILD_NUMBER');
+
+def get_travis_commit():
+	return os.getenv('TRAVIS_COMMIT');
+
+def use_travis():
+	return os.getenv('TRAVIS') == 'true';
+
 if __name__ == '__main__':
 
 	if use_appveyor_variables() is True:
-		print(get_appveyor_repo_commit())
-		print(get_appveyor_build_number())
-		print(get_appveyor_build_version())
+		print('USE APPVEYOR');
+		print(get_appveyor_repo_commit());
+		print(get_appveyor_build_number());
+		print(get_appveyor_build_version());
+
+	if use_travis() is True:
+		print('USE TRAVIS');
+		print(get_travis_commit());
+		print(get_travis_build_number());
