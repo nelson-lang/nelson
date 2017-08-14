@@ -6,7 +6,7 @@
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 2 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -18,7 +18,6 @@
 #==============================================================================
 import os;
 import argparse;
-from os import walk;
 import subprocess;
 import sys;
 
@@ -60,13 +59,13 @@ def get_travis_commit():
 
 def use_travis():
 	return os.getenv('TRAVIS') == 'true';
-	
+
 def edit_homepage_md(version_str):
-	for (dir, _, files) in os.walk('./modules/main/help'):
+	for (directory, _, files) in os.walk('./modules/main/help'):
 		for f in files:
-			path = os.path.join(dir, f)
+			path = os.path.join(directory, f)
 			if os.path.exists(path):
-				file_name, file_extension = os.path.splitext(path)
+				_, file_extension = os.path.splitext(path)
 				if path.endswith('homepage.md'):
 					lines_out = [];
 					with open(path) as f:
@@ -108,9 +107,9 @@ def edit_rc_file(filename, version_str):
 
 def edit_rc_files_in_modules(major, minor, maintenance, build):
 	version_str = str(major) + ',' + str(minor) + ',' + str(maintenance) + ',' + str(build);
-	for (dir, _, files) in os.walk('./modules'):
+	for (directory, _, files) in os.walk('./modules'):
 		for f in files:
-			path = os.path.join(dir, f)
+			path = os.path.join(directory, f)
 			if os.path.exists(path):
 				file_name, file_extension = os.path.splitext(path)
 				if (file_extension == '.rc'):
@@ -239,9 +238,9 @@ if __name__ == '__main__':
 		print('REPO COMMIT: ' + get_appveyor_repo_commit());
 		print('BUILD NUMBER: ' + str(get_appveyor_build_number()));
 		print('BUILD VERSION: ' + get_appveyor_build_version());
-		major =current_version[0]; 
-		minor =current_version[1];
-		maintenance =current_version[2];
+		major = current_version[0]; 
+		minor = current_version[1];
+		maintenance = current_version[2];
 		build = get_appveyor_build_number();
 		git_hash = get_appveyor_repo_commit();
 
@@ -250,9 +249,9 @@ if __name__ == '__main__':
 			print('USE TRAVIS');
 			print('REPO COMMIT: ' + get_travis_commit());
 			print('BUILD NUMBER: ' +str(get_travis_build_number()));
-			major =current_version[0]; 
-			minor =current_version[1];
-			maintenance =current_version[2];
+			major = current_version[0]; 
+			minor = current_version[1];
+			maintenance = current_version[2];
 			build = get_travis_build_number();
 			git_hash = get_travis_commit();
 
