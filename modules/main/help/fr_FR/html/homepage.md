@@ -2,9 +2,9 @@
 
 ### Nelson 0.1.8.0
 
-Ceci est une pré-version de Nelson.
+Ceci est une prÃ©-version de Nelson.
 
-Nelson est un environnement open source de calcul numérique extensible et moderne.
+Nelson est un environnement open source de calcul numÃ©rique extensible et moderne.
 
 Essayez le !
 
