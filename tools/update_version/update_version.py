@@ -232,7 +232,7 @@ if __name__ == '__main__':
 	maintenance = None;
 	build = None;
 	current_version = get_current_version();
-	need_to_update_appveyor_yml = False;
+	update_from_command_line = False;
 	
 	if use_appveyor_variables() is True:
 		print('USE APPVEYOR');
@@ -243,6 +243,7 @@ if __name__ == '__main__':
 		minor =current_version[1];
 		maintenance =current_version[2];
 		build = get_appveyor_build_number();
+		git_hash = get_appveyor_repo_commit();
 
 	else:
 		if use_travis() is True:
@@ -253,6 +254,7 @@ if __name__ == '__main__':
 			minor =current_version[1];
 			maintenance =current_version[2];
 			build = get_travis_build_number();
+			git_hash = get_travis_commit();
 
 		else:
 			print('USE COMMAND LINE');
@@ -266,26 +268,29 @@ if __name__ == '__main__':
 			minor = args.minor;
 			maintenance = args.maintenance;
 			build = args.build;
-			need_to_update_appveyor_yml = True;
+			update_from_command_line = True;
 
 	if major is None or minor is None or maintenance is None or build is None:
 		sys.stderr.write('error on version definition.');
 		sys.exit(1);
 
 	version_str = str(major) + '.' + str(minor) + '.' + str(maintenance) + '.' + str(build);
-	print('VERSION: ' +version_str);
+	print('VERSION: ' + version_str);
 
-	git_hash =  get_git_revision_hash();
-	if is_dirty_git():
-		git_hash = get_git_revision_hash() + '_dirty';
-		print('WARNING: dirty version detected.');
+	if update_from_command_line == True:
+		git_hash =  get_git_revision_hash();
+		if is_dirty_git():
+			git_hash = get_git_revision_hash() + '_dirty';
+			print('WARNING: dirty version detected.');
+
+	print('HASH: ' + git_hash);
 
 	edit_rc_files_in_modules(major, minor, maintenance, build);
 	edit_cmakelist(major, minor, maintenance, build);
 	delete_nelson_version_h();
 	edit_nelson_version_h_vc(major, minor, maintenance, build, git_hash);
 	edit_nelson_version_h_in(git_hash);
-	if need_to_update_appveyor_yml == True:
+	if update_from_command_line == True:
 		edit_appveyor_yml(major, minor, maintenance);
 	edit_homepage_md(version_str);
 	sys.exit(0);
