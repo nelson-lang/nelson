@@ -2,15 +2,15 @@
 
 ### Nelson 0.1.8
 
-This is an pre-release of Nelson.
+Ceci est une pré-version de Nelson.
 
-Nelson is an extendable and modern numerical computing environment.
+Nelson est un environnement open source de calcul numérique extensible et moderne.
 
-Try it !
+Essayez le !
 
 </div>
 
 * * *
 
-*   [Nelson license](license.html)
-*   [Changelogs](changelog.html)
+*   [Licence de Nelson](licence.html)
+*   [Journal des modifications](changelog.html)

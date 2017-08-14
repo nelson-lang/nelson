@@ -47,12 +47,14 @@ function buildhelp(varargin)
           generate_changelog_html = true;
         end
         if generate_changelog_html
-          markdown(changes_md, changes_html);
+          r =markdown(changes_md, changes_html);
+          if (r == false)
+            error([_('file not generated:'), char(13), changes_html]);
+          end
         end
         dir_dst = [nelsonroot(), '/modules/main/help/', k{1}, '/'];
-        
-        homepage_md = [dir_dst, 'homepage.md'];
-        homepage_html = [dir_dst, 'homepage.html'];
+        homepage_md = [dir_dst, 'html/homepage.md'];
+        homepage_html = [dir_dst, 'html/homepage.html'];
         if isfile(homepage_html)
           html_file_info = dir(homepage_html);
           md_file_info = dir(homepage_md);
@@ -61,7 +63,10 @@ function buildhelp(varargin)
           generate_homepage_html = true;
         end
         if generate_homepage_html
-          markdown(homepage_md, homepage_html);
+          r = markdown(homepage_md, homepage_html);
+          if (r == false)
+            error([_('file not generated:'), char(13), homepage_html]);
+          end
         end
         qhelpgenerator(dir_src,  dir_dst, 'org.nelson.help.qch')
         disp(['help ''', 'homepage', ''' (', k{1}, ') generated.']);

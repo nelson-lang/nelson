@@ -85,6 +85,7 @@ tests_minimal.xml
 /modules/main/nelson_gui/*/r000sc
 /modules/main/nelson_gui/My Inspector XE Results - Nelson-cli/
 /modules/main/nelson_gui/Resource.aps
+/modules/main/help/*/html/homepage.html
 *.vspx
 My Advisor XE Results - *
 *.inspxeproj
