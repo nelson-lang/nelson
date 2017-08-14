@@ -237,7 +237,7 @@ if __name__ == '__main__':
 	if use_appveyor_variables() is True:
 		print('USE APPVEYOR');
 		print('REPO COMMIT: ' + get_appveyor_repo_commit());
-		print('BUILD NUMBER: ' + get_appveyor_build_number());
+		print('BUILD NUMBER: ' + str(get_appveyor_build_number()));
 		print('BUILD VERSION: ' + get_appveyor_build_version());
 		major =current_version[0]; 
 		minor =current_version[1];
@@ -248,7 +248,7 @@ if __name__ == '__main__':
 		if use_travis() is True:
 			print('USE TRAVIS');
 			print('REPO COMMIT: ' + get_travis_commit());
-			print('BUILD NUMBER: ' +get_travis_build_number());
+			print('BUILD NUMBER: ' +str(get_travis_build_number()));
 			major =current_version[0]; 
 			minor =current_version[1];
 			maintenance =current_version[2];
