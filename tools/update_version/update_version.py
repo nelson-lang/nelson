@@ -11,7 +11,7 @@
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # LICENCE_BLOCK_END
@@ -65,7 +65,6 @@ def edit_homepage_md(version_str):
 		for f in files:
 			path = os.path.join(directory, f)
 			if os.path.exists(path):
-				_, file_extension = os.path.splitext(path)
 				if path.endswith('homepage.md'):
 					lines_out = [];
 					with open(path) as f:
@@ -111,7 +110,7 @@ def edit_rc_files_in_modules(major, minor, maintenance, build):
 		for f in files:
 			path = os.path.join(directory, f)
 			if os.path.exists(path):
-				file_name, file_extension = os.path.splitext(path)
+				_, file_extension = os.path.splitext(path)
 				if (file_extension == '.rc'):
 						edit_rc_file(path, version_str)
 
@@ -223,7 +222,7 @@ def get_current_version():
 		if len(split) == 3:
 			version = [int(split[0]), int(split[1]), int(split[2])];
 	return version;
-	
+
 if __name__ == '__main__':
 	
 	major = None;
