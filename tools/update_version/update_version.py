@@ -247,7 +247,7 @@ if __name__ == '__main__':
 			print('USE TRAVIS');
 			print('REPO COMMIT: ' + get_travis_commit());
 			print('BUILD NUMBER: ' +str(get_travis_build_number()));
-			major = current_version[0]; 
+			major = current_version[0];
 			minor = current_version[1];
 			maintenance = current_version[2];
 			build = get_travis_build_number();
