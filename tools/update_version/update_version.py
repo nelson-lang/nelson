@@ -224,7 +224,6 @@ def get_current_version():
 	return version;
 
 if __name__ == '__main__':
-	
 	major = None;
 	minor = None;
 	maintenance = None;
