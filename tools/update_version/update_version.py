@@ -230,13 +230,13 @@ if __name__ == '__main__':
 	build = None;
 	current_version = get_current_version();
 	update_from_command_line = False;
-	
+
 	if use_appveyor_variables() is True:
 		print('USE APPVEYOR');
 		print('REPO COMMIT: ' + get_appveyor_repo_commit());
 		print('BUILD NUMBER: ' + str(get_appveyor_build_number()));
 		print('BUILD VERSION: ' + get_appveyor_build_version());
-		major = current_version[0]; 
+		major = current_version[0];
 		minor = current_version[1];
 		maintenance = current_version[2];
 		build = get_appveyor_build_number();
