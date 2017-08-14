@@ -18,3 +18,4 @@
 #==============================================================================
 exclude_paths:
   - modules/qml_engine/examples/**/*
+  - modules/help_tools/resources/highlight.pack.js
