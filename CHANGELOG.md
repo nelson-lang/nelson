@@ -1,18 +1,18 @@
-## 0.1.8 alpha (2017-08-12)
+## 0.1.8 alpha (2017-08-15)
 
 
 Features:
 ---------
+
+* FFTW module:
+  * fft, ifft, fftn, ifftn functions based on FFTW library.
+  * fftw function to manage FFTW wisdom data.
 
 * prod : product of array elements builtin added.
 
 * conj : complex conjugate builtin added.
 
 * transpose and complex conjugate transpose manage all types available in Nelson.
-
-* FFTW module:
-  * fft, ifft, fftn, ifftn functions based on FFTW library.
-  * fftw function to manage FFTW wisdom data.
 
 * APPVEYOR updated to build windows 32 & 64 bits versions.
 
