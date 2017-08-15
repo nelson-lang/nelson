@@ -75,13 +75,17 @@ bool Nelson::MarkdownFile(std::wstring inputMarkdownFilename, std::wstring outpu
     data.html_flags = HOEDOWN_HTML_USE_XHTML;
     data.extensions = (hoedown_extensions)(HOEDOWN_EXT_MATH | HOEDOWN_EXT_TABLES | HOEDOWN_EXT_FENCED_CODE);
     data.max_nesting = DEF_MAX_NESTING;
-    ib = hoedown_buffer_new(data.iunit);
 #ifdef _MSCVER
     FILE *file = _wfopen(inputMarkdownFilename.c_str(), L"r");
 #else
     FILE *file = fopen(wstring_to_utf8(inputMarkdownFilename).c_str(), "r");
 #endif
-    if (hoedown_buffer_putf(ib, file))
+	if (file == nullptr)
+	{
+		return false;
+	}
+	ib = hoedown_buffer_new(data.iunit);
+	if (hoedown_buffer_putf(ib, file))
     {
         return false;
     }

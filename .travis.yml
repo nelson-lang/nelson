@@ -18,8 +18,10 @@
 #==============================================================================
 # Travis: Linux Ubuntu trusty & Macos X
 
-language: cpp
 sudo: required
+language: cpp
+python:
+ - "3.5"
 
 cache:
   directories:
@@ -130,8 +132,8 @@ before_script:
 
 script:
   - echo ${COMPILER}
-
   - cd ${TRAVIS_BUILD_DIR} 
+  - python3 ./tools/update_version/update_version.py
   - if [ $TRAVIS_OS_NAME == linux ];
     then cmake -G "Unix Makefiles" -DBOOST_ROOT=/usr/local/boost;
     fi
