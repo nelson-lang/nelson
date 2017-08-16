@@ -19,8 +19,7 @@
 #ifdef _MSC_VER
 #include <Windows.h>
 #endif
-#include <unicode/unistr.h>
-#include <unicode/ucnv.h>
+#include <unicode/ustring.h>
 #include <boost/container/vector.hpp>
 #include "characters_encoding.hpp"
 //=============================================================================

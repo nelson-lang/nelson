@@ -139,6 +139,22 @@ ELSE()
   ENDIF()
 ENDIF()
 #==============================================================================
+IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+  execute_process(COMMAND brew --prefix icu4c
+                OUTPUT_VARIABLE BREW_ICU_PREFIX
+                RESULT_VARIABLE NONZERO_BREW_EXIT_CODE
+                ERROR_VARIABLE BREW_ERROR
+                OUTPUT_STRIP_TRAILING_WHITESPACE
+                ERROR_STRIP_TRAILING_WHITESPACE)
+  IF(NOT(NONZERO_BREW_EXIT_CODE))
+    SET(CMAKE_ICU_PATH ${BREW_ICU_PREFIX})
+  ELSE()
+    MESSAGE(FATAL_ERROR "Brew reported an error:\n${BREW_ERROR}.\nPlease resolve this error.")
+  ENDIF()
+  set(ICU_INCLUDE_DIR ${CMAKE_ICU_PATH}/include)
+  set(ICU_LIBRARY={CMAKE_ICU_PATH}/lib/libicuuc.dylib)
+ENDIF()
+#==============================================================================
 FIND_PACKAGE(LAPACK REQUIRED)
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 FIND_PACKAGE(LAPACKE REQUIRED)
@@ -154,7 +170,6 @@ FIND_PACKAGE(Qt5PrintSupport REQUIRED)
 FIND_PACKAGE(LibXml2 REQUIRED)
 FIND_PACKAGE(icu REQUIRED)
 FIND_PACKAGE(FFTW REQUIRED)
-
 #============================================================================== 
 add_definitions(-DBOOST_ALL_NO_LIB)
 add_definitions(-DBOOST_ALL_DYN_LINK)

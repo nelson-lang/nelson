@@ -1,3 +1,9 @@
+Bug Fixes:
+---------
+
+  [#58](http://github.com/Nelson-numerical-software/nelson/issues/58): Manages ICU4C 59.1 on macos X
+
+
 ## 0.1.8 alpha (2017-08-15)
 
 
