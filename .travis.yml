@@ -80,6 +80,7 @@ before_install:
       sudo apt-get install fftw3-dev;
       elif [ `uname` = "Darwin" ]; 
       then brew update;
+      brew install python3;
       brew install libffi;
       brew install icu4c;
       brew link --force icu4c;
