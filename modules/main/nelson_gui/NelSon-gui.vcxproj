@@ -22,6 +22,7 @@
     <ProjectGuid>{F34BD496-D9B3-4C25-A9E9-C91EB3E35C12}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>NelSongui</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

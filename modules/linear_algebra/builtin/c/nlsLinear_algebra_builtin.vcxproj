@@ -22,6 +22,7 @@
     <ProjectGuid>{6980295E-7B0B-48FF-9D4A-317455813471}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>nlsLinear_algebra_builtin</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

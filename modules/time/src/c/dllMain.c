@@ -19,17 +19,17 @@
 #include <Windows.h>
 //=============================================================================
 #ifdef _DEBUG
-#pragma comment(lib, "boost_locale-vc140-mt-gd-1_61.lib")
-#pragma comment(lib, "boost_date_time-vc140-mt-gd-1_61.lib")
-#pragma comment(lib, "boost_system-vc140-mt-gd-1_61.lib")
-#pragma comment(lib, "boost_chrono-vc140-mt-gd-1_61.lib")
-#pragma comment(lib, "boost_thread-vc140-mt-gd-1_61.lib")
+#pragma comment(lib, "boost_locale-vc141-mt-gd-1_64.lib")
+#pragma comment(lib, "boost_date_time-vc141-mt-gd-1_64.lib")
+#pragma comment(lib, "boost_system-vc141-mt-gd-1_64.lib")
+#pragma comment(lib, "boost_chrono-vc141-mt-gd-1_64.lib")
+#pragma comment(lib, "boost_thread-vc141-mt-gd-1_64.lib")
 #else
-#pragma comment(lib, "boost_locale-vc140-mt-1_61.lib")
-#pragma comment(lib, "boost_date_time-vc140-mt-1_61.lib")
-#pragma comment(lib, "boost_system-vc140-mt-1_61.lib")
-#pragma comment(lib, "boost_chrono-vc140-mt-1_61.lib")
-#pragma comment(lib, "boost_thread-vc140-mt-1_61.lib")
+#pragma comment(lib, "boost_locale-vc141-mt-1_64.lib")
+#pragma comment(lib, "boost_date_time-vc141-mt-1_64.lib")
+#pragma comment(lib, "boost_system-vc141-mt-1_64.lib")
+#pragma comment(lib, "boost_chrono-vc141-mt-1_64.lib")
+#pragma comment(lib, "boost_thread-vc141-mt-1_64.lib")
 #endif
 //=============================================================================
 int WINAPI DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)

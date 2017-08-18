@@ -21,26 +21,26 @@ Source: {#RootPath}bin\{#BinPath}\readme.txt; DestDir: {app}\bin\{#BinPath}\
 ; Boost 1.61
 ;==============================================================================
 #ifndef NELSON_DEBUG
-Source: {#RootPath}bin\{#BinPath}\boost_chrono-vc140-mt-1_61.dll; DestDir: {app}\bin\{#BinPath}\;
-Source: {#RootPath}bin\{#BinPath}\boost_date_time-vc140-mt-1_61.dll; DestDir: {app}\bin\{#BinPath}\;
-Source: {#RootPath}bin\{#BinPath}\boost_filesystem-vc140-mt-1_61.dll; DestDir: {app}\bin\{#BinPath}\;
-Source: {#RootPath}bin\{#BinPath}\boost_iostreams-vc140-mt-1_61.dll; DestDir: {app}\bin\{#BinPath}\;
-Source: {#RootPath}bin\{#BinPath}\boost_locale-vc140-mt-1_61.dll; DestDir: {app}\bin\{#BinPath}\;
-Source: {#RootPath}bin\{#BinPath}\boost_program_options-vc140-mt-1_61.dll; DestDir: {app}\bin\{#BinPath}\;
-Source: {#RootPath}bin\{#BinPath}\boost_regex-vc140-mt-1_61.dll; DestDir: {app}\bin\{#BinPath}\;
-Source: {#RootPath}bin\{#BinPath}\boost_system-vc140-mt-1_61.dll; DestDir: {app}\bin\{#BinPath}\;
-Source: {#RootPath}bin\{#BinPath}\boost_thread-vc140-mt-1_61.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_chrono-vc141-mt-1_64.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_date_time-vc141-mt-1_64.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_filesystem-vc141-mt-1_64.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_iostreams-vc141-mt-1_64.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_locale-vc141-mt-1_64.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_program_options-vc141-mt-1_64.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_regex-vc141-mt-1_64.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_system-vc141-mt-1_64.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_thread-vc141-mt-1_64.dll; DestDir: {app}\bin\{#BinPath}\;
 ;==============================================================================
 #else
-Source: {#RootPath}bin\{#BinPath}\boost_chrono-vc140-mt-gd-1_61.dll; DestDir: {app}\bin\{#BinPath}\;
-Source: {#RootPath}bin\{#BinPath}\boost_date_time-vc140-mt-gd-1_61.dll; DestDir: {app}\bin\{#BinPath}\;
-Source: {#RootPath}bin\{#BinPath}\boost_filesystem-vc140-mt-gd-1_61.dll; DestDir: {app}\bin\{#BinPath}\;
-Source: {#RootPath}bin\{#BinPath}\boost_iostreams-vc140-mt-gd-1_61.dll; DestDir: {app}\bin\{#BinPath}\;
-Source: {#RootPath}bin\{#BinPath}\boost_locale-vc140-mt-gd-1_61.dll; DestDir: {app}\bin\{#BinPath}\;
-Source: {#RootPath}bin\{#BinPath}\boost_program_options-vc140-mt-gd-1_61.dll; DestDir: {app}\bin\{#BinPath}\;
-Source: {#RootPath}bin\{#BinPath}\boost_regex-vc140-mt-gd-1_61.dll; DestDir: {app}\bin\{#BinPath}\;
-Source: {#RootPath}bin\{#BinPath}\boost_system-vc140-mt-gd-1_61.dll; DestDir: {app}\bin\{#BinPath}\;
-Source: {#RootPath}bin\{#BinPath}\boost_thread-vc140-mt-gd-1_61.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_chrono-vc141-mt-gd-1_64.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_date_time-vc141-mt-gd-1_64.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_filesystem-vc141-mt-gd-1_64.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_iostreams-vc141-mt-gd-1_64.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_locale-vc141-mt-gd-1_64.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_program_options-vc141-mt-gd-1_64.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_regex-vc141-mt-gd-1_64.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_system-vc141-mt-gd-1_64.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_thread-vc141-mt-gd-1_64.dll; DestDir: {app}\bin\{#BinPath}\;
 #endif
 ;==============================================================================
 ; xml libraries

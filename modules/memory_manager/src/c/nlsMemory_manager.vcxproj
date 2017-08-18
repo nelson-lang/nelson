@@ -22,6 +22,7 @@
     <ProjectGuid>{02A292AC-2857-401C-8FD2-07DD0C529CA2}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>nlsMemory_manager</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

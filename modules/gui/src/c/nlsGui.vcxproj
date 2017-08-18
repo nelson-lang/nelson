@@ -113,6 +113,7 @@
     <ProjectGuid>{075F60AD-38BA-4531-9D46-7453E3416E15}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>nlsgui</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
