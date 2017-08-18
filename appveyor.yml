@@ -20,6 +20,7 @@ before_build:
 - if not %platform%==win32 (set QTDIR=%QTDIR64%) else (set QTDIR=%QTDIR32%)
 - git clone https://github.com/Nelson-numerical-software/nelson-thirdparty-%platform%.git c:\build_chain\nelson-thirdparty-%platform%
 - cd "c:\build_chain\nelson-thirdparty-%platform%"
+- git checkout vs2017
 - install.bat
 
 after_build:
@@ -31,8 +32,8 @@ after_build:
 
 install:
 - choco install -y curl InnoSetup
-- SET PATH="C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\MSBuild\15.0\Bin\";"C:\Program Files (x86)\Inno Setup 5";%PATH%%
-- call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\VC\Auxiliary\Build\vcvarsall.bat" %platform%
+- SET PATH="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\";"C:\Program Files (x86)\Inno Setup 5";%PATH%%
+- call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" %platform%
 
 build_script:
 - cd "c:\build_chain\nelson"
