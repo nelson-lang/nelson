@@ -28,22 +28,22 @@ install:
 before_build:
 - C:\Python36\python c:/build_chain/nelson/tools/update_version/update_version.py
 - if %platform%==x64 (set QTDIR=%QTDIR64%) else (set QTDIR=%QTDIR32%)
-- if %platform%==x64 (set PLATFORM_GIT=x64) else (set PLATFORM_GIT=win32)
-- git clone https://github.com/Nelson-numerical-software/nelson-thirdparty-%PLATFORM_GIT%.git c:\build_chain\nelson-thirdparty-%PLATFORM_GIT%
-- cd "c:\build_chain\nelson-thirdparty-%PLATFORM_GIT%"
+- if %platform%==x64 (set NELSON_PLATFORM=x64) else (set NELSON_PLATFORM=win32)
+- git clone https://github.com/Nelson-numerical-software/nelson-thirdparty-%NELSON_PLATFORM%.git c:\build_chain\nelson-thirdparty-%NELSON_PLATFORM%
+- cd "c:\build_chain\nelson-thirdparty-%NELSON_PLATFORM%"
 - git checkout vs2017
 - install.bat
 
 build_script:
 - cd "c:\build_chain\nelson"
-- msbuild nelson.sln /p:Configuration=Release /p:Platform=%platform% /target:"NelSon-gui"
+- msbuild nelson.sln /p:Configuration=Release /p:Platform=%NELSON_PLATFORM% /target:"NelSon-gui"
 
 after_build:
-- c:\build_chain/nelson/bin/%platform%/nelson-cli --quiet -f c:\build_chain/nelson/tools/buildhelp/buildhelp.nls
-- c:\build_chain/nelson/bin/%platform%/nelson-cli --quiet -f c:\build_chain/nelson/tools/tests_minimal/runtests_minimal.nls
-- c:\build_chain/nelson/bin/%platform%/nelson-cli --quiet -e run('c:\build_chain/nelson/tools/innosetup/innosetup.nls');exit
+- c:\build_chain/nelson/bin/%NELSON_PLATFORM%/nelson-cli --quiet -f c:\build_chain/nelson/tools/buildhelp/buildhelp.nls
+- c:\build_chain/nelson/bin/%NELSON_PLATFORM%/nelson-cli --quiet -f c:\build_chain/nelson/tools/tests_minimal/runtests_minimal.nls
+- c:\build_chain/nelson/bin/%NELSON_PLATFORM%/nelson-cli --quiet -e run('c:\build_chain/nelson/tools/innosetup/innosetup.nls');exit
 - iscc c:\build_chain/nelson/tools/innosetup/Nelson.iss
-- c:\build_chain/nelson/bin/%PLATFORM_GIT%/nelson-adv-cli --quiet -f c:\build_chain/nelson/tools/tests_all/runtests_all.nls
+- c:\build_chain/nelson/bin/%NELSON_PLATFORM%/nelson-adv-cli --quiet -f c:\build_chain/nelson/tools/tests_all/runtests_all.nls
 
 
 artifacts:
