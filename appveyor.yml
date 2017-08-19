@@ -33,7 +33,8 @@ after_build:
 install:
 - choco install -y curl InnoSetup
 - SET PATH=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\;C:\Program Files (x86)\Inno Setup 5;%PATH%
-- call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" %platform%
+- if %platform%==win32 (set TARGET_VS=x86) else (set TARGET_VS=x64)
+- call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" %TARGET_VS%
 
 build_script:
 - cd "c:\build_chain\nelson"
