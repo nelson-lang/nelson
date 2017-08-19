@@ -12,11 +12,20 @@ branches:
     - master
 
 platform:
-- win32
+- x86
 - x64
 
+matrix:
+  allow_failures:
+    - platform: x86
+
+install:
+- choco install -y curl InnoSetup
+- SET PATH=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\;C:\Program Files (x86)\Inno Setup 5;%PATH%
+- call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" %platform%
+
+
 before_build:
-- dir C:\Qt\
 - C:\Python36\python c:/build_chain/nelson/tools/update_version/update_version.py
 - if %platform%==x64 (set QTDIR=%QTDIR64%) else (set QTDIR=%QTDIR32%)
 - if %platform%==x64 (set PLATFORM_GIT=x64) else (set PLATFORM_GIT=win32)
@@ -25,6 +34,10 @@ before_build:
 - git checkout vs2017
 - install.bat
 
+build_script:
+- cd "c:\build_chain\nelson"
+- msbuild nelson.sln /p:Configuration=Release /p:Platform=%platform% /target:"NelSon-gui"
+
 after_build:
 - c:\build_chain/nelson/bin/%platform%/nelson-cli --quiet -f c:\build_chain/nelson/tools/buildhelp/buildhelp.nls
 - c:\build_chain/nelson/bin/%platform%/nelson-cli --quiet -f c:\build_chain/nelson/tools/tests_minimal/runtests_minimal.nls
@@ -32,15 +45,6 @@ after_build:
 - iscc c:\build_chain/nelson/tools/innosetup/Nelson.iss
 - c:\build_chain/nelson/bin/%PLATFORM_GIT%/nelson-adv-cli --quiet -f c:\build_chain/nelson/tools/tests_all/runtests_all.nls
 
-install:
-- choco install -y curl InnoSetup
-- SET PATH=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\;C:\Program Files (x86)\Inno Setup 5;%PATH%
-- if %platform%==x64 (set TARGET_VS=x64) else (set TARGET_VS=win32)
-- call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" %TARGET_VS%
-
-build_script:
-- cd "c:\build_chain\nelson"
-- msbuild nelson.sln /p:Configuration=Release /p:Platform=%platform% /target:"NelSon-gui"
 
 artifacts:
   - path: ./*.exe
