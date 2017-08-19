@@ -18,7 +18,7 @@
 ;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\readme.txt; DestDir: {app}\bin\{#BinPath}\
 ;==============================================================================
-; Boost 1.61
+; Boost 1.64
 ;==============================================================================
 #ifndef NELSON_DEBUG
 Source: {#RootPath}bin\{#BinPath}\boost_chrono-vc141-mt-1_64.dll; DestDir: {app}\bin\{#BinPath}\;
@@ -55,9 +55,9 @@ Source: {#RootPath}bin\{#BinPath}\libxml2.dll; DestDir: {app}\bin\{#BinPath}\
 ;==============================================================================
 ; vc & intel runtime
 #ifdef NELSON_X64
-Source: {#RootPath}bin\{#BinPath}\vc_redist.x64.exe; DestDir: {app}\bin\{#BinPath}\
+Source: {#RootPath}bin\{#BinPath}\vcredist_x64.exe; DestDir: {app}\bin\{#BinPath}\
 #else
-Source: {#RootPath}bin\{#BinPath}\vc_redist.x86.exe; DestDir: {app}\bin\{#BinPath}\
+Source: {#RootPath}bin\{#BinPath}\vcredist_x86.exe; DestDir: {app}\bin\{#BinPath}\
 #endif
 Source: {#RootPath}bin\{#BinPath}\msvcp140.dll; DestDir: {app}\bin\{#BinPath}\
 Source: {#RootPath}bin\{#BinPath}\vcruntime140.dll; DestDir: {app}\bin\{#BinPath}\
