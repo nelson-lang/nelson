@@ -16,6 +16,7 @@ platform:
 - x64
 
 before_build:
+- dir C:\Qt\
 - C:\Python36\python c:/build_chain/nelson/tools/update_version/update_version.py
 - if %platform%==x64 (set QTDIR=%QTDIR64%) else (set QTDIR=%QTDIR32%)
 - if %platform%==x64 (set PLATFORM_GIT=x64) else (set PLATFORM_GIT=win32)
@@ -34,7 +35,7 @@ after_build:
 install:
 - choco install -y curl InnoSetup
 - SET PATH=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\;C:\Program Files (x86)\Inno Setup 5;%PATH%
-- if %platform%==x64 (set TARGET_VS=x64) else (set TARGET_VS=x86)
+- if %platform%==x64 (set TARGET_VS=x64) else (set TARGET_VS=win32)
 - call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" %TARGET_VS%
 
 build_script:
