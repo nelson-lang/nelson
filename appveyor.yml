@@ -12,8 +12,8 @@ branches:
     - master
 
 platform:
-- x64
 - win32
+- x64
 
 before_build:
 - C:\Python36\python c:/build_chain/nelson/tools/update_version/update_version.py
