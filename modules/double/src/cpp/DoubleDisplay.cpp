@@ -24,6 +24,7 @@
 #include <cstdio>
 #include <stdarg.h>  // For va_start, etc.
 #include <memory>    // For std::unique_ptr
+#include "Error.hpp"
 #include "DoubleDisplay.hpp"
 #include "StringFormat.hpp"
 #include "characters_encoding.hpp"
@@ -400,7 +401,13 @@ namespace Nelson {
                 colsPerPage = (colsPerPage < 1) ? 1 : colsPerPage;
                 indexType pageCount = (indexType)ceil(columns / ((double)colsPerPage));
                 std::wstring buffer;
-                buffer.reserve(1024 * rows * columns);
+				try 
+				{
+					buffer.reserve(80 * rows * columns);
+				}
+				catch (std::bad_alloc)
+				{
+				}
                 indexType block_page = 0;
                 for (indexType k = 0; k < pageCount; k++)
                 {
