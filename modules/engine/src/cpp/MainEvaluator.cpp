@@ -34,6 +34,7 @@
 #include "BuiltInFunctionDefManager.hpp"
 #include "AstManager.hpp"
 #include "PathFuncManager.hpp"
+#include "ComputionalThreads.hpp"
 //=============================================================================
 namespace Nelson {
     //=============================================================================
@@ -49,6 +50,7 @@ namespace Nelson {
                 Context *context = new Context;
                 if (context)
                 {
+					setDefaultMaxNumCompThreads();
                     mainEvaluator = new Evaluator(context, io, _mode);
                     Localization::Instance()->setLanguage(effectiveLang, false);
                 }
@@ -59,6 +61,7 @@ namespace Nelson {
     //=============================================================================
     Evaluator *createMainEvaluator(NELSON_ENGINE_MODE _mode, std::wstring lang)
     {
+		setDefaultMaxNumCompThreads();
         if (mainEvaluator == nullptr)
         {
             Context *context = new Context;

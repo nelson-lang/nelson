@@ -1,6 +1,8 @@
 Features:
 ---------
 
+* add 'maxNumCompThreads' builtin. Set/Get maximum number of computional threads.
+
 * Nelson Visual Studio solution updated to use 2017 version.
 
 * On Windows, all dependencies updated to be compatible with VS 2017 runtime.

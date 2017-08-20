@@ -16,31 +16,13 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <Windows.h>
+#pragma once
 //=============================================================================
-#ifdef _DEBUG
-#pragma comment(lib, "boost_system-vc141-mt-gd-1_64.lib")
-#pragma comment(lib, "boost_filesystem-vc141-mt-gd-1_64.lib")
-#pragma comment(lib, "boost_thread-vc141-mt-gd-1_64.lib")
-
-#else
-#pragma comment(lib, "boost_system-vc141-mt-1_64.lib")
-#pragma comment(lib, "boost_filesystem-vc141-mt-1_64.lib")
-#pragma comment(lib, "boost_thread-vc141-mt-1_64.lib")
-
-#endif
+#include "nlsCore_exports.h"
 //=============================================================================
-int WINAPI DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)
-{
-    switch (reason)
-    {
-        case DLL_PROCESS_ATTACH:
-            break;
-        case DLL_PROCESS_DETACH:
-            break;
-        case DLL_THREAD_ATTACH:
-            break;
-    }
-    return 1;
+namespace Nelson {
+	NLSCORE_IMPEXP unsigned int getMaxNumCompThreads();
+	NLSCORE_IMPEXP unsigned int setMaxNumCompThreads(unsigned int _nbOfCores);
+	NLSCORE_IMPEXP unsigned int setDefaultMaxNumCompThreads();
 }
 //=============================================================================

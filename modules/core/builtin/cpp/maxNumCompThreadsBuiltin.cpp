@@ -16,31 +16,57 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <Windows.h>
+#include "maxNumCompThreadsBuiltin.hpp"
+#include "Error.hpp"
+#include "ComputionalThreads.hpp"
 //=============================================================================
-#ifdef _DEBUG
-#pragma comment(lib, "boost_system-vc141-mt-gd-1_64.lib")
-#pragma comment(lib, "boost_filesystem-vc141-mt-gd-1_64.lib")
-#pragma comment(lib, "boost_thread-vc141-mt-gd-1_64.lib")
-
-#else
-#pragma comment(lib, "boost_system-vc141-mt-1_64.lib")
-#pragma comment(lib, "boost_filesystem-vc141-mt-1_64.lib")
-#pragma comment(lib, "boost_thread-vc141-mt-1_64.lib")
-
-#endif
+using namespace Nelson;
 //=============================================================================
-int WINAPI DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)
+ArrayOfVector Nelson::CoreGateway::maxNumCompThreadsBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    switch (reason)
-    {
-        case DLL_PROCESS_ATTACH:
-            break;
-        case DLL_PROCESS_DETACH:
-            break;
-        case DLL_THREAD_ATTACH:
-            break;
-    }
-    return 1;
+	ArrayOfVector retval;
+	if (nLhs > 1)
+	{
+		Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+	}
+
+	unsigned int currentValue = getMaxNumCompThreads();
+	switch (argIn.size())
+	{
+		case 0:
+		{
+			retval.push_back(ArrayOf::doubleConstructor((double)currentValue));
+		}
+		break;
+		case 1:
+		{
+			ArrayOf param1 = argIn[0];
+			if (param1.isSingleString())
+			{
+				std::wstring str = param1.getContentAsWideString();
+				if (str == L"automatic")
+				{
+					setDefaultMaxNumCompThreads();
+				}
+				else
+				{
+					Error(eval, ERROR_WRONG_ARGUMENT_1_VALUE);
+				}
+			}
+			else
+			{
+				indexType N = param1.getContentAsScalarIndex(false);
+				setMaxNumCompThreads((unsigned int)N);
+			}
+			retval.push_back(ArrayOf::doubleConstructor((double)currentValue));
+		}
+		break;
+		default:
+		{
+			Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+		}
+		break;
+	}
+	return retval;
 }
 //=============================================================================
