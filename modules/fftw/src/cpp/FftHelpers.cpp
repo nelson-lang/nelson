@@ -261,8 +261,8 @@ namespace Nelson {
         {
             planesize *= inDim[d];
         }
-        single *ob = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, 2 * outDim.getElementCount());
-        single *buffer = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, n * 2);
+        single *ob = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, 2 * outDim.getElementCount(), stringVector(), false);
+        single *buffer = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, n * 2, stringVector(), true);
         indexType copyIn = n;
         if (inDim[dim] < n)
         {
@@ -273,7 +273,6 @@ namespace Nelson {
         {
             for (indexType j = 0; j < planesize; j++)
             {
-                memset(buffer, 0, sizeof(single) * n * 2);
                 for (indexType k = 0; k < copyIn; k++)
                 {
                     indexType idxBuffer = 2 * k;
@@ -324,8 +323,8 @@ namespace Nelson {
         {
             planesize *= inDim[d];
         }
-        double *ob = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, 2 * outDim.getElementCount());
-        double *buffer = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, n * 2);
+        double *ob = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, 2 * outDim.getElementCount(), stringVector(), false);
+        double *buffer = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, n * 2, stringVector(), true);
         indexType copyIn = n;
         if (inDim[dim] < n)
         {
@@ -336,7 +335,6 @@ namespace Nelson {
         {
             for (indexType j = 0; j < planesize; j++)
             {
-                memset(buffer, 0, sizeof(double) * n * 2);
                 for (indexType k = 0; k < copyIn; k++)
                 {
                     indexType idxBuffer = 2 * k;
@@ -354,7 +352,7 @@ namespace Nelson {
                 }
                 for (indexType k = 0; k < n; k++)
                 {
-                    indexType idxOb = 2 * (i*planesize * n + j + k * planesize);
+                    indexType idxOb = 2 * (i * planesize * n + j + k * planesize);
                     indexType idxBuffer = 2 * k;
                     ob[idxOb] = buffer[idxBuffer];
                     ob[idxOb + 1] = buffer[idxBuffer + 1];
@@ -383,7 +381,7 @@ namespace Nelson {
         {
             Dimensions dimsX = Dimensions(X.getDimensions());
             indexType len = dimsX.getLength();
-            while (dimsX[d] == 1 && d < len)
+            while (d < len && dimsX[d] == 1)
             {
                 d++;
             }

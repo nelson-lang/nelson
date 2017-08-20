@@ -31,7 +31,7 @@ static ArrayOfVector fftBuiltinPrivate(Evaluator* eval, int nLhs, const ArrayOfV
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf res;
-    if (argIn.size() < 1 && argIn.size() > 3)
+    if (argIn.size() < 1 || argIn.size() > 3)
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
