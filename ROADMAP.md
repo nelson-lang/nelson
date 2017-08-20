@@ -11,7 +11,7 @@ Please feel free to file issues on this repository if you have questions, concer
 
 - linear algebra module,
 - Computer Aided Control Systems Design module,
-- fftw module,
+- fftw module (DONE v0.1.8),
 - COM objects (DONE v0.1.7),
 - editor,
 - completion,
