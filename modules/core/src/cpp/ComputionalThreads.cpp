@@ -16,7 +16,9 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#if defined(_OPENMP)
 #include <omp.h>
+#endif
 #include <Eigen/Dense>
 #include <boost/thread/thread.hpp>
 #include <boost/lexical_cast.hpp>
