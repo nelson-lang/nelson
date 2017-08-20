@@ -26,6 +26,7 @@
 #include "SingleDisplay.hpp"
 #include "StringFormat.hpp"
 #include "characters_encoding.hpp"
+#include "Error.hpp"
 //=============================================================================
 namespace Nelson {
     //=============================================================================
@@ -399,8 +400,14 @@ namespace Nelson {
                 colsPerPage = (colsPerPage < 1) ? 1 : colsPerPage;
                 indexType pageCount = (indexType)ceil(columns / ((double)colsPerPage));
                 std::wstring buffer;
-                buffer.reserve(1024 * rows * columns);
-                indexType block_page = 0;
+				try
+				{
+					buffer.reserve(80 * rows * columns);
+				}
+				catch (std::bad_alloc)
+				{
+				}
+				indexType block_page = 0;
                 for (indexType k = 0; k < pageCount; k++)
                 {
                     if (eval->GetInterruptPending())
