@@ -20,7 +20,7 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-    Class precisionFromString(std::wstring str, bool &bOK)
+    Class precisionFromString(const std::wstring &str, bool &bOK)
     {
         bOK = true;
         if (str == L"logical")

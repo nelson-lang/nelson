@@ -107,8 +107,7 @@ namespace Nelson {
 #define BUFFER_POPEN 4096
         std::wstring result = L"";
         std::wstring commandwithredirection = L"\"" + command + L"\" 2>&1";
-        FILE   *pPipe = nullptr;
-        pPipe = _wpopen(commandwithredirection.c_str(), L"rt");
+        FILE   *pPipe = _wpopen(commandwithredirection.c_str(), L"rt");
         if (pPipe == nullptr)
         {
             throw Exception(_W("Cannot call unix command."));

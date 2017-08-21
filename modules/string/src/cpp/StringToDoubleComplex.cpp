@@ -30,7 +30,7 @@ namespace Nelson {
 #define LessChar L'-'
 #define PlusChar L'+'
     //=============================================================================
-    static bool is_unit_imaginary(std::wstring str, double &im)
+    static bool is_unit_imaginary(const std::wstring &str, double &im)
     {
         bool isUnitImag = false;
         im = nan("");
@@ -67,14 +67,14 @@ namespace Nelson {
         return isUnitImag;
     }
     /* ========================================================================== */
-    static std::wstring ToUpper(std::wstring A)
+    static std::wstring ToUpper(const std::wstring &A)
     {
         std::wstring res = A;
         transform(res.begin(), res.end(), res.begin(), towupper);
         return res;
     }
     //=============================================================================
-    static int ParseNumber(std::wstring tx)
+    static int ParseNumber(const std::wstring &tx)
     {
         if (ToUpper(tx).compare(L"NAN*I") == 0 ||
                 ToUpper(tx).compare(L"INF*I") == 0 ||
@@ -123,7 +123,7 @@ namespace Nelson {
         return lookahead;
     }
     //=============================================================================
-    static void ParseComplexValue(std::wstring tx, double &real, double &imag)
+    static void ParseComplexValue(const std::wstring &tx, double &real, double &imag)
     {
         int lnum = ParseNumber(tx);
         int rnum = ParseNumber(tx.substr(lnum));
@@ -195,7 +195,7 @@ namespace Nelson {
         }
     }
     //=============================================================================
-    doublecomplex stringToDoubleComplex(std::wstring str, bool &wasConverted)
+    doublecomplex stringToDoubleComplex(const std::wstring &str, bool &wasConverted)
     {
         doublecomplex res = doublecomplex(nan(""), 0);
         wasConverted = false;

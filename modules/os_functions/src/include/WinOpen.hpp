@@ -22,6 +22,6 @@
 #include "nlsOs_functions_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSOS_FUNCTIONS_IMPEXP bool WinOpen(std::wstring command);
+    NLSOS_FUNCTIONS_IMPEXP bool WinOpen(const std::wstring &command);
 }
 //=============================================================================

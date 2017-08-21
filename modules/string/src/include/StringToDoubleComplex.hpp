@@ -22,7 +22,7 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-    NLSSTRING_IMPEXP doublecomplex stringToDoubleComplex(std::wstring str, bool &wasConverted);
+    NLSSTRING_IMPEXP doublecomplex stringToDoubleComplex(const std::wstring &str, bool &wasConverted);
     //=============================================================================
 }
 //=============================================================================

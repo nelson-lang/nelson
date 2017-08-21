@@ -28,7 +28,7 @@ namespace Nelson {
 #define NegNanString L"-NaN" /* no sense but it can be used */
 #define PosNanString L"+NaN" /* no sense but it can be used */
     //=============================================================================
-    NLSSTRING_IMPEXP double stringToDouble(std::wstring str, bool &wasConverted);
+    NLSSTRING_IMPEXP double stringToDouble(const std::wstring &str, bool &wasConverted);
     //=============================================================================
 }
 //=============================================================================

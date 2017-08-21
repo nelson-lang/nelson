@@ -24,6 +24,6 @@
 //=============================================================================
 namespace Nelson {
     NLSSTRING_IMPEXP ArrayOf ToLower(Evaluator* eval, ArrayOf A);
-    NLSSTRING_IMPEXP std::wstring ToLower(std::wstring A);
+    NLSSTRING_IMPEXP std::wstring ToLower(const std::wstring &A);
 }
 //=============================================================================

@@ -23,6 +23,6 @@
 #include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
-    NLSOVERLOAD_IMPEXP ArrayOfVector OverloadExtraction(Evaluator *eval, std::string ClassName, ArrayOfVector args);
+    NLSOVERLOAD_IMPEXP ArrayOfVector OverloadExtraction(Evaluator *eval, const std::string &ClassName, ArrayOfVector args);
 }
 //=============================================================================

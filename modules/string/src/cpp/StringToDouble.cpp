@@ -28,7 +28,7 @@ namespace Nelson {
     //=============================================================================
 #define STR2DOUBLE_MAX_DIGIT_FORMAT L"%lg"
     //=============================================================================
-    static std::wstring ToUpper(std::wstring A)
+    static std::wstring ToUpper(const std::wstring &A)
     {
         std::wstring res = A;
         transform(res.begin(), res.end(), res.begin(), towupper);
@@ -45,7 +45,7 @@ namespace Nelson {
         return res;
     }
     //=============================================================================
-    double stringToDouble(std::wstring str, bool &wasConverted)
+    double stringToDouble(const std::wstring &str, bool &wasConverted)
     {
         double res = nan("");
         wasConverted = false;

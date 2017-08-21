@@ -23,6 +23,6 @@
 #include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
-    NLSOVERLOAD_IMPEXP ArrayOf OverloadTrinaryOperator(Evaluator *eval, ArrayOf a, ArrayOf b, ArrayOf c, std::string functionName);
+    NLSOVERLOAD_IMPEXP ArrayOf OverloadTrinaryOperator(Evaluator *eval, ArrayOf a, ArrayOf b, ArrayOf c, const std::string &functionName);
 }
 //=============================================================================

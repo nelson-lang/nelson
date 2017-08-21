@@ -60,7 +60,7 @@ namespace Nelson {
         return res;
     }
     //=============================================================================
-    std::wstring ToUpper(std::wstring A)
+    std::wstring ToUpper(const std::wstring &A)
     {
         std::wstring res = A;
         transform(res.begin(), res.end(), res.begin(), towupper);

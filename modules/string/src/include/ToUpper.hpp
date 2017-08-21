@@ -24,6 +24,6 @@
 //=============================================================================
 namespace Nelson {
     NLSSTRING_IMPEXP ArrayOf ToUpper(Evaluator* eval, ArrayOf A);
-    NLSSTRING_IMPEXP std::wstring ToUpper(std::wstring A);
+    NLSSTRING_IMPEXP std::wstring ToUpper(const std::wstring &A);
 }
 //=============================================================================
