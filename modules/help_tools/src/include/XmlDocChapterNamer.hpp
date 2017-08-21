@@ -22,6 +22,6 @@
 #include "nlsHelp_tools_exports.h"
 //=============================================================================
 namespace Nelson {
-    std::wstring XmlDocChapterNamer(std::wstring dstDirectory);
+    std::wstring XmlDocChapterNamer(const std::wstring &dstDirectory);
 }
 //=============================================================================

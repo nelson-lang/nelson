@@ -2660,7 +2660,7 @@ namespace Nelson {
         popID();
     }
 
-    int getArgumentIndex(stringVector list, std::string t)
+    int getArgumentIndex(stringVector list, const std::string &t)
     {
         bool foundArg = false;
         std::string q;

@@ -23,12 +23,12 @@ namespace Nelson {
     //=============================================================================
     static std::wstring wfilename = L"";
     //=============================================================================
-    void setParserFilename(std::string filename)
+    void setParserFilename(const std::string &filename)
     {
         wfilename = utf8_to_wstring(filename);
     }
     //=============================================================================
-    void setParserFilename(std::wstring filename)
+    void setParserFilename(const std::wstring &filename)
     {
         wfilename = filename;
     }

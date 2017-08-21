@@ -20,7 +20,7 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-    void CodeToByte(std::wstring nlf_filename)
+    void CodeToByte(const std::wstring &nlf_filename)
     {
     }
     //=============================================================================
@@ -28,7 +28,7 @@ namespace Nelson {
     {
     }
     //=============================================================================
-    MacroFunctionDef * ByteToCode(std::wstring nlb_filename)
+    MacroFunctionDef * ByteToCode(const std::wstring &nlb_filename)
     {
         MacroFunctionDef *macro = nullptr;
         return macro;

@@ -22,8 +22,8 @@
 #include "nlsInterpreter_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSINTERPRETER_IMPEXP void setParserFilename(std::string filename);
-    NLSINTERPRETER_IMPEXP void setParserFilename(std::wstring  filename);
+    NLSINTERPRETER_IMPEXP void setParserFilename(const std::string &filename);
+    NLSINTERPRETER_IMPEXP void setParserFilename(const std::wstring &filename);
     NLSINTERPRETER_IMPEXP std::string getParserFilenameU();
     NLSINTERPRETER_IMPEXP std::wstring getParserFilenameW();
 }

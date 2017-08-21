@@ -37,7 +37,7 @@ namespace Nelson {
         std::wstring _imageDestination;
 
     public:
-        XmlDocExampleItem(std::wstring type, std::wstring description, std::wstring data, std::wstring imageTag, bool isQtHelp);
+        XmlDocExampleItem(const std::wstring &type, const std::wstring &description, const std::wstring &data, const std::wstring &imageTag, bool isQtHelp);
         ~XmlDocExampleItem();
         std::wstring getType();
         std::wstring getDescription();
@@ -47,7 +47,7 @@ namespace Nelson {
         bool isNelsonExample();
         bool writeAsHtml(std::string &utf8stream);
         bool writeHeaderAsHtml(std::string &utf8stream);
-        void setDirectories(std::wstring srcDirectory, std::wstring dstDirectory);
+        void setDirectories(const std::wstring &srcDirectory, const std::wstring &dstDirectory);
 
     };
     //=============================================================================
