@@ -25,7 +25,7 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-    wstringVector splitEnvironmentPath(std::wstring envPaths)
+    wstringVector splitEnvironmentPath(const std::wstring &envPaths)
     {
         wstringVector result;
         size_t previous = 0;
@@ -53,7 +53,7 @@ namespace Nelson {
         return result;
     }
     //=============================================================================
-    wstringVector SearchVariableEnvironmentW(std::wstring fileToSearch, std::wstring envVarName)
+    wstringVector SearchVariableEnvironmentW(const std::wstring &fileToSearch, const std::wstring &envVarName)
     {
         wstringVector res;
         std::wstring envValue = GetVariableEnvironment(envVarName, L"");

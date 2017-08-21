@@ -23,7 +23,7 @@
 #include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
-    NLSOS_FUNCTIONS_IMPEXP ArrayOf SystemCommand(std::wstring command, int &ierr);
-    NLSOS_FUNCTIONS_IMPEXP std::wstring SystemCommandW(std::wstring command, int &ierr);
+    NLSOS_FUNCTIONS_IMPEXP ArrayOf SystemCommand(const std::wstring &command, int &ierr);
+    NLSOS_FUNCTIONS_IMPEXP std::wstring SystemCommandW(const std::wstring &command, int &ierr);
 }
 //=============================================================================

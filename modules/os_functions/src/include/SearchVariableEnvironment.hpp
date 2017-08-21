@@ -23,6 +23,6 @@
 #include "Types.hpp"
 //=============================================================================
 namespace Nelson {
-    NLSOS_FUNCTIONS_IMPEXP wstringVector SearchVariableEnvironmentW(std::wstring fileToSearch, std::wstring envVarName);
+    NLSOS_FUNCTIONS_IMPEXP wstringVector SearchVariableEnvironmentW(const std::wstring &fileToSearch, const std::wstring &envVarName);
 }
 //=============================================================================

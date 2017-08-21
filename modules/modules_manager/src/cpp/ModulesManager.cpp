@@ -123,7 +123,7 @@ namespace Nelson {
         return false;
     }
     //=============================================================================
-    std::wstring ModulesManager::findModuleNameByPath(const std::wstring filename)
+    std::wstring ModulesManager::findModuleNameByPath(const std::wstring &filename)
     {
         std::wstring moduleName = L"";
         for (auto it = modulesMap.rbegin(); it != modulesMap.rend(); ++it)
@@ -137,24 +137,24 @@ namespace Nelson {
         return moduleName;
     }
     //=============================================================================
-    bool RegisterModule(std::wstring moduleshortname, std::wstring modulerootpath)
+    bool RegisterModule(const std::wstring &moduleshortname, const std::wstring &modulerootpath)
     {
         ModulesManager::Instance().insertModule(moduleshortname, modulerootpath);
         return true;
     }
     //=============================================================================
-    bool UnregisterModule(std::wstring moduleshortname)
+    bool UnregisterModule(const std::wstring &moduleshortname)
     {
         return ModulesManager::Instance().deleteModule(moduleshortname);
     }
     //=============================================================================
-    bool IsExistingModuleName(std::wstring moduleshortname)
+    bool IsExistingModuleName(const std::wstring &moduleshortname)
     {
         std::wstring modulerootpath;
         return ModulesManager::Instance().findModule(moduleshortname, modulerootpath);
     }
     //=============================================================================
-    bool IsExistingModulePath(std::wstring modulerootpath)
+    bool IsExistingModulePath(const std::wstring &modulerootpath)
     {
         wstringVector listPaths = GetModulesPath(false);
         for (size_t k = 0; k < listPaths.size(); k++)
@@ -193,7 +193,7 @@ namespace Nelson {
         return ModulesManager::Instance().getModulesPathList(bReverse);
     }
     //=============================================================================
-    std::wstring GetModulePath(std::wstring moduleshortname)
+    std::wstring GetModulePath(const std::wstring &moduleshortname)
     {
         std::wstring res;
         ModulesManager::Instance().findModule(moduleshortname, res);

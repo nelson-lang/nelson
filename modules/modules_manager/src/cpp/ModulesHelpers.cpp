@@ -20,7 +20,7 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-    std::wstring ConstructBinariesPath(std::wstring modulerootpath)
+    std::wstring ConstructBinariesPath(const std::wstring &modulerootpath)
     {
         std::wstring binariespath;
 #ifdef _MSC_VER
@@ -47,7 +47,7 @@ namespace Nelson {
         return binariespath;
     }
     //=============================================================================
-    std::wstring ConstructDynamicLibraryName(std::wstring moduleshortname)
+    std::wstring ConstructDynamicLibraryName(const std::wstring &moduleshortname)
     {
         std::wstring libname = std::wstring(L"libnls") + moduleshortname + std::wstring(L"_builtin");
 #ifdef _MSC_VER
@@ -62,7 +62,7 @@ namespace Nelson {
         return libname;
     }
     //=============================================================================
-    std::wstring ConstructEtcName(std::wstring modulerootpath, std::wstring moduleshortname)
+    std::wstring ConstructEtcName(const std::wstring &modulerootpath, const std::wstring &moduleshortname)
     {
         std::wstring etcpath;
         if (moduleshortname.empty())
@@ -76,7 +76,7 @@ namespace Nelson {
         return etcpath;
     }
     //=============================================================================
-    std::wstring ConstructRootName(std::wstring modulerootpath, std::wstring moduleshortname)
+    std::wstring ConstructRootName(const std::wstring &modulerootpath, const std::wstring &moduleshortname)
     {
         std::wstring rootpath;
         if (moduleshortname.empty())
@@ -90,7 +90,7 @@ namespace Nelson {
         return rootpath;
     }
     //=============================================================================
-    std::wstring ConstructScriptName(std::wstring modulerootpath, std::wstring moduleshortname)
+    std::wstring ConstructScriptName(const std::wstring &modulerootpath, const std::wstring &moduleshortname)
     {
         std::wstring scriptspath;
         if (moduleshortname.empty())
@@ -104,7 +104,7 @@ namespace Nelson {
         return scriptspath;
     }
     //=============================================================================
-    std::wstring ConstructDynamicLibraryFullname(std::wstring modulerootpath, std::wstring moduleshortname)
+    std::wstring ConstructDynamicLibraryFullname(const std::wstring &modulerootpath, const std::wstring &moduleshortname)
     {
         return ConstructBinariesPath(modulerootpath) + L"/" + ConstructDynamicLibraryName(moduleshortname);
     }

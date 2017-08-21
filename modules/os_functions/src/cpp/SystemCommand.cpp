@@ -47,12 +47,12 @@ namespace Nelson {
         }
     }
     //=============================================================================
-    ArrayOf SystemCommand(std::wstring command, int &ierr)
+    ArrayOf SystemCommand(const std::wstring &command, int &ierr)
     {
         return ArrayOf::stringConstructor(SystemCommandW(command, ierr));
     }
     //=============================================================================
-    static bool DetectDetachProcess(std::wstring &command)
+    static bool DetectDetachProcess(std::wstring command)
     {
         bool bRes = false;
         for (std::wstring::reverse_iterator rit = command.rbegin(); rit != command.rend(); ++rit)
@@ -73,7 +73,7 @@ namespace Nelson {
         return bRes;
     }
     //=============================================================================
-    static int systemCall(std::wstring command)
+    static int systemCall(const std::wstring &command)
     {
         fflush(NULL);
 #ifdef _MSC_VER
@@ -87,12 +87,12 @@ namespace Nelson {
         return ierr;
     }
     //=============================================================================
-    static std::wstring SystemCommandDetachedW(std::wstring command, int &ierr)
+    static std::wstring SystemCommandDetachedW(const std::wstring &command, int &ierr)
     {
         std::wstring commandLine;
 #ifdef _MSC_VER
-        command.pop_back();
-        commandLine = L"start cmd  /K " + command;
+		commandLine = L"start cmd  /K " + command;
+		commandLine.pop_back();
 #else
         commandLine = command;
 #endif
@@ -102,7 +102,7 @@ namespace Nelson {
     }
     //=============================================================================
 #ifdef _MSC_VER
-    static std::wstring SystemCommandAttachedW_windows(std::wstring command, int &ierr)
+    static std::wstring SystemCommandAttachedW_windows(const std::wstring &command, int &ierr)
     {
 #define BUFFER_POPEN 4096
         std::wstring result = L"";
@@ -153,7 +153,7 @@ namespace Nelson {
     }
     //=============================================================================
 #else
-    static std::wstring SystemCommandAttachedW_others(std::wstring command, int &ierr)
+    static std::wstring SystemCommandAttachedW_others(const std::wstring &command, int &ierr)
     {
         std::wstring result = L"";
         boost::filesystem::path pwd = boost::filesystem::temp_directory_path();
@@ -281,7 +281,7 @@ namespace Nelson {
     }
 #endif
     //=============================================================================
-    static std::wstring SystemCommandAttachedW(std::wstring command, int &ierr)
+    static std::wstring SystemCommandAttachedW(const std::wstring &command, int &ierr)
     {
 #ifdef _MSC_VER
         return SystemCommandAttachedW_windows(command, ierr);
@@ -290,7 +290,7 @@ namespace Nelson {
 #endif
     }
     //=============================================================================
-    std::wstring SystemCommandW(std::wstring command, int &ierr)
+    std::wstring SystemCommandW(const std::wstring &command, int &ierr)
     {
         std::wstring result = L"";
         bool bDetach = DetectDetachProcess(command);
