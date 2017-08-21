@@ -59,12 +59,10 @@ namespace Nelson {
         indexType newRowsSize = dimsA.getRows();
         indexType newSize = newColumnsSize * newRowsSize;
         Dimensions dimsC = Dimensions(newRowsSize, newColumnsSize);
-        void * pRes = nullptr;
-        logical *ptrC = nullptr;
         logical *ptrA = (logical *)A.getDataPointer();
         logical *ptrB = (logical *)B.getDataPointer();
-        pRes = ArrayOf::allocateArrayOf(classC, newSize);
-        ptrC = (logical*)pRes;
+		void * pRes = ArrayOf::allocateArrayOf(classC, newSize);
+		logical *ptrC = (logical*)pRes;
         Eigen::Map<Eigen::Matrix<logical, Eigen::Dynamic, Eigen::Dynamic>> matA(ptrA, dimsA.getRows(), dimsA.getColumns());
         Eigen::Map<Eigen::Matrix<logical, Eigen::Dynamic, Eigen::Dynamic>> matB(ptrB, dimsB.getRows(), dimsB.getColumns());
         Eigen::Map<Eigen::Matrix<logical, Eigen::Dynamic, Eigen::Dynamic>> matC(ptrC, dimsC.getRows(), dimsC.getColumns());

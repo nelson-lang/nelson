@@ -49,10 +49,9 @@ namespace Nelson {
         indexType newRowsSize = dimsA.getRows() + dimsB.getRows();
         indexType newSize = newColumnsSize * newRowsSize;
         Dimensions dimsC = Dimensions(newRowsSize, newColumnsSize);
-        void * pRes = nullptr;
         logical *ptrA = (logical *)A.getDataPointer();
         logical *ptrB = (logical *)B.getDataPointer();
-        pRes = ArrayOf::allocateArrayOf(classC, newSize);
+		void * pRes = ArrayOf::allocateArrayOf(classC, newSize);
         if (newSize != 0)
         {
             logical *ptrC = (logical*)pRes;

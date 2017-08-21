@@ -21,37 +21,37 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-    bool LockVariable(std::wstring variable, Scope * scope)
+    bool LockVariable(const std::wstring &variable, Scope * scope)
     {
         return LockVariable(wstring_to_utf8(variable), scope);
     }
     //=============================================================================
-    bool LockVariable(std::string variable, Scope * scope)
+    bool LockVariable(const std::string &variable, Scope * scope)
     {
         return scope->lockVariable(variable);
     }
     //=============================================================================
-    bool UnlockVariable(std::wstring variable, Scope * scope)
+    bool UnlockVariable(const std::wstring &variable, Scope * scope)
     {
         return UnlockVariable(wstring_to_utf8(variable), scope);
     }
     //=============================================================================
-    bool UnlockVariable(std::string variable, Scope * scope)
+    bool UnlockVariable(const std::string &variable, Scope * scope)
     {
         return scope->unlockVariable(variable);
     }
     //=============================================================================
-    bool IsLockedVariable(std::wstring variable, Scope * scope)
+    bool IsLockedVariable(const std::wstring &variable, Scope * scope)
     {
         return IsLockedVariable(wstring_to_utf8(variable), scope);
     }
     //=============================================================================
-    bool IsLockedVariable(std::string variable, Scope * scope)
+    bool IsLockedVariable(const std::string &variable, Scope * scope)
     {
         return scope->isLockedVariable(variable);
     }
     //=============================================================================
-    stringVector GetLockedVariables(std::string variable, Scope * scope)
+    stringVector GetLockedVariables(const std::string &variable, Scope * scope)
     {
         return scope->getLockedVariables();
     }
