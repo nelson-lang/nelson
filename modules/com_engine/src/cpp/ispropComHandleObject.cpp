@@ -26,7 +26,7 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-    bool ispropComHandleObject(ComHandleObject *comhandleobj, std::wstring propertyName)
+    bool ispropComHandleObject(ComHandleObject *comhandleobj, const std::wstring &propertyName)
     {
         void *ptr = comhandleobj->getPointer();
         if (ptr == nullptr)
@@ -37,7 +37,7 @@ namespace Nelson {
         return isPropertyGetCom(pVariant->pdispVal, propertyName) || isPropertyPutCom(pVariant->pdispVal, propertyName);
     }
     //=============================================================================
-    ArrayOf ispropComHandleObject(ArrayOf A, std::wstring propertyName)
+    ArrayOf ispropComHandleObject(ArrayOf A, const std::wstring &propertyName)
     {
         if (!A.isHandle())
         {

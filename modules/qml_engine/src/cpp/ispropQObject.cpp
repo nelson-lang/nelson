@@ -25,7 +25,7 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-    bool ispropQObject(QmlHandleObject *qmlHandle, std::wstring propertyName)
+    bool ispropQObject(QmlHandleObject *qmlHandle, const std::wstring &propertyName)
     {
         void *ptr = qmlHandle->getPointer();
         if (ptr == nullptr)
@@ -74,7 +74,7 @@ namespace Nelson {
         return false;
     }
     //=============================================================================
-    ArrayOf ispropQObject(ArrayOf A, std::wstring propertyName)
+    ArrayOf ispropQObject(ArrayOf A, const std::wstring &propertyName)
     {
         if (!A.isHandle())
         {

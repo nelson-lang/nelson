@@ -23,7 +23,7 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-    NLSQML_ENGINE_IMPEXP ArrayOf ispropQObject(ArrayOf A, std::wstring propertyName);
+    NLSQML_ENGINE_IMPEXP ArrayOf ispropQObject(ArrayOf A, const std::wstring &propertyName);
     //=============================================================================
 }
 //=============================================================================

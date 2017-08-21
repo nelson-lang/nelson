@@ -402,7 +402,7 @@ namespace Nelson {
                 std::wstring buffer;
 				try
 				{
-					buffer.reserve(80 * rows * columns);
+					buffer.reserve(20 * columns);
 				}
 				catch (std::bad_alloc)
 				{

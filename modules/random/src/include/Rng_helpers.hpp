@@ -34,8 +34,8 @@ namespace Nelson {
     NLSRANDOM_IMPEXP wstringVector getSupportedRngEngineName();
 
     NLSRANDOM_IMPEXP std::wstring getRngTypeAsString(RNG_TYPE rngType);
-    NLSRANDOM_IMPEXP RNG_TYPE getRngType(std::wstring enginename);
-    NLSRANDOM_IMPEXP bool isRngType(std::wstring enginename);
+    NLSRANDOM_IMPEXP RNG_TYPE getRngType(const std::wstring &enginename);
+    NLSRANDOM_IMPEXP bool isRngType(const std::wstring &enginename);
 
 }
 //=============================================================================

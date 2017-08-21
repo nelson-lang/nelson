@@ -70,7 +70,7 @@ namespace Nelson {
                 changeDir(newDir.generic_wstring().c_str(), false);
             }
         }
-        FILE *fr = nullptr;
+        FILE *fr;
 #ifdef _MSC_BUILD
         fr = _wfopen(absolutePath.generic_wstring().c_str(), L"rt");
 #else

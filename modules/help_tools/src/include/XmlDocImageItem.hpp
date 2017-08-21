@@ -33,11 +33,11 @@ namespace Nelson {
         std::wstring imageDestination;
 
     public:
-        XmlDocImageItem(std::wstring tag);
+        XmlDocImageItem(const std::wstring &tag);
         ~XmlDocImageItem();
         std::wstring getItemType();
         bool writeAsHtml(std::string &utf8stream);
-        void setDirectories(std::wstring srcDirectory, std::wstring destDirectory);
+        void setDirectories(const std::wstring &srcDirectory, const std::wstring &destDirectory);
         void findImage();
     };
     //=============================================================================

@@ -155,10 +155,9 @@ void MacroFunctionDef::printMe(Interface*io)
 ArrayOfVector MacroFunctionDef::evaluateFunction(Evaluator *eval, ArrayOfVector& inputs, int nargout)
 {
     ArrayOfVector outputs;
-    Context* context = nullptr;
     ArrayOf a;
     size_t minCount = 0;
-    context = eval->getContext();
+	Context* context = eval->getContext();
     context->pushScope(name);
     eval->pushDebug(wstring_to_utf8(fileName), name);
     // Push our local functions onto the function scope

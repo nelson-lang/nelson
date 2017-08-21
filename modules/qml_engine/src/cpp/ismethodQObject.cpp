@@ -25,7 +25,7 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-    bool ismethodQObject(QmlHandleObject *qmlhandleobj, std::wstring methodname)
+    bool ismethodQObject(QmlHandleObject *qmlhandleobj, const std::wstring &methodname)
     {
         void *ptr = qmlhandleobj->getPointer();
         if (ptr == nullptr)
@@ -52,7 +52,7 @@ namespace Nelson {
         return false;
     }
     //=============================================================================
-    ArrayOf ismethodQObject(ArrayOf A, std::wstring methodname)
+    ArrayOf ismethodQObject(ArrayOf A, const std::wstring &methodname)
     {
         if (!A.isHandle())
         {

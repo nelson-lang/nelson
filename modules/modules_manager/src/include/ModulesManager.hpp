@@ -41,7 +41,7 @@ namespace Nelson {
         bool findModule(const std::wstring& modulename, std::wstring& path);
         void deleteAllModules();
         bool deleteModule(const std::wstring& modulename);
-        std::wstring findModuleNameByPath(const std::wstring filename);
+        std::wstring findModuleNameByPath(const std::wstring &filename);
     private:
         ModulesManager();
         ModulesManager(ModulesManager const&) {};
@@ -49,14 +49,14 @@ namespace Nelson {
         boost::container::vector< std::pair<std::wstring, std::wstring>> modulesMap;
     };
     //=============================================================================
-    NLSMODULES_MANAGER_IMPEXP bool RegisterModule(std::wstring moduleshortname, std::wstring modulerootpath);
-    NLSMODULES_MANAGER_IMPEXP bool UnregisterModule(std::wstring moduleshortname);
-    NLSMODULES_MANAGER_IMPEXP bool IsExistingModuleName(std::wstring moduleshortname);
-    NLSMODULES_MANAGER_IMPEXP bool IsExistingModulePath(std::wstring modulerootpath);
+    NLSMODULES_MANAGER_IMPEXP bool RegisterModule(const std::wstring &moduleshortname, const std::wstring &modulerootpath);
+    NLSMODULES_MANAGER_IMPEXP bool UnregisterModule(const std::wstring &moduleshortname);
+    NLSMODULES_MANAGER_IMPEXP bool IsExistingModuleName(const std::wstring &moduleshortname);
+    NLSMODULES_MANAGER_IMPEXP bool IsExistingModulePath(const std::wstring &modulerootpath);
     NLSMODULES_MANAGER_IMPEXP boost::container::vector<module> GetModules(bool bReverse = false);
     NLSMODULES_MANAGER_IMPEXP wstringVector GetModulesName(bool bReverse = false);
     NLSMODULES_MANAGER_IMPEXP wstringVector GetModulesPath(bool bReverse = false);
-    NLSMODULES_MANAGER_IMPEXP std::wstring GetModulePath(std::wstring moduleshortname);
+    NLSMODULES_MANAGER_IMPEXP std::wstring GetModulePath(const std::wstring &moduleshortname);
     //=============================================================================
 }
 //=============================================================================

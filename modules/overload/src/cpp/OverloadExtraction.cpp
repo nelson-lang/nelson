@@ -21,7 +21,7 @@
 #include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
-    ArrayOfVector OverloadExtraction(Evaluator *eval, std::string ClassName, ArrayOfVector args)
+    ArrayOfVector OverloadExtraction(Evaluator *eval, const std::string &ClassName, ArrayOfVector args)
     {
         /*
         Context *context = eval->getContext();

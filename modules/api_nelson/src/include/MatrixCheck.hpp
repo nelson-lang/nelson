@@ -36,7 +36,7 @@ namespace Nelson {
     *  5. A & B must be conformant, i.e. the number of columns in A must
     *     match the number of rows in B.
     */
-    NLSAPI_NELSON_IMPEXP bool MatrixCheck(ArrayOf &A, ArrayOf &B, std::string opname) throw(Exception);
+    NLSAPI_NELSON_IMPEXP bool MatrixCheck(ArrayOf &A, ArrayOf &B, const std::string &opname) throw(Exception);
 
     /**
     * Check that both of the argument objects are of the
@@ -67,7 +67,7 @@ namespace Nelson {
     /**
     * Check that both of the argument objects are numeric.
     */
-    NLSAPI_NELSON_IMPEXP void CheckNumeric(ArrayOf &A, ArrayOf &B, std::string opname) throw(Exception);
+    NLSAPI_NELSON_IMPEXP void CheckNumeric(ArrayOf &A, ArrayOf &B, const std::string &opname) throw(Exception);
 
     /*
     * Check to see if two dimensions (when treated as vectors) are equivalent in size.
@@ -81,7 +81,7 @@ namespace Nelson {
     *  2. Either A & B are the same size or
     *      A is a scalar or B is a scalar.
     */
-    NLSAPI_NELSON_IMPEXP void VectorCheck(ArrayOf& A, ArrayOf& B, bool promote, std::string opname) throw(Exception);
+    NLSAPI_NELSON_IMPEXP void VectorCheck(ArrayOf& A, ArrayOf& B, bool promote, const std::string &opname) throw(Exception);
 
     /**
     * We want to perform a vector operator between two logical data objects.
@@ -90,6 +90,6 @@ namespace Nelson {
     *  2. Either A & B must be the same size, or A is a
     *     scalar or B is a scalar.
     */
-    NLSAPI_NELSON_IMPEXP void BoolVectorCheck(ArrayOf& A, ArrayOf& B, std::string opname) throw(Exception);
+    NLSAPI_NELSON_IMPEXP void BoolVectorCheck(ArrayOf& A, ArrayOf& B, const std::string &opname) throw(Exception);
 }
 //=============================================================================

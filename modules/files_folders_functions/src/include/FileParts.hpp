@@ -22,9 +22,9 @@
 #include "nlsFiles_folders_functions_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSFILES_FOLDERS_FUNCTIONS_IMPEXP std::wstring FilePartsPath(std::wstring fullpath);
-    NLSFILES_FOLDERS_FUNCTIONS_IMPEXP std::wstring FilePartsFilename(std::wstring fullpath);
-    NLSFILES_FOLDERS_FUNCTIONS_IMPEXP std::wstring FilePartsExtension(std::wstring fullpath);
-    NLSFILES_FOLDERS_FUNCTIONS_IMPEXP void FileParts(std::wstring fullpath, std::wstring &path, std::wstring &filename, std::wstring &extension);
+    NLSFILES_FOLDERS_FUNCTIONS_IMPEXP std::wstring FilePartsPath(const std::wstring &fullpath);
+    NLSFILES_FOLDERS_FUNCTIONS_IMPEXP std::wstring FilePartsFilename(const std::wstring &fullpath);
+    NLSFILES_FOLDERS_FUNCTIONS_IMPEXP std::wstring FilePartsExtension(const std::wstring &fullpath);
+    NLSFILES_FOLDERS_FUNCTIONS_IMPEXP void FileParts(const std::wstring &fullpath, std::wstring &path, std::wstring &filename, std::wstring &extension);
 }
 //=============================================================================

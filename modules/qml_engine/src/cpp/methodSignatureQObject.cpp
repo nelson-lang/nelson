@@ -25,7 +25,7 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-    bool methodSignatureQObject(QmlHandleObject *qmlhandleobj, std::wstring methodName, std::wstring &signature)
+    bool methodSignatureQObject(QmlHandleObject *qmlhandleobj, const std::wstring &methodName, std::wstring &signature)
     {
         void *ptr = qmlhandleobj->getPointer();
         if (ptr == nullptr)
@@ -53,7 +53,7 @@ namespace Nelson {
         return false;
     }
     //=============================================================================
-    ArrayOf methodSignatureQObject(ArrayOf A, std::wstring methodName)
+    ArrayOf methodSignatureQObject(ArrayOf A, const std::wstring &methodName)
     {
         if (!A.isHandle())
         {

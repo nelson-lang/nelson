@@ -25,8 +25,8 @@
 #include "Types.hpp"
 //=============================================================================
 namespace Nelson {
-    NLSFUNCTIONS_MANAGER_IMPEXP std::wstring Which(std::wstring functionname);
-    NLSFUNCTIONS_MANAGER_IMPEXP wstringVector WhichAll(std::wstring functionname);
-    NLSFUNCTIONS_MANAGER_IMPEXP wstringVector WhichModule(std::wstring functionname);
+    NLSFUNCTIONS_MANAGER_IMPEXP std::wstring Which(const std::wstring &functionname);
+    NLSFUNCTIONS_MANAGER_IMPEXP wstringVector WhichAll(const std::wstring &functionname);
+    NLSFUNCTIONS_MANAGER_IMPEXP wstringVector WhichModule(const std::wstring &functionname);
 }
 //=============================================================================

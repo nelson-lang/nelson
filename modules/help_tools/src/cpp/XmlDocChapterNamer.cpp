@@ -25,7 +25,7 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-    std::wstring XmlDocChapterNamer(std::wstring dstDirectory)
+    std::wstring XmlDocChapterNamer(const std::wstring &dstDirectory)
     {
         boost::uuids::uuid uuid = boost::uuids::random_generator()();
         std::wstring guid = boost::uuids::to_wstring(uuid);

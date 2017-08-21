@@ -29,7 +29,7 @@
 #include "ImageTagHelpers.hpp"
 //=============================================================================
 namespace Nelson {
-    XmlDocImageItem::XmlDocImageItem(std::wstring tag)
+    XmlDocImageItem::XmlDocImageItem(const std::wstring &tag)
     {
         this->tag = tag;
     }
@@ -94,7 +94,7 @@ namespace Nelson {
         }
     }
     //=============================================================================
-    void XmlDocImageItem::setDirectories(std::wstring srcDirectory, std::wstring destDirectory)
+    void XmlDocImageItem::setDirectories(const std::wstring &srcDirectory, const std::wstring &destDirectory)
     {
         if (boost::algorithm::ends_with(srcDirectory, L"/") || boost::algorithm::ends_with(srcDirectory, L"\\"))
         {

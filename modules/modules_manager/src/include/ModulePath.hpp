@@ -29,7 +29,7 @@ namespace Nelson {
         GET_DYNLIB_FULLPATH,
         GET_SCRIPT_PATH
     } MODULEPATH_OPTION;
-    NLSMODULES_MANAGER_IMPEXP std::wstring ModulePath(std::wstring moduleshortname);
-    NLSMODULES_MANAGER_IMPEXP std::wstring ModulePath(std::wstring modulerootpath, std::wstring moduleshortname, MODULEPATH_OPTION option);
+    NLSMODULES_MANAGER_IMPEXP std::wstring ModulePath(const std::wstring &moduleshortname);
+    NLSMODULES_MANAGER_IMPEXP std::wstring ModulePath(const std::wstring &modulerootpath, const std::wstring &moduleshortname, MODULEPATH_OPTION option);
 }
 //=============================================================================

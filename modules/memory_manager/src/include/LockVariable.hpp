@@ -24,13 +24,13 @@
 #include "Scope.hpp"
 //=============================================================================
 namespace Nelson {
-    NLSMEMORY_MANAGER_IMPEXP bool LockVariable(std::wstring variable, Scope * scope);
-    NLSMEMORY_MANAGER_IMPEXP bool LockVariable(std::string variable, Scope * scope);
-    NLSMEMORY_MANAGER_IMPEXP bool UnlockVariable(std::wstring variable, Scope * scope);
-    NLSMEMORY_MANAGER_IMPEXP bool UnlockVariable(std::string variable, Scope * scope);
-    NLSMEMORY_MANAGER_IMPEXP bool IsLockedVariable(std::wstring variable, Scope * scope);
-    NLSMEMORY_MANAGER_IMPEXP bool IsLockedVariable(std::string variable, Scope * scope);
-    NLSMEMORY_MANAGER_IMPEXP stringVector GetLockedVariables(std::string variable, Scope * scope);
+    NLSMEMORY_MANAGER_IMPEXP bool LockVariable(const std::wstring &variable, Scope * scope);
+    NLSMEMORY_MANAGER_IMPEXP bool LockVariable(const std::string &variable, Scope * scope);
+    NLSMEMORY_MANAGER_IMPEXP bool UnlockVariable(const std::wstring &variable, Scope * scope);
+    NLSMEMORY_MANAGER_IMPEXP bool UnlockVariable(const std::string &variable, Scope * scope);
+    NLSMEMORY_MANAGER_IMPEXP bool IsLockedVariable(const std::wstring &variable, Scope * scope);
+    NLSMEMORY_MANAGER_IMPEXP bool IsLockedVariable(const std::string &variable, Scope * scope);
+    NLSMEMORY_MANAGER_IMPEXP stringVector GetLockedVariables(const std::string &variable, Scope * scope);
 
 }
 //=============================================================================

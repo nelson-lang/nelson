@@ -65,7 +65,7 @@ namespace Nelson {
         }
     }
     //=============================================================================
-    static void dispQRect(QRect qrect, std::wstring fieldname, std::wstring &msg)
+    static void dispQRect(QRect qrect, const std::wstring &fieldname, std::wstring &msg)
     {
         int x = qrect.x();
         int y = qrect.y();
@@ -78,7 +78,7 @@ namespace Nelson {
         msg = msg + L"\t" + fieldname + L": " + wstr + L"\n";
     }
     //=============================================================================
-    static void dispQRectF(QRectF qrectf, std::wstring fieldname, std::wstring &msg)
+    static void dispQRectF(QRectF qrectf, const std::wstring &fieldname, std::wstring &msg)
     {
         double x = qrectf.x();
         double y = qrectf.y();
@@ -126,7 +126,7 @@ namespace Nelson {
         msg = msg + L"\t" + fieldname + L": " + L"QRectF" + L" " + wstr + L"\n";
     }
     //=============================================================================
-    static void dispQPoint(QPoint qpoint, std::wstring fieldname, std::wstring &msg)
+    static void dispQPoint(QPoint qpoint, const std::wstring &fieldname, std::wstring &msg)
     {
         int x = qpoint.x();
         int y = qpoint.y();
@@ -134,7 +134,7 @@ namespace Nelson {
         msg = msg + L"\t" + fieldname + L": " + wstr + L"\n";
     }
     //=============================================================================
-    static void dispQPointF(QPointF qpointf, std::wstring fieldname, std::wstring &msg)
+    static void dispQPointF(QPointF qpointf, const std::wstring &fieldname, std::wstring &msg)
     {
         double x = qpointf.x();
         double y = qpointf.y();
@@ -154,7 +154,7 @@ namespace Nelson {
         msg = msg + L"\t" + fieldname + L": " + L"QRectF" + L" " + wstr + L"\n";
     }
     //=============================================================================
-    static void dispQColor(QColor qcolor, std::wstring fieldname, std::wstring &msg)
+    static void dispQColor(QColor qcolor, const std::wstring &fieldname, std::wstring &msg)
     {
         int r = qcolor.red();
         int g = qcolor.green();

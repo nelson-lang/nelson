@@ -30,7 +30,7 @@ namespace Nelson {
     //=============================================================================
 #define NB_PARAMS_MAX 7
     //=============================================================================
-    ArrayOf invokeComHandleObject(ArrayOf A, std::wstring wmethodname, ArrayOfVector params, bool &haveReturnValue)
+    ArrayOf invokeComHandleObject(ArrayOf A, const std::wstring &wmethodname, ArrayOfVector params, bool &haveReturnValue)
     {
         ArrayOf res;
         haveReturnValue = false;

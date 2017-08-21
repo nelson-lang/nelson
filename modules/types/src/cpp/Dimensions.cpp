@@ -43,7 +43,7 @@
 #include "Exception.hpp"
 
 
-#ifdef WIN32
+#ifdef _MSC_VER
 #define snprintf _snprintf
 #endif
 

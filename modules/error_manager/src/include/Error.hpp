@@ -26,10 +26,10 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-    NLSERROR_MANAGER_IMPEXP void Error(Evaluator *eval, std::wstring msg);
-    NLSERROR_MANAGER_IMPEXP void Error(Evaluator *eval, std::wstring msg, std::wstring functionname);
-    NLSERROR_MANAGER_IMPEXP void Error(Evaluator *eval, std::string msg);
-    NLSERROR_MANAGER_IMPEXP void Error(Evaluator *eval, std::string msg, std::string functionname);
+    NLSERROR_MANAGER_IMPEXP void Error(Evaluator *eval, const std::wstring &msg);
+    NLSERROR_MANAGER_IMPEXP void Error(Evaluator *eval, const std::wstring &msg, const std::wstring &functionname);
+    NLSERROR_MANAGER_IMPEXP void Error(Evaluator *eval, const std::string &msg);
+    NLSERROR_MANAGER_IMPEXP void Error(Evaluator *eval, const std::string &msg, const std::string &functionname);
     NLSERROR_MANAGER_IMPEXP void updateError(Evaluator *eval, Exception &e);
     //=============================================================================
 }

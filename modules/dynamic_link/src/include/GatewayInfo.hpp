@@ -24,6 +24,6 @@
 #define GATEWAY_NAME "GetGatewayName"
 //=============================================================================
 namespace Nelson {
-    NLSDYNAMIC_LINK_IMPEXP bool GatewayInfo(std::wstring dynlibname, std::wstring &moduleName, stringVector &functionsList, std::wstring &errorMessage);
+    NLSDYNAMIC_LINK_IMPEXP bool GatewayInfo(const std::wstring &dynlibname, std::wstring &moduleName, stringVector &functionsList, std::wstring &errorMessage);
 }
 //=============================================================================

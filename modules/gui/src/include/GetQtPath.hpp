@@ -22,6 +22,6 @@
 #include "nlsGui_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSGUI_IMPEXP std::wstring GetQtPath(std::wstring libraryLocation);
+    NLSGUI_IMPEXP std::wstring GetQtPath(const std::wstring &libraryLocation);
 }
 //=============================================================================

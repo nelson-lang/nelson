@@ -21,7 +21,7 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-    std::wstring FilePartsPath(std::wstring fullpath)
+    std::wstring FilePartsPath(const std::wstring &fullpath)
     {
         std::wstring res;
         boost::filesystem::path pathToSplit = fullpath;
@@ -32,7 +32,7 @@ namespace Nelson {
         return res;
     }
     //=============================================================================
-    std::wstring FilePartsFilename(std::wstring fullpath)
+    std::wstring FilePartsFilename(const std::wstring &fullpath)
     {
         std::wstring res;
         boost::filesystem::path pathToSplit = fullpath;
@@ -43,7 +43,7 @@ namespace Nelson {
         return res;
     }
     //=============================================================================
-    std::wstring FilePartsExtension(std::wstring fullpath)
+    std::wstring FilePartsExtension(const std::wstring &fullpath)
     {
         std::wstring res;
         boost::filesystem::path pathToSplit = fullpath;
@@ -54,7 +54,7 @@ namespace Nelson {
         return res;
     }
     //=============================================================================
-    void FileParts(std::wstring fullpath, std::wstring &path, std::wstring &filename, std::wstring &extension)
+    void FileParts(const std::wstring &fullpath, std::wstring &path, std::wstring &filename, std::wstring &extension)
     {
         path = FilePartsPath(fullpath);
         filename = FilePartsFilename(fullpath);

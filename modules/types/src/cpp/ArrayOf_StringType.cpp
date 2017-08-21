@@ -74,11 +74,9 @@ namespace Nelson {
         std::wstring str = L"";
         if (dp->dataClass == NLS_CHAR)
         {
-            charType *buffer = nullptr;
-            const charType *qp = nullptr;
             indexType M = getLength();
-            buffer = new_with_exception<charType>(M + 1);
-            qp = (const charType*)dp->getData();
+			charType *buffer = new_with_exception<charType>(M + 1);
+			const charType *qp = (const charType*)dp->getData();
             memcpy(buffer, qp, M * sizeof(charType));
             buffer[M] = 0;
             str = buffer;
@@ -96,11 +94,9 @@ namespace Nelson {
         std::wstring str = L"";
         if (isSingleString())
         {
-            charType *buffer = nullptr;
-            const charType *qp = nullptr;
             indexType M = getLength();
-            buffer = new_with_exception<charType>(M + 1);
-            qp = (const charType*)dp->getData();
+			charType *buffer = new_with_exception<charType>(M + 1);
+			const charType *qp = (const charType*)dp->getData();
             memcpy(buffer, qp, M * sizeof(charType));
             buffer[M] = 0;
             str = buffer;
@@ -144,8 +140,7 @@ namespace Nelson {
                 for (indexType i = 0; i < rows; i++)
                 {
                     std::wstring str;
-                    const charType *qp = nullptr;
-                    qp = (const charType*)dp->getData();
+                    const charType *qp = (const charType*)dp->getData();
                     for (indexType j = 0; j < columns; j++)
                     {
                         size_t idx = i + j * rows;

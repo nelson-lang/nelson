@@ -20,7 +20,7 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-    void CheckNumeric(ArrayOf &A, ArrayOf &B, std::string opname) throw(Exception)
+    void CheckNumeric(ArrayOf &A, ArrayOf &B, const std::string &opname) throw(Exception)
     {
         bool Anumeric, Bnumeric;
         Anumeric = !A.isReferenceType();
@@ -30,7 +30,7 @@ namespace Nelson {
                             opname + std::string(_(" to reference types.")));
     }
     //=============================================================================
-    bool MatrixCheck(ArrayOf &A, ArrayOf &B, std::string opname) throw(Exception)
+    bool MatrixCheck(ArrayOf &A, ArrayOf &B, const std::string &opname) throw(Exception)
     {
         // Test for either a scalar (test 1)
         if (A.isScalar() || B.isScalar())
@@ -111,7 +111,7 @@ namespace Nelson {
         return (Adim.equals(Bdim));
     }
     //=============================================================================
-    void VectorCheck(ArrayOf& A, ArrayOf& B, bool promote, std::string opname) throw(Exception)
+    void VectorCheck(ArrayOf& A, ArrayOf& B, bool promote, const std::string &opname) throw(Exception)
     {
         stringVector dummySV;
         // Check for numeric types
@@ -124,7 +124,7 @@ namespace Nelson {
         TypeCheck(A, B, promote);
     }
     //=============================================================================
-    void BoolVectorCheck(ArrayOf& A, ArrayOf& B, std::string opname) throw(Exception)
+    void BoolVectorCheck(ArrayOf& A, ArrayOf& B, const std::string &opname) throw(Exception)
     {
         A.promoteType(NLS_LOGICAL);
         B.promoteType(NLS_LOGICAL);

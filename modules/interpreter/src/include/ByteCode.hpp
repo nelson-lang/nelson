@@ -24,11 +24,11 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-    void CodeToByte(std::wstring nlf_filename);
+    void CodeToByte(const std::wstring &nlf_filename);
     //=============================================================================
     void CodeToByte(MacroFunctionDef *fptr, Serialize *s);
     //=============================================================================
-    MacroFunctionDef * ByteToCode(std::wstring nlb_filename);
+    MacroFunctionDef * ByteToCode(const std::wstring &nlb_filename);
     //=============================================================================
     MacroFunctionDef * ByteToCode(Serialize *s);
     //=============================================================================

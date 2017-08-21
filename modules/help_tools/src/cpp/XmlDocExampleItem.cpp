@@ -31,7 +31,7 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-    XmlDocExampleItem::XmlDocExampleItem(std::wstring type, std::wstring description, std::wstring data, std::wstring imageTag, bool isQtHelp)
+    XmlDocExampleItem::XmlDocExampleItem(const std::wstring &type, const std::wstring &description, const std::wstring &data, const std::wstring &imageTag, bool isQtHelp)
     {
         this->_type = type;
         this->_description = description;
@@ -139,7 +139,7 @@ namespace Nelson {
         return true;
     }
     //=============================================================================
-    void XmlDocExampleItem::setDirectories(std::wstring srcDirectory, std::wstring dstDirectory)
+    void XmlDocExampleItem::setDirectories(const std::wstring &srcDirectory, const std::wstring &dstDirectory)
     {
         this->_srcDirectory = srcDirectory;
         this->_dstDirectory = dstDirectory;

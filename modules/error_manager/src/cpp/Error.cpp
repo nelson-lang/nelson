@@ -86,7 +86,7 @@ namespace Nelson {
         return wfilename;
     }
     //=============================================================================
-    void Error(Evaluator *eval, std::wstring msg)
+    void Error(Evaluator *eval, const std::wstring &msg)
     {
         int LinePosition = -1;
         int ColumnPosition = -1;
@@ -101,7 +101,7 @@ namespace Nelson {
         throw Exception(msg, FunctionName, LinePosition, ColumnPosition, FileName);
     }
     //=============================================================================
-    void Error(Evaluator *eval, std::wstring msg, std::wstring functionname)
+    void Error(Evaluator *eval, const std::wstring &msg, const std::wstring &functionname)
     {
         int LinePosition = -1;
         int ColumnPosition = -1;
@@ -120,12 +120,12 @@ namespace Nelson {
         throw Exception(msg, FunctionName, LinePosition, ColumnPosition, FileName);
     }
     //=============================================================================
-    void Error(Evaluator *eval, std::string msg)
+    void Error(Evaluator *eval, const std::string &msg)
     {
         Error(eval, utf8_to_wstring(msg));
     }
     //=============================================================================
-    void Error(Evaluator *eval, std::string msg, std::string functionname)
+    void Error(Evaluator *eval, const std::string &msg, const std::string &functionname)
     {
         Error(eval, utf8_to_wstring(msg), utf8_to_wstring(functionname));
     }

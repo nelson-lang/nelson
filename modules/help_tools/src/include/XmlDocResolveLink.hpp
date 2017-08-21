@@ -21,6 +21,6 @@
 #include <string>
 //=============================================================================
 namespace Nelson {
-    bool XmlDocResolveLink(std::wstring directorysource, std::wstring linkname, bool isQtHelp, std::wstring language, std::wstring &resolvedlink);
+    bool XmlDocResolveLink(const std::wstring &directorysource, const std::wstring &linkname, bool isQtHelp, const std::wstring &language, std::wstring &resolvedlink);
 }
 //=============================================================================

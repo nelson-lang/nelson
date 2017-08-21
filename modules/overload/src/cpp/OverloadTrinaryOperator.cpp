@@ -21,7 +21,7 @@
 #include "Error.hpp"
 //=============================================================================
 namespace Nelson {
-    static bool OverloadTrinaryOperatorFindFunction(Evaluator *eval, ArrayOf a, ArrayOf b, ArrayOf c, std::string functionName, std::string forcedFunctionName, FunctionDef **funcDef, std::string &overloadname)
+    static bool OverloadTrinaryOperatorFindFunction(Evaluator *eval, ArrayOf a, ArrayOf b, ArrayOf c, const std::string &functionName, const std::string &forcedFunctionName, FunctionDef **funcDef, std::string &overloadname)
     {
         bool bSuccess = true;
         Context *context = eval->getContext();
@@ -40,7 +40,7 @@ namespace Nelson {
         return bSuccess;
     }
     //=============================================================================
-    ArrayOf OverloadTrinaryOperator(Evaluator *eval, ArrayOf a, ArrayOf b, ArrayOf c, std::string functionName)
+    ArrayOf OverloadTrinaryOperator(Evaluator *eval, ArrayOf a, ArrayOf b, ArrayOf c, const std::string &functionName)
     {
         FunctionDef *funcDef = nullptr;
         std::string OverloadName;

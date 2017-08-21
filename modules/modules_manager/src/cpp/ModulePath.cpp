@@ -25,13 +25,13 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-    std::wstring ModulePath(std::wstring moduleshortname)
+    std::wstring ModulePath(const std::wstring &moduleshortname)
     {
         std::wstring rpath = L"";
         return rpath;
     }
     //=============================================================================
-    std::wstring ModulePath(std::wstring modulerootpath, std::wstring moduleshortname, MODULEPATH_OPTION option)
+    std::wstring ModulePath(const std::wstring &modulerootpath, const std::wstring &moduleshortname, MODULEPATH_OPTION option)
     {
         boost::filesystem::path p;
         switch (option)

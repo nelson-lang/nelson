@@ -22,11 +22,11 @@
 #include "nlsModules_manager_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSMODULES_MANAGER_IMPEXP std::wstring ConstructBinariesPath(std::wstring modulerootpath);
-    NLSMODULES_MANAGER_IMPEXP std::wstring ConstructDynamicLibraryName(std::wstring moduleshortname);
-    NLSMODULES_MANAGER_IMPEXP std::wstring ConstructDynamicLibraryFullname(std::wstring modulerootpath, std::wstring moduleshortname);
-    NLSMODULES_MANAGER_IMPEXP std::wstring ConstructEtcName(std::wstring modulerootpath, std::wstring moduleshortname);
-    NLSMODULES_MANAGER_IMPEXP std::wstring ConstructScriptName(std::wstring modulerootpath, std::wstring moduleshortname);
-    NLSMODULES_MANAGER_IMPEXP std::wstring ConstructRootName(std::wstring modulerootpath, std::wstring moduleshortname);
+    NLSMODULES_MANAGER_IMPEXP std::wstring ConstructBinariesPath(const std::wstring &modulerootpath);
+    NLSMODULES_MANAGER_IMPEXP std::wstring ConstructDynamicLibraryName(const std::wstring &moduleshortname);
+    NLSMODULES_MANAGER_IMPEXP std::wstring ConstructDynamicLibraryFullname(const std::wstring &modulerootpath, const std::wstring &moduleshortname);
+    NLSMODULES_MANAGER_IMPEXP std::wstring ConstructEtcName(const std::wstring &modulerootpath, const std::wstring &moduleshortname);
+    NLSMODULES_MANAGER_IMPEXP std::wstring ConstructScriptName(const std::wstring &modulerootpath, const std::wstring &moduleshortname);
+    NLSMODULES_MANAGER_IMPEXP std::wstring ConstructRootName(const std::wstring &modulerootpath, const std::wstring &moduleshortname);
 }
 //=============================================================================

@@ -25,7 +25,7 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-    bool GatewayInfo(std::wstring dynlibname, std::wstring &moduleName, stringVector &functionsList, std::wstring &errorMessage)
+    bool GatewayInfo(const std::wstring &dynlibname, std::wstring &moduleName, stringVector &functionsList, std::wstring &errorMessage)
     {
         bool bRes = true;
         errorMessage = L"";

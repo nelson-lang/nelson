@@ -448,8 +448,8 @@ namespace Nelson {
     MacroFunctionDef *PathFuncManager::processFile(std::wstring nlf_filename)
     {
         MacroFunctionDef *fptr = nullptr;
-        FILE *fr = nullptr;
-#ifdef _MSC_BUILD
+        FILE *fr;
+#ifdef _MSC_VER
         fr = _wfopen(nlf_filename.c_str(), L"rt");
 #else
         fr = fopen(wstring_to_utf8(nlf_filename).c_str(), "r");

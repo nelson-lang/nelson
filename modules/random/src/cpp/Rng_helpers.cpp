@@ -57,7 +57,7 @@ namespace Nelson {
         return res;
     }
     //=============================================================================
-    RNG_TYPE getRngType(std::wstring enginename)
+    RNG_TYPE getRngType(const std::wstring &enginename)
     {
         RNG_TYPE res = RNG_ERROR;
         if (enginename == L"twister")
@@ -75,7 +75,7 @@ namespace Nelson {
         return res;
     }
     //=============================================================================
-    bool isRngType(std::wstring enginename)
+    bool isRngType(const std::wstring &enginename)
     {
         RNG_TYPE res = getRngType(enginename);
         return (res != RNG_ERROR);
