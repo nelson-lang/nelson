@@ -341,9 +341,9 @@ function res = save_as_xml(test_suites, xmlFileDestination)
               else
                 msg = tc.msg;
               end
-              if length(msg) > 0
-                fprintf(fp, ['      <system-out>', '<![CDATA[', msg, ']]>', '</system-out>', eol]);
-              end
+              // if length(msg) > 0
+              //   fprintf(fp, ['      <system-out>', '<![CDATA[', msg, ']]>', '</system-out>', eol]);
+              // end
               fprintf(fp, ['    </testcase>', eol]);
             end
         else
@@ -354,9 +354,9 @@ function res = save_as_xml(test_suites, xmlFileDestination)
             else
               msg = tc.msg;
             end
-            if length(msg) > 0
-              fprintf(fp, ['      <system-out>', '<![CDATA[', msg, ']]>', '</system-out>', eol]);
-            end
+            // if length(msg) > 0
+            //   fprintf(fp, ['      <system-out>', '<![CDATA[', msg, ']]>', '</system-out>', eol]);
+            // end
             fprintf(fp, ['    </testcase>', eol]);
           else
             if strcmp(tc.status, 'Fail') == true
