@@ -21,4 +21,4 @@
 // <-- Short Description -->
 // Y = complex(rand(500), rand(500)) crashed Nelson
 //=============================================================================
-Y = complex(rand(5000), rand(5000))
+Y = complex(rand(500), rand(500))
