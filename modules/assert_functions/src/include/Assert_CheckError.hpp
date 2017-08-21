@@ -23,6 +23,6 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    NLSASSERT_FUNCTIONS_IMPEXP bool Assert_CheckError(Evaluator *eval, std::wstring command, std::wstring expectedmsg, std::wstring &msg);
+    NLSASSERT_FUNCTIONS_IMPEXP bool Assert_CheckError(Evaluator *eval, const std::wstring &command, const std::wstring &expectedmsg, std::wstring &msg);
 }
 //=============================================================================

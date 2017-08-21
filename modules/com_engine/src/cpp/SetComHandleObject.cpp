@@ -28,7 +28,7 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-    void SetComHandleObject(ArrayOf A, std::wstring propertyName, ArrayOf B)
+    void SetComHandleObject(ArrayOf A, const std::wstring &propertyName, ArrayOf B)
     {
         ArrayOf res;
         if (!A.isHandle())

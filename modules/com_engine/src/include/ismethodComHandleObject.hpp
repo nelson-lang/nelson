@@ -23,7 +23,7 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-    NLSCOM_ENGINE_IMPEXP ArrayOf ismethodComHandleObject(ArrayOf A, std::wstring methodname);
+    NLSCOM_ENGINE_IMPEXP ArrayOf ismethodComHandleObject(ArrayOf A, const std::wstring &methodname);
     //=============================================================================
 }
 //=============================================================================

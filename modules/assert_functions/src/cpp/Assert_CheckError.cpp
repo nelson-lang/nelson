@@ -24,7 +24,7 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-    bool Assert_CheckError(Evaluator *eval, std::wstring command, std::wstring expectedmsg, std::wstring &msg)
+    bool Assert_CheckError(Evaluator *eval, const std::wstring &command, const std::wstring &expectedmsg, std::wstring &msg)
     {
         bool bEval = false;
         std::wstring computedmsg = L"";

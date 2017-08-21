@@ -26,7 +26,7 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-    bool ismethodComHandleObject(ComHandleObject *comhandleobj, std::wstring methodname)
+    bool ismethodComHandleObject(ComHandleObject *comhandleobj, const std::wstring &methodname)
     {
         void *ptr = comhandleobj->getPointer();
         if (ptr == nullptr)
@@ -37,7 +37,7 @@ namespace Nelson {
         return isMethodCom(pVariant->pdispVal, methodname);
     }
     //=============================================================================
-    ArrayOf ismethodComHandleObject(ArrayOf A, std::wstring methodname)
+    ArrayOf ismethodComHandleObject(ArrayOf A, const std::wstring &methodname)
     {
         if (!A.isHandle())
         {
