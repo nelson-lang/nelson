@@ -26,7 +26,7 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-    wstringVector WhichAll(std::wstring functionname)
+    wstringVector WhichAll(const std::wstring &functionname)
     {
         wstringVector result;
         PathFuncManager::getInstance()->find(functionname, result);
@@ -34,7 +34,7 @@ namespace Nelson {
         return result;
     }
     //=============================================================================
-    std::wstring Which(std::wstring functionname)
+    std::wstring Which(const std::wstring &functionname)
     {
         std::wstring origin = L"";
         if (!PathFuncManager::getInstance()->find(functionname, origin))
@@ -44,7 +44,7 @@ namespace Nelson {
         return origin;
     }
     //=============================================================================
-    wstringVector WhichModule(std::wstring functionname)
+    wstringVector WhichModule(const std::wstring &functionname)
     {
         wstringVector res;
         wstringVector paths = WhichAll(functionname);

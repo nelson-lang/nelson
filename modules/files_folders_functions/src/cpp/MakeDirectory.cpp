@@ -24,14 +24,14 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-    bool MakeDirectory(std::wstring parentDir, std::wstring newDir, std::wstring &message)
+    bool MakeDirectory(const std::wstring &parentDir, const std::wstring &newDir, std::wstring &message)
     {
         boost::filesystem::path fullpath = parentDir;
         fullpath /= newDir;
         return MakeDirectory(fullpath.wstring(), message);
     }
     //=============================================================================
-    bool MakeDirectory(std::wstring newDir, std::wstring &message)
+    bool MakeDirectory(const std::wstring &newDir, std::wstring &message)
     {
         bool bOK = false;
         message = L"";

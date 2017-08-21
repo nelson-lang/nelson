@@ -88,7 +88,7 @@ namespace Nelson {
         }
     }
     //=============================================================================
-    ArrayOf Prod(ArrayOf A, indexType d, std::wstring strtype, bool withnan)
+    ArrayOf Prod(ArrayOf A, indexType d, const std::wstring &strtype, bool withnan)
     {
         ArrayOf res;
         Class classA = A.getDataClass();

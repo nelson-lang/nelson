@@ -22,7 +22,7 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-    std::wstring GetQtPath(std::wstring libraryLocation)
+    std::wstring GetQtPath(const std::wstring &libraryLocation)
     {
         QString path;
         std::wstring wpath = L"";

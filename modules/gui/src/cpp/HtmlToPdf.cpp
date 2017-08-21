@@ -43,7 +43,7 @@ namespace Nelson {
         return os;
     }
     //=============================================================================
-    bool HtmlFileToPdfFile(std::wstring htmlsrcfilename, std::wstring pdfdestfilename)
+    bool HtmlFileToPdfFile(const std::wstring &htmlsrcfilename, const std::wstring &pdfdestfilename)
     {
         std::ifstream istream;
 #ifdef _MSC_VER
@@ -73,7 +73,7 @@ namespace Nelson {
         return true;
     }
     //=============================================================================
-    bool HtmlStreamToPdfFile(std::wstring htmlstream, std::wstring pdfdestfilename)
+    bool HtmlStreamToPdfFile(const std::wstring &htmlstream, const std::wstring &pdfdestfilename)
     {
         QPrinter printer(QPrinter::PrinterResolution);
         printer.setOutputFormat(QPrinter::PdfFormat);

@@ -26,6 +26,6 @@ namespace Nelson {
     /* prod */
     /* if d == 0 --> Prod(X) */
     /* if d != 0 --> Prod(X, n) */
-    NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf Prod(ArrayOf A, indexType d, std::wstring strtype, bool withnan);
+    NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf Prod(ArrayOf A, indexType d, const std::wstring &strtype, bool withnan);
 }
 //=============================================================================

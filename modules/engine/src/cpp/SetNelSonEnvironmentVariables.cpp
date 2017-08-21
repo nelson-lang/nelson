@@ -16,9 +16,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#ifdef _MSC_VER
-#include <Windows.h>
-#endif
 #include <stdlib.h>
 #include <stdio.h>
 #include <boost/container/vector.hpp>

@@ -31,23 +31,16 @@ namespace Nelson {
         _fcloseall();
 #else
 #if defined(__APPLE__) || defined(__MACH__)
-        int succeeded; /* return value */
         FILE *fds_to_close[3]; /* the size being hardcoded to '3' is temporary */
         int i; /* loop counter */
-        succeeded = 0;
         fds_to_close[0] = stdin;
         fds_to_close[1] = stdout;
         fds_to_close[2] = stderr;
         /* max iterations being hardcoded to '3' is temporary: */
         for ((i = 0); (i < 3); i++)
         {
-            succeeded += fclose(fds_to_close[i]);
+            fclose(fds_to_close[i]);
         }
-        if (succeeded != 0)
-        {
-            succeeded = EOF;
-        }
-        //return succeeded;
 #else
         fcloseall();
 #endif

@@ -24,8 +24,8 @@
 namespace Nelson {
     extern "C"
     {
-        NLSGUI_IMPEXP bool HtmlFileToPdfFile(std::wstring htmlsrcfilename, std::wstring pdfdestfilename);
-        NLSGUI_IMPEXP bool HtmlStreamToPdfFile(std::wstring htmlstream, std::wstring pdfdestfilename);
+        NLSGUI_IMPEXP bool HtmlFileToPdfFile(const std::wstring &htmlsrcfilename, const std::wstring &pdfdestfilename);
+        NLSGUI_IMPEXP bool HtmlStreamToPdfFile(const std::wstring &htmlstream, const std::wstring &pdfdestfilename);
     }
 
 }
