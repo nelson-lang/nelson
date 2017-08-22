@@ -3480,10 +3480,10 @@ namespace Nelson {
 
     bool Evaluator::adjustBreakpoint(StackEntry& bp, bool dbstep)
     {
-        char *cname = strdup(bp.detail.c_str());
         bool isFun;
         FuncPtr val;
-        isFun = context->lookupFunction(cname, val);
+		std::string cname = bp.detail;
+		isFun = context->lookupFunction(cname, val);
         if (!isFun)
         {
             return false;
@@ -3505,13 +3505,13 @@ namespace Nelson {
                 char buffer[2048];
                 if (dbstep)
                 {
-                    sprintf(buffer, _("Unable to step the specified number of lines, execution will continue\n").c_str());
+                    sprintf(buffer, "%s", _("Unable to step the specified number of lines, execution will continue\n").c_str());
                     inStepMode = false;
                 }
                 else
                 {
                     sprintf(buffer, _("Failed to set breakpoint in %s at line %d - breakpoint is disabled\n").c_str(),
-                            cname, bp.tokid & 0xffff);
+                            cname.c_str(), bp.tokid & 0xffff);
                 }
                 io->warningMessage(buffer);
                 return false;
@@ -3656,8 +3656,8 @@ namespace Nelson {
     {
         ArrayOf r;
         ArrayOfVector m;
-        bool isVar;
-        bool isFun;
+        bool isVar = false;
+		bool isFun = false;
         FunctionDef *funcDef;
         pushID(t->context());
         // Try to satisfy the rhs expression with what functions we have already

@@ -236,7 +236,15 @@ namespace Nelson {
     bool PathFuncManager::addPath(const std::wstring path, bool begin)
     {
         bool res = false;
-        PathFunc *pf = new PathFunc(path);
+        PathFunc *pf;
+		try
+		{
+			pf = new PathFunc(path);
+		}
+		catch (std::bad_alloc)
+		{
+			pf = nullptr;
+		}
         if (pf)
         {
             for (boost::container::vector<PathFunc *>::iterator it = _pathFuncVector.begin(); it != _pathFuncVector.end(); ++it)

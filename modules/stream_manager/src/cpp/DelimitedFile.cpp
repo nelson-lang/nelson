@@ -85,15 +85,15 @@ namespace Nelson {
             {
                 for (int64 y = 1; y <= ymax; y++)
                 {
-                    fwprintf(fw, delimiter.c_str());
+                    fwprintf(fw, L"%s", delimiter.c_str());
                 }
                 if (isNewLinePc)
                 {
-                    fwprintf(fw, L"\r\n");
+                    fwprintf(fw, L"%s", L"\r\n");
                 }
                 else
                 {
-                    fwprintf(fw, L"\n");
+                    fwprintf(fw, L"%s", L"\n");
                 }
             }
             if (mat.is2D())
@@ -111,7 +111,7 @@ namespace Nelson {
                 {
                     for (int64 x = 0; x < colsOffset; x++)
                     {
-                        fwprintf(fw, delimiter.c_str());
+                        fwprintf(fw, L"%s", delimiter.c_str());
                     }
                     std::wstring realPartStr = L"";
                     std::wstring imagPartStr = L"";
@@ -175,19 +175,19 @@ namespace Nelson {
                             }
                         }
                         std::wstring numberAsString = realPartStr + imagPartStr + L"i";
-                        fwprintf(fw, numberAsString.c_str());
+                        fwprintf(fw, L"%s", numberAsString.c_str());
                         if (y < ymax - 1)
                         {
-                            fwprintf(fw, delimiter.c_str());
+                            fwprintf(fw, L"%s", delimiter.c_str());
                         }
                     }
                     if (isNewLinePc)
                     {
-                        fwprintf(fw, L"\r\n");
+                        fwprintf(fw, L"%s", L"\r\n");
                     }
                     else
                     {
-                        fwprintf(fw, L"\n");
+                        fwprintf(fw, L"%s", L"\n");
                     }
                 }
             }
@@ -198,17 +198,17 @@ namespace Nelson {
                 {
                     for (int64 x = 0; x < colsOffset; x++)
                     {
-                        fwprintf(fw, delimiter.c_str());
+                        fwprintf(fw, L"%s", delimiter.c_str());
                     }
                     for (int64 y = 0; y < ymax; y++)
                     {
                         double val = pValue[x + y * dims.getRows()];
                         if (std::isnan(val))
                         {
-                            fwprintf(fw, L"NaN");
+                            fwprintf(fw, L"%s", L"NaN");
                             if (y < ymax - 1)
                             {
-                                fwprintf(fw, delimiter.c_str());
+                                fwprintf(fw, L"%s", delimiter.c_str());
                             }
                         }
                         else
@@ -217,15 +217,15 @@ namespace Nelson {
                             {
                                 if (val > 0)
                                 {
-                                    fwprintf(fw, L"Inf");
+                                    fwprintf(fw, L"%s", L"Inf");
                                 }
                                 else
                                 {
-                                    fwprintf(fw, L"-Inf");
+                                    fwprintf(fw, L"%s", L"-Inf");
                                 }
                                 if (y < ymax - 1)
                                 {
-                                    fwprintf(fw, delimiter.c_str());
+                                    fwprintf(fw, L"%s", delimiter.c_str());
                                 }
                             }
                             else

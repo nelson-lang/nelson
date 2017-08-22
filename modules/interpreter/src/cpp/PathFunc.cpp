@@ -191,7 +191,15 @@ namespace Nelson {
                         std::wstring name = current.stem().generic_wstring();
                         if (isSupportedFuncFilename(name))
                         {
-                            FileFunc *ff = new FileFunc(_path, name);
+                            FileFunc *ff;
+							try
+							{
+								ff = new FileFunc(_path, name);
+							}
+							catch (std::bad_alloc)
+							{
+								ff = nullptr;
+							}
                             if (ff)
                             {
                                 mapFiles.emplace(name, ff);

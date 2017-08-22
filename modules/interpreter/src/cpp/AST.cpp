@@ -375,13 +375,24 @@ namespace Nelson {
         {
             return nullptr;
         }
-        ASTPtr t = new AST();
-        t->type = (NODE_TYPE)s->getByte();
-        t->tokenNumber = s->getInt();
-        t->opNum = (OP_TYPE)s->getByte();
-        t->text = s->getString();
-        t->down = ThawAST(s);
-        t->right = ThawAST(s);
+        ASTPtr t;
+		try
+		{
+			t = new AST();
+		}
+		catch (std::bad_alloc)
+		{
+			t = nullptr;
+		}
+		if (t)
+		{
+			t->type = (NODE_TYPE)s->getByte();
+			t->tokenNumber = s->getInt();
+			t->opNum = (OP_TYPE)s->getByte();
+			t->text = s->getString();
+			t->down = ThawAST(s);
+			t->right = ThawAST(s);
+		}
         return t;
     }
 }

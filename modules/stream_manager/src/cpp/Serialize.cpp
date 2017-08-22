@@ -186,7 +186,15 @@ namespace Nelson {
         {
             return res;
         }
-        char *cp = new char[len];
+        char *cp;
+		try
+		{
+			cp = new char[len];
+		}
+		catch (std::bad_alloc)
+		{
+			cp = nullptr;
+		}
         if (cp)
         {
             getBytes(cp, len);
