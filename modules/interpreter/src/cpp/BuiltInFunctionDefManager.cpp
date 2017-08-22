@@ -60,7 +60,15 @@ namespace Nelson {
     //=============================================================================
     bool BuiltInFunctionDefManager::add(std::string name, BuiltInFuncPtr fptr, int argc_in, int argc_out, std::wstring dynlibname, std::wstring modulename)
     {
-        BuiltInFunctionDef *f2def = new BuiltInFunctionDef();
+        BuiltInFunctionDef *f2def;
+		try
+		{
+			f2def = new BuiltInFunctionDef();
+		}
+		catch (std::bad_alloc)
+		{
+			f2def = nullptr;
+		}
         if (f2def)
         {
             stringVector args;

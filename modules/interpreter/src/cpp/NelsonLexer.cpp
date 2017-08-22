@@ -116,7 +116,7 @@ void LexerException(std::string msg)
         }
         else
         {
-            sprintf(buffer, _("Lexical error").c_str());
+            sprintf(buffer, "%s", _("Lexical error").c_str());
         }
     }
     throw Exception(buffer);

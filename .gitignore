@@ -145,3 +145,8 @@ bin/macosx64/nelson-gui
 *.plog
 *.i-*
 .vs/
+*.PVS-Studio.cfg
+*.PVS-Studio.preprocess.cmd
+*.PVS-Studio.cmd
+*.PVS-Studio.preprocess.cmd.rsp
+*.i

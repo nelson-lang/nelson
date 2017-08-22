@@ -69,10 +69,12 @@ namespace Nelson {
 
     Dimensions::Dimensions(indexType dimCount) throw (Exception)
     {
+		#ifndef NLS_INDEX_TYPE_64
         if (dimCount < 0)
         {
             throw Exception(_W("Illegal argument to Dimensions constructor"));
         }
+		#endif
         memset(data, 0, sizeof(indexType)*dimCount);
         length = dimCount;
     }
@@ -336,7 +338,7 @@ namespace Nelson {
     void Dimensions::reset()
     {
         length = 0;
-        memset(data, 0, sizeof(int)*maxDims);
+        memset(data, 0, sizeof(indexType) * maxDims);
     }
 
     void Dimensions::zeroOut()

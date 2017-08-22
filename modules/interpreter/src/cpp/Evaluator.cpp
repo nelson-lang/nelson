@@ -1863,17 +1863,7 @@ namespace Nelson {
                     !context->lookupVariable(t->down->text, b) &&
                     lookupFunction(t->down->text, fdef))
             {
-                //	m = functionExpression(fdef,t->down,1,true);
-                if (fdef->type() == NLS_BUILT_IN_FUNCTION)
-                {
-                    // We manage case lhs == 0 in builtin
-                    // example toc or who
-                    m = functionExpression(fdef, t->down, 0, true);
-                }
-                else
-                {
-                    m = functionExpression(fdef, t->down, 0, true);
-                }
+				m = functionExpression(fdef, t->down, 0, true);
                 if (m.size() > 0)
                 {
                     b = m[0];
@@ -1882,22 +1872,11 @@ namespace Nelson {
                 {
                     bUpdateAns = false;
                 }
-                if (fdef->type() == NLS_BUILT_IN_FUNCTION)
-                {
-                    if (printIt && (m.size() > 0) && (state < NLS_STATE_QUIT))
-                    {
-                        io->outputMessage(L"\nans =\n\n");
-                        OverloadDisplay(this, b);
-                    }
-                }
-                else
-                {
-                    if (printIt && (m.size() > 0) && (state < NLS_STATE_QUIT))
-                    {
-                        io->outputMessage(L"\nans =\n\n");
-                        OverloadDisplay(this, b);
-                    }
-                }
+				if (printIt && (m.size() > 0) && (state < NLS_STATE_QUIT))
+				{
+					io->outputMessage(L"\nans =\n\n");
+					OverloadDisplay(this, b);
+				}
             }
             else if (t->opNum == OP_RHS)
             {

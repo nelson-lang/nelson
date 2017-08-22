@@ -37,6 +37,7 @@ MacroFunctionDef::MacroFunctionDef()
 {
     localFunction = false;
     nextFunction = nullptr;
+	prevFunction = nullptr;
     code = nullptr;
     ptAst.clear();
 }

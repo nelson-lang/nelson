@@ -35,11 +35,7 @@ ArrayOfVector Nelson::DataStructuresGateway::cellBuiltin(Evaluator* eval, int nL
     {
         indexType index = (indexType)0;
         Dimensions dims(index, index);
-        ArrayOf *elements = new ArrayOf[index * index];
-        for (indexType k = 0; k < index * index; k++)
-        {
-            elements[k] = ArrayOf::emptyConstructor();
-        }
+        ArrayOf *elements = new ArrayOf[index];
         ArrayOf c = ArrayOf(NLS_CELL_ARRAY, dims, elements);
         retval.push_back(c);
     }
