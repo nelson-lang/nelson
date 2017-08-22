@@ -43,7 +43,7 @@ ArrayOfVector Nelson::CoreGateway::echoBuiltin(Evaluator* eval, int nLhs, const 
             }
             else
             {
-                retval.push_back(ArrayOf::logicalConstructor("off"));
+                retval.push_back(ArrayOf::stringConstructor("off"));
             }
         }
     }

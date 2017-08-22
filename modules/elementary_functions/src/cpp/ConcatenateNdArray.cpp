@@ -25,7 +25,6 @@ namespace Nelson {
         Dimensions mat_dims;
         Dimensions row_dims;
         Dimensions retDims;
-        void *dstPtr = nullptr;
         ArrayOfMatrix::iterator i = m.begin();
         bool firstNonzeroColumn = true;
         bool firstNonzeroRow = true;
@@ -64,7 +63,7 @@ namespace Nelson {
             ++i;
         }
         retDims = mat_dims;
-        dstPtr = ArrayOf::allocateArrayOf(destClass, retDims.getElementCount());
+		void *dstPtr = ArrayOf::allocateArrayOf(destClass, retDims.getElementCount());
         indexType  row_corner = 0;
         indexType  column_corner = 0;
         indexType  dim_count(mat_dims.getLength());

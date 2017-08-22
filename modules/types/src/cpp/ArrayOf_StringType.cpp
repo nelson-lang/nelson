@@ -42,7 +42,6 @@ namespace Nelson {
     //=============================================================================
     ArrayOf ArrayOf::stringConstructor(std::wstring astr)
     {
-        charType *cp = nullptr;
         indexType length = astr.length();
         Dimensions dim(0, length);
         if (length == 0)
@@ -53,7 +52,7 @@ namespace Nelson {
         {
             dim[0] = 1;
         }
-        cp = (charType *)allocateArrayOf(NLS_CHAR, length);
+		charType *cp = (charType *)allocateArrayOf(NLS_CHAR, length);
         memcpy(cp, astr.c_str(), length * sizeof(charType));
         return ArrayOf(NLS_CHAR, dim, cp);
     }

@@ -87,7 +87,6 @@ namespace Nelson {
         // Process the two arguments through the type check and dimension checks...
         VectorCheck(A, B, false, "<=");
         int Astride, Bstride;
-        void *Cp = nullptr;
         indexType Clen = 0;
         Dimensions Cdim;
         if (A.isScalar())
@@ -109,8 +108,7 @@ namespace Nelson {
             Cdim = A.getDimensions();
         }
         Clen = Cdim.getElementCount();
-        //Cp = Malloc(Clen*sizeof(logical));
-        Cp = new_with_exception<logical>(Clen);
+        void *Cp = new_with_exception<logical>(Clen);
         switch (B.getDataClass())
         {
             case NLS_INT32:

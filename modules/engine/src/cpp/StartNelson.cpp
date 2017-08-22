@@ -91,10 +91,10 @@ static void ErrorPathDetection(NELSON_ENGINE_MODE _mode)
     }
     else
     {
-        fwprintf(stderr, _W("Nelson paths not initialized.\n").c_str());
+        fwprintf(stderr, L"%s", _W("Nelson paths not initialized.\n").c_str());
     }
 #else
-    fwprintf(stderr, _W("Nelson paths not initialized.\n").c_str());
+    fwprintf(stderr, L"%s", _W("Nelson paths not initialized.\n").c_str());
 #endif
 }
 //=============================================================================
@@ -107,7 +107,7 @@ static void ErrorInterpreter(NELSON_ENGINE_MODE _mode)
     }
     else
     {
-        fwprintf(stderr, _W("Nelson interpreter not initialized.\n").c_str());
+        fwprintf(stderr, L"%s", _W("Nelson interpreter not initialized.\n").c_str());
     }
 #else
     fwprintf(stderr, _W("Nelson interpreter not initialized.\n").c_str());

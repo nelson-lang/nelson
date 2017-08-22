@@ -79,7 +79,7 @@ namespace Nelson {
                     case ADVANCED_ENGINE:
                     {
                         InitGuiObjectsDynamic();
-                        fprintf(stderr, _("This mode is not yet implemented.\n").c_str());
+						fprintf(stderr, "%s", _("This mode is not yet implemented.\n").c_str());
                         exit(1);
                     }
                     break;
@@ -115,7 +115,7 @@ namespace Nelson {
                     break;
                     default:
                     {
-                        fprintf(stderr, _("unknow engine.\n").c_str());
+                        fprintf(stderr, "%s", _("unknow engine.\n").c_str());
                         exit(1);
                     }
                     break;

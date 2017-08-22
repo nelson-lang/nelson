@@ -37,7 +37,6 @@ namespace Nelson {
     ArrayOf Or(ArrayOf A, ArrayOf B)
     {
         int Astride, Bstride;
-        void *Cp = nullptr;
         indexType Clen = 0;
         Dimensions Cdim;
         BoolVectorCheck(A, B, "|");
@@ -60,7 +59,7 @@ namespace Nelson {
             Cdim = A.getDimensions();
         }
         Clen = Cdim.getElementCount();
-        Cp = ArrayOf::allocateArrayOf(NLS_LOGICAL, Clen);
+        void *Cp = ArrayOf::allocateArrayOf(NLS_LOGICAL, Clen);
         boolean_or(Clen, (logical*)Cp, (const logical*)A.getDataPointer(), Astride,
                    (const logical*)B.getDataPointer(), Bstride);
         return ArrayOf(NLS_LOGICAL, Cdim, Cp);

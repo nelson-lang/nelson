@@ -104,7 +104,7 @@ static ArrayOfVector sparseBuiltinFiveOrSixRhs(Evaluator* eval, int nLhs, const 
     ArrayOf N(argIn[4]);
     indexType m = M.getContentAsScalarIndex();
     indexType n = N.getContentAsScalarIndex();
-    indexType nnz;
+    indexType nnz = 0;
     if (argIn.size() == 6)
     {
         ArrayOf NNZ(argIn[5]);

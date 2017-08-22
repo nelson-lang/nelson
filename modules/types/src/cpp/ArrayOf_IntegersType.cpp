@@ -127,17 +127,15 @@ namespace Nelson {
         }
         if (minval < maxval)
         {
-            if (stepsize < 0)
+#ifndef NLS_INDEX_TYPE_64
+			if (stepsize < 0)
             {
                 Cdim[0] = 1;
                 Cdim[1] = 0;
-#ifdef NLS_INDEX_TYPE_64
-                return ArrayOf(NLS_INT64, Cdim, NULL, false);
-#else
                 return ArrayOf(NLS_INT32, Cdim, NULL, false);
-#endif
             }
-        }
+#endif
+		}
         if (minval > maxval)
         {
             if (stepsize > 0)

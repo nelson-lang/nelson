@@ -103,7 +103,6 @@ namespace Nelson {
         // Process the two arguments through the type check and dimension checks...
         VectorCheck(A, B, false, "==");
         int Astride = 0, Bstride = 0;
-        void *Cp = nullptr;
         indexType Clen = 0;
         Dimensions Cdim;
         if (A.isScalar())
@@ -125,7 +124,7 @@ namespace Nelson {
             Cdim = A.getDimensions();
         }
         Clen = Cdim.getElementCount();
-        Cp = new_with_exception<logical>(Clen);
+        void *Cp = new_with_exception<logical>(Clen);
         switch (B.getDataClass())
         {
             case NLS_LOGICAL:

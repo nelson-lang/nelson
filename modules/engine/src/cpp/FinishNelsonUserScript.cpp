@@ -55,7 +55,7 @@ namespace Nelson {
                     else
                     {
                         errmsg = errmsg + L"\n";
-                        fwprintf(stderr, errmsg.c_str());
+                        fwprintf(stderr, L"%s", errmsg.c_str());
                     }
                 }
                 return true;

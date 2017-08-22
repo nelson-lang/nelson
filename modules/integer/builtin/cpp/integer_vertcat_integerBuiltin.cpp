@@ -43,7 +43,7 @@ static ArrayOfVector integer_vertcat_integerBuiltin(Evaluator* eval, int nLhs, c
     {
         Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_INTEGER_EXPECTED);
     }
-    if (A.getDataClass() != intclass)
+    if (B.getDataClass() != intclass)
     {
         Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_INTEGER_EXPECTED);
     }
