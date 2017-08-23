@@ -53,7 +53,7 @@ bool FinishNelsonMainScript(Evaluator* eval)
                 else
                 {
                     errmsg = errmsg + L"\n";
-                    fwprintf(stderr, L"%s", errmsg.c_str());
+                    fwprintf(stderr, L"%ls", errmsg.c_str());
                 }
             }
             return true;

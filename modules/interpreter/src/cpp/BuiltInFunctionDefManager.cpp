@@ -43,7 +43,14 @@ namespace Nelson {
     {
         if (m_pInstance == nullptr)
         {
-            m_pInstance = new BuiltInFunctionDefManager();
+			try
+			{
+				m_pInstance = new BuiltInFunctionDefManager();
+			}
+			catch (std::bad_alloc)
+			{
+				m_pInstance = nullptr;
+			}
         }
         return m_pInstance;
     }

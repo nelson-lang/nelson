@@ -2037,7 +2037,14 @@ namespace Nelson {
                     delete lastException;
                 }
                 updateError(this, e);
-                lastException = new Exception(e);
+				try
+				{
+					lastException = new Exception(e);
+				}
+				catch (std::bad_alloc)
+				{
+					lastException = nullptr;
+				}
                 throw ;
             }
         }

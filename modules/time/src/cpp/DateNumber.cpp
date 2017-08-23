@@ -75,7 +75,7 @@ namespace Nelson {
         boost::algorithm::replace_all(formatIn, L"dd", L"%d");
         boost::algorithm::replace_all(formatIn, L"HH", L"%H");
         boost::algorithm::replace_all(formatIn, L"MM", L"%M");
-        boost::algorithm::replace_all(formatIn, L"SS", L"%S");
+        boost::algorithm::replace_all(formatIn, L"SS", L"%ls");
         double res = nan("");
         bParsed = false;
         boost::posix_time::ptime pt(boost::posix_time::not_a_date_time);
@@ -88,7 +88,7 @@ namespace Nelson {
         {
             is >> pt;
         }
-        catch (const std::ios_base::failure &e)
+        catch (const std::ios_base::failure)
         {
             return res;
         }

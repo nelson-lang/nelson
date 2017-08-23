@@ -55,9 +55,9 @@ bool StartNelsonMainScript(Evaluator* eval)
                 else
                 {
                     errmsg = errmsg + L"\n";
-                    fwprintf(stderr, L"%s", errmsg.c_str());
-                    fwprintf(stderr, L"%s", e.getFormattedErrorMessage().c_str());
-                    fwprintf(stderr, L"%s", L"\n");
+                    fwprintf(stderr, L"%ls", errmsg.c_str());
+                    fwprintf(stderr, L"%ls", e.getFormattedErrorMessage().c_str());
+                    fwprintf(stderr, L"%ls", L"\n");
                 }
             }
             return true;
