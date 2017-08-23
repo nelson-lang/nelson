@@ -7,6 +7,8 @@ Features:
 
 * On Windows, all dependencies updated to be compatible with VS 2017 runtime.
 
+* more 50 warnings fixed (Thanks to PVS-Studio analyzer and also Cppcheck).
+
 
 Bug Fixes:
 ---------
