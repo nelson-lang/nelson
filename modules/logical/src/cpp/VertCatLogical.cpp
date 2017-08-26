@@ -51,7 +51,7 @@ namespace Nelson {
         Dimensions dimsC = Dimensions(newRowsSize, newColumnsSize);
         logical *ptrA = (logical *)A.getDataPointer();
         logical *ptrB = (logical *)B.getDataPointer();
-		void * pRes = ArrayOf::allocateArrayOf(classC, newSize);
+        void * pRes = ArrayOf::allocateArrayOf(classC, newSize);
         if (newSize != 0)
         {
             logical *ptrC = (logical*)pRes;

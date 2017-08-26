@@ -46,7 +46,7 @@ namespace Nelson {
         return true;
     }
     //=============================================================================
-	Class FindCommonType(ArrayOf A, ArrayOf B, bool isDivOrMatrix)
+    Class FindCommonType(ArrayOf A, ArrayOf B, bool isDivOrMatrix)
     {
         Class Cclass;
         Class Aclass = A.getDataClass();
@@ -77,7 +77,6 @@ namespace Nelson {
         {
             Bclass = NLS_INT64;
         }
-
         // Division or matrix operations do no allow integer
         // data types.  These must be promoted to doubles.
         if (isDivOrMatrix && (Aclass < NLS_SINGLE))
@@ -99,7 +98,7 @@ namespace Nelson {
         }
         // The output class is now the dominant class remaining:
         Cclass = (Aclass > Bclass) ? Aclass : Bclass;
-		return Cclass;
+        return Cclass;
     }
     //=============================================================================
     bool SameSizeCheck(Dimensions Adim, Dimensions Bdim)

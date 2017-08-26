@@ -106,7 +106,7 @@ namespace Nelson {
             Cdim = A.getDimensions();
         }
         Clen = Cdim.getElementCount();
-		void *Cp = new_with_exception<logical>(Clen);
+        void *Cp = new_with_exception<logical>(Clen);
         switch (B.getDataClass())
         {
             case NLS_INT32:

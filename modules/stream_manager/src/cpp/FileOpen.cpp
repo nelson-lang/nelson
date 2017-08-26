@@ -83,14 +83,14 @@ namespace Nelson {
             return fopenError;
         }
         File *file;
-		try
-		{
-			file = new File();
-		}
-		catch (std::bad_alloc)
-		{
-			file = nullptr;
-		}
+        try
+        {
+            file = new File();
+        }
+        catch (std::bad_alloc)
+        {
+            file = nullptr;
+        }
         if (!file)
         {
             fileposition = -1;

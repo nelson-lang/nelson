@@ -69,14 +69,14 @@ ArrayOfVector Nelson::StreamGateway::fcloseBuiltin(Evaluator* eval, int nLhs, co
         if (str == L"all")
         {
             Nelson::FilesManager *nfm;
-			try
-			{
-				nfm = new Nelson::FilesManager();
-			}
-			catch (std::bad_alloc)
-			{
-				nfm = nullptr;
-			}
+            try
+            {
+                nfm = new Nelson::FilesManager();
+            }
+            catch (std::bad_alloc)
+            {
+                nfm = nullptr;
+            }
             if (nfm)
             {
                 delete fm;

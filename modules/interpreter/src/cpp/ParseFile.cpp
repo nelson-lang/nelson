@@ -34,7 +34,7 @@ namespace Nelson {
         {
             return ParserState::ParseError;
         }
-		FILE *fr;
+        FILE *fr;
 #ifdef _MSC_VER
         fr = _wfopen(filename.c_str(), L"rt");
 #else

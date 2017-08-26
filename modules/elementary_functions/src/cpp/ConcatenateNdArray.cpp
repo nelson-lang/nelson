@@ -63,7 +63,7 @@ namespace Nelson {
             ++i;
         }
         retDims = mat_dims;
-		void *dstPtr = ArrayOf::allocateArrayOf(destClass, retDims.getElementCount());
+        void *dstPtr = ArrayOf::allocateArrayOf(destClass, retDims.getElementCount());
         indexType  row_corner = 0;
         indexType  column_corner = 0;
         indexType  dim_count(mat_dims.getLength());

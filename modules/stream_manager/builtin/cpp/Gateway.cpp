@@ -60,14 +60,14 @@ static bool initializeModule(Nelson::Evaluator* eval)
     {
         Interface *io = eval->getInterface();
         Nelson::FilesManager *fm;
-		try
-		{
-			fm = new Nelson::FilesManager(io);
-		}
-		catch (std::bad_alloc)
-		{
-			fm = nullptr;
-		}
+        try
+        {
+            fm = new Nelson::FilesManager(io);
+        }
+        catch (std::bad_alloc)
+        {
+            fm = nullptr;
+        }
         if (fm)
         {
             eval->FileManager = (void *)fm;

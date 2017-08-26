@@ -43,14 +43,14 @@ namespace Nelson {
     {
         if (m_pInstance == nullptr)
         {
-			try
-			{
-				m_pInstance = new BuiltInFunctionDefManager();
-			}
-			catch (std::bad_alloc)
-			{
-				m_pInstance = nullptr;
-			}
+            try
+            {
+                m_pInstance = new BuiltInFunctionDefManager();
+            }
+            catch (std::bad_alloc)
+            {
+                m_pInstance = nullptr;
+            }
         }
         return m_pInstance;
     }
@@ -68,14 +68,14 @@ namespace Nelson {
     bool BuiltInFunctionDefManager::add(std::string name, BuiltInFuncPtr fptr, int argc_in, int argc_out, std::wstring dynlibname, std::wstring modulename)
     {
         BuiltInFunctionDef *f2def;
-		try
-		{
-			f2def = new BuiltInFunctionDef();
-		}
-		catch (std::bad_alloc)
-		{
-			f2def = nullptr;
-		}
+        try
+        {
+            f2def = new BuiltInFunctionDef();
+        }
+        catch (std::bad_alloc)
+        {
+            f2def = nullptr;
+        }
         if (f2def)
         {
             stringVector args;

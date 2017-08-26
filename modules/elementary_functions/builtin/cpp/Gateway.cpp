@@ -126,8 +126,8 @@ static const nlsGateway gateway[] =
     { "isfinite", Nelson::ElementaryFunctionsGateway::isfiniteBuiltin, 1, 1 },
     { "ndims", Nelson::ElementaryFunctionsGateway::ndimsBuiltin, 1, 1 },
     { "conj", Nelson::ElementaryFunctionsGateway::conjBuiltin, 1, 1 },
-	{ "prod", Nelson::ElementaryFunctionsGateway::prodBuiltin, 1, 3 },
-	{ "mod", Nelson::ElementaryFunctionsGateway::modBuiltin, 1, 2 },
+    { "prod", Nelson::ElementaryFunctionsGateway::prodBuiltin, 1, 3 },
+    { "mod", Nelson::ElementaryFunctionsGateway::modBuiltin, 1, 2 },
 
 };
 //=============================================================================

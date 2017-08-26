@@ -37,7 +37,7 @@ MacroFunctionDef::MacroFunctionDef()
 {
     localFunction = false;
     nextFunction = nullptr;
-	prevFunction = nullptr;
+    prevFunction = nullptr;
     code = nullptr;
     ptAst.clear();
 }
@@ -158,7 +158,7 @@ ArrayOfVector MacroFunctionDef::evaluateFunction(Evaluator *eval, ArrayOfVector&
     ArrayOfVector outputs;
     ArrayOf a;
     size_t minCount = 0;
-	Context* context = eval->getContext();
+    Context* context = eval->getContext();
     context->pushScope(name);
     eval->pushDebug(wstring_to_utf8(fileName), name);
     // Push our local functions onto the function scope
@@ -352,14 +352,14 @@ void Nelson::FreezeMacroFunction(MacroFunctionDef *fptr, Serialize *s)
 MacroFunctionDef* Nelson::ThawMacroFunction(Serialize *s)
 {
     MacroFunctionDef *t;
-	try
-	{
-		t = new MacroFunctionDef();
-	}
-	catch (std::bad_alloc)
-	{
-		t = nullptr;
-	}
+    try
+    {
+        t = new MacroFunctionDef();
+    }
+    catch (std::bad_alloc)
+    {
+        t = nullptr;
+    }
     if (t)
     {
         t->name = s->getString();

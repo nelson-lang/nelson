@@ -1004,10 +1004,10 @@ namespace Nelson {
         clearTextBufferLexer();
         textbuffer = (char*) calloc(strlen(buf)+1,sizeof(char));
         datap = textbuffer;
-		if (textbuffer)
-		{
-			strcpy(textbuffer, buf);
-		}
+        if (textbuffer)
+        {
+            strcpy(textbuffer, buf);
+        }
         linestart = datap;
         lineNumber = 0;
     }

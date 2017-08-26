@@ -52,7 +52,7 @@ static const nlsGateway gateway[] =
     { "nargin", Nelson::CoreGateway::narginBuiltin, 1, 1 },
     { "nargout", Nelson::CoreGateway::nargoutBuiltin, 1, 1 },
     { "prefdir", Nelson::CoreGateway::prefdirBuiltin, 1, 0 },
-	{ "maxNumCompThreads", Nelson::CoreGateway::maxNumCompThreadsBuiltin, 1, -1},
+    { "maxNumCompThreads", Nelson::CoreGateway::maxNumCompThreadsBuiltin, 1, -1},
 };
 //=============================================================================
 NLSGATEWAYNAME()

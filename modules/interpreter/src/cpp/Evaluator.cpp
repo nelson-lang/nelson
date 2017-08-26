@@ -1863,7 +1863,7 @@ namespace Nelson {
                     !context->lookupVariable(t->down->text, b) &&
                     lookupFunction(t->down->text, fdef))
             {
-				m = functionExpression(fdef, t->down, 0, true);
+                m = functionExpression(fdef, t->down, 0, true);
                 if (m.size() > 0)
                 {
                     b = m[0];
@@ -1872,11 +1872,11 @@ namespace Nelson {
                 {
                     bUpdateAns = false;
                 }
-				if (printIt && (m.size() > 0) && (state < NLS_STATE_QUIT))
-				{
-					io->outputMessage(L"\nans =\n\n");
-					OverloadDisplay(this, b);
-				}
+                if (printIt && (m.size() > 0) && (state < NLS_STATE_QUIT))
+                {
+                    io->outputMessage(L"\nans =\n\n");
+                    OverloadDisplay(this, b);
+                }
             }
             else if (t->opNum == OP_RHS)
             {
@@ -2037,14 +2037,14 @@ namespace Nelson {
                     delete lastException;
                 }
                 updateError(this, e);
-				try
-				{
-					lastException = new Exception(e);
-				}
-				catch (std::bad_alloc)
-				{
-					lastException = nullptr;
-				}
+                try
+                {
+                    lastException = new Exception(e);
+                }
+                catch (std::bad_alloc)
+                {
+                    lastException = nullptr;
+                }
                 throw ;
             }
         }
@@ -3489,8 +3489,8 @@ namespace Nelson {
     {
         bool isFun;
         FuncPtr val;
-		std::string cname = bp.detail;
-		isFun = context->lookupFunction(cname, val);
+        std::string cname = bp.detail;
+        isFun = context->lookupFunction(cname, val);
         if (!isFun)
         {
             return false;
@@ -3664,7 +3664,7 @@ namespace Nelson {
         ArrayOf r;
         ArrayOfVector m;
         bool isVar = false;
-		bool isFun = false;
+        bool isFun = false;
         FunctionDef *funcDef;
         pushID(t->context());
         // Try to satisfy the rhs expression with what functions we have already

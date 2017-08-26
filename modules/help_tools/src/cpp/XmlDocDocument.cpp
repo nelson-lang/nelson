@@ -1286,7 +1286,7 @@ namespace Nelson {
         {
             errorMessage.push_back(utf8_to_wstring(DESCRIPTION_TAG) + L": " + e.getMessage());
             this->bReadOk = false;
-			delete ptrDescription;
+            delete ptrDescription;
             return false;
         }
         items.push_back(ptrDescription);
@@ -2717,8 +2717,8 @@ namespace Nelson {
                 else
                 {
                     this->errorMessage.push_back(_W("line ") + std::to_wstring(linkendItemNode->line) + _W(": ") + utf8_to_wstring(XML_LINKEND_TAG) + L" " + _W("has no property."));
-					xmlFreeDoc(doc);
-					this->bReadOk = false;
+                    xmlFreeDoc(doc);
+                    this->bReadOk = false;
                     return false;
                 }
             }
@@ -2742,8 +2742,8 @@ namespace Nelson {
         else
         {
             this->errorMessage.push_back(_W("line ") + std::to_wstring(linkItemNode->line) + _W(": ") + utf8_to_wstring(XML_LINK_TAG) + L" " + _W("has no property."));
-			xmlFreeDoc(doc);
-			this->bReadOk = false;
+            xmlFreeDoc(doc);
+            this->bReadOk = false;
             return false;
         }
         return true;
@@ -2760,8 +2760,8 @@ namespace Nelson {
         if (str.empty())
         {
             errorMessage.push_back(_W("line ") + std::to_wstring(node->line) + _W(": ") + utf8_to_wstring(IMAGE_TAG) + L" " + _W("is empty."));
-			xmlFreeDoc(doc);
-			this->bReadOk = false;
+            xmlFreeDoc(doc);
+            this->bReadOk = false;
             return false;
         }
         XmlDocImageItem *ptrImageItem = new XmlDocImageItem(utf8_to_wstring(str));
@@ -2774,7 +2774,7 @@ namespace Nelson {
         {
             errorMessage.push_back(utf8_to_wstring(IMAGE_TAG) + L": " + e.getMessage());
             this->bReadOk = false;
-			delete ptrImageItem;
+            delete ptrImageItem;
             return false;
         }
         items.push_back(ptrImageItem);

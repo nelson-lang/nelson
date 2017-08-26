@@ -52,7 +52,7 @@ namespace Nelson {
         {
             dim[0] = 1;
         }
-		charType *cp = (charType *)allocateArrayOf(NLS_CHAR, length);
+        charType *cp = (charType *)allocateArrayOf(NLS_CHAR, length);
         memcpy(cp, astr.c_str(), length * sizeof(charType));
         return ArrayOf(NLS_CHAR, dim, cp);
     }
@@ -74,8 +74,8 @@ namespace Nelson {
         if (dp->dataClass == NLS_CHAR)
         {
             indexType M = getLength();
-			charType *buffer = new_with_exception<charType>(M + 1);
-			const charType *qp = (const charType*)dp->getData();
+            charType *buffer = new_with_exception<charType>(M + 1);
+            const charType *qp = (const charType*)dp->getData();
             memcpy(buffer, qp, M * sizeof(charType));
             buffer[M] = 0;
             str = buffer;
@@ -94,8 +94,8 @@ namespace Nelson {
         if (isSingleString())
         {
             indexType M = getLength();
-			charType *buffer = new_with_exception<charType>(M + 1);
-			const charType *qp = (const charType*)dp->getData();
+            charType *buffer = new_with_exception<charType>(M + 1);
+            const charType *qp = (const charType*)dp->getData();
             memcpy(buffer, qp, M * sizeof(charType));
             buffer[M] = 0;
             str = buffer;

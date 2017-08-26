@@ -91,8 +91,8 @@ namespace Nelson {
     {
         std::wstring commandLine;
 #ifdef _MSC_VER
-		commandLine = L"start cmd  /K " + command;
-		commandLine.pop_back();
+        commandLine = L"start cmd  /K " + command;
+        commandLine.pop_back();
 #else
         commandLine = command;
 #endif

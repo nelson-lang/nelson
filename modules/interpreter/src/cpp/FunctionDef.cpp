@@ -43,7 +43,7 @@
 namespace Nelson {
     FunctionDef::FunctionDef()
     {
-		hashid = 0;
+        hashid = 0;
     }
 
     FunctionDef::~FunctionDef()

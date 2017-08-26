@@ -29,7 +29,7 @@ namespace Nelson {
         T *ptrA = (T *)A.getDataPointer();
         T *ptrB = (T *)B.getDataPointer();
         void *pRes = ArrayOf::allocateArrayOf(A.getDataClass(), dimsRes.getRows() * dimsRes.getColumns());
-		T *ptrC = (T*)pRes;
+        T *ptrC = (T*)pRes;
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsB = B.getDimensions();
         Eigen::Map<Eigen::Matrix <T, Eigen::Dynamic, Eigen::Dynamic >> matA(ptrA, dimsA.getRows(), dimsA.getColumns());

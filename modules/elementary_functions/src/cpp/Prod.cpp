@@ -126,7 +126,7 @@ namespace Nelson {
             }
             Dimensions dimsRes = dimsA;
             dimsRes.setDimensionLength(workDim, 1);
-			dimsRes.simplify();
+            dimsRes.simplify();
             size_t planecount;
             size_t planesize = 1;
             size_t linesize = dimsA[workDim];

@@ -1783,46 +1783,46 @@ namespace Nelson {
     {
         const TIN* sp = (const TIN *)pIn;
         TOUT* qp = (TOUT*)pOut;
-		if (classIn > classOut)
-		{
-			for (indexType i = 0; i < count; i++)
-			{
-				TIN min = (TIN)std::numeric_limits<TOUT>::min();
-				TIN max = (TIN)std::numeric_limits<TOUT>::max();
-				if (sp[i] >= max)
-				{
-					qp[i] = std::numeric_limits<TOUT>::max();
-				}
-				else if (sp[i] < min)
-				{
-					qp[i] = std::numeric_limits<TOUT>::min();
-				}
-				else
-				{
-					qp[i] = (TOUT)sp[i];
-				}
-			}
-		}
-		else
-		{
-			for (indexType i = 0; i < count; i++)
-			{
-				TOUT min = (TOUT)std::numeric_limits<TOUT>::min();
-				TOUT max = (TOUT)std::numeric_limits<TOUT>::max();
-				if (sp[i] >= max)
-				{
-					qp[i] = std::numeric_limits<TOUT>::max();
-				}
-				else if (sp[i] < min)
-				{
-					qp[i] = std::numeric_limits<TOUT>::min();
-				}
-				else
-				{
-					qp[i] = (TOUT)sp[i];
-				}
-			}
-		}
+        if (classIn > classOut)
+        {
+            for (indexType i = 0; i < count; i++)
+            {
+                TIN min = (TIN)std::numeric_limits<TOUT>::min();
+                TIN max = (TIN)std::numeric_limits<TOUT>::max();
+                if (sp[i] >= max)
+                {
+                    qp[i] = std::numeric_limits<TOUT>::max();
+                }
+                else if (sp[i] < min)
+                {
+                    qp[i] = std::numeric_limits<TOUT>::min();
+                }
+                else
+                {
+                    qp[i] = (TOUT)sp[i];
+                }
+            }
+        }
+        else
+        {
+            for (indexType i = 0; i < count; i++)
+            {
+                TOUT min = (TOUT)std::numeric_limits<TOUT>::min();
+                TOUT max = (TOUT)std::numeric_limits<TOUT>::max();
+                if (sp[i] >= max)
+                {
+                    qp[i] = std::numeric_limits<TOUT>::max();
+                }
+                else if (sp[i] < min)
+                {
+                    qp[i] = std::numeric_limits<TOUT>::min();
+                }
+                else
+                {
+                    qp[i] = (TOUT)sp[i];
+                }
+            }
+        }
     }
     //=============================================================================
     /**

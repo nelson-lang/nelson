@@ -27,50 +27,50 @@
 #include "SetVariableEnvironment.hpp"
 //=============================================================================
 namespace Nelson {
-	//=============================================================================
-	static unsigned int nbOfCoresToUse = 0;
-	//=============================================================================
-	unsigned int getMaxNumCompThreads()
-	{
-		return nbOfCoresToUse;
-	}
-	//=============================================================================
-	unsigned int setMaxNumCompThreads(unsigned int _nbOfCores)
-	{
-		unsigned int previousValue = nbOfCoresToUse;
-		nbOfCoresToUse = _nbOfCores;
-	#if defined(_OPENMP)
-		omp_set_num_threads(_nbOfCores);
-	#endif
-		Eigen::setNbThreads(_nbOfCores);
-		return previousValue;
-	}
-	//=============================================================================
-	unsigned int setDefaultMaxNumCompThreads()
-	{
-		std::wstring omp_env = GetVariableEnvironment(L"OMP_NUM_THREADS", L"0");
-		if (omp_env == L"0")
-		{
-			nbOfCoresToUse = boost::thread::physical_concurrency();
-		}
-		else
-		{
-			try 
-			{
-				nbOfCoresToUse = boost::lexical_cast<unsigned int>(omp_env.c_str());
-			}
-			catch (boost::bad_lexical_cast const&) 
-			{
-				nbOfCoresToUse = 0;
-			}
-			if (nbOfCoresToUse == 0)
-			{
-				nbOfCoresToUse = boost::thread::physical_concurrency();
-			}
-		}
-		setMaxNumCompThreads(nbOfCoresToUse);
-		return nbOfCoresToUse;
-	}
-	//=============================================================================
+    //=============================================================================
+    static unsigned int nbOfCoresToUse = 0;
+    //=============================================================================
+    unsigned int getMaxNumCompThreads()
+    {
+        return nbOfCoresToUse;
+    }
+    //=============================================================================
+    unsigned int setMaxNumCompThreads(unsigned int _nbOfCores)
+    {
+        unsigned int previousValue = nbOfCoresToUse;
+        nbOfCoresToUse = _nbOfCores;
+#if defined(_OPENMP)
+        omp_set_num_threads(_nbOfCores);
+#endif
+        Eigen::setNbThreads(_nbOfCores);
+        return previousValue;
+    }
+    //=============================================================================
+    unsigned int setDefaultMaxNumCompThreads()
+    {
+        std::wstring omp_env = GetVariableEnvironment(L"OMP_NUM_THREADS", L"0");
+        if (omp_env == L"0")
+        {
+            nbOfCoresToUse = boost::thread::physical_concurrency();
+        }
+        else
+        {
+            try
+            {
+                nbOfCoresToUse = boost::lexical_cast<unsigned int>(omp_env.c_str());
+            }
+            catch (boost::bad_lexical_cast const&)
+            {
+                nbOfCoresToUse = 0;
+            }
+            if (nbOfCoresToUse == 0)
+            {
+                nbOfCoresToUse = boost::thread::physical_concurrency();
+            }
+        }
+        setMaxNumCompThreads(nbOfCoresToUse);
+        return nbOfCoresToUse;
+    }
+    //=============================================================================
 }
 //=============================================================================

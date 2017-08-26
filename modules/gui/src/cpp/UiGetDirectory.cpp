@@ -31,25 +31,25 @@ namespace Nelson {
         QFileDialog *fd = nullptr;
         if (title.empty())
         {
-			try
-			{
-				fd = new QFileDialog;
-			}
-			catch (std::bad_alloc)
-			{
-				fd = nullptr;
-			}
+            try
+            {
+                fd = new QFileDialog;
+            }
+            catch (std::bad_alloc)
+            {
+                fd = nullptr;
+            }
         }
         else
         {
-			try
-			{
-				fd = new QFileDialog(0, wstringToQString(title));
-			}
-			catch (std::bad_alloc)
-			{
-				fd = nullptr;
-			}
+            try
+            {
+                fd = new QFileDialog(0, wstringToQString(title));
+            }
+            catch (std::bad_alloc)
+            {
+                fd = nullptr;
+            }
         }
         if (fd)
         {

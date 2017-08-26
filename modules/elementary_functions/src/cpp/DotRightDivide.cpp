@@ -93,10 +93,9 @@ namespace Nelson {
     {
         // Process the two arguments through the type check and dimension checks...
         VectorCheck(A, B, "./");
-		Class commonClass = FindCommonType(A, B, true);
-		A.promoteType(commonClass);
-		B.promoteType(commonClass);
-
+        Class commonClass = FindCommonType(A, B, true);
+        A.promoteType(commonClass);
+        B.promoteType(commonClass);
         // Get a pointer to the function we ultimately need to execute
         int Astride, Bstride;
         void *Cp = nullptr;

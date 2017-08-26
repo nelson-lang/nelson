@@ -192,14 +192,14 @@ namespace Nelson {
                         if (isSupportedFuncFilename(name))
                         {
                             FileFunc *ff;
-							try
-							{
-								ff = new FileFunc(_path, name);
-							}
-							catch (std::bad_alloc)
-							{
-								ff = nullptr;
-							}
+                            try
+                            {
+                                ff = new FileFunc(_path, name);
+                            }
+                            catch (std::bad_alloc)
+                            {
+                                ff = nullptr;
+                            }
                             if (ff)
                             {
                                 mapFiles.emplace(name, ff);

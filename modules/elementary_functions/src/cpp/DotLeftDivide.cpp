@@ -25,9 +25,9 @@ namespace Nelson {
     {
         // Process the two arguments through the type check and dimension checks...
         VectorCheck(A, B, ".\\");
-		Class commonClass = FindCommonType(A, B, true);
-		A.promoteType(commonClass);
-		B.promoteType(commonClass);
+        Class commonClass = FindCommonType(A, B, true);
+        A.promoteType(commonClass);
+        B.promoteType(commonClass);
         return DotRightDivide(B, A);
     }
 }

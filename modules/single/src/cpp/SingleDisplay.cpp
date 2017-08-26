@@ -400,14 +400,14 @@ namespace Nelson {
                 colsPerPage = (colsPerPage < 1) ? 1 : colsPerPage;
                 indexType pageCount = (indexType)ceil(columns / ((double)colsPerPage));
                 std::wstring buffer;
-				try
-				{
-					buffer.reserve(20 * columns);
-				}
-				catch (std::bad_alloc)
-				{
-				}
-				indexType block_page = 0;
+                try
+                {
+                    buffer.reserve(20 * columns);
+                }
+                catch (std::bad_alloc)
+                {
+                }
+                indexType block_page = 0;
                 for (indexType k = 0; k < pageCount; k++)
                 {
                     if (eval->GetInterruptPending())

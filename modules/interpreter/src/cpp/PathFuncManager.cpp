@@ -237,14 +237,14 @@ namespace Nelson {
     {
         bool res = false;
         PathFunc *pf;
-		try
-		{
-			pf = new PathFunc(path);
-		}
-		catch (std::bad_alloc)
-		{
-			pf = nullptr;
-		}
+        try
+        {
+            pf = new PathFunc(path);
+        }
+        catch (std::bad_alloc)
+        {
+            pf = nullptr;
+        }
         if (pf)
         {
             for (boost::container::vector<PathFunc *>::iterator it = _pathFuncVector.begin(); it != _pathFuncVector.end(); ++it)
@@ -255,7 +255,7 @@ namespace Nelson {
                     boost::filesystem::path p1 {pfl->getPath()}, p2 {path};
                     if (boost::filesystem::equivalent(p1, p2))
                     {
-						delete pfl;
+                        delete pfl;
                         return true;
                     }
                 }

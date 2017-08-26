@@ -50,7 +50,7 @@ namespace Nelson {
                 Context *context = new Context;
                 if (context)
                 {
-					setDefaultMaxNumCompThreads();
+                    setDefaultMaxNumCompThreads();
                     mainEvaluator = new Evaluator(context, io, _mode);
                     Localization::Instance()->setLanguage(effectiveLang, false);
                 }
@@ -61,7 +61,7 @@ namespace Nelson {
     //=============================================================================
     Evaluator *createMainEvaluator(NELSON_ENGINE_MODE _mode, std::wstring lang)
     {
-		setDefaultMaxNumCompThreads();
+        setDefaultMaxNumCompThreads();
         if (mainEvaluator == nullptr)
         {
             Context *context = new Context;
@@ -79,7 +79,7 @@ namespace Nelson {
                     case ADVANCED_ENGINE:
                     {
                         InitGuiObjectsDynamic();
-						fprintf(stderr, "%s", _("This mode is not yet implemented.\n").c_str());
+                        fprintf(stderr, "%s", _("This mode is not yet implemented.\n").c_str());
                         exit(1);
                     }
                     break;

@@ -38,15 +38,15 @@ namespace Nelson {
         for (size_t k = 0; k < srcDirectories.size(); k++)
         {
             XmlDocDirectory *xmlDirectory;
-			try
-			{
-				xmlDirectory = new XmlDocDirectory(srcDirectories[k], this->dstDirectory, this->bOverwriteExistingFiles, this->isQtHelp);
-			}
-			catch (std::bad_alloc)
-			{
-				xmlDirectory = nullptr;
-			}
-			if (xmlDirectory)
+            try
+            {
+                xmlDirectory = new XmlDocDirectory(srcDirectories[k], this->dstDirectory, this->bOverwriteExistingFiles, this->isQtHelp);
+            }
+            catch (std::bad_alloc)
+            {
+                xmlDirectory = nullptr;
+            }
+            if (xmlDirectory)
             {
                 bool bSuccess;
                 xmlDirectory->setUpSection(this->mainTitle, RelativePath(this->dstDirectory, this->dstDirectory + L"/index.html", bSuccess));
@@ -95,14 +95,14 @@ namespace Nelson {
                 return false;
             }
         }
-		try
-		{
-			mainIndex = new XmlDocMainIndex(this->dstDirectory, this->mainTitle, this->getOutputHelpBasename(), this->isQtHelp);
-		}
-		catch (std::bad_alloc)
-		{
-			mainIndex = nullptr;
-		}
+        try
+        {
+            mainIndex = new XmlDocMainIndex(this->dstDirectory, this->mainTitle, this->getOutputHelpBasename(), this->isQtHelp);
+        }
+        catch (std::bad_alloc)
+        {
+            mainIndex = nullptr;
+        }
         if (mainIndex)
         {
             for (size_t k = 0; k < itemsDirectories.size(); k++)

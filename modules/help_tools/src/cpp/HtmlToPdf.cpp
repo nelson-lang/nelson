@@ -32,14 +32,14 @@ namespace Nelson {
             std::string fullpathGuiSharedLibrary = "libnlsGui" + get_dynamic_library_extension();
 #ifdef _MSC_VER
             char *buf;
-			try
-			{
-				buf = new char[MAX_PATH];
-			}
-			catch (std::bad_alloc)
-			{
-				buf = nullptr;
-			}
+            try
+            {
+                buf = new char[MAX_PATH];
+            }
+            catch (std::bad_alloc)
+            {
+                buf = nullptr;
+            }
             if (buf)
             {
                 DWORD dwRet = ::GetEnvironmentVariableA("NELSON_BINARY_PATH", buf, MAX_PATH);

@@ -80,12 +80,12 @@ bool Nelson::MarkdownFile(std::wstring inputMarkdownFilename, std::wstring outpu
 #else
     FILE *file = fopen(wstring_to_utf8(inputMarkdownFilename).c_str(), "r");
 #endif
-	if (file == nullptr)
-	{
-		return false;
-	}
-	ib = hoedown_buffer_new(data.iunit);
-	if (hoedown_buffer_putf(ib, file))
+    if (file == nullptr)
+    {
+        return false;
+    }
+    ib = hoedown_buffer_new(data.iunit);
+    if (hoedown_buffer_putf(ib, file))
     {
         return false;
     }

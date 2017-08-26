@@ -587,14 +587,14 @@ void QtTerminal::stopRun()
 void  QtTerminal::contextMenuEvent(QContextMenuEvent * event)
 {
     QMenu *menu;
-	try
-	{
-		menu = new QMenu(this);
-	}
-	catch (std::bad_alloc)
-	{
-		menu = nullptr;
-	}
+    try
+    {
+        menu = new QMenu(this);
+    }
+    catch (std::bad_alloc)
+    {
+        menu = nullptr;
+    }
     if (menu)
     {
         QAction *helpOnSelectionAct = new QAction(TR("Help on Selection"), this);
