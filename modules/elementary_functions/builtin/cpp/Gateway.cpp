@@ -68,6 +68,7 @@
 #include "conjBuiltin.hpp"
 #include "prodBuiltin.hpp"
 #include "modBuiltin.hpp"
+#include "repmatBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -128,6 +129,7 @@ static const nlsGateway gateway[] =
     { "conj", Nelson::ElementaryFunctionsGateway::conjBuiltin, 1, 1 },
     { "prod", Nelson::ElementaryFunctionsGateway::prodBuiltin, 1, 3 },
     { "mod", Nelson::ElementaryFunctionsGateway::modBuiltin, 1, 2 },
+	{ "repmat", Nelson::ElementaryFunctionsGateway::repmatBuiltin, 1, -1 },
 
 };
 //=============================================================================

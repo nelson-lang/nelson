@@ -229,7 +229,7 @@ namespace Nelson {
         }
         else
         {
-            throw Exception(_W("A row vector expected."));
+            throw Exception(_W("An row vector expected."));
         }
         return res;
     }
