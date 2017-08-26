@@ -31,7 +31,7 @@ ArrayOfVector Nelson::SingleGateway::single_minus_singleBuiltin(Evaluator* eval,
     }
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
-    VectorCheck(A, B, false, "-");
+    VectorCheck(A, B, "-");
     if (!A.isSingleType() || !B.isSingleType())
     {
         Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_SINGLE_EXPECTED);

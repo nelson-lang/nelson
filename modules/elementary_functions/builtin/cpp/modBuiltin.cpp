@@ -16,37 +16,30 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "double_minus_doubleBuiltin.hpp"
-#include "MinusDouble.hpp"
+#include "modBuiltin.hpp"
 #include "Error.hpp"
-#include "MatrixCheck.hpp"
+#include "OverloadFunction.hpp"
+#include "Modulo.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::DoubleGateway::double_minus_doubleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector Nelson::ElementaryFunctionsGateway::modBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
+    ArrayOfVector retval;
     if (argIn.size() != 2)
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    ArrayOf A = argIn[0];
-    ArrayOf B = argIn[1];
-    VectorCheck(A, B, "-");
-    if (!A.isDoubleType() || !B.isDoubleType())
+    if (nLhs > 1)
     {
-        Error(eval, ERROR_WRONG_ARGUMENTS_TYPE_DOUBLE_EXPECTED);
+        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (A.isSparse() || B.isSparse())
+    bool bSuccess = false;
+    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    if (!bSuccess)
     {
-        Error(eval, ERROR_WRONG_ARGUMENTS_SIZE_FULL_MATRIX_EXPECTED);
+        retval.push_back(Modulo(argIn[0], argIn[1]));
     }
-    if (!A.is2D() || !B.is2D())
-    {
-        Error(eval, ERROR_WRONG_ARGUMENTS_SIZE_2D_MATRIX_EXPECTED);
-    }
-    ArrayOfVector retval;
-    ArrayOf res = double_minus_double(A, B);
-    retval.push_back(res);
     return retval;
 }
 //=============================================================================

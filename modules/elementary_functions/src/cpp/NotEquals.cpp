@@ -55,7 +55,7 @@ namespace Nelson {
     ArrayOf NotEquals(ArrayOf A, ArrayOf B)
     {
         // Process the two arguments through the type check and dimension checks...
-        VectorCheck(A, B, false, "~=");
+        VectorCheck(A, B, "~=");
         int Astride, Bstride;
         indexType Clen = 0;
         Dimensions Cdim;

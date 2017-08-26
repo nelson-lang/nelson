@@ -1,6 +1,8 @@
 Features:
 ---------
 
+* add 'mod' builtin. Modulus after division.
+
 * add 'maxNumCompThreads' builtin. Set/Get maximum number of computional threads.
 
 * Nelson Visual Studio solution updated to use 2017 version.

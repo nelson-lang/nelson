@@ -20,7 +20,6 @@
 #include "Exception.hpp"
 #include "HandleManager.hpp"
 #include "HandleGenericObject.hpp"
-#include "MatrixCheck.hpp"
 //=============================================================================
 namespace Nelson {
     //=============================================================================

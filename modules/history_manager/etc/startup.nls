@@ -16,7 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-if ( (strcmp(getnelsonmode(), 'GUI') == 1) | (strcmp(getnelsonmode(), 'ADVANCED_TERMINAL') == 1) )
-	addgateway(modulepath(nelsonroot(), 'history_manager', 'builtin'));
-	history('load');
+if ( (strcmp(getnelsonmode(), 'GUI') == true) | (strcmp(getnelsonmode(), 'ADVANCED_TERMINAL') == true) )
+  addgateway(modulepath(nelsonroot(), 'history_manager', 'builtin'));
+  history('load');
 end
