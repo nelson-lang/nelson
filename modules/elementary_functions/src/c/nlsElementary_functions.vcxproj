@@ -192,6 +192,7 @@
     <ClInclude Include="..\include\IsFinite.hpp" />
     <ClInclude Include="..\include\IsInf.hpp" />
     <ClInclude Include="..\include\IsNaN.hpp" />
+    <ClInclude Include="..\include\Modulo.hpp" />
     <ClInclude Include="..\include\Prod.hpp" />
     <ClInclude Include="..\include\RealPart.hpp" />
     <ClInclude Include="..\include\TruncateFunctions.hpp" />
@@ -217,6 +218,7 @@
     <ClCompile Include="..\cpp\LeftDivide.cpp" />
     <ClCompile Include="..\cpp\LessEquals.cpp" />
     <ClCompile Include="..\cpp\LessThan.cpp" />
+    <ClCompile Include="..\cpp\Modulo.cpp" />
     <ClCompile Include="..\cpp\Negate.cpp" />
     <ClCompile Include="..\cpp\Not.cpp" />
     <ClCompile Include="..\cpp\NotEquals.cpp" />

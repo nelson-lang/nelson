@@ -20,7 +20,7 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-    void CheckNumeric(ArrayOf &A, ArrayOf &B, const std::string &opname) throw(Exception)
+    void CheckNumeric(ArrayOf A, ArrayOf B, const std::string &opname) throw(Exception)
     {
         bool Anumeric, Bnumeric;
         Anumeric = !A.isReferenceType();
@@ -30,7 +30,7 @@ namespace Nelson {
                             opname + std::string(_(" to reference types.")));
     }
     //=============================================================================
-    bool MatrixCheck(ArrayOf &A, ArrayOf &B, const std::string &opname) throw(Exception)
+    bool MatrixCheck(ArrayOf A, ArrayOf B, const std::string &opname) throw(Exception)
     {
         // Test for either a scalar (test 1)
         if (A.isScalar() || B.isScalar())
@@ -43,16 +43,14 @@ namespace Nelson {
         if (!A.is2D() || !B.is2D())
             throw Exception(std::string(_("Cannot apply matrix operation ")) +
                             opname + std::string(_(" to N-Dimensional arrays.")));
-        // Test the types
-        TypeCheck(A, B, true);
         return true;
     }
     //=============================================================================
-    void TypeCheck(ArrayOf &A, ArrayOf &B, bool isDivOrMatrix)
+	Class FindCommonType(ArrayOf A, ArrayOf B, bool isDivOrMatrix)
     {
-        Class Aclass, Bclass, Cclass;
-        Aclass = A.getDataClass();
-        Bclass = B.getDataClass();
+        Class Cclass;
+        Class Aclass = A.getDataClass();
+        Class Bclass = B.getDataClass();
         if ( (Aclass == Bclass) &&
                 ( (Aclass == NLS_LOGICAL) ||
                   (Aclass == NLS_UINT8) ||
@@ -69,16 +67,17 @@ namespace Nelson {
                   (Aclass == NLS_DCOMPLEX) ||
                   (Aclass == NLS_CHAR)) )
         {
-            return;
+            return Aclass;
         }
-        if ((Aclass < NLS_INT32) || (Aclass == NLS_CHAR))
+        if ((Aclass < NLS_INT64) || (Aclass == NLS_CHAR))
         {
-            Aclass = NLS_INT32;
+            Aclass = NLS_INT64;
         }
-        if ((Bclass < NLS_INT32) || (Bclass == NLS_CHAR))
+        if ((Bclass < NLS_INT64) || (Bclass == NLS_CHAR))
         {
-            Bclass = NLS_INT32;
+            Bclass = NLS_INT64;
         }
+
         // Division or matrix operations do no allow integer
         // data types.  These must be promoted to doubles.
         if (isDivOrMatrix && (Aclass < NLS_SINGLE))
@@ -100,8 +99,7 @@ namespace Nelson {
         }
         // The output class is now the dominant class remaining:
         Cclass = (Aclass > Bclass) ? Aclass : Bclass;
-        A.promoteType(Cclass);
-        B.promoteType(Cclass);
+		return Cclass;
     }
     //=============================================================================
     bool SameSizeCheck(Dimensions Adim, Dimensions Bdim)
@@ -111,7 +109,7 @@ namespace Nelson {
         return (Adim.equals(Bdim));
     }
     //=============================================================================
-    void VectorCheck(ArrayOf& A, ArrayOf& B, bool promote, const std::string &opname) throw(Exception)
+    void VectorCheck(ArrayOf& A, ArrayOf& B, const std::string &opname) throw(Exception)
     {
         stringVector dummySV;
         // Check for numeric types
@@ -120,8 +118,6 @@ namespace Nelson {
         {
             throw Exception(std::string(_("Size mismatch on arguments to arithmetic operator ")) + opname);
         }
-        // Test the types.
-        TypeCheck(A, B, promote);
     }
     //=============================================================================
     void BoolVectorCheck(ArrayOf& A, ArrayOf& B, const std::string &opname) throw(Exception)

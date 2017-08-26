@@ -92,7 +92,11 @@ namespace Nelson {
     ArrayOf DotRightDivide(ArrayOf A, ArrayOf B)
     {
         // Process the two arguments through the type check and dimension checks...
-        VectorCheck(A, B, true, "./");
+        VectorCheck(A, B, "./");
+		Class commonClass = FindCommonType(A, B, true);
+		A.promoteType(commonClass);
+		B.promoteType(commonClass);
+
         // Get a pointer to the function we ultimately need to execute
         int Astride, Bstride;
         void *Cp = nullptr;

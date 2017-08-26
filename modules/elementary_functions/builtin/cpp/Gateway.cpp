@@ -67,6 +67,7 @@
 #include "ndimsBuiltin.hpp"
 #include "conjBuiltin.hpp"
 #include "prodBuiltin.hpp"
+#include "modBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -126,6 +127,7 @@ static const nlsGateway gateway[] =
     { "ndims", Nelson::ElementaryFunctionsGateway::ndimsBuiltin, 1, 1 },
     { "conj", Nelson::ElementaryFunctionsGateway::conjBuiltin, 1, 1 },
 	{ "prod", Nelson::ElementaryFunctionsGateway::prodBuiltin, 1, 3 },
+	{ "mod", Nelson::ElementaryFunctionsGateway::modBuiltin, 1, 2 },
 
 };
 //=============================================================================

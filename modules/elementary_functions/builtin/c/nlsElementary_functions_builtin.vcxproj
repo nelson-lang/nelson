@@ -195,6 +195,7 @@
     <ClCompile Include="..\cpp\ltBuiltin.cpp" />
     <ClCompile Include="..\cpp\minusBuiltin.cpp" />
     <ClCompile Include="..\cpp\mldivideBuiltin.cpp" />
+    <ClCompile Include="..\cpp\modBuiltin.cpp" />
     <ClCompile Include="..\cpp\mpowerBuiltin.cpp" />
     <ClCompile Include="..\cpp\mrdivideBuiltin.cpp" />
     <ClCompile Include="..\cpp\mtimesBuiltin.cpp" />
@@ -271,6 +272,7 @@
     <ClInclude Include="..\include\ltBuiltin.hpp" />
     <ClInclude Include="..\include\minusBuiltin.hpp" />
     <ClInclude Include="..\include\mldivideBuiltin.hpp" />
+    <ClInclude Include="..\include\modBuiltin.hpp" />
     <ClInclude Include="..\include\mpowerBuiltin.hpp" />
     <ClInclude Include="..\include\mrdivideBuiltin.hpp" />
     <ClInclude Include="..\include\mtimesBuiltin.hpp" />

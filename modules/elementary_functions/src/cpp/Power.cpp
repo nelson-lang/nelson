@@ -38,8 +38,6 @@ namespace Nelson {
         {
             throw Exception(_W("Cannot apply exponential operation to N-Dimensional arrays."));
         }
-        // Test the types
-        TypeCheck(A, B, true);
         // Both arguments must be square
         if ((A.getDimensionLength(0) != A.getDimensionLength(1)) ||
                 (B.getDimensionLength(0) != B.getDimensionLength(1)))

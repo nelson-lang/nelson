@@ -101,7 +101,10 @@ namespace Nelson {
     ArrayOf Equals(ArrayOf A, ArrayOf B)
     {
         // Process the two arguments through the type check and dimension checks...
-        VectorCheck(A, B, false, "==");
+        VectorCheck(A, B, "==");
+		Class classCommon = FindCommonType(A, B, false);
+		A.promoteType(classCommon);
+		B.promoteType(classCommon);
         int Astride = 0, Bstride = 0;
         indexType Clen = 0;
         Dimensions Cdim;
