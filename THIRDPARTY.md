@@ -35,6 +35,11 @@ http://www.fftw.org/index.html
 Free software, released under the GNU General Public License (GPL).
 Non-free licenses may also be purchased.
 
+F2C
+f2c is a program to convert Fortran 77 to C code, developed at Bell Laboratories.
+http://www.netlib.org/f2c/
+NetLib license (free software)
+
 SimpleFileWatcher
 a C++ wrapper for OS file monitoring systems
 https://github.com/apetrone/simplefilewatcher
