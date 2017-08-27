@@ -210,6 +210,7 @@
     <ClCompile Include="..\cpp\prodBuiltin.cpp" />
     <ClCompile Include="..\cpp\rdivideBuiltin.cpp" />
     <ClCompile Include="..\cpp\realBuiltin.cpp" />
+    <ClCompile Include="..\cpp\repmatBuiltin.cpp" />
     <ClCompile Include="..\cpp\reshapeBuiltin.cpp" />
     <ClCompile Include="..\cpp\roundBuiltin.cpp" />
     <ClCompile Include="..\cpp\shortcutandBuiltin.cpp" />
@@ -289,6 +290,7 @@
     <ClInclude Include="..\include\prodBuiltin.hpp" />
     <ClInclude Include="..\include\rdivideBuiltin.hpp" />
     <ClInclude Include="..\include\realBuiltin.hpp" />
+    <ClInclude Include="..\include\repmatBuiltin.hpp" />
     <ClInclude Include="..\include\reshapeBuiltin.hpp" />
     <ClInclude Include="..\include\roundBuiltin.hpp" />
     <ClInclude Include="..\include\shortcutandBuiltin.hpp" />

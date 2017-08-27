@@ -3,6 +3,8 @@ Features:
 
 * add 'abs' builtin. Absolute value.
 
+* add 'repmat' builtin. Replicates and tiles an array.
+
 * add 'mod' builtin. Modulus after division.
 
 * add 'maxNumCompThreads' builtin. Set/Get maximum number of computional threads.

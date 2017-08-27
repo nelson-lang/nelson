@@ -177,6 +177,12 @@
     <ClCompile Include="..\cpp\absBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\repmatBuiltin.cpp">
+     <Filter>Source Files</Filter>
+    </ClCompile>
+
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\CMakeLists.txt" />
@@ -339,6 +345,11 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\absBuiltin.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\repmatBuiltin.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
