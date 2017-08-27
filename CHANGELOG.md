@@ -1,6 +1,8 @@
 Features:
 ---------
 
+* add 'rem' builtin. Remainder after division.
+
 * add 'abs' builtin. Absolute value.
 
 * add 'repmat' builtin. Replicates and tiles an array.
