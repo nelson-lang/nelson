@@ -32,7 +32,7 @@ namespace Nelson {
     template <class T>
     T nelson_rem_integer(T x, T y)
     {
-        return y != 0 ? x % y : x;
+        return y != 0 ? x % y : 0;
     }
     //=============================================================================
     template <class T>
@@ -54,10 +54,10 @@ namespace Nelson {
                 res = x - tmp;
             }
         }
-        if (x != y && y != 0 && res != 0)
-        {
-            res = copysign(res, y);
-        }
+		else
+		{
+			res = std::nan("");
+		}
         return res;
     }
     //=============================================================================

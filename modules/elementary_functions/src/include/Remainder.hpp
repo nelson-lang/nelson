@@ -24,7 +24,7 @@
 //=============================================================================
 namespace Nelson {
     /**
-    * modulo operation.
+    * remainder operation.
     */
     NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf Remainder(ArrayOf A, ArrayOf B);
 }
