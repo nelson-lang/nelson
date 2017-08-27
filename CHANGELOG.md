@@ -1,6 +1,8 @@
 Features:
 ---------
 
+* add 'circshift' function.
+
 * colon as string managed for deletion, extraction and insertion.
 
 * add 'rem' builtin. Remainder after division.

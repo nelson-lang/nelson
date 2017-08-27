@@ -16,12 +16,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-function res = isscalar (varargin)
-  if (nargin == 1)
-    [nr, nc] = size(varargin{1});
-    res = (nr == 1 & nc == 1);
-  else
-    error(_('Wrong number of input arguments.'));
-  end
+function Y = isvector(X)
+  Y = logical(ndims(X) == 2 & any(size(X) <= 1) & isnumeric(X));
 endfunction
-//=============================================================================
