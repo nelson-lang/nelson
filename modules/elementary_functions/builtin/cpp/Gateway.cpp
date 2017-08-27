@@ -70,6 +70,7 @@
 #include "modBuiltin.hpp"
 #include "absBuiltin.hpp"
 #include "repmatBuiltin.hpp"
+#include "remBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -132,6 +133,7 @@ static const nlsGateway gateway[] =
     { "mod", Nelson::ElementaryFunctionsGateway::modBuiltin, 1, 2 },
 	{ "abs", Nelson::ElementaryFunctionsGateway::absBuiltin, 1, 1 },
     { "repmat", Nelson::ElementaryFunctionsGateway::repmatBuiltin, 1, -1 },
+	{ "rem", Nelson::ElementaryFunctionsGateway::remBuiltin, 1, 2 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

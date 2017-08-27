@@ -179,6 +179,7 @@
     <ClCompile Include="..\cpp\eqBuiltin.cpp" />
     <ClCompile Include="..\cpp\fixBuiltin.cpp" />
     <ClCompile Include="..\cpp\floorBuiltin.cpp" />
+    <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\geBuiltin.cpp" />
     <ClCompile Include="..\cpp\gtBuiltin.cpp" />
     <ClCompile Include="..\cpp\horzcatBuiltin.cpp" />
@@ -191,7 +192,6 @@
     <ClCompile Include="..\cpp\isnanBuiltin.cpp" />
     <ClCompile Include="..\cpp\ldivideBuiltin.cpp" />
     <ClCompile Include="..\cpp\leBuiltin.cpp" />
-    <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\lengthBuiltin.cpp" />
     <ClCompile Include="..\cpp\ltBuiltin.cpp" />
     <ClCompile Include="..\cpp\minusBuiltin.cpp" />
@@ -210,6 +210,7 @@
     <ClCompile Include="..\cpp\prodBuiltin.cpp" />
     <ClCompile Include="..\cpp\rdivideBuiltin.cpp" />
     <ClCompile Include="..\cpp\realBuiltin.cpp" />
+    <ClCompile Include="..\cpp\remBuiltin.cpp" />
     <ClCompile Include="..\cpp\repmatBuiltin.cpp" />
     <ClCompile Include="..\cpp\reshapeBuiltin.cpp" />
     <ClCompile Include="..\cpp\roundBuiltin.cpp" />
@@ -290,6 +291,7 @@
     <ClInclude Include="..\include\prodBuiltin.hpp" />
     <ClInclude Include="..\include\rdivideBuiltin.hpp" />
     <ClInclude Include="..\include\realBuiltin.hpp" />
+    <ClInclude Include="..\include\remBuiltin.hpp" />
     <ClInclude Include="..\include\repmatBuiltin.hpp" />
     <ClInclude Include="..\include\reshapeBuiltin.hpp" />
     <ClInclude Include="..\include\roundBuiltin.hpp" />

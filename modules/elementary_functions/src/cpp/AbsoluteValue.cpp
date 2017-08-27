@@ -136,7 +136,7 @@ namespace Nelson {
 			singlecomplex* matzArrayIn = reinterpret_cast<singlecomplex*>((single*)arrayIn.getDataPointer());
 			for (indexType k = 0; k < dimsArrayIn.getElementCount(); ++k)
 			{
-				dp[k] = std::sqrtf((matzArrayIn[k].real() * matzArrayIn[k].real()) + (matzArrayIn[k].imag() * matzArrayIn[k].imag()));
+				dp[k] = std::sqrt((matzArrayIn[k].real() * matzArrayIn[k].real()) + (matzArrayIn[k].imag() * matzArrayIn[k].imag()));
 			}
 			res = ArrayOf(NLS_SINGLE, dimsArrayIn, dp);
 		}

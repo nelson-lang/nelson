@@ -164,47 +164,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\src\include\And.hpp" />
-    <ClInclude Include="..\..\src\include\DotLeftDivide.hpp" />
-    <ClInclude Include="..\..\src\include\DotPower.hpp" />
-    <ClInclude Include="..\..\src\include\DotRightDivide.hpp" />
-    <ClInclude Include="..\..\src\include\DotTranspose.hpp" />
-    <ClInclude Include="..\..\src\include\Equals.hpp" />
-    <ClInclude Include="..\..\src\include\GreaterEquals.hpp" />
-    <ClInclude Include="..\..\src\include\GreaterThan.hpp" />
-    <ClInclude Include="..\..\src\include\LeftDivide.hpp" />
-    <ClInclude Include="..\..\src\include\LessEquals.hpp" />
-    <ClInclude Include="..\..\src\include\LessThan.hpp" />
-    <ClInclude Include="..\..\src\include\Negate.hpp" />
-    <ClInclude Include="..\..\src\include\nlsElementary_functions_exports.h" />
-    <ClInclude Include="..\..\src\include\Not.hpp" />
-    <ClInclude Include="..\..\src\include\NotEquals.hpp" />
-    <ClInclude Include="..\..\src\include\Or.hpp" />
-    <ClInclude Include="..\..\src\include\Power.hpp" />
-    <ClInclude Include="..\..\src\include\RightDivide.hpp" />
-    <ClInclude Include="..\..\src\include\Transpose.hpp" />
-    <ClInclude Include="..\include\AbsoluteValue.hpp" />
-    <ClInclude Include="..\include\ComplexConjugate.hpp" />
-    <ClInclude Include="..\include\ComplexConstructor.hpp" />
-    <ClInclude Include="..\include\ComplexTranspose.hpp" />
-    <ClInclude Include="..\include\ConcatenateNdArray.hpp" />
-    <ClInclude Include="..\include\ImagPart.hpp" />
-    <ClInclude Include="..\include\IsApprox.hpp" />
-    <ClInclude Include="..\include\IsFinite.hpp" />
-    <ClInclude Include="..\include\IsInf.hpp" />
-    <ClInclude Include="..\include\IsNaN.hpp" />
-    <ClInclude Include="..\include\Modulo.hpp" />
-    <ClInclude Include="..\include\Prod.hpp" />
-    <ClInclude Include="..\include\RealPart.hpp" />
-    <ClInclude Include="..\include\TruncateFunctions.hpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="..\cpp\AbsoluteValue.cpp" />
     <ClCompile Include="..\cpp\And.cpp" />
     <ClCompile Include="..\cpp\ComplexConjugate.cpp" />
     <ClCompile Include="..\cpp\ComplexConstructor.cpp" />
-    <ClCompile Include="..\cpp\ConcatenateNdArray.cpp" />
     <ClCompile Include="..\cpp\ComplexTranspose.cpp" />
+    <ClCompile Include="..\cpp\ConcatenateNdArray.cpp" />
     <ClCompile Include="..\cpp\DotLeftDivide.cpp" />
     <ClCompile Include="..\cpp\DotPower.cpp" />
     <ClCompile Include="..\cpp\DotRightDivide.cpp" />
@@ -228,9 +193,46 @@
     <ClCompile Include="..\cpp\Power.cpp" />
     <ClCompile Include="..\cpp\Prod.cpp" />
     <ClCompile Include="..\cpp\RealPart.cpp" />
+    <ClCompile Include="..\cpp\Remainder.cpp" />
     <ClCompile Include="..\cpp\RightDivide.cpp" />
     <ClCompile Include="..\cpp\Transpose.cpp" />
     <ClCompile Include="..\cpp\TruncateFunctions.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\AbsoluteValue.hpp" />
+    <ClInclude Include="..\include\And.hpp" />
+    <ClInclude Include="..\include\ComplexConjugate.hpp" />
+    <ClInclude Include="..\include\ComplexConstructor.hpp" />
+    <ClInclude Include="..\include\ComplexTranspose.hpp" />
+    <ClInclude Include="..\include\ConcatenateNdArray.hpp" />
+    <ClInclude Include="..\include\DotLeftDivide.hpp" />
+    <ClInclude Include="..\include\DotPower.hpp" />
+    <ClInclude Include="..\include\DotRightDivide.hpp" />
+    <ClInclude Include="..\include\DotTranspose.hpp" />
+    <ClInclude Include="..\include\Equals.hpp" />
+    <ClInclude Include="..\include\GreaterEquals.hpp" />
+    <ClInclude Include="..\include\GreaterThan.hpp" />
+    <ClInclude Include="..\include\ImagPart.hpp" />
+    <ClInclude Include="..\include\IsApprox.hpp" />
+    <ClInclude Include="..\include\IsFinite.hpp" />
+    <ClInclude Include="..\include\IsInf.hpp" />
+    <ClInclude Include="..\include\IsNaN.hpp" />
+    <ClInclude Include="..\include\LeftDivide.hpp" />
+    <ClInclude Include="..\include\LessEquals.hpp" />
+    <ClInclude Include="..\include\LessThan.hpp" />
+    <ClInclude Include="..\include\Modulo.hpp" />
+    <ClInclude Include="..\include\Negate.hpp" />
+    <ClInclude Include="..\include\nlsElementary_functions_exports.h" />
+    <ClInclude Include="..\include\Not.hpp" />
+    <ClInclude Include="..\include\NotEquals.hpp" />
+    <ClInclude Include="..\include\Or.hpp" />
+    <ClInclude Include="..\include\Power.hpp" />
+    <ClInclude Include="..\include\Prod.hpp" />
+    <ClInclude Include="..\include\RealPart.hpp" />
+    <ClInclude Include="..\include\Remainder.hpp" />
+    <ClInclude Include="..\include\RightDivide.hpp" />
+    <ClInclude Include="..\include\Transpose.hpp" />
+    <ClInclude Include="..\include\TruncateFunctions.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\api_nelson\src\c\nlsApi_nelson.vcxproj">
