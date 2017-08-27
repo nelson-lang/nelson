@@ -199,6 +199,15 @@ namespace Nelson {
         {
             return ArrayOfVector();
         }
+		if (index.isSingleString())
+		{
+			std::wstring str = index.getContentAsWideString();
+			if (str != L":")
+			{
+				throw Exception(_W("index must either be real positive integers or logicals."));
+			}
+			index = ArrayOf::integerRangeConstructor(1, 1, dp->dimensions.getElementCount(), true);
+		}
         index.toOrdinalType();
         // Get the maximum index
         indexType max_index = index.getMaxAsIndex();
@@ -244,7 +253,20 @@ namespace Nelson {
         indexType i;
         for (i = 0; i<L; i++)
         {
-            index[i].toOrdinalType();
+			if (index[i].isSingleString())
+			{
+				std::wstring str = index[i].getContentAsWideString();
+				if (str != L":")
+				{
+					throw Exception(_W("index must either be real positive integers or logicals."));
+				}
+				indexType maxVal = dp->dimensions.getDimensionLength(i);
+				index[i] = ArrayOf::integerRangeConstructor(1, 1, maxVal, false);
+			}
+			else
+			{
+				index[i].toOrdinalType();
+			}
         }
         constIndexPtr* indx = new_with_exception<constIndexPtr>(L);
         for (i = 0; i<L; i++)

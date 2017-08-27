@@ -2819,20 +2819,33 @@ break;
         {
             if (index.getLength() == 1)
             {
-                double idx = index.getContentAsDoubleScalar();
-                int64 iidx = (int64)idx;
-                if (idx != (double)iidx || idx < 0)
-                {
-                    throw Exception(_W("index must either be real positive integers or logicals."));
-                }
-                if (isSparse())
-                {
-                    return getValueAtIndex((uint64)idx);
-                }
-                else
-                {
-                    return getValueAtIndex((uint64)(idx - 1));
-                }
+				if (index.isSingleString())
+				{
+					std::wstring str = index.getContentAsWideString();
+					if (str != L":")
+					{
+						throw Exception(_W("index must either be real positive integers or logicals."));
+					}
+					ArrayOf newIndex = ArrayOf::integerRangeConstructor(1, 1, dp->dimensions.getElementCount(), true);
+					return getVectorSubset(newIndex);
+				}
+				else
+				{
+					double idx = index.getContentAsDoubleScalar();
+					int64 iidx = (int64)idx;
+					if (idx != (double)iidx || idx < 0)
+					{
+						throw Exception(_W("index must either be real positive integers or logicals."));
+					}
+					if (isSparse())
+					{
+						return getValueAtIndex((uint64)idx);
+					}
+					else
+					{
+						return getValueAtIndex((uint64)(idx - 1));
+					}
+				}
             }
             else
             {
@@ -2942,12 +2955,25 @@ break;
                 }
                 else
                 {
-                    index[i].toOrdinalType();
-                    indexType *idx = (indexType *)index[i].getDataPointer();
-                    if (idx != nullptr)
-                    {
-                        dimsDest[i] = idx[index[i].getDimensions().getElementCount() - 1];
-                    }
+					if (index[i].isSingleString())
+					{
+						std::wstring str = index[i].getContentAsWideString();
+						if (str != L":")
+						{
+							throw Exception(_W("index must either be real positive integers or logicals."));
+						}
+						indexType maxVal = dp->dimensions.getDimensionLength(i);
+						index[i] = ArrayOf::integerRangeConstructor(1, 1, maxVal, false);
+					}
+					else
+					{
+						index[i].toOrdinalType();
+					}
+					indexType *idx = (indexType *)index[i].getDataPointer();
+					if (idx != nullptr)
+					{
+						dimsDest[i] = idx[index[i].getDimensions().getElementCount() - 1];
+					}
                 }
             }
             if (bEmpty)
@@ -3159,7 +3185,16 @@ break;
         {
             return;
         }
-        // Check the right-hand-side - if it is empty, then
+		if (index.isSingleString())
+		{
+			std::wstring str = index.getContentAsWideString();
+			if (str != L":")
+			{
+				throw Exception(_W("index must either be real positive integers or logicals."));
+			}
+			index = ArrayOf::integerRangeConstructor(1, 1, dp->dimensions.getElementCount(), true);
+		}
+		// Check the right-hand-side - if it is empty, then
         // we have a delete command in disguise.
         if (data.isEmpty())
         {
@@ -3295,6 +3330,16 @@ break;
                 {
                     return;
                 }
+				if (index[i].isSingleString())
+				{
+					std::wstring str = index[i].getContentAsWideString();
+					if (str != L":")
+					{
+						throw Exception(_W("index must either be real positive integers or logicals."));
+					}
+					indexType maxVal = dp->dimensions.getDimensionLength(i);
+					index[i] = ArrayOf::integerRangeConstructor(1, 1, maxVal, false);
+				}
                 index[i].toOrdinalType();
             }
             // Check to see if any of the index variables are empty -
@@ -3512,8 +3557,16 @@ break;
             else
             {
                 newDim.reset();
-                newDim[0] = 1;
-                newDim[1] = newSize;
+				if (newSize == 0)
+				{
+					newDim[0] = 0;
+					newDim[1] = 0;
+				}
+				else
+				{
+					newDim[0] = 1;
+					newDim[1] = newSize;
+				}
             }
             dp = dp->putData(dp->dataClass, newDim, qp, dp->sparse, dp->fieldNames);
         }
@@ -3557,6 +3610,16 @@ break;
             // more indices than our dimension set.
             for (i = 0; i < (indexType)args.size(); i++)
             {
+				if (args[i].isSingleString())
+				{
+					std::wstring str = args[i].getContentAsWideString();
+					if (str != L":")
+					{
+						throw Exception(_W("index must either be real positive integers or logicals."));
+					}
+					indexType maxVal = dp->dimensions.getDimensionLength(i);
+					args[i] = ArrayOf::integerRangeConstructor(1, 1, maxVal, false);
+				}
                 args[i].toOrdinalType();
             }
             // First, add enough "1" singleton references to pad the
