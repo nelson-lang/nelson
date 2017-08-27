@@ -1,0 +1,38 @@
+//=============================================================================
+// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+function Y = ifftshift(varargin)
+  nRhs = nargin;
+  if (nRhs < 1 | nRhs > 2)
+    error(_('Wrong number of input arguments.'));
+  end
+  X = varargin{1};
+  if (~(isnumeric(X) | islogical(X) | ischar(X)))
+    error(_('X must be a vector or matrix.'));
+  end
+  if nRhs == 1
+    Y = circshift(X, ceil(size(X) * inv(2)));
+  else
+    DIM = varargin{2};
+    if ((~isscalar(DIM)) | (DIM < 1) | (floor(DIM) ~= DIM))
+      error(_('All values of DIM must be integer values.'));
+    end
+    Y = circshift(X, ceil(size(X, DIM) * inv(2)), DIM);
+  end
+endfunction
+//=============================================================================

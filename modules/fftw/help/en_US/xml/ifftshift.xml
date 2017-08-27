@@ -3,12 +3,12 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
-  <keyword>fftshift</keyword>
-  <short_description>Shift the zero-frequency component to the center of the spectrum.</short_description>
+  <keyword>ifftshift</keyword>
+  <short_description>inverse of fftshift</short_description>
 
   <syntax>
-    <syntax_item>Y = fftshift(X)</syntax_item>
-    <syntax_item>Y = fftshift(X, DIM)</syntax_item>
+    <syntax_item>Y = ifftshift(X)</syntax_item>
+    <syntax_item>Y = ifftshift(X, DIM)</syntax_item>
   </syntax>
   
   <param_input>
@@ -33,7 +33,7 @@
   </param_output>
 
   <description>
-    <p><b>fftshift(X)</b> shift the zero-frequency component to the center of the spectrum.</p>
+    <p><b>fftshift(X)</b> computes the inverse <b>fftshift</b>.</p>
 </description>
 
 
@@ -46,8 +46,8 @@
     <example_item_type>nelson</example_item_type>
     <example_item_description></example_item_description>
     <example_item_data><![CDATA[M = [ 0.,  10.,  20.; 30.,  40., -40.; -30., -20., -10.]
-fftshift(M)
-fftshift(M, 1)]]>
+ifftshift(M)
+ifftshift(M, 1)]]>
     </example_item_data>
   </example_item>
 
@@ -55,10 +55,10 @@ fftshift(M, 1)]]>
 
   <see_also>
     <see_also_item>
-      <link linkend="${fftw}ifft">fft</link>
+      <link linkend="${fftw}ifft">ifft</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${fftw}ifftshift">ifftshift</link>
+      <link linkend="${fftw}fftshift">fftshift</link>
     </see_also_item>
 
   </see_also>

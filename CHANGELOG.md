@@ -1,7 +1,7 @@
 Features:
 ---------
 
-* add 'fftshift' function to shift the zero-frequency component to the center of the spectrum.
+* add 'fftshift' and 'ifftshift' functions to shift the zero-frequency component to the center of the spectrum.
 
 * add 'circshift' function.
 
