@@ -1,6 +1,8 @@
 Features:
 ---------
 
+* add 'fftshift' function to shift the zero-frequency component to the center of the spectrum.
+
 * add 'circshift' function.
 
 * colon as string managed for deletion, extraction and insertion.
@@ -14,6 +16,10 @@ Features:
 * add 'mod' builtin. Modulus after division.
 
 * add 'maxNumCompThreads' builtin. Set/Get maximum number of computional threads.
+
+
+Compilation:
+---------
 
 * Nelson Visual Studio solution updated to use 2017 version.
 
