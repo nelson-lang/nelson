@@ -152,3 +152,5 @@ bin/macosx64/nelson-gui
 *.i
 *.PVS-Studio.compilerVersion.cmd
 /modules/*/src/c/*/x64
+/modules/*/src/c/*/Debug
+/modules/*/src/c/*/Release
