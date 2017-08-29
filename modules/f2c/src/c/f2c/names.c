@@ -761,7 +761,7 @@ def_commons(FILE *of)
 				if (!of)
 					fatalstr("can't open %s", outbuf);
 				}
-			fprintf(of, "#include \"f2c.h\"\n");
+			fprintf(of, "#include \"nelson_f2c.h\"\n");
 			if (Ansi == 2)
 				fprintf(of,
 			 "\n#ifdef __cplusplus\nextern \"C\" {\n#endif\n\n");
@@ -799,7 +799,7 @@ def_commons(FILE *of)
 
 /* C Language keywords.  Needed to filter unwanted fortran identifiers like
  * "int", etc.  Source:  Kernighan & Ritchie, eds. 1 and 2; Stroustrup.
- * Also includes C++ keywords and types used for I/O in f2c.h .
+ * Also includes C++ keywords and types used for I/O in nelson_f2c.h .
  * These keywords must be in alphabetical order (as defined by strcmp()).
  */
 

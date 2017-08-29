@@ -1,6 +1,6 @@
 /* EFL support routine to copy string b to string a */
 
-#include "f2c.h"
+#include "nelson_f2c.h"
 
 #define M	( (long) (sizeof(long) - 1) )
 #define EVEN(x)	( ( (x)+ M) & (~M) )

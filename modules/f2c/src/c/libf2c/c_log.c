@@ -1,4 +1,4 @@
-#include "f2c.h"
+#include "nelson_f2c.h"
 extern double log(), f__cabs(), atan2();
 
 void c_log(complex *r, complex *z)

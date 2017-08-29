@@ -1,4 +1,4 @@
-#include "f2c.h"
+#include "nelson_f2c.h"
 #include "rawio.h"
 #include "fio.h"
 #ifndef NON_UNIX_STDIO

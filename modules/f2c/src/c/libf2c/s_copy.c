@@ -4,7 +4,7 @@
  * as in  a(2:5) = a(4:7) .
  */
 
-#include "f2c.h"
+#include "nelson_f2c.h"
 
 /* assign strings:  a = b */
 

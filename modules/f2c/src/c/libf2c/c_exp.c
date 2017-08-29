@@ -1,4 +1,4 @@
-#include "f2c.h"
+#include "nelson_f2c.h"
 
 extern double exp(), cos(), sin();
 

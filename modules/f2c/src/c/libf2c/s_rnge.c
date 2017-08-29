@@ -1,5 +1,5 @@
 #include "stdio.h"
-#include "f2c.h"
+#include "nelson_f2c.h"
 
 /* called when a subscript is out of range */
 

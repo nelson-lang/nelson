@@ -2,7 +2,7 @@
 #include "sys/types.h"
 #include "sys/stat.h"
 #endif
-#include "f2c.h"
+#include "nelson_f2c.h"
 #include "fmt.h"	/* for struct syl */
 #include "rawio.h"	/* for fcntl.h, fdopen */
 #include "fio.h"

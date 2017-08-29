@@ -96,8 +96,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>__MSC__;NO_ISATTY;INTEGER_STAR_8;_CRT_SECURE_NO_WARNINGS;USE_CLOCK;MSDOS;NO_ONEXIT;NO_ISATTY;WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSF2C_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>false</SDLCheck>
-      <AdditionalIncludeDirectories>
-      </AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/f2c/src/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
@@ -116,8 +115,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>__MSC__;NO_ISATTY;INTEGER_STAR_8;_CRT_SECURE_NO_WARNINGS;USE_CLOCK;MSDOS;NO_ONEXIT;NO_ISATTY;WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSF2C_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>false</SDLCheck>
-      <AdditionalIncludeDirectories>
-      </AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/f2c/src/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
@@ -138,8 +136,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>__MSC__;NO_ISATTY;INTEGER_STAR_8;_CRT_SECURE_NO_WARNINGS;USE_CLOCK;MSDOS;NO_ONEXIT;NO_ISATTY;WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSF2C_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>false</SDLCheck>
-      <AdditionalIncludeDirectories>
-      </AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/f2c/src/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
@@ -162,8 +159,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>__MSC__;NO_ISATTY;INTEGER_STAR_8;_CRT_SECURE_NO_WARNINGS;USE_CLOCK;MSDOS;NO_ONEXIT;NO_ISATTY;WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSF2C_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>false</SDLCheck>
-      <AdditionalIncludeDirectories>
-      </AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/f2c/src/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>

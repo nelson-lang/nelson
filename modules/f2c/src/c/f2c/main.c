@@ -186,7 +186,7 @@ static arg_info table[] = {
 	/* -t ==> emit typedefs (under -A or -C++) for procedure
 		argument types used.  This is meant for netlib's
 		f2c service, so -A and -C++ will work with older
-		versions of f2c.h
+		versions of nelson_f2c.h
 		*/
     f2c_entry ("t", P_NO_ARGS, P_INT, &typedefs, 1),
 
@@ -596,7 +596,7 @@ sed \"s/^\\/\\*>>>'\\(.*\\)'<<<\\*\\/\\$/cat >'\\1' <<'\\/*<<<\\1>>>*\\/'/\" | /
 	if (Ansi == 2)
 		nice_printf(c_output,
 			"#ifdef __cplusplus\nextern \"C\" {\n#endif\n");
-	nice_printf (c_output, "%s#include \"f2c.h\"\n\n", def_i2);
+	nice_printf (c_output, "%s#include \"nelson_f2c.h\"\n\n", def_i2);
 	if (gflag)
 		nice_printf (c_output, "#line 1 \"%s\"\n", file_name);
 	if (Castargs && typedefs)

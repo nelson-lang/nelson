@@ -2,7 +2,7 @@
 #include "sys/types.h"
 #include "sys/stat.h"
 #endif
-#include "f2c.h"
+#include "nelson_f2c.h"
 #include "rawio.h"
 #include "fio.h"
 #include "string.h"
