@@ -29,38 +29,41 @@ use or performance of this software.
  * fields).
  */
 
- int
+int
 memcmp(s1, s2, n)
- register char *s1, *s2;
- int n;
+register char *s1, *s2;
+int n;
 {
-	register char *se;
+    register char *se;
+    for(se = s1 + n; s1 < se; s1++, s2++)
+        if (*s1 != *s2)
+        {
+            return *s1 - *s2;
+        }
+    return 0;
+}
 
-	for(se = s1 + n; s1 < se; s1++, s2++)
-		if (*s1 != *s2)
-			return *s1 - *s2;
-	return 0;
-	}
-
- char *
+char *
 memcpy(s1, s2, n)
- register char *s1, *s2;
- int n;
+register char *s1, *s2;
+int n;
 {
-	register char *s0 = s1, *se = s1 + n;
-
-	while(s1 < se)
-		*s1++ = *s2++;
-	return s0;
-	}
+    register char *s0 = s1, *se = s1 + n;
+    while(s1 < se)
+    {
+        *s1++ = *s2++;
+    }
+    return s0;
+}
 
 memset(s, c, n)
- register char *s;
- register int c;
- int n;
+register char *s;
+register int c;
+int n;
 {
-	register char *se = s + n;
-
-	while(s < se)
-		*s++ = c;
-	}
+    register char *se = s + n;
+    while(s < se)
+    {
+        *s++ = c;
+    }
+}

@@ -1,10 +1,11 @@
 #include "nelson_f2c.h"
 
 #ifdef KR_headers
-shortint h_len(s, n) char *s; ftnlen n;
+shortint h_len(s, n) char *s;
+ftnlen n;
 #else
 shortint h_len(char *s, ftnlen n)
 #endif
 {
-return( (shortint)n);
+    return( (shortint)n);
 }

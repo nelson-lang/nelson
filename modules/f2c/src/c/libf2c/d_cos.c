@@ -9,5 +9,5 @@ double d_cos(x) doublereal *x;
 double d_cos(doublereal *x)
 #endif
 {
-return( cos(*x) );
+    return( cos(*x) );
 }

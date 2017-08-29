@@ -11,5 +11,5 @@ double d_lg10(x) doublereal *x;
 double d_lg10(doublereal *x)
 #endif
 {
-return( log10e * log(*x) );
+    return( log10e * log(*x) );
 }

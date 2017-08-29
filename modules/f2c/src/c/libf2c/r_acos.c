@@ -9,5 +9,5 @@ double r_acos(x) real *x;
 double r_acos(real *x)
 #endif
 {
-return( acos(*x) );
+    return( acos(*x) );
 }

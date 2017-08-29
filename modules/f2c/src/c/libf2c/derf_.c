@@ -9,10 +9,10 @@ extern double erf(double);
 double derf_(doublereal *x)
 #endif
 {
-#ifdef __MSC__ 
-fprintf(stderr,"libf2c : No erf \n");
-return(0);
-#else 
-return( erf(*x) );
-#endif 
+#ifdef __MSC__
+    fprintf(stderr,"libf2c : No erf \n");
+    return(0);
+#else
+    return( erf(*x) );
+#endif
 }

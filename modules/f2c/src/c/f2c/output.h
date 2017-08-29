@@ -32,7 +32,8 @@ extern char _assoc_table[];
 #define is_left_assoc(x) (! _assoc_table [x])
 
 
-typedef struct {
+typedef struct
+{
     int type;			/* UNARY_OP or BINARY_OP */
     int prec;			/* Precedence level, useful for adjusting
 				   number of parens to insert.  Zero is a

@@ -9,5 +9,5 @@ double d_cosh(x) doublereal *x;
 double d_cosh(doublereal *x)
 #endif
 {
-return( cosh(*x) );
+    return( cosh(*x) );
 }

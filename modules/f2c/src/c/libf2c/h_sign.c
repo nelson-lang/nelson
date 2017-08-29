@@ -6,7 +6,7 @@ shortint h_sign(a,b) shortint *a, *b;
 shortint h_sign(shortint *a, shortint *b)
 #endif
 {
-shortint x;
-x = (*a >= 0 ? *a : - *a);
-return( *b >= 0 ? x : -x);
+    shortint x;
+    x = (*a >= 0 ? *a : - *a);
+    return( *b >= 0 ? x : -x);
 }

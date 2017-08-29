@@ -6,5 +6,5 @@ integer i_dim(a,b) integer *a, *b;
 integer i_dim(integer *a, integer *b)
 #endif
 {
-return( *a > *b ? *a - *b : 0);
+    return( *a > *b ? *a - *b : 0);
 }

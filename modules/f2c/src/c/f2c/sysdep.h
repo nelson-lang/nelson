@@ -68,7 +68,7 @@ use or performance of this software.
 char *calloc(), *malloc(), *memcpy(), *memset(), *realloc();
 typedef int size_t;
 #ifndef atol
-    long atol();
+long atol();
 #endif
 
 #ifdef ANSI_Prototypes

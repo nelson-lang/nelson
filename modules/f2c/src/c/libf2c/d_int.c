@@ -9,5 +9,5 @@ double d_int(x) doublereal *x;
 double d_int(doublereal *x)
 #endif
 {
-return( (*x>0) ? floor(*x) : -floor(- *x) );
+    return( (*x>0) ? floor(*x) : -floor(- *x) );
 }

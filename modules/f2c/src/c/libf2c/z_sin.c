@@ -9,6 +9,6 @@ VOID z_sin(r, z) doublecomplex *r, *z;
 void z_sin(doublecomplex *r, doublecomplex *z)
 #endif
 {
-r->r = sin(z->r) * cosh(z->i);
-r->i = cos(z->r) * sinh(z->i);
+    r->r = sin(z->r) * cosh(z->i);
+    r->i = cos(z->r) * sinh(z->i);
 }

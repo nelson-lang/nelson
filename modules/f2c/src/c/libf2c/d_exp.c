@@ -9,5 +9,5 @@ double d_exp(x) doublereal *x;
 double d_exp(doublereal *x)
 #endif
 {
-return( exp(*x) );
+    return( exp(*x) );
 }

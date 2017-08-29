@@ -9,5 +9,5 @@ double d_sinh(x) doublereal *x;
 double d_sinh(doublereal *x)
 #endif
 {
-return( sinh(*x) );
+    return( sinh(*x) );
 }

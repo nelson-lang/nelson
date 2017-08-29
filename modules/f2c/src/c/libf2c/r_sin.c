@@ -9,5 +9,5 @@ double r_sin(x) real *x;
 double r_sin(real *x)
 #endif
 {
-return( sin(*x) );
+    return( sin(*x) );
 }

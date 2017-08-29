@@ -6,5 +6,5 @@ integer i_mod(a,b) integer *a, *b;
 integer i_mod(integer *a, integer *b)
 #endif
 {
-return( *a % *b);
+    return( *a % *b);
 }

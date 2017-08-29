@@ -10,5 +10,5 @@ extern double f__cabs(double, double);
 double c_abs(complex *z)
 #endif
 {
-return( f__cabs( z->r, z->i ) );
+    return( f__cabs( z->r, z->i ) );
 }

@@ -9,5 +9,5 @@ double d_log(x) doublereal *x;
 double d_log(doublereal *x)
 #endif
 {
-return( log(*x) );
+    return( log(*x) );
 }

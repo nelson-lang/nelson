@@ -9,5 +9,5 @@ double d_atn2(x,y) doublereal *x, *y;
 double d_atn2(doublereal *x, doublereal *y)
 #endif
 {
-return( atan2(*x,*y) );
+    return( atan2(*x,*y) );
 }

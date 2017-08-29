@@ -9,5 +9,5 @@ double r_sqrt(x) real *x;
 double r_sqrt(real *x)
 #endif
 {
-return( sqrt(*x) );
+    return( sqrt(*x) );
 }

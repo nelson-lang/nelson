@@ -6,6 +6,6 @@ ftnint iargc_()
 ftnint iargc_(void)
 #endif
 {
-extern int xargc;
-return ( xargc - 1 );
+    extern int xargc;
+    return ( xargc - 1 );
 }

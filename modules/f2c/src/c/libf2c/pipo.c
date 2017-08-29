@@ -1,10 +1,10 @@
 
-#ifdef WIN32 
+#ifdef WIN32
 OKWIN32=1
-#endif 
+#endif
 
 
-#ifdef __MSC__ 
-OKMSC=1
-#endif 
+#ifdef __MSC__
+        OKMSC=1
+#endif
 

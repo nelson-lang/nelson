@@ -6,7 +6,9 @@ double r_abs(x) real *x;
 double r_abs(real *x)
 #endif
 {
-if(*x >= 0)
-	return(*x);
-return(- *x);
+    if(*x >= 0)
+    {
+        return(*x);
+    }
+    return(- *x);
 }

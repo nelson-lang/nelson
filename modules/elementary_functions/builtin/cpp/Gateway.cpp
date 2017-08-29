@@ -131,9 +131,9 @@ static const nlsGateway gateway[] =
     { "conj", Nelson::ElementaryFunctionsGateway::conjBuiltin, 1, 1 },
     { "prod", Nelson::ElementaryFunctionsGateway::prodBuiltin, 1, 3 },
     { "mod", Nelson::ElementaryFunctionsGateway::modBuiltin, 1, 2 },
-	{ "abs", Nelson::ElementaryFunctionsGateway::absBuiltin, 1, 1 },
+    { "abs", Nelson::ElementaryFunctionsGateway::absBuiltin, 1, 1 },
     { "repmat", Nelson::ElementaryFunctionsGateway::repmatBuiltin, 1, -1 },
-	{ "rem", Nelson::ElementaryFunctionsGateway::remBuiltin, 1, 2 },
+    { "rem", Nelson::ElementaryFunctionsGateway::remBuiltin, 1, 2 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

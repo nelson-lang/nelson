@@ -6,5 +6,5 @@ double d_imag(z) doublecomplex *z;
 double d_imag(doublecomplex *z)
 #endif
 {
-return(z->i);
+    return(z->i);
 }

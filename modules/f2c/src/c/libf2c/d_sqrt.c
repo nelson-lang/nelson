@@ -9,5 +9,5 @@ double d_sqrt(x) doublereal *x;
 double d_sqrt(doublereal *x)
 #endif
 {
-return( sqrt(*x) );
+    return( sqrt(*x) );
 }

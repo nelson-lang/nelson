@@ -9,5 +9,5 @@ double r_log(x) real *x;
 double r_log(real *x)
 #endif
 {
-return( log(*x) );
+    return( log(*x) );
 }

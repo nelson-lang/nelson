@@ -9,5 +9,5 @@ double pow_dd(ap, bp) doublereal *ap, *bp;
 double pow_dd(doublereal *ap, doublereal *bp)
 #endif
 {
-return(pow(*ap, *bp) );
+    return(pow(*ap, *bp) );
 }

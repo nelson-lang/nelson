@@ -6,5 +6,5 @@ double r_imag(z) complex *z;
 double r_imag(complex *z)
 #endif
 {
-return(z->i);
+    return(z->i);
 }

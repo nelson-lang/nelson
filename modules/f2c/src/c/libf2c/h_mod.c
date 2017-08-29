@@ -6,5 +6,5 @@ shortint h_mod(a,b) short *a, *b;
 shortint h_mod(short *a, short *b)
 #endif
 {
-return( *a % *b);
+    return( *a % *b);
 }

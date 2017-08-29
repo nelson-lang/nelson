@@ -2,7 +2,8 @@
 #define __FMT_H__
 
 struct syl
-{	int op,p1,p2,p3;
+{
+    int op,p1,p2,p3;
 };
 #define RET1 1
 #define REVERT 2
@@ -43,18 +44,20 @@ struct syl
 extern struct syl f__syl[];
 extern int f__pc,f__parenlvl,f__revloc;
 typedef union
-{	real pf;
-	doublereal pd;
+{
+    real pf;
+    doublereal pd;
 } ufloat;
 typedef union
-{	short is;
+{
+    short is;
 #ifndef KR_headers
-	signed
+    signed
 #endif
-		char ic;
-	integer il;
+    char ic;
+    integer il;
 #ifdef Allow_TYQUAD
-	longint ili;
+    longint ili;
 #endif
 } Uint;
 #ifdef KR_headers
@@ -76,7 +79,7 @@ extern int wrt_E(ufloat*, int, int, int, ftnlen);
 extern int wrt_F(ufloat*, int, int, ftnlen);
 extern int wrt_L(Uint*, int, ftnlen);
 #ifdef __cplusplus
-	}
+}
 #endif
 #endif
 extern flag f__cblank,f__cplus,f__workdone, f__nonl;

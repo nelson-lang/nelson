@@ -9,5 +9,5 @@ double r_atan(x) real *x;
 double r_atan(real *x)
 #endif
 {
-return( atan(*x) );
+    return( atan(*x) );
 }

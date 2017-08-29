@@ -6,5 +6,5 @@ double d_prod(x,y) real *x, *y;
 double d_prod(real *x, real *y)
 #endif
 {
-return( (*x) * (*y) );
+    return( (*x) * (*y) );
 }

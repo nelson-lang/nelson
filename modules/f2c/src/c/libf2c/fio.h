@@ -26,20 +26,21 @@ typedef long uiolen;
 
 /*units*/
 typedef struct
-{	FILE *ufd;	/*0=unconnected*/
-	char *ufnm;
+{
+    FILE *ufd;	/*0=unconnected*/
+    char *ufnm;
 #ifndef MSDOS
-	long uinode;
-	int udev;
+    long uinode;
+    int udev;
 #endif
-	int url;	/*0=sequential*/
-	flag useek;	/*true=can backspace, use dir, ...*/
-	flag ufmt;
-	flag uprnt;
-	flag ublnk;
-	flag uend;
-	flag uwrt;	/*last io was write*/
-	flag uscrtch;
+    int url;	/*0=sequential*/
+    flag useek;	/*true=can backspace, use dir, ...*/
+    flag ufmt;
+    flag uprnt;
+    flag ublnk;
+    flag uend;
+    flag uwrt;	/*last io was write*/
+    flag uscrtch;
 } unit;
 
 extern flag f__init;
@@ -74,7 +75,7 @@ extern int isatty(int);
 extern int err__fl(int,int,char*);
 extern int xrd_SL(void);
 #ifdef __cplusplus
-	}
+}
 #endif
 #endif
 extern int (*f__doend)(Void);

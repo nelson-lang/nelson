@@ -9,5 +9,5 @@ double r_cosh(x) real *x;
 double r_cosh(real *x)
 #endif
 {
-return( cosh(*x) );
+    return( cosh(*x) );
 }

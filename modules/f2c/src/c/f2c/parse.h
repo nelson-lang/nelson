@@ -24,7 +24,8 @@
 #define p_entry(pref,swit,flag,count,type,store,size) \
     { (pref), (swit), (flag), (count), (type), (int *) (store), (size) }
 
-typedef struct {
+typedef struct
+{
     char *prefix;
     char *string;
     int flags;

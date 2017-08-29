@@ -54,10 +54,10 @@ namespace Nelson {
                 res = x - tmp;
             }
         }
-		else
-		{
-			res = std::nan("");
-		}
+        else
+        {
+            res = std::nan("");
+        }
         return res;
     }
     //=============================================================================

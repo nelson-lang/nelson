@@ -6,7 +6,9 @@ shortint h_abs(x) shortint *x;
 shortint h_abs(shortint *x)
 #endif
 {
-if(*x >= 0)
-	return(*x);
-return(- *x);
+    if(*x >= 0)
+    {
+        return(*x);
+    }
+    return(- *x);
 }

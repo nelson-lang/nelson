@@ -9,5 +9,5 @@ double d_tanh(x) doublereal *x;
 double d_tanh(doublereal *x)
 #endif
 {
-return( tanh(*x) );
+    return( tanh(*x) );
 }

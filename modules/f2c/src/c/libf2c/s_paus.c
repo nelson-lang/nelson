@@ -21,68 +21,77 @@ extern int getpid(void), isatty(int), pause(void);
 
 extern VOID f_exit(Void);
 
- static VOID
+static VOID
 waitpause(Int n)
-{	n = n; /* shut up compiler warning */
-	return;
-	}
+{
+n = n; /* shut up compiler warning */
+return;
+}
 
- static VOID
+static VOID
 #ifdef KR_headers
 s_1paus(fin) FILE *fin;
 #else
 s_1paus(FILE *fin)
 #endif
 {
-	fprintf(stderr,
-	"To resume execution, type go.  Other input will terminate the job.\n");
-	fflush(stderr);
-	if( getc(fin)!='g' || getc(fin)!='o' || getc(fin)!='\n' ) {
-		fprintf(stderr, "STOP\n");
+    fprintf(stderr,
+            "To resume execution, type go.  Other input will terminate the job.\n");
+    fflush(stderr);
+    if( getc(fin)!='g' || getc(fin)!='o' || getc(fin)!='\n' )
+    {
+        fprintf(stderr, "STOP\n");
 #ifdef NO_ONEXIT
-		f_exit();
+        f_exit();
 #endif
-		exit(0);
-		}
-	}
+        exit(0);
+    }
+}
 
- int
+int
 #ifdef KR_headers
-s_paus(s, n) char *s; ftnlen n;
+s_paus(s, n) char *s;
+ftnlen n;
 #else
 s_paus(char *s, ftnlen n)
 #endif
 {
-	fprintf(stderr, "PAUSE ");
-	if(n > 0)
-		fprintf(stderr, " %.*s", (int)n, s);
-	fprintf(stderr, " statement executed\n");
-	if( isatty(fileno(stdin)) )
-		s_1paus(stdin);
-	else {
+    fprintf(stderr, "PAUSE ");
+    if(n > 0)
+    {
+        fprintf(stderr, " %.*s", (int)n, s);
+    }
+    fprintf(stderr, " statement executed\n");
+    if( isatty(fileno(stdin)) )
+    {
+        s_1paus(stdin);
+    }
+    else
+    {
 #ifdef MSDOS
-		FILE *fin;
-		fin = fopen("con", "r");
-		if (!fin) {
-			fprintf(stderr, "s_paus: can't open con!\n");
-			fflush(stderr);
-			exit(1);
-			}
-		s_1paus(fin);
-		fclose(fin);
+        FILE *fin;
+        fin = fopen("con", "r");
+        if (!fin)
+        {
+            fprintf(stderr, "s_paus: can't open con!\n");
+            fflush(stderr);
+            exit(1);
+        }
+        s_1paus(fin);
+        fclose(fin);
 #else
-		fprintf(stderr,
-		"To resume execution, execute a   kill -%d %d   command\n",
-			PAUSESIG, getpid() );
-		signal(PAUSESIG, waitpause);
-		fflush(stderr);
-		pause();
+        fprintf(stderr,
+                "To resume execution, execute a   kill -%d %d   command\n",
+                PAUSESIG, getpid() );
+        signal(PAUSESIG, waitpause);
+        fflush(stderr);
+        pause();
 #endif
-		}
-	fprintf(stderr, "Execution resumes after PAUSE.\n");
-	fflush(stderr);
-	return 0; /* NOT REACHED */
+    }
+    fprintf(stderr, "Execution resumes after PAUSE.\n");
+    fflush(stderr);
+    return 0; /* NOT REACHED */
 #ifdef __cplusplus
-	}
+}
 #endif
 }

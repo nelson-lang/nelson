@@ -9,5 +9,5 @@ double d_sin(x) doublereal *x;
 double d_sin(doublereal *x)
 #endif
 {
-return( sin(*x) );
+    return( sin(*x) );
 }

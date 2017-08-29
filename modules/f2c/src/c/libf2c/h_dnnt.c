@@ -9,5 +9,5 @@ shortint h_dnnt(x) doublereal *x;
 shortint h_dnnt(doublereal *x)
 #endif
 {
-return( (shortint) ( (*x)>=0 ? floor(*x + .5) : -floor(.5 - *x) ));
+    return( (shortint) ( (*x)>=0 ? floor(*x + .5) : -floor(.5 - *x) ));
 }

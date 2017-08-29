@@ -9,5 +9,5 @@ double d_tan(x) doublereal *x;
 double d_tan(doublereal *x)
 #endif
 {
-return( tan(*x) );
+    return( tan(*x) );
 }

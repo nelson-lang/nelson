@@ -9,5 +9,5 @@ double r_int(x) real *x;
 double r_int(real *x)
 #endif
 {
-return( (*x>0) ? floor(*x) : -floor(- *x) );
+    return( (*x>0) ? floor(*x) : -floor(- *x) );
 }

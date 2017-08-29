@@ -11,10 +11,10 @@ extern double erfc(double);
 double derfc_(doublereal *x)
 #endif
 {
-#ifdef __MSC__ 
-fprintf(stderr,"libf2c : No erf \n");
-return(0);
-#else 
-return( erfc(*x) );
+#ifdef __MSC__
+    fprintf(stderr,"libf2c : No erf \n");
+    return(0);
+#else
+    return( erfc(*x) );
 #endif
 }

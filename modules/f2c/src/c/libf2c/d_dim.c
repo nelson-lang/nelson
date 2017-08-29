@@ -6,5 +6,5 @@ double d_dim(a,b) doublereal *a, *b;
 double d_dim(doublereal *a, doublereal *b)
 #endif
 {
-return( *a > *b ? *a - *b : 0);
+    return( *a > *b ? *a - *b : 0);
 }

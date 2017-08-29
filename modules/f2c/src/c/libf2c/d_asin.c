@@ -9,5 +9,5 @@ double d_asin(x) doublereal *x;
 double d_asin(doublereal *x)
 #endif
 {
-return( asin(*x) );
+    return( asin(*x) );
 }

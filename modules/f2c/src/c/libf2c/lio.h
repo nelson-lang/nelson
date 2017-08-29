@@ -46,14 +46,14 @@
 
 typedef union
 {
-	char	flchar;
-	short	flshort;
-	ftnint	flint;
+    char	flchar;
+    short	flshort;
+    ftnint	flint;
 #ifdef Allow_TYQUAD
-	longint fllongint;
+    longint fllongint;
 #endif
-	real	flreal;
-	doublereal	fldouble;
+    real	flreal;
+    doublereal	fldouble;
 } flex;
 extern int f__scale;
 #ifdef KR_headers
@@ -71,7 +71,7 @@ extern int l_read(ftnint*,char*,ftnlen,ftnint);
 extern integer e_rsle(void), e_wsle(void), s_wsne(cilist*);
 extern int z_rnew(void);
 #ifdef __cplusplus
-	}
+}
 #endif
 #endif
 extern ftnint L_len;
