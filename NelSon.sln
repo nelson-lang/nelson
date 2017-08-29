@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NelSon-gui", "modules\main\nelson_gui\NelSon-gui.vcxproj", "{F34BD496-D9B3-4C25-A9E9-C91EB3E35C12}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -295,6 +295,10 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nlsFftw", "modules\fftw\src\c\nlsFftw.vcxproj", "{627D8C31-DE31-41FF-A562-F3F850C70E28}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nlsFftw_builtin", "modules\fftw\builtin\c\nlsFftw_builtin.vcxproj", "{334358E4-25EA-402E-B3E4-52D4DADDE077}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nelson_f2c", "modules\f2c\src\c\f2c\nelson_f2c.vcxproj", "{336285AB-DE2E-4A21-9439-D9763AEDBFDF}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nlsF2C", "modules\f2c\src\c\libf2c\nlsF2c.vcxproj", "{A510477A-3415-4E46-8C98-8579823ADF91}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1020,8 +1024,27 @@ Global
 		{334358E4-25EA-402E-B3E4-52D4DADDE077}.Release|Win32.Build.0 = Release|Win32
 		{334358E4-25EA-402E-B3E4-52D4DADDE077}.Release|x64.ActiveCfg = Release|x64
 		{334358E4-25EA-402E-B3E4-52D4DADDE077}.Release|x64.Build.0 = Release|x64
+		{336285AB-DE2E-4A21-9439-D9763AEDBFDF}.Debug|Win32.ActiveCfg = Debug|Win32
+		{336285AB-DE2E-4A21-9439-D9763AEDBFDF}.Debug|Win32.Build.0 = Debug|Win32
+		{336285AB-DE2E-4A21-9439-D9763AEDBFDF}.Debug|x64.ActiveCfg = Debug|x64
+		{336285AB-DE2E-4A21-9439-D9763AEDBFDF}.Debug|x64.Build.0 = Debug|x64
+		{336285AB-DE2E-4A21-9439-D9763AEDBFDF}.Release|Win32.ActiveCfg = Release|Win32
+		{336285AB-DE2E-4A21-9439-D9763AEDBFDF}.Release|Win32.Build.0 = Release|Win32
+		{336285AB-DE2E-4A21-9439-D9763AEDBFDF}.Release|x64.ActiveCfg = Release|x64
+		{336285AB-DE2E-4A21-9439-D9763AEDBFDF}.Release|x64.Build.0 = Release|x64
+		{A510477A-3415-4E46-8C98-8579823ADF91}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A510477A-3415-4E46-8C98-8579823ADF91}.Debug|Win32.Build.0 = Debug|Win32
+		{A510477A-3415-4E46-8C98-8579823ADF91}.Debug|x64.ActiveCfg = Debug|x64
+		{A510477A-3415-4E46-8C98-8579823ADF91}.Debug|x64.Build.0 = Debug|x64
+		{A510477A-3415-4E46-8C98-8579823ADF91}.Release|Win32.ActiveCfg = Release|Win32
+		{A510477A-3415-4E46-8C98-8579823ADF91}.Release|Win32.Build.0 = Release|Win32
+		{A510477A-3415-4E46-8C98-8579823ADF91}.Release|x64.ActiveCfg = Release|x64
+		{A510477A-3415-4E46-8C98-8579823ADF91}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A0268319-5546-4CDC-88F1-23D96DE342CA}
 	EndGlobalSection
 EndGlobal

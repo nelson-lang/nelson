@@ -151,3 +151,4 @@ bin/macosx64/nelson-gui
 *.PVS-Studio.preprocess.cmd.rsp
 *.i
 *.PVS-Studio.compilerVersion.cmd
+/modules/*/src/c/*/x64
