@@ -28,7 +28,7 @@ add_definitions(-DSkip_f2c_Undefs)
 #============================================================================== 
 FILE(
 GLOB
-F2C_SRC
+LIBF2C_SRC
 "${CMAKE_CURRENT_SOURCE_DIR}/src/c/libf2c/abort_.c"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/c/libf2c/backspace.c"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/c/libf2c/c_abs.c"
@@ -188,7 +188,7 @@ F2C_SRC
 ADD_LIBRARY(
   ${module_library_name}
   SHARED 
-  ${F2C_SRC}
+  ${LIBF2C_SRC}
 )
 #============================================================================== 
 target_link_libraries(${module_library_name}
@@ -198,6 +198,20 @@ set_target_properties(${module_library_name}
                       PROPERTIES 
                       VERSION ${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE} SOVERSION ${Nelson_VERSION_MAJOR})
 #==============================================================================
+FILE(
+GLOB
+F2C_SRC
+"${CMAKE_CURRENT_SOURCE_DIR}/src/c/f2c/*.c"
+)
+#==============================================================================	
+ADD_EXECUTABLE(
+	nelson_f2c
+	${F2C_SRC}
+)
+#==============================================================================	
+target_link_libraries(nelson_f2c)
+#==============================================================================	
+
 install(TARGETS ${module_library_name} LIBRARY DESTINATION ${LIBRARY_OUTPUT})
 install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/etc/startup.nls DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/etc) 
 install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/etc/finish.nls DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/etc)
