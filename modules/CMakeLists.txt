@@ -55,6 +55,7 @@ handle
 qml_engine
 com_engine
 fftw
+f2c
 help_browser
 dynamic_link
 help_tools
