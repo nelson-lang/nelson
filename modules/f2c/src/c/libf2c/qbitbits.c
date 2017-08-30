@@ -1,4 +1,7 @@
-#include "nelson_f2c.h"
+#include "f2c.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #ifndef LONGBITS
 #define LONGBITS 32
@@ -8,7 +11,7 @@
 #define LONG8BITS (2*LONGBITS)
 #endif
 
-integer
+longint
 #ifdef KR_headers
 qbit_bits(a, b, len) longint a;
 integer b, len;
@@ -22,7 +25,7 @@ qbit_bits(longint a, integer b, integer len)
     y = (ulongint)-1L;
     x >>= b;
     y <<= len;
-    return (longint)(x & y);
+    return (longint)(x & ~y);
 }
 
 longint
@@ -69,3 +72,6 @@ full_len:
     b %= len;
     return (longint)(y | z & (x >> b | x << len - b));
 }
+#ifdef __cplusplus
+}
+#endif

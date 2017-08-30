@@ -1,4 +1,7 @@
-#include "nelson_f2c.h"
+#include "f2c.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #ifdef KR_headers
 shortint h_abs(x) shortint *x;
@@ -12,3 +15,6 @@ shortint h_abs(shortint *x)
     }
     return(- *x);
 }
+#ifdef __cplusplus
+}
+#endif

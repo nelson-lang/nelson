@@ -1,4 +1,7 @@
-#include "nelson_f2c.h"
+#include "f2c.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #ifdef KR_headers
 extern integer s_cmp();
@@ -11,3 +14,6 @@ shortlogical hl_le(char *a, char *b, ftnlen la, ftnlen lb)
 {
     return(s_cmp(a,b,la,lb) <= 0);
 }
+#ifdef __cplusplus
+}
+#endif

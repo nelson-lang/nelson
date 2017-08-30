@@ -1,25 +1,31 @@
-#include "nelson_f2c.h"
-
+#include "f2c.h"
+#include "fio.h"
+#include "string.h"
+#ifdef NON_UNIX_STDIO
+#ifndef MSDOS
+#include "unistd.h" /* for access() */
+#endif
+#endif
 #ifdef KR_headers
 integer f_inqu(a) inlist *a;
 #else
+#ifdef __cplusplus
+extern "C" integer f_inqu(inlist*);
+#endif
 #ifdef MSDOS
 #undef abs
 #undef min
 #undef max
-#include "string.h"
 #include "io.h"
-
 #endif
-
-#include "fio.h"
-
-
 integer f_inqu(inlist *a)
 #endif
 {
     flag byfile;
-    int i,n=0;
+    int i;
+#ifndef NON_UNIX_STDIO
+    int n;
+#endif
     unit *p;
     char buf[256];
     long x;
@@ -165,7 +171,7 @@ integer f_inqu(inlist *a)
     }
     if(a->innrec!=NULL && p!=NULL && p->url>0)
     {
-        *a->innrec=ftell(p->ufd)/p->url+1;
+        *a->innrec=(ftnint)(FTELL(p->ufd)/p->url+1);
     }
     if(a->inblank && p!=NULL && p->ufmt)
         if(p->ublnk)

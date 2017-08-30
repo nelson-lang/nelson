@@ -1,4 +1,7 @@
-#include "nelson_f2c.h"
+#include "f2c.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #ifdef KR_headers
 double d_abs(x) doublereal *x;
@@ -12,3 +15,6 @@ double d_abs(doublereal *x)
     }
     return(- *x);
 }
+#ifdef __cplusplus
+}
+#endif

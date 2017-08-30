@@ -1,4 +1,7 @@
-#include "nelson_f2c.h"
+#include "f2c.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /*
  * subroutine getarg(k, c)
@@ -6,30 +9,20 @@
  * variable argument c
 */
 
-int xargc;
-char **xargv;
-
-#ifdef KR_headers
-VOID send_xarg(xxargc,xxargv) int xxargc;
-char **xxargv;
-#else
-void send_xarg(int xxargc, char **xxargv)
-#endif
-{
-    xargc=xxargc;
-    xargv=xxargv;
-}
-
 #ifdef KR_headers
 VOID getarg_(n, s, ls) ftnint *n;
-register char *s;
+char *s;
 ftnlen ls;
+#define Const /*nothing*/
 #else
-void getarg_(ftnint *n, register char *s, ftnlen ls)
+#define Const const
+void getarg_(ftnint *n, char *s, ftnlen ls)
 #endif
 {
-    register char *t;
-    register int i;
+    extern int xargc;
+    extern char **xargv;
+    Const char *t;
+    int i;
     if(*n>=0 && *n<xargc)
     {
         t = xargv[*n];
@@ -47,3 +40,6 @@ void getarg_(ftnint *n, register char *s, ftnlen ls)
         *s++ = ' ';
     }
 }
+#ifdef __cplusplus
+}
+#endif

@@ -1,4 +1,4 @@
-#include "nelson_f2c.h"
+#include "f2c.h"
 #include "fio.h"
 #include "lio.h"
 
@@ -39,10 +39,11 @@ extern ftnlen f__typesize[];
 
 extern flag f__lquit;
 extern int f__lcount, nml_read;
-extern t_getc(Void);
+extern int t_getc(Void);
 
 #ifdef KR_headers
 extern char *malloc(), *memset();
+#define Const /*nothing*/
 
 #ifdef ungetc
 static int
@@ -57,11 +58,15 @@ extern int ungetc();
 #endif
 
 #else
+#define Const const
 #undef abs
 #undef min
 #undef max
 #include "stdlib.h"
 #include "string.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #ifdef ungetc
 static int
@@ -83,19 +88,19 @@ register char *s;
 hash(hashtab *ht, register char *s)
 #endif
 {
-    register int c, x;
-    register hashentry *h;
-    char *s0 = s;
-    for(x = 0; c = *s++; x = x & 0x4000 ? ((x << 1) & 0x7fff) + 1 : x << 1)
+register int c, x;
+register hashentry *h;
+char *s0 = s;
+for(x = 0; c = *s++; x = x & 0x4000 ? ((x << 1) & 0x7fff) + 1 : x << 1)
+{
+    x += c;
+}
+for(h = *(zot = ht->tab + x % ht->htsize); h; h = h->next)
+    if (!strcmp(s0, h->name))
     {
-        x += c;
+        return h->vd;
     }
-    for(h = *(zot = ht->tab + x % ht->htsize); h; h = h->next)
-        if (!strcmp(s0, h->name))
-        {
-            return h->vd;
-        }
-    return 0;
+return 0;
 }
 
 hashtab *
@@ -170,8 +175,8 @@ static char Alpha[256], Alphanum[256];
 static VOID
 nl_init(Void)
 {
-    register char *s;
-    register int c;
+    Const char *s;
+    int c;
     if(!f__init)
     {
         f_init();
@@ -353,6 +358,7 @@ print_ne(cilist *a)
 
 static char where0[] = "namelist read start ";
 
+int
 #ifdef KR_headers
 x_rsne(a) cilist *a;
 #else
@@ -367,8 +373,8 @@ x_rsne(cilist *a)
     Vardesc *v;
     dimen *dn, *dn0, *dn1;
     ftnlen *dims, *dims1;
-    ftnlen b, b0, b1, ex, no, no1, nomax, size, span;
-    ftnint type;
+    ftnlen b, b0, b1, ex, no, nomax, size, span;
+    ftnint no1, no2, type;
     char *vaddr;
     long iva, ivae;
     dimen dimens[MAXDIM], substr;
@@ -674,17 +680,17 @@ readloop:
                 iva += dn0->delta;
                 if (f__lcount > 0)
                 {
-                    no1 = (ivae - iva)/size;
-                    if (no1 > f__lcount)
+                    no2 = (ivae - iva)/size;
+                    if (no2 > f__lcount)
                     {
-                        no1 = f__lcount;
+                        no2 = f__lcount;
                     }
-                    iva += no1 * dn0->delta;
-                    if (k = l_read(&no1, vaddr + iva,
+                    if (k = l_read(&no2, vaddr + iva,
                                    size, type))
                     {
                         return k;
                     }
+                    iva += no2 * dn0->delta;
                 }
             }
 mustend:
@@ -777,3 +783,6 @@ s_rsne(cilist *a)
     }
     return e_rsle();
 }
+#ifdef __cplusplus
+}
+#endif

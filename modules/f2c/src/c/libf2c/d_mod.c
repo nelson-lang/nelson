@@ -1,4 +1,4 @@
-#include "nelson_f2c.h"
+#include "f2c.h"
 
 #ifdef KR_headers
 #ifdef IEEE_drem
@@ -13,39 +13,45 @@ double drem(double, double);
 #else
 #undef abs
 #include "math.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
 #endif
 double d_mod(doublereal *x, doublereal *y)
 #endif
 {
 #ifdef IEEE_drem
-    double xa, ya, z;
-    if ((ya = *y) < 0.)
+double xa, ya, z;
+if ((ya = *y) < 0.)
+{
+    ya = -ya;
+}
+z = drem(xa = *x, ya);
+if (xa > 0)
+{
+    if (z < 0)
     {
-        ya = -ya;
+        z += ya;
     }
-    z = drem(xa = *x, ya);
-    if (xa > 0)
-    {
-        if (z < 0)
-        {
-            z += ya;
-        }
-    }
-    else if (z > 0)
-    {
-        z -= ya;
-    }
-    return z;
+}
+else if (z > 0)
+{
+    z -= ya;
+}
+return z;
 #else
-    double quotient;
-    if( (quotient = *x / *y) >= 0)
-    {
-        quotient = floor(quotient);
-    }
-    else
-    {
-        quotient = -floor(-quotient);
-    }
-    return(*x - (*y) * quotient );
+double quotient;
+if( (quotient = *x / *y) >= 0)
+{
+    quotient = floor(quotient);
+}
+else
+{
+    quotient = -floor(-quotient);
+}
+return(*x - (*y) * quotient );
 #endif
 }
+#ifdef __cplusplus
+}
+#endif

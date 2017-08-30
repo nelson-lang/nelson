@@ -1,11 +1,24 @@
-#include "nelson_f2c.h"
+#include "f2c.h"
 
+#ifdef KR_headers
 extern double exp(), cos(), sin();
 
+VOID c_exp(r, z) complex *r, *z;
+#else
+#undef abs
+#include "math.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 void c_exp(complex *r, complex *z)
+#endif
 {
-    double expx;
-    expx = exp(z->r);
-    r->r = (real) (expx * cos(z->i));
-    r->i = (real) (expx * sin(z->i));
+double expx, zi = z->i;
+expx = exp(z->r);
+r->r = expx * cos(zi);
+r->i = expx * sin(zi);
 }
+#ifdef __cplusplus
+}
+#endif

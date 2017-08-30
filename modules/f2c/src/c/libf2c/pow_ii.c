@@ -1,4 +1,7 @@
-#include "nelson_f2c.h"
+#include "f2c.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #ifdef KR_headers
 integer pow_ii(ap, bp) integer *ap, *bp;
@@ -40,3 +43,6 @@ integer pow_ii(integer *ap, integer *bp)
     }
     return(pow);
 }
+#ifdef __cplusplus
+}
+#endif

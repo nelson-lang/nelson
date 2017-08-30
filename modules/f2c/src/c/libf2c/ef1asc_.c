@@ -1,6 +1,10 @@
 /* EFL support routine to copy string b to string a */
 
-#include "nelson_f2c.h"
+#include "f2c.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 
 #define M	( (long) (sizeof(long) - 1) )
 #define EVEN(x)	( ( (x)+ M) & (~M) )
@@ -15,7 +19,8 @@ int ef1asc_(ftnint *a, ftnlen *la, ftnint *b, ftnlen *lb)
 #endif
 {
     s_copy( (char *)a, (char *)b, EVEN(*la), *lb );
-#ifndef KR_headers
-    return 0;
-#endif
+    return 0;	/* ignored return value */
 }
+#ifdef __cplusplus
+}
+#endif

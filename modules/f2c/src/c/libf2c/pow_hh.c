@@ -1,4 +1,7 @@
-#include "nelson_f2c.h"
+#include "f2c.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #ifdef KR_headers
 shortint pow_hh(ap, bp) shortint *ap, *bp;
@@ -40,3 +43,6 @@ shortint pow_hh(shortint *ap, shortint *bp)
     }
     return(pow);
 }
+#ifdef __cplusplus
+}
+#endif

@@ -1,19 +1,22 @@
-#if !(defined NON_UNIX_STDIO)
-#include "sys/types.h"
-#include "sys/stat.h"
-#endif
-#include "nelson_f2c.h"
+#include "sysdep1.h"	/* here to get stat64 on some badly designed Linux systems */
+#include "f2c.h"
 #include "fio.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 VOID
 #ifdef KR_headers
+#define Const /*nothing*/
 g_char(a,alen,b) char *a,*b;
 ftnlen alen;
 #else
-g_char(char *a, ftnlen alen, char *b)
+#define Const const
+g_char(const char *a, ftnlen alen, char *b)
 #endif
 {
-    char *x = a + alen, *y = b + alen;
+    Const char *x = a + alen;
+    char *y = b + alen;
     for(;; y--)
     {
         if (x <= a)
@@ -39,7 +42,7 @@ VOID
 b_char(a,b,blen) char *a,*b;
 ftnlen blen;
 #else
-b_char(char *a, char *b, ftnlen blen)
+b_char(const char *a, char *b, ftnlen blen)
 #endif
 {
     int i;
@@ -60,12 +63,15 @@ int *dev;
 long f__inode(char *a, int *dev)
 #endif
 {
-    struct stat x;
-    if(stat(a,&x)<0)
+    struct STAT_ST x;
+    if(STAT(a,&x)<0)
     {
         return(-1);
     }
     *dev = x.st_dev;
     return(x.st_ino);
+}
+#endif
+#ifdef __cplusplus
 }
 #endif

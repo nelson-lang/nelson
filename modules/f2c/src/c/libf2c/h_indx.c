@@ -1,4 +1,7 @@
-#include "nelson_f2c.h"
+#include "f2c.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #ifdef KR_headers
 shortint h_indx(a, b, la, lb) char *a, *b;
@@ -26,3 +29,6 @@ no:
     }
     return(0);
 }
+#ifdef __cplusplus
+}
+#endif

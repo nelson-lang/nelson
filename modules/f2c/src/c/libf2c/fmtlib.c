@@ -1,7 +1,10 @@
 /*	@(#)fmtlib.c	1.2	*/
 #define MAXINTLENGTH 23
 
-#include "nelson_f2c.h"
+#include "f2c.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
 #ifndef Allow_TYQUAD
 #undef longint
 #define longint long
@@ -40,10 +43,13 @@ char *f__icvt(longint value, int *ndigit, int *sign, int base)
     i = MAXINTLENGTH;
     do
     {
-        buf[--i] = (char) ((uvalue%base) + '0');
+        buf[--i] = (uvalue%base) + '0';
         uvalue /= base;
     }
     while(uvalue > 0);
     *ndigit = MAXINTLENGTH - i;
     return &buf[i];
 }
+#ifdef __cplusplus
+}
+#endif

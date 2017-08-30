@@ -1,4 +1,7 @@
-#include "nelson_f2c.h"
+#include "f2c.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #ifdef KR_headers
 double pow_di(ap, bp) doublereal *ap;
@@ -38,3 +41,6 @@ double pow_di(doublereal *ap, integer *bp)
     }
     return(pow);
 }
+#ifdef __cplusplus
+}
+#endif

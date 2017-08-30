@@ -1,4 +1,7 @@
-#include "nelson_f2c.h"
+#include "f2c.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #ifndef LONGBITS
 #define LONGBITS 32
@@ -43,11 +46,11 @@ full_len:
         if (b >= 0)
         {
             b %= LONGBITS;
-            return (integer)((x << b) | (x >> (LONGBITS -b)) );
+            return (integer)(x << b | x >> LONGBITS -b );
         }
         b = -b;
         b %= LONGBITS;
-        return (integer)((x << LONGBITS) - b | (x >> b));
+        return (integer)(x << LONGBITS - b | x >> b);
     }
     y = z = (unsigned long)-1;
     y <<= len;
@@ -57,9 +60,12 @@ full_len:
     if (b >= 0)
     {
         b %= len;
-        return (integer)(y | z & ((x << b) | (x >> (len - b))));
+        return (integer)(y | z & (x << b | x >> len - b));
     }
     b = -b;
     b %= len;
-    return (integer)(y | z & ((x >> b) | (x << (len - b))));
+    return (integer)(y | z & (x >> b | x << len - b));
 }
+#ifdef __cplusplus
+}
+#endif

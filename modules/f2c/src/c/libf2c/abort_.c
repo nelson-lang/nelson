@@ -1,21 +1,22 @@
 #include "stdio.h"
-#include "nelson_f2c.h"
+#include "f2c.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #ifdef KR_headers
 extern VOID sig_die();
 
 int abort_()
 #else
-extern void sig_die(char*,int);
+extern void sig_die(const char*,int);
 
 int abort_(void)
 #endif
 {
     sig_die("Fortran abort routine called", 1);
-#ifdef __cplusplus
-    return 0;
-#endif
-#ifdef WIN32
-    return 0;
-#endif
+    return 0;	/* not reached */
 }
+#ifdef __cplusplus
+}
+#endif

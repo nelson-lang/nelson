@@ -1,7 +1,11 @@
-#include "nelson_f2c.h"
+#include "f2c.h"
 #include "fio.h"
 #include "fmt.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
 
+int
 y_rsk(Void)
 {
     if(f__curunit->uend || f__curunit->url <= f__recpos
@@ -16,6 +20,8 @@ y_rsk(Void)
     while(++f__recpos < f__curunit->url);
     return 0;
 }
+
+int
 y_getc(Void)
 {
     int ch;
@@ -43,65 +49,43 @@ y_getc(Void)
         return(-1);
     }
     err(f__elist->cierr,errno,"readingd");
-#ifdef __cplusplus
-    return 0;
-#endif
-}
-#ifdef KR_headers
-y_putc(c)
-#else
-y_putc(int c)
-#endif
-{
-    f__recpos++;
-    if(f__recpos <= f__curunit->url || f__curunit->url==1)
-    {
-        putc(c,f__cf);
-    }
-    else
-    {
-        err(f__elist->cierr,110,"dout");
-    }
-    return(0);
-}
-y_rev(Void)
-{
-    /*what about work done?*/
-    if(f__curunit->url==1 || f__recpos==f__curunit->url)
-    {
-        return(0);
-    }
-    while(f__recpos<f__curunit->url)
-    {
-        (*f__putn)(' ');
-    }
-    f__recpos=0;
-    return(0);
-}
-y_err(Void)
-{
-    err(f__elist->cierr, 110, "dfe");
-#ifdef __cplusplus
-    return 0;
-#endif
 }
 
-y_newrec(Void)
+static int
+y_rev(Void)
 {
-    if(f__curunit->url == 1 || f__recpos == f__curunit->url)
-    {
-        f__hiwater = f__recpos = f__cursor = 0;
-        return(1);
-    }
-    if(f__hiwater > f__recpos)
+    if (f__recpos < f__hiwater)
     {
         f__recpos = f__hiwater;
     }
+    if (f__curunit->url > 1)
+        while(f__recpos < f__curunit->url)
+        {
+            (*f__putn)(' ');
+        }
+    if (f__recpos)
+    {
+        f__putbuf(0);
+    }
+    f__recpos = 0;
+    return(0);
+}
+
+static int
+y_err(Void)
+{
+    err(f__elist->cierr, 110, "dfe");
+}
+
+static int
+y_newrec(Void)
+{
     y_rev();
     f__hiwater = f__cursor = 0;
     return(1);
 }
 
+int
 #ifdef KR_headers
 c_dfe(a) cilist *a;
 #else
@@ -112,11 +96,11 @@ c_dfe(cilist *a)
     f__formatted=f__external=1;
     f__elist=a;
     f__cursor=f__scale=f__recpos=0;
+    f__curunit = &f__units[a->ciunit];
     if(a->ciunit>MXUNIT || a->ciunit<0)
     {
         err(a->cierr,101,"startchk");
     }
-    f__curunit = &f__units[a->ciunit];
     if(f__curunit->ufd==NULL && fk_open(DIR,FMT,a->ciunit))
     {
         err(a->cierr,104,"dfe");
@@ -125,7 +109,9 @@ c_dfe(cilist *a)
     if(!f__curunit->ufmt) err(a->cierr,102,"dfe")
         if(!f__curunit->useek) err(a->cierr,104,"dfe")
             f__fmtbuf=a->cifmt;
-    (void) fseek(f__cf,(long)f__curunit->url * (a->cirec-1),SEEK_SET);
+    if(a->cirec <= 0)
+        err(a->cierr,130,"dfe")
+        FSEEK(f__cf,(OFF_T)f__curunit->url * (a->cirec-1),SEEK_SET);
     f__curunit->uend = 0;
     return(0);
 }
@@ -140,11 +126,11 @@ integer s_rdfe(cilist *a)
     {
         f_init();
     }
+    f__reading=1;
     if(n=c_dfe(a))
     {
         return(n);
     }
-    f__reading=1;
     if(f__curunit->uwrt && f__nowreading(f__curunit))
     {
         err(a->cierr,errno,"read start");
@@ -172,16 +158,16 @@ integer s_wdfe(cilist *a)
     {
         f_init();
     }
+    f__reading=0;
     if(n=c_dfe(a))
     {
         return(n);
     }
-    f__reading=0;
     if(f__curunit->uwrt != 1 && f__nowwriting(f__curunit))
     {
         err(a->cierr,errno,"startwrt");
     }
-    f__putn = y_putc;
+    f__putn = x_putc;
     f__doed = w_ed;
     f__doned= w_ned;
     f__dorevert = y_err;
@@ -196,10 +182,13 @@ integer s_wdfe(cilist *a)
 }
 integer e_rdfe(Void)
 {
-    (void) en_fio();
-    return(0);
+    en_fio();
+    return 0;
 }
 integer e_wdfe(Void)
 {
     return en_fio();
 }
+#ifdef __cplusplus
+}
+#endif

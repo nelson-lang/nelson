@@ -1,7 +1,10 @@
-#include "nelson_f2c.h"
+#include "f2c.h"
 #include "fio.h"
 #include "fmt.h"
 #include "lio.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 ftnint L_len;
 int f__Aquote;
@@ -15,16 +18,6 @@ donewrec(Void)
     }
 }
 
-#ifdef KR_headers
-t_putc(c)
-#else
-t_putc(int c)
-#endif
-{
-    f__recpos++;
-    putc(c,f__cf);
-    return(0);
-}
 static VOID
 #ifdef KR_headers
 lwrt_I(n) longint n;
@@ -160,6 +153,12 @@ l_g(char *buf, double n)
     }
     if (n == 0)
     {
+#ifdef SIGNED_ZEROS
+        if (signbit_f2c(&n))
+        {
+            *b++ = '-';
+        }
+#endif
         *b++ = '0';
         *b++ = '.';
         *b = 0;
@@ -215,10 +214,11 @@ l_put(register char *s)
 #endif
 {
 #ifdef KR_headers
-    register int c, (*pn)() = f__putn;
+    register void (*pn)() = f__putn;
 #else
-    register int c, (*pn)(int) = f__putn;
+    register void (*pn)(int) = f__putn;
 #endif
+    register int c;
     while(c = *s++)
     {
         (*pn)(c);
@@ -279,6 +279,8 @@ lwrt_C(double a, double b)
     l_put(bb);
     PUT(')');
 }
+
+int
 #ifdef KR_headers
 l_write(number,ptr,len,type) ftnint *number,type;
 char *ptr;
@@ -298,7 +300,7 @@ l_write(ftnint *number, char *ptr, ftnlen len, ftnint type)
         switch((int)type)
         {
             default:
-                f__fatal(204,"unknown type in lio");
+                f__fatal(117,"unknown type in lio");
             case TYINT1:
                 x = Ptr->flchar;
                 goto xint;
@@ -354,3 +356,6 @@ xlog:
     }
     return(0);
 }
+#ifdef __cplusplus
+}
+#endif

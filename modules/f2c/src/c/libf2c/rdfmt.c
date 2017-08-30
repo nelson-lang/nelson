@@ -1,17 +1,22 @@
-#include "nelson_f2c.h"
+#include "f2c.h"
 #include "fio.h"
-#include "fmt.h"
-#include "fp.h"
-#include "ctype.h"
 
-extern int f__cursor;
 #ifdef KR_headers
 extern double atof();
+#define Const /*nothing*/
 #else
+#define Const const
 #undef abs
 #undef min
 #undef max
 #include "stdlib.h"
+#endif
+
+#include "fmt.h"
+#include "fp.h"
+#include "ctype.h"
+#ifdef __cplusplus
+extern "C" {
 #endif
 
 static int
@@ -24,19 +29,20 @@ rd_Z(Uint *n, int w, ftnlen len)
 {
     long x[9];
     char *s, *s0, *s1, *se, *t;
+    Const char *sc;
     int ch, i, w1, w2;
     static char hex[256];
     static int one = 1;
     int bad = 0;
     if (!hex['0'])
     {
-        s = "0123456789";
-        while(ch = *s++)
+        sc = "0123456789";
+        while(ch = *sc++)
         {
             hex[ch] = ch - '0' + 1;
         }
-        s = "ABCDEF";
-        while(ch = *s++)
+        sc = "ABCDEF";
+        while(ch = *sc++)
         {
             hex[ch] = hex[ch + 'a' - 'A'] = ch - 'A' + 11;
         }
@@ -80,7 +86,7 @@ rd_Z(Uint *n, int w, ftnlen len)
     }
     w = (int)len;
     w1 = s - s0;
-    w2 = (w1+1) >> 1;
+    w2 = w1+1 >> 1;
     t = (char *)n;
     if (*(char *)&one)
     {
@@ -115,7 +121,7 @@ rd_Z(Uint *n, int w, ftnlen len)
     }
     do
     {
-        *t =(hex[*s0 & 0xff]-1) << 4 | hex[s0[1] & 0xff]-1;
+        *t = hex[*s0 & 0xff]-1 << 4 | hex[s0[1] & 0xff]-1;
         t += i;
         s0 += 2;
     }
@@ -133,61 +139,70 @@ register int base;
 rd_I(Uint *n, int w, ftnlen len, register int base)
 #endif
 {
-    longint x;
-    int sign,ch;
-    char s[84], *ps;
-    ps=s;
-    x=0;
-    while (w)
+    int ch, sign;
+    longint x = 0;
+    if (w <= 0)
+    {
+        goto have_x;
+    }
+    for(;;)
     {
         GET(ch);
-        if (ch==',' || ch=='\n')
+        if (ch != ' ')
         {
             break;
         }
-        *ps=ch;
-        ps++;
-        w--;
-    }
-    *ps='\0';
-    ps=s;
-    while (*ps==' ')
-    {
-        ps++;
-    }
-    if (*ps=='-')
-    {
-        sign=1;
-        ps++;
-    }
-    else
-    {
-        sign=0;
-        if (*ps=='+')
+        if (!--w)
         {
-            ps++;
+            goto have_x;
         }
     }
-loop:
-    while (*ps>='0' && *ps<='9')
+    sign = 0;
+    switch(ch)
     {
-        x=x*base+(*ps-'0');
-        ps++;
+        case ',':
+        case '\n':
+            w = 0;
+            goto have_x;
+        case '-':
+            sign = 1;
+        case '+':
+            break;
+        default:
+            if (ch >= '0' && ch <= '9')
+            {
+                x = ch - '0';
+                break;
+            }
+            goto have_x;
     }
-    if (*ps==' ')
+    while(--w)
     {
+        GET(ch);
+        if (ch >= '0' && ch <= '9')
+        {
+            x = x*base + ch - '0';
+            continue;
+        }
+        if (ch != ' ')
+        {
+            if (ch == '\n' || ch == ',')
+            {
+                w = 0;
+            }
+            break;
+        }
         if (f__cblank)
         {
             x *= base;
         }
-        ps++;
-        goto loop;
     }
-    if(sign)
+    if (sign)
     {
         x = -x;
     }
-    if(len==sizeof(integer))
+have_x:
+    if(len == sizeof(integer))
     {
         n->il=x;
     }
@@ -205,15 +220,17 @@ loop:
     {
         n->is = (short)x;
     }
-    if (*ps)
+    if (w)
     {
-        return(errno=115);
+        while(--w)
+        {
+            GET(ch);
+        }
+        return errno = 115;
     }
-    else
-    {
-        return(0);
-    }
+    return 0;
 }
+
 static int
 #ifdef KR_headers
 rd_L(n,w,len) ftnint *n;
@@ -222,41 +239,54 @@ ftnlen len;
 rd_L(ftnint *n, int w, ftnlen len)
 #endif
 {
-    int ch, lv;
-    char s[84], *ps;
-    ps=s;
-    while (w)
+    int ch, dot, lv;
+    if (w <= 0)
+    {
+        goto bad;
+    }
+    for(;;)
     {
         GET(ch);
-        if (ch==','||ch=='\n')
+        --w;
+        if (ch != ' ')
         {
             break;
         }
-        *ps=ch;
-        ps++;
-        w--;
+        if (!w)
+        {
+            goto bad;
+        }
     }
-    *ps='\0';
-    ps=s;
-    while (*ps==' ')
+    dot = 0;
+retry:
+    switch(ch)
     {
-        ps++;
-    }
-    if (*ps=='.')
-    {
-        ps++;
-    }
-    if (*ps=='t' || *ps == 'T')
-    {
-        lv = 1;
-    }
-    else if (*ps == 'f' || *ps == 'F')
-    {
-        lv = 0;
-    }
-    else
-    {
-        return(errno=116);
+        case '.':
+            if (dot++ || !w)
+            {
+                goto bad;
+            }
+            GET(ch);
+            --w;
+            goto retry;
+        case 't':
+        case 'T':
+            lv = 1;
+            break;
+        case 'f':
+        case 'F':
+            lv = 0;
+            break;
+        default:
+bad:
+            for(; w > 0; --w)
+            {
+                GET(ch);
+            }
+        /* no break */
+        case ',':
+        case '\n':
+            return errno = 116;
     }
     switch(len)
     {
@@ -268,6 +298,14 @@ rd_L(ftnint *n, int w, ftnlen len)
             break;
         default:
             *n = lv;
+    }
+    while(w-- > 0)
+    {
+        GET(ch);
+        if (ch == ',' || ch == '\n')
+        {
+            break;
+        }
     }
     return 0;
 }
@@ -538,7 +576,7 @@ done:
 zero:
     if (len == sizeof(real))
     {
-        p->pf =(real) x;
+        p->pf = x;
     }
     else
     {
@@ -641,6 +679,8 @@ rd_POS(char *s)
         }
     return(1);
 }
+
+int
 #ifdef KR_headers
 rd_ed(p,ptr,len) struct syl *p;
 char *ptr;
@@ -667,7 +707,7 @@ rd_ed(struct syl *p, char *ptr, ftnlen len)
         }
         else if(f__curunit && f__curunit->useek)
         {
-            (void) fseek(f__cf,(long) f__cursor,SEEK_CUR);
+            (void) FSEEK(f__cf, f__cursor,SEEK_CUR);
         }
         else
         {
@@ -707,7 +747,7 @@ rd_ed(struct syl *p, char *ptr, ftnlen len)
         case G:
         case GE:
         case F:
-            ch = rd_F((ufloat *)ptr,p->p1,p->p2,len);
+            ch = rd_F((ufloat *)ptr,p->p1,p->p2.i[0],len);
             break;
         /* Z and ZM assume 8-bit bytes. */
         case ZM:
@@ -729,6 +769,8 @@ rd_ed(struct syl *p, char *ptr, ftnlen len)
     }
     return(errno);
 }
+
+int
 #ifdef KR_headers
 rd_ned(p) struct syl *p;
 #else
@@ -741,9 +783,9 @@ rd_ned(struct syl *p)
             fprintf(stderr,"rd_ned, unexpected code: %d\n", p->op);
             sig_die(f__fmtbuf, 1);
         case APOS:
-            return(rd_POS(*(char **)&p->p2));
+            return(rd_POS(p->p2.s));
         case H:
-            return(rd_H(p->p1,*(char **)&p->p2));
+            return(rd_H(p->p1,p->p2.s));
         case SLASH:
             return((*f__donewrec)());
         case TR:
@@ -762,3 +804,6 @@ rd_ned(struct syl *p)
             return(1);
     }
 }
+#ifdef __cplusplus
+}
+#endif

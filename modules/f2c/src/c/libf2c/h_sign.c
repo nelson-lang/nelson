@@ -1,4 +1,7 @@
-#include "nelson_f2c.h"
+#include "f2c.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #ifdef KR_headers
 shortint h_sign(a,b) shortint *a, *b;
@@ -10,3 +13,6 @@ shortint h_sign(shortint *a, shortint *b)
     x = (*a >= 0 ? *a : - *a);
     return( *b >= 0 ? x : -x);
 }
+#ifdef __cplusplus
+}
+#endif

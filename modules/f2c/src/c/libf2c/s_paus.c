@@ -1,7 +1,8 @@
 #include "stdio.h"
-#include "nelson_f2c.h"
+#include "f2c.h"
 #define PAUSESIG 15
 
+#include "signal1.h"
 #ifdef KR_headers
 #define Void /* void */
 #define Int /* int */
@@ -12,21 +13,25 @@
 #undef min
 #undef max
 #include "stdlib.h"
-#include "signal.h"
 #ifdef __cplusplus
 extern "C" {
 #endif
-extern int getpid(void), isatty(int), pause(void);
+#ifdef __cplusplus
+extern "C" {
+#endif
+    extern int getpid(void), isatty(int), pause(void);
 #endif
 
 extern VOID f_exit(Void);
 
+#ifndef MSDOS
 static VOID
-waitpause(Int n)
+waitpause(Sigarg)
 {
-n = n; /* shut up compiler warning */
+Use_Sigarg;
 return;
 }
+#endif
 
 static VOID
 #ifdef KR_headers
@@ -83,7 +88,7 @@ s_paus(char *s, ftnlen n)
         fprintf(stderr,
                 "To resume execution, execute a   kill -%d %d   command\n",
                 PAUSESIG, getpid() );
-        signal(PAUSESIG, waitpause);
+        signal1(PAUSESIG, waitpause);
         fflush(stderr);
         pause();
 #endif
@@ -95,3 +100,6 @@ s_paus(char *s, ftnlen n)
 }
 #endif
 }
+#ifdef __cplusplus
+}
+#endif

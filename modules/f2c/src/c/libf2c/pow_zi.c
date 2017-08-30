@@ -1,4 +1,7 @@
-#include "nelson_f2c.h"
+#include "f2c.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #ifdef KR_headers
 VOID pow_zi(p, a, b) 	/* p = a**b  */
@@ -12,14 +15,14 @@ void pow_zi(doublecomplex *p, doublecomplex *a, integer *b) 	/* p = a**b  */
     integer n;
     unsigned long u;
     double t;
-    doublecomplex x;
+    doublecomplex q, x;
     static doublecomplex one = {1.0, 0.0};
     n = *b;
-    p->r = 1;
-    p->i = 0;
+    q.r = 1;
+    q.i = 0;
     if(n == 0)
     {
-        return;
+        goto done;
     }
     if(n < 0)
     {
@@ -35,9 +38,9 @@ void pow_zi(doublecomplex *p, doublecomplex *a, integer *b) 	/* p = a**b  */
     {
         if(u & 01)
         {
-            t = p->r * x.r - p->i * x.i;
-            p->i = p->r * x.i + p->i * x.r;
-            p->r = t;
+            t = q.r * x.r - q.i * x.i;
+            q.i = q.r * x.i + q.i * x.r;
+            q.r = t;
         }
         if(u >>= 1)
         {
@@ -50,4 +53,10 @@ void pow_zi(doublecomplex *p, doublecomplex *a, integer *b) 	/* p = a**b  */
             break;
         }
     }
+done:
+    p->i = q.i;
+    p->r = q.r;
 }
+#ifdef __cplusplus
+}
+#endif

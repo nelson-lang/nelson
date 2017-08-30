@@ -1,5 +1,7 @@
-#include "nelson_f2c.h"
-#include <stdio.h>
+#include "f2c.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #ifdef KR_headers
 double erf();
@@ -9,10 +11,8 @@ extern double erf(double);
 double derf_(doublereal *x)
 #endif
 {
-#ifdef __MSC__
-    fprintf(stderr,"libf2c : No erf \n");
-    return(0);
-#else
     return( erf(*x) );
-#endif
 }
+#ifdef __cplusplus
+}
+#endif

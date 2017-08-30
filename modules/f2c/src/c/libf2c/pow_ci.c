@@ -1,4 +1,7 @@
-#include "nelson_f2c.h"
+#include "f2c.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #ifdef KR_headers
 VOID pow_ci(p, a, b) 	/* p = a**b  */
@@ -13,6 +16,9 @@ void pow_ci(complex *p, complex *a, integer *b) 	/* p = a**b  */
     a1.r = a->r;
     a1.i = a->i;
     pow_zi(&p1, &a1, b);
-    p->r = (real) p1.r;
-    p->i = (real) p1.i;
+    p->r = p1.r;
+    p->i = p1.i;
 }
+#ifdef __cplusplus
+}
+#endif

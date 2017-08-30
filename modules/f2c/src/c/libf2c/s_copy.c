@@ -4,7 +4,10 @@
  * as in  a(2:5) = a(4:7) .
  */
 
-#include "nelson_f2c.h"
+#include "f2c.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* assign strings:  a = b */
 
@@ -59,3 +62,6 @@ void s_copy(register char *a, register char *b, ftnlen la, ftnlen lb)
         }
     }
 }
+#ifdef __cplusplus
+}
+#endif

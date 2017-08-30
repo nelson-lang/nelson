@@ -1,6 +1,9 @@
-#include "nelson_f2c.h"
+#include "f2c.h"
 #include "fio.h"
 #include "fmt.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
 #define skip(s) while(*s==' ') s++
 #ifdef interdata
 #define SYLMX 300
@@ -16,15 +19,20 @@
 #endif
 #define GLITCH '\2'
 /* special quote character for stu */
-extern int f__cursor,f__scale;
 extern flag f__cblank,f__cplus;	/*blanks in I and compulsory plus*/
-struct syl f__syl[SYLMX];
+static struct syl f__syl[SYLMX];
 int f__parenlvl,f__pc,f__revloc;
+#ifdef KR_headers
+#define Const /*nothing*/
+#else
+#define Const const
+#endif
 
+static
 #ifdef KR_headers
 char *ap_end(s) char *s;
 #else
-char *ap_end(char *s)
+const char *ap_end(const char *s)
 #endif
 {
     char quote;
@@ -48,6 +56,7 @@ char *ap_end(char *s)
     f__fatal(100, "bad string");
     /*NOTREACHED*/ return 0;
 }
+static int
 #ifdef KR_headers
 op_gen(a,b,c,d)
 #else
@@ -62,17 +71,17 @@ op_gen(int a, int b, int c, int d)
     }
     p->op=a;
     p->p1=b;
-    p->p2=c;
-    p->p3=d;
+    p->p2.i[0]=c;
+    p->p2.i[1]=d;
     return(f__pc++);
 }
 #ifdef KR_headers
-char *f_list();
-char *gt_num(s,n) char *s;
-int *n;
+static char *f_list();
+static char *gt_num(s,n,n1) char *s;
+int *n, n1;
 #else
-char *f_list(char*);
-char *gt_num(char *s, int *n)
+static const char *f_list(const char*);
+static const char *gt_num(const char *s, int *n, int n1)
 #endif
 {
     int m=0,f__cnt=0;
@@ -94,7 +103,11 @@ char *gt_num(char *s, int *n)
     }
     if(f__cnt==0)
     {
-        *n=1;
+        if (!n1)
+        {
+            s = 0;
+        }
+        *n=n1;
     }
     else
     {
@@ -102,10 +115,12 @@ char *gt_num(char *s, int *n)
     }
     return(s);
 }
+
+static
 #ifdef KR_headers
 char *f_s(s,curloc) char *s;
 #else
-char *f_s(char *s, int curloc)
+const char *f_s(const char *s, int curloc)
 #endif
 {
     skip(s);
@@ -125,10 +140,12 @@ char *f_s(char *s, int curloc)
     skip(s);
     return(s);
 }
+
+static int
 #ifdef KR_headers
 ne_d(s,p) char *s,**p;
 #else
-ne_d(char *s, char **p)
+ne_d(const char *s, const char **p)
 #endif
 {
     int n,x,sign=0;
@@ -189,7 +206,12 @@ ne_d(char *s, char **p)
         case '7':
         case '8':
         case '9':
-            s=gt_num(s,&n);
+            if (!(s=gt_num(s,&n,0)))
+            {
+bad:
+                *p = 0;
+                return 1;
+            }
             switch(*s)
             {
                 default:
@@ -208,7 +230,7 @@ ne_d(char *s, char **p)
                 case 'H':
                 case 'h':
                     sp = &f__syl[op_gen(H,n,0,0)];
-                    *(char **)&sp->p2 = s + 1;
+                    sp->p2.s = (char*)s + 1;
                     s+=n;
                     break;
             }
@@ -217,7 +239,7 @@ ne_d(char *s, char **p)
         case '"':
         case '\'':
             sp = &f__syl[op_gen(APOS,0,0,0)];
-            *(char **)&sp->p2 = s;
+            sp->p2.s = (char*)s;
             if((*p = ap_end(s)) == NULL)
             {
                 return(0);
@@ -239,7 +261,10 @@ ne_d(char *s, char **p)
             {
                 x=T;
             }
-            s=gt_num(s+1,&n);
+            if (!(s=gt_num(s+1,&n,0)))
+            {
+                goto bad;
+            }
             s--;
             (void) op_gen(x,n,0,0);
             break;
@@ -256,15 +281,17 @@ ne_d(char *s, char **p)
     *p=s;
     return(1);
 }
+
+static int
 #ifdef KR_headers
 e_d(s,p) char *s,**p;
 #else
-e_d(char *s, char **p)
+e_d(const char *s, const char **p)
 #endif
 {
     int i,im,n,w,d,e,found=0,x=0;
-    char *sv=s;
-    s=gt_num(s,&n);
+    Const char *sv=s;
+    s=gt_num(s,&n,1);
     (void) op_gen(STACK,n,0,0);
     switch(*s++)
     {
@@ -276,15 +303,22 @@ e_d(char *s, char **p)
         case 'G':
         case 'g':
             found=1;
-            s=gt_num(s,&w);
+            if (!(s=gt_num(s,&w,0)))
+            {
+bad:
+                *p = 0;
+                return 1;
+            }
             if(w==0)
             {
                 break;
             }
             if(*s=='.')
             {
-                s++;
-                s=gt_num(s,&d);
+                if (!(s=gt_num(s+1,&d,0)))
+                {
+                    goto bad;
+                }
             }
             else
             {
@@ -296,8 +330,10 @@ e_d(char *s, char **p)
             }
             else
             {
-                s++;
-                s=gt_num(s,&e);
+                if (!(s=gt_num(s+1,&e,0)))
+                {
+                    goto bad;
+                }
                 (void) op_gen(x==1?EE:GE,w,d,e);
             }
             break;
@@ -314,7 +350,10 @@ e_d(char *s, char **p)
         case 'L':
         case 'l':
             found=1;
-            s=gt_num(s,&w);
+            if (!(s=gt_num(s,&w,0)))
+            {
+                goto bad;
+            }
             if(w==0)
             {
                 break;
@@ -327,7 +366,7 @@ e_d(char *s, char **p)
             skip(s);
             if(*s>='0' && *s<='9')
             {
-                s=gt_num(s,&w);
+                s=gt_num(s,&w,1);
                 if(w==0)
                 {
                     break;
@@ -339,16 +378,21 @@ e_d(char *s, char **p)
             break;
         case 'F':
         case 'f':
+            if (!(s=gt_num(s,&w,0)))
+            {
+                goto bad;
+            }
             found=1;
-            s=gt_num(s,&w);
             if(w==0)
             {
                 break;
             }
             if(*s=='.')
             {
-                s++;
-                s=gt_num(s,&d);
+                if (!(s=gt_num(s+1,&d,0)))
+                {
+                    goto bad;
+                }
             }
             else
             {
@@ -359,15 +403,20 @@ e_d(char *s, char **p)
         case 'D':
         case 'd':
             found=1;
-            s=gt_num(s,&w);
+            if (!(s=gt_num(s,&w,0)))
+            {
+                goto bad;
+            }
             if(w==0)
             {
                 break;
             }
             if(*s=='.')
             {
-                s++;
-                s=gt_num(s,&d);
+                if (!(s=gt_num(s+1,&d,0)))
+                {
+                    goto bad;
+                }
             }
             else
             {
@@ -380,8 +429,11 @@ e_d(char *s, char **p)
             i = I;
             im = IM;
 finish_I:
+            if (!(s=gt_num(s,&w,0)))
+            {
+                goto bad;
+            }
             found=1;
-            s=gt_num(s,&w);
             if(w==0)
             {
                 break;
@@ -391,8 +443,10 @@ finish_I:
                 (void) op_gen(i,w,0,0);
                 break;
             }
-            s++;
-            s=gt_num(s,&d);
+            if (!(s=gt_num(s+1,&d,0)))
+            {
+                goto bad;
+            }
             (void) op_gen(im,w,d,0);
             break;
     }
@@ -405,13 +459,14 @@ finish_I:
     *p=s;
     return(1);
 }
+static
 #ifdef KR_headers
 char *i_tem(s) char *s;
 #else
-char *i_tem(char *s)
+const char *i_tem(const char *s)
 #endif
 {
-    char *t;
+    const char *t;
     int n,curloc;
     if(*s==')')
     {
@@ -425,17 +480,19 @@ char *i_tem(char *s)
     {
         return(t);
     }
-    s=gt_num(s,&n);
+    s=gt_num(s,&n,1);
     if((curloc=op_gen(STACK,n,0,0))<0)
     {
         return(NULL);
     }
     return(f_s(s,curloc));
 }
+
+static
 #ifdef KR_headers
 char *f_list(s) char *s;
 #else
-char *f_list(char *s)
+const char *f_list(const char *s)
 #endif
 {
     for(; *s!=0;)
@@ -464,10 +521,11 @@ char *f_list(char *s)
     return(NULL);
 }
 
+int
 #ifdef KR_headers
 pars_f(s) char *s;
 #else
-pars_f(char *s)
+pars_f(const char *s)
 #endif
 {
     f__parenlvl=f__revloc=f__pc=0;
@@ -481,6 +539,7 @@ pars_f(char *s)
 int f__cnt[STKSZ],f__ret[STKSZ],f__cp,f__rp;
 flag f__workdone, f__nonl;
 
+static int
 #ifdef KR_headers
 type_f(n)
 #else
@@ -644,14 +703,20 @@ loop:
     }
     return(0);
 }
+
+int
 en_fio(Void)
 {
     ftnint one=1;
     return(do_fio(&one,(char *)NULL,(ftnint)0));
 }
+
 VOID
 fmt_bg(Void)
 {
     f__workdone=f__cp=f__rp=f__pc=f__cursor=0;
     f__cnt[0]=f__ret[0]=0;
 }
+#ifdef __cplusplus
+}
+#endif

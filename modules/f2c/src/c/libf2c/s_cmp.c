@@ -1,4 +1,7 @@
-#include "nelson_f2c.h"
+#include "f2c.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* compare two strings */
 
@@ -60,3 +63,6 @@ integer s_cmp(char *a0, char *b0, ftnlen la, ftnlen lb)
     }
     return(0);
 }
+#ifdef __cplusplus
+}
+#endif

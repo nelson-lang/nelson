@@ -1,15 +1,13 @@
-#include "nelson_f2c.h"
+#include "f2c.h"
 #include "fio.h"
-#include "fmt.h"
-#include "lio.h"
-#include "ctype.h"
-#include "fp.h"
 
-extern char *f__fmtbuf;
+/* Compile with -DF8X_NML_ELIDE_QUOTES to permit eliding quotation */
+/* marks in namelist input a la the Fortran 8X Draft published in  */
+/* the May 1989 issue of Fortran Forum. */
+
 
 #ifdef Allow_TYQUAD
 static longint f__llx;
-static int quad_read;
 #endif
 
 #ifdef KR_headers
@@ -21,9 +19,24 @@ int (*f__lioproc)(), (*l_getc)(), (*l_ungetc)();
 #undef min
 #undef max
 #include "stdlib.h"
+#endif
+
+#include "fmt.h"
+#include "lio.h"
+#include "ctype.h"
+#include "fp.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#ifdef KR_headers
+extern char *f__fmtbuf;
+#else
+extern const char *f__fmtbuf;
 int (*f__lioproc)(ftnint*, char*, ftnlen, ftnint), (*l_getc)(void),
     (*l_ungetc)(int,FILE*);
 #endif
+
 int l_eof;
 
 #define isblnk(x) (f__ltab[x+1]&B)
@@ -71,6 +84,7 @@ extern int ungetc(int, FILE*);	/* for systems with a buggy stdio.h */
 #endif
 #endif
 
+int
 t_getc(Void)
 {
     int ch;
@@ -115,10 +129,11 @@ double f__lx,f__ly;
 #define GETC(x) (x=(*l_getc)())
 #define Ungetc(x,y) (*l_ungetc)(x,y)
 
+static int
 #ifdef KR_headers
-l_R(poststar) int poststar;
+l_R(poststar, reqint) int poststar, reqint;
 #else
-l_R(int poststar)
+l_R(int poststar, int reqint)
 #endif
 {
     char s[FMAX+EXPMAXDIGS+4];
@@ -183,6 +198,12 @@ retry:
     }
     if (ch == '.')
     {
+#ifndef ALLOW_FLOAT_IN_INTEGER_LIST_INPUT
+        if (reqint)
+        {
+            errfl(f__elist->cierr,115,"invalid integer");
+        }
+#endif
         GETC(ch);
         if (sp == sp1)
             while(ch == '0')
@@ -209,6 +230,12 @@ retry:
     }
     if (havenum && isexp(ch))
     {
+#ifndef ALLOW_FLOAT_IN_INTEGER_LIST_INPUT
+        if (reqint)
+        {
+            errfl(f__elist->cierr,115,"invalid integer");
+        }
+#endif
         GETC(ch);
         if (issign(ch))
         {
@@ -260,7 +287,7 @@ bad:
         }
         f__lx = atof(s);
 #ifdef Allow_TYQUAD
-        if (quad_read && (se = sp - sp1 + exp) > 14 && se < 20)
+        if (reqint&2 && (se = sp - sp1 + exp) > 14 && se < 20)
         {
             /* Assuming 64-bit longint and 32-bit long. */
             if (exp < 0)
@@ -337,6 +364,7 @@ rd_count(register int ch)
     return f__lcount <= 0;
 }
 
+static int
 l_C(Void)
 {
     int ch, nml_save;
@@ -389,7 +417,7 @@ l_C(Void)
     Ungetc(ch,f__cf);
     nml_save = nml_read;
     nml_read = 0;
-    if (ch = l_R(1))
+    if (ch = l_R(1,0))
     {
         return ch;
     }
@@ -406,7 +434,7 @@ l_C(Void)
     }
     while(iswhit(GETC(ch)));
     (void) Ungetc(ch,f__cf);
-    if (ch = l_R(1))
+    if (ch = l_R(1,0))
     {
         return ch;
     }
@@ -427,9 +455,111 @@ l_C(Void)
     nml_read = nml_save;
     return(0);
 }
+
+static char nmLbuf[256], *nmL_next;
+static int (*nmL_getc_save)(Void);
+#ifdef KR_headers
+static int (*nmL_ungetc_save)(/* int, FILE* */);
+#else
+static int (*nmL_ungetc_save)(int, FILE*);
+#endif
+
+static int
+nmL_getc(Void)
+{
+    int rv;
+    if (rv = *nmL_next++)
+    {
+        return rv;
+    }
+    l_getc = nmL_getc_save;
+    l_ungetc = nmL_ungetc_save;
+    return (*l_getc)();
+}
+
+static int
+#ifdef KR_headers
+nmL_ungetc(x, f) int x;
+FILE *f;
+#else
+nmL_ungetc(int x, FILE *f)
+#endif
+{
+    f = f;	/* banish non-use warning */
+    return *--nmL_next = x;
+}
+
+static int
+#ifdef KR_headers
+Lfinish(ch, dot, rvp) int ch, dot, *rvp;
+#else
+Lfinish(int ch, int dot, int *rvp)
+#endif
+{
+    char *s, *se;
+    static char what[] = "namelist input";
+    s = nmLbuf + 2;
+    se = nmLbuf + sizeof(nmLbuf) - 1;
+    *s++ = ch;
+    while(!issep(GETC(ch)) && ch!=EOF)
+    {
+        if (s >= se)
+        {
+nmLbuf_ovfl:
+            return *rvp = err__fl(f__elist->cierr,131,what);
+        }
+        *s++ = ch;
+        if (ch != '=')
+        {
+            continue;
+        }
+        if (dot)
+        {
+            return *rvp = err__fl(f__elist->cierr,112,what);
+        }
+got_eq:
+        *s = 0;
+        nmL_getc_save = l_getc;
+        l_getc = nmL_getc;
+        nmL_ungetc_save = l_ungetc;
+        l_ungetc = nmL_ungetc;
+        nmLbuf[1] = *(nmL_next = nmLbuf) = ',';
+        *rvp = f__lcount = 0;
+        return 1;
+    }
+    if (dot)
+    {
+        goto done;
+    }
+    for(;;)
+    {
+        if (s >= se)
+        {
+            goto nmLbuf_ovfl;
+        }
+        *s++ = ch;
+        if (!isblnk(ch))
+        {
+            break;
+        }
+        if (GETC(ch) == EOF)
+        {
+            goto done;
+        }
+    }
+    if (ch == '=')
+    {
+        goto got_eq;
+    }
+done:
+    Ungetc(ch, f__cf);
+    return 0;
+}
+
+static int
 l_L(Void)
 {
-    int ch;
+    int ch, rv, sawdot;
     if(f__lcount>0)
     {
         return(0);
@@ -451,18 +581,28 @@ l_L(Void)
             }
         GETC(ch);
     }
+    sawdot = 0;
     if(ch == '.')
     {
+        sawdot = 1;
         GETC(ch);
     }
     switch(ch)
     {
         case 't':
         case 'T':
+            if (nml_read && Lfinish(ch, sawdot, &rv))
+            {
+                return rv;
+            }
             f__lx=1;
             break;
         case 'f':
         case 'F':
+            if (nml_read && Lfinish(ch, sawdot, &rv))
+            {
+                return rv;
+            }
             f__lx=0;
             break;
         default:
@@ -481,10 +621,13 @@ l_L(Void)
     }
     f__ltype=TYLONG;
     while(!issep(GETC(ch)) && ch!=EOF);
-    (void) Ungetc(ch, f__cf);
+    Ungetc(ch, f__cf);
     return(0);
 }
+
 #define BUFSIZE	128
+
+static int
 l_CHAR(Void)
 {
     int ch,size,i;
@@ -520,6 +663,12 @@ l_CHAR(Void)
                     if (f__lcount == 0)
                     {
                         f__lcount = 1;
+#ifndef F8X_NML_ELIDE_QUOTES
+                        if (nml_read)
+                        {
+                            goto no_quote;
+                        }
+#endif
                         goto noquote;
                     }
                     p = f__lchar;
@@ -539,6 +688,14 @@ l_CHAR(Void)
             if (!isdigit(ch))
             {
                 f__lcount = 1;
+#ifndef F8X_NML_ELIDE_QUOTES
+                if (nml_read)
+                {
+no_quote:
+                    errfl(f__elist->cierr,112,
+                          "undelimited character string");
+                }
+#endif
                 goto noquote;
             }
             *p++ = ch;
@@ -566,9 +723,17 @@ have_lcount:
     }
     else if(isblnk(ch) || (issep(ch) && ch != '\n') || ch==EOF)
     {
-        (void) Ungetc(ch,f__cf);
-        return(0);
+        Ungetc(ch,f__cf);
+        return 0;
     }
+#ifndef F8X_NML_ELIDE_QUOTES
+    else if (nml_read > 1)
+    {
+        Ungetc(ch,f__cf);
+        f__lquit = 2;
+        return 0;
+    }
+#endif
     else
     {
         /* Fortran 8x-style unquoted string */
@@ -662,6 +827,8 @@ newone:
         }
     }
 }
+
+int
 #ifdef KR_headers
 c_le(a) cilist *a;
 #else
@@ -673,13 +840,13 @@ c_le(cilist *a)
         f_init();
     }
     f__fmtbuf="list io";
+    f__curunit = &f__units[a->ciunit];
     if(a->ciunit>=MXUNIT || a->ciunit<0)
     {
         err(a->cierr,101,"stler");
     }
     f__scale=f__recpos=0;
     f__elist=a;
-    f__curunit = &f__units[a->ciunit];
     if(f__curunit->ufd==NULL && fk_open(SEQ,FMT,a->ciunit))
     {
         err(a->cierr,102,"lio");
@@ -688,6 +855,8 @@ c_le(cilist *a)
     if(!f__curunit->ufmt) err(a->cierr,103,"lio")
         return(0);
 }
+
+int
 #ifdef KR_headers
 l_read(number,ptr,len,type) ftnint *number,type;
 char *ptr;
@@ -740,15 +909,17 @@ rddata:
             case TYINT1:
             case TYSHORT:
             case TYLONG:
+#ifndef ALLOW_FLOAT_IN_INTEGER_LIST_INPUT
+                ERR(l_R(0,1));
+                break;
+#endif
             case TYREAL:
             case TYDREAL:
-                ERR(l_R(0));
+                ERR(l_R(0,0));
                 break;
 #ifdef TYQUAD
             case TYQUAD:
-                quad_read = 1;
-                n = l_R(0);
-                quad_read = 0;
+                n = l_R(0,2);
                 if (n)
                 {
                     return n;
@@ -799,7 +970,7 @@ loopend:
                 break;
             case TYLOGICAL:
             case TYLONG:
-                Ptr->flint=(ftnint) f__lx;
+                Ptr->flint = (ftnint)f__lx;
                 break;
 #ifdef Allow_TYQUAD
             case TYQUAD:
@@ -810,15 +981,15 @@ loopend:
                 break;
 #endif
             case TYREAL:
-                Ptr->flreal= (real) f__lx;
+                Ptr->flreal=f__lx;
                 break;
             case TYDREAL:
                 Ptr->fldouble=f__lx;
                 break;
             case TYCOMPLEX:
                 xx=(real *)ptr;
-                *xx++ = (real) f__lx;
-                *xx = (real )f__ly;
+                *xx++ = f__lx;
+                *xx = f__ly;
                 break;
             case TYDCOMPLEX:
                 yy=(doublereal *)ptr;
@@ -850,13 +1021,13 @@ integer s_rsle(cilist *a)
 #endif
 {
     int n;
+    f__reading=1;
+    f__external=1;
+    f__formatted=1;
     if(n=c_le(a))
     {
         return(n);
     }
-    f__reading=1;
-    f__external=1;
-    f__formatted=1;
     f__lioproc = l_read;
     f__lquit = 0;
     f__lcount = 0;
@@ -874,3 +1045,6 @@ integer s_rsle(cilist *a)
     f__doend = xrd_SL;
     return(0);
 }
+#ifdef __cplusplus
+}
+#endif
