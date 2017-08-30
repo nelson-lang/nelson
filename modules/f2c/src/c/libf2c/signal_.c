@@ -1,4 +1,4 @@
-#include "f2c.h"
+#include "nelson_f2c.h"
 #include "signal1.h"
 #ifdef __cplusplus
 extern "C" {

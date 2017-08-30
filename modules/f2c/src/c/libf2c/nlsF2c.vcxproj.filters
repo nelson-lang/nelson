@@ -149,9 +149,6 @@
     <ClCompile Include="endfile.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="entries.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="erf_.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -174,9 +171,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ftell_.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="getarg_.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="getenv_.c">
@@ -240,9 +234,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="i_sign.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="iargc_.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="iio.c">

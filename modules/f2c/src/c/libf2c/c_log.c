@@ -1,4 +1,4 @@
-#include "f2c.h"
+#include "nelson_f2c.h"
 
 #ifdef KR_headers
 extern double log(), f__cabs(), atan2();
@@ -6,6 +6,8 @@ VOID c_log(r, z) complex *r, *z;
 #else
 #undef abs
 #include "math.h"
+#undef complex
+#include "nelson_f2c.h"
 #ifdef __cplusplus
 extern "C" {
 #endif

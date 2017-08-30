@@ -1,5 +1,5 @@
 #include "sysdep1.h"	/* here to get stat64 on some badly designed Linux systems */
-#include "f2c.h"
+#include "nelson_f2c.h"
 #ifdef KR_headers
 #define Const /*nothing*/
 extern char *malloc();

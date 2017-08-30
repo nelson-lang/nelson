@@ -1,5 +1,5 @@
 /* read sequential formatted external */
-#include "f2c.h"
+#include "nelson_f2c.h"
 #include "fio.h"
 #include "fmt.h"
 #ifdef __cplusplus

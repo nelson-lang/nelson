@@ -1,4 +1,4 @@
-#include "f2c.h"
+#include "nelson_f2c.h"
 #include "fio.h"
 #include "string.h"
 #ifdef NON_UNIX_STDIO

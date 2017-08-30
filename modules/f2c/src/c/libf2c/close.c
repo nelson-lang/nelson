@@ -1,4 +1,4 @@
-#include "f2c.h"
+#include "nelson_f2c.h"
 #include "fio.h"
 #ifdef KR_headers
 integer f_clos(a) cllist *a;

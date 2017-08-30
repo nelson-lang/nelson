@@ -1,4 +1,4 @@
-#include "f2c.h"
+#include "nelson_f2c.h"
 
 #ifdef KR_headers
 extern double sqrt(), f__cabs();
@@ -7,6 +7,9 @@ VOID c_sqrt(r, z) complex *r, *z;
 #else
 #undef abs
 #include "math.h"
+#undef complex
+#include "nelson_f2c.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif

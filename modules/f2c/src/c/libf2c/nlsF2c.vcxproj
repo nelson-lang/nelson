@@ -94,7 +94,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>__MSC__;NO_ISATTY;INTEGER_STAR_8;_CRT_SECURE_NO_WARNINGS;USE_CLOCK;MSDOS;NO_ONEXIT;NO_ISATTY;WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSF2C_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NO_My_ctype;__MSC__;NO_ISATTY;INTEGER_STAR_8;_CRT_SECURE_NO_WARNINGS;USE_CLOCK;MSDOS;NO_ONEXIT;NO_ISATTY;WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSF2C_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>false</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)modules/f2c/src/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
@@ -113,7 +113,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>__MSC__;NO_ISATTY;INTEGER_STAR_8;_CRT_SECURE_NO_WARNINGS;USE_CLOCK;MSDOS;NO_ONEXIT;NO_ISATTY;WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSF2C_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NO_My_ctype;__MSC__;NO_ISATTY;INTEGER_STAR_8;_CRT_SECURE_NO_WARNINGS;USE_CLOCK;MSDOS;NO_ONEXIT;NO_ISATTY;WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSF2C_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>false</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)modules/f2c/src/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
@@ -134,7 +134,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>__MSC__;NO_ISATTY;INTEGER_STAR_8;_CRT_SECURE_NO_WARNINGS;USE_CLOCK;MSDOS;NO_ONEXIT;NO_ISATTY;WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSF2C_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NO_My_ctype;__MSC__;NO_ISATTY;INTEGER_STAR_8;_CRT_SECURE_NO_WARNINGS;USE_CLOCK;MSDOS;NO_ONEXIT;NO_ISATTY;WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSF2C_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>false</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)modules/f2c/src/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
@@ -157,7 +157,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>__MSC__;NO_ISATTY;INTEGER_STAR_8;_CRT_SECURE_NO_WARNINGS;USE_CLOCK;MSDOS;NO_ONEXIT;NO_ISATTY;WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSF2C_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NO_My_ctype;__MSC__;NO_ISATTY;INTEGER_STAR_8;_CRT_SECURE_NO_WARNINGS;USE_CLOCK;MSDOS;NO_ONEXIT;NO_ISATTY;WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSF2C_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>false</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)modules/f2c/src/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
@@ -216,7 +216,6 @@
     <ClCompile Include="ef1asc_.c" />
     <ClCompile Include="ef1cmc_.c" />
     <ClCompile Include="endfile.c" />
-    <ClCompile Include="entries.c" />
     <ClCompile Include="erfc_.c" />
     <ClCompile Include="erf_.c" />
     <ClCompile Include="err.c" />
@@ -225,7 +224,6 @@
     <ClCompile Include="fmt.c" />
     <ClCompile Include="fmtlib.c" />
     <ClCompile Include="ftell_.c" />
-    <ClCompile Include="getarg_.c" />
     <ClCompile Include="getenv_.c" />
     <ClCompile Include="hl_ge.c" />
     <ClCompile Include="hl_gt.c" />
@@ -239,7 +237,6 @@
     <ClCompile Include="h_mod.c" />
     <ClCompile Include="h_nint.c" />
     <ClCompile Include="h_sign.c" />
-    <ClCompile Include="iargc_.c" />
     <ClCompile Include="iio.c" />
     <ClCompile Include="ilnw.c" />
     <ClCompile Include="inquire.c" />

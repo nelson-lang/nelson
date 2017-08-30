@@ -94,7 +94,6 @@ EXPORTS
  fseek_
  ftell_
  g_char
- getarg_
  getenv_
  h_abs
  h_dim
@@ -116,7 +115,6 @@ EXPORTS
  i_mod
  i_nint
  i_sign
- iargc_
  iw_rev
  l_ge
  l_gt

@@ -1,4 +1,4 @@
-#include "f2c.h"
+#include "nelson_f2c.h"
 
 #ifdef KR_headers
 double log(), exp(), cos(), sin(), atan2(), f__cabs();
