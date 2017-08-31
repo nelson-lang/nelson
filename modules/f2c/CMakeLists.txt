@@ -22,6 +22,7 @@ set(module_library_name nlsF2C)
 include_directories(
 ${CMAKE_CURRENT_SOURCE_DIR}/src/include
 )
+#============================================================================== 
 add_definitions(-DINTEGER_STAR_8)
 add_definitions(-D_POSIX_SOURCE)
 add_definitions(-DSkip_f2c_Undefs)
@@ -191,8 +192,7 @@ ADD_LIBRARY(
   ${LIBF2C_SRC}
 )
 #============================================================================== 
-target_link_libraries(${module_library_name}
-)
+target_link_libraries(${module_library_name})
 #============================================================================== 
 set_target_properties(${module_library_name}
                       PROPERTIES 
@@ -203,15 +203,14 @@ GLOB
 F2C_SRC
 "${CMAKE_CURRENT_SOURCE_DIR}/src/c/f2c/*.c"
 )
-#==============================================================================	
+#============================================================================== 
 ADD_EXECUTABLE(
-	nelson_f2c
-	${F2C_SRC}
+  nelson_f2c
+  ${F2C_SRC}
 )
-#==============================================================================	
+#============================================================================== 
 target_link_libraries(nelson_f2c)
-#==============================================================================	
-
+#============================================================================== 
 install(TARGETS ${module_library_name} LIBRARY DESTINATION ${LIBRARY_OUTPUT})
 install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/etc/startup.nls DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/etc) 
 install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/etc/finish.nls DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/etc)

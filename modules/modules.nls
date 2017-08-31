@@ -57,6 +57,7 @@ modules_list = {
 'qml_engine';
 'com_engine';
 'fftw';
+'f2c';
 };
 %==============================================================================
 % modules sorted for help
@@ -70,6 +71,7 @@ modules_help_list = {
 'memory_manager';
 'modules_manager';
 'dynamic_link';
+'f2c';
 'os_functions';
 'files_folders_functions';
 'stream_manager';
