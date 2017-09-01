@@ -25,6 +25,7 @@ ${CMAKE_CURRENT_SOURCE_DIR}/src/include
 #============================================================================== 
 add_definitions(-DINTEGER_STAR_8)
 add_definitions(-D_POSIX_SOURCE)
+add_definitions(-DNO_My_ctype)
 add_definitions(-DSkip_f2c_Undefs)
 #============================================================================== 
 FILE(
@@ -72,7 +73,6 @@ LIBF2C_SRC
 "${CMAKE_CURRENT_SOURCE_DIR}/src/c/libf2c/ef1asc_.c"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/c/libf2c/ef1cmc_.c"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/c/libf2c/endfile.c"
-"${CMAKE_CURRENT_SOURCE_DIR}/src/c/libf2c/entries.c"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/c/libf2c/erf_.c"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/c/libf2c/erfc_.c"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/c/libf2c/err.c"
@@ -81,7 +81,6 @@ LIBF2C_SRC
 "${CMAKE_CURRENT_SOURCE_DIR}/src/c/libf2c/fmt.c"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/c/libf2c/fmtlib.c"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/c/libf2c/ftell_.c"
-"${CMAKE_CURRENT_SOURCE_DIR}/src/c/libf2c/getarg_.c"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/c/libf2c/getenv_.c"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/c/libf2c/h_abs.c"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/c/libf2c/h_dim.c"
@@ -96,7 +95,6 @@ LIBF2C_SRC
 "${CMAKE_CURRENT_SOURCE_DIR}/src/c/libf2c/h_nint.c"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/c/libf2c/h_sign.c"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/c/libf2c/i_abs.c"
-"${CMAKE_CURRENT_SOURCE_DIR}/src/c/libf2c/iargc_.c"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/c/libf2c/i_dim.c"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/c/libf2c/i_dnnt.c"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/c/libf2c/i_indx.c"
@@ -115,7 +113,6 @@ LIBF2C_SRC
 "${CMAKE_CURRENT_SOURCE_DIR}/src/c/libf2c/l_lt.c"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/c/libf2c/lread.c"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/c/libf2c/lwrite.c"
-"${CMAKE_CURRENT_SOURCE_DIR}/src/c/libf2c/main.c"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/c/libf2c/open.c"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/c/libf2c/pow_ci.c"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/c/libf2c/pow_dd.c"
