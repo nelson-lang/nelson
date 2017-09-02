@@ -1,2 +1,2 @@
-char F2C_version[] = "19961017";
-char xxxvers[] = "\n@(#) FORTRAN 77 to C Translator, VERSION 19961017\n";
+char F2C_version[] = "20170901";
+char xxxvers[] = "\n@(#) NELSON FORTRAN 77 to C Translator, VERSION 20170901\n";

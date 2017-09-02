@@ -35,7 +35,7 @@ char *p1_bakfile	= "p1_file.BAK";
 char *sortfname		= "init_file";
 char *proto_fname	= "proto_file";
 
-char link_msg[]		= "-lf2c -lm"; /* was "-lF77 -lI77 -lm -lc"; */
+char link_msg[]		= "-lnlsf2c -lm";
 
 char *outbuf = "", *outbtail;
 

@@ -653,7 +653,7 @@ sed \"s/^\\/\\*>>>'\\(.*\\)'<<<\\*\\/\\$/cat >'\\1' <<'\\/*<<<\\1>>>*\\/'/\" | /
     }
     if (!skipversion)
     {
-        nice_printf (c_output, "/* %s -- translated by f2c ", file_name);
+        nice_printf (c_output, "/* Translated by Nelson f2c ");
         nice_printf (c_output, "(version %s).\n", F2C_version);
         nice_printf (c_output,
                      "   You must link the resulting object file with the libraries:\n\
