@@ -57,6 +57,9 @@
     <ClInclude Include="tokdefs.h" />
     <ClInclude Include="usignal.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resources.rc" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{336285AB-DE2E-4A21-9439-D9763AEDBFDF}</ProjectGuid>
