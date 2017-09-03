@@ -40,6 +40,12 @@ f2c is a program to convert Fortran 77 to C code, developed at Bell Laboratories
 http://www.netlib.org/f2c/
 NetLib license (free software)
 
+SLICOT 5.0
+The subroutine library SLICOT provides numerical algorithms for computations in systems and control theory.
+http://slicot.org/
+Free software, released under the GNU General Public License (GPL v2 SLICOT 5.0).
+Non-free licenses may also be purchased.
+
 SimpleFileWatcher
 a C++ wrapper for OS file monitoring systems
 https://github.com/apetrone/simplefilewatcher
