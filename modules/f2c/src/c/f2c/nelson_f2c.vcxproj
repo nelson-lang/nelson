@@ -115,6 +115,7 @@
     </Link>
     <PostBuildEvent>
       <Command>copy $(SolutionDir)\bin\Win32\nelson_f2c.exe $(SolutionDir)\bin\x64\nelson_f2c.exe</Command>
+      <Message>Copy Nelson_f2c.exe</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -136,6 +137,10 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>copy $(SolutionDir)\bin\Win32\nelson_f2c.exe $(SolutionDir)\bin\x64\nelson_f2c.exe</Command>
+      <Message>Copy Nelson_f2c.exe</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
