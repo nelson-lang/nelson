@@ -1,0 +1,1541 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dllMain.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AB01MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AB01ND.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AB01OD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AB04MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AB05MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AB05ND.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AB05OD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AB05PD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AB05QD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AB05RD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AB05SD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AB07MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AB07ND.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AB08MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AB08MZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AB08ND.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AB08NX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AB08NZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AB8NXZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AB09AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AB09AX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AB09BD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AB09BX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AB09CD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AB09CX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AB09DD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AB09ED.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AB09FD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AB09GD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AB09HD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AB09HX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AB09HY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AB09ID.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AB09IX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AB09IY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AB09JD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AB09JV.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AB09JW.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AB09JX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AB09KD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AB09KX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AB09MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AB09ND.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AB13AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AB13AX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AB13BD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AB13CD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AB13DD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AB13DX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AB13ED.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AB13FD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AB13MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AG07BD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AG08BD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AG08BY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AG08BZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AG8BYZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BB01AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BB02AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BB03AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BB04AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BD01AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BD02AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DE01OD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DE01PD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DELCTG.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DF01MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DG01MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DG01ND.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DG01NY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DG01OD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DK01MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FB01QD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FB01RD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FB01SD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FB01TD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FB01VD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FD01AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IB01AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IB01BD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IB01CD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IB01MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IB01MY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IB01ND.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IB01OD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IB01OY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IB01PD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IB01PX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IB01PY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IB01QD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IB01RD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IB03AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IB03BD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MA01AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MA01BD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MA01CD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MA02AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MA02BD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MA02BZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MA02CD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MA02CZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MA02DD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MA02ED.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MA02FD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MA02GD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MA02HD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MA02ID.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MA02JD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB01KD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB01LD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB01MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB01ND.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB01PD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB01QD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB01RD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB01RU.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB01RW.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB01RX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB01RY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB01SD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB01TD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB01UD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB01UW.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB01UX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB01VD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB01WD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB01XD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB01XY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB01YD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB01ZD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB02CD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB02CU.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB02CV.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB02CX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB02CY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB02DD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB02ED.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB02FD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB02GD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB02HD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB02ID.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB02JD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB02JX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB02KD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB02MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB02ND.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB02NY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB02OD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB02PD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB02QD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB02QY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB02RD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB02RZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB02SD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB02SZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB02TD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB02TZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB02UD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB02UU.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB02UV.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB02UW.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB02VD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB02WD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB02XD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB02YD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB03AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB03BA.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB03BB.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB03BC.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB03BD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB03BE.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB03CD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB03DD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB03ED.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB03FD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB03GD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB03HD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB03ID.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB03JD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB03KA.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB03KB.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB03KC.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB03KD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB03KE.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB03LD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB03MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB03MY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB03ND.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB03NY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB03OD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB03OY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB03PD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB03PY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB03QD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB03QX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB03QY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB03RD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB03RX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB03RY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB03SD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB03TD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB03TS.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB03UD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB03VD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB03VY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB03WA.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB03WD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB03WX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB03XD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB03XP.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB03XU.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB03YA.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB03YD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB03YT.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB03ZA.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB03ZD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB3OYZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB3PYZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB04AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB04BD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB04DD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB04DI.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB04DS.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB04DY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB04GD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB04HD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB04ID.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB04IY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB04IZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB04JD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB04KD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB04LD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB04MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB04ND.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB04NY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB04OD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB04OW.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB04OX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB04OY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB04PA.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB04PB.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB04PU.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB04PY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB04QB.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB04QC.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB04QF.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB04QU.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB04SU.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB04TB.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB04TS.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB04TT.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB04TU.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB04TV.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB04TW.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB04TX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB04TY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB04UD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB04VD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB04VX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB04WD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB04WP.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB04WR.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB04WU.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB04XD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB04XY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB04YD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB04YW.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB04ZD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB05MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB05MY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB05ND.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB05OD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MB05OY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MC01MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MC01ND.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MC01OD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MC01PD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MC01PY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MC01QD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MC01RD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MC01SD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MC01SW.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MC01SX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MC01SY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MC01TD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MC01VD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MC01WD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MC03MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MC03ND.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MC03NX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MC03NY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MD03AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MD03BA.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MD03BB.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MD03BD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MD03BF.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MD03BX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MD03BY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NF01AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NF01AY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NF01BA.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NF01BB.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NF01BD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NF01BE.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NF01BF.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NF01BP.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NF01BQ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NF01BR.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NF01BS.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NF01BU.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NF01BV.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NF01BW.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NF01BX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NF01BY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB01BD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB01BX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB01BY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB01DD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB01FY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB01MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB02CX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB02MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB02MR.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB02MS.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB02MT.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB02MU.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB02MV.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB02MW.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB02ND.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB02OD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB02OU.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB02OV.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB02OW.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB02OX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB02OY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB02PD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB02QD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB02RD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB02RU.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB02SD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB03MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB03MU.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB03MV.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB03MW.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB03MX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB03MY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB03OD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB03OR.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB03OT.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB03OU.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB03OV.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB03OY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB03PD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB03QD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB03QX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB03QY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB03RD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB03SD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB03SX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB03SY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB03TD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB03UD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB04MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB04MR.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB04MU.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB04MW.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB04MY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB04ND.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB04NV.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB04NW.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB04NX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB04NY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB04OD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB04OW.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB04PD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB04PX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB04PY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB04QD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB04QR.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB04QU.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB04QY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB04RD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB04RV.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB04RW.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB04RX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB04RY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB06ND.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB08CD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB08DD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB08ED.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB08FD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB08GD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB08HD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB08MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB08MY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB08ND.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB08NY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB09MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB10AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB10DD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB10ED.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB10FD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB10HD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB10ID.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB10JD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB10KD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB10LD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB10MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB10PD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB10QD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB10RD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB10SD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB10TD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB10UD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB10VD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB10WD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB10YD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB10ZD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB10ZP.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB16AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB16AY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB16BD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB16CD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SB16CY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SELECT.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SG02AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SG03AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SG03AX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SG03AY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SG03BD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SG03BU.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SG03BV.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SG03BW.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SG03BX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SG03BY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TB01ID.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TB01IZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TB01KD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TB01LD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TB01MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TB01ND.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TB01PD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TB01TD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TB01TY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TB01UD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TB01VD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TB01VY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TB01WD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TB01XD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TB01XZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TB01YD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TB01ZD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TB03AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TB03AY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TB04AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TB04AY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TB04BD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TB04BV.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TB04BW.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TB04BX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TB04CD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TB05AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TC01OD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TC04AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TC05AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TD03AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TD03AY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TD04AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TD05AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TF01MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TF01MX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TF01MY.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TF01ND.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TF01OD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TF01PD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TF01QD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TF01RD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TG01AD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TG01AZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TG01BD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TG01CD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TG01DD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TG01ED.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TG01FD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TG01FZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TG01HD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TG01HX.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TG01ID.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TG01JD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TG01WD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UD01BD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UD01CD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UD01DD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UD01MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UD01MZ.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UD01ND.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UE01MD.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\slicot_helpers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\slicot_SB01BD.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\nlsSlicot_exports.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\slicot_helpers.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\slicot_SB01BD.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\module.iss" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resources.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

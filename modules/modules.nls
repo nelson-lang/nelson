@@ -58,6 +58,7 @@ modules_list = {
 'com_engine';
 'fftw';
 'f2c';
+'slicot';
 };
 %==============================================================================
 % modules sorted for help
@@ -88,6 +89,7 @@ modules_help_list = {
 'logical';
 'linear_algebra';
 'fftw';
+'slicot';
 'function_handle';
 'time';
 'random';
