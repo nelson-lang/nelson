@@ -1,3 +1,11 @@
+Features:
+---------
+
+* add 'f2c' function to convert fortran code to C from Nelson
+
+* add Fortran 2 C converter library (based on libf2c forked)
+
+
 ## 0.1.9 alpha (2017-09-02)
 
 
