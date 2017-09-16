@@ -117,7 +117,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>copy $(SolutionDir)\bin\Win32\nelson_f2c.exe $(SolutionDir)\bin\x64\nelson_f2c.exe</Command>
+      <Command>copy "$(SolutionDir)\bin\Win32\nelson_f2c.exe" "$(SolutionDir)\bin\x64\nelson_f2c.exe"</Command>
       <Message>Copy Nelson_f2c.exe</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -141,7 +141,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>copy $(SolutionDir)\bin\Win32\nelson_f2c.exe $(SolutionDir)\bin\x64\nelson_f2c.exe</Command>
+      <Command>copy "$(SolutionDir)\bin\Win32\nelson_f2c.exe" "$(SolutionDir)\bin\x64\nelson_f2c.exe"</Command>
       <Message>Copy Nelson_f2c.exe</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>

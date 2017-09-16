@@ -33,6 +33,13 @@ function qhelpgenerator(varargin)
 
   qhelpgenerator_filename = 'qhelpgenerator'; 
   QTDIR_BINARIES = getenv('QTDIR_BINARIES');
+  if strcmp(QTDIR_BINARIES, '')
+    if ismac()
+      if isdir('/usr/local/opt/qt5/bin/')
+        QTDIR_BINARIES = '/usr/local/opt/qt5/bin/';
+      end
+    end
+  end
   if ~strcmp(QTDIR_BINARIES, '')
     new_qhelpgenerator_filename = [QTDIR_BINARIES, '/qhelpgenerator'];
     if isfile(new_qhelpgenerator_filename)
