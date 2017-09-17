@@ -19,7 +19,6 @@
 #define MODULE_NAME "nig"
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\loader.nls; DestDir: {app}\modules\{#MODULE_NAME}\;
-Source: {#RootPath}modules\{#MODULE_NAME}\minimal_tests.nls; DestDir: {app}\modules\{#MODULE_NAME}\;
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\etc\startup.nls; DestDir: {app}\modules\{#MODULE_NAME}\etc\;
 Source: {#RootPath}modules\{#MODULE_NAME}\etc\finish.nls; DestDir: {app}\modules\{#MODULE_NAME}\etc\;
