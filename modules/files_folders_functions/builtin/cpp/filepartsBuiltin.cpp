@@ -52,7 +52,7 @@ ArrayOfVector Nelson::FilesFoldersGateway::filepartsBuiltin(Evaluator* eval, int
                 }
                 else
                 {
-                    Error(eval, L"Argument #2 must contain a valid string 'path', 'filename' or 'extension' expected.");
+                    Error(eval, _W("Argument #2 must contain a valid string 'path', 'filename' or 'extension' expected."));
                 }
             }
             else

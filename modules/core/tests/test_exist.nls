@@ -16,23 +16,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-function status = nig(varargin)
-  if nargin ~= 2
-    error('wrong ...');
-  end
-  NIG_FUNCTION_FILE = varargin{1};
-  NIG_DESTINATION = varargin{2};
-  if ~isfile(NIG_FUNCTION_FILE)
-    error('wrong ...');
-  end
-  run(NIG_FUNCTION_FILE);
-  if exist('NIG_FUNCTION') ~= 1
-    error('wrong ...');
-  end
-  if ~isstruct(NIG_FUNCTION)
-    error('wrong ...');
-  end
-
-  status = false;
-endfunction
+assert_isequal(nargin('exist'), 2);
+assert_isequal(nargout('exist'), 1);
+//=============================================================================
+r = exist('toto');
+assert_isequal(r, 0);
+toto = 3;
+assert_isequal(exist('toto'), 1);
+assert_isequal(exist('toto', 'builtin'), 0);
+assert_isequal(exist('exist', 'builtin'), 5);
+assert_isequal(exist(nelsonroot(), 'dir'), 7);
 //=============================================================================

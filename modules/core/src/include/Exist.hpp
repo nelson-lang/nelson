@@ -6,33 +6,34 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 2 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-function status = nig(varargin)
-  if nargin ~= 2
-    error('wrong ...');
-  end
-  NIG_FUNCTION_FILE = varargin{1};
-  NIG_DESTINATION = varargin{2};
-  if ~isfile(NIG_FUNCTION_FILE)
-    error('wrong ...');
-  end
-  run(NIG_FUNCTION_FILE);
-  if exist('NIG_FUNCTION') ~= 1
-    error('wrong ...');
-  end
-  if ~isstruct(NIG_FUNCTION)
-    error('wrong ...');
-  end
-
-  status = false;
-endfunction
+#pragma once
+//=============================================================================
+#include "nlsCore_exports.h"
+#include "Evaluator.hpp"
+//=============================================================================
+namespace Nelson {
+	//=============================================================================
+	typedef enum
+	{
+		unknown = 0,
+		var = 1,
+		file = 2,
+		builtin = 5,
+		dir = 7,
+	} NELSON_EXIST_TYPE;
+	//=============================================================================
+    NLSCORE_IMPEXP int Exist(Evaluator* eval, std::wstring name, std::wstring category);
+	NLSCORE_IMPEXP int Exist(Evaluator* eval, std::wstring name);
+	//=============================================================================
+}
 //=============================================================================

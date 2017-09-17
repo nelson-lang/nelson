@@ -167,6 +167,7 @@
     <ClCompile Include="..\cpp\bannerBuiltin.cpp" />
     <ClCompile Include="..\cpp\echoBuiltin.cpp" />
     <ClCompile Include="..\cpp\execstrBuiltin.cpp" />
+    <ClCompile Include="..\cpp\existBuiltin.cpp" />
     <ClCompile Include="..\cpp\exitBuiltin.cpp" />
     <ClCompile Include="..\cpp\formatBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
@@ -214,6 +215,7 @@
     <ClInclude Include="..\include\bannerBuiltin.hpp" />
     <ClInclude Include="..\include\echoBuiltin.hpp" />
     <ClInclude Include="..\include\execstrBuiltin.hpp" />
+    <ClInclude Include="..\include\existBuiltin.hpp" />
     <ClInclude Include="..\include\exitBuiltin.hpp" />
     <ClInclude Include="..\include\formatBuiltin.hpp" />
     <ClInclude Include="..\include\maxNumCompThreadsBuiltin.hpp" />
