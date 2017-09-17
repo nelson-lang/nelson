@@ -1,0 +1,156 @@
+//=============================================================================
+// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+
+// Nelson Interface Generator (NIG) 
+// AB01OD interface 
+// http://slicot.org/objects/software/shared/doc/AB01OD.html
+
+NIG_FUNCTION = struct();
+NIG_FUNCTION.NELSON_NAME = 'slicot_ab01od';
+NIG_FUNCTION.SYMBOL = 'ab01od';
+NIG_FUNCTION.LANGUAGE = 'fortran';
+
+NIG_FUNCTION.VARIABLES = struct([]);
+IDX = length(NIG_FUNCTION.VARIABLES) + 1;
+NIG_FUNCTION.VARIABLES(IDX).NAME = 'stages';
+NIG_FUNCTION.VARIABLES(IDX).TYPE = 'character';
+NIG_FUNCTION.VARIABLES(IDX).MODE = 'input';
+NIG_FUNCTION.VARIABLES(IDX).SUPPORTED_VALUES = {'F', 'B', 'A'};
+
+IDX = length(NIG_FUNCTION.VARIABLES) + 1;
+NIG_FUNCTION.VARIABLES(IDX).NAME = 'jobu';
+NIG_FUNCTION.VARIABLES(IDX).TYPE = 'character';
+NIG_FUNCTION.VARIABLES(IDX).MODE = 'input';
+NIG_FUNCTION.VARIABLES(IDX).SUPPORTED_VALUES = {'N', 'I'};
+
+IDX = length(NIG_FUNCTION.VARIABLES) + 1;
+NIG_FUNCTION.VARIABLES(IDX).NAME = 'jobv';
+NIG_FUNCTION.VARIABLES(IDX).TYPE = 'character';
+NIG_FUNCTION.VARIABLES(IDX).MODE = 'input';
+NIG_FUNCTION.VARIABLES(IDX).SUPPORTED_VALUES = {'N', 'I'};
+
+IDX = length(NIG_FUNCTION.VARIABLES) + 1;
+NIG_FUNCTION.VARIABLES(IDX).NAME = 'n';
+NIG_FUNCTION.VARIABLES(IDX).TYPE = 'integer';
+NIG_FUNCTION.VARIABLES(IDX).MODE = 'local';
+NIG_FUNCTION.VARIABLES(IDX).VALUE = 'A.getDimensions().getRows()';
+
+IDX = length(NIG_FUNCTION.VARIABLES) + 1;
+NIG_FUNCTION.VARIABLES(IDX).NAME = 'm';
+NIG_FUNCTION.VARIABLES(IDX).TYPE = 'integer';
+NIG_FUNCTION.VARIABLES(IDX).MODE = 'local';
+NIG_FUNCTION.VARIABLES(IDX).VALUE = 'B.getDimensions().getRows()';
+
+IDX = length(NIG_FUNCTION.VARIABLES) + 1;
+NIG_FUNCTION.VARIABLES(IDX).NAME = 'a';
+NIG_FUNCTION.VARIABLES(IDX).NELSON_NAME = 'A';
+NIG_FUNCTION.VARIABLES(IDX).TYPE = 'double_array';
+NIG_FUNCTION.VARIABLES(IDX).MODE = 'in_out';
+NIG_FUNCTION.VARIABLES(IDX).DIMENSION_M = 'std::max(1, A.getDimensions().getRows())';
+NIG_FUNCTION.VARIABLES(IDX).DIMENSION_N = 'A.getDimensions().getRows()';
+
+IDX = length(NIG_FUNCTION.VARIABLES) + 1;
+NIG_FUNCTION.VARIABLES(IDX).NAME = 'lda';
+NIG_FUNCTION.VARIABLES(IDX).TYPE = 'integer';
+NIG_FUNCTION.VARIABLES(IDX).MODE = 'local';
+NIG_FUNCTION.VARIABLES(IDX).VALUE = 'std::max(1, A.getDimensions().getRows())';
+
+IDX = length(NIG_FUNCTION.VARIABLES) + 1;
+NIG_FUNCTION.VARIABLES(IDX).NAME = 'b';
+NIG_FUNCTION.VARIABLES(IDX).NELSON_NAME = 'B';
+NIG_FUNCTION.VARIABLES(IDX).TYPE = 'double_array';
+NIG_FUNCTION.VARIABLES(IDX).MODE = 'in_out';
+NIG_FUNCTION.VARIABLES(IDX).DIMENSION_M = 'std::max(1, A.getDimensions().getRows())';
+NIG_FUNCTION.VARIABLES(IDX).DIMENSION_N = 'B.getDimensions().getRows()';
+
+IDX = length(NIG_FUNCTION.VARIABLES) + 1;
+NIG_FUNCTION.VARIABLES(IDX).NAME = 'ldb';
+NIG_FUNCTION.VARIABLES(IDX).TYPE = 'integer';
+NIG_FUNCTION.VARIABLES(IDX).MODE = 'local';
+NIG_FUNCTION.VARIABLES(IDX).VALUE = 'std::max(1, A.getDimensions().getRows())';
+
+IDX = length(NIG_FUNCTION.VARIABLES) + 1;
+NIG_FUNCTION.VARIABLES(IDX).NAME = 'u';
+NIG_FUNCTION.VARIABLES(IDX).TYPE = 'double_array';
+NIG_FUNCTION.VARIABLES(IDX).MODE = 'in_out';
+NIG_FUNCTION.VARIABLES(IDX).DIMENSION_M = 'std::max(1, A.getDimensions().getRows())';
+NIG_FUNCTION.VARIABLES(IDX).DIMENSION_N = 'A.getDimensions().getRows()';
+
+IDX = length(NIG_FUNCTION.VARIABLES) + 1;
+NIG_FUNCTION.VARIABLES(IDX).NAME = 'ldu';
+NIG_FUNCTION.VARIABLES(IDX).TYPE = 'integer';
+NIG_FUNCTION.VARIABLES(IDX).MODE = 'local';
+NIG_FUNCTION.VARIABLES(IDX).VALUE = 'std::max(1, A.getDimensions().getRows())';
+
+IDX = length(NIG_FUNCTION.VARIABLES) + 1;
+NIG_FUNCTION.VARIABLES(IDX).NAME = 'v';
+NIG_FUNCTION.VARIABLES(IDX).TYPE = 'double_array';
+NIG_FUNCTION.VARIABLES(IDX).MODE = 'output';
+NIG_FUNCTION.VARIABLES(IDX).DIMENSION_M = 'std::max(1, B.getDimensions().getColumns())';
+NIG_FUNCTION.VARIABLES(IDX).DIMENSION_N = 'B.getDimensions().getColumns()';
+
+IDX = length(NIG_FUNCTION.VARIABLES) + 1;
+NIG_FUNCTION.VARIABLES(IDX).NAME = 'ldv';
+NIG_FUNCTION.VARIABLES(IDX).TYPE = 'integer';
+NIG_FUNCTION.VARIABLES(IDX).MODE = 'local';
+NIG_FUNCTION.VARIABLES(IDX).VALUE = 'std::max(1, B.getDimensions().getColumns())';
+
+IDX = length(NIG_FUNCTION.VARIABLES) + 1;
+NIG_FUNCTION.VARIABLES(IDX).NAME = 'indcon';
+NIG_FUNCTION.VARIABLES(IDX).TYPE = 'integer';
+NIG_FUNCTION.VARIABLES(IDX).MODE = 'in_out';
+
+IDX = length(NIG_FUNCTION.VARIABLES) + 1;
+NIG_FUNCTION.VARIABLES(IDX).NAME = 'kstair';
+NIG_FUNCTION.VARIABLES(IDX).TYPE = 'integer_array';
+NIG_FUNCTION.VARIABLES(IDX).MODE = 'in_out';
+NIG_FUNCTION.VARIABLES(IDX).DIMENSION_M = 'A.getDimensions().getRows()';
+NIG_FUNCTION.VARIABLES(IDX).DIMENSION_N = 1;
+
+IDX = length(NIG_FUNCTION.VARIABLES) + 1;
+NIG_FUNCTION.VARIABLES(IDX).NAME = 'tol';
+NIG_FUNCTION.VARIABLES(IDX).TYPE = 'double';
+NIG_FUNCTION.VARIABLES(IDX).MODE = 'input';
+NIG_FUNCTION.VARIABLES(IDX).VALUE = 0;
+
+IDX = length(NIG_FUNCTION.VARIABLES) + 1;
+NIG_FUNCTION.VARIABLES(IDX).NAME = 'iwork';
+NIG_FUNCTION.VARIABLES(IDX).TYPE = 'integer_array';
+NIG_FUNCTION.VARIABLES(IDX).MODE = 'local';
+NIG_FUNCTION.VARIABLES(IDX).DIMENSION_M = 1;
+NIG_FUNCTION.VARIABLES(IDX).DIMENSION_N = '2 * B.getDimensions().getColumns()';
+
+IDX = length(NIG_FUNCTION.VARIABLES) + 1;
+NIG_FUNCTION.VARIABLES(IDX).NAME = 'dwork';
+NIG_FUNCTION.VARIABLES(IDX).TYPE = 'double_array';
+NIG_FUNCTION.VARIABLES(IDX).MODE = 'local';
+NIG_FUNCTION.VARIABLES(IDX).DIMENSION_M = 1;
+NIG_FUNCTION.VARIABLES(IDX).DIMENSION_N = 'std::max(1, std::max(A.getDimensions().getRows(), B.getDimensions().getColumns()) + std::max(A.getDimensions().getRows(), 3 * B.getDimensions().getColumns()))';
+
+IDX = length(NIG_FUNCTION.VARIABLES) + 1;
+NIG_FUNCTION.VARIABLES(IDX).NAME = 'ldwork';
+NIG_FUNCTION.VARIABLES(IDX).TYPE = 'integer';
+NIG_FUNCTION.VARIABLES(IDX).MODE = 'local';
+NIG_FUNCTION.VARIABLES(IDX).VALUE = 'std::max(1, std::max(A.getDimensions().getRows(), B.getDimensions().getColumns()) + std::max(A.getDimensions().getRows(), 3 * B.getDimensions().getColumns()))';
+
+IDX = length(NIG_FUNCTION.VARIABLES) + 1;
+NIG_FUNCTION.VARIABLES(IDX).NAME = 'info';
+NIG_FUNCTION.VARIABLES(IDX).TYPE = 'integer';
+NIG_FUNCTION.VARIABLES(IDX).MODE = 'output';
+
