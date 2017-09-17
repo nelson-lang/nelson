@@ -35,7 +35,7 @@ ftnlen jobd_len;
 {
     /* System generated locals */
     integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, e_dim1, e_offset, i__1, i__2, i__3;
-    doublereal ret_val, d__1, d__2;
+    doublereal ret_val = 0, d__1, d__2;
     doublecomplex z__1;
 
     /* Builtin functions */

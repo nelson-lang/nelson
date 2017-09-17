@@ -11,7 +11,7 @@ doublereal *theta, *q2, *e2, *pivmin;
 integer *info;
 {
     /* System generated locals */
-    integer ret_val, i__1;
+    integer ret_val = 0, i__1;
 
     /* Local variables */
     static integer j;

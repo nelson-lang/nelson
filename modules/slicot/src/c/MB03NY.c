@@ -20,7 +20,7 @@ integer *lcwork, *info;
 {
     /* System generated locals */
     integer a_dim1, a_offset, i__1, i__2, i__3, i__4;
-    doublereal ret_val, d__1;
+    doublereal ret_val = 0, d__1;
     doublecomplex z__1, z__2;
 
     /* Local variables */

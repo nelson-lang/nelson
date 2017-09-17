@@ -21,7 +21,7 @@ ftnlen equil_len;
 {
     /* System generated locals */
     integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, i__1, i__2, i__3;
-    doublereal ret_val;
+    doublereal ret_val = 0;
 
     /* Builtin functions */
     double sqrt();
