@@ -18,7 +18,7 @@
 //=============================================================================
 this_path = nfilename('fullpathext');
 this_path = fileparts(this_path, 'path');
-fortran_files = dir([this_path, '/*.f'])
+fortran_files = dir([this_path, '/*.f']);
 destination = [nelsonroot(), '/modules/slicot/src/c'];
 for f = fortran_files
   src = [this_path, '/', f.name];
