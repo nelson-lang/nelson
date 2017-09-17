@@ -54,6 +54,7 @@ gui
 handle
 qml_engine
 com_engine
+nig
 fftw
 f2c
 help_browser

@@ -43,8 +43,8 @@ function varargout = f2c(varargin)
     options = varargin{3};
   end
   F2C_OPTIONS = ['-E -I"', modulepath(nelsonroot(),'f2c','root'), 'src/include"', ' -d'];
-  cmd = ['"', path_f2c, '" "', src, '"', ' ', F2C_OPTIONS, dst, ' ', options]
-  [res, msg] = unix(cmd)
+  cmd = ['"', path_f2c, '" "', src, '"', ' ', F2C_OPTIONS, dst, ' ', options];
+  [res, msg] = unix(cmd);
   if nargout > 0
     if res ~= 0
       varargout{1} = false;
