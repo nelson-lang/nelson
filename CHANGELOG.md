@@ -4,6 +4,12 @@ Features:
 
 * add 'exist' function to check existence of variable, builtin, function, file or directory.
 
+* add 'isvar' function to check existence of variable.
+
+* add 'ismacro' function to check existence of macro.
+
+* add 'isbuiltin' function to check existence of builtin.
+
 * add 'f2c' function to convert fortran code to C from Nelson
 
 * add Fortran 2 C converter library (based on libf2c forked)

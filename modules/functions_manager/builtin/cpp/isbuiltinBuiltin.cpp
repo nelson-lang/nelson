@@ -6,29 +6,43 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 2 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-assert_isequal(nargin('exist'), -1);
-assert_isequal(nargout('exist'), 1);
+#include "isbuiltinBuiltin.hpp"
+#include "characters_encoding.hpp"
+#include "Error.hpp"
 //=============================================================================
-r = exist('toto');
-assert_isequal(r, 0);
-toto = 3;
-assert_isequal(exist('toto'), 1);
-clear toto
-assert_isequal(exist('toto'), 0);
-assert_isequal(exist('toto', 'builtin'), 0);
-assert_isequal(exist('exist', 'builtin'), 0);
-assert_isequal(exist('who', 'builtin'), 5);
-assert_isequal(exist('exist', 'file'), 2);
-assert_isequal(exist('exist'), 2);
-assert_isequal(exist(nelsonroot(), 'dir'), 7);
+using namespace Nelson;
+//=============================================================================
+ArrayOfVector Nelson::FunctionsGateway::isbuiltinBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+	if (argIn.size() != 1)
+	{
+		Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+	}
+	if (nLhs > 1)
+	{
+		Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+	}
+	ArrayOf param1 = argIn[0];
+	std::wstring name = param1.getContentAsWideString();
+	std::string uname = wstring_to_utf8(name);
+	FuncPtr pfun;
+	bool res = false;
+	if (eval->lookupFunction(uname, pfun) == true)
+	{
+		res = (pfun->type() == NLS_BUILT_IN_FUNCTION);
+	}
+	retval.push_back(ArrayOf::logicalConstructor(res));
+	return retval;
+}
 //=============================================================================

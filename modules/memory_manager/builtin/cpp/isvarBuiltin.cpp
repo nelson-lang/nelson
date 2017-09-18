@@ -16,46 +16,59 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "existBuiltin.hpp"
+#include "isvarBuiltin.hpp"
+#include "IsVariable.hpp"
 #include "Error.hpp"
-#include "Exist.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::CoreGateway::existBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector Nelson::MemoryGateway::isvarBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() == 0 || argIn.size() > 2)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-	ArrayOf param1 = argIn[0];
-	int res = 0;
+	if (argIn.size() == 0 || argIn.size() > 2)
+	{
+		Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+	}
+	if (nLhs > 1)
+	{
+		Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+	}
 	if (argIn.size() == 1)
 	{
-		std::wstring name = param1.getContentAsWideString();
-		res = Exist(eval, name);
+		ArrayOf param1 = argIn[0];
+		std::wstring varName = param1.getContentAsWideString();
+		bool res = IsVariable(eval, SCOPE_LEVEL::LOCAL_SCOPE, varName);
+		retval.push_back(ArrayOf::logicalConstructor(res));
 	}
 	else
 	{
+		ArrayOf param1 = argIn[0];
 		ArrayOf param2 = argIn[1];
-		std::wstring name = param1.getContentAsWideString();
-		std::wstring category = param2.getContentAsWideString();
-		if (category == L"var" || category == L"builtin" || category == L"dir" || category == L"file")
+		std::wstring scopeName = param1.getContentAsWideString();
+		std::wstring varName = param2.getContentAsWideString();
+		bool res = false;
+		if (scopeName.compare(L"global") == 0)
 		{
-			res = Exist(eval, name, category);
+			res = IsVariable(eval, SCOPE_LEVEL::GLOBAL_SCOPE, varName);
+		}
+		else if (scopeName.compare(L"base") == 0)
+		{
+			res = IsVariable(eval, SCOPE_LEVEL::BASE_SCOPE, varName);
+		}
+		else if (scopeName.compare(L"local") == 0)
+		{
+			res = IsVariable(eval, SCOPE_LEVEL::LOCAL_SCOPE, varName);
+		}
+		else if (scopeName.compare(L"caller") == 0)
+		{
+			res = IsVariable(eval, SCOPE_LEVEL::CALLER_SCOPE, varName);
 		}
 		else
 		{
-			Error(eval, _W("Argument #2 must contain a valid string 'var', 'builtin', 'dir' or 'file' expected."));
+			Error(eval, _W("Argument #1 : 'global', 'base', 'local' or 'caller' expected."));
 		}
+		retval.push_back(ArrayOf::logicalConstructor(res));
 	}
-	retval.push_back(ArrayOf::doubleConstructor((double)res));
     return retval;
 }
 //=============================================================================
-

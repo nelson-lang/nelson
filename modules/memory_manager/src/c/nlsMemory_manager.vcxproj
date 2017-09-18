@@ -166,6 +166,7 @@
   <ItemGroup>
     <ClCompile Include="..\cpp\Clear.cpp" />
     <ClCompile Include="..\cpp\ClearGlobal.cpp" />
+    <ClCompile Include="..\cpp\IsVariable.cpp" />
     <ClCompile Include="..\cpp\LockVariable.cpp" />
     <ClCompile Include="..\cpp\MemoryInformation.cpp" />
     <ClCompile Include="..\cpp\Who.cpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="..\..\src\include\Clear.hpp" />
     <ClInclude Include="..\..\src\include\nlsMemory_manager_exports.h" />
     <ClInclude Include="..\include\ClearGlobal.hpp" />
+    <ClInclude Include="..\include\IsVariable.hpp" />
     <ClInclude Include="..\include\LockVariable.hpp" />
     <ClInclude Include="..\include\MemoryInformation.hpp" />
     <ClInclude Include="..\include\Who.hpp" />

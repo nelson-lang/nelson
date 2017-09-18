@@ -1,0 +1,74 @@
+//=============================================================================
+// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+function res = exist(varargin)
+  res = 0;
+  if (nargin == 0 | nargin > 2)
+    error(_('Wrong number of input arguments.'));
+  end
+  varname = varargin{1};
+  if nargin == 2
+    category = varargin{2};
+    supported = {'var', 'file', 'dir', 'builtin'};
+    if ~any(strcmp(category, supported))
+      error(_('Argument #2 must contain a valid string ''var'', ''builtin'', ''dir'' or ''file'' expected.'));
+    end
+    switch category
+      case 'var'
+        if isvar('caller', varname)
+          res = 1;
+        end
+      case 'builtin'
+        if isbuiltin(varname)
+          res = 5;
+        end
+      case 'dir'
+        if isdir(varname)
+          res = 7;
+        end
+      case 'file'
+        if isfile(varname)
+          res = 2;
+        else
+          if ismacro(varname)
+            res = 2;
+          end
+        end
+      otherwise
+         res = 0;
+    end
+  else
+    res = exist(varname, 'file');
+    if res ~= 0
+      return;
+    end
+    res = exist(varname, 'dir');
+    if res ~= 0
+      return;
+    end
+    if isvar('caller', varname)
+      res = 1;
+      return;
+    end
+    res = exist(varname, 'builtin');
+    if res ~= 0
+      return;
+    end
+  end
+endfunction
+//=============================================================================

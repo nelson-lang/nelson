@@ -172,7 +172,6 @@
     <ClInclude Include="..\..\src\include\nlsCore_exports.h" />
     <ClInclude Include="..\include\ComputionalThreads.hpp" />
     <ClInclude Include="..\include\EvaluateCommand.hpp" />
-    <ClInclude Include="..\include\Exist.hpp" />
     <ClInclude Include="..\include\GetPreferencesPath.hpp" />
     <ClInclude Include="..\include\IsEmptyScriptFile.hpp" />
     <ClInclude Include="..\include\NargIn.hpp" />
@@ -205,7 +204,6 @@
     <ClCompile Include="..\cpp\ComputionalThreads.cpp" />
     <ClCompile Include="..\cpp\EvaluateScriptFile.cpp" />
     <ClCompile Include="..\cpp\EvaluateCommand.cpp" />
-    <ClCompile Include="..\cpp\Exist.cpp" />
     <ClCompile Include="..\cpp\GetCurrentNFilename.cpp" />
     <ClCompile Include="..\cpp\GetNelsonBinariesPath.cpp" />
     <ClCompile Include="..\cpp\GetNelsonPath.cpp" />

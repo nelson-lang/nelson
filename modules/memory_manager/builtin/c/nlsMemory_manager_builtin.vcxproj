@@ -174,6 +174,7 @@
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\globalBuiltin.cpp" />
     <ClCompile Include="..\cpp\isglobalBuiltin.cpp" />
+    <ClCompile Include="..\cpp\isvarBuiltin.cpp" />
     <ClCompile Include="..\cpp\memoryBuiltin.cpp" />
     <ClCompile Include="..\cpp\persistentBuiltin.cpp" />
     <ClCompile Include="..\cpp\varislockBuiltin.cpp" />
@@ -220,6 +221,7 @@
     <ClInclude Include="..\include\clearBuiltin.hpp" />
     <ClInclude Include="..\include\globalBuiltin.hpp" />
     <ClInclude Include="..\include\isglobalBuiltin.hpp" />
+    <ClInclude Include="..\include\isvarBuiltin.hpp" />
     <ClInclude Include="..\include\memoryBuiltin.hpp" />
     <ClInclude Include="..\include\nlsMemory_manager_builtin_exports.h" />
     <ClInclude Include="..\include\persistentBuiltin.hpp" />

@@ -26,7 +26,7 @@ function status = nig(varargin)
     error('wrong ...');
   end
   run(NIG_FUNCTION_FILE);
-  if exist('NIG_FUNCTION') ~= 1
+  if ~isvar('NIG_FUNCTION')
     error('wrong ...');
   end
   if ~isstruct(NIG_FUNCTION)

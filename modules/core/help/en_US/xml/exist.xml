@@ -62,10 +62,19 @@ exist('fileread')
 
   <see_also>
     <see_also_item>
-      <link linkend="${functions_manager}what">what</link>
+      <link linkend="${functions_manager}isbuiltin">isbuiltin</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${memory_manager}who">who</link>
+      <link linkend="${functions_manager}ismacro">ismacro</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${files_folders_functions}isfile">isfile</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${files_folders_functions}isdir">isdir</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${memory_manager}isvar">isvar</link>
     </see_also_item>
   </see_also>
 

@@ -173,6 +173,8 @@
     <ClCompile Include="..\cpp\clearfunBuiltin.cpp" />
     <ClCompile Include="..\cpp\fevalBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
+    <ClCompile Include="..\cpp\isbuiltinBuiltin.cpp" />
+    <ClCompile Include="..\cpp\ismacroBuiltin.cpp" />
     <ClCompile Include="..\cpp\macroargsBuiltin.cpp" />
     <ClCompile Include="..\cpp\pathBuiltin.cpp" />
     <ClCompile Include="..\cpp\rehashBuiltin.cpp" />
@@ -220,6 +222,8 @@
     <ClInclude Include="..\include\builtinBuiltin.hpp" />
     <ClInclude Include="..\include\clearfunBuiltin.hpp" />
     <ClInclude Include="..\include\fevalBuiltin.hpp" />
+    <ClInclude Include="..\include\isbuiltinBuiltin.hpp" />
+    <ClInclude Include="..\include\ismacroBuiltin.hpp" />
     <ClInclude Include="..\include\macroargsBuiltin.hpp" />
     <ClInclude Include="..\include\nlsFunctions_manager_builtin_exports.h" />
     <ClInclude Include="..\include\pathBuiltin.hpp" />
