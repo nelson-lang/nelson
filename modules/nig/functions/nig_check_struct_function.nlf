@@ -16,22 +16,28 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-function status = nig(varargin)
-  if nargin ~= 2
-    error('wrong ...');
+function r = nig_check_struct_function(NIG_FUNCTION)
+  r = false;
+  names = fieldnames(NIG_FUNCTION);
+  supported_names = {'NELSON_NAME'; 'SYMBOL'; 'LANGUAGE'; 'VARIABLES'};
+  r = all(strcmp(names, supported_names));
+  if r == true
+    if ~ischar(NIG_FUNCTION.NELSON_NAME)
+      r = false;
+      return;
+    end
+    if ~ischar(NIG_FUNCTION.SYMBOL)
+      r = false;
+      return;
+    end
+    if ~ischar(NIG_FUNCTION.LANGUAGE)
+      r = false;
+      return;
+    end
+    if ~isstruct(NIG_FUNCTION.VARIABLES)
+      r = false;
+      return;
+    end
   end
-  NIG_FUNCTION = varargin{1};
-  NIG_DESTINATION = varargin{2};
-  if ~isstruct(NIG_FUNCTION)
-    error('wrong ...');
-  end
-  if ~isdir(NIG_DESTINATION)
-    error('wrong ...');
-  end
-  if ~nig_check_struct_function(NIG_FUNCTION)
-    error('wrong ...');
-  end
-  txt = nig_language_function_declaration(NIG_FUNCTION)
-  status = true;
 endfunction
 //=============================================================================

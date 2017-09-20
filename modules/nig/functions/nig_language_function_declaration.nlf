@@ -16,22 +16,20 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-function status = nig(varargin)
-  if nargin ~= 2
-    error('wrong ...');
+function txt = nig_language_function_declaration(NIG_FUNCTION)
+  txt = '';
+  if strcmp(NIG_FUNCTION.LANGUAGE, 'fortran') == true
+    txt = ['int C2F(', NIG_FUNCTION.SYMBOL, ')'];
+  else
+    txt = ['int ', NIG_FUNCTION.SYMBOL];
   end
-  NIG_FUNCTION = varargin{1};
-  NIG_DESTINATION = varargin{2};
-  if ~isstruct(NIG_FUNCTION)
-    error('wrong ...');
+  txt = [txt, ' ('];
+  for k = NIG_FUNCTION.VARIABLES
+    txt = [txt, nig_variable_by_type(k, true), ','];
   end
-  if ~isdir(NIG_DESTINATION)
-    error('wrong ...');
+  if txt(end) == ','
+    txt = txt(1:end - 1);
   end
-  if ~nig_check_struct_function(NIG_FUNCTION)
-    error('wrong ...');
-  end
-  txt = nig_language_function_declaration(NIG_FUNCTION)
-  status = true;
+  txt = [txt, ')'];
 endfunction
 //=============================================================================

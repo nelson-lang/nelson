@@ -16,22 +16,21 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-function status = nig(varargin)
-  if nargin ~= 2
-    error('wrong ...');
+function txt = nig_variable_integer(VARIABLE, withLocal)
+  txt = '';
+  if strcmp(VARIABLE.MODE, 'input')
+    txt = [txt, ' int ', toupper(VARIABLE.NAME)];
   end
-  NIG_FUNCTION = varargin{1};
-  NIG_DESTINATION = varargin{2};
-  if ~isstruct(NIG_FUNCTION)
-    error('wrong ...');
+  if strcmp(VARIABLE.MODE, 'output')
+    txt = [txt, ' int &', toupper(VARIABLE.NAME)];
   end
-  if ~isdir(NIG_DESTINATION)
-    error('wrong ...');
+  if strcmp(VARIABLE.MODE, 'in_out')
+    txt = [txt, ' int &', toupper(VARIABLE.NAME)];
   end
-  if ~nig_check_struct_function(NIG_FUNCTION)
-    error('wrong ...');
+  if withLocal
+    if strcmp(VARIABLE.MODE, 'local')
+      txt = [txt, ' int ', toupper(VARIABLE.NAME)];
+    end
   end
-  txt = nig_language_function_declaration(NIG_FUNCTION)
-  status = true;
 endfunction
 //=============================================================================
