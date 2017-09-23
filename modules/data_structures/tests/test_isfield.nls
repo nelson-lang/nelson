@@ -1,0 +1,42 @@
+//=============================================================================
+// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+assert_isequal(nargin('isfield'), 2);
+assert_isequal(nargout('isfield'), 1);
+//=============================================================================
+S.a = 'r';
+S.b = 1;
+assert_istrue(isfield(S,'a'));
+assert_istrue(isfield(S,'b'));
+assert_isfalse(isfield(S,'c'));
+//=============================================================================
+S.One = 1;
+S.Two = 2;
+S.Three = pi;
+R = isfield(S, {'a', 'One', 'Three', 3.14, 'two', 'Two'});
+REF = [true   true   true   false  false   true];
+assert_isequal(R, REF);
+//=============================================================================
+R = isfield(S, {'a', 'One', 'Three'; 3.14, 'two', 'Two'});
+REF = logical([1, 1, 1;   0, 0, 1]);
+assert_isequal(R, REF);
+//=============================================================================
+R = isfield(S, {'a', 'One'; 'Three', 3.14; 'two', 'Two'});
+REF = logical([1, 1;   1, 0;  0, 1]);
+assert_isequal(R, REF);
+//=============================================================================

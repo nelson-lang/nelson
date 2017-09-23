@@ -2,6 +2,8 @@
 Features:
 ---------
 
+* add 'isfield' function to check existence of a fieldname in a struct.
+
 * add 'exist' function to check existence of variable, builtin, function, file or directory.
 
 * add 'isvar' function to check existence of variable.
