@@ -35,34 +35,6 @@ ArrayOfVector Nelson::LogicalGateway::ndarraylogical_horzcat_ndarraylogicalBuilt
     }
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
-    if (!A.isNdArrayLogical())
-    {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_LOGICAL_EXPECTED);
-    }
-    if (!B.isNdArrayLogical())
-    {
-        Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_LOGICAL_EXPECTED);
-    }
-    Dimensions dimsA = A.getDimensions();
-    Dimensions dimsB = B.getDimensions();
-    if (dimsA.getRows() != dimsB.getRows())
-    {
-        Error(eval, ERROR_DIMENSIONS_NOT_CONSISTENT);
-    }
-    if (dimsA.getLength() != dimsB.getLength())
-    {
-        Error(eval, ERROR_DIMENSIONS_NOT_CONSISTENT);
-    }
-    for (indexType k = 0; k < dimsA.getLength(); k++)
-    {
-        if (k != 1)
-        {
-            if (dimsA.getDimensionLength(k) != dimsB.getDimensionLength(k))
-            {
-                Error(eval, ERROR_DIMENSIONS_NOT_CONSISTENT);
-            }
-        }
-    }
     retval.push_back(HorzCatNdArrayLogical(A, B));
     return retval;
 }

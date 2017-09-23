@@ -35,23 +35,6 @@ ArrayOfVector Nelson::SparseGateway::sparsedouble_vertcat_sparsedoubleBuiltin(Ev
     }
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
-    if (!A.isSparseDouble())
-    {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_DOUBLE_EXPECTED);
-    }
-    if (!B.isSparseDouble())
-    {
-        Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_SPARSE_DOUBLE_EXPECTED);
-    }
-    Dimensions dimsA = A.getDimensions();
-    Dimensions dimsB = B.getDimensions();
-    if (!A.isEmpty(true) && !B.isEmpty(true))
-    {
-        if (dimsA.getColumns() != dimsB.getColumns())
-        {
-            Error(eval, ERROR_DIMENSIONS_NOT_CONSISTENT);
-        }
-    }
     retval.push_back(VertCatSparseDouble(A, B));
     return retval;
 }

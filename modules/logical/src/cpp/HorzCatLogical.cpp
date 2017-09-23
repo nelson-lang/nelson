@@ -25,32 +25,29 @@ namespace Nelson {
     //=============================================================================
     ArrayOf HorzCatLogical(ArrayOf A, ArrayOf B)
     {
-        if (!A.isLogical())
+        if (!A.isLogical() || A.isNdArrayLogical())
         {
             throw Exception(ERROR_WRONG_ARGUMENT_1_TYPE_LOGICAL_EXPECTED);
         }
-        if (!B.isLogical())
+        if (!B.isLogical() || A.isNdArrayLogical())
         {
             throw Exception(ERROR_WRONG_ARGUMENT_2_TYPE_LOGICAL_EXPECTED);
         }
+		if (A.isEmpty(false))
+		{
+			ArrayOf C(B);
+			return C;
+		}
+		if (B.isEmpty(false))
+		{
+			ArrayOf C(A);
+			return C;
+		}
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsB = B.getDimensions();
-        if (!A.isEmpty(true) && !B.isEmpty(true))
+        if (dimsA.getRows() != dimsB.getRows())
         {
-            if (dimsA.getRows() != dimsB.getRows())
-            {
-                throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
-            }
-        }
-        if (A.isEmpty(true))
-        {
-            ArrayOf C(B);
-            return C;
-        }
-        if (B.isEmpty(true))
-        {
-            ArrayOf C(A);
-            return C;
+			throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
         }
         Class classA = A.getDataClass();
         Class classB = B.getDataClass();

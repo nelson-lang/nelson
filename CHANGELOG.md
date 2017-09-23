@@ -42,6 +42,7 @@ Features:
 
 * add 'maxNumCompThreads' builtin. Set/Get maximum number of computional threads.
 
+* optimize 'vertcat' and 'horzcat' builtin (remove duplicated code).
 
 Compilation:
 ---------

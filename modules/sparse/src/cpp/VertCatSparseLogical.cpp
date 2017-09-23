@@ -27,12 +27,20 @@ namespace Nelson {
     ArrayOf VertCatSparseLogical(ArrayOf A, ArrayOf B)
     {
         ArrayOf C;
-        if (A.isEmpty(true))
+		if (!A.isSparseLogical())
+		{
+			throw Exception(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_LOGICAL_EXPECTED);
+		}
+		if (!B.isSparseLogical())
+		{
+			throw Exception(ERROR_WRONG_ARGUMENT_2_TYPE_SPARSE_LOGICAL_EXPECTED);
+		}
+        if (A.isEmpty(false))
         {
             ArrayOf C(B);
             return C;
         }
-        if (B.isEmpty(true))
+        if (B.isEmpty(false))
         {
             ArrayOf C(A);
             return C;

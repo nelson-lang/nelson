@@ -25,21 +25,33 @@ namespace Nelson {
     ArrayOf HorzCatSparseLogical(ArrayOf A, ArrayOf B)
     {
         ArrayOf C;
-        if (A.isEmpty(true))
-        {
-            ArrayOf C(B);
-            return C;
-        }
-        if (B.isEmpty(true))
-        {
-            ArrayOf C(A);
-            return C;
-        }
-        Eigen::SparseMatrix<logical, 0, signedIndexType> *spMatA = (Eigen::SparseMatrix<logical, 0, signedIndexType> *)A.getSparseDataPointer();
+		if (!A.isSparseLogical())
+		{
+			throw Exception(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_LOGICAL_EXPECTED);
+		}
+		if (!B.isSparseLogical())
+		{
+			throw Exception(ERROR_WRONG_ARGUMENT_2_TYPE_SPARSE_LOGICAL_EXPECTED);
+		}
+		if (A.isEmpty(false))
+		{
+			ArrayOf C(B);
+			return C;
+		}
+		if (B.isEmpty(false))
+		{
+			ArrayOf C(A);
+			return C;
+		}
+		Dimensions dimsA = A.getDimensions();
+		Dimensions dimsB = B.getDimensions();
+		if (dimsA.getRows() != dimsB.getRows())
+		{
+			throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
+		}
+		Eigen::SparseMatrix<logical, 0, signedIndexType> *spMatA = (Eigen::SparseMatrix<logical, 0, signedIndexType> *)A.getSparseDataPointer();
         Eigen::SparseMatrix<logical, 0, signedIndexType> *spMatB = (Eigen::SparseMatrix<logical, 0, signedIndexType> *)B.getSparseDataPointer();
         Eigen::SparseMatrix<logical, 0, signedIndexType> *spMatC;
-        Dimensions dimsA = A.getDimensions();
-        Dimensions dimsB = B.getDimensions();
         indexType newColumnsSize = dimsA.getColumns() + dimsB.getColumns();
         indexType newRowsSize = dimsA.getRows();
         indexType newSize = newColumnsSize * newRowsSize;

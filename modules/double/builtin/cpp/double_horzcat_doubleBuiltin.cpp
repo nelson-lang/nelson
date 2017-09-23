@@ -35,23 +35,6 @@ ArrayOfVector Nelson::DoubleGateway::double_horzcat_doubleBuiltin(Evaluator* eva
     }
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
-    if (!A.isDoubleType())
-    {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_DOUBLE_EXPECTED);
-    }
-    if (!B.isDoubleType())
-    {
-        Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_DOUBLE_EXPECTED);
-    }
-    Dimensions dimsA = A.getDimensions();
-    Dimensions dimsB = B.getDimensions();
-    if (!A.isEmpty(true) && !B.isEmpty(true))
-    {
-        if (dimsA.getRows() != dimsB.getRows())
-        {
-            Error(eval, ERROR_DIMENSIONS_NOT_CONSISTENT);
-        }
-    }
     retval.push_back(HorzCatDouble(A, B));
     return retval;
 }

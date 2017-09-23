@@ -25,23 +25,30 @@ namespace Nelson {
     //=============================================================================
     ArrayOf VertCatLogical(ArrayOf A, ArrayOf B)
     {
-        if (!A.isLogical())
+        if (!A.isLogical() || A.isNdArrayLogical())
         {
             throw Exception(ERROR_WRONG_ARGUMENT_1_TYPE_LOGICAL_EXPECTED);
         }
-        if (!B.isLogical())
+        if (!B.isLogical() || A.isNdArrayLogical())
         {
             throw Exception(ERROR_WRONG_ARGUMENT_2_TYPE_LOGICAL_EXPECTED);
         }
+		if (A.isEmpty(false))
+		{
+			ArrayOf C(B);
+			return C;
+		}
+		if (B.isEmpty(false))
+		{
+			ArrayOf C(A);
+			return C;
+		}
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsB = B.getDimensions();
-        if (!A.isEmpty(true) && !B.isEmpty(true))
+        if (dimsA.getColumns() != dimsB.getColumns())
         {
-            if (dimsA.getColumns() != dimsB.getColumns())
-            {
-                throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
-            }
-        }
+			throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
+		}
         Class classA = A.getDataClass();
         Class classB = B.getDataClass();
         Class classC = classA;

@@ -35,21 +35,7 @@ ArrayOfVector Nelson::LogicalGateway::logical_horzcat_logicalBuiltin(Evaluator* 
     }
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
-    if (!A.isLogical() && !A.isSparse() && !A.isNdArrayLogical())
-    {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_LOGICAL_EXPECTED);
-    }
-    if (!B.isLogical() && !B.isSparse() && !B.isNdArrayLogical())
-    {
-        Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_LOGICAL_EXPECTED);
-    }
-    Dimensions dimsA = A.getDimensions();
-    Dimensions dimsB = B.getDimensions();
-    if (dimsA.getRows() != dimsB.getRows())
-    {
-        Error(eval, ERROR_DIMENSIONS_NOT_CONSISTENT);
-    }
-    retval.push_back(HorzCatLogical(A, B));
+	retval.push_back(HorzCatLogical(A, B));
     return retval;
 }
 //=============================================================================
