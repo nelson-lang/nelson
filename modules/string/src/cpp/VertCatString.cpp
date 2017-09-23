@@ -33,22 +33,22 @@ namespace Nelson {
         {
             throw Exception(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
         }
-		if (A.isEmpty(false))
-		{
-			ArrayOf C(B);
-			return C;
-		}
-		if (B.isEmpty(false))
-		{
-			ArrayOf C(A);
-			return C;
-		}
-		Dimensions dimsA = A.getDimensions();
-		Dimensions dimsB = B.getDimensions();
-		if (dimsA.getColumns() != dimsB.getColumns())
-		{
-			throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
-		}
+        if (A.isEmpty(false))
+        {
+            ArrayOf C(B);
+            return C;
+        }
+        if (B.isEmpty(false))
+        {
+            ArrayOf C(A);
+            return C;
+        }
+        Dimensions dimsA = A.getDimensions();
+        Dimensions dimsB = B.getDimensions();
+        if (dimsA.getColumns() != dimsB.getColumns())
+        {
+            throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
+        }
         indexType newColumnsSize = dimsA.getColumns();
         indexType newRowsSize = dimsA.getRows() + dimsB.getRows();
         indexType newSize = newColumnsSize * newRowsSize;

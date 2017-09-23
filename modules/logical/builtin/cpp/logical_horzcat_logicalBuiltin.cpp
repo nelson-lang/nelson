@@ -35,7 +35,7 @@ ArrayOfVector Nelson::LogicalGateway::logical_horzcat_logicalBuiltin(Evaluator* 
     }
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
-	retval.push_back(HorzCatLogical(A, B));
+    retval.push_back(HorzCatLogical(A, B));
     return retval;
 }
 //=============================================================================

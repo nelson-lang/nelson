@@ -50,8 +50,8 @@ static const nlsGateway gateway[] =
     { "restoredefaultpath", Nelson::FunctionsGateway::restoredefaultpathBuiltin, 0, 0 },
     { "rehash", Nelson::FunctionsGateway::rehashBuiltin, 0, 0 },
     { "userpath", Nelson::FunctionsGateway::userpathBuiltin, 1, 1 },
-	{ "ismacro", Nelson::FunctionsGateway::ismacroBuiltin, 1, 1 },
-	{ "isbuiltin", Nelson::FunctionsGateway::isbuiltinBuiltin, 1, 1 },
+    { "ismacro", Nelson::FunctionsGateway::ismacroBuiltin, 1, 1 },
+    { "isbuiltin", Nelson::FunctionsGateway::isbuiltinBuiltin, 1, 1 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

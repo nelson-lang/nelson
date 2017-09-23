@@ -27,14 +27,14 @@ namespace Nelson {
     ArrayOf VertCatSparseDouble(ArrayOf A, ArrayOf B)
     {
         ArrayOf C;
-		if (!A.isSparseDouble())
-		{
-			throw Exception(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_DOUBLE_EXPECTED);
-		}
-		if (!B.isSparseDouble())
-		{
-			throw Exception(ERROR_WRONG_ARGUMENT_2_TYPE_SPARSE_DOUBLE_EXPECTED);
-		}
+        if (!A.isSparseDouble())
+        {
+            throw Exception(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_DOUBLE_EXPECTED);
+        }
+        if (!B.isSparseDouble())
+        {
+            throw Exception(ERROR_WRONG_ARGUMENT_2_TYPE_SPARSE_DOUBLE_EXPECTED);
+        }
         if (A.isEmpty(false))
         {
             ArrayOf C(B);
@@ -45,12 +45,12 @@ namespace Nelson {
             ArrayOf C(A);
             return C;
         }
-		Dimensions dimsA = A.getDimensions();
-		Dimensions dimsB = B.getDimensions();
-		if (dimsA.getColumns() != dimsB.getColumns())
-		{
-			throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
-		}
+        Dimensions dimsA = A.getDimensions();
+        Dimensions dimsB = B.getDimensions();
+        if (dimsA.getColumns() != dimsB.getColumns())
+        {
+            throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
+        }
         A = CtransposeSparseDouble(A);
         B = CtransposeSparseDouble(B);
         C = HorzCatSparseDouble(A, B);

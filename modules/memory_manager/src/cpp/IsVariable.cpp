@@ -23,33 +23,33 @@ namespace Nelson {
     //=============================================================================
     bool IsVariable(Evaluator* eval, SCOPE_LEVEL scopeLevel, std::wstring name)
     {
-		bool res = false;
-		std::string uname = wstring_to_utf8(name);
+        bool res = false;
+        std::string uname = wstring_to_utf8(name);
         switch (scopeLevel)
         {
             case GLOBAL_SCOPE:
             {
-				res =eval->getContext()->getGlobalScope()->isVariable(uname);
+                res =eval->getContext()->getGlobalScope()->isVariable(uname);
             }
             break;
             case BASE_SCOPE:
             {
-				res = eval->getContext()->getBaseScope()->isVariable(uname);
+                res = eval->getContext()->getBaseScope()->isVariable(uname);
             }
             break;
             case CALLER_SCOPE:
             {
-				res = eval->getContext()->getCallerScope()->isVariable(uname);
+                res = eval->getContext()->getCallerScope()->isVariable(uname);
             }
             break;
             case LOCAL_SCOPE:
             {
-				res = eval->getContext()->getCurrentScope()->isVariable(uname);
+                res = eval->getContext()->getCurrentScope()->isVariable(uname);
             }
             break;
             default:
             {
-				res = false;
+                res = false;
             }
             break;
         }

@@ -22,6 +22,6 @@
 #include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
-	NLSSLICOT_IMPEXP ArrayOfVector slicot_SB01BD(const std::string &DICO, double ALPHA, ArrayOf A, ArrayOf B, ArrayOf WR, ArrayOf WI, double TOL);
+    NLSSLICOT_IMPEXP ArrayOfVector slicot_SB01BD(const std::string &DICO, double ALPHA, ArrayOf A, ArrayOf B, ArrayOf WR, ArrayOf WI, double TOL);
 }
 //=============================================================================

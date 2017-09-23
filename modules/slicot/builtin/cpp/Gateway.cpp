@@ -25,7 +25,7 @@ const std::wstring gatewayName = L"slicot";
 //=============================================================================
 static const nlsGateway gateway[] =
 {
-	{ "slicot_SB01BD", Nelson::SlicotGateway::slicot_SB01BDBuiltin, 10, 7 },
+    { "slicot_SB01BD", Nelson::SlicotGateway::slicot_SB01BDBuiltin, 10, 7 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

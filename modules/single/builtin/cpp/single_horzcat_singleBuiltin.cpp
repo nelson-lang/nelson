@@ -35,7 +35,7 @@ ArrayOfVector Nelson::SingleGateway::single_horzcat_singleBuiltin(Evaluator* eva
     }
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
-	retval.push_back(HorzCatSingle(A, B));
+    retval.push_back(HorzCatSingle(A, B));
     return retval;
 }
 //=============================================================================

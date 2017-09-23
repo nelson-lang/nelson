@@ -47,7 +47,7 @@ static const nlsGateway gateway[] =
     { "varunlock", Nelson::MemoryGateway::varunlockBuiltin, 0, 2 },
     { "varislock", Nelson::MemoryGateway::varislockBuiltin, 1, 2 },
     { "memory", Nelson::MemoryGateway::memoryBuiltin, 2, 0 },
-	{ "isvar", Nelson::MemoryGateway::isvarBuiltin, 1, -1 },
+    { "isvar", Nelson::MemoryGateway::isvarBuiltin, 1, -1 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

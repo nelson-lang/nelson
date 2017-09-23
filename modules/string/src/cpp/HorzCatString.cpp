@@ -33,26 +33,26 @@ namespace Nelson {
         {
             throw Exception(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
         }
-		if (A.isEmpty(false))
-		{
-			ArrayOf C(B);
-			return C;
-		}
-		if (B.isEmpty(false))
-		{
-			ArrayOf C(A);
-			return C;
-		}
-		Dimensions dimsA = A.getDimensions();
-		Dimensions dimsB = B.getDimensions();
-		if (dimsA.getRows() != dimsB.getRows())
-		{
-			throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
-		}
-		indexType newColumnsSize = dimsA.getColumns() + dimsB.getColumns();
+        if (A.isEmpty(false))
+        {
+            ArrayOf C(B);
+            return C;
+        }
+        if (B.isEmpty(false))
+        {
+            ArrayOf C(A);
+            return C;
+        }
+        Dimensions dimsA = A.getDimensions();
+        Dimensions dimsB = B.getDimensions();
+        if (dimsA.getRows() != dimsB.getRows())
+        {
+            throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
+        }
+        indexType newColumnsSize = dimsA.getColumns() + dimsB.getColumns();
         indexType newRowsSize = dimsA.getRows();
         indexType newSize = newColumnsSize * newRowsSize;
-		Dimensions dimsC = Dimensions(newRowsSize, newColumnsSize);
+        Dimensions dimsC = Dimensions(newRowsSize, newColumnsSize);
         charType *ptrA = (charType *)A.getDataPointer();
         charType *ptrB = (charType *)B.getDataPointer();
         void * pRes = ArrayOf::allocateArrayOf(NLS_CHAR, newSize);

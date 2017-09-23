@@ -25,24 +25,24 @@ using namespace Nelson;
 ArrayOfVector Nelson::FunctionsGateway::isbuiltinBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-	if (argIn.size() != 1)
-	{
-		Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-	}
-	if (nLhs > 1)
-	{
-		Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-	}
-	ArrayOf param1 = argIn[0];
-	std::wstring name = param1.getContentAsWideString();
-	std::string uname = wstring_to_utf8(name);
-	FuncPtr pfun;
-	bool res = false;
-	if (eval->lookupFunction(uname, pfun) == true)
-	{
-		res = (pfun->type() == NLS_BUILT_IN_FUNCTION);
-	}
-	retval.push_back(ArrayOf::logicalConstructor(res));
-	return retval;
+    if (argIn.size() != 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    if (nLhs > 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    ArrayOf param1 = argIn[0];
+    std::wstring name = param1.getContentAsWideString();
+    std::string uname = wstring_to_utf8(name);
+    FuncPtr pfun;
+    bool res = false;
+    if (eval->lookupFunction(uname, pfun) == true)
+    {
+        res = (pfun->type() == NLS_BUILT_IN_FUNCTION);
+    }
+    retval.push_back(ArrayOf::logicalConstructor(res));
+    return retval;
 }
 //=============================================================================

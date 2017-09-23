@@ -23,18 +23,18 @@ using namespace Nelson;
 //=============================================================================
 ArrayOfVector Nelson::SlicotGateway::slicot_SB01BDBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-	ArrayOfVector retval;
-	ArrayOf param1 = argIn[0];
-	std::string DICO = param1.getContentAsCString();
-	ArrayOf param2 = argIn[1];
-	double ALPHA = param2.getContentAsDoubleScalar();
-	ArrayOf A = argIn[2];
-	ArrayOf B = argIn[3];
-	ArrayOf WR = argIn[4];
-	ArrayOf WI = argIn[5];
-	ArrayOf param7 = argIn[6];
-	double TOL = param7.getContentAsDoubleScalar();
-	retval = slicot_SB01BD(DICO, ALPHA, A, B, WR, WI, TOL);
-	return retval;
+    ArrayOfVector retval;
+    ArrayOf param1 = argIn[0];
+    std::string DICO = param1.getContentAsCString();
+    ArrayOf param2 = argIn[1];
+    double ALPHA = param2.getContentAsDoubleScalar();
+    ArrayOf A = argIn[2];
+    ArrayOf B = argIn[3];
+    ArrayOf WR = argIn[4];
+    ArrayOf WI = argIn[5];
+    ArrayOf param7 = argIn[6];
+    double TOL = param7.getContentAsDoubleScalar();
+    retval = slicot_SB01BD(DICO, ALPHA, A, B, WR, WI, TOL);
+    return retval;
 }
 //=============================================================================
