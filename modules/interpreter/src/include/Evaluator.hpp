@@ -321,7 +321,8 @@ namespace Nelson {
          * valid if we are a subindexing expression list (i.e.,
          * VAR(exprssionlist)), in which case dim != nullptr.
          */
-        ArrayOfVector expressionList(ASTPtr t, Dimensions* dim);
+        ArrayOfVector expressionList(ASTPtr t);
+        ArrayOfVector expressionList(ASTPtr t, ArrayOf subRoot);
         /**
          * The RHS expression is used to represent an rvalue in an
          * assignment statement (or an implicit assignment such as
@@ -695,6 +696,8 @@ namespace Nelson {
     private:
         void setHandle(ArrayOf r, std::string fieldname, ArrayOfVector fieldvalue);
         ArrayOfVector getHandle(ArrayOf r, std::string fieldname);
+        ArrayOf EndReference(ArrayOf v, indexType index, size_t count);
+        size_t countSubExpressions(ASTPtr t);
 
     };
     NLSINTERPRETER_IMPEXP void sigInterrupt(int arg);

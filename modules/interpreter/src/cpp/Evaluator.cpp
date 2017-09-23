@@ -97,7 +97,6 @@ namespace Nelson {
     */
     bool InterruptPending = false;
 
-
     /*
     * ALT-F4 or Exit cross invoked
     */
@@ -123,8 +122,22 @@ namespace Nelson {
         return bPrevious;
     }
 
-    indexType endValStackLength = 0;
-    indexType endValStack[1000];
+    /**
+    * Stores the current array for which to apply the "end" expression to.
+    */
+    class endData {
+    public:
+        ArrayOf endArray;
+        int index = 0;
+        size_t count = 0;
+        endData(ArrayOf p, int ndx, size_t cnt) {
+            endArray = p;
+            index = ndx;
+            count = cnt;
+        }
+        ~endData() {};
+    };
+    std::vector<endData> endStack;
 
     void sigInterrupt(int arg)
     {
@@ -212,7 +225,7 @@ namespace Nelson {
             Error(this, ERROR_AST_SYNTAX_ERROR);
         }
         ASTPtr s = t->down;
-        ArrayOfVector expl = expressionList(s, NULL);
+        ArrayOfVector expl = expressionList(s);
         ArrayOfVector retval(expl);
         popID();
         return retval;
@@ -446,6 +459,21 @@ namespace Nelson {
         */
     }
 
+    ArrayOf Evaluator::EndReference(ArrayOf v, indexType index, size_t count)
+    {
+        Dimensions dim(v.getDimensions());
+        ArrayOf res;
+        if (count == 1)
+        {
+            res = ArrayOf::doubleConstructor((double)dim.getElementCount());
+        }
+        else
+        {
+            res = ArrayOf::doubleConstructor((double)dim.getDimensionLength(index));
+        }
+        return res;
+    }
+
     ArrayOf Evaluator::expression(ASTPtr t)
     {
         pushID(t->context());
@@ -496,11 +524,12 @@ namespace Nelson {
         {
             if (t->tokenNumber == NLS_KEYWORD_END)
             {
-                if (endValStackLength == 0)
+                if (endStack.empty())
                 {
                     Error(this, ERROR_END_ILLEGAL);
                 }
-                retval = ArrayOf::doubleConstructor((double)endValStack[endValStackLength - 1]);
+                endData t(endStack.back());
+                retval = EndReference(t.endArray, t.index, t.count);
             }
             else
             {
@@ -795,7 +824,64 @@ namespace Nelson {
     * through rhsExpression, which can return
     * a vector of variables.
     */
-    ArrayOfVector Evaluator::expressionList(ASTPtr t, Dimensions* dim)
+    ArrayOfVector Evaluator::expressionList(ASTPtr t)
+    {
+        ArrayOfVector m;
+        ArrayOfVector n;
+        ASTPtr root;
+        indexType tmp = 0;
+        indexType endVal = 0;
+        if (t == nullptr)
+        {
+            return m;
+        }
+        pushID(t->context());
+        root = t;
+        while (t != nullptr)
+        {
+            if (t->opNum == OP_KEYWORD)
+            {
+                t = t->right;
+                continue;
+            }
+            if (t->type == non_terminal && t->opNum == (OP_RHS))
+            {
+                try
+                {
+                    n = rhsExpression(t->down);
+                }
+                catch (Exception& e)
+                {
+                    if (!e.matches(ERROR_EMPTY_EXPRESSION))
+                    {
+                        throw;
+                    }
+                    else
+                    {
+                        n = ArrayOfVector();
+                    }
+                }
+                for (size_t i = 0; i < n.size(); i++)
+                {
+                    m.push_back(n[i]);
+                }
+            }
+            else if (t->type == non_terminal && t->opNum == (OP_ALL))
+            {
+                throw Exception(_W("Illegal use of the ':' operator"));
+            }
+            else
+            {
+                // Call the expression
+                m.push_back(expression(t));
+            }
+            t = t->right;
+        }
+        popID();
+        return m;
+    }
+
+    ArrayOfVector Evaluator::expressionList(ASTPtr t, ArrayOf subRoot)
     {
         ArrayOfVector m;
         ArrayOfVector n;
@@ -807,6 +893,7 @@ namespace Nelson {
             return m;
         }
         pushID(t->context());
+        size_t count = countSubExpressions(t);
         root = t;
         index = 0;
         while (t != nullptr)
@@ -840,52 +927,31 @@ namespace Nelson {
             }
             else if (t->type == non_terminal && t->opNum == (OP_ALL))
             {
-                if (dim == nullptr)
-                {
-                    Error(this, ERROR_ILLEGAL_USE_COLON);
-                }
+                Dimensions dim = subRoot.getDimensions();
                 if (root->right == nullptr)
                 {
                     // Singleton reference, with ':' - return 1:length as column vector...
-                    tmp = dim->getElementCount();
+                    tmp = dim.getElementCount();
                     m.push_back(ArrayOf::integerRangeConstructor(1, 1, tmp, true));
                 }
                 else
                 {
-                    tmp = dim->getDimensionLength(index);
+                    tmp = dim.getDimensionLength(index);
                     m.push_back(ArrayOf::integerRangeConstructor(1, 1, tmp, false));
                 }
             }
             else
             {
                 // Set up the value of the "end" token
-                if (dim != nullptr)
-                {
-                    if (root->right == nullptr)
-                    {
-                        endVal = dim->getElementCount();
-                    }
-                    else
-                    {
-                        endVal = dim->getDimensionLength(index);
-                    }
-                    // Push it onto the stack
-                    endValStack[endValStackLength] = endVal;
-                    endValStackLength++;
-                }
+                endStack.push_back(endData(subRoot, index, count));
                 // Call the expression
                 m.push_back(expression(t));
-                if (dim != nullptr)
-                    // Pop the endVal stack
-                {
-                    endValStackLength--;
-                }
+                endStack.pop_back();
             }
             index++;
             t = t->right;
         }
         popID();
-        //m =subsindex(m);
         return m;
     }
 
@@ -2062,7 +2128,7 @@ namespace Nelson {
         rhsDimensions = r.getDimensions();
         if (t->opNum == (OP_PARENS))
         {
-            m = expressionList(t->down, &rhsDimensions);
+            m = expressionList(t->down, r);
             if (m.size() == 0)
             {
                 Error(this, ERROR_INDEX_EXPRESSION_EXPECTED);
@@ -2101,7 +2167,7 @@ namespace Nelson {
         }
         if (t->opNum == (OP_BRACES))
         {
-            m = expressionList(t->down, &rhsDimensions);
+            m = expressionList(t->down, r);
             if (m.size() == 0)
             {
                 Error(this, ERROR_INDEX_EXPRESSION_EXPECTED);
@@ -2196,7 +2262,7 @@ namespace Nelson {
         }
         if (t->opNum == (OP_PARENS))
         {
-            m = expressionList(t->down, &rhsDimensions);
+            m = expressionList(t->down, r);
             if (m.size() == 0)
             {
                 Error(this, ERROR_INDEX_EXPRESSION_EXPECTED);
@@ -2216,7 +2282,7 @@ namespace Nelson {
         }
         if (t->opNum == (OP_BRACES))
         {
-            m = expressionList(t->down, &rhsDimensions);
+            m = expressionList(t->down, r);
             if (m.size() == 0)
             {
                 Error(this, ERROR_INDEX_EXPRESSION_EXPECTED);
@@ -2318,7 +2384,7 @@ namespace Nelson {
         ArrayOfVector m;
         if (s->opNum == (OP_PARENS))
         {
-            m = expressionList(s->down, &rhsDimensions);
+            m = expressionList(s->down, lhs);
             if (m.size() == 0)
             {
                 Error(this, ERROR_INDEX_EXPRESSION_EXPECTED);
@@ -2354,7 +2420,7 @@ namespace Nelson {
         }
         if (s->opNum == (OP_BRACES))
         {
-            m = expressionList(s->down, &rhsDimensions);
+            m = expressionList(s->down, lhs);
             if (m.size() == 0)
             {
                 Error(this, ERROR_INDEX_EXPRESSION_EXPECTED);
@@ -2596,7 +2662,7 @@ namespace Nelson {
             // [a, b, c, d] = C{ : }
             Dimensions rhsDimensions;
             rhsDimensions = r.getDimensions();
-            m = expressionList(fAST->down->down, &rhsDimensions);
+            m = expressionList(fAST->down->down, r);
             if (m.size() == 0)
             {
                 Error(this, ERROR_INDEX_EXPRESSION_EXPECTED);
@@ -3174,7 +3240,7 @@ namespace Nelson {
                             }
                         }
 #endif
-                        m = expressionList(s, NULL);
+                        m = expressionList(s);
                         // Check for keywords
                         if (keywords.size() > 0)
                         {
@@ -3978,7 +4044,7 @@ namespace Nelson {
             }
             if (t->opNum == (OP_PARENS))
             {
-                m = expressionList(t->down, &rhsDimensions);
+                m = expressionList(t->down, r);
                 if (rhsDimensions.getLength() > (indexType)m.size())
                 {
                     Dimensions nDim;
@@ -3997,7 +4063,7 @@ namespace Nelson {
                         nDim[d] = L;
                         r.reshape(nDim);
                         rhsDimensions = r.getDimensions();
-                        m = expressionList(t->down, &rhsDimensions);
+                        m = expressionList(t->down, r);
                     }
                 }
                 if (m.size() == 0)
@@ -4027,7 +4093,7 @@ namespace Nelson {
             }
             if (t->opNum == (OP_BRACES))
             {
-                m = expressionList(t->down, &rhsDimensions);
+                m = expressionList(t->down, r);
                 if (rhsDimensions.getLength() > (indexType)m.size())
                 {
                     Dimensions nDim;
@@ -4046,7 +4112,7 @@ namespace Nelson {
                         nDim[d] = L;
                         r.reshape(nDim);
                         rhsDimensions = r.getDimensions();
-                        m = expressionList(t->down, &rhsDimensions);
+                        m = expressionList(t->down, r);
                     }
                 }
                 if (m.size() == 0)
@@ -4139,8 +4205,6 @@ namespace Nelson {
         context = aContext;
         currentOutputFormatDisplay = NLS_FORMAT_SHORT;
         resetState();
-        endValStackLength = 0;
-        endValStack[endValStackLength] = 0;
         depth = 0;
         io = aInterface;
         ArrayOf::setArrayOfIOInterface(io);
@@ -4736,6 +4800,17 @@ namespace Nelson {
         }
         std::string ucmd = wstring_to_utf8(command);
         this->commandQueue.add(ucmd, bIsPriority);
+    }
+    //=============================================================================
+    size_t Evaluator::countSubExpressions(ASTPtr t)
+    {
+        size_t count = 0;
+        while (t != NULL)
+        {
+            t = t->right;
+            count++;
+        }
+        return count;
     }
     //=============================================================================
 }

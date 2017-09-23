@@ -19,6 +19,13 @@ Features:
 * optimize 'vertcat' and 'horzcat' builtin (remove duplicated code).
 
 
+Bug Fixes:
+---------
+
+  [#74](http://github.com/Nelson-numerical-software/nelson/issues/74): A=[]; A(end + 1) = 8 failed.
+
+
+
 Compilation:
 ---------
 
@@ -47,7 +54,6 @@ Features:
 
 * add 'maxNumCompThreads' builtin. Set/Get maximum number of computional threads.
 
-* optimize 'vertcat' and 'horzcat' builtin (remove duplicated code).
 
 Compilation:
 ---------
