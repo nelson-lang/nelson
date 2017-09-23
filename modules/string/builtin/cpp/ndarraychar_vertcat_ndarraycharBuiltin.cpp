@@ -35,34 +35,6 @@ ArrayOfVector Nelson::StringGateway::ndarraychar_vertcat_ndarraycharBuiltin(Eval
     }
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
-    if (!A.isNdArrayLogical())
-    {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
-    }
-    if (!B.isNdArrayLogical())
-    {
-        Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
-    }
-    Dimensions dimsA = A.getDimensions();
-    Dimensions dimsB = B.getDimensions();
-    if (dimsA.getColumns() != dimsB.getColumns())
-    {
-        Error(eval, ERROR_DIMENSIONS_NOT_CONSISTENT);
-    }
-    if (dimsA.getLength() != dimsB.getLength())
-    {
-        Error(eval, ERROR_DIMENSIONS_NOT_CONSISTENT);
-    }
-    for (indexType k = 0; k < dimsA.getLength(); k++)
-    {
-        if (k != 0)
-        {
-            if (dimsA.getDimensionLength(k) != dimsB.getDimensionLength(k))
-            {
-                Error(eval, ERROR_DIMENSIONS_NOT_CONSISTENT);
-            }
-        }
-    }
     retval.push_back(VertCatNdArrayString(A, B));
     return retval;
 }

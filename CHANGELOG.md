@@ -14,6 +14,9 @@ Features:
 
 * add Fortran 2 C converter library (based on libf2c forked)
 
+* optimize 'vertcat' and 'horzcat' builtin (remove duplicated code).
+
+
 Compilation:
 ---------
 

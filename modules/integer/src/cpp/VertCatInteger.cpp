@@ -64,27 +64,24 @@ namespace Nelson {
         {
             throw Exception(ERROR_SAME_INTEGER_TYPE_EXPECTED);
         }
-        Class classC = classA;
+		if (A.isEmpty(false))
+		{
+			ArrayOf C(B);
+			return C;
+		}
+		if (B.isEmpty(false))
+		{
+			ArrayOf C(A);
+			return C;
+		}
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsB = B.getDimensions();
-        if (!A.isEmpty(true) && !B.isEmpty(true))
-        {
-            if (dimsA.getColumns() != dimsB.getColumns())
-            {
-                throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
-            }
+		if (dimsA.getColumns() != dimsB.getColumns())
+		{
+			throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
         }
-        if (A.isEmpty(true))
-        {
-            ArrayOf C(B);
-            return C;
-        }
-        if (B.isEmpty(true))
-        {
-            ArrayOf C(A);
-            return C;
-        }
-        indexType newColumnsSize = dimsA.getColumns();
+		Class classC = classA;
+		indexType newColumnsSize = dimsA.getColumns();
         indexType newRowsSize = dimsA.getRows() + dimsB.getRows();
         Dimensions dimsC = Dimensions(newRowsSize, newColumnsSize);
         ArrayOf C;

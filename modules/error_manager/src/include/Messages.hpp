@@ -63,6 +63,10 @@
 #define ERROR_WRONG_ARGUMENT_3_TYPE_LOGICAL_EXPECTED _W("Wrong type for argument #3: logical expected.")
 #define ERROR_WRONG_ARGUMENT_4_TYPE_LOGICAL_EXPECTED _W("Wrong type for argument #4: logical expected.")
 
+#define ERROR_WRONG_ARGUMENT_1_SIZE_LOGICAL_EXPECTED _W("Wrong size for argument #1. logical matrix expected.")
+#define ERROR_WRONG_ARGUMENT_2_SIZE_LOGICAL_EXPECTED _W("Wrong size for argument #2. logical matrix expected.")
+
+
 #define ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_LOGICAL_EXPECTED _W("Wrong type for argument #1: sparse logical expected.")
 #define ERROR_WRONG_ARGUMENT_2_TYPE_SPARSE_LOGICAL_EXPECTED _W("Wrong type for argument #2: sparse logical expected.")
 
@@ -74,6 +78,10 @@
 #define ERROR_WRONG_ARGUMENT_6_TYPE_DOUBLE_EXPECTED _W("Wrong type for argument #6: double expected.")
 #define ERROR_WRONG_ARGUMENT_X_TYPE_DOUBLE_EXPECTED _W("Wrong type for argument #%d: double expected.")
 
+#define ERROR_WRONG_ARGUMENT_1_SIZE_DOUBLE_EXPECTED _W("Wrong size for argument #1. double matrix expected.")
+#define ERROR_WRONG_ARGUMENT_2_SIZE_DOUBLE_EXPECTED _W("Wrong size for argument #2. double matrix expected.")
+
+
 #define ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_DOUBLE_EXPECTED _W("Wrong type for argument #1: sparse double expected.")
 #define ERROR_WRONG_ARGUMENT_2_TYPE_SPARSE_DOUBLE_EXPECTED _W("Wrong type for argument #2: sparse double expected.")
 
@@ -82,6 +90,9 @@
 
 #define ERROR_WRONG_ARGUMENT_1_TYPE_SINGLE_EXPECTED _W("Wrong type for argument #1: single expected.")
 #define ERROR_WRONG_ARGUMENT_2_TYPE_SINGLE_EXPECTED _W("Wrong type for argument #2: single expected.")
+
+#define ERROR_WRONG_ARGUMENT_1_SIZE_SINGLE_EXPECTED _W("Wrong size for argument #1. single matrix expected.")
+#define ERROR_WRONG_ARGUMENT_2_SIZE_SINGLE_EXPECTED _W("Wrong size for argument #2. single matrix expected.")
 
 #define ERROR_WRONG_ARGUMENT_1_TYPE_INTEGER_EXPECTED _W("Wrong type for argument #1. integer expected.")
 #define ERROR_WRONG_ARGUMENT_2_TYPE_INTEGER_EXPECTED _W("Wrong type for argument #2. integer expected.")

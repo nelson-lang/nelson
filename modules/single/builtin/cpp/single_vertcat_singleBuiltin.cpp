@@ -35,20 +35,6 @@ ArrayOfVector Nelson::SingleGateway::single_vertcat_singleBuiltin(Evaluator* eva
     }
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
-    if (!A.isSingleType())
-    {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_SINGLE_EXPECTED);
-    }
-    if (!B.isSingleType())
-    {
-        Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_SINGLE_EXPECTED);
-    }
-    Dimensions dimsA = A.getDimensions();
-    Dimensions dimsB = B.getDimensions();
-    if (dimsA.getColumns() != dimsB.getColumns())
-    {
-        Error(eval, ERROR_DIMENSIONS_NOT_CONSISTENT);
-    }
     retval.push_back(VertCatSingle(A, B));
     return retval;
 }

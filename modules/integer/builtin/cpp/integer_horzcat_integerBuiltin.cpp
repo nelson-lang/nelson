@@ -35,35 +35,6 @@ static ArrayOfVector integer_horzcat_integerBuiltin(Evaluator* eval, int nLhs, c
     }
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
-    if (A.getDataClass() != B.getDataClass())
-    {
-        Error(eval, ERROR_SAME_INTEGER_TYPE_EXPECTED);
-    }
-    if (A.getDataClass() != intclass)
-    {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_INTEGER_EXPECTED);
-    }
-    if (B.getDataClass() != intclass)
-    {
-        Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_INTEGER_EXPECTED);
-    }
-    if (!A.is2D())
-    {
-        throw Exception(ERROR_WRONG_ARGUMENT_1_SIZE_INTEGER_EXPECTED);
-    }
-    if (!B.is2D())
-    {
-        throw Exception(ERROR_WRONG_ARGUMENT_2_SIZE_INTEGER_EXPECTED);
-    }
-    Dimensions dimsA = A.getDimensions();
-    Dimensions dimsB = B.getDimensions();
-    if (!A.isEmpty(true) && !B.isEmpty(true))
-    {
-        if (dimsA.getRows() != dimsB.getRows())
-        {
-            Error(eval, ERROR_DIMENSIONS_NOT_CONSISTENT);
-        }
-    }
     retval.push_back(HorzCatInteger(A, B));
     return retval;
 }

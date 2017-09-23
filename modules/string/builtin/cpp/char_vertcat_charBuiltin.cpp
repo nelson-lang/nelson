@@ -35,23 +35,6 @@ ArrayOfVector Nelson::StringGateway::char_vertcat_charBuiltin(Evaluator* eval, i
     }
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
-    if (!A.isString())
-    {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
-    }
-    if (!B.isString())
-    {
-        Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
-    }
-    if (!A.isEmpty(true) && !B.isEmpty(true))
-    {
-        Dimensions dimsA = A.getDimensions();
-        Dimensions dimsB = B.getDimensions();
-        if (dimsA.getColumns() != dimsB.getColumns())
-        {
-            Error(eval, ERROR_DIMENSIONS_NOT_CONSISTENT);
-        }
-    }
     retval.push_back(VertCatString(A, B));
     return retval;
 }

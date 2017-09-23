@@ -35,23 +35,6 @@ ArrayOfVector Nelson::SparseGateway::sparselogical_horzcat_sparselogicalBuiltin(
     }
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
-    if (!A.isSparseLogical())
-    {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_LOGICAL_EXPECTED);
-    }
-    if (!B.isSparseLogical())
-    {
-        Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_SPARSE_LOGICAL_EXPECTED);
-    }
-    Dimensions dimsA = A.getDimensions();
-    Dimensions dimsB = B.getDimensions();
-    if (!A.isEmpty(true) && !B.isEmpty(true))
-    {
-        if (dimsA.getRows() != dimsB.getRows())
-        {
-            Error(eval, ERROR_DIMENSIONS_NOT_CONSISTENT);
-        }
-    }
     retval.push_back(HorzCatSparseLogical(A, B));
     return retval;
 }

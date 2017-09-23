@@ -262,20 +262,23 @@ void* Eigen_MakeSparseArrayOf(Class dclass, indexType rows, indexType cols, cons
 //=============================================================================
 template <class T>void* Eigen_CopySparseMatrix(indexType rows, indexType cols, const void* cp)
 {
-    Eigen::SparseMatrix<T, 0, signedIndexType> *spMat = (Eigen::SparseMatrix<T, 0, signedIndexType> *)cp;
-    Eigen::SparseMatrix<T, 0, signedIndexType> *copiedpMat = nullptr;
-    try
-    {
-        copiedpMat = new Eigen::SparseMatrix<T, 0, signedIndexType>(*spMat);
-    }
-    catch (std::bad_alloc &e)
-    {
-        e.what();
-        copiedpMat = nullptr;
-        throw Exception(ERROR_MEMORY_ALLOCATION);
-    }
-    copiedpMat->makeCompressed();
-    copiedpMat->data().squeeze();
+	Eigen::SparseMatrix<T, 0, signedIndexType> *copiedpMat = nullptr;
+	if (cp != nullptr)
+	{
+		Eigen::SparseMatrix<T, 0, signedIndexType> *spMat = (Eigen::SparseMatrix<T, 0, signedIndexType> *)cp;
+		try
+		{
+			copiedpMat = new Eigen::SparseMatrix<T, 0, signedIndexType>(*spMat);
+		}
+		catch (std::bad_alloc &e)
+		{
+			e.what();
+			copiedpMat = nullptr;
+			throw Exception(ERROR_MEMORY_ALLOCATION);
+		}
+		copiedpMat->makeCompressed();
+		copiedpMat->data().squeeze();
+	}
     return (void *)copiedpMat;
 }
 //=============================================================================
