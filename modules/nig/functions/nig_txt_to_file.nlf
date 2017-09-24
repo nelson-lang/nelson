@@ -16,28 +16,16 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-function r = nig_check_struct_function(NIG_FUNCTION)
-  r = false;
-  names = fieldnames(NIG_FUNCTION);
-  supported_names = {'NELSON_NAME'; 'SYMBOL'; 'LANGUAGE'; 'VARIABLES'};
-  r = all(isfield(NIG_FUNCTION, supported_names));
-  if r == true
-    if ~ischar(NIG_FUNCTION.NELSON_NAME)
-      r = false;
-      return;
-    end
-    if ~ischar(NIG_FUNCTION.SYMBOL)
-      r = false;
-      return;
-    end
-    if ~ischar(NIG_FUNCTION.LANGUAGE)
-      r = false;
-      return;
-    end
-    if ~isstruct(NIG_FUNCTION.VARIABLES)
-      r = false;
-      return;
-    end
+function nig_txt_to_file(txt, destination)
+  if ispc()
+    eol = [char(13), char(10)];
+  else
+    eol = char(10);
   end
+  fw = fopen(destination, 'wt');
+  for l = txt
+    fprintf(fw, [l, eol]);
+  end
+  fclose(fw);
 endfunction
 //=============================================================================

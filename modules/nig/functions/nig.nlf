@@ -31,7 +31,11 @@ function status = nig(varargin)
   if ~nig_check_struct_function(NIG_FUNCTION)
     error('wrong ...');
   end
-  txt = nig_language_function_declaration(NIG_FUNCTION)
+  filenameCppBuiltin = [NIG_FUNCTION.NELSON_NAME, 'Builtin.cpp'];
+  filenameHeaderBuiltin = [NIG_FUNCTION.NELSON_NAME, 'Builtin.hpp'];
+  nig_txt_to_file(nig_generate_builtin_hpp(NIG_FUNCTION), [NIG_DESTINATION, '/', filenameHeaderBuiltin]);
+  nig_txt_to_file(nig_generate_builtin_cpp(NIG_FUNCTION), [NIG_DESTINATION, '/', filenameCppBuiltin]);
+
   status = true;
 endfunction
 //=============================================================================

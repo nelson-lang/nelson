@@ -1,0 +1,68 @@
+//=============================================================================
+// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+function txt = nig_generate_builtin_cpp(NIG_FUNCTION)
+  txt = nig_header_license();
+  CppBuiltinName = [NIG_FUNCTION.NELSON_NAME, 'Builtin'];
+  filenameHeaderBuiltin = [CppBuiltinName, '.hpp'];
+  txt{end + 1} = '#include "nelson_f2c.h"';
+  txt{end + 1} = '#include "Error.hpp"';
+  txt{end + 1} = ['#include "', filenameHeaderBuiltin, '"'];
+  txt{end + 1} = '//=============================================================================';
+  txt{end + 1} = 'using namespace Nelson;';
+  txt{end + 1} = '//=============================================================================';
+  txt{end + 1} = '#ifdef __cplusplus';
+  txt{end + 1} = 'extern "C"';
+  txt{end + 1} = '{';
+  txt{end + 1} = '#endif';
+  txt{end + 1} = ['extern ', nig_language_function_declaration(NIG_FUNCTION), ';'];
+  txt{end + 1} = '#ifdef __cplusplus';
+  txt{end + 1} = '}';
+  txt{end + 1} = '#endif';
+  txt{end + 1} = '//=============================================================================';
+  if isfield(NIG_FUNCTION, 'NELSON_NAMESPACE')
+    txt{end + 1} = ['ArrayOfVector Nelson::', NIG_FUNCTION.NELSON_NAMESPACE, 'Gateway::', NIG_FUNCTION.NELSON_NAME, 'Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)'];
+  else
+    txt{end + 1} = ['ArrayOfVector Nelson::', NIG_FUNCTION.NELSON_NAME, 'Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)'];
+  end
+  txt{end + 1} = '{';
+  txt{end + 1} = '    ArrayOfVector retval;';
+  txt{end + 1} = ['    if (nLhs > ', int2str(nig_nargout(NIG_FUNCTION)) ,')'];
+  txt{end + 1} = '    {';
+  txt{end + 1} = '        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);';
+  txt{end + 1} = '    }';
+  txt{end + 1} = ['    if (argIn.size() != ', int2str(nig_nargin(NIG_FUNCTION)), ')'];
+  txt{end + 1} = '    {';
+  txt{end + 1} = '        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);';
+  txt{end + 1} = '    }';
+  
+  txt{end + 1} = '    // INPUT VARIABLES';
+  n = 0;
+  for k = NIG_FUNCTION.VARIABLES
+    if strcmp(k.MODE, 'input') | strcmp(k.MODE, 'in_out')
+      txt{end + 1} = ['    ArrayOf ', k.NAME, '_array = argIn[', int2str(n), '];'];
+      n = n + 1;
+    end
+  end
+  
+  txt{end + 1} = '    return retval;';
+  txt{end + 1} = '}';
+  txt{end + 1} = '//=============================================================================';
+
+endfunction
+//=============================================================================

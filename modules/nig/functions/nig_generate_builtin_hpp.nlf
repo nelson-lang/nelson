@@ -16,28 +16,26 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-function r = nig_check_struct_function(NIG_FUNCTION)
-  r = false;
-  names = fieldnames(NIG_FUNCTION);
-  supported_names = {'NELSON_NAME'; 'SYMBOL'; 'LANGUAGE'; 'VARIABLES'};
-  r = all(isfield(NIG_FUNCTION, supported_names));
-  if r == true
-    if ~ischar(NIG_FUNCTION.NELSON_NAME)
-      r = false;
-      return;
-    end
-    if ~ischar(NIG_FUNCTION.SYMBOL)
-      r = false;
-      return;
-    end
-    if ~ischar(NIG_FUNCTION.LANGUAGE)
-      r = false;
-      return;
-    end
-    if ~isstruct(NIG_FUNCTION.VARIABLES)
-      r = false;
-      return;
-    end
+function txt = nig_generate_builtin_hpp(NIG_FUNCTION)
+  txt = nig_header_license();
+  CppBuiltinName = [NIG_FUNCTION.NELSON_NAME, 'Builtin'];
+  begin_txt = {'#pragma once';
+  '//=============================================================================';
+  '#include "ArrayOf.hpp"';
+  '#include "Evaluator.hpp"';
+  '//=============================================================================';
+  'namespace Nelson {';
+  };
+  txt = [txt; begin_txt];
+  if isfield(NIG_FUNCTION, 'NELSON_NAMESPACE')
+    txt{end + 1} = ['    ', 'namespace ' , NIG_FUNCTION.NELSON_NAMESPACE, 'Gateway {'];
+    txt{end + 1} = ['        ', 'ArrayOfVector ', NIG_FUNCTION.NELSON_NAME, 'Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);'];
+    txt{end + 1} = ['    ', '}'];
+    txt{end + 1} = '}';
+  else
+   txt{end + 1} = ['    ', 'ArrayOfVector ', NIG_FUNCTION.NELSON_NAME, 'Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);'];
+   txt{end + 1} = '}';
   end
+  txt{end + 1} = '//=============================================================================';
 endfunction
 //=============================================================================

@@ -16,27 +16,11 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-function r = nig_check_struct_function(NIG_FUNCTION)
-  r = false;
-  names = fieldnames(NIG_FUNCTION);
-  supported_names = {'NELSON_NAME'; 'SYMBOL'; 'LANGUAGE'; 'VARIABLES'};
-  r = all(isfield(NIG_FUNCTION, supported_names));
-  if r == true
-    if ~ischar(NIG_FUNCTION.NELSON_NAME)
-      r = false;
-      return;
-    end
-    if ~ischar(NIG_FUNCTION.SYMBOL)
-      r = false;
-      return;
-    end
-    if ~ischar(NIG_FUNCTION.LANGUAGE)
-      r = false;
-      return;
-    end
-    if ~isstruct(NIG_FUNCTION.VARIABLES)
-      r = false;
-      return;
+function n = nig_nargin(NIG_FUNCTION)
+  n = 0;
+  for k = NIG_FUNCTION.VARIABLES
+    if strcmp(k.MODE, 'input') | strcmp(k.MODE, 'in_out')
+      n = n + 1;
     end
   end
 endfunction
