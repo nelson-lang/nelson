@@ -620,7 +620,7 @@ ArrayOfVector Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int
                 Dimensions dimsCurrentCell = param.getDimensions();
                 if (!dimsCells.equals(dimsCurrentCell))
                 {
-                    Error(eval, _W("same size expected."));
+                    Error(eval, ERROR_SAME_SIZE_EXPECTED);
                 }
             }
         }
