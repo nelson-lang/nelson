@@ -31,6 +31,7 @@
 #include "struct_vertcat_structBuiltin.hpp"
 #include "cell_horzcat_cellBuiltin.hpp"
 #include "cell_vertcat_cellBuiltin.hpp"
+#include "isfieldBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -52,6 +53,7 @@ static const nlsGateway gateway[] =
     { "struct_vertcat_struct", Nelson::DataStructuresGateway::struct_vertcat_structBuiltin, 1, 2 },
     { "cell_horzcat_cell", Nelson::DataStructuresGateway::cell_horzcat_cellBuiltin, 1, 2 },
     { "cell_vertcat_cell", Nelson::DataStructuresGateway::cell_vertcat_cellBuiltin, 1, 2 },
+	{ "isfield", Nelson::DataStructuresGateway::isfieldBuiltin, 1, 2 },
 
 };
 //=============================================================================

@@ -6,41 +6,24 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 2 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-function r = isfield(s, names)
-  sz = size(names);
-  if ~isstruct(s)
-    r = false;
-  else
-     if iscellstr(names) | ischar(names)
-      r = any(strcmp(fieldnames(s), names));
-    else
-      if iscell(names)
-        r = logical([]);
-        for k = names
-          if ischar(k{1})
-            r = [r, any(strcmp(fieldnames(s), k{1}))];
-          else
-            r = [r, false];
-          end
-        end
-      else
-        r = false;
-      end
-    end
-  end
-  if ~ischar(names) & isstruct(s)
-    sz = size(names);
-    r = reshape(r, sz);
-  end
-endfunction
+#pragma once
+//=============================================================================
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
+//=============================================================================
+namespace Nelson {
+    namespace DataStructuresGateway {
+        ArrayOfVector isfieldBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    }
+}
 //=============================================================================
