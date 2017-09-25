@@ -1,0 +1,50 @@
+//=============================================================================
+// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+function [txt, nArgout] = nig_get_in_out_variables_definition(NIG_FUNCTION, nArgin)
+  txt = {'    // IN/OUT VARIABLES';
+         ''};
+  n = nArgin;
+  for k = NIG_FUNCTION.VARIABLES
+    if strcmp(k.MODE, 'in_out')
+      txt{end + 1} = ['    ArrayOf ', k.NAME, ' = argIn[', int2str(n), '];'];
+      if strcmp(k.TYPE, 'double_array')
+        txt{end + 1} = ['    ', k.NAME, '.promoteType(', 'NLS_DOUBLE', ');'];
+        txt{end + 1} = ['    double *',  k.NAME, '_ptr = ', k.NAME, '.getDataPointer();'];
+      end
+     if strcmp(k.TYPE, 'integer_array')
+        txt{end + 1} = ['    ', k.NAME, '.promoteType(', 'NLS_INT32', ');'];
+        txt{end + 1} = ['    int *',  k.NAME, '_ptr = ', k.NAME, '.getDataPointer();'];
+     end
+     if strcmp(k.TYPE, 'character')
+        txt{end + 1} = ['    std::string ',  k.NAME, '_string', ' = ', k.NAME, '.getContentAsCString();'];
+        txt{end + 1} = ['    const char* ',  k.NAME, '_char', ' = ', k.NAME, '_string.c_str();'];
+     end
+      if strcmp(k.TYPE, 'double')
+        txt{end + 1} = ['    double ',  k.NAME, '_scalar = ', k.NAME, '.getContentAsDoubleScalar();'];
+      end
+      if strcmp(k.TYPE, 'integer')
+        txt{end + 1} = ['    int ',  k.NAME, '_scalar = ', k.NAME, '.getContentAsInteger32Scalar();'];
+      end
+
+      n = n + 1;
+    end
+  end
+  nArgout = n;
+endfunction
+//=============================================================================

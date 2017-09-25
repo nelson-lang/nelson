@@ -16,20 +16,20 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-function txt = nig_language_function_declaration(NIG_FUNCTION)
-  txt = '';
-  if strcmp(NIG_FUNCTION.LANGUAGE, 'fortran') == true
-    txt = ['int ', NIG_FUNCTION.SYMBOL, '_'];
-  else
-    txt = ['int ', NIG_FUNCTION.SYMBOL];
-  end
-  txt = [txt, ' ('];
+function txt = nig_get_output_variables_definition(NIG_FUNCTION)
+  txt = {'    // OUTPUT VARIABLES';
+         ''};
   for k = NIG_FUNCTION.VARIABLES
-    txt = [txt, nig_variable_by_type(k, true), ','];
+    if strcmp(k.MODE, 'output') 
+       txt{end + 1} = ['    ArrayOf ', k.NAME, '_output;'];
+    end
+    if strcmp(k.TYPE, 'double')
+      txt{end + 1} = ['    double ', k.NAME, '_output_scalar;'];
+    end
+    if strcmp(k.TYPE, 'integer')
+      txt{end + 1} = ['    int ', k.NAME, '_output_scalar;'];
+    end
   end
-  if txt(end) == ','
-    txt = txt(1:end - 1);
-  end
-  txt = [txt, ')'];
+
 endfunction
 //=============================================================================

@@ -16,20 +16,46 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-function txt = nig_language_function_declaration(NIG_FUNCTION)
-  txt = '';
+function txt = nig_call_function(NIG_FUNCTION)
+  txt = {'    // CALL EXTERN FUNCTION';
+         ''};
+  txt{end + 1} = '    try';
+  txt{end + 1} = '    {';
+  
+  t = '';
   if strcmp(NIG_FUNCTION.LANGUAGE, 'fortran') == true
-    txt = ['int ', NIG_FUNCTION.SYMBOL, '_'];
+    t = ['        ', NIG_FUNCTION.SYMBOL, '_'];
   else
-    txt = ['int ', NIG_FUNCTION.SYMBOL];
+    t = ['        ', NIG_FUNCTION.SYMBOL, '_'];
   end
-  txt = [txt, ' ('];
+  t = [t, ' ('];
   for k = NIG_FUNCTION.VARIABLES
-    txt = [txt, nig_variable_by_type(k, true), ','];
+      if strcmp(k.MODE, 'input')
+        t = [t, k.NAME];
+      end
+      if strcmp(k.MODE, 'output')
+        t = [t, k.NAME];
+      end
+      if strcmp(k.MODE, 'in_out')
+        t = [t, k.NAME];
+      end
+      if strcmp(k.MODE, 'local')
+        t = [t, k.NAME];
+      end
+
+      t = [t, ','];
   end
-  if txt(end) == ','
-    txt = txt(1:end - 1);
+  if t(end) == ','
+    t= t(1:end - 1);
   end
-  txt = [txt, ')'];
+  t = [t, ');'];
+  txt{end + 1} = t;
+  
+  txt{end + 1} = '    }';
+  txt{end + 1} = '    catch (std::runtime_error &e)';
+  txt{end + 1} = '    {';
+  txt{end + 1} = ['        Error(eval, ', '"', NIG_FUNCTION.SYMBOL, ' function fails.");'];
+  txt{end + 1} = '    }';
+
 endfunction
 //=============================================================================

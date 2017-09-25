@@ -52,177 +52,33 @@ function txt = nig_generate_builtin_cpp(NIG_FUNCTION)
   txt{end + 1} = '        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);';
   txt{end + 1} = '    }';
   txt{end + 1} = '';
-  txt{end + 1} = '    // INPUT VARIABLES';
-  n = 0;
-  for k = NIG_FUNCTION.VARIABLES
-    if strcmp(k.MODE, 'input') | strcmp(k.MODE, 'in_out')
-      txt{end + 1} = ['    ArrayOf ', k.NAME, ' = argIn[', int2str(n), '];'];
-      if strcmp(k.TYPE, 'double_array')
-        txt{end + 1} = ['    ', k.NAME, '.promoteType(', 'NLS_DOUBLE', ');'];
-        txt{end + 1} = ['    double *',  k.NAME, '_ptr = ', k.NAME, '.getDataPointer();'];
-      end
-     if strcmp(k.TYPE, 'integer_array')
-        txt{end + 1} = ['    ', k.NAME, '.promoteType(', 'NLS_INT32', ');'];
-        txt{end + 1} = ['    int *',  k.NAME, '_ptr = ', k.NAME, '.getDataPointer();'];
-     end
-     if strcmp(k.TYPE, 'character')
-        txt{end + 1} = ['    std::string ',  k.NAME, '_string', ' = ', k.NAME, '.getContentAsCString();'];
-        txt{end + 1} = ['    const char* ',  k.NAME, '_char', ' = ', k.NAME, '_string.c_str();'];
-     end
-      if strcmp(k.TYPE, 'double')
-        txt{end + 1} = ['    double ',  k.NAME, '_scalar = ', k.NAME, '.getContentAsDoubleScalar();'];
-      end
-      if strcmp(k.TYPE, 'integer')
-        txt{end + 1} = ['    int ',  k.NAME, '_scalar = ', k.NAME, '.getContentAsInteger32Scalar();'];
-      end
 
-      n = n + 1;
-    end
-  end
+  nArgin = 0;
+  // INPUT VARIABLES DEFINITION
+  [res, nArgin] = nig_get_input_variables_definition(NIG_FUNCTION, nArgin);
+  txt = [txt; res];
   txt{end + 1} = '';
-  txt{end + 1} = '    // LOCAL VARIABLES';
-  for k = NIG_FUNCTION.VARIABLES
-    if strcmp(k.MODE, 'local')
-      if strcmp(k.TYPE, 'double_array')
-        if isfield(k, 'DIMENSION_M') & ~isempty(k.DIMENSION_M)
-          if isnumeric(k.DIMENSION_M)
-            DIMENSION_M_str = int2str(k.DIMENSION_M);
-          else
-            DIMENSION_M_str = k.DIMENSION_M;
-          end
-        else
-          DIMENSION_M_str = '1';
-        end
-        if isfield(k, 'DIMENSION_N') & ~isempty(k.DIMENSION_N)
-          if isnumeric(k.DIMENSION_N)
-            DIMENSION_N_str = int2str(k.DIMENSION_N);
-          else
-            DIMENSION_N_str = k.DIMENSION_N;
-          end
-        else
-          DIMENSION_N_str = '1';
-        end
-        txt{end + 1} = ['    double *', k.NAME, '_local = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, ', DIMENSION_M_str, ' * ', DIMENSION_N_str ,';'];
-      end
-      if strcmp(k.TYPE, 'integer_array')
-        if isfield(k, 'DIMENSION_M') & ~isempty(k.DIMENSION_M)
-          if isnumeric(k.DIMENSION_M)
-            DIMENSION_M_str = int2str(k.DIMENSION_M);
-          else
-            DIMENSION_M_str = k.DIMENSION_M;
-          end
-        else
-          DIMENSION_M_str = '1';
-        end
-        if isfield(k, 'DIMENSION_N') & ~isempty(k.DIMENSION_N)
-          if isnumeric(k.DIMENSION_N)
-            DIMENSION_N_str = int2str(k.DIMENSION_N);
-          else
-            DIMENSION_N_str = k.DIMENSION_N;
-          end
-        else
-          DIMENSION_N_str = '1';
-        end
-        txt{end + 1} = ['    int *', k.NAME, '_local = (int*)ArrayOf::allocateArrayOf(NLS_INT32, ', DIMENSION_M_str, ' * ', DIMENSION_N_str ,';'];
-      end
-      if strcmp(k.TYPE, 'double')
-        if isfield(k, 'VALUE') & ~isempty(k.VALUE)
-          txt{end + 1} = ['    double ', k.NAME, '_local = ', k.VALUE, ';'];
-        else
-          txt{end + 1} = ['    double ', k.NAME, '_local;'];
-        end
-      end
-      if strcmp(k.TYPE, 'integer')
-        if isfield(k, 'VALUE') & ~isempty(k.VALUE)
-          txt{end + 1} = ['    int ', k.NAME, '_local = ', k.VALUE, ';'];
-        else
-          txt{end + 1} = ['    int ', k.NAME, '_local;'];
-        end
-      end
-
-    end
-  end
-
-
+ 
+  // INPUT/OUTPUT VARIABLES DEFINITION
+  [res, nArgin] = nig_get_in_out_variables_definition(NIG_FUNCTION, nArgin);
+  txt = [txt; res];
   txt{end + 1} = '';
-  txt{end + 1} = '    // OUTPUT VARIABLES';
-  for k = NIG_FUNCTION.VARIABLES
-    if strcmp(k.MODE, 'output') | strcmp(k.MODE, 'in_out')
-      if strcmp(k.MODE, 'in_out')
-         txt{end + 1} = ['    ArrayOf ', k.NAME, '_output = ', k.NAME, ';'];
-         txt{end + 1} = ['    ', k.NAME, '_output.ensureSingleOwner();'];
-      else
-       txt{end + 1} = ['    ArrayOf ', k.NAME, '_output;'];
-      end
-    end
-  end
+  
+  // OUTPUT VARIABLES DEFINITION
+  txt = [txt; nig_get_output_variables_definition(NIG_FUNCTION)];
   txt{end + 1} = '';
-  n = 0;
-  for k = NIG_FUNCTION.VARIABLES
-    if strcmp(k.MODE, 'output') | strcmp(k.MODE, 'in_out')
-      txt{end + 1} = ['    if (nLhs > ', int2str(n), ')'];
-      txt{end + 1} = '    {';
-      
-      if strcmp(k.TYPE, 'double_array')
-          if isfield(k, 'DIMENSION_M') & ~isempty(k.DIMENSION_M)
-          if isnumeric(k.DIMENSION_M)
-            DIMENSION_M_str = int2str(k.DIMENSION_M);
-          else
-            DIMENSION_M_str = k.DIMENSION_M;
-          end
-        else
-          DIMENSION_M_str = '1';
-        end
-        if isfield(k, 'DIMENSION_N') & ~isempty(k.DIMENSION_N)
-          if isnumeric(k.DIMENSION_N)
-            DIMENSION_N_str = int2str(k.DIMENSION_N);
-          else
-            DIMENSION_N_str = k.DIMENSION_N;
-          end
-        else
-          DIMENSION_N_str = '1';
-        end
-        txt{end + 1} = ['        Dimensions dims(', DIMENSION_M_str, ' , ', DIMENSION_M_str, ');'];
-        txt{end + 1} = ['        ', k.NAME, '_output = ArrayOf(NLS_DOUBLE, dims, ', k.NAME, '_ptr);'];
-      end
+  
+  // LOCAL VARIABLES DEFINITION
+  txt = [txt; nig_get_local_variables_definition(NIG_FUNCTION)];
+  txt{end + 1} = '';
 
-      if strcmp(k.TYPE, 'integer_array')
-          if isfield(k, 'DIMENSION_M') & ~isempty(k.DIMENSION_M)
-          if isnumeric(k.DIMENSION_M)
-            DIMENSION_M_str = int2str(k.DIMENSION_M);
-          else
-            DIMENSION_M_str = k.DIMENSION_M;
-          end
-        else
-          DIMENSION_M_str = '1';
-        end
-        if isfield(k, 'DIMENSION_N') & ~isempty(k.DIMENSION_N)
-          if isnumeric(k.DIMENSION_N)
-            DIMENSION_N_str = int2str(k.DIMENSION_N);
-          else
-            DIMENSION_N_str = k.DIMENSION_N;
-          end
-        else
-          DIMENSION_N_str = '1';
-        end
-        txt{end + 1} = ['        Dimensions dims(', DIMENSION_M_str, ' , ', DIMENSION_M_str, ');'];
-        txt{end + 1} = ['        ', k.NAME, '_output = ArrayOf(NLS_INT32, dims, ', k.NAME, '_ptr);'];
-      end
+  // CALL EXTERN FUNCTION
+  txt = [txt ; nig_call_function(NIG_FUNCTION)];
+  txt{end + 1} = '';
 
-      if strcmp(k.TYPE, 'double')
-        txt{end + 1} = ['        ', k.NAME, '_output = ArrayOf::doubleConstructor(', k.NAME, '_scalar);'];
-      end
-
-      if strcmp(k.TYPE, 'integer')
-        txt{end + 1} = ['        ', k.NAME, '_output = ArrayOf::int32Constructor(', k.NAME, '_scalar);'];
-      end
-
-      txt{end + 1} = ['        retval.pushback(', k.NAME, '_output);'];
-      txt{end + 1} = '    }';
-      n = n + 1;
-    end
-  end
-
+  // ASSIGN OUTPUT
+  txt = [txt ; nig_assign_output_variables(NIG_FUNCTION)];
+  txt{end + 1} = '';
 
   txt{end + 1} = '    return retval;';
   txt{end + 1} = '}';

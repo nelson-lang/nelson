@@ -10,9 +10,11 @@ Please feel free to file issues on this repository if you have questions, concer
 *Features*:
 
 - linear algebra module,
-- Computer Aided Control Systems Design module,
+- Computer Aided Control Systems Design module ,
+- SLICOT module: low level function about Controls,
 - fftw module (DONE v0.1.8),
 - COM objects (DONE v0.1.7),
+- MAT File I/O module,
 - editor,
 - completion,
 - graphics output,

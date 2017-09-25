@@ -1,0 +1,85 @@
+//=============================================================================
+// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+function txt = nig_get_local_variables_definition(NIG_FUNCTION)
+  txt = {'    // LOCAL VARIABLES';
+         ''};
+  for k = NIG_FUNCTION.VARIABLES
+    if strcmp(k.MODE, 'local')
+      if strcmp(k.TYPE, 'double_array')
+        if isfield(k, 'DIMENSION_M') & ~isempty(k.DIMENSION_M)
+          if isnumeric(k.DIMENSION_M)
+            DIMENSION_M_str = int2str(k.DIMENSION_M);
+          else
+            DIMENSION_M_str = k.DIMENSION_M;
+          end
+        else
+          DIMENSION_M_str = '1';
+        end
+        if isfield(k, 'DIMENSION_N') & ~isempty(k.DIMENSION_N)
+          if isnumeric(k.DIMENSION_N)
+            DIMENSION_N_str = int2str(k.DIMENSION_N);
+          else
+            DIMENSION_N_str = k.DIMENSION_N;
+          end
+        else
+          DIMENSION_N_str = '1';
+        end
+        txt{end + 1} = ['    double *', k.NAME, '_local = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, ', DIMENSION_M_str, ' * ', DIMENSION_N_str ,';'];
+      end
+      if strcmp(k.TYPE, 'integer_array')
+        if isfield(k, 'DIMENSION_M') & ~isempty(k.DIMENSION_M)
+          if isnumeric(k.DIMENSION_M)
+            DIMENSION_M_str = int2str(k.DIMENSION_M);
+          else
+            DIMENSION_M_str = k.DIMENSION_M;
+          end
+        else
+          DIMENSION_M_str = '1';
+        end
+        if isfield(k, 'DIMENSION_N') & ~isempty(k.DIMENSION_N)
+          if isnumeric(k.DIMENSION_N)
+            DIMENSION_N_str = int2str(k.DIMENSION_N);
+          else
+            DIMENSION_N_str = k.DIMENSION_N;
+          end
+        else
+          DIMENSION_N_str = '1';
+        end
+        txt{end + 1} = ['    int *', k.NAME, '_local = (int*)ArrayOf::allocateArrayOf(NLS_INT32, ', DIMENSION_M_str, ' * ', DIMENSION_N_str ,';'];
+      end
+      if strcmp(k.TYPE, 'double')
+        if isfield(k, 'VALUE') & ~isempty(k.VALUE)
+          txt{end + 1} = ['    double ', k.NAME, '_local = ', k.VALUE, ';'];
+        else
+          txt{end + 1} = ['    double ', k.NAME, '_local;'];
+        end
+      end
+      if strcmp(k.TYPE, 'integer')
+        if isfield(k, 'VALUE') & ~isempty(k.VALUE)
+          txt{end + 1} = ['    int ', k.NAME, '_local = ', k.VALUE, ';'];
+        else
+          txt{end + 1} = ['    int ', k.NAME, '_local;'];
+        end
+      end
+
+    end
+  end
+
+endfunction
+//=============================================================================
