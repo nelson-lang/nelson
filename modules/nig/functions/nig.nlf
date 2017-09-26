@@ -16,7 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-function status = nig(varargin)
+function nig(varargin)
   if nargin ~= 2
     error('wrong ...');
   end
@@ -31,11 +31,18 @@ function status = nig(varargin)
   if ~nig_check_struct_function(NIG_FUNCTION)
     error('wrong ...');
   end
-  filenameCppBuiltin = [NIG_FUNCTION.NELSON_NAME, 'Builtin.cpp'];
-  filenameHeaderBuiltin = [NIG_FUNCTION.NELSON_NAME, 'Builtin.hpp'];
-  nig_txt_to_file(nig_generate_builtin_hpp(NIG_FUNCTION), [NIG_DESTINATION, '/', filenameHeaderBuiltin]);
-  nig_txt_to_file(nig_generate_builtin_cpp(NIG_FUNCTION), [NIG_DESTINATION, '/', filenameCppBuiltin]);
 
-  status = true;
+  have_module_subdirectories =  isdir([NIG_DESTINATION, '/builtin/cpp']) & isdir([NIG_DESTINATION, '/builtin/include']);
+  if have_module_subdirectories
+    filenameCppBuiltin = [NIG_DESTINATION, '/builtin/cpp/', NIG_FUNCTION.NELSON_NAME, 'Builtin.cpp'];
+    filenameHeaderBuiltin = [NIG_DESTINATION, '/builtin/include/', NIG_FUNCTION.NELSON_NAME, 'Builtin.hpp'];
+  else
+    filenameCppBuiltin = [NIG_DESTINATION, '/', NIG_FUNCTION.NELSON_NAME, 'Builtin.cpp'];
+    filenameHeaderBuiltin = [NIG_DESTINATION, '/', NIG_FUNCTION.NELSON_NAME, 'Builtin.hpp'];
+  end
+
+  nig_txt_to_file(nig_generate_builtin_hpp(NIG_FUNCTION), filenameHeaderBuiltin);
+  nig_txt_to_file(nig_generate_builtin_cpp(NIG_FUNCTION), filenameCppBuiltin);
+
 endfunction
 //=============================================================================
