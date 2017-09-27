@@ -20,29 +20,36 @@ function nig(varargin)
   if nargin ~= 2
     error('wrong ...');
   end
-  NIG_FUNCTION = varargin{1};
+  NIG_FUNCTIONS = varargin{1};
   NIG_DESTINATION = varargin{2};
-  if ~isstruct(NIG_FUNCTION)
+  if ~isstruct(NIG_FUNCTIONS)
     error('wrong ...');
   end
   if ~isdir(NIG_DESTINATION)
     error('wrong ...');
   end
-  if ~nig_check_struct_function(NIG_FUNCTION)
+  if ~nig_check_struct_function(NIG_FUNCTIONS)
     error('wrong ...');
   end
 
   have_module_subdirectories =  isdir([NIG_DESTINATION, '/builtin/cpp']) & isdir([NIG_DESTINATION, '/builtin/include']);
-  if have_module_subdirectories
-    filenameCppBuiltin = [NIG_DESTINATION, '/builtin/cpp/', NIG_FUNCTION.NELSON_NAME, 'Builtin.cpp'];
-    filenameHeaderBuiltin = [NIG_DESTINATION, '/builtin/include/', NIG_FUNCTION.NELSON_NAME, 'Builtin.hpp'];
-  else
-    filenameCppBuiltin = [NIG_DESTINATION, '/', NIG_FUNCTION.NELSON_NAME, 'Builtin.cpp'];
-    filenameHeaderBuiltin = [NIG_DESTINATION, '/', NIG_FUNCTION.NELSON_NAME, 'Builtin.hpp'];
+  len = length(NIG_FUNCTIONS);
+  for k = [1:len]
+    if have_module_subdirectories
+      filenameCppBuiltin = [NIG_DESTINATION, '/builtin/cpp/', NIG_FUNCTIONS(k).NELSON_NAME, 'Builtin.cpp'];
+      filenameHeaderBuiltin = [NIG_DESTINATION, '/builtin/include/', NIG_FUNCTIONS(k).NELSON_NAME, 'Builtin.hpp'];
+    else
+      filenameCppBuiltin = [NIG_DESTINATION, '/', NIG_FUNCTIONS(k).NELSON_NAME, 'Builtin.cpp'];
+      filenameHeaderBuiltin = [NIG_DESTINATION, '/', NIG_FUNCTIONS(k).NELSON_NAME, 'Builtin.hpp'];
+    end
+    nig_txt_to_file(nig_generate_builtin_hpp(NIG_FUNCTIONS(k)), filenameHeaderBuiltin);
+    nig_txt_to_file(nig_generate_builtin_cpp(NIG_FUNCTIONS(k)), filenameCppBuiltin);
   end
-
-  nig_txt_to_file(nig_generate_builtin_hpp(NIG_FUNCTION), filenameHeaderBuiltin);
-  nig_txt_to_file(nig_generate_builtin_cpp(NIG_FUNCTION), filenameCppBuiltin);
-
+  if have_module_subdirectories
+    filenameCppGateway = [NIG_DESTINATION, '/builtin/cpp/Gateway.cpp'];
+  else
+    filenameCppGateway = [NIG_DESTINATION, '/', 'Gateway.cpp'];
+  end
+  nig_txt_to_file(nig_generate_gateway_cpp(NIG_FUNCTIONS), filenameCppGateway);
 endfunction
 //=============================================================================

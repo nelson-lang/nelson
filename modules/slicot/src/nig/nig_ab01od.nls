@@ -24,6 +24,7 @@
 NIG_FUNCTION = struct();
 NIG_FUNCTION.NELSON_NAME = 'slicot_ab01od';
 NIG_FUNCTION.NELSON_NAMESPACE = 'Slicot'; // optional
+NIG_FUNCTION.MODULE_NAME = 'slicot';
 NIG_FUNCTION.SYMBOL = 'ab01od';
 NIG_FUNCTION.LANGUAGE = 'fortran';
 
