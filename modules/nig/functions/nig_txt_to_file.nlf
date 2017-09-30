@@ -17,14 +17,10 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 function nig_txt_to_file(txt, destination)
-  if ispc()
-    eol = [char(13), char(10)];
-  else
-    eol = char(10);
-  end
+  eol = char(10);
   fw = fopen(destination, 'wt');
   for l = txt
-    fprintf(fw, [l, eol]);
+    fwrite(fw, [l, eol]);
   end
   fclose(fw);
 endfunction

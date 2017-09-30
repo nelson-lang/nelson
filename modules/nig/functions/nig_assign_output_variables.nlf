@@ -72,14 +72,14 @@ function txt = nig_assign_output_variables(NIG_FUNCTION)
       end
 
       if strcmp(k.TYPE, 'double')
-        txt{end + 1} = ['        ', k.NAME, '_output = ArrayOf::doubleConstructor(', k.NAME, '_scalar);'];
+        txt{end + 1} = ['        ', k.NAME, '_output = ArrayOf::doubleConstructor(', k.NAME, '_output_scalar);'];
       end
 
       if strcmp(k.TYPE, 'integer')
-        txt{end + 1} = ['        ', k.NAME, '_output = ArrayOf::int32Constructor(', k.NAME, '_scalar);'];
+        txt{end + 1} = ['        ', k.NAME, '_output = ArrayOf::int32Constructor(', k.NAME, '_output_scalar);'];
       end
 
-      txt{end + 1} = ['        retval.pushback(', k.NAME, '_output);'];
+      txt{end + 1} = ['        retval.push_back(', k.NAME, '_output);'];
       txt{end + 1} = '    }';
       n = n + 1;
     end
