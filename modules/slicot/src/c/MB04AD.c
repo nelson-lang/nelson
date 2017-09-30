@@ -15,7 +15,7 @@ static doublereal c_b63 = 1.;
 static integer c__0 = 0;
 static integer c__6 = 6;
 
-/* Subroutine */ int mb04ad_(job, compq1, compq2, compu1, compu2, n, z__, ldz, h__, ldh, t, ldt, q1, ldq1, q2, ldq2, u11, ldu11, u12, ldu12, u21, ldu21, u22, ldu22, alphar, alphai, beta, iwork, liwork, dwork, ldwork, info, job_len, compq1_len, compq2_len, compu1_len, compu2_len)
+/* Subroutine */ EXPORTSYMBOL int mb04ad_(job, compq1, compq2, compu1, compu2, n, z__, ldz, h__, ldh, t, ldt, q1, ldq1, q2, ldq2, u11, ldu11, u12, ldu12, u21, ldu21, u22, ldu22, alphar, alphai, beta, iwork, liwork, dwork, ldwork, info, job_len, compq1_len, compq2_len, compu1_len, compu2_len)
 char *job, *compq1, *compq2, *compu1, *compu2;
 integer *n;
 doublereal *z__;
@@ -52,7 +52,7 @@ ftnlen compu2_len;
     doublecomplex z__1, z__2;
     /* Builtin functions */
     double sqrt();
-    /* Subroutine */ int s_copy();
+    /* Subroutine */ EXPORTSYMBOL int s_copy();
     void z_sqrt();
     double d_imag(), pow_dd();
     /* Local variables */
@@ -63,20 +63,20 @@ ftnlen compu2_len;
     static char cmpq[16];
     static integer itau;
     static doublereal sqrb;
-    extern /* Subroutine */ int drot_();
+    extern /* Subroutine */ EXPORTSYMBOL int drot_();
     static logical ltri;
     static integer iwrk;
-    extern /* Subroutine */ int ma02ad_();
+    extern /* Subroutine */ EXPORTSYMBOL int ma02ad_();
     static integer i__, j, k;
-    extern /* Subroutine */ int mb03bd_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb03bd_();
     static integer m;
-    extern /* Subroutine */ int dscal_(), dgemm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_(), dgemm_();
     extern logical lsame_();
     static char cmpsc[16];
     static integer mindw;
-    extern /* Subroutine */ int dswap_();
+    extern /* Subroutine */ EXPORTSYMBOL int dswap_();
     static integer iwarn;
-    extern /* Subroutine */ int dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_();
     static integer optdw;
     extern doublereal dlapy2_();
     static logical lcmpq1, lcmpq2, liniq1, lcmpu1, lcmpu2, liniq2, liniu1, liniu2, lupdq1, lupdq2, lupdu1, lupdu2;
@@ -85,9 +85,9 @@ ftnlen compu2_len;
     static integer iq, mm;
     static doublereal si;
     extern doublereal dlamch_();
-    extern /* Subroutine */ int dgeqrf_(), dgerqf_(), dlacpy_(), dlartg_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgeqrf_(), dgerqf_(), dlacpy_(), dlartg_();
     extern integer ilaenv_();
-    extern /* Subroutine */ int dlaset_(), xerbla_(), dormqr_(), dormrq_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlaset_(), xerbla_(), dormqr_(), dormrq_();
     static logical lquery;
     static doublecomplex eig;
     static doublereal dum[1], tmp1, tmp2;

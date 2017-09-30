@@ -9,7 +9,7 @@
 
 static integer c__1 = 1;
 
-/* Subroutine */ int ud01nd_(mp, np, dp, l, nout, p, ldp1, ldp2, text, info, text_len)
+/* Subroutine */ EXPORTSYMBOL int ud01nd_(mp, np, dp, l, nout, p, ldp1, ldp2, text, info, text_len)
 integer *mp, *np, *dp, *l, *nout;
 doublereal *p;
 integer *ldp1, *ldp2;
@@ -28,7 +28,7 @@ ftnlen text_len;
     integer i_len(), s_wsfe(), e_wsfe(), do_fio();
     /* Local variables */
     static integer i__, j, k, j1, j2, n1, ltext, jj;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static integer lentxt;
     /* Fortran I/O blocks */
     static cilist io___4 = { 0, 0, 0, fmt_99999, 0 };

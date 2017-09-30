@@ -14,7 +14,7 @@ static doublereal c_b21 = 2.44140625e-4;
 static doublereal c_b48 = 0.;
 static doublereal c_b49 = 1.;
 
-/* Subroutine */ int sb10yd_(discfl, flag__, lendat, rfrdat, ifrdat, omega, n, a, lda, b, c__, d__, tol, iwork, dwork, ldwork, zwork, lzwork, info)
+/* Subroutine */ EXPORTSYMBOL int sb10yd_(discfl, flag__, lendat, rfrdat, ifrdat, omega, n, a, lda, b, c__, d__, tol, iwork, dwork, ldwork, zwork, lzwork, info)
 integer *discfl, *flag__, *lendat;
 doublereal *rfrdat, *ifrdat, *omega;
 integer *n;
@@ -41,13 +41,13 @@ integer *lzwork, *info;
     static integer iwbx;
     static doublereal toll;
     static integer iwxi, iwxr, info2;
-    extern /* Subroutine */ int ab04md_();
+    extern /* Subroutine */ EXPORTSYMBOL int ab04md_();
     static integer i__, k;
-    extern /* Subroutine */ int dg01md_();
+    extern /* Subroutine */ EXPORTSYMBOL int dg01md_();
     static integer p;
-    extern /* Subroutine */ int dscal_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_();
     static integer iwmag, iwdme;
-    extern /* Subroutine */ int dcopy_(), sb10zp_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_(), sb10zp_();
     static integer iwvar, istop, n1, n2;
     static doublereal p1, p2;
     extern doublereal dlapy2_();
@@ -56,9 +56,9 @@ integer *lzwork, *info;
     static doublereal pi;
     static integer mn;
     static doublereal pw;
-    extern /* Subroutine */ int dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlaset_(), xerbla_();
     static integer iwbmat;
-    extern /* Subroutine */ int dgelsy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgelsy_();
     static integer clwmax, dlwmax, iwymag, iwdomo, istart, ip1, ip2, lw1, lw2, lw3, lw4;
     static doublereal rat;
     static integer iws, iwa0;

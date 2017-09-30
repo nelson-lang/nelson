@@ -12,7 +12,7 @@ static integer c__1 = 1;
 static doublereal c_b31 = 1.;
 static integer c__0 = 0;
 
-/* Subroutine */ int mb01ux_(side, uplo, trans, m, n, alpha, t, ldt, a, lda, dwork, ldwork, info, side_len, uplo_len, trans_len)
+/* Subroutine */ EXPORTSYMBOL int mb01ux_(side, uplo, trans, m, n, alpha, t, ldt, a, lda, dwork, ldwork, info, side_len, uplo_len, trans_len)
 char *side, *uplo, *trans;
 integer *m, *n;
 doublereal *alpha, *t;
@@ -34,9 +34,9 @@ ftnlen trans_len;
     static logical lside;
     extern logical lsame_();
     static char atran[1];
-    extern /* Subroutine */ int dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_();
     static logical ltran;
-    extern /* Subroutine */ int dtrmm_(), daxpy_(), dtrmv_(), dlascl_(), dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dtrmm_(), daxpy_(), dtrmv_(), dlascl_(), dlaset_(), xerbla_();
     static integer wrkmin, wrkopt, pdw;
     static logical lup;
     /*     SLICOT RELEASE 5.0. */

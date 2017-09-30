@@ -12,7 +12,7 @@ static doublereal c_b28 = 1.;
 static doublereal c_b31 = 0.;
 static doublereal c_b37 = -1.;
 
-/* Subroutine */ int sb02mt_(jobg, jobl, fact, uplo, n, m, a, lda, b, ldb, q, ldq, r__, ldr, l, ldl, ipiv, oufact, g, ldg, iwork, dwork, ldwork, info, jobg_len, jobl_len, fact_len, uplo_len)
+/* Subroutine */ EXPORTSYMBOL int sb02mt_(jobg, jobl, fact, uplo, n, m, a, lda, b, ldb, q, ldq, r__, ldr, l, ldl, ipiv, oufact, g, ldg, iwork, dwork, ldwork, info, jobg_len, jobl_len, fact_len, uplo_len)
 char *jobg, *jobl, *fact, *uplo;
 integer *n, *m;
 doublereal *a;
@@ -38,26 +38,26 @@ ftnlen uplo_len;
     integer a_dim1, a_offset, b_dim1, b_offset, g_dim1, g_offset, l_dim1, l_offset, q_dim1, q_offset, r_dim1, r_offset, i__1, i__2, i__3, i__4;
     /* Local variables */
     static integer i__, j;
-    extern /* Subroutine */ int dgemm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemm_();
     static logical ljobg;
     extern logical lsame_();
     static logical ljobl;
-    extern /* Subroutine */ int dgemv_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemv_();
     static doublereal rcond;
-    extern /* Subroutine */ int dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_();
     static char trans[1];
-    extern /* Subroutine */ int dtrsm_(), dsyrk_();
+    extern /* Subroutine */ EXPORTSYMBOL int dtrsm_(), dsyrk_();
     static doublereal rnorm;
     extern doublereal dlamch_();
     static logical lfacta, lfactc;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static logical lfactu;
-    extern /* Subroutine */ int dpocon_();
+    extern /* Subroutine */ EXPORTSYMBOL int dpocon_();
     extern doublereal dlansy_();
-    extern /* Subroutine */ int dpotrf_(), dsycon_(), dsytrf_();
+    extern /* Subroutine */ EXPORTSYMBOL int dpotrf_(), dsycon_(), dsytrf_();
     static logical luplou;
     static integer wrkopt;
-    extern /* Subroutine */ int dsytrs_();
+    extern /* Subroutine */ EXPORTSYMBOL int dsytrs_();
     static doublereal eps;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

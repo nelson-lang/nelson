@@ -10,7 +10,7 @@
 static integer c_n1 = -1;
 static integer c__1 = 1;
 
-/* Subroutine */ int tb01yd_(n, m, p, a, lda, b, ldb, c__, ldc, info)
+/* Subroutine */ EXPORTSYMBOL int tb01yd_(n, m, p, a, lda, b, ldb, c__, ldc, info)
 integer *n, *m, *p;
 doublereal *a;
 integer *lda;
@@ -23,7 +23,7 @@ integer *ldc, *info;
     integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, i__1;
     /* Local variables */
     static integer j;
-    extern /* Subroutine */ int dswap_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dswap_(), xerbla_();
     static integer nby2;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

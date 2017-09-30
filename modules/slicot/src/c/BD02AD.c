@@ -13,7 +13,7 @@ static doublereal c_b8 = -1.;
 static integer c__5 = 5;
 static integer c__1 = 1;
 
-/* Subroutine */ int bd02ad_(def, nr, dpar, ipar, vec, n, m, p, e, lde, a, lda, b, ldb, c__, ldc, d__, ldd, note, dwork, ldwork, info, def_len, note_len)
+/* Subroutine */ EXPORTSYMBOL int bd02ad_(def, nr, dpar, ipar, vec, n, m, p, e, lde, a, lda, b, ldb, c__, ldc, d__, ldd, note, dwork, ldwork, info, def_len, note_len)
 char *def;
 integer *nr;
 doublereal *dpar;
@@ -43,14 +43,14 @@ ftnlen note_len;
     olist o__1;
     cllist cl__1;
     /* Builtin functions */
-    /* Subroutine */ int s_copy();
+    /* Subroutine */ EXPORTSYMBOL int s_copy();
     integer f_open(), s_rsle(), do_lio(), e_rsle(), f_clos(), s_wsfi(), do_fio(), e_wsfi();
     /* Local variables */
     static doublereal temp;
     static integer i__, j;
     static char dataf[12];
     extern logical lsame_();
-    extern /* Subroutine */ int dlaset_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlaset_();
     static integer status;
     /* Fortran I/O blocks */
     static cilist io___4 = { 1, 1, 1, 0, 0 };

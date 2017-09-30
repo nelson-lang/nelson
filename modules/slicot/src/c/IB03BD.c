@@ -15,7 +15,7 @@ static integer c__0 = 0;
 static doublereal c_b63 = 100.;
 static doublereal c_b64 = 0.;
 
-/* Subroutine */ int ib03bd_(init, nobr, m, l, nsmp, n, nn, itmax1, itmax2, nprint, u, ldu, y, ldy, x, lx, tol1, tol2, iwork, dwork, ldwork, iwarn, info, init_len)
+/* Subroutine */ EXPORTSYMBOL int ib03bd_(init, nobr, m, l, nsmp, n, nn, itmax1, itmax2, nprint, u, ldu, y, ldy, x, lx, tol1, tol2, iwork, dwork, ldwork, iwarn, info, init_len)
 char *init;
 integer *nobr, *m, *l, *nsmp, *n, *nn, *itmax1, *itmax2, *nprint;
 doublereal *u;
@@ -39,23 +39,23 @@ ftnlen init_len;
     static integer ipar[7], nfev, njev, lnol, nsml, lths, nths;
     static doublereal work[4];
     static logical init1, init2;
-    extern /* Subroutine */ int ib01ad_(), ib01bd_(), ib01cd_();
-    extern /* Subroutine */ int md03ba_(), md03bb_();
+    extern /* Subroutine */ EXPORTSYMBOL int ib01ad_(), ib01bd_(), ib01cd_();
+    extern /* Subroutine */ EXPORTSYMBOL int md03ba_(), md03bb_();
     static integer i__, j;
-    extern /* Subroutine */ int md03bd_();
+    extern /* Subroutine */ EXPORTSYMBOL int md03bd_();
     static integer idiag;
-    extern /* Subroutine */ int nf01be_(), nf01bf_(), nf01bp_();
+    extern /* Subroutine */ EXPORTSYMBOL int nf01be_(), nf01bf_(), nf01bp_();
     static integer z__;
-    extern /* Subroutine */ int nf01bs_();
+    extern /* Subroutine */ EXPORTSYMBOL int nf01bs_();
     static integer ircnd;
     extern logical lsame_();
-    extern /* Subroutine */ int tb01vd_();
+    extern /* Subroutine */ EXPORTSYMBOL int tb01vd_();
     static integer infol, lipar;
-    extern /* Subroutine */ int dcopy_(), tf01mx_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_(), tf01mx_();
     static logical bwork[1];
-    extern /* Subroutine */ int tb01vy_();
+    extern /* Subroutine */ EXPORTSYMBOL int tb01vy_();
     static integer jwork, n2, ac, bd, ia, ib, ik, ml, iq, ir, is, iv, ircndb, ix, ns, nx;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static integer iwarnl, iw1, iw2, iw3, ix0, wrkopt, ldr, bsn, mno, isv, iry;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

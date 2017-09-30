@@ -31,16 +31,16 @@ ftnlen jobn_len;
     doublereal ret_val = 0, d__1, d__2;
     /* Local variables */
     static integer ktau, mxnp;
-    extern /* Subroutine */ int sb08dd_();
+    extern /* Subroutine */ EXPORTSYMBOL int sb08dd_();
     static doublereal scale;
     extern logical lsame_();
     static logical discr;
-    extern /* Subroutine */ int sb03ou_(), dtrmm_();
+    extern /* Subroutine */ EXPORTSYMBOL int sb03ou_(), dtrmm_();
     extern doublereal dlapy2_();
     static doublereal s2norm;
     extern doublereal dlange_();
     static integer ku, nr;
-    extern /* Subroutine */ int dlacpy_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), xerbla_();
     static doublereal wrkopt;
     static integer kcr, kdr, krw;
     /*     SLICOT RELEASE 5.0. */

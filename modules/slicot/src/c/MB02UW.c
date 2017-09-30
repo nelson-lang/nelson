@@ -5,7 +5,7 @@
 
 #include "nelson_f2c.h"
 
-/* Subroutine */ int mb02uw_(ltrans, n, m, par, a, lda, b, ldb, scale, iwarn)
+/* Subroutine */ EXPORTSYMBOL int mb02uw_(ltrans, n, m, par, a, lda, b, ldb, scale, iwarn)
 logical *ltrans;
 integer *n, *m;
 doublereal *par, *a;

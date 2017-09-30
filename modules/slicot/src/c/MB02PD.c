@@ -5,7 +5,7 @@
 
 #include "nelson_f2c.h"
 
-/* Subroutine */ int mb02pd_(fact, trans, n, nrhs, a, lda, af, ldaf, ipiv, equed, r__, c__, b, ldb, x, ldx, rcond, ferr, berr, iwork, dwork, info, fact_len, trans_len, equed_len)
+/* Subroutine */ EXPORTSYMBOL int mb02pd_(fact, trans, n, nrhs, a, lda, af, ldaf, ipiv, equed, r__, c__, b, ldb, x, ldx, rcond, ferr, berr, iwork, dwork, info, fact_len, trans_len, equed_len)
 char *fact, *trans;
 integer *n, *nrhs;
 doublereal *a;
@@ -36,15 +36,15 @@ ftnlen equed_len;
     static doublereal rcmin, rcmax, anorm;
     static logical equil;
     extern doublereal dlamch_(), dlange_();
-    extern /* Subroutine */ int dlaqge_(), dgecon_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlaqge_(), dgecon_();
     static doublereal colcnd;
     static logical nofact;
-    extern /* Subroutine */ int dgeequ_(), dgerfs_(), dgetrf_(), dlacpy_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgeequ_(), dgerfs_(), dgetrf_(), dlacpy_(), xerbla_();
     static doublereal bignum;
     extern doublereal dlantr_();
     static integer infequ;
     static logical colequ;
-    extern /* Subroutine */ int dgetrs_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgetrs_();
     static doublereal rowcnd;
     static logical notran;
     static doublereal smlnum;

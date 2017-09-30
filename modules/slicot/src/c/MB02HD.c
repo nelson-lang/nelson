@@ -13,7 +13,7 @@ static integer c__1 = 1;
 static integer c_n1 = -1;
 static integer c__2 = 2;
 
-/* Subroutine */ int mb02hd_(triu, k, l, m, ml, n, nu, p, s, tc, ldtc, tr, ldtr, rb, ldrb, dwork, ldwork, info, triu_len)
+/* Subroutine */ EXPORTSYMBOL int mb02hd_(triu, k, l, m, ml, n, nu, p, s, tc, ldtc, tr, ldtr, rb, ldrb, dwork, ldwork, info, triu_len)
 char *triu;
 integer *k, *l, *m, *ml, *n, *nu, *p, *s;
 doublereal *tc;
@@ -32,16 +32,16 @@ ftnlen triu_len;
     static integer head, lenc, lenl, lenr, ierr;
     static logical ltri;
     static integer ipvt[1], posr, sizr, stps;
-    extern /* Subroutine */ int ma02ad_();
+    extern /* Subroutine */ EXPORTSYMBOL int ma02ad_();
     static integer i__, j, x;
-    extern /* Subroutine */ int dgemm_(), mb02cu_(), mb02cv_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemm_(), mb02cu_(), mb02cv_();
     extern logical lsame_();
     static integer nbmin;
-    extern /* Subroutine */ int dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_();
     static integer nb, kk, pt;
-    extern /* Subroutine */ int dgeqrf_(), dlacpy_(), dlaset_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgeqrf_(), dlacpy_(), dlaset_();
     extern integer ilaenv_();
-    extern /* Subroutine */ int xerbla_(), dorgqr_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_(), dorgqr_();
     static integer wrkmin;
     static char struct__[1];
     static integer wrkopt, pdc, len, pdr, pre, pfr, pdw, rnk, pnr, col2, len2;

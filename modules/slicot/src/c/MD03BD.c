@@ -10,9 +10,9 @@
 static integer c__2 = 2;
 static integer c__1 = 1;
 
-/* Subroutine */ int md03bd_(xinit, scale, cond, fcn, qrfact, lmparm, m, n, itmax, factor, nprint, ipar, lipar, dpar1, ldpar1, dpar2, ldpar2, x, diag, nfev, njev, ftol, xtol, gtol, tol, iwork, dwork, ldwork, iwarn, info, xinit_len, scale_len, cond_len)
+/* Subroutine */ EXPORTSYMBOL int md03bd_(xinit, scale, cond, fcn, qrfact, lmparm, m, n, itmax, factor, nprint, ipar, lipar, dpar1, ldpar1, dpar2, ldpar2, x, diag, nfev, njev, ftol, xtol, gtol, tol, iwork, dwork, ldwork, iwarn, info, xinit_len, scale_len, cond_len)
 char *xinit, *scale, *cond;
-/* Subroutine */ int (*fcn) (), (*qrfact) (), (*lmparm) ();
+/* Subroutine */ EXPORTSYMBOL int (*fcn) (), (*qrfact) (), (*lmparm) ();
 integer *m, *n, *itmax;
 doublereal *factor;
 integer *nprint, *ipar, *lipar;
@@ -51,7 +51,7 @@ ftnlen cond_len;
     static logical sscal;
     static integer infol, nfevl;
     static doublereal xtdef, ratio;
-    extern /* Subroutine */ int dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_();
     static doublereal fnorm, gnorm;
     static integer sizej, jwork;
     static doublereal pnorm, xnorm, fnorm1;
@@ -59,9 +59,9 @@ ftnlen cond_len;
     static logical badscl;
     extern doublereal dlamch_();
     static doublereal actred, dirder, toldef, epsmch, prered;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static integer ldjsav;
-    extern /* Subroutine */ int dlarnv_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlarnv_();
     static integer iw1, iw2, iw3, jw1, jw2, wrkopt, jac, ldj;
     static doublereal par;
     /*     SLICOT RELEASE 5.0. */

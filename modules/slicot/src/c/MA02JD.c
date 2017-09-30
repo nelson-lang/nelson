@@ -29,7 +29,7 @@ integer *ldres;
     /* Local variables */
     static doublereal temp;
     static integer i__;
-    extern /* Subroutine */ int dgemm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemm_();
     static doublereal dummy[1];
     extern doublereal dlapy2_(), dlange_();
     /*     SLICOT RELEASE 5.0. */

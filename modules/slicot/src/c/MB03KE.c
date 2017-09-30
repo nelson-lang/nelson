@@ -9,7 +9,7 @@
 
 static integer c__1 = 1;
 
-/* Subroutine */ int mb03ke_(trana, tranb, isgn, k, m, n, prec, smin, s, a, b, c__, scale, dwork, ldwork, info)
+/* Subroutine */ EXPORTSYMBOL int mb03ke_(trana, tranb, isgn, k, m, n, prec, smin, s, a, b, c__, scale, dwork, ldwork, info)
 logical *trana, *tranb;
 integer *isgn, *k, *m, *n;
 doublereal *prec, *smin;
@@ -23,17 +23,17 @@ integer *ldwork, *info;
     /* Local variables */
     static doublereal beta, elem, dmin__, temp, spiv;
     static integer i__, j, l;
-    extern /* Subroutine */ int dscal_(), daxpy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_(), daxpy_();
     static doublereal ac;
     static integer cb;
     static doublereal ad;
     static integer ii, mm, mn, nn, zc, zd;
-    extern /* Subroutine */ int dlarfg_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlarfg_();
     static integer iz, zi;
     static logical doscal;
     static doublereal scaloc;
     extern integer idamax_();
-    extern /* Subroutine */ int xerbla_(), dlarfx_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_(), dlarfx_();
     static doublereal bignum;
     static integer ia1, ib1, ia3, ib3, ic1, im1, minwrk, km2, km3;
     static logical lquery;

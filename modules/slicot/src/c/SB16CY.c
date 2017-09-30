@@ -9,7 +9,7 @@
 
 static doublereal c_b10 = 1.;
 
-/* Subroutine */ int sb16cy_(dico, jobcf, n, m, p, a, lda, b, ldb, c__, ldc, f, ldf, g, ldg, scalec, scaleo, s, lds, r__, ldr, dwork, ldwork, info, dico_len, jobcf_len)
+/* Subroutine */ EXPORTSYMBOL int sb16cy_(dico, jobcf, n, m, p, a, lda, b, ldb, c__, ldc, f, ldf, g, ldg, scalec, scaleo, s, lds, r__, ldr, dwork, ldwork, info, dico_len, jobcf_len)
 char *dico, *jobcf;
 integer *n, *m, *p;
 doublereal *a;
@@ -35,11 +35,11 @@ ftnlen jobcf_len;
     integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, f_dim1, f_offset, g_dim1, g_offset, r_dim1, r_offset, s_dim1, s_offset, i__1, i__2;
     /* Local variables */
     static integer ierr;
-    extern /* Subroutine */ int dgemm_(), sb03od_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemm_(), sb03od_();
     extern logical lsame_();
     static logical discr, leftw;
     static integer me, mp, ku, kw, lw;
-    extern /* Subroutine */ int dlacpy_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), xerbla_();
     static integer wrkopt, kaw, ldu, kwi, kwr;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

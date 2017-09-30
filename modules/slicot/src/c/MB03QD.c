@@ -10,7 +10,7 @@
 static doublereal c_b11 = 0.;
 static doublereal c_b12 = 1.;
 
-/* Subroutine */ int mb03qd_(dico, stdom, jobu, n, nlow, nsup, alpha, a, lda, u, ldu, ndim, dwork, info, dico_len, stdom_len, jobu_len)
+/* Subroutine */ EXPORTSYMBOL int mb03qd_(dico, stdom, jobu, n, nlow, nsup, alpha, a, lda, u, ldu, ndim, dwork, info, dico_len, stdom_len, jobu_len)
 char *dico, *stdom, *jobu;
 integer *n, *nlow, *nsup;
 doublereal *alpha, *a;
@@ -30,12 +30,12 @@ ftnlen jobu_len;
     static integer l;
     extern logical lsame_();
     static logical discr;
-    extern /* Subroutine */ int mb03qy_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb03qy_();
     static doublereal e1, e2;
     extern doublereal dlapy2_();
     static integer ib;
     static doublereal tlambd;
-    extern /* Subroutine */ int dlaset_(), xerbla_(), dtrexc_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlaset_(), xerbla_(), dtrexc_();
     static logical lstdom;
     static integer lm1, nup;
     /*     SLICOT RELEASE 5.0. */

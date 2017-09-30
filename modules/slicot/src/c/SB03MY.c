@@ -14,7 +14,7 @@ static doublereal c_b25 = 1.;
 static doublereal c_b29 = 0.;
 static logical c_false = FALSE_;
 
-/* Subroutine */ int sb03my_(trana, n, a, lda, c__, ldc, scale, info, trana_len)
+/* Subroutine */ EXPORTSYMBOL int sb03my_(trana, n, a, lda, c__, ldc, scale, info, trana_len)
 char *trana;
 integer *n;
 doublereal *a;
@@ -33,21 +33,21 @@ ftnlen trana_len;
     static integer ierr;
     static doublereal smin;
     static integer j, k, l;
-    extern /* Subroutine */ int dscal_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_();
     static doublereal x[4]	/* was [2][2] */;
     extern logical lsame_();
-    extern /* Subroutine */ int sb03mw_();
+    extern /* Subroutine */ EXPORTSYMBOL int sb03mw_();
     static integer knext, lnext, k1, k2, l1, l2;
     static doublereal xnorm;
-    extern /* Subroutine */ int dlaln2_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlaln2_();
     static integer mink1n, mink2n, minl1n, minl2n;
-    extern /* Subroutine */ int dlasy2_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlasy2_();
     static doublereal a11, db;
-    extern /* Subroutine */ int dlabad_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlabad_();
     extern doublereal dlamch_();
     static doublereal scaloc;
     extern doublereal dlanhs_();
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static doublereal bignum;
     static logical notrna, lupper;
     static doublereal smlnum, da11, vec[4]	/* was [2][2] */, dum[1], eps;

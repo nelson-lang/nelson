@@ -12,7 +12,7 @@ static integer c__1 = 1;
 static doublereal c_b19 = 1.;
 static doublereal c_b20 = 0.;
 
-/* Subroutine */ int ab13ed_(n, a, lda, low, high, tol, dwork, ldwork, info)
+/* Subroutine */ EXPORTSYMBOL int ab13ed_(n, a, lda, low, high, tol, dwork, ldwork, info)
 integer *n;
 doublereal *a;
 integer *lda;
@@ -27,18 +27,18 @@ integer *ldwork, *info;
     /* Local variables */
     static logical rneg;
     static doublereal anrm, sfmn, temp, seps;
-    extern /* Subroutine */ int ma02ed_();
+    extern /* Subroutine */ EXPORTSYMBOL int ma02ed_();
     static integer i__;
-    extern /* Subroutine */ int dgemm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemm_();
     static doublereal sigma;
-    extern /* Subroutine */ int mb04zd_(), dcopy_(), dsymm_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb04zd_(), dcopy_(), dsymm_();
     static doublereal dummy[1];
     static integer jwork, n2;
-    extern /* Subroutine */ int dsymv_();
+    extern /* Subroutine */ EXPORTSYMBOL int dsymv_();
     static doublereal dummy2[1]	/* was [1][1] */;
-    extern /* Subroutine */ int dgebal_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgebal_();
     extern doublereal dlamch_(), dlange_();
-    extern /* Subroutine */ int dlacpy_(), xerbla_(), dhseqr_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), xerbla_(), dhseqr_();
     static integer ia2, minwrk;
     static logical sufwrk;
     static integer iaa, igf, ihi, ilo, iwi;

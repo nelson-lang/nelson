@@ -9,7 +9,7 @@
 
 static integer c__1 = 1;
 
-/* Subroutine */ int tg01id_(jobobs, compq, compz, n, m, p, a, lda, e, lde, b, ldb, c__, ldc, q, ldq, z__, ldz, nobsv, niuobs, nlblck, ctau, tol, iwork, dwork, info, jobobs_len, compq_len, compz_len)
+/* Subroutine */ EXPORTSYMBOL int tg01id_(jobobs, compq, compz, n, m, p, a, lda, e, lde, b, ldb, c__, ldc, q, ldq, z__, ldz, nobsv, niuobs, nlblck, ctau, tol, iwork, dwork, info, jobobs_len, compq_len, compz_len)
 char *jobobs, *compq, *compz;
 integer *n, *m, *p;
 doublereal *a;
@@ -36,13 +36,13 @@ ftnlen compz_len;
     integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, e_dim1, e_offset, q_dim1, q_offset, z_dim1, z_offset, i__1, i__2, i__3;
     /* Local variables */
     static char jobq[1], jobz[1];
-    extern /* Subroutine */ int ma02bd_(), ma02cd_();
+    extern /* Subroutine */ EXPORTSYMBOL int ma02bd_(), ma02cd_();
     static integer i__;
-    extern /* Subroutine */ int ab07md_();
+    extern /* Subroutine */ EXPORTSYMBOL int ab07md_();
     extern logical lsame_();
-    extern /* Subroutine */ int tb01xd_(), tg01hx_(), dswap_();
+    extern /* Subroutine */ EXPORTSYMBOL int tb01xd_(), tg01hx_(), dswap_();
     static integer nr;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static logical finobs, infobs;
     static integer icompq, icompz, lba, lbe;
     static logical ilq;

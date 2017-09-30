@@ -11,7 +11,7 @@ static doublereal c_b9 = 1.;
 static doublereal c_b10 = 0.;
 static integer c__1 = 1;
 
-/* Subroutine */ int mb03sd_(jobscl, n, a, lda, qg, ldqg, wr, wi, dwork, ldwork, info, jobscl_len)
+/* Subroutine */ EXPORTSYMBOL int mb03sd_(jobscl, n, a, lda, qg, ldqg, wr, wi, dwork, ldwork, info, jobscl_len)
 char *jobscl;
 integer *n;
 doublereal *a;
@@ -27,24 +27,24 @@ ftnlen jobscl_len;
     /* Local variables */
     static doublereal swap;
     static logical blas3;
-    extern /* Subroutine */ int ma01ad_(), ma02ed_();
+    extern /* Subroutine */ EXPORTSYMBOL int ma01ad_(), ma02ed_();
     static integer i__, j, m;
     static logical scale;
     static doublereal x, y;
     static logical block;
-    extern /* Subroutine */ int dgemm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemm_();
     extern logical lsame_();
     static integer chunk;
-    extern /* Subroutine */ int dcopy_(), dsymm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_(), dsymm_();
     static doublereal dummy[1];
     static integer jwork, n2;
-    extern /* Subroutine */ int dsymv_();
+    extern /* Subroutine */ EXPORTSYMBOL int dsymv_();
     static integer bl;
-    extern /* Subroutine */ int dgebal_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgebal_();
     static integer jw;
-    extern /* Subroutine */ int dlacpy_(), dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), dlaset_(), xerbla_();
     static integer ignore;
-    extern /* Subroutine */ int dhseqr_();
+    extern /* Subroutine */ EXPORTSYMBOL int dhseqr_();
     static logical sorted;
     static integer ihi, ilo;
     /*     SLICOT RELEASE 5.0. */

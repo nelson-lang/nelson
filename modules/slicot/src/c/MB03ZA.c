@@ -16,7 +16,7 @@ static integer c__2 = 2;
 static doublereal c_b479 = -1.;
 static integer c__12 = 12;
 
-/* Subroutine */ int mb03za_(compc, compu, compv, compw, which, select, n, a, lda, b, ldb, c__, ldc, u1, ldu1, u2, ldu2, v1, ldv1, v2, ldv2, w, ldw, wr, wi, m, dwork, ldwork, info, compc_len, compu_len, compv_len, compw_len, which_len)
+/* Subroutine */ EXPORTSYMBOL int mb03za_(compc, compu, compv, compw, which, select, n, a, lda, b, ldb, c__, ldc, u1, ldu1, u2, ldu2, v1, ldv1, v2, ldv2, w, ldw, wr, wi, m, dwork, ldwork, info, compc_len, compu_len, compv_len, compw_len, which_len)
 char *compc, *compu, *compv, *compw, *which;
 logical *select;
 integer *n;
@@ -58,21 +58,21 @@ ftnlen which_len;
     static logical swap;
     static integer ilst, i__, k, l;
     static doublereal q[16]	/* was [4][4] */, t[16]	/* was [4][4] */;
-    extern /* Subroutine */ int dscal_(), dgees_(), dgemm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_(), dgees_(), dgemm_();
     static doublereal z__[16]	/* was [4][4] */;
-    extern /* Subroutine */ int mb03wa_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb03wa_();
     extern logical lsame_(), lfdum_();
     static logical wantc;
-    extern /* Subroutine */ int dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_();
     static doublereal winew[4];
     static logical initw, wantu, wantv, wantw;
     static doublereal wrnew[4];
     static integer nb, mm, ks, pw;
     static logical cmpall;
-    extern /* Subroutine */ int dlacpy_(), dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), dlaset_(), xerbla_();
     static logical selnew[4];
     static integer nbnext;
-    extern /* Subroutine */ int dtrsen_();
+    extern /* Subroutine */ EXPORTSYMBOL int dtrsen_();
     static integer wrkmin, nbf, nbl;
     static doublereal dw12[12];
     static integer len, pwc, pwd, pos;

@@ -11,7 +11,7 @@ static integer c__1 = 1;
 static doublereal c_b7 = 0.;
 static doublereal c_b14 = -1.;
 
-/* Subroutine */ int mb04pu_(n, ilo, a, lda, qg, ldqg, cs, tau, dwork, ldwork, info)
+/* Subroutine */ EXPORTSYMBOL int mb04pu_(n, ilo, a, lda, qg, ldqg, cs, tau, dwork, ldwork, info)
 integer *n, *ilo;
 doublereal *a;
 integer *lda;
@@ -25,16 +25,16 @@ integer *ldwork, *info;
     /* Local variables */
     extern doublereal ddot_();
     static doublereal temp;
-    extern /* Subroutine */ int drot_();
+    extern /* Subroutine */ EXPORTSYMBOL int drot_();
     static doublereal c__;
-    extern /* Subroutine */ int dsyr2_();
+    extern /* Subroutine */ EXPORTSYMBOL int dsyr2_();
     static integer i__;
     static doublereal s, alpha;
-    extern /* Subroutine */ int dlarf_(), daxpy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlarf_(), daxpy_();
     static doublereal ttemp;
-    extern /* Subroutine */ int dsymv_(), dlarfg_();
+    extern /* Subroutine */ EXPORTSYMBOL int dsymv_(), dlarfg_();
     static doublereal mu, nu;
-    extern /* Subroutine */ int dlartg_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlartg_(), xerbla_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */

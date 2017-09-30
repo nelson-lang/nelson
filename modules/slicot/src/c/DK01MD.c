@@ -5,7 +5,7 @@
 
 #include "nelson_f2c.h"
 
-/* Subroutine */ int dk01md_(type__, n, a, info, type_len)
+/* Subroutine */ EXPORTSYMBOL int dk01md_(type__, n, a, info, type_len)
 char *type__;
 integer *n;
 doublereal *a;
@@ -24,7 +24,7 @@ ftnlen type_len;
     static logical mtype, ntype;
     static integer n1;
     static doublereal fn;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static logical mntype;
     static doublereal buf;
     /*     SLICOT RELEASE 5.0. */

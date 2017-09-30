@@ -10,7 +10,7 @@
 static doublereal c_b12 = 0.;
 static integer c__1 = 1;
 
-/* Subroutine */ int mb04wu_(tranq1, tranq2, m, n, k, q1, ldq1, q2, ldq2, cs, tau, dwork, ldwork, info, tranq1_len, tranq2_len)
+/* Subroutine */ EXPORTSYMBOL int mb04wu_(tranq1, tranq2, m, n, k, q1, ldq1, q2, ldq2, cs, tau, dwork, ldwork, info, tranq1_len, tranq2_len)
 char *tranq1, *tranq2;
 integer *m, *n, *k;
 doublereal *q1;
@@ -26,14 +26,14 @@ ftnlen tranq2_len;
     integer q1_dim1, q1_offset, q2_dim1, q2_offset, i__1, i__2;
     doublereal d__1;
     /* Local variables */
-    extern /* Subroutine */ int drot_();
+    extern /* Subroutine */ EXPORTSYMBOL int drot_();
     static logical ltrq1, ltrq2;
     static integer i__, j;
-    extern /* Subroutine */ int dscal_(), dlarf_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_(), dlarf_();
     extern logical lsame_();
-    extern /* Subroutine */ int dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_();
     static doublereal nu;
-    extern /* Subroutine */ int dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlaset_(), xerbla_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */

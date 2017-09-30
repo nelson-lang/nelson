@@ -9,7 +9,7 @@
 
 static integer c__1 = 1;
 
-/* Subroutine */ int fd01ad_(jp, l, lambda, xin, yin, efor, xf, epsbck, cteta, steta, yq, epos, eout, salph, iwarn, info, jp_len)
+/* Subroutine */ EXPORTSYMBOL int fd01ad_(jp, l, lambda, xin, yin, efor, xf, epsbck, cteta, steta, yq, epos, eout, salph, iwarn, info, jp_len)
 char *jp;
 integer *l;
 doublereal *lambda, *xin, *yin, *efor, *xf, *epsbck, *cteta, *steta, *yq, *epos, *eout, *salph;
@@ -30,7 +30,7 @@ ftnlen jp_len;
     extern logical lsame_();
     static doublereal ctemp;
     extern doublereal dlapy2_(), dlamch_();
-    extern /* Subroutine */ int dlartg_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlartg_(), xerbla_();
     static doublereal xfi, eps, yqi;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

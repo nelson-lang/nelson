@@ -10,7 +10,7 @@
 static doublereal c_b9 = 0.;
 static doublereal c_b10 = 1.;
 
-/* Subroutine */ int mb04wr_(job, trans, n, ilo, q1, ldq1, q2, ldq2, cs, tau, dwork, ldwork, info, job_len, trans_len)
+/* Subroutine */ EXPORTSYMBOL int mb04wr_(job, trans, n, ilo, q1, ldq1, q2, ldq2, cs, tau, dwork, ldwork, info, job_len, trans_len)
 char *job, *trans;
 integer *n, *ilo;
 doublereal *q1;
@@ -26,11 +26,11 @@ ftnlen trans_len;
     integer q1_dim1, q1_offset, q2_dim1, q2_offset, i__1, i__2;
     /* Local variables */
     static integer ierr, i__, j;
-    extern /* Subroutine */ int mb04wd_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb04wd_();
     extern logical lsame_();
     static logical ltran, compu;
     static integer nh;
-    extern /* Subroutine */ int dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlaset_(), xerbla_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */

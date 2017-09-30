@@ -10,7 +10,7 @@
 static doublereal c_b8 = 0.;
 static integer c__1 = 1;
 
-/* Subroutine */ int tb04ad_(rowcol, n, m, p, a, lda, b, ldb, c__, ldc, d__, ldd, nr, index, dcoeff, lddcoe, ucoeff, lduco1, lduco2, tol1, tol2, iwork, dwork, ldwork, info, rowcol_len)
+/* Subroutine */ EXPORTSYMBOL int tb04ad_(rowcol, n, m, p, a, lda, b, ldb, c__, ldc, d__, ldd, nr, index, dcoeff, lddcoe, ucoeff, lduco1, lduco2, tol1, tol2, iwork, dwork, ldwork, info, rowcol_len)
 char *rowcol;
 integer *n, *m, *p;
 doublereal *a;
@@ -36,13 +36,13 @@ ftnlen rowcol_len;
     /* Local variables */
     static char jobd[1];
     static integer itau, i__, j, k;
-    extern /* Subroutine */ int ab07md_();
+    extern /* Subroutine */ EXPORTSYMBOL int ab07md_();
     extern logical lsame_();
-    extern /* Subroutine */ int tb01xd_(), tb04ay_();
+    extern /* Subroutine */ EXPORTSYMBOL int tb01xd_(), tb04ay_();
     static integer mplim;
-    extern /* Subroutine */ int dswap_();
+    extern /* Subroutine */ EXPORTSYMBOL int dswap_();
     static integer maxmp, jwork, mwork, n1, pwork, ia, kdcoef;
-    extern /* Subroutine */ int dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlaset_(), xerbla_();
     static logical lrococ, lrocor;
     static integer maxmpn;
     /*     SLICOT RELEASE 5.0. */

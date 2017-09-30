@@ -12,7 +12,7 @@ static integer c__1 = 1;
 static doublereal c_b17 = 1.;
 static doublereal c_b19 = 0.;
 
-/* Subroutine */ int nf01bd_(cjte, nsmp, m, l, ipar, lipar, x, lx, u, ldu, e, j, ldj, jte, dwork, ldwork, info, cjte_len)
+/* Subroutine */ EXPORTSYMBOL int nf01bd_(cjte, nsmp, m, l, ipar, lipar, x, lx, u, ldu, e, j, ldj, jte, dwork, ldwork, info, cjte_len)
 char *cjte;
 integer *nsmp, *m, *l, *ipar, *lipar;
 doublereal *x;
@@ -36,15 +36,15 @@ ftnlen cjte_len;
     static integer lths, nsml, nths;
     static doublereal h__;
     static integer i__, k, n;
-    extern /* Subroutine */ int nf01ad_();
+    extern /* Subroutine */ EXPORTSYMBOL int nf01ad_();
     static integer z__;
-    extern /* Subroutine */ int nf01ay_(), nf01by_();
+    extern /* Subroutine */ EXPORTSYMBOL int nf01ay_(), nf01by_();
     extern logical lsame_();
-    extern /* Subroutine */ int dgemv_(), dcopy_(), tf01mx_(), tb01vy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemv_(), dcopy_(), tf01mx_(), tb01vy_();
     static integer ac, bd;
     extern doublereal dlamch_();
     static integer nn, ix, iy, jw;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static doublereal parsav;
     static integer bsn;
     static doublereal eps;

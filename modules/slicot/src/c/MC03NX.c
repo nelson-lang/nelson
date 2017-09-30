@@ -12,7 +12,7 @@ static doublereal c_b4 = 1.;
 static doublereal c_b13 = -1.;
 static integer c__1 = 1;
 
-/* Subroutine */ int mc03nx_(mp, np, dp, p, ldp1, ldp2, a, lda, e, lde)
+/* Subroutine */ EXPORTSYMBOL int mc03nx_(mp, np, dp, p, ldp1, ldp2, a, lda, e, lde)
 integer *mp, *np, *dp;
 doublereal *p;
 integer *ldp1, *ldp2;
@@ -25,9 +25,9 @@ integer *lde;
     integer a_dim1, a_offset, e_dim1, e_offset, p_dim1, p_dim2, p_offset, i__1;
     /* Local variables */
     static integer j, k;
-    extern /* Subroutine */ int dscal_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_();
     static integer h1, hb, he, hi;
-    extern /* Subroutine */ int dlacpy_(), dlaset_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), dlaset_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */

@@ -11,7 +11,7 @@ static integer c__0 = 0;
 static doublereal c_b17 = 0.;
 static doublereal c_b33 = 1.;
 
-/* Subroutine */ int mb02qd_(job, iniper, m, n, nrhs, rcond, svlmax, a, lda, b, ldb, y, jpvt, rank, sval, dwork, ldwork, info, job_len, iniper_len)
+/* Subroutine */ EXPORTSYMBOL int mb02qd_(job, iniper, m, n, nrhs, rcond, svlmax, a, lda, b, ldb, y, jpvt, rank, sval, dwork, ldwork, info, job_len, iniper_len)
 char *job, *iniper;
 integer *m, *n, *nrhs;
 doublereal *rcond, *svlmax, *a;
@@ -30,22 +30,22 @@ ftnlen iniper_len;
     /* Local variables */
     static doublereal anrm, bnrm;
     static integer i__, j, k;
-    extern /* Subroutine */ int mb03od_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb03od_();
     static integer iascl, ibscl;
     extern logical lsame_();
-    extern /* Subroutine */ int mb03oy_(), dtrsm_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb03oy_(), dtrsm_();
     static doublereal t1, t2;
-    extern /* Subroutine */ int dlabad_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlabad_();
     extern doublereal dlamch_(), dlange_();
     static integer mn;
-    extern /* Subroutine */ int dlascl_(), dlacpy_(), dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlascl_(), dlacpy_(), dlaset_(), xerbla_();
     static doublereal bignum;
     static logical leasts;
-    extern /* Subroutine */ int dormqr_();
+    extern /* Subroutine */ EXPORTSYMBOL int dormqr_();
     static integer minwrk, maxwrk;
     static doublereal smlnum;
     static logical permut;
-    extern /* Subroutine */ int dormrz_(), dtzrzf_();
+    extern /* Subroutine */ EXPORTSYMBOL int dormrz_(), dtzrzf_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */

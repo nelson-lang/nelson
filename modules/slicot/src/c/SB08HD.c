@@ -12,7 +12,7 @@ static integer c__1 = 1;
 static integer c_n1 = -1;
 static doublereal c_b18 = -1.;
 
-/* Subroutine */ int sb08hd_(n, m, p, a, lda, b, ldb, c__, ldc, d__, ldd, cr, ldcr, dr, lddr, iwork, dwork, info)
+/* Subroutine */ EXPORTSYMBOL int sb08hd_(n, m, p, a, lda, b, ldb, c__, ldc, d__, ldd, cr, ldcr, dr, lddr, iwork, dwork, info)
 integer *n, *m, *p;
 doublereal *a;
 integer *lda;
@@ -32,11 +32,11 @@ integer *info;
     /* System generated locals */
     integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, cr_dim1, cr_offset, d_dim1, d_offset, dr_dim1, dr_offset, i__1;
     /* Local variables */
-    extern /* Subroutine */ int ma02gd_(), dgemm_();
+    extern /* Subroutine */ EXPORTSYMBOL int ma02gd_(), dgemm_();
     static doublereal rcond;
-    extern /* Subroutine */ int dtrsm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dtrsm_();
     extern doublereal dlamch_(), dlange_();
-    extern /* Subroutine */ int dgecon_(), dgetrf_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgecon_(), dgetrf_(), xerbla_();
     static doublereal drnorm;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

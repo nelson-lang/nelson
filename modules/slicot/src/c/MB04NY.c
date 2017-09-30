@@ -10,7 +10,7 @@
 static integer c__1 = 1;
 static doublereal c_b15 = 1.;
 
-/* Subroutine */ int mb04ny_(m, n, v, incv, tau, a, lda, b, ldb, dwork)
+/* Subroutine */ EXPORTSYMBOL int mb04ny_(m, n, v, incv, tau, a, lda, b, ldb, dwork)
 integer *m, *n;
 doublereal *v;
 integer *incv;
@@ -24,9 +24,9 @@ doublereal *dwork;
     integer a_dim1, a_offset, b_dim1, b_offset, i__1;
     doublereal d__1;
     /* Local variables */
-    extern /* Subroutine */ int dger_();
+    extern /* Subroutine */ EXPORTSYMBOL int dger_();
     static integer j;
-    extern /* Subroutine */ int dgemv_(), dcopy_(), daxpy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemv_(), dcopy_(), daxpy_();
     static doublereal t1, t2, t3, t4, t5, t6, t7, t8, t9, v1, v2, v3, v4, v5, v6, v7, v8, v9;
     static integer iv;
     static doublereal sum;

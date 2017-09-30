@@ -11,7 +11,7 @@ static integer c__1 = 1;
 static doublereal c_b9 = 1.;
 static doublereal c_b11 = 0.;
 
-/* Subroutine */ int tb01wd_(n, m, p, a, lda, b, ldb, c__, ldc, u, ldu, wr, wi, dwork, ldwork, info)
+/* Subroutine */ EXPORTSYMBOL int tb01wd_(n, m, p, a, lda, b, ldb, c__, ldc, u, ldu, wr, wi, dwork, ldwork, info)
 integer *n, *m, *p;
 doublereal *a;
 integer *lda;
@@ -29,9 +29,9 @@ integer *ldwork, *info;
     doublereal d__1, d__2;
     /* Local variables */
     static integer sdim, ldwp, i__;
-    extern /* Subroutine */ int dgees_(), dgemm_(), dgemv_(), dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgees_(), dgemm_(), dgemv_(), dcopy_();
     static logical bwork[1];
-    extern /* Subroutine */ int dlacpy_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), xerbla_();
     extern logical select_();
     static doublereal wrkopt;
     /*     SLICOT RELEASE 5.0. */

@@ -10,7 +10,7 @@
 static integer c__1 = 1;
 static integer c_n1 = -1;
 
-/* Subroutine */ int mb04id_(n, m, p, l, a, lda, b, ldb, tau, dwork, ldwork, info)
+/* Subroutine */ EXPORTSYMBOL int mb04id_(n, m, p, l, a, lda, b, ldb, tau, dwork, ldwork, info)
 integer *n, *m, *p, *l;
 doublereal *a;
 integer *lda;
@@ -23,12 +23,12 @@ integer *ldwork, *info;
     integer a_dim1, a_offset, b_dim1, b_offset, i__1, i__2, i__3, i__4;
     /* Local variables */
     static integer i__;
-    extern /* Subroutine */ int dlarf_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlarf_();
     static doublereal first;
     static integer nb;
-    extern /* Subroutine */ int dlarfg_(), dgeqrf_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlarfg_(), dgeqrf_(), xerbla_();
     extern integer ilaenv_();
-    extern /* Subroutine */ int dormqr_();
+    extern /* Subroutine */ EXPORTSYMBOL int dormqr_();
     static logical lquery;
     static integer wrkopt;
     /*     SLICOT RELEASE 5.0. */

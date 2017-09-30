@@ -10,7 +10,7 @@
 static integer c__1 = 1;
 static integer c__0 = 0;
 
-/* Subroutine */ int nf01bq_(cond, n, ipar, lipar, r__, ldr, ipvt, diag, qtb, ranks, x, tol, dwork, ldwork, info, cond_len)
+/* Subroutine */ EXPORTSYMBOL int nf01bq_(cond, n, ipar, lipar, r__, ldr, ipvt, diag, qtb, ranks, x, tol, dwork, ldwork, info, cond_len)
 char *cond;
 integer *n, *ipar, *lipar;
 doublereal *r__;
@@ -26,13 +26,13 @@ ftnlen cond_len;
     /* Local variables */
     static integer ibsn, nths, i__, j, k, l;
     static logical econd;
-    extern /* Subroutine */ int nf01br_(), mb02yd_();
+    extern /* Subroutine */ EXPORTSYMBOL int nf01br_(), mb02yd_();
     extern logical lsame_();
-    extern /* Subroutine */ int mb04ow_(), dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb04ow_(), dcopy_();
     static doublereal qtbpj;
-    extern /* Subroutine */ int dswap_();
+    extern /* Subroutine */ EXPORTSYMBOL int dswap_();
     static integer ib, bn, kf, nc, is, jw, st;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static integer itc, bsm, bsn, itr;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

@@ -9,7 +9,7 @@
 
 static integer c__1 = 1;
 
-/* Subroutine */ int tb01id_(job, n, m, p, maxred, a, lda, b, ldb, c__, ldc, scale, info, job_len)
+/* Subroutine */ EXPORTSYMBOL int tb01id_(job, n, m, p, maxred, a, lda, b, ldb, c__, ldc, scale, info, job_len)
 char *job;
 integer *n, *m, *p;
 doublereal *maxred, *a;
@@ -29,7 +29,7 @@ ftnlen job_len;
     static doublereal sred, f, g;
     static integer i__, j;
     static doublereal s;
-    extern /* Subroutine */ int dscal_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_();
     extern logical lsame_();
     extern doublereal dasum_();
     static logical withb, withc;
@@ -37,7 +37,7 @@ ftnlen job_len;
     extern doublereal dlamch_();
     static doublereal ro;
     extern integer idamax_();
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static logical noconv;
     static doublereal maxnrm;
     static integer ica, ira;

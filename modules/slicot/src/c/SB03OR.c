@@ -11,7 +11,7 @@ static integer c__1 = 1;
 static logical c_false = FALSE_;
 static integer c__2 = 2;
 
-/* Subroutine */ int sb03or_(discr, ltrans, n, m, s, lds, a, lda, c__, ldc, scale, info)
+/* Subroutine */ EXPORTSYMBOL int sb03or_(discr, ltrans, n, m, s, lds, a, lda, c__, ldc, scale, info)
 logical *discr, *ltrans;
 integer *n, *m;
 doublereal *s;
@@ -30,17 +30,17 @@ integer *info;
     static integer isgn;
     static logical tbyt;
     static integer j, l;
-    extern /* Subroutine */ int dscal_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_();
     static doublereal x[4]	/* was [2][2] */;
     static integer infom;
-    extern /* Subroutine */ int sb04px_();
+    extern /* Subroutine */ EXPORTSYMBOL int sb04px_();
     static integer lnext, l1, l2;
     static doublereal xnorm;
-    extern /* Subroutine */ int dlasy2_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlasy2_();
     static doublereal g11, g12, g21, g22;
     static integer dl;
     static doublereal at[4]	/* was [2][2] */, scaloc;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static doublereal vec[4]	/* was [2][2] */;
     static integer l2p1;
     /*     SLICOT RELEASE 5.0. */

@@ -11,7 +11,7 @@ static doublereal c_b18 = 0.;
 static doublereal c_b19 = 1.;
 static integer c__1 = 1;
 
-/* Subroutine */ int sb03md_(dico, job, fact, trana, n, a, lda, u, ldu, c__, ldc, scale, sep, ferr, wr, wi, iwork, dwork, ldwork, info, dico_len, job_len, fact_len, trana_len)
+/* Subroutine */ EXPORTSYMBOL int sb03md_(dico, job, fact, trana, n, a, lda, u, ldu, c__, ldc, scale, sep, ferr, wr, wi, iwork, dwork, ldwork, info, dico_len, job_len, fact_len, trana_len)
 char *dico, *job, *fact, *trana;
 integer *n;
 doublereal *a;
@@ -39,18 +39,18 @@ ftnlen trana_len;
     static logical cont;
     static char uplo[1];
     static integer i__;
-    extern /* Subroutine */ int mb01rd_(), dgees_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb01rd_(), dgees_();
     extern logical lsame_();
-    extern /* Subroutine */ int sb03mx_(), sb03my_(), dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int sb03mx_(), sb03my_(), dcopy_();
     static char notra[1];
     static logical bwork[1], wantx;
     extern doublereal dlamch_();
     static integer nn;
     static doublereal scalef;
-    extern /* Subroutine */ int dlacon_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacon_();
     static logical nofact;
     extern doublereal dlanhs_();
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     extern logical select_();
     static logical wantbh;
     static integer minwrk;

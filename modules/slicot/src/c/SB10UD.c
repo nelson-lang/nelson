@@ -11,7 +11,7 @@ static integer c__1 = 1;
 static doublereal c_b15 = 1.;
 static doublereal c_b16 = 0.;
 
-/* Subroutine */ int sb10ud_(n, m, np, ncon, nmeas, b, ldb, c__, ldc, d__, ldd, tu, ldtu, ty, ldty, rcond, tol, dwork, ldwork, info)
+/* Subroutine */ EXPORTSYMBOL int sb10ud_(n, m, np, ncon, nmeas, b, ldb, c__, ldc, d__, ldd, tu, ldtu, ty, ldty, rcond, tol, dwork, ldwork, info)
 integer *n, *m, *np, *ncon, *nmeas;
 doublereal *b;
 integer *ldb;
@@ -34,11 +34,11 @@ integer *ldwork, *info;
     /* Local variables */
     static doublereal toll;
     static integer iwrk, info2, j;
-    extern /* Subroutine */ int dscal_(), dgemm_(), dswap_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_(), dgemm_(), dswap_();
     static integer m1, m2;
     extern doublereal dlamch_();
     static integer iq;
-    extern /* Subroutine */ int dgesvd_(), dlacpy_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgesvd_(), dlacpy_(), xerbla_();
     static integer lwamax, nd1, nd2, minwrk, np1, np2;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

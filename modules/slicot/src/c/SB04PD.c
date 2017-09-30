@@ -11,7 +11,7 @@ static doublereal c_b22 = 1.;
 static doublereal c_b23 = 0.;
 static integer c__1 = 1;
 
-/* Subroutine */ int sb04pd_(dico, facta, factb, trana, tranb, isgn, m, n, a, lda, u, ldu, b, ldb, v, ldv, c__, ldc, scale, dwork, ldwork, info, dico_len, facta_len, factb_len, trana_len, tranb_len)
+/* Subroutine */ EXPORTSYMBOL int sb04pd_(dico, facta, factb, trana, tranb, isgn, m, n, a, lda, u, ldu, b, ldb, v, ldv, c__, ldc, scale, dwork, ldwork, info, dico_len, facta_len, factb_len, trana_len, tranb_len)
 char *dico, *facta, *factb, *trana, *tranb;
 integer *isgn, *m, *n;
 doublereal *a;
@@ -38,21 +38,21 @@ ftnlen tranb_len;
     static integer sdim, ierr;
     static logical cont;
     static integer i__, j;
-    extern /* Subroutine */ int dgees_(), dgemm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgees_(), dgemm_();
     extern logical lsame_();
-    extern /* Subroutine */ int dgemv_(), dcopy_(), sb04py_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemv_(), dcopy_(), sb04py_();
     static logical bwork[1];
     static integer jwork;
     static logical blas3a, blas3b;
     static integer ia, ib, bl;
     static logical nofaca, nofacb, blocka, blockb;
     static integer chunka, chunkb;
-    extern /* Subroutine */ int dlacpy_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), xerbla_();
     extern logical select_();
     static integer availw;
     static logical schura, schurb, notrna, notrnb;
     static integer minwrk, maxwrk;
-    extern /* Subroutine */ int dtrsyl_();
+    extern /* Subroutine */ EXPORTSYMBOL int dtrsyl_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */

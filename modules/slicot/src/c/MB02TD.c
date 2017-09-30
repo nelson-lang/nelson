@@ -9,7 +9,7 @@
 
 static integer c__1 = 1;
 
-/* Subroutine */ int mb02td_(norm, n, hnorm, h__, ldh, ipiv, rcond, iwork, dwork, info, norm_len)
+/* Subroutine */ EXPORTSYMBOL int mb02td_(norm, n, hnorm, h__, ldh, ipiv, rcond, iwork, dwork, info, norm_len)
 char *norm;
 integer *n;
 doublereal *hnorm, *h__;
@@ -27,13 +27,13 @@ ftnlen norm_len;
     static integer kase, kase1, j;
     static doublereal t, scale;
     extern logical lsame_();
-    extern /* Subroutine */ int drscl_();
+    extern /* Subroutine */ EXPORTSYMBOL int drscl_();
     extern doublereal dlamch_();
     static integer jp;
-    extern /* Subroutine */ int dlacon_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacon_();
     static integer ix;
     extern integer idamax_();
-    extern /* Subroutine */ int xerbla_(), dlatrs_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_(), dlatrs_();
     static logical onenrm;
     static doublereal hinvnm;
     static char normin[1];

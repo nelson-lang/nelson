@@ -14,7 +14,7 @@ static logical c_false = FALSE_;
 static doublereal c_b25 = 0.;
 static integer c__0 = 0;
 
-/* Subroutine */ int ag08bd_(equil, l, n, m, p, a, lda, e, lde, b, ldb, c__, ldc, d__, ldd, nfz, nrank, niz, dinfz, nkror, ninfe, nkrol, infz, kronr, infe, kronl, tol, iwork, dwork, ldwork, info, equil_len)
+/* Subroutine */ EXPORTSYMBOL int ag08bd_(equil, l, n, m, p, a, lda, e, lde, b, ldb, c__, ldc, d__, ldd, nfz, nrank, niz, dinfz, nkror, ninfe, nkrol, infz, kronr, infe, kronl, tol, iwork, dwork, ldwork, info, equil_len)
 char *equil;
 integer *l, *n, *m, *p;
 doublereal *a;
@@ -38,11 +38,11 @@ ftnlen equil_len;
     doublereal d__1, d__2;
     /* Local variables */
     static integer itau, numu, kabcd;
-    extern /* Subroutine */ int ma02bd_();
+    extern /* Subroutine */ EXPORTSYMBOL int ma02bd_();
     static integer i__, j;
-    extern /* Subroutine */ int ma02cd_(), tg01ad_(), tg01fd_(), ag08by_();
+    extern /* Subroutine */ EXPORTSYMBOL int ma02cd_(), tg01ad_(), tg01fd_(), ag08by_();
     extern logical lsame_();
-    extern /* Subroutine */ int tb01xd_();
+    extern /* Subroutine */ EXPORTSYMBOL int tb01xd_();
     static integer labcd2, i0, i1, jwork;
     static doublereal toler;
     static integer n2, ldabcd, nb, ii;
@@ -50,15 +50,15 @@ ftnlen equil_len;
     static integer mm;
     extern doublereal dlange_();
     static integer nn, pp, mu, nu;
-    extern /* Subroutine */ int dlacpy_(), dlaset_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), dlaset_();
     extern integer ilaenv_();
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static integer nsinfe;
     static logical lequil;
     static doublereal svlmax;
-    extern /* Subroutine */ int dormrz_();
+    extern /* Subroutine */ EXPORTSYMBOL int dormrz_();
     static logical lquery;
-    extern /* Subroutine */ int dtzrzf_();
+    extern /* Subroutine */ EXPORTSYMBOL int dtzrzf_();
     static integer wrkopt, ipd;
     static doublereal dum[1];
     static integer ldw;

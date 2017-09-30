@@ -12,7 +12,7 @@ static integer c__3 = 3;
 static integer c__1 = 1;
 static integer c__5 = 5;
 
-/* Subroutine */ int ud01dd_(m, n, nin, a, lda, info)
+/* Subroutine */ EXPORTSYMBOL int ud01dd_(m, n, nin, a, lda, info)
 integer *m, *n, *nin;
 doublereal *a;
 integer *lda, *info;
@@ -23,7 +23,7 @@ integer *lda, *info;
     integer s_rsle(), do_lio(), e_rsle();
     /* Local variables */
     static integer i__, j;
-    extern /* Subroutine */ int dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlaset_(), xerbla_();
     static doublereal aij;
     /* Fortran I/O blocks */
     static cilist io___1 = { 0, 0, 1, 0, 0 };

@@ -5,7 +5,7 @@
 
 #include "nelson_f2c.h"
 
-/* Subroutine */ int df01md_(sico, n, dt, a, dwork, info, sico_len)
+/* Subroutine */ EXPORTSYMBOL int df01md_(sico, n, dt, a, dwork, info, sico_len)
 char *sico;
 integer *n;
 doublereal *dt, *a, *dwork;
@@ -19,13 +19,13 @@ ftnlen sico_len;
     /* Local variables */
     static logical lsig;
     static integer i__, m;
-    extern /* Subroutine */ int dg01nd_();
+    extern /* Subroutine */ EXPORTSYMBOL int dg01nd_();
     extern logical lsame_();
     static logical lsico;
     static doublereal pibym, a0;
     static integer i2;
     static doublereal w1, w2, w3;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static integer md2, ind1, ind2;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

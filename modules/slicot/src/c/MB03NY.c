@@ -26,7 +26,7 @@ integer *lcwork, *info;
     static integer i__, j;
     static doublereal dummy[1]	/* was [1][1] */;
     static integer ic;
-    extern /* Subroutine */ int dgesvd_(), xerbla_(), zgesvd_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgesvd_(), xerbla_(), zgesvd_();
     static doublecomplex zdummy[1]	/* was [1][1] */;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

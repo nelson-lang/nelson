@@ -11,7 +11,7 @@ static doublereal c_b12 = 0.;
 static doublereal c_b13 = 1.;
 static integer c__1 = 1;
 
-/* Subroutine */ int tg01bd_(jobe, compq, compz, n, m, p, ilo, ihi, a, lda, e, lde, b, ldb, c__, ldc, q, ldq, z__, ldz, dwork, ldwork, info, jobe_len, compq_len, compz_len)
+/* Subroutine */ EXPORTSYMBOL int tg01bd_(jobe, compq, compz, n, m, p, ilo, ihi, a, lda, e, lde, b, ldb, c__, ldc, q, ldq, z__, ldz, dwork, ldwork, info, jobe_len, compq_len, compz_len)
 char *jobe, *compq, *compz;
 integer *n, *m, *p, *ilo, *ihi;
 doublereal *a;
@@ -37,13 +37,13 @@ ftnlen compz_len;
     /* Local variables */
     static integer jcol, ierr, itau;
     static doublereal temp;
-    extern /* Subroutine */ int drot_();
+    extern /* Subroutine */ EXPORTSYMBOL int drot_();
     static integer iwrk, jrow;
     static doublereal s;
     extern logical lsame_();
     static logical withb, withc, upper;
     static doublereal cs;
-    extern /* Subroutine */ int dgeqrf_(), dlaset_(), dlartg_(), xerbla_(), dormqr_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgeqrf_(), dlaset_(), dlartg_(), xerbla_(), dormqr_();
     static integer minwrk, maxwrk;
     static logical ilq, inq, ilz, inz;
     /*     SLICOT RELEASE 5.0. */

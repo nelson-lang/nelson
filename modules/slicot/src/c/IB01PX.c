@@ -11,7 +11,7 @@ static doublereal c_b11 = 0.;
 static doublereal c_b20 = 1.;
 static integer c__1 = 1;
 
-/* Subroutine */ int ib01px_(job, nobr, n, m, l, uf, lduf, un, ldun, ul, ldul, pgal, ldpgal, k, ldk, r__, ldr, x, b, ldb, d__, ldd, tol, iwork, dwork, ldwork, iwarn, info, job_len)
+/* Subroutine */ EXPORTSYMBOL int ib01px_(job, nobr, n, m, l, uf, lduf, un, ldun, ul, ldul, pgal, ldpgal, k, ldk, r__, ldr, x, b, ldb, d__, ldd, tol, iwork, dwork, ldwork, iwarn, info, job_len)
 char *job;
 integer *nobr, *n, *m, *l;
 doublereal *uf;
@@ -42,14 +42,14 @@ ftnlen job_len;
     static integer rank, ierr;
     static doublereal toll;
     static integer ldun2, i__, j;
-    extern /* Subroutine */ int dgemm_(), mb01vd_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemm_(), mb01vd_();
     extern logical lsame_();
     static doublereal rcond;
     static integer lnobr, mnobr;
     static logical withb, withd;
     static integer mkron, nkron, jwork;
     extern doublereal dlamch_();
-    extern /* Subroutine */ int dlacpy_(), dlaset_(), xerbla_(), dgelsy_(), dtrcon_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), dlaset_(), xerbla_(), dgelsy_(), dtrcon_();
     static integer minwrk, maxwrk, lp1, np1, npl;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

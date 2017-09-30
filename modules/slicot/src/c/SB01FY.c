@@ -14,7 +14,7 @@ static integer c__2 = 2;
 static doublereal c_b15 = 0.;
 static doublereal c_b16 = 1.;
 
-/* Subroutine */ int sb01fy_(discr, n, m, a, lda, b, ldb, f, ldf, v, ldv, info)
+/* Subroutine */ EXPORTSYMBOL int sb01fy_(discr, n, m, a, lda, b, ldb, f, ldf, v, ldv, info)
 logical *discr;
 integer *n, *m;
 doublereal *a;
@@ -33,16 +33,16 @@ integer *ldv, *info;
     double sqrt();
     /* Local variables */
     static doublereal temp;
-    extern /* Subroutine */ int ma02ad_();
+    extern /* Subroutine */ EXPORTSYMBOL int ma02ad_();
     static integer i__;
     static doublereal u[4]	/* was [2][2] */, scale;
-    extern /* Subroutine */ int mb04ox_(), drotg_(), sb03oy_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb04ox_(), drotg_(), sb03oy_();
     static doublereal dummy[4]	/* was [2][2] */;
     extern doublereal dlapy2_(), dlapy3_();
     static doublereal r11, r12, cs, r22, at[4]	/* was [2][2] */;
-    extern /* Subroutine */ int dlarfg_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlarfg_();
     static doublereal sn;
-    extern /* Subroutine */ int dlaset_(), dlatzm_(), dtrtri_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlaset_(), dlatzm_(), dtrtri_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */

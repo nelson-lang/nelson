@@ -5,7 +5,7 @@
 
 #include "nelson_f2c.h"
 
-/* Subroutine */ int sb10hd_(n, m, np, ncon, nmeas, a, lda, b, ldb, c__, ldc, d__, ldd, ak, ldak, bk, ldbk, ck, ldck, dk, lddk, rcond, tol, iwork, dwork, ldwork, bwork, info)
+/* Subroutine */ EXPORTSYMBOL int sb10hd_(n, m, np, ncon, nmeas, a, lda, b, ldb, c__, ldc, d__, ldd, ak, ldak, bk, ldbk, ck, ldck, dk, lddk, rcond, tol, iwork, dwork, ldwork, bwork, info)
 integer *n, *m, *np, *ncon, *nmeas;
 doublereal *a;
 integer *lda;
@@ -37,10 +37,10 @@ integer *info;
     /* Local variables */
     static doublereal toll;
     static integer iwrk, iwtu, iwty, info2;
-    extern /* Subroutine */ int sb10ud_(), sb10vd_(), sb10wd_();
+    extern /* Subroutine */ EXPORTSYMBOL int sb10ud_(), sb10vd_(), sb10wd_();
     static integer m1, m2;
     extern doublereal dlamch_();
-    extern /* Subroutine */ int dlacpy_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), xerbla_();
     static integer lwamax, minwrk, np1, np2, iwc, iwd, iwf, iwh, iwy;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

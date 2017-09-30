@@ -11,7 +11,7 @@ static integer c__1 = 1;
 static integer c_n1 = -1;
 static doublereal c_b61 = 1.;
 
-/* Subroutine */ int sb02mu_(dico, hinv, uplo, n, a, lda, g, ldg, q, ldq, s, lds, iwork, dwork, ldwork, info, dico_len, hinv_len, uplo_len)
+/* Subroutine */ EXPORTSYMBOL int sb02mu_(dico, hinv, uplo, n, a, lda, g, ldg, q, ldq, s, lds, iwork, dwork, ldwork, info, dico_len, hinv_len, uplo_len)
 char *dico, *hinv, *uplo;
 integer *n;
 doublereal *a;
@@ -32,17 +32,17 @@ ftnlen uplo_len;
     integer a_dim1, a_offset, g_dim1, g_offset, q_dim1, q_offset, s_dim1, s_offset, i__1, i__2;
     /* Local variables */
     static integer i__, j;
-    extern /* Subroutine */ int dgemm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemm_();
     extern logical lsame_();
     static logical discr;
     static doublereal rcond, anorm;
-    extern /* Subroutine */ int dcopy_(), dswap_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_(), dswap_();
     static logical lhinv, luplo;
     static integer n2, nj;
     extern doublereal dlamch_(), dlange_();
-    extern /* Subroutine */ int dgecon_(), dgetrf_(), dlacpy_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgecon_(), dgetrf_(), dlacpy_(), xerbla_();
     extern integer ilaenv_();
-    extern /* Subroutine */ int dgetri_(), dgetrs_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgetri_(), dgetrs_();
     static integer maxwrk, np1;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

@@ -12,7 +12,7 @@ static doublereal c_b5 = 0.;
 static integer c__1 = 1;
 static integer c__0 = 0;
 
-/* Subroutine */ int nf01bw_(n, ipar, lipar, dpar, ldpar, j, ldj, x, incx, dwork, ldwork, info)
+/* Subroutine */ EXPORTSYMBOL int nf01bw_(n, ipar, lipar, dpar, ldpar, j, ldj, x, incx, dwork, ldwork, info)
 integer *n, *ipar, *lipar;
 doublereal *dpar;
 integer *ldpar;
@@ -29,9 +29,9 @@ integer *ldwork, *info;
     static integer ibsm, ibsn, nths;
     static doublereal c__;
     static integer m;
-    extern /* Subroutine */ int dscal_(), dgemv_(), dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_(), dgemv_(), dcopy_();
     static integer bn, jl, ix, xl, st;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static integer bsm, bsn;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

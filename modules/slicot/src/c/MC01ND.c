@@ -5,7 +5,7 @@
 
 #include "nelson_f2c.h"
 
-/* Subroutine */ int mc01nd_(dp, xr, xi, p, vr, vi, info)
+/* Subroutine */ EXPORTSYMBOL int mc01nd_(dp, xr, xi, p, vr, vi, info)
 integer *dp;
 doublereal *xr, *xi, *p, *vr, *vi;
 integer *info;
@@ -15,7 +15,7 @@ integer *info;
     /* Local variables */
     static integer i__;
     static doublereal t;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */

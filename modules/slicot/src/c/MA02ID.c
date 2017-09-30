@@ -32,7 +32,7 @@ ftnlen norm_len;
     extern logical lsame_();
     static doublereal value;
     extern doublereal dlapy2_(), dlange_();
-    extern /* Subroutine */ int dlassq_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlassq_();
     static logical lsh;
     static doublereal sum;
     /*     SLICOT RELEASE 5.0. */

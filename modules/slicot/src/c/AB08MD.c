@@ -10,7 +10,7 @@
 static integer c__0 = 0;
 static integer c_n1 = -1;
 
-/* Subroutine */ int ab08md_(equil, n, m, p, a, lda, b, ldb, c__, ldc, d__, ldd, rank, tol, iwork, dwork, ldwork, info, equil_len)
+/* Subroutine */ EXPORTSYMBOL int ab08md_(equil, n, m, p, a, lda, b, ldb, c__, ldc, d__, ldd, rank, tol, iwork, dwork, ldwork, info, equil_len)
 char *equil;
 integer *n, *m, *p;
 doublereal *a;
@@ -33,15 +33,15 @@ ftnlen equil_len;
     double sqrt();
     /* Local variables */
     static integer i__;
-    extern /* Subroutine */ int tb01id_();
+    extern /* Subroutine */ EXPORTSYMBOL int tb01id_();
     static integer sigma;
     extern logical lsame_();
-    extern /* Subroutine */ int ab08nx_();
+    extern /* Subroutine */ EXPORTSYMBOL int ab08nx_();
     static integer ninfz, nkrol;
     static doublereal toler;
     extern doublereal dlamch_(), dlange_();
     static integer nm, np, ro, kw, mu, nu;
-    extern /* Subroutine */ int dlacpy_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), xerbla_();
     static doublereal maxred;
     static logical lequil;
     static doublereal thresh, svlmax;

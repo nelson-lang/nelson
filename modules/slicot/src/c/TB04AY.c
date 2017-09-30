@@ -10,7 +10,7 @@
 static integer c__1 = 1;
 static doublereal c_b19 = 1.;
 
-/* Subroutine */ int tb04ay_(n, mwork, pwork, a, lda, b, ldb, c__, ldc, d__, ldd, ncont, indexd, dcoeff, lddcoe, ucoeff, lduco1, lduco2, at, n1, tau, tol1, tol2, iwork, dwork, ldwork, info)
+/* Subroutine */ EXPORTSYMBOL int tb04ay_(n, mwork, pwork, a, lda, b, ldb, c__, ldc, d__, ldd, ncont, indexd, dcoeff, lddcoe, ucoeff, lduco1, lduco2, at, n1, tau, tol1, tol2, iwork, dwork, ldwork, info)
 integer *n, *mwork, *pwork;
 doublereal *a;
 integer *lda;
@@ -38,9 +38,9 @@ integer *ldwork, *info;
     static integer maxm;
     static doublereal temp;
     static integer i__, j, k, l;
-    extern /* Subroutine */ int dscal_(), tb01ud_(), tb01zd_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_(), tb01ud_(), tb01zd_();
     static integer nminl;
-    extern /* Subroutine */ int dcopy_(), daxpy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_(), daxpy_();
     static integer jwork, lwork, nplus, ivmin1, ib, ic, is, iv, iz, indcon, iwplus, wrkopt, ibi;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

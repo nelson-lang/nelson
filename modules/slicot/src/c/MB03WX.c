@@ -5,7 +5,7 @@
 
 #include "nelson_f2c.h"
 
-/* Subroutine */ int mb03wx_(n, p, t, ldt1, ldt2, wr, wi, info)
+/* Subroutine */ EXPORTSYMBOL int mb03wx_(n, p, t, ldt1, ldt2, wr, wi, info)
 integer *n, *p;
 doublereal *t;
 integer *ldt1, *ldt2;
@@ -16,9 +16,9 @@ integer *info;
     integer t_dim1, t_dim2, t_offset, i__1, i__2;
     /* Local variables */
     static integer i__, j, inext, i1;
-    extern /* Subroutine */ int dlanv2_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlanv2_();
     static doublereal a11, a12, a21, a22, cs, t11, t12, t22, sn;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */

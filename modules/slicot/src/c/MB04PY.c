@@ -10,7 +10,7 @@
 static integer c__1 = 1;
 static doublereal c_b15 = 1.;
 
-/* Subroutine */ int mb04py_(side, m, n, v, tau, c__, ldc, dwork, side_len)
+/* Subroutine */ EXPORTSYMBOL int mb04py_(side, m, n, v, tau, c__, ldc, dwork, side_len)
 char *side;
 integer *m, *n;
 doublereal *v, *tau, *c__;
@@ -22,10 +22,10 @@ ftnlen side_len;
     integer c_dim1, c_offset, i__1;
     doublereal d__1;
     /* Local variables */
-    extern /* Subroutine */ int dger_();
+    extern /* Subroutine */ EXPORTSYMBOL int dger_();
     static integer j;
     extern logical lsame_();
-    extern /* Subroutine */ int dgemv_(), dcopy_(), daxpy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemv_(), dcopy_(), daxpy_();
     static doublereal t1, t2, t3, t4, t5, t6, t7, t8, t9, v1, v2, v3, v4, v5, v6, v7, v8, v9, sum;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

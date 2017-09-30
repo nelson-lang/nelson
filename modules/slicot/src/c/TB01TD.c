@@ -10,7 +10,7 @@
 static integer c__1 = 1;
 static integer c__0 = 0;
 
-/* Subroutine */ int tb01td_(n, m, p, a, lda, b, ldb, c__, ldc, d__, ldd, low, igh, scstat, scin, scout, dwork, info)
+/* Subroutine */ EXPORTSYMBOL int tb01td_(n, m, p, a, lda, b, ldb, c__, ldc, d__, ldd, low, igh, scstat, scin, scout, dwork, info)
 integer *n, *m, *p;
 doublereal *a;
 integer *lda;
@@ -28,11 +28,11 @@ integer *info;
     doublereal d__1;
     /* Local variables */
     static integer kold, knew, i__, j, k;
-    extern /* Subroutine */ int dscal_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_();
     static doublereal scale;
-    extern /* Subroutine */ int dswap_(), tb01ty_(), dgebal_();
+    extern /* Subroutine */ EXPORTSYMBOL int dswap_(), tb01ty_(), dgebal_();
     extern doublereal dlange_();
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static doublereal acnorm, arnorm;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

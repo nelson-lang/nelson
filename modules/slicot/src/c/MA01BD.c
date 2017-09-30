@@ -5,7 +5,7 @@
 
 #include "nelson_f2c.h"
 
-/* Subroutine */ int ma01bd_(base, lgbas, k, s, a, inca, alpha, beta, scal)
+/* Subroutine */ EXPORTSYMBOL int ma01bd_(base, lgbas, k, s, a, inca, alpha, beta, scal)
 doublereal *base, *lgbas;
 integer *k, *s;
 doublereal *a;

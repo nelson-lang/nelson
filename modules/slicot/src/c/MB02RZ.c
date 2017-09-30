@@ -9,7 +9,7 @@
 
 static doublecomplex c_b1 = {1.,0.};
 
-/* Subroutine */ int mb02rz_(trans, n, nrhs, h__, ldh, ipiv, b, ldb, info, trans_len)
+/* Subroutine */ EXPORTSYMBOL int mb02rz_(trans, n, nrhs, h__, ldh, ipiv, b, ldb, info, trans_len)
 char *trans;
 integer *n, *nrhs;
 doublecomplex *h__;
@@ -26,9 +26,9 @@ ftnlen trans_len;
     /* Local variables */
     static integer j;
     extern logical lsame_();
-    extern /* Subroutine */ int zswap_(), zaxpy_(), ztrsm_();
+    extern /* Subroutine */ EXPORTSYMBOL int zswap_(), zaxpy_(), ztrsm_();
     static integer jp;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static logical notran;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

@@ -13,7 +13,7 @@ static integer c__1 = 1;
 static integer c_n1 = -1;
 static integer c__2 = 2;
 
-/* Subroutine */ int mb02jd_(job, k, l, m, n, p, s, tc, ldtc, tr, ldtr, q, ldq, r__, ldr, dwork, ldwork, info, job_len)
+/* Subroutine */ EXPORTSYMBOL int mb02jd_(job, k, l, m, n, p, s, tc, ldtc, tr, ldtr, q, ldq, r__, ldr, dwork, ldwork, info, job_len)
 char *job;
 integer *k, *l, *m, *n, *p, *s;
 doublereal *tc;
@@ -32,16 +32,16 @@ ftnlen job_len;
     integer q_dim1, q_offset, r_dim1, r_offset, tc_dim1, tc_offset, tr_dim1, tr_offset, i__1, i__2, i__3, i__4, i__5, i__6, i__7, i__8, i__9;
     /* Local variables */
     static integer colr, ierr, shfr, ipvt[1], stps;
-    extern /* Subroutine */ int ma02ad_();
+    extern /* Subroutine */ EXPORTSYMBOL int ma02ad_();
     static integer i__;
-    extern /* Subroutine */ int mb02kd_(), mb02cu_(), mb02cv_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb02kd_(), mb02cu_(), mb02cv_();
     extern logical lsame_();
     static integer nbmin;
     static logical compq;
     static integer nb, kk, pt;
-    extern /* Subroutine */ int dgeqrf_(), dlacpy_(), dlaset_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgeqrf_(), dlacpy_(), dlaset_();
     extern integer ilaenv_();
-    extern /* Subroutine */ int xerbla_(), dorgqr_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_(), dorgqr_();
     static integer wrkmin, wrkopt, len, pdq, pre, pdw, rnk, pnq, pnr;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

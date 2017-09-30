@@ -12,7 +12,7 @@ static doublereal c_b15 = 0.;
 static doublereal c_b28 = 1.;
 static integer c__1 = 1;
 
-/* Subroutine */ int mb02qy_(m, n, nrhs, rank, a, lda, jpvt, b, ldb, tau, dwork, ldwork, info)
+/* Subroutine */ EXPORTSYMBOL int mb02qy_(m, n, nrhs, rank, a, lda, jpvt, b, ldb, tau, dwork, ldwork, info)
 integer *m, *n, *nrhs, *rank;
 doublereal *a;
 integer *lda, *jpvt;
@@ -26,14 +26,14 @@ integer *ldwork, *info;
     /* Local variables */
     static doublereal anrm, bnrm;
     static integer i__, j, iascl, ibscl;
-    extern /* Subroutine */ int dcopy_(), dtrsm_(), dlabad_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_(), dtrsm_(), dlabad_();
     extern doublereal dlamch_(), dlange_();
     static integer mn;
-    extern /* Subroutine */ int dlascl_(), dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlascl_(), dlaset_(), xerbla_();
     static doublereal bignum;
     extern doublereal dlantr_();
     static doublereal maxwrk, smlnum;
-    extern /* Subroutine */ int dormrz_(), dtzrzf_();
+    extern /* Subroutine */ EXPORTSYMBOL int dormrz_(), dtzrzf_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */

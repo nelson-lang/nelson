@@ -10,7 +10,7 @@
 static integer c__4 = 4;
 static integer c__1 = 1;
 
-/* Subroutine */ int sb03mu_(ltranl, ltranr, isgn, n1, n2, tl, ldtl, tr, ldtr, b, ldb, scale, x, ldx, xnorm, info)
+/* Subroutine */ EXPORTSYMBOL int sb03mu_(ltranl, ltranr, isgn, n1, n2, tl, ldtl, tr, ldtr, b, ldb, scale, x, ldx, xnorm, info)
 logical *ltranl, *ltranr;
 integer *isgn, *n1, *n2;
 doublereal *tl;
@@ -41,7 +41,7 @@ integer *info;
     static doublereal xmax;
     static integer ipsv, jpsv, i__, j, k;
     static logical bswap;
-    extern /* Subroutine */ int dswap_();
+    extern /* Subroutine */ EXPORTSYMBOL int dswap_();
     static logical xswap;
     static doublereal x2[2], l21, u11, u12;
     static integer ip, jp;

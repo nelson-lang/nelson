@@ -9,7 +9,7 @@
 
 static integer c__1 = 1;
 
-/* Subroutine */ int mb04tv_(updatz, n, nra, nca, ifira, ifica, a, lda, e, lde, z__, ldz)
+/* Subroutine */ EXPORTSYMBOL int mb04tv_(updatz, n, nra, nca, ifira, ifica, a, lda, e, lde, z__, ldz)
 logical *updatz;
 integer *n, *nra, *nca, *ifira, *ifica;
 doublereal *a;
@@ -22,9 +22,9 @@ integer *ldz;
     /* System generated locals */
     integer a_dim1, a_offset, e_dim1, e_offset, z_dim1, z_offset, i__1, i__2, i__3;
     /* Local variables */
-    extern /* Subroutine */ int drot_();
+    extern /* Subroutine */ EXPORTSYMBOL int drot_();
     static integer jpvt, i__, j;
-    extern /* Subroutine */ int drotg_();
+    extern /* Subroutine */ EXPORTSYMBOL int drotg_();
     static integer ifira1;
     static doublereal sc, ss;
     /*     SLICOT RELEASE 5.0. */

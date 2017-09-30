@@ -10,7 +10,7 @@
 static doublereal c_b13 = 0.;
 static doublereal c_b14 = 1.;
 
-/* Subroutine */ int mb04vd_(mode, jobq, jobz, m, n, ranke, a, lda, e, lde, q, ldq, z__, ldz, istair, nblcks, nblcki, imuk, inuk, imuk0, mnei, tol, iwork, info, mode_len, jobq_len, jobz_len)
+/* Subroutine */ EXPORTSYMBOL int mb04vd_(mode, jobq, jobz, m, n, ranke, a, lda, e, lde, q, ldq, z__, ldz, istair, nblcks, nblcki, imuk, inuk, imuk0, mnei, tol, iwork, info, mode_len, jobq_len, jobz_len)
 char *mode, *jobq, *jobz;
 integer *m, *n, *ranke;
 doublereal *a;
@@ -33,13 +33,13 @@ ftnlen jobz_len;
     /* Local variables */
     static integer i__, ifica, k, ifira, ranka;
     extern logical lsame_();
-    extern /* Subroutine */ int mb04tt_(), mb04ty_(), mb04vx_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb04tt_(), mb04ty_(), mb04vx_();
     static doublereal toler, dwork[1];
     static logical first;
     static integer ismuk, isnuk, jk;
     extern doublereal dlamch_(), dlange_();
     static logical lmodeb;
-    extern /* Subroutine */ int dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlaset_(), xerbla_();
     static logical ljobqi, lmodes, lmodet, ljobzi, updatq, firsti, updatz;
     static integer nca, nra;
     /*     SLICOT RELEASE 5.0. */

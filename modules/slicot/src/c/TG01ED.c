@@ -11,7 +11,7 @@ static doublereal c_b6 = 0.;
 static doublereal c_b7 = 1.;
 static integer c__1 = 1;
 
-/* Subroutine */ int tg01ed_(joba, l, n, m, p, a, lda, e, lde, b, ldb, c__, ldc, q, ldq, z__, ldz, ranke, rnka22, tol, dwork, ldwork, info, joba_len)
+/* Subroutine */ EXPORTSYMBOL int tg01ed_(joba, l, n, m, p, a, lda, e, lde, b, ldb, c__, ldc, q, ldq, z__, ldz, ranke, rnka22, tol, dwork, ldwork, info, joba_len)
 char *joba;
 integer *l, *n, *m, *p;
 doublereal *a;
@@ -36,20 +36,20 @@ ftnlen joba_len;
     /* Local variables */
     static logical reda;
     static doublereal epsm;
-    extern /* Subroutine */ int ma02ad_();
+    extern /* Subroutine */ EXPORTSYMBOL int ma02ad_();
     static integer i__, j;
-    extern /* Subroutine */ int dgemm_(), mb03ud_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemm_(), mb03ud_();
     extern logical lsame_();
-    extern /* Subroutine */ int dgemv_(), dcopy_(), dswap_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemv_(), dcopy_(), dswap_();
     extern doublereal dlamch_();
     static integer ln;
     extern doublereal dlange_();
     static integer kw;
-    extern /* Subroutine */ int dgelqf_(), dgeqrf_(), dgesvd_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgelqf_(), dgeqrf_(), dgesvd_();
     static doublereal toldef;
-    extern /* Subroutine */ int dlacpy_(), dlaset_(), xerbla_(), dormlq_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), dlaset_(), xerbla_(), dormlq_();
     static doublereal svemax;
-    extern /* Subroutine */ int dormqr_();
+    extern /* Subroutine */ EXPORTSYMBOL int dormqr_();
     static doublereal svlmax;
     static integer ir1, ln2, wrkopt, la22, na22, lwr;
     /*     SLICOT RELEASE 5.0. */

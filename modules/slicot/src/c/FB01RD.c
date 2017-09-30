@@ -11,7 +11,7 @@ static integer c__1 = 1;
 static doublereal c_b23 = 1.;
 static integer c__0 = 0;
 
-/* Subroutine */ int fb01rd_(jobk, multbq, n, m, p, s, lds, a, lda, b, ldb, q, ldq, c__, ldc, r__, ldr, k, ldk, tol, iwork, dwork, ldwork, info, jobk_len, multbq_len)
+/* Subroutine */ EXPORTSYMBOL int fb01rd_(jobk, multbq, n, m, p, s, lds, a, lda, b, ldb, q, ldq, c__, ldc, r__, ldr, k, ldk, tol, iwork, dwork, ldwork, info, jobk_len, multbq_len)
 char *jobk, *multbq;
 integer *n, *m, *p;
 doublereal *s;
@@ -39,15 +39,15 @@ ftnlen multbq_len;
     integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, k_dim1, k_offset, q_dim1, q_offset, r_dim1, r_offset, s_dim1, s_offset, i__1, i__2, i__3, i__4;
     /* Local variables */
     static integer itau, i__;
-    extern /* Subroutine */ int mb02od_(), mb04jd_(), mb04ld_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb02od_(), mb04jd_(), mb04ld_();
     static logical ljobk;
     extern logical lsame_();
     static doublereal rcond;
-    extern /* Subroutine */ int dcopy_(), dtrmm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_(), dtrmm_();
     static integer jwork;
-    extern /* Subroutine */ int dtrmv_();
+    extern /* Subroutine */ EXPORTSYMBOL int dtrmv_();
     static integer n1, ii, pl, pn;
-    extern /* Subroutine */ int dlacpy_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), xerbla_();
     static logical lmultb;
     static integer wrkopt;
     /*     SLICOT RELEASE 5.0. */

@@ -9,7 +9,7 @@
 
 static integer c__1 = 1;
 
-/* Subroutine */ int sb04my_(n, m, ind, a, lda, b, ldb, c__, ldc, d__, ipr, info)
+/* Subroutine */ EXPORTSYMBOL int sb04my_(n, m, ind, a, lda, b, ldb, c__, ldc, d__, ipr, info)
 integer *n, *m, *ind;
 doublereal *a;
 integer *lda;
@@ -25,7 +25,7 @@ integer *ipr, *info;
     doublereal d__1;
     /* Local variables */
     static integer i__, j, k;
-    extern /* Subroutine */ int sb04mw_(), dcopy_(), daxpy_();
+    extern /* Subroutine */ EXPORTSYMBOL int sb04mw_(), dcopy_(), daxpy_();
     static integer i2, k1, k2, m1;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

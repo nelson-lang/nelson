@@ -5,7 +5,7 @@
 
 #include "nelson_f2c.h"
 
-/* Subroutine */ int mb01sd_(jobs, m, n, a, lda, r__, c__, jobs_len)
+/* Subroutine */ EXPORTSYMBOL int mb01sd_(jobs, m, n, a, lda, r__, c__, jobs_len)
 char *jobs;
 integer *m, *n;
 doublereal *a;

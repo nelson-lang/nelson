@@ -16,7 +16,7 @@ static doublereal c_b47 = 200.;
 static doublereal c_b50 = 1.;
 static doublereal c_b51 = 0.;
 
-/* Subroutine */ int mb04hd_(compq1, compq2, n, a, lda, b, ldb, q1, ldq1, q2, ldq2, bwork, iwork, liwork, dwork, ldwork, info, compq1_len, compq2_len)
+/* Subroutine */ EXPORTSYMBOL int mb04hd_(compq1, compq2, n, a, lda, b, ldb, q1, ldq1, q2, ldq2, bwork, iwork, liwork, dwork, ldwork, info, compq1_len, compq2_len)
 char *compq1, *compq2;
 integer *n;
 doublereal *a;
@@ -41,19 +41,19 @@ ftnlen compq2_len;
     /* Local variables */
     static doublereal base;
     static integer sdim, idum[1], itmp, iwrk, nrow, itmp2, itmp3;
-    extern /* Subroutine */ int ma01bd_(), mb03ba_();
+    extern /* Subroutine */ EXPORTSYMBOL int ma01bd_(), mb03ba_();
     static integer i__, j, k;
-    extern /* Subroutine */ int mb03dd_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb03dd_();
     static integer m;
-    extern /* Subroutine */ int mb03fd_(), mb03kd_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb03fd_(), mb03kd_();
     static integer r__;
-    extern /* Subroutine */ int dscal_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_();
     static doublereal lgbas;
-    extern /* Subroutine */ int dgemm_(), dgges_(), dggev_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemm_(), dgges_(), dggev_();
     extern logical lsame_();
-    extern /* Subroutine */ int dgemv_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemv_();
     extern logical sb02ow_();
-    extern /* Subroutine */ int dcopy_(), daxpy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_(), daxpy_();
     static integer i1, i2, i3, m1, m2, m4, i1lole, i2lole;
     static logical lcmpq1, lcmpq2, liniq1, liniq2;
     static integer i1lori, i1uple, i2lori;
@@ -61,9 +61,9 @@ ftnlen compq2_len;
     static integer i2uple, i1upri, i2upri, ia, ib;
     extern doublereal dlamch_();
     static integer mm, nr, ialole, iblole;
-    extern /* Subroutine */ int dlacpy_(), dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), dlaset_(), xerbla_();
     static integer ialori, iauple, iblori, ibuple;
-    extern /* Subroutine */ int dtgsen_();
+    extern /* Subroutine */ EXPORTSYMBOL int dtgsen_();
     static integer iaupri, ibupri, ib1, ib2, kschur, ij1, ij2, minwrk, mp1, iv1;
     static logical lquery;
     static integer iv2, iv3, iv4, optwrk, ia11, ia22, ib12, ib21;

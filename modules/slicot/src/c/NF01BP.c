@@ -10,7 +10,7 @@
 static integer c__1 = 1;
 static doublereal c_b53 = 1.;
 
-/* Subroutine */ int nf01bp_(cond, n, ipar, lipar, r__, ldr, ipvt, diag, qtb, delta, par, ranks, x, rx, tol, dwork, ldwork, info, cond_len)
+/* Subroutine */ EXPORTSYMBOL int nf01bp_(cond, n, ipar, lipar, r__, ldr, ipvt, diag, qtb, delta, par, ranks, x, rx, tol, dwork, ldwork, info, cond_len)
 char *cond;
 integer *n, *ipar, *lipar;
 doublereal *r__;
@@ -38,25 +38,25 @@ ftnlen cond_len;
     extern doublereal dnrm2_();
     static integer i__, j, k, l;
     static logical badrk;
-    extern /* Subroutine */ int nf01bq_();
+    extern /* Subroutine */ EXPORTSYMBOL int nf01bq_();
     static logical econd;
-    extern /* Subroutine */ int nf01br_(), md03by_();
+    extern /* Subroutine */ EXPORTSYMBOL int nf01br_(), md03by_();
     static char condl[1];
     static logical ncond;
     extern logical lsame_();
     static doublereal dwarf;
-    extern /* Subroutine */ int dgemv_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemv_();
     static doublereal dmino;
     static logical ucond;
-    extern /* Subroutine */ int dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_();
     static doublereal gnorm;
-    extern /* Subroutine */ int dtrmv_();
+    extern /* Subroutine */ EXPORTSYMBOL int dtrmv_();
     static integer n2, bn;
     static doublereal fp;
     extern doublereal dlamch_();
     static integer jw, st;
     static doublereal toldef;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static doublereal dxnorm;
     static integer bsm, bsn, lds;
     static doublereal sum;

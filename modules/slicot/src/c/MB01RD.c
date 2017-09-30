@@ -13,7 +13,7 @@ static integer c__0 = 0;
 static doublereal c_b15 = 1.;
 static integer c__1 = 1;
 
-/* Subroutine */ int mb01rd_(uplo, trans, m, n, alpha, beta, r__, ldr, a, lda, x, ldx, dwork, ldwork, info, uplo_len, trans_len)
+/* Subroutine */ EXPORTSYMBOL int mb01rd_(uplo, trans, m, n, alpha, beta, r__, ldr, a, lda, x, ldx, dwork, ldwork, info, uplo_len, trans_len)
 char *uplo, *trans;
 integer *m, *n;
 doublereal *alpha, *beta, *r__;
@@ -30,18 +30,18 @@ ftnlen trans_len;
     /* System generated locals */
     integer a_dim1, a_offset, r_dim1, r_offset, x_dim1, x_offset, i__1, i__2;
     /* Builtin functions */
-    /* Subroutine */ int s_copy();
+    /* Subroutine */ EXPORTSYMBOL int s_copy();
     /* Local variables */
     static integer j;
-    extern /* Subroutine */ int dscal_(), dgemm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_(), dgemm_();
     extern logical lsame_();
-    extern /* Subroutine */ int dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_();
     static char ntran[12];
-    extern /* Subroutine */ int dtrmm_(), daxpy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dtrmm_(), daxpy_();
     static integer nrowa;
     static logical luplo;
     static integer jwork;
-    extern /* Subroutine */ int dlascl_(), dlacpy_(), dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlascl_(), dlacpy_(), dlaset_(), xerbla_();
     static logical ltrans;
     static integer ldw;
     /*     SLICOT RELEASE 5.0. */

@@ -10,7 +10,7 @@
 static doublereal c_b7 = 0.;
 static doublereal c_b8 = 1.;
 
-/* Subroutine */ int tg01dd_(compz, l, n, p, a, lda, e, lde, c__, ldc, z__, ldz, dwork, ldwork, info, compz_len)
+/* Subroutine */ EXPORTSYMBOL int tg01dd_(compz, l, n, p, a, lda, e, lde, c__, ldc, z__, ldz, dwork, ldwork, info, compz_len)
 char *compz;
 integer *l, *n, *p;
 doublereal *a;
@@ -30,9 +30,9 @@ ftnlen compz_len;
     /* Local variables */
     extern logical lsame_();
     static integer ln;
-    extern /* Subroutine */ int dgerqf_(), dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgerqf_(), dlaset_(), xerbla_();
     static integer icompz;
-    extern /* Subroutine */ int dormrq_();
+    extern /* Subroutine */ EXPORTSYMBOL int dormrq_();
     static integer wrkopt;
     static logical ilz;
     /*     SLICOT RELEASE 5.0. */

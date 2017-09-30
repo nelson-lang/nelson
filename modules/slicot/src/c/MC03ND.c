@@ -10,7 +10,7 @@
 static doublereal c_b13 = 0.;
 static doublereal c_b19 = 1.;
 
-/* Subroutine */ int mc03nd_(mp, np, dp, p, ldp1, ldp2, dk, gam, nullsp, ldnull, ker, ldker1, ldker2, tol, iwork, dwork, ldwork, info)
+/* Subroutine */ EXPORTSYMBOL int mc03nd_(mp, np, dp, p, ldp1, ldp2, dk, gam, nullsp, ldnull, ker, ldker1, ldker2, tol, iwork, dwork, ldwork, info)
 integer *mp, *np, *dp;
 doublereal *p;
 integer *ldp1, *ldp2, *dk, *gam;
@@ -30,13 +30,13 @@ integer *ldwork, *info;
     double sqrt();
     /* Local variables */
     static integer gamj, mnei[3], ifir, tail, h__, i__, j, k, m, n, idiff;
-    extern /* Subroutine */ int dgemm_(), mb04ud_(), mb04vd_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemm_(), mb04ud_(), mb04vd_();
     static integer ranke, sgamk;
-    extern /* Subroutine */ int mc03nx_(), mc03ny_();
+    extern /* Subroutine */ EXPORTSYMBOL int mc03nx_(), mc03ny_();
     static doublereal toler;
     extern doublereal dlapy2_(), dlamch_(), dlange_();
     static integer nblcki, nblcks;
-    extern /* Subroutine */ int dlacpy_(), dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), dlaset_(), xerbla_();
     static integer jworka, jworke, vc1, jworkq, jworkv, jworkz, vr2, nca, nra, ncv, muk, nuk;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

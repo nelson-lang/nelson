@@ -10,7 +10,7 @@
 static doublereal c_b3 = -1.;
 static integer c__1 = 1;
 
-/* Subroutine */ int nf01bf_(iflag, nfun, lx, ipar, lipar, u, ldu, y, ldy, x, nfevl, e, j, ldj, dwork, ldwork, info)
+/* Subroutine */ EXPORTSYMBOL int nf01bf_(iflag, nfun, lx, ipar, lipar, u, ldu, y, ldy, x, nfevl, e, j, ldj, dwork, ldwork, info)
 integer *iflag, *nfun, *lx, *ipar, *lipar;
 doublereal *u;
 integer *ldu;
@@ -32,9 +32,9 @@ integer *ldwork, *info;
     static integer nsmp;
     extern doublereal dnrm2_();
     static integer i__;
-    extern /* Subroutine */ int nf01ad_();
+    extern /* Subroutine */ EXPORTSYMBOL int nf01ad_();
     static integer l, m, n;
-    extern /* Subroutine */ int nf01bd_(), daxpy_();
+    extern /* Subroutine */ EXPORTSYMBOL int nf01bd_(), daxpy_();
     static integer jwork, nn, st, bsn;
     static doublereal err;
     /* Fortran I/O blocks */

@@ -10,7 +10,7 @@
 static integer c__1 = 1;
 static integer c__3 = 3;
 
-/* Subroutine */ int ib01oy_(ns, nmax, n, sv, info)
+/* Subroutine */ EXPORTSYMBOL int ib01oy_(ns, nmax, n, sv, info)
 integer *ns, *nmax, *n;
 doublereal *sv;
 integer *info;
@@ -22,7 +22,7 @@ integer *info;
     /* Local variables */
     static integer i__;
     extern logical lsame_();
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static char ans[1];
     static logical yes;
     /* Fortran I/O blocks */

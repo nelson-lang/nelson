@@ -14,7 +14,7 @@ static doublereal c_b31 = 2.;
 static doublereal c_b33 = -1.;
 static integer c__5 = 5;
 
-/* Subroutine */ int bb01ad_(def, nr, dpar, ipar, bpar, chpar, vec, n, m, p, a, lda, b, ldb, c__, ldc, g, ldg, q, ldq, x, ldx, dwork, ldwork, info, def_len, chpar_len)
+/* Subroutine */ EXPORTSYMBOL int bb01ad_(def, nr, dpar, ipar, bpar, chpar, vec, n, m, p, a, lda, b, ldb, c__, ldc, g, ldg, q, ldq, x, ldx, dwork, ldwork, info, def_len, chpar_len)
 char *def;
 integer *nr;
 doublereal *dpar;
@@ -134,28 +134,28 @@ ftnlen chpar_len;
     olist o__1;
     cllist cl__1;
     /* Builtin functions */
-    /* Subroutine */ int s_copy();
+    /* Subroutine */ EXPORTSYMBOL int s_copy();
     double sqrt();
     integer s_wsfi(), do_fio(), e_wsfi(), f_open(), s_rsle(), do_lio(), e_rsle(), f_clos();
     double cos();
     /* Local variables */
     extern doublereal ddot_();
     static doublereal temp;
-    extern /* Subroutine */ int dspr_(), ma02dd_();
+    extern /* Subroutine */ EXPORTSYMBOL int dspr_(), ma02dd_();
     static integer i__, j, k, l;
-    extern /* Subroutine */ int ma02ed_(), dscal_();
+    extern /* Subroutine */ EXPORTSYMBOL int ma02ed_(), dscal_();
     static integer gdimm;
     extern logical lsame_();
-    extern /* Subroutine */ int dgemv_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemv_();
     static char ident[4];
     static integer qdimm;
-    extern /* Subroutine */ int dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_();
     static doublereal b1, b2, c1, c2, ttemp;
-    extern /* Subroutine */ int dspmv_(), dsymm_(), dsyrk_();
+    extern /* Subroutine */ EXPORTSYMBOL int dspmv_(), dsymm_(), dsyrk_();
     static integer isymm, msymm, nsymm, psymm;
     extern doublereal dlapy2_();
     static doublereal appind;
-    extern /* Subroutine */ int dlaset_(), xerbla_(), dpptrf_(), dpptri_(), dpttrf_(), dpttrs_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlaset_(), xerbla_(), dpptrf_(), dpptri_(), dpttrf_(), dpttrs_();
     static integer ios, pos;
     static doublereal sum;
     /* Fortran I/O blocks */

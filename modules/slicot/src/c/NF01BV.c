@@ -12,7 +12,7 @@ static integer c__0 = 0;
 static integer c__1 = 1;
 static doublereal c_b14 = 1.;
 
-/* Subroutine */ int nf01bv_(stor, uplo, n, ipar, lipar, dpar, ldpar, j, ldj, jtj, ldjtj, dwork, ldwork, info, stor_len, uplo_len)
+/* Subroutine */ EXPORTSYMBOL int nf01bv_(stor, uplo, n, ipar, lipar, dpar, ldpar, j, ldj, jtj, ldjtj, dwork, ldwork, info, stor_len, uplo_len)
 char *stor, *uplo;
 integer *n, *ipar, *lipar;
 doublereal *dpar;
@@ -33,11 +33,11 @@ ftnlen uplo_len;
     static doublereal c__;
     static integer i__, m;
     extern logical lsame_();
-    extern /* Subroutine */ int dgemv_(), dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemv_(), dcopy_();
     static logical upper;
-    extern /* Subroutine */ int dsyrk_();
+    extern /* Subroutine */ EXPORTSYMBOL int dsyrk_();
     static integer ii;
-    extern /* Subroutine */ int dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlaset_(), xerbla_();
     static doublereal dum[1];
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

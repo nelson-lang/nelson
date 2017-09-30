@@ -12,7 +12,7 @@ static integer c_n1 = -1;
 static doublereal c_b23 = 0.;
 static doublereal c_b24 = 1.;
 
-/* Subroutine */ int mb03kd_(compq, whichq, strong, k, nc, kschur, n, ni, s, select, t, ldt, ixt, q, ldq, ixq, m, tol, iwork, dwork, ldwork, info, compq_len, strong_len)
+/* Subroutine */ EXPORTSYMBOL int mb03kd_(compq, whichq, strong, k, nc, kschur, n, ni, s, select, t, ldt, ixt, q, ldq, ixq, m, tol, iwork, dwork, ldwork, info, compq_len, strong_len)
 char *compq;
 integer *whichq;
 char *strong;
@@ -38,14 +38,14 @@ ftnlen strong_len;
     static integer minn, maxn, sumd;
     static logical swap;
     static integer i__, l;
-    extern /* Subroutine */ int mb03ka_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb03ka_();
     extern logical lsame_();
     static logical specq, initq, wantq;
     static integer ll;
     extern doublereal dlamch_();
     static integer it, ls;
     static logical ws;
-    extern /* Subroutine */ int dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlaset_(), xerbla_();
     static char compqc[1];
     static logical wantql;
     static integer minsum, ip1, mnwork, nkp1;

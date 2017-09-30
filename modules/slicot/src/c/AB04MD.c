@@ -12,7 +12,7 @@ static doublereal c_b10 = 1.;
 static integer c__0 = 0;
 static integer c__1 = 1;
 
-/* Subroutine */ int ab04md_(type__, n, m, p, alpha, beta, a, lda, b, ldb, c__, ldc, d__, ldd, iwork, dwork, ldwork, info, type_len)
+/* Subroutine */ EXPORTSYMBOL int ab04md_(type__, n, m, p, alpha, beta, a, lda, b, ldb, c__, ldc, d__, ldd, iwork, dwork, ldwork, info, type_len)
 char *type__;
 integer *n, *m, *p;
 doublereal *alpha, *beta, *a;
@@ -34,18 +34,18 @@ ftnlen type_len;
     double sqrt(), d_sign();
     /* Local variables */
     static integer i__;
-    extern /* Subroutine */ int dscal_(), dgemm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_(), dgemm_();
     static doublereal pbeta;
     extern logical lsame_();
-    extern /* Subroutine */ int dswap_(), dtrsm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dswap_(), dtrsm_();
     static logical ltype;
     static doublereal sqrab2;
     static integer ip;
-    extern /* Subroutine */ int dlascl_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlascl_();
     static doublereal palpha;
-    extern /* Subroutine */ int dgetrf_(), xerbla_(), dgetri_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgetrf_(), xerbla_(), dgetri_();
     static doublereal ab2;
-    extern /* Subroutine */ int dgetrs_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgetrs_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */

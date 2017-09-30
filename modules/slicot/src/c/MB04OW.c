@@ -9,7 +9,7 @@
 
 static integer c__1 = 1;
 
-/* Subroutine */ int mb04ow_(m, n, p, a, lda, t, ldt, x, incx, b, ldb, c__, ldc, d__, incd)
+/* Subroutine */ EXPORTSYMBOL int mb04ow_(m, n, p, a, lda, t, ldt, x, incx, b, ldb, c__, ldc, d__, incd)
 integer *m, *n, *p;
 doublereal *a;
 integer *lda;
@@ -28,13 +28,13 @@ integer *incd;
     integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, t_dim1, t_offset, i__1, i__2;
     /* Local variables */
     static doublereal temp;
-    extern /* Subroutine */ int drot_();
+    extern /* Subroutine */ EXPORTSYMBOL int drot_();
     static integer i__;
     static doublereal ci;
     static integer mn;
     static doublereal si;
     static integer ix;
-    extern /* Subroutine */ int dlartg_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlartg_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */

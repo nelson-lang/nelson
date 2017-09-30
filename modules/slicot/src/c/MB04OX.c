@@ -5,7 +5,7 @@
 
 #include "nelson_f2c.h"
 
-/* Subroutine */ int mb04ox_(n, a, lda, x, incx)
+/* Subroutine */ EXPORTSYMBOL int mb04ox_(n, a, lda, x, incx)
 integer *n;
 doublereal *a;
 integer *lda;
@@ -16,11 +16,11 @@ integer *incx;
     integer a_dim1, a_offset, i__1, i__2;
     /* Local variables */
     static doublereal temp;
-    extern /* Subroutine */ int drot_();
+    extern /* Subroutine */ EXPORTSYMBOL int drot_();
     static integer i__;
     static doublereal ci, si;
     static integer ix;
-    extern /* Subroutine */ int dlartg_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlartg_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */

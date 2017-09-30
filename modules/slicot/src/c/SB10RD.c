@@ -11,7 +11,7 @@ static doublereal c_b7 = 0.;
 static doublereal c_b8 = 1.;
 static doublereal c_b19 = -1.;
 
-/* Subroutine */ int sb10rd_(n, m, np, ncon, nmeas, gamma, a, lda, b, ldb, c__, ldc, d__, ldd, f, ldf, h__, ldh, tu, ldtu, ty, ldty, x, ldx, y, ldy, ak, ldak, bk, ldbk, ck, ldck, dk, lddk, iwork, dwork, ldwork, info)
+/* Subroutine */ EXPORTSYMBOL int sb10rd_(n, m, np, ncon, nmeas, gamma, a, lda, b, ldb, c__, ldc, d__, ldd, f, ldf, h__, ldh, tu, ldtu, ty, ldty, x, ldx, y, ldy, ak, ldak, bk, ldbk, ck, ldck, dk, lddk, iwork, dwork, ldwork, info)
 integer *n, *m, *np, *ncon, *nmeas;
 doublereal *gamma, *a;
 integer *lda;
@@ -49,23 +49,23 @@ integer *ldwork, *info;
     doublereal d__1, d__2;
     /* Local variables */
     static integer iwrk, info2;
-    extern /* Subroutine */ int ma02ad_();
+    extern /* Subroutine */ EXPORTSYMBOL int ma02ad_();
     static integer i__, j;
-    extern /* Subroutine */ int dgemm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemm_();
     static doublereal rcond;
-    extern /* Subroutine */ int mb01rx_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb01rx_();
     static doublereal anorm;
-    extern /* Subroutine */ int dtrmm_(), dsyrk_();
+    extern /* Subroutine */ EXPORTSYMBOL int dtrmm_(), dsyrk_();
     static integer m1, m2, ij;
     extern doublereal dlamch_(), dlange_();
-    extern /* Subroutine */ int dgecon_(), dgetrf_(), dlacpy_(), dgetri_(), dlaset_(), xerbla_(), dgetrs_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgecon_(), dgetrf_(), dlacpy_(), dgetri_(), dlaset_(), xerbla_(), dgetrs_();
     static integer lwamax;
     extern doublereal dlansy_();
-    extern /* Subroutine */ int dpotrf_(), dsycon_();
+    extern /* Subroutine */ EXPORTSYMBOL int dpotrf_(), dsycon_();
     static integer nd1, nd2, minwrk;
-    extern /* Subroutine */ int dsytrf_();
+    extern /* Subroutine */ EXPORTSYMBOL int dsytrf_();
     static integer np1, np2, iw1, iw2, iw3, iw4;
-    extern /* Subroutine */ int dsytrs_();
+    extern /* Subroutine */ EXPORTSYMBOL int dsytrs_();
     static integer id11, id12, id21, iwb, iwc;
     static doublereal eps;
     /*     SLICOT RELEASE 5.0. */

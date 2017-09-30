@@ -5,7 +5,7 @@
 
 #include "nelson_f2c.h"
 
-/* Subroutine */ int ab09kd_(job, dico, weight, equil, ordsel, n, nv, nw, m, p, nr, alpha, a, lda, b, ldb, c__, ldc, d__, ldd, av, ldav, bv, ldbv, cv, ldcv, dv, lddv, aw, ldaw, bw, ldbw, cw, ldcw, dw, lddw, ns, hsv, tol1, tol2, iwork, dwork, ldwork, iwarn, info, job_len, dico_len, weight_len, equil_len, ordsel_len)
+/* Subroutine */ EXPORTSYMBOL int ab09kd_(job, dico, weight, equil, ordsel, n, nv, nw, m, p, nr, alpha, a, lda, b, ldb, c__, ldc, d__, ldd, av, ldav, bv, ldbv, cv, ldcv, dv, lddv, aw, ldaw, bw, ldbw, cw, ldcw, dw, lddw, ns, hsv, tol1, tol2, iwork, dwork, ldwork, iwarn, info, job_len, dico_len, weight_len, equil_len, ordsel_len)
 char *job, *dico, *weight, *equil, *ordsel;
 integer *n, *nv, *nw, *m, *p, *nr;
 doublereal *alpha, *a;
@@ -48,14 +48,14 @@ ftnlen ordsel_len;
     double sqrt();
     /* Local variables */
     static integer ierr, nmin;
-    extern /* Subroutine */ int ab07nd_(), tb01id_(), ab09cx_(), tb01kd_(), ab09kx_();
+    extern /* Subroutine */ EXPORTSYMBOL int ab07nd_(), tb01id_(), ab09cx_(), tb01kd_(), ab09kx_();
     extern logical lsame_();
     static logical discr;
     static doublereal rcond;
     static logical conjs, leftw;
     static integer ia, ib, ki, kl, ku, kw, lw, nu;
     extern doublereal dlamch_();
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static doublereal maxred;
     static logical fixord;
     static integer iwarnl;

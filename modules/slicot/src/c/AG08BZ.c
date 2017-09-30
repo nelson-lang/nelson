@@ -15,7 +15,7 @@ static logical c_false = FALSE_;
 static doublereal c_b26 = 0.;
 static integer c__0 = 0;
 
-/* Subroutine */ int ag08bz_(equil, l, n, m, p, a, lda, e, lde, b, ldb, c__, ldc, d__, ldd, nfz, nrank, niz, dinfz, nkror, ninfe, nkrol, infz, kronr, infe, kronl, tol, iwork, dwork, zwork, lzwork, info, equil_len)
+/* Subroutine */ EXPORTSYMBOL int ag08bz_(equil, l, n, m, p, a, lda, e, lde, b, ldb, c__, ldc, d__, ldd, nfz, nrank, niz, dinfz, nkror, ninfe, nkrol, infz, kronr, infe, kronl, tol, iwork, dwork, zwork, lzwork, info, equil_len)
 char *equil;
 integer *l, *n, *m, *p;
 doublecomplex *a;
@@ -40,26 +40,26 @@ ftnlen equil_len;
     doublereal d__1, d__2;
     /* Local variables */
     static integer itau, numu, kabcd, i__, j;
-    extern /* Subroutine */ int ma02bz_(), ma02cz_();
+    extern /* Subroutine */ EXPORTSYMBOL int ma02bz_(), ma02cz_();
     extern logical lsame_();
-    extern /* Subroutine */ int tg01az_(), tg01fz_();
+    extern /* Subroutine */ EXPORTSYMBOL int tg01az_(), tg01fz_();
     static integer labcd2, i0, i1, jwork;
     static doublereal toler;
     static integer n2;
-    extern /* Subroutine */ int tb01xz_(), ag8byz_();
+    extern /* Subroutine */ EXPORTSYMBOL int tb01xz_(), ag8byz_();
     static integer ldabcd, nb, ii;
     extern doublereal dlamch_();
     static integer mm, nn, pp, mu, nu;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     extern integer ilaenv_();
     extern doublereal zlange_();
     static integer nsinfe;
     static logical lequil;
-    extern /* Subroutine */ int zlacpy_(), zlaset_();
+    extern /* Subroutine */ EXPORTSYMBOL int zlacpy_(), zlaset_();
     static doublereal svlmax;
     static logical lquery;
     static integer wrkopt;
-    extern /* Subroutine */ int zunmrz_(), ztzrzf_();
+    extern /* Subroutine */ EXPORTSYMBOL int zunmrz_(), ztzrzf_();
     static integer ipd;
     static doublecomplex dum[1];
     static integer lzw;

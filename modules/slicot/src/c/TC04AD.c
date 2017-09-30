@@ -13,7 +13,7 @@ static integer c__1 = 1;
 static doublereal c_b26 = -1.;
 static doublereal c_b27 = 1.;
 
-/* Subroutine */ int tc04ad_(leri, m, p, index, pcoeff, ldpco1, ldpco2, qcoeff, ldqco1, ldqco2, n, rcond, a, lda, b, ldb, c__, ldc, d__, ldd, iwork, dwork, ldwork, info, leri_len)
+/* Subroutine */ EXPORTSYMBOL int tc04ad_(leri, m, p, index, pcoeff, ldpco1, ldpco2, qcoeff, ldqco1, ldqco2, n, rcond, a, lda, b, ldb, c__, ldc, d__, ldd, iwork, dwork, ldwork, info, leri_len)
 char *leri;
 integer *m, *p, *index;
 doublereal *pcoeff;
@@ -36,19 +36,19 @@ ftnlen leri_len;
     integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, pcoeff_dim1, pcoeff_dim2, pcoeff_offset, qcoeff_dim1, qcoeff_dim2, qcoeff_offset, i__1, i__2, i__3;
     /* Local variables */
     static integer i__, j, k;
-    extern /* Subroutine */ int ab07md_();
+    extern /* Subroutine */ EXPORTSYMBOL int ab07md_();
     static integer ibias;
-    extern /* Subroutine */ int dgemm_(), tc01od_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemm_(), tc01od_();
     extern logical lsame_();
     static logical lleri;
-    extern /* Subroutine */ int dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_();
     static integer jwork, mwork, kstop, pwork, ia, ja, jc;
     extern doublereal dlamch_(), dlange_();
-    extern /* Subroutine */ int dgecon_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgecon_();
     static integer jw, kpcoef;
-    extern /* Subroutine */ int dgetrf_(), dlacpy_(), dlaset_(), dgetri_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgetrf_(), dlacpy_(), dlaset_(), dgetri_(), xerbla_();
     static integer maxind, mindex;
-    extern /* Subroutine */ int dgetrs_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgetrs_();
     static doublereal dwnorm;
     static integer wrkopt, ldw;
     /*     SLICOT RELEASE 5.0. */

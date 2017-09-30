@@ -11,7 +11,7 @@ static doublereal c_b9 = 1.;
 static doublereal c_b10 = 0.;
 static integer c__1 = 1;
 
-/* Subroutine */ int tg01wd_(n, m, p, a, lda, e, lde, b, ldb, c__, ldc, q, ldq, z__, ldz, alphar, alphai, beta, dwork, ldwork, info)
+/* Subroutine */ EXPORTSYMBOL int tg01wd_(n, m, p, a, lda, e, lde, b, ldb, c__, ldc, q, ldq, z__, ldz, alphar, alphai, beta, dwork, ldwork, info)
 integer *n, *m, *p;
 doublereal *a;
 integer *lda;
@@ -34,15 +34,15 @@ integer *ldwork, *info;
     static integer sdim;
     static logical blas3;
     static integer i__, j;
-    extern /* Subroutine */ int dgemm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemm_();
     static logical block;
-    extern /* Subroutine */ int dgges_(), dgemv_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgges_(), dgemv_();
     static integer chunk;
-    extern /* Subroutine */ int dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_();
     static logical bwork[1];
     static integer bl;
     extern logical delctg_();
-    extern /* Subroutine */ int dlacpy_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), xerbla_();
     static integer maxwrk;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

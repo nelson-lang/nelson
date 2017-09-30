@@ -11,7 +11,7 @@ static integer c__1 = 1;
 static doublereal c_b12 = 1.;
 static integer c_n1 = -1;
 
-/* Subroutine */ int mb02vd_(trans, m, n, a, lda, ipiv, b, ldb, info, trans_len)
+/* Subroutine */ EXPORTSYMBOL int mb02vd_(trans, m, n, a, lda, ipiv, b, ldb, info, trans_len)
 char *trans;
 integer *m, *n;
 doublereal *a;
@@ -24,9 +24,9 @@ ftnlen trans_len;
     integer a_dim1, a_offset, b_dim1, b_offset, i__1;
     /* Local variables */
     static logical tran;
-    extern /* Subroutine */ int ma02gd_();
+    extern /* Subroutine */ EXPORTSYMBOL int ma02gd_();
     extern logical lsame_();
-    extern /* Subroutine */ int dtrsm_(), dgetrf_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dtrsm_(), dgetrf_(), xerbla_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */

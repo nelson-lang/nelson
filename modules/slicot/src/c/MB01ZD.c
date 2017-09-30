@@ -9,7 +9,7 @@
 
 static integer c__1 = 1;
 
-/* Subroutine */ int mb01zd_(side, uplo, transt, diag, m, n, l, alpha, t, ldt, h__, ldh, info, side_len, uplo_len, transt_len, diag_len)
+/* Subroutine */ EXPORTSYMBOL int mb01zd_(side, uplo, transt, diag, m, n, l, alpha, t, ldt, h__, ldh, info, side_len, uplo_len, transt_len, diag_len)
 char *side, *uplo, *transt, *diag;
 integer *m, *n, *l;
 doublereal *alpha, *t;
@@ -28,15 +28,15 @@ ftnlen diag_len;
     extern doublereal ddot_();
     static doublereal temp;
     static integer i__, j, k;
-    extern /* Subroutine */ int dscal_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_();
     static logical lside;
     extern logical lsame_();
-    extern /* Subroutine */ int daxpy_();
+    extern /* Subroutine */ EXPORTSYMBOL int daxpy_();
     static logical trans;
     static integer i1;
     static logical upper;
     static integer i2, m2, nrowt;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static logical nounit;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

@@ -9,7 +9,7 @@
 
 static integer c__1 = 1;
 
-/* Subroutine */ int md03bf_(iflag, m, n, ipar, lipar, dpar1, ldpar1, dpar2, ldpar2, x, nfevl, e, j, ldj, dwork, ldwork, info)
+/* Subroutine */ EXPORTSYMBOL int md03bf_(iflag, m, n, ipar, lipar, dpar1, ldpar1, dpar2, ldpar2, x, nfevl, e, j, ldj, dwork, ldwork, info)
 integer *iflag, *m, *n, *ipar, *lipar;
 doublereal *dpar1;
 integer *ldpar1;

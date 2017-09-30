@@ -11,7 +11,7 @@ static doublereal c_b4 = 1.;
 static doublereal c_b5 = 0.;
 static integer c__1 = 1;
 
-/* Subroutine */ int nf01bx_(n, ipar, lipar, dpar, ldpar, j, ldj, x, incx, dwork, ldwork, info)
+/* Subroutine */ EXPORTSYMBOL int nf01bx_(n, ipar, lipar, dpar, ldpar, j, ldj, x, incx, dwork, ldwork, info)
 integer *n, *ipar, *lipar;
 doublereal *dpar;
 integer *ldpar;
@@ -27,7 +27,7 @@ integer *ldwork, *info;
     /* Local variables */
     static doublereal c__;
     static integer m;
-    extern /* Subroutine */ int dscal_(), dgemv_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_(), dgemv_(), xerbla_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */

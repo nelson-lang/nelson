@@ -5,7 +5,7 @@
 
 #include "nelson_f2c.h"
 
-/* Subroutine */ int mc01sd_(dp, p, s, t, mant, e, iwork, info)
+/* Subroutine */ EXPORTSYMBOL int mc01sd_(dp, p, s, t, mant, e, iwork, info)
 integer *dp;
 doublereal *p;
 integer *s, *t;
@@ -19,13 +19,13 @@ integer *e, *iwork, *info;
     integer i_dnnt();
     /* Local variables */
     static integer beta, i__, j, m;
-    extern /* Subroutine */ int mc01sw_();
+    extern /* Subroutine */ EXPORTSYMBOL int mc01sw_();
     extern integer mc01sx_();
-    extern /* Subroutine */ int mc01sy_();
+    extern /* Subroutine */ EXPORTSYMBOL int mc01sy_();
     static integer v0, v1, lb, ub;
     extern doublereal dlamch_();
     static integer dv;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static logical ovflow;
     static integer inc;
     /*     SLICOT RELEASE 5.0. */

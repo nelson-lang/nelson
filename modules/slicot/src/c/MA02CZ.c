@@ -5,7 +5,7 @@
 
 #include "nelson_f2c.h"
 
-/* Subroutine */ int ma02cz_(n, kl, ku, a, lda)
+/* Subroutine */ EXPORTSYMBOL int ma02cz_(n, kl, ku, a, lda)
 integer *n, *kl, *ku;
 doublecomplex *a;
 integer *lda;
@@ -14,7 +14,7 @@ integer *lda;
     integer a_dim1, a_offset, i__1, i__2, i__3;
     /* Local variables */
     static integer i__, i1;
-    extern /* Subroutine */ int zswap_();
+    extern /* Subroutine */ EXPORTSYMBOL int zswap_();
     static integer lda1;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

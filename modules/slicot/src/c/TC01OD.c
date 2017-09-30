@@ -9,7 +9,7 @@
 
 static integer c__1 = 1;
 
-/* Subroutine */ int tc01od_(leri, m, p, indlim, pcoeff, ldpco1, ldpco2, qcoeff, ldqco1, ldqco2, info, leri_len)
+/* Subroutine */ EXPORTSYMBOL int tc01od_(leri, m, p, indlim, pcoeff, ldpco1, ldpco2, qcoeff, ldqco1, ldqco2, info, leri_len)
 char *leri;
 integer *m, *p, *indlim;
 doublereal *pcoeff;
@@ -25,9 +25,9 @@ ftnlen leri_len;
     extern logical lsame_();
     static logical lleri;
     static integer mplim;
-    extern /* Subroutine */ int dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_();
     static integer minmp;
-    extern /* Subroutine */ int dswap_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dswap_(), xerbla_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */

@@ -12,7 +12,7 @@ static integer c__0 = 0;
 static doublereal c_b14 = 1.;
 static integer c__1 = 1;
 
-/* Subroutine */ int mb01rx_(side, uplo, trans, m, n, alpha, beta, r__, ldr, a, lda, b, ldb, info, side_len, uplo_len, trans_len)
+/* Subroutine */ EXPORTSYMBOL int mb01rx_(side, uplo, trans, m, n, alpha, beta, r__, ldr, a, lda, b, ldb, info, side_len, uplo_len, trans_len)
 char *side, *uplo, *trans;
 integer *m, *n;
 doublereal *alpha, *beta, *r__;
@@ -31,9 +31,9 @@ ftnlen trans_len;
     static integer j;
     static logical lside;
     extern logical lsame_();
-    extern /* Subroutine */ int dgemv_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemv_();
     static logical luplo;
-    extern /* Subroutine */ int dlascl_(), dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlascl_(), dlaset_(), xerbla_();
     static logical ltrans;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

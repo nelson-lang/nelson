@@ -14,7 +14,7 @@ static doublereal c_b19 = 0.;
 static integer c__2 = 2;
 static doublereal c_b23 = -1.;
 
-/* Subroutine */ int sg03bw_(trans, m, n, a, lda, c__, ldc, e, lde, d__, ldd, x, ldx, scale, info, trans_len)
+/* Subroutine */ EXPORTSYMBOL int sg03bw_(trans, m, n, a, lda, c__, ldc, e, lde, d__, ldd, x, ldx, scale, info, trans_len)
 char *trans;
 integer *m, *n;
 doublereal *a;
@@ -35,14 +35,14 @@ ftnlen trans_len;
     integer a_dim1, a_offset, c_dim1, c_offset, d_dim1, d_offset, e_dim1, e_offset, x_dim1, x_offset, i__1, i__2;
     /* Local variables */
     static integer info1, i__, j;
-    extern /* Subroutine */ int dscal_(), dgemm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_(), dgemm_();
     extern logical lsame_();
-    extern /* Subroutine */ int mb02uu_(), mb02uv_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb02uu_(), mb02uv_();
     static doublereal scale1;
     static integer ma, mb, me;
     static doublereal tm[4]	/* was [2][2] */;
     static integer dimmat;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static logical notrns;
     static integer mai, maj;
     static doublereal mat[16]	/* was [4][4] */, rhs[4];

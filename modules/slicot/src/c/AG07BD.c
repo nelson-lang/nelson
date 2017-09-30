@@ -11,7 +11,7 @@ static doublereal c_b10 = 0.;
 static doublereal c_b11 = 1.;
 static doublereal c_b24 = -1.;
 
-/* Subroutine */ int ag07bd_(jobe, n, m, a, lda, e, lde, b, ldb, c__, ldc, d__, ldd, ai, ldai, ei, ldei, bi, ldbi, ci, ldci, di, lddi, info, jobe_len)
+/* Subroutine */ EXPORTSYMBOL int ag07bd_(jobe, n, m, a, lda, e, lde, b, ldb, c__, ldc, d__, ldd, ai, ldai, ei, ldei, bi, ldbi, ci, ldci, di, lddi, info, jobe_len)
 char *jobe;
 integer *n, *m;
 doublereal *a;
@@ -41,7 +41,7 @@ ftnlen jobe_len;
     /* Local variables */
     extern logical lsame_();
     static logical unite;
-    extern /* Subroutine */ int dlacpy_(), dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), dlaset_(), xerbla_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */

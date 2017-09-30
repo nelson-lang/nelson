@@ -11,9 +11,9 @@ static doublereal c_b10 = 1.;
 static doublereal c_b11 = 0.;
 static integer c__1 = 1;
 
-/* Subroutine */ int mb02xd_(form, stor, uplo, f, m, n, nrhs, ipar, lipar, dpar, ldpar, a, lda, b, ldb, ata, ldata, dwork, ldwork, info, form_len, stor_len, uplo_len)
+/* Subroutine */ EXPORTSYMBOL int mb02xd_(form, stor, uplo, f, m, n, nrhs, ipar, lipar, dpar, ldpar, a, lda, b, ldb, ata, ldata, dwork, ldwork, info, form_len, stor_len, uplo_len)
 char *form, *stor, *uplo;
-/* Subroutine */ int (*f) ();
+/* Subroutine */ EXPORTSYMBOL int (*f) ();
 integer *m, *n, *nrhs, *ipar, *lipar;
 doublereal *dpar;
 integer *ldpar;
@@ -36,10 +36,10 @@ ftnlen uplo_len;
     static logical full;
     static integer j;
     extern logical lsame_();
-    extern /* Subroutine */ int dgemv_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemv_();
     static integer j1;
     static logical upper;
-    extern /* Subroutine */ int dsyrk_(), xerbla_(), dpotrf_(), dpptrf_(), dpotrs_(), dpptrs_();
+    extern /* Subroutine */ EXPORTSYMBOL int dsyrk_(), xerbla_(), dpotrf_(), dpptrf_(), dpotrs_(), dpptrs_();
     static logical mat;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

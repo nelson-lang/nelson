@@ -17,7 +17,7 @@ static doublereal c_b27 = -1.;
 static doublereal c_b30 = 1.;
 static integer c__1 = 1;
 
-/* Subroutine */ int mb03hd_(n, a, lda, b, ldb, macpar, q, ldq, dwork, info)
+/* Subroutine */ EXPORTSYMBOL int mb03hd_(n, a, lda, b, ldb, macpar, q, ldq, dwork, info)
 integer *n;
 doublereal *a;
 integer *lda;
@@ -36,13 +36,13 @@ integer *info;
     /* Local variables */
     static integer itau;
     static doublereal smin;
-    extern /* Subroutine */ int drot_();
+    extern /* Subroutine */ EXPORTSYMBOL int drot_();
     static doublereal smln;
     static integer iwrk;
     static doublereal d__, s, t;
-    extern /* Subroutine */ int dgemm_(), mb02uw_(), dgeqr2_(), dorg2r_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemm_(), mb02uw_(), dgeqr2_(), dorg2r_();
     static doublereal co, si;
-    extern /* Subroutine */ int dlascl_(), dlacpy_(), dlartg_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlascl_(), dlacpy_(), dlartg_();
     static doublereal par[3], nrm;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

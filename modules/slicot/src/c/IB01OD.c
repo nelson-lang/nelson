@@ -5,7 +5,7 @@
 
 #include "nelson_f2c.h"
 
-/* Subroutine */ int ib01od_(ctrl, nobr, l, sv, n, tol, iwarn, info, ctrl_len)
+/* Subroutine */ EXPORTSYMBOL int ib01od_(ctrl, nobr, l, sv, n, tol, iwarn, info, ctrl_len)
 char *ctrl;
 integer *nobr, *l;
 doublereal *sv;
@@ -23,10 +23,10 @@ ftnlen ctrl_len;
     static doublereal toll, rnrm;
     static integer i__;
     extern logical lsame_();
-    extern /* Subroutine */ int ib01oy_();
+    extern /* Subroutine */ EXPORTSYMBOL int ib01oy_();
     static integer lnobr;
     extern doublereal dlamch_();
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static logical contrl;
     static doublereal gap;
     /*     SLICOT RELEASE 5.0. */

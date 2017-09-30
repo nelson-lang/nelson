@@ -9,7 +9,7 @@
 
 static integer c__1 = 1;
 
-/* Subroutine */ int mb03qy_(n, l, a, lda, u, ldu, e1, e2, info)
+/* Subroutine */ EXPORTSYMBOL int mb03qy_(n, l, a, lda, u, ldu, e1, e2, info)
 integer *n, *l;
 doublereal *a;
 integer *lda;
@@ -21,11 +21,11 @@ integer *info;
     /* System generated locals */
     integer a_dim1, a_offset, u_dim1, u_offset, i__1;
     /* Local variables */
-    extern /* Subroutine */ int drot_();
+    extern /* Subroutine */ EXPORTSYMBOL int drot_();
     static integer l1;
-    extern /* Subroutine */ int dlanv2_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlanv2_();
     static doublereal cs, sn;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static doublereal ew1, ew2;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

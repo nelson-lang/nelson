@@ -13,7 +13,7 @@ static integer c_n1 = -1;
 static doublereal c_b31 = 1.;
 static integer c__1 = 1;
 
-/* Subroutine */ int ab09kx_(job, dico, weight, n, nv, nw, m, p, a, lda, b, ldb, c__, ldc, d__, ldd, av, ldav, bv, ldbv, cv, ldcv, dv, lddv, aw, ldaw, bw, ldbw, cw, ldcw, dw, lddw, dwork, ldwork, iwarn, info, job_len, dico_len, weight_len)
+/* Subroutine */ EXPORTSYMBOL int ab09kx_(job, dico, weight, n, nv, nw, m, p, a, lda, b, ldb, c__, ldc, d__, ldd, av, ldav, bv, ldbv, cv, ldcv, dv, lddv, aw, ldaw, bw, ldbw, cw, ldcw, dw, lddw, dwork, ldwork, iwarn, info, job_len, dico_len, weight_len)
 char *job, *dico, *weight;
 integer *n, *nv, *nw, *m, *p;
 doublereal *a;
@@ -54,16 +54,16 @@ ftnlen weight_len;
     static doublereal work;
     static integer i__;
     static doublereal scale;
-    extern /* Subroutine */ int dgemm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemm_();
     extern logical lsame_();
-    extern /* Subroutine */ int tb01wd_();
+    extern /* Subroutine */ EXPORTSYMBOL int tb01wd_();
     static logical discr, conjs, leftw;
-    extern /* Subroutine */ int sb04py_();
+    extern /* Subroutine */ EXPORTSYMBOL int sb04py_();
     extern doublereal dlapy2_();
     static integer ia, ib, kw, lw;
-    extern /* Subroutine */ int dlacpy_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), xerbla_();
     static logical frwght, rightw;
-    extern /* Subroutine */ int dtrsyl_();
+    extern /* Subroutine */ EXPORTSYMBOL int dtrsyl_();
     static integer ldw;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

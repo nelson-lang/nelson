@@ -11,7 +11,7 @@ static doublereal c_b13 = 1.;
 static doublereal c_b14 = 0.;
 static integer c__1 = 1;
 
-/* Subroutine */ int fb01sd_(jobx, multab, multrc, n, m, p, sinv, ldsinv, ainv, ldainv, b, ldb, rinv, ldrinv, c__, ldc, qinv, ldqinv, x, rinvy, z__, e, tol, iwork, dwork, ldwork, info, jobx_len, multab_len, multrc_len)
+/* Subroutine */ EXPORTSYMBOL int fb01sd_(jobx, multab, multrc, n, m, p, sinv, ldsinv, ainv, ldainv, b, ldb, rinv, ldrinv, c__, ldc, qinv, ldqinv, x, rinvy, z__, e, tol, iwork, dwork, ldwork, info, jobx_len, multab_len, multrc_len)
 char *jobx, *multab, *multrc;
 integer *n, *m, *p;
 doublereal *sinv;
@@ -40,17 +40,17 @@ ftnlen multrc_len;
     /* Local variables */
     extern doublereal ddot_();
     static integer itau, i__;
-    extern /* Subroutine */ int mb04kd_(), mb02od_(), dgemm_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb04kd_(), mb02od_(), dgemm_();
     extern logical lsame_();
     static doublereal rcond;
     static logical ljobx;
-    extern /* Subroutine */ int dcopy_(), dtrmm_(), daxpy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_(), dtrmm_(), daxpy_();
     static integer jwork;
-    extern /* Subroutine */ int dtrmv_();
+    extern /* Subroutine */ EXPORTSYMBOL int dtrmv_();
     static integer m1, n1, i12, i13, i21, i23, ij, np;
-    extern /* Subroutine */ int dgeqrf_(), dlacpy_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgeqrf_(), dlacpy_(), xerbla_();
     static logical lmulta;
-    extern /* Subroutine */ int dormqr_();
+    extern /* Subroutine */ EXPORTSYMBOL int dormqr_();
     static logical lmultr;
     static integer wrkopt, ldw;
     /*     SLICOT RELEASE 5.0. */

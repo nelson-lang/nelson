@@ -9,7 +9,7 @@
 
 static integer c__1 = 1;
 
-/* Subroutine */ int mb04tw_(updatq, m, n, nre, nce, ifire, ifice, ifica, a, lda, e, lde, q, ldq)
+/* Subroutine */ EXPORTSYMBOL int mb04tw_(updatq, m, n, nre, nce, ifire, ifice, ifica, a, lda, e, lde, q, ldq)
 logical *updatq;
 integer *m, *n, *nre, *nce, *ifire, *ifice, *ifica;
 doublereal *a;
@@ -22,9 +22,9 @@ integer *ldq;
     /* System generated locals */
     integer a_dim1, a_offset, e_dim1, e_offset, q_dim1, q_offset, i__1, i__2, i__3;
     /* Local variables */
-    extern /* Subroutine */ int drot_();
+    extern /* Subroutine */ EXPORTSYMBOL int drot_();
     static integer ipvt, i__, j;
-    extern /* Subroutine */ int drotg_();
+    extern /* Subroutine */ EXPORTSYMBOL int drotg_();
     static doublereal sc, ss;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

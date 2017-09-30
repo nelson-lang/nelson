@@ -14,7 +14,7 @@ static integer c__2 = 2;
 static integer c__4 = 4;
 static doublereal c_b11 = 1.;
 
-/* Subroutine */ int mb03ed_(n, prec, a, lda, b, ldb, d__, ldd, q1, ldq1, q2, ldq2, q3, ldq3, dwork, ldwork, info)
+/* Subroutine */ EXPORTSYMBOL int mb03ed_(n, prec, a, lda, b, ldb, d__, ldd, q1, ldq1, q2, ldq2, q3, ldq3, dwork, ldwork, info)
 integer *n;
 doublereal *prec, *a;
 integer *lda;
@@ -38,14 +38,14 @@ integer *ldwork, *info;
     double d_sign(), sqrt();
     /* Local variables */
     static integer idum, ievs, iwrk;
-    extern /* Subroutine */ int dgges_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgges_();
     static logical compg;
     extern logical sb02ow_();
-    extern /* Subroutine */ int dcopy_(), dtrmm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_(), dtrmm_();
     static logical bwork[4];
-    extern /* Subroutine */ int dgeqr2_(), dorg2r_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgeqr2_(), dorg2r_();
     static doublereal a11, b11, a22, b22, d12, d21, co, si;
-    extern /* Subroutine */ int dlacpy_(), dlartg_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), dlartg_();
     static doublereal dum[1], tmp;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

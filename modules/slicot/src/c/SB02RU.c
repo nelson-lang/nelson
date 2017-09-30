@@ -12,7 +12,7 @@ static doublereal c_b33 = 0.;
 static doublereal c_b34 = 1.;
 static doublereal c_b57 = -1.;
 
-/* Subroutine */ int sb02ru_(dico, hinv, trana, uplo, n, a, lda, g, ldg, q, ldq, s, lds, iwork, dwork, ldwork, info, dico_len, hinv_len, trana_len, uplo_len)
+/* Subroutine */ EXPORTSYMBOL int sb02ru_(dico, hinv, trana, uplo, n, a, lda, g, ldg, q, ldq, s, lds, iwork, dwork, ldwork, info, dico_len, hinv_len, trana_len, uplo_len)
 char *dico, *hinv, *trana, *uplo;
 integer *n;
 doublereal *a;
@@ -34,18 +34,18 @@ ftnlen uplo_len;
     integer a_dim1, a_offset, g_dim1, g_offset, q_dim1, q_offset, s_dim1, s_offset, i__1, i__2;
     /* Local variables */
     static doublereal temp;
-    extern /* Subroutine */ int ma02ad_(), ma02ed_();
+    extern /* Subroutine */ EXPORTSYMBOL int ma02ad_(), ma02ed_();
     static integer i__, j;
-    extern /* Subroutine */ int mb02pd_(), dgemm_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb02pd_(), dgemm_();
     extern logical lsame_();
     static char equed[1];
     static logical discr;
     static doublereal rcond;
-    extern /* Subroutine */ int dcopy_(), dswap_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_(), dswap_();
     static logical lhinv, luplo;
     static integer n2, nj;
     static doublereal rconda;
-    extern /* Subroutine */ int dlacpy_(), dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), dlaset_(), xerbla_();
     static char tranat[1];
     static logical notrna;
     static doublereal pivotg;

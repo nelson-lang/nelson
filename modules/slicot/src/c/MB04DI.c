@@ -9,7 +9,7 @@
 
 static doublereal c_b14 = -1.;
 
-/* Subroutine */ int mb04di_(job, sgn, n, ilo, scale, m, v1, ldv1, v2, ldv2, info, job_len, sgn_len)
+/* Subroutine */ EXPORTSYMBOL int mb04di_(job, sgn, n, ilo, scale, m, v1, ldv1, v2, ldv2, info, job_len, sgn_len)
 char *job, *sgn;
 integer *n, *ilo;
 doublereal *scale;
@@ -26,12 +26,12 @@ ftnlen sgn_len;
     /* Local variables */
     static logical lsgn, sysw;
     static integer i__, k;
-    extern /* Subroutine */ int dscal_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_();
     static logical lscal;
     extern logical lsame_();
-    extern /* Subroutine */ int drscl_(), dswap_();
+    extern /* Subroutine */ EXPORTSYMBOL int drscl_(), dswap_();
     static logical lperm;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */

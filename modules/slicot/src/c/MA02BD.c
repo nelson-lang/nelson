@@ -10,7 +10,7 @@
 static integer c_n1 = -1;
 static integer c__1 = 1;
 
-/* Subroutine */ int ma02bd_(side, m, n, a, lda, side_len)
+/* Subroutine */ EXPORTSYMBOL int ma02bd_(side, m, n, a, lda, side_len)
 char *side;
 integer *m, *n;
 doublereal *a;
@@ -22,7 +22,7 @@ ftnlen side_len;
     /* Local variables */
     static integer i__, j, k;
     extern logical lsame_();
-    extern /* Subroutine */ int dswap_();
+    extern /* Subroutine */ EXPORTSYMBOL int dswap_();
     static integer m2, n2;
     static logical bsides;
     /*     SLICOT RELEASE 5.0. */

@@ -15,7 +15,7 @@ static doublereal c_b28 = -1.;
 static integer c__0 = 0;
 static integer c__1 = 1;
 
-/* Subroutine */ int sb16ay_(dico, jobc, jobo, weight, n, m, p, nc, ncs, a, lda, b, ldb, c__, ldc, d__, ldd, ac, ldac, bc, ldbc, cc, ldcc, dc, lddc, scalec, scaleo, s, lds, r__, ldr, iwork, dwork, ldwork, info, dico_len, jobc_len, jobo_len, weight_len)
+/* Subroutine */ EXPORTSYMBOL int sb16ay_(dico, jobc, jobo, weight, n, m, p, nc, ncs, a, lda, b, ldb, c__, ldc, d__, ldd, ac, ldac, bc, ldbc, cc, ldcc, dc, lddc, scalec, scaleo, s, lds, r__, ldr, iwork, dwork, ldwork, info, dico_len, jobc_len, jobo_len, weight_len)
 char *dico, *jobc, *jobo, *weight;
 integer *n, *m, *p, *nc, *ncs;
 doublereal *a;
@@ -53,24 +53,24 @@ ftnlen weight_len;
     /* Local variables */
     static logical perf;
     static integer ierr, nncu, ktau, i__, j;
-    extern /* Subroutine */ int ab05pd_(), ab05qd_(), ab07nd_();
+    extern /* Subroutine */ EXPORTSYMBOL int ab05pd_(), ab05qd_(), ab07nd_();
     static integer mbbar;
     static doublereal t;
-    extern /* Subroutine */ int dscal_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_();
     static integer pcbar;
-    extern /* Subroutine */ int mb04od_(), mb01wd_(), sb03od_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb04od_(), mb01wd_(), sb03od_();
     extern logical lsame_();
     static logical discr;
     static doublereal rcond;
-    extern /* Subroutine */ int sb03ou_(), dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int sb03ou_(), dcopy_();
     static logical leftw;
-    extern /* Subroutine */ int dsyev_();
+    extern /* Subroutine */ EXPORTSYMBOL int dsyev_();
     static integer me, ne;
     static char jobfac[1];
     static integer jj, ki, kl, pe;
     extern doublereal dlamch_();
     static integer kq, kr, mp, ku, kw, lw;
-    extern /* Subroutine */ int dlacpy_(), dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), dlaset_(), xerbla_();
     static logical frwght, rightw;
     static integer wrkopt, nnc, kwa, kwb, kwc, kwd, ldu, ncu;
     static doublereal dum[1], tol;

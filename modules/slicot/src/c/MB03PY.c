@@ -10,7 +10,7 @@
 static integer c__1 = 1;
 static integer c__2 = 2;
 
-/* Subroutine */ int mb03py_(m, n, a, lda, rcond, svlmax, rank, sval, jpvt, tau, dwork, info)
+/* Subroutine */ EXPORTSYMBOL int mb03py_(m, n, a, lda, rcond, svlmax, rank, sval, jpvt, tau, dwork, info)
 integer *m, *n;
 doublereal *a;
 integer *lda;
@@ -31,19 +31,19 @@ integer *info;
     extern doublereal dnrm2_();
     static doublereal temp2;
     static integer i__, j, k;
-    extern /* Subroutine */ int dscal_(), dlarf_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_(), dlarf_();
     static integer itemp, ismin;
-    extern /* Subroutine */ int dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_();
     static integer ismax;
-    extern /* Subroutine */ int dswap_();
+    extern /* Subroutine */ EXPORTSYMBOL int dswap_();
     static doublereal c1, c2;
     static integer jwork;
-    extern /* Subroutine */ int dlaic1_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlaic1_();
     static doublereal s1, s2;
     extern doublereal dlamch_();
-    extern /* Subroutine */ int dlarfg_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlarfg_();
     extern integer idamax_();
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static doublereal sminpr, smaxpr, aii;
     static integer mki, nki, pvt;
     /*     SLICOT RELEASE 5.0. */

@@ -9,7 +9,7 @@
 
 static doublereal c_b4 = 1.;
 
-/* Subroutine */ int sb03oy_(discr, ltrans, isgn, s, lds, r__, ldr, a, lda, scale, info)
+/* Subroutine */ EXPORTSYMBOL int sb03oy_(discr, ltrans, isgn, s, lds, r__, ldr, a, lda, scale, info)
 logical *discr, *ltrans;
 integer *isgn;
 doublereal *s;
@@ -28,11 +28,11 @@ integer *info;
     double d_sign(), sqrt();
     /* Local variables */
     static doublereal absb, absg, abst, temp[2], smin, g[2], gamma[2], alpha, t[2], delta[2], y[2];
-    extern /* Subroutine */ int sb03ov_();
+    extern /* Subroutine */ EXPORTSYMBOL int sb03ov_();
     static doublereal tempi, e1, e2, tempr, p1, p2[2], p3, v1, v2[2], v3;
-    extern /* Subroutine */ int dlanv2_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlanv2_();
     extern doublereal dlapy2_(), dlapy3_();
-    extern /* Subroutine */ int dlabad_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlabad_();
     static doublereal dp[2], s11, s12, s21, s22, dt[2], x11[2], x12[2], x21[2], x22[2];
     extern doublereal dlamch_();
     static doublereal scaloc, bignum, smlnum, p3i, p3r, eta, csp[2], csq[2], eps, sgn, cst[2], snp, snq, snt;

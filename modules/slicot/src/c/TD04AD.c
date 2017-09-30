@@ -10,7 +10,7 @@
 static doublereal c_b8 = 0.;
 static integer c__1 = 1;
 
-/* Subroutine */ int td04ad_(rowcol, m, p, index, dcoeff, lddcoe, ucoeff, lduco1, lduco2, nr, a, lda, b, ldb, c__, ldc, d__, ldd, tol, iwork, dwork, ldwork, info, rowcol_len)
+/* Subroutine */ EXPORTSYMBOL int td04ad_(rowcol, m, p, index, dcoeff, lddcoe, ucoeff, lduco1, lduco2, nr, a, lda, b, ldb, c__, ldc, d__, ldd, tol, iwork, dwork, ldwork, info, rowcol_len)
 char *rowcol;
 integer *m, *p, *index;
 doublereal *dcoeff;
@@ -35,13 +35,13 @@ ftnlen rowcol_len;
     integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, dcoeff_dim1, dcoeff_offset, ucoeff_dim1, ucoeff_dim2, ucoeff_offset, i__1, i__2, i__3, i__4;
     /* Local variables */
     static integer i__, j, k, n;
-    extern /* Subroutine */ int tb01pd_();
+    extern /* Subroutine */ EXPORTSYMBOL int tb01pd_();
     extern logical lsame_();
-    extern /* Subroutine */ int tb01xd_(), td03ay_();
+    extern /* Subroutine */ EXPORTSYMBOL int tb01xd_(), td03ay_();
     static integer mplim;
-    extern /* Subroutine */ int dswap_();
+    extern /* Subroutine */ EXPORTSYMBOL int dswap_();
     static integer jstop, mwork, pwork, kdcoef;
-    extern /* Subroutine */ int dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlaset_(), xerbla_();
     static logical lrococ, lrocor;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

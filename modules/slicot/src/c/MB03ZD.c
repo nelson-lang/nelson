@@ -13,7 +13,7 @@ static integer c__1 = 1;
 static integer c__0 = 0;
 static doublereal c_b272 = 0.;
 
-/* Subroutine */ int mb03zd_(which, meth, stab, balanc, ortbal, select, n, mm, ilo, scale, s, lds, t, ldt, g, ldg, u1, ldu1, u2, ldu2, v1, ldv1, v2, ldv2, m, wr, wi, us, ldus, uu, lduu, lwork, iwork, dwork, ldwork, info, which_len, meth_len, stab_len, balanc_len, ortbal_len)
+/* Subroutine */ EXPORTSYMBOL int mb03zd_(which, meth, stab, balanc, ortbal, select, n, mm, ilo, scale, s, lds, t, ldt, g, ldg, u1, ldu1, u2, ldu2, v1, ldv1, v2, ldv2, m, wr, wi, us, ldus, uu, lduu, lwork, iwork, dwork, ldwork, info, which_len, meth_len, stab_len, balanc_len, ortbal_len)
 char *which, *meth, *stab, *balanc, *ortbal;
 logical *select;
 integer *n, *mm, *ilo;
@@ -53,11 +53,11 @@ ftnlen ortbal_len;
     static doublereal temp;
     static logical lext;
     static integer i__, j, k;
-    extern /* Subroutine */ int mb04di_(), dscal_(), dgemm_(), mb03td_(), mb03za_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb04di_(), dscal_(), dgemm_(), mb03td_(), mb03za_();
     extern logical lsame_();
-    extern /* Subroutine */ int mb01ux_(), daxpy_(), dgeqp3_(), dlascl_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb01ux_(), daxpy_(), dgeqp3_(), dlascl_();
     static integer pw;
-    extern /* Subroutine */ int dgeqrf_(), dlacpy_(), dlaset_(), xerbla_(), dorgqr_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgeqrf_(), dlacpy_(), dlaset_(), xerbla_(), dorgqr_();
     static integer wrkmin, wrkopt, pdw;
     static logical lus, luu;
     /*     SLICOT RELEASE 5.0. */

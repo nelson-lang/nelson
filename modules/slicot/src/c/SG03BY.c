@@ -5,7 +5,7 @@
 
 #include "nelson_f2c.h"
 
-/* Subroutine */ int sg03by_(xr, xi, yr, yi, cr, ci, sr, si, z__)
+/* Subroutine */ EXPORTSYMBOL int sg03by_(xr, xi, yr, yi, cr, ci, sr, si, z__)
 doublereal *xr, *xi, *yr, *yi, *cr, *ci, *sr, *si, *z__;
 {
     /* System generated locals */

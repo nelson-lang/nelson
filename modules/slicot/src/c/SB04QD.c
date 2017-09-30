@@ -11,7 +11,7 @@ static integer c__1 = 1;
 static doublereal c_b11 = 1.;
 static doublereal c_b12 = 0.;
 
-/* Subroutine */ int sb04qd_(n, m, a, lda, b, ldb, c__, ldc, z__, ldz, iwork, dwork, ldwork, info)
+/* Subroutine */ EXPORTSYMBOL int sb04qd_(n, m, a, lda, b, ldb, c__, ldc, z__, ldz, iwork, dwork, ldwork, info)
 integer *n, *m;
 doublereal *a;
 integer *lda;
@@ -30,16 +30,16 @@ integer *ldwork, *info;
     static integer ieig, sdim, itau;
     static logical blas3;
     static integer i__, ifail;
-    extern /* Subroutine */ int dgees_(), dgemm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgees_(), dgemm_();
     static logical block;
-    extern /* Subroutine */ int dgemv_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemv_();
     static integer chunk;
-    extern /* Subroutine */ int dcopy_(), dswap_(), sb04qu_(), sb04qy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_(), dswap_(), sb04qu_(), sb04qy_();
     static logical bwork[1];
     static integer jwork, bl;
-    extern /* Subroutine */ int dgehrd_(), dlacpy_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgehrd_(), dlacpy_(), xerbla_();
     static logical select;
-    extern /* Subroutine */ int dormhr_();
+    extern /* Subroutine */ EXPORTSYMBOL int dormhr_();
     static integer wrkopt, ihi, ind, ilo;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

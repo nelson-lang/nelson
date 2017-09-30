@@ -9,7 +9,7 @@
 
 static integer c__1 = 1;
 
-/* Subroutine */ int tc05ad_(leri, m, p, sval, index, pcoeff, ldpco1, ldpco2, qcoeff, ldqco1, ldqco2, rcond, cfreqr, ldcfre, iwork, dwork, zwork, info, leri_len)
+/* Subroutine */ EXPORTSYMBOL int tc05ad_(leri, m, p, sval, index, pcoeff, ldpco1, ldpco2, qcoeff, ldqco1, ldqco2, rcond, cfreqr, ldcfre, iwork, dwork, zwork, info, leri_len)
 char *leri;
 integer *m, *p;
 doublecomplex *sval;
@@ -31,20 +31,20 @@ ftnlen leri_len;
     doublecomplex z__1, z__2, z__3;
     /* Local variables */
     static integer info1, i__, j, k;
-    extern /* Subroutine */ int tc01od_();
+    extern /* Subroutine */ EXPORTSYMBOL int tc01od_();
     extern logical lsame_();
     static logical lleri;
     static integer mplim;
     static doublereal cnorm;
     static integer minmp, mwork, pwork;
-    extern /* Subroutine */ int zcopy_(), zswap_();
+    extern /* Subroutine */ EXPORTSYMBOL int zcopy_(), zswap_();
     static integer ij;
     extern doublereal dlamch_();
     static integer kpcoef;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static integer maxind;
     extern doublereal zlange_();
-    extern /* Subroutine */ int zgecon_(), zgetrf_(), zgetrs_();
+    extern /* Subroutine */ EXPORTSYMBOL int zgecon_(), zgetrf_(), zgetrs_();
     static integer ldzwor, izwork;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

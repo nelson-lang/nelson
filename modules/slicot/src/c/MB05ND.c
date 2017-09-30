@@ -11,7 +11,7 @@ static doublereal c_b4 = 0.;
 static doublereal c_b11 = 1.;
 static integer c__1 = 1;
 
-/* Subroutine */ int mb05nd_(n, delta, a, lda, ex, ldex, exint, ldexin, tol, iwork, dwork, ldwork, info)
+/* Subroutine */ EXPORTSYMBOL int mb05nd_(n, delta, a, lda, ex, ldex, exint, ldexin, tol, iwork, dwork, ldwork, info)
 integer *n;
 doublereal *delta, *a;
 integer *lda;
@@ -34,15 +34,15 @@ integer *ldwork, *info;
     static integer i2iq1;
     static doublereal qmax;
     static integer i__, j, l;
-    extern /* Subroutine */ int dscal_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_();
     static doublereal delsc;
-    extern /* Subroutine */ int dgemm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemm_();
     static integer jscal;
-    extern /* Subroutine */ int dgemv_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemv_();
     static doublereal small;
-    extern /* Subroutine */ int dgesv_(), dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgesv_(), dcopy_();
     static doublereal fnorm;
-    extern /* Subroutine */ int daxpy_();
+    extern /* Subroutine */ EXPORTSYMBOL int daxpy_();
     static doublereal fnorm2;
     static integer ij, kk;
     static doublereal coeffd;
@@ -51,7 +51,7 @@ integer *ldwork, *info;
     extern doublereal dlange_();
     static integer nn;
     static doublereal coeffn;
-    extern /* Subroutine */ int dlacpy_(), dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), dlaset_(), xerbla_();
     static doublereal eps, err;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

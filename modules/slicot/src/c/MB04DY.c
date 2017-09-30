@@ -11,7 +11,7 @@ static integer c__0 = 0;
 static doublereal c_b19 = 1.;
 static integer c__1 = 1;
 
-/* Subroutine */ int mb04dy_(jobscl, n, a, lda, qg, ldqg, d__, dwork, info, jobscl_len)
+/* Subroutine */ EXPORTSYMBOL int mb04dy_(jobscl, n, a, lda, qg, ldqg, d__, dwork, info, jobscl_len)
 char *jobscl;
 integer *n;
 doublereal *a;
@@ -38,11 +38,11 @@ ftnlen jobscl_len;
     static integer i__, j;
     static doublereal y;
     extern logical lsame_();
-    extern /* Subroutine */ int drscl_();
+    extern /* Subroutine */ EXPORTSYMBOL int drscl_();
     static doublereal sfmin, sfmax;
-    extern /* Subroutine */ int dlabad_(), dgebal_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlabad_(), dgebal_();
     extern doublereal dlamch_(), dlange_();
-    extern /* Subroutine */ int dlascl_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlascl_(), xerbla_();
     extern doublereal dlansy_();
     static integer ihi;
     static doublereal ofl;

@@ -11,7 +11,7 @@ static doublereal c_b9 = 0.;
 static doublereal c_b10 = 1.;
 static integer c__1 = 1;
 
-/* Subroutine */ int tb01md_(jobu, uplo, n, m, a, lda, b, ldb, u, ldu, dwork, info, jobu_len, uplo_len)
+/* Subroutine */ EXPORTSYMBOL int tb01md_(jobu, uplo, n, m, a, lda, b, ldb, u, ldu, dwork, info, jobu_len, uplo_len)
 char *jobu, *uplo;
 integer *n, *m;
 doublereal *a;
@@ -34,7 +34,7 @@ ftnlen uplo_len;
     static logical luplo;
     static integer m1, n1, ii, nj;
     static doublereal dz;
-    extern /* Subroutine */ int dlarfg_(), dlaset_(), xerbla_(), dlatzm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlarfg_(), dlaset_(), xerbla_(), dlatzm_();
     static integer par1, par2, par3, par4, par5, par6;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

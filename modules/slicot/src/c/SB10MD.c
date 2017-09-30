@@ -12,7 +12,7 @@ static doublereal c_b15 = 0.;
 static doublereal c_b25 = 1.;
 static integer c__0 = 0;
 
-/* Subroutine */ int sb10md_(nc, mp, lendat, f, ord, mnb, nblock, itype, qutol, a, lda, b, ldb, c__, ldc, d__, ldd, omega, totord, ad, ldad, bd, ldbd, cd, ldcd, dd, lddd, mju, iwork, liwork, dwork, ldwork, zwork, lzwork, info)
+/* Subroutine */ EXPORTSYMBOL int sb10md_(nc, mp, lendat, f, ord, mnb, nblock, itype, qutol, a, lda, b, ldb, c__, ldc, d__, ldd, omega, totord, ad, ldad, bd, ldbd, cd, ldcd, dd, lddd, mju, iwork, liwork, dwork, ldwork, zwork, lzwork, info)
 integer *nc, *mp, *lendat, *f, *ord, *mnb, *nblock, *itype;
 doublereal *qutol, *a;
 integer *lda;
@@ -51,21 +51,21 @@ integer *lzwork, *info;
     static doublereal meqe, rcnd;
     static doublecomplex freq;
     static integer lord, info2;
-    extern /* Subroutine */ int ab13md_();
+    extern /* Subroutine */ EXPORTSYMBOL int ab13md_();
     static integer i__, k;
-    extern /* Subroutine */ int tb05ad_();
+    extern /* Subroutine */ EXPORTSYMBOL int tb05ad_();
     static integer w;
-    extern /* Subroutine */ int dscal_(), sb10yd_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_(), sb10yd_();
     static char inita[1];
     static doublereal rcond;
-    extern /* Subroutine */ int dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_();
     static integer icwrk, idwrk;
     static doublereal toler;
     static integer ic, ii;
     static char baleig[1];
     extern doublereal dlamch_();
     static integer mn;
-    extern /* Subroutine */ int dlacpy_(), dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), dlaset_(), xerbla_();
     static integer iwifrd, lcsize, ldsize, clwmax, dlwmax, iwgjom, iwrfrd, maxcwr, maxwrk, lw1, lw2, lw3, lw4, iwb, lwa, lwb;
     static doublereal rqe, tol;
     static integer iwx;

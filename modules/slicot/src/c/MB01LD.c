@@ -13,7 +13,7 @@ static doublereal c_b12 = 1.;
 static integer c__1 = 1;
 static doublereal c_b27 = -1.;
 
-/* Subroutine */ int mb01ld_(uplo, trans, m, n, alpha, beta, r__, ldr, a, lda, x, ldx, dwork, ldwork, info, uplo_len, trans_len)
+/* Subroutine */ EXPORTSYMBOL int mb01ld_(uplo, trans, m, n, alpha, beta, r__, ldr, a, lda, x, ldx, dwork, ldwork, info, uplo_len, trans_len)
 char *uplo, *trans;
 integer *m, *n;
 doublereal *alpha, *beta, *r__;
@@ -31,12 +31,12 @@ ftnlen trans_len;
     integer a_dim1, a_offset, r_dim1, r_offset, x_dim1, x_offset, i__1, i__2;
     /* Local variables */
     static integer i__, j;
-    extern /* Subroutine */ int mb01kd_(), dscal_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb01kd_(), dscal_();
     extern logical lsame_();
-    extern /* Subroutine */ int dgemv_(), dcopy_(), dtrmm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemv_(), dcopy_(), dtrmm_();
     static logical upper;
     static integer m2;
-    extern /* Subroutine */ int dlascl_(), dlacpy_(), dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlascl_(), dlacpy_(), dlaset_(), xerbla_();
     static logical ltrans, nottra;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

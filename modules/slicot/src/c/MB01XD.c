@@ -11,7 +11,7 @@ static integer c__1 = 1;
 static integer c_n1 = -1;
 static doublereal c_b15 = 1.;
 
-/* Subroutine */ int mb01xd_(uplo, n, a, lda, info, uplo_len)
+/* Subroutine */ EXPORTSYMBOL int mb01xd_(uplo, n, a, lda, info, uplo_len)
 char *uplo;
 integer *n;
 doublereal *a;
@@ -22,13 +22,13 @@ ftnlen uplo_len;
     integer a_dim1, a_offset, i__1, i__2, i__3;
     /* Local variables */
     static integer i__;
-    extern /* Subroutine */ int dgemm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemm_();
     extern logical lsame_();
-    extern /* Subroutine */ int mb01xy_(), dtrmm_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb01xy_(), dtrmm_();
     static logical upper;
-    extern /* Subroutine */ int dsyrk_();
+    extern /* Subroutine */ EXPORTSYMBOL int dsyrk_();
     static integer ib, nb, ii;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     extern integer ilaenv_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

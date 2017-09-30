@@ -9,7 +9,7 @@
 
 static integer c__1 = 1;
 
-/* Subroutine */ int tb01xd_(jobd, n, m, p, kl, ku, a, lda, b, ldb, c__, ldc, d__, ldd, info, jobd_len)
+/* Subroutine */ EXPORTSYMBOL int tb01xd_(jobd, n, m, p, kl, ku, a, lda, b, ldb, c__, ldc, d__, ldd, info, jobd_len)
 char *jobd;
 integer *n, *m, *p, *kl, *ku;
 doublereal *a;
@@ -28,9 +28,9 @@ ftnlen jobd_len;
     static integer j;
     static logical ljobd;
     extern logical lsame_();
-    extern /* Subroutine */ int dcopy_(), dswap_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_(), dswap_();
     static integer minmp, maxmp, j1;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static integer nm1, lda1;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

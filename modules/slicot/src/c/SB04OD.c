@@ -12,7 +12,7 @@ static doublereal c_b52 = 1.;
 static doublereal c_b53 = 0.;
 static integer c__1 = 1;
 
-/* Subroutine */ int sb04od_(reduce, trans, jobd, m, n, a, lda, b, ldb, c__, ldc, d__, ldd, e, lde, f, ldf, scale, dif, p, ldp, q, ldq, u, ldu, v, ldv, iwork, dwork, ldwork, info, reduce_len, trans_len, jobd_len)
+/* Subroutine */ EXPORTSYMBOL int sb04od_(reduce, trans, jobd, m, n, a, lda, b, ldb, c__, ldc, d__, ldd, e, lde, f, ldf, scale, dif, p, ldp, q, ldq, u, ldu, v, ldv, iwork, dwork, ldwork, info, reduce_len, trans_len, jobd_len)
 char *reduce, *trans, *jobd;
 integer *m, *n;
 doublereal *a;
@@ -52,21 +52,21 @@ ftnlen jobd_len;
     static doublereal enrm;
     static logical ljob1, ljob2;
     static integer i__;
-    extern /* Subroutine */ int dgegs_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgegs_();
     static logical ljobd, ljobf;
-    extern /* Subroutine */ int dgemm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemm_();
     extern logical lsame_();
-    extern /* Subroutine */ int dgemv_(), dcopy_(), dlabad_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemv_(), dcopy_(), dlabad_();
     extern doublereal dlamch_(), dlange_();
     static integer mn;
     static logical ljobdf;
-    extern /* Subroutine */ int dlascl_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlascl_();
     static logical ilascl, ilbscl, ildscl, ilescl, lredra, lredrb, lredua, lredub, lreduc;
     static doublereal bignum, safmax, safmin;
-    extern /* Subroutine */ int dlacpy_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), xerbla_();
     static logical lredur, ltrann;
     static doublereal anrmto, bnrmto, dnrmto, enrmto;
-    extern /* Subroutine */ int dtgsyl_();
+    extern /* Subroutine */ EXPORTSYMBOL int dtgsyl_();
     static integer minwrk;
     static doublereal smlnum;
     static logical sufwrk;

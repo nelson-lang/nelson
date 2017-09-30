@@ -11,7 +11,7 @@ static doublereal c_b10 = 0.;
 static integer c__1 = 1;
 static integer c__0 = 0;
 
-/* Subroutine */ int md03by_(cond, n, r__, ldr, ipvt, diag, qtb, delta, par, rank, x, rx, tol, dwork, ldwork, info, cond_len)
+/* Subroutine */ EXPORTSYMBOL int md03by_(cond, n, r__, ldr, ipvt, diag, qtb, delta, par, rank, x, rx, tol, dwork, ldwork, info, cond_len)
 char *cond;
 integer *n;
 doublereal *r__;
@@ -36,23 +36,23 @@ ftnlen cond_len;
     static doublereal temp, paru;
     extern doublereal dnrm2_();
     static integer j, l;
-    extern /* Subroutine */ int mb03od_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb03od_();
     static logical econd;
-    extern /* Subroutine */ int mb02yd_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb02yd_();
     static char condl[1];
     static logical ncond;
     extern logical lsame_();
     static doublereal dwarf, dmino;
     static logical ucond;
-    extern /* Subroutine */ int dcopy_(), dswap_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_(), dswap_();
     static doublereal gnorm;
-    extern /* Subroutine */ int daxpy_(), dtrmv_();
+    extern /* Subroutine */ EXPORTSYMBOL int daxpy_(), dtrmv_();
     static integer n2;
-    extern /* Subroutine */ int dtrsv_();
+    extern /* Subroutine */ EXPORTSYMBOL int dtrsv_();
     static doublereal fp;
     extern doublereal dlamch_();
     static doublereal toldef;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static doublereal dxnorm, dum[3];
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

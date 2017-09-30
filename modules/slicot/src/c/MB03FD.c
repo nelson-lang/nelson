@@ -9,7 +9,7 @@
 
 static doublereal c_b5 = 1.;
 
-/* Subroutine */ int mb03fd_(n, prec, a, lda, b, ldb, q1, ldq1, q2, ldq2, dwork, ldwork, info)
+/* Subroutine */ EXPORTSYMBOL int mb03fd_(n, prec, a, lda, b, ldb, q1, ldq1, q2, ldq2, dwork, ldwork, info)
 integer *n;
 doublereal *prec, *a;
 integer *lda;
@@ -29,12 +29,12 @@ integer *ldwork, *info;
     double d_sign(), sqrt();
     /* Local variables */
     static integer idum;
-    extern /* Subroutine */ int dgges_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgges_();
     static logical compg;
     extern logical sb02ow_();
     static logical bwork[4];
     static doublereal a11, a22, b12, b21, co, si;
-    extern /* Subroutine */ int dlartg_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlartg_();
     static doublereal tmp;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

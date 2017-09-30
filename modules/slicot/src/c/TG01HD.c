@@ -5,7 +5,7 @@
 
 #include "nelson_f2c.h"
 
-/* Subroutine */ int tg01hd_(jobcon, compq, compz, n, m, p, a, lda, e, lde, b, ldb, c__, ldc, q, ldq, z__, ldz, ncont, niucon, nrblck, rtau, tol, iwork, dwork, info, jobcon_len, compq_len, compz_len)
+/* Subroutine */ EXPORTSYMBOL int tg01hd_(jobcon, compq, compz, n, m, p, a, lda, e, lde, b, ldb, c__, ldc, q, ldq, z__, ldz, ncont, niucon, nrblck, rtau, tol, iwork, dwork, info, jobcon_len, compq_len, compz_len)
 char *jobcon, *compq, *compz;
 integer *n, *m, *p;
 doublereal *a;
@@ -33,10 +33,10 @@ ftnlen compz_len;
     /* Local variables */
     static char jobq[1], jobz[1];
     extern logical lsame_();
-    extern /* Subroutine */ int tg01hx_();
+    extern /* Subroutine */ EXPORTSYMBOL int tg01hx_();
     static integer nr;
     static logical fincon, infcon;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static integer icompq, icompz, lba;
     static logical ilq, ilz;
     /*     SLICOT RELEASE 5.0. */

@@ -17,7 +17,7 @@ static integer c_n1 = -1;
 static integer c__3 = 3;
 static doublereal c_b203 = 1.;
 
-/* Subroutine */ int mb03ts_(isham, wantu, n, a, lda, g, ldg, u1, ldu1, u2, ldu2, j1, n1, n2, dwork, info)
+/* Subroutine */ EXPORTSYMBOL int mb03ts_(isham, wantu, n, a, lda, g, ldg, u1, ldu1, u2, ldu2, j1, n1, n2, dwork, info)
 logical *isham, *wantu;
 integer *n;
 doublereal *a;
@@ -39,25 +39,25 @@ integer *info;
     extern doublereal ddot_();
     static integer ierr;
     static doublereal temp;
-    extern /* Subroutine */ int drot_(), dsyr2_();
+    extern /* Subroutine */ EXPORTSYMBOL int drot_(), dsyr2_();
     static doublereal d__[16]	/* was [4][4] */;
     static integer k;
-    extern /* Subroutine */ int mb01md_(), mb01nd_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb01md_(), mb01nd_();
     static doublereal v[3], scale, x[4]	/* was [2][2] */;
-    extern /* Subroutine */ int dscal_(), dswap_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_(), dswap_();
     static doublereal dnorm;
-    extern /* Subroutine */ int daxpy_();
+    extern /* Subroutine */ EXPORTSYMBOL int daxpy_();
     static integer j2, j3, j4;
-    extern /* Subroutine */ int dsymv_();
+    extern /* Subroutine */ EXPORTSYMBOL int dsymv_();
     static doublereal xnorm, v1[3], v2[3];
-    extern /* Subroutine */ int dlanv2_(), dlasy2_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlanv2_(), dlasy2_();
     static doublereal a11, a22, a33;
     static integer nd;
     static doublereal cs;
     extern doublereal dlamch_(), dlange_();
-    extern /* Subroutine */ int dlarfg_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlarfg_();
     static doublereal sn;
-    extern /* Subroutine */ int dlacpy_(), dlartg_(), dlaset_(), dlarfx_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), dlartg_(), dlaset_(), dlarfx_();
     static doublereal thresh, smlnum, wi1, wi2, wr1, wr2, eps, tau, tau1, tau2;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

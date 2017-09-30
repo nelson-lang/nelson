@@ -10,7 +10,7 @@
 static doublereal c_b21 = 0.;
 static integer c__0 = 0;
 
-/* Subroutine */ int ib01bd_(meth, job, jobck, nobr, n, m, l, nsmpl, r__, ldr, a, lda, c__, ldc, b, ldb, d__, ldd, q, ldq, ry, ldry, s, lds, k, ldk, tol, iwork, dwork, ldwork, bwork, iwarn, info, meth_len, job_len, jobck_len)
+/* Subroutine */ EXPORTSYMBOL int ib01bd_(meth, job, jobck, nobr, n, m, l, nsmpl, r__, ldr, a, lda, c__, ldc, b, ldb, d__, ldd, q, ldq, ry, ldry, s, lds, k, ldk, tol, iwork, dwork, ldwork, bwork, iwarn, info, meth_len, job_len, jobck_len)
 char *meth, *job, *jobck;
 integer *nobr, *n, *m, *l, *nsmpl;
 doublereal *r__;
@@ -47,16 +47,16 @@ ftnlen jobck_len;
     static doublereal rcnd[8], ferr;
     static integer ierr;
     static logical n4sid;
-    extern /* Subroutine */ int ma02ad_();
+    extern /* Subroutine */ EXPORTSYMBOL int ma02ad_();
     static integer i__;
-    extern /* Subroutine */ int ib01pd_();
+    extern /* Subroutine */ EXPORTSYMBOL int ib01pd_();
     static char jobbd[1];
     static integer ifact;
-    extern /* Subroutine */ int sb02nd_(), sb02rd_();
+    extern /* Subroutine */ EXPORTSYMBOL int sb02nd_(), sb02rd_();
     extern logical lsame_();
     static char jobcv[1];
     static doublereal rcond;
-    extern /* Subroutine */ int sb02mt_();
+    extern /* Subroutine */ EXPORTSYMBOL int sb02mt_();
     static integer lnobr, mnobr;
     static logical withb, withc;
     static integer ldunn;
@@ -65,7 +65,7 @@ ftnlen jobck_len;
     static doublereal rnorm;
     static integer n2, ia, ic, id, ig, ik, io, ll, iq, ir, is, it, nl, iv, nn, ix, nr;
     static logical combin;
-    extern /* Subroutine */ int dlacpy_(), dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), dlaset_(), xerbla_();
     static integer oufact[2];
     static char jobcov[1];
     static doublereal rcondr;

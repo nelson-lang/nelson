@@ -14,7 +14,7 @@ static integer c__1 = 1;
 static integer c_n1 = -1;
 static integer c__2 = 2;
 
-/* Subroutine */ int mb02id_(job, k, l, m, n, rb, rc, tc, ldtc, tr, ldtr, b, ldb, c__, ldc, dwork, ldwork, info, job_len)
+/* Subroutine */ EXPORTSYMBOL int mb02id_(job, k, l, m, n, rb, rc, tc, ldtc, tr, ldtr, b, ldb, c__, ldc, dwork, ldwork, info, job_len)
 char *job;
 integer *k, *l, *m, *n, *rb, *rc;
 doublereal *tc;
@@ -33,21 +33,21 @@ ftnlen job_len;
     integer b_dim1, b_offset, c_dim1, c_offset, tc_dim1, tc_offset, tr_dim1, tr_offset, i__1, i__2, i__3, i__4, i__5, i__6, i__7, i__8, i__9, i__10, i__11, i__12;
     /* Local variables */
     static integer ierr, ipvt[1];
-    extern /* Subroutine */ int ma02ad_();
+    extern /* Subroutine */ EXPORTSYMBOL int ma02ad_();
     static integer i__;
-    extern /* Subroutine */ int mb02kd_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb02kd_();
     static integer x, y;
-    extern /* Subroutine */ int dgemm_(), mb02cu_(), mb02cv_(), dgels_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemm_(), mb02cu_(), mb02cv_(), dgels_();
     extern logical lsame_();
     static integer nbmin;
     static logical compo, compu;
-    extern /* Subroutine */ int dtrmm_(), dtrsm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dtrmm_(), dtrsm_();
     static integer nb, kk, pt;
-    extern /* Subroutine */ int dgeqrf_(), dlacpy_(), dlaset_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgeqrf_(), dlacpy_(), dlaset_();
     extern integer ilaenv_();
-    extern /* Subroutine */ int xerbla_(), dorgqr_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_(), dorgqr_();
     static integer wrkmin;
-    extern /* Subroutine */ int dtrtri_();
+    extern /* Subroutine */ EXPORTSYMBOL int dtrtri_();
     static integer wrkopt, pdi, len, pni, ppi, pdw, rnk, pnr, ppr;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

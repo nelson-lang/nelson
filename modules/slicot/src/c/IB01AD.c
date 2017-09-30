@@ -5,7 +5,7 @@
 
 #include "nelson_f2c.h"
 
-/* Subroutine */ int ib01ad_(meth, alg, jobd, batch, conct, ctrl, nobr, m, l, nsmp, u, ldu, y, ldy, n, r__, ldr, sv, rcond, tol, iwork, dwork, ldwork, iwarn, info, meth_len, alg_len, jobd_len, batch_len, conct_len, ctrl_len)
+/* Subroutine */ EXPORTSYMBOL int ib01ad_(meth, alg, jobd, batch, conct, ctrl, nobr, m, l, nsmp, u, ldu, y, ldy, n, r__, ldr, sv, rcond, tol, iwork, dwork, ldwork, iwarn, info, meth_len, alg_len, jobd_len, batch_len, conct_len, ctrl_len)
 char *meth, *alg, *jobd, *batch, *conct, *ctrl;
 integer *nobr, *m, *l, *nsmp;
 doublereal *u;
@@ -29,7 +29,7 @@ ftnlen ctrl_len;
     integer r_dim1, r_offset, u_dim1, u_offset, y_dim1, y_offset, i__1, i__2;
     /* Local variables */
     static logical last, n4sid, chalg;
-    extern /* Subroutine */ int ib01md_(), ib01nd_(), ib01od_();
+    extern /* Subroutine */ EXPORTSYMBOL int ib01md_(), ib01nd_(), ib01od_();
     static logical jobdm;
     extern logical lsame_();
     static integer nobr21;
@@ -38,7 +38,7 @@ ftnlen ctrl_len;
     static logical moesp, first, onebch;
     static integer nr, ns;
     static logical connec, fqralg;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static integer lmnobr, iwarnl;
     static logical interm, contrl;
     static integer minwrk, maxwrk, nsmpsm;

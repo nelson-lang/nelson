@@ -14,7 +14,7 @@ static doublereal c_b20 = 0.;
 static doublereal c_b24 = .5;
 static doublereal c_b27 = 1.;
 
-/* Subroutine */ int tb01vy_(apply, n, m, l, theta, ltheta, a, lda, b, ldb, c__, ldc, d__, ldd, x0, dwork, ldwork, info, apply_len)
+/* Subroutine */ EXPORTSYMBOL int tb01vy_(apply, n, m, l, theta, ltheta, a, lda, b, ldb, c__, ldc, d__, ldd, x0, dwork, ldwork, info, apply_len)
 char *apply;
 integer *n, *m, *l;
 doublereal *theta;
@@ -38,15 +38,15 @@ ftnlen apply_len;
     double atan(), sqrt();
     /* Local variables */
     static integer ldca;
-    extern /* Subroutine */ int dger_();
+    extern /* Subroutine */ EXPORTSYMBOL int dger_();
     extern doublereal dnrm2_();
     static integer i__, j, k;
-    extern /* Subroutine */ int dscal_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_();
     extern logical lsame_();
-    extern /* Subroutine */ int dgemv_(), dcopy_(), daxpy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemv_(), dcopy_(), daxpy_();
     static integer jwork, ca, in;
     static doublereal ri, ti;
-    extern /* Subroutine */ int dlacpy_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), xerbla_();
     static doublereal factor;
     static logical lapply;
     static doublereal tobypi;

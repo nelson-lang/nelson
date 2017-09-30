@@ -9,7 +9,7 @@
 
 static doublereal c_b10 = 1.;
 
-/* Subroutine */ int mb02fd_(typet, k, n, p, s, t, ldt, r__, ldr, dwork, ldwork, info, typet_len)
+/* Subroutine */ EXPORTSYMBOL int mb02fd_(typet, k, n, p, s, t, ldt, r__, ldr, dwork, ldwork, info, typet_len)
 char *typet;
 integer *k, *n, *p, *s;
 doublereal *t;
@@ -24,12 +24,12 @@ ftnlen typet_len;
     integer r_dim1, r_offset, t_dim1, t_offset, i__1, i__2, i__3;
     /* Local variables */
     static integer ierr, i__;
-    extern /* Subroutine */ int mb02cx_(), mb02cy_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb02cx_(), mb02cy_();
     extern logical lsame_();
-    extern /* Subroutine */ int dtrsm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dtrsm_();
     static logical isrow;
     static integer st;
-    extern /* Subroutine */ int dlacpy_(), xerbla_(), dpotrf_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), xerbla_(), dpotrf_();
     static integer maxwrk, countr, startr;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

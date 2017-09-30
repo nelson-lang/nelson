@@ -14,7 +14,7 @@ static integer c__2 = 2;
 static doublereal c_b54 = 0.;
 static doublereal c_b55 = 1.;
 
-/* Subroutine */ int mb03dd_(uplo, n1, n2, prec, a, lda, b, ldb, q1, ldq1, q2, ldq2, dwork, ldwork, info, uplo_len)
+/* Subroutine */ EXPORTSYMBOL int mb03dd_(uplo, n1, n2, prec, a, lda, b, ldb, q1, ldq1, q2, ldq2, dwork, ldwork, info, uplo_len)
 char *uplo;
 integer *n1, *n2;
 doublereal *prec, *a;
@@ -40,17 +40,17 @@ ftnlen uplo_len;
     static integer ievs, itmp;
     static doublereal e, g;
     static integer i__, j, m;
-    extern /* Subroutine */ int dgges_(), dggev_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgges_(), dggev_();
     static doublereal absev;
     extern logical lsame_();
     static logical evinf;
     extern logical sb02ow_();
     static integer evsel;
-    extern /* Subroutine */ int dcopy_(), dswap_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_(), dswap_();
     static logical bwork[1], luplo, ltriu;
     static doublereal absaev;
     static logical aevinf;
-    extern /* Subroutine */ int dlacpy_(), dlartg_(), dlaset_(), dhgeqz_(), dtgsen_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), dlartg_(), dlaset_(), dhgeqz_(), dtgsen_();
     static doublereal co1, co2, si1, si2;
     static integer idm[1], cnt;
     static doublereal dum[2], tol, tmp;

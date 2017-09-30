@@ -10,7 +10,7 @@
 static integer c__3 = 3;
 static integer c__1 = 1;
 
-/* Subroutine */ int mb03yd_(wantt, wantq, wantz, n, ilo, ihi, iloq, ihiq, a, lda, b, ldb, q, ldq, z__, ldz, alphar, alphai, beta, dwork, ldwork, info)
+/* Subroutine */ EXPORTSYMBOL int mb03yd_(wantt, wantq, wantz, n, ilo, ihi, iloq, ihiq, a, lda, b, ldb, q, ldq, z__, ldz, alphar, alphai, beta, dwork, ldwork, info)
 logical *wantt, *wantq, *wantz;
 integer *n, *ilo, *ihi, *iloq, *ihiq;
 doublereal *a;
@@ -29,22 +29,22 @@ integer *ldwork, *info;
     doublereal d__1, d__2;
     /* Local variables */
     static doublereal temp, ovfl, unfl;
-    extern /* Subroutine */ int drot_();
+    extern /* Subroutine */ EXPORTSYMBOL int drot_();
     static doublereal tauv, tauw;
     static integer i__, k, l;
     static doublereal gamma, alpha, v[3], w[3], delta;
     static integer iseed[4];
-    extern /* Subroutine */ int mb03ya_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb03ya_();
     static doublereal betax;
-    extern /* Subroutine */ int dcopy_(), mb03yt_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_(), mb03yt_();
     static integer i1, i2;
-    extern /* Subroutine */ int dlabad_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlabad_();
     static integer kk, nh;
     extern doublereal dlamch_();
     static integer nq, nr;
-    extern /* Subroutine */ int dlarfg_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlarfg_();
     extern doublereal dlanhs_();
-    extern /* Subroutine */ int dlartg_(), xerbla_(), dlarfx_(), dlarnv_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlartg_(), xerbla_(), dlarfx_(), dlarnv_();
     static doublereal cs1, cs2, cs3, smlnum, sn1, sn2, sn3;
     static integer itn, its;
     static doublereal ulp, tst;

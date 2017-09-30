@@ -11,7 +11,7 @@ static integer c__1 = 1;
 static integer c_n1 = -1;
 static integer c__2 = 2;
 
-/* Subroutine */ int mb03ka_(compq, whichq, ws, k, nc, kschur, ifst, ilst, n, ni, s, t, ldt, ixt, q, ldq, ixq, tol, iwork, dwork, ldwork, info, compq_len)
+/* Subroutine */ EXPORTSYMBOL int mb03ka_(compq, whichq, ws, k, nc, kschur, ifst, ilst, n, ni, s, t, ldt, ixt, q, ldq, ixq, tol, iwork, dwork, ldwork, info, compq_len)
 char *compq;
 integer *whichq;
 logical *ws;
@@ -30,9 +30,9 @@ ftnlen compq_len;
     integer i__1, i__2;
     /* Local variables */
     static integer here, i__;
-    extern /* Subroutine */ int mb03kb_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb03kb_();
     static integer it;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static integer nbnext, minwrk, ip1, nbf, nbl;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

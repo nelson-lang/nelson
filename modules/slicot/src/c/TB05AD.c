@@ -10,7 +10,7 @@
 static doublecomplex c_b1 = {0.,0.};
 static integer c__1 = 1;
 
-/* Subroutine */ int tb05ad_(baleig, inita, n, m, p, freq, a, lda, b, ldb, c__, ldc, rcond, g, ldg, evre, evim, hinvb, ldhinv, iwork, dwork, ldwork, zwork, lzwork, info, baleig_len, inita_len)
+/* Subroutine */ EXPORTSYMBOL int tb05ad_(baleig, inita, n, m, p, freq, a, lda, b, ldb, c__, ldc, rcond, g, ldg, evre, evim, hinvb, ldhinv, iwork, dwork, ldwork, zwork, lzwork, info, baleig_len, inita_len)
 char *baleig, *inita;
 integer *n, *m, *p;
 doublecomplex *freq;
@@ -42,22 +42,22 @@ ftnlen inita_len;
     /* Local variables */
     static integer itau, i__, j, k;
     static doublereal t;
-    extern /* Subroutine */ int dscal_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_();
     extern logical lsame_();
     extern doublereal dasum_();
-    extern /* Subroutine */ int mb02rz_(), mb02sz_(), dswap_(), mb02tz_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb02rz_(), mb02sz_(), dswap_(), mb02tz_();
     static doublereal hnorm;
     static integer jwork;
     static logical lbalba;
-    extern /* Subroutine */ int dgebal_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgebal_();
     static char balanc[1];
     static logical lbalea, lbaleb, lbalec;
     static integer ij, jj;
     extern doublereal dlamch_();
     static integer jp;
-    extern /* Subroutine */ int dgehrd_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgehrd_(), xerbla_();
     static logical linita;
-    extern /* Subroutine */ int dhseqr_(), dormhr_(), zlaset_();
+    extern /* Subroutine */ EXPORTSYMBOL int dhseqr_(), dormhr_(), zlaset_();
     static integer wrkopt, igh, low;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

@@ -11,7 +11,7 @@ static doublereal c_b13 = 0.;
 static doublereal c_b14 = 1.;
 static integer c__1 = 1;
 
-/* Subroutine */ int tb01ld_(dico, stdom, joba, n, m, p, alpha, a, lda, b, ldb, c__, ldc, ndim, u, ldu, wr, wi, dwork, ldwork, info, dico_len, stdom_len, joba_len)
+/* Subroutine */ EXPORTSYMBOL int tb01ld_(dico, stdom, joba, n, m, p, alpha, a, lda, b, ldb, c__, ldc, ndim, u, ldu, wr, wi, dwork, ldwork, info, dico_len, stdom_len, joba_len)
 char *dico, *stdom, *joba;
 integer *n, *m, *p;
 doublereal *alpha, *a;
@@ -33,14 +33,14 @@ ftnlen joba_len;
     doublereal d__1, d__2;
     /* Local variables */
     static integer sdim, ierr, ldwp, i__;
-    extern /* Subroutine */ int dgees_(), dgemm_(), mb03qd_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgees_(), dgemm_(), mb03qd_();
     static logical ljobg;
     extern logical lsame_();
-    extern /* Subroutine */ int dgemv_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemv_();
     static logical discr;
-    extern /* Subroutine */ int mb03qx_(), dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb03qx_(), dcopy_();
     static logical bwork[1];
-    extern /* Subroutine */ int dlacpy_(), dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), dlaset_(), xerbla_();
     extern logical select_();
     static doublereal wrkopt;
     /*     SLICOT RELEASE 5.0. */

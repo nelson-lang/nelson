@@ -9,7 +9,7 @@
 
 static integer c__1 = 1;
 
-/* Subroutine */ int tf01qd_(nc, nb, n, iord, ar, ma, h__, ldh, info)
+/* Subroutine */ EXPORTSYMBOL int tf01qd_(nc, nb, n, iord, ar, ma, h__, ldh, info)
 integer *nc, *nb, *n, *iord;
 doublereal *ar, *ma, *h__;
 integer *ldh, *info;
@@ -19,7 +19,7 @@ integer *ldh, *info;
     /* Local variables */
     extern doublereal ddot_();
     static integer nord, i__, j, k, ldhnb, jj, jk, ki, nl;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */

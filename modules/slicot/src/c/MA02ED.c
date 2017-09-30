@@ -9,7 +9,7 @@
 
 static integer c__1 = 1;
 
-/* Subroutine */ int ma02ed_(uplo, n, a, lda, uplo_len)
+/* Subroutine */ EXPORTSYMBOL int ma02ed_(uplo, n, a, lda, uplo_len)
 char *uplo;
 integer *n;
 doublereal *a;
@@ -21,7 +21,7 @@ ftnlen uplo_len;
     /* Local variables */
     static integer j;
     extern logical lsame_();
-    extern /* Subroutine */ int dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */

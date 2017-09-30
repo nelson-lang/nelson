@@ -5,7 +5,7 @@
 
 #include "nelson_f2c.h"
 
-/* Subroutine */ int mb04ty_(updatq, updatz, m, n, nblcks, inuk, imuk, a, lda, e, lde, q, ldq, z__, ldz, info)
+/* Subroutine */ EXPORTSYMBOL int mb04ty_(updatq, updatz, m, n, nblcks, inuk, imuk, a, lda, e, lde, q, ldq, z__, ldz, info)
 logical *updatq, *updatz;
 integer *m, *n, *nblcks, *inuk, *imuk;
 doublereal *a;
@@ -21,7 +21,7 @@ integer *ldz, *info;
     integer a_dim1, a_offset, e_dim1, e_offset, q_dim1, q_offset, z_dim1, z_offset, i__1;
     /* Local variables */
     static integer mukp1, ifica, k, ifice, ifire;
-    extern /* Subroutine */ int mb04tv_(), mb04tw_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb04tv_(), mb04tw_();
     static integer ismuk, isnuk1, muk, nuk;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

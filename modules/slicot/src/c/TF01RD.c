@@ -10,7 +10,7 @@
 static doublereal c_b8 = 1.;
 static doublereal c_b9 = 0.;
 
-/* Subroutine */ int tf01rd_(na, nb, nc, n, a, lda, b, ldb, c__, ldc, h__, ldh, dwork, ldwork, info)
+/* Subroutine */ EXPORTSYMBOL int tf01rd_(na, nb, nc, n, a, lda, b, ldb, c__, ldc, h__, ldh, dwork, ldwork, info)
 integer *na, *nb, *nc, *n;
 doublereal *a;
 integer *lda;
@@ -27,9 +27,9 @@ integer *ldwork, *info;
     integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, h_dim1, h_offset, i__1, i__2;
     /* Local variables */
     static integer i__, k;
-    extern /* Subroutine */ int dgemm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemm_();
     static integer jwork;
-    extern /* Subroutine */ int dlacpy_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), xerbla_();
     static integer ldw;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

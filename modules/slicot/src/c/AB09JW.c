@@ -14,7 +14,7 @@ static doublereal c_b30 = 1.;
 static integer c__1 = 1;
 static integer c__0 = 0;
 
-/* Subroutine */ int ab09jw_(job, dico, jobew, stbchk, n, m, p, nw, mw, a, lda, b, ldb, c__, ldc, d__, ldd, aw, ldaw, ew, ldew, bw, ldbw, cw, ldcw, dw, lddw, iwork, dwork, ldwork, info, job_len, dico_len, jobew_len, stbchk_len)
+/* Subroutine */ EXPORTSYMBOL int ab09jw_(job, dico, jobew, stbchk, n, m, p, nw, mw, a, lda, b, ldb, c__, ldc, d__, ldd, aw, ldaw, ew, ldew, bw, ldbw, cw, ldcw, dw, lddw, iwork, dwork, ldwork, info, job_len, dico_len, jobew_len, stbchk_len)
 char *job, *dico, *jobew, *stbchk;
 integer *n, *m, *p, *nw, *mw;
 doublereal *a;
@@ -52,11 +52,11 @@ ftnlen stbchk_len;
     static doublereal work;
     static integer i__;
     static doublereal alpha, scale;
-    extern /* Subroutine */ int dgemm_(), dgges_(), ab09jx_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemm_(), dgges_(), ab09jx_();
     extern logical lsame_();
-    extern /* Subroutine */ int tb01wd_();
+    extern /* Subroutine */ EXPORTSYMBOL int tb01wd_();
     static logical discr, conjs;
-    extern /* Subroutine */ int dswap_(), sb04py_();
+    extern /* Subroutine */ EXPORTSYMBOL int dswap_(), sb04py_();
     static logical bwork[1];
     static char stdom[1];
     static integer ia, kb, kc, ke, kf, kq;
@@ -64,12 +64,12 @@ ftnlen stbchk_len;
     static integer kw, lw, kz;
     static logical stabck;
     extern logical delctg_();
-    extern /* Subroutine */ int dlacpy_(), dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), dlaset_(), xerbla_();
     static doublereal tolinf;
-    extern /* Subroutine */ int dtgsyl_();
+    extern /* Subroutine */ EXPORTSYMBOL int dtgsyl_();
     static logical unitew;
     static char evtype[1];
-    extern /* Subroutine */ int dtrsyl_();
+    extern /* Subroutine */ EXPORTSYMBOL int dtrsyl_();
     static doublereal dif;
     static integer kai, kar, ldw;
     /*     SLICOT RELEASE 5.0. */

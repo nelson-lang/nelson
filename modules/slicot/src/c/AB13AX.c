@@ -29,16 +29,16 @@ ftnlen dico_len;
     doublereal ret_val = 0, d__1, d__2;
     /* Local variables */
     static integer ierr, ktau, mnmp;
-    extern /* Subroutine */ int ma02dd_();
+    extern /* Subroutine */ EXPORTSYMBOL int ma02dd_();
     static integer i__, j;
-    extern /* Subroutine */ int dscal_(), mb03ud_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_(), mb03ud_();
     extern logical lsame_();
     static logical discr;
-    extern /* Subroutine */ int sb03ou_(), dtpmv_();
+    extern /* Subroutine */ EXPORTSYMBOL int sb03ou_(), dtpmv_();
     static doublereal scalec;
     static integer kr, ks, ku, kw;
     static doublereal scaleo;
-    extern /* Subroutine */ int dlacpy_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), xerbla_();
     static doublereal wrkopt;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

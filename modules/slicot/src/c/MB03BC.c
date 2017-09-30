@@ -5,7 +5,7 @@
 
 #include "nelson_f2c.h"
 
-/* Subroutine */ int mb03bc_(k, amap, s, sinv, a, lda1, lda2, macpar, cv, sv, dwork)
+/* Subroutine */ EXPORTSYMBOL int mb03bc_(k, amap, s, sinv, a, lda1, lda2, macpar, cv, sv, dwork)
 integer *k, *amap, *s, *sinv;
 doublereal *a;
 integer *lda1, *lda2;
@@ -20,12 +20,12 @@ doublereal *macpar, *cv, *sv, *dwork;
     static doublereal base, sfmn, rmin, temp, rmax, rmns, rmxs, twos;
     static integer i__;
     static doublereal ssmin, ssmax;
-    extern /* Subroutine */ int dlasv2_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlasv2_();
     static doublereal a11, a12, a22, b11, b12, b22, cc;
     static integer ai;
     static doublereal cl, cr, s11, s12, s22, sc, t11, t12, t22, sl, mx, sr;
     static integer pw;
-    extern /* Subroutine */ int dlartg_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlartg_();
     static doublereal mx2;
     static integer scl;
     static doublereal eps;

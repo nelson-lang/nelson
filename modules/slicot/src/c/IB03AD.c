@@ -13,7 +13,7 @@ static doublereal c_b24 = -1.;
 static integer c__0 = 0;
 static integer c__5 = 5;
 
-/* Subroutine */ int ib03ad_(init, alg, stor, nobr, m, l, nsmp, n, nn, itmax1, itmax2, nprint, u, ldu, y, ldy, x, lx, tol1, tol2, iwork, dwork, ldwork, iwarn, info, init_len, alg_len, stor_len)
+/* Subroutine */ EXPORTSYMBOL int ib03ad_(init, alg, stor, nobr, m, l, nsmp, n, nn, itmax1, itmax2, nprint, u, ldu, y, ldy, x, lx, tol1, tol2, iwork, dwork, ldwork, iwarn, info, init_len, alg_len, stor_len)
 char *init, *alg, *stor;
 integer *nobr, *m, *l, *nsmp, *n, *nn, *itmax1, *itmax2, *nprint;
 doublereal *u;
@@ -43,23 +43,23 @@ ftnlen stor_len;
     static integer nsml, lths, nths;
     static doublereal work[5];
     static logical init1, init2;
-    extern /* Subroutine */ int ib01ad_(), ib01bd_(), ib01cd_();
-    extern /* Subroutine */ int nf01ba_();
-    extern /* Subroutine */ int md03ad_();
+    extern /* Subroutine */ EXPORTSYMBOL int ib01ad_(), ib01bd_(), ib01cd_();
+    extern /* Subroutine */ EXPORTSYMBOL int nf01ba_();
+    extern /* Subroutine */ EXPORTSYMBOL int md03ad_();
     static integer i__, j;
-    extern /* Subroutine */ int nf01bb_();
+    extern /* Subroutine */ EXPORTSYMBOL int nf01bb_();
     static integer z__;
-    extern /* Subroutine */ int nf01bu_(), nf01bv_(), nf01bw_();
+    extern /* Subroutine */ EXPORTSYMBOL int nf01bu_(), nf01bv_(), nf01bw_();
     static integer ircnd;
     extern logical lsame_();
-    extern /* Subroutine */ int nf01bx_();
-    extern /* Subroutine */ int tb01vd_();
+    extern /* Subroutine */ EXPORTSYMBOL int nf01bx_();
+    extern /* Subroutine */ EXPORTSYMBOL int tb01vd_();
     static integer infol, lipar;
-    extern /* Subroutine */ int dcopy_(), tf01mx_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_(), tf01mx_();
     static logical bwork[1];
-    extern /* Subroutine */ int tb01vy_();
+    extern /* Subroutine */ EXPORTSYMBOL int tb01vy_();
     static integer jwork, n2, ac, bd, ia, ib, ik, ml, iq, ir, is, iv, ircndb, ix, ns, nx;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static integer iwarnl, iw1, iw2, ix0, wrkopt, ldr, bsn, mno, isv, iry;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

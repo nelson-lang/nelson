@@ -5,7 +5,7 @@
 
 #include "nelson_f2c.h"
 
-/* Subroutine */ int ab09md_(dico, job, equil, ordsel, n, m, p, nr, alpha, a, lda, b, ldb, c__, ldc, ns, hsv, tol, iwork, dwork, ldwork, iwarn, info, dico_len, job_len, equil_len, ordsel_len)
+/* Subroutine */ EXPORTSYMBOL int ab09md_(dico, job, equil, ordsel, n, m, p, nr, alpha, a, lda, b, ldb, c__, ldc, ns, hsv, tol, iwork, dwork, ldwork, iwarn, info, dico_len, job_len, equil_len, ordsel_len)
 char *dico, *job, *equil, *ordsel;
 integer *n, *m, *p, *nr;
 doublereal *alpha, *a;
@@ -29,12 +29,12 @@ ftnlen ordsel_len;
     double sqrt();
     /* Local variables */
     static integer ierr;
-    extern /* Subroutine */ int tb01id_(), ab09ax_(), tb01kd_();
+    extern /* Subroutine */ EXPORTSYMBOL int tb01id_(), ab09ax_(), tb01kd_();
     extern logical lsame_();
     static logical discr;
     extern doublereal dlamch_();
     static integer nn, kt, ku, kw, nu;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static doublereal maxred;
     static logical fixord;
     static integer iwarnl;

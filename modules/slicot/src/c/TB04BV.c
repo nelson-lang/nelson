@@ -9,7 +9,7 @@
 
 static integer c__1 = 1;
 
-/* Subroutine */ int tb04bv_(order, p, m, md, ign, ldign, igd, ldigd, gn, gd, d__, ldd, tol, info, order_len)
+/* Subroutine */ EXPORTSYMBOL int tb04bv_(order, p, m, md, ign, ldign, igd, ldigd, gn, gd, d__, ldd, tol, info, order_len)
 char *order;
 integer *p, *m, *md, *ign, *ldign, *igd, *ldigd;
 doublereal *gn, *gd, *d__;
@@ -24,14 +24,14 @@ ftnlen order_len;
     /* Local variables */
     static integer i__, j, k;
     extern logical lsame_();
-    extern /* Subroutine */ int daxpy_();
+    extern /* Subroutine */ EXPORTSYMBOL int daxpy_();
     static integer ii, nd, kk, km;
     extern doublereal dlamch_();
     static integer nn;
     static logical ascend;
     extern integer idamax_();
     static doublereal toldef;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static doublereal dij, eps;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

@@ -10,7 +10,7 @@
 static integer c__1 = 1;
 static integer c__2 = 2;
 
-/* Subroutine */ int mb3oyz_(m, n, a, lda, rcond, svlmax, rank, sval, jpvt, tau, dwork, zwork, info)
+/* Subroutine */ EXPORTSYMBOL int mb3oyz_(m, n, a, lda, rcond, svlmax, rank, sval, jpvt, tau, dwork, zwork, info)
 integer *m, *n;
 doublecomplex *a;
 integer *lda;
@@ -33,16 +33,16 @@ integer *info;
     /* Local variables */
     static doublereal smin, temp, smax, tolz, temp2;
     static integer i__, j;
-    extern /* Subroutine */ int zscal_();
+    extern /* Subroutine */ EXPORTSYMBOL int zscal_();
     static integer itemp, ismin;
-    extern /* Subroutine */ int zlarf_();
+    extern /* Subroutine */ EXPORTSYMBOL int zlarf_();
     static integer ismax;
     static doublecomplex c1, c2, s1, s2;
-    extern /* Subroutine */ int zswap_(), zlaic1_();
+    extern /* Subroutine */ EXPORTSYMBOL int zswap_(), zlaic1_();
     extern doublereal dznrm2_(), dlamch_();
     static integer mn;
     extern integer idamax_();
-    extern /* Subroutine */ int xerbla_(), zlarfg_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_(), zlarfg_();
     static doublereal sminpr, smaxpr;
     static doublecomplex aii;
     static integer pvt;

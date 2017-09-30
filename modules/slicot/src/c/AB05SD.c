@@ -12,7 +12,7 @@ static doublereal c_b11 = 1.;
 static doublereal c_b14 = 0.;
 static integer c__1 = 1;
 
-/* Subroutine */ int ab05sd_(fbtype, jobd, n, m, p, alpha, a, lda, b, ldb, c__, ldc, d__, ldd, f, ldf, rcond, iwork, dwork, ldwork, info, fbtype_len, jobd_len)
+/* Subroutine */ EXPORTSYMBOL int ab05sd_(fbtype, jobd, n, m, p, alpha, a, lda, b, ldb, c__, ldc, d__, ldd, f, ldf, rcond, iwork, dwork, ldwork, info, fbtype_len, jobd_len)
 char *fbtype, *jobd;
 integer *n, *m, *p;
 doublereal *alpha, *a;
@@ -37,19 +37,19 @@ ftnlen jobd_len;
     doublereal d__1;
     /* Local variables */
     static integer ldwn, ldwp, i__;
-    extern /* Subroutine */ int dgemm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemm_();
     static logical ljobd;
     extern logical lsame_();
-    extern /* Subroutine */ int dgemv_(), dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemv_(), dcopy_();
     static doublereal enorm;
     static logical unitf;
-    extern /* Subroutine */ int daxpy_();
+    extern /* Subroutine */ EXPORTSYMBOL int daxpy_();
     static doublereal dummy[1];
     static logical outpf;
     extern doublereal dlamch_(), dlange_();
-    extern /* Subroutine */ int dgecon_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgecon_();
     static integer iw;
-    extern /* Subroutine */ int dlascl_(), dgetrf_(), dlacpy_(), xerbla_(), dgetrs_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlascl_(), dgetrf_(), dlacpy_(), xerbla_(), dgetrs_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */

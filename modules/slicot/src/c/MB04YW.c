@@ -9,7 +9,7 @@
 
 static doublereal c_b16 = 1.;
 
-/* Subroutine */ int mb04yw_(qrit, updatu, updatv, m, n, l, k, shift, d__, e, u, ldu, v, ldv, dwork)
+/* Subroutine */ EXPORTSYMBOL int mb04yw_(qrit, updatu, updatv, m, n, l, k, shift, d__, e, u, ldu, v, ldv, dwork)
 logical *qrit, *updatu, *updatv;
 integer *m, *n, *l, *k;
 doublereal *shift, *d__, *e, *u;
@@ -29,9 +29,9 @@ doublereal *dwork;
     static doublereal f, g, h__;
     static integer i__;
     static doublereal r__, oldcs;
-    extern /* Subroutine */ int dlasr_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlasr_();
     static doublereal oldsn, cs, sn;
-    extern /* Subroutine */ int dlartg_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlartg_();
     static integer nm1, nm12, nm13, ncv;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

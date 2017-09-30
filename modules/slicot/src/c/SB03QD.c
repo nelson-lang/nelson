@@ -13,7 +13,7 @@ static integer c__0 = 0;
 static integer c__1 = 1;
 static doublereal c_b41 = 1.;
 
-/* Subroutine */ int sb03qd_(job, fact, trana, uplo, lyapun, n, scale, a, lda, t, ldt, u, ldu, c__, ldc, x, ldx, sep, rcond, ferr, iwork, dwork, ldwork, info, job_len, fact_len, trana_len, uplo_len, lyapun_len)
+/* Subroutine */ EXPORTSYMBOL int sb03qd_(job, fact, trana, uplo, lyapun, n, scale, a, lda, t, ldt, u, ldu, c__, ldc, x, ldx, sep, rcond, ferr, iwork, dwork, ldwork, info, job_len, fact_len, trana_len, uplo_len, lyapun_len)
 char *job, *fact, *trana, *uplo, *lyapun;
 integer *n;
 doublereal *scale, *a;
@@ -46,23 +46,23 @@ ftnlen lyapun_len;
     static integer ires, ixbs;
     static doublereal epsn, temp, tmax;
     static integer iwrk, i__, j;
-    extern /* Subroutine */ int dgees_(), mb01ud_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgees_(), mb01ud_();
     extern logical lsame_();
     static doublereal denom;
-    extern /* Subroutine */ int mb01uw_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb01uw_();
     static doublereal anorm, cnorm;
-    extern /* Subroutine */ int sb03qx_(), sb03qy_();
+    extern /* Subroutine */ EXPORTSYMBOL int sb03qx_(), sb03qy_();
     static logical bwork[1];
-    extern /* Subroutine */ int daxpy_();
+    extern /* Subroutine */ EXPORTSYMBOL int daxpy_();
     static logical lower;
     static doublereal xnorm;
-    extern /* Subroutine */ int dsyr2k_();
+    extern /* Subroutine */ EXPORTSYMBOL int dsyr2k_();
     static integer jj;
     extern doublereal dlamch_(), dlange_();
     static integer nn, jx;
     extern doublereal dlanhs_();
     static logical nofact;
-    extern /* Subroutine */ int dlacpy_(), dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), dlaset_(), xerbla_();
     extern logical select_();
     static logical update;
     static char tranat[1];

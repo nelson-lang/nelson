@@ -5,7 +5,7 @@
 
 #include "nelson_f2c.h"
 
-/* Subroutine */ int tf01pd_(nh1, nh2, nr, nc, h__, ldh, t, ldt, info)
+/* Subroutine */ EXPORTSYMBOL int tf01pd_(nh1, nh2, nr, nc, h__, ldh, t, ldt, info)
 integer *nh1, *nh2, *nr, *nc;
 doublereal *h__;
 integer *ldh;
@@ -16,7 +16,7 @@ integer *ldt, *info;
     integer h_dim1, h_offset, t_dim1, t_offset, i__1, i__2;
     /* Local variables */
     static integer ncol, nrow, ih, it, jt;
-    extern /* Subroutine */ int dlacpy_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), xerbla_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */

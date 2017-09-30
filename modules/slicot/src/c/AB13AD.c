@@ -27,12 +27,12 @@ ftnlen equil_len;
     /* Local variables */
     static integer ierr;
     extern doublereal ab13ax_();
-    extern /* Subroutine */ int tb01id_(), tb01kd_();
+    extern /* Subroutine */ EXPORTSYMBOL int tb01id_(), tb01kd_();
     extern logical lsame_();
     static logical discr;
     extern doublereal dlamch_();
     static integer kt, kw;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static doublereal maxred, alpwrk;
     static integer kw1, kw2;
     static doublereal wrkopt;

@@ -11,7 +11,7 @@ static doublereal c_b10 = 0.;
 static integer c__1 = 1;
 static integer c__0 = 0;
 
-/* Subroutine */ int mb01vd_(trana, tranb, ma, na, mb, nb, alpha, beta, a, lda, b, ldb, c__, ldc, mc, nc, info, trana_len, tranb_len)
+/* Subroutine */ EXPORTSYMBOL int mb01vd_(trana, tranb, ma, na, mb, nb, alpha, beta, a, lda, b, ldb, c__, ldc, mc, nc, info, trana_len, tranb_len)
 char *trana, *tranb;
 integer *ma, *na, *mb, *nb;
 doublereal *alpha, *beta, *a;
@@ -27,11 +27,11 @@ ftnlen tranb_len;
     integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, i__1, i__2, i__3, i__4;
     /* Local variables */
     static integer i__, j, k, l;
-    extern /* Subroutine */ int dscal_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_();
     extern logical lsame_();
-    extern /* Subroutine */ int dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_();
     static integer ic, jc, lc, nz;
-    extern /* Subroutine */ int dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlaset_(), xerbla_();
     static logical transa, transb, sparse;
     static doublereal aij, dum[1];
     /*     SLICOT RELEASE 5.0. */

@@ -11,7 +11,7 @@ static integer c__1 = 1;
 static doublereal c_b23 = 1.;
 static doublereal c_b25 = 0.;
 
-/* Subroutine */ int sb01md_(ncont, n, a, lda, b, wr, wi, z__, ldz, g, dwork, info)
+/* Subroutine */ EXPORTSYMBOL int sb01md_(ncont, n, a, lda, b, wr, wi, z__, ldz, g, dwork, info)
 integer *ncont, *n;
 doublereal *a;
 integer *lda;
@@ -25,16 +25,16 @@ integer *info;
     doublereal d__1, d__2;
     /* Local variables */
     extern doublereal ddot_();
-    extern /* Subroutine */ int drot_();
+    extern /* Subroutine */ EXPORTSYMBOL int drot_();
     static integer i__, k, l;
     static doublereal p, q, r__, s, t;
-    extern /* Subroutine */ int dscal_(), dgemv_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_(), dgemv_();
     static logical compl;
-    extern /* Subroutine */ int dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_();
     static doublereal b1;
-    extern /* Subroutine */ int daxpy_();
+    extern /* Subroutine */ EXPORTSYMBOL int daxpy_();
     static integer ncont2, ni, ll, nj, nl;
-    extern /* Subroutine */ int dlaset_(), dlartg_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlaset_(), dlartg_(), xerbla_();
     static integer im1, lp1;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

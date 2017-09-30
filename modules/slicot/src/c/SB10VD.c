@@ -11,7 +11,7 @@ static doublereal c_b6 = -1.;
 static doublereal c_b7 = 1.;
 static doublereal c_b11 = 0.;
 
-/* Subroutine */ int sb10vd_(n, m, np, ncon, nmeas, a, lda, b, ldb, c__, ldc, f, ldf, h__, ldh, x, ldx, y, ldy, xycond, iwork, dwork, ldwork, bwork, info)
+/* Subroutine */ EXPORTSYMBOL int sb10vd_(n, m, np, ncon, nmeas, a, lda, b, ldb, c__, ldc, f, ldf, h__, ldh, x, ldx, y, ldy, xycond, iwork, dwork, ldwork, bwork, info)
 integer *n, *m, *np, *ncon, *nmeas;
 doublereal *a;
 integer *lda;
@@ -39,9 +39,9 @@ integer *info;
     /* Local variables */
     static doublereal ferr;
     static integer iwrk, info2;
-    extern /* Subroutine */ int dgemm_(), sb02rd_(), dsyrk_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemm_(), sb02rd_(), dsyrk_();
     static integer m1, m2, n2;
-    extern /* Subroutine */ int dlacpy_(), dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), dlaset_(), xerbla_();
     static integer lwamax, nd1, nd2, minwrk, np1, np2, iwg, iwi;
     static doublereal sep;
     static integer iwq, iwr, iws, iwt, iwv;

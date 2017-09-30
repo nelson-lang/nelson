@@ -10,7 +10,7 @@
 static integer c_n1 = -1;
 static integer c__1 = 1;
 
-/* Subroutine */ int ma02bz_(side, m, n, a, lda, side_len)
+/* Subroutine */ EXPORTSYMBOL int ma02bz_(side, m, n, a, lda, side_len)
 char *side;
 integer *m, *n;
 doublecomplex *a;
@@ -23,7 +23,7 @@ ftnlen side_len;
     static integer i__, j, k;
     extern logical lsame_();
     static integer m2, n2;
-    extern /* Subroutine */ int zswap_();
+    extern /* Subroutine */ EXPORTSYMBOL int zswap_();
     static logical bsides;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

@@ -10,7 +10,7 @@
 static integer c__1 = 1;
 static doublereal c_b9 = -1.;
 
-/* Subroutine */ int mb02uv_(n, a, lda, ipiv, jpiv, info)
+/* Subroutine */ EXPORTSYMBOL int mb02uv_(n, a, lda, ipiv, jpiv, info)
 integer *n;
 doublereal *a;
 integer *lda, *ipiv, *jpiv, *info;
@@ -19,10 +19,10 @@ integer *lda, *ipiv, *jpiv, *info;
     integer a_dim1, a_offset, i__1, i__2, i__3;
     doublereal d__1;
     /* Local variables */
-    extern /* Subroutine */ int dger_();
+    extern /* Subroutine */ EXPORTSYMBOL int dger_();
     static doublereal smin, xmax;
     static integer i__;
-    extern /* Subroutine */ int dscal_(), dswap_(), dlabad_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_(), dswap_(), dlabad_();
     extern doublereal dlamch_();
     static integer ip, jp;
     static doublereal bignum, smlnum, eps;

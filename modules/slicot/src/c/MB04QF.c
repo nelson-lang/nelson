@@ -11,7 +11,7 @@ static integer c__1 = 1;
 static doublereal c_b11 = 0.;
 static doublereal c_b49 = 1.;
 
-/* Subroutine */ int mb04qf_(direct, storev, storew, n, k, v, ldv, w, ldw, cs, tau, rs, ldrs, t, ldt, dwork, direct_len, storev_len, storew_len)
+/* Subroutine */ EXPORTSYMBOL int mb04qf_(direct, storev, storew, n, k, v, ldv, w, ldw, cs, tau, rs, ldrs, t, ldt, dwork, direct_len, storev_len, storew_len)
 char *direct, *storev, *storew;
 integer *n, *k;
 doublereal *v;
@@ -33,11 +33,11 @@ ftnlen storew_len;
     /* Local variables */
     static doublereal taui;
     static integer i__, j;
-    extern /* Subroutine */ int dscal_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_();
     extern logical lsame_();
-    extern /* Subroutine */ int dgemv_(), dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemv_(), dcopy_();
     static logical lcolv, lcolw;
-    extern /* Subroutine */ int daxpy_(), dtrmv_();
+    extern /* Subroutine */ EXPORTSYMBOL int daxpy_(), dtrmv_();
     static integer k2;
     static doublereal cm1;
     static integer pr1, pr2, pr3, ps1, ps2, ps3, pt11, pt12, pt13, pt21, pt22, pt23, pt31, pt32, pt33;

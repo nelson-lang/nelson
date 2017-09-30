@@ -10,7 +10,7 @@
 static integer c__0 = 0;
 static integer c__1 = 1;
 
-/* Subroutine */ int tb04bd_(jobd, order, equil, n, m, p, md, a, lda, b, ldb, c__, ldc, d__, ldd, ign, ldign, igd, ldigd, gn, gd, tol, iwork, dwork, ldwork, info, jobd_len, order_len, equil_len)
+/* Subroutine */ EXPORTSYMBOL int tb04bd_(jobd, order, equil, n, m, p, md, a, lda, b, ldb, c__, ldc, d__, ldd, ign, ldign, igd, ldigd, gn, gd, tol, iwork, dwork, ldwork, info, jobd_len, order_len, equil_len)
 char *jobd, *order, *equil;
 integer *n, *m, *p, *md;
 doublereal *a;
@@ -36,27 +36,27 @@ ftnlen equil_len;
     static integer ierr, itau;
     static doublereal epsn;
     static integer itau1;
-    extern /* Subroutine */ int ma02ad_();
+    extern /* Subroutine */ EXPORTSYMBOL int ma02ad_();
     static integer i__, j, k, l;
-    extern /* Subroutine */ int mc01pd_(), tb01id_();
+    extern /* Subroutine */ EXPORTSYMBOL int mc01pd_(), tb01id_();
     static doublereal x, z__[1];
     extern logical lsame_();
-    extern /* Subroutine */ int tb04bx_(), tb01zd_(), mc01py_();
+    extern /* Subroutine */ EXPORTSYMBOL int tb04bx_(), tb01zd_(), mc01py_();
     static doublereal anorm;
     static logical dijnz, withd;
     static integer ncont;
-    extern /* Subroutine */ int dcopy_(), daxpy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_(), daxpy_();
     static integer jwork, ia, ib, ic, jwork1, jj, im;
     extern doublereal dlamch_();
     static integer ip;
     extern doublereal dlange_();
     static logical fndeig, ascend;
     static integer iz;
-    extern /* Subroutine */ int dlacpy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_();
     static doublereal toldef;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static doublereal maxred;
-    extern /* Subroutine */ int dhseqr_();
+    extern /* Subroutine */ EXPORTSYMBOL int dhseqr_();
     static integer wrkopt, iac, icc;
     static doublereal dij;
     static integer ias, iip, irp, ipm1;

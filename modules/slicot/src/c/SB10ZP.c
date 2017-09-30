@@ -12,7 +12,7 @@ static doublereal c_b6 = 1.;
 static integer c_n1 = -1;
 static doublereal c_b35 = -1.;
 
-/* Subroutine */ int sb10zp_(discfl, n, a, lda, b, c__, d__, iwork, dwork, ldwork, info)
+/* Subroutine */ EXPORTSYMBOL int sb10zp_(discfl, n, a, lda, b, c__, d__, iwork, dwork, ldwork, info)
 integer *discfl, *n;
 doublereal *a;
 integer *lda;
@@ -27,14 +27,14 @@ integer *ldwork, *info;
     double sqrt(), d_sign();
     /* Local variables */
     static integer iwps, iwqs, info2;
-    extern /* Subroutine */ int ab04md_();
+    extern /* Subroutine */ EXPORTSYMBOL int ab04md_();
     static integer i__;
-    extern /* Subroutine */ int ab07nd_(), td04ad_();
+    extern /* Subroutine */ EXPORTSYMBOL int ab07nd_(), td04ad_();
     static doublereal scalb, scalc, scald;
-    extern /* Subroutine */ int dscal_(), mc01pd_(), dgeev_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_(), mc01pd_(), dgeev_();
     static doublereal rcond;
     static integer index[1];
-    extern /* Subroutine */ int dcopy_(), dlacpy_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_(), dlacpy_(), xerbla_();
     static integer maxwrk, iwa, imp, rep, imz, iwp, iwq, rez, idw1, idw2, idw3, ldw1;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

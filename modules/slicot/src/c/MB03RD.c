@@ -11,7 +11,7 @@ static doublereal c_b20 = 0.;
 static doublereal c_b28 = 1.;
 static integer c__1 = 1;
 
-/* Subroutine */ int mb03rd_(jobx, sort, n, pmax, a, lda, x, ldx, nblcks, blsize, wr, wi, tol, dwork, info, jobx_len, sort_len)
+/* Subroutine */ EXPORTSYMBOL int mb03rd_(jobx, sort, n, pmax, a, lda, x, ldx, nblcks, blsize, wr, wi, tol, dwork, info, jobx_len, sort_len)
 char *jobx, *sort;
 integer *n;
 doublereal *pmax, *a;
@@ -34,19 +34,19 @@ ftnlen sort_len;
     static integer ierr;
     extern doublereal dnrm2_();
     static doublereal c__, d__;
-    extern /* Subroutine */ int ma02ad_();
+    extern /* Subroutine */ EXPORTSYMBOL int ma02ad_();
     static integer i__, j, k, l;
-    extern /* Subroutine */ int dscal_(), dgemm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_(), dgemm_();
     extern logical lsame_();
-    extern /* Subroutine */ int mb03qx_(), mb03rx_(), mb03ry_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb03qx_(), mb03rx_(), mb03ry_();
     static logical ljobx, lsorn, lsors, lsort;
     extern doublereal dlapy2_();
-    extern /* Subroutine */ int dlabad_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlabad_();
     static integer l11, l22;
     static doublereal sc;
     extern doublereal dlamch_();
     static doublereal safemn;
-    extern /* Subroutine */ int dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlaset_(), xerbla_();
     static doublereal thresh;
     static integer da11, da22;
     static doublereal cav, rav;

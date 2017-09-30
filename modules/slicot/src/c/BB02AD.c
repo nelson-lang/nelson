@@ -16,7 +16,7 @@ static integer c__5 = 5;
 static doublereal c_b112 = -1.;
 static doublereal c_b118 = 4.877;
 
-/* Subroutine */ int bb02ad_(def, nr, dpar, ipar, bpar, chpar, vec, n, m, p, a, lda, b, ldb, c__, ldc, q, ldq, r__, ldr, s, lds, x, ldx, dwork, ldwork, info, def_len, chpar_len)
+/* Subroutine */ EXPORTSYMBOL int bb02ad_(def, nr, dpar, ipar, bpar, chpar, vec, n, m, p, a, lda, b, ldb, c__, ldc, q, ldq, r__, ldr, s, lds, x, ldx, dwork, ldwork, info, def_len, chpar_len)
 char *def;
 integer *nr;
 doublereal *dpar;
@@ -150,21 +150,21 @@ ftnlen chpar_len;
     olist o__1;
     cllist cl__1;
     /* Builtin functions */
-    /* Subroutine */ int s_copy();
+    /* Subroutine */ EXPORTSYMBOL int s_copy();
     double sqrt();
     integer s_wsfi(), do_fio(), e_wsfi(), f_open(), s_rsle(), do_lio(), e_rsle(), f_clos();
     /* Local variables */
     static doublereal beta, temp;
-    extern /* Subroutine */ int dspr_(), ma02dd_(), ma02ed_();
+    extern /* Subroutine */ EXPORTSYMBOL int dspr_(), ma02dd_(), ma02ed_();
     static integer i__, j;
     static doublereal alpha;
     extern logical lsame_();
-    extern /* Subroutine */ int dgemv_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemv_();
     static char ident[4];
     static integer qdimm, rdimm;
-    extern /* Subroutine */ int drscl_(), dcopy_(), dspmv_(), dsymm_(), dsyrk_();
+    extern /* Subroutine */ EXPORTSYMBOL int drscl_(), dcopy_(), dspmv_(), dsymm_(), dsyrk_();
     static integer isymm, msymm, nsymm, psymm;
-    extern /* Subroutine */ int dlaset_(), xerbla_(), dpptrf_(), dpptri_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlaset_(), xerbla_(), dpptrf_(), dpptri_();
     static integer ios;
     /* Fortran I/O blocks */
     static cilist io___12 = { 1, 1, 1, 0, 0 };

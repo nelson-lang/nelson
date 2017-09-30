@@ -5,7 +5,7 @@
 
 #include "nelson_f2c.h"
 
-/* Subroutine */ int dg01ny_(indi, n, xr, xi, indi_len)
+/* Subroutine */ EXPORTSYMBOL int dg01ny_(indi, n, xr, xi, indi_len)
 char *indi;
 integer *n;
 doublereal *xr, *xi;

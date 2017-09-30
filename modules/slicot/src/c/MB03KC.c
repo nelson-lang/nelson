@@ -10,7 +10,7 @@
 static integer c__2 = 2;
 static integer c__1 = 1;
 
-/* Subroutine */ int mb03kc_(k, khess, n, r__, s, a, lda, v, tau)
+/* Subroutine */ EXPORTSYMBOL int mb03kc_(k, khess, n, r__, s, a, lda, v, tau)
 integer *k, *khess, *n, *r__, *s;
 doublereal *a;
 integer *lda;
@@ -21,9 +21,9 @@ doublereal *v, *tau;
     /* Local variables */
     static doublereal work[2];
     static integer i__, i1, i2, ic, ir, no;
-    extern /* Subroutine */ int dlarfg_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlarfg_();
     static integer ix;
-    extern /* Subroutine */ int dlarfx_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlarfx_();
     static integer ip1, inc;
     static doublereal tmp[1];
     /*     SLICOT RELEASE 5.0. */

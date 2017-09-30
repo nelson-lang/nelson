@@ -10,7 +10,7 @@
 static integer c__1 = 1;
 static integer c__2 = 2;
 
-/* Subroutine */ int mb03td_(typ, compu, select, lower, n, a, lda, g, ldg, u1, ldu1, u2, ldu2, wr, wi, m, dwork, ldwork, info, typ_len, compu_len)
+/* Subroutine */ EXPORTSYMBOL int mb03td_(typ, compu, select, lower, n, a, lda, g, ldg, u1, ldu1, u2, ldu2, wr, wi, m, dwork, ldwork, info, typ_len, compu_len)
 char *typ, *compu;
 logical *select, *lower;
 integer *n;
@@ -42,10 +42,10 @@ ftnlen compu_len;
     static integer ilst, k;
     static logical isham;
     extern logical lsame_();
-    extern /* Subroutine */ int mb03ts_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb03ts_();
     static logical wantu;
     static integer ks;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static integer nbnext, wrkmin, nbf, nbl;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

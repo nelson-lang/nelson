@@ -13,7 +13,7 @@ static integer c__0 = 0;
 static doublereal c_b56 = -1.;
 static doublereal c_b58 = 1.;
 
-/* Subroutine */ int nf01br_(cond, uplo, trans, n, ipar, lipar, r__, ldr, sdiag, s, lds, b, ranks, tol, dwork, ldwork, info, cond_len, uplo_len, trans_len)
+/* Subroutine */ EXPORTSYMBOL int nf01br_(cond, uplo, trans, n, ipar, lipar, r__, ldr, sdiag, s, lds, b, ranks, tol, dwork, ldwork, info, cond_len, uplo_len, trans_len)
 char *cond, *uplo, *trans;
 integer *n, *ipar, *lipar;
 doublereal *r__;
@@ -34,19 +34,19 @@ ftnlen trans_len;
     static integer rank;
     static logical full;
     static integer nths, i__, j, k, l;
-    extern /* Subroutine */ int mb03od_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb03od_();
     static logical econd, ncond;
     extern logical lsame_();
-    extern /* Subroutine */ int dgemv_(), dcopy_(), dswap_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemv_(), dcopy_(), dswap_();
     static logical lower, tranr;
     static integer i1;
     static char uplol[1];
-    extern /* Subroutine */ int dtrsv_();
+    extern /* Subroutine */ EXPORTSYMBOL int dtrsv_();
     static integer bn, nc;
     extern doublereal dlamch_();
     static integer st;
     static doublereal toldef;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static char transl[1];
     static integer bsm, bsn;
     static doublereal dum[3];

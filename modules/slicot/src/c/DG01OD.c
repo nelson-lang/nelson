@@ -5,7 +5,7 @@
 
 #include "nelson_f2c.h"
 
-/* Subroutine */ int dg01od_(scr, wght, n, a, w, info, scr_len, wght_len)
+/* Subroutine */ EXPORTSYMBOL int dg01od_(scr, wght, n, a, w, info, scr_len, wght_len)
 char *scr, *wght;
 integer *n;
 doublereal *a, *w;
@@ -24,7 +24,7 @@ ftnlen wght_len;
     static logical lwght;
     static integer p1, p2, q1, q2, r1, r2, s1, s2;
     static doublereal t1, t2, cf, sf, th;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static integer len;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

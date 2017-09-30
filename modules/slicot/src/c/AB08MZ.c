@@ -10,7 +10,7 @@
 static integer c__0 = 0;
 static integer c_n1 = -1;
 
-/* Subroutine */ int ab08mz_(equil, n, m, p, a, lda, b, ldb, c__, ldc, d__, ldd, rank, tol, iwork, dwork, zwork, lzwork, info, equil_len)
+/* Subroutine */ EXPORTSYMBOL int ab08mz_(equil, n, m, p, a, lda, b, ldb, c__, ldc, d__, ldd, rank, tol, iwork, dwork, zwork, lzwork, info, equil_len)
 char *equil;
 integer *n, *m, *p;
 doublecomplex *a;
@@ -35,18 +35,18 @@ ftnlen equil_len;
     /* Local variables */
     static integer i__, sigma;
     extern logical lsame_();
-    extern /* Subroutine */ int tb01iz_();
+    extern /* Subroutine */ EXPORTSYMBOL int tb01iz_();
     static integer ninfz, nkrol;
     static doublereal toler;
-    extern /* Subroutine */ int ab8nxz_();
+    extern /* Subroutine */ EXPORTSYMBOL int ab8nxz_();
     extern doublereal dlamch_();
     static integer nm, np, ro, kw, mu, nu;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static doublereal maxred;
     extern doublereal zlange_();
     static logical lequil;
     static doublereal thresh;
-    extern /* Subroutine */ int zlacpy_();
+    extern /* Subroutine */ EXPORTSYMBOL int zlacpy_();
     static doublereal svlmax;
     static logical lquery;
     static integer wrkopt;

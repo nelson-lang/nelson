@@ -10,7 +10,7 @@
 static integer c__1 = 1;
 static doublereal c_b8 = 0.;
 
-/* Subroutine */ int mc03md_(rp1, cp1, cp2, dp1, dp2, dp3, alpha, p1, ldp11, ldp12, p2, ldp21, ldp22, p3, ldp31, ldp32, dwork, info)
+/* Subroutine */ EXPORTSYMBOL int mc03md_(rp1, cp1, cp2, dp1, dp2, dp3, alpha, p1, ldp11, ldp12, p2, ldp21, ldp22, p3, ldp31, ldp32, dwork, info)
 integer *rp1, *cp1, *cp2, *dp1, *dp2, *dp3;
 doublereal *alpha, *p1;
 integer *ldp11, *ldp12;
@@ -26,7 +26,7 @@ integer *info;
     /* Local variables */
     extern doublereal ddot_();
     static integer dpol3, e, h__, i__, j, k;
-    extern /* Subroutine */ int dscal_(), dcopy_(), dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_(), dcopy_(), dlaset_(), xerbla_();
     static logical cfzero;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

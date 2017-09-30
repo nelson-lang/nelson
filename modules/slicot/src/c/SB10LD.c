@@ -11,7 +11,7 @@ static doublereal c_b5 = 0.;
 static doublereal c_b6 = 1.;
 static doublereal c_b9 = -1.;
 
-/* Subroutine */ int sb10ld_(n, m, np, ncon, nmeas, a, lda, b, ldb, c__, ldc, d__, ldd, ak, ldak, bk, ldbk, ck, ldck, dk, lddk, ac, ldac, bc, ldbc, cc, ldcc, dc, lddc, iwork, dwork, ldwork, info)
+/* Subroutine */ EXPORTSYMBOL int sb10ld_(n, m, np, ncon, nmeas, a, lda, b, ldb, c__, ldc, d__, ldd, ak, ldak, bk, ldbk, ck, ldck, dk, lddk, ac, ldac, bc, ldbc, cc, ldcc, dc, lddc, iwork, dwork, ldwork, info)
 integer *n, *m, *np, *ncon, *nmeas;
 doublereal *a;
 integer *lda;
@@ -44,11 +44,11 @@ integer *ldwork, *info;
     integer a_dim1, a_offset, ac_dim1, ac_offset, ak_dim1, ak_offset, b_dim1, b_offset, bc_dim1, bc_offset, bk_dim1, bk_offset, c_dim1, c_offset, cc_dim1, cc_offset, ck_dim1, ck_offset, d_dim1, d_offset, dc_dim1, dc_offset, dk_dim1, dk_offset, i__1;
     /* Local variables */
     static integer iwrk, info2;
-    extern /* Subroutine */ int dgemm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemm_();
     static doublereal rcond, anorm;
     static integer m1, m2, n2;
     extern doublereal dlamch_(), dlange_();
-    extern /* Subroutine */ int dgecon_(), dgetrf_(), dlacpy_(), dlaset_(), dgetri_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgecon_(), dgetrf_(), dlacpy_(), dlaset_(), dgetri_(), xerbla_();
     static integer lwamax, minwrk, np1, np2, iw2, iw3, iw4, iw5, iw6, iw7, iw8;
     static doublereal eps;
     /*     SLICOT RELEASE 5.0. */

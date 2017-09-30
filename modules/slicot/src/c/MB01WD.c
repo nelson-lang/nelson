@@ -12,7 +12,7 @@ static integer c__0 = 0;
 static doublereal c_b16 = 1.;
 static integer c__1 = 1;
 
-/* Subroutine */ int mb01wd_(dico, uplo, trans, hess, n, alpha, beta, r__, ldr, a, lda, t, ldt, info, dico_len, uplo_len, trans_len, hess_len)
+/* Subroutine */ EXPORTSYMBOL int mb01wd_(dico, uplo, trans, hess, n, alpha, beta, r__, ldr, a, lda, t, ldt, info, dico_len, uplo_len, trans_len, hess_len)
 char *dico, *uplo, *trans, *hess;
 integer *n;
 doublereal *alpha, *beta, *r__;
@@ -32,12 +32,12 @@ ftnlen hess_len;
     /* Local variables */
     static char side[1];
     static integer info2, i__, j;
-    extern /* Subroutine */ int mb01yd_(), mb01zd_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb01yd_(), mb01zd_();
     extern logical lsame_();
     static logical reduc, discr;
-    extern /* Subroutine */ int dtrmm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dtrmm_();
     static logical upper;
-    extern /* Subroutine */ int dsyrk_(), dlascl_(), dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dsyrk_(), dlascl_(), dlaset_(), xerbla_();
     static char negtra[1];
     static logical transp;
     /*     SLICOT RELEASE 5.0. */

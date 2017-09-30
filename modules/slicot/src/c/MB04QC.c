@@ -12,7 +12,7 @@ static doublereal c_b22 = 1.;
 static doublereal c_b53 = 0.;
 static doublereal c_b367 = -1.;
 
-/* Subroutine */ int mb04qc_(struct__, trana, tranb, tranq, direct, storev, storew, m, n, k, v, ldv, w, ldw, rs, ldrs, t, ldt, a, lda, b, ldb, dwork, struct_len, trana_len, tranb_len, tranq_len, direct_len, storev_len, storew_len)
+/* Subroutine */ EXPORTSYMBOL int mb04qc_(struct__, trana, tranb, tranq, direct, storev, storew, m, n, k, v, ldv, w, ldw, rs, ldrs, t, ldt, a, lda, b, ldb, dwork, struct_len, trana_len, tranb_len, tranq_len, direct_len, storev_len, storew_len)
 char *struct__, *trana, *tranb, *tranq, *direct, *storev, *storew;
 integer *m, *n, *k;
 doublereal *v;
@@ -43,11 +43,11 @@ ftnlen storew_len;
     static doublereal fact;
     static logical ltra, ltrb, ltrq;
     static integer i__;
-    extern /* Subroutine */ int dgemm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemm_();
     extern logical lsame_();
     static integer itemp;
     static logical lcolv, lcolw;
-    extern /* Subroutine */ int dcopy_(), dtrmm_(), daxpy_(), dlaset_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_(), dtrmm_(), daxpy_(), dlaset_();
     static integer pr1, pr2, pr3, ps1, ps2, ps3, pt11, pt12, pt13, pt21, pt22, pt23, pt31, pt32, pt33, pdw1, pdw2, pdw3, pdw4, pdw5, pdw6, pdw7, pdw8, pdw9;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

@@ -10,7 +10,7 @@
 static doublereal c_b12 = 0.;
 static integer c__1 = 1;
 
-/* Subroutine */ int td03ad_(rowcol, leri, equil, m, p, indexd, dcoeff, lddcoe, ucoeff, lduco1, lduco2, nr, a, lda, b, ldb, c__, ldc, d__, ldd, indexp, pcoeff, ldpco1, ldpco2, qcoeff, ldqco1, ldqco2, vcoeff, ldvco1, ldvco2, tol, iwork, dwork, ldwork, info, rowcol_len, leri_len, equil_len)
+/* Subroutine */ EXPORTSYMBOL int td03ad_(rowcol, leri, equil, m, p, indexd, dcoeff, lddcoe, ucoeff, lduco1, lduco2, nr, a, lda, b, ldb, c__, ldc, d__, ldd, indexp, pcoeff, ldpco1, ldpco2, qcoeff, ldqco1, ldqco2, vcoeff, ldvco1, ldvco2, tol, iwork, dwork, ldwork, info, rowcol_len, leri_len, equil_len)
 char *rowcol, *leri, *equil;
 integer *m, *p, *indexd;
 doublereal *dcoeff;
@@ -43,17 +43,17 @@ ftnlen equil_len;
     integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, dcoeff_dim1, dcoeff_offset, pcoeff_dim1, pcoeff_dim2, pcoeff_offset, qcoeff_dim1, qcoeff_dim2, qcoeff_offset, ucoeff_dim1, ucoeff_dim2, ucoeff_offset, vcoeff_dim1, vcoeff_dim2, vcoeff_offset, i__1, i__2, i__3, i__4;
     /* Local variables */
     static integer i__, j, k;
-    extern /* Subroutine */ int ab07md_();
+    extern /* Subroutine */ EXPORTSYMBOL int ab07md_();
     static integer n;
-    extern /* Subroutine */ int tb03ad_(), tc01od_();
+    extern /* Subroutine */ EXPORTSYMBOL int tb03ad_(), tc01od_();
     static integer idual;
     extern logical lsame_();
-    extern /* Subroutine */ int tb01xd_(), td03ay_();
+    extern /* Subroutine */ EXPORTSYMBOL int tb01xd_(), td03ay_();
     static logical lleri;
     static integer itemp, mplim;
-    extern /* Subroutine */ int dswap_();
+    extern /* Subroutine */ EXPORTSYMBOL int dswap_();
     static integer maxmp, jstop, mwork, pwork, kdcoef, kpcoef;
-    extern /* Subroutine */ int dlacpy_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), xerbla_();
     static logical lequil, lrowco;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

@@ -5,7 +5,7 @@
 
 #include "nelson_f2c.h"
 
-/* Subroutine */ int sb03ov_(a, b, c__, s)
+/* Subroutine */ EXPORTSYMBOL int sb03ov_(a, b, c__, s)
 doublereal *a, *b, *c__, *s;
 {
     static doublereal d__;

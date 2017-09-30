@@ -12,7 +12,7 @@ static doublereal c_b11 = 0.;
 static integer c__1 = 1;
 static integer c_n1 = -1;
 
-/* Subroutine */ int mb02jx_(job, k, l, m, n, tc, ldtc, tr, ldtr, rnk, q, ldq, r__, ldr, jpvt, tol1, tol2, dwork, ldwork, info, job_len)
+/* Subroutine */ EXPORTSYMBOL int mb02jx_(job, k, l, m, n, tc, ldtc, tr, ldtr, rnk, q, ldq, r__, ldr, jpvt, tol1, tol2, dwork, ldwork, info, job_len)
 char *job;
 integer *k, *l, *m, *n;
 doublereal *tc;
@@ -39,20 +39,20 @@ ftnlen job_len;
     static integer rrnk;
     extern doublereal dnrm2_();
     static doublereal ltol1, ltol2;
-    extern /* Subroutine */ int ma02ad_();
+    extern /* Subroutine */ EXPORTSYMBOL int ma02ad_();
     static integer i__, j;
-    extern /* Subroutine */ int mb02kd_(), dscal_(), mb02cu_(), mb02cv_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb02kd_(), dscal_(), mb02cu_(), mb02cv_();
     static integer cpcol;
     extern logical lsame_();
-    extern /* Subroutine */ int dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_();
     static logical compq;
-    extern /* Subroutine */ int dswap_(), daxpy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dswap_(), daxpy_();
     static integer jwork;
-    extern /* Subroutine */ int dtrmv_(), dgeqp3_();
+    extern /* Subroutine */ EXPORTSYMBOL int dtrmv_(), dgeqp3_();
     static integer jj, kk, mk;
     extern doublereal dlamch_();
     static integer pp, pt;
-    extern /* Subroutine */ int dgeqrf_(), dlacpy_(), dlaset_(), xerbla_(), dorgqr_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgeqrf_(), dlacpy_(), dlaset_(), xerbla_(), dorgqr_();
     static integer wrkmin, wrkopt, gap, len, pdp, pdq, nzc, pdw;
     static doublereal nrm;
     static integer pnq, pnr, ppr;

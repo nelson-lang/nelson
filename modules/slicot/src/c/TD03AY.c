@@ -10,7 +10,7 @@
 static doublereal c_b3 = 0.;
 static doublereal c_b7 = 1.;
 
-/* Subroutine */ int td03ay_(mwork, pwork, index, dcoeff, lddcoe, ucoeff, lduco1, lduco2, n, a, lda, b, ldb, c__, ldc, d__, ldd, info)
+/* Subroutine */ EXPORTSYMBOL int td03ay_(mwork, pwork, index, dcoeff, lddcoe, ucoeff, lduco1, lduco2, n, a, lda, b, ldb, c__, ldc, d__, ldd, info)
 integer *mwork, *pwork, *index;
 doublereal *dcoeff;
 integer *lddcoe;
@@ -33,14 +33,14 @@ integer *ldd, *info;
     static integer jmax1;
     static doublereal umax1;
     static integer i__, k;
-    extern /* Subroutine */ int dscal_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_();
     static integer ibias;
-    extern /* Subroutine */ int dcopy_(), daxpy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_(), daxpy_();
     static integer ia, ja;
     static doublereal absdia;
     extern doublereal dlamch_();
     extern integer idamax_();
-    extern /* Subroutine */ int dlaset_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlaset_();
     static doublereal absdmx, bignum;
     static integer indcur;
     static doublereal smlnum;

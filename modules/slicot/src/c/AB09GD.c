@@ -5,7 +5,7 @@
 
 #include "nelson_f2c.h"
 
-/* Subroutine */ int ab09gd_(dico, jobcf, fact, jobmr, equil, ordsel, n, m, p, nr, alpha, a, lda, b, ldb, c__, ldc, d__, ldd, nq, hsv, tol1, tol2, tol3, iwork, dwork, ldwork, iwarn, info, dico_len, jobcf_len, fact_len, jobmr_len, equil_len, ordsel_len)
+/* Subroutine */ EXPORTSYMBOL int ab09gd_(dico, jobcf, fact, jobmr, equil, ordsel, n, m, p, nr, alpha, a, lda, b, ldb, c__, ldc, d__, ldd, nq, hsv, tol1, tol2, tol3, iwork, dwork, ldwork, iwarn, info, dico_len, jobcf_len, fact_len, jobmr_len, equil_len, ordsel_len)
 char *dico, *jobcf, *fact, *jobmr, *equil, *ordsel;
 integer *n, *m, *p, *nr;
 doublereal *alpha, *a;
@@ -32,12 +32,12 @@ ftnlen ordsel_len;
     /* Local variables */
     static logical left;
     static integer ierr;
-    extern /* Subroutine */ int sb08cd_(), ab09bx_(), sb08dd_(), sb08ed_(), sb08fd_(), sb08gd_(), sb08hd_(), tb01id_();
+    extern /* Subroutine */ EXPORTSYMBOL int sb08cd_(), ab09bx_(), sb08dd_(), sb08ed_(), sb08fd_(), sb08gd_(), sb08hd_(), tb01id_();
     static logical stabd;
     extern logical lsame_();
     static logical discr;
     static integer maxmp, nminr, kb, kc, kd, mp, pm, kt, kw;
-    extern /* Subroutine */ int dlacpy_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), xerbla_();
     static doublereal maxred;
     static logical fixord;
     static integer iwarnk, lw1, lw2, lw3, lw4, wrkopt, kbr, kcr, kbt, kdr, kdt, ndr, kti, lwr;

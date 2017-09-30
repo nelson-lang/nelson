@@ -13,7 +13,7 @@ static integer c__0 = 0;
 static doublereal c_b57 = 1.;
 static doublereal c_b58 = 0.;
 
-/* Subroutine */ int ib01cd_(jobx0, comuse, job, n, m, l, nsmp, a, lda, b, ldb, c__, ldc, d__, ldd, u, ldu, y, ldy, x0, v, ldv, tol, iwork, dwork, ldwork, iwarn, info, jobx0_len, comuse_len, job_len)
+/* Subroutine */ EXPORTSYMBOL int ib01cd_(jobx0, comuse, job, n, m, l, nsmp, a, lda, b, ldb, c__, ldc, d__, ldd, u, ldu, y, ldy, x0, v, ldv, tol, iwork, dwork, ldwork, iwarn, info, jobx0_len, comuse_len, job_len)
 char *jobx0, *comuse, *job;
 integer *n, *m, *l, *nsmp;
 doublereal *a;
@@ -43,13 +43,13 @@ ftnlen job_len;
     /* Local variables */
     static char jobd[1];
     static integer ncol, ierr, itau, mtmp, i__;
-    extern /* Subroutine */ int ib01qd_(), ib01rd_(), dgemm_();
+    extern /* Subroutine */ EXPORTSYMBOL int ib01qd_(), ib01rd_(), dgemm_();
     extern logical lsame_();
     static logical usebd;
-    extern /* Subroutine */ int dgemv_(), tb01wd_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemv_(), tb01wd_();
     static doublereal rcond;
     static logical withb;
-    extern /* Subroutine */ int dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_();
     static logical withd;
     static integer isize, nsmpl, jwork;
     extern doublereal dlapy2_();
@@ -57,7 +57,7 @@ ftnlen job_len;
     static logical withx0;
     static integer lm, iq, ln, nm, nn;
     static logical maxdia, compbd;
-    extern /* Subroutine */ int dlacpy_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), xerbla_();
     extern integer ilaenv_();
     static logical maxdim;
     static doublereal rcondu;

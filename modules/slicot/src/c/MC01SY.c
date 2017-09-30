@@ -5,7 +5,7 @@
 
 #include "nelson_f2c.h"
 
-/* Subroutine */ int mc01sy_(m, e, b, a, ovflow)
+/* Subroutine */ EXPORTSYMBOL int mc01sy_(m, e, b, a, ovflow)
 doublereal *m;
 integer *e, *b;
 doublereal *a;

@@ -5,7 +5,7 @@
 
 #include "nelson_f2c.h"
 
-/* Subroutine */ int mc01sw_(a, b, m, e)
+/* Subroutine */ EXPORTSYMBOL int mc01sw_(a, b, m, e)
 doublereal *a;
 integer *b;
 doublereal *m;

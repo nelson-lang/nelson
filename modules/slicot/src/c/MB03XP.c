@@ -18,7 +18,7 @@ static logical c_false = FALSE_;
 static integer c__1 = 1;
 static doublereal c_b89 = -1.;
 
-/* Subroutine */ int mb03xp_(job, compq, compz, n, ilo, ihi, a, lda, b, ldb, q, ldq, z__, ldz, alphar, alphai, beta, dwork, ldwork, info, job_len, compq_len, compz_len)
+/* Subroutine */ EXPORTSYMBOL int mb03xp_(job, compq, compz, n, ilo, ihi, a, lda, b, ldb, q, ldq, z__, ldz, alphar, alphai, beta, dwork, ldwork, info, job_len, compq_len, compz_len)
 char *job, *compq, *compz;
 integer *n, *ilo, *ihi;
 doublereal *a;
@@ -41,37 +41,37 @@ ftnlen compz_len;
     doublereal d__1, d__2;
     char ch__1[2];
     /* Builtin functions */
-    /* Subroutine */ int s_cat();
+    /* Subroutine */ EXPORTSYMBOL int s_cat();
     /* Local variables */
     static integer maxb, ierr;
     static doublereal unfl, temp, ovfl, tauv, tauw;
     static integer i__, j, k, l;
     static doublereal v[51];
-    extern /* Subroutine */ int dscal_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_();
     static integer iseed[4];
     extern integer ue01md_();
-    extern /* Subroutine */ int mb03ya_(), mb03yd_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb03ya_(), mb03yd_();
     extern logical lsame_();
-    extern /* Subroutine */ int dgemv_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemv_();
     static integer itemp;
-    extern /* Subroutine */ int dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_();
     static logical initq;
-    extern /* Subroutine */ int daxpy_();
+    extern /* Subroutine */ EXPORTSYMBOL int daxpy_();
     static logical wantq;
     static integer i1, i2;
     static logical initz, wantt;
-    extern /* Subroutine */ int dtrmv_();
+    extern /* Subroutine */ EXPORTSYMBOL int dtrmv_();
     static logical wantz;
-    extern /* Subroutine */ int dlabad_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlabad_();
     static doublereal as[225]	/* was [15][15] */, bs[225]	/* was [15][15] */;
     static integer kk, nh;
     extern doublereal dlamch_();
-    extern /* Subroutine */ int dlarfg_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlarfg_();
     static integer nr, ns;
     extern integer idamax_();
     static integer nv;
     extern doublereal dlanhs_();
-    extern /* Subroutine */ int dlacpy_(), dlaset_(), xerbla_(), dlarfx_(), dlarnv_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), dlaset_(), xerbla_(), dlarfx_(), dlarnv_();
     static doublereal smlnum;
     static integer pv2, pv3, dum, itn, its;
     static doublereal ulp, tst;

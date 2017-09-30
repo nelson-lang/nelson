@@ -10,7 +10,7 @@
 static integer c__1 = 1;
 static integer c__2 = 2;
 
-/* Subroutine */ int mb03pd_(jobrq, m, n, a, lda, jpvt, rcond, svlmax, tau, rank, sval, dwork, info, jobrq_len)
+/* Subroutine */ EXPORTSYMBOL int mb03pd_(jobrq, m, n, a, lda, jpvt, rcond, svlmax, tau, rank, sval, dwork, info, jobrq_len)
 char *jobrq;
 integer *m, *n;
 doublereal *a;
@@ -27,16 +27,16 @@ ftnlen jobrq_len;
     /* Local variables */
     static doublereal smin, smax;
     static integer i__;
-    extern /* Subroutine */ int mb04gd_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb04gd_();
     extern logical lsame_();
-    extern /* Subroutine */ int dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_();
     static integer ismin, ismax;
     static doublereal c1, c2;
     static integer jwork;
-    extern /* Subroutine */ int dlaic1_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlaic1_();
     static doublereal s1, s2;
     static integer mn;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static logical ljobrq;
     static doublereal sminpr, smaxpr;
     /*     SLICOT RELEASE 5.0. */

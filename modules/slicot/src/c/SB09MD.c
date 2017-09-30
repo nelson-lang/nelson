@@ -5,7 +5,7 @@
 
 #include "nelson_f2c.h"
 
-/* Subroutine */ int sb09md_(n, nc, nb, h1, ldh1, h2, ldh2, ss, ldss, se, ldse, pre, ldpre, tol, info)
+/* Subroutine */ EXPORTSYMBOL int sb09md_(n, nc, nb, h1, ldh1, h2, ldh2, ss, ldss, se, ldse, pre, ldpre, tol, info)
 integer *n, *nc, *nb;
 doublereal *h1;
 integer *ldh1;
@@ -30,7 +30,7 @@ integer *info;
     static integer i__, j, k;
     static doublereal toler;
     extern doublereal dlamch_();
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static logical noflow;
     static doublereal var, sse, sss;
     /*     SLICOT RELEASE 5.0. */

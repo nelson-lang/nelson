@@ -9,7 +9,7 @@
 
 static integer c__1 = 1;
 
-/* Subroutine */ int ma02dd_(job, uplo, n, a, lda, ap, job_len, uplo_len)
+/* Subroutine */ EXPORTSYMBOL int ma02dd_(job, uplo, n, a, lda, ap, job_len, uplo_len)
 char *job, *uplo;
 integer *n;
 doublereal *a;
@@ -23,7 +23,7 @@ ftnlen uplo_len;
     /* Local variables */
     static integer j;
     extern logical lsame_();
-    extern /* Subroutine */ int dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_();
     static logical luplo;
     static integer ij;
     /*     SLICOT RELEASE 5.0. */

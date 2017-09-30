@@ -5,7 +5,7 @@
 
 #include "nelson_f2c.h"
 
-/* Subroutine */ int md03ba_(n, ipar, lipar, fnorm, j, ldj, e, jnorms, gnorm, ipvt, dwork, ldwork, info)
+/* Subroutine */ EXPORTSYMBOL int md03ba_(n, ipar, lipar, fnorm, j, ldj, e, jnorms, gnorm, ipvt, dwork, ldwork, info)
 integer *n, *ipar, *lipar;
 doublereal *fnorm, *j;
 integer *ldj;
@@ -14,7 +14,7 @@ integer *ipvt;
 doublereal *dwork;
 integer *ldwork, *info;
 {
-    extern /* Subroutine */ int md03bx_();
+    extern /* Subroutine */ EXPORTSYMBOL int md03bx_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */

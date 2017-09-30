@@ -5,7 +5,7 @@
 
 #include "nelson_f2c.h"
 
-/* Subroutine */ int mb01pd_(scun, type__, m, n, kl, ku, anrm, nbl, nrows, a, lda, info, scun_len, type_len)
+/* Subroutine */ EXPORTSYMBOL int mb01pd_(scun, type__, m, n, kl, ku, anrm, nbl, nrows, a, lda, info, scun_len, type_len)
 char *scun, *type__;
 integer *m, *n, *kl, *ku;
 doublereal *anrm;
@@ -21,14 +21,14 @@ ftnlen type_len;
     integer a_dim1, a_offset, i__1;
     /* Local variables */
     static integer isum, i__;
-    extern /* Subroutine */ int mb01qd_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb01qd_();
     extern logical lsame_();
     static integer itype;
-    extern /* Subroutine */ int dlabad_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlabad_();
     extern doublereal dlamch_();
     static integer mn;
     static logical lscale;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static doublereal bignum, smlnum;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

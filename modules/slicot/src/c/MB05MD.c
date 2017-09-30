@@ -12,7 +12,7 @@ static integer c__1 = 1;
 static integer c__2 = 2;
 static doublereal c_b40 = 0.;
 
-/* Subroutine */ int mb05md_(balanc, n, delta, a, lda, v, ldv, y, ldy, valr, vali, iwork, dwork, ldwork, info, balanc_len)
+/* Subroutine */ EXPORTSYMBOL int mb05md_(balanc, n, delta, a, lda, v, ldv, y, ldy, valr, vali, iwork, dwork, ldwork, info, balanc_len)
 char *balanc;
 integer *n;
 doublereal *delta, *a;
@@ -34,16 +34,16 @@ ftnlen balanc_len;
     /* Local variables */
     static integer i__;
     static logical scale;
-    extern /* Subroutine */ int dscal_(), dgemm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_(), dgemm_();
     extern logical lsame_();
     static doublereal rcond;
-    extern /* Subroutine */ int mb05my_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb05my_();
     static doublereal tempi;
-    extern /* Subroutine */ int dswap_(), dtrmm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dswap_(), dtrmm_();
     static doublereal tempr;
-    extern /* Subroutine */ int dtrsm_(), dgebak_();
+    extern /* Subroutine */ EXPORTSYMBOL int dtrsm_(), dgebak_();
     extern doublereal dlamch_();
-    extern /* Subroutine */ int dlacpy_(), xerbla_(), dtrcon_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), xerbla_(), dtrcon_();
     static doublereal wrkopt, tmp[4]	/* was [2][2] */;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

@@ -12,7 +12,7 @@ static doublereal c_b25 = 0.;
 static doublereal c_b74 = -1.;
 static integer c__1 = 1;
 
-/* Subroutine */ int sb10dd_(n, m, np, ncon, nmeas, gamma, a, lda, b, ldb, c__, ldc, d__, ldd, ak, ldak, bk, ldbk, ck, ldck, dk, lddk, x, ldx, z__, ldz, rcond, tol, iwork, dwork, ldwork, bwork, info)
+/* Subroutine */ EXPORTSYMBOL int sb10dd_(n, m, np, ncon, nmeas, gamma, a, lda, b, ldb, c__, ldc, d__, ldd, ak, ldak, bk, ldbk, ck, ldck, dk, lddk, x, ldx, z__, ldz, rcond, tol, iwork, dwork, ldwork, bwork, info)
 integer *n, *m, *np, *ncon, *nmeas;
 doublereal *gamma, *a;
 integer *lda;
@@ -46,22 +46,22 @@ integer *info;
     /* Local variables */
     static doublereal sepd, ferr, toll;
     static integer iwrk, info2;
-    extern /* Subroutine */ int ma02ad_();
+    extern /* Subroutine */ EXPORTSYMBOL int ma02ad_();
     static integer j;
-    extern /* Subroutine */ int dscal_(), dgemm_(), sb02od_(), sb02sd_(), mb01ru_(), mb01rx_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_(), dgemm_(), sb02od_(), sb02sd_(), mb01ru_(), mb01rx_();
     static doublereal anorm;
-    extern /* Subroutine */ int dswap_(), dtrsm_(), dsyrk_();
+    extern /* Subroutine */ EXPORTSYMBOL int dswap_(), dtrsm_(), dsyrk_();
     static integer m1, m2;
     static doublereal rcond2;
     extern doublereal dlamch_(), dlange_();
-    extern /* Subroutine */ int dgecon_(), dgetrf_(), dgesvd_(), dlacpy_(), dlaset_(), xerbla_(), dpocon_(), dgetrs_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgecon_(), dgetrf_(), dgesvd_(), dlacpy_(), dlaset_(), xerbla_(), dpocon_(), dgetrs_();
     static integer lwamax;
     extern doublereal dlansy_();
-    extern /* Subroutine */ int dtrcon_(), dpotrf_();
+    extern /* Subroutine */ EXPORTSYMBOL int dtrcon_(), dpotrf_();
     static integer minwrk;
-    extern /* Subroutine */ int dsytrf_();
+    extern /* Subroutine */ EXPORTSYMBOL int dsytrf_();
     static integer ir2, ir3, is2, is3, np1, np2;
-    extern /* Subroutine */ int dsytrs_();
+    extern /* Subroutine */ EXPORTSYMBOL int dsytrs_();
     static integer iwb, iwc, iwd, iwg, iwh, iwi, iwl, iwq, iwr, iws, iwt, iwu, iwv, iww;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

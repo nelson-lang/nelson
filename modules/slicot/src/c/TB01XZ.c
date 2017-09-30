@@ -9,7 +9,7 @@
 
 static integer c__1 = 1;
 
-/* Subroutine */ int tb01xz_(jobd, n, m, p, kl, ku, a, lda, b, ldb, c__, ldc, d__, ldd, info, jobd_len)
+/* Subroutine */ EXPORTSYMBOL int tb01xz_(jobd, n, m, p, kl, ku, a, lda, b, ldb, c__, ldc, d__, ldd, info, jobd_len)
 char *jobd;
 integer *n, *m, *p, *kl, *ku;
 doublecomplex *a;
@@ -29,7 +29,7 @@ ftnlen jobd_len;
     static logical ljobd;
     extern logical lsame_();
     static integer minmp, maxmp, j1;
-    extern /* Subroutine */ int zcopy_(), zswap_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int zcopy_(), zswap_(), xerbla_();
     static integer nm1, lda1;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

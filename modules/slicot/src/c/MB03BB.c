@@ -14,7 +14,7 @@ static integer c__3 = 3;
 static integer c__1 = 1;
 static integer c__2 = 2;
 
-/* Subroutine */ int mb03bb_(base, lgbas, ulp, k, amap, s, sinv, a, lda1, lda2, alphar, alphai, beta, scal, dwork, info)
+/* Subroutine */ EXPORTSYMBOL int mb03bb_(base, lgbas, ulp, k, amap, s, sinv, a, lda1, lda2, alphar, alphai, beta, scal, dwork, info)
 doublereal *base, *lgbas, *ulp;
 integer *k, *amap, *s, *sinv;
 doublereal *a;
@@ -33,7 +33,7 @@ integer *info;
     double d_imag(), log(), pow_dd();
     /* Local variables */
     static doublecomplex temp;
-    extern /* Subroutine */ int zrot_();
+    extern /* Subroutine */ EXPORTSYMBOL int zrot_();
     static integer i__, j;
     static doublecomplex t[4]	/* was [2][2] */, z__[9]	/* was [3][3] */;
     static integer iiter;
@@ -43,7 +43,7 @@ integer *info;
     static doublereal cs;
     static integer sl;
     static doublecomplex sn;
-    extern /* Subroutine */ int dladiv_(), zlartg_();
+    extern /* Subroutine */ EXPORTSYMBOL int dladiv_(), zlartg_();
     static integer pdm;
     static doublereal lhs, cst;
     static integer pdw;

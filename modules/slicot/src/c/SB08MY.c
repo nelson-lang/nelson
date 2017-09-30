@@ -5,7 +5,7 @@
 
 #include "nelson_f2c.h"
 
-/* Subroutine */ int sb08my_(da, a, b, epsb)
+/* Subroutine */ EXPORTSYMBOL int sb08my_(da, a, b, epsb)
 integer *da;
 doublereal *a, *b, *epsb;
 {

@@ -12,7 +12,7 @@ static doublereal c_b10 = 0.;
 static integer c__1 = 1;
 static doublereal c_b48 = -1.;
 
-/* Subroutine */ int sb10jd_(n, m, np, a, lda, b, ldb, c__, ldc, d__, ldd, e, lde, nsys, dwork, ldwork, info)
+/* Subroutine */ EXPORTSYMBOL int sb10jd_(n, m, np, a, lda, b, ldb, c__, ldc, d__, ldd, e, lde, nsys, dwork, ldwork, info)
 integer *n, *m, *np;
 doublereal *a;
 integer *lda;
@@ -34,12 +34,12 @@ integer *ldwork, *info;
     double sqrt();
     /* Local variables */
     static integer iwrk, info2, i__, j, k;
-    extern /* Subroutine */ int dscal_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_();
     static doublereal scale;
-    extern /* Subroutine */ int dgemm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemm_();
     extern doublereal dlamch_();
     static integer is, iu, iv;
-    extern /* Subroutine */ int dgesvd_(), dlacpy_(), dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgesvd_(), dlacpy_(), dlaset_(), xerbla_();
     static integer lwamax, ib2, ic2, minwrk, ns1, ia12, ia21, isa, lwa;
     static doublereal eps, tol;
     /*     SLICOT RELEASE 5.0. */

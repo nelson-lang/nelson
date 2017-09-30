@@ -11,7 +11,7 @@ static doublereal c_b19 = 0.;
 static doublereal c_b24 = 1.;
 static doublereal c_b29 = .66666666666666663;
 
-/* Subroutine */ int ab09hd_(dico, job, equil, ordsel, n, m, p, nr, alpha, beta, a, lda, b, ldb, c__, ldc, d__, ldd, ns, hsv, tol1, tol2, iwork, dwork, ldwork, bwork, iwarn, info, dico_len, job_len, equil_len, ordsel_len)
+/* Subroutine */ EXPORTSYMBOL int ab09hd_(dico, job, equil, ordsel, n, m, p, nr, alpha, beta, a, lda, b, ldb, c__, ldc, d__, ldd, ns, hsv, tol1, tol2, iwork, dwork, ldwork, bwork, iwarn, info, dico_len, job_len, equil_len, ordsel_len)
 char *dico, *job, *equil, *ordsel;
 integer *n, *m, *p, *nr;
 doublereal *alpha, *beta, *a;
@@ -41,7 +41,7 @@ ftnlen ordsel_len;
     /* Local variables */
     static integer ierr;
     static doublereal epsm;
-    extern /* Subroutine */ int ab04md_(), tb01id_(), tb01kd_(), ab09hy_(), ab09ix_();
+    extern /* Subroutine */ EXPORTSYMBOL int ab04md_(), tb01id_(), tb01kd_(), ab09hy_(), ab09ix_();
     extern logical lsame_();
     static logical discr;
     static integer n2, kb, kd, mb;
@@ -49,9 +49,9 @@ ftnlen ordsel_len;
     static doublereal scalec;
     static integer nn, kt, ku, kw, lw, nu;
     static doublereal scaleo;
-    extern /* Subroutine */ int dlacpy_(), dlaset_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), dlaset_();
     static doublereal ricond;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static doublereal maxred;
     static logical fixord, lequil;
     static integer iwarnl, nu1, wrkopt;

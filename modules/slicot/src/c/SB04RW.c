@@ -12,7 +12,7 @@ static doublereal c_b7 = 1.;
 static doublereal c_b9 = 0.;
 static doublereal c_b12 = -1.;
 
-/* Subroutine */ int sb04rw_(abschr, ul, n, m, c__, ldc, indx, ab, ldab, ba, ldba, d__, dwork, abschr_len, ul_len)
+/* Subroutine */ EXPORTSYMBOL int sb04rw_(abschr, ul, n, m, c__, ldc, indx, ab, ldab, ba, ldba, d__, dwork, abschr_len, ul_len)
 char *abschr, *ul;
 integer *n, *m;
 doublereal *c__;
@@ -29,7 +29,7 @@ ftnlen ul_len;
     integer ab_dim1, ab_offset, ba_dim1, ba_offset, c_dim1, c_offset, i__1;
     /* Local variables */
     extern logical lsame_();
-    extern /* Subroutine */ int dgemv_(), dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemv_(), dcopy_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */

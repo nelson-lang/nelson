@@ -14,7 +14,7 @@ static integer c__2 = 2;
 static doublereal c_b42 = 1.;
 static doublereal c_b48 = -1.;
 
-/* Subroutine */ int mb03wa_(wantq, wantz, n1, n2, a, lda, b, ldb, q, ldq, z__, ldz, info)
+/* Subroutine */ EXPORTSYMBOL int mb03wa_(wantq, wantz, n1, n2, a, lda, b, ldb, q, ldq, z__, ldz, info)
 logical *wantq, *wantz;
 integer *n1, *n2;
 doublereal *a;
@@ -34,26 +34,26 @@ integer *ldz, *info;
     /* Local variables */
     static logical weak;
     static doublereal ddum, taul[4], dsum;
-    extern /* Subroutine */ int drot_();
+    extern /* Subroutine */ EXPORTSYMBOL int drot_();
     static doublereal taur[4], scpy[16]	/* was [4][4] */, tcpy[16]	/* was [4][4] */, f, g;
     static integer i__, m;
     static doublereal s[16]	/* was [4][4] */, t[16]	/* was [4][4] */;
-    extern /* Subroutine */ int dscal_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_();
     static doublereal scale, bqra21, brqa21;
-    extern /* Subroutine */ int dgemm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemm_();
     static doublereal licop[16]	/* was [4][4] */;
     static integer linfo;
     static doublereal ircop[16]	/* was [4][4] */;
-    extern /* Subroutine */ int mb03yt_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb03yt_();
     static doublereal dnorm;
-    extern /* Subroutine */ int sb04ow_();
+    extern /* Subroutine */ EXPORTSYMBOL int sb04ow_();
     static doublereal dwork[32];
     static integer iwork[4];
-    extern /* Subroutine */ int dgeqr2_(), dgerq2_(), dorg2r_(), dorgr2_(), dorm2r_(), dormr2_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgeqr2_(), dgerq2_(), dorg2r_(), dorgr2_(), dorm2r_(), dormr2_();
     static doublereal be[2], ai[2], ar[2], sa, sb, li[16]	/* was [4][4] */;
     extern doublereal dlamch_();
     static doublereal dscale, ir[16]	/* was [4][4] */, ss, ws;
-    extern /* Subroutine */ int dlacpy_(), dlartg_(), dlaset_(), dlassq_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), dlartg_(), dlaset_(), dlassq_();
     static logical dtrong;
     static doublereal thresh, smlnum, eps;
     /*     SLICOT RELEASE 5.0. */

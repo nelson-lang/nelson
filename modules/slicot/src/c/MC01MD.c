@@ -9,7 +9,7 @@
 
 static integer c__1 = 1;
 
-/* Subroutine */ int mc01md_(dp, alpha, k, p, q, info)
+/* Subroutine */ EXPORTSYMBOL int mc01md_(dp, alpha, k, p, q, info)
 integer *dp;
 doublereal *alpha;
 integer *k;
@@ -20,7 +20,7 @@ integer *info;
     integer i__1, i__2;
     /* Local variables */
     static integer i__, j;
-    extern /* Subroutine */ int dcopy_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_(), xerbla_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */

@@ -9,7 +9,7 @@
 
 static integer c__1 = 1;
 
-/* Subroutine */ int mb02cu_(typeg, k, p, q, nb, a1, lda1, a2, lda2, b, ldb, rnk, ipvt, cs, tol, dwork, ldwork, info, typeg_len)
+/* Subroutine */ EXPORTSYMBOL int mb02cu_(typeg, k, p, q, nb, a1, lda1, a2, lda2, b, ldb, rnk, ipvt, cs, tol, dwork, ldwork, info, typeg_len)
 char *typeg;
 integer *k, *p, *q, *nb;
 doublereal *a1;
@@ -33,26 +33,26 @@ ftnlen typeg_len;
     static doublereal dmax__;
     static integer imax, ierr;
     static doublereal temp;
-    extern /* Subroutine */ int drot_();
+    extern /* Subroutine */ EXPORTSYMBOL int drot_();
     static doublereal tolz;
     extern doublereal dnrm2_();
     static doublereal temp2, c__;
     static integer i__, j;
-    extern /* Subroutine */ int ma02fd_();
+    extern /* Subroutine */ EXPORTSYMBOL int ma02fd_();
     static doublereal s, alpha;
-    extern /* Subroutine */ int dscal_(), dlarf_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_(), dlarf_();
     static logical lrdef;
     extern logical lsame_();
     static integer itemp;
-    extern /* Subroutine */ int dswap_(), daxpy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dswap_(), daxpy_();
     static doublereal alpha2;
-    extern /* Subroutine */ int dgelq2_(), dgeqr2_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgelq2_(), dgeqr2_();
     extern doublereal dlapy2_();
     static integer ib, jj;
     extern doublereal dlamch_();
-    extern /* Subroutine */ int dlarfb_(), dlarfg_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlarfb_(), dlarfg_();
     extern integer idamax_();
-    extern /* Subroutine */ int dlarft_(), dlartg_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlarft_(), dlartg_(), xerbla_();
     static integer wrkmin, nbl, len, pdw, phv, pos, pvt, col2;
     static doublereal tau1, tau2;
     static integer pst2;

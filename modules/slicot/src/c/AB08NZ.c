@@ -13,7 +13,7 @@ static integer c__0 = 0;
 static integer c_n1 = -1;
 static integer c__1 = 1;
 
-/* Subroutine */ int ab08nz_(equil, n, m, p, a, lda, b, ldb, c__, ldc, d__, ldd, nu, rank, dinfz, nkror, nkrol, infz, kronr, kronl, af, ldaf, bf, ldbf, tol, iwork, dwork, zwork, lzwork, info, equil_len)
+/* Subroutine */ EXPORTSYMBOL int ab08nz_(equil, n, m, p, a, lda, b, ldb, c__, ldc, d__, ldd, nu, rank, dinfz, nkror, nkrol, infz, kronr, kronl, af, ldaf, bf, ldbf, tol, iwork, dwork, zwork, lzwork, info, equil_len)
 char *equil;
 integer *n, *m, *p;
 doublecomplex *a;
@@ -42,25 +42,25 @@ ftnlen equil_len;
     /* Local variables */
     static integer numu, numu1, i__, j, sigma;
     extern logical lsame_();
-    extern /* Subroutine */ int tb01iz_();
+    extern /* Subroutine */ EXPORTSYMBOL int tb01iz_();
     static integer ninfz;
     static doublereal toler;
     static integer i1;
-    extern /* Subroutine */ int zcopy_(), ab8nxz_();
+    extern /* Subroutine */ EXPORTSYMBOL int zcopy_(), ab8nxz_();
     static integer nb, ii;
     extern doublereal dlamch_();
     static integer mm, nn, pp, ro, mu;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     extern integer ilaenv_();
     static doublereal maxred;
     extern doublereal zlange_();
     static logical lequil;
     static doublereal thresh;
-    extern /* Subroutine */ int zlacpy_(), zlaset_();
+    extern /* Subroutine */ EXPORTSYMBOL int zlacpy_(), zlaset_();
     static doublereal svlmax;
     static logical lquery;
     static integer nu1, wrkopt;
-    extern /* Subroutine */ int zunmrz_(), ztzrzf_();
+    extern /* Subroutine */ EXPORTSYMBOL int zunmrz_(), ztzrzf_();
     static integer mnu;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

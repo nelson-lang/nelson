@@ -9,7 +9,7 @@
 
 static integer c__1 = 1;
 
-/* Subroutine */ int tb04bx_(ip, iz, a, lda, b, c__, d__, pr, pi, zr, zi, gain, iwork)
+/* Subroutine */ EXPORTSYMBOL int tb04bx_(ip, iz, a, lda, b, c__, d__, pr, pi, zr, zi, gain, iwork)
 integer *ip, *iz;
 doublereal *a;
 integer *lda;
@@ -23,7 +23,7 @@ integer *iwork;
     extern doublereal ddot_();
     static integer info, i__;
     static doublereal s;
-    extern /* Subroutine */ int mb02rd_(), mb02sd_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb02rd_(), mb02sd_();
     static doublereal s0;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

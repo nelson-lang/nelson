@@ -9,7 +9,7 @@
 
 static integer c__1 = 1;
 
-/* Subroutine */ int mb04gd_(m, n, a, lda, jpvt, tau, dwork, info)
+/* Subroutine */ EXPORTSYMBOL int mb04gd_(m, n, a, lda, jpvt, tau, dwork, info)
 integer *m, *n;
 doublereal *a;
 integer *lda, *jpvt;
@@ -26,14 +26,14 @@ integer *info;
     extern doublereal dnrm2_();
     static doublereal temp2;
     static integer i__, j, k;
-    extern /* Subroutine */ int dlarf_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlarf_();
     static integer nfree, itemp;
-    extern /* Subroutine */ int dswap_(), dgerq2_(), dormr2_();
+    extern /* Subroutine */ EXPORTSYMBOL int dswap_(), dgerq2_(), dormr2_();
     static integer ma;
     extern doublereal dlamch_();
-    extern /* Subroutine */ int dlarfg_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlarfg_();
     extern integer idamax_();
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static doublereal aii;
     static integer mki, nki, pvt;
     /*     SLICOT RELEASE 5.0. */

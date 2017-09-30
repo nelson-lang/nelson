@@ -10,7 +10,7 @@
 static integer c__2 = 2;
 static integer c__1 = 1;
 
-/* Subroutine */ int mb03be_(k, amap, s, sinv, a, lda1, lda2)
+/* Subroutine */ EXPORTSYMBOL int mb03be_(k, amap, s, sinv, a, lda1, lda2)
 integer *k, *amap, *s, *sinv;
 doublereal *a;
 integer *lda1, *lda2;
@@ -19,10 +19,10 @@ integer *lda1, *lda2;
     integer a_dim1, a_dim2, a_offset;
     /* Local variables */
     static doublereal temp;
-    extern /* Subroutine */ int drot_(), mb03ad_();
+    extern /* Subroutine */ EXPORTSYMBOL int drot_(), mb03ad_();
     static integer i__, l, ai;
     static doublereal cs, ct, sn, st;
-    extern /* Subroutine */ int dlartg_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlartg_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */

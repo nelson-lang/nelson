@@ -10,7 +10,7 @@
 static integer c__1 = 1;
 static doublereal c_b8 = 0.;
 
-/* Subroutine */ int sb03ou_(discr, ltrans, n, m, a, lda, b, ldb, tau, u, ldu, scale, dwork, ldwork, info)
+/* Subroutine */ EXPORTSYMBOL int sb03ou_(discr, ltrans, n, m, a, lda, b, ldb, tau, u, ldu, scale, dwork, ldwork, info)
 logical *discr, *ltrans;
 integer *n, *m;
 doublereal *a;
@@ -26,9 +26,9 @@ integer *ldwork, *info;
     integer a_dim1, a_offset, b_dim1, b_offset, u_dim1, u_offset, i__1, i__2;
     /* Local variables */
     static integer i__, j, k, l;
-    extern /* Subroutine */ int sb03ot_(), dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int sb03ot_(), dcopy_();
     static integer mn;
-    extern /* Subroutine */ int dgeqrf_(), dgerqf_(), dlacpy_(), dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgeqrf_(), dgerqf_(), dlacpy_(), dlaset_(), xerbla_();
     static integer wrkopt;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

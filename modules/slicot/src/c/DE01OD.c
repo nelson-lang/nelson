@@ -9,7 +9,7 @@
 
 static integer c__1 = 1;
 
-/* Subroutine */ int de01od_(conv, n, a, b, info, conv_len)
+/* Subroutine */ EXPORTSYMBOL int de01od_(conv, n, a, b, info, conv_len)
 char *conv;
 integer *n;
 doublereal *a, *b;
@@ -21,13 +21,13 @@ ftnlen conv_len;
     doublereal d__1, d__2;
     /* Local variables */
     static integer nd2p1, j;
-    extern /* Subroutine */ int dg01md_(), dscal_();
+    extern /* Subroutine */ EXPORTSYMBOL int dg01md_(), dscal_();
     extern logical lsame_();
     static logical lconv;
     static doublereal ac, bc, ci, as;
     static integer kj;
     static doublereal bs, cr;
-    extern /* Subroutine */ int dladiv_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dladiv_(), xerbla_();
     static doublereal ast;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

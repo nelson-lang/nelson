@@ -9,7 +9,7 @@
 
 static integer c__1 = 1;
 
-/* Subroutine */ int mb04md_(n, maxred, a, lda, scale, info)
+/* Subroutine */ EXPORTSYMBOL int mb04md_(n, maxred, a, lda, scale, info)
 integer *n;
 doublereal *maxred, *a;
 integer *lda;
@@ -23,11 +23,11 @@ integer *info;
     static doublereal sred, c__, f, g;
     static integer i__, j;
     static doublereal r__, s;
-    extern /* Subroutine */ int dscal_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_();
     static doublereal anorm, sfmin1, sfmin2, sfmax1, sfmax2, ca, ra;
     extern doublereal dlamch_(), dlange_();
     extern integer idamax_();
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static logical noconv;
     static doublereal maxnrm;
     static integer ica, ira;

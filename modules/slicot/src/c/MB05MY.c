@@ -13,7 +13,7 @@ static integer c_n1 = -1;
 static integer c__8 = 8;
 static integer c__4 = 4;
 
-/* Subroutine */ int mb05my_(balanc, n, a, lda, wr, wi, r__, ldr, q, ldq, dwork, ldwork, info, balanc_len)
+/* Subroutine */ EXPORTSYMBOL int mb05my_(balanc, n, a, lda, wr, wi, r__, ldr, q, ldq, dwork, ldwork, info, balanc_len)
 char *balanc;
 integer *n;
 doublereal *a;
@@ -37,16 +37,16 @@ ftnlen balanc_len;
     static logical scale;
     extern logical lsame_();
     static integer jwork;
-    extern /* Subroutine */ int dlabad_(), dgebal_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlabad_(), dgebal_();
     static logical scalea;
     extern doublereal dlamch_();
     static doublereal cscale;
     extern doublereal dlange_();
-    extern /* Subroutine */ int dgehrd_(), dlascl_(), dlacpy_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgehrd_(), dlascl_(), dlacpy_(), xerbla_();
     extern integer ilaenv_();
     static logical select[1];
     static doublereal bignum;
-    extern /* Subroutine */ int dorghr_(), dhseqr_(), dtrevc_();
+    extern /* Subroutine */ EXPORTSYMBOL int dorghr_(), dhseqr_(), dtrevc_();
     static integer hsdwor, minwrk, maxwrk;
     static doublereal smlnum;
     static integer ihi, ilo;

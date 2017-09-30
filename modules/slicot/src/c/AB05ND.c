@@ -11,7 +11,7 @@ static doublereal c_b6 = 0.;
 static doublereal c_b7 = 1.;
 static integer c__1 = 1;
 
-/* Subroutine */ int ab05nd_(over, n1, m1, p1, n2, alpha, a1, lda1, b1, ldb1, c1, ldc1, d1, ldd1, a2, lda2, b2, ldb2, c2, ldc2, d2, ldd2, n, a, lda, b, ldb, c__, ldc, d__, ldd, iwork, dwork, ldwork, info, over_len)
+/* Subroutine */ EXPORTSYMBOL int ab05nd_(over, n1, m1, p1, n2, alpha, a1, lda1, b1, ldb1, c1, ldc1, d1, ldd1, a2, lda2, b2, ldb2, c2, ldc2, d2, ldd2, n, a, lda, b, ldb, c__, ldc, d__, ldd, iwork, dwork, ldwork, info, over_len)
 char *over;
 integer *n1, *m1, *p1, *n2;
 doublereal *alpha, *a1;
@@ -47,11 +47,11 @@ ftnlen over_len;
     doublereal d__1;
     /* Local variables */
     static integer ldwm1, i__, j;
-    extern /* Subroutine */ int dgemm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemm_();
     extern logical lsame_();
-    extern /* Subroutine */ int dgemv_(), dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemv_(), dcopy_();
     static logical lover;
-    extern /* Subroutine */ int dgetrf_(), dlacpy_(), dlaset_(), xerbla_(), dgetrs_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgetrf_(), dlacpy_(), dlaset_(), xerbla_(), dgetrs_();
     static integer ldw;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

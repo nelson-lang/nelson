@@ -12,7 +12,7 @@ static doublereal c_b8 = 1.;
 static integer c__1 = 1;
 static integer c_n1 = -1;
 
-/* Subroutine */ int tf01my_(n, m, p, ny, a, lda, b, ldb, c__, ldc, d__, ldd, u, ldu, x, y, ldy, dwork, ldwork, info)
+/* Subroutine */ EXPORTSYMBOL int tf01my_(n, m, p, ny, a, lda, b, ldb, c__, ldc, d__, ldd, u, ldu, x, y, ldy, dwork, ldwork, info)
 integer *n, *m, *p, *ny;
 doublereal *a;
 integer *lda;
@@ -33,9 +33,9 @@ integer *ldwork, *info;
     integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, u_dim1, u_offset, y_dim1, y_offset, i__1, i__2, i__3;
     /* Local variables */
     static integer irem, maxn;
-    extern /* Subroutine */ int dgemm_(), dgemv_(), dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemm_(), dgemv_(), dcopy_();
     static integer nb, ik, is, ns;
-    extern /* Subroutine */ int dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlaset_(), xerbla_();
     extern integer ilaenv_();
     static doublereal upd;
     static integer iyl;

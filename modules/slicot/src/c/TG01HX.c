@@ -12,7 +12,7 @@ static doublereal c_b11 = 1.;
 static integer c__1 = 1;
 static integer c__2 = 2;
 
-/* Subroutine */ int tg01hx_(compq, compz, l, n, m, p, n1, lbe, a, lda, e, lde, b, ldb, c__, ldc, q, ldq, z__, ldz, nr, nrblck, rtau, tol, iwork, dwork, info, compq_len, compz_len)
+/* Subroutine */ EXPORTSYMBOL int tg01hx_(compq, compz, l, n, m, p, n1, lbe, a, lda, e, lde, b, ldb, c__, ldc, q, ldq, z__, ldz, nr, nrblck, rtau, tol, iwork, dwork, info, compq_len, compz_len)
 char *compq, *compz;
 integer *l, *n, *m, *p, *n1, *lbe;
 doublereal *a;
@@ -42,20 +42,20 @@ ftnlen compz_len;
     /* Local variables */
     static integer icol, rank;
     static doublereal smin, smax;
-    extern /* Subroutine */ int drot_();
+    extern /* Subroutine */ EXPORTSYMBOL int drot_();
     static integer irow;
     static doublereal tolz;
     extern doublereal dnrm2_();
     static integer i__, j, k;
     static doublereal t;
-    extern /* Subroutine */ int dlarf_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlarf_();
     extern logical lsame_();
     static doublereal rcond;
     static logical withc;
     static integer ismin, ismax;
-    extern /* Subroutine */ int dswap_();
+    extern /* Subroutine */ EXPORTSYMBOL int dswap_();
     static doublereal c1, c2;
-    extern /* Subroutine */ int dlaic1_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlaic1_();
     static doublereal s1, s2;
     extern doublereal dlapy2_();
     static integer tauim1, ic;
@@ -64,10 +64,10 @@ ftnlen compz_len;
     extern doublereal dlamch_(), dlange_();
     static integer mn;
     static doublereal si;
-    extern /* Subroutine */ int dlarfg_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlarfg_();
     extern integer idamax_();
     static doublereal tt;
-    extern /* Subroutine */ int dlacpy_(), dlartg_(), dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), dlartg_(), dlaset_(), xerbla_();
     static integer icompq, icompz;
     static doublereal sminpr, smaxpr, svlmax;
     static integer nr1;

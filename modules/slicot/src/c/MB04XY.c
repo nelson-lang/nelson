@@ -9,7 +9,7 @@
 
 static integer c__1 = 1;
 
-/* Subroutine */ int mb04xy_(jobu, jobv, m, n, x, ldx, taup, tauq, u, ldu, v, ldv, inul, info, jobu_len, jobv_len)
+/* Subroutine */ EXPORTSYMBOL int mb04xy_(jobu, jobv, m, n, x, ldx, taup, tauq, u, ldu, v, ldv, inul, info, jobu_len, jobv_len)
 char *jobu, *jobv;
 integer *m, *n;
 doublereal *x;
@@ -27,13 +27,13 @@ ftnlen jobv_len;
     integer u_dim1, u_offset, v_dim1, v_offset, x_dim1, x_offset, i__1, i__2;
     /* Local variables */
     static integer ioff, ncol, i__, l, p;
-    extern /* Subroutine */ int dlarf_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlarf_();
     extern logical lsame_();
     static doublereal dwork[1], first;
     static logical wantu, wantv;
     static integer im;
     static logical ljobua, ljobva;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static logical ljobus, ljobvs;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

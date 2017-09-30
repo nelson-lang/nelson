@@ -5,7 +5,7 @@
 
 #include "nelson_f2c.h"
 
-/* Subroutine */ int ma01ad_(xr, xi, yr, yi)
+/* Subroutine */ EXPORTSYMBOL int ma01ad_(xr, xi, yr, yi)
 doublereal *xr, *xi, *yr, *yi;
 {
     /* Builtin functions */

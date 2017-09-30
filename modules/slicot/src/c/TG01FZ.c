@@ -12,7 +12,7 @@ static doublecomplex c_b2 = {0.,0.};
 static integer c__1 = 1;
 static integer c_n1 = -1;
 
-/* Subroutine */ int tg01fz_(compq, compz, joba, l, n, m, p, a, lda, e, lde, b, ldb, c__, ldc, q, ldq, z__, ldz, ranke, rnka22, tol, iwork, dwork, zwork, lzwork, info, compq_len, compz_len, joba_len)
+/* Subroutine */ EXPORTSYMBOL int tg01fz_(compq, compz, joba, l, n, m, p, a, lda, e, lde, b, ldb, c__, ldc, q, ldq, z__, ldz, ranke, rnka22, tol, iwork, dwork, zwork, lzwork, info, compq_len, compz_len, joba_len)
 char *compq, *compz, *joba;
 integer *l, *n, *m, *p;
 doublecomplex *a;
@@ -45,23 +45,23 @@ ftnlen joba_len;
     static integer i__, j, k;
     extern logical lsame_();
     static logical withb, withc, redtr;
-    extern /* Subroutine */ int zswap_();
+    extern /* Subroutine */ EXPORTSYMBOL int zswap_();
     static integer nb;
-    extern /* Subroutine */ int mb3oyz_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb3oyz_();
     static integer lh;
     extern doublereal dlamch_();
     static integer ln, kw;
     static doublereal toldef;
     extern integer ilaenv_();
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     extern doublereal zlange_();
     static integer icompq, icompz;
-    extern /* Subroutine */ int zlaset_();
+    extern /* Subroutine */ EXPORTSYMBOL int zlaset_();
     static doublereal svlmax;
     static integer ir1;
     static logical lquery;
     static integer wrkopt;
-    extern /* Subroutine */ int zunmqr_(), zunmrz_(), ztzrzf_();
+    extern /* Subroutine */ EXPORTSYMBOL int zunmqr_(), zunmrz_(), ztzrzf_();
     static integer la22, na22;
     static logical ilq, ilz;
     static integer lwr, ire1;

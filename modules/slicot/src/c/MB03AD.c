@@ -5,7 +5,7 @@
 
 #include "nelson_f2c.h"
 
-/* Subroutine */ int mb03ad_(shft, k, n, amap, s, sinv, a, lda1, lda2, c1, s1, c2, s2, shft_len)
+/* Subroutine */ EXPORTSYMBOL int mb03ad_(shft, k, n, amap, s, sinv, a, lda1, lda2, c1, s1, c2, s2, shft_len)
 char *shft;
 integer *k, *n, *amap, *s, *sinv;
 doublereal *a;
@@ -26,7 +26,7 @@ ftnlen shft_len;
     extern logical lsame_();
     static doublereal c3, s3;
     static integer ai;
-    extern /* Subroutine */ int dlartg_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlartg_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */

@@ -24,7 +24,7 @@ ftnlen opts_len;
     /* System generated locals */
     integer ret_val, i__1, i__2;
     /* Builtin functions */
-    /* Subroutine */ int s_copy();
+    /* Subroutine */ EXPORTSYMBOL int s_copy();
     integer s_cmp();
     /* Local variables */
     static integer i__;

@@ -9,7 +9,7 @@
 
 static integer c__1 = 1;
 
-/* Subroutine */ int mb03ya_(wantt, wantq, wantz, n, ilo, ihi, iloq, ihiq, pos, a, lda, b, ldb, q, ldq, z__, ldz, info)
+/* Subroutine */ EXPORTSYMBOL int mb03ya_(wantt, wantq, wantz, n, ilo, ihi, iloq, ihiq, pos, a, lda, b, ldb, q, ldq, z__, ldz, info)
 logical *wantt, *wantq, *wantz;
 integer *n, *ilo, *ihi, *iloq, *ihiq, *pos;
 doublereal *a;
@@ -25,12 +25,12 @@ integer *ldz, *info;
     integer a_dim1, a_offset, b_dim1, b_offset, q_dim1, q_offset, z_dim1, z_offset, i__1, i__2, i__3, i__4, i__5, i__6, i__7, i__8;
     /* Local variables */
     static doublereal temp;
-    extern /* Subroutine */ int drot_();
+    extern /* Subroutine */ EXPORTSYMBOL int drot_();
     static integer j, i1, i2;
     static doublereal cs;
     static integer nq;
     static doublereal sn;
-    extern /* Subroutine */ int dlartg_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlartg_(), xerbla_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */

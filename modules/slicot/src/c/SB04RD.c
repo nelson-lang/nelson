@@ -10,7 +10,7 @@
 static integer c__1 = 1;
 static integer c__2 = 2;
 
-/* Subroutine */ int sb04rd_(abschu, ula, ulb, n, m, a, lda, b, ldb, c__, ldc, tol, iwork, dwork, ldwork, info, abschu_len, ula_len, ulb_len)
+/* Subroutine */ EXPORTSYMBOL int sb04rd_(abschu, ula, ulb, n, m, a, lda, b, ldb, c__, ldc, tol, iwork, dwork, ldwork, info, abschu_len, ula_len, ulb_len)
 char *abschu, *ula, *ulb;
 integer *n, *m;
 doublereal *a;
@@ -35,17 +35,17 @@ ftnlen ulb_len;
     static integer i__;
     static doublereal scale;
     extern logical lsame_();
-    extern /* Subroutine */ int dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_();
     static integer maxmn;
-    extern /* Subroutine */ int sb04py_(), sb04rv_(), sb04rw_();
+    extern /* Subroutine */ EXPORTSYMBOL int sb04py_(), sb04rv_(), sb04rw_();
     static integer istep;
-    extern /* Subroutine */ int sb04rx_(), sb04ry_();
+    extern /* Subroutine */ EXPORTSYMBOL int sb04rx_(), sb04ry_();
     static integer jwork;
     static logical labscb;
     extern doublereal dlamch_();
     static char abschr[1];
     static logical labscs;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static integer ipincr, fwd, ldw;
     static doublereal tol1;
     /*     SLICOT RELEASE 5.0. */

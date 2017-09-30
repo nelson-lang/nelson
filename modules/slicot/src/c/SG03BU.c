@@ -17,7 +17,7 @@ static doublereal c_b77 = .5;
 static doublereal c_b78 = 2.;
 static integer c__32 = 32;
 
-/* Subroutine */ int sg03bu_(trans, n, a, lda, e, lde, b, ldb, scale, dwork, info, trans_len)
+/* Subroutine */ EXPORTSYMBOL int sg03bu_(trans, n, a, lda, e, lde, b, ldb, scale, dwork, info, trans_len)
 char *trans;
 integer *n;
 doublereal *a;
@@ -36,31 +36,31 @@ ftnlen trans_len;
     /* Builtin functions */
     double sqrt();
     /* Local variables */
-    extern /* Subroutine */ int drot_();
+    extern /* Subroutine */ EXPORTSYMBOL int drot_();
     static integer ldws;
     static doublereal uflt;
     static integer info1;
     static doublereal c__;
     static integer i__, j, m;
     static doublereal s;
-    extern /* Subroutine */ int dscal_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_();
     static doublereal x;
-    extern /* Subroutine */ int dgemm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemm_();
     static doublereal z__;
     extern logical lsame_();
-    extern /* Subroutine */ int dgemv_(), sg03bw_(), sg03bx_(), dcopy_(), drotg_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemv_(), sg03bw_(), sg03bx_(), dcopy_(), drotg_();
     static integer uiipt;
-    extern /* Subroutine */ int dsyrk_();
+    extern /* Subroutine */ EXPORTSYMBOL int dsyrk_();
     static doublereal m1[4]	/* was [2][2] */, m2[4]	/* was [2][2] */, m3[16]	/* was [4][4] */, scale1, delta1;
-    extern /* Subroutine */ int dlabad_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlabad_();
     static integer kb, kh, kl;
     extern doublereal dlamch_();
     static doublereal ui[4]	/* was [2][2] */;
     static integer iw[24];
     static doublereal tm[4]	/* was [2][2] */, rw[32];
-    extern /* Subroutine */ int dlacpy_(), dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), dlaset_(), xerbla_();
     static doublereal bignum, m3c[16]	/* was [4][4] */, smlnum;
-    extern /* Subroutine */ int dsyevx_();
+    extern /* Subroutine */ EXPORTSYMBOL int dsyevx_();
     static logical notrns;
     static doublereal eps;
     static integer wpt, ypt;

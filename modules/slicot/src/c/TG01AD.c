@@ -12,7 +12,7 @@ static integer c__1 = 1;
 static doublereal c_b18 = 10.;
 static doublereal c_b56 = .5;
 
-/* Subroutine */ int tg01ad_(job, l, n, m, p, thresh, a, lda, e, lde, b, ldb, c__, ldc, lscale, rscale, dwork, info, job_len)
+/* Subroutine */ EXPORTSYMBOL int tg01ad_(job, l, n, m, p, thresh, a, lda, e, lde, b, ldb, c__, ldc, lscale, rscale, dwork, info, job_len)
 char *job;
 integer *l, *n, *m, *p;
 doublereal *thresh, *a;
@@ -41,12 +41,12 @@ ftnlen job_len;
     static doublereal coef2, coef5;
     static integer i__, j;
     static doublereal gamma, t, alpha;
-    extern /* Subroutine */ int dscal_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_();
     extern logical lsame_();
     static doublereal sfmin;
     static logical withb, withc;
     static doublereal sfmax;
-    extern /* Subroutine */ int dcopy_(), daxpy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_(), daxpy_();
     static integer kount, jc;
     static doublereal ta, tb, tc;
     extern doublereal dlamch_();
@@ -54,7 +54,7 @@ ftnlen job_len;
     static integer ir, it;
     static doublereal ew, pgamma;
     extern integer idamax_();
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static integer lsfmin, lsfmax, kw1, kw2, kw3, kw4, kw5;
     static doublereal cab, rab, ewc, cor, dum[1], sum;
     static integer nrp2, icab;

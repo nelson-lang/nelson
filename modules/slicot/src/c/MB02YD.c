@@ -11,7 +11,7 @@ static integer c__1 = 1;
 static doublereal c_b19 = 0.;
 static integer c__0 = 0;
 
-/* Subroutine */ int mb02yd_(cond, n, r__, ldr, ipvt, diag, qtb, rank, x, tol, dwork, ldwork, info, cond_len)
+/* Subroutine */ EXPORTSYMBOL int mb02yd_(cond, n, r__, ldr, ipvt, diag, qtb, rank, x, tol, dwork, ldwork, info, cond_len)
 char *cond;
 integer *n;
 doublereal *r__;
@@ -26,17 +26,17 @@ ftnlen cond_len;
     integer r_dim1, r_offset, i__1, i__2, i__3;
     /* Local variables */
     static doublereal temp;
-    extern /* Subroutine */ int drot_();
+    extern /* Subroutine */ EXPORTSYMBOL int drot_();
     static integer i__, j, k, l;
-    extern /* Subroutine */ int mb03od_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb03od_();
     static logical econd, ncond;
     extern logical lsame_();
     static logical ucond;
-    extern /* Subroutine */ int dcopy_(), dswap_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_(), dswap_();
     static doublereal qtbpj, cs;
     extern doublereal dlamch_();
     static doublereal sn, toldef;
-    extern /* Subroutine */ int dlartg_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlartg_(), xerbla_();
     static doublereal dum[3];
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

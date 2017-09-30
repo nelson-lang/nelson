@@ -14,7 +14,7 @@ static doublereal c_b35 = 1.;
 static integer c__0 = 0;
 static doublereal c_b65 = 0.;
 
-/* Subroutine */ int mb03ld_(compq, orth, n, a, lda, de, ldde, b, ldb, fg, ldfg, neig, q, ldq, alphar, alphai, beta, bwork, iwork, liwork, dwork, ldwork, info, compq_len, orth_len)
+/* Subroutine */ EXPORTSYMBOL int mb03ld_(compq, orth, n, a, lda, de, ldde, b, ldb, fg, ldfg, neig, q, ldq, alphar, alphai, beta, bwork, iwork, liwork, dwork, ldwork, info, compq_len, orth_len)
 char *compq, *orth;
 integer *n;
 doublereal *a;
@@ -39,27 +39,27 @@ ftnlen orth_len;
     integer a_dim1, a_offset, b_dim1, b_offset, de_dim1, de_offset, fg_dim1, fg_offset, q_dim1, q_offset, i__1, i__2, i__3;
     doublereal d__1;
     /* Builtin functions */
-    /* Subroutine */ int s_copy();
+    /* Subroutine */ EXPORTSYMBOL int s_copy();
     double sqrt();
     /* Local variables */
     static char cmpq[14];
     static integer iwrk;
-    extern /* Subroutine */ int ma02ad_(), mb04bd_();
+    extern /* Subroutine */ EXPORTSYMBOL int ma02ad_(), mb04bd_();
     static integer j, m;
-    extern /* Subroutine */ int mb01ld_(), mb03jd_(), mb04hd_(), dscal_(), dgemm_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb01ld_(), mb03jd_(), mb04hd_(), dscal_(), dgemm_();
     extern logical lsame_();
     static logical liniq;
     static integer mindw;
-    extern /* Subroutine */ int dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_();
     static integer miniw;
-    extern /* Subroutine */ int daxpy_(), dtrmm_();
+    extern /* Subroutine */ EXPORTSYMBOL int daxpy_(), dtrmm_();
     static integer optdw, n2;
-    extern /* Subroutine */ int dgeqp3_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgeqp3_();
     static integer ib, mm, nm, nn;
     static logical qr;
-    extern /* Subroutine */ int dgeqrf_(), dgesvd_(), dlacpy_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgeqrf_(), dgesvd_(), dlacpy_(), xerbla_();
     static integer ic2;
-    extern /* Subroutine */ int dorgqr_();
+    extern /* Subroutine */ EXPORTSYMBOL int dorgqr_();
     static integer iq1, iq2, iq3, iq4;
     static logical lquery;
     static integer ih11, ih12, ifo, is11, is12;

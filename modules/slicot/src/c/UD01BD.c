@@ -10,7 +10,7 @@
 static integer c__5 = 5;
 static integer c__1 = 1;
 
-/* Subroutine */ int ud01bd_(mp, np, dp, nin, p, ldp1, ldp2, info)
+/* Subroutine */ EXPORTSYMBOL int ud01bd_(mp, np, dp, nin, p, ldp1, ldp2, info)
 integer *mp, *np, *dp, *nin;
 doublereal *p;
 integer *ldp1, *ldp2, *info;
@@ -21,7 +21,7 @@ integer *ldp1, *ldp2, *info;
     integer s_rsfe(), e_rsfe(), s_rsle(), do_lio(), e_rsle();
     /* Local variables */
     static integer i__, j, k;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     /* Fortran I/O blocks */
     static cilist io___2 = { 0, 0, 0, "()", 0 };
     static cilist io___4 = { 0, 0, 0, 0, 0 };

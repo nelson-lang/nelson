@@ -11,7 +11,7 @@ static integer c__1 = 1;
 static doublereal c_b7 = 1.;
 static doublereal c_b9 = 0.;
 
-/* Subroutine */ int mb03xu_(ltra, ltrb, n, k, nb, a, lda, b, ldb, g, ldg, q, ldq, xa, ldxa, xb, ldxb, xg, ldxg, xq, ldxq, ya, ldya, yb, ldyb, yg, ldyg, yq, ldyq, csl, csr, taul, taur, dwork)
+/* Subroutine */ EXPORTSYMBOL int mb03xu_(ltra, ltrb, n, k, nb, a, lda, b, ldb, g, ldg, q, ldq, xa, ldxa, xb, ldxb, xg, ldxg, xq, ldxq, ya, ldya, yb, ldyb, yg, ldyg, yq, ldyq, csl, csr, taul, taur, dwork)
 logical *ltra, *ltrb;
 integer *n, *k, *nb;
 doublereal *a;
@@ -46,11 +46,11 @@ doublereal *csl, *csr, *taul, *taur, *dwork;
     /* Local variables */
     extern doublereal ddot_();
     static doublereal temp, tauq;
-    extern /* Subroutine */ int drot_();
+    extern /* Subroutine */ EXPORTSYMBOL int drot_();
     static doublereal c__;
     static integer i__, j;
     static doublereal s, alpha;
-    extern /* Subroutine */ int dscal_(), dgemv_(), daxpy_(), dlarfg_(), dlartg_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_(), dgemv_(), daxpy_(), dlarfg_(), dlartg_();
     static integer nb1, nb2, nb3, pdw;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

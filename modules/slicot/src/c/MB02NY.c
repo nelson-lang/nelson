@@ -5,7 +5,7 @@
 
 #include "nelson_f2c.h"
 
-/* Subroutine */ int mb02ny_(updatu, updatv, m, n, i__, k, q, e, u, ldu, v, ldv, dwork)
+/* Subroutine */ EXPORTSYMBOL int mb02ny_(updatu, updatv, m, n, i__, k, q, e, u, ldu, v, ldv, dwork)
 logical *updatu, *updatv;
 integer *m, *n, *i__, *k;
 doublereal *q, *e, *u;
@@ -22,9 +22,9 @@ doublereal *dwork;
     static doublereal c__, f, g;
     static integer l;
     static doublereal r__, s;
-    extern /* Subroutine */ int dlasr_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlasr_();
     static integer i1, l1;
-    extern /* Subroutine */ int dlartg_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlartg_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */

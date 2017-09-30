@@ -5,7 +5,7 @@
 
 #include "nelson_f2c.h"
 
-/* Subroutine */ int sb01bx_(reig, n, xr, xi, wr, wi, s, p)
+/* Subroutine */ EXPORTSYMBOL int sb01bx_(reig, n, xr, xi, wr, wi, s, p)
 logical *reig;
 integer *n;
 doublereal *xr, *xi, *wr, *wi, *s, *p;

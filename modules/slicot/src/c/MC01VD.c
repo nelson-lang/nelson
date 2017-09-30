@@ -9,7 +9,7 @@
 
 static doublereal c_b4 = 1.;
 
-/* Subroutine */ int mc01vd_(a, b, c__, z1re, z1im, z2re, z2im, info)
+/* Subroutine */ EXPORTSYMBOL int mc01vd_(a, b, c__, z1re, z1im, z2re, z2im, info)
 doublereal *a, *b, *c__, *z1re, *z1im, *z2re, *z2im;
 integer *info;
 {
@@ -22,9 +22,9 @@ integer *info;
     static doublereal absa, absb, absc;
     static integer beta;
     static doublereal w;
-    extern /* Subroutine */ int mc01sw_();
+    extern /* Subroutine */ EXPORTSYMBOL int mc01sw_();
     static doublereal sfmin;
-    extern /* Subroutine */ int mc01sy_();
+    extern /* Subroutine */ EXPORTSYMBOL int mc01sy_();
     static doublereal m1, m2;
     static integer ea, eb, ec, ed;
     static doublereal ma, mb, mc, md;

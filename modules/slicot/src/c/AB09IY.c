@@ -15,7 +15,7 @@ static integer c__0 = 0;
 static doublereal c_b43 = -1.;
 static logical c_true = TRUE_;
 
-/* Subroutine */ int ab09iy_(dico, jobc, jobo, weight, n, m, p, nv, pv, nw, mw, alphac, alphao, a, lda, b, ldb, c__, ldc, av, ldav, bv, ldbv, cv, ldcv, dv, lddv, aw, ldaw, bw, ldbw, cw, ldcw, dw, lddw, scalec, scaleo, s, lds, r__, ldr, dwork, ldwork, info, dico_len, jobc_len, jobo_len, weight_len)
+/* Subroutine */ EXPORTSYMBOL int ab09iy_(dico, jobc, jobo, weight, n, m, p, nv, pv, nw, mw, alphac, alphao, a, lda, b, ldb, c__, ldc, av, ldav, bv, ldbv, cv, ldcv, dv, lddv, aw, ldaw, bw, ldbw, cw, ldcw, dw, lddw, scalec, scaleo, s, lds, r__, ldr, dwork, ldwork, info, dico_len, jobc_len, jobo_len, weight_len)
 char *dico, *jobc, *jobo, *weight;
 integer *n, *m, *p, *nv, *pv, *nw, *mw;
 doublereal *alphac, *alphao, *a;
@@ -61,17 +61,17 @@ ftnlen weight_len;
     static doublereal work;
     static integer i__, j, mbbar;
     static doublereal t;
-    extern /* Subroutine */ int dscal_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_();
     static integer pcbar;
-    extern /* Subroutine */ int mb04nd_(), dgemm_(), mb01wd_(), mb04od_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb04nd_(), dgemm_(), mb01wd_(), mb04od_();
     extern logical lsame_();
     static logical discr;
-    extern /* Subroutine */ int sb03ou_(), dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int sb03ou_(), dcopy_();
     static logical leftw;
-    extern /* Subroutine */ int dsyev_();
+    extern /* Subroutine */ EXPORTSYMBOL int dsyev_();
     static integer ku, kw, lw;
     extern doublereal dlamch_();
-    extern /* Subroutine */ int dlacpy_(), dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), dlaset_(), xerbla_();
     static logical frwght, rightw;
     static integer kaw, ldu;
     static doublereal dum[1], tol;

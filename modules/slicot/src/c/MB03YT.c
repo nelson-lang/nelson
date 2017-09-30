@@ -10,7 +10,7 @@
 static integer c__2 = 2;
 static integer c__1 = 1;
 
-/* Subroutine */ int mb03yt_(a, lda, b, ldb, alphar, alphai, beta, csl, snl, csr, snr)
+/* Subroutine */ EXPORTSYMBOL int mb03yt_(a, lda, b, ldb, alphar, alphai, beta, csl, snl, csr, snr)
 doublereal *a;
 integer *lda;
 doublereal *b;
@@ -21,13 +21,13 @@ doublereal *alphar, *alphai, *beta, *csl, *snl, *csr, *snr;
     integer a_dim1, a_offset, b_dim1, b_offset;
     doublereal d__1, d__2, d__3, d__4, d__5, d__6;
     /* Local variables */
-    extern /* Subroutine */ int drot_(), dlag2_();
+    extern /* Subroutine */ EXPORTSYMBOL int drot_(), dlag2_();
     static doublereal r__, t, anorm, bnorm, h1, h2, h3, scale1, scale2;
     extern doublereal dlapy2_();
-    extern /* Subroutine */ int dlasv2_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlasv2_();
     extern doublereal dlamch_();
     static doublereal wi, qq, rr, safmin;
-    extern /* Subroutine */ int dlartg_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlartg_();
     static doublereal wr1, wr2, ulp;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

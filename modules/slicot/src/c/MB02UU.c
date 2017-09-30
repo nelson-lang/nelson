@@ -9,7 +9,7 @@
 
 static integer c__1 = 1;
 
-/* Subroutine */ int mb02uu_(n, a, lda, rhs, ipiv, jpiv, scale)
+/* Subroutine */ EXPORTSYMBOL int mb02uu_(n, a, lda, rhs, ipiv, jpiv, scale)
 integer *n;
 doublereal *a;
 integer *lda;
@@ -23,7 +23,7 @@ doublereal *scale;
     /* Local variables */
     static doublereal temp;
     static integer i__, j;
-    extern /* Subroutine */ int dscal_(), daxpy_(), dlabad_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_(), daxpy_(), dlabad_();
     extern doublereal dlamch_();
     static integer ip;
     extern integer idamax_();

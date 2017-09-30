@@ -14,7 +14,7 @@ static doublereal c_b14 = 0.;
 static integer c__4 = 4;
 static integer c__1 = 1;
 
-/* Subroutine */ int mb03gd_(n, b, ldb, d__, ldd, macpar, q, ldq, u, ldu, dwork, ldwork, info)
+/* Subroutine */ EXPORTSYMBOL int mb03gd_(n, b, ldb, d__, ldd, macpar, q, ldq, u, ldu, dwork, ldwork, info)
 integer *n;
 doublereal *b;
 integer *ldb;
@@ -37,15 +37,15 @@ integer *ldwork, *info;
     static doublereal f, g;
     static integer i__;
     static doublereal r__, s, t;
-    extern /* Subroutine */ int dgemm_(), mb01ru_(), mb04su_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemm_(), mb01ru_(), mb04su_();
     static doublereal sfmin;
-    extern /* Subroutine */ int dswap_(), mb04wu_();
+    extern /* Subroutine */ EXPORTSYMBOL int dswap_(), mb04wu_();
     static doublereal f1, g1, r1, t1;
-    extern /* Subroutine */ int dgeqr2_(), dgerq2_(), dlasv2_(), dorgr2_(), dorm2r_(), dsyr2k_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgeqr2_(), dgerq2_(), dlasv2_(), dorgr2_(), dorm2r_(), dsyr2k_();
     static doublereal co;
     static integer ir;
     static doublereal si;
-    extern /* Subroutine */ int dlacpy_(), dlartg_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), dlartg_();
     static doublereal cl1, cl2, co2, cr1, cr2, si2, sl1, sl2, sr1, sr2;
     static integer ics;
     static doublereal eps;

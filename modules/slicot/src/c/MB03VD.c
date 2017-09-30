@@ -10,7 +10,7 @@
 static integer c__0 = 0;
 static integer c__1 = 1;
 
-/* Subroutine */ int mb03vd_(n, p, ilo, ihi, a, lda1, lda2, tau, ldtau, dwork, info)
+/* Subroutine */ EXPORTSYMBOL int mb03vd_(n, p, ilo, ihi, a, lda1, lda2, tau, ldtau, dwork, info)
 integer *n, *p, *ilo, *ihi;
 doublereal *a;
 integer *lda1, *lda2;
@@ -23,11 +23,11 @@ integer *info;
     integer a_dim1, a_dim2, a_offset, tau_dim1, tau_offset, i__1, i__2, i__3;
     /* Local variables */
     static integer i__, j;
-    extern /* Subroutine */ int mb04py_(), dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb04py_(), dcopy_();
     static integer i1, i2;
     static doublereal dummy[1];
     static integer nh;
-    extern /* Subroutine */ int dlarfg_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlarfg_(), xerbla_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */

@@ -9,7 +9,7 @@
 
 static integer c__1 = 1;
 
-/* Subroutine */ int mc01qd_(da, db, a, b, rq, iwarn, info)
+/* Subroutine */ EXPORTSYMBOL int mc01qd_(da, db, a, b, rq, iwarn, info)
 integer *da, *db;
 doublereal *a, *b, *rq;
 integer *iwarn, *info;
@@ -20,7 +20,7 @@ integer *iwarn, *info;
     /* Local variables */
     static integer n;
     static doublereal q;
-    extern /* Subroutine */ int dcopy_(), daxpy_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_(), daxpy_(), xerbla_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */

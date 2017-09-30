@@ -9,7 +9,7 @@
 
 static integer c__1 = 1;
 
-/* Subroutine */ int mb04iy_(side, trans, n, m, k, p, a, lda, tau, c__, ldc, dwork, ldwork, info, side_len, trans_len)
+/* Subroutine */ EXPORTSYMBOL int mb04iy_(side, trans, n, m, k, p, a, lda, tau, c__, ldc, dwork, ldwork, info, side_len, trans_len)
 char *side, *trans;
 integer *n, *m, *k, *p;
 doublereal *a;
@@ -26,9 +26,9 @@ ftnlen trans_len;
     /* Local variables */
     static logical left, tran;
     static integer i__;
-    extern /* Subroutine */ int dlarf_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlarf_();
     extern logical lsame_();
-    extern /* Subroutine */ int xerbla_(), dormqr_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_(), dormqr_();
     static doublereal wrkopt, aii;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

@@ -10,7 +10,7 @@
 static integer c__1 = 1;
 static logical c_true = TRUE_;
 
-/* Subroutine */ int nf01bs_(n, ipar, lipar, fnorm, j, ldj, e, jnorms, gnorm, ipvt, dwork, ldwork, info)
+/* Subroutine */ EXPORTSYMBOL int nf01bs_(n, ipar, lipar, fnorm, j, ldj, e, jnorms, gnorm, ipvt, dwork, ldwork, info)
 integer *n, *ipar, *lipar;
 doublereal *fnorm, *j;
 integer *ldj;
@@ -28,13 +28,13 @@ integer *ldwork, *info;
     static integer itau, nths;
     extern doublereal dnrm2_();
     static integer i__, k, l, m;
-    extern /* Subroutine */ int md03bx_();
+    extern /* Subroutine */ EXPORTSYMBOL int md03bx_();
     static integer ibsni;
-    extern /* Subroutine */ int dcopy_(), dswap_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_(), dswap_();
     static integer jwork;
-    extern /* Subroutine */ int dgeqp3_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgeqp3_();
     static integer bn, jl, st;
-    extern /* Subroutine */ int dlacpy_(), xerbla_(), dlapmt_(), dormqr_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), xerbla_(), dlapmt_(), dormqr_();
     static integer wrkopt, bsm, bsn, jlm, mmn;
     static doublereal sum;
     /*     SLICOT RELEASE 5.0. */

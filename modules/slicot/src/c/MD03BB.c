@@ -5,7 +5,7 @@
 
 #include "nelson_f2c.h"
 
-/* Subroutine */ int md03bb_(cond, n, ipar, lipar, r__, ldr, ipvt, diag, qtb, delta, par, ranks, x, rx, tol, dwork, ldwork, info, cond_len)
+/* Subroutine */ EXPORTSYMBOL int md03bb_(cond, n, ipar, lipar, r__, ldr, ipvt, diag, qtb, delta, par, ranks, x, rx, tol, dwork, ldwork, info, cond_len)
 char *cond;
 integer *n, *ipar, *lipar;
 doublereal *r__;
@@ -19,7 +19,7 @@ ftnlen cond_len;
     /* System generated locals */
     integer r_dim1, r_offset;
     /* Local variables */
-    extern /* Subroutine */ int md03by_();
+    extern /* Subroutine */ EXPORTSYMBOL int md03by_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */

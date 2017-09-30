@@ -5,7 +5,7 @@
 
 #include "nelson_f2c.h"
 
-/* Subroutine */ int mb04nd_(uplo, n, m, p, r__, ldr, a, lda, b, ldb, c__, ldc, tau, dwork, uplo_len)
+/* Subroutine */ EXPORTSYMBOL int mb04nd_(uplo, n, m, p, r__, ldr, a, lda, b, ldb, c__, ldc, tau, dwork, uplo_len)
 char *uplo;
 integer *n, *m, *p;
 doublereal *r__;
@@ -24,10 +24,10 @@ ftnlen uplo_len;
     /* Local variables */
     static integer i__;
     extern logical lsame_();
-    extern /* Subroutine */ int mb04ny_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb04ny_();
     static logical luplo;
     static integer im, ip;
-    extern /* Subroutine */ int dlarfg_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlarfg_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */

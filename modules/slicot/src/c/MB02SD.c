@@ -5,7 +5,7 @@
 
 #include "nelson_f2c.h"
 
-/* Subroutine */ int mb02sd_(n, h__, ldh, ipiv, info)
+/* Subroutine */ EXPORTSYMBOL int mb02sd_(n, h__, ldh, ipiv, info)
 integer *n;
 doublereal *h__;
 integer *ldh, *ipiv, *info;
@@ -15,9 +15,9 @@ integer *ldh, *ipiv, *info;
     doublereal d__1, d__2;
     /* Local variables */
     static integer j;
-    extern /* Subroutine */ int dswap_(), daxpy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dswap_(), daxpy_();
     static integer jp;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */

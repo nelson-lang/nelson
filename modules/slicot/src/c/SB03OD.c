@@ -11,7 +11,7 @@ static doublereal c_b10 = 0.;
 static integer c__1 = 1;
 static doublereal c_b22 = 1.;
 
-/* Subroutine */ int sb03od_(dico, fact, trans, n, m, a, lda, q, ldq, b, ldb, scale, wr, wi, dwork, ldwork, info, dico_len, fact_len, trans_len)
+/* Subroutine */ EXPORTSYMBOL int sb03od_(dico, fact, trans, n, m, a, lda, q, ldq, b, ldb, scale, wr, wi, dwork, ldwork, info, dico_len, fact_len, trans_len)
 char *dico, *fact, *trans;
 integer *n, *m;
 doublereal *a;
@@ -35,18 +35,18 @@ ftnlen trans_len;
     static logical cont;
     static doublereal temp;
     static integer i__, j, k, l, ifail;
-    extern /* Subroutine */ int dgees_(), dgemm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgees_(), dgemm_();
     extern logical lsame_();
-    extern /* Subroutine */ int dgemv_(), sb03ou_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemv_(), sb03ou_();
     static integer minmn;
-    extern /* Subroutine */ int dcopy_(), dtrmm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_(), dtrmm_();
     static logical bwork[1];
     static integer jwork;
     extern doublereal dlapy2_();
     static integer ne;
-    extern /* Subroutine */ int dgeqrf_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgeqrf_();
     static logical nofact;
-    extern /* Subroutine */ int dgerqf_(), dlacpy_(), dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgerqf_(), dlacpy_(), dlaset_(), xerbla_();
     extern logical select_();
     static integer inform__;
     static logical ltrans;

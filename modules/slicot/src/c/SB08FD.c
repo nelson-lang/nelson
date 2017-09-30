@@ -13,7 +13,7 @@ static integer c__1 = 1;
 static integer c__4 = 4;
 static logical c_true = TRUE_;
 
-/* Subroutine */ int sb08fd_(dico, n, m, p, alpha, a, lda, b, ldb, c__, ldc, d__, ldd, nq, nr, cr, ldcr, dr, lddr, tol, dwork, ldwork, iwarn, info, dico_len)
+/* Subroutine */ EXPORTSYMBOL int sb08fd_(dico, n, m, p, alpha, a, lda, b, ldb, c__, ldc, d__, ldd, nq, nr, cr, ldcr, dr, lddr, tol, dwork, ldwork, iwarn, info, dico_len)
 char *dico;
 integer *n, *m, *p;
 doublereal *alpha, *a;
@@ -40,16 +40,16 @@ ftnlen dico_len;
     /* Local variables */
     static integer ncur;
     static doublereal rmax;
-    extern /* Subroutine */ int drot_();
+    extern /* Subroutine */ EXPORTSYMBOL int drot_();
     static integer nlow, nsup, ncur1, i__, j, k, l;
-    extern /* Subroutine */ int tb01ld_();
+    extern /* Subroutine */ EXPORTSYMBOL int tb01ld_();
     static doublereal x, y, z__[16]	/* was [4][4] */;
-    extern /* Subroutine */ int dgemm_(), sb01by_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemm_(), sb01by_();
     extern logical lsame_();
     static logical discr;
     static doublereal bnorm, a2[4]	/* was [2][2] */, toler;
     static integer l1;
-    extern /* Subroutine */ int dlanv2_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlanv2_();
     extern doublereal dlapy2_();
     static integer ib, nb, kg;
     static doublereal cs;
@@ -58,7 +58,7 @@ ftnlen dico_len;
     static integer kw;
     static doublereal pr, sn;
     static integer kz;
-    extern /* Subroutine */ int dlaexc_(), dlacpy_(), dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlaexc_(), dlacpy_(), dlaset_(), xerbla_();
     static integer ib1, nmoves;
     static doublereal wrkopt;
     static integer kfi, nfp, kwi, kwr;

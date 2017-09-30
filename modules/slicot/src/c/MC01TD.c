@@ -11,7 +11,7 @@ static integer c__1 = 1;
 static integer c_n1 = -1;
 static doublereal c_b18 = 1.;
 
-/* Subroutine */ int mc01td_(dico, dp, p, stable, nz, dwork, iwarn, info, dico_len)
+/* Subroutine */ EXPORTSYMBOL int mc01td_(dico, dp, p, stable, nz, dwork, iwarn, info, dico_len)
 char *dico;
 integer *dp;
 doublereal *p;
@@ -30,11 +30,11 @@ ftnlen dico_len;
     static logical dicoc;
     static doublereal alpha;
     extern logical lsame_();
-    extern /* Subroutine */ int drscl_(), dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int drscl_(), dcopy_();
     static integer k1, k2;
     static doublereal p1;
     extern integer idamax_();
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static integer signum;
     static doublereal pk1;
     /*     SLICOT RELEASE 5.0. */

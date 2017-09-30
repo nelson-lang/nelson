@@ -9,7 +9,7 @@
 
 static doublereal c_b11 = 1.;
 
-/* Subroutine */ int mb02rd_(trans, n, nrhs, h__, ldh, ipiv, b, ldb, info, trans_len)
+/* Subroutine */ EXPORTSYMBOL int mb02rd_(trans, n, nrhs, h__, ldh, ipiv, b, ldb, info, trans_len)
 char *trans;
 integer *n, *nrhs;
 doublereal *h__;
@@ -24,9 +24,9 @@ ftnlen trans_len;
     /* Local variables */
     static integer j;
     extern logical lsame_();
-    extern /* Subroutine */ int dswap_(), daxpy_(), dtrsm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dswap_(), daxpy_(), dtrsm_();
     static integer jp;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static logical notran;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

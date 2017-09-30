@@ -5,7 +5,7 @@
 
 #include "nelson_f2c.h"
 
-/* Subroutine */ int nf01ad_(nsmp, m, l, ipar, lipar, x, lx, u, ldu, y, ldy, dwork, ldwork, info)
+/* Subroutine */ EXPORTSYMBOL int nf01ad_(nsmp, m, l, ipar, lipar, x, lx, u, ldu, y, ldy, dwork, ldwork, info)
 integer *nsmp, *m, *l, *ipar, *lipar;
 doublereal *x;
 integer *lx;
@@ -20,9 +20,9 @@ integer *ldwork, *info;
     integer u_dim1, u_offset, y_dim1, y_offset, i__1, i__2;
     /* Local variables */
     static integer ldac, lths, nths, n, z__;
-    extern /* Subroutine */ int nf01ay_(), tf01mx_(), tb01vy_();
+    extern /* Subroutine */ EXPORTSYMBOL int nf01ay_(), tf01mx_(), tb01vy_();
     static integer ac, bd, nn, ix, jw;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */

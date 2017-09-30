@@ -13,7 +13,7 @@ static doublereal c_b23 = -1.;
 static doublereal c_b37 = 1.;
 static doublereal c_b51 = 0.;
 
-/* Subroutine */ int sb04ow_(m, n, a, lda, b, ldb, c__, ldc, d__, ldd, e, lde, f, ldf, scale, iwork, info)
+/* Subroutine */ EXPORTSYMBOL int sb04ow_(m, n, a, lda, b, ldb, c__, ldc, d__, ldd, e, lde, f, ldf, scale, iwork, info)
 integer *m, *n;
 doublereal *a;
 integer *lda;
@@ -34,14 +34,14 @@ integer *iwork, *info;
     integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, e_dim1, e_offset, f_dim1, f_offset, i__1, i__2;
     doublereal d__1;
     /* Local variables */
-    extern /* Subroutine */ int dger_();
+    extern /* Subroutine */ EXPORTSYMBOL int dger_();
     static integer ierr, zdim, ipiv[8], jpiv[8], i__, j, k, p, q;
-    extern /* Subroutine */ int dscal_(), dgemm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_(), dgemm_();
     static doublereal z__[64]	/* was [8][8] */;
-    extern /* Subroutine */ int dgemv_(), dcopy_(), daxpy_(), dgesc2_(), dgetc2_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemv_(), dcopy_(), daxpy_(), dgesc2_(), dgetc2_();
     static integer ie, je, mb, nb, ii, jj, is, js;
     static doublereal scaloc;
-    extern /* Subroutine */ int dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlaset_(), xerbla_();
     static doublereal rhs[8];
     static integer isp1, jsp1;
     /*     SLICOT RELEASE 5.0. */

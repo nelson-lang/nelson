@@ -9,7 +9,7 @@
 
 static integer c__1 = 1;
 
-/* Subroutine */ int sb04qr_(m, d__, ipr, info)
+/* Subroutine */ EXPORTSYMBOL int sb04qr_(m, d__, ipr, info)
 integer *m;
 doublereal *d__;
 integer *ipr, *info;
@@ -20,7 +20,7 @@ integer *ipr, *info;
     static doublereal dmax__;
     static integer iprm, iprm1, i__, j, k, l;
     static doublereal d1, d2, d3;
-    extern /* Subroutine */ int daxpy_();
+    extern /* Subroutine */ EXPORTSYMBOL int daxpy_();
     static integer i1, i2, m1, mpi, mpi1, mpi2;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

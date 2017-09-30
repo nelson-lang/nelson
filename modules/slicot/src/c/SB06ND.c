@@ -12,7 +12,7 @@ static doublereal c_b11 = 0.;
 static doublereal c_b22 = -1.;
 static doublereal c_b25 = 1.;
 
-/* Subroutine */ int sb06nd_(n, m, kmax, a, lda, b, ldb, kstair, u, ldu, f, ldf, dwork, info)
+/* Subroutine */ EXPORTSYMBOL int sb06nd_(n, m, kmax, a, lda, b, ldb, kstair, u, ldu, f, ldf, dwork, info)
 integer *n, *m, *kmax;
 doublereal *a;
 integer *lda;
@@ -29,15 +29,15 @@ integer *info;
     integer a_dim1, a_offset, b_dim1, b_offset, f_dim1, f_offset, u_dim1, u_offset, i__1, i__2, i__3, i__4, i__5;
     /* Local variables */
     static integer kmin, jcur, kcur, j;
-    extern /* Subroutine */ int dgemm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemm_();
     static integer jkcur;
-    extern /* Subroutine */ int dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_();
     static integer mkcur, ncont, kstep;
-    extern /* Subroutine */ int dtrsm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dtrsm_();
     static integer j0, kk;
-    extern /* Subroutine */ int dlarfg_(), dlacpy_(), dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlarfg_(), dlacpy_(), dlaset_(), xerbla_();
     static integer jmkcur;
-    extern /* Subroutine */ int dlatzm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlatzm_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */

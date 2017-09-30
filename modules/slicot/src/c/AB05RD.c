@@ -10,7 +10,7 @@
 static doublereal c_b9 = 1.;
 static doublereal c_b16 = 0.;
 
-/* Subroutine */ int ab05rd_(fbtype, jobd, n, m, p, mv, pz, alpha, beta, a, lda, b, ldb, c__, ldc, d__, ldd, f, ldf, k, ldk, g, ldg, h__, ldh, rcond, bc, ldbc, cc, ldcc, dc, lddc, iwork, dwork, ldwork, info, fbtype_len, jobd_len)
+/* Subroutine */ EXPORTSYMBOL int ab05rd_(fbtype, jobd, n, m, p, mv, pz, alpha, beta, a, lda, b, ldb, c__, ldc, d__, ldd, f, ldf, k, ldk, g, ldg, h__, ldh, rcond, bc, ldbc, cc, ldcc, dc, lddc, iwork, dwork, ldwork, info, fbtype_len, jobd_len)
 char *fbtype, *jobd;
 integer *n, *m, *p, *mv, *pz;
 doublereal *alpha, *beta, *a;
@@ -44,11 +44,11 @@ ftnlen jobd_len;
     integer a_dim1, a_offset, b_dim1, b_offset, bc_dim1, bc_offset, c_dim1, c_offset, cc_dim1, cc_offset, d_dim1, d_offset, dc_dim1, dc_offset, f_dim1, f_offset, g_dim1, g_offset, h_dim1, h_offset, k_dim1, k_offset, i__1, i__2;
     /* Local variables */
     static integer ldwp;
-    extern /* Subroutine */ int ab05sd_(), dgemm_();
+    extern /* Subroutine */ EXPORTSYMBOL int ab05sd_(), dgemm_();
     static logical ljobd;
     extern logical lsame_();
     static logical unitf, outpf;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */

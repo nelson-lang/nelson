@@ -15,7 +15,7 @@ integer *info;
     /* Local variables */
     static integer j;
     static doublereal r__, t;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static integer numeig;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

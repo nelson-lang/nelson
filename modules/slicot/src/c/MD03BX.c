@@ -9,7 +9,7 @@
 
 static integer c__1 = 1;
 
-/* Subroutine */ int md03bx_(m, n, fnorm, j, ldj, e, jnorms, gnorm, ipvt, dwork, ldwork, info)
+/* Subroutine */ EXPORTSYMBOL int md03bx_(m, n, fnorm, j, ldj, e, jnorms, gnorm, ipvt, dwork, ldwork, info)
 integer *m, *n;
 doublereal *fnorm, *j;
 integer *ldj;
@@ -26,7 +26,7 @@ integer *ldwork, *info;
     static integer itau;
     extern doublereal dnrm2_();
     static integer i__, l, jwork;
-    extern /* Subroutine */ int dgeqp3_(), dlacpy_(), xerbla_(), dormqr_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgeqp3_(), dlacpy_(), xerbla_(), dormqr_();
     static integer wrkopt;
     static doublereal sum;
     /*     SLICOT RELEASE 5.0. */

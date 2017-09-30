@@ -10,7 +10,7 @@
 static integer c__1 = 1;
 static integer c__2 = 2;
 
-/* Subroutine */ int ud01mz_(m, n, l, nout, a, lda, text, info, text_len)
+/* Subroutine */ EXPORTSYMBOL int ud01mz_(m, n, l, nout, a, lda, text, info, text_len)
 integer *m, *n, *l, *nout;
 doublecomplex *a;
 integer *lda;
@@ -29,7 +29,7 @@ ftnlen text_len;
     integer i_len(), s_wsfe(), do_fio(), e_wsfe();
     /* Local variables */
     static integer i__, j, j1, j2, n1, ltext, jj;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static integer lentxt;
     /* Fortran I/O blocks */
     static cilist io___3 = { 0, 0, 0, fmt_99996, 0 };

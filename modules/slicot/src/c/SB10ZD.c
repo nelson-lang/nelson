@@ -13,7 +13,7 @@ static doublereal c_b42 = -1.;
 static integer c__1 = 1;
 static integer c__0 = 0;
 
-/* Subroutine */ int sb10zd_(n, m, np, a, lda, b, ldb, c__, ldc, d__, ldd, factor, ak, ldak, bk, ldbk, ck, ldck, dk, lddk, rcond, tol, iwork, dwork, ldwork, bwork, info)
+/* Subroutine */ EXPORTSYMBOL int sb10zd_(n, m, np, a, lda, b, ldb, c__, ldc, d__, ldd, factor, ak, ldak, bk, ldbk, ck, ldck, dk, lddk, rcond, tol, iwork, dwork, ldwork, bwork, info)
 integer *n, *m, *np;
 doublereal *a;
 integer *lda;
@@ -47,27 +47,27 @@ integer *info;
     static integer sdim;
     static doublereal toll;
     static integer iwrk, info2;
-    extern /* Subroutine */ int ma02ad_();
+    extern /* Subroutine */ EXPORTSYMBOL int ma02ad_();
     static integer i__, j;
     static doublereal gamma;
-    extern /* Subroutine */ int dgees_(), dgemm_(), mb02vd_(), sb02od_(), mb01rx_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgees_(), dgemm_(), mb02vd_(), sb02od_(), mb01rx_();
     static doublereal anorm;
-    extern /* Subroutine */ int dcopy_(), dswap_(), dtrsm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_(), dswap_(), dtrsm_();
     static integer i1, i2, i3, i4, i5, i6, i7, i8, i9, n2;
-    extern /* Subroutine */ int dsyev_(), dsyrk_();
+    extern /* Subroutine */ EXPORTSYMBOL int dsyev_(), dsyrk_();
     extern doublereal dlapy2_();
     static integer i10, i11, i12, i13, i14, i15, i16, i17, i18, i19, i20, i21, i22, i23, i24, i25, i26;
     extern doublereal dlamch_();
     static integer ns;
     extern doublereal dlange_();
-    extern /* Subroutine */ int dgecon_(), dlascl_(), dgetrf_(), dlacpy_(), dlaset_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgecon_(), dlascl_(), dgetrf_(), dlacpy_(), dlaset_();
     extern logical select_();
-    extern /* Subroutine */ int xerbla_(), dgetrs_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_(), dgetrs_();
     static integer lwamax;
     extern doublereal dlansy_();
-    extern /* Subroutine */ int dpotrf_(), dsycon_();
+    extern /* Subroutine */ EXPORTSYMBOL int dpotrf_(), dsycon_();
     static integer minwrk;
-    extern /* Subroutine */ int dpotrs_(), dsytrf_(), dtrtrs_(), dsytrs_();
+    extern /* Subroutine */ EXPORTSYMBOL int dpotrs_(), dsytrf_(), dtrtrs_(), dsytrs_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */

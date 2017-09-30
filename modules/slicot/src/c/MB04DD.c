@@ -10,7 +10,7 @@
 static integer c__1 = 1;
 static doublereal c_b29 = -1.;
 
-/* Subroutine */ int mb04dd_(job, n, a, lda, qg, ldqg, ilo, scale, info, job_len)
+/* Subroutine */ EXPORTSYMBOL int mb04dd_(job, n, a, lda, qg, ldqg, ilo, scale, info, job_len)
 char *job;
 integer *n;
 doublereal *a;
@@ -30,19 +30,19 @@ ftnlen job_len;
     static doublereal temp, maxr, c__, f;
     static integer i__, j;
     static doublereal r__;
-    extern /* Subroutine */ int dscal_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_();
     static logical lscal;
     extern logical lsame_();
-    extern /* Subroutine */ int drscl_();
+    extern /* Subroutine */ EXPORTSYMBOL int drscl_();
     extern doublereal dasum_();
-    extern /* Subroutine */ int dswap_();
+    extern /* Subroutine */ EXPORTSYMBOL int dswap_();
     static logical lperm;
     static doublereal sfmin1, sfmin2, sfmax1, sfmax2;
     static integer ic;
     extern doublereal dlamch_();
     static doublereal sclfac;
     extern integer idamax_();
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static integer iloold;
     static doublereal gii, qii;
     /*     SLICOT RELEASE 5.0. */

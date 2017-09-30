@@ -10,7 +10,7 @@
 static doublereal c_b7 = 0.;
 static doublereal c_b8 = 1.;
 
-/* Subroutine */ int mb04wp_(n, ilo, u1, ldu1, u2, ldu2, cs, tau, dwork, ldwork, info)
+/* Subroutine */ EXPORTSYMBOL int mb04wp_(n, ilo, u1, ldu1, u2, ldu2, cs, tau, dwork, ldwork, info)
 integer *n, *ilo;
 doublereal *u1;
 integer *ldu1;
@@ -23,9 +23,9 @@ integer *ldwork, *info;
     integer u1_dim1, u1_offset, u2_dim1, u2_offset, i__1, i__2;
     /* Local variables */
     static integer ierr, i__, j;
-    extern /* Subroutine */ int mb04wd_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb04wd_();
     static integer nh;
-    extern /* Subroutine */ int dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlaset_(), xerbla_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */

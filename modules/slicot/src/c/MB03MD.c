@@ -9,7 +9,7 @@
 
 static integer c__1 = 1;
 
-/* Subroutine */ int mb03md_(n, l, theta, q, e, q2, e2, pivmin, tol, reltol, iwarn, info)
+/* Subroutine */ EXPORTSYMBOL int mb03md_(n, l, theta, q, e, q2, e2, pivmin, tol, reltol, iwarn, info)
 integer *n, *l;
 doublereal *theta, *q, *e, *q2, *e2, *pivmin, *tol, *reltol;
 integer *iwarn, *info;
@@ -25,7 +25,7 @@ integer *iwarn, *info;
     static doublereal y, z__;
     extern doublereal mb03my_(), dlamch_();
     static doublereal th;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static integer num;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

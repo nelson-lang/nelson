@@ -12,7 +12,7 @@ static doublereal c_b10 = 1.;
 static doublereal c_b12 = 0.;
 static doublereal c_b586 = -1.;
 
-/* Subroutine */ int mb04pa_(lham, n, k, nb, a, lda, qg, ldqg, xa, ldxa, xg, ldxg, xq, ldxq, ya, ldya, cs, tau, dwork)
+/* Subroutine */ EXPORTSYMBOL int mb04pa_(lham, n, k, nb, a, lda, qg, ldqg, xa, ldxa, xg, ldxg, xq, ldxq, ya, ldya, cs, tau, dwork)
 logical *lham;
 integer *n, *k, *nb;
 doublereal *a;
@@ -35,14 +35,14 @@ doublereal *cs, *tau, *dwork;
     /* Local variables */
     extern doublereal ddot_();
     static doublereal temp;
-    extern /* Subroutine */ int drot_();
+    extern /* Subroutine */ EXPORTSYMBOL int drot_();
     static doublereal tauq, c__;
     static integer i__, j;
-    extern /* Subroutine */ int mb01md_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb01md_();
     static doublereal s, alpha;
-    extern /* Subroutine */ int dscal_(), dgemv_(), daxpy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_(), dgemv_(), daxpy_();
     static doublereal ttemp;
-    extern /* Subroutine */ int dsymv_(), dlarfg_(), dlartg_();
+    extern /* Subroutine */ EXPORTSYMBOL int dsymv_(), dlarfg_(), dlartg_();
     static integer nb1, nb2;
     static doublereal aki;
     /*     SLICOT RELEASE 5.0. */

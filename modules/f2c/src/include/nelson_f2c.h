@@ -7,6 +7,12 @@
 #ifndef F2C_INCLUDE
 #define F2C_INCLUDE
 
+#ifdef _MSC_VER
+#define EXPORTSYMBOL __declspec(dllexport)
+#else
+#define EXPORTSYMBOL __attribute__ ((visibility ("default")))
+#endif
+
 typedef int integer;
 typedef unsigned int uinteger;
 typedef char *address;

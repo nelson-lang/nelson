@@ -14,7 +14,7 @@ static doublereal c_b18 = 1.;
 static integer c__2 = 2;
 static integer c__0 = 0;
 
-/* Subroutine */ int mb04zd_(compu, n, a, lda, qg, ldqg, u, ldu, dwork, info, compu_len)
+/* Subroutine */ EXPORTSYMBOL int mb04zd_(compu, n, a, lda, qg, ldqg, u, ldu, dwork, info, compu_len)
 char *compu;
 integer *n;
 doublereal *a;
@@ -35,16 +35,16 @@ ftnlen compu_len;
     static doublereal sine;
     static logical form;
     static doublereal temp;
-    extern /* Subroutine */ int drot_(), dsyr2_();
+    extern /* Subroutine */ EXPORTSYMBOL int drot_(), dsyr2_();
     static integer j;
     static doublereal t[4]	/* was [2][2] */, x, y;
     static logical accum;
     extern logical lsame_();
-    extern /* Subroutine */ int dgemv_(), dcopy_(), daxpy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemv_(), dcopy_(), daxpy_();
     static doublereal dummy[1];
-    extern /* Subroutine */ int dsymv_(), dlarfg_(), dlartg_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dsymv_(), dlarfg_(), dlartg_(), xerbla_();
     static doublereal cosine;
-    extern /* Subroutine */ int dlarfx_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlarfx_();
     static logical forget;
     static doublereal tau;
     /*     SLICOT RELEASE 5.0. */

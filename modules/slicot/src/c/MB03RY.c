@@ -13,7 +13,7 @@ static integer c__1 = 1;
 static logical c_false = FALSE_;
 static integer c_n1 = -1;
 
-/* Subroutine */ int mb03ry_(m, n, pmax, a, lda, b, ldb, c__, ldc, info)
+/* Subroutine */ EXPORTSYMBOL int mb03ry_(m, n, pmax, a, lda, b, ldb, c__, ldc, info)
 integer *m, *n;
 doublereal *pmax, *a;
 integer *lda;
@@ -28,9 +28,9 @@ integer *ldc, *info;
     extern doublereal ddot_();
     static integer ierr, i__, j, k, l;
     static doublereal p[4], scale;
-    extern /* Subroutine */ int dgemm_(), dgemv_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemm_(), dgemv_();
     static doublereal pnorm;
-    extern /* Subroutine */ int dlasy2_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlasy2_();
     static integer dk, dl, kk, ll, kk1, lm1;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

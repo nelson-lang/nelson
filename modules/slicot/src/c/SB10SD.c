@@ -12,7 +12,7 @@ static doublereal c_b8 = 1.;
 static doublereal c_b12 = 0.;
 static integer c__1 = 1;
 
-/* Subroutine */ int sb10sd_(n, m, np, ncon, nmeas, a, lda, b, ldb, c__, ldc, d__, ldd, ak, ldak, bk, ldbk, ck, ldck, dk, lddk, x, ldx, y, ldy, rcond, tol, iwork, dwork, ldwork, bwork, info)
+/* Subroutine */ EXPORTSYMBOL int sb10sd_(n, m, np, ncon, nmeas, a, lda, b, ldb, c__, ldc, d__, ldd, ak, ldak, bk, ldbk, ck, ldck, dk, lddk, x, ldx, y, ldy, rcond, tol, iwork, dwork, ldwork, bwork, info)
 integer *n, *m, *np, *ncon, *nmeas;
 doublereal *a;
 integer *lda;
@@ -48,18 +48,18 @@ integer *info;
     /* Local variables */
     static doublereal sepd, ferr, toll;
     static integer iwrk, info2, j;
-    extern /* Subroutine */ int dgemm_(), sb02od_(), sb02sd_(), mb01rx_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemm_(), sb02od_(), sb02sd_(), mb01rx_();
     static doublereal anorm;
-    extern /* Subroutine */ int dswap_(), dtrsm_(), dsyrk_();
+    extern /* Subroutine */ EXPORTSYMBOL int dswap_(), dtrsm_(), dsyrk_();
     static integer m1, m2;
     static doublereal rcond2;
     extern doublereal dlamch_();
-    extern /* Subroutine */ int dlacpy_(), dlaset_(), xerbla_(), dpocon_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), dlaset_(), xerbla_(), dpocon_();
     static integer lwamax;
     extern doublereal dlansy_();
-    extern /* Subroutine */ int dpotrf_();
+    extern /* Subroutine */ EXPORTSYMBOL int dpotrf_();
     static integer nd1, nd2, minwrk;
-    extern /* Subroutine */ int dpotrs_();
+    extern /* Subroutine */ EXPORTSYMBOL int dpotrs_();
     static integer np1, np2, iw2, iwb, iwc, iwg, iwi, iwq, iwr, iws, iwt, iwu, iwv;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

@@ -9,7 +9,7 @@
 
 static integer c__1 = 1;
 
-/* Subroutine */ int sb04mu_(n, m, ind, a, lda, b, ldb, c__, ldc, d__, ipr, info)
+/* Subroutine */ EXPORTSYMBOL int sb04mu_(n, m, ind, a, lda, b, ldb, c__, ldc, d__, ipr, info)
 integer *n, *m, *ind;
 doublereal *a;
 integer *lda;
@@ -26,7 +26,7 @@ integer *ipr, *info;
     /* Local variables */
     static doublereal temp;
     static integer i__, j, k;
-    extern /* Subroutine */ int sb04mr_(), daxpy_();
+    extern /* Subroutine */ EXPORTSYMBOL int sb04mr_(), daxpy_();
     static integer i2, k1, k2, m2, ind1;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

@@ -9,7 +9,7 @@
 
 static integer c__1 = 1;
 
-/* Subroutine */ int mb05oy_(job, n, low, igh, a, lda, scale, info, job_len)
+/* Subroutine */ EXPORTSYMBOL int mb05oy_(job, n, low, igh, a, lda, scale, info, job_len)
 char *job;
 integer *n, *low, *igh;
 doublereal *a;
@@ -23,11 +23,11 @@ ftnlen job_len;
     doublereal d__1;
     /* Local variables */
     static integer i__, j, k;
-    extern /* Subroutine */ int dscal_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_();
     extern logical lsame_();
-    extern /* Subroutine */ int dswap_();
+    extern /* Subroutine */ EXPORTSYMBOL int dswap_();
     static integer ii;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */

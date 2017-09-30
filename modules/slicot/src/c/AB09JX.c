@@ -5,7 +5,7 @@
 
 #include "nelson_f2c.h"
 
-/* Subroutine */ int ab09jx_(dico, stdom, evtype, n, alpha, er, ei, ed, tolinf, info, dico_len, stdom_len, evtype_len)
+/* Subroutine */ EXPORTSYMBOL int ab09jx_(dico, stdom, evtype, n, alpha, er, ei, ed, tolinf, info, dico_len, stdom_len, evtype_len)
 char *dico, *stdom, *evtype;
 integer *n;
 doublereal *alpha, *er, *ei, *ed, *tolinf;
@@ -25,7 +25,7 @@ ftnlen evtype_len;
     extern logical lsame_();
     static logical discr;
     extern doublereal dlapy2_();
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static logical recevp, stdevp;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

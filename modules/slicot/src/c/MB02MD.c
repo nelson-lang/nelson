@@ -12,7 +12,7 @@ static doublereal c_b9 = 1.;
 static integer c__1 = 1;
 static doublereal c_b52 = -1.;
 
-/* Subroutine */ int mb02md_(job, m, n, l, rank, c__, ldc, s, x, ldx, tol, iwork, dwork, ldwork, iwarn, info, job_len)
+/* Subroutine */ EXPORTSYMBOL int mb02md_(job, m, n, l, rank, c__, ldc, s, x, ldx, tol, iwork, dwork, ldwork, iwarn, info, job_len)
 char *job;
 integer *m, *n, *l, *rank;
 doublereal *c__;
@@ -40,18 +40,18 @@ ftnlen job_len;
     static logical ljobn;
     static doublereal rcond;
     static logical ljobr, ljobt;
-    extern /* Subroutine */ int dswap_();
+    extern /* Subroutine */ EXPORTSYMBOL int dswap_();
     static doublereal fnorm;
-    extern /* Subroutine */ int dtrsm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dtrsm_();
     static integer jwork, n1, r1;
     extern doublereal dlamch_();
     static integer nl;
     extern doublereal dlange_();
-    extern /* Subroutine */ int dgerqf_(), dgesvd_(), dlacpy_(), dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgerqf_(), dgesvd_(), dlacpy_(), dlaset_(), xerbla_();
     extern doublereal dlantr_();
-    extern /* Subroutine */ int dtrcon_();
+    extern /* Subroutine */ EXPORTSYMBOL int dtrcon_();
     static integer minmnl;
-    extern /* Subroutine */ int dormrq_();
+    extern /* Subroutine */ EXPORTSYMBOL int dormrq_();
     static doublereal toltmp;
     static integer wrkopt, ldw;
     /*     SLICOT RELEASE 5.0. */

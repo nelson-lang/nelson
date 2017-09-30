@@ -9,7 +9,7 @@
 
 static doublereal c_b31 = 0.;
 
-/* Subroutine */ int ab09id_(dico, jobc, jobo, job, weight, equil, ordsel, n, m, p, nv, pv, nw, mw, nr, alpha, alphac, alphao, a, lda, b, ldb, c__, ldc, d__, ldd, av, ldav, bv, ldbv, cv, ldcv, dv, lddv, aw, ldaw, bw, ldbw, cw, ldcw, dw, lddw, ns, hsv, tol1, tol2, iwork, dwork, ldwork, iwarn, info, dico_len, jobc_len, jobo_len, job_len, weight_len, equil_len, ordsel_len)
+/* Subroutine */ EXPORTSYMBOL int ab09id_(dico, jobc, jobo, job, weight, equil, ordsel, n, m, p, nv, pv, nw, mw, nr, alpha, alphac, alphao, a, lda, b, ldb, c__, ldc, d__, ldd, av, ldav, bv, ldbv, cv, ldcv, dv, lddv, aw, ldaw, bw, ldbw, cw, ldcw, dw, lddw, ns, hsv, tol1, tol2, iwork, dwork, ldwork, iwarn, info, dico_len, jobc_len, jobo_len, job_len, weight_len, equil_len, ordsel_len)
 char *dico, *jobc, *jobo, *job, *weight, *equil, *ordsel;
 integer *n, *m, *p, *nv, *pv, *nw, *mw, *nr;
 doublereal *alpha, *alphac, *alphao, *a;
@@ -54,15 +54,15 @@ ftnlen ordsel_len;
     double sqrt();
     /* Local variables */
     static integer ierr;
-    extern /* Subroutine */ int sb08cd_(), sb08dd_(), tb01id_();
+    extern /* Subroutine */ EXPORTSYMBOL int sb08cd_(), sb08dd_(), tb01id_();
     static logical scale;
-    extern /* Subroutine */ int tb01kd_(), tb01pd_(), ab09ix_(), ab09iy_();
+    extern /* Subroutine */ EXPORTSYMBOL int tb01kd_(), tb01pd_(), ab09ix_(), ab09iy_();
     extern logical lsame_();
     static logical discr, leftw;
     static integer ki, kl, kt, ku, kw, lw, nn, nu;
     static doublereal scalec, scaleo, maxred;
     extern doublereal dlamch_();
-    extern /* Subroutine */ int dlacpy_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), xerbla_();
     static logical fixord;
     static integer iwarnl;
     static doublereal alpwrk;

@@ -9,7 +9,7 @@
 
 static integer c__1 = 1;
 
-/* Subroutine */ int sb08ny_(da, a, b, epsb)
+/* Subroutine */ EXPORTSYMBOL int sb08ny_(da, a, b, epsb)
 integer *da;
 doublereal *a, *b, *epsb;
 {

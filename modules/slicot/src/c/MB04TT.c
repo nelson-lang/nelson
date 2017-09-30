@@ -11,7 +11,7 @@ static integer c__1 = 1;
 static doublereal c_b7 = 0.;
 static logical c_false = FALSE_;
 
-/* Subroutine */ int mb04tt_(updatq, updatz, m, n, ifira, ifica, nca, a, lda, e, lde, q, ldq, z__, ldz, istair, rank, tol, iwork)
+/* Subroutine */ EXPORTSYMBOL int mb04tt_(updatq, updatz, m, n, ifira, ifica, nca, a, lda, e, lde, q, ldq, z__, ldz, istair, rank, tol, iwork)
 logical *updatq, *updatz;
 integer *m, *n, *ifira, *ifica, *nca;
 doublereal *a;
@@ -30,16 +30,16 @@ integer *iwork;
     doublereal d__1;
     /* Local variables */
     static integer lsav;
-    extern /* Subroutine */ int drot_();
+    extern /* Subroutine */ EXPORTSYMBOL int drot_();
     static integer jpvt, i__, k, l;
-    extern /* Subroutine */ int dswap_(), drotg_();
+    extern /* Subroutine */ EXPORTSYMBOL int dswap_(), drotg_();
     static integer itype;
     static logical lzero;
     static integer ifica1, ifira1, ii, kk, mj, ll, ip, nj;
     static doublereal sc;
     extern integer idamax_();
     static doublereal ss;
-    extern /* Subroutine */ int dlaset_(), dlapmt_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlaset_(), dlapmt_();
     static integer jc1, jc2, mxrank;
     static doublereal eijpvt, bmxnrm;
     static integer mk1, istpvt;

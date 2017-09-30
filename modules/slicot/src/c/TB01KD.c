@@ -11,7 +11,7 @@ static integer c_n1 = -1;
 static doublereal c_b14 = 1.;
 static doublereal c_b22 = 0.;
 
-/* Subroutine */ int tb01kd_(dico, stdom, joba, n, m, p, alpha, a, lda, b, ldb, c__, ldc, ndim, u, ldu, wr, wi, dwork, ldwork, info, dico_len, stdom_len, joba_len)
+/* Subroutine */ EXPORTSYMBOL int tb01kd_(dico, stdom, joba, n, m, p, alpha, a, lda, b, ldb, c__, ldc, ndim, u, ldu, wr, wi, dwork, ldwork, info, dico_len, stdom_len, joba_len)
 char *dico, *stdom, *joba;
 integer *n, *m, *p;
 doublereal *alpha, *a;
@@ -34,12 +34,12 @@ ftnlen joba_len;
     /* Local variables */
     static integer ndim1;
     static doublereal scale;
-    extern /* Subroutine */ int dgemm_(), tb01ld_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemm_(), tb01ld_();
     static logical ljobg;
     extern logical lsame_();
     static logical discr;
     static integer nr;
-    extern /* Subroutine */ int dlaset_(), xerbla_(), dtrsyl_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlaset_(), xerbla_(), dtrsyl_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */

@@ -13,7 +13,7 @@ static doublereal c_b19 = 1.;
 static integer c__1 = 1;
 static doublereal c_b55 = -1.;
 
-/* Subroutine */ int sg03bd_(dico, fact, trans, n, m, a, lda, e, lde, q, ldq, z__, ldz, b, ldb, scale, alphar, alphai, beta, dwork, ldwork, info, dico_len, fact_len, trans_len)
+/* Subroutine */ EXPORTSYMBOL int sg03bd_(dico, fact, trans, n, m, a, lda, e, lde, q, ldq, z__, ldz, b, ldb, scale, alphar, alphai, beta, dwork, ldwork, info, dico_len, fact_len, trans_len)
 char *dico, *fact, *trans;
 integer *n, *m;
 doublereal *a;
@@ -38,22 +38,22 @@ ftnlen trans_len;
     /* Builtin functions */
     double d_sign();
     /* Local variables */
-    extern /* Subroutine */ int dlag2_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlag2_();
     static integer info1, i__;
-    extern /* Subroutine */ int dscal_(), dgegs_(), dgemm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_(), dgegs_(), dgemm_();
     extern logical lsame_();
-    extern /* Subroutine */ int dgemv_(), sg03bu_(), sg03bv_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemv_(), sg03bu_(), sg03bv_();
     static integer minmn;
-    extern /* Subroutine */ int dcopy_(), dtrmm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_(), dtrmm_();
     static doublereal e1[4]	/* was [2][2] */, s1, s2;
     extern doublereal dlapy2_(), dlamch_();
     static doublereal wi;
-    extern /* Subroutine */ int dgeqrf_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgeqrf_();
     static logical isfact;
-    extern /* Subroutine */ int dgerqf_(), dlacpy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgerqf_(), dlacpy_();
     static doublereal safmin;
     static logical isdisc;
-    extern /* Subroutine */ int dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlaset_(), xerbla_();
     static logical istran;
     static integer minwrk, optwrk;
     static doublereal wr1, wr2;

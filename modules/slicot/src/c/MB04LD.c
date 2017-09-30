@@ -11,7 +11,7 @@ static integer c__1 = 1;
 static doublereal c_b7 = 1.;
 static doublereal c_b12 = 0.;
 
-/* Subroutine */ int mb04ld_(uplo, n, m, p, l, ldl, a, lda, b, ldb, c__, ldc, tau, dwork, uplo_len)
+/* Subroutine */ EXPORTSYMBOL int mb04ld_(uplo, n, m, p, l, ldl, a, lda, b, ldb, c__, ldc, tau, dwork, uplo_len)
 char *uplo;
 integer *n, *m, *p;
 doublereal *l;
@@ -29,14 +29,14 @@ ftnlen uplo_len;
     integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, l_dim1, l_offset, i__1, i__2;
     doublereal d__1;
     /* Local variables */
-    extern /* Subroutine */ int dger_();
+    extern /* Subroutine */ EXPORTSYMBOL int dger_();
     static integer i__;
-    extern /* Subroutine */ int dscal_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_();
     extern logical lsame_();
-    extern /* Subroutine */ int dgemv_(), dcopy_(), daxpy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemv_(), dcopy_(), daxpy_();
     static logical luplo;
     static integer im;
-    extern /* Subroutine */ int dlarfg_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlarfg_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */

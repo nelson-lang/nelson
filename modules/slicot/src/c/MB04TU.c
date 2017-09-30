@@ -5,7 +5,7 @@
 
 #include "nelson_f2c.h"
 
-/* Subroutine */ int mb04tu_(n, x, incx, y, incy, c__, s)
+/* Subroutine */ EXPORTSYMBOL int mb04tu_(n, x, incx, y, incy, c__, s)
 integer *n;
 doublereal *x;
 integer *incx;

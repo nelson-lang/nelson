@@ -9,7 +9,7 @@
 
 static doublereal c_b13 = 90.;
 
-/* Subroutine */ int td05ad_(unitf, output, np1, mp1, w, a, b, valr, vali, info, unitf_len, output_len)
+/* Subroutine */ EXPORTSYMBOL int td05ad_(unitf, output, np1, mp1, w, a, b, valr, vali, info, unitf_len, output_len)
 char *unitf, *output;
 integer *np1, *mp1;
 doublereal *w, *a, *b, *valr, *vali;
@@ -35,7 +35,7 @@ ftnlen output_len;
     extern doublereal dlapy2_();
     static doublereal wc;
     static integer iphase;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     extern /* Double Complex */ VOID zladiv_();
     static logical lunitf;
     static integer npzero, nzzero;

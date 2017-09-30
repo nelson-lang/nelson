@@ -11,7 +11,7 @@ static doublereal c_b5 = 1.;
 static doublereal c_b6 = 0.;
 static doublereal c_b39 = -1.;
 
-/* Subroutine */ int sb10id_(n, m, np, a, lda, b, ldb, c__, ldc, d__, ldd, factor, nk, ak, ldak, bk, ldbk, ck, ldck, dk, lddk, rcond, iwork, dwork, ldwork, bwork, info)
+/* Subroutine */ EXPORTSYMBOL int sb10id_(n, m, np, a, lda, b, ldb, c__, ldc, d__, ldd, factor, nk, ak, ldak, bk, ldbk, ck, ldck, dk, lddk, rcond, iwork, dwork, ldwork, bwork, info)
 integer *n, *m, *np;
 doublereal *a;
 integer *lda;
@@ -49,17 +49,17 @@ integer *info;
     static char hinv[1];
     static integer iwrk, info2, i__, j;
     static doublereal gamma;
-    extern /* Subroutine */ int sb10jd_(), dgees_(), dgemm_(), mb02vd_(), sb02rd_(), dtrsm_();
+    extern /* Subroutine */ EXPORTSYMBOL int sb10jd_(), dgees_(), dgemm_(), mb02vd_(), sb02rd_(), dtrsm_();
     static integer i1, i2, i3, i4, i5, i6, i7, i8, i9, n2;
-    extern /* Subroutine */ int dsyrk_();
+    extern /* Subroutine */ EXPORTSYMBOL int dsyrk_();
     static integer i10, i11, i12, i13, ns;
-    extern /* Subroutine */ int dlacpy_(), dlaset_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), dlaset_();
     extern logical select_();
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static integer lwamax;
-    extern /* Subroutine */ int dpotrf_();
+    extern /* Subroutine */ EXPORTSYMBOL int dpotrf_();
     static integer minwrk;
-    extern /* Subroutine */ int dpotrs_();
+    extern /* Subroutine */ EXPORTSYMBOL int dpotrs_();
     static integer lwa;
     static doublereal sep;
     /*     SLICOT RELEASE 5.0. */

@@ -13,7 +13,7 @@ static integer c__2 = 2;
 static integer c__3 = 3;
 static doublereal c_b25 = 1.;
 
-/* Subroutine */ int mb04tb_(trana, tranb, n, ilo, a, lda, b, ldb, g, ldg, q, ldq, csl, csr, taul, taur, dwork, ldwork, info, trana_len, tranb_len)
+/* Subroutine */ EXPORTSYMBOL int mb04tb_(trana, tranb, n, ilo, a, lda, b, ldb, g, ldg, q, ldq, csl, csr, taul, taur, dwork, ldwork, info, trana_len, tranb_len)
 char *trana, *tranb;
 integer *n, *ilo;
 doublereal *a;
@@ -34,18 +34,18 @@ ftnlen tranb_len;
     integer a_dim1, a_offset, b_dim1, b_offset, g_dim1, g_offset, q_dim1, q_offset, i__1, i__2[2], i__3, i__4, i__5;
     char ch__1[2];
     /* Builtin functions */
-    /* Subroutine */ int s_cat();
+    /* Subroutine */ EXPORTSYMBOL int s_cat();
     /* Local variables */
     static integer ierr;
     static logical ltra, ltrb;
     static integer i__;
-    extern /* Subroutine */ int dgemm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemm_();
     extern integer ue01md_();
     extern logical lsame_();
     static integer nbmin;
-    extern /* Subroutine */ int mb04ts_(), mb03xu_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb04ts_(), mb03xu_();
     static integer ib, nb, nh, nx;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static integer wrkopt, nib, nnb, pxa, pxb, pdw, pya, pyb, pxg, pyg, pxq, pyq;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

@@ -12,7 +12,7 @@ static doublereal c_b17 = 0.;
 static integer c__1 = 1;
 static integer c__0 = 0;
 
-/* Subroutine */ int sb02nd_(dico, fact, uplo, jobl, n, m, p, a, lda, b, ldb, r__, ldr, ipiv, l, ldl, x, ldx, rnorm, f, ldf, oufact, iwork, dwork, ldwork, info, dico_len, fact_len, uplo_len, jobl_len)
+/* Subroutine */ EXPORTSYMBOL int sb02nd_(dico, fact, uplo, jobl, n, m, p, a, lda, b, ldb, r__, ldr, ipiv, l, ldl, x, ldx, rnorm, f, ldf, oufact, iwork, dwork, ldwork, info, dico_len, fact_len, uplo_len, jobl_len)
 char *dico, *fact, *uplo, *jobl;
 integer *n, *m, *p;
 doublereal *a;
@@ -43,30 +43,30 @@ ftnlen jobl_len;
     static integer itau;
     static doublereal temp;
     static integer i__, j;
-    extern /* Subroutine */ int mb04kd_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb04kd_();
     static integer ifail;
-    extern /* Subroutine */ int dscal_(), dgemm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_(), dgemm_();
     extern logical lsame_();
-    extern /* Subroutine */ int dgemv_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemv_();
     static logical discr;
     static doublereal rcond;
-    extern /* Subroutine */ int dcopy_(), dtrmm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_(), dtrmm_();
     static logical withl;
-    extern /* Subroutine */ int dsyev_();
+    extern /* Subroutine */ EXPORTSYMBOL int dsyev_();
     static integer jwork;
     static doublereal dummy[1];
     extern doublereal dlamch_();
     static logical lfacta, lfactc, lfactd;
     static integer jw, jz;
-    extern /* Subroutine */ int dgeqrf_(), dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgeqrf_(), dlaset_(), xerbla_();
     static logical lfactu;
-    extern /* Subroutine */ int dpocon_(), dtrcon_();
+    extern /* Subroutine */ EXPORTSYMBOL int dpocon_(), dtrcon_();
     extern doublereal dlansy_();
-    extern /* Subroutine */ int dpotrf_(), dsycon_(), dpotrs_(), dsytrf_();
+    extern /* Subroutine */ EXPORTSYMBOL int dpotrf_(), dsycon_(), dpotrs_(), dsytrf_();
     static doublereal rnormp;
     static logical luplou;
     static integer wrkopt;
-    extern /* Subroutine */ int dsytrs_();
+    extern /* Subroutine */ EXPORTSYMBOL int dsytrs_();
     static doublereal eps;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

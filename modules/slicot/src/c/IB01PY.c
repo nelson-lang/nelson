@@ -13,7 +13,7 @@ static doublereal c_b45 = .66666666666666663;
 static doublereal c_b53 = 1.;
 static doublereal c_b56 = 0.;
 
-/* Subroutine */ int ib01py_(meth, job, nobr, n, m, l, rankr1, ul, ldul, r1, ldr1, tau1, pgal, ldpgal, k, ldk, r__, ldr, h__, ldh, b, ldb, d__, ldd, tol, iwork, dwork, ldwork, iwarn, info, meth_len, job_len)
+/* Subroutine */ EXPORTSYMBOL int ib01py_(meth, job, nobr, n, m, l, rankr1, ul, ldul, r1, ldr1, tau1, pgal, ldpgal, k, ldk, r__, ldr, h__, ldh, b, ldb, d__, ldd, tol, iwork, dwork, ldwork, iwarn, info, meth_len, job_len)
 char *meth, *job;
 integer *nobr, *n, *m, *l, *rankr1;
 doublereal *ul;
@@ -49,29 +49,29 @@ ftnlen job_len;
     static integer nrow;
     static logical n4sid;
     static integer ldun2;
-    extern /* Subroutine */ int ma02ad_();
+    extern /* Subroutine */ EXPORTSYMBOL int ma02ad_();
     static integer i__, j;
-    extern /* Subroutine */ int mb03od_(), mb04od_(), dgemm_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb03od_(), mb04od_(), dgemm_();
     extern logical lsame_();
     static doublereal rcond;
     static integer nobrh;
-    extern /* Subroutine */ int mb02qy_(), mb04oy_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb02qy_(), mb04oy_();
     static integer lnobr, mnobr;
     static logical withb, withd;
-    extern /* Subroutine */ int dswap_();
+    extern /* Subroutine */ EXPORTSYMBOL int dswap_();
     static logical moesp;
-    extern /* Subroutine */ int dtrsm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dtrsm_();
     static integer jwork, ji, jl, jm;
     extern doublereal dlamch_();
-    extern /* Subroutine */ int dgeqrf_(), dlacpy_(), dlaset_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgeqrf_(), dlacpy_(), dlaset_();
     extern integer ilaenv_();
-    extern /* Subroutine */ int xerbla_(), dtrcon_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_(), dtrcon_();
     static doublereal thresh;
-    extern /* Subroutine */ int dormqr_();
+    extern /* Subroutine */ EXPORTSYMBOL int dormqr_();
     static integer minwrk, maxwrk;
     static doublereal svlmax;
     static integer lp1, nrowml;
-    extern /* Subroutine */ int dtrtrs_();
+    extern /* Subroutine */ EXPORTSYMBOL int dtrtrs_();
     static doublereal eps;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

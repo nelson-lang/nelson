@@ -11,7 +11,7 @@ static doublereal c_b6 = 0.;
 static doublereal c_b10 = 1.;
 static integer c__1 = 1;
 
-/* Subroutine */ int tf01nd_(uplo, n, m, p, ny, a, lda, b, ldb, c__, ldc, d__, ldd, u, ldu, x, y, ldy, dwork, info, uplo_len)
+/* Subroutine */ EXPORTSYMBOL int tf01nd_(uplo, n, m, p, ny, a, lda, b, ldb, c__, ldc, d__, ldd, u, ldu, x, y, ldy, dwork, info, uplo_len)
 char *uplo;
 integer *n, *m, *p, *ny;
 doublereal *a;
@@ -34,13 +34,13 @@ ftnlen uplo_len;
     integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, u_dim1, u_offset, y_dim1, y_offset, i__1, i__2;
     /* Local variables */
     static integer i__;
-    extern /* Subroutine */ int dgemm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemm_();
     extern logical lsame_();
-    extern /* Subroutine */ int dgemv_(), dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemv_(), dcopy_();
     static logical luplo;
-    extern /* Subroutine */ int dtrmv_();
+    extern /* Subroutine */ EXPORTSYMBOL int dtrmv_();
     static integer ik;
-    extern /* Subroutine */ int dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlaset_(), xerbla_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */

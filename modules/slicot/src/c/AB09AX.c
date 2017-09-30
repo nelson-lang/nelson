@@ -13,7 +13,7 @@ static integer c__1 = 1;
 static doublereal c_b31 = 1.;
 static doublereal c_b50 = 0.;
 
-/* Subroutine */ int ab09ax_(dico, job, ordsel, n, m, p, nr, a, lda, b, ldb, c__, ldc, hsv, t, ldt, ti, ldti, tol, iwork, dwork, ldwork, iwarn, info, dico_len, job_len, ordsel_len)
+/* Subroutine */ EXPORTSYMBOL int ab09ax_(dico, job, ordsel, n, m, p, nr, a, lda, b, ldb, c__, ldc, hsv, t, ldt, ti, ldti, tol, iwork, dwork, ldwork, iwarn, info, dico_len, job_len, ordsel_len)
 char *dico, *job, *ordsel;
 integer *n, *m, *p, *nr;
 doublereal *a;
@@ -43,22 +43,22 @@ ftnlen ordsel_len;
     static doublereal atol;
     static integer ierr, ktau;
     static doublereal temp, rtol;
-    extern /* Subroutine */ int ma02ad_(), ma02dd_();
+    extern /* Subroutine */ EXPORTSYMBOL int ma02ad_(), ma02dd_();
     static integer j, k;
-    extern /* Subroutine */ int dscal_(), dgemm_(), mb03ud_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_(), dgemm_(), mb03ud_();
     extern logical lsame_();
-    extern /* Subroutine */ int dgemv_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemv_();
     static logical discr;
-    extern /* Subroutine */ int sb03ou_(), dtrmm_(), dtpmv_(), dtrmv_();
+    extern /* Subroutine */ EXPORTSYMBOL int sb03ou_(), dtrmm_(), dtpmv_(), dtrmv_();
     static integer ij;
     static logical packed;
     extern doublereal dlamch_();
     static doublereal scalec;
     static integer ku, kv, kw;
     static doublereal scaleo;
-    extern /* Subroutine */ int dgeqrf_(), dgetrf_(), dlacpy_(), xerbla_(), dgetrs_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgeqrf_(), dgetrf_(), dlacpy_(), xerbla_(), dgetrs_();
     static logical fixord;
-    extern /* Subroutine */ int dorgqr_();
+    extern /* Subroutine */ EXPORTSYMBOL int dorgqr_();
     static integer wrkopt;
     static logical bal;
     static integer ldw;

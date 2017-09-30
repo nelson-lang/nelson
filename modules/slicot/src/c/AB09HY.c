@@ -13,7 +13,7 @@ static doublereal c_b15 = 1.;
 static doublereal c_b34 = -1.;
 static doublereal c_b39 = 0.;
 
-/* Subroutine */ int ab09hy_(n, m, p, a, lda, b, ldb, c__, ldc, d__, ldd, scalec, scaleo, s, lds, r__, ldr, iwork, dwork, ldwork, bwork, info)
+/* Subroutine */ EXPORTSYMBOL int ab09hy_(n, m, p, a, lda, b, ldb, c__, ldc, d__, ldd, scalec, scaleo, s, lds, r__, ldr, iwork, dwork, ldwork, bwork, info)
 integer *n, *m, *p;
 doublereal *a;
 integer *lda;
@@ -39,13 +39,13 @@ integer *info;
     static integer ierr, ktau;
     static doublereal rtol;
     static integer i__;
-    extern /* Subroutine */ int sb02md_(), dgemm_();
+    extern /* Subroutine */ EXPORTSYMBOL int sb02md_(), dgemm_();
     static doublereal rcond;
-    extern /* Subroutine */ int sb03ou_(), dtrmm_(), dtrsm_(), dsyrk_();
+    extern /* Subroutine */ EXPORTSYMBOL int sb03ou_(), dtrmm_(), dtrsm_(), dsyrk_();
     static integer n2, kd, kg;
     extern doublereal dlamch_(), dlange_();
     static integer kq, ks, ku, kw, lw;
-    extern /* Subroutine */ int dgerqf_(), dlacpy_(), xerbla_(), dorgrq_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgerqf_(), dlacpy_(), xerbla_(), dorgrq_();
     static integer wrkopt, kbw, kcw, kdw, kwi, kwr;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

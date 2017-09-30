@@ -9,7 +9,7 @@
 
 static integer c__1 = 1;
 
-/* Subroutine */ int de01pd_(conv, wght, n, a, b, w, info, conv_len, wght_len)
+/* Subroutine */ EXPORTSYMBOL int de01pd_(conv, wght, n, a, b, w, info, conv_len, wght_len)
 char *conv, *wght;
 integer *n;
 doublereal *a, *b, *w;
@@ -22,12 +22,12 @@ ftnlen wght_len;
     doublereal d__1, d__2;
     /* Local variables */
     static integer j, l, m;
-    extern /* Subroutine */ int dg01od_(), dscal_();
+    extern /* Subroutine */ EXPORTSYMBOL int dg01od_(), dscal_();
     extern logical lsame_();
     static logical lconv, lwght;
     static integer p1, r1;
     static doublereal t1, t2, t3;
-    extern /* Subroutine */ int dladiv_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dladiv_(), xerbla_();
     static integer len;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

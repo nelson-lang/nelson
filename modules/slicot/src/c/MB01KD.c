@@ -5,7 +5,7 @@
 
 #include "nelson_f2c.h"
 
-/* Subroutine */ int mb01kd_(uplo, trans, n, k, alpha, a, lda, b, ldb, beta, c__, ldc, info, uplo_len, trans_len)
+/* Subroutine */ EXPORTSYMBOL int mb01kd_(uplo, trans, n, k, alpha, a, lda, b, ldb, beta, c__, ldc, info, uplo_len, trans_len)
 char *uplo, *trans;
 integer *n, *k;
 doublereal *alpha, *a;
@@ -24,7 +24,7 @@ ftnlen trans_len;
     static integer i__, j, l;
     extern logical lsame_();
     static logical ltran;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static logical lup;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

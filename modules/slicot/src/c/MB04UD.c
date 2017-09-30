@@ -11,7 +11,7 @@ static doublereal c_b10 = 0.;
 static doublereal c_b11 = 1.;
 static integer c__1 = 1;
 
-/* Subroutine */ int mb04ud_(jobq, jobz, m, n, a, lda, e, lde, q, ldq, z__, ldz, ranke, istair, tol, dwork, info, jobq_len, jobz_len)
+/* Subroutine */ EXPORTSYMBOL int mb04ud_(jobq, jobz, m, n, a, lda, e, lde, q, ldq, z__, ldz, ranke, istair, tol, dwork, info, jobq_len, jobz_len)
 char *jobq, *jobz;
 integer *m, *n;
 doublereal *a;
@@ -32,16 +32,16 @@ ftnlen jobz_len;
     doublereal d__1;
     /* Local variables */
     static integer i__, k, l;
-    extern /* Subroutine */ int dlarf_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlarf_();
     extern logical lsame_();
-    extern /* Subroutine */ int dswap_();
+    extern /* Subroutine */ EXPORTSYMBOL int dswap_();
     static doublereal toler;
     static logical lzero;
     static integer lk;
     extern doublereal dlamch_(), dlange_();
-    extern /* Subroutine */ int dlarfg_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlarfg_();
     extern integer idamax_();
-    extern /* Subroutine */ int dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlaset_(), xerbla_();
     static logical ljobqi, ljobzi, updatq;
     static doublereal emxnrm;
     static logical updatz;

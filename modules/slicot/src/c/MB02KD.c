@@ -11,7 +11,7 @@ static doublereal c_b9 = 0.;
 static integer c__1 = 1;
 static doublereal c_b23 = 1.;
 
-/* Subroutine */ int mb02kd_(ldblk, trans, k, l, m, n, r__, alpha, beta, tc, ldtc, tr, ldtr, b, ldb, c__, ldc, dwork, ldwork, info, ldblk_len, trans_len)
+/* Subroutine */ EXPORTSYMBOL int mb02kd_(ldblk, trans, k, l, m, n, r__, alpha, beta, tc, ldtc, tr, ldtr, b, ldb, c__, ldc, dwork, ldwork, info, ldblk_len, trans_len)
 char *ldblk, *trans;
 integer *k, *l, *m, *n, *r__;
 doublereal *alpha, *beta, *tc;
@@ -38,20 +38,20 @@ ftnlen trans_len;
     static integer meth, ierr, shft;
     static char wght[1];
     static integer wpos, i__, j, p;
-    extern /* Subroutine */ int dg01od_(), dscal_(), dgemm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dg01od_(), dscal_(), dgemm_();
     static doublereal param;
     extern logical lsame_();
     static logical fullc;
-    extern /* Subroutine */ int dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_();
     static logical ltran;
-    extern /* Subroutine */ int daxpy_();
+    extern /* Subroutine */ EXPORTSYMBOL int daxpy_();
     static logical lmult;
     static integer p1, p2, q1, q2, r1, r2, s1, s2;
     static doublereal t1, t2, cf;
     static integer pb, pc, jj, kk, ll, mk, ln, ir, nl;
     static doublereal sf, th;
     static integer pp, pt;
-    extern /* Subroutine */ int dlacpy_(), dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), dlaset_(), xerbla_();
     static integer wrkopt, icp, icq, len, pdw;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

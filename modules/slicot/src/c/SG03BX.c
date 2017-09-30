@@ -14,7 +14,7 @@ static doublereal c_b60 = -1.;
 static integer c__4 = 4;
 static integer c__1 = 1;
 
-/* Subroutine */ int sg03bx_(dico, trans, a, lda, e, lde, b, ldb, u, ldu, scale, m1, ldm1, m2, ldm2, info, dico_len, trans_len)
+/* Subroutine */ EXPORTSYMBOL int sg03bx_(dico, trans, a, lda, e, lde, b, ldb, u, ldu, scale, m1, ldm1, m2, ldm2, info, dico_len, trans_len)
 char *dico, *trans;
 doublereal *a;
 integer *lda;
@@ -38,20 +38,20 @@ ftnlen trans_len;
     double sqrt();
     /* Local variables */
     static doublereal lami, lamr;
-    extern /* Subroutine */ int dlag2_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlag2_();
     static doublereal l, betai, alpha, t, v, w;
-    extern /* Subroutine */ int dgemm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemm_();
     static doublereal betar;
     extern logical lsame_();
-    extern /* Subroutine */ int dgemv_(), sg03by_(), dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemv_(), sg03by_(), dcopy_();
     static doublereal scale1, scale2;
     extern doublereal dlapy2_();
     static doublereal aa[4]	/* was [2][2] */, b11, bb[4]	/* was [2][2] */, b22;
-    extern /* Subroutine */ int dlabad_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlabad_();
     static doublereal ai[4]	/* was [2][2] */, bi[4]	/* was [2][2] */, ci, ee[4]	/* was [2][2] */, ei[4]	/* was [2][2] */, ar[4]	/* was [2][2] */, br[4]	/* was [2][2] */, cr, er[4]	/* was [2][2] */;
     extern doublereal dlamch_();
     static doublereal qi[4]	/* was [2][2] */, si, ti[4]	/* was [2][2] */, ui[4]	/* was [2][2] */, xi, yi, qr[4]	/* was [2][2] */, zi[4]	/* was [2][2] */, sr, tr[4]	/* was [2][2] */, ur[4]	/* was [2][2] */;
-    extern /* Subroutine */ int dladiv_();
+    extern /* Subroutine */ EXPORTSYMBOL int dladiv_();
     static doublereal xr, yr, zr[4]	/* was [2][2] */, bignum;
     static logical iscont;
     static doublereal m1i[4]	/* was [2][2] */, m2i[4]	/* was [2][2] */, smlnum, m1r[4]	/* was [2][2] */, m2r[4]	/* was [2][2] */;

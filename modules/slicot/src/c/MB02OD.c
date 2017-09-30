@@ -5,7 +5,7 @@
 
 #include "nelson_f2c.h"
 
-/* Subroutine */ int mb02od_(side, uplo, trans, diag, norm, m, n, alpha, a, lda, b, ldb, rcond, tol, iwork, dwork, info, side_len, uplo_len, trans_len, diag_len, norm_len)
+/* Subroutine */ EXPORTSYMBOL int mb02od_(side, uplo, trans, diag, norm, m, n, alpha, a, lda, b, ldb, rcond, tol, iwork, dwork, info, side_len, uplo_len, trans_len, diag_len, norm_len)
 char *side, *uplo, *trans, *diag, *norm;
 integer *m, *n;
 doublereal *alpha, *a;
@@ -28,10 +28,10 @@ ftnlen norm_len;
     static logical lside;
     extern logical lsame_();
     static integer nrowa;
-    extern /* Subroutine */ int dtrsm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dtrsm_();
     extern doublereal dlamch_();
     static doublereal toldef;
-    extern /* Subroutine */ int xerbla_(), dtrcon_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_(), dtrcon_();
     static logical onenrm;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

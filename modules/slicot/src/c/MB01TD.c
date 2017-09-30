@@ -10,7 +10,7 @@
 static integer c__1 = 1;
 static doublereal c_b10 = 1.;
 
-/* Subroutine */ int mb01td_(n, a, lda, b, ldb, dwork, info)
+/* Subroutine */ EXPORTSYMBOL int mb01td_(n, a, lda, b, ldb, dwork, info)
 integer *n;
 doublereal *a;
 integer *lda;
@@ -23,7 +23,7 @@ integer *info;
     integer a_dim1, a_offset, b_dim1, b_offset, i__1, i__2, i__3;
     /* Local variables */
     static integer jmin, jmnm, i__, j;
-    extern /* Subroutine */ int daxpy_(), dtrmv_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int daxpy_(), dtrmv_(), xerbla_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */

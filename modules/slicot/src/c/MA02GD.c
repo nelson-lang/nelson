@@ -9,7 +9,7 @@
 
 static integer c__1 = 1;
 
-/* Subroutine */ int ma02gd_(n, a, lda, k1, k2, ipiv, incx)
+/* Subroutine */ EXPORTSYMBOL int ma02gd_(n, a, lda, k1, k2, ipiv, incx)
 integer *n;
 doublereal *a;
 integer *lda, *k1, *k2, *ipiv, *incx;
@@ -18,7 +18,7 @@ integer *lda, *k1, *k2, *ipiv, *incx;
     integer a_dim1, a_offset, i__1;
     /* Local variables */
     static integer j;
-    extern /* Subroutine */ int dswap_();
+    extern /* Subroutine */ EXPORTSYMBOL int dswap_();
     static integer jp, jx;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

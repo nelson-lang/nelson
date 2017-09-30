@@ -10,7 +10,7 @@
 static integer c__1 = 1;
 static doublereal c_b12 = 0.;
 
-/* Subroutine */ int mb02cy_(typet, strucg, p, q, n, k, a, lda, b, ldb, h__, ldh, cs, lcs, dwork, ldwork, info, typet_len, strucg_len)
+/* Subroutine */ EXPORTSYMBOL int mb02cy_(typet, strucg, p, q, n, k, a, lda, b, ldb, h__, ldh, cs, lcs, dwork, ldwork, info, typet_len, strucg_len)
 char *typet, *strucg;
 integer *p, *q, *n, *k;
 doublereal *a;
@@ -34,12 +34,12 @@ ftnlen strucg_len;
     static doublereal c__;
     static integer i__;
     static doublereal s;
-    extern /* Subroutine */ int dscal_(), dlarf_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_(), dlarf_();
     extern logical lsame_();
-    extern /* Subroutine */ int daxpy_();
+    extern /* Subroutine */ EXPORTSYMBOL int daxpy_();
     static logical islwr, isrow;
     static integer ci;
-    extern /* Subroutine */ int dlaset_(), xerbla_(), dormlq_(), dormqr_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlaset_(), xerbla_(), dormlq_(), dormqr_();
     static integer maxwrk;
     static doublereal tau;
     /*     SLICOT RELEASE 5.0. */

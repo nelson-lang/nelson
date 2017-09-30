@@ -12,7 +12,7 @@ static doublereal c_b7 = 0.;
 static doublereal c_b10 = -1.;
 static integer c__1 = 1;
 
-/* Subroutine */ int tb03ay_(nr, a, lda, indblk, nblk, vcoeff, ldvco1, ldvco2, pcoeff, ldpco1, ldpco2, info)
+/* Subroutine */ EXPORTSYMBOL int tb03ay_(nr, a, lda, indblk, nblk, vcoeff, ldvco1, ldvco2, pcoeff, ldpco1, ldpco2, info)
 integer *nr;
 doublereal *a;
 integer *lda, *indblk, *nblk;
@@ -25,9 +25,9 @@ integer *ldpco1, *ldpco2, *info;
     integer a_dim1, a_offset, pcoeff_dim1, pcoeff_dim2, pcoeff_offset, vcoeff_dim1, vcoeff_dim2, vcoeff_offset, i__1, i__2, i__3;
     /* Local variables */
     static integer ioff, joff, ncol, nrow, i__, j, k, l;
-    extern /* Subroutine */ int dscal_(), dgemm_(), daxpy_(), dtrsm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_(), dgemm_(), daxpy_(), dtrsm_();
     static integer kplus, lwork, lstop;
-    extern /* Subroutine */ int dlacpy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_();
     static integer lstart, inplus;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

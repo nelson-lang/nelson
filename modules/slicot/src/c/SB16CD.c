@@ -10,7 +10,7 @@
 static doublereal c_b17 = 1.;
 static doublereal c_b18 = 0.;
 
-/* Subroutine */ int sb16cd_(dico, jobd, jobmr, jobcf, ordsel, n, m, p, ncr, a, lda, b, ldb, c__, ldc, d__, ldd, f, ldf, g, ldg, hsv, tol, iwork, dwork, ldwork, iwarn, info, dico_len, jobd_len, jobmr_len, jobcf_len, ordsel_len)
+/* Subroutine */ EXPORTSYMBOL int sb16cd_(dico, jobd, jobmr, jobcf, ordsel, n, m, p, ncr, a, lda, b, ldb, c__, ldc, d__, ldd, f, ldf, g, ldg, hsv, tol, iwork, dwork, ldwork, iwarn, info, dico_len, jobd_len, jobmr_len, jobcf_len, ordsel_len)
 char *dico, *jobd, *jobmr, *jobcf, *ordsel;
 integer *n, *m, *p, *ncr;
 doublereal *a;
@@ -40,15 +40,15 @@ ftnlen ordsel_len;
     /* Local variables */
     static logical left;
     static integer ierr;
-    extern /* Subroutine */ int dgemm_(), ab09ix_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemm_(), ab09ix_();
     extern logical lsame_();
     static logical discr;
-    extern /* Subroutine */ int sb16cy_();
+    extern /* Subroutine */ EXPORTSYMBOL int sb16cy_();
     static logical withd;
     static doublereal scalec;
     static integer mp, kt, kw, lw;
     static doublereal scaleo;
-    extern /* Subroutine */ int dlacpy_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), xerbla_();
     static logical fixord;
     static integer wrkopt;
     static logical bal;

@@ -12,7 +12,7 @@ static doublereal c_b8 = 1.;
 static integer c__1 = 1;
 static integer c_n1 = -1;
 
-/* Subroutine */ int tf01mx_(n, m, p, ny, s, lds, u, ldu, x, y, ldy, dwork, ldwork, info)
+/* Subroutine */ EXPORTSYMBOL int tf01mx_(n, m, p, ny, s, lds, u, ldu, x, y, ldy, dwork, ldwork, info)
 integer *n, *m, *p, *ny;
 doublereal *s;
 integer *lds;
@@ -27,9 +27,9 @@ integer *ldwork, *info;
     integer s_dim1, s_offset, u_dim1, u_offset, y_dim1, y_offset, i__1, i__2, i__3, i__4;
     /* Local variables */
     static integer i__, j, k;
-    extern /* Subroutine */ int dgemm_(), dgemv_(), dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemm_(), dgemv_(), dcopy_();
     static integer ic, nb, nf, nm, iu, np, iw, jw, iy, ns;
-    extern /* Subroutine */ int dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlaset_(), xerbla_();
     extern integer ilaenv_();
     static integer n2m, n2p;
     /*     SLICOT RELEASE 5.0. */

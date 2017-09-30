@@ -12,7 +12,7 @@ static integer c_n1 = -1;
 static doublereal c_b22 = 0.;
 static logical c_true = TRUE_;
 
-/* Subroutine */ int ab08nx_(n, m, p, ro, sigma, svlmax, abcd, ldabcd, ninfz, infz, kronl, mu, nu, nkrol, tol, iwork, dwork, ldwork, info)
+/* Subroutine */ EXPORTSYMBOL int ab08nx_(n, m, p, ro, sigma, svlmax, abcd, ldabcd, ninfz, infz, kronl, mu, nu, nkrol, tol, iwork, dwork, ldwork, info)
 integer *n, *m, *p, *ro, *sigma;
 doublereal *svlmax, *abcd;
 integer *ldabcd, *ninfz, *infz, *kronl, *mu, *nu, *nkrol;
@@ -28,13 +28,13 @@ integer *ldwork, *info;
     static doublereal sval[3];
     static integer irow;
     static doublereal t;
-    extern /* Subroutine */ int mb03oy_(), mb03py_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb03oy_(), mb03py_();
     static integer mntau, i1, jwork, nb, ik, np;
-    extern /* Subroutine */ int dlarfg_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlarfg_();
     static integer iz;
-    extern /* Subroutine */ int dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlaset_(), xerbla_();
     extern integer ilaenv_();
-    extern /* Subroutine */ int dlapmt_(), dlatzm_(), dormqr_(), dormrq_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlapmt_(), dlatzm_(), dormqr_(), dormrq_();
     static integer mm1;
     static logical lquery;
     static integer ro1, wrkopt, mpm, tau, mnu;

@@ -13,7 +13,7 @@ static integer c__1 = 1;
 static doublereal c_b84 = -1.;
 static doublereal c_b132 = 2.;
 
-/* Subroutine */ int bb03ad_(def, nr, dpar, ipar, vec, n, m, e, lde, a, lda, y, ldy, b, ldb, x, ldx, u, ldu, note, dwork, ldwork, info, def_len, note_len)
+/* Subroutine */ EXPORTSYMBOL int bb03ad_(def, nr, dpar, ipar, vec, n, m, e, lde, a, lda, y, ldy, b, ldb, x, ldx, u, ldu, note, dwork, ldwork, info, def_len, note_len)
 char *def;
 integer *nr;
 doublereal *dpar;
@@ -44,15 +44,15 @@ ftnlen note_len;
     integer a_dim1, a_offset, b_dim1, b_offset, e_dim1, e_offset, u_dim1, u_offset, x_dim1, x_offset, y_dim1, y_offset, i__1, i__2, i__3;
     doublereal d__1, d__2;
     /* Builtin functions */
-    /* Subroutine */ int s_copy();
+    /* Subroutine */ EXPORTSYMBOL int s_copy();
     double pow_di(), pow_dd();
     /* Local variables */
-    extern /* Subroutine */ int dger_();
+    extern /* Subroutine */ EXPORTSYMBOL int dger_();
     extern doublereal ddot_();
     static doublereal temp;
     static integer i__, j, k;
     extern logical lsame_();
-    extern /* Subroutine */ int dgemv_(), daxpy_(), dlaset_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemv_(), daxpy_(), dlaset_();
     static doublereal twobyn, ttm1, ttp1;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

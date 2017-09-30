@@ -11,7 +11,7 @@ static integer c__2 = 2;
 static doublereal c_b6 = 0.;
 static integer c__1 = 1;
 
-/* Subroutine */ int sb04rx_(rc, ul, m, a, lda, lambd1, lambd2, lambd3, lambd4, d__, tol, iwork, dwork, lddwor, info, rc_len, ul_len)
+/* Subroutine */ EXPORTSYMBOL int sb04rx_(rc, ul, m, a, lda, lambd1, lambd2, lambd3, lambd4, d__, tol, iwork, dwork, lddwor, info, rc_len, ul_len)
 char *rc, *ul;
 integer *m;
 doublereal *a;
@@ -26,19 +26,19 @@ ftnlen ul_len;
     /* System generated locals */
     integer a_dim1, a_offset, dwork_dim1, dwork_offset, i__1, i__2, i__3;
     /* Local variables */
-    extern /* Subroutine */ int drot_();
+    extern /* Subroutine */ EXPORTSYMBOL int drot_();
     static doublereal c__;
     static integer j;
     static doublereal r__, s;
-    extern /* Subroutine */ int dscal_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_();
     extern logical lsame_();
     static doublereal rcond;
-    extern /* Subroutine */ int dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_();
     static char trans[1];
     static integer j1, j2, m2;
-    extern /* Subroutine */ int dtrsv_();
+    extern /* Subroutine */ EXPORTSYMBOL int dtrsv_();
     static integer mj, ml;
-    extern /* Subroutine */ int dlaset_(), dlartg_(), dtrcon_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlaset_(), dlartg_(), dtrcon_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */

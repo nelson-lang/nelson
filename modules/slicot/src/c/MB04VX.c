@@ -9,7 +9,7 @@
 
 static integer c__1 = 1;
 
-/* Subroutine */ int mb04vx_(updatq, updatz, m, n, nblcks, inuk, imuk, a, lda, e, lde, q, ldq, z__, ldz, mnei)
+/* Subroutine */ EXPORTSYMBOL int mb04vx_(updatq, updatz, m, n, nblcks, inuk, imuk, a, lda, e, lde, q, ldq, z__, ldz, mnei)
 logical *updatq, *updatz;
 integer *m, *n, *nblcks, *inuk, *imuk;
 doublereal *a;
@@ -25,7 +25,7 @@ integer *ldz, *mnei;
     integer a_dim1, a_offset, e_dim1, e_offset, q_dim1, q_offset, z_dim1, z_offset, i__1, i__2, i__3;
     /* Local variables */
     static integer minf, sk1p1, tk1p1, meps, neps, mukp1, k;
-    extern /* Subroutine */ int mb04tu_(), drotg_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb04tu_(), drotg_();
     static integer ismuk, isnuk, ca, ra;
     static doublereal sc;
     static integer ip;

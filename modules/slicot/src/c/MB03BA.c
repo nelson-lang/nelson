@@ -5,7 +5,7 @@
 
 #include "nelson_f2c.h"
 
-/* Subroutine */ int mb03ba_(k, h__, s, smult, amap, qmap)
+/* Subroutine */ EXPORTSYMBOL int mb03ba_(k, h__, s, smult, amap, qmap)
 integer *k, *h__, *s, *smult, *amap, *qmap;
 {
     /* System generated locals */

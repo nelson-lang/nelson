@@ -11,7 +11,7 @@ static doublereal c_b10 = 1.;
 static doublereal c_b19 = -1.;
 static doublereal c_b21 = 0.;
 
-/* Subroutine */ int mb02ed_(typet, k, n, nrhs, t, ldt, b, ldb, dwork, ldwork, info, typet_len)
+/* Subroutine */ EXPORTSYMBOL int mb02ed_(typet, k, n, nrhs, t, ldt, b, ldb, dwork, ldwork, info, typet_len)
 char *typet;
 integer *k, *n, *nrhs;
 doublereal *t;
@@ -26,11 +26,11 @@ ftnlen typet_len;
     integer b_dim1, b_offset, t_dim1, t_offset, i__1, i__2, i__3, i__4, i__5, i__6;
     /* Local variables */
     static integer ierr, i__;
-    extern /* Subroutine */ int dgemm_(), mb02cx_(), mb02cy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemm_(), mb02cx_(), mb02cy_();
     extern logical lsame_();
-    extern /* Subroutine */ int dtrmm_(), dtrsm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dtrmm_(), dtrsm_();
     static logical isrow;
-    extern /* Subroutine */ int dlacpy_(), dlaset_(), xerbla_(), dpotrf_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), dlaset_(), xerbla_(), dpotrf_();
     static integer starth, starti, maxwrk, startn, startr, startt;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

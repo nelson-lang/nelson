@@ -9,7 +9,7 @@
 
 static integer c__1 = 1;
 
-/* Subroutine */ int tb01pd_(job, equil, n, m, p, a, lda, b, ldb, c__, ldc, nr, tol, iwork, dwork, ldwork, info, job_len, equil_len)
+/* Subroutine */ EXPORTSYMBOL int tb01pd_(job, equil, n, m, p, a, lda, b, ldb, c__, ldc, nr, tol, iwork, dwork, ldwork, info, job_len, equil_len)
 char *job, *equil;
 integer *n, *m, *p;
 doublereal *a;
@@ -29,13 +29,13 @@ ftnlen equil_len;
     integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, i__1, i__2, i__3, i__4;
     /* Local variables */
     static integer itau, i__;
-    extern /* Subroutine */ int ab07md_(), tb01id_(), tb01ud_();
+    extern /* Subroutine */ EXPORTSYMBOL int ab07md_(), tb01id_(), tb01ud_();
     extern logical lsame_();
-    extern /* Subroutine */ int tb01xd_();
+    extern /* Subroutine */ EXPORTSYMBOL int tb01xd_();
     static integer ncont, maxmp, jwork, kl, iz;
     static logical lnjobc;
     static integer indcon;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static doublereal maxred;
     static logical lnjobo, lequil;
     static integer wrkopt;

@@ -9,7 +9,7 @@
 
 static doublereal c_b14 = 1.;
 
-/* Subroutine */ int ab09dd_(dico, n, m, p, nr, a, lda, b, ldb, c__, ldc, d__, ldd, rcond, iwork, dwork, info, dico_len)
+/* Subroutine */ EXPORTSYMBOL int ab09dd_(dico, n, m, p, nr, a, lda, b, ldb, c__, ldc, d__, ldd, rcond, iwork, dwork, info, dico_len)
 char *dico;
 integer *n, *m, *p, *nr;
 doublereal *a;
@@ -30,14 +30,14 @@ ftnlen dico_len;
     integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, i__1, i__2;
     /* Local variables */
     static integer i__, j, k;
-    extern /* Subroutine */ int dgemm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemm_();
     static doublereal a22nrm;
     extern logical lsame_();
     static logical discr;
     extern doublereal dlamch_(), dlange_();
-    extern /* Subroutine */ int dgecon_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgecon_();
     static integer ns;
-    extern /* Subroutine */ int dgetrf_(), xerbla_(), dgetrs_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgetrf_(), xerbla_(), dgetrs_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */

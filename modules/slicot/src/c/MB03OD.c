@@ -10,7 +10,7 @@
 static integer c__2 = 2;
 static integer c__1 = 1;
 
-/* Subroutine */ int mb03od_(jobqr, m, n, a, lda, jpvt, rcond, svlmax, tau, rank, sval, dwork, ldwork, info, jobqr_len)
+/* Subroutine */ EXPORTSYMBOL int mb03od_(jobqr, m, n, a, lda, jpvt, rcond, svlmax, tau, rank, sval, dwork, ldwork, info, jobqr_len)
 char *jobqr;
 integer *m, *n;
 doublereal *a;
@@ -30,11 +30,11 @@ ftnlen jobqr_len;
     extern logical lsame_();
     static integer ismin, ismax;
     static doublereal c1, c2;
-    extern /* Subroutine */ int dlaic1_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlaic1_();
     static doublereal s1, s2;
-    extern /* Subroutine */ int dgeqp3_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgeqp3_();
     static integer mn;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static logical ljobqr;
     static integer minwrk;
     static doublereal sminpr;

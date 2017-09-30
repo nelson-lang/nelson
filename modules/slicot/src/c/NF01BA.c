@@ -10,7 +10,7 @@
 static integer c__1 = 1;
 static doublereal c_b3 = -1.;
 
-/* Subroutine */ int nf01ba_(iflag, nsmp, n, ipar, lipar, z__, ldz, y, ldy, x, nfevl, e, j, ldj, jte, dwork, ldwork, info)
+/* Subroutine */ EXPORTSYMBOL int nf01ba_(iflag, nsmp, n, ipar, lipar, z__, ldz, y, ldy, x, nfevl, e, j, ldj, jte, dwork, ldwork, info)
 integer *iflag, *nsmp, *n, *ipar, *lipar;
 doublereal *z__;
 integer *ldz;
@@ -29,7 +29,7 @@ integer *ldwork, *info;
     integer s_wsfe(), do_fio(), e_wsfe();
     /* Local variables */
     extern doublereal dnrm2_();
-    extern /* Subroutine */ int nf01ay_(), nf01by_(), daxpy_();
+    extern /* Subroutine */ EXPORTSYMBOL int nf01ay_(), nf01by_(), daxpy_();
     static doublereal err;
     /* Fortran I/O blocks */
     static cilist io___2 = { 0, 6, 0, "(' Norm of current error = ', D15.6)", 0 };

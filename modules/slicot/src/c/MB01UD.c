@@ -10,7 +10,7 @@
 static doublereal c_b9 = 0.;
 static integer c__1 = 1;
 
-/* Subroutine */ int mb01ud_(side, trans, m, n, alpha, h__, ldh, a, lda, b, ldb, info, side_len, trans_len)
+/* Subroutine */ EXPORTSYMBOL int mb01ud_(side, trans, m, n, alpha, h__, ldh, a, lda, b, ldb, info, side_len, trans_len)
 char *side, *trans;
 integer *m, *n;
 doublereal *alpha, *h__;
@@ -29,7 +29,7 @@ ftnlen trans_len;
     static integer i__, j;
     static logical lside;
     extern logical lsame_();
-    extern /* Subroutine */ int dswap_(), dtrmm_(), daxpy_(), dlacpy_(), dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dswap_(), dtrmm_(), daxpy_(), dlacpy_(), dlaset_(), xerbla_();
     static logical ltrans;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

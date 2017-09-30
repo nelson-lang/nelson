@@ -10,7 +10,7 @@
 static integer c__1 = 1;
 static integer c_n1 = -1;
 
-/* Subroutine */ int mb04iz_(n, m, p, l, a, lda, b, ldb, tau, zwork, lzwork, info)
+/* Subroutine */ EXPORTSYMBOL int mb04iz_(n, m, p, l, a, lda, b, ldb, tau, zwork, lzwork, info)
 integer *n, *m, *p, *l;
 doublecomplex *a;
 integer *lda;
@@ -26,15 +26,15 @@ integer *lzwork, *info;
     void d_cnjg();
     /* Local variables */
     static integer i__;
-    extern /* Subroutine */ int zlarf_();
+    extern /* Subroutine */ EXPORTSYMBOL int zlarf_();
     static doublecomplex first;
     static integer nb;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     extern integer ilaenv_();
-    extern /* Subroutine */ int zlarfg_(), zgeqrf_();
+    extern /* Subroutine */ EXPORTSYMBOL int zlarfg_(), zgeqrf_();
     static logical lquery;
     static integer wrkopt;
-    extern /* Subroutine */ int zunmqr_();
+    extern /* Subroutine */ EXPORTSYMBOL int zunmqr_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */

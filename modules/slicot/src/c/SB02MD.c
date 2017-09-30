@@ -13,7 +13,7 @@ static doublereal c_b42 = 0.;
 static doublereal c_b45 = 1.;
 static doublereal c_b47 = .5;
 
-/* Subroutine */ int sb02md_(dico, hinv, uplo, scal, sort, n, a, lda, g, ldg, q, ldq, rcond, wr, wi, s, lds, u, ldu, iwork, dwork, ldwork, bwork, info, dico_len, hinv_len, uplo_len, scal_len, sort_len)
+/* Subroutine */ EXPORTSYMBOL int sb02md_(dico, hinv, uplo, scal, sort, n, a, lda, g, ldg, q, ldq, rcond, wr, wi, s, lds, u, ldu, iwork, dwork, ldwork, bwork, info, dico_len, hinv_len, uplo_len, scal_len, sort_len)
 char *dico, *hinv, *uplo, *scal, *sort;
 integer *n;
 doublereal *a;
@@ -40,26 +40,26 @@ ftnlen sort_len;
     integer a_dim1, a_offset, g_dim1, g_offset, q_dim1, q_offset, s_dim1, s_offset, u_dim1, u_offset, i__1, i__2, i__3, i__4;
     /* Local variables */
     static integer iscl, ierr, nrot, i__;
-    extern /* Subroutine */ int dscal_(), dgees_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_(), dgees_();
     static logical lscal;
     extern logical lsame_();
     static logical discr;
     extern logical sb02mr_(), sb02ms_();
-    extern /* Subroutine */ int sb02mu_();
+    extern /* Subroutine */ EXPORTSYMBOL int sb02mu_();
     extern logical sb02mv_(), sb02mw_();
-    extern /* Subroutine */ int dcopy_(), dswap_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_(), dswap_();
     static logical lhinv;
     static doublereal gnorm;
-    extern /* Subroutine */ int daxpy_();
+    extern /* Subroutine */ EXPORTSYMBOL int daxpy_();
     static logical luplo;
     static doublereal qnorm;
     static integer n2;
     static doublereal unorm;
     static logical lsort;
     extern doublereal dlamch_(), dlange_();
-    extern /* Subroutine */ int dgecon_(), dlascl_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgecon_(), dlascl_();
     static doublereal rconda;
-    extern /* Subroutine */ int dgetrf_(), dlacpy_(), dlaset_(), xerbla_(), dgetrs_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgetrf_(), dlacpy_(), dlaset_(), xerbla_(), dgetrs_();
     extern doublereal dlansy_();
     static integer np1;
     static doublereal wrkopt;

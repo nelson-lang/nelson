@@ -12,7 +12,7 @@ static integer c_n1 = -1;
 static integer c__0 = 0;
 static doublereal c_b32 = 0.;
 
-/* Subroutine */ int mb03ud_(jobq, jobp, n, a, lda, q, ldq, sv, dwork, ldwork, info, jobq_len, jobp_len)
+/* Subroutine */ EXPORTSYMBOL int mb03ud_(jobq, jobp, n, a, lda, q, ldq, sv, dwork, ldwork, info, jobq_len, jobp_len)
 char *jobq, *jobp;
 integer *n;
 doublereal *a;
@@ -36,13 +36,13 @@ ftnlen jobp_len;
     static integer ncolp, ncolq, itaup, itauq;
     static logical wantp, wantq;
     static integer jwork, ie;
-    extern /* Subroutine */ int dgebrd_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgebrd_();
     extern doublereal dlamch_();
-    extern /* Subroutine */ int dlascl_(), dlacpy_(), dlaset_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlascl_(), dlacpy_(), dlaset_();
     extern integer ilaenv_();
-    extern /* Subroutine */ int dbdsqr_(), dorgbr_();
+    extern /* Subroutine */ EXPORTSYMBOL int dbdsqr_(), dorgbr_();
     static doublereal bignum;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     extern doublereal dlantr_();
     static integer minwrk, maxwrk;
     static doublereal smlnum, dum[1], eps;

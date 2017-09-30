@@ -11,7 +11,7 @@ static doublereal c_b12 = 1.;
 static doublereal c_b14 = 0.;
 static integer c__1 = 1;
 
-/* Subroutine */ int mb02dd_(job, typet, k, m, n, ta, ldta, t, ldt, g, ldg, r__, ldr, l, ldl, cs, lcs, dwork, ldwork, info, job_len, typet_len)
+/* Subroutine */ EXPORTSYMBOL int mb02dd_(job, typet, k, m, n, ta, ldta, t, ldt, g, ldg, r__, ldr, l, ldl, cs, lcs, dwork, ldwork, info, job_len, typet_len)
 char *job, *typet;
 integer *k, *m, *n;
 doublereal *ta;
@@ -35,12 +35,12 @@ ftnlen typet_len;
     integer g_dim1, g_offset, l_dim1, l_offset, r_dim1, r_offset, t_dim1, t_offset, ta_dim1, ta_offset, i__1, i__2, i__3;
     /* Local variables */
     static integer ierr, i__, j;
-    extern /* Subroutine */ int mb02cx_(), mb02cy_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb02cx_(), mb02cy_();
     extern logical lsame_();
     static logical compg, compl;
-    extern /* Subroutine */ int dcopy_(), dtrsm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_(), dtrsm_();
     static logical isrow;
-    extern /* Subroutine */ int dlacpy_(), dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), dlaset_(), xerbla_();
     static integer starti, maxwrk, startr, startt;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

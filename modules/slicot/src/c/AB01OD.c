@@ -11,7 +11,7 @@ static doublereal c_b11 = 0.;
 static doublereal c_b12 = 1.;
 static integer c__1 = 1;
 
-/* Subroutine */ int ab01od_(stages, jobu, jobv, n, m, a, lda, b, ldb, u, ldu, v, ldv, ncont, indcon, kstair, tol, iwork, dwork, ldwork, info, stages_len, jobu_len, jobv_len)
+/* Subroutine */ EXPORTSYMBOL int ab01od_(stages, jobu, jobv, n, m, a, lda, b, ldb, u, ldu, v, ldv, ncont, indcon, kstair, tol, iwork, dwork, ldwork, info, stages_len, jobu_len, jobv_len)
 char *stages, *jobu, *jobv;
 integer *n, *m;
 doublereal *a;
@@ -34,17 +34,17 @@ ftnlen jobv_len;
     integer a_dim1, a_offset, b_dim1, b_offset, u_dim1, u_offset, v_dim1, v_offset, i__1, i__2, i__3, i__4, i__5, i__6;
     /* Local variables */
     static integer jini, itau, mcrt, ncrt;
-    extern /* Subroutine */ int ab01nd_();
+    extern /* Subroutine */ EXPORTSYMBOL int ab01nd_();
     static integer i__;
     extern logical lsame_();
-    extern /* Subroutine */ int dswap_();
+    extern /* Subroutine */ EXPORTSYMBOL int dswap_();
     static integer i0, j0, jwork, mm;
-    extern /* Subroutine */ int dgerqf_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgerqf_();
     static logical lstagb, lstgab;
-    extern /* Subroutine */ int dlacpy_(), dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), dlaset_(), xerbla_();
     static logical ljobui, ljobvi;
     static integer ibstep;
-    extern /* Subroutine */ int dorgrq_(), dormrq_();
+    extern /* Subroutine */ EXPORTSYMBOL int dorgrq_(), dormrq_();
     static integer wrkopt;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

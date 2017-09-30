@@ -11,7 +11,7 @@ static integer c__1 = 1;
 static integer c__3 = 3;
 static integer c__2 = 2;
 
-/* Subroutine */ int mb04qb_(tranc, trand, tranq, storev, storew, m, n, k, v, ldv, w, ldw, c__, ldc, d__, ldd, cs, tau, dwork, ldwork, info, tranc_len, trand_len, tranq_len, storev_len, storew_len)
+/* Subroutine */ EXPORTSYMBOL int mb04qb_(tranc, trand, tranq, storev, storew, m, n, k, v, ldv, w, ldw, c__, ldc, d__, ldd, cs, tau, dwork, ldwork, info, tranc_len, trand_len, tranq_len, storev_len, storew_len)
 char *tranc, *trand, *tranq, *storev, *storew;
 integer *m, *n, *k;
 doublereal *v;
@@ -35,7 +35,7 @@ ftnlen storew_len;
     integer c_dim1, c_offset, d_dim1, d_offset, v_dim1, v_offset, w_dim1, w_offset, i__1, i__2[3], i__3, i__4;
     char ch__1[3];
     /* Builtin functions */
-    /* Subroutine */ int s_cat();
+    /* Subroutine */ EXPORTSYMBOL int s_cat();
     double sqrt();
     /* Local variables */
     static integer ierr;
@@ -43,14 +43,14 @@ ftnlen storew_len;
     static integer pdrs;
     static logical ltrq;
     static integer i__;
-    extern /* Subroutine */ int mb04qc_(), mb04qf_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb04qc_(), mb04qf_();
     extern integer ue01md_();
     extern logical lsame_();
     static integer nbmin;
-    extern /* Subroutine */ int mb04qu_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb04qu_();
     static logical lcolv, lcolw;
     static integer ib, ic, id, jc, jd, nb, ki, kk, nx;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static integer wrkopt, pdt, pdw;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

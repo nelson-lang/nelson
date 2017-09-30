@@ -5,7 +5,7 @@
 
 #include "nelson_f2c.h"
 
-/* Subroutine */ int mb03rx_(jobv, n, kl, ku, a, lda, x, ldx, wr, wi, dwork, jobv_len)
+/* Subroutine */ EXPORTSYMBOL int mb03rx_(jobv, n, kl, ku, a, lda, x, ldx, wr, wi, dwork, jobv_len)
 char *jobv;
 integer *n, *kl, *ku;
 doublereal *a;
@@ -22,7 +22,7 @@ ftnlen jobv_len;
     double sqrt();
     /* Local variables */
     static integer ierr, ifst, ilst, l;
-    extern /* Subroutine */ int dtrexc_();
+    extern /* Subroutine */ EXPORTSYMBOL int dtrexc_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */

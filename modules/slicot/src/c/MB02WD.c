@@ -12,9 +12,9 @@ static doublereal c_b8 = 1.;
 static doublereal c_b9 = -1.;
 static doublereal c_b22 = 0.;
 
-/* Subroutine */ int mb02wd_(form, f, n, ipar, lipar, dpar, ldpar, itmax, a, lda, b, incb, x, incx, tol, dwork, ldwork, iwarn, info, form_len)
+/* Subroutine */ EXPORTSYMBOL int mb02wd_(form, f, n, ipar, lipar, dpar, ldpar, itmax, a, lda, b, incb, x, incx, tol, dwork, ldwork, iwarn, info, form_len)
 char *form;
-/* Subroutine */ int (*f) ();
+/* Subroutine */ EXPORTSYMBOL int (*f) ();
 integer *n, *ipar, *lipar;
 doublereal *dpar;
 integer *ldpar, *itmax;
@@ -36,13 +36,13 @@ ftnlen form_len;
     extern doublereal ddot_(), dnrm2_();
     static integer k, r__;
     static doublereal alpha;
-    extern /* Subroutine */ int dscal_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_();
     extern logical lsame_();
-    extern /* Subroutine */ int dcopy_(), daxpy_(), dsymv_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_(), daxpy_(), dsymv_();
     static integer aq;
     extern doublereal dlamch_();
     static doublereal toldef;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static integer dwleft;
     static doublereal resold;
     static logical mat;

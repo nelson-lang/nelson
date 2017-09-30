@@ -10,7 +10,7 @@
 static integer c__3 = 3;
 static integer c__1 = 1;
 
-/* Subroutine */ int sb03mv_(ltran, lupper, t, ldt, b, ldb, scale, x, ldx, xnorm, info)
+/* Subroutine */ EXPORTSYMBOL int sb03mv_(ltran, lupper, t, ldt, b, ldb, scale, x, ldx, xnorm, info)
 logical *ltran, *lupper;
 doublereal *t;
 integer *ldt;
@@ -29,7 +29,7 @@ integer *info;
     static integer jpiv[3];
     static doublereal xmax;
     static integer ipsv, jpsv, i__, j, k;
-    extern /* Subroutine */ int dswap_();
+    extern /* Subroutine */ EXPORTSYMBOL int dswap_();
     static doublereal t9[9]	/* was [3][3] */;
     extern doublereal dlamch_();
     static integer ip, jp;

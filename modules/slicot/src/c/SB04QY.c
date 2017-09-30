@@ -10,7 +10,7 @@
 static integer c__0 = 0;
 static integer c__1 = 1;
 
-/* Subroutine */ int sb04qy_(n, m, ind, a, lda, b, ldb, c__, ldc, d__, ipr, info)
+/* Subroutine */ EXPORTSYMBOL int sb04qy_(n, m, ind, a, lda, b, ldb, c__, ldc, d__, ipr, info)
 integer *n, *m, *ind;
 doublereal *a;
 integer *lda;
@@ -25,9 +25,9 @@ integer *ipr, *info;
     integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, i__1;
     /* Local variables */
     static integer i__, j, k;
-    extern /* Subroutine */ int dscal_(), sb04mw_(), dcopy_(), daxpy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_(), sb04mw_(), dcopy_(), daxpy_();
     static integer i2, k1, k2, m1;
-    extern /* Subroutine */ int dtrmv_();
+    extern /* Subroutine */ EXPORTSYMBOL int dtrmv_();
     static doublereal dum[1];
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

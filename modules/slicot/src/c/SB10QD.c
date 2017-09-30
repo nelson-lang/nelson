@@ -11,7 +11,7 @@ static doublereal c_b5 = 0.;
 static doublereal c_b8 = 1.;
 static doublereal c_b17 = -1.;
 
-/* Subroutine */ int sb10qd_(n, m, np, ncon, nmeas, gamma, a, lda, b, ldb, c__, ldc, d__, ldd, f, ldf, h__, ldh, x, ldx, y, ldy, xycond, iwork, dwork, ldwork, bwork, info)
+/* Subroutine */ EXPORTSYMBOL int sb10qd_(n, m, np, ncon, nmeas, gamma, a, lda, b, ldb, c__, ldc, d__, ldd, f, ldf, h__, ldh, x, ldx, y, ldy, xycond, iwork, dwork, ldwork, bwork, info)
 integer *n, *m, *np, *ncon, *nmeas;
 doublereal *gamma, *a;
 integer *lda;
@@ -42,20 +42,20 @@ integer *info;
     /* Local variables */
     static doublereal ferr;
     static integer iwrk, info2;
-    extern /* Subroutine */ int dgemm_(), sb02rd_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemm_(), sb02rd_();
     static doublereal rcond;
-    extern /* Subroutine */ int mb01ru_(), mb01rx_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb01ru_(), mb01rx_();
     static doublereal anorm;
-    extern /* Subroutine */ int dsymm_(), dsyrk_();
+    extern /* Subroutine */ EXPORTSYMBOL int dsymm_(), dsyrk_();
     static integer m1, m2, n2;
     extern doublereal dlamch_();
     static integer nn;
-    extern /* Subroutine */ int dlacpy_(), dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), dlaset_(), xerbla_();
     static integer lwamax;
     extern doublereal dlansy_();
-    extern /* Subroutine */ int dsycon_();
+    extern /* Subroutine */ EXPORTSYMBOL int dsycon_();
     static integer nd1, nd2, minwrk;
-    extern /* Subroutine */ int dsytrf_(), dsytri_();
+    extern /* Subroutine */ EXPORTSYMBOL int dsytrf_(), dsytri_();
     static integer np1, np2, iw2, iwa, iwg, iwi;
     static doublereal eps, sep;
     static integer iwq, iwr, iws, iwt, iwv;

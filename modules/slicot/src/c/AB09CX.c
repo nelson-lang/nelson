@@ -12,7 +12,7 @@ static integer c__1 = 1;
 static doublereal c_b49 = -1.;
 static doublereal c_b54 = 0.;
 
-/* Subroutine */ int ab09cx_(dico, ordsel, n, m, p, nr, a, lda, b, ldb, c__, ldc, d__, ldd, hsv, tol1, tol2, iwork, dwork, ldwork, iwarn, info, dico_len, ordsel_len)
+/* Subroutine */ EXPORTSYMBOL int ab09cx_(dico, ordsel, n, m, p, nr, a, lda, b, ldb, c__, ldc, d__, ldd, hsv, tol1, tol2, iwork, dwork, ldwork, iwarn, info, dico_len, ordsel_len)
 char *dico, *ordsel;
 integer *n, *m, *p, *nr;
 doublereal *a;
@@ -41,20 +41,20 @@ ftnlen ordsel_len;
     static integer ierr;
     static doublereal rtol;
     static integer ldc2t;
-    extern /* Subroutine */ int ma02ad_(), ab04md_();
+    extern /* Subroutine */ EXPORTSYMBOL int ma02ad_(), ab04md_();
     static integer i__, j;
-    extern /* Subroutine */ int ab09ax_(), tb01kd_(), mb01sd_(), dgemm_();
+    extern /* Subroutine */ EXPORTSYMBOL int ab09ax_(), tb01kd_(), mb01sd_(), dgemm_();
     extern logical lsame_();
-    extern /* Subroutine */ int tb01wd_();
+    extern /* Subroutine */ EXPORTSYMBOL int tb01wd_();
     static logical discr;
     static integer irank;
-    extern /* Subroutine */ int dcopy_(), dswap_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_(), dswap_();
     static integer nminr;
-    extern /* Subroutine */ int daxpy_();
+    extern /* Subroutine */ EXPORTSYMBOL int daxpy_();
     static integer i1, khsvp, khsvp2, na;
     extern doublereal dlamch_();
     static integer kr, kt, ku, kw, nu;
-    extern /* Subroutine */ int dlacpy_(), xerbla_(), dgelsy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), xerbla_(), dgelsy_();
     static logical fixord;
     static integer kb1, kb2, kc1, nr1, kw1, kw2;
     static doublereal srrtol;

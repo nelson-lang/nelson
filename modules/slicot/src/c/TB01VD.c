@@ -13,7 +13,7 @@ static doublereal c_b42 = 0.;
 static doublereal c_b93 = -.5;
 static doublereal c_b96 = -1.;
 
-/* Subroutine */ int tb01vd_(apply, n, m, l, a, lda, b, ldb, c__, ldc, d__, ldd, x0, theta, ltheta, dwork, ldwork, info, apply_len)
+/* Subroutine */ EXPORTSYMBOL int tb01vd_(apply, n, m, l, a, lda, b, ldb, c__, ldc, d__, ldd, x0, theta, ltheta, dwork, ldwork, info, apply_len)
 char *apply;
 integer *n, *m, *l;
 doublereal *a;
@@ -37,27 +37,27 @@ ftnlen apply_len;
     double atan(), tan();
     /* Local variables */
     static integer ldca;
-    extern /* Subroutine */ int dger_();
+    extern /* Subroutine */ EXPORTSYMBOL int dger_();
     static integer itau;
     extern doublereal dnrm2_();
     static doublereal piby2;
-    extern /* Subroutine */ int ma02ad_();
+    extern /* Subroutine */ EXPORTSYMBOL int ma02ad_();
     static integer i__, j, k;
-    extern /* Subroutine */ int dscal_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_();
     static doublereal scale;
-    extern /* Subroutine */ int dgemm_(), sb03od_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemm_(), sb03od_();
     extern logical lsame_();
-    extern /* Subroutine */ int dgemv_(), dcopy_(), dtrmm_(), daxpy_(), dtrsm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemv_(), dcopy_(), dtrmm_(), daxpy_(), dtrsm_();
     static integer jwork;
-    extern /* Subroutine */ int dtrmv_();
+    extern /* Subroutine */ EXPORTSYMBOL int dtrmv_();
     static integer ca, ia, in, iq;
     static doublereal ri;
     static integer ir;
     static doublereal ti;
     static integer it, iu;
-    extern /* Subroutine */ int dgeqrf_(), dlacpy_(), dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgeqrf_(), dlacpy_(), dlaset_(), xerbla_();
     static logical lapply;
-    extern /* Subroutine */ int dormqr_();
+    extern /* Subroutine */ EXPORTSYMBOL int dormqr_();
     static integer wrkopt, ldt, iwi, iwr;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

@@ -5,7 +5,7 @@
 
 #include "nelson_f2c.h"
 
-/* Subroutine */ int sb16ad_(dico, jobc, jobo, jobmr, weight, equil, ordsel, n, m, p, nc, ncr, alpha, a, lda, b, ldb, c__, ldc, d__, ldd, ac, ldac, bc, ldbc, cc, ldcc, dc, lddc, ncs, hsvc, tol1, tol2, iwork, dwork, ldwork, iwarn, info, dico_len, jobc_len, jobo_len, jobmr_len, weight_len, equil_len, ordsel_len)
+/* Subroutine */ EXPORTSYMBOL int sb16ad_(dico, jobc, jobo, jobmr, weight, equil, ordsel, n, m, p, nc, ncr, alpha, a, lda, b, ldb, c__, ldc, d__, ldd, ac, ldac, bc, ldbc, cc, ldcc, dc, lddc, ncs, hsvc, tol1, tol2, iwork, dwork, ldwork, iwarn, info, dico_len, jobc_len, jobo_len, jobmr_len, weight_len, equil_len, ordsel_len)
 char *dico, *jobc, *jobo, *jobmr, *weight, *equil, *ordsel;
 integer *n, *m, *p, *nc, *ncr;
 doublereal *alpha, *a;
@@ -43,17 +43,17 @@ ftnlen ordsel_len;
     /* Local variables */
     static logical perf;
     static integer ierr;
-    extern /* Subroutine */ int tb01id_(), tb01kd_(), ab09ix_();
+    extern /* Subroutine */ EXPORTSYMBOL int tb01id_(), tb01kd_(), ab09ix_();
     extern logical lsame_();
     static logical istab, discr;
-    extern /* Subroutine */ int sb16ay_();
+    extern /* Subroutine */ EXPORTSYMBOL int sb16ay_();
     static logical ostab, leftw;
     static integer ki;
     extern doublereal dlamch_();
     static doublereal scalec;
     static integer kr, mp, kt, ku, kw, lw;
     static doublereal scaleo;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static doublereal maxred;
     static logical fixord;
     static integer iwarnl;

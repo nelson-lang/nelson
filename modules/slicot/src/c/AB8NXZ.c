@@ -12,7 +12,7 @@ static integer c__1 = 1;
 static integer c_n1 = -1;
 static logical c_true = TRUE_;
 
-/* Subroutine */ int ab8nxz_(n, m, p, ro, sigma, svlmax, abcd, ldabcd, ninfz, infz, kronl, mu, nu, nkrol, tol, iwork, dwork, zwork, lzwork, info)
+/* Subroutine */ EXPORTSYMBOL int ab8nxz_(n, m, p, ro, sigma, svlmax, abcd, ldabcd, ninfz, infz, kronl, mu, nu, nkrol, tol, iwork, dwork, zwork, lzwork, info)
 integer *n, *m, *p, *ro, *sigma;
 doublereal *svlmax;
 doublecomplex *abcd;
@@ -32,20 +32,20 @@ integer *lzwork, *info;
     static integer rank, itau;
     static doublereal sval[3];
     static integer irow, mntau, i1, jwork, nb;
-    extern /* Subroutine */ int mb3oyz_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb3oyz_();
     static integer ik;
-    extern /* Subroutine */ int mb3pyz_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb3pyz_();
     static doublecomplex tc;
     static integer np, iz;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     extern integer ilaenv_();
-    extern /* Subroutine */ int zlarfg_(), zlaset_(), zlapmt_();
+    extern /* Subroutine */ EXPORTSYMBOL int zlarfg_(), zlaset_(), zlapmt_();
     static integer mm1;
     static logical lquery;
     static integer ro1;
-    extern /* Subroutine */ int zlatzm_();
+    extern /* Subroutine */ EXPORTSYMBOL int zlatzm_();
     static integer wrkopt;
-    extern /* Subroutine */ int zunmqr_(), zunmrq_();
+    extern /* Subroutine */ EXPORTSYMBOL int zunmqr_(), zunmrq_();
     static integer mpm, tau, mnu;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

@@ -11,7 +11,7 @@ static doublereal c_b4 = 0.;
 static doublereal c_b8 = 1.;
 static integer c__1 = 1;
 
-/* Subroutine */ int tf01md_(n, m, p, ny, a, lda, b, ldb, c__, ldc, d__, ldd, u, ldu, x, y, ldy, dwork, info)
+/* Subroutine */ EXPORTSYMBOL int tf01md_(n, m, p, ny, a, lda, b, ldb, c__, ldc, d__, ldd, u, ldu, x, y, ldy, dwork, info)
 integer *n, *m, *p, *ny;
 doublereal *a;
 integer *lda;
@@ -31,9 +31,9 @@ integer *info;
     /* System generated locals */
     integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, u_dim1, u_offset, y_dim1, y_offset, i__1;
     /* Local variables */
-    extern /* Subroutine */ int dgemm_(), dgemv_(), dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemm_(), dgemv_(), dcopy_();
     static integer ik;
-    extern /* Subroutine */ int dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlaset_(), xerbla_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */

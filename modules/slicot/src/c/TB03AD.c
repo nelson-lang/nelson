@@ -12,7 +12,7 @@ static doublereal c_b20 = 0.;
 static doublereal c_b53 = 1.;
 static integer c_n1 = -1;
 
-/* Subroutine */ int tb03ad_(leri, equil, n, m, p, a, lda, b, ldb, c__, ldc, d__, ldd, nr, index, pcoeff, ldpco1, ldpco2, qcoeff, ldqco1, ldqco2, vcoeff, ldvco1, ldvco2, tol, iwork, dwork, ldwork, info, leri_len, equil_len)
+/* Subroutine */ EXPORTSYMBOL int tb03ad_(leri, equil, n, m, p, a, lda, b, ldb, c__, ldc, d__, ldd, nr, index, pcoeff, ldpco1, ldpco2, qcoeff, ldqco1, ldqco2, vcoeff, ldvco1, ldvco2, tol, iwork, dwork, ldwork, info, leri_len, equil_len)
 char *leri, *equil;
 integer *n, *m, *p;
 doublereal *a;
@@ -40,21 +40,21 @@ ftnlen equil_len;
     integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, pcoeff_dim1, pcoeff_dim2, pcoeff_offset, qcoeff_dim1, qcoeff_dim2, qcoeff_offset, vcoeff_dim1, vcoeff_dim2, vcoeff_offset, i__1, i__2, i__3, i__4;
     /* Local variables */
     static integer ioff, joff, ncol, kmax, itau, nrow, i__;
-    extern /* Subroutine */ int ab07md_();
+    extern /* Subroutine */ EXPORTSYMBOL int ab07md_();
     static integer k;
-    extern /* Subroutine */ int ma02gd_(), tb01id_(), dgemm_(), tc01od_(), tb01ud_();
+    extern /* Subroutine */ EXPORTSYMBOL int ma02gd_(), tb01id_(), dgemm_(), tc01od_(), tb01ud_();
     extern logical lsame_();
-    extern /* Subroutine */ int tb03ay_(), tb01yd_();
+    extern /* Subroutine */ EXPORTSYMBOL int tb03ay_(), tb01yd_();
     static integer mplim, ncont, maxmp;
-    extern /* Subroutine */ int dtrsm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dtrsm_();
     static integer jwork, kwork, istop, kplus, mwork, pwork, ic, indblk, iz, irankc, kpcoef, nreflc;
-    extern /* Subroutine */ int dgeqrf_(), dgetrf_(), dlacpy_(), dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgeqrf_(), dgetrf_(), dlacpy_(), dlaset_(), xerbla_();
     static doublereal maxred;
     static logical lleril;
     static integer ldwric;
     static logical llerir, lequil;
     static integer ifirst;
-    extern /* Subroutine */ int dormqr_();
+    extern /* Subroutine */ EXPORTSYMBOL int dormqr_();
     static integer istart, inplus, wrkopt;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

@@ -12,7 +12,7 @@ static integer c_n1 = -1;
 static doublereal c_b35 = 1.;
 static doublereal c_b36 = 0.;
 
-/* Subroutine */ int mb02ud_(fact, side, trans, jobp, m, n, alpha, rcond, rank, r__, ldr, q, ldq, sv, b, ldb, rp, ldrp, dwork, ldwork, info, fact_len, side_len, trans_len, jobp_len)
+/* Subroutine */ EXPORTSYMBOL int mb02ud_(fact, side, trans, jobp, m, n, alpha, rcond, rank, r__, ldr, q, ldq, sv, b, ldb, rp, ldrp, dwork, ldwork, info, fact_len, side_len, trans_len, jobp_len)
 char *fact, *side, *trans, *jobp;
 integer *m, *n;
 doublereal *alpha, *rcond;
@@ -40,15 +40,15 @@ ftnlen jobp_len;
     static doublereal toll;
     static logical pinv;
     static integer i__, l;
-    extern /* Subroutine */ int mb01sd_(), dgemm_(), mb03ud_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb01sd_(), dgemm_(), mb03ud_();
     extern logical lsame_();
-    extern /* Subroutine */ int dgemv_(), dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemv_(), dcopy_();
     static char ntran[1];
     extern doublereal dlamch_();
     static integer mn;
-    extern /* Subroutine */ int dlacpy_(), dlaset_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), dlaset_();
     extern integer ilaenv_();
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static integer minwrk, maxwrk;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

@@ -5,7 +5,7 @@
 
 #include "nelson_f2c.h"
 
-/* Subroutine */ int mb01qd_(type__, m, n, kl, ku, cfrom, cto, nbl, nrows, a, lda, info, type_len)
+/* Subroutine */ EXPORTSYMBOL int mb01qd_(type__, m, n, kl, ku, cfrom, cto, nbl, nrows, a, lda, info, type_len)
 char *type__;
 integer *m, *n, *kl, *ku;
 doublereal *cfrom, *cto;

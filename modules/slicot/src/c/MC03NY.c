@@ -13,7 +13,7 @@ static doublereal c_b16 = 0.;
 static integer c__0 = 0;
 static doublereal c_b26 = 1.;
 
-/* Subroutine */ int mc03ny_(nblcks, nra, nca, a, lda, e, lde, imuk, inuk, veps, ldveps, info)
+/* Subroutine */ EXPORTSYMBOL int mc03ny_(nblcks, nra, nca, a, lda, e, lde, imuk, inuk, veps, ldveps, info)
 integer *nblcks, *nra, *nca;
 doublereal *a;
 integer *lda;
@@ -26,11 +26,11 @@ integer *ldveps, *info;
     integer a_dim1, a_offset, e_dim1, e_offset, veps_dim1, veps_offset, i__1, i__2, i__3, i__4;
     /* Local variables */
     static integer smui, smui1, i__, j, k;
-    extern /* Subroutine */ int dscal_(), dgemm_(), dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_(), dgemm_(), dcopy_();
     static doublereal dummy[1];
-    extern /* Subroutine */ int dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlaset_(), xerbla_();
     static integer ac1, ac2, ec1, ar1, er1, vc1, vc2, wc1;
-    extern /* Subroutine */ int dtrtrs_();
+    extern /* Subroutine */ EXPORTSYMBOL int dtrtrs_();
     static integer vr1, vr2, wr1, dif, ari, ark, ncv, mui, nui, nrv;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

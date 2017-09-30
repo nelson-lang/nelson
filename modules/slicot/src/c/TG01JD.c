@@ -10,7 +10,7 @@
 static doublereal c_b12 = 0.;
 static integer c__1 = 1;
 
-/* Subroutine */ int tg01jd_(job, systyp, equil, n, m, p, a, lda, e, lde, b, ldb, c__, ldc, nr, infred, tol, iwork, dwork, ldwork, info, job_len, systyp_len, equil_len)
+/* Subroutine */ EXPORTSYMBOL int tg01jd_(job, systyp, equil, n, m, p, a, lda, e, lde, b, ldb, c__, ldc, nr, infred, tol, iwork, dwork, ldwork, info, job_len, systyp_len, equil_len)
 char *job, *systyp, *equil;
 integer *n, *m, *p;
 doublereal *a;
@@ -33,18 +33,18 @@ ftnlen equil_len;
     integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, e_dim1, e_offset, i__1, i__2, i__3, i__4;
     /* Local variables */
     static char jobq[1], jobz[1];
-    extern /* Subroutine */ int ma02cd_(), tg01ad_();
+    extern /* Subroutine */ EXPORTSYMBOL int ma02cd_(), tg01ad_();
     static logical ljobc;
     static integer nblck;
     extern logical lsame_();
-    extern /* Subroutine */ int tb01xd_();
+    extern /* Subroutine */ EXPORTSYMBOL int tb01xd_();
     static logical ljobo;
-    extern /* Subroutine */ int tg01hx_();
+    extern /* Subroutine */ EXPORTSYMBOL int tg01hx_();
     static integer maxmp, m1, n1, p1;
     static logical lsysp, lsysr, lsyss;
     static integer nc;
     static logical lspace, fincon, infcon;
-    extern /* Subroutine */ int dlacpy_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), xerbla_();
     static logical finobs, infobs, ljobir, lequil;
     static integer lba, lbe, ldm, ldp, ldq, kwa, kwb, kwc;
     static doublereal dum[1];

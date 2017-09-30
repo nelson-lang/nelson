@@ -10,7 +10,7 @@
 static integer c__0 = 0;
 static integer c__1 = 1;
 
-/* Subroutine */ int sb04qu_(n, m, ind, a, lda, b, ldb, c__, ldc, d__, ipr, info)
+/* Subroutine */ EXPORTSYMBOL int sb04qu_(n, m, ind, a, lda, b, ldb, c__, ldc, d__, ipr, info)
 integer *n, *m, *ind;
 doublereal *a;
 integer *lda;
@@ -26,9 +26,9 @@ integer *ipr, *info;
     /* Local variables */
     static doublereal temp;
     static integer i__, j, k;
-    extern /* Subroutine */ int sb04qr_(), dcopy_(), daxpy_();
+    extern /* Subroutine */ EXPORTSYMBOL int sb04qr_(), dcopy_(), daxpy_();
     static integer i2, k1, k2;
-    extern /* Subroutine */ int dtrmv_();
+    extern /* Subroutine */ EXPORTSYMBOL int dtrmv_();
     static integer m2;
     static doublereal dum[1];
     static integer ind1;

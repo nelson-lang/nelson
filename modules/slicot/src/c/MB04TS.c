@@ -9,7 +9,7 @@
 
 static integer c__1 = 1;
 
-/* Subroutine */ int mb04ts_(trana, tranb, n, ilo, a, lda, b, ldb, g, ldg, q, ldq, csl, csr, taul, taur, dwork, ldwork, info, trana_len, tranb_len)
+/* Subroutine */ EXPORTSYMBOL int mb04ts_(trana, tranb, n, ilo, a, lda, b, ldb, g, ldg, q, ldq, csl, csr, taul, taur, dwork, ldwork, info, trana_len, tranb_len)
 char *trana, *tranb;
 integer *n, *ilo;
 doublereal *a;
@@ -30,15 +30,15 @@ ftnlen tranb_len;
     /* Local variables */
     static logical ltra, ltrb;
     static doublereal temp;
-    extern /* Subroutine */ int drot_();
+    extern /* Subroutine */ EXPORTSYMBOL int drot_();
     static doublereal c__;
     static integer i__;
     static doublereal s, alpha;
-    extern /* Subroutine */ int dlarf_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlarf_();
     extern logical lsame_();
-    extern /* Subroutine */ int dlarfg_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlarfg_();
     static doublereal nu;
-    extern /* Subroutine */ int dlartg_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlartg_(), xerbla_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */

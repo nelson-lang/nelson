@@ -9,7 +9,7 @@
 
 static integer c__1 = 1;
 
-/* Subroutine */ int sb10ad_(job, n, m, np, ncon, nmeas, gamma, a, lda, b, ldb, c__, ldc, d__, ldd, ak, ldak, bk, ldbk, ck, ldck, dk, lddk, ac, ldac, bc, ldbc, cc, ldcc, dc, lddc, rcond, gtol, actol, iwork, liwork, dwork, ldwork, bwork, lbwork, info)
+/* Subroutine */ EXPORTSYMBOL int sb10ad_(job, n, m, np, ncon, nmeas, gamma, a, lda, b, ldb, c__, ldc, d__, ldd, ak, ldak, bk, ldbk, ck, ldck, dk, lddk, ac, ldac, bc, ldbc, cc, ldcc, dc, lddc, rcond, gtol, actol, iwork, liwork, dwork, ldwork, bwork, lbwork, info)
 integer *job, *n, *m, *np, *ncon, *nmeas;
 doublereal *gamma, *a;
 integer *lda;
@@ -49,12 +49,12 @@ integer *lbwork, *info;
     double sqrt();
     /* Local variables */
     static integer iwac, mode, iwre, iwrk, iwwi, iwtu, iwwr, iwty, info2, info3, i__;
-    extern /* Subroutine */ int sb10ld_(), dgees_(), sb10pd_(), sb10qd_(), sb10rd_();
+    extern /* Subroutine */ EXPORTSYMBOL int sb10ld_(), dgees_(), sb10pd_(), sb10qd_(), sb10rd_();
     static doublereal gtoll, stepg;
     static integer m1, m2, m11;
     extern doublereal dlamch_();
     static doublereal gamabs, mineac, gamamn, gamamx;
-    extern /* Subroutine */ int dgesvd_(), dlacpy_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgesvd_(), dlacpy_(), xerbla_();
     extern logical select_();
     static integer lwamax, minwrk, np1, np2, lw1, lw2, lw3, lw4, lw5, lw6, lw7, inf, np11, iwc, iwd, iwf, iwh, iwx, iwy, iwd1;
     static doublereal tol2;

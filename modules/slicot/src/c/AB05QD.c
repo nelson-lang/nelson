@@ -9,7 +9,7 @@
 
 static doublereal c_b9 = 0.;
 
-/* Subroutine */ int ab05qd_(over, n1, m1, p1, n2, m2, p2, a1, lda1, b1, ldb1, c1, ldc1, d1, ldd1, a2, lda2, b2, ldb2, c2, ldc2, d2, ldd2, n, m, p, a, lda, b, ldb, c__, ldc, d__, ldd, info, over_len)
+/* Subroutine */ EXPORTSYMBOL int ab05qd_(over, n1, m1, p1, n2, m2, p2, a1, lda1, b1, ldb1, c1, ldc1, d1, ldd1, a2, lda2, b2, ldb2, c2, ldc2, d2, ldd2, n, m, p, a, lda, b, ldb, c__, ldc, d__, ldd, info, over_len)
 char *over;
 integer *n1, *m1, *p1, *n2, *m2, *p2;
 doublereal *a1;
@@ -44,7 +44,7 @@ ftnlen over_len;
     static integer i__, j;
     extern logical lsame_();
     static logical lover;
-    extern /* Subroutine */ int dlacpy_(), dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacpy_(), dlaset_(), xerbla_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */

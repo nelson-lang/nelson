@@ -11,7 +11,7 @@ static integer c__1 = 1;
 static integer c__0 = 0;
 static integer c_n1 = -1;
 
-/* Subroutine */ int mc01rd_(dp1, dp2, dp3, alpha, p1, p2, p3, info)
+/* Subroutine */ EXPORTSYMBOL int mc01rd_(dp1, dp2, dp3, alpha, p1, p2, p3, info)
 integer *dp1, *dp2, *dp3;
 doublereal *alpha, *p1, *p2, *p3;
 integer *info;
@@ -22,9 +22,9 @@ integer *info;
     static integer dmin__, dmax__;
     extern doublereal ddot_();
     static integer dsum, i__, j, k, l;
-    extern /* Subroutine */ int dscal_(), dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_(), dcopy_();
     static integer d1, d2, d3, e3;
-    extern /* Subroutine */ int daxpy_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int daxpy_(), xerbla_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */

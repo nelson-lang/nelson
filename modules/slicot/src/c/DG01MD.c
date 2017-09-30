@@ -5,7 +5,7 @@
 
 #include "nelson_f2c.h"
 
-/* Subroutine */ int dg01md_(indi, n, xr, xi, info, indi_len)
+/* Subroutine */ EXPORTSYMBOL int dg01md_(indi, n, xr, xi, info, indi_len)
 char *indi;
 integer *n;
 doublereal *xr, *xi;
@@ -21,7 +21,7 @@ ftnlen indi_len;
     static logical lindi;
     extern logical lsame_();
     static doublereal whelp, wstpi, wstpr, ti, wi, tr, wr;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static doublereal pi2;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

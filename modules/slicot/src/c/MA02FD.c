@@ -5,7 +5,7 @@
 
 #include "nelson_f2c.h"
 
-/* Subroutine */ int ma02fd_(x1, x2, c__, s, info)
+/* Subroutine */ EXPORTSYMBOL int ma02fd_(x1, x2, c__, s, info)
 doublereal *x1, *x2, *c__, *s;
 integer *info;
 {

@@ -13,7 +13,7 @@ static doublereal c_b15 = -2.;
 static doublereal c_b22 = 1.;
 static doublereal c_b24 = 0.;
 
-/* Subroutine */ int nf01by_(cjte, nsmp, nz, l, ipar, lipar, wb, lwb, z__, ldz, e, j, ldj, jte, dwork, ldwork, info, cjte_len)
+/* Subroutine */ EXPORTSYMBOL int nf01by_(cjte, nsmp, nz, l, ipar, lipar, wb, lwb, z__, ldz, e, j, ldj, jte, dwork, ldwork, info, cjte_len)
 char *cjte;
 integer *nsmp, *nz, *l, *ipar, *lipar;
 doublereal *wb;
@@ -34,13 +34,13 @@ ftnlen cjte_len;
     /* Local variables */
     static logical wjte;
     static integer i__, k, m;
-    extern /* Subroutine */ int dgemm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemm_();
     extern logical lsame_();
-    extern /* Subroutine */ int dgemv_(), dcopy_(), dlabad_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemv_(), dcopy_(), dlabad_();
     static integer ib, di;
     extern doublereal dlamch_();
     static integer nn, ws;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static doublereal bignum;
     static integer bp1;
     static doublereal smlnum;

@@ -9,7 +9,7 @@
 
 static integer c__1 = 1;
 
-/* Subroutine */ int mb02tz_(norm, n, hnorm, h__, ldh, ipiv, rcond, dwork, zwork, info, norm_len)
+/* Subroutine */ EXPORTSYMBOL int mb02tz_(norm, n, hnorm, h__, ldh, ipiv, rcond, dwork, zwork, info, norm_len)
 char *norm;
 integer *n;
 doublereal *hnorm;
@@ -34,14 +34,14 @@ ftnlen norm_len;
     extern logical lsame_();
     extern doublereal dlamch_();
     static integer jp, ix;
-    extern /* Subroutine */ int xerbla_(), zlacon_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_(), zlacon_();
     extern integer izamax_();
     static logical onenrm;
     static doublereal hinvnm;
-    extern /* Subroutine */ int zdrscl_();
+    extern /* Subroutine */ EXPORTSYMBOL int zdrscl_();
     static char normin[1];
     static doublereal smlnum;
-    extern /* Subroutine */ int zlatrs_();
+    extern /* Subroutine */ EXPORTSYMBOL int zlatrs_();
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */

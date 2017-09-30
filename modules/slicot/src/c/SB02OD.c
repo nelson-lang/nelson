@@ -13,7 +13,7 @@ static integer c__1 = 1;
 static doublereal c_b66 = -1.;
 static doublereal c_b104 = 0.;
 
-/* Subroutine */ int sb02od_(dico, jobb, fact, uplo, jobl, sort, n, m, p, a, lda, b, ldb, q, ldq, r__, ldr, l, ldl, rcond, x, ldx, alfar, alfai, beta, s, lds, t, ldt, u, ldu, tol, iwork, dwork, ldwork, bwork, info, dico_len, jobb_len, fact_len, uplo_len, jobl_len, sort_len)
+/* Subroutine */ EXPORTSYMBOL int sb02od_(dico, jobb, fact, uplo, jobl, sort, n, m, p, a, lda, b, ldb, q, ldq, r__, ldr, l, ldl, rcond, x, ldx, alfar, alfai, beta, s, lds, t, ldt, u, ldu, tol, iwork, dwork, ldwork, bwork, info, dico_len, jobb_len, fact_len, uplo_len, jobl_len, sort_len)
 char *dico, *jobb, *fact, *uplo, *jobl, *sort;
 integer *n, *m, *p;
 doublereal *a;
@@ -61,24 +61,24 @@ ftnlen sort_len;
     static logical lfacn, lfacq, lfacr, ljobb;
     static doublereal scale;
     static logical lscal;
-    extern /* Subroutine */ int dgees_(), dgges_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgees_(), dgges_();
     extern logical lsame_();
     static logical ljobl;
     static doublereal qscal;
     static logical discr;
     static doublereal rscal;
     extern logical sb02mr_(), sb02mv_(), sb02ou_(), sb02ov_(), sb02ow_();
-    extern /* Subroutine */ int dscal_(), dcopy_(), dswap_(), sb02oy_(), daxpy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_(), dcopy_(), dswap_(), sb02oy_(), daxpy_();
     static logical luplo;
     static doublereal rnorm, unorm;
     static char qtype[1], rtype[1];
     static logical lsort;
     extern doublereal dlamch_(), dlange_();
     static integer nn, mp, np;
-    extern /* Subroutine */ int dgecon_(), dlascl_(), dgetrf_(), dlacpy_(), dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgecon_(), dlascl_(), dgetrf_(), dlacpy_(), dlaset_(), xerbla_();
     static logical ljobln;
     static doublereal rcondl;
-    extern /* Subroutine */ int dgetrs_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgetrs_();
     extern doublereal dlansy_();
     static integer np1, wrkopt, ldw, nnm;
     static doublereal dum[1];

@@ -5,7 +5,7 @@
 
 #include "nelson_f2c.h"
 
-/* Subroutine */ int mb04jd_(n, m, p, l, a, lda, b, ldb, tau, dwork, ldwork, info)
+/* Subroutine */ EXPORTSYMBOL int mb04jd_(n, m, p, l, a, lda, b, ldb, tau, dwork, ldwork, info)
 integer *n, *m, *p, *l;
 doublereal *a;
 integer *lda;
@@ -19,9 +19,9 @@ integer *ldwork, *info;
     doublereal d__1, d__2;
     /* Local variables */
     static integer i__;
-    extern /* Subroutine */ int dlarf_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlarf_();
     static doublereal first;
-    extern /* Subroutine */ int dlarfg_(), dgelqf_(), xerbla_(), dormlq_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlarfg_(), dgelqf_(), xerbla_(), dormlq_();
     static doublereal wrkopt;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

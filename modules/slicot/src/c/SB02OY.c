@@ -12,7 +12,7 @@ static doublereal c_b26 = 1.;
 static doublereal c_b27 = 0.;
 static doublereal c_b46 = -1.;
 
-/* Subroutine */ int sb02oy_(type__, dico, jobb, fact, uplo, jobl, jobe, n, m, p, a, lda, b, ldb, q, ldq, r__, ldr, l, ldl, e, lde, af, ldaf, bf, ldbf, tol, iwork, dwork, ldwork, info, type_len, dico_len, jobb_len, fact_len, uplo_len, jobl_len, jobe_len)
+/* Subroutine */ EXPORTSYMBOL int sb02oy_(type__, dico, jobb, fact, uplo, jobl, jobe, n, m, p, a, lda, b, ldb, q, ldq, r__, ldr, l, ldl, e, lde, af, ldaf, bf, ldbf, tol, iwork, dwork, ldwork, info, type_len, dico_len, jobb_len, fact_len, uplo_len, jobl_len, jobe_len)
 char *type__, *dico, *jobb, *fact, *uplo, *jobl, *jobe;
 integer *n, *m, *p;
 doublereal *a;
@@ -53,16 +53,16 @@ ftnlen jobe_len;
     extern logical lsame_();
     static logical ljobl, discr;
     static doublereal rcond;
-    extern /* Subroutine */ int dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_();
     static logical luplo;
     static integer jwork;
-    extern /* Subroutine */ int dsyrk_();
+    extern /* Subroutine */ EXPORTSYMBOL int dsyrk_();
     static integer n2;
     extern doublereal dlamch_();
     static integer nm;
-    extern /* Subroutine */ int dgeqlf_(), dlacpy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgeqlf_(), dlacpy_();
     static doublereal toldef;
-    extern /* Subroutine */ int dlaset_(), xerbla_(), dtrcon_(), dormql_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlaset_(), xerbla_(), dtrcon_(), dormql_();
     static integer np1, wrkopt, n2p1, nnm;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

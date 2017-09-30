@@ -14,7 +14,7 @@ static integer c__2 = 2;
 static logical c_true = TRUE_;
 static doublereal c_b20 = 1.;
 
-/* Subroutine */ int mb04pb_(n, ilo, a, lda, qg, ldqg, cs, tau, dwork, ldwork, info)
+/* Subroutine */ EXPORTSYMBOL int mb04pb_(n, ilo, a, lda, qg, ldqg, cs, tau, dwork, ldwork, info)
 integer *n, *ilo;
 doublereal *a;
 integer *lda;
@@ -27,14 +27,14 @@ integer *ldwork, *info;
     integer a_dim1, a_offset, qg_dim1, qg_offset, i__1, i__2, i__3, i__4;
     /* Local variables */
     static integer ierr, i__;
-    extern /* Subroutine */ int mb04pa_(), dgemm_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb04pa_(), dgemm_();
     extern integer ue01md_();
     static integer nbmin;
-    extern /* Subroutine */ int mb04pu_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb04pu_();
     static integer ib;
-    extern /* Subroutine */ int dsyr2k_();
+    extern /* Subroutine */ EXPORTSYMBOL int dsyr2k_();
     static integer nb, nh, nx;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static integer wrkopt, nib, nnb, pxa, pdw, pya, pxg, pxq;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

@@ -11,7 +11,7 @@ static doublereal c_b21 = 0.;
 static doublereal c_b22 = 1.;
 static doublereal c_b23 = .5;
 
-/* Subroutine */ int sb03sy_(job, trana, lyapun, n, t, ldt, u, ldu, xa, ldxa, sepd, thnorm, iwork, dwork, ldwork, info, job_len, trana_len, lyapun_len)
+/* Subroutine */ EXPORTSYMBOL int sb03sy_(job, trana, lyapun, n, t, ldt, u, ldu, xa, ldxa, sepd, thnorm, iwork, dwork, ldwork, info, job_len, trana_len, lyapun_len)
 char *job, *trana, *lyapun;
 integer *n;
 doublereal *t;
@@ -34,15 +34,15 @@ ftnlen lyapun_len;
     static integer kase, itmp;
     static char uplo[1];
     static integer info2;
-    extern /* Subroutine */ int ma02ed_(), dscal_();
+    extern /* Subroutine */ EXPORTSYMBOL int ma02ed_(), dscal_();
     static doublereal scale;
     extern logical lsame_();
-    extern /* Subroutine */ int mb01ru_(), sb03mx_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb01ru_(), sb03mx_();
     static logical wants, wantt;
-    extern /* Subroutine */ int dsyr2k_();
+    extern /* Subroutine */ EXPORTSYMBOL int dsyr2k_();
     extern doublereal dlamch_();
     static integer nn;
-    extern /* Subroutine */ int dlacon_(), dlacpy_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlacon_(), dlacpy_(), xerbla_();
     static doublereal bignum;
     static logical update;
     static char tranat[1];

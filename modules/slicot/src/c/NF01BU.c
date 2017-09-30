@@ -12,7 +12,7 @@ static doublereal c_b9 = 0.;
 static doublereal c_b11 = 1.;
 static integer c__0 = 0;
 
-/* Subroutine */ int nf01bu_(stor, uplo, n, ipar, lipar, dpar, ldpar, j, ldj, jtj, ldjtj, dwork, ldwork, info, stor_len, uplo_len)
+/* Subroutine */ EXPORTSYMBOL int nf01bu_(stor, uplo, n, ipar, lipar, dpar, ldpar, j, ldj, jtj, ldjtj, dwork, ldwork, info, stor_len, uplo_len)
 char *stor, *uplo;
 integer *n, *ipar, *lipar;
 doublereal *dpar;
@@ -34,14 +34,14 @@ ftnlen uplo_len;
     static integer itmp[1], nths;
     static doublereal c__;
     static integer k, m;
-    extern /* Subroutine */ int dgemm_(), nf01bv_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemm_(), nf01bv_();
     extern logical lsame_();
-    extern /* Subroutine */ int dgemv_(), dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemv_(), dcopy_();
     static integer i1;
     static logical upper;
-    extern /* Subroutine */ int dsyrk_();
+    extern /* Subroutine */ EXPORTSYMBOL int dsyrk_();
     static integer bn, ii, jl, st;
-    extern /* Subroutine */ int dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlaset_(), xerbla_();
     static integer bsm, bsn;
     static doublereal tmp[1];
     /*     SLICOT RELEASE 5.0. */

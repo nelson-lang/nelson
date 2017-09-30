@@ -13,7 +13,7 @@ static doublereal c_b15 = -1.;
 static doublereal c_b16 = 0.;
 static doublereal c_b31 = 1.;
 
-/* Subroutine */ int ab07nd_(n, m, a, lda, b, ldb, c__, ldc, d__, ldd, rcond, iwork, dwork, ldwork, info)
+/* Subroutine */ EXPORTSYMBOL int ab07nd_(n, m, a, lda, b, ldb, c__, ldc, d__, ldd, rcond, iwork, dwork, ldwork, info)
 integer *n, *m;
 doublereal *a;
 integer *lda;
@@ -34,17 +34,17 @@ integer *ldwork, *info;
     static integer ierr;
     static logical blas3;
     static integer i__, j;
-    extern /* Subroutine */ int dgemm_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemm_();
     static logical block;
-    extern /* Subroutine */ int dgemv_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgemv_();
     static integer chunk;
-    extern /* Subroutine */ int dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_();
     static doublereal dnorm;
     static integer bl;
     extern doublereal dlamch_(), dlange_();
-    extern /* Subroutine */ int dgecon_(), dgetrf_(), dlacpy_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgecon_(), dgetrf_(), dlacpy_(), xerbla_();
     extern integer ilaenv_();
-    extern /* Subroutine */ int dgetri_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgetri_();
     static integer maxwrk;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

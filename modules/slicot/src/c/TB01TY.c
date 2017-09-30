@@ -9,7 +9,7 @@
 
 static integer c__1 = 1;
 
-/* Subroutine */ int tb01ty_(mode, ioff, joff, nrow, ncol, size, x, ldx, bvect)
+/* Subroutine */ EXPORTSYMBOL int tb01ty_(mode, ioff, joff, nrow, ncol, size, x, ldx, bvect)
 integer *mode, *ioff, *joff, *nrow, *ncol;
 doublereal *size, *x;
 integer *ldx;
@@ -24,7 +24,7 @@ doublereal *bvect;
     static integer base;
     static doublereal test, expt;
     static integer i__, j;
-    extern /* Subroutine */ int dscal_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_();
     static doublereal scale;
     extern doublereal dasum_();
     static integer iexpt;

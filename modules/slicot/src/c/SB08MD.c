@@ -11,7 +11,7 @@ static integer c__1 = 1;
 static integer c__2 = 2;
 static doublereal c_b30 = -1.;
 
-/* Subroutine */ int sb08md_(acona, da, a, res, e, dwork, ldwork, info, acona_len)
+/* Subroutine */ EXPORTSYMBOL int sb08md_(acona, da, a, res, e, dwork, ldwork, info, acona_len)
 char *acona;
 integer *da;
 doublereal *a, *res, *e, *dwork;
@@ -30,9 +30,9 @@ ftnlen acona_len;
     static doublereal w;
     extern logical lsame_();
     static doublereal signi, signj;
-    extern /* Subroutine */ int dcopy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dcopy_();
     static doublereal a0;
-    extern /* Subroutine */ int sb08my_(), daxpy_();
+    extern /* Subroutine */ EXPORTSYMBOL int sb08my_(), daxpy_();
     static integer i0;
     static doublereal signi0, simin1, sqrta0;
     static integer lambda, nc;
@@ -44,7 +44,7 @@ ftnlen acona_len;
     extern integer idamax_();
     static logical stable;
     static integer lphend, layend;
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static integer da1;
     static doublereal tolphi, sqrtmj, sqrtmu, xda;
     static integer lay;

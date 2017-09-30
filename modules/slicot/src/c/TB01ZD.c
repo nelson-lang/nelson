@@ -12,7 +12,7 @@ static doublereal c_b10 = 0.;
 static doublereal c_b18 = 1.;
 static integer c__0 = 0;
 
-/* Subroutine */ int tb01zd_(jobz, n, p, a, lda, b, c__, ldc, ncont, z__, ldz, tau, tol, dwork, ldwork, info, jobz_len)
+/* Subroutine */ EXPORTSYMBOL int tb01zd_(jobz, n, p, a, lda, b, c__, ldc, ncont, z__, ldz, tau, tol, dwork, ldwork, info, jobz_len)
 char *jobz;
 integer *n, *p;
 doublereal *a;
@@ -33,20 +33,20 @@ ftnlen jobz_len;
     static integer itau;
     static doublereal h__;
     static integer j;
-    extern /* Subroutine */ int mb01pd_(), dlarf_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb01pd_(), dlarf_();
     static logical ljobf, ljobi;
     extern logical lsame_();
     static doublereal anorm, bnorm;
     static logical ljobz;
     static doublereal b1;
     extern doublereal dlamch_(), dlange_();
-    extern /* Subroutine */ int dgehrd_(), dlarfg_(), dlacpy_();
+    extern /* Subroutine */ EXPORTSYMBOL int dgehrd_(), dlarfg_(), dlacpy_();
     static doublereal toldef;
-    extern /* Subroutine */ int dlaset_(), xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlaset_(), xerbla_();
     static doublereal fanorm, fbnorm;
-    extern /* Subroutine */ int dormhr_();
+    extern /* Subroutine */ EXPORTSYMBOL int dormhr_();
     static doublereal thresh;
-    extern /* Subroutine */ int dorgqr_();
+    extern /* Subroutine */ EXPORTSYMBOL int dorgqr_();
     static doublereal wrkopt;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */

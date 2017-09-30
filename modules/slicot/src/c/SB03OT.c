@@ -14,7 +14,7 @@ static doublereal c_b47 = 1.;
 static integer c__3 = 3;
 static integer c__0 = 0;
 
-/* Subroutine */ int sb03ot_(discr, ltrans, n, s, lds, r__, ldr, scale, dwork, info)
+/* Subroutine */ EXPORTSYMBOL int sb03ot_(discr, ltrans, n, s, lds, r__, ldr, scale, dwork, info)
 logical *discr, *ltrans;
 integer *n;
 doublereal *s;
@@ -36,24 +36,24 @@ integer *info;
     static logical tbyt;
     static doublereal a[4]	/* was [2][2] */, b[4]	/* was [2][2] */;
     static integer j, k;
-    extern /* Subroutine */ int mb04nd_();
+    extern /* Subroutine */ EXPORTSYMBOL int mb04nd_();
     static doublereal alpha, u[4]	/* was [2][2] */;
-    extern /* Subroutine */ int dscal_(), mb04od_();
+    extern /* Subroutine */ EXPORTSYMBOL int dscal_(), mb04od_();
     static integer infom;
-    extern /* Subroutine */ int sb03or_(), dcopy_(), dswap_(), sb03oy_(), dtrmm_();
+    extern /* Subroutine */ EXPORTSYMBOL int sb03or_(), dcopy_(), dswap_(), sb03oy_(), dtrmm_();
     static integer ksize;
     static doublereal d1, d2;
-    extern /* Subroutine */ int daxpy_();
+    extern /* Subroutine */ EXPORTSYMBOL int daxpy_();
     static integer j1, j2, j3, k1, k2, k3, kount;
-    extern /* Subroutine */ int dtrmv_();
+    extern /* Subroutine */ EXPORTSYMBOL int dtrmv_();
     static doublereal t1, t2, t3, t4, v1, v2, v3, v4;
-    extern /* Subroutine */ int dlabad_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlabad_();
     static doublereal dr;
     extern doublereal dlamch_();
-    extern /* Subroutine */ int dlarfg_();
+    extern /* Subroutine */ EXPORTSYMBOL int dlarfg_();
     static doublereal scaloc;
     extern doublereal dlanhs_();
-    extern /* Subroutine */ int xerbla_();
+    extern /* Subroutine */ EXPORTSYMBOL int xerbla_();
     static doublereal absskk, bignum, smlnum, eps, sum, tau1, tau2;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
