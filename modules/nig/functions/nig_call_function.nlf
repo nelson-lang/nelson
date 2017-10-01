@@ -26,21 +26,21 @@ function txt = nig_call_function(NIG_FUNCTION)
   if strcmp(NIG_FUNCTION.LANGUAGE, 'fortran') == true
     t = ['        ', NIG_FUNCTION.SYMBOL, '_'];
   else
-    t = ['        ', NIG_FUNCTION.SYMBOL, '_'];
+    t = ['        ', NIG_FUNCTION.SYMBOL];
   end
   t = [t, ' ('];
   for k = NIG_FUNCTION.VARIABLES
       if strcmp(k.MODE, 'input')
-        t = [t, k.NAME];
+        t = [t, ' ', k.NAME, '_ptr'];
       end
       if strcmp(k.MODE, 'output')
-        t = [t, k.NAME];
+        t = [t, ' ', k.NAME, '_output_ptr'];
       end
       if strcmp(k.MODE, 'in_out')
-        t = [t, k.NAME];
+        t = [t, ' ', k.NAME, '_output_ptr'];
       end
       if strcmp(k.MODE, 'local')
-        t = [t, k.NAME];
+        t = [t, ' ', k.NAME, '_local_ptr'];
       end
 
       t = [t, ','];

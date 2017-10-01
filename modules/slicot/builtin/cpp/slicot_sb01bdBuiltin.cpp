@@ -25,7 +25,7 @@ using namespace Nelson;
 extern "C"
 {
 #endif
-extern int b01bd_ ( const char *DICO, int N, int M, int NP, double ALPHA, double *A, int LDA, double *B, int LDB, double *WR, double *WI, int &NFP, int &NAP, int &NUP, double *F, int LDF, double *Z, int LDZ, double TOL, double *DWORK, int LDWORK, int &IWARN, int &INFO);
+extern int sb01bd_ ( const char *DICO, int *N, int *M, int *NP, double *ALPHA, double *A, int *LDA, double *B, int *LDB, double *WR, double *WI, int *NFP, int *NAP, int *NUP, double *F, int *LDF, double *Z, int *LDZ, double *TOL, double *DWORK, int *LDWORK, int *IWARN, int *INFO);
 #ifdef __cplusplus
 }
 #endif
@@ -48,36 +48,40 @@ ArrayOfVector Nelson::SlicotGateway::slicot_sb01bdBuiltin(Evaluator* eval, int n
 
     ArrayOf DICO = argIn[0];
     std::string DICO_string = DICO.getContentAsCString();
-    const char* DICO_char = DICO_string.c_str();
+    const char* DICO_ptr = DICO_string.c_str();
     ArrayOf N = argIn[1];
-    int N_scalar = N.getContentAsInteger32Scalar();
+    int *N_ptr = (int*)N.getDataPointer();
     ArrayOf M = argIn[2];
-    int M_scalar = M.getContentAsInteger32Scalar();
+    int *M_ptr = (int*)M.getDataPointer();
     ArrayOf NP = argIn[3];
-    int NP_scalar = NP.getContentAsInteger32Scalar();
+    int *NP_ptr = (int*)NP.getDataPointer();
     ArrayOf ALPHA = argIn[4];
-    double ALPHA_scalar = ALPHA.getContentAsDoubleScalar();
+    double *ALPHA_ptr = (double*)ALPHA.getDataPointer();
     ArrayOf TOL = argIn[5];
-    double TOL_scalar = TOL.getContentAsDoubleScalar();
+    double *TOL_ptr = (double*)TOL.getDataPointer();
 
     // IN/OUT VARIABLES
 
     ArrayOf A = argIn[6];
-    ArrayOf A_output = A;
     A.promoteType(NLS_DOUBLE);
-    double *A_ptr = (double*)A.getDataPointer();
+    ArrayOf A_output = A;
+    A_output.ensureSingleOwner();
+    double *A_output_ptr = (double*)A_output.getDataPointer();
     ArrayOf B = argIn[7];
-    ArrayOf B_output = B;
     B.promoteType(NLS_DOUBLE);
-    double *B_ptr = (double*)B.getDataPointer();
+    ArrayOf B_output = B;
+    B_output.ensureSingleOwner();
+    double *B_output_ptr = (double*)B_output.getDataPointer();
     ArrayOf WR = argIn[8];
-    ArrayOf WR_output = WR;
     WR.promoteType(NLS_DOUBLE);
-    double *WR_ptr = (double*)WR.getDataPointer();
+    ArrayOf WR_output = WR;
+    WR_output.ensureSingleOwner();
+    double *WR_output_ptr = (double*)WR_output.getDataPointer();
     ArrayOf WI = argIn[9];
-    ArrayOf WI_output = WI;
     WI.promoteType(NLS_DOUBLE);
-    double *WI_ptr = (double*)WI.getDataPointer();
+    ArrayOf WI_output = WI;
+    WI_output.ensureSingleOwner();
+    double *WI_output_ptr = (double*)WI_output.getDataPointer();
 
     // OUTPUT VARIABLES
 
@@ -98,12 +102,34 @@ ArrayOfVector Nelson::SlicotGateway::slicot_sb01bdBuiltin(Evaluator* eval, int n
 
     // LOCAL VARIABLES
 
-    int LDA_local = std::max(1, N.getContentAsInteger32Scalar());
-    int LDB_local = std::max(1, N.getContentAsInteger32Scalar());
-    int LDF_local = std::max(1, M.getContentAsInteger32Scalar());
-    int LDZ_local = std::max(1, N.getContentAsInteger32Scalar());
-    double *DWORK_local = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, 1 * std::max(std::max(std::max( 1,5 * M.getContentAsInteger32Scalar()), 5 * N.getContentAsInteger32Scalar()), 2 * N.getContentAsInteger32Scalar() + 4 * M.getContentAsInteger32Scalar()));
-    int LDWORK_local = std::max(std::max(std::max( 1,5 * M.getContentAsInteger32Scalar()), 5 * N.getContentAsInteger32Scalar()), 2 * N.getContentAsInteger32Scalar() + 4 * M.getContentAsInteger32Scalar());
+    ArrayOf LDA_local = ArrayOf::int32VectorConstructor(1);
+    int* LDA_local_ptr = (int*)LDA_local.getDataPointer();
+    LDA_local_ptr[0] = std::max(1, N.getContentAsInteger32Scalar());
+    ArrayOf LDB_local = ArrayOf::int32VectorConstructor(1);
+    int* LDB_local_ptr = (int*)LDB_local.getDataPointer();
+    LDB_local_ptr[0] = std::max(1, N.getContentAsInteger32Scalar());
+    ArrayOf LDF_local = ArrayOf::int32VectorConstructor(1);
+    int* LDF_local_ptr = (int*)LDF_local.getDataPointer();
+    LDF_local_ptr[0] = std::max(1, M.getContentAsInteger32Scalar());
+    ArrayOf LDZ_local = ArrayOf::int32VectorConstructor(1);
+    int* LDZ_local_ptr = (int*)LDZ_local.getDataPointer();
+    LDZ_local_ptr[0] = std::max(1, N.getContentAsInteger32Scalar());
+    ArrayOf DWORK_local = ArrayOf::doubleMatrix2dConstructor(1 , std::max(std::max(std::max( 1,5 * M.getContentAsInteger32Scalar()), 5 * N.getContentAsInteger32Scalar()), 2 * N.getContentAsInteger32Scalar() + 4 * M.getContentAsInteger32Scalar()));
+    double * DWORK_local_ptr = (double*)DWORK_local.getDataPointer();
+    ArrayOf LDWORK_local = ArrayOf::int32VectorConstructor(1);
+    int* LDWORK_local_ptr = (int*)LDWORK_local.getDataPointer();
+    LDWORK_local_ptr[0] = std::max(std::max(std::max( 1,5 * M.getContentAsInteger32Scalar()), 5 * N.getContentAsInteger32Scalar()), 2 * N.getContentAsInteger32Scalar() + 4 * M.getContentAsInteger32Scalar());
+
+    // CALL EXTERN FUNCTION
+
+    try
+    {
+        sb01bd_ ( DICO_ptr, N_ptr, M_ptr, NP_ptr, ALPHA_ptr, A_output_ptr, LDA_local_ptr, B_output_ptr, LDB_local_ptr, WR_output_ptr, WI_output_ptr, NFP_output_ptr, NAP_output_ptr, NUP_output_ptr, F_output_ptr, LDF_local_ptr, Z_output_ptr, LDZ_local_ptr, TOL_ptr, DWORK_local_ptr, LDWORK_local_ptr, IWARN_output_ptr, INFO_output_ptr);
+    }
+    catch (std::runtime_error &e)
+    {
+        Error(eval, "sb01bd function fails.");
+    }
 
     // ASSIGN OUTPUT VARIABLES
 

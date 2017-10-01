@@ -58,13 +58,13 @@ namespace Nelson {
         return ArrayOf(NLS_DOUBLE, dim, data);
     }
     //=============================================================================
-	ArrayOf ArrayOf::doubleMatrix2dConstructor(indexType m, indexType n)
-	{
-		Dimensions dim(m, n);
-		double *data = (double*)allocateArrayOf(NLS_DOUBLE, dim.getElementCount());
-		return ArrayOf(NLS_DOUBLE, dim, data);
-	}
-	//=============================================================================
+    ArrayOf ArrayOf::doubleMatrix2dConstructor(indexType m, indexType n)
+    {
+        Dimensions dim(m, n);
+        double *data = (double*)allocateArrayOf(NLS_DOUBLE, dim.getElementCount());
+        return ArrayOf(NLS_DOUBLE, dim, data);
+    }
+    //=============================================================================
     ArrayOf ArrayOf::dcomplexConstructor(double aval, double bval)
     {
         Dimensions dim;

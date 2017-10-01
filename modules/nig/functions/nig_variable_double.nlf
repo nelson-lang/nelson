@@ -19,17 +19,17 @@
 function txt = nig_variable_double(VARIABLE, withLocal)
   txt = '';
   if strcmp(VARIABLE.MODE, 'input')
-    txt = [txt, ' double ', toupper(VARIABLE.NAME)];
+    txt = [txt, ' double *', toupper(VARIABLE.NAME)];
   end
   if strcmp(VARIABLE.MODE, 'output')
-    txt = [txt, ' double &', toupper(VARIABLE.NAME)];
+    txt = [txt, ' double *', toupper(VARIABLE.NAME)];
   end
   if strcmp(VARIABLE.MODE, 'in_out')
-    txt = [txt, ' double &', toupper(VARIABLE.NAME)];
+    txt = [txt, ' double *', toupper(VARIABLE.NAME)];
   end
   if withLocal
     if strcmp(VARIABLE.MODE, 'local')
-      txt = [txt, ' double ', toupper(VARIABLE.NAME)];
+      txt = [txt, ' double *', toupper(VARIABLE.NAME)];
     end
   end
 endfunction

@@ -19,17 +19,17 @@
 function txt = nig_variable_integer(VARIABLE, withLocal)
   txt = '';
   if strcmp(VARIABLE.MODE, 'input')
-    txt = [txt, ' int ', toupper(VARIABLE.NAME)];
+    txt = [txt, ' int *', toupper(VARIABLE.NAME)];
   end
   if strcmp(VARIABLE.MODE, 'output')
-    txt = [txt, ' int &', toupper(VARIABLE.NAME)];
+    txt = [txt, ' int *', toupper(VARIABLE.NAME)];
   end
   if strcmp(VARIABLE.MODE, 'in_out')
-    txt = [txt, ' int &', toupper(VARIABLE.NAME)];
+    txt = [txt, ' int *', toupper(VARIABLE.NAME)];
   end
   if withLocal
     if strcmp(VARIABLE.MODE, 'local')
-      txt = [txt, ' int ', toupper(VARIABLE.NAME)];
+      txt = [txt, ' int *', toupper(VARIABLE.NAME)];
     end
   end
 endfunction

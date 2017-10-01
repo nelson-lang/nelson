@@ -111,13 +111,13 @@ namespace Nelson {
         int32 *data = (int32*)allocateArrayOf(NLS_INT32, len);
         return ArrayOf(NLS_INT32, dim, data);
     }
-	//=============================================================================
-	ArrayOf ArrayOf::int32Matrix2dConstructor(indexType m, indexType n)
-	{
-		Dimensions dim(m, n);
-		int32 *data = (int32*)allocateArrayOf(NLS_INT32, dim.getElementCount());
-		return ArrayOf(NLS_INT32, dim, data);
-	}
+    //=============================================================================
+    ArrayOf ArrayOf::int32Matrix2dConstructor(indexType m, indexType n)
+    {
+        Dimensions dim(m, n);
+        int32 *data = (int32*)allocateArrayOf(NLS_INT32, dim.getElementCount());
+        return ArrayOf(NLS_INT32, dim, data);
+    }
     //=============================================================================
     ArrayOf ArrayOf::integerRangeConstructor(indexType minval, indexType stepsize, indexType maxval, bool vert)
     {

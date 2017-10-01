@@ -25,7 +25,7 @@ using namespace Nelson;
 extern "C"
 {
 #endif
-extern int ab08nd_ ( const char *EQUIL, int N, int M, int P,const double *A, int LDA,const double *B, int LDB,const double *C, int LDC,const double *D, int LDD, int &NU, int &RANK, int &DINFZ, int &NKROR, int &NKROL, int *INFZ, int *KRONR, int *KRONL, double *AF, int LDAF, double *BF, int LDBF, double TOL, int *IWORK, double *DWORK, int LDWORK, int &INFO);
+extern int ab08nd_ ( const char *EQUIL, int *N, int *M, int *P,const double *A, int *LDA,const double *B, int *LDB,const double *C, int *LDC,const double *D, int *LDD, int *NU, int *RANK, int *DINFZ, int *NKROR, int *NKROL, int *INFZ, int *KRONR, int *KRONL, double *AF, int *LDAF, double *BF, int *LDBF, double *TOL, int *IWORK, double *DWORK, int *LDWORK, int *INFO);
 #ifdef __cplusplus
 }
 #endif
@@ -48,13 +48,13 @@ ArrayOfVector Nelson::SlicotGateway::slicot_ab08ndBuiltin(Evaluator* eval, int n
 
     ArrayOf EQUIL = argIn[0];
     std::string EQUIL_string = EQUIL.getContentAsCString();
-    const char* EQUIL_char = EQUIL_string.c_str();
+    const char* EQUIL_ptr = EQUIL_string.c_str();
     ArrayOf N = argIn[1];
-    int N_scalar = N.getContentAsInteger32Scalar();
+    int *N_ptr = (int*)N.getDataPointer();
     ArrayOf M = argIn[2];
-    int M_scalar = M.getContentAsInteger32Scalar();
+    int *M_ptr = (int*)M.getDataPointer();
     ArrayOf P = argIn[3];
-    int P_scalar = P.getContentAsInteger32Scalar();
+    int *P_ptr = (int*)P.getDataPointer();
     ArrayOf A = argIn[4];
     A.promoteType(NLS_DOUBLE);
     double *A_ptr = (double*)A.getDataPointer();
@@ -68,7 +68,7 @@ ArrayOfVector Nelson::SlicotGateway::slicot_ab08ndBuiltin(Evaluator* eval, int n
     D.promoteType(NLS_DOUBLE);
     double *D_ptr = (double*)D.getDataPointer();
     ArrayOf TOL = argIn[8];
-    double TOL_scalar = TOL.getContentAsDoubleScalar();
+    double *TOL_ptr = (double*)TOL.getDataPointer();
 
     // IN/OUT VARIABLES
 
@@ -100,15 +100,42 @@ ArrayOfVector Nelson::SlicotGateway::slicot_ab08ndBuiltin(Evaluator* eval, int n
 
     // LOCAL VARIABLES
 
-    int LDA_local = std::max(1, N.getContentAsInteger32Scalar());
-    int LDB_local = std::max(1, N.getContentAsInteger32Scalar());
-    int LDC_local = std::max(1, P.getContentAsInteger32Scalar());
-    int LDD_local = std::max(1, P.getContentAsInteger32Scalar());
-    int LDAF_local = std::max(1, N.getContentAsInteger32Scalar() + M.getContentAsInteger32Scalar());
-    int LDBF_local = std::max(1, N.getContentAsInteger32Scalar() + P.getContentAsInteger32Scalar());
-    int *IWORK_local = (int*)ArrayOf::allocateArrayOf(NLS_INT32, 1 * std::max(M.getContentAsInteger32Scalar(), P.getContentAsInteger32Scalar()));
-    double *DWORK_local = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, 1 * std::max(std::max(M.getContentAsInteger32Scalar(), P.getContentAsInteger32Scalar()), N.getContentAsInteger32Scalar()) + std::max(3 * std::max(M.getContentAsInteger32Scalar(), P.getContentAsInteger32Scalar()) - 1, N.getContentAsInteger32Scalar() + std::max(N.getContentAsInteger32Scalar(), P.getContentAsInteger32Scalar())));
-    int LDWORK_local = std::max(std::max(M.getContentAsInteger32Scalar(), P.getContentAsInteger32Scalar()), N.getContentAsInteger32Scalar()) + std::max(3 * std::max(M.getContentAsInteger32Scalar(), P.getContentAsInteger32Scalar()) - 1, N.getContentAsInteger32Scalar() + std::max(M.getContentAsInteger32Scalar(), P.getContentAsInteger32Scalar()));
+    ArrayOf LDA_local = ArrayOf::int32VectorConstructor(1);
+    int* LDA_local_ptr = (int*)LDA_local.getDataPointer();
+    LDA_local_ptr[0] = std::max(1, N.getContentAsInteger32Scalar());
+    ArrayOf LDB_local = ArrayOf::int32VectorConstructor(1);
+    int* LDB_local_ptr = (int*)LDB_local.getDataPointer();
+    LDB_local_ptr[0] = std::max(1, N.getContentAsInteger32Scalar());
+    ArrayOf LDC_local = ArrayOf::int32VectorConstructor(1);
+    int* LDC_local_ptr = (int*)LDC_local.getDataPointer();
+    LDC_local_ptr[0] = std::max(1, P.getContentAsInteger32Scalar());
+    ArrayOf LDD_local = ArrayOf::int32VectorConstructor(1);
+    int* LDD_local_ptr = (int*)LDD_local.getDataPointer();
+    LDD_local_ptr[0] = std::max(1, P.getContentAsInteger32Scalar());
+    ArrayOf LDAF_local = ArrayOf::int32VectorConstructor(1);
+    int* LDAF_local_ptr = (int*)LDAF_local.getDataPointer();
+    LDAF_local_ptr[0] = std::max(1, N.getContentAsInteger32Scalar() + M.getContentAsInteger32Scalar());
+    ArrayOf LDBF_local = ArrayOf::int32VectorConstructor(1);
+    int* LDBF_local_ptr = (int*)LDBF_local.getDataPointer();
+    LDBF_local_ptr[0] = std::max(1, N.getContentAsInteger32Scalar() + P.getContentAsInteger32Scalar());
+    ArrayOf IWORK_local = ArrayOf::int32Matrix2dConstructor(1 , std::max(M.getContentAsInteger32Scalar(), P.getContentAsInteger32Scalar()));
+    int* IWORK_local_ptr = (int*)IWORK_local.getDataPointer();
+    ArrayOf DWORK_local = ArrayOf::doubleMatrix2dConstructor(1 , std::max(std::max(M.getContentAsInteger32Scalar(), P.getContentAsInteger32Scalar()), N.getContentAsInteger32Scalar()) + std::max(3 * std::max(M.getContentAsInteger32Scalar(), P.getContentAsInteger32Scalar()) - 1, N.getContentAsInteger32Scalar() + std::max(N.getContentAsInteger32Scalar(), P.getContentAsInteger32Scalar())));
+    double * DWORK_local_ptr = (double*)DWORK_local.getDataPointer();
+    ArrayOf LDWORK_local = ArrayOf::int32VectorConstructor(1);
+    int* LDWORK_local_ptr = (int*)LDWORK_local.getDataPointer();
+    LDWORK_local_ptr[0] = std::max(std::max(M.getContentAsInteger32Scalar(), P.getContentAsInteger32Scalar()), N.getContentAsInteger32Scalar()) + std::max(3 * std::max(M.getContentAsInteger32Scalar(), P.getContentAsInteger32Scalar()) - 1, N.getContentAsInteger32Scalar() + std::max(M.getContentAsInteger32Scalar(), P.getContentAsInteger32Scalar()));
+
+    // CALL EXTERN FUNCTION
+
+    try
+    {
+        ab08nd_ ( EQUIL_ptr, N_ptr, M_ptr, P_ptr, A_ptr, LDA_local_ptr, B_ptr, LDB_local_ptr, C_ptr, LDC_local_ptr, D_ptr, LDD_local_ptr, NU_output_ptr, RANK_output_ptr, DINFZ_output_ptr, NKROR_output_ptr, NKROL_output_ptr, INFZ_output_ptr, KRONR_output_ptr, KRONL_output_ptr, AF_output_ptr, LDAF_local_ptr, BF_output_ptr, LDBF_local_ptr, TOL_ptr, IWORK_local_ptr, DWORK_local_ptr, LDWORK_local_ptr, INFO_output_ptr);
+    }
+    catch (std::runtime_error &e)
+    {
+        Error(eval, "ab08nd function fails.");
+    }
 
     // ASSIGN OUTPUT VARIABLES
 

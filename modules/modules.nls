@@ -58,8 +58,8 @@ modules_list = {
 'com_engine';
 'fftw';
 'f2c';
-'slicot';
 'nig';
+'slicot';
 };
 %==============================================================================
 % modules sorted for help

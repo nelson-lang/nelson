@@ -33,13 +33,13 @@ function [txt, nArgout] = nig_get_input_variables_definition(NIG_FUNCTION, nArgi
      end
      if strcmp(k.TYPE, 'character')
         txt{end + 1} = ['    std::string ',  k.NAME, '_string', ' = ', k.NAME, '.getContentAsCString();'];
-        txt{end + 1} = ['    const char* ',  k.NAME, '_char', ' = ', k.NAME, '_string.c_str();'];
+        txt{end + 1} = ['    const char* ',  k.NAME, '_ptr', ' = ', k.NAME, '_string.c_str();'];
      end
       if strcmp(k.TYPE, 'double')
-        txt{end + 1} = ['    double ',  k.NAME, '_scalar = ', k.NAME, '.getContentAsDoubleScalar();'];
+        txt{end + 1} = ['    double *',  k.NAME, '_ptr = (double*)', k.NAME, '.getDataPointer();'];
       end
       if strcmp(k.TYPE, 'integer')
-        txt{end + 1} = ['    int ',  k.NAME, '_scalar = ', k.NAME, '.getContentAsInteger32Scalar();'];
+        txt{end + 1} = ['    int *',  k.NAME, '_ptr = (int*)', k.NAME, '.getDataPointer();'];
       end
 
       n = n + 1;
