@@ -535,6 +535,18 @@ namespace Nelson {
          */
         static ArrayOf doubleVectorConstructor(int len);
 
+		/**
+		* int32 matrix constructor - Construct an NLS_INT32 object
+		* that is a (row, columns) matrix with the given length.
+		*/
+		static ArrayOf int32Matrix2dConstructor(indexType m, indexType n);
+
+		/**
+		* Double matrix constructor - Construct an NLS_DOUBLE object
+		* that is a (row, columns) matrix with the given length.
+		*/
+		static ArrayOf doubleMatrix2dConstructor(indexType m, indexType n);
+
         /**
          * Construct a NLS_INT32 or NLS_INT64 (on x64 platform) vector (either vertical or horizontal) corresponding to
          * minval:stepsize:maxval, with an optional transpose.
