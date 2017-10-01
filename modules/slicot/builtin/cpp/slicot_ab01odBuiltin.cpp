@@ -4,12 +4,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 2 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
@@ -43,9 +43,7 @@ ArrayOfVector Nelson::SlicotGateway::slicot_ab01odBuiltin(Evaluator* eval, int n
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-
     // INPUT VARIABLES
-
     ArrayOf STAGES = argIn[0];
     std::string STAGES_string = STAGES.getContentAsCString();
     const char* STAGES_ptr = STAGES_string.c_str();
@@ -57,9 +55,7 @@ ArrayOfVector Nelson::SlicotGateway::slicot_ab01odBuiltin(Evaluator* eval, int n
     const char* JOBV_ptr = JOBV_string.c_str();
     ArrayOf TOL = argIn[3];
     double *TOL_ptr = (double*)TOL.getDataPointer();
-
     // IN/OUT VARIABLES
-
     ArrayOf A = argIn[4];
     A.promoteType(NLS_DOUBLE);
     ArrayOf A_output = A;
@@ -85,16 +81,12 @@ ArrayOfVector Nelson::SlicotGateway::slicot_ab01odBuiltin(Evaluator* eval, int n
     ArrayOf KSTAIR_output = KSTAIR;
     KSTAIR_output.ensureSingleOwner();
     int *KSTAIR_output_ptr = (int*)KSTAIR_output.getDataPointer();
-
     // OUTPUT VARIABLES
-
     ArrayOf V_output = ArrayOf::doubleMatrix2dConstructor((indexType)std::max(1, (int)B.getDimensions().getColumns()), (indexType)(int)B.getDimensions().getColumns());
     double *V_output_ptr = (double*)V_output.getDataPointer();
     ArrayOf INFO_output = ArrayOf::int32VectorConstructor(1);
     int *INFO_output_ptr = (int*)INFO_output.getDataPointer();
-
     // LOCAL VARIABLES
-
     ArrayOf N_local = ArrayOf::int32VectorConstructor(1);
     int* N_local_ptr = (int*)N_local.getDataPointer();
     N_local_ptr[0] = (int)A.getDimensions().getRows();
@@ -120,9 +112,7 @@ ArrayOfVector Nelson::SlicotGateway::slicot_ab01odBuiltin(Evaluator* eval, int n
     ArrayOf LDWORK_local = ArrayOf::int32VectorConstructor(1);
     int* LDWORK_local_ptr = (int*)LDWORK_local.getDataPointer();
     LDWORK_local_ptr[0] = std::max(1, std::max((int)A.getDimensions().getRows(), (int)B.getDimensions().getColumns()) + std::max((int)A.getDimensions().getRows(), 3 * (int)B.getDimensions().getColumns()));
-
     // CALL EXTERN FUNCTION
-
     try
     {
         ab01od_ ( STAGES_ptr, JOBU_ptr, JOBV_ptr, N_local_ptr, M_local_ptr, A_output_ptr, LDA_local_ptr, B_output_ptr, LDB_local_ptr, U_output_ptr, LDU_local_ptr, V_output_ptr, LDV_local_ptr, INDCON_output_ptr, KSTAIR_output_ptr, TOL_ptr, IWORK_local_ptr, DWORK_local_ptr, LDWORK_local_ptr, INFO_output_ptr);
@@ -131,9 +121,7 @@ ArrayOfVector Nelson::SlicotGateway::slicot_ab01odBuiltin(Evaluator* eval, int n
     {
         Error(eval, "ab01od function fails.");
     }
-
     // ASSIGN OUTPUT VARIABLES
-
     if (nLhs > 0)
     {
         retval.push_back(A_output);
@@ -162,7 +150,6 @@ ArrayOfVector Nelson::SlicotGateway::slicot_ab01odBuiltin(Evaluator* eval, int n
     {
         retval.push_back(INFO_output);
     }
-
     return retval;
 }
 //=============================================================================
