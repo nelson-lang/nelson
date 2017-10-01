@@ -45,6 +45,20 @@ function varargout = f2c(varargin)
   F2C_OPTIONS = ['-E -I"', modulepath(nelsonroot(),'f2c','root'), 'src/include"', ' -d'];
   cmd = ['"', path_f2c, '" "', src, '"', ' ', F2C_OPTIONS, dst, ' ', options];
   [res, msg] = unix(cmd);
+  if res == 0
+    // replace first definition to export
+    fname_f = fileparts(src, 'filename');
+    fname_c = [dst , '/', fname_f, '.c'];
+    txt = fileread(fname_c);
+    txt_to_replace = '/* Subroutine */ int ';
+    index = strfind(txt, txt_to_replace);
+    if ~isempty(index)
+      txt = [txt(1:index(1) - 1), 'EXPORTSYMBOL ', txt_to_replace, txt(index(1) + length(txt_to_replace): end)];
+      fw = fopen(fname_c, 'w');
+      fwrite(fw, txt);
+      fclose(fw);
+    end
+  end
   if nargout > 0
     if res ~= 0
       varargout{1} = false;
