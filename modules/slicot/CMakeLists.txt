@@ -47,6 +47,7 @@ nlsError_manager
 nlsTypes
 nlsInterpreter
 nlsI18n
+nlsF2C
 )
 #==============================================================================	
 set_target_properties(${module_library_name}
@@ -55,7 +56,7 @@ set_target_properties(${module_library_name}
 #==============================================================================	
 FILE(
 GLOB
-RANDOM_BUILTIN
+SLICOT_BUILTIN
 "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp"
 )
 #==============================================================================	
