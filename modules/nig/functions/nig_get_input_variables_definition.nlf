@@ -25,11 +25,11 @@ function [txt, nArgout] = nig_get_input_variables_definition(NIG_FUNCTION, nArgi
       txt{end + 1} = ['    ArrayOf ', k.NAME, ' = argIn[', int2str(n), '];'];
       if strcmp(k.TYPE, 'double_array')
         txt{end + 1} = ['    ', k.NAME, '.promoteType(', 'NLS_DOUBLE', ');'];
-        txt{end + 1} = ['    double *',  k.NAME, '_ptr = ', k.NAME, '.getDataPointer();'];
+        txt{end + 1} = ['    double *',  k.NAME, '_ptr = (double*)', k.NAME, '.getDataPointer();'];
       end
      if strcmp(k.TYPE, 'integer_array')
         txt{end + 1} = ['    ', k.NAME, '.promoteType(', 'NLS_INT32', ');'];
-        txt{end + 1} = ['    int *',  k.NAME, '_ptr = ', k.NAME, '.getDataPointer();'];
+        txt{end + 1} = ['    int *',  k.NAME, '_ptr = (int*)', k.NAME, '.getDataPointer();'];
      end
      if strcmp(k.TYPE, 'character')
         txt{end + 1} = ['    std::string ',  k.NAME, '_string', ' = ', k.NAME, '.getContentAsCString();'];

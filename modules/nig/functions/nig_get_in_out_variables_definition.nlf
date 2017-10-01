@@ -23,6 +23,10 @@ function [txt, nArgout] = nig_get_in_out_variables_definition(NIG_FUNCTION, nArg
   for k = NIG_FUNCTION.VARIABLES
     if strcmp(k.MODE, 'in_out')
       txt{end + 1} = ['    ArrayOf ', k.NAME, ' = argIn[', int2str(n), '];'];
+      
+      txt{end + 1} = ['    ArrayOf ', k.NAME, '_output = ', k.NAME, ';'];
+      stxt{end + 1} = ['    ArrayOf ', k.NAME, '_output.ensureSingleOwner();'];
+
       if strcmp(k.TYPE, 'double_array')
         txt{end + 1} = ['    ', k.NAME, '.promoteType(', 'NLS_DOUBLE', ');'];
         txt{end + 1} = ['    double *',  k.NAME, '_ptr = (double*)', k.NAME, '.getDataPointer();'];

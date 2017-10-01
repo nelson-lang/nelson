@@ -164,8 +164,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\cpp\slicot_helpers.cpp" />
-    <ClCompile Include="..\cpp\slicot_SB01BD.cpp" />
     <ClCompile Include="AB01MD.c" />
     <ClCompile Include="AB01ND.c" />
     <ClCompile Include="AB01OD.c" />
@@ -667,8 +665,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\nlsSlicot_exports.h" />
-    <ClInclude Include="..\include\slicot_helpers.hpp" />
-    <ClInclude Include="..\include\slicot_SB01BD.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\f2c\src\c\libf2c\nlsF2c.vcxproj">

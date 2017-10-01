@@ -24,61 +24,6 @@ function txt = nig_assign_output_variables(NIG_FUNCTION)
     if strcmp(k.MODE, 'output') | strcmp(k.MODE, 'in_out')
       txt{end + 1} = ['    if (nLhs > ', int2str(n), ')'];
       txt{end + 1} = '    {';
-      
-      if strcmp(k.TYPE, 'double_array')
-          if isfield(k, 'DIMENSION_M') & ~isempty(k.DIMENSION_M)
-          if isnumeric(k.DIMENSION_M)
-            DIMENSION_M_str = int2str(k.DIMENSION_M);
-          else
-            DIMENSION_M_str = k.DIMENSION_M;
-          end
-        else
-          DIMENSION_M_str = '1';
-        end
-        if isfield(k, 'DIMENSION_N') & ~isempty(k.DIMENSION_N)
-          if isnumeric(k.DIMENSION_N)
-            DIMENSION_N_str = int2str(k.DIMENSION_N);
-          else
-            DIMENSION_N_str = k.DIMENSION_N;
-          end
-        else
-          DIMENSION_N_str = '1';
-        end
-        txt{end + 1} = ['        Dimensions dims(', DIMENSION_M_str, ' , ', DIMENSION_M_str, ');'];
-        txt{end + 1} = ['        ', k.NAME, '_output = ArrayOf(NLS_DOUBLE, dims, ', k.NAME, '_ptr);'];
-      end
-
-      if strcmp(k.TYPE, 'integer_array')
-          if isfield(k, 'DIMENSION_M') & ~isempty(k.DIMENSION_M)
-          if isnumeric(k.DIMENSION_M)
-            DIMENSION_M_str = int2str(k.DIMENSION_M);
-          else
-            DIMENSION_M_str = k.DIMENSION_M;
-          end
-        else
-          DIMENSION_M_str = '1';
-        end
-        if isfield(k, 'DIMENSION_N') & ~isempty(k.DIMENSION_N)
-          if isnumeric(k.DIMENSION_N)
-            DIMENSION_N_str = int2str(k.DIMENSION_N);
-          else
-            DIMENSION_N_str = k.DIMENSION_N;
-          end
-        else
-          DIMENSION_N_str = '1';
-        end
-        txt{end + 1} = ['        Dimensions dims(', DIMENSION_M_str, ' , ', DIMENSION_M_str, ');'];
-        txt{end + 1} = ['        ', k.NAME, '_output = ArrayOf(NLS_INT32, dims, ', k.NAME, '_ptr);'];
-      end
-
-      if strcmp(k.TYPE, 'double')
-        txt{end + 1} = ['        ', k.NAME, '_output = ArrayOf::doubleConstructor(', k.NAME, '_output_scalar);'];
-      end
-
-      if strcmp(k.TYPE, 'integer')
-        txt{end + 1} = ['        ', k.NAME, '_output = ArrayOf::int32Constructor(', k.NAME, '_output_scalar);'];
-      end
-
       txt{end + 1} = ['        retval.push_back(', k.NAME, '_output);'];
       txt{end + 1} = '    }';
       n = n + 1;

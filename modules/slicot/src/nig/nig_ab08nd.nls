@@ -154,7 +154,7 @@ NIG_FUNCTION.VARIABLES(IDX).NAME = 'AF';
 NIG_FUNCTION.VARIABLES(IDX).TYPE = 'double_array';
 NIG_FUNCTION.VARIABLES(IDX).MODE = 'output';
 NIG_FUNCTION.VARIABLES(IDX).DIMENSION_M = 'std::max(1, N.getContentAsInteger32Scalar() + M.getContentAsInteger32Scalar())';
-NIG_FUNCTION.VARIABLES(IDX).DIMENSION_N = 'N.getContentAsInteger32Scalar() + _min(P.getContentAsInteger32Scalar(), M.getContentAsInteger32Scalar())';
+NIG_FUNCTION.VARIABLES(IDX).DIMENSION_N = 'N.getContentAsInteger32Scalar() + std::min(P.getContentAsInteger32Scalar(), M.getContentAsInteger32Scalar())';
 
 IDX = length(NIG_FUNCTION.VARIABLES) + 1;
 NIG_FUNCTION.VARIABLES(IDX).NAME = 'LDAF';

@@ -23,7 +23,7 @@
 //=============================================================================
 namespace Nelson {
     namespace SlicotGateway {
-        ArrayOfVector slicot_sb01bdBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+        ArrayOfVector slicot_ab08ndBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
     }
 }
 //=============================================================================

@@ -22,7 +22,7 @@ function txt = nig_variable_integer_array(VARIABLE, withLocal)
     txt = [txt, 'const int *', toupper(VARIABLE.NAME)];
   end
   if strcmp(VARIABLE.MODE, 'output')
-    ftxt = [txt, ' int *', toupper(VARIABLE.NAME)];
+    txt = [txt, ' int *', toupper(VARIABLE.NAME)];
   end
   if strcmp(VARIABLE.MODE, 'in_out')
     txt = [txt, ' int *', toupper(VARIABLE.NAME)];
