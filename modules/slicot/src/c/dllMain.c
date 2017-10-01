@@ -16,6 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#ifdef _MSC_VER
 #include <Windows.h>
 //=============================================================================
 #ifdef _DEBUG
@@ -44,3 +45,4 @@ int WINAPI DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)
     return 1;
 }
 //=============================================================================
+#endif
