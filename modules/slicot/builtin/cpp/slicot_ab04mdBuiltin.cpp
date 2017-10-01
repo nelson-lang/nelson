@@ -25,7 +25,7 @@ using namespace Nelson;
 extern "C"
 {
 #endif
-extern int ab04md_ ( const char *TYPE, int N, int M, int P, double ALPHA, double BETA, double *A, int LDA, double *B, int LDB, double *C, int LDC, double *D, int LDD, int *IWORK, double *DWORK, int LDWORK, int &INFO);
+extern int ab04md_ ( const char *TYPE, int *N, int *M, int *P, double *ALPHA, double *BETA, double *A, int *LDA, double *B, int *LDB, double *C, int *LDC, double *D, int *LDD, int *IWORK, double *DWORK, int *LDWORK, int *INFO);
 #ifdef __cplusplus
 }
 #endif
@@ -48,30 +48,34 @@ ArrayOfVector Nelson::SlicotGateway::slicot_ab04mdBuiltin(Evaluator* eval, int n
 
     ArrayOf TYPE = argIn[0];
     std::string TYPE_string = TYPE.getContentAsCString();
-    const char* TYPE_char = TYPE_string.c_str();
+    const char* TYPE_ptr = TYPE_string.c_str();
     ArrayOf ALPHA = argIn[1];
-    double ALPHA_scalar = ALPHA.getContentAsDoubleScalar();
+    double *ALPHA_ptr = (double*)ALPHA.getDataPointer();
     ArrayOf BETA = argIn[2];
-    double BETA_scalar = BETA.getContentAsDoubleScalar();
+    double *BETA_ptr = (double*)BETA.getDataPointer();
 
     // IN/OUT VARIABLES
 
     ArrayOf A = argIn[3];
-    ArrayOf A_output = A;
     A.promoteType(NLS_DOUBLE);
-    double *A_ptr = (double*)A.getDataPointer();
+    ArrayOf A_output = A;
+    A_output.ensureSingleOwner();
+    double *A_output_ptr = (double*)A_output.getDataPointer();
     ArrayOf B = argIn[4];
-    ArrayOf B_output = B;
     B.promoteType(NLS_DOUBLE);
-    double *B_ptr = (double*)B.getDataPointer();
+    ArrayOf B_output = B;
+    B_output.ensureSingleOwner();
+    double *B_output_ptr = (double*)B_output.getDataPointer();
     ArrayOf C = argIn[5];
-    ArrayOf C_output = C;
     C.promoteType(NLS_DOUBLE);
-    double *C_ptr = (double*)C.getDataPointer();
+    ArrayOf C_output = C;
+    C_output.ensureSingleOwner();
+    double *C_output_ptr = (double*)C_output.getDataPointer();
     ArrayOf D = argIn[6];
-    ArrayOf D_output = D;
     D.promoteType(NLS_DOUBLE);
-    double *D_ptr = (double*)D.getDataPointer();
+    ArrayOf D_output = D;
+    D_output.ensureSingleOwner();
+    double *D_output_ptr = (double*)D_output.getDataPointer();
 
     // OUTPUT VARIABLES
 
@@ -80,16 +84,45 @@ ArrayOfVector Nelson::SlicotGateway::slicot_ab04mdBuiltin(Evaluator* eval, int n
 
     // LOCAL VARIABLES
 
-    int N_local = (int)A .getDimensions().getRows();
-    int M_local = (int)B.getDimensions().getColumns();
-    int P_local = (int)C.getDimensions().getRows();
-    int LDA_local = std::max(1, (int)A.getDimensions().getRows());
-    int LDB_local = std::max(1, (int)A.getDimensions().getRows());
-    int LDC_local = std::max(1, (int)C.getDimensions().getRows());
-    int LDD_local = std::max(1, (int)C.getDimensions().getRows());
-    int *IWORK_local = (int*)ArrayOf::allocateArrayOf(NLS_INT32, 1 * (int)A.getDimensions().getRows());
-    double *DWORK_local = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, 1 * std::max(1, (int)A.getDimensions().getRows()));
-    int LDWORK_local = std::max(1, (int)A.getDimensions().getRows());
+    ArrayOf N_local = ArrayOf::int32VectorConstructor(1);
+    int* N_local_ptr = (int*)N_local.getDataPointer();
+    N_local_ptr[0] = (int)A.getDimensions().getRows();
+    ArrayOf M_local = ArrayOf::int32VectorConstructor(1);
+    int* M_local_ptr = (int*)M_local.getDataPointer();
+    M_local_ptr[0] = (int)B.getDimensions().getColumns();
+    ArrayOf P_local = ArrayOf::int32VectorConstructor(1);
+    int* P_local_ptr = (int*)P_local.getDataPointer();
+    P_local_ptr[0] = (int)C.getDimensions().getRows();
+    ArrayOf LDA_local = ArrayOf::int32VectorConstructor(1);
+    int* LDA_local_ptr = (int*)LDA_local.getDataPointer();
+    LDA_local_ptr[0] = std::max(1, (int)A.getDimensions().getRows());
+    ArrayOf LDB_local = ArrayOf::int32VectorConstructor(1);
+    int* LDB_local_ptr = (int*)LDB_local.getDataPointer();
+    LDB_local_ptr[0] = std::max(1, (int)A.getDimensions().getRows());
+    ArrayOf LDC_local = ArrayOf::int32VectorConstructor(1);
+    int* LDC_local_ptr = (int*)LDC_local.getDataPointer();
+    LDC_local_ptr[0] = std::max(1, (int)C.getDimensions().getRows());
+    ArrayOf LDD_local = ArrayOf::int32VectorConstructor(1);
+    int* LDD_local_ptr = (int*)LDD_local.getDataPointer();
+    LDD_local_ptr[0] = std::max(1, (int)C.getDimensions().getRows());
+    ArrayOf IWORK_local = ArrayOf::int32Matrix2dConstructor(1 , (int)A.getDimensions().getRows());
+    int* IWORK_local_ptr = (int*)IWORK_local.getDataPointer();
+    ArrayOf DWORK_local = ArrayOf::doubleMatrix2dConstructor(1 , std::max(1, (int)A.getDimensions().getRows()));
+    double * DWORK_local_ptr = (double*)DWORK_local.getDataPointer();
+    ArrayOf LDWORK_local = ArrayOf::int32VectorConstructor(1);
+    int* LDWORK_local_ptr = (int*)LDWORK_local.getDataPointer();
+    LDWORK_local_ptr[0] = std::max(1, (int)A.getDimensions().getRows());
+
+    // CALL EXTERN FUNCTION
+
+    try
+    {
+        ab04md_ ( TYPE_ptr, N_local_ptr, M_local_ptr, P_local_ptr, ALPHA_ptr, BETA_ptr, A_output_ptr, LDA_local_ptr, B_output_ptr, LDB_local_ptr, C_output_ptr, LDC_local_ptr, D_output_ptr, LDD_local_ptr, IWORK_local_ptr, DWORK_local_ptr, LDWORK_local_ptr, INFO_output_ptr);
+    }
+    catch (std::runtime_error &e)
+    {
+        Error(eval, "ab04md function fails.");
+    }
 
     // ASSIGN OUTPUT VARIABLES
 
