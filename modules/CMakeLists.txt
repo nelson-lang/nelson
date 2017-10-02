@@ -57,6 +57,7 @@ com_engine
 nig
 fftw
 f2c
+slicot
 help_browser
 dynamic_link
 help_tools
