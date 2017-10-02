@@ -65,6 +65,7 @@ SLICOT_BUILTIN
 )
 #==============================================================================	
 include_directories(
+${Boost_INCLUDE_DIRS}
 ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
 ${CMAKE_CURRENT_SOURCE_DIR}/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
