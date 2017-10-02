@@ -41,6 +41,8 @@ these own data types and operations on these data types by using overload.
 
 - Fast Fourrier Transformation functions based on FFTW. 
 
+- SLICOT (Subroutine Library in Systems and Control Theory) interfaces
+
 - The QML engine enables nelson programs to display and manipulate graphical content using Qt's QML framework.
 
 - Component Object Model (COM) client interface: binary-interface standard for software components on Windows.
