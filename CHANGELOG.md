@@ -2,6 +2,8 @@
 Features:
 ---------
 
+* slicot_ab04md: Discrete-time / continuous-time systems conversion by a bilinear transformation.
+
 * Nelson Interface Generator (NIG) allows to generate Nelson builtin from C/Fortran code.
 
 * SLICOT (Subroutine Library in Systems and Control Theory) builtin generated with NIG
