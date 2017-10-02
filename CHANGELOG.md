@@ -2,6 +2,10 @@
 Features:
 ---------
 
+* Nelson Interface Generator (NIG) allows to generate Nelson builtin from C/Fortran code.
+
+* SLICOT (Subroutine Library in Systems and Control Theory) builtin generated with NIG
+
 * add 'isfield' function to check existence of a fieldname in a struct.
 
 * add 'exist' function to check existence of variable, builtin, function, file or directory.
