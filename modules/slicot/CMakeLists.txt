@@ -47,6 +47,10 @@ nlsError_manager
 nlsTypes
 nlsInterpreter
 nlsI18n
+${BLAS_LIBRARIES}
+${LAPACK_LIBRARIES}
+${LAPACKE_LIBRARIES}
+${MAC_LAPACKE_LIBRARY}
 )
 #==============================================================================	
 set_target_properties(${module_library_name}
