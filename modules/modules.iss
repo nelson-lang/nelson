@@ -65,4 +65,5 @@ Source: {#RootPath}modules\modules.nls; DestDir: {app}\modules\;
 #include "fftw/module.iss"
 #include "f2c/module.iss"
 #include "nig/module.iss"
+#include "slicot/module.iss"
 ;==============================================================================
