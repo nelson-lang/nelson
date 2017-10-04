@@ -80,8 +80,8 @@
   <p> To perform a transformation on the parameters (A, B, C, D) of a system, which is equivalent to a bilinear transformation of the corresponding transfer function matrix.</p>
   </description>
 
-  <used_function></used_function>
-  <bibliography></bibliography>
+  <used_function>AB04MD</used_function>
+  <bibliography>http://www.icm.tu-bs.de/NICONET/doc/AB04MD.html</bibliography>
 
 <examples>
   <example_item>

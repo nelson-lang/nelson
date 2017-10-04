@@ -48,8 +48,10 @@ ArrayOfVector Nelson::SlicotGateway::slicot_ab04mdBuiltin(Evaluator* eval, int n
     std::string TYPE_string = TYPE.getContentAsCString();
     const char* TYPE_ptr = TYPE_string.c_str();
     ArrayOf ALPHA = argIn[1];
+    ALPHA.promoteType(NLS_DOUBLE);
     double *ALPHA_ptr = (double*)ALPHA.getDataPointer();
     ArrayOf BETA = argIn[2];
+    BETA.promoteType(NLS_DOUBLE);
     double *BETA_ptr = (double*)BETA.getDataPointer();
     // IN/OUT VARIABLES
     ArrayOf A = argIn[3];

@@ -36,9 +36,11 @@ function [txt, nArgout] = nig_get_input_variables_definition(NIG_FUNCTION, nArgi
         txt{end + 1} = ['    const char* ',  k.NAME, '_ptr', ' = ', k.NAME, '_string.c_str();'];
      end
       if strcmp(k.TYPE, 'double')
+        txt{end + 1} = ['    ', k.NAME, '.promoteType(', 'NLS_DOUBLE', ');'];
         txt{end + 1} = ['    double *',  k.NAME, '_ptr = (double*)', k.NAME, '.getDataPointer();'];
       end
       if strcmp(k.TYPE, 'integer')
+        txt{end + 1} = ['    ', k.NAME, '.promoteType(', 'NLS_INT32', ');'];
         txt{end + 1} = ['    int *',  k.NAME, '_ptr = (int*)', k.NAME, '.getDataPointer();'];
       end
 

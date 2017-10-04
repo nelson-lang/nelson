@@ -48,14 +48,19 @@ ArrayOfVector Nelson::SlicotGateway::slicot_sb01bdBuiltin(Evaluator* eval, int n
     std::string DICO_string = DICO.getContentAsCString();
     const char* DICO_ptr = DICO_string.c_str();
     ArrayOf N = argIn[1];
+    N.promoteType(NLS_INT32);
     int *N_ptr = (int*)N.getDataPointer();
     ArrayOf M = argIn[2];
+    M.promoteType(NLS_INT32);
     int *M_ptr = (int*)M.getDataPointer();
     ArrayOf NP = argIn[3];
+    NP.promoteType(NLS_INT32);
     int *NP_ptr = (int*)NP.getDataPointer();
     ArrayOf ALPHA = argIn[4];
+    ALPHA.promoteType(NLS_DOUBLE);
     double *ALPHA_ptr = (double*)ALPHA.getDataPointer();
     ArrayOf TOL = argIn[5];
+    TOL.promoteType(NLS_DOUBLE);
     double *TOL_ptr = (double*)TOL.getDataPointer();
     // IN/OUT VARIABLES
     ArrayOf A = argIn[6];

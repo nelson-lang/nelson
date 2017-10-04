@@ -48,10 +48,13 @@ ArrayOfVector Nelson::SlicotGateway::slicot_ab08ndBuiltin(Evaluator* eval, int n
     std::string EQUIL_string = EQUIL.getContentAsCString();
     const char* EQUIL_ptr = EQUIL_string.c_str();
     ArrayOf N = argIn[1];
+    N.promoteType(NLS_INT32);
     int *N_ptr = (int*)N.getDataPointer();
     ArrayOf M = argIn[2];
+    M.promoteType(NLS_INT32);
     int *M_ptr = (int*)M.getDataPointer();
     ArrayOf P = argIn[3];
+    P.promoteType(NLS_INT32);
     int *P_ptr = (int*)P.getDataPointer();
     ArrayOf A = argIn[4];
     A.promoteType(NLS_DOUBLE);
@@ -66,6 +69,7 @@ ArrayOfVector Nelson::SlicotGateway::slicot_ab08ndBuiltin(Evaluator* eval, int n
     D.promoteType(NLS_DOUBLE);
     double *D_ptr = (double*)D.getDataPointer();
     ArrayOf TOL = argIn[8];
+    TOL.promoteType(NLS_DOUBLE);
     double *TOL_ptr = (double*)TOL.getDataPointer();
     // IN/OUT VARIABLES
     // OUTPUT VARIABLES

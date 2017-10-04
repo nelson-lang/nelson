@@ -2,6 +2,8 @@
 Features:
 ---------
 
+* slicot_ab08nd: Construction of a regular pencil for a given system such that its generalized eigenvalues are invariant zeros of the system.
+
 * slicot_ab04md: Discrete-time / continuous-time systems conversion by a bilinear transformation.
 
 * Nelson Interface Generator (NIG) allows to generate Nelson builtin from C/Fortran code.

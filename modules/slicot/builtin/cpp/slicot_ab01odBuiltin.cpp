@@ -54,6 +54,7 @@ ArrayOfVector Nelson::SlicotGateway::slicot_ab01odBuiltin(Evaluator* eval, int n
     std::string JOBV_string = JOBV.getContentAsCString();
     const char* JOBV_ptr = JOBV_string.c_str();
     ArrayOf TOL = argIn[3];
+    TOL.promoteType(NLS_DOUBLE);
     double *TOL_ptr = (double*)TOL.getDataPointer();
     // IN/OUT VARIABLES
     ArrayOf A = argIn[4];
