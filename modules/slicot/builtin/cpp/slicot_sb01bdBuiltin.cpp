@@ -4,12 +4,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 2 of the License, or
 // (at your option) any later version.
-//
+// 
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-//
+// 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
@@ -43,7 +43,9 @@ ArrayOfVector Nelson::SlicotGateway::slicot_sb01bdBuiltin(Evaluator* eval, int n
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
+
     // INPUT VARIABLES
+
     ArrayOf DICO = argIn[0];
     std::string DICO_string = DICO.getContentAsCString();
     const char* DICO_ptr = DICO_string.c_str();
@@ -59,31 +61,35 @@ ArrayOfVector Nelson::SlicotGateway::slicot_sb01bdBuiltin(Evaluator* eval, int n
     ArrayOf ALPHA = argIn[4];
     ALPHA.promoteType(NLS_DOUBLE);
     double *ALPHA_ptr = (double*)ALPHA.getDataPointer();
-    ArrayOf TOL = argIn[5];
+    ArrayOf TOL = argIn[9];
     TOL.promoteType(NLS_DOUBLE);
     double *TOL_ptr = (double*)TOL.getDataPointer();
+
     // IN/OUT VARIABLES
-    ArrayOf A = argIn[6];
+
+    ArrayOf A = argIn[5];
     A.promoteType(NLS_DOUBLE);
     ArrayOf A_output = A;
     A_output.ensureSingleOwner();
     double *A_output_ptr = (double*)A_output.getDataPointer();
-    ArrayOf B = argIn[7];
+    ArrayOf B = argIn[6];
     B.promoteType(NLS_DOUBLE);
     ArrayOf B_output = B;
     B_output.ensureSingleOwner();
     double *B_output_ptr = (double*)B_output.getDataPointer();
-    ArrayOf WR = argIn[8];
+    ArrayOf WR = argIn[7];
     WR.promoteType(NLS_DOUBLE);
     ArrayOf WR_output = WR;
     WR_output.ensureSingleOwner();
     double *WR_output_ptr = (double*)WR_output.getDataPointer();
-    ArrayOf WI = argIn[9];
+    ArrayOf WI = argIn[8];
     WI.promoteType(NLS_DOUBLE);
     ArrayOf WI_output = WI;
     WI_output.ensureSingleOwner();
     double *WI_output_ptr = (double*)WI_output.getDataPointer();
+
     // OUTPUT VARIABLES
+
     ArrayOf NFP_output = ArrayOf::int32VectorConstructor(1);
     int *NFP_output_ptr = (int*)NFP_output.getDataPointer();
     ArrayOf NAP_output = ArrayOf::int32VectorConstructor(1);
@@ -98,7 +104,9 @@ ArrayOfVector Nelson::SlicotGateway::slicot_sb01bdBuiltin(Evaluator* eval, int n
     int *IWARN_output_ptr = (int*)IWARN_output.getDataPointer();
     ArrayOf INFO_output = ArrayOf::int32VectorConstructor(1);
     int *INFO_output_ptr = (int*)INFO_output.getDataPointer();
+
     // LOCAL VARIABLES
+
     ArrayOf LDA_local = ArrayOf::int32VectorConstructor(1);
     int* LDA_local_ptr = (int*)LDA_local.getDataPointer();
     LDA_local_ptr[0] = std::max(1, N.getContentAsInteger32Scalar());
@@ -116,7 +124,9 @@ ArrayOfVector Nelson::SlicotGateway::slicot_sb01bdBuiltin(Evaluator* eval, int n
     ArrayOf LDWORK_local = ArrayOf::int32VectorConstructor(1);
     int* LDWORK_local_ptr = (int*)LDWORK_local.getDataPointer();
     LDWORK_local_ptr[0] = std::max(std::max(std::max( 1,5 * M.getContentAsInteger32Scalar()), 5 * N.getContentAsInteger32Scalar()), 2 * N.getContentAsInteger32Scalar() + 4 * M.getContentAsInteger32Scalar());
+
     // CALL EXTERN FUNCTION
+
     try
     {
         sb01bd_ ( DICO_ptr, N_ptr, M_ptr, NP_ptr, ALPHA_ptr, A_output_ptr, LDA_local_ptr, B_output_ptr, LDB_local_ptr, WR_output_ptr, WI_output_ptr, NFP_output_ptr, NAP_output_ptr, NUP_output_ptr, F_output_ptr, LDF_local_ptr, Z_output_ptr, LDZ_local_ptr, TOL_ptr, DWORK_local_ptr, LDWORK_local_ptr, IWARN_output_ptr, INFO_output_ptr);
@@ -125,7 +135,9 @@ ArrayOfVector Nelson::SlicotGateway::slicot_sb01bdBuiltin(Evaluator* eval, int n
     {
         Error(eval, "sb01bd function fails.");
     }
+
     // ASSIGN OUTPUT VARIABLES
+
     if (nLhs > 0)
     {
         retval.push_back(A_output);
@@ -170,6 +182,7 @@ ArrayOfVector Nelson::SlicotGateway::slicot_sb01bdBuiltin(Evaluator* eval, int n
     {
         retval.push_back(INFO_output);
     }
+
     return retval;
 }
 //=============================================================================

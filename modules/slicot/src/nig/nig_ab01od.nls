@@ -57,7 +57,7 @@ IDX = length(NIG_FUNCTION.VARIABLES) + 1;
 NIG_FUNCTION.VARIABLES(IDX).NAME = 'M';
 NIG_FUNCTION.VARIABLES(IDX).TYPE = 'integer';
 NIG_FUNCTION.VARIABLES(IDX).MODE = 'local';
-NIG_FUNCTION.VARIABLES(IDX).VALUE = '(int)B.getDimensions().getRows()';
+NIG_FUNCTION.VARIABLES(IDX).VALUE = '(int)B.getDimensions().getColumns()';
 
 IDX = length(NIG_FUNCTION.VARIABLES) + 1;
 NIG_FUNCTION.VARIABLES(IDX).NAME = 'A';
@@ -109,7 +109,13 @@ IDX = length(NIG_FUNCTION.VARIABLES) + 1;
 NIG_FUNCTION.VARIABLES(IDX).NAME = 'LDV';
 NIG_FUNCTION.VARIABLES(IDX).TYPE = 'integer';
 NIG_FUNCTION.VARIABLES(IDX).MODE = 'local';
-NIG_FUNCTION.VARIABLES(IDX).VALUE = 'std::max(1, (int)B.getDimensions().getColumns())';
+NIG_FUNCTION.VARIABLES(IDX).VALUE = 'STAGES.getContentAsCString().compare("F") != 0 && JOBV.getContentAsCString().compare("I") == 0 ? std::max(1, (int)B.getDimensions().getColumns()) : 1';
+
+IDX = length(NIG_FUNCTION.VARIABLES) + 1;
+NIG_FUNCTION.VARIABLES(IDX).NAME = 'NCONT';
+NIG_FUNCTION.VARIABLES(IDX).TYPE = 'integer';
+NIG_FUNCTION.VARIABLES(IDX).MODE = 'in_out';
+
 
 IDX = length(NIG_FUNCTION.VARIABLES) + 1;
 NIG_FUNCTION.VARIABLES(IDX).NAME = 'INDCON';
@@ -134,7 +140,7 @@ NIG_FUNCTION.VARIABLES(IDX).NAME = 'IWORK';
 NIG_FUNCTION.VARIABLES(IDX).TYPE = 'integer_array';
 NIG_FUNCTION.VARIABLES(IDX).MODE = 'local';
 NIG_FUNCTION.VARIABLES(IDX).DIMENSION_M = 1;
-NIG_FUNCTION.VARIABLES(IDX).DIMENSION_N = '2 * (int)B.getDimensions().getColumns()';
+NIG_FUNCTION.VARIABLES(IDX).DIMENSION_N = '(int)B.getDimensions().getColumns()';
 
 IDX = length(NIG_FUNCTION.VARIABLES) + 1;
 NIG_FUNCTION.VARIABLES(IDX).NAME = 'DWORK';
@@ -147,7 +153,7 @@ IDX = length(NIG_FUNCTION.VARIABLES) + 1;
 NIG_FUNCTION.VARIABLES(IDX).NAME = 'LDWORK';
 NIG_FUNCTION.VARIABLES(IDX).TYPE = 'integer';
 NIG_FUNCTION.VARIABLES(IDX).MODE = 'local';
-NIG_FUNCTION.VARIABLES(IDX).VALUE = 'std::max(1, std::max((int)A.getDimensions().getRows(), (int)B.getDimensions().getColumns()) + std::max((int)A.getDimensions().getRows(), 3 * (int)B.getDimensions().getColumns()))';
+NIG_FUNCTION.VARIABLES(IDX).VALUE = 'STAGES.getContentAsCString().compare("B") != 0 ? std::max(1, std::max((int)A.getDimensions().getRows(), (int)B.getDimensions().getColumns()) + std::max((int)A.getDimensions().getRows(), 3 * (int)B.getDimensions().getColumns())) : std::max(1, std::max((int)A.getDimensions().getRows(), (int)B.getDimensions().getColumns()) + std::max((int)A.getDimensions().getRows(), (int)B.getDimensions().getColumns()))';
 
 IDX = length(NIG_FUNCTION.VARIABLES) + 1;
 NIG_FUNCTION.VARIABLES(IDX).NAME = 'INFO';

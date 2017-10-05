@@ -4,12 +4,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 2 of the License, or
 // (at your option) any later version.
-//
+// 
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-//
+// 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
@@ -43,7 +43,9 @@ ArrayOfVector Nelson::SlicotGateway::slicot_ab04mdBuiltin(Evaluator* eval, int n
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
+
     // INPUT VARIABLES
+
     ArrayOf TYPE = argIn[0];
     std::string TYPE_string = TYPE.getContentAsCString();
     const char* TYPE_ptr = TYPE_string.c_str();
@@ -53,7 +55,9 @@ ArrayOfVector Nelson::SlicotGateway::slicot_ab04mdBuiltin(Evaluator* eval, int n
     ArrayOf BETA = argIn[2];
     BETA.promoteType(NLS_DOUBLE);
     double *BETA_ptr = (double*)BETA.getDataPointer();
+
     // IN/OUT VARIABLES
+
     ArrayOf A = argIn[3];
     A.promoteType(NLS_DOUBLE);
     ArrayOf A_output = A;
@@ -74,10 +78,14 @@ ArrayOfVector Nelson::SlicotGateway::slicot_ab04mdBuiltin(Evaluator* eval, int n
     ArrayOf D_output = D;
     D_output.ensureSingleOwner();
     double *D_output_ptr = (double*)D_output.getDataPointer();
+
     // OUTPUT VARIABLES
+
     ArrayOf INFO_output = ArrayOf::int32VectorConstructor(1);
     int *INFO_output_ptr = (int*)INFO_output.getDataPointer();
+
     // LOCAL VARIABLES
+
     ArrayOf N_local = ArrayOf::int32VectorConstructor(1);
     int* N_local_ptr = (int*)N_local.getDataPointer();
     N_local_ptr[0] = (int)A.getDimensions().getRows();
@@ -106,7 +114,9 @@ ArrayOfVector Nelson::SlicotGateway::slicot_ab04mdBuiltin(Evaluator* eval, int n
     ArrayOf LDWORK_local = ArrayOf::int32VectorConstructor(1);
     int* LDWORK_local_ptr = (int*)LDWORK_local.getDataPointer();
     LDWORK_local_ptr[0] = std::max(1, (int)A.getDimensions().getRows());
+
     // CALL EXTERN FUNCTION
+
     try
     {
         ab04md_ ( TYPE_ptr, N_local_ptr, M_local_ptr, P_local_ptr, ALPHA_ptr, BETA_ptr, A_output_ptr, LDA_local_ptr, B_output_ptr, LDB_local_ptr, C_output_ptr, LDC_local_ptr, D_output_ptr, LDD_local_ptr, IWORK_local_ptr, DWORK_local_ptr, LDWORK_local_ptr, INFO_output_ptr);
@@ -115,7 +125,9 @@ ArrayOfVector Nelson::SlicotGateway::slicot_ab04mdBuiltin(Evaluator* eval, int n
     {
         Error(eval, "ab04md function fails.");
     }
+
     // ASSIGN OUTPUT VARIABLES
+
     if (nLhs > 0)
     {
         retval.push_back(A_output);
@@ -136,6 +148,7 @@ ArrayOfVector Nelson::SlicotGateway::slicot_ab04mdBuiltin(Evaluator* eval, int n
     {
         retval.push_back(INFO_output);
     }
+
     return retval;
 }
 //=============================================================================

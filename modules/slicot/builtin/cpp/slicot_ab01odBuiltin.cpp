@@ -4,12 +4,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 2 of the License, or
 // (at your option) any later version.
-//
+// 
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-//
+// 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
@@ -25,25 +25,27 @@ using namespace Nelson;
 extern "C"
 {
 #endif
-extern int ab01od_ ( const char *STAGES, const char *JOBU, const char *JOBV, int *N, int *M, double *A, int *LDA, double *B, int *LDB, double *U, int *LDU, double *V, int *LDV, int *INDCON, int *KSTAIR, double *TOL, int *IWORK, double *DWORK, int *LDWORK, int *INFO);
+extern int ab01od_ ( const char *STAGES, const char *JOBU, const char *JOBV, int *N, int *M, double *A, int *LDA, double *B, int *LDB, double *U, int *LDU, double *V, int *LDV, int *NCONT, int *INDCON, int *KSTAIR, double *TOL, int *IWORK, double *DWORK, int *LDWORK, int *INFO);
 #ifdef __cplusplus
 }
 #endif
 //=============================================================================
-// [A_OUT, B_OUT, U_OUT, V, INDCON_OUT, KSTAIR_OUT, INFO] = slicot_ab01od(STAGES, JOBU, JOBV, A_IN, B_IN, U_IN, INDCON_IN, KSTAIR_IN, TOL)
+// [A_OUT, B_OUT, U_OUT, V, NCONT_OUT, INDCON_OUT, KSTAIR_OUT, INFO] = slicot_ab01od(STAGES, JOBU, JOBV, A_IN, B_IN, U_IN, NCONT_IN, INDCON_IN, KSTAIR_IN, TOL)
 //=============================================================================
 ArrayOfVector Nelson::SlicotGateway::slicot_ab01odBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 7)
+    if (nLhs > 8)
     {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() != 9)
+    if (argIn.size() != 10)
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
+
     // INPUT VARIABLES
+
     ArrayOf STAGES = argIn[0];
     std::string STAGES_string = STAGES.getContentAsCString();
     const char* STAGES_ptr = STAGES_string.c_str();
@@ -53,25 +55,32 @@ ArrayOfVector Nelson::SlicotGateway::slicot_ab01odBuiltin(Evaluator* eval, int n
     ArrayOf JOBV = argIn[2];
     std::string JOBV_string = JOBV.getContentAsCString();
     const char* JOBV_ptr = JOBV_string.c_str();
-    ArrayOf TOL = argIn[3];
+    ArrayOf TOL = argIn[9];
     TOL.promoteType(NLS_DOUBLE);
     double *TOL_ptr = (double*)TOL.getDataPointer();
+
     // IN/OUT VARIABLES
-    ArrayOf A = argIn[4];
+
+    ArrayOf A = argIn[3];
     A.promoteType(NLS_DOUBLE);
     ArrayOf A_output = A;
     A_output.ensureSingleOwner();
     double *A_output_ptr = (double*)A_output.getDataPointer();
-    ArrayOf B = argIn[5];
+    ArrayOf B = argIn[4];
     B.promoteType(NLS_DOUBLE);
     ArrayOf B_output = B;
     B_output.ensureSingleOwner();
     double *B_output_ptr = (double*)B_output.getDataPointer();
-    ArrayOf U = argIn[6];
+    ArrayOf U = argIn[5];
     U.promoteType(NLS_DOUBLE);
     ArrayOf U_output = U;
     U_output.ensureSingleOwner();
     double *U_output_ptr = (double*)U_output.getDataPointer();
+    ArrayOf NCONT = argIn[6];
+    NCONT.promoteType(NLS_INT32);
+    ArrayOf NCONT_output = NCONT;
+    NCONT_output.ensureSingleOwner();
+    int *NCONT_output_ptr = (int*)NCONT_output.getDataPointer();
     ArrayOf INDCON = argIn[7];
     INDCON.promoteType(NLS_INT32);
     ArrayOf INDCON_output = INDCON;
@@ -82,18 +91,22 @@ ArrayOfVector Nelson::SlicotGateway::slicot_ab01odBuiltin(Evaluator* eval, int n
     ArrayOf KSTAIR_output = KSTAIR;
     KSTAIR_output.ensureSingleOwner();
     int *KSTAIR_output_ptr = (int*)KSTAIR_output.getDataPointer();
+
     // OUTPUT VARIABLES
+
     ArrayOf V_output = ArrayOf::doubleMatrix2dConstructor((indexType)std::max(1, (int)B.getDimensions().getColumns()), (indexType)(int)B.getDimensions().getColumns());
     double *V_output_ptr = (double*)V_output.getDataPointer();
     ArrayOf INFO_output = ArrayOf::int32VectorConstructor(1);
     int *INFO_output_ptr = (int*)INFO_output.getDataPointer();
+
     // LOCAL VARIABLES
+
     ArrayOf N_local = ArrayOf::int32VectorConstructor(1);
     int* N_local_ptr = (int*)N_local.getDataPointer();
     N_local_ptr[0] = (int)A.getDimensions().getRows();
     ArrayOf M_local = ArrayOf::int32VectorConstructor(1);
     int* M_local_ptr = (int*)M_local.getDataPointer();
-    M_local_ptr[0] = (int)B.getDimensions().getRows();
+    M_local_ptr[0] = (int)B.getDimensions().getColumns();
     ArrayOf LDA_local = ArrayOf::int32VectorConstructor(1);
     int* LDA_local_ptr = (int*)LDA_local.getDataPointer();
     LDA_local_ptr[0] = std::max(1, (int)A.getDimensions().getRows());
@@ -105,24 +118,28 @@ ArrayOfVector Nelson::SlicotGateway::slicot_ab01odBuiltin(Evaluator* eval, int n
     LDU_local_ptr[0] = std::max(1, (int)A.getDimensions().getRows());
     ArrayOf LDV_local = ArrayOf::int32VectorConstructor(1);
     int* LDV_local_ptr = (int*)LDV_local.getDataPointer();
-    LDV_local_ptr[0] = std::max(1, (int)B.getDimensions().getColumns());
-    ArrayOf IWORK_local = ArrayOf::int32Matrix2dConstructor(1 , 2 * (int)B.getDimensions().getColumns());
+    LDV_local_ptr[0] = STAGES.getContentAsCString().compare("F") != 0 && JOBV.getContentAsCString().compare("I") == 0 ? std::max(1, (int)B.getDimensions().getColumns()) : 1;
+    ArrayOf IWORK_local = ArrayOf::int32Matrix2dConstructor(1 , (int)B.getDimensions().getColumns());
     int* IWORK_local_ptr = (int*)IWORK_local.getDataPointer();
     ArrayOf DWORK_local = ArrayOf::doubleMatrix2dConstructor(1 , std::max(1, std::max((int)A.getDimensions().getRows(), (int)B.getDimensions().getColumns()) + std::max((int)A.getDimensions().getRows(), 3 * (int)B.getDimensions().getColumns())));
     double * DWORK_local_ptr = (double*)DWORK_local.getDataPointer();
     ArrayOf LDWORK_local = ArrayOf::int32VectorConstructor(1);
     int* LDWORK_local_ptr = (int*)LDWORK_local.getDataPointer();
-    LDWORK_local_ptr[0] = std::max(1, std::max((int)A.getDimensions().getRows(), (int)B.getDimensions().getColumns()) + std::max((int)A.getDimensions().getRows(), 3 * (int)B.getDimensions().getColumns()));
+    LDWORK_local_ptr[0] = STAGES.getContentAsCString().compare("B") != 0 ? std::max(1, std::max((int)A.getDimensions().getRows(), (int)B.getDimensions().getColumns()) + std::max((int)A.getDimensions().getRows(), 3 * (int)B.getDimensions().getColumns())) : std::max(1, std::max((int)A.getDimensions().getRows(), (int)B.getDimensions().getColumns()) + std::max((int)A.getDimensions().getRows(), (int)B.getDimensions().getColumns()));
+
     // CALL EXTERN FUNCTION
+
     try
     {
-        ab01od_ ( STAGES_ptr, JOBU_ptr, JOBV_ptr, N_local_ptr, M_local_ptr, A_output_ptr, LDA_local_ptr, B_output_ptr, LDB_local_ptr, U_output_ptr, LDU_local_ptr, V_output_ptr, LDV_local_ptr, INDCON_output_ptr, KSTAIR_output_ptr, TOL_ptr, IWORK_local_ptr, DWORK_local_ptr, LDWORK_local_ptr, INFO_output_ptr);
+        ab01od_ ( STAGES_ptr, JOBU_ptr, JOBV_ptr, N_local_ptr, M_local_ptr, A_output_ptr, LDA_local_ptr, B_output_ptr, LDB_local_ptr, U_output_ptr, LDU_local_ptr, V_output_ptr, LDV_local_ptr, NCONT_output_ptr, INDCON_output_ptr, KSTAIR_output_ptr, TOL_ptr, IWORK_local_ptr, DWORK_local_ptr, LDWORK_local_ptr, INFO_output_ptr);
     }
     catch (std::runtime_error &e)
     {
         Error(eval, "ab01od function fails.");
     }
+
     // ASSIGN OUTPUT VARIABLES
+
     if (nLhs > 0)
     {
         retval.push_back(A_output);
@@ -141,16 +158,21 @@ ArrayOfVector Nelson::SlicotGateway::slicot_ab01odBuiltin(Evaluator* eval, int n
     }
     if (nLhs > 4)
     {
-        retval.push_back(INDCON_output);
+        retval.push_back(NCONT_output);
     }
     if (nLhs > 5)
     {
-        retval.push_back(KSTAIR_output);
+        retval.push_back(INDCON_output);
     }
     if (nLhs > 6)
     {
+        retval.push_back(KSTAIR_output);
+    }
+    if (nLhs > 7)
+    {
         retval.push_back(INFO_output);
     }
+
     return retval;
 }
 //=============================================================================

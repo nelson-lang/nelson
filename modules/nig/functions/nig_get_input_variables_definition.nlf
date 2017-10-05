@@ -16,10 +16,10 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-function [txt, nArgout] = nig_get_input_variables_definition(NIG_FUNCTION, nArgin)
+function txt = nig_get_input_variables_definition(NIG_FUNCTION)
   txt = {'    // INPUT VARIABLES';
          ''};
-  n = nArgin;
+  n = 0;
   for k = NIG_FUNCTION.VARIABLES
     if strcmp(k.MODE, 'input')
       txt{end + 1} = ['    ArrayOf ', k.NAME, ' = argIn[', int2str(n), '];'];
@@ -43,8 +43,10 @@ function [txt, nArgout] = nig_get_input_variables_definition(NIG_FUNCTION, nArgi
         txt{end + 1} = ['    ', k.NAME, '.promoteType(', 'NLS_INT32', ');'];
         txt{end + 1} = ['    int *',  k.NAME, '_ptr = (int*)', k.NAME, '.getDataPointer();'];
       end
-
       n = n + 1;
+    end
+    if strcmp(k.MODE, 'in_out')
+       n = n + 1;
     end
   end
   nArgout = n;
