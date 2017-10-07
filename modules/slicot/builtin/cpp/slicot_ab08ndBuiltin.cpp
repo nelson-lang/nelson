@@ -4,12 +4,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 2 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
@@ -43,42 +43,70 @@ ArrayOfVector Nelson::SlicotGateway::slicot_ab08ndBuiltin(Evaluator* eval, int n
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-
     // INPUT VARIABLES
-
     ArrayOf EQUIL = argIn[0];
+    Dimensions dimsEQUIL = EQUIL.getDimensions();
+    if (!dimsEQUIL.isScalar())
+    {
+        Error(eval, _W("Input argument #1: scalar expected."));
+    }
     std::string EQUIL_string = EQUIL.getContentAsCString();
     const char* EQUIL_ptr = EQUIL_string.c_str();
     ArrayOf N = argIn[1];
+    Dimensions dimsN = N.getDimensions();
+    if (!dimsN.isScalar())
+    {
+        Error(eval, _W("Input argument #2: scalar expected."));
+    }
     N.promoteType(NLS_INT32);
     int *N_ptr = (int*)N.getDataPointer();
     ArrayOf M = argIn[2];
+    Dimensions dimsM = M.getDimensions();
+    if (!dimsM.isScalar())
+    {
+        Error(eval, _W("Input argument #3: scalar expected."));
+    }
     M.promoteType(NLS_INT32);
     int *M_ptr = (int*)M.getDataPointer();
     ArrayOf P = argIn[3];
+    Dimensions dimsP = P.getDimensions();
+    if (!dimsP.isScalar())
+    {
+        Error(eval, _W("Input argument #4: scalar expected."));
+    }
     P.promoteType(NLS_INT32);
     int *P_ptr = (int*)P.getDataPointer();
     ArrayOf A = argIn[4];
+    Dimensions dimsA = A.getDimensions();
+    Dimensions dimsA_expected((int)std::max(1, N.getContentAsInteger32Scalar()), (int)N.getContentAsInteger32Scalar());
+    if (!dimsA.equals(dimsA_expected))
+    {
+        Error(eval, _("Input argument #5: wrong size.") + " " + dimsA_expected.toString() + " " + "expected" + ".");
+    }
     A.promoteType(NLS_DOUBLE);
     double *A_ptr = (double*)A.getDataPointer();
     ArrayOf B = argIn[5];
+    Dimensions dimsB = B.getDimensions();
     B.promoteType(NLS_DOUBLE);
     double *B_ptr = (double*)B.getDataPointer();
     ArrayOf C = argIn[6];
+    Dimensions dimsC = C.getDimensions();
     C.promoteType(NLS_DOUBLE);
     double *C_ptr = (double*)C.getDataPointer();
     ArrayOf D = argIn[7];
+    Dimensions dimsD = D.getDimensions();
     D.promoteType(NLS_DOUBLE);
     double *D_ptr = (double*)D.getDataPointer();
     ArrayOf TOL = argIn[8];
+    Dimensions dimsTOL = TOL.getDimensions();
+    if (!dimsTOL.isScalar())
+    {
+        Error(eval, _W("Input argument #9: scalar expected."));
+    }
     TOL.promoteType(NLS_DOUBLE);
     double *TOL_ptr = (double*)TOL.getDataPointer();
-
     // IN/OUT VARIABLES
-
-
     // OUTPUT VARIABLES
-
     ArrayOf NU_output = ArrayOf::int32VectorConstructor(1);
     int *NU_output_ptr = (int*)NU_output.getDataPointer();
     ArrayOf RANK_output = ArrayOf::int32VectorConstructor(1);
@@ -101,15 +129,13 @@ ArrayOfVector Nelson::SlicotGateway::slicot_ab08ndBuiltin(Evaluator* eval, int n
     double *BF_output_ptr = (double*)BF_output.getDataPointer();
     ArrayOf INFO_output = ArrayOf::int32VectorConstructor(1);
     int *INFO_output_ptr = (int*)INFO_output.getDataPointer();
-
     // LOCAL VARIABLES
-
     ArrayOf LDA_local = ArrayOf::int32VectorConstructor(1);
     int* LDA_local_ptr = (int*)LDA_local.getDataPointer();
     LDA_local_ptr[0] = std::max(1, N.getContentAsInteger32Scalar());
     ArrayOf LDB_local = ArrayOf::int32VectorConstructor(1);
     int* LDB_local_ptr = (int*)LDB_local.getDataPointer();
-    LDB_local_ptr[0] = std::max(1, N.getContentAsInteger32Scalar());
+    LDB_local_ptr[0] = (int)std::max(1, N.getContentAsInteger32Scalar());
     ArrayOf LDC_local = ArrayOf::int32VectorConstructor(1);
     int* LDC_local_ptr = (int*)LDC_local.getDataPointer();
     LDC_local_ptr[0] = std::max(1, P.getContentAsInteger32Scalar());
@@ -129,9 +155,7 @@ ArrayOfVector Nelson::SlicotGateway::slicot_ab08ndBuiltin(Evaluator* eval, int n
     ArrayOf LDWORK_local = ArrayOf::int32VectorConstructor(1);
     int* LDWORK_local_ptr = (int*)LDWORK_local.getDataPointer();
     LDWORK_local_ptr[0] = std::max(std::max(M.getContentAsInteger32Scalar(), P.getContentAsInteger32Scalar()), N.getContentAsInteger32Scalar()) + std::max(3 * std::max(M.getContentAsInteger32Scalar(), P.getContentAsInteger32Scalar()) - 1, N.getContentAsInteger32Scalar() + std::max(M.getContentAsInteger32Scalar(), P.getContentAsInteger32Scalar()));
-
     // CALL EXTERN FUNCTION
-
     try
     {
         ab08nd_ ( EQUIL_ptr, N_ptr, M_ptr, P_ptr, A_ptr, LDA_local_ptr, B_ptr, LDB_local_ptr, C_ptr, LDC_local_ptr, D_ptr, LDD_local_ptr, NU_output_ptr, RANK_output_ptr, DINFZ_output_ptr, NKROR_output_ptr, NKROL_output_ptr, INFZ_output_ptr, KRONR_output_ptr, KRONL_output_ptr, AF_output_ptr, LDAF_local_ptr, BF_output_ptr, LDBF_local_ptr, TOL_ptr, IWORK_local_ptr, DWORK_local_ptr, LDWORK_local_ptr, INFO_output_ptr);
@@ -140,9 +164,7 @@ ArrayOfVector Nelson::SlicotGateway::slicot_ab08ndBuiltin(Evaluator* eval, int n
     {
         Error(eval, "ab08nd function fails.");
     }
-
     // ASSIGN OUTPUT VARIABLES
-
     if (nLhs > 0)
     {
         retval.push_back(NU_output);
@@ -187,7 +209,6 @@ ArrayOfVector Nelson::SlicotGateway::slicot_ab08ndBuiltin(Evaluator* eval, int n
     {
         retval.push_back(INFO_output);
     }
-
     return retval;
 }
 //=============================================================================

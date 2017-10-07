@@ -39,17 +39,20 @@ NIG_FUNCTION.VARIABLES(IDX).SUPPORTED_VALUES = {'C', 'D'};
 IDX = length(NIG_FUNCTION.VARIABLES) + 1;
 NIG_FUNCTION.VARIABLES(IDX).NAME = 'N';
 NIG_FUNCTION.VARIABLES(IDX).TYPE = 'integer';
-NIG_FUNCTION.VARIABLES(IDX).MODE = 'input';
+NIG_FUNCTION.VARIABLES(IDX).MODE = 'local';
+NIG_FUNCTION.VARIABLES(IDX).VALUE = '(int)A.getDimensions().getRows()';
 
 IDX = length(NIG_FUNCTION.VARIABLES) + 1;
 NIG_FUNCTION.VARIABLES(IDX).NAME = 'M';
 NIG_FUNCTION.VARIABLES(IDX).TYPE = 'integer';
-NIG_FUNCTION.VARIABLES(IDX).MODE = 'input';
+NIG_FUNCTION.VARIABLES(IDX).MODE = 'local';
+NIG_FUNCTION.VARIABLES(IDX).VALUE = '(int)B.getDimensions().getColumns()';
 
 IDX = length(NIG_FUNCTION.VARIABLES) + 1;
 NIG_FUNCTION.VARIABLES(IDX).NAME = 'NP';
 NIG_FUNCTION.VARIABLES(IDX).TYPE = 'integer';
-NIG_FUNCTION.VARIABLES(IDX).MODE = 'input';
+NIG_FUNCTION.VARIABLES(IDX).MODE = 'local';
+NIG_FUNCTION.VARIABLES(IDX).VALUE = '(int)WR.getDimensions().getRows()';
 
 IDX = length(NIG_FUNCTION.VARIABLES) + 1;
 NIG_FUNCTION.VARIABLES(IDX).NAME = 'ALPHA';
@@ -60,41 +63,35 @@ IDX = length(NIG_FUNCTION.VARIABLES) + 1;
 NIG_FUNCTION.VARIABLES(IDX).NAME = 'A';
 NIG_FUNCTION.VARIABLES(IDX).TYPE = 'double_array';
 NIG_FUNCTION.VARIABLES(IDX).MODE = 'in_out';
-NIG_FUNCTION.VARIABLES(IDX).DIMENSION_M = 'std::max(1, N.getContentAsInteger32Scalar())';
-NIG_FUNCTION.VARIABLES(IDX).DIMENSION_N = 'N.getContentAsInteger32Scalar()';
+NIG_FUNCTION.VARIABLES(IDX).DIMENSION_M = 'std::max(1, (int)A.getDimensions().getRows())';
+NIG_FUNCTION.VARIABLES(IDX).DIMENSION_N = '(int)A.getDimensions().getRows()';
 
 IDX = length(NIG_FUNCTION.VARIABLES) + 1;
 NIG_FUNCTION.VARIABLES(IDX).NAME = 'LDA';
 NIG_FUNCTION.VARIABLES(IDX).TYPE = 'integer';
 NIG_FUNCTION.VARIABLES(IDX).MODE = 'local';
-NIG_FUNCTION.VARIABLES(IDX).VALUE = 'std::max(1, N.getContentAsInteger32Scalar())';
+NIG_FUNCTION.VARIABLES(IDX).VALUE = 'std::max(1, (int)A.getDimensions().getRows())';
 
 IDX = length(NIG_FUNCTION.VARIABLES) + 1;
 NIG_FUNCTION.VARIABLES(IDX).NAME = 'B';
 NIG_FUNCTION.VARIABLES(IDX).TYPE = 'double_array';
-NIG_FUNCTION.VARIABLES(IDX).MODE = 'in_out';
-NIG_FUNCTION.VARIABLES(IDX).DIMENSION_M = 'std::max(1, N.getContentAsInteger32Scalar())';
-NIG_FUNCTION.VARIABLES(IDX).DIMENSION_N = 'M.getContentAsInteger32Scalar()';
+NIG_FUNCTION.VARIABLES(IDX).MODE = 'input';
 
 IDX = length(NIG_FUNCTION.VARIABLES) + 1;
 NIG_FUNCTION.VARIABLES(IDX).NAME = 'LDB';
 NIG_FUNCTION.VARIABLES(IDX).TYPE = 'integer';
 NIG_FUNCTION.VARIABLES(IDX).MODE = 'local';
-NIG_FUNCTION.VARIABLES(IDX).VALUE = 'std::max(1, N.getContentAsInteger32Scalar())';
+NIG_FUNCTION.VARIABLES(IDX).VALUE = 'std::max(1, (int)B.getDimensions().getRows())';
 
 IDX = length(NIG_FUNCTION.VARIABLES) + 1;
 NIG_FUNCTION.VARIABLES(IDX).NAME = 'WR';
 NIG_FUNCTION.VARIABLES(IDX).TYPE = 'double_array';
 NIG_FUNCTION.VARIABLES(IDX).MODE = 'in_out';
-NIG_FUNCTION.VARIABLES(IDX).DIMENSION_M = '1';
-NIG_FUNCTION.VARIABLES(IDX).DIMENSION_N = 'NP.getContentAsInteger32Scalar()';
 
 IDX = length(NIG_FUNCTION.VARIABLES) + 1;
 NIG_FUNCTION.VARIABLES(IDX).NAME = 'WI';
 NIG_FUNCTION.VARIABLES(IDX).TYPE = 'double_array';
 NIG_FUNCTION.VARIABLES(IDX).MODE = 'in_out';
-NIG_FUNCTION.VARIABLES(IDX).DIMENSION_M = '1';
-NIG_FUNCTION.VARIABLES(IDX).DIMENSION_N = 'NP.getContentAsInteger32Scalar()';
 
 IDX = length(NIG_FUNCTION.VARIABLES) + 1;
 NIG_FUNCTION.VARIABLES(IDX).NAME = 'NFP';
@@ -115,27 +112,27 @@ IDX = length(NIG_FUNCTION.VARIABLES) + 1;
 NIG_FUNCTION.VARIABLES(IDX).NAME = 'F';
 NIG_FUNCTION.VARIABLES(IDX).TYPE = 'double_array';
 NIG_FUNCTION.VARIABLES(IDX).MODE = 'output';
-NIG_FUNCTION.VARIABLES(IDX).DIMENSION_M = 'std::max(1, M.getContentAsInteger32Scalar())';
-NIG_FUNCTION.VARIABLES(IDX).DIMENSION_N = 'N.getContentAsInteger32Scalar()';
+NIG_FUNCTION.VARIABLES(IDX).DIMENSION_M = 'std::max(1, (int)B.getDimensions().getRows())';
+NIG_FUNCTION.VARIABLES(IDX).DIMENSION_N = '(int)A.getDimensions().getRows()';
 
 IDX = length(NIG_FUNCTION.VARIABLES) + 1;
 NIG_FUNCTION.VARIABLES(IDX).NAME = 'LDF';
 NIG_FUNCTION.VARIABLES(IDX).TYPE = 'integer';
 NIG_FUNCTION.VARIABLES(IDX).MODE = 'local';
-NIG_FUNCTION.VARIABLES(IDX).VALUE = 'std::max(1, M.getContentAsInteger32Scalar())';
+NIG_FUNCTION.VARIABLES(IDX).VALUE = 'std::max(1, (int)B.getDimensions().getRows())';
 
 IDX = length(NIG_FUNCTION.VARIABLES) + 1;
 NIG_FUNCTION.VARIABLES(IDX).NAME = 'Z';
 NIG_FUNCTION.VARIABLES(IDX).TYPE = 'double_array';
 NIG_FUNCTION.VARIABLES(IDX).MODE = 'output';
-NIG_FUNCTION.VARIABLES(IDX).DIMENSION_M = 'std::max(1, N.getContentAsInteger32Scalar())';
-NIG_FUNCTION.VARIABLES(IDX).DIMENSION_N = 'N.getContentAsInteger32Scalar()';
+NIG_FUNCTION.VARIABLES(IDX).DIMENSION_M = 'std::max(1, (int)A.getDimensions().getRows())';
+NIG_FUNCTION.VARIABLES(IDX).DIMENSION_N = '(int)A.getDimensions().getRows()';
 
 IDX = length(NIG_FUNCTION.VARIABLES) + 1;
 NIG_FUNCTION.VARIABLES(IDX).NAME = 'LDZ';
 NIG_FUNCTION.VARIABLES(IDX).TYPE = 'integer';
 NIG_FUNCTION.VARIABLES(IDX).MODE = 'local';
-NIG_FUNCTION.VARIABLES(IDX).VALUE = 'std::max(1, N.getContentAsInteger32Scalar())';
+NIG_FUNCTION.VARIABLES(IDX).VALUE = 'std::max(1, (int)A.getDimensions().getRows())';
 
 IDX = length(NIG_FUNCTION.VARIABLES) + 1;
 NIG_FUNCTION.VARIABLES(IDX).NAME = 'TOL';
@@ -147,13 +144,13 @@ NIG_FUNCTION.VARIABLES(IDX).NAME = 'DWORK';
 NIG_FUNCTION.VARIABLES(IDX).TYPE = 'double_array';
 NIG_FUNCTION.VARIABLES(IDX).MODE = 'local';
 NIG_FUNCTION.VARIABLES(IDX).DIMENSION_M = 1;
-NIG_FUNCTION.VARIABLES(IDX).DIMENSION_N = 'std::max(std::max(std::max( 1,5 * M.getContentAsInteger32Scalar()), 5 * N.getContentAsInteger32Scalar()), 2 * N.getContentAsInteger32Scalar() + 4 * M.getContentAsInteger32Scalar())';
+NIG_FUNCTION.VARIABLES(IDX).DIMENSION_N = 'std::max(std::max(std::max( 1, 5 * (int)B.getDimensions().getColumns()), 5 * (int)A.getDimensions().getRows()), 2 * (int)A.getDimensions().getRows() + 4 * (int)B.getDimensions().getColumns() )';
 
 IDX = length(NIG_FUNCTION.VARIABLES) + 1;
 NIG_FUNCTION.VARIABLES(IDX).NAME = 'LDWORK';
 NIG_FUNCTION.VARIABLES(IDX).TYPE = 'integer';
 NIG_FUNCTION.VARIABLES(IDX).MODE = 'local';
-NIG_FUNCTION.VARIABLES(IDX).VALUE = 'std::max(std::max(std::max( 1,5 * M.getContentAsInteger32Scalar()), 5 * N.getContentAsInteger32Scalar()), 2 * N.getContentAsInteger32Scalar() + 4 * M.getContentAsInteger32Scalar())';
+NIG_FUNCTION.VARIABLES(IDX).VALUE = 'std::max(std::max(std::max( 1, 5 * (int)B.getDimensions().getColumns()), 5 * (int)A.getDimensions().getRows()), 2 * (int)A.getDimensions().getRows() + 4 * (int)B.getDimensions().getColumns() )';
 
 IDX = length(NIG_FUNCTION.VARIABLES) + 1;
 NIG_FUNCTION.VARIABLES(IDX).NAME = 'IWARN';

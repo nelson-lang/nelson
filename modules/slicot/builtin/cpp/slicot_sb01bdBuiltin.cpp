@@ -4,12 +4,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 2 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
@@ -25,164 +25,169 @@ using namespace Nelson;
 extern "C"
 {
 #endif
-extern int sb01bd_ ( const char *DICO, int *N, int *M, int *NP, double *ALPHA, double *A, int *LDA, double *B, int *LDB, double *WR, double *WI, int *NFP, int *NAP, int *NUP, double *F, int *LDF, double *Z, int *LDZ, double *TOL, double *DWORK, int *LDWORK, int *IWARN, int *INFO);
+extern int sb01bd_ ( const char *DICO, int *N, int *M, int *NP, double *ALPHA, double *A, int *LDA,const double *B, int *LDB, double *WR, double *WI, int *NFP, int *NAP, int *NUP, double *F, int *LDF, double *Z, int *LDZ, double *TOL, double *DWORK, int *LDWORK, int *IWARN, int *INFO);
 #ifdef __cplusplus
 }
 #endif
 //=============================================================================
-// [A_OUT, B_OUT, WR_OUT, WI_OUT, NFP, NAP, NUP, F, Z, IWARN, INFO] = slicot_sb01bd(DICO, N, M, NP, ALPHA, A_IN, B_IN, WR_IN, WI_IN, TOL)
+// [A_OUT, WR_OUT, WI_OUT, NFP, NAP, NUP, F, Z, IWARN, INFO] = slicot_sb01bd(DICO, ALPHA, A_IN, B, WR_IN, WI_IN, TOL)
 //=============================================================================
 ArrayOfVector Nelson::SlicotGateway::slicot_sb01bdBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 11)
+    if (nLhs > 10)
     {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() != 10)
+    if (argIn.size() != 7)
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-
     // INPUT VARIABLES
-
     ArrayOf DICO = argIn[0];
+    Dimensions dimsDICO = DICO.getDimensions();
+    if (!dimsDICO.isScalar())
+    {
+        Error(eval, _W("Input argument #1: scalar expected."));
+    }
     std::string DICO_string = DICO.getContentAsCString();
     const char* DICO_ptr = DICO_string.c_str();
-    ArrayOf N = argIn[1];
-    N.promoteType(NLS_INT32);
-    int *N_ptr = (int*)N.getDataPointer();
-    ArrayOf M = argIn[2];
-    M.promoteType(NLS_INT32);
-    int *M_ptr = (int*)M.getDataPointer();
-    ArrayOf NP = argIn[3];
-    NP.promoteType(NLS_INT32);
-    int *NP_ptr = (int*)NP.getDataPointer();
-    ArrayOf ALPHA = argIn[4];
+    ArrayOf ALPHA = argIn[1];
+    Dimensions dimsALPHA = ALPHA.getDimensions();
+    if (!dimsALPHA.isScalar())
+    {
+        Error(eval, _W("Input argument #2: scalar expected."));
+    }
     ALPHA.promoteType(NLS_DOUBLE);
     double *ALPHA_ptr = (double*)ALPHA.getDataPointer();
-    ArrayOf TOL = argIn[9];
+    ArrayOf B = argIn[3];
+    Dimensions dimsB = B.getDimensions();
+    B.promoteType(NLS_DOUBLE);
+    double *B_ptr = (double*)B.getDataPointer();
+    ArrayOf TOL = argIn[6];
+    Dimensions dimsTOL = TOL.getDimensions();
+    if (!dimsTOL.isScalar())
+    {
+        Error(eval, _W("Input argument #7: scalar expected."));
+    }
     TOL.promoteType(NLS_DOUBLE);
     double *TOL_ptr = (double*)TOL.getDataPointer();
-
     // IN/OUT VARIABLES
-
-    ArrayOf A = argIn[5];
+    ArrayOf A = argIn[2];
+    Dimensions dimsA = A.getDimensions();
+    Dimensions dimsA_expected(std::max(1, (int)A.getDimensions().getRows()), (int)A.getDimensions().getRows());
+    if (!dimsA.equals(dimsA_expected))
+    {
+        Error(eval, _("Input argument #3: wrong size.") + " " + dimsA_expected.toString() + " " + "expected" + ".");
+    }
     A.promoteType(NLS_DOUBLE);
     ArrayOf A_output = A;
     A_output.ensureSingleOwner();
     double *A_output_ptr = (double*)A_output.getDataPointer();
-    ArrayOf B = argIn[6];
-    B.promoteType(NLS_DOUBLE);
-    ArrayOf B_output = B;
-    B_output.ensureSingleOwner();
-    double *B_output_ptr = (double*)B_output.getDataPointer();
-    ArrayOf WR = argIn[7];
+    ArrayOf WR = argIn[4];
+    Dimensions dimsWR = WR.getDimensions();
     WR.promoteType(NLS_DOUBLE);
     ArrayOf WR_output = WR;
     WR_output.ensureSingleOwner();
     double *WR_output_ptr = (double*)WR_output.getDataPointer();
-    ArrayOf WI = argIn[8];
+    ArrayOf WI = argIn[5];
+    Dimensions dimsWI = WI.getDimensions();
     WI.promoteType(NLS_DOUBLE);
     ArrayOf WI_output = WI;
     WI_output.ensureSingleOwner();
     double *WI_output_ptr = (double*)WI_output.getDataPointer();
-
     // OUTPUT VARIABLES
-
     ArrayOf NFP_output = ArrayOf::int32VectorConstructor(1);
     int *NFP_output_ptr = (int*)NFP_output.getDataPointer();
     ArrayOf NAP_output = ArrayOf::int32VectorConstructor(1);
     int *NAP_output_ptr = (int*)NAP_output.getDataPointer();
     ArrayOf NUP_output = ArrayOf::int32VectorConstructor(1);
     int *NUP_output_ptr = (int*)NUP_output.getDataPointer();
-    ArrayOf F_output = ArrayOf::doubleMatrix2dConstructor((indexType)std::max(1, M.getContentAsInteger32Scalar()), (indexType)N.getContentAsInteger32Scalar());
+    ArrayOf F_output = ArrayOf::doubleMatrix2dConstructor((indexType)std::max(1, (int)B.getDimensions().getRows()), (indexType)(int)A.getDimensions().getRows());
     double *F_output_ptr = (double*)F_output.getDataPointer();
-    ArrayOf Z_output = ArrayOf::doubleMatrix2dConstructor((indexType)std::max(1, N.getContentAsInteger32Scalar()), (indexType)N.getContentAsInteger32Scalar());
+    ArrayOf Z_output = ArrayOf::doubleMatrix2dConstructor((indexType)std::max(1, (int)A.getDimensions().getRows()), (indexType)(int)A.getDimensions().getRows());
     double *Z_output_ptr = (double*)Z_output.getDataPointer();
     ArrayOf IWARN_output = ArrayOf::int32VectorConstructor(1);
     int *IWARN_output_ptr = (int*)IWARN_output.getDataPointer();
     ArrayOf INFO_output = ArrayOf::int32VectorConstructor(1);
     int *INFO_output_ptr = (int*)INFO_output.getDataPointer();
-
     // LOCAL VARIABLES
-
+    ArrayOf N_local = ArrayOf::int32VectorConstructor(1);
+    int* N_local_ptr = (int*)N_local.getDataPointer();
+    N_local_ptr[0] = (int)A.getDimensions().getRows();
+    ArrayOf M_local = ArrayOf::int32VectorConstructor(1);
+    int* M_local_ptr = (int*)M_local.getDataPointer();
+    M_local_ptr[0] = (int)B.getDimensions().getColumns();
+    ArrayOf NP_local = ArrayOf::int32VectorConstructor(1);
+    int* NP_local_ptr = (int*)NP_local.getDataPointer();
+    NP_local_ptr[0] = (int)WR.getDimensions().getRows();
     ArrayOf LDA_local = ArrayOf::int32VectorConstructor(1);
     int* LDA_local_ptr = (int*)LDA_local.getDataPointer();
-    LDA_local_ptr[0] = std::max(1, N.getContentAsInteger32Scalar());
+    LDA_local_ptr[0] = std::max(1, (int)A.getDimensions().getRows());
     ArrayOf LDB_local = ArrayOf::int32VectorConstructor(1);
     int* LDB_local_ptr = (int*)LDB_local.getDataPointer();
-    LDB_local_ptr[0] = std::max(1, N.getContentAsInteger32Scalar());
+    LDB_local_ptr[0] = std::max(1, (int)B.getDimensions().getRows());
     ArrayOf LDF_local = ArrayOf::int32VectorConstructor(1);
     int* LDF_local_ptr = (int*)LDF_local.getDataPointer();
-    LDF_local_ptr[0] = std::max(1, M.getContentAsInteger32Scalar());
+    LDF_local_ptr[0] = std::max(1, (int)B.getDimensions().getRows());
     ArrayOf LDZ_local = ArrayOf::int32VectorConstructor(1);
     int* LDZ_local_ptr = (int*)LDZ_local.getDataPointer();
-    LDZ_local_ptr[0] = std::max(1, N.getContentAsInteger32Scalar());
-    ArrayOf DWORK_local = ArrayOf::doubleMatrix2dConstructor(1 , std::max(std::max(std::max( 1,5 * M.getContentAsInteger32Scalar()), 5 * N.getContentAsInteger32Scalar()), 2 * N.getContentAsInteger32Scalar() + 4 * M.getContentAsInteger32Scalar()));
+    LDZ_local_ptr[0] = std::max(1, (int)A.getDimensions().getRows());
+    ArrayOf DWORK_local = ArrayOf::doubleMatrix2dConstructor(1 , std::max(std::max(std::max( 1, 5 * (int)B.getDimensions().getColumns()), 5 * (int)A.getDimensions().getRows()), 2 * (int)A.getDimensions().getRows() + 4 * (int)B.getDimensions().getColumns() ));
     double * DWORK_local_ptr = (double*)DWORK_local.getDataPointer();
     ArrayOf LDWORK_local = ArrayOf::int32VectorConstructor(1);
     int* LDWORK_local_ptr = (int*)LDWORK_local.getDataPointer();
-    LDWORK_local_ptr[0] = std::max(std::max(std::max( 1,5 * M.getContentAsInteger32Scalar()), 5 * N.getContentAsInteger32Scalar()), 2 * N.getContentAsInteger32Scalar() + 4 * M.getContentAsInteger32Scalar());
-
+    LDWORK_local_ptr[0] = std::max(std::max(std::max( 1, 5 * (int)B.getDimensions().getColumns()), 5 * (int)A.getDimensions().getRows()), 2 * (int)A.getDimensions().getRows() + 4 * (int)B.getDimensions().getColumns() );
     // CALL EXTERN FUNCTION
-
     try
     {
-        sb01bd_ ( DICO_ptr, N_ptr, M_ptr, NP_ptr, ALPHA_ptr, A_output_ptr, LDA_local_ptr, B_output_ptr, LDB_local_ptr, WR_output_ptr, WI_output_ptr, NFP_output_ptr, NAP_output_ptr, NUP_output_ptr, F_output_ptr, LDF_local_ptr, Z_output_ptr, LDZ_local_ptr, TOL_ptr, DWORK_local_ptr, LDWORK_local_ptr, IWARN_output_ptr, INFO_output_ptr);
+        sb01bd_ ( DICO_ptr, N_local_ptr, M_local_ptr, NP_local_ptr, ALPHA_ptr, A_output_ptr, LDA_local_ptr, B_ptr, LDB_local_ptr, WR_output_ptr, WI_output_ptr, NFP_output_ptr, NAP_output_ptr, NUP_output_ptr, F_output_ptr, LDF_local_ptr, Z_output_ptr, LDZ_local_ptr, TOL_ptr, DWORK_local_ptr, LDWORK_local_ptr, IWARN_output_ptr, INFO_output_ptr);
     }
     catch (std::runtime_error &e)
     {
         Error(eval, "sb01bd function fails.");
     }
-
     // ASSIGN OUTPUT VARIABLES
-
     if (nLhs > 0)
     {
         retval.push_back(A_output);
     }
     if (nLhs > 1)
     {
-        retval.push_back(B_output);
+        retval.push_back(WR_output);
     }
     if (nLhs > 2)
     {
-        retval.push_back(WR_output);
+        retval.push_back(WI_output);
     }
     if (nLhs > 3)
     {
-        retval.push_back(WI_output);
+        retval.push_back(NFP_output);
     }
     if (nLhs > 4)
     {
-        retval.push_back(NFP_output);
+        retval.push_back(NAP_output);
     }
     if (nLhs > 5)
     {
-        retval.push_back(NAP_output);
+        retval.push_back(NUP_output);
     }
     if (nLhs > 6)
     {
-        retval.push_back(NUP_output);
+        retval.push_back(F_output);
     }
     if (nLhs > 7)
     {
-        retval.push_back(F_output);
+        retval.push_back(Z_output);
     }
     if (nLhs > 8)
     {
-        retval.push_back(Z_output);
+        retval.push_back(IWARN_output);
     }
     if (nLhs > 9)
     {
-        retval.push_back(IWARN_output);
-    }
-    if (nLhs > 10)
-    {
         retval.push_back(INFO_output);
     }
-
     return retval;
 }
 //=============================================================================

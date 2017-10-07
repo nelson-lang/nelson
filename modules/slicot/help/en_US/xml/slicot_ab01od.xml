@@ -124,7 +124,7 @@ B_IN = [   -1.0   -4.0;
    16.0   25.0;
   -25.0  -36.0];
   
-U_IN = N;
+U_IN = zeros(N, N);
 INDCON_IN = N;
 NCONT_IN = 1;
 KSTAIR_IN = zeros(1,N);
