@@ -290,8 +290,9 @@ namespace Nelson {
         return retval;
     }
 
-    void Dimensions::printMe(Interface*io) const
+    std::string Dimensions::toString() const
     {
+        std::string txt = "";
         strcpy(msgBuffer, "");
         char buf[400];
         if (length > 0)
@@ -314,25 +315,14 @@ namespace Nelson {
             sprintf(buf, "%d", data[length - 1]);
             strcat(msgBuffer, buf);
         }
-        io->outputMessage(msgBuffer);
-        /*
-        snprintf(msgBuffer,MSGBUFLEN,"[");
-        io->outputMessage(msgBuffer);
-        for (int i=0; i<length-1; i++)
-        {
-            snprintf(msgBuffer,MSGBUFLEN,"%d ",data[i]);
-            io->outputMessage(msgBuffer);
-        }
-        if (length >= 1)
-        {
-            snprintf(msgBuffer,MSGBUFLEN,"%d]",data[length-1]);
-        }
-        else
-        {
-            snprintf(msgBuffer,MSGBUFLEN,"]");
-        }
-        io->outputMessage(msgBuffer);
-        */
+        txt = msgBuffer;
+        return txt;
+    }
+
+    void Dimensions::printMe(Interface*io) const
+    {
+        std::string txt = toString();
+        io->outputMessage(txt);
     }
 
     void Dimensions::reset()

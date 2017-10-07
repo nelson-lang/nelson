@@ -177,6 +177,13 @@ namespace Nelson {
          * called.
          */
         void simplify();
+
+        /**
+        * Print in a string some representation of this object as a row vector, i.e.,
+        * $$[a_1 a_2 \ldots a_n]$$.
+        */
+        std::string toString() const;
+
         /**
          * Print some representation of this object as a row vector, i.e.,
          * $$[a_1 a_2 \ldots a_n]$$.
