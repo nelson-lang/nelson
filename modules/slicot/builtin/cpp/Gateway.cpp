@@ -21,6 +21,7 @@
 #include "slicot_ab04mdBuiltin.hpp"
 #include "slicot_ab08ndBuiltin.hpp"
 #include "slicot_sb01bdBuiltin.hpp"
+#include "slicot_sb03odBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -32,6 +33,7 @@ static const nlsGateway gateway[] =
     { "slicot_ab04md", Nelson::SlicotGateway::slicot_ab04mdBuiltin, 5, 7},
     { "slicot_ab08nd", Nelson::SlicotGateway::slicot_ab08ndBuiltin, 11, 9},
     { "slicot_sb01bd", Nelson::SlicotGateway::slicot_sb01bdBuiltin, 10, 7},
+    { "slicot_sb03od", Nelson::SlicotGateway::slicot_sb03odBuiltin, 6, 6},
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

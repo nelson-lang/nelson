@@ -1,0 +1,96 @@
+//=============================================================================
+// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+// http://slicot.org/objects/software/shared/doc/SB03OD.html
+// [Q_OUT, B_OUT, SCALE, WR, WI, INFO] = slicot_sb03od(DICO, FACT, TRANS, A, Q_IN, B_IN)
+assert_isequal(nargin('slicot_sb03od'), 6);
+assert_isequal(nargout('slicot_sb03od'), 6);
+//=============================================================================
+DICO = 'C';
+FACT = 'N';
+TRANS = 'N';
+A = [  -1.0  37.0 -12.0 -12.0;
+  -1.0 -10.0   0.0   4.0;
+   2.0  -4.0   7.0  -6.0;
+   2.0   2.0   7.0  -9.0];
+B_IN = [ 1.0   2.5   1.0   3.5;
+   0.0   1.0   0.0   1.0;
+  -1.0  -2.5  -1.0  -1.5;
+   1.0   2.5   4.0  -5.5;
+  -1.0  -2.5  -4.0   3.5];
+Q_IN = zeros(4, 4);
+[Q_OUT, B_OUT, SCALE, WR, WI, INFO] = slicot_sb03od(DICO, FACT, TRANS, A, Q_IN, B_IN);
+//=============================================================================
+Q_OUT_REF = [0.9611      0.1784      0.2064     -0.0440;
+     -0.1468     -0.2704      0.8116     -0.4965;
+     -0.2224      0.7675      0.4555      0.3924;
+     -0.0733      0.5531     -0.3018     -0.7730];
+assert_isapprox(Q_OUT, Q_OUT_REF, 1e-4);
+//=============================================================================
+B_OUT_REF = [1.0000      3.0000      2.0000     -1.0000;
+      0.0000      1.0000     -1.0000      1.0000;
+      0.0000      0.0000      1.0000     -2.0000;
+      0.0000      0.0000      0.0000      1.0000;
+     -0.3333     -0.0000     -0.5000     -0.0000];
+assert_isapprox(B_OUT, B_OUT_REF, 1e-4);
+//=============================================================================
+SCALE_REF = 1;
+assert_isequal(SCALE, SCALE_REF);
+//=============================================================================
+WR_REF = [-3.1300     -3.1300     -3.3700     -3.3700];
+assert_isapprox(WR, WR_REF, 1e-4);
+//=============================================================================
+WI_REF = [4.9033     -4.9033      0.7818     -0.7818];
+assert_isapprox(WI, WI_REF, 1e-4);
+//=============================================================================
+INFO_REF = int32(0);
+assert_isequal(INFO, INFO_REF);
+//=============================================================================
+A = [-0.5000    0.5000         0;
+         0         0         0;
+   -0.5000         0    0.5000];
+B_IN = [0.5000    1.5000    1.0000;
+    1.0000    1.0000    1.0000;
+    0.5000    1.0000    1.5000];
+DICO = 'D';
+FACT = 'N';
+Q_IN = zeros(3, 3);
+[Q_OUT, B_OUT, SCALE, WR, WI, INFO] = slicot_sb03od(DICO, FACT, TRANS, A, Q_IN, B_IN)
+//=============================================================================
+Q_OUT_REF = [0     1     0;
+     0     0     1;
+     1     0     0];
+assert_isapprox(Q_OUT, Q_OUT_REF, 1e-4);
+//=============================================================================
+B_OUT_REF = [2.0817      0.4804      0.3203;
+      0.0000      2.2589      1.7765;
+      0.0000      0.0000      1.5519];
+assert_isapprox(B_OUT, B_OUT_REF, 1e-4);
+//=============================================================================
+SCALE_REF = 1;
+assert_isequal(SCALE, SCALE_REF);
+//=============================================================================
+WR_REF = [0.5000     -0.5000      0.0000];
+assert_isapprox(WR, WR_REF, 1e-4);
+//=============================================================================
+WI_REF = [0     0     0];
+assert_isapprox(WI, WI_REF, 1e-4);
+//=============================================================================
+INFO_REF = int32(0);
+assert_isequal(INFO, INFO_REF);
+//=============================================================================
