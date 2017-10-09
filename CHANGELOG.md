@@ -2,17 +2,16 @@
 Features:
 ---------
 
-* slicot_sb01bd: Pole assignment for a given matrix pair (A,B).
+* SLICOT module:
+  * SLICOT (Subroutine Library in Systems and Control Theory) builtin generated with NIG
 
-* slicot_ab01od: Staircase form for multi-input systems using orthogonal state and input transformations.
-
-* slicot_ab08nd: Construction of a regular pencil for a given system such that its generalized eigenvalues are invariant zeros of the system.
-
-* slicot_ab04md: Discrete-time / continuous-time systems conversion by a bilinear transformation.
+  * slicot_sb03od: Solution of stable continuous- or discrete-time Lyapunov equations (Cholesky factor).
+  * slicot_sb01bd: Pole assignment for a given matrix pair (A,B).
+  * slicot_ab01od: Staircase form for multi-input systems using orthogonal state and input transformations.
+  * slicot_ab08nd: Construction of a regular pencil for a given system such that its generalized eigenvalues are invariant zeros of the system.
+  * slicot_ab04md: Discrete-time / continuous-time systems conversion by a bilinear transformation.
 
 * Nelson Interface Generator (NIG) allows to generate Nelson builtin from C/Fortran code.
-
-* SLICOT (Subroutine Library in Systems and Control Theory) builtin generated with NIG
 
 * add 'isfield' function to check existence of a fieldname in a struct.
 
