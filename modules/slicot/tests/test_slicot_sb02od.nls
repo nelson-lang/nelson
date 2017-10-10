@@ -16,28 +16,30 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-
-// Nelson Interface Generator (NIG) 
-
-run('nig_ab01od.nls')
-NIG_FUNCTIONS =  [NIG_FUNCTION];
-
-run('nig_ab04md.nls')
-NIG_FUNCTIONS =  [NIG_FUNCTIONS, NIG_FUNCTION];
-
-run('nig_ab08nd.nls')
-NIG_FUNCTIONS =  [NIG_FUNCTIONS, NIG_FUNCTION];
-
-run('nig_sb01bd.nls')
-NIG_FUNCTIONS =  [NIG_FUNCTIONS, NIG_FUNCTION];
-
-run('nig_sb03od.nls')
-NIG_FUNCTIONS =  [NIG_FUNCTIONS, NIG_FUNCTION];
-
-run('nig_sb03md.nls')
-NIG_FUNCTIONS =  [NIG_FUNCTIONS, NIG_FUNCTION];
-
-run('nig_sb02od.nls')
-NIG_FUNCTIONS =  [NIG_FUNCTIONS, NIG_FUNCTION];
-
-nig(NIG_FUNCTIONS, modulepath('slicot'))
+// http://slicot.org/objects/software/shared/doc/SB02OD.html
+// [RCOND, X, ALFAR, ALFAI, BETA, S, T, U, INFO] = slicot_sb02od(DICO, JOBB, FACT, UPLO, JOBL, SORT, P, A, B, Q, R, L, TOL)
+assert_isequal(nargin('slicot_sb02od'), 13);
+assert_isequal(nargout('slicot_sb02od'), 9);
+//=============================================================================
+N = 2;
+M = 1;
+P = 3;
+TOL = 0.0;
+DICO = 'C';
+JOBB = 'B';
+FACT = 'B';
+UPLO = 'U';
+JOBL = 'Z';
+SORT = 'S';
+A = [0.0  1.0;
+   0.0  0.0];
+B = [0.0;
+   1.0];
+Q = [1.0  0.0;
+   0.0  1.0;
+   0.0  0.0];
+R = [0.0;
+   0.0;
+   1.0];
+L = zeros(N, M);
+[RCOND, X, ALFAR, ALFAI, BETA, S, T, U, INFO] = slicot_sb02od(DICO, JOBB, FACT, UPLO, JOBL, SORT, P, A, B, Q, R, L, TOL)

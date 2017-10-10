@@ -193,6 +193,7 @@
     <ClCompile Include="..\cpp\slicot_ab04mdBuiltin.cpp" />
     <ClCompile Include="..\cpp\slicot_ab08ndBuiltin.cpp" />
     <ClCompile Include="..\cpp\slicot_sb01bdBuiltin.cpp" />
+    <ClCompile Include="..\cpp\slicot_sb02odBuiltin.cpp" />
     <ClCompile Include="..\cpp\slicot_sb03mdBuiltin.cpp" />
     <ClCompile Include="..\cpp\slicot_sb03odBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
