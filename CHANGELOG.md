@@ -5,6 +5,7 @@ Features:
 * SLICOT module:
   * SLICOT (Subroutine Library in Systems and Control Theory) builtin generated with NIG.
 
+  * slicot_sb02od: Solution of continuous- or discrete-time algebraic Riccati equations (generalized Schur vectors method).
   * slicot_sb03md: Solution of continuous- or discrete-time Lyapunov equations and separation estimation.
   * slicot_sb03od: Solution of stable continuous- or discrete-time Lyapunov equations (Cholesky factor).
   * slicot_sb01bd: Pole assignment for a given matrix pair (A,B).
