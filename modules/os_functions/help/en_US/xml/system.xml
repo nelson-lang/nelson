@@ -4,12 +4,21 @@
 
   <language>en_US</language>
   <keyword>system</keyword>
+  <keyword>dos</keyword>
+  <keyword>unix</keyword>
+
   <short_description>Shell command execution.</short_description>
 
   <syntax>
     <syntax_item>status = system(command)</syntax_item>
+    <syntax_item>status = dos(command)</syntax_item>
+    <syntax_item>status = unix(command)</syntax_item>
     <syntax_item>[status, output] = system(command)</syntax_item>
+    <syntax_item>[status, output] = dos(command)</syntax_item>
+    <syntax_item>[status, output] = unix(command)</syntax_item>
     <syntax_item>[status, output] = system(command, '-echo')</syntax_item>
+    <syntax_item>[status, output] = dos(command, '-echo')</syntax_item>
+    <syntax_item>[status, output] = unix(command, '-echo')</syntax_item>
   </syntax>
 
   <param_input>
