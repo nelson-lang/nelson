@@ -36,7 +36,9 @@ Bug Fixes:
 ---------
 
   [#74](http://github.com/Nelson-numerical-software/nelson/issues/74): A=[]; A(end + 1) = 8 failed.
+
   [#71](http://github.com/Nelson-numerical-software/nelson/issues/71): unix & dos did not have help files.
+
   [#68](http://github.com/Nelson-numerical-software/nelson/issues/68): display of nd array of integer were not defined.
 
 
