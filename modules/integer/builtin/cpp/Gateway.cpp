@@ -18,21 +18,13 @@
 //=============================================================================
 #include "NelsonGateway.hpp"
 #include "int8Builtin.hpp"
-#include "int8_dispBuiltin.hpp"
 #include "int16Builtin.hpp"
-#include "int16_dispBuiltin.hpp"
 #include "int32Builtin.hpp"
-#include "int32_dispBuiltin.hpp"
 #include "int64Builtin.hpp"
-#include "int64_dispBuiltin.hpp"
 #include "uint8Builtin.hpp"
-#include "uint8_dispBuiltin.hpp"
 #include "uint16Builtin.hpp"
-#include "uint16_dispBuiltin.hpp"
 #include "uint32Builtin.hpp"
-#include "uint32_dispBuiltin.hpp"
 #include "uint64Builtin.hpp"
-#include "uint64_dispBuiltin.hpp"
 #include "int8_uminusBuiltin.hpp"
 #include "int16_uminusBuiltin.hpp"
 #include "int32_uminusBuiltin.hpp"
@@ -49,6 +41,7 @@
 #include "ndarrayinteger_isequalBuiltin.hpp"
 #include "intmaxBuiltin.hpp"
 #include "intminBuiltin.hpp"
+#include "integer_dispBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -57,21 +50,13 @@ const std::wstring gatewayName = L"integer";
 static const nlsGateway gateway[] =
 {
     { "int8", Nelson::IntegerGateway::int8Builtin, 1, 1 },
-    { "int8_disp", Nelson::IntegerGateway::int8_dispBuiltin, 0, 1 },
     { "int16", Nelson::IntegerGateway::int16Builtin, 1, 1 },
-    { "int16_disp", Nelson::IntegerGateway::int16_dispBuiltin, 0, 1 },
     { "int32", Nelson::IntegerGateway::int32Builtin, 1, 1 },
-    { "int32_disp", Nelson::IntegerGateway::int32_dispBuiltin, 0, 1 },
     { "int64", Nelson::IntegerGateway::int64Builtin, 1, 1 },
-    { "int64_disp", Nelson::IntegerGateway::int64_dispBuiltin, 0, 1 },
     { "uint8", Nelson::IntegerGateway::uint8Builtin, 1, 1 },
-    { "uint8_disp", Nelson::IntegerGateway::uint8_dispBuiltin, 0, 1 },
     { "uint16", Nelson::IntegerGateway::uint16Builtin, 1, 1 },
-    { "uint16_disp", Nelson::IntegerGateway::uint16_dispBuiltin, 0, 1 },
     { "uint32", Nelson::IntegerGateway::uint32Builtin, 1, 1 },
-    { "uint32_disp", Nelson::IntegerGateway::uint32_dispBuiltin, 0, 1 },
     { "uint64", Nelson::IntegerGateway::uint64Builtin, 1, 1 },
-    { "uint64_disp", Nelson::IntegerGateway::uint64_dispBuiltin, 0, 1 },
     { "int8_uminus", Nelson::IntegerGateway::int8_uminusBuiltin, 1, 1 },
     { "int16_uminus", Nelson::IntegerGateway::int16_uminusBuiltin, 1, 1 },
     { "int32_uminus", Nelson::IntegerGateway::int32_uminusBuiltin, 1, 1 },
@@ -146,6 +131,22 @@ static const nlsGateway gateway[] =
     { "ndarrayuint64_isequaln", Nelson::IntegerGateway::ndarrayuint64_isequalBuiltin, 1, 2 },
     { "intmax", Nelson::IntegerGateway::intmaxBuiltin, -1, -1 },
     { "intmin", Nelson::IntegerGateway::intminBuiltin, -1, -1 },
+	{ "int8_disp", Nelson::IntegerGateway::integer_dispBuiltin, 0, 1 },
+	{ "int16_disp", Nelson::IntegerGateway::integer_dispBuiltin, 0, 1 },
+	{ "int32_disp", Nelson::IntegerGateway::integer_dispBuiltin, 0, 1 },
+	{ "int64_disp", Nelson::IntegerGateway::integer_dispBuiltin, 0, 1 },
+	{ "uint8_disp", Nelson::IntegerGateway::integer_dispBuiltin, 0, 1 },
+	{ "uint16_disp", Nelson::IntegerGateway::integer_dispBuiltin, 0, 1 },
+	{ "uint32_disp", Nelson::IntegerGateway::integer_dispBuiltin, 0, 1 },
+	{ "uint64_disp", Nelson::IntegerGateway::integer_dispBuiltin, 0, 1 },
+	{ "ndarrayint8_disp", Nelson::IntegerGateway::integer_dispBuiltin, 0, 1 },
+	{ "ndarrayint16_disp", Nelson::IntegerGateway::integer_dispBuiltin, 0, 1 },
+	{ "ndarrayint32_disp", Nelson::IntegerGateway::integer_dispBuiltin, 0, 1 },
+	{ "ndarrayint64_disp", Nelson::IntegerGateway::integer_dispBuiltin, 0, 1 },
+	{ "ndarrayuint8_disp", Nelson::IntegerGateway::integer_dispBuiltin, 0, 1 },
+	{ "ndarrayuint16_disp", Nelson::IntegerGateway::integer_dispBuiltin, 0, 1 },
+	{ "ndarrayuint32_disp", Nelson::IntegerGateway::integer_dispBuiltin, 0, 1 },
+	{ "ndarrayuint64_disp", Nelson::IntegerGateway::integer_dispBuiltin, 0, 1 },
 
 };
 //=============================================================================

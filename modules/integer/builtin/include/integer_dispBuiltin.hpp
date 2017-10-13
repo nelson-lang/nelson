@@ -23,7 +23,7 @@
 //=============================================================================
 namespace Nelson {
     namespace IntegerGateway {
-        ArrayOfVector int16_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+        ArrayOfVector integer_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
     }
 }
 //=============================================================================

@@ -165,18 +165,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\int16Builtin.cpp" />
-    <ClCompile Include="..\cpp\int16_dispBuiltin.cpp" />
     <ClCompile Include="..\cpp\int16_uminusBuiltin.cpp" />
     <ClCompile Include="..\cpp\int32Builtin.cpp" />
-    <ClCompile Include="..\cpp\int32_dispBuiltin.cpp" />
     <ClCompile Include="..\cpp\int32_uminusBuiltin.cpp" />
     <ClCompile Include="..\cpp\int64Builtin.cpp" />
-    <ClCompile Include="..\cpp\int64_dispBuiltin.cpp" />
     <ClCompile Include="..\cpp\int64_uminusBuiltin.cpp" />
-    <ClCompile Include="..\cpp\int8_dispBuiltin.cpp" />
     <ClCompile Include="..\cpp\int8Builtin.cpp" />
     <ClCompile Include="..\cpp\int8_uminusBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
+    <ClCompile Include="..\cpp\integer_dispBuiltin.cpp" />
     <ClCompile Include="..\cpp\integer_horzcat_integerBuiltin.cpp" />
     <ClCompile Include="..\cpp\integer_isequalBuiltin.cpp" />
     <ClCompile Include="..\cpp\integer_vertcat_integerBuiltin.cpp" />
@@ -186,16 +183,12 @@
     <ClCompile Include="..\cpp\ndarrayinteger_isequalBuiltin.cpp" />
     <ClCompile Include="..\cpp\ndarrayinteger_vertcat_ndarrayintegerBuiltin.cpp" />
     <ClCompile Include="..\cpp\uint16Builtin.cpp" />
-    <ClCompile Include="..\cpp\uint16_dispBuiltin.cpp" />
     <ClCompile Include="..\cpp\uint16_uminusBuiltin.cpp" />
     <ClCompile Include="..\cpp\uint32Builtin.cpp" />
-    <ClCompile Include="..\cpp\uint32_dispBuiltin.cpp" />
     <ClCompile Include="..\cpp\uint32_uminusBuiltin.cpp" />
     <ClCompile Include="..\cpp\uint64Builtin.cpp" />
-    <ClCompile Include="..\cpp\uint64_dispBuiltin.cpp" />
     <ClCompile Include="..\cpp\uint64_uminusBuiltin.cpp" />
     <ClCompile Include="..\cpp\uint8Builtin.cpp" />
-    <ClCompile Include="..\cpp\uint8_dispBuiltin.cpp" />
     <ClCompile Include="..\cpp\uint8_uminusBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
@@ -224,17 +217,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\int16Builtin.hpp" />
-    <ClInclude Include="..\include\int16_dispBuiltin.hpp" />
     <ClInclude Include="..\include\int16_uminusBuiltin.hpp" />
     <ClInclude Include="..\include\int32Builtin.hpp" />
-    <ClInclude Include="..\include\int32_dispBuiltin.hpp" />
     <ClInclude Include="..\include\int32_uminusBuiltin.hpp" />
     <ClInclude Include="..\include\int64Builtin.hpp" />
-    <ClInclude Include="..\include\int64_dispBuiltin.hpp" />
     <ClInclude Include="..\include\int64_uminusBuiltin.hpp" />
     <ClInclude Include="..\include\int8Builtin.hpp" />
-    <ClInclude Include="..\include\int8_dispBuiltin.hpp" />
     <ClInclude Include="..\include\int8_uminusBuiltin.hpp" />
+    <ClInclude Include="..\include\integer_dispBuiltin.hpp" />
     <ClInclude Include="..\include\integer_horzcat_integerBuiltin.hpp" />
     <ClInclude Include="..\include\integer_isequalBuiltin.hpp" />
     <ClInclude Include="..\include\integer_vertcat_integerBuiltin.hpp" />
@@ -245,16 +235,12 @@
     <ClInclude Include="..\include\ndarrayinteger_vertcat_ndarrayintegerBuiltin.hpp" />
     <ClInclude Include="..\include\nlsInteger_builtin_exports.h" />
     <ClInclude Include="..\include\uint16Builtin.hpp" />
-    <ClInclude Include="..\include\uint16_dispBuiltin.hpp" />
     <ClInclude Include="..\include\uint16_uminusBuiltin.hpp" />
     <ClInclude Include="..\include\uint32Builtin.hpp" />
-    <ClInclude Include="..\include\uint32_dispBuiltin.hpp" />
     <ClInclude Include="..\include\uint32_uminusBuiltin.hpp" />
     <ClInclude Include="..\include\uint64Builtin.hpp" />
-    <ClInclude Include="..\include\uint64_dispBuiltin.hpp" />
     <ClInclude Include="..\include\uint64_uminusBuiltin.hpp" />
     <ClInclude Include="..\include\uint8Builtin.hpp" />
-    <ClInclude Include="..\include\uint8_dispBuiltin.hpp" />
     <ClInclude Include="..\include\uint8_uminusBuiltin.hpp" />
   </ItemGroup>
   <ItemGroup>
