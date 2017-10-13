@@ -28,9 +28,6 @@ function nig(varargin)
   if ~isdir(NIG_DESTINATION)
     error('wrong ...');
   end
-  // if ~nig_check_struct_function(NIG_FUNCTIONS)
-  //  error('wrong ...');
-  // end
 
   have_module_subdirectories =  isdir([NIG_DESTINATION, '/builtin/cpp']) & isdir([NIG_DESTINATION, '/builtin/include']);
   len = length(NIG_FUNCTIONS);

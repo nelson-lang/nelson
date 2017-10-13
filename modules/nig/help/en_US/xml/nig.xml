@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+
+  <language>en_US</language>
+  <keyword>nig</keyword>
+  <short_description>Nelson tool to interface C or Fortran functions with Nelson.</short_description>
+
+  <syntax>
+    <syntax_item>nig(NIG_FUNCTIONS, DESTINATION_DIR)</syntax_item>
+  </syntax>
+  
+  <param_input>
+    <param_input_item>
+      <param_name>NIG_FUNCTIONS</param_name>
+      <param_description>structure : functions definition</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>DESTINATION_DIR</param_name>
+      <param_description>string: a valid path (destination)</param_description>
+    </param_input_item>
+  </param_input>
+
+
+  <description>
+    <p>With <b>nig</b>, you can wrap your C/FORTRAN code into a same set, called an gateway, and use them in Nelson as Nelson builtin.</p>
+  </description>
+
+<examples>
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description>NIG_FUNCTION description</example_item_description>
+    <example_item_data><![CDATA[// Nelson Interface Generator (NIG) example
+
+NIG_FUNCTION = struct();
+NIG_FUNCTION.NELSON_NAME = 'example_nig_sum';
+NIG_FUNCTION.NELSON_NAMESPACE = 'Example'; // optional
+NIG_FUNCTION.MODULE_NAME = 'example';
+NIG_FUNCTION.SYMBOL = 'sum';
+NIG_FUNCTION.LANGUAGE = 'fortran';
+
+NIG_FUNCTION.VARIABLES = struct([]);
+IDX = length(NIG_FUNCTION.VARIABLES) + 1;
+NIG_FUNCTION.VARIABLES(IDX).NAME = 'A';
+NIG_FUNCTION.VARIABLES(IDX).TYPE = 'integer';
+NIG_FUNCTION.VARIABLES(IDX).MODE = 'input';
+
+IDX = length(NIG_FUNCTION.VARIABLES) + 1;
+NIG_FUNCTION.VARIABLES(IDX).NAME = 'B';
+NIG_FUNCTION.VARIABLES(IDX).TYPE = 'integer';
+NIG_FUNCTION.VARIABLES(IDX).MODE = 'input';
+
+IDX = length(NIG_FUNCTION.VARIABLES) + 1;
+NIG_FUNCTION.VARIABLES(IDX).NAME = 'OUTPUT';
+NIG_FUNCTION.VARIABLES(IDX).TYPE = 'integer';
+NIG_FUNCTION.VARIABLES(IDX).MODE = 'output';]]>
+    </example_item_data>
+  </example_item>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description></example_item_description>
+    <example_item_data><![CDATA[nig(NIG_FUNCTION, tempdir())
+fileread([tempdir(),'/Gateway.cpp'])
+fileread([tempdir(),'/example_nig_sumBuiltin.hpp'])
+fileread([tempdir(),'/example_nig_sumBuiltin.cpp'])]]]>
+    </example_item_data>
+  </example_item>
+</examples>
+
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>
+
+
