@@ -8,7 +8,7 @@
 
   <syntax>
     <syntax_item>rmdir(dirname)</syntax_item>
-    <syntax_item>rmdir(dirname, '-s')</syntax_item>
+    <syntax_item>rmdir(dirname, 's')</syntax_item>
     <syntax_item>res = rmdir(dirname)</syntax_item>
     <syntax_item>res = rmdir(dirname, 's')</syntax_item>
     <syntax_item>[res, msg] = rmdir(dirname)</syntax_item>
