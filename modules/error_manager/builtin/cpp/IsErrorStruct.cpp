@@ -81,7 +81,9 @@ namespace Nelson {
         {
             return false;
         }
-        if (!stack.isEmpty())
+		message = msgArray.getContentAsWideString();
+		identifier = idArray.getContentAsWideString();
+		if (!stack.isEmpty())
         {
             ArrayOf fileArray = stack.getField("file");
             ArrayOf nameArray = stack.getField("name");
@@ -98,8 +100,6 @@ namespace Nelson {
             {
                 return false;
             }
-            message = msgArray.getContentAsWideString();
-            identifier = idArray.getContentAsWideString();
             filename = fileArray.getContentAsWideString();
             name = nameArray.getContentAsWideString();
             if (!lineArray.isEmpty())

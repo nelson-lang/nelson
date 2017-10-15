@@ -41,6 +41,8 @@ Bug Fixes:
 
   [#68](http://github.com/Nelson-numerical-software/nelson/issues/68): display of nd array of integer were not defined.
 
+  [#14](http://github.com/Nelson-numerical-software/nelson/issues/14): error(error_struct) throws an error using the fields of error_struct.
+
 
 Compilation:
 ---------

@@ -1,64 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
 
-	<language>en_US</language>
-	<keyword>error</keyword>
-	<short_description>Raise an error message.</short_description>
+  <language>en_US</language>
+  <keyword>error</keyword>
+  <short_description>Raise an error message.</short_description>
 
-	<syntax>
-		<syntax_item>error(msg)</syntax_item>
-	</syntax>
+  <syntax>
+    <syntax_item>error(msg)</syntax_item>
+    <syntax_item>error(error_structure)</syntax_item>
+  </syntax>
 
-	<param_output>
-		<param_output_item>
-			<param_name>msg</param_name>
-			<param_description>a string.</param_description>
-		</param_output_item>
-	</param_output>
+  <param_input>
+    <param_input_item>
+      <param_name>msg</param_name>
+      <param_description>a string.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>error_structure</param_name>
+      <param_description>error message structure.</param_description>
+    </param_input_item>
 
-	<description>
-		<p><b>error</b> stops the current script execution.</p>
-		<p><b>error('')</b> will be ignored and the script will continue to run.</p>
+  </param_input>
 
-	</description>
+  <description>
+    <p><b>error</b> stops the current script execution.</p>
+    <p><b>error('')</b> will be ignored and the script will continue to run.</p>
+
+  </description>
 
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+  <used_function></used_function>
+  <bibliography></bibliography>
 
 <examples>
 
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[error('your error message.')
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description></example_item_description>
+    <example_item_data><![CDATA[error('your error message.')
 error('')]]>
-		</example_item_data>
-	</example_item>
+    </example_item_data>
+  </example_item>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description></example_item_description>
+    <example_item_data><![CDATA[ 1 / [1 2 3]
+a = lasterror()
+lasterror('reset')
+b = lasterror()
+error(a)
+c = lasterror()]]>
+    </example_item_data>
+  </example_item>
+
 
 </examples>
 
-	<see_also>
-		<see_also_item>
-			<link linkend="${error_manager}lasterror">lasterror</link>
-		</see_also_item>
-		<see_also_item>
-			<link linkend="${error_manager}warning">warning</link>
-		</see_also_item>
+  <see_also>
+    <see_also_item>
+      <link linkend="${error_manager}lasterror">lasterror</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${error_manager}warning">warning</link>
+    </see_also_item>
 
-	</see_also>
+  </see_also>
 
-	<history>
-		<history_item>
-			<history_version>1.0.0</history_version>
-			<history_description>initial version</history_description>
-		</history_item>
-	</history>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
 
-	<authors>
-		<author_item>Allan CORNET</author_item>
-	</authors>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>
 
 

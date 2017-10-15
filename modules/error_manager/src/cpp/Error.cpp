@@ -90,14 +90,17 @@ namespace Nelson {
     {
         int LinePosition = -1;
         int ColumnPosition = -1;
-        std::wstring FileName = L"";
+        std::wstring FileName = getErrorFilename(eval);
         std::wstring FunctionName = getErrorFunctionName(eval);
-        if (FunctionName != L"EvaluateScript")
+        if (FileName != L"EvaluateScript")
         {
             LinePosition = getErrorLinePosition(eval);
             ColumnPosition = getErrorColumnPosition(eval);
-            FileName = getErrorFilename(eval);
         }
+		else
+		{
+			FileName = L"";
+		}
         throw Exception(msg, FunctionName, LinePosition, ColumnPosition, FileName);
     }
     //=============================================================================
@@ -133,15 +136,15 @@ namespace Nelson {
     void updateError(Evaluator *eval, Exception &e)
     {
         std::wstring FunctionName = getErrorFunctionName(eval);
-        if (FunctionName != L"EvaluateScript")
-        {
-            int LinePosition = getErrorLinePosition(eval);
-            int ColumnPosition = getErrorColumnPosition(eval);
-            std::wstring FileName = getErrorFilename(eval);
-            e.setFunctionName(FunctionName);
-            e.setFileName(FileName);
-            e.setLinePosition(LinePosition, ColumnPosition);
-        }
+        int LinePosition = getErrorLinePosition(eval);
+        int ColumnPosition = getErrorColumnPosition(eval);
+        std::wstring FileName = getErrorFilename(eval);
+		if (FileName != L"EvaluateScript")
+		{
+			e.setFunctionName(FunctionName);
+			e.setFileName(FileName);
+			e.setLinePosition(LinePosition, ColumnPosition);
+		}
     }
     //=============================================================================
 }

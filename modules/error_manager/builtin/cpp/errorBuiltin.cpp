@@ -21,6 +21,7 @@
 #include "Error.hpp"
 #include "OverloadFunction.hpp"
 #include "characters_encoding.hpp"
+#include "IsErrorStruct.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -73,7 +74,16 @@ ArrayOfVector Nelson::ErrorManagerGateway::errorBuiltin(Evaluator* eval, int nLh
         }
         else
         {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+			Exception e(L"");
+			if (IsErrorStruct(argIn[0], e))
+			{
+				eval->setLastException(e);
+				throw Exception(e.getMessage(), e.getFunctionName(), e.getLine(), e.getPosition(), e.getFilename());
+			}
+			else
+			{
+				Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+			}
         }
     }
     return retval;
