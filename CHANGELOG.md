@@ -27,8 +27,6 @@ Features:
 
 * add 'f2c' function to convert fortran code to C from Nelson
 
-* add Fortran 2 C converter library (based on libf2c forked)
-
 * optimize 'vertcat' and 'horzcat' builtin (remove duplicated code).
 
 
@@ -47,7 +45,9 @@ Bug Fixes:
 Compilation:
 ---------
 
-  SLICOT used for control functions.
+* SLICOT used for control functions.
+
+* add Fortran 2 C converter library (based on libf2c forked).
 
 
 ## 0.1.9 alpha (2017-09-02)
