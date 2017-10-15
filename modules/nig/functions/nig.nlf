@@ -23,30 +23,37 @@ function nig(varargin)
   NIG_FUNCTIONS = varargin{1};
   NIG_DESTINATION = varargin{2};
   if ~isstruct(NIG_FUNCTIONS)
-    error('wrong ...');
+    error(_('struct expected.'));
   end
   if ~isdir(NIG_DESTINATION)
-    error('wrong ...');
+    error(_('an existing directory expected.'));
   end
-
-  have_module_subdirectories =  isdir([NIG_DESTINATION, '/builtin/cpp']) & isdir([NIG_DESTINATION, '/builtin/include']);
-  len = length(NIG_FUNCTIONS);
-  for k = [1:len]
-    if have_module_subdirectories
-      filenameCppBuiltin = [NIG_DESTINATION, '/builtin/cpp/', NIG_FUNCTIONS(k).NELSON_NAME, 'Builtin.cpp'];
-      filenameHeaderBuiltin = [NIG_DESTINATION, '/builtin/include/', NIG_FUNCTIONS(k).NELSON_NAME, 'Builtin.hpp'];
-    else
-      filenameCppBuiltin = [NIG_DESTINATION, '/', NIG_FUNCTIONS(k).NELSON_NAME, 'Builtin.cpp'];
-      filenameHeaderBuiltin = [NIG_DESTINATION, '/', NIG_FUNCTIONS(k).NELSON_NAME, 'Builtin.hpp'];
+  addpath([modulepath(nelsonroot(), 'nig', 'root'), '/functions/internal']);
+  try
+    have_module_subdirectories =  isdir([NIG_DESTINATION, '/builtin/cpp']) & isdir([NIG_DESTINATION, '/builtin/include']);
+    len = length(NIG_FUNCTIONS);
+    for k = [1:len]
+      if have_module_subdirectories
+        filenameCppBuiltin = [NIG_DESTINATION, '/builtin/cpp/', NIG_FUNCTIONS(k).NELSON_NAME, 'Builtin.cpp'];
+        filenameHeaderBuiltin = [NIG_DESTINATION, '/builtin/include/', NIG_FUNCTIONS(k).NELSON_NAME, 'Builtin.hpp'];
+      else
+        filenameCppBuiltin = [NIG_DESTINATION, '/', NIG_FUNCTIONS(k).NELSON_NAME, 'Builtin.cpp'];
+        filenameHeaderBuiltin = [NIG_DESTINATION, '/', NIG_FUNCTIONS(k).NELSON_NAME, 'Builtin.hpp'];
+      end
+      nig_txt_to_file(nig_generate_builtin_hpp(NIG_FUNCTIONS(k)), filenameHeaderBuiltin);
+      nig_txt_to_file(nig_generate_builtin_cpp(NIG_FUNCTIONS(k)), filenameCppBuiltin);
     end
-    nig_txt_to_file(nig_generate_builtin_hpp(NIG_FUNCTIONS(k)), filenameHeaderBuiltin);
-    nig_txt_to_file(nig_generate_builtin_cpp(NIG_FUNCTIONS(k)), filenameCppBuiltin);
+    if have_module_subdirectories
+      filenameCppGateway = [NIG_DESTINATION, '/builtin/cpp/Gateway.cpp'];
+    else
+      filenameCppGateway = [NIG_DESTINATION, '/', 'Gateway.cpp'];
+    end
+    nig_txt_to_file(nig_generate_gateway_cpp(NIG_FUNCTIONS), filenameCppGateway);
+  catch
+    error_struct = lasterror();
+    rmpath([modulepath(nelsonroot(), 'nig', 'root'), '/functions/internal']);
+    error(error_struct);
   end
-  if have_module_subdirectories
-    filenameCppGateway = [NIG_DESTINATION, '/builtin/cpp/Gateway.cpp'];
-  else
-    filenameCppGateway = [NIG_DESTINATION, '/', 'Gateway.cpp'];
-  end
-  nig_txt_to_file(nig_generate_gateway_cpp(NIG_FUNCTIONS), filenameCppGateway);
+  rmpath([modulepath(nelsonroot(), 'nig', 'root'), '/functions/internal']);
 endfunction
 //=============================================================================
