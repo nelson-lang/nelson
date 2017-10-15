@@ -21,7 +21,7 @@
 #include "Evaluator.hpp"
 #include "ArrayOf.hpp"
 #include "ClassName.hpp"
-#include "Exception.hpp"
+#include "Error.hpp"
 //=============================================================================
 namespace Nelson {
     //=============================================================================
@@ -69,7 +69,7 @@ namespace Nelson {
         {
             if (bRaiseError)
             {
-                throw Exception(std::string("function ") + OverloadName + " undefined.");
+                Error(eval, std::string("function ") + OverloadName + " undefined.");
             }
             return ArrayOf::emptyConstructor();
         }
@@ -82,7 +82,7 @@ namespace Nelson {
         {
             if (bRaiseError)
             {
-                throw Exception(std::string("function ") + OverloadName + " only one output argument expected.");
+                Error(eval, std::string("function ") + OverloadName + " only one output argument expected.");
             }
             bSuccess = false;
             return ArrayOf::emptyConstructor();
