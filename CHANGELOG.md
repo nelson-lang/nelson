@@ -12,6 +12,7 @@ Features:
   * slicot_ab01od: Staircase form for multi-input systems using orthogonal state and input transformations.
   * slicot_ab08nd: Construction of a regular pencil for a given system such that its generalized eigenvalues are invariant zeros of the system.
   * slicot_ab04md: Discrete-time / continuous-time systems conversion by a bilinear transformation.
+  * slicot_mb04md: Balancing a general real matrix.
 
 * Nelson Interface Generator (NIG) allows to generate Nelson builtin from C/Fortran code.
 

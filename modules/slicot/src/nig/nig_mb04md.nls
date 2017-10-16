@@ -1,0 +1,68 @@
+//=============================================================================
+// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+
+// Nelson Interface Generator (NIG)
+// MB04MD interface
+// http://slicot.org/objects/software/shared/doc/MB04MD.html
+
+NIG_FUNCTION = struct();
+NIG_FUNCTION.NELSON_NAME = 'slicot_mb04md';
+NIG_FUNCTION.NELSON_NAMESPACE = 'Slicot';
+NIG_FUNCTION.MODULE_NAME = 'slicot';
+NIG_FUNCTION.SYMBOL = 'mb04md';
+NIG_FUNCTION.LANGUAGE = 'fortran';
+
+NIG_FUNCTION.VARIABLES = struct([]);
+IDX = length(NIG_FUNCTION.VARIABLES) + 1;
+NIG_FUNCTION.VARIABLES(IDX).NAME = 'N';
+NIG_FUNCTION.VARIABLES(IDX).TYPE = 'integer';
+NIG_FUNCTION.VARIABLES(IDX).MODE = 'local';
+NIG_FUNCTION.VARIABLES(IDX).VALUE = '(int)A.getDimensions().getColumns()';
+
+IDX = length(NIG_FUNCTION.VARIABLES) + 1;
+NIG_FUNCTION.VARIABLES(IDX).NAME = 'MAXRED';
+NIG_FUNCTION.VARIABLES(IDX).TYPE = 'double';
+NIG_FUNCTION.VARIABLES(IDX).MODE = 'in_out';
+
+IDX = length(NIG_FUNCTION.VARIABLES) + 1;
+NIG_FUNCTION.VARIABLES(IDX).NAME = 'A';
+NIG_FUNCTION.VARIABLES(IDX).TYPE = 'double_array';
+NIG_FUNCTION.VARIABLES(IDX).MODE = 'in_out';
+NIG_FUNCTION.VARIABLES(IDX).DIMENSION_M = '(int)A.getDimensions().getRows()';
+NIG_FUNCTION.VARIABLES(IDX).DIMENSION_N = '(int)A.getDimensions().getColumns()';
+
+IDX = length(NIG_FUNCTION.VARIABLES) + 1;
+NIG_FUNCTION.VARIABLES(IDX).NAME = 'LDA';
+NIG_FUNCTION.VARIABLES(IDX).TYPE = 'integer';
+NIG_FUNCTION.VARIABLES(IDX).MODE = 'local';
+NIG_FUNCTION.VARIABLES(IDX).VALUE = 'std::max(1, (int)A.getDimensions().getColumns())';
+
+IDX = length(NIG_FUNCTION.VARIABLES) + 1;
+NIG_FUNCTION.VARIABLES(IDX).NAME = 'SCALE';
+NIG_FUNCTION.VARIABLES(IDX).TYPE = 'double_array';
+NIG_FUNCTION.VARIABLES(IDX).MODE = 'output';
+NIG_FUNCTION.VARIABLES(IDX).DIMENSION_M = '1';
+NIG_FUNCTION.VARIABLES(IDX).DIMENSION_N = '(int)A.getDimensions().getColumns()';
+
+IDX = length(NIG_FUNCTION.VARIABLES) + 1;
+NIG_FUNCTION.VARIABLES(IDX).NAME = 'INFO';
+NIG_FUNCTION.VARIABLES(IDX).TYPE = 'integer';
+NIG_FUNCTION.VARIABLES(IDX).MODE = 'output';
+
+
