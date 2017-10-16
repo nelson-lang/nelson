@@ -191,6 +191,7 @@
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\slicot_ab01odBuiltin.cpp" />
     <ClCompile Include="..\cpp\slicot_ab04mdBuiltin.cpp" />
+    <ClCompile Include="..\cpp\slicot_ab07ndBuiltin.cpp" />
     <ClCompile Include="..\cpp\slicot_ab08ndBuiltin.cpp" />
     <ClCompile Include="..\cpp\slicot_mb04mdBuiltin.cpp" />
     <ClCompile Include="..\cpp\slicot_sb01bdBuiltin.cpp" />
@@ -206,6 +207,7 @@
     <ClInclude Include="..\include\nlsSlicot_builtin_exports.h" />
     <ClInclude Include="..\include\slicot_ab01odBuiltin.hpp" />
     <ClInclude Include="..\include\slicot_ab04mdBuiltin.hpp" />
+    <ClInclude Include="..\include\slicot_ab07ndBuiltin.hpp" />
     <ClInclude Include="..\include\slicot_ab08ndBuiltin.hpp" />
     <ClInclude Include="..\include\slicot_mb04mdBuiltin.hpp" />
     <ClInclude Include="..\include\slicot_sb01bdBuiltin.hpp" />
