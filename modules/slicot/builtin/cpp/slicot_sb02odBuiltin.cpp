@@ -198,6 +198,7 @@ ArrayOfVector Nelson::SlicotGateway::slicot_sb02odBuiltin(Evaluator* eval, int n
     }
     catch (std::runtime_error &e)
     {
+        e.what();
         Error(eval, "sb02od function fails.");
     }
     // ASSIGN OUTPUT VARIABLES

@@ -145,6 +145,7 @@ ArrayOfVector Nelson::SlicotGateway::slicot_sb01bdBuiltin(Evaluator* eval, int n
     }
     catch (std::runtime_error &e)
     {
+        e.what();
         Error(eval, "sb01bd function fails.");
     }
     // ASSIGN OUTPUT VARIABLES

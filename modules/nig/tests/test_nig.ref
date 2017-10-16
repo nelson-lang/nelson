@@ -160,6 +160,7 @@ ArrayOfVector Nelson::ExampleGateway::example_nig_sumBuiltin(Evaluator* eval, in
     }
     catch (std::runtime_error &e)
     {
+        e.what();
         Error(eval, "sum function fails.");
     }
 

@@ -133,6 +133,7 @@ ArrayOfVector Nelson::SlicotGateway::slicot_sb03mdBuiltin(Evaluator* eval, int n
     }
     catch (std::runtime_error &e)
     {
+        e.what();
         Error(eval, "sb03md function fails.");
     }
     // ASSIGN OUTPUT VARIABLES

@@ -162,6 +162,7 @@ ArrayOfVector Nelson::SlicotGateway::slicot_ab08ndBuiltin(Evaluator* eval, int n
     }
     catch (std::runtime_error &e)
     {
+        e.what();
         Error(eval, "ab08nd function fails.");
     }
     // ASSIGN OUTPUT VARIABLES

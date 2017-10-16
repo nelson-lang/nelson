@@ -152,6 +152,7 @@ ArrayOfVector Nelson::SlicotGateway::slicot_ab04mdBuiltin(Evaluator* eval, int n
     }
     catch (std::runtime_error &e)
     {
+        e.what();
         Error(eval, "ab04md function fails.");
     }
     // ASSIGN OUTPUT VARIABLES
