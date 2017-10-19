@@ -4,12 +4,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 2 of the License, or
 // (at your option) any later version.
-//
+// 
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-//
+// 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
@@ -26,6 +26,8 @@
 #include "slicot_sb02odBuiltin.hpp"
 #include "slicot_mb04mdBuiltin.hpp"
 #include "slicot_ab07ndBuiltin.hpp"
+#include "slicot_ab07ndBuiltin.hpp"
+#include "slicot_ag08bdBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -42,6 +44,8 @@ static const nlsGateway gateway[] =
     { "slicot_sb02od", Nelson::SlicotGateway::slicot_sb02odBuiltin, 9, 13},
     { "slicot_mb04md", Nelson::SlicotGateway::slicot_mb04mdBuiltin, 4, 2},
     { "slicot_ab07nd", Nelson::SlicotGateway::slicot_ab07ndBuiltin, 6, 4},
+    { "slicot_ab07nd", Nelson::SlicotGateway::slicot_ab07ndBuiltin, 6, 4},
+    { "slicot_ag08bd", Nelson::SlicotGateway::slicot_ag08bdBuiltin, 14, 9},
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

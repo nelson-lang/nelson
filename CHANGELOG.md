@@ -14,6 +14,7 @@ Features:
   * slicot_ab04md: Discrete-time / continuous-time systems conversion by a bilinear transformation.
   * slicot_mb04md: Balancing a general real matrix.
   * slicot_ab07nd: Inverse of a given linear system.
+  * slicot_ag08bd: Zeros and Kronecker structure of a descriptor system pencil.
 
 * Nelson Interface Generator (NIG) allows to generate Nelson builtin from C/Fortran code.
 
