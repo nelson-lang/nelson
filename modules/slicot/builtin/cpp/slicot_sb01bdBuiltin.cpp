@@ -4,12 +4,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 2 of the License, or
 // (at your option) any later version.
-//
+// 
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-//
+// 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
@@ -43,21 +43,15 @@ ArrayOfVector Nelson::SlicotGateway::slicot_sb01bdBuiltin(Evaluator* eval, int n
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
+
     // INPUT VARIABLES
+
     ArrayOf DICO = argIn[0];
     Dimensions dimsDICO = DICO.getDimensions();
-    if (!dimsDICO.isScalar())
-    {
-        Error(eval, _W("Input argument #1: scalar expected."));
-    }
     std::string DICO_string = DICO.getContentAsCString();
     const char* DICO_ptr = DICO_string.c_str();
     ArrayOf ALPHA = argIn[1];
     Dimensions dimsALPHA = ALPHA.getDimensions();
-    if (!dimsALPHA.isScalar())
-    {
-        Error(eval, _W("Input argument #2: scalar expected."));
-    }
     ALPHA.promoteType(NLS_DOUBLE);
     double *ALPHA_ptr = (double*)ALPHA.getDataPointer();
     ArrayOf B = argIn[3];
@@ -66,20 +60,13 @@ ArrayOfVector Nelson::SlicotGateway::slicot_sb01bdBuiltin(Evaluator* eval, int n
     double *B_ptr = (double*)B.getDataPointer();
     ArrayOf TOL = argIn[6];
     Dimensions dimsTOL = TOL.getDimensions();
-    if (!dimsTOL.isScalar())
-    {
-        Error(eval, _W("Input argument #7: scalar expected."));
-    }
     TOL.promoteType(NLS_DOUBLE);
     double *TOL_ptr = (double*)TOL.getDataPointer();
+
     // IN/OUT VARIABLES
+
     ArrayOf A = argIn[2];
     Dimensions dimsA = A.getDimensions();
-    Dimensions dimsA_expected(std::max(1, (int)A.getDimensions().getRows()), (int)A.getDimensions().getRows());
-    if (!dimsA.equals(dimsA_expected))
-    {
-        Error(eval, _("Input argument #3: wrong size.") + " " + dimsA_expected.toString() + " " + "expected" + ".");
-    }
     A.promoteType(NLS_DOUBLE);
     ArrayOf A_output = A;
     A_output.ensureSingleOwner();
@@ -96,7 +83,38 @@ ArrayOfVector Nelson::SlicotGateway::slicot_sb01bdBuiltin(Evaluator* eval, int n
     ArrayOf WI_output = WI;
     WI_output.ensureSingleOwner();
     double *WI_output_ptr = (double*)WI_output.getDataPointer();
+
+    // LOCAL VARIABLES
+
+    ArrayOf N = ArrayOf::int32VectorConstructor(1);
+    int* N_ptr = (int*)N.getDataPointer();
+    N_ptr[0] = (int)A.getDimensions().getRows();
+    ArrayOf M = ArrayOf::int32VectorConstructor(1);
+    int* M_ptr = (int*)M.getDataPointer();
+    M_ptr[0] = (int)B.getDimensions().getColumns();
+    ArrayOf NP = ArrayOf::int32VectorConstructor(1);
+    int* NP_ptr = (int*)NP.getDataPointer();
+    NP_ptr[0] = (int)WR.getDimensions().getRows();
+    ArrayOf LDA = ArrayOf::int32VectorConstructor(1);
+    int* LDA_ptr = (int*)LDA.getDataPointer();
+    LDA_ptr[0] = std::max(1, (int)A.getDimensions().getRows());
+    ArrayOf LDB = ArrayOf::int32VectorConstructor(1);
+    int* LDB_ptr = (int*)LDB.getDataPointer();
+    LDB_ptr[0] = std::max(1, (int)B.getDimensions().getRows());
+    ArrayOf LDF = ArrayOf::int32VectorConstructor(1);
+    int* LDF_ptr = (int*)LDF.getDataPointer();
+    LDF_ptr[0] = std::max(1, (int)B.getDimensions().getRows());
+    ArrayOf LDZ = ArrayOf::int32VectorConstructor(1);
+    int* LDZ_ptr = (int*)LDZ.getDataPointer();
+    LDZ_ptr[0] = std::max(1, (int)A.getDimensions().getRows());
+    ArrayOf DWORK = ArrayOf::doubleMatrix2dConstructor(1 , std::max(std::max(std::max( 1, 5 * (int)B.getDimensions().getColumns()), 5 * (int)A.getDimensions().getRows()), 2 * (int)A.getDimensions().getRows() + 4 * (int)B.getDimensions().getColumns() ));
+    double * DWORK_ptr = (double*)DWORK.getDataPointer();
+    ArrayOf LDWORK = ArrayOf::int32VectorConstructor(1);
+    int* LDWORK_ptr = (int*)LDWORK.getDataPointer();
+    LDWORK_ptr[0] = std::max(std::max(std::max( 1, 5 * (int)B.getDimensions().getColumns()), 5 * (int)A.getDimensions().getRows()), 2 * (int)A.getDimensions().getRows() + 4 * (int)B.getDimensions().getColumns() );
+
     // OUTPUT VARIABLES
+
     ArrayOf NFP_output = ArrayOf::int32VectorConstructor(1);
     int *NFP_output_ptr = (int*)NFP_output.getDataPointer();
     ArrayOf NAP_output = ArrayOf::int32VectorConstructor(1);
@@ -111,44 +129,41 @@ ArrayOfVector Nelson::SlicotGateway::slicot_sb01bdBuiltin(Evaluator* eval, int n
     int *IWARN_output_ptr = (int*)IWARN_output.getDataPointer();
     ArrayOf INFO_output = ArrayOf::int32VectorConstructor(1);
     int *INFO_output_ptr = (int*)INFO_output.getDataPointer();
-    // LOCAL VARIABLES
-    ArrayOf N_local = ArrayOf::int32VectorConstructor(1);
-    int* N_local_ptr = (int*)N_local.getDataPointer();
-    N_local_ptr[0] = (int)A.getDimensions().getRows();
-    ArrayOf M_local = ArrayOf::int32VectorConstructor(1);
-    int* M_local_ptr = (int*)M_local.getDataPointer();
-    M_local_ptr[0] = (int)B.getDimensions().getColumns();
-    ArrayOf NP_local = ArrayOf::int32VectorConstructor(1);
-    int* NP_local_ptr = (int*)NP_local.getDataPointer();
-    NP_local_ptr[0] = (int)WR.getDimensions().getRows();
-    ArrayOf LDA_local = ArrayOf::int32VectorConstructor(1);
-    int* LDA_local_ptr = (int*)LDA_local.getDataPointer();
-    LDA_local_ptr[0] = std::max(1, (int)A.getDimensions().getRows());
-    ArrayOf LDB_local = ArrayOf::int32VectorConstructor(1);
-    int* LDB_local_ptr = (int*)LDB_local.getDataPointer();
-    LDB_local_ptr[0] = std::max(1, (int)B.getDimensions().getRows());
-    ArrayOf LDF_local = ArrayOf::int32VectorConstructor(1);
-    int* LDF_local_ptr = (int*)LDF_local.getDataPointer();
-    LDF_local_ptr[0] = std::max(1, (int)B.getDimensions().getRows());
-    ArrayOf LDZ_local = ArrayOf::int32VectorConstructor(1);
-    int* LDZ_local_ptr = (int*)LDZ_local.getDataPointer();
-    LDZ_local_ptr[0] = std::max(1, (int)A.getDimensions().getRows());
-    ArrayOf DWORK_local = ArrayOf::doubleMatrix2dConstructor(1 , std::max(std::max(std::max( 1, 5 * (int)B.getDimensions().getColumns()), 5 * (int)A.getDimensions().getRows()), 2 * (int)A.getDimensions().getRows() + 4 * (int)B.getDimensions().getColumns() ));
-    double * DWORK_local_ptr = (double*)DWORK_local.getDataPointer();
-    ArrayOf LDWORK_local = ArrayOf::int32VectorConstructor(1);
-    int* LDWORK_local_ptr = (int*)LDWORK_local.getDataPointer();
-    LDWORK_local_ptr[0] = std::max(std::max(std::max( 1, 5 * (int)B.getDimensions().getColumns()), 5 * (int)A.getDimensions().getRows()), 2 * (int)A.getDimensions().getRows() + 4 * (int)B.getDimensions().getColumns() );
+
+    // CHECK INPUT VARIABLES DIMENSIONS
+
+    if (!dimsDICO.isScalar())
+    {
+        Error(eval, _W("Input argument #1: scalar expected."));
+    }
+    if (!dimsALPHA.isScalar())
+    {
+        Error(eval, _W("Input argument #2: scalar expected."));
+    }
+    Dimensions dimsA_expected(std::max(1, (int)A.getDimensions().getRows()), (int)A.getDimensions().getRows());
+    if (!dimsA.equals(dimsA_expected))
+    {
+        Error(eval, _("Input argument #3: wrong size.") + " " + dimsA_expected.toString() + " " + "expected" + ".");
+    }
+    if (!dimsTOL.isScalar())
+    {
+        Error(eval, _W("Input argument #7: scalar expected."));
+    }
+
     // CALL EXTERN FUNCTION
+
     try
     {
-        sb01bd_ ( DICO_ptr, N_local_ptr, M_local_ptr, NP_local_ptr, ALPHA_ptr, A_output_ptr, LDA_local_ptr, B_ptr, LDB_local_ptr, WR_output_ptr, WI_output_ptr, NFP_output_ptr, NAP_output_ptr, NUP_output_ptr, F_output_ptr, LDF_local_ptr, Z_output_ptr, LDZ_local_ptr, TOL_ptr, DWORK_local_ptr, LDWORK_local_ptr, IWARN_output_ptr, INFO_output_ptr);
+        sb01bd_ ( DICO_ptr, N_ptr, M_ptr, NP_ptr, ALPHA_ptr, A_output_ptr, LDA_ptr, B_ptr, LDB_ptr, WR_output_ptr, WI_output_ptr, NFP_output_ptr, NAP_output_ptr, NUP_output_ptr, F_output_ptr, LDF_ptr, Z_output_ptr, LDZ_ptr, TOL_ptr, DWORK_ptr, LDWORK_ptr, IWARN_output_ptr, INFO_output_ptr);
     }
     catch (std::runtime_error &e)
     {
         e.what();
         Error(eval, "sb01bd function fails.");
     }
+
     // ASSIGN OUTPUT VARIABLES
+
     if (nLhs > 0)
     {
         retval.push_back(A_output);
@@ -189,6 +204,7 @@ ArrayOfVector Nelson::SlicotGateway::slicot_sb01bdBuiltin(Evaluator* eval, int n
     {
         retval.push_back(INFO_output);
     }
+
     return retval;
 }
 //=============================================================================

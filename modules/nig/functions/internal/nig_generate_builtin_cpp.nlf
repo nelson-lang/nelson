@@ -64,13 +64,18 @@ function txt = nig_generate_builtin_cpp(NIG_FUNCTION)
   [res] = nig_get_in_out_variables_definition(NIG_FUNCTION);
   txt = [txt; res];
   txt{end + 1} = '';
-  
+
+  // LOCAL VARIABLES DEFINITION
+  txt = [txt; nig_get_local_variables_definition(NIG_FUNCTION)];
+  txt{end + 1} = '';
+
   // OUTPUT VARIABLES DEFINITION
   txt = [txt; nig_get_output_variables_definition(NIG_FUNCTION)];
   txt{end + 1} = '';
-  
-  // LOCAL VARIABLES DEFINITION
-  txt = [txt; nig_get_local_variables_definition(NIG_FUNCTION)];
+
+  // CHECK INPUT VARIABLES DIMENSIONS
+  [res] = nig_check_dimensions_input_variables_definition(NIG_FUNCTION);
+  txt = [txt; res];
   txt{end + 1} = '';
 
   // CALL EXTERN FUNCTION

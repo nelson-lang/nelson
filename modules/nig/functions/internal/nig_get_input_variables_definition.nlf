@@ -25,23 +25,6 @@ function txt = nig_get_input_variables_definition(NIG_FUNCTION)
       txt{end + 1} = ['    ArrayOf ', k.NAME, ' = argIn[', int2str(n), '];'];
       txt{end + 1} = ['    Dimensions dims', k.NAME, ' = ', k.NAME, '.getDimensions();'];
 
-      if strcmp(k.TYPE, 'double') | strcmp(k.TYPE, 'integer') | strcmp(k.TYPE, 'character')
-        txt{end + 1} = ['    ', 'if (!dims', k.NAME, '.isScalar())'];
-        txt{end + 1} = ['    {'];
-        txt{end + 1} = ['        Error(eval, _W("Input argument #', int2str(n + 1),': scalar expected."));'];
-        txt{end + 1} = ['    }'];
-      end
-
-      if strcmp(k.TYPE, 'double_array') | strcmp(k.TYPE, 'integer_array')
-        if ~isempty(k.DIMENSION_M) & ~isempty(k.DIMENSION_N)
-          txt{end + 1} = ['    Dimensions dims', k.NAME, '_expected(', nig_get_dimension_m_as_string(k), ', ', nig_get_dimension_n_as_string(k), ');'];
-          txt{end + 1} = ['    ', 'if (!dims', k.NAME, '.equals(dims', k.NAME, '_expected))'];
-          txt{end + 1} = ['    {'];
-          txt{end + 1} = ['        Error(eval, _("Input argument #', int2str(n + 1), ': wrong size.") + " " + dims', k.NAME,'_expected.toString() + " " + "expected" + ".");'];
-          txt{end + 1} = ['    }'];
-        end
-      end
-
       if strcmp(k.TYPE, 'double_array')
         txt{end + 1} = ['    ', k.NAME, '.promoteType(', 'NLS_DOUBLE', ');'];
         txt{end + 1} = ['    double *',  k.NAME, '_ptr = (double*)', k.NAME, '.getDataPointer();'];

@@ -40,7 +40,7 @@ function txt = nig_call_function(NIG_FUNCTION)
         t = [t, ' ', k.NAME, '_output_ptr'];
       end
       if strcmp(k.MODE, 'local')
-        t = [t, ' ', k.NAME, '_local_ptr'];
+        t = [t, ' ', k.NAME, '_ptr'];
       end
 
       t = [t, ','];

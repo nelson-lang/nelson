@@ -126,22 +126,17 @@ ArrayOfVector Nelson::ExampleGateway::example_nig_sumBuiltin(Evaluator* eval, in
 
     ArrayOf A = argIn[0];
     Dimensions dimsA = A.getDimensions();
-    if (!dimsA.isScalar())
-    {
-        Error(eval, _W("Input argument #1: scalar expected."));
-    }
     A.promoteType(NLS_INT32);
     int *A_ptr = (int*)A.getDataPointer();
     ArrayOf B = argIn[1];
     Dimensions dimsB = B.getDimensions();
-    if (!dimsB.isScalar())
-    {
-        Error(eval, _W("Input argument #2: scalar expected."));
-    }
     B.promoteType(NLS_INT32);
     int *B_ptr = (int*)B.getDataPointer();
 
     // IN/OUT VARIABLES
+
+
+    // LOCAL VARIABLES
 
 
     // OUTPUT VARIABLES
@@ -149,8 +144,16 @@ ArrayOfVector Nelson::ExampleGateway::example_nig_sumBuiltin(Evaluator* eval, in
     ArrayOf OUTPUT_output = ArrayOf::int32VectorConstructor(1);
     int *OUTPUT_output_ptr = (int*)OUTPUT_output.getDataPointer();
 
-    // LOCAL VARIABLES
+    // CHECK INPUT VARIABLES DIMENSIONS
 
+    if (!dimsA.isScalar())
+    {
+        Error(eval, _W("Input argument #1: scalar expected."));
+    }
+    if (!dimsB.isScalar())
+    {
+        Error(eval, _W("Input argument #2: scalar expected."));
+    }
 
     // CALL EXTERN FUNCTION
 
