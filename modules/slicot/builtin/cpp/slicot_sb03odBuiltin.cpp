@@ -4,12 +4,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 2 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
@@ -43,9 +43,7 @@ ArrayOfVector Nelson::SlicotGateway::slicot_sb03odBuiltin(Evaluator* eval, int n
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-
     // INPUT VARIABLES
-
     ArrayOf DICO = argIn[0];
     Dimensions dimsDICO = DICO.getDimensions();
     std::string DICO_string = DICO.getContentAsCString();
@@ -62,9 +60,7 @@ ArrayOfVector Nelson::SlicotGateway::slicot_sb03odBuiltin(Evaluator* eval, int n
     Dimensions dimsA = A.getDimensions();
     A.promoteType(NLS_DOUBLE);
     double *A_ptr = (double*)A.getDataPointer();
-
     // IN/OUT VARIABLES
-
     ArrayOf Q = argIn[4];
     Dimensions dimsQ = Q.getDimensions();
     Q.promoteType(NLS_DOUBLE);
@@ -77,9 +73,7 @@ ArrayOfVector Nelson::SlicotGateway::slicot_sb03odBuiltin(Evaluator* eval, int n
     ArrayOf B_output = B;
     B_output.ensureSingleOwner();
     double *B_output_ptr = (double*)B_output.getDataPointer();
-
     // LOCAL VARIABLES
-
     ArrayOf N = ArrayOf::int32VectorConstructor(1);
     int* N_ptr = (int*)N.getDataPointer();
     N_ptr[0] = (int)A.getDimensions().getRows();
@@ -100,9 +94,7 @@ ArrayOfVector Nelson::SlicotGateway::slicot_sb03odBuiltin(Evaluator* eval, int n
     ArrayOf LDWORK = ArrayOf::int32VectorConstructor(1);
     int* LDWORK_ptr = (int*)LDWORK.getDataPointer();
     LDWORK_ptr[0] = std::max(1, 4 * (int)A.getDimensions().getRows() + std::min((int)B.getDimensions().getRows(), (int)A.getDimensions().getRows()));
-
     // OUTPUT VARIABLES
-
     ArrayOf SCALE_output = ArrayOf::doubleVectorConstructor(1);
     double *SCALE_output_ptr = (double*)SCALE_output.getDataPointer();
     ArrayOf WR_output = ArrayOf::doubleMatrix2dConstructor((indexType)1, (indexType)(int)A.getDimensions().getRows());
@@ -111,9 +103,7 @@ ArrayOfVector Nelson::SlicotGateway::slicot_sb03odBuiltin(Evaluator* eval, int n
     double *WI_output_ptr = (double*)WI_output.getDataPointer();
     ArrayOf INFO_output = ArrayOf::int32VectorConstructor(1);
     int *INFO_output_ptr = (int*)INFO_output.getDataPointer();
-
     // CHECK INPUT VARIABLES DIMENSIONS
-
     if (!dimsDICO.isScalar())
     {
         Error(eval, _W("Input argument #1: scalar expected."));
@@ -136,9 +126,7 @@ ArrayOfVector Nelson::SlicotGateway::slicot_sb03odBuiltin(Evaluator* eval, int n
     {
         Error(eval, _("Input argument #6: wrong size.") + " " + dimsB_expected.toString() + " " + "expected" + ".");
     }
-
     // CALL EXTERN FUNCTION
-
     try
     {
         sb03od_ ( DICO_ptr, FACT_ptr, TRANS_ptr, N_ptr, M_ptr, A_ptr, LDA_ptr, Q_output_ptr, LDQ_ptr, B_output_ptr, LDB_ptr, SCALE_output_ptr, WR_output_ptr, WI_output_ptr, DWORK_ptr, LDWORK_ptr, INFO_output_ptr);
@@ -148,9 +136,7 @@ ArrayOfVector Nelson::SlicotGateway::slicot_sb03odBuiltin(Evaluator* eval, int n
         e.what();
         Error(eval, "sb03od function fails.");
     }
-
     // ASSIGN OUTPUT VARIABLES
-
     if (nLhs > 0)
     {
         retval.push_back(Q_output);
@@ -175,7 +161,6 @@ ArrayOfVector Nelson::SlicotGateway::slicot_sb03odBuiltin(Evaluator* eval, int n
     {
         retval.push_back(INFO_output);
     }
-
     return retval;
 }
 //=============================================================================

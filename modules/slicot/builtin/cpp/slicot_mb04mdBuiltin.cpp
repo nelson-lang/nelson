@@ -4,12 +4,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 2 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
@@ -43,12 +43,8 @@ ArrayOfVector Nelson::SlicotGateway::slicot_mb04mdBuiltin(Evaluator* eval, int n
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-
     // INPUT VARIABLES
-
-
     // IN/OUT VARIABLES
-
     ArrayOf MAXRED = argIn[0];
     Dimensions dimsMAXRED = MAXRED.getDimensions();
     MAXRED.promoteType(NLS_DOUBLE);
@@ -61,25 +57,19 @@ ArrayOfVector Nelson::SlicotGateway::slicot_mb04mdBuiltin(Evaluator* eval, int n
     ArrayOf A_output = A;
     A_output.ensureSingleOwner();
     double *A_output_ptr = (double*)A_output.getDataPointer();
-
     // LOCAL VARIABLES
-
     ArrayOf N = ArrayOf::int32VectorConstructor(1);
     int* N_ptr = (int*)N.getDataPointer();
     N_ptr[0] = (int)A.getDimensions().getColumns();
     ArrayOf LDA = ArrayOf::int32VectorConstructor(1);
     int* LDA_ptr = (int*)LDA.getDataPointer();
     LDA_ptr[0] = std::max(1, (int)A.getDimensions().getColumns());
-
     // OUTPUT VARIABLES
-
     ArrayOf SCALE_output = ArrayOf::doubleMatrix2dConstructor((indexType)1, (indexType)(int)A.getDimensions().getColumns());
     double *SCALE_output_ptr = (double*)SCALE_output.getDataPointer();
     ArrayOf INFO_output = ArrayOf::int32VectorConstructor(1);
     int *INFO_output_ptr = (int*)INFO_output.getDataPointer();
-
     // CHECK INPUT VARIABLES DIMENSIONS
-
     if (!dimsMAXRED.isScalar())
     {
         Error(eval, _W("Input argument #1: scalar expected."));
@@ -89,9 +79,7 @@ ArrayOfVector Nelson::SlicotGateway::slicot_mb04mdBuiltin(Evaluator* eval, int n
     {
         Error(eval, _("Input argument #2: wrong size.") + " " + dimsA_expected.toString() + " " + "expected" + ".");
     }
-
     // CALL EXTERN FUNCTION
-
     try
     {
         mb04md_ ( N_ptr, MAXRED_output_ptr, A_output_ptr, LDA_ptr, SCALE_output_ptr, INFO_output_ptr);
@@ -101,9 +89,7 @@ ArrayOfVector Nelson::SlicotGateway::slicot_mb04mdBuiltin(Evaluator* eval, int n
         e.what();
         Error(eval, "mb04md function fails.");
     }
-
     // ASSIGN OUTPUT VARIABLES
-
     if (nLhs > 0)
     {
         retval.push_back(MAXRED_output);
@@ -120,7 +106,6 @@ ArrayOfVector Nelson::SlicotGateway::slicot_mb04mdBuiltin(Evaluator* eval, int n
     {
         retval.push_back(INFO_output);
     }
-
     return retval;
 }
 //=============================================================================
