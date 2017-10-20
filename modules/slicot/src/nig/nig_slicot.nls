@@ -52,4 +52,7 @@ NIG_FUNCTIONS =  [NIG_FUNCTIONS, NIG_FUNCTION];
 run('nig_ag08bd.nls')
 NIG_FUNCTIONS =  [NIG_FUNCTIONS, NIG_FUNCTION];
 
+run('nig_tg01ad.nls')
+NIG_FUNCTIONS =  [NIG_FUNCTIONS, NIG_FUNCTION];
+
 nig(NIG_FUNCTIONS, modulepath('slicot'))
