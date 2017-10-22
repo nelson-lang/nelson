@@ -28,6 +28,7 @@ tests_minimal.xml
 /bin/x64/LICENSE_1_0.txt
 /bin/win32/nelson-cli.exe
 /bin/x64/nelson-cli.exe
+/modules/main/help/*/html/changelog.html
 /modules/*/nls*_autogen
 *.settings
 *.qmlc
