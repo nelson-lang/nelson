@@ -124,7 +124,7 @@
     <p><b>history('removeexit', true_false)</b> set state about do not save exit in history file.</p>
     <p><b>history('get', lines)</b>returns the current Nelson history in a cell of strings by index: a scalar value or a vector 1x2.</p>
     <p><b>history('saveafter', nb_commands)</b> saves the history file after <b>nb_commands</b> statements are added to the file.</p>
-
+    <p>If <b>OneDrive</b> environment variable is defined, history will be saved on your cloud drive.</p>
   </description>
   <used_function></used_function>
   <bibliography></bibliography>

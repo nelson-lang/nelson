@@ -33,6 +33,7 @@ Features:
 
 * optimize 'vertcat' and 'horzcat' builtin (remove duplicated code).
 
+* history file saved on your cloud drive if 'OneDrive' environment variable defined.
 
 Bug Fixes:
 ---------

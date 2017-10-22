@@ -324,21 +324,14 @@ static ArrayOfVector historyBuiltin_two_rhs(Evaluator* eval, int nLhs, const Arr
             {
                 Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }
-            if (arg2.isScalar())
+            if (arg2.isSingleString())
             {
-                if (arg2.isSingleString())
-                {
-                    std::wstring filename = arg2.getContentAsWideString();
-                    ptrHistoryManager->setFilename(filename);
-                }
-                else
-                {
-                    Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
-                }
+                std::wstring filename = arg2.getContentAsWideString();
+                ptrHistoryManager->setFilename(filename);
             }
             else
             {
-                Error(eval, ERROR_WRONG_ARGUMENT_2_SIZE_SCALAR_EXPECTED);
+                Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
             }
         }
         else if (str == L"load")
@@ -347,21 +340,14 @@ static ArrayOfVector historyBuiltin_two_rhs(Evaluator* eval, int nLhs, const Arr
             {
                 Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }
-            if (arg2.isScalar())
+            if (arg2.isSingleString())
             {
-                if (arg2.isSingleString())
-                {
-                    std::wstring filename = arg2.getContentAsWideString();
-                    ptrHistoryManager->loadFromFile(filename);
-                }
-                else
-                {
-                    Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
-                }
+                std::wstring filename = arg2.getContentAsWideString();
+                ptrHistoryManager->loadFromFile(filename);
             }
             else
             {
-                Error(eval, ERROR_WRONG_ARGUMENT_2_SIZE_SCALAR_EXPECTED);
+                Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
             }
         }
         else if (str == L"save")
@@ -370,21 +356,14 @@ static ArrayOfVector historyBuiltin_two_rhs(Evaluator* eval, int nLhs, const Arr
             {
                 Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }
-            if (arg2.isScalar())
+            if (arg2.isSingleString())
             {
-                if (arg2.isSingleString())
-                {
-                    std::wstring filename = arg2.getContentAsWideString();
-                    ptrHistoryManager->saveToFile(filename);
-                }
-                else
-                {
-                    Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
-                }
+                std::wstring filename = arg2.getContentAsWideString();
+                ptrHistoryManager->saveToFile(filename);
             }
             else
             {
-                Error(eval, ERROR_WRONG_ARGUMENT_2_SIZE_SCALAR_EXPECTED);
+                Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
             }
         }
         else if (str == L"duplicated")
