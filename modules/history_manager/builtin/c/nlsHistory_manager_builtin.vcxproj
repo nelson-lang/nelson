@@ -22,7 +22,7 @@
     <ProjectGuid>{4F61CEDE-7CF3-41ED-B55A-C1603AB4C1F4}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>nlsHistory_manager_builtin</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

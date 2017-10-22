@@ -22,7 +22,7 @@
     <ProjectGuid>{84BDBEE5-B19D-4529-B616-01456E6C7768}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>nlsElementary_mathematics</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

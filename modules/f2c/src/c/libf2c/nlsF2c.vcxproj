@@ -22,7 +22,7 @@
     <ProjectGuid>{A510477A-3415-4E46-8C98-8579823ADF91}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>nlsF2c</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
     <ProjectName>nlsF2C</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
