@@ -16,6 +16,7 @@ Features:
   * slicot_ab07nd: Inverse of a given linear system.
   * slicot_ag08bd: Zeros and Kronecker structure of a descriptor system pencil.
   * slicot_tg01ad: Balancing the matrices of the system pencil corresponding to a descriptor triple (A-lambda E, B, C).
+  * slicot_mc01td: Checking stability of a given real polynomial.
 
 * Nelson Interface Generator (NIG) allows to generate Nelson builtin from C/Fortran code.
 
