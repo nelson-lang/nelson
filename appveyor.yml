@@ -3,7 +3,7 @@ image: Visual Studio 2017
 
 environment:
   VS_VERSION: vs2017
-  QTDIR64: C:\Qt\5.9.2\msvc2017_64
+  QTDIR64: C:\Qt\5.9.1\msvc2017_64
   QTDIR32: c:\build_chain\qt5-win32\Qt\5.9.1\msvc2015
   BUILD_CHAIN_DIR: c:\build_chain\nelson
 
