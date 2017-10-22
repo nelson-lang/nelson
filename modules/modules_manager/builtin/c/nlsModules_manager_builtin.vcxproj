@@ -22,7 +22,7 @@
     <ProjectGuid>{EF054E75-90E8-46B3-AA42-F1C424F0DC3C}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>nlsModules_manager_builtin</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
