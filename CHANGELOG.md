@@ -20,6 +20,7 @@ Features:
   * slicot_mb04gd: RQ factorization with row pivoting of a matrix.
   * slicot_mb05od: Matrix exponential for a real matrix, with accuracy estimate.
   * slicot_tb01id: Balancing a system matrix corresponding to a triplet (A, B, C).
+  * slicot_mb03pd: Matrix rank determination by incremental condition estimation (row pivoting).
 
 * Nelson Interface Generator (NIG) allows to generate Nelson builtin from C/Fortran code.
 
