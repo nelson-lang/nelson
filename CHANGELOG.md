@@ -22,6 +22,7 @@ Features:
   * slicot_tb01id: Balancing a system matrix corresponding to a triplet (A, B, C).
   * slicot_mb03pd: Matrix rank determination by incremental condition estimation (row pivoting).
   * slicot_mb03rd: Reduction of a real Schur form matrix to a block-diagonal form.
+  * slicot_mb03od: Matrix rank determination by incremental condition estimation.
 
 * Nelson Interface Generator (NIG) allows to generate Nelson builtin from C/Fortran code.
 
