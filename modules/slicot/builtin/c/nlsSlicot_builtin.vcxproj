@@ -206,6 +206,7 @@
     <ClCompile Include="..\cpp\slicot_sb03mdBuiltin.cpp" />
     <ClCompile Include="..\cpp\slicot_sb03odBuiltin.cpp" />
     <ClCompile Include="..\cpp\slicot_sb04mdBuiltin.cpp" />
+    <ClCompile Include="..\cpp\slicot_sb04qdBuiltin.cpp" />
     <ClCompile Include="..\cpp\slicot_tb01idBuiltin.cpp" />
     <ClCompile Include="..\cpp\slicot_tg01adBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
@@ -231,6 +232,7 @@
     <ClInclude Include="..\include\slicot_sb03mdBuiltin.hpp" />
     <ClInclude Include="..\include\slicot_sb03odBuiltin.hpp" />
     <ClInclude Include="..\include\slicot_sb04mdBuiltin.hpp" />
+    <ClInclude Include="..\include\slicot_sb04qdBuiltin.hpp" />
     <ClInclude Include="..\include\slicot_tb01idBuiltin.hpp" />
     <ClInclude Include="..\include\slicot_tg01adBuiltin.hpp" />
   </ItemGroup>
