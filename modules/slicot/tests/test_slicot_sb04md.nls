@@ -1,0 +1,55 @@
+//=============================================================================
+// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+// http://slicot.org/objects/software/shared/doc/SB04MB.html
+assert_isequal(nargin('slicot_sb04md'), 3);
+assert_isequal(nargout('slicot_sb04md'), 5);
+//=============================================================================
+N = 3;
+M = 2;
+A_IN = [2.0   1.0   3.0;
+   0.0   2.0   1.0;
+   6.0   1.0   2.0];
+B_IN = [2.0   1.0;
+   1.0   6.0];
+C_IN = [2.0   1.0;
+   1.0   4.0;
+   0.0   5.0];
+[A_OUT, B_OUT, C_OUT, Z, INFO] = slicot_sb04md(A_IN, B_IN, C_IN);
+//=============================================================================
+A_OUT_REF = [2   -3   -1;
+   -6    2    1;
+    1    1    2];
+assert_isequal(A_OUT, A_OUT_REF);
+//=============================================================================
+B_OUT_REF = [1.7639      0.0000;
+      0.0000      6.2361];
+assert_isapprox(B_OUT, B_OUT_REF, 1e-4);
+//=============================================================================
+C_OUT_REF = [-2.7685      0.5498;
+     -1.0531      0.6865;
+      4.5257     -0.4389];
+assert_isapprox(C_OUT, C_OUT_REF, 1e-4);
+//=============================================================================
+Z_REF = [-0.9732     -0.2298;
+      0.2298     -0.9732];
+assert_isapprox(Z, Z_REF, 1e-4);
+//=============================================================================
+INFO_REF = int32(0);
+assert_isequal(INFO, INFO_REF);
+//=============================================================================

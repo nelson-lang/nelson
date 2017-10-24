@@ -23,6 +23,7 @@ Features:
   * slicot_mb03pd: Matrix rank determination by incremental condition estimation (row pivoting).
   * slicot_mb03rd: Reduction of a real Schur form matrix to a block-diagonal form.
   * slicot_mb03od: Matrix rank determination by incremental condition estimation.
+  * slicot_sb04md: Solution of continuous-time Sylvester equations (Hessenberg-Schur method).
 
 * Nelson Interface Generator (NIG) allows to generate Nelson builtin from C/Fortran code.
 
