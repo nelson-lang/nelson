@@ -194,6 +194,7 @@
     <ClCompile Include="..\cpp\slicot_ab07ndBuiltin.cpp" />
     <ClCompile Include="..\cpp\slicot_ab08ndBuiltin.cpp" />
     <ClCompile Include="..\cpp\slicot_ag08bdBuiltin.cpp" />
+    <ClCompile Include="..\cpp\slicot_mb02mdBuiltin.cpp" />
     <ClCompile Include="..\cpp\slicot_mb03odBuiltin.cpp" />
     <ClCompile Include="..\cpp\slicot_mb03pdBuiltin.cpp" />
     <ClCompile Include="..\cpp\slicot_mb03rdBuiltin.cpp" />
@@ -222,6 +223,7 @@
     <ClInclude Include="..\include\slicot_ab07ndBuiltin.hpp" />
     <ClInclude Include="..\include\slicot_ab08ndBuiltin.hpp" />
     <ClInclude Include="..\include\slicot_ag08bdBuiltin.hpp" />
+    <ClInclude Include="..\include\slicot_mb02mdBuiltin.hpp" />
     <ClInclude Include="..\include\slicot_mb03odBuiltin.hpp" />
     <ClInclude Include="..\include\slicot_mb03pdBuiltin.hpp" />
     <ClInclude Include="..\include\slicot_mb03rdBuiltin.hpp" />

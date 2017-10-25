@@ -26,6 +26,7 @@ Features:
   * slicot_sb04md: Solution of continuous-time Sylvester equations (Hessenberg-Schur method).
   * slicot_sb04qd: Solution of discrete-time Sylvester equations (Hessenberg-Schur method).
   * slicot_sg02ad: Solution of continuous- or discrete-time algebraic Riccati equations for descriptor systems.
+  * slicot_mb02md: Solution of Total Least-Squares problem using a SVD approach.
 
 * Nelson Interface Generator (NIG) allows to generate Nelson builtin from C/Fortran code.
 
