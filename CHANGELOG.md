@@ -25,6 +25,7 @@ Features:
   * slicot_mb03od: Matrix rank determination by incremental condition estimation.
   * slicot_sb04md: Solution of continuous-time Sylvester equations (Hessenberg-Schur method).
   * slicot_sb04qd: Solution of discrete-time Sylvester equations (Hessenberg-Schur method).
+  * slicot_sg02ad: Solution of continuous- or discrete-time algebraic Riccati equations for descriptor systems.
 
 * Nelson Interface Generator (NIG) allows to generate Nelson builtin from C/Fortran code.
 
