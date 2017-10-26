@@ -21,6 +21,7 @@
 
 
 FILES = {
+'nig_sb10jd.nls';
 'nig_mb02md.nls';
 'nig_sg02ad.nls';
 'nig_sb04qd.nls';

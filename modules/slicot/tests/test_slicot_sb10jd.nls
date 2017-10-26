@@ -1,0 +1,56 @@
+//=============================================================================
+// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+// http://slicot.org/objects/software/shared/doc/SB01JD.html
+// [A_OUT, B_OUT, C_OUT, D_OUT, E_OUT, NSYS, INFO] = slicot_sb10jd(A_IN, B_IN, C_IN, D_IN, E_IN)
+assert_isequal(nargin('slicot_sb10jd'), 5);
+assert_isequal(nargout('slicot_sb10jd'), 7);
+//=============================================================================
+A_IN = [2 -4; 4 2];
+B_IN = [0 -1; 0 0.5];
+C_IN = [0 -0.5; 0 -2];
+D_IN = [0 0; 0 -1];
+E_IN = [1 0; -3 0.5];
+[A_OUT, B_OUT, C_OUT, D_OUT, E_OUT, NSYS, INFO] = slicot_sb10jd(A_IN, B_IN, C_IN, D_IN, E_IN);
+//=============================================================================
+A_OUT_REF = [-0.8391      5.0596;
+     -5.0596    -17.1609];
+assert_isapprox(A_OUT, A_OUT_REF, 1e-4);
+//=============================================================================
+B_OUT_REF = [0.0000      0.4388;
+      0.0000     -2.0139];
+assert_isapprox(B_OUT, B_OUT_REF, 1e-4);
+//=============================================================================
+C_OUT_REF = [-0.0416     -1.2504;
+     -0.1663     -5.0016];
+assert_isapprox(C_OUT, C_OUT_REF, 1e-4);
+//=============================================================================
+D_OUT_REF = [0    0;
+    0   -1];
+assert_isapprox(D_OUT, D_OUT_REF, 1e-4);
+//=============================================================================
+E_OUT_REF = [-3.1623      0.4743;
+     -0.7208      0.1581];
+assert_isapprox(E_OUT, E_OUT_REF, 1e-4);
+//=============================================================================
+NSYS_REF = int32(2);
+assert_isequal(NSYS, NSYS_REF);
+//=============================================================================
+INFO_REF = int32(0);
+assert_isequal(INFO, INFO_REF);
+//=============================================================================
