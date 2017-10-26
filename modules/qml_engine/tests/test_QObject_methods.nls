@@ -27,7 +27,7 @@ qobj = qml_loadfile(qml_file_ok);
 r = methods(qobj);
 assert_istrue(iscellstr(r));
 //=============================================================================
-if ismac()
+if ismethod(qobj.children(3), 'myQmlFunction1')
   idx = 3;
 else
   idx = 2;

@@ -22,14 +22,14 @@
 assert_isequal(nargin('invoke'), 2);
 assert_isequal(nargout('invoke'), 1);
 //=============================================================================
-if ismac()
+qml_file_ok = [modulepath('qml_engine'), '/tests/test_qml_methods.qml'];
+qobj = qml_loadfile(qml_file_ok);
+//=============================================================================
+if ismethod(qobj.children(3), 'myQmlFunction1')
   idx = 3;
 else
   idx = 2;
 end
-//=============================================================================
-qml_file_ok = [modulepath('qml_engine'), '/tests/test_qml_methods.qml'];
-qobj = qml_loadfile(qml_file_ok);
 //=============================================================================
 R = invoke(qobj.children(idx), 'myQmlFunction1', 1);
 REF = {1, int32(1),  int32(2),  int32(3)};
