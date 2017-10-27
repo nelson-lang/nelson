@@ -27,10 +27,10 @@ qobj = qml_loadfile(qml_file_ok);
 r = methods(qobj);
 assert_istrue(iscellstr(r));
 //=============================================================================
-if ismethod(qobj.children(3), 'myQmlFunction1')
-  idx = 3;
-else
+if ismethod(qobj.children(2), 'myQmlFunction1')
   idx = 2;
+else
+  idx = 3;
 end
 //=============================================================================
 r = methods(qobj.children(idx));
