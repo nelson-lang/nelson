@@ -12,5 +12,5 @@ Essayez-le !
 
 * * *
 
-*   [Licence de Nelson](licence.html)
 *   [Journal des modifications](changelog.html)
+*   [Licence de Nelson](licence.html)
