@@ -30,6 +30,10 @@ Source: {#RootPath}modules\{#MODULE_NAME}\functions\*.nlf; DestDir: {app}\module
 Source: {#RootPath}modules\{#MODULE_NAME}\help\*.qch; DestDir: {app}\modules\{#MODULE_NAME}\help\; Flags: recursesubdirs
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.nls; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs
+Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.nlf; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs
+Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.qml; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs
+Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.js; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs
+
 ;Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.ref; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\examples\*.*; DestDir: {app}\modules\{#MODULE_NAME}\examples\; Flags: recursesubdirs
