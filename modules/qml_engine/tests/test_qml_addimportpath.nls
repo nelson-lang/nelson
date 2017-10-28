@@ -22,13 +22,11 @@
 assert_isequal(nargin('qml_addimportpath'), 1);
 assert_isequal(nargout('qml_addimportpath'), 0);
 //=============================================================================
+l1 = qml_importpathlist();
 qml_addimportpath(nelsonroot());
-r = qml_importpathlist();
-found = false;
-for k = r
- if strcmp(k, nelsonroot())
-   found = true;
- end
+l2 = qml_importpathlist();
+assert_istrue(length(l2) > length(l1)) 
+for k = l2
+  assert_istrue(length(k) > 0);
 end
-assert_istrue(found);
 //=============================================================================
