@@ -18,7 +18,7 @@
 //=============================================================================
 #include <Windows.h>
 //=============================================================================
-#pragma comment(lib, "libopenblas.lib")
+#pragma comment(lib, "libnlsblaslapack.lib")
 //=============================================================================
 int WINAPI DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)
 {

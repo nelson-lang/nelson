@@ -27,7 +27,7 @@
 #pragma comment(lib, "boost_filesystem-vc141-mt-1_64.lib")
 #endif
 //=============================================================================
-#pragma comment(lib, "libopenblas.lib")
+#pragma comment(lib, "libnlsblaslapack.lib")
 //=============================================================================
 int WINAPI DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)
 {

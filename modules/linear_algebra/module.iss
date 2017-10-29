@@ -25,7 +25,7 @@ Source: {#RootPath}bin\{#BinPath}\libgcc_s_seh-1.dll; DestDir: {app}\bin\{#BinPa
 Source: {#RootPath}bin\{#BinPath}\libgfortran-3.dll; DestDir: {app}\bin\{#BinPath}\;
 Source: {#RootPath}bin\{#BinPath}\libquadmath-0.dll; DestDir: {app}\bin\{#BinPath}\;
 #endif
-Source: {#RootPath}bin\{#BinPath}\libopenblas.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\libnlsblaslapack.dll; DestDir: {app}\bin\{#BinPath}\;
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\loader.nls; DestDir: {app}\modules\{#MODULE_NAME}\;
 Source: {#RootPath}modules\{#MODULE_NAME}\etc\startup.nls; DestDir: {app}\modules\{#MODULE_NAME}\etc\;
