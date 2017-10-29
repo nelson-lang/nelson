@@ -35,6 +35,11 @@ http://www.fftw.org/index.html
 Free software, released under the GNU General Public License (GPL).
 Non-free licenses may also be purchased.
 
+MKL
+The Fastest and Most-UsedMath Library for Intel-Based Systems
+https://software.intel.com/en-us/mkl
+https://software.intel.com/en-us/license/intel-simplified-software-license
+
 F2C
 f2c is a program to convert Fortran 77 to C code, developed at Bell Laboratories.
 http://www.netlib.org/f2c/
