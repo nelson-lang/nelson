@@ -65,3 +65,11 @@ Source: {#RootPath}bin\{#BinPath}\libmmd.dll; DestDir: {app}\bin\{#BinPath}\
 ;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\LICENSE_1_0.txt; DestDir: {app}\bin\{#BinPath}\;
 ;==============================================================================
+; used by linear_algebra and slicot modules
+#ifdef NELSON_X64
+Source: {#RootPath}bin\{#BinPath}\libgcc_s_seh-1.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\libgfortran-3.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\libquadmath-0.dll; DestDir: {app}\bin\{#BinPath}\;
+#endif
+Source: {#RootPath}bin\{#BinPath}\libnlsblaslapack.dll; DestDir: {app}\bin\{#BinPath}\;
+;==============================================================================
