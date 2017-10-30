@@ -1,7 +1,7 @@
 Features:
 ---------
 
-  [#75](http://github.com/Nelson-numerical-software/nelson/issues/75): Intel Math Kernel Library can used to replace OpenBLAS and FFTW.
+  [#75](http://github.com/Nelson-numerical-software/nelson/issues/75): Intel Math Kernel Library can used to replace OpenBLAS and FFTW on Windows.
 
 
 ## 0.1.10 alpha (2017-10-29)
