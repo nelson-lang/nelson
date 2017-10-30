@@ -67,9 +67,28 @@ Source: {#RootPath}bin\{#BinPath}\LICENSE_1_0.txt; DestDir: {app}\bin\{#BinPath}
 ;==============================================================================
 ; used by linear_algebra and slicot modules
 #ifdef NELSON_X64
-Source: {#RootPath}bin\{#BinPath}\libgcc_s_seh-1.dll; DestDir: {app}\bin\{#BinPath}\;
-Source: {#RootPath}bin\{#BinPath}\libgfortran-3.dll; DestDir: {app}\bin\{#BinPath}\;
-Source: {#RootPath}bin\{#BinPath}\libquadmath-0.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\openblas\libgcc_s_seh-1.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_DEFAULT_CPU_LIBRARY}
+Source: {#RootPath}bin\{#BinPath}\openblas\libgfortran-3.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_DEFAULT_CPU_LIBRARY}
+Source: {#RootPath}bin\{#BinPath}\openblas\libquadmath-0.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_DEFAULT_CPU_LIBRARY}
 #endif
-Source: {#RootPath}bin\{#BinPath}\libnlsblaslapack.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\openblas\libnlsblaslapack.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_DEFAULT_CPU_LIBRARY}
+;==============================================================================
+Source: {#RootPath}bin\{#BinPath}\mkl\libiomp5md.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_MKL_CPU_LIBRARY}
+Source: {#RootPath}bin\{#BinPath}\mkl\libnlsblaslapack.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_MKL_CPU_LIBRARY}
+Source: {#RootPath}bin\{#BinPath}\mkl\mkl_avx.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_MKL_CPU_LIBRARY}
+Source: {#RootPath}bin\{#BinPath}\mkl\mkl_avx2.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_MKL_CPU_LIBRARY}
+Source: {#RootPath}bin\{#BinPath}\mkl\mkl_avx512.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_MKL_CPU_LIBRARY}
+Source: {#RootPath}bin\{#BinPath}\mkl\mkl_core.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_MKL_CPU_LIBRARY}
+Source: {#RootPath}bin\{#BinPath}\mkl\mkl_intel_thread.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_MKL_CPU_LIBRARY}
+Source: {#RootPath}bin\{#BinPath}\mkl\mkl_license.txt; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_MKL_CPU_LIBRARY}
+Source: {#RootPath}bin\{#BinPath}\mkl\mkl_rt.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_MKL_CPU_LIBRARY}
+#ifdef NELSON_X64
+Source: {#RootPath}bin\{#BinPath}\mkl\mkl_avx512_mic.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_MKL_CPU_LIBRARY}
+Source: {#RootPath}bin\{#BinPath}\mkl\mkl_mc.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_MKL_CPU_LIBRARY}
+Source: {#RootPath}bin\{#BinPath}\mkl\mkl_mc3.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_MKL_CPU_LIBRARY}
+#else
+Source: {#RootPath}bin\{#BinPath}\mkl\mkl_p4.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_MKL_CPU_LIBRARY}
+Source: {#RootPath}bin\{#BinPath}\mkl\mkl_p4m.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_MKL_CPU_LIBRARY}
+Source: {#RootPath}bin\{#BinPath}\mkl\mkl_p4m3.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_MKL_CPU_LIBRARY}
+#endif
 ;==============================================================================

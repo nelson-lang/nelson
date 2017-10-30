@@ -20,6 +20,8 @@
 tests_all.xml
 tests_minimal.xml
 /$tf
+/bin/*/mkl
+/bin/*/openblas
 /bin/win32/qml
 /bin/win32/plugins
 /bin/x64/qml

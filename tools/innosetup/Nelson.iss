@@ -22,7 +22,7 @@
 #define NELSON_X64
 #define NELSON_DEBUG
 #define CURRENT_YEAR "2017"
-#define APPLICATION_VERSION "0.0.1.0"
+#define APPLICATION_VERSION "0.1.11.0"
 #endif
 #define APPLICATION_NAME "Nelson"
 #define APPLICATION_EXE_GUI_NAME "Nelson-gui.exe"
@@ -47,6 +47,12 @@
 ;==============================================================================
 [Languages]
 #include "languages.iss"
+;==============================================================================
+[CustomMessages]
+#include "custommessages.iss"
+;==============================================================================
+[Components]
+#include "components.iss"
 ;==============================================================================
 [Tasks]
 #include "tasks.iss"
