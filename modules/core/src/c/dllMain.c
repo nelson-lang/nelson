@@ -19,14 +19,14 @@
 #include <Windows.h>
 //=============================================================================
 #ifdef _DEBUG
-#pragma comment(lib, "boost_system-vc141-mt-gd-1_64.lib")
-#pragma comment(lib, "boost_filesystem-vc141-mt-gd-1_64.lib")
-#pragma comment(lib, "boost_thread-vc141-mt-gd-1_64.lib")
+#pragma comment(lib, "boost_system-vc141-mt-gd-1_65_1.lib")
+#pragma comment(lib, "boost_filesystem-vc141-mt-gd-1_65_1.lib")
+#pragma comment(lib, "boost_thread-vc141-mt-gd-1_65_1.lib")
 
 #else
-#pragma comment(lib, "boost_system-vc141-mt-1_64.lib")
-#pragma comment(lib, "boost_filesystem-vc141-mt-1_64.lib")
-#pragma comment(lib, "boost_thread-vc141-mt-1_64.lib")
+#pragma comment(lib, "boost_system-vc141-mt-1_65_1.lib")
+#pragma comment(lib, "boost_filesystem-vc141-mt-1_65_1.lib")
+#pragma comment(lib, "boost_thread-vc141-mt-1_65_1.lib")
 
 #endif
 //=============================================================================
