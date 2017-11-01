@@ -17,8 +17,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 LANGUAGE = 'en_US';
-
-fd = fopen('help_ignore.txt', 'rt');
+pwd()
+fd = fopen([nelsonroot(), '/tools/missing_help/help_ignore.txt'], 'rt');
 ignored = {};
 line = fgets(fd);
 if ischar(line)
