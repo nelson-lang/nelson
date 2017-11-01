@@ -145,6 +145,7 @@ script:
 
   - make -j2
   - make buildhelp
+  - make missing_help
   - make tests_minimal
   - make package
   - make tests_all
