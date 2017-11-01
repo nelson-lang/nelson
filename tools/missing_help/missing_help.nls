@@ -17,7 +17,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 LANGUAGE = 'en_US';
-pwd()
 fd = fopen([nelsonroot(), '/tools/missing_help/help_ignore.txt'], 'rt');
 ignored = {};
 line = fgets(fd);
@@ -88,6 +87,7 @@ for k = keys_need_documented
   end
 end
 
+fprintf(stdout, ['', char(10)]);
 fprintf(stdout, ['//=============================================================================', char(10)]);
 fprintf(stdout, ['// ', _('Number of undocumented functions'), _(' : '), int2str(length(missing)), char(10)]);
 fprintf(stdout, ['// ', _('Number of existing help files'), _(' : '), int2str(length(helps)), char(10)]);
