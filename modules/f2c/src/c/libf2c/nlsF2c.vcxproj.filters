@@ -472,9 +472,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="f2c.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="fio.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -488,6 +485,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rawio.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\nelson_f2c.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

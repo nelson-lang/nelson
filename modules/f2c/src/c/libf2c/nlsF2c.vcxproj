@@ -328,7 +328,7 @@
     <ResourceCompile Include="resources.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="f2c.h" />
+    <ClInclude Include="..\..\include\nelson_f2c.h" />
     <ClInclude Include="fio.h" />
     <ClInclude Include="fmt.h" />
     <ClInclude Include="fp.h" />
