@@ -17,9 +17,9 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <QtWidgets/QHBoxLayout>
-#include "QtEditPane.hpp"
-#include "QtLineNumber.hpp"
-#include "QtTextIndent.hpp"
+#include "QtEditPane.h"
+#include "QtLineNumber.h"
+#include "QtTextIndent.h"
 //=============================================================================
 QtEditPane::QtEditPane()
 {

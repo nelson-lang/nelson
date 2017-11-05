@@ -11,9 +11,9 @@
 #include <QtWidgets/QMessageBox>
 #include <QtGui/QKeyEvent>
 #include <algorithm>
-#include "QtTextEditor.hpp"
-#include "QtLineNumber.hpp"
-#include "QtTextIndent.hpp"
+#include "QtTextEditor.h"
+#include "QtLineNumber.h"
+#include "QtTextIndent.h"
 #include "ModulesManager.hpp"
 #include "QStringConverter.hpp"
 #include "QtTranslation.hpp"

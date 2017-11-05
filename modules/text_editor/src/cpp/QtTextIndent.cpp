@@ -17,7 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <QtGui/QTextDocumentFragment>
-#include "QtTextIndent.hpp"
+#include "QtTextIndent.h"
 //=============================================================================
 QtTextIndent::QtTextIndent()
 {

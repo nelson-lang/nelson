@@ -19,7 +19,7 @@
 #pragma once
 //=============================================================================
 #include <QtWidgets/QWidget>
-#include "QtTextEdit.hpp"
+#include "QtTextEdit.h"
 //=============================================================================
 class QtLineNumber : public QWidget {
     Q_OBJECT

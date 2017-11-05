@@ -17,7 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "TextEditor.hpp"
-#include "QtTextEditor.hpp"
+#include "QtTextEditor.h"
 #include "QStringConverter.hpp"
 //=============================================================================
 namespace Nelson {

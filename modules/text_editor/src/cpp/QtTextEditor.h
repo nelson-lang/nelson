@@ -20,9 +20,9 @@
 //=============================================================================
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QTabWidget>
-#include "QtTextEdit.hpp"
-#include "QtTextIndent.hpp"
-#include "QtEditPane.hpp"
+#include "QtTextEdit.h"
+#include "QtTextIndent.h"
+#include "QtEditPane.h"
 #include "Evaluator.hpp"
 //=============================================================================
 using namespace Nelson;

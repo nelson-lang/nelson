@@ -18,7 +18,7 @@
 //=============================================================================
 #include <QtWidgets/QApplication>
 #include <QtGui/QKeyEvent>
-#include "QtTextEdit.hpp"
+#include "QtTextEdit.h"
 //=============================================================================
 QtTextEdit::QtTextEdit()
 {

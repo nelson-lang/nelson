@@ -20,7 +20,7 @@
 #include <QtGui/QPainter>
 #include <QtCore/QRectF>
 #include <QtWidgets/QScrollBar>
-#include "QtLineNumber.hpp"
+#include "QtLineNumber.h"
 //=============================================================================
 QtLineNumber::QtLineNumber(QtTextEdit *editor) : QWidget(), tEditor(editor)
 {

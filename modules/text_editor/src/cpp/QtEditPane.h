@@ -18,19 +18,17 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <QtCore/QObject>
-#include "QtTextEdit.hpp"
+#include <QtWidgets/QWidget>
+#include "QtTextEdit.h"
 //=============================================================================
-class QtTextIndent : public QObject {
+class QtEditPane : public QWidget {
     Q_OBJECT
-    QtTextEdit *m_te;
+    QtTextEdit *textEditor;
+    QString currentFilename;
 public:
-    QtTextIndent();
-    virtual ~QtTextIndent();
-    void setDocument(QtTextEdit *te);
-    QtTextEdit *document() const;
-private slots:
-    void update();
+    QtEditPane();
+    QtTextEdit* getEditor();
+    void setFileName(QString filename);
+    QString getFileName();
 };
 //=============================================================================
-

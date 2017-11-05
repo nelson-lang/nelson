@@ -68,23 +68,21 @@
     <ClInclude Include="..\include\TextEditorPreferences.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <CustomBuild Include="..\include\QtTextEditor.hpp">
+    <ClInclude Include="..\cpp\QtEditPane.hpp">
       <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="..\include\QtLineNumber.hpp">
+    </ClInclude>
+    <ClInclude Include="..\cpp\QtLineNumber.h">
       <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="..\include\QtTextIndent.hpp">
+    </ClInclude>
+    <ClInclude Include="..\cpp\QtTextEdit.h">
       <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="..\include\QtEditPane.hpp">
+    </ClInclude>
+    <ClInclude Include="..\cpp\QtTextEditor.h">
       <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="..\include\QtTextEdit.hpp">
+    </ClInclude>
+    <ClInclude Include="..\cpp\QtTextIndent.h">
       <Filter>Header Files</Filter>
-    </CustomBuild>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\CMakeLists.txt" />
