@@ -19,20 +19,20 @@
 #include <QtGui/QTextDocumentFragment>
 #include "QtTextIndent.hpp"
 //=============================================================================
-TextIndent::TextIndent()
+QtTextIndent::QtTextIndent()
 {
 }
 //=============================================================================
-TextIndent::~TextIndent()
+QtTextIndent::~QtTextIndent()
 {
 }
 //=============================================================================
-void TextIndent::setDocument(QtTextEdit *te)
+void QtTextIndent::setDocument(QtTextEdit *te)
 {
     m_te = te;
 }
 //=============================================================================
-QtTextEdit* TextIndent::document() const
+QtTextEdit* QtTextIndent::document() const
 {
     return m_te;
 }
@@ -42,7 +42,7 @@ QString indentLine(QString toIndent, QStringList priorText)
     return toIndent;
 }
 //=============================================================================
-void TextIndent::update()
+void QtTextIndent::update()
 {
     QTextCursor cursor(m_te->textCursor());
     QTextCursor save(cursor);

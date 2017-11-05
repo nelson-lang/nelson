@@ -29,7 +29,7 @@ QtEditPane::QtEditPane()
     layout->addWidget(tLN);
     layout->addWidget(textEditor);
     setLayout(layout);
-    TextIndent *ind = new TextIndent();
+    QtTextIndent *ind = new QtTextIndent();
     connect(textEditor, SIGNAL(indent()), ind, SLOT(update()));
     //Highlighter *highlight = new Highlighter(tEditor->document());
     ind->setDocument(textEditor);

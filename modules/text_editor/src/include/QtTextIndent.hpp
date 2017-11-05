@@ -20,12 +20,12 @@
 //=============================================================================
 #include "QtTextEdit.hpp"
 //=============================================================================
-class TextIndent : public QObject {
+class QtTextIndent : public QObject {
     Q_OBJECT
     QtTextEdit *m_te;
 public:
-    TextIndent();
-    virtual ~TextIndent();
+    QtTextIndent();
+    virtual ~QtTextIndent();
     void setDocument(QtTextEdit *te);
     QtTextEdit *document() const;
 private slots:
