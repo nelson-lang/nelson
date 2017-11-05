@@ -71,7 +71,7 @@ private:
     void writeSettings();
     void updateFont();
 
-private slots:
+private Q_SLOTS:
     bool save();
     bool saveAs();
 	bool saveAll();
