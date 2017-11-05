@@ -18,11 +18,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <QtCore/QString>
-#include <string>
-#include "nlsGui_exports.h"
-//=============================================================================
-namespace Nelson {
-    NLSGUI_IMPEXP QString TR(std::string str);
-}
+#ifdef _MSC_VER
+#ifdef NLSTEXT_EDITOR_BUILTIN_EXPORTS
+#define NLSTEXT_EDITOR_BUILTIN_IMPEXP __declspec(dllexport)
+#else
+#define NLSTEXT_EDITOR_BUILTIN_IMPEXP __declspec(dllimport)
+#endif
+#else
+#define NLSTEXT_EDITOR_BUILTIN_IMPEXP __attribute__ ((visibility ("default")))
+#endif
 //=============================================================================

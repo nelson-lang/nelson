@@ -16,13 +16,37 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include <QtWidgets/QHBoxLayout>
+#include "QtEditPane.hpp"
+#include "QtLineNumber.hpp"
+#include "QtTextIndent.hpp"
 //=============================================================================
-#include <QtCore/QString>
-#include <string>
-#include "nlsGui_exports.h"
+QtEditPane::QtEditPane()
+{
+    textEditor = new QtTextEdit();
+    QtLineNumber *tLN = new QtLineNumber(textEditor);
+    QHBoxLayout *layout = new QHBoxLayout;
+    layout->addWidget(tLN);
+    layout->addWidget(textEditor);
+    setLayout(layout);
+    TextIndent *ind = new TextIndent();
+    connect(textEditor, SIGNAL(indent()), ind, SLOT(update()));
+    //Highlighter *highlight = new Highlighter(tEditor->document());
+    ind->setDocument(textEditor);
+}
 //=============================================================================
-namespace Nelson {
-    NLSGUI_IMPEXP QString TR(std::string str);
+QtTextEdit* QtEditPane::getEditor()
+{
+    return textEditor;
+}
+//=============================================================================
+void QtEditPane::setFileName(QString filename)
+{
+    currentFilename = filename;
+}
+//=============================================================================
+QString QtEditPane::getFileName()
+{
+    return currentFilename;
 }
 //=============================================================================

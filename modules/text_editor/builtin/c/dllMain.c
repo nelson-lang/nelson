@@ -16,13 +16,29 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include <Windows.h>
 //=============================================================================
-#include <QtCore/QString>
-#include <string>
-#include "nlsGui_exports.h"
+#ifdef _DEBUG
+#pragma comment(lib, "boost_system-vc141-mt-gd-1_65_1.lib")
+#pragma comment(lib, "boost_filesystem-vc141-mt-gd-1_65_1.lib")
+#else
+#pragma comment(lib, "boost_system-vc141-mt-1_65_1.lib")
+#pragma comment(lib, "boost_filesystem-vc141-mt-1_65_1.lib")
+#endif
 //=============================================================================
-namespace Nelson {
-    NLSGUI_IMPEXP QString TR(std::string str);
+int WINAPI DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)
+{
+    switch (reason)
+    {
+        case DLL_PROCESS_ATTACH:
+            break;
+        case DLL_PROCESS_DETACH:
+            break;
+        case DLL_THREAD_ATTACH:
+            break;
+        case DLL_THREAD_DETACH:
+            break;
+    }
+    return 1;
 }
 //=============================================================================

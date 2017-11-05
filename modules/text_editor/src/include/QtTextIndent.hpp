@@ -18,11 +18,18 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <QtCore/QString>
-#include <string>
-#include "nlsGui_exports.h"
+#include "QtTextEdit.hpp"
 //=============================================================================
-namespace Nelson {
-    NLSGUI_IMPEXP QString TR(std::string str);
-}
+class TextIndent : public QObject {
+    Q_OBJECT
+    QtTextEdit *m_te;
+public:
+    TextIndent();
+    virtual ~TextIndent();
+    void setDocument(QtTextEdit *te);
+    QtTextEdit *document() const;
+private slots:
+    void update();
+};
 //=============================================================================
+

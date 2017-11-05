@@ -18,11 +18,22 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <QtCore/QString>
-#include <string>
-#include "nlsGui_exports.h"
+#include <QtGui/QFont>
+#include <QtCore/QPoint>
+#include <QtCore/QSize>
+#include "Types.hpp"
 //=============================================================================
-namespace Nelson {
-    NLSGUI_IMPEXP QString TR(std::string str);
-}
+#define TEXT_EDITOR_DEFAULT_POS_X 0
+#define TEXT_EDITOR_DEFAULT_POS_Y 0
+#define TEXT_EDITOR_DEFAULT_SIZE_X 640
+#define TEXT_EDITOR_DEFAULT_SIZE_Y 480
+#ifdef __APPLE__
+#define TEXT_EDITOR_DEFAULT_FONT "Monaco"
+#else
+#define TEXT_EDITOR_DEFAULT_FONT "Monospace"
+#endif
+#define TEXT_EDITOR_PREFERENCES_FILENAME "editor.conf"
+//=============================================================================
+bool TextEditorSavePreferences(QFont currentFont, QPoint pos, QSize sz, Nelson::wstringVector recentFiles);
+bool TextEditorLoadPreferences(QFont &currentFont, QPoint &pos, QSize &sz, Nelson::wstringVector &recentFiles);
 //=============================================================================

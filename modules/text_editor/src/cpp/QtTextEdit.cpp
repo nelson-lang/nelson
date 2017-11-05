@@ -16,13 +16,59 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include <QtWidgets/QApplication>
+#include <QtGui/QKeyEvent>
+#include "QtTextEdit.hpp"
 //=============================================================================
-#include <QtCore/QString>
-#include <string>
-#include "nlsGui_exports.h"
-//=============================================================================
-namespace Nelson {
-    NLSGUI_IMPEXP QString TR(std::string str);
+QtTextEdit::QtTextEdit()
+{
+    setLineWrapMode(QTextEdit::NoWrap);
 }
 //=============================================================================
+QtTextEdit::~QtTextEdit()
+{
+}
+//=============================================================================
+void QtTextEdit::keyPressEvent(QKeyEvent *e)
+{
+    bool tab = false;
+    int keycode = e->key();
+    if ((keycode == Qt::Key_S) && QApplication::keyboardModifiers() && Qt::ControlModifier)
+    {
+        e->accept();
+    }
+    else
+    {
+        if (keycode)
+        {
+            QByteArray p(e->text().toUtf8());
+            char key;
+            if (!e->text().isEmpty())
+            {
+                key = p[0];
+            }
+            else
+            {
+                key = 0;
+            }
+            if (key == 0x09)
+            {
+                tab = true;
+                emit indent();
+            }
+        }
+        if (!tab)
+        {
+            QTextEdit::keyPressEvent(e);
+        }
+        else
+        {
+            e->accept();
+        }
+    }
+}
+//=============================================================================
+void QtTextEdit::contextMenuEvent(QContextMenuEvent* e)
+{
+    e->ignore();
+}

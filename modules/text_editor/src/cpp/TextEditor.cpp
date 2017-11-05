@@ -16,13 +16,38 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include <QtCore/QString>
-#include <string>
-#include "nlsGui_exports.h"
+#include "TextEditor.hpp"
+#include "QtTextEditor.hpp"
+#include "QStringConverter.hpp"
 //=============================================================================
 namespace Nelson {
-    NLSGUI_IMPEXP QString TR(std::string str);
+    //=============================================================================
+    static QtTextEditor *edit = nullptr;
+    //=============================================================================
+    bool editor(Evaluator *eval)
+    {
+        bool res = false;
+        if (edit == nullptr)
+        {
+            edit = new QtTextEditor(eval);
+        }
+        edit->showNormal();
+        edit->raise();
+        return res;
+    }
+    //=============================================================================
+    bool editor(Evaluator *eval, std::wstring filename)
+    {
+        bool res = false;
+        if (edit == nullptr)
+        {
+            edit = new QtTextEditor(eval);
+        }
+        edit->loadOrCreateFile(wstringToQString(filename));
+        edit->showNormal();
+        edit->raise();
+        return res;
+    }
+    //=============================================================================
 }
 //=============================================================================

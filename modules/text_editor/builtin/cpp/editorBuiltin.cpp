@@ -16,13 +16,38 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "editorBuiltin.hpp"
+#include "Error.hpp"
+#include "TextEditor.hpp"
 //=============================================================================
-#include <QtCore/QString>
-#include <string>
-#include "nlsGui_exports.h"
+using namespace Nelson;
 //=============================================================================
-namespace Nelson {
-    NLSGUI_IMPEXP QString TR(std::string str);
+ArrayOfVector Nelson::TextEditorGateway::editorBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+    if (nLhs != 0)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    switch (argIn.size())
+    {
+        case 0:
+        {
+            editor(eval);
+        }
+        break;
+        case 1:
+        {
+            std::wstring filename = argIn[0].getContentAsWideString();
+            editor(eval, filename);
+        }
+        break;
+        default:
+        {
+            Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        }
+        break;
+    }
+    return retval;
 }
 //=============================================================================

@@ -18,11 +18,16 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <QtCore/QString>
-#include <string>
-#include "nlsGui_exports.h"
+#include <QtWidgets/QWidget>
+#include "QtTextEdit.hpp"
 //=============================================================================
-namespace Nelson {
-    NLSGUI_IMPEXP QString TR(std::string str);
-}
+class QtLineNumber : public QWidget {
+    Q_OBJECT
+public:
+    QtLineNumber(QtTextEdit *editor);
+protected:
+    virtual void paintEvent(QPaintEvent *paintEvent);
+private:
+    QtTextEdit *tEditor;
+};
 //=============================================================================

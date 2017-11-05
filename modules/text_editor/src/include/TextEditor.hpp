@@ -17,12 +17,13 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #pragma once
-//=============================================================================
-#include <QtCore/QString>
 #include <string>
-#include "nlsGui_exports.h"
+#include "Evaluator.hpp"
+#include "nlsText_editor_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSGUI_IMPEXP QString TR(std::string str);
+    NLSTEXT_EDITOR_IMPEXP bool editor(Evaluator *eval);
+    NLSTEXT_EDITOR_IMPEXP bool editor(Evaluator *eval, std::wstring filename);
+
 }
 //=============================================================================

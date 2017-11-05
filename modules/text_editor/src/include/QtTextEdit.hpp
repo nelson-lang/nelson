@@ -18,11 +18,18 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <QtCore/QString>
-#include <string>
-#include "nlsGui_exports.h"
+#include <QtWidgets/QTextEdit>
 //=============================================================================
-namespace Nelson {
-    NLSGUI_IMPEXP QString TR(std::string str);
-}
+class QtTextEdit : public QTextEdit {
+    Q_OBJECT
+public:
+    QtTextEdit();
+    virtual ~QtTextEdit();
+    void keyPressEvent(QKeyEvent *event);
+    void contextMenuEvent(QContextMenuEvent *event);
+
+signals:
+    void indent();
+};
 //=============================================================================
+

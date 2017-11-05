@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.12
+VisualStudioVersion = 15.0.27004.2005
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NelSon-gui", "modules\main\nelson_gui\NelSon-gui.vcxproj", "{F34BD496-D9B3-4C25-A9E9-C91EB3E35C12}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -14,9 +14,11 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NelSon-adv-cli", "modules\main\nelson_adv_cli\NelSon-adv-cli.vcxproj", "{C99BC330-1771-4952-99BC-586343B731E5}"
 	ProjectSection(ProjectDependencies) = postProject
 		{DA362D59-BF19-4889-B427-6F7A8497AAE2} = {DA362D59-BF19-4889-B427-6F7A8497AAE2}
+		{02AD5A6D-F80A-4888-9178-29A0D7D04814} = {02AD5A6D-F80A-4888-9178-29A0D7D04814}
 		{A6D3C7A0-E53A-4647-8FA2-CF065B696BA4} = {A6D3C7A0-E53A-4647-8FA2-CF065B696BA4}
 		{9B1B6BA6-7AF6-4059-9D85-754552E7D6CF} = {9B1B6BA6-7AF6-4059-9D85-754552E7D6CF}
 		{075F60AD-38BA-4531-9D46-7453E3416E15} = {075F60AD-38BA-4531-9D46-7453E3416E15}
+		{E02A3EB6-771A-47FD-8E64-3468D98B4EEE} = {E02A3EB6-771A-47FD-8E64-3468D98B4EEE}
 		{3AF39FF6-F459-4749-A03B-5FCC38A4EE90} = {3AF39FF6-F459-4749-A03B-5FCC38A4EE90}
 	EndProjectSection
 EndProject
@@ -307,6 +309,10 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nlsSlicot", "modules\slicot\src\c\nlsSlicot.vcxproj", "{F0407694-8F75-48E8-A52B-57C231262572}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nlsSlicot_builtin", "modules\slicot\builtin\c\nlsSlicot_builtin.vcxproj", "{575F1F03-92D7-4201-A562-3B9214E1EC5C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nlsText_editor_builtin", "modules\text_editor\builtin\c\nlsText_editor_builtin.vcxproj", "{E02A3EB6-771A-47FD-8E64-3468D98B4EEE}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nlsText_editor", "modules\text_editor\src\c\nlsText_editor.vcxproj", "{02AD5A6D-F80A-4888-9178-29A0D7D04814}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1064,6 +1070,22 @@ Global
 		{575F1F03-92D7-4201-A562-3B9214E1EC5C}.Release|Win32.Build.0 = Release|Win32
 		{575F1F03-92D7-4201-A562-3B9214E1EC5C}.Release|x64.ActiveCfg = Release|x64
 		{575F1F03-92D7-4201-A562-3B9214E1EC5C}.Release|x64.Build.0 = Release|x64
+		{E02A3EB6-771A-47FD-8E64-3468D98B4EEE}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E02A3EB6-771A-47FD-8E64-3468D98B4EEE}.Debug|Win32.Build.0 = Debug|Win32
+		{E02A3EB6-771A-47FD-8E64-3468D98B4EEE}.Debug|x64.ActiveCfg = Debug|x64
+		{E02A3EB6-771A-47FD-8E64-3468D98B4EEE}.Debug|x64.Build.0 = Debug|x64
+		{E02A3EB6-771A-47FD-8E64-3468D98B4EEE}.Release|Win32.ActiveCfg = Release|Win32
+		{E02A3EB6-771A-47FD-8E64-3468D98B4EEE}.Release|Win32.Build.0 = Release|Win32
+		{E02A3EB6-771A-47FD-8E64-3468D98B4EEE}.Release|x64.ActiveCfg = Release|x64
+		{E02A3EB6-771A-47FD-8E64-3468D98B4EEE}.Release|x64.Build.0 = Release|x64
+		{02AD5A6D-F80A-4888-9178-29A0D7D04814}.Debug|Win32.ActiveCfg = Debug|Win32
+		{02AD5A6D-F80A-4888-9178-29A0D7D04814}.Debug|Win32.Build.0 = Debug|Win32
+		{02AD5A6D-F80A-4888-9178-29A0D7D04814}.Debug|x64.ActiveCfg = Debug|x64
+		{02AD5A6D-F80A-4888-9178-29A0D7D04814}.Debug|x64.Build.0 = Debug|x64
+		{02AD5A6D-F80A-4888-9178-29A0D7D04814}.Release|Win32.ActiveCfg = Release|Win32
+		{02AD5A6D-F80A-4888-9178-29A0D7D04814}.Release|Win32.Build.0 = Release|Win32
+		{02AD5A6D-F80A-4888-9178-29A0D7D04814}.Release|x64.ActiveCfg = Release|x64
+		{02AD5A6D-F80A-4888-9178-29A0D7D04814}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

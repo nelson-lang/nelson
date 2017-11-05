@@ -81,9 +81,9 @@ namespace Nelson {
             int month = pt.date().month();
             int year = pt.date().year();
             auto hms = pt.time_of_day();
-            int h = hms.hours();
-            int m = hms.minutes();
-            int s = hms.seconds();
+            int h = (int)hms.hours();
+            int m = (int)hms.minutes();
+            int s = (int)hms.seconds();
             this->date = boost::posix_time::to_simple_wstring(pt);
             this->datenum = DateNumber(year, month, day, h, m, s);
         }

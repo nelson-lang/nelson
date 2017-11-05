@@ -18,11 +18,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <QtCore/QString>
-#include <string>
-#include "nlsGui_exports.h"
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    NLSGUI_IMPEXP QString TR(std::string str);
-}
+    namespace TextEditorGateway {
+        ArrayOfVector editorBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    };
+};
 //=============================================================================
+

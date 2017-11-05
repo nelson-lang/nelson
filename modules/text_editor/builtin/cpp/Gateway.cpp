@@ -16,13 +16,23 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "NelsonGateway.hpp"
+#include "editorBuiltin.hpp"
 //=============================================================================
-#include <QtCore/QString>
-#include <string>
-#include "nlsGui_exports.h"
+using namespace Nelson;
 //=============================================================================
-namespace Nelson {
-    NLSGUI_IMPEXP QString TR(std::string str);
-}
+const std::wstring gatewayName = L"text_editor";
+//=============================================================================
+static const nlsGateway gateway[] =
+{
+    { "editor", Nelson::TextEditorGateway::editorBuiltin, 0, 0 },
+};
+//=============================================================================
+NLSGATEWAYFUNC(gateway)
+//=============================================================================
+NLSGATEWAYINFO(gateway)
+//=============================================================================
+NLSGATEWAYREMOVE(gateway)
+//=============================================================================
+NLSGATEWAYNAME()
 //=============================================================================

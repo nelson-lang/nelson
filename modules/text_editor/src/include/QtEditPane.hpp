@@ -18,11 +18,17 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <QtCore/QString>
-#include <string>
-#include "nlsGui_exports.h"
+#include <QtWidgets/QWidget>
+#include "QtTextEdit.hpp"
 //=============================================================================
-namespace Nelson {
-    NLSGUI_IMPEXP QString TR(std::string str);
-}
+class QtEditPane : public QWidget {
+    Q_OBJECT
+    QtTextEdit *textEditor;
+    QString currentFilename;
+public:
+    QtEditPane();
+    QtTextEdit* getEditor();
+    void setFileName(QString filename);
+    QString getFileName();
+};
 //=============================================================================

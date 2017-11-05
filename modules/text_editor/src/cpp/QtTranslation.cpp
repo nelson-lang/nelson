@@ -16,13 +16,17 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include <QtCore/QString>
-#include <string>
-#include "nlsGui_exports.h"
+#include "QtTranslation.hpp"
+#include "QStringConverter.hpp"
+#include "characters_encoding.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
-    NLSGUI_IMPEXP QString TR(std::string str);
+    //=============================================================================
+    QString TR(std::string str)
+    {
+        return wstringToQString(gettextw(str));
+    }
+    //=============================================================================
 }
 //=============================================================================

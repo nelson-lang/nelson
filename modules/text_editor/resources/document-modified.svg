@@ -1,0 +1,64 @@
+<svg width="48" height="48" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <radialGradient r="117.14286" fy="486.64789" fx="605.71429" cy="486.64789" cx="605.71429" gradientTransform="matrix(-2.774389,0,0,1.969706,112.7623,-872.8854)" gradientUnits="userSpaceOnUse" id="radialGradient5031" xlink:href="#linearGradient5060"/>
+  <linearGradient id="linearGradient5060">
+   <stop stop-color="black" id="stop5062" offset="0"/>
+   <stop stop-color="black" stop-opacity="0" id="stop5064" offset="1"/>
+  </linearGradient>
+  <radialGradient r="117.14286" fy="486.64789" fx="605.71429" cy="486.64789" cx="605.71429" gradientTransform="matrix(2.774389,0,0,1.969706,-1891.633,-872.8854)" gradientUnits="userSpaceOnUse" id="radialGradient5029" xlink:href="#linearGradient5060"/>
+  <linearGradient id="linearGradient5048">
+   <stop stop-color="black" stop-opacity="0" id="stop5050" offset="0"/>
+   <stop stop-color="black" offset="0.5" id="stop5056"/>
+   <stop stop-color="black" stop-opacity="0" id="stop5052" offset="1"/>
+  </linearGradient>
+  <linearGradient y2="1" x2="0.378698" y1="0" x1="0.378698" id="linearGradient5027" xlink:href="#linearGradient5048"/>
+  <linearGradient id="linearGradient15662">
+   <stop stop-color="#ffffff" id="stop15664" offset="0"/>
+   <stop stop-color="#f8f8f8" id="stop15666" offset="1"/>
+  </linearGradient>
+  <linearGradient id="linearGradient269">
+   <stop stop-color="#a3a3a3" id="stop270" offset="0"/>
+   <stop stop-color="#4c4c4c" id="stop271" offset="1"/>
+  </linearGradient>
+  <linearGradient id="linearGradient12512">
+   <stop stop-color="#ffffff" id="stop12513" offset="0"/>
+   <stop stop-color="#fff520" stop-opacity="0.891089" id="stop12517" offset="0.5"/>
+   <stop stop-color="#fff300" stop-opacity="0" id="stop12514" offset="1"/>
+  </linearGradient>
+  <radialGradient r="14.375" fy="125" fx="55" cy="125" cx="55" gradientUnits="userSpaceOnUse" id="radialGradient278" xlink:href="#linearGradient12512"/>
+  <radialGradient xlink:href="#linearGradient269" id="radialGradient15656" gradientUnits="userSpaceOnUse" gradientTransform="matrix(0.968273,0.000000,0.000000,1.032767,3.353553,0.646447)" cx="8.824419" cy="3.756128" fx="8.824419" fy="3.756128" r="37.751713"/>
+  <radialGradient xlink:href="#linearGradient15662" id="radialGradient15668" gradientUnits="userSpaceOnUse" gradientTransform="matrix(0.968273,0.000000,0.000000,1.032767,3.353553,0.646447)" cx="8.143557" cy="7.267897" fx="8.143557" fy="7.267897" r="38.158695"/>
+ </defs>
+ <metadata id="metadata4">image/svg+xmlNew DocumentJakub Steinerhttp://jimmac.musichall.cz</metadata>
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="402" width="582" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <g id="layer6">
+   <g display="inline" transform="matrix(0.02165152,0,0,0.01485743,43.0076,42.68539) " id="g5022">
+    <rect opacity="0.402062" fill="url(#linearGradient5027)" fill-rule="nonzero" stroke-linecap="round" stroke-miterlimit="4" stroke-dashoffset="0" id="rect4173" width="1339.6335" height="478.35718" x="-1559.2523" y="-150.69685"/>
+    <path opacity="0.402062" fill="url(#radialGradient5029)" fill-rule="nonzero" stroke-linecap="round" marker-start="none" marker-mid="none" marker-end="none" stroke-miterlimit="4" stroke-dashoffset="0" d="m-219.61876,-150.68038c0,0 0,478.33079 0,478.33079c142.87417,0.90045 345.40022,-107.16966 345.40014,-239.19618c0,-132.02653 -159.43682,-239.13459 -345.40014,-239.13461z" id="path5058"/>
+    <path opacity="0.402062" fill="url(#radialGradient5031)" fill-rule="nonzero" stroke-linecap="round" marker-start="none" marker-mid="none" marker-end="none" stroke-miterlimit="4" stroke-dashoffset="0" id="path5018" d="m-1559.2523,-150.68038c0,0 0,478.33079 0,478.33079c-142.8742,0.90045 -345.4002,-107.16966 -345.4002,-239.19618c0,-132.02653 159.4368,-239.13459 345.4002,-239.13461z"/>
+   </g>
+  </g>
+  <g display="inline" id="layer1">
+   <rect fill="#cc666e" fill-rule="nonzero" stroke="url(#radialGradient15656)" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="4" stroke-dashoffset="0" id="rect15391" width="34.875" height="40.920494" x="6.603553" y="3.646446" ry="1.149049"/>
+   <rect fill="#cc666e" fill-rule="nonzero" stroke="url(#radialGradient15668)" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="4" stroke-dashoffset="0" id="rect15660" width="32.775887" height="38.946384" x="7.666054" y="4.583946" ry="0.149049" rx="0.149049"/>
+   <g id="g2270">
+    <g fill="#ffffff" fill-rule="nonzero" stroke="#000000" stroke-miterlimit="4" id="g1440" transform="matrix(0.229703,0,0,0.229703,4.967081,4.244972) ">
+     <path fill="#cc666e" d="m26.242273,112.904615c0,1.973 -1.6,3.572 -3.573,3.572c-1.974,0 -3.573,-1.6 -3.573,-3.572c0,-1.974 1.6,-3.573 3.573,-3.573c1.973,0 3.573,1.6 3.573,3.573z" id="path1448"/>
+     <path fill="#cc666e" d="m26.242273,62.904615c0,1.973 -1.6,3.573 -3.573,3.573c-1.974,0 -3.573,-1.6 -3.573,-3.573c0,-1.974 1.6,-3.573 3.573,-3.573c1.973,0 3.573,1.6 3.573,3.573z" id="path1456"/>
+    </g>
+    <path fill="#cc666e" fill-rule="nonzero" stroke-miterlimit="4" d="m10.641457,29.914341c0,0.4532 -0.36752,0.8205 -0.82073,0.8205c-0.45343,0 -0.82073,-0.36753 -0.82073,-0.8205c0,-0.45344 0.36753,-0.82073 0.82073,-0.82073c0.45321,0 0.82073,0.36752 0.82073,0.82073z" id="path15570"/>
+    <path fill="#cc666e" fill-rule="nonzero" stroke-miterlimit="4" d="m10.641457,18.429191c0,0.4532 -0.36752,0.82072 -0.82073,0.82072c-0.45343,0 -0.82073,-0.36752 -0.82073,-0.82072c0,-0.45344 0.36753,-0.82073 0.82073,-0.82073c0.45321,0 0.82073,0.36752 0.82073,0.82073z" id="path15577"/>
+   </g>
+   <path fill="#cc666e" fill-opacity="0.75" fill-rule="evenodd" stroke="#000000" stroke-width="0.988553" stroke-miterlimit="4" stroke-opacity="0.017544" d="m11.50572,5.49428l0,37.90659" id="path15672"/>
+   <path fill="#cc666e" fill-opacity="0.75" fill-rule="evenodd" stroke="#ffffff" stroke-miterlimit="4" stroke-opacity="0.204678" d="m12.5,5.02052l0,38.01771" id="path15674"/>
+  </g>
+  <g display="inline" id="layer4">
+   <path fill="url(#radialGradient278)" fill-rule="nonzero" stroke-width="1.25" stroke-linejoin="round" stroke-miterlimit="4" stroke-dashoffset="0" marker-start="none" marker-mid="none" marker-end="none" d="m48,11.25982a11.259823,11.259823 0 1 1 -22.519645,0a11.259823,11.259823 0 1 1 22.519645,0z" id="path12511"/>
+  </g>
+ </g>
+</svg>

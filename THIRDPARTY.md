@@ -98,3 +98,7 @@ dtl
 The Diff Template Library written by C++
 https://github.com/cubicdaiya/dtl
 https://github.com/cubicdaiya/dtl/blob/master/COPYING
+
+TANGO icons
+http://tango.freedesktop.org/Tango_Desktop_Project
+Public Domain

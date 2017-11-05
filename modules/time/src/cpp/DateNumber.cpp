@@ -97,12 +97,12 @@ namespace Nelson {
             boost::gregorian::date d = pt.date();
             if (!d.is_not_a_date())
             {
-                double month = d.month().as_number();
-                double year = d.year();
-                double day = d.day().as_number();
-                double hours = pt.time_of_day().hours();
-                double minutes = pt.time_of_day().minutes();
-                double secondes = pt.time_of_day().seconds();
+                double month = (double)d.month().as_number();
+                double year = (double)d.year();
+                double day = (double)d.day().as_number();
+                double hours = (double)pt.time_of_day().hours();
+                double minutes = (double)pt.time_of_day().minutes();
+                double secondes = (double)pt.time_of_day().seconds();
                 res = DateNumber(year, month, day, hours, minutes, secondes);
                 bParsed = true;
             }
@@ -181,7 +181,7 @@ namespace Nelson {
                     double year = currentdate.year();
                     double month = 1;
                     double day = 1;
-                    double hours = pt.time_of_day().hours();
+                    double hours = (double)pt.time_of_day().hours();
                     if (havePM)
                     {
                         if (hours < 12)
@@ -189,8 +189,8 @@ namespace Nelson {
                             hours = hours + 12;
                         }
                     }
-                    double minutes = pt.time_of_day().minutes();
-                    double secondes = pt.time_of_day().seconds();
+                    double minutes = (double)pt.time_of_day().minutes();
+                    double secondes = (double)pt.time_of_day().seconds();
                     double res = DateNumber(year, month, day, hours, minutes, secondes);
                     bParsed = true;
                     return res;
@@ -266,12 +266,12 @@ namespace Nelson {
                 if (pt != boost::posix_time::ptime())
                 {
                     boost::gregorian::date d = pt.date();
-                    double year = d.year();
-                    double month = d.month().as_number();
-                    double day = d.day().as_number();
-                    double hours = pt.time_of_day().hours();
-                    double minutes = pt.time_of_day().minutes();
-                    double secondes = pt.time_of_day().seconds();
+                    double year = (double)d.year();
+                    double month = (double)d.month().as_number();
+                    double day = (double)d.day().as_number();
+                    double hours = (double)pt.time_of_day().hours();
+                    double minutes = (double)pt.time_of_day().minutes();
+                    double secondes = (double)pt.time_of_day().seconds();
                     double res = DateNumber(year, month, day, hours, minutes, secondes);
                     bParsed = true;
                     return res;
