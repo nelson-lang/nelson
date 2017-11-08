@@ -20,10 +20,12 @@
 #include "characters_encoding.hpp"
 #include "Error.hpp"
 #include "BuiltInFunctionDefManager.hpp"
+#include "GetNelsonMainEvaluatorDynamicFunction.hpp"
+#include "PathFuncManager.hpp"
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-    wstringVector WhatW(Evaluator *eval, bool bWithPrivateFunction, bool bSorted)
+    wstringVector WhatListOfBuiltin(Evaluator *eval, bool bWithPrivateFunction, bool bSorted)
     {
         wstringVector functionsList;
         stringVector funcs = eval->getContext()->getGlobalScope()->getBuiltinsList();
@@ -49,5 +51,32 @@ namespace Nelson {
         return functionsList;
     }
     //=============================================================================
+	wstringVector WhatListOfBuiltin(bool bSorted)
+	{
+		wstringVector functionsList;
+		Evaluator *eval = (Evaluator *)GetNelsonMainEvaluatorDynamicFunction();
+		if (eval)
+		{
+			functionsList = WhatListOfBuiltin(eval, bSorted);
+		}
+		return functionsList;
+	}
+	//=============================================================================
+	wstringVector WhatListOfMacro(Evaluator *eval)
+	{
+		return PathFuncManager::getInstance()->getMacrosList();
+	}
+	//=============================================================================
+	wstringVector WhatListOfMacro()
+	{
+		wstringVector macroList;
+		Evaluator *eval = (Evaluator *)GetNelsonMainEvaluatorDynamicFunction();
+		if (eval)
+		{
+			macroList = WhatListOfMacro(eval);
+		}
+		return macroList;
+	}
+	//=============================================================================
 }
 //=============================================================================

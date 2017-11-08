@@ -23,6 +23,9 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    NLSFUNCTIONS_MANAGER_IMPEXP wstringVector WhatW(Evaluator *eval, bool bWithPrivateFunction = false, bool bSorted = true);
+    NLSFUNCTIONS_MANAGER_IMPEXP wstringVector WhatListOfBuiltin(Evaluator *eval, bool bWithPrivateFunction = false, bool bSorted = true);
+	NLSFUNCTIONS_MANAGER_IMPEXP wstringVector WhatListOfBuiltin(bool bSorted = true);
+	NLSFUNCTIONS_MANAGER_IMPEXP wstringVector WhatListOfMacro(Evaluator *eval);
+	NLSFUNCTIONS_MANAGER_IMPEXP wstringVector WhatListOfMacro();
 }
 //=============================================================================

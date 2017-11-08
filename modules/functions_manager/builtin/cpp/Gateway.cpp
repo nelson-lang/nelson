@@ -43,7 +43,7 @@ static const nlsGateway gateway[] =
     { "builtin", Nelson::FunctionsGateway::builtinBuiltin, -1, -1 },
     { "feval", Nelson::FunctionsGateway::fevalBuiltin, -1, -1 },
     { "clearfun", Nelson::FunctionsGateway::clearfunBuiltin, 1, 1 },
-    { "what", Nelson::FunctionsGateway::whatBuiltin, 1, 0 },
+    { "what", Nelson::FunctionsGateway::whatBuiltin, -1, 0 },
     { "addpath", Nelson::FunctionsGateway::addpathBuiltin, 1, -1 },
     { "rmpath", Nelson::FunctionsGateway::rmpathBuiltin, 1, -1 },
     { "path", Nelson::FunctionsGateway::pathBuiltin, 1, 2 },

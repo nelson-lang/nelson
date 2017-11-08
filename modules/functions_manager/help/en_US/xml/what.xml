@@ -1,54 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
 
-	<language>en_US</language>
-	<keyword>what</keyword>
-	<short_description>Get Nelson builtin list.</short_description>
+  <language>en_US</language>
+  <keyword>what</keyword>
+  <short_description>Get Nelson builtin and macro list.</short_description>
 
-	<syntax>
-		<syntax_item>list_builtin = what()</syntax_item>
-	</syntax>
-	
-	<param_output>
-		<param_output_item>
-			<param_name>list_builtin</param_name>
-			<param_description>a cell of strings</param_description>
-		</param_output_item>
-	</param_output>
+  <syntax>
+    <syntax_item>list_builtin = what()</syntax_item>
+    <syntax_item>[list_builtin, list_macro] = what()</syntax_item>
 
-	<description><p><b>what</b> returns the list of all builtin available in current Nelson's session.</p>
+  </syntax>
+  
+  <param_output>
+    <param_output_item>
+      <param_name>list_builtin</param_name>
+      <param_description>a cell of strings</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>list_macro</param_name>
+      <param_description>a cell of strings</param_description>
+    </param_output_item>
+
+  </param_output>
+
+  <description><p><b>what</b> returns the list of all builtin and macro available in current Nelson's session.</p>
 </description>
-	<used_function></used_function>
-	<bibliography></bibliography>
+  <used_function></used_function>
+  <bibliography></bibliography>
 
 <examples>
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[l = what()]]>
-		</example_item_data>
-	</example_item>
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description></example_item_description>
+    <example_item_data><![CDATA[l = what()
+[l, m] = what()]]>
+    </example_item_data>
+  </example_item>
 
 
 </examples>
 
-	<see_also>
-		<see_also_item>
-			<link linkend="${functions_manager}which">which</link>
-		</see_also_item>
-	</see_also>
+  <see_also>
+    <see_also_item>
+      <link linkend="${functions_manager}which">which</link>
+    </see_also_item>
+  </see_also>
 
-	<history>
-		<history_item>
-			<history_version>1.0.0</history_version>
-			<history_description>initial version</history_description>
-		</history_item>
-	</history>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
 
-	<authors>
-		<author_item>Allan CORNET</author_item>
-	</authors>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>
 
 
