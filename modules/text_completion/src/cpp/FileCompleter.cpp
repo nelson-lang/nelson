@@ -172,14 +172,14 @@ namespace Nelson {
 									{
 										fname = fname + L"/";
 									}
-									std::wstring compl;
+									std::wstring complet;
 #ifdef _MSC_VER
 									if ((*prefix.rbegin() == L'/') || (*prefix.rbegin() == L'\\'))
 #else
 									if ((*prefix.rbegin() == L'/'))
 #endif
 									{
-										compl = fname.substr(prefix.size(), fname.size() - prefix.size() + 1);
+										complet = fname.substr(prefix.size(), fname.size() - prefix.size() + 1);
 									}
 									else
 									{
@@ -207,12 +207,12 @@ namespace Nelson {
 #endif
 										if (pos != std::wstring::npos)
 										{
-											compl = fname.substr(pos + 1);
+											complet = fname.substr(pos + 1);
 										}
 									}
-									if (!compl.empty())
+									if (!complet.empty())
 									{
-										res.push_back(compl);
+										res.push_back(complet);
 									}
 								}
 							}
