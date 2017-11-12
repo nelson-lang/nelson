@@ -11,12 +11,12 @@ Please feel free to file issues on this repository if you have questions, concer
 
 - linear algebra module,
 - Computer Aided Control Systems Design module ,
-- SLICOT module: low level function about Controls,
+- SLICOT module: low level function about Controls (DONE v0.1.10),
 - fftw module (DONE v0.1.8),
 - COM objects (DONE v0.1.7),
 - MAT File I/O module,
-- editor,
-- completion,
+- editor (DONE v0.1.11),
+- completion (DONE v0.1.11),
 - graphics output,
 - some basic openCV functions,
 - dynamic link functions

@@ -20,6 +20,7 @@
 #include "QtEditPane.h"
 #include "QtLineNumber.h"
 #include "QtTextIndent.h"
+#include "QtHighlighter.h"
 //=============================================================================
 QtEditPane::QtEditPane()
 {
@@ -31,7 +32,7 @@ QtEditPane::QtEditPane()
     setLayout(layout);
     QtTextIndent *ind = new QtTextIndent();
     connect(textEditor, SIGNAL(indent()), ind, SLOT(update()));
-    //Highlighter *highlight = new Highlighter(tEditor->document());
+    highlight = new Highlighter(textEditor->document());
     ind->setDocument(textEditor);
 }
 //=============================================================================

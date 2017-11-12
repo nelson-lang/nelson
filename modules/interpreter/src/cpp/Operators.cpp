@@ -16,33 +16,34 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include <string.h>
+#include "Operators.hpp"
 //=============================================================================
-#include <QtWidgets/QTextEdit>
+namespace Nelson {
+	//=============================================================================
+	static wstringVector operatorsList = { L"+", L"-", L".*", L"*",
+		L"./", L"/", L".\\",
+		L"\\", L".^", L"^", L".'",
+		L"'", L"==", L"~=", L">",
+		L">=", L"<", L"<=", L"&",
+		L"|", L"&&", L"||", L"~" };
+	//=============================================================================
+	wstringVector GetOperators()
+	{
+		return operatorsList;
+	}
+	//=============================================================================
+	bool isOperator(std::wstring key)
+	{
+		for (size_t k = 0; k < operatorsList.size(); ++k)
+		{
+			if (key.compare(operatorsList[k]) == 0)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	//=============================================================================
+}
 //=============================================================================
-class QCompleter;
-class QAbstractItemModel;
-//=============================================================================
-class QtTextEdit : public QTextEdit {
-    Q_OBJECT
-public:
-    QtTextEdit();
-    virtual ~QtTextEdit();
-    void keyPressEvent(QKeyEvent *event);
-    void contextMenuEvent(QContextMenuEvent *event);
-	void focusInEvent(QFocusEvent *e) override;
-
-private:
-	QCompleter *qCompleter;
-	QString textUnderCursor() const;
-	QAbstractItemModel *modelFromNelson(QString prefix);
-	void updateModel(QString prefix = QString());
-
-private slots:
-	void insertCompletion(const QString &completion);
-
-signals:
-    void indent();
-};
-//=============================================================================
-

@@ -29,7 +29,7 @@ namespace Nelson {
     public:
         PathFunc(const std::wstring path);
         ~PathFunc();
-        wstringVector getFunctionsName();
+        wstringVector getFunctionsName(std::wstring prefix = L"");
         wstringVector getFunctionsFilename();
         std::wstring getPath();
         void rehash();

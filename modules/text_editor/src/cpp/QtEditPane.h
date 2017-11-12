@@ -20,6 +20,7 @@
 //=============================================================================
 #include <QtWidgets/QWidget>
 #include "QtTextEdit.h"
+#include "QtHighlighter.h"
 //=============================================================================
 class QtEditPane : public QWidget {
     Q_OBJECT
@@ -30,5 +31,7 @@ public:
     QtTextEdit* getEditor();
     void setFileName(QString filename);
     QString getFileName();
+private:
+	Highlighter *highlight;
 };
 //=============================================================================

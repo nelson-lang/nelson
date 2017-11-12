@@ -237,6 +237,7 @@
     <ClCompile Include="..\cpp\Keywords.cpp" />
     <ClCompile Include="..\cpp\MacroFunctionDef.cpp" />
     <ClCompile Include="..\cpp\NelsonLexer.cpp" />
+    <ClCompile Include="..\cpp\Operators.cpp" />
     <ClCompile Include="..\cpp\OverloadDisplay.cpp" />
     <ClCompile Include="..\cpp\ParseFile.cpp" />
     <ClCompile Include="..\cpp\PathFunc.cpp" />
@@ -289,6 +290,7 @@
     <ClInclude Include="..\..\src\include\VariablesTable.hpp" />
     <ClInclude Include="..\..\src\include\Evaluator.hpp" />
     <ClInclude Include="..\grammar\NelSonParser.h" />
+    <ClInclude Include="..\include\Operators.hpp" />
     <ClInclude Include="..\include\ParseFile.hpp" />
     <ClInclude Include="..\include\ParserState.hpp" />
     <ClInclude Include="..\include\PathFunc.hpp" />

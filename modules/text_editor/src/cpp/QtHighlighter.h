@@ -18,31 +18,52 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <QtWidgets/QTextEdit>
+#include <QtGui/QSyntaxHighlighter>
+#include <QtGui/QTextCharFormat>
+#include <QtCore/QRegularExpression>
 //=============================================================================
-class QCompleter;
-class QAbstractItemModel;
+class QTextDocument;
 //=============================================================================
-class QtTextEdit : public QTextEdit {
-    Q_OBJECT
+#define DEFAULT_QT_KEYWORD_COLOR Qt::darkBlue
+#define DEFAULT_QT_BUILTIN_COLOR Qt::darkBlue
+#define DEFAULT_QT_MACRO_COLOR Qt::darkBlue
+#define DEFAULT_QT_SINGLE_LINE_COMMENT_COLOR Qt::darkBlue
+#define DEFAULT_QT_OPERATOR_COLOR Qt::darkBlue
+#define DEFAULT_QT_UNFINISHED_STRING_COLOR Qt::darkBlue
+#define DEFAULT_QT_QUOTATION_COLOR Qt::darkBlue
+//=============================================================================
+class Highlighter : public QSyntaxHighlighter
+{
+	Q_OBJECT
+
 public:
-    QtTextEdit();
-    virtual ~QtTextEdit();
-    void keyPressEvent(QKeyEvent *event);
-    void contextMenuEvent(QContextMenuEvent *event);
-	void focusInEvent(QFocusEvent *e) override;
+	Highlighter(QTextDocument *parent = 0);
+	void setEnable(bool _enable);
+	bool getEnable();
+
+protected:
+	void highlightBlock(const QString &text) override;
 
 private:
-	QCompleter *qCompleter;
-	QString textUnderCursor() const;
-	QAbstractItemModel *modelFromNelson(QString prefix);
-	void updateModel(QString prefix = QString());
+	struct HighlightingRule
+	{
+		QRegularExpression pattern;
+		QTextCharFormat format;
+	};
+	QVector<HighlightingRule> highlightingRules;
 
-private slots:
-	void insertCompletion(const QString &completion);
+	QTextCharFormat keywordFormat;
+	QTextCharFormat builtinFormat;
+	QTextCharFormat macroFormat;
+	QTextCharFormat singleLineCommentFormat;
+	QTextCharFormat quotationFormat;
 
-signals:
-    void indent();
+	bool isEnabled;
+	QColor keywordColor;
+	QColor builtinColor;
+	QColor macroColor;
+	QColor operatorColor;
+	QColor singleLineCommentColor;
+	QColor quotationColor;
 };
 //=============================================================================
-

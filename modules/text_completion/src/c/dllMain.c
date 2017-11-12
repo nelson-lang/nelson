@@ -16,33 +16,31 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include <Windows.h>
 //=============================================================================
-#include <QtWidgets/QTextEdit>
+#ifdef _DEBUG
+#pragma comment(lib, "boost_system-vc141-mt-gd-1_65_1.lib")
+#pragma comment(lib, "boost_filesystem-vc141-mt-gd-1_65_1.lib")
+#pragma comment(lib, "boost_regex-vc141-mt-gd-1_65_1.lib")
+#else
+#pragma comment(lib, "boost_system-vc141-mt-1_65_1.lib")
+#pragma comment(lib, "boost_filesystem-vc141-mt-1_65_1.lib")
+#pragma comment(lib, "boost_regex-vc141-mt-1_65_1.lib")
+#endif
 //=============================================================================
-class QCompleter;
-class QAbstractItemModel;
+int WINAPI DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)
+{
+    switch (reason)
+    {
+        case DLL_PROCESS_ATTACH:
+            break;
+        case DLL_PROCESS_DETACH:
+            break;
+        case DLL_THREAD_ATTACH:
+            break;
+        case DLL_THREAD_DETACH:
+            break;
+    }
+    return 1;
+}
 //=============================================================================
-class QtTextEdit : public QTextEdit {
-    Q_OBJECT
-public:
-    QtTextEdit();
-    virtual ~QtTextEdit();
-    void keyPressEvent(QKeyEvent *event);
-    void contextMenuEvent(QContextMenuEvent *event);
-	void focusInEvent(QFocusEvent *e) override;
-
-private:
-	QCompleter *qCompleter;
-	QString textUnderCursor() const;
-	QAbstractItemModel *modelFromNelson(QString prefix);
-	void updateModel(QString prefix = QString());
-
-private slots:
-	void insertCompletion(const QString &completion);
-
-signals:
-    void indent();
-};
-//=============================================================================
-

@@ -51,6 +51,7 @@ data_structures
 history_manager
 terminal
 gui
+text_completion
 text_editor
 handle
 qml_engine

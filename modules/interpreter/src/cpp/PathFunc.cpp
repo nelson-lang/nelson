@@ -131,14 +131,25 @@ namespace Nelson {
         _path = L"";
     }
     //=============================================================================
-    wstringVector PathFunc::getFunctionsName()
+    wstringVector PathFunc::getFunctionsName(std::wstring prefix)
     {
         wstringVector functionsName;
         for (boost::unordered_map<std::wstring, FileFunc *>::iterator it = mapFiles.begin(); it != mapFiles.end(); ++it)
         {
             if (it->second)
             {
-                functionsName.push_back(it->second->getName());
+				if (prefix.empty())
+				{
+					functionsName.push_back(it->second->getName());
+				}
+				else
+				{
+					std::wstring name = it->second->getName();
+					if (boost::starts_with(name, prefix))
+					{
+						functionsName.push_back(name);
+					}
+				}
             }
         }
         return functionsName;

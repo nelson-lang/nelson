@@ -18,31 +18,20 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <QtWidgets/QTextEdit>
+#include <string>
+#include "nlsText_completion_exports.h"
 //=============================================================================
-class QCompleter;
-class QAbstractItemModel;
+namespace Nelson {
+	//=============================================================================
+	NLSTEXT_COMPLETION_IMPEXP std::wstring completerLine(std::wstring currentLine,
+		std::wstring stringToAdd,
+		std::wstring filePattern,
+		std::wstring defaultPattern,
+		bool stringToAddIsPath);
+	//=============================================================================
+	NLSTEXT_COMPLETION_IMPEXP std::wstring getPartialLineAsPath(std::wstring line);
+	//=============================================================================
+	NLSTEXT_COMPLETION_IMPEXP std::wstring getPartialLine(std::wstring line);
+	//=============================================================================
+}
 //=============================================================================
-class QtTextEdit : public QTextEdit {
-    Q_OBJECT
-public:
-    QtTextEdit();
-    virtual ~QtTextEdit();
-    void keyPressEvent(QKeyEvent *event);
-    void contextMenuEvent(QContextMenuEvent *event);
-	void focusInEvent(QFocusEvent *e) override;
-
-private:
-	QCompleter *qCompleter;
-	QString textUnderCursor() const;
-	QAbstractItemModel *modelFromNelson(QString prefix);
-	void updateModel(QString prefix = QString());
-
-private slots:
-	void insertCompletion(const QString &completion);
-
-signals:
-    void indent();
-};
-//=============================================================================
-

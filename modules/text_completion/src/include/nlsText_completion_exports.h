@@ -18,31 +18,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <QtWidgets/QTextEdit>
+#ifdef _MSC_VER
+#ifdef NLSTEXT_COMPLETION_EXPORTS
+#define NLSTEXT_COMPLETION_IMPEXP __declspec(dllexport)
+#else
+#define NLSTEXT_COMPLETION_IMPEXP __declspec(dllimport)
+#endif
+#else
+#define NLSTEXT_COMPLETION_IMPEXP __attribute__ ((visibility ("default")))
+#endif
 //=============================================================================
-class QCompleter;
-class QAbstractItemModel;
-//=============================================================================
-class QtTextEdit : public QTextEdit {
-    Q_OBJECT
-public:
-    QtTextEdit();
-    virtual ~QtTextEdit();
-    void keyPressEvent(QKeyEvent *event);
-    void contextMenuEvent(QContextMenuEvent *event);
-	void focusInEvent(QFocusEvent *e) override;
-
-private:
-	QCompleter *qCompleter;
-	QString textUnderCursor() const;
-	QAbstractItemModel *modelFromNelson(QString prefix);
-	void updateModel(QString prefix = QString());
-
-private slots:
-	void insertCompletion(const QString &completion);
-
-signals:
-    void indent();
-};
-//=============================================================================
-

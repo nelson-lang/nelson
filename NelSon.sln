@@ -314,6 +314,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nlsText_editor_builtin", "m
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nlsText_editor", "modules\text_editor\src\c\nlsText_editor.vcxproj", "{02AD5A6D-F80A-4888-9178-29A0D7D04814}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nlsText_completion", "modules\text_completion\src\c\nlsText_completion.vcxproj", "{287A0A7E-6CF4-4AE8-9814-3CF0F9F8D5AB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1086,6 +1088,14 @@ Global
 		{02AD5A6D-F80A-4888-9178-29A0D7D04814}.Release|Win32.Build.0 = Release|Win32
 		{02AD5A6D-F80A-4888-9178-29A0D7D04814}.Release|x64.ActiveCfg = Release|x64
 		{02AD5A6D-F80A-4888-9178-29A0D7D04814}.Release|x64.Build.0 = Release|x64
+		{287A0A7E-6CF4-4AE8-9814-3CF0F9F8D5AB}.Debug|Win32.ActiveCfg = Debug|Win32
+		{287A0A7E-6CF4-4AE8-9814-3CF0F9F8D5AB}.Debug|Win32.Build.0 = Debug|Win32
+		{287A0A7E-6CF4-4AE8-9814-3CF0F9F8D5AB}.Debug|x64.ActiveCfg = Debug|x64
+		{287A0A7E-6CF4-4AE8-9814-3CF0F9F8D5AB}.Debug|x64.Build.0 = Debug|x64
+		{287A0A7E-6CF4-4AE8-9814-3CF0F9F8D5AB}.Release|Win32.ActiveCfg = Release|Win32
+		{287A0A7E-6CF4-4AE8-9814-3CF0F9F8D5AB}.Release|Win32.Build.0 = Release|Win32
+		{287A0A7E-6CF4-4AE8-9814-3CF0F9F8D5AB}.Release|x64.ActiveCfg = Release|x64
+		{287A0A7E-6CF4-4AE8-9814-3CF0F9F8D5AB}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

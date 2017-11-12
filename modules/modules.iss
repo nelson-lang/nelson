@@ -66,5 +66,6 @@ Source: {#RootPath}modules\modules.nls; DestDir: {app}\modules\;
 #include "f2c/module.iss"
 #include "nig/module.iss"
 #include "slicot/module.iss"
-#include "slicot/text_editor.iss"
+#include "text_editor/module.iss"
+#include "text_completion/module.iss"
 ;==============================================================================

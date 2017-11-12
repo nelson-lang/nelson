@@ -16,9 +16,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # LICENCE_BLOCK_END
 #==============================================================================
-set(module_name text_editor)
+set(module_name text_completion)
 set(module_library_name nlsText_editor)
-set(module_library_builtin_name ${module_library_name}_builtin)
 #==============================================================================
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
@@ -75,48 +74,7 @@ set_target_properties(${module_library_name}
                       PROPERTIES 
                       VERSION ${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE} SOVERSION ${Nelson_VERSION_MAJOR})
 #==============================================================================	
-FILE(
-GLOB
-TEXT_EDITOR_BUILTIN
-"${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp"
-)
-#==============================================================================	
-include_directories(
-${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
-${CMAKE_CURRENT_SOURCE_DIR}/src/include
-${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
-${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include
-${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
-${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/include
-)
-#==============================================================================	
-ADD_LIBRARY(
-	nlsText_editor_builtin
-	SHARED 
-	${TEXT_EDITOR_BUILTIN}
-)
-#==============================================================================	
-target_link_libraries(${module_library_builtin_name}
-${module_library_name}
-nlsError_manager
-nlsInterpreter
-nlsTypes
-nlsApi_nelson
-nlsI18n
-)
-#==============================================================================
-set_target_properties(${module_library_builtin_name}
-                      PROPERTIES 
-                      VERSION ${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE} SOVERSION ${Nelson_VERSION_MAJOR})
-#==============================================================================	
 install(TARGETS ${module_library_name} LIBRARY DESTINATION ${LIBRARY_OUTPUT})
-install(TARGETS ${module_library_builtin_name} LIBRARY DESTINATION ${LIBRARY_OUTPUT})
-install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/etc/startup.nls DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/etc) 
-install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/etc/finish.nls DESTINATION ${ROOT_OUTPUT}/modules/${module_name}/etc)
-install(FILES ${CMAKE_SOURCE_DIR}/modules/${module_name}/loader.nls DESTINATION ${ROOT_OUTPUT}/modules/${module_name})
-install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/resources DESTINATION ${ROOT_OUTPUT}/modules/${module_name} FILES_MATCHING PATTERN "*.*")
-install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/functions DESTINATION ${ROOT_OUTPUT}/modules/${module_name} FILES_MATCHING PATTERN "*.nlf")
-install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/help DESTINATION ${ROOT_OUTPUT}/modules/${module_name} FILES_MATCHING PATTERN "*.qch" PATTERN "xml" EXCLUDE PATTERN "md" EXCLUDE)
 #==============================================================================
 
 
