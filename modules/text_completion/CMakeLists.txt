@@ -17,7 +17,7 @@
 # LICENCE_BLOCK_END
 #==============================================================================
 set(module_name text_completion)
-set(module_library_name nlsText_editor)
+set(module_library_name nlsText_completion)
 #==============================================================================
 include_directories(
 ${Boost_INCLUDE_DIRS}
@@ -59,8 +59,6 @@ nlsModules_manager
 nlsFunctions_manager
 nlsCharacters_encoding
 nlsOs_functions
-${Qt5Widgets_LIBRARIES}
-${Qt5PrintSupport_LIBRARIES}
 )
 #==============================================================================	
 set_target_properties(${module_library_name}
