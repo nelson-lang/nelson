@@ -19,8 +19,11 @@
 #pragma once
 //=============================================================================
 #include <QtWidgets/QWidget>
+#include <QtWidgets/QCompleter>
 #include "QtTextEdit.h"
 #include "QtHighlighter.h"
+//=============================================================================
+class QCompleter;
 //=============================================================================
 class QtEditPane : public QWidget {
     Q_OBJECT
@@ -33,5 +36,6 @@ public:
     QString getFileName();
 private:
 	Highlighter *highlight;
+	QCompleter *completer;
 };
 //=============================================================================

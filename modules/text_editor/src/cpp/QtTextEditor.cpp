@@ -32,7 +32,7 @@ QtTextEditor::QtTextEditor(Evaluator *eval)
     textEditorRootPath = Nelson::GetModulePath(L"text_editor");
     QString fileNameIcon = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/document-open.svg"));
     setWindowIcon(QPixmap(fileNameIcon));
-    prevEdit = NULL;
+    prevEdit = nullptr;
     tab = new QTabWidget(this);
     tab->setTabsClosable(true);
     setCentralWidget(tab);

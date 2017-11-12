@@ -31,7 +31,7 @@ public:
     void keyPressEvent(QKeyEvent *event);
     void contextMenuEvent(QContextMenuEvent *event);
 	void focusInEvent(QFocusEvent *e) override;
-
+	void setCompleter(QCompleter *completer);
 private:
 	QCompleter *qCompleter;
 	QString textUnderCursor() const;

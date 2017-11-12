@@ -41,15 +41,29 @@ using namespace Nelson;
 QtTextEdit::QtTextEdit()
 {
 	setLineWrapMode(QTextEdit::NoWrap);
-	if (qCompleter == nullptr)
+}
+//=============================================================================
+void QtTextEdit::setCompleter(QCompleter *completer)
+{
+	if (qCompleter) 
 	{
-		qCompleter = new QCompleter(this);
-		qCompleter->setModelSorting(QCompleter::UnsortedModel);
-		qCompleter->setCompletionMode(QCompleter::UnfilteredPopupCompletion);
-		qCompleter->setCaseSensitivity(Qt::CaseSensitive);
-		qCompleter->setWrapAround(false);
-		QObject::connect(qCompleter, SIGNAL(activated(QString)), this, SLOT(insertCompletion(QString)));
+		QObject::disconnect(qCompleter, 0, this, 0);
 	}
+
+	qCompleter = completer;
+
+	if (!qCompleter)
+	{
+		return;
+	}
+
+	qCompleter->setWidget(this);
+	qCompleter->setModelSorting(QCompleter::UnsortedModel);
+	qCompleter->setCompletionMode(QCompleter::UnfilteredPopupCompletion);
+	qCompleter->setCaseSensitivity(Qt::CaseSensitive);
+	qCompleter->setWrapAround(false);
+	QObject::connect(qCompleter, SIGNAL(activated(QString)), this, SLOT(insertCompletion(QString)));
+
 }
 //=============================================================================
 void QtTextEdit::updateModel(QString prefix)
