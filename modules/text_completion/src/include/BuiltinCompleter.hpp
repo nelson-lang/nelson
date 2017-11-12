@@ -22,6 +22,6 @@
 #include "nlsText_completion_exports.h"
 //=============================================================================
 namespace Nelson {
-	NLSTEXT_COMPLETION_IMPEXP wstringVector FilesCompleter(std::wstring prefix, bool fullpath);
+	NLSTEXT_COMPLETION_IMPEXP wstringVector BuiltinCompleter(std::wstring prefix);
 };
 //=============================================================================

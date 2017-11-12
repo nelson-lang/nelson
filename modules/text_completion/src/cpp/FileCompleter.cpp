@@ -21,7 +21,7 @@
 #include <boost/filesystem/operations.hpp>
 #include <boost/filesystem/convenience.hpp>
 #include <boost/algorithm/string.hpp>
-#include "FilesCompleter.hpp"
+#include "FileCompleter.hpp"
 //=============================================================================
 namespace Nelson {
 	//=============================================================================
@@ -72,7 +72,7 @@ namespace Nelson {
 		}
 	}
 	//=============================================================================
-	wstringVector FilesCompleter(std::wstring prefix, bool fullpath)
+	wstringVector FileCompleter(std::wstring prefix)
 	{
 		wstringVector res;
 		if (!prefix.empty())

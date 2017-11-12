@@ -23,10 +23,13 @@
 #include <QtGui/QKeyEvent>
 #include <QtCore/QStringListModel>
 #include "QtTextEdit.h"
-#include "What.hpp"
 #include "QStringConverter.hpp"
-#include "FilesCompleter.hpp"
+#include "FileCompleter.hpp"
+#include "MacroCompleter.hpp"
+#include "BuiltinCompleter.hpp"
+#include "VariableCompleter.hpp"
 #include "CompleterHelper.hpp"
+#include "i18n.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -37,7 +40,7 @@ using namespace Nelson;
 //=============================================================================
 QtTextEdit::QtTextEdit()
 {
-    setLineWrapMode(QTextEdit::NoWrap);
+	setLineWrapMode(QTextEdit::NoWrap);
 	if (qCompleter == nullptr)
 	{
 		qCompleter = new QCompleter(this);
@@ -66,31 +69,33 @@ QAbstractItemModel *QtTextEdit::modelFromNelson(QString prefix)
 {
 	QStringList words;
 	if (!prefix.isEmpty())
+	{
+		wstringVector files = FileCompleter(QStringTowstring(prefix));
+		for (size_t k = 0; k < files.size(); ++k)
 		{
-			wstringVector files = FilesCompleter(QStringTowstring(prefix), true);
-			for (size_t k = 0; k < files.size(); ++k)
-			{
-				words.append(wstringToQString(files[k]) + QString(" (") + wstringToQString(POSTFIX_FILES) + QString(")"));
-			}
-
-			wstringVector builtin = WhatListOfBuiltin();
-			for (size_t k = 0; k < builtin.size(); ++k)
-			{
-				if (wstringToQString(builtin[k]).startsWith(prefix))
-				{
-					words.append(wstringToQString(builtin[k]) + QString(" (") + wstringToQString(POSTFIX_BUILTIN) + QString(")"));
-				}
-			}
-			wstringVector macros = WhatListOfMacro();
-			for (size_t k = 0; k < macros.size(); ++k)
-			{
-				if (wstringToQString(macros[k]).startsWith(prefix))
-				{
-					words.append(wstringToQString(macros[k]) + QString(" (") + wstringToQString(POSTFIX_MACRO) + QString(")"));
-				}
-			}
-			words.sort();
+			words.append(wstringToQString(files[k]) + QString(" (") + wstringToQString(POSTFIX_FILES) + QString(")"));
 		}
+
+		wstringVector builtin = BuiltinCompleter(QStringTowstring(prefix));
+		for (size_t k = 0; k < builtin.size(); ++k)
+		{
+			words.append(wstringToQString(builtin[k]) + QString(" (") + wstringToQString(POSTFIX_BUILTIN) + QString(")"));
+		}
+
+		wstringVector macros = MacroCompleter(QStringTowstring(prefix));
+		for (size_t k = 0; k < macros.size(); ++k)
+		{
+			words.append(wstringToQString(macros[k]) + QString(" (") + wstringToQString(POSTFIX_MACRO) + QString(")"));
+		}
+
+		wstringVector variables = VariableCompleter(QStringTowstring(prefix));
+		for (size_t k = 0; k < variables.size(); ++k)
+		{
+			words.append(wstringToQString(variables[k]) + QString(" (") + wstringToQString(POSTFIX_VARIABLE) + QString(")"));
+		}
+
+		words.sort();
+	}
 	return new QStringListModel(words, qCompleter);
 }
 //=============================================================================
@@ -215,7 +220,7 @@ void QtTextEdit::keyPressEvent(QKeyEvent *e)
 //=============================================================================
 void QtTextEdit::contextMenuEvent(QContextMenuEvent* e)
 {
-    e->ignore();
+	e->ignore();
 }
 //=============================================================================
 void QtTextEdit::insertCompletion(const QString& completion)

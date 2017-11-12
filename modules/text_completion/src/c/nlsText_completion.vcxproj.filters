@@ -24,7 +24,16 @@
     <ClCompile Include="..\cpp\CompleterHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\FilesCompleter.cpp">
+    <ClCompile Include="..\cpp\FileCompleter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\BuiltinCompleter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\MacroCompleter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\VariableCompleter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -43,10 +52,19 @@
     <ClInclude Include="..\include\CompleterHelper.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\FilesCompleter.hpp">
+    <ClInclude Include="..\include\nlsText_completion_exports.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\nlsText_completion_exports.h">
+    <ClInclude Include="..\include\FileCompleter.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\BuiltinCompleter.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\MacroCompleter.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\VariableCompleter.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
