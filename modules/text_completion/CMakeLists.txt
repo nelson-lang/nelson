@@ -19,15 +19,8 @@
 set(module_name text_completion)
 set(module_library_name nlsText_editor)
 #==============================================================================
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-set(CMAKE_AUTOMOC ON)
-add_definitions(${Qt5Widgets_DEFINITIONS})
-add_definitions("-std=c++11")
-set(CMAKE_CXX_FLAGS "${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
-#==============================================================================
 include_directories(
 ${Boost_INCLUDE_DIRS}
-${Qt5Widgets_INCLUDES}
 ${CMAKE_CURRENT_SOURCE_DIR}/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
@@ -44,14 +37,14 @@ ${CMAKE_CURRENT_SOURCE_DIR}/../functions_manager/src/include
 #==============================================================================	
 FILE(
 GLOB
-TEXT_EDITOR_SRC
+TEXT_COMPLETION_SRC
 "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp"
 )
 #==============================================================================	
 ADD_LIBRARY(
 	${module_library_name}
 	SHARED 
-	${TEXT_EDITOR_SRC}
+	${TEXT_COMPLETION_SRC}
 )
 #==============================================================================	
 target_link_libraries(${module_library_name}
