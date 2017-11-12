@@ -33,6 +33,7 @@ ${CMAKE_CURRENT_SOURCE_DIR}/../gui/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../os_functions/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../functions_manager/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../dynamic_link/src/include
 )
 #==============================================================================	
 FILE(
