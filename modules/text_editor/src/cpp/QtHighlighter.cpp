@@ -27,91 +27,86 @@ using namespace Nelson;
 //=============================================================================
 Highlighter::Highlighter(QTextDocument *parent) : QSyntaxHighlighter(parent)
 {
-	HighlightingRule rule;
-
-	keywordFormat.setForeground(Qt::darkBlue);
-	keywordFormat.setFontWeight(QFont::Bold);
-	QStringList keywordPatterns;
-	wstringVector keywordsVector = GetKeywords();
-	for (size_t k = 0; k < keywordsVector.size(); k++)
-	{
-		keywordPatterns << wstringToQString(L"\\b" + keywordsVector[k] + L"\\b");
-	}
-	foreach(const QString &pattern, keywordPatterns) 
-	{
-		rule.pattern = QRegularExpression(pattern);
-		rule.format = keywordFormat;
-		highlightingRules.append(rule);
-	}
-
-	builtinFormat.setForeground(Qt::darkCyan);
-	QStringList builtinPatterns;
-	wstringVector builtinVector = WhatListOfBuiltin();
-	for (size_t k = 0; k < builtinVector.size(); k++)
-	{
-		builtinPatterns << wstringToQString(L"\\b" + builtinVector[k] + L"\\b");
-	}
-	foreach(const QString &pattern, builtinPatterns)
-	{
-		rule.pattern = QRegularExpression(pattern);
-		rule.format = builtinFormat;
-		highlightingRules.append(rule);
-	}
-
-	macroFormat.setForeground(Qt::darkCyan);
-	QStringList macroPatterns;
-	wstringVector macroVector = WhatListOfMacro();
-	for (size_t k = 0; k < macroVector.size(); k++)
-	{
-		macroPatterns << wstringToQString(L"\\b" + macroVector[k] + L"\\b");
-	}
-	foreach(const QString &pattern, macroPatterns)
-	{
-		rule.pattern = QRegularExpression(pattern);
-		rule.format = macroFormat;
-		highlightingRules.append(rule);
-	}
-
-	singleLineCommentFormat.setForeground(Qt::darkGreen);
-	rule.pattern = QRegularExpression("//[^\n]*");
-	rule.format = singleLineCommentFormat;
-	highlightingRules.append(rule);
-
-	singleLineCommentFormat.setForeground(Qt::darkGreen);
-	rule.pattern = QRegularExpression("%[^\n]*");
-	rule.format = singleLineCommentFormat;
-	highlightingRules.append(rule);
-
-	quotationFormat.setForeground(Qt::darkMagenta);
-	rule.pattern = QRegularExpression("'.*'");
-	rule.format = quotationFormat;
-	highlightingRules.append(rule);
-
-	isEnabled = true;
+    HighlightingRule rule;
+    keywordFormat.setForeground(Qt::darkBlue);
+    keywordFormat.setFontWeight(QFont::Bold);
+    QStringList keywordPatterns;
+    wstringVector keywordsVector = GetKeywords();
+    for (size_t k = 0; k < keywordsVector.size(); k++)
+    {
+        keywordPatterns << wstringToQString(L"\\b" + keywordsVector[k] + L"\\b");
+    }
+    foreach(const QString &pattern, keywordPatterns)
+    {
+        rule.pattern = QRegularExpression(pattern);
+        rule.format = keywordFormat;
+        highlightingRules.append(rule);
+    }
+    builtinFormat.setForeground(Qt::darkCyan);
+    QStringList builtinPatterns;
+    wstringVector builtinVector = WhatListOfBuiltin();
+    for (size_t k = 0; k < builtinVector.size(); k++)
+    {
+        builtinPatterns << wstringToQString(L"\\b" + builtinVector[k] + L"\\b");
+    }
+    foreach(const QString &pattern, builtinPatterns)
+    {
+        rule.pattern = QRegularExpression(pattern);
+        rule.format = builtinFormat;
+        highlightingRules.append(rule);
+    }
+    macroFormat.setForeground(Qt::darkCyan);
+    QStringList macroPatterns;
+    wstringVector macroVector = WhatListOfMacro();
+    for (size_t k = 0; k < macroVector.size(); k++)
+    {
+        macroPatterns << wstringToQString(L"\\b" + macroVector[k] + L"\\b");
+    }
+    foreach(const QString &pattern, macroPatterns)
+    {
+        rule.pattern = QRegularExpression(pattern);
+        rule.format = macroFormat;
+        highlightingRules.append(rule);
+    }
+    singleLineCommentFormat.setForeground(Qt::darkGreen);
+    rule.pattern = QRegularExpression("//[^\n]*");
+    rule.format = singleLineCommentFormat;
+    highlightingRules.append(rule);
+    singleLineCommentFormat.setForeground(Qt::darkGreen);
+    rule.pattern = QRegularExpression("%[^\n]*");
+    rule.format = singleLineCommentFormat;
+    highlightingRules.append(rule);
+    quotationFormat.setForeground(Qt::darkMagenta);
+    rule.pattern = QRegularExpression("'.*'");
+    rule.format = quotationFormat;
+    highlightingRules.append(rule);
+    isEnabled = true;
 }
 //=============================================================================
 void Highlighter::highlightBlock(const QString &text)
 {
-	if (text.isEmpty() || (!isEnabled)) return;
-
-	foreach(const HighlightingRule &rule, highlightingRules) 
-	{
-		QRegularExpressionMatchIterator matchIterator = rule.pattern.globalMatch(text);
-		while (matchIterator.hasNext()) 
-		{
-			QRegularExpressionMatch match = matchIterator.next();
-			setFormat(match.capturedStart(), match.capturedLength(), rule.format);
-		}
-	}
+    if (text.isEmpty() || (!isEnabled))
+    {
+        return;
+    }
+    foreach(const HighlightingRule &rule, highlightingRules)
+    {
+        QRegularExpressionMatchIterator matchIterator = rule.pattern.globalMatch(text);
+        while (matchIterator.hasNext())
+        {
+            QRegularExpressionMatch match = matchIterator.next();
+            setFormat(match.capturedStart(), match.capturedLength(), rule.format);
+        }
+    }
 }
 //=============================================================================
 void Highlighter::setEnable(bool _enable)
 {
-	isEnabled = _enable;
+    isEnabled = _enable;
 }
 //=============================================================================
 bool  Highlighter::getEnable()
 {
-	return isEnabled;
+    return isEnabled;
 }
 //=============================================================================

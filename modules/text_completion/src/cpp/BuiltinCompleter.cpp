@@ -23,24 +23,24 @@
 #include "What.hpp"
 //=============================================================================
 namespace Nelson {
-	//=============================================================================
-	wstringVector BuiltinCompleter(std::wstring prefix)
-	{
-		wstringVector res;
-		Evaluator *eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
-		if (eval)
-		{
-			wstringVector builtin = WhatListOfBuiltin(eval, true, true);
-			for (size_t k = 0; k < builtin.size(); k++)
-			{
-				if (boost::algorithm::starts_with(builtin[k], prefix))
-				{
-					res.push_back(builtin[k]);
-				}
-			}
-		}
-		return res;
-	}
-	//=============================================================================
+    //=============================================================================
+    wstringVector BuiltinCompleter(std::wstring prefix)
+    {
+        wstringVector res;
+        Evaluator *eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
+        if (eval)
+        {
+            wstringVector builtin = WhatListOfBuiltin(eval, true, true);
+            for (size_t k = 0; k < builtin.size(); k++)
+            {
+                if (boost::algorithm::starts_with(builtin[k], prefix))
+                {
+                    res.push_back(builtin[k]);
+                }
+            }
+        }
+        return res;
+    }
+    //=============================================================================
 };
 //=============================================================================

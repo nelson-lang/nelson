@@ -85,49 +85,38 @@ void QtTextEditor::createActions()
     QString fileNameIcon = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/document-new.svg"));
     newAction = new QAction(QIcon(fileNameIcon), TR("&New"), this);
     connect(newAction, SIGNAL(triggered()), this, SLOT(addTab()));
-
     fileNameIcon = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/document-open.svg"));
     openAction = new QAction(QIcon(fileNameIcon), TR("&Open"), this);
     connect(openAction, SIGNAL(triggered()), this, SLOT(open()));
-    
-	fileNameIcon = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/document-save.svg"));
+    fileNameIcon = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/document-save.svg"));
     saveAction = new QAction(QIcon(fileNameIcon), TR("&Save"), this);
     saveAction->setShortcut(Qt::Key_S | Qt::CTRL);
     connect(saveAction, SIGNAL(triggered()), this, SLOT(save()));
-    
-	fileNameIcon = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/document-save-as.svg"));
-	saveAsAction = new QAction(QIcon(fileNameIcon), TR("Save &As"), this);
+    fileNameIcon = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/document-save-as.svg"));
+    saveAsAction = new QAction(QIcon(fileNameIcon), TR("Save &As"), this);
     connect(saveAsAction, SIGNAL(triggered()), this, SLOT(saveAs()));
-
-	fileNameIcon = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/document-save-all.svg"));
-	saveAllAction = new QAction(QIcon(fileNameIcon), TR("Save A&ll"), this);
-	saveAllAction->setShortcut(Qt::Key_S | Qt::CTRL | Qt::SHIFT);
-	connect(saveAllAction, SIGNAL(triggered()), this, SLOT(saveAll()));
-
+    fileNameIcon = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/document-save-all.svg"));
+    saveAllAction = new QAction(QIcon(fileNameIcon), TR("Save A&ll"), this);
+    saveAllAction->setShortcut(Qt::Key_S | Qt::CTRL | Qt::SHIFT);
+    connect(saveAllAction, SIGNAL(triggered()), this, SLOT(saveAll()));
     for (int i = 0; i < MAX_RECENT_FILES; ++i)
     {
         recentFileActions[i] = new QAction(this);
         recentFileActions[i]->setVisible(false);
         connect(recentFileActions[i], SIGNAL(triggered()), this, SLOT(openRecentFile()));
     }
-
-	closeAction = new QAction(TR("&Close"), this);
-	connect(closeAction, SIGNAL(triggered()), this, SLOT(closeTab()));
-
-	fileNameIcon = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/document-exit.svg"));
+    closeAction = new QAction(TR("&Close"), this);
+    connect(closeAction, SIGNAL(triggered()), this, SLOT(closeTab()));
+    fileNameIcon = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/document-exit.svg"));
     quitAction = new QAction(QIcon(fileNameIcon), TR("&Quit Editor"), this);
-	saveAllAction->setShortcut(Qt::Key_F4 | Qt::ALT);
-	connect(quitAction, SIGNAL(triggered()), this, SLOT(close()));
-
-	fileNameIcon = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/edit-copy.svg"));
+    saveAllAction->setShortcut(Qt::Key_F4 | Qt::ALT);
+    connect(quitAction, SIGNAL(triggered()), this, SLOT(close()));
+    fileNameIcon = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/edit-copy.svg"));
     copyAction = new QAction(QIcon(fileNameIcon), TR("&Copy"), this);
-
     fileNameIcon = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/edit-cut.svg"));
     cutAction = new QAction(QIcon(fileNameIcon), TR("Cu&t"), this);
-
     fileNameIcon = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/edit-paste.svg"));
     pasteAction = new QAction(QIcon(fileNameIcon), TR("&Paste"), this);
-
     fileNameIcon = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/format-text-bold.svg"));
     fontAction = new QAction(QIcon(fileNameIcon), TR("&Font"), this);
     connect(fontAction, SIGNAL(triggered()), this, SLOT(font()));
@@ -140,8 +129,8 @@ void QtTextEditor::createMenus()
     fileMenu->addAction(openAction);
     fileMenu->addAction(saveAction);
     fileMenu->addAction(saveAsAction);
-	fileMenu->addAction(saveAllAction);
-	fileMenu->addAction(closeAction);
+    fileMenu->addAction(saveAllAction);
+    fileMenu->addAction(closeAction);
     separatorAction = fileMenu->addSeparator();
     for (int i = 0; i < MAX_RECENT_FILES; ++i)
     {
@@ -164,13 +153,13 @@ void QtTextEditor::createToolBars()
     fileToolBar->addAction(newAction);
     fileToolBar->addAction(openAction);
     fileToolBar->addAction(saveAction);
-	fileToolBar->addAction(saveAsAction);
-	fileToolBar->addAction(saveAllAction);
-	editToolBar = addToolBar(TR("Edit"));
+    fileToolBar->addAction(saveAsAction);
+    fileToolBar->addAction(saveAllAction);
+    editToolBar = addToolBar(TR("Edit"));
     editToolBar->addAction(copyAction);
     editToolBar->addAction(cutAction);
     editToolBar->addAction(pasteAction);
-	editToolBar->addAction(fontAction);
+    editToolBar->addAction(fontAction);
 }
 //=============================================================================
 void QtTextEditor::createStatusBar()
@@ -200,7 +189,7 @@ bool QtTextEditor::maybeSave()
     if (currentEditor()->document()->isModified())
     {
         int ret = QMessageBox::warning(this, TR("Nelson"),
-			TR("The document %1 has been modified.\nDo you want to save your changes ?").arg(shownName()),
+                                       TR("The document %1 has been modified.\nDo you want to save your changes ?").arg(shownName()),
                                        QMessageBox::Yes | QMessageBox::Default,
                                        QMessageBox::No,
                                        QMessageBox::Cancel | QMessageBox::Escape);
@@ -398,14 +387,14 @@ void QtTextEditor::updateFont()
 //=============================================================================
 bool QtTextEditor::saveAll()
 {
-	int backupIndex = tab->currentIndex();
-	for (int i = 0; i < tab->count(); i++)
-	{
-		tab->setCurrentIndex(i);
-		save();
-	}
-	tab->setCurrentIndex(backupIndex);
-	return true;
+    int backupIndex = tab->currentIndex();
+    for (int i = 0; i < tab->count(); i++)
+    {
+        tab->setCurrentIndex(i);
+        save();
+    }
+    tab->setCurrentIndex(backupIndex);
+    return true;
 }
 //=============================================================================
 bool QtTextEditor::save()
@@ -560,29 +549,28 @@ void QtTextEditor::documentWasModified()
 //=============================================================================
 void QtTextEditor::closeEvent(QCloseEvent *event)
 {
-	if (!isVisible())
-	{
-		return;
-	}
-	writeSettings();
-
-	int nbTabs = tab->count();
-	while (nbTabs > 0)
-	{
-		if (maybeSave())
-		{
-			QWidget *p = tab->currentWidget();
-			tab->removeTab(tab->currentIndex());
-			p->deleteLater();
-			prevEdit = nullptr;
-		}
-		else 
-		{
-			event->ignore();
-			return;
-		}
-		nbTabs--;
-	}
-	event->accept();
+    if (!isVisible())
+    {
+        return;
+    }
+    writeSettings();
+    int nbTabs = tab->count();
+    while (nbTabs > 0)
+    {
+        if (maybeSave())
+        {
+            QWidget *p = tab->currentWidget();
+            tab->removeTab(tab->currentIndex());
+            p->deleteLater();
+            prevEdit = nullptr;
+        }
+        else
+        {
+            event->ignore();
+            return;
+        }
+        nbTabs--;
+    }
+    event->accept();
 }
 //=============================================================================

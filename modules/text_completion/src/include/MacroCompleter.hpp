@@ -23,6 +23,6 @@
 #include "nlsText_completion_exports.h"
 //=============================================================================
 namespace Nelson {
-	NLSTEXT_COMPLETION_IMPEXP wstringVector MacroCompleter(std::wstring prefix);
+    NLSTEXT_COMPLETION_IMPEXP wstringVector MacroCompleter(std::wstring prefix);
 };
 //=============================================================================

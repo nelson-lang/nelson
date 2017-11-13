@@ -60,7 +60,7 @@ namespace Nelson {
         bool removePath(const std::wstring path);
         wstringVector getPathNameVector();
         std::wstring getPathNameAsString();
-		wstringVector getMacrosList(std::wstring prefix = L"");
+        wstringVector getMacrosList(std::wstring prefix = L"");
 
         std::wstring getUserPath();
         bool setUserPath(const std::wstring path, bool saveToFile = false);

@@ -33,9 +33,9 @@ class QtTextEditor : public QMainWindow {
     Q_OBJECT
     QMenu *fileMenu, *editMenu;
     QToolBar *editToolBar, *fileToolBar;
-	QAction *newAction, *openAction, *saveAction, *saveAsAction, *saveAllAction, *quitAction;
-	QAction *closeAction;
-	QAction *cutAction,	*copyAction, *pasteAction, *fontAction;
+    QAction *newAction, *openAction, *saveAction, *saveAsAction, *saveAllAction, *quitAction;
+    QAction *closeAction;
+    QAction *cutAction,	*copyAction, *pasteAction, *fontAction;
     QAction *recentFileActions[MAX_RECENT_FILES];
     QAction *separatorAction;
 
@@ -45,7 +45,7 @@ class QtTextEditor : public QMainWindow {
 public:
     QtTextEditor(Evaluator *eval);
     virtual ~QtTextEditor();
-	void loadOrCreateFile(const QString& filename);
+    void loadOrCreateFile(const QString& filename);
 
 private:
     Evaluator *nlsEvaluator;
@@ -58,12 +58,12 @@ private:
     bool maybeSave();
     bool saveFile(const QString& filename);
     void loadFile(const QString& filename);
-	QString strippedName(const QString& fullfilename);
+    QString strippedName(const QString& fullfilename);
     void updateRecentFileActions();
 
     QtTextEdit *currentEditor();
-	void setCurrentFile(const QString& filename);
-	void setCurrentFilename(QString filename);
+    void setCurrentFile(const QString& filename);
+    void setCurrentFilename(QString filename);
     QString currentFilename();
     QString shownName();
     void updateTitles();
@@ -74,8 +74,8 @@ private:
 private Q_SLOTS:
     bool save();
     bool saveAs();
-	bool saveAll();
-	void open();
+    bool saveAll();
+    void open();
     void font();
     void addTab();
     void addTabUntitled();

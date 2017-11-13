@@ -35,7 +35,7 @@ public:
     void setFileName(QString filename);
     QString getFileName();
 private:
-	Highlighter *highlight;
-	QCompleter *completer;
+    Highlighter *highlight;
+    QCompleter *completer;
 };
 //=============================================================================

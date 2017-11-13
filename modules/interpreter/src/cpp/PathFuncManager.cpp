@@ -99,28 +99,28 @@ namespace Nelson {
         return find(ptr->hashid, functionName);
     }
     //=============================================================================
-	wstringVector PathFuncManager::getMacrosList(std::wstring prefix)
-	{
-		wstringVector macros;
-		if (_userPath != nullptr)
-		{
-			wstringVector userMacros = _userPath->getFunctionsName();
-			macros.insert(macros.end(), userMacros.begin(), userMacros.end());
-		}
-		for (boost::container::vector<PathFunc *>::reverse_iterator it = _pathFuncVector.rbegin(); it != _pathFuncVector.rend(); ++it)
-		{
-			PathFunc *pf = *it;
-			if (pf)
-			{
-				wstringVector names = pf->getFunctionsName();
-				macros.insert(macros.end(), names.begin(), names.end());
-			}
-		}
-		sort(macros.begin(), macros.end());
-		macros.erase(unique(macros.begin(), macros.end()), macros.end());
-		return macros;
-	}
-	//=============================================================================
+    wstringVector PathFuncManager::getMacrosList(std::wstring prefix)
+    {
+        wstringVector macros;
+        if (_userPath != nullptr)
+        {
+            wstringVector userMacros = _userPath->getFunctionsName();
+            macros.insert(macros.end(), userMacros.begin(), userMacros.end());
+        }
+        for (boost::container::vector<PathFunc *>::reverse_iterator it = _pathFuncVector.rbegin(); it != _pathFuncVector.rend(); ++it)
+        {
+            PathFunc *pf = *it;
+            if (pf)
+            {
+                wstringVector names = pf->getFunctionsName();
+                macros.insert(macros.end(), names.begin(), names.end());
+            }
+        }
+        sort(macros.begin(), macros.end());
+        macros.erase(unique(macros.begin(), macros.end()), macros.end());
+        return macros;
+    }
+    //=============================================================================
     bool PathFuncManager::find(const std::string name, FuncPtr &ptr)
     {
         bool res = false;

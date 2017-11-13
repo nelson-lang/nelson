@@ -21,20 +21,20 @@
 #include <boost/algorithm/string.hpp>
 //=============================================================================
 namespace Nelson {
-	//=============================================================================
-	wstringVector MacroCompleter(std::wstring prefix)
-	{
-		wstringVector res;
-		wstringVector macros = PathFuncManager::getInstance()->getMacrosList();
-		for (size_t k = 0; k < macros.size(); k++)
-		{
-			if (boost::algorithm::starts_with(macros[k], prefix))
-			{
-				res.push_back(macros[k]);
-			}
-		}
-		return res;
-	}
-	//=============================================================================
+    //=============================================================================
+    wstringVector MacroCompleter(std::wstring prefix)
+    {
+        wstringVector res;
+        wstringVector macros = PathFuncManager::getInstance()->getMacrosList();
+        for (size_t k = 0; k < macros.size(); k++)
+        {
+            if (boost::algorithm::starts_with(macros[k], prefix))
+            {
+                res.push_back(macros[k]);
+            }
+        }
+        return res;
+    }
+    //=============================================================================
 };
 //=============================================================================

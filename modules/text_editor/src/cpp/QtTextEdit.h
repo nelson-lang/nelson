@@ -30,16 +30,16 @@ public:
     virtual ~QtTextEdit();
     void keyPressEvent(QKeyEvent *event);
     void contextMenuEvent(QContextMenuEvent *event);
-	void focusInEvent(QFocusEvent *e) override;
-	void setCompleter(QCompleter *completer);
+    void focusInEvent(QFocusEvent *e) override;
+    void setCompleter(QCompleter *completer);
 private:
-	QCompleter *qCompleter;
-	QString textUnderCursor() const;
-	QAbstractItemModel *modelFromNelson(QString prefix);
-	void updateModel(QString prefix = QString());
+    QCompleter *qCompleter;
+    QString textUnderCursor() const;
+    QAbstractItemModel *modelFromNelson(QString prefix);
+    void updateModel(QString prefix = QString());
 
 private slots:
-	void insertCompletion(const QString &completion);
+    void insertCompletion(const QString &completion);
 
 signals:
     void indent();

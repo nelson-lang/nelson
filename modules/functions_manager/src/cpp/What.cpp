@@ -51,32 +51,32 @@ namespace Nelson {
         return functionsList;
     }
     //=============================================================================
-	wstringVector WhatListOfBuiltin(bool bSorted)
-	{
-		wstringVector functionsList;
-		Evaluator *eval = (Evaluator *)GetNelsonMainEvaluatorDynamicFunction();
-		if (eval)
-		{
-			functionsList = WhatListOfBuiltin(eval, bSorted);
-		}
-		return functionsList;
-	}
-	//=============================================================================
-	wstringVector WhatListOfMacro(Evaluator *eval)
-	{
-		return PathFuncManager::getInstance()->getMacrosList();
-	}
-	//=============================================================================
-	wstringVector WhatListOfMacro()
-	{
-		wstringVector macroList;
-		Evaluator *eval = (Evaluator *)GetNelsonMainEvaluatorDynamicFunction();
-		if (eval)
-		{
-			macroList = WhatListOfMacro(eval);
-		}
-		return macroList;
-	}
-	//=============================================================================
+    wstringVector WhatListOfBuiltin(bool bSorted)
+    {
+        wstringVector functionsList;
+        Evaluator *eval = (Evaluator *)GetNelsonMainEvaluatorDynamicFunction();
+        if (eval)
+        {
+            functionsList = WhatListOfBuiltin(eval, bSorted);
+        }
+        return functionsList;
+    }
+    //=============================================================================
+    wstringVector WhatListOfMacro(Evaluator *eval)
+    {
+        return PathFuncManager::getInstance()->getMacrosList();
+    }
+    //=============================================================================
+    wstringVector WhatListOfMacro()
+    {
+        wstringVector macroList;
+        Evaluator *eval = (Evaluator *)GetNelsonMainEvaluatorDynamicFunction();
+        if (eval)
+        {
+            macroList = WhatListOfMacro(eval);
+        }
+        return macroList;
+    }
+    //=============================================================================
 }
 //=============================================================================

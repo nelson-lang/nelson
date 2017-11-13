@@ -138,18 +138,18 @@ namespace Nelson {
         {
             if (it->second)
             {
-				if (prefix.empty())
-				{
-					functionsName.push_back(it->second->getName());
-				}
-				else
-				{
-					std::wstring name = it->second->getName();
-					if (boost::starts_with(name, prefix))
-					{
-						functionsName.push_back(name);
-					}
-				}
+                if (prefix.empty())
+                {
+                    functionsName.push_back(it->second->getName());
+                }
+                else
+                {
+                    std::wstring name = it->second->getName();
+                    if (boost::starts_with(name, prefix))
+                    {
+                        functionsName.push_back(name);
+                    }
+                }
             }
         }
         return functionsName;

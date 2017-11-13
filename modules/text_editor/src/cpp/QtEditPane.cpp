@@ -25,8 +25,8 @@
 QtEditPane::QtEditPane()
 {
     textEditor = new QtTextEdit();
-	completer = new QCompleter(this);
-	textEditor->setCompleter(completer);
+    completer = new QCompleter(this);
+    textEditor->setCompleter(completer);
     QtLineNumber *tLN = new QtLineNumber(textEditor);
     QHBoxLayout *layout = new QHBoxLayout;
     layout->addWidget(tLN);

@@ -32,38 +32,37 @@ class QTextDocument;
 #define DEFAULT_QT_UNFINISHED_STRING_COLOR Qt::darkBlue
 #define DEFAULT_QT_QUOTATION_COLOR Qt::darkBlue
 //=============================================================================
-class Highlighter : public QSyntaxHighlighter
-{
-	Q_OBJECT
+class Highlighter : public QSyntaxHighlighter {
+    Q_OBJECT
 
 public:
-	Highlighter(QTextDocument *parent = 0);
-	void setEnable(bool _enable);
-	bool getEnable();
+    Highlighter(QTextDocument *parent = 0);
+    void setEnable(bool _enable);
+    bool getEnable();
 
 protected:
-	void highlightBlock(const QString &text) override;
+    void highlightBlock(const QString &text) override;
 
 private:
-	struct HighlightingRule
-	{
-		QRegularExpression pattern;
-		QTextCharFormat format;
-	};
-	QVector<HighlightingRule> highlightingRules;
+    struct HighlightingRule
+    {
+        QRegularExpression pattern;
+        QTextCharFormat format;
+    };
+    QVector<HighlightingRule> highlightingRules;
 
-	QTextCharFormat keywordFormat;
-	QTextCharFormat builtinFormat;
-	QTextCharFormat macroFormat;
-	QTextCharFormat singleLineCommentFormat;
-	QTextCharFormat quotationFormat;
+    QTextCharFormat keywordFormat;
+    QTextCharFormat builtinFormat;
+    QTextCharFormat macroFormat;
+    QTextCharFormat singleLineCommentFormat;
+    QTextCharFormat quotationFormat;
 
-	bool isEnabled;
-	QColor keywordColor;
-	QColor builtinColor;
-	QColor macroColor;
-	QColor operatorColor;
-	QColor singleLineCommentColor;
-	QColor quotationColor;
+    bool isEnabled;
+    QColor keywordColor;
+    QColor builtinColor;
+    QColor macroColor;
+    QColor operatorColor;
+    QColor singleLineCommentColor;
+    QColor quotationColor;
 };
 //=============================================================================
