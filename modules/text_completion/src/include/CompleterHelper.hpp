@@ -20,6 +20,12 @@
 //=============================================================================
 #include <string>
 #include "nlsText_completion_exports.h"
+#include "i18n.hpp"
+//=============================================================================
+#define POSTFIX_BUILTIN _W("Builtin")
+#define POSTFIX_MACRO _W("Macro")
+#define POSTFIX_VARIABLE _W("Variable")
+#define POSTFIX_FILES _W("File or directory")
 //=============================================================================
 namespace Nelson {
     //=============================================================================

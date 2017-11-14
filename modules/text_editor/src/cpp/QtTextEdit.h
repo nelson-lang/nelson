@@ -35,9 +35,9 @@ public:
 private:
     QCompleter *qCompleter;
     QString textUnderCursor() const;
-    QAbstractItemModel *modelFromNelson(QString prefix);
-    void updateModel(QString prefix = QString());
-
+    QAbstractItemModel *modelFromNelson(QString prefix, bool withPath);
+    void updateModel(QString prefix, bool withPath);
+	void complete(QString prefix);
 private slots:
     void insertCompletion(const QString &completion);
 
