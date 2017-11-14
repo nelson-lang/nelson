@@ -126,7 +126,8 @@ QtMainWindow::~QtMainWindow()
 //=============================================================================
 QtMainWindow::QtMainWindow()
 {
-    QWidget *widget = new QWidget;
+	nelsonPath = Nelson::wstringToQString(Nelson::GetRootPath());
+	QWidget *widget = new QWidget;
     setCentralWidget(widget);
     QWidget *topFiller = new QWidget;
     topFiller->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -139,6 +140,7 @@ QtMainWindow::QtMainWindow()
     layout->setMenuBar(this->menuBar());
     widget->setLayout(layout);
     createMenus();
+	createToolbars();
     setWindowTitle(TR("Nelson"));
     setMinimumSize(640, 480);
     resize(840, 600);
@@ -150,7 +152,6 @@ QtMainWindow::QtMainWindow()
     qtTerminal->show();
     bClosed = false;
 #if defined  __APPLE__ || defined _MSC_VER
-    QString nelsonPath = Nelson::wstringToQString(Nelson::GetRootPath());
     QString fileNameIcon = nelsonPath + "/resources/fibonacci.png";
     QIcon icon(fileNameIcon);
     setWindowIcon(icon);
@@ -291,6 +292,17 @@ void QtMainWindow::changeDir()
     }
 }
 //=============================================================================
+void QtMainWindow::editor()
+{
+	executeCommand(L"edit()");
+}
+//=============================================================================
+void QtMainWindow::createToolbars()
+{
+	toolBarEditor = addToolBar(TR("Text editor"));
+	toolBarEditor->addAction(editorAct);
+}
+//=============================================================================
 void QtMainWindow::createMenus()
 {
     mainMenuBar = this->menuBar();
@@ -388,6 +400,11 @@ void QtMainWindow::createMenus()
     aboutAct->setStatusTip(TR("About"));
     connect(aboutAct, SIGNAL(triggered()), this, SLOT(about()));
     helpMenu->addAction(aboutAct);
+
+	QString fileNameIcon = nelsonPath + QString("/resources/textedit-icon.png");
+	editorAct = new QAction(QIcon(fileNameIcon), TR("&Text editor"), this);
+	editorAct->setStatusTip(TR("Text editor"));
+	connect(editorAct, SIGNAL(triggered()), this, SLOT(editor()));
 }
 //=============================================================================
 void QtMainWindow::closeEvent(QCloseEvent *event)

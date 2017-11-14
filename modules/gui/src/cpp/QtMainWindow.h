@@ -19,6 +19,7 @@
 #pragma once
 //=============================================================================
 #include <QtWidgets/QMainWindow>
+#include <QtWidgets/QToolBar>
 #include "QtTerminal.h"
 //=============================================================================
 class QtMainWindow : public QMainWindow {
@@ -48,10 +49,15 @@ private slots:
     void pwdDisplay();
     void changeDir();
 
+	void editor();
+
 private:
     void createMenus();
+	void createToolbars();
     virtual void closeEvent(QCloseEvent *event);
     void executeCommand(std::wstring cmd);
+
+	QString nelsonPath;
 
     QMenuBar *mainMenuBar;
     QMenu *fileMenu;
@@ -75,7 +81,12 @@ private:
 
     QAction *aboutAct;
 
+	QAction *editorAct;
+
     QtTerminal *qtTerminal;
-    bool bClosed;
+    
+	QToolBar *toolBarEditor;
+
+	bool bClosed;
 };
 //=============================================================================

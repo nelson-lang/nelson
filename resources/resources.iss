@@ -19,4 +19,5 @@
 Source: {#RootPath}resources\banner_nelson.png; DestDir: {app}\resources\;
 Source: {#RootPath}resources\fibonacci.ico; DestDir: {app}\resources\;
 Source: {#RootPath}resources\fibonacci.png; DestDir: {app}\resources\;
+Source: {#RootPath}resources\textedit-icon.png; DestDir: {app}\resources\;
 ;==============================================================================
