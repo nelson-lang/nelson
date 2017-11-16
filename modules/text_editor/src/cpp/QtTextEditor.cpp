@@ -10,6 +10,7 @@
 #include <QtWidgets/QFontDialog>
 #include <QtWidgets/QMessageBox>
 #include <QtGui/QKeyEvent>
+#include <QtGui/QClipboard>
 #include <algorithm>
 #include "QtTextEditor.h"
 #include "QtLineNumber.h"
@@ -119,9 +120,23 @@ void QtTextEditor::createActions()
     cutAction = new QAction(QIcon(fileNameIcon), TR("Cu&t"), this);
     fileNameIcon = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/edit-paste.svg"));
     pasteAction = new QAction(QIcon(fileNameIcon), TR("&Paste"), this);
+
+	fileNameIcon = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/edit-undo.svg"));
+	undoAction = new QAction(QIcon(fileNameIcon), TR("&Undo"), this);
+	undoAction->setShortcut(Qt::Key_Z | Qt::CTRL);
+	connect(undoAction, SIGNAL(triggered()), this, SLOT(undo()));
+
+	fileNameIcon = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/edit-redo.svg"));
+	redoAction = new QAction(QIcon(fileNameIcon), TR("&Redo"), this);
+	redoAction->setShortcut(Qt::Key_Y | Qt::CTRL);
+	connect(redoAction, SIGNAL(triggered()), this, SLOT(redo()));
+
     fileNameIcon = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/format-text-bold.svg"));
     fontAction = new QAction(QIcon(fileNameIcon), TR("&Font"), this);
     connect(fontAction, SIGNAL(triggered()), this, SLOT(font()));
+
+	copyFullPathAction = new QAction(TR("Copy Full Path"), this);
+	connect(copyFullPathAction, SIGNAL(triggered()), this, SLOT(copyFullPath()));
 }
 //=============================================================================
 void QtTextEditor::createMenus()
@@ -143,13 +158,26 @@ void QtTextEditor::createMenus()
     }
     fileMenu->addSeparator();
     updateRecentFileActions();
-    updateRecentFileActions();
     fileMenu->addAction(quitAction);
     editMenu = menuBar()->addMenu(TR("&Edit"));
+	editMenu->addAction(undoAction);
+	editMenu->addAction(redoAction);
+	editMenu->addSeparator();
     editMenu->addAction(copyAction);
     editMenu->addAction(cutAction);
     editMenu->addAction(pasteAction);
-    editMenu->addAction(fontAction);
+	editMenu->addSeparator();
+	editMenu->addAction(fontAction);
+
+	contextMenu = new QMenu();
+	contextMenu->addAction(copyFullPathAction);
+	contextMenu->addSeparator();
+	contextMenu->addAction(copyAction);
+	contextMenu->addAction(cutAction);
+	contextMenu->addAction(pasteAction);
+	contextMenu->addSeparator();
+	contextMenu->addAction(undoAction);
+	contextMenu->addAction(redoAction);
 }
 //=============================================================================
 void QtTextEditor::createToolBars()
@@ -164,6 +192,10 @@ void QtTextEditor::createToolBars()
     editToolBar->addAction(copyAction);
     editToolBar->addAction(cutAction);
     editToolBar->addAction(pasteAction);
+	editToolBar->addSeparator();
+	editToolBar->addAction(undoAction);
+	editToolBar->addAction(redoAction);
+	editToolBar->addSeparator();
     editToolBar->addAction(fontAction);
 }
 //=============================================================================
@@ -404,7 +436,10 @@ bool QtTextEditor::saveAll()
     for (int i = 0; i < tab->count(); i++)
     {
         tab->setCurrentIndex(i);
-        save();
+		if (currentEditor()->document()->isModified())
+		{
+			save();
+		}
     }
     tab->setCurrentIndex(backupIndex);
     return true;
@@ -599,5 +634,33 @@ void QtTextEditor::closeEvent(QCloseEvent *event)
         nbTabs--;
     }
     event->accept();
+}
+//=============================================================================
+void QtTextEditor::contextMenuEvent(QContextMenuEvent *event)
+{
+	contextMenu->exec(event->globalPos());
+}
+//=============================================================================
+void QtTextEditor::copyFullPath()
+{
+	QClipboard *clipboard = QApplication::clipboard();
+	if (!currentFilename().isEmpty())
+	{
+		clipboard->setText(currentFilename());
+	}
+	else
+	{
+		clipboard->setText(DEFAULT_FILENAME);
+	}
+}
+//=============================================================================
+void QtTextEditor::undo()
+{
+	currentEditor()->undo();
+}
+//=============================================================================
+void QtTextEditor::redo()
+{
+	currentEditor()->redo();
 }
 //=============================================================================

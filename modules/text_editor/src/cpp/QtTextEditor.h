@@ -38,14 +38,19 @@ class QtTextEditor : public QMainWindow {
     QAction *cutAction,	*copyAction, *pasteAction, *fontAction;
     QAction *recentFileActions[MAX_RECENT_FILES];
     QAction *separatorAction;
+	QAction *undoAction, *redoAction;
 
-    QTabWidget *tab;
+	QTabWidget *tab;
     QtTextEdit *prevEdit;
     QFont m_font;
+
+	QAction *copyFullPathAction;
+	QMenu *contextMenu;
 public:
     QtTextEditor(Evaluator *eval);
     ~QtTextEditor();
     void loadOrCreateFile(const QString& filename);
+	void contextMenuEvent(QContextMenuEvent *event);
 
 private:
     Evaluator *nlsEvaluator;
@@ -87,6 +92,9 @@ private Q_SLOTS:
     void documentWasModified();
     void openRecentFile();
 
+	void copyFullPath();
+	void undo();
+	void redo();
 public:
     void closeEvent(QCloseEvent *event);
 };
