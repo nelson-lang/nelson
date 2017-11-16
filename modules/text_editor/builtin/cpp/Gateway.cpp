@@ -35,8 +35,8 @@ NLSGATEWAYINFO(gateway)
 //=============================================================================
 static bool finishTextEditorModule(Nelson::Evaluator* eval)
 {
-	closeEditor();
-	return true;
+    closeEditor();
+    return true;
 }
 //=============================================================================
 NLSGATEWAYREMOVEEXTENDED(gateway, (void*)finishTextEditorModule)

@@ -126,8 +126,8 @@ QtMainWindow::~QtMainWindow()
 //=============================================================================
 QtMainWindow::QtMainWindow()
 {
-	nelsonPath = Nelson::wstringToQString(Nelson::GetRootPath());
-	QWidget *widget = new QWidget;
+    nelsonPath = Nelson::wstringToQString(Nelson::GetRootPath());
+    QWidget *widget = new QWidget;
     setCentralWidget(widget);
     QWidget *topFiller = new QWidget;
     topFiller->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -140,7 +140,7 @@ QtMainWindow::QtMainWindow()
     layout->setMenuBar(this->menuBar());
     widget->setLayout(layout);
     createMenus();
-	createToolbars();
+    createToolbars();
     setWindowTitle(TR("Nelson"));
     setMinimumSize(640, 480);
     resize(840, 600);
@@ -294,13 +294,13 @@ void QtMainWindow::changeDir()
 //=============================================================================
 void QtMainWindow::editor()
 {
-	executeCommand(L"edit()");
+    executeCommand(L"edit()");
 }
 //=============================================================================
 void QtMainWindow::createToolbars()
 {
-	toolBarEditor = addToolBar(TR("Text editor"));
-	toolBarEditor->addAction(editorAct);
+    toolBarEditor = addToolBar(TR("Text editor"));
+    toolBarEditor->addAction(editorAct);
 }
 //=============================================================================
 void QtMainWindow::createMenus()
@@ -400,11 +400,10 @@ void QtMainWindow::createMenus()
     aboutAct->setStatusTip(TR("About"));
     connect(aboutAct, SIGNAL(triggered()), this, SLOT(about()));
     helpMenu->addAction(aboutAct);
-
-	QString fileNameIcon = nelsonPath + QString("/resources/textedit-icon.png");
-	editorAct = new QAction(QIcon(fileNameIcon), TR("&Text editor"), this);
-	editorAct->setStatusTip(TR("Text editor"));
-	connect(editorAct, SIGNAL(triggered()), this, SLOT(editor()));
+    QString fileNameIcon = nelsonPath + QString("/resources/textedit-icon.png");
+    editorAct = new QAction(QIcon(fileNameIcon), TR("&Text editor"), this);
+    editorAct->setStatusTip(TR("Text editor"));
+    connect(editorAct, SIGNAL(triggered()), this, SLOT(editor()));
 }
 //=============================================================================
 void QtMainWindow::closeEvent(QCloseEvent *event)

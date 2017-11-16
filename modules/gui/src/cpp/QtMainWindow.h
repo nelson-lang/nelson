@@ -49,15 +49,15 @@ private slots:
     void pwdDisplay();
     void changeDir();
 
-	void editor();
+    void editor();
 
 private:
     void createMenus();
-	void createToolbars();
+    void createToolbars();
     virtual void closeEvent(QCloseEvent *event);
     void executeCommand(std::wstring cmd);
 
-	QString nelsonPath;
+    QString nelsonPath;
 
     QMenuBar *mainMenuBar;
     QMenu *fileMenu;
@@ -81,12 +81,12 @@ private:
 
     QAction *aboutAct;
 
-	QAction *editorAct;
+    QAction *editorAct;
 
     QtTerminal *qtTerminal;
-    
-	QToolBar *toolBarEditor;
 
-	bool bClosed;
+    QToolBar *toolBarEditor;
+
+    bool bClosed;
 };
 //=============================================================================
