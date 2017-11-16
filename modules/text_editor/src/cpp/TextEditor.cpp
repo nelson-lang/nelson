@@ -49,5 +49,26 @@ namespace Nelson {
         return res;
     }
     //=============================================================================
+	bool editor(Evaluator *eval, wstringVector filenames)
+	{
+		bool res = true;
+		for (size_t k = 0; k < filenames.size(); k++)
+		{
+			res = res && editor(eval, filenames[k]);
+		}
+		return res;
+	}
+	//=============================================================================
+	bool closeEditor()
+	{
+		if (edit != nullptr)
+		{
+			delete edit;
+			edit = nullptr;
+			return true;
+		}
+		return false;
+	}
+	//=============================================================================
 }
 //=============================================================================

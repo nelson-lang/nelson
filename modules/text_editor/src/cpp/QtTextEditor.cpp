@@ -107,6 +107,8 @@ void QtTextEditor::createActions()
     }
     closeAction = new QAction(TR("&Close"), this);
     connect(closeAction, SIGNAL(triggered()), this, SLOT(closeTab()));
+	closeAllAction = new QAction(TR("Close &All"), this);
+	connect(closeAllAction, SIGNAL(triggered()), this, SLOT(closeAllTabs()));
     fileNameIcon = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/document-exit.svg"));
     quitAction = new QAction(QIcon(fileNameIcon), TR("&Quit Editor"), this);
     saveAllAction->setShortcut(Qt::Key_F4 | Qt::ALT);
@@ -127,11 +129,14 @@ void QtTextEditor::createMenus()
     fileMenu = menuBar()->addMenu(TR("&File"));
     fileMenu->addAction(newAction);
     fileMenu->addAction(openAction);
-    fileMenu->addAction(saveAction);
+	fileMenu->addSeparator();
+	fileMenu->addAction(saveAction);
     fileMenu->addAction(saveAsAction);
     fileMenu->addAction(saveAllAction);
-    fileMenu->addAction(closeAction);
-    separatorAction = fileMenu->addSeparator();
+	fileMenu->addSeparator();
+	fileMenu->addAction(closeAction);
+	fileMenu->addAction(closeAllAction);
+	separatorAction = fileMenu->addSeparator();
     for (int i = 0; i < MAX_RECENT_FILES; ++i)
     {
         fileMenu->addAction(recentFileActions[i]);
@@ -356,7 +361,15 @@ QString QtTextEditor::shownName()
 void QtTextEditor::updateTitles()
 {
     tab->setTabText(tab->currentIndex(), shownName());
-    setWindowTitle(QString("%1[*]").arg(currentFilename()) + " - Nelson Editor");
+	if (currentFilename().isEmpty())
+	{
+		setWindowTitle(TR("Nelson Editor"));
+
+	}
+	else
+	{
+		setWindowTitle(QString("%1[*]").arg(currentFilename()) + " - " + TR("Nelson Editor"));
+	}
     documentWasModified();
 }
 //=============================================================================
@@ -455,6 +468,7 @@ void QtTextEditor::open()
 //=============================================================================
 QtTextEditor::~QtTextEditor()
 {
+	saveAll();
 }
 //=============================================================================
 void QtTextEditor::font()
@@ -508,6 +522,19 @@ void QtTextEditor::closeTab()
         p->deleteLater();
         prevEdit = nullptr;
     }
+}
+//=============================================================================
+void QtTextEditor::closeAllTabs()
+{
+	int nbTabs = tab->count();
+	for (int i = 0; i < nbTabs; i++) 
+	{
+		QWidget *currentWidget = tab->currentWidget();
+		maybeSave();
+		tab->removeTab(tab->currentIndex());
+		currentWidget->deleteLater();
+	}
+	setWindowTitle(TR("Nelson Editor"));
 }
 //=============================================================================
 void QtTextEditor::closeTab(int indexTab)

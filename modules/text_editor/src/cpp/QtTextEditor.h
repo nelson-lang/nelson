@@ -34,7 +34,7 @@ class QtTextEditor : public QMainWindow {
     QMenu *fileMenu, *editMenu;
     QToolBar *editToolBar, *fileToolBar;
     QAction *newAction, *openAction, *saveAction, *saveAsAction, *saveAllAction, *quitAction;
-    QAction *closeAction;
+    QAction *closeAction, *closeAllAction;
     QAction *cutAction,	*copyAction, *pasteAction, *fontAction;
     QAction *recentFileActions[MAX_RECENT_FILES];
     QAction *separatorAction;
@@ -44,7 +44,7 @@ class QtTextEditor : public QMainWindow {
     QFont m_font;
 public:
     QtTextEditor(Evaluator *eval);
-    virtual ~QtTextEditor();
+    ~QtTextEditor();
     void loadOrCreateFile(const QString& filename);
 
 private:
@@ -81,7 +81,9 @@ private Q_SLOTS:
     void addTabUntitled();
     void closeTab();
     void closeTab(int);
-    void tabChanged(int);
+	void closeAllTabs();
+
+	void tabChanged(int);
     void documentWasModified();
     void openRecentFile();
 
