@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--part of the rodentia icon theme by sixsixfive released under CC0 (https://creativecommons.org/publicdomain/zero/1.0/) on openclipart-->
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 48 48">
+ <defs id="0">
+  <linearGradient id="3">
+   <stop id="C" stop-color="#fff"/>
+   <stop id="D" offset="1" stop-color="#fff" stop-opacity="0"/>
+  </linearGradient>
+  <linearGradient id="4">
+   <stop id="E" stop-color="#fff" stop-opacity="0.8"/>
+   <stop id="F" offset="1" stop-color="#fff" stop-opacity="0"/>
+  </linearGradient>
+  <linearGradient id="5">
+   <stop id="G" stop-color="#2e3436" stop-opacity="0.5"/>
+   <stop id="H" offset="1" stop-color="#2e3436" stop-opacity="0.015"/>
+  </linearGradient>
+  <radialGradient cx="24.431" cy="52.28" r="21.578" id="6" xlink:href="#5" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1,0,0,0.2975207,0,36.725592)"/>
+  <linearGradient y1="7.281" x2="0" y2="42.13" id="7" xlink:href="#4" gradientUnits="userSpaceOnUse"/>
+  <linearGradient x1="16.813" y1="-14.242" x2="32.16" y2="30.848" id="8" xlink:href="#3" gradientUnits="userSpaceOnUse" gradientTransform="translate(-0.493791,-0.6957189)"/>
+ </defs>
+ <g transform="translate(-6.8995,0)" id="1">
+  <path d="M 45.97717,24.000002 30.8995,14.617284 15.821831,5.2345678 l 0,18.7654332 -10e-7,18.765431 15.07767,-9.382715 15.07767,-9.382715 0,0 z" id="9" fill="#729fcf" stroke="#204a87" stroke-linejoin="round"/>
+  <path d="m 17.34375,7.78125 0,16.90625 0,16.9375 L 30.875,33.21875 44.53125,24.6875 30.875,16.1875 17.34375,7.78125 z" transform="translate(-0.493791,-0.6957189)" id="A" opacity="0.8" fill="none" stroke="url(#7)"/>
+  <path d="m 16.318709,6.1792811 0,17.8124999 0,4.6875 c 7.690959,-3.103859 15.984785,-5.423638 24.5,-7.28125 l -10.1875,-6.34375 -14.3125,-8.8749999 z" id="B" opacity="0.6" fill="url(#8)"/>
+ </g>
+ <path d="m 46.009577,52.279961 a 21.578135,6.4199409 0 1 1 -43.1562693,0 21.578135,6.4199409 0 1 1 43.1562693,0 z" transform="matrix(1.112237,0,0,0.6111111,-3.173554,11.050839)" id="2" opacity="0.8" fill="url(#6)"/>
+</svg>

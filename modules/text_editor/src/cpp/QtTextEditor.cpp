@@ -21,6 +21,7 @@
 #include "QtTranslation.hpp"
 #include "characters_encoding.hpp"
 #include "TextEditorPreferences.hpp"
+#include "ExecuteCommand.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -118,7 +119,7 @@ void QtTextEditor::createActions()
     fileNameIcon = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/edit-copy.svg"));
     copyAction = new QAction(QIcon(fileNameIcon), TR("&Copy"), this);
     fileNameIcon = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/edit-cut.svg"));
-    cutAction = new QAction(QIcon(fileNameIcon), TR("Cu&t"), this);
+    cutAction = new QAction(QIcon(fileNameIcon), TR("C&ut"), this);
     fileNameIcon = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/edit-paste.svg"));
     pasteAction = new QAction(QIcon(fileNameIcon), TR("&Paste"), this);
     fileNameIcon = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/edit-undo.svg"));
@@ -143,6 +144,15 @@ void QtTextEditor::createActions()
     gotoLineAction = new QAction(TR("&Go To Line ..."), this);
     gotoLineAction->setShortcut(Qt::Key_G | Qt::CTRL);
     connect(gotoLineAction, SIGNAL(triggered()), this, SLOT(gotoLine()));
+
+	fileNameIcon = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/run-file-start.svg"));
+	runFileAction = new QAction(QIcon(fileNameIcon), TR("&Run file"), this);
+	connect(runFileAction, SIGNAL(triggered()), this, SLOT(runFile()));
+
+	fileNameIcon = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/stop-interpreter.svg"));
+	stopRunAction = new QAction(QIcon(fileNameIcon), TR("&Stop execution"), this);
+	connect(stopRunAction, SIGNAL(triggered()), this, SLOT(stopRun()));
+
 }
 //=============================================================================
 void QtTextEditor::createMenus()
@@ -209,7 +219,10 @@ void QtTextEditor::createToolBars()
     editToolBar->addAction(undoAction);
     editToolBar->addAction(redoAction);
     editToolBar->addSeparator();
-    editToolBar->addAction(fontAction);
+	editToolBar->addAction(runFileAction);
+	editToolBar->addAction(stopRunAction);
+	editToolBar->addSeparator();
+	editToolBar->addAction(fontAction);
 }
 //=============================================================================
 void QtTextEditor::createStatusBar()
@@ -319,6 +332,14 @@ void QtTextEditor::loadFile(const QString& filename)
     QApplication::restoreOverrideCursor();
     setCurrentFile(filename);
     statusBar()->showMessage(TR("File loaded"), DEFAULT_DELAY_MSG);
+	if (filename.endsWith(".nls"))
+	{
+		runFileAction->setEnabled(true);
+	}
+	else
+	{
+		runFileAction->setEnabled(false);
+	}
     currentEditor()->setFocus();
 }
 //=============================================================================
@@ -603,6 +624,15 @@ void QtTextEditor::tabChanged(int indexTab)
     connect(currentEditor()->document(), SIGNAL(contentsChanged()), this, SLOT(documentWasModified()));
     updateTitles();
     prevEdit = currentEditor();
+	QString filename = currentFilename();
+	if (filename.endsWith(".nls") || filename.isEmpty())
+	{
+		runFileAction->setEnabled(true);
+	}
+	else
+	{
+		runFileAction->setEnabled(false);
+	}
 }
 //=============================================================================
 void QtTextEditor::documentWasModified()
@@ -700,4 +730,29 @@ void QtTextEditor::gotoLine()
     }
 }
 //=============================================================================
+void QtTextEditor::runFile()
+{
+	if (nlsEvaluator->getInterface()->isAtPrompt())
+	{
+		if (currentEditor()->document()->isModified() || currentEditor()->document()->isEmpty())
+		{
+			save();
+		}
+		std::wstring filename = QStringTowstring(currentFilename());
+		executeCommand(std::wstring(L"run('") + filename + std::wstring(L"')"));
+	}
+	else
+	{
+		QMessageBox::warning(this, _("Run file ...").c_str(), _("Interpreter currently runs.").c_str());
 
+	}
+}
+//=============================================================================
+void QtTextEditor::stopRun()
+{
+	if (!nlsEvaluator->getInterface()->isAtPrompt())
+	{
+		nlsEvaluator->SetInterruptPending(true);
+	}
+}
+//=============================================================================

@@ -16,7 +16,7 @@ Please feel free to file issues on this repository if you have questions, concer
 - COM objects (DONE v0.1.7),
 - MAT File I/O module,
 - editor (DONE v0.1.11),
-- completion (DONE v0.1.11),
+- completion,
 - graphics output,
 - some basic openCV functions,
 - dynamic link functions

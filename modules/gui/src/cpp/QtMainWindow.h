@@ -55,7 +55,6 @@ private:
     void createMenus();
     void createToolbars();
     virtual void closeEvent(QCloseEvent *event);
-    void executeCommand(std::wstring cmd);
 
     QString nelsonPath;
 

@@ -33,10 +33,9 @@
 #include "QtTerminal.h"
 #include "GetNelsonPath.hpp"
 #include "QtTranslation.hpp"
-#include "GetNelsonMainEvaluatorDynamicFunction.hpp"
-#include "Evaluator.hpp"
 #include "Nelson_VERSION.h"
 #include "UiGetDirectory.hpp"
+#include "ExecuteCommand.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -174,12 +173,10 @@ void QtMainWindow::runFile()
             if (!qfileName.isEmpty())
             {
                 std::wstring filename = Nelson::QStringTowstring(qfileName);
-                void *veval = GetNelsonMainEvaluatorDynamicFunction();
-                Nelson::Evaluator *eval = (Nelson::Evaluator *)veval;
                 qtTerminal->outputMessage(L"\n");
                 qtTerminal->sendReturnKey();
-                std::wstring cmd = L"run('" + filename + L"');";
-                eval->addCommandToQueue(cmd, true);
+				std::wstring cmd = L"run('" + filename + L"')";
+				executeCommand(cmd);
             }
         }
     }
@@ -204,31 +201,9 @@ void QtMainWindow::bugAndRequest()
     QDesktopServices::openUrl(QUrl(link));
 }
 //=============================================================================
-void QtMainWindow::executeCommand(std::wstring cmd)
-{
-    if (qtTerminal)
-    {
-        std::wstring _cmd = cmd + L";";
-        void *veval = GetNelsonMainEvaluatorDynamicFunction();
-        if (veval != nullptr)
-        {
-            Nelson::Evaluator *eval = (Nelson::Evaluator *)veval;
-            if (qtTerminal->isAtPrompt())
-            {
-                eval->addCommandToQueue(cmd, true);
-            }
-            else
-            {
-                std::string ustr = wstring_to_utf8(_cmd);
-                eval->evaluateString(ustr + "\n");
-            }
-        }
-    }
-}
-//=============================================================================
 void QtMainWindow::help()
 {
-    executeCommand(L"doc");
+	Nelson::executeCommand(L"doc");
 }
 //=============================================================================
 void QtMainWindow::cutText()

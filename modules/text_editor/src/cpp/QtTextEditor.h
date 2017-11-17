@@ -49,6 +49,10 @@ class QtTextEditor : public QMainWindow {
     QAction *commentAction;
     QAction *uncommentAction;
     QAction *gotoLineAction;
+
+	QAction *runFileAction;
+	QAction *stopRunAction;
+
 public:
     QtTextEditor(Evaluator *eval);
     ~QtTextEditor();
@@ -103,6 +107,9 @@ private Q_SLOTS:
     void uncomment();
 
     void gotoLine();
+
+	void runFile();
+	void stopRun();
 public:
     void closeEvent(QCloseEvent *event);
 };
