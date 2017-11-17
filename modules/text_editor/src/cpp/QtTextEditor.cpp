@@ -9,6 +9,7 @@
 #include <QtWidgets/QFileDialog>
 #include <QtWidgets/QFontDialog>
 #include <QtWidgets/QMessageBox>
+#include <QtWidgets/QInputDialog>
 #include <QtGui/QKeyEvent>
 #include <QtGui/QClipboard>
 #include <algorithm>
@@ -133,6 +134,15 @@ void QtTextEditor::createActions()
     connect(fontAction, SIGNAL(triggered()), this, SLOT(font()));
     copyFullPathAction = new QAction(TR("Copy Full Path"), this);
     connect(copyFullPathAction, SIGNAL(triggered()), this, SLOT(copyFullPath()));
+    commentAction = new QAction(TR("Comment"), this);
+    commentAction->setShortcut(Qt::Key_R | Qt::CTRL);
+    connect(commentAction, SIGNAL(triggered()), this, SLOT(comment()));
+    uncommentAction = new QAction(TR("Uncomment"), this);
+    uncommentAction->setShortcut(Qt::Key_T | Qt::CTRL);
+    connect(uncommentAction, SIGNAL(triggered()), this, SLOT(uncomment()));
+    gotoLineAction = new QAction(TR("&Go To Line ..."), this);
+    gotoLineAction->setShortcut(Qt::Key_G | Qt::CTRL);
+    connect(gotoLineAction, SIGNAL(triggered()), this, SLOT(gotoLine()));
 }
 //=============================================================================
 void QtTextEditor::createMenus()
@@ -156,12 +166,17 @@ void QtTextEditor::createMenus()
     updateRecentFileActions();
     fileMenu->addAction(quitAction);
     editMenu = menuBar()->addMenu(TR("&Edit"));
+    editMenu->addAction(gotoLineAction);
+    editMenu->addSeparator();
     editMenu->addAction(undoAction);
     editMenu->addAction(redoAction);
     editMenu->addSeparator();
     editMenu->addAction(copyAction);
-    editMenu->addAction(cutAction);
     editMenu->addAction(pasteAction);
+    editMenu->addAction(cutAction);
+    editMenu->addSeparator();
+    editMenu->addAction(commentAction);
+    editMenu->addAction(uncommentAction);
     editMenu->addSeparator();
     editMenu->addAction(fontAction);
     contextMenu = new QMenu();
@@ -173,6 +188,9 @@ void QtTextEditor::createMenus()
     contextMenu->addSeparator();
     contextMenu->addAction(undoAction);
     contextMenu->addAction(redoAction);
+    contextMenu->addSeparator();
+    contextMenu->addAction(commentAction);
+    contextMenu->addAction(uncommentAction);
 }
 //=============================================================================
 void QtTextEditor::createToolBars()
@@ -301,6 +319,7 @@ void QtTextEditor::loadFile(const QString& filename)
     QApplication::restoreOverrideCursor();
     setCurrentFile(filename);
     statusBar()->showMessage(tr("File loaded"), DEFAULT_DELAY_MSG);
+    currentEditor()->setFocus();
 }
 //=============================================================================
 void QtTextEditor::setCurrentFile(const QString& filename)
@@ -658,3 +677,27 @@ void QtTextEditor::redo()
     currentEditor()->redo();
 }
 //=============================================================================
+void QtTextEditor::comment()
+{
+    currentEditor()->comment();
+}
+//=============================================================================
+void QtTextEditor::uncomment()
+{
+    currentEditor()->uncomment();
+}
+//=============================================================================
+void QtTextEditor::gotoLine()
+{
+    bool ok;
+    int line_number = QInputDialog::getInt(this, TR("Go To Line ..."),
+                                           TR("Enter a line number to go to: "), 1, 1, currentEditor()->document()->blockCount(), 1, &ok);
+    if (ok)
+    {
+        QTextCursor text_cursor(currentEditor()->document()->findBlockByLineNumber(line_number - 1));
+        text_cursor.movePosition(QTextCursor::StartOfLine);
+        currentEditor()->setTextCursor(text_cursor);
+    }
+}
+//=============================================================================
+

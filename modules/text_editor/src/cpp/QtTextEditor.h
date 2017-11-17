@@ -46,6 +46,9 @@ class QtTextEditor : public QMainWindow {
 
     QAction *copyFullPathAction;
     QMenu *contextMenu;
+    QAction *commentAction;
+    QAction *uncommentAction;
+    QAction *gotoLineAction;
 public:
     QtTextEditor(Evaluator *eval);
     ~QtTextEditor();
@@ -95,6 +98,11 @@ private Q_SLOTS:
     void copyFullPath();
     void undo();
     void redo();
+
+    void comment();
+    void uncomment();
+
+    void gotoLine();
 public:
     void closeEvent(QCloseEvent *event);
 };

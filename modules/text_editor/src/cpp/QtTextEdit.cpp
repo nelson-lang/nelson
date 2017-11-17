@@ -249,3 +249,105 @@ QString QtTextEdit::textUnderCursor() const
     return tc.selectedText();
 }
 //=============================================================================
+void QtTextEdit::comment()
+{
+    QTextCursor textCursor(textCursor());
+    QTextCursor lineOne(textCursor);
+    QTextCursor lineTwo(textCursor);
+    if (textCursor.position() < textCursor.anchor())
+    {
+        lineTwo.setPosition(textCursor.anchor());
+    }
+    else
+    {
+        lineOne.setPosition(textCursor.anchor());
+    }
+    lineOne.movePosition(QTextCursor::StartOfLine, QTextCursor::MoveAnchor);
+    QTextCursor lineTwoCopy(lineTwo);
+    lineTwo.movePosition(QTextCursor::StartOfLine, QTextCursor::MoveAnchor);
+    if (lineTwo.position() == lineTwoCopy.position())
+    {
+        lineTwo.movePosition(QTextCursor::Up, QTextCursor::MoveAnchor);
+    }
+    QTextCursor textPosition(lineOne);
+    textPosition.beginEditBlock();
+    while (textPosition.position() < lineTwo.position())
+    {
+        textPosition.insertText("// ");
+        textPosition.movePosition(QTextCursor::Down, QTextCursor::MoveAnchor);
+    }
+    textPosition.insertText("// ");
+    textPosition.endEditBlock();
+}
+//=============================================================================
+void QtTextEdit::uncomment()
+{
+    QTextCursor textCursor(textCursor());
+    QTextCursor lineOne(textCursor);
+    QTextCursor lineTwo(textCursor);
+    if (textCursor.position() < textCursor.anchor())
+    {
+        lineTwo.setPosition(textCursor.anchor());
+    }
+    else
+    {
+        lineOne.setPosition(textCursor.anchor());
+    }
+    lineOne.movePosition(QTextCursor::StartOfLine, QTextCursor::MoveAnchor);
+    QTextCursor lineTwoCopy(lineTwo);
+    lineTwo.movePosition(QTextCursor::StartOfLine, QTextCursor::MoveAnchor);
+    if (lineTwo.position() == lineTwoCopy.position())
+    {
+        lineTwo.movePosition(QTextCursor::Up, QTextCursor::MoveAnchor);
+    }
+    QTextCursor textPosition(lineOne);
+    textPosition.beginEditBlock();
+    while (textPosition.position() <= lineTwo.position())
+    {
+        while (!textPosition.atBlockEnd())
+        {
+            textPosition.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor);
+            if (textPosition.selectedText() == " ")
+            {
+                textPosition.clearSelection();
+                continue;
+            }
+            else if (textPosition.selectedText() == "%")
+            {
+                textPosition.deleteChar();
+                textPosition.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor);
+                if (textPosition.selectedText() == " ")
+                {
+                    textPosition.deleteChar();
+                }
+                break;
+            }
+            else if (textPosition.selectedText() == "/")
+            {
+                textPosition.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor);
+                if (textPosition.selectedText() == "//")
+                {
+                    textPosition.deletePreviousChar();
+                    textPosition.deleteChar();
+                    textPosition.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor);
+                    if (textPosition.selectedText() == " ")
+                    {
+                        textPosition.deleteChar();
+                    }
+                    break;
+                }
+            }
+            else
+            {
+                break;
+            }
+        }
+        if (textPosition.position() < lineTwo.position())
+        {
+            textPosition.movePosition(QTextCursor::Down, QTextCursor::MoveAnchor);
+            textPosition.movePosition(QTextCursor::StartOfLine, QTextCursor::MoveAnchor);
+        }
+    }
+    textPosition.endEditBlock();
+}
+//=============================================================================
