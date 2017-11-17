@@ -222,7 +222,7 @@ void QtTextEditor::updateRecentFileActions()
     int numRecentFiles = std::min((int)recentFilenames.size(), (int)MAX_RECENT_FILES);
     for (int i = 0; i < numRecentFiles; ++i)
     {
-        QString text = tr("&%1 %2").arg(i + 1).arg(strippedName(wstringToQString(recentFilenames[i])));
+        QString text = TR("&%1 %2").arg(i + 1).arg(strippedName(wstringToQString(recentFilenames[i])));
         recentFileActions[i]->setText(text);
         recentFileActions[i]->setData(wstringToQString(recentFilenames[i]));
         recentFileActions[i]->setVisible(true);
@@ -318,7 +318,7 @@ void QtTextEditor::loadFile(const QString& filename)
     currentEditor()->setPlainText(in.readAll());
     QApplication::restoreOverrideCursor();
     setCurrentFile(filename);
-    statusBar()->showMessage(tr("File loaded"), DEFAULT_DELAY_MSG);
+    statusBar()->showMessage(TR("File loaded"), DEFAULT_DELAY_MSG);
     currentEditor()->setFocus();
 }
 //=============================================================================
