@@ -41,60 +41,60 @@ using namespace Nelson;
 //=============================================================================
 QtMainWindow::~QtMainWindow()
 {
-    if (runAct)
+    if (runAction)
     {
-        delete runAct;
-        runAct = nullptr;
+        delete runAction;
+        runAction = nullptr;
     }
-    if (pwdAct)
+    if (pwdAction)
     {
-        delete pwdAct;
-        pwdAct = nullptr;
+        delete pwdAction;
+        pwdAction = nullptr;
     }
-    if (exitAct)
+    if (exitAction)
     {
-        delete exitAct;
-        exitAct = nullptr;
+        delete exitAction;
+        exitAction = nullptr;
     }
-    if (aboutAct)
+    if (aboutAction)
     {
-        delete aboutAct;
-        aboutAct = nullptr;
+        delete aboutAction;
+        aboutAction = nullptr;
     }
-    if (helpAct)
+    if (helpAction)
     {
-        delete helpAct;
-        helpAct = nullptr;
+        delete helpAction;
+        helpAction = nullptr;
     }
-    if (cutAct)
+    if (cutAction)
     {
-        delete cutAct;
-        cutAct = nullptr;
+        delete cutAction;
+        cutAction = nullptr;
     }
-    if (copyAct)
+    if (copyAction)
     {
-        delete copyAct;
-        copyAct = nullptr;
+        delete copyAction;
+        copyAction = nullptr;
     }
-    if (pasteAct)
+    if (pasteAction)
     {
-        delete pasteAct;
-        pasteAct = nullptr;
+        delete pasteAction;
+        pasteAction = nullptr;
     }
-    if (selectAllAct)
+    if (selectAllAction)
     {
-        delete selectAllAct;
-        selectAllAct = nullptr;
+        delete selectAllAction;
+        selectAllAction = nullptr;
     }
-    if (emptyClipboardAct)
+    if (emptyClipboardAction)
     {
-        delete emptyClipboardAct;
-        emptyClipboardAct = nullptr;
+        delete emptyClipboardAction;
+        emptyClipboardAction = nullptr;
     }
-    if (clearConsoleAct)
+    if (clearConsoleAction)
     {
-        delete clearConsoleAct;
-        clearConsoleAct = nullptr;
+        delete clearConsoleAction;
+        clearConsoleAction = nullptr;
     }
     if (editMenu)
     {
@@ -274,111 +274,135 @@ void QtMainWindow::editor()
 //=============================================================================
 void QtMainWindow::createToolbars()
 {
-    toolBarEditor = addToolBar(TR("Text editor"));
-    toolBarEditor->addAction(editorAct);
+    toolBar = addToolBar(TR("Text editor"));
+    toolBar->addAction(editorAction);
+	toolBar->addAction(runAction);
+	toolBar->addAction(chdirAction);
+	toolBar->addSeparator();
+	toolBar->addAction(cutAction);
+	toolBar->addAction(copyAction);
+	toolBar->addAction(pasteAction);
+	toolBar->addSeparator();
+	toolBar->addAction(helpAction);
+	toolBar->addSeparator();
 }
 //=============================================================================
 void QtMainWindow::createMenus()
 {
+	QString fileNameIcon;
     mainMenuBar = this->menuBar();
     mainMenuBar->setNativeMenuBar(false);
     fileMenu = mainMenuBar->addMenu(TR("&File"));
     // File menu
-    runAct = new QAction(TR("&Execute..."), this);
-    runAct->setShortcut(QKeySequence("Ctrl+E"));
-    runAct->setStatusTip(TR("Execute a .nls file"));
-    connect(runAct, SIGNAL(triggered()), this, SLOT(runFile()));
-    fileMenu->addAction(runAct);
+	fileNameIcon = nelsonPath + QString("/resources/file-run.svg");
+	runAction = new QAction(QIcon(fileNameIcon), TR("&Execute..."), this);
+    runAction->setShortcut(QKeySequence("Ctrl+E"));
+    runAction->setStatusTip(TR("Execute a .nls file"));
+    connect(runAction, SIGNAL(triggered()), this, SLOT(runFile()));
+    fileMenu->addAction(runAction);
     // separator
     fileMenu->addSeparator();
     // chdir
-    chdirAct = new QAction(TR("&Change current directory"), this);
-    chdirAct->setStatusTip(TR("Change current directory"));
-    connect(chdirAct, SIGNAL(triggered()), this, SLOT(changeDir()));
-    fileMenu->addAction(chdirAct);
+	fileNameIcon = nelsonPath + QString("/resources/folder-open.svg");
+	chdirAction = new QAction(QIcon(fileNameIcon), TR("&Change current directory"), this);
+    chdirAction->setStatusTip(TR("Change current directory"));
+    connect(chdirAction, SIGNAL(triggered()), this, SLOT(changeDir()));
+    fileMenu->addAction(chdirAction);
     // pwd
-    pwdAct = new QAction(TR("&Display current directory"), this);
-    pwdAct->setStatusTip(TR("Display current directory"));
-    connect(pwdAct, SIGNAL(triggered()), this, SLOT(pwdDisplay()));
-    fileMenu->addAction(pwdAct);
+    pwdAction = new QAction(TR("&Display current directory"), this);
+    pwdAction->setStatusTip(TR("Display current directory"));
+    connect(pwdAction, SIGNAL(triggered()), this, SLOT(pwdDisplay()));
+    fileMenu->addAction(pwdAction);
     // separator
     fileMenu->addSeparator();
     // exit
-    exitAct = new QAction(TR("E&xit"), this);
-    exitAct->setShortcuts(QKeySequence::Quit);
-    exitAct->setStatusTip(TR("Exit the application"));
-    connect(exitAct, SIGNAL(triggered()), this, SLOT(close()));
-    fileMenu->addAction(exitAct);
+	fileNameIcon = nelsonPath + QString("/resources/exit.svg");
+	exitAction = new QAction(QIcon(fileNameIcon), TR("E&xit"), this);
+    exitAction->setShortcuts(QKeySequence::Quit);
+    exitAction->setStatusTip(TR("Exit the application"));
+    connect(exitAction, SIGNAL(triggered()), this, SLOT(close()));
+    fileMenu->addAction(exitAction);
     //
     // Edit menu
     editMenu = mainMenuBar->addMenu(TR("&Edit"));
     // cut
-    cutAct = new QAction(TR("C&ut"), this);
-    cutAct->setShortcuts(QKeySequence::Cut);
-    cutAct->setStatusTip(TR("Cut"));
-    connect(cutAct, SIGNAL(triggered()), this, SLOT(cutText()));
-    editMenu->addAction(cutAct);
+	fileNameIcon = nelsonPath + QString("/resources/edit-cut.svg");
+	cutAction = new QAction(QIcon(fileNameIcon), TR("C&ut"), this);
+    cutAction->setShortcuts(QKeySequence::Cut);
+    cutAction->setStatusTip(TR("Cut"));
+    connect(cutAction, SIGNAL(triggered()), this, SLOT(cutText()));
+    editMenu->addAction(cutAction);
     // copy
-    copyAct = new QAction(TR("&Copy"), this);
-    copyAct->setShortcuts(QKeySequence::Copy);
-    copyAct->setStatusTip(TR("Copy"));
-    connect(copyAct, SIGNAL(triggered()), this, SLOT(copyText()));
-    editMenu->addAction(copyAct);
+	fileNameIcon = nelsonPath + QString("/resources/edit-copy.svg");
+	copyAction = new QAction(QIcon(fileNameIcon), TR("&Copy"), this);
+    copyAction->setShortcuts(QKeySequence::Copy);
+    copyAction->setStatusTip(TR("Copy"));
+    connect(copyAction, SIGNAL(triggered()), this, SLOT(copyText()));
+    editMenu->addAction(copyAction);
     // paste
-    pasteAct = new QAction(TR("&Paste"), this);
-    pasteAct->setShortcuts(QKeySequence::Paste);
-    pasteAct->setStatusTip(TR("Paste"));
-    connect(pasteAct, SIGNAL(triggered()), this, SLOT(pasteText()));
-    editMenu->addAction(pasteAct);
+	fileNameIcon = nelsonPath + QString("/resources/edit-paste.svg");
+	pasteAction = new QAction(QIcon(fileNameIcon), TR("&Paste"), this);
+    pasteAction->setShortcuts(QKeySequence::Paste);
+    pasteAction->setStatusTip(TR("Paste"));
+    connect(pasteAction, SIGNAL(triggered()), this, SLOT(pasteText()));
+    editMenu->addAction(pasteAction);
     // separator
     editMenu->addSeparator();
     // select all
-    selectAllAct = new QAction(TR("&Select all"), this);
-    selectAllAct->setStatusTip(TR("Select all"));
-    connect(selectAllAct, SIGNAL(triggered()), this, SLOT(selectAllText()));
-    editMenu->addAction(selectAllAct);
+	fileNameIcon = nelsonPath + QString("/resources/edit-select-all.svg");
+	selectAllAction = new QAction(QIcon(fileNameIcon), TR("&Select all"), this);
+    selectAllAction->setStatusTip(TR("Select all"));
+    connect(selectAllAction, SIGNAL(triggered()), this, SLOT(selectAllText()));
+    editMenu->addAction(selectAllAction);
     // separator
     editMenu->addSeparator();
     // empty clipboard
-    emptyClipboardAct = new QAction(TR("&Empty clipboard"), this);
-    emptyClipboardAct->setStatusTip(TR("Empty clipboard"));
-    connect(emptyClipboardAct, SIGNAL(triggered()), this, SLOT(emptyClipboard()));
-    editMenu->addAction(emptyClipboardAct);
+	fileNameIcon = nelsonPath + QString("/resources/clipboard-empty.svg");
+	emptyClipboardAction = new QAction(QIcon(fileNameIcon), TR("&Empty clipboard"), this);
+    emptyClipboardAction->setStatusTip(TR("Empty clipboard"));
+    connect(emptyClipboardAction, SIGNAL(triggered()), this, SLOT(emptyClipboard()));
+    editMenu->addAction(emptyClipboardAction);
     // separator
     editMenu->addSeparator();
     // clear console
-    clearConsoleAct = new QAction(TR("Clear c&onsole"), this);
-    clearConsoleAct->setStatusTip(TR("Clear console"));
-    connect(clearConsoleAct, SIGNAL(triggered()), this, SLOT(clearConsole()));
-    editMenu->addAction(clearConsoleAct);
+	fileNameIcon = nelsonPath + QString("/resources/console-clear.svg");
+	clearConsoleAction = new QAction(QIcon(fileNameIcon), TR("Clear c&onsole"), this);
+    clearConsoleAction->setStatusTip(TR("Clear console"));
+    connect(clearConsoleAction, SIGNAL(triggered()), this, SLOT(clearConsole()));
+    editMenu->addAction(clearConsoleAction);
     //
     // Help menu
     helpMenu = mainMenuBar->addMenu(TR("&Help"));
     // documentation
-    helpAct = new QAction(TR("&Documentation"), this);
-    helpAct->setShortcuts(QKeySequence::HelpContents);
-    helpAct->setStatusTip(TR("Documentation"));
-    connect(helpAct, SIGNAL(triggered()), this, SLOT(help()));
-    helpMenu->addAction(helpAct);
+	fileNameIcon = nelsonPath + QString("/resources/help-icon.svg");
+	helpAction = new QAction(QIcon(fileNameIcon), TR("&Documentation"), this);
+    helpAction->setShortcuts(QKeySequence::HelpContents);
+    helpAction->setStatusTip(TR("Documentation"));
+    connect(helpAction, SIGNAL(triggered()), this, SLOT(help()));
+    helpMenu->addAction(helpAction);
     // website
-    webAct = new QAction(TR("Nelson &website"), this);
-    webAct->setStatusTip(TR("Nelson website"));
-    connect(webAct, SIGNAL(triggered()), this, SLOT(website()));
-    helpMenu->addAction(webAct);
+	fileNameIcon = nelsonPath + QString("/resources/fibonacci.png");
+	webAction = new QAction(QIcon(fileNameIcon), TR("Nelson &website"), this);
+    webAction->setStatusTip(TR("Nelson website"));
+    connect(webAction, SIGNAL(triggered()), this, SLOT(website()));
+    helpMenu->addAction(webAction);
     // bugs and requests
-    bugAct = new QAction(TR("B&ugs and Requests"), this);
-    bugAct->setStatusTip(TR("Bugs and Requests"));
-    connect(bugAct, SIGNAL(triggered()), this, SLOT(bugAndRequest()));
-    helpMenu->addAction(bugAct);
+	fileNameIcon = nelsonPath + QString("/resources/bug-icon.svg");
+	bugAction = new QAction(QIcon(fileNameIcon), TR("B&ugs and Requests"), this);
+    bugAction->setStatusTip(TR("Bugs and Requests"));
+    connect(bugAction, SIGNAL(triggered()), this, SLOT(bugAndRequest()));
+    helpMenu->addAction(bugAction);
     // about
-    aboutAct = new QAction(TR("&About"), this);
-    aboutAct->setStatusTip(TR("About"));
-    connect(aboutAct, SIGNAL(triggered()), this, SLOT(about()));
-    helpMenu->addAction(aboutAct);
-    QString fileNameIcon = nelsonPath + QString("/resources/textedit-icon.png");
-    editorAct = new QAction(QIcon(fileNameIcon), TR("&Text editor"), this);
-    editorAct->setStatusTip(TR("Text editor"));
-    connect(editorAct, SIGNAL(triggered()), this, SLOT(editor()));
+	fileNameIcon = nelsonPath + QString("/resources/information-icon.svg");
+	aboutAction = new QAction(QIcon(fileNameIcon), TR("&About"), this);
+    aboutAction->setStatusTip(TR("About"));
+    connect(aboutAction, SIGNAL(triggered()), this, SLOT(about()));
+    helpMenu->addAction(aboutAction);
+	// editor
+    fileNameIcon = nelsonPath + QString("/resources/textedit-icon.svg");
+    editorAction = new QAction(QIcon(fileNameIcon), TR("&Text editor"), this);
+    editorAction->setStatusTip(TR("Text editor"));
+    connect(editorAction, SIGNAL(triggered()), this, SLOT(editor()));
 }
 //=============================================================================
 void QtMainWindow::closeEvent(QCloseEvent *event)

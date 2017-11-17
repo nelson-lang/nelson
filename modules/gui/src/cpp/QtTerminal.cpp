@@ -84,6 +84,55 @@ QtTerminal::QtTerminal(QWidget *parent) : QTextBrowser(parent)
     setOpenExternalLinks(true);
     mCommandLineReady = true;
     document()->setMaximumBlockCount(0);
+	nelsonPath = Nelson::wstringToQString(Nelson::GetRootPath());
+	helpOnSelectionAction = nullptr;
+	cutAction = nullptr;
+	copyAction = nullptr;
+	pasteAction = nullptr;
+	selectAllAction = nullptr;
+	clcAction = nullptr;
+	stopAction = nullptr;
+	contextMenu = nullptr;
+}
+//=============================================================================
+QtTerminal::~QtTerminal()
+{
+	if (cutAction)
+	{
+		delete cutAction;
+		cutAction = nullptr;
+	}
+	if (copyAction)
+	{
+		delete copyAction;
+		copyAction = nullptr;
+	}
+	if (pasteAction)
+	{
+		delete pasteAction;
+		pasteAction = nullptr;
+	}
+	if (selectAllAction)
+	{
+		delete selectAllAction;
+		selectAllAction = nullptr;
+	}
+	if (clcAction)
+	{
+		delete clcAction;
+		clcAction = nullptr;
+	}
+	if (stopAction)
+	{
+		delete stopAction;
+		stopAction = nullptr;
+	}
+	if (contextMenu)
+	{
+		delete contextMenu;
+		contextMenu = nullptr;
+	}
+
 }
 //=============================================================================
 void QtTerminal::banner()
@@ -584,91 +633,123 @@ void QtTerminal::stopRun()
     }
 }
 //=============================================================================
-void  QtTerminal::contextMenuEvent(QContextMenuEvent * event)
+void QtTerminal::contextMenuEvent(QContextMenuEvent * event)
 {
-    QMenu *menu;
-    try
-    {
-        menu = new QMenu(this);
-    }
-    catch (std::bad_alloc)
-    {
-        menu = nullptr;
-    }
-    if (menu)
-    {
-        QAction *helpOnSelectionAct = new QAction(TR("Help on Selection"), this);
-        helpOnSelectionAct->setShortcuts(QKeySequence::HelpContents);
-        menu->addAction(helpOnSelectionAct);
-        connect(helpOnSelectionAct, SIGNAL(triggered()), this, SLOT(helpOnSelection()));
-        QTextCursor cur = textCursor();
-        if (cur.hasSelection())
-        {
-            helpOnSelectionAct->setEnabled(true);
-        }
-        else
-        {
-            helpOnSelectionAct->setEnabled(false);
-        }
-        menu->addSeparator();
-        QAction *cut = new QAction(TR("Cut"), this);
-        cut->setShortcut(TR("Ctrl + X"));
-        menu->addAction(cut);
-        connect(cut, SIGNAL(triggered()), this, SLOT(cut()));
-        if (cur.hasSelection() && isInEditionZone())
-        {
-            cut->setEnabled(true);
-        }
-        else
-        {
-            cut->setEnabled(false);
-        }
-        QAction *copy = new QAction(TR("Copy"), this);
-        copy->setShortcut(TR("Ctrl + Ins"));
-        menu->addAction(copy);
-        connect(copy, SIGNAL(triggered()), this, SLOT(copy()));
-        if (cur.hasSelection())
-        {
-            copy->setEnabled(true);
-        }
-        else
-        {
-            copy->setEnabled(false);
-        }
-        QAction *paste = new QAction(TR("Paste"), this);
-        paste->setShortcut(TR("Ctrl + V"));
-        menu->addAction(paste);
-        connect(paste, SIGNAL(triggered()), this, SLOT(paste()));
-        QClipboard *Clipboard = QApplication::clipboard();
-        QString clipboardText = Clipboard->text();
-        if (clipboardText.isEmpty())
-        {
-            paste->setEnabled(false);
-        }
-        else
-        {
-            paste->setEnabled(true);
-        }
-        menu->addSeparator();
-        QAction *selectAll = new QAction(TR("Select All"), this);
-        selectAll->setShortcut(TR("Ctrl + A"));
-        menu->addAction(selectAll);
-        connect(selectAll, SIGNAL(triggered()), this, SLOT(selectAll()));
-        menu->addSeparator();
-        QAction *clcAction = new QAction(TR("Clear Command Window"), this);
-        menu->addAction(clcAction);
-        connect(clcAction, SIGNAL(triggered()), this, SLOT(clc()));
-        menu->addSeparator();
-        if (!isAtPrompt())
-        {
-            QAction *stopAction = new QAction(TR("Stop execution"), this);
-            menu->addSeparator();
-            menu->addAction(stopAction);
-            connect(stopAction, SIGNAL(triggered()), this, SLOT(stopRun()));
-        }
-        menu->exec(event->globalPos());
-        delete menu;
-    }
+	if (contextMenu == nullptr)
+	{
+		try
+		{
+			contextMenu = new QMenu(this);
+		}
+		catch (std::bad_alloc)
+		{
+			contextMenu = nullptr;
+		}
+		QString fileNameIcon;
+		if (helpOnSelectionAction == nullptr)
+		{
+			fileNameIcon = nelsonPath + QString("/resources/help-icon.svg");
+			helpOnSelectionAction = new QAction(QIcon(fileNameIcon), TR("Help on Selection"), this);
+			helpOnSelectionAction->setShortcuts(QKeySequence::HelpContents);
+			contextMenu->addAction(helpOnSelectionAction);
+			connect(helpOnSelectionAction, SIGNAL(triggered()), this, SLOT(helpOnSelection()));
+			contextMenu->addSeparator();
+		}
+		if (cutAction == nullptr)
+		{
+			fileNameIcon = nelsonPath + QString("/resources/edit-cut.svg");
+			cutAction = new QAction(QIcon(fileNameIcon), TR("Cut"), this);
+			cutAction->setShortcut(TR("Ctrl + X"));
+			contextMenu->addAction(cutAction);
+			connect(cutAction, SIGNAL(triggered()), this, SLOT(cut()));
+		}
+		if (copyAction == nullptr)
+		{
+			fileNameIcon = nelsonPath + QString("/resources/edit-copy.svg");
+			copyAction = new QAction(QIcon(fileNameIcon), TR("Copy"), this);
+			copyAction->setShortcut(TR("Ctrl + Ins"));
+			contextMenu->addAction(copyAction);
+			connect(copyAction, SIGNAL(triggered()), this, SLOT(copy()));
+		}
+		if (pasteAction == nullptr)
+		{
+			fileNameIcon = nelsonPath + QString("/resources/edit-paste.svg");
+			pasteAction = new QAction(QIcon(fileNameIcon), TR("Paste"), this);
+			pasteAction->setShortcut(TR("Ctrl + V"));
+			contextMenu->addAction(pasteAction);
+			connect(pasteAction, SIGNAL(triggered()), this, SLOT(paste()));
+		}
+		if (selectAllAction == nullptr)
+		{
+			fileNameIcon = nelsonPath + QString("/resources/edit-select-all.svg");
+			selectAllAction = new QAction(QIcon(fileNameIcon), TR("Select All"), this);
+			selectAllAction->setShortcut(TR("Ctrl + A"));
+			contextMenu->addAction(selectAllAction);
+			connect(selectAllAction, SIGNAL(triggered()), this, SLOT(selectAll()));
+		}
+		contextMenu->addSeparator();
+		if (clcAction == nullptr)
+		{
+			fileNameIcon = nelsonPath + QString("/resources/console-clear.svg");
+			clcAction = new QAction(QIcon(fileNameIcon), TR("Clear Command Window"), this);
+			contextMenu->addAction(clcAction);
+			connect(clcAction, SIGNAL(triggered()), this, SLOT(clc()));
+		}
+		contextMenu->addSeparator();
+		if (stopAction == nullptr)
+		{
+			fileNameIcon = nelsonPath + QString("/resources/stop-interpreter.svg");
+			stopAction = new QAction(QIcon(fileNameIcon), TR("Stop execution"), this);
+			contextMenu->addSeparator();
+			contextMenu->addAction(stopAction);
+			connect(stopAction, SIGNAL(triggered()), this, SLOT(stopRun()));
+		}
+	}
+
+	QTextCursor cur = textCursor();
+	if (cur.hasSelection())
+	{
+		helpOnSelectionAction->setEnabled(true);
+	}
+	else
+	{
+		helpOnSelectionAction->setEnabled(false);
+	}
+	if (cur.hasSelection() && isInEditionZone())
+	{
+		cutAction->setEnabled(true);
+	}
+	else
+	{
+		cutAction->setEnabled(false);
+	}
+	if (cur.hasSelection())
+	{
+		copyAction->setEnabled(true);
+	}
+	else
+	{
+		copyAction->setEnabled(false);
+	}
+	QClipboard *Clipboard = QApplication::clipboard();
+	QString clipboardText = Clipboard->text();
+	if (clipboardText.isEmpty())
+	{
+		pasteAction->setEnabled(false);
+	}
+	else
+	{
+		pasteAction->setEnabled(true);
+	}
+	if (!isAtPrompt())
+	{
+		stopAction->setVisible(true);
+	}
+	else
+	{
+		stopAction->setVisible(false);
+	}
+	contextMenu->exec(event->globalPos());
 }
 //=============================================================================
 bool QtTerminal::isAtPrompt()

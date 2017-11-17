@@ -60,31 +60,31 @@ private:
 
     QMenuBar *mainMenuBar;
     QMenu *fileMenu;
-    QAction *runAct;
-    QAction *pwdAct;
-    QAction *chdirAct;
-    QAction *exitAct;
+    QAction *runAction;
+    QAction *pwdAction;
+    QAction *chdirAction;
+    QAction *exitAction;
 
     QMenu *editMenu;
-    QAction *cutAct;
-    QAction *copyAct;
-    QAction *pasteAct;
-    QAction *selectAllAct;
-    QAction *emptyClipboardAct;
-    QAction *clearConsoleAct;
+    QAction *cutAction;
+    QAction *copyAction;
+    QAction *pasteAction;
+    QAction *selectAllAction;
+    QAction *emptyClipboardAction;
+    QAction *clearConsoleAction;
 
     QMenu *helpMenu;
-    QAction *helpAct;
-    QAction *webAct;
-    QAction *bugAct;
+    QAction *helpAction;
+    QAction *webAction;
+    QAction *bugAction;
 
-    QAction *aboutAct;
+    QAction *aboutAction;
 
-    QAction *editorAct;
+    QAction *editorAction;
 
     QtTerminal *qtTerminal;
 
-    QToolBar *toolBarEditor;
+    QToolBar *toolBar;
 
     bool bClosed;
 };

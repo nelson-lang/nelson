@@ -16,8 +16,7 @@
 ; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ; LICENCE_BLOCK_END
 ;==============================================================================
-Source: {#RootPath}resources\banner_nelson.png; DestDir: {app}\resources\;
-Source: {#RootPath}resources\fibonacci.ico; DestDir: {app}\resources\;
-Source: {#RootPath}resources\fibonacci.png; DestDir: {app}\resources\;
-Source: {#RootPath}resources\textedit-icon.png; DestDir: {app}\resources\;
+Source: {#RootPath}resources\*.png; DestDir: {app}\resources\;
+Source: {#RootPath}resources\*ico; DestDir: {app}\resources\;
+Source: {#RootPath}resources\*.svg; DestDir: {app}\resources\;
 ;==============================================================================

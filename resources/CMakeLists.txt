@@ -16,9 +16,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # LICENCE_BLOCK_END
 #==============================================================================
-install(FILES ${CMAKE_SOURCE_DIR}/resources/banner_nelson.png DESTINATION ${ROOT_OUTPUT}/resources)
-install(FILES ${CMAKE_SOURCE_DIR}/resources/fibonacci.ico DESTINATION ${ROOT_OUTPUT}/resources)
-install(FILES ${CMAKE_SOURCE_DIR}/resources/fibonacci.png DESTINATION ${ROOT_OUTPUT}/resources)
-install(FILES ${CMAKE_SOURCE_DIR}/resources/textedit-icon.png DESTINATION ${ROOT_OUTPUT}/resources)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/*.png DESTINATION ${ROOT_OUTPUT}/resources)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/*.ico DESTINATION ${ROOT_OUTPUT}/resources)
+install(FILES ${CMAKE_SOURCE_DIR}/resources/*.svg DESTINATION ${ROOT_OUTPUT}/resources)
 #==============================================================================
 
