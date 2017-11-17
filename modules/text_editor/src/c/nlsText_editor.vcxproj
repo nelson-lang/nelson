@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="..\cpp\moc_QtHighlighter.cpp" />
     <ClCompile Include="..\cpp\QtHighlighter.cpp" />
+    <ClCompile Include="..\cpp\SmartIndent.cpp" />
     <ClCompile Include="..\cpp\TextEditorPreferences.cpp" />
     <ClCompile Include="..\cpp\moc_QtEditPane.cpp" />
     <ClCompile Include="..\cpp\moc_QtLineNumber.cpp" />
@@ -120,6 +121,7 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RootDir)%(Directory).../cpp/moc_%(Filename).cpp</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RootDir)%(Directory).../cpp/moc_%(Filename).cpp</Outputs>
     </CustomBuild>
+    <ClInclude Include="..\cpp\SmartIndent.h" />
     <ClInclude Include="..\include\TextEditorPreferences.hpp" />
     <ClInclude Include="..\include\TextEditor.hpp" />
     <ClInclude Include="..\include\nlsText_editor_exports.h" />
@@ -127,6 +129,9 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\characters_encoding\src\c\nlsCharacters_encoding.vcxproj">
       <Project>{a75dc538-eefa-4873-888b-a034a7ee72c5}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\core\src\c\nlsCore.vcxproj">
+      <Project>{2e6aabb4-2551-4478-814d-648150952186}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\error_manager\src\c\nlsError_manager.vcxproj">
       <Project>{d0ef0ceb-a3bd-44ab-91b3-f33db1870f8d}</Project>

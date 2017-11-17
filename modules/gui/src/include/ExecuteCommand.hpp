@@ -18,10 +18,10 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string> 
+#include <string>
 #include "nlsGui_exports.h"
 //=============================================================================
 namespace Nelson {
-	NLSGUI_IMPEXP bool executeCommand(std::wstring commandToExecute);
+    NLSGUI_IMPEXP bool executeCommand(std::wstring commandToExecute);
 }
 //=============================================================================

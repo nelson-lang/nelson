@@ -28,19 +28,19 @@ function loadbin(varargin)
   fr = fopen(filename,'rb');
   version_nlbfile_expected = 1;
   tag_nlbfile_expected = 96;
-
+  
   tag_nlbfile_currentfile = fread(fr, 1, 'int','l');
   if (tag_nlbfile_currentfile ~= tag_nlbfile_expected)
     fclose(fr);
     error(_('file format not a supported file.'));
   end
-
+  
   version_nlbfile_currentfile = fread(fr, 1, 'int','l');
   if (version_nlbfile_currentfile ~= version_nlbfile_expected)
     fclose(fr);
     error(_('version not a supported file.'));
   end
-
+  
   nbVariables = fread(fr, 1, 'int');
   varname = {};
   for k = 1:nbVariables
@@ -74,9 +74,9 @@ function loadbin(varargin)
       end
     end
   end
-
+  
   fclose(fr);
-
+  
 endfunction
 //=============================================================================
 function res = complex_load_data(fr, typestr)
@@ -173,7 +173,7 @@ function res = ndarraysingle_load_data(fr)
 endfunction 
 //=============================================================================
 function res = ndarraydouble_load_data(fr)
-    res = ndarraygeneric_load_data(fr);
+  res = ndarraygeneric_load_data(fr);
 endfunction 
 //=============================================================================
 function res = ndarraystring_load_data(fr)

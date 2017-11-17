@@ -41,6 +41,7 @@ ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../os_functions/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../functions_manager/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../text_completion/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include
 )
 #==============================================================================	
 FILE(
@@ -60,6 +61,7 @@ nlsCharacters_encoding
 nlsFunctions_manager
 nlsGui
 nlsI18n
+nlsCore
 nlsInterpreter
 nlsModules_manager
 nlsOs_functions

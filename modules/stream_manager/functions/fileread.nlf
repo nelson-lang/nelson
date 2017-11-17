@@ -17,22 +17,22 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 function str = fileread(filename)
-	if ischar(filename) == false
-		error(_('A string expected.'))
-	end
-	if isfile(filename) == false
-		error(_('A filename expected.'))
-	end
-	[fid, error_msg] = fopen(filename,'rt');
-	if fid == -1
-		error(_('Cannot open file.'))
-	end
-	try
-		str = fread(fid, inf, 'char');
-	catch
-		fclose(fid);
-		l = lasterror();
-		error(l);
-	end
-	fclose(fid);
+  if ischar(filename) == false
+    error(_('A string expected.'))
+  end
+  if isfile(filename) == false
+    error(_('A filename expected.'))
+  end
+  [fid, error_msg] = fopen(filename,'rt');
+  if fid == -1
+    error(_('Cannot open file.'))
+  end
+  try
+    str = fread(fid, inf, 'char');
+  catch
+    fclose(fid);
+    l = lasterror();
+    error(l);
+  end
+  fclose(fid);
 endfunction

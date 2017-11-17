@@ -16,37 +16,9 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "ExecuteCommand.hpp"
-#include "GetNelsonMainEvaluatorDynamicFunction.hpp"
-#include "characters_encoding.hpp"
-#include "Evaluator.hpp"
+#pragma once
 //=============================================================================
-namespace Nelson {
-    //=============================================================================
-    bool executeCommand(std::wstring commandToExecute)
-    {
-        void *veval = GetNelsonMainEvaluatorDynamicFunction();
-        if (veval != nullptr)
-        {
-            std::wstring _cmd = commandToExecute + L";";
-            Evaluator *eval = (Evaluator *)veval;
-            Interface *io = eval->getInterface();
-            if (io != nullptr)
-            {
-                if (io->isAtPrompt())
-                {
-                    eval->addCommandToQueue(_cmd, true);
-                }
-                else
-                {
-                    std::string ustr = wstring_to_utf8(_cmd);
-                    eval->evaluateString(ustr + "\n");
-                }
-                return true;
-            }
-        }
-        return false;
-    }
-    //=============================================================================
-}
+#include <QtCore/QString>
+//=============================================================================
+QString smartIndentLine(QString toIndent, QStringList priorText, int indentSize);
 //=============================================================================

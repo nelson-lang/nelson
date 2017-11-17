@@ -1,5 +1,4 @@
 #include <QtCore/QFileInfo>
-#include <QtCore/QSettings>
 #include <QtCore/QTextStream>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QAction>
@@ -12,7 +11,9 @@
 #include <QtWidgets/QInputDialog>
 #include <QtGui/QKeyEvent>
 #include <QtGui/QClipboard>
+#include <QtGui/QTextDocumentFragment>
 #include <algorithm>
+#include <boost/algorithm/string.hpp>
 #include "QtTextEditor.h"
 #include "QtLineNumber.h"
 #include "QtTextIndent.h"
@@ -22,6 +23,8 @@
 #include "characters_encoding.hpp"
 #include "TextEditorPreferences.hpp"
 #include "ExecuteCommand.hpp"
+#include "GetNelsonPath.hpp"
+#include "SmartIndent.h"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -144,15 +147,18 @@ void QtTextEditor::createActions()
     gotoLineAction = new QAction(TR("&Go To Line ..."), this);
     gotoLineAction->setShortcut(Qt::Key_G | Qt::CTRL);
     connect(gotoLineAction, SIGNAL(triggered()), this, SLOT(gotoLine()));
-
-	fileNameIcon = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/run-file-start.svg"));
-	runFileAction = new QAction(QIcon(fileNameIcon), TR("&Run file"), this);
-	connect(runFileAction, SIGNAL(triggered()), this, SLOT(runFile()));
-
-	fileNameIcon = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/stop-interpreter.svg"));
-	stopRunAction = new QAction(QIcon(fileNameIcon), TR("&Stop execution"), this);
-	connect(stopRunAction, SIGNAL(triggered()), this, SLOT(stopRun()));
-
+    fileNameIcon = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/run-file-start.svg"));
+    runFileAction = new QAction(QIcon(fileNameIcon), TR("&Run file"), this);
+    connect(runFileAction, SIGNAL(triggered()), this, SLOT(runFile()));
+    fileNameIcon = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/stop-interpreter.svg"));
+    stopRunAction = new QAction(QIcon(fileNameIcon), TR("&Stop execution"), this);
+    connect(stopRunAction, SIGNAL(triggered()), this, SLOT(stopRun()));
+    fileNameIcon = Nelson::wstringToQString(Nelson::GetRootPath()) + QString("/resources/help-icon.svg");
+    helpOnSelectionAction = new QAction(QIcon(fileNameIcon), TR("Help on Selection"), this);
+    connect(helpOnSelectionAction, SIGNAL(triggered()), this, SLOT(helpOnSelection()));
+    smartIndentAction = new QAction(TR("Smart Indent"), this);
+    smartIndentAction->setShortcut(Qt::Key_I | Qt::CTRL);
+    connect(smartIndentAction, SIGNAL(triggered()), this, SLOT(smartIndent()));
 }
 //=============================================================================
 void QtTextEditor::createMenus()
@@ -187,10 +193,13 @@ void QtTextEditor::createMenus()
     editMenu->addSeparator();
     editMenu->addAction(commentAction);
     editMenu->addAction(uncommentAction);
+    editMenu->addAction(smartIndentAction);
     editMenu->addSeparator();
     editMenu->addAction(fontAction);
     contextMenu = new QMenu();
     contextMenu->addAction(copyFullPathAction);
+    contextMenu->addSeparator();
+    contextMenu->addAction(helpOnSelectionAction);
     contextMenu->addSeparator();
     contextMenu->addAction(copyAction);
     contextMenu->addAction(cutAction);
@@ -201,6 +210,7 @@ void QtTextEditor::createMenus()
     contextMenu->addSeparator();
     contextMenu->addAction(commentAction);
     contextMenu->addAction(uncommentAction);
+    contextMenu->addAction(smartIndentAction);
 }
 //=============================================================================
 void QtTextEditor::createToolBars()
@@ -219,10 +229,10 @@ void QtTextEditor::createToolBars()
     editToolBar->addAction(undoAction);
     editToolBar->addAction(redoAction);
     editToolBar->addSeparator();
-	editToolBar->addAction(runFileAction);
-	editToolBar->addAction(stopRunAction);
-	editToolBar->addSeparator();
-	editToolBar->addAction(fontAction);
+    editToolBar->addAction(runFileAction);
+    editToolBar->addAction(stopRunAction);
+    editToolBar->addSeparator();
+    editToolBar->addAction(fontAction);
 }
 //=============================================================================
 void QtTextEditor::createStatusBar()
@@ -311,7 +321,7 @@ void QtTextEditor::loadFile(const QString& filename)
         return;
     }
     // Check for one of the editors that might be editing this file already
-    for (int i = 0; i<tab->count(); i++)
+    for (int i = 0; i < tab->count(); i++)
     {
         QWidget *widget = tab->widget(i);
         QtEditPane *editPane = qobject_cast<QtEditPane*>(widget);
@@ -332,14 +342,14 @@ void QtTextEditor::loadFile(const QString& filename)
     QApplication::restoreOverrideCursor();
     setCurrentFile(filename);
     statusBar()->showMessage(TR("File loaded"), DEFAULT_DELAY_MSG);
-	if (filename.endsWith(".nls"))
-	{
-		runFileAction->setEnabled(true);
-	}
-	else
-	{
-		runFileAction->setEnabled(false);
-	}
+    if (filename.endsWith(".nls"))
+    {
+        runFileAction->setEnabled(true);
+    }
+    else
+    {
+        runFileAction->setEnabled(false);
+    }
     currentEditor()->setFocus();
 }
 //=============================================================================
@@ -500,7 +510,7 @@ bool QtTextEditor::saveAs()
                        shownName(), TR("Nelson (*.nls *.nlf)"));
     if (!fileName.isEmpty())
     {
-        for (int i = 0; i<tab->count(); i++)
+        for (int i = 0; i < tab->count(); i++)
         {
             QWidget *w = tab->widget(i);
             QtEditPane *te = qobject_cast<QtEditPane*>(w);
@@ -559,7 +569,7 @@ void QtTextEditor::addTabUntitled()
     else
     {
         bool foundActive = false;
-        for (int i = 0; i< tab->count(); i++)
+        for (int i = 0; i < tab->count(); i++)
         {
             if (tab->tabText(i) == DEFAULT_FILENAME)
             {
@@ -624,15 +634,15 @@ void QtTextEditor::tabChanged(int indexTab)
     connect(currentEditor()->document(), SIGNAL(contentsChanged()), this, SLOT(documentWasModified()));
     updateTitles();
     prevEdit = currentEditor();
-	QString filename = currentFilename();
-	if (filename.endsWith(".nls") || filename.isEmpty())
-	{
-		runFileAction->setEnabled(true);
-	}
-	else
-	{
-		runFileAction->setEnabled(false);
-	}
+    QString filename = currentFilename();
+    if (filename.endsWith(".nls") || filename.isEmpty())
+    {
+        runFileAction->setEnabled(true);
+    }
+    else
+    {
+        runFileAction->setEnabled(false);
+    }
 }
 //=============================================================================
 void QtTextEditor::documentWasModified()
@@ -681,6 +691,9 @@ void QtTextEditor::closeEvent(QCloseEvent *event)
 //=============================================================================
 void QtTextEditor::contextMenuEvent(QContextMenuEvent *event)
 {
+    QString selectedText = currentEditor()->textCursor().selectedText();
+    selectedText = selectedText.trimmed();
+    helpOnSelectionAction->setVisible(!selectedText.isEmpty());
     contextMenu->exec(event->globalPos());
 }
 //=============================================================================
@@ -732,27 +745,115 @@ void QtTextEditor::gotoLine()
 //=============================================================================
 void QtTextEditor::runFile()
 {
-	if (nlsEvaluator->getInterface()->isAtPrompt())
-	{
-		if (currentEditor()->document()->isModified() || currentEditor()->document()->isEmpty())
-		{
-			save();
-		}
-		std::wstring filename = QStringTowstring(currentFilename());
-		executeCommand(std::wstring(L"run('") + filename + std::wstring(L"')"));
-	}
-	else
-	{
-		QMessageBox::warning(this, _("Run file ...").c_str(), _("Interpreter currently runs.").c_str());
-
-	}
+    if (nlsEvaluator->getInterface()->isAtPrompt())
+    {
+        if (currentEditor()->document()->isModified() || currentEditor()->document()->isEmpty())
+        {
+            save();
+        }
+        std::wstring filename = QStringTowstring(currentFilename());
+        executeCommand(std::wstring(L"run('") + filename + std::wstring(L"')"));
+    }
+    else
+    {
+        QMessageBox::warning(this, _("Run file ...").c_str(), _("Interpreter currently runs.").c_str());
+    }
 }
 //=============================================================================
 void QtTextEditor::stopRun()
 {
-	if (!nlsEvaluator->getInterface()->isAtPrompt())
-	{
-		nlsEvaluator->SetInterruptPending(true);
-	}
+    if (!nlsEvaluator->getInterface()->isAtPrompt())
+    {
+        nlsEvaluator->SetInterruptPending(true);
+    }
+}
+//=============================================================================
+void QtTextEditor::helpOnSelection()
+{
+    QString selectedText = currentEditor()->textCursor().selectedText();
+    selectedText = selectedText.trimmed();
+    if (selectedText.startsWith('\'') && selectedText.endsWith('\''))
+    {
+        selectedText.chop(1);
+        selectedText.remove(0, 1);
+    }
+    if (!selectedText.isEmpty())
+    {
+        std::wstring text = QStringTowstring(selectedText);
+        boost::algorithm::replace_all(text, "'", "\"");
+        std::wstring cmd = L"doc('" + text + L"');";
+        try
+        {
+            nlsEvaluator->evaluateString(Nelson::wstring_to_utf8(cmd), true);
+        }
+        catch (Exception)
+        {
+        }
+    }
+}
+//=============================================================================
+void QtTextEditor::smartIndent()
+{
+    int indentSize = 2;
+    QTextCursor cursor(currentEditor()->textCursor());
+    QTextCursor cursorBackup(currentEditor()->textCursor());
+    bool noTextSelected = false;
+    if (cursor.selectedText().isEmpty())
+    {
+        noTextSelected = true;
+    }
+    if (noTextSelected)
+    {
+        currentEditor()->selectAll();
+        cursor = currentEditor()->textCursor();
+    }
+    QTextCursor line1(cursor);
+    QTextCursor line2(cursor);
+    int startPos;
+    if (cursor.position() < cursor.anchor())
+    {
+        line2.setPosition(cursor.anchor());
+        startPos = cursor.position();
+    }
+    else
+    {
+        line1.setPosition(cursor.anchor());
+        startPos = cursor.anchor();
+    }
+    line1.movePosition(QTextCursor::StartOfLine, QTextCursor::MoveAnchor);
+    QTextCursor line2Copy(line2);
+    line2.movePosition(QTextCursor::StartOfLine, QTextCursor::MoveAnchor);
+    if (line2.position() == line2Copy.position())
+    {
+        line2.movePosition(QTextCursor::Up, QTextCursor::MoveAnchor);
+    }
+    QTextCursor pos(line1);
+    pos.beginEditBlock();
+    while (pos.position() < line2.position())
+    {
+        pos.movePosition(QTextCursor::StartOfLine, QTextCursor::MoveAnchor);
+        pos.movePosition(QTextCursor::Down, QTextCursor::MoveAnchor);
+        QTextCursor cursor(pos);
+        QTextCursor save(cursor);
+        QTextCursor final(cursor);
+        final.movePosition(QTextCursor::StartOfLine, QTextCursor::KeepAnchor);
+        cursor.movePosition(QTextCursor::StartOfLine);
+        cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor);
+        QString toIndent(cursor.selectedText());
+        QString indented;
+        cursor.movePosition(QTextCursor::StartOfLine);
+        cursor.setPosition(startPos, QTextCursor::KeepAnchor);
+        QStringList priorlines(cursor.selection().toPlainText().split("\n"));
+        indented = smartIndentLine(toIndent, priorlines, indentSize);
+        save.movePosition(QTextCursor::StartOfLine);
+        save.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor);
+        save.insertText(indented);
+    }
+    pos.endEditBlock();
+    if (noTextSelected)
+    {
+        currentEditor()->setTextCursor(cursorBackup);
+        currentEditor()->setFocus();
+    }
 }
 //=============================================================================

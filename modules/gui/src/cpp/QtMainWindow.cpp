@@ -175,8 +175,8 @@ void QtMainWindow::runFile()
                 std::wstring filename = Nelson::QStringTowstring(qfileName);
                 qtTerminal->outputMessage(L"\n");
                 qtTerminal->sendReturnKey();
-				std::wstring cmd = L"run('" + filename + L"')";
-				executeCommand(cmd);
+                std::wstring cmd = L"run('" + filename + L"')";
+                executeCommand(cmd);
             }
         }
     }
@@ -203,7 +203,7 @@ void QtMainWindow::bugAndRequest()
 //=============================================================================
 void QtMainWindow::help()
 {
-	Nelson::executeCommand(L"doc");
+    Nelson::executeCommand(L"doc");
 }
 //=============================================================================
 void QtMainWindow::cutText()
@@ -276,26 +276,26 @@ void QtMainWindow::createToolbars()
 {
     toolBar = addToolBar(TR("Text editor"));
     toolBar->addAction(editorAction);
-	toolBar->addAction(runAction);
-	toolBar->addAction(chdirAction);
-	toolBar->addSeparator();
-	toolBar->addAction(cutAction);
-	toolBar->addAction(copyAction);
-	toolBar->addAction(pasteAction);
-	toolBar->addSeparator();
-	toolBar->addAction(helpAction);
-	toolBar->addSeparator();
+    toolBar->addAction(runAction);
+    toolBar->addAction(chdirAction);
+    toolBar->addSeparator();
+    toolBar->addAction(cutAction);
+    toolBar->addAction(copyAction);
+    toolBar->addAction(pasteAction);
+    toolBar->addSeparator();
+    toolBar->addAction(helpAction);
+    toolBar->addSeparator();
 }
 //=============================================================================
 void QtMainWindow::createMenus()
 {
-	QString fileNameIcon;
+    QString fileNameIcon;
     mainMenuBar = this->menuBar();
     mainMenuBar->setNativeMenuBar(false);
     fileMenu = mainMenuBar->addMenu(TR("&File"));
     // File menu
-	fileNameIcon = nelsonPath + QString("/resources/file-run.svg");
-	runAction = new QAction(QIcon(fileNameIcon), TR("&Execute..."), this);
+    fileNameIcon = nelsonPath + QString("/resources/file-run.svg");
+    runAction = new QAction(QIcon(fileNameIcon), TR("&Execute..."), this);
     runAction->setShortcut(QKeySequence("Ctrl+E"));
     runAction->setStatusTip(TR("Execute a .nls file"));
     connect(runAction, SIGNAL(triggered()), this, SLOT(runFile()));
@@ -303,8 +303,8 @@ void QtMainWindow::createMenus()
     // separator
     fileMenu->addSeparator();
     // chdir
-	fileNameIcon = nelsonPath + QString("/resources/folder-open.svg");
-	chdirAction = new QAction(QIcon(fileNameIcon), TR("&Change current directory"), this);
+    fileNameIcon = nelsonPath + QString("/resources/folder-open.svg");
+    chdirAction = new QAction(QIcon(fileNameIcon), TR("&Change current directory"), this);
     chdirAction->setStatusTip(TR("Change current directory"));
     connect(chdirAction, SIGNAL(triggered()), this, SLOT(changeDir()));
     fileMenu->addAction(chdirAction);
@@ -316,8 +316,8 @@ void QtMainWindow::createMenus()
     // separator
     fileMenu->addSeparator();
     // exit
-	fileNameIcon = nelsonPath + QString("/resources/exit.svg");
-	exitAction = new QAction(QIcon(fileNameIcon), TR("E&xit"), this);
+    fileNameIcon = nelsonPath + QString("/resources/exit.svg");
+    exitAction = new QAction(QIcon(fileNameIcon), TR("E&xit"), this);
     exitAction->setShortcuts(QKeySequence::Quit);
     exitAction->setStatusTip(TR("Exit the application"));
     connect(exitAction, SIGNAL(triggered()), this, SLOT(close()));
@@ -326,22 +326,22 @@ void QtMainWindow::createMenus()
     // Edit menu
     editMenu = mainMenuBar->addMenu(TR("&Edit"));
     // cut
-	fileNameIcon = nelsonPath + QString("/resources/edit-cut.svg");
-	cutAction = new QAction(QIcon(fileNameIcon), TR("C&ut"), this);
+    fileNameIcon = nelsonPath + QString("/resources/edit-cut.svg");
+    cutAction = new QAction(QIcon(fileNameIcon), TR("C&ut"), this);
     cutAction->setShortcuts(QKeySequence::Cut);
     cutAction->setStatusTip(TR("Cut"));
     connect(cutAction, SIGNAL(triggered()), this, SLOT(cutText()));
     editMenu->addAction(cutAction);
     // copy
-	fileNameIcon = nelsonPath + QString("/resources/edit-copy.svg");
-	copyAction = new QAction(QIcon(fileNameIcon), TR("&Copy"), this);
+    fileNameIcon = nelsonPath + QString("/resources/edit-copy.svg");
+    copyAction = new QAction(QIcon(fileNameIcon), TR("&Copy"), this);
     copyAction->setShortcuts(QKeySequence::Copy);
     copyAction->setStatusTip(TR("Copy"));
     connect(copyAction, SIGNAL(triggered()), this, SLOT(copyText()));
     editMenu->addAction(copyAction);
     // paste
-	fileNameIcon = nelsonPath + QString("/resources/edit-paste.svg");
-	pasteAction = new QAction(QIcon(fileNameIcon), TR("&Paste"), this);
+    fileNameIcon = nelsonPath + QString("/resources/edit-paste.svg");
+    pasteAction = new QAction(QIcon(fileNameIcon), TR("&Paste"), this);
     pasteAction->setShortcuts(QKeySequence::Paste);
     pasteAction->setStatusTip(TR("Paste"));
     connect(pasteAction, SIGNAL(triggered()), this, SLOT(pasteText()));
@@ -349,24 +349,24 @@ void QtMainWindow::createMenus()
     // separator
     editMenu->addSeparator();
     // select all
-	fileNameIcon = nelsonPath + QString("/resources/edit-select-all.svg");
-	selectAllAction = new QAction(QIcon(fileNameIcon), TR("&Select all"), this);
+    fileNameIcon = nelsonPath + QString("/resources/edit-select-all.svg");
+    selectAllAction = new QAction(QIcon(fileNameIcon), TR("&Select all"), this);
     selectAllAction->setStatusTip(TR("Select all"));
     connect(selectAllAction, SIGNAL(triggered()), this, SLOT(selectAllText()));
     editMenu->addAction(selectAllAction);
     // separator
     editMenu->addSeparator();
     // empty clipboard
-	fileNameIcon = nelsonPath + QString("/resources/clipboard-empty.svg");
-	emptyClipboardAction = new QAction(QIcon(fileNameIcon), TR("&Empty clipboard"), this);
+    fileNameIcon = nelsonPath + QString("/resources/clipboard-empty.svg");
+    emptyClipboardAction = new QAction(QIcon(fileNameIcon), TR("&Empty clipboard"), this);
     emptyClipboardAction->setStatusTip(TR("Empty clipboard"));
     connect(emptyClipboardAction, SIGNAL(triggered()), this, SLOT(emptyClipboard()));
     editMenu->addAction(emptyClipboardAction);
     // separator
     editMenu->addSeparator();
     // clear console
-	fileNameIcon = nelsonPath + QString("/resources/console-clear.svg");
-	clearConsoleAction = new QAction(QIcon(fileNameIcon), TR("Clear c&onsole"), this);
+    fileNameIcon = nelsonPath + QString("/resources/console-clear.svg");
+    clearConsoleAction = new QAction(QIcon(fileNameIcon), TR("Clear c&onsole"), this);
     clearConsoleAction->setStatusTip(TR("Clear console"));
     connect(clearConsoleAction, SIGNAL(triggered()), this, SLOT(clearConsole()));
     editMenu->addAction(clearConsoleAction);
@@ -374,31 +374,31 @@ void QtMainWindow::createMenus()
     // Help menu
     helpMenu = mainMenuBar->addMenu(TR("&Help"));
     // documentation
-	fileNameIcon = nelsonPath + QString("/resources/help-icon.svg");
-	helpAction = new QAction(QIcon(fileNameIcon), TR("&Documentation"), this);
+    fileNameIcon = nelsonPath + QString("/resources/help-icon.svg");
+    helpAction = new QAction(QIcon(fileNameIcon), TR("&Documentation"), this);
     helpAction->setShortcuts(QKeySequence::HelpContents);
     helpAction->setStatusTip(TR("Documentation"));
     connect(helpAction, SIGNAL(triggered()), this, SLOT(help()));
     helpMenu->addAction(helpAction);
     // website
-	fileNameIcon = nelsonPath + QString("/resources/fibonacci.png");
-	webAction = new QAction(QIcon(fileNameIcon), TR("Nelson &website"), this);
+    fileNameIcon = nelsonPath + QString("/resources/fibonacci.png");
+    webAction = new QAction(QIcon(fileNameIcon), TR("Nelson &website"), this);
     webAction->setStatusTip(TR("Nelson website"));
     connect(webAction, SIGNAL(triggered()), this, SLOT(website()));
     helpMenu->addAction(webAction);
     // bugs and requests
-	fileNameIcon = nelsonPath + QString("/resources/bug-icon.svg");
-	bugAction = new QAction(QIcon(fileNameIcon), TR("B&ugs and Requests"), this);
+    fileNameIcon = nelsonPath + QString("/resources/bug-icon.svg");
+    bugAction = new QAction(QIcon(fileNameIcon), TR("B&ugs and Requests"), this);
     bugAction->setStatusTip(TR("Bugs and Requests"));
     connect(bugAction, SIGNAL(triggered()), this, SLOT(bugAndRequest()));
     helpMenu->addAction(bugAction);
     // about
-	fileNameIcon = nelsonPath + QString("/resources/information-icon.svg");
-	aboutAction = new QAction(QIcon(fileNameIcon), TR("&About"), this);
+    fileNameIcon = nelsonPath + QString("/resources/information-icon.svg");
+    aboutAction = new QAction(QIcon(fileNameIcon), TR("&About"), this);
     aboutAction->setStatusTip(TR("About"));
     connect(aboutAction, SIGNAL(triggered()), this, SLOT(about()));
     helpMenu->addAction(aboutAction);
-	// editor
+    // editor
     fileNameIcon = nelsonPath + QString("/resources/textedit-icon.svg");
     editorAction = new QAction(QIcon(fileNameIcon), TR("&Text editor"), this);
     editorAction->setStatusTip(TR("Text editor"));

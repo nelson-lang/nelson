@@ -50,9 +50,11 @@ class QtTextEditor : public QMainWindow {
     QAction *uncommentAction;
     QAction *gotoLineAction;
 
-	QAction *runFileAction;
-	QAction *stopRunAction;
+    QAction *runFileAction;
+    QAction *stopRunAction;
 
+    QAction *helpOnSelectionAction;
+    QAction *smartIndentAction;
 public:
     QtTextEditor(Evaluator *eval);
     ~QtTextEditor();
@@ -83,6 +85,8 @@ private:
     void writeSettings();
     void updateFont();
 
+
+
 private Q_SLOTS:
     bool save();
     bool saveAs();
@@ -108,8 +112,11 @@ private Q_SLOTS:
 
     void gotoLine();
 
-	void runFile();
-	void stopRun();
+    void runFile();
+    void stopRun();
+    void helpOnSelection();
+    void smartIndent();
+
 public:
     void closeEvent(QCloseEvent *event);
 };

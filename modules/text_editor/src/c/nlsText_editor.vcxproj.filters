@@ -63,6 +63,9 @@
     <ClCompile Include="..\cpp\moc_QtHighlighter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\SmartIndent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\TextEditor.hpp">
@@ -72,6 +75,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\TextEditorPreferences.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cpp\SmartIndent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

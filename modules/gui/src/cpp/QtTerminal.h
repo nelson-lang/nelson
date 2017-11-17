@@ -27,8 +27,8 @@ class NLSGUI_IMPEXP QtTerminal : public QTextBrowser {
     Q_OBJECT
 public:
     explicit QtTerminal(QWidget *parent = nullptr);
-	~QtTerminal();
-	virtual void closeEvent(QCloseEvent *event);
+    ~QtTerminal();
+    virtual void closeEvent(QCloseEvent *event);
 
 public slots:
     std::wstring getLine(std::wstring prompt);
@@ -54,7 +54,7 @@ private:
         STDERR_DISP,
         STDIN_DISP,
     } DISP_MODE;
-	QString nelsonPath;
+    QString nelsonPath;
     virtual void keyPressEvent(QKeyEvent *event);
     virtual void insertFromMimeData(const QMimeData *source);
     void contextMenuEvent(QContextMenuEvent * event);
@@ -81,14 +81,14 @@ private:
     bool replaceCurrentCommandLine(std::wstring newline);
     bool updateHistoryToken();
 
-	QMenu *contextMenu;
-	QAction *helpOnSelectionAction;
-	QAction *cutAction;
-	QAction *copyAction;
-	QAction *pasteAction;
-	QAction *selectAllAction;
-	QAction *clcAction;
-	QAction *stopAction;
+    QMenu *contextMenu;
+    QAction *helpOnSelectionAction;
+    QAction *cutAction;
+    QAction *copyAction;
+    QAction *pasteAction;
+    QAction *selectAllAction;
+    QAction *clcAction;
+    QAction *stopAction;
 
 public Q_SLOTS:
     void cut();
