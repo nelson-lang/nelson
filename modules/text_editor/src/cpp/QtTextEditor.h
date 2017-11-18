@@ -20,6 +20,7 @@
 //=============================================================================
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QTabWidget>
+#include <QtPrintSupport/QPrinter>
 #include "QtTextEdit.h"
 #include "QtTextIndent.h"
 #include "QtEditPane.h"
@@ -52,9 +53,15 @@ class QtTextEditor : public QMainWindow {
 
     QAction *runFileAction;
     QAction *stopRunAction;
+    QAction *evaluateSelectionAction;
+
 
     QAction *helpOnSelectionAction;
     QAction *smartIndentAction;
+
+    QAction *printAction;
+
+
 public:
     QtTextEditor(Evaluator *eval);
     ~QtTextEditor();
@@ -85,8 +92,6 @@ private:
     void writeSettings();
     void updateFont();
 
-
-
 private Q_SLOTS:
     bool save();
     bool saveAs();
@@ -116,6 +121,11 @@ private Q_SLOTS:
     void stopRun();
     void helpOnSelection();
     void smartIndent();
+
+    void printDocument();
+    void print(QPrinter *p);
+
+    void evaluateSelection();
 
 public:
     void closeEvent(QCloseEvent *event);

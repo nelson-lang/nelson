@@ -12,6 +12,9 @@
 #include <QtGui/QKeyEvent>
 #include <QtGui/QClipboard>
 #include <QtGui/QTextDocumentFragment>
+#include <QtPrintSupport/QPrinter>
+#include <QtPrintSupport/QPrintDialog>
+#include <QtPrintSupport/QPrintPreviewDialog>
 #include <algorithm>
 #include <boost/algorithm/string.hpp>
 #include "QtTextEditor.h"
@@ -159,6 +162,12 @@ void QtTextEditor::createActions()
     smartIndentAction = new QAction(TR("Smart Indent"), this);
     smartIndentAction->setShortcut(Qt::Key_I | Qt::CTRL);
     connect(smartIndentAction, SIGNAL(triggered()), this, SLOT(smartIndent()));
+    fileNameIcon = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/document-print.svg"));
+    printAction = new QAction(QIcon(fileNameIcon), TR("Print"), this);
+    printAction->setShortcut(Qt::Key_P | Qt::CTRL);
+    connect(printAction, SIGNAL(triggered()), this, SLOT(printDocument()));
+    evaluateSelectionAction = new QAction(TR("Evaluate selection"), this);
+    connect(evaluateSelectionAction, SIGNAL(triggered()), this, SLOT(evaluateSelection()));
 }
 //=============================================================================
 void QtTextEditor::createMenus()
@@ -170,6 +179,8 @@ void QtTextEditor::createMenus()
     fileMenu->addAction(saveAction);
     fileMenu->addAction(saveAsAction);
     fileMenu->addAction(saveAllAction);
+    fileMenu->addSeparator();
+    fileMenu->addAction(printAction);
     fileMenu->addSeparator();
     fileMenu->addAction(closeAction);
     fileMenu->addAction(closeAllAction);
@@ -199,6 +210,7 @@ void QtTextEditor::createMenus()
     contextMenu = new QMenu();
     contextMenu->addAction(copyFullPathAction);
     contextMenu->addSeparator();
+    contextMenu->addAction(evaluateSelectionAction);
     contextMenu->addAction(helpOnSelectionAction);
     contextMenu->addSeparator();
     contextMenu->addAction(copyAction);
@@ -222,6 +234,8 @@ void QtTextEditor::createToolBars()
     fileToolBar->addAction(saveAsAction);
     fileToolBar->addAction(saveAllAction);
     editToolBar = addToolBar(TR("Edit"));
+    editToolBar->addAction(printAction);
+    editToolBar->addSeparator();
     editToolBar->addAction(copyAction);
     editToolBar->addAction(cutAction);
     editToolBar->addAction(pasteAction);
@@ -694,6 +708,7 @@ void QtTextEditor::contextMenuEvent(QContextMenuEvent *event)
     QString selectedText = currentEditor()->textCursor().selectedText();
     selectedText = selectedText.trimmed();
     helpOnSelectionAction->setVisible(!selectedText.isEmpty());
+    evaluateSelectionAction->setVisible(!selectedText.isEmpty());
     contextMenu->exec(event->globalPos());
 }
 //=============================================================================
@@ -854,6 +869,41 @@ void QtTextEditor::smartIndent()
     {
         currentEditor()->setTextCursor(cursorBackup);
         currentEditor()->setFocus();
+    }
+}
+//=============================================================================
+void QtTextEditor::printDocument()
+{
+    QPrinter printer;
+    printer.setPaperSize(QPrinter::A4);
+    printer.setOrientation(QPrinter::Portrait);
+    QPrintPreviewDialog *printPreview = new QPrintPreviewDialog(&printer, this, Qt::WindowCloseButtonHint | Qt::WindowMaximizeButtonHint);
+    if (printPreview != nullptr)
+    {
+        connect(printPreview, SIGNAL(paintRequested(QPrinter*)), this, SLOT(print(QPrinter*)));
+        printPreview->exec();
+        delete printPreview;
+    }
+}
+//=============================================================================
+void QtTextEditor::print(QPrinter *p)
+{
+    currentEditor()->print(p);
+}
+//=============================================================================
+void QtTextEditor::evaluateSelection()
+{
+    QString selectedText = currentEditor()->textCursor().selectedText();
+    selectedText = selectedText.trimmed();
+    if (selectedText.startsWith('\'') && selectedText.endsWith('\''))
+    {
+        selectedText.chop(1);
+        selectedText.remove(0, 1);
+    }
+    if (!selectedText.isEmpty())
+    {
+        std::wstring text = QStringTowstring(selectedText);
+        executeCommand(text);
     }
 }
 //=============================================================================
