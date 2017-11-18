@@ -126,6 +126,22 @@ namespace Nelson {
         _lang = L"";
     }
     //=============================================================================
+    bool ProgramOptions::parseOptionWithValues(Option op, wstringVector &values)
+    {
+        if (_args.size() > 2)
+        {
+            if (op.isSameFieldname(_args[1]))
+            {
+                size_t inc = 1;
+                for (size_t k = 2; k < _args.size(); k = k + inc)
+                {
+                    values.push_back(_args[k]);
+                }
+            }
+        }
+        return true;
+    }
+    //=============================================================================
     bool ProgramOptions::parseOptionWithValue(Option op, bool &bFind, std::wstring &value)
     {
         if (op.withFieldValue())
@@ -235,6 +251,7 @@ namespace Nelson {
         Option languageOption(L"language", L"l", _W("language used in current session"), false, true);
         Option quietOption(L"quiet", L"q", _W("does not print banner and version at startup"), false, false);
         Option timeoutOption(L"timeout", L"", _W("kill nelson process after n seconds"), false, true);
+        Option openFilesOption(L"open", L"o", _W("opens files in text editor"), false, true);
         _options = L"\nUsage:\n";
         _options = _options + helpOption.getFullDescription() + L"\n";
         _options = _options + versionOption.getFullDescription() + L"\n";
@@ -245,10 +262,12 @@ namespace Nelson {
         _options = _options + languageOption.getFullDescription() + L"\n";
         _options = _options + quietOption.getFullDescription() + L"\n";
         _options = _options + timeoutOption.getFullDescription() + L"\n";
+        _options = _options + openFilesOption.getFullDescription() + L"\n";
         bRes = parseOption(helpOption, _ishelp);
-        bRes = bRes  && parseOption(versionOption, _isversion);
-        bRes = bRes  && parseOption(nostartupOption, _startup);
-        bRes = bRes  && parseOption(nouserstartupOption, _userstartup);
+        bRes = bRes && parseOption(versionOption, _isversion);
+        bRes = bRes && parseOption(nostartupOption, _startup);
+        bRes = bRes && parseOption(nouserstartupOption, _userstartup);
+        bRes = bRes && parseOptionWithValues(openFilesOption, _filesToOpen);
         bool bFind = false;
         bRes = bRes  && parseOptionWithValue(commandtoexecuteOption, bFind, _command);
         bRes = bRes  && parseOptionWithValue(filetoexecuteOption, bFind, _file);
@@ -365,6 +384,15 @@ namespace Nelson {
         return false;
     }
     //=============================================================================
+    bool ProgramOptions::haveOpenFiles()
+    {
+        if (_isvalid)
+        {
+            return (_filesToOpen.size() > 0);
+        }
+        return false;
+    }
+    //=============================================================================
     bool ProgramOptions::isValid()
     {
         return _isvalid;
@@ -398,6 +426,11 @@ namespace Nelson {
     uint64 ProgramOptions::getTimeout()
     {
         return _timeout;
+    }
+    //=============================================================================
+    wstringVector ProgramOptions::getFilesToOpen()
+    {
+        return _filesToOpen;
     }
     //=============================================================================
 }

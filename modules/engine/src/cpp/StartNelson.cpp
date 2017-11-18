@@ -169,7 +169,7 @@ static void ErrorCommandLine(std::wstring str, NELSON_ENGINE_MODE _mode)
 #endif
 }
 //=============================================================================
-static int NelsonMainStates(Evaluator *eval, bool haveNoStartup, bool haveNoUserStartup, std::wstring commandToExecute, std::wstring fileToExecute)
+static int NelsonMainStates(Evaluator *eval, bool haveNoStartup, bool haveNoUserStartup, std::wstring commandToExecute, std::wstring fileToExecute, wstringVector filesToOpen)
 {
     eval->resetState();
     if (!haveNoStartup)
@@ -206,6 +206,30 @@ static int NelsonMainStates(Evaluator *eval, bool haveNoStartup, bool haveNoUser
         Interface *io = eval->getInterface();
         io->errorMessage(e.getMessage());
     }
+    if (eval->getNelsonEngineMode() == NELSON_ENGINE_MODE::ADVANCED_TERMINAL || eval->getNelsonEngineMode() == NELSON_ENGINE_MODE::GUI)
+    {
+        if (filesToOpen.size() > 0)
+        {
+            try
+            {
+                for (size_t k = 0; k < filesToOpen.size(); k++)
+                {
+                    boost::filesystem::path pathFileToOpen(filesToOpen[k]);
+                    bool bIsFile = boost::filesystem::exists(pathFileToOpen) && !boost::filesystem::is_directory(pathFileToOpen);
+                    if (bIsFile)
+                    {
+                        std::wstring editCommand = std::wstring(L"edit('" + filesToOpen[k] + L"')");
+                        EvaluateCommand(eval, editCommand.c_str(), false);
+                    }
+                }
+            }
+            catch (Exception &e)
+            {
+                Interface *io = eval->getInterface();
+                io->errorMessage(e.getMessage());
+            }
+        }
+    }
     while (eval->getState() != NLS_STATE_QUIT)
     {
         if (eval->getState() == NLS_STATE_ABORT)
@@ -232,7 +256,7 @@ FINISH:
     }
 EXIT:
     int exitCode = eval->getExitCode();
-    destroyMainEvaluator();
+    ::destroyMainEvaluator();
     return exitCode;
 }
 //=============================================================================
@@ -276,6 +300,7 @@ static int StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
     }
     std::wstring fileToExecute;
     std::wstring commandToExecute;
+    wstringVector filesToOpen;
     std::wstring lang;
     bool bQuietMode = false;
     ProgramOptions po(args);
@@ -298,6 +323,7 @@ static int StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
     {
         TimeoutThread(po.getTimeout());
     }
+    filesToOpen = po.getFilesToOpen();
     commandToExecute = po.getCommandToExecute();
     fileToExecute = po.getFileToExecute();
     lang = po.getLanguage();
@@ -345,8 +371,8 @@ static int StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
             eval->setLastException(e);
             io->errorMessage(_W("Nelson cannot load base modules.\n"));
         }
-        exitCode = NelsonMainStates(eval, po.haveNoStartup(), po.haveNoUserStartup(), commandToExecute, fileToExecute);
-        destroyMainEvaluator();
+        exitCode = NelsonMainStates(eval, po.haveNoStartup(), po.haveNoUserStartup(), commandToExecute, fileToExecute, filesToOpen);
+        ::destroyMainEvaluator();
     }
     else
     {
@@ -375,4 +401,3 @@ int StartNelson(int argc, char *argv[], NELSON_ENGINE_MODE _mode)
     return StartNelsonInternal(args, _mode);
 }
 //=============================================================================
-

@@ -1,112 +1,118 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
 
-	<language>en_US</language>
-	<keyword>executable</keyword>
-	<short_description>Executables to start Nelson software.</short_description>
+  <language>en_US</language>
+  <keyword>executable</keyword>
+  <short_description>Executables to start Nelson software.</short_description>
 
-	<syntax>
-		<syntax_item>nelson-cli arg1 arg1 ... argn</syntax_item>
-		<syntax_item>nelson-adv-cli arg1 arg1 ... argn</syntax_item>
-		<syntax_item>nelson-gui arg1 arg1 ... argn</syntax_item>
-	</syntax>
-	
-	<param_input>
-		<param_input_item>
-			<param_name>-e "nelson instructions"</param_name>
-			<param_description>If this option is present then Nelson instruction is executed just after startup file execution into Nelson. -e and -f options are mutually exclusive.</param_description>
-		</param_input_item>
+  <syntax>
+    <syntax_item>nelson-cli arg1 arg1 ... argn</syntax_item>
+    <syntax_item>nelson-adv-cli arg1 arg1 ... argn</syntax_item>
+    <syntax_item>nelson-gui arg1 arg1 ... argn</syntax_item>
+  </syntax>
+  
+  <param_input>
+    <param_input_item>
+      <param_name>-e "nelson instructions"</param_name>
+      <param_description>If this option is present then Nelson instruction is executed just after startup file execution into Nelson. -e and -f options are mutually exclusive.</param_description>
+    </param_input_item>
 
-		<param_input_item>
-			<param_name>-f filename</param_name>
-			<param_description>If this option is present then Nelson script file is executed just after startup file execution) into Nelson. -e and -f options are mutually exclusive.</param_description>
-		</param_input_item>
+    <param_input_item>
+      <param_name>-f filename</param_name>
+      <param_description>If this option is present then Nelson script file is executed just after startup file execution) into Nelson. -e and -f options are mutually exclusive.</param_description>
+    </param_input_item>
 
-		<param_input_item>
-			<param_name>--help</param_name>
-			<param_description>help about program options.</param_description>
-		</param_input_item>
+    <param_input_item>
+      <param_name>--help</param_name>
+      <param_description>help about program options.</param_description>
+    </param_input_item>
 
-		<param_input_item>
-			<param_name>--version</param_name>
-			<param_description>Return Nelson version.</param_description>
-		</param_input_item>
+    <param_input_item>
+      <param_name>--version</param_name>
+      <param_description>Return Nelson version.</param_description>
+    </param_input_item>
 
-		<param_input_item>
-			<param_name>--nostartup</param_name>
-			<param_description>disable the main Nelson script file executed at startup.</param_description>
-		</param_input_item>
 
-		<param_input_item>
-			<param_name>--nouserstartup</param_name>
-			<param_description>disable the user script file executed at startup after the main startup file.</param_description>
-		</param_input_item>
+    <param_input_item>
+      <param_name>--open</param_name>
+      <param_description>opens files arg2 ... argN must be valid/existing filenames.</param_description>
+    </param_input_item>
 
-		<param_input_item>
-			<param_name>--language lang</param_name>
-			<param_description>If this option is present it fixes the user language. Currently, lang can be: fr_FR en_US.</param_description>
-		</param_input_item>
+    <param_input_item>
+      <param_name>--nostartup</param_name>
+      <param_description>disable the main Nelson script file executed at startup.</param_description>
+    </param_input_item>
 
-		<param_input_item>
-			<param_name>--quiet</param_name>
-			<param_description>If this option is present no banner and version displayed.</param_description>
-		</param_input_item>
+    <param_input_item>
+      <param_name>--nouserstartup</param_name>
+      <param_description>disable the user script file executed at startup after the main startup file.</param_description>
+    </param_input_item>
 
-	</param_input>
+    <param_input_item>
+      <param_name>--language lang</param_name>
+      <param_description>If this option is present it fixes the user language. Currently, lang can be: fr_FR en_US.</param_description>
+    </param_input_item>
 
-	<description>
-	<p><b>nelson-cli</b>: basic terminal, no gui (no dependency to gui framework), no history, no completion (iso latin encoding)</p>
-	<p><b>nelson-adv-cli</b>: advanced terminal, no graphical console, history, completion available (UTF-16 support)</p>
-	<p><b>nelson-gui</b>: graphical console, history, completion available (UTF-16 support)</p>
+    <param_input_item>
+      <param_name>--quiet</param_name>
+      <param_description>If this option is present no banner and version displayed.</param_description>
+    </param_input_item>
+
+  </param_input>
+
+  <description>
+  <p><b>nelson-cli</b>: basic terminal, no gui (no dependency to gui framework), no history, no completion (iso latin encoding)</p>
+  <p><b>nelson-adv-cli</b>: advanced terminal, no graphical console, history, completion available (UTF-16 support)</p>
+  <p><b>nelson-gui</b>: graphical console, history, completion available (UTF-16 support)</p>
 
 </description>
 
 
-	<used_function></used_function>
-	<bibliography></bibliography>
+  <used_function></used_function>
+  <bibliography></bibliography>
 
 <examples>
 
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[nelson-adv-cli -q -e "a = 1 + 2"]]>
-		</example_item_data>
-	</example_item>
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description></example_item_description>
+    <example_item_data><![CDATA[nelson-adv-cli -q -e "a = 1 + 2"]]>
+    </example_item_data>
+  </example_item>
 
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[nelson-gui -v]]>
-		</example_item_data>
-	</example_item>
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description></example_item_description>
+    <example_item_data><![CDATA[nelson-gui -v]]>
+    </example_item_data>
+  </example_item>
 
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description></example_item_description>
-		<example_item_data><![CDATA[nelson-gui --help]]>
-		</example_item_data>
-	</example_item>
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description></example_item_description>
+    <example_item_data><![CDATA[nelson-gui --help]]>
+    </example_item_data>
+  </example_item>
 
 </examples>
 
-	<see_also>
-		<see_also_item>
-			<link linkend="${engine}startup">startup</link>
-		</see_also_item>
-	</see_also>
+  <see_also>
+    <see_also_item>
+      <link linkend="${engine}startup">startup</link>
+    </see_also_item>
+  </see_also>
 
-	<history>
-		<history_item>
-			<history_version>1.0.0</history_version>
-			<history_description>initial version</history_description>
-		</history_item>
-	</history>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
 
-	<authors>
-		<author_item>Allan CORNET</author_item>
-	</authors>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>
 
 

@@ -54,6 +54,7 @@ namespace Nelson {
         std::wstring getOptionsHelp();
         std::wstring getLanguage();
         uint64 getTimeout();
+        wstringVector getFilesToOpen();
         bool haveOptionsHelp();
         bool haveVersion();
         bool haveFileToExecute();
@@ -63,11 +64,12 @@ namespace Nelson {
         bool haveNoUserStartup();
         bool haveQuietMode();
         bool haveTimeout();
-
+        bool haveOpenFiles();
     private:
         bool parse();
         bool parseOption(Option op, bool &bFind);
         bool parseOptionWithValue(Option op, bool &bFind, std::wstring &value);
+        bool parseOptionWithValues(Option op, wstringVector &values);
         bool _isvalid;
         bool _ishelp;
         bool _isversion;
@@ -81,6 +83,7 @@ namespace Nelson {
         std::wstring _lang;
         uint64 _timeout;
         wstringVector _args;
+        wstringVector _filesToOpen;
     };
     //=============================================================================
 }
