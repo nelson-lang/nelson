@@ -717,7 +717,11 @@ void QtTextEditor::copyFullPath()
     QClipboard *clipboard = QApplication::clipboard();
     if (!currentFilename().isEmpty())
     {
-        clipboard->setText(currentFilename());
+        QString filename = currentFilename();
+#ifdef _MSC_VER
+        filename.replace("/", "\\");
+#endif
+        clipboard->setText(filename);
     }
     else
     {
