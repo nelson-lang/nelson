@@ -67,14 +67,14 @@ assert_isequal(class(R), 'char')
 // same choice than octave 4.0
 R = char('test', '', 'strings', {'', 'with', '', 'gaps'}, {''}, '.');
 REF = ['test   ';
- '       '; 
- 'strings';
- '       ';
- 'with   ';
- '       ';
- 'gaps   ';
- '       ';
- '.      '];
+'       '; 
+'strings';
+'       ';
+'with   ';
+'       ';
+'gaps   ';
+'       ';
+'.      '];
 assert_isequal(R, REF);
 //=============================================================================
 R = char(zeros(0, 4));
@@ -117,9 +117,9 @@ assert_isequal(R1, R2);
 //=============================================================================
 R = char('these','are','test','strings');
 REF = ['these  ';
-       'are    ';
-       'test   ';
-       'strings'];
+'are    ';
+'test   ';
+'strings'];
 assert_isequal(R, REF);
 //=============================================================================
 R = char([65; 66; 67], [65, 66, 67], 'test', 65, 66, 67);

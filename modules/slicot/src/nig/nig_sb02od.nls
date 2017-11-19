@@ -24,7 +24,7 @@
 //     $                   LDA, B, LDB, Q, LDQ, R, LDR, L, LDL, RCOND, X,
 //     $                   LDX, ALFAR, ALFAI, BETA, S, LDS, T, LDT, U,
 //     $                   LDU, TOL, IWORK, DWORK, LDWORK, BWORK, INFO )
-     
+
 NIG_FUNCTION = struct();
 NIG_FUNCTION.NELSON_NAME = 'slicot_sb02od';
 NIG_FUNCTION.NELSON_NAMESPACE = 'Slicot'; // optional

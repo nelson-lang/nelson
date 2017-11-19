@@ -18,7 +18,7 @@
 //=============================================================================
 vbScript = actxserver('MSScriptControl.ScriptControl');
 set(vbScript, 'Language', 'VBScript');
-invoke(vbScript,'Eval','MsgBox(""Hello world"")') ;
+invoke(vbScript,'Eval','MsgBox(""Hello world"")');
 r = invoke(vbScript,'Eval','68 + 1')
 class(r)
 delete(vbScript);

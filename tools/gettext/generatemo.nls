@@ -34,28 +34,28 @@ DOMAIN = 'nelson';
 langs = getavailablelanguages();
 
 for l = langs
-	posrc = [nelsonroot(), '/locale/', l{1}, '/LC_MESSAGES/', DOMAIN, '.po'];
-	modst = [nelsonroot(), '/locale/', l{1}, '/LC_MESSAGES/', DOMAIN, '.mo'];
-	dir_posrc = dir(posrc);
-	dir_modst = dir(modst);
-	needToUpdate = true;
-	if ~isempty(dir_posrc)
-		if ~isempty(dir_modst)
-			if dir_modst.datenum > dir_posrc.datenum
-				needToUpdate = false;
-			end
-		end
-		if needToUpdate
-			disp([_('Update translations:'), ' ', l{1}]);
-			MSGFMT_CMD = [MSGFMT, ' --output-file="', modst, '" "', posrc, '"'];
-			[r, errmsg] = unix(MSGFMT_CMD);
-			if r != 0
-				error(errmsg);
-			end
-		else
-			disp([_('Translations up-to-date:'), ' ', l{1}]);
-		end
-	end
+  posrc = [nelsonroot(), '/locale/', l{1}, '/LC_MESSAGES/', DOMAIN, '.po'];
+  modst = [nelsonroot(), '/locale/', l{1}, '/LC_MESSAGES/', DOMAIN, '.mo'];
+  dir_posrc = dir(posrc);
+  dir_modst = dir(modst);
+  needToUpdate = true;
+  if ~isempty(dir_posrc)
+    if ~isempty(dir_modst)
+      if dir_modst.datenum > dir_posrc.datenum
+        needToUpdate = false;
+      end
+    end
+    if needToUpdate
+      disp([_('Update translations:'), ' ', l{1}]);
+      MSGFMT_CMD = [MSGFMT, ' --output-file="', modst, '" "', posrc, '"'];
+      [r, errmsg] = unix(MSGFMT_CMD);
+      if r != 0
+        error(errmsg);
+      end
+    else
+      disp([_('Translations up-to-date:'), ' ', l{1}]);
+    end
+  end
 end
 
 exit

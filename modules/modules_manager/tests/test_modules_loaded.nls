@@ -25,7 +25,7 @@ if ~ispc()
     if strcmp(m{1},'com_engine') == true
       modules_list(idx) = [];
     end
-   idx = idx + 1;  
+    idx = idx + 1;  
   end
 end
 assert_isequal(modules_loaded, modules_list);

@@ -17,7 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 if ispc()
-	assert_isequal(pathsep(), ';');
+  assert_isequal(pathsep(), ';');
 else
-	assert_isequal(pathsep(), ':');
+  assert_isequal(pathsep(), ':');
 end

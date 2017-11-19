@@ -59,7 +59,7 @@ ref = [];
 assert_isequal(idx, ref);
 //=============================================================================
 cstr = {'How much wood would a woodchuck chuck';
-        'if a woodchuck could chuck wood?'};
+'if a woodchuck could chuck wood?'};
 idx = strfind(cstr, 'wood');
 ref = {[10 23]; [6 28]};
 assert_isequal(idx, ref);
@@ -96,7 +96,7 @@ assert_isequal(idx, ref);
 //=============================================================================
 c1 = 'time';
 c2 = {'Once','upon';
-      'a','time'};
+'a','time'};
 assert_checkerror('r = strfind(c1, c2);', _('Second argument a single string expected.'));
 assert_checkerror('idx = strfind(ones(3,0), []);', _('Input strings must have one row.'));
 assert_checkerror('idx = strfind([], {});', _('Second argument a single string expected.'));

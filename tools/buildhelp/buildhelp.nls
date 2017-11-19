@@ -18,12 +18,12 @@
 //=============================================================================
 exit_code = 0;
 try
-    buildhelp()
+  buildhelp()
 catch
-		r = lasterror();
-		disp(_('Error:'));
-		disp(r.message);
-    disp(_('help build failed.'));
-    exit_code = 1;
+  r = lasterror();
+  disp(_('Error:'));
+  disp(r.message);
+  disp(_('help build failed.'));
+  exit_code = 1;
 end
 exit(exit_code);

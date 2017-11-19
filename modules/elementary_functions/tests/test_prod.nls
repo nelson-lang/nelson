@@ -33,8 +33,8 @@ assert_isequal(prod(true,'double'), 1);
 assert_checkerror('prod(''A'')', [_('function') , ' ', 'char', '_prod', ' ',  _('undefined.')])
 //=============================================================================
 M = [ 8    1    6;
-      3    5    7;
-     4    9    2];
+3    5    7;
+4    9    2];
 R = prod(M);
 REF = [  96    45    84];
 assert_isequal(R, REF);
@@ -44,8 +44,8 @@ REF = [48; 105; 72];
 assert_isequal(R, REF);
 //=============================================================================
 M = [ 8    1    6;
-      3    5    7;
-     4    9    2];
+3    5    7;
+4    9    2];
 R = prod(M, 4);
 REF = M;
 assert_isequal(R, REF);

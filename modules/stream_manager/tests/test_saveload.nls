@@ -82,9 +82,9 @@ assert_isequal(A, REF);
 //=============================================================================
 // unicode
 A = ['NelSon';
-		 'is    ';
-		 'not   ';
-		 'LensOn'];
+'is    ';
+'not   ';
+'LensOn'];
 savebin([tempdir(), '/test_saveload.bin'], 'A');
 REF = A;
 clear A;
@@ -432,4 +432,3 @@ clear A;
 loadbin([tempdir(), '/test_saveload.bin']);
 assert_isequal(A, REF);
 //=============================================================================
- 

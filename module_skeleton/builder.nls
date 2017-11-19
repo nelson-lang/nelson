@@ -17,7 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 if ~ismodule('module_skeleton')
-	run('loader.nls')
+  run('loader.nls')
 end
 buildhelp('module_skeleton')
 //=============================================================================

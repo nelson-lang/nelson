@@ -19,21 +19,21 @@
 assert_checkerror('cos', _('Wrong number of input arguments.'));
 [r, msg] = assert_checkerror('cos', _('Wrong number of input arguments.'));
 if (r ~= true)
-	error(_('assert_checkerror fails.'));
+  error(_('assert_checkerror fails.'));
 end
 if strcmp(msg, '') == false
-	error(_('assert_checkerror fails.'));
+  error(_('assert_checkerror fails.'));
 end
 //=============================================================================
 [r, msg] = assert_checkerror('cos', 'Wrong number of input arguments2.');
 if (r ~= false)
-	error(_('assert_checkerror fails.'));
+  error(_('assert_checkerror fails.'));
 end
 //=============================================================================
 expectedmsg = [_('Assertion failed : expected error message ='), ' "', 'Wrong number of input arguments2.', '" ', _('computed error message ='), ' "', _('Wrong number of input arguments.'), '"'];
 //=============================================================================
 if strcmp(msg, expectedmsg) == false
-	error(_('assert_checkerror fails.'));
+  error(_('assert_checkerror fails.'));
 end
 //=============================================================================
 
