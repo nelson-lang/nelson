@@ -16,8 +16,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-// <--INTERACTIVE TEST-->
 // <--GUI MODE-->
 edit
-edit([tempdir(),'/toto'])
-edit(tempdir()); 
+edit edit
