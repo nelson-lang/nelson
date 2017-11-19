@@ -251,7 +251,7 @@ QString QtTextEdit::textUnderCursor() const
 //=============================================================================
 void QtTextEdit::comment()
 {
-    QTextCursor textCursor(textCursor());
+    QTextCursor textCursor(this->textCursor());
     QTextCursor lineOne(textCursor);
     QTextCursor lineTwo(textCursor);
     if (textCursor.position() < textCursor.anchor())
@@ -282,7 +282,7 @@ void QtTextEdit::comment()
 //=============================================================================
 void QtTextEdit::uncomment()
 {
-    QTextCursor textCursor(textCursor());
+    QTextCursor textCursor(this->textCursor());
     QTextCursor lineOne(textCursor);
     QTextCursor lineTwo(textCursor);
     if (textCursor.position() < textCursor.anchor())
