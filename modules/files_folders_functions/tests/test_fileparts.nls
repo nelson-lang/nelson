@@ -1,0 +1,96 @@
+//=============================================================================
+// Copyright (c) 2016-2017 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+[p, f, e] = fileparts('filename');
+assert_isequal('', p);
+assert_isequal('filename', f);
+assert_isequal('', e);
+//=============================================================================
+[p1, f1, e1] = fileparts([nelsonroot(), '/etc/finish.nls']);
+p2 = fileparts([nelsonroot(), '/etc/finish.nls'], 'path');
+f2 = fileparts([nelsonroot(), '/etc/finish.nls'], 'filename');
+e2 = fileparts([nelsonroot(), '/etc/finish.nls'], 'extension');
+assert_isequal(p1, p2);
+assert_isequal(f1, f2);
+assert_isequal(e1, e2);
+//=============================================================================
+[p, f, e] = fileparts('filename.ext');
+assert_isequal('', p);
+assert_isequal('filename', f);
+assert_isequal('.ext', e);
+//=============================================================================
+[p, f, e] = fileparts('/filename.ext');
+assert_isequal('/', p);
+assert_isequal('filename', f);
+assert_isequal('.ext', e);
+//=============================================================================
+[p, f, e] = fileparts('dir/filename.ext');
+assert_isequal('dir', p);
+assert_isequal('filename', f);
+assert_isequal('.ext', e);
+//=============================================================================
+[p, f, e] = fileparts('./filename.ext');
+assert_isequal('.', p);
+assert_isequal('filename', f);
+assert_isequal('.ext', e);
+//=============================================================================
+[p, f, e] = fileparts ('dir1/dir2/filename.ext');
+assert_isequal('dir1/dir2', p);
+assert_isequal('filename', f);
+assert_isequal('.ext', e);
+//=============================================================================
+[p, f, e] = fileparts ('/dir1/dir2/filename.ext');
+assert_isequal('/dir1/dir2', p);
+assert_isequal('filename', f);
+assert_isequal('.ext', e);
+//=============================================================================
+[p, f, e] = fileparts ('./.ext');
+assert_isequal('.', p);
+assert_isequal('', f);
+assert_isequal('.ext', e);
+//=============================================================================
+[p, f, e] = fileparts ('.ext');
+assert_isequal('', p);
+assert_isequal('', f);
+assert_isequal('.ext', e);
+//=============================================================================
+[p,f,e] = fileparts('c:/Windows/');
+assert_isequal('c:/Windows', p);
+assert_isequal('', f);
+assert_isequal('', e);
+//=============================================================================
+[p,f,e] = fileparts('c:/Windows//');
+assert_isequal('c:/Windows', p);
+assert_isequal('', f);
+assert_isequal('', e);
+//=============================================================================
+[p,f,e] = fileparts('c://');
+assert_isequal('c:/', p);
+assert_isequal('', f);
+assert_isequal('', e);
+//=============================================================================
+[p,f,e] = fileparts('c:');
+assert_isequal('c:', p);
+assert_isequal('', f);
+assert_isequal('', e);
+//=============================================================================
+[p,f,e] = fileparts('c:/');
+assert_isequal('c:', p);
+assert_isequal('', f);
+assert_isequal('', e);
+//=============================================================================

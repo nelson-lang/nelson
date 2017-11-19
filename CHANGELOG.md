@@ -14,6 +14,11 @@ Features:
   * add 'smartindent' builtin to indent a .nls or .nlf files.
 
 
+Bug Fixes:
+---------
+
+  [#78](http://github.com/Nelson-numerical-software/nelson/issues/78): [p,f,e]=fileparts('c:/') did not return the good result
+
 
 Compilation:
 ---------

@@ -40,6 +40,14 @@ namespace Nelson {
         {
             res = pathToSplit.stem().generic_wstring();
         }
+		if (res.compare(L".") == 0)
+		{
+			res = L"";
+		}
+		if (res.compare(L"/") == 0 || res.compare(L"\\") == 0)
+		{
+			res = L"";
+		}
         return res;
     }
     //=============================================================================
@@ -58,8 +66,14 @@ namespace Nelson {
     {
         path = FilePartsPath(fullpath);
         filename = FilePartsFilename(fullpath);
+		if (path.compare(L"") == 0 && (filename.size() > 1 && filename[1] == L':'))
+		{
+			path = filename;
+			filename = L"";
+		}
         extension = FilePartsExtension(fullpath);
     }
     //=============================================================================
 }
 //=============================================================================
+ 
