@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+
+  <language>en_US</language>
+  <keyword>editor</keyword>
+  <short_description>call the embedded text editor.</short_description>
+
+  <syntax>
+    <syntax_item>editor()</syntax_item>
+    <syntax_item>editor(filename)</syntax_item>
+  </syntax>
+  
+  <param_input>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>a string: filename to open.</param_description>
+    </param_input_item>
+
+  </param_input>
+
+  <description>
+    <p><b>editor</b> opens an existing file in the nelson's editor.</p>
+    <p><b>editor</b> must be considered as internal.</p>
+  </description>
+  
+  <used_function></used_function>
+  <bibliography></bibliography>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${text_editor}edit">edit</link>
+    </see_also_item>
+  </see_also>
+
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>
+
+
