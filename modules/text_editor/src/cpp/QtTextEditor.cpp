@@ -313,6 +313,7 @@ bool QtTextEditor::saveFile(const QString& filename)
         setCurrentFile(filename);
         statusBar()->showMessage(TR("File saved"), DEFAULT_DELAY_MSG);
         res = true;
+		file.close();
     }
     else
     {
@@ -353,6 +354,7 @@ void QtTextEditor::loadFile(const QString& filename)
     in.setCodec("UTF-8");
     QApplication::setOverrideCursor(Qt::WaitCursor);
     currentEditor()->setPlainText(in.readAll());
+	file.close();
     QApplication::restoreOverrideCursor();
     setCurrentFile(filename);
     statusBar()->showMessage(TR("File loaded"), DEFAULT_DELAY_MSG);
@@ -826,50 +828,8 @@ void QtTextEditor::smartIndent()
         currentEditor()->selectAll();
         cursor = currentEditor()->textCursor();
     }
-    QTextCursor line1(cursor);
-    QTextCursor line2(cursor);
-    int startPos;
-    if (cursor.position() < cursor.anchor())
-    {
-        line2.setPosition(cursor.anchor());
-        startPos = cursor.position();
-    }
-    else
-    {
-        line1.setPosition(cursor.anchor());
-        startPos = cursor.anchor();
-    }
-    line1.movePosition(QTextCursor::StartOfLine, QTextCursor::MoveAnchor);
-    QTextCursor line2Copy(line2);
-    line2.movePosition(QTextCursor::StartOfLine, QTextCursor::MoveAnchor);
-    if (line2.position() == line2Copy.position())
-    {
-        line2.movePosition(QTextCursor::Up, QTextCursor::MoveAnchor);
-    }
-    QTextCursor pos(line1);
-    pos.beginEditBlock();
-    while (pos.position() < line2.position())
-    {
-        pos.movePosition(QTextCursor::StartOfLine, QTextCursor::MoveAnchor);
-        pos.movePosition(QTextCursor::Down, QTextCursor::MoveAnchor);
-        QTextCursor cursor(pos);
-        QTextCursor save(cursor);
-        QTextCursor final(cursor);
-        final.movePosition(QTextCursor::StartOfLine, QTextCursor::KeepAnchor);
-        cursor.movePosition(QTextCursor::StartOfLine);
-        cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor);
-        QString toIndent(cursor.selectedText());
-        QString indented;
-        cursor.movePosition(QTextCursor::StartOfLine);
-        cursor.setPosition(startPos, QTextCursor::KeepAnchor);
-        QStringList priorlines(cursor.selection().toPlainText().split("\n"));
-        indented = smartIndentLine(toIndent, priorlines, indentSize);
-        save.movePosition(QTextCursor::StartOfLine);
-        save.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor);
-        save.insertText(indented);
-    }
-    pos.endEditBlock();
-    if (noTextSelected)
+	::smartIndent(currentEditor(), indentSize);
+	if (noTextSelected)
     {
         currentEditor()->setTextCursor(cursorBackup);
         currentEditor()->setFocus();

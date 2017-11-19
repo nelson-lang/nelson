@@ -1,14 +1,18 @@
 Features:
 ---------
 
-  Add an embedded script editor for Nelson:
+  * [#75](http://github.com/Nelson-numerical-software/nelson/issues/75): Intel Math Kernel Library can used to replace OpenBLAS and FFTW on Windows.
+
+  * [#72](http://github.com/Nelson-numerical-software/nelson/issues/72): Add a script to check missing help files.
+
+  * add an embedded script editor for Nelson:
     * 'edit' builtin added. 
-    * syntax colorization
-    * text completion
+    * syntax colorization.
+    * text completion.
+    * smart indentation.
 
-  [#75](http://github.com/Nelson-numerical-software/nelson/issues/75): Intel Math Kernel Library can used to replace OpenBLAS and FFTW on Windows.
+  * add 'smartindent' builtin to indent a .nls or .nlf files.
 
-  [#72](http://github.com/Nelson-numerical-software/nelson/issues/72): Add a script to check missing help files.
 
 
 Compilation:

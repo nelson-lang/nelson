@@ -170,6 +170,7 @@
   <ItemGroup>
     <ClCompile Include="..\cpp\editorBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
+    <ClCompile Include="..\cpp\smartindentBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
@@ -195,6 +196,7 @@
   <ItemGroup>
     <ClInclude Include="..\include\editorBuiltin.hpp" />
     <ClInclude Include="..\include\nlsText_editor_builtin_exports.h" />
+    <ClInclude Include="..\include\smartindentBuiltin.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\etc\finish.nls" />

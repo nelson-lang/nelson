@@ -46,10 +46,10 @@ function r = test_makerefile(filename, options, ref_dest)
   if options.cli_mode
    nelson_exe_path = ['"', nelson_bin_path, '/', 'nelson-cli', '"'];
   else
-    if test_case_res.options.gui_mode
+    if options.gui_mode
       nelson_exe_path = ['"', nelson_bin_path, '/', 'nelson-gui', '"'];
     else
-      if test_case_res.options.adv_cli_mode
+      if options.adv_cli_mode
         nelson_exe_path = ['"', nelson_bin_path, '/', 'nelson-adv-cli', '"'];
       else
         nelson_exe_path = ['"', nelson_bin_path, '/', 'nelson-cli', '"'];

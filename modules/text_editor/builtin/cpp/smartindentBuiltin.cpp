@@ -16,32 +16,45 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
-#include "editorBuiltin.hpp"
 #include "smartindentBuiltin.hpp"
-#include "TextEditor.hpp"
+#include "Error.hpp"
+#include "SmartIndent.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-const std::wstring gatewayName = L"text_editor";
-//=============================================================================
-static const nlsGateway gateway[] =
+ArrayOfVector Nelson::TextEditorGateway::smartindentBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    { "editor", Nelson::TextEditorGateway::editorBuiltin, 0, 0 },
-	{ "smartindent", Nelson::TextEditorGateway::smartindentBuiltin, 0, -1 },
-};
-//=============================================================================
-NLSGATEWAYFUNC(gateway)
-//=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-static bool finishTextEditorModule(Nelson::Evaluator* eval)
-{
-    closeEditor();
-    return true;
+    ArrayOfVector retval;
+    if (nLhs != 0)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+	std::wstring filename;
+	indexType tabSize = 2;
+	logical doBackup = false;
+	switch (argIn.size())
+    {
+		case 3:
+		{
+			doBackup = argIn[2].getContentAsLogicalScalar();
+		}
+		case 2:
+		{
+			ArrayOf param1 = argIn[1];
+			tabSize = param1.getContentAsScalarIndex(false);
+		}
+		case 1:
+        {
+           filename = argIn[0].getContentAsWideString();
+        }
+		break;
+		default:
+        {
+            Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        }
+        break;
+    }
+	smartIndent(filename, (int)tabSize, doBackup ? true : false);
+    return retval;
 }
-//=============================================================================
-NLSGATEWAYREMOVEEXTENDED(gateway, (void*)finishTextEditorModule)
-//=============================================================================
-NLSGATEWAYNAME()
 //=============================================================================

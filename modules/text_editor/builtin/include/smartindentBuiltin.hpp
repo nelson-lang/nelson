@@ -18,7 +18,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <QtWidgets/QTextEdit>
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
-void smartIndent(QTextEdit *textEdit, int tabSize = 2);
+namespace Nelson {
+    namespace TextEditorGateway {
+        ArrayOfVector smartindentBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    };
+};
 //=============================================================================
+

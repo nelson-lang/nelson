@@ -16,32 +16,12 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
-#include "editorBuiltin.hpp"
-#include "smartindentBuiltin.hpp"
-#include "TextEditor.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "nlsText_editor_exports.h"
 //=============================================================================
-const std::wstring gatewayName = L"text_editor";
-//=============================================================================
-static const nlsGateway gateway[] =
+namespace Nelson
 {
-    { "editor", Nelson::TextEditorGateway::editorBuiltin, 0, 0 },
-	{ "smartindent", Nelson::TextEditorGateway::smartindentBuiltin, 0, -1 },
-};
-//=============================================================================
-NLSGATEWAYFUNC(gateway)
-//=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-static bool finishTextEditorModule(Nelson::Evaluator* eval)
-{
-    closeEditor();
-    return true;
+	NLSTEXT_EDITOR_IMPEXP void smartIndent(std::wstring filename, int tabsize = 2, bool doBackup = false);
 }
-//=============================================================================
-NLSGATEWAYREMOVEEXTENDED(gateway, (void*)finishTextEditorModule)
-//=============================================================================
-NLSGATEWAYNAME()
 //=============================================================================

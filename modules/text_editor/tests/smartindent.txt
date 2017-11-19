@@ -1,0 +1,14 @@
+function test_smartindent()
+a = 2
+if a==2
+disp('ok')
+else
+b = 2
+if b == 2
+a = b + 2
+else
+a = b - 2
+end
+disp('not ok')
+end
+endfunction
