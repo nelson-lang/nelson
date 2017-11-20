@@ -1,5 +1,6 @@
 #include <QtCore/QFileInfo>
 #include <QtCore/QTextStream>
+#include <QtCore/QMimeData>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QAction>
 #include <QtWidgets/QMenuBar>
@@ -36,6 +37,7 @@ using namespace Nelson;
 //=============================================================================
 QtTextEditor::QtTextEditor(Evaluator *eval)
 {
+    setAcceptDrops(true);
     recentFilenames.clear();
     nlsEvaluator = eval;
     textEditorRootPath = Nelson::GetModulePath(L"text_editor");
@@ -313,7 +315,7 @@ bool QtTextEditor::saveFile(const QString& filename)
         setCurrentFile(filename);
         statusBar()->showMessage(TR("File saved"), DEFAULT_DELAY_MSG);
         res = true;
-		file.close();
+        file.close();
     }
     else
     {
@@ -354,7 +356,7 @@ void QtTextEditor::loadFile(const QString& filename)
     in.setCodec("UTF-8");
     QApplication::setOverrideCursor(Qt::WaitCursor);
     currentEditor()->setPlainText(in.readAll());
-	file.close();
+    file.close();
     QApplication::restoreOverrideCursor();
     setCurrentFile(filename);
     statusBar()->showMessage(TR("File loaded"), DEFAULT_DELAY_MSG);
@@ -828,8 +830,8 @@ void QtTextEditor::smartIndent()
         currentEditor()->selectAll();
         cursor = currentEditor()->textCursor();
     }
-	::smartIndent(currentEditor(), indentSize);
-	if (noTextSelected)
+    ::smartIndent(currentEditor(), indentSize);
+    if (noTextSelected)
     {
         currentEditor()->setTextCursor(cursorBackup);
         currentEditor()->setFocus();
@@ -868,6 +870,32 @@ void QtTextEditor::evaluateSelection()
     {
         std::wstring text = QStringTowstring(selectedText);
         executeCommand(text);
+    }
+}
+//=============================================================================
+void QtTextEditor::dragEnterEvent(QDragEnterEvent *event)
+{
+    event->mimeData()->hasFormat("text/uri-list") ? event->accept() : event->ignore();
+}
+//=============================================================================
+void QtTextEditor::dropEvent(QDropEvent *event)
+{
+    if (event->mimeData()->hasFormat("text/uri-list"))
+    {
+        QList<QUrl> urls = event->mimeData()->urls();
+        for (int k = 0; k < urls.size(); k++)
+        {
+            QFileInfo qmake(QString(urls[k].toLocalFile()));
+            if (!urls.isEmpty() && (qmake.suffix() == "nls" || qmake.suffix() == "nlf" || qmake.suffix() == "txt"))
+            {
+                loadOrCreateFile(urls[k].toLocalFile());
+            }
+        }
+        event->accept();
+    }
+    else
+    {
+        event->ignore();
     }
 }
 //=============================================================================

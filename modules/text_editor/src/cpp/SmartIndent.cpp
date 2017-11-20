@@ -152,87 +152,86 @@ QString smartIndentLine(QString lineToIndent, QStringList previousText, int inde
 //=============================================================================
 void smartIndent(QTextEdit *textEdit, int tabSize)
 {
-	QTextCursor cursor(textEdit->textCursor());
-	QTextCursor line1(cursor);
-	QTextCursor line2(cursor);
-	int startPos;
-	if (cursor.position() < cursor.anchor())
-	{
-		line2.setPosition(cursor.anchor());
-		startPos = cursor.position();
-	}
-	else
-	{
-		line1.setPosition(cursor.anchor());
-		startPos = cursor.anchor();
-	}
-	line1.movePosition(QTextCursor::StartOfLine, QTextCursor::MoveAnchor);
-	QTextCursor line2Copy(line2);
-	line2.movePosition(QTextCursor::StartOfLine, QTextCursor::MoveAnchor);
-	if (line2.position() == line2Copy.position())
-	{
-		line2.movePosition(QTextCursor::Up, QTextCursor::MoveAnchor);
-	}
-	QTextCursor pos(line1);
-	pos.beginEditBlock();
-	while (pos.position() < line2.position())
-	{
-		pos.movePosition(QTextCursor::StartOfLine, QTextCursor::MoveAnchor);
-		pos.movePosition(QTextCursor::Down, QTextCursor::MoveAnchor);
-		QTextCursor cursor(pos);
-		QTextCursor save(cursor);
-		QTextCursor final(cursor);
-		final.movePosition(QTextCursor::StartOfLine, QTextCursor::KeepAnchor);
-		cursor.movePosition(QTextCursor::StartOfLine);
-		cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor);
-		QString toIndent(cursor.selectedText());
-		QString indented;
-		cursor.movePosition(QTextCursor::StartOfLine);
-		cursor.setPosition(startPos, QTextCursor::KeepAnchor);
-		QString prior = cursor.selection().toPlainText();
-		QStringList priorlines(prior.split("\n"));
-		indented = smartIndentLine(toIndent, priorlines, tabSize);
-		save.movePosition(QTextCursor::StartOfLine);
-		save.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor);
-		save.insertText(indented);
-	}
-	pos.endEditBlock();
+    QTextCursor cursor(textEdit->textCursor());
+    QTextCursor line1(cursor);
+    QTextCursor line2(cursor);
+    int startPos;
+    if (cursor.position() < cursor.anchor())
+    {
+        line2.setPosition(cursor.anchor());
+        startPos = cursor.position();
+    }
+    else
+    {
+        line1.setPosition(cursor.anchor());
+        startPos = cursor.anchor();
+    }
+    line1.movePosition(QTextCursor::StartOfLine, QTextCursor::MoveAnchor);
+    QTextCursor line2Copy(line2);
+    line2.movePosition(QTextCursor::StartOfLine, QTextCursor::MoveAnchor);
+    if (line2.position() == line2Copy.position())
+    {
+        line2.movePosition(QTextCursor::Up, QTextCursor::MoveAnchor);
+    }
+    QTextCursor pos(line1);
+    pos.beginEditBlock();
+    while (pos.position() < line2.position())
+    {
+        pos.movePosition(QTextCursor::StartOfLine, QTextCursor::MoveAnchor);
+        pos.movePosition(QTextCursor::Down, QTextCursor::MoveAnchor);
+        QTextCursor cursor(pos);
+        QTextCursor save(cursor);
+        QTextCursor final(cursor);
+        final.movePosition(QTextCursor::StartOfLine, QTextCursor::KeepAnchor);
+        cursor.movePosition(QTextCursor::StartOfLine);
+        cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor);
+        QString toIndent(cursor.selectedText());
+        QString indented;
+        cursor.movePosition(QTextCursor::StartOfLine);
+        cursor.setPosition(startPos, QTextCursor::KeepAnchor);
+        QString prior = cursor.selection().toPlainText();
+        QStringList priorlines(prior.split("\n"));
+        indented = smartIndentLine(toIndent, priorlines, tabSize);
+        save.movePosition(QTextCursor::StartOfLine);
+        save.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor);
+        save.insertText(indented);
+    }
+    pos.endEditBlock();
 }
 //=============================================================================
-namespace Nelson
-{
-	//=============================================================================
-	void smartIndent(std::wstring filename, int tabsize, bool doBackup)
-	{
-		QFile file(wstringToQString(filename));
-		if (file.open(QFile::ReadOnly | QFile::Text))
-		{
-			QTextStream in(&file);
-			in.setCodec("UTF-8");
-			QString content = in.readAll();
-			file.close();
-			if (doBackup)
-			{
-				std::wstring backupFilename = filename + L".bak";
-				file.copy(wstringToQString(backupFilename));
-			}
-			QTextEdit *textEdit = new QTextEdit();
-			if (textEdit)
-			{
-				textEdit->setText(content);
-				textEdit->selectAll();
-				smartIndent(textEdit, tabsize);
-				if (file.open(QFile::WriteOnly | QFile::Text))
-				{
-					QTextStream out(&file);
-					out.setCodec("UTF-8");
-					out << textEdit->toPlainText();
-					file.close();
-				}
-				delete textEdit;
-			}
-		}
-	}
-	//=============================================================================
+namespace Nelson {
+    //=============================================================================
+    void smartIndent(std::wstring filename, int tabsize, bool doBackup)
+    {
+        QFile file(wstringToQString(filename));
+        if (file.open(QFile::ReadOnly | QFile::Text))
+        {
+            QTextStream in(&file);
+            in.setCodec("UTF-8");
+            QString content = in.readAll();
+            file.close();
+            if (doBackup)
+            {
+                std::wstring backupFilename = filename + L".bak";
+                file.copy(wstringToQString(backupFilename));
+            }
+            QTextEdit *textEdit = new QTextEdit();
+            if (textEdit)
+            {
+                textEdit->setText(content);
+                textEdit->selectAll();
+                smartIndent(textEdit, tabsize);
+                if (file.open(QFile::WriteOnly | QFile::Text))
+                {
+                    QTextStream out(&file);
+                    out.setCodec("UTF-8");
+                    out << textEdit->toPlainText();
+                    file.close();
+                }
+                delete textEdit;
+            }
+        }
+    }
+    //=============================================================================
 }
 //=============================================================================

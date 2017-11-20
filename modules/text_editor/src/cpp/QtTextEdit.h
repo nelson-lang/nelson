@@ -41,6 +41,7 @@ private:
     QAbstractItemModel *modelFromNelson(QString prefix, bool withPath);
     void updateModel(QString prefix, bool withPath);
     void complete(QString prefix);
+
 private slots:
     void insertCompletion(const QString &completion);
 

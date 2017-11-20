@@ -10,6 +10,7 @@ Features:
     * syntax colorization.
     * text completion.
     * smart indentation.
+    * drag & drop files.
 
   * add 'smartindent' builtin to indent a .nls or .nlf files.
 

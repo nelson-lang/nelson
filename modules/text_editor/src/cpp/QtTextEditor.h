@@ -20,6 +20,8 @@
 //=============================================================================
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QTabWidget>
+#include <QtGui/QDragEnterEvent>
+#include <QtGui/QDropEvent>
 #include <QtPrintSupport/QPrinter>
 #include "QtTextEdit.h"
 #include "QtTextIndent.h"
@@ -91,6 +93,10 @@ private:
     void readSettings();
     void writeSettings();
     void updateFont();
+
+    void dragEnterEvent(QDragEnterEvent *event);
+    void dropEvent(QDropEvent *event);
+
 
 private Q_SLOTS:
     bool save();

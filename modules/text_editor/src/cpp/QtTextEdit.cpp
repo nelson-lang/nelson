@@ -36,6 +36,7 @@ using namespace Nelson;
 QtTextEdit::QtTextEdit()
 {
     setLineWrapMode(QTextEdit::NoWrap);
+    setAcceptDrops(false);
 }
 //=============================================================================
 void QtTextEdit::setCompleter(QCompleter *completer)
