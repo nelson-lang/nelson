@@ -19,6 +19,7 @@
 #include <QtGui/QTextBlock>
 #include <QtGui/QPainter>
 #include <QtCore/QRectF>
+#include <QtGui/QTextLayout>
 #include <QtWidgets/QScrollBar>
 #include "QtLineNumber.h"
 //=============================================================================
