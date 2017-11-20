@@ -16,8 +16,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # LICENCE_BLOCK_END
 #==============================================================================
-install(FILES ${CMAKE_SOURCE_DIR}/resources/*.png DESTINATION ${ROOT_OUTPUT}/resources)
-install(FILES ${CMAKE_SOURCE_DIR}/resources/*.ico DESTINATION ${ROOT_OUTPUT}/resources)
-install(FILES ${CMAKE_SOURCE_DIR}/resources/*.svg DESTINATION ${ROOT_OUTPUT}/resources)
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/resources DESTINATION ${ROOT_OUTPUT}/resources FILES_MATCHING PATTERN "*.png")
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/resources DESTINATION ${ROOT_OUTPUT}/resources FILES_MATCHING PATTERN "*.ico")
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/resources DESTINATION ${ROOT_OUTPUT}/resources FILES_MATCHING PATTERN "*.svg")
 #==============================================================================
 
