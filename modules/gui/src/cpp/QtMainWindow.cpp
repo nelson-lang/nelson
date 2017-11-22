@@ -27,6 +27,7 @@
 #include <QtGui/QClipboard>
 #include <QtGui/QCloseEvent>
 #include <QtGui/QDesktopServices>
+#include <QtCore/QMimeData>
 #include "QtMainWindow.h"
 #include "QStringConverter.hpp"
 #include "characters_encoding.hpp"
@@ -155,6 +156,7 @@ QtMainWindow::QtMainWindow()
     QIcon icon(fileNameIcon);
     setWindowIcon(icon);
 #endif
+    setAcceptDrops(true);
 }
 //=============================================================================
 void QtMainWindow::runFile()
@@ -435,5 +437,49 @@ void QtMainWindow::closeEvent(QCloseEvent *event)
 QtTerminal *QtMainWindow::getQtTerminal()
 {
     return qtTerminal;
+}
+//=============================================================================
+void QtMainWindow::dragEnterEvent(QDragEnterEvent *event)
+{
+    event->mimeData()->hasFormat("text/uri-list") ? event->accept() : event->ignore();
+}
+//=============================================================================
+void QtMainWindow::dropEvent(QDropEvent *event)
+{
+    if (event->mimeData()->hasFormat("text/uri-list"))
+    {
+        QList<QUrl> urls = event->mimeData()->urls();
+        for (int k = 0; k < urls.size(); k++)
+        {
+            QFileInfo qmake(QString(urls[k].toLocalFile()));
+            if (!urls.isEmpty())
+            {
+                if (qmake.suffix() == "nls")
+                {
+                    if (!qtTerminal->isAtPrompt())
+                    {
+                        QMessageBox::warning(this, _("Execute...").c_str(), _("Interpreter currently runs.").c_str());
+                    }
+                    else
+                    {
+                        std::wstring filename = Nelson::QStringTowstring(urls[k].toLocalFile());
+                        qtTerminal->outputMessage(L"\n");
+                        qtTerminal->sendReturnKey();
+                        std::wstring cmd = L"run('" + filename + L"')";
+                        executeCommand(cmd);
+                    }
+                }
+                else if (qmake.suffix() == "nlf")
+                {
+                    executeCommand(L"edit('" + Nelson::QStringTowstring(urls[k].toLocalFile()) + L"')");
+                }
+            }
+        }
+        event->accept();
+    }
+    else
+    {
+        event->ignore();
+    }
 }
 //=============================================================================

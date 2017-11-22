@@ -15,6 +15,7 @@ Features:
 
   * add 'smartindent' builtin to indent a .nls or .nlf files.
 
+  * drag & drop .nls (run), .nlf (open with editor) in gui main window.
 
 Bug Fixes:
 ---------

@@ -20,6 +20,8 @@
 //=============================================================================
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QToolBar>
+#include <QtGui/QDragEnterEvent>
+#include <QtGui/QDropEvent>
 #include "QtTerminal.h"
 //=============================================================================
 class QtMainWindow : public QMainWindow {
@@ -87,5 +89,8 @@ private:
     QToolBar *toolBar;
 
     bool bClosed;
+
+    void dragEnterEvent(QDragEnterEvent *event);
+    void dropEvent(QDropEvent *event);
 };
 //=============================================================================
