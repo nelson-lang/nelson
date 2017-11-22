@@ -352,6 +352,11 @@ void QtTextEditor::loadFile(const QString& filename)
         }
     }
     addTabUntitled();
+    if (fileWatcher.files().empty())
+    {
+        connect(&fileWatcher, SIGNAL(fileChanged(const QString)), this, SLOT(reloadFile(const QString)));
+    }
+    fileWatcher.addPath(filename);
     QTextStream in(&file);
     in.setCodec("UTF-8");
     QApplication::setOverrideCursor(Qt::WaitCursor);
@@ -619,6 +624,7 @@ void QtTextEditor::closeTab()
         p->deleteLater();
         prevEdit = nullptr;
     }
+    fileWatcher.removePath(currentFilename());
 }
 //=============================================================================
 void QtTextEditor::closeAllTabs()
@@ -632,6 +638,7 @@ void QtTextEditor::closeAllTabs()
         currentWidget->deleteLater();
     }
     setWindowTitle(TR("Nelson Editor"));
+    fileWatcher.removePaths(fileWatcher.directories());
 }
 //=============================================================================
 void QtTextEditor::closeTab(int indexTab)
@@ -896,6 +903,41 @@ void QtTextEditor::dropEvent(QDropEvent *event)
     else
     {
         event->ignore();
+    }
+}
+//=============================================================================
+void QtTextEditor::reloadFile(const QString filenameModified)
+{
+    for (int i = 0; i < tab->count(); i++)
+    {
+        QWidget *widget = tab->widget(i);
+        QtEditPane *editPane = qobject_cast<QtEditPane*>(widget);
+        if (editPane)
+        {
+            if (editPane->getFileName() == filenameModified)
+            {
+                if (filesModifiedMessageDisplayedList.contains(filenameModified))
+                {
+                    return;
+                }
+                filesModifiedMessageDisplayedList.append(filenameModified);
+                if (QMessageBox::question(this, TR("Nelson"),
+                                          TR("File %1 was modified by an external software.\nDo you want to reopen it?").arg(filenameModified),
+                                          QMessageBox::Yes | QMessageBox::Default, QMessageBox::No) == QMessageBox::No)
+                {
+                    filesModifiedMessageDisplayedList.removeAll(filenameModified);
+                    return;
+                }
+                else
+                {
+                    filesModifiedMessageDisplayedList.removeAll(filenameModified);
+                    tab->setCurrentIndex(i);
+                    closeTab();
+                    loadFile(filenameModified);
+                    return;
+                }
+            }
+        }
     }
 }
 //=============================================================================

@@ -23,6 +23,7 @@
 #include <QtGui/QDragEnterEvent>
 #include <QtGui/QDropEvent>
 #include <QtPrintSupport/QPrinter>
+#include <QtCore/QFileSystemWatcher>
 #include "QtTextEdit.h"
 #include "QtTextIndent.h"
 #include "QtEditPane.h"
@@ -97,7 +98,8 @@ private:
     void dragEnterEvent(QDragEnterEvent *event);
     void dropEvent(QDropEvent *event);
 
-
+    QFileSystemWatcher fileWatcher;
+    QStringList filesModifiedMessageDisplayedList;
 private Q_SLOTS:
     bool save();
     bool saveAs();
@@ -132,6 +134,8 @@ private Q_SLOTS:
     void print(QPrinter *p);
 
     void evaluateSelection();
+
+    void reloadFile(const QString);
 
 public:
     void closeEvent(QCloseEvent *event);

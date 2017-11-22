@@ -11,6 +11,7 @@ Features:
     * text completion.
     * smart indentation.
     * drag & drop files.
+    * files modification notified.
 
   * add 'smartindent' builtin to indent a .nls or .nlf files.
 
