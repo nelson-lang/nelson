@@ -47,6 +47,8 @@
 #include "Localization.hpp"
 #include "TimeoutThread.hpp"
 #include "MaxOpenedFiles.hpp"
+#include "OpenFilesAssociated.hpp"
+#include "NelsonNamedMutex.hpp"
 //=============================================================================
 static void ErrorCommandLineMessage_startup_exclusive(NELSON_ENGINE_MODE _mode)
 {
@@ -206,31 +208,10 @@ static int NelsonMainStates(Evaluator *eval, bool haveNoStartup, bool haveNoUser
         Interface *io = eval->getInterface();
         io->errorMessage(e.getMessage());
     }
-    if (eval->getNelsonEngineMode() == NELSON_ENGINE_MODE::ADVANCED_TERMINAL || eval->getNelsonEngineMode() == NELSON_ENGINE_MODE::GUI)
-    {
-        if (filesToOpen.size() > 0)
-        {
-            try
-            {
-                for (size_t k = 0; k < filesToOpen.size(); k++)
-                {
-                    boost::filesystem::path pathFileToOpen(filesToOpen[k]);
-                    bool bIsFile = boost::filesystem::exists(pathFileToOpen) && !boost::filesystem::is_directory(pathFileToOpen);
-                    if (bIsFile)
-                    {
-                        std::wstring editCommand = std::wstring(L"edit('" + filesToOpen[k] + L"')");
-                        EvaluateCommand(eval, editCommand.c_str(), false);
-                    }
-                }
-            }
-            catch (Exception &e)
-            {
-                Interface *io = eval->getInterface();
-                io->errorMessage(e.getMessage());
-            }
-        }
-    }
-    while (eval->getState() != NLS_STATE_QUIT)
+	
+	OpenFilesAssociated(eval, filesToOpen);
+
+	while (eval->getState() != NLS_STATE_QUIT)
     {
         if (eval->getState() == NLS_STATE_ABORT)
         {
@@ -381,6 +362,22 @@ static int StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
     return exitCode;
 }
 //=============================================================================
+static int StartNelsonInternalWithMutex(wstringVector args, NELSON_ENGINE_MODE _mode)
+{
+	bool mutexCreatedByThisProcess = false;
+	if (!haveNelsonMutex())
+	{
+		mutexCreatedByThisProcess = true;
+		openNelsonMutex();
+	}
+	int exitCode = StartNelsonInternal(args, _mode);
+	if (mutexCreatedByThisProcess)
+	{
+		closeNelsonMutex();
+	}
+	return exitCode;
+}
+//=============================================================================
 int StartNelson(int argc, wchar_t *argv[], NELSON_ENGINE_MODE _mode)
 {
     wstringVector args;
@@ -388,7 +385,7 @@ int StartNelson(int argc, wchar_t *argv[], NELSON_ENGINE_MODE _mode)
     {
         args.push_back(std::wstring(argv[l]));
     }
-    return StartNelsonInternal(args, _mode);
+	return StartNelsonInternalWithMutex(args, _mode);
 }
 //=============================================================================
 int StartNelson(int argc, char *argv[], NELSON_ENGINE_MODE _mode)
@@ -398,6 +395,6 @@ int StartNelson(int argc, char *argv[], NELSON_ENGINE_MODE _mode)
     {
         args.push_back(utf8_to_wstring(argv[l]));
     }
-    return StartNelsonInternal(args, _mode);
+	return StartNelsonInternalWithMutex(args, _mode);
 }
 //=============================================================================
