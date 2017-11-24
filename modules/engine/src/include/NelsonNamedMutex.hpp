@@ -19,8 +19,8 @@
 #pragma once
 //=============================================================================
 namespace Nelson {
-	bool openNelsonMutex();
-	bool closeNelsonMutex();
-	bool haveNelsonMutex();
+    bool openNelsonMutex();
+    bool closeNelsonMutex();
+    bool haveNelsonMutex();
 }
 //=============================================================================

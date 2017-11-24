@@ -16,5 +16,8 @@
 ; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ; LICENCE_BLOCK_END
 ;==============================================================================
-Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
+Name: "desktopicon"; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: unchecked;
+;==============================================================================
+Name: AssociateNlsFiles; Description:{cm:ASSOCIATE_NLS_FILE}; GroupDescription: {cm:FILE_ASSOCIATION};
+Name: AssociateNlfFiles; Description:{cm:ASSOCIATE_NLF_FILE}; GroupDescription: {cm:FILE_ASSOCIATION};
 ;==============================================================================

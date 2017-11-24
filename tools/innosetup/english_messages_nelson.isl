@@ -22,3 +22,8 @@ english.CPU_OPTIMIZATION_FOR_NELSON = Optimisation CPU pour Nelson
 english.DEFAULT_LIBRARIES = BLAS, LAPACK, FFTW Reference libraries for Nelson
 english.MKL_LIBRARIES = MKL Library (BLAS, LAPACK, FFTW wrappers) for Nelson
 ;==============================================================================
+english.ASSOCIATE_NLS_FILE = Associate .nls files with Nelson
+english.ASSOCIATE_NLF_FILE = Associate .nlf files with Nelson
+;==============================================================================
+english.FILE_ASSOCIATION = Files associations:
+;==============================================================================

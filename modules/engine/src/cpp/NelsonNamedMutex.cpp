@@ -17,50 +17,55 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <boost/interprocess/sync/named_mutex.hpp>
+#include <boost/interprocess/shared_memory_object.hpp>
 #include "NelsonNamedMutex.hpp"
 #include "Nelson_VERSION.h"
 //=============================================================================
 namespace Nelson {
-	//=============================================================================
-	boost::interprocess::named_mutex *nelson_mutex = nullptr;
-	//=============================================================================
-	bool openNelsonMutex()
-	{
-		bool res = false;
-		if (nelson_mutex == nullptr)
-		{
-			nelson_mutex = new boost::interprocess::named_mutex(boost::interprocess::create_only, NELSON_VERSION_NMMM_STRING);
-			res = true;
-		}
-		return res;
-	}
-	//=============================================================================
-	bool closeNelsonMutex()
-	{
-		bool res = false;
-		if (nelson_mutex)
-		{
-			nelson_mutex->remove(NELSON_VERSION_NMMM_STRING);
-			delete nelson_mutex;
-			nelson_mutex = nullptr;
-		}
-		return res;
-	}
-	//=============================================================================
-	bool haveNelsonMutex()
-	{
-		bool res = false;
-		try
-		{
-			boost::interprocess::named_mutex other_nelson_mutex(boost::interprocess::open_only, NELSON_VERSION_NMMM_STRING);
-			res = true;
-		}
-		catch (boost::interprocess::interprocess_exception e)
-		{
-			res = false;
-		}
-		return res;
-	}
-	//=============================================================================
+    //=============================================================================
+    // http://www.vincenzo.net/isxkb/index.php?title=Application_considerations
+    // creates a named mutex used by Innosetup
+    //=============================================================================
+    static boost::interprocess::named_mutex *nelson_mutex = nullptr;
+	static boost::interprocess::shared_memory_object *nelson_shared = nullptr;
+    //=============================================================================
+    bool openNelsonMutex()
+    {
+        bool res = false;
+        if (nelson_mutex == nullptr)
+        {
+            nelson_mutex = new boost::interprocess::named_mutex(boost::interprocess::open_or_create, NELSON_VERSION_NMMM_STRING);
+            res = true;
+        }
+        return res;
+    }
+    //=============================================================================
+    bool closeNelsonMutex()
+    {
+        bool res = false;
+        if (nelson_mutex)
+        {
+            nelson_mutex->remove(NELSON_VERSION_NMMM_STRING);
+            delete nelson_mutex;
+            nelson_mutex = nullptr;
+        }
+        return res;
+    }
+    //=============================================================================
+    bool haveNelsonMutex()
+    {
+        bool res = false;
+        try
+        {
+            boost::interprocess::named_mutex other_nelson_mutex(boost::interprocess::open_only, NELSON_VERSION_NMMM_STRING);
+            res = true;
+        }
+        catch (boost::interprocess::interprocess_exception e)
+        {
+            res = false;
+        }
+        return res;
+    }
+    //=============================================================================
 }
 //=============================================================================

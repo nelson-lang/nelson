@@ -31,5 +31,11 @@
     <Image Include="..\..\..\resources\fibonacci.ico">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="..\..\..\resources\nlf.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\..\resources\nls.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

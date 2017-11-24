@@ -171,6 +171,8 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\resources\fibonacci.ico" />
+    <Image Include="..\..\..\resources\nlf.ico" />
+    <Image Include="..\..\..\resources\nls.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

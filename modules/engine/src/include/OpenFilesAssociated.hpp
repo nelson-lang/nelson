@@ -22,6 +22,6 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-	bool OpenFilesAssociated(Evaluator *eval, wstringVector filesToOpen);
+    bool OpenFilesAssociated(Evaluator *eval, wstringVector filesToOpen);
 }
 //=============================================================================

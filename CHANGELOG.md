@@ -12,6 +12,7 @@ Features:
     * smart indentation.
     * drag & drop files.
     * files modification notified.
+    * files association: .nls .nlf
 
   * add 'smartindent' builtin to indent a .nls or .nlf files.
 
