@@ -49,6 +49,8 @@ these own data types and operations on these data types by using overload.
 
 - Write/Read xlsx files on Windows using COM.
 
+- Embedded Nelson code editor.
+
 - Help engine
  Generate help files using Nelson dedicated functions.
  View your generated help files as html, pdf or directly in Nelson help viewer.
