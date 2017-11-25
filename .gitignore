@@ -48,6 +48,7 @@ tests_minimal.xml
 *.suo
 *.tlog
 *.orig
+*.tmp
 *.cppcheck
 /modules/*/builtin/c/x64
 /modules/*/builtin/c/Debug
