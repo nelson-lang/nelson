@@ -39,6 +39,10 @@ QtTextEdit::QtTextEdit()
     setAcceptDrops(false);
 }
 //=============================================================================
+QtTextEdit::~QtTextEdit()
+{
+}
+//=============================================================================
 void QtTextEdit::setCompleter(QCompleter *completer)
 {
     qCompleter = completer;
@@ -54,49 +58,35 @@ void QtTextEdit::setCompleter(QCompleter *completer)
     QObject::connect(qCompleter, SIGNAL(activated(QString)), this, SLOT(insertCompletion(QString)));
 }
 //=============================================================================
-void QtTextEdit::updateModel(QString prefix, bool withPath)
+void QtTextEdit::updateModel(std::wstring prefix, wstringVector filesList, wstringVector builtinList, wstringVector macroList, wstringVector variableList)
 {
     if (qCompleter != nullptr)
     {
-        qCompleter->setModel(modelFromNelson(prefix, withPath));
-        qCompleter->setCompletionPrefix(prefix);
+        qCompleter->setModel(modelFromNelson(filesList, builtinList, macroList, variableList));
+        qCompleter->setCompletionPrefix(wstringToQString(prefix));
     }
 }
 //=============================================================================
-QtTextEdit::~QtTextEdit()
-{
-}
-//=============================================================================
-QAbstractItemModel *QtTextEdit::modelFromNelson(QString prefix, bool withPath)
+QAbstractItemModel *QtTextEdit::modelFromNelson(wstringVector filesList, wstringVector builtinList, wstringVector macroList, wstringVector variableList)
 {
     QStringList words;
-    if (!prefix.isEmpty())
+    for (size_t k = 0; k < filesList.size(); ++k)
     {
-        if (withPath)
-        {
-            wstringVector files = FileCompleter(QStringTowstring(prefix));
-            for (size_t k = 0; k < files.size(); ++k)
-            {
-                words.append(wstringToQString(files[k]) + QString(" (") + wstringToQString(POSTFIX_FILES) + QString(")"));
-            }
-        }
-        wstringVector builtin = BuiltinCompleter(QStringTowstring(prefix));
-        for (size_t k = 0; k < builtin.size(); ++k)
-        {
-            words.append(wstringToQString(builtin[k]) + QString(" (") + wstringToQString(POSTFIX_BUILTIN) + QString(")"));
-        }
-        wstringVector macros = MacroCompleter(QStringTowstring(prefix));
-        for (size_t k = 0; k < macros.size(); ++k)
-        {
-            words.append(wstringToQString(macros[k]) + QString(" (") + wstringToQString(POSTFIX_MACRO) + QString(")"));
-        }
-        wstringVector variables = VariableCompleter(QStringTowstring(prefix));
-        for (size_t k = 0; k < variables.size(); ++k)
-        {
-            words.append(wstringToQString(variables[k]) + QString(" (") + wstringToQString(POSTFIX_VARIABLE) + QString(")"));
-        }
-        words.sort();
+        words.append(wstringToQString(filesList[k]) + QString(" (") + wstringToQString(POSTFIX_FILES) + QString(")"));
     }
+    for (size_t k = 0; k < builtinList.size(); ++k)
+    {
+        words.append(wstringToQString(builtinList[k]) + QString(" (") + wstringToQString(POSTFIX_BUILTIN) + QString(")"));
+    }
+    for (size_t k = 0; k < macroList.size(); ++k)
+    {
+        words.append(wstringToQString(macroList[k]) + QString(" (") + wstringToQString(POSTFIX_MACRO) + QString(")"));
+    }
+    for (size_t k = 0; k < variableList.size(); ++k)
+    {
+        words.append(wstringToQString(variableList[k]) + QString(" (") + wstringToQString(POSTFIX_VARIABLE) + QString(")"));
+    }
+    words.sort();
     return new QStringListModel(words, qCompleter);
 }
 //=============================================================================
@@ -138,64 +128,57 @@ void QtTextEdit::keyPressEvent(QKeyEvent *e)
             }
             else
             {
+                QTextCursor cursor = textCursor();
+                cursor.beginEditBlock();
                 QTextEdit::keyPressEvent(e);
+                cursor.endEditBlock();
+                setTextCursor(cursor);
             }
         }
-        /*
-        if (keycode)
-        {
-        	QByteArray p(e->text().toUtf8());
-        	char key;
-        	if (!e->text().isEmpty())
-        	{
-        		key = p[0];
-        	}
-        	else
-        	{
-        		key = 0;
-        	}
-        	if (key == 0x09)
-        	{
-        		tab = true;
-        		emit indent();
-        	}
-        }
-        if (!tab)
-        {
-        	QTextEdit::keyPressEvent(e);
-        }
-        else
-        {
-        	e->accept();
-        }
-        */
     }
 }
 //=============================================================================
 void QtTextEdit::complete(QString prefix)
 {
+    bool showpopup = false;
     if (!prefix.isEmpty())
     {
         std::wstring completionPrefixW = QStringTowstring(prefix);
         std::wstring filepart = getPartialLineAsPath(completionPrefixW);
-        std::wstring textpart = getPartialLine(completionPrefixW);
-        if (!filepart.empty() || !textpart.empty())
+        wstringVector files = FileCompleter(filepart);
+        if (!files.empty())
         {
-            if (!filepart.empty())
+            updateModel(completionPrefixW, files, wstringVector(), wstringVector(), wstringVector());
+            showpopup = true;
+        }
+        else
+        {
+            std::wstring textpart = getPartialLine(completionPrefixW);
+            if (!textpart.empty())
             {
-                updateModel(wstringToQString(filepart), true);
-            }
-            else
-            {
-                updateModel(wstringToQString(textpart), false);
+                wstringVector builtin = BuiltinCompleter(textpart);
+                wstringVector macros = MacroCompleter(textpart);
+                wstringVector variables = VariableCompleter(textpart);
+                updateModel(textpart, files, builtin, macros, variables);
+                showpopup = true;
             }
         }
+    }
+    if (showpopup)
+    {
         QRect cr = cursorRect();
         cr.setWidth(qCompleter->popup()->sizeHintForColumn(0) + qCompleter->popup()->verticalScrollBar()->sizeHint().width());
         cr.setHeight(10);
         qCompleter->complete(cr);
         qCompleter->setCurrentRow(0);
         qCompleter->popup()->setCurrentIndex(qCompleter->completionModel()->index(0, 0));
+    }
+    else
+    {
+        if (qCompleter->popup()->isVisible())
+        {
+            qCompleter->popup()->close();
+        }
     }
 }
 //=============================================================================
@@ -228,9 +211,11 @@ void QtTextEdit::insertCompletion(const QString& completion)
     std::wstring fileSearchedPattern = getPartialLineAsPath(currentLineW);
     std::wstring searchedPattern = getPartialLine(currentLineW);
     std::wstring newLine = completerLine(currentLineW, cleanedCompletionW, fileSearchedPattern, searchedPattern, isPathCompletion);
+    tc.beginEditBlock();
     tc.select(QTextCursor::LineUnderCursor);
     tc.removeSelectedText();
     tc.insertText(wstringToQString(newLine));
+    tc.endEditBlock();
     setTextCursor(tc);
 }
 //=============================================================================

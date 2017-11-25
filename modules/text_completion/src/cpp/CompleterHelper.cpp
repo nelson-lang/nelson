@@ -66,7 +66,7 @@ namespace Nelson {
                 index = std::max(index, len);
             }
         }
-        return line.substr(index);
+        return line.substr(index + 1);
     }
     //=============================================================================
     std::wstring getPartialLineAsPath(std::wstring line)
@@ -145,7 +145,7 @@ namespace Nelson {
             lineModified = currentLine;
             return lineModified;
         }
-        if (stringToAddIsPath == false)
+        if (stringToAddIsPath == true)
         {
             std::wstring filePatternBuf;
             bool bfilePatternBuf = false;

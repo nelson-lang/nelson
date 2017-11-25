@@ -19,9 +19,12 @@
 #pragma once
 //=============================================================================
 #include <QtWidgets/QTextEdit>
+#include "Types.hpp"
 //=============================================================================
 class QCompleter;
 class QAbstractItemModel;
+//=============================================================================
+using namespace Nelson;
 //=============================================================================
 class QtTextEdit : public QTextEdit {
     Q_OBJECT
@@ -38,8 +41,8 @@ public:
 private:
     QCompleter *qCompleter;
     QString textUnderCursor() const;
-    QAbstractItemModel *modelFromNelson(QString prefix, bool withPath);
-    void updateModel(QString prefix, bool withPath);
+    QAbstractItemModel *modelFromNelson(wstringVector filesList, wstringVector builtinList, wstringVector macroList, wstringVector variableList);
+    void updateModel(std::wstring prefix, wstringVector filesList, wstringVector builtinList, wstringVector macroList, wstringVector variableList);
     void complete(QString prefix);
 
 private slots:
