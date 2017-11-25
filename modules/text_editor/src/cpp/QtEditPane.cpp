@@ -46,6 +46,14 @@ QtTextEdit* QtEditPane::getEditor()
 void QtEditPane::setFileName(QString filename)
 {
     currentFilename = filename;
+    if (filename.endsWith(".nls") || filename.endsWith(".nlf"))
+    {
+        highlight->setEnable(true);
+    }
+    else
+    {
+        highlight->setEnable(false);
+    }
 }
 //=============================================================================
 QString QtEditPane::getFileName()

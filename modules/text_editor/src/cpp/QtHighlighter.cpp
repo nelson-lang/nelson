@@ -80,7 +80,7 @@ Highlighter::Highlighter(QTextDocument *parent) : QSyntaxHighlighter(parent)
     rule.pattern = QRegularExpression("'.*'");
     rule.format = quotationFormat;
     highlightingRules.append(rule);
-    isEnabled = true;
+    isEnabled = false;
 }
 //=============================================================================
 void Highlighter::highlightBlock(const QString &text)

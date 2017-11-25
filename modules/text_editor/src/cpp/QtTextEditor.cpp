@@ -560,10 +560,10 @@ void QtTextEditor::open()
 {
     if (maybeSave())
     {
-        QString fileName = QFileDialog::getOpenFileName(this, TR("Open file ..."), QDir::currentPath(), TR("Nelson (*.nls, *.nlf)"));
-        if (!fileName.isEmpty())
+        QStringList fileNames = QFileDialog::getOpenFileNames(this, TR("Open file ..."), QDir::currentPath(), TR("Nelson (*.nls *.nlf);;Text files (*.txt);;Markdown files (*.md);;All files (*.*)"));
+        for (int k = 0; k < fileNames.size(); k++)
         {
-            loadFile(fileName);
+            loadFile(fileNames[k]);
         }
     }
 }
@@ -610,9 +610,14 @@ void QtTextEditor::addTabUntitled()
 //=============================================================================
 void QtTextEditor::addTab()
 {
-    tab->addTab(new QtEditPane(), DEFAULT_FILENAME);
-    tab->setCurrentIndex(tab->count() - 1);
-    updateFont();
+    QtEditPane * editPane = new QtEditPane();
+    if (editPane)
+    {
+        editPane->setFileName(DEFAULT_FILENAME);
+        tab->addTab(editPane, DEFAULT_FILENAME);
+        tab->setCurrentIndex(tab->count() - 1);
+        updateFont();
+    }
 }
 //=============================================================================
 void QtTextEditor::closeTab()
@@ -893,7 +898,7 @@ void QtTextEditor::dropEvent(QDropEvent *event)
         for (int k = 0; k < urls.size(); k++)
         {
             QFileInfo qmake(QString(urls[k].toLocalFile()));
-            if (!urls.isEmpty() && (qmake.suffix() == "nls" || qmake.suffix() == "nlf" || qmake.suffix() == "txt"))
+            if (!urls.isEmpty())
             {
                 loadOrCreateFile(urls[k].toLocalFile());
             }
