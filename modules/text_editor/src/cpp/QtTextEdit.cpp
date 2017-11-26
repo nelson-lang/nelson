@@ -121,18 +121,28 @@ void QtTextEdit::keyPressEvent(QKeyEvent *e)
         }
         else
         {
-            if (e->key() == Qt::Key_Tab)
+            if (e->key() == Qt::Key_Tab || (QApplication::keyboardModifiers() && Qt::ControlModifier && e->key() == Qt::Key_Space))
             {
                 QString completionPrefix = textUnderCursor();
                 complete(completionPrefix);
             }
             else
             {
-                QTextCursor cursor = textCursor();
-                cursor.beginEditBlock();
-                QTextEdit::keyPressEvent(e);
-                cursor.endEditBlock();
-                setTextCursor(cursor);
+                if (e->key() == Qt::Key_Up ||
+                        e->key() == Qt::Key_Down ||
+                        e->key() == Qt::Key_Left ||
+                        e->key() == Qt::Key_Right)
+                {
+                    QTextEdit::keyPressEvent(e);
+                }
+                else
+                {
+                    QTextCursor cursor = textCursor();
+                    cursor.beginEditBlock();
+                    QTextEdit::keyPressEvent(e);
+                    cursor.endEditBlock();
+                    setTextCursor(cursor);
+                }
             }
         }
     }
@@ -145,13 +155,19 @@ void QtTextEdit::complete(QString prefix)
     {
         std::wstring completionPrefixW = QStringTowstring(prefix);
         std::wstring filepart = getPartialLineAsPath(completionPrefixW);
-        wstringVector files = FileCompleter(filepart);
-        if (!files.empty())
+        wstringVector files;
+        bool doFullSearch = true;
+        if (!filepart.empty())
         {
-            updateModel(completionPrefixW, files, wstringVector(), wstringVector(), wstringVector());
-            showpopup = true;
+            files = FileCompleter(filepart);
+            if (!files.empty())
+            {
+                updateModel(completionPrefixW, files, wstringVector(), wstringVector(), wstringVector());
+                showpopup = true;
+                doFullSearch = false;
+            }
         }
-        else
+        if (doFullSearch)
         {
             std::wstring textpart = getPartialLine(completionPrefixW);
             if (!textpart.empty())

@@ -119,9 +119,9 @@ namespace Nelson {
                 else
                 {
 #ifdef _MSC_VER
-                    path = path.append(L"" + DIR_SEPARATOR_WINDOWS);
+                    path.push_back(DIR_SEPARATOR_WINDOWS);
 #else
-                    path = path.append(L"" + DIR_SEPARATOR_OTHERS);
+                    path.push_back(DIR_SEPARATOR_OTHERS);
 #endif
                 }
             }
@@ -209,6 +209,10 @@ namespace Nelson {
                                         if (pos != std::wstring::npos)
                                         {
                                             complet = fname.substr(pos + 1);
+                                        }
+                                        else
+                                        {
+                                            complet = fname.substr(path.size(), fname.size() - path.size() + 1);
                                         }
                                     }
                                     if (!complet.empty())

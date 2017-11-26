@@ -55,7 +55,7 @@ namespace Nelson {
     std::wstring getPartialLine(std::wstring line)
     {
         std::wstring symbols = L"+-*/\\([ ^,;={.&|\'])}:\'><~@\t";
-        size_t index = 0;
+        size_t index = -1;
         for (size_t i = 0; i < symbols.size(); i++)
         {
             size_t len = 0;
@@ -168,8 +168,19 @@ namespace Nelson {
                 }
                 if (res.empty())
                 {
-                    lineModified = currentLine;
-                    return lineModified;
+                    try
+                    {
+                        boost::filesystem::path pwd = boost::filesystem::current_path();
+                        res = pwd.generic_wstring();
+                    }
+                    catch (const boost::filesystem::filesystem_error&)
+                    {
+                    }
+                    if (res.empty())
+                    {
+                        lineModified = currentLine;
+                        return lineModified;
+                    }
                 }
             }
         }

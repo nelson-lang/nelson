@@ -3,7 +3,7 @@
 Features:
 ---------
 
-  * [#75](http://github.com/Nelson-numerical-software/nelson/issues/75): Intel Math Kernel Library can used to replace OpenBLAS and FFTW on Windows.
+  * [#75](http://github.com/Nelson-numerical-software/nelson/issues/75): Intel Math Kernel Library can be used to replace OpenBLAS and FFTW on Windows.
 
   * [#72](http://github.com/Nelson-numerical-software/nelson/issues/72): Add a script to check missing help files.
 
@@ -22,6 +22,8 @@ Features:
 
 Bug Fixes:
 ---------
+
+  [#80](http://github.com/Nelson-numerical-software/nelson/issues/78):  code editor: keys up, down, left, right behavior
 
   [#78](http://github.com/Nelson-numerical-software/nelson/issues/78): [p,f,e]=fileparts('c:/') did not return the good result
 
