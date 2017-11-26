@@ -68,6 +68,7 @@ modules_manager
 engine
 assert_functions
 tests_manager
+mpi
 main
 )
 #==============================================================================	

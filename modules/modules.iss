@@ -68,4 +68,5 @@ Source: {#RootPath}modules\modules.nls; DestDir: {app}\modules\;
 #include "slicot/module.iss"
 #include "text_editor/module.iss"
 #include "text_completion/module.iss"
+#include "mpi/module.iss"
 ;==============================================================================
