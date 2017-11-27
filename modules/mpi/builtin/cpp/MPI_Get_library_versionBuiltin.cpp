@@ -17,35 +17,28 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <mpi.h>
-#include <boost/container/vector.hpp>
-#include "MPI_helpers.hpp"
 #include "Error.hpp"
+#include "MPI_Get_library_versionBuiltin.hpp"
 //=============================================================================
-namespace Nelson {
-    //=============================================================================
-	static MPI_Errhandler errhdl;
-	//=============================================================================
-	void MPIErrorHandler(MPI_Comm *comm, int *errorcode, ...) 
+using namespace Nelson;
+//=============================================================================
+ArrayOfVector Nelson::MpiGateway::MPI_Get_library_versionBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+	ArrayOfVector retval;
+	if (argIn.size() != 0)
 	{
-		char buffer[MPI_MAX_ERROR_STRING];
-		int resultlen = 0;
-		MPI_Error_string(*errorcode, buffer, &resultlen);
-		buffer[resultlen] = 0;
-		throw Exception(buffer);
+		Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
 	}
-	//=============================================================================
-	int initializeMPI()
+	if (nLhs > 1)
 	{
-		int flag;
-		MPI_Initialized(&flag);
-		if (flag) 
-		{
-			return flag;
-		}
-		MPI_Init(NULL, NULL);
-		MPI_Initialized(&flag);
-		return flag;
+		Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
 	}
-	//=============================================================================
+	char library_version[MPI_MAX_LIBRARY_VERSION_STRING];
+	int resultlen = 0;
+	MPI_Get_library_version(library_version, &resultlen);
+	library_version[resultlen] = 0;
+	std::string returnedString = library_version;
+	retval.push_back(ArrayOf::stringConstructor(returnedString));
+	return retval;
 }
 //=============================================================================

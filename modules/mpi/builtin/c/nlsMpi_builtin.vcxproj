@@ -208,12 +208,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\MPI_FinalizeBuiltin.hpp" />
+    <ClInclude Include="..\include\MPI_Get_library_versionBuiltin.hpp" />
+    <ClInclude Include="..\include\MPI_Get_processor_nameBuiltin.hpp" />
+    <ClInclude Include="..\include\MPI_Get_versionBuiltin.hpp" />
     <ClInclude Include="..\include\MPI_InitBuiltin.hpp" />
     <ClInclude Include="..\include\MPI_InitializedBuiltin.hpp" />
     <ClInclude Include="..\include\nlsMpi_builtin_exports.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\MPI_FinalizeBuiltin.cpp" />
+    <ClCompile Include="..\cpp\MPI_Get_library_versionBuiltin.cpp" />
+    <ClCompile Include="..\cpp\MPI_Get_processor_nameBuiltin.cpp" />
+    <ClCompile Include="..\cpp\MPI_Get_versionBuiltin.cpp" />
     <ClCompile Include="..\cpp\MPI_InitBuiltin.cpp" />
     <ClCompile Include="..\cpp\MPI_InitializedBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />

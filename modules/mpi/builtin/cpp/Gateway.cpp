@@ -20,6 +20,9 @@
 #include "MPI_InitializedBuiltin.hpp"
 #include "MPI_FinalizeBuiltin.hpp"
 #include "MPI_InitBuiltin.hpp"
+#include "MPI_Get_processor_nameBuiltin.hpp"
+#include "MPI_Get_versionBuiltin.hpp"
+#include "MPI_Get_library_versionBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -27,10 +30,12 @@ const std::wstring gatewayName = L"mpi";
 //=============================================================================
 static const nlsGateway gateway[] =
 {
-    { "MPI_Initialized", Nelson::MpiGateway::MPI_InitializedBuiltin, 0, 0 },
+	{ "MPI_Initialized", Nelson::MpiGateway::MPI_InitializedBuiltin, 0, 0 },
 	{ "MPI_Finalize", Nelson::MpiGateway::MPI_FinalizeBuiltin, 0, 0 },
 	{ "MPI_Init", Nelson::MpiGateway::MPI_InitBuiltin, 0, 0 },
-
+	{ "MPI_Get_processor_name", Nelson::MpiGateway::MPI_Get_processor_nameBuiltin, -1, 0 },
+	{ "MPI_Get_version", Nelson::MpiGateway::MPI_Get_versionBuiltin, -1, 0},
+	{ "MPI_Get_library_version", Nelson::MpiGateway::MPI_Get_library_versionBuiltin, 1, 0},
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

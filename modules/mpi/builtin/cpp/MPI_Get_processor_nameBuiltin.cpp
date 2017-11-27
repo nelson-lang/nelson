@@ -17,35 +17,44 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <mpi.h>
-#include <boost/container/vector.hpp>
-#include "MPI_helpers.hpp"
 #include "Error.hpp"
+#include "MPI_Get_processor_nameBuiltin.hpp"
 //=============================================================================
-namespace Nelson {
-    //=============================================================================
-	static MPI_Errhandler errhdl;
-	//=============================================================================
-	void MPIErrorHandler(MPI_Comm *comm, int *errorcode, ...) 
+using namespace Nelson;
+//=============================================================================
+ArrayOfVector Nelson::MpiGateway::MPI_Get_processor_nameBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+	ArrayOfVector retval;
+	if (argIn.size() != 0)
 	{
-		char buffer[MPI_MAX_ERROR_STRING];
-		int resultlen = 0;
-		MPI_Error_string(*errorcode, buffer, &resultlen);
-		buffer[resultlen] = 0;
-		throw Exception(buffer);
+		Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
 	}
-	//=============================================================================
-	int initializeMPI()
+	if (nLhs > 3)
 	{
-		int flag;
-		MPI_Initialized(&flag);
-		if (flag) 
-		{
-			return flag;
-		}
-		MPI_Init(NULL, NULL);
-		MPI_Initialized(&flag);
-		return flag;
+		Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
 	}
-	//=============================================================================
+
+	int flag = 0;
+	MPI_Initialized(&flag);
+	if (flag == 0)
+	{
+		Error(eval, _W("Attempting to use an MPI routine before initializing MPI."));
+	}
+	std::string processorName;
+	char argv[MPI_MAX_PROCESSOR_NAME];
+	int lenReturned = 0;
+	int info = MPI_Get_processor_name(argv, &lenReturned);
+	argv[lenReturned] = '\0';
+	processorName = argv;
+	retval.push_back(ArrayOf::stringConstructor(processorName));
+	if (nLhs > 1)
+	{
+		retval.push_back(ArrayOf::doubleConstructor(lenReturned));
+	}
+	if (nLhs > 2)
+	{
+		retval.push_back(ArrayOf::doubleConstructor(info));
+	}
+	return retval;
 }
 //=============================================================================
