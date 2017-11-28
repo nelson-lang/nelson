@@ -32,12 +32,18 @@
     <ClCompile Include="..\cpp\MPI_helpers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\MPI_CommHandleObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\MPI_helpers.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\nlsMpi_exports.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\MPI_CommHandleObject.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

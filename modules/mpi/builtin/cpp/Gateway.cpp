@@ -23,6 +23,8 @@
 #include "MPI_Get_processor_nameBuiltin.hpp"
 #include "MPI_Get_versionBuiltin.hpp"
 #include "MPI_Get_library_versionBuiltin.hpp"
+#include "MPI_Comm_objectBuiltin.hpp"
+#include "MPI_Comm_dispBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -36,6 +38,8 @@ static const nlsGateway gateway[] =
 	{ "MPI_Get_processor_name", Nelson::MpiGateway::MPI_Get_processor_nameBuiltin, -1, 0 },
 	{ "MPI_Get_version", Nelson::MpiGateway::MPI_Get_versionBuiltin, -1, 0},
 	{ "MPI_Get_library_version", Nelson::MpiGateway::MPI_Get_library_versionBuiltin, 1, 0},
+	{ "MPI_Comm_object", Nelson::MpiGateway::MPI_Comm_objectBuiltin, 1, 1 },
+	{ "MPI_Comm_disp", Nelson::MpiGateway::MPI_Comm_dispBuiltin, 0, 1 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

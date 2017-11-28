@@ -197,10 +197,12 @@
     <ResourceCompile Include="resources.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\cpp\MPI_CommHandleObject.cpp" />
     <ClCompile Include="..\cpp\MPI_helpers.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\MPI_CommHandleObject.hpp" />
     <ClInclude Include="..\include\MPI_helpers.hpp" />
     <ClInclude Include="..\include\nlsMpi_exports.h" />
   </ItemGroup>

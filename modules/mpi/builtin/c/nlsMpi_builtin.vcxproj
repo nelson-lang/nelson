@@ -207,6 +207,8 @@
     <ResourceCompile Include="resources.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\MPI_Comm_dispBuiltin.hpp" />
+    <ClInclude Include="..\include\MPI_Comm_objectBuiltin.hpp" />
     <ClInclude Include="..\include\MPI_FinalizeBuiltin.hpp" />
     <ClInclude Include="..\include\MPI_Get_library_versionBuiltin.hpp" />
     <ClInclude Include="..\include\MPI_Get_processor_nameBuiltin.hpp" />
@@ -216,6 +218,8 @@
     <ClInclude Include="..\include\nlsMpi_builtin_exports.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\cpp\MPI_Comm_dispBuiltin.cpp" />
+    <ClCompile Include="..\cpp\MPI_Comm_objectBuiltin.cpp" />
     <ClCompile Include="..\cpp\MPI_FinalizeBuiltin.cpp" />
     <ClCompile Include="..\cpp\MPI_Get_library_versionBuiltin.cpp" />
     <ClCompile Include="..\cpp\MPI_Get_processor_nameBuiltin.cpp" />
