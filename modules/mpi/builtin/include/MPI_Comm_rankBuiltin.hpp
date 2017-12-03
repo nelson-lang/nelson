@@ -16,31 +16,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <mpi.h>
-#include "Error.hpp"
-#include "MPI_Get_versionBuiltin.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
-ArrayOfVector Nelson::MpiGateway::MPI_Get_versionBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    ArrayOfVector retval;
-    if (argIn.size() != 0)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 2)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    int version = 0;
-    int subversion = 0;
-    MPI_Get_version(&version, &subversion);
-    retval.push_back(ArrayOf::doubleConstructor(version));
-    if (nLhs > 1)
-    {
-        retval.push_back(ArrayOf::doubleConstructor(subversion));
-    }
-    return retval;
+namespace Nelson {
+	namespace MpiGateway {
+		ArrayOfVector MPI_Comm_rankBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+	}
 }
 //=============================================================================

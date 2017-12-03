@@ -33,8 +33,8 @@ ArrayOfVector Nelson::MpiGateway::MPI_FinalizeBuiltin(Evaluator* eval, int nLhs,
     {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-	int flag = MPI_Finalize();
-	retval.push_back(ArrayOf::logicalConstructor(flag));
-	return retval;
+    int flag = MPI_Finalize();
+    retval.push_back(ArrayOf::logicalConstructor(flag));
+    return retval;
 }
 //=============================================================================

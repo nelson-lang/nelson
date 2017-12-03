@@ -27,34 +27,30 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-	class MPI_CommObject {
-	private:
-		std::wstring description;
-		MPI_Comm comm;
-	public:
-		MPI_CommObject(std::wstring _description, MPI_Comm _comm)
-		{
-			description = _description;
-			comm = _comm;
-		}
-		~MPI_CommObject()
-		{
-			description = L"";
-		}
-		MPI_Comm getComm()
-		{
-			return comm;
-		}
-		std::wstring getDescription()
-		{
-			return description;
-		}
-	};
-	//=============================================================================
-	class NLSMPI_IMPEXP MPI_CommHandleObject : public HandleGenericObject {
+    class MPI_CommObject {
+    private:
+        std::wstring description;
+        MPI_Comm comm;
     public:
-		MPI_CommHandleObject(void *commPtr);
-		~MPI_CommHandleObject();
+        MPI_CommObject(std::wstring _description, MPI_Comm _comm) {
+            description = _description;
+            comm = _comm;
+        }
+        ~MPI_CommObject() {
+            description = L"";
+        }
+        MPI_Comm getComm() {
+            return comm;
+        }
+        std::wstring getDescription() {
+            return description;
+        }
+    };
+    //=============================================================================
+    class NLSMPI_IMPEXP MPI_CommHandleObject : public HandleGenericObject {
+    public:
+        MPI_CommHandleObject(void *commPtr);
+        ~MPI_CommHandleObject();
     };
     //=============================================================================
 }

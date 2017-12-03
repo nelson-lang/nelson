@@ -16,9 +16,12 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+// <--MPI MODE-->
+//=============================================================================
 assert_checkerror('name = MPI_Get_processor_name()', _('Attempting to use an MPI routine before initializing MPI.'));
 MPI_Init();
 [name, len, info] = MPI_Get_processor_name();
+MPI_Finalize();
 assert_istrue(ischar(name));
 assert_isequal(length(name), len);
 assert_isequal(info, 0);

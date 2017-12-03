@@ -24,21 +24,21 @@ using namespace Nelson;
 //=============================================================================
 ArrayOfVector Nelson::MpiGateway::MPI_Get_library_versionBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-	ArrayOfVector retval;
-	if (argIn.size() != 0)
-	{
-		Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-	}
-	if (nLhs > 1)
-	{
-		Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-	}
-	char library_version[MPI_MAX_LIBRARY_VERSION_STRING];
-	int resultlen = 0;
-	MPI_Get_library_version(library_version, &resultlen);
-	library_version[resultlen] = 0;
-	std::string returnedString = library_version;
-	retval.push_back(ArrayOf::stringConstructor(returnedString));
-	return retval;
+    ArrayOfVector retval;
+    if (argIn.size() != 0)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    if (nLhs > 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    char library_version[MPI_MAX_LIBRARY_VERSION_STRING];
+    int resultlen = 0;
+    MPI_Get_library_version(library_version, &resultlen);
+    library_version[resultlen] = 0;
+    std::string returnedString = library_version;
+    retval.push_back(ArrayOf::stringConstructor(returnedString));
+    return retval;
 }
 //=============================================================================

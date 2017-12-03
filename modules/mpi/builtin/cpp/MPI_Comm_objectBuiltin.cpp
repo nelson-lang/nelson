@@ -34,12 +34,12 @@ ArrayOfVector Nelson::MpiGateway::MPI_Comm_objectBuiltin(Evaluator* eval, int nL
     {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-	std::wstring description = L"";
-	if (argIn.size() == 1)
-	{
-		description = argIn[0].getContentAsWideString();
-	}
-	retval.push_back(ArrayOf::handleConstructor(new MPI_CommHandleObject(new MPI_CommObject(description, MPI_COMM_WORLD))));
-	return retval;
+    std::wstring description = L"";
+    if (argIn.size() == 1)
+    {
+        description = argIn[0].getContentAsWideString();
+    }
+    retval.push_back(ArrayOf::handleConstructor(new MPI_CommHandleObject(new MPI_CommObject(description, MPI_COMM_WORLD))));
+    return retval;
 }
 //=============================================================================

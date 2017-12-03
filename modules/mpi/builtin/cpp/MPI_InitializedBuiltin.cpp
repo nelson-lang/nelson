@@ -33,9 +33,9 @@ ArrayOfVector Nelson::MpiGateway::MPI_InitializedBuiltin(Evaluator* eval, int nL
     {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-	int flag = 0;
-	MPI_Initialized(&flag);
-	retval.push_back(ArrayOf::logicalConstructor(flag));
-	return retval;
+    int flag = 0;
+    MPI_Initialized(&flag);
+    retval.push_back(ArrayOf::logicalConstructor(flag));
+    return retval;
 }
 //=============================================================================

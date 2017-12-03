@@ -25,6 +25,10 @@
 #include "MPI_Get_library_versionBuiltin.hpp"
 #include "MPI_Comm_objectBuiltin.hpp"
 #include "MPI_Comm_dispBuiltin.hpp"
+#include "MPI_SendBuiltin.hpp"
+#include "MPI_RecvBuiltin.hpp"
+#include "MPI_Comm_rankBuiltin.hpp"
+#include "MPI_Comm_sizeBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -32,14 +36,18 @@ const std::wstring gatewayName = L"mpi";
 //=============================================================================
 static const nlsGateway gateway[] =
 {
-	{ "MPI_Initialized", Nelson::MpiGateway::MPI_InitializedBuiltin, 0, 0 },
-	{ "MPI_Finalize", Nelson::MpiGateway::MPI_FinalizeBuiltin, 0, 0 },
-	{ "MPI_Init", Nelson::MpiGateway::MPI_InitBuiltin, 0, 0 },
-	{ "MPI_Get_processor_name", Nelson::MpiGateway::MPI_Get_processor_nameBuiltin, -1, 0 },
-	{ "MPI_Get_version", Nelson::MpiGateway::MPI_Get_versionBuiltin, -1, 0},
-	{ "MPI_Get_library_version", Nelson::MpiGateway::MPI_Get_library_versionBuiltin, 1, 0},
-	{ "MPI_Comm_object", Nelson::MpiGateway::MPI_Comm_objectBuiltin, 1, 1 },
-	{ "MPI_Comm_disp", Nelson::MpiGateway::MPI_Comm_dispBuiltin, 0, 1 },
+    { "MPI_Initialized", Nelson::MpiGateway::MPI_InitializedBuiltin, 1, 0 },
+    { "MPI_Finalize", Nelson::MpiGateway::MPI_FinalizeBuiltin, 0, 0 },
+    { "MPI_Init", Nelson::MpiGateway::MPI_InitBuiltin, 0, 0 },
+    { "MPI_Get_processor_name", Nelson::MpiGateway::MPI_Get_processor_nameBuiltin, -1, 0 },
+    { "MPI_Get_version", Nelson::MpiGateway::MPI_Get_versionBuiltin, -1, 0},
+    { "MPI_Get_library_version", Nelson::MpiGateway::MPI_Get_library_versionBuiltin, 1, 0},
+    { "MPI_Comm_object", Nelson::MpiGateway::MPI_Comm_objectBuiltin, 1, 1 },
+    { "MPI_Comm_disp", Nelson::MpiGateway::MPI_Comm_dispBuiltin, 0, 1 },
+    { "MPI_Recv", Nelson::MpiGateway::MPI_RecvBuiltin, 1, 4 },
+    { "MPI_Send", Nelson::MpiGateway::MPI_SendBuiltin, 1, 3 },
+	{ "MPI_Comm_rank", Nelson::MpiGateway::MPI_Comm_rankBuiltin, 1, 1 },
+	{ "MPI_Comm_size", Nelson::MpiGateway::MPI_Comm_sizeBuiltin, 1, 1 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

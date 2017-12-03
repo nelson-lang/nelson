@@ -22,8 +22,8 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-	namespace MpiGateway {
-		ArrayOfVector MPI_Get_processor_nameBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-	}
+    namespace MpiGateway {
+        ArrayOfVector MPI_Get_processor_nameBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    }
 }
 //=============================================================================

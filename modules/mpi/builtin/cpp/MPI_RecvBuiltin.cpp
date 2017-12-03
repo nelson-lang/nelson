@@ -18,29 +18,58 @@
 //=============================================================================
 #include <mpi.h>
 #include "Error.hpp"
-#include "MPI_Get_versionBuiltin.hpp"
+#include "MPI_RecvBuiltin.hpp"
+#include "MPI_helpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::MpiGateway::MPI_Get_versionBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector Nelson::MpiGateway::MPI_RecvBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
-    if (argIn.size() != 0)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 2)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    int version = 0;
-    int subversion = 0;
-    MPI_Get_version(&version, &subversion);
-    retval.push_back(ArrayOf::doubleConstructor(version));
-    if (nLhs > 1)
-    {
-        retval.push_back(ArrayOf::doubleConstructor(subversion));
-    }
-    return retval;
+	ArrayOfVector retval;
+	if ((argIn.size() < 2) || (argIn.size() > 3))
+	{
+		Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+	}
+	if (nLhs > 2)
+	{
+		Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+	}
+	int flagInit = 0;
+	MPI_Initialized(&flagInit);
+	if (!flagInit)
+	{
+		Error(eval, _W("MPI must be initialized."));
+	}
+	ArrayOf tmp = argIn[0];
+	int source = tmp.getContentAsInteger32Scalar();
+	tmp = argIn[1];
+	int tag = tmp.getContentAsInteger32Scalar();
+	if (argIn.size() > 2)
+	{
+	}
+	else
+	{
+	}
+	MPI_Comm comm = MPI_COMM_WORLD;
+	int msgsize = 0;
+	MPI_Status status;
+	MPI_Recv(&msgsize, 1, MPI_INT, source, tag, comm, &status);
+	void *cp = malloc(msgsize);
+	MPI_Recv(cp, msgsize, MPI_PACKED, status.MPI_SOURCE, status.MPI_TAG, comm, MPI_STATUS_IGNORE);
+	int packpos = 0;
+	ArrayOf A(unpackMPI(cp, msgsize, &packpos, comm));
+	free(cp);
+	retval.push_back(A);
+/*
+	if (nLhs > 1)
+	{
+		retval.push_back(ArrayOf::int32Constructor(status.MPI_SOURCE));
+	}
+	if (nLhs > 2)
+	{
+		retval.push_back(ArrayOf::int32Constructor(status.MPI_TAG));
+	}
+	*/
+	return retval;
 }
 //=============================================================================

@@ -6,41 +6,47 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 2 of the License, or
 // (at your option) any later version.
-//
+// 
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-//
+// 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <mpi.h>
-#include "Error.hpp"
-#include "MPI_Get_versionBuiltin.hpp"
+// <--MPI MODE-->
 //=============================================================================
-using namespace Nelson;
-//=============================================================================
-ArrayOfVector Nelson::MpiGateway::MPI_Get_versionBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    ArrayOfVector retval;
-    if (argIn.size() != 0)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 2)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    int version = 0;
-    int subversion = 0;
-    MPI_Get_version(&version, &subversion);
-    retval.push_back(ArrayOf::doubleConstructor(version));
-    if (nLhs > 1)
-    {
-        retval.push_back(ArrayOf::doubleConstructor(subversion));
-    }
-    return retval;
-}
+if ~MPI_Initialized()
+  MPI_Init();
+end
+my_rank = MPI_Comm_rank ();
+num_ranks = MPI_Comm_size();
+
+TAG= 1;
+if (my_rank != 0)
+  rankvect = 0;
+  MPI_Send(single(eye(3, 4)), rankvect, TAG)
+else
+  for source = 1:num_ranks - 1
+    receive = MPI_Recv (source, TAG);
+    if ~isa(receive, 'single')
+      if MPI_Initialized()
+        MPI_Finalize();
+      end
+      exit(1)
+    end
+    if ~isequaln(receive, single(eye(3, 4)))
+      if MPI_Initialized()
+        MPI_Finalize();
+      end
+      exit(1)
+    end
+  end
+end
+if MPI_Initialized()
+  MPI_Finalize();
+end
+exit()
 //=============================================================================

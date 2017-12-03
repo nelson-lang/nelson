@@ -18,29 +18,53 @@
 //=============================================================================
 #include <mpi.h>
 #include "Error.hpp"
-#include "MPI_Get_versionBuiltin.hpp"
+#include "MPI_SendBuiltin.hpp"
+#include "MPI_helpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::MpiGateway::MPI_Get_versionBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector Nelson::MpiGateway::MPI_SendBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
-    if (argIn.size() != 0)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 2)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    int version = 0;
-    int subversion = 0;
-    MPI_Get_version(&version, &subversion);
-    retval.push_back(ArrayOf::doubleConstructor(version));
-    if (nLhs > 1)
-    {
-        retval.push_back(ArrayOf::doubleConstructor(subversion));
-    }
-    return retval;
+	ArrayOfVector retval;
+	if ((argIn.size() < 2) || (argIn.size() > 3))
+	{
+		Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+	}
+	if (nLhs > 2)
+	{
+		Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+	}
+	int flagInit = 0;
+	MPI_Initialized(&flagInit);
+	if (!flagInit)
+	{
+		Error(eval, _W("MPI must be initialized."));
+	}
+	ArrayOf A = argIn[0];
+	ArrayOf tmp = argIn[1];
+	int dest = tmp.getContentAsInteger32Scalar();
+	tmp = argIn[2];
+	int tag = tmp.getContentAsInteger32Scalar();
+	if (argIn.size() > 3)
+	{
+		tmp = argIn[3];
+	}
+	else
+	{
+	}
+	MPI_Comm comm = MPI_COMM_WORLD;
+	int Asize = getArrayOfFootPrint(A, comm);
+	int bufsize = Asize;
+
+	void *cp = malloc(Asize);
+	if (cp)
+	{
+		int packpos = 0;
+		packMPI(A, cp, bufsize, &packpos, comm);
+		MPI_Send(&packpos, 1, MPI_INT, dest, tag, comm);
+		MPI_Send(cp, packpos, MPI_PACKED, dest, tag, comm);
+		free(cp);
+	}
+	return retval;
 }
 //=============================================================================

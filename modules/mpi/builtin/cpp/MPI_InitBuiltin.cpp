@@ -34,7 +34,11 @@ ArrayOfVector Nelson::MpiGateway::MPI_InitBuiltin(Evaluator* eval, int nLhs, con
     {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-	retval.push_back(ArrayOf::logicalConstructor(initializeMPI()));
-	return retval;
+	if (eval->haveEventsLoop())
+	{
+		Error(eval, _W("Wrong engine mode."));
+	}
+    retval.push_back(ArrayOf::logicalConstructor(initializeMPI()));
+    return retval;
 }
 //=============================================================================

@@ -17,30 +17,26 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <mpi.h>
+#include "MPI_Comm_sizeBuiltin.hpp"
 #include "Error.hpp"
-#include "MPI_Get_versionBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::MpiGateway::MPI_Get_versionBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector Nelson::MpiGateway::MPI_Comm_sizeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
-    if (argIn.size() != 0)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 2)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    int version = 0;
-    int subversion = 0;
-    MPI_Get_version(&version, &subversion);
-    retval.push_back(ArrayOf::doubleConstructor(version));
-    if (nLhs > 1)
-    {
-        retval.push_back(ArrayOf::doubleConstructor(subversion));
-    }
-    return retval;
+	ArrayOfVector retval;
+	if (argIn.size() > 1)
+	{
+		Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+	}
+	if (nLhs > 1)
+	{
+		Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+	}
+	int comm_size;
+	MPI_Comm comm = MPI_COMM_WORLD;
+	MPI_Comm_size(comm, &comm_size);
+	retval.push_back(ArrayOf::doubleConstructor(comm_size));
+	return retval;
 }
 //=============================================================================
