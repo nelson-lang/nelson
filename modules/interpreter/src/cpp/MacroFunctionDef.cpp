@@ -252,7 +252,8 @@ ArrayOfVector MacroFunctionDef::evaluateFunction(Evaluator *eval, ArrayOfVector&
                 {
                     if (!warningIssued)
                     {
-                        eval->getInterface()->warningMessage(_W("one or more outputs not assigned in call."));
+						std::wstring message = _W("Function") + L" : " + utf8_to_wstring(name) + L"\n" + WARNING_OUTPUTS_NOT_ASSIGNED;
+                        eval->getInterface()->warningMessage(message);
                         warningIssued = true;
                     }
                     a = ArrayOf::emptyConstructor();

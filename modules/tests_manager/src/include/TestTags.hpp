@@ -23,6 +23,8 @@
 #include "Types.hpp"
 //=============================================================================
 namespace Nelson {
+#define PREFIX_TAG           "<--"
+#define POSTFIX_TAG          "-->"
 #define NOT_FIXED_TAG        "<--NOT FIXED-->"
 #define INTERACTIVE_TEST_TAG "<--INTERACTIVE TEST-->"
 #define CLI_MODE_TAG 	     "<--CLI MODE-->"
@@ -36,6 +38,7 @@ namespace Nelson {
 #define WITH_DISPLAY_TAG 	 "<--WITH DISPLAY-->"
 #define RELEASE_ONLY_TAG 	 "<--RELEASE ONLY-->"
 #define EXCEL_REQUIRED_TAG 	 "<--EXCEL REQUIRED-->"
+#define MPI_MODE_TAG 	     "<--MPI MODE-->"
 
     class NLSTESTS_MANAGER_IMPEXP TestTags {
     private:
@@ -52,12 +55,13 @@ namespace Nelson {
         bool _withDisplay;
         bool _releaseOnly;
         bool _excelRequired;
+		bool _mpiMode;
 
     public:
         TestTags() {
             _notFixed = false;
             _interactiveTest = false;
-            _cliMode = true;
+            _cliMode = false;
             _guiMode = false;
             _advCliMode = false;
             _checkRef = false;
@@ -68,12 +72,12 @@ namespace Nelson {
             _withDisplay = false;
             _releaseOnly = false;
             _excelRequired = false;
+			_mpiMode = false;
         }
 
         bool isWithDisplay() {
             return _withDisplay;
         }
-
         bool isNotFixed() {
             return _notFixed;
         }
@@ -104,14 +108,15 @@ namespace Nelson {
         bool isUnixOnly() {
             return _unixOnly;
         }
-
         bool isReleaseOnly() {
             return _releaseOnly;
         }
-
         bool isExcelRequired() {
             return _excelRequired;
         }
+		bool isMpiMode() {
+			return _mpiMode;
+		}
 
         void setWithDisplay(bool val) {
             _withDisplay = val;
@@ -153,6 +158,9 @@ namespace Nelson {
         void setExcelRequired(bool val) {
             _excelRequired = val;
         }
+		void setMpiMode(bool val) {
+			_mpiMode = val;
+		}
     };
 }
 //=============================================================================

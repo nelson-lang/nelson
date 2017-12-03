@@ -943,7 +943,7 @@ namespace Nelson {
             else
             {
                 // Set up the value of the "end" token
-                endStack.push_back(endData(subRoot, index, count));
+                endStack.push_back(endData(subRoot, (int)index, count));
                 // Call the expression
                 m.push_back(expression(t));
                 endStack.pop_back();
@@ -2707,7 +2707,8 @@ namespace Nelson {
         }
         if (s != nullptr)
         {
-            io->warningMessage(WARNING_OUTPUTS_NOT_ASSIGNED);
+			std::wstring message = _W("Function") + L" : " + utf8_to_wstring(fAST->text) + L"\n" + WARNING_OUTPUTS_NOT_ASSIGNED;
+			io->warningMessage(message);
         }
         popID();
     }

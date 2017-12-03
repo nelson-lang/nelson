@@ -23,6 +23,9 @@ function [r, msg, timing] = test_runfile(filename)
     error(_('An existing filename expected.'));
   end
 
+  r = false;
+  msg = '';
+  timing = 0;
   options = test_parsetags(filename);
 
   if (options.check_ref)

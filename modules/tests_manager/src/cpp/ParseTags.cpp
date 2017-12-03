@@ -33,10 +33,47 @@ namespace Nelson {
     static bool isEmptyLine(std::string line)
     {
         std::string str = boost::algorithm::trim_left_copy(line);
+
         return str == "";
     }
     //=============================================================================
-    bool ParseTags(Evaluator *eval, std::wstring filename, TestTags &options, std::wstring &msg)
+	static bool compareTag(std::string line, std::string tag)
+	{
+		std::string modifiedLine = boost::algorithm::trim_left_copy(line);
+		bool wasComment = false;
+		if (boost::algorithm::starts_with(modifiedLine, "//"))
+		{
+			boost::algorithm::replace_first(modifiedLine, "//", "");
+			wasComment = true;
+		}
+		else if (boost::algorithm::starts_with(modifiedLine, "#"))
+		{
+			boost::algorithm::replace_first(modifiedLine, "#", "");
+			wasComment = true;
+		}
+		if (wasComment)
+		{
+			boost::algorithm::trim(modifiedLine);
+			if (!modifiedLine.empty())
+			{
+				if (boost::algorithm::starts_with(modifiedLine, PREFIX_TAG) &&
+					boost::algorithm::ends_with(modifiedLine, POSTFIX_TAG))
+				{
+					boost::algorithm::replace_first(modifiedLine, PREFIX_TAG, "");
+					boost::algorithm::replace_last(modifiedLine, POSTFIX_TAG, "");
+					boost::algorithm::trim(modifiedLine);
+					std::string cleanedTag = boost::algorithm::trim_copy(tag);
+					boost::algorithm::replace_first(cleanedTag, PREFIX_TAG, "");
+					boost::algorithm::replace_last(cleanedTag, POSTFIX_TAG, "");
+					boost::algorithm::trim(cleanedTag);
+					return boost::algorithm::contains(modifiedLine, cleanedTag);
+				}
+			}
+		}
+		return false;
+	}
+	//=============================================================================
+	bool ParseTags(Evaluator *eval, std::wstring filename, TestTags &options, std::wstring &msg)
     {
         if (!IsFile(filename))
         {
@@ -82,6 +119,7 @@ namespace Nelson {
             bool firstWithDisplayTag = true;
             bool firstReleaseOnlyTag = true;
             bool firstExcelRequiredTag = true;
+			bool firstMpiModeTag = true;
             std::string line;
             while (!istream.eof())
             {
@@ -91,30 +129,31 @@ namespace Nelson {
                     istream.close();
                     break;
                 }
-                std::string removedLeftBlank = boost::algorithm::trim_left_copy(line);
-                if (boost::algorithm::contains(removedLeftBlank, WITH_DISPLAY_TAG) && firstWithDisplayTag)
+                if (compareTag(line, WITH_DISPLAY_TAG) && firstWithDisplayTag)
                 {
                     if (options.isWithDisplay() && !firstWithDisplayTag)
                     {
-                        msg = _W("duplicated tag detected: <--WITH DISPLAY TEST-->.");
+                        msg = _W("duplicated tag detected: <--WITH DISPLAY-->.");
                         istream.close();
                         return false;
                     }
                     options.setWithDisplay(true);
                     firstWithDisplayTag = false;
+					continue;
                 }
-                if (boost::algorithm::contains(removedLeftBlank, NOT_FIXED_TAG) && firstNotFixedTag)
+                if (compareTag(line, NOT_FIXED_TAG) && firstNotFixedTag)
                 {
                     if (options.isNotFixed() && !firstNotFixedTag)
                     {
-                        msg = _W("duplicated tag detected: <--INTERACTIVE TEST-->.");
+                        msg = _W("duplicated tag detected: <--NOT FIXED-->.");
                         istream.close();
                         return false;
                     }
                     options.setNotFixed(true);
                     firstNotFixedTag = false;
+					continue;
                 }
-                if (boost::algorithm::contains(removedLeftBlank, INTERACTIVE_TEST_TAG) && firstInteractiveTag)
+                if (compareTag(line, INTERACTIVE_TEST_TAG) && firstInteractiveTag)
                 {
                     if (options.isInteractiveTest() && !firstInteractiveTag)
                     {
@@ -124,8 +163,9 @@ namespace Nelson {
                     }
                     options.setInteractiveTest(true);
                     firstInteractiveTag = false;
+					continue;
                 }
-                if (boost::algorithm::contains(removedLeftBlank, ENGLISH_IMPOSED_TAG) && firstEnglishTag)
+                if (compareTag(line, ENGLISH_IMPOSED_TAG) && firstEnglishTag)
                 {
                     if (options.isEnglishImposed() && !firstEnglishTag)
                     {
@@ -135,10 +175,12 @@ namespace Nelson {
                     }
                     options.setEnglishImposed(true);
                     firstEnglishTag = false;
+					continue;
                 }
-                if (boost::algorithm::contains(removedLeftBlank, CLI_MODE_TAG) && firstCliTag)
+                if (compareTag(line, CLI_MODE_TAG) && firstCliTag)
                 {
-                    if ((options.isAdvCliMode() && !firstAdvCliTag)|| (options.isGuiMode() && !firstGuiTag))
+                    if ((options.isAdvCliMode() && !firstAdvCliTag)|| 
+						(options.isGuiMode() && !firstGuiTag))
                     {
                         msg = _W("Check tags used.");
                         istream.close();
@@ -154,10 +196,12 @@ namespace Nelson {
                     options.setAdvCliMode(false);
                     options.setGuiMode(false);
                     firstCliTag = false;
+					continue;
                 }
-                if (boost::algorithm::contains(removedLeftBlank, ADV_CLI_MODE_TAG) && firstAdvCliTag)
+                if (compareTag(line, ADV_CLI_MODE_TAG) && firstAdvCliTag)
                 {
-                    if ((options.isCliMode() && !firstCliTag) || (options.isGuiMode() && !firstGuiTag))
+                    if ((options.isCliMode() && !firstCliTag) ||
+						(options.isGuiMode() && !firstGuiTag))
                     {
                         msg = _W("Check tags used.");
                         istream.close();
@@ -173,10 +217,12 @@ namespace Nelson {
                     options.setCliMode(false);
                     options.setGuiMode(false);
                     firstAdvCliTag = false;
+					continue;
                 }
-                if (boost::algorithm::contains(removedLeftBlank, GUI_MODE_TAG) && firstGuiTag)
+                if (compareTag(line, GUI_MODE_TAG) && firstGuiTag)
                 {
-                    if ((options.isCliMode() && !firstCliTag) || (options.isAdvCliMode() && !firstAdvCliTag))
+                    if ((options.isCliMode() && !firstCliTag) ||
+						(options.isAdvCliMode() && !firstAdvCliTag))
                     {
                         msg = _W("Multiple exclusive tags detected: <--GUI MODE-->.");
                         istream.close();
@@ -192,8 +238,9 @@ namespace Nelson {
                     options.setAdvCliMode(false);
                     options.setCliMode(false);
                     firstGuiTag = false;
+					continue;
                 }
-                if (boost::algorithm::contains(removedLeftBlank, CHECK_REF_TAG) && firstCheckRefTag)
+                if (compareTag(line, CHECK_REF_TAG) && firstCheckRefTag)
                 {
                     if (options.isCheckRef() && !firstAdvCliTag)
                     {
@@ -203,8 +250,9 @@ namespace Nelson {
                     }
                     options.setCheckRef(true);
                     firstCheckRefTag = false;
+					continue;
                 }
-                if (boost::algorithm::contains(removedLeftBlank, WINDOWS_ONLY_TAG) && firstWindowsTag)
+                if (compareTag(line, WINDOWS_ONLY_TAG) && firstWindowsTag)
                 {
                     if ((options.isUnixOnly() && !firstLinuxTag) || (options.isMacOnly() && !firstMacTag))
                     {
@@ -220,8 +268,9 @@ namespace Nelson {
                     }
                     options.setWindowsOnly(true);
                     firstWindowsTag = false;
+					continue;
                 }
-                if (boost::algorithm::contains(removedLeftBlank, MACOS_ONLY_TAG) && firstMacTag)
+                if (compareTag(line, MACOS_ONLY_TAG) && firstMacTag)
                 {
                     if ((options.isUnixOnly() && !firstLinuxTag) || (options.isWindowsOnly() && !firstWindowsTag))
                     {
@@ -237,8 +286,9 @@ namespace Nelson {
                     }
                     options.setMacOnly(true);
                     firstMacTag = false;
+					continue;
                 }
-                if (boost::algorithm::contains(removedLeftBlank, UNIX_ONLY_TAG) && firstLinuxTag)
+                if (compareTag(line, UNIX_ONLY_TAG) && firstLinuxTag)
                 {
                     if ((options.isMacOnly() && !firstMacTag) || (options.isWindowsOnly() && !firstWindowsTag))
                     {
@@ -254,8 +304,9 @@ namespace Nelson {
                     }
                     options.setUnixOnly(true);
                     firstLinuxTag = false;
+					continue;
                 }
-                if (boost::algorithm::contains(removedLeftBlank, RELEASE_ONLY_TAG) && firstReleaseOnlyTag)
+                if (compareTag(line, RELEASE_ONLY_TAG) && firstReleaseOnlyTag)
                 {
                     if (!firstReleaseOnlyTag)
                     {
@@ -265,8 +316,9 @@ namespace Nelson {
                     }
                     options.setReleaseOnly(true);
                     firstReleaseOnlyTag = false;
+					continue;
                 }
-                if (boost::algorithm::contains(removedLeftBlank, EXCEL_REQUIRED_TAG) && firstExcelRequiredTag)
+                if (compareTag(line, EXCEL_REQUIRED_TAG) && firstExcelRequiredTag)
                 {
                     if (!firstExcelRequiredTag)
                     {
@@ -276,13 +328,32 @@ namespace Nelson {
                     }
                     options.setExcelRequired(true);
                     firstExcelRequiredTag = false;
+					continue;
                 }
-            }
+				if (compareTag(line, MPI_MODE_TAG) && firstMpiModeTag)
+				{
+					if (!firstMpiModeTag)
+					{
+						msg = _W("duplicated tag detected: <--MPI MODE-->.");
+						istream.close();
+						return false;
+					}
+					options.setMpiMode(true);
+					options.setCliMode(true);
+					firstCliTag = false;
+					firstMpiModeTag = false;
+					continue;
+				}
+			}
             istream.close();
             if (options.isGuiMode() || options.isAdvCliMode())
             {
                 options.setWithDisplay(true);
             }
+			if (!options.isGuiMode() && !options.isAdvCliMode())
+			{
+				options.setCliMode(true);
+			}
         }
         return true;
     }

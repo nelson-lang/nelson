@@ -496,25 +496,29 @@ function test_case_res = run_test_case(test, module_name, index, indexMax, nbTes
               cmd_to_execute = ['"[test_res, test_msg, test_timing] = test_runfile(''',  testfile, ''');savebin(''', outputfile, ''', ''test_res'', ''test_msg'', ''test_timing''); exit(double(test_res));"'];
               redirect_to_file = [' 2>&1 "' , redirect_err, '"'];
               cmd = [cmd, ' --quiet', ' ', '--timeout', ' ', timeout, ' ', '--execute', ' ', cmd_to_execute, ' ', redirect_to_file];
-
               if test_case_res.options.cli_mode
-                [res, msg] = call_nelson_cli(cmd);
+                [res, msg] = call_nelson_cli(cmd, test_case_res.options.mpi_mode);
               else
                 if test_case_res.options.gui_mode
-                  [res, msg] = call_nelson_gui(cmd);
+                  [res, msg] = call_nelson_gui(cmd, test_case_res.options.mpi_mode);
                 else
                   if test_case_res.options.adv_cli_mode
-                    [res, msg] = call_nelson_adv_cli(cmd);
+                    [res, msg] = call_nelson_adv_cli(cmd, test_case_res.options.mpi_mode);
                   else
-                    [res, msg] = call_nelson_cli(cmd);
+                    [res, msg] = call_nelson_cli(cmd, test_case_res.options.mpi_mode);
                   end
                 end
               end
 
               test_case_res.msg = msg;
               if res ~= 1
-                test_case_res.status = 'Fail';
-                test_timing = 0;
+                if test_case_res.options.mpi_mode
+                  test_case_res.status = 'Pass';
+                  test_timing = 0;
+                else
+                  test_case_res.status = 'Fail';
+                  test_timing = 0;
+                end
                 if isfile(outputfile)
                   loadbin(outputfile);
                   test_case_res.msg = test_msg;
@@ -682,24 +686,35 @@ function t = timestamp()
   t = [year_str, '-', month_str, '-', day_str, 'T', hour_str, ':', min_str, ':', sec_str];
 endfunction
 //=============================================================================
-function [res, msg] = call_nelson_cli(command)
+function pc = prefixCommand(withMPI)
+  pc = '';
+  if withMPI
+    if ispc()
+      pc = ['mpiexec -n 2 '];
+    else
+      pc = '';
+    end
+  end
+endfunction
+//=============================================================================
+function [res, msg] = call_nelson_cli(command, withMPI)
   nelson_bin_path = modulepath(nelsonroot(), 'nelson', 'bin');
   nelson_exe_path = ['"', nelson_bin_path, '/', 'nelson-cli', '"'];
-  cmd = [nelson_exe_path, ' ' , command];
+  cmd = [prefixCommand(withMPI), nelson_exe_path, ' ' , command];
   [res, msg] = unix(cmd);
 endfunction
 //=============================================================================
-function [res, msg] = call_nelson_adv_cli(command)
+function [res, msg] = call_nelson_adv_cli(command, withMPI)
   nelson_bin_path = modulepath(nelsonroot(), 'nelson', 'bin');
   nelson_exe_path = ['"', nelson_bin_path, '/', 'nelson-adv-cli', '"'];
-  cmd = [nelson_exe_path, ' ' , command];
+  cmd = [prefixCommand(withMPI), nelson_exe_path, ' ' , command];
   [res, msg] = unix(cmd);
 endfunction
 //=============================================================================
-function [res, msg] = call_nelson_gui(command)
+function [res, msg] = call_nelson_gui(command, withMPI)
   nelson_bin_path = modulepath(nelsonroot(), 'nelson', 'bin');
   nelson_exe_path = ['"', nelson_bin_path, '/', 'nelson-gui', '"'];
-  cmd = [nelson_exe_path, ' ' , command];
+  cmd = [prefixCommand(withMPI), nelson_exe_path, ' ' , command];
   [res, msg] = unix(cmd);
 endfunction
 //=============================================================================
