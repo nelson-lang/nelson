@@ -55,7 +55,7 @@ namespace Nelson {
         bool _withDisplay;
         bool _releaseOnly;
         bool _excelRequired;
-		bool _mpiMode;
+        bool _mpiMode;
 
     public:
         TestTags() {
@@ -72,7 +72,7 @@ namespace Nelson {
             _withDisplay = false;
             _releaseOnly = false;
             _excelRequired = false;
-			_mpiMode = false;
+            _mpiMode = false;
         }
 
         bool isWithDisplay() {
@@ -114,9 +114,9 @@ namespace Nelson {
         bool isExcelRequired() {
             return _excelRequired;
         }
-		bool isMpiMode() {
-			return _mpiMode;
-		}
+        bool isMpiMode() {
+            return _mpiMode;
+        }
 
         void setWithDisplay(bool val) {
             _withDisplay = val;
@@ -158,9 +158,9 @@ namespace Nelson {
         void setExcelRequired(bool val) {
             _excelRequired = val;
         }
-		void setMpiMode(bool val) {
-			_mpiMode = val;
-		}
+        void setMpiMode(bool val) {
+            _mpiMode = val;
+        }
     };
 }
 //=============================================================================

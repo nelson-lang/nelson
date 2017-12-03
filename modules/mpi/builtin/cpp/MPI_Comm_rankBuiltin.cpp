@@ -24,18 +24,18 @@ using namespace Nelson;
 //=============================================================================
 ArrayOfVector Nelson::MpiGateway::MPI_Comm_rankBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-	ArrayOfVector retval;
-	if (argIn.size() > 1)
-	{
-		Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-	}
-	if (nLhs > 1)
-	{
-		Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-	}
-	int comm_rank = 0;
-	MPI_Comm_rank(MPI_COMM_WORLD, &comm_rank);
-	retval.push_back(ArrayOf::doubleConstructor(comm_rank));
-	return retval;
+    ArrayOfVector retval;
+    if (argIn.size() > 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    if (nLhs > 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    int comm_rank = 0;
+    MPI_Comm_rank(MPI_COMM_WORLD, &comm_rank);
+    retval.push_back(ArrayOf::doubleConstructor(comm_rank));
+    return retval;
 }
 //=============================================================================

@@ -25,7 +25,7 @@ namespace Nelson {
     //=============================================================================
     static MPI_Errhandler errhdl;
     //=============================================================================
-	void MPIErrorHandler(MPI_Comm *comm, int *errorcode, ...)
+    void MPIErrorHandler(MPI_Comm *comm, int *errorcode, ...)
     {
         char buffer[MPI_MAX_ERROR_STRING];
         int resultlen = 0;
@@ -42,9 +42,9 @@ namespace Nelson {
         {
             return flag;
         }
-		MPI_Init(NULL, NULL);
-		MPI_Comm_create_errhandler(MPIErrorHandler, &errhdl);
-		MPI_Comm_set_errhandler(MPI_COMM_WORLD, errhdl);
+        MPI_Init(NULL, NULL);
+        MPI_Comm_create_errhandler(MPIErrorHandler, &errhdl);
+        MPI_Comm_set_errhandler(MPI_COMM_WORLD, errhdl);
         MPI_Initialized(&flag);
         return flag;
     }
@@ -334,14 +334,14 @@ namespace Nelson {
                 stringVector fieldnames(A.getFieldNames());
                 int fieldcount = (int)fieldnames.size();
                 int fieldsize = getCanonicalSize(1, MPI_INT, comm);
-				for (int j = 0; j < fieldcount; j++)
-				{
-					fieldsize += getCanonicalSize(1, MPI_INT, comm) +
-						getCanonicalSize((int)fieldnames[j].size(), MPI_CHAR, comm);
-				}
+                for (int j = 0; j < fieldcount; j++)
+                {
+                    fieldsize += getCanonicalSize(1, MPI_INT, comm) +
+                                 getCanonicalSize((int)fieldnames[j].size(), MPI_CHAR, comm);
+                }
                 ArrayOf *dp = (ArrayOf *)A.getDataPointer();
-				int total = 0;
-				for (int i = 0; i < A.getLength()*fieldcount; i++)
+                int total = 0;
+                for (int i = 0; i < A.getLength()*fieldcount; i++)
                 {
                     total += getArrayOfFootPrint(dp[i], comm);
                 }
@@ -351,14 +351,13 @@ namespace Nelson {
         switch (dataClass)
         {
             case NLS_LOGICAL:
-				if (A.isSparse())
-				{
-
-				}
-				else
-				{
-					return(overhead + getCanonicalSize((int)A.getLength(), MPI_UINT8_T, comm));
-				}
+                if (A.isSparse())
+                {
+                }
+                else
+                {
+                    return(overhead + getCanonicalSize((int)A.getLength(), MPI_UINT8_T, comm));
+                }
             case NLS_UINT8:
                 return(overhead + getCanonicalSize((int)A.getLength(), MPI_UINT8_T, comm));
             case NLS_INT8:
@@ -378,29 +377,27 @@ namespace Nelson {
             case NLS_SINGLE:
                 return(overhead + getCanonicalSize((int)A.getLength(), MPI_FLOAT, comm));
             case NLS_DOUBLE:
-				if (A.isSparse())
-				{
-
-				}
-				else
-				{
-					return(overhead + getCanonicalSize((int)A.getLength(), MPI_DOUBLE, comm));
-				}
+                if (A.isSparse())
+                {
+                }
+                else
+                {
+                    return(overhead + getCanonicalSize((int)A.getLength(), MPI_DOUBLE, comm));
+                }
             case NLS_SCOMPLEX:
                 return(overhead + getCanonicalSize((int)A.getLength() * 2, MPI_FLOAT, comm));
             case NLS_DCOMPLEX:
-				if (A.isSparse())
-				{
-
-				}
-				else
-				{
-					return(overhead + getCanonicalSize((int)A.getLength() * 2, MPI_DOUBLE, comm));
-				}
+                if (A.isSparse())
+                {
+                }
+                else
+                {
+                    return(overhead + getCanonicalSize((int)A.getLength() * 2, MPI_DOUBLE, comm));
+                }
             case NLS_CHAR:
                 return(overhead + getCanonicalSize((int)A.getLength(), MPI_WCHAR, comm));
         }
-		return 0;
+        return 0;
     }
     //=============================================================================
 }

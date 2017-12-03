@@ -252,7 +252,7 @@ ArrayOfVector MacroFunctionDef::evaluateFunction(Evaluator *eval, ArrayOfVector&
                 {
                     if (!warningIssued)
                     {
-						std::wstring message = _W("Function") + L" : " + utf8_to_wstring(name) + L"\n" + WARNING_OUTPUTS_NOT_ASSIGNED;
+                        std::wstring message = _W("Function") + L" : " + utf8_to_wstring(name) + L"\n" + WARNING_OUTPUTS_NOT_ASSIGNED;
                         eval->getInterface()->warningMessage(message);
                         warningIssued = true;
                     }

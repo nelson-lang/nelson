@@ -2707,8 +2707,8 @@ namespace Nelson {
         }
         if (s != nullptr)
         {
-			std::wstring message = _W("Function") + L" : " + utf8_to_wstring(fAST->text) + L"\n" + WARNING_OUTPUTS_NOT_ASSIGNED;
-			io->warningMessage(message);
+            std::wstring message = _W("Function") + L" : " + utf8_to_wstring(fAST->text) + L"\n" + WARNING_OUTPUTS_NOT_ASSIGNED;
+            io->warningMessage(message);
         }
         popID();
     }

@@ -24,19 +24,19 @@ using namespace Nelson;
 //=============================================================================
 ArrayOfVector Nelson::MpiGateway::MPI_Comm_sizeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-	ArrayOfVector retval;
-	if (argIn.size() > 1)
-	{
-		Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-	}
-	if (nLhs > 1)
-	{
-		Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-	}
-	int comm_size;
-	MPI_Comm comm = MPI_COMM_WORLD;
-	MPI_Comm_size(comm, &comm_size);
-	retval.push_back(ArrayOf::doubleConstructor(comm_size));
-	return retval;
+    ArrayOfVector retval;
+    if (argIn.size() > 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    if (nLhs > 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    int comm_size;
+    MPI_Comm comm = MPI_COMM_WORLD;
+    MPI_Comm_size(comm, &comm_size);
+    retval.push_back(ArrayOf::doubleConstructor(comm_size));
+    return retval;
 }
 //=============================================================================
