@@ -30,6 +30,7 @@ ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../files_folders_functions/src/include
+${MPI_C_INCLUDE_PATH}
 )
 #==============================================================================	
 FILE(
@@ -51,7 +52,8 @@ nlsTypes
 nlsI18n
 nlsCore
 nlsFiles_folders_functions
-${BOOST_LIBRARY})
+${BOOST_LIBRARY}
+${MPI_C_LIBRARIES})
 #==============================================================================	
 set_target_properties(${module_library_name}
                       PROPERTIES 
@@ -70,6 +72,7 @@ ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include
+${MPI_C_INCLUDE_PATH}
 )
 #==============================================================================	
 ADD_LIBRARY(
@@ -84,7 +87,8 @@ nlsError_manager
 nlsInterpreter
 nlsI18n
 nlsTypes
-nlsString)
+nlsString
+${MPI_C_LIBRARIES})
 #==============================================================================
 set_target_properties(${module_library_builtin_name}
                       PROPERTIES 

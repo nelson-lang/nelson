@@ -139,6 +139,8 @@ ELSE()
   ENDIF()
 ENDIF()
 #==============================================================================
+find_package(MPI REQUIRED)
+#==============================================================================
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   execute_process(COMMAND brew --prefix icu4c
                 OUTPUT_VARIABLE BREW_ICU_PREFIX
