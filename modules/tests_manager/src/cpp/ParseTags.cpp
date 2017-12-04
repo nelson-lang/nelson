@@ -65,7 +65,7 @@ namespace Nelson {
                     boost::algorithm::replace_first(cleanedTag, PREFIX_TAG, "");
                     boost::algorithm::replace_last(cleanedTag, POSTFIX_TAG, "");
                     boost::algorithm::trim(cleanedTag);
-                    return boost::algorithm::contains(modifiedLine, cleanedTag);
+                    return (modifiedLine.compare(cleanedTag) == 0);
                 }
             }
         }
