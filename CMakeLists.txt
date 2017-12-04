@@ -175,6 +175,7 @@ FIND_PACKAGE(FFTW REQUIRED)
 #============================================================================== 
 add_definitions(-DBOOST_ALL_NO_LIB)
 add_definitions(-DBOOST_ALL_DYN_LINK)
+add_definitions(-DOMPI_SKIP_MPICXX)
 #============================================================================== 
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   set(BIN_DIRECTORY ${PROJECT_BINARY_DIR}/bin/linux${BITNESS})
