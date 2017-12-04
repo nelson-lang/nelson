@@ -201,7 +201,7 @@ You can also see [.travis.yml](https://github.com/Nelson-numerical-software/nels
 
 * Prerequirements:
  Git for Windows
- Visual studio 2015 (C++)
+ Visual studio 2017 (C++)
  Qt 5.x for Windows
 
 * Creates Nelson main directory
@@ -230,5 +230,5 @@ You can also see [.travis.yml](https://github.com/Nelson-numerical-software/nels
     
     launch win32-environment.bat (win32 build) or win64-environment.bat (win64 build)
     
-    start build with VS 2015 
+    start build with VS 2017 
 
