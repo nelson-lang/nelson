@@ -17,4 +17,4 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 addgateway(modulepath(nelsonroot(), 'mpi', 'builtin'));
-addpath(modulepath(nelsonroot(), 'mpi', 'functions'));
+//addpath(modulepath(nelsonroot(), 'mpi', 'functions'));
