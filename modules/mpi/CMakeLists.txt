@@ -72,7 +72,7 @@ ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include
-${MPI_C_INCLUDE_PATH}
+${MPI_INCLUDE_PATH}
 )
 #==============================================================================	
 ADD_LIBRARY(
