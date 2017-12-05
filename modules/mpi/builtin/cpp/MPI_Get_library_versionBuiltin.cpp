@@ -22,6 +22,10 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
+#ifndef MPI_MAX_LIBRARY_VERSION_STRING
+#define MPI_MAX_LIBRARY_VERSION_STRING 64
+#endif
+//=============================================================================
 ArrayOfVector Nelson::MpiGateway::MPI_Get_library_versionBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
@@ -33,6 +37,7 @@ ArrayOfVector Nelson::MpiGateway::MPI_Get_library_versionBuiltin(Evaluator* eval
     {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
+
     char library_version[MPI_MAX_LIBRARY_VERSION_STRING];
     int resultlen = 0;
     MPI_Get_library_version(library_version, &resultlen);
