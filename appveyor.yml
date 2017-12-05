@@ -21,10 +21,8 @@ matrix:
 
 install:
 - choco install -y curl InnoSetup
-- ps: (new-object net.webclient).DownloadFile(
-        "https://download.microsoft.com/download/9/E/D/9ED82A62-4235-4003-A59A-9F6246073F2E/MSMpiSetup.exe",
-        "C:\projects\MSMpiSetup.exe")
-- C:\projects\MSMpiSetup.exe -unattend -minimal
+- ps: (new-object net.webclient).DownloadFile("https://download.microsoft.com/download/9/E/D/9ED82A62-4235-4003-A59A-9F6246073F2E/MSMpiSetup.exe", "C:\build_chain\MSMpiSetup.exe")
+- C:\build_chain\MSMpiSetup.exe -unattend -minimal
 - set PATH=C:\Program Files\Microsoft MPI\Bin;%PATH%
 - SET PATH=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\;C:\Program Files (x86)\Inno Setup 5;%PATH%
 - call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" %platform%
