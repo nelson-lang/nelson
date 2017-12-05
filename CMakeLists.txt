@@ -140,6 +140,12 @@ ELSE()
 ENDIF()
 #==============================================================================
 find_package(MPI REQUIRED)
+IF(MPI_INCLUDE_PATH AND MPI_LIBRARIES)
+  MESSAGE(STATUS "MPI_COMPILE_FLAGS=${MPI_COMPILE_FLAGS}")
+  MESSAGE(STATUS "MPI_LINK_FLAGS=${MPI_LINK_FLAGS}")
+  MESSAGE(STATUS "MPI_INCLUDE_PATH=${MPI_INCLUDE_PATH}")
+  MESSAGE(STATUS "MPI_LIBRARIES=${MPI_LIBRARIES}")
+ENDIF(MPI_INCLUDE_PATH AND MPI_LIBRARIES)
 #==============================================================================
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   execute_process(COMMAND brew --prefix icu4c
