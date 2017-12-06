@@ -40,9 +40,13 @@ ArrayOfVector Nelson::MpiGateway::MPI_Get_library_versionBuiltin(Evaluator* eval
 
     char library_version[MPI_MAX_LIBRARY_VERSION_STRING];
     int resultlen = 0;
+#if MPI_VERSION > 1
     MPI_Get_library_version(library_version, &resultlen);
-    library_version[resultlen] = 0;
-    std::string returnedString = library_version;
+	library_version[resultlen] = 0;
+	std::string returnedString = library_version;
+#else 
+	std::string returnedString = "Unknown MPI version < 2";
+#endif
     retval.push_back(ArrayOf::stringConstructor(returnedString));
     return retval;
 }
