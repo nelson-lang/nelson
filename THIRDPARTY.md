@@ -51,6 +51,15 @@ http://slicot.org/
 Free software, released under the GNU General Public License (GPL v2 SLICOT 5.0).
 Non-free licenses may also be purchased.
 
+MS-MPI
+Microsoft MPI (MS-MPI) is a Microsoft implementation of the Message Passing Interface standard for developing
+ and running parallel applications on the Windows platform.
+https://msdn.microsoft.com/en-us/library/bb524831(v=vs.85).aspx
+
+Open-mpi
+https://www.open-mpi.org/
+https://www.open-mpi.org/community/license.php
+
 SimpleFileWatcher
 a C++ wrapper for OS file monitoring systems
 https://github.com/apetrone/simplefilewatcher
