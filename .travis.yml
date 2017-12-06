@@ -84,6 +84,8 @@ before_install:
       
       if [ `uname` = "Darwin" ]; 
       then brew update;
+      brew info open-mpi;
+      brew install openmpi;
       brew install python3;
       brew install libffi;
       brew install icu4c;
@@ -98,7 +100,6 @@ before_install:
       brew install cmake;
       brew install qt5;
       brew install fftw;
-      brew install openmpi;
       fi
 
 install:
