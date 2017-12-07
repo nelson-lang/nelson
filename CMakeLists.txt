@@ -146,6 +146,7 @@ IF(MPI_INCLUDE_PATH AND MPI_LIBRARIES)
   MESSAGE(STATUS "MPI_INCLUDE_PATH=${MPI_INCLUDE_PATH}")
   MESSAGE(STATUS "MPI_LIBRARIES=${MPI_LIBRARIES}")
 ENDIF(MPI_INCLUDE_PATH AND MPI_LIBRARIES)
+check_symbol_exists("MPI_Get_library_version" "mpi.h" HAVE_MPI_GET_LIBRARY_VERSION)
 #==============================================================================
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   execute_process(COMMAND brew --prefix icu4c

@@ -55,7 +55,19 @@ matrix:
 
 before_install:
     - if [ `uname` = "Linux" ];
-      then sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa
+      then sudo apt-get install libopenmpi-dev;
+      sudo apt-get install openmpi-bin;
+      sudo apt-get install gettext;
+      sudo apt-get install pkg-config;
+      sudo apt-get install cmake;
+      sudo apt-get install libffi-dev;
+      sudo apt-get install libicu-dev;
+      sudo apt-get install libxml2-dev;
+      sudo apt-get install liblapack-dev;
+      sudo apt-get install liblapacke-dev;
+      sudo apt-get install fftw3;
+      sudo apt-get install fftw3-dev;
+      sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa;
       sudo apt-get update;
       sudo apt-get install qtbase5-dev qtdeclarative5-dev libqt5webkit5-dev libsqlite3-dev;
       sudo apt-get install qt5-default qttools5-dev-tools;
@@ -68,20 +80,7 @@ before_install:
       sudo apt-get install qtdeclarative5-qtquick2-plugin;
       sudo apt-get install qtdeclarative5-dialogs-plugin;
       sudo apt-get install qtdeclarative5-window-plugin;
-      sudo apt-get install gettext;
-      sudo apt-get install pkg-config;
-      sudo apt-get install cmake;
-      sudo apt-get install libffi-dev;
-      sudo apt-get install libicu-dev;
-      sudo apt-get install libxml2-dev;
-      sudo apt-get install liblapack-dev;
-      sudo apt-get install liblapacke-dev;
-      sudo apt-get install fftw3;
-      sudo apt-get install fftw3-dev;
-      sudo apt-get install libopenmpi-dev;
-      sudo apt-get install openmpi-bin;
       fi
-      
       if [ `uname` = "Darwin" ]; 
       then brew update;
       brew info open-mpi;
