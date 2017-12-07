@@ -34,7 +34,7 @@ branches:
 matrix:
   include:
     - os: linux
-      dist: trusty
+      group: travis_latest
       env: ARCH="x86_64"
       compiler: gcc
       addons:
