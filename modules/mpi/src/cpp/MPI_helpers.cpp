@@ -405,21 +405,16 @@ namespace Nelson {
             case NLS_LOGICAL:
                 if (A.isSparse())
                 {
-                    ArrayOf I, J, V, M, N, NNZ;
-                    SparseToIJV(A, I, J, V, M, N, NNZ);
-#if (defined(_LP64) || defined(_WIN64))
-                    int mpiTypeDims = MPI_UINT64_T;
-#else
-                    int mpiTypeDims = MPI_UINT32_T;
-#endif
-                    int sI = getCanonicalSize((int)I.getLength(), mpiTypeDims, comm);
-                    int sJ = getCanonicalSize((int)J.getLength(), mpiTypeDims, comm);
-                    int sV = getCanonicalSize((int)V.getLength(), MPI_UINT8_T, comm);
-                    int sM = getCanonicalSize((int)M.getLength(), mpiTypeDims, comm);
-                    int sN = getCanonicalSize((int)N.getLength(), mpiTypeDims, comm);
-                    int sNNZ = getCanonicalSize((int)NNZ.getLength(), mpiTypeDims, comm);
-                    return(overhead + sI + sJ + sV + sM + sN + sNNZ);
-                }
+					ArrayOf I, J, V, M, N, NNZ;
+					SparseToIJV(A, I, J, V, M, N, NNZ);
+					int sI = getArrayOfFootPrint(I, comm);
+					int sJ = getArrayOfFootPrint(J, comm);
+					int sV = getArrayOfFootPrint(V, comm);
+					int sM = getArrayOfFootPrint(M, comm);
+					int sN = getArrayOfFootPrint(N, comm);
+					int sNNZ = getArrayOfFootPrint(NNZ, comm);
+					return(overhead + sI + sJ + sV + sM + sN + sNNZ);
+				}
                 else
                 {
                     return(overhead + getCanonicalSize((int)A.getLength(), MPI_UINT8_T, comm));
@@ -447,11 +442,6 @@ namespace Nelson {
                 {
                     ArrayOf I, J, V, M, N, NNZ;
                     SparseToIJV(A, I, J, V, M, N, NNZ);
-#if (defined(_LP64) || defined(_WIN64))
-                    int mpiTypeDims = MPI_UINT64_T;
-#else
-                    int mpiTypeDims = MPI_UINT32_T;
-#endif
                     int sI = getArrayOfFootPrint(I, comm);
                     int sJ = getArrayOfFootPrint(J, comm);
                     int sV = getArrayOfFootPrint(V, comm);
@@ -469,21 +459,16 @@ namespace Nelson {
             case NLS_DCOMPLEX:
                 if (A.isSparse())
                 {
-                    ArrayOf I, J, V, M, N, NNZ;
-                    SparseToIJV(A, I, J, V, M, N, NNZ);
-#if (defined(_LP64) || defined(_WIN64))
-                    int mpiTypeDims = MPI_UINT64_T;
-#else
-                    int mpiTypeDims = MPI_UINT32_T;
-#endif
-                    int sI = getCanonicalSize((int)I.getLength(), mpiTypeDims, comm);
-                    int sJ = getCanonicalSize((int)J.getLength(), mpiTypeDims, comm);
-                    int sV = getCanonicalSize((int)V.getLength() * 2, MPI_DOUBLE, comm);
-                    int sM = getCanonicalSize((int)M.getLength(), mpiTypeDims, comm);
-                    int sN = getCanonicalSize((int)N.getLength(), mpiTypeDims, comm);
-                    int sNNZ = getCanonicalSize((int)NNZ.getLength(), mpiTypeDims, comm);
-                    return(overhead + sI + sJ + sV + sM + sN + sNNZ);
-                }
+					ArrayOf I, J, V, M, N, NNZ;
+					SparseToIJV(A, I, J, V, M, N, NNZ);
+					int sI = getArrayOfFootPrint(I, comm);
+					int sJ = getArrayOfFootPrint(J, comm);
+					int sV = getArrayOfFootPrint(V, comm);
+					int sM = getArrayOfFootPrint(M, comm);
+					int sN = getArrayOfFootPrint(N, comm);
+					int sNNZ = getArrayOfFootPrint(NNZ, comm);
+					return(overhead + sI + sJ + sV + sM + sN + sNNZ);
+				}
                 else
                 {
                     return(overhead + getCanonicalSize((int)A.getLength() * 2, MPI_DOUBLE, comm));
