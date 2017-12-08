@@ -23,6 +23,10 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
+#ifndef MPI_MAX_LIBRARY_VERSION_STRING
+#define MPI_MAX_LIBRARY_VERSION_STRING 64
+#endif
+	//=============================================================================
     static MPI_Errhandler errhdl;
     //=============================================================================
     void MPIErrorHandler(MPI_Comm *comm, int *errorcode, ...)
@@ -400,5 +404,24 @@ namespace Nelson {
         return 0;
     }
     //=============================================================================
+	std::string getMpiLibraryVersion()
+	{
+		char library_version[MPI_MAX_LIBRARY_VERSION_STRING];
+#ifdef OMPI_MAJOR_VERSION
+		sprintf(library_version, "OpenMPI %d.%d.%d", OMPI_MAJOR_VERSION, OMPI_MINOR_VERSION, OMPI_RELEASE_VERSION);
+		std::string returnedString = library_version;
+#else
+#if MPI_VERSION > 1
+		int resultlen = 0;
+		MPI_Get_library_version(library_version, &resultlen);
+		library_version[resultlen] = 0;
+		std::string returnedString = library_version;
+#else 
+		std::string returnedString = "Unknown MPI version < 2";
+#endif
+#endif
+		return returnedString;
+	}
+	//=============================================================================
 }
 //=============================================================================

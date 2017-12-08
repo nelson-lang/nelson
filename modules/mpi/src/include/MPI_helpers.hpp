@@ -28,5 +28,6 @@ namespace Nelson {
     NLSMPI_IMPEXP ArrayOf unpackMPI(void *buffer, int bufsize, int *packpos, MPI_Comm comm);
     NLSMPI_IMPEXP int getArrayOfFootPrint(ArrayOf &A, MPI_Comm comm);
     NLSMPI_IMPEXP int getCanonicalSize(int count, MPI_Datatype atype, MPI_Comm comm);
+	NLSMPI_IMPEXP std::string getMpiLibraryVersion();
 }
 //=============================================================================

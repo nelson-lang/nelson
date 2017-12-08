@@ -16,15 +16,11 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <mpi.h>
 #include "Error.hpp"
 #include "MPI_Get_library_versionBuiltin.hpp"
+#include "MPI_helpers.hpp"
 //=============================================================================
 using namespace Nelson;
-//=============================================================================
-#ifndef MPI_MAX_LIBRARY_VERSION_STRING
-#define MPI_MAX_LIBRARY_VERSION_STRING 64
-#endif
 //=============================================================================
 ArrayOfVector Nelson::MpiGateway::MPI_Get_library_versionBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
@@ -37,22 +33,7 @@ ArrayOfVector Nelson::MpiGateway::MPI_Get_library_versionBuiltin(Evaluator* eval
     {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-
-    char library_version[MPI_MAX_LIBRARY_VERSION_STRING];
-    int resultlen = 0;
-#ifdef OMPI_MAJOR_VERSION
-	sprintf(library_version, "OpenMPI %d.%d.%d", OMPI_MAJOR_VERSION, OMPI_MINOR_VERSION, OMPI_RELEASE_VERSION);
-	std::string returnedString = library_version;
-#else
-#if MPI_VERSION > 1
-	MPI_Get_library_version(library_version, &resultlen);
-	library_version[resultlen] = 0;
-	std::string returnedString = library_version;
-#else 
-	std::string returnedString = "Unknown MPI version < 2";
-#endif
-#endif
-    retval.push_back(ArrayOf::stringConstructor(returnedString));
+    retval.push_back(ArrayOf::stringConstructor(getMpiLibraryVersion()));
     return retval;
 }
 //=============================================================================
