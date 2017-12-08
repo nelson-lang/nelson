@@ -66,6 +66,9 @@
     <ClCompile Include="..\cpp\TransposeSparseLogical.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\SparseToIJV.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\include\nlsSparse_exports.h">
@@ -117,6 +120,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\TransposeSparseLogical.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SparseToIJV.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

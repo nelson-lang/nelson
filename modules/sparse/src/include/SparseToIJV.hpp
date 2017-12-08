@@ -18,16 +18,10 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <mpi.h>
-#include "nlsMpi_exports.h"
+#include "nlsSparse_exports.h"
 #include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
-    NLSMPI_IMPEXP int initializeMPI();
-    NLSMPI_IMPEXP void packMPI(ArrayOf &A, void *buffer, int bufsize, int *packpos, MPI_Comm comm);
-    NLSMPI_IMPEXP ArrayOf unpackMPI(void *buffer, int bufsize, int *packpos, MPI_Comm comm);
-    NLSMPI_IMPEXP int getArrayOfFootPrint(ArrayOf &A, MPI_Comm comm);
-    NLSMPI_IMPEXP int getCanonicalSize(int count, MPI_Datatype atype, MPI_Comm comm);
-    NLSMPI_IMPEXP std::string getMpiLibraryVersion();
+    NLSSPARSE_IMPEXP void SparseToIJV(ArrayOf spA, ArrayOf &I, ArrayOf &J, ArrayOf &V, ArrayOf &M, ArrayOf &N, ArrayOf &NNZ);
 }
 //=============================================================================

@@ -6,28 +6,47 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 2 of the License, or
 // (at your option) any later version.
-//
+// 
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-//
+// 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+// <--MPI MODE-->
 //=============================================================================
-#include <mpi.h>
-#include "nlsMpi_exports.h"
-#include "ArrayOf.hpp"
-//=============================================================================
-namespace Nelson {
-    NLSMPI_IMPEXP int initializeMPI();
-    NLSMPI_IMPEXP void packMPI(ArrayOf &A, void *buffer, int bufsize, int *packpos, MPI_Comm comm);
-    NLSMPI_IMPEXP ArrayOf unpackMPI(void *buffer, int bufsize, int *packpos, MPI_Comm comm);
-    NLSMPI_IMPEXP int getArrayOfFootPrint(ArrayOf &A, MPI_Comm comm);
-    NLSMPI_IMPEXP int getCanonicalSize(int count, MPI_Datatype atype, MPI_Comm comm);
-    NLSMPI_IMPEXP std::string getMpiLibraryVersion();
-}
+if ~MPI_Initialized()
+  MPI_Init();
+end
+my_rank = MPI_Comm_rank ();
+num_ranks = MPI_Comm_size();
+
+TAG= 1;
+if (my_rank != 0)
+  rankvect = 0;
+  MPI_Send(sparse(eye(3, 4)), rankvect, TAG)
+else
+  for source = 1:num_ranks - 1
+    receive = MPI_Recv (source, TAG);
+    if ~isa(receive, 'sparsedouble')
+      if MPI_Initialized()
+        MPI_Finalize();
+      end
+      exit(1)
+    end
+    if ~isequaln(receive, sparse(eye(3, 4)))
+      if MPI_Initialized()
+        MPI_Finalize();
+      end
+      exit(1)
+    end
+  end
+end
+if MPI_Initialized()
+  MPI_Finalize();
+end
+exit()
 //=============================================================================

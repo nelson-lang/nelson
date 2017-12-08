@@ -18,6 +18,8 @@
 //=============================================================================
 #include <mpi.h>
 #include <boost/container/vector.hpp>
+#include "SparseConstructors.hpp"
+#include "SparseToIJV.hpp"
 #include "MPI_helpers.hpp"
 #include "Error.hpp"
 //=============================================================================
@@ -26,7 +28,7 @@ namespace Nelson {
 #ifndef MPI_MAX_LIBRARY_VERSION_STRING
 #define MPI_MAX_LIBRARY_VERSION_STRING 64
 #endif
-	//=============================================================================
+    //=============================================================================
     static MPI_Errhandler errhdl;
     //=============================================================================
     void MPIErrorHandler(MPI_Comm *comm, int *errorcode, ...)
@@ -112,6 +114,14 @@ namespace Nelson {
                 case NLS_LOGICAL:
                     if (A.isSparse())
                     {
+                        ArrayOf I, J, V, M, N, NNZ;
+                        SparseToIJV(A, I, J, V, M, N, NNZ);
+                        packMPI(I, buffer, bufsize, packpos, comm);
+                        packMPI(J, buffer, bufsize, packpos, comm);
+                        packMPI(V, buffer, bufsize, packpos, comm);
+                        packMPI(M, buffer, bufsize, packpos, comm);
+                        packMPI(N, buffer, bufsize, packpos, comm);
+                        packMPI(NNZ, buffer, bufsize, packpos, comm);
                     }
                     else
                     {
@@ -148,6 +158,14 @@ namespace Nelson {
                 case NLS_DOUBLE:
                     if (A.isSparse())
                     {
+                        ArrayOf I, J, V, M, N, NNZ;
+                        SparseToIJV(A, I, J, V, M, N, NNZ);
+                        packMPI(I, buffer, bufsize, packpos, comm);
+                        packMPI(J, buffer, bufsize, packpos, comm);
+                        packMPI(V, buffer, bufsize, packpos, comm);
+                        packMPI(M, buffer, bufsize, packpos, comm);
+                        packMPI(N, buffer, bufsize, packpos, comm);
+                        packMPI(NNZ, buffer, bufsize, packpos, comm);
                     }
                     else
                     {
@@ -160,6 +178,14 @@ namespace Nelson {
                 case NLS_DCOMPLEX:
                     if (A.isSparse())
                     {
+                        ArrayOf I, J, V, M, N, NNZ;
+                        SparseToIJV(A, I, J, V, M, N, NNZ);
+                        packMPI(I, buffer, bufsize, packpos, comm);
+                        packMPI(J, buffer, bufsize, packpos, comm);
+                        packMPI(V, buffer, bufsize, packpos, comm);
+                        packMPI(M, buffer, bufsize, packpos, comm);
+                        packMPI(N, buffer, bufsize, packpos, comm);
+                        packMPI(NNZ, buffer, bufsize, packpos, comm);
                     }
                     else
                     {
@@ -231,6 +257,13 @@ namespace Nelson {
             case NLS_LOGICAL:
                 if (issparse)
                 {
+                    ArrayOf I = unpackMPI(buffer, bufsize, packpos, comm);
+                    ArrayOf J = unpackMPI(buffer, bufsize, packpos, comm);
+                    ArrayOf V = unpackMPI(buffer, bufsize, packpos, comm);
+                    ArrayOf M = unpackMPI(buffer, bufsize, packpos, comm);
+                    ArrayOf N = unpackMPI(buffer, bufsize, packpos, comm);
+                    ArrayOf NNZ = unpackMPI(buffer, bufsize, packpos, comm);
+                    return SparseConstructor(I, J, V, M.getContentAsScalarIndex(), N.getContentAsScalarIndex(), NNZ.getContentAsScalarIndex());
                 }
                 else
                 {
@@ -277,6 +310,13 @@ namespace Nelson {
             case NLS_DOUBLE:
                 if (issparse)
                 {
+                    ArrayOf I = unpackMPI(buffer, bufsize, packpos, comm);
+                    ArrayOf J = unpackMPI(buffer, bufsize, packpos, comm);
+                    ArrayOf V = unpackMPI(buffer, bufsize, packpos, comm);
+                    ArrayOf M = unpackMPI(buffer, bufsize, packpos, comm);
+                    ArrayOf N = unpackMPI(buffer, bufsize, packpos, comm);
+                    ArrayOf NNZ = unpackMPI(buffer, bufsize, packpos, comm);
+                    return SparseConstructor(I, J, V, M.getContentAsScalarIndex(), N.getContentAsScalarIndex(), NNZ.getContentAsScalarIndex());
                 }
                 else
                 {
@@ -291,6 +331,13 @@ namespace Nelson {
             case NLS_DCOMPLEX:
                 if (issparse)
                 {
+                    ArrayOf I = unpackMPI(buffer, bufsize, packpos, comm);
+                    ArrayOf J = unpackMPI(buffer, bufsize, packpos, comm);
+                    ArrayOf V = unpackMPI(buffer, bufsize, packpos, comm);
+                    ArrayOf M = unpackMPI(buffer, bufsize, packpos, comm);
+                    ArrayOf N = unpackMPI(buffer, bufsize, packpos, comm);
+                    ArrayOf NNZ = unpackMPI(buffer, bufsize, packpos, comm);
+                    return SparseConstructor(I, J, V, M.getContentAsScalarIndex(), N.getContentAsScalarIndex(), NNZ.getContentAsScalarIndex());
                 }
                 else
                 {
@@ -304,6 +351,7 @@ namespace Nelson {
                 break;
             default:
             {
+                throw Exception(_W("Type not managed."));
             }
             break;
         }
@@ -357,6 +405,20 @@ namespace Nelson {
             case NLS_LOGICAL:
                 if (A.isSparse())
                 {
+                    ArrayOf I, J, V, M, N, NNZ;
+                    SparseToIJV(A, I, J, V, M, N, NNZ);
+#if (defined(_LP64) || defined(_WIN64))
+                    int mpiTypeDims = MPI_UINT64_T;
+#else
+                    int mpiTypeDims = MPI_UINT32_T;
+#endif
+                    int sI = getCanonicalSize((int)I.getLength(), mpiTypeDims, comm);
+                    int sJ = getCanonicalSize((int)J.getLength(), mpiTypeDims, comm);
+                    int sV = getCanonicalSize((int)V.getLength(), MPI_UINT8_T, comm);
+                    int sM = getCanonicalSize((int)M.getLength(), mpiTypeDims, comm);
+                    int sN = getCanonicalSize((int)N.getLength(), mpiTypeDims, comm);
+                    int sNNZ = getCanonicalSize((int)NNZ.getLength(), mpiTypeDims, comm);
+                    return(overhead + sI + sJ + sV + sM + sN + sNNZ);
                 }
                 else
                 {
@@ -383,6 +445,20 @@ namespace Nelson {
             case NLS_DOUBLE:
                 if (A.isSparse())
                 {
+                    ArrayOf I, J, V, M, N, NNZ;
+                    SparseToIJV(A, I, J, V, M, N, NNZ);
+#if (defined(_LP64) || defined(_WIN64))
+                    int mpiTypeDims = MPI_UINT64_T;
+#else
+                    int mpiTypeDims = MPI_UINT32_T;
+#endif
+                    int sI = getArrayOfFootPrint(I, comm);
+                    int sJ = getArrayOfFootPrint(J, comm);
+                    int sV = getArrayOfFootPrint(V, comm);
+                    int sM = getArrayOfFootPrint(M, comm);
+                    int sN = getArrayOfFootPrint(N, comm);
+                    int sNNZ = getArrayOfFootPrint(NNZ, comm);
+                    return(overhead + sI + sJ + sV + sM + sN + sNNZ);
                 }
                 else
                 {
@@ -393,6 +469,20 @@ namespace Nelson {
             case NLS_DCOMPLEX:
                 if (A.isSparse())
                 {
+                    ArrayOf I, J, V, M, N, NNZ;
+                    SparseToIJV(A, I, J, V, M, N, NNZ);
+#if (defined(_LP64) || defined(_WIN64))
+                    int mpiTypeDims = MPI_UINT64_T;
+#else
+                    int mpiTypeDims = MPI_UINT32_T;
+#endif
+                    int sI = getCanonicalSize((int)I.getLength(), mpiTypeDims, comm);
+                    int sJ = getCanonicalSize((int)J.getLength(), mpiTypeDims, comm);
+                    int sV = getCanonicalSize((int)V.getLength() * 2, MPI_DOUBLE, comm);
+                    int sM = getCanonicalSize((int)M.getLength(), mpiTypeDims, comm);
+                    int sN = getCanonicalSize((int)N.getLength(), mpiTypeDims, comm);
+                    int sNNZ = getCanonicalSize((int)NNZ.getLength(), mpiTypeDims, comm);
+                    return(overhead + sI + sJ + sV + sM + sN + sNNZ);
                 }
                 else
                 {
@@ -404,24 +494,24 @@ namespace Nelson {
         return 0;
     }
     //=============================================================================
-	std::string getMpiLibraryVersion()
-	{
-		char library_version[MPI_MAX_LIBRARY_VERSION_STRING];
+    std::string getMpiLibraryVersion()
+    {
+        char library_version[MPI_MAX_LIBRARY_VERSION_STRING];
 #ifdef OMPI_MAJOR_VERSION
-		sprintf(library_version, "OpenMPI %d.%d.%d", OMPI_MAJOR_VERSION, OMPI_MINOR_VERSION, OMPI_RELEASE_VERSION);
-		std::string returnedString = library_version;
+        sprintf(library_version, "OpenMPI %d.%d.%d", OMPI_MAJOR_VERSION, OMPI_MINOR_VERSION, OMPI_RELEASE_VERSION);
+        std::string returnedString = library_version;
 #else
 #if MPI_VERSION > 1
-		int resultlen = 0;
-		MPI_Get_library_version(library_version, &resultlen);
-		library_version[resultlen] = 0;
-		std::string returnedString = library_version;
-#else 
-		std::string returnedString = "Unknown MPI version < 2";
+        int resultlen = 0;
+        MPI_Get_library_version(library_version, &resultlen);
+        library_version[resultlen] = 0;
+        std::string returnedString = library_version;
+#else
+        std::string returnedString = "Unknown MPI version < 2";
 #endif
 #endif
-		return returnedString;
-	}
-	//=============================================================================
+        return returnedString;
+    }
+    //=============================================================================
 }
 //=============================================================================
