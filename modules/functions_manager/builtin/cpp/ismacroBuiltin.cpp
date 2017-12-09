@@ -19,6 +19,7 @@
 #include "ismacroBuiltin.hpp"
 #include "characters_encoding.hpp"
 #include "Error.hpp"
+#include "PathFuncManager.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -35,13 +36,8 @@ ArrayOfVector Nelson::FunctionsGateway::ismacroBuiltin(Evaluator* eval, int nLhs
     }
     ArrayOf param1 = argIn[0];
     std::wstring name = param1.getContentAsWideString();
-    std::string uname = wstring_to_utf8(name);
-    FuncPtr pfun;
-    bool res = false;
-    if (eval->lookupFunction(uname, pfun) == true)
-    {
-        res = (pfun->type() == NLS_MACRO_FUNCTION);
-    }
+	wstringVector filenames;
+	bool res = PathFuncManager::getInstance()->find(name, filenames);
     retval.push_back(ArrayOf::logicalConstructor(res));
     return retval;
 }
