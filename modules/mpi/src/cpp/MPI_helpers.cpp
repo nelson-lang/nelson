@@ -173,7 +173,7 @@ namespace Nelson {
                     }
                     break;
                 case NLS_SCOMPLEX:
-                    MPI_Pack((void *)A.getDataPointer(), (int)A.getLength(), MPI_FLOAT, buffer, bufsize, packpos, comm);
+                    MPI_Pack((void *)A.getDataPointer(), (int)A.getLength() * 2, MPI_FLOAT, buffer, bufsize, packpos, comm);
                     break;
                 case NLS_DCOMPLEX:
                     if (A.isSparse())
@@ -189,7 +189,7 @@ namespace Nelson {
                     }
                     else
                     {
-                        MPI_Pack((void *)A.getDataPointer(), (int)A.getLength(), MPI_DOUBLE, buffer, bufsize, packpos, comm);
+                        MPI_Pack((void *)A.getDataPointer(), (int)A.getLength() * 2 , MPI_DOUBLE, buffer, bufsize, packpos, comm);
                     }
                     break;
                 case NLS_CHAR:
