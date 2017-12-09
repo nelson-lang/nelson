@@ -31,22 +31,11 @@ if (my_rank != 0)
 else
   for source = 1:num_ranks - 1
     receive = MPI_Recv (source, TAG);
-    if ~isa(receive, 'int8')
-      if MPI_Initialized()
-        MPI_Finalize();
-      end
-      exit(1)
-    end
-    if ~isequaln(receive, int8(eye(3, 4)))
-      if MPI_Initialized()
-        MPI_Finalize();
-      end
-      exit(1)
-    end
+    assert_istrue(isa(receive, 'int8'));
+    assert_isequal(receive, int8(eye(3, 4)))
   end
 end
 if MPI_Initialized()
   MPI_Finalize();
 end
-exit()
 //=============================================================================

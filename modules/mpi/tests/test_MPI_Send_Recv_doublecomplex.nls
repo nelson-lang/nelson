@@ -27,12 +27,12 @@ num_ranks = MPI_Comm_size();
 TAG= 1;
 if (my_rank != 0)
   rankvect = 0;
-  MPI_Send(sparse(logical(eye(3, 4))), rankvect, TAG)
+  MPI_Send(eye(3, 4) + 2i, rankvect, TAG)
 else
   for source = 1:num_ranks - 1
-    receive = MPI_Recv (source, TAG);
-    assert_istrue(isa(receive, 'sparselogical'));
-    assert_isequal(receive, sparse(logical(eye(3, 4))));
+    receive = MPI_Recv (source, TAG)
+    assert_istrue(isa(receive, 'double'))
+    assert_isequal(receive, eye(3, 4) + 2i)
   end
 end
 if MPI_Initialized()

@@ -16,9 +16,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-function [r, msg, timing] = test_runfile(filename)
+function [r, msg, timing] = test_runfile(varargin)
 // internal function
 // not documented
+  with_mpi = false;
+  filename = varargin{1};
+  if length(varargin) == 2
+    with_mpi = logical(varargin{2});
+  end
   if ~isfile(filename)
     error(_('An existing filename expected.'));
   end

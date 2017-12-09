@@ -31,22 +31,11 @@ if (my_rank != 0)
 else
   for source = 1:num_ranks - 1
     receive = MPI_Recv (source, TAG);
-    if ~isa(receive, 'sparsedouble')
-      if MPI_Initialized()
-        MPI_Finalize();
-      end
-      exit(1)
-    end
-    if ~isequaln(receive, sparse(eye(3, 4)))
-      if MPI_Initialized()
-        MPI_Finalize();
-      end
-      exit(1)
-    end
+    assert_istrue(isa(receive, 'sparsedouble'));
+    assert_isequal(receive, sparse(eye(3, 4)));
   end
 end
 if MPI_Initialized()
   MPI_Finalize();
 end
-exit()
 //=============================================================================

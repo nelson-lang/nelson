@@ -80,23 +80,23 @@ function status = test_run(varargin)
       options = 'all';
     else
       if ischar(param2)
-          found_option = false;
-          for k = 1:length(supported_options)
-            if strcmp(param2, supported_options{k}) == 1
-              found_option = true;
-            end
+        found_option = false;
+        for k = 1:length(supported_options)
+          if strcmp(param2, supported_options{k}) == 1
+            found_option = true;
           end
-          if ~found_option
-            error(_('"all", "all_tests", "unitary_tests", "nonreg_tests", "benchs" expected as second input arguments.'));
-          else
-            options = param2;
-          end
-      else
+        end
+        if ~found_option
           error(_('"all", "all_tests", "unitary_tests", "nonreg_tests", "benchs" expected as second input arguments.'));
+        else
+          options = param2;
+        end
+      else
+        error(_('"all", "all_tests", "unitary_tests", "nonreg_tests", "benchs" expected as second input arguments.'));
       end
     end
   end
-
+  
   xml_outputfile = '';
   if (nargin > 2)
     param3 = varargin{3};
@@ -174,7 +174,7 @@ function status = test_run(varargin)
       end
     end
   else
-
+    
     if isfile(file_to_test)
       test_suite = create_test_suite();
       test_case = create_test_case(file_to_test);
@@ -198,111 +198,108 @@ function status = test_run(varargin)
               bench_tests = dir([tests_dir, 'bench_*.nls']);
               all_tests = [unitary_tests; nonreg_tests; bench_tests];
               tests_list = all_tests;
-
+              
             case 'all_tests'
               unitary_tests = dir([tests_dir, 'test_*.nls']);
               nonreg_tests = dir([tests_dir, 'bug_*.nls']);
               all_tests = [unitary_tests; nonreg_tests];
               tests_list = all_tests;
-
+              
             case 'unitary_tests'
               tests_list = dir([tests_dir, 'test_*.nls']);
-
+              
             case 'nonreg_tests'
               tests_list = dir([tests_dir, 'nonreg_*.nls']);
-
+              
             case 'benchs'
               tests_list = dir([tests_dir, 'bench_*.nls']);
-
+              
             otherwise
               error(_('option not managed.'));
             end
-        end
-
-        nbTestCasesMax = 0;
-        if ~isempty(tests_list)
-          for t = tests_list
-            test_case = create_test_case([tests_dir, t.name]);
-            test_case.classname = [nelson_version_str, '.', test_suite.name];
-            if isempty(test_suite.test_cases_list)
-              test_suite.test_cases_list = test_case; 
-            else
-              test_suite.test_cases_list = [test_suite.test_cases_list, test_case];
-            end
-            nbTestCases = length(test_suite.test_cases_list);
-            if nbTestCases > nbTestCasesMax
-              nbTestCasesMax = nbTestCases;
+          end
+          
+          nbTestCasesMax = 0;
+          if ~isempty(tests_list)
+            for t = tests_list
+              test_case = create_test_case([tests_dir, t.name]);
+              test_case.classname = [nelson_version_str, '.', test_suite.name];
+              if isempty(test_suite.test_cases_list)
+                test_suite.test_cases_list = test_case; 
+              else
+                test_suite.test_cases_list = [test_suite.test_cases_list, test_case];
+              end
+              nbTestCases = length(test_suite.test_cases_list);
+              if nbTestCases > nbTestCasesMax
+                nbTestCasesMax = nbTestCases;
+              end
             end
           end
-        end
-        if isempty(test_suites.tests_list)
-          test_suites.tests_list = test_suite;
-        else
-          test_suites.tests_list = [test_suites.tests_list, test_suite];
-        end
-      end
-    end
-
-
-  end
-
-
-  nbTestSuites = length(test_suites.tests_list);
-  
-  lenCharsTestCasesMax = length(int2str(nbTestCasesMax));
-  lenCharsTestSuitesMax = length(int2str(nbTestSuites));
-  
-  k = 1;
-  for ts = test_suites.tests_list
-    fprintf(stdout, [' ', uniformizeNumbers(k, lenCharsTestSuitesMax), '/', int2str(nbTestSuites), ' - ', '[', ts.name, '] :', char(10)]);
-    l = 1;
-    nbTestCases = length(ts.test_cases_list);
-    for tc = ts.test_cases_list
-      tc = run_test_case(tc, ts.name, l, nbTestCases, lenCharsTestCasesMax);
-      test_suites.tests_list(k).time = test_suites.tests_list(k).time + tc.time;
-      if tc.isbench
-        test_suites.tests_list(k).bench = test_suites.tests_list(k).bench + 1;
-        test_suites.bench = test_suites.bench + 1;
-        if strcmp(tc.status, 'Fail') == true
-          status = false;
-        end
-      else
-        test_suites.tests_list(k).tests = test_suites.tests_list(k).tests + 1;
-        test_suites.tests = test_suites.tests + 1;
-        if strcmp(tc.status, 'Pass') == true
-          test_suites.tests_list(k).passed = test_suites.tests_list(k).passed + 1;
-          test_suites.passed = test_suites.passed + 1;
-        else
-          if strcmp(tc.status, 'Fail') == true
-            test_suites.tests_list(k).errors = test_suites.tests_list(k).errors + 1;
-            test_suites.errors = test_suites.errors + 1;
-            status = false;
+          if isempty(test_suites.tests_list)
+            test_suites.tests_list = test_suite;
           else
-            if strcmp(tc.status, 'Skip') == true | strcmp(tc.status, 'Interactive') == true | strcmp(tc.status, 'No display') == true
-              test_suites.tests_list(k).disabled = test_suites.tests_list(k).disabled + 1;
-              test_suites.disabled = test_suites.disabled + 1;
-            else
-              status = false;
-              error([tc.status, ' ', _('not managed.')]);
-            end
+            test_suites.tests_list = [test_suites.tests_list, test_suite];
           end
         end
       end
-      test_suites.tests_list(k).test_cases_list(l) = tc;
-      test_suites.time = test_suites.time + test_suites.tests_list(k).time;
-      l = l + 1;
     end
-    k = k + 1;
-    disp(' ');
-  end
-
-  disp_summary(test_suites);
-
-  if strcmp(xml_outputfile, '') == false;
-    res = save_as_xml(test_suites, xml_outputfile);
-  end
-endfunction
-//=============================================================================
+    
+    nbTestSuites = length(test_suites.tests_list);
+    
+    lenCharsTestCasesMax = length(int2str(nbTestCasesMax));
+    lenCharsTestSuitesMax = length(int2str(nbTestSuites));
+    
+    k = 1;
+    for ts = test_suites.tests_list
+      fprintf(stdout, [' ', uniformizeNumbers(k, lenCharsTestSuitesMax), '/', int2str(nbTestSuites), ' - ', '[', ts.name, '] :', char(10)]);
+      l = 1;
+      nbTestCases = length(ts.test_cases_list);
+      for tc = ts.test_cases_list
+        tc = run_test_case(tc, ts.name, l, nbTestCases, lenCharsTestCasesMax);
+        test_suites.tests_list(k).time = test_suites.tests_list(k).time + tc.time;
+        if tc.isbench
+          test_suites.tests_list(k).bench = test_suites.tests_list(k).bench + 1;
+          test_suites.bench = test_suites.bench + 1;
+          if strcmp(tc.status, 'Fail') == true
+            status = false;
+          end
+        else
+          test_suites.tests_list(k).tests = test_suites.tests_list(k).tests + 1;
+          test_suites.tests = test_suites.tests + 1;
+          if strcmp(tc.status, 'Pass') == true
+            test_suites.tests_list(k).passed = test_suites.tests_list(k).passed + 1;
+            test_suites.passed = test_suites.passed + 1;
+          else
+            if strcmp(tc.status, 'Fail') == true
+              test_suites.tests_list(k).errors = test_suites.tests_list(k).errors + 1;
+              test_suites.errors = test_suites.errors + 1;
+              status = false;
+            else
+              if strcmp(tc.status, 'Skip') == true | strcmp(tc.status, 'Interactive') == true | strcmp(tc.status, 'No display') == true
+                test_suites.tests_list(k).disabled = test_suites.tests_list(k).disabled + 1;
+                test_suites.disabled = test_suites.disabled + 1;
+              else
+                status = false;
+                error([tc.status, ' ', _('not managed.')]);
+              end
+            end
+          end
+        end
+        test_suites.tests_list(k).test_cases_list(l) = tc;
+        test_suites.time = test_suites.time + test_suites.tests_list(k).time;
+        l = l + 1;
+      end
+      k = k + 1;
+      disp(' ');
+    end
+    
+    disp_summary(test_suites);
+    
+    if strcmp(xml_outputfile, '') == false;
+      res = save_as_xml(test_suites, xml_outputfile);
+    end
+  endfunction
+  //=============================================================================
 function res = save_as_xml(test_suites, xmlFileDestination)
   res = false;
   if ispc()
@@ -314,38 +311,38 @@ function res = save_as_xml(test_suites, xmlFileDestination)
   if fp ~= -1
     fprintf(fp, ['<?xml version="1.0"?>', eol]);
     fprintf(fp, ['<testsuites tests="', int2str(test_suites.tests), '" disabled="', int2str(test_suites.disabled), '" time="', mat2str(test_suites.time, 2), '" errors="', int2str(test_suites.errors),'">', eol]);
-
+    
     for t = test_suites.tests_list
       fprintf(fp, ['  <testsuite name="', t.name, '" id="', t.id, '" time="', mat2str(t.time, 2), '" tests="', int2str(t.tests), '" skipped="', int2str(t.disabled),'" errors="', int2str(t.errors), '" hostname="', t.hostname, '" timestamp="', t.timestamp, '" ', '>', eol]);
       fprintf(fp, ['    <properties>', eol]);
       fprintf(fp, ['      <property name="', 'environment', '" value="', t.environment,'"/>', eol]);
       fprintf(fp, ['    </properties>', eol]);
-
+      
       for tc = t.test_cases_list
         if tc.isbench
-            if strcmp(tc.status, 'Fail') == true
-                fprintf(fp, ['    <testcase name="', tc.name, '" time="', mat2str(tc.time, 2), '" classname="', tc.classname, '">', eol]);
-                if isstruct(tc.msg)
-                  msg = tc.msg.message;
-                else
-                  msg = tc.msg;
-                end
-                if length(msg) > 0
-                  fprintf(fp, ['      <error type="error" message="', _('test failed'), '">', '<![CDATA[', msg, ']]>', '</error>', eol]);
-                end
-                fprintf(fp, ['    </testcase>', eol]);
+          if strcmp(tc.status, 'Fail') == true
+            fprintf(fp, ['    <testcase name="', tc.name, '" time="', mat2str(tc.time, 2), '" classname="', tc.classname, '">', eol]);
+            if isstruct(tc.msg)
+              msg = tc.msg.message;
             else
-              fprintf(fp, ['    <testcase name="', tc.name, '" time="', mat2str(tc.time, 2), '" classname="', tc.classname, '">', eol]);
-              if isstruct(tc.msg)
-                msg = tc.msg.message;
-              else
-                msg = tc.msg;
-              end
-              // if length(msg) > 0
-              //   fprintf(fp, ['      <system-out>', '<![CDATA[', msg, ']]>', '</system-out>', eol]);
-              // end
-              fprintf(fp, ['    </testcase>', eol]);
+              msg = tc.msg;
             end
+            if length(msg) > 0
+              fprintf(fp, ['      <error type="error" message="', _('test failed'), '">', '<![CDATA[', msg, ']]>', '</error>', eol]);
+            end
+            fprintf(fp, ['    </testcase>', eol]);
+          else
+            fprintf(fp, ['    <testcase name="', tc.name, '" time="', mat2str(tc.time, 2), '" classname="', tc.classname, '">', eol]);
+            if isstruct(tc.msg)
+              msg = tc.msg.message;
+            else
+              msg = tc.msg;
+            end
+            // if length(msg) > 0
+            //   fprintf(fp, ['      <system-out>', '<![CDATA[', msg, ']]>', '</system-out>', eol]);
+            // end
+            fprintf(fp, ['    </testcase>', eol]);
+          end
         else
           if strcmp(tc.status, 'Pass') == true
             fprintf(fp, ['    <testcase name="', tc.name, '" time="', mat2str(tc.time, 2), '" classname="', tc.classname, '">', eol]);
@@ -360,16 +357,16 @@ function res = save_as_xml(test_suites, xmlFileDestination)
             fprintf(fp, ['    </testcase>', eol]);
           else
             if strcmp(tc.status, 'Fail') == true
-                fprintf(fp, ['    <testcase name="', tc.name, '" time="', mat2str(tc.time, 2), '" classname="', tc.classname, '">', eol]);
-                if isstruct(tc.msg)
-                  msg = tc.msg.message;
-                else
-                  msg = tc.msg;
-                end
-                if length(msg) > 0
-                  fprintf(fp, ['      <error type="error" message="', _('test failed'), '">', '<![CDATA[', msg, ']]>', '</error>', eol]);
-                end
-                fprintf(fp, ['    </testcase>', eol]);
+              fprintf(fp, ['    <testcase name="', tc.name, '" time="', mat2str(tc.time, 2), '" classname="', tc.classname, '">', eol]);
+              if isstruct(tc.msg)
+                msg = tc.msg.message;
+              else
+                msg = tc.msg;
+              end
+              if length(msg) > 0
+                fprintf(fp, ['      <error type="error" message="', _('test failed'), '">', '<![CDATA[', msg, ']]>', '</error>', eol]);
+              end
+              fprintf(fp, ['    </testcase>', eol]);
             else
               if strcmp(tc.status, 'Skip') == true | strcmp(tc.status, 'Interactive') == true | strcmp(tc.status, 'No display') == true
                 fprintf(fp, ['    <testcase name="', tc.name, '" time="', mat2str(tc.time, 2), '" classname="', tc.classname, '"/>', eol]);
@@ -445,10 +442,10 @@ endfunction
 function test_case_res = run_test_case(test, module_name, index, indexMax, nbTestCasesMax)
   test_case_res = test;
   is_bench = test.isbench;
-
+  
   startChars = [' ', uniformizeNumbers(index, nbTestCasesMax), '/', uniformizeNumbers(indexMax, nbTestCasesMax),' - [', module_name, '] ', test_case_res.name];
   fprintf(stdout, startChars);
-
+  
   if (test_case_res.options.excel_required & ~have_excel())
     test_case_res.status = 'Skip';
     test_case_res.time = 0.;
@@ -472,28 +469,28 @@ function test_case_res = run_test_case(test, module_name, index, indexMax, nbTes
             is_all_platforms =  ~test_case_res.options.windows_only & ~test_case_res.options.mac_only & ~test_case_res.options.unix_only;
             is_current_platform = (ispc() & test_case_res.options.windows_only) | (ismac() & test_case_res.options.mac_only) | (isunix() & ~ismac() & test_case_res.options.unix_only);
             if (is_all_platforms | is_current_platform)
-
+              
               testfile = test.filename;
               [p, f, e] = fileparts(testfile);
-
+              
               outputfile = [tempdir(), '/' , f, '.output'];
               r = rmfile(outputfile);
-
+              
               redirect_err = [tempdir(), '/' , f, '.err'];
               r = rmfile(redirect_err);
-
+              
               if is_bench
                 timeout = int2str(500);
               else
                 timeout = int2str(50);
               end
-
+              
               cmd = '';
-
+              
               if test_case_res.options.english_imposed
                 cmd = [' --language', ' ', 'en_US'];
               end
-              cmd_to_execute = ['"[test_res, test_msg, test_timing] = test_runfile(''',  testfile, ''');savebin(''', outputfile, ''', ''test_res'', ''test_msg'', ''test_timing''); exit(double(test_res));"'];
+              cmd_to_execute = ['"[test_res, test_msg, test_timing] = test_runfile(''',  testfile, ''',', int2str(test_case_res.options.mpi_mode), ');savebin(''', outputfile, ''', ''test_res'', ''test_msg'', ''test_timing''); exit(double(test_res));"'];
               redirect_to_file = [' 2>&1 "' , redirect_err, '"'];
               cmd = [cmd, ' --quiet', ' ', '--timeout', ' ', timeout, ' ', '--execute', ' ', cmd_to_execute, ' ', redirect_to_file];
               if test_case_res.options.cli_mode
@@ -509,40 +506,45 @@ function test_case_res = run_test_case(test, module_name, index, indexMax, nbTes
                   end
                 end
               end
-
+              
               test_case_res.msg = msg;
-              if res ~= 1
-                if test_case_res.options.mpi_mode
-                  test_case_res.status = 'Pass';
-                  test_timing = 0;
-                else
-                  test_case_res.status = 'Fail';
-                  test_timing = 0;
-                end
-                if isfile(outputfile)
-                  loadbin(outputfile);
-                  test_case_res.msg = test_msg;
-                end
+              if test_case_res.options.mpi_mode
+                 if res == 1
+                   test_case_res.status = 'Pass';
+                   test_timing = 0;
+                 else
+                   test_case_res.status = 'Fail';
+                   test_timing = 0;
+                 end
               else
-                if isfile(outputfile)
-                  loadbin(outputfile);
-                  r = rmfile(outputfile);
-                  if (test_res)
-                    if is_bench
-                      test_case_res.status = [mat2str(test_timing, 2), ' ms'];
-                    else
-                      test_case_res.status = 'Pass';
-                    end
-                    test_case_res.time = test_timing;
-                  end
-                  // delete error redirection if test is OK
-                  // no need to conserve in this case
-                  if isfile(redirect_err)
-                    r = rmfile(redirect_err);
+                if res ~= 1
+                  test_case_res.status = 'Fail';
+                  test_timing = 0;
+                  if isfile(outputfile)
+                    loadbin(outputfile);
+                    test_case_res.msg = test_msg;
                   end
                 else
-                  test_case_res.status = 'Fail';
-                  test_case_res.time = 0;
+                  if isfile(outputfile)
+                    loadbin(outputfile);
+                    r = rmfile(outputfile);
+                    if (test_res)
+                      if is_bench
+                        test_case_res.status = [mat2str(test_timing, 2), ' ms'];
+                      else
+                        test_case_res.status = 'Pass';
+                      end
+                      test_case_res.time = test_timing;
+                    end
+                    // delete error redirection if test is OK
+                    // no need to conserve in this case
+                    if isfile(redirect_err)
+                      r = rmfile(redirect_err);
+                    end
+                  else
+                    test_case_res.status = 'Fail';
+                    test_case_res.time = 0;
+                  end
                 end
               end
             else
@@ -554,11 +556,11 @@ function test_case_res = run_test_case(test, module_name, index, indexMax, nbTes
       end
     end
   end
-
+  
   nbCharsStart = length(startChars);
   nb_spaces = 80 - nbCharsStart - length(test_case_res.status);
   fprintf(stdout, [char(ones(1, nb_spaces) * double(' ')), test_case_res.status, char(10)]);
-
+  
   if strcmp(test_case_res.status, 'Fail') == true
     disp(['    run(''', test.filename, ''')']);
     if strcmp(test_case_res.msg, '') == false
@@ -583,7 +585,7 @@ function test_case = create_test_case(filename)
   test_case.filename = filename;
   test_case.options = test_parsetags(filename);
   test_case.msg = '';
-
+  
   [p, f, e] = fileparts(filename);
   test_case.name = f;
   test_case.classname = '';
@@ -682,7 +684,7 @@ function t = timestamp()
   if length(sec_str) == 1
     sec_str = ['0', sec_str];
   end
-
+  
   t = [year_str, '-', month_str, '-', day_str, 'T', hour_str, ':', min_str, ':', sec_str];
 endfunction
 //=============================================================================

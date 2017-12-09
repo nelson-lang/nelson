@@ -16,13 +16,10 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-// <--MPI MODE-->
-//=============================================================================
 [v1, v2] = MPI_Get_version();
 assert_istrue(isscalar(v1));
 assert_istrue(isscalar(v2));
 assert_istrue(isdouble(v1));
 assert_istrue(isdouble(v1));
 assert_istrue(v1 > 0);
-
 //=============================================================================
