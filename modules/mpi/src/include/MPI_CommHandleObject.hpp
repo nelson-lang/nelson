@@ -22,6 +22,7 @@
 #include <mpi.h>
 #include "HandleGenericObject.hpp"
 #include "nlsMpi_exports.h"
+#include "ArrayOf.hpp"
 //=============================================================================
 #define MPI_COMM_CATEGORY_STR L"MPI_Comm"
 //=============================================================================
@@ -52,6 +53,9 @@ namespace Nelson {
         MPI_CommHandleObject(void *commPtr);
         ~MPI_CommHandleObject();
     };
+    //=============================================================================
+    NLSMPI_IMPEXP MPI_Comm HandleToMpiComm(ArrayOf A);
+    NLSMPI_IMPEXP ArrayOf MpiCommToHandle(MPI_Comm mpicomm, std::wstring description);
     //=============================================================================
 }
 //=============================================================================

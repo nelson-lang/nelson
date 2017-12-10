@@ -19,6 +19,7 @@
 #include <mpi.h>
 #include "MPI_Comm_sizeBuiltin.hpp"
 #include "Error.hpp"
+#include "MPI_CommHandleObject.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -29,12 +30,16 @@ ArrayOfVector Nelson::MpiGateway::MPI_Comm_sizeBuiltin(Evaluator* eval, int nLhs
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
+    MPI_Comm comm = MPI_COMM_WORLD;
+    if (argIn.size() == 1)
+    {
+        comm = HandleToMpiComm(argIn[0]);
+    }
     if (nLhs > 1)
     {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     int comm_size;
-    MPI_Comm comm = MPI_COMM_WORLD;
     MPI_Comm_size(comm, &comm_size);
     retval.push_back(ArrayOf::doubleConstructor(comm_size));
     return retval;

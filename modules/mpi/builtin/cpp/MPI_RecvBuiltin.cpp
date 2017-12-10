@@ -20,6 +20,8 @@
 #include "Error.hpp"
 #include "MPI_RecvBuiltin.hpp"
 #include "MPI_helpers.hpp"
+#include "HandleManager.hpp"
+#include "MPI_CommHandleObject.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -44,13 +46,12 @@ ArrayOfVector Nelson::MpiGateway::MPI_RecvBuiltin(Evaluator* eval, int nLhs, con
     int source = tmp.getContentAsInteger32Scalar();
     tmp = argIn[1];
     int tag = tmp.getContentAsInteger32Scalar();
+    MPI_Comm comm = MPI_COMM_WORLD;
     if (argIn.size() > 2)
     {
+        ArrayOf param3 = argIn[2];
+        comm = HandleToMpiComm(param3);
     }
-    else
-    {
-    }
-    MPI_Comm comm = MPI_COMM_WORLD;
     int msgsize = 0;
     MPI_Status status;
     MPI_Recv(&msgsize, 1, MPI_INT, source, tag, comm, &status);
@@ -60,16 +61,14 @@ ArrayOfVector Nelson::MpiGateway::MPI_RecvBuiltin(Evaluator* eval, int nLhs, con
     ArrayOf A(unpackMPI(cp, msgsize, &packpos, comm));
     free(cp);
     retval.push_back(A);
-    /*
-    	if (nLhs > 1)
-    	{
-    		retval.push_back(ArrayOf::int32Constructor(status.MPI_SOURCE));
-    	}
-    	if (nLhs > 2)
-    	{
-    		retval.push_back(ArrayOf::int32Constructor(status.MPI_TAG));
-    	}
-    	*/
+    if (nLhs > 1)
+    {
+        retval.push_back(ArrayOf::int32Constructor(status.MPI_SOURCE));
+    }
+    if (nLhs > 2)
+    {
+        retval.push_back(ArrayOf::int32Constructor(status.MPI_TAG));
+    }
     return retval;
 }
 //=============================================================================

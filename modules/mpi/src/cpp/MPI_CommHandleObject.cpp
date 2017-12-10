@@ -17,6 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "MPI_CommHandleObject.hpp"
+#include "HandleManager.hpp"
 //=============================================================================
 namespace Nelson {
     //=============================================================================
@@ -26,6 +27,45 @@ namespace Nelson {
     //=============================================================================
     MPI_CommHandleObject::~MPI_CommHandleObject()
     {
+    }
+    //=============================================================================
+    MPI_Comm HandleToMpiComm(ArrayOf A)
+    {
+        MPI_Comm commReturned = MPI_COMM_NULL;
+        if (A.isHandle())
+        {
+            if (!A.isScalar())
+            {
+                throw Exception(ERROR_SIZE_SCALAR_EXPECTED);
+            }
+            nelson_handle *qp = (nelson_handle*)A.getDataPointer();
+            if (qp == nullptr)
+            {
+                throw Exception(_W("MPI_Comm valid handle expected."));
+            }
+            nelson_handle hl = qp[0];
+            HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
+            if (hlObj == nullptr)
+            {
+                throw Exception(_W("MPI_Comm valid handle expected."));
+            }
+            if (hlObj->getCategory() != MPI_COMM_CATEGORY_STR)
+            {
+                throw Exception(_W("MPI_Comm handle expected."));
+            }
+            MPI_CommObject *mpicommhandleobj = (MPI_CommObject *)hlObj;
+            commReturned = mpicommhandleobj->getComm();
+        }
+        else
+        {
+            throw Exception(_W("MPI_Comm handle expected."));
+        }
+        return commReturned;
+    }
+    //=============================================================================
+    ArrayOf MpiCommToHandle(MPI_Comm mpicomm, std::wstring description)
+    {
+        return ArrayOf::handleConstructor(new MPI_CommHandleObject(new MPI_CommObject(description, MPI_COMM_WORLD)));
     }
     //=============================================================================
 }

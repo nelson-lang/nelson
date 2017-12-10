@@ -20,6 +20,7 @@
 #include "Error.hpp"
 #include "MPI_SendBuiltin.hpp"
 #include "MPI_helpers.hpp"
+#include "MPI_CommHandleObject.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -45,14 +46,11 @@ ArrayOfVector Nelson::MpiGateway::MPI_SendBuiltin(Evaluator* eval, int nLhs, con
     int dest = tmp.getContentAsInteger32Scalar();
     tmp = argIn[2];
     int tag = tmp.getContentAsInteger32Scalar();
+    MPI_Comm comm = MPI_COMM_WORLD;
     if (argIn.size() > 3)
     {
-        tmp = argIn[3];
+        comm = HandleToMpiComm(argIn[3]);
     }
-    else
-    {
-    }
-    MPI_Comm comm = MPI_COMM_WORLD;
     int Asize = getArrayOfFootPrint(A, comm);
     int bufsize = Asize;
     void *cp = malloc(Asize);

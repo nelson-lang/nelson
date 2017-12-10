@@ -19,6 +19,7 @@
 #include <mpi.h>
 #include "MPI_Comm_rankBuiltin.hpp"
 #include "Error.hpp"
+#include "MPI_CommHandleObject.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -29,12 +30,17 @@ ArrayOfVector Nelson::MpiGateway::MPI_Comm_rankBuiltin(Evaluator* eval, int nLhs
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
+    MPI_Comm comm = MPI_COMM_WORLD;
+    if (argIn.size() == 1)
+    {
+        comm = HandleToMpiComm(argIn[0]);
+    }
     if (nLhs > 1)
     {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     int comm_rank = 0;
-    MPI_Comm_rank(MPI_COMM_WORLD, &comm_rank);
+    MPI_Comm_rank(comm, &comm_rank);
     retval.push_back(ArrayOf::doubleConstructor(comm_rank));
     return retval;
 }
