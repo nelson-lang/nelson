@@ -25,28 +25,28 @@ using namespace Nelson;
 //=============================================================================
 ArrayOfVector Nelson::MpiGateway::MPI_BarrierBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-	ArrayOfVector retval;
-	if (argIn.size() > 1)
-	{
-		Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-	}
-	int flagInit = 0;
-	MPI_Initialized(&flagInit);
-	if (!flagInit)
-	{
-		Error(eval, _W("MPI must be initialized."));
-	}
-	MPI_Comm comm = MPI_COMM_WORLD;
-	if (argIn.size() == 1)
-	{
-		comm = HandleToMpiComm(argIn[0]);
-	}
-	if (nLhs > 1)
-	{
-		Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-	}
-	int info = MPI_Barrier(comm);
-	retval.push_back(ArrayOf::doubleConstructor((double)info));
-	return retval;
+    ArrayOfVector retval;
+    if (argIn.size() > 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    int flagInit = 0;
+    MPI_Initialized(&flagInit);
+    if (!flagInit)
+    {
+        Error(eval, _W("MPI must be initialized."));
+    }
+    MPI_Comm comm = MPI_COMM_WORLD;
+    if (argIn.size() == 1)
+    {
+        comm = HandleToMpiComm(argIn[0]);
+    }
+    if (nLhs > 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    int info = MPI_Barrier(comm);
+    retval.push_back(ArrayOf::doubleConstructor((double)info));
+    return retval;
 }
 //=============================================================================
