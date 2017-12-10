@@ -135,10 +135,10 @@ namespace Nelson {
                     MPI_Pack((void *)A.getDataPointer(), (int)A.getLength(), MPI_INT8_T, buffer, bufsize, packpos, comm);
                     break;
                 case NLS_UINT16:
-                    MPI_Pack((void *)A.getDataPointer(), (int)A.getLength(), MPI_UINT16_T, buffer, bufsize, packpos, comm);
+                    MPI_Pack((void *)A.getDataPointer(), (int)A.getLength(), MPI_UNSIGNED_SHORT, buffer, bufsize, packpos, comm);
                     break;
                 case NLS_INT16:
-                    MPI_Pack((void *)A.getDataPointer(), (int)A.getLength(), MPI_INT16_T, buffer, bufsize, packpos, comm);
+                    MPI_Pack((void *)A.getDataPointer(), (int)A.getLength(), MPI_SHORT, buffer, bufsize, packpos, comm);
                     break;
                 case NLS_UINT32:
                     MPI_Pack((void *)A.getDataPointer(), (int)A.getLength(), MPI_UINT32_T, buffer, bufsize, packpos, comm);
@@ -281,11 +281,11 @@ namespace Nelson {
                 break;
             case NLS_UINT16:
                 cp = ArrayOf::allocateArrayOf(NLS_UINT16, outDim.getElementCount());
-                MPI_Unpack(buffer, bufsize, packpos, cp, (int)outDim.getElementCount(), MPI_UINT8_T, comm);
+                MPI_Unpack(buffer, bufsize, packpos, cp, (int)outDim.getElementCount(), MPI_UNSIGNED_SHORT, comm);
                 break;
             case NLS_INT16:
                 cp = ArrayOf::allocateArrayOf(NLS_INT16, outDim.getElementCount());
-                MPI_Unpack(buffer, bufsize, packpos, cp, (int)outDim.getElementCount(), MPI_INT8_T, comm);
+                MPI_Unpack(buffer, bufsize, packpos, cp, (int)outDim.getElementCount(), MPI_SHORT, comm);
                 break;
             case NLS_UINT32:
                 cp = ArrayOf::allocateArrayOf(NLS_UINT32, outDim.getElementCount());
@@ -424,9 +424,9 @@ namespace Nelson {
             case NLS_INT8:
                 return(overhead + getCanonicalSize((int)A.getLength(), MPI_INT8_T, comm));
             case NLS_UINT16:
-                return(overhead + getCanonicalSize((int)A.getLength(), MPI_UINT16_T, comm));
+                return(overhead + getCanonicalSize((int)A.getLength(), MPI_UNSIGNED_SHORT, comm));
             case NLS_INT16:
-                return(overhead + getCanonicalSize((int)A.getLength(), MPI_INT16_T, comm));
+                return(overhead + getCanonicalSize((int)A.getLength(), MPI_SHORT, comm));
             case NLS_UINT32:
                 return(overhead + getCanonicalSize((int)A.getLength(), MPI_UINT32_T, comm));
             case NLS_INT32:
