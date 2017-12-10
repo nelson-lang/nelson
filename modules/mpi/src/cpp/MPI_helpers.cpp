@@ -22,6 +22,10 @@
 #include "SparseToIJV.hpp"
 #include "MPI_helpers.hpp"
 #include "Error.hpp"
+#include "StringToFunctionHandle.hpp"
+#include "GetNelsonMainEvaluatorDynamicFunction.hpp"
+#include "PathFuncManager.hpp"
+#include "BuiltInFunctionDefManager.hpp"
 //=============================================================================
 namespace Nelson {
     //=============================================================================
@@ -100,10 +104,28 @@ namespace Nelson {
                     MPI_Pack(&flen, 1, MPI_INT, buffer, bufsize, packpos, comm);
                     MPI_Pack((void*)fieldnames[i].c_str(), flen, MPI_CHAR, buffer, bufsize, packpos, comm);
                 }
-                ArrayOf *dp = (ArrayOf *)A.getDataPointer();
-                for (int i = 0; i < A.getLength()*fieldcnt; i++)
+                if (A.isFunctionHandle())
                 {
-                    packMPI(dp[i], buffer, bufsize, packpos, comm);
+                    function_handle fh = A.getContentAsFunctionHandle();
+                    std::wstring functionname;
+                    bool found = PathFuncManager::getInstance()->find(fh, functionname);
+                    if (!found)
+                    {
+                        found = BuiltInFunctionDefManager::getInstance()->find(fh, functionname);
+                    }
+                    if (found)
+                    {
+                        ArrayOf nameAsArray = ArrayOf::stringConstructor(functionname);
+                        packMPI(nameAsArray, buffer, bufsize, packpos, comm);
+                    }
+                }
+                else
+                {
+                    ArrayOf *dp = (ArrayOf *)A.getDataPointer();
+                    for (int i = 0; i < A.getLength()*fieldcnt; i++)
+                    {
+                        packMPI(dp[i], buffer, bufsize, packpos, comm);
+                    }
                 }
             }
         }
@@ -214,7 +236,7 @@ namespace Nelson {
         int dimlength = 0;
         MPI_Unpack(buffer, bufsize, packpos, &dimlength, 1, MPI_INT, comm);
         Dimensions outDim;
-        for (int j = 0; j<dimlength; j++)
+        for (int j = 0; j < dimlength; j++)
         {
             int tmp = 0;
             MPI_Unpack(buffer, bufsize, packpos, &tmp, 1, MPI_INT, comm);
@@ -234,7 +256,7 @@ namespace Nelson {
             int fieldcnt = 0;
             MPI_Unpack(buffer, bufsize, packpos, &fieldcnt, 1, MPI_INT, comm);
             stringVector fieldnames;
-            for (int j = 0; j<fieldcnt; j++)
+            for (int j = 0; j < fieldcnt; j++)
             {
                 int fieldnamelength;
                 MPI_Unpack(buffer, bufsize, packpos, &fieldnamelength, 1, MPI_INT, comm);
@@ -244,12 +266,41 @@ namespace Nelson {
                 fieldnames.push_back(std::string(dbuff));
                 delete [] dbuff;
             }
-            ArrayOf *dp = new ArrayOf[fieldcnt*outDim.getElementCount()];
-            for (int i = 0; i < fieldcnt*outDim.getElementCount(); i++)
+            if (fieldnames.size() == 1 && fieldnames[0] == NLS_FUNCTION_HANDLE_STR)
             {
-                dp[i] = unpackMPI(buffer, bufsize, packpos, comm);
+                ArrayOf functionNameAsArray = unpackMPI(buffer, bufsize, packpos, comm);
+                if (functionNameAsArray.isSingleString())
+                {
+                    std::wstring functionName = functionNameAsArray.getContentAsWideString();
+                    Evaluator *eval = (Evaluator *)GetNelsonMainEvaluatorDynamicFunction();
+                    if (eval)
+                    {
+                        function_handle fptr = StringToFunctionHandle(eval, functionName);
+                        if (fptr == 0)
+                        {
+                            throw Exception(_W("A valid function name expected."));
+                        }
+                        return ArrayOf::functionHandleConstructor(functionName, fptr);
+                    }
+                    else
+                    {
+                        throw Exception(_W("Invalid evaluator."));
+                    }
+                }
+                else
+                {
+                    throw Exception(_W("String expected."));
+                }
             }
-            return ArrayOf(NLS_STRUCT_ARRAY, outDim, dp, false, fieldnames);
+            else
+            {
+                ArrayOf *dp = new ArrayOf[fieldcnt*outDim.getElementCount()];
+                for (int i = 0; i < fieldcnt*outDim.getElementCount(); i++)
+                {
+                    dp[i] = unpackMPI(buffer, bufsize, packpos, comm);
+                }
+                return ArrayOf(NLS_STRUCT_ARRAY, outDim, dp, false, fieldnames);
+            }
         }
         void *cp = nullptr;
         switch (dataClass)
@@ -405,16 +456,16 @@ namespace Nelson {
             case NLS_LOGICAL:
                 if (A.isSparse())
                 {
-					ArrayOf I, J, V, M, N, NNZ;
-					SparseToIJV(A, I, J, V, M, N, NNZ);
-					int sI = getArrayOfFootPrint(I, comm);
-					int sJ = getArrayOfFootPrint(J, comm);
-					int sV = getArrayOfFootPrint(V, comm);
-					int sM = getArrayOfFootPrint(M, comm);
-					int sN = getArrayOfFootPrint(N, comm);
-					int sNNZ = getArrayOfFootPrint(NNZ, comm);
-					return(overhead + sI + sJ + sV + sM + sN + sNNZ);
-				}
+                    ArrayOf I, J, V, M, N, NNZ;
+                    SparseToIJV(A, I, J, V, M, N, NNZ);
+                    int sI = getArrayOfFootPrint(I, comm);
+                    int sJ = getArrayOfFootPrint(J, comm);
+                    int sV = getArrayOfFootPrint(V, comm);
+                    int sM = getArrayOfFootPrint(M, comm);
+                    int sN = getArrayOfFootPrint(N, comm);
+                    int sNNZ = getArrayOfFootPrint(NNZ, comm);
+                    return(overhead + sI + sJ + sV + sM + sN + sNNZ);
+                }
                 else
                 {
                     return(overhead + getCanonicalSize((int)A.getLength(), MPI_UINT8_T, comm));
@@ -459,16 +510,16 @@ namespace Nelson {
             case NLS_DCOMPLEX:
                 if (A.isSparse())
                 {
-					ArrayOf I, J, V, M, N, NNZ;
-					SparseToIJV(A, I, J, V, M, N, NNZ);
-					int sI = getArrayOfFootPrint(I, comm);
-					int sJ = getArrayOfFootPrint(J, comm);
-					int sV = getArrayOfFootPrint(V, comm);
-					int sM = getArrayOfFootPrint(M, comm);
-					int sN = getArrayOfFootPrint(N, comm);
-					int sNNZ = getArrayOfFootPrint(NNZ, comm);
-					return(overhead + sI + sJ + sV + sM + sN + sNNZ);
-				}
+                    ArrayOf I, J, V, M, N, NNZ;
+                    SparseToIJV(A, I, J, V, M, N, NNZ);
+                    int sI = getArrayOfFootPrint(I, comm);
+                    int sJ = getArrayOfFootPrint(J, comm);
+                    int sV = getArrayOfFootPrint(V, comm);
+                    int sM = getArrayOfFootPrint(M, comm);
+                    int sN = getArrayOfFootPrint(N, comm);
+                    int sNNZ = getArrayOfFootPrint(NNZ, comm);
+                    return(overhead + sI + sJ + sV + sM + sN + sNNZ);
+                }
                 else
                 {
                     return(overhead + getCanonicalSize((int)A.getLength() * 2, MPI_DOUBLE, comm));

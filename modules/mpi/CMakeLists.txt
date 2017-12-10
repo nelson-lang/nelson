@@ -30,6 +30,8 @@ ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../sparse/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../function_handle/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../dynamic_link/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../files_folders_functions/src/include
 ${MPI_INCLUDE_PATH}
 )
@@ -53,6 +55,7 @@ nlsTypes
 nlsI18n
 nlsCore
 nlsSparse
+nlsFunction_handle
 nlsFiles_folders_functions
 ${BOOST_LIBRARY}
 ${MPI_C_LIBRARIES})
