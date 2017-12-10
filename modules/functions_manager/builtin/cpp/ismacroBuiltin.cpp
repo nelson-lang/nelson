@@ -36,8 +36,8 @@ ArrayOfVector Nelson::FunctionsGateway::ismacroBuiltin(Evaluator* eval, int nLhs
     }
     ArrayOf param1 = argIn[0];
     std::wstring name = param1.getContentAsWideString();
-	wstringVector filenames;
-	bool res = PathFuncManager::getInstance()->find(name, filenames);
+    wstringVector filenames;
+    bool res = PathFuncManager::getInstance()->find(name, filenames);
     retval.push_back(ArrayOf::logicalConstructor(res));
     return retval;
 }
