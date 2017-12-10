@@ -210,6 +210,7 @@
     <ClInclude Include="..\include\MPI_BarrierBuiltin.hpp" />
     <ClInclude Include="..\include\MPI_BcastBuiltin.hpp" />
     <ClInclude Include="..\include\MPI_Comm_dispBuiltin.hpp" />
+    <ClInclude Include="..\include\MPI_Comm_get_parentBuiltin.hpp" />
     <ClInclude Include="..\include\MPI_Comm_objectBuiltin.hpp" />
     <ClInclude Include="..\include\MPI_Comm_rankBuiltin.hpp" />
     <ClInclude Include="..\include\MPI_Comm_sizeBuiltin.hpp" />
@@ -227,6 +228,7 @@
     <ClCompile Include="..\cpp\MPI_BarrierBuiltin.cpp" />
     <ClCompile Include="..\cpp\MPI_BcastBuiltin.cpp" />
     <ClCompile Include="..\cpp\MPI_Comm_dispBuiltin.cpp" />
+    <ClCompile Include="..\cpp\MPI_Comm_get_parentBuiltin.cpp" />
     <ClCompile Include="..\cpp\MPI_Comm_objectBuiltin.cpp" />
     <ClCompile Include="..\cpp\MPI_Comm_rankBuiltin.cpp" />
     <ClCompile Include="..\cpp\MPI_Comm_sizeBuiltin.cpp" />

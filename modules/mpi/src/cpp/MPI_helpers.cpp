@@ -17,7 +17,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <mpi.h>
-#include <boost/container/vector.hpp>
 #include "SparseConstructors.hpp"
 #include "SparseToIJV.hpp"
 #include "MPI_helpers.hpp"
@@ -26,6 +25,8 @@
 #include "GetNelsonMainEvaluatorDynamicFunction.hpp"
 #include "PathFuncManager.hpp"
 #include "BuiltInFunctionDefManager.hpp"
+#include "HandleManager.hpp"
+#include "MPI_CommHandleObject.hpp"
 //=============================================================================
 namespace Nelson {
     //=============================================================================
