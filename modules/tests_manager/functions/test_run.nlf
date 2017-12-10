@@ -490,7 +490,11 @@ function test_case_res = run_test_case(test, module_name, index, indexMax, nbTes
               if test_case_res.options.english_imposed
                 cmd = [' --language', ' ', 'en_US'];
               end
-              cmd_to_execute = ['"[test_res, test_msg, test_timing] = test_runfile(''',  testfile, ''',', int2str(test_case_res.options.mpi_mode), ');savebin(''', outputfile, ''', ''test_res'', ''test_msg'', ''test_timing''); exit(double(test_res));"'];
+              if test_case_res.options.mpi_mode
+                cmd_to_execute = ['"[test_res, test_msg, test_timing] = test_runfile(''',  testfile, ''',', int2str(test_case_res.options.mpi_mode), ');savebin(''', outputfile, ''', ''test_res'', ''test_msg'', ''test_timing''); exit();"'];
+              else
+                cmd_to_execute = ['"[test_res, test_msg, test_timing] = test_runfile(''',  testfile, ''',', int2str(test_case_res.options.mpi_mode), ');savebin(''', outputfile, ''', ''test_res'', ''test_msg'', ''test_timing''); exit(double(test_res));"'];
+              end
               redirect_to_file = [' 2>&1 "' , redirect_err, '"'];
               cmd = [cmd, ' --quiet', ' ', '--timeout', ' ', timeout, ' ', '--execute', ' ', cmd_to_execute, ' ', redirect_to_file];
               if test_case_res.options.cli_mode
@@ -509,13 +513,21 @@ function test_case_res = run_test_case(test, module_name, index, indexMax, nbTes
               
               test_case_res.msg = msg;
               if test_case_res.options.mpi_mode
-                 if res == 1
-                   test_case_res.status = 'Pass';
-                   test_timing = 0;
-                 else
-                   test_case_res.status = 'Fail';
-                   test_timing = 0;
-                 end
+                  if isfile(outputfile)
+                    loadbin(outputfile);
+                    res = test_res;
+                    test_case_res.msg = test_msg;
+                    if res == 1
+                      test_case_res.status = 'Pass';
+                      test_timing = 0;
+                    else
+                      test_case_res.status = 'Fail';
+                     test_timing = 0;
+                    end
+                  else
+                    test_case_res.status = 'Fail';
+                    test_timing = 0;
+                  end
               else
                 if res ~= 1
                   test_case_res.status = 'Fail';
@@ -691,11 +703,7 @@ endfunction
 function pc = prefixCommand(withMPI)
   pc = '';
   if withMPI
-    if ispc()
-      pc = ['mpiexec -n 2 '];
-    else
-      pc = '';
-    end
+    pc = ['mpiexec -n 2 '];
   end
 endfunction
 //=============================================================================
