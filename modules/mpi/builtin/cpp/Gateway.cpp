@@ -29,6 +29,7 @@
 #include "MPI_RecvBuiltin.hpp"
 #include "MPI_Comm_rankBuiltin.hpp"
 #include "MPI_Comm_sizeBuiltin.hpp"
+#include "MPI_BarrierBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -48,6 +49,7 @@ static const nlsGateway gateway[] =
     { "MPI_Send", Nelson::MpiGateway::MPI_SendBuiltin, 1, 3 },
     { "MPI_Comm_rank", Nelson::MpiGateway::MPI_Comm_rankBuiltin, 1, 1 },
     { "MPI_Comm_size", Nelson::MpiGateway::MPI_Comm_sizeBuiltin, 1, 1 },
+	{ "MPI_Barrier", Nelson::MpiGateway::MPI_BarrierBuiltin, 1, 1 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)
