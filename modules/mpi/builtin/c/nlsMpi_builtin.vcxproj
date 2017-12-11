@@ -207,6 +207,7 @@
     <ResourceCompile Include="resources.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\MPI_AllreduceBuiltin.hpp" />
     <ClInclude Include="..\include\MPI_BarrierBuiltin.hpp" />
     <ClInclude Include="..\include\MPI_BcastBuiltin.hpp" />
     <ClInclude Include="..\include\MPI_Comm_dispBuiltin.hpp" />
@@ -226,6 +227,7 @@
     <ClInclude Include="..\include\nlsMpi_builtin_exports.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\cpp\MPI_AllreduceBuiltin.cpp" />
     <ClCompile Include="..\cpp\MPI_BarrierBuiltin.cpp" />
     <ClCompile Include="..\cpp\MPI_BcastBuiltin.cpp" />
     <ClCompile Include="..\cpp\MPI_Comm_dispBuiltin.cpp" />

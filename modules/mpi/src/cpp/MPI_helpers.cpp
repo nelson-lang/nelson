@@ -577,5 +577,55 @@ namespace Nelson {
         return returnedString;
     }
     //=============================================================================
+    MPI_Op stringToMpiOp(std::wstring op_str)
+    {
+        MPI_Op mpi_op = MPI_OP_NULL;
+        if (op_str == L"MPI_SUM")
+        {
+            return MPI_SUM;
+        }
+        if (op_str == L"MPI_MAX")
+        {
+            return MPI_MAX;
+        }
+        if (op_str == L"MPI_MIN")
+        {
+            return MPI_MIN;
+        }
+        if (op_str == L"MPI_SUM")
+        {
+            return MPI_SUM;
+        }
+        if (op_str == L"MPI_PROD")
+        {
+            return MPI_PROD;
+        }
+        if (op_str == L"MPI_LAND")
+        {
+            return MPI_LAND;
+        }
+        if (op_str == L"MPI_LOR")
+        {
+            return MPI_LOR;
+        }
+        if (op_str == L"MPI_BAND")
+        {
+            return MPI_BAND;
+        }
+        if (op_str == L"MPI_BOR")
+        {
+            return MPI_BOR;
+        }
+        if (op_str == L"MPI_LXOR")
+        {
+            return MPI_LXOR;
+        }
+        if (op_str == L"MPI_BXOR")
+        {
+            return MPI_BXOR;
+        }
+        return mpi_op;
+    }
+    //=============================================================================
 }
 //=============================================================================

@@ -17,19 +17,19 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <mpi.h>
-#include "MPI_ReduceBuiltin.hpp"
+#include "MPI_AllreduceBuiltin.hpp"
 #include "Error.hpp"
 #include "MPI_CommHandleObject.hpp"
 #include "MPI_helpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-// x = MPI_Reduce(A, operation, root, comm)
+// x = MPI_Allreduce(A, operation, comm)
 //=============================================================================
-ArrayOfVector Nelson::MpiGateway::MPI_ReduceBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector Nelson::MpiGateway::MPI_AllreduceBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if ((argIn.size() < 3) || (argIn.size() > 4))
+    if ((argIn.size() < 2) || (argIn.size() > 3))
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
@@ -55,12 +55,10 @@ ArrayOfVector Nelson::MpiGateway::MPI_ReduceBuiltin(Evaluator* eval, int nLhs, c
     {
         Error(eval, _W("Unsupported operator type."));
     }
-    ArrayOf Root = argIn[2];
-    int rootID = Root.getContentAsInteger32Scalar();
     MPI_Comm comm = MPI_COMM_WORLD;
-    if (argIn.size() > 3)
+    if (argIn.size() > 2)
     {
-        comm = HandleToMpiComm(argIn[3]);
+        comm = HandleToMpiComm(argIn[2]);
     }
     ArrayOf dest = A;
     dest.ensureSingleOwner();
@@ -68,43 +66,43 @@ ArrayOfVector Nelson::MpiGateway::MPI_ReduceBuiltin(Evaluator* eval, int nLhs, c
     switch (dataClass)
     {
         case NLS_LOGICAL:
-            MPI_Reduce((void*)A.getDataPointer(), dest.getReadWriteDataPointer(), (int)A.getLength(), MPI_UINT8_T, mpi_op, rootID, comm);
+            MPI_Allreduce((void*)A.getDataPointer(), dest.getReadWriteDataPointer(), (int)A.getLength(), MPI_UINT8_T, mpi_op, comm);
             break;
         case NLS_UINT8:
-            MPI_Reduce((void*)A.getDataPointer(), dest.getReadWriteDataPointer(), (int)A.getLength(), MPI_UINT8_T, mpi_op, rootID, comm);
+            MPI_Allreduce((void*)A.getDataPointer(), dest.getReadWriteDataPointer(), (int)A.getLength(), MPI_UINT8_T, mpi_op, comm);
             break;
         case NLS_INT8:
-            MPI_Reduce((void*)A.getDataPointer(), dest.getReadWriteDataPointer(), (int)A.getLength(), MPI_INT8_T, mpi_op, rootID, comm);
+            MPI_Allreduce((void*)A.getDataPointer(), dest.getReadWriteDataPointer(), (int)A.getLength(), MPI_INT8_T, mpi_op, comm);
             break;
         case NLS_UINT16:
-            MPI_Reduce((void*)A.getDataPointer(), dest.getReadWriteDataPointer(), (int)A.getLength(), MPI_UNSIGNED_SHORT, mpi_op, rootID, comm);
+            MPI_Allreduce((void*)A.getDataPointer(), dest.getReadWriteDataPointer(), (int)A.getLength(), MPI_UNSIGNED_SHORT, mpi_op, comm);
             break;
         case NLS_INT16:
-            MPI_Reduce((void*)A.getDataPointer(), dest.getReadWriteDataPointer(), (int)A.getLength(), MPI_SHORT, mpi_op, rootID, comm);
+            MPI_Allreduce((void*)A.getDataPointer(), dest.getReadWriteDataPointer(), (int)A.getLength(), MPI_SHORT, mpi_op, comm);
             break;
         case NLS_UINT32:
-            MPI_Reduce((void*)A.getDataPointer(), dest.getReadWriteDataPointer(), (int)A.getLength(), MPI_UINT32_T, mpi_op, rootID, comm);
+            MPI_Allreduce((void*)A.getDataPointer(), dest.getReadWriteDataPointer(), (int)A.getLength(), MPI_UINT32_T, mpi_op, comm);
             break;
         case NLS_INT32:
-            MPI_Reduce((void*)A.getDataPointer(), dest.getReadWriteDataPointer(), (int)A.getLength(), MPI_INT32_T, mpi_op, rootID, comm);
+            MPI_Allreduce((void*)A.getDataPointer(), dest.getReadWriteDataPointer(), (int)A.getLength(), MPI_INT32_T, mpi_op, comm);
             break;
         case NLS_UINT64:
-            MPI_Reduce((void*)A.getDataPointer(), dest.getReadWriteDataPointer(), (int)A.getLength(), MPI_UINT64_T, mpi_op, rootID, comm);
+            MPI_Allreduce((void*)A.getDataPointer(), dest.getReadWriteDataPointer(), (int)A.getLength(), MPI_UINT64_T, mpi_op, comm);
             break;
         case NLS_INT64:
-            MPI_Reduce((void*)A.getDataPointer(), dest.getReadWriteDataPointer(), (int)A.getLength(), MPI_INT64_T, mpi_op, rootID, comm);
+            MPI_Allreduce((void*)A.getDataPointer(), dest.getReadWriteDataPointer(), (int)A.getLength(), MPI_INT64_T, mpi_op, comm);
             break;
         case NLS_SINGLE:
-            MPI_Reduce((void*)A.getDataPointer(), dest.getReadWriteDataPointer(), (int)A.getLength(), MPI_FLOAT, mpi_op, rootID, comm);
+            MPI_Allreduce((void*)A.getDataPointer(), dest.getReadWriteDataPointer(), (int)A.getLength(), MPI_FLOAT, mpi_op, comm);
             break;
         case NLS_DOUBLE:
-            MPI_Reduce((void*)A.getDataPointer(), dest.getReadWriteDataPointer(), (int)A.getLength(), MPI_DOUBLE, mpi_op, rootID, comm);
+            MPI_Allreduce((void*)A.getDataPointer(), dest.getReadWriteDataPointer(), (int)A.getLength(), MPI_DOUBLE, mpi_op, comm);
             break;
         case NLS_SCOMPLEX:
-            MPI_Reduce((void*)A.getDataPointer(), dest.getReadWriteDataPointer(), 2 * (int)A.getLength(), MPI_FLOAT, mpi_op, rootID, comm);
+            MPI_Allreduce((void*)A.getDataPointer(), dest.getReadWriteDataPointer(), 2 * (int)A.getLength(), MPI_FLOAT, mpi_op, comm);
             break;
         case NLS_DCOMPLEX:
-            MPI_Reduce((void*)A.getDataPointer(), dest.getReadWriteDataPointer(), 2 * (int)A.getLength(), MPI_DOUBLE, mpi_op, rootID, comm);
+            MPI_Allreduce((void*)A.getDataPointer(), dest.getReadWriteDataPointer(), 2 * (int)A.getLength(), MPI_DOUBLE, mpi_op, comm);
             break;
         default:
             Error(eval, _W("Unsupported Type: must be a numerical type."));
