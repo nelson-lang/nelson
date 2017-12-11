@@ -105,6 +105,13 @@ namespace Nelson {
                     MPI_Pack(&flen, 1, MPI_INT, buffer, bufsize, packpos, comm);
                     MPI_Pack((void*)fieldnames[i].c_str(), flen, MPI_CHAR, buffer, bufsize, packpos, comm);
                 }
+                int isclassstruct((int)A.isClassStruct());
+                MPI_Pack(&isclassstruct, 1, MPI_INT, buffer, bufsize, packpos, comm);
+                if (A.isClassStruct())
+                {
+                    ArrayOf classnameAsArray = ArrayOf::stringConstructor(A.getStructType());
+                    packMPI(classnameAsArray, buffer, bufsize, packpos, comm);
+                }
                 if (A.isFunctionHandle())
                 {
                     function_handle fh = A.getContentAsFunctionHandle();
@@ -267,7 +274,15 @@ namespace Nelson {
                 fieldnames.push_back(std::string(dbuff));
                 delete [] dbuff;
             }
-            if (fieldnames.size() == 1 && fieldnames[0] == NLS_FUNCTION_HANDLE_STR)
+            int isclassstruct = 0;
+            MPI_Unpack(buffer, bufsize, packpos, &isclassstruct, 1, MPI_INT, comm);
+            std::string classname = "";
+            if (isclassstruct)
+            {
+                ArrayOf classNameAsArray = unpackMPI(buffer, bufsize, packpos, comm);
+                classname = classNameAsArray.getContentAsCString();
+            }
+            if (classname == NLS_FUNCTION_HANDLE_STR)
             {
                 ArrayOf functionNameAsArray = unpackMPI(buffer, bufsize, packpos, comm);
                 if (functionNameAsArray.isSingleString())
@@ -296,11 +311,16 @@ namespace Nelson {
             else
             {
                 ArrayOf *dp = new ArrayOf[fieldcnt*outDim.getElementCount()];
-                for (int i = 0; i < fieldcnt*outDim.getElementCount(); i++)
+                for (int i = 0; i < fieldcnt * outDim.getElementCount(); i++)
                 {
                     dp[i] = unpackMPI(buffer, bufsize, packpos, comm);
                 }
-                return ArrayOf(NLS_STRUCT_ARRAY, outDim, dp, false, fieldnames);
+                ArrayOf returnedArray = ArrayOf(NLS_STRUCT_ARRAY, outDim, dp, false, fieldnames);
+                if (classname != "")
+                {
+                    returnedArray.setStructType(classname);
+                }
+                return returnedArray;
             }
         }
         void *cp = nullptr;
@@ -442,6 +462,13 @@ namespace Nelson {
                 {
                     fieldsize += getCanonicalSize(1, MPI_INT, comm) +
                                  getCanonicalSize((int)fieldnames[j].size(), MPI_CHAR, comm);
+                }
+                fieldsize += getCanonicalSize(1, MPI_INT, comm);
+                int isclassstruct((int)A.isClassStruct());
+                if (isclassstruct)
+                {
+                    ArrayOf classnameAsArray = ArrayOf::stringConstructor(A.getStructType());
+                    fieldsize += getCanonicalSize((int)classnameAsArray.getLength(), MPI_WCHAR, comm);
                 }
                 ArrayOf *dp = (ArrayOf *)A.getDataPointer();
                 int total = 0;
