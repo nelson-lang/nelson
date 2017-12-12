@@ -6,32 +6,24 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 2 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-// <--MPI MODE-->
+#pragma once
 //=============================================================================
-// mpiexec -n 2 NelSon-cli.exe -e run('test_MPI_Reduce_double_prod.nls');exit
-if ~MPI_Initialized()
-  MPI_Init();
-end
-my_rank = MPI_Comm_rank ();
-num_ranks = MPI_Comm_size();
-
-A = [1 + my_rank:3 + my_rank];
-B = MPI_Reduce(A, 'MPI_PROD', 0);
-if (my_rank == 0)
-  assert_isequal(B, [2 6 12]);
-end
-[s, i] = MPI_Probe(my_rank, 0 )
-if MPI_Initialized()
-  MPI_Finalize();
-end
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
+//=============================================================================
+namespace Nelson {
+    namespace MpiGateway {
+        ArrayOfVector MPI_ProbeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    }
+}
 //=============================================================================

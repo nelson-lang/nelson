@@ -17,23 +17,23 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <mpi.h>
-#include "MPI_Intercomm_mergeBuiltin.hpp"
+#include "MPI_ProbeBuiltin.hpp"
 #include "Error.hpp"
 #include "MPI_CommHandleObject.hpp"
 #include "MPI_helpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-// comm2 = MPI_Intercomm_merge(comm1 [, highflag])
+// [STAT, INFO] = MPI_Probe(rank, tag [, COMM])
 //=============================================================================
-ArrayOfVector Nelson::MpiGateway::MPI_Intercomm_mergeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector Nelson::MpiGateway::MPI_ProbeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if ((argIn.size() < 1) || (argIn.size() > 2))
+    if ((argIn.size() < 2) || (argIn.size() > 3))
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
+    if (nLhs > 2)
     {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
@@ -43,27 +43,35 @@ ArrayOfVector Nelson::MpiGateway::MPI_Intercomm_mergeBuiltin(Evaluator* eval, in
     {
         Error(eval, _W("MPI must be initialized."));
     }
-    MPI_Comm comm = HandleToMpiComm(argIn[0]);
-    int highflag = 0;
-    if (argIn.size() == 2)
+    ArrayOf param1 = argIn[0];
+    ArrayOf param2 = argIn[1];
+    int src = param1.getContentAsInteger32Scalar();
+    int tag = param1.getContentAsInteger32Scalar();
+    MPI_Comm comm = MPI_COMM_WORLD;
+    if (argIn.size() > 2)
     {
-        ArrayOf param2 = argIn[1];
-        highflag = param2.getContentAsInteger32Scalar();
+        comm = HandleToMpiComm(argIn[2]);
     }
-    MPI_Comm newcomm;
-    int res = MPI_Intercomm_merge(comm, highflag, &newcomm);
-    if (res != MPI_SUCCESS)
-    {
-        if (res == MPI_ERR_COMM)
-        {
-            Error(eval, _W("Invalid communicator."));
-        }
-        if (res == MPI_ERR_INTERN)
-        {
-            Error(eval, _W("Unable to acquire memory."));
-        }
-    }
-    retval.push_back(MpiCommToHandle(newcomm, L"merge"));
+    MPI_Status stat = { 0, 0, 0, 0 };
+    int info = MPI_Probe(src, tag, comm, &stat);
+    int count = 0;
+    MPI_Get_count(&stat, MPI_CHAR, &count);
+    int cancelled = 0;
+    MPI_Test_cancelled(&stat, &cancelled);
+    wstringVector fieldnames;
+    ArrayOfVector fieldvalues;
+    fieldnames.push_back(L"MPI_SOURCE");
+    fieldnames.push_back(L"MPI_TAG");
+    fieldnames.push_back(L"MPI_ERROR");
+    fieldnames.push_back(L"count");
+    fieldnames.push_back(L"cancelled");
+    fieldvalues.push_back(ArrayOf::doubleConstructor(stat.MPI_SOURCE));
+    fieldvalues.push_back(ArrayOf::doubleConstructor(stat.MPI_TAG));
+    fieldvalues.push_back(ArrayOf::doubleConstructor(stat.MPI_ERROR));
+    fieldvalues.push_back(ArrayOf::doubleConstructor(count));
+    fieldvalues.push_back(ArrayOf::doubleConstructor(cancelled));
+    retval.push_back(ArrayOf::structConstructor(fieldnames, fieldvalues));
+    retval.push_back(ArrayOf::doubleConstructor((double)info));
     return retval;
 }
 //=============================================================================
