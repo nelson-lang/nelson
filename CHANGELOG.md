@@ -1,3 +1,13 @@
+Features:
+---------
+
+  * MPI interface for Nelson
+
+Compilation:
+---------
+
+* Update VS 2017 solution to VS 2017 15.5.1
+
 ## 0.1.11 alpha (2017-11-25)
 
 Features:
