@@ -39,7 +39,7 @@ ArrayOfVector Nelson::MpiGateway::MPI_Comm_objectBuiltin(Evaluator* eval, int nL
     {
         description = argIn[0].getContentAsWideString();
     }
-    retval.push_back(MpiCommToHandle(MPI_COMM_WORLD, description));
+    retval.push_back(MpiCommToHandle(MPI_COMM_WORLD));
     return retval;
 }
 //=============================================================================

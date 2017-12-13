@@ -63,9 +63,9 @@ namespace Nelson {
         return commReturned;
     }
     //=============================================================================
-    ArrayOf MpiCommToHandle(MPI_Comm mpicomm, std::wstring description)
+    ArrayOf MpiCommToHandle(MPI_Comm mpicomm)
     {
-        return ArrayOf::handleConstructor(new MPI_CommHandleObject(new MPI_CommObject(description, MPI_COMM_WORLD)));
+        return ArrayOf::handleConstructor(new MPI_CommHandleObject(new MPI_CommObject(mpicomm)));
     }
     //=============================================================================
 }

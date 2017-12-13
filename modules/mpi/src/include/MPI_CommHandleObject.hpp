@@ -30,21 +30,15 @@ namespace Nelson {
     //=============================================================================
     class MPI_CommObject {
     private:
-        std::wstring description;
         MPI_Comm comm;
     public:
-        MPI_CommObject(std::wstring _description, MPI_Comm _comm) {
-            description = _description;
+        MPI_CommObject(MPI_Comm _comm) {
             comm = _comm;
         }
         ~MPI_CommObject() {
-            description = L"";
         }
         MPI_Comm getComm() {
             return comm;
-        }
-        std::wstring getDescription() {
-            return description;
         }
     };
     //=============================================================================
@@ -55,7 +49,7 @@ namespace Nelson {
     };
     //=============================================================================
     NLSMPI_IMPEXP MPI_Comm HandleToMpiComm(ArrayOf A);
-    NLSMPI_IMPEXP ArrayOf MpiCommToHandle(MPI_Comm mpicomm, std::wstring description);
+    NLSMPI_IMPEXP ArrayOf MpiCommToHandle(MPI_Comm mpicomm);
     //=============================================================================
 }
 //=============================================================================

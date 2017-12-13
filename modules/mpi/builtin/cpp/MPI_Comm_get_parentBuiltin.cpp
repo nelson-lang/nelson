@@ -66,7 +66,7 @@ ArrayOfVector Nelson::MpiGateway::MPI_Comm_get_parentBuiltin(Evaluator* eval, in
             }
         }
     }
-    retval.push_back(MpiCommToHandle(parent, L"parent"));
+    retval.push_back(MpiCommToHandle(parent));
     return retval;
 }
 //=============================================================================

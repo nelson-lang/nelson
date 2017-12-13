@@ -63,7 +63,25 @@ ArrayOfVector Nelson::MpiGateway::MPI_Comm_dispBuiltin(Evaluator* eval, int nLhs
                         MPI_CommObject *obj = (MPI_CommObject *)mpicommhandleobj->getPointer();
                         if (obj != nullptr)
                         {
-                            io->outputMessage(L"    " + _W("Description") + L":    " + obj->getDescription());
+                            std::wstring description;
+                            switch (obj->getComm())
+                            {
+                                case MPI_COMM_NULL:
+                                    description = L"MPI_COMM_NULL";
+                                    break;
+                                case MPI_COMM_WORLD:
+                                    description = L"MPI_COMM_WORLD";
+                                    break;
+                                case MPI_COMM_SELF:
+                                    description = L"MPI_COMM_SELF";
+                                    break;
+                                default:
+                                    std::wostringstream oss;
+                                    oss << std::hex << obj->getComm();
+                                    description = oss.str();
+                                    break;
+                            }
+                            io->outputMessage(L"    " + _W("Description") + L":    " + description);
                             io->outputMessage("\n");
                         }
                     }

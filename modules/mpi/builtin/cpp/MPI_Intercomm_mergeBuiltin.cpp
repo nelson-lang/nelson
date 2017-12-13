@@ -63,7 +63,7 @@ ArrayOfVector Nelson::MpiGateway::MPI_Intercomm_mergeBuiltin(Evaluator* eval, in
             Error(eval, _W("Unable to acquire memory."));
         }
     }
-    retval.push_back(MpiCommToHandle(newcomm, L"merge"));
+    retval.push_back(MpiCommToHandle(newcomm));
     return retval;
 }
 //=============================================================================
