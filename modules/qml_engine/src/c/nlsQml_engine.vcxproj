@@ -22,7 +22,7 @@
     <ProjectGuid>{9B1B6BA6-7AF6-4059-9D85-754552E7D6CF}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>nlsQml_engine</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
