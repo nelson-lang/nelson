@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
   <language>en_US</language>
-  <keyword>ispc</keyword>
+  <keyword>isunix</keyword>
   <short_description>Checks if version is for  GNU Linux or Unix platform.</short_description>
 
   <syntax>
