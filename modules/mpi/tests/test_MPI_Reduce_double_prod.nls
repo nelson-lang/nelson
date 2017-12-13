@@ -30,7 +30,6 @@ B = MPI_Reduce(A, 'MPI_PROD', 0);
 if (my_rank == 0)
   assert_isequal(B, [2 6 12]);
 end
-[s, i] = MPI_Probe(my_rank, 0 )
 if MPI_Initialized()
   MPI_Finalize();
 end
