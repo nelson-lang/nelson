@@ -83,5 +83,74 @@ namespace Nelson {
         return ArrayOf::handleConstructor(new MPI_CommHandleObject(new MPI_CommObject(mpicomm)));
     }
     //=============================================================================
+    bool MPICommHandleDelete(ArrayOf A)
+    {
+        bool res = false;
+        if (A.isHandle())
+        {
+            if (!A.isEmpty())
+            {
+                Dimensions dims = A.getDimensions();
+                nelson_handle *qp = (nelson_handle*)A.getDataPointer();
+                for (size_t k = 0; k < dims.getElementCount(); k++)
+                {
+                    nelson_handle hl = qp[k];
+                    HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
+                    if (hlObj)
+                    {
+                        if (hlObj->getCategory() != MPI_COMM_CATEGORY_STR)
+                        {
+                            throw Exception(_W("MPI_Comm handle expected."));
+                        }
+                        MPI_CommHandleObject *mpicommhandleobj = (MPI_CommHandleObject *)hlObj;
+                        if (mpicommhandleobj != nullptr)
+                        {
+                            MPI_CommObject *obj = (MPI_CommObject *)mpicommhandleobj->getPointer();
+                            if (obj != nullptr)
+                            {
+                                delete obj;
+                            }
+                        }
+                        else
+                        {
+                            throw Exception(_W("MPI_Comm valid handle expected."));
+                        }
+                        delete mpicommhandleobj;
+                        HandleManager::getInstance()->removeHandle(hl);
+                        res = true;
+                    }
+                }
+            }
+            else
+            {
+                throw Exception(_W("MPI_Comm valid handle expected."));
+            }
+        }
+        return res;
+    }
+    //=============================================================================
+    ArrayOf usedMPICommHandleObject()
+    {
+        ArrayOf res;
+        std::vector<nelson_handle> used = HandleManager::getInstance()->getAllHandlesOfCategory(MPI_COMM_CATEGORY_STR);
+        size_t nbHandles = used.size();
+        if (nbHandles > 0)
+        {
+            Dimensions dims(1, nbHandles);
+            nelson_handle *nh = (nelson_handle*)ArrayOf::allocateArrayOf(NLS_HANDLE, nbHandles);
+            for (int k = 0; k < nbHandles; k++)
+            {
+                nh[k] = used[k];
+            }
+            res = ArrayOf(NLS_HANDLE, dims, (void *)nh);
+        }
+        else
+        {
+            res = ArrayOf::emptyConstructor(Dimensions(0, 0));
+            res.promoteType(NLS_HANDLE);
+        }
+        return res;
+    }
+    //=============================================================================
 }
 //=============================================================================

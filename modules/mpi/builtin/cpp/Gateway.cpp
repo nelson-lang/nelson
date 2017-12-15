@@ -23,19 +23,22 @@
 #include "MPI_Get_processor_nameBuiltin.hpp"
 #include "MPI_Get_versionBuiltin.hpp"
 #include "MPI_Get_library_versionBuiltin.hpp"
-#include "MPI_Comm_objectBuiltin.hpp"
-#include "MPI_Comm_dispBuiltin.hpp"
 #include "MPI_SendBuiltin.hpp"
 #include "MPI_RecvBuiltin.hpp"
-#include "MPI_Comm_rankBuiltin.hpp"
-#include "MPI_Comm_sizeBuiltin.hpp"
 #include "MPI_BarrierBuiltin.hpp"
-#include "MPI_Comm_get_parentBuiltin.hpp"
 #include "MPI_ReduceBuiltin.hpp"
 #include "MPI_AllreduceBuiltin.hpp"
 #include "MPI_Intercomm_mergeBuiltin.hpp"
 #include "MPI_ProbeBuiltin.hpp"
+#include "MPI_Comm_get_parentBuiltin.hpp"
 #include "MPI_Comm_get_nameBuiltin.hpp"
+#include "MPI_Comm_deleteBuiltin.hpp"
+#include "MPI_Comm_usedBuiltin.hpp"
+#include "MPI_Comm_isvalidBuiltin.hpp"
+#include "MPI_Comm_objectBuiltin.hpp"
+#include "MPI_Comm_dispBuiltin.hpp"
+#include "MPI_Comm_rankBuiltin.hpp"
+#include "MPI_Comm_sizeBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -62,6 +65,9 @@ static const nlsGateway gateway[] =
     { "MPI_Intercomm_merge", Nelson::MpiGateway::MPI_Intercomm_mergeBuiltin, 1, 1 },
     { "MPI_Probe", Nelson::MpiGateway::MPI_ProbeBuiltin, 1, 2 },
     { "MPI_Comm_get_name", Nelson::MpiGateway::MPI_Comm_get_nameBuiltin, 1, 1 },
+    { "MPI_Comm_delete", Nelson::MpiGateway::MPI_Comm_deleteBuiltin, 0, 1 },
+    { "MPI_Comm_used", Nelson::MpiGateway::MPI_Comm_usedBuiltin, 0, 1 },
+    { "MPI_Comm_isvalid", Nelson::MpiGateway::MPI_Comm_isvalidBuiltin, 0, 1 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)
