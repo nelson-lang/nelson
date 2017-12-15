@@ -2,6 +2,30 @@ Features:
 ---------
 
   * MPI interface for Nelson
+    * MPI\_Initialized : Indicates whether MPI_Init has been called.
+    * MPI\_Finalize : Terminates MPI execution environment.
+    * MPI\_Init : Initialize the MPI execution environment.
+    * MPI\_Get\_processor\_name : Gets the name of the processor.
+    * MPI\_Get\_version : Return the version number of MPI.
+    * MPI\_Get\_library\_version : Return the version number of MPI library.
+    * MPI\_Recv : Blocking receive for a message.
+    * MPI\_Send : Performs a blocking send.
+    * MPI\_Barrier : Blocks until all processes in the communicator have reached this routine.
+    * MPI\_Comm\_get\_parent : Return the parent communicator for this process.
+    * MPI\_Reduce : Reduces values on all processes to a single value.
+    * MPI\_Allreduce : MPI_Allreduce.
+    * MPI\_Intercomm\_merge : Creates an intracommuncator from an intercommunicator.
+    * MPI\_Probe : Blocking test for a message.
+    * MPI\_Iprobe : Nonblocking test for a message.
+    * MPI\_Comm\_object : Creates MPI_Comm object.
+    * MPI\_Comm\_disp : displays MPI_Comm object.
+    * MPI\_Comm\_get\_name : Return the print name from the communicator.
+    * MPI\_Comm\_delete : delete MPI_Comm object in Nelson environment.
+    * MPI\_Comm\_used : get used MPI_Comm objects in Nelson environment.
+    * MPI\_Comm\_isvalid : check MPI_Comm handle validity.
+    * MPI\_Comm\_split : Creates new communicators based on colors and keys.
+    * MPI\_Comm\_rank : Determines the rank of the calling process in the communicator.
+    * MPI\_Comm\_size : Determines the size of the group associated with a communicator.
 
 Compilation:
 ---------
