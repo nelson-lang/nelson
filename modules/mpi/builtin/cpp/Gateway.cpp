@@ -39,6 +39,7 @@
 #include "MPI_Comm_dispBuiltin.hpp"
 #include "MPI_Comm_rankBuiltin.hpp"
 #include "MPI_Comm_sizeBuiltin.hpp"
+#include "MPI_Comm_splitBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -68,6 +69,7 @@ static const nlsGateway gateway[] =
     { "MPI_Comm_delete", Nelson::MpiGateway::MPI_Comm_deleteBuiltin, 0, 1 },
     { "MPI_Comm_used", Nelson::MpiGateway::MPI_Comm_usedBuiltin, 0, 1 },
     { "MPI_Comm_isvalid", Nelson::MpiGateway::MPI_Comm_isvalidBuiltin, 0, 1 },
+    { "MPI_Comm_split", Nelson::MpiGateway::MPI_Comm_splitBuiltin, 1, 3 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

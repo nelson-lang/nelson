@@ -221,6 +221,7 @@
     <ClInclude Include="..\include\MPI_Comm_objectBuiltin.hpp" />
     <ClInclude Include="..\include\MPI_Comm_rankBuiltin.hpp" />
     <ClInclude Include="..\include\MPI_Comm_sizeBuiltin.hpp" />
+    <ClInclude Include="..\include\MPI_Comm_splitBuiltin.hpp" />
     <ClInclude Include="..\include\MPI_Comm_usedBuiltin.hpp" />
     <ClInclude Include="..\include\MPI_FinalizeBuiltin.hpp" />
     <ClInclude Include="..\include\MPI_Get_library_versionBuiltin.hpp" />
@@ -247,6 +248,7 @@
     <ClCompile Include="..\cpp\MPI_Comm_objectBuiltin.cpp" />
     <ClCompile Include="..\cpp\MPI_Comm_rankBuiltin.cpp" />
     <ClCompile Include="..\cpp\MPI_Comm_sizeBuiltin.cpp" />
+    <ClCompile Include="..\cpp\MPI_Comm_splitBuiltin.cpp" />
     <ClCompile Include="..\cpp\MPI_Comm_usedBuiltin.cpp" />
     <ClCompile Include="..\cpp\MPI_FinalizeBuiltin.cpp" />
     <ClCompile Include="..\cpp\MPI_Get_library_versionBuiltin.cpp" />
