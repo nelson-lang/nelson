@@ -34,12 +34,34 @@ ArrayOfVector Nelson::MpiGateway::MPI_Comm_objectBuiltin(Evaluator* eval, int nL
     {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    std::wstring description = L"";
+	int flagInit = 0;
+	MPI_Initialized(&flagInit);
+	if (!flagInit)
+	{
+		Error(eval, _W("MPI must be initialized."));
+	}
+	MPI_Comm comm = MPI_COMM_WORLD;
     if (argIn.size() == 1)
     {
-        description = argIn[0].getContentAsWideString();
+		std::wstring description = argIn[0].getContentAsWideString();
+		if (description == L"MPI_COMM_SELF")
+		{
+			comm = MPI_COMM_SELF;
+		}
+		else if (description == L"MPI_COMM_WORLD")
+		{
+			comm = MPI_COMM_WORLD;
+		}
+		else if (description == L"MPI_COMM_NULL")
+		{
+			Error(eval, _W("MPI_COMM_NULL not allowed."));
+		}
+		else
+		{
+			Error(eval, description + _W(" not allowed."));
+		}
     }
-    retval.push_back(MpiCommToHandle(MPI_COMM_WORLD));
+    retval.push_back(MpiCommToHandle(comm));
     return retval;
 }
 //=============================================================================

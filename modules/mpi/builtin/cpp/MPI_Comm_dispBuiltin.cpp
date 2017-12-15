@@ -22,6 +22,7 @@
 #include "MPI_CommHandleObject.hpp"
 #include "HandleManager.hpp"
 #include "characters_encoding.hpp"
+#include "MPI_helpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -36,6 +37,12 @@ ArrayOfVector Nelson::MpiGateway::MPI_Comm_dispBuiltin(Evaluator* eval, int nLhs
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
+	int flagInit = 0;
+	MPI_Initialized(&flagInit);
+	if (!flagInit)
+	{
+		Error(eval, _W("MPI must be initialized."));
+	}
     ArrayOf param1 = argIn[0];
     if (eval != nullptr)
     {
@@ -64,11 +71,7 @@ ArrayOfVector Nelson::MpiGateway::MPI_Comm_dispBuiltin(Evaluator* eval, int nLhs
                         MPI_CommObject *obj = (MPI_CommObject *)mpicommhandleobj->getPointer();
                         if (obj != nullptr)
                         {
-							char name[2048];
-							int len;
-							MPI_Comm_get_name(obj->getComm(), name, &len);
-							name[len] = 0;
-                            std::wstring description = utf8_to_wstring(name);
+							std::wstring description = utf8_to_wstring(getMpiCommName(obj->getComm()));
                             io->outputMessage(L"    " + _W("Description") + L":    " + description);
                             io->outputMessage("\n");
                         }

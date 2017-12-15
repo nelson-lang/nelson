@@ -17,30 +17,32 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <mpi.h>
-#include "MPI_FinalizeBuiltin.hpp"
+#include "MPI_Comm_get_nameBuiltin.hpp"
 #include "Error.hpp"
+#include "MPI_CommHandleObject.hpp"
+#include "MPI_helpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::MpiGateway::MPI_FinalizeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector Nelson::MpiGateway::MPI_Comm_get_nameBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 0)
+    if (argIn.size() != 1)
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
+	if (nLhs > 1)
+	{
+		Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+	}
 	int flagInit = 0;
 	MPI_Initialized(&flagInit);
 	if (!flagInit)
 	{
 		Error(eval, _W("MPI must be initialized."));
 	}
-    int flag = MPI_Finalize();
-    retval.push_back(ArrayOf::logicalConstructor(flag));
+    MPI_Comm comm = HandleToMpiComm(argIn[0]);
+	retval.push_back(ArrayOf::stringConstructor(getMpiCommName(comm)));
     return retval;
 }
 //=============================================================================

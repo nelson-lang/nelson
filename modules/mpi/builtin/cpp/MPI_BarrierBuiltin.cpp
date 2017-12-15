@@ -30,7 +30,11 @@ ArrayOfVector Nelson::MpiGateway::MPI_BarrierBuiltin(Evaluator* eval, int nLhs, 
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    int flagInit = 0;
+	if (nLhs > 1)
+	{
+		Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+	}
+	int flagInit = 0;
     MPI_Initialized(&flagInit);
     if (!flagInit)
     {
@@ -40,10 +44,6 @@ ArrayOfVector Nelson::MpiGateway::MPI_BarrierBuiltin(Evaluator* eval, int nLhs, 
     if (argIn.size() == 1)
     {
         comm = HandleToMpiComm(argIn[0]);
-    }
-    if (nLhs > 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     int info = MPI_Barrier(comm);
     retval.push_back(ArrayOf::doubleConstructor((double)info));

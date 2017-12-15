@@ -16,31 +16,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <mpi.h>
-#include "MPI_FinalizeBuiltin.hpp"
-#include "Error.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
-ArrayOfVector Nelson::MpiGateway::MPI_FinalizeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    ArrayOfVector retval;
-    if (argIn.size() != 0)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+namespace Nelson {
+    namespace MpiGateway {
+        ArrayOfVector MPI_Comm_get_nameBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
     }
-    if (nLhs > 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-	int flagInit = 0;
-	MPI_Initialized(&flagInit);
-	if (!flagInit)
-	{
-		Error(eval, _W("MPI must be initialized."));
-	}
-    int flag = MPI_Finalize();
-    retval.push_back(ArrayOf::logicalConstructor(flag));
-    return retval;
 }
 //=============================================================================
