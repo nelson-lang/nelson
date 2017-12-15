@@ -17,23 +17,23 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <mpi.h>
-#include "MPI_ProbeBuiltin.hpp"
+#include "MPI_IprobeBuiltin.hpp"
 #include "Error.hpp"
 #include "MPI_CommHandleObject.hpp"
 #include "MPI_helpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-// [STAT, INFO] = MPI_Probe(rank, tag [, COMM])
+// [FLAG, STAT, INFO] = MPI_IProbe(rank, tag, COMM)
 //=============================================================================
-ArrayOfVector Nelson::MpiGateway::MPI_ProbeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector Nelson::MpiGateway::MPI_IprobeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if ((argIn.size() < 2) || (argIn.size() > 3))
+    if (argIn.size() != 3)
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 2)
+    if (nLhs > 3)
     {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
@@ -47,13 +47,10 @@ ArrayOfVector Nelson::MpiGateway::MPI_ProbeBuiltin(Evaluator* eval, int nLhs, co
     ArrayOf param2 = argIn[1];
     int src = param1.getContentAsInteger32Scalar();
     int tag = param2.getContentAsInteger32Scalar();
-    MPI_Comm comm = MPI_COMM_WORLD;
-    if (argIn.size() > 2)
-    {
-        comm = HandleToMpiComm(argIn[2]);
-    }
+    MPI_Comm comm = HandleToMpiComm(argIn[2]);
     MPI_Status stat = { 0, 0, 0, 0 };
-    int info = MPI_Probe(src, tag, comm, &stat);
+    int flag = 0;
+    int info = MPI_Iprobe(src, tag, comm, &flag, &stat);
     int count = 0;
     MPI_Get_count(&stat, MPI_CHAR, &count);
     int cancelled = 0;
@@ -70,6 +67,7 @@ ArrayOfVector Nelson::MpiGateway::MPI_ProbeBuiltin(Evaluator* eval, int nLhs, co
     fieldvalues.push_back(ArrayOf::doubleConstructor(stat.MPI_ERROR));
     fieldvalues.push_back(ArrayOf::doubleConstructor(count));
     fieldvalues.push_back(ArrayOf::doubleConstructor(cancelled));
+    retval.push_back(ArrayOf::doubleConstructor((double)flag));
     retval.push_back(ArrayOf::structConstructor(fieldnames, fieldvalues));
     retval.push_back(ArrayOf::doubleConstructor((double)info));
     return retval;

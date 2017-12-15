@@ -230,6 +230,7 @@
     <ClInclude Include="..\include\MPI_InitBuiltin.hpp" />
     <ClInclude Include="..\include\MPI_InitializedBuiltin.hpp" />
     <ClInclude Include="..\include\MPI_Intercomm_mergeBuiltin.hpp" />
+    <ClInclude Include="..\include\MPI_IprobeBuiltin.hpp" />
     <ClInclude Include="..\include\MPI_ProbeBuiltin.hpp" />
     <ClInclude Include="..\include\MPI_RecvBuiltin.hpp" />
     <ClInclude Include="..\include\MPI_ReduceBuiltin.hpp" />
@@ -258,6 +259,7 @@
     <ClCompile Include="..\cpp\MPI_InitializedBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\MPI_Intercomm_mergeBuiltin.cpp" />
+    <ClCompile Include="..\cpp\MPI_IprobeBuiltin.cpp" />
     <ClCompile Include="..\cpp\MPI_ProbeBuiltin.cpp" />
     <ClCompile Include="..\cpp\MPI_RecvBuiltin.cpp" />
     <ClCompile Include="..\cpp\MPI_ReduceBuiltin.cpp" />
