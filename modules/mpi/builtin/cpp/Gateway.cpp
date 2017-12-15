@@ -35,6 +35,7 @@
 #include "MPI_AllreduceBuiltin.hpp"
 #include "MPI_Intercomm_mergeBuiltin.hpp"
 #include "MPI_ProbeBuiltin.hpp"
+#include "MPI_Comm_get_nameBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -60,6 +61,7 @@ static const nlsGateway gateway[] =
     { "MPI_Allreduce", Nelson::MpiGateway::MPI_AllreduceBuiltin, 1, 3 },
     { "MPI_Intercomm_merge", Nelson::MpiGateway::MPI_Intercomm_mergeBuiltin, 1, 1 },
     { "MPI_Probe", Nelson::MpiGateway::MPI_ProbeBuiltin, 1, 2 },
+    { "MPI_Comm_get_name", Nelson::MpiGateway::MPI_Comm_get_nameBuiltin, 1, 1 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

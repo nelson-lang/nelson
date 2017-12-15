@@ -31,18 +31,18 @@ ArrayOfVector Nelson::MpiGateway::MPI_Comm_get_nameBuiltin(Evaluator* eval, int 
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-	if (nLhs > 1)
-	{
-		Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-	}
-	int flagInit = 0;
-	MPI_Initialized(&flagInit);
-	if (!flagInit)
-	{
-		Error(eval, _W("MPI must be initialized."));
-	}
+    if (nLhs > 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    int flagInit = 0;
+    MPI_Initialized(&flagInit);
+    if (!flagInit)
+    {
+        Error(eval, _W("MPI must be initialized."));
+    }
     MPI_Comm comm = HandleToMpiComm(argIn[0]);
-	retval.push_back(ArrayOf::stringConstructor(getMpiCommName(comm)));
+    retval.push_back(ArrayOf::stringConstructor(getMpiCommName(comm)));
     return retval;
 }
 //=============================================================================

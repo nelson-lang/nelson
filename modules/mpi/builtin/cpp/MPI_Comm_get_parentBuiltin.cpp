@@ -32,11 +32,11 @@ ArrayOfVector Nelson::MpiGateway::MPI_Comm_get_parentBuiltin(Evaluator* eval, in
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-	if (nLhs > 1)
-	{
-		Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-	}
-	int flagInit = 0;
+    if (nLhs > 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    int flagInit = 0;
     MPI_Initialized(&flagInit);
     if (!flagInit)
     {

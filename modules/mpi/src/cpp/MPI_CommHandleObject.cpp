@@ -39,22 +39,29 @@ namespace Nelson {
                 throw Exception(ERROR_SIZE_SCALAR_EXPECTED);
             }
             nelson_handle *qp = (nelson_handle*)A.getDataPointer();
-            if (qp == nullptr)
-            {
-                throw Exception(_W("MPI_Comm valid handle expected."));
-            }
             nelson_handle hl = qp[0];
             HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-            if (hlObj == nullptr)
-            {
-                throw Exception(_W("MPI_Comm valid handle expected."));
-            }
             if (hlObj->getCategory() != MPI_COMM_CATEGORY_STR)
             {
                 throw Exception(_W("MPI_Comm handle expected."));
             }
-            MPI_CommObject *mpicommhandleobj = (MPI_CommObject *)hlObj;
-            commReturned = mpicommhandleobj->getComm();
+            MPI_CommHandleObject *mpicommhandleobj = (MPI_CommHandleObject *)hlObj;
+            if (mpicommhandleobj != nullptr)
+            {
+                MPI_CommObject *obj = (MPI_CommObject *)mpicommhandleobj->getPointer();
+                if (obj != nullptr)
+                {
+                    commReturned = obj->getComm();
+                }
+                else
+                {
+                    throw Exception(_W("MPI_Comm valid handle expected."));
+                }
+            }
+            else
+            {
+                throw Exception(_W("MPI_Comm valid handle expected."));
+            }
         }
         else
         {

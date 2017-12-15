@@ -37,12 +37,12 @@ ArrayOfVector Nelson::MpiGateway::MPI_Comm_dispBuiltin(Evaluator* eval, int nLhs
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-	int flagInit = 0;
-	MPI_Initialized(&flagInit);
-	if (!flagInit)
-	{
-		Error(eval, _W("MPI must be initialized."));
-	}
+    int flagInit = 0;
+    MPI_Initialized(&flagInit);
+    if (!flagInit)
+    {
+        Error(eval, _W("MPI must be initialized."));
+    }
     ArrayOf param1 = argIn[0];
     if (eval != nullptr)
     {
@@ -71,7 +71,7 @@ ArrayOfVector Nelson::MpiGateway::MPI_Comm_dispBuiltin(Evaluator* eval, int nLhs
                         MPI_CommObject *obj = (MPI_CommObject *)mpicommhandleobj->getPointer();
                         if (obj != nullptr)
                         {
-							std::wstring description = utf8_to_wstring(getMpiCommName(obj->getComm()));
+                            std::wstring description = utf8_to_wstring(getMpiCommName(obj->getComm()));
                             io->outputMessage(L"    " + _W("Description") + L":    " + description);
                             io->outputMessage("\n");
                         }

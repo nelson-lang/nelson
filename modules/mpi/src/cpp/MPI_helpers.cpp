@@ -33,11 +33,11 @@ namespace Nelson {
 #ifndef MPI_MAX_LIBRARY_VERSION_STRING
 #define MPI_MAX_LIBRARY_VERSION_STRING 64
 #endif
-	//=============================================================================
+    //=============================================================================
 #ifndef MPI_MAX_OBJECT_NAME
 #define MPI_MAX_OBJECT_NAME 128
 #endif
-	//=============================================================================
+    //=============================================================================
     static MPI_Errhandler errhdl;
     //=============================================================================
     void MPIErrorHandler(MPI_Comm *comm, int *errorcode, ...)
@@ -572,10 +572,10 @@ namespace Nelson {
 #if MPI_VERSION > 1
         int resultlen = 0;
         MPI_Get_library_version(library_version, &resultlen);
-		if (resultlen >= MPI_MAX_LIBRARY_VERSION_STRING)
-		{
-			resultlen = MPI_MAX_LIBRARY_VERSION_STRING - 1;
-		}
+        if (resultlen >= MPI_MAX_LIBRARY_VERSION_STRING)
+        {
+            resultlen = MPI_MAX_LIBRARY_VERSION_STRING - 1;
+        }
         library_version[resultlen] = 0;
         std::string returnedString = library_version;
 #else
@@ -635,18 +635,22 @@ namespace Nelson {
         return mpi_op;
     }
     //=============================================================================
-	std::string getMpiCommName(MPI_Comm comm)
-	{
-		char name[MPI_MAX_OBJECT_NAME];
-		int len;
-		MPI_Comm_get_name(comm, name, &len);
-		if (len >= MPI_MAX_OBJECT_NAME)
-		{
-			len = MPI_MAX_OBJECT_NAME - 1;
-		}
-		name[len] = 0;
-		return std::string(name);
-	}
-	//=============================================================================
+    std::string getMpiCommName(MPI_Comm comm)
+    {
+        char name[MPI_MAX_OBJECT_NAME];
+        name[0] = 0;
+        int len;
+        if (MPI_Comm_get_name(comm, name, &len) != MPI_SUCCESS)
+        {
+            throw Exception(_W("Invalid communicator"));
+        }
+        if (len >= MPI_MAX_OBJECT_NAME)
+        {
+            len = MPI_MAX_OBJECT_NAME - 1;
+        }
+        name[len] = 0;
+        return std::string(name);
+    }
+    //=============================================================================
 }
 //=============================================================================
