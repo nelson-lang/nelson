@@ -57,7 +57,7 @@ static const nlsGateway gateway[] =
     { "MPI_Comm_object", Nelson::MpiGateway::MPI_Comm_objectBuiltin, 1, 1 },
     { "MPI_Comm_disp", Nelson::MpiGateway::MPI_Comm_dispBuiltin, 0, 1 },
     { "MPI_Recv", Nelson::MpiGateway::MPI_RecvBuiltin, 1, 4 },
-    { "MPI_Send", Nelson::MpiGateway::MPI_SendBuiltin, 1, 3 },
+    { "MPI_Send", Nelson::MpiGateway::MPI_SendBuiltin, 0, 3 },
     { "MPI_Comm_rank", Nelson::MpiGateway::MPI_Comm_rankBuiltin, 1, 1 },
     { "MPI_Comm_size", Nelson::MpiGateway::MPI_Comm_sizeBuiltin, 1, 1 },
     { "MPI_Barrier", Nelson::MpiGateway::MPI_BarrierBuiltin, 1, 1 },

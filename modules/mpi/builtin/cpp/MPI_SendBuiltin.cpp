@@ -27,11 +27,7 @@ using namespace Nelson;
 ArrayOfVector Nelson::MpiGateway::MPI_SendBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if ((argIn.size() < 2) || (argIn.size() > 3))
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 2)
+    if (nLhs != 0)
     {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
@@ -41,15 +37,35 @@ ArrayOfVector Nelson::MpiGateway::MPI_SendBuiltin(Evaluator* eval, int nLhs, con
     {
         Error(eval, _W("MPI must be initialized."));
     }
-    ArrayOf A = argIn[0];
-    ArrayOf tmp = argIn[1];
-    int dest = tmp.getContentAsInteger32Scalar();
-    tmp = argIn[2];
-    int tag = tmp.getContentAsInteger32Scalar();
+    ArrayOf A;
+    int dest = 0;
+    int tag = 0;
     MPI_Comm comm = MPI_COMM_WORLD;
-    if (argIn.size() > 3)
+    switch (argIn.size())
     {
-        comm = HandleToMpiComm(argIn[3]);
+        case 3:
+        {
+            A = argIn[0];
+            ArrayOf param2 = argIn[1];
+            ArrayOf param3 = argIn[2];
+            dest = param2.getContentAsInteger32Scalar();
+            tag = param3.getContentAsInteger32Scalar();
+        }
+        break;
+        case 4:
+        {
+            A = argIn[0];
+            ArrayOf param2 = argIn[1];
+            ArrayOf param3 = argIn[2];
+            ArrayOf param4 = argIn[3];
+            dest = param2.getContentAsInteger32Scalar();
+            tag = param3.getContentAsInteger32Scalar();
+            comm = HandleToMpiComm(param4);
+        }
+        break;
+        default:
+            Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+            break;
     }
     int Asize = getArrayOfFootPrint(A, comm);
     int bufsize = Asize;
