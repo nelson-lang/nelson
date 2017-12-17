@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+
+  <language>en_US</language>
+  <keyword>MPI_Get_processor_name</keyword>
+  <short_description>Gets the name of the processor.</short_description>
+
+  <syntax>
+    <syntax_item>[name, namelen, info] = MPI_Get_processor_name()</syntax_item>
+  </syntax>
+
+  <param_output>
+    <param_output_item>
+      <param_name>name</param_name>
+      <param_description>a string: name of the processor that is using MPI.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>namelen</param_name>
+      <param_description>an integer value: Length (in characters) of the name.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>info</param_name>
+      <param_description>an integer value: 0 MPI_SUCCESS, 16 MPI_ERR_OTHER.</param_description>
+    </param_output_item>
+
+  </param_output>
+
+  <description>
+  <p>This function get the name of the processor that is using MPI.</p>
+</description>
+
+  <used_function></used_function>
+  <bibliography></bibliography>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${mpi}MPI_Init">MPI_Init</link>
+    </see_also_item>
+  </see_also>
+
+
+<examples>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description></example_item_description>
+    <example_item_data><![CDATA[
+if ~MPI_Initialized()
+  MPI_Init();
+end
+[name, len, info] = MPI_Get_processor_name()
+if MPI_Initialized()
+  MPI_Finalize();
+end
+]]>
+    </example_item_data>
+  </example_item>
+
+</examples>
+
+
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>
