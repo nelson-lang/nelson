@@ -69,7 +69,7 @@ static const nlsGateway gateway[] =
     { "MPI_Iprobe", Nelson::MpiGateway::MPI_IprobeBuiltin, 1, 3 },
     { "MPI_Comm_get_name", Nelson::MpiGateway::MPI_Comm_get_nameBuiltin, 1, 1 },
     { "MPI_Comm_delete", Nelson::MpiGateway::MPI_Comm_deleteBuiltin, 0, 1 },
-    { "MPI_Comm_used", Nelson::MpiGateway::MPI_Comm_usedBuiltin, 0, 1 },
+    { "MPI_Comm_used", Nelson::MpiGateway::MPI_Comm_usedBuiltin, 1, 0 },
     { "MPI_Comm_isvalid", Nelson::MpiGateway::MPI_Comm_isvalidBuiltin, 0, 1 },
     { "MPI_Comm_split", Nelson::MpiGateway::MPI_Comm_splitBuiltin, 1, 3 },
 };
