@@ -27,6 +27,7 @@ Features:
     * MPI\_Comm\_split : Creates new communicators based on colors and keys.
     * MPI\_Comm\_rank : Determines the rank of the calling process in the communicator.
     * MPI\_Comm\_size : Determines the size of the group associated with a communicator.
+    * mpiexec : Run an MPI script.
 
 Compilation:
 ---------

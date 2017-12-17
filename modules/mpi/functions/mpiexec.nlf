@@ -25,7 +25,10 @@ function varargout = mpiexec(varargin)
   end
 
   if nargin > 1
-    nb_process = varargin{2};
+    nb_process = int32(varargin{2});
+    if ~isscalar(nb_process)
+      error(_('#2 argument: integer value expected.'));
+    end
   else
     nb_process = 1;
   end

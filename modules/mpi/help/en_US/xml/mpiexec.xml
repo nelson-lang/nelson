@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+
+  <language>en_US</language>
+  <keyword>mpiexec</keyword>
+  <short_description>Run an MPI script.</short_description>
+
+  <syntax>
+    <syntax_item>mpiexec(script)</syntax_item>
+    <syntax_item>mpiexec(script, nb_process)</syntax_item>
+    <syntax_item>r = mpiexec(script, nb_process)</syntax_item>
+    <syntax_item>[r, msg] = mpiexec(script, nb_process)</syntax_item>
+  </syntax>
+
+  <param_input>
+    <param_input_item>
+      <param_name>script</param_name>
+      <param_description>an filename with .nls extension.</param_description>
+    </param_input_item>
+
+    <param_input_item>
+      <param_name>nb_process</param_name>
+      <param_description>an integer value: number of process.</param_description>
+    </param_input_item>
+  </param_input>
+
+
+  <param_output>
+    <param_output_item>
+      <param_name>r</param_name>
+      <param_description>an integer value: maximum of the exit status values of all of the processes created by mpiexec.</param_description>
+    </param_output_item>
+  </param_output>
+
+  <description>
+  <p>Run an MPI script in nelson.</p>
+  <p>MPI process are launched in CLI mode (no gui, no plot).</p>
+</description>
+
+  <used_function></used_function>
+  <bibliography></bibliography>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${mpi}MPI_Init">MPI_Init</link>
+    </see_also_item>
+  </see_also>
+
+
+<examples>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description></example_item_description>
+    <example_item_data><![CDATA[
+mpiexec([modulepath('mpi'), '/examples/help_examples/MPI_Allreduce.nls'], 4)]]>
+    </example_item_data>
+  </example_item>
+
+</examples>
+
+
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>
