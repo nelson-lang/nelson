@@ -16,5 +16,20 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-addgateway(modulepath(nelsonroot(), 'mpi', 'builtin'));
-addpath(modulepath(nelsonroot(), 'mpi', 'functions'));
+if ~MPI_Initialized()
+  MPI_Init();
+end
+my_rank = MPI_Comm_rank();
+num_ranks = MPI_Comm_size();
+root = 0;
+if (my_rank == 0)
+  buff = 777;
+else
+  buff = 0;
+end
+disp(['rank: ', int2str(my_rank), ': before Bcast, buff is ', int2str(buff)])
+buff = MPI_Bcast(buff, root);
+disp(['rank: ', int2str(my_rank), ': after Bcast, buff is ', int2str(buff)])
+if MPI_Initialized()
+  MPI_Finalize();
+end

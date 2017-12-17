@@ -62,7 +62,7 @@
 
   <example_item>
     <example_item_type>nelson</example_item_type>
-    <example_item_description>CLI required</example_item_description>
+    <example_item_description>mpiexec([modulepath('mpi'), '/examples/help_examples/MPI_Reduce.nls'], 4)</example_item_description>
     <example_item_data><![CDATA[
 if ~MPI_Initialized()
   MPI_Init();
@@ -70,10 +70,11 @@ end
 my_rank = MPI_Comm_rank ();
 num_ranks = MPI_Comm_size();
 
-A = [1 + my_rank:3 + my_rank];
+A = [1 + my_rank:3 + my_rank]
 B = MPI_Reduce(A, 'MPI_SUM', 0);
 if (my_rank == 0)
-  disp(B);
+  disp('Result:')
+  B
 end
 if MPI_Initialized()
   MPI_Finalize();
