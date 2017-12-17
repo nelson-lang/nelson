@@ -328,3 +328,5 @@ COM_vertcat_COM
 COM_xlsformat
 generic_eq_COM
 generic_ne_COM
+MPI_Comm_disp
+MPI_Comm_isvalid
