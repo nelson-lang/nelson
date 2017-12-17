@@ -11,6 +11,7 @@ Features:
     * MPI\_Recv : Blocking receive for a message.
     * MPI\_Send : Performs a blocking send.
     * MPI\_Barrier : Blocks until all processes in the communicator have reached this routine.
+    * MPI\_Bcast : Broadcasts a message from the process with rank "root" to all other processes of the communicator.
     * MPI\_Comm\_get\_parent : Return the parent communicator for this process.
     * MPI\_Reduce : Reduces values on all processes to a single value.
     * MPI\_Allreduce : MPI_Allreduce.
