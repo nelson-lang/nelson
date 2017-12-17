@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+
+  <language>en_US</language>
+  <keyword>MPI_Finalize</keyword>
+  <short_description>Terminate the MPI execution environment.</short_description>
+
+  <syntax>
+    <syntax_item>MPI_Finalize()</syntax_item>
+    <syntax_item>r = MPI_Finalize()</syntax_item>
+  </syntax>
+
+
+
+  <param_output>
+    <param_output_item>
+      <param_name>r</param_name>
+      <param_description>a logical.</param_description>
+    </param_output_item>
+  </param_output>
+
+  <description>
+  <p>Terminate the MPI execution environment.</p>
+  <p>MPI process are launched in CLI mode (no gui, no plot).</p>
+</description>
+
+  <used_function></used_function>
+  <bibliography></bibliography>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${mpi}MPI_Initialized">MPI_Initialized</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${mpi}MPI_Init">MPI_Init</link>
+    </see_also_item>
+  </see_also>
+
+
+<examples>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description></example_item_description>
+    <example_item_data><![CDATA[if ~MPI_Initialized()
+  MPI_Init();
+end
+if MPI_Initialized()
+  MPI_Finalize();
+end
+]]>
+    </example_item_data>
+  </example_item>
+
+</examples>
+
+
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>
