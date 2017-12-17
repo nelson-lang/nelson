@@ -14,7 +14,7 @@ Features:
     * MPI\_Bcast : Broadcasts a message from the process with rank "root" to all other processes of the communicator.
     * MPI\_Comm\_get\_parent : Return the parent communicator for this process.
     * MPI\_Reduce : Reduces values on all processes to a single value.
-    * MPI\_Allreduce : MPI_Allreduce.
+    * MPI\_Allreduce : Combines values from all processes and distributes the result back to all processes.
     * MPI\_Intercomm\_merge : Creates an intracommuncator from an intercommunicator.
     * MPI\_Probe : Blocking test for a message.
     * MPI\_Iprobe : Nonblocking test for a message.
