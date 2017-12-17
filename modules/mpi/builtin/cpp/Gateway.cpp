@@ -26,6 +26,7 @@
 #include "MPI_SendBuiltin.hpp"
 #include "MPI_RecvBuiltin.hpp"
 #include "MPI_BarrierBuiltin.hpp"
+#include "MPI_BcastBuiltin.hpp"
 #include "MPI_ReduceBuiltin.hpp"
 #include "MPI_AllreduceBuiltin.hpp"
 #include "MPI_Intercomm_mergeBuiltin.hpp"
@@ -61,6 +62,7 @@ static const nlsGateway gateway[] =
     { "MPI_Comm_rank", Nelson::MpiGateway::MPI_Comm_rankBuiltin, 1, 1 },
     { "MPI_Comm_size", Nelson::MpiGateway::MPI_Comm_sizeBuiltin, 1, 1 },
     { "MPI_Barrier", Nelson::MpiGateway::MPI_BarrierBuiltin, 1, 1 },
+    { "MPI_Bcast", Nelson::MpiGateway::MPI_BcastBuiltin, 1, 2 },
     { "MPI_Comm_get_parent", Nelson::MpiGateway::MPI_Comm_get_parentBuiltin, 1, 0 },
     { "MPI_Reduce", Nelson::MpiGateway::MPI_ReduceBuiltin, 1, 4 },
     { "MPI_Allreduce", Nelson::MpiGateway::MPI_AllreduceBuiltin, 1, 3 },
