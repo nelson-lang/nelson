@@ -3,7 +3,7 @@
 	<copyright>SAME AS NELSON SOFTWARE</copyright>
 	<language>en_US</language>
 	<module_name>mpi</module_name>
-	<chapter>MPI</chapter>
+	<chapter>Message Passing Interface</chapter>
 	<chapter_description>MPI features from Nelson</chapter_description>
 	
 </xmldoc>
