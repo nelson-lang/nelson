@@ -49,6 +49,8 @@ these own data types and operations on these data types by using overload.
 
 - Write/Read xlsx files on Windows using COM.
 
+- Message Passing Interface (MPI): functions for parallel computing.
+
 - Embedded Nelson code editor.
 
 - Help engine
