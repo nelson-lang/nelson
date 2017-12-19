@@ -216,12 +216,10 @@
     <ClInclude Include="..\include\MPI_Comm_deleteBuiltin.hpp" />
     <ClInclude Include="..\include\MPI_Comm_dispBuiltin.hpp" />
     <ClInclude Include="..\include\MPI_Comm_get_nameBuiltin.hpp" />
-    <ClInclude Include="..\include\MPI_Comm_get_parentBuiltin.hpp" />
     <ClInclude Include="..\include\MPI_Comm_isvalidBuiltin.hpp" />
     <ClInclude Include="..\include\MPI_Comm_objectBuiltin.hpp" />
     <ClInclude Include="..\include\MPI_Comm_rankBuiltin.hpp" />
     <ClInclude Include="..\include\MPI_Comm_sizeBuiltin.hpp" />
-    <ClInclude Include="..\include\MPI_Comm_spawnBuiltin.hpp" />
     <ClInclude Include="..\include\MPI_Comm_splitBuiltin.hpp" />
     <ClInclude Include="..\include\MPI_Comm_usedBuiltin.hpp" />
     <ClInclude Include="..\include\MPI_FinalizeBuiltin.hpp" />
@@ -245,12 +243,10 @@
     <ClCompile Include="..\cpp\MPI_Comm_deleteBuiltin.cpp" />
     <ClCompile Include="..\cpp\MPI_Comm_dispBuiltin.cpp" />
     <ClCompile Include="..\cpp\MPI_Comm_get_nameBuiltin.cpp" />
-    <ClCompile Include="..\cpp\MPI_Comm_get_parentBuiltin.cpp" />
     <ClCompile Include="..\cpp\MPI_Comm_isvalidBuiltin.cpp" />
     <ClCompile Include="..\cpp\MPI_Comm_objectBuiltin.cpp" />
     <ClCompile Include="..\cpp\MPI_Comm_rankBuiltin.cpp" />
     <ClCompile Include="..\cpp\MPI_Comm_sizeBuiltin.cpp" />
-    <ClCompile Include="..\cpp\MPI_Comm_spawnBuiltin.cpp" />
     <ClCompile Include="..\cpp\MPI_Comm_splitBuiltin.cpp" />
     <ClCompile Include="..\cpp\MPI_Comm_usedBuiltin.cpp" />
     <ClCompile Include="..\cpp\MPI_FinalizeBuiltin.cpp" />

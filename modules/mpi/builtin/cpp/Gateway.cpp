@@ -32,7 +32,6 @@
 #include "MPI_Intercomm_mergeBuiltin.hpp"
 #include "MPI_ProbeBuiltin.hpp"
 #include "MPI_IprobeBuiltin.hpp"
-#include "MPI_Comm_get_parentBuiltin.hpp"
 #include "MPI_Comm_get_nameBuiltin.hpp"
 #include "MPI_Comm_deleteBuiltin.hpp"
 #include "MPI_Comm_usedBuiltin.hpp"
@@ -42,7 +41,6 @@
 #include "MPI_Comm_rankBuiltin.hpp"
 #include "MPI_Comm_sizeBuiltin.hpp"
 #include "MPI_Comm_splitBuiltin.hpp"
-#include "MPI_Comm_spawnBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -64,7 +62,6 @@ static const nlsGateway gateway[] =
     { "MPI_Comm_size", Nelson::MpiGateway::MPI_Comm_sizeBuiltin, 1, 1 },
     { "MPI_Barrier", Nelson::MpiGateway::MPI_BarrierBuiltin, 1, 1 },
     { "MPI_Bcast", Nelson::MpiGateway::MPI_BcastBuiltin, 1, 2 },
-    { "MPI_Comm_get_parent", Nelson::MpiGateway::MPI_Comm_get_parentBuiltin, 1, 0 },
     { "MPI_Reduce", Nelson::MpiGateway::MPI_ReduceBuiltin, 1, 4 },
     { "MPI_Allreduce", Nelson::MpiGateway::MPI_AllreduceBuiltin, 1, 3 },
     { "MPI_Intercomm_merge", Nelson::MpiGateway::MPI_Intercomm_mergeBuiltin, 1, 1 },
@@ -75,7 +72,6 @@ static const nlsGateway gateway[] =
     { "MPI_Comm_used", Nelson::MpiGateway::MPI_Comm_usedBuiltin, 1, 0 },
     { "MPI_Comm_isvalid", Nelson::MpiGateway::MPI_Comm_isvalidBuiltin, 0, 1 },
     { "MPI_Comm_split", Nelson::MpiGateway::MPI_Comm_splitBuiltin, 1, 3 },
-    { "MPI_Comm_spawn", Nelson::MpiGateway::MPI_Comm_spawnBuiltin, 2, 1 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)
