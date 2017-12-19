@@ -29,7 +29,6 @@
 #include "MPI_BcastBuiltin.hpp"
 #include "MPI_ReduceBuiltin.hpp"
 #include "MPI_AllreduceBuiltin.hpp"
-#include "MPI_Intercomm_mergeBuiltin.hpp"
 #include "MPI_ProbeBuiltin.hpp"
 #include "MPI_IprobeBuiltin.hpp"
 #include "MPI_Comm_get_nameBuiltin.hpp"
@@ -64,7 +63,6 @@ static const nlsGateway gateway[] =
     { "MPI_Bcast", Nelson::MpiGateway::MPI_BcastBuiltin, 1, 2 },
     { "MPI_Reduce", Nelson::MpiGateway::MPI_ReduceBuiltin, 1, 4 },
     { "MPI_Allreduce", Nelson::MpiGateway::MPI_AllreduceBuiltin, 1, 3 },
-    { "MPI_Intercomm_merge", Nelson::MpiGateway::MPI_Intercomm_mergeBuiltin, 1, 1 },
     { "MPI_Probe", Nelson::MpiGateway::MPI_ProbeBuiltin, 1, 2 },
     { "MPI_Iprobe", Nelson::MpiGateway::MPI_IprobeBuiltin, 1, 3 },
     { "MPI_Comm_get_name", Nelson::MpiGateway::MPI_Comm_get_nameBuiltin, 1, 1 },
