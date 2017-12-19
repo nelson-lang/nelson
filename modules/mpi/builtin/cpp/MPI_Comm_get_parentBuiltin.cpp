@@ -42,28 +42,35 @@ ArrayOfVector Nelson::MpiGateway::MPI_Comm_get_parentBuiltin(Evaluator* eval, in
     {
         Error(eval, _W("MPI must be initialized."));
     }
-    MPI_Comm parent;
+    MPI_Comm parent = MPI_COMM_NULL;
     int res = MPI_Comm_get_parent(&parent);
-    if (parent == MPI_COMM_NULL)
-    {
-        Error(eval, _W("MPI_Comm: Invalid communicator."));
-    }
+	if (res != MPI_SUCCESS)
+	{
+		Error(eval, _W("MPI_Comm: Invalid communicator."));
+	}
     std::vector<nelson_handle> hdl_comms = HandleManager::getInstance()->getAllHandlesOfCategory(MPI_COMM_CATEGORY_STR);
     bool found = false;
-    for (size_t k = 0; k < hdl_comms.size(); ++k)
+	for (size_t k = 0; k < hdl_comms.size(); ++k)
     {
         HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hdl_comms[k]);
         if (hlObj != nullptr)
         {
             int result = MPI_UNEQUAL;
-            MPI_CommObject *mpicommhandleobj = (MPI_CommObject *)hlObj;
-            MPI_Comm_compare(parent, mpicommhandleobj->getComm(), &result);
-            found = (result == MPI_IDENT);
-            if (found)
-            {
-                retval.push_back(ArrayOf::handleConstructor(hdl_comms[k]));
-                return retval;
-            }
+			MPI_CommHandleObject *mpicommhandleobj = (MPI_CommHandleObject *)hlObj;
+			if (mpicommhandleobj != nullptr)
+			{
+				MPI_CommObject *obj = (MPI_CommObject *)mpicommhandleobj->getPointer();
+				if (obj != nullptr)
+				{
+					MPI_Comm_compare(parent, obj->getComm(), &result);
+					found = (result == MPI_IDENT);
+					if (found)
+					{
+						retval.push_back(ArrayOf::handleConstructor(hdl_comms[k]));
+						return retval;
+					}
+				}
+			}
         }
     }
     retval.push_back(MpiCommToHandle(parent));

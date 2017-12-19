@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+
+  <language>en_US</language>
+  <keyword>MPI_Comm_get_parent</keyword>
+  <short_description>Return the parent communicator for this process.</short_description>
+
+  <syntax>
+    <syntax_item>r = MPI_Comm_get_parent()</syntax_item>
+  </syntax>
+
+
+  <param_output>
+    <param_output_item>
+      <param_name>comm</param_name>
+      <param_description>a MPI_Comm object.</param_description>
+    </param_output_item>
+  </param_output>
+
+  <description>
+  <p><b>MPI_Comm_get_parent()</b> returns the parent communicator for this process.</p>
+</description>
+
+  <used_function></used_function>
+  <bibliography></bibliography>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${mpi}MPI_Get_name">MPI_Get_name</link>
+    </see_also_item>
+  </see_also>
+
+
+<examples>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description>mpiexec([modulepath('mpi'), '/examples/help_examples/MPI_Reduce.nls'], 4)</example_item_description>
+    <example_item_data><![CDATA[
+if ~MPI_Initialized()
+  MPI_Init();
+end
+my_rank = MPI_Comm_rank ();
+num_ranks = MPI_Comm_size();
+
+A = [1 + my_rank:3 + my_rank]
+B = MPI_Reduce(A, 'MPI_SUM', 0);
+if (my_rank == 0)
+  disp('Result:')
+  B
+end
+if MPI_Initialized()
+  MPI_Finalize();
+end
+]]>
+    </example_item_data>
+  </example_item>
+
+</examples>
+
+
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>
