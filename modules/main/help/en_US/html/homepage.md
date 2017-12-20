@@ -12,5 +12,5 @@ Try it !
 
 * * *
 
-*   [Changelogs](changelog.html)
+*   [Changelog](changelog.html)
 *   [Nelson license](license.html)
