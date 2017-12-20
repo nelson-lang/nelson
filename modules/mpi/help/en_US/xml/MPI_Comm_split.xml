@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+
+  <language>en_US</language>
+  <keyword>MPI_Comm_split</keyword>
+  <short_description>Partitions the group that is associated with the specified communicator into a specified number of disjoint subgroups.</short_description>
+
+  <syntax>
+    <syntax_item>newcomm = MPI_Comm_split(comm,  color, key)</syntax_item>
+  </syntax>
+
+  <param_input>
+    <param_input_item>
+      <param_name>comm</param_name>
+      <param_description>a MPI_Comm object.</param_description>
+    </param_input_item>
+
+    <param_input_item>
+      <param_name>color</param_name>
+      <param_description>an integer value: The new communicator that the calling process is to be assigned to. The value of color must be non-negative.</param_description>
+    </param_input_item>
+
+    <param_input_item>
+      <param_name>key</param_name>
+      <param_description>an integer value: The relative rank of the calling process in the group of the new communicator.</param_description>
+    </param_input_item>
+
+  </param_input>
+
+  <param_output>
+    <param_output_item>
+      <param_name>newcomm</param_name>
+      <param_description>MPI_Comm object:  handle to a new communicator.</param_description>
+    </param_output_item>
+  </param_output>
+
+
+  <description>
+  <p>Partitions the group that is associated with the specified communicator into a specified number of disjoint subgroups.</p> 
+</description>
+
+  <used_function></used_function>
+  <bibliography></bibliography>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${mpi}MPI_Comm_rank">MPI_Comm_rank</link>
+    </see_also_item>
+  </see_also>
+
+
+<examples>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description>mpiexec([modulepath('mpi'), '/examples/help_examples/MPI_Comm_split.nls'], 10)</example_item_description>
+    <example_item_data><![CDATA[if ~MPI_Initialized()
+  MPI_Init();
+end
+comm = MPI_Comm_object();
+world_rank = MPI_Comm_rank();
+world_size = MPI_Comm_size();
+
+color = world_rank * inv(4);
+
+// Split the communicator based on the color and use the
+// original rank for ordering
+row_comm = MPI_Comm_split(comm, color, world_rank);
+
+row_rank = MPI_Comm_rank();
+row_size = MPI_Comm_size();
+
+disp(['WORLD RANK/SIZE: ',int2str(world_rank), '/', int2str(world_size), ' ROW RANK/SIZE: ', int2str(row_rank), '/', int2str(row_size)]);
+if MPI_Initialized()
+  MPI_Finalize();
+end]]>
+    </example_item_data>
+  </example_item>
+
+</examples>
+
+
+
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>
