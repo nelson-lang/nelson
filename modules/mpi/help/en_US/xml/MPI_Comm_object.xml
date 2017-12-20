@@ -36,7 +36,7 @@ if ~MPI_Initialized()
 end
 comm = MPI_Comm_object();
 MPI_Comm_used
-delete(COM_used())
+delete(MPI_Comm_used())
 MPI_Comm_used
 if MPI_Initialized()
   MPI_Finalize();
