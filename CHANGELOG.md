@@ -27,6 +27,11 @@ Features:
     * MPI\_Comm\_size : Determines the size of the group associated with a communicator.
     * mpiexec : Run an MPI script.
 
+Bug Fixes:
+---------
+
+  [#82](http://github.com/Nelson-numerical-software/nelson/issues/82): home, end, page down, page up keys shorcut not implement in editor.
+
 Compilation:
 ---------
 
@@ -57,7 +62,7 @@ Features:
 Bug Fixes:
 ---------
 
-  [#80](http://github.com/Nelson-numerical-software/nelson/issues/78):  code editor: keys up, down, left, right behavior
+  [#80](http://github.com/Nelson-numerical-software/nelson/issues/80):  code editor: keys up, down, left, right behavior
 
   [#78](http://github.com/Nelson-numerical-software/nelson/issues/78): [p,f,e]=fileparts('c:/') did not return the good result
 

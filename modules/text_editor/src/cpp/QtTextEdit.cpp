@@ -129,9 +129,13 @@ void QtTextEdit::keyPressEvent(QKeyEvent *e)
             else
             {
                 if (e->key() == Qt::Key_Up ||
-                        e->key() == Qt::Key_Down ||
-                        e->key() == Qt::Key_Left ||
-                        e->key() == Qt::Key_Right)
+                    e->key() == Qt::Key_Down ||
+                    e->key() == Qt::Key_Left ||
+                    e->key() == Qt::Key_Right ||
+					e->key() == Qt::Key_End ||
+					e->key() == Qt::Key_Home ||
+					e->key() == Qt::Key_PageUp ||
+					e->key() == Qt::Key_PageDown)
                 {
                     QTextEdit::keyPressEvent(e);
                 }
