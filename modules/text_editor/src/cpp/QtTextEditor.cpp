@@ -517,7 +517,7 @@ bool QtTextEditor::save()
     bool res = false;
     if (!currentFilename().isEmpty())
     {
-		lastFilenameSaved = currentFilename();
+        lastFilenameSaved = currentFilename();
         res = saveFile(lastFilenameSaved);
     }
     else
@@ -768,15 +768,15 @@ void QtTextEditor::uncomment()
 //=============================================================================
 int QtTextEditor::getCurrentLineNumber()
 {
-	return currentEditor()->textCursor().blockNumber() + 1;
+    return currentEditor()->textCursor().blockNumber() + 1;
 }
 //=============================================================================
 bool QtTextEditor::gotoLineNumber(int lineNumber)
 {
-	QTextCursor text_cursor(currentEditor()->document()->findBlockByLineNumber(lineNumber - 1));
-	text_cursor.movePosition(QTextCursor::StartOfLine);
-	currentEditor()->setTextCursor(text_cursor);
-	return true;
+    QTextCursor text_cursor(currentEditor()->document()->findBlockByLineNumber(lineNumber - 1));
+    text_cursor.movePosition(QTextCursor::StartOfLine);
+    currentEditor()->setTextCursor(text_cursor);
+    return true;
 }
 //=============================================================================
 void QtTextEditor::gotoLine()
@@ -786,7 +786,7 @@ void QtTextEditor::gotoLine()
                                            TR("Enter a line number to go to: "), 1, 1, currentEditor()->document()->blockCount(), 1, &ok);
     if (ok)
     {
-		gotoLineNumber(line_number);
+        gotoLineNumber(line_number);
     }
 }
 //=============================================================================
@@ -797,7 +797,7 @@ void QtTextEditor::runFile()
         if (currentEditor()->document()->isModified() || currentEditor()->document()->isEmpty())
         {
             save();
-       }
+        }
         std::wstring filename = QStringTowstring(currentFilename());
         executeCommand(std::wstring(L"run('") + filename + std::wstring(L"')"));
     }
@@ -933,11 +933,11 @@ void QtTextEditor::reloadFile(const QString filenameModified)
         {
             if (editPane->getFileName() == filenameModified)
             {
-				if (lastFilenameSaved == filenameModified)
-				{
-					filesModifiedMessageDisplayedList.removeAll(filenameModified);
-					return;
-				}
+                if (lastFilenameSaved == filenameModified)
+                {
+                    filesModifiedMessageDisplayedList.removeAll(filenameModified);
+                    return;
+                }
                 if (filesModifiedMessageDisplayedList.contains(filenameModified))
                 {
                     return;
