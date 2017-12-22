@@ -100,6 +100,11 @@ private:
 
     QFileSystemWatcher fileWatcher;
     QStringList filesModifiedMessageDisplayedList;
+	QString lastFilenameSaved;
+
+	int getCurrentLineNumber();
+	bool gotoLineNumber(int lineNumber);
+
 private Q_SLOTS:
     bool save();
     bool saveAs();

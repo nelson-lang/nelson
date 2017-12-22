@@ -30,6 +30,8 @@ Features:
 Bug Fixes:
 ---------
 
+  [#83](http://github.com/Nelson-numerical-software/nelson/issues/83): save action in text editor do a popup to reload file.
+
   [#82](http://github.com/Nelson-numerical-software/nelson/issues/82): home, end, page down, page up keys shorcut not implement in editor.
 
 Compilation:
