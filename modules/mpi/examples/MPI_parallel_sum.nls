@@ -16,7 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-// mpiexec -n 40 NelSon-cli.exe -q -e run('.\modules\mpi\examples\MPI_parallel_sum.nls')
+// mpiexec([modulepath('mpi'), '/examples/MPI_parallel_sum.nls'], 40)
 //=============================================================================
 if ~MPI_Initialized()
   MPI_Init();

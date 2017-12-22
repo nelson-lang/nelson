@@ -4,7 +4,7 @@
 	<language>en_US</language>
 	<module_name>mpi</module_name>
 	<chapter>Message Passing Interface</chapter>
-	<chapter_description>MPI features from Nelson</chapter_description>
+	<chapter_description>In the world of parallel computing the Message Passing Interface (MPI) is the de facto standard for implementing programs on multiple processors.</chapter_description>
 	
 </xmldoc>
 
