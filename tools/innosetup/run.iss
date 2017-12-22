@@ -16,7 +16,6 @@
 ; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ; LICENCE_BLOCK_END
 ;==============================================================================
-Filename: "{app}\bin\{#BinPath}\{#APPLICATION_EXE_GUI_NAME}"; Description: "{cm:LaunchProgram,{#StringChange(APPLICATION_NAME, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
 #ifdef NELSON_X64
 Filename: "{app}\bin\{#BinPath}\vcredist_x64.exe"; Parameters: "/q /passive /norestart"; Check: VCRedistNeedsInstall; WorkingDir: {app}\bin\{#BinPath}; StatusMsg: Installing VC++ 2015 Redistributables...
 #else
