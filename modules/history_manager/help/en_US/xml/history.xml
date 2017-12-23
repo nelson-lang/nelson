@@ -124,13 +124,27 @@
     <p><b>history('removeexit', true_false)</b> set state about do not save exit in history file.</p>
     <p><b>history('get', lines)</b>returns the current Nelson history in a cell of strings by index: a scalar value or a vector 1x2.</p>
     <p><b>history('saveafter', nb_commands)</b> saves the history file after <b>nb_commands</b> statements are added to the file.</p>
-    <p>If <b>OneDrive</b> environment variable is defined, history will be saved on your cloud drive.</p>
+    <p><b>Tips</b>: You can easily share your history file in the cloud by adding few lines code in your user startup file.</p>
   </description>
   <used_function></used_function>
   <bibliography></bibliography>
 
 
 <examples>
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description>Example to share your history file in OneDrive cloud</example_item_description>
+    <example_item_data><![CDATA[OneDrivePath = getenv('OneDrive');
+if (strcmp(OneDrivePath, '') == false)
+  NelsonOneDrivePath = [OneDrivePath, '/Nelson'];
+  mkdir(NelsonOneDrivePath);
+  NelsonOneDrivePathFilename = [NelsonOneDrivePath, '/', 'Nelson.history'];
+ history('filename', NelsonOneDrivePathFilename);
+  history('load', NelsonOneDrivePathFilename);
+end]]>
+    </example_item_data>
+  </example_item>
+
   <example_item>
     <example_item_type>nelson</example_item_type>
     <example_item_description></example_item_description>

@@ -18,14 +18,5 @@
 //=============================================================================
 if ( (strcmp(getnelsonmode(), 'GUI') == true) | (strcmp(getnelsonmode(), 'ADVANCED_TERMINAL') == true) )
   addgateway(modulepath(nelsonroot(), 'history_manager', 'builtin'));
-  OneDrivePath = getenv('OneDrive');
-  if (strcmp(OneDrivePath, '') == false)
-    NelsonOneDrivePath = [OneDrivePath, '/Nelson'];
-    mkdir(NelsonOneDrivePath);
-    NelsonOneDrivePathFilename = [NelsonOneDrivePath, '/', 'Nelson.history'];
-    history('filename', NelsonOneDrivePathFilename);
-    history('load', NelsonOneDrivePathFilename);
-  else
-    history('load');
-  end
+  history('load');
 end
