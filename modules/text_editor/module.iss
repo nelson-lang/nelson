@@ -32,6 +32,6 @@ Source: {#RootPath}modules\{#MODULE_NAME}\resources\*.*; DestDir: {app}\modules\
 Source: {#RootPath}modules\{#MODULE_NAME}\help\*.qch; DestDir: {app}\modules\{#MODULE_NAME}\help\; Flags: recursesubdirs
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.nls; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs
-Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.text; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs
+Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.txt; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs
 ;==============================================================================
 
