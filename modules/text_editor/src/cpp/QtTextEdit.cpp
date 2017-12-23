@@ -362,3 +362,16 @@ void QtTextEdit::uncomment()
     textPosition.endEditBlock();
 }
 //=============================================================================
+bool QtTextEdit::canInsertFromMimeData(const QMimeData *source) const
+{
+	return source->hasText();
+}
+//=============================================================================
+void QtTextEdit::insertFromMimeData(const QMimeData *source)
+{
+	if (source->hasText())
+	{
+		setPlainText(source->text());
+	}
+}
+//=============================================================================

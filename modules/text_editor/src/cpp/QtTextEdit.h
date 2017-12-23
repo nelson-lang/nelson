@@ -19,6 +19,7 @@
 #pragma once
 //=============================================================================
 #include <QtWidgets/QTextEdit>
+#include <QtCore/QMimeData>
 #include "Types.hpp"
 //=============================================================================
 class QCompleter;
@@ -37,6 +38,8 @@ public:
     void setCompleter(QCompleter *completer);
     void comment();
     void uncomment();
+	bool canInsertFromMimeData(const QMimeData *source) const;
+	void insertFromMimeData(const QMimeData *source);
 
 private:
     QCompleter *qCompleter;

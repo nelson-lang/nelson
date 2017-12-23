@@ -30,6 +30,8 @@ Features:
 Bug Fixes:
 ---------
 
+  [#85](http://github.com/Nelson-numerical-software/nelson/issues/85): paste in text editor should be limited to the text only.
+
   [#84](http://github.com/Nelson-numerical-software/nelson/issues/84): CTRL + A action in text editor.
 
   [#83](http://github.com/Nelson-numerical-software/nelson/issues/83): save action in text editor do a popup to reload file.
