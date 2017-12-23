@@ -111,3 +111,8 @@ https://github.com/cubicdaiya/dtl/blob/master/COPYING
 TANGO icons
 http://tango.freedesktop.org/Tango_Desktop_Project
 Public Domain
+
+Jmsn
+https://github.com/zserge/jsmn
+https://github.com/zserge/jsmn/blob/master/LICENSE
+MIT license

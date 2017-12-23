@@ -53,6 +53,8 @@ these own data types and operations on these data types by using overload.
 
 - Embedded Nelson code editor.
 
+- JSON decode/encode data support.
+
 - Help engine
  Generate help files using Nelson dedicated functions.
  View your generated help files as html, pdf or directly in Nelson help viewer.

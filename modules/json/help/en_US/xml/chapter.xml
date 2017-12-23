@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+	<copyright>SAME AS NELSON SOFTWARE</copyright>
+	<language>en_US</language>
+	<module_name>JSON</module_name>
+	<chapter>JavaScript Object Notation</chapter>
+	<chapter_description>Functions to transmit data objects consisting of attribute–value pairs and array data types (or any other serializable value).</chapter_description>
+</xmldoc>
+
