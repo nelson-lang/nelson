@@ -285,43 +285,92 @@ assert_isapprox(V1, V1, 1e-4);
 //=============================================================================
 A = ones(3, 2);
 [U, S, V] = svd(A, 'econ');
-U_REF = [-0.5774   -0.5774;
+U1_REF = [-0.5774   -0.5774;
 -0.5774    0.7887;
 -0.5774   -0.2113];
-S_REF = [2.4495         0;
+S1_REF = [2.4495         0;
 0         0];
-V_REF = [-0.7071   -0.7071;
+V1_REF = [-0.7071   -0.7071;
 -0.7071    0.7071];
-assert_isapprox(U, U_REF, 1e-4);
-assert_isapprox(S, S_REF, 1e-4);
-assert_isapprox(V, V_REF, 1e-4);
+
+// MKL does not return same result on some CORE I7
+U2_REF = [-0.5774      0.8165;
+     -0.5774     -0.4082;
+     -0.5774     -0.4082];
+S2_REF = [2.4495      0.0000;
+      0.0000      0.0000];
+V2_REF = [-0.7071      0.7071;
+     -0.7071     -0.7071];
+
+if isapprox(U, U2_REF, 1e-4)
+  assert_isapprox(U, U2_REF, 1e-4);
+  assert_isapprox(S, S2_REF, 1e-4);
+  assert_isapprox(V, V2_REF, 1e-4);
+else
+  assert_isapprox(U, U1_REF, 1e-4);
+  assert_isapprox(S, S1_REF, 1e-4);
+  assert_isapprox(V, V1_REF, 1e-4);
+end
 //=============================================================================
 A = ones(3, 2);
 [U, S, V] = svd(A);
-U_REF = [-0.5774   -0.5774   -0.5774;
+U1_REF = [-0.5774   -0.5774   -0.5774;
 -0.5774    0.7887   -0.2113;
 -0.5774   -0.2113    0.7887];
-S_REF = [2.4495         0;
+S1_REF = [2.4495         0;
 0         0;
 0         0];
-V_REF = [-0.7071   -0.7071;
+V1_REF = [-0.7071   -0.7071;
 -0.7071    0.7071];
-assert_isapprox(U, U_REF, 1e-4);
-assert_isapprox(S, S_REF, 1e-4);
-assert_isapprox(V, V_REF, 1e-4);
+
+// MKL on some CORE I7
+U2_REF = [ -0.5774      0.8165     -0.0000;
+     -0.5774     -0.4082     -0.7071;
+     -0.5774     -0.4082      0.7071];
+S2_REF = [2.4495      0.0000;
+      0.0000      0.0000;
+      0.0000      0.0000];
+V2_REF = [-0.7071      0.7071;
+     -0.7071     -0.7071];
+if U(1,3) < eps
+  U(1,3) = 0;
+end
+if isapprox(U, U2_REF, 1e-4)
+  assert_isapprox(U, U2_REF, 1e-4);
+  assert_isapprox(S, S2_REF, 1e-4);
+  assert_isapprox(V, V2_REF, 1e-4);
+else
+  assert_isapprox(U, U1_REF, 1e-4);
+  assert_isapprox(S, S1_REF, 1e-4);
+  assert_isapprox(V, V1_REF, 1e-4);
+end
 //=============================================================================
 A = ones(3, 2);
 [U, S, V] = svd(A, 0);
-U_REF = [-0.5774   -0.5774;
+U1_REF = [-0.5774   -0.5774;
 -0.5774    0.7887;
 -0.5774   -0.2113];
-S_REF = [2.4495         0;
+S1_REF = [2.4495         0;
 0         0];
-V_REF = [-0.7071   -0.7071;
+V1_REF = [-0.7071   -0.7071;
 -0.7071    0.7071];
-assert_isapprox(U, U_REF, 1e-4);
-assert_isapprox(S, S_REF, 1e-4);
-assert_isapprox(V, V_REF, 1e-4);
+// MKL on some CORE I7
+U2_REF = [-0.5774      0.8165;
+     -0.5774     -0.4082;
+     -0.5774     -0.4082];
+S2_REF = [2.4495      0.0000;
+      0.0000      0.0000];
+V2_REF = [-0.7071      0.7071;
+     -0.7071     -0.7071];
+if isapprox(U, U2_REF, 1e-4)
+  assert_isapprox(U, U2_REF, 1e-4);
+  assert_isapprox(S, S2_REF, 1e-4);
+  assert_isapprox(V, V2_REF, 1e-4);
+else
+  assert_isapprox(U, U1_REF, 1e-4);
+  assert_isapprox(S, S1_REF, 1e-4);
+  assert_isapprox(V, V1_REF, 1e-4);
+end
 //=============================================================================
 A = ones(3, 3);
 [U, S, V] = svd(A);
@@ -338,13 +387,24 @@ assert_isapprox(S, S_REF, 1e-4);
 //=============================================================================
 A = ones(3, 2);
 [U, S] = svd(A, 0);
-U_REF = [-0.5774   -0.5774;
+U1_REF = [-0.5774   -0.5774;
 -0.5774    0.7887;
 -0.5774   -0.2113];
-S_REF = [2.4495         0;
+S1_REF = [2.4495         0;
 0         0];
-assert_isapprox(U, U_REF, 1e-4);
-assert_isapprox(S, S_REF, 1e-4);
+// MKL on some CORE I7
+U2_REF = [-0.5774      0.8165;
+     -0.5774     -0.4082;
+     -0.5774     -0.4082];
+S2_REF = [ 2.4495      0.0000;
+      0.0000      0.0000];
+if isapprox(U, U2_REF, 1e-4)
+  assert_isapprox(U, U2_REF, 1e-4);
+  assert_isapprox(S, S2_REF, 1e-4);
+else
+  assert_isapprox(U, U1_REF, 1e-4);
+  assert_isapprox(S, S1_REF, 1e-4);
+end
 //=============================================================================
 A = [8.79   9.93   9.83   5.45   3.16;
 6.11   6.91   5.04  -0.27   7.98;
