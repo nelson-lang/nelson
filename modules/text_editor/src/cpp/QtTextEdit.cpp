@@ -128,7 +128,12 @@ void QtTextEdit::keyPressEvent(QKeyEvent *e)
             }
             else
             {
-                if (e->key() == Qt::Key_Up ||
+				if (e->key() == Qt::Key_A && Qt::ControlModifier)
+				{
+					QTextEdit::keyPressEvent(e);
+					return;
+				}
+				if (e->key() == Qt::Key_Up ||
                         e->key() == Qt::Key_Down ||
                         e->key() == Qt::Key_Left ||
                         e->key() == Qt::Key_Right ||
