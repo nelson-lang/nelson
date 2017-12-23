@@ -134,8 +134,14 @@ void BasicTerminal::errorMessage(std::wstring msg)
 //=============================================================================
 void BasicTerminal::errorMessage(std::string msg)
 {
-    fprintf(stderr, "%s", msg.c_str());
-    this->diary.writeMessage(msg);
+    std::string _msg = msg + "\n";
+    if (atPrompt)
+    {
+        _msg = "\n" + msg;
+        atPrompt = false;
+    }
+    fprintf(stderr, "%s", _msg.c_str());
+    diary.writeMessage(_msg);
 }
 //=============================================================================
 void BasicTerminal::warningMessage(std::wstring msg)
@@ -145,8 +151,14 @@ void BasicTerminal::warningMessage(std::wstring msg)
 //=============================================================================
 void BasicTerminal::warningMessage(std::string msg)
 {
-    fprintf(stdout, "%s", msg.c_str());
-    this->diary.writeMessage(msg);
+    std::string _msg = msg + "\n";
+    if (atPrompt)
+    {
+        msg = "\n" + msg;
+        atPrompt = false;
+    }
+    fprintf(stdout, "%s", _msg.c_str());
+    diary.writeMessage(_msg);
 }
 //=============================================================================
 void BasicTerminal::clearTerminal()
