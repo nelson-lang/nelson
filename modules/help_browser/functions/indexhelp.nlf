@@ -33,7 +33,8 @@ function r = indexhelp(varargin)
     end
   end
   pref_help = [prefdir(), '/help_index.bin'];
-  if ~isfile(pref_help) | force
+  cachehelpempty = helpbrowser('-isempty');
+  if ~isfile(pref_help) | force | cachehelpempty
     r = reindexhelp(pref_help);
   else
     loadbin(pref_help);

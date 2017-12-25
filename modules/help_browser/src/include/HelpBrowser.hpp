@@ -36,7 +36,8 @@ namespace Nelson {
         void sendCommand(const std::wstring &cmd);
         void destroy();
         void clearCache();
-
+        std::wstring getCachePath();
+        bool contentIsEmpty();
     private:
         HelpBrowser();
         HelpBrowser(HelpBrowser const&) {};

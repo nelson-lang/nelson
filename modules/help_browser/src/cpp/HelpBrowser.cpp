@@ -21,6 +21,8 @@
 #include <QtCore/QProcess>
 #include <QtCore/QByteArray>
 #include <QtCore/QThread>
+#include <QtSql/QSqlDatabase>
+#include <QtSql/QSqlQuery>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/chrono/chrono.hpp>
 #include <boost/thread/thread.hpp>
@@ -84,9 +86,37 @@ namespace Nelson {
         {
             return;
         }
-        boost::this_thread::sleep_for(boost::chrono::milliseconds(uint64(200)));
+        boost::this_thread::sleep_for(boost::chrono::milliseconds(uint64(100)));
         qprocess->write(CommandToSend.toLocal8Bit() + '\n');
-        boost::this_thread::sleep_for(boost::chrono::milliseconds(uint64(1000)));
+        boost::this_thread::sleep_for(boost::chrono::milliseconds(uint64(750)));
+    }
+    //=============================================================================
+    std::wstring HelpBrowser::getCachePath()
+    {
+        QString cacheLocation = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
+        return QStringTowstring(cacheLocation) + std::wstring(L"/help");
+    }
+    //=============================================================================
+    bool HelpBrowser::contentIsEmpty()
+    {
+        bool res;
+        std::wstring database_path = getCachePath() + L"/.nelson_help_collection/fts";
+        QSqlDatabase m_db;
+        m_db = QSqlDatabase::addDatabase("QSQLITE");
+        m_db.setDatabaseName(wstringToQString(database_path));
+        if (!m_db.open())
+        {
+            return true;
+        }
+        QSqlQuery query("SELECT * FROM contents");
+        size_t nbElements = 0;
+        while (query.next())
+        {
+            nbElements++;
+        }
+        m_db.close();
+        res = (nbElements == 0);
+        return res;
     }
     //=============================================================================
     bool HelpBrowser::startBrowser(std::wstring &msg)
@@ -198,8 +228,7 @@ namespace Nelson {
     void HelpBrowser::clearCache()
     {
         closeBrowser();
-        QString cacheLocation = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
-        std::wstring cachePath = QStringTowstring(cacheLocation) + std::wstring(L"/help");
+        std::wstring cachePath = getCachePath();
         std::wstring msgError = L"";
         Nelson::RemoveDirectory(cachePath, true, msgError);
     }

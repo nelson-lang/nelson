@@ -63,6 +63,7 @@ nlsGui
 nlsCore
 nlsFiles_folders_functions
 ${Qt5Widgets_LIBRARIES}
+${Qt5Sql_LIBRARIES}
 )
 #==============================================================================	
 set_target_properties(${module_library_name}
