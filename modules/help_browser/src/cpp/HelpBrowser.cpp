@@ -269,18 +269,16 @@ namespace Nelson {
 		}
 		if (isdir)
 		{
-#ifdef _MSC_VER
-			boost::wregex pattern(L"(fts)");
-#else
-			boost::wregex pattern(L"*.cfs");
-
-#endif
 			for (boost::filesystem::recursive_directory_iterator iter(base_dir), end;
 				iter != end;
 				++iter)
 			{
 				std::wstring name = iter->path().filename().wstring();
-				if (regex_match(name, pattern))
+#ifdef _MSC_VER
+				if (name == L"fts")
+#else
+				if (boost::algorithm::ends_with(name, L".cfs"))
+#endif
 				{
 					return database_path + L"/" + name;
 				}
