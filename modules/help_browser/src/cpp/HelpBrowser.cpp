@@ -88,8 +88,8 @@ namespace Nelson {
         {
             return;
         }
-
-        qprocess->write(CommandToSend.toLocal8Bit() + '\n');
+		boost::this_thread::sleep_for(boost::chrono::milliseconds(uint64(200)));
+		qprocess->write(CommandToSend.toLocal8Bit() + '\n');
 		boost::this_thread::sleep_for(boost::chrono::milliseconds(uint64(1000)));
 	}
     //=============================================================================
