@@ -19,6 +19,7 @@
 #include "helpbrowserBuiltin.hpp"
 #include "Error.hpp"
 #include "HelpBrowser.hpp"
+#include "ToCellString.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -39,7 +40,7 @@ ArrayOfVector Nelson::HelpBrowserGateway::helpbrowserBuiltin(Evaluator* eval, in
     else if (argIn.size() == 1)
     {
         std::wstring param1 = argIn[0].getContentAsWideString();
-        if (param1 == L"-cache" || param1 == L"-isempty")
+        if (param1 == L"-cache" || param1 == L"-attributes")
         {
             if (nLhs > 1)
             {
@@ -52,7 +53,7 @@ ArrayOfVector Nelson::HelpBrowserGateway::helpbrowserBuiltin(Evaluator* eval, in
             }
             else
             {
-                retval.push_back(ArrayOf::logicalConstructor(HelpBrowser::getInstance()->contentIsEmpty()));
+                retval.push_back(ToCellStringAsColumn(HelpBrowser::getInstance()->getAttributes()));
             }
             return retval;
         }

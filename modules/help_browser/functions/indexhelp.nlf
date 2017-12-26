@@ -33,16 +33,58 @@ function r = indexhelp(varargin)
     end
   end
   pref_help = [prefdir(), '/help_index.bin'];
-  cachehelpempty = helpbrowser('-isempty');
-  if ~isfile(pref_help) | force | cachehelpempty
+  attributes = helpbrowser('-attributes');
+  if ~isfile(pref_help) | force | isempty(attributes)
     r = reindexhelp(pref_help);
   else
     loadbin(pref_help);
-    run([nelsonroot() '/modules/' 'modules.nls']);
-    if ~isequal(help_list, modules_help_list)
-      r = reindexhelp(pref_help);
+    if isvar('version_help')
+      current_version = version('-number');
+      if (compareVersion(version_help, current_version) ~= 0)
+        r = reindexhelp(pref_help);
+      else
+        run([nelsonroot() '/modules/' 'modules.nls']);
+        if ~isequal(help_list, modules_help_list)
+          r = reindexhelp(pref_help);
+        else
+          r = false;
+        end
+      end
     else
-      r = false;
+      run([nelsonroot() '/modules/' 'modules.nls']);
+      if ~isequal(help_list, modules_help_list)
+        r = reindexhelp(pref_help);
+      else
+        r = false;
+      end
+    end
+  end
+endfunction
+//=============================================================================
+function r = compareVersion(previous, current)
+  if (previous(1) == current(1))
+    if (previous(2) == current(2))
+      if (previous(3) == current(3))
+        r = 0;
+      else
+        if (previous(3) > current(3))
+          r = -1;
+        else
+          r = 1;
+        end
+      end
+    else
+      if (previous(2) > current(2))
+        r = -1;
+      else
+        r = 1;
+      end
+    end
+  else
+    if (previous(1) > current(1))
+      r = -1;
+    else
+      r = 1;
     end
   end
 endfunction
@@ -79,7 +121,8 @@ function r = reindexhelp(pref_help)
       end
     end
     help_list = modules_help_list;
-    savebin(pref_help, 'help_list');
+    version_help = version('-number');
+    savebin(pref_help, 'help_list', 'version_help');
     r = true;
 endfunction
 //=============================================================================

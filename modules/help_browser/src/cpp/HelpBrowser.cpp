@@ -23,10 +23,12 @@
 #include <QtCore/QThread>
 #include <QtSql/QSqlDatabase>
 #include <QtSql/QSqlQuery>
+#include <QtCore/QVariant>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/chrono/chrono.hpp>
 #include <boost/thread/thread.hpp>
 #include <boost/filesystem.hpp>
+#include <boost/regex.hpp>
 #include "HelpBrowser.hpp"
 #include "QStringConverter.hpp"
 #include "GetQtPath.hpp"
@@ -86,10 +88,10 @@ namespace Nelson {
         {
             return;
         }
-        boost::this_thread::sleep_for(boost::chrono::milliseconds(uint64(100)));
+
         qprocess->write(CommandToSend.toLocal8Bit() + '\n');
-        boost::this_thread::sleep_for(boost::chrono::milliseconds(uint64(750)));
-    }
+		boost::this_thread::sleep_for(boost::chrono::milliseconds(uint64(1000)));
+	}
     //=============================================================================
     std::wstring HelpBrowser::getCachePath()
     {
@@ -97,28 +99,33 @@ namespace Nelson {
         return QStringTowstring(cacheLocation) + std::wstring(L"/help");
     }
     //=============================================================================
-    bool HelpBrowser::contentIsEmpty()
-    {
-        bool res;
-        std::wstring database_path = getCachePath() + L"/.nelson_help_collection/fts";
-        QSqlDatabase m_db;
-        m_db = QSqlDatabase::addDatabase("QSQLITE");
-        m_db.setDatabaseName(wstringToQString(database_path));
-        if (!m_db.open())
-        {
-            return true;
-        }
-        QSqlQuery query("SELECT * FROM contents");
-        size_t nbElements = 0;
-        while (query.next())
-        {
-            nbElements++;
-        }
-        m_db.close();
-        res = (nbElements == 0);
-        return res;
-    }
-    //=============================================================================
+	wstringVector HelpBrowser::getAttributes()
+	{
+		wstringVector attributes;
+		std::wstring database_path = getCacheFile();
+		if (database_path != L"")
+		{
+			QSqlDatabase m_db;
+			m_db = QSqlDatabase::addDatabase("QSQLITE");
+			m_db.setDatabaseName(wstringToQString(database_path));
+			if (m_db.open())
+			{
+				QSqlQuery query("SELECT attributes FROM contents");
+				while (query.next())
+				{
+					QString qattribute = query.value(0).toString();
+					std::wstring attribute = QStringTowstring(qattribute);
+					if (std::find(attributes.begin(), attributes.end(), attribute) == attributes.end())
+					{
+						attributes.push_back(attribute);
+					}
+				}
+				m_db.close();
+			}
+		}
+		return attributes;
+	}
+	//=============================================================================
     bool HelpBrowser::startBrowser(std::wstring &msg)
     {
         if (qprocess->state() == QProcess::Running)
@@ -170,7 +177,7 @@ namespace Nelson {
         msg = L"";
         if (!qprocess->waitForStarted())
         {
-            return true;
+            return false;
         }
         return true;
     }
@@ -244,5 +251,43 @@ namespace Nelson {
         return path;
     }
     //=============================================================================
+	std::wstring HelpBrowser::getCacheFile()
+	{
+		std::wstring database_path = getCachePath() + L"/.nelson_help_collection";
+#ifdef _MSC_VER
+#else
+#endif
+		boost::filesystem::path base_dir(database_path);
+		bool isdir = false;
+		try
+		{
+			isdir = boost::filesystem::exists(base_dir) && boost::filesystem::is_directory(base_dir);
+		}
+		catch (const boost::filesystem::filesystem_error& e)
+		{
+			isdir = false;
+		}
+		if (isdir)
+		{
+#ifdef _MSC_VER
+			boost::wregex pattern(L"(fts)");
+#else
+			boost::wregex pattern(L"*.cfs");
+
+#endif
+			for (boost::filesystem::recursive_directory_iterator iter(base_dir), end;
+				iter != end;
+				++iter)
+			{
+				std::wstring name = iter->path().filename().wstring();
+				if (regex_match(name, pattern))
+				{
+					return database_path + L"/" + name;
+				}
+			}
+		}
+		return L"";
+	}
+	//=============================================================================
 }
 //=============================================================================

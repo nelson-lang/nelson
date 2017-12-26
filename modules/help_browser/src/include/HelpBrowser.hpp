@@ -37,7 +37,7 @@ namespace Nelson {
         void destroy();
         void clearCache();
         std::wstring getCachePath();
-        bool contentIsEmpty();
+		wstringVector getAttributes();
     private:
         HelpBrowser();
         HelpBrowser(HelpBrowser const&) {};
@@ -45,6 +45,7 @@ namespace Nelson {
         std::wstring getQhcPath();
         static HelpBrowser *m_pInstance;
         wstringVector packages;
+		std::wstring getCacheFile();
     };
     //=============================================================================
 }
