@@ -274,11 +274,7 @@ namespace Nelson {
 				++iter)
 			{
 				std::wstring name = iter->path().filename().wstring();
-#ifdef _MSC_VER
 				if (name == L"fts")
-#else
-				if (boost::algorithm::ends_with(name, L".cfs"))
-#endif
 				{
 					return database_path + L"/" + name;
 				}
