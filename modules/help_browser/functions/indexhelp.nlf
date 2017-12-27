@@ -38,25 +38,17 @@ function r = indexhelp(varargin)
     r = reindexhelp(pref_help);
   else
     loadbin(pref_help);
-    if isvar('version_help')
-      current_version = version('-number');
-      if (compareVersion(version_help, current_version) ~= 0)
-        r = reindexhelp(pref_help);
-      else
-        run([nelsonroot() '/modules/' 'modules.nls']);
-        if ~isequal(help_list, modules_help_list)
-          r = reindexhelp(pref_help);
-        else
-          r = false;
-        end
-      end
+    if ~isvar('modules_help_available')
+      modules_help_available = {};
+    end
+    if ~isvar('version_help')
+      version_help = [0, 0, 0];
+    end
+    current_version = version('-number');
+    if (compareVersion(version_help, current_version) ~= 0) | ~isequal(attributes, modules_help_available) | isempty(modules_help_available)
+      r = reindexhelp(pref_help);
     else
-      run([nelsonroot() '/modules/' 'modules.nls']);
-      if ~isequal(help_list, modules_help_list)
-        r = reindexhelp(pref_help);
-      else
-        r = false;
-      end
+      r = false;
     end
   end
 endfunction
@@ -104,6 +96,7 @@ function r = reindexhelp(pref_help)
     end
     run([nelsonroot() '/modules/' 'modules.nls']);
     len = length(modules_help_list);
+    modules_help_available = {'Nelson'};
     for idx = [1:len]
       module_name = modules_help_list{idx};
       if ismodule(module_name)
@@ -113,16 +106,23 @@ function r = reindexhelp(pref_help)
           help_file = [module_path, '/help/', getdefaultlanguage(), '/', 'org.nelson.modules.', module_name, '.help.qch'];
         end
         if isfile(help_file)
-          helpbrowser();
-          helpbrowser('-hide', 'bookmarks');
-          helpbrowser('-register', help_file);
+          modules_help_available{end+1, 1} = module_name;
+          for i = 1:5
+            attributes = helpbrowser('-attributes');
+            if any(strcmp(attributes, module_name))
+              break;
+            end
+            helpbrowser();
+            helpbrowser('-register', help_file);
+            sleep(0.5)
+          end
         end
         fprintf(stdout,'.');
       end
     end
-    help_list = modules_help_list;
+    fprintf(stdout, char(13))
     version_help = version('-number');
-    savebin(pref_help, 'help_list', 'version_help');
+    savebin(pref_help, 'modules_help_available', 'version_help');
     r = true;
 endfunction
 //=============================================================================

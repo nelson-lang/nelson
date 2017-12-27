@@ -1,7 +1,7 @@
 Bug Fixes:
 ---------
 
-  Regenerates help files index if database is empty.
+  Regenerates help files index if database is empty or wrong (>= Qt 5.9)
 
 
 ## 0.1.12 (2017-12-24)
