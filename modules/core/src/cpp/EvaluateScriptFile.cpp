@@ -48,16 +48,15 @@ namespace Nelson {
     //=============================================================================
     bool EvaluateScriptFile(Evaluator* eval, const wchar_t *filename, bool bChangeDirectory)
     {
-		bool bIsFile;
-		try
-		{
-			bIsFile = boost::filesystem::exists(filename) && !boost::filesystem::is_directory(filename);
-
-		}
-		catch (boost::filesystem::filesystem_error &e)
-		{
-			bIsFile = false;
-		}
+        bool bIsFile;
+        try
+        {
+            bIsFile = boost::filesystem::exists(filename) && !boost::filesystem::is_directory(filename);
+        }
+        catch (boost::filesystem::filesystem_error &e)
+        {
+            bIsFile = false;
+        }
         if (!bIsFile)
         {
             Error(eval, _W("File does not exist."));
