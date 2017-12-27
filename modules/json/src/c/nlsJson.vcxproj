@@ -95,7 +95,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSJSON_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/json/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/json/src/include;$(SolutionDir)modules/json/src/c;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
@@ -112,7 +112,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSJSON_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/json/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/json/src/include;$(SolutionDir)modules/json/src/c;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
@@ -131,7 +131,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSJSON_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/json/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/json/src/include;$(SolutionDir)modules/json/src/c;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
@@ -152,7 +152,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSJSON_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/json/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/json/src/include;$(SolutionDir)modules/json/src/c;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
@@ -164,6 +164,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\characters_encoding\src\c\nlsCharacters_encoding.vcxproj">
+      <Project>{a75dc538-eefa-4873-888b-a034a7ee72c5}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\elementary_functions\src\c\nlsElementary_functions.vcxproj">
       <Project>{c87973dd-f66c-4f35-b875-5e0a0a47b3e7}</Project>
     </ProjectReference>
@@ -193,10 +196,14 @@
     <ResourceCompile Include="resources.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\cpp\JsonEncode.cpp" />
+    <ClCompile Include="..\cpp\JsonHelpers.cpp" />
     <ClCompile Include="dllMain.c" />
     <ClCompile Include="jsmn.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\JsonEncode.hpp" />
+    <ClInclude Include="..\include\JsonHelpers.hpp" />
     <ClInclude Include="..\include\nlsJson_exports.h" />
     <ClInclude Include="jsmn.h" />
   </ItemGroup>

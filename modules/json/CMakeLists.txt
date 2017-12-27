@@ -24,6 +24,7 @@ include_directories(
 ${EIGEN3_INCLUDE_DIR}
 ${Boost_INCLUDE_DIRS}
 ${CMAKE_CURRENT_SOURCE_DIR}/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/src/c
 ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
@@ -31,12 +32,14 @@ ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_mathematics/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_functions/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
 )
 #==============================================================================	
 FILE(
 GLOB
 JSON_SRC
 "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp"
+"${CMAKE_CURRENT_SOURCE_DIR}/src/c/*.c"
 )
 #==============================================================================	
 ADD_LIBRARY(
@@ -52,6 +55,7 @@ nlsElementary_mathematics
 nlsElementary_functions
 nlsTypes
 nlsI18n
+nlsCharacters_encoding
 )
 #==============================================================================	
 set_target_properties(${module_library_name}

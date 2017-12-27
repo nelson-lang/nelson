@@ -16,32 +16,12 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "jsondecodeBuiltin.hpp"
-#include "Error.hpp"
-#include "JsonHelpers.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "nlsJson_exports.h"
+#include "ArrayOf.hpp"
 //=============================================================================
-ArrayOfVector Nelson::JsonGateway::jsondecodeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    ArrayOfVector retval;
-	if (nLhs > 1)
-	{
-		Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-	}
-	if (argIn.size() != 1)
-	{
-		Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-	}
-	ArrayOf param1 = argIn[0];
-	std::wstring jsonString = param1.getContentAsWideString();
-	std::wstring errorMessage;
-	ArrayOf res = jsonDecode(jsonString, errorMessage);
-	if (!errorMessage.empty())
-	{
-		Error(eval, errorMessage);
-	}
-	retval.push_back(res);
-	return retval;
-}
+namespace Nelson {
+	NLSJSON_IMPEXP ArrayOf jsonEncode(ArrayOf ValueToEncode, std::wstring &errorMessage);
+};
 //=============================================================================

@@ -32,12 +32,24 @@
     <ClCompile Include="jsmn.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\JsonHelpers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\JsonEncode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="jsmn.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\nlsJson_exports.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\JsonHelpers.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\JsonEncode.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
