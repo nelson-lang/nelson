@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <QHelpCollectionProject version="1.0">
-	<assistant>
-		<title language="fr">Aide Nelson</title>
+  <assistant>
+    <title language="fr">Aide Nelson</title>
     <title language="en">Nelson help</title>
-		<homePage>qthelp://org.nelson.help/help/homepage.html</homePage>
-		<applicationIcon>../../../resources/fibonacci.ico</applicationIcon>
+    <homePage>qthelp://org.nelson.help/help/homepage.html</homePage>
+    <applicationIcon>../../../resources/fibonacci.ico</applicationIcon>
     <enableFilterFunctionality>false</enableFilterFunctionality>
     <enableDocumentationManager>false</enableDocumentationManager>
     <enableAddressBar>false</enableAddressBar>
     <cacheDirectory>Nelson/help/</cacheDirectory>
-		<aboutMenuText>
- 			<text language="fr">A propos de Nelson</text>
- 			<text language="en">About Nelson</text>
-		</aboutMenuText>
-		<aboutDialog>
-			<file>about.txt</file>
-			<icon>../../../resources/fibonacci.ico</icon>
-		</aboutDialog>
-	</assistant>
- 	<docFiles>
-		<register>
-		</register>
-	</docFiles>
+    <aboutMenuText>
+      <text language="fr">A propos de Nelson</text>
+      <text language="en">About Nelson</text>
+    </aboutMenuText>
+    <aboutDialog>
+      <file>about.txt</file>
+      <icon>../../../resources/fibonacci.ico</icon>
+    </aboutDialog>
+  </assistant>
+  <docFiles>
+    <register>
+    	<file>myapplication-manual.qch</file>
+    </register>
+  </docFiles>
 </QHelpCollectionProject>

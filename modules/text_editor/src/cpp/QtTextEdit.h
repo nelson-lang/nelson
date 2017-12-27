@@ -38,8 +38,8 @@ public:
     void setCompleter(QCompleter *completer);
     void comment();
     void uncomment();
-	bool canInsertFromMimeData(const QMimeData *source) const;
-	void insertFromMimeData(const QMimeData *source);
+    bool canInsertFromMimeData(const QMimeData *source) const;
+    void insertFromMimeData(const QMimeData *source);
 
 private:
     QCompleter *qCompleter;

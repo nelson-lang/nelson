@@ -26,7 +26,7 @@ const std::wstring gatewayName = L"help_browser";
 //=============================================================================
 static const nlsGateway gateway[] =
 {
-    { "helpbrowser", Nelson::HelpBrowserGateway::helpbrowserBuiltin, 0, 2 },
+    { "helpbrowser", Nelson::HelpBrowserGateway::helpbrowserBuiltin, 1, 2 },
 };
 //=============================================================================
 static bool initializeHelpBrowserModule(Nelson::Evaluator* eval)

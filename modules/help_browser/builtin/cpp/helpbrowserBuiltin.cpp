@@ -19,17 +19,18 @@
 #include "helpbrowserBuiltin.hpp"
 #include "Error.hpp"
 #include "HelpBrowser.hpp"
+#include "ToCellString.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector Nelson::HelpBrowserGateway::helpbrowserBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (nLhs != 0)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
     if (argIn.size() == 0)
     {
+        if (nLhs != 0)
+        {
+            Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        }
         std::wstring msg;
         if (!HelpBrowser::getInstance()->startBrowser(msg))
         {
@@ -39,25 +40,53 @@ ArrayOfVector Nelson::HelpBrowserGateway::helpbrowserBuiltin(Evaluator* eval, in
     else if (argIn.size() == 1)
     {
         std::wstring param1 = argIn[0].getContentAsWideString();
-        if (param1 == L"-close")
+        if (param1 == L"-cache" || param1 == L"-attributes")
         {
-            HelpBrowser::getInstance()->closeBrowser();
-        }
-        else if (param1 == L"-clearcache")
-        {
-            HelpBrowser::getInstance()->clearCache();
-        }
-        else if (param1 == L"-sync")
-        {
-            HelpBrowser::getInstance()->syncBrowser();
+            if (nLhs > 1)
+            {
+                Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+            }
+            ArrayOfVector retval;
+            if (param1 == L"-cache")
+            {
+                retval.push_back(ArrayOf::stringConstructor(HelpBrowser::getInstance()->getCachePath()));
+            }
+            else
+            {
+                retval.push_back(ToCellStringAsColumn(HelpBrowser::getInstance()->getAttributes()));
+            }
+            return retval;
         }
         else
         {
-            Error(eval, ERROR_WRONG_ARGUMENT_1_VALUE);
+            if (nLhs != 0)
+            {
+                Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+            }
+            if (param1 == L"-close")
+            {
+                HelpBrowser::getInstance()->closeBrowser();
+            }
+            else if (param1 == L"-clearcache")
+            {
+                HelpBrowser::getInstance()->clearCache();
+            }
+            else if (param1 == L"-sync")
+            {
+                HelpBrowser::getInstance()->syncBrowser();
+            }
+            else
+            {
+                Error(eval, ERROR_WRONG_ARGUMENT_1_VALUE);
+            }
         }
     }
     else if (argIn.size() == 2)
     {
+        if (nLhs != 0)
+        {
+            Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        }
         std::wstring param1 = argIn[0].getContentAsWideString();
         std::wstring param2 = argIn[1].getContentAsWideString();
         if (param1 == L"-register")

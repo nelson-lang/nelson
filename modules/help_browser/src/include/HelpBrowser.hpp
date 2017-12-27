@@ -36,14 +36,15 @@ namespace Nelson {
         void sendCommand(const std::wstring &cmd);
         void destroy();
         void clearCache();
-
+        std::wstring getCachePath();
+        wstringVector getAttributes();
     private:
         HelpBrowser();
         HelpBrowser(HelpBrowser const&) {};
         std::wstring getQhcFilename();
         std::wstring getQhcPath();
         static HelpBrowser *m_pInstance;
-        wstringVector packages;
+        std::wstring getCacheFile();
     };
     //=============================================================================
 }

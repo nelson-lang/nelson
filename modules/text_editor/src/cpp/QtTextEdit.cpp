@@ -128,12 +128,12 @@ void QtTextEdit::keyPressEvent(QKeyEvent *e)
             }
             else
             {
-				if (e->key() == Qt::Key_A && Qt::ControlModifier)
-				{
-					QTextEdit::keyPressEvent(e);
-					return;
-				}
-				if (e->key() == Qt::Key_Up ||
+                if (e->key() == Qt::Key_A && Qt::ControlModifier)
+                {
+                    QTextEdit::keyPressEvent(e);
+                    return;
+                }
+                if (e->key() == Qt::Key_Up ||
                         e->key() == Qt::Key_Down ||
                         e->key() == Qt::Key_Left ||
                         e->key() == Qt::Key_Right ||
@@ -364,14 +364,14 @@ void QtTextEdit::uncomment()
 //=============================================================================
 bool QtTextEdit::canInsertFromMimeData(const QMimeData *source) const
 {
-	return source->hasText();
+    return source->hasText();
 }
 //=============================================================================
 void QtTextEdit::insertFromMimeData(const QMimeData *source)
 {
-	if (source->hasText())
-	{
-		setPlainText(source->text());
-	}
+    if (source->hasText())
+    {
+        setPlainText(source->text());
+    }
 }
 //=============================================================================
