@@ -64,9 +64,9 @@ BEGIN
     BEGIN
         BLOCK "040c04b0"
         BEGIN
-            VALUE "FileDescription", "string"
-            VALUE "InternalName", "string"
-            VALUE "OriginalFilename", "libnlsstring.dll"
+            VALUE "FileDescription", "json"
+            VALUE "InternalName", "json"
+            VALUE "OriginalFilename", "libnlsjson.dll"
             VALUE "ProductName", "Nelson (string)"
             VALUE "ProductVersion", "0,1,12,0"
             VALUE "FileVersion", "0,1,12,0"

@@ -23,8 +23,8 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-    namespace StringGateway {
-        ArrayOfVector str2doubleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    namespace JsonGateway {
+        ArrayOfVector jsonencodeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
     }
     //=============================================================================
 }

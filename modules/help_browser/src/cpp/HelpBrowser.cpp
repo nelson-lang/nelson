@@ -21,10 +21,14 @@
 #include <QtCore/QProcess>
 #include <QtCore/QByteArray>
 #include <QtCore/QThread>
+#include <QtSql/QSqlDatabase>
+#include <QtSql/QSqlQuery>
+#include <QtCore/QVariant>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/chrono/chrono.hpp>
 #include <boost/thread/thread.hpp>
 #include <boost/filesystem.hpp>
+#include <boost/regex.hpp>
 #include "HelpBrowser.hpp"
 #include "QStringConverter.hpp"
 #include "GetQtPath.hpp"
@@ -52,7 +56,6 @@ namespace Nelson {
     //=============================================================================
     void HelpBrowser::destroy()
     {
-        packages.clear();
         if (m_pInstance)
         {
             delete m_pInstance;
@@ -84,9 +87,41 @@ namespace Nelson {
         {
             return;
         }
-        boost::this_thread::sleep_for(boost::chrono::milliseconds(uint64(200)));
         qprocess->write(CommandToSend.toLocal8Bit() + '\n');
         boost::this_thread::sleep_for(boost::chrono::milliseconds(uint64(1000)));
+    }
+    //=============================================================================
+    std::wstring HelpBrowser::getCachePath()
+    {
+        QString cacheLocation = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
+        return QStringTowstring(cacheLocation) + std::wstring(L"/help");
+    }
+    //=============================================================================
+    wstringVector HelpBrowser::getAttributes()
+    {
+        wstringVector attributes;
+        std::wstring database_path = getCacheFile();
+        if (database_path != L"")
+        {
+            QSqlDatabase m_db;
+            m_db = QSqlDatabase::addDatabase("QSQLITE");
+            m_db.setDatabaseName(wstringToQString(database_path));
+            if (m_db.open())
+            {
+                QSqlQuery query("SELECT attributes FROM contents");
+                while (query.next())
+                {
+                    QString qattribute = query.value(0).toString();
+                    std::wstring attribute = QStringTowstring(qattribute);
+                    if (std::find(attributes.begin(), attributes.end(), attribute) == attributes.end())
+                    {
+                        attributes.push_back(attribute);
+                    }
+                }
+                m_db.close();
+            }
+        }
+        return attributes;
     }
     //=============================================================================
     bool HelpBrowser::startBrowser(std::wstring &msg)
@@ -140,7 +175,7 @@ namespace Nelson {
         msg = L"";
         if (!qprocess->waitForStarted())
         {
-            return true;
+            return false;
         }
         return true;
     }
@@ -154,7 +189,6 @@ namespace Nelson {
     {
         if (qprocess->state() == QProcess::Running)
         {
-            packages.clear();
             qprocess->terminate();
             qprocess->waitForFinished(3000);
         }
@@ -168,29 +202,20 @@ namespace Nelson {
     //=============================================================================
     void HelpBrowser::registerHelpFile(std::wstring filename)
     {
-        if (std::find(packages.begin(), packages.end(), filename) == packages.end())
+        std::wstring command = std::wstring(L"register ") + filename;
+        if (boost::algorithm::ends_with(filename, L"org.nelson.help.qch"))
         {
-            packages.push_back(filename);
-            std::wstring command = std::wstring(L"register ") + filename;
-            if (boost::algorithm::ends_with(filename, L"org.nelson.help.qch"))
+            if (bOpenHomepage)
             {
-                if (bOpenHomepage)
-                {
-                    command = command + L";" + L"setSource qthelp://org.nelson.help/help/homepage.html";
-                    bOpenHomepage = false;
-                }
+                command = command + L";" + L"setSource qthelp://org.nelson.help/help/homepage.html";
+                bOpenHomepage = false;
             }
-            sendCommand(command);
         }
+        sendCommand(command);
     }
     //=============================================================================
     void HelpBrowser::unregisterHelpFile(std::wstring filename)
     {
-        wstringVector::iterator result = find(packages.begin(), packages.end(), filename);
-        if (result != packages.end())
-        {
-            packages.erase(result);
-        }
         std::wstring command = std::wstring(L"unregister ") + filename;
         sendCommand(command);
     }
@@ -198,8 +223,7 @@ namespace Nelson {
     void HelpBrowser::clearCache()
     {
         closeBrowser();
-        QString cacheLocation = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
-        std::wstring cachePath = QStringTowstring(cacheLocation) + std::wstring(L"/help");
+        std::wstring cachePath = getCachePath();
         std::wstring msgError = L"";
         Nelson::RemoveDirectory(cachePath, true, msgError);
     }
@@ -213,6 +237,38 @@ namespace Nelson {
     {
         std::wstring path = GetNelsonPath() + L"/modules/help_tools/resources/" + getQhcFilename();
         return path;
+    }
+    //=============================================================================
+    std::wstring HelpBrowser::getCacheFile()
+    {
+        std::wstring database_path = getCachePath() + L"/.nelson_help_collection";
+#ifdef _MSC_VER
+#else
+#endif
+        boost::filesystem::path base_dir(database_path);
+        bool isdir = false;
+        try
+        {
+            isdir = boost::filesystem::exists(base_dir) && boost::filesystem::is_directory(base_dir);
+        }
+        catch (const boost::filesystem::filesystem_error& e)
+        {
+            isdir = false;
+        }
+        if (isdir)
+        {
+            for (boost::filesystem::recursive_directory_iterator iter(base_dir), end;
+                    iter != end;
+                    ++iter)
+            {
+                std::wstring name = iter->path().filename().wstring();
+                if (name == L"fts")
+                {
+                    return database_path + L"/" + name;
+                }
+            }
+        }
+        return L"";
     }
     //=============================================================================
 }

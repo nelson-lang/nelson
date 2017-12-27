@@ -69,6 +69,7 @@ engine
 assert_functions
 tests_manager
 mpi
+json
 main
 )
 #==============================================================================	

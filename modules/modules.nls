@@ -62,6 +62,7 @@ modules_list = {
 'slicot';
 'text_editor';
 'mpi';
+'json'
 };
 %==============================================================================
 % modules sorted for help
@@ -79,6 +80,7 @@ modules_help_list = {
 'os_functions';
 'files_folders_functions';
 'stream_manager';
+'json';
 'elementary_functions';
 'constructors_functions';
 'types';

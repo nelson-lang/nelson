@@ -168,27 +168,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\cpp\charBuiltin.cpp" />
-    <ClCompile Include="..\cpp\Gateway.cpp" />
-    <ClCompile Include="..\cpp\int2strBuiltin.cpp" />
-    <ClCompile Include="..\cpp\mat2strBuiltin.cpp" />
-    <ClCompile Include="..\cpp\ndarraychar_horzcat_ndarraycharBuiltin.cpp" />
-    <ClCompile Include="..\cpp\ndarraychar_isequalBuiltin.cpp" />
-    <ClCompile Include="..\cpp\ndarraychar_vertcat_ndarraycharBuiltin.cpp" />
-    <ClCompile Include="..\cpp\sprintfBuiltin.cpp" />
-    <ClCompile Include="..\cpp\str2doubleBuiltin.cpp" />
-    <ClCompile Include="..\cpp\strcmpBuiltin.cpp" />
-    <ClCompile Include="..\cpp\strfindBuiltin.cpp" />
-    <ClCompile Include="..\cpp\char_dispBuiltin.cpp" />
-    <ClCompile Include="..\cpp\char_horzcat_charBuiltin.cpp" />
-    <ClCompile Include="..\cpp\char_isequalBuiltin.cpp" />
-    <ClCompile Include="..\cpp\char_vertcat_charBuiltin.cpp" />
-    <ClCompile Include="..\cpp\strncmpBuiltin.cpp" />
-    <ClCompile Include="..\cpp\tolowerBuiltin.cpp" />
-    <ClCompile Include="..\cpp\toupperBuiltin.cpp" />
-    <ClCompile Include="dllMain.c" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\..\elementary_functions\src\c\nlsElementary_functions.vcxproj">
       <Project>{c87973dd-f66c-4f35-b875-5e0a0a47b3e7}</Project>
     </ProjectReference>
@@ -207,32 +186,9 @@
     <ProjectReference Include="..\..\..\types\src\c\nlsTypes.vcxproj">
       <Project>{ab85e897-56b7-4792-8a8e-f3797be2b7cc}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\c\nlsString.vcxproj">
-      <Project>{601eba38-309b-4b7b-919e-e736690a82b5}</Project>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\CMakeLists.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\include\charBuiltin.hpp" />
-    <ClInclude Include="..\include\int2strBuiltin.hpp" />
-    <ClInclude Include="..\include\mat2strBuiltin.hpp" />
-    <ClInclude Include="..\include\ndarraychar_horzcat_ndarraycharBuiltin.hpp" />
-    <ClInclude Include="..\include\ndarraychar_isequalBuiltin.hpp" />
-    <ClInclude Include="..\include\ndarraychar_vertcat_ndarraycharBuiltin.hpp" />
-    <ClInclude Include="..\include\nlsString_builtin_exports.h" />
-    <ClInclude Include="..\include\sprintfBuiltin.hpp" />
-    <ClInclude Include="..\include\str2doubleBuiltin.hpp" />
-    <ClInclude Include="..\include\strfindBuiltin.hpp" />
-    <ClInclude Include="..\include\char_horzcat_charBuiltin.hpp" />
-    <ClInclude Include="..\include\char_isequalBuiltin.hpp" />
-    <ClInclude Include="..\include\char_vertcat_charBuiltin.hpp" />
-    <ClInclude Include="..\include\strncmpBuiltin.hpp" />
-    <ClInclude Include="..\include\tolowerBuiltin.hpp" />
-    <ClInclude Include="..\include\strcmpBuiltin.hpp" />
-    <ClInclude Include="..\include\char_dispBuiltin.hpp" />
-    <ClInclude Include="..\include\toupperBuiltin.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\etc\finish.nls" />
@@ -242,6 +198,17 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resources.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\cpp\Gateway.cpp" />
+    <ClCompile Include="..\cpp\jsondecodeBuiltin.cpp" />
+    <ClCompile Include="..\cpp\jsonencodeBuiltin.cpp" />
+    <ClCompile Include="dllMain.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\jsondecodeBuiltin.hpp" />
+    <ClInclude Include="..\include\jsonencodeBuiltin.hpp" />
+    <ClInclude Include="..\include\nlsJson_builtin_exports.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

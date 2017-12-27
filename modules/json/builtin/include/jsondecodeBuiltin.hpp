@@ -22,9 +22,8 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace StringGateway {
-        ArrayOfVector strcmpBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-        ArrayOfVector strcmpiBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    namespace JsonGateway {
+        ArrayOfVector jsondecodeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
     }
 }
 //=============================================================================
