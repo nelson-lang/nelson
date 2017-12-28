@@ -4187,8 +4187,8 @@ break;
             case NLS_CHAR:
             {
                 const wchar_t *ap = (const wchar_t*)dp;
-				std::wstring wstr;
-				wstr.push_back(ap[num]);
+                std::wstring wstr;
+                wstr.push_back(ap[num]);
                 io->outputMessage(wstr);
                 break;
             }

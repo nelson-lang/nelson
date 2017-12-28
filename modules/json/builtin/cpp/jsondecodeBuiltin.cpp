@@ -25,23 +25,23 @@ using namespace Nelson;
 ArrayOfVector Nelson::JsonGateway::jsondecodeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-	if (nLhs > 1)
-	{
-		Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-	}
-	if (argIn.size() != 1)
-	{
-		Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-	}
-	ArrayOf param1 = argIn[0];
-	std::wstring jsonString = param1.getContentAsWideString();
-	std::wstring errorMessage;
-	ArrayOf res = jsonDecode(jsonString, errorMessage);
-	if (!errorMessage.empty())
-	{
-		Error(eval, errorMessage);
-	}
-	retval.push_back(res);
-	return retval;
+    if (nLhs > 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    if (argIn.size() != 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    ArrayOf param1 = argIn[0];
+    std::wstring jsonString = param1.getContentAsWideString();
+    std::wstring errorMessage;
+    ArrayOf res = jsonDecode(jsonString, errorMessage);
+    if (!errorMessage.empty())
+    {
+        Error(eval, errorMessage);
+    }
+    retval.push_back(res);
+    return retval;
 }
 //=============================================================================

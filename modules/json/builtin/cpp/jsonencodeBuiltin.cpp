@@ -24,23 +24,36 @@ using namespace Nelson;
 //=============================================================================
 ArrayOfVector Nelson::JsonGateway::jsonencodeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-	ArrayOfVector retval;
-	if (nLhs > 1)
-	{
-		Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-	}
-	if (argIn.size() != 1)
-	{
-		Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-	}
-	ArrayOf param1 = argIn[0];
-	std::wstring errorMessage;
-	ArrayOf res = jsonEncode(param1, errorMessage);
-	if (!errorMessage.empty())
-	{
-		Error(eval, errorMessage);
-	}
-	retval.push_back(res);
-	return retval;
+    ArrayOfVector retval;
+    if (nLhs > 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    if (!((argIn.size() == 1 || argIn.size() == 3)))
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    bool convertNanInf = false;
+    ArrayOf param1 = argIn[0];
+    if (argIn.size() == 3)
+    {
+        ArrayOf param2 = argIn[1];
+        ArrayOf param3 = argIn[2];
+        std::wstring fieldname = param2.getContentAsWideString();
+        if (fieldname != L"ConvertInfAndNaN")
+        {
+            Error(eval, _W("Wrong value for argument #2: 'ConvertInfAndNaN' expected."));
+        }
+        logical fieldvalue = param3.getContentAsLogicalScalar();
+        convertNanInf = (fieldvalue != 0);
+    }
+    std::wstring errorMessage;
+    ArrayOf res = jsonEncode(param1, convertNanInf, errorMessage);
+    if (!errorMessage.empty())
+    {
+        Error(eval, errorMessage);
+    }
+    retval.push_back(res);
+    return retval;
 }
 //=============================================================================

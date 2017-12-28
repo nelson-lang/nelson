@@ -36,7 +36,7 @@ ArrayOfVector Nelson::StringGateway::ndarraychar_dispBuiltin(Evaluator* eval, in
     {
         Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
-	argIn[0].printMe(eval->getPrintLimit(), eval->getInterface()->getTerminalWidth());
-	return retval;
+    argIn[0].printMe(eval->getPrintLimit(), eval->getInterface()->getTerminalWidth());
+    return retval;
 }
 //=============================================================================

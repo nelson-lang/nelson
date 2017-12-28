@@ -22,63 +22,61 @@
 #include "JsonHelpers.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
-namespace Nelson
-{
-	//=============================================================================
-	unsigned int json_parse_item(jsmntok_t *t, ArrayOf **obj)
-	{
-		return 0;
-	}
-	//=============================================================================
-	ArrayOf jsonDecode(std::wstring stringToDecode, std::wstring &errorMessage)
-	{
-		std::string strToDecode = wstring_to_utf8(stringToDecode);
-		jsmn_parser parserJson;
-		jsmn_init(&parserJson);
-		int nbTokensOrError = jsmn_parse(&parserJson, strToDecode.c_str(), strToDecode.size(), NULL, 0);
-		if (nbTokensOrError > 0)
-		{
-			jsmntok_t *tokens = new jsmntok_t[nbTokensOrError];
-			int nbTokensUsed = jsmn_parse(&parserJson, strToDecode.c_str(), strToDecode.size(), tokens, nbTokensOrError);
-			if (nbTokensUsed < 1 || tokens[0].type != JSMN_OBJECT) 
-			{
-				errorMessage = L"Object expected.";
-				return ArrayOf();
-			}
-			else
-			{
-
-			}
-			delete[] tokens;
-		}
-		else
-		{
-			switch (nbTokensOrError)
-			{
-				case JSMN_ERROR_INVAL:
-				{
-					errorMessage = L"Invalid character inside JSON string.";
-				}
-				break;
-				case JSMN_ERROR_NOMEM:
-				{
-					errorMessage = L"Not enough tokens were provided.";
-				}
-				break;
-				case JSMN_ERROR_PART:
-				{
-					errorMessage = L"The string is not a full JSON packet, more bytes expected.";
-				}
-				break;
-				default:
-				{
-					errorMessage = L"Unknow error.";
-				}
-				break;
-			}
-		}
-		return ArrayOf();
-	}
-	//=============================================================================
+namespace Nelson {
+    //=============================================================================
+    unsigned int json_parse_item(jsmntok_t *t, ArrayOf **obj)
+    {
+        return 0;
+    }
+    //=============================================================================
+    ArrayOf jsonDecode(std::wstring stringToDecode, std::wstring &errorMessage)
+    {
+        std::string strToDecode = wstring_to_utf8(stringToDecode);
+        jsmn_parser parserJson;
+        jsmn_init(&parserJson);
+        int nbTokensOrError = jsmn_parse(&parserJson, strToDecode.c_str(), strToDecode.size(), NULL, 0);
+        if (nbTokensOrError > 0)
+        {
+            jsmntok_t *tokens = new jsmntok_t[nbTokensOrError];
+            int nbTokensUsed = jsmn_parse(&parserJson, strToDecode.c_str(), strToDecode.size(), tokens, nbTokensOrError);
+            if (nbTokensUsed < 1 || tokens[0].type != JSMN_OBJECT)
+            {
+                errorMessage = L"Object expected.";
+                return ArrayOf();
+            }
+            else
+            {
+            }
+            delete[] tokens;
+        }
+        else
+        {
+            switch (nbTokensOrError)
+            {
+                case JSMN_ERROR_INVAL:
+                {
+                    errorMessage = L"Invalid character inside JSON string.";
+                }
+                break;
+                case JSMN_ERROR_NOMEM:
+                {
+                    errorMessage = L"Not enough tokens were provided.";
+                }
+                break;
+                case JSMN_ERROR_PART:
+                {
+                    errorMessage = L"The string is not a full JSON packet, more bytes expected.";
+                }
+                break;
+                default:
+                {
+                    errorMessage = L"Unknow error.";
+                }
+                break;
+            }
+        }
+        return ArrayOf();
+    }
+    //=============================================================================
 }
 //=============================================================================
