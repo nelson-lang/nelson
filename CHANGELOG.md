@@ -1,6 +1,9 @@
 Features:
 ---------
 
+  * JSON module: 
+    * jsonencode: encodes a Nelson object into a JSON string.
+
   * ndarraychar_disp was missing.
 
 

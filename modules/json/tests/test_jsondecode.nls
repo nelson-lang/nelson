@@ -16,10 +16,10 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-r = jsondecode('')
-r = jsondecode('{}')
-r = jsondecode('["one", "two", "three"]')
-r = jsondecode('{"IDs" : [116, 943, 234, 38793]}')
-r = jsondecode('{"toto":42}')
-r = jsondecode('[{"toto":42}]')
-r = jsondecode('[{"toto":42, "tutu":43}]')
+//r = jsondecode('')
+//r = jsondecode('{}')
+//r = jsondecode('["one", "two", "three"]')
+//r = jsondecode('{"IDs" : [116, 943, 234, 38793]}')
+//r = jsondecode('{"toto":42}')
+//r = jsondecode('[{"toto":42}]')
+//r = jsondecode('[{"toto":42, "tutu":43}]')
