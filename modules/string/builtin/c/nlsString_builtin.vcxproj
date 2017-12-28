@@ -172,6 +172,7 @@
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\int2strBuiltin.cpp" />
     <ClCompile Include="..\cpp\mat2strBuiltin.cpp" />
+    <ClCompile Include="..\cpp\ndarraychar_dispBuiltin.cpp" />
     <ClCompile Include="..\cpp\ndarraychar_horzcat_ndarraycharBuiltin.cpp" />
     <ClCompile Include="..\cpp\ndarraychar_isequalBuiltin.cpp" />
     <ClCompile Include="..\cpp\ndarraychar_vertcat_ndarraycharBuiltin.cpp" />
@@ -218,6 +219,7 @@
     <ClInclude Include="..\include\charBuiltin.hpp" />
     <ClInclude Include="..\include\int2strBuiltin.hpp" />
     <ClInclude Include="..\include\mat2strBuiltin.hpp" />
+    <ClInclude Include="..\include\ndarraychar_dispBuiltin.hpp" />
     <ClInclude Include="..\include\ndarraychar_horzcat_ndarraycharBuiltin.hpp" />
     <ClInclude Include="..\include\ndarraychar_isequalBuiltin.hpp" />
     <ClInclude Include="..\include\ndarraychar_vertcat_ndarraycharBuiltin.hpp" />

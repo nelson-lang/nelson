@@ -1,0 +1,19 @@
+
+ans =
+
+  <string>  - size: 1x3x3
+(:,:,1) =
+
+
+Columns 1 to 3
+ RUX
+(:,:,2) =
+
+
+Columns 1 to 3
+ SVY
+(:,:,3) =
+
+
+Columns 1 to 3
+ TWZ

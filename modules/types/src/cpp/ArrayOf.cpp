@@ -4095,8 +4095,7 @@ break;
             break;
             case NLS_INT8:
             {
-                const int8 *ap;
-                ap = (const int8*)dp;
+                const int8 *ap = (const int8*)dp;
                 snprintf(msgBuffer, MSGBUFLEN, "% 4d", ap[num]);
                 io->outputMessage(msgBuffer);
                 snprintf(msgBuffer, MSGBUFLEN, "  ");
@@ -4105,8 +4104,7 @@ break;
             }
             case NLS_UINT8:
             {
-                const uint8 *ap;
-                ap = (const uint8*)dp;
+                const uint8 *ap = (const uint8*)dp;
                 snprintf(msgBuffer, MSGBUFLEN, "%3u", ap[num]);
                 io->outputMessage(msgBuffer);
                 snprintf(msgBuffer, MSGBUFLEN, "  ");
@@ -4115,8 +4113,7 @@ break;
             }
             case NLS_INT16:
             {
-                const int16 *ap;
-                ap = (const int16*)dp;
+                const int16 *ap = (const int16*)dp;
                 snprintf(msgBuffer, MSGBUFLEN, "% 6d", ap[num]);
                 io->outputMessage(msgBuffer);
                 snprintf(msgBuffer, MSGBUFLEN, "  ");
@@ -4125,8 +4122,7 @@ break;
             }
             case NLS_UINT16:
             {
-                const uint16 *ap;
-                ap = (const uint16*)dp;
+                const uint16 *ap = (const uint16*)dp;
                 snprintf(msgBuffer, MSGBUFLEN, "%5u", ap[num]);
                 io->outputMessage(msgBuffer);
                 snprintf(msgBuffer, MSGBUFLEN, "  ");
@@ -4135,8 +4131,7 @@ break;
             }
             case NLS_INT32:
             {
-                const int32 *ap;
-                ap = (const int32*)dp;
+                const int32 *ap = (const int32*)dp;
                 snprintf(msgBuffer, MSGBUFLEN, "%13d", ap[num]);
                 io->outputMessage(msgBuffer);
                 snprintf(msgBuffer, MSGBUFLEN, "  ");
@@ -4145,8 +4140,7 @@ break;
             }
             case NLS_UINT32:
             {
-                const uint32 *ap;
-                ap = (const uint32*)dp;
+                const uint32 *ap = (const uint32*)dp;
                 snprintf(msgBuffer, MSGBUFLEN, "%12u", ap[num]);
                 io->outputMessage(msgBuffer);
                 snprintf(msgBuffer, MSGBUFLEN, "  ");
@@ -4178,8 +4172,7 @@ break;
             }
             case NLS_LOGICAL:
             {
-                const logical *ap;
-                ap = (const logical*)dp;
+                const logical *ap = (const logical*)dp;
                 if (ap[num] == 0)
                 {
                     snprintf(msgBuffer, MSGBUFLEN, "false  ");
@@ -4193,17 +4186,15 @@ break;
             }
             case NLS_CHAR:
             {
-                // ??? need to be updated ?
-                const char *ap;
-                ap = (const char*)dp;
-                snprintf(msgBuffer, MSGBUFLEN, "%c", ap[num]);
-                io->outputMessage(msgBuffer);
+                const wchar_t *ap = (const wchar_t*)dp;
+				std::wstring wstr;
+				wstr.push_back(ap[num]);
+                io->outputMessage(wstr);
                 break;
             }
             case NLS_SINGLE:
             {
-                const single *ap;
-                ap = (const single*)dp;
+                const single *ap = (const single*)dp;
                 outputSinglePrecisionFloat(msgBuffer, ap[num]);
                 io->outputMessage(msgBuffer);
                 memset(msgBuffer, 0, MSGBUFLEN);
@@ -4213,8 +4204,7 @@ break;
             }
             case NLS_DOUBLE:
             {
-                const double *ap;
-                ap = (const double*)dp;
+                const double *ap = (const double*)dp;
                 outputDoublePrecisionFloat(msgBuffer, ap[num]);
                 io->outputMessage(msgBuffer);
                 memset(msgBuffer, 0, MSGBUFLEN);
@@ -4224,8 +4214,7 @@ break;
             }
             case NLS_SCOMPLEX:
             {
-                const single *ap;
-                ap = (const single*)dp;
+                const single *ap = (const single*)dp;
                 outputSinglePrecisionFloat(msgBuffer, ap[2 * num]);
                 io->outputMessage(msgBuffer);
                 memset(msgBuffer, 0, MSGBUFLEN);
@@ -4240,8 +4229,7 @@ break;
             }
             case NLS_DCOMPLEX:
             {
-                const double *ap;
-                ap = (const double*)dp;
+                const double *ap = (const double*)dp;
                 outputDoublePrecisionFloat(msgBuffer, ap[2 * num]);
                 io->outputMessage(msgBuffer);
                 memset(msgBuffer, 0, MSGBUFLEN);
@@ -4256,8 +4244,7 @@ break;
             }
             case NLS_CELL_ARRAY:
             {
-                ArrayOf *ap;
-                ap = (ArrayOf*)dp;
+                ArrayOf *ap = (ArrayOf*)dp;
                 if (ap == nullptr)
                 {
                     io->outputMessage("[]");

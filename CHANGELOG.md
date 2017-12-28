@@ -1,3 +1,9 @@
+Features:
+---------
+
+  * ndarraychar_disp was missing.
+
+
 Bug Fixes:
 ---------
 
