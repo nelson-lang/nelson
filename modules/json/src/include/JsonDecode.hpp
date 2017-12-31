@@ -22,6 +22,6 @@
 #include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
-    NLSJSON_IMPEXP ArrayOf jsonDecode(std::wstring stringToDecode, bool convertInfNan, std::wstring &errorMessage);
+    NLSJSON_IMPEXP ArrayOf jsonDecode(std::wstring stringToDecode, std::wstring &errorMessage);
 };
 //=============================================================================

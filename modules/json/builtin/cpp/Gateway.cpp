@@ -26,7 +26,7 @@ const std::wstring gatewayName = L"json";
 //=============================================================================
 static const nlsGateway gateway[] =
 {
-    { "jsondecode", Nelson::JsonGateway::jsondecodeBuiltin, 1, -1 },
+    { "jsondecode", Nelson::JsonGateway::jsondecodeBuiltin, 1, 1 },
     { "jsonencode", Nelson::JsonGateway::jsonencodeBuiltin, 1, -1 },
 };
 //=============================================================================

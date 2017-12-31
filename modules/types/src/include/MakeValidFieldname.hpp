@@ -22,7 +22,7 @@
 #include "nlsTypes_exports.h"
 //=============================================================================
 namespace Nelson {
-	NLSTYPES_IMPEXP std::string MakeValidFieldname(std::string fieldname, std::string defaultPrefix = "x");
-	NLSTYPES_IMPEXP std::wstring MakeValidFieldname(std::wstring fieldname, std::wstring defaultPrefix = L"x");
+    NLSTYPES_IMPEXP std::string MakeValidFieldname(std::string fieldname, std::string defaultPrefix = "x");
+    NLSTYPES_IMPEXP std::wstring MakeValidFieldname(std::wstring fieldname, std::wstring defaultPrefix = L"x");
 }
 //=============================================================================

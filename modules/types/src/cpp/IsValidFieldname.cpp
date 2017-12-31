@@ -23,9 +23,9 @@ namespace Nelson {
     //=============================================================================
     bool IsValidFieldname(std::string fieldname)
     {
-		std::string validFieldname = MakeValidFieldname(fieldname);
-		return (validFieldname == fieldname);
+        std::string validFieldname = MakeValidFieldname(fieldname);
+        return (validFieldname == fieldname);
     }
-	//=============================================================================
+    //=============================================================================
 }
 //=============================================================================

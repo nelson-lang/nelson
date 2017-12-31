@@ -34,33 +34,33 @@ ArrayOfVector Nelson::JsonGateway::jsonencodeBuiltin(Evaluator* eval, int nLhs, 
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-	// Call overload if it exists
-	bool bSuccess = false;
-	retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
-	if (!bSuccess)
-	{
-		bool convertNanInf = false;
-		ArrayOf param1 = argIn[0];
-		if (argIn.size() == 3)
-		{
-			ArrayOf param2 = argIn[1];
-			ArrayOf param3 = argIn[2];
-			std::wstring fieldname = param2.getContentAsWideString();
-			if (fieldname != L"ConvertInfAndNaN")
-			{
-				Error(eval, _W("Wrong value for argument #2: 'ConvertInfAndNaN' expected."));
-			}
-			logical fieldvalue = param3.getContentAsLogicalScalar();
-			convertNanInf = (fieldvalue != 0);
-		}
-		std::wstring errorMessage;
-		ArrayOf res = jsonEncode(param1, convertNanInf, errorMessage);
-		if (!errorMessage.empty())
-		{
-			Error(eval, errorMessage);
-		}
-		retval.push_back(res);
-	}
+    // Call overload if it exists
+    bool bSuccess = false;
+    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    if (!bSuccess)
+    {
+        bool convertNanInf = false;
+        ArrayOf param1 = argIn[0];
+        if (argIn.size() == 3)
+        {
+            ArrayOf param2 = argIn[1];
+            ArrayOf param3 = argIn[2];
+            std::wstring fieldname = param2.getContentAsWideString();
+            if (fieldname != L"ConvertInfAndNaN")
+            {
+                Error(eval, _W("Wrong value for argument #2: 'ConvertInfAndNaN' expected."));
+            }
+            logical fieldvalue = param3.getContentAsLogicalScalar();
+            convertNanInf = (fieldvalue != 0);
+        }
+        std::wstring errorMessage;
+        ArrayOf res = jsonEncode(param1, convertNanInf, errorMessage);
+        if (!errorMessage.empty())
+        {
+            Error(eval, errorMessage);
+        }
+        retval.push_back(res);
+    }
     return retval;
 }
 //=============================================================================
