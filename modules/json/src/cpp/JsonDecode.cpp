@@ -402,7 +402,7 @@ namespace Nelson {
 		return commonType;
 	}
 	//=============================================================================
-	static bool transformStringArray(JsonVariable &jsVar, unsigned int totaldims)
+	static bool transformStringArray(JsonVariable &jsVar, size_t totaldims)
 	{
 		switch (jsVar.dims.size())
 		{
@@ -415,11 +415,11 @@ namespace Nelson {
 		case 2:
 		{
 			jsVar.vectorString.resize(totaldims * jsVar.vectorJsonVariable.size());
-			unsigned int rows = jsVar.dims[0];
-			unsigned int cols = jsVar.dims[1];
-			for (unsigned int i = 0; i < rows; ++i)
+			size_t rows = jsVar.dims[0];
+			size_t cols = jsVar.dims[1];
+			for (size_t i = 0; i < rows; ++i)
 			{
-				for (unsigned int j = 0; j < cols; ++j)
+				for (size_t j = 0; j < cols; ++j)
 				{
 					std::string val = jsVar.vectorJsonVariable[i].vectorString[j];
 					jsVar.vectorString[j*rows + i] = val;
@@ -435,18 +435,18 @@ namespace Nelson {
 			{
 				vectTemp.insert(vectTemp.end(), element.vectorString.begin(), element.vectorString.end());
 			}
-			unsigned int lastdimlen = jsVar.dims[jsVar.dims.size() - 1];
-			unsigned int elementCount = 1;
+			size_t lastdimlen = jsVar.dims[jsVar.dims.size() - 1];
+			size_t elementCount = 1;
 			for (size_t k = 0; k < jsVar.dims.size(); k++)
 			{
 				elementCount *= jsVar.dims[k];
 			}
-			unsigned int ymax = elementCount / lastdimlen;
-			unsigned int k = 0;
+			size_t ymax = elementCount / lastdimlen;
+			size_t k = 0;
 			jsVar.vectorString.reserve(elementCount);
-			for (unsigned int i = 0; i < ymax; ++i)
+			for (size_t i = 0; i < ymax; ++i)
 			{
-				for (int j = 0; j < lastdimlen; ++j)
+				for (size_t j = 0; j < lastdimlen; ++j)
 				{
 					jsVar.vectorString.insert(jsVar.vectorString.end(), vectTemp[j*ymax + i]);
 				}
@@ -460,7 +460,7 @@ namespace Nelson {
 		return true;
 	}
 	//=============================================================================
-	static bool transformLogicalArray(JsonVariable &jsVar, unsigned int totaldims)
+	static bool transformLogicalArray(JsonVariable &jsVar, size_t totaldims)
 	{
 		switch (jsVar.dims.size())
 		{
@@ -473,11 +473,11 @@ namespace Nelson {
 		case 2:
 		{
 			jsVar.vectorLogical.resize(totaldims * jsVar.vectorJsonVariable.size());
-			unsigned int rows = jsVar.dims[0];
-			unsigned int cols = jsVar.dims[1];
-			for (unsigned int i = 0; i < rows; ++i)
+			size_t rows = jsVar.dims[0];
+			size_t cols = jsVar.dims[1];
+			for (size_t i = 0; i < rows; ++i)
 			{
-				for (unsigned int j = 0; j < cols; ++j)
+				for (size_t j = 0; j < cols; ++j)
 				{
 					logical val = jsVar.vectorJsonVariable[i].vectorLogical[j];
 					jsVar.vectorLogical[j*rows + i] = val;
@@ -493,18 +493,18 @@ namespace Nelson {
 			{
 				vectTemp.insert(vectTemp.end(), element.vectorLogical.begin(), element.vectorLogical.end());
 			}
-			unsigned int lastdimlen = jsVar.dims[jsVar.dims.size() - 1];
-			unsigned int elementCount = 1;
+			size_t lastdimlen = jsVar.dims[jsVar.dims.size() - 1];
+			size_t elementCount = 1;
 			for (size_t k = 0; k < jsVar.dims.size(); k++)
 			{
 				elementCount *= jsVar.dims[k];
 			}
-			unsigned int ymax = elementCount / lastdimlen;
-			unsigned int k = 0;
+			size_t ymax = elementCount / lastdimlen;
+			size_t k = 0;
 			jsVar.vectorLogical.reserve(elementCount);
-			for (unsigned int i = 0; i < ymax; ++i)
+			for (size_t i = 0; i < ymax; ++i)
 			{
-				for (int j = 0; j < lastdimlen; ++j)
+				for (size_t j = 0; j < lastdimlen; ++j)
 				{
 					jsVar.vectorLogical.insert(jsVar.vectorLogical.end(), vectTemp[j*ymax + i]);
 				}
@@ -518,7 +518,7 @@ namespace Nelson {
 		return true;
 	}
 	//=============================================================================
-	static bool transformDoubleArray(JsonVariable &jsVar, unsigned int totaldims)
+	static bool transformDoubleArray(JsonVariable &jsVar, size_t totaldims)
 	{
 		switch (jsVar.dims.size())
 		{
@@ -531,11 +531,11 @@ namespace Nelson {
 		case 2:
 		{
 			jsVar.vectorDouble.resize(totaldims * jsVar.vectorJsonVariable.size());
-			unsigned int rows = jsVar.dims[0];
-			unsigned int cols = jsVar.dims[1];
-			for (unsigned int i = 0; i < rows; ++i)
+			size_t rows = jsVar.dims[0];
+			size_t cols = jsVar.dims[1];
+			for (size_t i = 0; i < rows; ++i)
 			{
-				for (unsigned int j = 0; j < cols; ++j)
+				for (size_t j = 0; j < cols; ++j)
 				{
 					double val = jsVar.vectorJsonVariable[i].vectorDouble[j];
 					jsVar.vectorDouble[j*rows + i] = val;
@@ -551,18 +551,18 @@ namespace Nelson {
 			{
 				vectTemp.insert(vectTemp.end(), element.vectorDouble.begin(), element.vectorDouble.end());
 			}
-			unsigned int lastdimlen = jsVar.dims[jsVar.dims.size() - 1];
-			unsigned int elementCount = 1;
+			size_t lastdimlen = jsVar.dims[jsVar.dims.size() - 1];
+			size_t elementCount = 1;
 			for (size_t k = 0; k < jsVar.dims.size(); k++)
 			{
 				elementCount *= jsVar.dims[k];
 			}
-			unsigned int ymax = elementCount / lastdimlen;
-			unsigned int k = 0;
+			size_t ymax = elementCount / lastdimlen;
+			size_t k = 0;
 			jsVar.vectorDouble.reserve(elementCount);
-			for (unsigned int i = 0; i < ymax; ++i)
+			for (size_t i = 0; i < ymax; ++i)
 			{
-				for (int j = 0; j < lastdimlen; ++j)
+				for (size_t j = 0; j < lastdimlen; ++j)
 				{
 					jsVar.vectorDouble.insert(jsVar.vectorDouble.end(), vectTemp[j*ymax + i]);
 				}
@@ -576,7 +576,7 @@ namespace Nelson {
 		return true;
 	}
 	//=============================================================================
-	static bool transformStructArray(JsonVariable &jsVar, unsigned int totaldims)
+	static bool transformStructArray(JsonVariable &jsVar, size_t totaldims)
 	{
 		boost::container::vector <std::string> fieldnamesRef;
 
@@ -702,15 +702,15 @@ namespace Nelson {
 			JSON_TO_NELSON_Type commonType = findCommonJsonVariableType(jsVar);
 			if (commonType != JSON_TO_NELSON_UNDEFINED)
 			{
-				boost::container::vector<unsigned int> refVar = jsVar.vectorJsonVariable[0].dims;
-				unsigned int totaldims = 1;
+				boost::container::vector<size_t> refVar = jsVar.vectorJsonVariable[0].dims;
+				size_t totaldims = 1;
 				for (auto i : refVar)
 				{
 					totaldims *= i;
 				}
 				for (auto element : jsVar.vectorJsonVariable)
 				{
-					boost::container::vector<unsigned int> dims = element.dims;
+					boost::container::vector<size_t> dims = element.dims;
 					if (refVar.size() != dims.size())
 					{
 						jsVar.reduced = true;
@@ -811,7 +811,7 @@ namespace Nelson {
 				}
 				else
 				{
-					int idx = 1;
+					size_t idx = 1;
 					std::string modifiedKey;
 					bool found = false;
 					do

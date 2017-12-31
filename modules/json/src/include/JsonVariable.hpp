@@ -41,7 +41,7 @@ namespace Nelson {
 	class JsonVariable {
 	public:
 		JSON_TO_NELSON_Type jsonVariableType;
-		boost::container::vector<unsigned int> dims;
+		boost::container::vector<size_t> dims;
 		
 		std::string scalarString;
 		double scalarDouble;
