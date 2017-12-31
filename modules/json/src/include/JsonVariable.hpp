@@ -62,8 +62,13 @@ namespace Nelson {
         ~JsonVariable();
     };
     //=============================================================================
-    JsonVariable::JsonVariable() {};
-    JsonVariable::~JsonVariable() {};
+    JsonVariable::JsonVariable() {
+		jsonVariableType = JSON_TO_NELSON_UNDEFINED;
+		scalarDouble = std::nan("");
+		scalarLogical = false;
+	};
+	//=============================================================================
+	JsonVariable::~JsonVariable() {};
     //=============================================================================
 }
 //=============================================================================

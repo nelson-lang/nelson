@@ -45,6 +45,16 @@ r2 = jsondecode(r)]]>
     </example_item_data>
   </example_item>
 
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description></example_item_description>
+    <example_item_data><![CDATA[
+jsondecode(fileread([modulepath('json'), '/examples/patient.json']))
+    ]]>
+    </example_item_data>
+  </example_item>
+
+
 </examples>
 
   <see_also>
