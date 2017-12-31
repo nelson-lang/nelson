@@ -16,10 +16,41 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-//r = jsondecode('')
-//r = jsondecode('{}')
-//r = jsondecode('["one", "two", "three"]')
-//r = jsondecode('{"IDs" : [116, 943, 234, 38793]}')
-//r = jsondecode('{"toto":42}')
-//r = jsondecode('[{"toto":42}]')
-//r = jsondecode('[{"toto":42, "tutu":43}]')
+r = jsondecode('')
+r = jsondecode('NaN')
+r = jsondecode('  NaN ')
+r = jsondecode('Inf')
+r = jsondecode('-Inf')
+r = jsondecode('null')
+r = jsondecode('true')
+r = jsondecode('false')
+r = jsondecode(' 444 ')
+r = jsondecode('     3.14')
+r = jsondecode(' "rrr"')
+r = jsondecode('{}')
+// Array of double ie : matrix
+r = jsondecode('[1.4]')
+r = jsondecode('[1.4, 4]')
+r = jsondecode('[[1,2],[3,4]]')
+r = jsondecode('[[[1,2],[3,4]],[[5,6],[7,8]]]')
+// Array of logical ie : matrix
+r = jsondecode('[true]')
+r = jsondecode('[true, false]')
+r = jsondecode('[[true,false],[false,true]]')
+r = jsondecode('[[[true,false],[false,true]],[[true,false],[false,true]]]')
+// Array of string ie : cell of strings
+r = jsondecode('["Nelson"]')
+r = jsondecode('["Nelson", "interpreter]')
+
+// struct
+r = jsondecode('{"a":1}')
+r = jsondecode('[{"a":1},{"a":2}]')
+r = jsondecode('[[{"a":1},{"a":2}],[{"a":3},{"a":4}]]')
+
+r = jsondecode('["one", 2, "three"]')
+
+r = jsondecode('{"a":1,"b":"NaN"}')
+
+r = jsondecode('[{"toto":42, "tuto":44, "toto":45, "tuto":46}]')
+
+r = jsondecode('[{"a":43, "b":44, "c":45, "d":46}]')

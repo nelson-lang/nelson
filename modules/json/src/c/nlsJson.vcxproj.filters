@@ -32,10 +32,10 @@
     <ClCompile Include="jsmn.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\JsonHelpers.cpp">
+    <ClCompile Include="..\cpp\JsonEncode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\JsonEncode.cpp">
+    <ClCompile Include="..\cpp\JsonDecode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -46,10 +46,13 @@
     <ClInclude Include="..\include\nlsJson_exports.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\JsonHelpers.hpp">
+    <ClInclude Include="..\include\JsonEncode.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\JsonEncode.hpp">
+    <ClInclude Include="..\include\JsonVariable.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\JsonDecode.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -107,7 +107,7 @@ ArrayOfVector Nelson::DataStructuresGateway::cell2structBuiltin(Evaluator* eval,
             }
             if (dims.isScalar())
             {
-                ret = ArrayOf::emptyStructWithoutFields();
+				ret.push_back(ArrayOf::emptyStructWithoutFields());
             }
             else if (dims.getElementCount() == 0)
             {

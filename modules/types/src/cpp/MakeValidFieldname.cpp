@@ -16,16 +16,40 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "IsValidFieldname.hpp"
+#include <boost/regex.hpp>
+#include <boost/algorithm/string.hpp>
 #include "MakeValidFieldname.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    bool IsValidFieldname(std::string fieldname)
-    {
-		std::string validFieldname = MakeValidFieldname(fieldname);
-		return (validFieldname == fieldname);
-    }
+	//=============================================================================
+	std::string MakeValidFieldname(std::string fieldname, std::string defaultPrefix)
+	{
+		return wstring_to_utf8(MakeValidFieldname(utf8_to_wstring(fieldname), utf8_to_wstring(defaultPrefix)));
+	}
+	//=============================================================================
+	std::wstring MakeValidFieldname(std::wstring fieldname, std::wstring defaultPrefix)
+	{
+		if (!fieldname.size())
+		{
+			return defaultPrefix;
+		}
+		std::wstring modifiedFieldname = fieldname;
+		boost::wregex re(L"[^a-zA-Z_0-9]");
+		modifiedFieldname = boost::regex_replace(fieldname, re, L"_");
+		if (boost::algorithm::starts_with(modifiedFieldname, L"_"))
+		{
+			modifiedFieldname = defaultPrefix + modifiedFieldname;
+		}
+		if (iswdigit(modifiedFieldname[0]))
+		{
+			modifiedFieldname = defaultPrefix + L"_" + modifiedFieldname;
+		}
+		if (!iswalpha(modifiedFieldname[0]))
+		{
+			modifiedFieldname = defaultPrefix + modifiedFieldname;
+		}
+		return modifiedFieldname;
+	}
 	//=============================================================================
 }
-//=============================================================================

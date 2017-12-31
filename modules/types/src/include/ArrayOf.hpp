@@ -581,7 +581,7 @@ namespace Nelson {
         static ArrayOf structConstructor(stringVector fNames, ArrayOfVector& values);
         static ArrayOf structConstructor(wstringVector fNames, ArrayOfVector& values);
 
-        static ArrayOfVector emptyStructWithoutFields();
+        static ArrayOf emptyStructWithoutFields();
         static ArrayOf emptyStructConstructor(stringVector fNames, Dimensions dim);
         static ArrayOf emptyStructConstructor(wstringVector fNames, Dimensions dim);
 

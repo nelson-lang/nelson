@@ -16,16 +16,13 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "IsValidFieldname.hpp"
-#include "MakeValidFieldname.hpp"
+#pragma once
+//=============================================================================
+#include <string>
+#include "nlsTypes_exports.h"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    bool IsValidFieldname(std::string fieldname)
-    {
-		std::string validFieldname = MakeValidFieldname(fieldname);
-		return (validFieldname == fieldname);
-    }
-	//=============================================================================
+	NLSTYPES_IMPEXP std::string MakeValidFieldname(std::string fieldname, std::string defaultPrefix = "x");
+	NLSTYPES_IMPEXP std::wstring MakeValidFieldname(std::wstring fieldname, std::wstring defaultPrefix = L"x");
 }
 //=============================================================================

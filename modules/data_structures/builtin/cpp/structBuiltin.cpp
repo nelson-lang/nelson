@@ -27,7 +27,8 @@ ArrayOfVector Nelson::DataStructuresGateway::structBuiltin(Evaluator* eval, int 
     ArrayOfVector retval;
     if (argIn.size() == 0)
     {
-        return ArrayOf::emptyStructWithoutFields();
+		retval.push_back(ArrayOf::emptyStructWithoutFields());
+		return retval;
     }
     else if (argIn.size() == 1)
     {

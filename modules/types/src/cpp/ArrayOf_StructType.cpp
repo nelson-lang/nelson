@@ -391,14 +391,13 @@ namespace Nelson {
         return getFieldIndexFromList(fName, dp->fieldNames);
     }
     //=============================================================================
-    ArrayOfVector ArrayOf::emptyStructWithoutFields()
+    ArrayOf ArrayOf::emptyStructWithoutFields()
     {
         stringVector fieldnames;
         fieldnames.clear();
         ArrayOfVector fieldvalues;
         fieldvalues.clear();
-        ArrayOf d = ArrayOf::structConstructor(fieldnames, fieldvalues);
-        return scalarArrayOfToArrayOfVector(d);
+        return ArrayOf::structConstructor(fieldnames, fieldvalues);
     }
     //=============================================================================
     ArrayOf ArrayOf::emptyStructConstructor(stringVector fNames, Dimensions dim)

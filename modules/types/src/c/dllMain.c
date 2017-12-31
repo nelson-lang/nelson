@@ -16,16 +16,27 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "IsValidFieldname.hpp"
-#include "MakeValidFieldname.hpp"
+#include <Windows.h>
 //=============================================================================
-namespace Nelson {
-    //=============================================================================
-    bool IsValidFieldname(std::string fieldname)
+#ifdef _DEBUG
+#pragma comment(lib, "boost_regex-vc141-mt-gd-1_65_1.lib")
+#else
+#pragma comment(lib, "boost_regex-vc141-mt-1_65_1.lib")
+#endif
+//=============================================================================
+int WINAPI DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)
+{
+    switch (reason)
     {
-		std::string validFieldname = MakeValidFieldname(fieldname);
-		return (validFieldname == fieldname);
+        case DLL_PROCESS_ATTACH:
+            break;
+        case DLL_PROCESS_DETACH:
+            break;
+        case DLL_THREAD_ATTACH:
+            break;
+        case DLL_THREAD_DETACH:
+            break;
     }
-	//=============================================================================
+    return 1;
 }
 //=============================================================================
