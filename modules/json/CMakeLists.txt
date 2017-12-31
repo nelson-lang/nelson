@@ -16,7 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # LICENCE_BLOCK_END
 #==============================================================================
-set(module_name json
+set(module_name json)
 set(module_library_name nlsJson)
 set(module_library_builtin_name ${module_library_name}_builtin)
 #==============================================================================
@@ -105,6 +105,3 @@ install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/functions DESTINATI
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/examples DESTINATION ${ROOT_OUTPUT}/modules/${module_name} FILES_MATCHING PATTERN "*.json")
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/help DESTINATION ${ROOT_OUTPUT}/modules/${module_name} FILES_MATCHING PATTERN "*.qch" PATTERN "xml" EXCLUDE PATTERN "md" EXCLUDE)
 #==============================================================================
-
-
-
