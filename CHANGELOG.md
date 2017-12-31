@@ -13,6 +13,8 @@ Bug Fixes:
 
   Regenerates help files index if database is empty or wrong (>= Qt 5.9)
 
+  [#87](http://github.com/Nelson-numerical-software/nelson/issues/87): struct did not support sparse matrix.
+
 
 ## 0.1.12 (2017-12-24)
 

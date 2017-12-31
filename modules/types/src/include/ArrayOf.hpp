@@ -585,6 +585,8 @@ namespace Nelson {
         static ArrayOf emptyStructConstructor(stringVector fNames, Dimensions dim);
         static ArrayOf emptyStructConstructor(wstringVector fNames, Dimensions dim);
 
+		static ArrayOf structScalarConstructor(stringVector fNames, ArrayOfVector& values);
+
         /**
         * returns value as an array =A(index)
         * simple extraction (fast used 'for' loop)

@@ -71,108 +71,145 @@ namespace Nelson {
         dp->setStructTypeName(structname);
     }
     //=============================================================================
-    ArrayOf ArrayOf::structConstructor(stringVector fNames, ArrayOfVector& values)
+	ArrayOf ArrayOf::structScalarConstructor(stringVector fNames, ArrayOfVector& values)
+	{
+		const ArrayOf* rptr;
+		Dimensions dims;
+		ArrayOf *qp = nullptr;
+		try
+		{
+			if (fNames.size() != values.size())
+			{
+				throw Exception(_W("Number of field names must match number of values in structure constructor."));
+			}
+			Dimensions dims(1, 1);
+			qp = (ArrayOf*)allocateArrayOf(NLS_STRUCT_ARRAY, dims.getElementCount(), fNames);
+			/**
+			* Work through the values, and copy the values back one at a time.
+			*/
+			indexType  length = dims.getElementCount();
+			indexType  offset = 0;
+			for (sizeType j = 0; j < length; j++)
+			{
+				for (sizeType i = 0; i < (sizeType)fNames.size(); i++)
+				{
+					ArrayOf rval = values[i];
+					rptr = (const ArrayOf*)rval.dp->getData();
+					qp[offset] = rval;
+					offset++;
+				}
+			}
+			return ArrayOf(NLS_STRUCT_ARRAY, dims, qp, false, fNames);
+		}
+		catch (Exception &e)
+		{
+			e.what();
+			ArrayOf* rp = (ArrayOf*)qp;
+			delete[] rp;
+			rp = nullptr;
+			qp = nullptr;
+			throw;
+		}
+	}
+	//=============================================================================
+	ArrayOf ArrayOf::structConstructor(stringVector fNames, ArrayOfVector& values)
     {
-        const ArrayOf* rptr;
-        Dimensions dims;
-        sizeType i, j;
-        ArrayOf *qp = nullptr;
-        try
-        {
-            if (fNames.size() != values.size())
-            {
-                throw Exception(_W("Number of field names must match number of values in structure constructor."));
-            }
-            /**
-            * First, we have to make sure that each entry of "values" have
-            *  1.  cell arrays of the same size,
-            *  2.  single element cell arrays,
-            *  3.  single values.
-            */
-            bool nonSingularFound = false;
-            for (i = 0; i < (sizeType)values.size(); i++)
-            {
-                /**
-                * Check the type of the entry.  If its a non-cell array, then
-                * then ignore this entry.
-                */
-                if (values[i].dp->dataClass == NLS_CELL_ARRAY)
-                {
-                    /**
-                    * This is a cell-array, so look for non-scalar cell-arrays.
-                    */
-                    if (!values[i].isScalar())
-                    {
-                        if (!nonSingularFound)
-                        {
-                            nonSingularFound = true;
-                            dims = values[i].dp->dimensions;
-                        }
-                        else if (!dims.equals(values[i].dp->dimensions))
-                        {
-                            throw Exception(_W("ArrayOf dimensions of non-scalar entries must agree in structure construction."));
-                        }
-                    }
-                }
-            }
-            /**
-            * At this point we can construct the dimensions of the output.
-            */
-            if (!nonSingularFound)
-            {
-                dims.reset();
-                dims[0] = 1;
-                dims[1] = 1;
-            }
-            /**
-            * The dimensions of the object have been identified.  Set the
-            * dimensions of the object and the field names.  Then allocate
-            * the space.
-            */
-            qp = (ArrayOf*)allocateArrayOf(NLS_STRUCT_ARRAY, dims.getElementCount(), fNames);
-            /**
-            * Work through the values, and copy the values back one at a time.
-            */
-            indexType  length = dims.getElementCount();
-            indexType  offset = 0;
-            for (j = 0; j<length; j++)
-                for (i = 0; i < (sizeType)fNames.size(); i++)
-                {
-                    ArrayOf rval = values[i];
-                    if (rval.isSparse())
-                    {
-                        throw Exception(_W("sparse arrays not supported for struct constructor."));
-                    }
-                    rptr = (const ArrayOf*)rval.dp->getData();
-                    if (rval.dp->dataClass == NLS_CELL_ARRAY)
-                    {
-                        if (rval.isScalar())
-                        {
-                            qp[offset] = rptr[0];
-                        }
-                        else
-                        {
-                            qp[offset] = rptr[j];
-                        }
-                    }
-                    else
-                    {
-                        qp[offset] = rval;
-                    }
-                    offset++;
-                }
-            return ArrayOf(NLS_STRUCT_ARRAY, dims, qp, false, fNames);
-        }
-        catch (Exception &e)
-        {
-            e.what();
-            ArrayOf* rp = (ArrayOf*)qp;
-            delete[] rp;
-            rp = nullptr;
-            qp = nullptr;
-            throw;
-        }
-    }
+		const ArrayOf* rptr;
+		Dimensions dims;
+		sizeType i, j;
+		ArrayOf *qp = nullptr;
+		try
+		{
+			if (fNames.size() != values.size())
+			{
+				throw Exception(_W("Number of field names must match number of values in structure constructor."));
+			}
+			/**
+			* First, we have to make sure that each entry of "values" have
+			*  1.  cell arrays of the same size,
+			*  2.  single element cell arrays,
+			*  3.  single values.
+			*/
+			bool nonSingularFound = false;
+			for (i = 0; i < (sizeType)values.size(); i++)
+			{
+				/**
+				* Check the type of the entry.  If its a non-cell array, then
+				* then ignore this entry.
+				*/
+				if (values[i].dp->dataClass == NLS_CELL_ARRAY)
+				{
+					/**
+					* This is a cell-array, so look for non-scalar cell-arrays.
+					*/
+					if (!values[i].isScalar())
+					{
+						if (!nonSingularFound)
+						{
+							nonSingularFound = true;
+							dims = values[i].dp->dimensions;
+						}
+						else if (!dims.equals(values[i].dp->dimensions))
+						{
+							throw Exception(_W("ArrayOf dimensions of non-scalar entries must agree in structure construction."));
+						}
+					}
+				}
+			}
+			/**
+			* At this point we can construct the dimensions of the output.
+			*/
+			if (!nonSingularFound)
+			{
+				dims.reset();
+				dims[0] = 1;
+				dims[1] = 1;
+			}
+			/**
+			* The dimensions of the object have been identified.  Set the
+			* dimensions of the object and the field names.  Then allocate
+			* the space.
+			*/
+			qp = (ArrayOf*)allocateArrayOf(NLS_STRUCT_ARRAY, dims.getElementCount(), fNames);
+			/**
+			* Work through the values, and copy the values back one at a time.
+			*/
+			indexType  length = dims.getElementCount();
+			indexType  offset = 0;
+			for (j = 0; j<length; j++)
+				for (i = 0; i < (sizeType)fNames.size(); i++)
+				{
+					ArrayOf rval = values[i];
+					rptr = (const ArrayOf*)rval.dp->getData();
+					if (rval.dp->dataClass == NLS_CELL_ARRAY)
+					{
+						if (rval.isScalar())
+						{
+							qp[offset] = rptr[0];
+						}
+						else
+						{
+							qp[offset] = rptr[j];
+						}
+					}
+					else
+					{
+						qp[offset] = rval;
+					}
+					offset++;
+				}
+			return ArrayOf(NLS_STRUCT_ARRAY, dims, qp, false, fNames);
+		}
+		catch (Exception &e)
+		{
+			e.what();
+			ArrayOf* rp = (ArrayOf*)qp;
+			delete[] rp;
+			rp = nullptr;
+			qp = nullptr;
+			throw;
+		}
+	}
     //=============================================================================
     ArrayOf ArrayOf::structConstructor(wstringVector fNames, ArrayOfVector& values)
     {

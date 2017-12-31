@@ -293,9 +293,11 @@ namespace Nelson {
                     for (size_t k = 0; k < jsVar.fieldnames.size(); k++)
                     {
                         fieldnames.push_back(jsVar.fieldnames[k]);
-                        fieldvalues.push_back(jsonVariableToNelson(jsVar.scalarMap[jsVar.fieldnames[k]]));
+                        JsonVariable jsv = jsVar.scalarMap[jsVar.fieldnames[k]];
+                        ArrayOf fieldvalue = jsonVariableToNelson(jsv);
+                        fieldvalues.push_back(fieldvalue);
                     }
-                    return ArrayOf::structConstructor(fieldnames, fieldvalues);
+                    return ArrayOf::structScalarConstructor(fieldnames, fieldvalues);
                 }
             }
             break;
