@@ -7,6 +7,7 @@ Features:
 
   * ndarraychar_disp was missing.
 
+  * NIG slicot uses json files.
 
 Bug Fixes:
 ---------

@@ -1,0 +1,470 @@
+{
+   "NELSON_NAME":"slicot_ag08bd",
+   "NELSON_NAMESPACE":"Slicot",
+   "MODULE_NAME":"slicot",
+   "SYMBOL":"ag08bd",
+   "LANGUAGE":"fortran",
+   "VARIABLES":[
+      {
+         "NAME":"EQUIL",
+         "TYPE":"character",
+         "MODE":"input",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ],
+         "NO_DIMENSIONS_CHECK":[
+
+         ]
+      },
+      {
+         "NAME":"L",
+         "TYPE":"integer",
+         "MODE":"local",
+         "VALUE":"(int)A.getDimensions().getRows()",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ],
+         "NO_DIMENSIONS_CHECK":[
+
+         ]
+      },
+      {
+         "NAME":"N",
+         "TYPE":"integer",
+         "MODE":"local",
+         "VALUE":"(int)A.getDimensions().getColumns()",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ],
+         "NO_DIMENSIONS_CHECK":[
+
+         ]
+      },
+      {
+         "NAME":"M",
+         "TYPE":"integer",
+         "MODE":"input",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ],
+         "NO_DIMENSIONS_CHECK":[
+
+         ]
+      },
+      {
+         "NAME":"P",
+         "TYPE":"integer",
+         "MODE":"input",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ],
+         "NO_DIMENSIONS_CHECK":[
+
+         ]
+      },
+      {
+         "NAME":"A",
+         "TYPE":"double_array",
+         "MODE":"in_out",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":"std::max(1, (int)L.getContentAsInteger32Scalar())",
+         "DIMENSION_N":"(int)N.getContentAsInteger32Scalar()",
+         "NO_DIMENSIONS_CHECK":[
+
+         ]
+      },
+      {
+         "NAME":"LDA",
+         "TYPE":"integer",
+         "MODE":"local",
+         "VALUE":"std::max(1, (int)L.getContentAsInteger32Scalar())",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ],
+         "NO_DIMENSIONS_CHECK":[
+
+         ]
+      },
+      {
+         "NAME":"E",
+         "TYPE":"double_array",
+         "MODE":"in_out",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":"std::max(1, (int)L.getContentAsInteger32Scalar())",
+         "DIMENSION_N":"(int)N.getContentAsInteger32Scalar()",
+         "NO_DIMENSIONS_CHECK":[
+
+         ]
+      },
+      {
+         "NAME":"LDE",
+         "TYPE":"integer",
+         "MODE":"local",
+         "VALUE":"std::max(1, (int)L.getContentAsInteger32Scalar())",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ],
+         "NO_DIMENSIONS_CHECK":[
+
+         ]
+      },
+      {
+         "NAME":"B",
+         "TYPE":"double_array",
+         "MODE":"input",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":"std::max(1, (int)L.getContentAsInteger32Scalar())",
+         "DIMENSION_N":"(int)M.getContentAsInteger32Scalar()",
+         "NO_DIMENSIONS_CHECK":true
+      },
+      {
+         "NAME":"LDB",
+         "TYPE":"integer",
+         "MODE":"local",
+         "VALUE":"std::max(1, (int)L.getContentAsInteger32Scalar())",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ],
+         "NO_DIMENSIONS_CHECK":[
+
+         ]
+      },
+      {
+         "NAME":"C",
+         "TYPE":"double_array",
+         "MODE":"input",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":"std::max(1, (int)P.getContentAsInteger32Scalar())",
+         "DIMENSION_N":"(int)N.getContentAsInteger32Scalar()",
+         "NO_DIMENSIONS_CHECK":true
+      },
+      {
+         "NAME":"LDC",
+         "TYPE":"integer",
+         "MODE":"local",
+         "VALUE":"std::max(1, (int)P.getContentAsInteger32Scalar())",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ],
+         "NO_DIMENSIONS_CHECK":[
+
+         ]
+      },
+      {
+         "NAME":"D",
+         "TYPE":"double_array",
+         "MODE":"input",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":"std::max(1, (int)P.getContentAsInteger32Scalar())",
+         "DIMENSION_N":"(int)M.getContentAsInteger32Scalar()",
+         "NO_DIMENSIONS_CHECK":true
+      },
+      {
+         "NAME":"LDD",
+         "TYPE":"integer",
+         "MODE":"local",
+         "VALUE":"std::max(1, (int)P.getContentAsInteger32Scalar())",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ],
+         "NO_DIMENSIONS_CHECK":[
+
+         ]
+      },
+      {
+         "NAME":"NFZ",
+         "TYPE":"integer",
+         "MODE":"output",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ],
+         "NO_DIMENSIONS_CHECK":[
+
+         ]
+      },
+      {
+         "NAME":"NRANK",
+         "TYPE":"integer",
+         "MODE":"output",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ],
+         "NO_DIMENSIONS_CHECK":[
+
+         ]
+      },
+      {
+         "NAME":"NIZ",
+         "TYPE":"integer",
+         "MODE":"output",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ],
+         "NO_DIMENSIONS_CHECK":[
+
+         ]
+      },
+      {
+         "NAME":"DINFZ",
+         "TYPE":"integer",
+         "MODE":"output",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ],
+         "NO_DIMENSIONS_CHECK":[
+
+         ]
+      },
+      {
+         "NAME":"NKROR",
+         "TYPE":"integer",
+         "MODE":"output",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ],
+         "NO_DIMENSIONS_CHECK":[
+
+         ]
+      },
+      {
+         "NAME":"NINFE",
+         "TYPE":"integer",
+         "MODE":"output",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ],
+         "NO_DIMENSIONS_CHECK":[
+
+         ]
+      },
+      {
+         "NAME":"NKROL",
+         "TYPE":"integer",
+         "MODE":"output",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ],
+         "NO_DIMENSIONS_CHECK":[
+
+         ]
+      },
+      {
+         "NAME":"INFZ",
+         "TYPE":"integer_array",
+         "MODE":"output",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":"1",
+         "DIMENSION_N":"(int)N.getContentAsInteger32Scalar() + 1",
+         "NO_DIMENSIONS_CHECK":[
+
+         ]
+      },
+      {
+         "NAME":"KRONR",
+         "TYPE":"integer_array",
+         "MODE":"output",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":"1",
+         "DIMENSION_N":"(int)N.getContentAsInteger32Scalar() + (int)M.getContentAsInteger32Scalar() +1",
+         "NO_DIMENSIONS_CHECK":[
+
+         ]
+      },
+      {
+         "NAME":"INFE",
+         "TYPE":"integer_array",
+         "MODE":"output",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":"1",
+         "DIMENSION_N":"1 + std::min((int)L.getContentAsInteger32Scalar() + (int)P.getContentAsInteger32Scalar(), (int)N.getContentAsInteger32Scalar() + (int)M.getContentAsInteger32Scalar())",
+         "NO_DIMENSIONS_CHECK":[
+
+         ]
+      },
+      {
+         "NAME":"KRONL",
+         "TYPE":"integer_array",
+         "MODE":"output",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":"1",
+         "DIMENSION_N":"(int)L.getContentAsInteger32Scalar() + (int)P.getContentAsInteger32Scalar() + 1",
+         "NO_DIMENSIONS_CHECK":[
+
+         ]
+      },
+      {
+         "NAME":"TOL",
+         "TYPE":"double",
+         "MODE":"input",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ],
+         "NO_DIMENSIONS_CHECK":[
+
+         ]
+      },
+      {
+         "NAME":"IWORK",
+         "TYPE":"integer_array",
+         "MODE":"local",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":"1",
+         "DIMENSION_N":"(int)N.getContentAsInteger32Scalar() + std::max(1, (int)M.getContentAsInteger32Scalar())",
+         "NO_DIMENSIONS_CHECK":[
+
+         ]
+      },
+      {
+         "NAME":"DWORK",
+         "TYPE":"double_array",
+         "MODE":"local",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":"1",
+         "DIMENSION_N":"(int)(std::max( 4*((int)L.getContentAsInteger32Scalar() + (int)N.getContentAsInteger32Scalar()), std::max((int)P.getContentAsInteger32Scalar() + (int)L.getContentAsInteger32Scalar(), (int)M.getContentAsInteger32Scalar() + (int)N.getContentAsInteger32Scalar()) * std::max((int)P.getContentAsInteger32Scalar() + (int)L.getContentAsInteger32Scalar(), (int)M.getContentAsInteger32Scalar() + (int)N.getContentAsInteger32Scalar()) + std::max(1, 5 * std::max((int)P.getContentAsInteger32Scalar() + (int)L.getContentAsInteger32Scalar(), (int)M.getContentAsInteger32Scalar() + (int)N.getContentAsInteger32Scalar()))))",
+         "NO_DIMENSIONS_CHECK":[
+
+         ]
+      },
+      {
+         "NAME":"LDWORK",
+         "TYPE":"integer",
+         "MODE":"local",
+         "VALUE":"(int)(std::max( 4*((int)L.getContentAsInteger32Scalar() + (int)N.getContentAsInteger32Scalar()), std::max((int)P.getContentAsInteger32Scalar() + (int)L.getContentAsInteger32Scalar(), (int)M.getContentAsInteger32Scalar() + (int)N.getContentAsInteger32Scalar()) * std::max((int)P.getContentAsInteger32Scalar() + (int)L.getContentAsInteger32Scalar(), (int)M.getContentAsInteger32Scalar() + (int)N.getContentAsInteger32Scalar()) + std::max(1, 5 * std::max((int)P.getContentAsInteger32Scalar() + (int)L.getContentAsInteger32Scalar(), (int)M.getContentAsInteger32Scalar() + (int)N.getContentAsInteger32Scalar()))))",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ],
+         "NO_DIMENSIONS_CHECK":[
+
+         ]
+      },
+      {
+         "NAME":"INFO",
+         "TYPE":"integer",
+         "MODE":"output",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ],
+         "NO_DIMENSIONS_CHECK":[
+
+         ]
+      }
+   ]
+}

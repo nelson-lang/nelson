@@ -1,0 +1,211 @@
+{
+   "NELSON_NAME":"slicot_mb02md",
+   "NELSON_NAMESPACE":"Slicot",
+   "MODULE_NAME":"slicot",
+   "SYMBOL":"mb02md",
+   "LANGUAGE":"fortran",
+   "VARIABLES":[
+      {
+         "NAME":"JOB",
+         "TYPE":"character",
+         "MODE":"input",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ],
+         "VALUE":[
+
+         ]
+      },
+      {
+         "NAME":"M",
+         "TYPE":"integer",
+         "MODE":"input",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ],
+         "VALUE":[
+
+         ]
+      },
+      {
+         "NAME":"N",
+         "TYPE":"integer",
+         "MODE":"input",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ],
+         "VALUE":[
+
+         ]
+      },
+      {
+         "NAME":"L",
+         "TYPE":"integer",
+         "MODE":"input",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ],
+         "VALUE":[
+
+         ]
+      },
+      {
+         "NAME":"RANK",
+         "TYPE":"integer",
+         "MODE":"in_out",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ],
+         "VALUE":[
+
+         ]
+      },
+      {
+         "NAME":"C",
+         "TYPE":"double_array",
+         "MODE":"in_out",
+         "DIMENSION_M":"std::max(std::max(1, (int)M.getContentAsInteger32Scalar()), (int)N.getContentAsInteger32Scalar() + (int)L.getContentAsInteger32Scalar())",
+         "DIMENSION_N":"(int)N.getContentAsInteger32Scalar() + (int)L.getContentAsInteger32Scalar()",
+         "VALUE":[
+
+         ]
+      },
+      {
+         "NAME":"LDC",
+         "TYPE":"integer",
+         "MODE":"local",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ],
+         "VALUE":"std::max(std::max(1, (int)M.getContentAsInteger32Scalar()), (int)N.getContentAsInteger32Scalar() + (int)L.getContentAsInteger32Scalar())"
+      },
+      {
+         "NAME":"S",
+         "TYPE":"double_array",
+         "MODE":"output",
+         "DIMENSION_M":"std::min((int)M.getContentAsInteger32Scalar(), (int)N.getContentAsInteger32Scalar() + (int)L.getContentAsInteger32Scalar())",
+         "DIMENSION_N":"1",
+         "VALUE":[
+
+         ]
+      },
+      {
+         "NAME":"X",
+         "TYPE":"double_array",
+         "MODE":"output",
+         "DIMENSION_M":"(int)L.getContentAsInteger32Scalar()",
+         "DIMENSION_N":"std::max(1, (int)N.getContentAsInteger32Scalar())",
+         "VALUE":[
+
+         ]
+      },
+      {
+         "NAME":"LDX",
+         "TYPE":"integer",
+         "MODE":"local",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ],
+         "VALUE":"std::max(1, (int)N.getContentAsInteger32Scalar())"
+      },
+      {
+         "NAME":"TOL",
+         "TYPE":"double",
+         "MODE":"input",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ],
+         "VALUE":[
+
+         ]
+      },
+      {
+         "NAME":"IWORK",
+         "TYPE":"integer_array",
+         "MODE":"local",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ],
+         "VALUE":[
+
+         ]
+      },
+      {
+         "NAME":"DWORK",
+         "TYPE":"double_array",
+         "MODE":"local",
+         "DIMENSION_M":"1",
+         "DIMENSION_N":"(int)M.getContentAsInteger32Scalar() * ((int)N.getContentAsInteger32Scalar() + (int)L.getContentAsInteger32Scalar() ) + std::max( 3 * std::min((int)M.getContentAsInteger32Scalar(), (int)N.getContentAsInteger32Scalar() + (int)L.getContentAsInteger32Scalar()) + std::max(std::max((int)M.getContentAsInteger32Scalar(), (int)N.getContentAsInteger32Scalar() + (int)L.getContentAsInteger32Scalar()), 5 * std::min((int)M.getContentAsInteger32Scalar(), (int)N.getContentAsInteger32Scalar() + (int)L.getContentAsInteger32Scalar())), 3 * (int)L.getContentAsInteger32Scalar() )",
+         "VALUE":[
+
+         ]
+      },
+      {
+         "NAME":"LDWORK",
+         "TYPE":"integer",
+         "MODE":"local",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ],
+         "VALUE":"(int)M.getContentAsInteger32Scalar() * ((int)N.getContentAsInteger32Scalar() + (int)L.getContentAsInteger32Scalar() ) + std::max( 3 * std::min((int)M.getContentAsInteger32Scalar(), (int)N.getContentAsInteger32Scalar() + (int)L.getContentAsInteger32Scalar()) + std::max(std::max((int)M.getContentAsInteger32Scalar(), (int)N.getContentAsInteger32Scalar() + (int)L.getContentAsInteger32Scalar()), 5 * std::min((int)M.getContentAsInteger32Scalar(), (int)N.getContentAsInteger32Scalar() + (int)L.getContentAsInteger32Scalar())), 3 * (int)L.getContentAsInteger32Scalar() )"
+      },
+      {
+         "NAME":"IWARN",
+         "TYPE":"integer",
+         "MODE":"output",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ],
+         "VALUE":[
+
+         ]
+      },
+      {
+         "NAME":"INFO",
+         "TYPE":"integer",
+         "MODE":"output",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ],
+         "VALUE":[
+
+         ]
+      }
+   ]
+}

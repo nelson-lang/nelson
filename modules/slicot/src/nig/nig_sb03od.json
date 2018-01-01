@@ -1,0 +1,269 @@
+{
+   "NELSON_NAME":"slicot_sb03od",
+   "NELSON_NAMESPACE":"Slicot",
+   "MODULE_NAME":"slicot",
+   "SYMBOL":"sb03od",
+   "LANGUAGE":"fortran",
+   "VARIABLES":[
+      {
+         "NAME":"DICO",
+         "TYPE":"character",
+         "MODE":"input",
+         "SUPPORTED_VALUES":[
+            "C",
+            "D"
+         ],
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ]
+      },
+      {
+         "NAME":"FACT",
+         "TYPE":"character",
+         "MODE":"input",
+         "SUPPORTED_VALUES":[
+            "F",
+            "N"
+         ],
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ]
+      },
+      {
+         "NAME":"TRANS",
+         "TYPE":"character",
+         "MODE":"input",
+         "SUPPORTED_VALUES":[
+            "N",
+            "T"
+         ],
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ]
+      },
+      {
+         "NAME":"N",
+         "TYPE":"integer",
+         "MODE":"local",
+         "SUPPORTED_VALUES":[
+
+         ],
+         "VALUE":"(int)A.getDimensions().getRows()",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ]
+      },
+      {
+         "NAME":"M",
+         "TYPE":"integer",
+         "MODE":"local",
+         "SUPPORTED_VALUES":[
+
+         ],
+         "VALUE":"(int)B.getDimensions().getRows()",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ]
+      },
+      {
+         "NAME":"A",
+         "TYPE":"double_array",
+         "MODE":"input",
+         "SUPPORTED_VALUES":[
+
+         ],
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ]
+      },
+      {
+         "NAME":"LDA",
+         "TYPE":"integer",
+         "MODE":"local",
+         "SUPPORTED_VALUES":[
+
+         ],
+         "VALUE":"std::max(1, (int)A.getDimensions().getRows())",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ]
+      },
+      {
+         "NAME":"Q",
+         "TYPE":"double_array",
+         "MODE":"in_out",
+         "SUPPORTED_VALUES":[
+
+         ],
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":"std::max(1, (int)A.getDimensions().getRows())",
+         "DIMENSION_N":"(int)A.getDimensions().getRows()"
+      },
+      {
+         "NAME":"LDQ",
+         "TYPE":"integer",
+         "MODE":"local",
+         "SUPPORTED_VALUES":[
+
+         ],
+         "VALUE":"std::max(1, (int)A.getDimensions().getRows())",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ]
+      },
+      {
+         "NAME":"B",
+         "TYPE":"double_array",
+         "MODE":"in_out",
+         "SUPPORTED_VALUES":[
+
+         ],
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":"TRANS.getContentAsCString().compare(\"N\") == 0 ? std::max(1, std::max((int)A.getDimensions().getRows(), (int)B.getDimensions().getRows())) : std::max(1, (int)A.getDimensions().getRows())",
+         "DIMENSION_N":"(int)A.getDimensions().getRows()"
+      },
+      {
+         "NAME":"LDB",
+         "TYPE":"integer",
+         "MODE":"local",
+         "SUPPORTED_VALUES":[
+
+         ],
+         "VALUE":"TRANS.getContentAsCString().compare(\"N\") == 0 ? std::max(1, std::max((int)A.getDimensions().getRows(), (int)B.getDimensions().getRows())) : std::max(1, (int)A.getDimensions().getRows())",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ]
+      },
+      {
+         "NAME":"SCALE",
+         "TYPE":"double",
+         "MODE":"output",
+         "SUPPORTED_VALUES":[
+
+         ],
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ]
+      },
+      {
+         "NAME":"WR",
+         "TYPE":"double_array",
+         "MODE":"output",
+         "SUPPORTED_VALUES":[
+
+         ],
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":"1",
+         "DIMENSION_N":"(int)A.getDimensions().getRows()"
+      },
+      {
+         "NAME":"WI",
+         "TYPE":"double_array",
+         "MODE":"output",
+         "SUPPORTED_VALUES":[
+
+         ],
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":"1",
+         "DIMENSION_N":"(int)A.getDimensions().getRows()"
+      },
+      {
+         "NAME":"DWORK",
+         "TYPE":"double_array",
+         "MODE":"local",
+         "SUPPORTED_VALUES":[
+
+         ],
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":"1",
+         "DIMENSION_N":"std::max(1, 4 * (int)A.getDimensions().getRows() + std::min((int)B.getDimensions().getRows(), (int)A.getDimensions().getRows()))"
+      },
+      {
+         "NAME":"LDWORK",
+         "TYPE":"integer",
+         "MODE":"local",
+         "SUPPORTED_VALUES":[
+
+         ],
+         "VALUE":"std::max(1, 4 * (int)A.getDimensions().getRows() + std::min((int)B.getDimensions().getRows(), (int)A.getDimensions().getRows()))",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ]
+      },
+      {
+         "NAME":"INFO",
+         "TYPE":"integer",
+         "MODE":"output",
+         "SUPPORTED_VALUES":[
+
+         ],
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ]
+      }
+   ]
+}

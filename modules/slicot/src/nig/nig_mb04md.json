@@ -1,0 +1,81 @@
+{
+   "NELSON_NAME":"slicot_mb04md",
+   "NELSON_NAMESPACE":"Slicot",
+   "MODULE_NAME":"slicot",
+   "SYMBOL":"mb04md",
+   "LANGUAGE":"fortran",
+   "VARIABLES":[
+      {
+         "NAME":"N",
+         "TYPE":"integer",
+         "MODE":"local",
+         "VALUE":"(int)A.getDimensions().getColumns()",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ]
+      },
+      {
+         "NAME":"MAXRED",
+         "TYPE":"double",
+         "MODE":"in_out",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ]
+      },
+      {
+         "NAME":"A",
+         "TYPE":"double_array",
+         "MODE":"in_out",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":"(int)A.getDimensions().getRows()",
+         "DIMENSION_N":"(int)A.getDimensions().getColumns()"
+      },
+      {
+         "NAME":"LDA",
+         "TYPE":"integer",
+         "MODE":"local",
+         "VALUE":"std::max(1, (int)A.getDimensions().getColumns())",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ]
+      },
+      {
+         "NAME":"SCALE",
+         "TYPE":"double_array",
+         "MODE":"output",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":"1",
+         "DIMENSION_N":"(int)A.getDimensions().getColumns()"
+      },
+      {
+         "NAME":"INFO",
+         "TYPE":"integer",
+         "MODE":"output",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ]
+      }
+   ]
+}

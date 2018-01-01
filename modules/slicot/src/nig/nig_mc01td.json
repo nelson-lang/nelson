@@ -1,0 +1,115 @@
+{
+   "NELSON_NAME":"slicot_mc01td",
+   "NELSON_NAMESPACE":"Slicot",
+   "MODULE_NAME":"slicot",
+   "SYMBOL":"mc01td",
+   "LANGUAGE":"fortran",
+   "VARIABLES":[
+      {
+         "NAME":"DICO",
+         "TYPE":"character",
+         "MODE":"input",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ]
+      },
+      {
+         "NAME":"DP",
+         "TYPE":"integer",
+         "MODE":"in_out",
+         "VALUE":"(int)P.getDimensions().getElementCount();",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ]
+      },
+      {
+         "NAME":"P",
+         "TYPE":"double_array",
+         "MODE":"input",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ]
+      },
+      {
+         "NAME":"STABLE",
+         "TYPE":"integer",
+         "MODE":"output",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ]
+      },
+      {
+         "NAME":"NZ",
+         "TYPE":"integer",
+         "MODE":"output",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ]
+      },
+      {
+         "NAME":"DWORK",
+         "TYPE":"double_array",
+         "MODE":"local",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":"1",
+         "DIMENSION_N":"2 * (int)P.getDimensions().getElementCount() + 2"
+      },
+      {
+         "NAME":"IWARN",
+         "TYPE":"integer",
+         "MODE":"output",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ]
+      },
+      {
+         "NAME":"INFO",
+         "TYPE":"integer",
+         "MODE":"output",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ]
+      }
+   ]
+}

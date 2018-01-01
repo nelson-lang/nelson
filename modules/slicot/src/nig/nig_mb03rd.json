@@ -1,0 +1,189 @@
+{
+   "NELSON_NAME":"slicot_mb03rd",
+   "NELSON_NAMESPACE":"Slicot",
+   "MODULE_NAME":"slicot",
+   "SYMBOL":"mb03rd",
+   "LANGUAGE":"fortran",
+   "VARIABLES":[
+      {
+         "NAME":"JOBX",
+         "TYPE":"character",
+         "MODE":"input",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ]
+      },
+      {
+         "NAME":"SORT",
+         "TYPE":"character",
+         "MODE":"input",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ]
+      },
+      {
+         "NAME":"N",
+         "TYPE":"integer",
+         "MODE":"local",
+         "VALUE":"(int)A.getDimensions().getColumns()",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ]
+      },
+      {
+         "NAME":"PMAX",
+         "TYPE":"double",
+         "MODE":"input",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ]
+      },
+      {
+         "NAME":"A",
+         "TYPE":"double_array",
+         "MODE":"in_out",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":"std::max(1, (int)A.getDimensions().getColumns())",
+         "DIMENSION_N":"(int)A.getDimensions().getColumns()"
+      },
+      {
+         "NAME":"LDA",
+         "TYPE":"integer",
+         "MODE":"local",
+         "VALUE":"std::max(1, (int)A.getDimensions().getColumns())",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ]
+      },
+      {
+         "NAME":"X",
+         "TYPE":"double_array",
+         "MODE":"in_out",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":"std::max(1, (int)A.getDimensions().getColumns())",
+         "DIMENSION_N":"(int)A.getDimensions().getColumns()"
+      },
+      {
+         "NAME":"LDX",
+         "TYPE":"integer",
+         "MODE":"local",
+         "VALUE":"std::max(1, (int)A.getDimensions().getColumns())",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ]
+      },
+      {
+         "NAME":"NBLCKS",
+         "TYPE":"integer",
+         "MODE":"output",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ]
+      },
+      {
+         "NAME":"BLSIZE",
+         "TYPE":"double_array",
+         "MODE":"output",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":"1",
+         "DIMENSION_N":"(int)A.getDimensions().getColumns()"
+      },
+      {
+         "NAME":"WR",
+         "TYPE":"double_array",
+         "MODE":"output",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":"1",
+         "DIMENSION_N":"(int)A.getDimensions().getColumns()"
+      },
+      {
+         "NAME":"WI",
+         "TYPE":"double_array",
+         "MODE":"output",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":"1",
+         "DIMENSION_N":"(int)A.getDimensions().getColumns()"
+      },
+      {
+         "NAME":"TOL",
+         "TYPE":"double",
+         "MODE":"input",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ]
+      },
+      {
+         "NAME":"DWORK",
+         "TYPE":"double_array",
+         "MODE":"local",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":"1",
+         "DIMENSION_N":"(int)A.getDimensions().getColumns()"
+      },
+      {
+         "NAME":"INFO",
+         "TYPE":"integer",
+         "MODE":"output",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ]
+      }
+   ]
+}

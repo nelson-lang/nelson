@@ -1,0 +1,369 @@
+{
+   "NELSON_NAME":"slicot_ab08nd",
+   "NELSON_NAMESPACE":"Slicot",
+   "MODULE_NAME":"slicot",
+   "SYMBOL":"ab08nd",
+   "LANGUAGE":"fortran",
+   "VARIABLES":[
+      {
+         "NAME":"EQUIL",
+         "TYPE":"character",
+         "MODE":"input",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ],
+         "VALUE":[
+
+         ]
+      },
+      {
+         "NAME":"N",
+         "TYPE":"integer",
+         "MODE":"input",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ],
+         "VALUE":[
+
+         ]
+      },
+      {
+         "NAME":"M",
+         "TYPE":"integer",
+         "MODE":"input",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ],
+         "VALUE":[
+
+         ]
+      },
+      {
+         "NAME":"P",
+         "TYPE":"integer",
+         "MODE":"input",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ],
+         "VALUE":[
+
+         ]
+      },
+      {
+         "NAME":"A",
+         "TYPE":"double_array",
+         "MODE":"input",
+         "DIMENSION_M":"(int)std::max(1, N.getContentAsInteger32Scalar())",
+         "DIMENSION_N":"(int)N.getContentAsInteger32Scalar()",
+         "VALUE":[
+
+         ]
+      },
+      {
+         "NAME":"LDA",
+         "TYPE":"integer",
+         "MODE":"local",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ],
+         "VALUE":"std::max(1, N.getContentAsInteger32Scalar())"
+      },
+      {
+         "NAME":"B",
+         "TYPE":"double_array",
+         "MODE":"input",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ],
+         "VALUE":[
+
+         ]
+      },
+      {
+         "NAME":"LDB",
+         "TYPE":"integer",
+         "MODE":"local",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ],
+         "VALUE":"(int)std::max(1, N.getContentAsInteger32Scalar())"
+      },
+      {
+         "NAME":"C",
+         "TYPE":"double_array",
+         "MODE":"input",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ],
+         "VALUE":[
+
+         ]
+      },
+      {
+         "NAME":"LDC",
+         "TYPE":"integer",
+         "MODE":"local",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ],
+         "VALUE":"std::max(1, P.getContentAsInteger32Scalar())"
+      },
+      {
+         "NAME":"D",
+         "TYPE":"double_array",
+         "MODE":"input",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ],
+         "VALUE":[
+
+         ]
+      },
+      {
+         "NAME":"LDD",
+         "TYPE":"integer",
+         "MODE":"local",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ],
+         "VALUE":"std::max(1, P.getContentAsInteger32Scalar())"
+      },
+      {
+         "NAME":"NU",
+         "TYPE":"integer",
+         "MODE":"output",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ],
+         "VALUE":[
+
+         ]
+      },
+      {
+         "NAME":"RANK",
+         "TYPE":"integer",
+         "MODE":"output",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ],
+         "VALUE":[
+
+         ]
+      },
+      {
+         "NAME":"DINFZ",
+         "TYPE":"integer",
+         "MODE":"output",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ],
+         "VALUE":[
+
+         ]
+      },
+      {
+         "NAME":"NKROR",
+         "TYPE":"integer",
+         "MODE":"output",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ],
+         "VALUE":[
+
+         ]
+      },
+      {
+         "NAME":"NKROL",
+         "TYPE":"integer",
+         "MODE":"output",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ],
+         "VALUE":[
+
+         ]
+      },
+      {
+         "NAME":"INFZ",
+         "TYPE":"integer_array",
+         "MODE":"output",
+         "DIMENSION_M":"1",
+         "DIMENSION_N":"N.getContentAsInteger32Scalar()",
+         "VALUE":[
+
+         ]
+      },
+      {
+         "NAME":"KRONR",
+         "TYPE":"integer_array",
+         "MODE":"output",
+         "DIMENSION_M":"1",
+         "DIMENSION_N":"std::max(N.getContentAsInteger32Scalar(), M.getContentAsInteger32Scalar()) + 1",
+         "VALUE":[
+
+         ]
+      },
+      {
+         "NAME":"KRONL",
+         "TYPE":"integer_array",
+         "MODE":"output",
+         "DIMENSION_M":"1",
+         "DIMENSION_N":"std::max(N.getContentAsInteger32Scalar(), M.getContentAsInteger32Scalar()) + 1",
+         "VALUE":[
+
+         ]
+      },
+      {
+         "NAME":"AF",
+         "TYPE":"double_array",
+         "MODE":"output",
+         "DIMENSION_M":"std::max(1, N.getContentAsInteger32Scalar() + M.getContentAsInteger32Scalar())",
+         "DIMENSION_N":"N.getContentAsInteger32Scalar() + std::min(P.getContentAsInteger32Scalar(), M.getContentAsInteger32Scalar())",
+         "VALUE":[
+
+         ]
+      },
+      {
+         "NAME":"LDAF",
+         "TYPE":"integer",
+         "MODE":"local",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ],
+         "VALUE":"std::max(1, N.getContentAsInteger32Scalar() + M.getContentAsInteger32Scalar())"
+      },
+      {
+         "NAME":"BF",
+         "TYPE":"double_array",
+         "MODE":"output",
+         "DIMENSION_M":"N.getContentAsInteger32Scalar() + M.getContentAsInteger32Scalar()",
+         "DIMENSION_N":"std::max(1, N.getContentAsInteger32Scalar() + P.getContentAsInteger32Scalar())",
+         "VALUE":[
+
+         ]
+      },
+      {
+         "NAME":"LDBF",
+         "TYPE":"integer",
+         "MODE":"local",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ],
+         "VALUE":"std::max(1, N.getContentAsInteger32Scalar() + P.getContentAsInteger32Scalar())"
+      },
+      {
+         "NAME":"TOL",
+         "TYPE":"double",
+         "MODE":"input",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ],
+         "VALUE":[
+
+         ]
+      },
+      {
+         "NAME":"IWORK",
+         "TYPE":"integer_array",
+         "MODE":"local",
+         "DIMENSION_M":"1",
+         "DIMENSION_N":"std::max(M.getContentAsInteger32Scalar(), P.getContentAsInteger32Scalar())",
+         "VALUE":[
+
+         ]
+      },
+      {
+         "NAME":"DWORK",
+         "TYPE":"double_array",
+         "MODE":"local",
+         "DIMENSION_M":"1",
+         "DIMENSION_N":"std::max(std::max(M.getContentAsInteger32Scalar(), P.getContentAsInteger32Scalar()), N.getContentAsInteger32Scalar()) + std::max(3 * std::max(M.getContentAsInteger32Scalar(), P.getContentAsInteger32Scalar()) - 1, N.getContentAsInteger32Scalar() + std::max(N.getContentAsInteger32Scalar(), P.getContentAsInteger32Scalar()))",
+         "VALUE":[
+
+         ]
+      },
+      {
+         "NAME":"LDWORK",
+         "TYPE":"integer",
+         "MODE":"local",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ],
+         "VALUE":"std::max(std::max(M.getContentAsInteger32Scalar(), P.getContentAsInteger32Scalar()), N.getContentAsInteger32Scalar()) + std::max(3 * std::max(M.getContentAsInteger32Scalar(), P.getContentAsInteger32Scalar()) - 1, N.getContentAsInteger32Scalar() + std::max(M.getContentAsInteger32Scalar(), P.getContentAsInteger32Scalar()))"
+      },
+      {
+         "NAME":"INFO",
+         "TYPE":"integer",
+         "MODE":"output",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ],
+         "VALUE":[
+
+         ]
+      }
+   ]
+}

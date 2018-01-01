@@ -1,0 +1,173 @@
+{
+   "NELSON_NAME":"slicot_mb05od",
+   "NELSON_NAMESPACE":"Slicot",
+   "MODULE_NAME":"slicot",
+   "SYMBOL":"mb05od",
+   "LANGUAGE":"fortran",
+   "VARIABLES":[
+      {
+         "NAME":"BALANC",
+         "TYPE":"character",
+         "MODE":"input",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ]
+      },
+      {
+         "NAME":"N",
+         "TYPE":"integer",
+         "MODE":"local",
+         "VALUE":"(int)A.getDimensions().getColumns()",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ]
+      },
+      {
+         "NAME":"NDIAG",
+         "TYPE":"integer",
+         "MODE":"input",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ]
+      },
+      {
+         "NAME":"DELTA",
+         "TYPE":"double",
+         "MODE":"input",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ]
+      },
+      {
+         "NAME":"A",
+         "TYPE":"double_array",
+         "MODE":"in_out",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":"std::max(1, (int)N.getContentAsInteger32Scalar())",
+         "DIMENSION_N":"(int)N.getContentAsInteger32Scalar()"
+      },
+      {
+         "NAME":"LDA",
+         "TYPE":"integer",
+         "MODE":"local",
+         "VALUE":"std::max(1, (int)N.getContentAsInteger32Scalar())",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ]
+      },
+      {
+         "NAME":"MDIG",
+         "TYPE":"integer",
+         "MODE":"output",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ]
+      },
+      {
+         "NAME":"IDIG",
+         "TYPE":"integer",
+         "MODE":"output",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ]
+      },
+      {
+         "NAME":"IWORK",
+         "TYPE":"integer_array",
+         "MODE":"local",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":"1",
+         "DIMENSION_N":"(int)N.getContentAsInteger32Scalar()"
+      },
+      {
+         "NAME":"DWORK",
+         "TYPE":"double_array",
+         "MODE":"local",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":"1",
+         "DIMENSION_N":"(int)N.getContentAsInteger32Scalar() * (2 * (int)N.getContentAsInteger32Scalar() + (int)NDIAG.getContentAsInteger32Scalar() + 1) + (int)NDIAG.getContentAsInteger32Scalar()"
+      },
+      {
+         "NAME":"LDWORK",
+         "TYPE":"integer",
+         "MODE":"local",
+         "VALUE":"(int)N.getContentAsInteger32Scalar() * (2 * (int)N.getContentAsInteger32Scalar() + (int)NDIAG.getContentAsInteger32Scalar() + 1) + (int)NDIAG.getContentAsInteger32Scalar()",
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ]
+      },
+      {
+         "NAME":"IWARN",
+         "TYPE":"integer",
+         "MODE":"output",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ]
+      },
+      {
+         "NAME":"INFO",
+         "TYPE":"integer",
+         "MODE":"output",
+         "VALUE":[
+
+         ],
+         "DIMENSION_M":[
+
+         ],
+         "DIMENSION_N":[
+
+         ]
+      }
+   ]
+}

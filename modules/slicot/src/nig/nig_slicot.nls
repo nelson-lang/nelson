@@ -21,35 +21,35 @@
 
 
 FILES = {
-'nig_sb10jd.nls';
-'nig_mb02md.nls';
-'nig_sg02ad.nls';
-'nig_sb04qd.nls';
-'nig_sb04md.nls';
-'nig_mb03od.nls';
-'nig_mb03rd.nls';
-'nig_mb03pd.nls';
-'nig_ab01od.nls';
-'nig_ab04md.nls';
-'nig_ab08nd.nls';
-'nig_sb01bd.nls';
-'nig_sb03od.nls';
-'nig_sb03md.nls';
-'nig_sb02od.nls';
-'nig_mb04md.nls';
-'nig_ab07nd.nls';
-'nig_ab07nd.nls';
-'nig_ag08bd.nls';
-'nig_tg01ad.nls';
-'nig_mc01td.nls';
-'nig_mb04gd.nls';
-'nig_mb05od.nls';
-'nig_tb01id.nls';
+'nig_sb10jd.json';
+'nig_mb02md.json';
+'nig_sg02ad.json';
+'nig_sb04qd.json';
+'nig_sb04md.json';
+'nig_mb03od.json';
+'nig_mb03rd.json';
+'nig_mb03pd.json';
+'nig_ab01od.json';
+'nig_ab04md.json';
+'nig_ab08nd.json';
+'nig_sb01bd.json';
+'nig_sb03od.json';
+'nig_sb03md.json';
+'nig_sb02od.json';
+'nig_mb04md.json';
+'nig_ab07nd.json';
+'nig_ab07nd.json';
+'nig_ag08bd.json';
+'nig_tg01ad.json';
+'nig_mc01td.json';
+'nig_mb04gd.json';
+'nig_mb05od.json';
+'nig_tb01id.json';
 };
 
 NIG_FUNCTIONS = struct([]);
 for f = FILES
-  run(f{1});
+  NIG_FUNCTION = jsondecode(fileread(f{1}));
   if isempty(NIG_FUNCTIONS)
     NIG_FUNCTIONS = NIG_FUNCTION;
   else
