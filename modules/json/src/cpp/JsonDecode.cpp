@@ -41,6 +41,70 @@ namespace Nelson {
         return res;
     }
     //=============================================================================
+    static std::string decodeCharacters(std::string str)
+    {
+        std::string res;
+        res.reserve(str.size());
+        for (size_t k = 0; k < str.size(); ++k)
+        {
+            if (str[k] == '\\')
+            {
+                if (k + 1 < str.size())
+                {
+                    if (str[k + 1] == 'u')
+                    {
+                        std::string part = str.substr(k + 2, str.size() - (k + 2));
+                        char buffer[64];
+                        sscanf(part.c_str(), "%4hx", buffer);
+                        k += 5;
+                        res = res + buffer;
+                    }
+                    else
+                    {
+                        switch (str[k + 1])
+                        {
+                            case '"':
+                            case '\\':
+                            case '/':
+                                res.push_back(str[k + 1]);
+                                k++;
+                                break;
+                            case 'b':
+                                res.push_back('\b');
+                                k++;
+                                break;
+                            case 'f':
+                                res.push_back('\f');
+                                k++;
+                                break;
+                            case 'n':
+                                res.push_back('\n');
+                                k++;
+                                break;
+                            case 'r':
+                                res.push_back('\r');
+                                k++;
+                                break;
+                            case 't':
+                                res.push_back('\t');
+                                k++;
+                                break;
+                        }
+                    }
+                }
+                else
+                {
+                    res.push_back(str[k]);
+                }
+            }
+            else
+            {
+                res.push_back(str[k]);
+            }
+        }
+        return res;
+    }
+    //=============================================================================
     static bool convertToJsonVariable(const jsmntok_t& token, JsonVariable &jsVar)
     {
         bool res = false;
@@ -72,7 +136,7 @@ namespace Nelson {
         if (token.type == JSMN_STRING)
         {
             jsVar.jsonVariableType = JSON_TO_NELSON_STRING;
-            jsVar.scalarString = strValue;
+            jsVar.scalarString = decodeCharacters(strValue);
             return true;
         }
         if (token.type == JSMN_PRIMITIVE)
@@ -103,7 +167,7 @@ namespace Nelson {
             {
             }
             jsVar.jsonVariableType = JSON_TO_NELSON_STRING;
-            jsVar.scalarString = strValue;
+            jsVar.scalarString = decodeCharacters(strValue);
             return true;
         }
         return res;
@@ -149,14 +213,17 @@ namespace Nelson {
                 {
                     dims[i] = jsVar.dims[i];
                 }
-                logical *dptr = (logical *)ArrayOf::allocateArrayOf(NLS_LOGICAL, dims.getElementCount(), stringVector(), false);
-                memcpy(dptr, jsVar.vectorLogical.data(), sizeof(logical)*jsVar.vectorLogical.size());
-                return ArrayOf(NLS_LOGICAL, dims, dptr);
+                ArrayOf *dptr = (ArrayOf *)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, dims.getElementCount(), stringVector(), false);
+                for (size_t k = 0; k < jsVar.vectorString.size(); k++)
+                {
+                    dptr[k] = ArrayOf::stringConstructor(jsVar.vectorString[k]);
+                }
+                return ArrayOf(NLS_CELL_ARRAY, dims, dptr);
             }
             break;
         }
         ArrayOf res = ArrayOf::emptyConstructor();
-        res.promoteType(NLS_LOGICAL);
+        res.promoteType(NLS_CHAR);
         return res;
     }
     //=============================================================================
@@ -255,21 +322,7 @@ namespace Nelson {
             {
                 ArrayOf rval = jsonVariableToNelson(jsVar.map.at(jsVar.fieldnames[i])[j]);
                 const ArrayOf* rptr = (const ArrayOf*)rval.getDataPointer();
-                if (rval.getDataClass() == NLS_CELL_ARRAY)
-                {
-                    if (rval.isScalar())
-                    {
-                        ptrStruct[offset] = rptr[0];
-                    }
-                    else
-                    {
-                        ptrStruct[offset] = rptr[j];
-                    }
-                }
-                else
-                {
-                    ptrStruct[offset] = rval;
-                }
+                ptrStruct[offset] = rval;
                 offset++;
             }
         }
@@ -312,7 +365,7 @@ namespace Nelson {
                         fieldnames.push_back(jsVar.fieldnames[k]);
                         fieldvalues.push_back(jsonVariableToNelson(jsVar.map.at(jsVar.fieldnames[k])[0]));
                     }
-                    return ArrayOf::structConstructor(fieldnames, fieldvalues);
+                    return ArrayOf::structScalarConstructor(fieldnames, fieldvalues);
                 }
                 else
                 {

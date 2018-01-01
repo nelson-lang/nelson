@@ -82,7 +82,6 @@ namespace Nelson {
         {
             case L'"':
             case L'\\':
-            case L'/':
             {
                 json_append_char('\\');
                 std::wstring wstr;
@@ -206,23 +205,23 @@ namespace Nelson {
     //=============================================================================
     static void encode_array(ArrayOf ValueToEncode, bool close)
     {
-        indexType nbElements = ValueToEncode.getDimensions().getElementCount();
-        if (nbElements > 1)
+        if (ValueToEncode.isCell())
         {
-            if (ValueToEncode.getDataClass() != NLS_CHAR)
+            if (close)
             {
-                if (close)
-                {
-                    json_append_char(']');
-                }
-                else
-                {
-                    json_append_char('[');
-                }
+                json_append_char(']');
             }
             else
             {
-                if (!ValueToEncode.isRowVector() && !ValueToEncode.isColumnVector())
+                json_append_char('[');
+            }
+        }
+        else
+        {
+            indexType nbElements = ValueToEncode.getDimensions().getElementCount();
+            if (nbElements > 1)
+            {
+                if (ValueToEncode.getDataClass() != NLS_CHAR)
                 {
                     if (close)
                     {
@@ -231,6 +230,20 @@ namespace Nelson {
                     else
                     {
                         json_append_char('[');
+                    }
+                }
+                else
+                {
+                    if (!ValueToEncode.isRowVector() && !ValueToEncode.isColumnVector())
+                    {
+                        if (close)
+                        {
+                            json_append_char(']');
+                        }
+                        else
+                        {
+                            json_append_char('[');
+                        }
                     }
                 }
             }
