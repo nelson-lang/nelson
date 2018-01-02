@@ -32,6 +32,7 @@
 #include "fsizeBuiltin.hpp"
 #include "dlmwriteBuiltin.hpp"
 #include "Interface.hpp"
+#include "filereadBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -52,6 +53,7 @@ static const nlsGateway gateway[] =
     { "fseek", Nelson::StreamGateway::fseekBuiltin, 1, 3 },
     { "fsize", Nelson::StreamGateway::fsizeBuiltin, 1, 1 },
     { "dlmwrite", Nelson::StreamGateway::dlmwriteBuiltin, 0, -3 },
+    { "fileread", Nelson::StreamGateway::filereadBuiltin, 1, 1 },
 };
 //=============================================================================
 static bool initializeModule(Nelson::Evaluator* eval)

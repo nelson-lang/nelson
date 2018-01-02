@@ -6,33 +6,24 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 2 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-function str = fileread(filename)
-  if ischar(filename) == false
-    error(_('A string expected.'))
-  end
-  if isfile(filename) == false
-    error(_('A filename expected.'))
-  end
-  [fid, error_msg] = fopen(filename,'rt');
-  if fid == -1
-    error(_('Cannot open file.'))
-  end
-  try
-    str = fread(fid, inf, 'char');
-  catch
-    fclose(fid);
-    l = lasterror();
-    error(l);
-  end
-  fclose(fid);
-endfunction
+#pragma once
+//=============================================================================
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
+//=============================================================================
+namespace Nelson {
+    namespace StreamGateway {
+        ArrayOfVector filereadBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    }
+}
+//=============================================================================

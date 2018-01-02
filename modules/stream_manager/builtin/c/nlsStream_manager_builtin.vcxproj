@@ -173,6 +173,7 @@
     <ClCompile Include="..\cpp\fcloseBuiltin.cpp" />
     <ClCompile Include="..\cpp\fgetlBuiltin.cpp" />
     <ClCompile Include="..\cpp\fgetsBuiltin.cpp" />
+    <ClCompile Include="..\cpp\filereadBuiltin.cpp" />
     <ClCompile Include="..\cpp\fopenBuiltin.cpp" />
     <ClCompile Include="..\cpp\fprintfBuiltin.cpp" />
     <ClCompile Include="..\cpp\freadBuiltin.cpp" />
@@ -217,6 +218,7 @@
     <ClInclude Include="..\include\fcloseBuiltin.hpp" />
     <ClInclude Include="..\include\fgetlBuiltin.hpp" />
     <ClInclude Include="..\include\fgetsBuiltin.hpp" />
+    <ClInclude Include="..\include\filereadBuiltin.hpp" />
     <ClInclude Include="..\include\fopenBuiltin.hpp" />
     <ClInclude Include="..\include\fprintfBuiltin.hpp" />
     <ClInclude Include="..\include\freadBuiltin.hpp" />
