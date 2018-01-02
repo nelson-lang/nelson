@@ -48,6 +48,10 @@ ArrayOfVector Nelson::StreamGateway::filereadBuiltin(Evaluator* eval, int nLhs, 
 #else
 	std::wifstream wif(wstring_to_utf8(fileToRead), std::ios::binary);
 #endif
+	if (!wif.is_open())
+	{
+		Error(eval, _W("Cannot open file."));
+	}
 	std::wstringstream wss;
 	wss << wif.rdbuf();
 	std::wstring content = wss.str();
