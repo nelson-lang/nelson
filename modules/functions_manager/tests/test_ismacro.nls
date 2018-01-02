@@ -16,6 +16,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-assert_istrue(ismacro('fileread'));
+assert_istrue(ismacro('stdin'));
 assert_isfalse(ismacro('what'));
 //=============================================================================

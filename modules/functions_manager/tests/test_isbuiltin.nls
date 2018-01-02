@@ -16,6 +16,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-assert_isfalse(isbuiltin('fileread'));
+assert_isfalse(isbuiltin('stdin'));
 assert_istrue(isbuiltin('isbuiltin'));
 //=============================================================================
