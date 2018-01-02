@@ -22,6 +22,7 @@
 #include <boost/filesystem.hpp>
 #include "filereadBuiltin.hpp"
 #include "Error.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -42,7 +43,11 @@ ArrayOfVector Nelson::StreamGateway::filereadBuiltin(Evaluator* eval, int nLhs, 
 	{
 		Error(eval, _W("A filename expected."));
 	}
+#ifdef _MSC_VER
 	std::wifstream wif(fileToRead, std::ios::binary);
+#else
+	std::wifstream wif(wstring_to_utf8(fileToRead), std::ios::binary);
+#endif
 	std::wstringstream wss;
 	wss << wif.rdbuf();
 	std::wstring content = wss.str();
