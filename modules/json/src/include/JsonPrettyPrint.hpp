@@ -16,27 +16,12 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
-#include "jsondecodeBuiltin.hpp"
-#include "jsonencodeBuiltin.hpp"
-#include "jsonprettyprintBuiltin.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "nlsJson_exports.h"
+#include "ArrayOf.hpp"
 //=============================================================================
-const std::wstring gatewayName = L"json";
-//=============================================================================
-static const nlsGateway gateway[] =
-{
-    { "jsondecode", Nelson::JsonGateway::jsondecodeBuiltin, 1, 1 },
-    { "jsonencode", Nelson::JsonGateway::jsonencodeBuiltin, 1, -1 },
-    { "jsonprettyprint", Nelson::JsonGateway::jsonprettyprintBuiltin, 1, 1 },
+namespace Nelson {
+	NLSJSON_IMPEXP ArrayOf jsonPrettyPrint(std::wstring stringToDecode, std::wstring &errorMessage);
 };
-//=============================================================================
-NLSGATEWAYFUNC(gateway)
-//=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
 //=============================================================================

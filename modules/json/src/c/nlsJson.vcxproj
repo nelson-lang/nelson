@@ -198,12 +198,14 @@
   <ItemGroup>
     <ClCompile Include="..\cpp\JsonEncode.cpp" />
     <ClCompile Include="..\cpp\JsonDecode.cpp" />
+    <ClCompile Include="..\cpp\JsonPrettyPrint.cpp" />
     <ClCompile Include="dllMain.c" />
     <ClCompile Include="jsmn.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\JsonEncode.hpp" />
     <ClInclude Include="..\include\JsonDecode.hpp" />
+    <ClInclude Include="..\include\JsonPrettyPrint.hpp" />
     <ClInclude Include="..\include\JsonVariable.hpp" />
     <ClInclude Include="..\include\nlsJson_exports.h" />
     <ClInclude Include="jsmn.h" />

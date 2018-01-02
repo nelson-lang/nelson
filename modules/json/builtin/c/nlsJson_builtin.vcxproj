@@ -206,11 +206,13 @@
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\jsondecodeBuiltin.cpp" />
     <ClCompile Include="..\cpp\jsonencodeBuiltin.cpp" />
+    <ClCompile Include="..\cpp\jsonprettyprintBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\jsondecodeBuiltin.hpp" />
     <ClInclude Include="..\include\jsonencodeBuiltin.hpp" />
+    <ClInclude Include="..\include\jsonprettyprintBuiltin.hpp" />
     <ClInclude Include="..\include\nlsJson_builtin_exports.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

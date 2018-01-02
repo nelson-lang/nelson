@@ -1,0 +1,63 @@
+//=============================================================================
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+field1 = 'f1';  value1 = zeros(1,10);
+field2 = 'f2';  value2 = {'a', 'b'};
+field3 = 'f3';  value3 = {pi, pi*pi};
+field4 = 'f4';  value4 = {'fourth'};
+s = struct(field1,value1,field2,value2,field3,value3,field4,value4);
+r = jsonprettyprint(jsonencode(s));
+ref = '{
+    "": {
+        "f1": [
+            "0",
+            "0",
+            "0",
+            "0",
+            "0",
+            "0",
+            "0",
+            "0",
+            "0",
+            "0"
+        ],
+        "f2": "a",
+        "f3": "3.141592653589793",
+        "f4": "fourth"
+    },
+    "": {
+        "f1": [
+            "0",
+            "0",
+            "0",
+            "0",
+            "0",
+            "0",
+            "0",
+            "0",
+            "0",
+            "0"
+        ],
+        "f2": "b",
+        "f3": "9.869604401089358",
+        "f4": "fourth"
+    }
+}
+';
+assert_isequal(r, ref);
+//=============================================================================

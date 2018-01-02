@@ -16,27 +16,39 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
-#include "jsondecodeBuiltin.hpp"
-#include "jsonencodeBuiltin.hpp"
 #include "jsonprettyprintBuiltin.hpp"
+#include "Error.hpp"
+#include "JsonPrettyPrint.hpp"
+#include "OverloadFunction.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-const std::wstring gatewayName = L"json";
-//=============================================================================
-static const nlsGateway gateway[] =
+ArrayOfVector Nelson::JsonGateway::jsonprettyprintBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    { "jsondecode", Nelson::JsonGateway::jsondecodeBuiltin, 1, 1 },
-    { "jsonencode", Nelson::JsonGateway::jsonencodeBuiltin, 1, -1 },
-    { "jsonprettyprint", Nelson::JsonGateway::jsonprettyprintBuiltin, 1, 1 },
-};
-//=============================================================================
-NLSGATEWAYFUNC(gateway)
-//=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+    ArrayOfVector retval;
+    if (nLhs > 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    if (argIn.size() != 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    // Call overload if it exists
+    bool bSuccess = false;
+    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    if (!bSuccess)
+    {
+        ArrayOf param1 = argIn[0];
+        std::wstring jsonString = param1.getContentAsWideString();
+        std::wstring errorMessage;
+        ArrayOf res = jsonPrettyPrint(jsonString, errorMessage);
+        if (!errorMessage.empty())
+        {
+            Error(eval, errorMessage);
+        }
+        retval.push_back(res);
+    }
+    return retval;
+}
 //=============================================================================
