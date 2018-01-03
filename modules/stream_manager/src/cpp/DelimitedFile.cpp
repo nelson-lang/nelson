@@ -16,6 +16,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <fstream>
+#include <iostream>
 #include "DelimitedFile.hpp"
 #include "Exception.hpp"
 #include "characters_encoding.hpp"
@@ -47,29 +49,23 @@ namespace Nelson {
         {
             mat.promoteType(NLS_DOUBLE);
         }
-        FILE *fw = nullptr;
+        std::ios::openmode wofstream_mode = std::ios::app | std::ios::binary;
         if (bAppend)
         {
-#ifdef _MSC_BUILD
-            fw = _wfopen(filenameDestination.c_str(), L"at");
-#else
-            fw = fopen(wstring_to_utf8(filenameDestination).c_str(), "at");
-#endif
+            wofstream_mode = std::ios::app | std::ios::binary;
         }
         else
         {
-#ifdef _MSC_BUILD
-            fw = _wfopen(filenameDestination.c_str(), L"wt");
-#else
-            fw = fopen(wstring_to_utf8(filenameDestination).c_str(), "wt");
-#endif
+            wofstream_mode = std::ios::trunc | std::ios::binary;
         }
-        if (!fw)
+        std::wofstream outputStream(filenameDestination, wofstream_mode);
+        if (!outputStream.is_open())
         {
             throw Exception(_W("Impossible to open file."));
         }
         else
         {
+            std::wstring lineBuffer = L"";
             Dimensions dims = mat.getDimensions();
             std::wstring fmt_with_delimiter = formatPrecision + delimiter;
             int64 ymax;
@@ -85,15 +81,15 @@ namespace Nelson {
             {
                 for (int64 y = 1; y <= ymax; y++)
                 {
-                    fwprintf(fw, L"%ls", delimiter.c_str());
+                    lineBuffer.append(delimiter);
                 }
                 if (isNewLinePc)
                 {
-                    fwprintf(fw, L"%ls", L"\r\n");
+                    lineBuffer.append(L"\r\n");
                 }
                 else
                 {
-                    fwprintf(fw, L"%ls", L"\n");
+                    lineBuffer.append(L"\n");
                 }
             }
             if (mat.is2D())
@@ -111,7 +107,7 @@ namespace Nelson {
                 {
                     for (int64 x = 0; x < colsOffset; x++)
                     {
-                        fwprintf(fw, L"%ls", delimiter.c_str());
+                        lineBuffer.append(delimiter);
                     }
                     std::wstring realPartStr = L"";
                     std::wstring imagPartStr = L"";
@@ -175,20 +171,22 @@ namespace Nelson {
                             }
                         }
                         std::wstring numberAsString = realPartStr + imagPartStr + L"i";
-                        fwprintf(fw, L"%ls", numberAsString.c_str());
+                        lineBuffer.append(numberAsString);
                         if (y < ymax - 1)
                         {
-                            fwprintf(fw, L"%ls", delimiter.c_str());
+                            lineBuffer.append(delimiter);
                         }
                     }
                     if (isNewLinePc)
                     {
-                        fwprintf(fw, L"%ls", L"\r\n");
+                        lineBuffer.append(L"\r\n");
                     }
                     else
                     {
-                        fwprintf(fw, L"%ls", L"\n");
+                        lineBuffer.append(L"\n");
                     }
+                    outputStream << lineBuffer;
+                    lineBuffer.clear();
                 }
             }
             else
@@ -198,17 +196,17 @@ namespace Nelson {
                 {
                     for (int64 x = 0; x < colsOffset; x++)
                     {
-                        fwprintf(fw, L"%ls", delimiter.c_str());
+                        lineBuffer.append(delimiter);
                     }
                     for (int64 y = 0; y < ymax; y++)
                     {
                         double val = pValue[x + y * dims.getRows()];
                         if (std::isnan(val))
                         {
-                            fwprintf(fw, L"%ls", L"NaN");
+                            lineBuffer.append(L"NaN");
                             if (y < ymax - 1)
                             {
-                                fwprintf(fw, L"%ls", delimiter.c_str());
+                                lineBuffer.append(delimiter);
                             }
                         }
                         else
@@ -217,15 +215,15 @@ namespace Nelson {
                             {
                                 if (val > 0)
                                 {
-                                    fwprintf(fw, L"%ls", L"Inf");
+                                    lineBuffer.append(L"Inf");
                                 }
                                 else
                                 {
-                                    fwprintf(fw, L"%ls", L"-Inf");
+                                    lineBuffer.append(L"-Inf");
                                 }
                                 if (y < ymax - 1)
                                 {
-                                    fwprintf(fw, L"%ls", delimiter.c_str());
+                                    lineBuffer.append(delimiter);
                                 }
                             }
                             else
@@ -239,21 +237,26 @@ namespace Nelson {
                                 {
                                     fmt = formatPrecision;
                                 }
-                                fwprintf(fw, fmt.c_str(), val);
+                                wchar_t buffer[1024];
+                                swprintf(buffer, 1024, fmt.c_str(), val);
+                                lineBuffer.append(buffer);
                             }
                         }
                     }
                     if (isNewLinePc)
                     {
-                        fwprintf(fw, L"\r\n");
+                        lineBuffer.append(L"\r\n");
                     }
                     else
                     {
-                        fwprintf(fw, L"\n");
+                        lineBuffer.append(L"\n");
                     }
+                    outputStream << lineBuffer;
+                    lineBuffer.clear();
                 }
             }
-            fclose(fw);
+            lineBuffer.clear();
+            outputStream.close();
         }
     }
     //=============================================================================
