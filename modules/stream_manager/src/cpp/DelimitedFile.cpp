@@ -58,7 +58,11 @@ namespace Nelson {
         {
             wofstream_mode = std::ios::trunc | std::ios::binary;
         }
-        std::wofstream outputStream(filenameDestination, wofstream_mode);
+#ifdef _MSC_VER
+		std::wofstream outputStream(filenameDestination, wofstream_mode);
+#else
+		std::wofstream outputStream(wstring_to_utf8(filenameDestination), wofstream_mode);
+#endif
         if (!outputStream.is_open())
         {
             throw Exception(_W("Impossible to open file."));
