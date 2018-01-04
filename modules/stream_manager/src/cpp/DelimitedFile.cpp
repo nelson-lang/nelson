@@ -69,7 +69,6 @@ namespace Nelson {
         }
         else
         {
-            std::wstring lineBuffer = L"";
             Dimensions dims = mat.getDimensions();
             std::wstring fmt_with_delimiter = formatPrecision + delimiter;
             int64 ymax;
@@ -85,15 +84,15 @@ namespace Nelson {
             {
                 for (int64 y = 1; y <= ymax; y++)
                 {
-                    lineBuffer.append(delimiter);
+					outputStream << delimiter;
                 }
                 if (isNewLinePc)
                 {
-                    lineBuffer.append(L"\r\n");
+					outputStream << L"\r\n";
                 }
                 else
                 {
-                    lineBuffer.append(L"\n");
+					outputStream << L"\n";
                 }
             }
             if (mat.is2D())
@@ -111,7 +110,7 @@ namespace Nelson {
                 {
                     for (int64 x = 0; x < colsOffset; x++)
                     {
-                        lineBuffer.append(delimiter);
+						outputStream << delimiter;
                     }
                     std::wstring realPartStr = L"";
                     std::wstring imagPartStr = L"";
@@ -175,22 +174,20 @@ namespace Nelson {
                             }
                         }
                         std::wstring numberAsString = realPartStr + imagPartStr + L"i";
-                        lineBuffer.append(numberAsString);
+						outputStream << numberAsString;
                         if (y < ymax - 1)
                         {
-                            lineBuffer.append(delimiter);
+							outputStream << delimiter;
                         }
                     }
                     if (isNewLinePc)
                     {
-                        lineBuffer.append(L"\r\n");
+						outputStream << L"\r\n";
                     }
                     else
                     {
-                        lineBuffer.append(L"\n");
+						outputStream << L"\n";
                     }
-                    outputStream << lineBuffer;
-                    lineBuffer.clear();
                 }
             }
             else
@@ -200,17 +197,17 @@ namespace Nelson {
                 {
                     for (int64 x = 0; x < colsOffset; x++)
                     {
-                        lineBuffer.append(delimiter);
+						outputStream << delimiter;
                     }
                     for (int64 y = 0; y < ymax; y++)
                     {
                         double val = pValue[x + y * dims.getRows()];
                         if (std::isnan(val))
                         {
-                            lineBuffer.append(L"NaN");
+							outputStream << L"NaN";
                             if (y < ymax - 1)
                             {
-                                lineBuffer.append(delimiter);
+								outputStream << delimiter;
                             }
                         }
                         else
@@ -219,15 +216,15 @@ namespace Nelson {
                             {
                                 if (val > 0)
                                 {
-                                    lineBuffer.append(L"Inf");
+									outputStream << L"Inf";
                                 }
                                 else
                                 {
-                                    lineBuffer.append(L"-Inf");
+									outputStream << L"-Inf";
                                 }
                                 if (y < ymax - 1)
                                 {
-                                    lineBuffer.append(delimiter);
+									outputStream << delimiter;
                                 }
                             }
                             else
@@ -243,23 +240,20 @@ namespace Nelson {
                                 }
                                 wchar_t buffer[1024];
                                 swprintf(buffer, 1024, fmt.c_str(), val);
-                                lineBuffer.append(buffer);
+								outputStream << buffer;
                             }
                         }
                     }
                     if (isNewLinePc)
                     {
-                        lineBuffer.append(L"\r\n");
+						outputStream << L"\r\n";
                     }
                     else
                     {
-                        lineBuffer.append(L"\n");
+						outputStream << L"\n";
                     }
-                    outputStream << lineBuffer;
-                    lineBuffer.clear();
                 }
             }
-            lineBuffer.clear();
             outputStream.close();
         }
     }
