@@ -28,34 +28,34 @@ using namespace Nelson;
 //=============================================================================
 ArrayOfVector Nelson::StreamGateway::filereadBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-	ArrayOfVector retval;
-	if (argIn.size() != 1)
-	{
-		Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-	}
-	if (nLhs > 1)
-	{
-		Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-	}
-	std::wstring fileToRead = argIn[0].getContentAsWideString();
-	bool bIsFile = boost::filesystem::exists(fileToRead) && !boost::filesystem::is_directory(fileToRead);
-	if (!bIsFile)
-	{
-		Error(eval, _W("A filename expected."));
-	}
+    ArrayOfVector retval;
+    if (argIn.size() != 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    if (nLhs > 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    std::wstring fileToRead = argIn[0].getContentAsWideString();
+    bool bIsFile = boost::filesystem::exists(fileToRead) && !boost::filesystem::is_directory(fileToRead);
+    if (!bIsFile)
+    {
+        Error(eval, _W("A filename expected."));
+    }
 #ifdef _MSC_VER
-	std::wifstream wif(fileToRead, std::ios::binary);
+    std::wifstream wif(fileToRead, std::ios::binary);
 #else
-	std::wifstream wif(wstring_to_utf8(fileToRead), std::ios::binary);
+    std::wifstream wif(wstring_to_utf8(fileToRead), std::ios::binary);
 #endif
-	if (!wif.is_open())
-	{
-		Error(eval, _W("Cannot open file."));
-	}
-	std::wstringstream wss;
-	wss << wif.rdbuf();
-	std::wstring content = wss.str();
-	retval.push_back(ArrayOf::stringConstructor(content));
-	return retval;
+    if (!wif.is_open())
+    {
+        Error(eval, _W("Cannot open file."));
+    }
+    std::wstringstream wss;
+    wss << wif.rdbuf();
+    std::wstring content = wss.str();
+    retval.push_back(ArrayOf::stringConstructor(content));
+    return retval;
 }
 //=============================================================================
