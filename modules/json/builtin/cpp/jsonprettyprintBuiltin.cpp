@@ -42,11 +42,7 @@ ArrayOfVector Nelson::JsonGateway::jsonprettyprintBuiltin(Evaluator* eval, int n
         ArrayOf param1 = argIn[0];
         std::wstring jsonString = param1.getContentAsWideString();
         std::wstring errorMessage;
-        ArrayOf res = jsonPrettyPrint(jsonString, errorMessage);
-        if (!errorMessage.empty())
-        {
-            Error(eval, errorMessage);
-        }
+        ArrayOf res = jsonPrettyPrint(jsonString);
         retval.push_back(res);
     }
     return retval;

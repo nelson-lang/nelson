@@ -22,6 +22,6 @@
 #include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
-	NLSJSON_IMPEXP ArrayOf jsonPrettyPrint(std::wstring stringToDecode, std::wstring &errorMessage);
+    NLSJSON_IMPEXP ArrayOf jsonPrettyPrint(std::wstring stringToPrettify);
 };
 //=============================================================================
