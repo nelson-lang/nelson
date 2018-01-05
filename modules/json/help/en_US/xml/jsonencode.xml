@@ -51,9 +51,7 @@ field3 = 'f3';  value3 = {pi, pi*pi};
 field4 = 'f4';  value4 = {'fourth'};
 s = struct(field1,value1,field2,value2,field3,value3,field4,value4);
 r = jsonencode(s)
-fileID = fopen([tempdir(), '/example.json'],'w');
-fwrite(fileID, r);
-fclose(fileID);
+filewrite([tempdir(), '/example.json'], r);
 ]]>
     </example_item_data>
   </example_item>

@@ -4,7 +4,14 @@ Features:
   * JSON module: 
     * jsonencode: encodes a Nelson object into a JSON string.
     * jsondecode: decodes a JSON string into a Nelson object.
+    * jsonprettyprint: JSON pretty printer.
 
+  * 'fileread' builtin allows to get string array or a cell of strings.
+  
+  * 'filewrite' builtin  allows to easily write to file a string array or a cell of strings.
+  
+  * 'newline' function. 
+  
   * ndarraychar_disp was missing.
 
   * NIG slicot uses json files.

@@ -16,7 +16,10 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-function nig_txt_to_file(txt, destination)
-  filewrite(destination, txt, 'unix');
-endfunction
+assert_isequal(nargin('newline'), -0);
+assert_isequal(nargout('newline'), 1);
+//=============================================================================
+R = newline();
+REF = char(10);
+assert_isequal(R, REF);
 //=============================================================================

@@ -16,7 +16,11 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-function nig_txt_to_file(txt, destination)
-  filewrite(destination, txt, 'unix');
-endfunction
+dest = [tempdir(), '/test_filewrite.txt'];
+if isfile(dest)
+  rmfile(dest);
+end
+R1 = {['nel', char(10)], ['son', char(13), char(10)], ['soft', char(13), 'ware', char(10)]};
+filewrite(dest, R1);
+R2 = fileread(dest)
 //=============================================================================

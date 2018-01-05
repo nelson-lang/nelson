@@ -82,6 +82,7 @@ nlsOverload
 nlsTypes
 nlsI18n
 nlsCharacters_encoding
+nlsApi_nelson
 ${BOOST_LIBRARY})
 #==============================================================================
 set_target_properties(${module_library_builtin_name}

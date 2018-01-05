@@ -174,6 +174,7 @@
     <ClCompile Include="..\cpp\fgetlBuiltin.cpp" />
     <ClCompile Include="..\cpp\fgetsBuiltin.cpp" />
     <ClCompile Include="..\cpp\filereadBuiltin.cpp" />
+    <ClCompile Include="..\cpp\filewriteBuiltin.cpp" />
     <ClCompile Include="..\cpp\fopenBuiltin.cpp" />
     <ClCompile Include="..\cpp\fprintfBuiltin.cpp" />
     <ClCompile Include="..\cpp\freadBuiltin.cpp" />
@@ -187,6 +188,9 @@
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\api_nelson\src\c\nlsApi_nelson.vcxproj">
+      <Project>{1c76cdc6-19d8-429a-9ec1-817ad139f80d}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\characters_encoding\src\c\nlsCharacters_encoding.vcxproj">
       <Project>{a75dc538-eefa-4873-888b-a034a7ee72c5}</Project>
     </ProjectReference>
@@ -219,6 +223,7 @@
     <ClInclude Include="..\include\fgetlBuiltin.hpp" />
     <ClInclude Include="..\include\fgetsBuiltin.hpp" />
     <ClInclude Include="..\include\filereadBuiltin.hpp" />
+    <ClInclude Include="..\include\filewriteBuiltin.hpp" />
     <ClInclude Include="..\include\fopenBuiltin.hpp" />
     <ClInclude Include="..\include\fprintfBuiltin.hpp" />
     <ClInclude Include="..\include\freadBuiltin.hpp" />

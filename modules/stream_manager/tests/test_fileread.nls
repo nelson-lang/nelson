@@ -16,7 +16,16 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-function nig_txt_to_file(txt, destination)
-  filewrite(destination, txt, 'unix');
-endfunction
+filesrc = [nelsonroot(), '/COPYING.md'];
+r = fileread(filesrc);
+r1 = fileread(filesrc, 'char');
+r2 = fileread(filesrc, 'cell');
+r3 = fileread(filesrc, 'char', 'unix');
+assert_isequal(class(r), 'char');
+assert_isequal(class(r1), 'char');
+assert_isequal(r, r1);
+assert_istrue(iscellstr(r2))
+assert_isequal(size(r2), [339 1]);
+assert_isequal(size(r1), [  1     18092]);
+assert_isequal(size(r1), size(r3));
 //=============================================================================
