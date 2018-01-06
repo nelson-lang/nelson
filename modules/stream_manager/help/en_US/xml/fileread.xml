@@ -8,6 +8,9 @@
 
   <syntax>
     <syntax_item>str = fileread(filename)</syntax_item>
+    <syntax_item>str = fileread(filename, type)</syntax_item>
+    <syntax_item>str = fileread(filename, 'char', eol)</syntax_item>
+
   </syntax>
   
   <param_input>
@@ -16,6 +19,17 @@
       <param_name>filename</param_name>
       <param_description>a string: a file name</param_description>
     </param_input_item>
+
+    <param_input_item>
+      <param_name>type</param_name>
+      <param_description>a string: 'char' or 'cell'. 'cell' will converts text file to a cell of string. 'char' by default.</param_description>
+    </param_input_item>
+
+    <param_input_item>
+      <param_name>eol</param_name>
+      <param_description>a string: 'native', 'pc' or 'unix'. Set end of line. 'unix' by default.</param_description>
+    </param_input_item>
+    
   </param_input>
   
   <param_output>
@@ -39,7 +53,10 @@
   <example_item>
     <example_item_type>nelson</example_item_type>
     <example_item_description></example_item_description>
-    <example_item_data><![CDATA[str = fileread([nelsonroot(),'/CHANGELOG.md'])]]>
+    <example_item_data><![CDATA[str = fileread([nelsonroot(),'/CHANGELOG.md'])
+str = fileread([nelsonroot(),'/CHANGELOG.md'], 'char')
+str = fileread([nelsonroot(),'/CHANGELOG.md'], 'cell')
+]]>
     </example_item_data>
   
   </example_item>
@@ -50,6 +67,10 @@
     <see_also_item>
       <link linkend="${stream_manager}fgetl">fgetl</link>
     </see_also_item>
+    <see_also_item>
+      <link linkend="${stream_manager}filewrite">filewrite</link>
+    </see_also_item>
+
   </see_also>
 
   <history>

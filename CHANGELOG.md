@@ -6,11 +6,11 @@ Features:
     * jsondecode: decodes a JSON string into a Nelson object.
     * jsonprettyprint: JSON pretty printer.
 
-  * 'fileread' builtin allows to get string array or a cell of strings.
+  * [#89](http://github.com/Nelson-numerical-software/nelson/issues/89): extends fileread behavior.
   
-  * 'filewrite' builtin  allows to easily write to file a string array or a cell of strings.
+  * 'filewrite' builtin allows to easily write to file a string array or a cell of strings.
   
-  * 'newline' function. 
+  * 'newline' function: returns newline character i.e char(10). 
   
   * ndarraychar_disp was missing.
 
