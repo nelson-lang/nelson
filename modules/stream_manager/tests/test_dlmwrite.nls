@@ -109,7 +109,7 @@ assert_isequal(R, REF);
 // dlmwrite(filename, M, delimiter, r, c, eol)
 A = eye(3, 2);
 dlmwrite(filename, A, ';', 0, 0, 'pc');
-R = fileread(filename, 'char', 'native');
+R = fileread(filename, 'char', 'pc');
 REF = ['1;0', eol_pc, '0;1', eol_pc, '0;0', eol_pc];
 assert_isequal(R, REF);
 //=============================================================================
@@ -147,7 +147,7 @@ A = 1;
 dlmwrite(filename, A, ',', 0, 0, 'pc');
 B = 2;
 dlmwrite(filename, B, '-append', ';', 1, 1, 'pc');
-R = fileread(filename, 'char', 'native');
+R = fileread(filename, 'char', 'pc');
 REF = ['1', eol_pc, ';', eol_pc, ';2', eol_pc];
 assert_isequal(R, REF);
 //=============================================================================
@@ -156,7 +156,7 @@ A = 1;
 dlmwrite(filename, A, ',', 0, 0, 'pc');
 B = 2;
 dlmwrite(filename, B, '-append', ';', 1, 1, 'pc', 5);
-R = fileread(filename, 'char', 'native');
+R = fileread(filename, 'char', 'pc');
 REF = ['1', eol_pc, ';', eol_pc, ';2', eol_pc];
 assert_isequal(R, REF);
 //=============================================================================
