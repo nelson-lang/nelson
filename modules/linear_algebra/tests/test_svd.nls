@@ -323,6 +323,11 @@ S1_REF = [2.4495         0;
 V1_REF = [-0.7071   -0.7071;
 -0.7071    0.7071];
 
+// standard blas macos
+U3_REF = [-0.5774     -0.5774      0.0000;
+     -0.5774      0.7887     -0.2113;
+     -0.5774     -0.2113      0.7887];
+
 // MKL on some CORE I7
 U2_REF = [ -0.5774      0.8165     -0.0000;
      -0.5774     -0.4082     -0.7071;
@@ -340,7 +345,11 @@ if isapprox(U, U2_REF, 1e-4)
   assert_isapprox(S, S2_REF, 1e-4);
   assert_isapprox(V, V2_REF, 1e-4);
 else
-  assert_isapprox(U, U1_REF, 1e-4);
+  if isapprox(U, U3_REF, 1e-4)
+    assert_isapprox(U, U3_REF, 1e-4);
+  else
+    assert_isapprox(U, U1_REF, 1e-4);
+  end
   assert_isapprox(S, S1_REF, 1e-4);
   assert_isapprox(V, V1_REF, 1e-4);
 end
