@@ -36,19 +36,19 @@ using namespace Nelson;
 //=============================================================================
 static std::wifstream & wsafegetline(std::wifstream &os, std::wstring &line)
 {
-	std::wstring myline;
-	if (getline(os, myline))
-	{
-		if (myline.size() && myline[myline.size() - 1] == L'\r')
-		{
-			line = myline.substr(0, myline.size() - 1);
-		}
-		else
-		{
-			line = myline;
-		}
-	}
-	return os;
+    std::wstring myline;
+    if (getline(os, myline))
+    {
+        if (myline.size() && myline[myline.size() - 1] == L'\r')
+        {
+            line = myline.substr(0, myline.size() - 1);
+        }
+        else
+        {
+            line = myline;
+        }
+    }
+    return os;
 }
 //=============================================================================
 ArrayOfVector Nelson::StreamGateway::filereadBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
@@ -68,56 +68,56 @@ ArrayOfVector Nelson::StreamGateway::filereadBuiltin(Evaluator* eval, int nLhs, 
     {
         Error(eval, _W("A filename expected."));
     }
-	std::wstring outputClass = L"char";
-	if (argIn.size() > 1)
-	{
-		ArrayOf param2 = argIn[1];
-		std::wstring str = param2.getContentAsWideString();
-		if (str == L"char" || str == L"cell")
-		{
-			outputClass = str;
-		}
-		else
-		{
-			Error(eval, _W("Wrong value for #2 argument."));
-		}
-	}
-	std::wstring eol = L"\n";
-	if (argIn.size() > 2)
-	{
-		ArrayOf param3 = argIn[2];
-		std::wstring str = param3.getContentAsWideString();
-		if (str == L"native" || str == L"pc" || str == L"unix")
-		{
-			if (str == L"native")
-			{
+    std::wstring outputClass = L"char";
+    if (argIn.size() > 1)
+    {
+        ArrayOf param2 = argIn[1];
+        std::wstring str = param2.getContentAsWideString();
+        if (str == L"char" || str == L"cell")
+        {
+            outputClass = str;
+        }
+        else
+        {
+            Error(eval, _W("Wrong value for #2 argument."));
+        }
+    }
+    std::wstring eol = L"\n";
+    if (argIn.size() > 2)
+    {
+        ArrayOf param3 = argIn[2];
+        std::wstring str = param3.getContentAsWideString();
+        if (str == L"native" || str == L"pc" || str == L"unix")
+        {
+            if (str == L"native")
+            {
 #ifdef _MSC_VER
-				eol = L"\r\n";
+                eol = L"\r\n";
 #else
-				eol = L"\n";
+                eol = L"\n";
 #endif
-			}
-			else
-			{
-				if (str == L"pc")
-				{
-					eol = L"\r\n";
-				}
-				else
-				{
-					eol = L"\n";
-				}
-			}
-		}
-		else
-		{
-			Error(eval, _W("Wrong value for #3 argument."));
-		}
-		if (outputClass == L"cell")
-		{
-			Error(eval, _W("Wrong value for #2 argument."));
-		}
-	}
+            }
+            else
+            {
+                if (str == L"pc")
+                {
+                    eol = L"\r\n";
+                }
+                else
+                {
+                    eol = L"\n";
+                }
+            }
+        }
+        else
+        {
+            Error(eval, _W("Wrong value for #3 argument."));
+        }
+        if (outputClass == L"cell")
+        {
+            Error(eval, _W("Wrong value for #2 argument."));
+        }
+    }
 #ifdef _MSC_VER
     std::wifstream wif(fileToRead, std::ios::binary);
 #else
@@ -127,26 +127,26 @@ ArrayOfVector Nelson::StreamGateway::filereadBuiltin(Evaluator* eval, int nLhs, 
     {
         Error(eval, _W("Cannot open file."));
     }
-	if (outputClass == L"char")
-	{
-		std::wstringstream wss;
-		wss << wif.rdbuf();
-		wif.close();
-		std::wstring content = wss.str();
-		boost::replace_all(content, L"\r\n", L"\n");
-		boost::replace_all(content, L"\n", eol);
-		retval.push_back(ArrayOf::stringConstructor(content));
-	}
-	else
-	{
-		std::wstring line;
-		wstringVector lines;
-		while (wsafegetline(wif, line))
-		{
-			lines.push_back(line);
-		}
-		retval.push_back(ToCellStringAsColumn(lines));
-	}
+    if (outputClass == L"char")
+    {
+        std::wstringstream wss;
+        wss << wif.rdbuf();
+        wif.close();
+        std::wstring content = wss.str();
+        boost::replace_all(content, L"\r\n", L"\n");
+        boost::replace_all(content, L"\n", eol);
+        retval.push_back(ArrayOf::stringConstructor(content));
+    }
+    else
+    {
+        std::wstring line;
+        wstringVector lines;
+        while (wsafegetline(wif, line))
+        {
+            lines.push_back(line);
+        }
+        retval.push_back(ToCellStringAsColumn(lines));
+    }
     return retval;
 }
 //=============================================================================

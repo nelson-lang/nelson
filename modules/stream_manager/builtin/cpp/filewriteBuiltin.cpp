@@ -40,56 +40,56 @@ ArrayOfVector Nelson::StreamGateway::filewriteBuiltin(Evaluator* eval, int nLhs,
     {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-	ArrayOf param1 = argIn[0];
-	ArrayOf param2 = argIn[1];
-	std::wstring filename = param1.getContentAsWideString();
-	std::wstring eol;
+    ArrayOf param1 = argIn[0];
+    ArrayOf param2 = argIn[1];
+    std::wstring filename = param1.getContentAsWideString();
+    std::wstring eol;
 #ifdef _MSC_VER
-	eol = L"\r\n";
+    eol = L"\r\n";
 #else
-	eol = L"\n";
+    eol = L"\n";
 #endif
-	if (argIn.size() == 3)
-	{
-		ArrayOf param3 = argIn[2];
-		std::wstring str = param3.getContentAsWideString();
-		if (str == L"native" || str == L"pc" || str == L"unix")
-		{
-			if (str == L"pc")
-			{
-				eol = L"\r\n";
-			}
-			if (str == L"unix")
-			{
-				eol = L"\n";
-			}
-		}
-		else
-		{
-			Error(eval, _W("Wrong value for #3 argument."));
-		}
-	}
-	wstringVector lines = param2.getContentAsWideStringVector(false);
+    if (argIn.size() == 3)
+    {
+        ArrayOf param3 = argIn[2];
+        std::wstring str = param3.getContentAsWideString();
+        if (str == L"native" || str == L"pc" || str == L"unix")
+        {
+            if (str == L"pc")
+            {
+                eol = L"\r\n";
+            }
+            if (str == L"unix")
+            {
+                eol = L"\n";
+            }
+        }
+        else
+        {
+            Error(eval, _W("Wrong value for #3 argument."));
+        }
+    }
+    wstringVector lines = param2.getContentAsWideStringVector(false);
 #ifdef _MSC_VER
-	std::wofstream wof(filename, std::ios::trunc | std::ios::binary);
+    std::wofstream wof(filename, std::ios::trunc | std::ios::binary);
 #else
-	std::wofstream wof(wstring_to_utf8(filename), std::ios::trunc | std::ios::binary);
+    std::wofstream wof(wstring_to_utf8(filename), std::ios::trunc | std::ios::binary);
 #endif
-	if (!wof.is_open())
-	{
-		Error(eval, _W("Cannot open file."));
-	}
-	for (std::wstring line : lines)
-	{
-		boost::replace_all(line, L"\r\n", L"\n");
-		boost::replace_all(line, L"\n", eol);
-		wof << line;
-		if (!boost::algorithm::ends_with(line, eol))
-		{
-			wof << eol;
-		}
-	}
-	wof.close();
-	return retval;
+    if (!wof.is_open())
+    {
+        Error(eval, _W("Cannot open file."));
+    }
+    for (std::wstring line : lines)
+    {
+        boost::replace_all(line, L"\r\n", L"\n");
+        boost::replace_all(line, L"\n", eol);
+        wof << line;
+        if (!boost::algorithm::ends_with(line, eol))
+        {
+            wof << eol;
+        }
+    }
+    wof.close();
+    return retval;
 }
 //=============================================================================
