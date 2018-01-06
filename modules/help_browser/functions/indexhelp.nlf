@@ -92,7 +92,7 @@ function r = reindexhelp(pref_help)
     fprintf(stdout, [char(10), _('Indexing help files'), ' ']);
     fprintf(stdout, '.');
     if isfile(homepage)
-      helpbrowser('-register', homepage);
+      forceaddmodule('Nelson', homepage)
     end
     run([nelsonroot() '/modules/' 'modules.nls']);
     len = length(modules_help_list);
@@ -107,15 +107,7 @@ function r = reindexhelp(pref_help)
         end
         if isfile(help_file)
           modules_help_available{end+1, 1} = module_name;
-          for i = 1:5
-            attributes = helpbrowser('-attributes');
-            if any(strcmp(attributes, module_name))
-              break;
-            end
-            helpbrowser();
-            helpbrowser('-register', help_file);
-            sleep(0.5)
-          end
+          forceaddmodule(module_name, help_file)
         end
         fprintf(stdout,'.');
       end
@@ -126,3 +118,14 @@ function r = reindexhelp(pref_help)
     r = true;
 endfunction
 //=============================================================================
+function forceaddmodule(module_name, help_file)
+  for i = 1:5
+    attributes = helpbrowser('-attributes');
+    if any(strcmp(attributes, module_name))
+      break;
+    end
+    helpbrowser();
+    helpbrowser('-register', help_file);
+    sleep(0.5)
+  end
+endfunction
