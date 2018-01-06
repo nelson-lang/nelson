@@ -94,6 +94,7 @@ function r = reindexhelp(pref_help)
     if isfile(homepage)
       forceaddmodule('Nelson', homepage)
     end
+    helpbrowser('-identifier', 'Nelson::homepage');
     run([nelsonroot() '/modules/' 'modules.nls']);
     len = length(modules_help_list);
     modules_help_available = {'Nelson'};

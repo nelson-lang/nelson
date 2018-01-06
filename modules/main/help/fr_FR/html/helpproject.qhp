@@ -11,6 +11,7 @@
 <section title = "Nelson" ref = "homepage.html"/>
 </toc>
 <keywords>
+<keyword name = "homepage" id = "Nelson::homepage" ref = "homepage.html"/>
 <keyword name = "licence" id = "Nelson::licence" ref = "licence.html"/>
 <keyword name = "changes" id = "Nelson::changes" ref = "changes.html"/>
 </keywords>
