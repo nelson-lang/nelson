@@ -18,12 +18,17 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <string>
 #include "nlsAudio_exports.h"
 #include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
-	NLSAUDIO_IMPEXP bool initializeAudio();
-	NLSAUDIO_IMPEXP bool terminateAudio();
-	NLSAUDIO_IMPEXP ArrayOf audioDevInfo();
+	NLSAUDIO_IMPEXP ArrayOf AudioDevInfo(std::wstring &errorMessage);
+	NLSAUDIO_IMPEXP ArrayOf AudioDevInfo(int io, std::wstring &errorMessage);
+	NLSAUDIO_IMPEXP ArrayOf AudioDevInfo(int io, int id, std::wstring &errorMessage);
+	NLSAUDIO_IMPEXP ArrayOf AudioDevInfo(int io, std::wstring name, std::wstring &errorMessage);
+	NLSAUDIO_IMPEXP ArrayOf AudioDevInfoDriverVersion(int io, int id, std::wstring &errorMessage);
+	NLSAUDIO_IMPEXP ArrayOf AudioDevInfo(int io, int rate, int bits, int chans, std::wstring &errorMessage);
+	NLSAUDIO_IMPEXP ArrayOf AudioDevInfo(int io, int id, int rate, int bits, int chans, std::wstring &errorMessage);
 }
 //=============================================================================
