@@ -10,12 +10,14 @@ Please feel free to file issues on this repository if you have questions, concer
 *Features*:
 
 - linear algebra module,
-- Computer Aided Control Systems Design module ,
+- Computer Aided Control Systems Design module,
 - SLICOT module: low level function about Controls (DONE v0.1.10),
 - fftw module (DONE v0.1.8),
 - COM objects (DONE v0.1.7),
 - MAT File I/O module,
-- MPI interface module,
+- MPI interface module (DONE v0.1.11),
+- JSON File I/O module (DONE v0.2.1),
+- Audio module,
 - editor (DONE v0.1.11),
 - completion,
 - graphics output,

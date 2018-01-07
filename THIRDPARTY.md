@@ -116,3 +116,9 @@ Jmsn
 https://github.com/zserge/jsmn
 https://github.com/zserge/jsmn/blob/master/LICENSE
 MIT license
+
+Portaudio
+PortAudio is a free, cross-platform, open-source, audio I/O library
+http://www.portaudio.com/
+http://www.portaudio.com/license.html
+MIT license

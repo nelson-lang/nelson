@@ -67,6 +67,8 @@ before_install:
       sudo apt-get install liblapacke-dev;
       sudo apt-get install fftw3;
       sudo apt-get install fftw3-dev;
+      sudo apt-get install libasound-dev;
+      sudo apt-get install portaudio19-dev;
       fi
     - if [ `uname` = "Linux" ];
       then sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa;
@@ -102,6 +104,7 @@ before_install:
       brew install cmake;
       brew install qt5;
       brew install fftw;
+      brew install portaudio;
       fi
 
 install:

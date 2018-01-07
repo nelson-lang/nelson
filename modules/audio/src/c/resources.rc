@@ -64,10 +64,10 @@ BEGIN
     BEGIN
         BLOCK "040c04b0"
         BEGIN
-            VALUE "FileDescription", "json"
-            VALUE "InternalName", "json"
-            VALUE "OriginalFilename", "libnlsjson.dll"
-            VALUE "ProductName", "Nelson (json)"
+            VALUE "FileDescription", "audio"
+            VALUE "InternalName", "audio"
+            VALUE "OriginalFilename", "libnlsaudio.dll"
+            VALUE "ProductName", "Nelson (audio)"
             VALUE "ProductVersion", "0,2,1,0"
             VALUE "FileVersion", "0,2,1,0"
             VALUE "LegalCopyright", "Nelson Copyright (C) 2016-2018"

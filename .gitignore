@@ -25,6 +25,7 @@ tests_minimal.xml
 /bin/*/qml
 /bin/*/plugins
 /bin/*/LICENSE_1_0.txt
+/bin/*/license_sdk.rtf
 /bin/*/mkl_license.txt
 /bin/*/nelson-cli.exe
 /modules/main/help/*/html/changelog.html

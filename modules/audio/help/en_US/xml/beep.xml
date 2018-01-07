@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+	<copyright>SAME AS NELSON SOFTWARE</copyright>
+
+	<language>en_US</language>
+	<keyword>beep</keyword>
+	<short_description>Produces a beep sound.</short_description>
+
+	<syntax>
+		<syntax_item>beep</syntax_item>
+		<syntax_item>beep(str)</syntax_item>
+		<syntax_item>str = beep</syntax_item>
+	</syntax>
+	
+	<param_input>
+		<param_input_item>
+			<param_name>str</param_name>
+			<param_description>a string: 'on' or 'off'.</param_description>
+		</param_input_item>
+	</param_input>
+
+	<param_output>
+		<param_output_item>
+			<param_name>str</param_name>
+			<param_description>a string: 'on' or 'off'.</param_description>
+		</param_output_item>
+	</param_output>
+
+	<description><b>beep</b> produces an beep system.</description>
+
+	<used_function></used_function>
+	<bibliography></bibliography>
+
+<examples>
+
+
+	<example_item>
+		<example_item_type>nelson</example_item_type>
+		<example_item_description></example_item_description>
+		<example_item_data><![CDATA[beep('off')
+beep
+beep('on')
+beep
+s = beep]]>
+		</example_item_data>
+	</example_item>
+
+</examples>
+
+	<history>
+		<history_item>
+			<history_version>1.0.0</history_version>
+			<history_description>initial version</history_description>
+		</history_item>
+	</history>
+
+	<authors>
+		<author_item>Allan CORNET</author_item>
+	</authors>
+</xmldoc>
+
+

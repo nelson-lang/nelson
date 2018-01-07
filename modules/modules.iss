@@ -70,4 +70,5 @@ Source: {#RootPath}modules\modules.nls; DestDir: {app}\modules\;
 #include "text_completion/module.iss"
 #include "mpi/module.iss"
 #include "json/module.iss"
+#include "audio/module.iss"
 ;==============================================================================
