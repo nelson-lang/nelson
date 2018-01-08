@@ -33,45 +33,45 @@ ArrayOfVector Nelson::AudioGateway::beepBuiltin(Evaluator* eval, int nLhs, const
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-	if (argIn.size() == 0)
-	{
-		if (nLhs == 0)
-		{
-			beep();
-		}
-	}
-	else
-	{
-		ArrayOf param1 = argIn[0];
-		std::wstring str = param1.getContentAsWideString();
-		if (str == L"on" || str == L"off")
-		{
-			if (str == L"on")
-			{
-				setBeepOn();
-			}
-			else
-			{
-				setBeepOff();
-			}
-		}
-		else
-		{
-			Error(eval, _W("Wrong value for #1 argument."));
-		}
-	}
-	if (nLhs > 0)
-	{
-		bool beepState = getBeepState();
-		if (beepState)
-		{
-			retval.push_back(ArrayOf::stringConstructor(L"on"));
-		}
-		else
-		{
-			retval.push_back(ArrayOf::stringConstructor(L"off"));
-		}
-	}
+    if (argIn.size() == 0)
+    {
+        if (nLhs == 0)
+        {
+            beep();
+        }
+    }
+    else
+    {
+        ArrayOf param1 = argIn[0];
+        std::wstring str = param1.getContentAsWideString();
+        if (str == L"on" || str == L"off")
+        {
+            if (str == L"on")
+            {
+                setBeepOn();
+            }
+            else
+            {
+                setBeepOff();
+            }
+        }
+        else
+        {
+            Error(eval, _W("Wrong value for #1 argument."));
+        }
+    }
+    if (nLhs > 0)
+    {
+        bool beepState = getBeepState();
+        if (beepState)
+        {
+            retval.push_back(ArrayOf::stringConstructor(L"on"));
+        }
+        else
+        {
+            retval.push_back(ArrayOf::stringConstructor(L"off"));
+        }
+    }
     return retval;
 }
 //=============================================================================

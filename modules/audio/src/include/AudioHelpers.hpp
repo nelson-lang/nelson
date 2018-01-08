@@ -22,8 +22,8 @@
 #include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
-	NLSAUDIO_IMPEXP bool initializeAudio();
-	NLSAUDIO_IMPEXP bool terminateAudio();
-	NLSAUDIO_IMPEXP ArrayOf audioDevInfo();
+    NLSAUDIO_IMPEXP bool initializeAudio();
+    NLSAUDIO_IMPEXP bool terminateAudio();
+    NLSAUDIO_IMPEXP ArrayOf audioDevInfo();
 }
 //=============================================================================

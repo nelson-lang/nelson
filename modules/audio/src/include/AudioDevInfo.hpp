@@ -23,12 +23,12 @@
 #include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
-	NLSAUDIO_IMPEXP ArrayOf AudioDevInfo(std::wstring &errorMessage);
-	NLSAUDIO_IMPEXP ArrayOf AudioDevInfo(int io, std::wstring &errorMessage);
-	NLSAUDIO_IMPEXP ArrayOf AudioDevInfo(int io, int id, std::wstring &errorMessage);
-	NLSAUDIO_IMPEXP ArrayOf AudioDevInfo(int io, std::wstring name, std::wstring &errorMessage);
-	NLSAUDIO_IMPEXP ArrayOf AudioDevInfoDriverVersion(int io, int id, std::wstring &errorMessage);
-	NLSAUDIO_IMPEXP ArrayOf AudioDevInfo(int io, int rate, int bits, int chans, std::wstring &errorMessage);
-	NLSAUDIO_IMPEXP ArrayOf AudioDevInfo(int io, int id, int rate, int bits, int chans, std::wstring &errorMessage);
+    NLSAUDIO_IMPEXP ArrayOf AudioDevInfo(std::wstring &errorMessage);
+    NLSAUDIO_IMPEXP ArrayOf AudioDevInfo(int io, std::wstring &errorMessage);
+    NLSAUDIO_IMPEXP ArrayOf AudioDevInfo(int io, int id, std::wstring &errorMessage);
+    NLSAUDIO_IMPEXP ArrayOf AudioDevInfo(int io, std::wstring name, std::wstring &errorMessage);
+    NLSAUDIO_IMPEXP ArrayOf AudioDevInfoDriverVersion(int io, int id, std::wstring &errorMessage);
+    NLSAUDIO_IMPEXP ArrayOf AudioDevInfo(int io, int rate, int bits, int chans, std::wstring &errorMessage);
+    NLSAUDIO_IMPEXP ArrayOf AudioDevInfo(int io, int id, int rate, int bits, int chans, std::wstring &errorMessage);
 }
 //=============================================================================

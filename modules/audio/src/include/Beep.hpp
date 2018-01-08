@@ -21,9 +21,9 @@
 #include "nlsAudio_exports.h"
 //=============================================================================
 namespace Nelson {
-	NLSAUDIO_IMPEXP bool setBeepOn();
-	NLSAUDIO_IMPEXP bool setBeepOff();
-	NLSAUDIO_IMPEXP bool getBeepState();
-	NLSAUDIO_IMPEXP bool beep();
+    NLSAUDIO_IMPEXP bool setBeepOn();
+    NLSAUDIO_IMPEXP bool setBeepOff();
+    NLSAUDIO_IMPEXP bool getBeepState();
+    NLSAUDIO_IMPEXP bool beep();
 }
 //=============================================================================

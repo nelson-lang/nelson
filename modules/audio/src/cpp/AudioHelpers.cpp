@@ -20,37 +20,37 @@
 #include "AudioHelpers.hpp"
 //=============================================================================
 namespace Nelson {
-	//=============================================================================
-	static bool audioInitialized = false;
-	//=============================================================================
-	bool initializeAudio()
-	{
-		if (!audioInitialized)
-		{
-			PaError err = Pa_Initialize();
-			if (err == paNoError)
-			{
-				audioInitialized = true;
-				return audioInitialized;
-			}
-		}
-		audioInitialized = false;
-		return false;
-	}
-	//=============================================================================
-	bool terminateAudio()
-	{
-		if (audioInitialized)
-		{
-			PaError err = Pa_Terminate();
-			if (err == paNoError)
-			{
-				audioInitialized = false;
-				return true;
-			}
-		}
-		return false;
-	}
-	//=============================================================================
+    //=============================================================================
+    static bool audioInitialized = false;
+    //=============================================================================
+    bool initializeAudio()
+    {
+        if (!audioInitialized)
+        {
+            PaError err = Pa_Initialize();
+            if (err == paNoError)
+            {
+                audioInitialized = true;
+                return audioInitialized;
+            }
+        }
+        audioInitialized = false;
+        return false;
+    }
+    //=============================================================================
+    bool terminateAudio()
+    {
+        if (audioInitialized)
+        {
+            PaError err = Pa_Terminate();
+            if (err == paNoError)
+            {
+                audioInitialized = false;
+                return true;
+            }
+        }
+        return false;
+    }
+    //=============================================================================
 }
 //=============================================================================

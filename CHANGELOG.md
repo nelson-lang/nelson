@@ -1,5 +1,8 @@
 Features:
 ---------
+  * Audio module:
+    * beep: do a beep sound.
+    * audiodevinfo: Information about audio device.
 
   * JSON module: 
     * jsonencode: encodes a Nelson object into a JSON string.

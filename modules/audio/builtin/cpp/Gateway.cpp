@@ -28,19 +28,19 @@ const std::wstring gatewayName = L"audio";
 static const nlsGateway gateway[] =
 {
     { "audiodevinfo", Nelson::AudioGateway::audiodevinfoBuiltin, 1, -1 },
-	{ "beep", Nelson::AudioGateway::beepBuiltin, 1, 1 },
+    { "beep", Nelson::AudioGateway::beepBuiltin, 1, 1 },
 };
 //=============================================================================
 static bool initializeAudioModule(Nelson::Evaluator* eval)
 {
-	initializeAudio();
-	return true;
+    initializeAudio();
+    return true;
 }
 //=============================================================================
 static bool finishAudioModule(Nelson::Evaluator* eval)
 {
-	terminateAudio();
-	return true;
+    terminateAudio();
+    return true;
 }
 //=============================================================================
 NLSGATEWAYFUNCEXTENDED(gateway, (void*)initializeAudioModule)
