@@ -24,10 +24,6 @@ namespace Nelson {
     //=============================================================================
     class AudioDeviceInfo {
     public:
-        std::wstring NAME;
-        std::wstring DriverVersion;
-        bool isInput;
-        bool isOutput;
         int Id;
         const PaDeviceInfo *padeviceInfo;
     };
@@ -41,19 +37,15 @@ namespace Nelson {
             const PaDeviceInfo *deviceInfo = Pa_GetDeviceInfo(i);
             if (deviceInfo != nullptr)
             {
-                AudioDeviceInfo info;
-                info.isInput = (deviceInfo->maxInputChannels != 0);
-                info.isOutput = (deviceInfo->maxOutputChannels != 0);
-                info.NAME = utf8_to_wstring(deviceInfo->name);
-                const PaHostApiInfo *apiInfo = Pa_GetHostApiInfo(deviceInfo->hostApi);
-                const char *driverVersion = apiInfo ? apiInfo->name : "";
-                info.DriverVersion = utf8_to_wstring(driverVersion);
-                info.Id = k;
-                info.padeviceInfo = deviceInfo;
-                if (info.isInput || info.isOutput)
+                bool isInput = (deviceInfo->maxInputChannels != 0);
+                bool isOutput = (deviceInfo->maxOutputChannels != 0);
+                if (isInput || isOutput)
                 {
-                    k++;
+                    AudioDeviceInfo info;
+                    info.Id = k;
+                    info.padeviceInfo = deviceInfo;
                     infos.push_back(info);
+                    k++;
                 }
             }
         }
@@ -65,6 +57,10 @@ namespace Nelson {
         stringVector structnames;
         structnames.push_back("Name");
         structnames.push_back("DriverVersion");
+        structnames.push_back("MaxChannels");
+        structnames.push_back("DefaultSampleRate");
+        structnames.push_back("DefaultLowLatency");
+        structnames.push_back("DefaultHighLatency");
         structnames.push_back("ID");
         Dimensions dimsInOrOutputs;
         if (input)
@@ -80,33 +76,67 @@ namespace Nelson {
         ArrayOf structInOrOuputs = ArrayOf(NLS_STRUCT_ARRAY, dimsInOrOutputs, InOrOutputs, false, structnames);
         ArrayOfVector name;
         ArrayOfVector driverversion;
+        ArrayOfVector maxchannels;
+        ArrayOfVector defaultsamplerate;
+        ArrayOfVector defaultlowlatency;
+        ArrayOfVector defaulthighlatency;
         ArrayOfVector id;
         name.reserve(dimsInOrOutputs.getElementCount());
         driverversion.reserve(dimsInOrOutputs.getElementCount());
+        maxchannels.reserve(dimsInOrOutputs.getElementCount());
+        defaultsamplerate.reserve(dimsInOrOutputs.getElementCount());
+        defaultlowlatency.reserve(dimsInOrOutputs.getElementCount());
+        defaulthighlatency.reserve(dimsInOrOutputs.getElementCount());
         id.reserve(dimsInOrOutputs.getElementCount());
         for (AudioDeviceInfo info : infos)
         {
+            bool isInput = (info.padeviceInfo->maxInputChannels != 0);
+            bool isOutput = (info.padeviceInfo->maxOutputChannels != 0);
+            std::wstring deviceName = utf8_to_wstring(info.padeviceInfo->name);
+            const PaHostApiInfo *apiInfo = Pa_GetHostApiInfo(info.padeviceInfo->hostApi);
+            const char *driverVersion = apiInfo ? apiInfo->name : "";
+            std::wstring deviceDriverVersion = utf8_to_wstring(driverVersion);
             if (input)
             {
-                if (info.isInput)
+                if (isInput)
                 {
-                    name.push_back(ArrayOf::stringConstructor(info.NAME));
-                    driverversion.push_back(ArrayOf::stringConstructor(info.DriverVersion));
+                    double maxChannels = (double)info.padeviceInfo->maxInputChannels;
+                    double defaultLowLatency = (double)info.padeviceInfo->defaultLowInputLatency;
+                    double defaultHighLatency = (double)info.padeviceInfo->defaultHighInputLatency;
+                    double defaultSampleRate = (double)info.padeviceInfo->defaultSampleRate;
+                    name.push_back(ArrayOf::stringConstructor(deviceName));
+                    driverversion.push_back(ArrayOf::stringConstructor(deviceDriverVersion));
+                    maxchannels.push_back(ArrayOf::doubleConstructor(maxChannels));
+                    defaultsamplerate.push_back(ArrayOf::doubleConstructor(defaultSampleRate));
+                    defaultlowlatency.push_back(ArrayOf::doubleConstructor(defaultLowLatency));
+                    defaulthighlatency.push_back(ArrayOf::doubleConstructor(defaultHighLatency));
                     id.push_back(ArrayOf::doubleConstructor((double)info.Id));
                 }
             }
             else
             {
-                if (info.isOutput)
+                if (isOutput)
                 {
-                    name.push_back(ArrayOf::stringConstructor(info.NAME));
-                    driverversion.push_back(ArrayOf::stringConstructor(info.DriverVersion));
+                    double maxChannels = (double)info.padeviceInfo->maxOutputChannels;
+                    double defaultLowLatency = (double)info.padeviceInfo->defaultLowOutputLatency;
+                    double defaultHighLatency = (double)info.padeviceInfo->defaultHighOutputLatency;
+                    double defaultSampleRate = (double)info.padeviceInfo->defaultSampleRate;
+                    name.push_back(ArrayOf::stringConstructor(deviceName));
+                    driverversion.push_back(ArrayOf::stringConstructor(deviceDriverVersion));
+                    defaultsamplerate.push_back(ArrayOf::doubleConstructor(defaultSampleRate));
+                    maxchannels.push_back(ArrayOf::doubleConstructor(maxChannels));
+                    defaultlowlatency.push_back(ArrayOf::doubleConstructor(defaultLowLatency));
+                    defaulthighlatency.push_back(ArrayOf::doubleConstructor(defaultHighLatency));
                     id.push_back(ArrayOf::doubleConstructor((double)info.Id));
                 }
             }
         }
         structInOrOuputs.setFieldAsList("Name", name);
         structInOrOuputs.setFieldAsList("DriverVersion", driverversion);
+        structInOrOuputs.setFieldAsList("MaxChannels", maxchannels);
+        structInOrOuputs.setFieldAsList("DefaultSampleRate", defaultsamplerate);
+        structInOrOuputs.setFieldAsList("DefaultLowLatency", defaultlowlatency);
+        structInOrOuputs.setFieldAsList("DefaultHighLatency", defaulthighlatency);
         structInOrOuputs.setFieldAsList("ID", id);
         return structInOrOuputs;
     }
@@ -119,11 +149,11 @@ namespace Nelson {
         size_t nbOutputs = 0;
         for (AudioDeviceInfo info:infos)
         {
-            if (info.isInput)
+            if (info.padeviceInfo->maxInputChannels != 0)
             {
                 nbInputs++;
             }
-            if (info.isOutput)
+            if (info.padeviceInfo->maxOutputChannels != 0)
             {
                 nbOutputs++;
             }
@@ -150,14 +180,14 @@ namespace Nelson {
             {
                 if (io == 0) // output
                 {
-                    if (!info.isInput)
+                    if (info.padeviceInfo->maxInputChannels == 0)
                     {
                         res++;
                     }
                 }
                 else // input
                 {
-                    if (info.isInput)
+                    if (info.padeviceInfo->maxInputChannels != 0)
                     {
                         res++;
                     }
@@ -196,19 +226,19 @@ namespace Nelson {
             {
                 if (io == 1)
                 {
-                    if (!infoFound.isInput)
+                    if (infoFound.padeviceInfo->maxInputChannels == 0)
                     {
                         errorMessage = _W("Wrong value for #1 argument.");
                     }
                 }
                 else
                 {
-                    if (!infoFound.isOutput)
+                    if (infoFound.padeviceInfo->maxOutputChannels == 0)
                     {
                         errorMessage = _W("Wrong value for #1 argument.");
                     }
                 }
-                return ArrayOf::stringConstructor(infoFound.NAME);
+                return ArrayOf::stringConstructor(utf8_to_wstring(infoFound.padeviceInfo->name));
             }
             else
             {
@@ -228,9 +258,10 @@ namespace Nelson {
         {
             if (IO == 1)
             {
-                if (element.isInput)
+                bool isInput = (element.padeviceInfo->maxInputChannels != 0);
+                if (isInput)
                 {
-                    if (element.NAME == name)
+                    if (utf8_to_wstring(element.padeviceInfo->name) == name)
                     {
                         info = element;
                         return true;
@@ -239,9 +270,10 @@ namespace Nelson {
             }
             else
             {
-                if (element.isOutput)
+                bool isOutput = (element.padeviceInfo->maxOutputChannels != 0);
+                if (isOutput)
                 {
-                    if (element.NAME == name)
+                    if (utf8_to_wstring(element.padeviceInfo->name) == name)
                     {
                         info = element;
                         return true;
@@ -286,19 +318,21 @@ namespace Nelson {
             {
                 if (io == 1)
                 {
-                    if (!infoFound.isInput)
+                    if (infoFound.padeviceInfo->maxInputChannels == 0)
                     {
                         errorMessage = _W("Wrong value for #1 argument.");
                     }
                 }
                 else
                 {
-                    if (!infoFound.isOutput)
+                    if (infoFound.padeviceInfo->maxOutputChannels == 0)
                     {
                         errorMessage = _W("Wrong value for #1 argument.");
                     }
                 }
-                return ArrayOf::stringConstructor(infoFound.DriverVersion);
+                const PaHostApiInfo *apiInfo = Pa_GetHostApiInfo(infoFound.padeviceInfo->hostApi);
+                const char *driverVersion = apiInfo ? apiInfo->name : "";
+                return ArrayOf::stringConstructor(utf8_to_wstring(driverVersion));
             }
             else
             {

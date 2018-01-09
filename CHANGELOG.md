@@ -1,5 +1,6 @@
 Features:
 ---------
+
   * Audio module:
     * beep: do a beep sound.
     * audiodevinfo: Information about audio device.
