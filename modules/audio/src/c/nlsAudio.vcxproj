@@ -192,12 +192,14 @@
   <ItemGroup>
     <ClCompile Include="..\cpp\AudioDevInfo.cpp" />
     <ClCompile Include="..\cpp\AudioHelpers.cpp" />
+    <ClCompile Include="..\cpp\AudioplayerObject.cpp" />
     <ClCompile Include="..\cpp\Beep.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\AudioDevInfo.hpp" />
     <ClInclude Include="..\include\AudioHelpers.hpp" />
+    <ClInclude Include="..\include\AudioplayerObject.hpp" />
     <ClInclude Include="..\include\Beep.hpp" />
     <ClInclude Include="..\include\nlsAudio_exports.h" />
   </ItemGroup>

@@ -201,12 +201,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\audiodevinfoBuiltin.cpp" />
+    <ClCompile Include="..\cpp\audioplayerBuiltin.cpp" />
     <ClCompile Include="..\cpp\beepBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\audiodevinfoBuiltin.hpp" />
+    <ClInclude Include="..\include\audioplayerBuiltin.hpp" />
     <ClInclude Include="..\include\beepBuiltin.hpp" />
     <ClInclude Include="..\include\nlsAudio_builtin_exports.h" />
   </ItemGroup>

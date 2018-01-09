@@ -16,40 +16,22 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
-#include "audiodevinfoBuiltin.hpp"
 #include "audioplayerBuiltin.hpp"
-#include "beepBuiltin.hpp"
-#include "AudioHelpers.hpp"
+#include "Error.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-const std::wstring gatewayName = L"audio";
+// playerObj = audioplayer(Y, Fs)
+// playerObj = audioplayer(Y, Fs, nBits)
+// playerObj = audioplayer(Y, Fs, nBits, ID)
 //=============================================================================
-static const nlsGateway gateway[] =
+ArrayOfVector Nelson::AudioGateway::audioplayerBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    { "audiodevinfo", Nelson::AudioGateway::audiodevinfoBuiltin, 1, -1 },
-    { "audioplayer", Nelson::AudioGateway::audioplayerBuiltin, 1, -1 },
-	{ "beep", Nelson::AudioGateway::beepBuiltin, 1, 1 },
-};
-//=============================================================================
-static bool initializeAudioModule(Nelson::Evaluator* eval)
-{
-    initializeAudio();
-    return true;
+    ArrayOfVector retval;
+    if (nLhs > 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    return retval;
 }
-//=============================================================================
-static bool finishAudioModule(Nelson::Evaluator* eval)
-{
-    terminateAudio();
-    return true;
-}
-//=============================================================================
-NLSGATEWAYFUNCEXTENDED(gateway, (void*)initializeAudioModule)
-//=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVEEXTENDED(gateway, (void*)finishAudioModule)
-//=============================================================================
-NLSGATEWAYNAME()
 //=============================================================================
