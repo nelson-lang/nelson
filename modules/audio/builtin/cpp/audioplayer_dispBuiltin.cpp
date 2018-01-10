@@ -16,26 +16,54 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "audioplayerBuiltin.hpp"
+#include "audioplayer_dispBuiltin.hpp"
 #include "Error.hpp"
-#include "AudioHelpers.hpp"
+#include "HandleGenericObject.hpp"
+#include "HandleManager.hpp"
 #include "AudioplayerObject.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-// playerObj = audioplayer(Y, Fs)
-// playerObj = audioplayer(Y, Fs, nBits)
-// playerObj = audioplayer(Y, Fs, nBits, ID)
-//=============================================================================
-ArrayOfVector Nelson::AudioGateway::audioplayerBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector Nelson::AudioGateway::audioplayer_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
-    if (nLhs > 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-	AudioplayerObject* objPlayer = new AudioplayerObject();
-	retval.push_back(ArrayOf::handleConstructor(objPlayer));
-    return retval;
+	ArrayOfVector retval;
+	if (nLhs != 0)
+	{
+		Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+	}
+	if (argIn.size() != 1)
+	{
+		Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+	}
+	ArrayOf param1 = argIn[0];
+	if (param1.isHandle())
+	{
+		Interface *io = eval->getInterface();
+		if (io)
+		{
+			Dimensions dimsParam1 = param1.getDimensions();
+			io->outputMessage(L"[audioplayer] - size: ");
+			dimsParam1.printMe(io);
+			io->outputMessage("\n");
+		}
+		if (param1.isScalar())
+		{
+			nelson_handle *qp = (nelson_handle*)param1.getDataPointer();
+			nelson_handle hl = qp[0];
+			HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
+			if (hlObj->getCategory() != AUDIOPLAYER_CATEGORY_STR)
+			{
+				Error(eval, _W("audioplayer handle expected."));
+			}
+			AudioplayerObject *objPlayer = (AudioplayerObject *)hlObj;
+			objPlayer->disp(eval);
+		}
+	}
+	else
+	{
+		Error(eval, _W("audioplayer handle expected."));
+	}
+
+	return retval;
 }
 //=============================================================================

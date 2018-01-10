@@ -16,26 +16,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "audioplayerBuiltin.hpp"
-#include "Error.hpp"
-#include "AudioHelpers.hpp"
-#include "AudioplayerObject.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
-// playerObj = audioplayer(Y, Fs)
-// playerObj = audioplayer(Y, Fs, nBits)
-// playerObj = audioplayer(Y, Fs, nBits, ID)
-//=============================================================================
-ArrayOfVector Nelson::AudioGateway::audioplayerBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    ArrayOfVector retval;
-    if (nLhs > 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-	AudioplayerObject* objPlayer = new AudioplayerObject();
-	retval.push_back(ArrayOf::handleConstructor(objPlayer));
-    return retval;
+namespace Nelson {
+	namespace AudioGateway {
+		ArrayOfVector audioplayer_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+	}
 }
 //=============================================================================

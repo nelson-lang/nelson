@@ -19,54 +19,65 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
+#include "HandleGenericObject.hpp"
 #include "nlsAudio_exports.h"
+#include "Evaluator.hpp"
 //=============================================================================
-class NLSAUDIO_IMPEXP AudioplayerObject {
-public:
-	AudioplayerObject();
-	~AudioplayerObject();
-	bool isWriteableProperty(std::wstring propertyName);
-	// getter
-	int getSampleRate();
-	int getBitsPerSample();
-	int getNumberOfChannels();
-	int getDeviceID();
-	int getCurrentSample();
-	int getTotalSamples();
-	bool getRunning();
-	Nelson::ArrayOf getStartFcn();
-	Nelson::ArrayOf getStopFcn();
-	Nelson::ArrayOf getTimerFcn();
-	double getTimerPeriod();
-	std::wstring getTag();
-	Nelson::ArrayOf getUserData();
-	std::wstring getType();
+namespace Nelson {
+	//=============================================================================
+	#define AUDIOPLAYER_CATEGORY_STR L"audioplayer"
+	//=============================================================================
+	class NLSAUDIO_IMPEXP AudioplayerObject : public HandleGenericObject {
+	public:
+		AudioplayerObject();
+		~AudioplayerObject();
+		bool isWriteableProperty(std::wstring propertyName);
+		// getter
+		int getSampleRate();
+		int getBitsPerSample();
+		int getNumberOfChannels();
+		int getDeviceID();
+		int getCurrentSample();
+		int getTotalSamples();
+		bool getRunning();
+		Nelson::ArrayOf getStartFcn();
+		Nelson::ArrayOf getStopFcn();
+		Nelson::ArrayOf getTimerFcn();
+		double getTimerPeriod();
+		std::wstring getTag();
+		Nelson::ArrayOf getUserData();
+		std::wstring getType();
 
-	// setter
-	bool setSampleRate(int sr);
-	bool setRunning(bool on);
-	bool setStartFcn(Nelson::ArrayOf funcHandle);
-	bool setStopFcn(Nelson::ArrayOf funcHandle);
-	bool setTimerFcn(Nelson::ArrayOf funcHandle);
-	bool setTimerPeriod(double period);
-	bool setTag(std::wstring tag);
-	bool setUserData(Nelson::ArrayOf userData);
+		// setter
+		bool setSampleRate(int sr);
+		bool setRunning(bool on);
+		bool setStartFcn(Nelson::ArrayOf funcHandle);
+		bool setStopFcn(Nelson::ArrayOf funcHandle);
+		bool setTimerFcn(Nelson::ArrayOf funcHandle);
+		bool setTimerPeriod(double period);
+		bool setTag(std::wstring tag);
+		bool setUserData(Nelson::ArrayOf userData);
 
-private:
-	int _SampleRate;
-	int _BitsPerSample;
-	int _NumberOfChannels;
-	int _DeviceID;
-	int _CurrentSample;
-	int _TotalSamples;
-	bool _Running;
-	Nelson::ArrayOf _StartFcn;
-	Nelson::ArrayOf _StopFcn;
-	Nelson::ArrayOf _TimerFcn;
-	double _TimerPeriod;
-	std::wstring _Tag;
-	Nelson::ArrayOf _UserData;
-	std::wstring _Type;
+		// disp
+		bool disp(Evaluator *eval);
 
-};
+	private:
+		int _SampleRate;
+		int _BitsPerSample;
+		int _NumberOfChannels;
+		int _DeviceID;
+		int _CurrentSample;
+		int _TotalSamples;
+		bool _Running;
+		ArrayOf _StartFcn;
+		ArrayOf _StopFcn;
+		ArrayOf _TimerFcn;
+		double _TimerPeriod;
+		std::wstring _Tag;
+		ArrayOf _UserData;
+		std::wstring _Type;
+
+	};
+	//=============================================================================
+}
 //=============================================================================

@@ -16,11 +16,17 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include "AudioHelpers.hpp"
 #include "NelsonGateway.hpp"
+#include "beepBuiltin.hpp"
 #include "audiodevinfoBuiltin.hpp"
 #include "audioplayerBuiltin.hpp"
-#include "beepBuiltin.hpp"
-#include "AudioHelpers.hpp"
+#include "audioplayer_setBuiltin.hpp"
+#include "audioplayer_getBuiltin.hpp"
+#include "audioplayer_dispBuiltin.hpp"
+#include "audioplayer_deleteBuiltin.hpp"
+#include "audioplayer_usedBuiltin.hpp"
+#include "audioplayer_fieldnamesBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -28,9 +34,10 @@ const std::wstring gatewayName = L"audio";
 //=============================================================================
 static const nlsGateway gateway[] =
 {
-    { "audiodevinfo", Nelson::AudioGateway::audiodevinfoBuiltin, 1, -1 },
-    { "audioplayer", Nelson::AudioGateway::audioplayerBuiltin, 1, -1 },
 	{ "beep", Nelson::AudioGateway::beepBuiltin, 1, 1 },
+	{ "audiodevinfo", Nelson::AudioGateway::audiodevinfoBuiltin, 1, -1 },
+    { "audioplayer", Nelson::AudioGateway::audioplayerBuiltin, 1, -1 },
+    { "audioplayer_disp", Nelson::AudioGateway::audioplayer_dispBuiltin, 0, 1 },
 };
 //=============================================================================
 static bool initializeAudioModule(Nelson::Evaluator* eval)
