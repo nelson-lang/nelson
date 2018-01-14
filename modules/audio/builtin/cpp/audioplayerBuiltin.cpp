@@ -37,7 +37,7 @@ ArrayOfVector Nelson::AudioGateway::audioplayerBuiltin(Evaluator* eval, int nLhs
     ArrayOf param1 = argIn[0];
     AudioplayerObject* objPlayer = nullptr;
     std::wstring errorMessage = _W("Cannot create audioplayer handle.");
-	bool res = false;
+    bool res = false;
     switch (argIn.size())
     {
         case 2:
@@ -72,7 +72,7 @@ ArrayOfVector Nelson::AudioGateway::audioplayerBuiltin(Evaluator* eval, int nLhs
             int bitsPerSample = param3.getContentAsInteger32Scalar();
             ArrayOf param4 = argIn[3];
             int deviceID = param4.getContentAsInteger32Scalar();
-			objPlayer = new AudioplayerObject();
+            objPlayer = new AudioplayerObject();
             if (objPlayer)
             {
                 res = objPlayer->setSamples(argIn[0], sampleRate, bitsPerSample, deviceID, errorMessage);
@@ -87,10 +87,10 @@ ArrayOfVector Nelson::AudioGateway::audioplayerBuiltin(Evaluator* eval, int nLhs
     }
     if (!res)
     {
-		if (objPlayer)
-		{
-			delete objPlayer;
-		}
+        if (objPlayer)
+        {
+            delete objPlayer;
+        }
         Error(eval, errorMessage);
     }
     retval.push_back(ArrayOf::handleConstructor(objPlayer));

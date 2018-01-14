@@ -29,6 +29,12 @@
 #include "audioplayer_fieldnamesBuiltin.hpp"
 #include "audioplayer_propertiesBuiltin.hpp"
 #include "playBuiltin.hpp"
+#include "resumeBuiltin.hpp"
+#include "stopBuiltin.hpp"
+#include "audioplayer_playBuiltin.hpp"
+#include "audioplayer_pauseBuiltin.hpp"
+#include "audioplayer_resumeBuiltin.hpp"
+#include "audioplayer_stopBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -45,6 +51,12 @@ static const nlsGateway gateway[] =
     { "audioplayer_get", Nelson::AudioGateway::audioplayer_getBuiltin, 1, 2 },
     { "audioplayer_set", Nelson::AudioGateway::audioplayer_setBuiltin, 0, 3 },
     { "play", Nelson::AudioGateway::playBuiltin, 0, 1 },
+    { "audioplayer_play", Nelson::AudioGateway::audioplayer_playBuiltin, 0, 1 },
+    { "audioplayer_pause", Nelson::AudioGateway::audioplayer_pauseBuiltin, 0, 1 },
+    { "resume", Nelson::AudioGateway::resumeBuiltin, 0, 1 },
+    { "audioplayer_resume", Nelson::AudioGateway::audioplayer_resumeBuiltin, 0, 1 },
+    { "stop", Nelson::AudioGateway::stopBuiltin, 0, 1 },
+    { "audioplayer_stop", Nelson::AudioGateway::audioplayer_stopBuiltin, 0, 1 },
 };
 //=============================================================================
 static bool initializeAudioModule(Nelson::Evaluator* eval)

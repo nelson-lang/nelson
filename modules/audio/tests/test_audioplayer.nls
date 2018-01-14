@@ -1,0 +1,51 @@
+//=============================================================================
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+json_audio = [modulepath('audio'), '/tests/test_audioplayer.json'];
+st = jsondecode(fileread(json_audio));
+r = audioplayer(st.y, st.fs);
+f = fieldnames(r);
+ref = {'SampleRate'; 'BitsPerSample'; 'NumberOfChannels'; 'DeviceID'; 'CurrentSample'; 'TotalSamples'; 'Running'; 'Tag'; 'UserData'; 'Type'};
+assert_isequal(f, ref);
+assert_isequal(r.SampleRate, 8192);
+assert_isequal(r.BitsPerSample, 16);
+assert_isequal(r.NumberOfChannels, 1);
+assert_isequal(r.DeviceID, -1);
+assert_isequal(r.CurrentSample, 0);
+assert_isequal(r.TotalSamples, 73113);
+assert_isequal(r.Running, 'off');
+assert_isequal(r.Tag, '');
+assert_isequal(r.UserData, []);
+assert_isequal(r.Type, 'audioplayer');
+//=============================================================================
+play(r)
+assert_istrue(isplaying(r))
+sleep(5);
+play(r)
+assert_istrue(isplaying(r))
+pause(r)
+assert_isfalse(isplaying(r))
+play(r)
+assert_istrue(isplaying(r))
+pause(r)
+assert_isfalse(isplaying(r))
+resume(r)
+assert_istrue(isplaying(r))
+stop(r)
+assert_isfalse(isplaying(r))
+//=============================================================================

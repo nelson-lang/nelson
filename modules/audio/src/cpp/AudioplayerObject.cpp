@@ -53,6 +53,7 @@ namespace Nelson {
             _UserData = ArrayOf::emptyConstructor();
             _Type = AUDIOPLAYER_CATEGORY_STR;
         }
+        paStream = nullptr;
     }
     //=============================================================================
     AudioplayerObject::~AudioplayerObject()
@@ -68,6 +69,7 @@ namespace Nelson {
         _Tag = L"";
         _UserData = ArrayOf::emptyConstructor();
         _Type = AUDIOPLAYER_CATEGORY_STR;
+        paStream = nullptr;
     }
     //=============================================================================
     bool AudioplayerObject::isWriteableProperty(std::wstring propertyName)
@@ -356,15 +358,15 @@ namespace Nelson {
     //=============================================================================
     bool AudioplayerObject::setSamples(ArrayOf data, int SampleRate, std::wstring &errorMessage)
     {
-		return setSamples(data, SampleRate, 16, -1, errorMessage);
-	}
+        return setSamples(data, SampleRate, 16, -1, errorMessage);
+    }
     //=============================================================================
     bool AudioplayerObject::setSamples(ArrayOf data, int SampleRate, int BitsPerSample, std::wstring &errorMessage)
     {
-		return setSamples(data, SampleRate, BitsPerSample, -1, errorMessage);
+        return setSamples(data, SampleRate, BitsPerSample, -1, errorMessage);
     }
     //=============================================================================
-	bool AudioplayerObject::setSamples(ArrayOf data, int SampleRate, int BitsPerSample, int deviceID, std::wstring &errorMessage)
+    bool AudioplayerObject::setSamples(ArrayOf data, int SampleRate, int BitsPerSample, int deviceID, std::wstring &errorMessage)
     {
         errorMessage = L"";
         PaDeviceIndex outputIndex = getOutputDeviceIndex(deviceID);
@@ -376,248 +378,275 @@ namespace Nelson {
         const PaDeviceInfo *pdi_output = Pa_GetDeviceInfo(outputIndex);
         if (pdi_output)
         {
-			if (!data.isNumeric() || data.isComplex() || data.isSparse())
-			{
-				errorMessage = ERROR_WRONG_ARGUMENT_1_TYPE;
-				return false;
-			}
-			if (data.isEmpty())
-			{
-				errorMessage = _W("Empty matrix not allowed.");
-				return false;
-
-			}
-			if (!data.isDoubleType())
-			{
-				errorMessage = _W("double type expected.");
-				return false;
-			}
-
-			_SampleRate = SampleRate;
-			_BitsPerSample = BitsPerSample;
-
-			audioData = data;
-			audioData.ensureSingleOwner();
-			_NumberOfChannels = 1;
-			_TotalSamples = audioData.getDimensions().getElementCount() / _NumberOfChannels;
-
-			PaStreamParameters outputStreamParameters;
-			outputStreamParameters.device = outputIndex;
-			outputStreamParameters.channelCount = _NumberOfChannels;
-			switch (data.getDataClass())
-			{
-				case NLS_DOUBLE:
-				{
-					outputStreamParameters.sampleFormat = paFloat32;
-				}
-				break;
-				case NLS_SINGLE:
-				{
-					outputStreamParameters.sampleFormat = paFloat32;
-				}
-				break;
-				case NLS_INT8:
-				{
-					outputStreamParameters.sampleFormat = paInt8;
-				}
-				break;
-				case NLS_UINT8:
-				{
-					outputStreamParameters.sampleFormat = paUInt8;
-				}
-				break;
-				case NLS_INT16:
-				{
-					outputStreamParameters.sampleFormat = paInt16;
-				}
-				break;
-				default:
-				{
-					errorMessage = _W("Type not supported.");
-					return false;
-				}
-				break;
-			}
-			outputStreamParameters.suggestedLatency = Pa_GetDeviceInfo(outputStreamParameters.device)->defaultLowOutputLatency;
-			outputStreamParameters.hostApiSpecificStreamInfo = NULL;
-
-			PaError err = Pa_OpenStream(&paStream, 0, &(outputStreamParameters),
-				SampleRate, 1024, paNoFlag, paPlayCallback, this);
-			if (err != paNoError)
-			{
-				const char* errorText = Pa_GetErrorText(err);
-				errorMessage = utf8_to_wstring(errorText);
-				return false;
-			}
-
-			return true;
-		}
+            if (!data.isNumeric() || data.isComplex() || data.isSparse())
+            {
+                errorMessage = ERROR_WRONG_ARGUMENT_1_TYPE;
+                return false;
+            }
+            if (data.isEmpty())
+            {
+                errorMessage = _W("Empty matrix not allowed.");
+                return false;
+            }
+            if (!data.isDoubleType())
+            {
+                errorMessage = _W("double type expected.");
+                return false;
+            }
+            _SampleRate = SampleRate;
+            _BitsPerSample = BitsPerSample;
+            audioData = data;
+            audioData.ensureSingleOwner();
+            _NumberOfChannels = 1;
+            _TotalSamples = audioData.getDimensions().getElementCount() / _NumberOfChannels;
+            outputStreamParameters.device = outputIndex;
+            outputStreamParameters.channelCount = _NumberOfChannels;
+            switch (data.getDataClass())
+            {
+                case NLS_DOUBLE:
+                {
+                    outputStreamParameters.sampleFormat = paFloat32;
+                }
+                break;
+                case NLS_SINGLE:
+                {
+                    outputStreamParameters.sampleFormat = paFloat32;
+                }
+                break;
+                case NLS_INT8:
+                {
+                    outputStreamParameters.sampleFormat = paInt8;
+                }
+                break;
+                case NLS_UINT8:
+                {
+                    outputStreamParameters.sampleFormat = paUInt8;
+                }
+                break;
+                case NLS_INT16:
+                {
+                    outputStreamParameters.sampleFormat = paInt16;
+                }
+                break;
+                default:
+                {
+                    errorMessage = _W("Type not supported.");
+                    return false;
+                }
+                break;
+            }
+            outputStreamParameters.suggestedLatency = Pa_GetDeviceInfo(outputStreamParameters.device)->defaultLowOutputLatency;
+            outputStreamParameters.hostApiSpecificStreamInfo = NULL;
+            PaError err = Pa_IsFormatSupported(0, &(outputStreamParameters), SampleRate);
+            if (err != paNoError)
+            {
+                const char* errorText = Pa_GetErrorText(err);
+                errorMessage = utf8_to_wstring(errorText);
+                return false;
+            }
+            return true;
+        }
         else
         {
-			errorMessage = _W("Wrong device ID.");
-		}
+            errorMessage = _W("Wrong device ID.");
+        }
         return false;
     }
     //=============================================================================
-	int AudioplayerObject::paPlayCallback(const void *inputBuffer,
-		void *outputBuffer,
-		unsigned long framesPerBuffer,
-		const PaStreamCallbackTimeInfo* timeInfo,
-		PaStreamCallbackFlags statusFlags,
-		void *userData)
-	{
-		AudioplayerObject *data = (AudioplayerObject*)userData;
-		data->_Running = true;
-		single *outAsSingle = (single *)outputBuffer;
-		int8 *outAsInt8 = (int8 *)outputBuffer;
-		uint8 *outAsUInt8 = (uint8 *)outputBuffer;
-		int16 *outAsInt16 = (int16 *)outputBuffer;
-
-		int offset = 0;
-		if (data->_NumberOfChannels > 0)
-		{
-			offset = data->_TotalSamples / data->_NumberOfChannels;
-		}
-		Class dataClass = data->audioData.getDataClass();
-		for (unsigned int i = 0; i < framesPerBuffer; i++)
-		{
-			for (int c = 0; c < data->_NumberOfChannels; c++)
+    int AudioplayerObject::paPlayCallback(const void *inputBuffer,
+                                          void *outputBuffer,
+                                          unsigned long framesPerBuffer,
+                                          const PaStreamCallbackTimeInfo* timeInfo,
+                                          PaStreamCallbackFlags statusFlags,
+                                          void *userData)
+    {
+        AudioplayerObject *data = (AudioplayerObject*)userData;
+        data->_Running = true;
+        single *outAsSingle = (single *)outputBuffer;
+        int8 *outAsInt8 = (int8 *)outputBuffer;
+        uint8 *outAsUInt8 = (uint8 *)outputBuffer;
+        int16 *outAsInt16 = (int16 *)outputBuffer;
+        int offset = 0;
+        if (data->_NumberOfChannels > 0)
+        {
+            offset = data->_TotalSamples / data->_NumberOfChannels;
+        }
+        Class dataClass = data->audioData.getDataClass();
+        for (unsigned int i = 0; i < framesPerBuffer; i++)
+        {
+            for (int c = 0; c < data->_NumberOfChannels; c++)
+            {
+                if (data->_CurrentSample < (data->_TotalSamples / data->_NumberOfChannels))
+                {
+                    switch (dataClass)
+                    {
+                        case NLS_SINGLE:
+                        {
+                            single *valptr = ((single*)data->audioData.getDataPointer() + data->_CurrentSample);
+                            valptr = valptr + (c * offset);
+                            single val = *valptr;
+                            *outAsSingle = val;
+                            outAsSingle++;
+                        }
+                        break;
+                        case NLS_DOUBLE:
+                        {
+                            double *valptr = ((double*)data->audioData.getDataPointer() + data->_CurrentSample);
+                            valptr = valptr + (c * offset);
+                            double val = *valptr;
+                            *outAsSingle = (single)val;
+                            outAsSingle++;
+                        }
+                        break;
+                        case NLS_INT8:
+                        {
+                            int8 *valptr = ((int8*)data->audioData.getDataPointer() + data->_CurrentSample);
+                            valptr = valptr + (c * offset);
+                            int8 val = *valptr;
+                            *outAsInt8 = val;
+                            outAsInt8++;
+                        }
+                        break;
+                        case NLS_UINT8:
+                        {
+                            uint8 *valptr = ((uint8*)data->audioData.getDataPointer() + data->_CurrentSample);
+                            valptr = valptr + (c * offset);
+                            uint8 val = *valptr;
+                            *outAsUInt8 = val;
+                            outAsUInt8++;
+                        }
+                        break;
+                        case NLS_INT16:
+                        {
+                            int16 *valptr = ((int16*)data->audioData.getDataPointer() + data->_CurrentSample);
+                            valptr = valptr + (c * offset);
+                            int16 val = *valptr;
+                            *outAsInt16 = val;
+                            outAsInt16++;
+                        }
+                        break;
+                        default:
+                        {
+                            // not managed here
+                        }
+                        break;
+                    }
+                }
+                else
+                {
+                    switch (dataClass)
+                    {
+                        case NLS_DOUBLE:
+                        case NLS_SINGLE:
+                        {
+                            *outAsSingle++ = 0;
+                        }
+                        break;
+                        case NLS_INT8:
+                        {
+                            *outAsInt8++ = 0;
+                        }
+                        break;
+                        case NLS_UINT8:
+                        {
+                            *outAsUInt8++ = 0;
+                        }
+                        break;
+                        case NLS_INT16:
+                        {
+                            *outAsInt16++ = 0;
+                        }
+                        break;
+                    }
+                }
+            }
+            data->_CurrentSample++;
+        }
+        if (data->_CurrentSample >= (data->_TotalSamples / data->_NumberOfChannels))
+        {
+            data->_CurrentSample = data->_TotalSamples;
+            data->_Running = false;
+            data->paStream = nullptr;
+            return 1;
+        }
+        return 0;
+    }
+    //=============================================================================
+    PaStream * AudioplayerObject::getStream()
+    {
+        return paStream;
+    }
+    //=============================================================================
+    bool AudioplayerObject::play()
+    {
+        if (paStream)
+        {
+			if (Pa_IsStreamStopped(paStream) == 1)
 			{
-				if (data->_CurrentSample < (data->_TotalSamples / data->_NumberOfChannels))
-				{
-					switch (dataClass)
-					{
-						case NLS_SINGLE:
-						{
-							single *valptr = ((single*)data->audioData.getDataPointer() + data->_CurrentSample);
-							valptr = valptr + (c * offset);
-							single val = *valptr;
-							*outAsSingle = val;
-							outAsSingle++;
-						}
-						break;
-						case NLS_DOUBLE:
-						{
-							double *valptr = ((double*)data->audioData.getDataPointer() + data->_CurrentSample);
-							valptr = valptr + (c * offset);
-							double val = *valptr;
-							*outAsSingle = (single)val;
-							outAsSingle++;
-						}
-						break;
-						case NLS_INT8:
-						{
-							int8 *valptr = ((int8*)data->audioData.getDataPointer() + data->_CurrentSample);
-							valptr = valptr + (c * offset);
-							int8 val = *valptr;
-							*outAsInt8 = val;
-							outAsInt8++;
-						}
-						break;
-						case NLS_UINT8:
-						{
-							uint8 *valptr = ((uint8*)data->audioData.getDataPointer() + data->_CurrentSample);
-							valptr = valptr + (c * offset);
-							uint8 val = *valptr;
-							*outAsUInt8 = val;
-							outAsUInt8++;
-						}
-						break;
-						case NLS_INT16:
-						{
-							int16 *valptr = ((int16*)data->audioData.getDataPointer() + data->_CurrentSample);
-							valptr = valptr + (c * offset);
-							int16 val = *valptr;
-							*outAsInt16 = val;
-							outAsInt16++;
-						}
-						break;
-						default:
-						{
-							// not managed here
-						}
-						break;
-					}
-				}
-				else
-				{
-					switch (dataClass)
-					{
-						case NLS_DOUBLE:
-						case NLS_SINGLE:
-						{
-							*outAsSingle++ = 0;
-						}
-						break;
-						case NLS_INT8:
-						{
-							*outAsInt8++ = 0;
-						}
-						break;
-						case NLS_UINT8:
-						{
-							*outAsUInt8++ = 0;
-						}
-						break;
-						case NLS_INT16:
-						{
-							*outAsInt16++ = 0;
-						}
-						break;
-					}
-				}
+				stop();
 			}
-			data->_CurrentSample++;
-		}
-		if (data->_CurrentSample >= (data->_TotalSamples / data->_NumberOfChannels))
-		{
-			data->_CurrentSample = data->_TotalSamples;
-			data->_Running = false;
-			return 1;
-		}
-		return 0;
-	}
-	//=============================================================================
-	PaStream * AudioplayerObject::getStream()
-	{
-		return paStream;
-	}
-	//=============================================================================
-	bool AudioplayerObject::play()
-	{
-		if (paStream)
-		{
-			_CurrentSample = 0;
-
-			if (Pa_IsStreamActive(paStream) != 1)
+			else
 			{
-				PaError	err = Pa_StartStream(paStream);
-				return (err == paNoError);
+				_Running = true;
+				return true;
 			}
-			else if (Pa_IsStreamStopped(paStream) == 1)
-			{
-				PaError	err = Pa_StartStream(paStream);
-				return (err == paNoError);
-
-			}
-		}
-		return false;
-	}
-	//=============================================================================
-	bool AudioplayerObject::pause()
-	{
-		return false;
-	}
-	//=============================================================================
-	bool AudioplayerObject::resume()
-	{
-		return false;
-	}
-	//=============================================================================
-	bool AudioplayerObject::stop()
-	{
-		return false;
-	}
-	//=============================================================================
+        }
+        _CurrentSample = 0;
+        PaError err = Pa_OpenStream(&paStream, 0, &(outputStreamParameters),
+                                    _SampleRate, 1024, paNoFlag, paPlayCallback, this);
+        if (err != paNoError)
+        {
+            paStream = nullptr;
+            return false;
+        }
+        err = Pa_StartStream(paStream);
+		_Running = true;
+		return (err == paNoError);
+    }
+    //=============================================================================
+    bool AudioplayerObject::pause()
+    {
+        if (paStream)
+        {
+            PaError err = Pa_StopStream(paStream);
+			_Running = false;
+            return (err == paNoError);
+        }
+        return false;
+    }
+    //=============================================================================
+    bool AudioplayerObject::resume()
+    {
+        if (paStream)
+        {
+            PaError err = Pa_StartStream(paStream);
+			_Running = true;
+            return (err == paNoError);
+        }
+        return false;
+    }
+    //=============================================================================
+    bool AudioplayerObject::stop()
+    {
+        _CurrentSample = 0;
+		_Running = false;
+        if (paStream)
+        {
+            if (!Pa_IsStreamStopped(paStream))
+            {
+                PaError err = Pa_AbortStream(paStream);
+                if (err == paNoError)
+                {
+                    err = Pa_CloseStream(paStream);
+                    paStream = nullptr;
+                    return (err == paNoError);
+                }
+                return (err == paNoError);
+            }
+            paStream = nullptr;
+        }
+        return true;
+    }
+    //=============================================================================
 }
 //=============================================================================

@@ -209,12 +209,18 @@
     <ClCompile Include="..\cpp\audioplayer_dispBuiltin.cpp" />
     <ClCompile Include="..\cpp\audioplayer_fieldnamesBuiltin.cpp" />
     <ClCompile Include="..\cpp\audioplayer_getBuiltin.cpp" />
+    <ClCompile Include="..\cpp\audioplayer_pauseBuiltin.cpp" />
+    <ClCompile Include="..\cpp\audioplayer_playBuiltin.cpp" />
     <ClCompile Include="..\cpp\audioplayer_propertiesBuiltin.cpp" />
+    <ClCompile Include="..\cpp\audioplayer_resumeBuiltin.cpp" />
     <ClCompile Include="..\cpp\audioplayer_setBuiltin.cpp" />
+    <ClCompile Include="..\cpp\audioplayer_stopBuiltin.cpp" />
     <ClCompile Include="..\cpp\audioplayer_usedBuiltin.cpp" />
     <ClCompile Include="..\cpp\beepBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\playBuiltin.cpp" />
+    <ClCompile Include="..\cpp\resumeBuiltin.cpp" />
+    <ClCompile Include="..\cpp\stopBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
@@ -224,12 +230,18 @@
     <ClInclude Include="..\include\audioplayer_dispBuiltin.hpp" />
     <ClInclude Include="..\include\audioplayer_fieldnamesBuiltin.hpp" />
     <ClInclude Include="..\include\audioplayer_getBuiltin.hpp" />
+    <ClInclude Include="..\include\audioplayer_pauseBuiltin.hpp" />
+    <ClInclude Include="..\include\audioplayer_playBuiltin.hpp" />
     <ClInclude Include="..\include\audioplayer_propertiesBuiltin.hpp" />
+    <ClInclude Include="..\include\audioplayer_resumeBuiltin.hpp" />
     <ClInclude Include="..\include\audioplayer_setBuiltin.hpp" />
+    <ClInclude Include="..\include\audioplayer_stopBuiltin.hpp" />
     <ClInclude Include="..\include\audioplayer_usedBuiltin.hpp" />
     <ClInclude Include="..\include\beepBuiltin.hpp" />
     <ClInclude Include="..\include\nlsAudio_builtin_exports.h" />
     <ClInclude Include="..\include\playBuiltin.hpp" />
+    <ClInclude Include="..\include\resumeBuiltin.hpp" />
+    <ClInclude Include="..\include\stopBuiltin.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

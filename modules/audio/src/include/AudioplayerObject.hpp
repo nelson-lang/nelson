@@ -48,14 +48,14 @@ namespace Nelson {
         bool setSamples(ArrayOf data, int SampleRate, int BitsPerSample, std::wstring &errorMessage);
         bool setSamples(ArrayOf data, int SampleRate, int BitsPerSample, int deviceID, std::wstring &errorMessage);
 
-		bool play();
-		bool pause();
-		bool resume();
-		bool stop();
+        bool play();
+        bool pause();
+        bool resume();
+        bool stop();
 
-	private:
+    private:
         wstringVector propertiesNames;
-		ArrayOf audioData;
+        ArrayOf audioData;
         int _SampleRate;
         int _BitsPerSample;
         int _NumberOfChannels;
@@ -66,7 +66,7 @@ namespace Nelson {
         std::wstring _Tag;
         ArrayOf _UserData;
         std::wstring _Type;
-		PaStream *paStream;
+        PaStream *paStream;
 
         // setter
         bool setSampleRate(int sr);
@@ -85,15 +85,17 @@ namespace Nelson {
         std::wstring getTag();
         Nelson::ArrayOf getUserData();
         std::wstring getType();
-		PaStream *getStream();
+        PaStream *getStream();
 
-		// callback
+        PaStreamParameters outputStreamParameters;
+
+        // callback
         static int paPlayCallback(const void *inputBuffer,
-			void *outputBuffer,
-			unsigned long framesPerBuffer,
-			const PaStreamCallbackTimeInfo* timeInfo,
-			PaStreamCallbackFlags statusFlags,
-			void *userData);
+                                  void *outputBuffer,
+                                  unsigned long framesPerBuffer,
+                                  const PaStreamCallbackTimeInfo* timeInfo,
+                                  PaStreamCallbackFlags statusFlags,
+                                  void *userData);
     };
     //=============================================================================
 }
