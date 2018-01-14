@@ -18,66 +18,83 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <portaudio.h>
 #include "ArrayOf.hpp"
 #include "HandleGenericObject.hpp"
 #include "nlsAudio_exports.h"
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-	//=============================================================================
-	#define AUDIOPLAYER_CATEGORY_STR L"audioplayer"
-	//=============================================================================
-	class NLSAUDIO_IMPEXP AudioplayerObject : public HandleGenericObject {
-	public:
-		AudioplayerObject();
-		~AudioplayerObject();
-		bool isWriteableProperty(std::wstring propertyName);
-		// getter
-		int getSampleRate();
-		int getBitsPerSample();
-		int getNumberOfChannels();
-		int getDeviceID();
-		int getCurrentSample();
-		int getTotalSamples();
-		bool getRunning();
-		Nelson::ArrayOf getStartFcn();
-		Nelson::ArrayOf getStopFcn();
-		Nelson::ArrayOf getTimerFcn();
-		double getTimerPeriod();
-		std::wstring getTag();
-		Nelson::ArrayOf getUserData();
-		std::wstring getType();
+    //=============================================================================
+#define AUDIOPLAYER_CATEGORY_STR L"audioplayer"
+    //=============================================================================
+    class NLSAUDIO_IMPEXP AudioplayerObject : public HandleGenericObject {
+    public:
+        AudioplayerObject();
+        ~AudioplayerObject();
+        bool isWriteableProperty(std::wstring propertyName);
 
-		// setter
-		bool setSampleRate(int sr);
-		bool setRunning(bool on);
-		bool setStartFcn(Nelson::ArrayOf funcHandle);
-		bool setStopFcn(Nelson::ArrayOf funcHandle);
-		bool setTimerFcn(Nelson::ArrayOf funcHandle);
-		bool setTimerPeriod(double period);
-		bool setTag(std::wstring tag);
-		bool setUserData(Nelson::ArrayOf userData);
+        // getter
+        bool get(std::wstring propertyName, ArrayOf &res);
 
-		// disp
-		bool disp(Evaluator *eval);
+        // setter
+        bool set(std::wstring propertyName, ArrayOf propertyValue, std::wstring &errorMessage);
+
+        // disp
+        bool disp(Evaluator *eval);
+        wstringVector fieldnames();
+
+        bool setSamples(ArrayOf data, int SampleRate, std::wstring &errorMessage);
+        bool setSamples(ArrayOf data, int SampleRate, int BitsPerSample, std::wstring &errorMessage);
+        bool setSamples(ArrayOf data, int SampleRate, int BitsPerSample, int deviceID, std::wstring &errorMessage);
+
+		bool play();
+		bool pause();
+		bool resume();
+		bool stop();
 
 	private:
-		int _SampleRate;
-		int _BitsPerSample;
-		int _NumberOfChannels;
-		int _DeviceID;
-		int _CurrentSample;
-		int _TotalSamples;
-		bool _Running;
-		ArrayOf _StartFcn;
-		ArrayOf _StopFcn;
-		ArrayOf _TimerFcn;
-		double _TimerPeriod;
-		std::wstring _Tag;
-		ArrayOf _UserData;
-		std::wstring _Type;
+        wstringVector propertiesNames;
+		ArrayOf audioData;
+        int _SampleRate;
+        int _BitsPerSample;
+        int _NumberOfChannels;
+        int _DeviceID;
+        int _CurrentSample;
+        int _TotalSamples;
+        bool _Running;
+        std::wstring _Tag;
+        ArrayOf _UserData;
+        std::wstring _Type;
+		PaStream *paStream;
 
-	};
-	//=============================================================================
+        // setter
+        bool setSampleRate(int sr);
+        bool setRunning(bool on);
+        bool setTag(std::wstring tag);
+        bool setUserData(Nelson::ArrayOf userData);
+
+        // getter
+        int getSampleRate();
+        int getBitsPerSample();
+        int getNumberOfChannels();
+        int getDeviceID();
+        int getCurrentSample();
+        int getTotalSamples();
+        bool getRunning();
+        std::wstring getTag();
+        Nelson::ArrayOf getUserData();
+        std::wstring getType();
+		PaStream *getStream();
+
+		// callback
+        static int paPlayCallback(const void *inputBuffer,
+			void *outputBuffer,
+			unsigned long framesPerBuffer,
+			const PaStreamCallbackTimeInfo* timeInfo,
+			PaStreamCallbackFlags statusFlags,
+			void *userData);
+    };
+    //=============================================================================
 }
 //=============================================================================

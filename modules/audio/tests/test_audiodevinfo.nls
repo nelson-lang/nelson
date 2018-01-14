@@ -59,12 +59,12 @@ R4 = audiodevinfo(INPUT_DEVICE, R3, 44100, 16, 2);
 assert_istrue(R4);
 //=============================================================================
 if audiodevinfo(OUTPUT_DEVICE) > 0
-  support = audiodevinfo(OUTPUT_DEVICE,audiodevinfo(OUTPUT_DEVICE),44100,16,2)
+  support = audiodevinfo(OUTPUT_DEVICE,audiodevinfo(OUTPUT_DEVICE),44100,16,2);
   assert_istrue(support);
 end
 //=============================================================================
 if audiodevinfo(OUTPUT_DEVICE) > 0
-  support = audiodevinfo(OUTPUT_DEVICE,audiodevinfo(OUTPUT_DEVICE),961000,16,2)
+  support = audiodevinfo(OUTPUT_DEVICE,audiodevinfo(OUTPUT_DEVICE),961000,16,2);
   assert_isfalse(support);
 end
 //=============================================================================

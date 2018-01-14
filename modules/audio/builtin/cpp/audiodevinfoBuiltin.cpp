@@ -50,9 +50,25 @@ ArrayOfVector Nelson::AudioGateway::audiodevinfoBuiltin(Evaluator* eval, int nLh
         case 1:
         {
             // devinfo = audiodevinfo(io)
+            // devinfo = audiodevinfo('default')
             ArrayOf param1 = argIn[0];
-            int io = param1.getContentAsInteger32Scalar();
-            res = AudioDevInfo(io, errorMessage);
+            if (param1.isString())
+            {
+                std::wstring str = param1.getContentAsWideString();
+                if (str == L"default")
+                {
+                    res = AudioDevInfoDefault(errorMessage);
+                }
+                else
+                {
+                    Error(eval, _W("Wrong value for #1 argument."));
+                }
+            }
+            else
+            {
+                int io = param1.getContentAsInteger32Scalar();
+                res = AudioDevInfo(io, errorMessage);
+            }
         }
         break;
         case 2:

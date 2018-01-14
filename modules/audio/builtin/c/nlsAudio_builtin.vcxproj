@@ -95,7 +95,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSAUDIO_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/audio/builtin/include;$(SolutionDir)modules/audi/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/audio/builtin/include;$(SolutionDir)modules/audio/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/portaudio/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
     </ClCompile>
@@ -113,7 +113,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSAUDIO_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/audio/builtin/include;$(SolutionDir)modules/audio/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/audio/builtin/include;$(SolutionDir)modules/audio/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/portaudio/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
     </ClCompile>
@@ -133,7 +133,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSAUDIO_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/audio/builtin/include;$(SolutionDir)modules/audio/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/audio/builtin/include;$(SolutionDir)modules/audio/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/portaudio/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
     </ClCompile>
@@ -155,7 +155,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSAUDIO_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/audio/builtin/include;$(SolutionDir)modules/audio/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/audio/builtin/include;$(SolutionDir)modules/audio/src/include;$(SolutionDir)modules/api_nelson/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/portaudio/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
     </ClCompile>
@@ -168,6 +168,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\api_nelson\src\c\nlsApi_nelson.vcxproj">
+      <Project>{1c76cdc6-19d8-429a-9ec1-817ad139f80d}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\error_manager\src\c\nlsError_manager.vcxproj">
       <Project>{d0ef0ceb-a3bd-44ab-91b3-f33db1870f8d}</Project>
     </ProjectReference>
@@ -206,10 +209,12 @@
     <ClCompile Include="..\cpp\audioplayer_dispBuiltin.cpp" />
     <ClCompile Include="..\cpp\audioplayer_fieldnamesBuiltin.cpp" />
     <ClCompile Include="..\cpp\audioplayer_getBuiltin.cpp" />
+    <ClCompile Include="..\cpp\audioplayer_propertiesBuiltin.cpp" />
     <ClCompile Include="..\cpp\audioplayer_setBuiltin.cpp" />
     <ClCompile Include="..\cpp\audioplayer_usedBuiltin.cpp" />
     <ClCompile Include="..\cpp\beepBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
+    <ClCompile Include="..\cpp\playBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
@@ -219,10 +224,12 @@
     <ClInclude Include="..\include\audioplayer_dispBuiltin.hpp" />
     <ClInclude Include="..\include\audioplayer_fieldnamesBuiltin.hpp" />
     <ClInclude Include="..\include\audioplayer_getBuiltin.hpp" />
+    <ClInclude Include="..\include\audioplayer_propertiesBuiltin.hpp" />
     <ClInclude Include="..\include\audioplayer_setBuiltin.hpp" />
     <ClInclude Include="..\include\audioplayer_usedBuiltin.hpp" />
     <ClInclude Include="..\include\beepBuiltin.hpp" />
     <ClInclude Include="..\include\nlsAudio_builtin_exports.h" />
+    <ClInclude Include="..\include\playBuiltin.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

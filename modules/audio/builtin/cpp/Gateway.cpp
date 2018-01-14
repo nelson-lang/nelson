@@ -27,6 +27,8 @@
 #include "audioplayer_deleteBuiltin.hpp"
 #include "audioplayer_usedBuiltin.hpp"
 #include "audioplayer_fieldnamesBuiltin.hpp"
+#include "audioplayer_propertiesBuiltin.hpp"
+#include "playBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -34,10 +36,15 @@ const std::wstring gatewayName = L"audio";
 //=============================================================================
 static const nlsGateway gateway[] =
 {
-	{ "beep", Nelson::AudioGateway::beepBuiltin, 1, 1 },
-	{ "audiodevinfo", Nelson::AudioGateway::audiodevinfoBuiltin, 1, -1 },
+    { "beep", Nelson::AudioGateway::beepBuiltin, 1, 1 },
+    { "audiodevinfo", Nelson::AudioGateway::audiodevinfoBuiltin, 1, -1 },
     { "audioplayer", Nelson::AudioGateway::audioplayerBuiltin, 1, -1 },
     { "audioplayer_disp", Nelson::AudioGateway::audioplayer_dispBuiltin, 0, 1 },
+    { "audioplayer_fieldnames", Nelson::AudioGateway::audioplayer_fieldnamesBuiltin, 1, 1 },
+    { "audioplayer_properties", Nelson::AudioGateway::audioplayer_propertiesBuiltin, 1, 1 },
+    { "audioplayer_get", Nelson::AudioGateway::audioplayer_getBuiltin, 1, 2 },
+    { "audioplayer_set", Nelson::AudioGateway::audioplayer_setBuiltin, 0, 3 },
+    { "play", Nelson::AudioGateway::playBuiltin, 0, 1 },
 };
 //=============================================================================
 static bool initializeAudioModule(Nelson::Evaluator* eval)

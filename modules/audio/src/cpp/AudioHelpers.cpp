@@ -18,6 +18,7 @@
 //=============================================================================
 #include <portaudio.h>
 #include "AudioHelpers.hpp"
+#include "AudioDevInfo.hpp"
 //=============================================================================
 namespace Nelson {
     //=============================================================================
@@ -31,6 +32,7 @@ namespace Nelson {
             if (err == paNoError)
             {
                 audioInitialized = true;
+                retrieveAudioDevicesInfo();
                 return audioInitialized;
             }
         }
@@ -45,6 +47,7 @@ namespace Nelson {
             PaError err = Pa_Terminate();
             if (err == paNoError)
             {
+                clearAudioDevicesInfo();
                 audioInitialized = false;
                 return true;
             }

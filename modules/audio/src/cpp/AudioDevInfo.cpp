@@ -22,15 +22,105 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-    class AudioDeviceInfo {
-    public:
-        int Id;
-        const PaDeviceInfo *padeviceInfo;
-    };
+    static boost::container::vector<AudioDeviceInfo> audioDevices;
     //=============================================================================
-    boost::container::vector<AudioDeviceInfo> retrieveAudioInfo()
+    boost::container::vector<AudioDeviceInfo> getAudioDevices()
     {
-        boost::container::vector<AudioDeviceInfo> infos;
+        if (audioDevices.empty())
+        {
+            retrieveAudioDevicesInfo();
+        }
+        return audioDevices;
+    }
+    //=============================================================================
+    void clearAudioDevicesInfo()
+    {
+        audioDevices.clear();
+    }
+    //=============================================================================
+    PaDeviceIndex getOutputDeviceIndex(int deviceID)
+    {
+        PaDeviceIndex idx = paNoDevice;
+        if (deviceID < -1)
+        {
+            idx = paNoDevice;
+        }
+        else
+        {
+            if (deviceID == -1)
+            {
+                idx = Pa_GetDefaultOutputDevice();
+            }
+            else
+            {
+                const PaDeviceInfo *pdi = nullptr;
+                for (AudioDeviceInfo dev : audioDevices)
+                {
+                    if (deviceID == dev.Id)
+                    {
+                        pdi = dev.padeviceInfo;
+                        break;
+                    }
+                }
+                if (pdi)
+                {
+                    for (PaDeviceIndex i = 0; i < Pa_GetDeviceCount(); i++)
+                    {
+                        const PaDeviceInfo *currentdeviceInfo = Pa_GetDeviceInfo(i);
+                        if (pdi == currentdeviceInfo)
+                        {
+                            return i;
+                        }
+                    }
+                }
+            }
+        }
+        return idx;
+    }
+    //=============================================================================
+    PaDeviceIndex getInputDeviceIndex(int deviceID)
+    {
+        PaDeviceIndex idx = paNoDevice;
+        if (deviceID < -1)
+        {
+            idx = paNoDevice;
+        }
+        else
+        {
+            if (deviceID == -1)
+            {
+                idx = Pa_GetDefaultInputDevice();
+            }
+            else
+            {
+                const PaDeviceInfo *pdi = nullptr;
+                for (AudioDeviceInfo dev : audioDevices)
+                {
+                    if (deviceID == dev.Id)
+                    {
+                        pdi = dev.padeviceInfo;
+                        break;
+                    }
+                }
+                if (pdi)
+                {
+                    for (PaDeviceIndex i = 0; i < Pa_GetDeviceCount(); i++)
+                    {
+                        const PaDeviceInfo *currentdeviceInfo = Pa_GetDeviceInfo(i);
+                        if (pdi == currentdeviceInfo)
+                        {
+                            return i;
+                        }
+                    }
+                }
+            }
+        }
+        return idx;
+    }
+    //=============================================================================
+    void retrieveAudioDevicesInfo()
+    {
+        audioDevices.clear();
         int k = 0;
         for (PaDeviceIndex i = 0; i < Pa_GetDeviceCount(); i++)
         {
@@ -44,24 +134,15 @@ namespace Nelson {
                     AudioDeviceInfo info;
                     info.Id = k;
                     info.padeviceInfo = deviceInfo;
-                    infos.push_back(info);
+                    audioDevices.push_back(info);
                     k++;
                 }
             }
         }
-        return infos;
     }
     //=============================================================================
     static ArrayOf getDevicesInfo(boost::container::vector<AudioDeviceInfo> infos, bool input, size_t nbInputs, size_t nbOutputs)
     {
-        stringVector structnames;
-        structnames.push_back("Name");
-        structnames.push_back("DriverVersion");
-        structnames.push_back("MaxChannels");
-        structnames.push_back("DefaultSampleRate");
-        structnames.push_back("DefaultLowLatency");
-        structnames.push_back("DefaultHighLatency");
-        structnames.push_back("ID");
         Dimensions dimsInOrOutputs;
         if (input)
         {
@@ -71,83 +152,98 @@ namespace Nelson {
         {
             dimsInOrOutputs[0] = nbOutputs;
         }
-        dimsInOrOutputs[1] = 1;
-        ArrayOf *InOrOutputs = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, dimsInOrOutputs.getElementCount(), structnames);
-        ArrayOf structInOrOuputs = ArrayOf(NLS_STRUCT_ARRAY, dimsInOrOutputs, InOrOutputs, false, structnames);
-        ArrayOfVector name;
-        ArrayOfVector driverversion;
-        ArrayOfVector maxchannels;
-        ArrayOfVector defaultsamplerate;
-        ArrayOfVector defaultlowlatency;
-        ArrayOfVector defaulthighlatency;
-        ArrayOfVector id;
-        name.reserve(dimsInOrOutputs.getElementCount());
-        driverversion.reserve(dimsInOrOutputs.getElementCount());
-        maxchannels.reserve(dimsInOrOutputs.getElementCount());
-        defaultsamplerate.reserve(dimsInOrOutputs.getElementCount());
-        defaultlowlatency.reserve(dimsInOrOutputs.getElementCount());
-        defaulthighlatency.reserve(dimsInOrOutputs.getElementCount());
-        id.reserve(dimsInOrOutputs.getElementCount());
-        for (AudioDeviceInfo info : infos)
+        ArrayOf structInOrOuputs;
+        if (dimsInOrOutputs[0] == 0)
         {
-            bool isInput = (info.padeviceInfo->maxInputChannels != 0);
-            bool isOutput = (info.padeviceInfo->maxOutputChannels != 0);
-            std::wstring deviceName = utf8_to_wstring(info.padeviceInfo->name);
-            const PaHostApiInfo *apiInfo = Pa_GetHostApiInfo(info.padeviceInfo->hostApi);
-            const char *driverVersion = apiInfo ? apiInfo->name : "";
-            std::wstring deviceDriverVersion = utf8_to_wstring(driverVersion);
-            if (input)
-            {
-                if (isInput)
-                {
-                    double maxChannels = (double)info.padeviceInfo->maxInputChannels;
-                    double defaultLowLatency = (double)info.padeviceInfo->defaultLowInputLatency;
-                    double defaultHighLatency = (double)info.padeviceInfo->defaultHighInputLatency;
-                    double defaultSampleRate = (double)info.padeviceInfo->defaultSampleRate;
-                    name.push_back(ArrayOf::stringConstructor(deviceName));
-                    driverversion.push_back(ArrayOf::stringConstructor(deviceDriverVersion));
-                    maxchannels.push_back(ArrayOf::doubleConstructor(maxChannels));
-                    defaultsamplerate.push_back(ArrayOf::doubleConstructor(defaultSampleRate));
-                    defaultlowlatency.push_back(ArrayOf::doubleConstructor(defaultLowLatency));
-                    defaulthighlatency.push_back(ArrayOf::doubleConstructor(defaultHighLatency));
-                    id.push_back(ArrayOf::doubleConstructor((double)info.Id));
-                }
-            }
-            else
-            {
-                if (isOutput)
-                {
-                    double maxChannels = (double)info.padeviceInfo->maxOutputChannels;
-                    double defaultLowLatency = (double)info.padeviceInfo->defaultLowOutputLatency;
-                    double defaultHighLatency = (double)info.padeviceInfo->defaultHighOutputLatency;
-                    double defaultSampleRate = (double)info.padeviceInfo->defaultSampleRate;
-                    name.push_back(ArrayOf::stringConstructor(deviceName));
-                    driverversion.push_back(ArrayOf::stringConstructor(deviceDriverVersion));
-                    defaultsamplerate.push_back(ArrayOf::doubleConstructor(defaultSampleRate));
-                    maxchannels.push_back(ArrayOf::doubleConstructor(maxChannels));
-                    defaultlowlatency.push_back(ArrayOf::doubleConstructor(defaultLowLatency));
-                    defaulthighlatency.push_back(ArrayOf::doubleConstructor(defaultHighLatency));
-                    id.push_back(ArrayOf::doubleConstructor((double)info.Id));
-                }
-            }
+            structInOrOuputs = ArrayOf::emptyConstructor();
         }
-        structInOrOuputs.setFieldAsList("Name", name);
-        structInOrOuputs.setFieldAsList("DriverVersion", driverversion);
-        structInOrOuputs.setFieldAsList("MaxChannels", maxchannels);
-        structInOrOuputs.setFieldAsList("DefaultSampleRate", defaultsamplerate);
-        structInOrOuputs.setFieldAsList("DefaultLowLatency", defaultlowlatency);
-        structInOrOuputs.setFieldAsList("DefaultHighLatency", defaulthighlatency);
-        structInOrOuputs.setFieldAsList("ID", id);
+        else
+        {
+            stringVector structnames;
+            structnames.push_back("Name");
+            structnames.push_back("DriverVersion");
+            structnames.push_back("MaxChannels");
+            structnames.push_back("DefaultSampleRate");
+            structnames.push_back("DefaultLowLatency");
+            structnames.push_back("DefaultHighLatency");
+            structnames.push_back("ID");
+            dimsInOrOutputs[1] = 1;
+            ArrayOf *InOrOutputs = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, dimsInOrOutputs.getElementCount(), structnames);
+            structInOrOuputs = ArrayOf(NLS_STRUCT_ARRAY, dimsInOrOutputs, InOrOutputs, false, structnames);
+            ArrayOfVector name;
+            ArrayOfVector driverversion;
+            ArrayOfVector maxchannels;
+            ArrayOfVector defaultsamplerate;
+            ArrayOfVector defaultlowlatency;
+            ArrayOfVector defaulthighlatency;
+            ArrayOfVector id;
+            name.reserve(dimsInOrOutputs.getElementCount());
+            driverversion.reserve(dimsInOrOutputs.getElementCount());
+            maxchannels.reserve(dimsInOrOutputs.getElementCount());
+            defaultsamplerate.reserve(dimsInOrOutputs.getElementCount());
+            defaultlowlatency.reserve(dimsInOrOutputs.getElementCount());
+            defaulthighlatency.reserve(dimsInOrOutputs.getElementCount());
+            id.reserve(dimsInOrOutputs.getElementCount());
+            for (AudioDeviceInfo info : infos)
+            {
+                bool isInput = (info.padeviceInfo->maxInputChannels != 0);
+                bool isOutput = (info.padeviceInfo->maxOutputChannels != 0);
+                std::wstring deviceName = utf8_to_wstring(info.padeviceInfo->name);
+                const PaHostApiInfo *apiInfo = Pa_GetHostApiInfo(info.padeviceInfo->hostApi);
+                const char *driverVersion = apiInfo ? apiInfo->name : "";
+                std::wstring deviceDriverVersion = utf8_to_wstring(driverVersion);
+                if (input)
+                {
+                    if (isInput)
+                    {
+                        double maxChannels = (double)info.padeviceInfo->maxInputChannels;
+                        double defaultLowLatency = (double)info.padeviceInfo->defaultLowInputLatency;
+                        double defaultHighLatency = (double)info.padeviceInfo->defaultHighInputLatency;
+                        double defaultSampleRate = (double)info.padeviceInfo->defaultSampleRate;
+                        name.push_back(ArrayOf::stringConstructor(deviceName));
+                        driverversion.push_back(ArrayOf::stringConstructor(deviceDriverVersion));
+                        maxchannels.push_back(ArrayOf::doubleConstructor(maxChannels));
+                        defaultsamplerate.push_back(ArrayOf::doubleConstructor(defaultSampleRate));
+                        defaultlowlatency.push_back(ArrayOf::doubleConstructor(defaultLowLatency));
+                        defaulthighlatency.push_back(ArrayOf::doubleConstructor(defaultHighLatency));
+                        id.push_back(ArrayOf::doubleConstructor((double)info.Id));
+                    }
+                }
+                else
+                {
+                    if (isOutput)
+                    {
+                        double maxChannels = (double)info.padeviceInfo->maxOutputChannels;
+                        double defaultLowLatency = (double)info.padeviceInfo->defaultLowOutputLatency;
+                        double defaultHighLatency = (double)info.padeviceInfo->defaultHighOutputLatency;
+                        double defaultSampleRate = (double)info.padeviceInfo->defaultSampleRate;
+                        name.push_back(ArrayOf::stringConstructor(deviceName));
+                        driverversion.push_back(ArrayOf::stringConstructor(deviceDriverVersion));
+                        defaultsamplerate.push_back(ArrayOf::doubleConstructor(defaultSampleRate));
+                        maxchannels.push_back(ArrayOf::doubleConstructor(maxChannels));
+                        defaultlowlatency.push_back(ArrayOf::doubleConstructor(defaultLowLatency));
+                        defaulthighlatency.push_back(ArrayOf::doubleConstructor(defaultHighLatency));
+                        id.push_back(ArrayOf::doubleConstructor((double)info.Id));
+                    }
+                }
+            }
+            structInOrOuputs.setFieldAsList("Name", name);
+            structInOrOuputs.setFieldAsList("DriverVersion", driverversion);
+            structInOrOuputs.setFieldAsList("MaxChannels", maxchannels);
+            structInOrOuputs.setFieldAsList("DefaultSampleRate", defaultsamplerate);
+            structInOrOuputs.setFieldAsList("DefaultLowLatency", defaultlowlatency);
+            structInOrOuputs.setFieldAsList("DefaultHighLatency", defaulthighlatency);
+            structInOrOuputs.setFieldAsList("ID", id);
+        }
         return structInOrOuputs;
     }
     //=============================================================================
     ArrayOf AudioDevInfo(std::wstring &errorMessage)
     {
         errorMessage = L"";
-        boost::container::vector<AudioDeviceInfo> infos = retrieveAudioInfo();
         size_t nbInputs = 0;
         size_t nbOutputs = 0;
-        for (AudioDeviceInfo info:infos)
+        for (AudioDeviceInfo info: audioDevices)
         {
             if (info.padeviceInfo->maxInputChannels != 0)
             {
@@ -158,8 +254,62 @@ namespace Nelson {
                 nbOutputs++;
             }
         }
-        ArrayOf structInputs = getDevicesInfo(infos, true, nbInputs, nbOutputs);
-        ArrayOf structOutputs = getDevicesInfo(infos, false, nbInputs, nbOutputs);
+        ArrayOf structInputs = getDevicesInfo(audioDevices, true, nbInputs, nbOutputs);
+        ArrayOf structOutputs = getDevicesInfo(audioDevices, false, nbInputs, nbOutputs);
+        stringVector fieldnames;
+        ArrayOfVector fieldvalues;
+        fieldnames.push_back("input");
+        fieldnames.push_back("output");
+        fieldvalues.push_back(structInputs);
+        fieldvalues.push_back(structOutputs);
+        return ArrayOf::structConstructor(fieldnames, fieldvalues);
+    }
+    //=============================================================================
+    ArrayOf AudioDevInfoDefault(std::wstring &errorMessage)
+    {
+        errorMessage = L"";
+        PaDeviceIndex defaultOutput = Pa_GetDefaultOutputDevice();
+        boost::container::vector<AudioDeviceInfo> infoOutput;
+        if (defaultOutput != paNoDevice)
+        {
+            const PaDeviceInfo *pdi_output = Pa_GetDeviceInfo(defaultOutput);
+            if (pdi_output)
+            {
+                for (AudioDeviceInfo element : audioDevices)
+                {
+                    if (element.padeviceInfo == pdi_output)
+                    {
+                        AudioDeviceInfo outputDevice;
+                        outputDevice.padeviceInfo = pdi_output;
+                        outputDevice.Id = element.Id;
+                        infoOutput.push_back(outputDevice);
+                        break;
+                    }
+                }
+            }
+        }
+        PaDeviceIndex defaultInput = Pa_GetDefaultInputDevice();
+        boost::container::vector<AudioDeviceInfo> infoInput;
+        if (defaultInput != paNoDevice)
+        {
+            const PaDeviceInfo *pdi_input = Pa_GetDeviceInfo(defaultInput);
+            if (pdi_input)
+            {
+                for (AudioDeviceInfo element : audioDevices)
+                {
+                    if (element.padeviceInfo == pdi_input)
+                    {
+                        AudioDeviceInfo inputDevice;
+                        inputDevice.padeviceInfo = pdi_input;
+                        inputDevice.Id = element.Id;
+                        infoInput.push_back(inputDevice);
+                        break;
+                    }
+                }
+            }
+        }
+        ArrayOf structInputs = getDevicesInfo(infoInput, true, infoInput.size(), 0);
+        ArrayOf structOutputs = getDevicesInfo(infoOutput, false, 0, infoOutput.size());
         stringVector fieldnames;
         ArrayOfVector fieldvalues;
         fieldnames.push_back("input");
@@ -175,8 +325,7 @@ namespace Nelson {
         if (io == 0 || io == 1)
         {
             int res = 0;
-            boost::container::vector<AudioDeviceInfo> infos = retrieveAudioInfo();
-            for (AudioDeviceInfo info : infos)
+            for (AudioDeviceInfo info : audioDevices)
             {
                 if (io == 0) // output
                 {
@@ -220,9 +369,8 @@ namespace Nelson {
         errorMessage = L"";
         if (io == 0 || io == 1)
         {
-            boost::container::vector<AudioDeviceInfo> infos = retrieveAudioInfo();
             AudioDeviceInfo infoFound;
-            if (getDeviceInfoById(infos, id, infoFound))
+            if (getDeviceInfoById(audioDevices, id, infoFound))
             {
                 if (io == 1)
                 {
@@ -289,9 +437,8 @@ namespace Nelson {
         errorMessage = L"";
         if (io == 0 || io == 1)
         {
-            boost::container::vector<AudioDeviceInfo> infos = retrieveAudioInfo();
             AudioDeviceInfo infoFound;
-            if (!getDeviceInfoByName(infos, io, name, infoFound))
+            if (!getDeviceInfoByName(audioDevices, io, name, infoFound))
             {
                 errorMessage = _W("Wrong value for #1 or #2 argument.");
             }
@@ -312,9 +459,8 @@ namespace Nelson {
         errorMessage = L"";
         if (io == 0 || io == 1)
         {
-            boost::container::vector<AudioDeviceInfo> infos = retrieveAudioInfo();
             AudioDeviceInfo infoFound;
-            if (getDeviceInfoById(infos, id, infoFound))
+            if (getDeviceInfoById(audioDevices, id, infoFound))
             {
                 if (io == 1)
                 {
@@ -436,9 +582,8 @@ namespace Nelson {
         errorMessage = L"";
         if (io == 0 || io == 1)
         {
-            boost::container::vector<AudioDeviceInfo> infos = retrieveAudioInfo();
             AudioDeviceInfo deviceFound;
-            if (searchAudioDevice(infos, io, rate, bits, chans, deviceFound))
+            if (searchAudioDevice(audioDevices, io, rate, bits, chans, deviceFound))
             {
                 return ArrayOf::doubleConstructor((double)deviceFound.Id);
             }
@@ -457,13 +602,13 @@ namespace Nelson {
     static bool supportAudioDevice(const PaDeviceInfo *padeviceInfo, int io, int id, int rate, PaSampleFormat format, int chans)
     {
         PaStreamParameters streamParameters;
-        streamParameters.device = id;
         streamParameters.channelCount = chans;
         streamParameters.sampleFormat = format;
         streamParameters.suggestedLatency = padeviceInfo->defaultLowInputLatency;
         streamParameters.hostApiSpecificStreamInfo = 0;
         if (io == 0)
         {
+            streamParameters.device = getOutputDeviceIndex(id);
             if (padeviceInfo->maxOutputChannels < chans)
             {
                 return false;
@@ -476,6 +621,7 @@ namespace Nelson {
         }
         else if (io == 1)
         {
+            streamParameters.device = getInputDeviceIndex(id);
             if (padeviceInfo->maxInputChannels < chans)
             {
                 return false;
@@ -494,10 +640,9 @@ namespace Nelson {
         errorMessage = L"";
         if (io == 0 || io == 1)
         {
-            boost::container::vector<AudioDeviceInfo> infos = retrieveAudioInfo();
             PaSampleFormat format = bitsToFormat(bits);
             const PaDeviceInfo *padeviceInfo = nullptr;
-            for (AudioDeviceInfo info : infos)
+            for (AudioDeviceInfo info : audioDevices)
             {
                 if (info.Id == id)
                 {
