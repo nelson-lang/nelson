@@ -41,7 +41,7 @@ namespace Nelson {
     const unsigned int NLS_KEYWORD_FOR = 7;
     const unsigned int NLS_KEYWORD_FUNCTION = 8;
     const unsigned int NLS_KEYWORD_IF = 9;
-    const unsigned int NLS_KEYWORD_PAUSE = 10;
+    const unsigned int NLS_KEYWORD_KEYBOARD = 10;
     const unsigned int NLS_KEYWORD_OTHERWISE = 11;
     const unsigned int NLS_KEYWORD_QUIT = 12;
     const unsigned int NLS_KEYWORD_ABORT = 13;

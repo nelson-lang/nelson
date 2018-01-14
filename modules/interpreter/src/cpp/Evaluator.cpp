@@ -1552,20 +1552,20 @@ namespace Nelson {
     //return_func(5,2)
     //@>
     //In the second example, we take the function and rewrite
-    //it to use a @|pause| statement inside the @|if| statement.
+    //it to use a @|keyboard| statement inside the @|if| statement.
     //@{ return_func2.m
     //function ret = return_func2(a,b)
     //  if (a > b)
     //     ret = 'a is greater';
-    //     pause;
+    //     keyboard;
     //  else
     //     ret = 'b is greater';
     //  end
     //  printf('finishing up...\n');
     //@}
     //Now, we call the function with a larger first argument, which
-    //triggers the @|pause| session.  After verifying a few
-    //values inside the @|pause| session, we issue a @|return|
+    //triggers the @|keyboard| session.  After verifying a few
+    //values inside the @|keyboard| session, we issue a @|return|
     //statement to resume execution.
     //@<
     //return_func2(2,4)
@@ -1589,13 +1589,13 @@ namespace Nelson {
     //!
 
     //!
-    //@Module ABORT Return From All pause Sessions
+    //@Module ABORT Return From All keyboard Sessions
     //@@Section FLOW
     //@@Usage
     //The @|abort| statement is used to return to the base workspace
-    //from a nested @|pause| session.  It is equivalent to forcing
+    //from a nested @|keyboard| session.  It is equivalent to forcing
     //execution to return to the main prompt, regardless of the level
-    //of nesting of @|pause| sessions, or which functions are
+    //of nesting of @|keyboard| sessions, or which functions are
     //running.  The syntax is simple
     //@[
     //   abort
@@ -1610,9 +1610,9 @@ namespace Nelson {
     //Here we demonstrate an extreme example of @|abort|.  We
     //are debugging a recursive function @|self| to calculate the sum
     //of the first N integers.  When the function is called,
-    //a @|pause| session is initiated after the function
-    //has called itself N times.  At this @|pause| prompt,
-    //we issue another call to @|self| and get another @|pause|
+    //a @|keyboard| session is initiated after the function
+    //has called itself N times.  At this @|keyboard| prompt,
+    //we issue another call to @|self| and get another @|keyboard|
     //prompt, this time with a depth of 2.  A @|abort| statement
     //returns us to the top level without executing the remainder
     //of either the first or second call to @|self|:
@@ -1624,7 +1624,7 @@ namespace Nelson {
     //  else
     //    y = 1;
     //    printf('y is initialized to one\n');
-    //    pause
+    //    keyboard
     //  end
     //@}
     //@<
@@ -1635,18 +1635,18 @@ namespace Nelson {
     //!
 
     //!
-    //@Module PAUSE Initiate Interactive Debug Session
+    //@Module keyboard Initiate Interactive Debug Session
     //@@Section FLOW
     //@@Usage
-    //The @|pause| statement is used to initiate an
+    //The @|keyboard| statement is used to initiate an
     //interactive session at a specific point in a function.
-    //The general syntax for the @|pause| statement is
+    //The general syntax for the @|keyboard| statement is
     //@[
-    //   pause
+    //   keyboard
     //@]
-    //A @|pause| statement can be issued in a @|script|,
+    //A @|keyboard| statement can be issued in a @|script|,
     //in a @|function|, or from within another @|pause| session.
-    //The result of a @|pause| statement is that execution
+    //The result of a @|keyboard| statement is that execution
     //of the program is halted, and you are given a prompt
     //of the form:
     //@[
@@ -1654,8 +1654,8 @@ namespace Nelson {
     //@]
     //where @|scope| is the current scope of execution (either
     //the name of the function we are executing, or @|base| otherwise).
-    //And @|n| is the depth of the @|pause| session. If, for example,
-    //we are in a @|pause| session, and we call a function that issues
+    //And @|n| is the depth of the @|keyboard| session. If, for example,
+    //we are in a @|keyboard| session, and we call a function that issues
     //another @|pause| session, the depth of that second session
     //will be one higher.  Put another way, @|n| is the number of @|return|
     //statements you have to issue to get back to the base workspace.
@@ -1671,15 +1671,15 @@ namespace Nelson {
     //more traditional environments, but with significantly more inspection
     //power.
     //@@Example
-    //Here we demonstrate a two-level @|pause| situation.  We have
-    //a simple function that calls @|pause| internally:
+    //Here we demonstrate a two-level @|keyboard| situation.  We have
+    //a simple function that calls @|keyboard| internally:
     //@{ key_one.m
     //function c = key_one(a,b)
     //c = a + b;
-    //pause
+    //keyboard
     //@}
     //Now, we execute the function from the base workspace, and
-    //at the @|pause| prompt, we call it again.  This action
+    //at the @|keyboard| prompt, we call it again.  This action
     //puts us at depth 2.  We can confirm that we are in the second
     //invocation of the function by examining the arguments.  We
     //then issue two @|return| statements to return to the base
@@ -1897,7 +1897,7 @@ namespace Nelson {
                         depth = 0;
                     }
                     break;
-                case NLS_KEYWORD_PAUSE:
+                case NLS_KEYWORD_KEYBOARD:
                     depth++;
                     evalCLI();
                     if (state < NLS_STATE_QUIT)
@@ -2827,7 +2827,7 @@ namespace Nelson {
     //caller.  That means that a function can freely define and use variables
     //without unintentionally using a variable name reserved elsewhere.  The
     //flip side of this fact is that functions are harder to debug than
-    //scripts without using the @|pause| function, because the intermediate
+    //scripts without using the @|keyboard| function, because the intermediate
     //calculations used in the function are not available once the function
     //exits.
     //@@Examples

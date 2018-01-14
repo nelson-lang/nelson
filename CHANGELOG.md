@@ -1,9 +1,19 @@
 Features:
 ---------
 
+  * pause: pause script execution.
+  * keyboard: stop script execution and enter in debug mode.
+
   * Audio module:
     * beep: do a beep sound.
     * audiodevinfo: Information about audio device.
+    * audioplayer: creates an audio player object.
+    * play: plays audio object.
+    * playblocking: plays audio object and block execution until finish.
+    * pause: pauses audio object.
+    * stop: stops audio object.
+    * resume: resumes audio object.
+    * isplaying: returns if audio object is playing.
 
   * JSON module: 
     * jsonencode: encodes a Nelson object into a JSON string.

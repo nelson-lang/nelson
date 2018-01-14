@@ -59,7 +59,7 @@ enum yytokentype
     FIELD = 287,
     REFLPAREN = 288,
     REFRPAREN = 289,
-    PAUSE = 290,
+    KEYBOARD = 290,
     RETURN = 291,
     VARARGIN = 292,
     VARARGOUT = 293,
@@ -107,7 +107,7 @@ enum yytokentype
 #define FIELD  287
 #define REFLPAREN  288
 #define REFRPAREN  289
-#define PAUSE  290
+#define KEYBOARD  290
 #define RETURN  291
 #define VARARGIN  292
 #define VARARGOUT  293

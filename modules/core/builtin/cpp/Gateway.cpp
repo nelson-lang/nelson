@@ -32,6 +32,7 @@
 #include "prefdirBuiltin.hpp"
 #include "GetPreferencesPath.hpp"
 #include "maxNumCompThreadsBuiltin.hpp"
+#include "pauseBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -53,6 +54,7 @@ static const nlsGateway gateway[] =
     { "nargout", Nelson::CoreGateway::nargoutBuiltin, 1, 1 },
     { "prefdir", Nelson::CoreGateway::prefdirBuiltin, 1, 0 },
     { "maxNumCompThreads", Nelson::CoreGateway::maxNumCompThreadsBuiltin, 1, -1},
+    { "pause", Nelson::CoreGateway::pauseBuiltin, 1, 1 },
 };
 //=============================================================================
 NLSGATEWAYNAME()

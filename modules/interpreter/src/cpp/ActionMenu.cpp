@@ -37,7 +37,7 @@ namespace Nelson {
         Evaluator *eval = (Evaluator *)GetNelsonMainEvaluatorDynamicFunction();
         if (eval)
         {
-            eval->addCommandToQueue(L"help;");
+            eval->addCommandToQueue(L"doc;");
         }
     }
     //=============================================================================
@@ -46,7 +46,7 @@ namespace Nelson {
         Evaluator *eval = (Evaluator *)GetNelsonMainEvaluatorDynamicFunction();
         if (eval)
         {
-            eval->addCommandToQueue(L"pause;");
+            eval->addCommandToQueue(L"keyboard;");
         }
     }
     //=============================================================================

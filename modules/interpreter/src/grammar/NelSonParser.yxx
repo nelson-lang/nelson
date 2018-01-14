@@ -126,7 +126,7 @@ using namespace Nelson;
 %token SWITCH CASE OTHERWISE CONTINUE
 %token TRY CATCH
 %token FIELD REFLPAREN REFRPAREN
-%token PAUSE RETURN VARARGIN VARARGOUT
+%token KEYBOARD RETURN VARARGIN VARARGOUT
 %token QUIT ABORT
 %token ENDFUNCTION
 
@@ -309,7 +309,7 @@ returnStatement:
   ;
 
 pauseStatement:
-  PAUSE
+  KEYBOARD
   ;
 
 continueStatement:
