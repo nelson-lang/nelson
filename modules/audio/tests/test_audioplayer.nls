@@ -18,6 +18,7 @@
 //=============================================================================
 json_audio = [modulepath('audio'), '/tests/test_audioplayer.json'];
 st = jsondecode(fileread(json_audio));
+//=============================================================================
 r = audioplayer(st.y, st.fs);
 f = fieldnames(r);
 ref = {'SampleRate'; 'BitsPerSample'; 'NumberOfChannels'; 'DeviceID'; 'CurrentSample'; 'TotalSamples'; 'Running'; 'Tag'; 'UserData'; 'Type'};
@@ -48,4 +49,15 @@ resume(r)
 assert_istrue(isplaying(r))
 stop(r)
 assert_isfalse(isplaying(r))
+//=============================================================================
+Y = [st.y, st.y];
+r = audioplayer(Y, st.fs);
+play(r);
+sleep(5);
+stop(r)
+//=============================================================================
+r = audioplayer(Y', st.fs);
+play(r);
+sleep(5);
+stop(r)
 //=============================================================================

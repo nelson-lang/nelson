@@ -17,6 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "AudioplayerObject.hpp"
+#include "ComplexTranspose.hpp"
 #include "ClassName.hpp"
 #include "AudioDevInfo.hpp"
 #include "characters_encoding.hpp"
@@ -58,6 +59,7 @@ namespace Nelson {
     //=============================================================================
     AudioplayerObject::~AudioplayerObject()
     {
+        stop();
         propertiesNames.clear();
         _SampleRate = 0;
         _BitsPerSample = 0;
@@ -388,20 +390,32 @@ namespace Nelson {
                 errorMessage = _W("Empty matrix not allowed.");
                 return false;
             }
-            if (!data.isDoubleType())
+            if (!data.is2D() && !data.isVector())
             {
-                errorMessage = _W("double type expected.");
+                errorMessage = _W("Vector or matrix 2D expected.");
                 return false;
             }
-            _SampleRate = SampleRate;
-            _BitsPerSample = BitsPerSample;
-            audioData = data;
-            audioData.ensureSingleOwner();
-            _NumberOfChannels = 1;
-            _TotalSamples = audioData.getDimensions().getElementCount() / _NumberOfChannels;
+            indexType rows = data.getDimensions().getRows();
+            indexType columns = data.getDimensions().getColumns();
+            if (columns > rows)
+            {
+                audioData = ComplexTranspose(data);
+            }
+            else
+            {
+                audioData = data;
+            }
+            rows = audioData.getDimensions().getRows();
+            columns = audioData.getDimensions().getColumns();
+            _NumberOfChannels = columns;
+            if (_NumberOfChannels > pdi_output->maxOutputChannels)
+            {
+                errorMessage = _W("Too many output channels.");
+                return false;
+            }
             outputStreamParameters.device = outputIndex;
             outputStreamParameters.channelCount = _NumberOfChannels;
-            switch (data.getDataClass())
+            switch (audioData.getDataClass())
             {
                 case NLS_DOUBLE:
                 {
@@ -435,6 +449,9 @@ namespace Nelson {
                 }
                 break;
             }
+            _SampleRate = SampleRate;
+            _BitsPerSample = BitsPerSample;
+            _TotalSamples = (int)(audioData.getDimensions().getElementCount() / _NumberOfChannels);
             outputStreamParameters.suggestedLatency = Pa_GetDeviceInfo(outputStreamParameters.device)->defaultLowOutputLatency;
             outputStreamParameters.hostApiSpecificStreamInfo = NULL;
             PaError err = Pa_IsFormatSupported(0, &(outputStreamParameters), SampleRate);
@@ -482,46 +499,41 @@ namespace Nelson {
                     {
                         case NLS_SINGLE:
                         {
-                            single *valptr = ((single*)data->audioData.getDataPointer() + data->_CurrentSample);
-                            valptr = valptr + (c * offset);
-                            single val = *valptr;
-                            *outAsSingle = val;
+                            single *ptrData = (single*)data->audioData.getDataPointer();
+                            single val = ptrData[data->_CurrentSample + (c * data->_TotalSamples)];
+                            *outAsSingle = (single)val;
                             outAsSingle++;
                         }
                         break;
                         case NLS_DOUBLE:
                         {
-                            double *valptr = ((double*)data->audioData.getDataPointer() + data->_CurrentSample);
-                            valptr = valptr + (c * offset);
-                            double val = *valptr;
+                            double *ptrData = (double*)data->audioData.getDataPointer();
+                            double val = ptrData[data->_CurrentSample + (c * data->_TotalSamples)];
                             *outAsSingle = (single)val;
                             outAsSingle++;
                         }
                         break;
                         case NLS_INT8:
                         {
-                            int8 *valptr = ((int8*)data->audioData.getDataPointer() + data->_CurrentSample);
-                            valptr = valptr + (c * offset);
-                            int8 val = *valptr;
-                            *outAsInt8 = val;
+                            int8 *ptrData = (int8*)data->audioData.getDataPointer();
+                            int8 val = ptrData[data->_CurrentSample + (c * data->_TotalSamples)];
+                            *outAsInt8 = (int8)val;
                             outAsInt8++;
                         }
                         break;
                         case NLS_UINT8:
                         {
-                            uint8 *valptr = ((uint8*)data->audioData.getDataPointer() + data->_CurrentSample);
-                            valptr = valptr + (c * offset);
-                            uint8 val = *valptr;
-                            *outAsUInt8 = val;
+                            uint8 *ptrData = (uint8*)data->audioData.getDataPointer();
+                            uint8 val = ptrData[data->_CurrentSample + (c * data->_TotalSamples)];
+                            *outAsUInt8 = (uint8)val;
                             outAsUInt8++;
                         }
                         break;
                         case NLS_INT16:
                         {
-                            int16 *valptr = ((int16*)data->audioData.getDataPointer() + data->_CurrentSample);
-                            valptr = valptr + (c * offset);
-                            int16 val = *valptr;
-                            *outAsInt16 = val;
+                            int16 *ptrData = (int16*)data->audioData.getDataPointer();
+                            int16 val = ptrData[data->_CurrentSample + (c * data->_TotalSamples)];
+                            *outAsInt16 = (int16)val;
                             outAsInt16++;
                         }
                         break;
@@ -581,15 +593,15 @@ namespace Nelson {
     {
         if (paStream)
         {
-			if (Pa_IsStreamStopped(paStream) == 1)
-			{
-				stop();
-			}
-			else
-			{
-				_Running = true;
-				return true;
-			}
+            if (Pa_IsStreamStopped(paStream) == 1)
+            {
+                stop();
+            }
+            else
+            {
+                _Running = true;
+                return true;
+            }
         }
         _CurrentSample = 0;
         PaError err = Pa_OpenStream(&paStream, 0, &(outputStreamParameters),
@@ -600,8 +612,8 @@ namespace Nelson {
             return false;
         }
         err = Pa_StartStream(paStream);
-		_Running = true;
-		return (err == paNoError);
+        _Running = true;
+        return (err == paNoError);
     }
     //=============================================================================
     bool AudioplayerObject::pause()
@@ -609,7 +621,7 @@ namespace Nelson {
         if (paStream)
         {
             PaError err = Pa_StopStream(paStream);
-			_Running = false;
+            _Running = false;
             return (err == paNoError);
         }
         return false;
@@ -620,7 +632,7 @@ namespace Nelson {
         if (paStream)
         {
             PaError err = Pa_StartStream(paStream);
-			_Running = true;
+            _Running = true;
             return (err == paNoError);
         }
         return false;
@@ -629,7 +641,7 @@ namespace Nelson {
     bool AudioplayerObject::stop()
     {
         _CurrentSample = 0;
-		_Running = false;
+        _Running = false;
         if (paStream)
         {
             if (!Pa_IsStreamStopped(paStream))
