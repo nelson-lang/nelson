@@ -122,3 +122,9 @@ PortAudio is a free, cross-platform, open-source, audio I/O library
 http://www.portaudio.com/
 http://www.portaudio.com/license.html
 MIT license
+
+libsndfile
+Libsndfile is a C library for reading and writing files containing sampled sound.
+http://www.mega-nerd.com/libsndfile/
+https://github.com/erikd/libsndfile/blob/master/COPYING
+LGPL
