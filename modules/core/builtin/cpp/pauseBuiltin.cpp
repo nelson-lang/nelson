@@ -39,148 +39,149 @@ ArrayOfVector Nelson::CoreGateway::pauseBuiltin(Evaluator* eval, int nLhs, const
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-	if (argIn.size() == 0)
-	{
-		if (nLhs == 1)
-		{
-			if (pauseOn)
-			{
-				retval.push_back(ArrayOf::stringConstructor(L"on"));
-			}
-			else
-			{
-				retval.push_back(ArrayOf::stringConstructor(L"off"));
-			}
-			return retval;
-		}
-		Interface *io = eval->getInterface();
-		if (io)
-		{
-			io->getInput(L"");
-		}
-	}
-	else
-	{
-		ArrayOf param1 = argIn[0];
-		if (param1.isSingleString())
-		{
-			std::wstring arg1Value = param1.getContentAsWideString();
-			if (arg1Value == L"on" || arg1Value == L"off" || arg1Value == L"query")
-			{
-				bool previousValue = pauseOn;
-				if (arg1Value == L"on")
-				{
-					pauseOn = true;
-					if (nLhs == 1)
-					{
-						if (previousValue)
-						{
-							retval.push_back(ArrayOf::stringConstructor(L"on"));
-						}
-						else
-						{
-							retval.push_back(ArrayOf::stringConstructor(L"off"));
-						}
-						return retval;
-					}
-				}
-				else if (arg1Value == L"off")
-				{
-					pauseOn = false;
-					if (nLhs == 1)
-					{
-						if (previousValue)
-						{
-							retval.push_back(ArrayOf::stringConstructor(L"on"));
-						}
-						else
-						{
-							retval.push_back(ArrayOf::stringConstructor(L"off"));
-						}
-						return retval;
-					}
-				}
-				else
-				{
-					if (pauseOn)
-					{
-						retval.push_back(ArrayOf::stringConstructor(L"on"));
-					}
-					else
-					{
-						retval.push_back(ArrayOf::stringConstructor(L"off"));
-					}
-					return retval;
-				}
-			}
-			else
-			{
-				Error(eval, ERROR_WRONG_ARGUMENT_1_VALUE);
-			}
-		}
-		else if (param1.isNumeric())
-		{
-			if (nLhs == 1)
-			{
-				if (pauseOn)
-				{
-					retval.push_back(ArrayOf::stringConstructor(L"on"));
-				}
-				else
-				{
-					retval.push_back(ArrayOf::stringConstructor(L"off"));
-				}
-				return retval;
-			}
-			else
-			{
-				double val = param1.getContentAsDoubleScalar();
-				if (!pauseOn)
-				{
-					return retval;
-				}
-				if (std::isinf(val))
-				{
-					while (!eval->GetInterruptPending())
-					{
-						boost::this_thread::sleep_for(boost::chrono::milliseconds(uint64(10)));
-						if (eval->haveEventsLoop())
-						{
-							ProcessEventsDynamicFunctionWithoutWait();
-						}
-					}
-				}
-				else if (std::isnan(val))
-				{
-				}
-				else
-				{
-					boost::chrono::nanoseconds begin_time = boost::chrono::high_resolution_clock::now().time_since_epoch();
-					bool bContinue = true;
-					do
-					{
-						boost::this_thread::sleep_for(boost::chrono::nanoseconds(uint64(10)));
-						boost::chrono::nanoseconds current_time = boost::chrono::high_resolution_clock::now().time_since_epoch();
-						boost::chrono::nanoseconds difftime = (current_time - begin_time);
-						bContinue = !(difftime.count() > int64(val*1e9));
-						if (eval->haveEventsLoop())
-						{
-							ProcessEventsDynamicFunctionWithoutWait();
-						}
-					} while (!eval->GetInterruptPending() && (bContinue == true));
-				}
-			}
-		}
-		else
-		{
-			bool bSuccess = false;
-			retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
-			if (!bSuccess)
-			{
-				OverloadRequired(eval, argIn, Nelson::UNARY);
-			}
-		}
-	}
+    if (argIn.size() == 0)
+    {
+        if (nLhs == 1)
+        {
+            if (pauseOn)
+            {
+                retval.push_back(ArrayOf::stringConstructor(L"on"));
+            }
+            else
+            {
+                retval.push_back(ArrayOf::stringConstructor(L"off"));
+            }
+            return retval;
+        }
+        Interface *io = eval->getInterface();
+        if (io)
+        {
+            io->getInput(L"");
+        }
+    }
+    else
+    {
+        ArrayOf param1 = argIn[0];
+        if (param1.isSingleString())
+        {
+            std::wstring arg1Value = param1.getContentAsWideString();
+            if (arg1Value == L"on" || arg1Value == L"off" || arg1Value == L"query")
+            {
+                bool previousValue = pauseOn;
+                if (arg1Value == L"on")
+                {
+                    pauseOn = true;
+                    if (nLhs == 1)
+                    {
+                        if (previousValue)
+                        {
+                            retval.push_back(ArrayOf::stringConstructor(L"on"));
+                        }
+                        else
+                        {
+                            retval.push_back(ArrayOf::stringConstructor(L"off"));
+                        }
+                        return retval;
+                    }
+                }
+                else if (arg1Value == L"off")
+                {
+                    pauseOn = false;
+                    if (nLhs == 1)
+                    {
+                        if (previousValue)
+                        {
+                            retval.push_back(ArrayOf::stringConstructor(L"on"));
+                        }
+                        else
+                        {
+                            retval.push_back(ArrayOf::stringConstructor(L"off"));
+                        }
+                        return retval;
+                    }
+                }
+                else
+                {
+                    if (pauseOn)
+                    {
+                        retval.push_back(ArrayOf::stringConstructor(L"on"));
+                    }
+                    else
+                    {
+                        retval.push_back(ArrayOf::stringConstructor(L"off"));
+                    }
+                    return retval;
+                }
+            }
+            else
+            {
+                Error(eval, ERROR_WRONG_ARGUMENT_1_VALUE);
+            }
+        }
+        else if (param1.isNumeric())
+        {
+            if (nLhs == 1)
+            {
+                if (pauseOn)
+                {
+                    retval.push_back(ArrayOf::stringConstructor(L"on"));
+                }
+                else
+                {
+                    retval.push_back(ArrayOf::stringConstructor(L"off"));
+                }
+                return retval;
+            }
+            else
+            {
+                double val = param1.getContentAsDoubleScalar();
+                if (!pauseOn)
+                {
+                    return retval;
+                }
+                if (std::isinf(val))
+                {
+                    while (!eval->GetInterruptPending())
+                    {
+                        boost::this_thread::sleep_for(boost::chrono::milliseconds(uint64(10)));
+                        if (eval->haveEventsLoop())
+                        {
+                            ProcessEventsDynamicFunctionWithoutWait();
+                        }
+                    }
+                }
+                else if (std::isnan(val))
+                {
+                }
+                else
+                {
+                    boost::chrono::nanoseconds begin_time = boost::chrono::high_resolution_clock::now().time_since_epoch();
+                    bool bContinue = true;
+                    do
+                    {
+                        boost::this_thread::sleep_for(boost::chrono::nanoseconds(uint64(10)));
+                        boost::chrono::nanoseconds current_time = boost::chrono::high_resolution_clock::now().time_since_epoch();
+                        boost::chrono::nanoseconds difftime = (current_time - begin_time);
+                        bContinue = !(difftime.count() > int64(val*1e9));
+                        if (eval->haveEventsLoop())
+                        {
+                            ProcessEventsDynamicFunctionWithoutWait();
+                        }
+                    }
+                    while (!eval->GetInterruptPending() && (bContinue == true));
+                }
+            }
+        }
+        else
+        {
+            bool bSuccess = false;
+            retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+            if (!bSuccess)
+            {
+                OverloadRequired(eval, argIn, Nelson::UNARY);
+            }
+        }
+    }
     return retval;
 }
 //=============================================================================
