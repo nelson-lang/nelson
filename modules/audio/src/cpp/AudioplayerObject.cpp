@@ -251,12 +251,12 @@ namespace Nelson {
     {
         return propertiesNames;
     }
-	//=============================================================================
-	bool AudioplayerObject::isproperty(std::wstring propertyName)
-	{
-		auto it = std::find(propertiesNames.begin(), propertiesNames.end(), propertyName);
-		return (it != propertiesNames.end());
-	}
+    //=============================================================================
+    bool AudioplayerObject::isproperty(std::wstring propertyName)
+    {
+        auto it = std::find(propertiesNames.begin(), propertiesNames.end(), propertyName);
+        return (it != propertiesNames.end());
+    }
     //=============================================================================
     bool AudioplayerObject::get(std::wstring propertyName, ArrayOf &res)
     {

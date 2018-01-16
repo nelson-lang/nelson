@@ -49,7 +49,7 @@ static const nlsGateway gateway[] =
     { "audioplayer_disp", Nelson::AudioGateway::audioplayer_dispBuiltin, 0, 1 },
     { "audioplayer_delete", Nelson::AudioGateway::audioplayer_deleteBuiltin, 0, 1 },
     { "audioplayer_isvalid", Nelson::AudioGateway::audioplayer_isvalidBuiltin, 1, 1 },
-	{ "audioplayer_fieldnames", Nelson::AudioGateway::audioplayer_fieldnamesBuiltin, 1, 1 },
+    { "audioplayer_fieldnames", Nelson::AudioGateway::audioplayer_fieldnamesBuiltin, 1, 1 },
     { "audioplayer_properties", Nelson::AudioGateway::audioplayer_propertiesBuiltin, 1, 1 },
     { "audioplayer_get", Nelson::AudioGateway::audioplayer_getBuiltin, 1, 2 },
     { "audioplayer_set", Nelson::AudioGateway::audioplayer_setBuiltin, 0, 3 },
