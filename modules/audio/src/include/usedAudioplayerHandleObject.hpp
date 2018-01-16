@@ -16,24 +16,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "audioplayer_usedBuiltin.hpp"
-#include "Error.hpp"
-#include "usedAudioplayerHandleObject.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "nlsAudio_exports.h"
+#include "ArrayOf.hpp"
 //=============================================================================
-ArrayOfVector Nelson::AudioGateway::audioplayer_usedBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-	if (argIn.size() != 0)
-	{
-		Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-	}
-	if (nLhs > 1)
-	{
-		Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-	}
-	ArrayOfVector retval;
-	retval.push_back(usedAudioplayerHandleObject());
-	return retval;
+namespace Nelson {
+	//=============================================================================
+	NLSAUDIO_IMPEXP ArrayOf usedAudioplayerHandleObject();
+	//=============================================================================
 }
 //=============================================================================

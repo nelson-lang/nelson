@@ -19,6 +19,9 @@
 #include "AudioHelpers.hpp"
 #include "NelsonGateway.hpp"
 #include "beepBuiltin.hpp"
+#include "playBuiltin.hpp"
+#include "resumeBuiltin.hpp"
+#include "stopBuiltin.hpp"
 #include "audiodevinfoBuiltin.hpp"
 #include "audioplayerBuiltin.hpp"
 #include "audioplayer_setBuiltin.hpp"
@@ -28,9 +31,6 @@
 #include "audioplayer_usedBuiltin.hpp"
 #include "audioplayer_fieldnamesBuiltin.hpp"
 #include "audioplayer_propertiesBuiltin.hpp"
-#include "playBuiltin.hpp"
-#include "resumeBuiltin.hpp"
-#include "stopBuiltin.hpp"
 #include "audioplayer_playBuiltin.hpp"
 #include "audioplayer_pauseBuiltin.hpp"
 #include "audioplayer_resumeBuiltin.hpp"
@@ -56,6 +56,7 @@ static const nlsGateway gateway[] =
     { "audioplayer_pause", Nelson::AudioGateway::audioplayer_pauseBuiltin, 0, 1 },
     { "audioplayer_resume", Nelson::AudioGateway::audioplayer_resumeBuiltin, 0, 1 },
     { "audioplayer_stop", Nelson::AudioGateway::audioplayer_stopBuiltin, 0, 1 },
+    { "audioplayer_used", Nelson::AudioGateway::audioplayer_usedBuiltin, 1, 0 },
     { "play", Nelson::AudioGateway::playBuiltin, 0, 1 },
     { "stop", Nelson::AudioGateway::stopBuiltin, 0, 1 },
     { "resume", Nelson::AudioGateway::resumeBuiltin, 0, 1 },

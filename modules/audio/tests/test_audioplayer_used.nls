@@ -16,24 +16,15 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "audioplayer_usedBuiltin.hpp"
-#include "Error.hpp"
-#include "usedAudioplayerHandleObject.hpp"
+// <--AUDIO OUTPUT REQUIRED-->
 //=============================================================================
-using namespace Nelson;
-//=============================================================================
-ArrayOfVector Nelson::AudioGateway::audioplayer_usedBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-	if (argIn.size() != 0)
-	{
-		Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-	}
-	if (nLhs > 1)
-	{
-		Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-	}
-	ArrayOfVector retval;
-	retval.push_back(usedAudioplayerHandleObject());
-	return retval;
-}
+assert_isequal(length(audioplayer_used()), 0);
+r1 = audioplayer(sin(1:10000), 8192);
+assert_isequal(length(audioplayer_used()), 1);
+r2 = audioplayer(sin(1:10000), 8192);
+assert_isequal(length(audioplayer_used()), 2);
+delete(r1)
+assert_isequal(length(audioplayer_used()), 1);
+delete(r2)
+assert_isequal(length(audioplayer_used()), 0);
 //=============================================================================

@@ -198,6 +198,7 @@
     <ClCompile Include="..\cpp\AudioplayerObject.cpp" />
     <ClCompile Include="..\cpp\Beep.cpp" />
     <ClCompile Include="..\cpp\DeleteAudioplayerHandleObject.cpp" />
+    <ClCompile Include="..\cpp\usedAudioplayerHandleObject.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
@@ -207,6 +208,7 @@
     <ClInclude Include="..\include\Beep.hpp" />
     <ClInclude Include="..\include\DeleteAudioplayerHandleObject.hpp" />
     <ClInclude Include="..\include\nlsAudio_exports.h" />
+    <ClInclude Include="..\include\usedAudioplayerHandleObject.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
