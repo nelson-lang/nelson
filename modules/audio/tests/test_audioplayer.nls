@@ -16,6 +16,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+// <--AUDIO OUTPUT REQUIRED-->
+//=============================================================================
 json_audio = [modulepath('audio'), '/tests/test_audioplayer.json'];
 st = jsondecode(fileread(json_audio));
 //=============================================================================

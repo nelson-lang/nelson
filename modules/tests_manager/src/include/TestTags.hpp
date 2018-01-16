@@ -39,6 +39,8 @@ namespace Nelson {
 #define RELEASE_ONLY_TAG 	 "<--RELEASE ONLY-->"
 #define EXCEL_REQUIRED_TAG 	 "<--EXCEL REQUIRED-->"
 #define MPI_MODE_TAG 	     "<--MPI MODE-->"
+#define AUDIO_INPUT_REQUIRED_TAG "<--AUDIO INPUT REQUIRED-->"
+#define AUDIO_OUTPUT_REQUIRED_TAG "<--AUDIO OUTPUT REQUIRED-->"
 
     class NLSTESTS_MANAGER_IMPEXP TestTags {
     private:
@@ -56,6 +58,8 @@ namespace Nelson {
         bool _releaseOnly;
         bool _excelRequired;
         bool _mpiMode;
+        bool _audioInputRequired;
+        bool _audioOutputRequired;
 
     public:
         TestTags() {
@@ -73,6 +77,8 @@ namespace Nelson {
             _releaseOnly = false;
             _excelRequired = false;
             _mpiMode = false;
+            _audioInputRequired = false;
+            _audioOutputRequired = false;
         }
 
         bool isWithDisplay() {
@@ -117,6 +123,13 @@ namespace Nelson {
         bool isMpiMode() {
             return _mpiMode;
         }
+        bool isAudioInputRequired() {
+            return _audioInputRequired;
+        }
+        bool isAudioOutputRequired() {
+            return _audioOutputRequired;
+        }
+
 
         void setWithDisplay(bool val) {
             _withDisplay = val;
@@ -160,6 +173,12 @@ namespace Nelson {
         }
         void setMpiMode(bool val) {
             _mpiMode = val;
+        }
+        void setAudioInputRequired(bool val) {
+            _audioInputRequired = val;
+        }
+        void setAudioOutputRequired(bool val) {
+            _audioOutputRequired = val;
         }
     };
 }

@@ -119,6 +119,8 @@ namespace Nelson {
             bool firstReleaseOnlyTag = true;
             bool firstExcelRequiredTag = true;
             bool firstMpiModeTag = true;
+            bool firstAudioInputRequiredTag = true;
+            bool firstAudioOutputRequiredTag = true;
             std::string line;
             while (!istream.eof())
             {
@@ -341,6 +343,30 @@ namespace Nelson {
                     options.setCliMode(true);
                     firstCliTag = false;
                     firstMpiModeTag = false;
+                    continue;
+                }
+                if (compareTag(line, AUDIO_INPUT_REQUIRED_TAG) && firstAudioInputRequiredTag)
+                {
+                    if (!firstAudioInputRequiredTag)
+                    {
+                        msg = _W("duplicated tag detected: <--AUDIO INPUT REQUIRED-->.");
+                        istream.close();
+                        return false;
+                    }
+                    options.setAudioInputRequired(true);
+                    firstAudioInputRequiredTag = false;
+                    continue;
+                }
+                if (compareTag(line, AUDIO_OUTPUT_REQUIRED_TAG) && firstAudioOutputRequiredTag)
+                {
+                    if (!firstAudioOutputRequiredTag)
+                    {
+                        msg = _W("duplicated tag detected: <--AUDIO OUTPUT REQUIRED-->.");
+                        istream.close();
+                        return false;
+                    }
+                    options.setAudioOutputRequired(true);
+                    firstAudioOutputRequiredTag = false;
                     continue;
                 }
             }

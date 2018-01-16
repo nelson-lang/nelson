@@ -71,6 +71,10 @@ ArrayOfVector Nelson::TestsManagerGateway::test_parsetagsBuiltin(Evaluator* eval
     fieldvalues.push_back(ArrayOf::logicalConstructor(tags.isExcelRequired()));
     fieldnames.push_back(L"mpi_mode");
     fieldvalues.push_back(ArrayOf::logicalConstructor(tags.isMpiMode()));
+    fieldnames.push_back(L"audio_input_required");
+    fieldvalues.push_back(ArrayOf::logicalConstructor(tags.isAudioInputRequired()));
+    fieldnames.push_back(L"audio_output_required");
+    fieldvalues.push_back(ArrayOf::logicalConstructor(tags.isAudioOutputRequired()));
     ArrayOf stack = ArrayOf::structConstructor(fieldnames, fieldvalues);
     retval.push_back(stack);
     return retval;

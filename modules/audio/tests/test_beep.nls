@@ -16,6 +16,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+// <--AUDIO OUTPUT REQUIRED-->
+//=============================================================================
 assert_isequal(nargin('beep'), 1);
 assert_isequal(nargout('beep'), 1);
 //=============================================================================
