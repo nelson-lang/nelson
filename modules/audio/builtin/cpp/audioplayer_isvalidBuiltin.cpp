@@ -16,28 +16,62 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "audioplayer_deleteBuiltin.hpp"
+#include "audioplayer_isvalidBuiltin.hpp"
 #include "Error.hpp"
-#include "DeleteAudioplayerHandleObject.hpp"
+#include "HandleManager.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::AudioGateway::audioplayer_deleteBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector Nelson::AudioGateway::audioplayer_isvalidBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
 	if (argIn.size() != 1)
 	{
 		Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
 	}
-	if (nLhs != 0)
+	if (nLhs > 1)
 	{
 		Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
 	}
+	ArrayOfVector retval;
 	ArrayOf param1 = argIn[0];
 	if (param1.isHandle())
 	{
-		DeleteAudioplayerHandleObject(param1);
+		Dimensions dimsparam1 = param1.getDimensions();
+		nelson_handle *qp = (nelson_handle*)param1.getDataPointer();
+		if (qp)
+		{
+			logical *resArray = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, dimsparam1.getElementCount());
+			for (size_t k = 0; k < dimsparam1.getElementCount(); k++)
+			{
+				nelson_handle hl = qp[k];
+				HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
+				if (hlObj != nullptr)
+				{
+					if (hlObj->getPointer())
+					{
+						resArray[k] = true;
+					}
+					else
+					{
+						resArray[k] = false;
+					}
+				}
+				else
+				{
+					resArray[k] = false;
+				}
+			}
+			retval.push_back(ArrayOf(NLS_LOGICAL, dimsparam1, resArray));
+		}
+		else
+		{
+			retval.push_back(ArrayOf::emptyConstructor(dimsparam1));
+		}
 	}
-	ArrayOfVector retval;
+	else
+	{
+		Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
+	}
 	return retval;
 }
 //=============================================================================

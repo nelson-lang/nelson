@@ -41,6 +41,9 @@
     <ClCompile Include="..\cpp\AudioplayerObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\DeleteAudioplayerHandleObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\AudioHelpers.hpp">
@@ -56,6 +59,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\AudioplayerObject.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\DeleteAudioplayerHandleObject.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

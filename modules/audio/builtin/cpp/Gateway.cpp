@@ -35,6 +35,7 @@
 #include "audioplayer_pauseBuiltin.hpp"
 #include "audioplayer_resumeBuiltin.hpp"
 #include "audioplayer_stopBuiltin.hpp"
+#include "audioplayer_isvalidBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -42,21 +43,23 @@ const std::wstring gatewayName = L"audio";
 //=============================================================================
 static const nlsGateway gateway[] =
 {
-    { "beep", Nelson::AudioGateway::beepBuiltin, 1, 1 },
     { "audiodevinfo", Nelson::AudioGateway::audiodevinfoBuiltin, 1, -1 },
     { "audioplayer", Nelson::AudioGateway::audioplayerBuiltin, 1, -1 },
     { "audioplayer_disp", Nelson::AudioGateway::audioplayer_dispBuiltin, 0, 1 },
-    { "audioplayer_fieldnames", Nelson::AudioGateway::audioplayer_fieldnamesBuiltin, 1, 1 },
+    { "audioplayer_delete", Nelson::AudioGateway::audioplayer_deleteBuiltin, 0, 1 },
+    { "audioplayer_isvalid", Nelson::AudioGateway::audioplayer_isvalidBuiltin, 1, 1 },
+	{ "audioplayer_fieldnames", Nelson::AudioGateway::audioplayer_fieldnamesBuiltin, 1, 1 },
     { "audioplayer_properties", Nelson::AudioGateway::audioplayer_propertiesBuiltin, 1, 1 },
     { "audioplayer_get", Nelson::AudioGateway::audioplayer_getBuiltin, 1, 2 },
     { "audioplayer_set", Nelson::AudioGateway::audioplayer_setBuiltin, 0, 3 },
-    { "play", Nelson::AudioGateway::playBuiltin, 0, 1 },
     { "audioplayer_play", Nelson::AudioGateway::audioplayer_playBuiltin, 0, 1 },
     { "audioplayer_pause", Nelson::AudioGateway::audioplayer_pauseBuiltin, 0, 1 },
-    { "resume", Nelson::AudioGateway::resumeBuiltin, 0, 1 },
     { "audioplayer_resume", Nelson::AudioGateway::audioplayer_resumeBuiltin, 0, 1 },
-    { "stop", Nelson::AudioGateway::stopBuiltin, 0, 1 },
     { "audioplayer_stop", Nelson::AudioGateway::audioplayer_stopBuiltin, 0, 1 },
+    { "play", Nelson::AudioGateway::playBuiltin, 0, 1 },
+    { "stop", Nelson::AudioGateway::stopBuiltin, 0, 1 },
+    { "resume", Nelson::AudioGateway::resumeBuiltin, 0, 1 },
+    { "beep", Nelson::AudioGateway::beepBuiltin, 1, 1 },
 };
 //=============================================================================
 static bool initializeAudioModule(Nelson::Evaluator* eval)

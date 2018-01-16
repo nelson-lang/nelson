@@ -209,6 +209,7 @@
     <ClCompile Include="..\cpp\audioplayer_dispBuiltin.cpp" />
     <ClCompile Include="..\cpp\audioplayer_fieldnamesBuiltin.cpp" />
     <ClCompile Include="..\cpp\audioplayer_getBuiltin.cpp" />
+    <ClCompile Include="..\cpp\audioplayer_isvalidBuiltin.cpp" />
     <ClCompile Include="..\cpp\audioplayer_pauseBuiltin.cpp" />
     <ClCompile Include="..\cpp\audioplayer_playBuiltin.cpp" />
     <ClCompile Include="..\cpp\audioplayer_propertiesBuiltin.cpp" />
@@ -230,6 +231,7 @@
     <ClInclude Include="..\include\audioplayer_dispBuiltin.hpp" />
     <ClInclude Include="..\include\audioplayer_fieldnamesBuiltin.hpp" />
     <ClInclude Include="..\include\audioplayer_getBuiltin.hpp" />
+    <ClInclude Include="..\include\audioplayer_isvalidBuiltin.hpp" />
     <ClInclude Include="..\include\audioplayer_pauseBuiltin.hpp" />
     <ClInclude Include="..\include\audioplayer_playBuiltin.hpp" />
     <ClInclude Include="..\include\audioplayer_propertiesBuiltin.hpp" />
