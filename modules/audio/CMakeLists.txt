@@ -35,6 +35,8 @@ ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_mathematics/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_functions/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../dynamic_link/src/include
+
 )
 #==============================================================================	
 FILE(
@@ -79,6 +81,7 @@ ${CMAKE_CURRENT_SOURCE_DIR}/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include
 )
 #==============================================================================	
 ADD_LIBRARY(
@@ -95,6 +98,7 @@ nlsInterpreter
 nlsOverload
 nlsTypes
 nlsI18n
+nlsApi_nelson
 ${PORTAUDIO_LIBRARIES}
 ${SNDFILE_LIBRARIES}
 )
