@@ -28,6 +28,7 @@ tests_minimal.xml
 /bin/*/license_sdk.rtf
 /bin/*/mkl_license.txt
 /bin/*/nelson-cli.exe
+/bin/*/nelson_f2c
 /modules/main/help/*/html/changelog.html
 /modules/*/nls*_autogen
 *.settings
