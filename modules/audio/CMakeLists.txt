@@ -61,6 +61,8 @@ nlsI18n
 nlsCharacters_encoding
 ${PORTAUDIO_LIBRARIES}
 ${SNDFILE_LIBRARIES}
+${MAC_FRAMEWORK_APPKIT_LIBRARY}
+
 )
 #==============================================================================	
 set_target_properties(${module_library_name}

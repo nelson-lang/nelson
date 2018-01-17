@@ -18,6 +18,10 @@
 //=============================================================================
 #ifdef _MSC_VER
 #include <Windows.h>
+#else
+#if defined(__APPLE__)
+#include <AppKit/AppKit.h>
+#endif
 #endif
 #include <stdio.h>
 #include "Beep.hpp"
@@ -52,7 +56,11 @@ namespace Nelson {
 #ifdef _MSC_VER
             MessageBeep((UINT)-1);
 #else
-            puts("\a");
+	#ifdef __APPLE__
+			NSBeep();
+	#else
+			puts("\a");
+	#endif
 #endif
         }
         return false;
