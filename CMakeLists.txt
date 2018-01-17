@@ -185,7 +185,7 @@ FIND_PACKAGE(LibXml2 REQUIRED)
 FIND_PACKAGE(icu REQUIRED)
 FIND_PACKAGE(FFTW REQUIRED)
 FIND_PACKAGE(Portaudio REQUIRED)
-FIND_PACKAGE(SNDFILE REQUIRED)
+FIND_PACKAGE(LibSndFile REQUIRED)
 #============================================================================== 
 add_definitions(-DBOOST_ALL_NO_LIB)
 add_definitions(-DBOOST_ALL_DYN_LINK)
