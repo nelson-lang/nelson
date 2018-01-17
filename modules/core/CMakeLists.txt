@@ -73,7 +73,7 @@ ${CMAKE_CURRENT_SOURCE_DIR}/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include
-${CMAKE_CURRENT_SOURCE_DIR}/../overloading/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
 )
 #==============================================================================	
 ADD_LIBRARY(
@@ -90,7 +90,7 @@ nlsInterpreter
 nlsTypes
 nlsI18n
 nlsApi_nelson
-nlsOverloading
+nlsOverload
 )
 #==============================================================================
 set_target_properties(${module_library_builtin_name}
