@@ -24,6 +24,7 @@ include_directories(
 ${EIGEN3_INCLUDE_DIR}
 ${Boost_INCLUDE_DIRS}
 ${PORTAUDIO_INCLUDE_DIRS}
+${SNDFILE_INCLUDE_DIRS}
 ${CMAKE_CURRENT_SOURCE_DIR}/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/src/c
 ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
@@ -57,6 +58,7 @@ nlsTypes
 nlsI18n
 nlsCharacters_encoding
 ${PORTAUDIO_LIBRARIES}
+${SNDFILE_LIBRARIES}
 )
 #==============================================================================	
 set_target_properties(${module_library_name}
@@ -70,6 +72,8 @@ AUDIO_BUILTIN
 )
 #==============================================================================	
 include_directories(
+${PORTAUDIO_INCLUDE_DIRS}
+${SNDFILE_INCLUDE_DIRS}
 ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
 ${CMAKE_CURRENT_SOURCE_DIR}/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
@@ -92,6 +96,7 @@ nlsOverload
 nlsTypes
 nlsI18n
 ${PORTAUDIO_LIBRARIES}
+${SNDFILE_LIBRARIES}
 )
 #==============================================================================
 set_target_properties(${module_library_builtin_name}
