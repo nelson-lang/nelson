@@ -330,3 +330,9 @@ generic_eq_COM
 generic_ne_COM
 MPI_Comm_disp
 MPI_Comm_isvalid
+audioplayer_disp
+audioplayer_isvalid
+audioplayer_isprop
+audioplayer_play
+audioplayer_resume
+audioplayer_properties

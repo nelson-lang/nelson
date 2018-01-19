@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+	<copyright>SAME AS NELSON SOFTWARE</copyright>
+
+	<language>en_US</language>
+	<keyword>stop</keyword>
+	<short_description>Stops an audioplayer object.</short_description>
+
+	<syntax>
+		<syntax_item>stop(playObj)</syntax_item>
+	</syntax>
+	
+	<param_input>
+		<param_input_item>
+			<param_name>playObj</param_name>
+			<param_description>an audioplayer object.</param_description>
+		</param_input_item>
+	</param_input>
+
+	<description><b>stop</b> stops an audioplayer object.</description>
+
+	<used_function></used_function>
+	<bibliography></bibliography>
+
+<examples>
+
+
+	<example_item>
+		<example_item_type>nelson</example_item_type>
+		<example_item_description></example_item_description>
+		<example_item_data><![CDATA[signal = rand(2, 44100) - 0.5;
+playObj = audioplayer(signal, 44100, 16)
+play(playObj)
+sleep(2)
+stop(playObj)
+delete(playObj)
+playObj]]>
+		</example_item_data>
+	</example_item>
+
+</examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${audio}audioplayer">audioplayer</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${audio}play">play</link>
+    </see_also_item>
+
+  </see_also>
+
+
+
+	<history>
+		<history_item>
+			<history_version>1.0.0</history_version>
+			<history_description>initial version</history_description>
+		</history_item>
+	</history>
+
+	<authors>
+		<author_item>Allan CORNET</author_item>
+	</authors>
+</xmldoc>
+
+

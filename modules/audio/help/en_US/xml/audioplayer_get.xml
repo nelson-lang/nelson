@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+
+  <language>en_US</language>
+  <keyword>audioplayer_get</keyword>
+  <short_description>Get property value from audioplayer interface.</short_description>
+
+  <syntax>
+    <syntax_item>v = get(h, propertyname)</syntax_item>
+    <syntax_item>v = audioplayer_get(h, propertyname)</syntax_item>
+    <syntax_item>v = h.propertyname</syntax_item>
+
+  </syntax>
+  
+  <param_input>
+    <param_input_item>
+      <param_name>h</param_name>
+      <param_description>an audioplayer object.</param_description>
+    </param_input_item>
+
+    <param_input_item>
+      <param_name>propertyname</param_name>
+      <param_description>a string: the property's name of audioplayer object.</param_description>
+    </param_input_item>
+  </param_input>
+
+  <param_output>
+    <param_output_item>
+      <param_name>v</param_name>
+      <param_description>a nelson variable.</param_description>
+    </param_output_item>
+  </param_output>
+
+
+  <description>
+    <p>The function returns the value of the property specified in the string, propertyname.</p>
+  </description>
+
+  <used_function></used_function>
+  <bibliography></bibliography>
+  
+
+<examples>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description></example_item_description>
+    <example_item_data><![CDATA[signal = rand(2, 44100) - 0.5;
+playObj = audioplayer(signal, 44100, 16)
+playObj.Running
+]]>
+    </example_item_data>
+  </example_item>
+
+</examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${audio}audioplayer_set">audioplayer_set</link>
+    </see_also_item>
+  </see_also>
+
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>
+
+

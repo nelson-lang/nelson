@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+	<copyright>SAME AS NELSON SOFTWARE</copyright>
+
+	<language>en_US</language>
+	<keyword>audioplayer</keyword>
+	<short_description>Audio player object.</short_description>
+
+	<syntax>
+    <syntax_item>playerObj = audioplayer(y, fs)</syntax_item>
+    <syntax_item>playerObj = audioplayer(y, fs, nbits)</syntax_item>
+    <syntax_item>playerObj = audioplayer(y, fs, nbits, id)</syntax_item>
+	</syntax>
+	
+	<param_input>
+		<param_input_item>
+			<param_name>y</param_name>
+			<param_description>a vector or matrix array: int8,uint8, int16, single or double.</param_description>
+		</param_input_item>
+		<param_input_item>
+			<param_name>fs</param_name>
+			<param_description>a double value: sampling rate in Hz.</param_description>
+		</param_input_item>
+		<param_input_item>
+			<param_name>nbits</param_name>
+			<param_description>a double value: bits per sample (16 by default).</param_description>
+		</param_input_item>
+		<param_input_item>
+			<param_name>id</param_name>
+			<param_description>a double value: device identifier (-1 by default).</param_description>
+		</param_input_item>
+
+	</param_input>
+
+	<param_output>
+		<param_output_item>
+			<param_name>playerObj</param_name>
+			<param_description>audioplayer object</param_description>
+		</param_output_item>
+
+	</param_output>
+
+	<description>
+		<p><b>audioplayer</b> returns an audioplayer object to play data on an output device.</p>
+    <p>audioplayer object uses global scope and need to be deleted by user.</p>
+    <p><b>audioplayer</b> can play multichannels data if your sound card supports it.</p>
+	</description>
+
+	<used_function></used_function>
+	<bibliography></bibliography>
+
+<examples>
+
+
+	<example_item>
+		<example_item_type>nelson</example_item_type>
+		<example_item_description></example_item_description>
+		<example_item_data><![CDATA[signal = rand(2, 44100) - 0.5;
+playObj = audioplayer(signal, 44100, 16)
+play(playObj)
+sleep(2)
+delete(playObj)
+playObj]]>
+		</example_item_data>
+	</example_item>
+
+</examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${handle}delete">delete</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${audio}play">play</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${audio}stop">stop</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${audio}resume">resume</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${audio}pause">pause</link>
+    </see_also_item>
+
+  </see_also>
+
+
+	<history>
+		<history_item>
+			<history_version>1.0.0</history_version>
+			<history_description>initial version</history_description>
+		</history_item>
+	</history>
+
+	<authors>
+		<author_item>Allan CORNET</author_item>
+	</authors>
+</xmldoc>
+
+
