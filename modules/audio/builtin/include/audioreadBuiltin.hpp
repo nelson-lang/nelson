@@ -16,35 +16,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#ifdef _MSC_VER
+#pragma once
 //=============================================================================
-#include <Windows.h>
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
-#ifdef _DEBUG
-#pragma comment(lib, "boost_system-vc141-mt-gd-1_65_1.lib")
-#pragma comment(lib, "boost_filesystem-vc141-mt-gd-1_65_1.lib")
-#else
-#pragma comment(lib, "boost_system-vc141-mt-1_65_1.lib")
-#pragma comment(lib, "boost_filesystem-vc141-mt-1_65_1.lib")
-#endif
-#pragma comment(lib, "portaudio.lib")
-#pragma comment(lib, "libsndfile-1.lib")
-//=============================================================================
-int WINAPI DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)
-{
-    switch (reason)
-    {
-        case DLL_PROCESS_ATTACH:
-            break;
-        case DLL_PROCESS_DETACH:
-            break;
-        case DLL_THREAD_ATTACH:
-            break;
-        case DLL_THREAD_DETACH:
-            break;
+namespace Nelson {
+    namespace AudioGateway {
+        ArrayOfVector audioreadBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
     }
-    return 1;
 }
-//=============================================================================
-#endif
 //=============================================================================

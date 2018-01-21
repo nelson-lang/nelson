@@ -218,6 +218,7 @@
     <ClCompile Include="..\cpp\audioplayer_setBuiltin.cpp" />
     <ClCompile Include="..\cpp\audioplayer_stopBuiltin.cpp" />
     <ClCompile Include="..\cpp\audioplayer_usedBuiltin.cpp" />
+    <ClCompile Include="..\cpp\audioreadBuiltin.cpp" />
     <ClCompile Include="..\cpp\beepBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\playBuiltin.cpp" />
@@ -241,6 +242,7 @@
     <ClInclude Include="..\include\audioplayer_setBuiltin.hpp" />
     <ClInclude Include="..\include\audioplayer_stopBuiltin.hpp" />
     <ClInclude Include="..\include\audioplayer_usedBuiltin.hpp" />
+    <ClInclude Include="..\include\audioreadBuiltin.hpp" />
     <ClInclude Include="..\include\beepBuiltin.hpp" />
     <ClInclude Include="..\include\nlsAudio_builtin_exports.h" />
     <ClInclude Include="..\include\playBuiltin.hpp" />

@@ -37,6 +37,7 @@
 #include "audioplayer_stopBuiltin.hpp"
 #include "audioplayer_isvalidBuiltin.hpp"
 #include "audioplayer_ispropBuiltin.hpp"
+#include "audioreadBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -63,6 +64,7 @@ static const nlsGateway gateway[] =
     { "stop", Nelson::AudioGateway::stopBuiltin, 0, 1 },
     { "resume", Nelson::AudioGateway::resumeBuiltin, 0, 1 },
     { "beep", Nelson::AudioGateway::beepBuiltin, 1, 1 },
+    { "audioread", Nelson::AudioGateway::audioreadBuiltin, 2, 3 },
 };
 //=============================================================================
 static bool initializeAudioModule(Nelson::Evaluator* eval)

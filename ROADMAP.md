@@ -17,7 +17,7 @@ Please feel free to file issues on this repository if you have questions, concer
 - MAT File I/O module,
 - MPI interface module (DONE v0.1.11),
 - JSON File I/O module (DONE v0.2.1),
-- Audio module,
+- Audio module (read, play DONE v0.2.1),
 - editor (DONE v0.1.11),
 - completion,
 - graphics output,

@@ -489,17 +489,12 @@ namespace Nelson {
         int8 *outAsInt8 = (int8 *)outputBuffer;
         uint8 *outAsUInt8 = (uint8 *)outputBuffer;
         int16 *outAsInt16 = (int16 *)outputBuffer;
-        int offset = 0;
-        if (data->_NumberOfChannels > 0)
-        {
-            offset = data->_TotalSamples / data->_NumberOfChannels;
-        }
         Class dataClass = data->audioData.getDataClass();
         for (unsigned int i = 0; i < framesPerBuffer; i++)
         {
             for (int c = 0; c < data->_NumberOfChannels; c++)
             {
-                if (data->_CurrentSample < (data->_TotalSamples / data->_NumberOfChannels))
+                if (data->_CurrentSample < data->_TotalSamples)
                 {
                     switch (dataClass)
                     {
@@ -580,7 +575,7 @@ namespace Nelson {
             }
             data->_CurrentSample++;
         }
-        if (data->_CurrentSample >= (data->_TotalSamples / data->_NumberOfChannels))
+        if (data->_CurrentSample >= data->_TotalSamples)
         {
             data->_CurrentSample = data->_TotalSamples;
             data->_Running = false;

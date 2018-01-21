@@ -14,6 +14,7 @@ Features:
     * stop: stops audio object.
     * resume: resumes audio object.
     * isplaying: returns if audio object is playing.
+    * audioread: read an audio file.
 
   * JSON module: 
     * jsonencode: encodes a Nelson object into a JSON string.

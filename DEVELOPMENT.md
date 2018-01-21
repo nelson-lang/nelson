@@ -38,6 +38,8 @@ You can also see [.travis.yml](https://github.com/Nelson-numerical-software/nels
         sudo apt-get install fftw3-dev;
         sudo apt-get install libopenmpi-dev;
         sudo apt-get install openmpi-bin;
+        sudo apt-get install portaudio19-dev;
+        sudo apt-get install libsndfile1-dev;
         ```
     - Creates Nelson main directory
         ```bash
@@ -154,6 +156,8 @@ You can also see [.travis.yml](https://github.com/Nelson-numerical-software/nels
         brew install cmake
         brew install fftw
         brew install open-mpi;
+        brew install portaudio;
+        brew install libsndfile;
         ```
     - Install LAPACKE
     By default easier way is to build and install reference LAPACK library (https://github.com/Reference-LAPACK/lapack-release).
