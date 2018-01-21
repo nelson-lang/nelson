@@ -72,24 +72,24 @@ namespace Nelson {
         }
         else
         {
-			ArrayOf rangeIndex;
+            ArrayOf rangeIndex;
 #ifdef NLS_INDEX_TYPE_64
             int64 n = (int64)(end - start);
             Dimensions dims(1, n);
             int64 *pV = (int64*)ArrayOf::allocateArrayOf(NLS_INT64, n);
             Eigen::Map<Eigen::Matrix<int64, Eigen::Dynamic, 1>> Range(pV, n);
             Range = Eigen::Matrix<int64, Eigen::Dynamic, 1>::LinSpaced(n, start, end);
-			rangeIndex = ArrayOf::ArrayOf(NLS_INT64, dims, pV);
+            rangeIndex = ArrayOf(NLS_INT64, dims, pV);
 #else
             int32 n = (int32)(end - start);
             Dimensions dims(1, n);
             int32 *pV = (int32*)ArrayOf::allocateArrayOf(NLS_INT32, n);
             Eigen::Map<Eigen::Matrix<int32, Eigen::Dynamic, 1>> Range(pV, n);
             Range = Eigen::Matrix<int32, Eigen::Dynamic, 1>::LinSpaced(n, start, end);
-			rangeIndex = ArrayOf::ArrayOf(NLS_INT32, dims, pV);
+            rangeIndex = ArrayOf(NLS_INT32, dims, pV);
 #endif
-			index.push_back(rangeIndex);
-			index.push_back(ArrayOf::stringConstructor(":"));
+            index.push_back(rangeIndex);
+            index.push_back(ArrayOf::stringConstructor(":"));
             allFrames = false;
         }
         if (sf_command(file, SFC_SET_NORM_DOUBLE, NULL, SF_TRUE) == SF_FALSE)
@@ -133,7 +133,7 @@ namespace Nelson {
                         }
                     }
                     delete[] dataAsSingle;
-                    y = ArrayOf::ArrayOf(NLS_INT8, dims, dataAsInt8);
+                    y = ArrayOf(NLS_INT8, dims, dataAsInt8);
                 }
                 else
                 {
@@ -161,7 +161,7 @@ namespace Nelson {
                         }
                     }
                     delete[] dataAsSingle;
-                    y = ArrayOf::ArrayOf(NLS_UINT8, dims, dataAsUInt8);
+                    y = ArrayOf(NLS_UINT8, dims, dataAsUInt8);
                 }
                 else
                 {
@@ -186,7 +186,7 @@ namespace Nelson {
                         }
                     }
                     delete[] dataAsInt16RowMajor;
-                    y = ArrayOf::ArrayOf(NLS_INT16, dims, dataAsInt16ColumnMajor);
+                    y = ArrayOf(NLS_INT16, dims, dataAsInt16ColumnMajor);
                 }
                 else
                 {
@@ -212,7 +212,7 @@ namespace Nelson {
                         }
                     }
                     delete[] dataAsInt32RowMajor;
-                    y = ArrayOf::ArrayOf(NLS_INT32, dims, dataAsInt32ColumnMajor);
+                    y = ArrayOf(NLS_INT32, dims, dataAsInt32ColumnMajor);
                 }
                 else
                 {
@@ -237,7 +237,7 @@ namespace Nelson {
                         }
                     }
                     delete[] dataAsSingleRowMajor;
-                    y = ArrayOf::ArrayOf(NLS_SINGLE, dims, dataAsSingleColumnMajor);
+                    y = ArrayOf(NLS_SINGLE, dims, dataAsSingleColumnMajor);
                 }
                 else
                 {
@@ -262,7 +262,7 @@ namespace Nelson {
                         }
                     }
                     delete[] dataAsDoubleRowMajor;
-                    y = ArrayOf::ArrayOf(NLS_DOUBLE, dims, dataAsDoubleColumnMajor);
+                    y = ArrayOf(NLS_DOUBLE, dims, dataAsDoubleColumnMajor);
                 }
                 else
                 {
