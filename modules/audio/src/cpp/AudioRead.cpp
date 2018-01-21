@@ -72,33 +72,25 @@ namespace Nelson {
         }
         else
         {
+			ArrayOf rangeIndex;
 #ifdef NLS_INDEX_TYPE_64
             int64 n = (int64)(end - start);
             Dimensions dims(1, n);
             int64 *pV = (int64*)ArrayOf::allocateArrayOf(NLS_INT64, n);
             Eigen::Map<Eigen::Matrix<int64, Eigen::Dynamic, 1>> Range(pV, n);
             Range = Eigen::Matrix<int64, Eigen::Dynamic, 1>::LinSpaced(n, start, end);
-            index.push_back(ArrayOf::ArrayOf(NLS_INT64, dims, pV));
+			rangeIndex = ArrayOf::ArrayOf(NLS_INT64, dims, pV);
 #else
             int32 n = (int32)(end - start);
             Dimensions dims(1, n);
             int32 *pV = (int32*)ArrayOf::allocateArrayOf(NLS_INT32, n);
             Eigen::Map<Eigen::Matrix<int32, Eigen::Dynamic, 1>> Range(pV, n);
             Range = Eigen::Matrix<int32, Eigen::Dynamic, 1>::LinSpaced(n, start, end);
-            index.push_back(ArrayOf::ArrayOf(NLS_INT32, dims, pV));
+			rangeIndex = ArrayOf::ArrayOf(NLS_INT32, dims, pV);
 #endif
-            index.push_back(ArrayOf::stringConstructor(":"));
+			index.push_back(rangeIndex);
+			index.push_back(ArrayOf::stringConstructor(":"));
             allFrames = false;
-            /*
-            indexType n = end - start;
-            Dimensions dims(1, n);
-            int32 *pV = (int32*)ArrayOf::allocateArrayOf(NLS_INT32, n);
-            Eigen::Map<Eigen::VectorXi> Range(pV, n);
-            Range = Eigen::VectorXi::LinSpaced(n, start, end);
-            index.push_back(ArrayOf::ArrayOf(NLS_INT32, dims, pV));
-            index.push_back(ArrayOf::stringConstructor(":"));
-            allFrames = false;
-            */
         }
         if (sf_command(file, SFC_SET_NORM_DOUBLE, NULL, SF_TRUE) == SF_FALSE)
         {
