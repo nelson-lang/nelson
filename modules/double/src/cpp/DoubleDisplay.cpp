@@ -409,10 +409,12 @@ namespace Nelson {
                 {
                 }
                 indexType block_page = 0;
-                for (indexType k = 0; k < pageCount; k++)
+                bool continueDisplay = true;
+                for (indexType k = 0; k < pageCount && continueDisplay; k++)
                 {
                     if (eval->GetInterruptPending())
                     {
+                        continueDisplay = false;
                         break;
                     }
                     indexType colsInThisPage = columns - colsPerPage * k;
@@ -422,11 +424,16 @@ namespace Nelson {
                         std::wstring msg = StringFormat(_W("\n  Columns %d to %d\n\n").c_str(), (k * colsPerPage + 1), (k * colsPerPage + colsInThisPage));
                         buffer.append(msg);
                     }
-                    for (indexType i = 0; i < rows; i++)
+                    for (indexType i = 0; i < rows && continueDisplay; i++)
                     {
                         buffer.append(L"  ");
                         for (indexType j = 0; j < colsInThisPage; j++)
                         {
+                            if (eval->GetInterruptPending())
+                            {
+                                continueDisplay = false;
+                                break;
+                            }
                             indexType idx = i + (k * colsPerPage + j) * rows;
                             std::wstring numberAsStr;
                             if (bIsComplex)

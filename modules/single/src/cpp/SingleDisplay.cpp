@@ -408,10 +408,12 @@ namespace Nelson {
                 {
                 }
                 indexType block_page = 0;
-                for (indexType k = 0; k < pageCount; k++)
+                bool continueDisplay = true;
+                for (indexType k = 0; k < pageCount && continueDisplay; k++)
                 {
                     if (eval->GetInterruptPending())
                     {
+                        continueDisplay = false;
                         break;
                     }
                     indexType colsInThisPage = columns - colsPerPage * k;
@@ -426,6 +428,11 @@ namespace Nelson {
                         buffer.append(L"  ");
                         for (indexType j = 0; j < colsInThisPage; j++)
                         {
+                            if (eval->GetInterruptPending())
+                            {
+                                continueDisplay = false;
+                                break;
+                            }
                             indexType idx = i + (k * colsPerPage + j) * rows;
                             std::wstring numberAsStr;
                             if (bIsComplex)
