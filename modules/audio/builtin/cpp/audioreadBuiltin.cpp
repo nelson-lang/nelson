@@ -33,86 +33,85 @@ ArrayOfVector Nelson::AudioGateway::audioreadBuiltin(Evaluator* eval, int nLhs, 
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-	std::wstring errorMessage;
-	std::wstring datatype = L"double";
-	double start = 1;
-	double end = std::numeric_limits<double>::infinity();
-	std::wstring filename;
-	switch (argIn.size())
-	{
-		case 1:
-		{
-			ArrayOf param1 = argIn[0];
-			filename = param1.getContentAsWideString();
-		}
-		break;
-		case 2:
-		{
-			ArrayOf param1 = argIn[0];
-			filename = param1.getContentAsWideString();
-			ArrayOf param2 = argIn[1];
-			if (param2.isString())
-			{
-				datatype = param2.getContentAsWideString();
-			}
-			else
-			{
-				Dimensions dimsParam2 = param2.getDimensions();
-				if (param2.isVector() && param2.isNumeric() && (dimsParam2.getElementCount() == 2))
-				{
-					param2.promoteType(NLS_DOUBLE);
-					double *ptr = (double *)param2.getDataPointer();
-					start = ptr[0];
-					end = ptr[1];
-					if (start < 0 || end < 0)
-					{
-						Error(eval, _W("Index >= 0 expected."));
-					}
-				}
-				else
-				{
-					Error(eval, _W("[start, end] vector expected."));
-				}
-			}
-		}
-		break;
-		case 3:
-		{
-			ArrayOf param1 = argIn[0];
-			filename = param1.getContentAsWideString();
-
-			ArrayOf param2 = argIn[1];
-			Dimensions dimsParam2 = param2.getDimensions();
-			if (param2.isVector() && param2.isNumeric() && (dimsParam2.getElementCount() == 2))
-			{
-				param2.promoteType(NLS_DOUBLE);
-				double *ptr = (double *)param2.getDataPointer();
-				start = ptr[0];
-				end = ptr[1];
-				if (start < 0 || end < 0)
-				{
-					Error(eval, _W("Index >= 0 expected."));
-				}
-			}
-			else
-			{
-				Error(eval, _W("[start, end] vector expected."));
-			}
-			ArrayOf param3 = argIn[2];
-			datatype = param3.getContentAsWideString();
-		}
-		break;
-		default:
-		{
-			Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-		}
-		break;
-	}
-	retval = AudioRead(filename, start, end, datatype, errorMessage);
-	if (errorMessage != L"")
-	{
-		Error(eval, errorMessage);
-	}
+    std::wstring errorMessage;
+    std::wstring datatype = L"double";
+    double start = 1;
+    double end = std::numeric_limits<double>::infinity();
+    std::wstring filename;
+    switch (argIn.size())
+    {
+        case 1:
+        {
+            ArrayOf param1 = argIn[0];
+            filename = param1.getContentAsWideString();
+        }
+        break;
+        case 2:
+        {
+            ArrayOf param1 = argIn[0];
+            filename = param1.getContentAsWideString();
+            ArrayOf param2 = argIn[1];
+            if (param2.isString())
+            {
+                datatype = param2.getContentAsWideString();
+            }
+            else
+            {
+                Dimensions dimsParam2 = param2.getDimensions();
+                if (param2.isVector() && param2.isNumeric() && (dimsParam2.getElementCount() == 2))
+                {
+                    param2.promoteType(NLS_DOUBLE);
+                    double *ptr = (double *)param2.getDataPointer();
+                    start = ptr[0];
+                    end = ptr[1];
+                    if (start < 0 || end < 0)
+                    {
+                        Error(eval, _W("Index >= 0 expected."));
+                    }
+                }
+                else
+                {
+                    Error(eval, _W("[start, end] vector expected."));
+                }
+            }
+        }
+        break;
+        case 3:
+        {
+            ArrayOf param1 = argIn[0];
+            filename = param1.getContentAsWideString();
+            ArrayOf param2 = argIn[1];
+            Dimensions dimsParam2 = param2.getDimensions();
+            if (param2.isVector() && param2.isNumeric() && (dimsParam2.getElementCount() == 2))
+            {
+                param2.promoteType(NLS_DOUBLE);
+                double *ptr = (double *)param2.getDataPointer();
+                start = ptr[0];
+                end = ptr[1];
+                if (start < 0 || end < 0)
+                {
+                    Error(eval, _W("Index >= 0 expected."));
+                }
+            }
+            else
+            {
+                Error(eval, _W("[start, end] vector expected."));
+            }
+            ArrayOf param3 = argIn[2];
+            datatype = param3.getContentAsWideString();
+        }
+        break;
+        default:
+        {
+            Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        }
+        break;
+    }
+    retval = AudioRead(filename, start, end, datatype, errorMessage);
+    if (errorMessage != L"")
+    {
+        Error(eval, errorMessage);
+    }
     return retval;
 }
 //=============================================================================

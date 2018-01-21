@@ -23,6 +23,6 @@
 #include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
-	NLSAUDIO_IMPEXP ArrayOfVector AudioRead(std::wstring filename, double dstart, double dend, std::wstring datatype, std::wstring &errorMessage);
+    NLSAUDIO_IMPEXP ArrayOfVector AudioRead(std::wstring filename, double dstart, double dend, std::wstring datatype, std::wstring &errorMessage);
 }
 //=============================================================================
