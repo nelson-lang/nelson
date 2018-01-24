@@ -39,6 +39,11 @@ Bug Fixes:
 
   [#87](http://github.com/Nelson-numerical-software/nelson/issues/87): struct did not support sparse matrix.
 
+Compilation:
+---------
+
+* Update VS 2017 solution to VS 2017 15.5.4
+
 
 ## 0.1.12 (2017-12-24)
 
