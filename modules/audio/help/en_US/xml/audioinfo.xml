@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+	<copyright>SAME AS NELSON SOFTWARE</copyright>
+
+	<language>en_US</language>
+	<keyword>audioinfo</keyword>
+	<short_description>Get audio file information.</short_description>
+
+	<syntax>
+		<syntax_item>info = audioinfo(filename)</syntax_item>
+	</syntax>
+	
+	<param_input>
+		<param_input_item>
+			<param_name>filename</param_name>
+			<param_description>a string: an valid audio filename.</param_description>
+		</param_input_item>
+	</param_input>
+
+	<param_output>
+		<param_output_item>
+			<param_name>info</param_name>
+			<param_description>a struct: information about audio file.</param_description>
+		</param_output_item>
+
+	</param_output>
+
+	<description>
+		<p><b>audioinfo</b> returns a structure with information about audio file.</p>
+		<p>Many audio formats are supported as OGG, FLAC, WAV, RAW.</p>
+	</description>
+
+	<used_function></used_function>
+	<bibliography></bibliography>
+
+<examples>
+
+
+	<example_item>
+		<example_item_type>nelson</example_item_type>
+		<example_item_description></example_item_description>
+		<example_item_data><![CDATA[
+wav_file = [modulepath('audio'), '/examples/haha.wav'];
+info = audioinfo(wav_file)
+]]>
+		</example_item_data>
+	</example_item>
+
+</examples>
+
+	<history>
+		<history_item>
+			<history_version>1.0.0</history_version>
+			<history_description>initial version</history_description>
+		</history_item>
+	</history>
+
+	<authors>
+		<author_item>Allan CORNET</author_item>
+	</authors>
+</xmldoc>
+
+

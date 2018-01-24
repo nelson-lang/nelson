@@ -21,6 +21,7 @@
 #define ENABLE_SNDFILE_WINDOWS_PROTOTYPES 1
 #endif
 //=============================================================================
+#include <climits>
 #include <Eigen/Dense>
 #include <sndfile.h>
 #include "AudioRead.hpp"

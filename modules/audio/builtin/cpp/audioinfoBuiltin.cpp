@@ -16,12 +16,34 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "audioinfoBuiltin.hpp"
+#include "Error.hpp"
+#include "AudioFileInfo.hpp"
 //=============================================================================
-#include "nlsAudio_exports.h"
-#include "ArrayOf.hpp"
+using namespace Nelson;
 //=============================================================================
-namespace Nelson {
-    NLSAUDIO_IMPEXP ArrayOfVector AudioRead(std::wstring filename, double dstart, double dend, std::wstring datatype, std::wstring &errorMessage);
+// info = audiofile(filename)
+//=============================================================================
+ArrayOfVector Nelson::AudioGateway::audioinfoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+	ArrayOfVector retval;
+	if (nLhs > 1)
+	{
+		Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+	}
+	if (argIn.size() != 1)
+	{
+		Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+	}
+	std::wstring errorMessage;
+	ArrayOf param1 = argIn[0];
+	std::wstring filename = param1.getContentAsWideString();
+	ArrayOf res = AudioFileInfo(filename, errorMessage);
+	if (errorMessage != L"")
+	{
+		Error(eval, errorMessage);
+	}
+	retval.push_back(res);
+	return retval;
 }
 //=============================================================================

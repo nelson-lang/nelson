@@ -194,6 +194,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\AudioDevInfo.cpp" />
+    <ClCompile Include="..\cpp\AudioFileInfo.cpp" />
     <ClCompile Include="..\cpp\AudioHelpers.cpp" />
     <ClCompile Include="..\cpp\AudioplayerObject.cpp" />
     <ClCompile Include="..\cpp\AudioRead.cpp" />
@@ -204,6 +205,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\AudioDevInfo.hpp" />
+    <ClInclude Include="..\include\AudioFileInfo.hpp" />
     <ClInclude Include="..\include\AudioHelpers.hpp" />
     <ClInclude Include="..\include\AudioplayerObject.hpp" />
     <ClInclude Include="..\include\AudioRead.hpp" />

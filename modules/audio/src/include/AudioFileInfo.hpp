@@ -18,10 +18,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <climits>
 #include "nlsAudio_exports.h"
 #include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
-    NLSAUDIO_IMPEXP ArrayOfVector AudioRead(std::wstring filename, double dstart, double dend, std::wstring datatype, std::wstring &errorMessage);
+	NLSAUDIO_IMPEXP ArrayOf AudioFileInfo(std::wstring filename, std::wstring &errorMessage);
 }
 //=============================================================================
