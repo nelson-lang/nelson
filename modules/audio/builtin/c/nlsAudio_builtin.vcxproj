@@ -205,6 +205,7 @@
   <ItemGroup>
     <ClCompile Include="..\cpp\audiodevinfoBuiltin.cpp" />
     <ClCompile Include="..\cpp\audioinfoBuiltin.cpp" />
+    <ClCompile Include="..\cpp\audiometadataBuiltin.cpp" />
     <ClCompile Include="..\cpp\audioplayerBuiltin.cpp" />
     <ClCompile Include="..\cpp\audioplayer_deleteBuiltin.cpp" />
     <ClCompile Include="..\cpp\audioplayer_dispBuiltin.cpp" />
@@ -230,6 +231,7 @@
   <ItemGroup>
     <ClInclude Include="..\include\audiodevinfoBuiltin.hpp" />
     <ClInclude Include="..\include\audioinfoBuiltin.hpp" />
+    <ClInclude Include="..\include\audiometadataBuiltin.hpp" />
     <ClInclude Include="..\include\audioplayerBuiltin.hpp" />
     <ClInclude Include="..\include\audioplayer_deleteBuiltin.hpp" />
     <ClInclude Include="..\include\audioplayer_dispBuiltin.hpp" />

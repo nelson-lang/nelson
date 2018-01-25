@@ -18,10 +18,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsAudio_exports.h"
 #include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    NLSAUDIO_IMPEXP ArrayOf AudioFileInfo(std::wstring filename, std::wstring &errorMessage);
+    namespace AudioGateway {
+        ArrayOfVector audiometadataBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    }
 }
 //=============================================================================

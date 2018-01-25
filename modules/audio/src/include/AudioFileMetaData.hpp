@@ -22,6 +22,7 @@
 #include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
-    NLSAUDIO_IMPEXP ArrayOf AudioFileInfo(std::wstring filename, std::wstring &errorMessage);
+	NLSAUDIO_IMPEXP wstringVector AudioFileMetaData(std::wstring filename, std::wstring &errorMessage);
+	NLSAUDIO_IMPEXP wstringVector AudioFileMetaData(std::wstring filename, wstringVector metadata, std::wstring &errorMessage);
 }
 //=============================================================================
