@@ -16,12 +16,12 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include "nlsAudio_exports.h"
-#include "ArrayOf.hpp"
-//=============================================================================
-namespace Nelson {
-	NLSAUDIO_IMPEXP wstringVector AudioFileMetaData(std::wstring filename, std::wstring &errorMessage);
-}
+flac_audio = [modulepath('audio'), '/examples/kaneda.flac'];
+[y, fs] = audioread(flac_audio);
+playObj = audioplayer(y, fs);
+for i = 1:4
+  playblocking(playObj)
+end
+delete(playObj)
+clear playObj
 //=============================================================================

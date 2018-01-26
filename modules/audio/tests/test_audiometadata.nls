@@ -16,12 +16,20 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+assert_isequal(nargin('audiometadata'), 1);
+assert_isequal(nargout('audiometadata'), 1);
 //=============================================================================
-#include "nlsAudio_exports.h"
-#include "ArrayOf.hpp"
+src_wav_file = [modulepath('audio'), '/tests/DynoA3.wav'];
+info = audiometadata(src_wav_file);
 //=============================================================================
-namespace Nelson {
-	NLSAUDIO_IMPEXP wstringVector AudioFileMetaData(std::wstring filename, std::wstring &errorMessage);
-}
-//=============================================================================
+assert_isequal(info.Title, 'title test');
+assert_isequal(info.Comment, 'test comments');
+assert_isequal(info.Artist, 'artist test');
+assert_isequal(info.Copyright, []);
+assert_isequal(info.Software, []);
+assert_isequal(info.Date, '1900');
+assert_isequal(info.Album, 'album test');
+assert_isequal(info.License, []);
+assert_isequal(info.TrackNumber, '42');
+assert_isequal(info.Genre, 'Acoustic');
+ //=============================================================================

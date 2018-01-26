@@ -16,12 +16,26 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "audiosupportedformatsBuiltin.hpp"
+#include "Error.hpp"
+#include "AudioSupportedFormats.hpp"
 //=============================================================================
-#include "nlsAudio_exports.h"
-#include "ArrayOf.hpp"
+using namespace Nelson;
 //=============================================================================
-namespace Nelson {
-	NLSAUDIO_IMPEXP wstringVector AudioFileMetaData(std::wstring filename, std::wstring &errorMessage);
+// info = audiosupportedformats()
+//=============================================================================
+ArrayOfVector Nelson::AudioGateway::audiosupportedformatsBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+    if (nLhs > 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    if (argIn.size() != 0)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+	retval.push_back(AudioSupportedFormats());
+    return retval;
 }
 //=============================================================================

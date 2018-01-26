@@ -43,7 +43,7 @@
 
 	<description>
 		<p><b>audioread</b> reads an audio file.</p>
-    <p>Supported format: 'wav', 'ogg', 'flac', 'au', 'aiff'.</p>
+    <p>Supported format: 'wav', 'ogg', 'flac', 'au', 'aiff'. See <b>audiosupportedformats</b> function to have all supported formats.</p>
     <p>If <b>type</b> is 'native' then audio data depends on the file format (single, double, integers).</p>
 	</description>
 
@@ -74,6 +74,10 @@ clear playObj]]>
     <see_also_item>
       <link linkend="${audio}audioplayer">audioplayer</link>
     </see_also_item>
+    <see_also_item>
+      <link linkend="${audio}audiosupportedformats">audiosupportedformats</link>
+    </see_also_item>
+
   </see_also>
 
 

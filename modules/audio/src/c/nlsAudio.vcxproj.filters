@@ -56,6 +56,9 @@
     <ClCompile Include="..\cpp\AudioFileMetaData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\AudioSupportedFormats.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\AudioHelpers.hpp">
@@ -86,6 +89,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\AudioFileMetaData.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\AudioSupportedFormats.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

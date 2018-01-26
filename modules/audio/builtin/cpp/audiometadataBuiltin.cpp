@@ -23,7 +23,6 @@
 using namespace Nelson;
 //=============================================================================
 // info = audiometadata(filename)
-// info = audiometadata(filename, info)
 //=============================================================================
 ArrayOfVector Nelson::AudioGateway::audiometadataBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
@@ -32,7 +31,7 @@ ArrayOfVector Nelson::AudioGateway::audiometadataBuiltin(Evaluator* eval, int nL
     {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() < 1 || argIn.size() > 2)
+    if (argIn.size() != 1)
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
@@ -43,46 +42,6 @@ ArrayOfVector Nelson::AudioGateway::audiometadataBuiltin(Evaluator* eval, int nL
 	if (argIn.size() == 1)
 	{
 		outputMetaData = AudioFileMetaData(filename, errorMessage);
-	}
-	else
-	{
-		ArrayOf param2 = argIn[1];
-		if (!param2.isStruct())
-		{
-			Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_STRUCT_EXPECTED);
-		}
-		if (!param2.isScalar())
-		{
-			Error(eval, ERROR_WRONG_ARGUMENT_2_SIZE_SCALAR_EXPECTED);
-		}
-		stringVector currentFieldnames = param2.getFieldNames();
-		stringVector expected = { "Title", "Comment", "Artist", "Copyright",
-			"Software", "Date", "Album", "License", "TrackNumber", "Genre" };
-		if (currentFieldnames.size() != expected.size())
-		{
-			Error(eval, ERROR_FIELDNAMES_MUST_MATCH);
-		}
-		wstringVector inputMetaData;
-		for (std::string fieldname : currentFieldnames)
-		{
-			ArrayOf fieldvalue = param2.getField(fieldname);
-			if (fieldvalue.isEmpty() || fieldvalue.isString())
-			{
-				if (fieldvalue.isEmpty())
-				{
-					inputMetaData.push_back(L"");
-				}
-				else
-				{
-					inputMetaData.push_back(fieldvalue.getContentAsWideString());
-				}
-			}
-			else
-			{
-				Error(eval, ERROR_WRONG_ARGUMENT_2_VALUE);
-			}
-		}
-		outputMetaData = AudioFileMetaData(filename, inputMetaData, errorMessage);
 	}
     if (errorMessage != L"")
     {

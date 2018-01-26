@@ -41,7 +41,8 @@ namespace Nelson {
 #endif
 		if (file == nullptr)
 		{
-			errorMessage = ERROR_WRONG_ARGUMENT_1_VALUE;
+			const char* msg = sf_strerror(NULL);
+			errorMessage = utf8_to_wstring(msg);
 			return outputMetaData;
 		}
 
@@ -57,53 +58,6 @@ namespace Nelson {
 		outputMetaData.push_back(utf8_to_wstring(sf_get_string(file, SF_STR_GENRE)));
 		sf_close(file);
 		return outputMetaData;
-	}
-	//=============================================================================
-	wstringVector AudioFileMetaData(std::wstring filename, wstringVector metadata, std::wstring &errorMessage)
-	{
-		wstringVector outputMetaData;
-		errorMessage = L"";
-		if (metadata.size() != 10)
-		{
-			errorMessage = _W("Wrong number of metadata.");
-			return outputMetaData;
-		}
-
-		SNDFILE * file = nullptr;
-		SF_INFO sfinfo;
-		memset(&sfinfo, 0, sizeof(sfinfo));
-#ifdef _MSC_VER
-		file = sf_wchar_open(filename.c_str(), SFM_RDWR, &sfinfo);
-#else
-		std::string ufilename = wstring_to_utf8(filename);
-		file = sf_open(ufilename.c_str(), SFM_READ, &sfinfo);
-#endif
-		if (file == nullptr)
-		{
-			errorMessage = ERROR_WRONG_ARGUMENT_1_VALUE;
-			return outputMetaData;
-		}
-
-		sf_set_string(file, SF_STR_TITLE, wstring_to_utf8(metadata[0]).c_str());
-		sf_set_string(file, SF_STR_COMMENT, wstring_to_utf8(metadata[1]).c_str());
-		sf_set_string(file, SF_STR_ARTIST, wstring_to_utf8(metadata[2]).c_str());
-		sf_set_string(file, SF_STR_COPYRIGHT, wstring_to_utf8(metadata[3]).c_str());
-		if (metadata[4] == L"")
-		{
-			sf_set_string(file, SF_STR_SOFTWARE, "Nelson");
-		}
-		else
-		{
-			sf_set_string(file, SF_STR_SOFTWARE, wstring_to_utf8(metadata[4]).c_str());
-		}
-		sf_set_string(file, SF_STR_DATE, wstring_to_utf8(metadata[5]).c_str());
-		sf_set_string(file, SF_STR_ALBUM, wstring_to_utf8(metadata[6]).c_str());
-		sf_set_string(file, SF_STR_LICENSE, wstring_to_utf8(metadata[7]).c_str());
-		sf_set_string(file, SF_STR_TRACKNUMBER, wstring_to_utf8(metadata[8]).c_str());
-		sf_set_string(file, SF_STR_GENRE, wstring_to_utf8(metadata[9]).c_str());
-		sf_close(file);
-
-		return AudioFileMetaData(filename, errorMessage);
 	}
 	//=============================================================================
 }

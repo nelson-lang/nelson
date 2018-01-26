@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+	<copyright>SAME AS NELSON SOFTWARE</copyright>
+
+	<language>en_US</language>
+	<keyword>audiosupportedformats</keyword>
+	<short_description>Get audio file supported formats.</short_description>
+
+	<syntax>
+		<syntax_item>formats = audiosupportedformats()</syntax_item>
+	</syntax>
+	
+	<param_output>
+		<param_output_item>
+			<param_name>formats</param_name>
+			<param_description>struct array with 'Name', 'Extension', 'Subformats' fieldnames.</param_description>
+		</param_output_item>
+
+	</param_output>
+
+	<description>
+		<p><b>audiosupportedformats</b> returns a structure with supported audio file formats.</p>
+	</description>
+
+	<used_function></used_function>
+	<bibliography></bibliography>
+
+<examples>
+
+
+	<example_item>
+		<example_item_type>nelson</example_item_type>
+		<example_item_description></example_item_description>
+		<example_item_data><![CDATA[formats = audiosupportedformats();
+for k = [1: length(formats)]
+  formats(k).Name
+  formats(k).Extension
+  formats(k).Subformats
+end]]>
+		</example_item_data>
+	</example_item>
+
+</examples>
+
+	<history>
+		<history_item>
+			<history_version>1.0.0</history_version>
+			<history_description>initial version</history_description>
+		</history_item>
+	</history>
+
+	<authors>
+		<author_item>Allan CORNET</author_item>
+	</authors>
+</xmldoc>
+
+

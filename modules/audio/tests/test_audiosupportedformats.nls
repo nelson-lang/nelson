@@ -16,12 +16,16 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+assert_isequal(nargin('audiosupportedformats'), 0);
+assert_isequal(nargout('audiosupportedformats'), 1);
 //=============================================================================
-#include "nlsAudio_exports.h"
-#include "ArrayOf.hpp"
+formats = audiosupportedformats();
+assert_isequal(class(formats), 'struct');
+assert_isequal(fieldnames(formats), {'Name'; 'Extension'; 'Subformats'});
 //=============================================================================
-namespace Nelson {
-	NLSAUDIO_IMPEXP wstringVector AudioFileMetaData(std::wstring filename, std::wstring &errorMessage);
-}
+for k = [1: length(formats)]
+  assert_istrue(ischar(formats(k).Name));
+  assert_istrue(ischar(formats(k).Extension));
+  assert_istrue(iscellstr(formats(k).Subformats) | ischar(formats(k).Subformats));
+end
 //=============================================================================

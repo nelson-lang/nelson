@@ -40,6 +40,7 @@
 #include "audioreadBuiltin.hpp"
 #include "audioinfoBuiltin.hpp"
 #include "audiometadataBuiltin.hpp"
+#include "audiosupportedformatsBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -68,7 +69,8 @@ static const nlsGateway gateway[] =
     { "beep", Nelson::AudioGateway::beepBuiltin, 1, 1 },
     { "audioread", Nelson::AudioGateway::audioreadBuiltin, 2, 3 },
     { "audioinfo", Nelson::AudioGateway::audioinfoBuiltin, 1, 1 },
-    { "audiometadata", Nelson::AudioGateway::audiometadataBuiltin, 1, -1 },
+    { "audiometadata", Nelson::AudioGateway::audiometadataBuiltin, 1, 1 },
+    { "audiosupportedformats", Nelson::AudioGateway::audiosupportedformatsBuiltin, 1, 0 },
 };
 //=============================================================================
 static bool initializeAudioModule(Nelson::Evaluator* eval)

@@ -1,3 +1,4 @@
+
 //=============================================================================
 // Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
@@ -16,12 +17,10 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include "nlsAudio_exports.h"
-#include "ArrayOf.hpp"
-//=============================================================================
-namespace Nelson {
-	NLSAUDIO_IMPEXP wstringVector AudioFileMetaData(std::wstring filename, std::wstring &errorMessage);
-}
+wav_audio = [modulepath('audio'), '/examples/haha.wav'];
+[y, fs] = audioread(wav_audio);
+playObj = audioplayer(y, fs);
+playblocking(playObj)
+delete(playObj)
+clear playObj
 //=============================================================================
