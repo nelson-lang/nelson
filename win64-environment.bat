@@ -18,5 +18,5 @@ rem LICENCE_BLOCK_END
 rem =============================================================================
 
 set QTDIR=%QTDIR64%
-set VS_EXEC="C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\devenv.exe"
+set VS_EXEC="C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\Common7\IDE\devenv.exe"
 call %VS_EXEC% NelSon.sln
