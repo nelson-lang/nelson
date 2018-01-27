@@ -38,6 +38,7 @@
 #include "audioplayer_isvalidBuiltin.hpp"
 #include "audioplayer_ispropBuiltin.hpp"
 #include "audioreadBuiltin.hpp"
+#include "audiowriteBuiltin.hpp"
 #include "audioinfoBuiltin.hpp"
 #include "audiometadataBuiltin.hpp"
 #include "audiosupportedformatsBuiltin.hpp"
@@ -71,6 +72,7 @@ static const nlsGateway gateway[] =
     { "audioinfo", Nelson::AudioGateway::audioinfoBuiltin, 1, 1 },
     { "audiometadata", Nelson::AudioGateway::audiometadataBuiltin, 1, 1 },
     { "audiosupportedformats", Nelson::AudioGateway::audiosupportedformatsBuiltin, 1, 0 },
+    { "audiowrite", Nelson::AudioGateway::audiowriteBuiltin, 0, -3 },
 };
 //=============================================================================
 static bool initializeAudioModule(Nelson::Evaluator* eval)
