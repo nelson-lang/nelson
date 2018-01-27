@@ -22,6 +22,6 @@
 #include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
-	NLSAUDIO_IMPEXP ArrayOf AudioSupportedFormats();
+    NLSAUDIO_IMPEXP ArrayOf AudioSupportedFormats();
 }
 //=============================================================================

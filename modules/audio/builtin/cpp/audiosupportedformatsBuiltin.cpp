@@ -35,7 +35,7 @@ ArrayOfVector Nelson::AudioGateway::audiosupportedformatsBuiltin(Evaluator* eval
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-	retval.push_back(AudioSupportedFormats());
+    retval.push_back(AudioSupportedFormats());
     return retval;
 }
 //=============================================================================

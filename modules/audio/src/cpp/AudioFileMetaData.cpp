@@ -26,39 +26,38 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-	wstringVector AudioFileMetaData(std::wstring filename, std::wstring &errorMessage)
-	{
-		wstringVector outputMetaData;
-		errorMessage = L"";
-		SNDFILE * file = nullptr;
-		SF_INFO sfinfo;
-		memset(&sfinfo, 0, sizeof(sfinfo));
+    wstringVector AudioFileMetaData(std::wstring filename, std::wstring &errorMessage)
+    {
+        wstringVector outputMetaData;
+        errorMessage = L"";
+        SNDFILE * file = nullptr;
+        SF_INFO sfinfo;
+        memset(&sfinfo, 0, sizeof(sfinfo));
 #ifdef _MSC_VER
-		file = sf_wchar_open(filename.c_str(), SFM_READ, &sfinfo);
+        file = sf_wchar_open(filename.c_str(), SFM_READ, &sfinfo);
 #else
-		std::string ufilename = wstring_to_utf8(filename);
-		file = sf_open(ufilename.c_str(), SFM_READ, &sfinfo);
+        std::string ufilename = wstring_to_utf8(filename);
+        file = sf_open(ufilename.c_str(), SFM_READ, &sfinfo);
 #endif
-		if (file == nullptr)
-		{
-			const char* msg = sf_strerror(NULL);
-			errorMessage = utf8_to_wstring(msg);
-			return outputMetaData;
-		}
-
-		outputMetaData.push_back(utf8_to_wstring(sf_get_string(file, SF_STR_TITLE)));
-		outputMetaData.push_back(utf8_to_wstring(sf_get_string(file, SF_STR_COMMENT)));
-		outputMetaData.push_back(utf8_to_wstring(sf_get_string(file, SF_STR_ARTIST)));
-		outputMetaData.push_back(utf8_to_wstring(sf_get_string(file, SF_STR_COPYRIGHT)));
-		outputMetaData.push_back(utf8_to_wstring(sf_get_string(file, SF_STR_SOFTWARE)));
-		outputMetaData.push_back(utf8_to_wstring(sf_get_string(file, SF_STR_DATE)));
-		outputMetaData.push_back(utf8_to_wstring(sf_get_string(file, SF_STR_ALBUM)));
-		outputMetaData.push_back(utf8_to_wstring(sf_get_string(file, SF_STR_LICENSE)));
-		outputMetaData.push_back(utf8_to_wstring(sf_get_string(file, SF_STR_TRACKNUMBER)));
-		outputMetaData.push_back(utf8_to_wstring(sf_get_string(file, SF_STR_GENRE)));
-		sf_close(file);
-		return outputMetaData;
-	}
-	//=============================================================================
+        if (file == nullptr)
+        {
+            const char* msg = sf_strerror(NULL);
+            errorMessage = utf8_to_wstring(msg);
+            return outputMetaData;
+        }
+        outputMetaData.push_back(utf8_to_wstring(sf_get_string(file, SF_STR_TITLE)));
+        outputMetaData.push_back(utf8_to_wstring(sf_get_string(file, SF_STR_COMMENT)));
+        outputMetaData.push_back(utf8_to_wstring(sf_get_string(file, SF_STR_ARTIST)));
+        outputMetaData.push_back(utf8_to_wstring(sf_get_string(file, SF_STR_COPYRIGHT)));
+        outputMetaData.push_back(utf8_to_wstring(sf_get_string(file, SF_STR_SOFTWARE)));
+        outputMetaData.push_back(utf8_to_wstring(sf_get_string(file, SF_STR_DATE)));
+        outputMetaData.push_back(utf8_to_wstring(sf_get_string(file, SF_STR_ALBUM)));
+        outputMetaData.push_back(utf8_to_wstring(sf_get_string(file, SF_STR_LICENSE)));
+        outputMetaData.push_back(utf8_to_wstring(sf_get_string(file, SF_STR_TRACKNUMBER)));
+        outputMetaData.push_back(utf8_to_wstring(sf_get_string(file, SF_STR_GENRE)));
+        sf_close(file);
+        return outputMetaData;
+    }
+    //=============================================================================
 }
 //=============================================================================
