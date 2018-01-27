@@ -18,10 +18,9 @@
 //=============================================================================
 flac_audio = [modulepath('audio'), '/examples/kaneda.flac'];
 [y, fs] = audioread(flac_audio);
-playObj = audioplayer(y, fs);
-for i = 1:4
-  playblocking(playObj)
-end
+Y = [y;y;y;y];
+playObj = audioplayer(Y, fs);
+playblocking(playObj)
 delete(playObj)
 clear playObj
 //=============================================================================
