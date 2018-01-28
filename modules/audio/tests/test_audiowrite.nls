@@ -1,0 +1,43 @@
+//=============================================================================
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+wav_file = [modulepath('audio'), '/tests/DynoA3.wav'];
+[Y_REF, FS_REF] = audioread(wav_file);
+dest_path = [tempdir(), '/test_audiowrite'];
+mkdir(dest_path);
+dest_file = [dest_path, '/'];
+dest_file = [dest_path, '/test_audiowrite_1', '.wav'];
+audiowrite(dest_file, Y_REF, FS_REF)
+[y, fs] = audioread(dest_file);
+assert_isapprox(y, Y_REF, 1e-4);
+//=============================================================================
+formats = audiosupportedformats();
+unsupported_extensions = {'.htk', '.iff', '.oga', '.sds', '.wve', '.xi', '.raw'};
+for f = formats
+  if ~any(strcmp(f.Extension, unsupported_extensions))
+    dest_file = [dest_path, '/test_audiowrite_1', f.Extension];
+    audiowrite(dest_file, Y_REF, FS_REF)
+		assert_istrue(isfile(dest_file));
+    [y, fs] = audioread(dest_file);
+		assert_isequal(size(y), size(Y_REF));
+		assert_isequal(fs, FS_REF);
+    assert_isapprox(y, Y_REF, 1e-4);
+  end
+end
+//=============================================================================
+rmdir(dest_path, 's');

@@ -153,86 +153,6 @@ namespace Nelson {
                 errorMessage = _W("Invalid BitsPerSample value.");
                 return false;
             }
-            int16 *audioAsInt16RowMajor = nullptr;
-            int32 *audioAsInt32RowMajor = nullptr;
-            single *audioAsSingleRowMajor = nullptr;
-            double *audioAsDoubleRowMajor = nullptr;
-            switch (audioData.getDataClass())
-            {
-                case NLS_UINT8:
-                {
-                    audioAsSingleRowMajor = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, audioData.getDimensions().getElementCount());
-                    uint8 *ptrAudioData = (uint8*)audioData.getDataPointer();
-                    int index = 0;
-                    for (int i = 0; i < rows; i++)
-                    {
-                        for (int j = 0; j < columns; j++)
-                        {
-                            single value = (single)((ptrAudioData[j * columns + i] - std::pow(2.0, 7)) / std::pow(2.0, 7));
-                            single max_val = (value < single(-1.0)) ? single(-1.0) : value;
-                            single min_val = (single(1.0) < max_val) ? single(1.0) : max_val;
-                            audioAsSingleRowMajor[index++] = min_val;
-                        }
-                    }
-                }
-                break;
-                case NLS_INT16:
-                {
-                    audioAsInt16RowMajor = (int16*)ArrayOf::allocateArrayOf(NLS_INT16, audioData.getDimensions().getElementCount());
-                    int16 *ptrAudioData = (int16*)audioData.getDataPointer();
-                    int index = 0;
-                    for (int i = 0; i < rows; i++)
-                    {
-                        for (int j = 0; j < columns; j++)
-                        {
-                            audioAsInt16RowMajor[index++] = ptrAudioData[j * columns + i];
-                        }
-                    }
-                }
-                break;
-                case NLS_INT32:
-                {
-                    int32 *audioAsInt32RowMajor = (int32*)ArrayOf::allocateArrayOf(NLS_INT32, audioData.getDimensions().getElementCount());
-                    int32 *ptrAudioData = (int32*)audioData.getDataPointer();
-                    int index = 0;
-                    for (int i = 0; i < rows; i++)
-                    {
-                        for (int j = 0; j < columns; j++)
-                        {
-                            audioAsInt32RowMajor[index++] = ptrAudioData[j * columns + i];
-                        }
-                    }
-                }
-                break;
-                case NLS_SINGLE:
-                {
-                    audioAsSingleRowMajor = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, audioData.getDimensions().getElementCount());
-                    single *ptrAudioData = (single*)audioData.getDataPointer();
-                    int index = 0;
-                    for (int i = 0; i < rows; i++)
-                    {
-                        for (int j = 0; j < columns; j++)
-                        {
-                            audioAsSingleRowMajor[index++] = ptrAudioData[j * columns + i];
-                        }
-                    }
-                }
-                break;
-                case NLS_DOUBLE:
-                {
-                    audioAsDoubleRowMajor = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, audioData.getDimensions().getElementCount());
-                    double *ptrAudioData = (double*)audioData.getDataPointer();
-                    int index = 0;
-                    for (int i = 0; i < rows; i++)
-                    {
-                        for (int j = 0; j < columns; j++)
-                        {
-                            audioAsDoubleRowMajor[index++] = ptrAudioData[j * columns + i];
-                        }
-                    }
-                }
-                break;
-            }
             SNDFILE * file = nullptr;
 #ifdef _MSC_VER
             file = sf_wchar_open(filename.c_str(), SFM_WRITE, &sfinfo);
@@ -242,105 +162,195 @@ namespace Nelson {
 #endif
             if (file == nullptr)
             {
-                if (audioAsInt16RowMajor)
-                {
-                    delete[] audioAsInt16RowMajor;
-                }
-                if (audioAsInt32RowMajor)
-                {
-                    delete[] audioAsInt32RowMajor;
-                }
-                if (audioAsSingleRowMajor)
-                {
-                    delete[] audioAsSingleRowMajor;
-                }
-                if (audioAsDoubleRowMajor)
-                {
-                    delete[] audioAsDoubleRowMajor;
-                }
                 const char* msg = sf_strerror(NULL);
                 errorMessage = utf8_to_wstring(msg);
                 return false;
             }
-            sf_count_t total_audio_data = 0;
-            sf_count_t offset = 0;
-            sf_count_t audio_data_to_write = rows * columns;
-            sf_count_t chunk_size = audio_data_to_write;
-            while (total_audio_data < audio_data_to_write)
+            int BUFFER = 8192;
+            int writecount = 0;
+            long total = 0;
+            int idx = 0;
+            switch (audioData.getDataClass())
             {
-                if (audio_data_to_write - offset < chunk_size)
+                case NLS_UINT8:
                 {
-                    chunk_size = audio_data_to_write - offset;
+                    uint8 *ptrAudioData = (uint8*)audioData.getDataPointer();
+                    single *buffer = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, BUFFER * sfinfo.channels);
+                    int idx = 0;
+                    do
+                    {
+                        writecount = BUFFER;
+                        if (total + writecount > rows)
+                        {
+                            writecount = rows - total;
+                        }
+                        for (int ch = 0; ch < sfinfo.channels; ch++)
+                        {
+                            for (int k = 0; k < writecount; k++)
+                            {
+                                single value = (single)((ptrAudioData[idx++] - std::pow(2.0, 7)) / std::pow(2.0, 7));
+                                single max_val = (value < single(-1.0)) ? single(-1.0) : value;
+                                single min_val = (single(1.0) < max_val) ? single(1.0) : max_val;
+                                buffer[k * sfinfo.channels + ch] = min_val;
+                            }
+                        }
+                        if (writecount > 0)
+                        {
+                            sf_count_t audio_data_written = sf_writef_float(file, buffer, writecount);
+                            if (audio_data_written != writecount)
+                            {
+                                delete[] buffer;
+                                errorMessage = _W("Write failed.");
+                                sf_close(file);
+                                return false;
+                            }
+                        }
+                        total += writecount;
+                    }
+                    while (writecount > 0 && total < rows);
+                    delete[] buffer;
                 }
-                sf_count_t audio_data_written;
-                switch (audioData.getDataClass())
+                break;
+                case NLS_INT16:
                 {
-                    case NLS_UINT8:
+                    int16 *ptrAudioData = (int16*)audioData.getDataPointer();
+                    int16 *buffer = (int16*)ArrayOf::allocateArrayOf(NLS_INT16, BUFFER * sfinfo.channels);
+                    do
                     {
-                        audio_data_written = sf_write_float(file, audioAsSingleRowMajor + offset, chunk_size);
+                        writecount = BUFFER;
+                        if (total + writecount > rows)
+                        {
+                            writecount = rows - total;
+                        }
+                        for (int ch = 0; ch < sfinfo.channels; ch++)
+                        {
+                            for (int k = 0; k < writecount; k++)
+                            {
+                                buffer[k * sfinfo.channels + ch] = ptrAudioData[idx++];
+                            }
+                        }
+                        if (writecount > 0)
+                        {
+                            sf_count_t audio_data_written = sf_writef_short(file, buffer, writecount);
+                            if (audio_data_written != writecount)
+                            {
+                                delete[] buffer;
+                                errorMessage = _W("Write failed.");
+                                sf_close(file);
+                                return false;
+                            }
+                        }
+                        total += writecount;
                     }
-                    break;
-                    case NLS_INT16:
-                    {
-                        audio_data_written = sf_write_short(file, audioAsInt16RowMajor + offset, chunk_size);
-                    }
-                    break;
-                    case NLS_INT32:
-                    {
-                        audio_data_written = sf_write_int(file, audioAsInt32RowMajor + offset, chunk_size);
-                    }
-                    break;
-                    case NLS_SINGLE:
-                    {
-                        audio_data_written = sf_write_float(file, audioAsSingleRowMajor + offset, chunk_size);
-                    }
-                    break;
-                    case NLS_DOUBLE:
-                    {
-                        audio_data_written = sf_write_double(file, audioAsDoubleRowMajor + offset, chunk_size);
-                    }
-                    break;
+                    while (writecount > 0 && total < rows);
+                    delete[] buffer;
                 }
-                if (audio_data_written != chunk_size)
+                break;
+                case NLS_INT32:
                 {
-                    if (audioAsInt16RowMajor)
+                    int32 *ptrAudioData = (int32*)audioData.getDataPointer();
+                    int32 *buffer = (int32*)ArrayOf::allocateArrayOf(NLS_INT32, BUFFER * sfinfo.channels);
+                    do
                     {
-                        delete[] audioAsInt16RowMajor;
+                        writecount = BUFFER;
+                        if (total + writecount > rows)
+                        {
+                            writecount = rows - total;
+                        }
+                        for (int ch = 0; ch < sfinfo.channels; ch++)
+                        {
+                            for (int k = 0; k < writecount; k++)
+                            {
+                                buffer[k * sfinfo.channels + ch] = ptrAudioData[idx++];
+                            }
+                        }
+                        if (writecount > 0)
+                        {
+                            sf_count_t audio_data_written = sf_writef_int(file, buffer, writecount);
+                            if (audio_data_written != writecount)
+                            {
+                                delete[] buffer;
+                                errorMessage = _W("Write failed.");
+                                sf_close(file);
+                                return false;
+                            }
+                        }
+                        total += writecount;
                     }
-                    if (audioAsInt32RowMajor)
-                    {
-                        delete[] audioAsInt32RowMajor;
-                    }
-                    if (audioAsSingleRowMajor)
-                    {
-                        delete[] audioAsSingleRowMajor;
-                    }
-                    if (audioAsDoubleRowMajor)
-                    {
-                        delete[] audioAsDoubleRowMajor;
-                    }
-                    errorMessage = _W("Write failed.");
-                    sf_close(file);
-                    return false;
+                    while (writecount > 0 && total < rows);
+                    delete[] buffer;
                 }
-                total_audio_data += audio_data_written;
-                offset += chunk_size;
-            }
-            if (audioAsInt16RowMajor)
-            {
-                delete[] audioAsInt16RowMajor;
-            }
-            if (audioAsInt32RowMajor)
-            {
-                delete[] audioAsInt32RowMajor;
-            }
-            if (audioAsSingleRowMajor)
-            {
-                delete[] audioAsSingleRowMajor;
-            }
-            if (audioAsDoubleRowMajor)
-            {
-                delete[] audioAsDoubleRowMajor;
+                break;
+                case NLS_SINGLE:
+                {
+                    single *ptrAudioData = (single*)audioData.getDataPointer();
+                    single *buffer = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, BUFFER * sfinfo.channels);
+                    do
+                    {
+                        writecount = BUFFER;
+                        if (total + writecount > rows)
+                        {
+                            writecount = rows - total;
+                        }
+                        for (int ch = 0; ch < sfinfo.channels; ch++)
+                        {
+                            for (int k = 0; k < writecount; k++)
+                            {
+                                buffer[k * sfinfo.channels + ch] = ptrAudioData[idx++];
+                            }
+                        }
+                        if (writecount > 0)
+                        {
+                            sf_count_t audio_data_written = sf_writef_float(file, buffer, writecount);
+                            if (audio_data_written != writecount)
+                            {
+                                delete[] buffer;
+                                errorMessage = _W("Write failed.");
+                                sf_close(file);
+                                return false;
+                            }
+                        }
+                        total += writecount;
+                    }
+                    while (writecount > 0 && total < rows);
+                    delete[] buffer;
+                }
+                break;
+                case NLS_DOUBLE:
+                {
+                    double *ptrAudioData = (double*)audioData.getDataPointer();
+                    double *buffer = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, BUFFER * sfinfo.channels);
+                    do
+                    {
+                        writecount = BUFFER;
+                        if (total + writecount > rows)
+                        {
+                            writecount = rows - total;
+                        }
+                        for (int ch = 0; ch < sfinfo.channels; ch++)
+                        {
+                            for (int k = 0; k < writecount; k++)
+                            {
+                                buffer[k * sfinfo.channels + ch] = ptrAudioData[idx++];
+                            }
+                        }
+                        if (writecount > 0)
+                        {
+                            sf_count_t audio_data_written = sf_writef_double(file, buffer, writecount);
+                            if (audio_data_written != writecount)
+                            {
+                                delete[] buffer;
+                                errorMessage = _W("Write failed.");
+                                sf_close(file);
+                                return false;
+                            }
+                        }
+                        total += writecount;
+                    }
+                    while (writecount > 0 && total < rows);
+                    delete[] buffer;
+                }
+                break;
             }
             // metadata works only for wav
             std::string title = wstring_to_utf8(metadata[0]);
