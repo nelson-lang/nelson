@@ -153,52 +153,85 @@ namespace Nelson {
                 errorMessage = _W("Invalid BitsPerSample value.");
                 return false;
             }
-            audioData.promoteType(NLS_DOUBLE);
-            single *audioAsSingle = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, audioData.getDimensions().getElementCount());
-            double bias = 0.;
-            double scale = 1.;
+            int16 *audioAsInt16RowMajor = nullptr;
+            int32 *audioAsInt32RowMajor = nullptr;
+            single *audioAsSingleRowMajor = nullptr;
+            double *audioAsDoubleRowMajor = nullptr;
             switch (audioData.getDataClass())
             {
                 case NLS_UINT8:
                 {
-                    bias = std::pow(2.0, 7);
-                    scale = std::pow(2.0, 7);
+                    audioAsSingleRowMajor = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, audioData.getDimensions().getElementCount());
+                    uint8 *ptrAudioData = (uint8*)audioData.getDataPointer();
+                    int index = 0;
+                    for (int i = 0; i < rows; i++)
+                    {
+                        for (int j = 0; j < columns; j++)
+                        {
+                            single value = (single)((ptrAudioData[j * columns + i] - std::pow(2.0, 7)) / std::pow(2.0, 7));
+                            single max_val = (value < single(-1.0)) ? single(-1.0) : value;
+                            single min_val = (single(1.0) < max_val) ? single(1.0) : max_val;
+                            audioAsSingleRowMajor[index++] = min_val;
+                        }
+                    }
                 }
                 break;
                 case NLS_INT16:
                 {
-                    bias = 0.;
-                    scale = std::pow(2.0, 15);
+                    audioAsInt16RowMajor = (int16*)ArrayOf::allocateArrayOf(NLS_INT16, audioData.getDimensions().getElementCount());
+                    int16 *ptrAudioData = (int16*)audioData.getDataPointer();
+                    int index = 0;
+                    for (int i = 0; i < rows; i++)
+                    {
+                        for (int j = 0; j < columns; j++)
+                        {
+                            audioAsInt16RowMajor[index++] = ptrAudioData[j * columns + i];
+                        }
+                    }
                 }
                 break;
                 case NLS_INT32:
                 {
-                    bias = 0.;
-                    scale = std::pow(2.0, 31);
+                    int32 *audioAsInt32RowMajor = (int32*)ArrayOf::allocateArrayOf(NLS_INT32, audioData.getDimensions().getElementCount());
+                    int32 *ptrAudioData = (int32*)audioData.getDataPointer();
+                    int index = 0;
+                    for (int i = 0; i < rows; i++)
+                    {
+                        for (int j = 0; j < columns; j++)
+                        {
+                            audioAsInt32RowMajor[index++] = ptrAudioData[j * columns + i];
+                        }
+                    }
                 }
                 break;
                 case NLS_SINGLE:
                 {
-                    bias = 0.;
-                    scale = 1.;
+                    audioAsSingleRowMajor = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, audioData.getDimensions().getElementCount());
+                    single *ptrAudioData = (single*)audioData.getDataPointer();
+                    int index = 0;
+                    for (int i = 0; i < rows; i++)
+                    {
+                        for (int j = 0; j < columns; j++)
+                        {
+                            audioAsSingleRowMajor[index++] = ptrAudioData[j * columns + i];
+                        }
+                    }
                 }
                 break;
                 case NLS_DOUBLE:
                 {
-                    bias = 0.;
-                    scale = 1.;
+                    audioAsDoubleRowMajor = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, audioData.getDimensions().getElementCount());
+                    double *ptrAudioData = (double*)audioData.getDataPointer();
+                    int index = 0;
+                    for (int i = 0; i < rows; i++)
+                    {
+                        for (int j = 0; j < columns; j++)
+                        {
+                            audioAsDoubleRowMajor[index++] = ptrAudioData[j * columns + i];
+                        }
+                    }
                 }
                 break;
-            }
-            double *ptrAudioData = (double*)audioData.getDataPointer();
-            int index = 0;
-            for (int i = 0; i < rows; i++)
-            {
-                for (int j = 0; j < columns; j++)
-                {
-                    double value = (ptrAudioData[j * columns + i] - bias) / scale;
-                    audioAsSingle[index++] = min(max(value, -1.0), 1.0);
-                }
             }
             SNDFILE * file = nullptr;
 #ifdef _MSC_VER
@@ -209,33 +242,107 @@ namespace Nelson {
 #endif
             if (file == nullptr)
             {
-                delete[]audioAsSingle;
+                if (audioAsInt16RowMajor)
+                {
+                    delete[] audioAsInt16RowMajor;
+                }
+                if (audioAsInt32RowMajor)
+                {
+                    delete[] audioAsInt32RowMajor;
+                }
+                if (audioAsSingleRowMajor)
+                {
+                    delete[] audioAsSingleRowMajor;
+                }
+                if (audioAsDoubleRowMajor)
+                {
+                    delete[] audioAsDoubleRowMajor;
+                }
                 const char* msg = sf_strerror(NULL);
                 errorMessage = utf8_to_wstring(msg);
                 return false;
             }
-            sf_count_t total_items_written = 0;
+            sf_count_t total_audio_data = 0;
             sf_count_t offset = 0;
-            sf_count_t items_to_write = rows * columns;
-            sf_count_t chunk_size = items_to_write;
-            while (total_items_written < items_to_write)
+            sf_count_t audio_data_to_write = rows * columns;
+            sf_count_t chunk_size = audio_data_to_write;
+            while (total_audio_data < audio_data_to_write)
             {
-                if (items_to_write - offset < chunk_size)
+                if (audio_data_to_write - offset < chunk_size)
                 {
-                    chunk_size = items_to_write - offset;
+                    chunk_size = audio_data_to_write - offset;
                 }
-                sf_count_t items_written = sf_write_float(file, audioAsSingle + offset, chunk_size);
-                if (items_written != chunk_size)
+                sf_count_t audio_data_written;
+                switch (audioData.getDataClass())
                 {
-                    delete[] audioAsSingle;
+                    case NLS_UINT8:
+                    {
+                        audio_data_written = sf_write_float(file, audioAsSingleRowMajor + offset, chunk_size);
+                    }
+                    break;
+                    case NLS_INT16:
+                    {
+                        audio_data_written = sf_write_short(file, audioAsInt16RowMajor + offset, chunk_size);
+                    }
+                    break;
+                    case NLS_INT32:
+                    {
+                        audio_data_written = sf_write_int(file, audioAsInt32RowMajor + offset, chunk_size);
+                    }
+                    break;
+                    case NLS_SINGLE:
+                    {
+                        audio_data_written = sf_write_float(file, audioAsSingleRowMajor + offset, chunk_size);
+                    }
+                    break;
+                    case NLS_DOUBLE:
+                    {
+                        audio_data_written = sf_write_double(file, audioAsDoubleRowMajor + offset, chunk_size);
+                    }
+                    break;
+                }
+                if (audio_data_written != chunk_size)
+                {
+                    if (audioAsInt16RowMajor)
+                    {
+                        delete[] audioAsInt16RowMajor;
+                    }
+                    if (audioAsInt32RowMajor)
+                    {
+                        delete[] audioAsInt32RowMajor;
+                    }
+                    if (audioAsSingleRowMajor)
+                    {
+                        delete[] audioAsSingleRowMajor;
+                    }
+                    if (audioAsDoubleRowMajor)
+                    {
+                        delete[] audioAsDoubleRowMajor;
+                    }
                     errorMessage = _W("Write failed.");
                     sf_close(file);
                     return false;
                 }
-                total_items_written += items_written;
+                total_audio_data += audio_data_written;
                 offset += chunk_size;
             }
-            delete[] audioAsSingle;
+            if (audioAsInt16RowMajor)
+            {
+                delete[] audioAsInt16RowMajor;
+            }
+            if (audioAsInt32RowMajor)
+            {
+                delete[] audioAsInt32RowMajor;
+            }
+            if (audioAsSingleRowMajor)
+            {
+                delete[] audioAsSingleRowMajor;
+            }
+            if (audioAsDoubleRowMajor)
+            {
+                delete[] audioAsDoubleRowMajor;
+            }
+            // metadata works only for wav
             std::string title = wstring_to_utf8(metadata[0]);
             sf_set_string(file, SF_STR_TITLE, title.c_str());
             std::string artist = wstring_to_utf8(metadata[1]);
