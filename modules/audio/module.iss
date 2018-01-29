@@ -31,6 +31,7 @@ Source: {#RootPath}modules\{#MODULE_NAME}\functions\*.nlf; DestDir: {app}\module
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\examples\*.wav; DestDir: {app}\modules\{#MODULE_NAME}\examples\;
 Source: {#RootPath}modules\{#MODULE_NAME}\examples\*.flac; DestDir: {app}\modules\{#MODULE_NAME}\examples\;
+Source: {#RootPath}modules\{#MODULE_NAME}\examples\*.ogg; DestDir: {app}\modules\{#MODULE_NAME}\examples\;
 Source: {#RootPath}modules\{#MODULE_NAME}\examples\*.nls; DestDir: {app}\modules\{#MODULE_NAME}\examples\;
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\help\*.qch; DestDir: {app}\modules\{#MODULE_NAME}\help\; Flags: recursesubdirs

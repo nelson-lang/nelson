@@ -117,5 +117,6 @@ install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/functions DESTINATI
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/help DESTINATION ${ROOT_OUTPUT}/modules/${module_name} FILES_MATCHING PATTERN "*.qch" PATTERN "xml" EXCLUDE PATTERN "md" EXCLUDE)
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/examples DESTINATION ${ROOT_OUTPUT}/modules/${module_name} FILES_MATCHING PATTERN "*.wav")
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/examples DESTINATION ${ROOT_OUTPUT}/modules/${module_name} FILES_MATCHING PATTERN "*.flac")
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/examples DESTINATION ${ROOT_OUTPUT}/modules/${module_name} FILES_MATCHING PATTERN "*.ogg")
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/examples DESTINATION ${ROOT_OUTPUT}/modules/${module_name} FILES_MATCHING PATTERN "*.nls")
 #==============================================================================
