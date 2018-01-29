@@ -17,7 +17,9 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 dest_path = [tempdir(), '/test_audiowrite'];
-rmdir(dest_path, 's');
+if isdir(dest_path)
+  rmdir(dest_path, 's');
+end
 //=============================================================================
 wav_file = [modulepath('audio'), '/tests/DynoA3.wav'];
 [Y_REF, FS_REF] = audioread(wav_file);
