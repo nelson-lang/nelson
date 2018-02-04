@@ -26,8 +26,8 @@ end
 f2c([modulepath(nelsonroot(),'f2c','root'), '/tests/dgemm.f'], TEST_DIR);
 DEST_FILE = [TEST_DIR, '/dgemm.c'];
 assert_istrue(isfile(DEST_FILE));
-R = fileread(DEST_FILE);
-REF = fileread(REF_FILE);
+R = fileread(DEST_FILE, 'char', 'native');
+REF = fileread(REF_FILE,'char', 'native');
 assert_isequal(R, REF);
 rmfile(DEST_FILE);
 //=============================================================================
