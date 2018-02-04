@@ -3,8 +3,8 @@ image: Visual Studio 2017
 
 environment:
   VS_VERSION: vs2017
-  QTDIR64: C:\Qt\5.9.3\msvc2017_64
-  QTDIR32: C:\Qt\5.9.3\msvc2015
+  QTDIR64: C:\Qt\5.10.0\msvc2017_64
+  QTDIR32: C:\Qt\5.10.0\msvc2015
   BUILD_CHAIN_DIR: c:\build_chain\nelson
 
 branches:
