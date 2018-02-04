@@ -128,3 +128,9 @@ Libsndfile is a C library for reading and writing files containing sampled sound
 http://www.mega-nerd.com/libsndfile/
 https://github.com/erikd/libsndfile/blob/master/COPYING
 LGPL
+
+taglib
+TagLib Audio Meta-Data Library
+http://taglib.org/
+https://github.com/taglib/taglib/blob/master/COPYING.LGPL
+LGPL

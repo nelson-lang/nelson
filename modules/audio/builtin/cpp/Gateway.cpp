@@ -70,7 +70,7 @@ static const nlsGateway gateway[] =
     { "beep", Nelson::AudioGateway::beepBuiltin, 1, 1 },
     { "audioread", Nelson::AudioGateway::audioreadBuiltin, 2, 3 },
     { "audioinfo", Nelson::AudioGateway::audioinfoBuiltin, 1, 1 },
-    { "audiometadata", Nelson::AudioGateway::audiometadataBuiltin, 1, 1 },
+    { "audiometadata", Nelson::AudioGateway::audiometadataBuiltin, 1, -1 },
     { "audiosupportedformats", Nelson::AudioGateway::audiosupportedformatsBuiltin, 1, 0 },
     { "audiowrite", Nelson::AudioGateway::audiowriteBuiltin, 0, -3 },
 };
