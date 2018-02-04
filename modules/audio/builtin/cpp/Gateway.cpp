@@ -20,6 +20,7 @@
 #include "NelsonGateway.hpp"
 #include "beepBuiltin.hpp"
 #include "playBuiltin.hpp"
+#include "playblockingBuiltin.hpp"
 #include "resumeBuiltin.hpp"
 #include "stopBuiltin.hpp"
 #include "audiodevinfoBuiltin.hpp"
@@ -32,6 +33,7 @@
 #include "audioplayer_fieldnamesBuiltin.hpp"
 #include "audioplayer_propertiesBuiltin.hpp"
 #include "audioplayer_playBuiltin.hpp"
+#include "audioplayer_playblockingBuiltin.hpp"
 #include "audioplayer_pauseBuiltin.hpp"
 #include "audioplayer_resumeBuiltin.hpp"
 #include "audioplayer_stopBuiltin.hpp"
@@ -58,13 +60,15 @@ static const nlsGateway gateway[] =
     { "audioplayer_properties", Nelson::AudioGateway::audioplayer_propertiesBuiltin, 1, 1 },
     { "audioplayer_get", Nelson::AudioGateway::audioplayer_getBuiltin, 1, 2 },
     { "audioplayer_set", Nelson::AudioGateway::audioplayer_setBuiltin, 0, 3 },
-    { "audioplayer_play", Nelson::AudioGateway::audioplayer_playBuiltin, 0, 1 },
+    { "audioplayer_play", Nelson::AudioGateway::audioplayer_playBuiltin, 0, -1 },
+    { "audioplayer_playblocking", Nelson::AudioGateway::audioplayer_playblockingBuiltin, 0, -1 },
     { "audioplayer_pause", Nelson::AudioGateway::audioplayer_pauseBuiltin, 0, 1 },
     { "audioplayer_resume", Nelson::AudioGateway::audioplayer_resumeBuiltin, 0, 1 },
     { "audioplayer_stop", Nelson::AudioGateway::audioplayer_stopBuiltin, 0, 1 },
     { "audioplayer_used", Nelson::AudioGateway::audioplayer_usedBuiltin, 1, 0 },
     { "audioplayer_isprop", Nelson::AudioGateway::audioplayer_ispropBuiltin, 1, 2 },
-    { "play", Nelson::AudioGateway::playBuiltin, 0, 1 },
+    { "playblocking", Nelson::AudioGateway::playblockingBuiltin, 0, -1 },
+    { "play", Nelson::AudioGateway::playBuiltin, 0, -1 },
     { "stop", Nelson::AudioGateway::stopBuiltin, 0, 1 },
     { "resume", Nelson::AudioGateway::resumeBuiltin, 0, 1 },
     { "beep", Nelson::AudioGateway::beepBuiltin, 1, 1 },

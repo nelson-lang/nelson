@@ -16,35 +16,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <Windows.h>
+#pragma once
 //=============================================================================
-#ifdef _DEBUG
-#pragma comment(lib, "boost_system-vc141-mt-gd-1_65_1.lib")
-#pragma comment(lib, "boost_filesystem-vc141-mt-gd-1_65_1.lib")
-#pragma comment(lib, "boost_date_time-vc141-mt-gd-1_65_1.lib")
-#pragma comment(lib, "boost_chrono-vc141-mt-gd-1_65_1.lib")
-#pragma comment(lib, "boost_thread-vc141-mt-gd-1_65_1.lib")
-#else
-#pragma comment(lib, "boost_system-vc141-mt-1_65_1.lib")
-#pragma comment(lib, "boost_filesystem-vc141-mt-1_65_1.lib")
-#pragma comment(lib, "boost_date_time-vc141-mt-1_65_1.lib")
-#pragma comment(lib, "boost_chrono-vc141-mt-1_65_1.lib")
-#pragma comment(lib, "boost_thread-vc141-mt-1_65_1.lib")
-#endif
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
-int WINAPI DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)
-{
-    switch (reason)
-    {
-        case DLL_PROCESS_ATTACH:
-            break;
-        case DLL_PROCESS_DETACH:
-            break;
-        case DLL_THREAD_ATTACH:
-            break;
-        case DLL_THREAD_DETACH:
-            break;
+namespace Nelson {
+    namespace AudioGateway {
+        ArrayOfVector playblockingBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
     }
-    return 1;
 }
 //=============================================================================

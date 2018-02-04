@@ -30,7 +30,7 @@ ArrayOfVector Nelson::AudioGateway::playBuiltin(Evaluator* eval, int nLhs, const
     {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() != 1)
+    if (argIn.size() < 1 || argIn.size() > 2)
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }

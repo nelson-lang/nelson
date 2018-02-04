@@ -217,6 +217,7 @@
     <ClCompile Include="..\cpp\audioplayer_ispropBuiltin.cpp" />
     <ClCompile Include="..\cpp\audioplayer_isvalidBuiltin.cpp" />
     <ClCompile Include="..\cpp\audioplayer_pauseBuiltin.cpp" />
+    <ClCompile Include="..\cpp\audioplayer_playblockingBuiltin.cpp" />
     <ClCompile Include="..\cpp\audioplayer_playBuiltin.cpp" />
     <ClCompile Include="..\cpp\audioplayer_propertiesBuiltin.cpp" />
     <ClCompile Include="..\cpp\audioplayer_resumeBuiltin.cpp" />
@@ -228,6 +229,7 @@
     <ClCompile Include="..\cpp\audiowriteBuiltin.cpp" />
     <ClCompile Include="..\cpp\beepBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
+    <ClCompile Include="..\cpp\playblockingBuiltin.cpp" />
     <ClCompile Include="..\cpp\playBuiltin.cpp" />
     <ClCompile Include="..\cpp\resumeBuiltin.cpp" />
     <ClCompile Include="..\cpp\stopBuiltin.cpp" />
@@ -245,6 +247,7 @@
     <ClInclude Include="..\include\audioplayer_ispropBuiltin.hpp" />
     <ClInclude Include="..\include\audioplayer_isvalidBuiltin.hpp" />
     <ClInclude Include="..\include\audioplayer_pauseBuiltin.hpp" />
+    <ClInclude Include="..\include\audioplayer_playblockingBuiltin.hpp" />
     <ClInclude Include="..\include\audioplayer_playBuiltin.hpp" />
     <ClInclude Include="..\include\audioplayer_propertiesBuiltin.hpp" />
     <ClInclude Include="..\include\audioplayer_resumeBuiltin.hpp" />
@@ -256,6 +259,7 @@
     <ClInclude Include="..\include\audiowriteBuiltin.hpp" />
     <ClInclude Include="..\include\beepBuiltin.hpp" />
     <ClInclude Include="..\include\nlsAudio_builtin_exports.h" />
+    <ClInclude Include="..\include\playblockingBuiltin.hpp" />
     <ClInclude Include="..\include\playBuiltin.hpp" />
     <ClInclude Include="..\include\resumeBuiltin.hpp" />
     <ClInclude Include="..\include\stopBuiltin.hpp" />

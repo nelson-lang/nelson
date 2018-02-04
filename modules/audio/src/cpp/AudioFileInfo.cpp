@@ -228,11 +228,11 @@ namespace Nelson {
         std::wstring Comment;
         std::wstring Artist;
 #ifdef _MSC_VER
-		TagLib::FileRef f(filename.c_str());
+        TagLib::FileRef f(filename.c_str());
 #else
-		TagLib::FileRef f(wstring_to_utf8(filename).c_str());
+        TagLib::FileRef f(wstring_to_utf8(filename).c_str());
 #endif
-		if (!f.isNull() && f.tag())
+        if (!f.isNull() && f.tag())
         {
             TagLib::Tag *tag = f.tag();
             if (tag)

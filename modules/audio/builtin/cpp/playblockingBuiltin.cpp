@@ -16,35 +16,30 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <Windows.h>
+#include "playblockingBuiltin.hpp"
+#include "Error.hpp"
+#include "OverloadFunction.hpp"
+#include "OverloadRequired.hpp"
 //=============================================================================
-#ifdef _DEBUG
-#pragma comment(lib, "boost_system-vc141-mt-gd-1_65_1.lib")
-#pragma comment(lib, "boost_filesystem-vc141-mt-gd-1_65_1.lib")
-#pragma comment(lib, "boost_date_time-vc141-mt-gd-1_65_1.lib")
-#pragma comment(lib, "boost_chrono-vc141-mt-gd-1_65_1.lib")
-#pragma comment(lib, "boost_thread-vc141-mt-gd-1_65_1.lib")
-#else
-#pragma comment(lib, "boost_system-vc141-mt-1_65_1.lib")
-#pragma comment(lib, "boost_filesystem-vc141-mt-1_65_1.lib")
-#pragma comment(lib, "boost_date_time-vc141-mt-1_65_1.lib")
-#pragma comment(lib, "boost_chrono-vc141-mt-1_65_1.lib")
-#pragma comment(lib, "boost_thread-vc141-mt-1_65_1.lib")
-#endif
+using namespace Nelson;
 //=============================================================================
-int WINAPI DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)
+ArrayOfVector Nelson::AudioGateway::playblockingBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    switch (reason)
+    ArrayOfVector retval;
+    if (nLhs != 0)
     {
-        case DLL_PROCESS_ATTACH:
-            break;
-        case DLL_PROCESS_DETACH:
-            break;
-        case DLL_THREAD_ATTACH:
-            break;
-        case DLL_THREAD_DETACH:
-            break;
+        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    return 1;
+    if (argIn.size() < 1 || argIn.size() > 2)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    bool bSuccess = false;
+    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    if (!bSuccess)
+    {
+        OverloadRequired(eval, argIn, Nelson::UNARY);
+    }
+    return retval;
 }
 //=============================================================================

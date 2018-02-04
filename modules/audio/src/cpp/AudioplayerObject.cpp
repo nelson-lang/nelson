@@ -494,7 +494,7 @@ namespace Nelson {
         {
             for (int c = 0; c < data->_NumberOfChannels; c++)
             {
-                if (data->_CurrentSample < data->_TotalSamples)
+                if (data->_CurrentSample < data->lastSample)
                 {
                     switch (dataClass)
                     {
@@ -575,9 +575,9 @@ namespace Nelson {
             }
             data->_CurrentSample++;
         }
-        if (data->_CurrentSample >= data->_TotalSamples)
+        if (data->_CurrentSample >= data->lastSample)
         {
-            data->_CurrentSample = data->_TotalSamples;
+            data->_CurrentSample = data->lastSample;
             data->_Running = false;
             data->paStream = nullptr;
             return 1;
@@ -590,8 +590,24 @@ namespace Nelson {
         return paStream;
     }
     //=============================================================================
-    bool AudioplayerObject::play()
+    bool AudioplayerObject::play(int start, int end)
     {
+        firstSample = start;
+        if (end == 0)
+        {
+            lastSample = _TotalSamples;
+        }
+        else
+        {
+            if (end > _TotalSamples)
+            {
+                lastSample = _TotalSamples;
+            }
+            else
+            {
+                lastSample = end;
+            }
+        }
         if (paStream)
         {
             if (Pa_IsStreamStopped(paStream) == 1)
@@ -604,7 +620,7 @@ namespace Nelson {
                 return true;
             }
         }
-        _CurrentSample = 0;
+        _CurrentSample = firstSample;
         PaError err = Pa_OpenStream(&paStream, 0, &(outputStreamParameters),
                                     _SampleRate, 1024, paNoFlag, paPlayCallback, this);
         if (err != paNoError)

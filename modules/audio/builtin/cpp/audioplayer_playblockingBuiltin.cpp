@@ -16,15 +16,16 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "audioplayer_playBuiltin.hpp"
+#include "audioplayer_playblockingBuiltin.hpp"
 #include "Error.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
 #include "AudioplayerObject.hpp"
+#include "ProcessEventsDynamicFunction.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::AudioGateway::audioplayer_playBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector Nelson::AudioGateway::audioplayer_playblockingBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (nLhs != 0)
@@ -108,6 +109,15 @@ ArrayOfVector Nelson::AudioGateway::audioplayer_playBuiltin(Evaluator* eval, int
                     objPlayer->play(start, end);
                 }
             }
+            do
+            {
+                if (eval->haveEventsLoop())
+                {
+                    ProcessEventsDynamicFunctionWithoutWait();
+                }
+            }
+            while (!eval->GetInterruptPending() && objPlayer->getRunning());
+            objPlayer->stop();
         }
         else
         {

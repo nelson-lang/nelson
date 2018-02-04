@@ -36,6 +36,8 @@ namespace Nelson {
 
         // getter
         bool get(std::wstring propertyName, ArrayOf &res);
+        int getTotalSamples();
+        bool getRunning();
 
         // setter
         bool set(std::wstring propertyName, ArrayOf propertyValue, std::wstring &errorMessage);
@@ -49,7 +51,7 @@ namespace Nelson {
         bool setSamples(ArrayOf data, int SampleRate, int BitsPerSample, std::wstring &errorMessage);
         bool setSamples(ArrayOf data, int SampleRate, int BitsPerSample, int deviceID, std::wstring &errorMessage);
 
-        bool play();
+        bool play(int start = 0, int end = 0);
         bool pause();
         bool resume();
         bool stop();
@@ -68,6 +70,8 @@ namespace Nelson {
         ArrayOf _UserData;
         std::wstring _Type;
         PaStream *paStream;
+        uint32 firstSample;
+        uint32 lastSample;
 
         // setter
         bool setSampleRate(int sr);
@@ -81,8 +85,6 @@ namespace Nelson {
         int getNumberOfChannels();
         int getDeviceID();
         int getCurrentSample();
-        int getTotalSamples();
-        bool getRunning();
         std::wstring getTag();
         Nelson::ArrayOf getUserData();
         std::wstring getType();

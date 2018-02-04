@@ -2,7 +2,14 @@ Features:
 ---------
 
   * audiometadata can modify metadata tags.
-  * Qt 5.9 used on Windows binaries
+  * Qt 5.10 used on Windows binaries
+
+Bug Fixes:
+---------
+
+  [#93](http://github.com/Nelson-numerical-software/nelson/issues/93): playblocking updated to manage range.
+
+  [#92](http://github.com/Nelson-numerical-software/nelson/issues/92): play updated to manage range.
 
 
 ## 0.2.1 (2018-01-30)

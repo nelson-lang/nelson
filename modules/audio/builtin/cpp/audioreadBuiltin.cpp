@@ -64,9 +64,9 @@ ArrayOfVector Nelson::AudioGateway::audioreadBuiltin(Evaluator* eval, int nLhs, 
                     double *ptr = (double *)param2.getDataPointer();
                     start = ptr[0];
                     end = ptr[1];
-                    if (start < 0 || end < 0)
+                    if (start < 1 || end < 1)
                     {
-                        Error(eval, _W("Index >= 0 expected."));
+                        Error(eval, _W("Index >= 1 expected."));
                     }
                 }
                 else
@@ -88,10 +88,12 @@ ArrayOfVector Nelson::AudioGateway::audioreadBuiltin(Evaluator* eval, int nLhs, 
                 double *ptr = (double *)param2.getDataPointer();
                 start = ptr[0];
                 end = ptr[1];
-                if (start < 0 || end < 0)
+                if (start < 1 || end < 1)
                 {
-                    Error(eval, _W("Index >= 0 expected."));
+                    Error(eval, _W("Index >= 1 expected."));
                 }
+                start = start - 1;
+                end = end - 1;
             }
             else
             {

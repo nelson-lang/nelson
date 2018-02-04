@@ -45,11 +45,11 @@ namespace Nelson {
     {
         errorMessage = L"";
 #ifdef _MSC_VER
-		TagLib::FileRef f(filename.c_str());
+        TagLib::FileRef f(filename.c_str());
 #else
-		TagLib::FileRef f(wstring_to_utf8(filename).c_str());
+        TagLib::FileRef f(wstring_to_utf8(filename).c_str());
 #endif
-		if (!f.isNull() && f.tag())
+        if (!f.isNull() && f.tag())
         {
             TagLib::PropertyMap tags = f.file()->properties();
             // map used to remove duplicated fields
@@ -98,11 +98,11 @@ namespace Nelson {
     {
         errorMessage = L"";
 #ifdef _MSC_VER
-		TagLib::FileRef f(filename.c_str());
+        TagLib::FileRef f(filename.c_str());
 #else
-		TagLib::FileRef f(wstring_to_utf8(filename).c_str());
+        TagLib::FileRef f(wstring_to_utf8(filename).c_str());
 #endif
-		if (!f.isNull() && f.tag())
+        if (!f.isNull() && f.tag())
         {
             TagLib::PropertyMap tags = f.file()->properties();
             for (size_t k = 0; k < fieldnames.size(); k++)
@@ -153,11 +153,11 @@ namespace Nelson {
     {
         errorMessage = L"";
 #ifdef _MSC_VER
-		TagLib::FileRef f(filename.c_str());
+        TagLib::FileRef f(filename.c_str());
 #else
-		TagLib::FileRef f(wstring_to_utf8(filename).c_str());
+        TagLib::FileRef f(wstring_to_utf8(filename).c_str());
 #endif
-		if (!f.isNull() && f.tag())
+        if (!f.isNull() && f.tag())
         {
             TagLib::PropertyMap tags = f.file()->properties();
             TagLib::PropertyMap::ConstIterator found1 = tags.find(fieldname);
