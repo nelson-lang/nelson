@@ -2,6 +2,7 @@ Features:
 ---------
 
   * audiometadata can modify metadata tags.
+  * Qt 5.9 used on Windows binaries
 
 
 ## 0.2.1 (2018-01-30)
