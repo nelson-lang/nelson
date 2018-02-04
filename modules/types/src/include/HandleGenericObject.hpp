@@ -27,13 +27,14 @@ namespace Nelson {
     private:
         std::wstring category;
         void *ptr;
+        bool _isScoped;
     public:
-        HandleGenericObject(std::wstring _category, void *_ptr);
-        ~HandleGenericObject();
-        void setCategory(std::wstring _category);
+        HandleGenericObject(std::wstring _category, void *_ptr, bool isScoped);
+        virtual ~HandleGenericObject() {};
         std::wstring getCategory();
         void setPointer(void *_ptr);
         void *getPointer();
+        bool isScoped();
     };
     //=============================================================================
 }

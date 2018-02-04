@@ -20,7 +20,7 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-    ComHandleObject::ComHandleObject(void *_ptr) : HandleGenericObject(std::wstring(COM_CATEGORY_STR), _ptr)
+    ComHandleObject::ComHandleObject(void *_ptr) : HandleGenericObject(std::wstring(COM_CATEGORY_STR), _ptr, false)
     {
     }
     //=============================================================================

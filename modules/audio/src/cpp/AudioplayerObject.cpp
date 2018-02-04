@@ -26,7 +26,7 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-    AudioplayerObject::AudioplayerObject() : HandleGenericObject(std::wstring(AUDIOPLAYER_CATEGORY_STR), this)
+    AudioplayerObject::AudioplayerObject() : HandleGenericObject(std::wstring(AUDIOPLAYER_CATEGORY_STR), this, false)
     {
         propertiesNames = { L"SampleRate",
                             L"BitsPerSample",

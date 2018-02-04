@@ -21,7 +21,7 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-    HandleGenericObject::HandleGenericObject(std::wstring _category, void *_ptr)
+    HandleGenericObject::HandleGenericObject(std::wstring _category, void *_ptr, bool isScoped)
     {
         if (_category.empty())
         {
@@ -33,21 +33,7 @@ namespace Nelson {
         }
         this->category = _category;
         this->ptr = _ptr;
-    }
-    //=============================================================================
-    HandleGenericObject::~HandleGenericObject()
-    {
-        this->category.clear();
-        this->ptr = nullptr;
-    }
-    //=============================================================================
-    void HandleGenericObject::setCategory(std::wstring _category)
-    {
-        if (_category.empty())
-        {
-            throw Exception(_W("handle must have a type."));
-        }
-        this->category = _category;
+        this->_isScoped = isScoped;
     }
     //=============================================================================
     std::wstring HandleGenericObject::getCategory()
@@ -63,6 +49,11 @@ namespace Nelson {
     void *HandleGenericObject::getPointer()
     {
         return this->ptr;
+    }
+    //=============================================================================
+    bool HandleGenericObject::isScoped()
+    {
+        return this->_isScoped;
     }
     //=============================================================================
 }
