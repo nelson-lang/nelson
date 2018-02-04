@@ -19,10 +19,12 @@
 #include "audiometadataBuiltin.hpp"
 #include "Error.hpp"
 #include "AudioFileMetaData.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 // info = audiometadata(filename)
+// info_previous = audiometadata(filename, info)
 //=============================================================================
 ArrayOfVector Nelson::AudioGateway::audiometadataBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
@@ -31,115 +33,71 @@ ArrayOfVector Nelson::AudioGateway::audiometadataBuiltin(Evaluator* eval, int nL
     {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() != 1)
+    if (argIn.size() == 0 || argIn.size() > 2)
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     std::wstring errorMessage;
     ArrayOf param1 = argIn[0];
     std::wstring filename = param1.getContentAsWideString();
-    wstringVector outputMetaData;
-    if (argIn.size() == 1)
+    wstringVector names;
+    wstringVector values;
+    AudioFileMetaData(filename, names, values, errorMessage);
+    if (errorMessage != L"")
     {
-        outputMetaData = AudioFileMetaData(filename, errorMessage);
+        Error(eval, errorMessage);
+    }
+    if (argIn.size() == 2)
+    {
+        ArrayOf param2 = argIn[1];
+        if (!param2.isStruct())
+        {
+            Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_STRUCT_EXPECTED);
+        }
+        if (!param2.isScalar())
+        {
+            Error(eval, ERROR_WRONG_ARGUMENT_2_SIZE_SCALAR_EXPECTED);
+        }
+        stringVector currentFieldnames = param2.getFieldNames();
+        wstringVector wcurrentFieldname;
+        wstringVector currentValues;
+        for (std::string fieldname : currentFieldnames)
+        {
+            ArrayOf value = param2.getField(fieldname);
+            if ((value.isEmpty(true) && value.isDoubleType()) || value.isSingleString())
+            {
+                if (value.isSingleString())
+                {
+                    wcurrentFieldname.push_back(utf8_to_wstring(fieldname));
+                    currentValues.push_back(value.getContentAsWideString());
+                }
+                else
+                {
+                    deleteAudioFileMetaData(filename, utf8_to_wstring(fieldname), errorMessage);
+                    if (errorMessage != L"")
+                    {
+                        Error(eval, errorMessage);
+                    }
+                }
+            }
+            else
+            {
+                Error(eval, ERROR_WRONG_ARGUMENT_2_VALUE);
+            }
+        }
+        currentFieldnames.clear();
+        setAudioFileMetaData(filename, wcurrentFieldname, currentValues, errorMessage);
     }
     if (errorMessage != L"")
     {
         Error(eval, errorMessage);
     }
-    stringVector fieldnames;
     ArrayOfVector fieldvalues;
-    fieldnames.push_back("Title");
-    if (outputMetaData[0] == L"")
+    for (size_t i = 0; i < names.size(); i++)
     {
-        fieldvalues.push_back(ArrayOf::emptyConstructor());
+        fieldvalues.push_back(ArrayOf::stringConstructor(values[i]));
     }
-    else
-    {
-        fieldvalues.push_back(ArrayOf::stringConstructor(outputMetaData[0]));
-    }
-    fieldnames.push_back("Comment");
-    if (outputMetaData[1] == L"")
-    {
-        fieldvalues.push_back(ArrayOf::emptyConstructor());
-    }
-    else
-    {
-        fieldvalues.push_back(ArrayOf::stringConstructor(outputMetaData[1]));
-    }
-    fieldnames.push_back("Artist");
-    if (outputMetaData[2] == L"")
-    {
-        fieldvalues.push_back(ArrayOf::emptyConstructor());
-    }
-    else
-    {
-        fieldvalues.push_back(ArrayOf::stringConstructor(outputMetaData[2]));
-    }
-    fieldnames.push_back("Copyright");
-    if (outputMetaData[3] == L"")
-    {
-        fieldvalues.push_back(ArrayOf::emptyConstructor());
-    }
-    else
-    {
-        fieldvalues.push_back(ArrayOf::stringConstructor(outputMetaData[3]));
-    }
-    fieldnames.push_back("Software");
-    if (outputMetaData[4] == L"")
-    {
-        fieldvalues.push_back(ArrayOf::emptyConstructor());
-    }
-    else
-    {
-        fieldvalues.push_back(ArrayOf::stringConstructor(outputMetaData[4]));
-    }
-    fieldnames.push_back("Date");
-    if (outputMetaData[5] == L"")
-    {
-        fieldvalues.push_back(ArrayOf::emptyConstructor());
-    }
-    else
-    {
-        fieldvalues.push_back(ArrayOf::stringConstructor(outputMetaData[5]));
-    }
-    fieldnames.push_back("Album");
-    if (outputMetaData[6] == L"")
-    {
-        fieldvalues.push_back(ArrayOf::emptyConstructor());
-    }
-    else
-    {
-        fieldvalues.push_back(ArrayOf::stringConstructor(outputMetaData[6]));
-    }
-    fieldnames.push_back("License");
-    if (outputMetaData[7] == L"")
-    {
-        fieldvalues.push_back(ArrayOf::emptyConstructor());
-    }
-    else
-    {
-        fieldvalues.push_back(ArrayOf::stringConstructor(outputMetaData[7]));
-    }
-    fieldnames.push_back("TrackNumber");
-    if (outputMetaData[8] == L"")
-    {
-        fieldvalues.push_back(ArrayOf::emptyConstructor());
-    }
-    else
-    {
-        fieldvalues.push_back(ArrayOf::stringConstructor(outputMetaData[8]));
-    }
-    fieldnames.push_back("Genre");
-    if (outputMetaData[9] == L"")
-    {
-        fieldvalues.push_back(ArrayOf::emptyConstructor());
-    }
-    else
-    {
-        fieldvalues.push_back(ArrayOf::stringConstructor(outputMetaData[9]));
-    }
-    retval.push_back(ArrayOf::structConstructor(fieldnames, fieldvalues));
+    retval.push_back(ArrayOf::structConstructor(names, fieldvalues));
     return retval;
 }
 //=============================================================================

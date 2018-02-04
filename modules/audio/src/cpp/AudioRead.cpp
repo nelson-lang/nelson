@@ -151,7 +151,7 @@ namespace Nelson {
                 if (readcount == sfinfo.frames * sfinfo.channels)
                 {
                     uint8 *dataAsUInt8 = (uint8*)ArrayOf::allocateArrayOf(NLS_UINT8, dims.getElementCount());
-                    for (size_t k = 0; k < dims.getElementCount(); k++)
+                    for (size_t k = 0; k < (size_t)dims.getElementCount(); k++)
                     {
                         for (indexType i = 0; i < n_out; ++i)
                         {

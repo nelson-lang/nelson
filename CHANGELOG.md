@@ -1,3 +1,9 @@
+Features:
+---------
+
+  * audiometadata can modify metadata tags.
+
+
 ## 0.2.1 (2018-01-30)
 
 

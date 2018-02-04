@@ -25,6 +25,7 @@ ${EIGEN3_INCLUDE_DIR}
 ${Boost_INCLUDE_DIRS}
 ${PORTAUDIO_INCLUDE_DIRS}
 ${SNDFILE_INCLUDE_DIRS}
+${TAGLIB_INCLUDES}
 ${CMAKE_CURRENT_SOURCE_DIR}/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/src/c
 ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
@@ -62,6 +63,7 @@ nlsCharacters_encoding
 nlsApi_nelson
 ${PORTAUDIO_LIBRARIES}
 ${SNDFILE_LIBRARIES}
+${TAGLIB_LIBRARIES}
 )
 #==============================================================================	
 set_target_properties(${module_library_name}
@@ -83,6 +85,7 @@ ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
 )
 #==============================================================================	
 ADD_LIBRARY(
@@ -100,6 +103,7 @@ nlsOverload
 nlsTypes
 nlsI18n
 nlsApi_nelson
+nlsCharacters_encoding
 ${PORTAUDIO_LIBRARIES}
 ${SNDFILE_LIBRARIES}
 )

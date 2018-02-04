@@ -70,6 +70,7 @@ before_install:
       sudo apt-get install libasound-dev;
       sudo apt-get install portaudio19-dev;
       sudo apt-get install libsndfile1-dev;
+      sudo apt-get install libtag1-dev;
       fi
     - if [ `uname` = "Linux" ];
       then sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa;
@@ -107,6 +108,7 @@ before_install:
       brew install fftw;
       brew install portaudio;
       brew install libsndfile;
+      brew install taglib;
       fi
 
 install:
