@@ -29,6 +29,12 @@
 #endif
 #pragma comment(lib, "portaudio.lib")
 #pragma comment(lib, "libsndfile-1.lib")
+#ifdef _DEBUG
+#pragma comment(lib, "tag_debug.lib")
+#else
+#pragma comment(lib, "tag_release.lib")
+#endif
+#pragma comment(lib, "zlib1.lib")
 //=============================================================================
 int WINAPI DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)
 {

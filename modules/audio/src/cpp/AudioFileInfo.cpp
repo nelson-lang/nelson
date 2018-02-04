@@ -21,6 +21,8 @@
 #define ENABLE_SNDFILE_WINDOWS_PROTOTYPES 1
 #endif
 #include <sndfile.h>
+#include <fileref.h>
+#include <tag.h>
 #include <boost/algorithm/string.hpp>
 #include "AudioFileInfo.hpp"
 #include "characters_encoding.hpp"
@@ -218,20 +220,28 @@ namespace Nelson {
         std::wstring CompressionMethod = getCompressionMethodAsString(sfinfo.format);
         double NumChannels = sfinfo.channels;
         double SampleRate = sfinfo.samplerate;
-        double TotalSamples = sfinfo.frames;
+        double TotalSamples = (double)sfinfo.frames;
         double Duration = TotalSamples / SampleRate;
         double BitsPerSample = getBitsPerSample(sfinfo.format);
-        std::wstring Title = utf8_to_wstring(sf_get_string(file, SF_STR_TITLE));
-        std::wstring Comment = utf8_to_wstring(sf_get_string(file, SF_STR_COMMENT));
-        std::wstring Artist = utf8_to_wstring(sf_get_string(file, SF_STR_ARTIST));
-        std::wstring Copyright = utf8_to_wstring(sf_get_string(file, SF_STR_COPYRIGHT));
-        std::wstring Software = utf8_to_wstring(sf_get_string(file, SF_STR_SOFTWARE));
-        std::wstring Date = utf8_to_wstring(sf_get_string(file, SF_STR_DATE));
-        std::wstring Album = utf8_to_wstring(sf_get_string(file, SF_STR_ALBUM));
-        std::wstring License = utf8_to_wstring(sf_get_string(file, SF_STR_LICENSE));
-        std::wstring TrackNumber = utf8_to_wstring(sf_get_string(file, SF_STR_TRACKNUMBER));
-        std::wstring Genre = utf8_to_wstring(sf_get_string(file, SF_STR_GENRE));
         sf_close(file);
+        std::wstring Title;
+        std::wstring Comment;
+        std::wstring Artist;
+#ifdef _MSC_VER
+		TagLib::FileRef f(filename.c_str());
+#else
+		TagLib::FileRef f(wstring_to_utf8(filename).c_str());
+#endif
+		if (!f.isNull() && f.tag())
+        {
+            TagLib::Tag *tag = f.tag();
+            if (tag)
+            {
+                Title = tag->title().toWString();
+                Comment = tag->comment().toWString();
+                Artist = tag->artist().toWString();
+            }
+        }
         stringVector fieldnames;
         ArrayOfVector fieldvalues;
         fieldnames.push_back("Filename");
@@ -272,69 +282,6 @@ namespace Nelson {
         else
         {
             fieldvalues.push_back(ArrayOf::stringConstructor(Artist));
-        }
-        fieldnames.push_back("Copyright");
-        if (Copyright == L"")
-        {
-            fieldvalues.push_back(ArrayOf::emptyConstructor());
-        }
-        else
-        {
-            fieldvalues.push_back(ArrayOf::stringConstructor(Copyright));
-        }
-        fieldnames.push_back("Software");
-        if (Software == L"")
-        {
-            fieldvalues.push_back(ArrayOf::emptyConstructor());
-        }
-        else
-        {
-            fieldvalues.push_back(ArrayOf::stringConstructor(Software));
-        }
-        fieldnames.push_back("Date");
-        if (Date == L"")
-        {
-            fieldvalues.push_back(ArrayOf::emptyConstructor());
-        }
-        else
-        {
-            fieldvalues.push_back(ArrayOf::stringConstructor(Date));
-        }
-        fieldnames.push_back("Album");
-        if (Album == L"")
-        {
-            fieldvalues.push_back(ArrayOf::emptyConstructor());
-        }
-        else
-        {
-            fieldvalues.push_back(ArrayOf::stringConstructor(Album));
-        }
-        fieldnames.push_back("License");
-        if (License == L"")
-        {
-            fieldvalues.push_back(ArrayOf::emptyConstructor());
-        }
-        else
-        {
-            fieldvalues.push_back(ArrayOf::stringConstructor(License));
-        }
-        fieldnames.push_back("TrackNumber");
-        if (TrackNumber == L"")
-        {
-            fieldvalues.push_back(ArrayOf::emptyConstructor());
-        }
-        else
-        {
-            fieldvalues.push_back(ArrayOf::stringConstructor(TrackNumber));
-        }
-        fieldnames.push_back("Genre");
-        if (Genre == L"")
-        {
-            fieldvalues.push_back(ArrayOf::emptyConstructor());
-        }
-        else
-        {
-            fieldvalues.push_back(ArrayOf::stringConstructor(Genre));
         }
         fieldnames.push_back("BitsPerSample");
         fieldvalues.push_back(ArrayOf::doubleConstructor(BitsPerSample));

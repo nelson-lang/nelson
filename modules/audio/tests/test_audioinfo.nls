@@ -26,13 +26,6 @@ assert_isapprox(info.Duration, [5.836984], 1e-5)
 assert_isequal(info.Title, [])
 assert_isequal(info.Comment, [])
 assert_isequal(info.Artist, [])
-assert_isequal(info.Copyright, [])
-assert_isequal(info.Software, [])
-assert_isequal(info.Date, [])
-assert_isequal(info.Album, [])
-assert_isequal(info.License, [])
-assert_isequal(info.TrackNumber, [])
-assert_isequal(info.Genre, [])
 assert_isequal(info.BitsPerSample, 16)
 //=============================================================================
 flac_file = [modulepath('audio'), '/tests/handel.flac'];
@@ -43,15 +36,8 @@ assert_isequal(info.SampleRate, [8192.000000]);
 assert_isequal(info.TotalSamples, [73113.000000]);
 assert_isapprox(info.Duration, [8.924927], 1e-5);
 assert_isequal(info.Title, 'handel (title)');
-assert_isequal(info.Comment, []);
+assert_isequal(info.Comment, 'some comments');
 assert_isequal(info.Artist, []);
-assert_isequal(info.Copyright, []);
-assert_isequal(info.Software, []);
-assert_isequal(info.Date, []);
-assert_isequal(info.Album, 'album name');
-assert_isequal(info.License, []);
-assert_isequal(info.TrackNumber, '3');
-assert_isequal(info.Genre, 'music');
 assert_isequal(info.BitsPerSample, [16.000000]);
 //=============================================================================
 ogg_file = [modulepath('audio'), '/tests/flac_char.ogg'];
