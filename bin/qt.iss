@@ -43,7 +43,6 @@ Source: {#RootPath}bin\{#BinPath}\Qt5DBus.dll; DestDir: {app}\bin\{#BinPath}\
 Source: {#RootPath}bin\{#BinPath}\Qt5Gui.dll; DestDir: {app}\bin\{#BinPath}\
 Source: {#RootPath}bin\{#BinPath}\Qt5Help.dll; DestDir: {app}\bin\{#BinPath}\
 Source: {#RootPath}bin\{#BinPath}\Qt5Multimedia.dll; DestDir: {app}\bin\{#BinPath}\
-Source: {#RootPath}bin\{#BinPath}\Qt5MultimediaQuick_p.dll; DestDir: {app}\bin\{#BinPath}\
 Source: {#RootPath}bin\{#BinPath}\Qt5MultimediaWidgets.dll; DestDir: {app}\bin\{#BinPath}\
 Source: {#RootPath}bin\{#BinPath}\Qt5Network.dll; DestDir: {app}\bin\{#BinPath}\
 Source: {#RootPath}bin\{#BinPath}\Qt5OpenGL.dll; DestDir: {app}\bin\{#BinPath}\
