@@ -16,7 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-function [r, msg, timing] = test_runfile(varargin)
+function struct_res = test_runfile(varargin)
 // internal function
 // not documented
   with_mpi = false;
@@ -84,4 +84,7 @@ function [r, msg, timing] = test_runfile(varargin)
       msg = {_('output res and ref are not equal.'), dia_res, dia_ref, res}; 
     end
   end
+  struct_res.r = r;
+  struct_res.msg = msg;
+  struct_res.timing = timing;
 endfunction
