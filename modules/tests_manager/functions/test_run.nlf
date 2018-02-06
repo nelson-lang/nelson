@@ -251,7 +251,7 @@ function status = test_run(varargin)
     
     k = 1;
     for ts = test_suites.tests_list
-      fprintf(stdout, [' ', uniformizeNumbers(k, lenCharsTestSuitesMax), '/', int2str(nbTestSuites), ' - ', '[', ts.name, '] :', char(10)]);
+      fprintf(stdout, [' ', uniformizeNumbers(k, lenCharsTestSuitesMax), '/', int2str(nbTestSuites), ' - ', '[', ts.name, '] :', newline]);
       l = 1;
       nbTestCases = length(ts.test_cases_list);
       for tc = ts.test_cases_list
@@ -305,7 +305,7 @@ function res = save_as_xml(test_suites, xmlFileDestination)
   if ispc()
     eol = char([13, 10]);
   else
-    eol = char(10);
+    eol = newlines;
   end
   fp = fopen(xmlFileDestination, 'wt');
   if fp ~= -1
@@ -385,15 +385,19 @@ function res = save_as_xml(test_suites, xmlFileDestination)
 endfunction
 //=============================================================================
 function disp_summary(test_suites)
-  fprintf(stdout, ['  //==========================================================================', char(10)]);
-  fprintf(stdout, ['  ', _('Summary:'), char(10)]);
-  fprintf(stdout, ['  ', _('Tests:'), ' ', int2str(test_suites.tests), char(10)]);
-  fprintf(stdout, ['  ', _('Passed:'), ' ', int2str(test_suites.passed), char(10)]);
-  fprintf(stdout, ['  ', _('Failed:'), ' ', int2str(test_suites.errors), char(10)]);
-  fprintf(stdout, ['  ', _('Skipped:'), ' ',  int2str(test_suites.disabled), char(10)]);
-  fprintf(stdout, ['  ', _('Benchs:'), ' ', int2str(test_suites.bench), char(10)]);
-  fprintf(stdout, ['  ', _('Time:'), ' ', mat2str(test_suites.time, 2), ' ms', char(10)]);
-  fprintf(stdout, ['  //===========================================================================', char(10)]);
+  fprintf(stdout, ['  //==========================================================================', newline]);
+  fprintf(stdout, ['  ', _('Summary:'), newline]);
+  fprintf(stdout, ['  ', _('Tests:'), ' ', int2str(test_suites.tests), newline]);
+  fprintf(stdout, ['  ', _('Passed:'), ' ', int2str(test_suites.passed), newline]);
+  fprintf(stdout, ['  ', _('Failed:'), ' ', int2str(test_suites.errors), newline]);
+  fprintf(stdout, ['  ', _('Skipped:'), ' ',  int2str(test_suites.disabled), newline]);
+  fprintf(stdout, ['  ', _('Benchs:'), ' ', int2str(test_suites.bench), newline]);
+  if test_suites.time > 1000
+    fprintf(stdout, ['  ', _('Time:'), ' ', mat2str(test_suites.time * inv(1000), 2), ' s ', newline]);
+  else
+    fprintf(stdout, ['  ', _('Time:'), ' ', mat2str(test_suites.time, 2), ' ms', newline]);
+  end
+  fprintf(stdout, ['  //===========================================================================', newline]);
 endfunction
 //=============================================================================
 function res = haveDisplay()
@@ -519,9 +523,9 @@ function test_case_res = run_test_case(test, module_name, index, indexMax, nbTes
         cmd = [' --language', ' ', 'en_US'];
       end
       if test_case_res.options.mpi_mode
-        cmd_to_execute = ['"[test_res, test_msg, test_timing] = test_runfile(''',  testfile, ''',', int2str(test_case_res.options.mpi_mode), ');savebin(''', outputfile, ''', ''test_res'', ''test_msg'', ''test_timing''); exit();"'];
+        cmd_to_execute = ['"res_struct = test_runfile(''',  testfile, ''',', int2str(test_case_res.options.mpi_mode), ');filewrite(''', outputfile, ''', jsonencode(res_struct)); exit();"'];
       else
-        cmd_to_execute = ['"[test_res, test_msg, test_timing] = test_runfile(''',  testfile, ''',', int2str(test_case_res.options.mpi_mode), ');savebin(''', outputfile, ''', ''test_res'', ''test_msg'', ''test_timing''); exit(double(test_res));"'];
+        cmd_to_execute = ['"res_struct = test_runfile(''',  testfile, ''',', int2str(test_case_res.options.mpi_mode), ');filewrite(''', outputfile, ''', jsonencode(res_struct)); exit(double(res_struct.r));"'];
       end
       redirect_to_file = [' 2>&1 "' , redirect_err, '"'];
       cmd = [cmd, ' --quiet', ' ', '--timeout', ' ', timeout, ' ', '--execute', ' ', cmd_to_execute, ' ', redirect_to_file];
@@ -541,15 +545,15 @@ function test_case_res = run_test_case(test, module_name, index, indexMax, nbTes
       test_case_res.msg = msg;
       if test_case_res.options.mpi_mode
         if isfile(outputfile)
-          loadbin(outputfile);
-          res = test_res;
-          test_case_res.msg = test_msg;
+          s = jsondecode(fileread(outputfile));
+          res = s.r;
+          test_case_res.msg = s.msg;
           if res == 1
             test_case_res.status = 'Pass';
-            test_timing = 0;
+            test_timing = s.timing;
           else
             test_case_res.status = 'Fail';
-            test_timing = 0;
+            test_timing = s.timing;
           end
         else
           test_case_res.status = 'Fail';
@@ -560,20 +564,24 @@ function test_case_res = run_test_case(test, module_name, index, indexMax, nbTes
           test_case_res.status = 'Fail';
           test_timing = 0;
           if isfile(outputfile)
-            loadbin(outputfile);
-            test_case_res.msg = test_msg;
+            s = jsondecode(fileread(outputfile));
+            test_case_res.msg = s.msg;
           end
         else
           if isfile(outputfile)
-            loadbin(outputfile);
+            s = jsondecode(fileread(outputfile));
             r = rmfile(outputfile);
-            if (test_res)
+            if (s.r)
               if is_bench
-                test_case_res.status = [mat2str(test_timing, 2), ' ms'];
+                if s.timing > 1000
+                  test_case_res.status = [mat2str(s.timing * inv(1000), 2), '  s'];
+                else
+                  test_case_res.status = [mat2str(s.timing, 2), ' ms'];
+                end
               else
                 test_case_res.status = 'Pass';
               end
-              test_case_res.time = test_timing;
+              test_case_res.time = s.timing;
             end
             // delete error redirection if test is OK
             // no need to conserve in this case
@@ -593,7 +601,7 @@ function test_case_res = run_test_case(test, module_name, index, indexMax, nbTes
   end
   nbCharsStart = length(startChars);
   nb_spaces = 80 - nbCharsStart - length(test_case_res.status);
-  fprintf(stdout, [char(ones(1, nb_spaces) * double(' ')), test_case_res.status, char(10)]);
+  fprintf(stdout, [char(ones(1, nb_spaces) * double(' ')), test_case_res.status, newline]);
   
   if strcmp(test_case_res.status, 'Fail') == true
     disp(['    run(''', test.filename, ''')']);
