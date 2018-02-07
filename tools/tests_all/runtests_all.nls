@@ -21,7 +21,29 @@ try
   if strcmp(TESTS_RESULT_DIR, '') == true
     TESTS_RESULT_DIR = nelsonroot();
   end
-  r = test_run([], [], [TESTS_RESULT_DIR, '/tests_all.xml']);
+  ver_number = version('-number');
+  arch_name = computer('arch');
+  platform = 'unknow-platform';
+  if strcmp(arch_name, 'win64') == true
+    platform = 'win-x86-64';
+  end
+  if strcmp(arch_name, 'win32') == true
+    platform = 'win-x86-32';
+  end
+  if strcmp(arch_name, 'glnxa64') == true
+    platform = 'linux-x86-64';
+  end
+  if strcmp(arch_name, 'glnxa32') == true
+    platform = 'linux-x86-32';
+  end
+  if strcmp(arch_name, 'maci64') == true
+    platform = 'mac-x86-64';
+  end
+  if strcmp(arch_name, 'maci32') == true
+    platform = 'mac-x86-32';
+  end
+  filedest = ['tests_all-', mat2str(ver_number(1)), '.', mat2str(ver_number(2)), '.', mat2str(ver_number(3)), '.', mat2str(ver_number(4)), '-', platform, '.*']
+  r = test_run([], [], [TESTS_RESULT_DIR, '/', filedest]);
 catch
   m = lasterror();
   disp(m.message);

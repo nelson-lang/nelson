@@ -17,8 +17,8 @@
 # LICENCE_BLOCK_END
 #==============================================================================
 # This .gitignore for Nelson
-tests_all.xml
-tests_minimal.xml
+tests_*.xml
+tests_*.json
 /$tf
 /bin/*/mkl
 /bin/*/openblas
