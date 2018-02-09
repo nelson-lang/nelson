@@ -34,7 +34,7 @@ namespace Nelson {
     //=============================================================================
     static void json_append_string(std::string str)
     {
-        jsonString = jsonString + str;
+        jsonString.append(str);
     }
     //=============================================================================
     static bool isSupportedType(ArrayOf ValueToEncode)
@@ -955,6 +955,7 @@ namespace Nelson {
                     if (ValueToEncode.isRowVector() || ValueToEncode.isColumnVector())
                     {
                         json_append_char('"');
+						jsonString.reserve(jsonString.size() + strw.size());
                         for (size_t i = 0; i < strw.size(); i++)
                         {
                             encode_character(strw[i]);
