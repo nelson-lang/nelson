@@ -51,6 +51,8 @@ after_build:
 artifacts:
   - path: ./*.exe
   - path: ./tests_all*.xml
+  - path: ./tests_all*.json
+
 
 notifications:
 - provider: Email
