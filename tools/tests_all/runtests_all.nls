@@ -43,7 +43,7 @@ try
     platform = 'mac-x86-32';
   end
   filedest = ['tests_all-', mat2str(ver_number(1)), '.', mat2str(ver_number(2)), '.', mat2str(ver_number(3)), '.', mat2str(ver_number(4)), '-', platform, '.*'];
-  r = test_run(getmodules(), [], [TESTS_RESULT_DIR, '/', filedest]);
+  r = test_run([], [], [TESTS_RESULT_DIR, '/', filedest]);
 catch
   m = lasterror();
   disp(m.message);
