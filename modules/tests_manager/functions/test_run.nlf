@@ -286,6 +286,10 @@ function status = test_run(varargin)
             end
           end
         end
+        if strcmp(tc.status, 'Pass') == true
+          // remove msg if test is 'pass'
+          tc.msg = '';
+        end
         test_suites.tests_list(k).test_cases_list(l) = tc;
         test_suites.time = test_suites.time + test_suites.tests_list(k).time;
         l = l + 1;
