@@ -220,7 +220,7 @@ function status = test_run(varargin)
               error(_('option not managed.'));
             end
           end
-          
+          nbTestCasesMax = 0;
           if ~isempty(tests_list)
             for t = tests_list
               test_case = create_test_case([tests_dir, t.name]);
