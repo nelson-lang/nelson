@@ -127,6 +127,7 @@ namespace Nelson {
     bool isEmptyFile(std::wstring filename)
     {
         std::wifstream wif(wstring_to_utf8(filename), std::ios::binary);
+		wif.seekg(0, std::ios::end);
         return !(wif.tellg() > 0);
     }
     //=============================================================================
