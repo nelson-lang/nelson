@@ -22,7 +22,7 @@
 #include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
-	NLSSTREAM_MANAGER_IMPEXP ArrayOf MapFileRead(std::wstring filename, std::wstring eol, std::wstring &errorMessage);
+    NLSSTREAM_MANAGER_IMPEXP ArrayOf MapFileRead(std::wstring filename, std::wstring eol, std::wstring &errorMessage);
 };
 //=============================================================================
 

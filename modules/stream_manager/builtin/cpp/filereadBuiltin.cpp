@@ -37,9 +37,9 @@ static std::wifstream & wsafegetline(std::wifstream &os, std::wstring &line)
 {
     if (getline(os, line))
     {
-		if (line.size() && line[line.size() - 1] == L'\r')
+        if (line.size() && line[line.size() - 1] == L'\r')
         {
-			line.pop_back();
+            line.pop_back();
         }
     }
     return os;
@@ -60,7 +60,7 @@ ArrayOfVector Nelson::StreamGateway::filereadBuiltin(Evaluator* eval, int nLhs, 
     bool bIsFile = boost::filesystem::exists(fileToRead) && !boost::filesystem::is_directory(fileToRead);
     if (!bIsFile)
     {
-        Error(eval, _W("A filename expected."));
+        Error(eval, _W("A valid filename expected."));
     }
     std::wstring outputClass = L"char";
     if (argIn.size() > 1)
@@ -114,32 +114,32 @@ ArrayOfVector Nelson::StreamGateway::filereadBuiltin(Evaluator* eval, int nLhs, 
     }
     if (outputClass == L"char")
     {
-		std::wstring errorMessage;
-		ArrayOf res = MapFileRead(fileToRead, eol, errorMessage);
-		if (!errorMessage.empty())
-		{
-			Error(eval, errorMessage);
-		}
-		retval.push_back(res);
+        std::wstring errorMessage;
+        ArrayOf res = MapFileRead(fileToRead, eol, errorMessage);
+        if (!errorMessage.empty())
+        {
+            Error(eval, errorMessage);
+        }
+        retval.push_back(res);
     }
     else
     {
 #ifdef _MSC_VER
-		std::wifstream wif(fileToRead, std::ios::binary);
+        std::wifstream wif(fileToRead, std::ios::binary);
 #else
-		std::wifstream wif(wstring_to_utf8(fileToRead), std::ios::binary);
+        std::wifstream wif(wstring_to_utf8(fileToRead), std::ios::binary);
 #endif
-		if (!wif.is_open())
-		{
-			Error(eval, _W("Cannot open file."));
-		}
-		std::wstring line;
+        if (!wif.is_open())
+        {
+            Error(eval, _W("Cannot open file."));
+        }
+        std::wstring line;
         wstringVector lines;
         while (wsafegetline(wif, line))
         {
             lines.push_back(line);
         }
-		wif.close();
+        wif.close();
         retval.push_back(ToCellStringAsColumn(lines));
     }
     return retval;

@@ -955,7 +955,7 @@ namespace Nelson {
                     if (ValueToEncode.isRowVector() || ValueToEncode.isColumnVector())
                     {
                         json_append_char('"');
-						jsonString.reserve(jsonString.size() + strw.size());
+                        jsonString.reserve(jsonString.size() + strw.size());
                         for (size_t i = 0; i < strw.size(); i++)
                         {
                             encode_character(strw[i]);
