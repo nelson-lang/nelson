@@ -191,6 +191,7 @@
     <ClInclude Include="..\include\FileStream.hpp" />
     <ClInclude Include="..\include\FileTell.hpp" />
     <ClInclude Include="..\include\FileWrite.hpp" />
+    <ClInclude Include="..\include\MapFileRead.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\DelimitedFile.cpp" />
@@ -209,6 +210,7 @@
     <ClCompile Include="..\cpp\FileTell.cpp" />
     <ClCompile Include="..\cpp\FileWrite.cpp" />
     <ClCompile Include="..\cpp\Interface.cpp" />
+    <ClCompile Include="..\cpp\MapFileRead.cpp" />
     <ClCompile Include="..\cpp\Serialize.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>

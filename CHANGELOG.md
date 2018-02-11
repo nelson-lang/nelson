@@ -7,6 +7,8 @@ Features:
 Bug Fixes:
 ---------
 
+  [#97](http://github.com/Nelson-numerical-software/nelson/issues/97): fileread was slow with a big file (> 60 Mo).
+
   [#93](http://github.com/Nelson-numerical-software/nelson/issues/93): playblocking updated to manage range.
 
   [#92](http://github.com/Nelson-numerical-software/nelson/issues/92): play updated to manage range.
