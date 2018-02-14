@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
@@ -17,116 +17,227 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <boost/algorithm/string.hpp>
+#include <regex>
+#include <vector>
+#include <algorithm>
 #include "JsonPrettyPrint.hpp"
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-    ArrayOf jsonPrettyPrint(std::wstring stringToPrettify)
-    {
-        std::wstring jsonPrettified = L"";
-        if (stringToPrettify.length() != 0)
+	/*
+	MIT License
+
+	Copyright (c) 2018 Mantas Aramavičius
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+	*/
+	namespace implementation 
+	{
+		//=============================================================================
+		enum class Position 
+		{
+            TAB = 0,
+            COMMA = 1,
+            OBJ_START = 2,
+            OBJ_END = 3,
+            ARRAY_START = 4,
+            ARRAY_END = 5
+        };
+		//=============================================================================
+		struct RegexPos
         {
-            std::wstring copyInput = boost::trim_copy(stringToPrettify);
-            std::wstring temp;
-            bool bInQuote = false;
-            for (std::wstring::const_iterator it = copyInput.begin(), end_it = copyInput.end(); it != end_it; ++it)
+            size_t pos;
+            long length;
+        };
+		//=============================================================================
+		std::wstring generateSpaces(int l)
+        {
+            return std::wstring(l * 4, ' ');
+        }
+		//=============================================================================
+		long lowestOf(std::vector<size_t> & of)
+        {
+            std::vector<size_t>::iterator result = std::min_element(std::begin(of), std::end(of));
+            return (long)std::distance(std::begin(of), result);
+        }
+		//=============================================================================
+		void insertColonSpaces(std::wstring & j)
+        {
+            std::wregex colon = std::wregex(LR"(\s*?\:\s*?(?=\S))");
+            j.assign(std::regex_replace(j, colon, L" : "));
+        }
+		//=============================================================================
+        RegexPos findRegexFirstPosition(const std::wstring & json, const long & start_pos, const std::wregex & rx)
+        {
+            size_t at = -1;
+            long len = 0;
+            std::wstring ss(json.begin() + start_pos, json.end());
+            std::wsmatch m;
+            std::regex_search(ss, m, rx);
+            if (m.size() > 0)
             {
-                wchar_t c = *it;
-                if (c == L'\"')
-                {
-                    bInQuote = !bInQuote;
-                    temp.push_back(c);
-                }
-                else
-                {
-                    if (bInQuote)
-                    {
-                        temp.push_back(c);
-                    }
-                    else
-                    {
-                        if (!iswspace(c))
-                        {
-                            temp.push_back(c);
-                        }
-                    }
-                }
+                at = m.position(0);
+                len = (long)m[0].str().size();
             }
-            swap(copyInput, temp);
-            std::wstring indent = L"";
-            std::wstring curr = L"";
-            size_t i = 0;
-            size_t len = copyInput.length();
-            while (i < len)
+            if (at < json.size())
             {
-                curr.push_back(copyInput[i]);
-                switch (copyInput[i])
+                at += start_pos;
+            }
+            return {at, len};
+        }
+		//=============================================================================
+	}
+    //=============================================================================
+    enum class Colons 
+	{
+        TIGHT,
+        SPACED
+    };
+    //=============================================================================
+    std::wstring JSONPrettify(const std::wstring & json, const Nelson::Colons spacing = Nelson::Colons::TIGHT)
+    {
+        using namespace Nelson::implementation;
+		std::wstring pretty;
+		bool bInQuote = false;
+		pretty.reserve(json.size());
+		for (std::wstring::const_iterator it = json.begin(), end_it = json.end(); it != end_it; ++it)
+		{
+			wchar_t c = *it;
+			if (c == L'\"')
+			{
+				bInQuote = !bInQuote;
+				pretty.push_back(c);
+			}
+			else
+			{
+				if (bInQuote)
+				{
+					pretty.push_back(c);
+				}
+				else
+				{
+					if (!iswspace(c))
+					{
+						pretty.push_back(c);
+					}
+				}
+			}
+		}
+        const std::wregex var = std::wregex(LR"(-Inf|Inf|NaN|(\".+?\"[^\,]*?((\".*?\")|(\d*?))(?=\n*?\s*?(\,|\{|\}|\[|\])))|(\d+?)|(\".*?\"))");
+        long it = 0;
+        int depth = 0;
+        while (it < pretty.size())
+        {
+            RegexPos pos_tab = findRegexFirstPosition(pretty, it, var);
+            auto pos_comma = pretty.find(L",", it);
+            auto pos_obj_start = pretty.find(L"{", it);
+            auto pos_obj_end = pretty.find(L"}", it);
+            auto pos_array_start = pretty.find(L"[", it);
+            auto pos_array_end = pretty.find(L"]", it);
+            long old_it = it;
+            Position work_with;
+            {
+                std::vector<size_t> _temp = { pos_tab.pos, pos_comma, pos_obj_start, pos_obj_end,pos_array_start,pos_array_end };
+                auto at = lowestOf(_temp);
+                if (_temp[at] > pretty.size())
                 {
-                    case L'{':
-                    case L'[':
-                    {
-                        i++;
-                        jsonPrettified = jsonPrettified + curr + L"\n";
-                        if (i < len && (copyInput[i] != L'}' || copyInput[i] != L']'))
-                        {
-                            indent.push_back(L'\t');
-                        }
-                        curr = indent;
-                    }
                     break;
-                    case L'}':
-                    case L']':
-                    {
-                        i++;
-                        if (i < len && copyInput[i] == ',')
-                        {
-                            break;
-                        }
-                        jsonPrettified = jsonPrettified + curr + L"\n";
-                        if (i < len && (copyInput[i] == L'}' || copyInput[i] == L']'))
-                        {
-                            if (!indent.empty())
-                            {
-                                indent.pop_back();
-                            }
-                        }
-                        curr = indent;
-                    }
+                }
+                work_with = static_cast<Position>(at);
+            }
+            switch (work_with)
+            {
+                case(Position::TAB):
+                {
+                    std::wstring insert = generateSpaces(depth);
+                    pretty.insert(pos_tab.pos, insert);
+                    it = (long)pos_tab.pos + (long)insert.size() + pos_tab.length;
                     break;
-                    case L',':
-                    {
-                        jsonPrettified = jsonPrettified + curr + L"\n";
-                        curr = indent;
-                        i++;
-                    }
+                }
+                case(Position::COMMA):
+                {
+                    pretty.insert(pos_comma + 1, L"\n");
+                    it = (long)pos_comma + 1;
                     break;
-                    case L':':
+                }
+                case(Position::OBJ_START):
+                {
+                    std::wstring insert = L"\n";
+                    pretty.insert(pos_obj_start + 1, insert);
+                    it = (long)pos_obj_start + (long)insert.size();
+                    depth += 1;
+                    if (pos_obj_start - 1 > pretty.size())
                     {
-                        i++;
-                        if (copyInput[i] == L'{' || copyInput[i] == L'[')
-                        {
-                            jsonPrettified = jsonPrettified + curr + L"\n";
-                            curr = indent;
-                        }
+                        continue;
                     }
-                    break;
-                    default:
+                    if (pretty.at(pos_obj_start - 1) != L':')
                     {
-                        i++;
-                        if (i < len && (copyInput[i] == L'}' || copyInput[i] == L']'))
-                        {
-                            jsonPrettified = jsonPrettified + curr + L"\n";
-                            if (!indent.empty())
-                            {
-                                indent.pop_back();
-                            }
-                            curr = indent;
-                        }
+                        std::wstring extra = generateSpaces(depth - 1);
+                        pretty.insert(pos_obj_start, extra);
+                        it += (long)extra.size();
                     }
                     break;
                 }
+                case(Position::OBJ_END):
+                {
+                    std::wstring insert = L"\n" + generateSpaces(depth - 1);
+                    pretty.insert(pos_obj_end, insert);
+                    it = (long)pos_obj_end + (long)insert.size() + (long)1;
+                    depth -= 1;
+                    break;
+                }
+                case(Position::ARRAY_START):
+                {
+                    std::wstring insert = L"\n";
+                    pretty.insert(pos_array_start + 1, insert);
+                    it = (long)pos_array_start + (long)insert.size();
+                    depth += 1;
+                    break;
+                }
+                case(Position::ARRAY_END):
+                {
+                    std::wstring insert = L"\n" + generateSpaces(depth - 1);
+                    pretty.insert(pos_array_end, insert);
+                    it = (long)pos_array_end + (long)insert.size() + (long)1;
+                    depth -= 1;
+                    break;
+                }
+                default:
+                {
+                    break;
+                }
+            };
+            if (it == old_it)
+            {
+                break;
             }
         }
+        if (spacing == Colons::SPACED)
+        {
+            insertColonSpaces(pretty);
+        }
+        return pretty;
+    }
+    //=============================================================================
+    ArrayOf jsonPrettyPrint(std::wstring stringToPrettify)
+    {
+        std::wstring jsonPrettified = JSONPrettify(stringToPrettify, Colons::TIGHT);
         return ArrayOf::stringConstructor(jsonPrettified);
     }
     //=============================================================================

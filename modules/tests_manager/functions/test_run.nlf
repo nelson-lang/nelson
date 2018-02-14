@@ -97,12 +97,12 @@ function status = test_run(varargin)
     end
   end
   
-  xml_outputfile = '';
+  result_outputfile = '';
   if (nargin > 2)
     param3 = varargin{3};
     if ischar(param3)
       if length(param3) == size(param3, 2) & length(param3) > 2
-        xml_outputfile = param3;
+        result_outputfile = param3;
       end
     end
   end
@@ -184,6 +184,8 @@ function status = test_run(varargin)
     else
       nelson_version = version('-number');
       nelson_version_str = ['Nelson', '-', int2str(nelson_version(1)), '.', int2str(nelson_version(2)), '.', int2str(nelson_version(3)), '.', int2str(nelson_version(4))];
+      nbTestCasesMax = 0;
+
       for m = modules_list
         test_suite = create_test_suite();
         test_suite.name = m{1};
@@ -218,7 +220,6 @@ function status = test_run(varargin)
               error(_('option not managed.'));
             end
           end
-          
           nbTestCasesMax = 0;
           if ~isempty(tests_list)
             for t = tests_list
@@ -285,6 +286,10 @@ function status = test_run(varargin)
             end
           end
         end
+        if strcmp(tc.status, 'Pass') == true
+          // remove msg if test is 'pass'
+          tc.msg = '';
+        end
         test_suites.tests_list(k).test_cases_list(l) = tc;
         test_suites.time = test_suites.time + test_suites.tests_list(k).time;
         l = l + 1;
@@ -295,17 +300,36 @@ function status = test_run(varargin)
     
     disp_summary(test_suites);
     
-    if strcmp(xml_outputfile, '') == false;
-      res = save_as_xml(test_suites, xml_outputfile);
+    if strcmp(result_outputfile, '') == false
+      [p, f, e] = fileparts(result_outputfile);
+      if strcmp(e, '.*') == true
+        res = save_as_xml(test_suites, [p, filesep, f, '.xml']);
+      	res = save_as_json(test_suites, [p, filesep, f, '.json']);
+      else
+        if strcmp(e, '.xml') == true
+          res = save_as_xml(test_suites, result_outputfile);
+        else
+        	if strcmp(e, '.json') == true
+      	    res = save_as_json(test_suites, result_outputfile);
+          else
+            res = save_as_xml(test_suites, result_outputfile);
+          end
+        end
+      end
     end
-  endfunction
-  //=============================================================================
+ endfunction
+//=============================================================================
+function res = save_as_json(test_suites, jsonFileDestination)
+  filewrite(jsonFileDestination, jsonprettyprint(jsonencode(test_suites)))
+  res = isfile(jsonFileDestination);
+endfunction
+//=============================================================================
 function res = save_as_xml(test_suites, xmlFileDestination)
   res = false;
   if ispc()
     eol = char([13, 10]);
   else
-    eol = newlines;
+    eol = newline;
   end
   fp = fopen(xmlFileDestination, 'wt');
   if fp ~= -1

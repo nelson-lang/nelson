@@ -19,13 +19,12 @@
 #include <sstream>
 #include <fstream>
 #include <iostream>
-#include <boost/algorithm/string/predicate.hpp>
-#include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
 #include "filereadBuiltin.hpp"
 #include "Error.hpp"
 #include "characters_encoding.hpp"
 #include "ToCellString.hpp"
+#include "MapFileRead.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -36,16 +35,11 @@ using namespace Nelson;
 //=============================================================================
 static std::wifstream & wsafegetline(std::wifstream &os, std::wstring &line)
 {
-    std::wstring myline;
-    if (getline(os, myline))
+    if (getline(os, line))
     {
-        if (myline.size() && myline[myline.size() - 1] == L'\r')
+        if (line.size() && line[line.size() - 1] == L'\r')
         {
-            line = myline.substr(0, myline.size() - 1);
-        }
-        else
-        {
-            line = myline;
+            line.pop_back();
         }
     }
     return os;
@@ -66,7 +60,7 @@ ArrayOfVector Nelson::StreamGateway::filereadBuiltin(Evaluator* eval, int nLhs, 
     bool bIsFile = boost::filesystem::exists(fileToRead) && !boost::filesystem::is_directory(fileToRead);
     if (!bIsFile)
     {
-        Error(eval, _W("A filename expected."));
+        Error(eval, _W("A valid filename expected."));
     }
     std::wstring outputClass = L"char";
     if (argIn.size() > 1)
@@ -118,33 +112,34 @@ ArrayOfVector Nelson::StreamGateway::filereadBuiltin(Evaluator* eval, int nLhs, 
             Error(eval, _W("Wrong value for #2 argument."));
         }
     }
-#ifdef _MSC_VER
-    std::wifstream wif(fileToRead, std::ios::binary);
-#else
-    std::wifstream wif(wstring_to_utf8(fileToRead), std::ios::binary);
-#endif
-    if (!wif.is_open())
-    {
-        Error(eval, _W("Cannot open file."));
-    }
     if (outputClass == L"char")
     {
-        std::wstringstream wss;
-        wss << wif.rdbuf();
-        wif.close();
-        std::wstring content = wss.str();
-        boost::replace_all(content, L"\r\n", L"\n");
-        boost::replace_all(content, L"\n", eol);
-        retval.push_back(ArrayOf::stringConstructor(content));
+        std::wstring errorMessage;
+        ArrayOf res = MapFileRead(fileToRead, eol, errorMessage);
+        if (!errorMessage.empty())
+        {
+            Error(eval, errorMessage);
+        }
+        retval.push_back(res);
     }
     else
     {
+#ifdef _MSC_VER
+        std::wifstream wif(fileToRead, std::ios::binary);
+#else
+        std::wifstream wif(wstring_to_utf8(fileToRead), std::ios::binary);
+#endif
+        if (!wif.is_open())
+        {
+            Error(eval, _W("Cannot open file."));
+        }
         std::wstring line;
         wstringVector lines;
         while (wsafegetline(wif, line))
         {
             lines.push_back(line);
         }
+        wif.close();
         retval.push_back(ToCellStringAsColumn(lines));
     }
     return retval;

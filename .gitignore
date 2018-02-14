@@ -17,8 +17,8 @@
 # LICENCE_BLOCK_END
 #==============================================================================
 # This .gitignore for Nelson
-tests_all.xml
-tests_minimal.xml
+tests_*.xml
+tests_*.json
 /$tf
 /bin/*/mkl
 /bin/*/openblas
@@ -131,6 +131,8 @@ bin/macosx64/nelson-gui
 *.iobj
 /tools/gettext/generatepo/Debug
 /tools/gettext/generatemo/Release
+/tools/gettext/generatepo/x64/
+/tools/tests_minimal/x64/
 *.opendb
 /tools/gettext/generatemo/Debug
 /tools/gettext/generatemo/Debug/generatemo.log
