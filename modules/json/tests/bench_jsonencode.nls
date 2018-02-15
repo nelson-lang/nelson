@@ -16,7 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-filesrc = [nelsonroot(), '/modules/stream_manager/tests/bench_fileread.json'];
+filesrc = [nelsonroot(), '/modules/json/tests/bench_jsonencode.json'];
 r = fileread(filesrc, 'char');
 tic();st = jsondecode(r);toc()
 tic();txt =jsonencode(st);toc()
