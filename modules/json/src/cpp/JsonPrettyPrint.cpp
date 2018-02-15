@@ -17,8 +17,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <boost/algorithm/string.hpp>
-#include <regex>
-#include <vector>
+#include <boost/regex.hpp>
+#include <boost/container/vector.hpp>
 #include <algorithm>
 #include "JsonPrettyPrint.hpp"
 //=============================================================================
@@ -71,28 +71,27 @@ namespace Nelson {
             return std::wstring(l * 4, ' ');
         }
 		//=============================================================================
-		long lowestOf(std::vector<size_t> & of)
+		long lowestOf(boost::container::vector<size_t> & of)
         {
-            std::vector<size_t>::iterator result = std::min_element(std::begin(of), std::end(of));
+			boost::container::vector<size_t>::iterator result = std::min_element(std::begin(of), std::end(of));
             return (long)std::distance(std::begin(of), result);
         }
 		//=============================================================================
 		void insertColonSpaces(std::wstring & j)
         {
-            std::wregex colon = std::wregex(LR"(\s*?\:\s*?(?=\S))");
-            j.assign(std::regex_replace(j, colon, L" : "));
+            boost::wregex colon = boost::wregex(LR"(\s*?\:\s*?(?=\S))");
+            j.assign(boost::regex_replace(j, colon, L" : "));
         }
 		//=============================================================================
-        RegexPos findRegexFirstPosition(const std::wstring & json, const long & start_pos, const std::wregex & rx)
+        RegexPos findRegexFirstPosition(const std::wstring & json, const long & start_pos, const boost::wregex & rx)
         {
             size_t at = -1;
             long len = 0;
             std::wstring ss(json.begin() + start_pos, json.end());
-            std::wsmatch m;
-            std::regex_search(ss, m, rx);
-            if (m.size() > 0)
+			boost::wsmatch m;
+			if (boost::regex_search(ss, m, rx))
             {
-                at = m.position(0);
+                at = m.position();
                 len = (long)m[0].str().size();
             }
             if (at < json.size())
@@ -139,7 +138,7 @@ namespace Nelson {
 				}
 			}
 		}
-        const std::wregex var = std::wregex(LR"(-Inf|Inf|NaN|(\".+?\"[^\,]*?((\".*?\")|(\d*?))(?=\n*?\s*?(\,|\{|\}|\[|\])))|(\d+?)|(\".*?\"))");
+        const boost::wregex var = boost::wregex(LR"(-Inf|Inf|NaN|(\".+?\"[^\,]*?((\".*?\")|(\d*?))(?=\n*?\s*?(\,|\{|\}|\[|\])))|(\d+?)|(\".*?\"))");
         long it = 0;
         int depth = 0;
         while (it < pretty.size())
@@ -153,7 +152,7 @@ namespace Nelson {
             long old_it = it;
             Position work_with;
             {
-                std::vector<size_t> _temp = { pos_tab.pos, pos_comma, pos_obj_start, pos_obj_end,pos_array_start,pos_array_end };
+				boost::container::vector<size_t> _temp = { pos_tab.pos, pos_comma, pos_obj_start, pos_obj_end,pos_array_start,pos_array_end };
                 auto at = lowestOf(_temp);
                 if (_temp[at] > pretty.size())
                 {
@@ -235,7 +234,7 @@ namespace Nelson {
         return pretty;
     }
     //=============================================================================
-    ArrayOf jsonPrettyPrint(std::wstring stringToPrettify)
+    ArrayOf jsonPrettyPrint(const std::wstring &stringToPrettify)
     {
         std::wstring jsonPrettified = JSONPrettify(stringToPrettify, Colons::TIGHT);
         return ArrayOf::stringConstructor(jsonPrettified);
