@@ -15,6 +15,8 @@ Bug Fixes:
 
   [#92](http://github.com/Nelson-numerical-software/nelson/issues/92): play updated to manage range.
 
+  [#90](http://github.com/Nelson-numerical-software/nelson/issues/90): factorize handle objects methods.
+
 
 ## 0.2.1 (2018-01-30)
 
