@@ -23,6 +23,6 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-	NLSHANDLE_IMPEXP ArrayOf IsValidHandle(Evaluator *eval, ArrayOf A);
+    NLSHANDLE_IMPEXP ArrayOf IsValidHandle(Evaluator *eval, ArrayOf A);
 }
 //=============================================================================

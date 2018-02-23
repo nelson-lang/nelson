@@ -34,7 +34,7 @@ ArrayOfVector Nelson::ComEngineGateway::COM_isvalidBuiltin(Evaluator* eval, int 
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOfVector retval;
-	retval.push_back(IsValidHandle(eval, argIn[0]));
+    retval.push_back(IsValidHandle(eval, argIn[0]));
     return retval;
 }
 //=============================================================================

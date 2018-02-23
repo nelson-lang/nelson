@@ -34,7 +34,7 @@ ArrayOfVector Nelson::AudioGateway::audioplayer_isvalidBuiltin(Evaluator* eval, 
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOfVector retval;
-	retval.push_back(IsValidHandle(eval, argIn[0]));
-	return retval;
+    retval.push_back(IsValidHandle(eval, argIn[0]));
+    return retval;
 }
 //=============================================================================

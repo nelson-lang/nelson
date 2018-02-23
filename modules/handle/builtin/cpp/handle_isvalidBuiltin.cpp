@@ -29,7 +29,7 @@ ArrayOfVector Nelson::HandleGateway::handle_isvalidBuiltin(Evaluator* eval, int 
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-	retval.push_back(IsValidHandle(eval, argIn[0]));
+    retval.push_back(IsValidHandle(eval, argIn[0]));
     return retval;
 }
 //=============================================================================

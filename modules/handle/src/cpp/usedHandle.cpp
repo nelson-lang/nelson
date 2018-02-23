@@ -21,29 +21,29 @@
 #include "HandleGenericObject.hpp"
 //=============================================================================
 namespace Nelson {
-	//=============================================================================
-	ArrayOf usedHandle(const std::wstring &category)
-	{
-		ArrayOf res;
-		std::vector<nelson_handle> used = HandleManager::getInstance()->getAllHandlesOfCategory(category);
-		size_t nbHandles = used.size();
-		if (nbHandles > 0)
-		{
-			Dimensions dims(1, nbHandles);
-			nelson_handle *nh = (nelson_handle*)ArrayOf::allocateArrayOf(NLS_HANDLE, nbHandles);
-			for (int k = 0; k < nbHandles; k++)
-			{
-				nh[k] = used[k];
-			}
-			res = ArrayOf(NLS_HANDLE, dims, (void *)nh);
-		}
-		else
-		{
-			res = ArrayOf::emptyConstructor(Dimensions(0, 0));
-			res.promoteType(NLS_HANDLE);
-		}
-		return res;
-	}
-	//=============================================================================
+    //=============================================================================
+    ArrayOf usedHandle(const std::wstring &category)
+    {
+        ArrayOf res;
+        std::vector<nelson_handle> used = HandleManager::getInstance()->getAllHandlesOfCategory(category);
+        size_t nbHandles = used.size();
+        if (nbHandles > 0)
+        {
+            Dimensions dims(1, nbHandles);
+            nelson_handle *nh = (nelson_handle*)ArrayOf::allocateArrayOf(NLS_HANDLE, nbHandles);
+            for (int k = 0; k < nbHandles; k++)
+            {
+                nh[k] = used[k];
+            }
+            res = ArrayOf(NLS_HANDLE, dims, (void *)nh);
+        }
+        else
+        {
+            res = ArrayOf::emptyConstructor(Dimensions(0, 0));
+            res.promoteType(NLS_HANDLE);
+        }
+        return res;
+    }
+    //=============================================================================
 }
 //=============================================================================

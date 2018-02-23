@@ -24,34 +24,32 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-	/*
-	MIT License
+    /*
+    MIT License
 
-	Copyright (c) 2018 Mantas Aramavičius
+    Copyright (c) 2018 Mantas Aramavičius
 
-	Permission is hereby granted, free of charge, to any person obtaining a copy
-	of this software and associated documentation files (the "Software"), to deal
-	in the Software without restriction, including without limitation the rights
-	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-	copies of the Software, and to permit persons to whom the Software is
-	furnished to do so, subject to the following conditions:
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:
 
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
+    The above copyright notice and this permission notice shall be included in all
+    copies or substantial portions of the Software.
 
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-	SOFTWARE.
-	*/
-	namespace implementation 
-	{
-		//=============================================================================
-		enum class Position 
-		{
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+    SOFTWARE.
+    */
+    namespace implementation {
+        //=============================================================================
+        enum class Position {
             TAB = 0,
             COMMA = 1,
             OBJ_START = 2,
@@ -59,37 +57,37 @@ namespace Nelson {
             ARRAY_START = 4,
             ARRAY_END = 5
         };
-		//=============================================================================
-		struct RegexPos
+        //=============================================================================
+        struct RegexPos
         {
             size_t pos;
             long length;
         };
-		//=============================================================================
-		std::wstring generateSpaces(int l)
+        //=============================================================================
+        std::wstring generateSpaces(int l)
         {
             return std::wstring(l * 4, ' ');
         }
-		//=============================================================================
-		long lowestOf(boost::container::vector<size_t> & of)
+        //=============================================================================
+        long lowestOf(boost::container::vector<size_t> & of)
         {
-			boost::container::vector<size_t>::iterator result = std::min_element(std::begin(of), std::end(of));
+            boost::container::vector<size_t>::iterator result = std::min_element(std::begin(of), std::end(of));
             return (long)std::distance(std::begin(of), result);
         }
-		//=============================================================================
-		void insertColonSpaces(std::wstring & j)
+        //=============================================================================
+        void insertColonSpaces(std::wstring & j)
         {
             boost::wregex colon = boost::wregex(LR"(\s*?\:\s*?(?=\S))");
             j.assign(boost::regex_replace(j, colon, L" : "));
         }
-		//=============================================================================
+        //=============================================================================
         RegexPos findRegexFirstPosition(const std::wstring & json, const long & start_pos, const boost::wregex & rx)
         {
             size_t at = -1;
             long len = 0;
             std::wstring ss(json.begin() + start_pos, json.end());
-			boost::wsmatch m;
-			if (boost::regex_search(ss, m, rx))
+            boost::wsmatch m;
+            if (boost::regex_search(ss, m, rx))
             {
                 at = m.position();
                 len = (long)m[0].str().size();
@@ -100,11 +98,10 @@ namespace Nelson {
             }
             return {at, len};
         }
-		//=============================================================================
-	}
+        //=============================================================================
+    }
     //=============================================================================
-    enum class Colons 
-	{
+    enum class Colons {
         TIGHT,
         SPACED
     };
@@ -112,32 +109,32 @@ namespace Nelson {
     std::wstring JSONPrettify(const std::wstring & json, const Nelson::Colons spacing = Nelson::Colons::TIGHT)
     {
         using namespace Nelson::implementation;
-		std::wstring pretty;
-		bool bInQuote = false;
-		pretty.reserve(json.size());
-		for (std::wstring::const_iterator it = json.begin(), end_it = json.end(); it != end_it; ++it)
-		{
-			wchar_t c = *it;
-			if (c == L'\"')
-			{
-				bInQuote = !bInQuote;
-				pretty.push_back(c);
-			}
-			else
-			{
-				if (bInQuote)
-				{
-					pretty.push_back(c);
-				}
-				else
-				{
-					if (!iswspace(c))
-					{
-						pretty.push_back(c);
-					}
-				}
-			}
-		}
+        std::wstring pretty;
+        bool bInQuote = false;
+        pretty.reserve(json.size());
+        for (std::wstring::const_iterator it = json.begin(), end_it = json.end(); it != end_it; ++it)
+        {
+            wchar_t c = *it;
+            if (c == L'\"')
+            {
+                bInQuote = !bInQuote;
+                pretty.push_back(c);
+            }
+            else
+            {
+                if (bInQuote)
+                {
+                    pretty.push_back(c);
+                }
+                else
+                {
+                    if (!iswspace(c))
+                    {
+                        pretty.push_back(c);
+                    }
+                }
+            }
+        }
         const boost::wregex var = boost::wregex(LR"(-Inf|Inf|NaN|(\".+?\"[^\,]*?((\".*?\")|(\d*?))(?=\n*?\s*?(\,|\{|\}|\[|\])))|(\d+?)|(\".*?\"))");
         long it = 0;
         int depth = 0;
@@ -152,7 +149,7 @@ namespace Nelson {
             long old_it = it;
             Position work_with;
             {
-				boost::container::vector<size_t> _temp = { pos_tab.pos, pos_comma, pos_obj_start, pos_obj_end,pos_array_start,pos_array_end };
+                boost::container::vector<size_t> _temp = { pos_tab.pos, pos_comma, pos_obj_start, pos_obj_end,pos_array_start,pos_array_end };
                 auto at = lowestOf(_temp);
                 if (_temp[at] > pretty.size())
                 {

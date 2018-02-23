@@ -22,50 +22,50 @@
 #include "Error.hpp"
 //=============================================================================
 namespace Nelson {
-	//=============================================================================
-	ArrayOf IsValidHandle(Evaluator *eval, ArrayOf A)
-	{
-		ArrayOf res;
-		if (A.isHandle())
-		{
-			Dimensions dimsA = A.getDimensions();
-			nelson_handle *qp = (nelson_handle*)A.getDataPointer();
-			if (qp)
-			{
-				logical *resArray = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, dimsA.getElementCount());
-				for (size_t k = 0; k < dimsA.getElementCount(); k++)
-				{
-					nelson_handle hl = qp[k];
-					HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-					if (hlObj != nullptr)
-					{
-						if (hlObj->getPointer())
-						{
-							resArray[k] = true;
-						}
-						else
-						{
-							resArray[k] = false;
-						}
-					}
-					else
-					{
-						resArray[k] = false;
-					}
-				}
-				res = ArrayOf(NLS_LOGICAL, dimsA, resArray);
-			}
-			else
-			{
-				res = ArrayOf::emptyConstructor(dimsA);
-			}
-		}
-		else
-		{
-			Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
-		}
-		return res;
-	}
-	//=============================================================================
+    //=============================================================================
+    ArrayOf IsValidHandle(Evaluator *eval, ArrayOf A)
+    {
+        ArrayOf res;
+        if (A.isHandle())
+        {
+            Dimensions dimsA = A.getDimensions();
+            nelson_handle *qp = (nelson_handle*)A.getDataPointer();
+            if (qp)
+            {
+                logical *resArray = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, dimsA.getElementCount());
+                for (size_t k = 0; k < dimsA.getElementCount(); k++)
+                {
+                    nelson_handle hl = qp[k];
+                    HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
+                    if (hlObj != nullptr)
+                    {
+                        if (hlObj->getPointer())
+                        {
+                            resArray[k] = true;
+                        }
+                        else
+                        {
+                            resArray[k] = false;
+                        }
+                    }
+                    else
+                    {
+                        resArray[k] = false;
+                    }
+                }
+                res = ArrayOf(NLS_LOGICAL, dimsA, resArray);
+            }
+            else
+            {
+                res = ArrayOf::emptyConstructor(dimsA);
+            }
+        }
+        else
+        {
+            Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
+        }
+        return res;
+    }
+    //=============================================================================
 }
 //=============================================================================

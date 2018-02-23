@@ -23,6 +23,6 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-	NLSHANDLE_IMPEXP ArrayOf usedHandle(const std::wstring &category);
+    NLSHANDLE_IMPEXP ArrayOf usedHandle(const std::wstring &category);
 }
 //=============================================================================
