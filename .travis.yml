@@ -158,7 +158,7 @@ script:
     cmake -G "Unix Makefiles";
     fi
 
-  - make -j2
+  - make -j4
   - make buildhelp
   - make missing_help
   - make tests_minimal
