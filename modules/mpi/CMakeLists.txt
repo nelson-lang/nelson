@@ -78,6 +78,7 @@ ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../handle/src/include
 ${MPI_INCLUDE_PATH}
 )
 #==============================================================================	
@@ -95,6 +96,7 @@ nlsInterpreter
 nlsI18n
 nlsTypes
 nlsString
+nlsHandle
 ${MPI_C_LIBRARIES})
 #==============================================================================
 set_target_properties(${module_library_builtin_name}

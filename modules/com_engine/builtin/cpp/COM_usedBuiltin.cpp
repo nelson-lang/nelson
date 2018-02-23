@@ -18,7 +18,8 @@
 //=============================================================================
 #include "COM_usedBuiltin.hpp"
 #include "Error.hpp"
-#include "usedComHandleObject.hpp"
+#include "ComHandleObject.hpp"
+#include "usedHandle.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -33,7 +34,7 @@ ArrayOfVector Nelson::ComEngineGateway::COM_usedBuiltin(Evaluator* eval, int nLh
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOfVector retval;
-    retval.push_back(usedComHandleObject());
+    retval.push_back(usedHandle(COM_CATEGORY_STR));
     return retval;
 }
 //=============================================================================

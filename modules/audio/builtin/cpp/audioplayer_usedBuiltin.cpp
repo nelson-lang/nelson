@@ -18,7 +18,8 @@
 //=============================================================================
 #include "audioplayer_usedBuiltin.hpp"
 #include "Error.hpp"
-#include "usedAudioplayerHandleObject.hpp"
+#include "AudioplayerObject.hpp"
+#include "usedHandle.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -33,7 +34,7 @@ ArrayOfVector Nelson::AudioGateway::audioplayer_usedBuiltin(Evaluator* eval, int
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOfVector retval;
-    retval.push_back(usedAudioplayerHandleObject());
+    retval.push_back(usedHandle(AUDIOPLAYER_CATEGORY_STR));
     return retval;
 }
 //=============================================================================

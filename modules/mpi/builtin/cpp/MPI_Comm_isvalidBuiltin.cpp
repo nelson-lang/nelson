@@ -19,6 +19,7 @@
 #include "MPI_Comm_isvalidBuiltin.hpp"
 #include "Error.hpp"
 #include "HandleManager.hpp"
+#include "IsValidHandle.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -32,46 +33,8 @@ ArrayOfVector Nelson::MpiGateway::MPI_Comm_isvalidBuiltin(Evaluator* eval, int n
     {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    ArrayOfVector retval;
-    ArrayOf param1 = argIn[0];
-    if (param1.isHandle())
-    {
-        Dimensions dimsparam1 = param1.getDimensions();
-        nelson_handle *qp = (nelson_handle*)param1.getDataPointer();
-        if (qp)
-        {
-            logical *resArray = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, dimsparam1.getElementCount());
-            for (size_t k = 0; k < dimsparam1.getElementCount(); k++)
-            {
-                nelson_handle hl = qp[k];
-                HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-                if (hlObj != nullptr)
-                {
-                    if (hlObj->getPointer())
-                    {
-                        resArray[k] = true;
-                    }
-                    else
-                    {
-                        resArray[k] = false;
-                    }
-                }
-                else
-                {
-                    resArray[k] = false;
-                }
-            }
-            retval.push_back(ArrayOf(NLS_LOGICAL, dimsparam1, resArray));
-        }
-        else
-        {
-            retval.push_back(ArrayOf::emptyConstructor(dimsparam1));
-        }
-    }
-    else
-    {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
-    }
-    return retval;
+	ArrayOfVector retval;
+	retval.push_back(IsValidHandle(eval, argIn[0]));
+	return retval;
 }
 //=============================================================================

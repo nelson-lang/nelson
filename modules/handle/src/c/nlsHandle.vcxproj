@@ -168,6 +168,8 @@
     <ClCompile Include="..\cpp\HandleDelete.cpp" />
     <ClCompile Include="..\cpp\HorzCatHandle.cpp" />
     <ClCompile Include="..\cpp\IsEqualHandle.cpp" />
+    <ClCompile Include="..\cpp\IsValidHandle.cpp" />
+    <ClCompile Include="..\cpp\usedHandle.cpp" />
     <ClCompile Include="..\cpp\VertCatHandle.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
@@ -177,6 +179,8 @@
     <ClInclude Include="..\include\HandleDelete.hpp" />
     <ClInclude Include="..\include\HorzCatHandle.hpp" />
     <ClInclude Include="..\include\IsEqualHandle.hpp" />
+    <ClInclude Include="..\include\IsValidHandle.hpp" />
+    <ClInclude Include="..\include\usedHandle.hpp" />
     <ClInclude Include="..\include\VertCatHandle.hpp" />
   </ItemGroup>
   <ItemGroup>

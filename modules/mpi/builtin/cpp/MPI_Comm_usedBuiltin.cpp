@@ -19,6 +19,7 @@
 #include "MPI_Comm_usedBuiltin.hpp"
 #include "Error.hpp"
 #include "MPI_CommHandleObject.hpp"
+#include "usedHandle.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -33,7 +34,7 @@ ArrayOfVector Nelson::MpiGateway::MPI_Comm_usedBuiltin(Evaluator* eval, int nLhs
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOfVector retval;
-    retval.push_back(usedMPICommHandleObject());
+    retval.push_back(usedHandle(MPI_COMM_CATEGORY_STR));
     return retval;
 }
 //=============================================================================

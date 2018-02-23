@@ -18,14 +18,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsCom_engine_exports.h"
+#include "nlsHandle_exports.h"
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
-#include "ComHandleObject.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    NLSCOM_ENGINE_IMPEXP ArrayOf usedComHandleObject();
-    //=============================================================================
+	NLSHANDLE_IMPEXP ArrayOf IsValidHandle(Evaluator *eval, ArrayOf A);
 }
 //=============================================================================

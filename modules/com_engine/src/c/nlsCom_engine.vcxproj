@@ -204,7 +204,6 @@
     <ClInclude Include="..\include\methodsComHandleObject.hpp" />
     <ClInclude Include="..\include\nlsCom_engine_exports.h" />
     <ClInclude Include="..\include\SetComHandleObject.hpp" />
-    <ClInclude Include="..\include\usedComHandleObject.hpp" />
     <ClInclude Include="..\include\VariantConversionHelpers.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -229,7 +228,6 @@
     <ClCompile Include="..\cpp\ispropComHandleObject.cpp" />
     <ClCompile Include="..\cpp\methodsComHandleObject.cpp" />
     <ClCompile Include="..\cpp\SetComHandleObject.cpp" />
-    <ClCompile Include="..\cpp\usedComHandleObject.cpp" />
     <ClCompile Include="..\cpp\VariantConversionHelpers.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>

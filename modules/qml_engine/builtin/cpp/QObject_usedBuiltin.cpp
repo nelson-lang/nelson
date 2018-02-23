@@ -18,7 +18,8 @@
 //=============================================================================
 #include "QObject_usedBuiltin.hpp"
 #include "Error.hpp"
-#include "usedQObject.hpp"
+#include "QmlHandleObject.hpp"
+#include "usedHandle.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -33,7 +34,7 @@ ArrayOfVector Nelson::QmlEngineGateway::QObject_usedBuiltin(Evaluator* eval, int
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOfVector retval;
-    retval.push_back(usedQObject());
+    retval.push_back(usedHandle(QOBJECT_CATEGORY_STR));
     return retval;
 }
 //=============================================================================

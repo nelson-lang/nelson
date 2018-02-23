@@ -16,14 +16,34 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include "nlsAudio_exports.h"
-#include "ArrayOf.hpp"
+#include "usedHandle.hpp"
+#include "HandleManager.hpp"
+#include "HandleGenericObject.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    NLSAUDIO_IMPEXP ArrayOf usedAudioplayerHandleObject();
-    //=============================================================================
+	//=============================================================================
+	ArrayOf usedHandle(const std::wstring &category)
+	{
+		ArrayOf res;
+		std::vector<nelson_handle> used = HandleManager::getInstance()->getAllHandlesOfCategory(category);
+		size_t nbHandles = used.size();
+		if (nbHandles > 0)
+		{
+			Dimensions dims(1, nbHandles);
+			nelson_handle *nh = (nelson_handle*)ArrayOf::allocateArrayOf(NLS_HANDLE, nbHandles);
+			for (int k = 0; k < nbHandles; k++)
+			{
+				nh[k] = used[k];
+			}
+			res = ArrayOf(NLS_HANDLE, dims, (void *)nh);
+		}
+		else
+		{
+			res = ArrayOf::emptyConstructor(Dimensions(0, 0));
+			res.promoteType(NLS_HANDLE);
+		}
+		return res;
+	}
+	//=============================================================================
 }
 //=============================================================================

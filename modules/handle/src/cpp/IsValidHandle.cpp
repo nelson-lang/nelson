@@ -16,34 +16,56 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "usedQObject.hpp"
+#include "IsValidHandle.hpp"
 #include "HandleManager.hpp"
-#include "QmlHandleObject.hpp"
+#include "HandleGenericObject.hpp"
+#include "Error.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    ArrayOf usedQObject()
-    {
-        ArrayOf res;
-        std::vector<nelson_handle> used = HandleManager::getInstance()->getAllHandlesOfCategory(QOBJECT_CATEGORY_STR);
-        size_t nbHandles = used.size();
-        if (nbHandles > 0)
-        {
-            Dimensions dims(1, nbHandles);
-            nelson_handle *nh = (nelson_handle*)ArrayOf::allocateArrayOf(NLS_HANDLE, nbHandles);
-            for (int k = 0; k < nbHandles; k++)
-            {
-                nh[k] = used[k];
-            }
-            res = ArrayOf(NLS_HANDLE, dims, (void *)nh);
-        }
-        else
-        {
-            res = ArrayOf::emptyConstructor(Dimensions(0, 0));
-            res.promoteType(NLS_HANDLE);
-        }
-        return res;
-    }
-    //=============================================================================
+	//=============================================================================
+	ArrayOf IsValidHandle(Evaluator *eval, ArrayOf A)
+	{
+		ArrayOf res;
+		if (A.isHandle())
+		{
+			Dimensions dimsA = A.getDimensions();
+			nelson_handle *qp = (nelson_handle*)A.getDataPointer();
+			if (qp)
+			{
+				logical *resArray = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, dimsA.getElementCount());
+				for (size_t k = 0; k < dimsA.getElementCount(); k++)
+				{
+					nelson_handle hl = qp[k];
+					HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
+					if (hlObj != nullptr)
+					{
+						if (hlObj->getPointer())
+						{
+							resArray[k] = true;
+						}
+						else
+						{
+							resArray[k] = false;
+						}
+					}
+					else
+					{
+						resArray[k] = false;
+					}
+				}
+				res = ArrayOf(NLS_LOGICAL, dimsA, resArray);
+			}
+			else
+			{
+				res = ArrayOf::emptyConstructor(dimsA);
+			}
+		}
+		else
+		{
+			Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
+		}
+		return res;
+	}
+	//=============================================================================
 }
 //=============================================================================

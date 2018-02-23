@@ -18,6 +18,7 @@
 //=============================================================================
 #include "handle_isvalidBuiltin.hpp"
 #include "Error.hpp"
+#include "IsValidHandle.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -28,24 +29,7 @@ ArrayOfVector Nelson::HandleGateway::handle_isvalidBuiltin(Evaluator* eval, int 
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    ArrayOf param1 = argIn[0];
-    if (param1.isHandle())
-    {
-        Dimensions dimsparam1 = param1.getDimensions();
-        if (param1.isEmpty())
-        {
-            retval.push_back(ArrayOf::emptyConstructor(dimsparam1));
-        }
-        else
-        {
-            logical *resArray = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, dimsparam1.getElementCount());
-            retval.push_back(ArrayOf(NLS_LOGICAL, dimsparam1, resArray));
-        }
-    }
-    else
-    {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED);
-    }
+	retval.push_back(IsValidHandle(eval, argIn[0]));
     return retval;
 }
 //=============================================================================
