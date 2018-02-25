@@ -21,6 +21,7 @@
 #include <string>
 #include "nlsHelp_tools_exports.h"
 #include "XmlDocGenericItem.hpp"
+#include "XmlTarget.hpp"
 //=============================================================================
 namespace Nelson {
     //=============================================================================
@@ -30,14 +31,14 @@ namespace Nelson {
         std::wstring _description;
         std::wstring _data;
         std::wstring _imageTag;
-        bool _isQtHelp;
+        DOCUMENT_OUTPUT _outputTarget;
         std::wstring _srcDirectory;
         std::wstring _dstDirectory;
         std::wstring _imageSource;
         std::wstring _imageDestination;
 
     public:
-        XmlDocExampleItem(const std::wstring &type, const std::wstring &description, const std::wstring &data, const std::wstring &imageTag, bool isQtHelp);
+        XmlDocExampleItem(const std::wstring &type, const std::wstring &description, const std::wstring &data, const std::wstring &imageTag, DOCUMENT_OUTPUT outputTarget);
         ~XmlDocExampleItem();
         std::wstring getType();
         std::wstring getDescription();

@@ -28,9 +28,9 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-    XmlDocListOfFiles::XmlDocListOfFiles(wstringVector srcFiles, std::wstring dstDirectory, bool bOverwriteExistingFiles, bool isQtHelp)
+    XmlDocListOfFiles::XmlDocListOfFiles(wstringVector srcFiles, std::wstring dstDirectory, bool bOverwriteExistingFiles, DOCUMENT_OUTPUT outputTarget)
     {
-        this->isQtHelp = isQtHelp;
+        this->outputTarget = outputTarget;
         this->chapterTitle = L"";
         this->chapterDescription = L"";
         this->moduleName = L"";
@@ -105,7 +105,7 @@ namespace Nelson {
             bool b = boost::algorithm::ends_with(this->srcFiles[k], L"chapter.xml");
             if (!b)
             {
-                XmlDocDocument *xmlDoc = new XmlDocDocument(this->srcFiles[k], this->dstDirectory, this->bOverwriteExistingFiles, this->isQtHelp);
+                XmlDocDocument *xmlDoc = new XmlDocDocument(this->srcFiles[k], this->dstDirectory, this->bOverwriteExistingFiles, this->outputTarget);
                 if (xmlDoc)
                 {
                     if (xmlDoc->readFile())
@@ -142,7 +142,7 @@ namespace Nelson {
         }
         if (haveChapterFile)
         {
-            XmlDocDocument *xmlDoc = new XmlDocDocument(chapterFilename, this->dstDirectory, this->bOverwriteExistingFiles, this->isQtHelp);
+            XmlDocDocument *xmlDoc = new XmlDocDocument(chapterFilename, this->dstDirectory, this->bOverwriteExistingFiles, this->outputTarget);
             if (xmlDoc)
             {
                 if (xmlDoc->readFile())
@@ -168,7 +168,7 @@ namespace Nelson {
                         {
                             htmlFilenameDestination = this->chapterResultFilename;
                         }
-                        XmlDocDocument *xmlChapterDoc = new XmlDocDocument(items, chapterFilename, htmlFilenameDestination, this->bOverwriteExistingFiles, this->isQtHelp);
+                        XmlDocDocument *xmlChapterDoc = new XmlDocDocument(items, chapterFilename, htmlFilenameDestination, this->bOverwriteExistingFiles, this->outputTarget);
                         xmlItems.push_back(xmlChapterDoc);
                         this->chapterTitle = xmlDoc->getChapter();
                     }

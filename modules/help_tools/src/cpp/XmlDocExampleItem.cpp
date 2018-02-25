@@ -31,13 +31,13 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-    XmlDocExampleItem::XmlDocExampleItem(const std::wstring &type, const std::wstring &description, const std::wstring &data, const std::wstring &imageTag, bool isQtHelp)
+    XmlDocExampleItem::XmlDocExampleItem(const std::wstring &type, const std::wstring &description, const std::wstring &data, const std::wstring &imageTag, DOCUMENT_OUTPUT outputTarget)
     {
         this->_type = type;
         this->_description = description;
         this->_data = data;
         this->_imageTag = imageTag;
-        this->_isQtHelp = isQtHelp;
+        this->_outputTarget = outputTarget;
         this->_srcDirectory = L"";
         this->_dstDirectory = L"";
         this->_imageSource = L"";
@@ -49,7 +49,7 @@ namespace Nelson {
         this->_description = L"";
         this->_data = L"";
         this->_imageTag = L"";
-        this->_isQtHelp = false;
+        this->_outputTarget = DOCUMENT_OUTPUT::HMTL;
         this->_srcDirectory = L"";
         this->_dstDirectory = L"";
     }
@@ -127,7 +127,7 @@ namespace Nelson {
                 _imageDestination = this->_dstDirectory + L"/" + newfilename;
                 Nelson::copyImage(_imageSource, _imageDestination);
             }
-            if (this->_isQtHelp)
+            if (this->_outputTarget == DOCUMENT_OUTPUT::QT_HELP)
             {
                 utf8stream = utf8stream + HTML_P_IN_TAG + wstring_to_utf8(this->getImageTag()) + HTML_P_OUT_TAG + "\n";
             }

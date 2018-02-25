@@ -99,9 +99,9 @@ namespace Nelson {
         return IsDirIn;
     }
     //=============================================================================
-    XmlDocDocument::XmlDocDocument(std::wstring srcfilename, std::wstring destfilename, bool bOverwriteExistingFile, bool isQtHelp)
+    XmlDocDocument::XmlDocDocument(std::wstring srcfilename, std::wstring destfilename, bool bOverwriteExistingFile, DOCUMENT_OUTPUT outputTarget)
     {
-        this->isQtHelp = isQtHelp;
+        this->outputTarget = outputTarget;
         this->xmlfilename = srcfilename;
         this->errorMessage.clear();
         this->warningMessage.clear();
@@ -137,9 +137,9 @@ namespace Nelson {
         this->indexLinkUrl = L"";
     }
     //=============================================================================
-    XmlDocDocument::XmlDocDocument(boost::container::vector<XmlDocGenericItem *> items, std::wstring srcfilename, std::wstring destfilename, bool bOverwriteExistingFile, bool isQtHelp)
+    XmlDocDocument::XmlDocDocument(boost::container::vector<XmlDocGenericItem *> items, std::wstring srcfilename, std::wstring destfilename, bool bOverwriteExistingFile, DOCUMENT_OUTPUT outputTarget)
     {
-        this->isQtHelp = isQtHelp;
+        this->outputTarget = outputTarget;
         this->xmlfilename = srcfilename;
         this->errorMessage.clear();
         this->warningMessage.clear();
@@ -180,7 +180,7 @@ namespace Nelson {
     //=============================================================================
     XmlDocDocument::~XmlDocDocument()
     {
-        this->isQtHelp = false;
+        this->outputTarget = DOCUMENT_OUTPUT::HMTL;
         clearItems();
         this->xmlfilename = L"";
         this->xmlDirectory = L"./";
@@ -2046,7 +2046,7 @@ namespace Nelson {
         }
         try
         {
-            examplesItems = new XmlDocExamples(this->isQtHelp);
+            examplesItems = new XmlDocExamples(this->outputTarget);
         }
         catch (std::bad_alloc &e)
         {
@@ -2449,7 +2449,7 @@ namespace Nelson {
                     {
                         this->warningMessage.push_back(_W("line ") + std::to_wstring(seeAlsoItemNode->line) + _W(": ") + link + L" " + _W("not found."));
                     }
-                    XmlDocResolveLink(this->xmlDirectory, link, this->isQtHelp, getLanguage(), link);
+                    XmlDocResolveLink(this->xmlDirectory, link, this->outputTarget, getLanguage(), link);
                     seeAlsoItems->append(name, link);
                     nbLinksItems++;
                     currentItemNode = currentItemNode->next;

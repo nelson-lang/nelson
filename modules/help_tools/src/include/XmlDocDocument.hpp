@@ -25,6 +25,7 @@
 #include "Types.hpp"
 #include "XmlDocGenericItem.hpp"
 #include "XmlDocumentTags.hpp"
+#include "XmlTarget.hpp"
 //=============================================================================
 namespace Nelson {
     //=============================================================================
@@ -52,11 +53,11 @@ namespace Nelson {
         std::wstring indexLinkName;
         std::wstring indexLinkUrl;
 
-        bool isQtHelp;
+        DOCUMENT_OUTPUT outputTarget;
 
     public:
-        XmlDocDocument(std::wstring srcfilename, std::wstring destfilename, bool bOverwriteExistingFile = false, bool isQtHelp = false);
-        XmlDocDocument(boost::container::vector<XmlDocGenericItem *> items, std::wstring srcfilename, std::wstring destfilename, bool bOverwriteExistingFile = false, bool isQtHelp = false);
+        XmlDocDocument(std::wstring srcfilename, std::wstring destfilename, bool bOverwriteExistingFile = false, DOCUMENT_OUTPUT outputTarget = DOCUMENT_OUTPUT::HMTL);
+        XmlDocDocument(boost::container::vector<XmlDocGenericItem *> items, std::wstring srcfilename, std::wstring destfilename, bool bOverwriteExistingFile = false, DOCUMENT_OUTPUT outputTarget = DOCUMENT_OUTPUT::HMTL);
         ~XmlDocDocument();
 
         wstringVector getError();

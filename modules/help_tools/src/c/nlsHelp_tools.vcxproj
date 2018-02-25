@@ -306,6 +306,7 @@
     <ClInclude Include="..\include\XmlDocumentTags.hpp" />
     <ClInclude Include="..\include\XmlDocUsedFunctionItem.hpp" />
     <ClInclude Include="..\include\XmlHelpers.hpp" />
+    <ClInclude Include="..\include\XmlTarget.hpp" />
     <ClInclude Include="hoedown\autolink.h" />
     <ClInclude Include="hoedown\buffer.h" />
     <ClInclude Include="hoedown\document.h" />

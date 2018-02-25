@@ -24,9 +24,9 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-    XmlDocExamples::XmlDocExamples(bool isQtHelp)
+    XmlDocExamples::XmlDocExamples(DOCUMENT_OUTPUT outputTarget)
     {
-        this->bIsQtHelp = isQtHelp;
+        this->outputTarget = outputTarget;
         examplesVector.clear();
     }
     //=============================================================================
@@ -38,7 +38,7 @@ namespace Nelson {
             examplesVector[k] = nullptr;
         }
         examplesVector.clear();
-        this->bIsQtHelp = false;
+        this->outputTarget = DOCUMENT_OUTPUT::HMTL;
     }
     //=============================================================================
     void XmlDocExamples::append(std::wstring type, std::wstring description, std::wstring data, std::wstring imageTag)
@@ -46,7 +46,7 @@ namespace Nelson {
         XmlDocExampleItem *item = nullptr;
         try
         {
-            item = new XmlDocExampleItem(type, description, data, imageTag, this->bIsQtHelp);
+            item = new XmlDocExampleItem(type, description, data, imageTag, this->outputTarget);
         }
         catch (std::bad_alloc &e)
         {

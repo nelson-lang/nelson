@@ -25,6 +25,7 @@
 #include "XmlDocDirectory.hpp"
 #include "IsDirectory.hpp"
 #include "XmlDocListOfDirectories.hpp"
+#include "XmlTarget.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -72,14 +73,26 @@ ArrayOfVector Nelson::HelpToolsGateway::xmldocbuildBuiltin(Evaluator* eval, int 
     std::wstring mainTitle = argMainTitle.getContentAsWideString();
     ArrayOf argExportFormat = argIn[3];
     std::wstring exportFormat = argExportFormat.getContentAsWideString();
-    if ((exportFormat != L"help") && (exportFormat != L"html"))
+    if ((exportFormat != L"help") && (exportFormat != L"html") && (exportFormat != L"md"))
     {
-        Error(eval, _W("format not supported: 'help' or 'html' expected."));
+        Error(eval, _W("format not supported: 'help', 'html' or 'md' expected."));
+    }
+    DOCUMENT_OUTPUT outputTarget;
+    if (exportFormat == L"help")
+    {
+        outputTarget = DOCUMENT_OUTPUT::QT_HELP;
+    }
+    if (exportFormat == L"html")
+    {
+        outputTarget = DOCUMENT_OUTPUT::HMTL;
+    }
+    if (exportFormat == L"md")
+    {
+        outputTarget = DOCUMENT_OUTPUT::MARKDOWN;
     }
     ArrayOf argOverwrite = argIn[4];
     logical forceOverwrite = argOverwrite.getContentAsLogicalScalar();
-    bool isQtHelp = (exportFormat == L"help");
-    XmlDocListOfDirectories xmlDirs(listOfDirectories, dstDirectory, mainTitle, forceOverwrite ? true : false, isQtHelp);
+    XmlDocListOfDirectories xmlDirs(listOfDirectories, dstDirectory, mainTitle, forceOverwrite ? true : false, outputTarget);
     if (xmlDirs.read())
     {
         std::wstring outputModuleName = xmlDirs.getOutputHelpBasename();

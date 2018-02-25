@@ -23,18 +23,18 @@
 #include "RelativePath.hpp"
 //=============================================================================
 namespace Nelson {
-    XmlDocMainIndex::XmlDocMainIndex(std::wstring destdir, std::wstring mainTitle, std::wstring mainModuleShortName, bool isQtHelp)
+    XmlDocMainIndex::XmlDocMainIndex(std::wstring destdir, std::wstring mainTitle, std::wstring mainModuleShortName, DOCUMENT_OUTPUT outputTarget)
     {
         this->directoryDestination = destdir;
         this->filenameDestination = destdir + L"/index.html";
         this->utf8stream = "";
         this->mainTitle = mainTitle;
         this->mainModuleShortName = mainModuleShortName;
-        this->isQtHelp = isQtHelp;
+        this->outputTarget = outputTarget;
         this->htmlHeader();
         this->htmlOpenTags();
         std::wstring name_space = std::wstring(L"org.nelson.modules.") + mainModuleShortName + std::wstring(L".help");
-        if (isQtHelp)
+        if (outputTarget == DOCUMENT_OUTPUT::QT_HELP)
         {
             this->qtproject = new QtHelpProject(this->directoryDestination, mainTitle, name_space);
         }
@@ -47,7 +47,7 @@ namespace Nelson {
         this->utf8stream = "";
         this->mainTitle = L"";
         this->mainModuleShortName = L"";
-        this->isQtHelp = false;
+        this->outputTarget = DOCUMENT_OUTPUT::HMTL;
         if (this->qtproject)
         {
             delete this->qtproject;
@@ -117,7 +117,7 @@ namespace Nelson {
         }
         if (res)
         {
-            if (this->isQtHelp)
+            if (this->outputTarget == DOCUMENT_OUTPUT::QT_HELP)
             {
                 if (this->qtproject)
                 {
@@ -148,7 +148,7 @@ namespace Nelson {
         this->utf8stream = this->utf8stream + HTML_UL_OUT_TAG + std::string("\n");
         this->utf8stream = this->utf8stream + HTML_UL_OUT_TAG + std::string("\n");
         this->utf8stream = this->utf8stream + HTML_DIV_OUT_TAG + std::string("\n");
-        if (this->isQtHelp)
+        if (this->outputTarget == DOCUMENT_OUTPUT::QT_HELP)
         {
             if (this->qtproject)
             {

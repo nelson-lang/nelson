@@ -23,6 +23,7 @@
 #include "nlsHelp_tools_exports.h"
 #include "XmlDocDocument.hpp"
 #include "Types.hpp"
+#include "XmlTarget.hpp"
 //=============================================================================
 namespace Nelson {
     //=============================================================================
@@ -39,7 +40,7 @@ namespace Nelson {
         boost::container::vector<XmlDocDocument *> xmlItems;
         void clearItems();
         std::wstring chapterResultFilename;
-        bool isQtHelp;
+        DOCUMENT_OUTPUT outputTarget;
         std::wstring sectionUpName;
         std::wstring sectionUpUrl;
 
@@ -47,7 +48,7 @@ namespace Nelson {
         std::wstring getGeneratedChapterFilename();
         std::wstring getChapterTitle();
         std::wstring getModuleName();
-        XmlDocListOfFiles(wstringVector srcFiles, std::wstring dstDirectory, bool bOverwriteExistingFiles = false, bool isQtHelp = false);
+        XmlDocListOfFiles(wstringVector srcFiles, std::wstring dstDirectory, bool bOverwriteExistingFiles = false, DOCUMENT_OUTPUT outputTarget = DOCUMENT_OUTPUT::HMTL);
         ~XmlDocListOfFiles();
         bool read();
         bool writeAsHtml();

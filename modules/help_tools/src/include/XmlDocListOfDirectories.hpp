@@ -25,6 +25,7 @@
 #include "XmlDocDirectory.hpp"
 #include "XmlDocMainIndex.hpp"
 #include "Types.hpp"
+#include "XmlTarget.hpp"
 //=============================================================================
 namespace Nelson {
     //=============================================================================
@@ -38,14 +39,15 @@ namespace Nelson {
         bool bOverwriteExistingFiles;
         std::wstring lastError;
         void clearItems();
-        bool isQtHelp;
+        DOCUMENT_OUTPUT outputTarget;
         XmlDocMainIndex *mainIndex;
 
     public:
-        XmlDocListOfDirectories(wstringVector srcDirectories, std::wstring dstDirectory, std::wstring mainTitle, bool bOverwriteExistingFiles = false, bool isQtHelp = false);
+        XmlDocListOfDirectories(wstringVector srcDirectories, std::wstring dstDirectory, std::wstring mainTitle, bool bOverwriteExistingFiles = false, DOCUMENT_OUTPUT outputTarget = DOCUMENT_OUTPUT::HMTL);
         ~XmlDocListOfDirectories();
         bool read();
         bool writeAsHtml();
+        bool writeAsMarkdown();
         std::wstring getLastError();
         void getIndex(wstringVector &names, wstringVector &urls, wstringVector &descriptions);
         std::wstring getOutputHelpBasename();

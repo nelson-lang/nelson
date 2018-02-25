@@ -28,10 +28,11 @@
 #include "XmlDocumentTags.hpp"
 #include "characters_encoding.hpp"
 #include "IsFile.hpp"
+#include "XmlTarget.hpp"
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-    bool XmlDocResolveLink(const std::wstring &directorysource, const std::wstring &linkname, bool isQtHelp, const std::wstring &language, std::wstring &resolvedlink)
+    bool XmlDocResolveLink(const std::wstring &directorysource, const std::wstring &linkname, DOCUMENT_OUTPUT outputTarget, const std::wstring &language, std::wstring &resolvedlink)
     {
         bool bRes = false;
         if (boost::algorithm::starts_with(linkname, "http://") || boost::algorithm::starts_with(linkname, "https://"))
@@ -56,7 +57,7 @@ namespace Nelson {
                 {
                     std::wstring name = linkname;
                     boost::replace_all(name, std::wstring(L"${") + modulename + L"}", L"");
-                    if (isQtHelp)
+                    if (outputTarget == DOCUMENT_OUTPUT::QT_HELP)
                     {
                         resolvedlink = L"qthelp://org.nelson.modules." + modulename + std::wstring(L".help/help/") + name + L".html";
                         bFound = true;
@@ -84,7 +85,7 @@ namespace Nelson {
                     }
                 }
             }
-            if (!isQtHelp)
+            if (outputTarget != DOCUMENT_OUTPUT::QT_HELP)
             {
                 std::wstring name = linkname;
                 boost::replace_all(name, std::wstring(L"${") + modulename + L"}", L"");

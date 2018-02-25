@@ -23,10 +23,10 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-    XmlDocListOfDirectories::XmlDocListOfDirectories(wstringVector srcDirectories, std::wstring dstDirectory, std::wstring mainTitle, bool bOverwriteExistingFiles, bool isQtHelp)
+    XmlDocListOfDirectories::XmlDocListOfDirectories(wstringVector srcDirectories, std::wstring dstDirectory, std::wstring mainTitle, bool bOverwriteExistingFiles, DOCUMENT_OUTPUT outputTarget)
     {
         this->mainTitle = mainTitle;
-        this->isQtHelp = isQtHelp;
+        this->outputTarget = outputTarget;
         this->srcDirectories = srcDirectories;
         this->dstDirectory = dstDirectory;
         if (boost::algorithm::ends_with(dstDirectory, L"/") || boost::algorithm::ends_with(dstDirectory, L"\\"))
@@ -40,7 +40,7 @@ namespace Nelson {
             XmlDocDirectory *xmlDirectory;
             try
             {
-                xmlDirectory = new XmlDocDirectory(srcDirectories[k], this->dstDirectory, this->bOverwriteExistingFiles, this->isQtHelp);
+                xmlDirectory = new XmlDocDirectory(srcDirectories[k], this->dstDirectory, this->bOverwriteExistingFiles, this->outputTarget);
             }
             catch (std::bad_alloc)
             {
@@ -63,7 +63,7 @@ namespace Nelson {
         this->lastError = L"";
         this->bOverwriteExistingFiles = false;
         this->clearItems();
-        this->isQtHelp = false;
+        this->outputTarget = DOCUMENT_OUTPUT::HMTL;
         if (this->mainIndex)
         {
             delete this->mainIndex;
@@ -97,7 +97,7 @@ namespace Nelson {
         }
         try
         {
-            mainIndex = new XmlDocMainIndex(this->dstDirectory, this->mainTitle, this->getOutputHelpBasename(), this->isQtHelp);
+            mainIndex = new XmlDocMainIndex(this->dstDirectory, this->mainTitle, this->getOutputHelpBasename(), outputTarget);
         }
         catch (std::bad_alloc)
         {
@@ -152,7 +152,7 @@ namespace Nelson {
     std::wstring XmlDocListOfDirectories::getOutputHelpBasename()
     {
         std::wstring output = L"";
-        if (this->isQtHelp)
+        if (this->outputTarget == DOCUMENT_OUTPUT::QT_HELP)
         {
             if (itemsDirectories.size() > 0)
             {

@@ -19,36 +19,13 @@
 #pragma once
 //=============================================================================
 #include <string>
-#include <boost/container/vector.hpp>
-#include "nlsHelp_tools_exports.h"
-#include "XmlDocDocument.hpp"
-#include "XmlDocListOfFiles.hpp"
-#include "XmlTarget.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    class NLSHELP_TOOLS_IMPEXP XmlDocDirectory {
-
-    private:
-        std::wstring srcDirectory;
-        std::wstring dstDirectory;
-        XmlDocListOfFiles *xmlDocFiles;
-        DOCUMENT_OUTPUT outputTarget;
-        std::wstring sectionUpName;
-        std::wstring sectionUpUrl;
-    public:
-        XmlDocDirectory(std::wstring srcDirectory, std::wstring dstDirectory, bool bOverwriteExistingFiles = false, DOCUMENT_OUTPUT outputTarget = DOCUMENT_OUTPUT::HMTL);
-        ~XmlDocDirectory();
-        bool read();
-        bool writeAsHtml();
-        std::wstring getLastError();
-        std::wstring getGeneratedChapterFilename();
-        std::wstring getChapterTitle();
-        std::wstring getModuleName();
-        void setUpSection(std::wstring sectionName, std::wstring sectionUrl);
-        void getIndex(wstringVector &names, wstringVector &urls, wstringVector &descriptions);
-
-    };
-    //=============================================================================
+    typedef enum
+    {
+        QT_HELP,
+        HMTL,
+        MARKDOWN
+    } DOCUMENT_OUTPUT;
 }
 //=============================================================================

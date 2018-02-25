@@ -28,13 +28,13 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-    XmlDocDirectory::XmlDocDirectory(std::wstring srcDirectory, std::wstring dstDirectory, bool bOverwriteExistingFiles, bool isQtHelp)
+    XmlDocDirectory::XmlDocDirectory(std::wstring srcDirectory, std::wstring dstDirectory, bool bOverwriteExistingFiles, DOCUMENT_OUTPUT outputTarget)
     {
         this->sectionUpName = L"";
         this->sectionUpUrl = L"";
         this->srcDirectory = srcDirectory;
         this->dstDirectory = dstDirectory;
-        this->isQtHelp = isQtHelp;
+        this->outputTarget = outputTarget;
         boost::filesystem::directory_iterator end_iter;
         wstringVector listXmlFiles;
         for (boost::filesystem::directory_iterator dir_iter(this->srcDirectory); dir_iter != end_iter; ++dir_iter)
@@ -47,7 +47,7 @@ namespace Nelson {
         }
         if (!listXmlFiles.empty())
         {
-            this->xmlDocFiles = new XmlDocListOfFiles(listXmlFiles, this->dstDirectory, bOverwriteExistingFiles, this->isQtHelp);
+            this->xmlDocFiles = new XmlDocListOfFiles(listXmlFiles, this->dstDirectory, bOverwriteExistingFiles, this->outputTarget);
         }
     }
     //=============================================================================

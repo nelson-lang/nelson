@@ -23,15 +23,16 @@
 #include "nlsHelp_tools_exports.h"
 #include "XmlDocGenericItem.hpp"
 #include "XmlDocExampleItem.hpp"
+#include "XmlTarget.hpp"
 //=============================================================================
 namespace Nelson {
     //=============================================================================
     class NLSHELP_TOOLS_IMPEXP XmlDocExamples : public XmlDocGenericItem {
     private:
         boost::container::vector<XmlDocExampleItem *> examplesVector;
-        bool bIsQtHelp;
+        DOCUMENT_OUTPUT outputTarget;
     public:
-        XmlDocExamples(bool isQtHelp);
+        XmlDocExamples(DOCUMENT_OUTPUT outputTarget);
         ~XmlDocExamples();
         void append(std::wstring type, std::wstring description, std::wstring data, std::wstring imageTag);
         std::wstring getItemType();
