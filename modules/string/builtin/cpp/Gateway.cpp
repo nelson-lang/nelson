@@ -35,6 +35,10 @@
 #include "int2strBuiltin.hpp"
 #include "str2doubleBuiltin.hpp"
 #include "mat2strBuiltin.hpp"
+#include "startsWithBuiltin.hpp"
+#include "endsWithBuiltin.hpp"
+#include "containsBuiltin.hpp"
+#include "countBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -66,7 +70,10 @@ static const nlsGateway gateway[] =
     { "ndarraychar_isequaln", Nelson::StringGateway::ndarraychar_isequalBuiltin, 1, 2 },
     { "ndarraychar_vertcat_ndarraychar", Nelson::StringGateway::ndarraychar_vertcat_ndarraycharBuiltin, 1, 2 },
     { "ndarraychar_horzcat_ndarraychar", Nelson::StringGateway::ndarraychar_horzcat_ndarraycharBuiltin, 1, 2 },
-
+    { "startsWith", Nelson::StringGateway::startsWithBuiltin, 1, -3 },
+    { "endsWith", Nelson::StringGateway::endsWithBuiltin, 1, -3 },
+    { "contains", Nelson::StringGateway::containsBuiltin, 1, -3 },
+    { "count", Nelson::StringGateway::countBuiltin, 1, -3 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

@@ -1,6 +1,10 @@
 Features:
 ---------
 
+  * 'count' : computes the number of occurrences of an pattern.
+  * 'startsWith' : checks if string starts with pattern.
+  * 'endsWith' : checks if string ends with pattern.
+  * 'contains' : checks if string contains a pattern.
   * audiometadata can modify metadata tags.
   * Qt 5.10 used on Windows binaries
 

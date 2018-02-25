@@ -169,6 +169,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\charBuiltin.cpp" />
+    <ClCompile Include="..\cpp\containsBuiltin.cpp" />
+    <ClCompile Include="..\cpp\countBuiltin.cpp" />
+    <ClCompile Include="..\cpp\endsWithBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\int2strBuiltin.cpp" />
     <ClCompile Include="..\cpp\mat2strBuiltin.cpp" />
@@ -177,6 +180,7 @@
     <ClCompile Include="..\cpp\ndarraychar_isequalBuiltin.cpp" />
     <ClCompile Include="..\cpp\ndarraychar_vertcat_ndarraycharBuiltin.cpp" />
     <ClCompile Include="..\cpp\sprintfBuiltin.cpp" />
+    <ClCompile Include="..\cpp\startsWithBuiltin.cpp" />
     <ClCompile Include="..\cpp\str2doubleBuiltin.cpp" />
     <ClCompile Include="..\cpp\strcmpBuiltin.cpp" />
     <ClCompile Include="..\cpp\strfindBuiltin.cpp" />
@@ -217,6 +221,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\charBuiltin.hpp" />
+    <ClInclude Include="..\include\containsBuiltin.hpp" />
+    <ClInclude Include="..\include\countBuiltin.hpp" />
+    <ClInclude Include="..\include\endsWithBuiltin.hpp" />
     <ClInclude Include="..\include\int2strBuiltin.hpp" />
     <ClInclude Include="..\include\mat2strBuiltin.hpp" />
     <ClInclude Include="..\include\ndarraychar_dispBuiltin.hpp" />
@@ -225,6 +232,7 @@
     <ClInclude Include="..\include\ndarraychar_vertcat_ndarraycharBuiltin.hpp" />
     <ClInclude Include="..\include\nlsString_builtin_exports.h" />
     <ClInclude Include="..\include\sprintfBuiltin.hpp" />
+    <ClInclude Include="..\include\startsWithBuiltin.hpp" />
     <ClInclude Include="..\include\str2doubleBuiltin.hpp" />
     <ClInclude Include="..\include\strfindBuiltin.hpp" />
     <ClInclude Include="..\include\char_horzcat_charBuiltin.hpp" />
