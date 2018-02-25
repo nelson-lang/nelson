@@ -19,6 +19,7 @@
 #include <cctype>
 #include <string>
 #include <algorithm>
+#include <boost/algorithm/string.hpp>
 #include "ToUpper.hpp"
 #include "Error.hpp"
 //=============================================================================
@@ -62,9 +63,7 @@ namespace Nelson {
     //=============================================================================
     std::wstring ToUpper(const std::wstring &A)
     {
-        std::wstring res = A;
-        transform(res.begin(), res.end(), res.begin(), towupper);
-        return res;
+        return boost::to_upper_copy(A);
     }
     //=============================================================================
 }

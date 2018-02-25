@@ -19,6 +19,7 @@
 #include <cctype>
 #include <string>
 #include <algorithm>
+#include <boost/algorithm/string.hpp>
 #include "ToLower.hpp"
 #include "Error.hpp"
 //=============================================================================
@@ -62,9 +63,7 @@ namespace Nelson {
     //=============================================================================
     std::wstring ToLower(const std::wstring &A)
     {
-        std::wstring res = A;
-        transform(res.begin(), res.end(), res.begin(), towlower);
-        return res;
+        return boost::to_lower_copy(A);
     }
     //=============================================================================
 }
