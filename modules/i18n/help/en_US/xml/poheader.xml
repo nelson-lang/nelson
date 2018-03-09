@@ -4,7 +4,6 @@
 
   <language>en_US</language>
   <keyword>poheader</keyword>
-  <keyword>_</keyword>
   <short_description>Generates po file header.</short_description>
 
   <syntax>
