@@ -52,5 +52,17 @@ namespace Nelson {
         return true;
     }
     //=============================================================================
+    bool XmlDocUsedFunctionItem::writeAsMarkdown(std::string &utf8stream)
+    {
+        if (!this->_usedfunction.empty())
+        {
+            utf8stream = utf8stream + _("Used function(s)") + "\n";
+            utf8stream = utf8stream + "\n";
+            utf8stream = utf8stream + wstring_to_utf8(this->_usedfunction) + "\n";
+            utf8stream = utf8stream + "\n";
+        }
+        return true;
+    }
+    //=============================================================================
 }
 //=============================================================================

@@ -84,6 +84,52 @@ namespace Nelson {
         return (boost::iequals(this->_type, utf8_to_wstring(NELSON_EXAMPLE_TYPE)));
     }
     //=============================================================================
+    bool XmlDocExampleItem::writeAsMarkdown(std::string &utf8stream)
+    {
+        if (!this->getDescription().empty())
+        {
+            utf8stream = utf8stream + wstring_to_utf8(this->getDescription()) + "\n";
+        }
+        utf8stream = utf8stream + "```Nelson" + "\n";
+        utf8stream = utf8stream + wstring_to_utf8(this->getData()) + "\n";
+        utf8stream = utf8stream + "```" + "\n";
+        if (!this->getImageTag().empty())
+        {
+            std::wstring oldPath;
+            std::wstring newPath;
+            if (parseImageTag(this->_imageTag, this->_srcDirectory, oldPath, newPath))
+            {
+                std::wstring filename = L"";
+                std::wstring extension = L"";
+                boost::filesystem::path absolutePath = oldPath;
+                if (absolutePath.has_filename())
+                {
+                    filename = absolutePath.stem().generic_wstring();
+                }
+                if (absolutePath.has_extension())
+                {
+                    extension = absolutePath.extension().generic_wstring();
+                }
+                std::wstring crc = crcFile(newPath);
+                std::wstring newfilename;
+                if (crc == L"")
+                {
+                    newfilename = filename + extension;
+                }
+                else
+                {
+                    newfilename = filename + L"_" + crc + extension;
+                }
+                boost::replace_all(this->_imageTag, oldPath, newfilename);
+                _imageSource = newPath;
+                _imageDestination = this->_dstDirectory + L"/" + newfilename;
+                Nelson::copyImage(_imageSource, _imageDestination);
+            }
+            utf8stream = utf8stream + wstring_to_utf8(this->getImageTag()) + "\n";
+        }
+        return true;
+    }
+    //=============================================================================
     bool XmlDocExampleItem::writeAsHtml(std::string &utf8stream)
     {
         if (!this->getDescription().empty())

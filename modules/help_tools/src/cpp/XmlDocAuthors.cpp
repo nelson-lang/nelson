@@ -81,5 +81,23 @@ namespace Nelson {
         return true;
     }
     //=============================================================================
+    bool XmlDocAuthors::writeAsMarkdown(std::string &utf8stream)
+    {
+        if (authorVector.size() > 1)
+        {
+            utf8stream = utf8stream + "## " + _("Authors") + "\n";
+        }
+        else
+        {
+            utf8stream = utf8stream + "## " + _("Author") + "\n";
+        }
+        utf8stream = utf8stream + "\n";
+        for (size_t k = 0; k < authorVector.size(); k++)
+        {
+            authorVector[k]->writeAsMarkdown(utf8stream);
+        }
+        return true;
+    }
+    //=============================================================================
 }
 //=============================================================================

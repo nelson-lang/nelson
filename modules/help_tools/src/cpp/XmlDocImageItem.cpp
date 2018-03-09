@@ -53,6 +53,15 @@ namespace Nelson {
         return true;
     }
     //=============================================================================
+    bool XmlDocImageItem::writeAsMarkdown(std::string &utf8stream)
+    {
+        Nelson::copyImage(this->imageSource, this->imageDestination);
+        utf8stream = utf8stream + "\n";
+        utf8stream = utf8stream + wstring_to_utf8(tag) + "\n";
+        utf8stream = utf8stream + "\n";
+        return true;
+    }
+    //=============================================================================
     void XmlDocImageItem::findImage()
     {
         if (!isValidImageTag(tag))

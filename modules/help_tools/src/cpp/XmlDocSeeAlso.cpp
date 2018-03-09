@@ -85,5 +85,25 @@ namespace Nelson {
         return true;
     }
     //=============================================================================
+    bool XmlDocSeeAlso::writeAsMarkdown(std::string &utf8stream)
+    {
+        utf8stream = utf8stream + "## " + _("See also") + "\n";
+        utf8stream = utf8stream + "\n";
+        for (size_t k = 0; k < seeAlsoVector.size(); k++)
+        {
+            seeAlsoVector[k]->writeAsMarkdown(utf8stream);
+            if (k < seeAlsoVector.size() - 1)
+            {
+                utf8stream = utf8stream + ", ";
+            }
+            else
+            {
+                utf8stream = utf8stream + ".";
+            }
+        }
+        utf8stream = utf8stream + "\n";
+        return true;
+    }
+    //=============================================================================
 }
 //=============================================================================

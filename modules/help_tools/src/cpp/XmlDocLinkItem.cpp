@@ -56,5 +56,11 @@ namespace Nelson {
         return true;
     }
     //=============================================================================
+    bool XmlDocLinkItem::writeAsMarkdown(std::string &utf8stream)
+    {
+        utf8stream = utf8stream +  "[" + wstring_to_utf8(this->_name) + "](" + wstring_to_utf8(this->_link) + ")";
+        return true;
+    }
+    //=============================================================================
 }
 //=============================================================================

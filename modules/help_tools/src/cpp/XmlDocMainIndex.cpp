@@ -26,13 +26,27 @@ namespace Nelson {
     XmlDocMainIndex::XmlDocMainIndex(std::wstring destdir, std::wstring mainTitle, std::wstring mainModuleShortName, DOCUMENT_OUTPUT outputTarget)
     {
         this->directoryDestination = destdir;
-        this->filenameDestination = destdir + L"/index.html";
+        if (outputTarget == DOCUMENT_OUTPUT::MARKDOWN)
+        {
+            this->filenameDestination = destdir + L"/SUMMARY.md";
+        }
+        else
+        {
+            this->filenameDestination = destdir + L"/index.html";
+        }
         this->utf8stream = "";
         this->mainTitle = mainTitle;
         this->mainModuleShortName = mainModuleShortName;
         this->outputTarget = outputTarget;
-        this->htmlHeader();
-        this->htmlOpenTags();
+        if (outputTarget != DOCUMENT_OUTPUT::MARKDOWN)
+        {
+            this->htmlHeader();
+            this->htmlOpenTags();
+        }
+        else
+        {
+            this->utf8stream = this->utf8stream + "* [" + wstring_to_utf8(this->mainTitle) + "](README.md)\n";
+        }
         std::wstring name_space = std::wstring(L"org.nelson.modules.") + mainModuleShortName + std::wstring(L".help");
         if (outputTarget == DOCUMENT_OUTPUT::QT_HELP)
         {
@@ -128,31 +142,77 @@ namespace Nelson {
         return res;
     }
     //=============================================================================
-    void XmlDocMainIndex::appendSection(std::wstring sectionName, std::wstring sectionUrl, wstringVector names, wstringVector urls, wstringVector descriptions)
+    bool XmlDocMainIndex::writeAsMarkdown()
     {
-        this->utf8stream = this->utf8stream + std::string("\n");
-        this->utf8stream = this->utf8stream + HTML_DIV_IN_TAG + std::string("\n");
-        this->utf8stream = this->utf8stream + HTML_UL_IN_TAG + std::string("\n");
-        bool bSuccess;
-        std::wstring relative = RelativePath(this->directoryDestination, sectionUrl, bSuccess);
-        this->utf8stream = this->utf8stream + HTML_LI_IN_TAG + "<a href = \"" + wstring_to_utf8(relative) + "\" class = \"chapter\">" + wstring_to_utf8(sectionName) + HTML_A_OUT_TAG + HTML_LI_OUT_TAG + std::string("\n");
-        this->utf8stream = this->utf8stream + "<ul class = \"list-chapter\">" + std::string("\n");
-        if ((names.size() == urls.size()) && (names.size() == descriptions.size()))
+        std::ofstream markdownfile;
+        std::string mdUtf8Stream = "";
+        if (!this->utf8stream.empty())
         {
-            for (size_t k = 0; k < urls.size(); k++)
+            mdUtf8Stream = this->utf8stream;
+        }
+        bool res = !mdUtf8Stream.empty();
+        if (res)
+        {
+#if _MSC_VER
+            markdownfile.open(this->filenameDestination);
+#else
+            markdownfile.open(wstring_to_utf8(this->filenameDestination));
+#endif
+            if (markdownfile.is_open())
             {
-                relative = RelativePath(this->directoryDestination, urls[k], bSuccess);
-                this->utf8stream = this->utf8stream + HTML_LI_IN_TAG + "<a href = " + wstring_to_utf8(relative) + " class = \"refentry\">" + wstring_to_utf8(names[k]) + HTML_A_OUT_TAG + "&mdash; <span class = \"refentry-description\">" + wstring_to_utf8(descriptions[k]) + HTML_SPAN_OUT_TAG + HTML_LI_OUT_TAG + std::string("\n");
+                markdownfile << mdUtf8Stream << std::endl;
+                markdownfile.close();
+                res = true;
+            }
+            else
+            {
+                res = false;
             }
         }
-        this->utf8stream = this->utf8stream + HTML_UL_OUT_TAG + std::string("\n");
-        this->utf8stream = this->utf8stream + HTML_UL_OUT_TAG + std::string("\n");
-        this->utf8stream = this->utf8stream + HTML_DIV_OUT_TAG + std::string("\n");
-        if (this->outputTarget == DOCUMENT_OUTPUT::QT_HELP)
+        return res;
+    }
+    //=============================================================================
+    void XmlDocMainIndex::appendSection(std::wstring sectionName, std::wstring sectionUrl, wstringVector names, wstringVector urls, wstringVector descriptions)
+    {
+        if (this->outputTarget == DOCUMENT_OUTPUT::MARKDOWN)
         {
-            if (this->qtproject)
+            bool bSuccess;
+            std::wstring relative = RelativePath(this->directoryDestination, sectionUrl, bSuccess);
+            if ((names.size() == urls.size()) && (names.size() == descriptions.size()))
             {
-                this->qtproject->appendSection(sectionName, sectionUrl, names, urls);
+                for (size_t k = 0; k < urls.size(); k++)
+                {
+                    relative = RelativePath(this->directoryDestination, urls[k], bSuccess);
+                    this->utf8stream = this->utf8stream + "    * " + "[" + wstring_to_utf8(names[k]) + "]" + "(" + wstring_to_utf8(relative) + ")" + "\n";
+                }
+            }
+        }
+        else
+        {
+            this->utf8stream = this->utf8stream + std::string("\n");
+            this->utf8stream = this->utf8stream + HTML_DIV_IN_TAG + std::string("\n");
+            this->utf8stream = this->utf8stream + HTML_UL_IN_TAG + std::string("\n");
+            bool bSuccess;
+            std::wstring relative = RelativePath(this->directoryDestination, sectionUrl, bSuccess);
+            this->utf8stream = this->utf8stream + HTML_LI_IN_TAG + "<a href = \"" + wstring_to_utf8(relative) + "\" class = \"chapter\">" + wstring_to_utf8(sectionName) + HTML_A_OUT_TAG + HTML_LI_OUT_TAG + std::string("\n");
+            this->utf8stream = this->utf8stream + "<ul class = \"list-chapter\">" + std::string("\n");
+            if ((names.size() == urls.size()) && (names.size() == descriptions.size()))
+            {
+                for (size_t k = 0; k < urls.size(); k++)
+                {
+                    relative = RelativePath(this->directoryDestination, urls[k], bSuccess);
+                    this->utf8stream = this->utf8stream + HTML_LI_IN_TAG + "<a href = " + wstring_to_utf8(relative) + " class = \"refentry\">" + wstring_to_utf8(names[k]) + HTML_A_OUT_TAG + "&mdash; <span class = \"refentry-description\">" + wstring_to_utf8(descriptions[k]) + HTML_SPAN_OUT_TAG + HTML_LI_OUT_TAG + std::string("\n");
+                }
+            }
+            this->utf8stream = this->utf8stream + HTML_UL_OUT_TAG + std::string("\n");
+            this->utf8stream = this->utf8stream + HTML_UL_OUT_TAG + std::string("\n");
+            this->utf8stream = this->utf8stream + HTML_DIV_OUT_TAG + std::string("\n");
+            if (this->outputTarget == DOCUMENT_OUTPUT::QT_HELP)
+            {
+                if (this->qtproject)
+                {
+                    this->qtproject->appendSection(sectionName, sectionUrl, names, urls);
+                }
             }
         }
     }

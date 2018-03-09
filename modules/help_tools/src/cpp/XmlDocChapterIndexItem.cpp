@@ -73,5 +73,16 @@ namespace Nelson {
         return true;
     }
     //=============================================================================
+    bool XmlDocChapterIndexItem::writeAsMarkdown(std::string &utf8stream)
+    {
+        utf8stream = utf8stream + "\n";
+        for (size_t k = 0; k < chapterRefVector.size(); k++)
+        {
+            chapterRefVector[k]->writeAsMarkdown(utf8stream);
+        }
+        utf8stream = utf8stream + "\n";
+        return true;
+    }
+    //=============================================================================
 }
 //=============================================================================

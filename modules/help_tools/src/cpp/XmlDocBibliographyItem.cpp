@@ -51,5 +51,17 @@ namespace Nelson {
         return true;
     }
     //=============================================================================
+    bool XmlDocBibliographyItem::writeAsMarkdown(std::string &utf8stream)
+    {
+        if (!this->_bibliography.empty())
+        {
+            utf8stream = utf8stream + _("Bibliography") + "\n";
+            utf8stream = utf8stream + "\n";
+            utf8stream = utf8stream + wstring_to_utf8(this->_bibliography) + "\n";
+            utf8stream = utf8stream + "\n";
+        }
+        return true;
+    }
+    //=============================================================================
 }
 //=============================================================================

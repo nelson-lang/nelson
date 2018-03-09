@@ -64,5 +64,18 @@ namespace Nelson {
         return true;
     }
     //=============================================================================
+    bool XmlDocKeywordItem::writeAsMarkdown(std::string &utf8stream)
+    {
+        utf8stream = utf8stream + "# " + wstring_to_utf8(_keyword) + "\n";
+        utf8stream = utf8stream + "\n";
+        return true;
+    }
+    //=============================================================================
+    bool XmlDocKeywordItem::writeHeaderAsMarkdown(std::string &utf8stream)
+    {
+        return true;
+    }
+    //=============================================================================
+
 }
 //=============================================================================

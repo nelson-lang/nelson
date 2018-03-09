@@ -82,5 +82,19 @@ namespace Nelson {
         return true;
     }
     //=============================================================================
+    bool XmlDocHistory::writeAsMarkdown(std::string &utf8stream)
+    {
+        utf8stream = utf8stream + "## " + _("History") + "\n";
+        utf8stream = utf8stream + "\n";
+        utf8stream = utf8stream + "|" + _("Version") + "|" + _("Description") + "|" + "\n";
+        utf8stream = utf8stream + "|" + "------" + "|" + "------" + "|" + "\n";
+        for (size_t k = 0; k < historyVector.size(); k++)
+        {
+            historyVector[k]->writeAsMarkdown(utf8stream);
+        }
+        utf8stream = utf8stream + "\n";
+        return true;
+    }
+    //=============================================================================
 }
 //=============================================================================

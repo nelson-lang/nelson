@@ -58,7 +58,7 @@ ArrayOfVector Nelson::HelpToolsGateway::xmldoccheckerBuiltin(Evaluator* eval, in
         {
             wstringVector errorRes;
             wstringVector warningRes;
-            XmlDocDocument *xmlDoc = new XmlDocDocument(fileOrDirName, L"", true);
+            XmlDocDocument *xmlDoc = new XmlDocDocument(fileOrDirName, L"", L"", true);
             xmlDoc->readFile();
             errorRes = xmlDoc->getError();
             warningRes = xmlDoc->getWarning();

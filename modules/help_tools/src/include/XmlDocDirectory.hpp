@@ -41,6 +41,7 @@ namespace Nelson {
         ~XmlDocDirectory();
         bool read();
         bool writeAsHtml();
+        bool writeAsMarkdown();
         std::wstring getLastError();
         std::wstring getGeneratedChapterFilename();
         std::wstring getChapterTitle();

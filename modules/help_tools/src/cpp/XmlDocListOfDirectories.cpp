@@ -119,6 +119,23 @@ namespace Nelson {
         return true;
     }
     //=============================================================================
+    bool XmlDocListOfDirectories::writeAsMarkdown()
+    {
+        for (size_t k = 0; k < itemsDirectories.size(); k++)
+        {
+            if (!itemsDirectories[k]->writeAsMarkdown())
+            {
+                this->lastError = itemsDirectories[k]->getLastError();
+                return false;
+            }
+        }
+        if (mainIndex)
+        {
+            mainIndex->writeAsMarkdown();
+        }
+        return true;
+    }
+    //=============================================================================
     bool XmlDocListOfDirectories::writeAsHtml()
     {
         for (size_t k = 0; k < itemsDirectories.size(); k++)

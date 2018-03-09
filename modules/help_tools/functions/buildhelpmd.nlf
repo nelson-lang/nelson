@@ -1,0 +1,118 @@
+//=============================================================================
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+function buildhelpmd(varargin)
+// build Nelson help files as markdown
+// buildhelpmd(destdir) build help of Nelson
+// buildhelpmd(destdir, module_name) build help of a module loaded in Nelson
+//
+  if (nargin() > 2 | nargin() < 1) 
+    error(_('Wrong number of input arguments.'));
+  end
+  destinationdir = varargin{1};
+  if nargin() == 1
+    helpForNelsonOnly(destinationdir);
+    run([nelsonroot() '/modules/' 'modules.nls']);
+    locales = {};
+    for m = modules_help_list
+      module_path = [nelsonroot() '/modules/' m{1}];
+      l = buildHelpFromPath(destinationdir, m{1}, module_path);
+      locales = [locales, l];
+    end
+    modules = modules_help_list;
+  else
+    module = varargin{2};
+    module_path = modulepath(module);
+    locales = buildHelpFromPath(destinationdir, module, module_path);
+    modules = {module};
+  end
+  generatesLANGSmd(destinationdir, locales);
+  buildSummary(destinationdir, locales, modules);
+endfunction
+//=============================================================================
+function locales = buildHelpFromPath(destinationdir, module, module_path)
+  locales = {};
+  for k = getavailablelanguages()
+    locale = k{1}(1:2);
+    src = [module_path, '/help/', k{1}, '/xml'];
+    if isdir(src)
+      dstbuild = [destinationdir, '/', locale, '/', module, '/'];
+      res = mkdir(dstbuild);
+      if ~res
+        error(msg);
+      end
+      p = xmldoctomd(src, dstbuild, module);
+      if p
+        disp(['help ''', module, ''' (', k{1}, ') generated.']);
+      else
+        disp([module, _(' file was not generated.')]);
+      end
+      locales{end + 1} = locale;
+    end
+  end
+endfunction
+//=============================================================================
+function generatesLANGSmd(destinationdir, locales)
+  content = {'# Languages'; ''};
+  done = {};
+  for l = locales
+    res = contains(done, l{1});
+    if isempty(res) | ~all(res) 
+      content{end + 1} = ['* [', l{1} ,'](', l{1}, ')'];
+      done{end + 1} = l{1};
+    end  
+  end
+  content{end + 1} = '';
+  filewrite([destinationdir, '/LANGS.md'], content);
+endfunction
+//=============================================================================
+function buildSummary(destinationdir, locales, modules_help_list, is_nelson_help)
+  for l = locales
+    global_summary = {['# ', _('Summary')]; ''};
+    global_summary_path = [destinationdir, '/', l{1}, '/',  'SUMMARY.md'];
+    for m = modules_help_list
+      module_summary_path = [destinationdir, '/', l{1}, '/', m{1}, '/', 'SUMMARY.md'];
+      content = fileread(module_summary_path, 'cell');
+      content = strrep(content, '](', ['](./', m{1}, '/']);
+      global_summary = [global_summary; {''}; content];
+    end
+    filewrite(global_summary_path, global_summary);
+  end
+endfunction
+//=============================================================================
+function helpForNelsonOnly(destinationdir)
+    for k = getavailablelanguages()
+      locale = k{1}(1:2);
+      homepage_md = 'homepage.md';
+      banner_png = 'banner_homepage.png';
+      path_dst = [destinationdir, '/', locale];
+      mkdir(path_dst);
+
+      readme_md_src = [nelsonroot(), '/modules/main/help/', k{1}, '/html/', homepage_md];
+      readme_md_dst = [path_dst, '/README.md'];
+      copyfile(readme_md_src, readme_md_dst);
+      banner_png_src = [nelsonroot(), '/modules/main/help/', k{1}, '/html/', banner_png];
+      banner_png_dst = [path_dst, '/', banner_png];
+      copyfile(readme_md_src, readme_md_dst);
+      copyfile(banner_png_src, banner_png_dst);
+
+      changes_md = [nelsonroot(), '/CHANGELOG.md'];
+      copyfile(changes_md, [path_dst, '/CHANGELOG.md']);
+    end
+endfunction
+//=============================================================================

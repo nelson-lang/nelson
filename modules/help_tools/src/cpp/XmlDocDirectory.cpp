@@ -74,6 +74,16 @@ namespace Nelson {
         }
     }
     //=============================================================================
+    bool XmlDocDirectory::writeAsMarkdown()
+    {
+        if (this->xmlDocFiles)
+        {
+            this->xmlDocFiles->setUpSection(this->sectionUpName, this->sectionUpUrl);
+            return this->xmlDocFiles->writeAsMarkdown();
+        }
+        return false;
+    }
+    //=============================================================================
     bool XmlDocDirectory::writeAsHtml()
     {
         if (this->xmlDocFiles)

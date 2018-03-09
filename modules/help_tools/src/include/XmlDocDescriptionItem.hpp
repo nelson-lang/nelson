@@ -48,6 +48,9 @@ namespace Nelson {
         bool writeAsHtml(std::string &utf8stream);
         bool writeHeaderAsHtml(std::string &utf8stream);
 
+        bool writeAsMarkdown(std::string &utf8stream);
+        bool writeHeaderAsMarkdown(std::string &utf8stream);
+
         void setDirectories(std::wstring srcDirectory, std::wstring destDirectory);
         void searchImageTag();
     };

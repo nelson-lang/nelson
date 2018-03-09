@@ -99,10 +99,11 @@ namespace Nelson {
         return IsDirIn;
     }
     //=============================================================================
-    XmlDocDocument::XmlDocDocument(std::wstring srcfilename, std::wstring destfilename, bool bOverwriteExistingFile, DOCUMENT_OUTPUT outputTarget)
+    XmlDocDocument::XmlDocDocument(std::wstring srcfilename, std::wstring sectionname, std::wstring destfilename, bool bOverwriteExistingFile, DOCUMENT_OUTPUT outputTarget)
     {
         this->outputTarget = outputTarget;
         this->xmlfilename = srcfilename;
+        this->sectionName = sectionname;
         this->errorMessage.clear();
         this->warningMessage.clear();
         this->items.clear();
@@ -118,7 +119,15 @@ namespace Nelson {
         {
             this->directoryDestination = destfilename;
             boost::filesystem::path pathname(srcfilename);
-            std::wstring nfilename = pathname.stem().generic_wstring() + L".html";
+            std::wstring nfilename;
+            if (this->outputTarget == DOCUMENT_OUTPUT::MARKDOWN)
+            {
+                nfilename = pathname.stem().generic_wstring() + L".md";
+            }
+            else
+            {
+                nfilename = pathname.stem().generic_wstring() + L".html";
+            }
             boost::filesystem::path pathdest(destfilename);
             pathdest = pathdest / nfilename;
             this->filenameDestination = pathdest.generic_wstring();
@@ -156,7 +165,15 @@ namespace Nelson {
         {
             this->directoryDestination = destfilename;
             boost::filesystem::path pathname(srcfilename);
-            std::wstring nfilename = pathname.stem().generic_wstring() + L".html";
+            std::wstring nfilename;
+            if (this->outputTarget == DOCUMENT_OUTPUT::MARKDOWN)
+            {
+                nfilename = pathname.stem().generic_wstring() + L".md";
+            }
+            else
+            {
+                nfilename = pathname.stem().generic_wstring() + L".html";
+            }
             boost::filesystem::path pathdest(destfilename);
             pathdest = pathdest.normalize();
             pathdest = pathdest / nfilename;
@@ -909,6 +926,55 @@ namespace Nelson {
             utf8stream = utf8stream + "<hr />" + "\n";
             utf8stream = utf8stream + "\n";
         }
+    }
+    //=============================================================================
+    bool XmlDocDocument::writeAsMarkdown(std::string &utf8stream)
+    {
+        utf8stream = utf8stream + "\n";
+        // header for examples
+        if (haveExample())
+        {
+            XmlDocGenericItem *pItem = findfirst(EXAMPLES_TAG);
+            XmlDocExamples *pExamples = (XmlDocExamples *)pItem;
+            pExamples->writeHeaderAsMarkdown(utf8stream);
+        }
+        // header
+        if (isKeywordDocument())
+        {
+            XmlDocGenericItem *pItem = findfirst(KEYWORD_TAG);
+            if (pItem)
+            {
+                XmlDocKeywordItem *pItemKeyword = (XmlDocKeywordItem *)pItem;
+                pItemKeyword->writeHeaderAsMarkdown(utf8stream);
+            }
+        }
+        if (isChapterDocument())
+        {
+            XmlDocGenericItem *pItem = findfirst(CHAPTER_TAG);
+            if (pItem)
+            {
+                XmlDocChapterItem *pItemChapter = (XmlDocChapterItem *)pItem;
+                pItemChapter->writeHeaderAsMarkdown(utf8stream);
+            }
+        }
+        if (isTitleDocument())
+        {
+            XmlDocGenericItem *pItem = findfirst(TITLE_TAG);
+            XmlDocTitleItem *pItemTitle = (XmlDocTitleItem *)pItem;
+            pItemTitle->writeHeaderAsMarkdown(utf8stream);
+        }
+        utf8stream = utf8stream + "\n";
+        for (size_t k = 0; k < this->items.size(); k++)
+        {
+            std::wstring currentItemType = this->items[k]->getItemType();
+            if ((currentItemType != utf8_to_wstring(LANGUAGE_TAG)) &&
+                    (currentItemType != utf8_to_wstring(COPYRIGHT_TAG)))
+            {
+                this->items[k]->writeAsMarkdown(utf8stream);
+            }
+        }
+        utf8stream = utf8stream + "\n";
+        return true;
     }
     //=============================================================================
     bool XmlDocDocument::writeAsHtml(std::string &utf8stream)
@@ -2449,7 +2515,7 @@ namespace Nelson {
                     {
                         this->warningMessage.push_back(_W("line ") + std::to_wstring(seeAlsoItemNode->line) + _W(": ") + link + L" " + _W("not found."));
                     }
-                    XmlDocResolveLink(this->xmlDirectory, link, this->outputTarget, getLanguage(), link);
+                    XmlDocResolveLink(this->xmlDirectory, link, this->sectionName, this->outputTarget, this->directoryDestination, getLanguage(), link);
                     seeAlsoItems->append(name, link);
                     nbLinksItems++;
                     currentItemNode = currentItemNode->next;
@@ -2884,6 +2950,39 @@ namespace Nelson {
             }
         }
         return true;
+    }
+    //=============================================================================
+    bool XmlDocDocument::writeAsMarkdown()
+    {
+        bool res = true;
+        if (needToUpdate())
+        {
+            std::ofstream markdownFile;
+            std::string markdownUtf8Stream = "";
+            std::wstring nelsonLanguage = Localization::Instance()->getCurrentLanguage();
+            Localization::Instance()->setLanguage(this->getLanguage(), false);
+            res = this->writeAsMarkdown(markdownUtf8Stream);
+            Localization::Instance()->setLanguage(nelsonLanguage, false);
+            if (res)
+            {
+#if _MSC_VER
+                markdownFile.open(this->filenameDestination);
+#else
+                htmlfile.open(wstring_to_utf8(this->filenameDestination));
+#endif
+                if (markdownFile.is_open())
+                {
+                    markdownFile << markdownUtf8Stream << std::endl;
+                    markdownFile.close();
+                    res = true;
+                }
+                else
+                {
+                    res = false;
+                }
+            }
+        }
+        return res;
     }
     //=============================================================================
     bool XmlDocDocument::writeAsHtml()

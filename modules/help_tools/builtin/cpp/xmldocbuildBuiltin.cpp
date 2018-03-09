@@ -98,7 +98,14 @@ ArrayOfVector Nelson::HelpToolsGateway::xmldocbuildBuiltin(Evaluator* eval, int 
         std::wstring outputModuleName = xmlDirs.getOutputHelpBasename();
         try
         {
-            xmlDirs.writeAsHtml();
+            if (outputTarget == DOCUMENT_OUTPUT::MARKDOWN)
+            {
+                xmlDirs.writeAsMarkdown();
+            }
+            else
+            {
+                xmlDirs.writeAsHtml();
+            }
         }
         catch (Exception &e)
         {

@@ -35,6 +35,7 @@ namespace Nelson {
         std::wstring getItemType();
         bool append(std::wstring linkname, std::wstring linkurl, std::wstring description);
         bool writeAsHtml(std::string &utf8stream);
+        bool writeAsMarkdown(std::string &utf8stream);
     };
     //=============================================================================
 }

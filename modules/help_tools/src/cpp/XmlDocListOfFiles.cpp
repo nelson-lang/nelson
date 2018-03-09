@@ -105,7 +105,7 @@ namespace Nelson {
             bool b = boost::algorithm::ends_with(this->srcFiles[k], L"chapter.xml");
             if (!b)
             {
-                XmlDocDocument *xmlDoc = new XmlDocDocument(this->srcFiles[k], this->dstDirectory, this->bOverwriteExistingFiles, this->outputTarget);
+                XmlDocDocument *xmlDoc = new XmlDocDocument(this->srcFiles[k], this->sectionUpName, this->dstDirectory, this->bOverwriteExistingFiles, this->outputTarget);
                 if (xmlDoc)
                 {
                     if (xmlDoc->readFile())
@@ -142,7 +142,7 @@ namespace Nelson {
         }
         if (haveChapterFile)
         {
-            XmlDocDocument *xmlDoc = new XmlDocDocument(chapterFilename, this->dstDirectory, this->bOverwriteExistingFiles, this->outputTarget);
+            XmlDocDocument *xmlDoc = new XmlDocDocument(chapterFilename, this->sectionUpName,this->dstDirectory, this->bOverwriteExistingFiles, this->outputTarget);
             if (xmlDoc)
             {
                 if (xmlDoc->readFile())
@@ -161,7 +161,14 @@ namespace Nelson {
                         std::wstring htmlFilenameDestination = L"";
                         if (this->moduleName != L"")
                         {
-                            htmlFilenameDestination = dstDirectory + L"/chapter_" + this->moduleName + L".html";
+                            if (this->outputTarget == DOCUMENT_OUTPUT::MARKDOWN)
+                            {
+                                htmlFilenameDestination = dstDirectory + L"/README.md";
+                            }
+                            else
+                            {
+                                htmlFilenameDestination = dstDirectory + L"/chapter_" + this->moduleName + L".html";
+                            }
                             this->chapterResultFilename = htmlFilenameDestination;
                         }
                         else
@@ -217,13 +224,27 @@ namespace Nelson {
                 bool bRes;
                 std::wstring linkUrl = L"";
                 boost::filesystem::path destPath(this->dstDirectory);
-                if (this->moduleName != L"")
+                if (this->outputTarget == DOCUMENT_OUTPUT::MARKDOWN)
                 {
-                    destPath = destPath / (L"chapter_" + this->moduleName + L".html");
+                    if (this->moduleName != L"")
+                    {
+                        destPath = destPath / (L"README.md");
+                    }
+                    else
+                    {
+                        destPath = destPath / L"chapter.md";
+                    }
                 }
                 else
                 {
-                    destPath = destPath / L"chapter.html";
+                    if (this->moduleName != L"")
+                    {
+                        destPath = destPath / (L"chapter_" + this->moduleName + L".html");
+                    }
+                    else
+                    {
+                        destPath = destPath / L"chapter.html";
+                    }
                 }
                 linkUrl = RelativePath(dstDirectory, destPath.generic_wstring(), bRes);
                 xmlItems[k]->setIndexPageLink(this->chapterTitle, linkUrl);
@@ -255,6 +276,18 @@ namespace Nelson {
             if (this->xmlItems[k])
             {
                 this->xmlItems[k]->writeAsHtml();
+            }
+        }
+        return true;
+    }
+    //=============================================================================
+    bool XmlDocListOfFiles::writeAsMarkdown()
+    {
+        for (size_t k = 0; k < this->xmlItems.size(); k++)
+        {
+            if (this->xmlItems[k])
+            {
+                this->xmlItems[k]->writeAsMarkdown();
             }
         }
         return true;

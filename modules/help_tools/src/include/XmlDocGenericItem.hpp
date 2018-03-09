@@ -29,6 +29,8 @@ namespace Nelson {
     public:
         virtual std::wstring getItemType() = 0;
         virtual bool writeAsHtml(std::string &utf8stream) = 0;
+        virtual bool writeAsMarkdown(std::string &utf8stream) = 0;
+
     };
     //=============================================================================
 }

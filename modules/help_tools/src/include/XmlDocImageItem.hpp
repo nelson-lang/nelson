@@ -37,6 +37,7 @@ namespace Nelson {
         ~XmlDocImageItem();
         std::wstring getItemType();
         bool writeAsHtml(std::string &utf8stream);
+        bool writeAsMarkdown(std::string &utf8stream);
         void setDirectories(const std::wstring &srcDirectory, const std::wstring &destDirectory);
         void findImage();
     };

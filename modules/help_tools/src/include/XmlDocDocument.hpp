@@ -53,10 +53,12 @@ namespace Nelson {
         std::wstring indexLinkName;
         std::wstring indexLinkUrl;
 
+        std::wstring sectionName;
+
         DOCUMENT_OUTPUT outputTarget;
 
     public:
-        XmlDocDocument(std::wstring srcfilename, std::wstring destfilename, bool bOverwriteExistingFile = false, DOCUMENT_OUTPUT outputTarget = DOCUMENT_OUTPUT::HMTL);
+        XmlDocDocument(std::wstring srcfilename, std::wstring sectionname, std::wstring destfilename, bool bOverwriteExistingFile = false, DOCUMENT_OUTPUT outputTarget = DOCUMENT_OUTPUT::HMTL);
         XmlDocDocument(boost::container::vector<XmlDocGenericItem *> items, std::wstring srcfilename, std::wstring destfilename, bool bOverwriteExistingFile = false, DOCUMENT_OUTPUT outputTarget = DOCUMENT_OUTPUT::HMTL);
         ~XmlDocDocument();
 
@@ -71,6 +73,8 @@ namespace Nelson {
         bool readFile();
         bool writeAsHtml(std::string &utf8stream);
         bool writeAsHtml();
+        bool writeAsMarkdown(std::string &utf8stream);
+        bool writeAsMarkdown();
 
         std::wstring getDestinationFile();
         bool needToUpdate();

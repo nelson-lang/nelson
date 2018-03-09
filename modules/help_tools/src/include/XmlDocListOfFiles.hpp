@@ -52,6 +52,7 @@ namespace Nelson {
         ~XmlDocListOfFiles();
         bool read();
         bool writeAsHtml();
+        bool writeAsMarkdown();
         std::wstring getLastError();
         void getIndex(wstringVector &names, wstringVector &urls, wstringVector &descriptions);
         void setUpSection(std::wstring sectionName, std::wstring sectionUrl);

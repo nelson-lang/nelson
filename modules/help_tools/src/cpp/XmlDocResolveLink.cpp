@@ -32,7 +32,7 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-    bool XmlDocResolveLink(const std::wstring &directorysource, const std::wstring &linkname, DOCUMENT_OUTPUT outputTarget, const std::wstring &language, std::wstring &resolvedlink)
+    bool XmlDocResolveLink(const std::wstring &directorysource, const std::wstring &linkname, const std::wstring &currentModuleName, DOCUMENT_OUTPUT outputTarget, const std::wstring &destinationDir, const std::wstring &language, std::wstring &resolvedlink)
     {
         bool bRes = false;
         if (boost::algorithm::starts_with(linkname, "http://") || boost::algorithm::starts_with(linkname, "https://"))
@@ -68,7 +68,21 @@ namespace Nelson {
                         filepath = modules[k].modulepath + L"/" + L"help" + L"/" + language + L"/" + L"xml" + L"/" + name + utf8_to_wstring(XML_FILE_EXTENSION);
                         if (IsFile(filepath))
                         {
-                            resolvedlink = name + L".html";
+                            if (outputTarget == DOCUMENT_OUTPUT::MARKDOWN)
+                            {
+                                if (currentModuleName != modules[k].modulename)
+                                {
+                                    resolvedlink = L"../" + modules[k].modulename + L"/" + name + L".md";
+                                }
+                                else
+                                {
+                                    resolvedlink = name + L".md";
+                                }
+                            }
+                            else
+                            {
+                                resolvedlink = name + L".html";
+                            }
                             bFound = true;
                             return bFound;
                         }
@@ -77,7 +91,21 @@ namespace Nelson {
                             filepath = modules[k].modulepath + L"/" + L"help" + L"/" + L"en_US" + L"/" + L"xml" + L"/" + linkname + utf8_to_wstring(XML_FILE_EXTENSION);
                             if (IsFile(filepath))
                             {
-                                resolvedlink = name + L".html";
+                                if (outputTarget == DOCUMENT_OUTPUT::MARKDOWN)
+                                {
+                                    if (currentModuleName != modules[k].modulename)
+                                    {
+                                        resolvedlink = L"../" + modules[k].modulename + L"/" + name + L".md";
+                                    }
+                                    else
+                                    {
+                                        resolvedlink = name + L".md";
+                                    }
+                                }
+                                else
+                                {
+                                    resolvedlink = name + L".html";
+                                }
                                 bFound = true;
                                 return bFound;
                             }

@@ -17,10 +17,10 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 function buildhelp(varargin)
-// build Nelson help files
-// buildhelp() build help of Nelson
-// buildhelp(module_name) build help of a module loaded in Nelson
-//
+  // build Nelson help files
+  // buildhelp() build help of Nelson
+  // buildhelp(module_name) build help of a module loaded in Nelson
+  //
   if nargin() > 1
     error(_('Wrong number of input arguments.'));
   end
@@ -32,46 +32,9 @@ function buildhelp(varargin)
     rmfile(pref_help);
   end
   if nargin() == 0
-    changes_md = [nelsonroot(), '/CHANGELOG.md'];
+    helpForNelsonOnly()
     run([nelsonroot() '/modules/' 'modules.nls']);
-    for k = getavailablelanguages()
-      dir_src = [nelsonroot(), '/modules/main/help/', k{1}, '/html'];
-      if isdir(dir_src)
-        changes_html = [dir_src, '/changelog.html'];
-        generate_changelog_html = false;
-        if isfile(changes_html)
-          html_file_info = dir(changes_html);
-          md_file_info = dir(changes_md);
-          generate_changelog_html = md_file_info.datenum > html_file_info.datenum;
-        else
-          generate_changelog_html = true;
-        end
-        if generate_changelog_html
-          r =markdown(changes_md, changes_html);
-          if (r == false)
-            error([_('file not generated:'), char(13), changes_html]);
-          end
-        end
-        dir_dst = [nelsonroot(), '/modules/main/help/', k{1}, '/'];
-        homepage_md = [dir_dst, 'html/homepage.md'];
-        homepage_html = [dir_dst, 'html/homepage.html'];
-        if isfile(homepage_html)
-          html_file_info = dir(homepage_html);
-          md_file_info = dir(homepage_md);
-          generate_homepage_html = md_file_info.datenum > html_file_info.datenum;
-        else
-          generate_homepage_html = true;
-        end
-        if generate_homepage_html
-          r = markdown(homepage_md, homepage_html);
-          if (r == false)
-            error([_('file not generated:'), char(13), homepage_html]);
-          end
-        end
-        qhelpgenerator(dir_src,  dir_dst, 'org.nelson.help.qch')
-        disp(['help ''', 'homepage', ''' (', k{1}, ') generated.']);
-      end
-    end
+    
     for m = modules_help_list
       module_path = [nelsonroot() '/modules/' m{1}];
       buildhelp_from_path(m{1}, module_path);
@@ -115,6 +78,45 @@ function buildhelp_from_path(module, module_path)
         disp([module, _(' file was not generated.')]);
       end
     end
+  end
+endfunction
+//=============================================================================
+function helpForNelsonOnly()
+  changes_md = [nelsonroot(), '/CHANGELOG.md'];
+  for k = getavailablelanguages()
+    dir_src = [nelsonroot(), '/modules/main/help/', k{1}, '/html'];
+    if isdir(dir_src)
+      md_files = ['homepage.md', 'license.md', 'GPL2.md'];
+      for md_filename = md_files
+        html_filename = strrep(md_filename{1}, '.md', '.html');
+        if needTobeGenerated([dir_src, '/', md_filename{1}], [dir_src, '/', html_filename])
+          if strcmp(md_filename{1}, 'homepage.md')
+            content = fileread([dir_src, '/', md_filename{1}]);
+            content = strrep(content, '[Changelog](changelog.md)', '[Changelog](changelog.html)'),
+            content = strrep(content, '[Nelson license](license.md)', '[Nelson license](license.html)');
+            content_as_html = markdown(content);
+            filewrite(html_filename, content_as_html);
+          else
+            r = markdown(homepage_md, homepage_html);
+            if (r == false)
+              error([_('file not generated:'), char(13), homepage_html]);
+            end
+          end
+        end
+      end
+      qhelpgenerator(dir_src,  dir_dst, 'org.nelson.help.qch')
+      disp(['help ''', 'homepage', ''' (', k{1}, ') generated.']);
+    end
+  end
+endfunction
+//=============================================================================
+function tf = needTobeGenerated(md_filename, html_filename)
+  if isfile(html_filename)
+    html_file_info = dir(html_filename);
+    md_file_info = dir(md_filename);
+    tf = md_file_info.datenum > html_file_info.datenum;
+  else
+    tf = true;
   end
 endfunction
 //=============================================================================

@@ -77,5 +77,17 @@ namespace Nelson {
         return true;
     }
     //=============================================================================
+    bool XmlDocSyntax::writeAsMarkdown(std::string &utf8stream)
+    {
+        utf8stream = utf8stream + "## " + _("Syntax") + "\n";
+        utf8stream = utf8stream + "\n";
+        for (size_t k = 0; k < syntaxVector.size(); k++)
+        {
+            syntaxVector[k]->writeAsMarkdown(utf8stream);
+        }
+        utf8stream = utf8stream + "\n";
+        return true;
+    }
+    //=============================================================================
 }
 //=============================================================================

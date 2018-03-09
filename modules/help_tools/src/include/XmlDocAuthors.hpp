@@ -35,6 +35,7 @@ namespace Nelson {
         void append(std::wstring value);
         std::wstring getItemType();
         bool writeAsHtml(std::string &utf8stream);
+        bool writeAsMarkdown(std::string &utf8stream);
     };
     //=============================================================================
 }

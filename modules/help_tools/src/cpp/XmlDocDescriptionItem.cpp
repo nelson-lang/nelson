@@ -85,6 +85,19 @@ namespace Nelson {
         return true;
     }
     //=============================================================================
+    bool XmlDocDescriptionItem::writeAsMarkdown(std::string &utf8stream)
+    {
+        if (imagesSource.size())
+        {
+            copyImages(imagesSource, imagesDestination);
+        }
+        utf8stream = utf8stream + "## " + _("Description") + "\n";
+        utf8stream = utf8stream + "\n";
+        utf8stream = utf8stream + wstring_to_utf8(_description) + "\n";
+        utf8stream = utf8stream + "\n";
+        return true;
+    }
+    //=============================================================================
     bool XmlDocDescriptionItem::checkImageTag()
     {
         if (!this->_description.empty())

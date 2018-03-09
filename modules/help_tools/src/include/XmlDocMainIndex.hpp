@@ -44,6 +44,7 @@ namespace Nelson {
         ~XmlDocMainIndex();
         std::wstring getFilename();
         bool writeAsHtml();
+        bool writeAsMarkdown();
         void appendSection(std::wstring sectionName, std::wstring sectionUrl, wstringVector names, wstringVector urls, wstringVector descriptions);
     };
     //=============================================================================

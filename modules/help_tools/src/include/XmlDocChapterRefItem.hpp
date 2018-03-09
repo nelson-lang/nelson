@@ -34,6 +34,7 @@ namespace Nelson {
         ~XmlDocChapterRefItem();
         std::wstring getItemType();
         bool writeAsHtml(std::string &utf8stream);
+        bool writeAsMarkdown(std::string &utf8stream);
     };
     //=============================================================================
 }

@@ -93,6 +93,30 @@ namespace Nelson {
         return true;
     }
     //=============================================================================
+    bool XmlDocExamples::writeHeaderAsMarkdown(std::string &utf8stream)
+    {
+        return true;
+    }
+    //=============================================================================
+    bool XmlDocExamples::writeAsMarkdown(std::string &utf8stream)
+    {
+        if (examplesVector.size() > 1)
+        {
+            utf8stream = utf8stream + "## " +_("Examples") + "\n";
+        }
+        else
+        {
+            utf8stream = utf8stream + "## " + _("Example") + "\n";
+        }
+        utf8stream = utf8stream + "\n";
+        for (size_t k = 0; k < examplesVector.size(); k++)
+        {
+            examplesVector[k]->writeAsMarkdown(utf8stream);
+        }
+        utf8stream = utf8stream + "\n";
+        return true;
+    }
+    //=============================================================================
     void XmlDocExamples::setDirectories(std::wstring srcDirectory, std::wstring dstDirectory)
     {
         for (size_t k = 0; k < examplesVector.size(); k++)

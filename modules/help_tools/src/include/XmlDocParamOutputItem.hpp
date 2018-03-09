@@ -35,6 +35,7 @@ namespace Nelson {
         std::wstring getDescription();
         std::wstring getItemType();
         bool writeAsHtml(std::string &utf8stream);
+        bool writeAsMarkdown(std::string &utf8stream);
     };
     //=============================================================================
 }
