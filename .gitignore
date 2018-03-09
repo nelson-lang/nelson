@@ -30,6 +30,8 @@ tests_*.json
 /bin/*/nelson-cli.exe
 /bin/*/nelson_f2c
 /modules/main/help/*/html/changelog.html
+/modules/main/help/*/html/license.html
+/modules/main/help/*/html/GPL2.html
 /modules/*/nls*_autogen
 *.settings
 *.qmlc
@@ -132,6 +134,7 @@ bin/macosx64/nelson-gui
 /tools/gettext/generatepo/Debug
 /tools/gettext/generatemo/Release
 /tools/gettext/generatepo/x64/
+/tools/gettext/generatemo/x64/
 /tools/tests_minimal/x64/
 *.opendb
 /tools/gettext/generatemo/Debug

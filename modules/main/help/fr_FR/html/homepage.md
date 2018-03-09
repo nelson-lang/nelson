@@ -8,9 +8,8 @@ Nelson est un environnement open source de calcul numerique extensible et modern
 
 Essayez-le !
 
-</div>
 
 * * *
 
-*   [Journal des modifications](changelog.html)
-*   [Licence de Nelson](licence.html)
+*   [Journal des modifications](changelog.md)
+*   [Licence de Nelson](licence.md)

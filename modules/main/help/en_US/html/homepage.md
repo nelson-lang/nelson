@@ -8,9 +8,8 @@ Nelson is an extendable and modern numerical computing environment.
 
 Try it !
 
-</div>
 
 * * *
 
-*   [Changelog](changelog.html)
-*   [Nelson license](license.html)
+*   [Changelog](changelog.md)
+*   [Nelson license](license.md)
