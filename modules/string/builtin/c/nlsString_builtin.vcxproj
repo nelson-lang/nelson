@@ -189,6 +189,7 @@
     <ClCompile Include="..\cpp\char_isequalBuiltin.cpp" />
     <ClCompile Include="..\cpp\char_vertcat_charBuiltin.cpp" />
     <ClCompile Include="..\cpp\strncmpBuiltin.cpp" />
+    <ClCompile Include="..\cpp\strrepBuiltin.cpp" />
     <ClCompile Include="..\cpp\tolowerBuiltin.cpp" />
     <ClCompile Include="..\cpp\toupperBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
@@ -239,6 +240,7 @@
     <ClInclude Include="..\include\char_isequalBuiltin.hpp" />
     <ClInclude Include="..\include\char_vertcat_charBuiltin.hpp" />
     <ClInclude Include="..\include\strncmpBuiltin.hpp" />
+    <ClInclude Include="..\include\strrepBuiltin.hpp" />
     <ClInclude Include="..\include\tolowerBuiltin.hpp" />
     <ClInclude Include="..\include\strcmpBuiltin.hpp" />
     <ClInclude Include="..\include\char_dispBuiltin.hpp" />

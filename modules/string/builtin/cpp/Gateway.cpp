@@ -39,6 +39,7 @@
 #include "endsWithBuiltin.hpp"
 #include "containsBuiltin.hpp"
 #include "countBuiltin.hpp"
+#include "strrepBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -74,6 +75,7 @@ static const nlsGateway gateway[] =
     { "endsWith", Nelson::StringGateway::endsWithBuiltin, 1, -3 },
     { "contains", Nelson::StringGateway::containsBuiltin, 1, -3 },
     { "count", Nelson::StringGateway::countBuiltin, 1, -3 },
+    { "strrep", Nelson::StringGateway::strrepBuiltin, 1, 3 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

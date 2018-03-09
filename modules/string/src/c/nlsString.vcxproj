@@ -176,6 +176,7 @@
     <ClCompile Include="..\cpp\StringFormat.cpp" />
     <ClCompile Include="..\cpp\StringIsEqual.cpp" />
     <ClCompile Include="..\cpp\StringPrintf.cpp" />
+    <ClCompile Include="..\cpp\StringReplace.cpp" />
     <ClCompile Include="..\cpp\StringStartsWith.cpp" />
     <ClCompile Include="..\cpp\StringToDouble.cpp" />
     <ClCompile Include="..\cpp\StringToDoubleComplex.cpp" />
@@ -200,6 +201,7 @@
     <ClInclude Include="..\include\StringFormat.hpp" />
     <ClInclude Include="..\include\StringIsEqual.hpp" />
     <ClInclude Include="..\include\StringPrintf.hpp" />
+    <ClInclude Include="..\include\StringReplace.hpp" />
     <ClInclude Include="..\include\StringStartsWith.hpp" />
     <ClInclude Include="..\include\StringToDoubleComplex.hpp" />
     <ClInclude Include="..\include\StringToDouble.hpp" />

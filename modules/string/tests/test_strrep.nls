@@ -1,0 +1,3 @@
+strrep('rar','r','bb')
+
+strrep({'r','a'},{'a','r'},{'rrr'})
