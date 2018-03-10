@@ -83,7 +83,7 @@ endfunction
 //=============================================================================
 function buildSummary(destinationdir, locales, modules_help_list, is_nelson_help)
   for l = locales
-    global_summary = {['# ', _('Summary')]; ''};
+    global_summary = {['# ', 'Summary']; ''};
     global_summary_path = [destinationdir, '/', l{1}, '/',  'SUMMARY.md'];
     for m = modules_help_list
       module_summary_path = [destinationdir, '/', l{1}, '/', m{1}, '/', 'SUMMARY.md'];
@@ -96,23 +96,21 @@ function buildSummary(destinationdir, locales, modules_help_list, is_nelson_help
 endfunction
 //=============================================================================
 function helpForNelsonOnly(destinationdir)
+  src_files = {'homepage.md', 'banner_homepage.png'};
+    dst_files = {'README.md', 'banner_homepage.png'};
     for k = getavailablelanguages()
       locale = k{1}(1:2);
-      homepage_md = 'homepage.md';
-      banner_png = 'banner_homepage.png';
-      path_dst = [destinationdir, '/', locale];
-      mkdir(path_dst);
-
-      readme_md_src = [nelsonroot(), '/modules/main/help/', k{1}, '/html/', homepage_md];
-      readme_md_dst = [path_dst, '/README.md'];
-      copyfile(readme_md_src, readme_md_dst);
-      banner_png_src = [nelsonroot(), '/modules/main/help/', k{1}, '/html/', banner_png];
-      banner_png_dst = [path_dst, '/', banner_png];
-      copyfile(readme_md_src, readme_md_dst);
-      copyfile(banner_png_src, banner_png_dst);
-
-      changes_md = [nelsonroot(), '/CHANGELOG.md'];
-      copyfile(changes_md, [path_dst, '/CHANGELOG.md']);
+      dir_dst = [destinationdir, '/', locale];
+      dir_src = [nelsonroot(), '/modules/main/help/', k{1}, '/md'];
+      mkdir(dir_dst);
+      for k = 1:length(src_files)
+        copyfile([dir_src, '/', src_files{k}], [dir_dst, '/', dst_files{k}]);
+      end
+      readme_path = [dir_dst, '/', 'README.md'];
+      readme_content = fileread(readme_path, 'cell');
+      readme_content{contains(readme_content, '(changelog.md)')} = '';
+      readme_content{contains(readme_content, '(license.md)')} = '';
+      filewrite(readme_path, readme_content);
     end
 endfunction
 //=============================================================================

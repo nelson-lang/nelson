@@ -90,7 +90,16 @@ namespace Nelson {
         {
             utf8stream = utf8stream + wstring_to_utf8(this->getDescription()) + "\n";
         }
-        utf8stream = utf8stream + "```Nelson" + "\n";
+		if (this->isNelsonExample())
+		{
+			//utf8stream = utf8stream + "```nelson" + "\n";
+			// need to extend highlighter.js
+			utf8stream = utf8stream + "```matlab" + "\n";
+		}
+		else 
+		{
+			utf8stream = utf8stream + "```" + wstring_to_utf8(this->getType()) + "\n";
+		}
         utf8stream = utf8stream + wstring_to_utf8(this->getData()) + "\n";
         utf8stream = utf8stream + "```" + "\n";
         if (!this->getImageTag().empty())

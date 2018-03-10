@@ -772,8 +772,8 @@ namespace Nelson {
         * Get our contents as a vector wide string (UTF-16). Only works for CELL of STRING types.
         * no check on dimensions
         */
-        wstringVector getContentAsWideStringVector(bool bCheckVector = true) const;
-        stringVector getContentAsCStringVector(bool bCheckVector = true) const;
+        wstringVector getContentAsWideStringVector(bool bCheckVector = true, bool emptyStringConsidered = false ) const;
+        stringVector getContentAsCStringVector(bool bCheckVector = true, bool emptyStringConsidered = false) const;
 
         /**
         * Get our contents as a vector wide string (UTF-16). Only works for CELL of STRING types.

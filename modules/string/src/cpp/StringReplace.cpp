@@ -32,14 +32,14 @@ namespace Nelson {
         return (dimsA.equals(dimsB));
     }
     //=============================================================================
-    ArrayOf StringReplace(ArrayOf STR, ArrayOf OLD, ArrayOf NEW)
+	ArrayOf StringReplace(ArrayOf STR, ArrayOf OLD, ArrayOf NEW)
     {
         ArrayOf res;
         size_t nbOutput;
-        wstringVector wstr = STR.getContentAsWideStringVector();
-        wstringVector wold = OLD.getContentAsWideStringVector();
-        wstringVector wnew = NEW.getContentAsWideStringVector();
-        Dimensions outputDims;
+        wstringVector wstr = STR.getContentAsWideStringVector(false, true);
+        wstringVector wold = OLD.getContentAsWideStringVector(false, true);
+        wstringVector wnew = NEW.getContentAsWideStringVector(false, true);
+		Dimensions outputDims;
         if (wstr.size() == 1 && wold.size() == 1)
         {
             nbOutput = wnew.size();
@@ -117,7 +117,8 @@ namespace Nelson {
                 size_t idx_str = (i) * str_incr;
                 size_t idx_old = (i) * old_incr;
                 size_t idx_new = (i) * new_incr;
-                elements[i] = ArrayOf::stringConstructor(boost::replace_all_copy(wstr[idx_str], wold[idx_old], wnew[idx_new]));
+				boost::replace_all(wstr[idx_str], wold[idx_old], wnew[idx_new]);
+                elements[i] = ArrayOf::stringConstructor(wstr[idx_str]);
             }
             res = ArrayOf(NLS_CELL_ARRAY, outputDims, elements);
         }

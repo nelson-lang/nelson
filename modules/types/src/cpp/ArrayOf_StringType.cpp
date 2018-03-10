@@ -115,9 +115,9 @@ namespace Nelson {
         return str;
     }
     //=============================================================================
-    stringVector ArrayOf::getContentAsCStringVector(bool bCheckVector) const
+    stringVector ArrayOf::getContentAsCStringVector(bool bCheckVector, bool emptyStringConsidered) const
     {
-        wstringVector wres = getContentAsWideStringVector(bCheckVector);
+        wstringVector wres = getContentAsWideStringVector(bCheckVector, emptyStringConsidered);
         stringVector res;
         res.reserve(wres.size());
         for (size_t k = 0; k < wres.size(); k++)
@@ -127,7 +127,7 @@ namespace Nelson {
         return res;
     }
     //=============================================================================
-    wstringVector ArrayOf::getContentAsWideStringVector(bool bCheckVector) const
+    wstringVector ArrayOf::getContentAsWideStringVector(bool bCheckVector, bool emptyStringConsidered) const
     {
         wstringVector res;
         if (dp->dataClass == NLS_CHAR)
@@ -162,7 +162,10 @@ namespace Nelson {
             }
             else if (isEmpty())
             {
-                //                res.push_back(L"");
+				if (emptyStringConsidered)
+				{
+					res.push_back(L"");
+				}
             }
             else if (isVector() || !bCheckVector)
             {

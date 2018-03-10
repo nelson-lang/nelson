@@ -84,27 +84,37 @@ endfunction
 function helpForNelsonOnly()
   changes_md = [nelsonroot(), '/CHANGELOG.md'];
   for k = getavailablelanguages()
-    dir_src = [nelsonroot(), '/modules/main/help/', k{1}, '/html'];
+    dir_src = [nelsonroot(), '/modules/main/help/', k{1}, '/md'];
+    dir_dst = [nelsonroot(), '/modules/main/help/', k{1}, '/html/'];
     if isdir(dir_src)
-      md_files = ['homepage.md', 'license.md', 'GPL2.md'];
+      banner_png = 'banner_homepage.png';
+      copyfile([dir_src, '/', banner_png], [dir_dst, '/', banner_png]);
+      md_files = {'homepage.md', 'license.md', 'GPL2.md'};
       for md_filename = md_files
         html_filename = strrep(md_filename{1}, '.md', '.html');
-        if needTobeGenerated([dir_src, '/', md_filename{1}], [dir_src, '/', html_filename])
-          if strcmp(md_filename{1}, 'homepage.md')
+        if needTobeGenerated([dir_src, '/', md_filename{1}], [dir_dst, html_filename])
+          if strcmp(md_filename{1}, 'homepage.md') | strcmp(md_filename{1}, 'license.md')
             content = fileread([dir_src, '/', md_filename{1}]);
-            content = strrep(content, '[Changelog](changelog.md)', '[Changelog](changelog.html)'),
-            content = strrep(content, '[Nelson license](license.md)', '[Nelson license](license.html)');
+            content = strrep(content, '(changelog.md)', '(changelog.html)');
+            content = strrep(content, '(license.md)', '(license.html)');
+            content = strrep(content, '(GPL2.md)', '(GPL2.html)');
             content_as_html = markdown(content);
-            filewrite(html_filename, content_as_html);
+            filewrite([dir_dst, html_filename], content_as_html);
           else
-            r = markdown(homepage_md, homepage_html);
+            r = markdown([dir_src, '/', md_filename{1}], [dir_dst, '/', html_filename]);
             if (r == false)
-              error([_('file not generated:'), char(13), homepage_html]);
+              error([_('file not generated:'), newline, html_filename]);
             end
           end
         end
       end
-      qhelpgenerator(dir_src,  dir_dst, 'org.nelson.help.qch')
+      if needTobeGenerated([nelsonroot(), '/', 'changelog.md'], [dir_dst, 'changelog.html'])
+        r = markdown([nelsonroot(), '/', 'changelog.md'], [dir_dst, 'changelog.html']);
+        if (r == false)
+          error([_('file not generated:'), newline, [dir_dst, 'changelog.html']]);
+        end
+      end
+      qhelpgenerator(dir_dst, [nelsonroot(), '/modules/main/help/', k{1} , '/'], 'org.nelson.help.qch')
       disp(['help ''', 'homepage', ''' (', k{1}, ') generated.']);
     end
   end
