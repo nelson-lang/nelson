@@ -1570,31 +1570,7 @@ namespace Nelson {
     const bool ArrayOf::isEmpty(bool allDimensionsIsZero) const
     {
         Dimensions dims = dp->getDimensions();
-        if (allDimensionsIsZero)
-        {
-            Dimensions dims = dp->getDimensions();
-            indexType l = dims.getLength();
-            for (indexType k = 0; k < l; k++)
-            {
-                if (dims.getDimensionLength(k) != 0)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-        else
-        {
-            if (getLength() == 0)
-            {
-                return true;
-            }
-            else if (isSparse() || is2D())
-            {
-                return (dims.getRows() == 0 || dims.getColumns() == 0);
-            }
-        }
-        return false;
+        return dims.isEmpty(allDimensionsIsZero);
     }
 
     /*

@@ -226,6 +226,12 @@ namespace Nelson {
         * Returns true if we have exactly 2 dimensions allocated and cols == rows.
         */
         const bool isSquare() const;
+
+        /**
+        * Returns TRUE if we are empty (we have no elements).
+        */
+        const bool isEmpty(bool allDimensionsIsZero) const;
+
     };
 }
 

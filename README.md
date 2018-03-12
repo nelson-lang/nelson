@@ -57,7 +57,7 @@ these own data types and operations on these data types by using overload.
 
 - Help engine
  Generate help files using Nelson dedicated functions.
- View your generated help files as html, pdf or directly in Nelson help viewer.
+ View your generated help files as html, markdown, pdf or directly in Nelson help viewer.
 
 - Tests engine
  Validate your algorithm using Nelson dedicated functions.
@@ -68,6 +68,8 @@ these own data types and operations on these data types by using overload.
 - **Homepage:** <https://nelson-numerical-software.github.io/nelson-website/>
 - **Binaries:** <https://github.com/Nelson-numerical-software/nelson/releases>
 - **Documentation:** <https://nelson-numerical-software.github.io/nelson-website/help/en_US/>
+- **GitBook:**
+<https://nelson-numerical-software.gitbooks.io/nelson/content/en/>
 - **Source code:** <https://github.com/Nelson-numerical-software/nelson>
 - **Gitter:** <https://gitter.im/nelson-numerical-software/Lobby>
 - **YouTube:** <https://www.youtube.com/channel/UCdZMnH0HC9XflNGAFFiRX9g>

@@ -1,8 +1,8 @@
 Features:
 ---------
 
-* 'strrep' : replace substring in a string.
-
+* 'strlength': length of strings in an cell of strings.
+* 'strrep' and 'replace' builtin : replace substring in a string.
 * 'xmldoctomd' : Converts xml Nelson help files to markdown format.
 * 'buildhelpmd' : Build help of Nelson's modules for GitBook.
 

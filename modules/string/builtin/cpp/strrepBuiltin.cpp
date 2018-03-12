@@ -19,6 +19,7 @@
 #include "strrepBuiltin.hpp"
 #include "Error.hpp"
 #include "StringReplace.hpp"
+#include "OverloadFunction.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -33,7 +34,13 @@ ArrayOfVector Nelson::StringGateway::strrepBuiltin(Evaluator* eval, int nLhs, co
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    retval.push_back(StringReplace(argIn[0], argIn[1], argIn[2]));
-    return retval;
+	// Call overload if it exists
+	bool bSuccess = false;
+	retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+	if (!bSuccess)
+	{
+		retval.push_back(StringReplace(argIn[0], argIn[1], argIn[2], true));
+	}
+	return retval;
 }
 //=============================================================================

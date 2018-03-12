@@ -16,21 +16,22 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include "nlsString_exports.h"
-#include "ArrayOf.hpp"
+#include "StringLength.hpp"
+#include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
-	// historic algo. 
-    NLSSTRING_IMPEXP std::wstring stringReplace(std::wstring searchStr,
-            std::wstring pattern,
-            std::wstring replacement, bool doOverlaps);
-	NLSSTRING_IMPEXP ArrayOf StringReplace(ArrayOf STR, ArrayOf OLD, ArrayOf NEW, bool doOverlaps);
-	// modern algo.
-	NLSSTRING_IMPEXP std::wstring Replace(std::wstring searchStr,
-		std::wstring pattern,
-		std::wstring replacement);
-	NLSSTRING_IMPEXP ArrayOf Replace(ArrayOf STR, ArrayOf OLD, ArrayOf NEW);
+    //=============================================================================
+    ArrayOf StringLength(ArrayOf A)
+    {
+        ArrayOf res;
+		wstringVector wstr = A.getContentAsWideStringVector(false);
+		double *ptrLength = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, A.getDimensions().getElementCount());
+		for (size_t k = 0; k < wstr.size(); k++)
+		{
+			ptrLength[k] = (double)wstr[k].length();
+		}
+		return ArrayOf::ArrayOf(NLS_DOUBLE, A.getDimensions(), ptrLength);
+    }
+    //=============================================================================
 }
 //=============================================================================

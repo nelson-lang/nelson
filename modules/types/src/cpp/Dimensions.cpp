@@ -378,4 +378,31 @@ namespace Nelson {
         return is2D() && (getRows() == getColumns());
     }
 
+    const bool Dimensions::isEmpty(bool allDimensionsIsZero) const
+    {
+        if (allDimensionsIsZero)
+        {
+            indexType l = getLength();
+            for (indexType k = 0; k < l; k++)
+            {
+                if (getDimensionLength(k) != 0)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        else
+        {
+            if (getLength() == 0)
+            {
+                return true;
+            }
+            else if (is2D())
+            {
+                return (getRows() == 0 || getColumns() == 0);
+            }
+        }
+        return false;
+    }
 }

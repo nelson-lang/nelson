@@ -179,6 +179,7 @@
     <ClCompile Include="..\cpp\ndarraychar_horzcat_ndarraycharBuiltin.cpp" />
     <ClCompile Include="..\cpp\ndarraychar_isequalBuiltin.cpp" />
     <ClCompile Include="..\cpp\ndarraychar_vertcat_ndarraycharBuiltin.cpp" />
+    <ClCompile Include="..\cpp\replaceBuiltin.cpp" />
     <ClCompile Include="..\cpp\sprintfBuiltin.cpp" />
     <ClCompile Include="..\cpp\startsWithBuiltin.cpp" />
     <ClCompile Include="..\cpp\str2doubleBuiltin.cpp" />
@@ -188,6 +189,7 @@
     <ClCompile Include="..\cpp\char_horzcat_charBuiltin.cpp" />
     <ClCompile Include="..\cpp\char_isequalBuiltin.cpp" />
     <ClCompile Include="..\cpp\char_vertcat_charBuiltin.cpp" />
+    <ClCompile Include="..\cpp\strlengthBuiltin.cpp" />
     <ClCompile Include="..\cpp\strncmpBuiltin.cpp" />
     <ClCompile Include="..\cpp\strrepBuiltin.cpp" />
     <ClCompile Include="..\cpp\tolowerBuiltin.cpp" />
@@ -232,6 +234,7 @@
     <ClInclude Include="..\include\ndarraychar_isequalBuiltin.hpp" />
     <ClInclude Include="..\include\ndarraychar_vertcat_ndarraycharBuiltin.hpp" />
     <ClInclude Include="..\include\nlsString_builtin_exports.h" />
+    <ClInclude Include="..\include\replaceBuiltin.hpp" />
     <ClInclude Include="..\include\sprintfBuiltin.hpp" />
     <ClInclude Include="..\include\startsWithBuiltin.hpp" />
     <ClInclude Include="..\include\str2doubleBuiltin.hpp" />
@@ -239,6 +242,7 @@
     <ClInclude Include="..\include\char_horzcat_charBuiltin.hpp" />
     <ClInclude Include="..\include\char_isequalBuiltin.hpp" />
     <ClInclude Include="..\include\char_vertcat_charBuiltin.hpp" />
+    <ClInclude Include="..\include\strlengthBuiltin.hpp" />
     <ClInclude Include="..\include\strncmpBuiltin.hpp" />
     <ClInclude Include="..\include\strrepBuiltin.hpp" />
     <ClInclude Include="..\include\tolowerBuiltin.hpp" />

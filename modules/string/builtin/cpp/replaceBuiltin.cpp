@@ -16,21 +16,31 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "replaceBuiltin.hpp"
+#include "Error.hpp"
+#include "StringReplace.hpp"
+#include "OverloadFunction.hpp"
 //=============================================================================
-#include "nlsString_exports.h"
-#include "ArrayOf.hpp"
+using namespace Nelson;
 //=============================================================================
-namespace Nelson {
-	// historic algo. 
-    NLSSTRING_IMPEXP std::wstring stringReplace(std::wstring searchStr,
-            std::wstring pattern,
-            std::wstring replacement, bool doOverlaps);
-	NLSSTRING_IMPEXP ArrayOf StringReplace(ArrayOf STR, ArrayOf OLD, ArrayOf NEW, bool doOverlaps);
-	// modern algo.
-	NLSSTRING_IMPEXP std::wstring Replace(std::wstring searchStr,
-		std::wstring pattern,
-		std::wstring replacement);
-	NLSSTRING_IMPEXP ArrayOf Replace(ArrayOf STR, ArrayOf OLD, ArrayOf NEW);
+ArrayOfVector Nelson::StringGateway::replaceBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+    if (nLhs > 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    if (argIn.size() != 3)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+	// Call overload if it exists
+	bool bSuccess = false;
+	retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+	if (!bSuccess)
+	{
+		retval.push_back(Replace(argIn[0], argIn[1], argIn[2]));
+	}
+	return retval;
 }
 //=============================================================================
