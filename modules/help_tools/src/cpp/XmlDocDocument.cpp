@@ -2968,7 +2968,7 @@ namespace Nelson {
 #if _MSC_VER
                 markdownFile.open(this->filenameDestination);
 #else
-                htmlfile.open(wstring_to_utf8(this->filenameDestination));
+				markdownFile.open(wstring_to_utf8(this->filenameDestination));
 #endif
                 if (markdownFile.is_open())
                 {
