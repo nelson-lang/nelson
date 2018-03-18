@@ -43,6 +43,15 @@ matrix:
 
       compiler: gcc
       addons:
+        coverity_scan:
+          project:
+          name: "Nelson-numerical-software/nelson"
+          description: "Nelson"
+          notification_email: nelson.numerical.computation@gmail.com
+          build_command_prepend: "cmake -G "Unix Makefiles""
+          build_command: " make -j4"
+          branch_pattern: coverity
+
         apt:
           sources:
             - ubuntu-toolchain-r-test
@@ -174,16 +183,6 @@ script:
   - make package
   - make tests_all
 
-
-addons:
-  coverity_scan:
-    project:
-      name: "Nelson-numerical-software/nelson"
-      description: "Nelson"
-    notification_email: nelson.numerical.computation@gmail.com
-    build_command_prepend: "cmake -G "Unix Makefiles""
-    build_command: " make -j4"
-    branch_pattern: coverity
 
 notifications:
   email:
