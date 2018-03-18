@@ -7,6 +7,10 @@
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/8865bc705b2d459c839b169e580d0526)](https://www.codacy.com/app/Nelson-numerical-software/nelson?utm_source=github.com&utm_medium=referral&utm_content=Nelson-numerical-software/nelson&utm_campaign=badger)
 [![Code Climate](https://codeclimate.com/github/Nelson-numerical-software/nelson/badges/gpa.svg)](https://codeclimate.com/github/Nelson-numerical-software/nelson)
+<a href="https://scan.coverity.com/projects/nelson-numerical-software-nelson">
+  <img alt="Coverity Scan Build Status"
+       src="https://scan.coverity.com/projects/15206/badge.svg"/>
+</a>
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/602/badge)](https://bestpractices.coreinfrastructure.org/projects/602) 
 [![GitHub license](https://img.shields.io/badge/license-GPL2-blue.svg)](https://github.com/Nelson-numerical-software/nelson/blob/master/COPYING.md)
 [![CLA assistant](https://cla-assistant.io/readme/badge/Nelson-numerical-software/nelson)](https://cla-assistant.io/Nelson-numerical-software/nelson)
