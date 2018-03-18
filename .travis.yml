@@ -36,6 +36,11 @@ matrix:
     - os: linux
       group: travis_latest
       env: ARCH="x86_64"
+      global:
+      # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+      # via the "travis encrypt" command using the project repo's public key
+      - secure: "mRbW2T2NTBxmXFwsRj/InsPYpMCD8XKkSnBIOkPgxQrJ/kiUfUu0fPvPaMbbkW8a0ZE0Dto2xcvgGb7PDP7Z0GyYovm6upzB9IQtQnt1LN0Il36CeHEMj5uyPkpHxsimKCMZrKXpnuUzHQJuL8FZRNenrV46WY1k1SRViHvj9UcWwkP4+JruCFVdsNIUqqNp5NelrDEZi3nZJjTir2eAe2GbI4eRo5kE0qMXI1xVcdRrMbcPtiuYalgc3Jdj3wfbss9tU4kzlz1G+gFrUIABobKoQ8PpU7VE129PcraQ3GHRdNT+zQm7iHOn1YDuGAVQ4znsZ7YkEzRyFhsGvu3m9V1jWagDc+xo9ABHerMHf4z8IM3kqvzycVwTToUzsJvI2bAlX4Zmrh86sTfa+B+d+dgznM10CyTEjoeZP/BeEeN3s+ZhEKbZS2KumVfHe1N7qOlwGDZV8l7GzwuxEZfT1tuMpjqHeJQ2cfdUhNloxKJTH8JNscpgRtsjXQ9LZf0r0N7GSjck3jESdK6NfmDsYt5upPA4r5eIrSrq/KywqXSCq9Azgi4/q+bY2Ulry4onHAUmOLGpysPzXdzT1R9pjKBD55rSgkHCl+bjFS0BITo0BeyOO20yt+k9AGBibrJye3o9U/SkxZyU6saoDfIa9PB/xLo4ww/d1Su/ndd3dLI="
+
       compiler: gcc
       addons:
         apt:
@@ -54,6 +59,10 @@ matrix:
     - os: osx
 
 before_install:
+    - if [ `uname` = "Linux" ];
+      then echo -n | openssl s_client -connect https://scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
+      fi
+
     - if [ `uname` = "Linux" ];
       then sudo apt-get install libopenmpi-dev;
       sudo apt-get install openmpi-bin;
@@ -165,6 +174,16 @@ script:
   - make package
   - make tests_all
 
+
+addons:
+  coverity_scan:
+    project:
+      name: "Nelson-numerical-software/nelson"
+      description: "Nelson"
+    notification_email: nelson.numerical.computation@gmail.com
+    build_command_prepend: "cmake -G "Unix Makefiles""
+    build_command: " make -j4"
+    branch_pattern: master
 
 notifications:
   email:
