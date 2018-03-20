@@ -116,6 +116,7 @@ install:
   - if [ $TRAVIS_OS_NAME == osx ]; then git clone https://github.com/eigenteam/eigen-git-mirror /tmp/eigen && mkdir /tmp/eigen-build && cd /tmp/eigen && git checkout 3.3.4 && cd - && cd /tmp/eigen-build && FC="nofortran" cmake . /tmp/eigen && make -j4 && sudo make install && cd -; fi
 
 before_script:
+  - rvm get head || true
   - if [ `uname` = "Linux" ];
     then export DISPLAY=:99.0;
     sh -e /etc/init.d/xvfb start;
@@ -163,7 +164,7 @@ script:
   - make missing_help
   - make tests_minimal
   - make package
-#  - make tests_all
+  - make tests_all
 
 
 notifications:
