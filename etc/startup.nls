@@ -43,6 +43,10 @@ for k = modules_list
         strcmp(getnelsonmode(), 'ADVANCED_TERMINAL') == true)
         addmodule([nelsonroot() '/modules/' k{1}], k{1});
       end
+    case 'audio'
+      if (strcmp('AUDIODEV', 'null') == false)
+        addmodule([nelsonroot() '/modules/' k{1}], k{1});
+      end 
     otherwise
       addmodule([nelsonroot() '/modules/' k{1}], k{1});
     end
