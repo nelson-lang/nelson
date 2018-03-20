@@ -43,7 +43,7 @@ namespace Nelson {
 		{
 			ptrLength[k] = (double)wstr[k].length();
 		}
-		return ArrayOf::ArrayOf(NLS_DOUBLE, outputDims, ptrLength);
+		return ArrayOf(NLS_DOUBLE, outputDims, ptrLength);
     }
     //=============================================================================
 }
