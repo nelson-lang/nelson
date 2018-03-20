@@ -11,5 +11,5 @@ Try it !
 
 * * *
 
-*   [Changelog](changelog.md)
+*   [Changelog](CHANGELOG.md)
 *   [Nelson license](license.md)
