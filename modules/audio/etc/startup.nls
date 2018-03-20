@@ -16,5 +16,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-addpath(modulepath(nelsonroot(), 'audio', 'functions'))
-addgateway(modulepath(nelsonroot(), 'audio', 'builtin'))
+if strcmp(getenv('AUDIODEV'), 'null') == false
+  addpath(modulepath(nelsonroot(), 'audio', 'functions'))
+  addgateway(modulepath(nelsonroot(), 'audio', 'builtin'))
+end
+//=============================================================================

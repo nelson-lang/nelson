@@ -447,8 +447,12 @@ endfunction
 function r = have_audio_input()
   r = false;
   if ismodule('audio')
-    devices = audiodevinfo('default');
-    r = ~isempty(devices.input);
+    if strcmp(getenv('AUDIODEV'), 'null') == true
+      r = false;
+    else
+      devices = audiodevinfo('default');
+      r = ~isempty(devices.input);
+    end
   end
 endfunction
 //=============================================================================

@@ -1,6 +1,7 @@
 Features:
 ---------
 
+* export AUDIODEV=null disables audio module (used for Travis CI)
 * 'strlength': length of strings in an cell of strings.
 * 'strrep' and 'replace' builtin : replace substring in a string.
 * 'xmldoctomd' : Converts xml Nelson help files to markdown format.
