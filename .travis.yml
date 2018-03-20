@@ -120,7 +120,6 @@ before_script:
   - rvm get head || true
   - if [ `uname` = "Linux" ];
     then export DISPLAY=:99.0;
-    export AUDIODEV=null;
     sh -e /etc/init.d/xvfb start;
     fi
   - if [ `uname` = "Linux" ];
