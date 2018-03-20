@@ -71,6 +71,7 @@ before_install:
       sudo apt-get install portaudio19-dev;
       sudo apt-get install libsndfile1-dev;
       sudo apt-get install libtag1-dev;
+      sudo apt-get install alsa-utils;
       fi
     - if [ `uname` = "Linux" ];
       then sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa;
