@@ -459,8 +459,12 @@ endfunction
 function r = have_audio_output()
   r = false;
   if ismodule('audio')
-    devices = audiodevinfo('default');
-    r = ~isempty(devices.output);
+    if strcmp(getenv('AUDIODEV'), 'null') == true
+      r = false;
+    else
+      devices = audiodevinfo('default');
+      r = ~isempty(devices.output);
+    end
   end
 endfunction
 //=============================================================================
