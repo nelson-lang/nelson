@@ -108,7 +108,7 @@ function helpForNelsonOnly(destinationdir)
       end
       readme_path = [dir_dst, '/', 'README.md'];
       readme_content = fileread(readme_path, 'cell');
-      readme_content{contains(readme_content, '(changelog.md)')} = '';
+      readme_content{contains(readme_content, '(CHANGELOG.md)')} = '';
       readme_content{contains(readme_content, '(license.md)')} = '';
       filewrite(readme_path, readme_content);
     end

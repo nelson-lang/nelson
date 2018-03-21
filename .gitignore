@@ -29,7 +29,7 @@ tests_*.json
 /bin/*/mkl_license.txt
 /bin/*/nelson-cli.exe
 /bin/*/nelson_f2c
-/modules/main/help/*/html/changelog.html
+/modules/main/help/*/html/CHANGELOG.html
 /modules/main/help/*/html/license.html
 /modules/main/help/*/html/GPL2.html
 /modules/*/nls*_autogen
