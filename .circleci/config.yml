@@ -6,9 +6,6 @@ jobs:
     environment:
       DISPLAY: ":99"      
     steps:
-      - type: shell
-        name: Starting Xvfb (GUI tests)
-        command: Xvfb :99 -screen 0 1280x1024x24
       - run: apt-get update
       - run: apt-get install -y build-essential;
       - run: apt-get install -y xvfb;
@@ -41,6 +38,9 @@ jobs:
       - run: apt-get install -y qtdeclarative5-dev;
       - run: git clone https://github.com/eigenteam/eigen-git-mirror /tmp/eigen
       - run: mkdir /tmp/eigen-build && cd /tmp/eigen && git checkout 3.3.4 && cd - && cd /tmp/eigen-build && cmake . /tmp/eigen && make -j4 && make install;
+      - type: shell
+        name: Starting Xvfb (GUI tests)
+        command: Xvfb :99 -screen 0 1280x1024x24
       - checkout
       - run: cmake -G "Unix Makefiles"
       - run: make -j4
