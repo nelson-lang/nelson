@@ -1,0 +1,29 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: debian:stretch
+    steps:
+      - checkout
+      - run: apt-get update
+      - run: apt-get install -y build-essential;
+      - run: apt-get install -y xvfb;
+      - run: apt-get install -y git;
+      - run: apt-get install -y libboost-all-dev;
+      - run: apt-get install -y libopenmpi-dev;
+      - run: apt-get install -y openmpi-bin;
+      - run: apt-get install -y gettext;
+      - run: apt-get install -y pkg-config;
+      - run: apt-get install -y cmake;
+      - run: apt-get install -y libffi-dev;
+      - run: apt-get install -y libicu-dev;
+      - run: apt-get install -y libxml2-dev;
+      - run: apt-get install -y liblapack-dev;
+      - run: apt-get install -y liblapacke-dev;
+      - run: apt-get install -y fftw3;
+      - run: apt-get install -y fftw3-dev;
+      - run: apt-get install -y libasound-dev;
+      - run: apt-get install -y portaudio19-dev;
+      - run: apt-get install -y libsndfile1-dev;
+      - run: apt-get install -y libtag1-dev;
+      - run: apt-get install -y alsa-utils;
