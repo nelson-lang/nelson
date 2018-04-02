@@ -67,6 +67,7 @@ these own data types and operations on these data types by using overload.
 
 - **Homepage:** <https://nelson-numerical-software.github.io/nelson-website/>
 - **Binaries:** <https://github.com/Nelson-numerical-software/nelson/releases>
+- **Docker:** <https://hub.docker.com/r/nelsonsoftware/nelson/>
 - **Documentation:** <https://nelson-numerical-software.github.io/nelson-website/help/en_US/>
 - **GitBook:**
 <https://nelson-numerical-software.gitbooks.io/nelson/content/en/>
