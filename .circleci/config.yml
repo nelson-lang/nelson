@@ -3,8 +3,8 @@ jobs:
   build:
     docker:
       - image: debian:stretch
-        env:
-          - DISPLAY=:99 
+    environment:
+      DISPLAY: :99      
     - type: shell
       name: Starting Xvfb (GUI tests)
       command: Xvfb :99 -screen 0 1280x1024x24
