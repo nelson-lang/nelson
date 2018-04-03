@@ -4,7 +4,7 @@ jobs:
     docker:
       - image: debian:stretch
     environment:
-      DISPLAY: ":99"      
+      DISPLAY: ""      
     steps:
       - run: apt-get update
       - run: apt-get install -y build-essential;
@@ -43,4 +43,5 @@ jobs:
       - run: make -j4
       - run: make buildhelp
       - run: make tests_minimal
- 
+      - run: make package
+      - run: make tests_all
