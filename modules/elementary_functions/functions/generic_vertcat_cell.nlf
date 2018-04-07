@@ -16,15 +16,17 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-function r = generic_horzcat_char(varargin)
-	if (nargin() == 2)
-		if iscell(varargin{1})
-			r = [varargin{1}, varargin{2}];
-		else
-			r = [char(varargin{1}), varargin{2}];
-		end
-	else
-		error(_('Wrong number of input arguments.'));
-	end
+function res = generic_vertcat_cell(A, B)
+  if isempty(A)
+	res = B;
+  else
+	  if iscell(A)
+    	res = A;
+  	else
+    	res = {};
+    	res{1} = A;
+  	end
+  	res = vertcat(res, B);
+  end
 endfunction
 //=============================================================================

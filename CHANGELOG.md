@@ -4,6 +4,12 @@ Bug Fixes:
   [#104](http://github.com/Nelson-numerical-software/nelson/issues/104): mpiexec did not work on some linux.
 
 
+Features:
+---------
+
+  [#101](http://github.com/Nelson-numerical-software/nelson/issues/101): allows cell_vertcat_generic & cell_horzcat_generic.
+
+
 ## 0.2.3 (2018-03-22)
 
 

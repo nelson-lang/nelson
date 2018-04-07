@@ -159,7 +159,11 @@ function varargout = msgbox(varargin)
     names = fieldnames(m);
     for n = fieldnames(m)
       v = getfield(m, n{1});
-      qml_template{end + 1} = ['   ', n, ' : ', v];
+      if iscell(n)
+        qml_template{end + 1} = ['   ', n{1}, ' : ', v];
+      else
+        qml_template{end + 1} = ['   ', n, ' : ', v];
+      end
     end
     qml_template{end + 1} = '}';
     qml_box_as_txt = cellstr_to_txt(qml_template);

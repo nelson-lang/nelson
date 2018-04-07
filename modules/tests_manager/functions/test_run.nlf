@@ -135,7 +135,7 @@ function status = test_run(varargin)
             tests_dir = [modulepath(m{1}{1}), '/tests/'];
             k = 1;
             for f = m{1}{2}
-              filename = [tests_dir, [f, '.nls']];
+              filename = [tests_dir, [f{1}, '.nls']];
               if isfile(filename)
                 tests_list(k) = dir(filename);
                 k = k + 1;
