@@ -41,7 +41,7 @@ function varargout = mpiexec(varargin)
     error(_('An .nls filename extension expected.'));
   end
   run_cmd = ['run(''', filename, ''');exit()'];
-  cmd = ['mpiexec', ' -n ', int2str(nb_process), ' ','nelson-cli', ' -q', ' -e ', run_cmd];
+  cmd = ['mpiexec', ' -n ', int2str(nb_process), ' ','nelson-cli', ' -q', ' -e ', '"', run_cmd, '"'];
   [res, msg] = unix(cmd);
   if nargout == 0
     disp(msg)
