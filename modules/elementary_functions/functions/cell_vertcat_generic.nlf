@@ -1,5 +1,5 @@
 //=============================================================================
-// Copyright (c) 2017 Allan CORNET (Nelson)
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // This program is free software: you can redistribute it and/or modify
@@ -16,9 +16,12 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-// <-- Issue URL -->
-// https://github.com/Nelson-numerical-software/nelson/issues/104
-// <-- Short Description -->
-// mpiexec did not work on some linux
+function res = cell_vertcat_generic(A, B)
+	if isempty(B)
+		res = A;
+	else
+		A{end+1} = B;
+  		res = A;
+	end
+endfunction
 //=============================================================================
-mpiexec([modulepath('mpi'), '/examples/MPI_helloworld.nls'], 4)

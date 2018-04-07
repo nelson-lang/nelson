@@ -18,9 +18,13 @@
 //=============================================================================
 function r = char_horzcat_generic(varargin)
 	if (nargin() == 2)
-		r = [varargin{1}, char(varargin{2})];
+		if iscell(varargin{2})
+			r = [{varargin{1}}, varargin{2}];
+		else
+			r = [varargin{1}, char(varargin{2})];
+		end
 	else
-			error(_('Wrong number of input arguments.'));
+		error(_('Wrong number of input arguments.'));
 	end
 endfunction
 //=============================================================================
