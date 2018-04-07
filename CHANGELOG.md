@@ -1,3 +1,9 @@
+Features:
+---------
+
+  [#101](http://github.com/Nelson-numerical-software/nelson/issues/101): allows cell_vertcat_generic & cell_horzcat_generic.
+
+
 Bug Fixes:
 ---------
 
