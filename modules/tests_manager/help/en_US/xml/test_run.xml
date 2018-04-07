@@ -64,7 +64,6 @@
   <p><b>&lt;--MPI MODE--&gt;</b> This test will be executed in MPI mode.</p>
   <p><b>&lt;--AUDIO INPUT REQUIRED--&gt;</b> This test will be executed if an audio input is available.</p>
   <p><b>&lt;--AUDIO OUTPUT REQUIRED--&gt;</b> This test will be executed if an audio output is available.</p>
-  <p><b>&lt;--MPI MODE--&gt;</b> This test will be executed in MPI mode.</p>
   <p></p>
   <p>To avoid to block the application, tests have an execution timer of 50 seconds and the benchs have a timer of 500 seconds.</p>
 
