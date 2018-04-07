@@ -1,3 +1,9 @@
+Bug Fixes:
+---------
+
+  [#104](http://github.com/Nelson-numerical-software/nelson/issues/104): mpiexec did not work on some linux.
+
+
 ## 0.2.3 (2018-03-22)
 
 
