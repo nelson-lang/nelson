@@ -16,30 +16,18 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include <boost/dll/shared_library.hpp>
-#include "ArrayOf.hpp"
-#include "HandleGenericObject.hpp"
-#include "nlsDynamic_link_exports.h"
-#include "Evaluator.hpp"
+#include "CreateDynamicLinkLibraryObject.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-#define DLLIB_CATEGORY_STR L"dllib"
-    //=============================================================================
-    class NLSDYNAMIC_LINK_IMPEXP DynamicLinkLibraryObject : public HandleGenericObject {
-    public:
-        DynamicLinkLibraryObject(std::wstring libraryPath);
-        ~DynamicLinkLibraryObject();
-
-        bool disp(Evaluator *eval);
-        stringVector getAvailableSymbols();
-
-    private:
-        boost::dll::shared_library _shared_library;
-        std::wstring _libraryPath;
-	};
-    //=============================================================================
+	//=============================================================================
+	ArrayOf createDynamicLinkSymbolObject(ArrayOf dllibObject,
+		std::wstring symbol,
+		std::wstring returnType,
+		std::wstring argumentsType)
+	{
+		ArrayOf handle;
+		return handle;
+	}
+	//=============================================================================
 }
 //=============================================================================

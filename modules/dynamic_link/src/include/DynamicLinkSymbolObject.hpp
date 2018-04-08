@@ -18,28 +18,25 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <boost/dll/shared_library.hpp>
 #include "ArrayOf.hpp"
 #include "HandleGenericObject.hpp"
 #include "nlsDynamic_link_exports.h"
 #include "Evaluator.hpp"
+#include "DynamicLinkLibraryObject.hpp"
+#include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-#define DLLIB_CATEGORY_STR L"dllib"
-    //=============================================================================
-    class NLSDYNAMIC_LINK_IMPEXP DynamicLinkLibraryObject : public HandleGenericObject {
-    public:
-        DynamicLinkLibraryObject(std::wstring libraryPath);
-        ~DynamicLinkLibraryObject();
+	//=============================================================================
+#define DLSYM_CATEGORY_STR L"dlsym"
+	//=============================================================================
+	class NLSDYNAMIC_LINK_IMPEXP DynamicLinkSymbolObject : public HandleGenericObject {
+	public:
+		DynamicLinkSymbolObject(ArrayOf dllibObject);
+		~DynamicLinkSymbolObject();
 
-        bool disp(Evaluator *eval);
-        stringVector getAvailableSymbols();
-
-    private:
-        boost::dll::shared_library _shared_library;
-        std::wstring _libraryPath;
+	private:
+		ArrayOf _dllibObject;
 	};
-    //=============================================================================
-}
+	//=============================================================================
+};
 //=============================================================================

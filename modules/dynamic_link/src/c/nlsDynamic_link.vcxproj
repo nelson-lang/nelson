@@ -165,8 +165,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\AddGateway.cpp" />
+    <ClCompile Include="..\cpp\CreateDynamicLinkSymbolObject.cpp" />
     <ClCompile Include="..\cpp\DeleteDynamicLinkLibraryObject.cpp" />
     <ClCompile Include="..\cpp\DynamicLinkLibraryObject.cpp" />
+    <ClCompile Include="..\cpp\DynamicLinkSymbolObject.cpp" />
     <ClCompile Include="..\cpp\FindDynamicLibraryName.cpp" />
     <ClCompile Include="..\cpp\GatewayInfo.cpp" />
     <ClCompile Include="..\cpp\RemoveGateway.cpp" />
@@ -176,11 +178,13 @@
     <ClInclude Include="..\include\AddGateway.hpp" />
     <ClInclude Include="..\..\src\include\dynamic_library.hpp" />
     <ClInclude Include="..\..\src\include\nlsDynamic_link_exports.h" />
+    <ClInclude Include="..\include\CreateDynamicLinkLibraryObject.hpp" />
     <ClInclude Include="..\include\DeleteDynamicLinkLibraryObject.hpp" />
     <ClInclude Include="..\include\DynamicLinkLibraryObject.hpp" />
     <ClInclude Include="..\include\FindDynamicLibraryName.hpp" />
     <ClInclude Include="..\include\GatewayInfo.hpp" />
     <ClInclude Include="..\include\RemoveGateway.hpp" />
+    <ClInclude Include="..\include\DynamicLinkSymbolObject.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\CMakeLists.txt" />
