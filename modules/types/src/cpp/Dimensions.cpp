@@ -380,7 +380,7 @@ namespace Nelson {
 
     const bool Dimensions::isEmpty(bool allDimensionsIsZero) const
     {
-		if (allDimensionsIsZero)
+        if (allDimensionsIsZero)
         {
             indexType l = getLength();
             for (indexType k = 0; k < l; k++)
@@ -392,11 +392,10 @@ namespace Nelson {
             }
             return true;
         }
-    
-		if (getLength() == 0)
-		{
-			return true;
-		}
-		return (getElementCount() == 0);
-	}
+        if (getLength() == 0)
+        {
+            return true;
+        }
+        return (getElementCount() == 0);
+    }
 }

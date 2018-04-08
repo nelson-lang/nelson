@@ -165,6 +165,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\AddGateway.cpp" />
+    <ClCompile Include="..\cpp\DeleteDynamicLinkLibraryObject.cpp" />
+    <ClCompile Include="..\cpp\DynamicLinkLibraryObject.cpp" />
     <ClCompile Include="..\cpp\FindDynamicLibraryName.cpp" />
     <ClCompile Include="..\cpp\GatewayInfo.cpp" />
     <ClCompile Include="..\cpp\RemoveGateway.cpp" />
@@ -174,6 +176,8 @@
     <ClInclude Include="..\include\AddGateway.hpp" />
     <ClInclude Include="..\..\src\include\dynamic_library.hpp" />
     <ClInclude Include="..\..\src\include\nlsDynamic_link_exports.h" />
+    <ClInclude Include="..\include\DeleteDynamicLinkLibraryObject.hpp" />
+    <ClInclude Include="..\include\DynamicLinkLibraryObject.hpp" />
     <ClInclude Include="..\include\FindDynamicLibraryName.hpp" />
     <ClInclude Include="..\include\GatewayInfo.hpp" />
     <ClInclude Include="..\include\RemoveGateway.hpp" />
@@ -188,11 +192,17 @@
     <ProjectReference Include="..\..\..\error_manager\src\c\nlsError_manager.vcxproj">
       <Project>{d0ef0ceb-a3bd-44ab-91b3-f33db1870f8d}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\handle\src\c\nlsHandle.vcxproj">
+      <Project>{841d21ca-740b-420a-b519-887bbd8643a3}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\i18n\src\c\nlsI18n.vcxproj">
       <Project>{eca1e952-8391-4e71-9a91-0e7fd2854320}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\interpreter\src\c\nlsInterpreter.vcxproj">
       <Project>{17135b09-bc25-448e-9750-c09a87fde6f8}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\types\src\c\nlsTypes.vcxproj">
+      <Project>{ab85e897-56b7-4792-8a8e-f3797be2b7cc}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

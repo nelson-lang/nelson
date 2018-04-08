@@ -96,7 +96,7 @@ namespace Nelson {
                 fullpathCoreSharedLibrary = std::string(tmp) + std::string("/") + fullpathCoreSharedLibrary;
             }
 #endif
-            nlsCoreDynamicLibrary = load_dynamic_library(fullpathCoreSharedLibrary.c_str());
+            nlsCoreDynamicLibrary = load_dynamic_library(fullpathCoreSharedLibrary);
             if (nlsCoreDynamicLibrary)
             {
                 bFirstDynamicLibraryCall = false;

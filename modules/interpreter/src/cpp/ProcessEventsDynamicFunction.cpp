@@ -38,7 +38,7 @@ static void initGuiDynamicLibrary(void)
             fullpathGuiSharedLibrary = std::string(tmp) + std::string("/") + fullpathGuiSharedLibrary;
         }
 #endif
-        nlsGuiHandleDynamicLibrary = Nelson::load_dynamic_library(fullpathGuiSharedLibrary.c_str());
+        nlsGuiHandleDynamicLibrary = Nelson::load_dynamic_library(fullpathGuiSharedLibrary);
         if (nlsGuiHandleDynamicLibrary)
         {
             bFirstDynamicLibraryCall = false;

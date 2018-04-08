@@ -55,7 +55,7 @@ static void initSparseDynamicLibrary(void)
             fullpathSparseSharedLibrary = std::string(tmp) + std::string("/") + fullpathSparseSharedLibrary;
         }
 #endif
-        nlsSparseHandleDynamicLibrary = load_dynamic_library(fullpathSparseSharedLibrary.c_str());
+        nlsSparseHandleDynamicLibrary = load_dynamic_library(fullpathSparseSharedLibrary);
         if (nlsSparseHandleDynamicLibrary)
         {
             bFirstDynamicLibraryCall = false;

@@ -79,7 +79,7 @@ static const nlsGateway gateway[] =
     { "count", Nelson::StringGateway::countBuiltin, 1, -3 },
     { "strrep", Nelson::StringGateway::strrepBuiltin, 1, 3 },
     { "replace", Nelson::StringGateway::replaceBuiltin, 1, 3 },
-	{ "strlength", Nelson::StringGateway::strlengthBuiltin, 1, 1 },
+    { "strlength", Nelson::StringGateway::strlengthBuiltin, 1, 1 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

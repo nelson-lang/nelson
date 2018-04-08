@@ -16,34 +16,44 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "StringLength.hpp"
-#include "Exception.hpp"
+#include "DeleteDynamicLinkLibraryObject.hpp"
+#include "HandleManager.hpp"
+#include "DynamicLinkLibraryObject.hpp"
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-    ArrayOf StringLength(ArrayOf A)
+    bool DeleteDynamicLinkLibraryObject(ArrayOf A)
     {
-        ArrayOf res;
-        wstringVector wstr = A.getContentAsWideStringVector(false);
-        if (A.isString() && wstr.empty())
+        bool res = false;
+        if (A.isHandle())
         {
-            wstr.push_back(A.getContentAsWideString());
+            if (!A.isEmpty())
+            {
+                Dimensions dims = A.getDimensions();
+                nelson_handle *qp = (nelson_handle*)A.getDataPointer();
+                for (size_t k = 0; k < (size_t)dims.getElementCount(); k++)
+                {
+                    nelson_handle hl = qp[k];
+                    HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
+                    if (hlObj)
+                    {
+                        if (hlObj->getCategory() != DLLIB_CATEGORY_STR)
+                        {
+                            throw Exception(_W("dllib handle expected."));
+                        }
+                        DynamicLinkLibraryObject *obj = (DynamicLinkLibraryObject*)hlObj;
+                        delete obj;
+                        HandleManager::getInstance()->removeHandle(hl);
+                        res = true;
+                    }
+                }
+            }
+            else
+            {
+                throw Exception(_W("dllib valid handle expected."));
+            }
         }
-        Dimensions outputDims;
-        if (wstr.size() == 1)
-        {
-            outputDims = Dimensions(1, 1);
-        }
-        else
-        {
-            outputDims = A.getDimensions();
-        }
-        double *ptrLength = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, outputDims.getElementCount());
-        for (size_t k = 0; k < wstr.size(); k++)
-        {
-            ptrLength[k] = (double)wstr[k].length();
-        }
-        return ArrayOf(NLS_DOUBLE, outputDims, ptrLength);
+        return res;
     }
     //=============================================================================
 }

@@ -18,19 +18,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsString_exports.h"
+#include "nlsDynamic_link_exports.h"
 #include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
-    // historic algo.
-    NLSSTRING_IMPEXP std::wstring stringReplace(std::wstring searchStr,
-            std::wstring pattern,
-            std::wstring replacement, bool doOverlaps);
-    NLSSTRING_IMPEXP ArrayOf StringReplace(ArrayOf STR, ArrayOf OLD, ArrayOf NEW, bool doOverlaps);
-    // modern algo.
-    NLSSTRING_IMPEXP std::wstring Replace(std::wstring searchStr,
-                                          std::wstring pattern,
-                                          std::wstring replacement);
-    NLSSTRING_IMPEXP ArrayOf Replace(ArrayOf STR, ArrayOf OLD, ArrayOf NEW);
+    //=============================================================================
+    NLSDYNAMIC_LINK_IMPEXP bool DeleteDynamicLinkLibraryObject(ArrayOf A);
+    //=============================================================================
 }
 //=============================================================================

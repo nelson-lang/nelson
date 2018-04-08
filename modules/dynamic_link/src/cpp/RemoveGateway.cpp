@@ -48,9 +48,9 @@ namespace Nelson {
         boost::filesystem::current_path(dir);
         library_handle nlsModuleHandleDynamicLibrary = nullptr;
 #ifdef _MSC_VER
-        nlsModuleHandleDynamicLibrary = load_dynamic_libraryW(filename.c_str());
+        nlsModuleHandleDynamicLibrary = load_dynamic_libraryW(filename);
 #else
-        nlsModuleHandleDynamicLibrary = load_dynamic_library(wstring_to_utf8(filename).c_str());
+        nlsModuleHandleDynamicLibrary = load_dynamic_library(wstring_to_utf8(filename));
 #endif
         if (nlsModuleHandleDynamicLibrary)
         {

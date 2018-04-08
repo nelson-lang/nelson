@@ -16,21 +16,25 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "dllib_usedBuiltin.hpp"
+#include "Error.hpp"
+#include "DynamicLinkLibraryObject.hpp"
+#include "usedHandle.hpp"
 //=============================================================================
-#include "nlsString_exports.h"
-#include "ArrayOf.hpp"
+using namespace Nelson;
 //=============================================================================
-namespace Nelson {
-    // historic algo.
-    NLSSTRING_IMPEXP std::wstring stringReplace(std::wstring searchStr,
-            std::wstring pattern,
-            std::wstring replacement, bool doOverlaps);
-    NLSSTRING_IMPEXP ArrayOf StringReplace(ArrayOf STR, ArrayOf OLD, ArrayOf NEW, bool doOverlaps);
-    // modern algo.
-    NLSSTRING_IMPEXP std::wstring Replace(std::wstring searchStr,
-                                          std::wstring pattern,
-                                          std::wstring replacement);
-    NLSSTRING_IMPEXP ArrayOf Replace(ArrayOf STR, ArrayOf OLD, ArrayOf NEW);
+ArrayOfVector Nelson::DynamicLinkGateway::dllib_usedBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+    if (argIn.size() != 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    if (nLhs > 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    retval.push_back(usedHandle(DLLIB_CATEGORY_STR));
+    return retval;
 }
 //=============================================================================

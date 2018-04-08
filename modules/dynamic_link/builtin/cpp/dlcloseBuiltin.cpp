@@ -16,21 +16,28 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "dlcloseBuiltin.hpp"
+#include "Error.hpp"
+#include "DeleteDynamicLinkLibraryObject.hpp"
 //=============================================================================
-#include "nlsString_exports.h"
-#include "ArrayOf.hpp"
+using namespace Nelson;
 //=============================================================================
-namespace Nelson {
-    // historic algo.
-    NLSSTRING_IMPEXP std::wstring stringReplace(std::wstring searchStr,
-            std::wstring pattern,
-            std::wstring replacement, bool doOverlaps);
-    NLSSTRING_IMPEXP ArrayOf StringReplace(ArrayOf STR, ArrayOf OLD, ArrayOf NEW, bool doOverlaps);
-    // modern algo.
-    NLSSTRING_IMPEXP std::wstring Replace(std::wstring searchStr,
-                                          std::wstring pattern,
-                                          std::wstring replacement);
-    NLSSTRING_IMPEXP ArrayOf Replace(ArrayOf STR, ArrayOf OLD, ArrayOf NEW);
+ArrayOfVector Nelson::DynamicLinkGateway::dlcloseBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+    if (argIn.size() != 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    if (nLhs != 0)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    ArrayOf param1 = argIn[0];
+    if (param1.isHandle())
+    {
+        DeleteDynamicLinkLibraryObject(param1);
+    }
+    return retval;
 }
 //=============================================================================

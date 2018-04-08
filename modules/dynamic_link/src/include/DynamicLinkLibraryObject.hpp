@@ -18,19 +18,28 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsString_exports.h"
+#include <boost/dll/shared_library.hpp>
 #include "ArrayOf.hpp"
+#include "HandleGenericObject.hpp"
+#include "nlsDynamic_link_exports.h"
+#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    // historic algo.
-    NLSSTRING_IMPEXP std::wstring stringReplace(std::wstring searchStr,
-            std::wstring pattern,
-            std::wstring replacement, bool doOverlaps);
-    NLSSTRING_IMPEXP ArrayOf StringReplace(ArrayOf STR, ArrayOf OLD, ArrayOf NEW, bool doOverlaps);
-    // modern algo.
-    NLSSTRING_IMPEXP std::wstring Replace(std::wstring searchStr,
-                                          std::wstring pattern,
-                                          std::wstring replacement);
-    NLSSTRING_IMPEXP ArrayOf Replace(ArrayOf STR, ArrayOf OLD, ArrayOf NEW);
+    //=============================================================================
+#define DLLIB_CATEGORY_STR L"dllib"
+    //=============================================================================
+    class NLSDYNAMIC_LINK_IMPEXP DynamicLinkLibraryObject : public HandleGenericObject {
+    public:
+        DynamicLinkLibraryObject(std::wstring libraryPath);
+        ~DynamicLinkLibraryObject();
+
+        bool disp(Evaluator *eval);
+        stringVector getAvailableSymbols();
+
+    private:
+        boost::dll::shared_library _shared_library;
+        std::wstring _libraryPath;
+    };
+    //=============================================================================
 }
 //=============================================================================

@@ -16,21 +16,48 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "dlopenBuiltin.hpp"
+#include "Error.hpp"
+#include "DynamicLinkLibraryObject.hpp"
+#include "dynamic_library.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
-#include "nlsString_exports.h"
-#include "ArrayOf.hpp"
+using namespace Nelson;
 //=============================================================================
-namespace Nelson {
-    // historic algo.
-    NLSSTRING_IMPEXP std::wstring stringReplace(std::wstring searchStr,
-            std::wstring pattern,
-            std::wstring replacement, bool doOverlaps);
-    NLSSTRING_IMPEXP ArrayOf StringReplace(ArrayOf STR, ArrayOf OLD, ArrayOf NEW, bool doOverlaps);
-    // modern algo.
-    NLSSTRING_IMPEXP std::wstring Replace(std::wstring searchStr,
-                                          std::wstring pattern,
-                                          std::wstring replacement);
-    NLSSTRING_IMPEXP ArrayOf Replace(ArrayOf STR, ArrayOf OLD, ArrayOf NEW);
+ArrayOfVector Nelson::DynamicLinkGateway::dlopenBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+    if (argIn.size() != 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    if (nLhs > 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    if (argIn[0].isSingleString())
+    {
+        ArrayOf param1 = argIn[0];
+        std::wstring libraryPath = param1.getContentAsWideString();
+        DynamicLinkLibraryObject *dlObject = nullptr;
+        try
+        {
+            dlObject = new DynamicLinkLibraryObject(libraryPath);
+        }
+        catch (std::bad_alloc)
+        {
+            throw Exception(ERROR_MEMORY_ALLOCATION);
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+        retval.push_back(ArrayOf::handleConstructor(dlObject));
+    }
+    else
+    {
+        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+    }
+    return retval;
 }
 //=============================================================================

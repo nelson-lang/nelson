@@ -30,12 +30,12 @@ namespace Nelson {
     typedef HMODULE library_handle;
     typedef FARPROC generic_function_ptr;
     //=============================================================================
-    inline library_handle load_dynamic_library(const char* library_name)
+    inline library_handle load_dynamic_library(std::string library_name)
     {
         library_handle hl;
         try
         {
-            hl = LoadLibraryA(library_name);
+            hl = LoadLibraryA(library_name.c_str());
         }
         catch (std::runtime_error&)
         {
@@ -44,12 +44,12 @@ namespace Nelson {
         return hl;
     }
     //=============================================================================
-    inline library_handle load_dynamic_libraryW(const wchar_t* library_name)
+    inline library_handle load_dynamic_libraryW(std::wstring library_name)
     {
         library_handle hl;
         try
         {
-            hl = LoadLibraryW(library_name);
+            hl = LoadLibraryW(library_name.c_str());
         }
         catch (std::runtime_error&)
         {
@@ -59,9 +59,9 @@ namespace Nelson {
     }
     //=============================================================================
     inline generic_function_ptr get_function(library_handle handle,
-            const char* function_name)
+            std::string function_name)
     {
-        return GetProcAddress(handle, function_name);
+        return GetProcAddress(handle, function_name.c_str());
     }
     //=============================================================================
     inline bool close_dynamic_library(library_handle handle)
@@ -98,12 +98,12 @@ namespace Nelson {
     typedef void *library_handle;
     typedef void *generic_function_ptr;
     //=============================================================================
-    inline library_handle load_dynamic_library(const char* library_name)
+    inline library_handle load_dynamic_library(std::string library_name)
     {
         library_handle hl;
         try
         {
-            hl = dlopen(library_name, RTLD_NOW | RTLD_GLOBAL);
+            hl = dlopen(library_name.c_str(), RTLD_NOW | RTLD_GLOBAL);
         }
         catch (std::runtime_error&)
         {
@@ -113,14 +113,14 @@ namespace Nelson {
     }
     //=============================================================================
     inline generic_function_ptr get_function(library_handle handle,
-            const char* function_name)
+            std::string function_name)
     {
-        return dlsym(handle, function_name);
+        return dlsym(handle, function_name.c_str());
     }
     //=============================================================================
     inline bool close_shared_library(library_handle handle)
     {
-        return dlclose(handle)==0;
+        return dlclose(handle) == 0;
     }
     //=============================================================================
     inline std::string get_dynamic_library_extension()

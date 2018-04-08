@@ -16,30 +16,45 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "strrepBuiltin.hpp"
+#include "dlinfoBuiltin.hpp"
 #include "Error.hpp"
-#include "StringReplace.hpp"
-#include "OverloadFunction.hpp"
+#include "DynamicLinkLibraryObject.hpp"
+#include "HandleManager.hpp"
+#include "ToCellString.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::StringGateway::strrepBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector Nelson::DynamicLinkGateway::dlinfoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
+    if (argIn.size() != 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
     if (nLhs > 1)
     {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() != 3)
+    ArrayOf param1 = argIn[0];
+    if (param1.isHandle())
     {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        if (!param1.isScalar())
+        {
+            Error(eval, _W("dllib scalar handle expected."));
+        }
+        nelson_handle *qp = (nelson_handle*)param1.getDataPointer();
+        nelson_handle hl = qp[0];
+        HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
+        if (hlObj->getCategory() != DLLIB_CATEGORY_STR)
+        {
+            Error(eval, _W("dllib handle expected."));
+        }
+        DynamicLinkLibraryObject *obj = (DynamicLinkLibraryObject *)hlObj;
+        retval.push_back(ToCellStringAsColumn(obj->getAvailableSymbols()));
     }
-    // Call overload if it exists
-    bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
-    if (!bSuccess)
+    else
     {
-        retval.push_back(StringReplace(argIn[0], argIn[1], argIn[2], true));
+        Error(eval, _W("dllib handle expected."));
     }
     return retval;
 }

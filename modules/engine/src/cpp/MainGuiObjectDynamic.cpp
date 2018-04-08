@@ -59,7 +59,7 @@ namespace Nelson {
                 fullpathGuiSharedLibrary = std::string(tmp) + std::string("/") + fullpathGuiSharedLibrary;
             }
 #endif
-            nlsGuiHandleDynamicLibrary = load_dynamic_library(fullpathGuiSharedLibrary.c_str());
+            nlsGuiHandleDynamicLibrary = load_dynamic_library(fullpathGuiSharedLibrary);
             if (nlsGuiHandleDynamicLibrary)
             {
                 bFirstDynamicLibraryCall = false;

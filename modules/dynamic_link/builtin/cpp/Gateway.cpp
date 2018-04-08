@@ -20,6 +20,10 @@
 #include "addgatewayBuiltin.hpp"
 #include "removegatewayBuiltin.hpp"
 #include "gatewayinfoBuiltin.hpp"
+#include "dlopenBuiltin.hpp"
+#include "dlcloseBuiltin.hpp"
+#include "dllib_dispBuiltin.hpp"
+#include "dlinfoBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -29,7 +33,11 @@ static const nlsGateway gateway[] =
 {
     { "addgateway", Nelson::DynamicLinkGateway::addgatewayBuiltin, 0, 1 },
     { "removegateway", Nelson::DynamicLinkGateway::removegatewayBuiltin, 0, 1 },
-    { "gatewayinfo", Nelson::DynamicLinkGateway::gatewayinfoBuiltin, 2, 1 }
+    { "gatewayinfo", Nelson::DynamicLinkGateway::gatewayinfoBuiltin, 2, 1 },
+    { "dlopen", Nelson::DynamicLinkGateway::dlopenBuiltin, 1, 1 },
+    { "dlclose", Nelson::DynamicLinkGateway::dlcloseBuiltin, 0, 1 },
+    { "dllib_disp", Nelson::DynamicLinkGateway::dllib_dispBuiltin, 0, 1 },
+    { "dlinfo", Nelson::DynamicLinkGateway::dlinfoBuiltin, 1, 1 }
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

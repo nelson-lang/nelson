@@ -55,7 +55,7 @@ static void initEngineDynamicLibrary(void)
             fullpathEngineSharedLibrary = std::string(tmp) + std::string("/") + fullpathEngineSharedLibrary;
         }
 #endif
-        nlsEngineHandleDynamicLibrary = Nelson::load_dynamic_library(fullpathEngineSharedLibrary.c_str());
+        nlsEngineHandleDynamicLibrary = Nelson::load_dynamic_library(fullpathEngineSharedLibrary);
         if (nlsEngineHandleDynamicLibrary)
         {
             bFirstDynamicLibraryCall = false;
