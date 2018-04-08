@@ -17,6 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "ModulesHelpers.hpp"
+#include <boost/algorithm/string.hpp>
 //=============================================================================
 namespace Nelson {
     //=============================================================================
@@ -49,7 +50,9 @@ namespace Nelson {
     //=============================================================================
     std::wstring ConstructDynamicLibraryName(const std::wstring &moduleshortname)
     {
-        std::wstring libname = std::wstring(L"libnls") + moduleshortname + std::wstring(L"_builtin");
+		std::wstring name = moduleshortname;
+		name[0] = towupper(name[0]);
+		std::wstring libname = std::wstring(L"libnls") + name + std::wstring(L"_builtin");
 #ifdef _MSC_VER
         libname = libname + std::wstring(L".dll");
 #else
