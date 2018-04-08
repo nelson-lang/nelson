@@ -25,6 +25,7 @@
 #include "dlinfoBuiltin.hpp"
 #include "dllib_usedBuiltin.hpp"
 #include "dllib_dispBuiltin.hpp"
+#include "getdynlibextBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -40,7 +41,8 @@ static const nlsGateway gateway[] =
 	{ "dllib_disp", Nelson::DynamicLinkGateway::dllib_dispBuiltin, 0, 1 },
 	{ "dllib_used", Nelson::DynamicLinkGateway::dllib_usedBuiltin, 1, 0 },
 	{ "dllib_delete", Nelson::DynamicLinkGateway::dlcloseBuiltin, 0, 1 },
-	{ "dlinfo", Nelson::DynamicLinkGateway::dlinfoBuiltin, 1, 1 }
+	{ "dlinfo", Nelson::DynamicLinkGateway::dlinfoBuiltin, 1, 1 },
+	{ "getdynlibext", Nelson::DynamicLinkGateway::getdynlibextBuiltin, 1, 0 }
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

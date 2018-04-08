@@ -172,6 +172,7 @@
     <ClCompile Include="..\cpp\dlopenBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\gatewayinfoBuiltin.cpp" />
+    <ClCompile Include="..\cpp\getdynlibextBuiltin.cpp" />
     <ClCompile Include="..\cpp\removegatewayBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
@@ -209,6 +210,7 @@
     <ClInclude Include="..\include\dllib_usedBuiltin.hpp" />
     <ClInclude Include="..\include\dlopenBuiltin.hpp" />
     <ClInclude Include="..\include\gatewayinfoBuiltin.hpp" />
+    <ClInclude Include="..\include\getdynlibextBuiltin.hpp" />
     <ClInclude Include="..\include\nlsDynamic_link_builtin_exports.h" />
     <ClInclude Include="..\include\removegatewayBuiltin.hpp" />
   </ItemGroup>
