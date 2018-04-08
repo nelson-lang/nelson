@@ -26,7 +26,7 @@ using namespace Nelson;
 ArrayOfVector Nelson::DynamicLinkGateway::dllib_usedBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 1)
+    if (argIn.size() != 0)
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
