@@ -18,6 +18,7 @@
 //=============================================================================
 #include "getdynlibextBuiltin.hpp"
 #include "Error.hpp"
+#include "dynamic_library.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -32,16 +33,7 @@ ArrayOfVector Nelson::DynamicLinkGateway::getdynlibextBuiltin(Evaluator* eval, i
     {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-#ifdef _MSC_VER
-	std::wstring extension = std::wstring(L".dll");
-#else
-#ifdef __APPLE__
-	std::wstring extension = std::wstring(L".dylib");
-#else
-	std::wstring extension = std::wstring(L".so");
-#endif
-#endif
-	retval.push_back(ArrayOf::stringConstructor(extension));
-	return retval;
+    retval.push_back(ArrayOf::stringConstructor(get_dynamic_library_extension()));
+    return retval;
 }
 //=============================================================================

@@ -769,6 +769,18 @@ namespace Nelson {
         std::wstring getContentAsArrayOfCharacters() const;
 
         /**
+        * Get our contents as a C char * (pointer allocated with new). Only works for STRING types.
+        * Throws an exception for non-string types.
+        */
+        char * getContentAsCharactersPointer() const;
+
+        /**
+        * Get our contents as a C wchar_t * (pointer allocated with new). Only works for STRING types.
+        * Throws an exception for non-string types.
+        */
+        wchar_t * getContentAsWideCharactersPointer() const;
+
+        /**
         * Get our contents as a vector wide string (UTF-16). Only works for CELL of STRING types.
         * no check on dimensions
         */

@@ -42,6 +42,9 @@
     <ClCompile Include="..\cpp\CreateDynamicLinkSymbolObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\DynamicLinkFunctionsTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\include\dynamic_library.hpp">
@@ -72,6 +75,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\CreateDynamicLinkLibraryObject.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\DynamicLinkFunctionsTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

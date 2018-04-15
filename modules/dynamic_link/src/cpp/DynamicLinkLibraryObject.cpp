@@ -23,6 +23,7 @@
 #include "Exception.hpp"
 #include <boost/filesystem.hpp>
 #include <boost/dll/library_info.hpp>
+#include "dynamic_library.hpp"
 //=============================================================================
 namespace Nelson {
     //=============================================================================
@@ -73,6 +74,11 @@ namespace Nelson {
             symbols.push_back(s);
         }
         return symbols;
+    }
+    //=============================================================================
+    void *DynamicLinkLibraryObject::getFunctionPointer(std::string symbolName)
+    {
+        return get_function(_shared_library.native(), symbolName);
     }
     //=============================================================================
 }

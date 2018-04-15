@@ -35,11 +35,12 @@ namespace Nelson {
 
         bool disp(Evaluator *eval);
         stringVector getAvailableSymbols();
+        void *getFunctionPointer(std::string symbolName);
 
     private:
         boost::dll::shared_library _shared_library;
         std::wstring _libraryPath;
-	};
+    };
     //=============================================================================
 }
 //=============================================================================

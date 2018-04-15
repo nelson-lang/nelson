@@ -18,6 +18,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <ffi.h>
 #include "ArrayOf.hpp"
 #include "HandleGenericObject.hpp"
 #include "nlsDynamic_link_exports.h"
@@ -26,17 +27,29 @@
 #include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
-	//=============================================================================
+    //=============================================================================
 #define DLSYM_CATEGORY_STR L"dlsym"
-	//=============================================================================
-	class NLSDYNAMIC_LINK_IMPEXP DynamicLinkSymbolObject : public HandleGenericObject {
-	public:
-		DynamicLinkSymbolObject(ArrayOf dllibObject);
-		~DynamicLinkSymbolObject();
+    //=============================================================================
+    class NLSDYNAMIC_LINK_IMPEXP DynamicLinkSymbolObject : public HandleGenericObject {
+    public:
+        DynamicLinkSymbolObject(ArrayOf dllibObject, void *pointerFunction, std::wstring symbol, std::wstring returnType, wstringVector paramsType);
+        ~DynamicLinkSymbolObject();
+        ArrayOfVector call(int Lhs, ArrayOfVector params);
+        void disp(Evaluator *eval);
+        static bool isValidParamType(std::wstring paramType, bool asReturnType);
+    private:
+        ArrayOf _dllibObject;
+        void *_pointerFunction;
+        std::wstring _symbol;
+        std::wstring _returnType;
+        wstringVector _paramsTypes;
+        ffi_cif _cif;
+        size_t _nArgIn;
+        size_t _nArgOut;
+        std::wstring _prototype;
 
-	private:
-		ArrayOf _dllibObject;
-	};
-	//=============================================================================
+        void buildPrototype();
+    };
+    //=============================================================================
 };
 //=============================================================================

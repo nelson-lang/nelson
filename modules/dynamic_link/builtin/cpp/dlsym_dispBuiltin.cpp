@@ -16,27 +16,53 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "dlsymBuiltin.hpp"
+#include "dlsym_dispBuiltin.hpp"
 #include "Error.hpp"
-#include "CreateDynamicLinkLibraryObject.hpp"
+#include "DynamicLinkSymbolObject.hpp"
+#include "HandleGenericObject.hpp"
+#include "HandleManager.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::DynamicLinkGateway::dlsymBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector Nelson::DynamicLinkGateway::dlsym_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 4)
+    if (argIn.size() != 1)
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
+    if (nLhs != 0)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
     ArrayOf param1 = argIn[0];
-    ArrayOf param2 = argIn[1];
-    std::wstring symbolName = param2.getContentAsWideString();
-    ArrayOf param3 = argIn[2];
-    std::wstring returnTypeString = param3.getContentAsWideString();
-    ArrayOf param4 = argIn[3];
-    wstringVector argumentsString = param4.getContentAsWideStringVector(true);
-    retval.push_back(createDynamicLinkSymbolObject(param1, symbolName, returnTypeString, argumentsString));
+    if (param1.isHandle())
+    {
+        Interface *io = eval->getInterface();
+        if (io)
+        {
+            Dimensions dimsParam1 = param1.getDimensions();
+            io->outputMessage(L"[dlsym] - size: ");
+            dimsParam1.printMe(io);
+            io->outputMessage("\n");
+        }
+        if (param1.isScalar())
+        {
+            nelson_handle *qp = (nelson_handle*)param1.getDataPointer();
+            nelson_handle hl = qp[0];
+            HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
+            if (hlObj->getCategory() != DLSYM_CATEGORY_STR)
+            {
+                Error(eval, _W("dlsym handle expected."));
+            }
+            DynamicLinkSymbolObject *dlsymObj = (DynamicLinkSymbolObject *)hlObj;
+            dlsymObj->disp(eval);
+        }
+    }
+    else
+    {
+        Error(eval, _W("dlsym handle expected."));
+    }
     return retval;
 }
 //=============================================================================

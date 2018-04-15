@@ -18,13 +18,14 @@
 //=============================================================================
 #include "nlsDynamic_link_exports.h"
 #include "ArrayOf.hpp"
+#include "DynamicLinkLibraryObject.hpp"
 //=============================================================================
 namespace Nelson {
-	//=============================================================================
-	NLSDYNAMIC_LINK_IMPEXP ArrayOf createDynamicLinkSymbolObject(ArrayOf dllibObject,
-		std::wstring symbol,
-		std::wstring returnType,
-		std::wstring argumentsType);
-	//=============================================================================
+    //=============================================================================
+    NLSDYNAMIC_LINK_IMPEXP ArrayOf createDynamicLinkSymbolObject(ArrayOf dllibObject,
+            std::wstring symbol,
+            std::wstring returnType,
+            wstringVector argumentsType);
+    //=============================================================================
 }
 //=============================================================================

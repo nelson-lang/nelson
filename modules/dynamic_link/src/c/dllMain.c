@@ -25,6 +25,7 @@
 #pragma comment(lib, "boost_system-vc141-mt-1_65_1.lib")
 #pragma comment(lib, "boost_filesystem-vc141-mt-1_65_1.lib")
 #endif
+#pragma comment(lib, "libffi.lib")
 //=============================================================================
 int WINAPI DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)
 {

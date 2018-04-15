@@ -88,17 +88,52 @@ namespace Nelson {
         return str;
     }
     //=============================================================================
+    char * ArrayOf::getContentAsCharactersPointer() const
+    {
+        std::string str = getContentAsCString();
+        char *buffer = new_with_exception<char>(str.size() + 1, false);
+        memcpy(buffer, str.c_str(), str.size() * sizeof(char));
+        buffer[str.size()] = 0;
+        return buffer;
+    }
+    //=============================================================================
+    wchar_t * ArrayOf::getContentAsWideCharactersPointer() const
+    {
+        charType *buffer = nullptr;
+        if (isSingleString())
+        {
+            indexType M = getLength();
+            buffer = new_with_exception<charType>(M + 1, false);
+            const charType *qp = (const charType*)dp->getData();
+            memcpy(buffer, qp, M * sizeof(charType));
+            buffer[M] = 0;
+            return buffer;
+        }
+        else
+        {
+            if (dp->dataClass != NLS_CHAR)
+            {
+                throw Exception(_W("Unable to convert supplied object to a string."));
+            }
+            if (!isRowVector())
+            {
+                throw Exception(_W("Unable to convert supplied object to a single string."));
+            }
+        }
+    }
+    //=============================================================================
     std::wstring ArrayOf::getContentAsWideString(void) const
     {
         std::wstring str = L"";
         if (isSingleString())
         {
             indexType M = getLength();
+            str.reserve(M + 1);
             charType *buffer = new_with_exception<charType>(M + 1);
             const charType *qp = (const charType*)dp->getData();
             memcpy(buffer, qp, M * sizeof(charType));
             buffer[M] = 0;
-            str = buffer;
+            str.assign(buffer);
             delete[] buffer;
         }
         else
