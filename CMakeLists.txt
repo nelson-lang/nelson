@@ -151,12 +151,6 @@ IF(MPI_INCLUDE_PATH AND MPI_LIBRARIES)
 ENDIF(MPI_INCLUDE_PATH AND MPI_LIBRARIES)
 check_symbol_exists("MPI_Get_library_version" "mpi.h" HAVE_MPI_GET_LIBRARY_VERSION)
 #==============================================================================
-find_package(LIBFFI REQUIRED)
-IF(LIBFFI_INCLUDE_DIRS AND LIBFFI_LIBRARIES)
-  MESSAGE(STATUS "LIBFFI_INCLUDE_DIRS=${LIBFFI_INCLUDE_DIRS}")
-  MESSAGE(STATUS "LIBFFI_LIBRARIES=${LIBFFI_LIBRARIES}")
-ENDIF(LIBFFI_INCLUDE_DIRS AND LIBFFI_LIBRARIES)
-#==============================================================================
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   execute_process(COMMAND brew --prefix icu4c
                 OUTPUT_VARIABLE BREW_ICU_PREFIX
@@ -193,6 +187,12 @@ FIND_PACKAGE(Portaudio REQUIRED)
 FIND_PACKAGE(LibSndFile REQUIRED)
 FIND_PACKAGE(Taglib REQUIRED)
 #============================================================================== 
+find_package(LIBFFI REQUIRED)
+IF(LIBFFI_INCLUDE_DIRS AND LIBFFI_LIBRARIES)
+  MESSAGE(STATUS "LIBFFI_INCLUDE_DIRS=${LIBFFI_INCLUDE_DIRS}")
+  MESSAGE(STATUS "LIBFFI_LIBRARIES=${LIBFFI_LIBRARIES}")
+ENDIF(LIBFFI_INCLUDE_DIRS AND LIBFFI_LIBRARIES)
+#==============================================================================
 add_definitions(-DBOOST_ALL_NO_LIB)
 add_definitions(-DBOOST_ALL_DYN_LINK)
 add_definitions(-DOMPI_SKIP_MPICXX)
