@@ -404,7 +404,7 @@ namespace Nelson {
             {
                 void *arrayPtr = ArrayOf::allocateArrayOf(params[i].getDataClass(), params[i].getDimensions().getElementCount());
                 memcpy(arrayPtr, refPointers[k], params[i].getDimensions().getElementCount() *params[i].getElementSize());
-                retval.push_back(ArrayOf::ArrayOf(params[i].getDataClass(), params[i].getDimensions(), arrayPtr));
+                retval.push_back(ArrayOf(params[i].getDataClass(), params[i].getDimensions(), arrayPtr));
             }
         }
         if (stringPointers != nullptr)

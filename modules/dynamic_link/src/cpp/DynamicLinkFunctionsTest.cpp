@@ -19,7 +19,10 @@
 #ifdef _MSC_VER
 #define _CRT_SECURE_NO_WARNINGS
 #endif
-#include <string>
+#include <string.h> // strlen
+#include <ctype.h> // toupper
+#include <wctype.h> // towupper
+#include <wchar.h> // wcslen
 #include "DynamicLinkFunctionsTest.h"
 //=============================================================================
 extern "C" {
@@ -28,9 +31,9 @@ extern "C" {
     {
     }
     //=============================================================================
-    NLSDYNAMIC_LINK_IMPEXP unsigned char dynlibTestReturnTypeScalarUInt8(void)
+    NLSDYNAMIC_LINK_IMPEXP uint8_t dynlibTestReturnTypeScalarUInt8(void)
     {
-        return unsigned char(8);
+        return uint8_t(8);
     }
     //=============================================================================
     NLSDYNAMIC_LINK_IMPEXP int8_t dynlibTestReturnTypeScalarInt8(void)
