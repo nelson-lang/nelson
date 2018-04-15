@@ -188,6 +188,23 @@ FIND_PACKAGE(LibSndFile REQUIRED)
 FIND_PACKAGE(Taglib REQUIRED)
 #============================================================================== 
 find_package(LIBFFI REQUIRED)
+#==============================================================================
+IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+  execute_process(COMMAND brew --prefix libffi
+                OUTPUT_VARIABLE BREW_LIBFFI_PREFIX
+                RESULT_VARIABLE NONZERO_BREW_EXIT_CODE
+                ERROR_VARIABLE BREW_ERROR
+                OUTPUT_STRIP_TRAILING_WHITESPACE
+                ERROR_STRIP_TRAILING_WHITESPACE)
+  IF(NOT(NONZERO_BREW_EXIT_CODE))
+    SET(CMAKE_LIBFFI_PATH ${BREW_LIBFFI_PREFIX})
+  ELSE()
+    MESSAGE(FATAL_ERROR "Brew reported an error:\n${BREW_ERROR}.\nPlease resolve this error.")
+  ENDIF()
+  set(LIBFFI_INCLUDE_DIRS ${CMAKE_LIBFFI_PATH}/lib/libffi-3.2.1/include)
+  set(LIBFFI_LIBRARIES={CMAKE_LIBFFI_PATH}/lib/libffi.dylib)
+ENDIF()
+#==============================================================================
 IF(LIBFFI_INCLUDE_DIRS AND LIBFFI_LIBRARIES)
   MESSAGE(STATUS "LIBFFI_INCLUDE_DIRS=${LIBFFI_INCLUDE_DIRS}")
   MESSAGE(STATUS "LIBFFI_LIBRARIES=${LIBFFI_LIBRARIES}")
