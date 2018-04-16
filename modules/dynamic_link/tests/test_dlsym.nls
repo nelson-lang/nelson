@@ -16,6 +16,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+// <--ENGLISH IMPOSED-->
+//=============================================================================
 assert_isequal(nargin('dlsym'), 4);
 assert_isequal(nargout('dlsym'), -1);
 //=============================================================================
@@ -228,4 +230,7 @@ f = dlsym(lib, 'sumDoubleRef', 'double', {'double', 'doublePtr', 'double'});
 [S, Y2] = dlcall(f, X, Y, Z);
 assert_isequal(S, 23);
 assert_isequal(Y2, Y);
+//=============================================================================
+assert_checkerror('S = dlcall(f, 3, int32(3), 4);', _('Invalid type for #2 input argument: doublePtr expected.'));
+assert_checkerror('S = dlcall(f, 3);', _('Wrong number of input arguments.'));
 //=============================================================================

@@ -53,7 +53,6 @@ namespace Nelson {
             Interface *io = eval->getInterface();
             if (io)
             {
-                std::wstring valueToDisp = L"";
                 io->outputMessage(L"\n");
                 io->outputMessage(L"\tPath: \t'" + _libraryPath + L"'\n");
                 io->outputMessage(L"\n");

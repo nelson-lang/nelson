@@ -19,6 +19,7 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/unordered_map.hpp>
 #include "DynamicLinkSymbolObject.hpp"
+#include "StringFormat.hpp"
 //=============================================================================
 namespace Nelson {
     //=============================================================================
@@ -51,9 +52,9 @@ namespace Nelson {
         ffiTypesMap[L"uint16"] = CType(&ffi_type_uint16, NLS_UINT16);
         ffiTypesMap[L"int16"] = CType(&ffi_type_sint16, NLS_INT16);
         ffiTypesMap[L"uint32"] = CType(&ffi_type_uint32, NLS_UINT32);
-        ffiTypesMap[L"uint64"] = CType(&ffi_type_uint32, NLS_UINT32);
         ffiTypesMap[L"int32"] = CType(&ffi_type_sint32, NLS_INT32);
-        ffiTypesMap[L"int64"] = CType(&ffi_type_sint32, NLS_INT32);
+		ffiTypesMap[L"uint64"] = CType(&ffi_type_uint32, NLS_UINT64);
+		ffiTypesMap[L"int64"] = CType(&ffi_type_sint32, NLS_INT64);
         ffiTypesMap[L"float"] = CType(&ffi_type_float, NLS_SINGLE);
         ffiTypesMap[L"single"] = CType(&ffi_type_float, NLS_SINGLE);
         ffiTypesMap[L"double"] = CType(&ffi_type_double, NLS_DOUBLE);
@@ -70,10 +71,10 @@ namespace Nelson {
         ffiTypesMap[L"uint16Ptr"] = CType(&ffi_type_pointer, NLS_UINT16);
         ffiTypesMap[L"int16Ptr"] = CType(&ffi_type_pointer, NLS_INT16);
         ffiTypesMap[L"uint32Ptr"] = CType(&ffi_type_pointer, NLS_UINT32);
-        ffiTypesMap[L"uint64Ptr"] = CType(&ffi_type_pointer, NLS_UINT32);
         ffiTypesMap[L"int32Ptr"] = CType(&ffi_type_pointer, NLS_INT32);
-        ffiTypesMap[L"int64Ptr"] = CType(&ffi_type_pointer, NLS_INT32);
-        ffiTypesMap[L"floatPtr"] = CType(&ffi_type_pointer, NLS_SINGLE);
+        ffiTypesMap[L"int64Ptr"] = CType(&ffi_type_pointer, NLS_INT64);
+		ffiTypesMap[L"uint64Ptr"] = CType(&ffi_type_pointer, NLS_UINT64);
+		ffiTypesMap[L"floatPtr"] = CType(&ffi_type_pointer, NLS_SINGLE);
         ffiTypesMap[L"singlePtr"] = CType(&ffi_type_pointer, NLS_SINGLE);
         ffiTypesMap[L"doublePtr"] = CType(&ffi_type_pointer, NLS_DOUBLE);
         ffiTypesMapInitialized = true;
@@ -88,10 +89,24 @@ namespace Nelson {
         }
         else
         {
-            throw Exception(L"import type " + type + L" not defined in type table");
-        }
+			throw Exception(StringFormat(_W("import type %s not defined in FFI type table.").c_str(), type));
+		}
         return ret.FFIType;
     }
+	//=============================================================================
+	static Class GetNelsonType(std::wstring type)
+	{
+		CType ret;
+		if (ffiTypesMap.count(type) != 0)
+		{
+			ret = ffiTypesMap[type];
+		}
+		else
+		{
+			throw Exception(StringFormat(_W("import type %s not defined in FFI type table.").c_str(), type));
+		}
+		return ret.NelsonClass;
+	}
     //=============================================================================
     DynamicLinkSymbolObject::DynamicLinkSymbolObject(ArrayOf dllibObject, void *pointerFunction, std::wstring symbol, std::wstring returnType, wstringVector paramsTypes) : HandleGenericObject(std::wstring(DLSYM_CATEGORY_STR), this, false)
     {
@@ -132,7 +147,7 @@ namespace Nelson {
         if (ffi_prep_cif(&_cif, FFI_DEFAULT_ABI, paramsTypes.size(),
                          GetFFIType(_returnType), args) != FFI_OK)
         {
-            throw Exception("unable to import function through fft!");
+            throw Exception(_W("Unable to import function through FFI."));
         }
     }
     //=============================================================================
@@ -212,6 +227,18 @@ namespace Nelson {
     ArrayOfVector DynamicLinkSymbolObject::call(int nLhs, ArrayOfVector params)
     {
         ArrayOfVector retval;
+
+		if (params.size() != _nArgIn)
+		{
+			throw Exception(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+		}
+		for (size_t k = 0; k < params.size(); k++)
+		{
+			if (GetNelsonType(_paramsTypes[k]) != params[k].getDataClass())
+			{
+				throw Exception(StringFormat(_W("Invalid type for #%d input argument: %ls expected.").c_str(), k + 1, _paramsTypes[k].c_str()));
+			}
+		}
         void **values = nullptr;
         if (params.size() > 0)
         {

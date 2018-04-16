@@ -29,6 +29,7 @@ ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include
 ${LIBFFI_INCLUDE_DIRS}
 )
 #==============================================================================	
@@ -51,6 +52,7 @@ nlsError_manager
 nlsCharacters_encoding
 nlsI18n
 nlsHandle
+nlsString
 ${LIBFFI_LIBRARIES}
 )
 #==============================================================================	
