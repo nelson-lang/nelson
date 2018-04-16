@@ -144,7 +144,7 @@ namespace Nelson {
         {
             args[i++] = GetFFIType(param);
         }
-        if (ffi_prep_cif(&_cif, FFI_DEFAULT_ABI, paramsTypes.size(),
+        if (ffi_prep_cif(&_cif, FFI_DEFAULT_ABI, (unsigned int)paramsTypes.size(),
                          GetFFIType(_returnType), args) != FFI_OK)
         {
             throw Exception(_W("Unable to import function through FFI."));
@@ -446,6 +446,5 @@ namespace Nelson {
         return retval;
     }
     //=============================================================================
-
 }
 //=============================================================================
