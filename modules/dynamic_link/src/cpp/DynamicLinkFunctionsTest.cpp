@@ -83,14 +83,16 @@ extern "C" {
     //=============================================================================
     NLSDYNAMIC_LINK_IMPEXP char * dynlibTestReturnTypeCString(void)
     {
-        char *str = new char[10];
-        strcpy(str, "hello utf-8");
+#define UTF8_STR_TO_SEND "hello utf-8"
+        char *str = new char[strlen(UTF8_STR_TO_SEND) + 1];
+        strcpy(str, UTF8_STR_TO_SEND);
         return str;
     }
     //=============================================================================
     NLSDYNAMIC_LINK_IMPEXP wchar_t * dynlibTestReturnTypeWString(void)
     {
-        wchar_t *str = new wchar_t[10];
+#define UNICODE_STR_TO_SEND L"hello unicode"
+		wchar_t *str = new wchar_t[wcslen(UNICODE_STR_TO_SEND)+1];
         wcscpy(str, L"hello unicode");
         return str;
     }
