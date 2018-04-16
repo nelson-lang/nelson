@@ -215,3 +215,17 @@ r = dlcall(f, V, int32(numel(V)));
 assert_isequal(r, double([1 2;3 4]*11));
 assert_isequal(V, double([1 2;3 4]));
 //=============================================================================
+V = double([1 2;3 4]);
+f = dlsym(lib, 'dynlibTestMultiplyDoubleArrayWithReturn', 'int32', {'doublePtr', 'int32'});
+[r1, r2] = dlcall(f, V, int32(numel(V)));
+assert_isequal(r2, double([1 2;3 4]*6));
+assert_isequal(r1, int32(44));
+//=============================================================================
+Y = [11 22;33 44];
+X = 3;
+Z = 9;
+f = dlsym(lib, 'sumDoubleRef', 'double', {'double', 'doublePtr', 'double'});
+[S, Y2] = dlcall(f, X, Y, Z);
+assert_isequal(S, 23);
+assert_isequal(Y2, Y);
+//=============================================================================

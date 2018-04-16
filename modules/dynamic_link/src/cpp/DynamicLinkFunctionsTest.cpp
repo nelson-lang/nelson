@@ -251,27 +251,7 @@ extern "C" {
         }
     }
     //=============================================================================
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    //=============================================================================
-    NLSDYNAMIC_LINK_IMPEXP int dynlibTestMultiplyDoubleArrayWithReturn(double *x, int size)
+	NLSDYNAMIC_LINK_IMPEXP int dynlibTestMultiplyDoubleArrayWithReturn(double *x, int size)
     {
         for (int l = 0; l < size; l++)
         {
