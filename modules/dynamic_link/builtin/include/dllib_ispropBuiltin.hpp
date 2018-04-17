@@ -18,34 +18,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <boost/dll/shared_library.hpp>
 #include "ArrayOf.hpp"
-#include "HandleGenericObject.hpp"
-#include "nlsDynamic_link_exports.h"
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-#define DLLIB_CATEGORY_STR L"dllib"
-    //=============================================================================
-    class NLSDYNAMIC_LINK_IMPEXP DynamicLinkLibraryObject : public HandleGenericObject {
-    public:
-        DynamicLinkLibraryObject(std::wstring libraryPath);
-        ~DynamicLinkLibraryObject();
-
-        bool disp(Evaluator *eval);
-        stringVector getAvailableSymbols();
-        void *getFunctionPointer(std::string symbolName);
-		bool get(std::wstring propertyName, ArrayOf &res);
-		bool isWriteableProperty(std::wstring propertyName);
-		wstringVector fieldnames();
-		bool isproperty(std::wstring propertyName);
-
-    private:
-		wstringVector _propertiesNames;
-        boost::dll::shared_library _shared_library;
-        std::wstring _libraryPath;
-    };
-    //=============================================================================
+    namespace DynamicLinkGateway {
+        ArrayOfVector dllib_ispropBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    }
 }
 //=============================================================================

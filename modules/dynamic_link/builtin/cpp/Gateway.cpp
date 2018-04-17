@@ -26,6 +26,9 @@
 #include "dlinfoBuiltin.hpp"
 #include "dllib_usedBuiltin.hpp"
 #include "dllib_dispBuiltin.hpp"
+#include "dllib_getBuiltin.hpp"
+#include "dllib_ispropBuiltin.hpp"
+#include "dllib_fieldnamesBuiltin.hpp"
 #include "dlsym_dispBuiltin.hpp"
 #include "dlcallBuiltin.hpp"
 #include "getdynlibextBuiltin.hpp"
@@ -44,9 +47,12 @@ static const nlsGateway gateway[] =
     { "dlsym", Nelson::DynamicLinkGateway::dlsymBuiltin, -1, 4 },
     { "dlsym_disp", Nelson::DynamicLinkGateway::dlsym_dispBuiltin, 0, 1 },
     { "dllib_disp", Nelson::DynamicLinkGateway::dllib_dispBuiltin, 0, 1 },
-    { "dllib_used", Nelson::DynamicLinkGateway::dllib_usedBuiltin, 1, 0 },
+	{ "dllib_get", Nelson::DynamicLinkGateway::dllib_getBuiltin, 1, 2 },
+	{ "dllib_isprop", Nelson::DynamicLinkGateway::dllib_ispropBuiltin, 1, 2 },
+	{ "dllib_used", Nelson::DynamicLinkGateway::dllib_usedBuiltin, 1, 0 },
     { "dllib_delete", Nelson::DynamicLinkGateway::dlcloseBuiltin, 0, 1 },
-    { "dlinfo", Nelson::DynamicLinkGateway::dlinfoBuiltin, 1, 1 },
+	{ "dllib_fieldnames", Nelson::DynamicLinkGateway::dllib_fieldnamesBuiltin, 1, 1 },
+	{ "dlinfo", Nelson::DynamicLinkGateway::dlinfoBuiltin, 1, 1 },
     { "dlcall", Nelson::DynamicLinkGateway::dlcallBuiltin, -1, -1 },
     { "getdynlibext", Nelson::DynamicLinkGateway::getdynlibextBuiltin, 1, 0 }
 };

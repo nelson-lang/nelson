@@ -6,46 +6,28 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 2 of the License, or
 // (at your option) any later version.
-//
+// 
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-//
+// 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+assert_isequal(nargin('dllib_get'), 2);
+assert_isequal(nargout('dllib_get'), 1);
 //=============================================================================
-#include <boost/dll/shared_library.hpp>
-#include "ArrayOf.hpp"
-#include "HandleGenericObject.hpp"
-#include "nlsDynamic_link_exports.h"
-#include "Evaluator.hpp"
+path_ref = [modulepath(nelsonroot(),'dynamic_link','bin'), '/libnlsDynamic_link', getdynlibext()];
+lib = dlopen(path_ref);
+path_lib = get(lib, 'Path');
+assert_isequal(path_lib, path_ref);
 //=============================================================================
-namespace Nelson {
-    //=============================================================================
-#define DLLIB_CATEGORY_STR L"dllib"
-    //=============================================================================
-    class NLSDYNAMIC_LINK_IMPEXP DynamicLinkLibraryObject : public HandleGenericObject {
-    public:
-        DynamicLinkLibraryObject(std::wstring libraryPath);
-        ~DynamicLinkLibraryObject();
-
-        bool disp(Evaluator *eval);
-        stringVector getAvailableSymbols();
-        void *getFunctionPointer(std::string symbolName);
-		bool get(std::wstring propertyName, ArrayOf &res);
-		bool isWriteableProperty(std::wstring propertyName);
-		wstringVector fieldnames();
-		bool isproperty(std::wstring propertyName);
-
-    private:
-		wstringVector _propertiesNames;
-        boost::dll::shared_library _shared_library;
-        std::wstring _libraryPath;
-    };
-    //=============================================================================
-}
+path_lib = lib.Path;
+assert_isequal(path_lib, path_ref);
+//=============================================================================
+assert_checkerror('path_lib = get(lib, ''Pat2'');', _('Wrong value for #2 argument.'));
+//=============================================================================
+dlclose(lib);
 //=============================================================================

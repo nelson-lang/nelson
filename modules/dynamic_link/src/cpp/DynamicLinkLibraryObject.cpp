@@ -29,6 +29,9 @@ namespace Nelson {
     //=============================================================================
     DynamicLinkLibraryObject::DynamicLinkLibraryObject(std::wstring libraryPath) : HandleGenericObject(std::wstring(DLLIB_CATEGORY_STR), this, false)
     {
+		_propertiesNames = { L"Path"
+		};
+
         boost::system::error_code errorCode;
         boost::dll::shared_library lib(libraryPath, errorCode);
         if (errorCode)
@@ -36,12 +39,13 @@ namespace Nelson {
             throw Exception(_("Cannot load library: ") + errorCode.message());
         }
         boost::filesystem::path full_path = lib.location();
-        _libraryPath = full_path.wstring();
+		_libraryPath = full_path.generic_wstring();
         _shared_library = lib;
     }
     //=============================================================================
     DynamicLinkLibraryObject::~DynamicLinkLibraryObject()
     {
+		_propertiesNames.clear();
         _shared_library.unload();
         _libraryPath = L"";
     }
@@ -80,5 +84,35 @@ namespace Nelson {
         return get_function(_shared_library.native(), symbolName);
     }
     //=============================================================================
+	bool DynamicLinkLibraryObject::get(std::wstring propertyName, ArrayOf &res)
+	{
+		if (propertyName == L"Path")
+		{
+			res = ArrayOf::stringConstructor(_libraryPath);
+			return true;
+		}
+		return false;
+	}
+	//=========================================================================
+    bool DynamicLinkLibraryObject::isWriteableProperty(std::wstring propertyName)
+    {
+        if (propertyName == L"Path")
+        {
+            return false;
+        }
+        return false;
+    }
+	//=============================================================================
+	wstringVector DynamicLinkLibraryObject::fieldnames()
+	{
+		return _propertiesNames;
+	}
+	//=============================================================================
+	bool DynamicLinkLibraryObject::isproperty(std::wstring propertyName)
+	{
+		auto it = std::find(_propertiesNames.begin(), _propertiesNames.end(), propertyName);
+		return (it != _propertiesNames.end());
+	}
+	//=============================================================================
 }
 //=============================================================================
