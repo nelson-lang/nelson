@@ -89,7 +89,7 @@ namespace Nelson {
         }
         else
         {
-			throw Exception(StringFormat(_W("import type %s not defined in FFI type table.").c_str(), type));
+			throw Exception(StringFormat(_W("import type %s not defined in FFI type table.").c_str(), type.c_str()));
 		}
         return ret.FFIType;
     }
@@ -103,7 +103,7 @@ namespace Nelson {
 		}
 		else
 		{
-			throw Exception(StringFormat(_W("import type %s not defined in FFI type table.").c_str(), type));
+			throw Exception(StringFormat(_W("import type %s not defined in FFI type table.").c_str(), type.c_str()));
 		}
 		return ret.NelsonClass;
 	}
