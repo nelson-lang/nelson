@@ -172,6 +172,7 @@
     <ClCompile Include="..\cpp\dllib_fieldnamesBuiltin.cpp" />
     <ClCompile Include="..\cpp\dllib_getBuiltin.cpp" />
     <ClCompile Include="..\cpp\dllib_ispropBuiltin.cpp" />
+    <ClCompile Include="..\cpp\dllib_isvalidBuiltin.cpp" />
     <ClCompile Include="..\cpp\dllib_usedBuiltin.cpp" />
     <ClCompile Include="..\cpp\dlopenBuiltin.cpp" />
     <ClCompile Include="..\cpp\dlsymBuiltin.cpp" />
@@ -217,6 +218,7 @@
     <ClInclude Include="..\include\dllib_fieldnamesBuiltin.hpp" />
     <ClInclude Include="..\include\dllib_getBuiltin.hpp" />
     <ClInclude Include="..\include\dllib_ispropBuiltin.hpp" />
+    <ClInclude Include="..\include\dllib_isvalidBuiltin.hpp" />
     <ClInclude Include="..\include\dllib_usedBuiltin.hpp" />
     <ClInclude Include="..\include\dlopenBuiltin.hpp" />
     <ClInclude Include="..\include\dlsymBuiltin.hpp" />
