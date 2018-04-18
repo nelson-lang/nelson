@@ -16,7 +16,9 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-addpath(modulepath(nelsonroot(), 'dynamic_link', 'functions'));
+path_ref = [modulepath(nelsonroot(),'dynamic_link','bin'), '/libnlsDynamic_link', getdynlibext()];
+lib = dlopen(path_ref);
+R = [lib, lib];
+assert_isequal(size(R),  [1 2]);
+assert_isequal(class(R), 'dllib');
 //=============================================================================
-
-

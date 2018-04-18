@@ -17,10 +17,10 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 modules_list = {
-'dynamic_link';
 'modules_manager';
-'engine';
 'functions_manager';
+'dynamic_link';
+'engine';
 'core';
 'localization';
 'i18n';
