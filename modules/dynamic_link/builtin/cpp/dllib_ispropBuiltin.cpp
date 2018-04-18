@@ -53,7 +53,7 @@ ArrayOfVector Nelson::DynamicLinkGateway::dllib_ispropBuiltin(Evaluator* eval, i
 	}
 	else
 	{
-		Error(eval, _W("audioplayer handle expected."));
+		Error(eval, _W("dllib handle expected."));
 	}
 	return retval;
 }
