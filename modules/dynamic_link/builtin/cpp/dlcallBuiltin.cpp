@@ -51,7 +51,7 @@ ArrayOfVector Nelson::DynamicLinkGateway::dlcallBuiltin(Evaluator* eval, int nLh
         {
             params.push_back(argIn[l]);
         }
-        retval = dlsymObj->call(nLhs, params);
+        retval = dlsymObj->call(eval, nLhs, params);
     }
     else
     {

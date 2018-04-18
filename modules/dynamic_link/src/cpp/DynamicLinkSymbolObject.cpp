@@ -20,6 +20,8 @@
 #include <boost/unordered_map.hpp>
 #include "DynamicLinkSymbolObject.hpp"
 #include "StringFormat.hpp"
+#include "IsValidHandle.hpp"
+#include "Error.hpp"
 //=============================================================================
 namespace Nelson {
     //=============================================================================
@@ -137,7 +139,7 @@ namespace Nelson {
         ffi_type **args = (ffi_type**)malloc(sizeof(ffi_type*)*_paramsTypes.size());
         if (!args)
         {
-            throw Exception("error");
+            throw Exception(_W("error memory allocation."));
         }
         int i = 0;
         for (std::wstring param : _paramsTypes)
@@ -224,19 +226,24 @@ namespace Nelson {
     //=============================================================================
     typedef void(*GenericFuncPointer)();
     //=============================================================================
-    ArrayOfVector DynamicLinkSymbolObject::call(int nLhs, ArrayOfVector params)
+    ArrayOfVector DynamicLinkSymbolObject::call(Evaluator *eval, int nLhs, ArrayOfVector params)
     {
         ArrayOfVector retval;
-
+		ArrayOf isValidAsArray = IsValidHandle(eval, _dllibObject);
+		logical isValid = isValidAsArray.getContentAsLogicalScalar();
+		if (!isValid)
+		{
+			Error(eval, _W("dllib valid handle expected."));
+		}
 		if (params.size() != _nArgIn)
 		{
-			throw Exception(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+			Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
 		}
 		for (size_t k = 0; k < params.size(); k++)
 		{
 			if (GetNelsonType(_paramsTypes[k]) != params[k].getDataClass())
 			{
-				throw Exception(StringFormat(_W("Invalid type for #%d input argument: %ls expected.").c_str(), k + 1, _paramsTypes[k].c_str()));
+				Error(eval, StringFormat(_W("Invalid type for #%d input argument: %ls expected.").c_str(), k + 1, _paramsTypes[k].c_str()));
 			}
 		}
         void **values = nullptr;

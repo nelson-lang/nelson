@@ -34,7 +34,7 @@ namespace Nelson {
     public:
         DynamicLinkSymbolObject(ArrayOf dllibObject, void *pointerFunction, std::wstring symbol, std::wstring returnType, wstringVector paramsType);
         ~DynamicLinkSymbolObject();
-        ArrayOfVector call(int Lhs, ArrayOfVector params);
+        ArrayOfVector call(Evaluator *eval, int Lhs, ArrayOfVector params);
         void disp(Evaluator *eval);
         static bool isValidParamType(std::wstring paramType, bool asReturnType);
     private:
