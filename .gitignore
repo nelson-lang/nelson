@@ -162,3 +162,4 @@ bin/macosx64/nelson-gui
 /modules/*/src/c/*/x64
 /modules/*/src/c/*/Debug
 /modules/*/src/c/*/Release
+enc_temp_folder
