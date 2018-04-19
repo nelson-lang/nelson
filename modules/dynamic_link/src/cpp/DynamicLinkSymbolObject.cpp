@@ -237,7 +237,7 @@ namespace Nelson {
 #define INPUT_FIELD_STR     L"  Input:     "
 				if (wcslen(PROTOTYPE_FIELD_STR) + _prototype.length() > io->getTerminalWidth() - 4)
 				{
-					buffer = std::wstring(PROTOTYPE_FIELD_STR) + L"string 1×" + std::to_wstring(_prototype.length());
+					buffer = std::wstring(PROTOTYPE_FIELD_STR) + std::wstring(L"string 1") + (wchar_t)215 + std::to_wstring(_prototype.length());
 				}
 				else
 				{
@@ -271,7 +271,7 @@ namespace Nelson {
 				if (wcslen(OUTPUT_FIELD_STR) + lengthTextToDisplay(_paramsOutTypes) > io->getTerminalWidth() - 4)
 				{
 					buffer = OUTPUT_FIELD_STR;
-					buffer = buffer + L"1×" + std::to_wstring(_nArgOut) + L" " +_W("cell array");
+					buffer = buffer + std::wstring(L"1") + wchar_t(215) + std::to_wstring(_nArgOut) + L" " +_W("cell array");
 				}
 				else
 				{

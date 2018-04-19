@@ -301,7 +301,7 @@ namespace Nelson {
             {
                 if (length >= 1)
                 {
-                    sprintf(buf, "%d×", data[i]);
+                    sprintf(buf, "%d%c", data[i], 215);
                 }
                 else
                 {

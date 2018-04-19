@@ -16,11 +16,12 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-assert_isequal(nargin('dllib_isprop'), 2);
-assert_isequal(nargout('dllib_isprop'), 1);
+assert_isequal(nargin('dlsym_isprop'), 2);
+assert_isequal(nargout('dlsym_isprop'), 1);
 //=============================================================================
 path_ref = [modulepath(nelsonroot(),'dynamic_link','bin'), '/libnlsDynamic_link', getdynlibext()];
 lib = dlopen(path_ref);
-assert_isfalse(isprop(lib, 'path'));
-assert_istrue(isprop(lib, 'Path'));
+f = dlsym(lib, 'dynlibTestMultiplyDoubleArrayWithReturn', 'int32', {'doublePtr', 'int32'});
+assert_isfalse(isprop(f, 'path'));
+assert_istrue(isprop(f, 'Prototype'));
 //=============================================================================
