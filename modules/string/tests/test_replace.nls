@@ -132,10 +132,10 @@ ref = {'cccc'    'cccccca'};
 assert_isequal(r, ref);
 //=============================================================================
 str = {'the quick yellow canary';
-       'and the lazy bunny'};
+'and the lazy bunny'};
 r = replace(str,'the','a');
 ref = {'a quick yellow canary';
-    'and a lazy bunny'};
+'and a lazy bunny'};
 assert_isequal(r, ref);
 //=============================================================================
 r = replace('cccc',{'cc'},'bb');
@@ -159,14 +159,14 @@ ref = {'cccc'};
 assert_isequal(r, ref);
 //=============================================================================
 OLD = {'ccabbba','bbccbb';
-       'abba','bccb'};
+'abba','bccb'};
 STR = {'cc';
-       'bb'};
+'bb'};
 NEW = {'cc';
-       'e'};
+'e'};
 r = replace(OLD, STR, NEW);
 ref = {'ccaeba'    'ecce';
-    'aea'       'bccb'};
+'aea'       'bccb'};
 assert_isequal(r, ref);
 //=============================================================================
 r = replace({'r','a'},{'a','r'},{'rrr'});
@@ -214,10 +214,10 @@ ref = _('Same size expected.');
 assert_checkerror(cmd, ref);
 //=============================================================================
 str = {'First Date: ___';
-      'Last Date: ___'};
+'Last Date: ___'};
 old = '___';
 new = {'1973-04-08';
-       '1974-15-08'};
+'1974-15-08'};
 cmd = 'r = replace(str, old, new);';
 ref = _('Same size expected.');
 assert_checkerror(cmd, ref);

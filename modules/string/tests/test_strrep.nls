@@ -160,20 +160,20 @@ ref = {  'ccabbba'    'ccaeea'};
 assert_isequal(r, ref);
 //=============================================================================
 str = {'the quick yellow canary';
-       'and the lazy bunny'};
+'and the lazy bunny'};
 r = strrep(str,'the','a');
 ref = {'a quick yellow canary';
-    'and a lazy bunny'};
+'and a lazy bunny'};
 assert_isequal(r, ref);
 //=============================================================================
 str = {'First Date: ___';
-      'Last Date: ___'};
+'Last Date: ___'};
 old = '___';
 new = {'1973-04-08';
-       '1974-15-08'};
+'1974-15-08'};
 r = strrep(str, old, new);
 ref = {   'First Date: 1973-04-08';
-    'Last Date: 1974-15-08'};
+'Last Date: 1974-15-08'};
 assert_isequal(r, ref);
 //=============================================================================
 cmd = 'r = strrep(''str'',''str'',[]);';

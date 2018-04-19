@@ -20,12 +20,12 @@ assert_isequal(nargin('getdynlibext'), 0);
 assert_isequal(nargout('getdynlibext'), 1);
 //=============================================================================
 if ispc()
-    assert_isequal(getdynlibext(), '.dll');
+  assert_isequal(getdynlibext(), '.dll');
 else
-    if ismac()
-        assert_isequal(getdynlibext(), '.dylib');
-    else
-        assert_isequal(getdynlibext(), '.so');
-    end
+  if ismac()
+    assert_isequal(getdynlibext(), '.dylib');
+  else
+    assert_isequal(getdynlibext(), '.so');
+  end
 end
 //=============================================================================

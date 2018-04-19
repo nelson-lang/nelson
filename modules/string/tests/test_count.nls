@@ -45,7 +45,7 @@ ref = [1, 1, 1, 1];
 assert_isequal(res, ref); 
 //=============================================================================
 c1 = {'blue green red green blue red green';
-    'yellow red red green green red'};
+'yellow red red green green red'};
 res = count(c1, 'green');
 ref = [3; 2];
 assert_isequal(res, ref); 
