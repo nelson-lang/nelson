@@ -21,12 +21,12 @@ ans =
 
 ans =
 
-  <cell> - size: 3Ã5Ã8Ã13Ã0
+  <cell> - size: 3x5x8x13x0
   []
 
 ans =
 
-  <struct> - size: 1Ã2Ã0
+  <struct> - size: 1x2x0
   []
 M =
 

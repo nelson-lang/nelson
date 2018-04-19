@@ -1,7 +1,7 @@
 
 ans =
 
-  <int8>  - size: 4Ã9Ã2
+  <int8>  - size: 4x9x2
 (:,:,1) =
 
 
@@ -21,7 +21,7 @@ Columns 1 to 9
 
 ans =
 
-  <int16>  - size: 4Ã9Ã2
+  <int16>  - size: 4x9x2
 (:,:,1) =
 
 
@@ -41,7 +41,7 @@ Columns 1 to 9
 
 ans =
 
-  <int32>  - size: 4Ã9Ã2
+  <int32>  - size: 4x9x2
 (:,:,1) =
 
 
@@ -73,7 +73,7 @@ Columns 6 to 9
 
 ans =
 
-  <int64>  - size: 4Ã9Ã2
+  <int64>  - size: 4x9x2
 (:,:,1) =
 
 
@@ -105,7 +105,7 @@ Columns 6 to 9
 
 ans =
 
-  <uint8>  - size: 4Ã9Ã2
+  <uint8>  - size: 4x9x2
 (:,:,1) =
 
 
@@ -125,7 +125,7 @@ Columns 1 to 9
 
 ans =
 
-  <uint16>  - size: 4Ã9Ã2
+  <uint16>  - size: 4x9x2
 (:,:,1) =
 
 
@@ -145,7 +145,7 @@ Columns 1 to 9
 
 ans =
 
-  <uint32>  - size: 4Ã9Ã2
+  <uint32>  - size: 4x9x2
 (:,:,1) =
 
 
@@ -177,7 +177,7 @@ Columns 6 to 9
 
 ans =
 
-  <uint64>  - size: 4Ã9Ã2
+  <uint64>  - size: 4x9x2
 (:,:,1) =
 
 
@@ -209,7 +209,7 @@ Columns 6 to 9
 
 ans =
 
-  <int8>  - size: 3Ã3
+  <int8>  - size: 3x3
 
 Columns 1 to 3
     1     0     0  
@@ -218,7 +218,7 @@ Columns 1 to 3
 
 ans =
 
-  <int16>  - size: 3Ã3
+  <int16>  - size: 3x3
 
 Columns 1 to 3
       1       0       0  
@@ -227,7 +227,7 @@ Columns 1 to 3
 
 ans =
 
-  <int32>  - size: 3Ã3
+  <int32>  - size: 3x3
 
 Columns 1 to 3
              1              0              0  
@@ -236,7 +236,7 @@ Columns 1 to 3
 
 ans =
 
-  <int64>  - size: 3Ã3
+  <int64>  - size: 3x3
 
 Columns 1 to 3
  1  0  0  
@@ -245,7 +245,7 @@ Columns 1 to 3
 
 ans =
 
-  <uint8>  - size: 3Ã3
+  <uint8>  - size: 3x3
 
 Columns 1 to 3
    1    0    0  
@@ -254,7 +254,7 @@ Columns 1 to 3
 
 ans =
 
-  <uint16>  - size: 3Ã3
+  <uint16>  - size: 3x3
 
 Columns 1 to 3
      1      0      0  
@@ -263,7 +263,7 @@ Columns 1 to 3
 
 ans =
 
-  <uint32>  - size: 3Ã3
+  <uint32>  - size: 3x3
 
 Columns 1 to 3
             1             0             0  
@@ -272,7 +272,7 @@ Columns 1 to 3
 
 ans =
 
-  <uint64>  - size: 3Ã3
+  <uint64>  - size: 3x3
 
 Columns 1 to 3
  1  0  0  
