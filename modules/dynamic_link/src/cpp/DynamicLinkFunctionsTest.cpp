@@ -92,7 +92,7 @@ extern "C" {
     NLSDYNAMIC_LINK_IMPEXP wchar_t * dynlibTestReturnTypeWString(void)
     {
 #define UNICODE_STR_TO_SEND L"hello unicode"
-		wchar_t *str = new wchar_t[wcslen(UNICODE_STR_TO_SEND)+1];
+        wchar_t *str = new wchar_t[wcslen(UNICODE_STR_TO_SEND)+1];
         wcscpy(str, L"hello unicode");
         return str;
     }
@@ -251,7 +251,7 @@ extern "C" {
         }
     }
     //=============================================================================
-	NLSDYNAMIC_LINK_IMPEXP int dynlibTestMultiplyDoubleArrayWithReturn(double *x, int size)
+    NLSDYNAMIC_LINK_IMPEXP int dynlibTestMultiplyDoubleArrayWithReturn(double *x, int size)
     {
         for (int l = 0; l < size; l++)
         {

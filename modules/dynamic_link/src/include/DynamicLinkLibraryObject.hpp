@@ -36,13 +36,13 @@ namespace Nelson {
         bool disp(Evaluator *eval);
         stringVector getAvailableSymbols();
         void *getFunctionPointer(std::string symbolName);
-		bool get(std::wstring propertyName, ArrayOf &res);
-		bool isWriteableProperty(std::wstring propertyName);
-		wstringVector fieldnames();
-		bool isproperty(std::wstring propertyName);
+        bool get(std::wstring propertyName, ArrayOf &res);
+        bool isWriteableProperty(std::wstring propertyName);
+        wstringVector fieldnames();
+        bool isproperty(std::wstring propertyName);
 
     private:
-		wstringVector _propertiesNames;
+        wstringVector _propertiesNames;
         boost::dll::shared_library _shared_library;
         std::wstring _libraryPath;
     };

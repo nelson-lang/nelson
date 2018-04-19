@@ -37,10 +37,10 @@ namespace Nelson {
         ArrayOfVector call(Evaluator *eval, int Lhs, ArrayOfVector params);
         void disp(Evaluator *eval);
         static bool isValidParamType(std::wstring paramType, bool asReturnType);
-		bool get(std::wstring propertyName, ArrayOf &res);
-		bool isWriteableProperty(std::wstring propertyName);
-		wstringVector fieldnames();
-		bool isproperty(std::wstring propertyName);
+        bool get(std::wstring propertyName, ArrayOf &res);
+        bool isWriteableProperty(std::wstring propertyName);
+        wstringVector fieldnames();
+        bool isproperty(std::wstring propertyName);
 
     private:
         ArrayOf _dllibObject;
@@ -48,14 +48,14 @@ namespace Nelson {
         std::wstring _symbol;
         std::wstring _returnType;
         wstringVector _paramsTypes;
-		wstringVector _paramsInTypes;
-		wstringVector _paramsOutTypes;
-		ffi_cif _cif;
+        wstringVector _paramsInTypes;
+        wstringVector _paramsOutTypes;
+        ffi_cif _cif;
         size_t _nArgIn;
         size_t _nArgOut;
         std::wstring _prototype;
-		size_t lengthTextToDisplay(wstringVector params);
-		wstringVector _propertiesNames;
+        size_t lengthTextToDisplay(wstringVector params);
+        wstringVector _propertiesNames;
         void buildPrototype();
     };
     //=============================================================================

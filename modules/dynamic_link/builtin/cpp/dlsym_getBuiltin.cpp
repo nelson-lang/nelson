@@ -26,48 +26,48 @@ using namespace Nelson;
 //=============================================================================
 ArrayOfVector Nelson::DynamicLinkGateway::dlsym_getBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-	if (argIn.size() != 2)
-	{
-		Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-	}
-	if (nLhs > 1)
-	{
-		Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-	}
-	ArrayOf param1 = argIn[0];
-	ArrayOf param2 = argIn[1];
-	std::wstring propertyName = param2.getContentAsWideString();
-	ArrayOfVector retval;
-	if (!param1.isHandle())
-	{
-		Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
-	}
-	if (!param1.isScalar())
-	{
-		Error(eval, ERROR_SIZE_SCALAR_EXPECTED);
-	}
-	nelson_handle *qp = (nelson_handle*)param1.getDataPointer();
-	if (qp == nullptr)
-	{
-		Error(eval, _W("dlsym valid handle expected."));
-	}
-	nelson_handle hl = qp[0];
-	HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-	if (hlObj == nullptr)
-	{
-		Error(eval, _W("dlsym valid handle expected."));
-	}
-	if (hlObj->getCategory() != DLSYM_CATEGORY_STR)
-	{
-		Error(eval, _W("dlsym handle expected."));
-	}
-	DynamicLinkSymbolObject *objDlsym = (DynamicLinkSymbolObject *)hlObj;
-	ArrayOf res;
-	if (!objDlsym->get(propertyName, res))
-	{
-		Error(eval, ERROR_WRONG_ARGUMENT_2_VALUE);
-	}
-	retval.push_back(res);
-	return retval;
+    if (argIn.size() != 2)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    if (nLhs > 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    ArrayOf param1 = argIn[0];
+    ArrayOf param2 = argIn[1];
+    std::wstring propertyName = param2.getContentAsWideString();
+    ArrayOfVector retval;
+    if (!param1.isHandle())
+    {
+        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
+    }
+    if (!param1.isScalar())
+    {
+        Error(eval, ERROR_SIZE_SCALAR_EXPECTED);
+    }
+    nelson_handle *qp = (nelson_handle*)param1.getDataPointer();
+    if (qp == nullptr)
+    {
+        Error(eval, _W("dlsym valid handle expected."));
+    }
+    nelson_handle hl = qp[0];
+    HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
+    if (hlObj == nullptr)
+    {
+        Error(eval, _W("dlsym valid handle expected."));
+    }
+    if (hlObj->getCategory() != DLSYM_CATEGORY_STR)
+    {
+        Error(eval, _W("dlsym handle expected."));
+    }
+    DynamicLinkSymbolObject *objDlsym = (DynamicLinkSymbolObject *)hlObj;
+    ArrayOf res;
+    if (!objDlsym->get(propertyName, res))
+    {
+        Error(eval, ERROR_WRONG_ARGUMENT_2_VALUE);
+    }
+    retval.push_back(res);
+    return retval;
 }
 //=============================================================================

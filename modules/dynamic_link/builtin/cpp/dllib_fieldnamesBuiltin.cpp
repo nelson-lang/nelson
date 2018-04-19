@@ -27,33 +27,33 @@ using namespace Nelson;
 //=============================================================================
 ArrayOfVector Nelson::DynamicLinkGateway::dllib_fieldnamesBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-	ArrayOfVector retval;
-	if (nLhs > 1)
-	{
-		Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-	}
-	if (argIn.size() != 1)
-	{
-		Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-	}
-	ArrayOf param1 = argIn[0];
-	if (param1.isHandle())
-	{
-		nelson_handle *qp = (nelson_handle*)param1.getDataPointer();
-		nelson_handle hl = qp[0];
-		HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-		if (hlObj->getCategory() != DLLIB_CATEGORY_STR)
-		{
-			Error(eval, _W("dllib handle expected."));
-		}
-		DynamicLinkLibraryObject *objDllib = (DynamicLinkLibraryObject *)hlObj;
-		wstringVector fieldnames = objDllib->fieldnames();
-		retval.push_back(ToCellStringAsColumn(fieldnames));
-	}
-	else
-	{
-		Error(eval, _W("dllib handle expected."));
-	}
-	return retval;
+    ArrayOfVector retval;
+    if (nLhs > 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    if (argIn.size() != 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    ArrayOf param1 = argIn[0];
+    if (param1.isHandle())
+    {
+        nelson_handle *qp = (nelson_handle*)param1.getDataPointer();
+        nelson_handle hl = qp[0];
+        HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
+        if (hlObj->getCategory() != DLLIB_CATEGORY_STR)
+        {
+            Error(eval, _W("dllib handle expected."));
+        }
+        DynamicLinkLibraryObject *objDllib = (DynamicLinkLibraryObject *)hlObj;
+        wstringVector fieldnames = objDllib->fieldnames();
+        retval.push_back(ToCellStringAsColumn(fieldnames));
+    }
+    else
+    {
+        Error(eval, _W("dllib handle expected."));
+    }
+    return retval;
 }
 //=============================================================================
