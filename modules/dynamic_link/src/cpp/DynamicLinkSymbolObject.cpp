@@ -22,6 +22,7 @@
 #include "StringFormat.hpp"
 #include "IsValidHandle.hpp"
 #include "Error.hpp"
+#include "ToCellString.hpp"
 //=============================================================================
 namespace Nelson {
     //=============================================================================
@@ -112,6 +113,8 @@ namespace Nelson {
     //=============================================================================
     DynamicLinkSymbolObject::DynamicLinkSymbolObject(ArrayOf dllibObject, void *pointerFunction, std::wstring symbol, std::wstring returnType, wstringVector paramsTypes) : HandleGenericObject(std::wstring(DLSYM_CATEGORY_STR), this, false)
     {
+		_propertiesNames = { L"Prototype", L"Input", L"Output"};
+
         if (!ffiTypesMapInitialized)
         {
             initializeFfiTypesMap();
@@ -163,23 +166,33 @@ namespace Nelson {
         _nArgIn = 0;
         _nArgOut = 0;
         _prototype = L"";
+		_propertiesNames.clear();
+		_paramsInTypes.clear();
+		_paramsOutTypes.clear();
+
     }
     //=============================================================================
     void DynamicLinkSymbolObject::buildPrototype()
     {
+		_paramsInTypes.clear();
+		_paramsOutTypes.clear();
+
         if (_nArgOut <= 1)
         {
+			_paramsOutTypes.push_back(_returnType);
             _prototype = _returnType + L" = " + _symbol + L" (";
         }
         else
         {
-            _prototype = L"[" + _returnType;
+			_paramsOutTypes.push_back(_returnType);
+			_prototype = L"[" + _returnType;
             for (std::wstring param : _paramsTypes)
             {
                 if (boost::algorithm::ends_with(param, L"Ptr"))
                 {
                     _prototype = _prototype + L", " + param;
-                }
+					_paramsOutTypes.push_back(param);
+				}
             }
             _prototype = _prototype + L"] = " + _symbol + L" (";
         }
@@ -195,22 +208,90 @@ namespace Nelson {
             {
                 _prototype = _prototype + L", " + param;
             }
-        }
+			_paramsInTypes.push_back(param);
+		}
         _prototype = _prototype + L")";
     }
     //=============================================================================
-    void DynamicLinkSymbolObject::disp(Evaluator *eval)
+	size_t DynamicLinkSymbolObject::lengthTextToDisplay(wstringVector params)
+	{
+		size_t len = 0;
+		for (std::wstring str : params)
+		{
+			len = len + str.length() + wcslen(L", ");
+		}
+		return len;
+	}
+	//=============================================================================
+	void DynamicLinkSymbolObject::disp(Evaluator *eval)
     {
         if (eval != nullptr)
         {
             Interface *io = eval->getInterface();
             if (io)
             {
-                io->outputMessage(L"\n");
-                io->outputMessage(L"\tPrototype: \t'" + _prototype + L"'\n");
-                io->outputMessage(L"\tnargin: \t" + std::to_wstring(_nArgIn) + L"\n");
-                io->outputMessage(L"\tnargout: \t" + std::to_wstring(_nArgOut) + L"\n");
-                io->outputMessage(L"\n");
+				std::wstring buffer;
+				io->outputMessage(L"\n");
+#define PROTOTYPE_FIELD_STR L"  Prototype: "
+#define OUTPUT_FIELD_STR    L"  Output:    "
+#define INPUT_FIELD_STR     L"  Input:     "
+				if (wcslen(PROTOTYPE_FIELD_STR) + _prototype.length() > io->getTerminalWidth() - 4)
+				{
+					buffer = std::wstring(PROTOTYPE_FIELD_STR) + L"string 1×" + std::to_wstring(_prototype.length());
+				}
+				else
+				{
+					buffer = std::wstring(PROTOTYPE_FIELD_STR) + L"'" + _prototype + L"'";
+				}
+				io->outputMessage(buffer + L"\n");
+				if (wcslen(INPUT_FIELD_STR) + lengthTextToDisplay(_paramsInTypes) > io->getTerminalWidth() - 4)
+				{
+					buffer = INPUT_FIELD_STR;
+					buffer = buffer + L"1×" + std::to_wstring(_nArgIn) + L" " + _W("cell array");
+					io->outputMessage(buffer + L"\n");
+				}
+				else
+				{
+					buffer = INPUT_FIELD_STR;
+					buffer = buffer + L"{";
+					for (size_t k = 0; k < _paramsInTypes.size(); k++)
+					{
+						if (k == _paramsInTypes.size() - 1)
+						{
+							buffer = buffer + _paramsInTypes[k];
+						}
+						else
+						{
+							buffer = buffer + _paramsInTypes[k] + L", ";
+						}
+					}
+					buffer = buffer + L"}";
+					io->outputMessage(buffer + L"\n");
+				}
+				if (wcslen(OUTPUT_FIELD_STR) + lengthTextToDisplay(_paramsOutTypes) > io->getTerminalWidth() - 4)
+				{
+					buffer = OUTPUT_FIELD_STR;
+					buffer = buffer + L"1×" + std::to_wstring(_nArgOut) + L" " +_W("cell array");
+				}
+				else
+				{
+					buffer = OUTPUT_FIELD_STR;
+					buffer = buffer + L"{";
+					for (size_t k = 0; k < _paramsOutTypes.size(); k++)
+					{
+						if (k == _paramsOutTypes.size() - 1)
+						{
+							buffer = buffer + _paramsOutTypes[k];
+						}
+						else
+						{
+							buffer = buffer + _paramsOutTypes[k] + L", ";
+						}
+					}
+					buffer = buffer + L"}";
+				}
+				io->outputMessage(buffer + L"\n");
+				io->outputMessage(L"\n");
             }
         }
     }
@@ -453,5 +534,41 @@ namespace Nelson {
         return retval;
     }
     //=============================================================================
+	bool DynamicLinkSymbolObject::get(std::wstring propertyName, ArrayOf &res)
+	{
+		if (propertyName == L"Prototype")
+		{
+			res = ArrayOf::stringConstructor(_prototype);
+			return true;
+		}
+		if (propertyName == L"Input")
+		{
+			res = ToCellStringAsRow(_paramsInTypes);
+			return true;
+		}
+		if (propertyName == L"Output")
+		{
+			res = ToCellStringAsRow(_paramsOutTypes);
+			return true;
+		}
+		return false;
+	}
+	//=============================================================================
+	bool DynamicLinkSymbolObject::isWriteableProperty(std::wstring propertyName)
+	{
+		return false;
+	}
+	//=============================================================================
+	wstringVector DynamicLinkSymbolObject::fieldnames()
+	{
+		return _propertiesNames;
+	}
+	//=============================================================================
+	bool DynamicLinkSymbolObject::isproperty(std::wstring propertyName)
+	{
+		auto it = std::find(_propertiesNames.begin(), _propertiesNames.end(), propertyName);
+		return (it != _propertiesNames.end());
+	}
+	//=============================================================================
 }
 //=============================================================================

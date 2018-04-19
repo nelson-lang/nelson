@@ -96,10 +96,6 @@ namespace Nelson {
 	//=========================================================================
     bool DynamicLinkLibraryObject::isWriteableProperty(std::wstring propertyName)
     {
-        if (propertyName == L"Path")
-        {
-            return false;
-        }
         return false;
     }
 	//=============================================================================

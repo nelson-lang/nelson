@@ -16,15 +16,15 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "dllib_getBuiltin.hpp"
+#include "dlsym_getBuiltin.hpp"
 #include "Error.hpp"
-#include "DynamicLinkLibraryObject.hpp"
+#include "DynamicLinkSymbolObject.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::DynamicLinkGateway::dllib_getBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector Nelson::DynamicLinkGateway::dlsym_getBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
 	if (argIn.size() != 2)
 	{
@@ -49,21 +49,21 @@ ArrayOfVector Nelson::DynamicLinkGateway::dllib_getBuiltin(Evaluator* eval, int 
 	nelson_handle *qp = (nelson_handle*)param1.getDataPointer();
 	if (qp == nullptr)
 	{
-		Error(eval, _W("dllib valid handle expected."));
+		Error(eval, _W("dlsym valid handle expected."));
 	}
 	nelson_handle hl = qp[0];
 	HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
 	if (hlObj == nullptr)
 	{
-		Error(eval, _W("dllib valid handle expected."));
+		Error(eval, _W("dlsym valid handle expected."));
 	}
-	if (hlObj->getCategory() != DLLIB_CATEGORY_STR)
+	if (hlObj->getCategory() != DLSYM_CATEGORY_STR)
 	{
-		Error(eval, _W("dllib handle expected."));
+		Error(eval, _W("dlsym handle expected."));
 	}
-	DynamicLinkLibraryObject *objDllib = (DynamicLinkLibraryObject *)hlObj;
+	DynamicLinkSymbolObject *objDlsym = (DynamicLinkSymbolObject *)hlObj;
 	ArrayOf res;
-	if (!objDllib->get(propertyName, res))
+	if (!objDlsym->get(propertyName, res))
 	{
 		Error(eval, ERROR_WRONG_ARGUMENT_2_VALUE);
 	}
