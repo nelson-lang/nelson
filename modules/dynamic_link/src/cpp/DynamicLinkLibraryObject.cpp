@@ -24,6 +24,9 @@
 #include <boost/filesystem.hpp>
 #include <boost/dll/library_info.hpp>
 #include "dynamic_library.hpp"
+#include "GetVariableEnvironment.hpp"
+#undef GetCurrentDirectory
+#include "GetCurrentDirectory.hpp"
 //=============================================================================
 namespace Nelson {
     //=============================================================================
@@ -31,15 +34,24 @@ namespace Nelson {
     {
         _propertiesNames = { L"Path"
                            };
-        boost::system::error_code errorCode;
-        boost::dll::shared_library lib(libraryPath, errorCode);
-        if (errorCode)
-        {
-            throw Exception(_("Cannot load library: ") + errorCode.message());
-        }
-        boost::filesystem::path full_path = lib.location();
-        _libraryPath = full_path.generic_wstring();
-        _shared_library = lib;
+
+		std::wstring fullLibraryPath = L"";
+		if (searchLibrary(libraryPath, fullLibraryPath))
+		{
+			boost::system::error_code errorCode;
+			boost::dll::shared_library lib(fullLibraryPath, errorCode);
+			if (errorCode)
+			{
+				throw Exception(_("Cannot load library: ") + errorCode.message());
+			}
+			boost::filesystem::path full_path = lib.location();
+			_libraryPath = full_path.generic_wstring();
+			_shared_library = lib;
+		}
+		else
+		{
+			throw Exception(_W("Cannot load library: ") + libraryPath);
+		}
     }
     //=============================================================================
     DynamicLinkLibraryObject::~DynamicLinkLibraryObject()
@@ -109,5 +121,141 @@ namespace Nelson {
         return (it != _propertiesNames.end());
     }
     //=============================================================================
+	bool DynamicLinkLibraryObject::searchLibrary(std::wstring libraryPath, std::wstring &fullLibraryPath)
+	{
+		fullLibraryPath = L"";
+		boost::filesystem::path pathToSplit = libraryPath;
+		std::wstring parentPath = L"";
+		if (pathToSplit.has_parent_path())
+		{
+			parentPath = pathToSplit.parent_path().generic_wstring();
+		}
+		
+		boost::system::error_code errorCode;
+		if (parentPath != L"")
+		{
+			boost::dll::shared_library lib(libraryPath, errorCode);
+			if (errorCode)
+			{
+				return false;
+			}
+			fullLibraryPath = libraryPath;
+			return true;
+		}
+		if (parentPath == L"")
+		{
+			std::wstring currentPath = Nelson::GetCurrentDirectory();
+			boost::filesystem::path dir(currentPath);
+			boost::filesystem::path file(libraryPath);
+			boost::filesystem::path full_path = dir / file;
+			boost::dll::shared_library lib(full_path, errorCode);
+			if (errorCode)
+			{
+				wstringVector paths = getEnvironmentPaths(L"NLS_LIBRARY_PATH");
+				if (!paths.empty())
+				{
+					for (std::wstring path : paths)
+					{
+						boost::filesystem::path dir(path);
+						boost::filesystem::path file(libraryPath);
+						boost::filesystem::path full_path = dir / file;
+						boost::dll::shared_library lib(full_path, errorCode);
+						if (!errorCode)
+						{
+							fullLibraryPath = full_path.generic_wstring();
+							return true;
+						}
+					}
+				}
+#ifdef _MSC_VER
+				paths = getEnvironmentPaths(L"PATH");
+#else
+#ifdef __APPLE__
+				paths = getEnvironmentPaths(L"DYLD_LIBRARY_PATH");
+#else
+				paths = getEnvironmentPaths(L"LD_LIBRARY_PATH");
+#endif
+#endif
+				if (!paths.empty())
+				{
+					for (std::wstring path : paths)
+					{
+						boost::filesystem::path dir(path);
+						boost::filesystem::path file(libraryPath);
+						boost::filesystem::path full_path = dir / file;
+						boost::dll::shared_library lib(full_path.generic_wstring(), errorCode);
+						if (errorCode)
+						{
+						}
+						else
+						{
+							fullLibraryPath = full_path.generic_wstring();
+							return true;
+						}
+					}
+				}
+#ifndef _MSC_VER
+				paths.clear();
+				paths.push_back(L"/usr/lib");
+				paths.push_back(L"/usr/local/lib");
+				if (!paths.empty())
+				{
+					for (std::wstring path : paths)
+					{
+						boost::filesystem::path dir(path);
+						boost::filesystem::path file(libraryPath);
+						boost::filesystem::path full_path = dir / file;
+						boost::dll::shared_library lib(full_path.generic_wstring(), errorCode);
+						if (errorCode)
+						{
+						}
+						else
+						{
+							fullLibraryPath = full_path.generic_wstring();
+							return true;
+						}
+					}
+				}
+#endif
+
+			}
+			else
+			{
+				fullLibraryPath = full_path.generic_wstring();
+				return true;
+			}
+		}
+		return false;
+	}
+	//=============================================================================
+	wstringVector DynamicLinkLibraryObject::getEnvironmentPaths(const std::wstring &environPath)
+	{
+		wstringVector  result;
+		std::wstring Path = GetVariableEnvironment(environPath);
+
+#if _MSC_VER
+		const wchar_t delimiter = L';';
+#else
+		const wchar_t delimiter = L':';
+#endif
+		if (Path.empty())
+		{
+			return result;
+		}
+		size_t previous = 0;
+		size_t index = Path.find(delimiter);
+		while (index != std::wstring::npos)
+		{
+			result.push_back(Path.substr(previous, index - previous));
+			previous = index + 1;
+			index = Path.find(delimiter, previous);
+		}
+		std::wstring p = Path.substr(previous);
+		if (!p.empty())
+		{
+			result.push_back(p);
+		}
+		return result;
+	}
 }
 //=============================================================================

@@ -32,6 +32,8 @@ ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../handle/src/include
 ${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../files_folders_functions/src/include
+${CMAKE_CURRENT_SOURCE_DIR}/../os_functions/src/include
 ${LIBFFI_INCLUDE_DIRS}
 )
 #==============================================================================	
@@ -56,6 +58,8 @@ nlsApi_nelson
 nlsI18n
 nlsHandle
 nlsString
+nlsFiles_folders_functions
+nlsOs_functions
 ${LIBFFI_LIBRARIES}
 )
 #==============================================================================	

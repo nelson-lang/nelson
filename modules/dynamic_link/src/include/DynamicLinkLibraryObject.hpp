@@ -45,6 +45,9 @@ namespace Nelson {
         wstringVector _propertiesNames;
         boost::dll::shared_library _shared_library;
         std::wstring _libraryPath;
+		bool searchLibrary(std::wstring libraryPath, std::wstring &fullLibraryPath);
+		wstringVector getEnvironmentPaths(const std::wstring &environPath);
+
     };
     //=============================================================================
 }
