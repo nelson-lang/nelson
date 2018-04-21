@@ -47,6 +47,7 @@ namespace Nelson {
         std::wstring _libraryPath;
 		bool searchLibrary(std::wstring libraryPath, std::wstring &fullLibraryPath);
 		wstringVector getEnvironmentPaths(const std::wstring &environPath);
+		bool findLibrary(wstringVector paths, const std::wstring &libraryName, std::wstring &fullLibraryPath);
 
     };
     //=============================================================================
