@@ -37,6 +37,12 @@
 #include "dlsym_deleteBuiltin.hpp"
 #include "dlcallBuiltin.hpp"
 #include "getdynlibextBuiltin.hpp"
+#include "libpointerBuiltin.hpp"
+#include "libpointer_dispBuiltin.hpp"
+#include "libpointer_isNullBuiltin.hpp"
+#include "libpointer_reshapeBuiltin.hpp"
+#include "libpointer_getBuiltin.hpp"
+#include "isNullBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -54,8 +60,8 @@ static const nlsGateway gateway[] =
     { "dlsym_get", Nelson::DynamicLinkGateway::dlsym_getBuiltin, 1, 2 },
     { "dlsym_isprop", Nelson::DynamicLinkGateway::dlsym_ispropBuiltin, 1, 2 },
     { "dlsym_fieldnames", Nelson::DynamicLinkGateway::dlsym_fieldnamesBuiltin, 1, 1 },
-	{ "dlsym_delete", Nelson::DynamicLinkGateway::dlsym_deleteBuiltin, 0, 1 },
-	{ "dllib_disp", Nelson::DynamicLinkGateway::dllib_dispBuiltin, 0, 1 },
+    { "dlsym_delete", Nelson::DynamicLinkGateway::dlsym_deleteBuiltin, 0, 1 },
+    { "dllib_disp", Nelson::DynamicLinkGateway::dllib_dispBuiltin, 0, 1 },
     { "dllib_get", Nelson::DynamicLinkGateway::dllib_getBuiltin, 1, 2 },
     { "dllib_isprop", Nelson::DynamicLinkGateway::dllib_ispropBuiltin, 1, 2 },
     { "dllib_used", Nelson::DynamicLinkGateway::dllib_usedBuiltin, 1, 0 },
@@ -64,7 +70,13 @@ static const nlsGateway gateway[] =
     { "dllib_fieldnames", Nelson::DynamicLinkGateway::dllib_fieldnamesBuiltin, 1, 1 },
     { "dlinfo", Nelson::DynamicLinkGateway::dlinfoBuiltin, 1, 1 },
     { "dlcall", Nelson::DynamicLinkGateway::dlcallBuiltin, -1, -1 },
-    { "getdynlibext", Nelson::DynamicLinkGateway::getdynlibextBuiltin, 1, 0 }
+    { "libpointer", Nelson::DynamicLinkGateway::libpointerBuiltin, 1, -1 },
+    { "libpointer_disp", Nelson::DynamicLinkGateway::libpointer_dispBuiltin, 0, 1 },
+	{ "libpointer_isNull", Nelson::DynamicLinkGateway::libpointer_isNullBuiltin, 1, 1 },
+	{ "libpointer_reshape", Nelson::DynamicLinkGateway::libpointer_reshapeBuiltin, 0, 3 },
+	{ "libpointer_get", Nelson::DynamicLinkGateway::libpointer_getBuiltin, 1, 2 },
+	{ "isNull", Nelson::DynamicLinkGateway::isNullBuiltin, 1, 1 },
+	{ "getdynlibext", Nelson::DynamicLinkGateway::getdynlibextBuiltin, 1, 0 }
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

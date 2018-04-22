@@ -1,0 +1,57 @@
+//=============================================================================
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+assert_isequal(nargin('libpointer'), -1);
+assert_isequal(nargout('libpointer'), 1);
+//=============================================================================
+p = libpointer();
+assert_istrue(p.isNull());
+assert_isequal(p.DataType, '');
+//=============================================================================
+p = libpointer('int8');
+assert_istrue(p.isNull());
+assert_isequal(p.DataType, 'int8');
+//=============================================================================
+assert_checkerror('p = libpointer(''int888'');', [_('Invalid argument type:'), 'int888']);
+//=============================================================================
+p = libpointer('int8Ptr');
+assert_istrue(p.isNull());
+assert_isequal(p.DataType, 'int8Ptr');
+//=============================================================================
+p = libpointer('int8', int8(3));
+assert_isfalse(p.isNull());
+assert_isequal(p.Value, int8(3));
+assert_isequal(p.DataType, 'int8');
+//=============================================================================
+p = libpointer('int8Ptr', int8([3 4]));
+assert_isfalse(p.isNull());
+assert_isequal(p.DataType, 'int8Ptr');
+assert_isequal(p.Value, int8([3 4]));
+//=============================================================================
+assert_checkerror('p = libpointer(''int8'', int8([3 4]));', _('#2 argument must be scalar.'));
+//=============================================================================
+str = 'This is a string';
+voidptr = libpointer('voidPtr',[int8(str) int8(0)]);
+assert_isequal(class(voidptr), 'libpointer');
+assert_isequal(voidptr.DataType, 'voidPtr');
+REF = int8([84, 104, 105, 115, 32, 105, 115, 32, 97,  32, 115, 116, 114, 105, 110, 103, 0]);
+assert_isequal(voidptr.Value, REF);
+assert_istrue(startsWith(char(voidptr.Value), str));
+assert_isequal(length(char(voidptr.Value)), 17);
+assert_isequal(length(str), 16);
+//=============================================================================

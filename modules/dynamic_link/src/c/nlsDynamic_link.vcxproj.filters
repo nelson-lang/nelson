@@ -48,6 +48,9 @@
     <ClCompile Include="..\cpp\DeleteDynamicLinkSymbolObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\LibPointerObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\include\dynamic_library.hpp">
@@ -84,6 +87,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\DeleteDynamicLinkSymbolObject.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\LibPointerObject.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -50,13 +50,13 @@ namespace Nelson {
         {
             Exception(_W("Valid handle expected."));
         }
-        if (!DynamicLinkSymbolObject::isValidParamType(returnType, true))
+        if (!DynamicLinkSymbolObject::isValidDataType(returnType))
         {
             throw Exception(_W("Invalid argument type:") + returnType);
         }
         for (std::wstring arg : argumentsType)
         {
-            if (!DynamicLinkSymbolObject::isValidParamType(arg, false))
+            if (!DynamicLinkSymbolObject::isValidDataType(arg))
             {
                 throw Exception(_W("Invalid argument type:") + arg);
             }

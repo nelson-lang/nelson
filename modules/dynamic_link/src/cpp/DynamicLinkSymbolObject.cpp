@@ -80,7 +80,12 @@ namespace Nelson {
         ffiTypesMap[L"floatPtr"] = CType(&ffi_type_pointer, NLS_SINGLE);
         ffiTypesMap[L"singlePtr"] = CType(&ffi_type_pointer, NLS_SINGLE);
         ffiTypesMap[L"doublePtr"] = CType(&ffi_type_pointer, NLS_DOUBLE);
-        ffiTypesMapInitialized = true;
+#ifdef NLS_INDEX_TYPE_64
+		ffiTypesMap[L"voidPtr"] = CType(&ffi_type_void, NLS_UINT64);
+#else
+		ffiTypesMap[L"voidPtr"] = CType(&ffi_type_void, NLS_UINT32);
+#endif
+		ffiTypesMapInitialized = true;
     }
     //=============================================================================
     static ffi_type* GetFFIType(std::wstring type)
@@ -97,7 +102,7 @@ namespace Nelson {
         return ret.FFIType;
     }
     //=============================================================================
-    static Class GetNelsonType(std::wstring type)
+    Class DynamicLinkSymbolObject::GetNelsonType(std::wstring type)
     {
         CType ret;
         if (ffiTypesMap.count(type) != 0)
@@ -293,13 +298,13 @@ namespace Nelson {
         }
     }
     //=============================================================================
-    bool DynamicLinkSymbolObject::isValidParamType(std::wstring paramType, bool asReturnType)
+    bool DynamicLinkSymbolObject::isValidDataType(std::wstring DataType)
     {
         if (!ffiTypesMapInitialized)
         {
             initializeFfiTypesMap();
         }
-        return ffiTypesMap.count(paramType) != 0;
+        return ffiTypesMap.count(DataType) != 0;
     }
     //=============================================================================
     typedef void(*GenericFuncPointer)();

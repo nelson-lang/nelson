@@ -4142,9 +4142,15 @@ namespace Nelson {
             if (t->opNum == (OP_DOT))
             {
                 std::string fieldname = t->down->text;
-                if (r.isHandle())
+				if (r.isHandle())
                 {
-                    rv = getHandle(r, fieldname);
+					ArrayOfVector params;
+					if (t->right)
+					{
+						ASTPtr s = t->right->down;
+						params = expressionList(s);
+					}
+					rv = getHandle(r, fieldname, params);
                 }
                 else
                 {
@@ -4176,7 +4182,8 @@ namespace Nelson {
                 }
                 if (r.isHandle())
                 {
-                    rv = getHandle(r, field);
+					ArrayOfVector v;
+                    rv = getHandle(r, field, v);
                 }
                 else
                 {
@@ -4759,7 +4766,7 @@ namespace Nelson {
         funcDef->evaluateFunction(this, argIn, nLhs);
     }
     //=============================================================================
-    ArrayOfVector Evaluator::getHandle(ArrayOf r, std::string fieldname)
+    ArrayOfVector Evaluator::getHandle(ArrayOf r, std::string fieldname, ArrayOfVector params)
     {
         if (!r.isScalar())
         {
@@ -4772,24 +4779,38 @@ namespace Nelson {
         {
             Error(this, _W("Valid handle expected."));
         }
-        std::wstring currentType = hlObj->getCategory();
-        std::wstring ufunctionNameGetHandle = currentType + L"_get";
-        std::string functionNameGetHandle = wstring_to_utf8(ufunctionNameGetHandle);
-        Context *context = this->getContext();
-        FunctionDef *funcDef = nullptr;
-        if (!context->lookupFunction(functionNameGetHandle, funcDef))
-        {
-            Error(this, _W("Function not found."));
-        }
-        if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION)))
-        {
-            Error(this, _W("Type function not valid."));
-        }
-        int nLhs = 1;
-        ArrayOfVector argIn;
-        argIn.push_back(r);
-        argIn.push_back(ArrayOf::stringConstructor(fieldname));
-        return funcDef->evaluateFunction(this, argIn, nLhs);
+		ArrayOfVector argIn;
+		std::wstring currentType = hlObj->getCategory();
+		Context *context = this->getContext();
+		FunctionDef *funcDef = nullptr;
+		std::string functionNameCurrentType = wstring_to_utf8(currentType) + "_" + fieldname;
+		if (context->lookupFunction(functionNameCurrentType, funcDef))
+		{
+			if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION)))
+			{
+				Error(this, _W("Type function not valid."));
+			}
+			int nLhs = 1;
+			argIn.push_back(r);
+			for (ArrayOf a : params)
+			{
+				argIn.push_back(a);
+			}
+			return funcDef->evaluateFunction(this, argIn, nLhs);
+		}
+        std::string functionNameGetHandle = wstring_to_utf8(currentType) + "_get";
+		if (!context->lookupFunction(functionNameGetHandle, funcDef))
+		{
+			Error(this, _W("Function not found."));
+		}
+		if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION)))
+		{
+			Error(this, _W("Type function not valid."));
+		}
+		int nLhs = 1;
+		argIn.push_back(r);
+		argIn.push_back(ArrayOf::stringConstructor(fieldname));
+		return funcDef->evaluateFunction(this, argIn, nLhs);
     }
     //=============================================================================
     void Evaluator::addCommandToQueue(std::wstring command, bool bIsPriority)

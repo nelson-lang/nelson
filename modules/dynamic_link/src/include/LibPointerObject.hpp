@@ -18,47 +18,40 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <ffi.h>
 #include "ArrayOf.hpp"
 #include "HandleGenericObject.hpp"
 #include "nlsDynamic_link_exports.h"
 #include "Evaluator.hpp"
-#include "DynamicLinkLibraryObject.hpp"
-#include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-#define DLSYM_CATEGORY_STR L"dlsym"
+#define LIBPOINTER_CATEGORY_STR L"libpointer"
     //=============================================================================
-    class NLSDYNAMIC_LINK_IMPEXP DynamicLinkSymbolObject : public HandleGenericObject {
+    class NLSDYNAMIC_LINK_IMPEXP LibPointerObject : public HandleGenericObject {
     public:
-        DynamicLinkSymbolObject(ArrayOf dllibObject, void *pointerFunction, std::wstring symbol, std::wstring returnType, wstringVector paramsType);
-        ~DynamicLinkSymbolObject();
-        ArrayOfVector call(Evaluator *eval, int Lhs, ArrayOfVector params);
+        LibPointerObject();
+        LibPointerObject(std::wstring DataType);
+        LibPointerObject(std::wstring DataType, ArrayOf Value);
+        ~LibPointerObject();
+
         void disp(Evaluator *eval);
-        static Class GetNelsonType(std::wstring type);
-        static bool isValidDataType(std::wstring DataType);
-        bool get(std::wstring propertyName, ArrayOf &res);
-        bool isWriteableProperty(std::wstring propertyName);
+        void *getPointer();
+		bool get(std::wstring propertyName, ArrayOf &res);
         wstringVector fieldnames();
         bool isproperty(std::wstring propertyName);
+        bool isWriteableProperty(std::wstring propertyName);
+        bool isNull();
+        bool plus();
+        void reshape(size_t dimX, size_t dimY);
+        std::wstring getDataType();
 
     private:
-        ArrayOf _dllibObject;
-        void *_pointerFunction;
-        std::wstring _symbol;
-        std::wstring _returnType;
-        wstringVector _paramsTypes;
-        wstringVector _paramsInTypes;
-        wstringVector _paramsOutTypes;
-        ffi_cif _cif;
-        size_t _nArgIn;
-        size_t _nArgOut;
-        std::wstring _prototype;
-        size_t lengthTextToDisplay(wstringVector params);
-        wstringVector _propertiesNames;
-        void buildPrototype();
+		wstringVector _propertiesNames;
+        wstringVector _methodsNames;
+        std::wstring _DataType;
+		ArrayOf _value;
+        void LibPointerObject::initializeCommon();
     };
     //=============================================================================
-};
+}
 //=============================================================================

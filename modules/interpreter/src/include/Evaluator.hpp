@@ -695,7 +695,7 @@ namespace Nelson {
 
     private:
         void setHandle(ArrayOf r, std::string fieldname, ArrayOfVector fieldvalue);
-        ArrayOfVector getHandle(ArrayOf r, std::string fieldname);
+        ArrayOfVector getHandle(ArrayOf r, std::string fieldname, ArrayOfVector params);
         ArrayOf EndReference(ArrayOf v, indexType index, size_t count);
         size_t countSubExpressions(ASTPtr t);
 
