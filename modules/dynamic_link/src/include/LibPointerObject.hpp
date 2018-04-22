@@ -50,7 +50,7 @@ namespace Nelson {
         wstringVector _methodsNames;
         std::wstring _DataType;
 		ArrayOf _value;
-        void LibPointerObject::initializeCommon();
+        void initializeCommon();
     };
     //=============================================================================
 }
