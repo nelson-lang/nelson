@@ -85,7 +85,8 @@ namespace Nelson {
 
     typedef enum
     {
-        NLS_HANDLE,
+		NLS_NOT_TYPED = -1,
+        NLS_HANDLE = 0,
         NLS_CELL_ARRAY,
         NLS_STRUCT_ARRAY,
         NLS_LOGICAL,

@@ -26,7 +26,7 @@ using namespace Nelson;
 //=============================================================================
 ArrayOfVector Nelson::DynamicLinkGateway::libpointer_getBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-	if (argIn.size() != 2)
+	if (argIn.size() == 0  || argIn.size() > 2)
 	{
 		Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
 	}
@@ -35,8 +35,6 @@ ArrayOfVector Nelson::DynamicLinkGateway::libpointer_getBuiltin(Evaluator* eval,
 		Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
 	}
 	ArrayOf param1 = argIn[0];
-	ArrayOf param2 = argIn[1];
-	std::wstring propertyName = param2.getContentAsWideString();
 	ArrayOfVector retval;
 	if (!param1.isHandle())
 	{
@@ -63,9 +61,18 @@ ArrayOfVector Nelson::DynamicLinkGateway::libpointer_getBuiltin(Evaluator* eval,
 	}
 	LibPointerObject *objLibPointer = (LibPointerObject *)hlObj;
 	ArrayOf res;
-	if (!objLibPointer->get(propertyName, res))
+	if (argIn.size() == 1)
 	{
-		Error(eval, ERROR_WRONG_ARGUMENT_2_VALUE);
+		objLibPointer->get(res);
+	}
+	else
+	{
+		ArrayOf param2 = argIn[1];
+		std::wstring propertyName = param2.getContentAsWideString();
+		if (!objLibPointer->get(propertyName, res))
+		{
+			Error(eval, ERROR_WRONG_ARGUMENT_2_VALUE);
+		}
 	}
 	retval.push_back(res);
 	return retval;

@@ -24,14 +24,16 @@ assert_istrue(p.isNull());
 assert_isequal(p.DataType, '');
 //=============================================================================
 p = libpointer('int8');
-assert_istrue(p.isNull());
+assert_isfalse(p.isNull());
 assert_isequal(p.DataType, 'int8');
+assert_isequal(p.Value, int8(0));
 //=============================================================================
 assert_checkerror('p = libpointer(''int888'');', [_('Invalid argument type:'), 'int888']);
 //=============================================================================
 p = libpointer('int8Ptr');
 assert_istrue(p.isNull());
 assert_isequal(p.DataType, 'int8Ptr');
+assert_checkerror('p.Value', _('The datatype and size of the value must be defined.'));
 //=============================================================================
 p = libpointer('int8', int8(3));
 assert_isfalse(p.isNull());
@@ -43,7 +45,7 @@ assert_isfalse(p.isNull());
 assert_isequal(p.DataType, 'int8Ptr');
 assert_isequal(p.Value, int8([3 4]));
 //=============================================================================
-assert_checkerror('p = libpointer(''int8'', int8([3 4]));', _('#2 argument must be scalar.'));
+assert_checkerror('p = libpointer(''int8'', int8([3 4]));', _('Invalid #2 argument scalar expected.'));
 //=============================================================================
 str = 'This is a string';
 voidptr = libpointer('voidPtr',[int8(str) int8(0)]);
@@ -54,4 +56,22 @@ assert_isequal(voidptr.Value, REF);
 assert_istrue(startsWith(char(voidptr.Value), str));
 assert_isequal(length(char(voidptr.Value)), 17);
 assert_isequal(length(str), 16);
+//=============================================================================
+x = 133.3;
+xPtr = libpointer('doublePtr', x);
+r = get(xPtr);
+REF = struct();
+REF.Value = x;
+REF.DataType = 'doublePtr';
+assert_isequal(r, REF);
+//=============================================================================
+path_ref = [modulepath(nelsonroot(),'dynamic_link','bin'), '/libnlsDynamic_link', getdynlibext()];
+lib = dlopen(path_ref);
+f = dlsym(lib, 'multiplicationDoubleByReference', 'libpointer', {'doublePtr'});
+[r1, r2] = dlcall(f, xPtr);
+//=============================================================================
+r = get(xPtr);
+REF.Value = x * 2;
+REF.DataType = 'doublePtr';
+assert_isequal(r, REF);
 //=============================================================================

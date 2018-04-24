@@ -107,7 +107,6 @@ namespace Nelson {
             const charType *qp = (const charType*)dp->getData();
             memcpy(buffer, qp, M * sizeof(charType));
             buffer[M] = 0;
-            return buffer;
         }
         else
         {
@@ -120,6 +119,7 @@ namespace Nelson {
                 throw Exception(_W("Unable to convert supplied object to a single string."));
             }
         }
+		return buffer;
     }
     //=============================================================================
     std::wstring ArrayOf::getContentAsWideString(void) const

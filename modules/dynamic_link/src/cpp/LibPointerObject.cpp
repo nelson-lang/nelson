@@ -30,7 +30,13 @@ namespace Nelson {
     {
         initializeCommon();
     }
-    //=============================================================================
+	//=============================================================================
+	LibPointerObject::LibPointerObject(void *pointer) : HandleGenericObject(std::wstring(LIBPOINTER_CATEGORY_STR), this, false)
+	{
+		initializeCommon();
+		_voidPointer = pointer;
+	}
+	//=============================================================================
     LibPointerObject::LibPointerObject(std::wstring DataType) : HandleGenericObject(std::wstring(LIBPOINTER_CATEGORY_STR), this, false)
     {
         initializeCommon();
@@ -39,56 +45,76 @@ namespace Nelson {
 			throw Exception(_W("Invalid argument type:") + DataType);
 		}
 		_DataType = DataType;
-		Class classType = DynamicLinkSymbolObject::GetNelsonType(DataType);
-		void *pointer = nullptr;
-		Dimensions dims(0, 0);
-		if (!boost::algorithm::ends_with(DataType, L"Ptr"))
+		_currentType = DynamicLinkSymbolObject::GetNelsonType(DataType);
+		if (boost::algorithm::ends_with(DataType, L"Ptr"))
 		{
-			pointer = ArrayOf::allocateArrayOf(classType, 0);
+			_dimX = -1;
+			_dimY = -1;
 		}
-		_value = ArrayOf(classType, dims, pointer);
+		else
+		{
+			_dimX = 1;
+			_dimY = 1;
+			_voidPointer = ArrayOf::allocateArrayOf(_currentType, 1);
+		}
     }
     //=============================================================================
     LibPointerObject::LibPointerObject(std::wstring DataType, ArrayOf Value) : HandleGenericObject(std::wstring(LIBPOINTER_CATEGORY_STR), this, false)
     {
-        initializeCommon();
+		initializeCommon();
 		if (!DynamicLinkSymbolObject::isValidDataType(DataType))
 		{
 			throw Exception(_W("Invalid argument type:") + DataType);
 		}
-		Class classType = DynamicLinkSymbolObject::GetNelsonType(DataType);
+		_DataType = DataType;
 		if (DataType == L"voidPtr")
 		{
-
+			_currentType = Value.getDataClass();
 		}
 		else
 		{
-			if (classType != Value.getDataClass())
+			_currentType = DynamicLinkSymbolObject::GetNelsonType(DataType);
+		}
+		Dimensions dimsValue = Value.getDimensions();
+		_dimX = (long int)dimsValue.getRows();
+		_dimY = (long int)dimsValue.getElementCount() / _dimX;
+
+		if (!boost::algorithm::ends_with(DataType, L"Ptr"))
+		{
+			if (_currentType != Value.getDataClass())
 			{
 				throw Exception(_W("Invalid #2 argument type expected:") + DataType);
 			}
 		}
-		if (!boost::algorithm::ends_with(DataType, L"Ptr") && (!Value.isScalar() && !Value.isEmpty()))
+		if (!boost::algorithm::ends_with(DataType, L"Ptr") && (dimsValue.getElementCount() > 1 || dimsValue.getElementCount() == 0))
 		{
-			throw Exception(_W("#2 argument must be scalar."));
+			throw Exception(_W("Invalid #2 argument scalar expected."));
 		}
-		_DataType = DataType;
-		_value = Value;
-		_value.ensureSingleOwner();
+		_voidPointer = ArrayOf::allocateArrayOf(Value.getDataClass(), dimsValue.getElementCount());
+		memcpy(_voidPointer, Value.getReadWriteDataPointer(), Value.getElementSize() * dimsValue.getElementCount());
 	}
     //=============================================================================
     void LibPointerObject::initializeCommon()
     {
         _propertiesNames = { L"Value", L"DataType" };
         _methodsNames = { L"disp", L"isNull", L"plus", L"reshape", L"setdatatype" };
-        _DataType.clear();
+
+		_DataType.clear();
+		_voidPointer = nullptr;
+		_dimX = -1;
+		_dimY = -1;
+		_currentType = Nelson::Class::NLS_NOT_TYPED;
     }
     //=============================================================================
     LibPointerObject::~LibPointerObject()
     {
         _propertiesNames.clear();
         _methodsNames.clear();
-    }
+		_DataType.clear();
+		_voidPointer = nullptr;
+		_dimX = -1;
+		_dimY = -1;
+	}
     //=============================================================================
     void LibPointerObject::disp(Evaluator *eval)
     {
@@ -104,7 +130,7 @@ namespace Nelson {
     //=============================================================================
     void *LibPointerObject::getPointer()
     {
-        return _value.getReadWriteDataPointer();
+		return _voidPointer;
     }
     //=============================================================================
     wstringVector LibPointerObject::fieldnames()
@@ -125,11 +151,7 @@ namespace Nelson {
     //=============================================================================
     bool LibPointerObject::isNull()
     {
-		if (_DataType == L"")
-		{
-			return true;
-		}
-		return _value.isEmpty();
+		return _voidPointer == nullptr;
     }
     //=============================================================================
     bool LibPointerObject::plus()
@@ -141,11 +163,42 @@ namespace Nelson {
     {
         return _DataType;
     }
+	//=============================================================================
+	void LibPointerObject::setDataType(std::wstring dataType)
+	{
+		if (!DynamicLinkSymbolObject::isValidDataType(dataType))
+		{
+			throw Exception(_W("Invalid type."));
+		}
+		_currentType = DynamicLinkSymbolObject::GetNelsonType(dataType);
+		_DataType = dataType;
+	}
     //=============================================================================
     void LibPointerObject::reshape(size_t dimX, size_t dimY)
     {
+		_dimX = (long int)dimX;
+		_dimY = (long int)dimY;
     }
     //=============================================================================
+	void LibPointerObject::get(ArrayOf &res)
+	{
+		if (_dimX == -1 || _dimY == -1 || _currentType == NLS_NOT_TYPED)
+		{
+			throw Exception(_W("The datatype and size of the value must be defined."));
+		}
+		wstringVector fieldnames;
+		ArrayOfVector  fieldvalues;
+		fieldnames.push_back(L"Value");
+		fieldnames.push_back(L"DataType");
+		void *copyPointer = ArrayOf::allocateArrayOf(_currentType, _dimX * _dimY);
+		ArrayOf value = ArrayOf(_currentType);
+		memcpy(copyPointer, _voidPointer, value.getElementSize() * (_dimX * _dimY));
+		value = ArrayOf(_currentType, Dimensions(_dimX, _dimY), copyPointer);
+		fieldvalues.push_back(value);
+		fieldvalues.push_back(ArrayOf::stringConstructor(_DataType));
+		res = ArrayOf::structConstructor(fieldnames, fieldvalues);
+	}
+	//=============================================================================
 	bool LibPointerObject::get(std::wstring propertyName, ArrayOf &res)
 	{
 		if (propertyName == L"DataType")
@@ -155,7 +208,14 @@ namespace Nelson {
 		}
 		if (propertyName == L"Value")
 		{
-			res = _value;
+			if (_dimX == -1 || _dimY == -1 || _currentType == NLS_NOT_TYPED)
+			{
+				throw Exception(_W("The datatype and size of the value must be defined."));
+			}
+			void *copyPointer = ArrayOf::allocateArrayOf(_currentType, _dimX * _dimY);
+			res = ArrayOf(_currentType);
+			memcpy(copyPointer, _voidPointer, res.getElementSize() * (_dimX * _dimY));
+			res = ArrayOf(_currentType, Dimensions(_dimX, _dimY), copyPointer);
 			return true;
 		}
 		return false;
