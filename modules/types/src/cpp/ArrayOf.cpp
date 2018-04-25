@@ -4511,8 +4511,8 @@ break;
             }
             else if (*qp < 0)
             {
-                idx = 0;
-            }
+				throw Exception(_W("Expected a positive integer scalar."));
+			}
             else
             {
                 double dVal = (*qp);
