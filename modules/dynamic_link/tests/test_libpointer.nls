@@ -75,3 +75,23 @@ REF.Value = x * 2;
 REF.DataType = 'doublePtr';
 assert_isequal(r, REF);
 //=============================================================================
+x = [1 2 3 4];
+xPtr = libpointer('doublePtr', x);
+xPtr.reshape(1, 1);
+assert_isequal(xPtr.Value, 1);
+xPtr.reshape(5, 5);
+REF = [1     0     0     0     0;
+       2     0     0     0     0;
+       3     0     0     0     0;
+       4     0     0     0     0;
+       0     0     0     0     0];
+assert_isequal(xPtr.Value, REF);
+xPtr.reshape(1, 4);
+assert_isequal(xPtr.Value, [1 2 3 4]);
+xPtr.reshape(0, 0);
+assert_isequal(xPtr.Value, []);
+xPtr.reshape(1, 1);
+assert_isequal(xPtr.Value, 1);
+//=============================================================================
+assert_checkerror('xPtr.reshape(-3, -1)', _('Expected a positive integer scalar.'));
+//=============================================================================

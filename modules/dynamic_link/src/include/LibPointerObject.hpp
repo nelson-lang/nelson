@@ -58,6 +58,9 @@ namespace Nelson {
         long int _dimX;
         long int _dimY;
         Class _currentType;
+        long int _initialDimX;
+        long int _initialDimY;
+
     };
     //=============================================================================
 }

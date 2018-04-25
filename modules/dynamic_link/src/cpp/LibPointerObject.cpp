@@ -48,13 +48,17 @@ namespace Nelson {
         _currentType = DynamicLinkSymbolObject::GetNelsonType(DataType);
         if (boost::algorithm::ends_with(DataType, L"Ptr"))
         {
-            _dimX = -1;
-            _dimY = -1;
+            _initialDimX = -1;
+            _initialDimY = -1;
+            _dimX = _initialDimX;
+            _dimY = _initialDimY;
         }
         else
         {
-            _dimX = 1;
-            _dimY = 1;
+            _initialDimX = 1;
+            _initialDimY = 1;
+            _dimX = _initialDimX;
+            _dimY = _initialDimY;
             _voidPointer = ArrayOf::allocateArrayOf(_currentType, 1);
         }
     }
@@ -76,8 +80,10 @@ namespace Nelson {
             _currentType = DynamicLinkSymbolObject::GetNelsonType(DataType);
         }
         Dimensions dimsValue = Value.getDimensions();
-        _dimX = (long int)dimsValue.getRows();
-        _dimY = (long int)dimsValue.getElementCount() / _dimX;
+        _initialDimX = (long int)dimsValue.getRows();
+        _initialDimY = (long int)dimsValue.getElementCount() / _initialDimX;
+        _dimX = _initialDimX;
+        _dimY = _initialDimY;
         if (!boost::algorithm::ends_with(DataType, L"Ptr"))
         {
             if (_currentType != Value.getDataClass())
@@ -99,8 +105,10 @@ namespace Nelson {
         _methodsNames = { L"disp", L"isNull", L"plus", L"reshape", L"setdatatype" };
         _DataType.clear();
         _voidPointer = nullptr;
-        _dimX = -1;
-        _dimY = -1;
+        _initialDimX = -1;
+        _initialDimY = -1;
+        _dimX = _initialDimX;
+        _dimY = _initialDimY;
         _currentType = Nelson::Class::NLS_NOT_TYPED;
     }
     //=============================================================================
@@ -110,8 +118,10 @@ namespace Nelson {
         _methodsNames.clear();
         _DataType.clear();
         _voidPointer = nullptr;
-        _dimX = -1;
-        _dimY = -1;
+        _initialDimX = -1;
+        _initialDimY = -1;
+        _dimX = _initialDimX;
+        _dimY = _initialDimY;
     }
     //=============================================================================
     void LibPointerObject::disp(Evaluator *eval)
@@ -195,10 +205,9 @@ namespace Nelson {
         get(L"DataType", datatype);
         fieldnames.push_back(L"Value");
         fieldvalues.push_back(value);
-		fieldnames.push_back(L"DataType");
-		fieldvalues.push_back(datatype);
-
-		res = ArrayOf::structConstructor(fieldnames, fieldvalues);
+        fieldnames.push_back(L"DataType");
+        fieldvalues.push_back(datatype);
+        res = ArrayOf::structConstructor(fieldnames, fieldvalues);
     }
     //=============================================================================
     bool LibPointerObject::get(std::wstring propertyName, ArrayOf &res)
@@ -215,8 +224,18 @@ namespace Nelson {
                 throw Exception(_W("The datatype and size of the value must be defined."));
             }
             void *copyPointer = ArrayOf::allocateArrayOf(_currentType, _dimX * _dimY);
-            res = ArrayOf(_currentType);
-            memcpy(copyPointer, _voidPointer, res.getElementSize() * (_dimX * _dimY));
+            if (_initialDimX != -1 && _initialDimY != -1)
+            {
+                res = ArrayOf(_currentType);
+                if (_initialDimX * _initialDimY > _dimX * _dimY)
+                {
+                    memcpy(copyPointer, _voidPointer, res.getElementSize() * (_dimX * _dimY));
+                }
+                else
+                {
+                    memcpy(copyPointer, _voidPointer, res.getElementSize() * (_initialDimX * _initialDimY));
+                }
+            }
             res = ArrayOf(_currentType, Dimensions(_dimX, _dimY), copyPointer);
             return true;
         }

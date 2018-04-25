@@ -4151,6 +4151,7 @@ namespace Nelson {
                         try
                         {
                             params = expressionList(s);
+                            t = s;
                         }
                         catch (Exception)
                         {
