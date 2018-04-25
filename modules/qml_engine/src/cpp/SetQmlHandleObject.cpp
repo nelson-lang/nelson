@@ -39,25 +39,7 @@ namespace Nelson {
     void SetQmlHandleObject(ArrayOf A, std::wstring propertyName, ArrayOf B)
     {
         ArrayOf res;
-        if (!A.isHandle())
-        {
-            throw Exception(ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
-        }
-        if (!A.isScalar())
-        {
-            throw Exception(ERROR_SIZE_SCALAR_EXPECTED);
-        }
-        nelson_handle *qp = (nelson_handle*)A.getDataPointer();
-        if (qp == nullptr)
-        {
-            throw Exception(_W("QObject valid handle expected."));
-        }
-        nelson_handle hl = qp[0];
-        HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-        if (hlObj == nullptr)
-        {
-            throw Exception(_W("QObject valid handle expected."));
-        }
+        HandleGenericObject *hlObj = A.getContentAsHandleScalar();
         if (hlObj->getCategory() != QOBJECT_CATEGORY_STR)
         {
             throw Exception(_W("QObject handle expected."));
@@ -71,21 +53,7 @@ namespace Nelson {
         QObject *qobj = (QObject *)ptr;
         if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_PARENT_STR))
         {
-            if (!B.isHandle())
-            {
-                throw Exception(ERROR_WRONG_ARGUMENT_2_TYPE_HANDLE_EXPECTED);
-            }
-            if (!B.isScalar())
-            {
-                throw Exception(ERROR_SIZE_SCALAR_EXPECTED);
-            }
-            nelson_handle *qpParent = (nelson_handle*)B.getDataPointer();
-            if (qpParent == nullptr)
-            {
-                throw Exception(_W("QObject valid handle expected."));
-            }
-            nelson_handle hlParent = qpParent[0];
-            HandleGenericObject *hlObjParent = HandleManager::getInstance()->getPointer(hlParent);
+            HandleGenericObject *hlObjParent = B.getContentAsHandleScalar();
             if (hlObjParent == nullptr)
             {
                 throw Exception(_W("QObject valid handle expected."));

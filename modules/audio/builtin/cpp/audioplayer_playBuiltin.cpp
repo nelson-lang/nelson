@@ -71,52 +71,36 @@ ArrayOfVector Nelson::AudioGateway::audioplayer_playBuiltin(Evaluator* eval, int
             Error(eval, _W("scalar or [start, end] vector expected."));
         }
     }
-    if (param1.isHandle())
+    HandleGenericObject *hlObj = param1.getContentAsHandleScalar();
+    if (hlObj->getCategory() != AUDIOPLAYER_CATEGORY_STR)
     {
-        if (param1.isScalar())
-        {
-            nelson_handle *qp = (nelson_handle*)param1.getDataPointer();
-            nelson_handle hl = qp[0];
-            HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-            if (hlObj->getCategory() != AUDIOPLAYER_CATEGORY_STR)
-            {
-                Error(eval, _W("audioplayer handle expected."));
-            }
-            AudioplayerObject *objPlayer = (AudioplayerObject *)hlObj;
-            if (argIn.size() == 1)
-            {
-                objPlayer->play();
-            }
-            else
-            {
-                if (startOnly)
-                {
-                    if (start > objPlayer->getTotalSamples())
-                    {
-                        Error(eval, _W("Invalid range."));
-                    }
-                    objPlayer->play(start);
-                }
-                else
-                {
-                    if (start > objPlayer->getTotalSamples() ||
-                            start > end ||
-                            end > objPlayer->getTotalSamples())
-                    {
-                        Error(eval, _W("Invalid range."));
-                    }
-                    objPlayer->play(start, end);
-                }
-            }
-        }
-        else
-        {
-            Error(eval, _W("audioplayer scalar handle expected."));
-        }
+        Error(eval, _W("audioplayer handle expected."));
+    }
+    AudioplayerObject *objPlayer = (AudioplayerObject *)hlObj;
+    if (argIn.size() == 1)
+    {
+        objPlayer->play();
     }
     else
     {
-        Error(eval, _W("audioplayer handle expected."));
+        if (startOnly)
+        {
+            if (start > objPlayer->getTotalSamples())
+            {
+                Error(eval, _W("Invalid range."));
+            }
+            objPlayer->play(start);
+        }
+        else
+        {
+            if (start > objPlayer->getTotalSamples() ||
+                    start > end ||
+                    end > objPlayer->getTotalSamples())
+            {
+                Error(eval, _W("Invalid range."));
+            }
+            objPlayer->play(start, end);
+        }
     }
     return retval;
 }

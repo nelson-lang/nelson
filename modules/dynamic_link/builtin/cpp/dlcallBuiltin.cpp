@@ -32,31 +32,18 @@ ArrayOfVector Nelson::DynamicLinkGateway::dlcallBuiltin(Evaluator* eval, int nLh
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
-    if (param1.isHandle())
-    {
-        if (!param1.isScalar())
-        {
-            Error(eval, _W("dlsym scalar handle expected."));
-        }
-        nelson_handle *qp = (nelson_handle*)param1.getDataPointer();
-        nelson_handle hl = qp[0];
-        HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-        if (hlObj->getCategory() != DLSYM_CATEGORY_STR)
-        {
-            Error(eval, _W("dlsym handle expected."));
-        }
-        DynamicLinkSymbolObject *dlsymObj = (DynamicLinkSymbolObject *)hlObj;
-        ArrayOfVector params;
-        for (size_t l = 1; l < argIn.size(); l++)
-        {
-            params.push_back(argIn[l]);
-        }
-        retval = dlsymObj->call(eval, nLhs, params);
-    }
-    else
+    HandleGenericObject *hlObj = param1.getContentAsHandleScalar();
+    if (hlObj->getCategory() != DLSYM_CATEGORY_STR)
     {
         Error(eval, _W("dlsym handle expected."));
     }
+    DynamicLinkSymbolObject *dlsymObj = (DynamicLinkSymbolObject *)hlObj;
+    ArrayOfVector params;
+    for (size_t l = 1; l < argIn.size(); l++)
+    {
+        params.push_back(argIn[l]);
+    }
+    retval = dlsymObj->call(eval, nLhs, params);
     return retval;
 }
 //=============================================================================

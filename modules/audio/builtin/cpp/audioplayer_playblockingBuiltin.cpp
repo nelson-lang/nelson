@@ -72,62 +72,46 @@ ArrayOfVector Nelson::AudioGateway::audioplayer_playblockingBuiltin(Evaluator* e
             Error(eval, _W("scalar or [start, end] vector expected."));
         }
     }
-    if (param1.isHandle())
-    {
-        if (param1.isScalar())
-        {
-            nelson_handle *qp = (nelson_handle*)param1.getDataPointer();
-            nelson_handle hl = qp[0];
-            HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-            if (hlObj->getCategory() != AUDIOPLAYER_CATEGORY_STR)
-            {
-                Error(eval, _W("audioplayer handle expected."));
-            }
-            AudioplayerObject *objPlayer = (AudioplayerObject *)hlObj;
-            if (argIn.size() == 1)
-            {
-                objPlayer->play();
-            }
-            else
-            {
-                if (startOnly)
-                {
-                    if (start > objPlayer->getTotalSamples())
-                    {
-                        Error(eval, _W("Invalid range."));
-                    }
-                    objPlayer->play(start);
-                }
-                else
-                {
-                    if (start > objPlayer->getTotalSamples() ||
-                            start > end ||
-                            end > objPlayer->getTotalSamples())
-                    {
-                        Error(eval, _W("Invalid range."));
-                    }
-                    objPlayer->play(start, end);
-                }
-            }
-            do
-            {
-                if (eval->haveEventsLoop())
-                {
-                    ProcessEventsDynamicFunctionWithoutWait();
-                }
-            }
-            while (!eval->GetInterruptPending() && objPlayer->getRunning());
-            objPlayer->stop();
-        }
-        else
-        {
-            Error(eval, _W("audioplayer scalar handle expected."));
-        }
-    }
-    else
+    HandleGenericObject *hlObj = param1.getContentAsHandleScalar();
+    if (hlObj->getCategory() != AUDIOPLAYER_CATEGORY_STR)
     {
         Error(eval, _W("audioplayer handle expected."));
     }
+    AudioplayerObject *objPlayer = (AudioplayerObject *)hlObj;
+    if (argIn.size() == 1)
+    {
+        objPlayer->play();
+    }
+    else
+    {
+        if (startOnly)
+        {
+            if (start > objPlayer->getTotalSamples())
+            {
+                Error(eval, _W("Invalid range."));
+            }
+            objPlayer->play(start);
+        }
+        else
+        {
+            if (start > objPlayer->getTotalSamples() ||
+                    start > end ||
+                    end > objPlayer->getTotalSamples())
+            {
+                Error(eval, _W("Invalid range."));
+            }
+            objPlayer->play(start, end);
+        }
+    }
+    do
+    {
+        if (eval->haveEventsLoop())
+        {
+            ProcessEventsDynamicFunctionWithoutWait();
+        }
+    }
+    while (!eval->GetInterruptPending() && objPlayer->getRunning());
+    objPlayer->stop();
     return retval;
 }
 //=============================================================================

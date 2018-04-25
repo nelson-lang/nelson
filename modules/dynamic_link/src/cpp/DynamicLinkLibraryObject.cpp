@@ -130,8 +130,8 @@ namespace Nelson {
         if (parentPath != L"")
         {
             paths.push_back(parentPath);
-			std::wstring filename = pathToSplit.filename().generic_wstring();
-			if (findLibrary(paths, filename, fullLibraryPath))
+            std::wstring filename = pathToSplit.filename().generic_wstring();
+            if (findLibrary(paths, filename, fullLibraryPath))
             {
                 return true;
             }

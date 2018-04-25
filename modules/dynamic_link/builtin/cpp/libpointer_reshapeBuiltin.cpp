@@ -27,6 +27,26 @@ using namespace Nelson;
 ArrayOfVector Nelson::DynamicLinkGateway::libpointer_reshapeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
+    if (argIn.size() != 3)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    if (nLhs > 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    ArrayOf param1 = argIn[0];
+    HandleGenericObject *hlObj = param1.getContentAsHandleScalar();
+    if (hlObj->getCategory() != LIBPOINTER_CATEGORY_STR)
+    {
+        Error(eval, _W("libpointer handle expected."));
+    }
+    LibPointerObject *objLibPointer = (LibPointerObject *)hlObj;
+    ArrayOf param2 = argIn[1];
+    ArrayOf param3 = argIn[2];
+    indexType X = param2.getContentAsScalarIndex(true);
+    indexType Y = param3.getContentAsScalarIndex(true);
+    objLibPointer->reshape(X, Y);
     return retval;
 }
 //=============================================================================

@@ -119,7 +119,7 @@ namespace Nelson {
                 throw Exception(_W("Unable to convert supplied object to a single string."));
             }
         }
-		return buffer;
+        return buffer;
     }
     //=============================================================================
     std::wstring ArrayOf::getContentAsWideString(void) const

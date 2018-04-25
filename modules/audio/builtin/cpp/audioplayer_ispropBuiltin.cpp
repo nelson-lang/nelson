@@ -35,25 +35,16 @@ ArrayOfVector Nelson::AudioGateway::audioplayer_ispropBuiltin(Evaluator* eval, i
     }
     ArrayOfVector retval;
     ArrayOf param1 = argIn[0];
-    if (param1.isHandle())
-    {
-        nelson_handle *qp = (nelson_handle*)param1.getDataPointer();
-        nelson_handle hl = qp[0];
-        HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-        if (hlObj->getCategory() != AUDIOPLAYER_CATEGORY_STR)
-        {
-            Error(eval, _W("audioplayer handle expected."));
-        }
-        ArrayOf param2 = argIn[1];
-        std::wstring propertyName = param2.getContentAsWideString();
-        AudioplayerObject *objPlayer = (AudioplayerObject *)hlObj;
-        ArrayOf res = ArrayOf::logicalConstructor(objPlayer->isproperty(propertyName));
-        retval.push_back(res);
-    }
-    else
+    HandleGenericObject *hlObj = param1.getContentAsHandleScalar();
+    if (hlObj->getCategory() != AUDIOPLAYER_CATEGORY_STR)
     {
         Error(eval, _W("audioplayer handle expected."));
     }
+    ArrayOf param2 = argIn[1];
+    std::wstring propertyName = param2.getContentAsWideString();
+    AudioplayerObject *objPlayer = (AudioplayerObject *)hlObj;
+    ArrayOf res = ArrayOf::logicalConstructor(objPlayer->isproperty(propertyName));
+    retval.push_back(res);
     return retval;
 }
 //=============================================================================

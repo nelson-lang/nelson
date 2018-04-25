@@ -38,25 +38,7 @@ ArrayOfVector Nelson::DynamicLinkGateway::dllib_getBuiltin(Evaluator* eval, int 
     ArrayOf param2 = argIn[1];
     std::wstring propertyName = param2.getContentAsWideString();
     ArrayOfVector retval;
-    if (!param1.isHandle())
-    {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
-    }
-    if (!param1.isScalar())
-    {
-        Error(eval, ERROR_SIZE_SCALAR_EXPECTED);
-    }
-    nelson_handle *qp = (nelson_handle*)param1.getDataPointer();
-    if (qp == nullptr)
-    {
-        Error(eval, _W("dllib valid handle expected."));
-    }
-    nelson_handle hl = qp[0];
-    HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-    if (hlObj == nullptr)
-    {
-        Error(eval, _W("dllib valid handle expected."));
-    }
+    HandleGenericObject *hlObj = param1.getContentAsHandleScalar();
     if (hlObj->getCategory() != DLLIB_CATEGORY_STR)
     {
         Error(eval, _W("dllib handle expected."));

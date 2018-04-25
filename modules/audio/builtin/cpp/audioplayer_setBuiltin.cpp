@@ -39,25 +39,7 @@ ArrayOfVector Nelson::AudioGateway::audioplayer_setBuiltin(Evaluator* eval, int 
     std::wstring propertyName = param2.getContentAsWideString();
     ArrayOf param3 = argIn[2];
     ArrayOfVector retval;
-    if (!param1.isHandle())
-    {
-        Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
-    }
-    if (!param1.isScalar())
-    {
-        Error(eval, ERROR_SIZE_SCALAR_EXPECTED);
-    }
-    nelson_handle *qp = (nelson_handle*)param1.getDataPointer();
-    if (qp == nullptr)
-    {
-        Error(eval, _W("audioplayer valid handle expected."));
-    }
-    nelson_handle hl = qp[0];
-    HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-    if (hlObj == nullptr)
-    {
-        Error(eval, _W("audioplayer valid handle expected."));
-    }
+    HandleGenericObject *hlObj = param1.getContentAsHandleScalar();
     if (hlObj->getCategory() != AUDIOPLAYER_CATEGORY_STR)
     {
         Error(eval, _W("audioplayer handle expected."));

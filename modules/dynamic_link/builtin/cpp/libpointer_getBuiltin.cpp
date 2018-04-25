@@ -26,55 +26,37 @@ using namespace Nelson;
 //=============================================================================
 ArrayOfVector Nelson::DynamicLinkGateway::libpointer_getBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-	if (argIn.size() == 0  || argIn.size() > 2)
-	{
-		Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-	}
-	if (nLhs > 1)
-	{
-		Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-	}
-	ArrayOf param1 = argIn[0];
-	ArrayOfVector retval;
-	if (!param1.isHandle())
-	{
-		Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
-	}
-	if (!param1.isScalar())
-	{
-		Error(eval, ERROR_SIZE_SCALAR_EXPECTED);
-	}
-	nelson_handle *qp = (nelson_handle*)param1.getDataPointer();
-	if (qp == nullptr)
-	{
-		Error(eval, _W("libpointer valid handle expected."));
-	}
-	nelson_handle hl = qp[0];
-	HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-	if (hlObj == nullptr)
-	{
-		Error(eval, _W("libpointer valid handle expected."));
-	}
-	if (hlObj->getCategory() != LIBPOINTER_CATEGORY_STR)
-	{
-		Error(eval, _W("libpointer handle expected."));
-	}
-	LibPointerObject *objLibPointer = (LibPointerObject *)hlObj;
-	ArrayOf res;
-	if (argIn.size() == 1)
-	{
-		objLibPointer->get(res);
-	}
-	else
-	{
-		ArrayOf param2 = argIn[1];
-		std::wstring propertyName = param2.getContentAsWideString();
-		if (!objLibPointer->get(propertyName, res))
-		{
-			Error(eval, ERROR_WRONG_ARGUMENT_2_VALUE);
-		}
-	}
-	retval.push_back(res);
-	return retval;
+    if (argIn.size() == 0  || argIn.size() > 2)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    if (nLhs > 1)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+    }
+    ArrayOf param1 = argIn[0];
+    ArrayOfVector retval;
+    HandleGenericObject *hlObj = param1.getContentAsHandleScalar();
+    if (hlObj->getCategory() != LIBPOINTER_CATEGORY_STR)
+    {
+        Error(eval, _W("libpointer handle expected."));
+    }
+    LibPointerObject *objLibPointer = (LibPointerObject *)hlObj;
+    ArrayOf res;
+    if (argIn.size() == 1)
+    {
+        objLibPointer->get(res);
+    }
+    else
+    {
+        ArrayOf param2 = argIn[1];
+        std::wstring propertyName = param2.getContentAsWideString();
+        if (!objLibPointer->get(propertyName, res))
+        {
+            Error(eval, ERROR_WRONG_ARGUMENT_2_VALUE);
+        }
+    }
+    retval.push_back(res);
+    return retval;
 }
 //=============================================================================

@@ -55,6 +55,10 @@ namespace Nelson {
             throw Exception(_W("Expected a handle scalar."));
         }
         nelson_handle *qp = (nelson_handle*)dp->getData();
+        if (qp == nullptr)
+        {
+            throw Exception(_W("Expected a valid handle."));
+        }
         nelson_handle hl = (*qp);
         return HandleManager::getInstance()->getPointer(hl);
     }

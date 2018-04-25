@@ -64,8 +64,8 @@ extern "C" {
     NLSDYNAMIC_LINK_IMPEXP int dynlibTestMultiplyDoubleArrayWithReturn(double *x, int size);
     NLSDYNAMIC_LINK_IMPEXP double sumDoubleRef(double x, double *y, double z);
     //=============================================================================
-	NLSDYNAMIC_LINK_IMPEXP double *multiplicationDoubleByReference(double *x);
-	//=============================================================================
+    NLSDYNAMIC_LINK_IMPEXP double *multiplicationDoubleByReference(double *x);
+    //=============================================================================
 
 }
 //=============================================================================

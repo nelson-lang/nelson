@@ -4142,15 +4142,21 @@ namespace Nelson {
             if (t->opNum == (OP_DOT))
             {
                 std::string fieldname = t->down->text;
-				if (r.isHandle())
+                if (r.isHandle())
                 {
-					ArrayOfVector params;
-					if (t->right)
-					{
-						ASTPtr s = t->right->down;
-						params = expressionList(s);
-					}
-					rv = getHandle(r, fieldname, params);
+                    ArrayOfVector params;
+                    if (t->right)
+                    {
+                        ASTPtr s = t->right->down;
+                        try
+                        {
+                            params = expressionList(s);
+                        }
+                        catch (Exception)
+                        {
+                        }
+                    }
+                    rv = getHandle(r, fieldname, params);
                 }
                 else
                 {
@@ -4182,7 +4188,7 @@ namespace Nelson {
                 }
                 if (r.isHandle())
                 {
-					ArrayOfVector v;
+                    ArrayOfVector v;
                     rv = getHandle(r, field, v);
                 }
                 else
@@ -4730,21 +4736,11 @@ namespace Nelson {
     //=============================================================================
     void Evaluator::setHandle(ArrayOf r, std::string fieldname, ArrayOfVector fieldvalue)
     {
-        if (!r.isScalar())
-        {
-            Error(this, ERROR_SCALAR_EXPECTED);
-        }
         if (fieldvalue.size() != 1)
         {
             Error(this, _W("Right hand values must satisfy left hand side expression."));
         }
-        nelson_handle *qp = (nelson_handle*)r.getDataPointer();
-        nelson_handle hl = qp[0];
-        HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-        if (hlObj == nullptr)
-        {
-            Error(this, _W("Valid handle expected."));
-        }
+        HandleGenericObject *hlObj = r.getContentAsHandleScalar();
         std::wstring currentType = hlObj->getCategory();
         std::wstring ufunctionNameSetHandle = currentType + L"_set";
         std::string functionNameSetHandle = wstring_to_utf8(ufunctionNameSetHandle);
@@ -4768,49 +4764,39 @@ namespace Nelson {
     //=============================================================================
     ArrayOfVector Evaluator::getHandle(ArrayOf r, std::string fieldname, ArrayOfVector params)
     {
-        if (!r.isScalar())
+        HandleGenericObject *hlObj = r.getContentAsHandleScalar();
+        ArrayOfVector argIn;
+        std::wstring currentType = hlObj->getCategory();
+        Context *context = this->getContext();
+        FunctionDef *funcDef = nullptr;
+        std::string functionNameCurrentType = wstring_to_utf8(currentType) + "_" + fieldname;
+        if (context->lookupFunction(functionNameCurrentType, funcDef))
         {
-            Error(this, ERROR_SCALAR_EXPECTED);
+            if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION)))
+            {
+                Error(this, _W("Type function not valid."));
+            }
+            int nLhs = 1;
+            argIn.push_back(r);
+            for (ArrayOf a : params)
+            {
+                argIn.push_back(a);
+            }
+            return funcDef->evaluateFunction(this, argIn, nLhs);
         }
-        nelson_handle *qp = (nelson_handle*)r.getDataPointer();
-        nelson_handle hl = qp[0];
-        HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-        if (hlObj == nullptr)
-        {
-            Error(this, _W("Valid handle expected."));
-        }
-		ArrayOfVector argIn;
-		std::wstring currentType = hlObj->getCategory();
-		Context *context = this->getContext();
-		FunctionDef *funcDef = nullptr;
-		std::string functionNameCurrentType = wstring_to_utf8(currentType) + "_" + fieldname;
-		if (context->lookupFunction(functionNameCurrentType, funcDef))
-		{
-			if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION)))
-			{
-				Error(this, _W("Type function not valid."));
-			}
-			int nLhs = 1;
-			argIn.push_back(r);
-			for (ArrayOf a : params)
-			{
-				argIn.push_back(a);
-			}
-			return funcDef->evaluateFunction(this, argIn, nLhs);
-		}
         std::string functionNameGetHandle = wstring_to_utf8(currentType) + "_get";
-		if (!context->lookupFunction(functionNameGetHandle, funcDef))
-		{
-			Error(this, _W("Function not found."));
-		}
-		if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION)))
-		{
-			Error(this, _W("Type function not valid."));
-		}
-		int nLhs = 1;
-		argIn.push_back(r);
-		argIn.push_back(ArrayOf::stringConstructor(fieldname));
-		return funcDef->evaluateFunction(this, argIn, nLhs);
+        if (!context->lookupFunction(functionNameGetHandle, funcDef))
+        {
+            Error(this, _W("Function not found."));
+        }
+        if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION)))
+        {
+            Error(this, _W("Type function not valid."));
+        }
+        int nLhs = 1;
+        argIn.push_back(r);
+        argIn.push_back(ArrayOf::stringConstructor(fieldname));
+        return funcDef->evaluateFunction(this, argIn, nLhs);
     }
     //=============================================================================
     void Evaluator::addCommandToQueue(std::wstring command, bool bIsPriority)

@@ -83,17 +83,16 @@ namespace Nelson {
         ffiTypesMap[L"singlePtr"] = CType(&ffi_type_pointer, NLS_SINGLE);
         ffiTypesMap[L"doublePtr"] = CType(&ffi_type_pointer, NLS_DOUBLE);
 #ifdef NLS_INDEX_TYPE_64
-		ffiTypesMap[L"voidPtr"] = CType(&ffi_type_void, NLS_UINT64);
+        ffiTypesMap[L"voidPtr"] = CType(&ffi_type_void, NLS_UINT64);
 #else
-		ffiTypesMap[L"voidPtr"] = CType(&ffi_type_void, NLS_UINT32);
+        ffiTypesMap[L"voidPtr"] = CType(&ffi_type_void, NLS_UINT32);
 #endif
 #ifdef NLS_INDEX_TYPE_64
-		ffiTypesMap[L"libpointer"] = CType(&ffi_type_void, NLS_UINT64);
+        ffiTypesMap[L"libpointer"] = CType(&ffi_type_void, NLS_UINT64);
 #else
-		ffiTypesMap[L"libpointer"] = CType(&ffi_type_void, NLS_UINT32);
+        ffiTypesMap[L"libpointer"] = CType(&ffi_type_void, NLS_UINT32);
 #endif
-
-		ffiTypesMapInitialized = true;
+        ffiTypesMapInitialized = true;
     }
     //=============================================================================
     static ffi_type* GetFFIType(std::wstring type)
@@ -144,10 +143,10 @@ namespace Nelson {
         }
         for (std::wstring param : _paramsTypes)
         {
-			if (param == L"void")
-			{
-				throw Exception(_W("'void' not allowed as input type."));
-			}
+            if (param == L"void")
+            {
+                throw Exception(_W("'void' not allowed as input type."));
+            }
             if (boost::algorithm::ends_with(param, L"Ptr"))
             {
                 _nArgOut++;
@@ -338,33 +337,23 @@ namespace Nelson {
         {
             if (GetNelsonType(_paramsTypes[k]) != params[k].getDataClass())
             {
-				if (params[k].getDataClass() == NLS_HANDLE)
-				{
-					nelson_handle *qp = (nelson_handle*)params[k].getDataPointer();
-					if (qp == nullptr)
-					{
-						Error(eval, _W("libpointer valid handle expected."));
-					}
-					nelson_handle hl = qp[0];
-					HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-					if (hlObj == nullptr)
-					{
-						Error(eval, _W("libpointer valid handle expected."));
-					}
-					if (hlObj->getCategory() != LIBPOINTER_CATEGORY_STR)
-					{
-						Error(eval, _W("libpointer handle expected."));
-					}
-					LibPointerObject *objLibPointer = (LibPointerObject *)hlObj;
-					if (objLibPointer->getDataType() != _paramsTypes[k])
-					{
-						Error(eval, StringFormat(_W("Invalid type for #%d input argument: %ls expected.").c_str(), k + 1, _paramsTypes[k].c_str()));
-					}
-				}
-				else
-				{
-					Error(eval, StringFormat(_W("Invalid type for #%d input argument: %ls expected.").c_str(), k + 1, _paramsTypes[k].c_str()));
-				}
+                if (params[k].getDataClass() == NLS_HANDLE)
+                {
+                    HandleGenericObject *hlObj = params[k].getContentAsHandleScalar();
+                    if (hlObj->getCategory() != LIBPOINTER_CATEGORY_STR)
+                    {
+                        Error(eval, _W("libpointer handle expected."));
+                    }
+                    LibPointerObject *objLibPointer = (LibPointerObject *)hlObj;
+                    if (objLibPointer->getDataType() != _paramsTypes[k])
+                    {
+                        Error(eval, StringFormat(_W("Invalid type for #%d input argument: %ls expected.").c_str(), k + 1, _paramsTypes[k].c_str()));
+                    }
+                }
+                else
+                {
+                    Error(eval, StringFormat(_W("Invalid type for #%d input argument: %ls expected.").c_str(), k + 1, _paramsTypes[k].c_str()));
+                }
             }
         }
         void **values = nullptr;
@@ -402,28 +391,18 @@ namespace Nelson {
         int stringPtrIndex = 0;
         for (int i = 0; i < params.size(); i++)
         {
-			if (params[i].getDataClass() == NLS_HANDLE)
-			{
-				nelson_handle *qp = (nelson_handle*)params[i].getDataPointer();
-				if (qp == nullptr)
-				{
-					Error(eval, _W("libpointer valid handle expected."));
-				}
-				nelson_handle hl = qp[0];
-				HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-				if (hlObj == nullptr)
-				{
-					Error(eval, _W("libpointer valid handle expected."));
-				}
-				if (hlObj->getCategory() != LIBPOINTER_CATEGORY_STR)
-				{
-					Error(eval, _W("libpointer handle expected."));
-				}
-				LibPointerObject *objLibPointer = (LibPointerObject *)hlObj;
-				refPointers[refPtrIndex] = objLibPointer->getPointer();
-				values[i] = &refPointers[refPtrIndex];
-				refPtrIndex++;
-			}
+            if (params[i].getDataClass() == NLS_HANDLE)
+            {
+                HandleGenericObject *hlObj = params[i].getContentAsHandleScalar();
+                if (hlObj->getCategory() != LIBPOINTER_CATEGORY_STR)
+                {
+                    Error(eval, _W("libpointer handle expected."));
+                }
+                LibPointerObject *objLibPointer = (LibPointerObject *)hlObj;
+                refPointers[refPtrIndex] = objLibPointer->getPointer();
+                values[i] = &refPointers[refPtrIndex];
+                refPtrIndex++;
+            }
             else if (boost::algorithm::ends_with(_paramsTypes[i], L"Ptr"))
             {
                 refPointers[refPtrIndex] = params[i].getReadWriteDataPointer();
@@ -452,24 +431,24 @@ namespace Nelson {
             }
         }
         GenericFuncPointer addressFunction = (GenericFuncPointer)_pointerFunction;
-		if (_returnType == L"libpointer")
-		{
-			void *returnedValue;
-			ffi_call(&_cif, addressFunction, &returnedValue, values);
-			if (nLhs > retval.size())
-			{
-				LibPointerObject *obj = nullptr;
-				try
-				{
-					obj = new LibPointerObject(returnedValue);
-				}
-				catch (std::bad_alloc)
-				{
-					throw Exception(ERROR_MEMORY_ALLOCATION);
-				}
-				retval.push_back(ArrayOf::handleConstructor(obj));
-			}
-		}
+        if (_returnType == L"libpointer")
+        {
+            void *returnedValue;
+            ffi_call(&_cif, addressFunction, &returnedValue, values);
+            if (nLhs > retval.size())
+            {
+                LibPointerObject *obj = nullptr;
+                try
+                {
+                    obj = new LibPointerObject(returnedValue);
+                }
+                catch (std::bad_alloc)
+                {
+                    throw Exception(ERROR_MEMORY_ALLOCATION);
+                }
+                retval.push_back(ArrayOf::handleConstructor(obj));
+            }
+        }
         else if (_returnType == L"logical")
         {
             logical returnedValue = 0;
@@ -597,34 +576,24 @@ namespace Nelson {
         {
             if (boost::algorithm::ends_with(_paramsTypes[i], L"Ptr"))
             {
-				if (params[i].getDataClass() == NLS_HANDLE)
-				{
-					nelson_handle *qp = (nelson_handle*)params[i].getDataPointer();
-					if (qp == nullptr)
-					{
-						Error(eval, _W("libpointer valid handle expected."));
-					}
-					nelson_handle hl = qp[0];
-					HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-					if (hlObj == nullptr)
-					{
-						Error(eval, _W("libpointer valid handle expected."));
-					}
-					if (hlObj->getCategory() != LIBPOINTER_CATEGORY_STR)
-					{
-						Error(eval, _W("libpointer handle expected."));
-					}
-					LibPointerObject *objLibPointer = (LibPointerObject *)hlObj;
-					ArrayOf retValue;
-					objLibPointer->get(L"Value", retValue);
-					retval.push_back(retValue);
-				}
-				else
-				{
-					void *arrayPtr = ArrayOf::allocateArrayOf(params[i].getDataClass(), params[i].getDimensions().getElementCount());
-					memcpy(arrayPtr, refPointers[k], params[i].getDimensions().getElementCount() *params[i].getElementSize());
-					retval.push_back(ArrayOf(params[i].getDataClass(), params[i].getDimensions(), arrayPtr));
-				}
+                if (params[i].getDataClass() == NLS_HANDLE)
+                {
+                    HandleGenericObject *hlObj = params[i].getContentAsHandleScalar();
+                    if (hlObj->getCategory() != LIBPOINTER_CATEGORY_STR)
+                    {
+                        Error(eval, _W("libpointer handle expected."));
+                    }
+                    LibPointerObject *objLibPointer = (LibPointerObject *)hlObj;
+                    ArrayOf retValue;
+                    objLibPointer->get(L"Value", retValue);
+                    retval.push_back(retValue);
+                }
+                else
+                {
+                    void *arrayPtr = ArrayOf::allocateArrayOf(params[i].getDataClass(), params[i].getDimensions().getElementCount());
+                    memcpy(arrayPtr, refPointers[k], params[i].getDimensions().getElementCount() *params[i].getElementSize());
+                    retval.push_back(ArrayOf(params[i].getDataClass(), params[i].getDimensions(), arrayPtr));
+                }
             }
         }
         if (stringPointers != nullptr)

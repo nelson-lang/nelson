@@ -36,29 +36,13 @@ ArrayOfVector Nelson::AudioGateway::audioplayer_resumeBuiltin(Evaluator* eval, i
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
-    if (param1.isHandle())
-    {
-        if (param1.isScalar())
-        {
-            nelson_handle *qp = (nelson_handle*)param1.getDataPointer();
-            nelson_handle hl = qp[0];
-            HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-            if (hlObj->getCategory() != AUDIOPLAYER_CATEGORY_STR)
-            {
-                Error(eval, _W("audioplayer handle expected."));
-            }
-            AudioplayerObject *objPlayer = (AudioplayerObject *)hlObj;
-            objPlayer->resume();
-        }
-        else
-        {
-            Error(eval, _W("audioplayer scalar handle expected."));
-        }
-    }
-    else
+    HandleGenericObject *hlObj = param1.getContentAsHandleScalar();
+    if (hlObj->getCategory() != AUDIOPLAYER_CATEGORY_STR)
     {
         Error(eval, _W("audioplayer handle expected."));
     }
+    AudioplayerObject *objPlayer = (AudioplayerObject *)hlObj;
+    objPlayer->resume();
     return retval;
 }
 //=============================================================================

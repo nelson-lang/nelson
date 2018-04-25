@@ -37,23 +37,14 @@ ArrayOfVector Nelson::DynamicLinkGateway::dlsym_fieldnamesBuiltin(Evaluator* eva
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
-    if (param1.isHandle())
-    {
-        nelson_handle *qp = (nelson_handle*)param1.getDataPointer();
-        nelson_handle hl = qp[0];
-        HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-        if (hlObj->getCategory() != DLSYM_CATEGORY_STR)
-        {
-            Error(eval, _W("dlsym handle expected."));
-        }
-        DynamicLinkSymbolObject *objDlsym = (DynamicLinkSymbolObject *)hlObj;
-        wstringVector fieldnames = objDlsym->fieldnames();
-        retval.push_back(ToCellStringAsColumn(fieldnames));
-    }
-    else
+    HandleGenericObject *hlObj = param1.getContentAsHandleScalar();
+    if (hlObj->getCategory() != DLSYM_CATEGORY_STR)
     {
         Error(eval, _W("dlsym handle expected."));
     }
+    DynamicLinkSymbolObject *objDlsym = (DynamicLinkSymbolObject *)hlObj;
+    wstringVector fieldnames = objDlsym->fieldnames();
+    retval.push_back(ToCellStringAsColumn(fieldnames));
     return retval;
 }
 //=============================================================================

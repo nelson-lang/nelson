@@ -37,47 +37,38 @@ ArrayOfVector Nelson::AudioGateway::audioplayer_propertiesBuiltin(Evaluator* eva
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
-    if (param1.isHandle())
+    HandleGenericObject *hlObj = param1.getContentAsHandleScalar();
+    if (hlObj->getCategory() != AUDIOPLAYER_CATEGORY_STR)
     {
-        nelson_handle *qp = (nelson_handle*)param1.getDataPointer();
-        nelson_handle hl = qp[0];
-        HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-        if (hlObj->getCategory() != AUDIOPLAYER_CATEGORY_STR)
+        Error(eval, _W("audioplayer handle expected."));
+    }
+    AudioplayerObject *objPlayer = (AudioplayerObject *)hlObj;
+    wstringVector fieldnames = objPlayer->fieldnames();
+    if (nLhs == 0)
+    {
+        Interface *io = eval->getInterface();
+        if (io)
         {
-            Error(eval, _W("audioplayer handle expected."));
-        }
-        AudioplayerObject *objPlayer = (AudioplayerObject *)hlObj;
-        wstringVector fieldnames = objPlayer->fieldnames();
-        if (nLhs == 0)
-        {
-            Interface *io = eval->getInterface();
-            if (io)
+            std::wstring msg;
+            if (fieldnames.size() == 0)
             {
-                std::wstring msg;
-                if (fieldnames.size() == 0)
-                {
-                    msg = _W("No property for class: audioplayer.") + L"\n";
-                }
-                else
-                {
-                    msg = _W("Properties for class: audioplayer:") + L"\n\n";
-                    for (size_t k = 0; k < fieldnames.size(); k++)
-                    {
-                        msg = msg + std::wstring(L"\t") + fieldnames[k] + std::wstring(L"\n");
-                    }
-                    msg = msg + std::wstring(L"\n");
-                }
-                io->outputMessage(msg);
+                msg = _W("No property for class: audioplayer.") + L"\n";
             }
-        }
-        else
-        {
-            retval.push_back(ToCellStringAsColumn(fieldnames));
+            else
+            {
+                msg = _W("Properties for class: audioplayer:") + L"\n\n";
+                for (size_t k = 0; k < fieldnames.size(); k++)
+                {
+                    msg = msg + std::wstring(L"\t") + fieldnames[k] + std::wstring(L"\n");
+                }
+                msg = msg + std::wstring(L"\n");
+            }
+            io->outputMessage(msg);
         }
     }
     else
     {
-        Error(eval, _W("audioplayer handle expected."));
+        retval.push_back(ToCellStringAsColumn(fieldnames));
     }
     return retval;
 }

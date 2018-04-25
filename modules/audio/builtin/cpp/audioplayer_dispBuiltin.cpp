@@ -48,9 +48,7 @@ ArrayOfVector Nelson::AudioGateway::audioplayer_dispBuiltin(Evaluator* eval, int
         }
         if (param1.isScalar())
         {
-            nelson_handle *qp = (nelson_handle*)param1.getDataPointer();
-            nelson_handle hl = qp[0];
-            HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
+            HandleGenericObject *hlObj = param1.getContentAsHandleScalar();
             if (hlObj->getCategory() != AUDIOPLAYER_CATEGORY_STR)
             {
                 Error(eval, _W("audioplayer handle expected."));

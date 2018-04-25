@@ -36,25 +36,16 @@ ArrayOfVector Nelson::DynamicLinkGateway::dlsym_ispropBuiltin(Evaluator* eval, i
     }
     ArrayOfVector retval;
     ArrayOf param1 = argIn[0];
-    if (param1.isHandle())
-    {
-        nelson_handle *qp = (nelson_handle*)param1.getDataPointer();
-        nelson_handle hl = qp[0];
-        HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-        if (hlObj->getCategory() != DLSYM_CATEGORY_STR)
-        {
-            Error(eval, _W("dlsym handle expected."));
-        }
-        ArrayOf param2 = argIn[1];
-        std::wstring propertyName = param2.getContentAsWideString();
-        DynamicLinkSymbolObject *objDlsym = (DynamicLinkSymbolObject *)hlObj;
-        ArrayOf res = ArrayOf::logicalConstructor(objDlsym->isproperty(propertyName));
-        retval.push_back(res);
-    }
-    else
+    HandleGenericObject *hlObj = param1.getContentAsHandleScalar();
+    if (hlObj->getCategory() != DLSYM_CATEGORY_STR)
     {
         Error(eval, _W("dlsym handle expected."));
     }
+    ArrayOf param2 = argIn[1];
+    std::wstring propertyName = param2.getContentAsWideString();
+    DynamicLinkSymbolObject *objDlsym = (DynamicLinkSymbolObject *)hlObj;
+    ArrayOf res = ArrayOf::logicalConstructor(objDlsym->isproperty(propertyName));
+    retval.push_back(res);
     return retval;
 }
 //=============================================================================

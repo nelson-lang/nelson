@@ -36,26 +36,13 @@ ArrayOfVector Nelson::DynamicLinkGateway::dlinfoBuiltin(Evaluator* eval, int nLh
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
-    if (param1.isHandle())
-    {
-        if (!param1.isScalar())
-        {
-            Error(eval, _W("dllib scalar handle expected."));
-        }
-        nelson_handle *qp = (nelson_handle*)param1.getDataPointer();
-        nelson_handle hl = qp[0];
-        HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-        if (hlObj->getCategory() != DLLIB_CATEGORY_STR)
-        {
-            Error(eval, _W("dllib handle expected."));
-        }
-        DynamicLinkLibraryObject *obj = (DynamicLinkLibraryObject *)hlObj;
-        retval.push_back(ToCellStringAsColumn(obj->getAvailableSymbols()));
-    }
-    else
+    HandleGenericObject *hlObj = param1.getContentAsHandleScalar();
+    if (hlObj->getCategory() != DLLIB_CATEGORY_STR)
     {
         Error(eval, _W("dllib handle expected."));
     }
+    DynamicLinkLibraryObject *obj = (DynamicLinkLibraryObject *)hlObj;
+    retval.push_back(ToCellStringAsColumn(obj->getAvailableSymbols()));
     return retval;
 }
 //=============================================================================

@@ -72,11 +72,11 @@ static const nlsGateway gateway[] =
     { "dlcall", Nelson::DynamicLinkGateway::dlcallBuiltin, -1, -1 },
     { "libpointer", Nelson::DynamicLinkGateway::libpointerBuiltin, 1, -1 },
     { "libpointer_disp", Nelson::DynamicLinkGateway::libpointer_dispBuiltin, 0, 1 },
-	{ "libpointer_isNull", Nelson::DynamicLinkGateway::libpointer_isNullBuiltin, 1, 1 },
-	{ "libpointer_reshape", Nelson::DynamicLinkGateway::libpointer_reshapeBuiltin, 0, 3 },
-	{ "libpointer_get", Nelson::DynamicLinkGateway::libpointer_getBuiltin, 1, -1 },
-	{ "isNull", Nelson::DynamicLinkGateway::isNullBuiltin, 1, 1 },
-	{ "getdynlibext", Nelson::DynamicLinkGateway::getdynlibextBuiltin, 1, 0 }
+    { "libpointer_isNull", Nelson::DynamicLinkGateway::libpointer_isNullBuiltin, 1, 1 },
+    { "libpointer_reshape", Nelson::DynamicLinkGateway::libpointer_reshapeBuiltin, 0, 3 },
+    { "libpointer_get", Nelson::DynamicLinkGateway::libpointer_getBuiltin, 1, -1 },
+    { "isNull", Nelson::DynamicLinkGateway::isNullBuiltin, 1, 1 },
+    { "getdynlibext", Nelson::DynamicLinkGateway::getdynlibextBuiltin, 1, 0 }
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

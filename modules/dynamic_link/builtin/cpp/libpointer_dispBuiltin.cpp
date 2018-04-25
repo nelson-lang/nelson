@@ -56,7 +56,7 @@ ArrayOfVector Nelson::DynamicLinkGateway::libpointer_dispBuiltin(Evaluator* eval
                 Error(eval, _W("libpointer handle expected."));
             }
             LibPointerObject *lipPointerObj = (LibPointerObject *)hlObj;
-			lipPointerObj->disp(eval);
+            lipPointerObj->disp(eval);
         }
     }
     else

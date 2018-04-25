@@ -21,8 +21,6 @@
 #include "dynamic_library.hpp"
 #include "characters_encoding.hpp"
 #include "DynamicLinkSymbolObject.hpp"
-#include "HandleManager.hpp"
-#include "ClassName.hpp"
 //=============================================================================
 namespace Nelson {
     //=============================================================================
@@ -32,19 +30,11 @@ namespace Nelson {
                                           wstringVector argumentsType)
     {
         ArrayOf handle;
-        if (!dllibObject.isScalar())
-        {
-            throw Exception(_W("Wrong size for argument #1: dllib scalar handle expected."));
-        }
-        std::wstring classname;
-        ClassName(dllibObject, classname);
-        if (DLLIB_CATEGORY_STR != classname)
+        HandleGenericObject *hlObj = dllibObject.getContentAsHandleScalar();
+        if (hlObj->getCategory() != DLLIB_CATEGORY_STR)
         {
             throw Exception(_W("Wrong type for argument #1: dllib scalar handle expected."));
         }
-        nelson_handle *qp = (nelson_handle*)dllibObject.getDataPointer();
-        nelson_handle hl = qp[0];
-        HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
         DynamicLinkLibraryObject *obj = (DynamicLinkLibraryObject *)hlObj;
         if (!obj->getPointer())
         {

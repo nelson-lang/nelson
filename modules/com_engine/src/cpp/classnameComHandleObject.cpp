@@ -93,22 +93,7 @@ namespace Nelson {
     //=============================================================================
     void classnameComHandle(ArrayOf A, std::wstring &classname)
     {
-        if (!A.isHandle())
-        {
-            throw Exception(ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
-        }
-        ClassName(A, classname);
-        if (classname != COM_CATEGORY_STR)
-        {
-            throw Exception(_W("COM handle expected."));
-        }
-        if (!A.isScalar())
-        {
-            throw Exception(ERROR_SCALAR_EXPECTED);
-        }
-        nelson_handle *qp = (nelson_handle*)A.getDataPointer();
-        nelson_handle hl = qp[0];
-        HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
+        HandleGenericObject *hlObj = A.getContentAsHandleScalar();
         if (hlObj->getCategory() != COM_CATEGORY_STR)
         {
             throw Exception(_W("COM handle expected."));
