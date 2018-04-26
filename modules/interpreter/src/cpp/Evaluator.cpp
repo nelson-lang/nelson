@@ -4144,19 +4144,32 @@ namespace Nelson {
                 std::string fieldname = t->down->text;
                 if (r.isHandle())
                 {
-                    ArrayOfVector params;
-                    if (t->right)
-                    {
-                        ASTPtr s = t->right->down;
-                        try
-                        {
-                            params = expressionList(s);
-                            t = s;
-                        }
-                        catch (Exception)
-                        {
-                        }
-                    }
+					ArrayOfVector params;
+					params.push_back(ArrayOf::stringConstructor(fieldname));
+					logical isValidMethod = false;
+					try
+					{
+						ArrayOfVector isMethodArrayOf = getHandle(r, "ismethod", params);
+						if (isMethodArrayOf.size() == 1)
+						{
+							if (isMethodArrayOf[0].getDataClass() == NLS_LOGICAL)
+							{
+								isValidMethod = isMethodArrayOf[0].getContentAsLogicalScalar();
+							}
+						}
+					}
+					catch (Exception)
+					{
+						isValidMethod = false;
+					}
+					if (isValidMethod)
+					{
+						if (t->right)
+						{
+							params = expressionList(t->right->down, r);
+							t = t->right;
+						}
+					}
                     rv = getHandle(r, fieldname, params);
                 }
                 else

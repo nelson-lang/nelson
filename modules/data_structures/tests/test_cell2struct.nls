@@ -184,7 +184,7 @@ cmd = 'c = cell2struct({1, 2, 3, 4; 5, 6, 7, 8}, {''a'', ''b'', ''c'', ''d''}, 5
 assert_checkerror(cmd, _('Not yet implemented with dim > 2'));
 //=============================================================================
 cmd = 'c = cell2struct({1, 2, 3, 4; 5, 6, 7, 8}, {''a'', ''b'', ''c'', ''d''}, -1);';
-assert_checkerror(cmd, _('Dimension argument must be a positive integer scalar within indexing range.'));
+assert_checkerror(cmd, _('Expected a positive integer scalar.'));
 //=============================================================================
 cmd = 'c = cell2struct({1, 2, 3, 4; 5, 6, 7, 8}, {''a'', ''b'', ''c'', ''d''}, 0)';
 assert_checkerror(cmd, _('Dimension argument must be a positive integer scalar within indexing range.'));

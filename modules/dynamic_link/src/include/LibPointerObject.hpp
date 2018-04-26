@@ -41,7 +41,9 @@ namespace Nelson {
         void get(ArrayOf &res);
         wstringVector fieldnames();
         bool isproperty(std::wstring propertyName);
-        bool isWriteableProperty(std::wstring propertyName);
+		bool isMethod(std::wstring methodName);
+
+		bool isWriteableProperty(std::wstring propertyName);
         bool isNull();
         bool plus();
         void reshape(indexType dimX, indexType dimY);

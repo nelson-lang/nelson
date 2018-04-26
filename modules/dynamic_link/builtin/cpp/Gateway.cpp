@@ -42,6 +42,7 @@
 #include "libpointer_isNullBuiltin.hpp"
 #include "libpointer_reshapeBuiltin.hpp"
 #include "libpointer_getBuiltin.hpp"
+#include "libpointer_ismethodBuiltin.hpp"
 #include "isNullBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -75,7 +76,8 @@ static const nlsGateway gateway[] =
     { "libpointer_isNull", Nelson::DynamicLinkGateway::libpointer_isNullBuiltin, 1, 1 },
     { "libpointer_reshape", Nelson::DynamicLinkGateway::libpointer_reshapeBuiltin, 0, 3 },
     { "libpointer_get", Nelson::DynamicLinkGateway::libpointer_getBuiltin, 1, -1 },
-    { "isNull", Nelson::DynamicLinkGateway::isNullBuiltin, 1, 1 },
+    { "libpointer_ismethod", Nelson::DynamicLinkGateway::libpointer_ismethodBuiltin, 1, 2 },
+	{ "isNull", Nelson::DynamicLinkGateway::isNullBuiltin, 1, 1 },
     { "getdynlibext", Nelson::DynamicLinkGateway::getdynlibextBuiltin, 1, 0 }
 };
 //=============================================================================

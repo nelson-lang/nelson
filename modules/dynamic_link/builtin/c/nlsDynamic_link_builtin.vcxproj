@@ -188,6 +188,7 @@
     <ClCompile Include="..\cpp\libpointerBuiltin.cpp" />
     <ClCompile Include="..\cpp\libpointer_dispBuiltin.cpp" />
     <ClCompile Include="..\cpp\libpointer_getBuiltin.cpp" />
+    <ClCompile Include="..\cpp\libpointer_ismethodBuiltin.cpp" />
     <ClCompile Include="..\cpp\libpointer_isNullBuiltin.cpp" />
     <ClCompile Include="..\cpp\libpointer_reshapeBuiltin.cpp" />
     <ClCompile Include="..\cpp\removegatewayBuiltin.cpp" />
@@ -246,6 +247,7 @@
     <ClInclude Include="..\include\libpointerBuiltin.hpp" />
     <ClInclude Include="..\include\libpointer_dispBuiltin.hpp" />
     <ClInclude Include="..\include\libpointer_getBuiltin.hpp" />
+    <ClInclude Include="..\include\libpointer_ismethodBuiltin.hpp" />
     <ClInclude Include="..\include\libpointer_isNullBuiltin.hpp" />
     <ClInclude Include="..\include\libpointer_reshapeBuiltin.hpp" />
     <ClInclude Include="..\include\nlsDynamic_link_builtin_exports.h" />

@@ -3,6 +3,14 @@
 Features:
 ---------
 
+  * Foreign Function Interface: call C/Fortran functions that are compiled into shared libraries.
+    - dlopen 
+    - dlinfo
+    - dlclose
+    - dlsym
+    - dlcall
+    - libpointer
+
   * [#101](http://github.com/Nelson-numerical-software/nelson/issues/101): allows cell_vertcat_generic & cell_horzcat_generic.
   * getdynlibext : returns the extension of dynamic libraries.
 
