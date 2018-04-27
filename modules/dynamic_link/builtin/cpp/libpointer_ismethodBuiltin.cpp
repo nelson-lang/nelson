@@ -42,8 +42,8 @@ ArrayOfVector Nelson::DynamicLinkGateway::libpointer_ismethodBuiltin(Evaluator* 
         Error(eval, _W("libpointer handle expected."));
     }
     LibPointerObject *objLibPointer = (LibPointerObject *)hlObj;
-	ArrayOf param2 = argIn[1];
-	std::wstring methodName = param2.getContentAsWideString();
+    ArrayOf param2 = argIn[1];
+    std::wstring methodName = param2.getContentAsWideString();
     retval.push_back(ArrayOf::logicalConstructor(objLibPointer->isMethod(methodName)));
     return retval;
 }

@@ -16,14 +16,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "libpointer_plusBuiltin.hpp"
+#include "libpointer_setdatatypeBuiltin.hpp"
 #include "Error.hpp"
 #include "LibPointerObject.hpp"
 #include "HandleGenericObject.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::DynamicLinkGateway::libpointer_plusBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector Nelson::DynamicLinkGateway::libpointer_setdatatypeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     if (argIn.size() != 2)
@@ -42,8 +42,8 @@ ArrayOfVector Nelson::DynamicLinkGateway::libpointer_plusBuiltin(Evaluator* eval
     }
     LibPointerObject *objLibPointer = (LibPointerObject *)hlObj;
     ArrayOf param2 = argIn[1];
-    indexType offset = param2.getContentAsScalarIndex(true);
-    retval.push_back(ArrayOf::handleConstructor(objLibPointer->plus(offset)));
+    std::wstring newDatatype = param2.getContentAsWideString();
+    objLibPointer->setDataType(newDatatype);
     return retval;
 }
 //=============================================================================

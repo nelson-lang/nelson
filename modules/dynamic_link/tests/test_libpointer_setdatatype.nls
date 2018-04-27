@@ -6,44 +6,36 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 2 of the License, or
 // (at your option) any later version.
-//
+// 
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-//
+// 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "libpointer_plusBuiltin.hpp"
-#include "Error.hpp"
-#include "LibPointerObject.hpp"
-#include "HandleGenericObject.hpp"
+assert_isequal(nargin('libpointer_reshape'), 3);
+assert_isequal(nargout('libpointer_reshape'), 0);
 //=============================================================================
-using namespace Nelson;
+a = libpointer('double', 3);
+assert_checkerror('a.setdatatype(''int32'')', _('Incompatible types double --> int32'));
 //=============================================================================
-ArrayOfVector Nelson::DynamicLinkGateway::libpointer_plusBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    ArrayOfVector retval;
-    if (argIn.size() != 2)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    if (nLhs > 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    ArrayOf param1 = argIn[0];
-    HandleGenericObject *hlObj = param1.getContentAsHandleScalar();
-    if (hlObj->getCategory() != LIBPOINTER_CATEGORY_STR)
-    {
-        Error(eval, _W("libpointer handle expected."));
-    }
-    LibPointerObject *objLibPointer = (LibPointerObject *)hlObj;
-    ArrayOf param2 = argIn[1];
-    indexType offset = param2.getContentAsScalarIndex(true);
-    retval.push_back(ArrayOf::handleConstructor(objLibPointer->plus(offset)));
-    return retval;
-}
+a = libpointer('doublePtr', 3);
+assert_checkerror('a.setdatatype(''int32Ptr'')', _('Incompatible types doublePtr --> int32Ptr'));
 //=============================================================================
+a = libpointer();
+a.setdatatype('doublePtr');
+a.reshape(1, 1);
+assert_checkerror('a.Value', _('The datatype and size of the value must be defined.'));
+//=============================================================================
+x = 133.3;
+xPtr = libpointer('doublePtr', x);
+path_ref = [modulepath(nelsonroot(),'dynamic_link','bin'), '/libnlsDynamic_link', getdynlibext()];
+lib = dlopen(path_ref);
+f = dlsym(lib, 'multiplicationDoubleByReference', 'libpointer', {'doublePtr'});
+[r1, r2] = dlcall(f, xPtr);
+r1.setdatatype('doublePtr');
+r1.reshape(1, 1);
+assert_isequal(r1.Value, 266.6);

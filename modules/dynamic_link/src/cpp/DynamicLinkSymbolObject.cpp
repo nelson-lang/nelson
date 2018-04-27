@@ -87,11 +87,7 @@ namespace Nelson {
 #else
         ffiTypesMap[L"voidPtr"] = CType(&ffi_type_void, NLS_UINT32);
 #endif
-#ifdef NLS_INDEX_TYPE_64
-        ffiTypesMap[L"libpointer"] = CType(&ffi_type_void, NLS_UINT64);
-#else
-        ffiTypesMap[L"libpointer"] = CType(&ffi_type_void, NLS_UINT32);
-#endif
+        ffiTypesMap[L"libpointer"] = CType(&ffi_type_pointer, NLS_NOT_TYPED);
         ffiTypesMapInitialized = true;
     }
     //=============================================================================

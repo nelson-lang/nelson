@@ -16,34 +16,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "libpointer_plusBuiltin.hpp"
-#include "Error.hpp"
-#include "LibPointerObject.hpp"
-#include "HandleGenericObject.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
-ArrayOfVector Nelson::DynamicLinkGateway::libpointer_plusBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    ArrayOfVector retval;
-    if (argIn.size() != 2)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+namespace Nelson {
+    namespace DynamicLinkGateway {
+        ArrayOfVector libpointer_setdatatypeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
     }
-    if (nLhs > 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    ArrayOf param1 = argIn[0];
-    HandleGenericObject *hlObj = param1.getContentAsHandleScalar();
-    if (hlObj->getCategory() != LIBPOINTER_CATEGORY_STR)
-    {
-        Error(eval, _W("libpointer handle expected."));
-    }
-    LibPointerObject *objLibPointer = (LibPointerObject *)hlObj;
-    ArrayOf param2 = argIn[1];
-    indexType offset = param2.getContentAsScalarIndex(true);
-    retval.push_back(ArrayOf::handleConstructor(objLibPointer->plus(offset)));
-    return retval;
 }
 //=============================================================================

@@ -75,6 +75,10 @@ REF.Value = x * 2;
 REF.DataType = 'doublePtr';
 assert_isequal(r, REF);
 //=============================================================================
+x = 133.3;
+xPtr = libpointer('doublePtr', x);
+r = get(xPtr);
+r = xPtr.Value;
 x = [1 2 3 4];
 xPtr = libpointer('doublePtr', x);
 xPtr.reshape(1, 1);
