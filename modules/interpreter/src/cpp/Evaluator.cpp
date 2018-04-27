@@ -4160,6 +4160,7 @@ namespace Nelson {
 					}
 					catch (Exception)
 					{
+						// throw Exception(_W("Please define ismethod "));
 						isValidMethod = false;
 					}
 					if (isValidMethod)

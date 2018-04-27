@@ -1,0 +1,44 @@
+//=============================================================================
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+assert_isequal(nargin('libpointer_plus'), 2);
+assert_isequal(nargout('libpointer_plus'), 1);
+//=============================================================================
+x = [1 2 3 4 5];
+xPtr = libpointer('doublePtr', x);
+y = xPtr + 1;
+y.reshape(1, 4);
+assert_isequal(y.Value, [2 3 4 5]);
+//=============================================================================
+x = [1 2 3 4 5];
+xPtr = libpointer('doublePtr', x);
+y = xPtr + 4;
+y.reshape(1, 1);
+assert_isequal(y.Value, [5]);
+//=============================================================================
+k = libpointer();
+assert_checkerror('y2 = k + 1',_('The datatype and size of the value must be defined.'));
+//=============================================================================
+x = [1 2 3 4 5];
+xPtr = libpointer('doublePtr', x);
+assert_checkerror('y = xPtr + 10', _('Offset must not be greater than the size of the pointer.'));
+//=============================================================================
+xPtr = libpointer('double', 3);
+y2 = xPtr + 1;
+y2 = xPtr.plus(1);
+//=============================================================================

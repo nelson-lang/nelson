@@ -190,6 +190,7 @@
     <ClCompile Include="..\cpp\libpointer_getBuiltin.cpp" />
     <ClCompile Include="..\cpp\libpointer_ismethodBuiltin.cpp" />
     <ClCompile Include="..\cpp\libpointer_isNullBuiltin.cpp" />
+    <ClCompile Include="..\cpp\libpointer_plusBuiltin.cpp" />
     <ClCompile Include="..\cpp\libpointer_reshapeBuiltin.cpp" />
     <ClCompile Include="..\cpp\removegatewayBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
@@ -249,6 +250,7 @@
     <ClInclude Include="..\include\libpointer_getBuiltin.hpp" />
     <ClInclude Include="..\include\libpointer_ismethodBuiltin.hpp" />
     <ClInclude Include="..\include\libpointer_isNullBuiltin.hpp" />
+    <ClInclude Include="..\include\libpointer_plusBuiltin.hpp" />
     <ClInclude Include="..\include\libpointer_reshapeBuiltin.hpp" />
     <ClInclude Include="..\include\nlsDynamic_link_builtin_exports.h" />
     <ClInclude Include="..\include\removegatewayBuiltin.hpp" />

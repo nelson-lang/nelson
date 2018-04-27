@@ -30,10 +30,14 @@ namespace Nelson {
     class NLSDYNAMIC_LINK_IMPEXP LibPointerObject : public HandleGenericObject {
     public:
         LibPointerObject();
-        LibPointerObject(void *pointer);
-        LibPointerObject(std::wstring DataType);
+		LibPointerObject(std::wstring DataType);
         LibPointerObject(std::wstring DataType, ArrayOf Value);
-        ~LibPointerObject();
+		LibPointerObject(void *pointer);
+		LibPointerObject(void *pointer,
+			std::wstring DataType,
+			Class currentType);
+
+		~LibPointerObject();
 
         void disp(Evaluator *eval);
         void *getPointer();
@@ -45,7 +49,7 @@ namespace Nelson {
 
 		bool isWriteableProperty(std::wstring propertyName);
         bool isNull();
-        bool plus();
+		LibPointerObject *plus(indexType offset);
         void reshape(indexType dimX, indexType dimY);
         std::wstring getDataType();
         void setDataType(std::wstring dataType);
