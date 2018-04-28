@@ -441,6 +441,11 @@ QString QtTerminal::getCurrentCommandLine()
     QTextBlock curBlock = promptBlock;
     while (curBlock != document()->lastBlock())
     {
+		if (!curBlock.isValid())
+		{
+			command.clear();
+			break;
+		}
         command = command.append(curBlock.text());
         command = command.append("\n");
         curBlock = curBlock.next();
