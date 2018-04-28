@@ -28,13 +28,16 @@
 #include "dllib_dispBuiltin.hpp"
 #include "dllib_getBuiltin.hpp"
 #include "dllib_ispropBuiltin.hpp"
+#include "dllib_ismethodBuiltin.hpp"
 #include "dllib_fieldnamesBuiltin.hpp"
 #include "dllib_isvalidBuiltin.hpp"
 #include "dlsym_dispBuiltin.hpp"
 #include "dlsym_getBuiltin.hpp"
 #include "dlsym_ispropBuiltin.hpp"
+#include "dlsym_ismethodBuiltin.hpp"
 #include "dlsym_fieldnamesBuiltin.hpp"
 #include "dlsym_deleteBuiltin.hpp"
+#include "dlsym_usedBuiltin.hpp"
 #include "dlcallBuiltin.hpp"
 #include "getdynlibextBuiltin.hpp"
 #include "libpointerBuiltin.hpp"
@@ -43,8 +46,11 @@
 #include "libpointer_reshapeBuiltin.hpp"
 #include "libpointer_getBuiltin.hpp"
 #include "libpointer_ismethodBuiltin.hpp"
+#include "libpointer_ispropBuiltin.hpp"
 #include "libpointer_plusBuiltin.hpp"
 #include "libpointer_setdatatypeBuiltin.hpp"
+#include "libpointer_usedBuiltin.hpp"
+#include "libpointer_deleteBuiltin.hpp"
 #include "isNullBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -62,26 +68,32 @@ static const nlsGateway gateway[] =
     { "dlsym_disp", Nelson::DynamicLinkGateway::dlsym_dispBuiltin, 0, 1 },
     { "dlsym_get", Nelson::DynamicLinkGateway::dlsym_getBuiltin, 1, 2 },
     { "dlsym_isprop", Nelson::DynamicLinkGateway::dlsym_ispropBuiltin, 1, 2 },
-    { "dlsym_fieldnames", Nelson::DynamicLinkGateway::dlsym_fieldnamesBuiltin, 1, 1 },
-    { "dlsym_delete", Nelson::DynamicLinkGateway::dlsym_deleteBuiltin, 0, 1 },
+	{ "dlsym_ismethod", Nelson::DynamicLinkGateway::dlsym_ismethodBuiltin, 1, 2 },
+	{ "dlsym_fieldnames", Nelson::DynamicLinkGateway::dlsym_fieldnamesBuiltin, 1, 1 },
+	{ "dlsym_used", Nelson::DynamicLinkGateway::dlsym_usedBuiltin, 1, 0 },
+	{ "dlsym_delete", Nelson::DynamicLinkGateway::dlsym_deleteBuiltin, 0, 1 },
     { "dllib_disp", Nelson::DynamicLinkGateway::dllib_dispBuiltin, 0, 1 },
     { "dllib_get", Nelson::DynamicLinkGateway::dllib_getBuiltin, 1, 2 },
     { "dllib_isprop", Nelson::DynamicLinkGateway::dllib_ispropBuiltin, 1, 2 },
-    { "dllib_used", Nelson::DynamicLinkGateway::dllib_usedBuiltin, 1, 0 },
+	{ "dllib_ismethod", Nelson::DynamicLinkGateway::dllib_ismethodBuiltin, 1, 2 },
+	{ "dllib_used", Nelson::DynamicLinkGateway::dllib_usedBuiltin, 1, 0 },
     { "dllib_delete", Nelson::DynamicLinkGateway::dlcloseBuiltin, 0, 1 },
     { "dllib_isvalid", Nelson::DynamicLinkGateway::dllib_isvalidBuiltin, 1, 1 },
     { "dllib_fieldnames", Nelson::DynamicLinkGateway::dllib_fieldnamesBuiltin, 1, 1 },
     { "dlinfo", Nelson::DynamicLinkGateway::dlinfoBuiltin, 1, 1 },
     { "dlcall", Nelson::DynamicLinkGateway::dlcallBuiltin, -1, -1 },
-    { "libpointer", Nelson::DynamicLinkGateway::libpointerBuiltin, 1, -1 },
+	{ "libpointer", Nelson::DynamicLinkGateway::libpointerBuiltin, 1, -1 },
     { "libpointer_disp", Nelson::DynamicLinkGateway::libpointer_dispBuiltin, 0, 1 },
     { "libpointer_isNull", Nelson::DynamicLinkGateway::libpointer_isNullBuiltin, 1, 1 },
     { "libpointer_reshape", Nelson::DynamicLinkGateway::libpointer_reshapeBuiltin, 0, 3 },
     { "libpointer_get", Nelson::DynamicLinkGateway::libpointer_getBuiltin, 1, -1 },
-    { "libpointer_ismethod", Nelson::DynamicLinkGateway::libpointer_ismethodBuiltin, 1, 2 },
+	{ "libpointer_isprop", Nelson::DynamicLinkGateway::libpointer_ispropBuiltin, 1, 2 },
+	{ "libpointer_ismethod", Nelson::DynamicLinkGateway::libpointer_ismethodBuiltin, 1, 2 },
     { "libpointer_plus", Nelson::DynamicLinkGateway::libpointer_plusBuiltin, 1, 2 },
     { "libpointer_setdatatype", Nelson::DynamicLinkGateway::libpointer_setdatatypeBuiltin, 0, 2 },
-    { "isNull", Nelson::DynamicLinkGateway::isNullBuiltin, 1, 1 },
+    { "libpointer_used", Nelson::DynamicLinkGateway::libpointer_usedBuiltin, 1, 0 },
+	{ "libpointer_delete", Nelson::DynamicLinkGateway::libpointer_deleteBuiltin, 0, 1 },
+	{ "isNull", Nelson::DynamicLinkGateway::isNullBuiltin, 1, 1 },
     { "getdynlibext", Nelson::DynamicLinkGateway::getdynlibextBuiltin, 1, 0 }
 };
 //=============================================================================

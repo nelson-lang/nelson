@@ -168,6 +168,7 @@
     <ClCompile Include="..\cpp\CreateDynamicLinkSymbolObject.cpp" />
     <ClCompile Include="..\cpp\DeleteDynamicLinkLibraryObject.cpp" />
     <ClCompile Include="..\cpp\DeleteDynamicLinkSymbolObject.cpp" />
+    <ClCompile Include="..\cpp\DeleteLibPointerObject.cpp" />
     <ClCompile Include="..\cpp\DynamicLinkFunctionsTest.cpp" />
     <ClCompile Include="..\cpp\DynamicLinkLibraryObject.cpp" />
     <ClCompile Include="..\cpp\DynamicLinkSymbolObject.cpp" />
@@ -184,6 +185,7 @@
     <ClInclude Include="..\include\CreateDynamicLinkLibraryObject.hpp" />
     <ClInclude Include="..\include\DeleteDynamicLinkLibraryObject.hpp" />
     <ClInclude Include="..\include\DeleteDynamicLinkSymbolObject.hpp" />
+    <ClInclude Include="..\include\DeleteLibPointerObject.hpp" />
     <ClInclude Include="..\include\DynamicLinkFunctionsTest.h" />
     <ClInclude Include="..\include\DynamicLinkLibraryObject.hpp" />
     <ClInclude Include="..\include\FindDynamicLibraryName.hpp" />

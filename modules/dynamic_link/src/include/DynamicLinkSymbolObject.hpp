@@ -42,6 +42,7 @@ namespace Nelson {
         bool isWriteableProperty(std::wstring propertyName);
         wstringVector fieldnames();
         bool isproperty(std::wstring propertyName);
+		bool ismethod(std::wstring methodName);
 
     private:
         ArrayOf _dllibObject;
