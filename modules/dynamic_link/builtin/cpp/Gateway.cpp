@@ -51,6 +51,7 @@
 #include "libpointer_setdatatypeBuiltin.hpp"
 #include "libpointer_usedBuiltin.hpp"
 #include "libpointer_deleteBuiltin.hpp"
+#include "libpointer_fieldnamesBuiltin.hpp"
 #include "isNullBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -93,6 +94,7 @@ static const nlsGateway gateway[] =
     { "libpointer_setdatatype", Nelson::DynamicLinkGateway::libpointer_setdatatypeBuiltin, 0, 2 },
     { "libpointer_used", Nelson::DynamicLinkGateway::libpointer_usedBuiltin, 1, 0 },
 	{ "libpointer_delete", Nelson::DynamicLinkGateway::libpointer_deleteBuiltin, 0, 1 },
+	{ "libpointer_fieldnames", Nelson::DynamicLinkGateway::libpointer_fieldnamesBuiltin, 1, 1 },
 	{ "isNull", Nelson::DynamicLinkGateway::isNullBuiltin, 1, 1 },
     { "getdynlibext", Nelson::DynamicLinkGateway::getdynlibextBuiltin, 1, 0 }
 };

@@ -193,6 +193,7 @@
     <ClCompile Include="..\cpp\libpointerBuiltin.cpp" />
     <ClCompile Include="..\cpp\libpointer_deleteBuiltin.cpp" />
     <ClCompile Include="..\cpp\libpointer_dispBuiltin.cpp" />
+    <ClCompile Include="..\cpp\libpointer_fieldnamesBuiltin.cpp" />
     <ClCompile Include="..\cpp\libpointer_getBuiltin.cpp" />
     <ClCompile Include="..\cpp\libpointer_ismethodBuiltin.cpp" />
     <ClCompile Include="..\cpp\libpointer_isNullBuiltin.cpp" />
@@ -263,6 +264,7 @@
     <ClInclude Include="..\include\libpointerBuiltin.hpp" />
     <ClInclude Include="..\include\libpointer_deleteBuiltin.hpp" />
     <ClInclude Include="..\include\libpointer_dispBuiltin.hpp" />
+    <ClInclude Include="..\include\libpointer_fieldnamesBuiltin.hpp" />
     <ClInclude Include="..\include\libpointer_getBuiltin.hpp" />
     <ClInclude Include="..\include\libpointer_ismethodBuiltin.hpp" />
     <ClInclude Include="..\include\libpointer_isNullBuiltin.hpp" />
