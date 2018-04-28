@@ -16,11 +16,9 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-assert_isequal(nargin('libpointer_fieldnames'), 1);
-assert_isequal(nargout('libpointer_fieldnames'), 1);
-//=============================================================================
-a = libpointer('doublePtr', eye(2, 2));
-c = fieldnames(a);
-ref = {'Value';'DataType'};
-assert_isequal(c, ref);
+path_ref = [modulepath(nelsonroot(),'dynamic_link','bin'), '/libnlsDynamic_link', getdynlibext()];
+lib = dlopen(path_ref);
+f1 = dlsym(lib, 'dynlibTestMultiplyDoubleArrayWithReturn', 'int32', {'doublePtr', 'int32'});
+f2 = dlsym(lib, 'dynlibTestInputDoublePtr', 'void', {'doublePtr', 'int32'});
+assert_istrue(f1 ~= f2);
 //=============================================================================

@@ -16,11 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-assert_isequal(nargin('libpointer_fieldnames'), 1);
-assert_isequal(nargout('libpointer_fieldnames'), 1);
-//=============================================================================
-a = libpointer('doublePtr', eye(2, 2));
-c = fieldnames(a);
-ref = {'Value';'DataType'};
-assert_isequal(c, ref);
+function R = libpointer_isequaln(A, B)
+    R = handle_isequal(A, B);
+endfunction
 //=============================================================================
