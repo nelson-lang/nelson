@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+
+  <language>en_US</language>
+  <keyword>libpointer_plus</keyword>
+  <short_description>plus operator on libpointer handle.</short_description>
+
+  <syntax>
+    <syntax_item>h2 = h.plus(offset)</syntax_item>
+    <syntax_item>h2 = h + offset</syntax_item>
+
+  </syntax>
+
+  <param_input>
+    <param_input_item>
+      <param_name>h</param_name>
+      <param_description>a libpointer handle.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>offset</param_name>
+      <param_description>a integer value: increment.</param_description>
+    </param_input_item>
+  </param_input>
+
+  <description>
+    <p>plus operator on libpointer handle.</p>
+    <p>ouptut libpointer is valid only as long as the original input libpointer exists.</p>
+</description>
+
+  <used_function></used_function>
+  <bibliography></bibliography>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${dynamic_link}libpointer">libpointer</link>
+    </see_also_item>
+  </see_also>
+
+
+<examples>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description></example_item_description>
+    <example_item_data><![CDATA[x = [1 2 3 4 5];
+xPtr = libpointer('doublePtr', x);
+y = xPtr + 2;
+y.reshape(1, 3);
+y.Value]]>
+    </example_item_data>
+  </example_item>
+
+</examples>
+
+
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

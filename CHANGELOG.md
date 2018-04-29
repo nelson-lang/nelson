@@ -5,12 +5,12 @@ Features:
 
   * Foreign Function Interface: call C/Fortran functions that are compiled into shared libraries.
     - dlopen: loads an dynamic library. 
-    - dlclose
-    - dlsym
-    - dlcall
-    - dllibinfo
+    - dlclose: removes/unload dllib object. 
+    - dlsym: loads a C/Fortran symbol for an dynamic library.
+    - dlcall: C or Fortran Foreign function call. 
+    - dllibinfo: returns list of available symbols in an shared library. 
     - dllibisloaded: checks if shared library is loaded.
-    - libpointer
+    - libpointer: creates an C pointer object usuable in Nelson. 
     - getdynlibext : returns the extension of dynamic libraries.
 
 

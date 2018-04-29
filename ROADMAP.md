@@ -9,20 +9,21 @@ Please feel free to file issues on this repository if you have questions, concer
 
 *Features*:
 
-- linear algebra module,
-- Computer Aided Control Systems Design module,
+- Foreign Function Interface (DONE v0.2.4),
+- Audio module (read, play DONE v0.2.1),
+- JSON File I/O module (DONE v0.2.1),
+- MPI interface module (DONE v0.1.11),
+- editor (DONE v0.1.11),
 - SLICOT module: low level function about Controls (DONE v0.1.10),
 - fftw module (DONE v0.1.8),
 - COM objects (DONE v0.1.7),
+- linear algebra module,
+- Computer Aided Control Systems Design module,
 - MAT File I/O module,
-- MPI interface module (DONE v0.1.11),
-- JSON File I/O module (DONE v0.2.1),
-- Audio module (read, play DONE v0.2.1),
-- editor (DONE v0.1.11),
 - completion,
 - graphics output,
 - some basic openCV functions,
-- dynamic link functions
+- dynamic link functions (Nelson external modules)
 
 ### How can I help?
 

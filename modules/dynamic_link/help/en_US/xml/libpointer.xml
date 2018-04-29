@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+	<copyright>SAME AS NELSON SOFTWARE</copyright>
+
+	<language>en_US</language>
+	<keyword>libpointer</keyword>
+	<short_description>Creates an C pointer object usuable in Nelson.</short_description>
+
+	<syntax>
+		<syntax_item>ptr = libpointer()</syntax_item>
+		<syntax_item>ptr = libpointer(datatype)</syntax_item>
+		<syntax_item>ptr = libpointer(datatype, value)</syntax_item>
+	</syntax>
+	
+	<param_input>
+		<param_input_item>
+			<param_name>datatype</param_name>
+			<param_description>a string: data type.</param_description>
+		</param_input_item>
+		<param_input_item>
+			<param_name>value</param_name>
+			<param_description>a nelson variable compatible with datatype.</param_description>
+		</param_input_item>
+
+	</param_input>
+
+	<param_output>
+		<param_output_item>
+			<param_name>ptr</param_name>
+			<param_description>a libpointer handle.</param_description>
+		</param_output_item>
+	</param_output>
+
+	<description>
+		<p>This is an advanced feature to manipulate C pointers.</p>
+		<p><b>ptr = libpointer()</b> creates an NULL pointer.</p>
+	</description>
+
+
+	<used_function></used_function>
+	<bibliography></bibliography>
+
+<examples>
+
+	<example_item>
+		<example_item_type>nelson</example_item_type>
+		<example_item_description></example_item_description>
+		<example_item_data><![CDATA[p = libpointer('int8Ptr', int8([3 4]));
+p.isNull()
+p.DataType
+p.Value]]>
+	</example_item_data>
+	
+	</example_item>
+
+
+	<example_item>
+		<example_item_type>C</example_item_type>
+		<example_item_description></example_item_description>
+		<example_item_data><![CDATA[NLSDYNAMIC_LINK_IMPEXP double *multiplicationDoubleByReference(double *x)
+{
+    *x *= 2;
+    return x;
+}]]>
+	</example_item_data>
+	</example_item>
+
+
+	<example_item>
+		<example_item_type>nelson</example_item_type>
+		<example_item_description></example_item_description>
+		<example_item_data><![CDATA[x = 133.3;
+xPtr = libpointer('doublePtr', x);
+path_ref = [modulepath(nelsonroot(),'dynamic_link','bin'), '/libnlsDynamic_link', getdynlibext()];
+lib = dlopen(path_ref);
+f = dlsym(lib, 'multiplicationDoubleByReference', 'libpointer', {'doublePtr'});
+[r1, r2] = dlcall(f, xPtr);
+r2
+// r1 is an libpointer of type '' (voidPointer) and it need to be change type and size.
+r1.setdatatype('doublePtr');
+r1.reshape(1, 1);
+get(r1)
+
+]]>
+	</example_item_data>
+	
+	</example_item>
+
+
+</examples>
+
+	<see_also>
+		<see_also_item>
+			<link linkend="${dynamic_link}C_datatype">C/Nelson equivalent data types</link>
+		</see_also_item>
+		<see_also_item>
+			<link linkend="${dynamic_link}libpointer_isNull">isNull</link>
+		</see_also_item>
+		<see_also_item>
+			<link linkend="${dynamic_link}libpointer_reshape">libpointer.reshape</link>
+		</see_also_item>
+		<see_also_item>
+			<link linkend="${dynamic_link}libpointer_setdatatype">libpointer.setdatatype</link>
+		</see_also_item>
+		
+	</see_also>
+
+	<history>
+		<history_item>
+			<history_version>1.0.0</history_version>
+			<history_description>initial version</history_description>
+		</history_item>
+	</history>
+
+	<authors>
+		<author_item>Allan CORNET</author_item>
+	</authors>
+</xmldoc>
+
+

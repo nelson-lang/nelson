@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+
+  <language>en_US</language>
+	<keyword>libpointer datatype</keyword>
+  <short_description>C/Nelson equivalent data types</short_description>
+
+
+  <description>
+    <p>This table shows these Nelson types with their equivalent C types.</p>
+    <style>
+table, th, td {
+    border: 1px solid black;
+}
+</style>
+    <table style="width:100%">
+  <tr>
+    <th>Nelson type</th>
+    <th>C type</th>
+  </tr>
+    
+<tr>
+        <td>logical (scalar)</td>
+        <td>uint8_t</td>
+      </tr>
+<tr>
+        <td>uint8 (scalar)</td>
+        <td>uint8_t</td>
+      </tr>
+<tr>
+        <td>int8 (scalar)</td>
+        <td>int8_t</td>
+      </tr>
+<tr>
+        <td>uint16 (scalar)</td>
+        <td>uint16_t</td>
+      </tr>
+<tr>
+        <td>int16 (scalar)</td>
+        <td>int16_t</td>
+      </tr>
+<tr>
+        <td>uint32 (scalar)</td>
+        <td>uint32_t</td>
+      </tr>
+<tr>
+        <td>int32 (scalar)</td>
+        <td>uint32_t</td>
+      </tr>
+<tr>
+        <td>uint64 (scalar)</td>
+        <td>uint64_t</td>
+      </tr>
+<tr>
+        <td>int64 (scalar)</td>
+        <td>int64_t</td>
+      </tr>
+<tr>
+        <td>float, single (scalar)</td>
+        <td>float</td>
+      </tr>
+<tr>
+        <td>double (scalar)</td>
+        <td>double</td>
+      </tr>
+<tr>
+        <td>cstring (string utf-8)</td>
+        <td>char *</td>
+      </tr>
+<tr>
+        <td>wstring (string unicode)</td>
+        <td>wchar_t *</td>
+      </tr>
+<tr>
+        <td>void</td>
+        <td>void</td>
+      </tr>
+<tr>
+        <td>logicalPtr (logical vector or matrix)</td>
+        <td>uint8_t *</td>
+      </tr>
+<tr>
+        <td>uint8Ptr (uint8 vector or matrix)</td>
+        <td>uint8_t *</td>
+      </tr>
+<tr>
+        <td>int8Ptr (int8 vector or matrix)</td>
+        <td>int8_t *</td>
+      </tr>
+<tr>
+        <td>uint16Ptr (uint16 vector or matrix)</td>
+        <td>uint16_t *</td>
+      </tr>
+<tr>
+        <td>int16Ptr (int16 vector or matrix)</td>
+        <td>int16_t *</td>
+      </tr>
+<tr>
+        <td>uint32Ptr (uint32 vector or matrix)</td>
+        <td>uint32_t *</td>
+      </tr>
+<tr>
+        <td>int32Ptr (int32 vector or matrix)</td>
+        <td>int32_t *</td>
+      </tr>
+<tr>
+        <td>int64Ptr (uint64 vector or matrix)</td>
+        <td>int64_t *</td>
+      </tr>
+<tr>
+        <td>uint64Ptr (uint64 vector or matrix)</td>
+        <td>uint64_t *</td>
+     </tr>
+<tr>
+        <td>floatPtr, singlePtr (single vector or matrix)</td>
+        <td>float *</td>
+      </tr>
+<tr>
+        <td>doublePtr (double vector or matrix)</td>
+        <td>double *</td>
+      </tr>
+<tr>
+        <td>voidPtr</td>
+        <td>void *</td>
+      </tr>
+<tr>
+        <td>libpointer</td>
+        <td>void *, uint8_t *, int8_t *, int16_t *, uint16_t *, ...</td>
+     </tr>
+     </table>
+  </description>
+
+  <used_function></used_function>
+  <bibliography></bibliography>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${dynamic_link}libpointer">libpointer</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${dynamic_link}dlsym">dlsym</link>
+    </see_also_item>
+  </see_also>
+
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

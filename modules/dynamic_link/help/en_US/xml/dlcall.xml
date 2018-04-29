@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+	<copyright>SAME AS NELSON SOFTWARE</copyright>
+
+	<language>en_US</language>
+	<keyword>dlcall</keyword>
+	<short_description>C or Fortran Foreign function call.</short_description>
+
+	<syntax>
+		<syntax_item>[x1, ... , xN] = dlcall(dlsym_handle, arg1, ..., argN)</syntax_item>
+
+	</syntax>
+	
+	<param_input>
+		<param_input_item>
+			<param_name>dlsym_handle</param_name>
+			<param_description>a dlsym handle.</param_description>
+		</param_input_item>
+		<param_input_item>
+			<param_name>arg1, ..., argN</param_name>
+			<param_description>input arguments.</param_description>
+		</param_input_item>
+	</param_input>
+
+	<param_output>
+		<param_output_item>
+			<param_name>[x1, ... , xN]</param_name>
+			<param_description>output values.</param_description>
+		</param_output_item>
+	</param_output>
+
+	<description>
+		<p><b>dlcall</b> calls an external C or Fortran function loaded from an shared library.</p>
+		<p><b>dlcall</b> validates input argument types before calling based on dlsym handle definition.</p>
+	</description>
+
+
+	<used_function></used_function>
+	<bibliography></bibliography>
+
+<examples>
+
+	<example_item>
+		<example_item_type>nelson</example_item_type>
+		<example_item_description></example_item_description>
+		<example_item_data><![CDATA[lib = dlopen([modulepath(nelsonroot(),'dynamic_link','bin'), '/libnlsDynamic_link', getdynlibext()]);
+V = double([1 2;3 4]);
+// C prototype:
+// int dynlibTestMultiplyDoubleArrayWithReturn(double *x, int size)
+f = dlsym(lib, 'dynlibTestMultiplyDoubleArrayWithReturn', 'int32', {'doublePtr', 'int32'});
+[r1, r2] = dlcall(f, V, int32(numel(V)))
+delete(f);
+delete(lib);
+]]>
+	</example_item_data>
+	
+	</example_item>
+
+	<example_item>
+		<example_item_type>nelson</example_item_type>
+		<example_item_description>Call C getpid function</example_item_description>
+		<example_item_data><![CDATA[run([modulepath('dynamic_link'), '/examples/call_c.nls']);
+]]>
+	</example_item_data>
+	
+	</example_item>
+
+	<example_item>
+		<example_item_type>nelson</example_item_type>
+		<example_item_description>Call fortran DASUM (blas) function</example_item_description>
+		<example_item_data><![CDATA[run([modulepath('dynamic_link'), '/examples/call_fortran.nls']);]]>
+	</example_item_data>
+	
+	</example_item>
+
+
+</examples>
+
+	<see_also>
+		<see_also_item>
+			<link linkend="${dynamic_link}dlsym">dlsym</link>
+		</see_also_item>
+		<see_also_item>
+			<link linkend="${dynamic_link}C_datatype">C/Nelson equivalent data types</link>
+		</see_also_item>
+	</see_also>
+
+	<history>
+		<history_item>
+			<history_version>1.0.0</history_version>
+			<history_description>initial version</history_description>
+		</history_item>
+	</history>
+
+	<authors>
+		<author_item>Allan CORNET</author_item>
+	</authors>
+</xmldoc>
+
+
