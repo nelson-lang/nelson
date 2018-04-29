@@ -167,7 +167,7 @@
     <ClCompile Include="..\cpp\addgatewayBuiltin.cpp" />
     <ClCompile Include="..\cpp\dlcallBuiltin.cpp" />
     <ClCompile Include="..\cpp\dlcloseBuiltin.cpp" />
-    <ClCompile Include="..\cpp\dlinfoBuiltin.cpp" />
+    <ClCompile Include="..\cpp\dllibinfoBuiltin.cpp" />
     <ClCompile Include="..\cpp\dllib_deleteBuiltin.cpp" />
     <ClCompile Include="..\cpp\dllib_dispBuiltin.cpp" />
     <ClCompile Include="..\cpp\dllib_fieldnamesBuiltin.cpp" />
@@ -239,7 +239,7 @@
     <ClInclude Include="..\include\addgatewayBuiltin.hpp" />
     <ClInclude Include="..\include\dlcallBuiltin.hpp" />
     <ClInclude Include="..\include\dlcloseBuiltin.hpp" />
-    <ClInclude Include="..\include\dlinfoBuiltin.hpp" />
+    <ClInclude Include="..\include\dllibinfoBuiltin.hpp" />
     <ClInclude Include="..\include\dllib_deleteBuiltin.hpp" />
     <ClInclude Include="..\include\dllib_dispBuiltin.hpp" />
     <ClInclude Include="..\include\dllib_fieldnamesBuiltin.hpp" />

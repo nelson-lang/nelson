@@ -16,10 +16,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-lib = dlopen([modulepath(nelsonroot(),'dynamic_link','bin'), '/libnlsDynamic_link', getdynlibext()]);
-// get list all symbols available in loaded shared library
-symbols = dlinfo(lib)
-// release handle
-delete(lib);
-// clear variable
-clear lib
+run([modulepath('dynamic_link'), '/examples/call_fortran.nls']);
+run([modulepath('dynamic_link'), '/examples/call_c.nls']);
+run([modulepath('dynamic_link'), '/examples/dllibinfo.nls']);

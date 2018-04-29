@@ -23,7 +23,7 @@
 #include "dlopenBuiltin.hpp"
 #include "dlcloseBuiltin.hpp"
 #include "dlsymBuiltin.hpp"
-#include "dlinfoBuiltin.hpp"
+#include "dllibinfoBuiltin.hpp"
 #include "dllib_usedBuiltin.hpp"
 #include "dllib_dispBuiltin.hpp"
 #include "dllib_getBuiltin.hpp"
@@ -84,7 +84,7 @@ static const nlsGateway gateway[] =
     { "dllib_delete", Nelson::DynamicLinkGateway::dlcloseBuiltin, 0, 1 },
     { "dllib_isvalid", Nelson::DynamicLinkGateway::dllib_isvalidBuiltin, 1, 1 },
     { "dllib_fieldnames", Nelson::DynamicLinkGateway::dllib_fieldnamesBuiltin, 1, 1 },
-    { "dlinfo", Nelson::DynamicLinkGateway::dlinfoBuiltin, 1, 1 },
+    { "dllibinfo", Nelson::DynamicLinkGateway::dllibinfoBuiltin, 1, 1 },
     { "dlcall", Nelson::DynamicLinkGateway::dlcallBuiltin, -1, -1 },
 	{ "libpointer", Nelson::DynamicLinkGateway::libpointerBuiltin, 1, -1 },
     { "libpointer_disp", Nelson::DynamicLinkGateway::libpointer_dispBuiltin, 0, 1 },

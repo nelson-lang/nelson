@@ -16,13 +16,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-function tf = dllibisloaded(libraryname)
+function varargout = dllibisloaded(libraryname)
   if ~ischar(libraryname)
     error(_('Wrong type for argument #1: string expected.'));
   end
   used = dllib_used();
   if isempty(used)
-    tf = false;
+    varargout{1} = false;
+    varargout{2} = [];
   else
     try
       lib = dlopen(libraryname);
@@ -30,12 +31,14 @@ function tf = dllibisloaded(libraryname)
       dlclose(lib);
       for l = used
         if strcmp(l.Path, fullname) == true
-          tf = true;
+          varargout{1} = true;
+          varargout{2} = l;
           break;
         end
       end
     catch
-      tf = false;
+      varargout{1} = false;
+      varargout{2} = [];
     end
   end
 endfunction

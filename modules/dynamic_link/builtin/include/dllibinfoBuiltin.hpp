@@ -16,33 +16,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "dlinfoBuiltin.hpp"
-#include "Error.hpp"
-#include "DynamicLinkLibraryObject.hpp"
-#include "HandleManager.hpp"
-#include "ToCellString.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
-ArrayOfVector Nelson::DynamicLinkGateway::dlinfoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    ArrayOfVector retval;
-    if (argIn.size() != 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+namespace Nelson {
+    namespace DynamicLinkGateway {
+        ArrayOfVector dllibinfoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
     }
-    if (nLhs > 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    ArrayOf param1 = argIn[0];
-    HandleGenericObject *hlObj = param1.getContentAsHandleScalar();
-    if (hlObj->getCategory() != DLLIB_CATEGORY_STR)
-    {
-        Error(eval, _W("dllib handle expected."));
-    }
-    DynamicLinkLibraryObject *obj = (DynamicLinkLibraryObject *)hlObj;
-    retval.push_back(ToCellStringAsColumn(obj->getAvailableSymbols()));
-    return retval;
 }
 //=============================================================================
