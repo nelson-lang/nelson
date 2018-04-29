@@ -4,7 +4,7 @@ Features:
 ---------
 
   * Foreign Function Interface: call C/Fortran functions that are compiled into shared libraries.
-    - dlopen 
+    - dlopen: loads an dynamic library. 
     - dlclose
     - dlsym
     - dlcall
