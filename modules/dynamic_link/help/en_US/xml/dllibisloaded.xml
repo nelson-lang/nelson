@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+	<copyright>SAME AS NELSON SOFTWARE</copyright>
+
+	<language>en_US</language>
+	<keyword>dllibisloaded</keyword>
+	<short_description>Checks if shared library is loaded.</short_description>
+
+	<syntax>
+		<syntax_item>tf = dllibisloaded(libraryname)</syntax_item>
+		<syntax_item>[tf, lib] = dllibisloaded(libraryname)</syntax_item>
+
+	</syntax>
+	
+	<param_input>
+		<param_input_item>
+			<param_name>libraryname</param_name>
+			<param_description>a string: dynamic library name.</param_description>
+		</param_input_item>
+	</param_input>
+
+	<param_output>
+		<param_output_item>
+			<param_name>tf</param_name>
+			<param_description>a logical: true if library is already loaded.</param_description>
+		</param_output_item>
+		<param_output_item>
+			<param_name>lib</param_name>
+			<param_description>a dllib handle: library already loaded.</param_description>
+		</param_output_item>
+	</param_output>
+
+	<description>
+		<p><b>dllibisloaded</b> returns if share library is already loaded.</p>
+	</description>
+
+
+	<used_function></used_function>
+	<bibliography></bibliography>
+
+<examples>
+
+	<example_item>
+		<example_item_type>nelson</example_item_type>
+		<example_item_description></example_item_description>
+		<example_item_data><![CDATA[
+		path_1 = [modulepath(nelsonroot(),'dynamic_link','bin'), '/libnlsDynamic_link', getdynlibext()];
+r = dllibisloaded(path_1)
+lib1 = dlopen(path_1);
+[r, lib2] = dllibisloaded(path_1)
+isequal(lib1, lib2)
+		]]>
+	</example_item_data>
+	
+	</example_item>
+
+</examples>
+
+	<see_also>
+		<see_also_item>
+			<link linkend="${dynamic_link}dlopen">dlopen</link>
+		</see_also_item>
+	</see_also>
+
+	<history>
+		<history_item>
+			<history_version>1.0.0</history_version>
+			<history_description>initial version</history_description>
+		</history_item>
+	</history>
+
+	<authors>
+		<author_item>Allan CORNET</author_item>
+	</authors>
+</xmldoc>
+
+
