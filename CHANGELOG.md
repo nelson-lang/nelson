@@ -19,6 +19,8 @@ Features:
 Bug Fixes:
 ---------
 
+  [#106](http://github.com/Nelson-numerical-software/nelson/issues/106): update slicot url references.
+
   [#104](http://github.com/Nelson-numerical-software/nelson/issues/104): mpiexec did not work on some linux.
 
 
