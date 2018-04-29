@@ -14,7 +14,7 @@ Features:
     - getdynlibext : returns the extension of dynamic libraries.
 
 
-  * [#101](http://github.com/Nelson-numerical-software/nelson/issues/101): allows cell_vertcat_generic & cell_horzcat_generic.
+  * [#101](http://github.com/Nelson-numerical-software/nelson/issues/101): allows cell\_vertcat\_generic & cell\_horzcat\_generic.
 
 Bug Fixes:
 ---------
