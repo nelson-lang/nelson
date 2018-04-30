@@ -170,6 +170,7 @@
   <ItemGroup>
     <ClCompile Include="..\cpp\absBuiltin.cpp" />
     <ClCompile Include="..\cpp\andBuiltin.cpp" />
+    <ClCompile Include="..\cpp\castBuiltin.cpp" />
     <ClCompile Include="..\cpp\ceilBuiltin.cpp" />
     <ClCompile Include="..\cpp\colonBuiltin.cpp" />
     <ClCompile Include="..\cpp\complexBuiltin.cpp" />
@@ -251,6 +252,7 @@
   <ItemGroup>
     <ClInclude Include="..\include\absBuiltin.hpp" />
     <ClInclude Include="..\include\andBuiltin.hpp" />
+    <ClInclude Include="..\include\castBuiltin.hpp" />
     <ClInclude Include="..\include\ceilBuiltin.hpp" />
     <ClInclude Include="..\include\colonBuiltin.hpp" />
     <ClInclude Include="..\include\complexBuiltin.hpp" />

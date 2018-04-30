@@ -1,0 +1,109 @@
+//=============================================================================
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+assert_isequal(nargin('cast'), 3)
+assert_isequal(nargout('cast'), 1)
+//=============================================================================
+r = cast(8, 'uint8');
+REF = uint8(8);
+assert_isequal(r, REF);
+//=============================================================================
+r = cast('hello','double');
+REF =  [104     101     108     108     111];
+assert_isequal(r, REF);
+//=============================================================================
+r = cast(8,'like',sparse(1));
+REF = sparse(8);
+assert_isequal(r, REF);
+//=============================================================================
+r = cast (300, 'int8');
+REF = int8(127);
+assert_isequal(r, REF);
+//=============================================================================
+r = cast (3i, 'double');
+REF = double(3i);
+assert_isequal(r, REF);
+//=============================================================================
+r = cast (3i, 'single');
+REF = single(3i);
+assert_isequal(r, REF);
+//=============================================================================
+r = cast(single(3.6), 'double');
+REF = 3.6;
+assert_isapprox(r, REF, eps('single'));
+//=============================================================================
+r = cast(3.6, 'single');
+REF = single(3.6);
+assert_isapprox(r, REF);
+//=============================================================================
+r = cast([6 0 -6], 'logical');
+REF = [true false true];
+assert_isequal(r, REF);
+//=============================================================================
+r = cast([104     101     108     108     111], 'char');
+REF = 'hello';
+assert_isequal(r, REF);
+//=============================================================================
+r = cast([3.6 1.2 -2.4], 'int8');
+REF = int8 ([3 1 -2]);
+assert_isequal(r, REF);
+//=============================================================================
+r = cast([3.6 1.2 -2.4], 'uint8');
+REF = uint8 ([3 1 0]);
+assert_isequal(r, REF);
+//=============================================================================
+r = cast([3.6 1.2 -2.4], 'int16');
+REF = int16 ([3 1 -2]);
+assert_isequal(r, REF);
+//=============================================================================
+r = cast([3.6 1.2 -2.4], 'uint16');
+REF = uint16 ([3 1 0]);
+assert_isequal(r, REF);
+//=============================================================================
+r = cast([3.6 1.2 -2.4], 'int32');
+REF = int32 ([3 1 -2]);
+assert_isequal(r, REF);
+//=============================================================================
+r = cast([3.6 1.2 -2.4], 'uint32');
+REF = uint32 ([3 1 0]);
+assert_isequal(r, REF);
+//=============================================================================
+r = cast([3.6 1.2 -2.4], 'int64');
+REF = int64 ([3 1 -2]);
+assert_isequal(r, REF);
+//=============================================================================
+r = cast([3.6 1.2 -2.4], 'uint64');
+REF = uint64 ([3 1 0]);
+assert_isequal(r, REF);
+//=============================================================================
+// r = cast (3i, 'int8')
+//=============================================================================
+r = cast([3.6 1.2 -2.4], 'like', int64(3));
+REF = int64 ([3 1 -2]);
+assert_isequal(r, REF);
+//=============================================================================
+r = cast(1 + 0i, 'like', 3);
+REF = double(1);
+assert_isequal(r, REF);
+//=============================================================================
+r = cast(1 + 0i, 'like', 3i);
+REF = complex(1, 0);
+assert_isequal(r, REF);
+//=============================================================================
+assert_checkerror('r = cast([3.6 1.2 -2.4], ''like2'', int64(3));',_('Wrong value for #2 argument.'));
+//=============================================================================
