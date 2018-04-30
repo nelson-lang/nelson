@@ -36,15 +36,14 @@ ArrayOfVector Nelson::DynamicLinkGateway::libpointer_ispropBuiltin(Evaluator* ev
     }
     ArrayOf param1 = argIn[0];
     ArrayOfVector retval;
-    HandleGenericObject *hlObj = param1.getContentAsHandleScalar();
-    if (hlObj->getCategory() != LIBPOINTER_CATEGORY_STR)
+    if (param1.getHandleCategory() != LIBPOINTER_CATEGORY_STR)
     {
         Error(eval, _W("libpointer handle expected."));
     }
-    LibPointerObject *objLibPointer = (LibPointerObject *)hlObj;
+    LibPointerObject *objLibPointer = (LibPointerObject *)param1.getContentAsHandleScalar();
     ArrayOf param2 = argIn[1];
     std::wstring propertyName = param2.getContentAsWideString();
-    retval.push_back(ArrayOf::logicalConstructor(objLibPointer->isproperty(propertyName)));
+    retval.push_back(ArrayOf::logicalConstructor(objLibPointer->isProperty(propertyName)));
     return retval;
 }
 //=============================================================================

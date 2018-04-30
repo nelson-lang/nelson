@@ -79,8 +79,7 @@ ArrayOfVector Nelson::TypeGateway::isaBuiltin(Evaluator* eval, int nLhs, const A
             }
             else
             {
-                HandleGenericObject *ptr = param1.getContentAsHandleScalar();
-                res = (ptr->getCategory() == classnameExpected);
+                res = (param1.getHandleCategory() == classnameExpected);
             }
         }
         else

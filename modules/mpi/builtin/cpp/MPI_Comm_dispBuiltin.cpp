@@ -53,8 +53,7 @@ ArrayOfVector Nelson::MpiGateway::MPI_Comm_dispBuiltin(Evaluator* eval, int nLhs
             {
                 if (param1.isScalar())
                 {
-                    HandleGenericObject *hlObj = param1.getContentAsHandleScalar();
-                    if (hlObj->getCategory() != MPI_COMM_CATEGORY_STR)
+                    if (param1.getHandleCategory() != MPI_COMM_CATEGORY_STR)
                     {
                         throw Exception(_W("MPI_Comm handle expected."));
                     }
@@ -63,7 +62,7 @@ ArrayOfVector Nelson::MpiGateway::MPI_Comm_dispBuiltin(Evaluator* eval, int nLhs
                     dimsParam1.printMe(io);
                     io->outputMessage("\n");
                     io->outputMessage("\n");
-                    MPI_CommHandleObject *mpicommhandleobj = (MPI_CommHandleObject *)hlObj;
+                    MPI_CommHandleObject *mpicommhandleobj = (MPI_CommHandleObject *)param1.getContentAsHandleScalar();
                     if (mpicommhandleobj != nullptr)
                     {
                         MPI_CommObject *obj = (MPI_CommObject *)mpicommhandleobj->getPointer();

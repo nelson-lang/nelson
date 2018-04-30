@@ -36,15 +36,14 @@ ArrayOfVector Nelson::DynamicLinkGateway::dllib_ismethodBuiltin(Evaluator* eval,
     }
     ArrayOfVector retval;
     ArrayOf param1 = argIn[0];
-    HandleGenericObject *hlObj = param1.getContentAsHandleScalar();
-    if (hlObj->getCategory() != DLLIB_CATEGORY_STR)
+    if (param1.getHandleCategory() != DLLIB_CATEGORY_STR)
     {
         Error(eval, _W("dllib handle expected."));
     }
     ArrayOf param2 = argIn[1];
     std::wstring methodName = param2.getContentAsWideString();
-    DynamicLinkLibraryObject *objDllib = (DynamicLinkLibraryObject *)hlObj;
-    ArrayOf res = ArrayOf::logicalConstructor(objDllib->ismethod(methodName));
+    DynamicLinkLibraryObject *objDllib = (DynamicLinkLibraryObject *)param1.getContentAsHandleScalar();
+    ArrayOf res = ArrayOf::logicalConstructor(objDllib->isMethod(methodName));
     retval.push_back(res);
     return retval;
 }

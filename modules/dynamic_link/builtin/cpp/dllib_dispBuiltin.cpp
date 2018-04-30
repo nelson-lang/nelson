@@ -48,14 +48,11 @@ ArrayOfVector Nelson::DynamicLinkGateway::dllib_dispBuiltin(Evaluator* eval, int
         }
         if (param1.isScalar())
         {
-            nelson_handle *qp = (nelson_handle*)param1.getDataPointer();
-            nelson_handle hl = qp[0];
-            HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-            if (hlObj->getCategory() != DLLIB_CATEGORY_STR)
+            if (param1.getHandleCategory() != DLLIB_CATEGORY_STR)
             {
                 Error(eval, _W("dllib handle expected."));
             }
-            DynamicLinkLibraryObject *dllibObj = (DynamicLinkLibraryObject *)hlObj;
+			DynamicLinkLibraryObject *dllibObj = (DynamicLinkLibraryObject *)param1.getContentAsHandleScalar();
             dllibObj->disp(eval);
         }
     }

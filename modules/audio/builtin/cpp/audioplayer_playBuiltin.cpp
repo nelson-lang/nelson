@@ -71,12 +71,11 @@ ArrayOfVector Nelson::AudioGateway::audioplayer_playBuiltin(Evaluator* eval, int
             Error(eval, _W("scalar or [start, end] vector expected."));
         }
     }
-    HandleGenericObject *hlObj = param1.getContentAsHandleScalar();
-    if (hlObj->getCategory() != AUDIOPLAYER_CATEGORY_STR)
+    if (param1.getHandleCategory() != AUDIOPLAYER_CATEGORY_STR)
     {
         Error(eval, _W("audioplayer handle expected."));
     }
-    AudioplayerObject *objPlayer = (AudioplayerObject *)hlObj;
+    AudioplayerObject *objPlayer = (AudioplayerObject *)param1.getContentAsHandleScalar();
     if (argIn.size() == 1)
     {
         objPlayer->play();

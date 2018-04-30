@@ -48,14 +48,11 @@ ArrayOfVector Nelson::DynamicLinkGateway::dlsym_dispBuiltin(Evaluator* eval, int
         }
         if (param1.isScalar())
         {
-            nelson_handle *qp = (nelson_handle*)param1.getDataPointer();
-            nelson_handle hl = qp[0];
-            HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-            if (hlObj->getCategory() != DLSYM_CATEGORY_STR)
+            if (param1.getHandleCategory() != DLSYM_CATEGORY_STR)
             {
                 Error(eval, _W("dlsym handle expected."));
             }
-            DynamicLinkSymbolObject *dlsymObj = (DynamicLinkSymbolObject *)hlObj;
+            DynamicLinkSymbolObject *dlsymObj = (DynamicLinkSymbolObject *)param1.getContentAsHandleScalar();
             dlsymObj->disp(eval);
         }
     }

@@ -32,12 +32,11 @@ ArrayOfVector Nelson::DynamicLinkGateway::dlcallBuiltin(Evaluator* eval, int nLh
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
-    HandleGenericObject *hlObj = param1.getContentAsHandleScalar();
-    if (hlObj->getCategory() != DLSYM_CATEGORY_STR)
+    if (param1.getHandleCategory() != DLSYM_CATEGORY_STR)
     {
         Error(eval, _W("dlsym handle expected."));
     }
-    DynamicLinkSymbolObject *dlsymObj = (DynamicLinkSymbolObject *)hlObj;
+    DynamicLinkSymbolObject *dlsymObj = (DynamicLinkSymbolObject *)param1.getContentAsHandleScalar();
     ArrayOfVector params;
     for (size_t l = 1; l < argIn.size(); l++)
     {

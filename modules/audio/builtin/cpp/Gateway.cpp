@@ -39,6 +39,7 @@
 #include "audioplayer_stopBuiltin.hpp"
 #include "audioplayer_isvalidBuiltin.hpp"
 #include "audioplayer_ispropBuiltin.hpp"
+#include "audioplayer_ismethodBuiltin.hpp"
 #include "audioreadBuiltin.hpp"
 #include "audiowriteBuiltin.hpp"
 #include "audioinfoBuiltin.hpp"
@@ -67,7 +68,8 @@ static const nlsGateway gateway[] =
     { "audioplayer_stop", Nelson::AudioGateway::audioplayer_stopBuiltin, 0, 1 },
     { "audioplayer_used", Nelson::AudioGateway::audioplayer_usedBuiltin, 1, 0 },
     { "audioplayer_isprop", Nelson::AudioGateway::audioplayer_ispropBuiltin, 1, 2 },
-    { "playblocking", Nelson::AudioGateway::playblockingBuiltin, 0, -1 },
+	{ "audioplayer_ismethod", Nelson::AudioGateway::audioplayer_ismethodBuiltin, 1, 2 },
+	{ "playblocking", Nelson::AudioGateway::playblockingBuiltin, 0, -1 },
     { "play", Nelson::AudioGateway::playBuiltin, 0, -1 },
     { "stop", Nelson::AudioGateway::stopBuiltin, 0, 1 },
     { "resume", Nelson::AudioGateway::resumeBuiltin, 0, 1 },

@@ -162,7 +162,7 @@ namespace Nelson {
         return (it != _methodsNames.end());
     }
     //=============================================================================
-    bool LibPointerObject::isproperty(std::wstring propertyName)
+    bool LibPointerObject::isProperty(std::wstring propertyName)
     {
         auto it = std::find(_propertiesNames.begin(), _propertiesNames.end(), propertyName);
         return (it != _propertiesNames.end());

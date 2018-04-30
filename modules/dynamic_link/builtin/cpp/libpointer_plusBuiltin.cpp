@@ -35,12 +35,11 @@ ArrayOfVector Nelson::DynamicLinkGateway::libpointer_plusBuiltin(Evaluator* eval
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
-    HandleGenericObject *hlObj = param1.getContentAsHandleScalar();
-    if (hlObj->getCategory() != LIBPOINTER_CATEGORY_STR)
+    if (param1.getHandleCategory() != LIBPOINTER_CATEGORY_STR)
     {
         Error(eval, _W("libpointer handle expected."));
     }
-    LibPointerObject *objLibPointer = (LibPointerObject *)hlObj;
+    LibPointerObject *objLibPointer = (LibPointerObject *)param1.getContentAsHandleScalar();
     ArrayOf param2 = argIn[1];
     indexType offset = param2.getContentAsScalarIndex(true);
     retval.push_back(ArrayOf::handleConstructor(objLibPointer->plus(offset)));

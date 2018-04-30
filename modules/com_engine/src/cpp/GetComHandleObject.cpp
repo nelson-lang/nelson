@@ -31,16 +31,11 @@ namespace Nelson {
     ArrayOf GetComHandleObject(ArrayOf A, const std::wstring &propertyName, ArrayOfVector params)
     {
         ArrayOf res;
-        HandleGenericObject *hlObj = A.getContentAsHandleScalar();
-        if (hlObj == nullptr)
-        {
-            throw Exception(_W("COM valid handle expected."));
-        }
-        if (hlObj->getCategory() != COM_CATEGORY_STR)
+        if (A.getHandleCategory() != COM_CATEGORY_STR)
         {
             throw Exception(_W("COM handle expected."));
         }
-        ComHandleObject *comhandleobj = (ComHandleObject *)hlObj;
+        ComHandleObject *comhandleobj = (ComHandleObject *)A.getContentAsHandleScalar();
         void *ptr = comhandleobj->getPointer();
         if (ptr == nullptr)
         {

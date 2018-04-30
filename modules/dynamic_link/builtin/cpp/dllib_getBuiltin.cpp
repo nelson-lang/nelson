@@ -38,12 +38,11 @@ ArrayOfVector Nelson::DynamicLinkGateway::dllib_getBuiltin(Evaluator* eval, int 
     ArrayOf param2 = argIn[1];
     std::wstring propertyName = param2.getContentAsWideString();
     ArrayOfVector retval;
-    HandleGenericObject *hlObj = param1.getContentAsHandleScalar();
-    if (hlObj->getCategory() != DLLIB_CATEGORY_STR)
+    if (param1.getHandleCategory() != DLLIB_CATEGORY_STR)
     {
         Error(eval, _W("dllib handle expected."));
     }
-    DynamicLinkLibraryObject *objDllib = (DynamicLinkLibraryObject *)hlObj;
+    DynamicLinkLibraryObject *objDllib = (DynamicLinkLibraryObject *)param1.getContentAsHandleScalar();
     ArrayOf res;
     if (!objDllib->get(propertyName, res))
     {

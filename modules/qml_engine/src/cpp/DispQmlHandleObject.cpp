@@ -292,10 +292,7 @@ namespace Nelson {
                 {
                     if (A.isScalar())
                     {
-                        nelson_handle *qp = (nelson_handle*)A.getDataPointer();
-                        nelson_handle hl = qp[0];
-                        HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-                        if (hlObj->getCategory() != QOBJECT_CATEGORY_STR)
+                        if (A.getHandleCategory() != QOBJECT_CATEGORY_STR)
                         {
                             throw Exception(_W("QObject handle expected."));
                         }
@@ -304,7 +301,7 @@ namespace Nelson {
                         dimsA.printMe(io);
                         io->outputMessage("\n");
                         io->outputMessage("\n");
-                        QmlHandleObject *qmlhandleobj = (QmlHandleObject *)hlObj;
+                        QmlHandleObject *qmlhandleobj = (QmlHandleObject *)A.getContentAsHandleScalar();
                         DispQmlHandleObject(io, qmlhandleobj);
                     }
                     else

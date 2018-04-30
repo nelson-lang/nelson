@@ -48,14 +48,11 @@ ArrayOfVector Nelson::DynamicLinkGateway::libpointer_dispBuiltin(Evaluator* eval
         }
         if (param1.isScalar())
         {
-            nelson_handle *qp = (nelson_handle*)param1.getDataPointer();
-            nelson_handle hl = qp[0];
-            HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-            if (hlObj->getCategory() != LIBPOINTER_CATEGORY_STR)
+            if (param1.getHandleCategory() != LIBPOINTER_CATEGORY_STR)
             {
                 Error(eval, _W("libpointer handle expected."));
             }
-            LibPointerObject *lipPointerObj = (LibPointerObject *)hlObj;
+            LibPointerObject *lipPointerObj = (LibPointerObject *)param1.getContentAsHandleScalar();
             lipPointerObj->disp(eval);
         }
     }

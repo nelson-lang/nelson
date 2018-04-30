@@ -1,3 +1,10 @@
+Features:
+---------
+
+  * [#110](http://github.com/Nelson-numerical-software/nelson/issues/110): add isproperty & ismethod to all handle types.
+  * Add "isHandleProperty", "isHandleMethod", "getHandleCategory" C++ API Methods.
+
+
 ## 0.2.4 (2018-04-30)
 
 

@@ -335,12 +335,11 @@ namespace Nelson {
             {
                 if (params[k].getDataClass() == NLS_HANDLE)
                 {
-                    HandleGenericObject *hlObj = params[k].getContentAsHandleScalar();
-                    if (hlObj->getCategory() != LIBPOINTER_CATEGORY_STR)
+                    if (params[k].getHandleCategory() != LIBPOINTER_CATEGORY_STR)
                     {
                         Error(eval, _W("libpointer handle expected."));
                     }
-                    LibPointerObject *objLibPointer = (LibPointerObject *)hlObj;
+                    LibPointerObject *objLibPointer = (LibPointerObject *)params[k].getContentAsHandleScalar();
                     if (objLibPointer->getDataType() != _paramsTypes[k])
                     {
                         Error(eval, StringFormat(_W("Invalid type for #%d input argument: %ls expected.").c_str(), k + 1, _paramsTypes[k].c_str()));
@@ -389,12 +388,11 @@ namespace Nelson {
         {
             if (params[i].getDataClass() == NLS_HANDLE)
             {
-                HandleGenericObject *hlObj = params[i].getContentAsHandleScalar();
-                if (hlObj->getCategory() != LIBPOINTER_CATEGORY_STR)
+                if (params[i].getHandleCategory() != LIBPOINTER_CATEGORY_STR)
                 {
                     Error(eval, _W("libpointer handle expected."));
                 }
-                LibPointerObject *objLibPointer = (LibPointerObject *)hlObj;
+                LibPointerObject *objLibPointer = (LibPointerObject *)params[i].getContentAsHandleScalar();
                 refPointers[refPtrIndex] = objLibPointer->getPointer();
                 values[i] = &refPointers[refPtrIndex];
                 refPtrIndex++;
@@ -574,12 +572,11 @@ namespace Nelson {
             {
                 if (params[i].getDataClass() == NLS_HANDLE)
                 {
-                    HandleGenericObject *hlObj = params[i].getContentAsHandleScalar();
-                    if (hlObj->getCategory() != LIBPOINTER_CATEGORY_STR)
+                    if (params[i].getHandleCategory() != LIBPOINTER_CATEGORY_STR)
                     {
                         Error(eval, _W("libpointer handle expected."));
                     }
-                    LibPointerObject *objLibPointer = (LibPointerObject *)hlObj;
+                    LibPointerObject *objLibPointer = (LibPointerObject *)params[i].getContentAsHandleScalar();
                     ArrayOf retValue;
                     objLibPointer->get(L"Value", retValue);
                     retval.push_back(retValue);
@@ -634,13 +631,13 @@ namespace Nelson {
         return _propertiesNames;
     }
     //=============================================================================
-    bool DynamicLinkSymbolObject::isproperty(std::wstring propertyName)
+    bool DynamicLinkSymbolObject::isProperty(std::wstring propertyName)
     {
         auto it = std::find(_propertiesNames.begin(), _propertiesNames.end(), propertyName);
         return (it != _propertiesNames.end());
     }
     //=============================================================================
-	bool DynamicLinkSymbolObject::ismethod(std::wstring methodName)
+	bool DynamicLinkSymbolObject::isMethod(std::wstring methodName)
 	{
 		return false;
 	}

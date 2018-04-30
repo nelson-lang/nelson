@@ -48,12 +48,11 @@ ArrayOfVector Nelson::AudioGateway::audioplayer_dispBuiltin(Evaluator* eval, int
         }
         if (param1.isScalar())
         {
-            HandleGenericObject *hlObj = param1.getContentAsHandleScalar();
-            if (hlObj->getCategory() != AUDIOPLAYER_CATEGORY_STR)
+            if (param1.getHandleCategory() != AUDIOPLAYER_CATEGORY_STR)
             {
                 Error(eval, _W("audioplayer handle expected."));
             }
-            AudioplayerObject *objPlayer = (AudioplayerObject *)hlObj;
+            AudioplayerObject *objPlayer = (AudioplayerObject *)param1.getContentAsHandleScalar();
             objPlayer->disp(eval);
         }
     }

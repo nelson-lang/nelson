@@ -37,12 +37,11 @@ ArrayOfVector Nelson::DynamicLinkGateway::libpointer_fieldnamesBuiltin(Evaluator
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
-    HandleGenericObject *hlObj = param1.getContentAsHandleScalar();
-    if (hlObj->getCategory() != LIBPOINTER_CATEGORY_STR)
+    if (param1.getHandleCategory() != LIBPOINTER_CATEGORY_STR)
     {
         Error(eval, _W("libpointer handle expected."));
     }
-    LibPointerObject *objLibPointer = (LibPointerObject *)hlObj;
+    LibPointerObject *objLibPointer = (LibPointerObject *)param1.getContentAsHandleScalar();
     wstringVector fieldnames = objLibPointer->fieldnames();
     retval.push_back(ToCellStringAsColumn(fieldnames));
     return retval;

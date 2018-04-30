@@ -19,7 +19,6 @@
 #include "dllibinfoBuiltin.hpp"
 #include "Error.hpp"
 #include "DynamicLinkLibraryObject.hpp"
-#include "HandleManager.hpp"
 #include "ToCellString.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -36,12 +35,11 @@ ArrayOfVector Nelson::DynamicLinkGateway::dllibinfoBuiltin(Evaluator* eval, int 
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
-    HandleGenericObject *hlObj = param1.getContentAsHandleScalar();
-    if (hlObj->getCategory() != DLLIB_CATEGORY_STR)
+    if (param1.getHandleCategory() != DLLIB_CATEGORY_STR)
     {
         Error(eval, _W("dllib handle expected."));
     }
-    DynamicLinkLibraryObject *obj = (DynamicLinkLibraryObject *)hlObj;
+    DynamicLinkLibraryObject *obj = (DynamicLinkLibraryObject *)param1.getContentAsHandleScalar();
     retval.push_back(ToCellStringAsColumn(obj->getAvailableSymbols()));
     return retval;
 }

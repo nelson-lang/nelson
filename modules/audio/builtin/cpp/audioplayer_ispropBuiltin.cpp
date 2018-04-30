@@ -19,7 +19,6 @@
 #include "audioplayer_ispropBuiltin.hpp"
 #include "Error.hpp"
 #include "AudioplayerObject.hpp"
-#include "HandleManager.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -35,15 +34,13 @@ ArrayOfVector Nelson::AudioGateway::audioplayer_ispropBuiltin(Evaluator* eval, i
     }
     ArrayOfVector retval;
     ArrayOf param1 = argIn[0];
-    HandleGenericObject *hlObj = param1.getContentAsHandleScalar();
-    if (hlObj->getCategory() != AUDIOPLAYER_CATEGORY_STR)
+    if (param1.getHandleCategory() != AUDIOPLAYER_CATEGORY_STR)
     {
         Error(eval, _W("audioplayer handle expected."));
     }
     ArrayOf param2 = argIn[1];
     std::wstring propertyName = param2.getContentAsWideString();
-    AudioplayerObject *objPlayer = (AudioplayerObject *)hlObj;
-    ArrayOf res = ArrayOf::logicalConstructor(objPlayer->isproperty(propertyName));
+    ArrayOf res = ArrayOf::logicalConstructor(param1.isHandleProperty(propertyName));
     retval.push_back(res);
     return retval;
 }

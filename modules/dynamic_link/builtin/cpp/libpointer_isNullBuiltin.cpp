@@ -36,12 +36,11 @@ ArrayOfVector Nelson::DynamicLinkGateway::libpointer_isNullBuiltin(Evaluator* ev
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
-    HandleGenericObject *hlObj = param1.getContentAsHandleScalar();
-    if (hlObj->getCategory() != LIBPOINTER_CATEGORY_STR)
+    if (param1.getHandleCategory() != LIBPOINTER_CATEGORY_STR)
     {
         Error(eval, _W("libpointer handle expected."));
     }
-    LibPointerObject *libPointerObj = (LibPointerObject *)hlObj;
+    LibPointerObject *libPointerObj = (LibPointerObject *)param1.getContentAsHandleScalar();
     retval.push_back(ArrayOf::logicalConstructor(libPointerObj->isNull()));
     return retval;
 }

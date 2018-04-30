@@ -947,8 +947,11 @@ namespace Nelson {
         const bool isHandle() const;
         static ArrayOf handleConstructor(HandleGenericObject *ptr);
         static ArrayOf handleConstructor(nelson_handle hl);
+		bool isHandleProperty(std::wstring propertyName) const;
+		bool isHandleMethod(std::wstring methodName) const;
+		std::wstring getHandleCategory() const;
 
-        HandleGenericObject *getContentAsHandleScalar();
+        HandleGenericObject *getContentAsHandleScalar() const;
     };
 
     void dumpAllArrayOfs();

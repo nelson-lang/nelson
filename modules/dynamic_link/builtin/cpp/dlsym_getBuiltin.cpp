@@ -38,12 +38,11 @@ ArrayOfVector Nelson::DynamicLinkGateway::dlsym_getBuiltin(Evaluator* eval, int 
     ArrayOf param2 = argIn[1];
     std::wstring propertyName = param2.getContentAsWideString();
     ArrayOfVector retval;
-    HandleGenericObject *hlObj = param1.getContentAsHandleScalar();
-    if (hlObj->getCategory() != DLSYM_CATEGORY_STR)
+    if (param1.getHandleCategory() != DLSYM_CATEGORY_STR)
     {
         Error(eval, _W("dlsym handle expected."));
     }
-    DynamicLinkSymbolObject *objDlsym = (DynamicLinkSymbolObject *)hlObj;
+    DynamicLinkSymbolObject *objDlsym = (DynamicLinkSymbolObject *)param1.getContentAsHandleScalar();
     ArrayOf res;
     if (!objDlsym->get(propertyName, res))
     {

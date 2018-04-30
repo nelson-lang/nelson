@@ -4145,22 +4145,17 @@ namespace Nelson {
                 if (r.isHandle())
                 {
                     ArrayOfVector params;
-                    params.push_back(ArrayOf::stringConstructor(fieldname));
                     logical isValidMethod = false;
                     try
                     {
-                        ArrayOfVector isMethodArrayOf = getHandle(r, "ismethod", params);
-                        if (isMethodArrayOf.size() == 1)
-                        {
-                            if (isMethodArrayOf[0].getDataClass() == NLS_LOGICAL)
-                            {
-                                isValidMethod = isMethodArrayOf[0].getContentAsLogicalScalar();
-                            }
-                        }
+						isValidMethod = r.isHandleMethod(utf8_to_wstring(fieldname));
                     }
                     catch (Exception)
                     {
-                        // throw Exception(_W("Please define ismethod "));
+						if (r.isHandle())
+						{
+							throw Exception(_W("Please define: ") + r.getHandleCategory() + L"_ismethod");
+						}
                         isValidMethod = false;
                     }
                     if (isValidMethod)
@@ -4755,8 +4750,7 @@ namespace Nelson {
         {
             Error(this, _W("Right hand values must satisfy left hand side expression."));
         }
-        HandleGenericObject *hlObj = r.getContentAsHandleScalar();
-        std::wstring currentType = hlObj->getCategory();
+		std::wstring currentType = r.getHandleCategory();
         std::wstring ufunctionNameSetHandle = currentType + L"_set";
         std::string functionNameSetHandle = wstring_to_utf8(ufunctionNameSetHandle);
         Context *context = this->getContext();
@@ -4779,9 +4773,8 @@ namespace Nelson {
     //=============================================================================
     ArrayOfVector Evaluator::getHandle(ArrayOf r, std::string fieldname, ArrayOfVector params)
     {
-        HandleGenericObject *hlObj = r.getContentAsHandleScalar();
         ArrayOfVector argIn;
-        std::wstring currentType = hlObj->getCategory();
+		std::wstring currentType = r.getHandleCategory();
         Context *context = this->getContext();
         FunctionDef *funcDef = nullptr;
         std::string functionNameCurrentType = wstring_to_utf8(currentType) + "_" + fieldname;

@@ -16,34 +16,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "dllib_fieldnamesBuiltin.hpp"
-#include "Error.hpp"
-#include "DynamicLinkLibraryObject.hpp"
-#include "HandleGenericObject.hpp"
-#include "HandleManager.hpp"
-#include "ToCellString.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
-ArrayOfVector Nelson::DynamicLinkGateway::dllib_fieldnamesBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    ArrayOfVector retval;
-    if (nLhs > 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+namespace Nelson {
+    namespace AudioGateway {
+        ArrayOfVector audioplayer_ismethodBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
     }
-    if (argIn.size() != 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    ArrayOf param1 = argIn[0];
-    if (param1.getHandleCategory() != DLLIB_CATEGORY_STR)
-    {
-        Error(eval, _W("dllib handle expected."));
-    }
-    DynamicLinkLibraryObject *objDllib = (DynamicLinkLibraryObject *)param1.getContentAsHandleScalar();
-    wstringVector fieldnames = objDllib->fieldnames();
-    retval.push_back(ToCellStringAsColumn(fieldnames));
-    return retval;
 }
 //=============================================================================

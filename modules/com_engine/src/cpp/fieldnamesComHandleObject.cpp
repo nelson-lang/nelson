@@ -27,12 +27,11 @@ namespace Nelson {
     //=============================================================================
     void fieldnamesComHandleObject(ArrayOf A, bool fullList, wstringVector &fieldnames)
     {
-        HandleGenericObject *hlObj = A.getContentAsHandleScalar();
-        if (hlObj->getCategory() != COM_CATEGORY_STR)
+		if (A.getHandleCategory() != COM_CATEGORY_STR)
         {
             throw Exception(_W("COM handle expected."));
         }
-        ComHandleObject *comhandleobj = (ComHandleObject *)hlObj;
+        ComHandleObject *comhandleobj = (ComHandleObject *)A.getContentAsHandleScalar();
         fieldnamesComHandleObject(comhandleobj, fullList, fieldnames);
     }
     //=============================================================================

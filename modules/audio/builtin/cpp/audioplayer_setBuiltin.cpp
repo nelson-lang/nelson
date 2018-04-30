@@ -39,12 +39,11 @@ ArrayOfVector Nelson::AudioGateway::audioplayer_setBuiltin(Evaluator* eval, int 
     std::wstring propertyName = param2.getContentAsWideString();
     ArrayOf param3 = argIn[2];
     ArrayOfVector retval;
-    HandleGenericObject *hlObj = param1.getContentAsHandleScalar();
-    if (hlObj->getCategory() != AUDIOPLAYER_CATEGORY_STR)
+    if (param1.getHandleCategory() != AUDIOPLAYER_CATEGORY_STR)
     {
         Error(eval, _W("audioplayer handle expected."));
     }
-    AudioplayerObject *objPlayer = (AudioplayerObject *)hlObj;
+    AudioplayerObject *objPlayer = (AudioplayerObject *)param1.getContentAsHandleScalar();
     if (!objPlayer->isWriteableProperty(propertyName))
     {
         Error(eval, _W("Cannot set a read only property."));

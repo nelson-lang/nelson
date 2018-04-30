@@ -32,12 +32,11 @@ namespace Nelson {
     MPI_Comm HandleToMpiComm(ArrayOf A)
     {
         MPI_Comm commReturned = MPI_COMM_NULL;
-        HandleGenericObject *hlObj = A.getContentAsHandleScalar();
-        if (hlObj->getCategory() != MPI_COMM_CATEGORY_STR)
+        if (A.getHandleCategory() != MPI_COMM_CATEGORY_STR)
         {
             throw Exception(_W("MPI_Comm handle expected."));
         }
-        MPI_CommHandleObject *mpicommhandleobj = (MPI_CommHandleObject *)hlObj;
+        MPI_CommHandleObject *mpicommhandleobj = (MPI_CommHandleObject *)A.getContentAsHandleScalar();
         if (mpicommhandleobj != nullptr)
         {
             MPI_CommObject *obj = (MPI_CommObject *)mpicommhandleobj->getPointer();

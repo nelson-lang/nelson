@@ -36,8 +36,7 @@ ArrayOfVector Nelson::HandleGateway::handle_fieldnamesBuiltin(Evaluator* eval, i
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
-    HandleGenericObject *hlObj = param1.getContentAsHandleScalar();
-    std::wstring handleTypeName = hlObj->getCategory();
+	std::wstring handleTypeName = param1.getHandleCategory();
     if (handleTypeName == utf8_to_wstring(NLS_HANDLE_STR) || handleTypeName == L"")
     {
         Error(eval, _W("Invalid handle."));

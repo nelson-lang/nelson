@@ -39,12 +39,11 @@ namespace Nelson {
     //=============================================================================
     ArrayOf ismethodComHandleObject(ArrayOf A, const std::wstring &methodname)
     {
-        HandleGenericObject *hlObj = A.getContentAsHandleScalar();
-        if (hlObj->getCategory() != COM_CATEGORY_STR)
+        if (A.getHandleCategory() != COM_CATEGORY_STR)
         {
             throw Exception(_W("COM handle expected."));
         }
-        ComHandleObject *comhandleobj = (ComHandleObject *)hlObj;
+        ComHandleObject *comhandleobj = (ComHandleObject *)A.getContentAsHandleScalar();
         bool res = ismethodComHandleObject(comhandleobj, methodname);
         return ArrayOf::logicalConstructor(res);
     }

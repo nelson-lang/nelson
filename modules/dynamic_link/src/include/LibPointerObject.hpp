@@ -44,7 +44,7 @@ namespace Nelson {
         bool get(std::wstring propertyName, ArrayOf &res);
         void get(ArrayOf &res);
         wstringVector fieldnames();
-        bool isproperty(std::wstring propertyName);
+        bool isProperty(std::wstring propertyName);
         bool isMethod(std::wstring methodName);
 
         bool isWriteableProperty(std::wstring propertyName);

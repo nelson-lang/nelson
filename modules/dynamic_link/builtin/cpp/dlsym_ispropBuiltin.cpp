@@ -19,8 +19,6 @@
 #include "dlsym_ispropBuiltin.hpp"
 #include "Error.hpp"
 #include "DynamicLinkSymbolObject.hpp"
-#include "HandleGenericObject.hpp"
-#include "HandleManager.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -36,15 +34,13 @@ ArrayOfVector Nelson::DynamicLinkGateway::dlsym_ispropBuiltin(Evaluator* eval, i
     }
     ArrayOfVector retval;
     ArrayOf param1 = argIn[0];
-    HandleGenericObject *hlObj = param1.getContentAsHandleScalar();
-    if (hlObj->getCategory() != DLSYM_CATEGORY_STR)
+    if (param1.getHandleCategory() != DLSYM_CATEGORY_STR)
     {
         Error(eval, _W("dlsym handle expected."));
     }
     ArrayOf param2 = argIn[1];
     std::wstring propertyName = param2.getContentAsWideString();
-    DynamicLinkSymbolObject *objDlsym = (DynamicLinkSymbolObject *)hlObj;
-    ArrayOf res = ArrayOf::logicalConstructor(objDlsym->isproperty(propertyName));
+    ArrayOf res = ArrayOf::logicalConstructor(param1.isHandleProperty(propertyName));
     retval.push_back(res);
     return retval;
 }

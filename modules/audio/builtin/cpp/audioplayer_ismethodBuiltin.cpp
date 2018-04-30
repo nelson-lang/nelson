@@ -16,34 +16,32 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "dllib_fieldnamesBuiltin.hpp"
+#include "audioplayer_ismethodBuiltin.hpp"
 #include "Error.hpp"
-#include "DynamicLinkLibraryObject.hpp"
-#include "HandleGenericObject.hpp"
-#include "HandleManager.hpp"
-#include "ToCellString.hpp"
+#include "AudioplayerObject.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::DynamicLinkGateway::dllib_fieldnamesBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector Nelson::AudioGateway::audioplayer_ismethodBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
+    if (argIn.size() != 2)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
     if (nLhs > 1)
     {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() != 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
+    ArrayOfVector retval;
     ArrayOf param1 = argIn[0];
-    if (param1.getHandleCategory() != DLLIB_CATEGORY_STR)
+    if (param1.getHandleCategory() != AUDIOPLAYER_CATEGORY_STR)
     {
-        Error(eval, _W("dllib handle expected."));
+        Error(eval, _W("audioplayer handle expected."));
     }
-    DynamicLinkLibraryObject *objDllib = (DynamicLinkLibraryObject *)param1.getContentAsHandleScalar();
-    wstringVector fieldnames = objDllib->fieldnames();
-    retval.push_back(ToCellStringAsColumn(fieldnames));
+    ArrayOf param2 = argIn[1];
+    std::wstring propertyName = param2.getContentAsWideString();
+    ArrayOf res = ArrayOf::logicalConstructor(param1.isHandleMethod(propertyName));
+    retval.push_back(res);
     return retval;
 }
 //=============================================================================

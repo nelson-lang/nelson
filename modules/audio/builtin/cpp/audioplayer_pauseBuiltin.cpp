@@ -36,12 +36,11 @@ ArrayOfVector Nelson::AudioGateway::audioplayer_pauseBuiltin(Evaluator* eval, in
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
-    HandleGenericObject *hlObj = param1.getContentAsHandleScalar();
-    if (hlObj->getCategory() != AUDIOPLAYER_CATEGORY_STR)
+    if (param1.getHandleCategory() != AUDIOPLAYER_CATEGORY_STR)
     {
         Error(eval, _W("audioplayer handle expected."));
     }
-    AudioplayerObject *objPlayer = (AudioplayerObject *)hlObj;
+    AudioplayerObject *objPlayer = (AudioplayerObject *)param1.getContentAsHandleScalar();
     objPlayer->pause();
     return retval;
 }
