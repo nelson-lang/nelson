@@ -36,7 +36,7 @@ ArrayOfVector Nelson::DynamicLinkGateway::dllib_deleteBuiltin(Evaluator* eval, i
     ArrayOf param1 = argIn[0];
     if (param1.isHandle())
     {
-		DeleteDynamicLinkLibraryObject(param1);
+        DeleteDynamicLinkLibraryObject(param1);
     }
     return retval;
 }

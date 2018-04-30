@@ -258,12 +258,12 @@ namespace Nelson {
         return (it != propertiesNames.end());
     }
     //=============================================================================
-	bool AudioplayerObject::isMethod(std::wstring propertyName)
-	{
-		return false;
-	}
-	//=============================================================================
-	bool AudioplayerObject::get(std::wstring propertyName, ArrayOf &res)
+    bool AudioplayerObject::isMethod(std::wstring propertyName)
+    {
+        return false;
+    }
+    //=============================================================================
+    bool AudioplayerObject::get(std::wstring propertyName, ArrayOf &res)
     {
         if (propertyName == L"SampleRate")
         {

@@ -116,11 +116,11 @@ namespace Nelson {
         auto it = std::find(_propertiesNames.begin(), _propertiesNames.end(), propertyName);
         return (it != _propertiesNames.end());
     }
-	//=============================================================================
-	bool DynamicLinkLibraryObject::isMethod(std::wstring propertyName)
-	{
-		return false;
-	}
+    //=============================================================================
+    bool DynamicLinkLibraryObject::isMethod(std::wstring propertyName)
+    {
+        return false;
+    }
     //=============================================================================
     bool DynamicLinkLibraryObject::searchLibrary(std::wstring libraryPath, std::wstring &fullLibraryPath)
     {

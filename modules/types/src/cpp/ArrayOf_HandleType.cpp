@@ -63,23 +63,23 @@ namespace Nelson {
         return HandleManager::getInstance()->getPointer(hl);
     }
     //=============================================================================
-	bool ArrayOf::isHandleProperty(std::wstring propertyName) const
-	{
-		HandleGenericObject *obj = getContentAsHandleScalar();
-		return obj->isProperty(propertyName);
-	}
-	//=============================================================================
-	bool ArrayOf::isHandleMethod(std::wstring methodName) const
-	{
-		HandleGenericObject *obj = getContentAsHandleScalar();
-		return obj->isMethod(methodName);
-	}
-	//=============================================================================
-	std::wstring ArrayOf::getHandleCategory() const
-	{
-		HandleGenericObject *obj = getContentAsHandleScalar();
-		return obj->getCategory();
-	}
-	//=============================================================================
+    bool ArrayOf::isHandleProperty(std::wstring propertyName) const
+    {
+        HandleGenericObject *obj = getContentAsHandleScalar();
+        return obj->isProperty(propertyName);
+    }
+    //=============================================================================
+    bool ArrayOf::isHandleMethod(std::wstring methodName) const
+    {
+        HandleGenericObject *obj = getContentAsHandleScalar();
+        return obj->isMethod(methodName);
+    }
+    //=============================================================================
+    std::wstring ArrayOf::getHandleCategory() const
+    {
+        HandleGenericObject *obj = getContentAsHandleScalar();
+        return obj->getCategory();
+    }
+    //=============================================================================
 }
 //=============================================================================

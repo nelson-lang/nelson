@@ -35,8 +35,12 @@ namespace Nelson {
         void setPointer(void *_ptr);
         void *getPointer();
         bool isScoped();
-		virtual bool isProperty(std::wstring propertyName) { return false; };
-		virtual bool isMethod(std::wstring methodName) { return false; };
+        virtual bool isProperty(std::wstring propertyName) {
+            return false;
+        };
+        virtual bool isMethod(std::wstring methodName) {
+            return false;
+        };
 
     };
     //=============================================================================

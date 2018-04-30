@@ -637,10 +637,10 @@ namespace Nelson {
         return (it != _propertiesNames.end());
     }
     //=============================================================================
-	bool DynamicLinkSymbolObject::isMethod(std::wstring methodName)
-	{
-		return false;
-	}
-	//=============================================================================
+    bool DynamicLinkSymbolObject::isMethod(std::wstring methodName)
+    {
+        return false;
+    }
+    //=============================================================================
 }
 //=============================================================================

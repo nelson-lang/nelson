@@ -4148,14 +4148,14 @@ namespace Nelson {
                     logical isValidMethod = false;
                     try
                     {
-						isValidMethod = r.isHandleMethod(utf8_to_wstring(fieldname));
+                        isValidMethod = r.isHandleMethod(utf8_to_wstring(fieldname));
                     }
                     catch (Exception)
                     {
-						if (r.isHandle())
-						{
-							throw Exception(_W("Please define: ") + r.getHandleCategory() + L"_ismethod");
-						}
+                        if (r.isHandle())
+                        {
+                            throw Exception(_W("Please define: ") + r.getHandleCategory() + L"_ismethod");
+                        }
                         isValidMethod = false;
                     }
                     if (isValidMethod)
@@ -4750,7 +4750,7 @@ namespace Nelson {
         {
             Error(this, _W("Right hand values must satisfy left hand side expression."));
         }
-		std::wstring currentType = r.getHandleCategory();
+        std::wstring currentType = r.getHandleCategory();
         std::wstring ufunctionNameSetHandle = currentType + L"_set";
         std::string functionNameSetHandle = wstring_to_utf8(ufunctionNameSetHandle);
         Context *context = this->getContext();
@@ -4774,7 +4774,7 @@ namespace Nelson {
     ArrayOfVector Evaluator::getHandle(ArrayOf r, std::string fieldname, ArrayOfVector params)
     {
         ArrayOfVector argIn;
-		std::wstring currentType = r.getHandleCategory();
+        std::wstring currentType = r.getHandleCategory();
         Context *context = this->getContext();
         FunctionDef *funcDef = nullptr;
         std::string functionNameCurrentType = wstring_to_utf8(currentType) + "_" + fieldname;

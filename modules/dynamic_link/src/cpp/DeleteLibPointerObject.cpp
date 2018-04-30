@@ -41,7 +41,7 @@ namespace Nelson {
                         {
                             throw Exception(_W("libpointer handle expected."));
                         }
-						LibPointerObject *obj = (LibPointerObject*)hlObj;
+                        LibPointerObject *obj = (LibPointerObject*)hlObj;
                         delete obj;
                         HandleManager::getInstance()->removeHandle(hl);
                         res = true;

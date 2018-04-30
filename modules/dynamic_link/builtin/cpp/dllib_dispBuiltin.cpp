@@ -52,7 +52,7 @@ ArrayOfVector Nelson::DynamicLinkGateway::dllib_dispBuiltin(Evaluator* eval, int
             {
                 Error(eval, _W("dllib handle expected."));
             }
-			DynamicLinkLibraryObject *dllibObj = (DynamicLinkLibraryObject *)param1.getContentAsHandleScalar();
+            DynamicLinkLibraryObject *dllibObj = (DynamicLinkLibraryObject *)param1.getContentAsHandleScalar();
             dllibObj->disp(eval);
         }
     }

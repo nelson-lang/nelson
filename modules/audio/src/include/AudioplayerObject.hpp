@@ -46,7 +46,7 @@ namespace Nelson {
         bool disp(Evaluator *eval);
         wstringVector fieldnames();
         bool isProperty(std::wstring propertyName);
-		bool isMethod(std::wstring methodName);
+        bool isMethod(std::wstring methodName);
 
         bool setSamples(ArrayOf data, int SampleRate, std::wstring &errorMessage);
         bool setSamples(ArrayOf data, int SampleRate, int BitsPerSample, std::wstring &errorMessage);

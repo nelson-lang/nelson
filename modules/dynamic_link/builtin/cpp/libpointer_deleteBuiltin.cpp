@@ -36,7 +36,7 @@ ArrayOfVector Nelson::DynamicLinkGateway::libpointer_deleteBuiltin(Evaluator* ev
     ArrayOf param1 = argIn[0];
     if (param1.isHandle())
     {
-		DeleteLibPointerObject(param1);
+        DeleteLibPointerObject(param1);
     }
     return retval;
 }
