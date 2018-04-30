@@ -3,6 +3,7 @@ Features:
 
   * [#110](http://github.com/Nelson-numerical-software/nelson/issues/110): add isproperty & ismethod to all handle types.
   * Add "isHandleProperty", "isHandleMethod", "getHandleCategory" C++ API Methods.
+  * [#109](http://github.com/Nelson-numerical-software/nelson/issues/109): add missing horzcat, vertcat for all handle types.
   * [#108](http://github.com/Nelson-numerical-software/nelson/issues/108): cast function: converts variable to a different data type.
 
 
