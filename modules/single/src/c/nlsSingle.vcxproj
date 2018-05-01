@@ -166,6 +166,7 @@
   <ItemGroup>
     <ClCompile Include="..\cpp\HorzCatSingle.cpp" />
     <ClCompile Include="..\cpp\MinusSingle.cpp" />
+    <ClCompile Include="..\cpp\NeqSingle.cpp" />
     <ClCompile Include="..\cpp\PlusSingle.cpp" />
     <ClCompile Include="..\cpp\SingleDisplay.cpp" />
     <ClCompile Include="..\cpp\SingleIsEqual.cpp" />
@@ -182,6 +183,7 @@
     <ClInclude Include="..\..\src\include\ToSingle.hpp" />
     <ClInclude Include="..\..\src\include\UminusSingle.hpp" />
     <ClInclude Include="..\include\HorzCatSingle.hpp" />
+    <ClInclude Include="..\include\NeqSingle.hpp" />
     <ClInclude Include="..\include\SingleDisplay.hpp" />
     <ClInclude Include="..\include\SingleIsEqual.hpp" />
     <ClInclude Include="..\include\SingleIsEqualn.hpp" />
