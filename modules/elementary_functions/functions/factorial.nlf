@@ -21,6 +21,8 @@ function Y = factorial(X)
         error(_('#1 input argument: must be real positive integer values.'));
     end
     Y = round(gamma(X + 1));
-    Y = cast(Y, 'like', X);
+    if ~issingle(X) & ~isdouble(X)
+        Y = cast(Y, 'like', X);
+    end
 endfunction
 //=============================================================================
