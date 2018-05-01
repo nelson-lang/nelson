@@ -46,7 +46,12 @@ namespace Nelson {
         FunctionDef *funcDef = nullptr;
         std::string OverloadName;
         bool bSuccess = OverloadUnaryOperatorFindFunction(eval, a, functionName, forcedFunctionName, &funcDef, OverloadName);
-        if (!bSuccess)
+		if (!bSuccess && a.isIntegerType())
+		{
+			std::string forcedName = NLS_INTEGER_STR + std::string("_") + functionName;
+			bSuccess = OverloadUnaryOperatorFindFunction(eval, a, functionName, forcedName, &funcDef, forcedName);
+		}
+		if (!bSuccess)
         {
             std::string forcedName = NLS_GENERIC_STR + std::string("_") + functionName;
             bSuccess = OverloadUnaryOperatorFindFunction(eval, a, functionName, forcedName, &funcDef, forcedName);

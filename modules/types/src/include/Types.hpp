@@ -128,6 +128,7 @@ namespace Nelson {
 #define		NLS_FUNCTION_HANDLE_STR "function_handle"
 #define		NLS_HANDLE_STR "handle"
 #define		NLS_GENERIC_STR "generic"
+#define		NLS_INTEGER_STR "integer"
 
 }
 

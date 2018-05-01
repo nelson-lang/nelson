@@ -16,56 +16,132 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <boost/format.hpp>
 #include "OverloadTrinaryOperator.hpp"
 #include "ClassName.hpp"
 #include "Error.hpp"
 //=============================================================================
 namespace Nelson {
-    static bool OverloadTrinaryOperatorFindFunction(Evaluator *eval, ArrayOf a, ArrayOf b, ArrayOf c, const std::string &functionName, const std::string &forcedFunctionName, FunctionDef **funcDef, std::string &overloadname)
+    static bool OverloadTrinaryOperatorFindFunction(Evaluator *eval, const std::string &forcedFunctionName, FunctionDef **funcDef)
     {
         bool bSuccess = true;
         Context *context = eval->getContext();
-        if (forcedFunctionName.empty())
-        {
-            overloadname = functionName + "_" + ClassName(a) + "_" + ClassName(b) + "_" + ClassName(c);
-        }
-        else
-        {
-            overloadname = forcedFunctionName;
-        }
-        if (!context->lookupFunction(overloadname, *funcDef))
+        if (!context->lookupFunction(forcedFunctionName, *funcDef))
         {
             bSuccess = false;
         }
         return bSuccess;
     }
     //=============================================================================
-    ArrayOf OverloadTrinaryOperator(Evaluator *eval, ArrayOf a, ArrayOf b, ArrayOf c, const std::string &functionName)
+	static stringVector buildForcedNameList(const std::string &functionName, ArrayOf a, ArrayOf b, ArrayOf c)
+	{
+		stringVector res;
+		std::string classNameA = ClassName(a);
+		std::string classNameB = ClassName(b);
+		std::string classNameC = ClassName(c);
+		boost::format formatFunctionName = boost::format("%s_%s_%s_%s");
+		// WARNING: order is important. 
+		res.push_back(str(formatFunctionName % functionName % classNameA % classNameB % classNameC));
+		if (c.isIntegerType())
+		{
+			res.push_back(str(formatFunctionName % functionName % classNameA % classNameB % NLS_INTEGER_STR));
+		}
+		res.push_back(str(formatFunctionName % functionName % classNameA % classNameB % NLS_GENERIC_STR));
+		if (b.isIntegerType())
+		{
+			res.push_back(str(formatFunctionName % functionName % classNameA % NLS_INTEGER_STR % classNameC));
+		}
+		if (b.isIntegerType() && c.isIntegerType())
+		{
+			res.push_back(str(formatFunctionName % functionName % classNameA % NLS_INTEGER_STR % NLS_INTEGER_STR));
+		}
+		if (b.isIntegerType())
+		{
+			res.push_back(str(formatFunctionName % functionName % classNameA % NLS_INTEGER_STR % NLS_GENERIC_STR));
+		}
+		res.push_back(str(formatFunctionName % functionName % classNameA % NLS_GENERIC_STR % classNameC));
+		if (c.isIntegerType())
+		{
+			res.push_back(str(formatFunctionName % functionName % classNameA % NLS_GENERIC_STR % NLS_INTEGER_STR));
+		}
+		res.push_back(str(formatFunctionName % functionName % classNameA % NLS_GENERIC_STR % NLS_GENERIC_STR));
+		if (a.isIntegerType())
+		{
+			res.push_back(str(formatFunctionName % functionName % NLS_INTEGER_STR % classNameB % classNameC));
+		}
+		if (a.isIntegerType() && c.isIntegerType())
+		{
+			res.push_back(str(formatFunctionName % functionName % NLS_INTEGER_STR % classNameB % NLS_INTEGER_STR));
+		}
+		if (a.isIntegerType())
+		{
+			res.push_back(str(formatFunctionName % functionName % NLS_INTEGER_STR % classNameB % NLS_GENERIC_STR));
+		}
+		if (a.isIntegerType() && b.isIntegerType())
+		{
+			res.push_back(str(formatFunctionName % functionName % NLS_INTEGER_STR % NLS_INTEGER_STR % classNameC));
+		}
+		if (a.isIntegerType() && b.isIntegerType() && c.isIntegerType())
+		{
+			res.push_back(str(formatFunctionName % functionName % NLS_INTEGER_STR % NLS_INTEGER_STR % NLS_INTEGER_STR));
+		}
+		if (a.isIntegerType() && b.isIntegerType())
+		{
+			res.push_back(str(formatFunctionName % functionName % NLS_INTEGER_STR % NLS_INTEGER_STR % NLS_GENERIC_STR));
+		}
+		if (a.isIntegerType())
+		{
+			res.push_back(str(formatFunctionName % functionName % NLS_INTEGER_STR % NLS_GENERIC_STR % classNameC));
+		}
+		if (a.isIntegerType() && c.isIntegerType())
+		{
+			res.push_back(str(formatFunctionName % functionName % NLS_INTEGER_STR % NLS_GENERIC_STR % NLS_INTEGER_STR));
+		}
+		if (a.isIntegerType())
+		{
+			res.push_back(str(formatFunctionName % functionName % NLS_INTEGER_STR % NLS_GENERIC_STR % NLS_GENERIC_STR));
+		}
+		res.push_back(str(formatFunctionName % functionName % NLS_GENERIC_STR % classNameB % classNameC));
+		if (c.isIntegerType())
+		{
+			res.push_back(str(formatFunctionName % functionName % NLS_GENERIC_STR % classNameB % NLS_INTEGER_STR));
+		}
+		res.push_back(str(formatFunctionName % functionName % NLS_GENERIC_STR % classNameB % NLS_GENERIC_STR));
+		if (b.isIntegerType())
+		{
+			res.push_back(str(formatFunctionName % functionName % NLS_GENERIC_STR % NLS_INTEGER_STR % classNameC));
+		}
+		if (b.isIntegerType() && c.isIntegerType())
+		{
+			res.push_back(str(formatFunctionName % functionName % NLS_GENERIC_STR % NLS_INTEGER_STR % NLS_INTEGER_STR));
+		}
+		if (b.isIntegerType())
+		{
+			res.push_back(str(formatFunctionName % functionName % NLS_GENERIC_STR % NLS_INTEGER_STR % NLS_GENERIC_STR));
+		}
+		res.push_back(str(formatFunctionName % functionName % NLS_GENERIC_STR % NLS_GENERIC_STR % classNameC));
+		if (c.isIntegerType())
+		{
+			res.push_back(str(formatFunctionName % functionName % NLS_GENERIC_STR % NLS_GENERIC_STR % NLS_INTEGER_STR));
+		}
+		res.push_back(str(formatFunctionName % functionName % NLS_GENERIC_STR % NLS_GENERIC_STR % NLS_GENERIC_STR));
+		return res;
+	}
+	//=============================================================================
+	ArrayOf OverloadTrinaryOperator(Evaluator *eval, ArrayOf a, ArrayOf b, ArrayOf c, const std::string &functionName)
     {
         FunctionDef *funcDef = nullptr;
-        std::string OverloadName;
-        bool bSuccess = OverloadTrinaryOperatorFindFunction(eval, a, b, c, functionName, "", &funcDef, OverloadName);
-        std::string forcedName;
-        if (!bSuccess)
-        {
-            forcedName = functionName + ClassName(a) + NLS_GENERIC_STR + "_" + NLS_GENERIC_STR;
-            bSuccess = OverloadTrinaryOperatorFindFunction(eval, a, b, c, functionName, forcedName, &funcDef, forcedName);
-        }
-        if (!bSuccess)
-        {
-            forcedName = functionName + "_" + NLS_GENERIC_STR + ClassName(b) + NLS_GENERIC_STR;
-            bSuccess = OverloadTrinaryOperatorFindFunction(eval, a, b, c, functionName, forcedName, &funcDef, forcedName);
-        }
-        if (!bSuccess)
-        {
-            forcedName = functionName + "_" + NLS_GENERIC_STR + "_" + NLS_GENERIC_STR + ClassName(c);
-            bSuccess = OverloadTrinaryOperatorFindFunction(eval, a, b, c, functionName, forcedName, &funcDef, forcedName);
-        }
-        if (!bSuccess)
-        {
-            forcedName = functionName + "_" + NLS_GENERIC_STR + "_" + NLS_GENERIC_STR + "_" + NLS_GENERIC_STR;
-            bSuccess = OverloadTrinaryOperatorFindFunction(eval, a, b, c, functionName, forcedName, &funcDef, forcedName);
-        }
+		stringVector overloadFunctionNameList = buildForcedNameList(functionName, a, b, c);
+		std::string OverloadName = overloadFunctionNameList[0];
+		bool bSuccess = false;
+		for (std::string overloadFunctionName : overloadFunctionNameList)
+		{
+			bSuccess = OverloadTrinaryOperatorFindFunction(eval, overloadFunctionName, &funcDef);
+			if (bSuccess)
+			{
+				break;
+			}
+		}
         if (!bSuccess)
         {
             Error(eval, _("function") + " " + OverloadName + " " + _("undefined."));
@@ -78,7 +154,7 @@ namespace Nelson {
         ArrayOfVector res = funcDef->evaluateFunction(eval, argsIn, nargout);
         if (res.size() != 1)
         {
-            Error(eval, _("function") + " " + OverloadName + " " + _("only one output argument expected."));
+            Error(eval, _("function") + " " + funcDef->name + " " + _("only one output argument expected."));
         }
         return res[0];
     }

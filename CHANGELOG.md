@@ -1,6 +1,7 @@
 Features:
 ---------
 
+  * vertcat and horzcat: mixed concatenations logical with integers, single and double added.
   * [#110](http://github.com/Nelson-numerical-software/nelson/issues/110): add isproperty & ismethod to all handle types.
   * Add "isHandleProperty", "isHandleMethod", "getHandleCategory" C++ API Methods.
   * [#109](http://github.com/Nelson-numerical-software/nelson/issues/109): add missing horzcat, vertcat for all handle types.
