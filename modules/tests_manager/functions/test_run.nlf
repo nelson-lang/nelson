@@ -416,10 +416,10 @@ function disp_summary(test_suites)
   fprintf(stdout, ['  ', _('Failed:'), ' ', int2str(test_suites.errors), newline]);
   fprintf(stdout, ['  ', _('Skipped:'), ' ',  int2str(test_suites.disabled), newline]);
   fprintf(stdout, ['  ', _('Benchs:'), ' ', int2str(test_suites.bench), newline]);
-  if test_suites.time > 1000
-    fprintf(stdout, ['  ', _('Time:'), ' ', mat2str(test_suites.time * inv(1000), 2), ' s ', newline]);
+  if test_suites.time > 100
+    fprintf(stdout, ['  ', _('Time:'), ' ', mat2str(test_suites.time * inv(60), 2), ' min', newline]);
   else
-    fprintf(stdout, ['  ', _('Time:'), ' ', mat2str(test_suites.time, 2), ' ms', newline]);
+    fprintf(stdout, ['  ', _('Time:'), ' ', mat2str(test_suites.time, 2), ' s ', newline]);
   end
   fprintf(stdout, ['  //===========================================================================', newline]);
 endfunction
@@ -605,10 +605,14 @@ function test_case_res = run_test_case(test, module_name, index, indexMax, nbTes
             r = rmfile(outputfile);
             if (s.r)
               if is_bench
-                if s.timing > 1000
-                  test_case_res.status = [mat2str(s.timing * inv(1000), 2), '  s'];
+                if s.timing > 100
+                  test_case_res.status = [mat2str(s.timing * inv(60), 2), ' min'];
                 else
-                  test_case_res.status = [mat2str(s.timing, 2), ' ms'];
+                  if s.timing < 1e-3
+                    test_case_res.status = [mat2str(s.timing * 1e3, 2), ' ms'];
+                  else
+                    test_case_res.status = [mat2str(s.timing, 2), ' s'];
+                  end
                 end
               else
                 test_case_res.status = 'Pass';
