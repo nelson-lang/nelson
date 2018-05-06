@@ -47,4 +47,14 @@ R = factorial(0);
 REF = 1;
 assert_isequal(R, REF);
 //=============================================================================
-
+R = factorial(Inf);
+REF = Inf;
+assert_isequal(R, REF);
+//=============================================================================
+assert_checkerror('R = factorial(-Inf);', _('#1 input argument: must be real positive integer values.'));
+assert_checkerror('R = factorial(NaN);', _('#1 input argument: must be real positive integer values.'));
+//=============================================================================
+R = factorial(int8(255));
+REF = int8(127);
+assert_isequal(R, REF);
+//=============================================================================

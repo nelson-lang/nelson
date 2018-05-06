@@ -6,27 +6,24 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 2 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-function Y = factorial(X)
-    if ~isreal(X) | any(fix(X(:)) ~= X(:)) | any(X(:) < 0)
-        error(_('#1 input argument: must be real positive integer values.'));
-    end
-    if isinteger(X)
-      Y = round(gamma(single(X + 1)));
-    else
-      Y = round(gamma(X + 1));
-    end
-    if ~issingle(X) & ~isdouble(X)
-        Y = cast(Y, 'like', X);
-    end
-endfunction
+#pragma once
+//=============================================================================
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
+//=============================================================================
+namespace Nelson {
+    namespace SingleGateway {
+        ArrayOfVector colon_single_single_singleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    }
+}
 //=============================================================================

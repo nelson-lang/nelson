@@ -16,17 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-function Y = factorial(X)
-    if ~isreal(X) | any(fix(X(:)) ~= X(:)) | any(X(:) < 0)
-        error(_('#1 input argument: must be real positive integer values.'));
-    end
-    if isinteger(X)
-      Y = round(gamma(single(X + 1)));
-    else
-      Y = round(gamma(X + 1));
-    end
-    if ~issingle(X) & ~isdouble(X)
-        Y = cast(Y, 'like', X);
-    end
+function R = single_ge_double(A, B)
+	// internal function (overload)
+	R = ge(double(A), B);
 endfunction
-//=============================================================================

@@ -535,6 +535,12 @@ namespace Nelson {
          */
         static ArrayOf doubleVectorConstructor(int len);
 
+		/**
+		* Single vector constructor - Construct an NLS_SINGLE object
+		* that is a (row) vector with the given length.
+		*/
+		static ArrayOf singleVectorConstructor(int len);
+
         /**
         * int32 matrix constructor - Construct an NLS_INT32 object
         * that is a (row, columns) matrix with the given length.
