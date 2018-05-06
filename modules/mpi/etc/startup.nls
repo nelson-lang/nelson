@@ -16,5 +16,21 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-addgateway(modulepath(nelsonroot(), 'mpi', 'builtin'));
-addpath(modulepath(nelsonroot(), 'mpi', 'functions'));
+with_dl_mpi = true;
+if ispc()
+  try
+    dlh = dlopen('msmpi.dll');
+    dlclose(dlh);
+    with_dl_mpi = true;
+  catch
+    with_dl_mpi = false;
+  end
+end
+if with_dl_mpi == true
+  addgateway(modulepath(nelsonroot(), 'mpi', 'builtin'));
+  addpath(modulepath(nelsonroot(), 'mpi', 'functions'));
+else
+  fprintf(stderr, _('MPI dependency not loaded.'));
+  removemodule('mpi');
+end
+//=============================================================================

@@ -11,6 +11,13 @@ Features:
   * add "isHandleProperty", "isHandleMethod", "getHandleCategory" C++ API Methods.
   * [#109](http://github.com/Nelson-numerical-software/nelson/issues/109): add missing horzcat, vertcat for all handle types.
   * [#108](http://github.com/Nelson-numerical-software/nelson/issues/108): cast function: converts variable to a different data type.
+  * MPI Module loaded if MPI dependency is available.
+
+
+Compilation:
+---------
+
+  * BOOST 1.67 on Windows
 
 
 ## 0.2.4 (2018-04-30)

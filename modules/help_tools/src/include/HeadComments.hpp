@@ -27,7 +27,7 @@ namespace Nelson {
     //=============================================================================
     typedef enum
     {
-        NO_ERROR,
+        MACRO_OK,
         NOT_A_MACRO,
         FILE_NOT_EXIST,
     } HEADCOMMENTS_ERROR;

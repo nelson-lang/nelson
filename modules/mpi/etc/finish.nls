@@ -16,5 +16,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-delete(MPI_Comm_used())
-removegateway(modulepath(nelsonroot(), 'mpi', 'builtin'))
+if (exist('MPI_Comm_used') ~= 0)
+  delete(MPI_Comm_used());
+  removegateway(modulepath(nelsonroot(), 'mpi', 'builtin'));
+end
+//=============================================================================

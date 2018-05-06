@@ -18,29 +18,57 @@
 ;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\readme.txt; DestDir: {app}\bin\{#BinPath}\
 ;==============================================================================
-; Boost 1.64
+; Boost 1.67
 ;==============================================================================
 #ifndef NELSON_DEBUG
-Source: {#RootPath}bin\{#BinPath}\boost_chrono-vc141-mt-1_65_1.dll; DestDir: {app}\bin\{#BinPath}\;
-Source: {#RootPath}bin\{#BinPath}\boost_date_time-vc141-mt-1_65_1.dll; DestDir: {app}\bin\{#BinPath}\;
-Source: {#RootPath}bin\{#BinPath}\boost_filesystem-vc141-mt-1_65_1.dll; DestDir: {app}\bin\{#BinPath}\;
-Source: {#RootPath}bin\{#BinPath}\boost_iostreams-vc141-mt-1_65_1.dll; DestDir: {app}\bin\{#BinPath}\;
-Source: {#RootPath}bin\{#BinPath}\boost_locale-vc141-mt-1_65_1.dll; DestDir: {app}\bin\{#BinPath}\;
-Source: {#RootPath}bin\{#BinPath}\boost_program_options-vc141-mt-1_65_1.dll; DestDir: {app}\bin\{#BinPath}\;
-Source: {#RootPath}bin\{#BinPath}\boost_regex-vc141-mt-1_65_1.dll; DestDir: {app}\bin\{#BinPath}\;
-Source: {#RootPath}bin\{#BinPath}\boost_system-vc141-mt-1_65_1.dll; DestDir: {app}\bin\{#BinPath}\;
-Source: {#RootPath}bin\{#BinPath}\boost_thread-vc141-mt-1_65_1.dll; DestDir: {app}\bin\{#BinPath}\;
+#ifdef NELSON_X64
+Source: {#RootPath}bin\{#BinPath}\boost_chrono-vc141-mt-x64-1_67.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_date_time-vc141-mt-x64-1_67.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_filesystem-vc141-mt-x64-1_67.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_iostreams-vc141-mt-x64-1_67.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_locale-vc141-mt-x64-1_67.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_program_options-vc141-mt-x64-1_67.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_regex-vc141-mt-x64-1_67.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_system-vc141-mt-x64-1_67.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_thread-vc141-mt-x64-1_67.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_random-vc141-mt-x64-1_67.dll; DestDir: {app}\bin\{#BinPath}\;
+#else
+Source: {#RootPath}bin\{#BinPath}\boost_chrono-vc141-mt-x32-1_67.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_date_time-vc141-mt-x32-1_67.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_filesystem-vc141-mt-x32-1_67.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_iostreams-vc141-mt-x32-1_67.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_locale-vc141-mt-x32-1_67.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_program_options-vc141-mt-x32-1_67.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_regex-vc141-mt-x32-1_67.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_system-vc141-mt-x32-1_67.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_thread-vc141-mt-x32-1_67.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_random-vc141-mt-x32-1_67.dll; DestDir: {app}\bin\{#BinPath}\;
+#endif
 ;==============================================================================
 #else
-Source: {#RootPath}bin\{#BinPath}\boost_chrono-vc141-mt-gd-1_65_1.dll; DestDir: {app}\bin\{#BinPath}\;
-Source: {#RootPath}bin\{#BinPath}\boost_date_time-vc141-mt-gd-1_65_1.dll; DestDir: {app}\bin\{#BinPath}\;
-Source: {#RootPath}bin\{#BinPath}\boost_filesystem-vc141-mt-gd-1_65_1.dll; DestDir: {app}\bin\{#BinPath}\;
-Source: {#RootPath}bin\{#BinPath}\boost_iostreams-vc141-mt-gd-1_65_1.dll; DestDir: {app}\bin\{#BinPath}\;
-Source: {#RootPath}bin\{#BinPath}\boost_locale-vc141-mt-gd-1_65_1.dll; DestDir: {app}\bin\{#BinPath}\;
-Source: {#RootPath}bin\{#BinPath}\boost_program_options-vc141-mt-gd-1_65_1.dll; DestDir: {app}\bin\{#BinPath}\;
-Source: {#RootPath}bin\{#BinPath}\boost_regex-vc141-mt-gd-1_65_1.dll; DestDir: {app}\bin\{#BinPath}\;
-Source: {#RootPath}bin\{#BinPath}\boost_system-vc141-mt-gd-1_65_1.dll; DestDir: {app}\bin\{#BinPath}\;
-Source: {#RootPath}bin\{#BinPath}\boost_thread-vc141-mt-gd-1_65_1.dll; DestDir: {app}\bin\{#BinPath}\;
+#ifdef NELSON_X64
+Source: {#RootPath}bin\{#BinPath}\boost_chrono-vc141-mt-gd-x64-1_67.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_date_time-vc141-mt-gd-x64-1_67.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_filesystem-vc141-mt-gd-x64-1_67.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_iostreams-vc141-mt-gd-x64-1_67.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_locale-vc141-mt-gd-x64-1_67.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_program_options-vc141-mt-gd-x64-1_67.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_regex-vc141-mt-gd-x64-1_67.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_system-vc141-mt-gd-x64-1_67.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_thread-vc141-mt-gd-x64-1_67.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_random-vc141-mt-gd-x64-1_67.dll; DestDir: {app}\bin\{#BinPath}\;
+#else
+Source: {#RootPath}bin\{#BinPath}\boost_chrono-vc141-mt-gd-x32-1_67.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_date_time-vc141-mt-gd-x32-1_67.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_filesystem-vc141-mt-gd-x32-1_67.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_iostreams-vc141-mt-gd-x32-1_67.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_locale-vc141-mt-gd-x32-1_67.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_program_options-vc141-mt-gd-x32-1_67.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_regex-vc141-mt-gd-x32-1_67.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_system-vc141-mt-gd-x32-1_67.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_thread-vc141-mt-gd-x32-1_67.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\boost_random-vc141-mt-gd-x32-1_67.dll; DestDir: {app}\bin\{#BinPath}\;
+#endif
 #endif
 ;==============================================================================
 ; xml libraries

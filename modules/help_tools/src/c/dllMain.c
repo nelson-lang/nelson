@@ -18,19 +18,32 @@
 //=============================================================================
 #include <Windows.h>
 //=============================================================================
+#pragma comment(lib, "Bcrypt.lib")
 #ifdef _WIN64
 #pragma comment(lib, "libxml2-2.lib")
 #else
 #pragma comment(lib, "libxml2.lib")
 #endif
 #ifdef _DEBUG
-#pragma comment(lib, "boost_system-vc141-mt-gd-1_65_1.lib")
-#pragma comment(lib, "boost_filesystem-vc141-mt-gd-1_65_1.lib")
-#pragma comment(lib, "boost_regex-vc141-mt-gd-1_65_1.lib")
+#ifdef _WIN64
+#pragma comment(lib, "boost_system-vc141-mt-gd-x64-1_67.lib")
+#pragma comment(lib, "boost_filesystem-vc141-mt-gd-x64-1_67.lib")
+#pragma comment(lib, "boost_regex-vc141-mt-gd-x64-1_67.lib")
 #else
-#pragma comment(lib, "boost_system-vc141-mt-1_65_1.lib")
-#pragma comment(lib, "boost_filesystem-vc141-mt-1_65_1.lib")
-#pragma comment(lib, "boost_regex-vc141-mt-1_65_1.lib")
+#pragma comment(lib, "boost_system-vc141-mt-gd-x32-1_67.lib")
+#pragma comment(lib, "boost_filesystem-vc141-mt-gd-x32-1_67.lib")
+#pragma comment(lib, "boost_regex-vc141-mt-gd-x32-1_67.lib")
+#endif
+#else
+#ifdef _WIN64
+#pragma comment(lib, "boost_system-vc141-mt-x64-1_67.lib")
+#pragma comment(lib, "boost_filesystem-vc141-mt-x64-1_67.lib")
+#pragma comment(lib, "boost_regex-vc141-mt-x64-1_67.lib")
+#else
+#pragma comment(lib, "boost_system-vc141-mt-x32-1_67.lib")
+#pragma comment(lib, "boost_filesystem-vc141-mt-x32-1_67.lib")
+#pragma comment(lib, "boost_regex-vc141-mt-x32-1_67.lib")
+#endif
 #endif
 //=============================================================================
 int WINAPI DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)

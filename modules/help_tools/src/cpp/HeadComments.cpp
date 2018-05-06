@@ -85,7 +85,7 @@ namespace Nelson {
     wstringVector HeadComments(Evaluator* eval, std::wstring filename, HEADCOMMENTS_ERROR &headError)
     {
         wstringVector comments;
-        headError = HEADCOMMENTS_ERROR::NO_ERROR;
+        headError = HEADCOMMENTS_ERROR::MACRO_OK;
         boost::filesystem::path pathFile(filename);
         bool bIsFile = boost::filesystem::exists(pathFile) && !boost::filesystem::is_directory(pathFile);
         if (!bIsFile)

@@ -17,6 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define _SCL_SECURE_NO_WARNINGS
+#define BOOST_UUID_RANDOM_GENERATOR_COMPAT // BOOST 1.67
 //=============================================================================
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
