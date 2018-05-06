@@ -19,14 +19,14 @@
 with_dl_mpi = true;
 if ispc()
   try
-    dlh = dlopen('mspi.dll');
-    dclose(dlh);
+    dlh = dlopen('msmpi.dll');
+    dlclose(dlh);
     with_dl_mpi = true;
   catch
     with_dl_mpi = false;
   end
 end
-if with_dl_mpi
+if with_dl_mpi == true
   addgateway(modulepath(nelsonroot(), 'mpi', 'builtin'));
   addpath(modulepath(nelsonroot(), 'mpi', 'functions'));
 else

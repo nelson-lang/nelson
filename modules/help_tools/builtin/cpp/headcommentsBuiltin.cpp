@@ -92,11 +92,11 @@ ArrayOfVector Nelson::HelpToolsGateway::headcommentsBuiltin(Evaluator* eval, int
                 Error(eval, _W("function does not exist."));
             }
         }
-        HEADCOMMENTS_ERROR err = HEADCOMMENTS_ERROR::NO_ERROR;
+        HEADCOMMENTS_ERROR err = HEADCOMMENTS_ERROR::MACRO_OK;
         wstringVector comments = HeadComments(eval, filename, err);
         switch (err)
         {
-            case HEADCOMMENTS_ERROR::NO_ERROR:
+            case HEADCOMMENTS_ERROR::MACRO_OK:
             {
                 if (nLhs == 0)
                 {
