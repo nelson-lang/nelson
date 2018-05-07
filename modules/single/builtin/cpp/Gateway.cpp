@@ -31,6 +31,13 @@
 #include "ndarraysingle_isequalnBuiltin.hpp"
 #include "single_isequalBuiltin.hpp"
 #include "single_isequalnBuiltin.hpp"
+#include "single_ne_singleBuiltin.hpp"
+#include "single_le_singleBuiltin.hpp"
+#include "single_ge_singleBuiltin.hpp"
+#include "single_lt_singleBuiltin.hpp"
+#include "single_gt_singleBuiltin.hpp"
+#include "single_colon_singleBuiltin.hpp"
+#include "colon_single_single_singleBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -52,7 +59,13 @@ static const nlsGateway gateway[] =
     { "ndarraysingle_isequaln", Nelson::SingleGateway::ndarraysingle_isequalnBuiltin, 1, 2 },
     { "single_isequal", Nelson::SingleGateway::single_isequalBuiltin, 1, 2 },
     { "single_isequaln", Nelson::SingleGateway::single_isequalnBuiltin, 1, 2 },
-
+    { "single_ne_single", Nelson::SingleGateway::single_ne_singleBuiltin, 1, 2 },
+    { "single_le_single", Nelson::SingleGateway::single_le_singleBuiltin, 1, 2 },
+    { "single_ge_single", Nelson::SingleGateway::single_ge_singleBuiltin, 1, 2 },
+    { "single_lt_single", Nelson::SingleGateway::single_lt_singleBuiltin, 1, 2 },
+    { "single_gt_single", Nelson::SingleGateway::single_gt_singleBuiltin, 1, 2 },
+	{ "single_colon_single", Nelson::SingleGateway::single_colon_singleBuiltin, 1, 2 },
+    { "colon_single_single_single", Nelson::SingleGateway::colon_single_single_singleBuiltin, 1, 3 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

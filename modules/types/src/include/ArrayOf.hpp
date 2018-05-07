@@ -535,6 +535,12 @@ namespace Nelson {
          */
         static ArrayOf doubleVectorConstructor(int len);
 
+		/**
+		* Single vector constructor - Construct an NLS_SINGLE object
+		* that is a (row) vector with the given length.
+		*/
+		static ArrayOf singleVectorConstructor(int len);
+
         /**
         * int32 matrix constructor - Construct an NLS_INT32 object
         * that is a (row, columns) matrix with the given length.
@@ -944,30 +950,30 @@ namespace Nelson {
 
         void deleteArrayOf(void *dp, Class dataclass);
 
-		/*
-		* check is handle type
-		*/
+        /*
+        * check is handle type
+        */
         const bool isHandle() const;
-		/*
-		* handle constructors
-		*/
+        /*
+        * handle constructors
+        */
         static ArrayOf handleConstructor(HandleGenericObject *ptr);
         static ArrayOf handleConstructor(nelson_handle hl);
-		/*
-		* check that scalar handle have an property name
-		*/
+        /*
+        * check that scalar handle have an property name
+        */
         bool isHandleProperty(std::wstring propertyName) const;
-		/*
-		* check that scalar handle have an method name
-		*/
+        /*
+        * check that scalar handle have an method name
+        */
         bool isHandleMethod(std::wstring methodName) const;
-		/*
-		* get handle category
-		*/
+        /*
+        * get handle category
+        */
         std::wstring getHandleCategory() const;
-		/*
-		* return handle as HandleGenericObject*
-		*/
+        /*
+        * return handle as HandleGenericObject*
+        */
         HandleGenericObject *getContentAsHandleScalar() const;
     };
 

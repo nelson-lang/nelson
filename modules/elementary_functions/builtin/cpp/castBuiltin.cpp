@@ -39,40 +39,40 @@ ArrayOfVector Nelson::ElementaryFunctionsGateway::castBuiltin(Evaluator* eval, i
     retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
     if (!bSuccess)
     {
-		bool isSparse = false;
-		Class destinationClass;
-		if (argIn.size() == 2)
-		{
-			ArrayOf param2 = argIn[1];
-			std::wstring dest = param2.getContentAsWideString();
-			if (eval->getOverloadState())
-			{
-				Context *context = eval->getContext();
-				FunctionDef *funcDef = nullptr;
-				if (context->lookupFunction(dest, funcDef))
-				{
-					if ((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION))
-					{
-						bSuccess = true;
-						ArrayOfVector argInCopy;
-						argInCopy.push_back(argIn[0]);
-						return funcDef->evaluateFunction(eval, argInCopy, nLhs);
-					}
-				}
-			}
-			destinationClass = StringToClass(dest);
-		}
-		else
-		{
-			ArrayOf param2 = argIn[1];
-			std::wstring like = param2.getContentAsWideString();
-			if (like != L"like")
-			{
-				Error(eval, ERROR_WRONG_ARGUMENT_2_VALUE);
-			}
-			destinationClass = argIn[2].getDataClass();
-			isSparse = argIn[2].isSparse();
-		}
+        bool isSparse = false;
+        Class destinationClass;
+        if (argIn.size() == 2)
+        {
+            ArrayOf param2 = argIn[1];
+            std::wstring dest = param2.getContentAsWideString();
+            if (eval->getOverloadState())
+            {
+                Context *context = eval->getContext();
+                FunctionDef *funcDef = nullptr;
+                if (context->lookupFunction(dest, funcDef))
+                {
+                    if ((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION))
+                    {
+                        bSuccess = true;
+                        ArrayOfVector argInCopy;
+                        argInCopy.push_back(argIn[0]);
+                        return funcDef->evaluateFunction(eval, argInCopy, nLhs);
+                    }
+                }
+            }
+            destinationClass = StringToClass(dest);
+        }
+        else
+        {
+            ArrayOf param2 = argIn[1];
+            std::wstring like = param2.getContentAsWideString();
+            if (like != L"like")
+            {
+                Error(eval, ERROR_WRONG_ARGUMENT_2_VALUE);
+            }
+            destinationClass = argIn[2].getDataClass();
+            isSparse = argIn[2].isSparse();
+        }
         retval.push_back(Cast(argIn[0], destinationClass, isSparse));
     }
     return retval;

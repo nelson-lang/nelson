@@ -26,65 +26,65 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-	static bool OverloadBinaryOperatorFindFunction(Evaluator *eval, const std::string &forcedFunctionName, FunctionDef **funcDef)
-	{
-		bool bSuccess = true;
-		Context *context = eval->getContext();
-		if (!context->lookupFunction(forcedFunctionName, *funcDef))
-		{
-			bSuccess = false;
-		}
-		return bSuccess;
-	}
-	//=============================================================================
-	static stringVector buildForcedNameList(const std::string &functionName, ArrayOf a, ArrayOf b)
-	{
-		stringVector res;
-		std::string classNameA = ClassName(a);
-		std::string classNameB = ClassName(b);
-		boost::format formatFunctionName = boost::format("%s_%s_%s");
-		// WARNING: order is important. 
-		res.push_back(str(formatFunctionName % classNameA % functionName % classNameB));
-		if (a.isIntegerType())
-		{
-			res.push_back(str(formatFunctionName % NLS_INTEGER_STR % functionName % classNameB));
-		}
-		if (b.isIntegerType())
-		{
-			res.push_back(str(formatFunctionName % classNameA % functionName % NLS_INTEGER_STR));
-		}
-		if (a.isIntegerType() && b.isIntegerType())
-		{
-			res.push_back(str(formatFunctionName % NLS_INTEGER_STR % functionName % NLS_INTEGER_STR));
-		}
-		res.push_back(str(formatFunctionName % classNameA % functionName % NLS_GENERIC_STR));
-		if (a.isIntegerType())
-		{
-			res.push_back(str(formatFunctionName % NLS_INTEGER_STR % functionName % NLS_GENERIC_STR));
-		}
-		res.push_back(str(formatFunctionName % NLS_GENERIC_STR % functionName % classNameB));
-		if (a.isIntegerType())
-		{
-			res.push_back(str(formatFunctionName % NLS_GENERIC_STR % functionName % NLS_INTEGER_STR));
-		}
-		res.push_back(str(formatFunctionName % NLS_GENERIC_STR % functionName % NLS_GENERIC_STR));
-		return res;
-	}
-	//=============================================================================
+    static bool OverloadBinaryOperatorFindFunction(Evaluator *eval, const std::string &forcedFunctionName, FunctionDef **funcDef)
+    {
+        bool bSuccess = true;
+        Context *context = eval->getContext();
+        if (!context->lookupFunction(forcedFunctionName, *funcDef))
+        {
+            bSuccess = false;
+        }
+        return bSuccess;
+    }
+    //=============================================================================
+    static stringVector buildForcedNameList(const std::string &functionName, ArrayOf a, ArrayOf b)
+    {
+        stringVector res;
+        std::string classNameA = ClassName(a);
+        std::string classNameB = ClassName(b);
+        boost::format formatFunctionName = boost::format("%s_%s_%s");
+        // WARNING: order is important.
+        res.push_back(str(formatFunctionName % classNameA % functionName % classNameB));
+        if (a.isIntegerType())
+        {
+            res.push_back(str(formatFunctionName % NLS_INTEGER_STR % functionName % classNameB));
+        }
+        if (b.isIntegerType())
+        {
+            res.push_back(str(formatFunctionName % classNameA % functionName % NLS_INTEGER_STR));
+        }
+        if (a.isIntegerType() && b.isIntegerType())
+        {
+            res.push_back(str(formatFunctionName % NLS_INTEGER_STR % functionName % NLS_INTEGER_STR));
+        }
+        res.push_back(str(formatFunctionName % classNameA % functionName % NLS_GENERIC_STR));
+        if (a.isIntegerType())
+        {
+            res.push_back(str(formatFunctionName % NLS_INTEGER_STR % functionName % NLS_GENERIC_STR));
+        }
+        res.push_back(str(formatFunctionName % NLS_GENERIC_STR % functionName % classNameB));
+        if (a.isIntegerType())
+        {
+            res.push_back(str(formatFunctionName % NLS_GENERIC_STR % functionName % NLS_INTEGER_STR));
+        }
+        res.push_back(str(formatFunctionName % NLS_GENERIC_STR % functionName % NLS_GENERIC_STR));
+        return res;
+    }
+    //=============================================================================
     static ArrayOf OverloadBinaryOperator(Evaluator *eval, ArrayOf a, ArrayOf b, std::string functionName, bool bRaiseError, bool &bSuccess, std::string forcedFunctionName)
     {
-		FunctionDef *funcDef = nullptr;
-		stringVector overloadFunctionNameList = buildForcedNameList(functionName, a, b);
-		std::string OverloadName = overloadFunctionNameList[0];
-		bSuccess = false;
-		for (std::string overloadFunctionName : overloadFunctionNameList)
-		{
-			bSuccess = OverloadBinaryOperatorFindFunction(eval, overloadFunctionName, &funcDef);
-			if (bSuccess)
-			{
-				break;
-			}
-		}
+        FunctionDef *funcDef = nullptr;
+        stringVector overloadFunctionNameList = buildForcedNameList(functionName, a, b);
+        std::string OverloadName = overloadFunctionNameList[0];
+        bSuccess = false;
+        for (std::string overloadFunctionName : overloadFunctionNameList)
+        {
+            bSuccess = OverloadBinaryOperatorFindFunction(eval, overloadFunctionName, &funcDef);
+            if (bSuccess)
+            {
+                break;
+            }
+        }
         if (!bSuccess)
         {
             if (bRaiseError)

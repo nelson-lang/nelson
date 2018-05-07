@@ -1,9 +1,14 @@
 Features:
 ---------
 
+  * factorial function.
+  * gamma function.
+  * plus, minus, le, ne, ge, gt, lt, eq, colon operators added for all integer types.
+  * le, ne, ge, gt, lt, eq for mixed single & double types.
+  * add generic overload mechanism for all integers: integer keyword.
   * vertcat and horzcat: mixed concatenations logical with integers, single and double added.
   * [#110](http://github.com/Nelson-numerical-software/nelson/issues/110): add isproperty & ismethod to all handle types.
-  * Add "isHandleProperty", "isHandleMethod", "getHandleCategory" C++ API Methods.
+  * add "isHandleProperty", "isHandleMethod", "getHandleCategory" C++ API Methods.
   * [#109](http://github.com/Nelson-numerical-software/nelson/issues/109): add missing horzcat, vertcat for all handle types.
   * [#108](http://github.com/Nelson-numerical-software/nelson/issues/108): cast function: converts variable to a different data type.
   * MPI Module loaded if MPI dependency is available.
