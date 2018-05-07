@@ -66,7 +66,13 @@ namespace Nelson {
             std::wstring R1 = splittedStrings[0];
             std::wstring R2 = splittedStrings[1];
             boost::wregex expr {L"^(?<column>[A-Z]+)(?<row>[1-9]\\d*)$"};
-            return boost::regex_match(R1, expr) && boost::regex_match(R2, expr);
+			try
+			{
+				return boost::regex_match(R1, expr) && boost::regex_match(R2, expr);
+			}
+			catch (boost::regex_error& e) {
+				return false;
+			}
         }
         return false;
     }
