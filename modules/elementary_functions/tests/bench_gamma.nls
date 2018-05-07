@@ -16,5 +16,5 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-A = [-pi:0.0000001:pi];
+A = [-pi:0.000001:pi];
 tic();R = gamma(A);toc();
