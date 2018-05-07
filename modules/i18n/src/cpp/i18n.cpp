@@ -24,16 +24,19 @@ namespace Nelson {
     //=============================================================================
     std::wstring gettextw(std::wstring S)
     {
+		if (S.empty()) return std::wstring();
         return boost::locale::translate<wchar_t>(S.c_str());
     }
     //=============================================================================
     std::wstring gettextw(std::string S)
     {
+		if (S.empty()) return std::wstring();
         return utf8_to_wstring(boost::locale::translate(S).str());
     }
     //=============================================================================
     std::string gettext(std::string S)
     {
+		if (S.empty()) return std::string();
         return boost::locale::translate(S).str();
     }
     //=============================================================================
