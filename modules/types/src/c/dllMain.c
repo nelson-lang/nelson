@@ -17,20 +17,9 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <Windows.h>
+#include "nlsConfig.h"
 //=============================================================================
-#ifdef _DEBUG
-#ifdef _WIN64
-#pragma comment(lib, "boost_regex-vc141-mt-gd-x64-1_67.lib")
-#else
-#pragma comment(lib, "boost_regex-vc141-mt-gd-x32-1_67.lib")
-#endif
-#else
-#ifdef _WIN64
-#pragma comment(lib, "boost_regex-vc141-mt-x64-1_67.lib")
-#else
-#pragma comment(lib, "boost_regex-vc141-mt-x32-1_67.lib")
-#endif
-#endif
+#pragma comment(lib, CAT_3_STRINGS("boost_regex-" , BOOST_TARGET , ".lib"))
 //=============================================================================
 int WINAPI DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)
 {

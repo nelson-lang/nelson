@@ -19,24 +19,11 @@
 #ifdef _MSC_VER
 //=============================================================================
 #include <Windows.h>
+#include "nlsConfig.h"
 //=============================================================================
-#ifdef _DEBUG
-#ifdef _WIN64
-#pragma comment(lib, "boost_system-vc141-mt-gd-x64-1_67.lib")
-#pragma comment(lib, "boost_filesystem-vc141-mt-gd-x64-1_67.lib")
-#else
-#pragma comment(lib, "boost_system-vc141-mt-gd-x32-1_67.lib")
-#pragma comment(lib, "boost_filesystem-vc141-mt-gd-x32-1_67.lib")
-#endif
-#else
-#ifdef _WIN64
-#pragma comment(lib, "boost_system-vc141-mt-x64-1_67.lib")
-#pragma comment(lib, "boost_filesystem-vc141-mt-x64-1_67.lib")
-#else
-#pragma comment(lib, "boost_system-vc141-mt-x32-1_67.lib")
-#pragma comment(lib, "boost_filesystem-vc141-mt-x32-1_67.lib")
-#endif
-#endif
+#pragma comment(lib, CAT_3_STRINGS("boost_system-" , BOOST_TARGET , ".lib"))
+#pragma comment(lib, CAT_3_STRINGS("boost_filesystem-" , BOOST_TARGET , ".lib"))
+
 #pragma comment(lib, "portaudio.lib")
 #pragma comment(lib, "libsndfile-1.lib")
 #ifdef _DEBUG

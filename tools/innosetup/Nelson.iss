@@ -34,6 +34,19 @@
 #else
 #define FULL_APPLICATION_NAME APPLICATION_NAME + "-" + APPLICATION_VERSION + " (32 bits)"
 #endif
+#ifdef NELSON_X64
+#ifdef NELSON_DEBUG
+#define BOOST_TARGET  "vc141-mt-gd-x64-1_67"
+#else
+#define BOOST_TARGET  "vc141-mt-x64-1_67"
+#endif
+#else
+#ifdef NELSON_DEBUG
+#define BOOST_TARGET  "vc141-mt-gd-x32-1_67"
+#else
+#define BOOST_TARGET  "vc141-mt-x32-1_67"
+#endif
+#endif
 ;==============================================================================
 #define RootPath "../../"
 #ifdef NELSON_X64
