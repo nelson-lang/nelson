@@ -16,7 +16,5 @@ rem You should have received a copy of the GNU General Public License
 rem along with this program.  If not, see <http://www.gnu.org/licenses/>.
 rem LICENCE_BLOCK_END
 rem =============================================================================
-
 set QTDIR=%QTDIR32%
-set VS_EXEC="C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\Common7\IDE\devenv.exe"
-call %VS_EXEC% NelSon.sln
+start NelSon.sln
