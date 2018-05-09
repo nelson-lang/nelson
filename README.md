@@ -6,15 +6,16 @@
     \_\ \/ \___|_|\__/\___/|_| |_|
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/8865bc705b2d459c839b169e580d0526)](https://www.codacy.com/app/Nelson-numerical-software/nelson?utm_source=github.com&utm_medium=referral&utm_content=Nelson-numerical-software/nelson&utm_campaign=badger)
-[![Code Climate](https://codeclimate.com/github/Nelson-numerical-software/nelson/badges/gpa.svg)](https://codeclimate.com/github/Nelson-numerical-software/nelson)
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/602/badge)](https://bestpractices.coreinfrastructure.org/projects/602) 
 [![GitHub license](https://img.shields.io/badge/license-GPL2-blue.svg)](https://github.com/Nelson-numerical-software/nelson/blob/master/COPYING.md)
 [![CLA assistant](https://cla-assistant.io/readme/badge/Nelson-numerical-software/nelson)](https://cla-assistant.io/Nelson-numerical-software/nelson)
 [![Open Hub](https://img.shields.io/badge/Open-Hub-blue.svg)](https://www.openhub.net/p/nelson-interpreter)
 [![Weblate](https://img.shields.io/badge/Weblate--green.svg)](https://hosted.weblate.org/projects/nelson/)
 [![Build Status](https://travis-ci.org/Nelson-numerical-software/nelson.svg?branch=master)](https://travis-ci.org/Nelson-numerical-software/nelson)
-[![CircleCI](https://circleci.com/gh/Nelson-numerical-software/nelson/tree/master.svg?style=svg)](https://circleci.com/gh/Nelson-numerical-software/nelson/tree/master)
 [![Build status](https://ci.appveyor.com/api/projects/status/github/Nelson-numerical-software/nelson?svg=true)](https://ci.appveyor.com/project/Nelson-numerical-software/nelson)
+[![CircleCI](https://circleci.com/gh/Nelson-numerical-software/nelson/tree/master.svg?style=svg)](https://circleci.com/gh/Nelson-numerical-software/nelson/tree/master)
+[![Build Status](https://semaphoreci.com/api/v1/nelson-numerical-software/nelson/branches/master/badge.svg)](https://semaphoreci.com/nelson-numerical-software/nelson)
+
 [![Join the chat at https://gitter.im/nelson-numerical-software/Lobby](https://badges.gitter.im/nelson-numerical-software/Lobby.svg)](https://gitter.im/nelson-numerical-software/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Nelson is an array programming language providing a powerful open computing environment for 
@@ -42,9 +43,13 @@ these own data types and operations on these data types by using overload.
 
 - Fast Fourrier Transformation functions based on FFTW. 
 
-- SLICOT (Subroutine Library in Systems and Control Theory) interfaces
+- SLICOT (Subroutine Library in Systems and Control Theory) interfaces.
 
-- Foreign Function Interface
+- Message Passing Interface (MPI): functions for parallel computing.
+
+- JSON decode/encode data support.
+
+- Foreign Function Interface.
 
 - The QML engine enables nelson programs to display and manipulate graphical content using Qt's QML framework.
 
@@ -52,29 +57,27 @@ these own data types and operations on these data types by using overload.
 
 - Write/Read xlsx files on Windows using COM.
 
-- Message Passing Interface (MPI): functions for parallel computing.
-
 - Embedded Nelson code editor.
 
-- JSON decode/encode data support.
+- Help engine: 
 
-- Help engine
- Generate help files using Nelson dedicated functions.
- View your generated help files as html, markdown, pdf or directly in Nelson help viewer.
+  Generate help files using Nelson dedicated functions.
+ View your generated help files as html, markdown, pdf, gitbook or directly in Nelson help viewer.
 
-- Tests engine
- Validate your algorithm using Nelson dedicated functions.
+- Tests engine:
+  
+  Validate your algorithm using Nelson dedicated functions.
  Export the test results under the xUnit reports format.
  
 ## Resources
 
 - **Homepage:** <https://nelson-numerical-software.github.io/nelson-website/>
+- **Source code:** <https://github.com/Nelson-numerical-software/nelson>
 - **Binaries:** <https://github.com/Nelson-numerical-software/nelson/releases>
 - **Docker:** <https://hub.docker.com/r/nelsonsoftware/nelson/>
 - **Documentation:** <https://nelson-numerical-software.github.io/nelson-website/help/en_US/>
 - **GitBook:**
 <https://nelson-numerical-software.gitbooks.io/nelson/content/en/>
-- **Source code:** <https://github.com/Nelson-numerical-software/nelson>
 - **Gitter:** <https://gitter.im/nelson-numerical-software/Lobby>
 - **YouTube:** <https://www.youtube.com/channel/UCdZMnH0HC9XflNGAFFiRX9g>
 - **Twitter:** <https://twitter.com/Nelson_software>
@@ -83,8 +86,8 @@ these own data types and operations on these data types by using overload.
 ## Tested and supported platforms:
 - Windows 8, 10 32 bit & 64 bit (intel x86)
 - Linux Debian 32 bit & 64 bit (intel x86)
-- Mac Os X Sierra  (intel x86)
-- Linux Ubuntu 14.04 (trusty) (Travis CI)
+- Mac Os X Sierra (intel x86)
+- Linux Ubuntu 14.04 and more (Travis CI, CircleCI, Semaphore)
 - Arch Linux (ARM v7 i.MX 6)
 - Raspberry Pi 3 Model B ( Raspbian)
 - Rock64 (Ubuntu aarch64)
