@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+
+  <language>en_US</language>
+  <keyword>winqueryreg</keyword>
+  <short_description>Read the Windows registry (Windows only).</short_description>
+
+  <syntax>
+    <syntax_item>c = winqueryreg ('name', rootkey, subkey)</syntax_item>
+    <syntax_item>v = winqueryreg (rootkey, subkey, value_name)</syntax_item>
+    <syntax_item>v = winqueryreg (rootkey, subkey)</syntax_item>
+  </syntax>
+
+  <param_input>
+    <param_input_item>
+      <param_name>rootkey</param_name>
+      <param_description>a string: root key.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>subkey</param_name>
+      <param_description>a string: subkey path.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>value_name</param_name>
+      <param_description>a string: name of value.</param_description>
+    </param_input_item>
+  </param_input>
+
+  <param_output>
+  	
+    <param_output_item>
+      <param_name>c</param_name>
+      <param_description>a cell of strings.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>v</param_name>
+      <param_description>a string or int32.</param_description>
+    </param_output_item>
+
+  </param_output>
+
+
+  <description>
+    <p><b>c = winqueryreg ('name', rootkey, subkey)</b> returns a cell of strings with key names in rootkey\subkey.</p>
+    <p><b>v = winqueryreg (rootkey, subkey, value_name)</b> returns the value associated to value_name in rootkey\subkey.</p>
+    <p>If the value is a 32-bit integer, <b>winqueryreg</b> returns the value as int32. If this value is a string, it is a string.</p> 
+    <p><b>v = winqueryreg (rootkey, subkey)</b> returns value in rootkey\subkey that has no value name property.</p>
+    <p>Supported root keys:</p>
+    <p>'HKEY_CLASSES_ROOT', 'HKCR',</p>
+    <p>'HKEY_CURRENT_USER', 'HKCU',</p>
+    <p>'HKEY_LOCAL_MACHINE', 'HKLM',</p>
+    <p>'HKEY_USERS', 'HKU',</p>
+    <p>'HKEY_CURRENT_CONFIG', 'HKCC'</p>
+
+  </description>
+
+  <used_function></used_function>
+  <bibliography></bibliography>
+
+<examples>
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description></example_item_description>
+    <example_item_data><![CDATA[winqueryreg('name', 'HKEY_LOCAL_MACHINE', 'HARDWARE\DESCRIPTION\System')
+winqueryreg('HKLM', 'HARDWARE\DESCRIPTION\System\CentralProcessor\1\', 'ProcessorNameString')]]>
+    </example_item_data>
+  </example_item>
+
+</examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${os_functions}winopen">winopen</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${os_functions}searchenv">searchenv</link>
+    </see_also_item>
+  </see_also>
+
+
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>
+
+

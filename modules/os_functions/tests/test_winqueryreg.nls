@@ -1,0 +1,42 @@
+//=============================================================================
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+// <--WINDOWS ONLY-->
+//=============================================================================
+assert_isequal(nargin('winqueryreg'), -2);
+assert_isequal(nargout('winqueryreg'), 1);
+//=============================================================================
+r = winqueryreg('name','HKEY_CURRENT_USER','control panel\mouse');
+assert_istrue(iscellstr(r));
+//=============================================================================
+r = winqueryreg('HKEY_LOCAL_MACHINE', 'HARDWARE\DESCRIPTION\System\CentralProcessor\0\', 'ProcessorNameString')
+assert_istrue(ischar(r));
+//=============================================================================
+r = winqueryreg('HKEY_CLASSES_ROOT', 'Msxml');
+assert_isequal(r, 'Msxml');
+//=============================================================================
+r = winqueryreg('HKEY_CLASSES_ROOT', 'Msxml\clsid');
+assert_istrue(ischar(r));
+assert_isequal(length(r), 38);
+//=============================================================================
+assert_checkerror('r = winqueryreg(''HKEY_CLASSES_ROO'', ''Msxml\clsid'')', _('Invalid ROOTKEY value.'));
+assert_checkerror('r = winqueryreg(''HKEY_CLASSES_ROOT'', ''Msxml\clsid33'')', _('Invalid SUBKEY value.'));
+assert_checkerror('r = winqueryreg(''HKEY_CURRENT_USER'',''control panel\mouse'')', _('Cannot convert RegQueryValueEx.'));
+assert_checkerror('r = winqueryreg(''name'', ''HKEY_CURRENT_USER'')', _('''name'' argument requires 3 input arguments.'));
+
+//=============================================================================

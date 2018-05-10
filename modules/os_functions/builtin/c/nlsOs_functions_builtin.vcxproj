@@ -179,6 +179,7 @@
     <ClCompile Include="..\cpp\setenvBuiltin.cpp" />
     <ClCompile Include="..\cpp\systemBuiltin.cpp" />
     <ClCompile Include="..\cpp\winopenBuiltin.cpp" />
+    <ClCompile Include="..\cpp\winqueryregBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
@@ -216,6 +217,7 @@
     <ClInclude Include="..\include\setenvBuiltin.hpp" />
     <ClInclude Include="..\include\systemBuiltin.hpp" />
     <ClInclude Include="..\include\winopenBuiltin.hpp" />
+    <ClInclude Include="..\include\winqueryregBuiltin.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\etc\finish.nls" />

@@ -27,6 +27,7 @@
 #include "searchenvBuiltin.hpp"
 #include "createGUIDBuiltin.hpp"
 #include "winopenBuiltin.hpp"
+#include "winqueryregBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -46,6 +47,8 @@ static const nlsGateway gateway[] =
     { "computer", Nelson::OsFunctionsGateway::computerBuiltin, 1, 0 },
     { "createGUID", Nelson::OsFunctionsGateway::createGUIDBuiltin, 1, 1 },
     { "winopen", Nelson::OsFunctionsGateway::winopenBuiltin, 0, 1 },
+    { "winqueryreg", Nelson::OsFunctionsGateway::winqueryregBuiltin, 1, -2 },
+
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

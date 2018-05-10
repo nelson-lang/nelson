@@ -1,6 +1,7 @@
 Features:
 ---------
 
+  * winqueryreg function read the Windows registry (Windows only).
   * factorial function.
   * gamma function.
   * plus, minus, le, ne, ge, gt, lt, eq, colon operators added for all integer types.
