@@ -139,13 +139,6 @@ void *CreateGuiEvaluator(void* vcontext, NELSON_ENGINE_MODE _mode)
     return nullptr;
 }
 //===================================================================================
-void *CreateMainGuiObject(void)
-{
-    CreateConsole();
-    NelSonQtMainWindow = new QtMainWindow();
-    return (void*)NelSonQtMainWindow;
-}
-//===================================================================================
 void DestroyMainGuiObject(void *term)
 {
     if (NelSonQtApp)
