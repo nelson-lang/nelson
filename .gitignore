@@ -165,3 +165,5 @@ bin/macosx64/nelson-gui
 /modules/*/src/c/*/Debug
 /modules/*/src/c/*/Release
 enc_temp_folder
+/tools/CMake/
+/*/*/.vscode

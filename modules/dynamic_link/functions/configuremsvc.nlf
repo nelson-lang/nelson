@@ -32,21 +32,6 @@ function [status, message] = configuremsvc()
   end
   txt = fileread(vsconfig);
   msvc2017 = jsondecode(txt);
-  need_to_redefine = false;
-  for k = msvc2017.ENVIRONMENT_VARIABLES
-    if (strcmp(k{1}, 'PATH') == false)
-      current_env = getenv(k{1});
-      if (strcmp(current_env, '') == true)
-        need_to_redefine = true;
-        break;
-      end
-    end
-  end
-  if ~need_to_redefine
-    status = true;
-    message = '';
-    return
-  end
   try
     vsjon = vswhere();
     status = true;
@@ -80,8 +65,8 @@ function [status, message] = configuremsvc()
   if ~contains(current_PATH, vcvarsbatpath)
     setenv('PATH', [current_PATH, ';', vcvarsbatpath]);
   end
-  if ~contains(current_PATH, vcinfo_batchpath)
-    setenv('PATH', [current_PATH, ';', vcinfo_batchpath]);
+  if ~contains(getenv('PATH'), vcinfo_batchpath)
+    setenv('PATH', [getenv('PATH'), ';', vcinfo_batchpath]);
   end
   names = {};
   values = {};
