@@ -17,11 +17,10 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 function res = cell_vertcat_generic(A, B)
-	if isempty(B)
-		res = A;
-	else
-		A{end+1} = B;
-  		res = A;
-	end
+  if isempty(B)
+    res = A;
+  else
+    res = [A; {B}];
+  end
 endfunction
 //=============================================================================
