@@ -1,6 +1,16 @@
 Features:
 ---------
 
+  * detect and configure C/C++ compilers on Windows, Linux, MacosX
+    - On Windows: 
+      - VS 2017 Professional, Entreprise, Community supported.
+      - MinGW-W64 for 32 and 64 bit supported.
+    - havecompiler function: returns if a compiler is configured.
+    - configuremingw function: select and configure Mingw-w64 compilers.
+    - configuremsvc function: select and configure Microsoft compilers.
+    - loadcompilerconf function: load compiler configuration
+    - removecompilerconf function: remove compiler configuration
+    - vswhere function: detects easily modern Microsoft compilers.
   * winqueryreg function read the Windows registry (Windows only).
   * factorial function.
   * gamma function.

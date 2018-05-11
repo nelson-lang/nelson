@@ -17,7 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 function [status, message] = configuremsvc()
-  // currently only VS 2017
+  // currently only VS 2017 (compatibility with previous vs on demand)
   status = false;
   message = '';
   if ~ispc()
@@ -76,13 +76,15 @@ function [status, message] = configuremsvc()
   if ~status
     return
   end
-  current_path = getenv('PATH');
-  if ~contains(current_path, vcvarsbatpath)
-    setenv('PATH', [getenv('PATH'), ';', vcvarsbatpath]);
+  current_PATH = getenv('PATH');
+  if ~contains(current_PATH, vcvarsbatpath)
+    setenv('PATH', [current_PATH, ';', vcvarsbatpath]);
   end
-  if ~contains(current_path, vcinfo_batchpath)
-    setenv('PATH', [getenv('PATH'), ';', vcinfo_batchpath]);
+  if ~contains(current_PATH, vcinfo_batchpath)
+    setenv('PATH', [current_PATH, ';', vcinfo_batchpath]);
   end
+  names = {};
+  values = {};
   for k = msvc2017.ENVIRONMENT_VARIABLES
     cmd = [vcinfo_batch, ' ', vcvarsbat, ' ', k{1}];
     [s, m] = unix(cmd);
@@ -93,15 +95,17 @@ function [status, message] = configuremsvc()
     end
     // ack to remove '\n' at the end
     m(m == 10) = '';
-    current_env = getenv(k{1});
-    if strcmp(current_env, '')
-      setenv(k{1}, m);
-    else
-      if ~contains(current_env, m)
-        setenv(k{1}, m);
-      end
+    if strcmp(k{1}, 'PATH') == true
+       m = replace(m, current_PATH, '');
     end
+    names = [names, k{1}];
+    values = [values; m];
   end
+  config = cell2struct(values, names);
+  config.COMPILER_CHOICE = 'msvc';
+  json = jsonencode(config);
+  json = jsonprettyprint(json);
+  filewrite([prefdir(), '/compiler_', arch, '.json'], json);
   status = true;
   msg = '';
 endfunction

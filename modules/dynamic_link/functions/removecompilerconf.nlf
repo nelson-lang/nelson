@@ -16,8 +16,13 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-addpath(modulepath(nelsonroot(), 'dynamic_link', 'functions'));
+function status = removecompilerconf()
+  arch = computer('arch');
+  jsonfile = [prefdir(), '/compiler_', arch, '.json'];
+  if isfile(jsonfile)
+    [status, msg] = rmfile(jsonfile);
+  else
+    status = true;
+  end
+endfunction
 //=============================================================================
-loadcompilerconf();
-//=============================================================================
-

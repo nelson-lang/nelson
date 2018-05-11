@@ -16,8 +16,23 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-addpath(modulepath(nelsonroot(), 'dynamic_link', 'functions'));
+function [status, compiler] = havecompiler()
+  if ispc()
+    arch = computer('arch');
+    jsonfile = [prefdir(), '/compiler_', arch, '.json'];
+    status = false;
+    compiler = '';
+    if isfile(jsonfile)
+      txt = fileread(jsonfile);
+      json = jsondecode(txt);
+      if isfield(json, 'COMPILER_CHOICE')
+        status = true;
+        compiler = json.COMPILER_CHOICE;
+      end
+    end    
+  else
+    status = true;
+    compiler = 'unix';
+  end
+endfunction
 //=============================================================================
-loadcompilerconf();
-//=============================================================================
-
