@@ -31,5 +31,9 @@ Source: {#RootPath}modules\{#MODULE_NAME}\examples\*.nls; DestDir: {app}\modules
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\help\*.qch; DestDir: {app}\modules\{#MODULE_NAME}\help\; Flags: recursesubdirs
 ;==============================================================================
+Source: {#RootPath}modules\{#MODULE_NAME}\resources\*.txt; DestDir: {app}\modules\{#MODULE_NAME}\resources\; Flags: recursesubdirs
+Source: {#RootPath}modules\{#MODULE_NAME}\resources\*.bat; DestDir: {app}\modules\{#MODULE_NAME}\resources\; Flags: recursesubdirs
+Source: {#RootPath}modules\{#MODULE_NAME}\resources\*.json; DestDir: {app}\modules\{#MODULE_NAME}\resources\; Flags: recursesubdirs
+;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.nls; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs
 ;==============================================================================
