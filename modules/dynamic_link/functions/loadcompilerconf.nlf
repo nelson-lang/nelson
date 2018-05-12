@@ -32,6 +32,7 @@ function [status, compiler] = loadcompilerconf()
      for f = fieldnames(json)
        if strcmp(f{1},'COMPILER_CHOICE')
          compiler = getfield(json,f{1});
+         status = true;
        else
          val = getfield(json, f{1});
          if strcmp(f{1},'PATH')
