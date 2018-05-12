@@ -16,7 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-function [status, message] = buildcmake(destinationdir)
+function [status, message] = dlmake(destinationdir)
   status = false;
   message = '';
   if ~isdir(destinationdir)

@@ -16,17 +16,17 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-function [status, message] = generatecmake(varargin)
-  // generatecmake('f:/demo', 'toto', {'f:/demo/toto.cpp'}, {'f:/demo/'}, {'NLSDYNAMIC_LINK_EXPORTS'}, {'msvcrt.lib'},'Debug')
-  // generatecmake(destinationdir, libname, c_cpp_files, includes, defines, external_libraries, build_configuration)
-  // generatecmake('f:/demo', 'toto', {'f:/demo/toto.cpp'}, {'f:/demo/'}, {'NLSDYNAMIC_LINK_EXPORTS'})
+function [status, message] = dlgeneratemake(varargin)
+  // dlgeneratemake('f:/demo', 'toto', {'f:/demo/toto.cpp'}, {'f:/demo/'}, {'NLSDYNAMIC_LINK_EXPORTS'}, {'msvcrt.lib'},'Debug')
+  // dlgeneratemake(destinationdir, libname, c_cpp_files, includes, defines, external_libraries, build_configuration, c_flags, cxx_flags)
+  // dlgeneratemake('f:/demo', 'toto', {'f:/demo/toto.cpp'}, {'f:/demo/'}, {'NLSDYNAMIC_LINK_EXPORTS'})
 
   status = false;
   message = '';
   if nargin < 4
     error(_('At least 4 input arguments expected.'));
   end
-  if nargin > 7
+  if nargin > 9
     error(_('Wrong numbers of output arguments.'));
   end
   destinationdir = varargin{1};
@@ -53,9 +53,16 @@ function [status, message] = generatecmake(varargin)
       build_configuration = 'Release';
     end
   end
-
-  c_flags = '';
-  cxx_flags = '';
+  if nargin > 7
+    c_flags = varargin{8};
+  else
+    c_flags = '';
+  end
+  if nargin > 8
+    cxx_flags = varargin{9};
+  else
+    cxx_flags = '';
+  end
 
   r = checkDestinationDir(destinationdir);
   if ~r
@@ -97,6 +104,18 @@ function [status, message] = generatecmake(varargin)
   if ~r
     status = r;
     message = _('A valid build configuration value expected.');
+    return
+  end
+  [r, c_flags] = checkAndPrepareCflags(c_flags);
+  if ~r
+    status = r;
+    message = _('A valid c_flags configuration value expected.');
+    return
+  end
+  [r, cxx_flags] = checkAndPrepareCflags(cxx_flags);
+  if ~r
+    status = r;
+    message = _('A valid cxx_flags configuration value expected.');
     return
   end
   templatefilename = [modulepath('dynamic_link'), '/resources/template_cmake.txt'];
@@ -266,6 +285,36 @@ function [r, build_configuration_modified] = checkAndPrepareBuildConfiguration(b
     end
   else
     r = false;
+  end
+endfunction
+//=============================================================================
+function [r, c_flags_modified] = checkAndPrepareCflags(c_flags)
+  if isempty(c_flags)
+    r = true;
+    c_flags_modified = '';
+  else
+    if ischar(c_flags)
+      r = true;
+      c_flags_modified = ['set(CMAKE_C_FLAGS "', c_flags, '")'];
+   else
+      r = false;
+      c_flags_modified = '';
+    end
+  end
+endfunction
+//=============================================================================
+function [r, cxx_flags_modified] = checkAndPrepareCppflags(cxx_flags)
+  if isempty(cxx_flags)
+    r = true;
+    cxx_flags_modified = '';
+  else
+    if ischar(cxx_flags)
+      r = true;
+      cxx_flags_modified = ['set(CMAKE_CXX_FLAGS "', cxx_flags, '")'];
+   else
+      r = false;
+      cxx_flags_modified = '';
+    end
   end
 endfunction
 //=============================================================================
