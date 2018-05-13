@@ -64,6 +64,10 @@ function txt = templatecleanerpart1(destinationdir)
   txt = [txt; '  rmfile(''loader.nls'');'];
   txt = [txt; 'end'];
   txt = [txt; '//============================================================================='];
+  txt = [txt; 'if isfile(''unloader.nls'')'];
+  txt = [txt; '  rmfile(''unloader.nls'');'];
+  txt = [txt; 'end'];
+  txt = [txt; '//============================================================================='];
  endfunction
 //=============================================================================
 function txt = templatecleanerpart2(files)
