@@ -218,7 +218,7 @@ namespace Nelson {
     };
 
     typedef AST* ASTPtr;
-    typedef boost::container::vector<ASTPtr> ASTPtrVector;
+    typedef std::vector<ASTPtr> ASTPtrVector;
     /** Print out the tree
      * Print out the tree using a tab-level scheme.  Peers are printed at the same
      * tab level, children are printed at a higher tab level.

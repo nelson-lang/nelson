@@ -17,43 +17,42 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "CommandQueue.hpp"
-#include <boost/thread/locks.hpp>
 //=============================================================================
 namespace Nelson {
     //=============================================================================
     CommandQueue::CommandQueue()
     {
-        boost::lock_guard<boost::mutex> lock(m_mutex);
+		std::lock_guard<std::mutex> lock(m_mutex);
         //        commands.reserve(4096);
     }
     //=============================================================================
     CommandQueue::~CommandQueue()
     {
-        boost::lock_guard<boost::mutex> lock(m_mutex);
+        std::lock_guard<std::mutex> lock(m_mutex);
         commands.clear();
     }
     //=============================================================================
     bool CommandQueue::isEmpty()
     {
-        boost::lock_guard<boost::mutex> lock(m_mutex);
+        std::lock_guard<std::mutex> lock(m_mutex);
         return commands.empty();
     }
     //=============================================================================
     void CommandQueue::add(std::string cmdline, bool bIsPriority)
     {
-        boost::lock_guard<boost::mutex> lock(m_mutex);
+        std::lock_guard<std::mutex> lock(m_mutex);
         commands.push_back(cmdline);
     }
     //=============================================================================
     void CommandQueue::clear()
     {
-        boost::lock_guard<boost::mutex> lock(m_mutex);
+        std::lock_guard<std::mutex> lock(m_mutex);
         commands.clear();
     }
     //=============================================================================
     bool CommandQueue::get(std::string &cmd)
     {
-        boost::lock_guard<boost::mutex> lock(m_mutex);
+        std::lock_guard<std::mutex> lock(m_mutex);
         if (commands.size() > 0)
         {
             cmd = (commands.end()-1)->c_str();

@@ -93,7 +93,7 @@ namespace Nelson {
     //=============================================================================
     bool BuiltInFunctionDefManager::remove(std::string name)
     {
-        for (boost::container::vector<FuncPtr>::iterator it = builtinVector.begin(); it != builtinVector.end(); ++it)
+        for (std::vector<FuncPtr>::iterator it = builtinVector.begin(); it != builtinVector.end(); ++it)
         {
             if ((*it)->name == name)
             {
@@ -109,13 +109,13 @@ namespace Nelson {
     //=============================================================================
     bool BuiltInFunctionDefManager::remove(FuncPtr ptr)
     {
-        for (boost::container::vector<FuncPtr>::iterator it = builtinVector.begin(); it != builtinVector.end(); ++it)
+        for (std::vector<FuncPtr>::iterator it = builtinVector.begin(); it != builtinVector.end(); ++it)
         {
             if (*it == ptr)
             {
                 BuiltInFunctionDef *p = (BuiltInFunctionDef*)(*it);
                 delete p;
-                boost::container::vector<FuncPtr>::iterator it_to_delete = it;
+                std::vector<FuncPtr>::iterator it_to_delete = it;
                 clearCache();
                 builtinVector.erase(it_to_delete);
             }
@@ -125,13 +125,13 @@ namespace Nelson {
     //=============================================================================
     bool BuiltInFunctionDefManager::remove(BuiltInFunctionDef *ptr)
     {
-        for (boost::container::vector<FuncPtr>::iterator it = builtinVector.begin(); it != builtinVector.end(); ++it)
+        for (std::vector<FuncPtr>::iterator it = builtinVector.begin(); it != builtinVector.end(); ++it)
         {
             if (*it == ptr)
             {
                 BuiltInFunctionDef *p = (BuiltInFunctionDef*)(*it);
                 delete p;
-                boost::container::vector<FuncPtr>::iterator it_to_delete = it;
+                std::vector<FuncPtr>::iterator it_to_delete = it;
                 clearCache();
                 builtinVector.erase(it_to_delete);
             }
@@ -164,7 +164,7 @@ namespace Nelson {
     //=============================================================================
     bool BuiltInFunctionDefManager::removeAll()
     {
-        for (boost::container::vector<FuncPtr>::iterator it = builtinVector.begin(); it != builtinVector.end(); ++it)
+        for (std::vector<FuncPtr>::iterator it = builtinVector.begin(); it != builtinVector.end(); ++it)
         {
             delete *it;
         }
@@ -173,10 +173,10 @@ namespace Nelson {
         return false;
     }
     //=============================================================================
-    boost::container::vector<FuncPtr> BuiltInFunctionDefManager::getTable()
+    std::vector<FuncPtr> BuiltInFunctionDefManager::getTable()
     {
-        boost::container::vector<FuncPtr> builtinTable;
-        for (boost::container::vector<FuncPtr>::iterator it = builtinVector.begin(); it != builtinVector.end(); ++it)
+        std::vector<FuncPtr> builtinTable;
+        for (std::vector<FuncPtr>::iterator it = builtinVector.begin(); it != builtinVector.end(); ++it)
         {
             builtinTable.push_back(*it);
         }
@@ -186,7 +186,7 @@ namespace Nelson {
     stringVector BuiltInFunctionDefManager::getNameList()
     {
         stringVector nameList;
-        for (boost::container::vector<FuncPtr>::iterator it = builtinVector.begin(); it != builtinVector.end(); ++it)
+        for (std::vector<FuncPtr>::iterator it = builtinVector.begin(); it != builtinVector.end(); ++it)
         {
             nameList.push_back((*it)->name);
         }
@@ -197,7 +197,7 @@ namespace Nelson {
     {
         if (builtinVector.size() > 0)
         {
-            for (boost::container::vector<FuncPtr>::reverse_iterator it = builtinVector.rbegin(); it != builtinVector.rend(); ++it)
+            for (std::vector<FuncPtr>::reverse_iterator it = builtinVector.rbegin(); it != builtinVector.rend(); ++it)
             {
                 if (*it == ptr)
                 {
@@ -213,7 +213,7 @@ namespace Nelson {
         bool res = false;
         if (builtinVector.size() > 0)
         {
-            for (boost::container::vector<FuncPtr>::reverse_iterator it = builtinVector.rbegin(); it != builtinVector.rend(); ++it)
+            for (std::vector<FuncPtr>::reverse_iterator it = builtinVector.rbegin(); it != builtinVector.rend(); ++it)
             {
                 if ((*it)->name == name)
                 {
@@ -230,7 +230,7 @@ namespace Nelson {
         bool res = false;
         if (builtinVector.size() > 0)
         {
-            for (boost::container::vector<FuncPtr>::reverse_iterator it = builtinVector.rbegin(); it != builtinVector.rend(); ++it)
+            for (std::vector<FuncPtr>::reverse_iterator it = builtinVector.rbegin(); it != builtinVector.rend(); ++it)
             {
                 if ((*it)->hashid == hashid)
                 {
@@ -247,7 +247,7 @@ namespace Nelson {
         bool res = false;
         if (builtinVector.size() > 0)
         {
-            for (boost::container::vector<FuncPtr>::reverse_iterator it = builtinVector.rbegin(); it != builtinVector.rend(); ++it)
+            for (std::vector<FuncPtr>::reverse_iterator it = builtinVector.rbegin(); it != builtinVector.rend(); ++it)
             {
                 if ((*it)->name == name)
                 {
@@ -263,7 +263,7 @@ namespace Nelson {
     {
         if (builtinVector.size() > 0)
         {
-            boost::unordered_map<std::string, FuncPtr>::const_iterator found = cachedBuiltin.find(name);
+            std::unordered_map<std::string, FuncPtr>::const_iterator found = cachedBuiltin.find(name);
             if (found != cachedBuiltin.end())
             {
                 ptr = found->second;
@@ -271,7 +271,7 @@ namespace Nelson {
             }
             else
             {
-                for (boost::container::vector<FuncPtr>::reverse_iterator it = builtinVector.rbegin(); it != builtinVector.rend(); ++it)
+                for (std::vector<FuncPtr>::reverse_iterator it = builtinVector.rbegin(); it != builtinVector.rend(); ++it)
                 {
                     if ((*it)->name == name)
                     {

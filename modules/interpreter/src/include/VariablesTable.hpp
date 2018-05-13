@@ -18,7 +18,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <boost/unordered_map.hpp>
+#include <unordered_map>
 #include <string>
 #include "ArrayOf.hpp"
 #include "Types.hpp"
@@ -29,7 +29,7 @@ namespace Nelson {
     private:
         typedef std::string key_type;
         typedef ArrayOf value_type;
-        boost::unordered_map<key_type, value_type> variablesMap;
+        std::unordered_map<key_type, value_type> variablesMap;
         stringVector lockedVariables;
         //=============================================================================
     public:

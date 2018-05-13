@@ -109,7 +109,7 @@ namespace Nelson {
         */
         virtual ArrayOfVector evaluateFunction(Evaluator *, ArrayOfVector &, int);
 
-        boost::container::vector<ASTPtr> ptAst;
+        std::vector<ASTPtr> ptAst;
 
         int nargin();
         int nargout();

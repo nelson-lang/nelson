@@ -3604,12 +3604,12 @@ namespace Nelson {
 
     void Evaluator::adjustBreakpoints()
     {
-        boost::container::vector<StackEntry>::iterator i = bpStack.begin();
+        std::vector<StackEntry>::iterator i = bpStack.begin();
         while (i != bpStack.end())
         {
             if (!adjustBreakpoint(*i, false))
             {
-                boost::container::vector<StackEntry>::iterator b = i;
+                std::vector<StackEntry>::iterator b = i;
                 bpStack.erase(b);
                 ++i;
             }
@@ -3677,7 +3677,7 @@ namespace Nelson {
     {
         stringVector outstack;
         char buffer[IDENTIFIER_LENGTH_MAX + 1];
-        boost::container::vector<ErrorInfo> errors = StackError(this);
+        std::vector<ErrorInfo> errors = StackError(this);
         outstack.reserve(errors.size());
         for (size_t k = 0; k < errors.size(); k++)
         {
@@ -4286,7 +4286,7 @@ namespace Nelson {
             command = line;
         }
         resetAstBackupPosition();
-        boost::container::vector<ASTPtr> pt;
+        std::vector<ASTPtr> pt;
         try
         {
             parserState = parseString(command);

@@ -38,6 +38,7 @@
 #pragma once
 //=============================================================================
 #include <string>
+#include <cstring>
 #include "nlsError_manager_exports.h"
 #include "Interface.hpp"
 #include "Messages.hpp"

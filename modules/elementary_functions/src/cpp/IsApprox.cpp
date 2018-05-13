@@ -17,6 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <Eigen/Dense>
+#include <boost/container/vector.hpp>
 #include "IsApprox.hpp"
 #include "RealPart.hpp"
 #include "ImagPart.hpp"

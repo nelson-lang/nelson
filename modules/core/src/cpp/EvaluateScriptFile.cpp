@@ -53,7 +53,7 @@ namespace Nelson {
         {
             bIsFile = boost::filesystem::exists(filename) && !boost::filesystem::is_directory(filename);
         }
-        catch (boost::filesystem::filesystem_error &e)
+        catch (boost::filesystem::filesystem_error)
         {
             bIsFile = false;
         }
@@ -139,7 +139,7 @@ namespace Nelson {
         eval->pushEvaluateFilenameList(absolutePath.generic_wstring());
         ParserState pstate = ParseError;
         resetAstBackupPosition();
-        boost::container::vector<ASTPtr> pt;
+        std::vector<ASTPtr> pt;
         try
         {
             pstate = parseFile(fr, absolutePath.generic_string().c_str());
@@ -255,7 +255,10 @@ namespace Nelson {
                 eval->pushDebug("EvaluateScript", buffer);
                 try
                 {
-                    eval->block(tree);
+					if (tree)
+					{
+						eval->block(tree);
+					}
                 }
                 catch (Exception &e)
                 {
@@ -329,7 +332,11 @@ namespace Nelson {
             {
                 deleteAstVector(getAstUsed());
                 resetAstBackupPosition();
-                e.setLinePosition(eval->cstack.end()->tokid & 0x0000FFFF, eval->cstack.end()->tokid >> 16);
+				StackEntry lastStackEntry = eval->cstack[eval->cstack.size()-1];
+				int tokid = lastStackEntry.tokid;
+				int line_in = tokid & 0x0000FFFF;
+				int position_in = tokid >> 16;
+                e.setLinePosition(line_in, position_in);
                 // removes stack
                 while (eval->cstack.size() > stackdepth)
                 {

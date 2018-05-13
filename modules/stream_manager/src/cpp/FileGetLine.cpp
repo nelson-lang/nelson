@@ -16,6 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <cstring>
 #include "FileGetLine.hpp"
 #include "characters_encoding.hpp"
 #include "FileSeek.hpp"

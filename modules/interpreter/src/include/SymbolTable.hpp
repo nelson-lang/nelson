@@ -20,8 +20,9 @@
 //=============================================================================
 #include <unordered_map>
 #include <map>
-#include <boost/container/vector.hpp>
+#include <vector>
 #include <string>
+#include <algorithm>
 #include "Types.hpp"
 //=============================================================================
 #define SYMTAB 4096*2

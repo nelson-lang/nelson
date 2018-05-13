@@ -18,8 +18,8 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <boost/container/vector.hpp>
-#include <boost/unordered_map.hpp>
+#include <vector>
+#include <unordered_map>
 #include <string>
 #include "BuiltInFunctionDef.hpp"
 #include "nlsInterpreter_exports.h"
@@ -38,7 +38,7 @@ namespace Nelson {
 
         void destroy();
 
-        boost::container::vector<FuncPtr> getTable();
+        std::vector<FuncPtr> getTable();
         stringVector getNameList();
         bool find(const std::string name, FuncPtr &ptr);
         bool find(const std::string name, wstringVector &paths);
@@ -56,10 +56,10 @@ namespace Nelson {
 
         BuiltInFunctionDefManager();
         static BuiltInFunctionDefManager *m_pInstance;
-        boost::container::vector<FuncPtr> builtinVector;
+        std::vector<FuncPtr> builtinVector;
 
         // cache to speed up search
-        boost::unordered_map<std::string, FuncPtr> cachedBuiltin;
+        std::unordered_map<std::string, FuncPtr> cachedBuiltin;
 
     };
 }

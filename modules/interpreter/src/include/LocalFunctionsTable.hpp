@@ -18,7 +18,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <boost/unordered_map.hpp>
+#include <unordered_map>
 #include <utility>
 #include <string>
 #include "Types.hpp"
@@ -28,7 +28,7 @@ namespace Nelson {
     //=============================================================================
     class LocalFunctionsTable {
     private:
-        boost::unordered_map<std::string, FuncPtr> cachedLocalMacro;
+        std::unordered_map<std::string, FuncPtr> cachedLocalMacro;
     public:
         LocalFunctionsTable();
         ~LocalFunctionsTable();

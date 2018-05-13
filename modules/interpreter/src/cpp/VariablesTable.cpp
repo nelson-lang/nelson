@@ -37,7 +37,7 @@ namespace Nelson {
     //=============================================================================
     bool VariablesTable::findVariable(const key_type& key, value_type& dest)
     {
-        boost::unordered_map<key_type, value_type>::iterator it = variablesMap.find(key);
+        std::unordered_map<key_type, value_type>::iterator it = variablesMap.find(key);
         if (it != variablesMap.end())
         {
             dest = it->second;

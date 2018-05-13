@@ -43,7 +43,7 @@
  */
 //=============================================================================
 #include <string>
-#include <boost/container/vector.hpp>
+#include <vector>
 #include "ArrayOf.hpp"
 #include "FunctionDef.hpp"
 #include "VariablesTable.hpp"
@@ -107,7 +107,7 @@ namespace Nelson {
          * The location ID stack - stores information on where in the source
          * file the current token resides.
          */
-        boost::container::vector<int> IDstack;
+        std::vector<int> IDstack;
 
         int nargin = 0;
         int nargout = 0;

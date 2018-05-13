@@ -16,7 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/container/vector.hpp>
+#include <vector>
 #include "nlsInterpreter_exports.h"
 #include "AST.hpp"
 //=============================================================================
@@ -36,11 +36,11 @@ namespace Nelson {
     //=============================================================================
     NLSINTERPRETER_IMPEXP void resetAstBackupPosition();
     //=============================================================================
-    NLSINTERPRETER_IMPEXP boost::container::vector<ASTPtr> getAstUsed();
+    NLSINTERPRETER_IMPEXP std::vector<ASTPtr> getAstUsed();
     //=============================================================================
-    NLSINTERPRETER_IMPEXP bool deleteAst(ASTPtr pt, boost::container::vector<ASTPtr> v);
+    NLSINTERPRETER_IMPEXP bool deleteAst(ASTPtr pt, std::vector<ASTPtr> v);
     //=============================================================================
-    NLSINTERPRETER_IMPEXP void deleteAstVector(boost::container::vector<ASTPtr> v);
+    NLSINTERPRETER_IMPEXP void deleteAstVector(std::vector<ASTPtr> v);
     //=============================================================================
 
 }

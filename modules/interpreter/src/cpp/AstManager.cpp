@@ -22,22 +22,22 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-    static boost::container::vector<ASTPtr> AstUsedVector;
+    static std::vector<ASTPtr> AstUsedVector;
     //=============================================================================
     void resetAstBackupPosition()
     {
         AstUsedVector.clear();
     }
     //=============================================================================
-    boost::container::vector<ASTPtr> getAstUsed()
+    std::vector<ASTPtr> getAstUsed()
     {
         return AstUsedVector;
     }
     //=============================================================================
-    bool deleteAst(ASTPtr pt, boost::container::vector<ASTPtr> v)
+    bool deleteAst(ASTPtr pt, std::vector<ASTPtr> v)
     {
         bool bFind = false;
-        boost::container::vector<ASTPtr>::iterator it = std::find(v.begin(), v.end(), pt);
+		std::vector<ASTPtr>::iterator it = std::find(v.begin(), v.end(), pt);
         if (it != v.end())
         {
             delete pt;
@@ -47,7 +47,7 @@ namespace Nelson {
         return bFind;
     }
     //=============================================================================
-    void deleteAstVector(boost::container::vector<ASTPtr> v)
+    void deleteAstVector(std::vector<ASTPtr> v)
     {
         for (size_t k = 0; k < v.size(); ++k)
         {

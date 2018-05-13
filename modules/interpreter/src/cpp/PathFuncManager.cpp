@@ -499,7 +499,7 @@ namespace Nelson {
         }
         ParserState pstate = ParseError;
         resetAstBackupPosition();
-        boost::container::vector<ASTPtr> ptAst;
+        std::vector<ASTPtr> ptAst;
         try
         {
             pstate = parseFile(fr, wstring_to_utf8(nlf_filename).c_str());

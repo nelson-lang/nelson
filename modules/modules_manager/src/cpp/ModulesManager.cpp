@@ -18,6 +18,7 @@
 //=============================================================================
 #include <unordered_map>
 #include <map>
+#include <algorithm>
 #include <boost/container/vector.hpp>
 #include <boost/algorithm/string.hpp>
 #include "ModulesManager.hpp"

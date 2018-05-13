@@ -21,7 +21,7 @@
 
 #include <complex>
 #include <string>
-#include <boost/container/vector.hpp>
+#include <vector>
 #include <cstddef>
 #include <stdint.h>
 #include "nlsConfig.h"
@@ -104,8 +104,8 @@ namespace Nelson {
         NLS_DCOMPLEX,
         NLS_CHAR,
     } Class;
-    typedef boost::container::vector<std::string> stringVector;
-    typedef boost::container::vector<std::wstring> wstringVector;
+    typedef std::vector<std::string> stringVector;
+    typedef std::vector<std::wstring> wstringVector;
 
 #define     NLS_SPARSE_STR "sparse"
 #define     NLS_NDARRAY_STR "ndarray"
