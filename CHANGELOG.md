@@ -10,9 +10,16 @@ Features:
   * vertcat and horzcat: mixed concatenations logical with integers, single and double added.
   * [#110](http://github.com/Nelson-numerical-software/nelson/issues/110): add isproperty & ismethod to all handle types.
   * add "isHandleProperty", "isHandleMethod", "getHandleCategory" C++ API Methods.
-  * [#109](http://github.com/Nelson-numerical-software/nelson/issues/109): add missing horzcat, vertcat for all handle types.
   * [#108](http://github.com/Nelson-numerical-software/nelson/issues/108): cast function: converts variable to a different data type.
   * MPI Module loaded if MPI dependency is available.
+
+Bug Fixes:
+---------
+
+  * [#118](http://github.com/Nelson-numerical-software/nelson/issues/118): add information in  DEVELOPMENT.md about how to buid Boost on old Ubuntu versions.
+
+  * [#109](http://github.com/Nelson-numerical-software/nelson/issues/109): add missing horzcat, vertcat for all handle types.
+
 
 
 Compilation:
