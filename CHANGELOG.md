@@ -1,6 +1,17 @@
 Features:
 ---------
 
+  * helper's functions to build C/C++ code easily on Windows, Linux, MacosX
+    - dlbuild
+    - dlmake
+    - dlgeneratemake
+    - dlgeneratecleaner
+    - dlgenerateloader
+    - dlgenerateunloader
+    - dlgenerategateway
+    - cmake
+    - findcmake
+
   * detect and configure C/C++ compilers on Windows, Linux, MacosX
     - On Windows: 
       - VS 2017 Professional, Entreprise, Community supported.
@@ -11,6 +22,7 @@ Features:
     - loadcompilerconf function: load compiler configuration
     - removecompilerconf function: remove compiler configuration
     - vswhere function: detects easily modern Microsoft compilers.
+    
   * winqueryreg function read the Windows registry (Windows only).
   * factorial function.
   * gamma function.
