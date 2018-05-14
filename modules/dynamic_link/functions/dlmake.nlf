@@ -20,7 +20,10 @@ function [status, message] = dlmake(destinationdir)
   status = false;
   message = '';
   if ~isdir(destinationdir)
-    error(_('Invalid directory'));
+    error(_('Invalid directory.'));
+  end
+  if ~isfile([destinationdir, '/CMakeLists.txt'])
+    error(_('CMakeLists.txt is missing.'));
   end
   [status, compiler] = havecompiler();
   if ~status

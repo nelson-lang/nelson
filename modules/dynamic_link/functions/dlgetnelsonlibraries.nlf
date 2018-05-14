@@ -16,12 +16,12 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-run([fileparts(nfilename('fullpath')), '/src/builder.nls']);
-run([fileparts(nfilename('fullpath')), '/builtin/builder.nls']);
-//=============================================================================
-if ~ismodule('module_skeleton')
-  run('loader.nls')
-end
-//=============================================================================
-buildhelp('module_skeleton')
+function c = dlgetnelsonlibraries()
+  if ispc()
+    c = {[modulepath(nelsonroot(),'interpreter','bin'), '/libnlsinterpreter.lib']; ...
+       [modulepath(nelsonroot(),'types','bin'), '/libnlstypes.lib']};
+  else
+    c = {};
+  end
+endfunction
 //=============================================================================
