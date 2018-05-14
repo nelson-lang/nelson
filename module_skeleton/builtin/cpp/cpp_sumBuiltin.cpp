@@ -26,6 +26,7 @@
 //=============================================================================
 #include "cpp_sumBuiltin.hpp"
 #include "cpp_sum.hpp"
+#include "Error.hpp"
 //=============================================================================
 ArrayOfVector cpp_sumBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
