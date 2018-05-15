@@ -626,6 +626,7 @@ namespace Nelson {
          * and execute it.
          */
         bool evaluateString(std::string cmdToEvaluate, bool propogateException = true);
+		bool evaluateString(std::wstring cmdToEvaluate, bool propogateException = true);
 
         std::wstring getCurrentEvaluateFilename();
         void pushEvaluateFilenameList(const std::wstring filename);

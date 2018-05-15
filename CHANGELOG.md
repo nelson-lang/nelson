@@ -1,6 +1,7 @@
 Features:
 ---------
 
+  * eval function: evaluates string for execution in Nelson.
   * winqueryreg function read the Windows registry (Windows only).
   * factorial function.
   * gamma function.

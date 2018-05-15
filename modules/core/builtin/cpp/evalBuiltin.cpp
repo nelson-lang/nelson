@@ -17,14 +17,40 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define _CRT_SECURE_NO_WARNINGS
+#include "evalBuiltin.hpp"
+#include "Error.hpp"
+#include "EvaluateCommand.hpp"
+#include "Exception.hpp"
 //=============================================================================
-#include "nlsCore_exports.h"
-#include "Evaluator.hpp"
+using namespace Nelson;
 //=============================================================================
-namespace Nelson {
-	//=============================================================================
-	NLSCORE_IMPEXP bool EvaluateCommand(Evaluator *eval, std::wstring command, bool bCatch);
-	NLSCORE_IMPEXP bool EvaluateCommand(Evaluator *eval, std::string command, bool bCatch);
-	NLSCORE_IMPEXP ArrayOfVector EvaluateCommand(Evaluator *eval, int nLhs, std::wstring command, std::wstring catchCommand);
+ArrayOfVector Nelson::CoreGateway::evalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    if (argIn.size() == 0 || argIn.size() > 2)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    std::wstring command;
+	std::wstring catchCommand;
+    if (argIn[0].isSingleString())
+    {
+        command = argIn[0].getContentAsWideString();
+    }
+    else
+    {
+        Error(eval, _W("#1 string expected."));
+    }
+    if (argIn.size() > 1)
+    {
+        if (argIn[1].isSingleString())
+        {
+            catchCommand = argIn[1].getContentAsWideString();
+        }
+        else
+        {
+            Error(eval, _W("#2 string expected."));
+        }
+    }
+	return EvaluateCommand(eval, nLhs, command, catchCommand);
 }
 //=============================================================================

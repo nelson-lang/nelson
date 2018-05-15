@@ -16,15 +16,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#define _CRT_SECURE_NO_WARNINGS
+#pragma once
 //=============================================================================
-#include "nlsCore_exports.h"
+#include "ArrayOf.hpp"
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-	//=============================================================================
-	NLSCORE_IMPEXP bool EvaluateCommand(Evaluator *eval, std::wstring command, bool bCatch);
-	NLSCORE_IMPEXP bool EvaluateCommand(Evaluator *eval, std::string command, bool bCatch);
-	NLSCORE_IMPEXP ArrayOfVector EvaluateCommand(Evaluator *eval, int nLhs, std::wstring command, std::wstring catchCommand);
+    namespace CoreGateway {
+        ArrayOfVector evalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    }
 }
 //=============================================================================
