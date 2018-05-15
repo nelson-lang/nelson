@@ -16,16 +16,16 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "evalBuiltin.hpp"
+#include "evalcBuiltin.hpp"
 #include "Error.hpp"
 #include "EvaluateCommand.hpp"
 #include "Exception.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::CoreGateway::evalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector Nelson::CoreGateway::evalcBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (argIn.size() == 0 || argIn.size() > 2)
+    if (argIn.size() < 1 || argIn.size() > 2)
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
@@ -50,6 +50,6 @@ ArrayOfVector Nelson::CoreGateway::evalBuiltin(Evaluator* eval, int nLhs, const 
             Error(eval, _W("#2 string expected."));
         }
     }
-	return EvaluateCommand(eval, nLhs, command, catchCommand);
+	return EvaluateConsoleCommand(eval, nLhs, command, catchCommand);
 }
 //=============================================================================

@@ -16,7 +16,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#define _CRT_SECURE_NO_WARNINGS
 #include "evalinBuiltin.hpp"
 #include "Error.hpp"
 #include "EvaluateCommand.hpp"
@@ -25,7 +24,7 @@ using namespace Nelson;
 //=============================================================================
 ArrayOfVector Nelson::CoreGateway::evalinBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (argIn.size() == 0 || argIn.size() > 3)
+    if (argIn.size() != 2)
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
@@ -62,24 +61,11 @@ ArrayOfVector Nelson::CoreGateway::evalinBuiltin(Evaluator* eval, int nLhs, cons
 	if (argIn[1].isSingleString())
 	{
 		command = argIn[1].getContentAsWideString();
-
 	}
 	else
 	{
 		Error(eval, _W("#2 string expected."));
 	}
-
-    if (argIn.size() > 2)
-    {
-        if (argIn[2].isSingleString())
-        {
-            catchCommand = argIn[2].getContentAsWideString();
-        }
-        else
-        {
-            Error(eval, _W("#3 string expected."));
-        }
-    }
-	return EvaluateCommand(eval, nLhs, command, catchCommand);
+	return EvaluateInCommand(eval, nLhs, scope, command);
 }
 //=============================================================================

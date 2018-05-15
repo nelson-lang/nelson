@@ -16,40 +16,33 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "evalBuiltin.hpp"
-#include "Error.hpp"
-#include "EvaluateCommand.hpp"
-#include "Exception.hpp"
+#pragma once
+//=============================================================================
+#include <string>
+#include "nlsCore_exports.h"
+#include "Interface.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::CoreGateway::evalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    if (argIn.size() == 0 || argIn.size() > 2)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    std::wstring command;
-	std::wstring catchCommand;
-    if (argIn[0].isSingleString())
-    {
-        command = argIn[0].getContentAsWideString();
-    }
-    else
-    {
-        Error(eval, _W("#1 string expected."));
-    }
-    if (argIn.size() > 1)
-    {
-        if (argIn[1].isSingleString())
-        {
-            catchCommand = argIn[1].getContentAsWideString();
-        }
-        else
-        {
-            Error(eval, _W("#2 string expected."));
-        }
-    }
-	return EvaluateCommand(eval, nLhs, command, catchCommand);
-}
+class NLSCORE_IMPEXP EvaluateInterface : public Interface {
+#define WIDTH 80
+public:
+	EvaluateInterface();
+	~EvaluateInterface();
+	std::wstring getLine(std::wstring prompt);
+	std::string getLine(std::string prompt);
+	std::wstring getInput(std::wstring prompt);
+	size_t getTerminalWidth();
+	void outputMessage(std::wstring msg);
+	void outputMessage(std::string msg);
+	void errorMessage(std::wstring msg);
+	void errorMessage(std::string msg);
+	void warningMessage(std::wstring msg);
+	void warningMessage(std::string msg);
+	void clearTerminal();
+	bool isAtPrompt();
+	std::wstring getOutputBuffer();
+private:
+	std::wstring outputBuffer;
+};
 //=============================================================================

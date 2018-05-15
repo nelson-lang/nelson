@@ -51,6 +51,7 @@ nlsOs_functions
 nlsInterpreter
 nlsTypes
 nlsError_manager
+nlsStream_manager
 nlsCharacters_encoding
 nlsI18n
 nlsString

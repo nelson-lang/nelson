@@ -3716,6 +3716,11 @@ namespace Nelson {
         }
     }
 
+	void Evaluator::setInterface(Interface *_io)
+	{
+		io = _io;
+	}
+
     Interface* Evaluator::getInterface()
     {
         return io;

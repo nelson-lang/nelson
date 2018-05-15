@@ -2,6 +2,8 @@ Features:
 ---------
 
   * eval function: evaluates string for execution in Nelson.
+  * evalin function: evaluates string for execution in Nelson in a specified scope.
+  * evalc function: Evaluate Nelson code with console capture.
   * winqueryreg function read the Windows registry (Windows only).
   * factorial function.
   * gamma function.

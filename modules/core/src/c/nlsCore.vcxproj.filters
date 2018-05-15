@@ -57,6 +57,9 @@
     <ClInclude Include="..\include\ComputionalThreads.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\EvaluateInterface.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\GetNelsonPath.cpp">
@@ -96,6 +99,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\ComputionalThreads.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\EvaluateInterface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

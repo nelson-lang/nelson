@@ -4,7 +4,7 @@
 
 	<language>en_US</language>
 	<keyword>eval</keyword>
-	<short_description>Evaluate Nelson code in strings.</short_description>
+	<short_description>Evaluate Nelson code in string.</short_description>
 
 	<syntax>
 		<syntax_item>eval(str)</syntax_item>
@@ -30,7 +30,7 @@
 	<param_output>
 
 		<param_output_item>
-			<param_name>bS[r1, ... rn]</param_name>
+			<param_name>[r1, ... rn]</param_name>
 			<param_description>results: output variables</param_description>
 		</param_output_item>
 	</param_output>
@@ -80,6 +80,13 @@
 		<see_also_item>
 			<link linkend="${core}execstr">execstr</link>
 		</see_also_item>
+		<see_also_item>
+			<link linkend="${core}evalc">evalc</link>
+		</see_also_item>
+		<see_also_item>
+			<link linkend="${core}evalin">evalin</link>
+		</see_also_item>
+
 	</see_also>
 
 	<history>

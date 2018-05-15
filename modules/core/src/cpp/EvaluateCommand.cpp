@@ -23,6 +23,7 @@
 #include "Exception.hpp"
 #include "Error.hpp"
 #include "AstManager.hpp"
+#include "EvaluateInterface.hpp"
 //=============================================================================
 namespace Nelson {
 	//=============================================================================
@@ -179,13 +180,74 @@ namespace Nelson {
 		return EvaluateCommand(eval, nLhs, command, catchCommand, SCOPE_LEVEL::LOCAL_SCOPE);
 	}
 	//=============================================================================
-	ArrayOfVector EvaluateInCommand(Evaluator *eval, int nLhs, SCOPE_LEVEL scope, std::wstring command, std::wstring catchCommand)
+	ArrayOfVector EvaluateInCommand(Evaluator *eval, int nLhs, SCOPE_LEVEL scope, std::wstring command)
 	{
 		if (scope == GLOBAL_SCOPE)
 		{
 			Error(eval, _W("'local', 'caller', 'base' scope expected."));
 		}
-		return EvaluateCommand(eval, nLhs, command, catchCommand, scope);
+		return EvaluateCommand(eval, nLhs, command, L"", scope);
+	}
+	//=============================================================================
+	ArrayOfVector EvaluateConsoleCommand(Evaluator *eval, int nLhs, std::wstring command, std::wstring catchCommand)
+	{
+		ArrayOfVector retval;
+		Interface *io = eval->getInterface();
+		EvaluateInterface *tempIO = nullptr;
+		try
+		{
+			tempIO = new EvaluateInterface();
+		}
+		catch (std::bad_alloc)
+		{
+			throw Exception(ERROR_MEMORY_ALLOCATION);
+		}
+		eval->setInterface(tempIO);
+		eval->getContext()->bypassScope(0);
+		std::wstring buffer;
+		int nbOutput;
+		if (nLhs == 0)
+		{
+			nbOutput = 0;
+		}
+		else
+		{
+			nbOutput = nLhs - 1;
+		}
+		try
+		{
+			retval = EvaluateCommand(eval, nbOutput, command, L"");
+			buffer = tempIO->getOutputBuffer();
+			eval->setInterface(io);
+			delete tempIO;
+		}
+		catch (Exception)
+		{
+			if (catchCommand != L"")
+			{
+				try
+				{
+					retval = EvaluateCommand(eval, nbOutput, catchCommand, L"");
+					buffer = tempIO->getOutputBuffer();
+					eval->setInterface(io);
+					delete tempIO;
+				}
+				catch (Exception)
+				{
+					eval->setInterface(io);
+					delete tempIO;
+					throw;
+				}
+			}
+			else
+			{
+				eval->setInterface(io);
+				delete tempIO;
+				throw;
+			}
+		}
+		retval.insert(retval.begin(), ArrayOf::stringConstructor(buffer));
+		return retval;
 	}
 	//=============================================================================
 }

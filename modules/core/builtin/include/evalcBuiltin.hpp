@@ -16,40 +16,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "evalBuiltin.hpp"
-#include "Error.hpp"
-#include "EvaluateCommand.hpp"
-#include "Exception.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
-ArrayOfVector Nelson::CoreGateway::evalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    if (argIn.size() == 0 || argIn.size() > 2)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+namespace Nelson {
+    namespace CoreGateway {
+        ArrayOfVector evalcBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
     }
-    std::wstring command;
-	std::wstring catchCommand;
-    if (argIn[0].isSingleString())
-    {
-        command = argIn[0].getContentAsWideString();
-    }
-    else
-    {
-        Error(eval, _W("#1 string expected."));
-    }
-    if (argIn.size() > 1)
-    {
-        if (argIn[1].isSingleString())
-        {
-            catchCommand = argIn[1].getContentAsWideString();
-        }
-        else
-        {
-            Error(eval, _W("#2 string expected."));
-        }
-    }
-	return EvaluateCommand(eval, nLhs, command, catchCommand);
 }
 //=============================================================================
