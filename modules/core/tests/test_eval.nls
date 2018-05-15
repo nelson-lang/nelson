@@ -16,7 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-assert_isequal(nargin('eval'), 2);
+assert_isequal(nargin('eval'), 1);
 assert_isequal(nargout('eval'), -1);
 //=============================================================================
 A = rand(3, 4);
