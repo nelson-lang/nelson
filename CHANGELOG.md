@@ -19,6 +19,8 @@ Features:
 Bug Fixes:
 ---------
 
+  * [#123](http://github.com/Nelson-numerical-software/nelson/issues/123): addpath stopped to work after repeatedly call to the same path.
+
   * [#118](http://github.com/Nelson-numerical-software/nelson/issues/118): add information in  DEVELOPMENT.md about how to buid Boost on old Ubuntu versions.
 
   * [#109](http://github.com/Nelson-numerical-software/nelson/issues/109): add missing horzcat, vertcat for all handle types.
