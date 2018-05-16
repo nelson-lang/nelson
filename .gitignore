@@ -30,6 +30,7 @@ tests_*.json
 /bin/*/nelson-cli.exe
 /bin/*/nelson_f2c
 /modules/main/help/*/html/CHANGELOG.html
+/modules/main/help/*/html/CHANGELOG-0.1.x.html
 /modules/main/help/*/html/license.html
 /modules/main/help/*/html/GPL2.html
 /modules/*/nls*_autogen

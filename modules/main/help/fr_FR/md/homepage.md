@@ -12,4 +12,5 @@ Essayez-le !
 * * *
 
 *   [Journal des modifications](CHANGELOG.md)
+*   [Journal des modifications v0.1.x](CHANGELOG-0.1.x.md)
 *   [Licence de Nelson](license.md)

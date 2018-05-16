@@ -21,5 +21,6 @@ Source: {#RootPath}CONTRIBUTORS.md; DestDir: {app}\
 Source: {#RootPath}README.md; DestDir: {app}\
 Source: {#RootPath}THIRDPARTY.md; DestDir: {app}\
 Source: {#RootPath}CHANGELOG.md; DestDir: {app}\
+Source: {#RootPath}CHANGELOG-0.1.x.md; DestDir: {app}\
 Source: {#RootPath}CLA.md; DestDir: {app}\
 ;==============================================================================
