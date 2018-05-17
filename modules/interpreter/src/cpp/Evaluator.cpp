@@ -595,10 +595,22 @@ namespace Nelson {
 					bool bSuccess;
 					ArrayOf a = expression(t->down);
 					ArrayOf b = expression(t->down->right);
-					ArrayOf res = OverloadBinaryOperator(this, a, b, "eq", bSuccess);
-					if (!bSuccess)
+					ArrayOf res;
+					if (!overloadOnBasicTypes)
 					{
-						res = Equals(a, b);
+						res = Equals(a, b, false, bSuccess);
+						if (!bSuccess)
+						{
+							res = OverloadBinaryOperator(this, a, b, "eq", bSuccess);
+						}
+					}
+					else
+					{
+						res = OverloadBinaryOperator(this, a, b, "eq", bSuccess);
+						if (!bSuccess)
+						{
+							res = Equals(a, b, true, bSuccess);
+						}
 					}
 					return res;
                 }

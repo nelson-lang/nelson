@@ -50,7 +50,7 @@ ArrayOfVector Nelson::ElementaryFunctionsGateway::eqBuiltin(Evaluator* eval, int
         {
             OverloadRequired(eval, argIn, Nelson::BINARY);
         }
-        retval.push_back(Equals(argIn[0], argIn[1]));
+        retval.push_back(Equals(argIn[0], argIn[1], true, bSuccess));
     }
     return retval;
 }

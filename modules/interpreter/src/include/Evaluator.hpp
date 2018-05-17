@@ -153,6 +153,12 @@ namespace Nelson {
 
         void *HistoryManager = nullptr;
 
+		// by default, overload on basic types is called after hardcoded operators.
+		// faster but double, single, char, logical, integers does not allow overload.
+		// "overloadbasictypes(true)" modify this behavior.
+		// overload on basic types can be usefull (example: code generator).
+		bool overloadOnBasicTypes = false;
+
         OutputFormatDisplay getCurrentOutputFormatDisplay();
         void setCurrentOutputFormatDisplay(OutputFormatDisplay newFormat);
 

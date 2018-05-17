@@ -98,13 +98,28 @@ namespace Nelson {
         }
     }
     //=============================================================================
-    ArrayOf Equals(ArrayOf A, ArrayOf B)
+	ArrayOf Equals(ArrayOf A, ArrayOf B, bool mustRaiseError, bool &bSuccess)
     {
         // Process the two arguments through the type check and dimension checks...
         VectorCheck(A, B, "==");
         Class classCommon = FindCommonType(A, B, false);
-        A.promoteType(classCommon);
-        B.promoteType(classCommon);
+		try
+		{
+			A.promoteType(classCommon);
+			B.promoteType(classCommon);
+		}
+		catch (Exception)
+		{
+			if (mustRaiseError)
+			{
+				throw;
+			}
+			else
+			{
+				bSuccess = false;
+				return ArrayOf();
+			}
+		}
         int Astride = 0, Bstride = 0;
         indexType Clen = 0;
         Dimensions Cdim;
@@ -202,10 +217,19 @@ namespace Nelson {
             break;
             default:
             {
-                throw Exception(_W("Eq: type(s) not managed."));
+				if (mustRaiseError)
+				{
+					throw Exception(_W("Eq: type(s) not managed."));
+				}
+				else
+				{
+					bSuccess = false;
+					return ArrayOf();
+				}
             }
             break;
         }
+		bSuccess = true;
         return ArrayOf(NLS_LOGICAL, Cdim, Cp);
     }
     //=============================================================================
