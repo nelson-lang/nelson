@@ -260,29 +260,29 @@ namespace Nelson {
     bool PathFuncManager::addPath(const std::wstring path, bool begin)
     {
         bool res = false;
-		for (boost::container::vector<PathFunc *>::iterator it = _pathFuncVector.begin(); it != _pathFuncVector.end(); ++it)
-		{
-			PathFunc *pfl = *it;
-			if (pfl)
-			{
-				boost::filesystem::path p1 {pfl->getPath()}, p2 {path};
-				if (boost::filesystem::equivalent(p1, p2))
-				{
-					return false;
-				}
-			}
-		}
-		PathFunc *pf;
-		try
-		{
-			pf = new PathFunc(path);
-		}
-		catch (std::bad_alloc)
-		{
-			pf = nullptr;
-		}
-		if (pf)
-		{
+        for (boost::container::vector<PathFunc *>::iterator it = _pathFuncVector.begin(); it != _pathFuncVector.end(); ++it)
+        {
+            PathFunc *pfl = *it;
+            if (pfl)
+            {
+                boost::filesystem::path p1 {pfl->getPath()}, p2 {path};
+                if (boost::filesystem::equivalent(p1, p2))
+                {
+                    return false;
+                }
+            }
+        }
+        PathFunc *pf;
+        try
+        {
+            pf = new PathFunc(path);
+        }
+        catch (std::bad_alloc)
+        {
+            pf = nullptr;
+        }
+        if (pf)
+        {
             if (begin)
             {
                 _pathFuncVector.insert(_pathFuncVector.begin(), pf);
@@ -558,7 +558,7 @@ namespace Nelson {
             }
         }
         cachedPathFunc.clear();
-		Overloading::clearPreviousCachedFunctionDefinition();
+        Overloading::clearPreviousCachedFunctionDefinition();
     }
     //=============================================================================
     void PathFuncManager::clearCache(stringVector exceptedFunctions)
@@ -582,7 +582,7 @@ namespace Nelson {
             }
         }
         cachedPathFunc.clear();
-		Overloading::clearPreviousCachedFunctionDefinition();
+        Overloading::clearPreviousCachedFunctionDefinition();
         cachedPathFunc = backup;
     }
     //=============================================================================

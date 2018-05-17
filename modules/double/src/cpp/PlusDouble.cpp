@@ -64,44 +64,44 @@ namespace Nelson {
         {
             Cdim = a.getDimensions();
         }
-		ArrayOf res;
-		if (a.isScalar() && b.isScalar())
-		{
-			double *ptrA = (double*)a.getDataPointer();
-			double *ptrB = (double*)b.getDataPointer();
-			res = ArrayOf::doubleConstructor(ptrA[0] + ptrB[0]);
-		}
-		else
-		{
-			indexType Clen = Cdim.getElementCount();
-			void *Cp = new_with_exception<double>(Clen);
-			size_t mC = Cdim.getRows();
-			size_t nC = Cdim.getColumns();
-			Eigen::Map<Eigen::MatrixXd> matC((double*)Cp, mC, nC);
-			Dimensions dimA = a.getDimensions();
-			size_t mA = dimA.getRows();
-			size_t nA = dimA.getColumns();
-			Dimensions dimB = b.getDimensions();
-			size_t mB = dimB.getRows();
-			size_t nB = dimB.getColumns();
-			if (a.isScalar())
-			{
-				Eigen::Map<Eigen::MatrixXd> matB((double*)b.getDataPointer(), mB, nB);
-				matC = a.getContentAsDoubleScalar() + matB.array();
-			}
-			else if (b.isScalar())
-			{
-				Eigen::Map<Eigen::MatrixXd> matA((double*)a.getDataPointer(), mA, nA);
-				matC = matA.array() + b.getContentAsDoubleScalar();
-			}
-			else
-			{
-				Eigen::Map<Eigen::MatrixXd> matA((double*)a.getDataPointer(), mA, nA);
-				Eigen::Map<Eigen::MatrixXd> matB((double*)b.getDataPointer(), mB, nB);
-				matC = matA + matB;
-			}
-			res = ArrayOf(NLS_DOUBLE, Cdim, Cp, false);
-		}
+        ArrayOf res;
+        if (a.isScalar() && b.isScalar())
+        {
+            double *ptrA = (double*)a.getDataPointer();
+            double *ptrB = (double*)b.getDataPointer();
+            res = ArrayOf::doubleConstructor(ptrA[0] + ptrB[0]);
+        }
+        else
+        {
+            indexType Clen = Cdim.getElementCount();
+            void *Cp = new_with_exception<double>(Clen);
+            size_t mC = Cdim.getRows();
+            size_t nC = Cdim.getColumns();
+            Eigen::Map<Eigen::MatrixXd> matC((double*)Cp, mC, nC);
+            Dimensions dimA = a.getDimensions();
+            size_t mA = dimA.getRows();
+            size_t nA = dimA.getColumns();
+            Dimensions dimB = b.getDimensions();
+            size_t mB = dimB.getRows();
+            size_t nB = dimB.getColumns();
+            if (a.isScalar())
+            {
+                Eigen::Map<Eigen::MatrixXd> matB((double*)b.getDataPointer(), mB, nB);
+                matC = a.getContentAsDoubleScalar() + matB.array();
+            }
+            else if (b.isScalar())
+            {
+                Eigen::Map<Eigen::MatrixXd> matA((double*)a.getDataPointer(), mA, nA);
+                matC = matA.array() + b.getContentAsDoubleScalar();
+            }
+            else
+            {
+                Eigen::Map<Eigen::MatrixXd> matA((double*)a.getDataPointer(), mA, nA);
+                Eigen::Map<Eigen::MatrixXd> matB((double*)b.getDataPointer(), mB, nB);
+                matC = matA + matB;
+            }
+            res = ArrayOf(NLS_DOUBLE, Cdim, Cp, false);
+        }
         return res;
     }
     //=============================================================================
@@ -150,75 +150,75 @@ namespace Nelson {
         {
             Cdim = a.getDimensions();
         }
-		ArrayOf res;
-		if (a.isScalar() && b.isScalar())
-		{
-			res = a;
-			res.ensureSingleOwner();
-			double *da = (double*)a.getDataPointer();
-			double *db = (double*)b.getDataPointer();
-			double *dres = (double*)res.getDataPointer();
-			dres[0] = da[0] + db[0];
-			dres[1] = da[1] + db[1];
-		}
-		else
-		{
-			indexType Clen = Cdim.getElementCount();
-			void *Cp = new_with_exception<double>(Clen * 2);
-			doublecomplex* Cz = reinterpret_cast<doublecomplex*>(Cp);
-			size_t mC = Cdim.getRows();
-			size_t nC = Cdim.getColumns();
-			Eigen::Map<Eigen::MatrixXcd> matC(Cz, mC, nC);
-			Dimensions dimA = a.getDimensions();
-			size_t mA = dimA.getRows();
-			size_t nA = dimA.getColumns();
-			Dimensions dimB = b.getDimensions();
-			size_t mB = dimB.getRows();
-			size_t nB = dimB.getColumns();
-			if (a.isScalar())
-			{
-				double *da = (double*)a.getDataPointer();
-				doublecomplex* Az = reinterpret_cast<doublecomplex*>(da);
-				if (b.getDataClass() == NLS_DCOMPLEX)
-				{
-					double *db = (double*)b.getDataPointer();
-					doublecomplex* Bz = reinterpret_cast<doublecomplex*>(db);
-					Eigen::Map<Eigen::MatrixXcd> matB(Bz, mB, nB);
-					matC = Az[0] + matB.array();
-				}
-				else
-				{
-					double *Bz = (double*)b.getDataPointer();
-					Eigen::Map<Eigen::MatrixXd> matB(Bz, mB, nB);
-					matC = Az[0] + matB.cast<doublecomplex>().array();
-				}
-			}
-			else if (b.isScalar())
-			{
-				doublecomplex* Bz = reinterpret_cast<doublecomplex*>((double*)b.getDataPointer());
-				if (a.getDataClass() == NLS_DCOMPLEX)
-				{
-					doublecomplex* Az = reinterpret_cast<doublecomplex*>((double*)a.getDataPointer());
-					Eigen::Map<Eigen::MatrixXcd> matA(Az, mA, nA);
-					matC = matA.array() + Bz[0];
-				}
-				else
-				{
-					double *Az = (double*)a.getDataPointer();
-					Eigen::Map<Eigen::MatrixXd> matA(Az, mA, nA);
-					matC = matA.cast<doublecomplex>().array() + Bz[0];
-				}
-			}
-			else
-			{
-				doublecomplex* Az = reinterpret_cast<doublecomplex*>((double*)a.getDataPointer());
-				Eigen::Map<Eigen::MatrixXcd> matA(Az, mA, nA);
-				doublecomplex* Bz = reinterpret_cast<doublecomplex*>((double*)b.getDataPointer());
-				Eigen::Map<Eigen::MatrixXcd> matB(Bz, mB, nB);
-				matC = matA + matB;
-			}
-			res = ArrayOf(NLS_DCOMPLEX, Cdim, Cp, false);
-		}
+        ArrayOf res;
+        if (a.isScalar() && b.isScalar())
+        {
+            res = a;
+            res.ensureSingleOwner();
+            double *da = (double*)a.getDataPointer();
+            double *db = (double*)b.getDataPointer();
+            double *dres = (double*)res.getDataPointer();
+            dres[0] = da[0] + db[0];
+            dres[1] = da[1] + db[1];
+        }
+        else
+        {
+            indexType Clen = Cdim.getElementCount();
+            void *Cp = new_with_exception<double>(Clen * 2);
+            doublecomplex* Cz = reinterpret_cast<doublecomplex*>(Cp);
+            size_t mC = Cdim.getRows();
+            size_t nC = Cdim.getColumns();
+            Eigen::Map<Eigen::MatrixXcd> matC(Cz, mC, nC);
+            Dimensions dimA = a.getDimensions();
+            size_t mA = dimA.getRows();
+            size_t nA = dimA.getColumns();
+            Dimensions dimB = b.getDimensions();
+            size_t mB = dimB.getRows();
+            size_t nB = dimB.getColumns();
+            if (a.isScalar())
+            {
+                double *da = (double*)a.getDataPointer();
+                doublecomplex* Az = reinterpret_cast<doublecomplex*>(da);
+                if (b.getDataClass() == NLS_DCOMPLEX)
+                {
+                    double *db = (double*)b.getDataPointer();
+                    doublecomplex* Bz = reinterpret_cast<doublecomplex*>(db);
+                    Eigen::Map<Eigen::MatrixXcd> matB(Bz, mB, nB);
+                    matC = Az[0] + matB.array();
+                }
+                else
+                {
+                    double *Bz = (double*)b.getDataPointer();
+                    Eigen::Map<Eigen::MatrixXd> matB(Bz, mB, nB);
+                    matC = Az[0] + matB.cast<doublecomplex>().array();
+                }
+            }
+            else if (b.isScalar())
+            {
+                doublecomplex* Bz = reinterpret_cast<doublecomplex*>((double*)b.getDataPointer());
+                if (a.getDataClass() == NLS_DCOMPLEX)
+                {
+                    doublecomplex* Az = reinterpret_cast<doublecomplex*>((double*)a.getDataPointer());
+                    Eigen::Map<Eigen::MatrixXcd> matA(Az, mA, nA);
+                    matC = matA.array() + Bz[0];
+                }
+                else
+                {
+                    double *Az = (double*)a.getDataPointer();
+                    Eigen::Map<Eigen::MatrixXd> matA(Az, mA, nA);
+                    matC = matA.cast<doublecomplex>().array() + Bz[0];
+                }
+            }
+            else
+            {
+                doublecomplex* Az = reinterpret_cast<doublecomplex*>((double*)a.getDataPointer());
+                Eigen::Map<Eigen::MatrixXcd> matA(Az, mA, nA);
+                doublecomplex* Bz = reinterpret_cast<doublecomplex*>((double*)b.getDataPointer());
+                Eigen::Map<Eigen::MatrixXcd> matB(Bz, mB, nB);
+                matC = matA + matB;
+            }
+            res = ArrayOf(NLS_DCOMPLEX, Cdim, Cp, false);
+        }
         if (res.allReal())
         {
             res.promoteType(NLS_DOUBLE);

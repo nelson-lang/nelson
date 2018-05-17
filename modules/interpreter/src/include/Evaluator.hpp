@@ -153,11 +153,11 @@ namespace Nelson {
 
         void *HistoryManager = nullptr;
 
-		// by default, overload on basic types is called after hardcoded operators.
-		// faster but double, single, char, logical, integers does not allow overload.
-		// "overloadbasictypes(true)" modify this behavior.
-		// overload on basic types can be usefull (example: code generator).
-		bool overloadOnBasicTypes = false;
+        // by default, overload on basic types is called after hardcoded operators.
+        // faster but double, single, char, logical, integers does not allow overload.
+        // "overloadbasictypes(true)" modify this behavior.
+        // overload on basic types can be usefull (example: code generator).
+        bool overloadOnBasicTypes = false;
 
         OutputFormatDisplay getCurrentOutputFormatDisplay();
         void setCurrentOutputFormatDisplay(OutputFormatDisplay newFormat);
@@ -364,8 +364,8 @@ namespace Nelson {
          * Special case the single assignment statement 'A = B' for speed.
          */
         inline ArrayOf rhsExpressionSimple(ASTPtr t);
-		
-		void setInterface(Interface *_io);
+
+        void setInterface(Interface *_io);
         Interface* getInterface();
         /**
          * Process an AST to form an lvalue in an assignment statement.
@@ -634,7 +634,7 @@ namespace Nelson {
          * and execute it.
          */
         bool evaluateString(std::string cmdToEvaluate, bool propogateException = true);
-		bool evaluateString(std::wstring cmdToEvaluate, bool propogateException = true);
+        bool evaluateString(std::wstring cmdToEvaluate, bool propogateException = true);
 
         std::wstring getCurrentEvaluateFilename();
         void pushEvaluateFilenameList(const std::wstring filename);

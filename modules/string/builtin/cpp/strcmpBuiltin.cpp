@@ -36,14 +36,14 @@ static ArrayOfVector strcmpBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     }
     // Call overload if it exists
     bool bSuccess = false;
-	if (bCaseSensitive)
-	{
-		retval = OverloadFunction(eval, nLhs, argIn, "strcmp", bSuccess);
-	}
-	else
-	{
-		retval = OverloadFunction(eval, nLhs, argIn, "strcmpi", bSuccess);
-	}
+    if (bCaseSensitive)
+    {
+        retval = OverloadFunction(eval, nLhs, argIn, "strcmp", bSuccess);
+    }
+    else
+    {
+        retval = OverloadFunction(eval, nLhs, argIn, "strcmpi", bSuccess);
+    }
     if (!bSuccess)
     {
         ArrayOf A = argIn[0];

@@ -386,7 +386,7 @@ namespace Nelson {
     ArrayOf Evaluator::Or(ASTPtr t)
     {
         pushID(t->context());
-		ArrayOf retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "or");
+        ArrayOf retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "or");
         popID();
         return retval;
     }
@@ -394,7 +394,7 @@ namespace Nelson {
     ArrayOf Evaluator::And(ASTPtr t)
     {
         pushID(t->context());
-		ArrayOf retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "and");
+        ArrayOf retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "and");
         popID();
         return retval;
     }
@@ -402,15 +402,15 @@ namespace Nelson {
     ArrayOf Evaluator::ShortCutOr(ASTPtr t)
     {
         pushID(t->context());
-		ArrayOf retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "shortcutor");
-		popID();
+        ArrayOf retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "shortcutor");
+        popID();
         return retval;
     }
 
     ArrayOf Evaluator::ShortCutAnd(ASTPtr t)
     {
         pushID(t->context());
-		ArrayOf retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "shortcutand");
+        ArrayOf retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "shortcutand");
         return retval;
     }
 
@@ -529,52 +529,52 @@ namespace Nelson {
                 break;
                 case OP_PLUS:
                 {
-					bool bSuccess;
-					ArrayOf a = expression(t->down);
-					ArrayOf b = expression(t->down->right);
-					if (!overloadOnBasicTypes)
-					{
-						retval = Addition(a, b, false, bSuccess);
-						if (!bSuccess)
-						{
-							retval = OverloadBinaryOperator(this, a, b, "plus", bSuccess);
-							if (!bSuccess)
-							{
-								ArrayOfVector argsIn;
-								argsIn.push_back(a);
-								argsIn.push_back(b);
-								OverloadRequired(this, argsIn, Nelson::BINARY, "plus");
-							}
-						}
-					}
-					else
-					{
-						retval = OverloadBinaryOperator(this, a, b, "plus", bSuccess);
-						if (!bSuccess)
-						{
-							retval = Addition(a, b, true, bSuccess);
-						}
-					}
-				}
+                    bool bSuccess;
+                    ArrayOf a = expression(t->down);
+                    ArrayOf b = expression(t->down->right);
+                    if (!overloadOnBasicTypes)
+                    {
+                        retval = Addition(a, b, false, bSuccess);
+                        if (!bSuccess)
+                        {
+                            retval = OverloadBinaryOperator(this, a, b, "plus", bSuccess);
+                            if (!bSuccess)
+                            {
+                                ArrayOfVector argsIn;
+                                argsIn.push_back(a);
+                                argsIn.push_back(b);
+                                OverloadRequired(this, argsIn, Nelson::BINARY, "plus");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        retval = OverloadBinaryOperator(this, a, b, "plus", bSuccess);
+                        if (!bSuccess)
+                        {
+                            retval = Addition(a, b, true, bSuccess);
+                        }
+                    }
+                }
                 break;
                 case OP_SUBTRACT:
                 {
-					retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "minus");
+                    retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "minus");
                 }
                 break;
                 case OP_TIMES:
                 {
-					retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "mtimes");
+                    retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "mtimes");
                 }
                 break;
                 case OP_RDIV:
                 {
-					retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "mrdivide");
+                    retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "mrdivide");
                 }
                 break;
                 case OP_LDIV:
                 {
-					retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "mldivide");
+                    retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "mldivide");
                 }
                 break;
                 case OP_SOR:
@@ -599,119 +599,119 @@ namespace Nelson {
                 break;
                 case OP_LT:
                 {
-					retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "lt");
+                    retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "lt");
                 }
                 break;
                 case OP_LEQ:
                 {
-					retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "le");
+                    retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "le");
                 }
                 break;
                 case OP_GT:
                 {
-					retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "gt");
+                    retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "gt");
                 }
                 break;
                 case OP_GEQ:
                 {
-					retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "ge");
+                    retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "ge");
                 }
                 break;
                 case OP_EQ:
                 {
-					bool bSuccess;
-					ArrayOf a = expression(t->down);
-					ArrayOf b = expression(t->down->right);
-					if (!overloadOnBasicTypes)
-					{
-						retval = Equals(a, b, false, bSuccess);
-						if (!bSuccess)
-						{
-							retval = OverloadBinaryOperator(this, a, b, "eq", bSuccess);
-							if (!bSuccess)
-							{
-								ArrayOfVector argsIn;
-								argsIn.push_back(a);
-								argsIn.push_back(b);
-								OverloadRequired(this, argsIn, Nelson::BINARY, "eq");
-							}
-						}
-					}
-					else
-					{
-						retval = OverloadBinaryOperator(this, a, b, "eq", bSuccess);
-						if (!bSuccess)
-						{
-							retval = Equals(a, b, true, bSuccess);
-						}
-					}
+                    bool bSuccess;
+                    ArrayOf a = expression(t->down);
+                    ArrayOf b = expression(t->down->right);
+                    if (!overloadOnBasicTypes)
+                    {
+                        retval = Equals(a, b, false, bSuccess);
+                        if (!bSuccess)
+                        {
+                            retval = OverloadBinaryOperator(this, a, b, "eq", bSuccess);
+                            if (!bSuccess)
+                            {
+                                ArrayOfVector argsIn;
+                                argsIn.push_back(a);
+                                argsIn.push_back(b);
+                                OverloadRequired(this, argsIn, Nelson::BINARY, "eq");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        retval = OverloadBinaryOperator(this, a, b, "eq", bSuccess);
+                        if (!bSuccess)
+                        {
+                            retval = Equals(a, b, true, bSuccess);
+                        }
+                    }
                 }
                 break;
                 case OP_NEQ:
                 {
-					retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "ne");
+                    retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "ne");
                 }
                 break;
                 case OP_DOT_TIMES:
                 {
-					retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "times");
+                    retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "times");
                 }
                 break;
                 case OP_DOT_RDIV:
                 {
-					retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "rdivide");
+                    retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "rdivide");
                 }
                 break;
                 case OP_DOT_LDIV:
                 {
-					retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "ldivide");
+                    retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "ldivide");
                 }
                 break;
                 case OP_POS:
                 {
-					retval = OverloadUnaryOperator(this, expression(t->down), "uplus");
+                    retval = OverloadUnaryOperator(this, expression(t->down), "uplus");
                 }
                 break;
                 case OP_NEG:
                 {
-					retval = OverloadUnaryOperator(this, expression(t->down), "uminus");
+                    retval = OverloadUnaryOperator(this, expression(t->down), "uminus");
                 }
                 break;
                 case OP_NOT:
                 {
-					retval = OverloadUnaryOperator(this, expression(t->down), "not");
+                    retval = OverloadUnaryOperator(this, expression(t->down), "not");
                 }
                 break;
                 case OP_POWER:
                 {
-					retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "mpower");
+                    retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "mpower");
                 }
                 break;
                 case OP_DOT_POWER:
                 {
-					retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "power");
+                    retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "power");
                 }
                 break;
                 case OP_TRANSPOSE:
                 {
-					bool bSuccess;
-					ArrayOf a = expression(t->down);
-					retval = OverloadUnaryOperator(this, a, "ctranspose", bSuccess);
-					if (!bSuccess)
-					{
-						retval = ComplexTranspose(a);
-					}
+                    bool bSuccess;
+                    ArrayOf a = expression(t->down);
+                    retval = OverloadUnaryOperator(this, a, "ctranspose", bSuccess);
+                    if (!bSuccess)
+                    {
+                        retval = ComplexTranspose(a);
+                    }
                 }
                 break;
                 case OP_DOT_TRANSPOSE:
                 {
-					bool bSuccess;
-					ArrayOf a = expression(t->down);
-					retval = OverloadUnaryOperator(this, a, "transpose", bSuccess);
-					if (!bSuccess)
-					{
-						retval = Transpose(a);
-					}
+                    bool bSuccess;
+                    ArrayOf a = expression(t->down);
+                    retval = OverloadUnaryOperator(this, a, "transpose", bSuccess);
+                    if (!bSuccess)
+                    {
+                        retval = Transpose(a);
+                    }
                 }
                 break;
                 case OP_RHS:
@@ -789,7 +789,7 @@ namespace Nelson {
         pushID(t->context());
         a = expression(t->down);
         b = expression(t->down->right);
-		ArrayOf retval = OverloadBinaryOperator(this, a, b, "colon");
+        ArrayOf retval = OverloadBinaryOperator(this, a, b, "colon");
         popID();
         return retval;
     }
@@ -801,7 +801,7 @@ namespace Nelson {
         a = expression(t->down->down);
         b = expression(t->down->down->right);
         c = expression(t->down->right);
-		ArrayOf retval = OverloadTrinaryOperator(this, a, b, c, "colon");
+        ArrayOf retval = OverloadTrinaryOperator(this, a, b, c, "colon");
         popID();
         return retval;
     }
@@ -948,8 +948,7 @@ namespace Nelson {
         ArrayOfVector n;
         for (size_t k = 0; k < m.size(); k++)
         {
-
-			ArrayOf t = OverloadUnaryOperator(this, m[k], "subsindex");
+            ArrayOf t = OverloadUnaryOperator(this, m[k], "subsindex");
             t.promoteType(NLS_UINT32);
             size_t len = t.getLength();
             uint32 *dp = (uint32*)t.getReadWriteDataPointer();
@@ -3704,10 +3703,10 @@ namespace Nelson {
         }
     }
 
-	void Evaluator::setInterface(Interface *_io)
-	{
-		io = _io;
-	}
+    void Evaluator::setInterface(Interface *_io)
+    {
+        io = _io;
+    }
 
     Interface* Evaluator::getInterface()
     {
@@ -4257,11 +4256,11 @@ namespace Nelson {
         }
     }
     //=============================================================================
-	bool Evaluator::evaluateString(std::wstring line, bool propogateException)
-	{
-		return evaluateString(wstring_to_utf8(line), propogateException);
-	}
-	//=============================================================================
+    bool Evaluator::evaluateString(std::wstring line, bool propogateException)
+    {
+        return evaluateString(wstring_to_utf8(line), propogateException);
+    }
+    //=============================================================================
     bool Evaluator::evaluateString(std::string line, bool propogateException)
     {
         ASTPtr tree = nullptr;
@@ -4475,12 +4474,12 @@ namespace Nelson {
         int ipos = (int)cstack.size() - 1;
         if (ipos >= 0)
         {
-			std::string fullname = cstack[cstack.size() - 1].cname;
-			if (boost::algorithm::ends_with(fullname, ".nlf"))
-			{
-				boost::filesystem::path pathForStem(fullname);
-				return pathForStem.stem().string();
-			}
+            std::string fullname = cstack[cstack.size() - 1].cname;
+            if (boost::algorithm::ends_with(fullname, ".nlf"))
+            {
+                boost::filesystem::path pathForStem(fullname);
+                return pathForStem.stem().string();
+            }
             return fullname;
             //return cstack[cstack.size() - 1].detail;
         }

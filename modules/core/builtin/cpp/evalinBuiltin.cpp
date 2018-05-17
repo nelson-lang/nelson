@@ -28,44 +28,44 @@ ArrayOfVector Nelson::CoreGateway::evalinBuiltin(Evaluator* eval, int nLhs, cons
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-	SCOPE_LEVEL scope;
+    SCOPE_LEVEL scope;
     std::wstring command;
-	std::wstring catchCommand;
+    std::wstring catchCommand;
     if (argIn[0].isSingleString())
     {
-		std::wstring scopeName = argIn[0].getContentAsWideString();
-		if (scopeName == L"caller" || scopeName == L"base" || scopeName == L"local")
-		{
-			if (scopeName == L"caller")
-			{
-				scope = SCOPE_LEVEL::CALLER_SCOPE;
-			}
-			if (scopeName == L"base")
-			{
-				scope = SCOPE_LEVEL::BASE_SCOPE;
-			}
-			if (scopeName == L"local")
-			{
-				scope = SCOPE_LEVEL::LOCAL_SCOPE;
-			}
-		}
-		else
-		{
-			Error(eval, _W("Argument #1 : 'base', 'local' or 'caller' expected."));
-		}
+        std::wstring scopeName = argIn[0].getContentAsWideString();
+        if (scopeName == L"caller" || scopeName == L"base" || scopeName == L"local")
+        {
+            if (scopeName == L"caller")
+            {
+                scope = SCOPE_LEVEL::CALLER_SCOPE;
+            }
+            if (scopeName == L"base")
+            {
+                scope = SCOPE_LEVEL::BASE_SCOPE;
+            }
+            if (scopeName == L"local")
+            {
+                scope = SCOPE_LEVEL::LOCAL_SCOPE;
+            }
+        }
+        else
+        {
+            Error(eval, _W("Argument #1 : 'base', 'local' or 'caller' expected."));
+        }
     }
     else
     {
         Error(eval, _W("#1 string expected."));
     }
-	if (argIn[1].isSingleString())
-	{
-		command = argIn[1].getContentAsWideString();
-	}
-	else
-	{
-		Error(eval, _W("#2 string expected."));
-	}
-	return EvaluateInCommand(eval, nLhs, scope, command);
+    if (argIn[1].isSingleString())
+    {
+        command = argIn[1].getContentAsWideString();
+    }
+    else
+    {
+        Error(eval, _W("#2 string expected."));
+    }
+    return EvaluateInCommand(eval, nLhs, scope, command);
 }
 //=============================================================================

@@ -18,76 +18,74 @@
 //=============================================================================
 #include "OverloadCache.hpp"
 //=============================================================================
-namespace Nelson 
-{
-	//=============================================================================
-	namespace Overloading
-	{
-		//=============================================================================
-		static std::string cachedFunctionNameUnary;
-		static FunctionDef *cachedFunctionPointerUnary;
-		static std::string cachedFunctionNameBinary;
-		static FunctionDef *cachedFunctionPointerBinary;
-		static std::string cachedFunctionNameTrinary;
-		static FunctionDef *cachedFunctionPointerTrinary;
-		//=============================================================================
-		void setCachedFunction(OverloadClass oclass, std::string functionName, FunctionDef *funcptr)
-		{
-			switch (oclass)
-			{
-			case UNARY:
-				cachedFunctionNameUnary = functionName;
-				cachedFunctionPointerUnary = funcptr;
-				break;
-			case BINARY:
-				cachedFunctionNameBinary = functionName;
-				cachedFunctionPointerBinary = funcptr;
-				break;
-			case TRINARY:
-				cachedFunctionNameTrinary = functionName;
-				cachedFunctionPointerTrinary = funcptr;
-				break;
-			}
-		}
-		//=============================================================================
-		std::string getPreviousCachedFunctionName(OverloadClass oclass)
-		{
-			switch (oclass)
-			{
-			case UNARY:
-				return cachedFunctionNameUnary;
-			case BINARY:
-				return cachedFunctionNameBinary;
-			case TRINARY:
-				return cachedFunctionNameTrinary;
-			}
-		}
-		//=============================================================================
-		FunctionDef * getPreviousCachedFunctionDefinition(OverloadClass oclass)
-		{
-			switch (oclass)
-			{
-			case UNARY:
-				return cachedFunctionPointerUnary;
-			case BINARY:
-				return cachedFunctionPointerBinary;
-			case TRINARY:
-				return cachedFunctionPointerTrinary;
-			}
-		}
-		//=============================================================================
-		void clearPreviousCachedFunctionDefinition()
-		{
-			cachedFunctionNameUnary.clear();
-			cachedFunctionPointerUnary = nullptr;
-			cachedFunctionNameBinary.clear();
-			cachedFunctionPointerBinary = nullptr;
-			cachedFunctionNameTrinary.clear();
-			cachedFunctionPointerTrinary = nullptr;
-		}
-		//=============================================================================
-	}
-	//=============================================================================
+namespace Nelson {
+    //=============================================================================
+    namespace Overloading {
+        //=============================================================================
+        static std::string cachedFunctionNameUnary;
+        static FunctionDef *cachedFunctionPointerUnary;
+        static std::string cachedFunctionNameBinary;
+        static FunctionDef *cachedFunctionPointerBinary;
+        static std::string cachedFunctionNameTrinary;
+        static FunctionDef *cachedFunctionPointerTrinary;
+        //=============================================================================
+        void setCachedFunction(OverloadClass oclass, std::string functionName, FunctionDef *funcptr)
+        {
+            switch (oclass)
+            {
+                case UNARY:
+                    cachedFunctionNameUnary = functionName;
+                    cachedFunctionPointerUnary = funcptr;
+                    break;
+                case BINARY:
+                    cachedFunctionNameBinary = functionName;
+                    cachedFunctionPointerBinary = funcptr;
+                    break;
+                case TRINARY:
+                    cachedFunctionNameTrinary = functionName;
+                    cachedFunctionPointerTrinary = funcptr;
+                    break;
+            }
+        }
+        //=============================================================================
+        std::string getPreviousCachedFunctionName(OverloadClass oclass)
+        {
+            switch (oclass)
+            {
+                case UNARY:
+                    return cachedFunctionNameUnary;
+                case BINARY:
+                    return cachedFunctionNameBinary;
+                case TRINARY:
+                    return cachedFunctionNameTrinary;
+            }
+        }
+        //=============================================================================
+        FunctionDef * getPreviousCachedFunctionDefinition(OverloadClass oclass)
+        {
+            switch (oclass)
+            {
+                case UNARY:
+                    return cachedFunctionPointerUnary;
+                case BINARY:
+                    return cachedFunctionPointerBinary;
+                case TRINARY:
+                    return cachedFunctionPointerTrinary;
+            }
+        }
+        //=============================================================================
+        void clearPreviousCachedFunctionDefinition()
+        {
+            cachedFunctionNameUnary.clear();
+            cachedFunctionPointerUnary = nullptr;
+            cachedFunctionNameBinary.clear();
+            cachedFunctionPointerBinary = nullptr;
+            cachedFunctionNameTrinary.clear();
+            cachedFunctionPointerTrinary = nullptr;
+        }
+        //=============================================================================
+    }
+    //=============================================================================
 }
 //=============================================================================
 

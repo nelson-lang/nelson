@@ -29,10 +29,10 @@ namespace Nelson {
     //=============================================================================
     const bool ArrayOf::isSparseDouble(bool realOnly) const
     {
-		if (realOnly)
-		{
-			return (dp->dataClass == NLS_DOUBLE && dp->sparse);
-		}
+        if (realOnly)
+        {
+            return (dp->dataClass == NLS_DOUBLE && dp->sparse);
+        }
         return (dp->dataClass == NLS_DOUBLE || dp->dataClass == NLS_DCOMPLEX) && (dp->sparse);
     }
     //=============================================================================

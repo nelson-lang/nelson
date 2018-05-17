@@ -64,7 +64,7 @@ static const nlsGateway gateway[] =
     { "single_ge_single", Nelson::SingleGateway::single_ge_singleBuiltin, 1, 2 },
     { "single_lt_single", Nelson::SingleGateway::single_lt_singleBuiltin, 1, 2 },
     { "single_gt_single", Nelson::SingleGateway::single_gt_singleBuiltin, 1, 2 },
-	{ "single_colon_single", Nelson::SingleGateway::single_colon_singleBuiltin, 1, 2 },
+    { "single_colon_single", Nelson::SingleGateway::single_colon_singleBuiltin, 1, 2 },
     { "colon_single_single_single", Nelson::SingleGateway::colon_single_single_singleBuiltin, 1, 3 },
 };
 //=============================================================================

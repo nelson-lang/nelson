@@ -34,7 +34,7 @@ ArrayOfVector Nelson::TypeGateway::isemptyBuiltin(Evaluator* eval, int nLhs, con
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     bool bSuccess = false;
-	retval = OverloadFunction(eval, nLhs, argIn, "isempty", bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "isempty", bSuccess);
     if (!bSuccess)
     {
         retval.push_back(ArrayOf::logicalConstructor(argIn[0].isEmpty()));

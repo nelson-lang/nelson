@@ -360,15 +360,15 @@ namespace Nelson {
         */
         const bool isDoubleSparseType(bool realOnly = false) const;
 
-		/**
-		* Returns TRUE if it is a ndarraydouble type (not sparse, not scalar, 2D matrix)
-		*/
-		const bool isNdArrayDoubleType(bool realOnly = false) const;
-		
-		/**
-		* Returns TRUE if it is a double type (not ndarray, not sparse)
-		*/
-		const bool isDoubleType(bool realOnly = false) const;
+        /**
+        * Returns TRUE if it is a ndarraydouble type (not sparse, not scalar, 2D matrix)
+        */
+        const bool isNdArrayDoubleType(bool realOnly = false) const;
+
+        /**
+        * Returns TRUE if it is a double type (not ndarray, not sparse)
+        */
+        const bool isDoubleType(bool realOnly = false) const;
 
         /**
         * Returns TRUE if it is a single type (not ndarray, not sparse)
@@ -534,11 +534,11 @@ namespace Nelson {
          */
         static ArrayOf doubleVectorConstructor(int len);
 
-		/**
-		* Single vector constructor - Construct an NLS_SINGLE object
-		* that is a (row) vector with the given length.
-		*/
-		static ArrayOf singleVectorConstructor(int len);
+        /**
+        * Single vector constructor - Construct an NLS_SINGLE object
+        * that is a (row) vector with the given length.
+        */
+        static ArrayOf singleVectorConstructor(int len);
 
         /**
         * int32 matrix constructor - Construct an NLS_INT32 object

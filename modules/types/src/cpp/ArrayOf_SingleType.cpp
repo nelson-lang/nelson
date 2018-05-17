@@ -26,19 +26,19 @@ namespace Nelson {
     */
     const bool ArrayOf::isSingleType(bool realOnly) const
     {
-		if (realOnly)
-		{
-			return (dp->dataClass == NLS_SINGLE && !dp->sparse) && is2D();
-		}
+        if (realOnly)
+        {
+            return (dp->dataClass == NLS_SINGLE && !dp->sparse) && is2D();
+        }
         return (dp->dataClass == NLS_SINGLE) || (dp->dataClass == NLS_SCOMPLEX) && (!dp->sparse) && is2D();
     }
     //=============================================================================
     const bool ArrayOf::isNdArraySingleType(bool realOnly) const
     {
-		if (realOnly)
-		{
-			return (dp->dataClass == NLS_SINGLE && !dp->sparse) && !is2D();
-		}
+        if (realOnly)
+        {
+            return (dp->dataClass == NLS_SINGLE && !dp->sparse) && !is2D();
+        }
         return (dp->dataClass == NLS_SINGLE) || (dp->dataClass == NLS_SCOMPLEX) && (!dp->sparse) && !is2D();
     }
     //=============================================================================
@@ -51,16 +51,16 @@ namespace Nelson {
         return ArrayOf(NLS_SINGLE, dim, data);
     }
     //=============================================================================
-	ArrayOf ArrayOf::singleVectorConstructor(int len)
-	{
-		Dimensions dim;
-		dim.makeScalar();
-		dim[1] = len;
-		single *data = (single*)allocateArrayOf(NLS_SINGLE, len);
-		return ArrayOf(NLS_SINGLE, dim, data);
-	}
-	//=============================================================================
-	ArrayOf ArrayOf::complexConstructor(float aval, float bval)
+    ArrayOf ArrayOf::singleVectorConstructor(int len)
+    {
+        Dimensions dim;
+        dim.makeScalar();
+        dim[1] = len;
+        single *data = (single*)allocateArrayOf(NLS_SINGLE, len);
+        return ArrayOf(NLS_SINGLE, dim, data);
+    }
+    //=============================================================================
+    ArrayOf ArrayOf::complexConstructor(float aval, float bval)
     {
         Dimensions dim;
         dim.makeScalar();
