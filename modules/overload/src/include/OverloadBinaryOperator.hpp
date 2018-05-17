@@ -18,96 +18,117 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <boost/format.hpp>
 #include "Evaluator.hpp"
 #include "ArrayOf.hpp"
 #include "ClassName.hpp"
-#include "Error.hpp"
+#include "OverloadCache.hpp"
+#include "OverloadHelpers.hpp"
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-    static bool OverloadBinaryOperatorFindFunction(Evaluator *eval, const std::string &forcedFunctionName, FunctionDef **funcDef)
-    {
-        bool bSuccess = true;
-        Context *context = eval->getContext();
-        if (!context->lookupFunction(forcedFunctionName, *funcDef))
-        {
-            bSuccess = false;
-        }
-        return bSuccess;
-    }
-    //=============================================================================
-    static stringVector buildForcedNameList(const std::string &functionName, ArrayOf a, ArrayOf b)
-    {
-        stringVector res;
-        std::string classNameA = ClassName(a);
-        std::string classNameB = ClassName(b);
-        boost::format formatFunctionName = boost::format("%s_%s_%s");
-        // WARNING: order is important.
-        res.push_back(str(formatFunctionName % classNameA % functionName % classNameB));
-        if (a.isIntegerType())
-        {
-            res.push_back(str(formatFunctionName % NLS_INTEGER_STR % functionName % classNameB));
-        }
-        if (b.isIntegerType())
-        {
-            res.push_back(str(formatFunctionName % classNameA % functionName % NLS_INTEGER_STR));
-        }
-        if (a.isIntegerType() && b.isIntegerType())
-        {
-            res.push_back(str(formatFunctionName % NLS_INTEGER_STR % functionName % NLS_INTEGER_STR));
-        }
-        res.push_back(str(formatFunctionName % classNameA % functionName % NLS_GENERIC_STR));
-        if (a.isIntegerType())
-        {
-            res.push_back(str(formatFunctionName % NLS_INTEGER_STR % functionName % NLS_GENERIC_STR));
-        }
-        res.push_back(str(formatFunctionName % NLS_GENERIC_STR % functionName % classNameB));
-        if (a.isIntegerType())
-        {
-            res.push_back(str(formatFunctionName % NLS_GENERIC_STR % functionName % NLS_INTEGER_STR));
-        }
-        res.push_back(str(formatFunctionName % NLS_GENERIC_STR % functionName % NLS_GENERIC_STR));
-        return res;
-    }
-    //=============================================================================
-    static ArrayOf OverloadBinaryOperator(Evaluator *eval, ArrayOf a, ArrayOf b, std::string functionName, bool bRaiseError, bool &bSuccess, std::string forcedFunctionName)
+	static ArrayOf callOverloadedFunction(Evaluator *eval, ArrayOf a, ArrayOf b,
+		std::string OverloadNameDesired, bool wasFound, FunctionDef *funcDef,
+		bool bRaiseError)
+	{
+		ArrayOfVector argsIn;
+		argsIn.push_back(a);
+		argsIn.push_back(b);
+		return callOverloadedFunction(eval, argsIn, OverloadNameDesired, wasFound, funcDef, bRaiseError);
+	}
+	//=============================================================================
+	static ArrayOf OverloadBinaryOperator(Evaluator *eval, ArrayOf a, ArrayOf b, std::string functionName, bool bRaiseError, bool &bSuccess, std::string forcedFunctionName)
     {
         FunctionDef *funcDef = nullptr;
-        stringVector overloadFunctionNameList = buildForcedNameList(functionName, a, b);
-        std::string OverloadName = overloadFunctionNameList[0];
-        bSuccess = false;
-        for (std::string overloadFunctionName : overloadFunctionNameList)
-        {
-            bSuccess = OverloadBinaryOperatorFindFunction(eval, overloadFunctionName, &funcDef);
-            if (bSuccess)
-            {
-                break;
-            }
-        }
-        if (!bSuccess)
-        {
-            if (bRaiseError)
-            {
-                Error(eval, std::string("function ") + OverloadName + " undefined.");
-            }
-            return ArrayOf::emptyConstructor();
-        }
-        ArrayOfVector argsIn;
-        argsIn.push_back(a);
-        argsIn.push_back(b);
-        int nargout = 1;
-        ArrayOfVector res = funcDef->evaluateFunction(eval, argsIn, nargout);
-        if (res.size() != 1)
-        {
-            if (bRaiseError)
-            {
-                Error(eval, std::string("function ") + funcDef->name + " only one output argument expected.");
-            }
-            bSuccess = false;
-            return ArrayOf::emptyConstructor();
-        }
-        return res[0];
+		std::string classNameA = ClassName(a);
+		std::string classNameB = ClassName(b);
+		// WARNING: order is important.
+		std::string OverloadName = classNameA + "_" + functionName + "_" + classNameB;
+		if (Overloading::getPreviousCachedFunctionName(Overloading::BINARY) == OverloadName)
+		{
+			return callOverloadedFunction(eval, a, b, Overloading::getPreviousCachedFunctionName(Overloading::BINARY), true,
+				Overloading::getPreviousCachedFunctionDefinition(Overloading::BINARY), bRaiseError);
+		}
+		else
+		{
+			std::string OverloadNameDesired = OverloadName;
+			bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
+			if (bSuccess)
+			{
+				Overloading::setCachedFunction(Overloading::BINARY, OverloadName, funcDef);
+				return callOverloadedFunction(eval, a, b, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
+			}
+			if (a.isIntegerType())
+			{
+				OverloadName = std::string(NLS_INTEGER_STR) + "_" + functionName + "_" + classNameB;
+				bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
+				if (bSuccess)
+				{
+					Overloading::setCachedFunction(Overloading::BINARY, OverloadName, funcDef);
+					return callOverloadedFunction(eval, a, b, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
+				}
+			}
+			if (b.isIntegerType())
+			{
+				OverloadName = classNameA + "_" + functionName + "_" + std::string(NLS_INTEGER_STR);
+				bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
+				if (bSuccess)
+				{
+					Overloading::setCachedFunction(Overloading::BINARY, OverloadName, funcDef);
+					return callOverloadedFunction(eval, a, b, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
+				}
+			}
+			if (a.isIntegerType() && b.isIntegerType())
+			{
+				OverloadName = std::string(NLS_INTEGER_STR) + "_" + functionName + "_" + std::string(NLS_INTEGER_STR);
+				bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
+				if (bSuccess)
+				{
+					Overloading::setCachedFunction(Overloading::BINARY, OverloadName, funcDef);
+					return callOverloadedFunction(eval, a, b, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
+				}
+			}
+			OverloadName = classNameA + "_" + functionName + "_" + std::string(NLS_GENERIC_STR);
+			bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
+			if (bSuccess)
+			{
+				Overloading::setCachedFunction(Overloading::BINARY, OverloadName, funcDef);
+				return callOverloadedFunction(eval, a, b, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
+			}
+			if (a.isIntegerType())
+			{
+				OverloadName = std::string(NLS_INTEGER_STR) + "_" + functionName + "_" + std::string(NLS_GENERIC_STR);
+				bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
+				if (bSuccess)
+				{
+					Overloading::setCachedFunction(Overloading::BINARY, OverloadName, funcDef);
+					return callOverloadedFunction(eval, a, b, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
+				}
+			}
+			OverloadName = std::string(NLS_GENERIC_STR) + "_" + functionName + "_" + classNameB;
+			bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
+			if (bSuccess)
+			{
+				Overloading::setCachedFunction(Overloading::BINARY, OverloadName, funcDef);
+				return callOverloadedFunction(eval, a, b, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
+			}
+			if (a.isIntegerType())
+			{
+				OverloadName = std::string(NLS_GENERIC_STR) + "_" + functionName + "_" + std::string(NLS_INTEGER_STR);
+				bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
+				if (bSuccess)
+				{
+					Overloading::setCachedFunction(Overloading::BINARY, OverloadName, funcDef);
+					return callOverloadedFunction(eval, a, b, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
+				}
+			}
+			OverloadName = std::string(NLS_GENERIC_STR) + "_" + functionName + "_" + std::string(NLS_GENERIC_STR);
+			bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
+			if (bSuccess)
+			{
+				Overloading::setCachedFunction(Overloading::BINARY, OverloadName, funcDef);
+			}
+			return callOverloadedFunction(eval, a, b, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
+		}
     }
     //=============================================================================
     inline ArrayOf OverloadBinaryOperator(Evaluator *eval, ArrayOf a, ArrayOf b, std::string functionName)

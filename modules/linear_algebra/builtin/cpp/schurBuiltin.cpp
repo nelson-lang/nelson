@@ -37,7 +37,7 @@ ArrayOfVector Nelson::LinearAlgebraGateway::schurBuiltin(Evaluator* eval, int nL
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "schur", bSuccess);
     if (!bSuccess)
     {
         if ((argIn[0].getDataClass() == NLS_STRUCT_ARRAY) ||

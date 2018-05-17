@@ -32,7 +32,7 @@ ArrayOfVector Nelson::DataStructuresGateway::fieldnamesBuiltin(Evaluator* eval, 
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "fieldnames", bSuccess);
     if (!bSuccess)
     {
         if (argIn.size() != 1)

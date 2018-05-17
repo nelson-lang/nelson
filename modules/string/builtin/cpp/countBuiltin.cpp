@@ -37,7 +37,7 @@ ArrayOfVector Nelson::StringGateway::countBuiltin(Evaluator* eval, int nLhs, con
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "count", bSuccess);
     if (!bSuccess)
     {
         bool bCaseSensitive = true;

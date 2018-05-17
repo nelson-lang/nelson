@@ -35,7 +35,7 @@ ArrayOfVector Nelson::ElementaryFunctionsGateway::ceilBuiltin(Evaluator* eval, i
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "ceil", bSuccess);
     if (!bSuccess)
     {
         retval.push_back(Ceil(argIn[0]));

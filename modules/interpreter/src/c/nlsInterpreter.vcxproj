@@ -215,7 +215,6 @@
     <ClCompile Include="..\cpp\BuiltInFunctionDefManager.cpp" />
     <ClCompile Include="..\cpp\ByteCode.cpp" />
     <ClCompile Include="..\cpp\ByteCodeFunctionDef.cpp" />
-    <ClCompile Include="..\cpp\CallOperatorFunction.cpp" />
     <ClCompile Include="..\cpp\CommandQueue.cpp" />
     <ClCompile Include="..\cpp\Comments.cpp" />
     <ClCompile Include="..\cpp\Context.cpp" />
@@ -238,6 +237,7 @@
     <ClCompile Include="..\cpp\MacroFunctionDef.cpp" />
     <ClCompile Include="..\cpp\NelsonLexer.cpp" />
     <ClCompile Include="..\cpp\Operators.cpp" />
+    <ClCompile Include="..\cpp\OverloadCache.cpp" />
     <ClCompile Include="..\cpp\OverloadDisplay.cpp" />
     <ClCompile Include="..\cpp\ParseFile.cpp" />
     <ClCompile Include="..\cpp\PathFunc.cpp" />
@@ -256,7 +256,6 @@
     <ClInclude Include="..\..\src\include\ActionMenu.hpp" />
     <ClInclude Include="..\..\src\include\AST.hpp" />
     <ClInclude Include="..\..\src\include\BuiltInFunctionDef.hpp" />
-    <ClInclude Include="..\..\src\include\CallOperatorFunction.hpp" />
     <ClInclude Include="..\..\src\include\CommandQueue.hpp" />
     <ClInclude Include="..\..\src\include\Context.hpp" />
     <ClInclude Include="..\..\src\include\FileParser.hpp" />
@@ -291,6 +290,7 @@
     <ClInclude Include="..\..\src\include\Evaluator.hpp" />
     <ClInclude Include="..\grammar\NelSonParser.h" />
     <ClInclude Include="..\include\Operators.hpp" />
+    <ClInclude Include="..\include\OverloadCache.hpp" />
     <ClInclude Include="..\include\ParseFile.hpp" />
     <ClInclude Include="..\include\ParserState.hpp" />
     <ClInclude Include="..\include\PathFunc.hpp" />

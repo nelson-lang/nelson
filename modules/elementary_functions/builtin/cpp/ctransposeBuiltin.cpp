@@ -31,7 +31,7 @@ ArrayOfVector Nelson::ElementaryFunctionsGateway::ctransposeBuiltin(Evaluator* e
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "ctranspose", bSuccess);
     if (!bSuccess)
     {
         retval.push_back(ComplexTranspose(argIn[0]));

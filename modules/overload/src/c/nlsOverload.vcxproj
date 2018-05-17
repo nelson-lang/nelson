@@ -178,8 +178,6 @@
     <ClCompile Include="..\cpp\OverloadFunction.cpp" />
     <ClCompile Include="..\cpp\OverloadHelpers.cpp" />
     <ClCompile Include="..\cpp\OverloadRequired.cpp" />
-    <ClCompile Include="..\cpp\OverloadTrinaryOperator.cpp" />
-    <ClCompile Include="..\cpp\OverloadUnaryOperator.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>

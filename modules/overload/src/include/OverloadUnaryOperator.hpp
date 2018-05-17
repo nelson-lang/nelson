@@ -19,10 +19,76 @@
 #pragma once
 //=============================================================================
 #include "Evaluator.hpp"
-#include "nlsOverload_exports.h"
 #include "ArrayOf.hpp"
+#include "ClassName.hpp"
+#include "OverloadCache.hpp"
+#include "OverloadHelpers.hpp"
 //=============================================================================
 namespace Nelson {
-    NLSOVERLOAD_IMPEXP ArrayOf OverloadUnaryOperator(Evaluator *eval, ArrayOf a, std::string functionName, std::string forcedFunctionName = "");
+	//=============================================================================
+	static ArrayOf callOverloadedFunction(Evaluator *eval, ArrayOf a,
+		std::string OverloadNameDesired, bool wasFound, FunctionDef *funcDef,
+		bool bRaiseError)
+	{
+		ArrayOfVector argsIn;
+		argsIn.push_back(a);
+		return callOverloadedFunction(eval, argsIn, OverloadNameDesired, wasFound, funcDef, bRaiseError);
+	}
+	//=============================================================================
+	static ArrayOf OverloadUnaryOperator(Evaluator *eval, ArrayOf a, std::string functionName, bool bRaiseError, bool &bSuccess, std::string forcedFunctionName)
+	{
+		FunctionDef *funcDef = nullptr;
+		std::string classNameA = ClassName(a);
+		std::string OverloadName = classNameA + "_" + functionName;
+		if (Overloading::getPreviousCachedFunctionName(Overloading::UNARY) == OverloadName)
+		{
+			return callOverloadedFunction(eval, a, Overloading::getPreviousCachedFunctionName(Overloading::UNARY), true,
+				Overloading::getPreviousCachedFunctionDefinition(Overloading::UNARY), bRaiseError);
+		}
+		else
+		{
+			std::string OverloadNameDesired = OverloadName;
+			bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
+			if (bSuccess)
+			{
+				Overloading::setCachedFunction(Overloading::UNARY, OverloadName, funcDef);
+				return callOverloadedFunction(eval, a, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
+			}
+			if (a.isIntegerType())
+			{
+				OverloadName = NLS_INTEGER_STR + std::string("_") + functionName;
+				bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
+				if (bSuccess)
+				{
+					Overloading::setCachedFunction(Overloading::UNARY, OverloadName, funcDef);
+					return callOverloadedFunction(eval, a, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
+				}
+			}
+			OverloadName = NLS_GENERIC_STR + std::string("_") + functionName;
+			bSuccess = OverloadFindFunction(eval, OverloadName, &funcDef);
+			if (bSuccess)
+			{
+				Overloading::setCachedFunction(Overloading::UNARY, OverloadName, funcDef);
+			}
+			return callOverloadedFunction(eval, a, OverloadNameDesired, bSuccess, funcDef, bRaiseError);
+		}
+	}
+	//=============================================================================
+	inline ArrayOf OverloadUnaryOperator(Evaluator *eval, ArrayOf a, std::string functionName)
+	{
+		bool bSuccess = false;
+		return OverloadUnaryOperator(eval, a, functionName, true, bSuccess, std::string());
+	}
+	//=============================================================================
+	inline ArrayOf OverloadUnaryOperator(Evaluator *eval, ArrayOf a, std::string functionName, bool &bSuccess)
+	{
+		return OverloadUnaryOperator(eval, a, functionName, false, bSuccess, std::string());
+	}
+	//=============================================================================
+	inline ArrayOf OverloadUnaryOperator(Evaluator *eval, ArrayOf a, std::string functionName, bool &bSuccess, std::string forcedFunctionName)
+	{
+		return OverloadUnaryOperator(eval, a, functionName, false, bSuccess, forcedFunctionName);
+	}
+	//=============================================================================
 }
 //=============================================================================

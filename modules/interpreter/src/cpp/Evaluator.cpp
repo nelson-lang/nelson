@@ -70,7 +70,6 @@
 #include "Serialize.hpp"
 #include "MacroFunctionDef.hpp"
 #include "ClassName.hpp"
-#include "CallOperatorFunction.hpp"
 #include "OverloadDisplay.hpp"
 #include "characters_encoding.hpp"
 #include "FileParser.hpp"
@@ -85,7 +84,10 @@
 #include "PathFuncManager.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
-
+#include "OverloadBinaryOperator.hpp"
+#include "OverloadUnaryOperator.hpp"
+#include "OverloadTrinaryOperator.hpp"
+#include "ComplexTranspose.hpp"
 
 #ifdef _MSC_VER
 #define strdup _strdup
@@ -382,8 +384,7 @@ namespace Nelson {
     ArrayOf Evaluator::Or(ASTPtr t)
     {
         pushID(t->context());
-        ArrayOfVector argsOut = CallOperatorFunction(this, "or", expression(t->down), expression(t->down->right), 1);
-        ArrayOf retval = argsOut[0];
+		ArrayOf retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "or");
         popID();
         return retval;
     }
@@ -391,8 +392,7 @@ namespace Nelson {
     ArrayOf Evaluator::And(ASTPtr t)
     {
         pushID(t->context());
-        ArrayOfVector argsOut = CallOperatorFunction(this, "and", expression(t->down), expression(t->down->right), 1);
-        ArrayOf retval = argsOut[0];
+		ArrayOf retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "and");
         popID();
         return retval;
     }
@@ -400,63 +400,16 @@ namespace Nelson {
     ArrayOf Evaluator::ShortCutOr(ASTPtr t)
     {
         pushID(t->context());
-        ArrayOfVector argsOut = CallOperatorFunction(this, "shortcutor", expression(t->down), expression(t->down->right), 1);
-        ArrayOf retval = argsOut[0];
-        popID();
+		ArrayOf retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "shortcutor");
+		popID();
         return retval;
-        /*
-        ArrayOf retval;
-        if (!a.isScalar())
-        {
-        retval = Or(a, expression(t->down->right));
-        }
-        else
-        {
-        // A is a scalar - is it true?
-        a.promoteType(NLS_LOGICAL);
-        if (*((const logical*)a.getDataPointer()))
-        {
-        retval = a;
-        }
-        else
-        {
-        retval = Or(a, expression(t->down->right));
-        }
-        }
-        */
     }
 
     ArrayOf Evaluator::ShortCutAnd(ASTPtr t)
     {
         pushID(t->context());
-        ArrayOfVector argsOut = CallOperatorFunction(this, "shortcutand", expression(t->down), expression(t->down->right), 1);
-        ArrayOf retval = argsOut[0];
-        popID();
+		ArrayOf retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "shortcutand");
         return retval;
-        /*
-        pushID(t->context());
-        ArrayOf a(expression(t->down));
-        ArrayOf retval;
-        if (!a.isScalar())
-        {
-        retval = And(a, expression(t->down->right));
-        }
-        else
-        {
-        // A is a scalar - is it false?
-        a.promoteType(NLS_LOGICAL);
-        if (!*((const logical*)a.getDataPointer()))
-        {
-        retval = a;
-        }
-        else
-        {
-        retval = And(a, expression(t->down->right));
-        }
-        }
-        popID();
-        return retval;
-        */
     }
 
     ArrayOf Evaluator::EndReference(ArrayOf v, indexType index, size_t count)
@@ -574,32 +527,27 @@ namespace Nelson {
                 break;
                 case OP_PLUS:
                 {
-                    ArrayOfVector argsOut = CallOperatorFunction(this, "plus", expression(t->down), expression(t->down->right), 1);
-                    retval = argsOut[0];
+					retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "plus");
                 }
                 break;
                 case OP_SUBTRACT:
                 {
-                    ArrayOfVector argsOut = CallOperatorFunction(this, "minus", expression(t->down), expression(t->down->right), 1);
-                    retval = argsOut[0];
+					retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "minus");
                 }
                 break;
                 case OP_TIMES:
                 {
-                    ArrayOfVector argsOut = CallOperatorFunction(this, "mtimes", expression(t->down), expression(t->down->right), 1);
-                    retval = argsOut[0];
+					retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "mtimes");
                 }
                 break;
                 case OP_RDIV:
                 {
-                    ArrayOfVector argsOut = CallOperatorFunction(this, "mrdivide", expression(t->down), expression(t->down->right), 1);
-                    retval = argsOut[0];
+					retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "mrdivide");
                 }
                 break;
                 case OP_LDIV:
                 {
-                    ArrayOfVector argsOut = CallOperatorFunction(this, "mldivide", expression(t->down), expression(t->down->right), 1);
-                    retval = argsOut[0];
+					retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "mldivide");
                 }
                 break;
                 case OP_SOR:
@@ -624,98 +572,104 @@ namespace Nelson {
                 break;
                 case OP_LT:
                 {
-                    ArrayOfVector argsOut = CallOperatorFunction(this, "lt", expression(t->down), expression(t->down->right), 1);
-                    retval = argsOut[0];
+					return OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "lt");
                 }
                 break;
                 case OP_LEQ:
                 {
-                    ArrayOfVector argsOut = CallOperatorFunction(this, "le", expression(t->down), expression(t->down->right), 1);
-                    retval = argsOut[0];
+					return OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "le");
                 }
                 break;
                 case OP_GT:
                 {
-                    ArrayOfVector argsOut = CallOperatorFunction(this, "gt", expression(t->down), expression(t->down->right), 1);
-                    retval = argsOut[0];
+					return OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "gt");
                 }
                 break;
                 case OP_GEQ:
                 {
-                    ArrayOfVector argsOut = CallOperatorFunction(this, "ge", expression(t->down), expression(t->down->right), 1);
-                    retval = argsOut[0];
+					return OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "ge");
                 }
                 break;
                 case OP_EQ:
                 {
-                    ArrayOfVector argsOut = CallOperatorFunction(this, "eq", expression(t->down), expression(t->down->right), 1);
-                    retval = argsOut[0];
+					bool bSuccess;
+					ArrayOf a = expression(t->down);
+					ArrayOf b = expression(t->down->right);
+					ArrayOf res = OverloadBinaryOperator(this, a, b, "eq", bSuccess);
+					if (!bSuccess)
+					{
+						res = Equals(a, b);
+					}
+					return res;
                 }
                 break;
                 case OP_NEQ:
                 {
-                    ArrayOfVector argsOut = CallOperatorFunction(this, "ne", expression(t->down), expression(t->down->right), 1);
-                    retval = argsOut[0];
+					return OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "ne");
                 }
                 break;
                 case OP_DOT_TIMES:
                 {
-                    ArrayOfVector argsOut = CallOperatorFunction(this, "times", expression(t->down), expression(t->down->right), 1);
-                    retval = argsOut[0];
+					return OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "times");
                 }
                 break;
                 case OP_DOT_RDIV:
                 {
-                    ArrayOfVector argsOut = CallOperatorFunction(this, "rdivide", expression(t->down), expression(t->down->right), 1);
-                    retval = argsOut[0];
+					return OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "rdivide");
                 }
                 break;
                 case OP_DOT_LDIV:
                 {
-                    ArrayOfVector argsOut = CallOperatorFunction(this, "ldivide", expression(t->down), expression(t->down->right), 1);
-                    retval = argsOut[0];
+					return OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "ldivide");
                 }
                 break;
                 case OP_POS:
                 {
-                    ArrayOfVector argsOut = CallOperatorFunction(this, "uplus", expression(t->down), 1);
-                    retval = argsOut[0];
+					return OverloadUnaryOperator(this, expression(t->down), "uplus");
                 }
                 break;
                 case OP_NEG:
                 {
-                    ArrayOfVector argsOut = CallOperatorFunction(this, "uminus", expression(t->down), 1);
-                    retval = argsOut[0];
+					return OverloadUnaryOperator(this, expression(t->down), "uminus");
                 }
                 break;
                 case OP_NOT:
                 {
-                    ArrayOfVector argsOut = CallOperatorFunction(this, "not", expression(t->down), 1);
-                    retval = argsOut[0];
+					return OverloadUnaryOperator(this, expression(t->down), "not");
                 }
                 break;
                 case OP_POWER:
                 {
-                    ArrayOfVector argsOut = CallOperatorFunction(this, "mpower", expression(t->down), expression(t->down->right), 1);
-                    retval = argsOut[0];
+					return OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "mpower");
                 }
                 break;
                 case OP_DOT_POWER:
                 {
-                    ArrayOfVector argsOut = CallOperatorFunction(this, "power", expression(t->down), expression(t->down->right), 1);
-                    retval = argsOut[0];
+					return OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "power");
                 }
                 break;
                 case OP_TRANSPOSE:
                 {
-                    ArrayOfVector argsOut = CallOperatorFunction(this, "ctranspose", expression(t->down), 1);
-                    retval = argsOut[0];
+					bool bSuccess;
+					ArrayOf a = expression(t->down);
+					ArrayOf res = OverloadUnaryOperator(this, a, "ctranspose", bSuccess);
+					if (!bSuccess)
+					{
+						res = ComplexTranspose(a);
+					}
+					return res;
                 }
                 break;
                 case OP_DOT_TRANSPOSE:
                 {
-                    ArrayOfVector argsOut = CallOperatorFunction(this, "transpose", expression(t->down), 1);
-                    retval = argsOut[0];
+					bool bSuccess;
+					ArrayOf a = expression(t->down);
+					ArrayOf res = OverloadUnaryOperator(this, a, "transpose", bSuccess);
+					if (!bSuccess)
+					{
+						res = Transpose(a);
+					}
+					return res;
                 }
                 break;
                 case OP_RHS:
@@ -793,11 +747,7 @@ namespace Nelson {
         pushID(t->context());
         a = expression(t->down);
         b = expression(t->down->right);
-        /*
-        ArrayOf retval(UnitColon(a, b));
-        */
-        ArrayOfVector argsOut = CallOperatorFunction(this, "colon", expression(t->down), expression(t->down->right), 1);
-        ArrayOf retval = argsOut[0];
+		ArrayOf retval = OverloadBinaryOperator(this, a, b, "colon");
         popID();
         return retval;
     }
@@ -809,11 +759,7 @@ namespace Nelson {
         a = expression(t->down->down);
         b = expression(t->down->down->right);
         c = expression(t->down->right);
-        ArrayOfVector argsOut = CallOperatorFunction(this, "colon", a, b, c, 1);
-        ArrayOf retval = argsOut[0];
-        /*
-        ArrayOf retval(DoubleColon(a, b, c));
-        */
+		ArrayOf retval = OverloadTrinaryOperator(this, a, b, c, "colon");
         popID();
         return retval;
     }
@@ -960,8 +906,8 @@ namespace Nelson {
         ArrayOfVector n;
         for (size_t k = 0; k < m.size(); k++)
         {
-            ArrayOfVector retval = CallOperatorFunction(this, "subsindex", m[k], 1);
-            ArrayOf t = retval[0];
+
+			ArrayOf t = OverloadUnaryOperator(this, m[k], "subsindex");
             t.promoteType(NLS_UINT32);
             size_t len = t.getLength();
             uint32 *dp = (uint32*)t.getReadWriteDataPointer();
@@ -4487,7 +4433,13 @@ namespace Nelson {
         int ipos = (int)cstack.size() - 1;
         if (ipos >= 0)
         {
-            return cstack[cstack.size() - 1].cname;
+			std::string fullname = cstack[cstack.size() - 1].cname;
+			if (boost::algorithm::ends_with(fullname, ".nlf"))
+			{
+				boost::filesystem::path pathForStem(fullname);
+				return pathForStem.stem().string();
+			}
+            return fullname;
             //return cstack[cstack.size() - 1].detail;
         }
         return std::string("");

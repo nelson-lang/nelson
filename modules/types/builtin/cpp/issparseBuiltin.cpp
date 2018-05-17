@@ -34,7 +34,7 @@ ArrayOfVector Nelson::TypeGateway::issparseBuiltin(Evaluator* eval, int nLhs, co
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "issparse", bSuccess);
     if (!bSuccess)
     {
         retval.push_back(ArrayOf::logicalConstructor(argIn[0].isSparse()));

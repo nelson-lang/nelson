@@ -35,7 +35,7 @@ ArrayOfVector Nelson::ElementaryFunctionsGateway::imagBuiltin(Evaluator* eval, i
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "imag", bSuccess);
     if (!bSuccess)
     {
         retval.push_back(ImagPart(argIn[0]));

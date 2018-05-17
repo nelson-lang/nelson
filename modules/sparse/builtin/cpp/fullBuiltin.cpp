@@ -36,7 +36,7 @@ ArrayOfVector Nelson::SparseGateway::fullBuiltin(Evaluator* eval, int nLhs, cons
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "full", bSuccess);
     if (!bSuccess)
     {
         if (argIn[0].isReferenceType())

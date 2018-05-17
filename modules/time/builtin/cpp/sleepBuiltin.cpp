@@ -36,7 +36,7 @@ ArrayOfVector Nelson::TimeGateway::sleepBuiltin(Evaluator* eval, int nLhs, const
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "sleep", bSuccess);
     if (!bSuccess)
     {
         ArrayOf Parameter1 = argIn[0];

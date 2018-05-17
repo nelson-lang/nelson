@@ -36,7 +36,7 @@ ArrayOfVector Nelson::StringGateway::mat2strBuiltin(Evaluator* eval, int nLhs, c
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "mat2str", bSuccess);
     if (!bSuccess)
     {
         indexType defautPrecision = 15;

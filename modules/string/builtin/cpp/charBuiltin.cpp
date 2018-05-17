@@ -36,7 +36,7 @@ ArrayOfVector Nelson::StringGateway::charBuiltin(Evaluator* eval, int nLhs, cons
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "char", bSuccess);
     if (!bSuccess)
     {
         Dimensions dims;

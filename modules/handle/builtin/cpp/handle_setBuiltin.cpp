@@ -35,7 +35,7 @@ ArrayOfVector Nelson::HandleGateway::handle_setBuiltin(Evaluator* eval, int nLhs
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "handle_set", bSuccess);
     if (!bSuccess)
     {
         OverloadRequired(eval, argIn, Nelson::UNARY);

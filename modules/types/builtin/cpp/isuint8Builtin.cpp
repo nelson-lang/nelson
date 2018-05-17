@@ -34,7 +34,7 @@ ArrayOfVector Nelson::TypeGateway::isuint8Builtin(Evaluator* eval, int nLhs, con
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "isuint8", bSuccess);
     if (!bSuccess)
     {
         bool bRes = (argIn[0].getDataClass() == NLS_UINT8);

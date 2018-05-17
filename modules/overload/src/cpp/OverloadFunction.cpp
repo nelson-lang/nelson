@@ -20,9 +20,8 @@
 #include "ClassName.hpp"
 //=============================================================================
 namespace Nelson {
-    ArrayOfVector OverloadFunction(Evaluator *eval, int nLhs, const ArrayOfVector& argIn, bool &bSuccess)
+	ArrayOfVector OverloadFunction(Evaluator *eval, int nLhs, const ArrayOfVector& argIn, const std::string &functionName, bool &bSuccess)
     {
-        std::string functionName = eval->getCurrentFunctionName();
         if (functionName.compare("") != 0)
         {
             if (eval->getOverloadState())

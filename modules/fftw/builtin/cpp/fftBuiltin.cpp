@@ -105,7 +105,7 @@ ArrayOfVector Nelson::FftwGateway::fftBuiltin(Evaluator* eval, int nLhs, const A
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "fft", bSuccess);
     if (!bSuccess)
     {
         retval = fftBuiltinPrivate(eval, nLhs, argIn);

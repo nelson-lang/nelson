@@ -32,7 +32,7 @@ ArrayOfVector Nelson::IntegerGateway::int16Builtin(Evaluator* eval, int nLhs, co
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "int16", bSuccess);
     if (!bSuccess)
     {
         retval.push_back(ToInt16(argIn[0]));

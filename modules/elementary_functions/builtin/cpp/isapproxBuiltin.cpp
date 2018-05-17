@@ -36,7 +36,7 @@ ArrayOfVector Nelson::ElementaryFunctionsGateway::isapproxBuiltin(Evaluator* eva
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "isapprox", bSuccess);
     if (!bSuccess)
     {
         double precision = 0.;

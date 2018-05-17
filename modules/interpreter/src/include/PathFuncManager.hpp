@@ -25,7 +25,6 @@
 #include "FileFunc.hpp"
 #include "MacroFunctionDef.hpp"
 #include "nlsInterpreter_exports.h"
-#include "dynamic_library.hpp"
 //=============================================================================
 namespace Nelson {
     class NLSINTERPRETER_IMPEXP PathFuncManager {

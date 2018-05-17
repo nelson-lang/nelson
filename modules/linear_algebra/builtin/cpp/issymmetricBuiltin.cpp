@@ -73,7 +73,7 @@ ArrayOfVector Nelson::LinearAlgebraGateway::issymmetricBuiltin(Evaluator* eval, 
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "issymmetric", bSuccess);
     if (!bSuccess)
     {
         if ((argIn[0].getDataClass() == NLS_STRUCT_ARRAY) ||

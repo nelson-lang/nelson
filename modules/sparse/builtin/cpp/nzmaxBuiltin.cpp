@@ -36,7 +36,7 @@ ArrayOfVector Nelson::SparseGateway::nzmaxBuiltin(Evaluator* eval, int nLhs, con
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "nzmax", bSuccess);
     if (!bSuccess)
     {
         ArrayOf R(argIn[0]);

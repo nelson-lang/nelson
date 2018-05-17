@@ -36,7 +36,7 @@ ArrayOfVector Nelson::LogicalGateway::xorBuiltin(Evaluator* eval, int nLhs, cons
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "xor", bSuccess);
     if (!bSuccess)
     {
         ArrayOf A = argIn[0];

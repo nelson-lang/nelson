@@ -35,7 +35,7 @@ ArrayOfVector Nelson::ElementaryFunctionsGateway::isinfBuiltin(Evaluator* eval, 
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "isinf", bSuccess);
     if (!bSuccess)
     {
         retval.push_back(IsInf(argIn[0]));

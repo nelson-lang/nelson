@@ -34,7 +34,7 @@ ArrayOfVector Nelson::TypeGateway::isstructBuiltin(Evaluator* eval, int nLhs, co
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "isstruct", bSuccess);
     if (!bSuccess)
     {
         ArrayOf paramOne = argIn[0];

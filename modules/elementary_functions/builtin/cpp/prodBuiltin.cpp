@@ -36,7 +36,7 @@ ArrayOfVector Nelson::ElementaryFunctionsGateway::prodBuiltin(Evaluator* eval, i
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "prod", bSuccess);
     if (!bSuccess)
     {
         indexType d = 0;

@@ -104,7 +104,7 @@ ArrayOfVector Nelson::StringGateway::int2strBuiltin(Evaluator* eval, int nLhs, c
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "int2str", bSuccess);
     if (!bSuccess)
     {
         wstringVector result;

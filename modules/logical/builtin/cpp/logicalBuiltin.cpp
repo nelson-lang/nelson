@@ -36,7 +36,7 @@ ArrayOfVector Nelson::LogicalGateway::logicalBuiltin(Evaluator* eval, int nLhs, 
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "logical", bSuccess);
     if (!bSuccess)
     {
         retval.push_back(ToLogical(argIn[0]));

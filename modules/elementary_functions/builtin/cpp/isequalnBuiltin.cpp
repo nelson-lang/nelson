@@ -41,7 +41,7 @@ ArrayOfVector Nelson::ElementaryFunctionsGateway::isequalnBuiltin(Evaluator* eva
         v1v2.push_back(argIn[k]);
         // Call overload if it exists
         bool bSuccess = false;
-        retval = OverloadFunction(eval, nLhs, v1v2, bSuccess);
+        retval = OverloadFunction(eval, nLhs, v1v2, "isequaln", bSuccess);
         if (!bSuccess)
         {
             OverloadRequired(eval, v1v2, Nelson::FUNCTION);

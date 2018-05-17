@@ -18,14 +18,25 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "Evaluator.hpp"
 #include "nlsInterpreter_exports.h"
-#include "ArrayOf.hpp"
+#include "FunctionDef.hpp"
 //=============================================================================
 namespace Nelson {
-    NLSINTERPRETER_IMPEXP ArrayOfVector CallOperatorFunction(Evaluator *eval, const std::string &functionName, ArrayOfVector ArgsIn, size_t nLhs);
-    NLSINTERPRETER_IMPEXP ArrayOfVector CallOperatorFunction(Evaluator *eval, const std::string &functionName, ArrayOf a, size_t nLhs);
-    NLSINTERPRETER_IMPEXP ArrayOfVector CallOperatorFunction(Evaluator *eval, const std::string &functionName, ArrayOf a, ArrayOf b, size_t nLhs);
-    NLSINTERPRETER_IMPEXP ArrayOfVector CallOperatorFunction(Evaluator *eval, const std::string &functionName, ArrayOf a, ArrayOf b, ArrayOf c, size_t nLhs);
+	namespace Overloading
+	{
+		//=============================================================================
+		typedef enum
+		{
+			UNARY,
+			BINARY,
+			TRINARY
+		} OverloadClass;
+		//=============================================================================
+		NLSINTERPRETER_IMPEXP std::string getPreviousCachedFunctionName(OverloadClass oclass);
+		NLSINTERPRETER_IMPEXP void setCachedFunction(OverloadClass oclass, std::string functionName, FunctionDef *funcptr);
+		NLSINTERPRETER_IMPEXP FunctionDef * getPreviousCachedFunctionDefinition(OverloadClass oclass);
+		NLSINTERPRETER_IMPEXP void clearPreviousCachedFunctionDefinition();
+	}
 }
 //=============================================================================
+

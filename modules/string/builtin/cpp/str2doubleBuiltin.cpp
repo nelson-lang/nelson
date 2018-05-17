@@ -36,7 +36,7 @@ ArrayOfVector Nelson::StringGateway::str2doubleBuiltin(Evaluator* eval, int nLhs
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "str2double", bSuccess);
     if (!bSuccess)
     {
         ArrayOf param1 = argIn[0];

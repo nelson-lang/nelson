@@ -35,7 +35,7 @@ ArrayOfVector Nelson::ElementaryFunctionsGateway::complexBuiltin(Evaluator* eval
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "complex", bSuccess);
     if (!bSuccess)
     {
         if (argIn.size() == 1)

@@ -34,7 +34,7 @@ ArrayOfVector Nelson::ErrorManagerGateway::errorBuiltin(Evaluator* eval, int nLh
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "error", bSuccess);
     if (!bSuccess)
     {
         if (argIn[0].isSingleString())

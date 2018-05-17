@@ -37,7 +37,7 @@ ArrayOfVector Nelson::TrigonometricGateway::atanBuiltin(Evaluator* eval, int nLh
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "atan", bSuccess);
     if (!bSuccess)
     {
         if ((argIn[0].getDataClass() == NLS_STRUCT_ARRAY) ||

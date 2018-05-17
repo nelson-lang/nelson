@@ -30,7 +30,7 @@ ArrayOfVector Nelson::StreamGateway::diaryBuiltin(Evaluator* eval, int nLhs, con
     if (argIn.size() >= 1)
     {
         bool bSuccess = false;
-        retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+        retval = OverloadFunction(eval, nLhs, argIn, "diary", bSuccess);
         if (bSuccess)
         {
             return retval;

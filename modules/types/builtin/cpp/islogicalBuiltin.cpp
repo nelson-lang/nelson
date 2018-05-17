@@ -34,7 +34,7 @@ ArrayOfVector Nelson::TypeGateway::islogicalBuiltin(Evaluator* eval, int nLhs, c
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "islogical", bSuccess);
     if (!bSuccess)
     {
         retval.push_back(ArrayOf::logicalConstructor(argIn[0].getDataClass() == NLS_LOGICAL));

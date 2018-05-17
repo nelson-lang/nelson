@@ -18,10 +18,50 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsOverload_exports.h"
 #include "ArrayOf.hpp"
+#include "Evaluator.hpp"
+#include "Error.hpp"
 //=============================================================================
 namespace Nelson {
-    NLSOVERLOAD_IMPEXP
+	//=============================================================================
+	static bool OverloadFindFunction(Evaluator *eval, const std::string &forcedFunctionName, FunctionDef **funcDef)
+	{
+		Context *context = eval->getContext();
+		return context->lookupFunction(forcedFunctionName, *funcDef);
+	}
+	//=============================================================================
+	static ArrayOf callOverloadedFunction(Evaluator *eval, ArrayOfVector argsIn,
+		std::string OverloadNameDesired, bool wasFound, FunctionDef *funcDef,
+		bool bRaiseError)
+	{
+		ArrayOf res;
+		if (!wasFound)
+		{
+			if (bRaiseError)
+			{
+				Error(eval, std::string("function ") + OverloadNameDesired + " undefined.");
+			}
+			else
+			{
+				res = ArrayOf::emptyConstructor();
+			}
+		}
+		else
+		{
+			int nargout = 1;
+			ArrayOfVector val = funcDef->evaluateFunction(eval, argsIn, nargout);
+			if (val.size() != 1)
+			{
+				if (bRaiseError)
+				{
+					Error(eval, std::string("function ") + funcDef->name + " only one output argument expected.");
+				}
+				return ArrayOf::emptyConstructor();
+			}
+			res = val[0];
+		}
+		return res;
+	}
 }
 //=============================================================================
+

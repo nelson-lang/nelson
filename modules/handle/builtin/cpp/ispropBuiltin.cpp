@@ -35,7 +35,7 @@ ArrayOfVector Nelson::HandleGateway::ispropBuiltin(Evaluator* eval, int nLhs, co
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "isprop", bSuccess);
     if (!bSuccess)
     {
         OverloadRequired(eval, argIn, Nelson::UNARY);

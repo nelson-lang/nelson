@@ -36,7 +36,7 @@ ArrayOfVector Nelson::StringGateway::replaceBuiltin(Evaluator* eval, int nLhs, c
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "replace", bSuccess);
     if (!bSuccess)
     {
         retval.push_back(Replace(argIn[0], argIn[1], argIn[2]));

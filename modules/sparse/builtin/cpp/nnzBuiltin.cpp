@@ -36,7 +36,7 @@ ArrayOfVector Nelson::SparseGateway::nnzBuiltin(Evaluator* eval, int nLhs, const
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "nnz", bSuccess);
     if (!bSuccess)
     {
         ArrayOf R(argIn[0]);

@@ -35,7 +35,7 @@ ArrayOfVector Nelson::ElementaryFunctionsGateway::modBuiltin(Evaluator* eval, in
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "mod", bSuccess);
     if (!bSuccess)
     {
         retval.push_back(Modulo(argIn[0], argIn[1]));

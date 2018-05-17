@@ -36,7 +36,7 @@ ArrayOfVector Nelson::ElementaryFunctionsGateway::ndimsBuiltin(Evaluator* eval, 
     }
     ArrayOf param1 = argIn[0];
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "ndims", bSuccess);
     if (!bSuccess)
     {
         if (param1.isClassStruct())

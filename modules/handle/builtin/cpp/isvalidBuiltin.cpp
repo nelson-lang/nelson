@@ -35,7 +35,7 @@ ArrayOfVector Nelson::HandleGateway::isvalidBuiltin(Evaluator* eval, int nLhs, c
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "isvalid", bSuccess);
     if (!bSuccess)
     {
         OverloadRequired(eval, argIn, Nelson::UNARY);

@@ -38,7 +38,7 @@ ArrayOfVector Nelson::SparseGateway::IJVBuiltin(Evaluator* eval, int nLhs, const
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "IJV", bSuccess);
     if (!bSuccess)
     {
         ArrayOf A(argIn[0]);

@@ -32,7 +32,7 @@ ArrayOfVector Nelson::IntegerGateway::uint32Builtin(Evaluator* eval, int nLhs, c
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "uint32", bSuccess);
     if (!bSuccess)
     {
         retval.push_back(ToUint32(argIn[0]));

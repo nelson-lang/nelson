@@ -37,7 +37,7 @@ ArrayOfVector Nelson::FunctionHandleGateway::func2strBuiltin(Evaluator* eval, in
     }
     ArrayOf arg1 = argIn[0];
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "func2str", bSuccess);
     if (!bSuccess)
     {
         if (arg1.isFunctionHandle())

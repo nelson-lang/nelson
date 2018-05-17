@@ -35,7 +35,7 @@ ArrayOfVector Nelson::StringGateway::sprintfBuiltin(Evaluator * eval, int nLhs, 
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "sprintf", bSuccess);
     if (!bSuccess)
     {
         ArrayOf param1 = argIn[0];

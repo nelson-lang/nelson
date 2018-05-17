@@ -35,7 +35,7 @@ ArrayOfVector Nelson::ElementaryFunctionsGateway::absBuiltin(Evaluator* eval, in
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "abs", bSuccess);
     if (!bSuccess)
     {
         retval.push_back(AbsoluteValue(argIn[0]));

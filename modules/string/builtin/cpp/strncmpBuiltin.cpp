@@ -40,7 +40,15 @@ static ArrayOfVector strncmpBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
     indexType len = C.getContentAsScalarIndex(false);
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+	if (bCaseSensitive)
+	{
+		retval = OverloadFunction(eval, nLhs, argIn, "strncmp", bSuccess);
+	}
+	else
+	{
+		retval = OverloadFunction(eval, nLhs, argIn, "strncmpi", bSuccess);
+	}
+
     if (!bSuccess)
     {
         retval.push_back(StringCompare(A, B, bCaseSensitive, len));

@@ -35,7 +35,7 @@ ArrayOfVector Nelson::AudioGateway::playblockingBuiltin(Evaluator* eval, int nLh
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "playblocking", bSuccess);
     if (!bSuccess)
     {
         OverloadRequired(eval, argIn, Nelson::UNARY);

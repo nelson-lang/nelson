@@ -32,7 +32,7 @@ ArrayOfVector Nelson::IntegerGateway::int8Builtin(Evaluator* eval, int nLhs, con
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "int8", bSuccess);
     if (!bSuccess)
     {
         retval.push_back(ToInt8(argIn[0]));

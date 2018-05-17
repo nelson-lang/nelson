@@ -34,7 +34,7 @@ ArrayOfVector Nelson::TypeGateway::issingleBuiltin(Evaluator* eval, int nLhs, co
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "issingle", bSuccess);
     if (!bSuccess)
     {
         bool bRes = (argIn[0].getDataClass() == NLS_SINGLE ||

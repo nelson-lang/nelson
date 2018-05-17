@@ -36,7 +36,7 @@ ArrayOfVector Nelson::LogicalGateway::anyBuiltin(Evaluator* eval, int nLhs, cons
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "any", bSuccess);
     if (!bSuccess)
     {
         OverloadRequired(eval, argIn, Nelson::OVERLOAD_TYPE::UNARY);

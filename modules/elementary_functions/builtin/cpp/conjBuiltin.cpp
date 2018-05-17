@@ -35,7 +35,7 @@ ArrayOfVector Nelson::ElementaryFunctionsGateway::conjBuiltin(Evaluator* eval, i
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "conj", bSuccess);
     if (!bSuccess)
     {
         retval.push_back(ComplexConjugate(argIn[0]));

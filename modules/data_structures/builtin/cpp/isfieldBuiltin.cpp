@@ -34,7 +34,7 @@ ArrayOfVector Nelson::DataStructuresGateway::isfieldBuiltin(Evaluator* eval, int
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "isfield", bSuccess);
     if (!bSuccess)
     {
         ArrayOf param1 = argIn[0];

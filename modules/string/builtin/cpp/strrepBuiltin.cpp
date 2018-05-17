@@ -36,7 +36,7 @@ ArrayOfVector Nelson::StringGateway::strrepBuiltin(Evaluator* eval, int nLhs, co
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "strrep", bSuccess);
     if (!bSuccess)
     {
         retval.push_back(StringReplace(argIn[0], argIn[1], argIn[2], true));

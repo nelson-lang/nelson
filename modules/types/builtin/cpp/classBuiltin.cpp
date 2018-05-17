@@ -33,7 +33,7 @@ ArrayOfVector Nelson::TypeGateway::classBuiltin(Evaluator* eval, int nLhs, const
     if (argIn.size() == 1)
     {
         bool bSuccess = false;
-        retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+        retval = OverloadFunction(eval, nLhs, argIn, "class", bSuccess);
         if (!bSuccess)
         {
             std::string str = ClassName(argIn[0]);

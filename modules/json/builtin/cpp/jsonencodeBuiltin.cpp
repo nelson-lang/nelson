@@ -36,7 +36,7 @@ ArrayOfVector Nelson::JsonGateway::jsonencodeBuiltin(Evaluator* eval, int nLhs, 
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "jsonencode", bSuccess);
     if (!bSuccess)
     {
         bool convertNanInf = false;

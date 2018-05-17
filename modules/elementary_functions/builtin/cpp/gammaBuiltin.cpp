@@ -35,7 +35,7 @@ ArrayOfVector Nelson::ElementaryFunctionsGateway::gammaBuiltin(Evaluator* eval, 
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "gamma", bSuccess);
     if (!bSuccess)
     {
         retval.push_back(Gamma(argIn[0]));

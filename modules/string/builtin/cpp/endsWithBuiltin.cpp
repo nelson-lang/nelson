@@ -37,7 +37,7 @@ ArrayOfVector Nelson::StringGateway::endsWithBuiltin(Evaluator* eval, int nLhs, 
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "endsWith", bSuccess);
     if (!bSuccess)
     {
         bool bCaseSensitive = true;

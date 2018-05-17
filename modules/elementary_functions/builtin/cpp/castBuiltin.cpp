@@ -36,7 +36,7 @@ ArrayOfVector Nelson::ElementaryFunctionsGateway::castBuiltin(Evaluator* eval, i
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "cast", bSuccess);
     if (!bSuccess)
     {
         bool isSparse = false;

@@ -24,12 +24,14 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 #include <boost/foreach.hpp>
+#include <algorithm>
 #include "PathFuncManager.hpp"
 #include "characters_encoding.hpp"
 #include "MacroFunctionDef.hpp"
 #include "ParserInterface.hpp"
 #include "AstManager.hpp"
 #include "GetVariableEnvironment.hpp"
+#include "OverloadCache.hpp"
 //=============================================================================
 namespace Nelson {
     //=============================================================================
@@ -556,6 +558,7 @@ namespace Nelson {
             }
         }
         cachedPathFunc.clear();
+		Overloading::clearPreviousCachedFunctionDefinition();
     }
     //=============================================================================
     void PathFuncManager::clearCache(stringVector exceptedFunctions)
@@ -579,6 +582,7 @@ namespace Nelson {
             }
         }
         cachedPathFunc.clear();
+		Overloading::clearPreviousCachedFunctionDefinition();
         cachedPathFunc = backup;
     }
     //=============================================================================

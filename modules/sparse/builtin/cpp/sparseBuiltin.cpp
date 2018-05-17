@@ -31,7 +31,7 @@ static ArrayOfVector sparseBuiltinOneRhs(Evaluator* eval, int nLhs, const ArrayO
     ArrayOfVector retval;
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "sparse", bSuccess);
     if (!bSuccess)
     {
         ArrayOf A(argIn[0]);

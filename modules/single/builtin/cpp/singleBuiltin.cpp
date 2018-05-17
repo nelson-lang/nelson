@@ -32,7 +32,7 @@ ArrayOfVector Nelson::SingleGateway::singleBuiltin(Evaluator* eval, int nLhs, co
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "single", bSuccess);
     if (!bSuccess)
     {
         retval.push_back(ToSingle(argIn[0]));

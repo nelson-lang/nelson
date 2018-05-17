@@ -37,7 +37,7 @@ ArrayOfVector Nelson::StringGateway::toupperBuiltin(Evaluator* eval, int nLhs, c
     ArrayOf A = argIn[0];
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "toupper", bSuccess);
     if (!bSuccess)
     {
         retval.push_back(ToUpper(eval, argIn[0]));

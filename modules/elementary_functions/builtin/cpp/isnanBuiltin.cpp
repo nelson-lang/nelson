@@ -35,7 +35,7 @@ ArrayOfVector Nelson::ElementaryFunctionsGateway::isnanBuiltin(Evaluator* eval, 
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "isnan", bSuccess);
     if (!bSuccess)
     {
         retval.push_back(IsNaN(argIn[0]));

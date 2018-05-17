@@ -175,7 +175,7 @@ ArrayOfVector Nelson::CoreGateway::pauseBuiltin(Evaluator* eval, int nLhs, const
         else
         {
             bool bSuccess = false;
-            retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+            retval = OverloadFunction(eval, nLhs, argIn, "pause", bSuccess);
             if (!bSuccess)
             {
                 OverloadRequired(eval, argIn, Nelson::UNARY);

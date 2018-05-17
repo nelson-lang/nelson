@@ -34,7 +34,7 @@ ArrayOfVector Nelson::TypeGateway::isnumericBuiltin(Evaluator* eval, int nLhs, c
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "isnumeric", bSuccess);
     if (!bSuccess)
     {
         retval.push_back(ArrayOf::logicalConstructor(argIn[0].isNumeric()));

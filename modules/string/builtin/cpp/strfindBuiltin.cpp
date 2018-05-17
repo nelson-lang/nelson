@@ -64,7 +64,7 @@ ArrayOfVector Nelson::StringGateway::strfindBuiltin(Evaluator* eval, int nLhs, c
     ArrayOf B = argIn[1];
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "strfind", bSuccess);
     if (!bSuccess)
     {
         if (A.isSingleString() || A.isCell() || A.isNumeric())

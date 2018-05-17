@@ -36,7 +36,7 @@ ArrayOfVector Nelson::StringGateway::strlengthBuiltin(Evaluator* eval, int nLhs,
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "strlength", bSuccess);
     if (!bSuccess)
     {
         retval.push_back(StringLength(argIn[0]));

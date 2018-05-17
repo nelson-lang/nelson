@@ -35,7 +35,7 @@ ArrayOfVector Nelson::ElementaryFunctionsGateway::isfiniteBuiltin(Evaluator* eva
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
+    retval = OverloadFunction(eval, nLhs, argIn, "isfinite", bSuccess);
     if (!bSuccess)
     {
         retval.push_back(IsFinite(argIn[0]));
