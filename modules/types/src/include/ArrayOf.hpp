@@ -293,7 +293,7 @@ namespace Nelson {
          */
         const bool isRealAllZeros() const;
         const bool isSparse() const;
-        const bool isSparseDouble() const;
+        const bool isSparseDouble(bool realOnly = false) const;
         const bool isSparseLogical() const;
 
         void makeSparse();
@@ -358,26 +358,27 @@ namespace Nelson {
         /**
         * Returns TRUE if we are a sparse double or complex data type.
         */
-        const bool isDoubleSparseType() const;
-        /**
-        * Returns TRUE if it is a double type (not ndarray, not sparse)
-        */
-        const bool isNdArrayDoubleType() const;
-        /**
-        * Returns TRUE if it is a ndarraydouble type (not sparse, not scalar, 2D matrix)
-        */
-        const bool isDoubleType() const;
+        const bool isDoubleSparseType(bool realOnly = false) const;
+
+		/**
+		* Returns TRUE if it is a ndarraydouble type (not sparse, not scalar, 2D matrix)
+		*/
+		const bool isNdArrayDoubleType(bool realOnly = false) const;
+		
+		/**
+		* Returns TRUE if it is a double type (not ndarray, not sparse)
+		*/
+		const bool isDoubleType(bool realOnly = false) const;
 
         /**
-        * Returns TRUE if it is a double type (not ndarray, not sparse)
+        * Returns TRUE if it is a single type (not ndarray, not sparse)
         */
-        const bool isSingleType() const;
+        const bool isSingleType(bool realOnly = false) const;
 
         /**
-        * Returns TRUE if it is a ndarraydouble type (not sparse, not scalar, 2D matrix)
+        * Returns TRUE if it is a ndarraysingle type (not sparse, not scalar, 2D matrix)
         */
-        const bool isNdArraySingleType() const;
-
+        const bool isNdArraySingleType(bool realOnly = false) const;
 
         /**
          * Returns TRUE if we are a string.
@@ -387,10 +388,8 @@ namespace Nelson {
 
         const bool isNdArrayStringType() const;
 
-
         const bool isIntegerType() const;
         const bool isNdArrayIntegerType() const;
-
 
         /**
          * Copy data from our data array to the specified array.  This is a

@@ -27,7 +27,7 @@
 namespace Nelson {
 	//=============================================================================
 	static ArrayOf callOverloadedFunction(Evaluator *eval, ArrayOf a, ArrayOf b, ArrayOf c,
-		std::string OverloadNameDesired, bool wasFound, FunctionDef *funcDef,
+		const std::string &OverloadNameDesired, bool wasFound, FunctionDef *funcDef,
 		bool bRaiseError)
 	{
 		ArrayOfVector argsIn;
@@ -37,7 +37,7 @@ namespace Nelson {
 		return callOverloadedFunction(eval, argsIn, OverloadNameDesired, wasFound, funcDef, bRaiseError);
 	}
 	//=============================================================================
-	static ArrayOf OverloadTrinaryOperator(Evaluator *eval, ArrayOf a, ArrayOf b, ArrayOf c, std::string functionName, bool bRaiseError, bool &bSuccess, std::string forcedFunctionName)
+	static ArrayOf OverloadTrinaryOperator(Evaluator *eval, ArrayOf a, ArrayOf b, ArrayOf c, const std::string &functionName, bool bRaiseError, bool &bSuccess, std::string forcedFunctionName)
 	{
 		FunctionDef *funcDef = nullptr;
 		std::string classNameA = ClassName(a);
@@ -48,7 +48,8 @@ namespace Nelson {
 		std::string OverloadName = functionName + "_" + classNameA + "_" + classNameB + "_" + classNameC;
 		if (Overloading::getPreviousCachedFunctionName(Overloading::TRINARY) == OverloadName)
 		{
-			return callOverloadedFunction(eval, a, b,c, Overloading::getPreviousCachedFunctionName(Overloading::TRINARY), true,
+			bSuccess = true;
+			return callOverloadedFunction(eval, a, b,c, Overloading::getPreviousCachedFunctionName(Overloading::TRINARY), bSuccess,
 				Overloading::getPreviousCachedFunctionDefinition(Overloading::TRINARY), bRaiseError);
 		}
 		else
@@ -302,18 +303,18 @@ namespace Nelson {
 		}
 	}
 	//=============================================================================
-	inline ArrayOf OverloadTrinaryOperator(Evaluator *eval, ArrayOf a, ArrayOf b, ArrayOf c, std::string functionName)
+	inline ArrayOf OverloadTrinaryOperator(Evaluator *eval, ArrayOf a, ArrayOf b, ArrayOf c, const std::string &functionName)
 	{
 		bool bSuccess = false;
-		return OverloadTrinaryOperator(eval, a, b, c, functionName, true, bSuccess, std::string());
+		return OverloadTrinaryOperator(eval, a, b, c, functionName, true, bSuccess, "");
 	}
 	//=============================================================================
-	inline ArrayOf OverloadTrinaryOperator(Evaluator *eval, ArrayOf a, ArrayOf b, ArrayOf c, std::string functionName, bool &bSuccess)
+	inline ArrayOf OverloadTrinaryOperator(Evaluator *eval, ArrayOf a, ArrayOf b, ArrayOf c, const std::string &functionName, bool &bSuccess)
 	{
-		return OverloadTrinaryOperator(eval, a, b, c, functionName, false, bSuccess, std::string());
+		return OverloadTrinaryOperator(eval, a, b, c, functionName, false, bSuccess, "");
 	}
 	//=============================================================================
-	inline ArrayOf OverloadTrinaryOperator(Evaluator *eval, ArrayOf a, ArrayOf b, ArrayOf c, std::string functionName, bool &bSuccess, std::string forcedFunctionName)
+	inline ArrayOf OverloadTrinaryOperator(Evaluator *eval, ArrayOf a, ArrayOf b, ArrayOf c, const std::string &functionName, bool &bSuccess, const std::string &forcedFunctionName)
 	{
 		return OverloadTrinaryOperator(eval, a, b, c, functionName, false, bSuccess, forcedFunctionName);
 	}

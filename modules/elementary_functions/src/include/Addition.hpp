@@ -16,13 +16,16 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-
-/*
-std::string className = r.getStructType();
-std::string extractionFunctionName = className + "_extraction";
-bool isFun = lookupFunction(extractionFunctionName, fptr);
-if (!isFun)
-{
-	throw Exception(std::string("Undefined function ") + extractionFunctionName);
+#pragma once
+//=============================================================================
+#include "nlsElementary_functions_exports.h"
+#include "ArrayOf.hpp"
+#include "ClassName.hpp"
+//=============================================================================
+namespace Nelson {
+	/**
+	* Addition (+) of two matrix: C = A + B).
+	*/
+	NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf Addition(ArrayOf A, ArrayOf B, bool mustRaiseError, bool &bSuccess);
 }
-*/
+//=============================================================================

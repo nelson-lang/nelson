@@ -27,7 +27,7 @@
 namespace Nelson {
     //=============================================================================
 	static ArrayOf callOverloadedFunction(Evaluator *eval, ArrayOf a, ArrayOf b,
-		std::string OverloadNameDesired, bool wasFound, FunctionDef *funcDef,
+		const std::string &OverloadNameDesired, bool wasFound, FunctionDef *funcDef,
 		bool bRaiseError)
 	{
 		ArrayOfVector argsIn;
@@ -36,7 +36,7 @@ namespace Nelson {
 		return callOverloadedFunction(eval, argsIn, OverloadNameDesired, wasFound, funcDef, bRaiseError);
 	}
 	//=============================================================================
-	static ArrayOf OverloadBinaryOperator(Evaluator *eval, ArrayOf a, ArrayOf b, std::string functionName, bool bRaiseError, bool &bSuccess, std::string forcedFunctionName)
+	static ArrayOf OverloadBinaryOperator(Evaluator *eval, ArrayOf a, ArrayOf b, const std::string &functionName, bool bRaiseError, bool &bSuccess, std::string forcedFunctionName)
     {
         FunctionDef *funcDef = nullptr;
 		std::string classNameA = ClassName(a);
@@ -45,7 +45,8 @@ namespace Nelson {
 		std::string OverloadName = classNameA + "_" + functionName + "_" + classNameB;
 		if (Overloading::getPreviousCachedFunctionName(Overloading::BINARY) == OverloadName)
 		{
-			return callOverloadedFunction(eval, a, b, Overloading::getPreviousCachedFunctionName(Overloading::BINARY), true,
+			bSuccess = true;
+			return callOverloadedFunction(eval, a, b, Overloading::getPreviousCachedFunctionName(Overloading::BINARY), bSuccess,
 				Overloading::getPreviousCachedFunctionDefinition(Overloading::BINARY), bRaiseError);
 		}
 		else
@@ -131,18 +132,18 @@ namespace Nelson {
 		}
     }
     //=============================================================================
-    inline ArrayOf OverloadBinaryOperator(Evaluator *eval, ArrayOf a, ArrayOf b, std::string functionName)
+    inline ArrayOf OverloadBinaryOperator(Evaluator *eval, ArrayOf a, ArrayOf b, const std::string &functionName)
     {
         bool bSuccess = false;
-        return OverloadBinaryOperator(eval, a, b, functionName, true, bSuccess, std::string());
+        return OverloadBinaryOperator(eval, a, b, functionName, true, bSuccess, "");
     }
     //=============================================================================
-    inline ArrayOf OverloadBinaryOperator(Evaluator *eval, ArrayOf a, ArrayOf b, std::string functionName, bool &bSuccess)
+    inline ArrayOf OverloadBinaryOperator(Evaluator *eval, ArrayOf a, ArrayOf b, const std::string &functionName, bool &bSuccess)
     {
-        return OverloadBinaryOperator(eval, a, b, functionName, false, bSuccess, std::string());
+        return OverloadBinaryOperator(eval, a, b, functionName, false, bSuccess, "");
     }
     //=============================================================================
-    inline ArrayOf OverloadBinaryOperator(Evaluator *eval, ArrayOf a, ArrayOf b, std::string functionName, bool &bSuccess, std::string forcedFunctionName)
+    inline ArrayOf OverloadBinaryOperator(Evaluator *eval, ArrayOf a, ArrayOf b, const std::string &functionName, bool &bSuccess, const std::string &forcedFunctionName)
     {
         return OverloadBinaryOperator(eval, a, b, functionName, false, bSuccess, forcedFunctionName);
     }

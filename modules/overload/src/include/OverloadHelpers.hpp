@@ -31,7 +31,7 @@ namespace Nelson {
 	}
 	//=============================================================================
 	static ArrayOf callOverloadedFunction(Evaluator *eval, ArrayOfVector argsIn,
-		std::string OverloadNameDesired, bool wasFound, FunctionDef *funcDef,
+		const std::string &OverloadNameDesired, bool wasFound, FunctionDef *funcDef,
 		bool bRaiseError)
 	{
 		ArrayOf res;

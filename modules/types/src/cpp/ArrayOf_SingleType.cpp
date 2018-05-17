@@ -24,13 +24,21 @@ namespace Nelson {
     /**
     * Returns TRUE if it is a single type (not ndarray, not sparse)
     */
-    const bool ArrayOf::isSingleType() const
+    const bool ArrayOf::isSingleType(bool realOnly) const
     {
+		if (realOnly)
+		{
+			return (dp->dataClass == NLS_SINGLE && !dp->sparse) && is2D();
+		}
         return (dp->dataClass == NLS_SINGLE) || (dp->dataClass == NLS_SCOMPLEX) && (!dp->sparse) && is2D();
     }
     //=============================================================================
-    const bool ArrayOf::isNdArraySingleType() const
+    const bool ArrayOf::isNdArraySingleType(bool realOnly) const
     {
+		if (realOnly)
+		{
+			return (dp->dataClass == NLS_SINGLE && !dp->sparse) && !is2D();
+		}
         return (dp->dataClass == NLS_SINGLE) || (dp->dataClass == NLS_SCOMPLEX) && (!dp->sparse) && !is2D();
     }
     //=============================================================================

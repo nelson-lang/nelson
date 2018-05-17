@@ -88,6 +88,8 @@
 #include "OverloadUnaryOperator.hpp"
 #include "OverloadTrinaryOperator.hpp"
 #include "ComplexTranspose.hpp"
+#include "Addition.hpp"
+#include "OverloadRequired.hpp"
 
 #ifdef _MSC_VER
 #define strdup _strdup
@@ -527,8 +529,33 @@ namespace Nelson {
                 break;
                 case OP_PLUS:
                 {
-					retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "plus");
-                }
+					bool bSuccess;
+					ArrayOf a = expression(t->down);
+					ArrayOf b = expression(t->down->right);
+					if (!overloadOnBasicTypes)
+					{
+						retval = Addition(a, b, false, bSuccess);
+						if (!bSuccess)
+						{
+							retval = OverloadBinaryOperator(this, a, b, "plus", bSuccess);
+							if (!bSuccess)
+							{
+								ArrayOfVector argsIn;
+								argsIn.push_back(a);
+								argsIn.push_back(b);
+								OverloadRequired(this, argsIn, Nelson::BINARY, "plus");
+							}
+						}
+					}
+					else
+					{
+						retval = OverloadBinaryOperator(this, a, b, "plus", bSuccess);
+						if (!bSuccess)
+						{
+							retval = Addition(a, b, true, bSuccess);
+						}
+					}
+				}
                 break;
                 case OP_SUBTRACT:
                 {
@@ -572,22 +599,22 @@ namespace Nelson {
                 break;
                 case OP_LT:
                 {
-					return OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "lt");
+					retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "lt");
                 }
                 break;
                 case OP_LEQ:
                 {
-					return OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "le");
+					retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "le");
                 }
                 break;
                 case OP_GT:
                 {
-					return OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "gt");
+					retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "gt");
                 }
                 break;
                 case OP_GEQ:
                 {
-					return OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "ge");
+					retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "ge");
                 }
                 break;
                 case OP_EQ:
@@ -595,93 +622,96 @@ namespace Nelson {
 					bool bSuccess;
 					ArrayOf a = expression(t->down);
 					ArrayOf b = expression(t->down->right);
-					ArrayOf res;
 					if (!overloadOnBasicTypes)
 					{
-						res = Equals(a, b, false, bSuccess);
+						retval = Equals(a, b, false, bSuccess);
 						if (!bSuccess)
 						{
-							res = OverloadBinaryOperator(this, a, b, "eq", bSuccess);
+							retval = OverloadBinaryOperator(this, a, b, "eq", bSuccess);
+							if (!bSuccess)
+							{
+								ArrayOfVector argsIn;
+								argsIn.push_back(a);
+								argsIn.push_back(b);
+								OverloadRequired(this, argsIn, Nelson::BINARY, "eq");
+							}
 						}
 					}
 					else
 					{
-						res = OverloadBinaryOperator(this, a, b, "eq", bSuccess);
+						retval = OverloadBinaryOperator(this, a, b, "eq", bSuccess);
 						if (!bSuccess)
 						{
-							res = Equals(a, b, true, bSuccess);
+							retval = Equals(a, b, true, bSuccess);
 						}
 					}
-					return res;
                 }
                 break;
                 case OP_NEQ:
                 {
-					return OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "ne");
+					retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "ne");
                 }
                 break;
                 case OP_DOT_TIMES:
                 {
-					return OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "times");
+					retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "times");
                 }
                 break;
                 case OP_DOT_RDIV:
                 {
-					return OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "rdivide");
+					retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "rdivide");
                 }
                 break;
                 case OP_DOT_LDIV:
                 {
-					return OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "ldivide");
+					retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "ldivide");
                 }
                 break;
                 case OP_POS:
                 {
-					return OverloadUnaryOperator(this, expression(t->down), "uplus");
+					retval = OverloadUnaryOperator(this, expression(t->down), "uplus");
                 }
                 break;
                 case OP_NEG:
                 {
-					return OverloadUnaryOperator(this, expression(t->down), "uminus");
+					retval = OverloadUnaryOperator(this, expression(t->down), "uminus");
                 }
                 break;
                 case OP_NOT:
                 {
-					return OverloadUnaryOperator(this, expression(t->down), "not");
+					retval = OverloadUnaryOperator(this, expression(t->down), "not");
                 }
                 break;
                 case OP_POWER:
                 {
-					return OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "mpower");
+					retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "mpower");
                 }
                 break;
                 case OP_DOT_POWER:
                 {
-					return OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "power");
+					retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "power");
                 }
                 break;
                 case OP_TRANSPOSE:
                 {
 					bool bSuccess;
 					ArrayOf a = expression(t->down);
-					ArrayOf res = OverloadUnaryOperator(this, a, "ctranspose", bSuccess);
+					retval = OverloadUnaryOperator(this, a, "ctranspose", bSuccess);
 					if (!bSuccess)
 					{
-						res = ComplexTranspose(a);
+						retval = ComplexTranspose(a);
 					}
-					return res;
                 }
                 break;
                 case OP_DOT_TRANSPOSE:
                 {
 					bool bSuccess;
 					ArrayOf a = expression(t->down);
-					ArrayOf res = OverloadUnaryOperator(this, a, "transpose", bSuccess);
+					retval = OverloadUnaryOperator(this, a, "transpose", bSuccess);
 					if (!bSuccess)
 					{
-						res = Transpose(a);
+						retval = Transpose(a);
 					}
-					return res;
                 }
                 break;
                 case OP_RHS:

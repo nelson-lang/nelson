@@ -27,7 +27,7 @@
 namespace Nelson {
 	//=============================================================================
 	static ArrayOf callOverloadedFunction(Evaluator *eval, ArrayOf a,
-		std::string OverloadNameDesired, bool wasFound, FunctionDef *funcDef,
+		const std::string &OverloadNameDesired, bool wasFound, FunctionDef *funcDef,
 		bool bRaiseError)
 	{
 		ArrayOfVector argsIn;
@@ -35,14 +35,15 @@ namespace Nelson {
 		return callOverloadedFunction(eval, argsIn, OverloadNameDesired, wasFound, funcDef, bRaiseError);
 	}
 	//=============================================================================
-	static ArrayOf OverloadUnaryOperator(Evaluator *eval, ArrayOf a, std::string functionName, bool bRaiseError, bool &bSuccess, std::string forcedFunctionName)
+	static ArrayOf OverloadUnaryOperator(Evaluator *eval, ArrayOf a, const std::string &functionName, bool bRaiseError, bool &bSuccess, std::string forcedFunctionName)
 	{
 		FunctionDef *funcDef = nullptr;
 		std::string classNameA = ClassName(a);
 		std::string OverloadName = classNameA + "_" + functionName;
 		if (Overloading::getPreviousCachedFunctionName(Overloading::UNARY) == OverloadName)
 		{
-			return callOverloadedFunction(eval, a, Overloading::getPreviousCachedFunctionName(Overloading::UNARY), true,
+			bSuccess = true;
+			return callOverloadedFunction(eval, a, Overloading::getPreviousCachedFunctionName(Overloading::UNARY), bSuccess,
 				Overloading::getPreviousCachedFunctionDefinition(Overloading::UNARY), bRaiseError);
 		}
 		else
@@ -74,18 +75,18 @@ namespace Nelson {
 		}
 	}
 	//=============================================================================
-	inline ArrayOf OverloadUnaryOperator(Evaluator *eval, ArrayOf a, std::string functionName)
+	inline ArrayOf OverloadUnaryOperator(Evaluator *eval, ArrayOf a, const std::string &functionName)
 	{
 		bool bSuccess = false;
-		return OverloadUnaryOperator(eval, a, functionName, true, bSuccess, std::string());
+		return OverloadUnaryOperator(eval, a, functionName, true, bSuccess, "");
 	}
 	//=============================================================================
-	inline ArrayOf OverloadUnaryOperator(Evaluator *eval, ArrayOf a, std::string functionName, bool &bSuccess)
+	inline ArrayOf OverloadUnaryOperator(Evaluator *eval, ArrayOf a, const std::string &functionName, bool &bSuccess)
 	{
-		return OverloadUnaryOperator(eval, a, functionName, false, bSuccess, std::string());
+		return OverloadUnaryOperator(eval, a, functionName, false, bSuccess, "");
 	}
 	//=============================================================================
-	inline ArrayOf OverloadUnaryOperator(Evaluator *eval, ArrayOf a, std::string functionName, bool &bSuccess, std::string forcedFunctionName)
+	inline ArrayOf OverloadUnaryOperator(Evaluator *eval, ArrayOf a, const std::string &functionName, bool &bSuccess, const std::string &forcedFunctionName)
 	{
 		return OverloadUnaryOperator(eval, a, functionName, false, bSuccess, forcedFunctionName);
 	}
