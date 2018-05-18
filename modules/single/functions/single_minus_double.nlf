@@ -18,5 +18,5 @@
 //=============================================================================
 function R = single_minus_double(A, B)
 	// internal function (overload)
-	R = single_minus_single(A, single(B));
+	R = A - single(B);
 endfunction

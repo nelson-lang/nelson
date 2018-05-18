@@ -18,9 +18,11 @@
 //=============================================================================
 #include "GreaterThan.hpp"
 #include "MatrixCheck.hpp"
+#include "ClassName.hpp"
 //=============================================================================
 namespace Nelson {
-    template <class T>
+	//=============================================================================
+	template <class T>
     void greaterthanfuncreal(indexType N, logical* C, const T*A, int stride1, const T*B,
                              int stride2)
     {
@@ -34,8 +36,7 @@ namespace Nelson {
             p += stride2;
         }
     }
-
-
+	//=============================================================================
     template <class T>
     T complex_abs(T real, T imag)
     {
@@ -62,16 +63,13 @@ namespace Nelson {
         temp = real*sqrt(1.0 + temp*temp);  /*overflow!!*/
         return (T)(temp);
     }
-
-
+	//=============================================================================
     template <class T>
     void greaterthanfunccomplex(indexType N, logical* C, const T*A, int stride1,
                                 const T*B, int stride2)
     {
-        indexType m, p;
-        m = 0;
-        p = 0;
-        for (indexType i = 0; i<N; i++)
+        indexType m = 0, p = 0;
+        for (indexType i = 0; i< N; i++)
         {
             C[i] = (complex_abs<T>(A[2 * m], A[2 * m + 1]) >
                     complex_abs<T>(B[2 * p], B[2 * p + 1])) ? 1 : 0;
@@ -79,11 +77,34 @@ namespace Nelson {
             p += stride2;
         }
     }
-
-    ArrayOf GreaterThan(ArrayOf A, ArrayOf B)
-    {
+	//=============================================================================
+	ArrayOf GreaterThan(ArrayOf &A, ArrayOf &B, bool mustRaiseError, bool &bSuccess)
+	{
         // Process the two arguments through the type check and dimension checks...
         VectorCheck(A, B, ">");
+		Class classCommon = FindCommonType(A, B, false);
+		if (A.isSparse() || B.isSparse())
+		{
+			std::string overload = ClassName(A) + "_gt_" + ClassName(B);
+			throw Exception(_("function") + " " + overload + " " + _("undefined."));
+		}
+		try
+		{
+			A.promoteType(classCommon);
+			B.promoteType(classCommon);
+		}
+		catch (Exception)
+		{
+			if (mustRaiseError)
+			{
+				throw;
+			}
+			else
+			{
+				bSuccess = false;
+				return ArrayOf();
+			}
+		}
         int Astride, Bstride;
         indexType Clen = 0;
         Dimensions Cdim;
@@ -109,33 +130,59 @@ namespace Nelson {
         void *Cp = new_with_exception<logical>(Clen);
         switch (B.getDataClass())
         {
-            case NLS_INT32:
-                greaterthanfuncreal<int32>(Clen, (logical*)Cp,
-                                           (int32*)A.getDataPointer(), Astride,
-                                           (int32*)B.getDataPointer(), Bstride);
-                break;
+            case NLS_INT64:
+			{
+				greaterthanfuncreal<int64>(Clen, (logical*)Cp,
+					(int64*)A.getDataPointer(), Astride,
+					(int64*)B.getDataPointer(), Bstride);
+			}
+            break;
             case NLS_SINGLE:
-                greaterthanfuncreal<float>(Clen, (logical*)Cp,
-                                           (float*)A.getDataPointer(), Astride,
-                                           (float*)B.getDataPointer(), Bstride);
-                break;
+			{
+				greaterthanfuncreal<single>(Clen, (logical*)Cp,
+					(single*)A.getDataPointer(), Astride,
+					(single*)B.getDataPointer(), Bstride);
+			}
+            break;
             case NLS_DOUBLE:
-                greaterthanfuncreal<double>(Clen, (logical*)Cp,
-                                            (double*)A.getDataPointer(), Astride,
-                                            (double*)B.getDataPointer(), Bstride);
-                break;
+			{
+				greaterthanfuncreal<double>(Clen, (logical*)Cp,
+					(double*)A.getDataPointer(), Astride,
+					(double*)B.getDataPointer(), Bstride);
+			}
+            break;
             case NLS_SCOMPLEX:
-                greaterthanfunccomplex<float>(Clen, (logical*)Cp,
-                                              (float*)A.getDataPointer(), Astride,
-                                              (float*)B.getDataPointer(), Bstride);
-                break;
+			{
+				greaterthanfunccomplex<single>(Clen, (logical*)Cp,
+					(single*)A.getDataPointer(), Astride,
+					(single*)B.getDataPointer(), Bstride);
+			}
+            break;
             case NLS_DCOMPLEX:
-                greaterthanfunccomplex<double>(Clen, (logical*)Cp,
-                                               (double*)A.getDataPointer(), Astride,
-                                               (double*)B.getDataPointer(), Bstride);
-                break;
+			{
+				greaterthanfunccomplex<double>(Clen, (logical*)Cp,
+					(double*)A.getDataPointer(), Astride,
+					(double*)B.getDataPointer(), Bstride);
+			}
+            break;
+			default:
+			{
+				if (mustRaiseError)
+				{
+					std::string overload = ClassName(A) + "_gt_" + ClassName(B);
+					throw Exception(_("function") + " " + overload + " " + _("undefined."));
+				}
+				else
+				{
+					bSuccess = false;
+					return ArrayOf();
+				}
+			}
+			break;
         }
+		bSuccess = true;
         return ArrayOf(NLS_LOGICAL, Cdim, Cp);
     }
+	//=============================================================================
 }
 //=============================================================================

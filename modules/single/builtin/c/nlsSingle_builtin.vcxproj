@@ -179,13 +179,11 @@
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\singleBuiltin.cpp" />
     <ClCompile Include="..\cpp\single_ge_singleBuiltin.cpp" />
-    <ClCompile Include="..\cpp\single_gt_singleBuiltin.cpp" />
     <ClCompile Include="..\cpp\single_horzcat_singleBuiltin.cpp" />
     <ClCompile Include="..\cpp\single_isequalBuiltin.cpp" />
     <ClCompile Include="..\cpp\single_isequalnBuiltin.cpp" />
     <ClCompile Include="..\cpp\single_le_singleBuiltin.cpp" />
     <ClCompile Include="..\cpp\single_lt_singleBuiltin.cpp" />
-    <ClCompile Include="..\cpp\single_minus_singleBuiltin.cpp" />
     <ClCompile Include="..\cpp\single_ne_singleBuiltin.cpp" />
     <ClCompile Include="..\cpp\single_uminusBuiltin.cpp" />
     <ClCompile Include="..\cpp\single_vertcat_singleBuiltin.cpp" />
@@ -229,7 +227,6 @@
     <ClInclude Include="..\include\single_colon_singleBuiltin.hpp" />
     <ClInclude Include="..\include\single_dispBuiltin.hpp" />
     <ClInclude Include="..\include\single_ge_singleBuiltin.hpp" />
-    <ClInclude Include="..\include\single_gt_singleBuiltin.hpp" />
     <ClInclude Include="..\include\single_horzcat_singleBuiltin.hpp" />
     <ClInclude Include="..\include\single_isequalBuiltin.hpp" />
     <ClInclude Include="..\include\single_isequalnBuiltin.hpp" />

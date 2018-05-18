@@ -26,6 +26,6 @@ namespace Nelson {
     /**
     * Element-wise compare (gt).
     */
-    NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf GreaterThan(ArrayOf A, ArrayOf B);
+	NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf GreaterThan(ArrayOf &A, ArrayOf &B, bool mustRaiseError, bool &bSuccess);
 }
 //=============================================================================

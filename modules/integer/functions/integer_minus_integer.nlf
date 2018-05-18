@@ -19,7 +19,7 @@
 function R = integer_minus_integer(A, B)
 	// internal function (overload)
 	if isa(A, class(B)) & isa(B, class(A))
-    R = single_minus_single(single(A), single(B));
+    R = single(A) - single(B);
 	  R = cast(R, 'like', B);
 	else
 	  error(_('Integers of the same class expected.'));

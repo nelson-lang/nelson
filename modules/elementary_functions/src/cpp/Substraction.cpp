@@ -17,23 +17,23 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <Eigen/Dense>
-#include "Addition.hpp"
+#include "Substraction.hpp"
 #include "MatrixCheck.hpp"
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-    static ArrayOf empty_plus_generic(ArrayOf A, ArrayOf B, bool mustRaiseError, bool &bSuccess);
+    static ArrayOf empty_minus_generic(ArrayOf A, ArrayOf B, bool mustRaiseError, bool &bSuccess);
     static Dimensions getOutputDimensions(ArrayOf A, ArrayOf B);
 	static void checkDimensions(ArrayOf A, ArrayOf B);
     //=============================================================================
 	template <class T>
-	ArrayOf real_plus_real(Class commonClass, const ArrayOf &A, const ArrayOf &B, bool mustRaiseError, bool &bSuccess)
+	ArrayOf real_minus_real(Class commonClass, const ArrayOf &A, const ArrayOf &B, bool mustRaiseError, bool &bSuccess)
 	{
 		ArrayOf res;
 		checkDimensions(A, B);
 		if (A.isEmpty())
 		{
-			return empty_plus_generic(A, B, mustRaiseError, bSuccess);
+			return empty_minus_generic(A, B, mustRaiseError, bSuccess);
 		}
 		T *ptrA = (T*)A.getDataPointer();
 		T *ptrB = (T*)B.getDataPointer();
@@ -41,7 +41,7 @@ namespace Nelson {
 		if (A.isScalar() && B.isScalar())
 		{
 			T *ptrC = (T*)ArrayOf::allocateArrayOf(commonClass, 1);
-			ptrC[0] = ptrA[0] + ptrB[0];
+			ptrC[0] = ptrA[0] - ptrB[0];
 			res = ArrayOf(commonClass, Dimensions(1, 1), ptrC, false);
 			bSuccess = true;
 		}
@@ -62,7 +62,7 @@ namespace Nelson {
 				{
 					for (size_t k = 0; k < Clen; k++)
 					{
-						ptrC[k] = ptrA[0] + ptrB[k];
+						ptrC[k] = ptrA[0] - ptrB[k];
 					}
 				}
 				else
@@ -71,7 +71,7 @@ namespace Nelson {
 					size_t nC = dimsC.getColumns();
 					Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matC(ptrC, mC, nC);
 					Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matB(ptrB, mB, nB);
-					matC = ptrA[0] + matB.array();
+					matC = ptrA[0] - matB.array();
 				}
 			}
 			else if (B.isScalar())
@@ -80,7 +80,7 @@ namespace Nelson {
 				{
 					for (size_t k = 0; k < Clen; k++)
 					{
-						ptrC[k] = ptrA[k] + ptrB[0];
+						ptrC[k] = ptrA[k] - ptrB[0];
 					}
 				}
 				else
@@ -89,7 +89,7 @@ namespace Nelson {
 					size_t nC = dimsC.getColumns();
 					Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matC(ptrC, mC, nC);
 					Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matA(ptrA, mA, nA);
-					matC = matA.array() + ptrB[0];
+					matC = matA.array() - ptrB[0];
 				}
 			}
 			else
@@ -97,7 +97,7 @@ namespace Nelson {
 				Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, 1>> matC(ptrC, dimsC.getElementCount(), 1);
 				Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, 1>> matA(ptrA, A.getDimensions().getElementCount(), 1);
 				Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, 1>> matB(ptrB, B.getDimensions().getElementCount(), 1);
-				matC = matA + matB;
+				matC = matA - matB;
 			}
 			res = ArrayOf(commonClass, dimsC, ptrC, false);
 			bSuccess = true;
@@ -106,13 +106,13 @@ namespace Nelson {
 	}
 	//=============================================================================
 	template <class T>
-	ArrayOf complex_plus_complex(Class commonClassComplex, Class commonClassReal, const ArrayOf &A, const ArrayOf &B, bool mustRaiseError, bool &bSuccess)
+	ArrayOf complex_minus_complex(Class commonClassComplex, Class commonClassReal, const ArrayOf &A, const ArrayOf &B, bool mustRaiseError, bool &bSuccess)
 	{
 		ArrayOf res;
 		checkDimensions(A, B);
 		if (A.isEmpty())
 		{
-			return empty_plus_generic(A, B, mustRaiseError, bSuccess);
+			return empty_minus_generic(A, B, mustRaiseError, bSuccess);
 		}
 		T *ptrA = (T*)A.getDataPointer();
 		T *ptrB = (T*)B.getDataPointer();
@@ -124,7 +124,7 @@ namespace Nelson {
 		{
 			T *ptrC = (T*)ArrayOf::allocateArrayOf(commonClassComplex, 1);
 			std::complex<T>* ptrCz = reinterpret_cast<std::complex<T>*>(ptrC);
-			ptrCz[0] = ptrAz[0] + ptrBz[0];
+			ptrCz[0] = ptrAz[0] - ptrBz[0];
 			res = ArrayOf(commonClassComplex, Dimensions(1, 1), ptrC, false);
 			bSuccess = true;
 		}
@@ -146,7 +146,7 @@ namespace Nelson {
 				{
 					for (size_t k = 0; k < Clen; k++)
 					{
-						ptrCz[k] = ptrAz[0] + ptrBz[k];
+						ptrCz[k] = ptrAz[0] - ptrBz[k];
 					}
 				}
 				else
@@ -155,7 +155,7 @@ namespace Nelson {
 					size_t nC = dimsC.getColumns();
 					Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matC(ptrCz, mC, nC);
 					Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matB(ptrBz, mB, nB);
-					matC = ptrAz[0] + matB.array();
+					matC = ptrAz[0] - matB.array();
 				}
 			}
 			else if (B.isScalar())
@@ -164,7 +164,7 @@ namespace Nelson {
 				{
 					for (size_t k = 0; k < Clen; k++)
 					{
-						ptrCz[k] = ptrAz[k] + ptrBz[0];
+						ptrCz[k] = ptrAz[k] - ptrBz[0];
 					}
 				}
 				else
@@ -173,7 +173,7 @@ namespace Nelson {
 					size_t nC = dimsC.getColumns();
 					Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matC(ptrCz, mC, nC);
 					Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matA(ptrAz, mA, nA);
-					matC = matA.array() + ptrBz[0];
+					matC = matA.array() - ptrBz[0];
 				}
 			}
 			else
@@ -181,7 +181,7 @@ namespace Nelson {
 				Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, 1>> matC(ptrCz, dimsC.getElementCount(), 1);
 				Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, 1>> matA(ptrAz, A.getDimensions().getElementCount(), 1);
 				Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, 1>> matB(ptrBz, B.getDimensions().getElementCount(), 1);
-				matC = matA + matB;
+				matC = matA - matB;
 			}
 			res = ArrayOf(commonClassComplex, dimsC, ptrC, false);
 		}
@@ -193,14 +193,14 @@ namespace Nelson {
 		return res;
 	}
 	//=============================================================================
-    ArrayOf Addition(ArrayOf &A, ArrayOf &B, bool mustRaiseError, bool &bSuccess)
+    ArrayOf Substraction(ArrayOf &A, ArrayOf &B, bool mustRaiseError, bool &bSuccess)
     {
         bSuccess = false;
 		if (A.isSparse() || B.isSparse())
 		{
 			if (mustRaiseError)
 			{
-				std::string overload = ClassName(A) + "_plus_" + ClassName(B);
+				std::string overload = ClassName(A) + "_minus_" + ClassName(B);
 				throw Exception(_("function") + " " + overload + " " + _("undefined."));
 			}
 			else
@@ -211,12 +211,12 @@ namespace Nelson {
 		if ((A.isNdArrayDoubleType(true) || A.isDoubleType(true)) && 
 			(B.isNdArrayDoubleType(true) || B.isDoubleType(true)))
 		{
-			return real_plus_real<double>(NLS_DOUBLE, A, B, mustRaiseError, bSuccess);
+			return real_minus_real<double>(NLS_DOUBLE, A, B, mustRaiseError, bSuccess);
 		}
 		if ((A.isNdArraySingleType(true) || A.isSingleType(true)) &&
 			(B.isNdArraySingleType(true) || B.isSingleType(true)))
 		{
-			return real_plus_real<single>(NLS_SINGLE, A, B, mustRaiseError, bSuccess);
+			return real_minus_real<single>(NLS_SINGLE, A, B, mustRaiseError, bSuccess);
 		}
 
 		if ((A.isNdArrayDoubleType(false) || A.isDoubleType(false)) &&
@@ -224,13 +224,13 @@ namespace Nelson {
         {
             if (A.getDataClass() == B.getDataClass())
             {
-                return complex_plus_complex<double>(NLS_DCOMPLEX, NLS_DOUBLE, A, B, mustRaiseError, bSuccess);
+                return complex_minus_complex<double>(NLS_DCOMPLEX, NLS_DOUBLE, A, B, mustRaiseError, bSuccess);
             }
             else
             {
                 A.promoteType(NLS_DCOMPLEX);
                 B.promoteType(NLS_DCOMPLEX);
-				return complex_plus_complex<double>(NLS_DCOMPLEX, NLS_DOUBLE, A, B, mustRaiseError, bSuccess);
+				return complex_minus_complex<double>(NLS_DCOMPLEX, NLS_DOUBLE, A, B, mustRaiseError, bSuccess);
             }
         }
 		if ((A.isNdArraySingleType(false) || A.isSingleType(false)) &&
@@ -238,25 +238,25 @@ namespace Nelson {
 		{
 			if (A.getDataClass() == B.getDataClass())
 			{
-				return complex_plus_complex<single>(NLS_SCOMPLEX, NLS_SINGLE, A, B, mustRaiseError, bSuccess);
+				return complex_minus_complex<single>(NLS_SCOMPLEX, NLS_SINGLE, A, B, mustRaiseError, bSuccess);
 			}
 			else
 			{
 				A.promoteType(NLS_SCOMPLEX);
 				B.promoteType(NLS_SCOMPLEX);
-				return complex_plus_complex<single>(NLS_SCOMPLEX, NLS_SINGLE, A, B, mustRaiseError, bSuccess);
+				return complex_minus_complex<single>(NLS_SCOMPLEX, NLS_SINGLE, A, B, mustRaiseError, bSuccess);
 			}
 		}
 
         if (mustRaiseError)
         {
-            std::string overload = ClassName(A) + "_plus_" + ClassName(B);
+            std::string overload = ClassName(A) + "_minus_" + ClassName(B);
             throw Exception(_("function") + " " + overload + " " + _("undefined."));
         }
         return ArrayOf();
     }
     //=============================================================================
-    ArrayOf empty_plus_generic(ArrayOf A, ArrayOf B, bool mustRaiseError, bool &bSuccess)
+    ArrayOf empty_minus_generic(ArrayOf A, ArrayOf B, bool mustRaiseError, bool &bSuccess)
     {
         ArrayOf res;
         Dimensions dimA = A.getDimensions();
@@ -278,7 +278,7 @@ namespace Nelson {
                 {
                     if (mustRaiseError)
                     {
-                        throw Exception(_W("using operator '+' \n Matrix dimensions must agree."));
+                        throw Exception(_W("using operator '-' \n Matrix dimensions must agree."));
                     }
                     else
                     {
@@ -289,7 +289,7 @@ namespace Nelson {
             }
             if (B.isScalar())
             {
-                // [] + X returns []
+                // [] - X returns []
                 bSuccess = true;
                 return ArrayOf(A);
             }
@@ -297,7 +297,7 @@ namespace Nelson {
             {
                 if (mustRaiseError)
                 {
-                    throw Exception(_W("using operator '+' \n Matrix dimensions must agree."));
+                    throw Exception(_W("using operator '-' \n Matrix dimensions must agree."));
                 }
                 else
                 {
@@ -329,7 +329,7 @@ namespace Nelson {
 	{
 		if (!(SameSizeCheck(A.getDimensions(), B.getDimensions()) || A.isScalar() || B.isScalar()))
 		{
-			throw Exception(_W("Size mismatch on arguments to arithmetic operator ") + L"+");
+			throw Exception(_W("Size mismatch on arguments to arithmetic operator ") + L"-");
 		}
 	}
 	//=============================================================================

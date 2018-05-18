@@ -709,7 +709,7 @@ namespace Nelson {
         size_t countSubExpressions(ASTPtr t);
 
 		typedef ArrayOf(*BinaryFunction)(ArrayOf &A, ArrayOf &B, bool mustRaiseError, bool &bSuccess);
-		ArrayOf doBinaryOperatorOverload(ArrayOf &A, ArrayOf &B, BinaryFunction functionOperator, std::string functionName);
+		ArrayOf doBinaryOperatorOverload(ASTPtr t, BinaryFunction functionOperator, std::string functionName);
 
     };
     NLSINTERPRETER_IMPEXP void sigInterrupt(int arg);

@@ -1,3 +1,10 @@
+  * Overload speed optimization:
+
+    plus, minus, eq, gt operators
+    use by default predefined functions and search if operators are missing.
+    
+
+
 Features:
 ---------
 

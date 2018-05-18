@@ -88,8 +88,10 @@
 #include "OverloadUnaryOperator.hpp"
 #include "OverloadTrinaryOperator.hpp"
 #include "ComplexTranspose.hpp"
-#include "Addition.hpp"
 #include "OverloadRequired.hpp"
+#include "Addition.hpp"
+#include "Substraction.hpp"
+#include "GreaterThan.hpp"
 
 #ifdef _MSC_VER
 #define strdup _strdup
@@ -152,11 +154,11 @@ namespace Nelson {
     {
         if (!cstack.empty())
         {
-            if (cstack.size() > cstack.capacity() - 100)
+            if (cstack.size() > cstack.capacity() - 1)
             {
                 cstack.reserve(cstack.capacity() * 2);
             }
-            cstack.push_back(StackEntry(cstack.back().cname, cstack.back().detail, a));
+			cstack.emplace_back(StackEntry(cstack.back().cname, cstack.back().detail, a));
         }
         else
         {
@@ -193,10 +195,7 @@ namespace Nelson {
 
     void Evaluator::clearStacks()
     {
-        //    cname = "base";
         cstack.clear();
-        //        cstack.reserve(4096 * 2);
-        //    gstack.push_back(cname);
     }
 
     State Evaluator::setState(State newState)
@@ -529,14 +528,12 @@ namespace Nelson {
                 break;
                 case OP_PLUS:
                 {
-                    ArrayOf a = expression(t->down);
-                    ArrayOf b = expression(t->down->right);
-					retval = doBinaryOperatorOverload(a, b, Addition, "plus");
+					retval = doBinaryOperatorOverload(t, Addition, "plus");
                 }
                 break;
                 case OP_SUBTRACT:
                 {
-                    retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "minus");
+					retval = doBinaryOperatorOverload(t, Substraction, "minus");
                 }
                 break;
                 case OP_TIMES:
@@ -586,7 +583,7 @@ namespace Nelson {
                 break;
                 case OP_GT:
                 {
-                    retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "gt");
+					retval = doBinaryOperatorOverload(t, GreaterThan, "gt");
                 }
                 break;
                 case OP_GEQ:
@@ -596,10 +593,7 @@ namespace Nelson {
                 break;
                 case OP_EQ:
                 {
-                    bool bSuccess;
-                    ArrayOf a = expression(t->down);
-                    ArrayOf b = expression(t->down->right);
-					retval = doBinaryOperatorOverload(a, b, Equals, "eq");
+					retval = doBinaryOperatorOverload(t, Equals, "eq");
                 }
                 break;
                 case OP_NEQ:
@@ -4187,6 +4181,7 @@ namespace Nelson {
         inStepMode = false;
         bpActive = false;
         clearStacks();
+		cstack.reserve(4096);
         commandLineArguments.clear();
     }
     //=============================================================================
@@ -4787,10 +4782,12 @@ namespace Nelson {
         return count;
     }
     //=============================================================================
-	ArrayOf Evaluator::doBinaryOperatorOverload(ArrayOf &A, ArrayOf &B, BinaryFunction functionOperator, std::string functionName)
+	ArrayOf Evaluator::doBinaryOperatorOverload(ASTPtr t, BinaryFunction functionOperator, std::string functionName)
 	{
 		ArrayOf res;
 		bool bSuccess = false;
+		ArrayOf A(expression(t->down));
+		ArrayOf B(expression(t->down->right));
 		if (!overloadOnBasicTypes)
 		{
 			res = functionOperator(A, B, false, bSuccess);

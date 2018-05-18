@@ -19,6 +19,7 @@
 #include "Equals.hpp"
 #include "MatrixCheck.hpp"
 #include "Exception.hpp"
+#include "ClassName.hpp"
 //=============================================================================
 namespace Nelson {
     //=============================================================================
@@ -102,6 +103,19 @@ namespace Nelson {
     {
         // Process the two arguments through the type check and dimension checks...
         VectorCheck(A, B, "==");
+		if (A.isSparse() || B.isSparse())
+		{
+			if (mustRaiseError)
+			{
+				std::string overload = ClassName(A) + "_plus_" + ClassName(B);
+				throw Exception(_("function") + " " + overload + " " + _("undefined."));
+			}
+			else
+			{
+				bSuccess = false;
+				return ArrayOf();
+			}
+		}
         Class classCommon = FindCommonType(A, B, false);
         try
         {
@@ -112,8 +126,8 @@ namespace Nelson {
         {
             if (mustRaiseError)
             {
-                throw;
-            }
+				throw;
+			}
             else
             {
                 bSuccess = false;
@@ -219,7 +233,8 @@ namespace Nelson {
             {
                 if (mustRaiseError)
                 {
-                    throw Exception(_W("Eq: type(s) not managed."));
+					std::string overload = ClassName(A) + "_eq_" + ClassName(B);
+					throw Exception(_("function") + " " + overload + " " + _("undefined."));
                 }
                 else
                 {

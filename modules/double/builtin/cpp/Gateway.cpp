@@ -17,7 +17,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NelsonGateway.hpp"
-#include "double_minus_doubleBuiltin.hpp"
 #include "double_dispBuiltin.hpp"
 #include "ndarraydouble_dispBuiltin.hpp"
 #include "double_uminusBuiltin.hpp"
@@ -26,7 +25,6 @@
 #include "colon_double_double_doubleBuiltin.hpp"
 #include "double_mtimes_doubleBuiltin.hpp"
 #include "double_times_doubleBuiltin.hpp"
-#include "double_gt_doubleBuiltin.hpp"
 #include "double_ne_doubleBuiltin.hpp"
 #include "double_lt_doubleBuiltin.hpp"
 #include "double_le_doubleBuiltin.hpp"
@@ -46,7 +44,6 @@ const std::wstring gatewayName = L"double";
 //=============================================================================
 static const nlsGateway gateway[] =
 {
-    { "double_minus_double", Nelson::DoubleGateway::double_minus_doubleBuiltin, 1, 2 },
     { "double_disp", Nelson::DoubleGateway::double_dispBuiltin, 0, 1 },
     { "ndarraydouble_disp", Nelson::DoubleGateway::ndarraydouble_dispBuiltin, 0, 1 },
     { "double_uminus", Nelson::DoubleGateway::double_uminusBuiltin, 1, 1 },
@@ -58,7 +55,6 @@ static const nlsGateway gateway[] =
     { "ndarraydouble_times_ndarraydouble", Nelson::DoubleGateway::double_times_doubleBuiltin, 1, 2 },
     { "double_times_ndarraydouble", Nelson::DoubleGateway::double_times_doubleBuiltin, 1, 2 },
     { "ndarraydouble_times_double", Nelson::DoubleGateway::double_times_doubleBuiltin, 1, 2 },
-    { "double_gt_double", Nelson::DoubleGateway::double_gt_doubleBuiltin, 1, 2 },
     { "double_lt_double", Nelson::DoubleGateway::double_lt_doubleBuiltin, 1, 2 },
     { "double_le_double", Nelson::DoubleGateway::double_le_doubleBuiltin, 1, 2 },
     { "double_ge_double", Nelson::DoubleGateway::double_ge_doubleBuiltin, 1, 2 },
