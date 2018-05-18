@@ -6,23 +6,45 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 2 of the License, or
 // (at your option) any later version.
-//
+// 
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-//
+// 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+R = 1 + 1;
+REF = 2;
+assert_isequal(R, REF);
 //=============================================================================
-#include "nlsDouble_exports.h"
-#include "ArrayOf.hpp"
+R = ones(3, 0) + 1;
+REF = zeros(3, 0);
+assert_isequal(R, REF);
 //=============================================================================
-namespace Nelson {
-    NLSDOUBLE_IMPEXP ArrayOf double_plus_double(ArrayOf a, ArrayOf b);
-
-}
+R = ones(3, 0) + ones(3, 0);
+REF = zeros(3, 0);
+assert_isequal(R, REF);
+//=============================================================================
+R = ones(3, 3) + ones(3, 3);
+REF = ones(3, 3) * 2;
+assert_isequal(R, REF);
+//=============================================================================
+R = 1 + zeros(3, 3, 3);
+REF = ones(3, 3, 3);
+assert_isequal(R, REF);
+//=============================================================================
+R = zeros(3, 3, 3) + 1;
+REF = ones(3, 3, 3);
+assert_isequal(R, REF);
+//=============================================================================
+R = ones(3, 3, 3) + ones(3, 3, 3);
+REF = ones(3, 3, 3) + 1;
+assert_isequal(R, REF);
+//=============================================================================
+R = 3 + i;
+REF = complex(3, 1);
+assert_isequal(R, REF);
 //=============================================================================

@@ -26,6 +26,6 @@ namespace Nelson {
     /**
     * Element-wise compare (eq) of two arrays: C = (A == B).
     */
-    NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf Equals(ArrayOf A, ArrayOf B, bool mustRaiseError, bool &bSuccess);
+    NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf Equals(ArrayOf &A, ArrayOf &B, bool mustRaiseError, bool &bSuccess);
 }
 //=============================================================================

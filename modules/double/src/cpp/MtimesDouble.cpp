@@ -204,6 +204,12 @@ namespace Nelson {
     //=============================================================================
     ArrayOf double_mtimes_double(ArrayOf a, ArrayOf b)
     {
+		Dimensions dimsA = a.getDimensions();
+		Dimensions dimsB = b.getDimensions();
+		if (dimsA.getLength() > 2 || dimsB.getLength() > 2)
+		{
+			throw Exception(ERROR_WRONG_ARGUMENTS_SIZE_2D_MATRIX_EXPECTED);
+		}
         if (!a.isDoubleType() || !b.isDoubleType())
         {
             throw Exception(ERROR_WRONG_ARGUMENTS_TYPE_DOUBLE_EXPECTED);
@@ -214,8 +220,6 @@ namespace Nelson {
         }
         if (a.isEmpty() || b.isEmpty())
         {
-            Dimensions dimsA = a.getDimensions();
-            Dimensions dimsB = b.getDimensions();
             dimsA.simplify();
             dimsB.simplify();
             // [] * 2
@@ -255,14 +259,7 @@ namespace Nelson {
                 Dimensions dimsC(dimsA[0], 0);
                 return ArrayOf::emptyConstructor(dimsC);
             }
-            if (dimsA.getLength() > 2 || dimsB.getLength() > 2)
-            {
-                throw Exception(ERROR_WRONG_ARGUMENTS_SIZE_2D_MATRIX_EXPECTED);
-            }
-            else
-            {
-                throw Exception(_W("Size mismatch on arguments to arithmetic operator ") + L"*");
-            }
+			throw Exception(_W("Size mismatch on arguments to arithmetic operator ") + L"*");
         }
         if (!a.is2D() || !b.is2D())
         {

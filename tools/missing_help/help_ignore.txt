@@ -33,7 +33,6 @@ double_lt_double
 double_minus_double
 double_mtimes_double
 double_ne_double
-double_plus_double
 double_times_double
 double_times_ndarraydouble
 double_uminus
@@ -164,7 +163,6 @@ single_horzcat_single
 single_isequal
 single_isequaln
 single_minus_single
-single_plus_single
 single_uminus
 single_vertcat_single
 sparsedouble_ctranspose

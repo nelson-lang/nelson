@@ -27,20 +27,15 @@ namespace Nelson {
         return (dp->sparse);
     }
     //=============================================================================
-    const bool ArrayOf::isSparseDouble(bool realOnly) const
-    {
-        if (realOnly)
-        {
-            return (dp->dataClass == NLS_DOUBLE && dp->sparse);
-        }
-        return (dp->dataClass == NLS_DOUBLE || dp->dataClass == NLS_DCOMPLEX) && (dp->sparse);
-    }
-    //=============================================================================
-    const bool ArrayOf::isSparseLogical() const
-    {
-        return (dp->dataClass == NLS_LOGICAL) && (dp->sparse);
-    }
-    //=============================================================================
+	const bool ArrayOf::isSparseDoubleType(bool realOnly) const
+	{
+		if (dp->sparse)
+		{
+			return dp->dataClass == NLS_DOUBLE || (dp->dataClass == NLS_DCOMPLEX && !realOnly);
+		}
+		return false;
+	}
+	//=============================================================================
     const void *ArrayOf::getSparseDataPointer() const
     {
         if (dp)

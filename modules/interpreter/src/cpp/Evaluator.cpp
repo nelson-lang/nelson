@@ -529,32 +529,9 @@ namespace Nelson {
                 break;
                 case OP_PLUS:
                 {
-                    bool bSuccess;
                     ArrayOf a = expression(t->down);
                     ArrayOf b = expression(t->down->right);
-                    if (!overloadOnBasicTypes)
-                    {
-                        retval = Addition(a, b, false, bSuccess);
-                        if (!bSuccess)
-                        {
-                            retval = OverloadBinaryOperator(this, a, b, "plus", bSuccess);
-                            if (!bSuccess)
-                            {
-                                ArrayOfVector argsIn;
-                                argsIn.push_back(a);
-                                argsIn.push_back(b);
-                                OverloadRequired(this, argsIn, Nelson::BINARY, "plus");
-                            }
-                        }
-                    }
-                    else
-                    {
-                        retval = OverloadBinaryOperator(this, a, b, "plus", bSuccess);
-                        if (!bSuccess)
-                        {
-                            retval = Addition(a, b, true, bSuccess);
-                        }
-                    }
+					retval = doBinaryOperatorOverload(a, b, Addition, "plus");
                 }
                 break;
                 case OP_SUBTRACT:
@@ -622,29 +599,7 @@ namespace Nelson {
                     bool bSuccess;
                     ArrayOf a = expression(t->down);
                     ArrayOf b = expression(t->down->right);
-                    if (!overloadOnBasicTypes)
-                    {
-                        retval = Equals(a, b, false, bSuccess);
-                        if (!bSuccess)
-                        {
-                            retval = OverloadBinaryOperator(this, a, b, "eq", bSuccess);
-                            if (!bSuccess)
-                            {
-                                ArrayOfVector argsIn;
-                                argsIn.push_back(a);
-                                argsIn.push_back(b);
-                                OverloadRequired(this, argsIn, Nelson::BINARY, "eq");
-                            }
-                        }
-                    }
-                    else
-                    {
-                        retval = OverloadBinaryOperator(this, a, b, "eq", bSuccess);
-                        if (!bSuccess)
-                        {
-                            retval = Equals(a, b, true, bSuccess);
-                        }
-                    }
+					retval = doBinaryOperatorOverload(a, b, Equals, "eq");
                 }
                 break;
                 case OP_NEQ:
@@ -4832,5 +4787,35 @@ namespace Nelson {
         return count;
     }
     //=============================================================================
+	ArrayOf Evaluator::doBinaryOperatorOverload(ArrayOf &A, ArrayOf &B, BinaryFunction functionOperator, std::string functionName)
+	{
+		ArrayOf res;
+		bool bSuccess = false;
+		if (!overloadOnBasicTypes)
+		{
+			res = functionOperator(A, B, false, bSuccess);
+			if (!bSuccess)
+			{
+				res = OverloadBinaryOperator(this, A, B, functionName, bSuccess);
+				if (!bSuccess)
+				{
+					ArrayOfVector argsIn;
+					argsIn.push_back(A);
+					argsIn.push_back(B);
+					OverloadRequired(this, argsIn, Nelson::BINARY, functionName);
+				}
+			}
+		}
+		else
+		{
+			res = OverloadBinaryOperator(this, A, B, functionName, bSuccess);
+			if (!bSuccess)
+			{
+				res = functionOperator(A, B, true, bSuccess);
+			}
+		}
+		return res;
+	}
+	//=============================================================================
 }
 //=============================================================================

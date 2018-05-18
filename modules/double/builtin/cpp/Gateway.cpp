@@ -17,7 +17,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NelsonGateway.hpp"
-#include "double_plus_doubleBuiltin.hpp"
 #include "double_minus_doubleBuiltin.hpp"
 #include "double_dispBuiltin.hpp"
 #include "ndarraydouble_dispBuiltin.hpp"
@@ -47,7 +46,6 @@ const std::wstring gatewayName = L"double";
 //=============================================================================
 static const nlsGateway gateway[] =
 {
-    { "double_plus_double", Nelson::DoubleGateway::double_plus_doubleBuiltin, 1, 2 },
     { "double_minus_double", Nelson::DoubleGateway::double_minus_doubleBuiltin, 1, 2 },
     { "double_disp", Nelson::DoubleGateway::double_dispBuiltin, 0, 1 },
     { "ndarraydouble_disp", Nelson::DoubleGateway::ndarraydouble_dispBuiltin, 0, 1 },

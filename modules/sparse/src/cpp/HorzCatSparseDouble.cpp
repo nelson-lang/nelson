@@ -25,11 +25,11 @@ namespace Nelson {
     ArrayOf HorzCatSparseDouble(ArrayOf A, ArrayOf B)
     {
         ArrayOf C;
-        if (!A.isSparseDouble())
+        if (!A.isSparseDoubleType())
         {
             throw Exception(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_DOUBLE_EXPECTED);
         }
-        if (!B.isSparseDouble())
+        if (!B.isSparseDoubleType())
         {
             throw Exception(ERROR_WRONG_ARGUMENT_2_TYPE_SPARSE_DOUBLE_EXPECTED);
         }

@@ -31,7 +31,7 @@ namespace Nelson {
         return (dp->dataClass == NLS_LOGICAL) && !is2D();
     }
     //=============================================================================
-    const bool ArrayOf::isLogicalSparseType() const
+    const bool ArrayOf::isSparseLogicalType() const
     {
         return (dp->dataClass == NLS_LOGICAL) && (dp->sparse) && is2D();
     }

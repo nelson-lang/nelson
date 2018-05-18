@@ -34,7 +34,7 @@ ArrayOfVector Nelson::SparseGateway::sparselogical_transposeBuiltin(Evaluator* e
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf A = argIn[0];
-    if (!A.isSparseLogical())
+    if (!A.isSparseLogicalType())
     {
         Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_LOGICAL_EXPECTED);
     }

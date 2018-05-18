@@ -34,7 +34,7 @@ ArrayOfVector Nelson::SparseGateway::sparsedouble_ctransposeBuiltin(Evaluator* e
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf A = argIn[0];
-    if (!A.isSparseDouble())
+    if (!A.isSparseDoubleType())
     {
         Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_DOUBLE_EXPECTED);
     }

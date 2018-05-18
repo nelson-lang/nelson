@@ -164,7 +164,7 @@ namespace Nelson {
     //=============================================================================
     ArrayOf double_times_double(ArrayOf a, ArrayOf b)
     {
-        if (!a.isDoubleType() || !b.isDoubleType())
+        if (!((a.isDoubleType() || a.isNdArrayDoubleType()) && (b.isDoubleType() || b.isNdArrayDoubleType())))
         {
             throw Exception(ERROR_WRONG_ARGUMENTS_TYPE_DOUBLE_EXPECTED);
         }

@@ -172,7 +172,6 @@
     <ClCompile Include="..\cpp\LtSingle.cpp" />
     <ClCompile Include="..\cpp\MinusSingle.cpp" />
     <ClCompile Include="..\cpp\NeqSingle.cpp" />
-    <ClCompile Include="..\cpp\PlusSingle.cpp" />
     <ClCompile Include="..\cpp\SingleDisplay.cpp" />
     <ClCompile Include="..\cpp\SingleIsEqual.cpp" />
     <ClCompile Include="..\cpp\SingleIsEqualn.cpp" />
@@ -184,7 +183,6 @@
   <ItemGroup>
     <ClInclude Include="..\..\src\include\MinusSingle.hpp" />
     <ClInclude Include="..\..\src\include\nlsSingle_exports.h" />
-    <ClInclude Include="..\..\src\include\PlusSingle.hpp" />
     <ClInclude Include="..\..\src\include\ToSingle.hpp" />
     <ClInclude Include="..\..\src\include\UminusSingle.hpp" />
     <ClInclude Include="..\include\ColonSingle.hpp" />

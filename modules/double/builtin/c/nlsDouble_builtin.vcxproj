@@ -205,7 +205,6 @@
     <ClCompile Include="..\cpp\double_minus_doubleBuiltin.cpp" />
     <ClCompile Include="..\cpp\double_mtimes_doubleBuiltin.cpp" />
     <ClCompile Include="..\cpp\double_ne_doubleBuiltin.cpp" />
-    <ClCompile Include="..\cpp\double_plus_doubleBuiltin.cpp" />
     <ClCompile Include="..\cpp\double_times_doubleBuiltin.cpp" />
     <ClCompile Include="..\cpp\double_uminusBuiltin.cpp" />
     <ClCompile Include="..\cpp\double_vertcat_doubleBuiltin.cpp" />
@@ -235,7 +234,6 @@
     <ClInclude Include="..\include\double_minus_doubleBuiltin.hpp" />
     <ClInclude Include="..\include\double_mtimes_doubleBuiltin.hpp" />
     <ClInclude Include="..\include\double_ne_doubleBuiltin.hpp" />
-    <ClInclude Include="..\include\double_plus_doubleBuiltin.hpp" />
     <ClInclude Include="..\include\double_times_doubleBuiltin.hpp" />
     <ClInclude Include="..\include\double_uminusBuiltin.hpp" />
     <ClInclude Include="..\include\double_vertcat_doubleBuiltin.hpp" />

@@ -33,7 +33,7 @@ ArrayOfVector Nelson::SparseGateway::sparsedouble_imagBuiltin(Evaluator* eval, i
     {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (!argIn[0].isDoubleSparseType())
+    if (!argIn[0].isSparseDoubleType())
     {
         Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_DOUBLE_EXPECTED);
     }

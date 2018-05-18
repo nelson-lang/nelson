@@ -293,9 +293,7 @@ namespace Nelson {
          */
         const bool isRealAllZeros() const;
         const bool isSparse() const;
-        const bool isSparseDouble(bool realOnly = false) const;
-        const bool isSparseLogical() const;
-
+ 
         void makeSparse();
         void makeDense();
         indexType getNonzeros() const;
@@ -358,7 +356,7 @@ namespace Nelson {
         /**
         * Returns TRUE if we are a sparse double or complex data type.
         */
-        const bool isDoubleSparseType(bool realOnly = false) const;
+        const bool isSparseDoubleType(bool realOnly = false) const;
 
         /**
         * Returns TRUE if it is a ndarraydouble type (not sparse, not scalar, 2D matrix)
@@ -941,7 +939,7 @@ namespace Nelson {
 
         const bool isLogical() const;
         const bool isNdArrayLogical() const;
-        const bool isLogicalSparseType() const;
+        const bool isSparseLogicalType() const;
 
         const bool isNumeric() const;
 

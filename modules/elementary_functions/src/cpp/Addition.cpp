@@ -18,53 +18,224 @@
 //=============================================================================
 #include <Eigen/Dense>
 #include "Addition.hpp"
+#include "MatrixCheck.hpp"
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-    static ArrayOf double_plus_double(ArrayOf A, ArrayOf B, bool mustRaiseError, bool &bSuccess);
-    static ArrayOf dcomplex_plus_dcomplex(ArrayOf A, ArrayOf B, bool mustRaiseError, bool &bSuccess);
-    static ArrayOf single_plus_single(ArrayOf A, ArrayOf B, bool mustRaiseError, bool &bSuccess);
-    static ArrayOf scomplex_plus_scomplex(ArrayOf A, ArrayOf B, bool mustRaiseError, bool &bSuccess);
     static ArrayOf empty_plus_generic(ArrayOf A, ArrayOf B, bool mustRaiseError, bool &bSuccess);
     static Dimensions getOutputDimensions(ArrayOf A, ArrayOf B);
+	static void checkDimensions(ArrayOf A, ArrayOf B);
     //=============================================================================
-    ArrayOf Addition(ArrayOf A, ArrayOf B, bool mustRaiseError, bool &bSuccess)
+	template <class T>
+	ArrayOf real_plus_real(Class commonClass, const ArrayOf &A, const ArrayOf &B, bool mustRaiseError, bool &bSuccess)
+	{
+		ArrayOf res;
+		checkDimensions(A, B);
+		if (A.isEmpty())
+		{
+			return empty_plus_generic(A, B, mustRaiseError, bSuccess);
+		}
+		T *ptrA = (T*)A.getDataPointer();
+		T *ptrB = (T*)B.getDataPointer();
+
+		if (A.isScalar() && B.isScalar())
+		{
+			T *ptrC = (T*)ArrayOf::allocateArrayOf(commonClass, 1);
+			ptrC[0] = ptrA[0] + ptrB[0];
+			res = ArrayOf(commonClass, Dimensions(1, 1), ptrC, false);
+			bSuccess = true;
+		}
+		else
+		{
+			Dimensions dimsC = getOutputDimensions(A, B);
+			indexType Clen = dimsC.getElementCount();
+			T *ptrC = (T*)ArrayOf::allocateArrayOf(commonClass, Clen);
+			Dimensions dimA = A.getDimensions();
+			size_t mA = dimA.getRows();
+			size_t nA = dimA.getColumns();
+			Dimensions dimB = B.getDimensions();
+			size_t mB = dimB.getRows();
+			size_t nB = dimB.getColumns();
+			if (A.isScalar())
+			{
+				if (!B.is2D())
+				{
+					for (size_t k = 0; k < Clen; k++)
+					{
+						ptrC[k] = ptrA[0] + ptrB[k];
+					}
+				}
+				else
+				{
+					size_t mC = dimsC.getRows();
+					size_t nC = dimsC.getColumns();
+					Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matC(ptrC, mC, nC);
+					Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matB(ptrB, mB, nB);
+					matC = ptrA[0] + matB.array();
+				}
+			}
+			else if (B.isScalar())
+			{
+				if (!A.is2D())
+				{
+					for (size_t k = 0; k < Clen; k++)
+					{
+						ptrC[k] = ptrA[k] + ptrB[0];
+					}
+				}
+				else
+				{
+					size_t mC = dimsC.getRows();
+					size_t nC = dimsC.getColumns();
+					Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matC(ptrC, mC, nC);
+					Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matA(ptrA, mA, nA);
+					matC = matA.array() + ptrB[0];
+				}
+			}
+			else
+			{
+				Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, 1>> matC(ptrC, dimsC.getElementCount(), 1);
+				Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, 1>> matA(ptrA, A.getDimensions().getElementCount(), 1);
+				Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, 1>> matB(ptrB, B.getDimensions().getElementCount(), 1);
+				matC = matA + matB;
+			}
+			res = ArrayOf(commonClass, dimsC, ptrC, false);
+			bSuccess = true;
+		}
+		return res;
+	}
+	//=============================================================================
+	template <class T>
+	ArrayOf complex_plus_complex(Class commonClassComplex, Class commonClassReal, const ArrayOf &A, const ArrayOf &B, bool mustRaiseError, bool &bSuccess)
+	{
+		ArrayOf res;
+		checkDimensions(A, B);
+		if (A.isEmpty())
+		{
+			return empty_plus_generic(A, B, mustRaiseError, bSuccess);
+		}
+		T *ptrA = (T*)A.getDataPointer();
+		T *ptrB = (T*)B.getDataPointer();
+		std::complex<T>* ptrAz = reinterpret_cast<std::complex<T>*>(ptrA);
+		std::complex<T>* ptrBz = reinterpret_cast<std::complex<T>*>(ptrB);
+
+		Dimensions dimsC = getOutputDimensions(A, B);
+		if (A.isScalar() && B.isScalar())
+		{
+			T *ptrC = (T*)ArrayOf::allocateArrayOf(commonClassComplex, 1);
+			std::complex<T>* ptrCz = reinterpret_cast<std::complex<T>*>(ptrC);
+			ptrCz[0] = ptrAz[0] + ptrBz[0];
+			res = ArrayOf(commonClassComplex, Dimensions(1, 1), ptrC, false);
+			bSuccess = true;
+		}
+		else
+		{
+			Dimensions dimsC = getOutputDimensions(A, B);
+			indexType Clen = dimsC.getElementCount();
+			T *ptrC = (T*)ArrayOf::allocateArrayOf(commonClassComplex, Clen);
+			std::complex<T>* ptrCz = reinterpret_cast<std::complex<T>*>(ptrC);
+			Dimensions dimA = A.getDimensions();
+			size_t mA = dimA.getRows();
+			size_t nA = dimA.getColumns();
+			Dimensions dimB = B.getDimensions();
+			size_t mB = dimB.getRows();
+			size_t nB = dimB.getColumns();
+			if (A.isScalar())
+			{
+				if (!B.is2D())
+				{
+					for (size_t k = 0; k < Clen; k++)
+					{
+						ptrCz[k] = ptrAz[0] + ptrBz[k];
+					}
+				}
+				else
+				{
+					size_t mC = dimsC.getRows();
+					size_t nC = dimsC.getColumns();
+					Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matC(ptrCz, mC, nC);
+					Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matB(ptrBz, mB, nB);
+					matC = ptrAz[0] + matB.array();
+				}
+			}
+			else if (B.isScalar())
+			{
+				if (!A.isScalar())
+				{
+					for (size_t k = 0; k < Clen; k++)
+					{
+						ptrCz[k] = ptrAz[k] + ptrBz[0];
+					}
+				}
+				else
+				{
+					size_t mC = dimsC.getRows();
+					size_t nC = dimsC.getColumns();
+					Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matC(ptrCz, mC, nC);
+					Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matA(ptrAz, mA, nA);
+					matC = matA.array() + ptrBz[0];
+				}
+			}
+			else
+			{
+				Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, 1>> matC(ptrCz, dimsC.getElementCount(), 1);
+				Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, 1>> matA(ptrAz, A.getDimensions().getElementCount(), 1);
+				Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, 1>> matB(ptrBz, B.getDimensions().getElementCount(), 1);
+				matC = matA + matB;
+			}
+			res = ArrayOf(commonClassComplex, dimsC, ptrC, false);
+		}
+		if (res.allReal())
+		{
+			res.promoteType(commonClassReal);
+		}
+		bSuccess = true;
+		return res;
+	}
+	//=============================================================================
+    ArrayOf Addition(ArrayOf &A, ArrayOf &B, bool mustRaiseError, bool &bSuccess)
     {
         bSuccess = false;
-        if (A.isDoubleType(true) && B.isDoubleType(true))
-        {
-            return double_plus_double(A, B, mustRaiseError, bSuccess);
-        }
-        if (A.isSingleType(true) && B.isSingleType(true))
-        {
-            return single_plus_single(A, B, mustRaiseError, bSuccess);
-        }
-        if (A.isDoubleType(false) && B.isDoubleType(false))
+		if ((A.isNdArrayDoubleType(true) || A.isDoubleType(true)) && 
+			(B.isNdArrayDoubleType(true) || B.isDoubleType(true)))
+		{
+			return real_plus_real<double>(NLS_DOUBLE, A, B, mustRaiseError, bSuccess);
+		}
+		if ((A.isNdArraySingleType(true) || A.isSingleType(true)) &&
+			(B.isNdArraySingleType(true) || B.isSingleType(true)))
+		{
+			return real_plus_real<single>(NLS_SINGLE, A, B, mustRaiseError, bSuccess);
+		}
+
+		if ((A.isNdArrayDoubleType(false) || A.isDoubleType(false)) &&
+			(B.isNdArrayDoubleType(false) || B.isDoubleType(false)))
         {
             if (A.getDataClass() == B.getDataClass())
             {
-                return dcomplex_plus_dcomplex(A, B, mustRaiseError, bSuccess);
+                return complex_plus_complex<double>(NLS_DCOMPLEX, NLS_DOUBLE, A, B, mustRaiseError, bSuccess);
             }
             else
             {
                 A.promoteType(NLS_DCOMPLEX);
                 B.promoteType(NLS_DCOMPLEX);
-                return dcomplex_plus_dcomplex(A, B, mustRaiseError, bSuccess);
+				return complex_plus_complex<double>(NLS_DCOMPLEX, NLS_DOUBLE, A, B, mustRaiseError, bSuccess);
             }
         }
-        if (A.isSingleType(false) && B.isSingleType(false))
-        {
-            if (A.getDataClass() == B.getDataClass())
-            {
-                return scomplex_plus_scomplex(A, B, mustRaiseError, bSuccess);
-            }
-            else
-            {
-                A.promoteType(NLS_SCOMPLEX);
-                B.promoteType(NLS_SCOMPLEX);
-                return scomplex_plus_scomplex(A, B, mustRaiseError, bSuccess);
-            }
-        }
+		if ((A.isNdArraySingleType(false) || A.isSingleType(false)) &&
+			(B.isNdArraySingleType(false) || B.isSingleType(false)))
+		{
+			if (A.getDataClass() == B.getDataClass())
+			{
+				return complex_plus_complex<single>(NLS_SCOMPLEX, NLS_SINGLE, A, B, mustRaiseError, bSuccess);
+			}
+			else
+			{
+				A.promoteType(NLS_SCOMPLEX);
+				B.promoteType(NLS_SCOMPLEX);
+				return complex_plus_complex<single>(NLS_SCOMPLEX, NLS_SINGLE, A, B, mustRaiseError, bSuccess);
+			}
+		}
+
         if (mustRaiseError)
         {
             std::string overload = ClassName(A) + "_plus_" + ClassName(B);
@@ -123,6 +294,8 @@ namespace Nelson {
                 }
             }
         }
+		res = ArrayOf(A);
+		bSuccess = true;
         return res;
     }
     //=============================================================================
@@ -140,271 +313,13 @@ namespace Nelson {
         return outputDimensions;
     }
     //=============================================================================
-    ArrayOf double_plus_double(ArrayOf A, ArrayOf B, bool mustRaiseError, bool &bSuccess)
-    {
-        ArrayOf res;
-        if (A.isEmpty())
-        {
-            return empty_plus_generic(A, B, mustRaiseError, bSuccess);
-        }
-        if (A.isScalar() && B.isScalar())
-        {
-            bSuccess = true;
-            double *ptrA = (double*)A.getDataPointer();
-            double *ptrB = (double*)B.getDataPointer();
-            res = ArrayOf::doubleConstructor(ptrA[0] + ptrB[0]);
-        }
-        else
-        {
-            Dimensions dimsC = getOutputDimensions(A, B);
-            indexType Clen = dimsC.getElementCount();
-            void *Cp = new_with_exception<double>(Clen);
-            size_t mC = dimsC.getRows();
-            size_t nC = dimsC.getColumns();
-            Eigen::Map<Eigen::MatrixXd> matC((double*)Cp, mC, nC);
-            Dimensions dimA = A.getDimensions();
-            size_t mA = dimA.getRows();
-            size_t nA = dimA.getColumns();
-            Dimensions dimB = B.getDimensions();
-            size_t mB = dimB.getRows();
-            size_t nB = dimB.getColumns();
-            if (A.isScalar())
-            {
-                Eigen::Map<Eigen::MatrixXd> matB((double*)B.getDataPointer(), mB, nB);
-                matC = A.getContentAsDoubleScalar() + matB.array();
-            }
-            else if (B.isScalar())
-            {
-                Eigen::Map<Eigen::MatrixXd> matA((double*)A.getDataPointer(), mA, nA);
-                matC = matA.array() + B.getContentAsDoubleScalar();
-            }
-            else
-            {
-                Eigen::Map<Eigen::MatrixXd> matA((double*)A.getDataPointer(), mA, nA);
-                Eigen::Map<Eigen::MatrixXd> matB((double*)B.getDataPointer(), mB, nB);
-                matC = matA + matB;
-            }
-            res = ArrayOf(NLS_DOUBLE, dimsC, Cp, false);
-            bSuccess = true;
-        }
-        return res;
-    }
-    //=============================================================================
-    ArrayOf dcomplex_plus_dcomplex(ArrayOf A, ArrayOf B, bool mustRaiseError, bool &bSuccess)
-    {
-        ArrayOf res;
-        if (A.isEmpty())
-        {
-            return empty_plus_generic(A, B, mustRaiseError, bSuccess);
-        }
-        if (A.isScalar() && B.isScalar())
-        {
-            res = A;
-            res.ensureSingleOwner();
-            double *da = (double*)A.getDataPointer();
-            double *db = (double*)B.getDataPointer();
-            double *dres = (double*)res.getDataPointer();
-            dres[0] = da[0] + db[0];
-            dres[1] = da[1] + db[1];
-            bSuccess = true;
-        }
-        else
-        {
-            Dimensions dimsC = getOutputDimensions(A, B);
-            indexType Clen = dimsC.getElementCount();
-            void *Cp = new_with_exception<double>(Clen * 2);
-            doublecomplex* Cz = reinterpret_cast<doublecomplex*>(Cp);
-            size_t mC = dimsC.getRows();
-            size_t nC = dimsC.getColumns();
-            Eigen::Map<Eigen::MatrixXcd> matC(Cz, mC, nC);
-            Dimensions dimA = A.getDimensions();
-            size_t mA = dimA.getRows();
-            size_t nA = dimA.getColumns();
-            Dimensions dimB = B.getDimensions();
-            size_t mB = dimB.getRows();
-            size_t nB = dimB.getColumns();
-            if (A.isScalar())
-            {
-                double *da = (double*)A.getDataPointer();
-                doublecomplex* Az = reinterpret_cast<doublecomplex*>(da);
-                if (B.getDataClass() == NLS_DCOMPLEX)
-                {
-                    double *db = (double*)B.getDataPointer();
-                    doublecomplex* Bz = reinterpret_cast<doublecomplex*>(db);
-                    Eigen::Map<Eigen::MatrixXcd> matB(Bz, mB, nB);
-                    matC = Az[0] + matB.array();
-                }
-                else
-                {
-                    double *Bz = (double*)B.getDataPointer();
-                    Eigen::Map<Eigen::MatrixXd> matB(Bz, mB, nB);
-                    matC = Az[0] + matB.cast<doublecomplex>().array();
-                }
-            }
-            else if (B.isScalar())
-            {
-                doublecomplex* Bz = reinterpret_cast<doublecomplex*>((double*)B.getDataPointer());
-                if (A.getDataClass() == NLS_DCOMPLEX)
-                {
-                    doublecomplex* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
-                    Eigen::Map<Eigen::MatrixXcd> matA(Az, mA, nA);
-                    matC = matA.array() + Bz[0];
-                }
-                else
-                {
-                    double *Az = (double*)A.getDataPointer();
-                    Eigen::Map<Eigen::MatrixXd> matA(Az, mA, nA);
-                    matC = matA.cast<doublecomplex>().array() + Bz[0];
-                }
-            }
-            else
-            {
-                doublecomplex* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
-                Eigen::Map<Eigen::MatrixXcd> matA(Az, mA, nA);
-                doublecomplex* Bz = reinterpret_cast<doublecomplex*>((double*)B.getDataPointer());
-                Eigen::Map<Eigen::MatrixXcd> matB(Bz, mB, nB);
-                matC = matA + matB;
-            }
-            res = ArrayOf(NLS_DCOMPLEX, dimsC, Cp, false);
-        }
-        if (res.allReal())
-        {
-            res.promoteType(NLS_DOUBLE);
-        }
-        bSuccess = true;
-        return res;
-    }
-    //=============================================================================
-    ArrayOf single_plus_single(ArrayOf A, ArrayOf B, bool mustRaiseError, bool &bSuccess)
-    {
-        ArrayOf res;
-        if (A.isEmpty())
-        {
-            return empty_plus_generic(A, B, mustRaiseError, bSuccess);
-        }
-        if (A.isScalar() && B.isScalar())
-        {
-            single *ptrA = (single*)A.getDataPointer();
-            single *ptrB = (single*)A.getDataPointer();
-            res = ArrayOf::singleConstructor(ptrA[0] + ptrB[0]);
-        }
-        else
-        {
-            Dimensions dimsC = getOutputDimensions(A, B);
-            indexType Clen = dimsC.getElementCount();
-            void *Cp = new_with_exception<single>(Clen);
-            size_t mC = dimsC.getRows();
-            size_t nC = dimsC.getColumns();
-            Eigen::Map<Eigen::MatrixXf> matC((single*)Cp, mC, nC);
-            Dimensions dimA = A.getDimensions();
-            size_t mA = dimA.getRows();
-            size_t nA = dimA.getColumns();
-            Dimensions dimB = B.getDimensions();
-            size_t mB = dimB.getRows();
-            size_t nB = dimB.getColumns();
-            if (A.isScalar())
-            {
-                Eigen::Map<Eigen::MatrixXf> matB((single*)B.getDataPointer(), mB, nB);
-                matC = A.getContentAsSingleScalar() + matB.array();
-            }
-            else if (B.isScalar())
-            {
-                Eigen::Map<Eigen::MatrixXf> matA((single*)A.getDataPointer(), mA, nA);
-                matC = matA.array() + B.getContentAsSingleScalar();
-            }
-            else
-            {
-                Eigen::Map<Eigen::MatrixXf> matA((single*)A.getDataPointer(), mA, nA);
-                Eigen::Map<Eigen::MatrixXf> matB((single*)B.getDataPointer(), mB, nB);
-                matC = matA + matB;
-            }
-            res = ArrayOf(NLS_SINGLE, dimsC, Cp, false);
-        }
-        bSuccess = true;
-        return res;
-    }
-    //=============================================================================
-    ArrayOf scomplex_plus_scomplex(ArrayOf A, ArrayOf B, bool mustRaiseError, bool &bSuccess)
-    {
-        ArrayOf res;
-        if (A.isEmpty())
-        {
-            return empty_plus_generic(A, B, mustRaiseError, bSuccess);
-        }
-        if (A.isScalar() && B.isScalar())
-        {
-            res = A;
-            res.ensureSingleOwner();
-            single *da = (single*)A.getDataPointer();
-            single *db = (single*)B.getDataPointer();
-            single *dres = (single*)res.getDataPointer();
-            dres[0] = da[0] + db[0];
-            dres[1] = da[1] + db[1];
-        }
-        else
-        {
-            Dimensions dimsC = getOutputDimensions(A, B);
-            indexType Clen = dimsC.getElementCount();
-            void *Cp = new_with_exception<single>(Clen * 2);
-            singlecomplex* Cz = reinterpret_cast<singlecomplex*>(Cp);
-            size_t mC = dimsC.getRows();
-            size_t nC = dimsC.getColumns();
-            Eigen::Map<Eigen::MatrixXcf> matC(Cz, mC, nC);
-            Dimensions dimA = A.getDimensions();
-            size_t mA = dimA.getRows();
-            size_t nA = dimA.getColumns();
-            Dimensions dimB = B.getDimensions();
-            size_t mB = dimB.getRows();
-            size_t nB = dimB.getColumns();
-            if (A.isScalar())
-            {
-                singlecomplex* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
-                if (B.getDataClass() == NLS_SCOMPLEX)
-                {
-                    singlecomplex* Bz = reinterpret_cast<singlecomplex*>((single*)B.getDataPointer());
-                    Eigen::Map<Eigen::MatrixXcf> matB(Bz, mB, nB);
-                    matC = Az[0] + matB.array();
-                }
-                else
-                {
-                    single *Bz = (single*)B.getDataPointer();
-                    Eigen::Map<Eigen::MatrixXf> matB(Bz, mB, nB);
-                    matC = Az[0] + matB.cast<singlecomplex>().array();
-                }
-            }
-            else if (B.isScalar())
-            {
-                singlecomplex* Bz = reinterpret_cast<singlecomplex*>((single*)B.getDataPointer());
-                if (A.getDataClass() == NLS_SCOMPLEX)
-                {
-                    singlecomplex* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
-                    Eigen::Map<Eigen::MatrixXcf> matA(Az, mA, nA);
-                    matC = matA.array() + Bz[0];
-                }
-                else
-                {
-                    single *Az = (single*)A.getDataPointer();
-                    Eigen::Map<Eigen::MatrixXf> matA(Az, mA, nA);
-                    matC = matA.cast<singlecomplex>().array() + Bz[0];
-                }
-            }
-            else
-            {
-                singlecomplex* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
-                Eigen::Map<Eigen::MatrixXcf> matA(Az, mA, nA);
-                singlecomplex* Bz = reinterpret_cast<singlecomplex*>((single*)B.getDataPointer());
-                Eigen::Map<Eigen::MatrixXcf> matB(Bz, mB, nB);
-                matC = matA + matB;
-            }
-            res = ArrayOf(NLS_SCOMPLEX, dimsC, Cp, false);
-        }
-        if (res.allReal())
-        {
-            res.promoteType(NLS_SINGLE);
-        }
-        bSuccess = true;
-        return res;
-    }
-    //=============================================================================
+	void checkDimensions(ArrayOf A, ArrayOf B)
+	{
+		if (!(SameSizeCheck(A.getDimensions(), B.getDimensions()) || A.isScalar() || B.isScalar()))
+		{
+			throw Exception(_W("Size mismatch on arguments to arithmetic operator ") + L"+");
+		}
+	}
+	//=============================================================================
 }
 //=============================================================================

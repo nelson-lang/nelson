@@ -98,7 +98,7 @@ namespace Nelson {
         }
     }
     //=============================================================================
-    ArrayOf Equals(ArrayOf A, ArrayOf B, bool mustRaiseError, bool &bSuccess)
+    ArrayOf Equals(ArrayOf &A, ArrayOf &B, bool mustRaiseError, bool &bSuccess)
     {
         // Process the two arguments through the type check and dimension checks...
         VectorCheck(A, B, "==");

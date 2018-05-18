@@ -215,7 +215,6 @@
     <ClInclude Include="..\include\MtimesDouble.hpp" />
     <ClInclude Include="..\include\NeqDouble.hpp" />
     <ClInclude Include="..\include\nlsDouble_exports.h" />
-    <ClInclude Include="..\include\PlusDouble.hpp" />
     <ClInclude Include="..\include\timesDouble.hpp" />
     <ClInclude Include="..\include\ToDouble.hpp" />
     <ClInclude Include="..\include\UminusDouble.hpp" />
@@ -234,7 +233,6 @@
     <ClCompile Include="..\cpp\MinusDouble.cpp" />
     <ClCompile Include="..\cpp\MtimesDouble.cpp" />
     <ClCompile Include="..\cpp\NeqDouble.cpp" />
-    <ClCompile Include="..\cpp\PlusDouble.cpp" />
     <ClCompile Include="..\cpp\timesDouble.cpp" />
     <ClCompile Include="..\cpp\ToDouble.cpp" />
     <ClCompile Include="..\cpp\UminusDouble.cpp" />
