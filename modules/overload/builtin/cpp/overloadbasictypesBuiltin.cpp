@@ -16,23 +16,37 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
 #include "overloadbasictypesBuiltin.hpp"
+#include "Error.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-const std::wstring gatewayName = L"overload";
-//=============================================================================
-static const nlsGateway gateway[] =
+ArrayOfVector Nelson::OverloadGateway::overloadbasictypesBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-	{ "overloadbasictypes", Nelson::OverloadGateway::overloadbasictypesBuiltin, 0, -1 },
-};
-//=============================================================================
-NLSGATEWAYFUNC(gateway)
-//=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+	ArrayOfVector retval;
+	if (argIn.size() > 1)
+	{
+		Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+	}
+	if (nLhs > 1)
+	{
+		Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+	}
+	bool previousValue = eval->overloadOnBasicTypes;
+	if (argIn.size() == 0)
+	{
+		retval.push_back(ArrayOf::logicalConstructor(previousValue));
+	}
+	else
+	{
+		bool newValue = argIn[0].getContentAsLogicalScalar();
+		eval->overloadOnBasicTypes = newValue;
+		if (nLhs > 0)
+		{
+			retval.push_back(ArrayOf::logicalConstructor(previousValue));
+		}
+	}
+
+	return retval;
+}
 //=============================================================================

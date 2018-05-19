@@ -1,8 +1,8 @@
   * Overload speed optimization:
 
-    plus, minus, eq, gt operators
+    - plus, minus, eq, gt operators
     use by default predefined functions and search if operators are missing.
-    
+    - add overloadbasictypes function to change default behavior.
 
 
 Features:

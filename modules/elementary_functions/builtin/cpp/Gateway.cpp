@@ -84,7 +84,6 @@ static const nlsGateway gateway[] =
     { "minus", Nelson::ElementaryFunctionsGateway::minusBuiltin, 1, 2 },
     { "uminus", Nelson::ElementaryFunctionsGateway::uminusBuiltin, 1, 1 },
     { "uplus", Nelson::ElementaryFunctionsGateway::uplusBuiltin, 1, 1 },
-
     { "and", Nelson::ElementaryFunctionsGateway::andBuiltin, 1, 2 },
     { "colon", Nelson::ElementaryFunctionsGateway::colonBuiltin, 1, 2 },
     { "ctranspose", Nelson::ElementaryFunctionsGateway::ctransposeBuiltin, 1, 1 },

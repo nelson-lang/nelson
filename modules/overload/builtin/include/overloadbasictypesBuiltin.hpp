@@ -16,23 +16,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
-#include "overloadbasictypesBuiltin.hpp"
+#pragma once
 //=============================================================================
-using namespace Nelson;
+#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
-const std::wstring gatewayName = L"overload";
-//=============================================================================
-static const nlsGateway gateway[] =
-{
-	{ "overloadbasictypes", Nelson::OverloadGateway::overloadbasictypesBuiltin, 0, -1 },
-};
-//=============================================================================
-NLSGATEWAYFUNC(gateway)
-//=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+namespace Nelson {
+	namespace OverloadGateway {
+		ArrayOfVector overloadbasictypesBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+	}
+}
 //=============================================================================
