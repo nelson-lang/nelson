@@ -3716,6 +3716,11 @@ namespace Nelson {
         }
     }
 
+	void Evaluator::setInterface(Interface *_io)
+	{
+		io = _io;
+	}
+
     Interface* Evaluator::getInterface()
     {
         return io;
@@ -4264,6 +4269,11 @@ namespace Nelson {
         }
     }
     //=============================================================================
+	bool Evaluator::evaluateString(std::wstring line, bool propogateException)
+	{
+		return evaluateString(wstring_to_utf8(line), propogateException);
+	}
+	//=============================================================================
     bool Evaluator::evaluateString(std::string line, bool propogateException)
     {
         ASTPtr tree = nullptr;

@@ -358,6 +358,8 @@ namespace Nelson {
          * Special case the single assignment statement 'A = B' for speed.
          */
         inline ArrayOf rhsExpressionSimple(ASTPtr t);
+		
+		void setInterface(Interface *_io);
         Interface* getInterface();
         /**
          * Process an AST to form an lvalue in an assignment statement.
@@ -626,6 +628,7 @@ namespace Nelson {
          * and execute it.
          */
         bool evaluateString(std::string cmdToEvaluate, bool propogateException = true);
+		bool evaluateString(std::wstring cmdToEvaluate, bool propogateException = true);
 
         std::wstring getCurrentEvaluateFilename();
         void pushEvaluateFilenameList(const std::wstring filename);

@@ -1,0 +1,57 @@
+//=============================================================================
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+assert_isequal(nargin('eval'), 1);
+assert_isequal(nargout('eval'), -1);
+//=============================================================================
+A = rand(3, 4);
+eval('size(A)');
+B = ans;
+assert_isequal(ans, [3 4]);
+//=============================================================================
+assert_isequal(eval('B'), B);
+//=============================================================================
+try
+  eval('B;');
+  assert_istrue(true);
+catch
+  assert_istrue(false);
+end
+//=============================================================================
+assert_isequal(eval('B;'), B);
+//=============================================================================
+C = eval('B');
+assert_isequal(C, B);
+//=============================================================================
+D = eval('B;');
+assert_isequal(D, B);
+//=============================================================================
+assert_checkerror('R = eval(''AA = 33'');', _('Expecting statement list or function definition'));
+//=============================================================================
+eval('AA = 33');
+assert_isequal(AA, 33);
+//=============================================================================
+assert_checkerror('R = eval(''cos = 33;'');', _('Expecting statement list or function definition'));
+eval('cos = 33;');
+assert_isequal(cos, 33);
+//=============================================================================
+assert_checkerror('eval(1);', _('#1 string expected.'));
+assert_checkerror('eval(''1'', 1);', _('#2 string expected.'));
+assert_checkerror('eval(1);', _('#1 string expected.'));
+//=============================================================================
+

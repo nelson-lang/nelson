@@ -12,4 +12,5 @@ Try it !
 * * *
 
 *   [Changelog](CHANGELOG.md)
+*   [Changelog v0.1.x](CHANGELOG-0.1.x.md)
 *   [Nelson license](license.md)

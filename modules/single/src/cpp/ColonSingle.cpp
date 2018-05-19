@@ -49,7 +49,7 @@ namespace Nelson {
         if (std::isnan(low) || std::isnan(high) || std::isnan(step))
         {
             Dimensions Cdim(1, 1);
-            return ArrayOf::singleConstructor(nan(""));
+            return ArrayOf::singleConstructor(nanf(""));
         }
         if (!std::isfinite(low) || !std::isfinite(high) || !std::isfinite(step))
         {

@@ -16,18 +16,56 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#define _CRT_SECURE_NO_WARNINGS
+#include "evalinBuiltin.hpp"
+#include "Error.hpp"
+#include "EvaluateCommand.hpp"
 //=============================================================================
-#include "nlsCore_exports.h"
-#include "Evaluator.hpp"
-#include "Context.hpp"
+using namespace Nelson;
 //=============================================================================
-namespace Nelson {
-	//=============================================================================
-	NLSCORE_IMPEXP bool EvaluateCommand(Evaluator *eval, std::wstring command, bool bCatch);
-	NLSCORE_IMPEXP bool EvaluateCommand(Evaluator *eval, std::string command, bool bCatch);
-	NLSCORE_IMPEXP ArrayOfVector EvaluateCommand(Evaluator *eval, int nLhs, std::wstring command, std::wstring catchCommand);
-	NLSCORE_IMPEXP ArrayOfVector EvaluateInCommand(Evaluator *eval, int nLhs, SCOPE_LEVEL scope,std::wstring command);
-	NLSCORE_IMPEXP ArrayOfVector EvaluateConsoleCommand(Evaluator *eval, int nLhs, std::wstring command, std::wstring catchCommand);
+ArrayOfVector Nelson::CoreGateway::evalinBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    if (argIn.size() != 2)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+	SCOPE_LEVEL scope;
+    std::wstring command;
+	std::wstring catchCommand;
+    if (argIn[0].isSingleString())
+    {
+		std::wstring scopeName = argIn[0].getContentAsWideString();
+		if (scopeName == L"caller" || scopeName == L"base" || scopeName == L"local")
+		{
+			if (scopeName == L"caller")
+			{
+				scope = SCOPE_LEVEL::CALLER_SCOPE;
+			}
+			if (scopeName == L"base")
+			{
+				scope = SCOPE_LEVEL::BASE_SCOPE;
+			}
+			if (scopeName == L"local")
+			{
+				scope = SCOPE_LEVEL::LOCAL_SCOPE;
+			}
+		}
+		else
+		{
+			Error(eval, _W("Argument #1 : 'base', 'local' or 'caller' expected."));
+		}
+    }
+    else
+    {
+        Error(eval, _W("#1 string expected."));
+    }
+	if (argIn[1].isSingleString())
+	{
+		command = argIn[1].getContentAsWideString();
+	}
+	else
+	{
+		Error(eval, _W("#2 string expected."));
+	}
+	return EvaluateInCommand(eval, nLhs, scope, command);
 }
 //=============================================================================

@@ -16,18 +16,40 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#define _CRT_SECURE_NO_WARNINGS
+#include "evalcBuiltin.hpp"
+#include "Error.hpp"
+#include "EvaluateCommand.hpp"
+#include "Exception.hpp"
 //=============================================================================
-#include "nlsCore_exports.h"
-#include "Evaluator.hpp"
-#include "Context.hpp"
+using namespace Nelson;
 //=============================================================================
-namespace Nelson {
-	//=============================================================================
-	NLSCORE_IMPEXP bool EvaluateCommand(Evaluator *eval, std::wstring command, bool bCatch);
-	NLSCORE_IMPEXP bool EvaluateCommand(Evaluator *eval, std::string command, bool bCatch);
-	NLSCORE_IMPEXP ArrayOfVector EvaluateCommand(Evaluator *eval, int nLhs, std::wstring command, std::wstring catchCommand);
-	NLSCORE_IMPEXP ArrayOfVector EvaluateInCommand(Evaluator *eval, int nLhs, SCOPE_LEVEL scope,std::wstring command);
-	NLSCORE_IMPEXP ArrayOfVector EvaluateConsoleCommand(Evaluator *eval, int nLhs, std::wstring command, std::wstring catchCommand);
+ArrayOfVector Nelson::CoreGateway::evalcBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    if (argIn.size() < 1 || argIn.size() > 2)
+    {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    }
+    std::wstring command;
+	std::wstring catchCommand;
+    if (argIn[0].isSingleString())
+    {
+        command = argIn[0].getContentAsWideString();
+    }
+    else
+    {
+        Error(eval, _W("#1 string expected."));
+    }
+    if (argIn.size() > 1)
+    {
+        if (argIn[1].isSingleString())
+        {
+            catchCommand = argIn[1].getContentAsWideString();
+        }
+        else
+        {
+            Error(eval, _W("#2 string expected."));
+        }
+    }
+	return EvaluateConsoleCommand(eval, nLhs, command, catchCommand);
 }
 //=============================================================================

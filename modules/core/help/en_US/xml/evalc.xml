@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+	<copyright>SAME AS NELSON SOFTWARE</copyright>
+
+	<language>en_US</language>
+	<keyword>evalc</keyword>
+	<short_description>Evaluate Nelson code with console capture.</short_description>
+
+	<syntax>
+		<syntax_item>t = evalc(str)</syntax_item>
+		<syntax_item>t = evalc(str)</syntax_item>
+		<syntax_item>[t, r1, ... rn] = evalc(str)</syntax_item>
+	</syntax>
+	
+	<param_input>
+		<param_input_item>
+			<param_name>str</param_name>
+			<param_description>a string: Nelson instruction to execute</param_description>
+		</param_input_item>
+
+	</param_input>
+
+	<param_output>
+
+		<param_output_item>
+			<param_name>T</param_name>
+			<param_description>output text captured in t variable</param_description>
+		</param_output_item>
+		<param_output_item>
+			<param_name>[r1, ... rn]</param_name>
+			<param_description>results: output variables</param_description>
+		</param_output_item>
+
+	</param_output>
+
+	<description>
+		<p><b>evalc</b> executes Nelson instructions given in a string.</p>
+		<p>console display is redirected into a variable.</p>
+		<p>diary, more, and input are disabled when <b>evalc</b> is used.</p>
+</description>
+
+
+	<used_function></used_function>
+	<bibliography></bibliography>
+
+<examples>
+
+	<example_item>
+		<example_item_type>nelson</example_item_type>
+		<example_item_description></example_item_description>
+		<example_item_data><![CDATA[evalc('B=4')]]>
+		</example_item_data>
+	</example_item>
+
+	<example_item>
+		<example_item_type>nelson</example_item_type>
+		<example_item_description></example_item_description>
+		<example_item_data><![CDATA[t = evalc('dir')]]>
+		</example_item_data>
+	</example_item>
+
+</examples>
+
+	<see_also>
+		<see_also_item>
+			<link linkend="${core}eval">eval</link>
+		</see_also_item>
+		<see_also_item>
+			<link linkend="${core}evalin">evalin</link>
+		</see_also_item>
+		<see_also_item>
+			<link linkend="${core}execstr">execstr</link>
+		</see_also_item>
+	</see_also>
+
+	<history>
+		<history_item>
+			<history_version>1.0.0</history_version>
+			<history_description>initial version</history_description>
+		</history_item>
+	</history>
+
+	<authors>
+		<author_item>Allan CORNET</author_item>
+	</authors>
+</xmldoc>
+
+

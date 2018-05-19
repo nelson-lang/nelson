@@ -16,18 +16,33 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#define _CRT_SECURE_NO_WARNINGS
+#pragma once
 //=============================================================================
+#include <string>
 #include "nlsCore_exports.h"
-#include "Evaluator.hpp"
-#include "Context.hpp"
+#include "Interface.hpp"
 //=============================================================================
-namespace Nelson {
-	//=============================================================================
-	NLSCORE_IMPEXP bool EvaluateCommand(Evaluator *eval, std::wstring command, bool bCatch);
-	NLSCORE_IMPEXP bool EvaluateCommand(Evaluator *eval, std::string command, bool bCatch);
-	NLSCORE_IMPEXP ArrayOfVector EvaluateCommand(Evaluator *eval, int nLhs, std::wstring command, std::wstring catchCommand);
-	NLSCORE_IMPEXP ArrayOfVector EvaluateInCommand(Evaluator *eval, int nLhs, SCOPE_LEVEL scope,std::wstring command);
-	NLSCORE_IMPEXP ArrayOfVector EvaluateConsoleCommand(Evaluator *eval, int nLhs, std::wstring command, std::wstring catchCommand);
-}
+using namespace Nelson;
+//=============================================================================
+class NLSCORE_IMPEXP EvaluateInterface : public Interface {
+#define WIDTH 80
+public:
+	EvaluateInterface();
+	~EvaluateInterface();
+	std::wstring getLine(std::wstring prompt);
+	std::string getLine(std::string prompt);
+	std::wstring getInput(std::wstring prompt);
+	size_t getTerminalWidth();
+	void outputMessage(std::wstring msg);
+	void outputMessage(std::string msg);
+	void errorMessage(std::wstring msg);
+	void errorMessage(std::string msg);
+	void warningMessage(std::wstring msg);
+	void warningMessage(std::string msg);
+	void clearTerminal();
+	bool isAtPrompt();
+	std::wstring getOutputBuffer();
+private:
+	std::wstring outputBuffer;
+};
 //=============================================================================

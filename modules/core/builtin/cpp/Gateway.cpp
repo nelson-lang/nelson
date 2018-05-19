@@ -25,6 +25,9 @@
 #include "bannerBuiltin.hpp"
 #include "formatBuiltin.hpp"
 #include "execstrBuiltin.hpp"
+#include "evalBuiltin.hpp"
+#include "evalcBuiltin.hpp"
+#include "evalinBuiltin.hpp"
 #include "echoBuiltin.hpp"
 #include "versionBuiltin.hpp"
 #include "narginBuiltin.hpp"
@@ -48,6 +51,9 @@ static const nlsGateway gateway[] =
     { "banner", Nelson::CoreGateway::bannerBuiltin, 0, 0 },
     { "format", Nelson::CoreGateway::formatBuiltin, 1, 1 },
     { "execstr", Nelson::CoreGateway::execstrBuiltin, 1, 2 },
+	{ "eval", Nelson::CoreGateway::evalBuiltin, -1, 1 },
+    { "evalc", Nelson::CoreGateway::evalcBuiltin, -1, 1 },
+    { "evalin", Nelson::CoreGateway::evalinBuiltin, -1, 2 },
     { "echo", Nelson::CoreGateway::echoBuiltin, 1, 1 },
     { "version", Nelson::CoreGateway::versionBuiltin, 2, 1 },
     { "nargin", Nelson::CoreGateway::narginBuiltin, 1, 1 },

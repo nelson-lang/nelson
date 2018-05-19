@@ -82,7 +82,7 @@ function buildhelp_from_path(module, module_path)
 endfunction
 //=============================================================================
 function helpForNelsonOnly()
-  changes_md = [nelsonroot(), '/CHANGELOG.md'];
+  changes_md = {[nelsonroot(), '/CHANGELOG.md']; [nelsonroot(), '/CHANGELOG-0.1.x.md']};
   for k = getavailablelanguages()
     dir_src = [nelsonroot(), '/modules/main/help/', k{1}, '/md'];
     dir_dst = [nelsonroot(), '/modules/main/help/', k{1}, '/html/'];
@@ -96,6 +96,7 @@ function helpForNelsonOnly()
           if strcmp(md_filename{1}, 'homepage.md') | strcmp(md_filename{1}, 'license.md')
             content = fileread([dir_src, '/', md_filename{1}]);
             content = strrep(content, '(CHANGELOG.md)', '(CHANGELOG.html)');
+            content = strrep(content, '(CHANGELOG-0.1.x.md)', '(CHANGELOG-0.1.x.html)');
             content = strrep(content, '(license.md)', '(license.html)');
             content = strrep(content, '(GPL2.md)', '(GPL2.html)');
             content_as_html = markdown(content);
@@ -108,10 +109,14 @@ function helpForNelsonOnly()
           end
         end
       end
-      if needTobeGenerated([nelsonroot(), '/', 'CHANGELOG.md'], [dir_dst, 'CHANGELOG.html'])
-        r = markdown([nelsonroot(), '/', 'CHANGELOG.md'], [dir_dst, 'CHANGELOG.html']);
-        if (r == false)
-          error([_('file not generated:'), newline, [dir_dst, 'CHANGELOG.html']]);
+      for md = changes_md
+        basename_src = fileparts(md{1}, 'filename');
+        destination = [dir_dst, basename_src, '.html'];
+        if needTobeGenerated(md{1}, destination)
+          r = markdown(md{1}, destination);
+          if (r == false)
+            error([_('file not generated:'), newline, destination]);
+          end
         end
       end
       qhelpgenerator(dir_dst, [nelsonroot(), '/modules/main/help/', k{1} , '/'], 'org.nelson.help.qch')
