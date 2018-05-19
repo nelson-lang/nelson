@@ -27,10 +27,11 @@ namespace Nelson {
     void greaterThanReal(indexType N, logical* C, const T*A, int stride1, const T*B,
                              int stride2)
     {
-        indexType m, p;
-        m = 0;
-        p = 0;
-        for (indexType i = 0; i<N; i++)
+        indexType m = 0, p = 0;
+#if defined(__NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (indexType i = 0; i < N; i++)
         {
             C[i] = (A[m] > B[p]) ? logical(1) : logical(0);
             m += stride1;
@@ -43,10 +44,13 @@ namespace Nelson {
                                 const T*B, int stride2)
     {
         indexType m = 0, p = 0;
-        for (indexType i = 0; i< N; i++)
+#if defined(__NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (indexType i = 0; i < N; i++)
         {
             C[i] = (complex_abs<T>(A[2 * m], A[2 * m + 1]) >
-                    complex_abs<T>(B[2 * p], B[2 * p + 1])) ? 1 : 0;
+                    complex_abs<T>(B[2 * p], B[2 * p + 1])) ? logical(1) : logical(0);
             m += stride1;
             p += stride2;
         }
@@ -54,7 +58,6 @@ namespace Nelson {
 	//=============================================================================
 	ArrayOf GreaterThan(ArrayOf &A, ArrayOf &B, bool mustRaiseError, bool &bSuccess)
 	{
-        // Process the two arguments through the type check and dimension checks...
         VectorCheck(A, B, ">");
 		Class classCommon = FindCommonType(A, B, false);
 		if (A.isSparse() || B.isSparse())

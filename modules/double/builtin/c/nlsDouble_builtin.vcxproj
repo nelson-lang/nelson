@@ -198,8 +198,6 @@
     <ClCompile Include="..\cpp\double_horzcat_doubleBuiltin.cpp" />
     <ClCompile Include="..\cpp\double_isequalBuiltin.cpp" />
     <ClCompile Include="..\cpp\double_isequalnBuiltin.cpp" />
-    <ClCompile Include="..\cpp\double_le_doubleBuiltin.cpp" />
-    <ClCompile Include="..\cpp\double_lt_doubleBuiltin.cpp" />
     <ClCompile Include="..\cpp\double_mtimes_doubleBuiltin.cpp" />
     <ClCompile Include="..\cpp\double_ne_doubleBuiltin.cpp" />
     <ClCompile Include="..\cpp\double_times_doubleBuiltin.cpp" />

@@ -93,6 +93,8 @@
 #include "Substraction.hpp"
 #include "GreaterThan.hpp"
 #include "GreaterEquals.hpp"
+#include "LessThan.hpp"
+#include "LessEquals.hpp"
 
 #ifdef _MSC_VER
 #define strdup _strdup
@@ -574,12 +576,12 @@ namespace Nelson {
                 break;
                 case OP_LT:
                 {
-                    retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "lt");
+					retval = doBinaryOperatorOverload(t, LessThan, "lt");
                 }
                 break;
                 case OP_LEQ:
                 {
-                    retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "le");
+					retval = doBinaryOperatorOverload(t, LessEquals, "le");
                 }
                 break;
                 case OP_GT:

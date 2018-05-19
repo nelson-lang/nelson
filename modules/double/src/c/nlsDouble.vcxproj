@@ -207,8 +207,6 @@
     <ClInclude Include="..\include\DoubleIsEqual.hpp" />
     <ClInclude Include="..\include\DoubleIsEqualn.hpp" />
     <ClInclude Include="..\include\HorzCatDouble.hpp" />
-    <ClInclude Include="..\include\LeDouble.hpp" />
-    <ClInclude Include="..\include\LtDouble.hpp" />
     <ClInclude Include="..\include\MtimesDouble.hpp" />
     <ClInclude Include="..\include\NeqDouble.hpp" />
     <ClInclude Include="..\include\nlsDouble_exports.h" />
@@ -223,8 +221,6 @@
     <ClCompile Include="..\cpp\DoubleIsEqual.cpp" />
     <ClCompile Include="..\cpp\DoubleIsEqualn.cpp" />
     <ClCompile Include="..\cpp\HorzCatDouble.cpp" />
-    <ClCompile Include="..\cpp\LeDouble.cpp" />
-    <ClCompile Include="..\cpp\LtDouble.cpp" />
     <ClCompile Include="..\cpp\MtimesDouble.cpp" />
     <ClCompile Include="..\cpp\NeqDouble.cpp" />
     <ClCompile Include="..\cpp\timesDouble.cpp" />

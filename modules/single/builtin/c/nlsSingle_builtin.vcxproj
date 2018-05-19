@@ -181,8 +181,6 @@
     <ClCompile Include="..\cpp\single_horzcat_singleBuiltin.cpp" />
     <ClCompile Include="..\cpp\single_isequalBuiltin.cpp" />
     <ClCompile Include="..\cpp\single_isequalnBuiltin.cpp" />
-    <ClCompile Include="..\cpp\single_le_singleBuiltin.cpp" />
-    <ClCompile Include="..\cpp\single_lt_singleBuiltin.cpp" />
     <ClCompile Include="..\cpp\single_ne_singleBuiltin.cpp" />
     <ClCompile Include="..\cpp\single_uminusBuiltin.cpp" />
     <ClCompile Include="..\cpp\single_vertcat_singleBuiltin.cpp" />
@@ -228,8 +226,6 @@
     <ClInclude Include="..\include\single_horzcat_singleBuiltin.hpp" />
     <ClInclude Include="..\include\single_isequalBuiltin.hpp" />
     <ClInclude Include="..\include\single_isequalnBuiltin.hpp" />
-    <ClInclude Include="..\include\single_le_singleBuiltin.hpp" />
-    <ClInclude Include="..\include\single_lt_singleBuiltin.hpp" />
     <ClInclude Include="..\include\single_minus_singleBuiltin.hpp" />
     <ClInclude Include="..\include\single_ne_singleBuiltin.hpp" />
     <ClInclude Include="..\include\single_uminusBuiltin.hpp" />

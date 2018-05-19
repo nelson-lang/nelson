@@ -19,96 +19,146 @@
 #include "LessEquals.hpp"
 #include "MatrixCheck.hpp"
 #include "complex_abs.hpp"
+#include "ClassName.hpp"
 //=============================================================================
 namespace Nelson {
-
+	//=============================================================================
     template <class T>
-    void lessequalsfuncreal(indexType N, logical* C, const T*A, int stride1, const T*B,
+    void lessEqualsReal(indexType N, logical* C, const T*A, int stride1, const T*B,
                             int stride2)
     {
-        indexType m, p;
-        m = 0;
-        p = 0;
-        for (indexType i = 0; i<N; i++)
+        indexType m = 0, p = 0;
+#if defined(__NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (indexType i = 0; i < N; i++)
         {
-            C[i] = (A[m] <= B[p]) ? 1 : 0;
+            C[i] = (A[m] <= B[p]) ? logical(1) : logical(0);
             m += stride1;
             p += stride2;
         }
     }
+	//=============================================================================
     template <class T>
-    void lessequalsfunccomplex(indexType N, logical* C, const T*A, int stride1,
+    void lessEqualsComplex(indexType N, logical* C, const T*A, int stride1,
                                const T*B, int stride2)
     {
-        indexType m, p;
-        m = 0;
-        p = 0;
-        for (indexType i = 0; i<N; i++)
+		indexType m = 0, p = 0;
+#if defined(__NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+        for (indexType i = 0; i < N; i++)
         {
             C[i] = (complex_abs<T>(A[2 * m], A[2 * m + 1]) <=
-                    complex_abs<T>(B[2 * p], B[2 * p + 1])) ? 1 : 0;
+                    complex_abs<T>(B[2 * p], B[2 * p + 1])) ? logical(1) : logical(0);
             m += stride1;
             p += stride2;
         }
     }
-
-
-    ArrayOf LessEquals(ArrayOf A, ArrayOf B)
+	//=============================================================================
+    ArrayOf LessEquals(ArrayOf &A, ArrayOf &B, bool mustRaiseError, bool &bSuccess)
     {
-        // Process the two arguments through the type check and dimension checks...
-        VectorCheck(A, B, "<=");
-        int Astride, Bstride;
-        indexType Clen = 0;
-        Dimensions Cdim;
-        if (A.isScalar())
-        {
-            Astride = 0;
-            Bstride = 1;
-            Cdim = B.getDimensions();
-        }
-        else if (B.isScalar())
-        {
-            Astride = 1;
-            Bstride = 0;
-            Cdim = A.getDimensions();
-        }
-        else
-        {
-            Astride = 1;
-            Bstride = 1;
-            Cdim = A.getDimensions();
-        }
-        Clen = Cdim.getElementCount();
-        void *Cp = new_with_exception<logical>(Clen);
-        switch (B.getDataClass())
-        {
-            case NLS_INT32:
-                lessequalsfuncreal<int32>(Clen, (logical*)Cp,
-                                          (int32*)A.getDataPointer(), Astride,
-                                          (int32*)B.getDataPointer(), Bstride);
-                break;
-            case NLS_SINGLE:
-                lessequalsfuncreal<float>(Clen, (logical*)Cp,
-                                          (float*)A.getDataPointer(), Astride,
-                                          (float*)B.getDataPointer(), Bstride);
-                break;
-            case NLS_DOUBLE:
-                lessequalsfuncreal<double>(Clen, (logical*)Cp,
-                                           (double*)A.getDataPointer(), Astride,
-                                           (double*)B.getDataPointer(), Bstride);
-                break;
-            case NLS_SCOMPLEX:
-                lessequalsfunccomplex<float>(Clen, (logical*)Cp,
-                                             (float*)A.getDataPointer(), Astride,
-                                             (float*)B.getDataPointer(), Bstride);
-                break;
-            case NLS_DCOMPLEX:
-                lessequalsfunccomplex<double>(Clen, (logical*)Cp,
-                                              (double*)A.getDataPointer(), Astride,
-                                              (double*)B.getDataPointer(), Bstride);
-                break;
-        }
-        return ArrayOf(NLS_LOGICAL, Cdim, Cp);
-    }
+		VectorCheck(A, B, ">=");
+		Class classCommon = FindCommonType(A, B, false);
+		if (A.isSparse() || B.isSparse())
+		{
+			std::string overload = ClassName(A) + "_le_" + ClassName(B);
+			throw Exception(_("function") + " " + overload + " " + _("undefined."));
+		}
+		try
+		{
+			A.promoteType(classCommon);
+			B.promoteType(classCommon);
+		}
+		catch (Exception)
+		{
+			if (mustRaiseError)
+			{
+				throw;
+			}
+			else
+			{
+				bSuccess = false;
+				return ArrayOf();
+			}
+		}
+		int Astride, Bstride;
+		indexType Clen = 0;
+		Dimensions Cdim;
+		if (A.isScalar())
+		{
+			Astride = 0;
+			Bstride = 1;
+			Cdim = B.getDimensions();
+		}
+		else if (B.isScalar())
+		{
+			Astride = 1;
+			Bstride = 0;
+			Cdim = A.getDimensions();
+		}
+		else
+		{
+			Astride = 1;
+			Bstride = 1;
+			Cdim = A.getDimensions();
+		}
+		Clen = Cdim.getElementCount();
+		void *Cp = new_with_exception<logical>(Clen);
+		switch (B.getDataClass())
+		{
+		case NLS_INT64:
+		{
+			lessEqualsReal<int64>(Clen, (logical*)Cp,
+				(int64*)A.getDataPointer(), Astride,
+				(int64*)B.getDataPointer(), Bstride);
+		}
+		break;
+		case NLS_SINGLE:
+		{
+			lessEqualsReal<single>(Clen, (logical*)Cp,
+				(single*)A.getDataPointer(), Astride,
+				(single*)B.getDataPointer(), Bstride);
+		}
+		break;
+		case NLS_DOUBLE:
+		{
+			lessEqualsReal<double>(Clen, (logical*)Cp,
+				(double*)A.getDataPointer(), Astride,
+				(double*)B.getDataPointer(), Bstride);
+		}
+		break;
+		case NLS_SCOMPLEX:
+		{
+			lessEqualsComplex<single>(Clen, (logical*)Cp,
+				(single*)A.getDataPointer(), Astride,
+				(single*)B.getDataPointer(), Bstride);
+		}
+		break;
+		case NLS_DCOMPLEX:
+		{
+			lessEqualsComplex<double>(Clen, (logical*)Cp,
+				(double*)A.getDataPointer(), Astride,
+				(double*)B.getDataPointer(), Bstride);
+		}
+		break;
+		default:
+		{
+			if (mustRaiseError)
+			{
+				std::string overload = ClassName(A) + "_le_" + ClassName(B);
+				throw Exception(_("function") + " " + overload + " " + _("undefined."));
+			}
+			else
+			{
+				bSuccess = false;
+				return ArrayOf();
+			}
+		}
+		break;
+		}
+		bSuccess = true;
+		return ArrayOf(NLS_LOGICAL, Cdim, Cp);
+	}
 }
 //=============================================================================

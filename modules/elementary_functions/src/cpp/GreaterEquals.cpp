@@ -28,6 +28,9 @@ namespace Nelson {
                                const T*B, int stride2)
     {
 		indexType m = 0, p = 0;
+#if defined(__NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
         for (indexType i = 0; i<N; i++)
         {
             C[i] = (A[m] >= B[p]) ? logical(1) : logical(0);
@@ -41,6 +44,9 @@ namespace Nelson {
                                   const T*B, int stride2)
     {
         indexType m = 0, p = 0;
+#if defined(__NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
         for (indexType i = 0; i<N; i++)
         {
             C[i] = (complex_abs<T>(A[2 * m], A[2 * m + 1]) >=
