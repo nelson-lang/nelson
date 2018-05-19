@@ -39,6 +39,7 @@ Compilation:
 
   * BOOST 1.67 on Windows
   * MSMPI 9.0.1 on Windows
+  * Update Visual Studio 15.7.1
    
 
 ## 0.2.4 (2018-04-30)
