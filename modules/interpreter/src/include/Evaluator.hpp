@@ -708,8 +708,15 @@ namespace Nelson {
         ArrayOf EndReference(ArrayOf v, indexType index, size_t count);
         size_t countSubExpressions(ASTPtr t);
 
+		typedef ArrayOf(*UnaryFunction)(ArrayOf &A, bool mustRaiseError, bool &bSuccess);
+		ArrayOf doUnaryOperatorOverload(ASTPtr t, UnaryFunction functionOperator, std::string functionName);
+
 		typedef ArrayOf(*BinaryFunction)(ArrayOf &A, ArrayOf &B, bool mustRaiseError, bool &bSuccess);
 		ArrayOf doBinaryOperatorOverload(ASTPtr t, BinaryFunction functionOperator, std::string functionName);
+
+		typedef ArrayOf(*TrinaryFunction)(ArrayOf &A, ArrayOf &B, ArrayOf &C, bool mustRaiseError, bool &bSuccess);
+		ArrayOf doTrinaryOperatorOverload(ASTPtr t, TrinaryFunction functionOperator, std::string functionName);
+
 
     };
     NLSINTERPRETER_IMPEXP void sigInterrupt(int arg);

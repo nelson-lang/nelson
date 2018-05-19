@@ -4783,6 +4783,36 @@ namespace Nelson {
         return count;
     }
     //=============================================================================
+	ArrayOf Evaluator::doUnaryOperatorOverload(ASTPtr t, UnaryFunction functionOperator, std::string functionName)
+	{
+		ArrayOf res;
+		bool bSuccess = false;
+		ArrayOf A(expression(t->down));
+		if (!overloadOnBasicTypes)
+		{
+			res = functionOperator(A, false, bSuccess);
+			if (!bSuccess)
+			{
+				res = OverloadUnaryOperator(this, A, functionName, bSuccess);
+				if (!bSuccess)
+				{
+					ArrayOfVector argsIn;
+					argsIn.push_back(A);
+					OverloadRequired(this, argsIn, Nelson::UNARY, functionName);
+				}
+			}
+		}
+		else
+		{
+			res = OverloadUnaryOperator(this, A, functionName, bSuccess);
+			if (!bSuccess)
+			{
+				res = functionOperator(A, true, bSuccess);
+			}
+		}
+		return res;
+	}
+	//=============================================================================
 	ArrayOf Evaluator::doBinaryOperatorOverload(ASTPtr t, BinaryFunction functionOperator, std::string functionName)
 	{
 		ArrayOf res;
@@ -4810,6 +4840,40 @@ namespace Nelson {
 			if (!bSuccess)
 			{
 				res = functionOperator(A, B, true, bSuccess);
+			}
+		}
+		return res;
+	}
+	//=============================================================================
+	ArrayOf Evaluator::doTrinaryOperatorOverload(ASTPtr t, TrinaryFunction functionOperator, std::string functionName)
+	{
+		ArrayOf res;
+		bool bSuccess = false;
+		ArrayOf A = expression(t->down->down);
+		ArrayOf B = expression(t->down->down->right);
+		ArrayOf C = expression(t->down->right);
+		if (!overloadOnBasicTypes)
+		{
+			res = functionOperator(A, B, C, false, bSuccess);
+			if (!bSuccess)
+			{
+				res = OverloadTrinaryOperator(this, A, B, C, functionName, bSuccess);
+				if (!bSuccess)
+				{
+					ArrayOfVector argsIn;
+					argsIn.push_back(A);
+					argsIn.push_back(B);
+					argsIn.push_back(C);
+					OverloadRequired(this, argsIn, Nelson::TRINARY, functionName);
+				}
+			}
+		}
+		else
+		{
+			res = OverloadTrinaryOperator(this, A, B, C, functionName, bSuccess);
+			if (!bSuccess)
+			{
+				res = functionOperator(A, B, C, true, bSuccess);
 			}
 		}
 		return res;
