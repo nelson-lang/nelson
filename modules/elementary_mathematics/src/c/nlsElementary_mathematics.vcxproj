@@ -162,6 +162,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\src\include\IEEEFP.hpp" />
     <ClInclude Include="..\..\src\include\nlsElementary_mathematics_exports.h" />
+    <ClInclude Include="..\include\complex_abs.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\IEEEFP.cpp" />

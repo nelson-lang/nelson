@@ -18,6 +18,7 @@
 //=============================================================================
 #include "DotPower.hpp"
 #include "MatrixCheck.hpp"
+#include "complex_abs.hpp"
 //=============================================================================
 namespace Nelson {
     /**
@@ -34,34 +35,6 @@ namespace Nelson {
     // fifPower --> pow_ri
     // fffPower --> pow_dd
 
-
-    template <class T>
-    T complex_abs(T real, T imag)
-    {
-        double temp;
-        if (real < 0)
-        {
-            real = -real;
-        }
-        if (imag < 0)
-        {
-            imag = -imag;
-        }
-        if (imag > real)
-        {
-            temp = real;
-            real = imag;
-            imag = (T)(temp);
-        }
-        if ((real + imag) == real)
-        {
-            return(real);
-        }
-        temp = imag / real;
-        temp = real*sqrt(1.0 + temp*temp);  /*overflow!!*/
-        return (T)(temp);
-    }
-    //=============================================================================
     template <class T>
     void complex_divide(T* c, const T* a, const T* b)
     {

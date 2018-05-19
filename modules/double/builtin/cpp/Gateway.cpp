@@ -28,7 +28,6 @@
 #include "double_ne_doubleBuiltin.hpp"
 #include "double_lt_doubleBuiltin.hpp"
 #include "double_le_doubleBuiltin.hpp"
-#include "double_ge_doubleBuiltin.hpp"
 #include "double_horzcat_doubleBuiltin.hpp"
 #include "double_vertcat_doubleBuiltin.hpp"
 #include "ndarraydouble_horzcat_ndarraydoubleBuiltin.hpp"
@@ -57,7 +56,6 @@ static const nlsGateway gateway[] =
     { "ndarraydouble_times_double", Nelson::DoubleGateway::double_times_doubleBuiltin, 1, 2 },
     { "double_lt_double", Nelson::DoubleGateway::double_lt_doubleBuiltin, 1, 2 },
     { "double_le_double", Nelson::DoubleGateway::double_le_doubleBuiltin, 1, 2 },
-    { "double_ge_double", Nelson::DoubleGateway::double_ge_doubleBuiltin, 1, 2 },
     { "double_ne_double", Nelson::DoubleGateway::double_ne_doubleBuiltin, 1, 2 },
     { "double_vertcat_double", Nelson::DoubleGateway::double_vertcat_doubleBuiltin, 1, 2 },
     { "double_horzcat_double", Nelson::DoubleGateway::double_horzcat_doubleBuiltin, 1, 2 },

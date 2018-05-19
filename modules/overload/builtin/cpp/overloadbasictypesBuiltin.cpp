@@ -33,11 +33,7 @@ ArrayOfVector Nelson::OverloadGateway::overloadbasictypesBuiltin(Evaluator* eval
 		Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
 	}
 	bool previousValue = eval->overloadOnBasicTypes;
-	if (argIn.size() == 0)
-	{
-		retval.push_back(ArrayOf::logicalConstructor(previousValue));
-	}
-	else
+	if (argIn.size() == 1)
 	{
 		bool newValue = argIn[0].getContentAsLogicalScalar();
 		eval->overloadOnBasicTypes = newValue;
@@ -46,7 +42,7 @@ ArrayOfVector Nelson::OverloadGateway::overloadbasictypesBuiltin(Evaluator* eval
 			retval.push_back(ArrayOf::logicalConstructor(previousValue));
 		}
 	}
-
+	retval.push_back(ArrayOf::logicalConstructor(previousValue));
 	return retval;
 }
 //=============================================================================

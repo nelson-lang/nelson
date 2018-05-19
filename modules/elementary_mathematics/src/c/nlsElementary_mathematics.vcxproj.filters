@@ -21,6 +21,9 @@
     <ClInclude Include="..\..\src\include\IEEEFP.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\complex_abs.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\IEEEFP.cpp">

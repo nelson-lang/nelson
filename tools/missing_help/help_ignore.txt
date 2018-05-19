@@ -23,7 +23,6 @@ colon_double_double_double
 dos
 double_colon_double
 double_disp
-double_ge_double
 double_gt_double
 double_horzcat_double
 double_isequal

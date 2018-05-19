@@ -29,6 +29,7 @@ include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}/../api_nelson/src/include
 	${CMAKE_CURRENT_SOURCE_DIR}/../sparse/src/include
 	${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
+	${CMAKE_CURRENT_SOURCE_DIR}/../elementary_mathematics/src/include
 	${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
 	${Boost_INCLUDE_DIRS}
 

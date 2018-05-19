@@ -17,13 +17,14 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "GreaterThan.hpp"
+#include "complex_abs.hpp"
 #include "MatrixCheck.hpp"
 #include "ClassName.hpp"
 //=============================================================================
 namespace Nelson {
 	//=============================================================================
 	template <class T>
-    void greaterthanfuncreal(indexType N, logical* C, const T*A, int stride1, const T*B,
+    void greaterThanReal(indexType N, logical* C, const T*A, int stride1, const T*B,
                              int stride2)
     {
         indexType m, p;
@@ -31,41 +32,14 @@ namespace Nelson {
         p = 0;
         for (indexType i = 0; i<N; i++)
         {
-            C[i] = (A[m] > B[p]) ? 1 : 0;
+            C[i] = (A[m] > B[p]) ? logical(1) : logical(0);
             m += stride1;
             p += stride2;
         }
     }
 	//=============================================================================
     template <class T>
-    T complex_abs(T real, T imag)
-    {
-        double temp;
-        if (real < 0)
-        {
-            real = -real;
-        }
-        if (imag < 0)
-        {
-            imag = -imag;
-        }
-        if (imag > real)
-        {
-            temp = real;
-            real = imag;
-            imag = (T)(temp);
-        }
-        if ((real + imag) == real)
-        {
-            return(real);
-        }
-        temp = imag / real;
-        temp = real*sqrt(1.0 + temp*temp);  /*overflow!!*/
-        return (T)(temp);
-    }
-	//=============================================================================
-    template <class T>
-    void greaterthanfunccomplex(indexType N, logical* C, const T*A, int stride1,
+    void greaterThanComplex(indexType N, logical* C, const T*A, int stride1,
                                 const T*B, int stride2)
     {
         indexType m = 0, p = 0;
@@ -132,35 +106,35 @@ namespace Nelson {
         {
             case NLS_INT64:
 			{
-				greaterthanfuncreal<int64>(Clen, (logical*)Cp,
+				greaterThanReal<int64>(Clen, (logical*)Cp,
 					(int64*)A.getDataPointer(), Astride,
 					(int64*)B.getDataPointer(), Bstride);
 			}
             break;
             case NLS_SINGLE:
 			{
-				greaterthanfuncreal<single>(Clen, (logical*)Cp,
+				greaterThanReal<single>(Clen, (logical*)Cp,
 					(single*)A.getDataPointer(), Astride,
 					(single*)B.getDataPointer(), Bstride);
 			}
             break;
             case NLS_DOUBLE:
 			{
-				greaterthanfuncreal<double>(Clen, (logical*)Cp,
+				greaterThanReal<double>(Clen, (logical*)Cp,
 					(double*)A.getDataPointer(), Astride,
 					(double*)B.getDataPointer(), Bstride);
 			}
             break;
             case NLS_SCOMPLEX:
 			{
-				greaterthanfunccomplex<single>(Clen, (logical*)Cp,
+				greaterThanComplex<single>(Clen, (logical*)Cp,
 					(single*)A.getDataPointer(), Astride,
 					(single*)B.getDataPointer(), Bstride);
 			}
             break;
             case NLS_DCOMPLEX:
 			{
-				greaterthanfunccomplex<double>(Clen, (logical*)Cp,
+				greaterThanComplex<double>(Clen, (logical*)Cp,
 					(double*)A.getDataPointer(), Astride,
 					(double*)B.getDataPointer(), Bstride);
 			}

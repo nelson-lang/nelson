@@ -195,7 +195,6 @@
     <ClCompile Include="..\cpp\doubleBuiltin.cpp" />
     <ClCompile Include="..\cpp\double_colon_doubleBuiltin.cpp" />
     <ClCompile Include="..\cpp\double_dispBuiltin.cpp" />
-    <ClCompile Include="..\cpp\double_ge_doubleBuiltin.cpp" />
     <ClCompile Include="..\cpp\double_horzcat_doubleBuiltin.cpp" />
     <ClCompile Include="..\cpp\double_isequalBuiltin.cpp" />
     <ClCompile Include="..\cpp\double_isequalnBuiltin.cpp" />
@@ -222,7 +221,6 @@
     <ClInclude Include="..\include\doubleBuiltin.hpp" />
     <ClInclude Include="..\include\double_colon_doubleBuiltin.hpp" />
     <ClInclude Include="..\include\double_dispBuiltin.hpp" />
-    <ClInclude Include="..\include\double_ge_doubleBuiltin.hpp" />
     <ClInclude Include="..\include\double_horzcat_doubleBuiltin.hpp" />
     <ClInclude Include="..\include\double_isequalBuiltin.hpp" />
     <ClInclude Include="..\include\double_isequalnBuiltin.hpp" />

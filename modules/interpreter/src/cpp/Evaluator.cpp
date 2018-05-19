@@ -92,6 +92,7 @@
 #include "Addition.hpp"
 #include "Substraction.hpp"
 #include "GreaterThan.hpp"
+#include "GreaterEquals.hpp"
 
 #ifdef _MSC_VER
 #define strdup _strdup
@@ -588,7 +589,7 @@ namespace Nelson {
                 break;
                 case OP_GEQ:
                 {
-                    retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "ge");
+					retval = doBinaryOperatorOverload(t, GreaterEquals, "ge");
                 }
                 break;
                 case OP_EQ:
