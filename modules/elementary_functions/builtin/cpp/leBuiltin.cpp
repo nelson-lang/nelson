@@ -18,7 +18,7 @@
 //=============================================================================
 #include "leBuiltin.hpp"
 #include "Error.hpp"
-#include "OverloadBinaryOperator.hpp"
+#include "LessEquals.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -29,7 +29,9 @@ ArrayOfVector Nelson::ElementaryFunctionsGateway::leBuiltin(Evaluator* eval, int
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    retval.push_back(OverloadBinaryOperator(eval, argIn[0], argIn[1], "le"));
-    return retval;
+	ArrayOf arg1 = argIn[0];
+	ArrayOf arg2 = argIn[1];
+	retval.push_back(eval->doBinaryOperatorOverload(arg1, arg2, LessEquals, "le"));
+	return retval;
 }
 //=============================================================================

@@ -18,8 +18,6 @@
 //=============================================================================
 #include "eqBuiltin.hpp"
 #include "Error.hpp"
-#include "OverloadBinaryOperator.hpp"
-#include "OverloadRequired.hpp"
 #include "Equals.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -35,25 +33,9 @@ ArrayOfVector Nelson::ElementaryFunctionsGateway::eqBuiltin(Evaluator* eval, int
     {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    bool bSuccess = false;
-    ArrayOf res = OverloadBinaryOperator(eval, argIn[0], argIn[1], "eq", bSuccess);
-    if (bSuccess)
-    {
-        retval.push_back(res);
-        return retval;
-    }
-    else
-    {
-        if ((argIn[0].getDataClass() == NLS_HANDLE) || (argIn[0].getDataClass() == NLS_STRUCT_ARRAY) || (argIn[0].getDataClass() == NLS_CELL_ARRAY) ||
-                (argIn[1].getDataClass() == NLS_HANDLE) || (argIn[1].getDataClass() == NLS_STRUCT_ARRAY) || (argIn[1].getDataClass() == NLS_CELL_ARRAY) ||
-                (argIn[0].isSparse() || argIn[1].isSparse()) )
-        {
-            OverloadRequired(eval, argIn, Nelson::BINARY);
-        }
-		ArrayOf A = argIn[0];
-		ArrayOf B = argIn[1];
-        retval.push_back(Equals(A, B, true, bSuccess));
-    }
+	ArrayOf arg1 = argIn[0];
+	ArrayOf arg2 = argIn[1];
+	retval.push_back(eval->doBinaryOperatorOverload(arg1, arg2, Equals, "eq"));
     return retval;
 }
 //=============================================================================
