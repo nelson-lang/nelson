@@ -710,13 +710,15 @@ namespace Nelson {
 
 		typedef ArrayOf(*UnaryFunction)(ArrayOf &A, bool mustRaiseError, bool &bSuccess);
 		ArrayOf doUnaryOperatorOverload(ASTPtr t, UnaryFunction functionOperator, std::string functionName);
+		ArrayOf doUnaryOperatorOverload(ArrayOf &A, UnaryFunction functionOperator, std::string functionName);
 
 		typedef ArrayOf(*BinaryFunction)(ArrayOf &A, ArrayOf &B, bool mustRaiseError, bool &bSuccess);
 		ArrayOf doBinaryOperatorOverload(ASTPtr t, BinaryFunction functionOperator, std::string functionName);
+		ArrayOf doBinaryOperatorOverload(ArrayOf &A, ArrayOf &B, BinaryFunction functionOperator, std::string functionName);
 
 		typedef ArrayOf(*TrinaryFunction)(ArrayOf &A, ArrayOf &B, ArrayOf &C, bool mustRaiseError, bool &bSuccess);
 		ArrayOf doTrinaryOperatorOverload(ASTPtr t, TrinaryFunction functionOperator, std::string functionName);
-
+		ArrayOf doTrinaryOperatorOverload(ArrayOf &A, ArrayOf &B, ArrayOf &C, TrinaryFunction functionOperator, std::string functionName);
 
     };
     NLSINTERPRETER_IMPEXP void sigInterrupt(int arg);

@@ -4786,9 +4786,14 @@ namespace Nelson {
     //=============================================================================
 	ArrayOf Evaluator::doUnaryOperatorOverload(ASTPtr t, UnaryFunction functionOperator, std::string functionName)
 	{
+		ArrayOf A(expression(t->down));
+		return doUnaryOperatorOverload(A, functionOperator, functionName);
+	}
+	//=============================================================================
+	ArrayOf Evaluator::doUnaryOperatorOverload(ArrayOf &A, UnaryFunction functionOperator, std::string functionName)
+	{
 		ArrayOf res;
 		bool bSuccess = false;
-		ArrayOf A(expression(t->down));
 		if (!overloadOnBasicTypes)
 		{
 			res = functionOperator(A, false, bSuccess);
@@ -4816,10 +4821,15 @@ namespace Nelson {
 	//=============================================================================
 	ArrayOf Evaluator::doBinaryOperatorOverload(ASTPtr t, BinaryFunction functionOperator, std::string functionName)
 	{
-		ArrayOf res;
-		bool bSuccess = false;
 		ArrayOf A(expression(t->down));
 		ArrayOf B(expression(t->down->right));
+		return doBinaryOperatorOverload(A, B, functionOperator, functionName);
+	}
+	//=============================================================================
+	ArrayOf Evaluator::doBinaryOperatorOverload(ArrayOf &A, ArrayOf &B, BinaryFunction functionOperator, std::string functionName)
+	{
+		ArrayOf res;
+		bool bSuccess = false;
 		if (!overloadOnBasicTypes)
 		{
 			res = functionOperator(A, B, false, bSuccess);
@@ -4848,11 +4858,16 @@ namespace Nelson {
 	//=============================================================================
 	ArrayOf Evaluator::doTrinaryOperatorOverload(ASTPtr t, TrinaryFunction functionOperator, std::string functionName)
 	{
-		ArrayOf res;
-		bool bSuccess = false;
 		ArrayOf A = expression(t->down->down);
 		ArrayOf B = expression(t->down->down->right);
 		ArrayOf C = expression(t->down->right);
+		return doTrinaryOperatorOverload(A, B, C, functionOperator, functionName);
+	}
+	//=============================================================================
+	ArrayOf Evaluator::doTrinaryOperatorOverload(ArrayOf &A, ArrayOf &B, ArrayOf &C, TrinaryFunction functionOperator, std::string functionName)
+	{
+		ArrayOf res;
+		bool bSuccess = false;
 		if (!overloadOnBasicTypes)
 		{
 			res = functionOperator(A, B, C, false, bSuccess);
