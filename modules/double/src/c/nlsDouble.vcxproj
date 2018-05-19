@@ -211,7 +211,6 @@
     <ClInclude Include="..\include\nlsDouble_exports.h" />
     <ClInclude Include="..\include\timesDouble.hpp" />
     <ClInclude Include="..\include\ToDouble.hpp" />
-    <ClInclude Include="..\include\UminusDouble.hpp" />
     <ClInclude Include="..\include\VertCatDouble.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -223,7 +222,6 @@
     <ClCompile Include="..\cpp\MtimesDouble.cpp" />
     <ClCompile Include="..\cpp\timesDouble.cpp" />
     <ClCompile Include="..\cpp\ToDouble.cpp" />
-    <ClCompile Include="..\cpp\UminusDouble.cpp" />
     <ClCompile Include="..\cpp\VertCatDouble.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>

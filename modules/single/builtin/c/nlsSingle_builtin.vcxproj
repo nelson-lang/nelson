@@ -181,7 +181,6 @@
     <ClCompile Include="..\cpp\single_horzcat_singleBuiltin.cpp" />
     <ClCompile Include="..\cpp\single_isequalBuiltin.cpp" />
     <ClCompile Include="..\cpp\single_isequalnBuiltin.cpp" />
-    <ClCompile Include="..\cpp\single_uminusBuiltin.cpp" />
     <ClCompile Include="..\cpp\single_vertcat_singleBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
@@ -226,7 +225,6 @@
     <ClInclude Include="..\include\single_isequalBuiltin.hpp" />
     <ClInclude Include="..\include\single_isequalnBuiltin.hpp" />
     <ClInclude Include="..\include\single_minus_singleBuiltin.hpp" />
-    <ClInclude Include="..\include\single_uminusBuiltin.hpp" />
     <ClInclude Include="..\include\single_vertcat_singleBuiltin.hpp" />
   </ItemGroup>
   <ItemGroup>

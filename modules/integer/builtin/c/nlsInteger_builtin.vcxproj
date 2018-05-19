@@ -165,13 +165,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\int16Builtin.cpp" />
-    <ClCompile Include="..\cpp\int16_uminusBuiltin.cpp" />
     <ClCompile Include="..\cpp\int32Builtin.cpp" />
-    <ClCompile Include="..\cpp\int32_uminusBuiltin.cpp" />
     <ClCompile Include="..\cpp\int64Builtin.cpp" />
-    <ClCompile Include="..\cpp\int64_uminusBuiltin.cpp" />
     <ClCompile Include="..\cpp\int8Builtin.cpp" />
-    <ClCompile Include="..\cpp\int8_uminusBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\integer_dispBuiltin.cpp" />
     <ClCompile Include="..\cpp\integer_horzcat_integerBuiltin.cpp" />
@@ -183,13 +179,9 @@
     <ClCompile Include="..\cpp\ndarrayinteger_isequalBuiltin.cpp" />
     <ClCompile Include="..\cpp\ndarrayinteger_vertcat_ndarrayintegerBuiltin.cpp" />
     <ClCompile Include="..\cpp\uint16Builtin.cpp" />
-    <ClCompile Include="..\cpp\uint16_uminusBuiltin.cpp" />
     <ClCompile Include="..\cpp\uint32Builtin.cpp" />
-    <ClCompile Include="..\cpp\uint32_uminusBuiltin.cpp" />
     <ClCompile Include="..\cpp\uint64Builtin.cpp" />
-    <ClCompile Include="..\cpp\uint64_uminusBuiltin.cpp" />
     <ClCompile Include="..\cpp\uint8Builtin.cpp" />
-    <ClCompile Include="..\cpp\uint8_uminusBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
@@ -235,13 +227,9 @@
     <ClInclude Include="..\include\ndarrayinteger_vertcat_ndarrayintegerBuiltin.hpp" />
     <ClInclude Include="..\include\nlsInteger_builtin_exports.h" />
     <ClInclude Include="..\include\uint16Builtin.hpp" />
-    <ClInclude Include="..\include\uint16_uminusBuiltin.hpp" />
     <ClInclude Include="..\include\uint32Builtin.hpp" />
-    <ClInclude Include="..\include\uint32_uminusBuiltin.hpp" />
     <ClInclude Include="..\include\uint64Builtin.hpp" />
-    <ClInclude Include="..\include\uint64_uminusBuiltin.hpp" />
     <ClInclude Include="..\include\uint8Builtin.hpp" />
-    <ClInclude Include="..\include\uint8_uminusBuiltin.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\etc\finish.nls" />

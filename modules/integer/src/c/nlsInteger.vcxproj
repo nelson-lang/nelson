@@ -184,7 +184,6 @@
     <ClCompile Include="..\cpp\ToUint32.cpp" />
     <ClCompile Include="..\cpp\ToUint64.cpp" />
     <ClCompile Include="..\cpp\ToUint8.cpp" />
-    <ClCompile Include="..\cpp\UminusInteger.cpp" />
     <ClCompile Include="..\cpp\VertCatInteger.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -199,7 +198,6 @@
     <ClInclude Include="..\..\src\include\ToUint8.hpp" />
     <ClInclude Include="..\include\HorzCatInteger.hpp" />
     <ClInclude Include="..\include\IntegerIsEqual.hpp" />
-    <ClInclude Include="..\include\UminusInteger.hpp" />
     <ClInclude Include="..\include\VertCatInteger.hpp" />
   </ItemGroup>
   <ItemGroup>

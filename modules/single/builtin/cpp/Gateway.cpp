@@ -20,7 +20,6 @@
 #include "singleBuiltin.hpp"
 #include "single_dispBuiltin.hpp"
 #include "ndarraysingle_dispBuiltin.hpp"
-#include "single_uminusBuiltin.hpp"
 #include "single_vertcat_singleBuiltin.hpp"
 #include "single_horzcat_singleBuiltin.hpp"
 #include "ndarraysingle_horzcat_ndarraysingleBuiltin.hpp"
@@ -41,7 +40,6 @@ static const nlsGateway gateway[] =
     { "single", Nelson::SingleGateway::singleBuiltin, 1, 1 },
     { "single_disp", Nelson::SingleGateway::single_dispBuiltin, 0, 1 },
     { "ndarraysingle_disp", Nelson::SingleGateway::ndarraysingle_dispBuiltin, 0, 1 },
-    { "single_uminus", Nelson::SingleGateway::single_uminusBuiltin, 1, 1 },
     { "single_horzcat_single", Nelson::SingleGateway::single_horzcat_singleBuiltin, 1, 2 },
     { "single_vertcat_single", Nelson::SingleGateway::single_vertcat_singleBuiltin, 1, 2 },
     { "ndarraysingle_horzcat_ndarraysingle", Nelson::SingleGateway::ndarraysingle_horzcat_ndarraysingleBuiltin, 1, 2 },

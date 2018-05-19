@@ -18,12 +18,14 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include "nlsElementary_functions_exports.h"
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
+#include "ClassName.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace DoubleGateway {
-        ArrayOfVector double_uminusBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    }
+	/**
+	* C = -A
+	*/
+	NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf UnaryMinus(ArrayOf &A, bool mustRaiseError, bool &bSuccess);
 }
 //=============================================================================

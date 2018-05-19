@@ -18,9 +18,6 @@
     <ClCompile Include="..\cpp\double_dispBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\double_uminusBuiltin.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\cpp\doubleBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

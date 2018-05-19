@@ -25,14 +25,6 @@
 #include "uint16Builtin.hpp"
 #include "uint32Builtin.hpp"
 #include "uint64Builtin.hpp"
-#include "int8_uminusBuiltin.hpp"
-#include "int16_uminusBuiltin.hpp"
-#include "int32_uminusBuiltin.hpp"
-#include "int64_uminusBuiltin.hpp"
-#include "uint8_uminusBuiltin.hpp"
-#include "uint16_uminusBuiltin.hpp"
-#include "uint32_uminusBuiltin.hpp"
-#include "uint64_uminusBuiltin.hpp"
 #include "integer_horzcat_integerBuiltin.hpp"
 #include "ndarrayinteger_horzcat_ndarrayintegerBuiltin.hpp"
 #include "integer_vertcat_integerBuiltin.hpp"
@@ -57,14 +49,6 @@ static const nlsGateway gateway[] =
     { "uint16", Nelson::IntegerGateway::uint16Builtin, 1, 1 },
     { "uint32", Nelson::IntegerGateway::uint32Builtin, 1, 1 },
     { "uint64", Nelson::IntegerGateway::uint64Builtin, 1, 1 },
-    { "int8_uminus", Nelson::IntegerGateway::int8_uminusBuiltin, 1, 1 },
-    { "int16_uminus", Nelson::IntegerGateway::int16_uminusBuiltin, 1, 1 },
-    { "int32_uminus", Nelson::IntegerGateway::int32_uminusBuiltin, 1, 1 },
-    { "int64_uminus", Nelson::IntegerGateway::int64_uminusBuiltin, 1, 1 },
-    { "uint8_uminus", Nelson::IntegerGateway::uint8_uminusBuiltin, 1, 1 },
-    { "uint16_uminus", Nelson::IntegerGateway::uint16_uminusBuiltin, 1, 1 },
-    { "uint32_uminus", Nelson::IntegerGateway::uint32_uminusBuiltin, 1, 1 },
-    { "uint64_uminus", Nelson::IntegerGateway::uint64_uminusBuiltin, 1, 1 },
     { "int8_vertcat_int8", Nelson::IntegerGateway::int8_vertcat_int8Builtin, 1, 2 },
     { "int16_vertcat_int16", Nelson::IntegerGateway::int16_vertcat_int16Builtin, 1, 2 },
     { "int32_vertcat_int32", Nelson::IntegerGateway::int32_vertcat_int32Builtin, 1, 2 },

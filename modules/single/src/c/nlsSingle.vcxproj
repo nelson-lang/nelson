@@ -170,14 +170,12 @@
     <ClCompile Include="..\cpp\SingleIsEqual.cpp" />
     <ClCompile Include="..\cpp\SingleIsEqualn.cpp" />
     <ClCompile Include="..\cpp\ToSingle.cpp" />
-    <ClCompile Include="..\cpp\UminusSingle.cpp" />
     <ClCompile Include="..\cpp\VertCatSingle.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\include\nlsSingle_exports.h" />
     <ClInclude Include="..\..\src\include\ToSingle.hpp" />
-    <ClInclude Include="..\..\src\include\UminusSingle.hpp" />
     <ClInclude Include="..\include\ColonSingle.hpp" />
     <ClInclude Include="..\include\HorzCatSingle.hpp" />
     <ClInclude Include="..\include\SingleDisplay.hpp" />

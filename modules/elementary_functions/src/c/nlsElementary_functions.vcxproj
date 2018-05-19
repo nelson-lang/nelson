@@ -205,6 +205,7 @@
     <ClCompile Include="..\cpp\Substraction.cpp" />
     <ClCompile Include="..\cpp\Transpose.cpp" />
     <ClCompile Include="..\cpp\TruncateFunctions.cpp" />
+    <ClCompile Include="..\cpp\UnaryMinus.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\AbsoluteValue.hpp" />
@@ -245,6 +246,7 @@
     <ClInclude Include="..\include\Substraction.hpp" />
     <ClInclude Include="..\include\Transpose.hpp" />
     <ClInclude Include="..\include\TruncateFunctions.hpp" />
+    <ClInclude Include="..\include\UnaryMinus.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\api_nelson\src\c\nlsApi_nelson.vcxproj">
