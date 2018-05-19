@@ -52,12 +52,8 @@
 #include "RightDivide.hpp"
 #include "LeftDivide.hpp"
 #include "Negate.hpp"
-#include "LessThan.hpp"
-#include "GreaterThan.hpp"
 #include "DotPower.hpp"
 #include "Power.hpp"
-#include "Equals.hpp"
-#include "NotEquals.hpp"
 #include "And.hpp"
 #include "Not.hpp"
 #include "Or.hpp"
@@ -93,8 +89,10 @@
 #include "Substraction.hpp"
 #include "GreaterThan.hpp"
 #include "GreaterEquals.hpp"
-#include "LessThan.hpp"
 #include "LessEquals.hpp"
+#include "LessThan.hpp"
+#include "Equals.hpp"
+#include "NotEquals.hpp"
 
 #ifdef _MSC_VER
 #define strdup _strdup
@@ -601,7 +599,7 @@ namespace Nelson {
                 break;
                 case OP_NEQ:
                 {
-                    retval = OverloadBinaryOperator(this, expression(t->down), expression(t->down->right), "ne");
+					retval = doBinaryOperatorOverload(t, NotEquals, "ne");
                 }
                 break;
                 case OP_DOT_TIMES:

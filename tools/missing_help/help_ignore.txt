@@ -23,14 +23,10 @@ colon_double_double_double
 dos
 double_colon_double
 double_disp
-double_gt_double
 double_horzcat_double
 double_isequal
 double_isequaln
-double_le_double
-double_lt_double
 double_mtimes_double
-double_ne_double
 double_times_double
 double_times_ndarraydouble
 double_uminus
@@ -294,7 +290,6 @@ sparselogical_prod
 generic_and_generic
 generic_or_generic
 logical_minus_logical
-logical_ne_logical
 logical_plus_logical
 typebin
 typeofbin

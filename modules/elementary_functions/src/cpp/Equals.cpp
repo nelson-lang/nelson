@@ -24,7 +24,7 @@
 namespace Nelson {
     //=============================================================================
     template <class T>
-    void equalsfuncreal(indexType N, logical* C, const T*A, int stride1, const T*B, int stride2)
+    void equalsReal(indexType N, logical* C, const T*A, int stride1, const T*B, int stride2)
     {
         if ((stride1 == 1) && (stride2 == 1))
         {
@@ -33,7 +33,7 @@ namespace Nelson {
 #endif
             for (indexType i = 0; i < N; i++)
             {
-                C[i] = (A[i] == B[i]) ? 1 : 0;
+                C[i] = (A[i] == B[i]) ? logical(1) : logical(0);
             }
         }
         else
@@ -45,7 +45,7 @@ namespace Nelson {
 #endif
                 for (indexType i = 0; i < N; i++)
                 {
-                    C[i] = (A[i] == B[0]) ? 1 : 0;
+                    C[i] = (A[i] == B[0]) ? logical(1) : logical(0);
                 }
             }
             else
@@ -55,14 +55,14 @@ namespace Nelson {
 #endif
                 for (indexType i = 0; i < N; i++)
                 {
-                    C[i] = (A[0] == B[i]) ? 1 : 0;
+                    C[i] = (A[0] == B[i]) ? logical(1) : logical(0);
                 }
             }
         }
     }
     //=============================================================================
     template <class T>
-    void equalsfunccomplex(indexType N, logical* C, const T*A, int stride1, const T*B, int stride2)
+    void equalsComplex(indexType N, logical* C, const T*A, int stride1, const T*B, int stride2)
     {
         if ((stride1 == 1) && (stride2 == 1))
         {
@@ -71,7 +71,7 @@ namespace Nelson {
 #endif
             for (indexType i = 0; i < N; i++)
             {
-                C[i] = ((A[2 * i] == B[2 * i]) && (A[2 * i + 1] == B[2 * i + 1])) ? 1 : 0;
+                C[i] = ((A[2 * i] == B[2 * i]) && (A[2 * i + 1] == B[2 * i + 1])) ? logical(1) : logical(0);
             }
         }
         else
@@ -83,7 +83,7 @@ namespace Nelson {
 #endif
                 for (indexType i = 0; i < N; i++)
                 {
-                    C[i] = ((A[2 * i] == B[0]) && (A[2 * i + 1] == B[1])) ? 1 : 0;
+                    C[i] = ((A[2 * i] == B[0]) && (A[2 * i + 1] == B[1])) ? logical(1) : logical(0);
                 }
             }
             else
@@ -93,7 +93,7 @@ namespace Nelson {
 #endif
                 for (indexType i = 0; i < N; i++)
                 {
-                    C[i] = ((A[0] == B[2 * i]) && (A[1] == B[2 * i + 1])) ? 1 : 0;
+                    C[i] = ((A[0] == B[2 * i]) && (A[1] == B[2 * i + 1])) ? logical(1) : logical(0);
                 }
             }
         }
@@ -101,7 +101,6 @@ namespace Nelson {
     //=============================================================================
     ArrayOf Equals(ArrayOf &A, ArrayOf &B, bool mustRaiseError, bool &bSuccess)
     {
-        // Process the two arguments through the type check and dimension checks...
         VectorCheck(A, B, "==");
 		if (A.isSparse() || B.isSparse())
 		{
@@ -161,72 +160,72 @@ namespace Nelson {
         {
             case NLS_LOGICAL:
             {
-                equalsfuncreal<logical>(Clen, (logical*)Cp, (logical*)A.getDataPointer(), Astride, (logical*)B.getDataPointer(), Bstride);
+                equalsReal<logical>(Clen, (logical*)Cp, (logical*)A.getDataPointer(), Astride, (logical*)B.getDataPointer(), Bstride);
             }
             break;
             case NLS_UINT8:
             {
-                equalsfuncreal<uint8>(Clen, (logical*)Cp, (uint8*)A.getDataPointer(), Astride, (uint8*)B.getDataPointer(), Bstride);
+                equalsReal<uint8>(Clen, (logical*)Cp, (uint8*)A.getDataPointer(), Astride, (uint8*)B.getDataPointer(), Bstride);
             }
             break;
             case NLS_INT8:
             {
-                equalsfuncreal<int8>(Clen, (logical*)Cp, (int8*)A.getDataPointer(), Astride, (int8*)B.getDataPointer(), Bstride);
+                equalsReal<int8>(Clen, (logical*)Cp, (int8*)A.getDataPointer(), Astride, (int8*)B.getDataPointer(), Bstride);
             }
             break;
             case NLS_UINT16:
             {
-                equalsfuncreal<uint16>(Clen, (logical*)Cp, (uint16*)A.getDataPointer(), Astride, (uint16*)B.getDataPointer(), Bstride);
+                equalsReal<uint16>(Clen, (logical*)Cp, (uint16*)A.getDataPointer(), Astride, (uint16*)B.getDataPointer(), Bstride);
             }
             break;
             case NLS_INT16:
             {
-                equalsfuncreal<int16>(Clen, (logical*)Cp, (int16*)A.getDataPointer(), Astride, (int16*)B.getDataPointer(), Bstride);
+                equalsReal<int16>(Clen, (logical*)Cp, (int16*)A.getDataPointer(), Astride, (int16*)B.getDataPointer(), Bstride);
             }
             break;
             case NLS_UINT32:
             {
-                equalsfuncreal<uint32>(Clen, (logical*)Cp, (uint32*)A.getDataPointer(), Astride, (uint32*)B.getDataPointer(), Bstride);
+                equalsReal<uint32>(Clen, (logical*)Cp, (uint32*)A.getDataPointer(), Astride, (uint32*)B.getDataPointer(), Bstride);
             }
             break;
             case NLS_INT32:
             {
-                equalsfuncreal<int32>(Clen, (logical*)Cp, (int32*)A.getDataPointer(), Astride, (int32*)B.getDataPointer(), Bstride);
+                equalsReal<int32>(Clen, (logical*)Cp, (int32*)A.getDataPointer(), Astride, (int32*)B.getDataPointer(), Bstride);
             }
             break;
             case NLS_UINT64:
             {
-                equalsfuncreal<uint64>(Clen, (logical*)Cp, (uint64*)A.getDataPointer(), Astride, (uint64*)B.getDataPointer(), Bstride);
+                equalsReal<uint64>(Clen, (logical*)Cp, (uint64*)A.getDataPointer(), Astride, (uint64*)B.getDataPointer(), Bstride);
             }
             break;
             case NLS_INT64:
             {
-                equalsfuncreal<int64>(Clen, (logical*)Cp, (int64*)A.getDataPointer(), Astride, (int64*)B.getDataPointer(), Bstride);
+                equalsReal<int64>(Clen, (logical*)Cp, (int64*)A.getDataPointer(), Astride, (int64*)B.getDataPointer(), Bstride);
             }
             break;
             case NLS_SINGLE:
             {
-                equalsfuncreal<float>(Clen, (logical*)Cp, (float*)A.getDataPointer(), Astride, (float*)B.getDataPointer(), Bstride);
+                equalsReal<float>(Clen, (logical*)Cp, (float*)A.getDataPointer(), Astride, (float*)B.getDataPointer(), Bstride);
             }
             break;
             case NLS_DOUBLE:
             {
-                equalsfuncreal<double>(Clen, (logical*)Cp, (double*)A.getDataPointer(), Astride, (double*)B.getDataPointer(), Bstride);
+                equalsReal<double>(Clen, (logical*)Cp, (double*)A.getDataPointer(), Astride, (double*)B.getDataPointer(), Bstride);
             }
             break;
             case NLS_SCOMPLEX:
             {
-                equalsfunccomplex<float>(Clen, (logical*)Cp, (float*)A.getDataPointer(), Astride, (float*)B.getDataPointer(), Bstride);
+                equalsComplex<float>(Clen, (logical*)Cp, (float*)A.getDataPointer(), Astride, (float*)B.getDataPointer(), Bstride);
             }
             break;
             case NLS_DCOMPLEX:
             {
-                equalsfunccomplex<double>(Clen, (logical*)Cp, (double*)A.getDataPointer(), Astride, (double*)B.getDataPointer(), Bstride);
+                equalsComplex<double>(Clen, (logical*)Cp, (double*)A.getDataPointer(), Astride, (double*)B.getDataPointer(), Bstride);
             }
             break;
             case NLS_CHAR:
             {
-                equalsfuncreal<charType>(Clen, (logical*)Cp, (charType*)A.getDataPointer(), Astride, (charType*)B.getDataPointer(), Bstride);
+                equalsReal<charType>(Clen, (logical*)Cp, (charType*)A.getDataPointer(), Astride, (charType*)B.getDataPointer(), Bstride);
             }
             break;
             default:

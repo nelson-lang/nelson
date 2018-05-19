@@ -20,12 +20,11 @@
 //=============================================================================
 #include "nlsElementary_functions_exports.h"
 #include "ArrayOf.hpp"
-#include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
     /**
     * EElement-wise compare (ne) of two arrays: C = A != B
     */
-    NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf NotEquals(ArrayOf A, ArrayOf B);
+	NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf NotEquals(ArrayOf &A, ArrayOf &B, bool mustRaiseError, bool &bSuccess);
 }
 //=============================================================================

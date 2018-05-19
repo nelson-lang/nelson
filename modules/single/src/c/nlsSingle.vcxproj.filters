@@ -39,9 +39,6 @@
     <ClCompile Include="dllMain.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\NeqSingle.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\cpp\ColonSingle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -69,9 +66,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\SingleDisplay.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\NeqSingle.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\ColonSingle.hpp">

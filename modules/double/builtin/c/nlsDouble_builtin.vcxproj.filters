@@ -42,9 +42,6 @@
     <ClCompile Include="..\cpp\double_mtimes_doubleBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\double_ne_doubleBuiltin.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\cpp\double_horzcat_doubleBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -101,9 +98,6 @@
     <ClInclude Include="..\include\double_mtimes_doubleBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\double_ne_doubleBuiltin.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\double_horzcat_doubleBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -114,9 +108,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\ndarraydouble_vertcat_ndarraydoubleBuiltin.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\double_lt_doubleBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\double_isequalBuiltin.hpp">
@@ -132,9 +123,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\double_times_doubleBuiltin.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\double_le_doubleBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

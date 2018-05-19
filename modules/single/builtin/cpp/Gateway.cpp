@@ -29,7 +29,6 @@
 #include "ndarraysingle_isequalnBuiltin.hpp"
 #include "single_isequalBuiltin.hpp"
 #include "single_isequalnBuiltin.hpp"
-#include "single_ne_singleBuiltin.hpp"
 #include "single_colon_singleBuiltin.hpp"
 #include "colon_single_single_singleBuiltin.hpp"
 //=============================================================================
@@ -51,7 +50,6 @@ static const nlsGateway gateway[] =
     { "ndarraysingle_isequaln", Nelson::SingleGateway::ndarraysingle_isequalnBuiltin, 1, 2 },
     { "single_isequal", Nelson::SingleGateway::single_isequalBuiltin, 1, 2 },
     { "single_isequaln", Nelson::SingleGateway::single_isequalnBuiltin, 1, 2 },
-    { "single_ne_single", Nelson::SingleGateway::single_ne_singleBuiltin, 1, 2 },
     { "single_colon_single", Nelson::SingleGateway::single_colon_singleBuiltin, 1, 2 },
     { "colon_single_single_single", Nelson::SingleGateway::colon_single_single_singleBuiltin, 1, 3 },
 };
