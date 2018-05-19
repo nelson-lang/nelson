@@ -33,5 +33,5 @@ Source: {#RootPath}modules\{#MODULE_NAME}\examples\complex\*.nlf; DestDir: {app}
 Source: {#RootPath}modules\{#MODULE_NAME}\examples\complex\*.nls; DestDir: {app}\modules\{#MODULE_NAME}\examples\complex\;
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.nls; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs
-Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.nlf; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs
+;Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.nlf; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs
 ;==============================================================================
