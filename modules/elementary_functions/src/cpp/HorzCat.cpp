@@ -23,318 +23,315 @@
 #include "ConcatenateNdArray.hpp"
 //=============================================================================
 namespace Nelson {
-	//=============================================================================
-	template <class T>
-	ArrayOf HorzCatTemplate(ArrayOf A, ArrayOf B, Dimensions dimsRes)
-	{
-		T *ptrA = (T *)A.getDataPointer();
-		T *ptrB = (T *)B.getDataPointer();
-		void *pRes = ArrayOf::allocateArrayOf(A.getDataClass(), dimsRes.getRows() * dimsRes.getColumns());
-		T *ptrC = (T*)pRes;
-		Dimensions dimsA = A.getDimensions();
-		Dimensions dimsB = B.getDimensions();
-		Eigen::Map<Eigen::Matrix <T, Eigen::Dynamic, Eigen::Dynamic >> matA(ptrA, dimsA.getRows(), dimsA.getColumns());
-		Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matB(ptrB, dimsB.getRows(), dimsB.getColumns());
-		Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matC(ptrC, dimsRes.getRows(), dimsRes.getColumns());
-		matC << matA, matB;
-		return ArrayOf(A.getDataClass(), dimsRes, pRes);
-	}
-	//=============================================================================
-	template <class T>
-	ArrayOf HorzCatComplexTemplate(ArrayOf A, ArrayOf B, Dimensions dimsRes)
-	{
-		void *pRes = ArrayOf::allocateArrayOf(A.getDataClass(), dimsRes.getElementCount() * 2);
-		T* ptrC = (T*)pRes;
-		std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(ptrC);
-		Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matC(Cz, dimsRes.getRows(), dimsRes.getColumns());
-		Dimensions dimsA = A.getDimensions();
-		std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)A.getDataPointer());
-		Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matA(Az, dimsA.getRows(), dimsA.getColumns());
-		Dimensions dimsB = B.getDimensions();
-		std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>((T*)B.getDataPointer());
-		Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matB(Bz, dimsB.getRows(), dimsB.getColumns());
-		matC << matA, matB;
-		return ArrayOf(A.getDataClass(), dimsRes, pRes);
-	}
-	//=============================================================================
-	ArrayOf HorzCat(ArrayOf &A, ArrayOf &B, bool mustRaiseError, bool &bSuccess)
-	{
-		bSuccess = false;
-		if (A.isSparse() || B.isSparse())
-		{
-			if (mustRaiseError)
-			{
-				std::string overload = ClassName(A) + "_horzcat_" + ClassName(B);
-				throw Exception(_("function") + " " + overload + " " + _("undefined."));
-			}
-			else
-			{
-				bSuccess = false;
-				return ArrayOf();
-			}
-		}
-		if (A.isEmpty(false))
-		{
-			bSuccess = true;
-			if (A.isCell())
-			{
-				if (B.isCell())
-				{
-					ArrayOf C(B);
-					return C;
-				}
-				else
-				{
-					return ArrayOf::toCell(B);
-				}
-			}
-			else
-			{
-				ArrayOf C(B);
-				return C;
-			}
-		}
-		if (B.isEmpty(false))
-		{
-			bSuccess = true;
-			if (B.isCell())
-			{
-				if (A.isCell())
-				{
-					ArrayOf C(A);
-					return C;
-				}
-				else
-				{
-					return ArrayOf::toCell(A);
-				}
-			}
-			else
-			{
-				ArrayOf C(A);
-				return C;
-			}
-		}
-		Class classCommon = FindCommonType(A, B, false);
-		if (A.isCell() || B.isCell())
-		{
-			classCommon = NLS_CELL_ARRAY;
-		}
-		else
-		{
-			if (A.isStruct() && B.isStruct())
-			{
-				classCommon = A.getDataClass();
-			}
-			if (A.isIntegerType())
-			{
-				classCommon = A.getDataClass();
-			}
-			else
-			{
-				classCommon = FindCommonType(A, B, false);
-			}
-		}
-		try
-		{
-			if (classCommon == NLS_CELL_ARRAY)
-			{
-				if (!A.isCell())
-				{
-					A = ArrayOf::toCell(A);
-				}
-				if (!B.isCell())
-				{
-					B = ArrayOf::toCell(B);
-				}
-			}
-			else
-			{
-				if (classCommon == NLS_STRUCT_ARRAY)
-				{
-
-				}
-				else
-				{
-					A.promoteType(classCommon);
-					B.promoteType(classCommon);
-				}
-			}
-		}
-		catch (Exception)
-		{
-			if (mustRaiseError)
-			{
-				throw;
-			}
-			else
-			{
-				bSuccess = false;
-				return ArrayOf();
-			}
-		}
-		Dimensions dimsA = A.getDimensions();
-		Dimensions dimsB = B.getDimensions();
-		if (dimsA.getRows() != dimsB.getRows())
-		{
-			if (mustRaiseError)
-			{
-				throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
-
-			}
-			if (dimsA.getLength() != dimsB.getLength())
-			{
-				throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
-			}
-			for (indexType k = 0; k < dimsA.getLength(); k++)
-			{
-				if (k != 1)
-				{
-					if (dimsA.getDimensionLength(k) != dimsB.getDimensionLength(k))
-					{
-						throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
-					}
-				}
-			}
-		}
-		ArrayOf res;
-		if (classCommon == NLS_STRUCT_ARRAY)
-		{
-			stringVector fieldnamesA = A.getFieldNames();
-			stringVector fieldnamesB = B.getFieldNames();
-			if (fieldnamesA.size() != fieldnamesB.size())
-			{
-				throw Exception(ERROR_FIELDNAMES_MUST_MATCH);
-			}
-			for (size_t k = 0; k < fieldnamesA.size(); k++)
-			{
-				if (fieldnamesA[k] != fieldnamesB[k])
-				{
-					throw Exception(ERROR_FIELDNAMES_MUST_MATCH);
-				}
-			}
-			indexType newColumnsSize = dimsA.getColumns() + dimsB.getColumns();
-			indexType newRowsSize = dimsA.getRows();
-			indexType newSize = newColumnsSize * newRowsSize;
-			Dimensions dimsC = Dimensions(newRowsSize, newColumnsSize);
-			void *ptrC = ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, newSize, fieldnamesA);
-			ArrayOf *elements = (ArrayOf *)ptrC;
-			res = ArrayOf(NLS_STRUCT_ARRAY, dimsC, elements, false, fieldnamesA);
-			for (size_t k = 0; k < fieldnamesA.size(); k++)
-			{
-				ArrayOfVector fieldsA = A.getFieldAsList(fieldnamesA[k]);
-				ArrayOfVector fieldsB = B.getFieldAsList(fieldnamesA[k]);
-				ArrayOfVector fieldsC = fieldsA;
-				fieldsC.insert(fieldsC.end(), fieldsB.begin(), fieldsB.end());
-				res.setFieldAsList(fieldnamesA[k], fieldsC);
-			}
-			bSuccess = true;
-			return res;
-		}
-		if (A.is2D() && B.is2D())
-		{
-			Dimensions dimsA = A.getDimensions();
-			Dimensions dimsB = B.getDimensions();
-			indexType newColumnsSize = dimsA.getColumns() + dimsB.getColumns();
-			indexType newRowsSize = dimsA.getRows();
-			Dimensions dimsC = Dimensions(newRowsSize, newColumnsSize);
-			switch (A.getDataClass())
-			{
-			case NLS_LOGICAL:
-			{
-				res = HorzCatTemplate<logical>(A, B, dimsC);
-			}
-			break;
-			case NLS_UINT8:
-			{
-				res = HorzCatTemplate<uint8>(A, B, dimsC);
-			}
-			break;
-			case NLS_INT8:
-			{
-				res = HorzCatTemplate<int8>(A, B, dimsC);
-			}
-			break;
-			case NLS_UINT16:
-			{
-				res = HorzCatTemplate<uint16>(A, B, dimsC);
-			}
-			break;
-			case NLS_INT16:
-			{
-				res = HorzCatTemplate<int16>(A, B, dimsC);
-			}
-			break;
-			case NLS_UINT32:
-			{
-				res = HorzCatTemplate<uint32>(A, B, dimsC);
-
-			}
-			break;
-			case NLS_INT32:
-			{
-				res = HorzCatTemplate<int32>(A, B, dimsC);
-			}
-			break;
-			case NLS_UINT64:
-			{
-				res = HorzCatTemplate<uint64>(A, B, dimsC);
-			}
-			break;
-			case NLS_INT64:
-			{
-				res = HorzCatTemplate<int64>(A, B, dimsC);
-			}
-			break;
-			case NLS_SINGLE:
-			{
-				res = HorzCatTemplate<single>(A, B, dimsC);
-			}
-			break;
-			case NLS_DOUBLE:
-			{
-				res = HorzCatTemplate<double>(A, B, dimsC);
-			}
-			break;
-			case NLS_SCOMPLEX:
-			{
-				res = HorzCatComplexTemplate<single>(A, B, dimsC);
-			}
-			break;
-			case NLS_DCOMPLEX:
-			{
-				res = HorzCatComplexTemplate<double>(A, B, dimsC);
-			}
-			break;
-			case NLS_CHAR:
-			{
-				res = HorzCatTemplate<charType>(A, B, dimsC);
-			}
-			break;
-			default:
-			{
-				ArrayOfMatrix m;
-				ArrayOfVector v;
-				v.push_back(A);
-				v.push_back(B);
-				m.push_back(v);
-				res = ConcatenateNdArray(m, classCommon);
-			}
-			break;
-			}
-		}
-		else
-		{
-			ArrayOfMatrix m;
-			ArrayOfVector v;
-			v.push_back(A);
-			v.push_back(B);
-			m.push_back(v);
-			res = ConcatenateNdArray(m, classCommon);
-		}
-		bSuccess = true;
-		return res;
-	}
-	//=============================================================================
+    //=============================================================================
+    template <class T>
+    ArrayOf HorzCatTemplate(ArrayOf A, ArrayOf B, Dimensions dimsRes)
+    {
+        T *ptrA = (T *)A.getDataPointer();
+        T *ptrB = (T *)B.getDataPointer();
+        void *pRes = ArrayOf::allocateArrayOf(A.getDataClass(), dimsRes.getRows() * dimsRes.getColumns());
+        T *ptrC = (T*)pRes;
+        Dimensions dimsA = A.getDimensions();
+        Dimensions dimsB = B.getDimensions();
+        Eigen::Map<Eigen::Matrix <T, Eigen::Dynamic, Eigen::Dynamic >> matA(ptrA, dimsA.getRows(), dimsA.getColumns());
+        Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matB(ptrB, dimsB.getRows(), dimsB.getColumns());
+        Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matC(ptrC, dimsRes.getRows(), dimsRes.getColumns());
+        matC << matA, matB;
+        return ArrayOf(A.getDataClass(), dimsRes, pRes);
+    }
+    //=============================================================================
+    template <class T>
+    ArrayOf HorzCatComplexTemplate(ArrayOf A, ArrayOf B, Dimensions dimsRes)
+    {
+        void *pRes = ArrayOf::allocateArrayOf(A.getDataClass(), dimsRes.getElementCount() * 2);
+        T* ptrC = (T*)pRes;
+        std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(ptrC);
+        Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matC(Cz, dimsRes.getRows(), dimsRes.getColumns());
+        Dimensions dimsA = A.getDimensions();
+        std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)A.getDataPointer());
+        Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matA(Az, dimsA.getRows(), dimsA.getColumns());
+        Dimensions dimsB = B.getDimensions();
+        std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>((T*)B.getDataPointer());
+        Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matB(Bz, dimsB.getRows(), dimsB.getColumns());
+        matC << matA, matB;
+        return ArrayOf(A.getDataClass(), dimsRes, pRes);
+    }
+    //=============================================================================
+    ArrayOf HorzCat(ArrayOf &A, ArrayOf &B, bool mustRaiseError, bool &bSuccess)
+    {
+        bSuccess = false;
+        if (A.isSparse() || B.isSparse())
+        {
+            if (mustRaiseError)
+            {
+                std::string overload = ClassName(A) + "_horzcat_" + ClassName(B);
+                throw Exception(_("function") + " " + overload + " " + _("undefined."));
+            }
+            else
+            {
+                bSuccess = false;
+                return ArrayOf();
+            }
+        }
+        if (A.isEmpty(false))
+        {
+            bSuccess = true;
+            if (A.isCell())
+            {
+                if (B.isCell())
+                {
+                    ArrayOf C(B);
+                    return C;
+                }
+                else
+                {
+                    return ArrayOf::toCell(B);
+                }
+            }
+            else
+            {
+                ArrayOf C(B);
+                return C;
+            }
+        }
+        if (B.isEmpty(false))
+        {
+            bSuccess = true;
+            if (B.isCell())
+            {
+                if (A.isCell())
+                {
+                    ArrayOf C(A);
+                    return C;
+                }
+                else
+                {
+                    return ArrayOf::toCell(A);
+                }
+            }
+            else
+            {
+                ArrayOf C(A);
+                return C;
+            }
+        }
+        Class classCommon = FindCommonType(A, B, false);
+        if (A.isCell() || B.isCell())
+        {
+            classCommon = NLS_CELL_ARRAY;
+        }
+        else
+        {
+            if (A.isStruct() && B.isStruct())
+            {
+                classCommon = A.getDataClass();
+            }
+            if (A.isIntegerType())
+            {
+                classCommon = A.getDataClass();
+            }
+            else
+            {
+                classCommon = FindCommonType(A, B, false);
+            }
+        }
+        try
+        {
+            if (classCommon == NLS_CELL_ARRAY)
+            {
+                if (!A.isCell())
+                {
+                    A = ArrayOf::toCell(A);
+                }
+                if (!B.isCell())
+                {
+                    B = ArrayOf::toCell(B);
+                }
+            }
+            else
+            {
+                if (classCommon == NLS_STRUCT_ARRAY)
+                {
+                }
+                else
+                {
+                    A.promoteType(classCommon);
+                    B.promoteType(classCommon);
+                }
+            }
+        }
+        catch (Exception)
+        {
+            if (mustRaiseError)
+            {
+                throw;
+            }
+            else
+            {
+                bSuccess = false;
+                return ArrayOf();
+            }
+        }
+        Dimensions dimsA = A.getDimensions();
+        Dimensions dimsB = B.getDimensions();
+        if (dimsA.getRows() != dimsB.getRows())
+        {
+            if (mustRaiseError)
+            {
+                throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
+            }
+            if (dimsA.getLength() != dimsB.getLength())
+            {
+                throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
+            }
+            for (indexType k = 0; k < dimsA.getLength(); k++)
+            {
+                if (k != 1)
+                {
+                    if (dimsA.getDimensionLength(k) != dimsB.getDimensionLength(k))
+                    {
+                        throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
+                    }
+                }
+            }
+        }
+        ArrayOf res;
+        if (classCommon == NLS_STRUCT_ARRAY)
+        {
+            stringVector fieldnamesA = A.getFieldNames();
+            stringVector fieldnamesB = B.getFieldNames();
+            if (fieldnamesA.size() != fieldnamesB.size())
+            {
+                throw Exception(ERROR_FIELDNAMES_MUST_MATCH);
+            }
+            for (size_t k = 0; k < fieldnamesA.size(); k++)
+            {
+                if (fieldnamesA[k] != fieldnamesB[k])
+                {
+                    throw Exception(ERROR_FIELDNAMES_MUST_MATCH);
+                }
+            }
+            indexType newColumnsSize = dimsA.getColumns() + dimsB.getColumns();
+            indexType newRowsSize = dimsA.getRows();
+            indexType newSize = newColumnsSize * newRowsSize;
+            Dimensions dimsC = Dimensions(newRowsSize, newColumnsSize);
+            void *ptrC = ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, newSize, fieldnamesA);
+            ArrayOf *elements = (ArrayOf *)ptrC;
+            res = ArrayOf(NLS_STRUCT_ARRAY, dimsC, elements, false, fieldnamesA);
+            for (size_t k = 0; k < fieldnamesA.size(); k++)
+            {
+                ArrayOfVector fieldsA = A.getFieldAsList(fieldnamesA[k]);
+                ArrayOfVector fieldsB = B.getFieldAsList(fieldnamesA[k]);
+                ArrayOfVector fieldsC = fieldsA;
+                fieldsC.insert(fieldsC.end(), fieldsB.begin(), fieldsB.end());
+                res.setFieldAsList(fieldnamesA[k], fieldsC);
+            }
+            bSuccess = true;
+            return res;
+        }
+        if (A.is2D() && B.is2D())
+        {
+            Dimensions dimsA = A.getDimensions();
+            Dimensions dimsB = B.getDimensions();
+            indexType newColumnsSize = dimsA.getColumns() + dimsB.getColumns();
+            indexType newRowsSize = dimsA.getRows();
+            Dimensions dimsC = Dimensions(newRowsSize, newColumnsSize);
+            switch (A.getDataClass())
+            {
+                case NLS_LOGICAL:
+                {
+                    res = HorzCatTemplate<logical>(A, B, dimsC);
+                }
+                break;
+                case NLS_UINT8:
+                {
+                    res = HorzCatTemplate<uint8>(A, B, dimsC);
+                }
+                break;
+                case NLS_INT8:
+                {
+                    res = HorzCatTemplate<int8>(A, B, dimsC);
+                }
+                break;
+                case NLS_UINT16:
+                {
+                    res = HorzCatTemplate<uint16>(A, B, dimsC);
+                }
+                break;
+                case NLS_INT16:
+                {
+                    res = HorzCatTemplate<int16>(A, B, dimsC);
+                }
+                break;
+                case NLS_UINT32:
+                {
+                    res = HorzCatTemplate<uint32>(A, B, dimsC);
+                }
+                break;
+                case NLS_INT32:
+                {
+                    res = HorzCatTemplate<int32>(A, B, dimsC);
+                }
+                break;
+                case NLS_UINT64:
+                {
+                    res = HorzCatTemplate<uint64>(A, B, dimsC);
+                }
+                break;
+                case NLS_INT64:
+                {
+                    res = HorzCatTemplate<int64>(A, B, dimsC);
+                }
+                break;
+                case NLS_SINGLE:
+                {
+                    res = HorzCatTemplate<single>(A, B, dimsC);
+                }
+                break;
+                case NLS_DOUBLE:
+                {
+                    res = HorzCatTemplate<double>(A, B, dimsC);
+                }
+                break;
+                case NLS_SCOMPLEX:
+                {
+                    res = HorzCatComplexTemplate<single>(A, B, dimsC);
+                }
+                break;
+                case NLS_DCOMPLEX:
+                {
+                    res = HorzCatComplexTemplate<double>(A, B, dimsC);
+                }
+                break;
+                case NLS_CHAR:
+                {
+                    res = HorzCatTemplate<charType>(A, B, dimsC);
+                }
+                break;
+                default:
+                {
+                    ArrayOfMatrix m;
+                    ArrayOfVector v;
+                    v.push_back(A);
+                    v.push_back(B);
+                    m.push_back(v);
+                    res = ConcatenateNdArray(m, classCommon);
+                }
+                break;
+            }
+        }
+        else
+        {
+            ArrayOfMatrix m;
+            ArrayOfVector v;
+            v.push_back(A);
+            v.push_back(B);
+            m.push_back(v);
+            res = ConcatenateNdArray(m, classCommon);
+        }
+        bSuccess = true;
+        return res;
+    }
+    //=============================================================================
 }
 //=============================================================================

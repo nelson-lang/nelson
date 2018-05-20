@@ -22,14 +22,14 @@
 #include "ClassName.hpp"
 //=============================================================================
 namespace Nelson {
-	//=============================================================================
-	template <class T>
+    //=============================================================================
+    template <class T>
     void greaterThanReal(indexType N, logical* C, const T*A, int stride1, const T*B,
-                             int stride2)
+                         int stride2)
     {
         indexType m = 0, p = 0;
 #if defined(__NLS_WITH_OPENMP)
-#pragma omp parallel for
+        #pragma omp parallel for
 #endif
         for (indexType i = 0; i < N; i++)
         {
@@ -38,14 +38,14 @@ namespace Nelson {
             p += stride2;
         }
     }
-	//=============================================================================
+    //=============================================================================
     template <class T>
     void greaterThanComplex(indexType N, logical* C, const T*A, int stride1,
-                                const T*B, int stride2)
+                            const T*B, int stride2)
     {
         indexType m = 0, p = 0;
 #if defined(__NLS_WITH_OPENMP)
-#pragma omp parallel for
+        #pragma omp parallel for
 #endif
         for (indexType i = 0; i < N; i++)
         {
@@ -55,33 +55,33 @@ namespace Nelson {
             p += stride2;
         }
     }
-	//=============================================================================
-	ArrayOf GreaterThan(ArrayOf &A, ArrayOf &B, bool mustRaiseError, bool &bSuccess)
-	{
+    //=============================================================================
+    ArrayOf GreaterThan(ArrayOf &A, ArrayOf &B, bool mustRaiseError, bool &bSuccess)
+    {
         VectorCheck(A, B, ">");
-		if (A.isSparse() || B.isSparse())
-		{
-			std::string overload = ClassName(A) + "_gt_" + ClassName(B);
-			throw Exception(_("function") + " " + overload + " " + _("undefined."));
-		}
-		Class classCommon = FindCommonType(A, B, false);
-		try
-		{
-			A.promoteType(classCommon);
-			B.promoteType(classCommon);
-		}
-		catch (Exception)
-		{
-			if (mustRaiseError)
-			{
-				throw;
-			}
-			else
-			{
-				bSuccess = false;
-				return ArrayOf();
-			}
-		}
+        if (A.isSparse() || B.isSparse())
+        {
+            std::string overload = ClassName(A) + "_gt_" + ClassName(B);
+            throw Exception(_("function") + " " + overload + " " + _("undefined."));
+        }
+        Class classCommon = FindCommonType(A, B, false);
+        try
+        {
+            A.promoteType(classCommon);
+            B.promoteType(classCommon);
+        }
+        catch (Exception)
+        {
+            if (mustRaiseError)
+            {
+                throw;
+            }
+            else
+            {
+                bSuccess = false;
+                return ArrayOf();
+            }
+        }
         int Astride, Bstride;
         indexType Clen = 0;
         Dimensions Cdim;
@@ -108,58 +108,58 @@ namespace Nelson {
         switch (B.getDataClass())
         {
             case NLS_INT64:
-			{
-				greaterThanReal<int64>(Clen, (logical*)Cp,
-					(int64*)A.getDataPointer(), Astride,
-					(int64*)B.getDataPointer(), Bstride);
-			}
+            {
+                greaterThanReal<int64>(Clen, (logical*)Cp,
+                                       (int64*)A.getDataPointer(), Astride,
+                                       (int64*)B.getDataPointer(), Bstride);
+            }
             break;
             case NLS_SINGLE:
-			{
-				greaterThanReal<single>(Clen, (logical*)Cp,
-					(single*)A.getDataPointer(), Astride,
-					(single*)B.getDataPointer(), Bstride);
-			}
+            {
+                greaterThanReal<single>(Clen, (logical*)Cp,
+                                        (single*)A.getDataPointer(), Astride,
+                                        (single*)B.getDataPointer(), Bstride);
+            }
             break;
             case NLS_DOUBLE:
-			{
-				greaterThanReal<double>(Clen, (logical*)Cp,
-					(double*)A.getDataPointer(), Astride,
-					(double*)B.getDataPointer(), Bstride);
-			}
+            {
+                greaterThanReal<double>(Clen, (logical*)Cp,
+                                        (double*)A.getDataPointer(), Astride,
+                                        (double*)B.getDataPointer(), Bstride);
+            }
             break;
             case NLS_SCOMPLEX:
-			{
-				greaterThanComplex<single>(Clen, (logical*)Cp,
-					(single*)A.getDataPointer(), Astride,
-					(single*)B.getDataPointer(), Bstride);
-			}
+            {
+                greaterThanComplex<single>(Clen, (logical*)Cp,
+                                           (single*)A.getDataPointer(), Astride,
+                                           (single*)B.getDataPointer(), Bstride);
+            }
             break;
             case NLS_DCOMPLEX:
-			{
-				greaterThanComplex<double>(Clen, (logical*)Cp,
-					(double*)A.getDataPointer(), Astride,
-					(double*)B.getDataPointer(), Bstride);
-			}
+            {
+                greaterThanComplex<double>(Clen, (logical*)Cp,
+                                           (double*)A.getDataPointer(), Astride,
+                                           (double*)B.getDataPointer(), Bstride);
+            }
             break;
-			default:
-			{
-				if (mustRaiseError)
-				{
-					std::string overload = ClassName(A) + "_gt_" + ClassName(B);
-					throw Exception(_("function") + " " + overload + " " + _("undefined."));
-				}
-				else
-				{
-					bSuccess = false;
-					return ArrayOf();
-				}
-			}
-			break;
+            default:
+            {
+                if (mustRaiseError)
+                {
+                    std::string overload = ClassName(A) + "_gt_" + ClassName(B);
+                    throw Exception(_("function") + " " + overload + " " + _("undefined."));
+                }
+                else
+                {
+                    bSuccess = false;
+                    return ArrayOf();
+                }
+            }
+            break;
         }
-		bSuccess = true;
+        bSuccess = true;
         return ArrayOf(NLS_LOGICAL, Cdim, Cp);
     }
-	//=============================================================================
+    //=============================================================================
 }
 //=============================================================================

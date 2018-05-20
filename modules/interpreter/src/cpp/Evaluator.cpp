@@ -160,7 +160,7 @@ namespace Nelson {
             {
                 cstack.reserve(cstack.capacity() * 2);
             }
-			cstack.emplace_back(StackEntry(cstack.back().cname, cstack.back().detail, a));
+            cstack.emplace_back(StackEntry(cstack.back().cname, cstack.back().detail, a));
         }
         else
         {
@@ -530,12 +530,12 @@ namespace Nelson {
                 break;
                 case OP_PLUS:
                 {
-					retval = doBinaryOperatorOverload(t, Addition, "plus");
+                    retval = doBinaryOperatorOverload(t, Addition, "plus");
                 }
                 break;
                 case OP_SUBTRACT:
                 {
-					retval = doBinaryOperatorOverload(t, Substraction, "minus");
+                    retval = doBinaryOperatorOverload(t, Substraction, "minus");
                 }
                 break;
                 case OP_TIMES:
@@ -575,32 +575,32 @@ namespace Nelson {
                 break;
                 case OP_LT:
                 {
-					retval = doBinaryOperatorOverload(t, LessThan, "lt");
+                    retval = doBinaryOperatorOverload(t, LessThan, "lt");
                 }
                 break;
                 case OP_LEQ:
                 {
-					retval = doBinaryOperatorOverload(t, LessEquals, "le");
+                    retval = doBinaryOperatorOverload(t, LessEquals, "le");
                 }
                 break;
                 case OP_GT:
                 {
-					retval = doBinaryOperatorOverload(t, GreaterThan, "gt");
+                    retval = doBinaryOperatorOverload(t, GreaterThan, "gt");
                 }
                 break;
                 case OP_GEQ:
                 {
-					retval = doBinaryOperatorOverload(t, GreaterEquals, "ge");
+                    retval = doBinaryOperatorOverload(t, GreaterEquals, "ge");
                 }
                 break;
                 case OP_EQ:
                 {
-					retval = doBinaryOperatorOverload(t, Equals, "eq");
+                    retval = doBinaryOperatorOverload(t, Equals, "eq");
                 }
                 break;
                 case OP_NEQ:
                 {
-					retval = doBinaryOperatorOverload(t, NotEquals, "ne");
+                    retval = doBinaryOperatorOverload(t, NotEquals, "ne");
                 }
                 break;
                 case OP_DOT_TIMES:
@@ -625,7 +625,7 @@ namespace Nelson {
                 break;
                 case OP_NEG:
                 {
-					retval = doUnaryOperatorOverload(t, UnaryMinus, "uminus");
+                    retval = doUnaryOperatorOverload(t, UnaryMinus, "uminus");
                 }
                 break;
                 case OP_NOT:
@@ -4183,7 +4183,7 @@ namespace Nelson {
         inStepMode = false;
         bpActive = false;
         clearStacks();
-		cstack.reserve(4096);
+        cstack.reserve(4096);
         commandLineArguments.clear();
     }
     //=============================================================================
@@ -4784,116 +4784,116 @@ namespace Nelson {
         return count;
     }
     //=============================================================================
-	ArrayOf Evaluator::doUnaryOperatorOverload(ASTPtr t, UnaryFunction functionOperator, std::string functionName)
-	{
-		ArrayOf A(expression(t->down));
-		return doUnaryOperatorOverload(A, functionOperator, functionName);
-	}
-	//=============================================================================
-	ArrayOf Evaluator::doUnaryOperatorOverload(ArrayOf &A, UnaryFunction functionOperator, std::string functionName)
-	{
-		ArrayOf res;
-		bool bSuccess = false;
-		if (!overloadOnBasicTypes)
-		{
-			res = functionOperator(A, false, bSuccess);
-			if (!bSuccess)
-			{
-				res = OverloadUnaryOperator(this, A, functionName, bSuccess);
-				if (!bSuccess)
-				{
-					ArrayOfVector argsIn;
-					argsIn.push_back(A);
-					OverloadRequired(this, argsIn, Nelson::UNARY, functionName);
-				}
-			}
-		}
-		else
-		{
-			res = OverloadUnaryOperator(this, A, functionName, bSuccess);
-			if (!bSuccess)
-			{
-				res = functionOperator(A, true, bSuccess);
-			}
-		}
-		return res;
-	}
-	//=============================================================================
-	ArrayOf Evaluator::doBinaryOperatorOverload(ASTPtr t, BinaryFunction functionOperator, std::string functionName)
-	{
-		ArrayOf A(expression(t->down));
-		ArrayOf B(expression(t->down->right));
-		return doBinaryOperatorOverload(A, B, functionOperator, functionName);
-	}
-	//=============================================================================
-	ArrayOf Evaluator::doBinaryOperatorOverload(ArrayOf &A, ArrayOf &B, BinaryFunction functionOperator, std::string functionName)
-	{
-		ArrayOf res;
-		bool bSuccess = false;
-		if (!overloadOnBasicTypes)
-		{
-			res = functionOperator(A, B, false, bSuccess);
-			if (!bSuccess)
-			{
-				res = OverloadBinaryOperator(this, A, B, functionName, bSuccess);
-				if (!bSuccess)
-				{
-					ArrayOfVector argsIn;
-					argsIn.push_back(A);
-					argsIn.push_back(B);
-					OverloadRequired(this, argsIn, Nelson::BINARY, functionName);
-				}
-			}
-		}
-		else
-		{
-			res = OverloadBinaryOperator(this, A, B, functionName, bSuccess);
-			if (!bSuccess)
-			{
-				res = functionOperator(A, B, true, bSuccess);
-			}
-		}
-		return res;
-	}
-	//=============================================================================
-	ArrayOf Evaluator::doTrinaryOperatorOverload(ASTPtr t, TrinaryFunction functionOperator, std::string functionName)
-	{
-		ArrayOf A = expression(t->down->down);
-		ArrayOf B = expression(t->down->down->right);
-		ArrayOf C = expression(t->down->right);
-		return doTrinaryOperatorOverload(A, B, C, functionOperator, functionName);
-	}
-	//=============================================================================
-	ArrayOf Evaluator::doTrinaryOperatorOverload(ArrayOf &A, ArrayOf &B, ArrayOf &C, TrinaryFunction functionOperator, std::string functionName)
-	{
-		ArrayOf res;
-		bool bSuccess = false;
-		if (!overloadOnBasicTypes)
-		{
-			res = functionOperator(A, B, C, false, bSuccess);
-			if (!bSuccess)
-			{
-				res = OverloadTrinaryOperator(this, A, B, C, functionName, bSuccess);
-				if (!bSuccess)
-				{
-					ArrayOfVector argsIn;
-					argsIn.push_back(A);
-					argsIn.push_back(B);
-					argsIn.push_back(C);
-					OverloadRequired(this, argsIn, Nelson::TRINARY, functionName);
-				}
-			}
-		}
-		else
-		{
-			res = OverloadTrinaryOperator(this, A, B, C, functionName, bSuccess);
-			if (!bSuccess)
-			{
-				res = functionOperator(A, B, C, true, bSuccess);
-			}
-		}
-		return res;
-	}
-	//=============================================================================
+    ArrayOf Evaluator::doUnaryOperatorOverload(ASTPtr t, UnaryFunction functionOperator, std::string functionName)
+    {
+        ArrayOf A(expression(t->down));
+        return doUnaryOperatorOverload(A, functionOperator, functionName);
+    }
+    //=============================================================================
+    ArrayOf Evaluator::doUnaryOperatorOverload(ArrayOf &A, UnaryFunction functionOperator, std::string functionName)
+    {
+        ArrayOf res;
+        bool bSuccess = false;
+        if (!overloadOnBasicTypes)
+        {
+            res = functionOperator(A, false, bSuccess);
+            if (!bSuccess)
+            {
+                res = OverloadUnaryOperator(this, A, functionName, bSuccess);
+                if (!bSuccess)
+                {
+                    ArrayOfVector argsIn;
+                    argsIn.push_back(A);
+                    OverloadRequired(this, argsIn, Nelson::UNARY, functionName);
+                }
+            }
+        }
+        else
+        {
+            res = OverloadUnaryOperator(this, A, functionName, bSuccess);
+            if (!bSuccess)
+            {
+                res = functionOperator(A, true, bSuccess);
+            }
+        }
+        return res;
+    }
+    //=============================================================================
+    ArrayOf Evaluator::doBinaryOperatorOverload(ASTPtr t, BinaryFunction functionOperator, std::string functionName)
+    {
+        ArrayOf A(expression(t->down));
+        ArrayOf B(expression(t->down->right));
+        return doBinaryOperatorOverload(A, B, functionOperator, functionName);
+    }
+    //=============================================================================
+    ArrayOf Evaluator::doBinaryOperatorOverload(ArrayOf &A, ArrayOf &B, BinaryFunction functionOperator, std::string functionName)
+    {
+        ArrayOf res;
+        bool bSuccess = false;
+        if (!overloadOnBasicTypes)
+        {
+            res = functionOperator(A, B, false, bSuccess);
+            if (!bSuccess)
+            {
+                res = OverloadBinaryOperator(this, A, B, functionName, bSuccess);
+                if (!bSuccess)
+                {
+                    ArrayOfVector argsIn;
+                    argsIn.push_back(A);
+                    argsIn.push_back(B);
+                    OverloadRequired(this, argsIn, Nelson::BINARY, functionName);
+                }
+            }
+        }
+        else
+        {
+            res = OverloadBinaryOperator(this, A, B, functionName, bSuccess);
+            if (!bSuccess)
+            {
+                res = functionOperator(A, B, true, bSuccess);
+            }
+        }
+        return res;
+    }
+    //=============================================================================
+    ArrayOf Evaluator::doTrinaryOperatorOverload(ASTPtr t, TrinaryFunction functionOperator, std::string functionName)
+    {
+        ArrayOf A = expression(t->down->down);
+        ArrayOf B = expression(t->down->down->right);
+        ArrayOf C = expression(t->down->right);
+        return doTrinaryOperatorOverload(A, B, C, functionOperator, functionName);
+    }
+    //=============================================================================
+    ArrayOf Evaluator::doTrinaryOperatorOverload(ArrayOf &A, ArrayOf &B, ArrayOf &C, TrinaryFunction functionOperator, std::string functionName)
+    {
+        ArrayOf res;
+        bool bSuccess = false;
+        if (!overloadOnBasicTypes)
+        {
+            res = functionOperator(A, B, C, false, bSuccess);
+            if (!bSuccess)
+            {
+                res = OverloadTrinaryOperator(this, A, B, C, functionName, bSuccess);
+                if (!bSuccess)
+                {
+                    ArrayOfVector argsIn;
+                    argsIn.push_back(A);
+                    argsIn.push_back(B);
+                    argsIn.push_back(C);
+                    OverloadRequired(this, argsIn, Nelson::TRINARY, functionName);
+                }
+            }
+        }
+        else
+        {
+            res = OverloadTrinaryOperator(this, A, B, C, functionName, bSuccess);
+            if (!bSuccess)
+            {
+                res = functionOperator(A, B, C, true, bSuccess);
+            }
+        }
+        return res;
+    }
+    //=============================================================================
 }
 //=============================================================================

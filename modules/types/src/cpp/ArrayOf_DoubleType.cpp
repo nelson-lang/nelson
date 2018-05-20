@@ -27,30 +27,30 @@ namespace Nelson {
     //=============================================================================
     const bool ArrayOf::isDoubleType(bool realOnly) const
     {
-		bool res = false;
-		if (realOnly)
-		{ 
-			res = (dp->dataClass == NLS_DOUBLE) && (!dp->sparse) && is2D();
-		}
-		else
-		{
-			res = (dp->dataClass == NLS_DOUBLE) || (dp->dataClass == NLS_DCOMPLEX) && (!dp->sparse) && is2D();
-		}
-		return res;
+        bool res = false;
+        if (realOnly)
+        {
+            res = (dp->dataClass == NLS_DOUBLE) && (!dp->sparse) && is2D();
+        }
+        else
+        {
+            res = (dp->dataClass == NLS_DOUBLE) || (dp->dataClass == NLS_DCOMPLEX) && (!dp->sparse) && is2D();
+        }
+        return res;
     }
     //=============================================================================
     const bool ArrayOf::isNdArrayDoubleType(bool realOnly) const
     {
-		bool res = false;
-		if (realOnly)
-		{
-			res = (dp->dataClass == NLS_DOUBLE) && (!dp->sparse) && !is2D();
-		}
-		else
-		{
-			res = (dp->dataClass == NLS_DOUBLE) || (dp->dataClass == NLS_DCOMPLEX) && (!dp->sparse) && !is2D();
-		}
-		return res;
+        bool res = false;
+        if (realOnly)
+        {
+            res = (dp->dataClass == NLS_DOUBLE) && (!dp->sparse) && !is2D();
+        }
+        else
+        {
+            res = (dp->dataClass == NLS_DOUBLE) || (dp->dataClass == NLS_DCOMPLEX) && (!dp->sparse) && !is2D();
+        }
+        return res;
     }
     //=============================================================================
     ArrayOf ArrayOf::doubleConstructor(double aval)

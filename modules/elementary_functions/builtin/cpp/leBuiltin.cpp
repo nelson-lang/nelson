@@ -29,9 +29,9 @@ ArrayOfVector Nelson::ElementaryFunctionsGateway::leBuiltin(Evaluator* eval, int
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-	ArrayOf arg1 = argIn[0];
-	ArrayOf arg2 = argIn[1];
-	retval.push_back(eval->doBinaryOperatorOverload(arg1, arg2, LessEquals, "le"));
-	return retval;
+    ArrayOf arg1 = argIn[0];
+    ArrayOf arg2 = argIn[1];
+    retval.push_back(eval->doBinaryOperatorOverload(arg1, arg2, LessEquals, "le"));
+    return retval;
 }
 //=============================================================================

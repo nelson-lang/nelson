@@ -702,13 +702,13 @@ namespace Nelson {
 
         void addCommandToQueue(std::wstring command, bool bIsPriority = false);
 
-		typedef ArrayOf(*UnaryFunction)(ArrayOf &A, bool mustRaiseError, bool &bSuccess);
-		typedef ArrayOf(*BinaryFunction)(ArrayOf &A, ArrayOf &B, bool mustRaiseError, bool &bSuccess);
-		typedef ArrayOf(*TrinaryFunction)(ArrayOf &A, ArrayOf &B, ArrayOf &C, bool mustRaiseError, bool &bSuccess);
+        typedef ArrayOf(*UnaryFunction)(ArrayOf &A, bool mustRaiseError, bool &bSuccess);
+        typedef ArrayOf(*BinaryFunction)(ArrayOf &A, ArrayOf &B, bool mustRaiseError, bool &bSuccess);
+        typedef ArrayOf(*TrinaryFunction)(ArrayOf &A, ArrayOf &B, ArrayOf &C, bool mustRaiseError, bool &bSuccess);
 
-		ArrayOf doUnaryOperatorOverload(ArrayOf &A, UnaryFunction functionOperator, std::string functionName);
-		ArrayOf doBinaryOperatorOverload(ArrayOf &A, ArrayOf &B, BinaryFunction functionOperator, std::string functionName);
-		ArrayOf doTrinaryOperatorOverload(ArrayOf &A, ArrayOf &B, ArrayOf &C, TrinaryFunction functionOperator, std::string functionName);
+        ArrayOf doUnaryOperatorOverload(ArrayOf &A, UnaryFunction functionOperator, std::string functionName);
+        ArrayOf doBinaryOperatorOverload(ArrayOf &A, ArrayOf &B, BinaryFunction functionOperator, std::string functionName);
+        ArrayOf doTrinaryOperatorOverload(ArrayOf &A, ArrayOf &B, ArrayOf &C, TrinaryFunction functionOperator, std::string functionName);
 
     private:
         void setHandle(ArrayOf r, std::string fieldname, ArrayOfVector fieldvalue);
@@ -716,9 +716,9 @@ namespace Nelson {
         ArrayOf EndReference(ArrayOf v, indexType index, size_t count);
         size_t countSubExpressions(ASTPtr t);
 
-		ArrayOf doUnaryOperatorOverload(ASTPtr t, UnaryFunction functionOperator, std::string functionName);
-		ArrayOf doBinaryOperatorOverload(ASTPtr t, BinaryFunction functionOperator, std::string functionName);
-		ArrayOf doTrinaryOperatorOverload(ASTPtr t, TrinaryFunction functionOperator, std::string functionName);
+        ArrayOf doUnaryOperatorOverload(ASTPtr t, UnaryFunction functionOperator, std::string functionName);
+        ArrayOf doBinaryOperatorOverload(ASTPtr t, BinaryFunction functionOperator, std::string functionName);
+        ArrayOf doTrinaryOperatorOverload(ASTPtr t, TrinaryFunction functionOperator, std::string functionName);
 
     };
     NLSINTERPRETER_IMPEXP void sigInterrupt(int arg);

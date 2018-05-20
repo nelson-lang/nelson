@@ -101,20 +101,20 @@ namespace Nelson {
     //=============================================================================
     ArrayOf Equals(ArrayOf &A, ArrayOf &B, bool mustRaiseError, bool &bSuccess)
     {
-		if (A.isSparse() || B.isSparse())
-		{
-			if (mustRaiseError)
-			{
-				std::string overload = ClassName(A) + "_plus_" + ClassName(B);
-				throw Exception(_("function") + " " + overload + " " + _("undefined."));
-			}
-			else
-			{
-				bSuccess = false;
-				return ArrayOf();
-			}
-		}
-		Class classCommon = FindCommonType(A, B, false);
+        if (A.isSparse() || B.isSparse())
+        {
+            if (mustRaiseError)
+            {
+                std::string overload = ClassName(A) + "_plus_" + ClassName(B);
+                throw Exception(_("function") + " " + overload + " " + _("undefined."));
+            }
+            else
+            {
+                bSuccess = false;
+                return ArrayOf();
+            }
+        }
+        Class classCommon = FindCommonType(A, B, false);
         try
         {
             A.promoteType(classCommon);
@@ -124,16 +124,16 @@ namespace Nelson {
         {
             if (mustRaiseError)
             {
-				throw;
-			}
+                throw;
+            }
             else
             {
                 bSuccess = false;
                 return ArrayOf();
             }
         }
-		VectorCheck(A, B, "==");
-		int Astride = 0, Bstride = 0;
+        VectorCheck(A, B, "==");
+        int Astride = 0, Bstride = 0;
         indexType Clen = 0;
         Dimensions Cdim;
         if (A.isScalar())
@@ -232,8 +232,8 @@ namespace Nelson {
             {
                 if (mustRaiseError)
                 {
-					std::string overload = ClassName(A) + "_eq_" + ClassName(B);
-					throw Exception(_("function") + " " + overload + " " + _("undefined."));
+                    std::string overload = ClassName(A) + "_eq_" + ClassName(B);
+                    throw Exception(_("function") + " " + overload + " " + _("undefined."));
                 }
                 else
                 {

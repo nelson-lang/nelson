@@ -349,10 +349,10 @@ namespace Nelson {
 
     const bool Dimensions::isScalar() const
     {
-		if (getLength() == 2)
-		{
-			return (data[0] == 1 && data[1] == 1);
-		}
+        if (getLength() == 2)
+        {
+            return (data[0] == 1 && data[1] == 1);
+        }
         return (getElementCount() == 1);
     }
 

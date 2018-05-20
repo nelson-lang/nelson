@@ -44,8 +44,7 @@ namespace Nelson {
                 for (size_t k = 1; k < v.size(); k++)
                 {
                     ArrayOf arg2 = v[k];
-					res = eval->doBinaryOperatorOverload(res, arg2, HorzCat, "horzcat");
-                    //res = OverloadBinaryOperator(eval, res, arg2, "horzcat");
+                    res = eval->doBinaryOperatorOverload(res, arg2, HorzCat, "horzcat");
                 }
             }
             break;

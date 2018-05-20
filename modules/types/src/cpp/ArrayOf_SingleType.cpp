@@ -24,33 +24,33 @@ namespace Nelson {
     /**
     * Returns TRUE if it is a single type (not ndarray, not sparse)
     */
-	const bool ArrayOf::isSingleType(bool realOnly) const
-	{
-		bool res = false;
-		if (realOnly)
-		{
-			res = (dp->dataClass == NLS_SINGLE) && (!dp->sparse) && is2D();
-		}
-		else
-		{
-			res = (dp->dataClass == NLS_SINGLE) || (dp->dataClass == NLS_SCOMPLEX) && (!dp->sparse) && is2D();
-		}
-		return res;
-	}
-	//=============================================================================
-	const bool ArrayOf::isNdArraySingleType(bool realOnly) const
-	{
-		bool res = false;
-		if (realOnly)
-		{
-			res = (dp->dataClass == NLS_SINGLE) && (!dp->sparse) && !is2D();
-		}
-		else
-		{
-			res = (dp->dataClass == NLS_SINGLE) || (dp->dataClass == NLS_SCOMPLEX) && (!dp->sparse) && !is2D();
-		}
-		return res;
-	}
+    const bool ArrayOf::isSingleType(bool realOnly) const
+    {
+        bool res = false;
+        if (realOnly)
+        {
+            res = (dp->dataClass == NLS_SINGLE) && (!dp->sparse) && is2D();
+        }
+        else
+        {
+            res = (dp->dataClass == NLS_SINGLE) || (dp->dataClass == NLS_SCOMPLEX) && (!dp->sparse) && is2D();
+        }
+        return res;
+    }
+    //=============================================================================
+    const bool ArrayOf::isNdArraySingleType(bool realOnly) const
+    {
+        bool res = false;
+        if (realOnly)
+        {
+            res = (dp->dataClass == NLS_SINGLE) && (!dp->sparse) && !is2D();
+        }
+        else
+        {
+            res = (dp->dataClass == NLS_SINGLE) || (dp->dataClass == NLS_SCOMPLEX) && (!dp->sparse) && !is2D();
+        }
+        return res;
+    }
     //=============================================================================
     ArrayOf ArrayOf::singleConstructor(float aval)
     {

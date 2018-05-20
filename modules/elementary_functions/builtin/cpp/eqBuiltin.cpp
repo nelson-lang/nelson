@@ -33,9 +33,9 @@ ArrayOfVector Nelson::ElementaryFunctionsGateway::eqBuiltin(Evaluator* eval, int
     {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-	ArrayOf arg1 = argIn[0];
-	ArrayOf arg2 = argIn[1];
-	retval.push_back(eval->doBinaryOperatorOverload(arg1, arg2, Equals, "eq"));
+    ArrayOf arg1 = argIn[0];
+    ArrayOf arg2 = argIn[1];
+    retval.push_back(eval->doBinaryOperatorOverload(arg1, arg2, Equals, "eq"));
     return retval;
 }
 //=============================================================================

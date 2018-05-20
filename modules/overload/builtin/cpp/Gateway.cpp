@@ -25,7 +25,7 @@ const std::wstring gatewayName = L"overload";
 //=============================================================================
 static const nlsGateway gateway[] =
 {
-	{ "overloadbasictypes", Nelson::OverloadGateway::overloadbasictypesBuiltin, 1, -1 },
+    { "overloadbasictypes", Nelson::OverloadGateway::overloadbasictypesBuiltin, 1, -1 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

@@ -71,7 +71,7 @@ namespace Nelson {
         }
         if ((Aclass < NLS_INT64) || (Aclass == NLS_CHAR))
         {
-          //  Aclass = NLS_INT64;
+            //  Aclass = NLS_INT64;
         }
         if ((Bclass < NLS_INT64) || (Bclass == NLS_CHAR))
         {

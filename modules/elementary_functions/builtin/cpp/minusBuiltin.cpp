@@ -29,9 +29,9 @@ ArrayOfVector Nelson::ElementaryFunctionsGateway::minusBuiltin(Evaluator* eval, 
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-	ArrayOf arg1 = argIn[0];
-	ArrayOf arg2 = argIn[1];
-	retval.push_back(eval->doBinaryOperatorOverload(arg1, arg2, Substraction, "minus"));
-	return retval;
+    ArrayOf arg1 = argIn[0];
+    ArrayOf arg2 = argIn[1];
+    retval.push_back(eval->doBinaryOperatorOverload(arg1, arg2, Substraction, "minus"));
+    return retval;
 }
 //=============================================================================

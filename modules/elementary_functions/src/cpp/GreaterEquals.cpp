@@ -22,14 +22,14 @@
 #include "complex_abs.hpp"
 //=============================================================================
 namespace Nelson {
-	//=============================================================================
+    //=============================================================================
     template <class T>
     void greaterEqualsReal(indexType N, logical* C, const T*A, int stride1,
-                               const T*B, int stride2)
+                           const T*B, int stride2)
     {
-		indexType m = 0, p = 0;
+        indexType m = 0, p = 0;
 #if defined(__NLS_WITH_OPENMP)
-#pragma omp parallel for
+        #pragma omp parallel for
 #endif
         for (indexType i = 0; i<N; i++)
         {
@@ -38,14 +38,14 @@ namespace Nelson {
             p += stride2;
         }
     }
-	//=============================================================================
+    //=============================================================================
     template <class T>
     void greaterEqualsComplex(indexType N, logical* C, const T*A, int stride1,
-                                  const T*B, int stride2)
+                              const T*B, int stride2)
     {
         indexType m = 0, p = 0;
 #if defined(__NLS_WITH_OPENMP)
-#pragma omp parallel for
+        #pragma omp parallel for
 #endif
         for (indexType i = 0; i<N; i++)
         {
@@ -55,110 +55,110 @@ namespace Nelson {
             p += stride2;
         }
     }
-	//=============================================================================
-	ArrayOf GreaterEquals(ArrayOf &A, ArrayOf &B, bool mustRaiseError, bool &bSuccess)
+    //=============================================================================
+    ArrayOf GreaterEquals(ArrayOf &A, ArrayOf &B, bool mustRaiseError, bool &bSuccess)
     {
-		VectorCheck(A, B, ">=");
-		Class classCommon = FindCommonType(A, B, false);
-		if (A.isSparse() || B.isSparse())
-		{
-			std::string overload = ClassName(A) + "_ge_" + ClassName(B);
-			throw Exception(_("function") + " " + overload + " " + _("undefined."));
-		}
-		try
-		{
-			A.promoteType(classCommon);
-			B.promoteType(classCommon);
-		}
-		catch (Exception)
-		{
-			if (mustRaiseError)
-			{
-				throw;
-			}
-			else
-			{
-				bSuccess = false;
-				return ArrayOf();
-			}
-		}
-		int Astride, Bstride;
-		indexType Clen = 0;
-		Dimensions Cdim;
-		if (A.isScalar())
-		{
-			Astride = 0;
-			Bstride = 1;
-			Cdim = B.getDimensions();
-		}
-		else if (B.isScalar())
-		{
-			Astride = 1;
-			Bstride = 0;
-			Cdim = A.getDimensions();
-		}
-		else
-		{
-			Astride = 1;
-			Bstride = 1;
-			Cdim = A.getDimensions();
-		}
-		Clen = Cdim.getElementCount();
-		void *Cp = new_with_exception<logical>(Clen);
-		switch (B.getDataClass())
-		{
-		case NLS_INT64:
-		{
-			greaterEqualsReal<int64>(Clen, (logical*)Cp,
-				(int64*)A.getDataPointer(), Astride,
-				(int64*)B.getDataPointer(), Bstride);
-		}
-		break;
-		case NLS_SINGLE:
-		{
-			greaterEqualsReal<single>(Clen, (logical*)Cp,
-				(single*)A.getDataPointer(), Astride,
-				(single*)B.getDataPointer(), Bstride);
-		}
-		break;
-		case NLS_DOUBLE:
-		{
-			greaterEqualsReal<double>(Clen, (logical*)Cp,
-				(double*)A.getDataPointer(), Astride,
-				(double*)B.getDataPointer(), Bstride);
-		}
-		break;
-		case NLS_SCOMPLEX:
-		{
-			greaterEqualsComplex<single>(Clen, (logical*)Cp,
-				(single*)A.getDataPointer(), Astride,
-				(single*)B.getDataPointer(), Bstride);
-		}
-		break;
-		case NLS_DCOMPLEX:
-		{
-			greaterEqualsComplex<double>(Clen, (logical*)Cp,
-				(double*)A.getDataPointer(), Astride,
-				(double*)B.getDataPointer(), Bstride);
-		}
-		break;
-		default:
-		{
-			if (mustRaiseError)
-			{
-				std::string overload = ClassName(A) + "_ge_" + ClassName(B);
-				throw Exception(_("function") + " " + overload + " " + _("undefined."));
-			}
-			else
-			{
-				bSuccess = false;
-				return ArrayOf();
-			}
-		}
-		break;
-		}
-		bSuccess = true;
-		return ArrayOf(NLS_LOGICAL, Cdim, Cp);
-	}
+        VectorCheck(A, B, ">=");
+        Class classCommon = FindCommonType(A, B, false);
+        if (A.isSparse() || B.isSparse())
+        {
+            std::string overload = ClassName(A) + "_ge_" + ClassName(B);
+            throw Exception(_("function") + " " + overload + " " + _("undefined."));
+        }
+        try
+        {
+            A.promoteType(classCommon);
+            B.promoteType(classCommon);
+        }
+        catch (Exception)
+        {
+            if (mustRaiseError)
+            {
+                throw;
+            }
+            else
+            {
+                bSuccess = false;
+                return ArrayOf();
+            }
+        }
+        int Astride, Bstride;
+        indexType Clen = 0;
+        Dimensions Cdim;
+        if (A.isScalar())
+        {
+            Astride = 0;
+            Bstride = 1;
+            Cdim = B.getDimensions();
+        }
+        else if (B.isScalar())
+        {
+            Astride = 1;
+            Bstride = 0;
+            Cdim = A.getDimensions();
+        }
+        else
+        {
+            Astride = 1;
+            Bstride = 1;
+            Cdim = A.getDimensions();
+        }
+        Clen = Cdim.getElementCount();
+        void *Cp = new_with_exception<logical>(Clen);
+        switch (B.getDataClass())
+        {
+            case NLS_INT64:
+            {
+                greaterEqualsReal<int64>(Clen, (logical*)Cp,
+                                         (int64*)A.getDataPointer(), Astride,
+                                         (int64*)B.getDataPointer(), Bstride);
+            }
+            break;
+            case NLS_SINGLE:
+            {
+                greaterEqualsReal<single>(Clen, (logical*)Cp,
+                                          (single*)A.getDataPointer(), Astride,
+                                          (single*)B.getDataPointer(), Bstride);
+            }
+            break;
+            case NLS_DOUBLE:
+            {
+                greaterEqualsReal<double>(Clen, (logical*)Cp,
+                                          (double*)A.getDataPointer(), Astride,
+                                          (double*)B.getDataPointer(), Bstride);
+            }
+            break;
+            case NLS_SCOMPLEX:
+            {
+                greaterEqualsComplex<single>(Clen, (logical*)Cp,
+                                             (single*)A.getDataPointer(), Astride,
+                                             (single*)B.getDataPointer(), Bstride);
+            }
+            break;
+            case NLS_DCOMPLEX:
+            {
+                greaterEqualsComplex<double>(Clen, (logical*)Cp,
+                                             (double*)A.getDataPointer(), Astride,
+                                             (double*)B.getDataPointer(), Bstride);
+            }
+            break;
+            default:
+            {
+                if (mustRaiseError)
+                {
+                    std::string overload = ClassName(A) + "_ge_" + ClassName(B);
+                    throw Exception(_("function") + " " + overload + " " + _("undefined."));
+                }
+                else
+                {
+                    bSuccess = false;
+                    return ArrayOf();
+                }
+            }
+            break;
+        }
+        bSuccess = true;
+        return ArrayOf(NLS_LOGICAL, Cdim, Cp);
+    }
 }
 //=============================================================================
