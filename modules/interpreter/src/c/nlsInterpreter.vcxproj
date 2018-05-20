@@ -232,7 +232,7 @@
     <ClCompile Include="..\cpp\FunctionDef.cpp" />
     <ClCompile Include="..\cpp\LocalFunctionsTable.cpp" />
     <ClCompile Include="..\cpp\GetNelsonMainEvaluatorDynamicFunction.cpp" />
-    <ClCompile Include="..\cpp\HorzCat.cpp" />
+    <ClCompile Include="..\cpp\HorzCatOperator.cpp" />
     <ClCompile Include="..\cpp\Keywords.cpp" />
     <ClCompile Include="..\cpp\MacroFunctionDef.cpp" />
     <ClCompile Include="..\cpp\NelsonLexer.cpp" />
@@ -277,7 +277,7 @@
     <ClInclude Include="..\include\FileFunc.hpp" />
     <ClInclude Include="..\include\FileWatcherManager.hpp" />
     <ClInclude Include="..\include\LocalFunctionsTable.hpp" />
-    <ClInclude Include="..\include\HorzCat.hpp" />
+    <ClInclude Include="..\include\HorzCatOperator.hpp" />
     <ClInclude Include="..\include\NelsonGateway.hpp" />
     <ClInclude Include="..\include\MacroFunctionDef.hpp" />
     <ClInclude Include="..\..\src\include\nlsInterpreter_exports.h" />

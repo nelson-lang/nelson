@@ -163,7 +163,6 @@
     <ClCompile Include="..\cpp\AllLogical.cpp" />
     <ClCompile Include="..\cpp\AndLogical.cpp" />
     <ClCompile Include="..\cpp\AnyLogical.cpp" />
-    <ClCompile Include="..\cpp\HorzCatLogical.cpp" />
     <ClCompile Include="..\cpp\IsEqualLogical.cpp" />
     <ClCompile Include="..\cpp\LogicalConstructors.cpp" />
     <ClCompile Include="..\cpp\NotLogical.cpp" />
@@ -179,7 +178,6 @@
     <ClInclude Include="..\include\AllLogical.hpp" />
     <ClInclude Include="..\include\AndLogical.hpp" />
     <ClInclude Include="..\include\AnyLogical.hpp" />
-    <ClInclude Include="..\include\HorzCatLogical.hpp" />
     <ClInclude Include="..\include\IsEqualLogical.hpp" />
     <ClInclude Include="..\include\NotLogical.hpp" />
     <ClInclude Include="..\include\OrLogical.hpp" />

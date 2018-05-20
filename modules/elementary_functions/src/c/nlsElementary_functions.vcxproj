@@ -184,6 +184,7 @@
     <ClCompile Include="..\cpp\Gamma.cpp" />
     <ClCompile Include="..\cpp\GreaterEquals.cpp" />
     <ClCompile Include="..\cpp\GreaterThan.cpp" />
+    <ClCompile Include="..\cpp\HorzCat.cpp" />
     <ClCompile Include="..\cpp\ImagPart.cpp" />
     <ClCompile Include="..\cpp\IsApprox.cpp" />
     <ClCompile Include="..\cpp\IsFinite.cpp" />
@@ -224,6 +225,7 @@
     <ClInclude Include="..\include\Gamma.hpp" />
     <ClInclude Include="..\include\GreaterEquals.hpp" />
     <ClInclude Include="..\include\GreaterThan.hpp" />
+    <ClInclude Include="..\include\HorzCat.hpp" />
     <ClInclude Include="..\include\ImagPart.hpp" />
     <ClInclude Include="..\include\IsApprox.hpp" />
     <ClInclude Include="..\include\IsFinite.hpp" />

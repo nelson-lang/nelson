@@ -59,12 +59,12 @@ namespace Nelson {
 	ArrayOf GreaterThan(ArrayOf &A, ArrayOf &B, bool mustRaiseError, bool &bSuccess)
 	{
         VectorCheck(A, B, ">");
-		Class classCommon = FindCommonType(A, B, false);
 		if (A.isSparse() || B.isSparse())
 		{
 			std::string overload = ClassName(A) + "_gt_" + ClassName(B);
 			throw Exception(_("function") + " " + overload + " " + _("undefined."));
 		}
+		Class classCommon = FindCommonType(A, B, false);
 		try
 		{
 			A.promoteType(classCommon);

@@ -18,7 +18,7 @@
 //=============================================================================
 #include "horzcatBuiltin.hpp"
 #include "Error.hpp"
-#include "HorzCat.hpp"
+#include "HorzCatOperator.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -29,7 +29,7 @@ ArrayOfVector Nelson::ElementaryFunctionsGateway::horzcatBuiltin(Evaluator* eval
     {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    retval.push_back(HorzCat(eval, argIn));
+    retval.push_back(HorzCatOperator(eval, argIn));
     return retval;
 }
 //=============================================================================

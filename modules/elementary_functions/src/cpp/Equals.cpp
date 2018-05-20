@@ -101,7 +101,6 @@ namespace Nelson {
     //=============================================================================
     ArrayOf Equals(ArrayOf &A, ArrayOf &B, bool mustRaiseError, bool &bSuccess)
     {
-        VectorCheck(A, B, "==");
 		if (A.isSparse() || B.isSparse())
 		{
 			if (mustRaiseError)
@@ -115,7 +114,7 @@ namespace Nelson {
 				return ArrayOf();
 			}
 		}
-        Class classCommon = FindCommonType(A, B, false);
+		Class classCommon = FindCommonType(A, B, false);
         try
         {
             A.promoteType(classCommon);
@@ -133,7 +132,8 @@ namespace Nelson {
                 return ArrayOf();
             }
         }
-        int Astride = 0, Bstride = 0;
+		VectorCheck(A, B, "==");
+		int Astride = 0, Bstride = 0;
         indexType Clen = 0;
         Dimensions Cdim;
         if (A.isScalar())

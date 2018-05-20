@@ -195,7 +195,6 @@
     <ClCompile Include="..\cpp\doubleBuiltin.cpp" />
     <ClCompile Include="..\cpp\double_colon_doubleBuiltin.cpp" />
     <ClCompile Include="..\cpp\double_dispBuiltin.cpp" />
-    <ClCompile Include="..\cpp\double_horzcat_doubleBuiltin.cpp" />
     <ClCompile Include="..\cpp\double_isequalBuiltin.cpp" />
     <ClCompile Include="..\cpp\double_isequalnBuiltin.cpp" />
     <ClCompile Include="..\cpp\double_mtimes_doubleBuiltin.cpp" />
@@ -203,7 +202,6 @@
     <ClCompile Include="..\cpp\double_vertcat_doubleBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\ndarraydouble_dispBuiltin.cpp" />
-    <ClCompile Include="..\cpp\ndarraydouble_horzcat_ndarraydoubleBuiltin.cpp" />
     <ClCompile Include="..\cpp\ndarraydouble_isequalBuiltin.cpp" />
     <ClCompile Include="..\cpp\ndarraydouble_isequalnBuiltin.cpp" />
     <ClCompile Include="..\cpp\ndarraydouble_vertcat_ndarraydoubleBuiltin.cpp" />
@@ -217,7 +215,6 @@
     <ClInclude Include="..\include\doubleBuiltin.hpp" />
     <ClInclude Include="..\include\double_colon_doubleBuiltin.hpp" />
     <ClInclude Include="..\include\double_dispBuiltin.hpp" />
-    <ClInclude Include="..\include\double_horzcat_doubleBuiltin.hpp" />
     <ClInclude Include="..\include\double_isequalBuiltin.hpp" />
     <ClInclude Include="..\include\double_isequalnBuiltin.hpp" />
     <ClInclude Include="..\include\double_mtimes_doubleBuiltin.hpp" />
@@ -225,7 +222,6 @@
     <ClInclude Include="..\include\double_uminusBuiltin.hpp" />
     <ClInclude Include="..\include\double_vertcat_doubleBuiltin.hpp" />
     <ClInclude Include="..\include\ndarraydouble_dispBuiltin.hpp" />
-    <ClInclude Include="..\include\ndarraydouble_horzcat_ndarraydoubleBuiltin.hpp" />
     <ClInclude Include="..\include\ndarraydouble_isequalBuiltin.hpp" />
     <ClInclude Include="..\include\ndarraydouble_isequalnBuiltin.hpp" />
     <ClInclude Include="..\include\ndarraydouble_vertcat_ndarraydoubleBuiltin.hpp" />

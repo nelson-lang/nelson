@@ -26,7 +26,18 @@ namespace Nelson {
         return (this->getDataClass() == NLS_CELL_ARRAY);
     }
     //=============================================================================
-    ArrayOf ArrayOf::cellConstructor(ArrayOfMatrix& m)
+	ArrayOf ArrayOf::toCell(ArrayOf m)
+	{
+		if (m.isCell())
+		{
+			return m;
+		}
+		ArrayOf *elements = (ArrayOf *)allocateArrayOf(NLS_CELL_ARRAY, 1);
+		elements[0] = m;
+		return ArrayOf(NLS_CELL_ARRAY, Dimensions(1, 1), elements);
+	}
+	//=============================================================================
+	ArrayOf ArrayOf::cellConstructor(ArrayOfMatrix& m)
     {
         indexType  columnCount = 0, rowCount = 0;
         ArrayOf* qp = nullptr;

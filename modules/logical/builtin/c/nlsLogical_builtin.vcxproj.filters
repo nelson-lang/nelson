@@ -60,13 +60,7 @@
     <ClCompile Include="..\cpp\logical_anyBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\logical_horzcat_logicalBuiltin.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\cpp\logical_vertcat_logicalBuiltin.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\ndarraylogical_horzcat_ndarraylogicalBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\ndarraylogical_vertcat_ndarraylogicalBuiltin.cpp">
@@ -122,13 +116,7 @@
     <ClInclude Include="..\include\logical_allBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\logical_horzcat_logicalBuiltin.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\logical_vertcat_logicalBuiltin.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\ndarraylogical_horzcat_ndarraylogicalBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\ndarraylogical_vertcat_ndarraylogicalBuiltin.hpp">

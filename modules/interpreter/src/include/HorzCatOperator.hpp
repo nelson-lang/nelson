@@ -18,12 +18,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include "nlsInterpreter_exports.h"
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace StringGateway {
-        ArrayOfVector char_horzcat_charBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    }
+    NLSINTERPRETER_IMPEXP ArrayOf HorzCatOperator(Evaluator *eval, const ArrayOfVector &v);
 }
 //=============================================================================

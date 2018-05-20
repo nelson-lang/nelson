@@ -164,7 +164,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\cpp\HorzCatString.cpp" />
     <ClCompile Include="..\cpp\IntegerToString.cpp" />
     <ClCompile Include="..\cpp\MatrixToString.cpp" />
     <ClCompile Include="..\cpp\StringCompare.cpp" />
@@ -191,7 +190,6 @@
     <ClInclude Include="..\..\src\include\nlsString_exports.h" />
     <ClInclude Include="..\..\src\include\StringDisplay.hpp" />
     <ClInclude Include="..\..\src\include\ToChar.hpp" />
-    <ClInclude Include="..\include\HorzCatString.hpp" />
     <ClInclude Include="..\include\IntegerToString.hpp" />
     <ClInclude Include="..\include\MatrixToString.hpp" />
     <ClInclude Include="..\include\StringCompare.hpp" />

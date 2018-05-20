@@ -16,26 +16,42 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "ndarraylogical_horzcat_ndarraylogicalBuiltin.hpp"
-#include "Error.hpp"
-#include "HorzCatLogical.hpp"
+#include "HorzCatOperator.hpp"
+#include "HorzCat.hpp"
 //=============================================================================
-using namespace Nelson;
-//=============================================================================
-ArrayOfVector Nelson::LogicalGateway::ndarraylogical_horzcat_ndarraylogicalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    ArrayOfVector retval;
-    if (argIn.size() != 2)
+namespace Nelson {
+    //=============================================================================
+    ArrayOf HorzCatOperator(Evaluator *eval, const ArrayOfVector &v)
     {
-        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        ArrayOf res;
+        switch (v.size())
+        {
+            case 0:
+            {
+                res = ArrayOf::emptyConstructor();
+            }
+            break;
+            case 1:
+            {
+                res = v[0];
+                res.ensureSingleOwner();
+            }
+            break;
+            default:
+            {
+                res = v[0];
+                res.ensureSingleOwner();
+                for (size_t k = 1; k < v.size(); k++)
+                {
+                    ArrayOf arg2 = v[k];
+					res = eval->doBinaryOperatorOverload(res, arg2, HorzCat, "horzcat");
+                    //res = OverloadBinaryOperator(eval, res, arg2, "horzcat");
+                }
+            }
+            break;
+        }
+        return res;
     }
-    if (nLhs > 1)
-    {
-        Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-    }
-    ArrayOf A = argIn[0];
-    ArrayOf B = argIn[1];
-    retval.push_back(HorzCatNdArrayLogical(A, B));
-    return retval;
+    //=============================================================================
 }
 //=============================================================================

@@ -564,8 +564,14 @@ namespace Nelson {
          * each row has the same number of elements in it.
          * Throws an exception if the geometry of the argumens is incompatible.
          */
-
         static ArrayOf cellConstructor(ArrayOfMatrix& m);
+		
+		/**
+		* Converts a variable to a cell with the content
+		* if m is a cell returned value is m 
+		*/
+		static ArrayOf toCell(ArrayOf m);
+
         /**
          * Structure constructor - this is equivalent to the built in struct command.
          * First, we have to make sure that each entry of "values" have

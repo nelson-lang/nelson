@@ -170,12 +170,10 @@
     <ClCompile Include="..\cpp\int8Builtin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\integer_dispBuiltin.cpp" />
-    <ClCompile Include="..\cpp\integer_horzcat_integerBuiltin.cpp" />
     <ClCompile Include="..\cpp\integer_isequalBuiltin.cpp" />
     <ClCompile Include="..\cpp\integer_vertcat_integerBuiltin.cpp" />
     <ClCompile Include="..\cpp\intmaxBuiltin.cpp" />
     <ClCompile Include="..\cpp\intminBuiltin.cpp" />
-    <ClCompile Include="..\cpp\ndarrayinteger_horzcat_ndarrayintegerBuiltin.cpp" />
     <ClCompile Include="..\cpp\ndarrayinteger_isequalBuiltin.cpp" />
     <ClCompile Include="..\cpp\ndarrayinteger_vertcat_ndarrayintegerBuiltin.cpp" />
     <ClCompile Include="..\cpp\uint16Builtin.cpp" />
@@ -217,12 +215,10 @@
     <ClInclude Include="..\include\int8Builtin.hpp" />
     <ClInclude Include="..\include\int8_uminusBuiltin.hpp" />
     <ClInclude Include="..\include\integer_dispBuiltin.hpp" />
-    <ClInclude Include="..\include\integer_horzcat_integerBuiltin.hpp" />
     <ClInclude Include="..\include\integer_isequalBuiltin.hpp" />
     <ClInclude Include="..\include\integer_vertcat_integerBuiltin.hpp" />
     <ClInclude Include="..\include\intmaxBuiltin.hpp" />
     <ClInclude Include="..\include\intminBuiltin.hpp" />
-    <ClInclude Include="..\include\ndarrayinteger_horzcat_ndarrayintegerBuiltin.hpp" />
     <ClInclude Include="..\include\ndarrayinteger_isequalBuiltin.hpp" />
     <ClInclude Include="..\include\ndarrayinteger_vertcat_ndarrayintegerBuiltin.hpp" />
     <ClInclude Include="..\include\nlsInteger_builtin_exports.h" />

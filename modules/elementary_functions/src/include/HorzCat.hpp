@@ -18,19 +18,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include "nlsElementary_functions_exports.h"
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace IntegerGateway {
-        ArrayOfVector ndarrayint8_horzcat_ndarrayint8Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-        ArrayOfVector ndarrayint16_horzcat_ndarrayint16Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-        ArrayOfVector ndarrayint32_horzcat_ndarrayint32Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-        ArrayOfVector ndarrayint64_horzcat_ndarrayint64Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-        ArrayOfVector ndarrayuint8_horzcat_ndarrayuint8Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-        ArrayOfVector ndarrayuint16_horzcat_ndarrayuint16Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-        ArrayOfVector ndarrayuint32_horzcat_ndarrayuint32Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-        ArrayOfVector ndarrayuint64_horzcat_ndarrayuint64Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    }
+	/**
+	* horzcat ([,]).
+	*/
+	NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf HorzCat(ArrayOf &A, ArrayOf &B, bool mustRaiseError, bool &bSuccess);
 }
 //=============================================================================

@@ -75,7 +75,7 @@
 #include "Error.hpp"
 #include "StackError.hpp"
 #include "VertCat.hpp"
-#include "HorzCat.hpp"
+#include "HorzCatOperator.hpp"
 #include "AstManager.hpp"
 #include "PathFuncManager.hpp"
 #include "HandleGenericObject.hpp"
@@ -314,7 +314,7 @@ namespace Nelson {
         ArrayOfVector v;
         for (indexType k = 0; k < m.size(); k++)
         {
-            ArrayOf h = HorzCat(this, m[k]);
+            ArrayOf h = HorzCatOperator(this, m[k]);
             v.push_back(h);
         }
         ArrayOf res = VertCat(this, v);
