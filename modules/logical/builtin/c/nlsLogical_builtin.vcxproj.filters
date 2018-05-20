@@ -110,12 +110,6 @@
     <ClInclude Include="..\include\logical_allBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\logical_vertcat_logicalBuiltin.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\ndarraylogical_vertcat_ndarraylogicalBuiltin.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\logical_isequalBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>

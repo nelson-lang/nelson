@@ -222,9 +222,7 @@
     <ClInclude Include="..\include\logical_dispBuiltin.hpp" />
     <ClInclude Include="..\include\logical_isequalBuiltin.hpp" />
     <ClInclude Include="..\include\logical_or_logicalBuiltin.hpp" />
-    <ClInclude Include="..\include\logical_vertcat_logicalBuiltin.hpp" />
     <ClInclude Include="..\include\ndarraylogical_dispBuiltin.hpp" />
-    <ClInclude Include="..\include\ndarraylogical_vertcat_ndarraylogicalBuiltin.hpp" />
     <ClInclude Include="..\include\nlsLogical_builtin_exports.h" />
     <ClInclude Include="..\include\logical_notBuiltin.hpp" />
     <ClInclude Include="..\include\trueBuiltin.hpp" />

@@ -18,7 +18,7 @@
 //=============================================================================
 #include "uplusBuiltin.hpp"
 #include "Error.hpp"
-#include "OverloadUnaryOperator.hpp"
+#include "UnaryPlus.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -29,7 +29,8 @@ ArrayOfVector Nelson::ElementaryFunctionsGateway::uplusBuiltin(Evaluator* eval, 
     {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    retval.push_back(OverloadUnaryOperator(eval, argIn[0], "uplus"));
-    return retval;
+	ArrayOf arg1 = argIn[0];
+	retval.push_back(eval->doUnaryOperatorOverload(arg1, UnaryPlus, "uplus"));
+	return retval;
 }
 //=============================================================================

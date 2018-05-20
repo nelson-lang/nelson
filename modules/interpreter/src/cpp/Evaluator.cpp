@@ -94,6 +94,7 @@
 #include "Equals.hpp"
 #include "NotEquals.hpp"
 #include "UnaryMinus.hpp"
+#include "UnaryPlus.hpp"
 
 #ifdef _MSC_VER
 #define strdup _strdup
@@ -618,8 +619,8 @@ namespace Nelson {
                 break;
                 case OP_POS:
                 {
-                    retval = OverloadUnaryOperator(this, expression(t->down), "uplus");
-                }
+					retval = doUnaryOperatorOverload(t, UnaryPlus, "uplus");
+				}
                 break;
                 case OP_NEG:
                 {

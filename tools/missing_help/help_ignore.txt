@@ -190,7 +190,6 @@ uint64_all
 uint64_any
 uint8_all
 uint8_any
-generic_uplus
 sparsedouble_abs
 sparsedouble_acos
 sparsedouble_asin
