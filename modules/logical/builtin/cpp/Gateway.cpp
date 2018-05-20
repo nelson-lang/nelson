@@ -30,8 +30,6 @@
 #include "allBuiltin.hpp"
 #include "logical_anyBuiltin.hpp"
 #include "logical_allBuiltin.hpp"
-#include "logical_vertcat_logicalBuiltin.hpp"
-#include "ndarraylogical_vertcat_ndarraylogicalBuiltin.hpp"
 #include "logical_isequalBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -53,8 +51,6 @@ static const nlsGateway gateway[] =
     { "all", Nelson::LogicalGateway::allBuiltin, 1, 1 },
     { "logical_any", Nelson::LogicalGateway::logical_anyBuiltin, 1, 2 },
     { "logical_all", Nelson::LogicalGateway::logical_allBuiltin, 1, 1 },
-    { "logical_vertcat_logical", Nelson::LogicalGateway::logical_vertcat_logicalBuiltin, 1, 2 },
-    { "ndarraylogical_vertcat_ndarraylogical", Nelson::LogicalGateway::ndarraylogical_vertcat_ndarraylogicalBuiltin, 1, 2 },
     { "logical_isequal", Nelson::LogicalGateway::logical_isequalBuiltin, 1, 2 },
     { "logical_isequaln", Nelson::LogicalGateway::logical_isequalBuiltin, 1, 2 },
     { "ndarraylogical_isequal", Nelson::LogicalGateway::logical_isequalBuiltin, 1, 2 },

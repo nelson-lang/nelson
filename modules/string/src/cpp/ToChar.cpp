@@ -19,7 +19,7 @@
 #include <boost/container/vector.hpp>
 #include "ToChar.hpp"
 #include "IEEEFP.hpp"
-#include "VertCatString.hpp"
+#include "VertCat.hpp"
 //=============================================================================
 namespace Nelson {
     static ArrayOf ArrayOfDoubleToChar(ArrayOf A)
@@ -138,15 +138,16 @@ namespace Nelson {
             }
         }
         res = ArrayOf::stringConstructor(vA[0]);
+		bool bSuccess;
         for (size_t i = 1; i < vA.size(); i++)
         {
             ArrayOf B = ArrayOf::stringConstructor(vA[i]);
-            res = VertCatString(res, B);
+			res = VertCat(res, B, true, bSuccess);
         }
         for (size_t i = 0; i < vB.size(); i++)
         {
             ArrayOf B = ArrayOf::stringConstructor(vB[i]);
-            res = VertCatString(res, B);
+            res = VertCat(res, B, true, bSuccess);
         }
         return res;
     }
@@ -261,26 +262,6 @@ namespace Nelson {
         return res;
     }
     //=============================================================================
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    //=============================================================================
     static std::wstring ToChar(wstringVector V, boost::container::vector<Dimensions> dimsVector, Dimensions &dims)
     {
         std::wstring res;
@@ -299,26 +280,14 @@ namespace Nelson {
         }
         else
         {
-            /*
-            for (size_t k = 0; k < V.size(); k++)
-            {
-            	size_t newLen = lenMax - dimsVector[k].getColumns();
-            	if (newLen > 0)
-            	{
-            		for (size_t q = 0; q < newLen; q++)
-            		{
-            			V[k] = V[k] + std::wstring(L" ");
-            		}
-            	}
-            }
-            */
             ArrayOf resAsArrayOf = ArrayOf::stringConstructor(V[0]);
             resAsArrayOf.reshape(dimsVector[0]);
+			bool bSuccess;
             for (size_t i = 1; i < V.size(); i++)
             {
                 ArrayOf B = ArrayOf::stringConstructor(V[i]);
-                B.reshape(dimsVector[i]),
-                          resAsArrayOf = VertCatString(resAsArrayOf, B);
+				B.reshape(dimsVector[i]),
+					resAsArrayOf = VertCat(resAsArrayOf, B, true, bSuccess);
             }
             res = resAsArrayOf.getContentAsArrayOfCharacters();
             dims[0] = resAsArrayOf.getDimensions().getRows();

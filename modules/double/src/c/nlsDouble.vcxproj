@@ -210,7 +210,6 @@
     <ClInclude Include="..\include\nlsDouble_exports.h" />
     <ClInclude Include="..\include\timesDouble.hpp" />
     <ClInclude Include="..\include\ToDouble.hpp" />
-    <ClInclude Include="..\include\VertCatDouble.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\ColonDouble.cpp" />
@@ -220,7 +219,6 @@
     <ClCompile Include="..\cpp\MtimesDouble.cpp" />
     <ClCompile Include="..\cpp\timesDouble.cpp" />
     <ClCompile Include="..\cpp\ToDouble.cpp" />
-    <ClCompile Include="..\cpp\VertCatDouble.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

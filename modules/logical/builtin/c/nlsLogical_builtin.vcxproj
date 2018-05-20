@@ -179,10 +179,8 @@
     <ClCompile Include="..\cpp\logical_dispBuiltin.cpp" />
     <ClCompile Include="..\cpp\logical_isequalBuiltin.cpp" />
     <ClCompile Include="..\cpp\logical_or_logicalBuiltin.cpp" />
-    <ClCompile Include="..\cpp\logical_vertcat_logicalBuiltin.cpp" />
     <ClCompile Include="..\cpp\ndarraylogical_dispBuiltin.cpp" />
     <ClCompile Include="..\cpp\logical_notBuiltin.cpp" />
-    <ClCompile Include="..\cpp\ndarraylogical_vertcat_ndarraylogicalBuiltin.cpp" />
     <ClCompile Include="..\cpp\trueBuiltin.cpp" />
     <ClCompile Include="..\cpp\xorBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />

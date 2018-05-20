@@ -183,7 +183,6 @@
     <ClCompile Include="..\cpp\ToChar.cpp" />
     <ClCompile Include="..\cpp\ToLower.cpp" />
     <ClCompile Include="..\cpp\ToUpper.cpp" />
-    <ClCompile Include="..\cpp\VertCatString.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
@@ -207,7 +206,6 @@
     <ClInclude Include="..\include\StringToDouble.hpp" />
     <ClInclude Include="..\include\ToLower.hpp" />
     <ClInclude Include="..\include\ToUpper.hpp" />
-    <ClInclude Include="..\include\VertCatString.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\data_structures\src\c\nlsData_structures.vcxproj">

@@ -24,8 +24,6 @@
 #include "colon_double_double_doubleBuiltin.hpp"
 #include "double_mtimes_doubleBuiltin.hpp"
 #include "double_times_doubleBuiltin.hpp"
-#include "double_vertcat_doubleBuiltin.hpp"
-#include "ndarraydouble_vertcat_ndarraydoubleBuiltin.hpp"
 #include "double_isequalBuiltin.hpp"
 #include "double_isequalnBuiltin.hpp"
 #include "ndarraydouble_isequalBuiltin.hpp"
@@ -47,13 +45,10 @@ static const nlsGateway gateway[] =
     { "ndarraydouble_times_ndarraydouble", Nelson::DoubleGateway::double_times_doubleBuiltin, 1, 2 },
     { "double_times_ndarraydouble", Nelson::DoubleGateway::double_times_doubleBuiltin, 1, 2 },
     { "ndarraydouble_times_double", Nelson::DoubleGateway::double_times_doubleBuiltin, 1, 2 },
-    { "double_vertcat_double", Nelson::DoubleGateway::double_vertcat_doubleBuiltin, 1, 2 },
-    { "ndarraydouble_vertcat_ndarraydouble", Nelson::DoubleGateway::ndarraydouble_vertcat_ndarraydoubleBuiltin, 1, 2 },
     { "double_isequal", Nelson::DoubleGateway::double_isequalBuiltin, 1, 2 },
     { "double_isequaln", Nelson::DoubleGateway::double_isequalnBuiltin, 1, 2 },
     { "ndarraydouble_isequal", Nelson::DoubleGateway::ndarraydouble_isequalBuiltin, 1, 2 },
     { "ndarraydouble_isequaln", Nelson::DoubleGateway::ndarraydouble_isequalnBuiltin, 1, 2 },
-
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

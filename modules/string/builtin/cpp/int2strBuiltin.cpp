@@ -22,7 +22,7 @@
 #include "Error.hpp"
 #include "IntegerToString.hpp"
 #include "OverloadFunction.hpp"
-#include "VertCatString.hpp"
+#include "VertCat.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -74,8 +74,9 @@ static ArrayOf StringVectorToString(wstringVector V, Dimensions DimsV)
                         }
                         else
                         {
+							bool bSuccess;
                             ArrayOf B = ArrayOf::stringConstructor(line);
-                            strArr = VertCatString(strArr, B);
+                            strArr = VertCat(strArr, B, true, bSuccess);
                         }
                         line = L"";
                         q = 0;

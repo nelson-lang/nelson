@@ -25,8 +25,6 @@
 #include "tolowerBuiltin.hpp"
 #include "toupperBuiltin.hpp"
 #include "strfindBuiltin.hpp"
-#include "char_vertcat_charBuiltin.hpp"
-#include "ndarraychar_vertcat_ndarraycharBuiltin.hpp"
 #include "char_isequalBuiltin.hpp"
 #include "ndarraychar_isequalBuiltin.hpp"
 #include "sprintfBuiltin.hpp"
@@ -58,7 +56,6 @@ static const nlsGateway gateway[] =
     { "toupper", Nelson::StringGateway::toupperBuiltin, 1, 1 },
     { "upper", Nelson::StringGateway::toupperBuiltin, 1, 1 },
     { "strfind", Nelson::StringGateway::strfindBuiltin, 1, 2 },
-    { "char_vertcat_char", Nelson::StringGateway::char_vertcat_charBuiltin, 1, 2 },
     { "char_isequal", Nelson::StringGateway::char_isequalBuiltin, 1, 2 },
     { "char_isequaln", Nelson::StringGateway::char_isequalBuiltin, 1, 2 },
     { "sprintf", Nelson::StringGateway::sprintfBuiltin, 2, -1},
@@ -68,7 +65,6 @@ static const nlsGateway gateway[] =
     { "ndarraychar_disp", Nelson::StringGateway::ndarraychar_dispBuiltin, 0, 1 },
     { "ndarraychar_isequal", Nelson::StringGateway::ndarraychar_isequalBuiltin, 1, 2 },
     { "ndarraychar_isequaln", Nelson::StringGateway::ndarraychar_isequalBuiltin, 1, 2 },
-    { "ndarraychar_vertcat_ndarraychar", Nelson::StringGateway::ndarraychar_vertcat_ndarraycharBuiltin, 1, 2 },
     { "startsWith", Nelson::StringGateway::startsWithBuiltin, 1, -3 },
     { "endsWith", Nelson::StringGateway::endsWithBuiltin, 1, -3 },
     { "contains", Nelson::StringGateway::containsBuiltin, 1, -3 },

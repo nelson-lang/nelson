@@ -172,7 +172,6 @@
     <ClCompile Include="..\cpp\cellBuiltin.cpp" />
     <ClCompile Include="..\cpp\cellfunBuiltin.cpp" />
     <ClCompile Include="..\cpp\cell_dispBuiltin.cpp" />
-    <ClCompile Include="..\cpp\cell_vertcat_cellBuiltin.cpp" />
     <ClCompile Include="..\cpp\fieldnamesBuiltin.cpp" />
     <ClCompile Include="..\cpp\iscellstrBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
@@ -181,7 +180,6 @@
     <ClCompile Include="..\cpp\struct2cellBuiltin.cpp" />
     <ClCompile Include="..\cpp\structBuiltin.cpp" />
     <ClCompile Include="..\cpp\struct_dispBuiltin.cpp" />
-    <ClCompile Include="..\cpp\struct_vertcat_structBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>

@@ -17,7 +17,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <Eigen/Dense>
-#include "HorzCat.hpp"
+#include "VertCat.hpp"
 #include "ClassName.hpp"
 #include "MatrixCheck.hpp"
 #include "ConcatenateNdArray.hpp"
@@ -25,7 +25,7 @@
 namespace Nelson {
     //=============================================================================
     template <class T>
-    ArrayOf HorzCatTemplate(ArrayOf A, ArrayOf B, Dimensions dimsRes)
+    ArrayOf VertCatTemplate(ArrayOf A, ArrayOf B, Dimensions dimsRes)
     {
         T *ptrA = (T *)A.getDataPointer();
         T *ptrB = (T *)B.getDataPointer();
@@ -36,12 +36,13 @@ namespace Nelson {
         Eigen::Map<Eigen::Matrix <T, Eigen::Dynamic, Eigen::Dynamic >> matA(ptrA, dimsA.getRows(), dimsA.getColumns());
         Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matB(ptrB, dimsB.getRows(), dimsB.getColumns());
         Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matC(ptrC, dimsRes.getRows(), dimsRes.getColumns());
-        matC << matA, matB;
-        return ArrayOf(A.getDataClass(), dimsRes, pRes);
+		matC << matA,
+			matB;
+		return ArrayOf(A.getDataClass(), dimsRes, pRes);
     }
     //=============================================================================
     template <class T>
-    ArrayOf HorzCatComplexTemplate(ArrayOf A, ArrayOf B, Dimensions dimsRes)
+    ArrayOf VertCatComplexTemplate(ArrayOf A, ArrayOf B, Dimensions dimsRes)
     {
         void *pRes = ArrayOf::allocateArrayOf(A.getDataClass(), dimsRes.getElementCount() * 2);
         T* ptrC = (T*)pRes;
@@ -53,18 +54,19 @@ namespace Nelson {
         Dimensions dimsB = B.getDimensions();
         std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>((T*)B.getDataPointer());
         Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matB(Bz, dimsB.getRows(), dimsB.getColumns());
-        matC << matA, matB;
-        return ArrayOf(A.getDataClass(), dimsRes, pRes);
+		matC << matA,
+			matB;
+		return ArrayOf(A.getDataClass(), dimsRes, pRes);
     }
     //=============================================================================
-    ArrayOf HorzCat(ArrayOf &A, ArrayOf &B, bool mustRaiseError, bool &bSuccess)
+    ArrayOf VertCat(ArrayOf &A, ArrayOf &B, bool mustRaiseError, bool &bSuccess)
     {
         bSuccess = false;
         if (A.isSparse() || B.isSparse())
         {
             if (mustRaiseError)
             {
-                std::string overload = ClassName(A) + "_horzcat_" + ClassName(B);
+                std::string overload = ClassName(A) + "_vertcat_" + ClassName(B);
                 throw Exception(_("function") + " " + overload + " " + _("undefined."));
             }
             else
@@ -169,30 +171,27 @@ namespace Nelson {
                 return ArrayOf();
             }
         }
-        Dimensions dimsA = A.getDimensions();
-        Dimensions dimsB = B.getDimensions();
-        if (dimsA.getRows() != dimsB.getRows())
-        {
-            if (mustRaiseError)
-            {
-                throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
-            }
-            if (dimsA.getLength() != dimsB.getLength())
-            {
-                throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
-            }
-            for (indexType k = 0; k < dimsA.getLength(); k++)
-            {
-                if (k != 1)
-                {
-                    if (dimsA.getDimensionLength(k) != dimsB.getDimensionLength(k))
-                    {
-                        throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
-                    }
-                }
-            }
-        }
-        ArrayOf res;
+		Dimensions dimsA = A.getDimensions();
+		Dimensions dimsB = B.getDimensions();
+		if (dimsA.getColumns() != dimsB.getColumns())
+		{
+			throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
+		}
+		if (dimsA.getLength() != dimsB.getLength())
+		{
+			throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
+		}
+		for (indexType k = 0; k < dimsA.getLength(); k++)
+		{
+			if (k != 0)
+			{
+				if (dimsA.getDimensionLength(k) != dimsB.getDimensionLength(k))
+				{
+					throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
+				}
+			}
+		}
+		ArrayOf res;
         if (classCommon == NLS_STRUCT_ARRAY)
         {
             stringVector fieldnamesA = A.getFieldNames();
@@ -208,11 +207,11 @@ namespace Nelson {
                     throw Exception(ERROR_FIELDNAMES_MUST_MATCH);
                 }
             }
-            indexType newColumnsSize = dimsA.getColumns() + dimsB.getColumns();
-            indexType newRowsSize = dimsA.getRows();
-            indexType newSize = newColumnsSize * newRowsSize;
-            Dimensions dimsC = Dimensions(newRowsSize, newColumnsSize);
-            void *ptrC = ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, newSize, fieldnamesA);
+			indexType newColumnsSize = dimsA.getColumns();
+			indexType newRowsSize = dimsA.getRows() + dimsB.getRows();
+			indexType newSize = newColumnsSize * newRowsSize;
+			Dimensions dimsC = Dimensions(newRowsSize, newColumnsSize);
+			void *ptrC = ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, newSize, fieldnamesA);
             ArrayOf *elements = (ArrayOf *)ptrC;
             res = ArrayOf(NLS_STRUCT_ARRAY, dimsC, elements, false, fieldnamesA);
             for (size_t k = 0; k < fieldnamesA.size(); k++)
@@ -230,101 +229,106 @@ namespace Nelson {
         {
             Dimensions dimsA = A.getDimensions();
             Dimensions dimsB = B.getDimensions();
-            indexType newColumnsSize = dimsA.getColumns() + dimsB.getColumns();
-            indexType newRowsSize = dimsA.getRows();
-            Dimensions dimsC = Dimensions(newRowsSize, newColumnsSize);
-            switch (A.getDataClass())
+			indexType newColumnsSize = dimsA.getColumns();
+			indexType newRowsSize = dimsA.getRows() + dimsB.getRows();
+			Dimensions dimsC = Dimensions(newRowsSize, newColumnsSize);
+
+			switch (A.getDataClass())
             {
                 case NLS_LOGICAL:
                 {
-                    res = HorzCatTemplate<logical>(A, B, dimsC);
+                    res = VertCatTemplate<logical>(A, B, dimsC);
                 }
                 break;
                 case NLS_UINT8:
                 {
-                    res = HorzCatTemplate<uint8>(A, B, dimsC);
+                    res = VertCatTemplate<uint8>(A, B, dimsC);
                 }
                 break;
                 case NLS_INT8:
                 {
-                    res = HorzCatTemplate<int8>(A, B, dimsC);
+                    res = VertCatTemplate<int8>(A, B, dimsC);
                 }
                 break;
                 case NLS_UINT16:
                 {
-                    res = HorzCatTemplate<uint16>(A, B, dimsC);
+                    res = VertCatTemplate<uint16>(A, B, dimsC);
                 }
                 break;
                 case NLS_INT16:
                 {
-                    res = HorzCatTemplate<int16>(A, B, dimsC);
+                    res = VertCatTemplate<int16>(A, B, dimsC);
                 }
                 break;
                 case NLS_UINT32:
                 {
-                    res = HorzCatTemplate<uint32>(A, B, dimsC);
+                    res = VertCatTemplate<uint32>(A, B, dimsC);
                 }
                 break;
                 case NLS_INT32:
                 {
-                    res = HorzCatTemplate<int32>(A, B, dimsC);
+                    res = VertCatTemplate<int32>(A, B, dimsC);
                 }
                 break;
                 case NLS_UINT64:
                 {
-                    res = HorzCatTemplate<uint64>(A, B, dimsC);
+                    res = VertCatTemplate<uint64>(A, B, dimsC);
                 }
                 break;
                 case NLS_INT64:
                 {
-                    res = HorzCatTemplate<int64>(A, B, dimsC);
+                    res = VertCatTemplate<int64>(A, B, dimsC);
                 }
                 break;
                 case NLS_SINGLE:
                 {
-                    res = HorzCatTemplate<single>(A, B, dimsC);
+                    res = VertCatTemplate<single>(A, B, dimsC);
                 }
                 break;
                 case NLS_DOUBLE:
                 {
-                    res = HorzCatTemplate<double>(A, B, dimsC);
+                    res = VertCatTemplate<double>(A, B, dimsC);
                 }
                 break;
                 case NLS_SCOMPLEX:
                 {
-                    res = HorzCatComplexTemplate<single>(A, B, dimsC);
+                    res = VertCatComplexTemplate<single>(A, B, dimsC);
                 }
                 break;
                 case NLS_DCOMPLEX:
                 {
-                    res = HorzCatComplexTemplate<double>(A, B, dimsC);
+                    res = VertCatComplexTemplate<double>(A, B, dimsC);
                 }
                 break;
                 case NLS_CHAR:
                 {
-                    res = HorzCatTemplate<charType>(A, B, dimsC);
+                    res = VertCatTemplate<charType>(A, B, dimsC);
                 }
                 break;
                 default:
                 {
-                    ArrayOfMatrix m;
-                    ArrayOfVector v;
-                    v.push_back(A);
-                    v.push_back(B);
-                    m.push_back(v);
-                    res = ConcatenateNdArray(m, classCommon);
+					ArrayOfMatrix m;
+					ArrayOfVector v;
+					v.push_back(A);
+					m.push_back(v);
+					v.clear();
+					v.push_back(B);
+					m.push_back(v);
+					res = ConcatenateNdArray(m, classCommon);
                 }
                 break;
             }
         }
         else
         {
-            ArrayOfMatrix m;
-            ArrayOfVector v;
-            v.push_back(A);
-            v.push_back(B);
-            m.push_back(v);
-            res = ConcatenateNdArray(m, classCommon);
+			ArrayOfMatrix m;
+			ArrayOfVector v;
+			v.push_back(A);
+			m.push_back(v);
+			v.clear();
+			v.push_back(B);
+			m.push_back(v);
+			res = ConcatenateNdArray(m, classCommon);
         }
         bSuccess = true;
         return res;

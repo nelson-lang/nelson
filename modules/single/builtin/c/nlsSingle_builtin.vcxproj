@@ -172,14 +172,12 @@
     <ClCompile Include="..\cpp\ndarraysingle_dispBuiltin.cpp" />
     <ClCompile Include="..\cpp\ndarraysingle_isequalBuiltin.cpp" />
     <ClCompile Include="..\cpp\ndarraysingle_isequalnBuiltin.cpp" />
-    <ClCompile Include="..\cpp\ndarraysingle_vertcat_ndarraysingleBuiltin.cpp" />
     <ClCompile Include="..\cpp\single_colon_singleBuiltin.cpp" />
     <ClCompile Include="..\cpp\single_dispBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\singleBuiltin.cpp" />
     <ClCompile Include="..\cpp\single_isequalBuiltin.cpp" />
     <ClCompile Include="..\cpp\single_isequalnBuiltin.cpp" />
-    <ClCompile Include="..\cpp\single_vertcat_singleBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
@@ -213,7 +211,6 @@
     <ClInclude Include="..\include\ndarraysingle_dispBuiltin.hpp" />
     <ClInclude Include="..\include\ndarraysingle_isequalBuiltin.hpp" />
     <ClInclude Include="..\include\ndarraysingle_isequalnBuiltin.hpp" />
-    <ClInclude Include="..\include\ndarraysingle_vertcat_ndarraysingleBuiltin.hpp" />
     <ClInclude Include="..\include\nlsSingle_builtin_exports.h" />
     <ClInclude Include="..\include\singleBuiltin.hpp" />
     <ClInclude Include="..\include\single_colon_singleBuiltin.hpp" />
@@ -221,7 +218,6 @@
     <ClInclude Include="..\include\single_isequalBuiltin.hpp" />
     <ClInclude Include="..\include\single_isequalnBuiltin.hpp" />
     <ClInclude Include="..\include\single_minus_singleBuiltin.hpp" />
-    <ClInclude Include="..\include\single_vertcat_singleBuiltin.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\etc\finish.nls" />

@@ -27,8 +27,6 @@
 #include "cell2structBuiltin.hpp"
 #include "ndarraycell_dispBuiltin.hpp"
 #include "cellfunBuiltin.hpp"
-#include "struct_vertcat_structBuiltin.hpp"
-#include "cell_vertcat_cellBuiltin.hpp"
 #include "isfieldBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -47,8 +45,6 @@ static const nlsGateway gateway[] =
     { "struct2cell", Nelson::DataStructuresGateway::struct2cellBuiltin, 1, 1 },
     { "cell2struct", Nelson::DataStructuresGateway::cell2structBuiltin, 1, 3 },
     { "cellfun", Nelson::DataStructuresGateway::cellfunBuiltin, -1, -1 },
-    { "struct_vertcat_struct", Nelson::DataStructuresGateway::struct_vertcat_structBuiltin, 1, 2 },
-    { "cell_vertcat_cell", Nelson::DataStructuresGateway::cell_vertcat_cellBuiltin, 1, 2 },
     { "isfield", Nelson::DataStructuresGateway::isfieldBuiltin, 1, 2 },
 
 };

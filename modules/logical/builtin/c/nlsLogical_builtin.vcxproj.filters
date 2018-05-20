@@ -60,12 +60,6 @@
     <ClCompile Include="..\cpp\logical_anyBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\logical_vertcat_logicalBuiltin.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\ndarraylogical_vertcat_ndarraylogicalBuiltin.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\cpp\logical_isequalBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

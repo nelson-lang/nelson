@@ -51,12 +51,6 @@
     <ClCompile Include="..\cpp\cellfunBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\struct_vertcat_structBuiltin.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\cell_vertcat_cellBuiltin.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\cpp\isfieldBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

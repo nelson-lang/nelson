@@ -248,7 +248,7 @@
     <ClCompile Include="..\cpp\Evaluator.cpp" />
     <ClCompile Include="..\cpp\StackError.cpp" />
     <ClCompile Include="..\cpp\VariablesTable.cpp" />
-    <ClCompile Include="..\cpp\VertCat.cpp" />
+    <ClCompile Include="..\cpp\VertCatOperator.cpp" />
     <ClCompile Include="..\grammar\NelSonParser.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
@@ -297,7 +297,7 @@
     <ClInclude Include="..\include\PathFuncManager.hpp" />
     <ClInclude Include="..\include\ProcessEventsDynamicFunction.hpp" />
     <ClInclude Include="..\include\StackError.hpp" />
-    <ClInclude Include="..\include\VertCat.hpp" />
+    <ClInclude Include="..\include\VertCatOperator.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\module.iss" />

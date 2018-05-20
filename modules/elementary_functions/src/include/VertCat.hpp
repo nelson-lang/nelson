@@ -18,12 +18,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include "nlsElementary_functions_exports.h"
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace SingleGateway {
-        ArrayOfVector single_vertcat_singleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    }
+    /**
+    * vertcat ([;]).
+    */
+    NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf VertCat(ArrayOf &A, ArrayOf &B, bool mustRaiseError, bool &bSuccess);
 }
 //=============================================================================

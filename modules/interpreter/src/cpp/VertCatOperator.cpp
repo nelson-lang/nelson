@@ -16,14 +16,41 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
-#include "ArrayOf.hpp"
-#include "Evaluator.hpp"
+#include "VertCatOperator.hpp"
+#include "VertCat.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace DoubleGateway {
-        ArrayOfVector ndarraydouble_vertcat_ndarraydoubleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+    //=============================================================================
+    ArrayOf VertCatOperator(Evaluator *eval, const ArrayOfVector &v)
+    {
+        ArrayOf res;
+        switch (v.size())
+        {
+            case 0:
+            {
+                res = ArrayOf::emptyConstructor();
+            }
+            break;
+            case 1:
+            {
+                res = v[0];
+                res.ensureSingleOwner();
+            }
+            break;
+            default:
+            {
+                res = v[0];
+                res.ensureSingleOwner();
+                for (size_t k = 1; k < v.size(); k++)
+                {
+                    ArrayOf arg2 = v[k];
+					res = eval->doBinaryOperatorOverload(res, arg2, VertCat, "vertcat");
+				}
+            }
+            break;
+        }
+        return res;
     }
+    //=============================================================================
 }
 //=============================================================================

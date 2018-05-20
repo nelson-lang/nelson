@@ -1,6 +1,6 @@
   * Overload speed optimization:
 
-    - plus, minus, eq, ne, gt, ge, le, lt operators
+    - plus, minus, eq, ne, gt, ge, le, lt, horzcat, vertcat operators
     use by default predefined functions and search if operators are missing.
     - add overloadbasictypes function to change default behavior.
 

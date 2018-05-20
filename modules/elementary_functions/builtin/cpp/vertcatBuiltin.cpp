@@ -18,7 +18,7 @@
 //=============================================================================
 #include "vertcatBuiltin.hpp"
 #include "Error.hpp"
-#include "VertCat.hpp"
+#include "VertCatOperator.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -29,7 +29,7 @@ ArrayOfVector Nelson::ElementaryFunctionsGateway::vertcatBuiltin(Evaluator* eval
     {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    retval.push_back(VertCat(eval, argIn));
+    retval.push_back(VertCatOperator(eval, argIn));
     return retval;
 }
 //=============================================================================

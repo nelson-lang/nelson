@@ -25,8 +25,6 @@
 #include "uint16Builtin.hpp"
 #include "uint32Builtin.hpp"
 #include "uint64Builtin.hpp"
-#include "integer_vertcat_integerBuiltin.hpp"
-#include "ndarrayinteger_vertcat_ndarrayintegerBuiltin.hpp"
 #include "integer_isequalBuiltin.hpp"
 #include "ndarrayinteger_isequalBuiltin.hpp"
 #include "intmaxBuiltin.hpp"
@@ -47,22 +45,6 @@ static const nlsGateway gateway[] =
     { "uint16", Nelson::IntegerGateway::uint16Builtin, 1, 1 },
     { "uint32", Nelson::IntegerGateway::uint32Builtin, 1, 1 },
     { "uint64", Nelson::IntegerGateway::uint64Builtin, 1, 1 },
-    { "int8_vertcat_int8", Nelson::IntegerGateway::int8_vertcat_int8Builtin, 1, 2 },
-    { "int16_vertcat_int16", Nelson::IntegerGateway::int16_vertcat_int16Builtin, 1, 2 },
-    { "int32_vertcat_int32", Nelson::IntegerGateway::int32_vertcat_int32Builtin, 1, 2 },
-    { "int64_vertcat_int64", Nelson::IntegerGateway::int64_vertcat_int64Builtin, 1, 2 },
-    { "uint8_vertcat_uint8", Nelson::IntegerGateway::uint8_vertcat_uint8Builtin, 1, 2 },
-    { "uint16_vertcat_uint16", Nelson::IntegerGateway::uint16_vertcat_uint16Builtin, 1, 2 },
-    { "uint32_vertcat_uint32", Nelson::IntegerGateway::uint32_vertcat_uint32Builtin, 1, 2 },
-    { "uint64_vertcat_uint64", Nelson::IntegerGateway::uint64_vertcat_uint64Builtin, 1, 2 },
-    { "ndarrayint8_vertcat_ndarrayint8", Nelson::IntegerGateway::ndarrayint8_vertcat_ndarrayint8Builtin, 1, 2 },
-    { "ndarrayint16_vertcat_ndarrayint16", Nelson::IntegerGateway::ndarrayint16_vertcat_ndarrayint16Builtin, 1, 2 },
-    { "ndarrayint32_vertcat_ndarrayint32", Nelson::IntegerGateway::ndarrayint32_vertcat_ndarrayint32Builtin, 1, 2 },
-    { "ndarrayint64_vertcat_ndarrayint64", Nelson::IntegerGateway::ndarrayint64_vertcat_ndarrayint64Builtin, 1, 2 },
-    { "ndarrayuint8_vertcat_ndarrayuint8", Nelson::IntegerGateway::ndarrayuint8_vertcat_ndarrayuint8Builtin, 1, 2 },
-    { "ndarrayuint16_vertcat_ndarrayuint16", Nelson::IntegerGateway::ndarrayuint16_vertcat_ndarrayuint16Builtin, 1, 2 },
-    { "ndarrayuint32_vertcat_ndarrayuint32", Nelson::IntegerGateway::ndarrayuint32_vertcat_ndarrayuint32Builtin, 1, 2 },
-    { "ndarrayuint64_vertcat_ndarrayuint64", Nelson::IntegerGateway::ndarrayuint64_vertcat_ndarrayuint64Builtin, 1, 2 },
     { "int8_isequal", Nelson::IntegerGateway::int8_isequalBuiltin, 1, 2 },
     { "int16_isequal", Nelson::IntegerGateway::int16_isequalBuiltin, 1, 2 },
     { "int32_isequal", Nelson::IntegerGateway::int32_isequalBuiltin, 1, 2 },

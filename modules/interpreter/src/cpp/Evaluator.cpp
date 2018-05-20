@@ -74,7 +74,7 @@
 #include "ProcessEventsDynamicFunction.hpp"
 #include "Error.hpp"
 #include "StackError.hpp"
-#include "VertCat.hpp"
+#include "VertCatOperator.hpp"
 #include "HorzCatOperator.hpp"
 #include "AstManager.hpp"
 #include "PathFuncManager.hpp"
@@ -317,10 +317,8 @@ namespace Nelson {
             ArrayOf h = HorzCatOperator(this, m[k]);
             v.push_back(h);
         }
-        ArrayOf res = VertCat(this, v);
-        //ArrayOf retval(ArrayOf::matrixConstructor(m));
+        ArrayOf res = VertCatOperator(this, v);
         popID();
-        //return retval;
         return res;
     }
 

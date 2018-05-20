@@ -207,6 +207,7 @@
     <ClCompile Include="..\cpp\Transpose.cpp" />
     <ClCompile Include="..\cpp\TruncateFunctions.cpp" />
     <ClCompile Include="..\cpp\UnaryMinus.cpp" />
+    <ClCompile Include="..\cpp\VertCat.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\AbsoluteValue.hpp" />
@@ -249,6 +250,7 @@
     <ClInclude Include="..\include\Transpose.hpp" />
     <ClInclude Include="..\include\TruncateFunctions.hpp" />
     <ClInclude Include="..\include\UnaryMinus.hpp" />
+    <ClInclude Include="..\include\VertCat.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\api_nelson\src\c\nlsApi_nelson.vcxproj">
