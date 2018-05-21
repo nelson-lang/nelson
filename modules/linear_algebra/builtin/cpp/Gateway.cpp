@@ -17,14 +17,15 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NelsonGateway.hpp"
-#include "logmBuiltin.hpp"
 #include "schurBuiltin.hpp"
-#include "expmBuiltin.hpp"
 #include "invBuiltin.hpp"
 #include "traceBuiltin.hpp"
 #include "svdBuiltin.hpp"
 #include "rcondBuiltin.hpp"
 #include "issymmetricBuiltin.hpp"
+#include "logmBuiltin.hpp"
+#include "expmBuiltin.hpp"
+#include "sqrtmBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -32,9 +33,10 @@ const std::wstring gatewayName = L"linear_algebra";
 //=============================================================================
 static const nlsGateway gateway[] =
 {
+    { "sqrtm", Nelson::LinearAlgebraGateway::sqrtmBuiltin, 1, 1 },
     { "logm", Nelson::LinearAlgebraGateway::logmBuiltin, 1, 1 },
-    { "schur", Nelson::LinearAlgebraGateway::schurBuiltin, 2, 2 },
     { "expm", Nelson::LinearAlgebraGateway::expmBuiltin, 1, 1 },
+	{ "schur", Nelson::LinearAlgebraGateway::schurBuiltin, 2, 2 },
     { "inv", Nelson::LinearAlgebraGateway::invBuiltin, 1, 1 },
     { "trace", Nelson::LinearAlgebraGateway::traceBuiltin, 1, 1 },
     { "svd", Nelson::LinearAlgebraGateway::svdBuiltin, 3, 2 },

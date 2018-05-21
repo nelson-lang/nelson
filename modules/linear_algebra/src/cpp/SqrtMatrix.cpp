@@ -21,13 +21,13 @@
 #endif
 #include "lapack_eigen.hpp"
 #include <unsupported/Eigen/MatrixFunctions>
-#include "LogMatrix.hpp"
+#include "SqrtMatrix.hpp"
 #include "ClassName.hpp"
 //=============================================================================
 namespace Nelson {
-	//=============================================================================
+    //=============================================================================
 	template <class T>
-	ArrayOf logmComplex(ArrayOf &A)
+	ArrayOf sqrtmComplex(ArrayOf &A)
 	{
 		ArrayOf R(A);
 		R.ensureSingleOwner();
@@ -42,13 +42,13 @@ namespace Nelson {
 		else
 		{
 			// [V, D] = eig(A);
-			// sqrtm = V * diag(log(diag(D))) * inv(V);
+			// sqrtm = V * diag(sqrt(diag(D))) * inv(V);
 			Eigen::ComplexEigenSolver<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> solver(matA.cast<std::complex<T>>());
 			auto evects = solver.eigenvectors();
 			auto evals = solver.eigenvalues();
 			for (indexType i = 0; i < static_cast<indexType>(evals.rows()); ++i)
 			{
-				evals(i) = std::log(evals(i));
+				evals(i) = std::sqrt(evals(i));
 			}
 			auto evalsdiag = evals.asDiagonal();
 			matR = evects * evalsdiag * evects.inverse();
@@ -56,44 +56,44 @@ namespace Nelson {
 		return R;
 	}
 	//=============================================================================
-	ArrayOf LogMatrix(ArrayOf A)
-	{
-		bool isSupportedTypes = (A.getDataClass() == NLS_DOUBLE || A.getDataClass() == NLS_SINGLE ||
-			A.getDataClass() == NLS_DCOMPLEX || A.getDataClass() == NLS_SCOMPLEX) && !A.isSparse();
-		if (!isSupportedTypes)
-		{
-			throw Exception(_("Undefined function 'sqrtm' for input arguments of type") + " '" + ClassName(A) + "'.");
-		}
-		if (!A.isSquare())
-		{
-			throw Exception(_("Square matrix expected."));
-		}
+	ArrayOf SqrtMatrix(ArrayOf A)
+    {
+        bool isSupportedTypes = (A.getDataClass() == NLS_DOUBLE || A.getDataClass() == NLS_SINGLE ||
+                                 A.getDataClass() == NLS_DCOMPLEX || A.getDataClass() == NLS_SCOMPLEX) && !A.isSparse();
+        if (!isSupportedTypes)
+        {
+            throw Exception(_("Undefined function 'sqrtm' for input arguments of type") + " '" + ClassName(A) + "'.");
+        }
+        if (!A.isSquare())
+        {
+            throw Exception(_("Square matrix expected."));
+        }
 		if (A.isEmpty())
-		{
-			ArrayOf res(A);
+        {
+            ArrayOf res(A);
 			res.ensureSingleOwner();
-			return res;
-		}
+            return res;
+        }
 		ArrayOf res;
 		if (A.getDataClass() == NLS_DOUBLE || A.getDataClass() == NLS_DCOMPLEX)
-		{
-			if (A.getDataClass() == NLS_DOUBLE)
-			{
+        {
+            if (A.getDataClass() == NLS_DOUBLE)
+            {
 				A.promoteType(NLS_DCOMPLEX);
 			}
-			res = logmComplex<double>(A);
+			res = sqrtmComplex<double>(A);
 			if (res.allReal())
 			{
 				res.promoteType(NLS_DOUBLE);
 			}
 		}
-		else
-		{
+        else
+        {
 			if (A.getDataClass() == NLS_SINGLE)
 			{
 				A.promoteType(NLS_SCOMPLEX);
 			}
-			res = logmComplex<single>(A);
+			res = sqrtmComplex<single>(A);
 			if (res.allReal())
 			{
 				res.promoteType(NLS_SINGLE);
@@ -101,6 +101,6 @@ namespace Nelson {
 		}
 		return res;
 	}
-	//=============================================================================
+    //=============================================================================
 }
 //=============================================================================
