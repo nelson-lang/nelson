@@ -8,6 +8,8 @@
 Features:
 ---------
 
+  * logm: matrix logarithm.
+  * sqrtm: square root of a square matrix.
   * eval function: evaluates string for execution in Nelson.
   * evalin function: evaluates string for execution in Nelson in a specified scope.
   * evalc function: Evaluate Nelson code with console capture.
@@ -26,7 +28,11 @@ Features:
 Bug Fixes:
 ---------
 
+  * [#125](http://github.com/Nelson-numerical-software/nelson/issues/125): cosm function was slow.
+
   * [#123](http://github.com/Nelson-numerical-software/nelson/issues/123): addpath stopped to work after repeatedly call to the same path.
+
+  * [#121](http://github.com/Nelson-numerical-software/nelson/issues/121): home key did not work in GUI terminal on prompt.
 
   * [#118](http://github.com/Nelson-numerical-software/nelson/issues/118): add information in  DEVELOPMENT.md about how to buid Boost on old Ubuntu versions.
 
