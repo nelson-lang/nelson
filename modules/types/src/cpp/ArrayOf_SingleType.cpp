@@ -43,16 +43,16 @@ namespace Nelson {
         return ArrayOf(NLS_SINGLE, dim, data);
     }
     //=============================================================================
-	ArrayOf ArrayOf::singleVectorConstructor(int len)
-	{
-		Dimensions dim;
-		dim.makeScalar();
-		dim[1] = len;
-		single *data = (single*)allocateArrayOf(NLS_SINGLE, len);
-		return ArrayOf(NLS_SINGLE, dim, data);
-	}
-	//=============================================================================
-	ArrayOf ArrayOf::complexConstructor(float aval, float bval)
+    ArrayOf ArrayOf::singleVectorConstructor(int len)
+    {
+        Dimensions dim;
+        dim.makeScalar();
+        dim[1] = len;
+        single *data = (single*)allocateArrayOf(NLS_SINGLE, len);
+        return ArrayOf(NLS_SINGLE, dim, data);
+    }
+    //=============================================================================
+    ArrayOf ArrayOf::complexConstructor(float aval, float bval)
     {
         Dimensions dim;
         dim.makeScalar();

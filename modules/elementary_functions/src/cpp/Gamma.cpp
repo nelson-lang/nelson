@@ -31,10 +31,10 @@ namespace Nelson {
         {
             return  std::numeric_limits<double>::infinity();
         }
-		if ((v <= 0) && (floor(v) == v))
-		{
-			return  std::numeric_limits<double>::infinity();
-		}
+        if ((v <= 0) && (floor(v) == v))
+        {
+            return  std::numeric_limits<double>::infinity();
+        }
         return std::tgamma(v);
     }
     //=============================================================================
@@ -44,11 +44,11 @@ namespace Nelson {
         {
             return  std::numeric_limits<single>::infinity();
         }
-		if ((v <= 0) && (floor(v) == v))
-		{
-			return  std::numeric_limits<single>::infinity();
-		}
-		return std::tgamma(v);
+        if ((v <= 0) && (floor(v) == v))
+        {
+            return  std::numeric_limits<single>::infinity();
+        }
+        return std::tgamma(v);
     }
     //=============================================================================
     ArrayOf Gamma(ArrayOf arrayIn)
@@ -63,34 +63,34 @@ namespace Nelson {
         if (arrayIn.getDataClass() == NLS_DOUBLE || arrayIn.getDataClass() == NLS_SINGLE)
         {
             Dimensions dimsIn = arrayIn.getDimensions();
-			res = arrayIn;
-			res.ensureSingleOwner();
-			if (!arrayIn.isEmpty())
-			{
-				if (arrayIn.getDataClass() == NLS_DOUBLE)
-				{
-					double *ptrOut = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsIn.getElementCount(), stringVector(), false);
-					double *ptrIn = (double*)arrayIn.getDataPointer();
-					Eigen::Map<Eigen::ArrayXd> matOut(ptrOut, dimsIn.getElementCount());
-					Eigen::Map<Eigen::ArrayXd> matIn(ptrIn, dimsIn.getElementCount());
-					matOut = matIn.unaryExpr(std::ref(gammad));
-					res = ArrayOf(NLS_DOUBLE, dimsIn, ptrOut);
-				}
-				else
-				{
-					single *ptrOut = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, dimsIn.getElementCount(), stringVector(), false);
-					single *ptrIn = (single*)arrayIn.getDataPointer();
-					Eigen::Map<Eigen::ArrayXf> matOut(ptrOut, dimsIn.getElementCount());
-					Eigen::Map<Eigen::ArrayXf> matIn(ptrIn, dimsIn.getElementCount());
-					matOut = matIn.unaryExpr(std::ref(gammas));
-					res = ArrayOf(NLS_SINGLE, dimsIn, ptrOut);
-				}
-			}
-			else
-			{
-				res = arrayIn;
-				res.ensureSingleOwner();
-			}
+            res = arrayIn;
+            res.ensureSingleOwner();
+            if (!arrayIn.isEmpty())
+            {
+                if (arrayIn.getDataClass() == NLS_DOUBLE)
+                {
+                    double *ptrOut = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsIn.getElementCount(), stringVector(), false);
+                    double *ptrIn = (double*)arrayIn.getDataPointer();
+                    Eigen::Map<Eigen::ArrayXd> matOut(ptrOut, dimsIn.getElementCount());
+                    Eigen::Map<Eigen::ArrayXd> matIn(ptrIn, dimsIn.getElementCount());
+                    matOut = matIn.unaryExpr(std::ref(gammad));
+                    res = ArrayOf(NLS_DOUBLE, dimsIn, ptrOut);
+                }
+                else
+                {
+                    single *ptrOut = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, dimsIn.getElementCount(), stringVector(), false);
+                    single *ptrIn = (single*)arrayIn.getDataPointer();
+                    Eigen::Map<Eigen::ArrayXf> matOut(ptrOut, dimsIn.getElementCount());
+                    Eigen::Map<Eigen::ArrayXf> matIn(ptrIn, dimsIn.getElementCount());
+                    matOut = matIn.unaryExpr(std::ref(gammas));
+                    res = ArrayOf(NLS_SINGLE, dimsIn, ptrOut);
+                }
+            }
+            else
+            {
+                res = arrayIn;
+                res.ensureSingleOwner();
+            }
         }
         else
         {
