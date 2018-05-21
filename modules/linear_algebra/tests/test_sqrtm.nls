@@ -29,7 +29,7 @@ R = sqrtm(single([1, 2; 3, 4]));
 REF = [0.5537+0.4644i, 0.8070-0.2124i;
    1.2104-0.3186i, 1.7641+0.1458i];
 REF = single(REF);   
-assert_isapprox(R, REF, 1e-4);
+assert_isapprox(abs(R), abs(REF), 1e-4);
 assert_isequal(class(R), 'single');
 //=============================================================================
 R = sqrtm([]);
