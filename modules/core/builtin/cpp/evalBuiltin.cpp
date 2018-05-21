@@ -30,7 +30,7 @@ ArrayOfVector Nelson::CoreGateway::evalBuiltin(Evaluator* eval, int nLhs, const 
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     std::wstring command;
-	std::wstring catchCommand;
+    std::wstring catchCommand;
     if (argIn[0].isSingleString())
     {
         command = argIn[0].getContentAsWideString();
@@ -50,6 +50,6 @@ ArrayOfVector Nelson::CoreGateway::evalBuiltin(Evaluator* eval, int nLhs, const 
             Error(eval, _W("#2 string expected."));
         }
     }
-	return EvaluateCommand(eval, nLhs, command, catchCommand);
+    return EvaluateCommand(eval, nLhs, command, catchCommand);
 }
 //=============================================================================

@@ -44,8 +44,8 @@ namespace Nelson {
         }
         indexType Clen = dimC.getElementCount();
         logical *Cp = (logical*)new_with_exception<logical>(Clen);
-		single *Ap = (single*)a.getDataPointer();
-		single *Bp = (single*)b.getDataPointer();
+        single *Ap = (single*)a.getDataPointer();
+        single *Bp = (single*)b.getDataPointer();
         indexType m = 0, p = 0;
         for (indexType k = 0; k < Clen; k++)
         {

@@ -25,16 +25,16 @@ namespace Nelson {
     //=============================================================================
     ArrayOf colon_single(ArrayOf a, ArrayOf b)
     {
-		single A = a.getContentAsSingleScalar();
-		single B = b.getContentAsSingleScalar();
+        single A = a.getContentAsSingleScalar();
+        single B = b.getContentAsSingleScalar();
         return single_colon(A, B);
     }
     //=============================================================================
     ArrayOf colon_single(ArrayOf a, ArrayOf b, ArrayOf c)
     {
-		single A = a.getContentAsSingleScalar();
-		single B = b.getContentAsSingleScalar();
-		single C = c.getContentAsSingleScalar();
+        single A = a.getContentAsSingleScalar();
+        single B = b.getContentAsSingleScalar();
+        single C = c.getContentAsSingleScalar();
         return single_colon(A, B, C);
     }
     //=============================================================================
@@ -42,9 +42,9 @@ namespace Nelson {
     {
         if (step == 0)
         {
-			ArrayOf res = ArrayOf::emptyConstructor(1, 0);
-			res.promoteType(NLS_SINGLE);
-			return res;
+            ArrayOf res = ArrayOf::emptyConstructor(1, 0);
+            res.promoteType(NLS_SINGLE);
+            return res;
         }
         if (std::isnan(low) || std::isnan(high) || std::isnan(step))
         {
@@ -59,24 +59,24 @@ namespace Nelson {
         {
             if (step < 0)
             {
-				ArrayOf res = ArrayOf::emptyConstructor(1, 0);
-				res.promoteType(NLS_SINGLE);
-				return res;
-			}
+                ArrayOf res = ArrayOf::emptyConstructor(1, 0);
+                res.promoteType(NLS_SINGLE);
+                return res;
+            }
         }
         if (low > high)
         {
             if (step > 0)
             {
-				ArrayOf res = ArrayOf::emptyConstructor(1, 0);
-				res.promoteType(NLS_SINGLE);
-				return res;
-			}
+                ArrayOf res = ArrayOf::emptyConstructor(1, 0);
+                res.promoteType(NLS_SINGLE);
+                return res;
+            }
         }
-		single dn = (single) ((((high - low) / step) + 1));
+        single dn = (single) ((((high - low) / step) + 1));
         int n = (int)round((single)(dn));
         ArrayOf V = ArrayOf::singleVectorConstructor(n);
-		single *pV = (single*)V.getReadWriteDataPointer();
+        single *pV = (single*)V.getReadWriteDataPointer();
         if (dn == (single(n)))
         {
             Eigen::Map<Eigen::VectorXf> Range(pV, n);
@@ -87,7 +87,7 @@ namespace Nelson {
             // We must use another algo. in this case
             // 1:2:10
             int i = 0;
-			single v = low;
+            single v = low;
             while ((low < high && v <= high) || (low>high && v >= high))
             {
                 pV[i] = v;

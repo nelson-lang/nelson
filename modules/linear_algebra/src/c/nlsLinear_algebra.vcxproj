@@ -198,6 +198,7 @@
     <ClInclude Include="..\include\nlsLinear_algebra_exports.h" />
     <ClInclude Include="..\include\ReciprocalConditionNumber.hpp" />
     <ClInclude Include="..\include\SchurDecompostion.hpp" />
+    <ClInclude Include="..\include\SqrtMatrix.hpp" />
     <ClInclude Include="..\include\SVD.hpp" />
     <ClInclude Include="..\include\TraceMatrix.hpp" />
   </ItemGroup>
@@ -208,6 +209,7 @@
     <ClCompile Include="..\cpp\LogMatrix.cpp" />
     <ClCompile Include="..\cpp\ReciprocalConditionNumber.cpp" />
     <ClCompile Include="..\cpp\SchurDecompostion.cpp" />
+    <ClCompile Include="..\cpp\SqrtMatrix.cpp" />
     <ClCompile Include="..\cpp\SVD.cpp" />
     <ClCompile Include="..\cpp\TraceMatrix.cpp" />
     <ClCompile Include="dllMain.c" />

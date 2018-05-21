@@ -19,6 +19,7 @@
 #ifdef _MSC_VER
 #define _SCL_SECURE_NO_WARNINGS
 #endif
+#include "lapack_eigen.hpp"
 #include <unsupported/Eigen/MatrixFunctions>
 #include "ExpMatrix.hpp"
 #include "ClassName.hpp"
@@ -65,8 +66,8 @@ namespace Nelson {
             {
                 ArrayOf R(A);
                 R.ensureSingleOwner();
-                doublecomplex* Az = reinterpret_cast<doublecomplex*>((single*)A.getDataPointer());
-                doublecomplex* Rz = reinterpret_cast<doublecomplex*>((single*)R.getDataPointer());
+                doublecomplex* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
+                doublecomplex* Rz = reinterpret_cast<doublecomplex*>((double*)R.getDataPointer());
                 Eigen::Map<Eigen::MatrixXcd> matA(Az, (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
                 Eigen::Map<Eigen::MatrixXcd> matR(Rz, (Eigen::Index)R.getDimensions().getRows(), (Eigen::Index)R.getDimensions().getColumns());
                 if (!matA.allFinite())
@@ -76,7 +77,17 @@ namespace Nelson {
                 }
                 else
                 {
-                    matR = matA.exp();
+                    // [V, D] = eig(A);
+                    // expm = V * diag(exp(diag(D))) * inv(V);
+                    Eigen::ComplexEigenSolver<Eigen::MatrixXcd> es(matA);
+                    auto evects = es.eigenvectors();
+                    auto evals = es.eigenvalues();
+                    for (indexType i = 0; i < static_cast<indexType>(evals.rows()); ++i)
+                    {
+                        evals(i) = std::exp(evals(i));
+                    }
+                    auto evalsdiag = evals.asDiagonal();
+                    matR = evects * evalsdiag * evects.inverse();
                 }
                 if (R.allReal())
                 {
@@ -118,7 +129,17 @@ namespace Nelson {
                 }
                 else
                 {
-                    matR = matA.exp();
+                    // [V, D] = eig(A);
+                    // expm = V * diag(exp(diag(D))) * inv(V);
+                    Eigen::ComplexEigenSolver<Eigen::MatrixXcf> es(matA);
+                    auto evects = es.eigenvectors();
+                    auto evals = es.eigenvalues();
+                    for (indexType i = 0; i < static_cast<indexType>(evals.rows()); ++i)
+                    {
+                        evals(i) = std::exp(evals(i));
+                    }
+                    auto evalsdiag = evals.asDiagonal();
+                    matR = evects * evalsdiag * evects.inverse();
                 }
                 if (R.allReal())
                 {

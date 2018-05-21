@@ -22,77 +22,77 @@
 //=============================================================================
 EvaluateInterface::EvaluateInterface()
 {
-	outputBuffer.clear();
+    outputBuffer.clear();
 }
 //=============================================================================
 EvaluateInterface::~EvaluateInterface()
 {
-	outputBuffer.clear();
+    outputBuffer.clear();
 }
 //=============================================================================
 std::wstring EvaluateInterface::getLine(std::wstring prompt)
 {
-	return L"";
+    return L"";
 }
 //=============================================================================
 std::string EvaluateInterface::getLine(std::string prompt)
 {
-	return "";
+    return "";
 }
 //=============================================================================
 std::wstring EvaluateInterface::getInput(std::wstring prompt)
 {
-	throw Exception(_W("input function not allowed from evalc."));
-	return L"";
+    throw Exception(_W("input function not allowed from evalc."));
+    return L"";
 }
 //=============================================================================
 size_t EvaluateInterface::getTerminalWidth()
 {
-	return WIDTH;
+    return WIDTH;
 }
 //=============================================================================
 void EvaluateInterface::outputMessage(std::wstring msg)
 {
-	outputBuffer.append(msg);
+    outputBuffer.append(msg);
 }
 //=============================================================================
 void EvaluateInterface::outputMessage(std::string msg)
 {
-	outputMessage(utf8_to_wstring(msg));
+    outputMessage(utf8_to_wstring(msg));
 }
 //=============================================================================
 void EvaluateInterface::errorMessage(std::wstring msg)
 {
-	outputMessage(msg);
+    outputMessage(msg);
 }
 //=============================================================================
 void EvaluateInterface::errorMessage(std::string msg)
 {
-	errorMessage(utf8_to_wstring(msg));
+    errorMessage(utf8_to_wstring(msg));
 }
 //=============================================================================
 void EvaluateInterface::warningMessage(std::wstring msg)
 {
-	outputMessage(msg);
+    outputMessage(msg);
 }
 //=============================================================================
 void EvaluateInterface::warningMessage(std::string msg)
 {
-	warningMessage(utf8_to_wstring(msg));
+    warningMessage(utf8_to_wstring(msg));
 }
 //=============================================================================
 void EvaluateInterface::clearTerminal()
 {
-	outputBuffer.clear();
+    outputBuffer.clear();
 }
 //=============================================================================
 bool EvaluateInterface::isAtPrompt()
 {
-	return false;
+    return false;
 }
 //=============================================================================
 std::wstring EvaluateInterface::getOutputBuffer()
 {
-	return outputBuffer;
+    return outputBuffer;
 }
 //=============================================================================
