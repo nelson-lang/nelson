@@ -77,6 +77,7 @@ private:
     bool handlePreviousCharKeyPress();
     bool handleUpKeyPress();
     bool handleDownKeyPress();
+	bool handleHomePress();
 
     bool replaceCurrentCommandLine(std::wstring newline);
     bool updateHistoryToken();

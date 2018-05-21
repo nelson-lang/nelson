@@ -301,6 +301,19 @@ bool QtTerminal::handleBackspaceKeyPress()
     return false;
 }
 //=============================================================================
+bool QtTerminal::handleHomePress()
+{
+	if (isInEditionZone())
+	{
+		QTextCursor cursor = QTextCursor(promptBlock);
+		cursor.movePosition(QTextCursor::StartOfBlock);
+		cursor.movePosition(QTextCursor::Right, QTextCursor::MoveAnchor, mPrompt.length());
+		setTextCursor(cursor);
+		return true;
+	}
+	return false;
+}
+//=============================================================================
 bool QtTerminal::handleUpKeyPress()
 {
     std::wstring line = Nelson::History::getPreviousLine();
@@ -333,46 +346,20 @@ void QtTerminal::keyPressEvent(QKeyEvent *event)
             return;
         }
     }
-    if (event->matches(QKeySequence::MoveToPreviousLine))
+	if (event->matches(QKeySequence::MoveToStartOfLine))
+	{
+        handleHomePress();
+		return;
+	}
+	else if (event->matches(QKeySequence::MoveToPreviousLine))
     {
-        /*
-        if (isInEditionZone())
-        {
-            QTextCursor cur = textCursor();
-            if (cur.positionInBlock() > mPrompt.length())
-            {
-        		handleDownKeyPress();
-                //QTextBrowser::keyPressEvent(event);
-            }
-        }
-        else
-        {
-            return;
-        }
-        */
-        handleUpKeyPress();
+		handleUpKeyPress();
         return;
     }
     else if (event->matches(QKeySequence::MoveToNextLine))
     {
-        handleDownKeyPress();
+		handleDownKeyPress();
         return;
-        /*
-
-        if (isInEditionZone())
-        {
-            QTextCursor cur = textCursor();
-            if (cur.positionInBlock() > mPrompt.length())
-            {
-        		handleUpKeyPress();
-                QTextBrowser::keyPressEvent(event);
-            }
-        }
-        else
-        {
-            return;
-        }
-        */
     }
     else if (event->matches(QKeySequence::MoveToPreviousChar))
     {
