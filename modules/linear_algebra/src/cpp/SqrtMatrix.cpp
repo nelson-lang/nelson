@@ -26,37 +26,37 @@
 //=============================================================================
 namespace Nelson {
     //=============================================================================
-	template <class T>
-	ArrayOf sqrtmComplex(ArrayOf &A)
-	{
-		ArrayOf R(A);
-		R.ensureSingleOwner();
-		std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)A.getDataPointer());
-		std::complex<T>* Rz = reinterpret_cast<std::complex<T>*>((T*)R.getDataPointer());
-		Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matA(Az, (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
-		Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matR(Rz, (Eigen::Index)R.getDimensions().getRows(), (Eigen::Index)R.getDimensions().getColumns());
-		if (!matA.allFinite())
-		{
-			throw Exception(_("Input must be finite."));
-		}
-		else
-		{
-			// [V, D] = eig(A);
-			// sqrtm = V * diag(sqrt(diag(D))) * inv(V);
-			Eigen::ComplexEigenSolver<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> solver(matA.cast<std::complex<T>>());
-			auto evects = solver.eigenvectors();
-			auto evals = solver.eigenvalues();
-			for (indexType i = 0; i < static_cast<indexType>(evals.rows()); ++i)
-			{
-				evals(i) = std::sqrt(evals(i));
-			}
-			auto evalsdiag = evals.asDiagonal();
-			matR = evects * evalsdiag * evects.inverse();
-		}
-		return R;
-	}
-	//=============================================================================
-	ArrayOf SqrtMatrix(ArrayOf A)
+    template <class T>
+    ArrayOf sqrtmComplex(ArrayOf &A)
+    {
+        ArrayOf R(A);
+        R.ensureSingleOwner();
+        std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)A.getDataPointer());
+        std::complex<T>* Rz = reinterpret_cast<std::complex<T>*>((T*)R.getDataPointer());
+        Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matA(Az, (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
+        Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matR(Rz, (Eigen::Index)R.getDimensions().getRows(), (Eigen::Index)R.getDimensions().getColumns());
+        if (!matA.allFinite())
+        {
+            throw Exception(_("Input must be finite."));
+        }
+        else
+        {
+            // [V, D] = eig(A);
+            // sqrtm = V * diag(sqrt(diag(D))) * inv(V);
+            Eigen::ComplexEigenSolver<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> solver(matA.template cast<std::complex<T>>());
+            auto evects = solver.eigenvectors();
+            auto evals = solver.eigenvalues();
+            for (indexType i = 0; i < static_cast<indexType>(evals.rows()); ++i)
+            {
+                evals(i) = std::sqrt(evals(i));
+            }
+            auto evalsdiag = evals.asDiagonal();
+            matR = evects * evalsdiag * evects.inverse();
+        }
+        return R;
+    }
+    //=============================================================================
+    ArrayOf SqrtMatrix(ArrayOf A)
     {
         bool isSupportedTypes = (A.getDataClass() == NLS_DOUBLE || A.getDataClass() == NLS_SINGLE ||
                                  A.getDataClass() == NLS_DCOMPLEX || A.getDataClass() == NLS_SCOMPLEX) && !A.isSparse();
@@ -68,39 +68,39 @@ namespace Nelson {
         {
             throw Exception(_("Square matrix expected."));
         }
-		if (A.isEmpty())
+        if (A.isEmpty())
         {
             ArrayOf res(A);
-			res.ensureSingleOwner();
+            res.ensureSingleOwner();
             return res;
         }
-		ArrayOf res;
-		if (A.getDataClass() == NLS_DOUBLE || A.getDataClass() == NLS_DCOMPLEX)
+        ArrayOf res;
+        if (A.getDataClass() == NLS_DOUBLE || A.getDataClass() == NLS_DCOMPLEX)
         {
             if (A.getDataClass() == NLS_DOUBLE)
             {
-				A.promoteType(NLS_DCOMPLEX);
-			}
-			res = sqrtmComplex<double>(A);
-			if (res.allReal())
-			{
-				res.promoteType(NLS_DOUBLE);
-			}
-		}
+                A.promoteType(NLS_DCOMPLEX);
+            }
+            res = sqrtmComplex<double>(A);
+            if (res.allReal())
+            {
+                res.promoteType(NLS_DOUBLE);
+            }
+        }
         else
         {
-			if (A.getDataClass() == NLS_SINGLE)
-			{
-				A.promoteType(NLS_SCOMPLEX);
-			}
-			res = sqrtmComplex<single>(A);
-			if (res.allReal())
-			{
-				res.promoteType(NLS_SINGLE);
-			}
-		}
-		return res;
-	}
+            if (A.getDataClass() == NLS_SINGLE)
+            {
+                A.promoteType(NLS_SCOMPLEX);
+            }
+            res = sqrtmComplex<single>(A);
+            if (res.allReal())
+            {
+                res.promoteType(NLS_SINGLE);
+            }
+        }
+        return res;
+    }
     //=============================================================================
 }
 //=============================================================================

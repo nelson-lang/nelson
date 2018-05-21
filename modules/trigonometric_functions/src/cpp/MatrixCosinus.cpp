@@ -22,28 +22,28 @@
 #include "ClassName.hpp"
 //=============================================================================
 namespace Nelson {
-	template <class T>
-	ArrayOf cosmComplex(ArrayOf &A)
-	{
-		ArrayOf R(A);
-		R.ensureSingleOwner();
-		std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)A.getDataPointer());
-		std::complex<T>* Rz = reinterpret_cast<std::complex<T>*>((T*)R.getDataPointer());
-		Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matA(Az, (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
-		Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matR(Rz, (Eigen::Index)R.getDimensions().getRows(), (Eigen::Index)R.getDimensions().getColumns());
-		// [V, D] = eig(A);
-		// cosm = V * diag(cos(diag(D))) * inv(V);
-		Eigen::ComplexEigenSolver<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> solver(matA.cast<std::complex<T>>());
-		auto evects = solver.eigenvectors();
-		auto evals = solver.eigenvalues();
-		for (indexType i = 0; i < static_cast<indexType>(evals.rows()); ++i)
-		{
-			evals(i) = cos(evals(i));
-		}
-		auto evalsdiag = evals.asDiagonal();
-		matR = evects * evalsdiag * evects.inverse();
-		return R;
-	}
+    template <class T>
+    ArrayOf cosmComplex(ArrayOf &A)
+    {
+        ArrayOf R(A);
+        R.ensureSingleOwner();
+        std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)A.getDataPointer());
+        std::complex<T>* Rz = reinterpret_cast<std::complex<T>*>((T*)R.getDataPointer());
+        Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matA(Az, (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
+        Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matR(Rz, (Eigen::Index)R.getDimensions().getRows(), (Eigen::Index)R.getDimensions().getColumns());
+        // [V, D] = eig(A);
+        // cosm = V * diag(cos(diag(D))) * inv(V);
+        Eigen::ComplexEigenSolver<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> solver(matA.template cast<std::complex<T>>());
+        auto evects = solver.eigenvectors();
+        auto evals = solver.eigenvalues();
+        for (indexType i = 0; i < static_cast<indexType>(evals.rows()); ++i)
+        {
+            evals(i) = cos(evals(i));
+        }
+        auto evalsdiag = evals.asDiagonal();
+        matR = evects * evalsdiag * evects.inverse();
+        return R;
+    }
     //=============================================================================
     ArrayOf MatrixCos(ArrayOf A)
     {
@@ -81,7 +81,7 @@ namespace Nelson {
             break;
             case NLS_SCOMPLEX:
             {
-				ArrayOf R = cosmComplex<single>(A);
+                ArrayOf R = cosmComplex<single>(A);
                 if (R.allReal())
                 {
                     R.promoteType(NLS_SINGLE);
@@ -90,29 +90,29 @@ namespace Nelson {
             }
             case NLS_SINGLE:
             {
-				A.promoteType(NLS_SCOMPLEX);
-				ArrayOf R = cosmComplex<single>(A);
-				R.promoteType(NLS_SINGLE);
-				return R;
-			}
+                A.promoteType(NLS_SCOMPLEX);
+                ArrayOf R = cosmComplex<single>(A);
+                R.promoteType(NLS_SINGLE);
+                return R;
+            }
             break;
             case NLS_DCOMPLEX:
             {
-				ArrayOf R = cosmComplex<double>(A);
-				if (R.allReal())
-				{
-					R.promoteType(NLS_DOUBLE);
-				}
-				return R;
-			}
+                ArrayOf R = cosmComplex<double>(A);
+                if (R.allReal())
+                {
+                    R.promoteType(NLS_DOUBLE);
+                }
+                return R;
+            }
             break;
             case NLS_DOUBLE:
             {
-				A.promoteType(NLS_DCOMPLEX);
-				ArrayOf R = cosmComplex<double>(A);
-				R.promoteType(NLS_DOUBLE);
-				return R;
-			}
+                A.promoteType(NLS_DCOMPLEX);
+                ArrayOf R = cosmComplex<double>(A);
+                R.promoteType(NLS_DOUBLE);
+                return R;
+            }
             break;
             default:
             {

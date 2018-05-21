@@ -77,17 +77,17 @@ namespace Nelson {
                 }
                 else
                 {
-					// [V, D] = eig(A);
-					// expm = V * diag(exp(diag(D))) * inv(V);
-					Eigen::ComplexEigenSolver<Eigen::MatrixXcd> es(matA);
-					auto evects = es.eigenvectors();
-					auto evals = es.eigenvalues();
-					for (indexType i = 0; i < static_cast<indexType>(evals.rows()); ++i)
-					{
-						evals(i) = std::exp(evals(i));
-					}
-					auto evalsdiag = evals.asDiagonal();
-					matR = evects * evalsdiag * evects.inverse();
+                    // [V, D] = eig(A);
+                    // expm = V * diag(exp(diag(D))) * inv(V);
+                    Eigen::ComplexEigenSolver<Eigen::MatrixXcd> es(matA);
+                    auto evects = es.eigenvectors();
+                    auto evals = es.eigenvalues();
+                    for (indexType i = 0; i < static_cast<indexType>(evals.rows()); ++i)
+                    {
+                        evals(i) = std::exp(evals(i));
+                    }
+                    auto evalsdiag = evals.asDiagonal();
+                    matR = evects * evalsdiag * evects.inverse();
                 }
                 if (R.allReal())
                 {
@@ -129,18 +129,18 @@ namespace Nelson {
                 }
                 else
                 {
-					// [V, D] = eig(A);
-					// expm = V * diag(exp(diag(D))) * inv(V);
-					Eigen::ComplexEigenSolver<Eigen::MatrixXcf> es(matA);
-					auto evects = es.eigenvectors();
-					auto evals = es.eigenvalues();
-					for (indexType i = 0; i < static_cast<indexType>(evals.rows()); ++i)
-					{
-						evals(i) = std::exp(evals(i));
-					}
-					auto evalsdiag = evals.asDiagonal();
-					matR = evects * evalsdiag * evects.inverse();
-				}
+                    // [V, D] = eig(A);
+                    // expm = V * diag(exp(diag(D))) * inv(V);
+                    Eigen::ComplexEigenSolver<Eigen::MatrixXcf> es(matA);
+                    auto evects = es.eigenvectors();
+                    auto evals = es.eigenvalues();
+                    for (indexType i = 0; i < static_cast<indexType>(evals.rows()); ++i)
+                    {
+                        evals(i) = std::exp(evals(i));
+                    }
+                    auto evalsdiag = evals.asDiagonal();
+                    matR = evects * evalsdiag * evects.inverse();
+                }
                 if (R.allReal())
                 {
                     R.promoteType(NLS_SINGLE);
