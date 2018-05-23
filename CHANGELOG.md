@@ -5,6 +5,9 @@
     - add overloadbasictypes function to change default behavior.
 
 
+## 0.2.5 (2018-05-23)
+
+
 Features:
 ---------
 
