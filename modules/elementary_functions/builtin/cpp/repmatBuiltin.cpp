@@ -26,9 +26,9 @@ ArrayOfVector Nelson::ElementaryFunctionsGateway::repmatBuiltin(Evaluator* eval,
 {
     // R = repmat(A, m)
     // R = repmat(A, m, n)
-    // R = repmat(A, m, n, p …)
+    // R = repmat(A, m, n, p)
     // R = repmat(A, [m n])
-    // R = repmat(A, [m n p …])
+    // R = repmat(A, [m n p])
     ArrayOfVector retval;
     if (argIn.size() < 2)
     {
