@@ -34,7 +34,7 @@ template <class T> class SymbolTable
 private:
     typedef std::string key_type;
     typedef T value_type;
-    std::vector<std::pair<key_type, value_type>> symbolMap;
+    std::vector<std::pair<key_type, value_type> > symbolMap;
     //=============================================================================
 public:
     //=============================================================================
