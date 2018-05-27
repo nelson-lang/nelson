@@ -31,8 +31,7 @@ using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"single";
 //=============================================================================
-static const nlsGateway gateway[] =
-{
+static const nlsGateway gateway[] = {
     { "single", Nelson::SingleGateway::singleBuiltin, 1, 1 },
     { "single_disp", Nelson::SingleGateway::single_dispBuiltin, 0, 1 },
     { "ndarraysingle_disp", Nelson::SingleGateway::ndarraysingle_dispBuiltin, 0, 1 },
@@ -41,7 +40,8 @@ static const nlsGateway gateway[] =
     { "single_isequal", Nelson::SingleGateway::single_isequalBuiltin, 1, 2 },
     { "single_isequaln", Nelson::SingleGateway::single_isequalnBuiltin, 1, 2 },
     { "single_colon_single", Nelson::SingleGateway::single_colon_singleBuiltin, 1, 2 },
-    { "colon_single_single_single", Nelson::SingleGateway::colon_single_single_singleBuiltin, 1, 3 },
+    { "colon_single_single_single", Nelson::SingleGateway::colon_single_single_singleBuiltin, 1,
+        3 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

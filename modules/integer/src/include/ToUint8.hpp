@@ -18,10 +18,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsInteger_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsInteger_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSINTEGER_IMPEXP ArrayOf ToUint8(ArrayOf a);
+NLSINTEGER_IMPEXP ArrayOf
+ToUint8(ArrayOf a);
 }
 //=============================================================================

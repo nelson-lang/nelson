@@ -18,10 +18,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
 #include "nlsOs_functions_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    NLSOS_FUNCTIONS_IMPEXP bool AddPathToEnvironmentVariable(std::wstring envVar, std::wstring pathToAdd);
+NLSOS_FUNCTIONS_IMPEXP bool
+AddPathToEnvironmentVariable(std::wstring envVar, std::wstring pathToAdd);
 }
 //=============================================================================

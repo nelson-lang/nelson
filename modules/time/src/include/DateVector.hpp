@@ -21,7 +21,8 @@
 #include "nlsTime_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSTIME_IMPEXP void DateVector(double dateSerial, double &Y, double &M, double &D, double &H, double &MN, double &S, bool rf = false);
+NLSTIME_IMPEXP void
+DateVector(double dateSerial, double& Y, double& M, double& D, double& H, double& MN, double& S,
+    bool rf = false);
 }
 //=============================================================================
-

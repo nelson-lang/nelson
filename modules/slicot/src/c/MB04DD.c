@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,15 +10,15 @@
 static integer c__1 = 1;
 static doublereal c_b29 = -1.;
 
-EXPORTSYMBOL /* Subroutine */ int mb04dd_(job, n, a, lda, qg, ldqg, ilo, scale, info, job_len)
-char *job;
-integer *n;
-doublereal *a;
-integer *lda;
-doublereal *qg;
+EXPORTSYMBOL /* Subroutine */ int mb04dd_(
+    job, n, a, lda, qg, ldqg, ilo, scale, info, job_len) char* job;
+integer* n;
+doublereal* a;
+integer* lda;
+doublereal* qg;
 integer *ldqg, *ilo;
-doublereal *scale;
-integer *info;
+doublereal* scale;
+integer* info;
 ftnlen job_len;
 {
     /* System generated locals */
@@ -153,117 +153,100 @@ ftnlen job_len;
     *info = 0;
     lperm = lsame_(job, "P", 1L, 1L) || lsame_(job, "B", 1L, 1L);
     lscal = lsame_(job, "S", 1L, 1L) || lsame_(job, "B", 1L, 1L);
-    if (! lperm && ! lscal && ! lsame_(job, "N", 1L, 1L))
-    {
+    if (!lperm && !lscal && !lsame_(job, "N", 1L, 1L)) {
         *info = -1;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -2;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -4;
-    }
-    else if (*ldqg < max(1,*n))
-    {
+    } else if (*ldqg < max(1, *n)) {
         *info = -6;
     }
     /*     Return if there were illegal values. */
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB04DD", &i__1, 6L);
         return 0;
     }
     *ilo = 1;
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
+    if (*n == 0) {
         return 0;
     }
-    if (! lperm && ! lscal)
-    {
+    if (!lperm && !lscal) {
         i__1 = *n;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             scale[i__] = 1.;
             /* L10: */
         }
         return 0;
     }
     /*     Permutations to isolate eigenvalues if possible. */
-    if (lperm)
-    {
+    if (lperm) {
         iloold = 0;
         /*        WHILE ( ILO.NE.ILOOLD ) */
-L20:
-        if (*ilo != iloold)
-        {
+    L20:
+        if (*ilo != iloold) {
             iloold = *ilo;
             /*           Scan columns ILO .. N. */
             i__ = *ilo;
             /*           WHILE ( I.LE.N .AND. ILO.EQ.ILOOLD ) */
-L30:
-            if (i__ <= *n && *ilo == iloold)
-            {
+        L30:
+            if (i__ <= *n && *ilo == iloold) {
                 i__1 = i__ - 1;
-                for (j = *ilo; j <= i__1; ++j)
-                {
-                    if (a[j + i__ * a_dim1] != 0.)
-                    {
+                for (j = *ilo; j <= i__1; ++j) {
+                    if (a[j + i__ * a_dim1] != 0.) {
                         ++i__;
                         goto L30;
                     }
                     /* L40: */
                 }
                 i__1 = *n;
-                for (j = i__ + 1; j <= i__1; ++j)
-                {
-                    if (a[j + i__ * a_dim1] != 0.)
-                    {
+                for (j = i__ + 1; j <= i__1; ++j) {
+                    if (a[j + i__ * a_dim1] != 0.) {
                         ++i__;
                         goto L30;
                     }
                     /* L50: */
                 }
                 i__1 = i__;
-                for (j = *ilo; j <= i__1; ++j)
-                {
-                    if (qg[i__ + j * qg_dim1] != 0.)
-                    {
+                for (j = *ilo; j <= i__1; ++j) {
+                    if (qg[i__ + j * qg_dim1] != 0.) {
                         ++i__;
                         goto L30;
                     }
                     /* L60: */
                 }
                 i__1 = *n;
-                for (j = i__ + 1; j <= i__1; ++j)
-                {
-                    if (qg[j + i__ * qg_dim1] != 0.)
-                    {
+                for (j = i__ + 1; j <= i__1; ++j) {
+                    if (qg[j + i__ * qg_dim1] != 0.) {
                         ++i__;
                         goto L30;
                     }
                     /* L70: */
                 }
                 /*              Exchange columns/rows ILO <-> I. */
-                scale[*ilo] = (doublereal) i__;
-                if (*ilo != i__)
-                {
+                scale[*ilo] = (doublereal)i__;
+                if (*ilo != i__) {
                     dswap_(n, &a[*ilo * a_dim1 + 1], &c__1, &a[i__ * a_dim1 + 1], &c__1);
                     i__1 = *n - *ilo + 1;
                     dswap_(&i__1, &a[*ilo + *ilo * a_dim1], lda, &a[i__ + *ilo * a_dim1], lda);
-                    dswap_(&c__1, &qg[i__ + *ilo * qg_dim1], ldqg, &qg[*ilo + *ilo * qg_dim1], ldqg);
+                    dswap_(
+                        &c__1, &qg[i__ + *ilo * qg_dim1], ldqg, &qg[*ilo + *ilo * qg_dim1], ldqg);
                     i__1 = *n - i__ + 1;
-                    dswap_(&i__1, &qg[i__ + i__ * qg_dim1], &c__1, &qg[i__ + *ilo * qg_dim1], &c__1);
+                    dswap_(
+                        &i__1, &qg[i__ + i__ * qg_dim1], &c__1, &qg[i__ + *ilo * qg_dim1], &c__1);
                     i__1 = i__ - *ilo;
-                    dswap_(&i__1, &qg[*ilo + *ilo * qg_dim1], &c__1, &qg[i__ + *ilo * qg_dim1], ldqg);
-                    dswap_(ilo, &qg[(i__ + 1) * qg_dim1 + 1], &c__1, &qg[(*ilo + 1) * qg_dim1 + 1], &c__1);
+                    dswap_(
+                        &i__1, &qg[*ilo + *ilo * qg_dim1], &c__1, &qg[i__ + *ilo * qg_dim1], ldqg);
+                    dswap_(ilo, &qg[(i__ + 1) * qg_dim1 + 1], &c__1, &qg[(*ilo + 1) * qg_dim1 + 1],
+                        &c__1);
                     i__1 = *n - i__ + 1;
-                    dswap_(&i__1, &qg[i__ + (i__ + 1) * qg_dim1], ldqg, &qg[*ilo + (i__ + 1) * qg_dim1], ldqg);
+                    dswap_(&i__1, &qg[i__ + (i__ + 1) * qg_dim1], ldqg,
+                        &qg[*ilo + (i__ + 1) * qg_dim1], ldqg);
                     i__1 = i__ - *ilo;
-                    dswap_(&i__1, &qg[*ilo + (*ilo + 1) * qg_dim1], ldqg, &qg[*ilo + (i__ + 1) * qg_dim1], &c__1);
+                    dswap_(&i__1, &qg[*ilo + (*ilo + 1) * qg_dim1], ldqg,
+                        &qg[*ilo + (i__ + 1) * qg_dim1], &c__1);
                 }
                 ++(*ilo);
             }
@@ -271,50 +254,41 @@ L30:
             /*           Scan columns N+ILO .. 2*N. */
             i__ = *ilo;
             /*           WHILE ( I.LE.N .AND. ILO.EQ.ILOOLD ) */
-L80:
-            if (i__ <= *n && *ilo == iloold)
-            {
+        L80:
+            if (i__ <= *n && *ilo == iloold) {
                 i__1 = i__ - 1;
-                for (j = *ilo; j <= i__1; ++j)
-                {
-                    if (a[i__ + j * a_dim1] != 0.)
-                    {
+                for (j = *ilo; j <= i__1; ++j) {
+                    if (a[i__ + j * a_dim1] != 0.) {
                         ++i__;
                         goto L80;
                     }
                     /* L90: */
                 }
                 i__1 = *n;
-                for (j = i__ + 1; j <= i__1; ++j)
-                {
-                    if (a[i__ + j * a_dim1] != 0.)
-                    {
+                for (j = i__ + 1; j <= i__1; ++j) {
+                    if (a[i__ + j * a_dim1] != 0.) {
                         ++i__;
                         goto L80;
                     }
                     /* L100: */
                 }
                 i__1 = i__;
-                for (j = *ilo; j <= i__1; ++j)
-                {
-                    if (qg[j + (i__ + 1) * qg_dim1] != 0.)
-                    {
+                for (j = *ilo; j <= i__1; ++j) {
+                    if (qg[j + (i__ + 1) * qg_dim1] != 0.) {
                         ++i__;
                         goto L80;
                     }
                     /* L110: */
                 }
                 i__1 = *n;
-                for (j = i__ + 1; j <= i__1; ++j)
-                {
-                    if (qg[i__ + (j + 1) * qg_dim1] != 0.)
-                    {
+                for (j = i__ + 1; j <= i__1; ++j) {
+                    if (qg[i__ + (j + 1) * qg_dim1] != 0.) {
                         ++i__;
                         goto L80;
                     }
                     /* L120: */
                 }
-                scale[*ilo] = (doublereal) (*n + i__);
+                scale[*ilo] = (doublereal)(*n + i__);
                 /*              Exchange columns/rows I <-> I+N with a symplectic */
                 /*              generalized permutation. */
                 i__1 = i__ - *ilo;
@@ -322,7 +296,8 @@ L80:
                 i__1 = i__ - *ilo;
                 dscal_(&i__1, &c_b29, &a[i__ + *ilo * a_dim1], lda);
                 i__1 = *n - i__;
-                dswap_(&i__1, &a[i__ + (i__ + 1) * a_dim1], lda, &qg[i__ + 1 + i__ * qg_dim1], &c__1);
+                dswap_(
+                    &i__1, &a[i__ + (i__ + 1) * a_dim1], lda, &qg[i__ + 1 + i__ * qg_dim1], &c__1);
                 i__1 = *n - i__;
                 dscal_(&i__1, &c_b29, &a[i__ + (i__ + 1) * a_dim1], lda);
                 i__1 = i__ - 1;
@@ -330,7 +305,8 @@ L80:
                 i__1 = i__ - 1;
                 dscal_(&i__1, &c_b29, &a[i__ * a_dim1 + 1], &c__1);
                 i__1 = *n - i__;
-                dswap_(&i__1, &a[i__ + 1 + i__ * a_dim1], &c__1, &qg[i__ + (i__ + 2) * qg_dim1], ldqg);
+                dswap_(
+                    &i__1, &a[i__ + 1 + i__ * a_dim1], &c__1, &qg[i__ + (i__ + 2) * qg_dim1], ldqg);
                 i__1 = *n - i__;
                 dscal_(&i__1, &c_b29, &a[i__ + 1 + i__ * a_dim1], &c__1);
                 a[i__ + i__ * a_dim1] = -a[i__ + i__ * a_dim1];
@@ -338,21 +314,26 @@ L80:
                 qg[i__ + i__ * qg_dim1] = -qg[i__ + (i__ + 1) * qg_dim1];
                 qg[i__ + (i__ + 1) * qg_dim1] = -temp;
                 /*              Exchange columns/rows ILO <-> I. */
-                if (*ilo != i__)
-                {
+                if (*ilo != i__) {
                     dswap_(n, &a[*ilo * a_dim1 + 1], &c__1, &a[i__ * a_dim1 + 1], &c__1);
                     i__1 = *n - *ilo + 1;
                     dswap_(&i__1, &a[*ilo + *ilo * a_dim1], lda, &a[i__ + *ilo * a_dim1], lda);
-                    dswap_(&c__1, &qg[i__ + *ilo * qg_dim1], ldqg, &qg[*ilo + *ilo * qg_dim1], ldqg);
+                    dswap_(
+                        &c__1, &qg[i__ + *ilo * qg_dim1], ldqg, &qg[*ilo + *ilo * qg_dim1], ldqg);
                     i__1 = *n - i__ + 1;
-                    dswap_(&i__1, &qg[i__ + i__ * qg_dim1], &c__1, &qg[i__ + *ilo * qg_dim1], &c__1);
+                    dswap_(
+                        &i__1, &qg[i__ + i__ * qg_dim1], &c__1, &qg[i__ + *ilo * qg_dim1], &c__1);
                     i__1 = i__ - *ilo;
-                    dswap_(&i__1, &qg[*ilo + *ilo * qg_dim1], &c__1, &qg[i__ + *ilo * qg_dim1], ldqg);
-                    dswap_(ilo, &qg[(i__ + 1) * qg_dim1 + 1], &c__1, &qg[(*ilo + 1) * qg_dim1 + 1], &c__1);
+                    dswap_(
+                        &i__1, &qg[*ilo + *ilo * qg_dim1], &c__1, &qg[i__ + *ilo * qg_dim1], ldqg);
+                    dswap_(ilo, &qg[(i__ + 1) * qg_dim1 + 1], &c__1, &qg[(*ilo + 1) * qg_dim1 + 1],
+                        &c__1);
                     i__1 = *n - i__ + 1;
-                    dswap_(&i__1, &qg[i__ + (i__ + 1) * qg_dim1], ldqg, &qg[*ilo + (i__ + 1) * qg_dim1], ldqg);
+                    dswap_(&i__1, &qg[i__ + (i__ + 1) * qg_dim1], ldqg,
+                        &qg[*ilo + (i__ + 1) * qg_dim1], ldqg);
                     i__1 = i__ - *ilo;
-                    dswap_(&i__1, &qg[*ilo + (*ilo + 1) * qg_dim1], ldqg, &qg[*ilo + (i__ + 1) * qg_dim1], &c__1);
+                    dswap_(&i__1, &qg[*ilo + (*ilo + 1) * qg_dim1], ldqg,
+                        &qg[*ilo + (i__ + 1) * qg_dim1], &c__1);
                 }
                 ++(*ilo);
             }
@@ -362,14 +343,12 @@ L80:
         /*        END WHILE 20 */
     }
     i__1 = *n;
-    for (i__ = *ilo; i__ <= i__1; ++i__)
-    {
+    for (i__ = *ilo; i__ <= i__1; ++i__) {
         scale[i__] = 1.;
         /* L130: */
     }
     /*     Scale to reduce the 1-norm of the remaining blocks. */
-    if (lscal)
-    {
+    if (lscal) {
         sclfac = dlamch_("B", 1L);
         sfmin1 = dlamch_("S", 1L) / dlamch_("P", 1L);
         sfmax1 = 1. / sfmin1;
@@ -378,77 +357,78 @@ L80:
         /*        Scale the rows and columns one at a time to minimize the */
         /*        1-norm of the remaining Hamiltonian submatrix. */
         /*        Stop when the 1-norm is very roughly minimal. */
-L140:
+    L140:
         conv = TRUE_;
         i__1 = *n;
-        for (i__ = *ilo; i__ <= i__1; ++i__)
-        {
+        for (i__ = *ilo; i__ <= i__1; ++i__) {
             /*              Compute 1-norm of row and column I without diagonal */
             /*              elements. */
             i__2 = i__ - *ilo;
             i__3 = *n - i__;
             i__4 = i__ - *ilo;
             i__5 = *n - i__;
-            r__ = dasum_(&i__2, &a[i__ + *ilo * a_dim1], lda) + dasum_(&i__3, &a[i__ + (i__ + 1) * a_dim1], lda) + dasum_(&i__4, &qg[*ilo + (i__ + 1) * qg_dim1], &c__1) + dasum_(&i__5, &qg[i__ + (i__ + 2) * qg_dim1], ldqg);
+            r__ = dasum_(&i__2, &a[i__ + *ilo * a_dim1], lda)
+                + dasum_(&i__3, &a[i__ + (i__ + 1) * a_dim1], lda)
+                + dasum_(&i__4, &qg[*ilo + (i__ + 1) * qg_dim1], &c__1)
+                + dasum_(&i__5, &qg[i__ + (i__ + 2) * qg_dim1], ldqg);
             i__2 = i__ - *ilo;
             i__3 = *n - i__;
             i__4 = i__ - *ilo;
             i__5 = *n - i__;
-            c__ = dasum_(&i__2, &a[*ilo + i__ * a_dim1], &c__1) + dasum_(&i__3, &a[i__ + 1 + i__ * a_dim1], &c__1) + dasum_(&i__4, &qg[i__ + *ilo * qg_dim1], ldqg) + dasum_(&i__5, &qg[i__ + 1 + i__ * qg_dim1], &c__1);
+            c__ = dasum_(&i__2, &a[*ilo + i__ * a_dim1], &c__1)
+                + dasum_(&i__3, &a[i__ + 1 + i__ * a_dim1], &c__1)
+                + dasum_(&i__4, &qg[i__ + *ilo * qg_dim1], ldqg)
+                + dasum_(&i__5, &qg[i__ + 1 + i__ * qg_dim1], &c__1);
             qii = (d__1 = qg[i__ + i__ * qg_dim1], abs(d__1));
             gii = (d__1 = qg[i__ + (i__ + 1) * qg_dim1], abs(d__1));
             /*              Compute inf-norms of row and column I. */
             i__2 = *n - *ilo + 1;
             ic = idamax_(&i__2, &a[i__ + *ilo * a_dim1], lda);
             maxr = (d__1 = a[i__ + (ic + *ilo - 1) * a_dim1], abs(d__1));
-            if (i__ > 1)
-            {
+            if (i__ > 1) {
                 i__2 = i__ - 1;
                 ic = idamax_(&i__2, &qg[(i__ + 1) * qg_dim1 + 1], &c__1);
                 /* Computing MAX */
                 d__2 = maxr, d__3 = (d__1 = qg[ic + (i__ + 1) * qg_dim1], abs(d__1));
-                maxr = max(d__2,d__3);
+                maxr = max(d__2, d__3);
             }
-            if (*n > i__)
-            {
+            if (*n > i__) {
                 i__2 = *n - i__;
                 ic = idamax_(&i__2, &qg[i__ + (i__ + 2) * qg_dim1], ldqg);
                 /* Computing MAX */
                 d__2 = maxr, d__3 = (d__1 = qg[i__ + (ic + i__ + 1) * qg_dim1], abs(d__1));
-                maxr = max(d__2,d__3);
+                maxr = max(d__2, d__3);
             }
             ic = idamax_(n, &a[i__ * a_dim1 + 1], &c__1);
             maxc = (d__1 = a[ic + i__ * a_dim1], abs(d__1));
-            if (i__ > *ilo)
-            {
+            if (i__ > *ilo) {
                 i__2 = i__ - *ilo;
                 ic = idamax_(&i__2, &qg[i__ + *ilo * qg_dim1], ldqg);
                 /* Computing MAX */
                 d__2 = maxc, d__3 = (d__1 = qg[i__ + (ic + *ilo - 1) * qg_dim1], abs(d__1));
-                maxc = max(d__2,d__3);
+                maxc = max(d__2, d__3);
             }
-            if (*n > i__)
-            {
+            if (*n > i__) {
                 i__2 = *n - i__;
                 ic = idamax_(&i__2, &qg[i__ + 1 + i__ * qg_dim1], &c__1);
                 /* Computing MAX */
                 d__2 = maxc, d__3 = (d__1 = qg[ic + i__ + i__ * qg_dim1], abs(d__1));
-                maxc = max(d__2,d__3);
+                maxc = max(d__2, d__3);
             }
-            if (c__ + qii == 0. || r__ + gii == 0.)
-            {
+            if (c__ + qii == 0. || r__ + gii == 0.) {
                 goto L170;
             }
             f = 1.;
-L150:
+        L150:
             /* Computing MAX */
-            d__1 = f * sclfac, d__2 = c__ * sclfac, d__1 = max(d__1,d__2), d__2 = maxc * sclfac, d__1 = max(d__1,d__2), d__2 = qii * sclfac * sclfac;
+            d__1 = f * sclfac, d__2 = c__ * sclfac, d__1 = max(d__1, d__2), d__2 = maxc * sclfac,
+            d__1 = max(d__1, d__2), d__2 = qii * sclfac * sclfac;
             /* Computing MIN */
             /* Computing MAX */
             d__5 = maxr / sclfac, d__6 = gii / sclfac / sclfac;
-            d__3 = (r__ + gii / sclfac) / sclfac, d__4 = max(d__5,d__6);
-            if ((r__ + gii / sclfac) / sclfac >= (c__ + qii * sclfac) * sclfac && max(d__1,d__2) < sfmax2 && min(d__3,d__4) > sfmin2)
-            {
+            d__3 = (r__ + gii / sclfac) / sclfac, d__4 = max(d__5, d__6);
+            if ((r__ + gii / sclfac) / sclfac >= (c__ + qii * sclfac) * sclfac
+                && max(d__1, d__2) < sfmax2 && min(d__3, d__4) > sfmin2) {
                 f *= sclfac;
                 c__ *= sclfac;
                 qii = qii * sclfac * sclfac;
@@ -458,15 +438,17 @@ L150:
                 maxr /= sclfac;
                 goto L150;
             }
-L160:
+        L160:
             /* Computing MAX */
-            d__1 = r__ * sclfac, d__2 = maxr * sclfac, d__1 = max(d__1,d__2), d__2 = gii * sclfac * sclfac;
+            d__1 = r__ * sclfac, d__2 = maxr * sclfac, d__1 = max(d__1, d__2),
+            d__2 = gii * sclfac * sclfac;
             /* Computing MIN */
             /* Computing MAX */
             d__5 = maxc / sclfac, d__6 = qii / sclfac / sclfac;
-            d__3 = f / sclfac, d__4 = (c__ + qii / sclfac) / sclfac, d__3 = min(d__3,d__4), d__4 = max(d__5,d__6);
-            if ((r__ + gii * sclfac) * sclfac <= (c__ + qii / sclfac) / sclfac && max(d__1,d__2) < sfmax2 && min(d__3,d__4) > sfmin2)
-            {
+            d__3 = f / sclfac, d__4 = (c__ + qii / sclfac) / sclfac, d__3 = min(d__3, d__4),
+            d__4 = max(d__5, d__6);
+            if ((r__ + gii * sclfac) * sclfac <= (c__ + qii / sclfac) / sclfac
+                && max(d__1, d__2) < sfmax2 && min(d__3, d__4) > sfmin2) {
                 f /= sclfac;
                 c__ /= sclfac;
                 qii = qii / sclfac / sclfac;
@@ -477,19 +459,14 @@ L160:
                 goto L160;
             }
             /*              Now balance if necessary. */
-            if (f != 1.)
-            {
-                if (f < 1. && scale[i__] < 1.)
-                {
-                    if (f * scale[i__] <= sfmin1)
-                    {
+            if (f != 1.) {
+                if (f < 1. && scale[i__] < 1.) {
+                    if (f * scale[i__] <= sfmin1) {
                         goto L170;
                     }
                 }
-                if (f > 1. && scale[i__] > 1.)
-                {
-                    if (scale[i__] >= sfmax1 / f)
-                    {
+                if (f > 1. && scale[i__] > 1.) {
+                    if (scale[i__] >= sfmax1 / f) {
                         goto L170;
                     }
                 }
@@ -514,15 +491,12 @@ L160:
                 i__2 = *n - i__;
                 dscal_(&i__2, &f, &qg[i__ + 1 + i__ * qg_dim1], &c__1);
             }
-L170:
-            ;
+        L170:;
         }
-        if (! conv)
-        {
+        if (!conv) {
             goto L140;
         }
     }
     return 0;
     /* *** Last line of MB04DD *** */
 } /* mb04dd_ */
-

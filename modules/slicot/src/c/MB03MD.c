@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,8 +9,9 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int mb03md_(n, l, theta, q, e, q2, e2, pivmin, tol, reltol, iwarn, info)
-integer *n, *l;
+EXPORTSYMBOL /* Subroutine */ int mb03md_(
+    n, l, theta, q, e, q2, e2, pivmin, tol, reltol, iwarn, info) integer *n,
+    *l;
 doublereal *theta, *q, *e, *q2, *e2, *pivmin, *tol, *reltol;
 integer *iwarn, *info;
 {
@@ -196,45 +197,34 @@ integer *iwarn, *info;
     /* Function Body */
     *iwarn = 0;
     *info = 0;
-    if (*n < 0)
-    {
+    if (*n < 0) {
         *info = -1;
-    }
-    else if (*l < 0 || *l > *n)
-    {
+    } else if (*l < 0 || *l > *n) {
         *info = -2;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("MB03MD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
+    if (*n == 0) {
         return 0;
     }
     /*     Step 1: initialisation of THETA. */
     /*             ----------------------- */
-    if (*l == 0)
-    {
+    if (*l == 0) {
         *theta = 0.;
     }
-    if (*theta < 0.)
-    {
-        if (*l == 1)
-        {
+    if (*theta < 0.) {
+        if (*l == 1) {
             /*           An upper bound which is close if S(N-1) >> S(N): */
             *theta = mb03my_(n, &q[1], &c__1);
-            if (*n == 1)
-            {
+            if (*n == 1) {
                 return 0;
             }
-        }
-        else
-        {
+        } else {
             /*           An experimentally established estimate which is good if */
             /*           S(N-L) >> S(N-L+1): */
             *theta = (d__1 = q[*n - *l + 1], abs(d__1));
@@ -243,8 +233,7 @@ integer *iwarn, *info;
     /*     Step 2: Check quality of initial estimate THETA. */
     /*             --------------------------------------- */
     num = mb03nd_(n, theta, &q2[1], &e2[1], pivmin, info);
-    if (num == *l)
-    {
+    if (num == *l) {
         return 0;
     }
     /*     Step 3: initialisation starting values for bisection method. */
@@ -252,28 +241,24 @@ integer *iwarn, *info;
     /*     Let S(i), i=1,...,N, be the singular values of J in decreasing */
     /*     order. Then, the computed Y and Z will be such that */
     /*     (number of S(i) <= Y) < L < (number of S(i) <= Z). */
-    if (num < *l)
-    {
+    if (num < *l) {
         th = abs(q[1]);
         z__ = 0.;
         y = *theta;
         numz = *n;
         i__1 = *n - 1;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             h__ = (d__1 = q[i__ + 1], abs(d__1));
             /* Computing MAX */
-            d__2 = max(th,h__) + (d__1 = e[i__], abs(d__1));
-            z__ = max(d__2,z__);
+            d__2 = max(th, h__) + (d__1 = e[i__], abs(d__1));
+            z__ = max(d__2, z__);
             th = h__;
             /* L20: */
         }
         /*        Widen the Gershgorin interval a bit for machines with sloppy */
         /*        arithmetic. */
-        z__ = z__ + abs(z__) * 2. * dlamch_("Epsilon", 7L) * (doublereal) (*n) + *pivmin * 2.;
-    }
-    else
-    {
+        z__ = z__ + abs(z__) * 2. * dlamch_("Epsilon", 7L) * (doublereal)(*n) + *pivmin * 2.;
+    } else {
         z__ = *theta;
         y = 0.;
         numz = num;
@@ -291,17 +276,13 @@ L40:
     /* Computing MAX */
     /* Computing MAX */
     d__4 = abs(y), d__5 = abs(z__);
-    d__2 = max(*tol,*pivmin), d__3 = *reltol * max(d__4,d__5);
-    if (num != *l && (d__1 = z__ - y, abs(d__1)) > max(d__2,d__3))
-    {
+    d__2 = max(*tol, *pivmin), d__3 = *reltol * max(d__4, d__5);
+    if (num != *l && (d__1 = z__ - y, abs(d__1)) > max(d__2, d__3)) {
         th = (y + z__) / 2.;
         num = mb03nd_(n, &th, &q2[1], &e2[1], pivmin, info);
-        if (num < *l)
-        {
+        if (num < *l) {
             y = th;
-        }
-        else
-        {
+        } else {
             z__ = th;
             numz = num;
         }
@@ -312,17 +293,13 @@ L40:
     /*     values of J lie in the interval [Y,Z] within a distance less than */
     /*     TOL from each other. S(N-L) and S(N-L+1) are then assumed to */
     /*     coincide. L is increased, and a warning is given. */
-    if (num != *l)
-    {
+    if (num != *l) {
         *l = numz;
         *theta = z__;
         *iwarn = 1;
-    }
-    else
-    {
+    } else {
         *theta = th;
     }
     return 0;
     /* *** Last line of MB03MD *** */
 } /* mb03md_ */
-

@@ -27,52 +27,81 @@
 #include "nlsInterpreter_exports.h"
 //=============================================================================
 namespace Nelson {
-    class NLSINTERPRETER_IMPEXP PathFuncManager {
-    private:
-        boost::container::vector<PathFunc *> _pathFuncVector;
-        // cache to speed up search
-        boost::unordered_map<std::string, FuncPtr> cachedPathFunc;
-        PathFuncManager();
-        static PathFuncManager *m_pInstance;
-        PathFunc *_userPath;
-        MacroFunctionDef *processFile(std::wstring nlf_filename);
+class NLSINTERPRETER_IMPEXP PathFuncManager
+{
+private:
+    boost::container::vector<PathFunc*> _pathFuncVector;
+    // cache to speed up search
+    boost::unordered_map<std::string, FuncPtr> cachedPathFunc;
+    PathFuncManager();
+    static PathFuncManager* m_pInstance;
+    PathFunc* _userPath;
+    MacroFunctionDef*
+    processFile(std::wstring nlf_filename);
 
-        void userpathCompute();
-        std::wstring getPreferencesPath();
-        std::wstring loadUserPathFromFile();
-        bool saveUserPathToFile();
-        bool isFile(std::wstring filename);
-        bool isDir(std::wstring pathname);
+    void
+    userpathCompute();
+    std::wstring
+    getPreferencesPath();
+    std::wstring
+    loadUserPathFromFile();
+    bool
+    saveUserPathToFile();
+    bool
+    isFile(std::wstring filename);
+    bool
+    isDir(std::wstring pathname);
 
-    public:
-        static PathFuncManager *getInstance();
-        void destroy();
-        void clear();
+public:
+    static PathFuncManager*
+    getInstance();
+    void
+    destroy();
+    void
+    clear();
 
-        bool find(const std::string name, FuncPtr &ptr);
-        bool find(const std::wstring functionName, std::wstring &filename);
-        bool find(const std::wstring functionName, wstringVector &filesname);
-        bool find(const std::wstring functionName, FileFunc **ff);
-        bool find(size_t hashid, std::wstring &functionname);
+    bool
+    find(const std::string name, FuncPtr& ptr);
+    bool
+    find(const std::wstring functionName, std::wstring& filename);
+    bool
+    find(const std::wstring functionName, wstringVector& filesname);
+    bool
+    find(const std::wstring functionName, FileFunc** ff);
+    bool
+    find(size_t hashid, std::wstring& functionname);
 
-        bool addPath(const std::wstring path, bool begin);
-        bool removePath(const std::wstring path);
-        wstringVector getPathNameVector();
-        std::wstring getPathNameAsString();
-        wstringVector getMacrosList(std::wstring prefix = L"");
+    bool
+    addPath(const std::wstring path, bool begin);
+    bool
+    removePath(const std::wstring path);
+    wstringVector
+    getPathNameVector();
+    std::wstring
+    getPathNameAsString();
+    wstringVector
+    getMacrosList(std::wstring prefix = L"");
 
-        std::wstring getUserPath();
-        bool setUserPath(const std::wstring path, bool saveToFile = false);
-        void clearUserPath(bool saveToFile = false);
-        void resetUserPath();
-        void rehash();
-        void rehash(const std::wstring path);
+    std::wstring
+    getUserPath();
+    bool
+    setUserPath(const std::wstring path, bool saveToFile = false);
+    void
+    clearUserPath(bool saveToFile = false);
+    void
+    resetUserPath();
+    void
+    rehash();
+    void
+    rehash(const std::wstring path);
 
-        void clearCache();
-        void clearCache(stringVector exceptedFunctions);
+    void
+    clearCache();
+    void
+    clearCache(stringVector exceptedFunctions);
 
-        bool isPointerOnPathFunctionDef(FuncPtr ptr);
-
-    };
+    bool
+    isPointerOnPathFunctionDef(FuncPtr ptr);
+};
 }
 //=============================================================================

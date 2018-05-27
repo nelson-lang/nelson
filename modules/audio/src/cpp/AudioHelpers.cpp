@@ -16,44 +16,42 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <portaudio.h>
 #include "AudioHelpers.hpp"
 #include "AudioDevInfo.hpp"
+#include <portaudio.h>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    static bool audioInitialized = false;
-    //=============================================================================
-    bool initializeAudio()
-    {
-        if (!audioInitialized)
-        {
-            PaError err = Pa_Initialize();
-            if (err == paNoError)
-            {
-                audioInitialized = true;
-                retrieveAudioDevicesInfo();
-                return audioInitialized;
-            }
+//=============================================================================
+static bool audioInitialized = false;
+//=============================================================================
+bool
+initializeAudio()
+{
+    if (!audioInitialized) {
+        PaError err = Pa_Initialize();
+        if (err == paNoError) {
+            audioInitialized = true;
+            retrieveAudioDevicesInfo();
+            return audioInitialized;
         }
-        audioInitialized = false;
-        return false;
     }
-    //=============================================================================
-    bool terminateAudio()
-    {
-        if (audioInitialized)
-        {
-            PaError err = Pa_Terminate();
-            if (err == paNoError)
-            {
-                clearAudioDevicesInfo();
-                audioInitialized = false;
-                return true;
-            }
+    audioInitialized = false;
+    return false;
+}
+//=============================================================================
+bool
+terminateAudio()
+{
+    if (audioInitialized) {
+        PaError err = Pa_Terminate();
+        if (err == paNoError) {
+            clearAudioDevicesInfo();
+            audioInitialized = false;
+            return true;
         }
-        return false;
     }
-    //=============================================================================
+    return false;
+}
+//=============================================================================
 }
 //=============================================================================

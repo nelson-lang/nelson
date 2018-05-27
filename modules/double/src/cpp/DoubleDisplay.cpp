@@ -17,470 +17,353 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define _CRT_SECURE_NO_WARNINGS
-#include <boost/algorithm/string.hpp>
-#include <Eigen/Dense>
-#include <iostream>
-#include <iomanip>
-#include <cstdio>
-#include <stdarg.h>  // For va_start, etc.
-#include <memory>    // For std::unique_ptr
-#include "Error.hpp"
 #include "DoubleDisplay.hpp"
+#include "Error.hpp"
 #include "StringFormat.hpp"
 #include "characters_encoding.hpp"
+#include <Eigen/Dense>
+#include <boost/algorithm/string.hpp>
+#include <cstdio>
+#include <iomanip>
+#include <iostream>
+#include <memory> // For std::unique_ptr
+#include <stdarg.h> // For va_start, etc.
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    std::wstring double2hexastr(double d)
-    {
-        char *buffer = new char[32];
-        sprintf(buffer, "%llx", *(unsigned long long *)&d);
-        return utf8_to_wstring(buffer);
-    }
-    //=============================================================================
-    bool isInteger(double val)
-    {
-        uint64_t  valAsInt = *reinterpret_cast<uint64_t*>(&val);
-        int  exponent = ((valAsInt >> 52) & 0x7FF) - 1023;
-        int bitsInFraction = 52 - exponent;
-        uint64_t mask = exponent < 0
-                        ? 0x7FFFFFFFFFFFFFFFLL
-                        : exponent > 52
-                        ? 0x00
-                        : (1LL << bitsInFraction) - 1;
-        return !(valAsInt & mask);
-    }
-    //=============================================================================
-    static bool IsIntegerValues(ArrayOf A, double &minVal, double &maxVal)
-    {
-        bool res = true;
-        if (A.getDataClass() == NLS_DOUBLE)
-        {
-            double *pValueA = (double*)A.getDataPointer();
-            maxVal = pValueA[0];
-            minVal = pValueA[0];
-            for (indexType k = 0; k < A.getLength(); k++)
-            {
-                if (!isInteger(pValueA[k]))
-                {
-                    return false;
+//=============================================================================
+std::wstring
+double2hexastr(double d)
+{
+    char* buffer = new char[32];
+    sprintf(buffer, "%llx", *(unsigned long long*)&d);
+    return utf8_to_wstring(buffer);
+}
+//=============================================================================
+bool
+isInteger(double val)
+{
+    uint64_t valAsInt = *reinterpret_cast<uint64_t*>(&val);
+    int exponent = ((valAsInt >> 52) & 0x7FF) - 1023;
+    int bitsInFraction = 52 - exponent;
+    uint64_t mask
+        = exponent < 0 ? 0x7FFFFFFFFFFFFFFFLL : exponent > 52 ? 0x00 : (1LL << bitsInFraction) - 1;
+    return !(valAsInt & mask);
+}
+//=============================================================================
+static bool
+IsIntegerValues(ArrayOf A, double& minVal, double& maxVal)
+{
+    bool res = true;
+    if (A.getDataClass() == NLS_DOUBLE) {
+        double* pValueA = (double*)A.getDataPointer();
+        maxVal = pValueA[0];
+        minVal = pValueA[0];
+        for (indexType k = 0; k < A.getLength(); k++) {
+            if (!isInteger(pValueA[k])) {
+                return false;
+            } else {
+                if (maxVal < pValueA[k]) {
+                    maxVal = pValueA[k];
                 }
-                else
-                {
-                    if (maxVal < pValueA[k])
-                    {
-                        maxVal = pValueA[k];
-                    }
-                    if (minVal > pValueA[k])
-                    {
-                        minVal = pValueA[k];
-                    }
+                if (minVal > pValueA[k]) {
+                    minVal = pValueA[k];
                 }
             }
         }
-        else // NLS_DCOMPLEX
-        {
-            double *pValueA = (double*)A.getDataPointer();
-            maxVal = pValueA[0];
-            for (indexType k = 0; k < A.getLength() * 2; k++)
-            {
-                if (!isInteger(pValueA[k]))
-                {
-                    return false;
+    } else // NLS_DCOMPLEX
+    {
+        double* pValueA = (double*)A.getDataPointer();
+        maxVal = pValueA[0];
+        for (indexType k = 0; k < A.getLength() * 2; k++) {
+            if (!isInteger(pValueA[k])) {
+                return false;
+            } else {
+                if (maxVal < pValueA[k]) {
+                    maxVal = pValueA[k];
                 }
-                else
-                {
-                    if (maxVal < pValueA[k])
-                    {
-                        maxVal = pValueA[k];
-                    }
-                    if (minVal > pValueA[k])
-                    {
-                        minVal = pValueA[k];
-                    }
+                if (minVal > pValueA[k]) {
+                    minVal = pValueA[k];
                 }
             }
         }
-        return res;
     }
-    //=============================================================================
-    static std::wstring printNumber(double number, OutputFormatDisplay currentFormat, bool asInteger, bool asScalar)
-    {
-        std::wstring strNumber = L"";
-        strNumber.reserve(64);
-        if (std::isfinite(number))
+    return res;
+}
+//=============================================================================
+static std::wstring
+printNumber(double number, OutputFormatDisplay currentFormat, bool asInteger, bool asScalar)
+{
+    std::wstring strNumber = L"";
+    strNumber.reserve(64);
+    if (std::isfinite(number)) {
+        switch (currentFormat) {
+        case NLS_FORMAT_SHORT: {
+            if (asInteger) {
+                if (fabs(number) < 1e9) {
+                    strNumber = std::to_wstring((int64)number);
+                } else {
+                    strNumber = StringFormat(L"%*.*e", 9, 4, number);
+                }
+            } else {
+                if (fabs(number) > 1e-4 || number == 0. || !asScalar) {
+                    strNumber = StringFormat(L"%*.*f", 9, 4, number);
+                } else {
+                    strNumber = StringFormat(L"%*.*e", 9, 4, number);
+                }
+            }
+        } break;
+        case NLS_FORMAT_LONG: {
+            if (asInteger) {
+                if (fabs(number) < 1e9) {
+                    strNumber = std::to_wstring((int64)number);
+                } else {
+                    strNumber = StringFormat(L"%*.*e", 18, 15, number);
+                }
+            } else {
+                if (fabs(number) > 1e-9 || number == 0.) {
+                    strNumber = StringFormat(L"%*.*f", 18, 15, number);
+                } else {
+                    strNumber = StringFormat(L"%*.*e", 18, 15, number);
+                }
+            }
+        } break;
+        case NLS_FORMAT_SHORTE: {
+            strNumber = StringFormat(L"%*.*e", 10, 4, number);
+        } break;
+        case NLS_FORMAT_LONGE: {
+            strNumber = StringFormat(L"%*.*e", 23, 15, number);
+        } break;
+        case NLS_FORMAT_HEX: {
+            strNumber = double2hexastr(number);
+        } break;
+        }
+    } else {
+        if (std::isnan(number)) {
+            strNumber = L" NaN";
+        } else {
+            if (number > 0) {
+                strNumber = L" Inf";
+            } else {
+                strNumber = L"-Inf";
+            }
+        }
+    }
+    return strNumber;
+}
+//=============================================================================
+static std::wstring
+printNumber(double realpart, double imagpart, OutputFormatDisplay currentFormat, bool asInteger,
+    bool asScalar)
+{
+    std::wstring strNumber = L"";
+    strNumber.reserve(128);
+    if (imagpart >= 0.0 || std::isnan(imagpart)) {
+        std::wstring realStr = printNumber(realpart, currentFormat, asInteger, asScalar);
+        strNumber.append(realStr);
+        strNumber.append(L" + ");
+        std::wstring imagStr = printNumber(imagpart, currentFormat, asInteger, asScalar);
+        boost::algorithm::trim_left(imagStr);
+        strNumber.append(imagStr);
+        strNumber.append(L"i");
+    } else {
+        std::wstring realStr = printNumber(realpart, currentFormat, asInteger, asScalar);
+        strNumber.append(realStr);
+        strNumber.append(L" - ");
+        std::wstring imagStr = printNumber(abs(imagpart), currentFormat, asInteger, asScalar);
+        boost::algorithm::trim_left(imagStr);
+        strNumber.append(imagStr);
+        strNumber.append(L"i");
+    }
+    return strNumber;
+}
+//=============================================================================
+void
+DoubleDisplay(Evaluator* eval, ArrayOf A)
+{
+    Dimensions dimsA = A.getDimensions();
+    Interface* io = eval->getInterface();
+    indexType termWidth = io->getTerminalWidth();
+    if (A.isEmpty()) {
+        if (A.isEmpty(true)) {
+            io->outputMessage(L"     []\n");
+        } else {
+            dimsA.simplify();
+            std::wstring msg = _W("   Empty matrix : ");
+            for (indexType k = 0; k < dimsA.getLength(); ++k) {
+                msg = msg + std::to_wstring(dimsA.getDimensionLength(k));
+                if (k < dimsA.getLength() - 1) {
+                    msg = msg + _W("-by-");
+                }
+            }
+            msg = msg + L"\n";
+            io->outputMessage(msg);
+        }
+        return;
+    } else {
+        double maxDouble = 0;
+        double minDouble = 0;
+        bool asInteger = IsIntegerValues(A, minDouble, maxDouble);
+        indexType columns = dimsA.getColumns();
+        indexType rows = dimsA.getRows();
+        double* pValueA = (double*)A.getDataPointer();
+        if (A.isScalar()) {
+            io->outputMessage(L"  ");
+            std::wstring strNumber;
+            if (A.isComplex()) {
+                doublecomplex* cplx = reinterpret_cast<doublecomplex*>(pValueA);
+                strNumber = printNumber(
+                    cplx->real(), cplx->imag(), eval->getCurrentOutputFormatDisplay(), false, true);
+            } else {
+                strNumber = printNumber(
+                    pValueA[0], eval->getCurrentOutputFormatDisplay(), asInteger, true);
+            }
+            io->outputMessage(strNumber);
+            io->outputMessage(L"\n");
+        } else // matrix
         {
-            switch (currentFormat)
-            {
-                case NLS_FORMAT_SHORT:
-                {
-                    if (asInteger)
-                    {
-                        if (fabs(number) < 1e9)
-                        {
-                            strNumber = std::to_wstring((int64)number);
-                        }
-                        else
-                        {
-                            strNumber = StringFormat(L"%*.*e", 9, 4, number);
-                        }
+            indexType format_width = 8;
+            bool bIsComplex = A.isComplex();
+            switch (eval->getCurrentOutputFormatDisplay()) {
+            case NLS_FORMAT_SHORT: {
+                if (asInteger && !bIsComplex) {
+                    if (fabs(minDouble) > fabs(maxDouble)) {
+                        std::wstring str = std::to_wstring((int64)minDouble);
+                        format_width = str.size() + 1;
+                    } else {
+                        std::wstring str = std::to_wstring((int64)maxDouble);
+                        format_width = str.size() + 3;
                     }
-                    else
-                    {
-                        if (fabs(number) > 1e-4 || number == 0. || !asScalar)
-                        {
-                            strNumber = StringFormat(L"%*.*f", 9, 4, number);
-                        }
-                        else
-                        {
-                            strNumber = StringFormat(L"%*.*e", 9, 4, number);
-                        }
+                } else {
+                    if (bIsComplex) {
+                        format_width = 10 * 2 + wcslen(L" + ") + wcslen(L"i");
+                    } else {
+                        format_width = 10;
+                    }
+                }
+            } break;
+            case NLS_FORMAT_LONG:
+                if (asInteger && !bIsComplex) {
+                    if (fabs(minDouble) > fabs(maxDouble)) {
+                        std::wstring str = std::to_wstring((int64)minDouble);
+                        format_width = str.size() + 1;
+                    } else {
+                        std::wstring str = std::to_wstring((int64)maxDouble);
+                        format_width = str.size() + 3;
+                    }
+                } else {
+                    if (bIsComplex) {
+                        format_width = 18 * 2 + wcslen(L" + ") + wcslen(L"i");
+                    } else {
+                        format_width = 18;
                     }
                 }
                 break;
-                case NLS_FORMAT_LONG:
-                {
-                    if (asInteger)
-                    {
-                        if (fabs(number) < 1e9)
-                        {
-                            strNumber = std::to_wstring((int64)number);
-                        }
-                        else
-                        {
-                            strNumber = StringFormat(L"%*.*e", 18, 15, number);
-                        }
+            case NLS_FORMAT_SHORTE:
+                if (asInteger && !bIsComplex) {
+                    if (fabs(minDouble) > fabs(maxDouble)) {
+                        std::wstring str = std::to_wstring((int64)minDouble);
+                        format_width = str.size() + 1;
+                    } else {
+                        std::wstring str = std::to_wstring((int64)maxDouble);
+                        format_width = str.size() + 3;
                     }
-                    else
-                    {
-                        if (fabs(number) > 1e-9 || number == 0.)
-                        {
-                            strNumber = StringFormat(L"%*.*f", 18, 15, number);
-                        }
-                        else
-                        {
-                            strNumber = StringFormat(L"%*.*e", 18, 15, number);
-                        }
+                } else {
+                    if (bIsComplex) {
+                        format_width = 10 * 2 + wcslen(L" + ") + wcslen(L"i");
+                    } else {
+                        format_width = 10;
                     }
                 }
                 break;
-                case NLS_FORMAT_SHORTE:
-                {
-                    strNumber = StringFormat(L"%*.*e", 10, 4, number);
-                }
-                break;
-                case NLS_FORMAT_LONGE:
-                {
-                    strNumber = StringFormat(L"%*.*e", 23, 15, number);
-                }
-                break;
-                case NLS_FORMAT_HEX:
-                {
-                    strNumber = double2hexastr(number);
-                }
-                break;
-            }
-        }
-        else
-        {
-            if (std::isnan(number))
-            {
-                strNumber = L" NaN";
-            }
-            else
-            {
-                if (number > 0)
-                {
-                    strNumber = L" Inf";
-                }
-                else
-                {
-                    strNumber = L"-Inf";
-                }
-            }
-        }
-        return strNumber;
-    }
-    //=============================================================================
-    static std::wstring printNumber(double realpart, double imagpart, OutputFormatDisplay currentFormat, bool asInteger, bool asScalar)
-    {
-        std::wstring strNumber = L"";
-        strNumber.reserve(128);
-        if (imagpart >= 0.0 || std::isnan(imagpart))
-        {
-            std::wstring realStr = printNumber(realpart, currentFormat, asInteger, asScalar);
-            strNumber.append(realStr);
-            strNumber.append(L" + ");
-            std::wstring imagStr = printNumber(imagpart, currentFormat, asInteger, asScalar);
-            boost::algorithm::trim_left(imagStr);
-            strNumber.append(imagStr);
-            strNumber.append(L"i");
-        }
-        else
-        {
-            std::wstring realStr = printNumber(realpart, currentFormat, asInteger, asScalar);
-            strNumber.append(realStr);
-            strNumber.append(L" - ");
-            std::wstring imagStr = printNumber(abs(imagpart), currentFormat, asInteger, asScalar);
-            boost::algorithm::trim_left(imagStr);
-            strNumber.append(imagStr);
-            strNumber.append(L"i");
-        }
-        return strNumber;
-    }
-    //=============================================================================
-    void DoubleDisplay(Evaluator *eval, ArrayOf A)
-    {
-        Dimensions dimsA = A.getDimensions();
-        Interface *io = eval->getInterface();
-        indexType termWidth = io->getTerminalWidth();
-        if (A.isEmpty())
-        {
-            if (A.isEmpty(true))
-            {
-                io->outputMessage(L"     []\n");
-            }
-            else
-            {
-                dimsA.simplify();
-                std::wstring msg = _W("   Empty matrix : ");
-                for (indexType k = 0; k < dimsA.getLength(); ++k)
-                {
-                    msg = msg + std::to_wstring(dimsA.getDimensionLength(k));
-                    if (k < dimsA.getLength() - 1)
-                    {
-                        msg = msg + _W("-by-");
+            case NLS_FORMAT_LONGE:
+                if (asInteger && !bIsComplex) {
+                    if (fabs(minDouble) > fabs(maxDouble)) {
+                        std::wstring str = std::to_wstring((int64)minDouble);
+                        format_width = str.size() + 1;
+                    } else {
+                        std::wstring str = std::to_wstring((int64)maxDouble);
+                        format_width = str.size() + 3;
+                    }
+                } else {
+                    if (bIsComplex) {
+                        format_width = 23 * 2 + wcslen(L" + ") + wcslen(L"i");
+                    } else {
+                        format_width = 23;
                     }
                 }
-                msg = msg + L"\n";
-                io->outputMessage(msg);
+                break;
+            case NLS_FORMAT_HEX:
+                format_width = 16;
+                break;
             }
-            return;
-        }
-        else
-        {
-            double maxDouble = 0;
-            double minDouble = 0;
-            bool asInteger = IsIntegerValues(A, minDouble, maxDouble);
-            indexType columns = dimsA.getColumns();
-            indexType  rows = dimsA.getRows();
-            double *pValueA = (double*)A.getDataPointer();
-            if (A.isScalar())
-            {
-                io->outputMessage(L"  ");
-                std::wstring strNumber;
-                if (A.isComplex())
-                {
-                    doublecomplex *cplx = reinterpret_cast<doublecomplex*>(pValueA);
-                    strNumber = printNumber(cplx->real(), cplx->imag(), eval->getCurrentOutputFormatDisplay(), false, true);
-                }
-                else
-                {
-                    strNumber = printNumber(pValueA[0], eval->getCurrentOutputFormatDisplay(), asInteger, true);
-                }
-                io->outputMessage(strNumber);
-                io->outputMessage(L"\n");
+            indexType colsPerPage = (indexType)floor((termWidth - 1) / ((double)format_width + 2));
+            colsPerPage = (colsPerPage < 1) ? 1 : colsPerPage;
+            indexType pageCount = (indexType)ceil(columns / ((double)colsPerPage));
+            std::wstring buffer;
+            try {
+                buffer.reserve(20 * columns);
+            } catch (std::bad_alloc) {
             }
-            else // matrix
-            {
-                indexType format_width = 8;
-                bool bIsComplex = A.isComplex();
-                switch (eval->getCurrentOutputFormatDisplay())
-                {
-                    case NLS_FORMAT_SHORT:
-                    {
-                        if (asInteger && !bIsComplex)
-                        {
-                            if (fabs(minDouble) > fabs(maxDouble))
-                            {
-                                std::wstring str = std::to_wstring((int64)minDouble);
-                                format_width = str.size() + 1;
-                            }
-                            else
-                            {
-                                std::wstring str = std::to_wstring((int64)maxDouble);
-                                format_width = str.size() + 3;
-                            }
-                        }
-                        else
-                        {
-                            if (bIsComplex)
-                            {
-                                format_width = 10 * 2 + wcslen(L" + ") + wcslen(L"i");
-                            }
-                            else
-                            {
-                                format_width = 10;
-                            }
-                        }
-                    }
+            indexType block_page = 0;
+            bool continueDisplay = true;
+            for (indexType k = 0; k < pageCount && continueDisplay; k++) {
+                if (eval->GetInterruptPending()) {
+                    continueDisplay = false;
                     break;
-                    case NLS_FORMAT_LONG:
-                        if (asInteger && !bIsComplex)
-                        {
-                            if (fabs(minDouble) > fabs(maxDouble))
-                            {
-                                std::wstring str = std::to_wstring((int64)minDouble);
-                                format_width = str.size() + 1;
-                            }
-                            else
-                            {
-                                std::wstring str = std::to_wstring((int64)maxDouble);
-                                format_width = str.size() + 3;
-                            }
-                        }
-                        else
-                        {
-                            if (bIsComplex)
-                            {
-                                format_width = 18 * 2 + wcslen(L" + ") + wcslen(L"i");
-                            }
-                            else
-                            {
-                                format_width = 18;
-                            }
-                        }
-                        break;
-                    case NLS_FORMAT_SHORTE:
-                        if (asInteger && !bIsComplex)
-                        {
-                            if (fabs(minDouble) > fabs(maxDouble))
-                            {
-                                std::wstring str = std::to_wstring((int64)minDouble);
-                                format_width = str.size() + 1;
-                            }
-                            else
-                            {
-                                std::wstring str = std::to_wstring((int64)maxDouble);
-                                format_width = str.size() + 3;
-                            }
-                        }
-                        else
-                        {
-                            if (bIsComplex)
-                            {
-                                format_width = 10 * 2 + wcslen(L" + ") + wcslen(L"i");
-                            }
-                            else
-                            {
-                                format_width = 10;
-                            }
-                        }
-                        break;
-                    case NLS_FORMAT_LONGE:
-                        if (asInteger && !bIsComplex)
-                        {
-                            if (fabs(minDouble) > fabs(maxDouble))
-                            {
-                                std::wstring str = std::to_wstring((int64)minDouble);
-                                format_width = str.size() + 1;
-                            }
-                            else
-                            {
-                                std::wstring str = std::to_wstring((int64)maxDouble);
-                                format_width = str.size() + 3;
-                            }
-                        }
-                        else
-                        {
-                            if (bIsComplex)
-                            {
-                                format_width = 23 * 2 + wcslen(L" + ") + wcslen(L"i");
-                            }
-                            else
-                            {
-                                format_width = 23;
-                            }
-                        }
-                        break;
-                    case NLS_FORMAT_HEX:
-                        format_width = 16;
-                        break;
                 }
-                indexType colsPerPage = (indexType)floor((termWidth - 1) / ((double)format_width + 2));
-                colsPerPage = (colsPerPage < 1) ? 1 : colsPerPage;
-                indexType pageCount = (indexType)ceil(columns / ((double)colsPerPage));
-                std::wstring buffer;
-                try
-                {
-                    buffer.reserve(20 * columns);
+                indexType colsInThisPage = columns - colsPerPage * k;
+                colsInThisPage = (colsInThisPage > colsPerPage) ? colsPerPage : colsInThisPage;
+                if ((rows * columns > 1) && (pageCount > 1)) {
+                    std::wstring msg = StringFormat(_W("\n  Columns %d to %d\n\n").c_str(),
+                        (k * colsPerPage + 1), (k * colsPerPage + colsInThisPage));
+                    buffer.append(msg);
                 }
-                catch (std::bad_alloc)
-                {
-                }
-                indexType block_page = 0;
-                bool continueDisplay = true;
-                for (indexType k = 0; k < pageCount && continueDisplay; k++)
-                {
-                    if (eval->GetInterruptPending())
-                    {
-                        continueDisplay = false;
-                        break;
-                    }
-                    indexType colsInThisPage = columns - colsPerPage * k;
-                    colsInThisPage = (colsInThisPage > colsPerPage) ? colsPerPage : colsInThisPage;
-                    if ((rows * columns > 1) && (pageCount > 1))
-                    {
-                        std::wstring msg = StringFormat(_W("\n  Columns %d to %d\n\n").c_str(), (k * colsPerPage + 1), (k * colsPerPage + colsInThisPage));
-                        buffer.append(msg);
-                    }
-                    for (indexType i = 0; i < rows && continueDisplay; i++)
-                    {
-                        buffer.append(L"  ");
-                        for (indexType j = 0; j < colsInThisPage; j++)
-                        {
-                            if (eval->GetInterruptPending())
-                            {
-                                continueDisplay = false;
-                                break;
-                            }
-                            indexType idx = i + (k * colsPerPage + j) * rows;
-                            std::wstring numberAsStr;
-                            if (bIsComplex)
-                            {
-                                numberAsStr = printNumber(pValueA[2 * idx], pValueA[2 * idx + 1], eval->getCurrentOutputFormatDisplay(), false, false);
-                            }
-                            else
-                            {
-                                numberAsStr = printNumber(pValueA[idx], eval->getCurrentOutputFormatDisplay(), asInteger, false);
-                                size_t len = numberAsStr.size();
-                                if (len < format_width)
-                                {
-                                    size_t nb = format_width - len;
-                                    for (size_t q = 0; q < nb; q++)
-                                    {
-                                        buffer.append(L" ");
-                                    }
+                for (indexType i = 0; i < rows && continueDisplay; i++) {
+                    buffer.append(L"  ");
+                    for (indexType j = 0; j < colsInThisPage; j++) {
+                        if (eval->GetInterruptPending()) {
+                            continueDisplay = false;
+                            break;
+                        }
+                        indexType idx = i + (k * colsPerPage + j) * rows;
+                        std::wstring numberAsStr;
+                        if (bIsComplex) {
+                            numberAsStr = printNumber(pValueA[2 * idx], pValueA[2 * idx + 1],
+                                eval->getCurrentOutputFormatDisplay(), false, false);
+                        } else {
+                            numberAsStr = printNumber(pValueA[idx],
+                                eval->getCurrentOutputFormatDisplay(), asInteger, false);
+                            size_t len = numberAsStr.size();
+                            if (len < format_width) {
+                                size_t nb = format_width - len;
+                                for (size_t q = 0; q < nb; q++) {
+                                    buffer.append(L" ");
                                 }
                             }
-                            buffer.append(numberAsStr);
-                            if (j < colsInThisPage - 1)
-                            {
-                                buffer.append(L"  ");
-                            }
                         }
-                        buffer.append(L"\n");
-                        if (block_page > termWidth)
-                        {
-                            io->outputMessage(buffer);
-                            buffer = L"";
-                            block_page = 0;
-                        }
-                        else
-                        {
-                            block_page++;
+                        buffer.append(numberAsStr);
+                        if (j < colsInThisPage - 1) {
+                            buffer.append(L"  ");
                         }
                     }
-                    if (!buffer.empty())
-                    {
+                    buffer.append(L"\n");
+                    if (block_page > termWidth) {
                         io->outputMessage(buffer);
                         buffer = L"";
                         block_page = 0;
+                    } else {
+                        block_page++;
                     }
+                }
+                if (!buffer.empty()) {
+                    io->outputMessage(buffer);
+                    buffer = L"";
+                    block_page = 0;
                 }
             }
         }
     }
-    //=============================================================================
+}
+//=============================================================================
 }
 //=============================================================================

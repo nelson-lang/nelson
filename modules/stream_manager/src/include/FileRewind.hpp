@@ -18,11 +18,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsStream_manager_exports.h"
 #include "File.hpp"
+#include "nlsStream_manager_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSSTREAM_MANAGER_IMPEXP void FileRewind(File *fp);
+NLSSTREAM_MANAGER_IMPEXP void
+FileRewind(File* fp);
 };
 //=============================================================================
-

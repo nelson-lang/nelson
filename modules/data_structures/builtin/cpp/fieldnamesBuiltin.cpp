@@ -24,45 +24,36 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::DataStructuresGateway::fieldnamesBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::DataStructuresGateway::fieldnamesBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool bSuccess = false;
     retval = OverloadFunction(eval, nLhs, argIn, "fieldnames", bSuccess);
-    if (!bSuccess)
-    {
-        if (argIn.size() != 1)
-        {
+    if (!bSuccess) {
+        if (argIn.size() != 1) {
             Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
         }
         ArrayOf arg1 = argIn[0];
-        if (arg1.isClassStruct())
-        {
-            Error(eval, utf8_to_wstring(arg1.getStructType()) + L"_fieldnames "  + _W("not defined."));
-        }
-        else
-        {
-            if (arg1.isStruct())
-            {
-                if (arg1.isEmpty())
-                {
+        if (arg1.isClassStruct()) {
+            Error(
+                eval, utf8_to_wstring(arg1.getStructType()) + L"_fieldnames " + _W("not defined."));
+        } else {
+            if (arg1.isStruct()) {
+                if (arg1.isEmpty()) {
                     Dimensions dim(0, 1);
                     ArrayOf res = ArrayOf::emptyConstructor(dim);
                     res.promoteType(NLS_CELL_ARRAY);
                     retval.push_back(res);
-                }
-                else
-                {
+                } else {
                     stringVector fieldnames = arg1.getFieldNames();
                     retval.push_back(ToCellStringAsColumn(fieldnames));
                 }
-            }
-            else
-            {
+            } else {
                 Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRUCT_EXPECTED);
             }
         }

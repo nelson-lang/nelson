@@ -19,49 +19,45 @@
 #ifdef _MSC_VER
 #include <Windows.h>
 #endif
-#include <stdlib.h>
 #include "SetVariableEnvironment.hpp"
 #include "characters_encoding.hpp"
+#include <stdlib.h>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    NLSOS_FUNCTIONS_IMPEXP bool SetVariableEnvironmentW(std::wstring envVarName, std::wstring Value)
-    {
+//=============================================================================
+NLSOS_FUNCTIONS_IMPEXP bool
+SetVariableEnvironmentW(std::wstring envVarName, std::wstring Value)
+{
 #ifdef _MSC_VER
-        if (::SetEnvironmentVariableW(envVarName.c_str(), Value.c_str()))
-        {
-            return true;
-        }
-#else
-        return SetVariableEnvironmentU(wstring_to_utf8(envVarName).c_str(), wstring_to_utf8(Value).c_str());
-#endif
-        return false;
+    if (::SetEnvironmentVariableW(envVarName.c_str(), Value.c_str())) {
+        return true;
     }
-    //=============================================================================
-    NLSOS_FUNCTIONS_IMPEXP bool SetVariableEnvironmentU(std::string envVarName, std::string Value)
-    {
-        bool bRes = false;
+#else
+    return SetVariableEnvironmentU(
+        wstring_to_utf8(envVarName).c_str(), wstring_to_utf8(Value).c_str());
+#endif
+    return false;
+}
+//=============================================================================
+NLSOS_FUNCTIONS_IMPEXP bool
+SetVariableEnvironmentU(std::string envVarName, std::string Value)
+{
+    bool bRes = false;
 #ifdef _MSC_VER
-        if (::SetEnvironmentVariableA(envVarName.c_str(), Value.c_str()))
-        {
-            bRes = true;
-        }
-        else
-        {
-            bRes = false;
-        }
-#else
-        if (setenv(envVarName.c_str(), Value.c_str(), 1))
-        {
-            bRes = false;
-        }
-        else
-        {
-            bRes = true;
-        }
-#endif
-        return bRes;
+    if (::SetEnvironmentVariableA(envVarName.c_str(), Value.c_str())) {
+        bRes = true;
+    } else {
+        bRes = false;
     }
-    //=============================================================================
+#else
+    if (setenv(envVarName.c_str(), Value.c_str(), 1)) {
+        bRes = false;
+    } else {
+        bRes = true;
+    }
+#endif
+    return bRes;
+}
+//=============================================================================
 }
 //=============================================================================

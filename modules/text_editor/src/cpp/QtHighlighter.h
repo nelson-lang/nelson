@@ -18,9 +18,9 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <QtCore/QRegularExpression>
 #include <QtGui/QSyntaxHighlighter>
 #include <QtGui/QTextCharFormat>
-#include <QtCore/QRegularExpression>
 //=============================================================================
 class QTextDocument;
 //=============================================================================
@@ -32,16 +32,20 @@ class QTextDocument;
 #define DEFAULT_QT_UNFINISHED_STRING_COLOR Qt::darkBlue
 #define DEFAULT_QT_QUOTATION_COLOR Qt::darkBlue
 //=============================================================================
-class Highlighter : public QSyntaxHighlighter {
+class Highlighter : public QSyntaxHighlighter
+{
     Q_OBJECT
 
 public:
-    Highlighter(QTextDocument *parent = 0);
-    void setEnable(bool _enable);
-    bool getEnable();
+    Highlighter(QTextDocument* parent = 0);
+    void
+    setEnable(bool _enable);
+    bool
+    getEnable();
 
 protected:
-    void highlightBlock(const QString &text) override;
+    void
+    highlightBlock(const QString& text) override;
 
 private:
     struct HighlightingRule

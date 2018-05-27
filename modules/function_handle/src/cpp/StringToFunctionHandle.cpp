@@ -20,21 +20,20 @@
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    function_handle StringToFunctionHandle(Evaluator *eval, std::wstring functionName)
-    {
-        std::string fun = wstring_to_utf8(functionName);
-        Context *ctx = eval->getContext();
-        FunctionDef *funcDef = nullptr;
-        bool isFun = ctx->lookupFunction(fun, funcDef);
-        function_handle functionID = 0;
-        if (isFun)
-        {
-            functionID = funcDef->hashid;
-        }
-        return functionID;
+//=============================================================================
+function_handle
+StringToFunctionHandle(Evaluator* eval, std::wstring functionName)
+{
+    std::string fun = wstring_to_utf8(functionName);
+    Context* ctx = eval->getContext();
+    FunctionDef* funcDef = nullptr;
+    bool isFun = ctx->lookupFunction(fun, funcDef);
+    function_handle functionID = 0;
+    if (isFun) {
+        functionID = funcDef->hashid;
     }
-    //=============================================================================
+    return functionID;
 }
 //=============================================================================
-
+}
+//=============================================================================

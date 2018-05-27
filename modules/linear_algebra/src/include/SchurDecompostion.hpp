@@ -18,11 +18,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsLinear_algebra_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsLinear_algebra_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSLINEAR_ALGEBRA_IMPEXP void SchurDecomposition(ArrayOf A, bool asComplex, ArrayOf &T);
-    NLSLINEAR_ALGEBRA_IMPEXP void SchurDecomposition(ArrayOf A, bool asComplex, ArrayOf &U, ArrayOf &T);
-}
+NLSLINEAR_ALGEBRA_IMPEXP void
+SchurDecomposition(ArrayOf A, bool asComplex, ArrayOf& T);
+NLSLINEAR_ALGEBRA_IMPEXP void
+SchurDecomposition(ArrayOf A, bool asComplex, ArrayOf& U, ArrayOf& T);
+} // namespace Nelson
 //=============================================================================

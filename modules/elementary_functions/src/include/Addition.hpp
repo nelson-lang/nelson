@@ -23,9 +23,10 @@
 #include "ClassName.hpp"
 //=============================================================================
 namespace Nelson {
-    /**
-    * Addition (+) of two matrix: C = A + B).
-    */
-    NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf Addition(ArrayOf &A, ArrayOf &B, bool mustRaiseError, bool &bSuccess);
+/**
+ * Addition (+) of two matrix: C = A + B).
+ */
+NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
+Addition(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess);
 }
 //=============================================================================

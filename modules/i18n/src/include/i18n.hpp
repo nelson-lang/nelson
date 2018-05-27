@@ -18,15 +18,18 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
 #include "nlsI18n_exports.hpp"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    NLSI18N_IMPEXP std::wstring gettextw(std::wstring S);
-    NLSI18N_IMPEXP std::wstring gettextw(std::string S);
-    NLSI18N_IMPEXP std::string gettext(std::string S);
-}
+NLSI18N_IMPEXP std::wstring
+gettextw(std::wstring S);
+NLSI18N_IMPEXP std::wstring
+gettextw(std::string S);
+NLSI18N_IMPEXP std::string
+gettext(std::string S);
+} // namespace Nelson
 //=============================================================================
-#define  _(S)  Nelson::gettext(S)
-#define  _W(S)  Nelson::gettextw(S)
+#define _(S) Nelson::gettext(S)
+#define _W(S) Nelson::gettextw(S)
 //=============================================================================

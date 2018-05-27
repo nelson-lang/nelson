@@ -22,8 +22,9 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace TrigonometricGateway {
-        ArrayOfVector atanBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    }
+namespace TrigonometricGateway {
+    ArrayOfVector
+    atanBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }
+} // namespace Nelson
 //=============================================================================

@@ -23,68 +23,55 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::StringGateway::str2doubleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::StringGateway::str2doubleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() != 1)
-    {
+    if (argIn.size() != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     // Call overload if it exists
     bool bSuccess = false;
     retval = OverloadFunction(eval, nLhs, argIn, "str2double", bSuccess);
-    if (!bSuccess)
-    {
+    if (!bSuccess) {
         ArrayOf param1 = argIn[0];
-        if (param1.isString())
-        {
+        if (param1.isString()) {
             std::wstring str = argIn[0].getContentAsArrayOfCharacters();
             bool wasConverted = false;
             doublecomplex value = stringToDoubleComplex(str, wasConverted);
             ArrayOf output = ArrayOf::dcomplexConstructor(value.real(), value.imag());
-            if (output.allReal())
-            {
+            if (output.allReal()) {
                 output.promoteType(NLS_DOUBLE);
             }
             retval.push_back(output);
-        }
-        else
-        {
-            if (param1.isCell())
-            {
+        } else {
+            if (param1.isCell()) {
                 Dimensions dimParam1 = param1.getDimensions();
                 Dimensions dimOutput(dimParam1);
                 size_t nbElements = dimParam1.getElementCount();
-                double *pComplex  = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, nbElements);
-                doublecomplex* outPutAsComplex = reinterpret_cast<doublecomplex*>((double*)pComplex);
-                ArrayOf *cellParam1 = (ArrayOf*)(param1.getDataPointer());
-                for (size_t k = 0; k < nbElements; k++)
-                {
+                double* pComplex = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, nbElements);
+                doublecomplex* outPutAsComplex
+                    = reinterpret_cast<doublecomplex*>((double*)pComplex);
+                ArrayOf* cellParam1 = (ArrayOf*)(param1.getDataPointer());
+                for (size_t k = 0; k < nbElements; k++) {
                     ArrayOf element = cellParam1[k];
-                    if (element.isString())
-                    {
+                    if (element.isString()) {
                         std::wstring str = element.getContentAsArrayOfCharacters();
                         bool wasConverted = false;
                         outPutAsComplex[k] = stringToDoubleComplex(str, wasConverted);
-                    }
-                    else
-                    {
+                    } else {
                         outPutAsComplex[k] = doublecomplex(nan(""), 0);
                     }
                 }
                 ArrayOf output = ArrayOf(NLS_DCOMPLEX, dimOutput, pComplex, false);
-                if (output.allReal())
-                {
+                if (output.allReal()) {
                     output.promoteType(NLS_DOUBLE);
                 }
                 retval.push_back(output);
-            }
-            else
-            {
+            } else {
                 Error(eval, ERROR_TYPE_NOT_SUPPORTED);
             }
         }

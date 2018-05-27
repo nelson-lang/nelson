@@ -1,27 +1,29 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-EXPORTSYMBOL /* Subroutine */ int sb09md_(n, nc, nb, h1, ldh1, h2, ldh2, ss, ldss, se, ldse, pre, ldpre, tol, info)
-integer *n, *nc, *nb;
-doublereal *h1;
-integer *ldh1;
-doublereal *h2;
-integer *ldh2;
-doublereal *ss;
-integer *ldss;
-doublereal *se;
-integer *ldse;
-doublereal *pre;
-integer *ldpre;
-doublereal *tol;
-integer *info;
+EXPORTSYMBOL /* Subroutine */ int sb09md_(
+    n, nc, nb, h1, ldh1, h2, ldh2, ss, ldss, se, ldse, pre, ldpre, tol, info) integer *n,
+    *nc, *nb;
+doublereal* h1;
+integer* ldh1;
+doublereal* h2;
+integer* ldh2;
+doublereal* ss;
+integer* ldss;
+doublereal* se;
+integer* ldse;
+doublereal* pre;
+integer* ldpre;
+doublereal* tol;
+integer* info;
 {
     /* System generated locals */
-    integer h1_dim1, h1_offset, h2_dim1, h2_offset, pre_dim1, pre_offset, se_dim1, se_offset, ss_dim1, ss_offset, i__1, i__2;
+    integer h1_dim1, h1_offset, h2_dim1, h2_offset, pre_dim1, pre_offset, se_dim1, se_offset,
+        ss_dim1, ss_offset, i__1, i__2;
     doublereal d__1, d__2;
     /* Builtin functions */
     double sqrt();
@@ -164,85 +166,60 @@ integer *info;
     /* Function Body */
     *info = 0;
     /*     Test the input scalar arguments. */
-    if (*n < 0)
-    {
+    if (*n < 0) {
         *info = -1;
-    }
-    else if (*nc < 0)
-    {
+    } else if (*nc < 0) {
         *info = -2;
-    }
-    else if (*nb < 0)
-    {
+    } else if (*nb < 0) {
         *info = -3;
-    }
-    else if (*ldh1 < max(1,*nc))
-    {
+    } else if (*ldh1 < max(1, *nc)) {
         *info = -5;
-    }
-    else if (*ldh2 < max(1,*nc))
-    {
+    } else if (*ldh2 < max(1, *nc)) {
         *info = -7;
-    }
-    else if (*ldss < max(1,*nc))
-    {
+    } else if (*ldss < max(1, *nc)) {
         *info = -9;
-    }
-    else if (*ldse < max(1,*nc))
-    {
+    } else if (*ldse < max(1, *nc)) {
         *info = -11;
-    }
-    else if (*ldpre < max(1,*nc))
-    {
+    } else if (*ldpre < max(1, *nc)) {
         *info = -13;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("SB09MD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0 || *nc == 0 || *nb == 0)
-    {
+    if (*n == 0 || *nc == 0 || *nb == 0) {
         return 0;
     }
     /* Computing MAX */
     d__1 = *tol, d__2 = dlamch_("Epsilon", 7L);
-    toler = max(d__1,d__2);
+    toler = max(d__1, d__2);
     epso = 1. / toler;
     i__1 = *nb;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         i__2 = *nc;
-        for (i__ = 1; i__ <= i__2; ++i__)
-        {
+        for (i__ = 1; i__ <= i__2; ++i__) {
             sse = 0.;
             sss = 0.;
             noflow = TRUE_;
             k = 0;
             /*           WHILE ( ( NOFLOW .AND. ( K .LT. N*NB ) ) DO */
-L20:
-            if (noflow && k < *n **nb)
-            {
+        L20:
+            if (noflow && k < *n * *nb) {
                 var = h1[i__ + (k + j) * h1_dim1];
                 vare = h2[i__ + (k + j) * h2_dim1] - var;
-                if (abs(var) > epso || abs(vare) > epso)
-                {
+                if (abs(var) > epso || abs(vare) > epso) {
                     se[i__ + j * se_dim1] = epso;
                     ss[i__ + j * ss_dim1] = epso;
                     pre[i__ + j * pre_dim1] = 1.;
                     noflow = FALSE_;
-                }
-                else
-                {
-                    if (abs(vare) > toler)
-                    {
+                } else {
+                    if (abs(vare) > toler) {
                         sse += vare * vare;
                     }
-                    if (abs(var) > toler)
-                    {
+                    if (abs(var) > toler) {
                         sss += var * var;
                     }
                     k += *nb;
@@ -250,13 +227,11 @@ L20:
                 goto L20;
             }
             /*           END WHILE 20 */
-            if (noflow)
-            {
+            if (noflow) {
                 se[i__ + j * se_dim1] = sse;
                 ss[i__ + j * ss_dim1] = sss;
                 pre[i__ + j * pre_dim1] = 100.;
-                if (sss > toler)
-                {
+                if (sss > toler) {
                     pre[i__ + j * pre_dim1] = sqrt(sse / sss) * 100.;
                 }
             }
@@ -267,4 +242,3 @@ L20:
     return 0;
     /* *** Last line of SB09MD *** */
 } /* sb09md_ */
-

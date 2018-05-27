@@ -1,12 +1,11 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-EXPORTSYMBOL /* Subroutine */ int sb08my_(da, a, b, epsb)
-integer *da;
+EXPORTSYMBOL /* Subroutine */ int sb08my_(da, a, b, epsb) integer* da;
 doublereal *a, *b, *epsb;
 {
     /* System generated locals */
@@ -68,8 +67,7 @@ doublereal *a, *b, *epsb;
     signi = 1.;
     maxsa = 0.;
     i__1 = *da;
-    for (i__ = 0; i__ <= i__1; ++i__)
-    {
+    for (i__ = 0; i__ <= i__1; ++i__) {
         /* Computing 2nd power */
         d__1 = a[i__ + 1];
         sabs = d__1 * d__1;
@@ -77,9 +75,8 @@ doublereal *a, *b, *epsb;
         signk = signi * -2.;
         /* Computing MIN */
         i__3 = i__, i__4 = *da - i__;
-        i__2 = min(i__3,i__4);
-        for (k = 1; k <= i__2; ++k)
-        {
+        i__2 = min(i__3, i__4);
+        for (k = 1; k <= i__2; ++k) {
             term = signk * a[i__ - k + 1] * a[i__ + k + 1];
             sa += term;
             sabs += abs(term);
@@ -87,7 +84,7 @@ doublereal *a, *b, *epsb;
             /* L20: */
         }
         b[i__ + 1] = sa;
-        maxsa = max(maxsa,sabs);
+        maxsa = max(maxsa, sabs);
         signi = -signi;
         /* L40: */
     }
@@ -95,4 +92,3 @@ doublereal *a, *b, *epsb;
     return 0;
     /* *** Last line of SB08MY *** */
 } /* sb08my_ */
-

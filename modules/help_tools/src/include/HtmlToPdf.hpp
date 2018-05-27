@@ -18,11 +18,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
 #include "nlsHelp_tools_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    NLSHELP_TOOLS_IMPEXP bool HtmlFileToPdfFile(std::wstring htmlsrcfilename, std::wstring pdfdestfilename);
-    NLSHELP_TOOLS_IMPEXP bool HtmlStreamToPdfFile(std::wstring htmlstream, std::wstring pdfdestfilename);
-}
+NLSHELP_TOOLS_IMPEXP bool
+HtmlFileToPdfFile(std::wstring htmlsrcfilename, std::wstring pdfdestfilename);
+NLSHELP_TOOLS_IMPEXP bool
+HtmlStreamToPdfFile(std::wstring htmlstream, std::wstring pdfdestfilename);
+} // namespace Nelson
 //=============================================================================

@@ -22,7 +22,7 @@
 #include "nlsTime_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSTIME_IMPEXP ArrayOf Clock();
+NLSTIME_IMPEXP ArrayOf
+Clock();
 }
 //=============================================================================
-

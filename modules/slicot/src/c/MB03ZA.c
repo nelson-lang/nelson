@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -16,29 +16,31 @@ static integer c__2 = 2;
 static doublereal c_b479 = -1.;
 static integer c__12 = 12;
 
-EXPORTSYMBOL /* Subroutine */ int mb03za_(compc, compu, compv, compw, which, select, n, a, lda, b, ldb, c__, ldc, u1, ldu1, u2, ldu2, v1, ldv1, v2, ldv2, w, ldw, wr, wi, m, dwork, ldwork, info, compc_len, compu_len, compv_len, compw_len, which_len)
-char *compc, *compu, *compv, *compw, *which;
-logical *select;
-integer *n;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *u1;
-integer *ldu1;
-doublereal *u2;
-integer *ldu2;
-doublereal *v1;
-integer *ldv1;
-doublereal *v2;
-integer *ldv2;
-doublereal *w;
-integer *ldw;
+EXPORTSYMBOL /* Subroutine */ int mb03za_(compc, compu, compv, compw, which, select, n, a, lda, b,
+    ldb, c__, ldc, u1, ldu1, u2, ldu2, v1, ldv1, v2, ldv2, w, ldw, wr, wi, m, dwork, ldwork, info,
+    compc_len, compu_len, compv_len, compw_len, which_len) char *compc,
+    *compu, *compv, *compw, *which;
+logical* select;
+integer* n;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* u1;
+integer* ldu1;
+doublereal* u2;
+integer* ldu2;
+doublereal* v1;
+integer* ldv1;
+doublereal* v2;
+integer* ldv2;
+doublereal* w;
+integer* ldw;
 doublereal *wr, *wi;
-integer *m;
-doublereal *dwork;
+integer* m;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen compc_len;
 ftnlen compu_len;
@@ -47,7 +49,8 @@ ftnlen compw_len;
 ftnlen which_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, u1_dim1, u1_offset, u2_dim1, u2_offset, v1_dim1, v1_offset, v2_dim1, v2_offset, w_dim1, w_offset, i__1, i__2, i__3;
+    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, u1_dim1, u1_offset, u2_dim1,
+        u2_offset, v1_dim1, v1_offset, v2_dim1, v2_offset, w_dim1, w_offset, i__1, i__2, i__3;
     /* Local variables */
     static integer here;
     static logical pair;
@@ -57,9 +60,9 @@ ftnlen which_len;
     static doublereal temp;
     static logical swap;
     static integer ilst, i__, k, l;
-    static doublereal q[16]	/* was [4][4] */, t[16]	/* was [4][4] */;
+    static doublereal q[16] /* was [4][4] */, t[16] /* was [4][4] */;
     extern /* Subroutine */ int dscal_(), dgees_(), dgemm_();
-    static doublereal z__[16]	/* was [4][4] */;
+    static doublereal z__[16] /* was [4][4] */;
     extern /* Subroutine */ int mb03wa_();
     extern logical lsame_(), lfdum_();
     static logical wantc;
@@ -341,70 +344,43 @@ ftnlen which_len;
     cmpall = lsame_(which, "A", 1L, 1L);
     /* Computing MAX */
     i__1 = 1, i__2 = *n << 2;
-    wrkmin = max(i__1,i__2);
+    wrkmin = max(i__1, i__2);
     *info = 0;
-    if (! wantc && ! lsame_(compc, "N", 1L, 1L))
-    {
+    if (!wantc && !lsame_(compc, "N", 1L, 1L)) {
         *info = -1;
-    }
-    else if (! wantu && ! lsame_(compu, "N", 1L, 1L))
-    {
+    } else if (!wantu && !lsame_(compu, "N", 1L, 1L)) {
         *info = -2;
-    }
-    else if (! wantv && ! lsame_(compv, "N", 1L, 1L))
-    {
+    } else if (!wantv && !lsame_(compv, "N", 1L, 1L)) {
         *info = -3;
-    }
-    else if (! wantw && ! lsame_(compw, "N", 1L, 1L))
-    {
+    } else if (!wantw && !lsame_(compw, "N", 1L, 1L)) {
         *info = -4;
-    }
-    else if (! cmpall && ! lsame_(which, "S", 1L, 1L))
-    {
+    } else if (!cmpall && !lsame_(which, "S", 1L, 1L)) {
         *info = -5;
-    }
-    else
-    {
-        if (cmpall)
-        {
+    } else {
+        if (cmpall) {
             *m = *n;
-        }
-        else
-        {
+        } else {
             /*           Set M to the dimension of the specified invariant subspace. */
             *m = 0;
             pair = FALSE_;
             i__1 = *n;
-            for (k = 1; k <= i__1; ++k)
-            {
-                if (pair)
-                {
+            for (k = 1; k <= i__1; ++k) {
+                if (pair) {
                     pair = FALSE_;
-                }
-                else
-                {
-                    if (k < *n)
-                    {
-                        if (a[k + 1 + k * a_dim1] == 0.)
-                        {
-                            if (select[k])
-                            {
+                } else {
+                    if (k < *n) {
+                        if (a[k + 1 + k * a_dim1] == 0.) {
+                            if (select[k]) {
                                 ++(*m);
                             }
-                        }
-                        else
-                        {
+                        } else {
                             pair = TRUE_;
-                            if (select[k] || select[k + 1])
-                            {
+                            if (select[k] || select[k + 1]) {
                                 *m += 2;
                             }
                         }
-                    }
-                    else
-                    {
-                        if (select[*n])
-                        {
+                    } else {
+                        if (select[*n]) {
                             ++(*m);
                         }
                     }
@@ -415,126 +391,88 @@ ftnlen which_len;
         /*        Compute workspace requirements. */
         /* Computing MAX */
         i__1 = wrkmin, i__2 = *m << 3;
-        wrkmin = max(i__1,i__2);
-        if (*n < 0)
-        {
+        wrkmin = max(i__1, i__2);
+        if (*n < 0) {
             *info = -7;
-        }
-        else if (*lda < max(1,*n))
-        {
+        } else if (*lda < max(1, *n)) {
             *info = -9;
-        }
-        else if (*ldb < max(1,*n))
-        {
+        } else if (*ldb < max(1, *n)) {
             *info = -11;
-        }
-        else if (*ldc < 1 || wantc && ! cmpall && *ldc < *n)
-        {
+        } else if (*ldc < 1 || wantc && !cmpall && *ldc < *n) {
             *info = -13;
-        }
-        else if (*ldu1 < 1 || wantu && ! cmpall && *ldu1 < *n)
-        {
+        } else if (*ldu1 < 1 || wantu && !cmpall && *ldu1 < *n) {
             *info = -15;
-        }
-        else if (*ldu2 < 1 || wantu && ! cmpall && *ldu2 < *n)
-        {
+        } else if (*ldu2 < 1 || wantu && !cmpall && *ldu2 < *n) {
             *info = -17;
-        }
-        else if (*ldv1 < 1 || wantv && ! cmpall && *ldv1 < *n)
-        {
+        } else if (*ldv1 < 1 || wantv && !cmpall && *ldv1 < *n) {
             *info = -19;
-        }
-        else if (*ldv2 < 1 || wantv && ! cmpall && *ldv2 < *n)
-        {
+        } else if (*ldv2 < 1 || wantv && !cmpall && *ldv2 < *n) {
             *info = -21;
-        }
-        else if (*ldw < 1 || wantw && *ldw < *m << 1)
-        {
+        } else if (*ldw < 1 || wantw && *ldw < *m << 1) {
             *info = -23;
-        }
-        else if (*ldwork < wrkmin)
-        {
+        } else if (*ldwork < wrkmin) {
             *info = -28;
-            dwork[1] = (doublereal) wrkmin;
+            dwork[1] = (doublereal)wrkmin;
         }
     }
     /*     Return if there were illegal values. */
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB03ZA", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
+    if (*n == 0) {
         dwork[1] = 1.;
         return 0;
     }
     /*     Jump immediately to Step 2, if all eigenvalues are requested. */
-    if (cmpall)
-    {
+    if (cmpall) {
         goto L50;
     }
     /*     Step 1: Collect the selected blocks at the top-left corner of A*B. */
     ks = 0;
     pair = FALSE_;
     i__1 = *n;
-    for (k = 1; k <= i__1; ++k)
-    {
-        if (pair)
-        {
+    for (k = 1; k <= i__1; ++k) {
+        if (pair) {
             pair = FALSE_;
-        }
-        else
-        {
+        } else {
             swap = select[k];
-            if (k < *n)
-            {
-                if (a[k + 1 + k * a_dim1] != 0.)
-                {
+            if (k < *n) {
+                if (a[k + 1 + k * a_dim1] != 0.) {
                     pair = TRUE_;
                     swap = swap || select[k + 1];
                 }
             }
-            if (pair)
-            {
+            if (pair) {
                 nbf = 2;
-            }
-            else
-            {
+            } else {
                 nbf = 1;
             }
-            if (swap)
-            {
+            if (swap) {
                 ++ks;
                 ifst = k;
                 /*              Swap the K-th block to position KS. */
                 ilst = ks;
                 nbl = 1;
-                if (ilst > 1)
-                {
-                    if (a[ilst + (ilst - 1) * a_dim1] != 0.)
-                    {
+                if (ilst > 1) {
+                    if (a[ilst + (ilst - 1) * a_dim1] != 0.) {
                         --ilst;
                         nbl = 2;
                     }
                 }
-                if (ilst == ifst)
-                {
+                if (ilst == ifst) {
                     goto L30;
                 }
                 here = ifst;
-L20:
+            L20:
                 /*              Swap block with next one above. */
-                if (nbf == 1 || nbf == 2)
-                {
+                if (nbf == 1 || nbf == 2) {
                     /*                 Current block either 1-by-1 or 2-by-2. */
                     nbnext = 1;
-                    if (here >= 3)
-                    {
-                        if (a[here - 1 + (here - 2) * a_dim1] != 0.)
-                        {
+                    if (here >= 3) {
+                        if (a[here - 1 + (here - 2) * a_dim1] != 0.) {
                             nbnext = 2;
                         }
                     }
@@ -542,86 +480,87 @@ L20:
                     nb = nbnext + nbf;
                     dlaset_("All", &nb, &nb, &c_b20, &c_b21, q, &c__4, 3L);
                     dlaset_("All", &nb, &nb, &c_b20, &c_b21, z__, &c__4, 3L);
-                    mb03wa_(&c_true, &c_true, &nbnext, &nbf, &a[pos + pos * a_dim1], lda, &b[pos + pos * b_dim1], ldb, q, &c__4, z__, &c__4, &ierr);
-                    if (ierr != 0)
-                    {
-                        dwork[1] = (doublereal) wrkmin;
+                    mb03wa_(&c_true, &c_true, &nbnext, &nbf, &a[pos + pos * a_dim1], lda,
+                        &b[pos + pos * b_dim1], ldb, q, &c__4, z__, &c__4, &ierr);
+                    if (ierr != 0) {
+                        dwork[1] = (doublereal)wrkmin;
                         *info = 1;
                         return 0;
                     }
                     /*                 Update rest of A. */
-                    if (pos > 1)
-                    {
+                    if (pos > 1) {
                         i__2 = pos - 1;
-                        dgemm_("No Transpose", "No Transpose", &i__2, &nb, &nb, &c_b21, &a[pos * a_dim1 + 1], lda, z__, &c__4, &c_b20, &dwork[1], n, 12L, 12L);
+                        dgemm_("No Transpose", "No Transpose", &i__2, &nb, &nb, &c_b21,
+                            &a[pos * a_dim1 + 1], lda, z__, &c__4, &c_b20, &dwork[1], n, 12L, 12L);
                         i__2 = pos - 1;
                         dlacpy_("All", &i__2, &nb, &dwork[1], n, &a[pos * a_dim1 + 1], lda, 3L);
                     }
-                    if (pos + nb <= *n)
-                    {
+                    if (pos + nb <= *n) {
                         i__2 = *n - pos - nb + 1;
-                        dgemm_("Transpose", "No Transpose", &nb, &i__2, &nb, &c_b21, q, &c__4, &a[pos + (pos + nb) * a_dim1], lda, &c_b20, &dwork[1], &nb, 9L, 12L);
+                        dgemm_("Transpose", "No Transpose", &nb, &i__2, &nb, &c_b21, q, &c__4,
+                            &a[pos + (pos + nb) * a_dim1], lda, &c_b20, &dwork[1], &nb, 9L, 12L);
                         i__2 = *n - pos - nb + 1;
-                        dlacpy_("All", &nb, &i__2, &dwork[1], &nb, &a[pos + (pos + nb) * a_dim1], lda, 3L);
+                        dlacpy_("All", &nb, &i__2, &dwork[1], &nb, &a[pos + (pos + nb) * a_dim1],
+                            lda, 3L);
                     }
                     /*                 Update rest of B. */
-                    if (pos > 1)
-                    {
+                    if (pos > 1) {
                         i__2 = pos - 1;
-                        dgemm_("No Transpose", "No Transpose", &i__2, &nb, &nb, &c_b21, &b[pos * b_dim1 + 1], ldb, q, &c__4, &c_b20, &dwork[1], n, 12L, 12L);
+                        dgemm_("No Transpose", "No Transpose", &i__2, &nb, &nb, &c_b21,
+                            &b[pos * b_dim1 + 1], ldb, q, &c__4, &c_b20, &dwork[1], n, 12L, 12L);
                         i__2 = pos - 1;
                         dlacpy_("All", &i__2, &nb, &dwork[1], n, &b[pos * b_dim1 + 1], ldb, 3L);
                     }
-                    if (pos + nb <= *n)
-                    {
+                    if (pos + nb <= *n) {
                         i__2 = *n - pos - nb + 1;
-                        dgemm_("Transpose", "No Transpose", &nb, &i__2, &nb, &c_b21, z__, &c__4, &b[pos + (pos + nb) * b_dim1], ldb, &c_b20, &dwork[1], &nb, 9L, 12L);
+                        dgemm_("Transpose", "No Transpose", &nb, &i__2, &nb, &c_b21, z__, &c__4,
+                            &b[pos + (pos + nb) * b_dim1], ldb, &c_b20, &dwork[1], &nb, 9L, 12L);
                         i__2 = *n - pos - nb + 1;
-                        dlacpy_("All", &nb, &i__2, &dwork[1], &nb, &b[pos + (pos + nb) * b_dim1], ldb, 3L);
+                        dlacpy_("All", &nb, &i__2, &dwork[1], &nb, &b[pos + (pos + nb) * b_dim1],
+                            ldb, 3L);
                     }
                     /*                 Update C. */
-                    if (wantc)
-                    {
-                        dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21, &c__[pos * c_dim1 + 1], ldc, q, &c__4, &c_b20, &dwork[1], n, 12L, 12L);
+                    if (wantc) {
+                        dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21,
+                            &c__[pos * c_dim1 + 1], ldc, q, &c__4, &c_b20, &dwork[1], n, 12L, 12L);
                         dlacpy_("All", n, &nb, &dwork[1], n, &c__[pos * c_dim1 + 1], ldc, 3L);
-                        dgemm_("Transpose", "No Transpose", &nb, n, &nb, &c_b21, z__, &c__4, &c__[pos + c_dim1], ldc, &c_b20, &dwork[1], &nb, 9L, 12L);
+                        dgemm_("Transpose", "No Transpose", &nb, n, &nb, &c_b21, z__, &c__4,
+                            &c__[pos + c_dim1], ldc, &c_b20, &dwork[1], &nb, 9L, 12L);
                         dlacpy_("All", &nb, n, &dwork[1], &nb, &c__[pos + c_dim1], ldc, 3L);
                     }
                     /*                 Update U. */
-                    if (wantu)
-                    {
-                        dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21, &u1[pos * u1_dim1 + 1], ldu1, z__, &c__4, &c_b20, &dwork[1], n, 12L, 12L);
+                    if (wantu) {
+                        dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21,
+                            &u1[pos * u1_dim1 + 1], ldu1, z__, &c__4, &c_b20, &dwork[1], n, 12L,
+                            12L);
                         dlacpy_("All", n, &nb, &dwork[1], n, &u1[pos * u1_dim1 + 1], ldu1, 3L);
-                        dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21, &u2[pos * u2_dim1 + 1], ldu2, z__, &c__4, &c_b20, &dwork[1], n, 12L, 12L);
+                        dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21,
+                            &u2[pos * u2_dim1 + 1], ldu2, z__, &c__4, &c_b20, &dwork[1], n, 12L,
+                            12L);
                         dlacpy_("All", n, &nb, &dwork[1], n, &u2[pos * u2_dim1 + 1], ldu2, 3L);
                     }
                     /*                 Update V. */
-                    if (wantv)
-                    {
-                        dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21, &v1[pos * v1_dim1 + 1], ldv1, q, &c__4, &c_b20, &dwork[1], n, 12L, 12L);
+                    if (wantv) {
+                        dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21,
+                            &v1[pos * v1_dim1 + 1], ldv1, q, &c__4, &c_b20, &dwork[1], n, 12L, 12L);
                         dlacpy_("All", n, &nb, &dwork[1], n, &v1[pos * v1_dim1 + 1], ldv1, 3L);
-                        dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21, &v2[pos * v2_dim1 + 1], ldv2, q, &c__4, &c_b20, &dwork[1], n, 12L, 12L);
+                        dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21,
+                            &v2[pos * v2_dim1 + 1], ldv2, q, &c__4, &c_b20, &dwork[1], n, 12L, 12L);
                         dlacpy_("All", n, &nb, &dwork[1], n, &v2[pos * v2_dim1 + 1], ldv2, 3L);
                     }
                     here -= nbnext;
                     /*                 Test if 2-by-2 block breaks into two 1-by-1 blocks. */
-                    if (nbf == 2)
-                    {
-                        if (a[here + 1 + here * a_dim1] == 0.)
-                        {
+                    if (nbf == 2) {
+                        if (a[here + 1 + here * a_dim1] == 0.) {
                             nbf = 3;
                         }
                     }
-                }
-                else
-                {
+                } else {
                     /*                 Current block consists of two 1 by 1 blocks each of */
                     /*                 which must be swapped individually. */
                     nbnext = 1;
-                    if (here >= 3)
-                    {
-                        if (a[here - 1 + (here - 2) * a_dim1] != 0.)
-                        {
+                    if (here >= 3) {
+                        if (a[here - 1 + (here - 2) * a_dim1] != 0.) {
                             nbnext = 2;
                         }
                     }
@@ -629,358 +568,433 @@ L20:
                     nb = nbnext + 1;
                     dlaset_("All", &nb, &nb, &c_b20, &c_b21, q, &c__4, 3L);
                     dlaset_("All", &nb, &nb, &c_b20, &c_b21, z__, &c__4, 3L);
-                    mb03wa_(&c_true, &c_true, &nbnext, &c__1, &a[pos + pos * a_dim1], lda, &b[pos + pos * b_dim1], ldb, q, &c__4, z__, &c__4, &ierr);
-                    if (ierr != 0)
-                    {
-                        dwork[1] = (doublereal) wrkmin;
+                    mb03wa_(&c_true, &c_true, &nbnext, &c__1, &a[pos + pos * a_dim1], lda,
+                        &b[pos + pos * b_dim1], ldb, q, &c__4, z__, &c__4, &ierr);
+                    if (ierr != 0) {
+                        dwork[1] = (doublereal)wrkmin;
                         *info = 1;
                         return 0;
                     }
                     /*                 Update rest of A. */
-                    if (pos > 1)
-                    {
+                    if (pos > 1) {
                         i__2 = pos - 1;
-                        dgemm_("No Transpose", "No Transpose", &i__2, &nb, &nb, &c_b21, &a[pos * a_dim1 + 1], lda, z__, &c__4, &c_b20, &dwork[1], n, 12L, 12L);
+                        dgemm_("No Transpose", "No Transpose", &i__2, &nb, &nb, &c_b21,
+                            &a[pos * a_dim1 + 1], lda, z__, &c__4, &c_b20, &dwork[1], n, 12L, 12L);
                         i__2 = pos - 1;
                         dlacpy_("All", &i__2, &nb, &dwork[1], n, &a[pos * a_dim1 + 1], lda, 3L);
                     }
-                    if (pos + nb <= *n)
-                    {
+                    if (pos + nb <= *n) {
                         i__2 = *n - pos - nb + 1;
-                        dgemm_("Transpose", "No Transpose", &nb, &i__2, &nb, &c_b21, q, &c__4, &a[pos + (pos + nb) * a_dim1], lda, &c_b20, &dwork[1], &nb, 9L, 12L);
+                        dgemm_("Transpose", "No Transpose", &nb, &i__2, &nb, &c_b21, q, &c__4,
+                            &a[pos + (pos + nb) * a_dim1], lda, &c_b20, &dwork[1], &nb, 9L, 12L);
                         i__2 = *n - pos - nb + 1;
-                        dlacpy_("All", &nb, &i__2, &dwork[1], &nb, &a[pos + (pos + nb) * a_dim1], lda, 3L);
+                        dlacpy_("All", &nb, &i__2, &dwork[1], &nb, &a[pos + (pos + nb) * a_dim1],
+                            lda, 3L);
                     }
                     /*                 Update rest of B. */
-                    if (pos > 1)
-                    {
+                    if (pos > 1) {
                         i__2 = pos - 1;
-                        dgemm_("No Transpose", "No Transpose", &i__2, &nb, &nb, &c_b21, &b[pos * b_dim1 + 1], ldb, q, &c__4, &c_b20, &dwork[1], n, 12L, 12L);
+                        dgemm_("No Transpose", "No Transpose", &i__2, &nb, &nb, &c_b21,
+                            &b[pos * b_dim1 + 1], ldb, q, &c__4, &c_b20, &dwork[1], n, 12L, 12L);
                         i__2 = pos - 1;
                         dlacpy_("All", &i__2, &nb, &dwork[1], n, &b[pos * b_dim1 + 1], ldb, 3L);
                     }
-                    if (pos + nb <= *n)
-                    {
+                    if (pos + nb <= *n) {
                         i__2 = *n - pos - nb + 1;
-                        dgemm_("Transpose", "No Transpose", &nb, &i__2, &nb, &c_b21, z__, &c__4, &b[pos + (pos + nb) * b_dim1], ldb, &c_b20, &dwork[1], &nb, 9L, 12L);
+                        dgemm_("Transpose", "No Transpose", &nb, &i__2, &nb, &c_b21, z__, &c__4,
+                            &b[pos + (pos + nb) * b_dim1], ldb, &c_b20, &dwork[1], &nb, 9L, 12L);
                         i__2 = *n - pos - nb + 1;
-                        dlacpy_("All", &nb, &i__2, &dwork[1], &nb, &b[pos + (pos + nb) * b_dim1], ldb, 3L);
+                        dlacpy_("All", &nb, &i__2, &dwork[1], &nb, &b[pos + (pos + nb) * b_dim1],
+                            ldb, 3L);
                     }
                     /*                 Update C. */
-                    if (wantc)
-                    {
-                        dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21, &c__[pos * c_dim1 + 1], ldc, q, &c__4, &c_b20, &dwork[1], n, 12L, 12L);
+                    if (wantc) {
+                        dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21,
+                            &c__[pos * c_dim1 + 1], ldc, q, &c__4, &c_b20, &dwork[1], n, 12L, 12L);
                         dlacpy_("All", n, &nb, &dwork[1], n, &c__[pos * c_dim1 + 1], ldc, 3L);
-                        dgemm_("Transpose", "No Transpose", &nb, n, &nb, &c_b21, z__, &c__4, &c__[pos + c_dim1], ldc, &c_b20, &dwork[1], &nb, 9L, 12L);
+                        dgemm_("Transpose", "No Transpose", &nb, n, &nb, &c_b21, z__, &c__4,
+                            &c__[pos + c_dim1], ldc, &c_b20, &dwork[1], &nb, 9L, 12L);
                         dlacpy_("All", &nb, n, &dwork[1], &nb, &c__[pos + c_dim1], ldc, 3L);
                     }
                     /*                 Update U. */
-                    if (wantu)
-                    {
-                        dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21, &u1[pos * u1_dim1 + 1], ldu1, z__, &c__4, &c_b20, &dwork[1], n, 12L, 12L);
+                    if (wantu) {
+                        dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21,
+                            &u1[pos * u1_dim1 + 1], ldu1, z__, &c__4, &c_b20, &dwork[1], n, 12L,
+                            12L);
                         dlacpy_("All", n, &nb, &dwork[1], n, &u1[pos * u1_dim1 + 1], ldu1, 3L);
-                        dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21, &u2[pos * u2_dim1 + 1], ldu2, z__, &c__4, &c_b20, &dwork[1], n, 12L, 12L);
+                        dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21,
+                            &u2[pos * u2_dim1 + 1], ldu2, z__, &c__4, &c_b20, &dwork[1], n, 12L,
+                            12L);
                         dlacpy_("All", n, &nb, &dwork[1], n, &u2[pos * u2_dim1 + 1], ldu2, 3L);
                     }
                     /*                 Update V. */
-                    if (wantv)
-                    {
-                        dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21, &v1[pos * v1_dim1 + 1], ldv1, q, &c__4, &c_b20, &dwork[1], n, 12L, 12L);
+                    if (wantv) {
+                        dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21,
+                            &v1[pos * v1_dim1 + 1], ldv1, q, &c__4, &c_b20, &dwork[1], n, 12L, 12L);
                         dlacpy_("All", n, &nb, &dwork[1], n, &v1[pos * v1_dim1 + 1], ldv1, 3L);
-                        dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21, &v2[pos * v2_dim1 + 1], ldv2, q, &c__4, &c_b20, &dwork[1], n, 12L, 12L);
+                        dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21,
+                            &v2[pos * v2_dim1 + 1], ldv2, q, &c__4, &c_b20, &dwork[1], n, 12L, 12L);
                         dlacpy_("All", n, &nb, &dwork[1], n, &v2[pos * v2_dim1 + 1], ldv2, 3L);
                     }
-                    if (nbnext == 1)
-                    {
+                    if (nbnext == 1) {
                         /*                    Swap two 1-by-1 blocks. */
                         pos = here;
                         nb = nbnext + 1;
                         dlaset_("All", &nb, &nb, &c_b20, &c_b21, q, &c__4, 3L);
                         dlaset_("All", &nb, &nb, &c_b20, &c_b21, z__, &c__4, 3L);
-                        mb03wa_(&c_true, &c_true, &nbnext, &c__1, &a[pos + pos * a_dim1], lda, &b[pos + pos * b_dim1], ldb, q, &c__4, z__, &c__4, &ierr);
-                        if (ierr != 0)
-                        {
-                            dwork[1] = (doublereal) wrkmin;
+                        mb03wa_(&c_true, &c_true, &nbnext, &c__1, &a[pos + pos * a_dim1], lda,
+                            &b[pos + pos * b_dim1], ldb, q, &c__4, z__, &c__4, &ierr);
+                        if (ierr != 0) {
+                            dwork[1] = (doublereal)wrkmin;
                             *info = 1;
                             return 0;
                         }
                         /*                    Update rest of A. */
-                        if (pos > 1)
-                        {
+                        if (pos > 1) {
                             i__2 = pos - 1;
-                            dgemm_("No Transpose", "No Transpose", &i__2, &nb, &nb, &c_b21, &a[pos * a_dim1 + 1], lda, z__, &c__4, &c_b20, &dwork[1], n, 12L, 12L);
+                            dgemm_("No Transpose", "No Transpose", &i__2, &nb, &nb, &c_b21,
+                                &a[pos * a_dim1 + 1], lda, z__, &c__4, &c_b20, &dwork[1], n, 12L,
+                                12L);
                             i__2 = pos - 1;
                             dlacpy_("All", &i__2, &nb, &dwork[1], n, &a[pos * a_dim1 + 1], lda, 3L);
                         }
-                        if (pos + nb <= *n)
-                        {
+                        if (pos + nb <= *n) {
                             i__2 = *n - pos - nb + 1;
-                            dgemm_("Transpose", "No Transpose", &nb, &i__2, &nb, &c_b21, q, &c__4, &a[pos + (pos + nb) * a_dim1], lda, &c_b20, &dwork[1], &nb, 9L, 12L);
+                            dgemm_("Transpose", "No Transpose", &nb, &i__2, &nb, &c_b21, q, &c__4,
+                                &a[pos + (pos + nb) * a_dim1], lda, &c_b20, &dwork[1], &nb, 9L,
+                                12L);
                             i__2 = *n - pos - nb + 1;
-                            dlacpy_("All", &nb, &i__2, &dwork[1], &nb, &a[pos + (pos + nb) * a_dim1], lda, 3L);
+                            dlacpy_("All", &nb, &i__2, &dwork[1], &nb,
+                                &a[pos + (pos + nb) * a_dim1], lda, 3L);
                         }
                         /*                    Update rest of B. */
-                        if (pos > 1)
-                        {
+                        if (pos > 1) {
                             i__2 = pos - 1;
-                            dgemm_("No Transpose", "No Transpose", &i__2, &nb, &nb, &c_b21, &b[pos * b_dim1 + 1], ldb, q, &c__4, &c_b20, &dwork[1], n, 12L, 12L);
+                            dgemm_("No Transpose", "No Transpose", &i__2, &nb, &nb, &c_b21,
+                                &b[pos * b_dim1 + 1], ldb, q, &c__4, &c_b20, &dwork[1], n, 12L,
+                                12L);
                             i__2 = pos - 1;
                             dlacpy_("All", &i__2, &nb, &dwork[1], n, &b[pos * b_dim1 + 1], ldb, 3L);
                         }
-                        if (pos + nb <= *n)
-                        {
+                        if (pos + nb <= *n) {
                             i__2 = *n - pos - nb + 1;
-                            dgemm_("Transpose", "No Transpose", &nb, &i__2, &nb, &c_b21, z__, &c__4, &b[pos + (pos + nb) * b_dim1], ldb, &c_b20, &dwork[1], &nb, 9L, 12L);
+                            dgemm_("Transpose", "No Transpose", &nb, &i__2, &nb, &c_b21, z__, &c__4,
+                                &b[pos + (pos + nb) * b_dim1], ldb, &c_b20, &dwork[1], &nb, 9L,
+                                12L);
                             i__2 = *n - pos - nb + 1;
-                            dlacpy_("All", &nb, &i__2, &dwork[1], &nb, &b[pos + (pos + nb) * b_dim1], ldb, 3L);
+                            dlacpy_("All", &nb, &i__2, &dwork[1], &nb,
+                                &b[pos + (pos + nb) * b_dim1], ldb, 3L);
                         }
                         /*                    Update C. */
-                        if (wantc)
-                        {
-                            dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21, &c__[pos * c_dim1 + 1], ldc, q, &c__4, &c_b20, &dwork[1], n, 12L, 12L);
+                        if (wantc) {
+                            dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21,
+                                &c__[pos * c_dim1 + 1], ldc, q, &c__4, &c_b20, &dwork[1], n, 12L,
+                                12L);
                             dlacpy_("All", n, &nb, &dwork[1], n, &c__[pos * c_dim1 + 1], ldc, 3L);
-                            dgemm_("Transpose", "No Transpose", &nb, n, &nb, &c_b21, z__, &c__4, &c__[pos + c_dim1], ldc, &c_b20, &dwork[1], &nb, 9L, 12L);
+                            dgemm_("Transpose", "No Transpose", &nb, n, &nb, &c_b21, z__, &c__4,
+                                &c__[pos + c_dim1], ldc, &c_b20, &dwork[1], &nb, 9L, 12L);
                             dlacpy_("All", &nb, n, &dwork[1], &nb, &c__[pos + c_dim1], ldc, 3L);
                         }
                         /*                    Update U. */
-                        if (wantu)
-                        {
-                            dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21, &u1[pos * u1_dim1 + 1], ldu1, z__, &c__4, &c_b20, &dwork[1], n, 12L, 12L);
+                        if (wantu) {
+                            dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21,
+                                &u1[pos * u1_dim1 + 1], ldu1, z__, &c__4, &c_b20, &dwork[1], n, 12L,
+                                12L);
                             dlacpy_("All", n, &nb, &dwork[1], n, &u1[pos * u1_dim1 + 1], ldu1, 3L);
-                            dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21, &u2[pos * u2_dim1 + 1], ldu2, z__, &c__4, &c_b20, &dwork[1], n, 12L, 12L);
+                            dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21,
+                                &u2[pos * u2_dim1 + 1], ldu2, z__, &c__4, &c_b20, &dwork[1], n, 12L,
+                                12L);
                             dlacpy_("All", n, &nb, &dwork[1], n, &u2[pos * u2_dim1 + 1], ldu2, 3L);
                         }
                         /*                    Update V. */
-                        if (wantv)
-                        {
-                            dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21, &v1[pos * v1_dim1 + 1], ldv1, q, &c__4, &c_b20, &dwork[1], n, 12L, 12L);
+                        if (wantv) {
+                            dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21,
+                                &v1[pos * v1_dim1 + 1], ldv1, q, &c__4, &c_b20, &dwork[1], n, 12L,
+                                12L);
                             dlacpy_("All", n, &nb, &dwork[1], n, &v1[pos * v1_dim1 + 1], ldv1, 3L);
-                            dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21, &v2[pos * v2_dim1 + 1], ldv2, q, &c__4, &c_b20, &dwork[1], n, 12L, 12L);
+                            dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21,
+                                &v2[pos * v2_dim1 + 1], ldv2, q, &c__4, &c_b20, &dwork[1], n, 12L,
+                                12L);
                             dlacpy_("All", n, &nb, &dwork[1], n, &v2[pos * v2_dim1 + 1], ldv2, 3L);
                         }
                         --here;
-                    }
-                    else
-                    {
+                    } else {
                         /*                    Recompute NBNEXT in case 2-by-2 split. */
-                        if (a[here + (here - 1) * a_dim1] == 0.)
-                        {
+                        if (a[here + (here - 1) * a_dim1] == 0.) {
                             nbnext = 1;
                         }
-                        if (nbnext == 2)
-                        {
+                        if (nbnext == 2) {
                             /*                       2-by-2 block did not split. */
                             pos = here - 1;
                             nb = 3;
                             dlaset_("All", &nb, &nb, &c_b20, &c_b21, q, &c__4, 3L);
                             dlaset_("All", &nb, &nb, &c_b20, &c_b21, z__, &c__4, 3L);
-                            mb03wa_(&c_true, &c_true, &c__2, &c__1, &a[pos + pos * a_dim1], lda, &b[pos + pos * b_dim1], ldb, q, &c__4, z__, &c__4, &ierr);
-                            if (ierr != 0)
-                            {
-                                dwork[1] = (doublereal) wrkmin;
+                            mb03wa_(&c_true, &c_true, &c__2, &c__1, &a[pos + pos * a_dim1], lda,
+                                &b[pos + pos * b_dim1], ldb, q, &c__4, z__, &c__4, &ierr);
+                            if (ierr != 0) {
+                                dwork[1] = (doublereal)wrkmin;
                                 *info = 1;
                                 return 0;
                             }
                             /*                       Update rest of A. */
-                            if (pos > 1)
-                            {
+                            if (pos > 1) {
                                 i__2 = pos - 1;
-                                dgemm_("No Transpose", "No Transpose", &i__2, &nb, &nb, &c_b21, &a[pos * a_dim1 + 1], lda, z__, &c__4, &c_b20, &dwork[1], n, 12L, 12L);
+                                dgemm_("No Transpose", "No Transpose", &i__2, &nb, &nb, &c_b21,
+                                    &a[pos * a_dim1 + 1], lda, z__, &c__4, &c_b20, &dwork[1], n,
+                                    12L, 12L);
                                 i__2 = pos - 1;
-                                dlacpy_("All", &i__2, &nb, &dwork[1], n, &a[pos * a_dim1 + 1], lda, 3L);
+                                dlacpy_(
+                                    "All", &i__2, &nb, &dwork[1], n, &a[pos * a_dim1 + 1], lda, 3L);
                             }
-                            if (pos + nb <= *n)
-                            {
+                            if (pos + nb <= *n) {
                                 i__2 = *n - pos - nb + 1;
-                                dgemm_("Transpose", "No Transpose", &nb, &i__2, &nb, &c_b21, q, &c__4, &a[pos + (pos + nb) * a_dim1], lda, &c_b20, &dwork[1], &nb, 9L, 12L);
+                                dgemm_("Transpose", "No Transpose", &nb, &i__2, &nb, &c_b21, q,
+                                    &c__4, &a[pos + (pos + nb) * a_dim1], lda, &c_b20, &dwork[1],
+                                    &nb, 9L, 12L);
                                 i__2 = *n - pos - nb + 1;
-                                dlacpy_("All", &nb, &i__2, &dwork[1], &nb, &a[pos + (pos + nb) * a_dim1], lda, 3L);
+                                dlacpy_("All", &nb, &i__2, &dwork[1], &nb,
+                                    &a[pos + (pos + nb) * a_dim1], lda, 3L);
                             }
                             /*                       Update rest of B. */
-                            if (pos > 1)
-                            {
+                            if (pos > 1) {
                                 i__2 = pos - 1;
-                                dgemm_("No Transpose", "No Transpose", &i__2, &nb, &nb, &c_b21, &b[pos * b_dim1 + 1], ldb, q, &c__4, &c_b20, &dwork[1], n, 12L, 12L);
+                                dgemm_("No Transpose", "No Transpose", &i__2, &nb, &nb, &c_b21,
+                                    &b[pos * b_dim1 + 1], ldb, q, &c__4, &c_b20, &dwork[1], n, 12L,
+                                    12L);
                                 i__2 = pos - 1;
-                                dlacpy_("All", &i__2, &nb, &dwork[1], n, &b[pos * b_dim1 + 1], ldb, 3L);
+                                dlacpy_(
+                                    "All", &i__2, &nb, &dwork[1], n, &b[pos * b_dim1 + 1], ldb, 3L);
                             }
-                            if (pos + nb <= *n)
-                            {
+                            if (pos + nb <= *n) {
                                 i__2 = *n - pos - nb + 1;
-                                dgemm_("Transpose", "No Transpose", &nb, &i__2, &nb, &c_b21, z__, &c__4, &b[pos + (pos + nb) * b_dim1], ldb, &c_b20, &dwork[1], &nb, 9L, 12L);
+                                dgemm_("Transpose", "No Transpose", &nb, &i__2, &nb, &c_b21, z__,
+                                    &c__4, &b[pos + (pos + nb) * b_dim1], ldb, &c_b20, &dwork[1],
+                                    &nb, 9L, 12L);
                                 i__2 = *n - pos - nb + 1;
-                                dlacpy_("All", &nb, &i__2, &dwork[1], &nb, &b[pos + (pos + nb) * b_dim1], ldb, 3L);
+                                dlacpy_("All", &nb, &i__2, &dwork[1], &nb,
+                                    &b[pos + (pos + nb) * b_dim1], ldb, 3L);
                             }
                             /*                       Update C. */
-                            if (wantc)
-                            {
-                                dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21, &c__[pos * c_dim1 + 1], ldc, q, &c__4, &c_b20, &dwork[1], n, 12L, 12L);
-                                dlacpy_("All", n, &nb, &dwork[1], n, &c__[pos * c_dim1 + 1], ldc, 3L);
-                                dgemm_("Transpose", "No Transpose", &nb, n, &nb, &c_b21, z__, &c__4, &c__[pos + c_dim1], ldc, &c_b20, &dwork[1], &nb, 9L, 12L);
+                            if (wantc) {
+                                dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21,
+                                    &c__[pos * c_dim1 + 1], ldc, q, &c__4, &c_b20, &dwork[1], n,
+                                    12L, 12L);
+                                dlacpy_(
+                                    "All", n, &nb, &dwork[1], n, &c__[pos * c_dim1 + 1], ldc, 3L);
+                                dgemm_("Transpose", "No Transpose", &nb, n, &nb, &c_b21, z__, &c__4,
+                                    &c__[pos + c_dim1], ldc, &c_b20, &dwork[1], &nb, 9L, 12L);
                                 dlacpy_("All", &nb, n, &dwork[1], &nb, &c__[pos + c_dim1], ldc, 3L);
                             }
                             /*                       Update U. */
-                            if (wantu)
-                            {
-                                dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21, &u1[pos * u1_dim1 + 1], ldu1, z__, &c__4, &c_b20, &dwork[1], n, 12L, 12L);
-                                dlacpy_("All", n, &nb, &dwork[1], n, &u1[pos * u1_dim1 + 1], ldu1, 3L);
-                                dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21, &u2[pos * u2_dim1 + 1], ldu2, z__, &c__4, &c_b20, &dwork[1], n, 12L, 12L);
-                                dlacpy_("All", n, &nb, &dwork[1], n, &u2[pos * u2_dim1 + 1], ldu2, 3L);
+                            if (wantu) {
+                                dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21,
+                                    &u1[pos * u1_dim1 + 1], ldu1, z__, &c__4, &c_b20, &dwork[1], n,
+                                    12L, 12L);
+                                dlacpy_(
+                                    "All", n, &nb, &dwork[1], n, &u1[pos * u1_dim1 + 1], ldu1, 3L);
+                                dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21,
+                                    &u2[pos * u2_dim1 + 1], ldu2, z__, &c__4, &c_b20, &dwork[1], n,
+                                    12L, 12L);
+                                dlacpy_(
+                                    "All", n, &nb, &dwork[1], n, &u2[pos * u2_dim1 + 1], ldu2, 3L);
                             }
                             /*                       Update V. */
-                            if (wantv)
-                            {
-                                dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21, &v1[pos * v1_dim1 + 1], ldv1, q, &c__4, &c_b20, &dwork[1], n, 12L, 12L);
-                                dlacpy_("All", n, &nb, &dwork[1], n, &v1[pos * v1_dim1 + 1], ldv1, 3L);
-                                dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21, &v2[pos * v2_dim1 + 1], ldv2, q, &c__4, &c_b20, &dwork[1], n, 12L, 12L);
-                                dlacpy_("All", n, &nb, &dwork[1], n, &v2[pos * v2_dim1 + 1], ldv2, 3L);
+                            if (wantv) {
+                                dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21,
+                                    &v1[pos * v1_dim1 + 1], ldv1, q, &c__4, &c_b20, &dwork[1], n,
+                                    12L, 12L);
+                                dlacpy_(
+                                    "All", n, &nb, &dwork[1], n, &v1[pos * v1_dim1 + 1], ldv1, 3L);
+                                dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21,
+                                    &v2[pos * v2_dim1 + 1], ldv2, q, &c__4, &c_b20, &dwork[1], n,
+                                    12L, 12L);
+                                dlacpy_(
+                                    "All", n, &nb, &dwork[1], n, &v2[pos * v2_dim1 + 1], ldv2, 3L);
                             }
                             here += -2;
-                        }
-                        else
-                        {
+                        } else {
                             /*                       2-by-2 block did split. */
                             pos = here;
                             nb = 2;
                             dlaset_("All", &nb, &nb, &c_b20, &c_b21, q, &c__4, 3L);
                             dlaset_("All", &nb, &nb, &c_b20, &c_b21, z__, &c__4, 3L);
-                            mb03wa_(&c_true, &c_true, &c__2, &c__1, &a[pos + pos * a_dim1], lda, &b[pos + pos * b_dim1], ldb, q, &c__4, z__, &c__4, &ierr);
-                            if (ierr != 0)
-                            {
-                                dwork[1] = (doublereal) wrkmin;
+                            mb03wa_(&c_true, &c_true, &c__2, &c__1, &a[pos + pos * a_dim1], lda,
+                                &b[pos + pos * b_dim1], ldb, q, &c__4, z__, &c__4, &ierr);
+                            if (ierr != 0) {
+                                dwork[1] = (doublereal)wrkmin;
                                 *info = 1;
                                 return 0;
                             }
                             /*                       Update rest of A. */
-                            if (pos > 1)
-                            {
+                            if (pos > 1) {
                                 i__2 = pos - 1;
-                                dgemm_("No Transpose", "No Transpose", &i__2, &nb, &nb, &c_b21, &a[pos * a_dim1 + 1], lda, z__, &c__4, &c_b20, &dwork[1], n, 12L, 12L);
+                                dgemm_("No Transpose", "No Transpose", &i__2, &nb, &nb, &c_b21,
+                                    &a[pos * a_dim1 + 1], lda, z__, &c__4, &c_b20, &dwork[1], n,
+                                    12L, 12L);
                                 i__2 = pos - 1;
-                                dlacpy_("All", &i__2, &nb, &dwork[1], n, &a[pos * a_dim1 + 1], lda, 3L);
+                                dlacpy_(
+                                    "All", &i__2, &nb, &dwork[1], n, &a[pos * a_dim1 + 1], lda, 3L);
                             }
-                            if (pos + nb <= *n)
-                            {
+                            if (pos + nb <= *n) {
                                 i__2 = *n - pos - nb + 1;
-                                dgemm_("Transpose", "No Transpose", &nb, &i__2, &nb, &c_b21, q, &c__4, &a[pos + (pos + nb) * a_dim1], lda, &c_b20, &dwork[1], &nb, 9L, 12L);
+                                dgemm_("Transpose", "No Transpose", &nb, &i__2, &nb, &c_b21, q,
+                                    &c__4, &a[pos + (pos + nb) * a_dim1], lda, &c_b20, &dwork[1],
+                                    &nb, 9L, 12L);
                                 i__2 = *n - pos - nb + 1;
-                                dlacpy_("All", &nb, &i__2, &dwork[1], &nb, &a[pos + (pos + nb) * a_dim1], lda, 3L);
+                                dlacpy_("All", &nb, &i__2, &dwork[1], &nb,
+                                    &a[pos + (pos + nb) * a_dim1], lda, 3L);
                             }
                             /*                       Update rest of B. */
-                            if (pos > 1)
-                            {
+                            if (pos > 1) {
                                 i__2 = pos - 1;
-                                dgemm_("No Transpose", "No Transpose", &i__2, &nb, &nb, &c_b21, &b[pos * b_dim1 + 1], ldb, q, &c__4, &c_b20, &dwork[1], n, 12L, 12L);
+                                dgemm_("No Transpose", "No Transpose", &i__2, &nb, &nb, &c_b21,
+                                    &b[pos * b_dim1 + 1], ldb, q, &c__4, &c_b20, &dwork[1], n, 12L,
+                                    12L);
                                 i__2 = pos - 1;
-                                dlacpy_("All", &i__2, &nb, &dwork[1], n, &b[pos * b_dim1 + 1], ldb, 3L);
+                                dlacpy_(
+                                    "All", &i__2, &nb, &dwork[1], n, &b[pos * b_dim1 + 1], ldb, 3L);
                             }
-                            if (pos + nb <= *n)
-                            {
+                            if (pos + nb <= *n) {
                                 i__2 = *n - pos - nb + 1;
-                                dgemm_("Transpose", "No Transpose", &nb, &i__2, &nb, &c_b21, z__, &c__4, &b[pos + (pos + nb) * b_dim1], ldb, &c_b20, &dwork[1], &nb, 9L, 12L);
+                                dgemm_("Transpose", "No Transpose", &nb, &i__2, &nb, &c_b21, z__,
+                                    &c__4, &b[pos + (pos + nb) * b_dim1], ldb, &c_b20, &dwork[1],
+                                    &nb, 9L, 12L);
                                 i__2 = *n - pos - nb + 1;
-                                dlacpy_("All", &nb, &i__2, &dwork[1], &nb, &b[pos + (pos + nb) * b_dim1], ldb, 3L);
+                                dlacpy_("All", &nb, &i__2, &dwork[1], &nb,
+                                    &b[pos + (pos + nb) * b_dim1], ldb, 3L);
                             }
                             /*                       Update C. */
-                            if (wantc)
-                            {
-                                dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21, &c__[pos * c_dim1 + 1], ldc, q, &c__4, &c_b20, &dwork[1], n, 12L, 12L);
-                                dlacpy_("All", n, &nb, &dwork[1], n, &c__[pos * c_dim1 + 1], ldc, 3L);
-                                dgemm_("Transpose", "No Transpose", &nb, n, &nb, &c_b21, z__, &c__4, &c__[pos + c_dim1], ldc, &c_b20, &dwork[1], &nb, 9L, 12L);
+                            if (wantc) {
+                                dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21,
+                                    &c__[pos * c_dim1 + 1], ldc, q, &c__4, &c_b20, &dwork[1], n,
+                                    12L, 12L);
+                                dlacpy_(
+                                    "All", n, &nb, &dwork[1], n, &c__[pos * c_dim1 + 1], ldc, 3L);
+                                dgemm_("Transpose", "No Transpose", &nb, n, &nb, &c_b21, z__, &c__4,
+                                    &c__[pos + c_dim1], ldc, &c_b20, &dwork[1], &nb, 9L, 12L);
                                 dlacpy_("All", &nb, n, &dwork[1], &nb, &c__[pos + c_dim1], ldc, 3L);
                             }
                             /*                       Update U. */
-                            if (wantu)
-                            {
-                                dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21, &u1[pos * u1_dim1 + 1], ldu1, z__, &c__4, &c_b20, &dwork[1], n, 12L, 12L);
-                                dlacpy_("All", n, &nb, &dwork[1], n, &u1[pos * u1_dim1 + 1], ldu1, 3L);
-                                dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21, &u2[pos * u2_dim1 + 1], ldu2, z__, &c__4, &c_b20, &dwork[1], n, 12L, 12L);
-                                dlacpy_("All", n, &nb, &dwork[1], n, &u2[pos * u2_dim1 + 1], ldu2, 3L);
+                            if (wantu) {
+                                dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21,
+                                    &u1[pos * u1_dim1 + 1], ldu1, z__, &c__4, &c_b20, &dwork[1], n,
+                                    12L, 12L);
+                                dlacpy_(
+                                    "All", n, &nb, &dwork[1], n, &u1[pos * u1_dim1 + 1], ldu1, 3L);
+                                dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21,
+                                    &u2[pos * u2_dim1 + 1], ldu2, z__, &c__4, &c_b20, &dwork[1], n,
+                                    12L, 12L);
+                                dlacpy_(
+                                    "All", n, &nb, &dwork[1], n, &u2[pos * u2_dim1 + 1], ldu2, 3L);
                             }
                             /*                       Update V. */
-                            if (wantv)
-                            {
-                                dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21, &v1[pos * v1_dim1 + 1], ldv1, q, &c__4, &c_b20, &dwork[1], n, 12L, 12L);
-                                dlacpy_("All", n, &nb, &dwork[1], n, &v1[pos * v1_dim1 + 1], ldv1, 3L);
-                                dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21, &v2[pos * v2_dim1 + 1], ldv2, q, &c__4, &c_b20, &dwork[1], n, 12L, 12L);
-                                dlacpy_("All", n, &nb, &dwork[1], n, &v2[pos * v2_dim1 + 1], ldv2, 3L);
+                            if (wantv) {
+                                dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21,
+                                    &v1[pos * v1_dim1 + 1], ldv1, q, &c__4, &c_b20, &dwork[1], n,
+                                    12L, 12L);
+                                dlacpy_(
+                                    "All", n, &nb, &dwork[1], n, &v1[pos * v1_dim1 + 1], ldv1, 3L);
+                                dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21,
+                                    &v2[pos * v2_dim1 + 1], ldv2, q, &c__4, &c_b20, &dwork[1], n,
+                                    12L, 12L);
+                                dlacpy_(
+                                    "All", n, &nb, &dwork[1], n, &v2[pos * v2_dim1 + 1], ldv2, 3L);
                             }
                             pos = here - 1;
                             nb = 2;
                             dlaset_("All", &nb, &nb, &c_b20, &c_b21, q, &c__4, 3L);
                             dlaset_("All", &nb, &nb, &c_b20, &c_b21, z__, &c__4, 3L);
-                            mb03wa_(&c_true, &c_true, &c__2, &c__1, &a[pos + pos * a_dim1], lda, &b[pos + pos * b_dim1], ldb, q, &c__4, z__, &c__4, &ierr);
-                            if (ierr != 0)
-                            {
-                                dwork[1] = (doublereal) wrkmin;
+                            mb03wa_(&c_true, &c_true, &c__2, &c__1, &a[pos + pos * a_dim1], lda,
+                                &b[pos + pos * b_dim1], ldb, q, &c__4, z__, &c__4, &ierr);
+                            if (ierr != 0) {
+                                dwork[1] = (doublereal)wrkmin;
                                 *info = 1;
                                 return 0;
                             }
                             /*                       Update rest of A. */
-                            if (pos > 1)
-                            {
+                            if (pos > 1) {
                                 i__2 = pos - 1;
-                                dgemm_("No Transpose", "No Transpose", &i__2, &nb, &nb, &c_b21, &a[pos * a_dim1 + 1], lda, z__, &c__4, &c_b20, &dwork[1], n, 12L, 12L);
+                                dgemm_("No Transpose", "No Transpose", &i__2, &nb, &nb, &c_b21,
+                                    &a[pos * a_dim1 + 1], lda, z__, &c__4, &c_b20, &dwork[1], n,
+                                    12L, 12L);
                                 i__2 = pos - 1;
-                                dlacpy_("All", &i__2, &nb, &dwork[1], n, &a[pos * a_dim1 + 1], lda, 3L);
+                                dlacpy_(
+                                    "All", &i__2, &nb, &dwork[1], n, &a[pos * a_dim1 + 1], lda, 3L);
                             }
-                            if (pos + nb <= *n)
-                            {
+                            if (pos + nb <= *n) {
                                 i__2 = *n - pos - nb + 1;
-                                dgemm_("Transpose", "No Transpose", &nb, &i__2, &nb, &c_b21, q, &c__4, &a[pos + (pos + nb) * a_dim1], lda, &c_b20, &dwork[1], &nb, 9L, 12L);
+                                dgemm_("Transpose", "No Transpose", &nb, &i__2, &nb, &c_b21, q,
+                                    &c__4, &a[pos + (pos + nb) * a_dim1], lda, &c_b20, &dwork[1],
+                                    &nb, 9L, 12L);
                                 i__2 = *n - pos - nb + 1;
-                                dlacpy_("All", &nb, &i__2, &dwork[1], &nb, &a[pos + (pos + nb) * a_dim1], lda, 3L);
+                                dlacpy_("All", &nb, &i__2, &dwork[1], &nb,
+                                    &a[pos + (pos + nb) * a_dim1], lda, 3L);
                             }
                             /*                       Update rest of B. */
-                            if (pos > 1)
-                            {
+                            if (pos > 1) {
                                 i__2 = pos - 1;
-                                dgemm_("No Transpose", "No Transpose", &i__2, &nb, &nb, &c_b21, &b[pos * b_dim1 + 1], ldb, q, &c__4, &c_b20, &dwork[1], n, 12L, 12L);
+                                dgemm_("No Transpose", "No Transpose", &i__2, &nb, &nb, &c_b21,
+                                    &b[pos * b_dim1 + 1], ldb, q, &c__4, &c_b20, &dwork[1], n, 12L,
+                                    12L);
                                 i__2 = pos - 1;
-                                dlacpy_("All", &i__2, &nb, &dwork[1], n, &b[pos * b_dim1 + 1], ldb, 3L);
+                                dlacpy_(
+                                    "All", &i__2, &nb, &dwork[1], n, &b[pos * b_dim1 + 1], ldb, 3L);
                             }
-                            if (pos + nb <= *n)
-                            {
+                            if (pos + nb <= *n) {
                                 i__2 = *n - pos - nb + 1;
-                                dgemm_("Transpose", "No Transpose", &nb, &i__2, &nb, &c_b21, z__, &c__4, &b[pos + (pos + nb) * b_dim1], ldb, &c_b20, &dwork[1], &nb, 9L, 12L);
+                                dgemm_("Transpose", "No Transpose", &nb, &i__2, &nb, &c_b21, z__,
+                                    &c__4, &b[pos + (pos + nb) * b_dim1], ldb, &c_b20, &dwork[1],
+                                    &nb, 9L, 12L);
                                 i__2 = *n - pos - nb + 1;
-                                dlacpy_("All", &nb, &i__2, &dwork[1], &nb, &b[pos + (pos + nb) * b_dim1], ldb, 3L);
+                                dlacpy_("All", &nb, &i__2, &dwork[1], &nb,
+                                    &b[pos + (pos + nb) * b_dim1], ldb, 3L);
                             }
                             /*                       Update C. */
-                            if (wantc)
-                            {
-                                dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21, &c__[pos * c_dim1 + 1], ldc, q, &c__4, &c_b20, &dwork[1], n, 12L, 12L);
-                                dlacpy_("All", n, &nb, &dwork[1], n, &c__[pos * c_dim1 + 1], ldc, 3L);
-                                dgemm_("Transpose", "No Transpose", &nb, n, &nb, &c_b21, z__, &c__4, &c__[pos + c_dim1], ldc, &c_b20, &dwork[1], &nb, 9L, 12L);
+                            if (wantc) {
+                                dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21,
+                                    &c__[pos * c_dim1 + 1], ldc, q, &c__4, &c_b20, &dwork[1], n,
+                                    12L, 12L);
+                                dlacpy_(
+                                    "All", n, &nb, &dwork[1], n, &c__[pos * c_dim1 + 1], ldc, 3L);
+                                dgemm_("Transpose", "No Transpose", &nb, n, &nb, &c_b21, z__, &c__4,
+                                    &c__[pos + c_dim1], ldc, &c_b20, &dwork[1], &nb, 9L, 12L);
                                 dlacpy_("All", &nb, n, &dwork[1], &nb, &c__[pos + c_dim1], ldc, 3L);
                             }
                             /*                       Update U. */
-                            if (wantu)
-                            {
-                                dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21, &u1[pos * u1_dim1 + 1], ldu1, z__, &c__4, &c_b20, &dwork[1], n, 12L, 12L);
-                                dlacpy_("All", n, &nb, &dwork[1], n, &u1[pos * u1_dim1 + 1], ldu1, 3L);
-                                dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21, &u2[pos * u2_dim1 + 1], ldu2, z__, &c__4, &c_b20, &dwork[1], n, 12L, 12L);
-                                dlacpy_("All", n, &nb, &dwork[1], n, &u2[pos * u2_dim1 + 1], ldu2, 3L);
+                            if (wantu) {
+                                dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21,
+                                    &u1[pos * u1_dim1 + 1], ldu1, z__, &c__4, &c_b20, &dwork[1], n,
+                                    12L, 12L);
+                                dlacpy_(
+                                    "All", n, &nb, &dwork[1], n, &u1[pos * u1_dim1 + 1], ldu1, 3L);
+                                dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21,
+                                    &u2[pos * u2_dim1 + 1], ldu2, z__, &c__4, &c_b20, &dwork[1], n,
+                                    12L, 12L);
+                                dlacpy_(
+                                    "All", n, &nb, &dwork[1], n, &u2[pos * u2_dim1 + 1], ldu2, 3L);
                             }
                             /*                       Update V. */
-                            if (wantv)
-                            {
-                                dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21, &v1[pos * v1_dim1 + 1], ldv1, q, &c__4, &c_b20, &dwork[1], n, 12L, 12L);
-                                dlacpy_("All", n, &nb, &dwork[1], n, &v1[pos * v1_dim1 + 1], ldv1, 3L);
-                                dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21, &v2[pos * v2_dim1 + 1], ldv2, q, &c__4, &c_b20, &dwork[1], n, 12L, 12L);
-                                dlacpy_("All", n, &nb, &dwork[1], n, &v2[pos * v2_dim1 + 1], ldv2, 3L);
+                            if (wantv) {
+                                dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21,
+                                    &v1[pos * v1_dim1 + 1], ldv1, q, &c__4, &c_b20, &dwork[1], n,
+                                    12L, 12L);
+                                dlacpy_(
+                                    "All", n, &nb, &dwork[1], n, &v1[pos * v1_dim1 + 1], ldv1, 3L);
+                                dgemm_("No Transpose", "No Transpose", n, &nb, &nb, &c_b21,
+                                    &v2[pos * v2_dim1 + 1], ldv2, q, &c__4, &c_b20, &dwork[1], n,
+                                    12L, 12L);
+                                dlacpy_(
+                                    "All", n, &nb, &dwork[1], n, &v2[pos * v2_dim1 + 1], ldv2, 3L);
                             }
                             here += -2;
                         }
                     }
                 }
-                if (here > ilst)
-                {
+                if (here > ilst) {
                     goto L20;
                 }
-L30:
-                if (pair)
-                {
+            L30:
+                if (pair) {
                     ++ks;
                 }
             }
@@ -990,8 +1004,7 @@ L30:
 L50:
     /*     Step 2: Compute an ordered Schur decomposition of */
     /*             [ 0, -A11; B11, 0 ]. */
-    if (initw)
-    {
+    if (initw) {
         i__1 = *m << 1;
         i__2 = *m << 1;
         dlaset_("All", &i__1, &i__2, &c_b20, &c_b21, &w[w_offset], ldw, 3L);
@@ -1002,19 +1015,13 @@ L50:
     pair = FALSE_;
     nb = 1;
     i__1 = *m;
-    for (k = 1; k <= i__1; ++k)
-    {
-        if (pair)
-        {
+    for (k = 1; k <= i__1; ++k) {
+        if (pair) {
             pair = FALSE_;
             nb = 1;
-        }
-        else
-        {
-            if (k < *n)
-            {
-                if (a[k + 1 + k * a_dim1] != 0.)
-                {
+        } else {
+            if (k < *n) {
+                if (a[k + 1 + k * a_dim1] != 0.) {
                     pair = TRUE_;
                     nb = 2;
                 }
@@ -1029,78 +1036,68 @@ L50:
             dlaset_("All", &nb, &i__2, &c_b20, &c_b20, &a[k + k * a_dim1], lda, 3L);
             l = k;
             /*           WHILE L >= 1 DO */
-L60:
-            if (k == l)
-            {
+        L60:
+            if (k == l) {
                 /*                 Annihilate B(k,k). */
                 nbl = nb;
                 i__2 = nb + nbl;
                 i__3 = nb + nbl;
                 dlaset_("All", &i__2, &i__3, &c_b20, &c_b20, t, &c__4, 3L);
                 dlacpy_("Upper", &nbl, &nbl, &b[l + l * b_dim1], ldb, &t[nb], &c__4, 5L);
-                if (nb == 1)
-                {
+                if (nb == 1) {
                     dwork[pwdl] = -dwork[pwdl];
-                }
-                else
-                {
+                } else {
                     i__2 = nb << 1;
                     dscal_(&i__2, &c_b479, &dwork[pwdl], &c__1);
                 }
                 dlacpy_("All", &nb, &nb, &dwork[pwdl], &c__2, &t[(nb + 1 << 2) - 4], &c__4, 3L);
-            }
-            else
-            {
+            } else {
                 /*                 Annihilate B(l,k). */
                 i__2 = nbl + nb;
                 i__3 = nbl + nb;
                 dlaset_("All", &i__2, &i__3, &c_b20, &c_b20, t, &c__4, 3L);
                 dlacpy_("All", &nbl, &nbl, &a[l + l * a_dim1], lda, t, &c__4, 3L);
-                dlacpy_("All", &nbl, &nb, &b[l + k * b_dim1], ldb, &t[(nbl + 1 << 2) - 4], &c__4, 3L);
-                dlacpy_("All", &nb, &nb, &dwork[pwck], &c__2, &t[nbl + 1 + (nbl + 1 << 2) - 5], &c__4, 3L);
+                dlacpy_(
+                    "All", &nbl, &nb, &b[l + k * b_dim1], ldb, &t[(nbl + 1 << 2) - 4], &c__4, 3L);
+                dlacpy_("All", &nb, &nb, &dwork[pwck], &c__2, &t[nbl + 1 + (nbl + 1 << 2) - 5],
+                    &c__4, 3L);
                 pwdl = pwd + (l - 1 << 1);
             }
             i__2 = nb + nbl;
-            dgees_("V", "Not Sorted", lfdum_, &i__2, t, &c__4, &mm, wrnew, winew, q, &c__4, dw12, &c__12, ldum, &ierr, 1L, 10L);
-            if (ierr != 0)
-            {
-                dwork[1] = (doublereal) wrkmin;
+            dgees_("V", "Not Sorted", lfdum_, &i__2, t, &c__4, &mm, wrnew, winew, q, &c__4, dw12,
+                &c__12, ldum, &ierr, 1L, 10L);
+            if (ierr != 0) {
+                dwork[1] = (doublereal)wrkmin;
                 *info = 3;
                 return 0;
             }
             /*              Reorder Schur form. */
             mm = 0;
             i__2 = nb + nbl;
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
-                if (wrnew[i__ - 1] > 0.)
-                {
+            for (i__ = 1; i__ <= i__2; ++i__) {
+                if (wrnew[i__ - 1] > 0.) {
                     ++mm;
                     selnew[i__ - 1] = TRUE_;
-                }
-                else
-                {
+                } else {
                     selnew[i__ - 1] = FALSE_;
                 }
                 /* L70: */
             }
-            if (mm < nb)
-            {
-                dwork[1] = (doublereal) wrkmin;
+            if (mm < nb) {
+                dwork[1] = (doublereal)wrkmin;
                 *info = 4;
                 return 0;
             }
             i__2 = nb + nbl;
-            dtrsen_("None", "V", selnew, &i__2, t, &c__4, q, &c__4, wrnew, winew, &mm, &temp, &temp, dw12, &c__4, idum, &c__1, &ierr, 4L, 1L);
-            if (ierr != 0)
-            {
-                dwork[1] = (doublereal) wrkmin;
+            dtrsen_("None", "V", selnew, &i__2, t, &c__4, q, &c__4, wrnew, winew, &mm, &temp, &temp,
+                dw12, &c__4, idum, &c__1, &ierr, 4L, 1L);
+            if (ierr != 0) {
+                dwork[1] = (doublereal)wrkmin;
                 *info = 2;
                 return 0;
             }
             /*              Permute Q if necessary. */
-            if (k != l)
-            {
+            if (k != l) {
                 i__2 = nb + nbl;
                 dlacpy_("All", &nbl, &i__2, q, &c__4, &z__[nb], &c__4, 3L);
                 i__2 = nb + nbl;
@@ -1112,88 +1109,111 @@ L60:
             /*              Update "diagonal" blocks. */
             dlacpy_("All", &nb, &nb, t, &c__4, &dwork[pwck], &c__2, 3L);
             dlacpy_("All", &nb, &nbl, &t[(nb + 1 << 2) - 4], &c__4, &dwork[pwdl], &c__2, 3L);
-            if (nb == 1)
-            {
+            if (nb == 1) {
                 dscal_(&nbl, &c_b479, &dwork[pwdl], &c__2);
-            }
-            else
-            {
+            } else {
                 i__2 = nbl << 1;
                 dscal_(&i__2, &c_b479, &dwork[pwdl], &c__1);
             }
-            dlacpy_("All", &nbl, &nbl, &t[nb + 1 + (nb + 1 << 2) - 5], &c__4, &a[l + l * a_dim1], lda, 3L);
+            dlacpy_("All", &nbl, &nbl, &t[nb + 1 + (nb + 1 << 2) - 5], &c__4, &a[l + l * a_dim1],
+                lda, 3L);
             /*              Update block columns of A and B. */
             len = l - 1;
-            if (len > 0)
-            {
-                dgemm_("No Transpose", "No Transpose", &len, &nb, &nb, &c_b21, &b[k * b_dim1 + 1], ldb, q, &c__4, &c_b20, &dwork[pw], m, 12L, 12L);
-                dgemm_("No Transpose", "No Transpose", &len, &nbl, &nb, &c_b21, &b[k * b_dim1 + 1], ldb, &q[(nb + 1 << 2) - 4], &c__4, &c_b20, &dwork[pw + (*m << 1)], m, 12L, 12L);
-                dgemm_("No Transpose", "No Transpose", &len, &nb, &nbl, &c_b21, &a[l * a_dim1 + 1], lda, &q[nb], &c__4, &c_b21, &dwork[pw], m, 12L, 12L);
+            if (len > 0) {
+                dgemm_("No Transpose", "No Transpose", &len, &nb, &nb, &c_b21, &b[k * b_dim1 + 1],
+                    ldb, q, &c__4, &c_b20, &dwork[pw], m, 12L, 12L);
+                dgemm_("No Transpose", "No Transpose", &len, &nbl, &nb, &c_b21, &b[k * b_dim1 + 1],
+                    ldb, &q[(nb + 1 << 2) - 4], &c__4, &c_b20, &dwork[pw + (*m << 1)], m, 12L, 12L);
+                dgemm_("No Transpose", "No Transpose", &len, &nb, &nbl, &c_b21, &a[l * a_dim1 + 1],
+                    lda, &q[nb], &c__4, &c_b21, &dwork[pw], m, 12L, 12L);
                 dlacpy_("All", &len, &nb, &dwork[pw], m, &b[k * b_dim1 + 1], ldb, 3L);
-                dgemm_("No Transpose", "No Transpose", &len, &nbl, &nbl, &c_b21, &a[l * a_dim1 + 1], lda, &q[nb + 1 + (nb + 1 << 2) - 5], &c__4, &c_b21, &dwork[pw + (*m << 1)], m, 12L, 12L);
+                dgemm_("No Transpose", "No Transpose", &len, &nbl, &nbl, &c_b21, &a[l * a_dim1 + 1],
+                    lda, &q[nb + 1 + (nb + 1 << 2) - 5], &c__4, &c_b21, &dwork[pw + (*m << 1)], m,
+                    12L, 12L);
                 dlacpy_("All", &len, &nbl, &dwork[pw + (*m << 1)], m, &a[l * a_dim1 + 1], lda, 3L);
             }
             /*              Update block column of A. */
             len = *m - l - nbl + 1;
-            if (len > 0)
-            {
-                dgemm_("Transpose", "No Transpose", &nb, &len, &nb, &c_b21, q, &c__4, &dwork[pwdl + (nbl << 1)], &c__2, &c_b20, &dwork[pw], &c__2, 9L, 12L);
-                dgemm_("Transpose", "No Transpose", &nbl, &len, &nb, &c_b479, &q[(nb + 1 << 2) - 4], &c__4, &dwork[pwdl + (nbl << 1)], &c__2, &c_b20, &dwork[pw + (*m << 1)], &c__2, 9L, 12L);
-                dgemm_("Transpose", "No Transpose", &nb, &len, &nbl, &c_b479, &q[nb], &c__4, &a[l + (l + nbl) * a_dim1], lda, &c_b21, &dwork[pw], &c__2, 9L, 12L);
+            if (len > 0) {
+                dgemm_("Transpose", "No Transpose", &nb, &len, &nb, &c_b21, q, &c__4,
+                    &dwork[pwdl + (nbl << 1)], &c__2, &c_b20, &dwork[pw], &c__2, 9L, 12L);
+                dgemm_("Transpose", "No Transpose", &nbl, &len, &nb, &c_b479, &q[(nb + 1 << 2) - 4],
+                    &c__4, &dwork[pwdl + (nbl << 1)], &c__2, &c_b20, &dwork[pw + (*m << 1)], &c__2,
+                    9L, 12L);
+                dgemm_("Transpose", "No Transpose", &nb, &len, &nbl, &c_b479, &q[nb], &c__4,
+                    &a[l + (l + nbl) * a_dim1], lda, &c_b21, &dwork[pw], &c__2, 9L, 12L);
                 dlacpy_("All", &nb, &len, &dwork[pw], &c__2, &dwork[pwdl + (nbl << 1)], &c__2, 3L);
-                dgemm_("Transpose", "No Transpose", &nbl, &len, &nbl, &c_b21, &q[nb + 1 + (nb + 1 << 2) - 5], &c__4, &a[l + (l + nbl) * a_dim1], lda, &c_b21, &dwork[pw + (*m << 1)], &c__2, 9L, 12L);
-                dlacpy_("All", &nbl, &len, &dwork[pw + (*m << 1)], &c__2, &a[l + (l + nbl) * a_dim1], lda, 3L);
+                dgemm_("Transpose", "No Transpose", &nbl, &len, &nbl, &c_b21,
+                    &q[nb + 1 + (nb + 1 << 2) - 5], &c__4, &a[l + (l + nbl) * a_dim1], lda, &c_b21,
+                    &dwork[pw + (*m << 1)], &c__2, 9L, 12L);
+                dlacpy_("All", &nbl, &len, &dwork[pw + (*m << 1)], &c__2,
+                    &a[l + (l + nbl) * a_dim1], lda, 3L);
             }
             /*              Update block row of B. */
             len = *m - k - nb + 1;
-            if (len > 0)
-            {
-                dgemm_("Transpose", "No Transpose", &nb, &len, &nb, &c_b21, q, &c__4, &dwork[pwck + (nb << 1)], &c__2, &c_b20, &dwork[pw], &c__2, 9L, 12L);
-                dgemm_("Transpose", "No Transpose", &nbl, &len, &nb, &c_b21, &q[(nb + 1 << 2) - 4], &c__4, &dwork[pwck + (nb << 1)], &c__2, &c_b20, &dwork[pw + (*m << 1)], &c__2, 9L, 12L);
-                dgemm_("Transpose", "No Transpose", &nb, &len, &nbl, &c_b21, &q[nb], &c__4, &b[l + (k + nb) * b_dim1], ldb, &c_b21, &dwork[pw], &c__2, 9L, 12L);
+            if (len > 0) {
+                dgemm_("Transpose", "No Transpose", &nb, &len, &nb, &c_b21, q, &c__4,
+                    &dwork[pwck + (nb << 1)], &c__2, &c_b20, &dwork[pw], &c__2, 9L, 12L);
+                dgemm_("Transpose", "No Transpose", &nbl, &len, &nb, &c_b21, &q[(nb + 1 << 2) - 4],
+                    &c__4, &dwork[pwck + (nb << 1)], &c__2, &c_b20, &dwork[pw + (*m << 1)], &c__2,
+                    9L, 12L);
+                dgemm_("Transpose", "No Transpose", &nb, &len, &nbl, &c_b21, &q[nb], &c__4,
+                    &b[l + (k + nb) * b_dim1], ldb, &c_b21, &dwork[pw], &c__2, 9L, 12L);
                 dlacpy_("All", &nb, &len, &dwork[pw], &c__2, &dwork[pwck + (nb << 1)], &c__2, 3L);
-                dgemm_("Transpose", "No Transpose", &nbl, &len, &nbl, &c_b21, &q[nb + 1 + (nb + 1 << 2) - 5], &c__4, &b[l + (k + nb) * b_dim1], ldb, &c_b21, &dwork[pw + (*m << 1)], &c__2, 9L, 12L);
-                dlacpy_("All", &nbl, &len, &dwork[pw + (*m << 1)], &c__2, &b[l + (k + nb) * b_dim1], ldb, 3L);
+                dgemm_("Transpose", "No Transpose", &nbl, &len, &nbl, &c_b21,
+                    &q[nb + 1 + (nb + 1 << 2) - 5], &c__4, &b[l + (k + nb) * b_dim1], ldb, &c_b21,
+                    &dwork[pw + (*m << 1)], &c__2, 9L, 12L);
+                dlacpy_("All", &nbl, &len, &dwork[pw + (*m << 1)], &c__2, &b[l + (k + nb) * b_dim1],
+                    ldb, 3L);
             }
             /*              Update W. */
-            if (wantw)
-            {
-                if (initw)
-                {
+            if (wantw) {
+                if (initw) {
                     pos = l;
                     len = k + nb - l;
-                }
-                else
-                {
+                } else {
                     pos = 1;
                     len = *m;
                 }
-                dgemm_("No Transpose", "No Transpose", &len, &nb, &nb, &c_b21, &w[pos + k * w_dim1], ldw, q, &c__4, &c_b20, &dwork[pw], m, 12L, 12L);
-                dgemm_("No Transpose", "No Transpose", &len, &nbl, &nb, &c_b21, &w[pos + k * w_dim1], ldw, &q[(nb + 1 << 2) - 4], &c__4, &c_b20, &dwork[pw + (*m << 1)], m, 12L, 12L);
-                dgemm_("No Transpose", "No Transpose", &len, &nb, &nbl, &c_b21, &w[pos + (*m + l) * w_dim1], ldw, &q[nb], &c__4, &c_b21, &dwork[pw], m, 12L, 12L);
+                dgemm_("No Transpose", "No Transpose", &len, &nb, &nb, &c_b21, &w[pos + k * w_dim1],
+                    ldw, q, &c__4, &c_b20, &dwork[pw], m, 12L, 12L);
+                dgemm_("No Transpose", "No Transpose", &len, &nbl, &nb, &c_b21,
+                    &w[pos + k * w_dim1], ldw, &q[(nb + 1 << 2) - 4], &c__4, &c_b20,
+                    &dwork[pw + (*m << 1)], m, 12L, 12L);
+                dgemm_("No Transpose", "No Transpose", &len, &nb, &nbl, &c_b21,
+                    &w[pos + (*m + l) * w_dim1], ldw, &q[nb], &c__4, &c_b21, &dwork[pw], m, 12L,
+                    12L);
                 dlacpy_("All", &len, &nb, &dwork[pw], m, &w[pos + k * w_dim1], ldw, 3L);
-                dgemm_("No Transpose", "No Transpose", &len, &nbl, &nbl, &c_b21, &w[pos + (*m + l) * w_dim1], ldw, &q[nb + 1 + (nb + 1 << 2) - 5], &c__4, &c_b21, &dwork[pw + (*m << 1)], m, 12L, 12L);
-                dlacpy_("All", &len, &nbl, &dwork[pw + (*m << 1)], m, &w[pos + (*m + l) * w_dim1], ldw, 3L);
-                dgemm_("No Transpose", "No Transpose", &len, &nb, &nb, &c_b21, &w[*m + pos + k * w_dim1], ldw, q, &c__4, &c_b20, &dwork[pw], m, 12L, 12L);
-                dgemm_("No Transpose", "No Transpose", &len, &nbl, &nb, &c_b21, &w[*m + pos + k * w_dim1], ldw, &q[(nb + 1 << 2) - 4], &c__4, &c_b20, &dwork[pw + (*m << 1)], m, 12L, 12L);
-                dgemm_("No Transpose", "No Transpose", &len, &nb, &nbl, &c_b21, &w[*m + pos + (*m + l) * w_dim1], ldw, &q[nb], &c__4, &c_b21, &dwork[pw], m, 12L, 12L);
+                dgemm_("No Transpose", "No Transpose", &len, &nbl, &nbl, &c_b21,
+                    &w[pos + (*m + l) * w_dim1], ldw, &q[nb + 1 + (nb + 1 << 2) - 5], &c__4, &c_b21,
+                    &dwork[pw + (*m << 1)], m, 12L, 12L);
+                dlacpy_("All", &len, &nbl, &dwork[pw + (*m << 1)], m, &w[pos + (*m + l) * w_dim1],
+                    ldw, 3L);
+                dgemm_("No Transpose", "No Transpose", &len, &nb, &nb, &c_b21,
+                    &w[*m + pos + k * w_dim1], ldw, q, &c__4, &c_b20, &dwork[pw], m, 12L, 12L);
+                dgemm_("No Transpose", "No Transpose", &len, &nbl, &nb, &c_b21,
+                    &w[*m + pos + k * w_dim1], ldw, &q[(nb + 1 << 2) - 4], &c__4, &c_b20,
+                    &dwork[pw + (*m << 1)], m, 12L, 12L);
+                dgemm_("No Transpose", "No Transpose", &len, &nb, &nbl, &c_b21,
+                    &w[*m + pos + (*m + l) * w_dim1], ldw, &q[nb], &c__4, &c_b21, &dwork[pw], m,
+                    12L, 12L);
                 dlacpy_("All", &len, &nb, &dwork[pw], m, &w[*m + pos + k * w_dim1], ldw, 3L);
-                dgemm_("No Transpose", "No Transpose", &len, &nbl, &nbl, &c_b21, &w[*m + pos + (*m + l) * w_dim1], ldw, &q[nb + 1 + (nb + 1 << 2) - 5], &c__4, &c_b21, &dwork[pw + (*m << 1)], m, 12L, 12L);
-                dlacpy_("All", &len, &nbl, &dwork[pw + (*m << 1)], m, &w[*m + pos + (*m + l) * w_dim1], ldw, 3L);
+                dgemm_("No Transpose", "No Transpose", &len, &nbl, &nbl, &c_b21,
+                    &w[*m + pos + (*m + l) * w_dim1], ldw, &q[nb + 1 + (nb + 1 << 2) - 5], &c__4,
+                    &c_b21, &dwork[pw + (*m << 1)], m, 12L, 12L);
+                dlacpy_("All", &len, &nbl, &dwork[pw + (*m << 1)], m,
+                    &w[*m + pos + (*m + l) * w_dim1], ldw, 3L);
             }
             --l;
             nbl = 1;
-            if (l > 1)
-            {
-                if (a[l + (l - 1) * a_dim1] != 0.)
-                {
+            if (l > 1) {
+                if (a[l + (l - 1) * a_dim1] != 0.) {
                     nbl = 2;
                     --l;
                 }
             }
             /*           END WHILE L >= 1 DO */
-            if (l >= 1)
-            {
+            if (l >= 1) {
                 goto L60;
             }
             /*           Copy recomputed eigenvalues. */
@@ -1202,14 +1222,12 @@ L60:
         }
         /* L80: */
     }
-    dwork[1] = (doublereal) wrkmin;
+    dwork[1] = (doublereal)wrkmin;
     return 0;
     /* *** Last line of MB03ZA *** */
 } /* mb03za_ */
 
-
-logical lfdum_(x, y)
-doublereal *x, *y;
+logical lfdum_(x, y) doublereal *x, *y;
 {
     /* System generated locals */
     logical ret_val;
@@ -1218,4 +1236,3 @@ doublereal *x, *y;
     return ret_val;
     /* *** Last line of LFDUM *** */
 } /* lfdum_ */
-

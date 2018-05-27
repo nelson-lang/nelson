@@ -1,14 +1,13 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-doublereal mb03my_(nx, x, incx)
-integer *nx;
-doublereal *x;
-integer *incx;
+doublereal mb03my_(nx, x, incx) integer* nx;
+doublereal* x;
+integer* incx;
 {
     /* System generated locals */
     integer i__1, i__2;
@@ -64,19 +63,16 @@ integer *incx;
     /* Parameter adjustments */
     --x;
     /* Function Body */
-    if (*nx <= 0)
-    {
+    if (*nx <= 0) {
         ret_val = 0.;
         return ret_val;
     }
     ret_val = abs(x[1]);
-    i__1 = *nx **incx;
+    i__1 = *nx * *incx;
     i__2 = *incx;
-    for (i__ = *incx + 1; i__2 < 0 ? i__ >= i__1 : i__ <= i__1; i__ += i__2)
-    {
+    for (i__ = *incx + 1; i__2 < 0 ? i__ >= i__1 : i__ <= i__1; i__ += i__2) {
         dx = (d__1 = x[i__], abs(d__1));
-        if (dx < ret_val)
-        {
+        if (dx < ret_val) {
             ret_val = dx;
         }
         /* L20: */
@@ -84,4 +80,3 @@ integer *incx;
     return ret_val;
     /* *** Last line of MB03MY *** */
 } /* mb03my_ */
-

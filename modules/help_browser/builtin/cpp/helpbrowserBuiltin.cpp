@@ -23,119 +23,80 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::HelpBrowserGateway::helpbrowserBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::HelpBrowserGateway::helpbrowserBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (argIn.size() == 0)
-    {
-        if (nLhs != 0)
-        {
+    if (argIn.size() == 0) {
+        if (nLhs != 0) {
             Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         }
         std::wstring msg;
-        if (!HelpBrowser::getInstance()->startBrowser(msg))
-        {
+        if (!HelpBrowser::getInstance()->startBrowser(msg)) {
             Error(eval, msg);
         }
-    }
-    else if (argIn.size() == 1)
-    {
+    } else if (argIn.size() == 1) {
         std::wstring param1 = argIn[0].getContentAsWideString();
-        if (param1 == L"-cache" || param1 == L"-attributes")
-        {
-            if (nLhs > 1)
-            {
+        if (param1 == L"-cache" || param1 == L"-attributes") {
+            if (nLhs > 1) {
                 Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }
             ArrayOfVector retval;
-            if (param1 == L"-cache")
-            {
-                retval.push_back(ArrayOf::stringConstructor(HelpBrowser::getInstance()->getCachePath()));
-            }
-            else
-            {
+            if (param1 == L"-cache") {
+                retval.push_back(
+                    ArrayOf::stringConstructor(HelpBrowser::getInstance()->getCachePath()));
+            } else {
                 retval.push_back(ToCellStringAsColumn(HelpBrowser::getInstance()->getAttributes()));
             }
             return retval;
-        }
-        else
-        {
-            if (nLhs != 0)
-            {
+        } else {
+            if (nLhs != 0) {
                 Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }
-            if (param1 == L"-close")
-            {
+            if (param1 == L"-close") {
                 HelpBrowser::getInstance()->closeBrowser();
-            }
-            else if (param1 == L"-clearcache")
-            {
+            } else if (param1 == L"-clearcache") {
                 HelpBrowser::getInstance()->clearCache();
-            }
-            else if (param1 == L"-sync")
-            {
+            } else if (param1 == L"-sync") {
                 HelpBrowser::getInstance()->syncBrowser();
-            }
-            else
-            {
+            } else {
                 Error(eval, ERROR_WRONG_ARGUMENT_1_VALUE);
             }
         }
-    }
-    else if (argIn.size() == 2)
-    {
-        if (nLhs != 0)
-        {
+    } else if (argIn.size() == 2) {
+        if (nLhs != 0) {
             Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         }
         std::wstring param1 = argIn[0].getContentAsWideString();
         std::wstring param2 = argIn[1].getContentAsWideString();
-        if (param1 == L"-register")
-        {
+        if (param1 == L"-register") {
             HelpBrowser::getInstance()->registerHelpFile(param2);
-        }
-        else if (param1 == L"-unregister")
-        {
+        } else if (param1 == L"-unregister") {
             HelpBrowser::getInstance()->unregisterHelpFile(param2);
-        }
-        else if (param1 == L"-name")
-        {
+        } else if (param1 == L"-name") {
             HelpBrowser::getInstance()->showDocByName(param2);
-        }
-        else if (param1 == L"-identifier")
-        {
+        } else if (param1 == L"-identifier") {
             HelpBrowser::getInstance()->showDocByIdentifier(param2);
-        }
-        else if (param1 == L"-show")
-        {
-            if ((param2 == L"contents") || (param2 == L"index") || (param2 == L"bookmarks") || (param2 == L"search"))
-            {
+        } else if (param1 == L"-show") {
+            if ((param2 == L"contents") || (param2 == L"index") || (param2 == L"bookmarks")
+                || (param2 == L"search")) {
                 std::wstring command = L"show " + param2;
                 HelpBrowser::getInstance()->sendCommand(command);
-            }
-            else
-            {
+            } else {
                 Error(eval, ERROR_WRONG_ARGUMENT_2_VALUE);
             }
-        }
-        else if (param1 == L"-hide")
-        {
-            if ((param2 == L"contents") || (param2 == L"index") || (param2 == L"bookmarks") || (param2 == L"search"))
-            {
+        } else if (param1 == L"-hide") {
+            if ((param2 == L"contents") || (param2 == L"index") || (param2 == L"bookmarks")
+                || (param2 == L"search")) {
                 std::wstring command = L"hide " + param2;
                 HelpBrowser::getInstance()->sendCommand(command);
-            }
-            else
-            {
+            } else {
                 Error(eval, ERROR_WRONG_ARGUMENT_2_VALUE);
             }
-        }
-        else if (param1 == L"-setsource")
-        {
+        } else if (param1 == L"-setsource") {
             std::wstring command = L"setSource " + param2;
             HelpBrowser::getInstance()->sendCommand(command);
-        }
-        else
-        {
+        } else {
             Error(eval, ERROR_WRONG_ARGUMENT_1_VALUE);
         }
     }

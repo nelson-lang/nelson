@@ -19,24 +19,22 @@
 #include "FileTell.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    int64 FileTell(File *fp)
-    {
-        int64 pos = -1L;
-        if (fp)
-        {
-            if (fp->isInterfaceMethod())
-            {
-                return pos;
-            }
-            FILE *fileptr = (FILE*)fp->getFilePointer();
-            if (fileptr)
-            {
-                pos = static_cast<int64>(NLSFTELL(fileptr));
-            }
+//=============================================================================
+int64
+FileTell(File* fp)
+{
+    int64 pos = -1L;
+    if (fp) {
+        if (fp->isInterfaceMethod()) {
+            return pos;
         }
-        return pos;
+        FILE* fileptr = (FILE*)fp->getFilePointer();
+        if (fileptr) {
+            pos = static_cast<int64>(NLSFTELL(fileptr));
+        }
     }
-    //=============================================================================
+    return pos;
+}
+//=============================================================================
 }
 //=============================================================================

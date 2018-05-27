@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -14,12 +14,13 @@ static integer c__2 = 2;
 static logical c_true = TRUE_;
 static doublereal c_b20 = 1.;
 
-EXPORTSYMBOL /* Subroutine */ int mb04pb_(n, ilo, a, lda, qg, ldqg, cs, tau, dwork, ldwork, info)
-integer *n, *ilo;
-doublereal *a;
-integer *lda;
-doublereal *qg;
-integer *ldqg;
+EXPORTSYMBOL /* Subroutine */ int mb04pb_(
+    n, ilo, a, lda, qg, ldqg, cs, tau, dwork, ldwork, info) integer *n,
+    *ilo;
+doublereal* a;
+integer* lda;
+doublereal* qg;
+integer* ldqg;
 doublereal *cs, *tau, *dwork;
 integer *ldwork, *info;
 {
@@ -173,53 +174,41 @@ integer *ldwork, *info;
     --dwork;
     /* Function Body */
     *info = 0;
-    if (*n < 0)
-    {
+    if (*n < 0) {
         *info = -1;
-    }
-    else if (*ilo < 1 || *ilo > max(1,*n))
-    {
+    } else if (*ilo < 1 || *ilo > max(1, *n)) {
         *info = -2;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -4;
-    }
-    else if (*ldqg < max(1,*n))
-    {
+    } else if (*ldqg < max(1, *n)) {
         *info = -6;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
         i__1 = 1, i__2 = *n - 1;
-        if (*ldwork < max(i__1,i__2))
-        {
+        if (*ldwork < max(i__1, i__2)) {
             /* Computing MAX */
             i__1 = 1, i__2 = *n - 1;
-            dwork[1] = (doublereal) max(i__1,i__2);
+            dwork[1] = (doublereal)max(i__1, i__2);
             *info = -10;
         }
     }
     /*     Return if there were illegal values. */
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB04PB", &i__1, 6L);
         return 0;
     }
     /*     Set elements 1:ILO-1 of TAU and CS. */
     i__1 = *ilo - 1;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         tau[i__] = 0.;
         cs[(i__ << 1) - 1] = 1.;
         cs[i__ * 2] = 0.;
         /* L10: */
     }
     /*     Quick return if possible. */
-    if (*n <= *ilo)
-    {
+    if (*n <= *ilo) {
         dwork[1] = 1.;
         return 0;
     }
@@ -228,23 +217,20 @@ integer *ldwork, *info;
     nb = ue01md_(&c__1, "MB04PB", " ", n, ilo, &c_n1, 6L, 1L);
     nbmin = 2;
     wrkopt = *n - 1;
-    if (nb > 1 && nb < nh)
-    {
+    if (nb > 1 && nb < nh) {
         /*        Determine when to cross over from blocked to unblocked code. */
         /* Computing MAX */
         i__1 = nb, i__2 = ue01md_(&c__3, "MB04PB", " ", n, ilo, &c_n1, 6L, 1L);
-        nx = max(i__1,i__2);
-        if (nx < nh)
-        {
+        nx = max(i__1, i__2);
+        if (nx < nh) {
             /*           Check whether workspace is large enough for blocked code. */
             wrkopt = (*n << 3) * nb + nb * 3;
-            if (*ldwork < wrkopt)
-            {
+            if (*ldwork < wrkopt) {
                 /*              Not enough workspace available. Determine minimum value */
                 /*              of NB, and reduce NB. */
                 /* Computing MAX */
                 i__1 = 2, i__2 = ue01md_(&c__2, "MB04PB", " ", n, ilo, &c_n1, 6L, 1L);
-                nbmin = max(i__1,i__2);
+                nbmin = max(i__1, i__2);
                 nb = *ldwork / ((*n << 3) + 3);
             }
         }
@@ -255,64 +241,81 @@ integer *ldwork, *info;
     pxq = pya + (nnb << 1);
     pxg = pxq + (nnb << 1);
     pdw = pxg + (nnb << 1);
-    if (nb < nbmin || nb >= nh)
-    {
+    if (nb < nbmin || nb >= nh) {
         /*        Use unblocked code. */
         i__ = *ilo;
-    }
-    else
-    {
+    } else {
         i__1 = *n - nx - 1;
         i__2 = nb;
-        for (i__ = *ilo; i__2 < 0 ? i__ >= i__1 : i__ <= i__1; i__ += i__2)
-        {
+        for (i__ = *ilo; i__2 < 0 ? i__ >= i__1 : i__ <= i__1; i__ += i__2) {
             /* Computing MIN */
             i__3 = nb, i__4 = *n - i__;
-            ib = min(i__3,i__4);
+            ib = min(i__3, i__4);
             nib = *n * ib;
             /*           Reduce rows and columns i:i+nb-1 to PVL form and return the */
             /*           matrices XA, XG, XQ, and YA which are needed to update the */
             /*           unreduced parts of the matrices. */
             i__3 = *n - i__ + 1;
             i__4 = i__ - 1;
-            mb04pa_(&c_true, &i__3, &i__4, &ib, &a[i__ * a_dim1 + 1], lda, &qg[i__ * qg_dim1 + 1], ldqg, &dwork[pxa], n, &dwork[pxg], n, &dwork[pxq], n, &dwork[pya], n, &cs[(i__ << 1) - 1], &tau[i__], &dwork[pdw]);
-            if (*n > i__ + ib)
-            {
+            mb04pa_(&c_true, &i__3, &i__4, &ib, &a[i__ * a_dim1 + 1], lda, &qg[i__ * qg_dim1 + 1],
+                ldqg, &dwork[pxa], n, &dwork[pxg], n, &dwork[pxq], n, &dwork[pya], n,
+                &cs[(i__ << 1) - 1], &tau[i__], &dwork[pdw]);
+            if (*n > i__ + ib) {
                 /*              Update the submatrix A(1:n,i+ib+1:n). */
                 i__3 = *n - i__ - ib;
                 i__4 = *n - i__ - ib;
-                dgemm_("No transpose", "Transpose", &i__3, &i__4, &ib, &c_b20, &qg[i__ + ib + 1 + i__ * qg_dim1], ldqg, &dwork[pxa + ib + 1], n, &c_b20, &a[i__ + ib + 1 + (i__ + ib + 1) * a_dim1], lda, 12L, 9L);
+                dgemm_("No transpose", "Transpose", &i__3, &i__4, &ib, &c_b20,
+                    &qg[i__ + ib + 1 + i__ * qg_dim1], ldqg, &dwork[pxa + ib + 1], n, &c_b20,
+                    &a[i__ + ib + 1 + (i__ + ib + 1) * a_dim1], lda, 12L, 9L);
                 i__3 = *n - i__ - ib;
                 i__4 = *n - i__ - ib;
-                dgemm_("No transpose", "Transpose", &i__3, &i__4, &ib, &c_b20, &a[i__ + ib + 1 + i__ * a_dim1], lda, &dwork[pxa + nib + ib + 1], n, &c_b20, &a[i__ + ib + 1 + (i__ + ib + 1) * a_dim1], lda, 12L, 9L);
+                dgemm_("No transpose", "Transpose", &i__3, &i__4, &ib, &c_b20,
+                    &a[i__ + ib + 1 + i__ * a_dim1], lda, &dwork[pxa + nib + ib + 1], n, &c_b20,
+                    &a[i__ + ib + 1 + (i__ + ib + 1) * a_dim1], lda, 12L, 9L);
                 i__3 = *n - i__ - ib;
-                dgemm_("No transpose", "Transpose", n, &i__3, &ib, &c_b20, &dwork[pya], n, &qg[i__ + ib + 1 + i__ * qg_dim1], ldqg, &c_b20, &a[(i__ + ib + 1) * a_dim1 + 1], lda, 12L, 9L);
+                dgemm_("No transpose", "Transpose", n, &i__3, &ib, &c_b20, &dwork[pya], n,
+                    &qg[i__ + ib + 1 + i__ * qg_dim1], ldqg, &c_b20,
+                    &a[(i__ + ib + 1) * a_dim1 + 1], lda, 12L, 9L);
                 i__3 = *n - i__ - ib;
-                dgemm_("No transpose", "Transpose", n, &i__3, &ib, &c_b20, &dwork[pya + nib], n, &a[i__ + ib + 1 + i__ * a_dim1], lda, &c_b20, &a[(i__ + ib + 1) * a_dim1 + 1], lda, 12L, 9L);
+                dgemm_("No transpose", "Transpose", n, &i__3, &ib, &c_b20, &dwork[pya + nib], n,
+                    &a[i__ + ib + 1 + i__ * a_dim1], lda, &c_b20, &a[(i__ + ib + 1) * a_dim1 + 1],
+                    lda, 12L, 9L);
                 /*              Update the submatrix Q(i+ib+1:n,i+ib+1:n). */
                 i__3 = *n - i__ - ib;
-                dsyr2k_("Lower", "No Transpose", &i__3, &ib, &c_b20, &dwork[pxq + ib + 1], n, &qg[i__ + ib + 1 + i__ * qg_dim1], ldqg, &c_b20, &qg[i__ + ib + 1 + (i__ + ib + 1) * qg_dim1], ldqg, 5L, 12L);
+                dsyr2k_("Lower", "No Transpose", &i__3, &ib, &c_b20, &dwork[pxq + ib + 1], n,
+                    &qg[i__ + ib + 1 + i__ * qg_dim1], ldqg, &c_b20,
+                    &qg[i__ + ib + 1 + (i__ + ib + 1) * qg_dim1], ldqg, 5L, 12L);
                 i__3 = *n - i__ - ib;
-                dsyr2k_("Lower", "No Transpose", &i__3, &ib, &c_b20, &dwork[pxq + nib + ib + 1], n, &a[i__ + ib + 1 + i__ * a_dim1], lda, &c_b20, &qg[i__ + ib + 1 + (i__ + ib + 1) * qg_dim1], ldqg, 5L, 12L);
+                dsyr2k_("Lower", "No Transpose", &i__3, &ib, &c_b20, &dwork[pxq + nib + ib + 1], n,
+                    &a[i__ + ib + 1 + i__ * a_dim1], lda, &c_b20,
+                    &qg[i__ + ib + 1 + (i__ + ib + 1) * qg_dim1], ldqg, 5L, 12L);
                 /*              Update the submatrix G(1:n,1:n). */
                 i__3 = i__ + ib;
                 i__4 = *n - i__ - ib;
-                dgemm_("No transpose", "Transpose", &i__3, &i__4, &ib, &c_b20, &dwork[pxg], n, &qg[i__ + ib + 1 + i__ * qg_dim1], ldqg, &c_b20, &qg[(i__ + ib + 2) * qg_dim1 + 1], ldqg, 12L, 9L);
+                dgemm_("No transpose", "Transpose", &i__3, &i__4, &ib, &c_b20, &dwork[pxg], n,
+                    &qg[i__ + ib + 1 + i__ * qg_dim1], ldqg, &c_b20,
+                    &qg[(i__ + ib + 2) * qg_dim1 + 1], ldqg, 12L, 9L);
                 i__3 = i__ + ib;
                 i__4 = *n - i__ - ib;
-                dgemm_("No transpose", "Transpose", &i__3, &i__4, &ib, &c_b20, &dwork[pxg + nib], n, &a[i__ + ib + 1 + i__ * a_dim1], lda, &c_b20, &qg[(i__ + ib + 2) * qg_dim1 + 1], ldqg, 12L, 9L);
+                dgemm_("No transpose", "Transpose", &i__3, &i__4, &ib, &c_b20, &dwork[pxg + nib], n,
+                    &a[i__ + ib + 1 + i__ * a_dim1], lda, &c_b20, &qg[(i__ + ib + 2) * qg_dim1 + 1],
+                    ldqg, 12L, 9L);
                 i__3 = *n - i__ - ib;
-                dsyr2k_("Upper", "No Transpose", &i__3, &ib, &c_b20, &dwork[pxg + ib + i__], n, &qg[i__ + ib + 1 + i__ * qg_dim1], ldqg, &c_b20, &qg[i__ + ib + 1 + (i__ + ib + 2) * qg_dim1], ldqg, 5L, 12L);
+                dsyr2k_("Upper", "No Transpose", &i__3, &ib, &c_b20, &dwork[pxg + ib + i__], n,
+                    &qg[i__ + ib + 1 + i__ * qg_dim1], ldqg, &c_b20,
+                    &qg[i__ + ib + 1 + (i__ + ib + 2) * qg_dim1], ldqg, 5L, 12L);
                 i__3 = *n - i__ - ib;
-                dsyr2k_("Upper", "No Transpose", &i__3, &ib, &c_b20, &dwork[pxg + nib + ib + i__], n, &a[i__ + ib + 1 + i__ * a_dim1], lda, &c_b20, &qg[i__ + ib + 1 + (i__ + ib + 2) * qg_dim1], ldqg, 5L, 12L);
+                dsyr2k_("Upper", "No Transpose", &i__3, &ib, &c_b20, &dwork[pxg + nib + ib + i__],
+                    n, &a[i__ + ib + 1 + i__ * a_dim1], lda, &c_b20,
+                    &qg[i__ + ib + 1 + (i__ + ib + 2) * qg_dim1], ldqg, 5L, 12L);
             }
             /* L20: */
         }
     }
     /*     Unblocked code to reduce the rest of the matrices. */
-    mb04pu_(n, &i__, &a[a_offset], lda, &qg[qg_offset], ldqg, &cs[1], &tau[1], &dwork[1], ldwork, &ierr);
-    dwork[1] = (doublereal) wrkopt;
+    mb04pu_(n, &i__, &a[a_offset], lda, &qg[qg_offset], ldqg, &cs[1], &tau[1], &dwork[1], ldwork,
+        &ierr);
+    dwork[1] = (doublereal)wrkopt;
     return 0;
     /* *** Last line of MB04PB *** */
 } /* mb04pb_ */
-

@@ -23,22 +23,20 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::JsonGateway::jsonprettyprintBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::JsonGateway::jsonprettyprintBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() != 1)
-    {
+    if (argIn.size() != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     // Call overload if it exists
     bool bSuccess = false;
     retval = OverloadFunction(eval, nLhs, argIn, "jsonprettyprint", bSuccess);
-    if (!bSuccess)
-    {
+    if (!bSuccess) {
         ArrayOf param1 = argIn[0];
         std::wstring jsonString = param1.getContentAsWideString();
         ArrayOf res = jsonPrettyPrint(jsonString);

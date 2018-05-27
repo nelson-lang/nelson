@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,11 +9,12 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int tb01ty_(mode, ioff, joff, nrow, ncol, size, x, ldx, bvect)
-integer *mode, *ioff, *joff, *nrow, *ncol;
+EXPORTSYMBOL /* Subroutine */ int tb01ty_(
+    mode, ioff, joff, nrow, ncol, size, x, ldx, bvect) integer *mode,
+    *ioff, *joff, *nrow, *ncol;
 doublereal *size, *x;
-integer *ldx;
-doublereal *bvect;
+integer* ldx;
+doublereal* bvect;
 {
     /* System generated locals */
     integer x_dim1, x_offset, i__1;
@@ -82,64 +83,51 @@ doublereal *bvect;
     x -= x_offset;
     --bvect;
     /* Function Body */
-    base = (integer) dlamch_("Base", 4L);
+    base = (integer)dlamch_("Base", 4L);
     eps = dlamch_("Epsilon", 7L);
-    div = 1. / log((doublereal) base);
-    if (*mode != 0)
-    {
+    div = 1. / log((doublereal)base);
+    if (*mode != 0) {
         /*        Balance one column at a time using its column-sum norm. */
         i__1 = *joff + *ncol;
-        for (j = *joff + 1; j <= i__1; ++j)
-        {
+        for (j = *joff + 1; j <= i__1; ++j) {
             abssum = dasum_(nrow, &x[*ioff + 1 + j * x_dim1], &c__1) / abs(*size);
-            test = abssum / (doublereal) (*nrow);
-            if (test > eps)
-            {
+            test = abssum / (doublereal)(*nrow);
+            if (test > eps) {
                 /*              Non-zero column: calculate (and apply) correct scale */
                 /*              factor. */
                 expt = -div * log(abssum);
-                iexpt = (integer) expt;
-                if (iexpt < 0 && (doublereal) iexpt != expt)
-                {
+                iexpt = (integer)expt;
+                if (iexpt < 0 && (doublereal)iexpt != expt) {
                     --iexpt;
                 }
-                d__1 = (doublereal) base;
+                d__1 = (doublereal)base;
                 scale = pow_di(&d__1, &iexpt);
                 bvect[j] = scale;
                 dscal_(nrow, &scale, &x[*ioff + 1 + j * x_dim1], &c__1);
-            }
-            else
-            {
+            } else {
                 /*              'Numerically' zero column: do not rescale. */
                 bvect[j] = 1.;
             }
             /* L10: */
         }
-    }
-    else
-    {
+    } else {
         /*        Balance one row at a time using its row-sum norm. */
         i__1 = *ioff + *nrow;
-        for (i__ = *ioff + 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = *ioff + 1; i__ <= i__1; ++i__) {
             abssum = dasum_(ncol, &x[i__ + (*joff + 1) * x_dim1], ldx) / abs(*size);
-            test = abssum / (doublereal) (*ncol);
-            if (test > eps)
-            {
+            test = abssum / (doublereal)(*ncol);
+            if (test > eps) {
                 /*              Non-zero row: calculate (and apply) correct scale factor. */
                 expt = -div * log(abssum);
-                iexpt = (integer) expt;
-                if (iexpt < 0 && (doublereal) iexpt != expt)
-                {
+                iexpt = (integer)expt;
+                if (iexpt < 0 && (doublereal)iexpt != expt) {
                     --iexpt;
                 }
-                d__1 = (doublereal) base;
+                d__1 = (doublereal)base;
                 scale = pow_di(&d__1, &iexpt);
                 bvect[i__] = scale;
                 dscal_(ncol, &scale, &x[i__ + (*joff + 1) * x_dim1], ldx);
-            }
-            else
-            {
+            } else {
                 /*              'Numerically' zero row: do not rescale. */
                 bvect[i__] = 1.;
             }
@@ -149,4 +137,3 @@ doublereal *bvect;
     return 0;
     /* *** Last line of TB01TY *** */
 } /* tb01ty_ */
-

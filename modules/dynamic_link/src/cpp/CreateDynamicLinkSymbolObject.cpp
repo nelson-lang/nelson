@@ -17,87 +17,54 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "CreateDynamicLinkLibraryObject.hpp"
-#include "Exception.hpp"
-#include "dynamic_library.hpp"
-#include "characters_encoding.hpp"
 #include "DynamicLinkSymbolObject.hpp"
+#include "Exception.hpp"
+#include "characters_encoding.hpp"
+#include "dynamic_library.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    ArrayOf createDynamicLinkSymbolObject(ArrayOf dllibObject,
-                                          std::wstring symbol,
-                                          std::wstring returnType,
-                                          wstringVector argumentsType)
-    {
-        ArrayOf handle;
-        HandleGenericObject *hlObj = dllibObject.getContentAsHandleScalar();
-        if (hlObj->getCategory() != DLLIB_CATEGORY_STR)
-        {
-            throw Exception(_W("Wrong type for argument #1: dllib scalar handle expected."));
-        }
-        DynamicLinkLibraryObject *obj = (DynamicLinkLibraryObject *)hlObj;
-        if (!obj->getPointer())
-        {
-            Exception(_W("Valid handle expected."));
-        }
-        if (!DynamicLinkSymbolObject::isValidDataType(returnType))
-        {
-            throw Exception(_W("Invalid argument type:") + returnType);
-        }
-        for (std::wstring arg : argumentsType)
-        {
-            if (!DynamicLinkSymbolObject::isValidDataType(arg))
-            {
-                throw Exception(_W("Invalid argument type:") + arg);
-            }
-        }
-        void *ptr = obj->getFunctionPointer(wstring_to_utf8(symbol));
-        if (!ptr)
-        {
-            throw Exception(_W("Invalid symbol name."));
-        }
-        DynamicLinkSymbolObject *dlSymbolObject = new DynamicLinkSymbolObject(dllibObject, ptr, symbol, returnType, argumentsType);
-        return ArrayOf::handleConstructor(dlSymbolObject);
+//=============================================================================
+ArrayOf
+createDynamicLinkSymbolObject(
+    ArrayOf dllibObject, std::wstring symbol, std::wstring returnType, wstringVector argumentsType)
+{
+    ArrayOf handle;
+    HandleGenericObject* hlObj = dllibObject.getContentAsHandleScalar();
+    if (hlObj->getCategory() != DLLIB_CATEGORY_STR) {
+        throw Exception(_W("Wrong type for argument #1: dllib scalar handle expected."));
     }
-    //=============================================================================
-    bool checkParamType(std::wstring paramType)
-    {
-        wstringVector supportedType =
-        {
-            L"void",
-            L"logical",
-            L"uint8",
-            L"int8",
-            L"uint16",
-            L"int16",
-            L"uint32",
-            L"int32",
-            L"uint64",
-            L"int64",
-            L"single",
-            L"double",
-            L"single",
-            L"double",
-            L"char",
-            L"voidPtr",
-            L"logicalPtr",
-            L"uint8Ptr",
-            L"int8Ptr",
-            L"uint16Ptr",
-            L"int16Ptr",
-            L"uint32Ptr",
-            L"int32Ptr",
-            L"uint64Ptr",
-            L"int64Ptr",
-            L"singlePtr",
-            L"doublePtr",
-            L"singlePtr",
-            L"doublePtr",
-            L"charPtr"
-        };
-        auto it = std::find(supportedType.begin(), supportedType.end(), paramType);
-        return (it != supportedType.end());
+    DynamicLinkLibraryObject* obj = (DynamicLinkLibraryObject*)hlObj;
+    if (!obj->getPointer()) {
+        Exception(_W("Valid handle expected."));
     }
-    //=============================================================================
+    if (!DynamicLinkSymbolObject::isValidDataType(returnType)) {
+        throw Exception(_W("Invalid argument type:") + returnType);
+    }
+    for (std::wstring arg : argumentsType) {
+        if (!DynamicLinkSymbolObject::isValidDataType(arg)) {
+            throw Exception(_W("Invalid argument type:") + arg);
+        }
+    }
+    void* ptr = obj->getFunctionPointer(wstring_to_utf8(symbol));
+    if (!ptr) {
+        throw Exception(_W("Invalid symbol name."));
+    }
+    DynamicLinkSymbolObject* dlSymbolObject
+        = new DynamicLinkSymbolObject(dllibObject, ptr, symbol, returnType, argumentsType);
+    return ArrayOf::handleConstructor(dlSymbolObject);
+}
+//=============================================================================
+bool
+checkParamType(std::wstring paramType)
+{
+    wstringVector supportedType = { L"void", L"logical", L"uint8", L"int8", L"uint16", L"int16",
+        L"uint32", L"int32", L"uint64", L"int64", L"single", L"double", L"single", L"double",
+        L"char", L"voidPtr", L"logicalPtr", L"uint8Ptr", L"int8Ptr", L"uint16Ptr", L"int16Ptr",
+        L"uint32Ptr", L"int32Ptr", L"uint64Ptr", L"int64Ptr", L"singlePtr", L"doublePtr",
+        L"singlePtr", L"doublePtr", L"charPtr" };
+    auto it = std::find(supportedType.begin(), supportedType.end(), paramType);
+    return (it != supportedType.end());
+}
+//=============================================================================
 }
 //=============================================================================

@@ -22,31 +22,24 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::TextEditorGateway::editorBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::TextEditorGateway::editorBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs != 0)
-    {
+    if (nLhs != 0) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    switch (argIn.size())
-    {
-        case 0:
-        {
-            editor(eval);
-        }
-        break;
-        case 1:
-        {
-            std::wstring filename = argIn[0].getContentAsWideString();
-            editor(eval, filename);
-        }
-        break;
-        default:
-        {
-            Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-        }
-        break;
+    switch (argIn.size()) {
+    case 0: {
+        editor(eval);
+    } break;
+    case 1: {
+        std::wstring filename = argIn[0].getContentAsWideString();
+        editor(eval, filename);
+    } break;
+    default: {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    } break;
     }
     return retval;
 }

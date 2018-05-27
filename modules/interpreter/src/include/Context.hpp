@@ -37,191 +37,223 @@
 // DEALINGS IN THE SOFTWARE.
 
 #pragma once
-#include <cstdarg>
-#include "nlsInterpreter_exports.h"
-#include "Scope.hpp"
 #include "ArrayOf.hpp"
-#include "FunctionDef.hpp"
 #include "BuiltInFunctionDef.hpp"
+#include "FunctionDef.hpp"
+#include "Scope.hpp"
+#include "nlsInterpreter_exports.h"
+#include <cstdarg>
 
 namespace Nelson {
-    typedef ArrayOfVector APtr;
-    typedef APtr(*BuiltInFuncPtr) (Evaluator*, int, const APtr&);
+typedef ArrayOfVector APtr;
+typedef APtr (*BuiltInFuncPtr)(Evaluator*, int, const APtr&);
 
+/**
+ * This structure implements a linked list of Scope pointers.
+ */
+struct ScopeStack
+{
+public:
+    Scope* data;
+    ScopeStack* next;
+};
 
+/**
+ * A Context is a stack of scopes with the (peculiar) property that
+ * the top and bottom of the stack (global and local scopes respectively)
+ * are searched regularly.  The context is responsible for determining
+ * if variables and functions exist, and if so, for returning their
+ * values and accepting modifications to them.  A context also keeps
+ * track of loop depth.
+ */
+class NLSINTERPRETER_IMPEXP Context
+{
     /**
-     * This structure implements a linked list of Scope pointers.
+     * The normal stack of scopes.
      */
-    struct ScopeStack
-    {
-    public:
-        Scope* data;
-        ScopeStack* next;
-    };
-
-
+    std::vector<Scope*> scopestack;
     /**
-     * A Context is a stack of scopes with the (peculiar) property that
-     * the top and bottom of the stack (global and local scopes respectively)
-     * are searched regularly.  The context is responsible for determining
-     * if variables and functions exist, and if so, for returning their
-     * values and accepting modifications to them.  A context also keeps
-     * track of loop depth.
+     * The stack of scopes that have been "bypassed"
      */
-    class NLSINTERPRETER_IMPEXP Context {
-        /**
-        * The normal stack of scopes.
-        */
-        std::vector<Scope*> scopestack;
-        /**
-        * The stack of scopes that have been "bypassed"
-        */
-        std::vector<Scope*> bypassstack;
+    std::vector<Scope*> bypassstack;
 
-        size_t currentrecursiondepth;
-    public:
-        /**
-         * Create a context and initialize it with a global scope and a
-         * base scope.
-         */
-        Context();
-        /**
-         * Delete the context
-         */
-        ~Context();
-        /**
-         * Push the given scope onto the bottom of the scope stack.
-         */
-        void pushScope(std::string);
-        /**
-         * Pop the bottom scope off of the scope stack.  The scope is
-         * deleted.
-         * Throws an Exception if the global scope is popped.
-         */
-        void popScope() throw(Exception);
-        /**
-         * Insert the given variable into the right scope - the global
-         * scope if the array is in the global list, and mangled in
-         * global list if it is persistent.
-         */
-        bool insertVariable(const std::string& varName, const ArrayOf&);
-        /**
-         * Insert a variable into the local scope - do not check the
-         * global list.
-         */
-        void insertVariableLocally(std::string varName, const ArrayOf&);
-        /**
-         * Return a pointer to the given variable.  The search
-         * logic is:
-         *   - If the variable is persistent in the current scope
-         *     (at the bottom of the scope stack), mangle its name
-         *     using the scope, and look for it in the global scope.
-         *   - If the variable is global in the current scope (at the
-         *     bottom of the scope stack, look for it in the global
-         *     scope.
-         *   - Look for the variable in the local scope.
-         * If the variable is not found, an empty variable is constructed
-         * with the given name, and inserted into the scope that was
-         * searched.  A pointer to this newly created variable is returned.
-         */
-        bool lookupVariable(const std::string& varName, ArrayOf &var);
-        /**
-         * Look for a variable, but only locally.
-         */
-        bool lookupVariableLocally(std::string varName, ArrayOf &var);
-        /**
-         * Insert a function definition into the local scope (bottom of
-         * the scope stack).
-         */
-        void insertMacroFunctionLocally(FuncPtr);
-        /**
-         * Add a built in function to the global scope with the given name.
-         */
-        bool lookupFunction(std::string funcName, FuncPtr& val, bool builtinOnly = false);
-        bool lookupFunction(std::wstring wfuncName, FuncPtr& val, bool builtinOnly = false);
+    size_t currentrecursiondepth;
 
-        bool lookupFunctionGlobally(std::string funcName, FuncPtr& val, bool builtinOnly = false);
+public:
+    /**
+     * Create a context and initialize it with a global scope and a
+     * base scope.
+     */
+    Context();
+    /**
+     * Delete the context
+     */
+    ~Context();
+    /**
+     * Push the given scope onto the bottom of the scope stack.
+     */
+    void pushScope(std::string);
+    /**
+     * Pop the bottom scope off of the scope stack.  The scope is
+     * deleted.
+     * Throws an Exception if the global scope is popped.
+     */
+    void
+    popScope() throw(Exception);
+    /**
+     * Insert the given variable into the right scope - the global
+     * scope if the array is in the global list, and mangled in
+     * global list if it is persistent.
+     */
+    bool
+    insertVariable(const std::string& varName, const ArrayOf&);
+    /**
+     * Insert a variable into the local scope - do not check the
+     * global list.
+     */
+    void
+    insertVariableLocally(std::string varName, const ArrayOf&);
+    /**
+     * Return a pointer to the given variable.  The search
+     * logic is:
+     *   - If the variable is persistent in the current scope
+     *     (at the bottom of the scope stack), mangle its name
+     *     using the scope, and look for it in the global scope.
+     *   - If the variable is global in the current scope (at the
+     *     bottom of the scope stack, look for it in the global
+     *     scope.
+     *   - Look for the variable in the local scope.
+     * If the variable is not found, an empty variable is constructed
+     * with the given name, and inserted into the scope that was
+     * searched.  A pointer to this newly created variable is returned.
+     */
+    bool
+    lookupVariable(const std::string& varName, ArrayOf& var);
+    /**
+     * Look for a variable, but only locally.
+     */
+    bool
+    lookupVariableLocally(std::string varName, ArrayOf& var);
+    /**
+     * Insert a function definition into the local scope (bottom of
+     * the scope stack).
+     */
+    void insertMacroFunctionLocally(FuncPtr);
+    /**
+     * Add a built in function to the global scope with the given name.
+     */
+    bool
+    lookupFunction(std::string funcName, FuncPtr& val, bool builtinOnly = false);
+    bool
+    lookupFunction(std::wstring wfuncName, FuncPtr& val, bool builtinOnly = false);
 
-        void deleteFunctionGlobally(std::string funcName);
-        /**
-         * Add a persistent variable to the local stack.  This involves
-         * two steps:
-         *   - the name of the variable is added to the persistent variable list
-         *     in the current scope.
-         *   - the global scope is checked for the mangled name of the
-         *     persistent variable.  If the variable does not exist in the
-         *     global scope, then an empty variable is inserted.
-         */
-        void addPersistentVariable(std::string var);
-        /**
-         * Add a variable name into the global variable list of the current
-         * scope.  If the variable does not exist in the global scope, an
-         * empty variable is added.
-         */
-        void addGlobalVariable(std::string var);
-        /**
-         * Delete a variable if its defined.  Handles global and persistent
-         * variables also.
-         */
-        void deleteVariable(std::string var);
-        /**
-         * Get the global scope off the top of the scope stack.
-         */
-        Scope *getGlobalScope();
-        /**
-         * Get the current (active) scope
-         */
-        Scope *getCurrentScope();
-        /**
-         * Print the context.
-         */
-        void printMe();
-        /**
-         * Increment the loop depth counter in the local scope.
-         */
-        void enterLoop();
-        /**
-         * Decrement the loop depth counter in the local scope.
-         */
-        void exitLoop();
-        /**
-         * Returns true if the current (local) scope indicates a
-         * non-zero loop depth.
-         */
-        bool inLoop();
-        /**
-         * Returns true if the given variable is global.
-         */
-        bool isVariableGlobal(const std::string& varName);
-        /**
-         * Returns true if the given variable is persistent
-         */
-        bool isVariablePersistent(const std::string& varName);
+    bool
+    lookupFunctionGlobally(std::string funcName, FuncPtr& val, bool builtinOnly = false);
 
-        void bypassScope(int count);
+    void
+    deleteFunctionGlobally(std::string funcName);
+    /**
+     * Add a persistent variable to the local stack.  This involves
+     * two steps:
+     *   - the name of the variable is added to the persistent variable list
+     *     in the current scope.
+     *   - the global scope is checked for the mangled name of the
+     *     persistent variable.  If the variable does not exist in the
+     *     global scope, then an empty variable is inserted.
+     */
+    void
+    addPersistentVariable(std::string var);
+    /**
+     * Add a variable name into the global variable list of the current
+     * scope.  If the variable does not exist in the global scope, an
+     * empty variable is added.
+     */
+    void
+    addGlobalVariable(std::string var);
+    /**
+     * Delete a variable if its defined.  Handles global and persistent
+     * variables also.
+     */
+    void
+    deleteVariable(std::string var);
+    /**
+     * Get the global scope off the top of the scope stack.
+     */
+    Scope*
+    getGlobalScope();
+    /**
+     * Get the current (active) scope
+     */
+    Scope*
+    getCurrentScope();
+    /**
+     * Print the context.
+     */
+    void
+    printMe();
+    /**
+     * Increment the loop depth counter in the local scope.
+     */
+    void
+    enterLoop();
+    /**
+     * Decrement the loop depth counter in the local scope.
+     */
+    void
+    exitLoop();
+    /**
+     * Returns true if the current (local) scope indicates a
+     * non-zero loop depth.
+     */
+    bool
+    inLoop();
+    /**
+     * Returns true if the given variable is global.
+     */
+    bool
+    isVariableGlobal(const std::string& varName);
+    /**
+     * Returns true if the given variable is persistent
+     */
+    bool
+    isVariablePersistent(const std::string& varName);
 
-        void restoreBypassedScopes();
+    void
+    bypassScope(int count);
 
-        Scope *getCallerScope();
-        Scope *getBaseScope();
+    void
+    restoreBypassedScopes();
 
-        stringVector getLockedVariables();
-        bool isLockedVariable(std::string varname);
-        bool lockVariable(std::string varname);
-        bool unlockVariable(std::string varname);
+    Scope*
+    getCallerScope();
+    Scope*
+    getBaseScope();
 
-        bool isVariable(std::string varname);
+    stringVector
+    getLockedVariables();
+    bool
+    isLockedVariable(std::string varname);
+    bool
+    lockVariable(std::string varname);
+    bool
+    unlockVariable(std::string varname);
 
-        size_t getRecursionDepth();
-        bool setRecursionDepth(size_t newDepth);
-        size_t getMaximumRecursionDepth();
-    };
+    bool
+    isVariable(std::string varname);
 
-    typedef enum
-    {
-        GLOBAL_SCOPE,
-        BASE_SCOPE,
-        CALLER_SCOPE,
-        LOCAL_SCOPE
-    } SCOPE_LEVEL;
-}
+    size_t
+    getRecursionDepth();
+    bool
+    setRecursionDepth(size_t newDepth);
+    size_t
+    getMaximumRecursionDepth();
+};
+
+typedef enum
+{
+    GLOBAL_SCOPE,
+    BASE_SCOPE,
+    CALLER_SCOPE,
+    LOCAL_SCOPE
+} SCOPE_LEVEL;
+} // namespace Nelson

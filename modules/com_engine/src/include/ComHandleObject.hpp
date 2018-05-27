@@ -18,19 +18,20 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
 #include "HandleGenericObject.hpp"
 #include "nlsCom_engine_exports.h"
+#include <string>
 //=============================================================================
 #define COM_CATEGORY_STR L"COM"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    class NLSCOM_ENGINE_IMPEXP ComHandleObject : public HandleGenericObject {
-    public:
-        ComHandleObject(void *_ptr);
-        ~ComHandleObject();
-    };
-    //=============================================================================
-}
+//=============================================================================
+class NLSCOM_ENGINE_IMPEXP ComHandleObject : public HandleGenericObject
+{
+public:
+    ComHandleObject(void* _ptr);
+    ~ComHandleObject();
+};
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

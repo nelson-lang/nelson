@@ -23,91 +23,71 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-static ArrayOfVector fftBuiltinPrivate(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+static ArrayOfVector
+fftBuiltinPrivate(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf res;
-    if (argIn.size() < 1 || argIn.size() > 3)
-    {
+    if (argIn.size() < 1 || argIn.size() > 3) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     ArrayOf X = argIn[0];
-    switch (argIn.size())
-    {
-        case 1:
-        {
-            // fft(X)
+    switch (argIn.size()) {
+    case 1: {
+        // fft(X)
+        res = Fft(X);
+    } break;
+    case 2: {
+        ArrayOf N = argIn[1];
+        if (N.isNumeric() && N.isEmpty()) {
+            // fft(X, []);
             res = Fft(X);
+        } else {
+            // fft(X, n)
+            indexType n = N.getContentAsScalarIndex(false);
+            res = Fft(X, n);
         }
-        break;
-        case 2:
-        {
-            ArrayOf N = argIn[1];
-            if (N.isNumeric() && N.isEmpty())
-            {
-                // fft(X, []);
-                res = Fft(X);
+    } break;
+    case 3: {
+        // fft(X, n, dim)
+        ArrayOf N = argIn[1];
+        ArrayOf DIM = argIn[2];
+        indexType n;
+        indexType dim = DIM.getContentAsScalarIndex(false);
+        if (N.isNumeric() && N.isEmpty()) {
+            // fft(X, [], dim)
+            if (X.isScalar()) {
+                n = 1;
+            } else {
+                n = X.getDimensionLength((int)dim - 1);
             }
-            else
-            {
-                // fft(X, n)
-                indexType n = N.getContentAsScalarIndex(false);
-                res = Fft(X, n);
-            }
+        } else {
+            n = N.getContentAsScalarIndex(false);
         }
-        break;
-        case 3:
-        {
-            // fft(X, n, dim)
-            ArrayOf N = argIn[1];
-            ArrayOf DIM = argIn[2];
-            indexType n;
-            indexType dim = DIM.getContentAsScalarIndex(false);
-            if (N.isNumeric() && N.isEmpty())
-            {
-                // fft(X, [], dim)
-                if (X.isScalar())
-                {
-                    n = 1;
-                }
-                else
-                {
-                    n = X.getDimensionLength((int)dim - 1);
-                }
-            }
-            else
-            {
-                n = N.getContentAsScalarIndex(false);
-            }
-            res = Fft(X, n, dim - 1);
-        }
-        break;
-        default:
-        {
-            Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-        }
-        break;
+        res = Fft(X, n, dim - 1);
+    } break;
+    default: {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    } break;
     }
     retval.push_back(res);
     return retval;
 }
 //=============================================================================
-ArrayOfVector Nelson::FftwGateway::fftBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::FftwGateway::fftBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() < 1)
-    {
+    if (argIn.size() < 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     // Call overload if it exists
     bool bSuccess = false;
     retval = OverloadFunction(eval, nLhs, argIn, "fft", bSuccess);
-    if (!bSuccess)
-    {
+    if (!bSuccess) {
         retval = fftBuiltinPrivate(eval, nLhs, argIn);
     }
     return retval;

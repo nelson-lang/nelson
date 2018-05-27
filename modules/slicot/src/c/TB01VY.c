@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -14,19 +14,19 @@ static doublereal c_b20 = 0.;
 static doublereal c_b24 = .5;
 static doublereal c_b27 = 1.;
 
-EXPORTSYMBOL /* Subroutine */ int tb01vy_(apply, n, m, l, theta, ltheta, a, lda, b, ldb, c__, ldc, d__, ldd, x0, dwork, ldwork, info, apply_len)
-char *apply;
+EXPORTSYMBOL /* Subroutine */ int tb01vy_(apply, n, m, l, theta, ltheta, a, lda, b, ldb, c__, ldc,
+    d__, ldd, x0, dwork, ldwork, info, apply_len) char* apply;
 integer *n, *m, *l;
-doublereal *theta;
-integer *ltheta;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *d__;
-integer *ldd;
+doublereal* theta;
+integer* ltheta;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* d__;
+integer* ldd;
 doublereal *x0, *dwork;
 integer *ldwork, *info;
 ftnlen apply_len;
@@ -177,74 +177,49 @@ ftnlen apply_len;
     /* Function Body */
     lapply = lsame_(apply, "A", 1L, 1L);
     *info = 0;
-    if (! (lapply || lsame_(apply, "N", 1L, 1L)))
-    {
+    if (!(lapply || lsame_(apply, "N", 1L, 1L))) {
         *info = -1;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -2;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -3;
-    }
-    else if (*l < 0)
-    {
+    } else if (*l < 0) {
         *info = -4;
-    }
-    else if (*ltheta < *n * (*l + *m + 1) + *l **m)
-    {
+    } else if (*ltheta < *n * (*l + *m + 1) + *l * *m) {
         *info = -6;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -8;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -10;
-    }
-    else if (*ldc < max(1,*l))
-    {
+    } else if (*ldc < max(1, *l)) {
         *info = -12;
-    }
-    else if (*ldd < max(1,*l))
-    {
+    } else if (*ldd < max(1, *l)) {
         *info = -14;
-    }
-    else if (*ldwork < *n * (*n + *l + 1))
-    {
+    } else if (*ldwork < *n * (*n + *l + 1)) {
         *info = -17;
     }
     /*     Return if there are illegal arguments. */
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("TB01VY", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
     /* Computing MAX */
-    i__1 = max(*n,*m);
-    if (max(i__1,*l) == 0)
-    {
+    i__1 = max(*n, *m);
+    if (max(i__1, *l) == 0) {
         return 0;
     }
-    if (*m > 0)
-    {
+    if (*m > 0) {
         /*        Copy the matrix B from THETA. */
-        dlacpy_("Full", n, m, &theta[*n **l + 1], n, &b[b_offset], ldb, 4L);
+        dlacpy_("Full", n, m, &theta[*n * *l + 1], n, &b[b_offset], ldb, 4L);
         /*        Copy the matrix D. */
         dlacpy_("Full", l, m, &theta[*n * (*l + *m) + 1], l, &d__[d_offset], ldd, 4L);
     }
-    if (*n == 0)
-    {
+    if (*n == 0) {
         return 0;
-    }
-    else if (*l == 0)
-    {
-        dcopy_(n, &theta[*n **m + 1], &c__1, &x0[1], &c__1);
+    } else if (*l == 0) {
+        dcopy_(n, &theta[*n * *m + 1], &c__1, &x0[1], &c__1);
         return 0;
     }
     /*     Initialize the indices in the workspace. */
@@ -263,14 +238,12 @@ ftnlen apply_len;
     dcopy_(n, &dwork[ca + *l], &c__0, &dwork[ca + *l], &i__1);
     /*     Now, read out THETA(1 : N*L) and perform the transformations */
     /*     defined by the parameters in THETA. */
-    for (i__ = *n; i__ >= 1; --i__)
-    {
+    for (i__ = *n; i__ >= 1; --i__) {
         /*        Save THETAi in the first column of C and use the copy for */
         /*        further processing. */
-        dcopy_(l, &theta[(i__ - 1) **l + 1], &c__1, &c__[c_offset], &c__1);
+        dcopy_(l, &theta[(i__ - 1) * *l + 1], &c__1, &c__[c_offset], &c__1);
         ti = dnrm2_(l, &c__[c_offset], &c__1);
-        if (lapply && ti != 0.)
-        {
+        if (lapply && ti != 0.) {
             /*           Apply the bijective mapping which guarantees that TI < 1. */
             factor = tobypi * atan(ti) / ti;
             /*           Scale THETAi and apply the same scaling on TI. */
@@ -282,27 +255,26 @@ ftnlen apply_len;
         /*        Multiply a certain part of DWORK(CA) with Ui' from the left, */
         /*        where Ui = [ -THETAi, Si; RI, THETAi' ] is (L+1)-by-(L+1), but */
         /*        Ui is not stored. */
-        dgemv_("Transpose", l, n, &c_b18, &dwork[ca + *n - i__], &ldca, &c__[c_offset], &c__1, &c_b20, &dwork[jwork], &c__1, 9L);
-        if (ti > 0.)
-        {
+        dgemv_("Transpose", l, n, &c_b18, &dwork[ca + *n - i__], &ldca, &c__[c_offset], &c__1,
+            &c_b20, &dwork[jwork], &c__1, 9L);
+        if (ti > 0.) {
             d__1 = (1. - ri) / ti / ti;
-            dger_(l, n, &d__1, &c__[c_offset], &c__1, &dwork[jwork], &c__1, &dwork[ca + *n - i__], &ldca);
-        }
-        else
-        {
+            dger_(l, n, &d__1, &c__[c_offset], &c__1, &dwork[jwork], &c__1, &dwork[ca + *n - i__],
+                &ldca);
+        } else {
             /*           The call below is for the limiting case. */
-            dger_(l, n, &c_b24, &c__[c_offset], &c__1, &dwork[jwork], &c__1, &dwork[ca + *n - i__], &ldca);
+            dger_(l, n, &c_b24, &c__[c_offset], &c__1, &dwork[jwork], &c__1, &dwork[ca + *n - i__],
+                &ldca);
         }
-        dger_(l, n, &c_b27, &c__[c_offset], &c__1, &dwork[ca + *n - i__ + *l], &ldca, &dwork[ca + *n - i__], &ldca);
+        dger_(l, n, &c_b27, &c__[c_offset], &c__1, &dwork[ca + *n - i__ + *l], &ldca,
+            &dwork[ca + *n - i__], &ldca);
         daxpy_(n, &ri, &dwork[ca + *n - i__ + *l], &ldca, &dwork[jwork], &c__1);
         /*        Move these results to their appropriate locations. */
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             in = ca + *n - i__ + (j - 1) * ldca;
             i__2 = in + 1;
-            for (k = in + *l; k >= i__2; --k)
-            {
+            for (k = in + *l; k >= i__2; --k) {
                 dwork[k] = dwork[k - 1];
                 /* L10: */
             }
@@ -313,15 +285,13 @@ ftnlen apply_len;
     }
     /*     Now, DWORK(CA) = [C; A]. Copy to C and A. */
     i__1 = *n;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         dcopy_(l, &dwork[ca + (i__ - 1) * ldca], &c__1, &c__[i__ * c_dim1 + 1], &c__1);
         dcopy_(n, &dwork[ca + *l + (i__ - 1) * ldca], &c__1, &a[i__ * a_dim1 + 1], &c__1);
         /* L40: */
     }
     /*     Copy the initial state x0. */
-    dcopy_(n, &theta[*n * (*l + *m) + *l **m + 1], &c__1, &x0[1], &c__1);
+    dcopy_(n, &theta[*n * (*l + *m) + *l * *m + 1], &c__1, &x0[1], &c__1);
     return 0;
     /* *** Last line of TB01VY *** */
 } /* tb01vy_ */
-

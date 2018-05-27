@@ -22,8 +22,9 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace DataStructuresGateway {
-        ArrayOfVector struct2cellBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    }
+namespace DataStructuresGateway {
+    ArrayOfVector
+    struct2cellBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }
+} // namespace Nelson
 //=============================================================================

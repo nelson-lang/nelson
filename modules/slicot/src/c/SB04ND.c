@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,18 +10,19 @@
 static integer c__1 = 1;
 static integer c__2 = 2;
 
-EXPORTSYMBOL /* Subroutine */ int sb04nd_(abschu, ula, ulb, n, m, a, lda, b, ldb, c__, ldc, tol, iwork, dwork, ldwork, info, abschu_len, ula_len, ulb_len)
-char *abschu, *ula, *ulb;
+EXPORTSYMBOL /* Subroutine */ int sb04nd_(abschu, ula, ulb, n, m, a, lda, b, ldb, c__, ldc, tol,
+    iwork, dwork, ldwork, info, abschu_len, ula_len, ulb_len) char *abschu,
+    *ula, *ulb;
 integer *n, *m;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *tol;
-integer *iwork;
-doublereal *dwork;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* tol;
+integer* iwork;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen abschu_len;
 ftnlen ula_len;
@@ -199,66 +200,47 @@ ftnlen ulb_len;
     --dwork;
     /* Function Body */
     *info = 0;
-    maxmn = max(*m,*n);
+    maxmn = max(*m, *n);
     labscb = lsame_(abschu, "B", 1L, 1L);
     labscs = lsame_(abschu, "S", 1L, 1L);
     lula = lsame_(ula, "U", 1L, 1L);
     lulb = lsame_(ulb, "U", 1L, 1L);
     /*     Test the input scalar arguments. */
-    if (! labscb && ! labscs && ! lsame_(abschu, "A", 1L, 1L))
-    {
+    if (!labscb && !labscs && !lsame_(abschu, "A", 1L, 1L)) {
         *info = -1;
-    }
-    else if (! lula && ! lsame_(ula, "L", 1L, 1L))
-    {
+    } else if (!lula && !lsame_(ula, "L", 1L, 1L)) {
         *info = -2;
-    }
-    else if (! lulb && ! lsame_(ulb, "L", 1L, 1L))
-    {
+    } else if (!lulb && !lsame_(ulb, "L", 1L, 1L)) {
         *info = -3;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -4;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -5;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -7;
-    }
-    else if (*ldb < max(1,*m))
-    {
+    } else if (*ldb < max(1, *m)) {
         *info = -9;
-    }
-    else if (*ldc < max(1,*n))
-    {
+    } else if (*ldc < max(1, *n)) {
         *info = -11;
-    }
-    else if (*ldwork < 0 || ! (labscs && lula && lulb) && *ldwork < (maxmn << 1) * ((maxmn << 1) + 4))
-    {
+    } else if (*ldwork < 0
+        || !(labscs && lula && lulb) && *ldwork < (maxmn << 1) * ((maxmn << 1) + 4)) {
         *info = -15;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("SB04ND", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (maxmn == 0)
-    {
+    if (maxmn == 0) {
         return 0;
     }
-    if (labscs && lula && lulb)
-    {
+    if (labscs && lula && lulb) {
         /*        If both matrices are in a real Schur form, use DTRSYL. */
-        dtrsyl_("NoTranspose", "NoTranspose", &c__1, n, m, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, &scale, info, 11L, 11L);
-        if (scale != 1.)
-        {
+        dtrsyl_("NoTranspose", "NoTranspose", &c__1, n, m, &a[a_offset], lda, &b[b_offset], ldb,
+            &c__[c_offset], ldc, &scale, info, 11L, 11L);
+        if (scale != 1.) {
             *info = 1;
         }
         return 0;
@@ -266,37 +248,28 @@ ftnlen ulb_len;
     ldw = maxmn << 1;
     jwork = ldw * ldw + ldw * 3 + 1;
     tol1 = *tol;
-    if (tol1 <= 0.)
-    {
+    if (tol1 <= 0.) {
         tol1 = dlamch_("Epsilon", 7L);
     }
     /*     Choose the smallest of both matrices as the one in Hessenberg */
     /*     form when possible. */
-    *(unsigned char *)abschr = *(unsigned char *)abschu;
-    if (labscs)
-    {
-        if (*n > *m)
-        {
-            *(unsigned char *)abschr = 'A';
-        }
-        else
-        {
-            *(unsigned char *)abschr = 'B';
+    *(unsigned char*)abschr = *(unsigned char*)abschu;
+    if (labscs) {
+        if (*n > *m) {
+            *(unsigned char*)abschr = 'A';
+        } else {
+            *(unsigned char*)abschr = 'B';
         }
     }
-    if (lsame_(abschr, "B", 1L, 1L))
-    {
+    if (lsame_(abschr, "B", 1L, 1L)) {
         /*        B is in Schur form: recursion on the columns of B. */
-        if (lulb)
-        {
+        if (lulb) {
             /*           B is upper: forward recursion. */
             ibeg = 1;
             iend = *m;
             fwd = 1;
             incr = 0;
-        }
-        else
-        {
+        } else {
             /*           B is lower: backward recursion. */
             ibeg = *m;
             iend = 1;
@@ -305,43 +278,37 @@ ftnlen ulb_len;
         }
         i__ = ibeg;
         /*        WHILE ( ( IEND - I ) * FWD .GE. 0 ) DO */
-L20:
-        if ((iend - i__) * fwd >= 0)
-        {
+    L20:
+        if ((iend - i__) * fwd >= 0) {
             /*           Test for 1-by-1 or 2-by-2 diagonal block in the Schur */
             /*           form. */
-            if (i__ == iend)
-            {
+            if (i__ == iend) {
                 istep = 1;
-            }
-            else
-            {
-                if (b[i__ + fwd + i__ * b_dim1] == 0.)
-                {
+            } else {
+                if (b[i__ + fwd + i__ * b_dim1] == 0.) {
                     istep = 1;
-                }
-                else
-                {
+                } else {
                     istep = 2;
                 }
             }
-            if (istep == 1)
-            {
-                sb04nw_(abschr, ulb, n, m, &c__[c_offset], ldc, &i__, &b[b_offset], ldb, &dwork[jwork], 1L, 1L);
-                sb04ny_("R", ula, n, &a[a_offset], lda, &b[i__ + i__ * b_dim1], &dwork[jwork], &tol1, &iwork[1], &dwork[1], &ldw, info, 1L, 1L);
-                if (*info == 1)
-                {
+            if (istep == 1) {
+                sb04nw_(abschr, ulb, n, m, &c__[c_offset], ldc, &i__, &b[b_offset], ldb,
+                    &dwork[jwork], 1L, 1L);
+                sb04ny_("R", ula, n, &a[a_offset], lda, &b[i__ + i__ * b_dim1], &dwork[jwork],
+                    &tol1, &iwork[1], &dwork[1], &ldw, info, 1L, 1L);
+                if (*info == 1) {
                     return 0;
                 }
                 dcopy_(n, &dwork[jwork], &c__1, &c__[i__ * c_dim1 + 1], &c__1);
-            }
-            else
-            {
+            } else {
                 ipincr = i__ + incr;
-                sb04nv_(abschr, ulb, n, m, &c__[c_offset], ldc, &ipincr, &b[b_offset], ldb, &dwork[jwork], 1L, 1L);
-                sb04nx_("R", ula, n, &a[a_offset], lda, &b[ipincr + ipincr * b_dim1], &b[ipincr + 1 + ipincr * b_dim1], &b[ipincr + (ipincr + 1) * b_dim1], &b[ipincr + 1 + (ipincr + 1) * b_dim1], &dwork[jwork], &tol1, &iwork[1], &dwork[1], &ldw, info, 1L, 1L);
-                if (*info == 1)
-                {
+                sb04nv_(abschr, ulb, n, m, &c__[c_offset], ldc, &ipincr, &b[b_offset], ldb,
+                    &dwork[jwork], 1L, 1L);
+                sb04nx_("R", ula, n, &a[a_offset], lda, &b[ipincr + ipincr * b_dim1],
+                    &b[ipincr + 1 + ipincr * b_dim1], &b[ipincr + (ipincr + 1) * b_dim1],
+                    &b[ipincr + 1 + (ipincr + 1) * b_dim1], &dwork[jwork], &tol1, &iwork[1],
+                    &dwork[1], &ldw, info, 1L, 1L);
+                if (*info == 1) {
                     return 0;
                 }
                 dcopy_(n, &dwork[jwork], &c__2, &c__[ipincr * c_dim1 + 1], &c__1);
@@ -351,20 +318,15 @@ L20:
             goto L20;
         }
         /*        END WHILE 20 */
-    }
-    else
-    {
+    } else {
         /*        A is in Schur form: recursion on the rows of A. */
-        if (lula)
-        {
+        if (lula) {
             /*           A is upper: backward recursion. */
             ibeg = *n;
             iend = 1;
             fwd = -1;
             incr = -1;
-        }
-        else
-        {
+        } else {
             /*           A is lower: forward recursion. */
             ibeg = 1;
             iend = *n;
@@ -373,43 +335,37 @@ L20:
         }
         i__ = ibeg;
         /*        WHILE ( ( IEND - I ) * FWD .GE. 0 ) DO */
-L40:
-        if ((iend - i__) * fwd >= 0)
-        {
+    L40:
+        if ((iend - i__) * fwd >= 0) {
             /*           Test for 1-by-1 or 2-by-2 diagonal block in the Schur */
             /*           form. */
-            if (i__ == iend)
-            {
+            if (i__ == iend) {
                 istep = 1;
-            }
-            else
-            {
-                if (a[i__ + (i__ + fwd) * a_dim1] == 0.)
-                {
+            } else {
+                if (a[i__ + (i__ + fwd) * a_dim1] == 0.) {
                     istep = 1;
-                }
-                else
-                {
+                } else {
                     istep = 2;
                 }
             }
-            if (istep == 1)
-            {
-                sb04nw_(abschr, ula, n, m, &c__[c_offset], ldc, &i__, &a[a_offset], lda, &dwork[jwork], 1L, 1L);
-                sb04ny_("C", ulb, m, &b[b_offset], ldb, &a[i__ + i__ * a_dim1], &dwork[jwork], &tol1, &iwork[1], &dwork[1], &ldw, info, 1L, 1L);
-                if (*info == 1)
-                {
+            if (istep == 1) {
+                sb04nw_(abschr, ula, n, m, &c__[c_offset], ldc, &i__, &a[a_offset], lda,
+                    &dwork[jwork], 1L, 1L);
+                sb04ny_("C", ulb, m, &b[b_offset], ldb, &a[i__ + i__ * a_dim1], &dwork[jwork],
+                    &tol1, &iwork[1], &dwork[1], &ldw, info, 1L, 1L);
+                if (*info == 1) {
                     return 0;
                 }
                 dcopy_(m, &dwork[jwork], &c__1, &c__[i__ + c_dim1], ldc);
-            }
-            else
-            {
+            } else {
                 ipincr = i__ + incr;
-                sb04nv_(abschr, ula, n, m, &c__[c_offset], ldc, &ipincr, &a[a_offset], lda, &dwork[jwork], 1L, 1L);
-                sb04nx_("C", ulb, m, &b[b_offset], ldb, &a[ipincr + ipincr * a_dim1], &a[ipincr + 1 + ipincr * a_dim1], &a[ipincr + (ipincr + 1) * a_dim1], &a[ipincr + 1 + (ipincr + 1) * a_dim1], &dwork[jwork], &tol1, &iwork[1], &dwork[1], &ldw, info, 1L, 1L);
-                if (*info == 1)
-                {
+                sb04nv_(abschr, ula, n, m, &c__[c_offset], ldc, &ipincr, &a[a_offset], lda,
+                    &dwork[jwork], 1L, 1L);
+                sb04nx_("C", ulb, m, &b[b_offset], ldb, &a[ipincr + ipincr * a_dim1],
+                    &a[ipincr + 1 + ipincr * a_dim1], &a[ipincr + (ipincr + 1) * a_dim1],
+                    &a[ipincr + 1 + (ipincr + 1) * a_dim1], &dwork[jwork], &tol1, &iwork[1],
+                    &dwork[1], &ldw, info, 1L, 1L);
+                if (*info == 1) {
                     return 0;
                 }
                 dcopy_(m, &dwork[jwork], &c__2, &c__[ipincr + c_dim1], ldc);
@@ -423,4 +379,3 @@ L40:
     return 0;
     /* *** Last line of SB04ND *** */
 } /* sb04nd_ */
-

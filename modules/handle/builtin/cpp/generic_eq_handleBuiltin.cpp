@@ -17,20 +17,20 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "generic_eq_handleBuiltin.hpp"
-#include "Error.hpp"
 #include "EqHandle.hpp"
+#include "Error.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::HandleGateway::generic_eq_handleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::HandleGateway::generic_eq_handleBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 2)
-    {
+    if (argIn.size() != 2) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf A = argIn[0];

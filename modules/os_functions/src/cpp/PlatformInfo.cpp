@@ -19,123 +19,122 @@
 #include "PlatformInfo.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    ArrayOf IsPc()
-    {
-        return ArrayOf::logicalConstructor(IsPcPlatform());
-    }
-    //=============================================================================
-    ArrayOf IsMac()
-    {
-        return ArrayOf::logicalConstructor(IsMacPlatform());
-    }
-    //=============================================================================
-    ArrayOf IsUnix()
-    {
-        return ArrayOf::logicalConstructor(IsUnixPlatform());
-    }
-    //=============================================================================
-    bool IsPcPlatform()
-    {
+//=============================================================================
+ArrayOf
+IsPc()
+{
+    return ArrayOf::logicalConstructor(IsPcPlatform());
+}
+//=============================================================================
+ArrayOf
+IsMac()
+{
+    return ArrayOf::logicalConstructor(IsMacPlatform());
+}
+//=============================================================================
+ArrayOf
+IsUnix()
+{
+    return ArrayOf::logicalConstructor(IsUnixPlatform());
+}
+//=============================================================================
+bool
+IsPcPlatform()
+{
 #ifdef _MSC_VER
-        return true;
+    return true;
 #else
-        return false;
+    return false;
 #endif
-    }
-    //=============================================================================
-    bool IsMacPlatform()
-    {
-        if (IsUnixPlatform())
-        {
+}
+//=============================================================================
+bool
+IsMacPlatform()
+{
+    if (IsUnixPlatform()) {
 #if defined(__APPLE__) || defined(__MACH__)
-            return true;
-#endif
-        }
-        return false;
-    }
-    //=============================================================================
-    bool IsUnixPlatform()
-    {
-#ifdef _MSC_VER
-        return false;
-#else
         return true;
 #endif
     }
-    //=============================================================================
-    std::wstring GetArchitecture()
-    {
-        if (IsPcPlatform())
-        {
+    return false;
+}
+//=============================================================================
+bool
+IsUnixPlatform()
+{
+#ifdef _MSC_VER
+    return false;
+#else
+    return true;
+#endif
+}
+//=============================================================================
+std::wstring
+GetArchitecture()
+{
+    if (IsPcPlatform()) {
 #ifdef _WIN64
-            return std::wstring(L"win64");
+        return std::wstring(L"win64");
 #else
-            return std::wstring(L"win32");
+        return std::wstring(L"win32");
 #endif
-        }
-        else if (IsMacPlatform())
-        {
+    } else if (IsMacPlatform()) {
 #ifdef __x86_64__
-            return std::wstring(L"maci64");
+        return std::wstring(L"maci64");
 #else
-            return std::wstring(L"maci32");
+        return std::wstring(L"maci32");
 #endif
-        }
-        else
-        {
+    } else {
 #ifdef __x86_64__
-            return std::wstring(L"glnxa64");
+        return std::wstring(L"glnxa64");
 #else
-            return std::wstring(L"glnxa32");
+        return std::wstring(L"glnxa32");
 #endif
-        }
-        return std::wstring(L"?");
     }
-    //=============================================================================
-    std::wstring GetArchitectureType()
-    {
-        if (IsPcPlatform())
-        {
+    return std::wstring(L"?");
+}
+//=============================================================================
+std::wstring
+GetArchitectureType()
+{
+    if (IsPcPlatform()) {
 #ifdef _WIN64
-            return std::wstring(L"PCWIN64");
+        return std::wstring(L"PCWIN64");
 #else
-            return std::wstring(L"PCWIN");
+        return std::wstring(L"PCWIN");
 #endif
-        }
-        else if (IsMacPlatform())
-        {
+    } else if (IsMacPlatform()) {
 #ifdef __x86_64__
-            return std::wstring(L"MACI64");
+        return std::wstring(L"MACI64");
 #else
-            return std::wstring(L"MACI32");
+        return std::wstring(L"MACI32");
 #endif
-        }
-        else
-        {
+    } else {
 #ifdef __x86_64__
-            return std::wstring(L"GLNXA64");
+        return std::wstring(L"GLNXA64");
 #else
-            return std::wstring(L"GLNXA32");
+        return std::wstring(L"GLNXA32");
 #endif
-        }
-        return std::wstring(L"?");
     }
-    //=============================================================================
-    double GetMaxArrayOfSizeSupported()
+    return std::wstring(L"?");
+}
+//=============================================================================
+double
+GetMaxArrayOfSizeSupported()
+{
+    return (double)SIZE_TYPE_MAX;
+}
+//=============================================================================
+NLSOS_FUNCTIONS_IMPEXP bool
+IsBigEndian()
+{
+    union
     {
-        return (double)SIZE_TYPE_MAX;
-    }
-    //=============================================================================
-    NLSOS_FUNCTIONS_IMPEXP bool IsBigEndian()
-    {
-        union
-        {
-            uint32_t i;
-            char c[4];
-        } bint = { 0x01020304 };
-        return (bool)(bint.c[0] == 1);
-    }
-    //=============================================================================
+        uint32_t i;
+        char c[4];
+    } bint = { 0x01020304 };
+    return (bool)(bint.c[0] == 1);
+}
+//=============================================================================
 }
 //=============================================================================

@@ -18,20 +18,23 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsLinear_algebra_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsLinear_algebra_exports.h"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    typedef enum
-    {
-        SVD_DEFAULT,
-        SVD_ECON,
-        SVD_0
-    } SVD_FLAG;
-    //=============================================================================
-    NLSLINEAR_ALGEBRA_IMPEXP void SVD(ArrayOf A, ArrayOf &s);
-    NLSLINEAR_ALGEBRA_IMPEXP void SVD(ArrayOf A, SVD_FLAG flag, ArrayOf &U, ArrayOf &S);
-    NLSLINEAR_ALGEBRA_IMPEXP void SVD(ArrayOf A, SVD_FLAG flag, ArrayOf &U, ArrayOf &S, ArrayOf &V);
-}
+//=============================================================================
+typedef enum
+{
+    SVD_DEFAULT,
+    SVD_ECON,
+    SVD_0
+} SVD_FLAG;
+//=============================================================================
+NLSLINEAR_ALGEBRA_IMPEXP void
+SVD(ArrayOf A, ArrayOf& s);
+NLSLINEAR_ALGEBRA_IMPEXP void
+SVD(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S);
+NLSLINEAR_ALGEBRA_IMPEXP void
+SVD(ArrayOf A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V);
+} // namespace Nelson
 //=============================================================================

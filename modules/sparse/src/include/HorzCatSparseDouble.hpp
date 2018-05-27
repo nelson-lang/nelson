@@ -18,10 +18,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsSparse_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsSparse_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSSPARSE_IMPEXP ArrayOf HorzCatSparseDouble(ArrayOf A, ArrayOf B);
+NLSSPARSE_IMPEXP ArrayOf
+HorzCatSparseDouble(ArrayOf A, ArrayOf B);
 }
 //=============================================================================

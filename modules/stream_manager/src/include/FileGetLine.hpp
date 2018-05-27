@@ -18,12 +18,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "nlsStream_manager_exports.h"
 #include "File.hpp"
+#include "nlsStream_manager_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    NLSSTREAM_MANAGER_IMPEXP bool FileGetLine(File *fp, int nchar, bool bWithNewLine, std::wstring &result);
+NLSSTREAM_MANAGER_IMPEXP bool
+FileGetLine(File* fp, int nchar, bool bWithNewLine, std::wstring& result);
 };
 //=============================================================================
-

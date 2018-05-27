@@ -22,8 +22,9 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace TimeGateway {
-        ArrayOfVector calendarBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    }
+namespace TimeGateway {
+    ArrayOfVector
+    calendarBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }
+} // namespace Nelson
 //=============================================================================

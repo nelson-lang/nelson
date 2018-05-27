@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -12,15 +12,16 @@ static doublereal c_b8 = 1.;
 static integer c__1 = 1;
 static integer c_n1 = -1;
 
-EXPORTSYMBOL /* Subroutine */ int tf01mx_(n, m, p, ny, s, lds, u, ldu, x, y, ldy, dwork, ldwork, info)
-integer *n, *m, *p, *ny;
-doublereal *s;
-integer *lds;
-doublereal *u;
-integer *ldu;
+EXPORTSYMBOL /* Subroutine */ int tf01mx_(
+    n, m, p, ny, s, lds, u, ldu, x, y, ldy, dwork, ldwork, info) integer *n,
+    *m, *p, *ny;
+doublereal* s;
+integer* lds;
+doublereal* u;
+integer* ldu;
 doublereal *x, *y;
-integer *ldy;
-doublereal *dwork;
+integer* ldy;
+doublereal* dwork;
 integer *ldwork, *info;
 {
     /* System generated locals */
@@ -155,122 +156,90 @@ integer *ldwork, *info;
     np = *n + *p;
     nm = *n + *m;
     iw = nm + np;
-    if (*n < 0)
-    {
+    if (*n < 0) {
         *info = -1;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -2;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -3;
-    }
-    else if (*ny < 0)
-    {
+    } else if (*ny < 0) {
         *info = -4;
-    }
-    else if (*lds < max(1,np))
-    {
+    } else if (*lds < max(1, np)) {
         *info = -6;
-    }
-    else if (*ldu < max(1,*ny))
-    {
+    } else if (*ldu < max(1, *ny)) {
         *info = -8;
-    }
-    else if (*ldy < max(1,*ny))
-    {
+    } else if (*ldy < max(1, *ny)) {
         *info = -11;
-    }
-    else
-    {
+    } else {
         /* Computing MIN */
-        i__1 = min(*n,*p);
-        if (min(i__1,*ny) == 0)
-        {
+        i__1 = min(*n, *p);
+        if (min(i__1, *ny) == 0) {
             jw = 0;
-        }
-        else if (*m == 0)
-        {
+        } else if (*m == 0) {
             jw = np;
-        }
-        else
-        {
+        } else {
             jw = iw;
         }
-        if (*ldwork < jw)
-        {
+        if (*ldwork < jw) {
             *info = -13;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("TF01MX", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (min(*ny,*p) == 0)
-    {
+    if (min(*ny, *p) == 0) {
         return 0;
-    }
-    else if (*n == 0)
-    {
+    } else if (*n == 0) {
         /*        Non-dynamic system: compute the output vectors. */
-        if (*m == 0)
-        {
+        if (*m == 0) {
             dlaset_("Full", ny, p, &c_b4, &c_b4, &y[y_offset], ldy, 4L);
-        }
-        else
-        {
-            dgemm_("No transpose", "Transpose", ny, p, m, &c_b8, &u[u_offset], ldu, &s[s_offset], lds, &c_b4, &y[y_offset], ldy, 12L, 9L);
+        } else {
+            dgemm_("No transpose", "Transpose", ny, p, m, &c_b8, &u[u_offset], ldu, &s[s_offset],
+                lds, &c_b4, &y[y_offset], ldy, 12L, 9L);
         }
         return 0;
     }
     /*     Determine the block size (taken as for LAPACK routine DGETRF). */
-    i__1 = max(*m,*p);
+    i__1 = max(*m, *p);
     nb = ilaenv_(&c__1, "DGETRF", " ", ny, &i__1, &c_n1, &c_n1, 6L, 1L);
     /*     Find the number of state vectors, extended with inputs (if M > 0) */
     /*     and outputs, that can be accommodated in the provided workspace. */
     /* Computing MIN */
-    i__1 = *ldwork / jw, i__2 = nb * nb / jw, i__1 = min(i__1,i__2);
-    ns = min(i__1,*ny);
+    i__1 = *ldwork / jw, i__2 = nb * nb / jw, i__1 = min(i__1, i__2);
+    ns = min(i__1, *ny);
     n2p = *n + np;
-    if (*m == 0)
-    {
+    if (*m == 0) {
         /*        System with no inputs. */
         /*        Workspace: need   N + P; */
         /*                   prefer larger. */
-        if (ns <= 1 || *ny **p <= nb * nb)
-        {
+        if (ns <= 1 || *ny * *p <= nb * nb) {
             iy = *n + 1;
             /*           LDWORK < 2*(N+P), or small problem. */
             /*           One row of array Y is computed for each loop index value. */
             i__1 = *ny;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 /*              Compute */
                 /*              /x(i+1)\    /A\ */
                 /*              |      | =  | | * x(i). */
                 /*              \ y(i) /    \C/ */
-                dgemv_("NoTranspose", &np, n, &c_b8, &s[s_offset], lds, &x[1], &c__1, &c_b4, &dwork[1], &c__1, 11L);
+                dgemv_("NoTranspose", &np, n, &c_b8, &s[s_offset], lds, &x[1], &c__1, &c_b4,
+                    &dwork[1], &c__1, 11L);
                 dcopy_(n, &dwork[1], &c__1, &x[1], &c__1);
                 dcopy_(p, &dwork[iy], &c__1, &y[i__ + y_dim1], ldy);
                 /* L10: */
             }
-        }
-        else
-        {
+        } else {
             /*           LDWORK >= 2*(N+P), and large problem. */
             /*           NS rows of array Y are computed before being saved. */
             nf = *ny / ns * ns;
             dcopy_(n, &x[1], &c__1, &dwork[1], &c__1);
             i__1 = nf;
             i__2 = ns;
-            for (i__ = 1; i__2 < 0 ? i__ >= i__1 : i__ <= i__1; i__ += i__2)
-            {
+            for (i__ = 1; i__2 < 0 ? i__ >= i__1 : i__ <= i__1; i__ += i__2) {
                 /*              Compute the current NS extended state vectors in the */
                 /*              workspace: */
                 /*              /x(i+1)\    /A\ */
@@ -278,18 +247,18 @@ integer *ldwork, *info;
                 /*              \ y(i) /    \C/ */
                 i__3 = (ns - 1) * np;
                 i__4 = np;
-                for (ic = 1; i__4 < 0 ? ic >= i__3 : ic <= i__3; ic += i__4)
-                {
-                    dgemv_("No transpose", &np, n, &c_b8, &s[s_offset], lds, &dwork[ic], &c__1, &c_b4, &dwork[ic + np], &c__1, 12L);
+                for (ic = 1; i__4 < 0 ? ic >= i__3 : ic <= i__3; ic += i__4) {
+                    dgemv_("No transpose", &np, n, &c_b8, &s[s_offset], lds, &dwork[ic], &c__1,
+                        &c_b4, &dwork[ic + np], &c__1, 12L);
                     /* L20: */
                 }
                 /*              Prepare the next iteration. */
-                dgemv_("No transpose", &np, n, &c_b8, &s[s_offset], lds, &dwork[(ns - 1) * np + 1], &c__1, &c_b4, &dwork[1], &c__1, 12L);
+                dgemv_("No transpose", &np, n, &c_b8, &s[s_offset], lds, &dwork[(ns - 1) * np + 1],
+                    &c__1, &c_b4, &dwork[1], &c__1, 12L);
                 /*              Transpose the NS output vectors in the corresponding part */
                 /*              of Y (column-wise). */
                 i__4 = *p;
-                for (j = 1; j <= i__4; ++j)
-                {
+                for (j = 1; j <= i__4; ++j) {
                     i__3 = ns - 1;
                     dcopy_(&i__3, &dwork[n2p + j], &np, &y[i__ + j * y_dim1], &c__1);
                     y[i__ + ns - 1 + j * y_dim1] = dwork[*n + j];
@@ -298,74 +267,66 @@ integer *ldwork, *info;
                 /* L40: */
             }
             ns = *ny - nf;
-            if (ns > 1)
-            {
+            if (ns > 1) {
                 /*              Compute similarly the last NS output vectors. */
                 i__2 = (ns - 1) * np;
                 i__1 = np;
-                for (ic = 1; i__1 < 0 ? ic >= i__2 : ic <= i__2; ic += i__1)
-                {
-                    dgemv_("No transpose", &np, n, &c_b8, &s[s_offset], lds, &dwork[ic], &c__1, &c_b4, &dwork[ic + np], &c__1, 12L);
+                for (ic = 1; i__1 < 0 ? ic >= i__2 : ic <= i__2; ic += i__1) {
+                    dgemv_("No transpose", &np, n, &c_b8, &s[s_offset], lds, &dwork[ic], &c__1,
+                        &c_b4, &dwork[ic + np], &c__1, 12L);
                     /* L50: */
                 }
-                dgemv_("No transpose", &np, n, &c_b8, &s[s_offset], lds, &dwork[(ns - 1) * np + 1], &c__1, &c_b4, &dwork[1], &c__1, 12L);
+                dgemv_("No transpose", &np, n, &c_b8, &s[s_offset], lds, &dwork[(ns - 1) * np + 1],
+                    &c__1, &c_b4, &dwork[1], &c__1, 12L);
                 i__1 = *p;
-                for (j = 1; j <= i__1; ++j)
-                {
+                for (j = 1; j <= i__1; ++j) {
                     i__2 = ns - 1;
                     dcopy_(&i__2, &dwork[n2p + j], &np, &y[nf + 1 + j * y_dim1], &c__1);
                     y[nf + ns + j * y_dim1] = dwork[*n + j];
                     /* L60: */
                 }
-            }
-            else if (ns == 1)
-            {
+            } else if (ns == 1) {
                 /*              Compute similarly the last NS = 1 output vectors. */
                 dcopy_(n, &dwork[1], &c__1, &dwork[np + 1], &c__1);
-                dgemv_("No transpose", &np, n, &c_b8, &s[s_offset], lds, &dwork[np + 1], &c__1, &c_b4, &dwork[1], &c__1, 12L);
+                dgemv_("No transpose", &np, n, &c_b8, &s[s_offset], lds, &dwork[np + 1], &c__1,
+                    &c_b4, &dwork[1], &c__1, 12L);
                 dcopy_(p, &dwork[*n + 1], &c__1, &y[nf + 1 + y_dim1], ldy);
             }
             /*           Set the final state vector. */
             dcopy_(n, &dwork[1], &c__1, &x[1], &c__1);
         }
-    }
-    else
-    {
+    } else {
         /*        General case. */
         /*        Workspace: need   2*N + M + P; */
         /*                   prefer larger. */
         dcopy_(n, &x[1], &c__1, &dwork[1], &c__1);
-        if (ns <= 1 || *ny * (*m + *p) <= nb * nb)
-        {
+        if (ns <= 1 || *ny * (*m + *p) <= nb * nb) {
             iu = *n + 1;
             jw = iu + *m;
             iy = jw + *n;
             /*           LDWORK < 2*(2*N+M+P), or small problem. */
             /*           One row of array Y is computed for each loop index value. */
             i__1 = *ny;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 /*              Compute */
                 /*              /x(i+1)\    /A, B\   /x(i)\ */
                 /*              |      | =  |    | * |    | . */
                 /*              \ y(i) /    \C, D/   \u(i)/ */
                 dcopy_(m, &u[i__ + u_dim1], ldu, &dwork[iu], &c__1);
-                dgemv_("NoTranspose", &np, &nm, &c_b8, &s[s_offset], lds, &dwork[1], &c__1, &c_b4, &dwork[jw], &c__1, 11L);
+                dgemv_("NoTranspose", &np, &nm, &c_b8, &s[s_offset], lds, &dwork[1], &c__1, &c_b4,
+                    &dwork[jw], &c__1, 11L);
                 dcopy_(n, &dwork[jw], &c__1, &dwork[1], &c__1);
                 dcopy_(p, &dwork[iy], &c__1, &y[i__ + y_dim1], ldy);
                 /* L70: */
             }
-        }
-        else
-        {
+        } else {
             /*           LDWORK >= 2*(2*N+M+P), and large problem. */
             /*           NS rows of array Y are computed before being saved. */
             nf = *ny / ns * ns;
             n2m = *n + nm;
             i__1 = nf;
             i__2 = ns;
-            for (i__ = 1; i__2 < 0 ? i__ >= i__1 : i__ <= i__1; i__ += i__2)
-            {
+            for (i__ = 1; i__2 < 0 ? i__ >= i__1 : i__ <= i__1; i__ += i__2) {
                 jw = 1;
                 /*              Compute the current NS extended state vectors in the */
                 /*              workspace: */
@@ -373,68 +334,64 @@ integer *ldwork, *info;
                 /*              |      | =  |    | * |    | ,  i = 1 : ns - 1. */
                 /*              \ y(i) /    \C, D/   \u(i)/ */
                 i__4 = *m;
-                for (j = 1; j <= i__4; ++j)
-                {
+                for (j = 1; j <= i__4; ++j) {
                     dcopy_(&ns, &u[i__ + j * u_dim1], &c__1, &dwork[*n + j], &iw);
                     /* L80: */
                 }
                 i__4 = ns - 1;
-                for (k = 1; k <= i__4; ++k)
-                {
-                    dgemv_("No transpose", &np, &nm, &c_b8, &s[s_offset], lds, &dwork[jw], &c__1, &c_b4, &dwork[jw + nm], &c__1, 12L);
+                for (k = 1; k <= i__4; ++k) {
+                    dgemv_("No transpose", &np, &nm, &c_b8, &s[s_offset], lds, &dwork[jw], &c__1,
+                        &c_b4, &dwork[jw + nm], &c__1, 12L);
                     jw += nm;
                     dcopy_(n, &dwork[jw], &c__1, &dwork[jw + np], &c__1);
                     jw += np;
                     /* L90: */
                 }
                 /*              Prepare the next iteration. */
-                dgemv_("No transpose", &np, &nm, &c_b8, &s[s_offset], lds, &dwork[jw], &c__1, &c_b4, &dwork[jw + nm], &c__1, 12L);
+                dgemv_("No transpose", &np, &nm, &c_b8, &s[s_offset], lds, &dwork[jw], &c__1, &c_b4,
+                    &dwork[jw + nm], &c__1, 12L);
                 dcopy_(n, &dwork[jw + nm], &c__1, &dwork[1], &c__1);
                 /*              Transpose the NS output vectors in the corresponding part */
                 /*              of Y (column-wise). */
                 i__4 = *p;
-                for (j = 1; j <= i__4; ++j)
-                {
+                for (j = 1; j <= i__4; ++j) {
                     dcopy_(&ns, &dwork[n2m + j], &iw, &y[i__ + j * y_dim1], &c__1);
                     /* L100: */
                 }
                 /* L110: */
             }
             ns = *ny - nf;
-            if (ns > 1)
-            {
+            if (ns > 1) {
                 jw = 1;
                 /*              Compute similarly the last NS output vectors. */
                 i__2 = *m;
-                for (j = 1; j <= i__2; ++j)
-                {
+                for (j = 1; j <= i__2; ++j) {
                     dcopy_(&ns, &u[nf + 1 + j * u_dim1], &c__1, &dwork[*n + j], &iw);
                     /* L120: */
                 }
                 i__2 = ns - 1;
-                for (k = 1; k <= i__2; ++k)
-                {
-                    dgemv_("No transpose", &np, &nm, &c_b8, &s[s_offset], lds, &dwork[jw], &c__1, &c_b4, &dwork[jw + nm], &c__1, 12L);
+                for (k = 1; k <= i__2; ++k) {
+                    dgemv_("No transpose", &np, &nm, &c_b8, &s[s_offset], lds, &dwork[jw], &c__1,
+                        &c_b4, &dwork[jw + nm], &c__1, 12L);
                     jw += nm;
                     dcopy_(n, &dwork[jw], &c__1, &dwork[jw + np], &c__1);
                     jw += np;
                     /* L130: */
                 }
-                dgemv_("No transpose", &np, &nm, &c_b8, &s[s_offset], lds, &dwork[jw], &c__1, &c_b4, &dwork[jw + nm], &c__1, 12L);
+                dgemv_("No transpose", &np, &nm, &c_b8, &s[s_offset], lds, &dwork[jw], &c__1, &c_b4,
+                    &dwork[jw + nm], &c__1, 12L);
                 dcopy_(n, &dwork[jw + nm], &c__1, &dwork[1], &c__1);
                 i__2 = *p;
-                for (j = 1; j <= i__2; ++j)
-                {
+                for (j = 1; j <= i__2; ++j) {
                     dcopy_(&ns, &dwork[n2m + j], &iw, &y[nf + 1 + j * y_dim1], &c__1);
                     /* L140: */
                 }
-            }
-            else if (ns == 1)
-            {
+            } else if (ns == 1) {
                 /*              Compute similarly the last NS = 1 output vectors. */
                 dcopy_(n, &dwork[1], &c__1, &dwork[np + 1], &c__1);
                 dcopy_(m, &u[nf + 1 + u_dim1], ldu, &dwork[n2p + 1], &c__1);
-                dgemv_("No transpose", &np, &nm, &c_b8, &s[s_offset], lds, &dwork[np + 1], &c__1, &c_b4, &dwork[1], &c__1, 12L);
+                dgemv_("No transpose", &np, &nm, &c_b8, &s[s_offset], lds, &dwork[np + 1], &c__1,
+                    &c_b4, &dwork[1], &c__1, 12L);
                 dcopy_(p, &dwork[*n + 1], &c__1, &y[nf + 1 + y_dim1], ldy);
             }
         }
@@ -444,4 +401,3 @@ integer *ldwork, *info;
     return 0;
     /* *** Last line of TF01MX *** */
 } /* tf01mx_ */
-

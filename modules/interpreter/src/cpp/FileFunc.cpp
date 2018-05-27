@@ -16,55 +16,56 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <fstream>
-#include <iosfwd>
 #include "FileFunc.hpp"
 #include "characters_encoding.hpp"
+#include <fstream>
+#include <iosfwd>
 //=============================================================================
 namespace Nelson {
-    FileFunc::FileFunc(const std::wstring directory, const std::wstring name)
-    {
-        _nlf_fullfilename = directory + L"/" + name + L".nlf";
-        _name = name;
-        std::ifstream inFile;
+FileFunc::FileFunc(const std::wstring directory, const std::wstring name)
+{
+    _nlf_fullfilename = directory + L"/" + name + L".nlf";
+    _name = name;
+    std::ifstream inFile;
 #ifdef _MSC_VER
-        inFile.open(_nlf_fullfilename);
+    inFile.open(_nlf_fullfilename);
 #else
-        inFile.open(wstring_to_utf8(_nlf_fullfilename));
+    inFile.open(wstring_to_utf8(_nlf_fullfilename));
 #endif
-        if (inFile.is_open())
-        {
-            std::string content = std::string((std::istreambuf_iterator<char>(inFile)), (std::istreambuf_iterator<char>()));
-            _hashid = std::hash<std::string>()(content);
-            inFile.close();
-        }
-        else
-        {
-            _hashid = 0;
-        }
-    }
-    //=============================================================================
-    FileFunc::~FileFunc()
-    {
-        _nlf_fullfilename = L"";
-        _name = L"";
+    if (inFile.is_open()) {
+        std::string content = std::string(
+            (std::istreambuf_iterator<char>(inFile)), (std::istreambuf_iterator<char>()));
+        _hashid = std::hash<std::string>()(content);
+        inFile.close();
+    } else {
         _hashid = 0;
     }
-    //=============================================================================
-    std::wstring FileFunc::getFilename()
-    {
-        return _nlf_fullfilename;
-    }
-    //=============================================================================
-    std::wstring FileFunc::getName()
-    {
-        return _name;
-    }
-    //=============================================================================
-    size_t FileFunc::getHashID()
-    {
-        return _hashid;
-    }
-    //=============================================================================
+}
+//=============================================================================
+FileFunc::~FileFunc()
+{
+    _nlf_fullfilename = L"";
+    _name = L"";
+    _hashid = 0;
+}
+//=============================================================================
+std::wstring
+FileFunc::getFilename()
+{
+    return _nlf_fullfilename;
+}
+//=============================================================================
+std::wstring
+FileFunc::getName()
+{
+    return _name;
+}
+//=============================================================================
+size_t
+FileFunc::getHashID()
+{
+    return _hashid;
+}
+//=============================================================================
 }
 //=============================================================================

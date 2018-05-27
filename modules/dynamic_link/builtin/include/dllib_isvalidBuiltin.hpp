@@ -22,8 +22,9 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace DynamicLinkGateway {
-        ArrayOfVector dllib_isvalidBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    }
+namespace DynamicLinkGateway {
+    ArrayOfVector
+    dllib_isvalidBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }
+} // namespace Nelson
 //=============================================================================

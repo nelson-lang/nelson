@@ -18,10 +18,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsJson_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsJson_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSJSON_IMPEXP ArrayOf jsonDecode(std::wstring stringToDecode, std::wstring &errorMessage);
+NLSJSON_IMPEXP ArrayOf
+jsonDecode(std::wstring stringToDecode, std::wstring& errorMessage);
 };
 //=============================================================================

@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -12,12 +12,13 @@ static integer c__0 = 0;
 static doublereal c_b12 = 1.;
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int mb01yd_(uplo, trans, n, k, l, alpha, beta, a, lda, c__, ldc, info, uplo_len, trans_len)
-char *uplo, *trans;
+EXPORTSYMBOL /* Subroutine */ int mb01yd_(
+    uplo, trans, n, k, l, alpha, beta, a, lda, c__, ldc, info, uplo_len, trans_len) char *uplo,
+    *trans;
 integer *n, *k, *l;
 doublereal *alpha, *beta, *a;
-integer *lda;
-doublereal *c__;
+integer* lda;
+doublereal* c__;
 integer *ldc, *info;
 ftnlen uplo_len;
 ftnlen trans_len;
@@ -181,144 +182,103 @@ ftnlen trans_len;
     *info = 0;
     upper = lsame_(uplo, "U", 1L, 1L);
     transp = lsame_(trans, "T", 1L, 1L) || lsame_(trans, "C", 1L, 1L);
-    if (transp)
-    {
+    if (transp) {
         nrowa = *k;
         ncola = *n;
-    }
-    else
-    {
+    } else {
         nrowa = *n;
         ncola = *k;
     }
-    if (upper)
-    {
+    if (upper) {
         m = nrowa;
-    }
-    else
-    {
+    } else {
         m = ncola;
     }
-    if (! (upper || lsame_(uplo, "L", 1L, 1L)))
-    {
+    if (!(upper || lsame_(uplo, "L", 1L, 1L))) {
         *info = -1;
-    }
-    else if (! (transp || lsame_(trans, "N", 1L, 1L)))
-    {
+    } else if (!(transp || lsame_(trans, "N", 1L, 1L))) {
         *info = -2;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -3;
-    }
-    else if (*k < 0)
-    {
+    } else if (*k < 0) {
         *info = -4;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
         i__1 = 0, i__2 = m - 1;
-        if (*l < 0 || *l > max(i__1,i__2))
-        {
+        if (*l < 0 || *l > max(i__1, i__2)) {
             *info = -5;
-        }
-        else if (*lda < max(1,nrowa))
-        {
+        } else if (*lda < max(1, nrowa)) {
             *info = -9;
-        }
-        else if (*ldc < max(1,*n))
-        {
+        } else if (*ldc < max(1, *n)) {
             *info = -11;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("MB01YD", &i__1, 6L);
         return 0;
     }
     /*     Quick return, if possible. */
-    if (*n == 0 || (*alpha == 0. || *k == 0) && *beta == 1.)
-    {
+    if (*n == 0 || (*alpha == 0. || *k == 0) && *beta == 1.) {
         return 0;
     }
-    if (*alpha == 0.)
-    {
-        if (*beta == 0.)
-        {
+    if (*alpha == 0.) {
+        if (*beta == 0.) {
             /*           Special case when both alpha = 0 and beta = 0. */
             dlaset_(uplo, n, n, &c_b8, &c_b8, &c__[c_offset], ldc, 1L);
-        }
-        else
-        {
+        } else {
             /*           Special case alpha = 0. */
             dlascl_(uplo, &c__0, &c__0, &c_b12, beta, n, n, &c__[c_offset], ldc, info, 1L);
         }
         return 0;
     }
     /*     General case: alpha <> 0. */
-    if (! transp)
-    {
+    if (!transp) {
         /*        Form  C := alpha*A*A' + beta*C. */
-        if (upper)
-        {
+        if (upper) {
             i__1 = *n;
-            for (j = 1; j <= i__1; ++j)
-            {
-                if (*beta == 0.)
-                {
+            for (j = 1; j <= i__1; ++j) {
+                if (*beta == 0.) {
                     i__2 = j;
-                    for (i__ = 1; i__ <= i__2; ++i__)
-                    {
+                    for (i__ = 1; i__ <= i__2; ++i__) {
                         c__[i__ + j * c_dim1] = 0.;
                         /* L10: */
                     }
-                }
-                else if (*beta != 1.)
-                {
+                } else if (*beta != 1.) {
                     dscal_(&j, beta, &c__[j * c_dim1 + 1], &c__1);
                 }
                 /* Computing MAX */
                 i__2 = 1, i__3 = j - *l;
                 i__4 = *k;
-                for (m = max(i__2,i__3); m <= i__4; ++m)
-                {
+                for (m = max(i__2, i__3); m <= i__4; ++m) {
                     /* Computing MIN */
                     i__3 = j, i__5 = *l + m;
-                    i__2 = min(i__3,i__5);
+                    i__2 = min(i__3, i__5);
                     d__1 = *alpha * a[j + m * a_dim1];
                     daxpy_(&i__2, &d__1, &a[m * a_dim1 + 1], &c__1, &c__[j * c_dim1 + 1], &c__1);
                     /* L20: */
                 }
                 /* L30: */
             }
-        }
-        else
-        {
+        } else {
             i__1 = *n;
-            for (j = 1; j <= i__1; ++j)
-            {
-                if (*beta == 0.)
-                {
+            for (j = 1; j <= i__1; ++j) {
+                if (*beta == 0.) {
                     i__4 = *n;
-                    for (i__ = j; i__ <= i__4; ++i__)
-                    {
+                    for (i__ = j; i__ <= i__4; ++i__) {
                         c__[i__ + j * c_dim1] = 0.;
                         /* L40: */
                     }
-                }
-                else if (*beta != 1.)
-                {
+                } else if (*beta != 1.) {
                     i__4 = *n - j + 1;
                     dscal_(&i__4, beta, &c__[j + j * c_dim1], &c__1);
                 }
                 /* Computing MIN */
                 i__2 = j + *l;
-                i__4 = min(i__2,*k);
-                for (m = 1; m <= i__4; ++m)
-                {
+                i__4 = min(i__2, *k);
+                for (m = 1; m <= i__4; ++m) {
                     i__2 = *n - j + 1;
                     d__1 = *alpha * a[j + m * a_dim1];
                     daxpy_(&i__2, &d__1, &a[j + m * a_dim1], &c__1, &c__[j + j * c_dim1], &c__1);
@@ -327,54 +287,41 @@ ftnlen trans_len;
                 /* L60: */
             }
         }
-    }
-    else
-    {
+    } else {
         /*        Form  C := alpha*A'*A + beta*C. */
-        if (upper)
-        {
+        if (upper) {
             i__1 = *n;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 i__4 = j;
-                for (i__ = 1; i__ <= i__4; ++i__)
-                {
+                for (i__ = 1; i__ <= i__4; ++i__) {
                     /* Computing MIN */
                     i__3 = j + *l;
-                    i__2 = min(i__3,*k);
-                    temp = *alpha * ddot_(&i__2, &a[i__ * a_dim1 + 1], &c__1, &a[j * a_dim1 + 1], &c__1);
-                    if (*beta == 0.)
-                    {
+                    i__2 = min(i__3, *k);
+                    temp = *alpha
+                        * ddot_(&i__2, &a[i__ * a_dim1 + 1], &c__1, &a[j * a_dim1 + 1], &c__1);
+                    if (*beta == 0.) {
                         c__[i__ + j * c_dim1] = temp;
-                    }
-                    else
-                    {
+                    } else {
                         c__[i__ + j * c_dim1] = temp + *beta * c__[i__ + j * c_dim1];
                     }
                     /* L70: */
                 }
                 /* L80: */
             }
-        }
-        else
-        {
+        } else {
             i__1 = *n;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 i__4 = *n;
-                for (i__ = j; i__ <= i__4; ++i__)
-                {
+                for (i__ = j; i__ <= i__4; ++i__) {
                     /* Computing MAX */
                     i__2 = 1, i__3 = i__ - *l;
-                    m = max(i__2,i__3);
+                    m = max(i__2, i__3);
                     i__2 = *k - m + 1;
-                    temp = *alpha * ddot_(&i__2, &a[m + i__ * a_dim1], &c__1, &a[m + j * a_dim1], &c__1);
-                    if (*beta == 0.)
-                    {
+                    temp = *alpha
+                        * ddot_(&i__2, &a[m + i__ * a_dim1], &c__1, &a[m + j * a_dim1], &c__1);
+                    if (*beta == 0.) {
                         c__[i__ + j * c_dim1] = temp;
-                    }
-                    else
-                    {
+                    } else {
                         c__[i__ + j * c_dim1] = temp + *beta * c__[i__ + j * c_dim1];
                     }
                     /* L90: */
@@ -386,4 +333,3 @@ ftnlen trans_len;
     return 0;
     /* *** Last line of MB01YD *** */
 } /* mb01yd_ */
-

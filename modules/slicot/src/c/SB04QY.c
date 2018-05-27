@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,15 +10,16 @@
 static integer c__0 = 0;
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int sb04qy_(n, m, ind, a, lda, b, ldb, c__, ldc, d__, ipr, info)
-integer *n, *m, *ind;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *d__;
+EXPORTSYMBOL /* Subroutine */ int sb04qy_(
+    n, m, ind, a, lda, b, ldb, c__, ldc, d__, ipr, info) integer *n,
+    *m, *ind;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* d__;
 integer *ipr, *info;
 {
     /* System generated locals */
@@ -120,26 +121,23 @@ integer *ipr, *info;
     --d__;
     --ipr;
     /* Function Body */
-    if (*ind < *n)
-    {
+    if (*ind < *n) {
         dum[0] = 0.;
         dcopy_(m, dum, &c__0, &d__[1], &c__1);
         i__1 = *n;
-        for (i__ = *ind + 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = *ind + 1; i__ <= i__1; ++i__) {
             daxpy_(m, &b[*ind + i__ * b_dim1], &c__[i__ * c_dim1 + 1], &c__1, &d__[1], &c__1);
             /* L10: */
         }
         i__1 = *m;
-        for (i__ = 2; i__ <= i__1; ++i__)
-        {
+        for (i__ = 2; i__ <= i__1; ++i__) {
             c__[i__ + *ind * c_dim1] -= a[i__ + (i__ - 1) * a_dim1] * d__[i__ - 1];
             /* L20: */
         }
-        dtrmv_("Upper", "No Transpose", "Non Unit", m, &a[a_offset], lda, &d__[1], &c__1, 5L, 12L, 8L);
+        dtrmv_(
+            "Upper", "No Transpose", "Non Unit", m, &a[a_offset], lda, &d__[1], &c__1, 5L, 12L, 8L);
         i__1 = *m;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             c__[i__ + *ind * c_dim1] -= d__[i__];
             /* L30: */
         }
@@ -150,15 +148,13 @@ integer *ipr, *info;
     k = *m;
     /*     Construct the linear algebraic system of order M. */
     i__1 = *m;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         j = m1 - k;
         dcopy_(&k, &a[i__ + j * a_dim1], lda, &d__[k2], &c__1);
         dscal_(&k, &b[*ind + *ind * b_dim1], &d__[k2], &c__1);
         k1 = k2;
         k2 += k;
-        if (i__ > 1)
-        {
+        if (i__ > 1) {
             ++k1;
             --k;
         }
@@ -170,15 +166,11 @@ integer *ipr, *info;
     }
     /*     Solve the linear algebraic system and store the solution in C. */
     sb04mw_(m, &d__[1], &ipr[1], info);
-    if (*info != 0)
-    {
+    if (*info != 0) {
         *info = *ind;
-    }
-    else
-    {
+    } else {
         i__1 = *m;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             c__[i__ + *ind * c_dim1] = d__[ipr[i__]];
             /* L50: */
         }
@@ -186,4 +178,3 @@ integer *ipr, *info;
     return 0;
     /* *** Last line of SB04QY *** */
 } /* sb04qy_ */
-

@@ -17,46 +17,40 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "Assert_CheckError.hpp"
-#include "i18n.hpp"
+#include "Error.hpp"
 #include "EvaluateCommand.hpp"
 #include "Exception.hpp"
-#include "Error.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    bool Assert_CheckError(Evaluator *eval, const std::wstring &command, const std::wstring &expectedmsg, std::wstring &msg)
-    {
-        bool bEval = false;
-        std::wstring computedmsg = L"";
-        try
-        {
-            bEval = EvaluateCommand(eval, command, true);
-        }
-        catch (Exception &e)
-        {
-            bEval = false;
-            computedmsg = e.getMessage();
-        }
-        bool bRes = false;
-        if (bEval == false)
-        {
-            if (computedmsg == expectedmsg)
-            {
-                bRes = true;
-                msg = L"";
-            }
-            else
-            {
-                bRes = false;
-                msg = _W("Assertion failed : expected error message =") + L" \"" + expectedmsg + +L"\" " + _W("computed error message =") + L" \"" + computedmsg + L"\"";
-            }
-        }
-        else
-        {
-            Error(eval, _W("No error was produced while evaluating command."));
-        }
-        return bRes;
+//=============================================================================
+bool
+Assert_CheckError(Evaluator* eval, const std::wstring& command, const std::wstring& expectedmsg,
+    std::wstring& msg)
+{
+    bool bEval = false;
+    std::wstring computedmsg = L"";
+    try {
+        bEval = EvaluateCommand(eval, command, true);
+    } catch (Exception& e) {
+        bEval = false;
+        computedmsg = e.getMessage();
     }
-    //=============================================================================
+    bool bRes = false;
+    if (bEval == false) {
+        if (computedmsg == expectedmsg) {
+            bRes = true;
+            msg = L"";
+        } else {
+            bRes = false;
+            msg = _W("Assertion failed : expected error message =") + L" \"" + expectedmsg + +L"\" "
+                + _W("computed error message =") + L" \"" + computedmsg + L"\"";
+        }
+    } else {
+        Error(eval, _W("No error was produced while evaluating command."));
+    }
+    return bRes;
+}
+//=============================================================================
 }
 //=============================================================================

@@ -18,40 +18,35 @@
 //=============================================================================
 #include "libpointer_getBuiltin.hpp"
 #include "Error.hpp"
-#include "LibPointerObject.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
+#include "LibPointerObject.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::DynamicLinkGateway::libpointer_getBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::DynamicLinkGateway::libpointer_getBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (argIn.size() == 0  || argIn.size() > 2)
-    {
+    if (argIn.size() == 0 || argIn.size() > 2) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
     ArrayOfVector retval;
-    if (param1.getHandleCategory() != LIBPOINTER_CATEGORY_STR)
-    {
+    if (param1.getHandleCategory() != LIBPOINTER_CATEGORY_STR) {
         Error(eval, _W("libpointer handle expected."));
     }
-    LibPointerObject *objLibPointer = (LibPointerObject *)param1.getContentAsHandleScalar();
+    LibPointerObject* objLibPointer = (LibPointerObject*)param1.getContentAsHandleScalar();
     ArrayOf res;
-    if (argIn.size() == 1)
-    {
+    if (argIn.size() == 1) {
         objLibPointer->get(res);
-    }
-    else
-    {
+    } else {
         ArrayOf param2 = argIn[1];
         std::wstring propertyName = param2.getContentAsWideString();
-        if (!objLibPointer->get(propertyName, res))
-        {
+        if (!objLibPointer->get(propertyName, res)) {
             Error(eval, ERROR_WRONG_ARGUMENT_2_VALUE);
         }
     }

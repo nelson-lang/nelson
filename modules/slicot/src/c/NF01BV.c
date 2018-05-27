@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -12,16 +12,17 @@ static integer c__0 = 0;
 static integer c__1 = 1;
 static doublereal c_b14 = 1.;
 
-EXPORTSYMBOL /* Subroutine */ int nf01bv_(stor, uplo, n, ipar, lipar, dpar, ldpar, j, ldj, jtj, ldjtj, dwork, ldwork, info, stor_len, uplo_len)
-char *stor, *uplo;
+EXPORTSYMBOL /* Subroutine */ int nf01bv_(stor, uplo, n, ipar, lipar, dpar, ldpar, j, ldj, jtj,
+    ldjtj, dwork, ldwork, info, stor_len, uplo_len) char *stor,
+    *uplo;
 integer *n, *ipar, *lipar;
-doublereal *dpar;
-integer *ldpar;
-doublereal *j;
-integer *ldj;
-doublereal *jtj;
-integer *ldjtj;
-doublereal *dwork;
+doublereal* dpar;
+integer* ldpar;
+doublereal* j;
+integer* ldj;
+doublereal* jtj;
+integer* ldjtj;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen stor_len;
 ftnlen uplo_len;
@@ -148,86 +149,56 @@ ftnlen uplo_len;
     *info = 0;
     full = lsame_(stor, "F", 1L, 1L);
     upper = lsame_(uplo, "U", 1L, 1L);
-    if (! (full || lsame_(stor, "P", 1L, 1L)))
-    {
+    if (!(full || lsame_(stor, "P", 1L, 1L))) {
         *info = -1;
-    }
-    else if (! (upper || lsame_(uplo, "L", 1L, 1L)))
-    {
+    } else if (!(upper || lsame_(uplo, "L", 1L, 1L))) {
         *info = -2;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -3;
-    }
-    else if (*lipar < 1)
-    {
+    } else if (*lipar < 1) {
         *info = -5;
-    }
-    else if (*ldpar < 1)
-    {
+    } else if (*ldpar < 1) {
         *info = -7;
-    }
-    else if (*ldjtj < 1 || full && *ldjtj < *n)
-    {
+    } else if (*ldjtj < 1 || full && *ldjtj < *n) {
         *info = -11;
-    }
-    else if (*ldwork < 0)
-    {
+    } else if (*ldwork < 0) {
         *info = -13;
-    }
-    else
-    {
+    } else {
         m = ipar[1];
-        if (m < 0)
-        {
+        if (m < 0) {
             *info = -4;
-        }
-        else if (*ldj < max(1,m))
-        {
+        } else if (*ldj < max(1, m)) {
             *info = -9;
         }
     }
     /*     Return if there are illegal arguments. */
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("NF01BV", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
     c__ = dpar[1];
-    if (*n == 0)
-    {
+    if (*n == 0) {
         return 0;
-    }
-    else if (m == 0)
-    {
-        if (full)
-        {
+    } else if (m == 0) {
+        if (full) {
             dlaset_(uplo, n, n, &c_b7, &c__, &jtj[1], ldjtj, 1L);
-        }
-        else
-        {
+        } else {
             dum[0] = 0.;
             i__1 = *n * (*n + 1) / 2;
             dcopy_(&i__1, dum, &c__0, &jtj[1], &c__1);
-            if (upper)
-            {
+            if (upper) {
                 ii = 0;
                 i__1 = *n;
-                for (i__ = 1; i__ <= i__1; ++i__)
-                {
+                for (i__ = 1; i__ <= i__1; ++i__) {
                     ii += i__;
                     jtj[ii] = c__;
                     /* L10: */
                 }
-            }
-            else
-            {
+            } else {
                 ii = 1;
-                for (i__ = *n; i__ >= 1; --i__)
-                {
+                for (i__ = *n; i__ >= 1; --i__) {
                     jtj[ii] = c__;
                     ii += i__;
                     /* L20: */
@@ -237,29 +208,24 @@ ftnlen uplo_len;
         return 0;
     }
     /*     Build a triangle of the matrix J'*J + c*I. */
-    if (full)
-    {
+    if (full) {
         dlaset_(uplo, n, n, &c_b7, &c__, &jtj[1], ldjtj, 1L);
         dsyrk_(uplo, "Transpose", n, &m, &c_b14, &j[j_offset], ldj, &c_b14, &jtj[1], ldjtj, 1L, 9L);
-    }
-    else if (upper)
-    {
+    } else if (upper) {
         ii = 0;
         i__1 = *n;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
-            dgemv_("Transpose", &m, &i__, &c_b14, &j[j_offset], ldj, &j[i__ * j_dim1 + 1], &c__1, &c_b7, &jtj[ii + 1], &c__1, 9L);
+        for (i__ = 1; i__ <= i__1; ++i__) {
+            dgemv_("Transpose", &m, &i__, &c_b14, &j[j_offset], ldj, &j[i__ * j_dim1 + 1], &c__1,
+                &c_b7, &jtj[ii + 1], &c__1, 9L);
             ii += i__;
             jtj[ii] += c__;
             /* L30: */
         }
-    }
-    else
-    {
+    } else {
         ii = 1;
-        for (i__ = *n; i__ >= 1; --i__)
-        {
-            dgemv_("Transpose", &m, &i__, &c_b14, &j[(*n - i__ + 1) * j_dim1 + 1], ldj, &j[(*n - i__ + 1) * j_dim1 + 1], &c__1, &c_b7, &jtj[ii], &c__1, 9L);
+        for (i__ = *n; i__ >= 1; --i__) {
+            dgemv_("Transpose", &m, &i__, &c_b14, &j[(*n - i__ + 1) * j_dim1 + 1], ldj,
+                &j[(*n - i__ + 1) * j_dim1 + 1], &c__1, &c_b7, &jtj[ii], &c__1, 9L);
             jtj[ii] += c__;
             ii += i__;
             /* L40: */
@@ -268,4 +234,3 @@ ftnlen uplo_len;
     return 0;
     /* *** Last line of NF01BV *** */
 } /* nf01bv_ */
-

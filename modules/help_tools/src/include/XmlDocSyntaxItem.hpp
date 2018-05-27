@@ -18,23 +18,29 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "nlsHelp_tools_exports.h"
 #include "XmlDocGenericItem.hpp"
+#include "nlsHelp_tools_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    class NLSHELP_TOOLS_IMPEXP XmlDocSyntaxItem : public XmlDocGenericItem {
-    private:
-        std::wstring _syntax;
-    public:
-        XmlDocSyntaxItem(std::wstring syntax);
-        ~XmlDocSyntaxItem();
-        std::wstring getValue();
-        std::wstring getItemType();
-        bool writeAsHtml(std::string &utf8stream);
-        bool writeAsMarkdown(std::string &utf8stream);
-    };
-    //=============================================================================
-}
+//=============================================================================
+class NLSHELP_TOOLS_IMPEXP XmlDocSyntaxItem : public XmlDocGenericItem
+{
+private:
+    std::wstring _syntax;
+
+public:
+    XmlDocSyntaxItem(std::wstring syntax);
+    ~XmlDocSyntaxItem();
+    std::wstring
+    getValue();
+    std::wstring
+    getItemType();
+    bool
+    writeAsHtml(std::string& utf8stream);
+    bool
+    writeAsMarkdown(std::string& utf8stream);
+};
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

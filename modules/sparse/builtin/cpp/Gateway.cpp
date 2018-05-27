@@ -16,35 +16,34 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
-#include "sparseBuiltin.hpp"
-#include "fullBuiltin.hpp"
 #include "IJVBuiltin.hpp"
-#include "sparsedouble_dispBuiltin.hpp"
-#include "sparselogical_dispBuiltin.hpp"
-#include "sparsedouble_uminusBuiltin.hpp"
-#include "sparselogical_uminusBuiltin.hpp"
-#include "sparsedouble_imagBuiltin.hpp"
-#include "sparsedouble_realBuiltin.hpp"
-#include "sparselogical_imagBuiltin.hpp"
-#include "sparselogical_realBuiltin.hpp"
-#include "sparsedouble_horzcat_sparsedoubleBuiltin.hpp"
-#include "sparsedouble_vertcat_sparsedoubleBuiltin.hpp"
-#include "sparselogical_horzcat_sparselogicalBuiltin.hpp"
-#include "sparselogical_vertcat_sparselogicalBuiltin.hpp"
-#include "sparselogical_ctransposeBuiltin.hpp"
-#include "sparsedouble_ctransposeBuiltin.hpp"
-#include "sparselogical_transposeBuiltin.hpp"
-#include "sparsedouble_transposeBuiltin.hpp"
+#include "NelsonGateway.hpp"
+#include "fullBuiltin.hpp"
 #include "nnzBuiltin.hpp"
 #include "nzmaxBuiltin.hpp"
+#include "sparseBuiltin.hpp"
+#include "sparsedouble_ctransposeBuiltin.hpp"
+#include "sparsedouble_dispBuiltin.hpp"
+#include "sparsedouble_horzcat_sparsedoubleBuiltin.hpp"
+#include "sparsedouble_imagBuiltin.hpp"
+#include "sparsedouble_realBuiltin.hpp"
+#include "sparsedouble_transposeBuiltin.hpp"
+#include "sparsedouble_uminusBuiltin.hpp"
+#include "sparsedouble_vertcat_sparsedoubleBuiltin.hpp"
+#include "sparselogical_ctransposeBuiltin.hpp"
+#include "sparselogical_dispBuiltin.hpp"
+#include "sparselogical_horzcat_sparselogicalBuiltin.hpp"
+#include "sparselogical_imagBuiltin.hpp"
+#include "sparselogical_realBuiltin.hpp"
+#include "sparselogical_transposeBuiltin.hpp"
+#include "sparselogical_uminusBuiltin.hpp"
+#include "sparselogical_vertcat_sparselogicalBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"sparse";
 //=============================================================================
-static const nlsGateway gateway[] =
-{
+static const nlsGateway gateway[] = {
     { "sparse", Nelson::SparseGateway::sparseBuiltin, 1, 6 },
     { "sparsedouble_disp", Nelson::SparseGateway::sparsedouble_dispBuiltin, 0, 1 },
     { "sparselogical_disp", Nelson::SparseGateway::sparselogical_dispBuiltin, 0, 1 },
@@ -57,10 +56,14 @@ static const nlsGateway gateway[] =
     { "sparsedouble_real", Nelson::SparseGateway::sparsedouble_realBuiltin, 1, 1 },
     { "sparsedouble_imag", Nelson::SparseGateway::sparsedouble_imagBuiltin, 1, 1 },
     { "IJV", Nelson::SparseGateway::IJVBuiltin, -1, 1 },
-    { "sparselogical_vertcat_sparselogical", Nelson::SparseGateway::sparselogical_vertcat_sparselogicalBuiltin, 1, 2 },
-    { "sparselogical_horzcat_sparselogical", Nelson::SparseGateway::sparselogical_horzcat_sparselogicalBuiltin, 1, 2 },
-    { "sparsedouble_vertcat_sparsedouble", Nelson::SparseGateway::sparsedouble_vertcat_sparsedoubleBuiltin, 1, 2 },
-    { "sparsedouble_horzcat_sparsedouble", Nelson::SparseGateway::sparsedouble_horzcat_sparsedoubleBuiltin, 1, 2 },
+    { "sparselogical_vertcat_sparselogical",
+        Nelson::SparseGateway::sparselogical_vertcat_sparselogicalBuiltin, 1, 2 },
+    { "sparselogical_horzcat_sparselogical",
+        Nelson::SparseGateway::sparselogical_horzcat_sparselogicalBuiltin, 1, 2 },
+    { "sparsedouble_vertcat_sparsedouble",
+        Nelson::SparseGateway::sparsedouble_vertcat_sparsedoubleBuiltin, 1, 2 },
+    { "sparsedouble_horzcat_sparsedouble",
+        Nelson::SparseGateway::sparsedouble_horzcat_sparsedoubleBuiltin, 1, 2 },
     { "sparselogical_ctranspose", Nelson::SparseGateway::sparselogical_ctransposeBuiltin, 1, 1 },
     { "sparsedouble_ctranspose", Nelson::SparseGateway::sparsedouble_ctransposeBuiltin, 1, 1 },
     { "nnz", Nelson::SparseGateway::nnzBuiltin, 1, 1 },

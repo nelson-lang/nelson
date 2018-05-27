@@ -23,58 +23,46 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::LogicalGateway::falseBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::LogicalGateway::falseBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     bool bIsSparse = false;
     ArrayOfVector retval;
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() == 0)
-    {
+    if (argIn.size() == 0) {
         Dimensions dim(1, 1);
         retval.push_back(FalseConstructor(dim, bIsSparse));
-    }
-    else
-    {
+    } else {
         Dimensions dim;
         indexType idxMax = argIn.size();
-        if (((double)(argIn.size()) - 2.) >= 0.)
-        {
+        if (((double)(argIn.size()) - 2.) >= 0.) {
             indexType pos = argIn.size() - 2;
-            if (argIn[pos].isSingleString())
-            {
+            if (argIn[pos].isSingleString()) {
                 std::wstring arg = argIn[pos].getContentAsWideString();
-                if (arg.compare(L"like") == 0)
-                {
+                if (arg.compare(L"like") == 0) {
                     ArrayOf arg = argIn[pos + 1];
-                    if (arg.getDataClass() != NLS_LOGICAL)
-                    {
+                    if (arg.getDataClass() != NLS_LOGICAL) {
                         Error(eval, _W("Input following \'like\' is not a logical array."));
                     }
                     bIsSparse = arg.isSparse();
                     idxMax = argIn.size() - 2;
-                    if (idxMax == 0)
-                    {
+                    if (idxMax == 0) {
                         dim[0] = 1;
                         dim[1] = 1;
                     }
-                }
-                else
-                {
+                } else {
                     Error(eval, StringFormat(ERROR_WRONG_ARGUMENT_X_VALUE.c_str(), pos + 1));
                 }
             }
         }
-        for (indexType k = 0; k < idxMax; k++)
-        {
+        for (indexType k = 0; k < idxMax; k++) {
             ArrayOf arg = argIn[k];
             indexType idx = arg.getContentAsScalarIndex();
             dim[k] = idx;
         }
-        if (idxMax == 1)
-        {
+        if (idxMax == 1) {
             dim[1] = dim[0];
         }
         dim.simplify();

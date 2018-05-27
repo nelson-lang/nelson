@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,27 +11,28 @@ static doublereal c_b6 = 0.;
 static doublereal c_b7 = 1.;
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int sb08cd_(dico, n, m, p, a, lda, b, ldb, c__, ldc, d__, ldd, nq, nr, br, ldbr, dr, lddr, tol, dwork, ldwork, iwarn, info, dico_len)
-char *dico;
+EXPORTSYMBOL /* Subroutine */ int sb08cd_(dico, n, m, p, a, lda, b, ldb, c__, ldc, d__, ldd, nq, nr,
+    br, ldbr, dr, lddr, tol, dwork, ldwork, iwarn, info, dico_len) char* dico;
 integer *n, *m, *p;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *d__;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* d__;
 integer *ldd, *nq, *nr;
-doublereal *br;
-integer *ldbr;
-doublereal *dr;
-integer *lddr;
+doublereal* br;
+integer* ldbr;
+doublereal* dr;
+integer* lddr;
 doublereal *tol, *dwork;
 integer *ldwork, *iwarn, *info;
 ftnlen dico_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, br_dim1, br_offset, c_dim1, c_offset, d_dim1, d_offset, dr_dim1, dr_offset, i__1, i__2, i__3, i__4, i__5, i__6;
+    integer a_dim1, a_offset, b_dim1, b_offset, br_dim1, br_offset, c_dim1, c_offset, d_dim1,
+        d_offset, dr_dim1, dr_offset, i__1, i__2, i__3, i__4, i__5, i__6;
     /* Local variables */
     extern /* Subroutine */ int ma02ad_(), ma02bd_();
     static integer i__;
@@ -259,72 +260,50 @@ ftnlen dico_len;
     *iwarn = 0;
     *info = 0;
     /*     Check the scalar input parameters. */
-    if (! lsame_(dico, "C", 1L, 1L) && ! lsame_(dico, "D", 1L, 1L))
-    {
+    if (!lsame_(dico, "C", 1L, 1L) && !lsame_(dico, "D", 1L, 1L)) {
         *info = -1;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -2;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -3;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -4;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -6;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -8;
-    }
-    else if (*ldc < 1 || *n > 0 && *ldc < max(*m,*p))
-    {
+    } else if (*ldc < 1 || *n > 0 && *ldc < max(*m, *p)) {
         *info = -10;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
-        i__1 = max(1,*m);
-        if (*ldd < max(i__1,*p))
-        {
+        i__1 = max(1, *m);
+        if (*ldd < max(i__1, *p)) {
             *info = -12;
-        }
-        else if (*ldbr < max(1,*n))
-        {
+        } else if (*ldbr < max(1, *n)) {
             *info = -16;
-        }
-        else if (*lddr < max(1,*p))
-        {
+        } else if (*lddr < max(1, *p)) {
             *info = -18;
-        }
-        else /* if(complicated condition) */
+        } else /* if(complicated condition) */
         {
             /* Computing MAX */
             /* Computing MAX */
-            i__3 = *n * (*n + 5), i__4 = *p * (*p + 2), i__3 = max(i__3,i__4), i__4 = *p << 2, i__3 = max(i__3,i__4), i__4 = *m << 2;
-            i__1 = 1, i__2 = *p **n + max(i__3,i__4);
-            if (*ldwork < max(i__1,i__2))
-            {
+            i__3 = *n * (*n + 5), i__4 = *p * (*p + 2), i__3 = max(i__3, i__4), i__4 = *p << 2,
+            i__3 = max(i__3, i__4), i__4 = *m << 2;
+            i__1 = 1, i__2 = *p * *n + max(i__3, i__4);
+            if (*ldwork < max(i__1, i__2)) {
                 *info = -21;
             }
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("SB08CD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (min(*n,*p) == 0)
-    {
+    if (min(*n, *p) == 0) {
         *nq = 0;
         *nr = 0;
         dwork[1] = 1.;
@@ -332,40 +311,41 @@ ftnlen dico_len;
         return 0;
     }
     /*     Compute the dual system G' = (A',C',B',D'). */
-    ab07md_("D", n, m, p, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, &d__[d_offset], ldd, info, 1L);
+    ab07md_("D", n, m, p, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, &d__[d_offset],
+        ldd, info, 1L);
     /*     Compute the right coprime factorization with inner */
     /*     denominator of G'. */
     /*     Workspace needed:      P*N; */
     /*     Additional workspace:  need  MAX( N*(N+5), P*(P+2), 4*P, 4*M ); */
     /*                            prefer larger. */
     kbr = 1;
-    kw = kbr + *p **n;
+    kw = kbr + *p * *n;
     i__1 = *ldwork - kw + 1;
-    sb08dd_(dico, n, p, m, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, &d__[d_offset], ldd, nq, nr, &dwork[kbr], p, &dr[dr_offset], lddr, tol, &dwork[kw], &i__1, iwarn, info, 1L);
-    if (*info == 0)
-    {
+    sb08dd_(dico, n, p, m, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc,
+        &d__[d_offset], ldd, nq, nr, &dwork[kbr], p, &dr[dr_offset], lddr, tol, &dwork[kw], &i__1,
+        iwarn, info, 1L);
+    if (*info == 0) {
         /*        Determine the elements of the left coprime factorization from */
         /*        those of the computed right coprime factorization and make the */
         /*        state-matrix upper real Schur. */
         /* Computing MAX */
         i__2 = 0, i__3 = *nq - 1;
-        i__1 = max(i__2,i__3);
+        i__1 = max(i__2, i__3);
         /* Computing MAX */
         i__5 = 0, i__6 = *nq - 1;
-        i__4 = max(i__5,i__6);
-        tb01xd_("D", nq, p, m, &i__1, &i__4, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, &d__[d_offset], ldd, info, 1L);
+        i__4 = max(i__5, i__6);
+        tb01xd_("D", nq, p, m, &i__1, &i__4, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset],
+            ldc, &d__[d_offset], ldd, info, 1L);
         ma02ad_("Full", p, nq, &dwork[kbr], p, &br[br_offset], ldbr, 4L);
         ma02bd_("Left", nq, p, &br[br_offset], ldbr, 4L);
         i__1 = *p;
-        for (i__ = 2; i__ <= i__1; ++i__)
-        {
+        for (i__ = 2; i__ <= i__1; ++i__) {
             i__2 = i__ - 1;
             dswap_(&i__2, &dr[i__ + dr_dim1], lddr, &dr[i__ * dr_dim1 + 1], &c__1);
             /* L10: */
         }
     }
-    dwork[1] = dwork[kw] + (doublereal) (kw - 1);
+    dwork[1] = dwork[kw] + (doublereal)(kw - 1);
     return 0;
     /* *** Last line of SB08CD *** */
 } /* sb08cd_ */
-

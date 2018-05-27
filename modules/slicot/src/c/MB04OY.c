@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,13 +10,12 @@
 static integer c__1 = 1;
 static doublereal c_b14 = 1.;
 
-EXPORTSYMBOL /* Subroutine */ int mb04oy_(m, n, v, tau, a, lda, b, ldb, dwork)
-integer *m, *n;
+EXPORTSYMBOL /* Subroutine */ int mb04oy_(m, n, v, tau, a, lda, b, ldb, dwork) integer *m, *n;
 doublereal *v, *tau, *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *dwork;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* dwork;
 {
     /* System generated locals */
     integer a_dim1, a_offset, b_dim1, b_offset, i__1;
@@ -107,38 +106,37 @@ doublereal *dwork;
     b -= b_offset;
     --dwork;
     /* Function Body */
-    if (*tau == 0.)
-    {
+    if (*tau == 0.) {
         return 0;
     }
     /*     Form  H * C, where H has order m+1. */
-    switch ((int)(*m + 1))
-    {
-        case 1:
-            goto L10;
-        case 2:
-            goto L30;
-        case 3:
-            goto L50;
-        case 4:
-            goto L70;
-        case 5:
-            goto L90;
-        case 6:
-            goto L110;
-        case 7:
-            goto L130;
-        case 8:
-            goto L150;
-        case 9:
-            goto L170;
-        case 10:
-            goto L190;
+    switch ((int)(*m + 1)) {
+    case 1:
+        goto L10;
+    case 2:
+        goto L30;
+    case 3:
+        goto L50;
+    case 4:
+        goto L70;
+    case 5:
+        goto L90;
+    case 6:
+        goto L110;
+    case 7:
+        goto L130;
+    case 8:
+        goto L150;
+    case 9:
+        goto L170;
+    case 10:
+        goto L190;
     }
     /*     Code for general M. Compute */
     /*     w := C'*u,  C := C - tau * u * w'. */
     dcopy_(n, &a[a_offset], lda, &dwork[1], &c__1);
-    dgemv_("Transpose", m, n, &c_b14, &b[b_offset], ldb, &v[1], &c__1, &c_b14, &dwork[1], &c__1, 9L);
+    dgemv_(
+        "Transpose", m, n, &c_b14, &b[b_offset], ldb, &v[1], &c__1, &c_b14, &dwork[1], &c__1, 9L);
     d__1 = -(*tau);
     daxpy_(n, &d__1, &dwork[1], &c__1, &a[a_offset], lda);
     d__1 = -(*tau);
@@ -148,8 +146,7 @@ L10:
     /*     Special code for 1 x 1 Householder */
     t1 = 1. - *tau;
     i__1 = *n;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         a[j * a_dim1 + 1] = t1 * a[j * a_dim1 + 1];
         /* L20: */
     }
@@ -159,10 +156,9 @@ L30:
     v1 = v[1];
     t1 = *tau * v1;
     i__1 = *n;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         sum = a[j * a_dim1 + 1] + v1 * b[j * b_dim1 + 1];
-        a[j * a_dim1 + 1] -= sum **tau;
+        a[j * a_dim1 + 1] -= sum * *tau;
         b[j * b_dim1 + 1] -= sum * t1;
         /* L40: */
     }
@@ -174,10 +170,9 @@ L50:
     v2 = v[2];
     t2 = *tau * v2;
     i__1 = *n;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         sum = a[j * a_dim1 + 1] + v1 * b[j * b_dim1 + 1] + v2 * b[j * b_dim1 + 2];
-        a[j * a_dim1 + 1] -= sum **tau;
+        a[j * a_dim1 + 1] -= sum * *tau;
         b[j * b_dim1 + 1] -= sum * t1;
         b[j * b_dim1 + 2] -= sum * t2;
         /* L60: */
@@ -192,10 +187,10 @@ L70:
     v3 = v[3];
     t3 = *tau * v3;
     i__1 = *n;
-    for (j = 1; j <= i__1; ++j)
-    {
-        sum = a[j * a_dim1 + 1] + v1 * b[j * b_dim1 + 1] + v2 * b[j * b_dim1 + 2] + v3 * b[j * b_dim1 + 3];
-        a[j * a_dim1 + 1] -= sum **tau;
+    for (j = 1; j <= i__1; ++j) {
+        sum = a[j * a_dim1 + 1] + v1 * b[j * b_dim1 + 1] + v2 * b[j * b_dim1 + 2]
+            + v3 * b[j * b_dim1 + 3];
+        a[j * a_dim1 + 1] -= sum * *tau;
         b[j * b_dim1 + 1] -= sum * t1;
         b[j * b_dim1 + 2] -= sum * t2;
         b[j * b_dim1 + 3] -= sum * t3;
@@ -213,10 +208,10 @@ L90:
     v4 = v[4];
     t4 = *tau * v4;
     i__1 = *n;
-    for (j = 1; j <= i__1; ++j)
-    {
-        sum = a[j * a_dim1 + 1] + v1 * b[j * b_dim1 + 1] + v2 * b[j * b_dim1 + 2] + v3 * b[j * b_dim1 + 3] + v4 * b[j * b_dim1 + 4];
-        a[j * a_dim1 + 1] -= sum **tau;
+    for (j = 1; j <= i__1; ++j) {
+        sum = a[j * a_dim1 + 1] + v1 * b[j * b_dim1 + 1] + v2 * b[j * b_dim1 + 2]
+            + v3 * b[j * b_dim1 + 3] + v4 * b[j * b_dim1 + 4];
+        a[j * a_dim1 + 1] -= sum * *tau;
         b[j * b_dim1 + 1] -= sum * t1;
         b[j * b_dim1 + 2] -= sum * t2;
         b[j * b_dim1 + 3] -= sum * t3;
@@ -237,10 +232,10 @@ L110:
     v5 = v[5];
     t5 = *tau * v5;
     i__1 = *n;
-    for (j = 1; j <= i__1; ++j)
-    {
-        sum = a[j * a_dim1 + 1] + v1 * b[j * b_dim1 + 1] + v2 * b[j * b_dim1 + 2] + v3 * b[j * b_dim1 + 3] + v4 * b[j * b_dim1 + 4] + v5 * b[j * b_dim1 + 5];
-        a[j * a_dim1 + 1] -= sum **tau;
+    for (j = 1; j <= i__1; ++j) {
+        sum = a[j * a_dim1 + 1] + v1 * b[j * b_dim1 + 1] + v2 * b[j * b_dim1 + 2]
+            + v3 * b[j * b_dim1 + 3] + v4 * b[j * b_dim1 + 4] + v5 * b[j * b_dim1 + 5];
+        a[j * a_dim1 + 1] -= sum * *tau;
         b[j * b_dim1 + 1] -= sum * t1;
         b[j * b_dim1 + 2] -= sum * t2;
         b[j * b_dim1 + 3] -= sum * t3;
@@ -264,10 +259,11 @@ L130:
     v6 = v[6];
     t6 = *tau * v6;
     i__1 = *n;
-    for (j = 1; j <= i__1; ++j)
-    {
-        sum = a[j * a_dim1 + 1] + v1 * b[j * b_dim1 + 1] + v2 * b[j * b_dim1 + 2] + v3 * b[j * b_dim1 + 3] + v4 * b[j * b_dim1 + 4] + v5 * b[j * b_dim1 + 5] + v6 * b[j * b_dim1 + 6];
-        a[j * a_dim1 + 1] -= sum **tau;
+    for (j = 1; j <= i__1; ++j) {
+        sum = a[j * a_dim1 + 1] + v1 * b[j * b_dim1 + 1] + v2 * b[j * b_dim1 + 2]
+            + v3 * b[j * b_dim1 + 3] + v4 * b[j * b_dim1 + 4] + v5 * b[j * b_dim1 + 5]
+            + v6 * b[j * b_dim1 + 6];
+        a[j * a_dim1 + 1] -= sum * *tau;
         b[j * b_dim1 + 1] -= sum * t1;
         b[j * b_dim1 + 2] -= sum * t2;
         b[j * b_dim1 + 3] -= sum * t3;
@@ -294,10 +290,11 @@ L150:
     v7 = v[7];
     t7 = *tau * v7;
     i__1 = *n;
-    for (j = 1; j <= i__1; ++j)
-    {
-        sum = a[j * a_dim1 + 1] + v1 * b[j * b_dim1 + 1] + v2 * b[j * b_dim1 + 2] + v3 * b[j * b_dim1 + 3] + v4 * b[j * b_dim1 + 4] + v5 * b[j * b_dim1 + 5] + v6 * b[j * b_dim1 + 6] + v7 * b[j * b_dim1 + 7];
-        a[j * a_dim1 + 1] -= sum **tau;
+    for (j = 1; j <= i__1; ++j) {
+        sum = a[j * a_dim1 + 1] + v1 * b[j * b_dim1 + 1] + v2 * b[j * b_dim1 + 2]
+            + v3 * b[j * b_dim1 + 3] + v4 * b[j * b_dim1 + 4] + v5 * b[j * b_dim1 + 5]
+            + v6 * b[j * b_dim1 + 6] + v7 * b[j * b_dim1 + 7];
+        a[j * a_dim1 + 1] -= sum * *tau;
         b[j * b_dim1 + 1] -= sum * t1;
         b[j * b_dim1 + 2] -= sum * t2;
         b[j * b_dim1 + 3] -= sum * t3;
@@ -327,10 +324,11 @@ L170:
     v8 = v[8];
     t8 = *tau * v8;
     i__1 = *n;
-    for (j = 1; j <= i__1; ++j)
-    {
-        sum = a[j * a_dim1 + 1] + v1 * b[j * b_dim1 + 1] + v2 * b[j * b_dim1 + 2] + v3 * b[j * b_dim1 + 3] + v4 * b[j * b_dim1 + 4] + v5 * b[j * b_dim1 + 5] + v6 * b[j * b_dim1 + 6] + v7 * b[j * b_dim1 + 7] + v8 * b[j * b_dim1 + 8];
-        a[j * a_dim1 + 1] -= sum **tau;
+    for (j = 1; j <= i__1; ++j) {
+        sum = a[j * a_dim1 + 1] + v1 * b[j * b_dim1 + 1] + v2 * b[j * b_dim1 + 2]
+            + v3 * b[j * b_dim1 + 3] + v4 * b[j * b_dim1 + 4] + v5 * b[j * b_dim1 + 5]
+            + v6 * b[j * b_dim1 + 6] + v7 * b[j * b_dim1 + 7] + v8 * b[j * b_dim1 + 8];
+        a[j * a_dim1 + 1] -= sum * *tau;
         b[j * b_dim1 + 1] -= sum * t1;
         b[j * b_dim1 + 2] -= sum * t2;
         b[j * b_dim1 + 3] -= sum * t3;
@@ -363,10 +361,12 @@ L190:
     v9 = v[9];
     t9 = *tau * v9;
     i__1 = *n;
-    for (j = 1; j <= i__1; ++j)
-    {
-        sum = a[j * a_dim1 + 1] + v1 * b[j * b_dim1 + 1] + v2 * b[j * b_dim1 + 2] + v3 * b[j * b_dim1 + 3] + v4 * b[j * b_dim1 + 4] + v5 * b[j * b_dim1 + 5] + v6 * b[j * b_dim1 + 6] + v7 * b[j * b_dim1 + 7] + v8 * b[j * b_dim1 + 8] + v9 * b[j * b_dim1 + 9];
-        a[j * a_dim1 + 1] -= sum **tau;
+    for (j = 1; j <= i__1; ++j) {
+        sum = a[j * a_dim1 + 1] + v1 * b[j * b_dim1 + 1] + v2 * b[j * b_dim1 + 2]
+            + v3 * b[j * b_dim1 + 3] + v4 * b[j * b_dim1 + 4] + v5 * b[j * b_dim1 + 5]
+            + v6 * b[j * b_dim1 + 6] + v7 * b[j * b_dim1 + 7] + v8 * b[j * b_dim1 + 8]
+            + v9 * b[j * b_dim1 + 9];
+        a[j * a_dim1 + 1] -= sum * *tau;
         b[j * b_dim1 + 1] -= sum * t1;
         b[j * b_dim1 + 2] -= sum * t2;
         b[j * b_dim1 + 3] -= sum * t3;
@@ -382,4 +382,3 @@ L210:
     return 0;
     /* *** Last line of MB04OY *** */
 } /* mb04oy_ */
-

@@ -18,11 +18,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsFunction_handle_exports.h"
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
+#include "nlsFunction_handle_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSFUNCTION_HANDLE_IMPEXP void FunctionHandleDisplay(Evaluator *eval, ArrayOf Var);
+NLSFUNCTION_HANDLE_IMPEXP void
+FunctionHandleDisplay(Evaluator* eval, ArrayOf Var);
 }
 //=============================================================================

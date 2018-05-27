@@ -21,8 +21,11 @@
 #include "nlsCore_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSCORE_IMPEXP unsigned int getMaxNumCompThreads();
-    NLSCORE_IMPEXP unsigned int setMaxNumCompThreads(unsigned int _nbOfCores);
-    NLSCORE_IMPEXP unsigned int setDefaultMaxNumCompThreads();
-}
+NLSCORE_IMPEXP unsigned int
+getMaxNumCompThreads();
+NLSCORE_IMPEXP unsigned int
+setMaxNumCompThreads(unsigned int _nbOfCores);
+NLSCORE_IMPEXP unsigned int
+setDefaultMaxNumCompThreads();
+} // namespace Nelson
 //=============================================================================

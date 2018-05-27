@@ -36,8 +36,7 @@ using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"logical";
 //=============================================================================
-static const nlsGateway gateway[] =
-{
+static const nlsGateway gateway[] = {
     { "logical", Nelson::LogicalGateway::logicalBuiltin, 1, 1 },
     { "true", Nelson::LogicalGateway::trueBuiltin, 1, 1 },
     { "false", Nelson::LogicalGateway::falseBuiltin, 1, 1 },

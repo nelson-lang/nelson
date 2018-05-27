@@ -18,57 +18,48 @@
 //=============================================================================
 #define _SCL_SECURE_NO_WARNINGS
 //=============================================================================
-#include <Eigen/Sparse>
 #include "SparseNonZeros.hpp"
 #include "Exception.hpp"
+#include <Eigen/Sparse>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    indexType SparseNonZeros(ArrayOf a)
-    {
-        indexType nnz = 0;
-        if (a.isSparse())
-        {
-            switch (a.getDataClass())
-            {
-                case NLS_LOGICAL:
-                {
-                    Eigen::SparseMatrix<logical, 0, signedIndexType> *spmat = (Eigen::SparseMatrix<logical, 0, signedIndexType>*) a.getSparseDataPointer();
-                    if (spmat)
-                    {
-                        nnz = spmat->nonZeros();
-                    }
-                }
-                break;
-                case NLS_DOUBLE:
-                {
-                    Eigen::SparseMatrix<double, 0, signedIndexType> *spmat = (Eigen::SparseMatrix<double, 0, signedIndexType>*) a.getSparseDataPointer();
-                    if (spmat)
-                    {
-                        nnz = spmat->nonZeros();
-                    }
-                }
-                break;
-                case NLS_DCOMPLEX:
-                {
-                    Eigen::SparseMatrix<doublecomplex, 0, signedIndexType> *spmat = (Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>*) a.getSparseDataPointer();
-                    if (spmat)
-                    {
-                        nnz = spmat->nonZeros();
-                    }
-                }
-                break;
-                default:
-                    throw Exception(_W("type not supported."));
-                    break;
+//=============================================================================
+indexType
+SparseNonZeros(ArrayOf a)
+{
+    indexType nnz = 0;
+    if (a.isSparse()) {
+        switch (a.getDataClass()) {
+        case NLS_LOGICAL: {
+            Eigen::SparseMatrix<logical, 0, signedIndexType>* spmat
+                = (Eigen::SparseMatrix<logical, 0, signedIndexType>*)a.getSparseDataPointer();
+            if (spmat) {
+                nnz = spmat->nonZeros();
             }
-        }
-        else
-        {
+        } break;
+        case NLS_DOUBLE: {
+            Eigen::SparseMatrix<double, 0, signedIndexType>* spmat
+                = (Eigen::SparseMatrix<double, 0, signedIndexType>*)a.getSparseDataPointer();
+            if (spmat) {
+                nnz = spmat->nonZeros();
+            }
+        } break;
+        case NLS_DCOMPLEX: {
+            Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>* spmat
+                = (Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>*)a.getSparseDataPointer();
+            if (spmat) {
+                nnz = spmat->nonZeros();
+            }
+        } break;
+        default:
             throw Exception(_W("type not supported."));
+            break;
         }
-        return nnz;
+    } else {
+        throw Exception(_W("type not supported."));
     }
-    //=============================================================================
+    return nnz;
+}
+//=============================================================================
 }
 //=============================================================================

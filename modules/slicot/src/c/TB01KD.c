@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,17 +11,18 @@ static integer c_n1 = -1;
 static doublereal c_b14 = 1.;
 static doublereal c_b22 = 0.;
 
-EXPORTSYMBOL /* Subroutine */ int tb01kd_(dico, stdom, joba, n, m, p, alpha, a, lda, b, ldb, c__, ldc, ndim, u, ldu, wr, wi, dwork, ldwork, info, dico_len, stdom_len, joba_len)
-char *dico, *stdom, *joba;
+EXPORTSYMBOL /* Subroutine */ int tb01kd_(dico, stdom, joba, n, m, p, alpha, a, lda, b, ldb, c__,
+    ldc, ndim, u, ldu, wr, wi, dwork, ldwork, info, dico_len, stdom_len, joba_len) char *dico,
+    *stdom, *joba;
 integer *n, *m, *p;
 doublereal *alpha, *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
 integer *ldc, *ndim;
-doublereal *u;
-integer *ldu;
+doublereal* u;
+integer* ldu;
 doublereal *wr, *wi, *dwork;
 integer *ldwork, *info;
 ftnlen dico_len;
@@ -224,61 +225,37 @@ ftnlen joba_len;
     discr = lsame_(dico, "D", 1L, 1L);
     ljobg = lsame_(joba, "G", 1L, 1L);
     /*     Check input scalar arguments. */
-    if (! (lsame_(dico, "C", 1L, 1L) || discr))
-    {
+    if (!(lsame_(dico, "C", 1L, 1L) || discr)) {
         *info = -1;
-    }
-    else if (! (lsame_(stdom, "S", 1L, 1L) || lsame_(stdom, "U", 1L, 1L)))
-    {
+    } else if (!(lsame_(stdom, "S", 1L, 1L) || lsame_(stdom, "U", 1L, 1L))) {
         *info = -2;
-    }
-    else if (! (lsame_(joba, "S", 1L, 1L) || ljobg))
-    {
+    } else if (!(lsame_(joba, "S", 1L, 1L) || ljobg)) {
         *info = -3;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -4;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -5;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -6;
-    }
-    else if (discr && *alpha < 0.)
-    {
+    } else if (discr && *alpha < 0.) {
         *info = -7;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -9;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -11;
-    }
-    else if (*ldc < max(1,*p))
-    {
+    } else if (*ldc < max(1, *p)) {
         *info = -13;
-    }
-    else if (*ldu < max(1,*n))
-    {
+    } else if (*ldu < max(1, *n)) {
         *info = -16;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
         i__1 = 1, i__2 = *n * 3;
-        if (*ldwork < max(1,*n) || *ldwork < max(i__1,i__2) && ljobg)
-        {
+        if (*ldwork < max(1, *n) || *ldwork < max(i__1, i__2) && ljobg) {
             *info = -20;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("TB01KD", &i__1, 6L);
@@ -286,8 +263,7 @@ ftnlen joba_len;
     }
     /*     Quick return if possible. */
     *ndim = 0;
-    if (*n == 0)
-    {
+    if (*n == 0) {
         return 0;
     }
     /*     Reduce A to an ordered real Schur form using an orthogonal */
@@ -298,13 +274,12 @@ ftnlen joba_len;
     /*     and C <- C*U. The eigenvalues of A are computed in (WR,WI). */
     /*     Workspace:  need   3*N (if JOBA = 'G'), or N (if JOBA = 'S'); */
     /*                 prefer larger. */
-    tb01ld_(dico, stdom, joba, n, m, p, alpha, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, ndim, &u[u_offset], ldu, &wr[1], &wi[1], &dwork[1], ldwork, info, 1L, 1L, 1L);
-    if (*info != 0)
-    {
+    tb01ld_(dico, stdom, joba, n, m, p, alpha, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset],
+        ldc, ndim, &u[u_offset], ldu, &wr[1], &wi[1], &dwork[1], ldwork, info, 1L, 1L, 1L);
+    if (*info != 0) {
         return 0;
     }
-    if (*ndim > 0 && *ndim < *n)
-    {
+    if (*ndim > 0 && *ndim < *n) {
         /*        Reduce A to a block-diagonal form by a similarity */
         /*        transformation of the form */
         /*               -1                  ( I -X ) */
@@ -314,27 +289,29 @@ ftnlen joba_len;
         /*          A11*X - X*A22 = A12. */
         nr = *n - *ndim;
         ndim1 = *ndim + 1;
-        dtrsyl_("N", "N", &c_n1, ndim, &nr, &a[a_offset], lda, &a[ndim1 + ndim1 * a_dim1], lda, &a[ndim1 * a_dim1 + 1], lda, &scale, info, 1L, 1L);
-        if (*info != 0)
-        {
+        dtrsyl_("N", "N", &c_n1, ndim, &nr, &a[a_offset], lda, &a[ndim1 + ndim1 * a_dim1], lda,
+            &a[ndim1 * a_dim1 + 1], lda, &scale, info, 1L, 1L);
+        if (*info != 0) {
             *info = 3;
             return 0;
         }
         /*                      -1 */
         /*        Compute B <- T  B,  C <- CT,  U <- UT. */
         scale = 1. / scale;
-        dgemm_("N", "N", ndim, m, &nr, &scale, &a[ndim1 * a_dim1 + 1], lda, &b[ndim1 + b_dim1], ldb, &c_b14, &b[b_offset], ldb, 1L, 1L);
+        dgemm_("N", "N", ndim, m, &nr, &scale, &a[ndim1 * a_dim1 + 1], lda, &b[ndim1 + b_dim1], ldb,
+            &c_b14, &b[b_offset], ldb, 1L, 1L);
         d__1 = -scale;
-        dgemm_("N", "N", p, &nr, ndim, &d__1, &c__[c_offset], ldc, &a[ndim1 * a_dim1 + 1], lda, &c_b14, &c__[ndim1 * c_dim1 + 1], ldc, 1L, 1L);
+        dgemm_("N", "N", p, &nr, ndim, &d__1, &c__[c_offset], ldc, &a[ndim1 * a_dim1 + 1], lda,
+            &c_b14, &c__[ndim1 * c_dim1 + 1], ldc, 1L, 1L);
         d__1 = -scale;
-        dgemm_("N", "N", n, &nr, ndim, &d__1, &u[u_offset], ldu, &a[ndim1 * a_dim1 + 1], lda, &c_b14, &u[ndim1 * u_dim1 + 1], ldu, 1L, 1L);
+        dgemm_("N", "N", n, &nr, ndim, &d__1, &u[u_offset], ldu, &a[ndim1 * a_dim1 + 1], lda,
+            &c_b14, &u[ndim1 * u_dim1 + 1], ldu, 1L, 1L);
         /*        Set A12 to zero. */
         dlaset_("Full", ndim, &nr, &c_b22, &c_b22, &a[ndim1 * a_dim1 + 1], lda, 4L);
     }
     /*     Set to zero the lower triangular part under the first subdiagonal */
     /*     of A. */
-    if (*n > 2)
-    {
+    if (*n > 2) {
         i__1 = *n - 2;
         i__2 = *n - 2;
         dlaset_("L", &i__1, &i__2, &c_b22, &c_b22, &a[a_dim1 + 3], lda, 1L);
@@ -342,4 +319,3 @@ ftnlen joba_len;
     return 0;
     /* *** Last line of TB01KD *** */
 } /* tb01kd_ */
-

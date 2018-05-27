@@ -25,6 +25,6 @@
 #define NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP __declspec(dllimport)
 #endif
 #else
-#define NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP __attribute__ ((visibility ("default")))
+#define NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP __attribute__((visibility("default")))
 #endif
 //=============================================================================

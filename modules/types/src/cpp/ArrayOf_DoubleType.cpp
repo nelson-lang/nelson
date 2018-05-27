@@ -20,96 +20,98 @@
 #include "Data.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    /**
-    * Returns TRUE if it is a double type (not ndarray, not sparse)
-    */
-    //=============================================================================
-    const bool ArrayOf::isDoubleType(bool realOnly) const
-    {
-        bool res = false;
-        if (realOnly)
-        {
-            res = (dp->dataClass == NLS_DOUBLE) && (!dp->sparse) && is2D();
-        }
-        else
-        {
-            res = (dp->dataClass == NLS_DOUBLE) || (dp->dataClass == NLS_DCOMPLEX) && (!dp->sparse) && is2D();
-        }
-        return res;
+//=============================================================================
+/**
+ * Returns TRUE if it is a double type (not ndarray, not sparse)
+ */
+//=============================================================================
+const bool
+ArrayOf::isDoubleType(bool realOnly) const
+{
+    bool res = false;
+    if (realOnly) {
+        res = (dp->dataClass == NLS_DOUBLE) && (!dp->sparse) && is2D();
+    } else {
+        res = (dp->dataClass == NLS_DOUBLE)
+            || (dp->dataClass == NLS_DCOMPLEX) && (!dp->sparse) && is2D();
     }
-    //=============================================================================
-    const bool ArrayOf::isNdArrayDoubleType(bool realOnly) const
-    {
-        bool res = false;
-        if (realOnly)
-        {
-            res = (dp->dataClass == NLS_DOUBLE) && (!dp->sparse) && !is2D();
-        }
-        else
-        {
-            res = (dp->dataClass == NLS_DOUBLE) || (dp->dataClass == NLS_DCOMPLEX) && (!dp->sparse) && !is2D();
-        }
-        return res;
+    return res;
+}
+//=============================================================================
+const bool
+ArrayOf::isNdArrayDoubleType(bool realOnly) const
+{
+    bool res = false;
+    if (realOnly) {
+        res = (dp->dataClass == NLS_DOUBLE) && (!dp->sparse) && !is2D();
+    } else {
+        res = (dp->dataClass == NLS_DOUBLE)
+            || (dp->dataClass == NLS_DCOMPLEX) && (!dp->sparse) && !is2D();
     }
-    //=============================================================================
-    ArrayOf ArrayOf::doubleConstructor(double aval)
-    {
-        Dimensions dim;
-        dim.makeScalar();
-        double *data = (double *)allocateArrayOf(NLS_DOUBLE, 1);
-        *data = aval;
-        return ArrayOf(NLS_DOUBLE, dim, data);
+    return res;
+}
+//=============================================================================
+ArrayOf
+ArrayOf::doubleConstructor(double aval)
+{
+    Dimensions dim;
+    dim.makeScalar();
+    double* data = (double*)allocateArrayOf(NLS_DOUBLE, 1);
+    *data = aval;
+    return ArrayOf(NLS_DOUBLE, dim, data);
+}
+//=============================================================================
+ArrayOf
+ArrayOf::doubleVectorConstructor(int len)
+{
+    Dimensions dim;
+    dim.makeScalar();
+    dim[1] = len;
+    double* data = (double*)allocateArrayOf(NLS_DOUBLE, len);
+    return ArrayOf(NLS_DOUBLE, dim, data);
+}
+//=============================================================================
+ArrayOf
+ArrayOf::doubleMatrix2dConstructor(indexType m, indexType n)
+{
+    Dimensions dim(m, n);
+    double* data = (double*)allocateArrayOf(NLS_DOUBLE, dim.getElementCount());
+    return ArrayOf(NLS_DOUBLE, dim, data);
+}
+//=============================================================================
+ArrayOf
+ArrayOf::dcomplexConstructor(double aval, double bval)
+{
+    Dimensions dim;
+    dim.makeScalar();
+    double* data = (double*)allocateArrayOf(NLS_DCOMPLEX, 1);
+    data[0] = aval;
+    data[1] = bval;
+    return ArrayOf(NLS_DCOMPLEX, dim, data);
+}
+//=============================================================================
+double
+ArrayOf::getContentAsDoubleScalar()
+{
+    if (isComplex() || isReferenceType() || isString() || isSparse() || !isScalar()) {
+        throw Exception(_W("Expected a real value scalar."));
     }
-    //=============================================================================
-    ArrayOf ArrayOf::doubleVectorConstructor(int len)
-    {
-        Dimensions dim;
-        dim.makeScalar();
-        dim[1] = len;
-        double *data = (double*)allocateArrayOf(NLS_DOUBLE, len);
-        return ArrayOf(NLS_DOUBLE, dim, data);
+    promoteType(NLS_DOUBLE);
+    double* qp = (double*)dp->getData();
+    return (*qp);
+}
+//=============================================================================
+doublecomplex
+ArrayOf::getContentAsDoubleComplexScalar()
+{
+    if (isReferenceType() || isString() || isSparse() || !isScalar()) {
+        throw Exception(_W("Expected a real valued scalar"));
     }
-    //=============================================================================
-    ArrayOf ArrayOf::doubleMatrix2dConstructor(indexType m, indexType n)
-    {
-        Dimensions dim(m, n);
-        double *data = (double*)allocateArrayOf(NLS_DOUBLE, dim.getElementCount());
-        return ArrayOf(NLS_DOUBLE, dim, data);
-    }
-    //=============================================================================
-    ArrayOf ArrayOf::dcomplexConstructor(double aval, double bval)
-    {
-        Dimensions dim;
-        dim.makeScalar();
-        double *data = (double *)allocateArrayOf(NLS_DCOMPLEX, 1);
-        data[0] = aval;
-        data[1] = bval;
-        return ArrayOf(NLS_DCOMPLEX, dim, data);
-    }
-    //=============================================================================
-    double ArrayOf::getContentAsDoubleScalar()
-    {
-        if (isComplex() || isReferenceType() || isString() || isSparse() || !isScalar())
-        {
-            throw Exception(_W("Expected a real value scalar."));
-        }
-        promoteType(NLS_DOUBLE);
-        double *qp = (double*)dp->getData();
-        return (*qp);
-    }
-    //=============================================================================
-    doublecomplex ArrayOf::getContentAsDoubleComplexScalar()
-    {
-        if (isReferenceType() || isString() || isSparse() || !isScalar())
-        {
-            throw Exception(_W("Expected a real valued scalar"));
-        }
-        promoteType(NLS_DCOMPLEX);
-        double *qp = (double*)dp->getData();
-        doublecomplex cx(qp[0], qp[1]);
-        return cx;
-    }
-    //=============================================================================
+    promoteType(NLS_DCOMPLEX);
+    double* qp = (double*)dp->getData();
+    doublecomplex cx(qp[0], qp[1]);
+    return cx;
+}
+//=============================================================================
 }
 //=============================================================================

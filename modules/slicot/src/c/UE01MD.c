@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -14,8 +14,7 @@ static integer c__3 = 3;
 static integer c__4 = 4;
 static integer c__8 = 8;
 
-integer ue01md_(ispec, name__, opts, n1, n2, n3, name_len, opts_len)
-integer *ispec;
+integer ue01md_(ispec, name__, opts, n1, n2, n3, name_len, opts_len) integer* ispec;
 char *name__, *opts;
 integer *n1, *n2, *n3;
 ftnlen name_len;
@@ -96,104 +95,76 @@ ftnlen opts_len;
     /*     .. External Functions .. */
     /*     .. Intrinsic Functions .. */
     /*     .. Executable Statements .. */
-    if (*ispec == 1 || *ispec == 2 || *ispec == 3)
-    {
+    if (*ispec == 1 || *ispec == 2 || *ispec == 3) {
         /*        Convert NAME to upper case if the first character is lower */
         /*        case. */
         ret_val = 1;
         s_copy(subnam, name__, 6L, name_len);
-        ic = *(unsigned char *)subnam;
+        ic = *(unsigned char*)subnam;
         iz = 'Z';
-        if (iz == 90 || iz == 122)
-        {
+        if (iz == 90 || iz == 122) {
             /*           ASCII character set. */
-            if (ic >= 97 && ic <= 122)
-            {
-                *(unsigned char *)subnam = (char) (ic - 32);
-                for (i__ = 2; i__ <= 6; ++i__)
-                {
-                    ic = *(unsigned char *)&subnam[i__ - 1];
-                    if (ic >= 97 && ic <= 122)
-                    {
-                        *(unsigned char *)&subnam[i__ - 1] = (char) (ic - 32);
+            if (ic >= 97 && ic <= 122) {
+                *(unsigned char*)subnam = (char)(ic - 32);
+                for (i__ = 2; i__ <= 6; ++i__) {
+                    ic = *(unsigned char*)&subnam[i__ - 1];
+                    if (ic >= 97 && ic <= 122) {
+                        *(unsigned char*)&subnam[i__ - 1] = (char)(ic - 32);
                     }
                     /* L10: */
                 }
             }
-        }
-        else if (iz == 233 || iz == 169)
-        {
+        } else if (iz == 233 || iz == 169) {
             /*           EBCDIC character set. */
-            if (ic >= 129 && ic <= 137 || ic >= 145 && ic <= 153 || ic >= 162 && ic <= 169)
-            {
-                *(unsigned char *)subnam = (char) (ic + 64);
-                for (i__ = 2; i__ <= 6; ++i__)
-                {
-                    ic = *(unsigned char *)&subnam[i__ - 1];
-                    if (ic >= 129 && ic <= 137 || ic >= 145 && ic <= 153 || ic >= 162 && ic <= 169)
-                    {
-                        *(unsigned char *)&subnam[i__ - 1] = (char) (ic + 64);
+            if (ic >= 129 && ic <= 137 || ic >= 145 && ic <= 153 || ic >= 162 && ic <= 169) {
+                *(unsigned char*)subnam = (char)(ic + 64);
+                for (i__ = 2; i__ <= 6; ++i__) {
+                    ic = *(unsigned char*)&subnam[i__ - 1];
+                    if (ic >= 129 && ic <= 137 || ic >= 145 && ic <= 153
+                        || ic >= 162 && ic <= 169) {
+                        *(unsigned char*)&subnam[i__ - 1] = (char)(ic + 64);
                     }
                     /* L20: */
                 }
             }
-        }
-        else if (iz == 218 || iz == 250)
-        {
+        } else if (iz == 218 || iz == 250) {
             /*           Prime machines:  ASCII+128. */
-            if (ic >= 225 && ic <= 250)
-            {
-                *(unsigned char *)subnam = (char) (ic - 32);
-                for (i__ = 2; i__ <= 6; ++i__)
-                {
-                    ic = *(unsigned char *)&subnam[i__ - 1];
-                    if (ic >= 225 && ic <= 250)
-                    {
-                        *(unsigned char *)&subnam[i__ - 1] = (char) (ic - 32);
+            if (ic >= 225 && ic <= 250) {
+                *(unsigned char*)subnam = (char)(ic - 32);
+                for (i__ = 2; i__ <= 6; ++i__) {
+                    ic = *(unsigned char*)&subnam[i__ - 1];
+                    if (ic >= 225 && ic <= 250) {
+                        *(unsigned char*)&subnam[i__ - 1] = (char)(ic - 32);
                     }
                     /* L30: */
                 }
             }
         }
-        *(unsigned char *)c1 = *(unsigned char *)subnam;
-        sname = *(unsigned char *)c1 == 'S' || *(unsigned char *)c1 == 'D';
-        cname = *(unsigned char *)c1 == 'C' || *(unsigned char *)c1 == 'Z';
-        if (! (cname || sname))
-        {
+        *(unsigned char*)c1 = *(unsigned char*)subnam;
+        sname = *(unsigned char*)c1 == 'S' || *(unsigned char*)c1 == 'D';
+        cname = *(unsigned char*)c1 == 'C' || *(unsigned char*)c1 == 'Z';
+        if (!(cname || sname)) {
             return ret_val;
         }
         s_copy(c2, subnam + 3, 2L, 2L);
-        *(unsigned char *)c3 = *(unsigned char *)&subnam[5];
-        if (*ispec == 1)
-        {
+        *(unsigned char*)c3 = *(unsigned char*)&subnam[5];
+        if (*ispec == 1) {
             /*           Block size. */
             nb = 1;
-            if (s_cmp(c2, "4S", 2L, 2L) == 0 || s_cmp(c2, "4T", 2L, 2L) == 0)
-            {
-                if (*(unsigned char *)c3 == 'B')
-                {
+            if (s_cmp(c2, "4S", 2L, 2L) == 0 || s_cmp(c2, "4T", 2L, 2L) == 0) {
+                if (*(unsigned char*)c3 == 'B') {
                     nb = ilaenv_(&c__1, "DGEQRF", " ", n1, n2, &c_n1, &c_n1, 6L, 1L) / 2;
-                }
-                else if (*(unsigned char *)c3 == 'T')
-                {
+                } else if (*(unsigned char*)c3 == 'T') {
                     nb = ilaenv_(&c__1, "DGEHRD", " ", n1, n2, n1, &c_n1, 6L, 1L) / 4;
                 }
-            }
-            else if (s_cmp(c2, "4P", 2L, 2L) == 0)
-            {
-                if (*(unsigned char *)c3 == 'B')
-                {
+            } else if (s_cmp(c2, "4P", 2L, 2L) == 0) {
+                if (*(unsigned char*)c3 == 'B') {
                     nb = ilaenv_(&c__1, "DGEHRD", " ", n1, n2, n1, &c_n1, 6L, 1L) / 2;
                 }
-            }
-            else if (s_cmp(c2, "4W", 2L, 2L) == 0 || s_cmp(c2, "4Q", 2L, 2L) == 0)
-            {
-                if (*(unsigned char *)c3 == 'D')
-                {
+            } else if (s_cmp(c2, "4W", 2L, 2L) == 0 || s_cmp(c2, "4Q", 2L, 2L) == 0) {
+                if (*(unsigned char*)c3 == 'D') {
                     nb = ilaenv_(&c__1, "DORGQR", " ", n1, n2, n3, &c_n1, 6L, 1L) / 2;
-                }
-                else if (*(unsigned char *)c3 == 'B')
-                {
+                } else if (*(unsigned char*)c3 == 'B') {
                     nb = ilaenv_(&c__1, "DORMQR", " ", n1, n2, n3, &c_n1, 6L, 1L) / 2;
                 }
                 /* *          ELSE IF ( C2.EQ.'SH' ) THEN */
@@ -202,48 +173,35 @@ ftnlen opts_len;
                 /* *             END IF */
             }
             ret_val = nb;
-        }
-        else if (*ispec == 2)
-        {
+        } else if (*ispec == 2) {
             /*           Minimum block size. */
             nbmin = 2;
-            if (s_cmp(c2, "4S", 2L, 2L) == 0 || s_cmp(c2, "4T", 2L, 2L) == 0)
-            {
-                if (*(unsigned char *)c3 == 'B')
-                {
+            if (s_cmp(c2, "4S", 2L, 2L) == 0 || s_cmp(c2, "4T", 2L, 2L) == 0) {
+                if (*(unsigned char*)c3 == 'B') {
                     /* Computing MAX */
-                    i__1 = 2, i__2 = ilaenv_(&c__2, "DGEQRF", " ", n1, n2, &c_n1, &c_n1, 6L, 1L) / 2;
-                    nbmin = max(i__1,i__2);
-                }
-                else if (*(unsigned char *)c3 == 'T')
-                {
+                    i__1 = 2,
+                    i__2 = ilaenv_(&c__2, "DGEQRF", " ", n1, n2, &c_n1, &c_n1, 6L, 1L) / 2;
+                    nbmin = max(i__1, i__2);
+                } else if (*(unsigned char*)c3 == 'T') {
                     /* Computing MAX */
                     i__1 = 2, i__2 = ilaenv_(&c__2, "DGEHRD", " ", n1, n2, n1, &c_n1, 6L, 1L) / 4;
-                    nbmin = max(i__1,i__2);
+                    nbmin = max(i__1, i__2);
                 }
-            }
-            else if (s_cmp(c2, "4P", 2L, 2L) == 0)
-            {
-                if (*(unsigned char *)c3 == 'B')
-                {
+            } else if (s_cmp(c2, "4P", 2L, 2L) == 0) {
+                if (*(unsigned char*)c3 == 'B') {
                     /* Computing MAX */
                     i__1 = 2, i__2 = ilaenv_(&c__2, "DGEHRD", " ", n1, n2, n1, &c_n1, 6L, 1L) / 4;
-                    nbmin = max(i__1,i__2);
+                    nbmin = max(i__1, i__2);
                 }
-            }
-            else if (s_cmp(c2, "4W", 2L, 2L) == 0 || s_cmp(c2, "4Q", 2L, 2L) == 0)
-            {
-                if (*(unsigned char *)c3 == 'D')
-                {
+            } else if (s_cmp(c2, "4W", 2L, 2L) == 0 || s_cmp(c2, "4Q", 2L, 2L) == 0) {
+                if (*(unsigned char*)c3 == 'D') {
                     /* Computing MAX */
                     i__1 = 2, i__2 = ilaenv_(&c__2, "DORGQR", " ", n1, n2, n3, &c_n1, 6L, 1L) / 2;
-                    nbmin = max(i__1,i__2);
-                }
-                else if (*(unsigned char *)c3 == 'B')
-                {
+                    nbmin = max(i__1, i__2);
+                } else if (*(unsigned char*)c3 == 'B') {
                     /* Computing MAX */
                     i__1 = 2, i__2 = ilaenv_(&c__2, "DORMQR", " ", n1, n2, n3, &c_n1, 6L, 1L) / 2;
-                    nbmin = max(i__1,i__2);
+                    nbmin = max(i__1, i__2);
                 }
                 /* *          ELSE IF ( C2.EQ.'SH' ) THEN */
                 /* *             IF ( C3.EQ.'PVB' ) THEN */
@@ -252,37 +210,23 @@ ftnlen opts_len;
                 /* *             END IF */
             }
             ret_val = nbmin;
-        }
-        else if (*ispec == 3)
-        {
+        } else if (*ispec == 3) {
             /*           Crossover point. */
             nx = 0;
-            if (s_cmp(c2, "4S", 2L, 2L) == 0 || s_cmp(c2, "4T", 2L, 2L) == 0)
-            {
-                if (*(unsigned char *)c3 == 'B')
-                {
+            if (s_cmp(c2, "4S", 2L, 2L) == 0 || s_cmp(c2, "4T", 2L, 2L) == 0) {
+                if (*(unsigned char*)c3 == 'B') {
                     nx = ilaenv_(&c__3, "DGEQRF", " ", n1, n2, &c_n1, &c_n1, 6L, 1L);
-                }
-                else if (*(unsigned char *)c3 == 'T')
-                {
+                } else if (*(unsigned char*)c3 == 'T') {
                     nx = ilaenv_(&c__3, "DGEHRD", " ", n1, n2, n1, &c_n1, 6L, 1L) / 2;
                 }
-            }
-            else if (s_cmp(c2, "4P", 2L, 2L) == 0)
-            {
-                if (*(unsigned char *)c3 == 'B')
-                {
+            } else if (s_cmp(c2, "4P", 2L, 2L) == 0) {
+                if (*(unsigned char*)c3 == 'B') {
                     nx = ilaenv_(&c__3, "DGEHRD", " ", n1, n2, n1, &c_n1, 6L, 1L) / 2;
                 }
-            }
-            else if (s_cmp(c2, "4W", 2L, 2L) == 0 || s_cmp(c2, "4Q", 2L, 2L) == 0)
-            {
-                if (*(unsigned char *)c3 == 'D')
-                {
+            } else if (s_cmp(c2, "4W", 2L, 2L) == 0 || s_cmp(c2, "4Q", 2L, 2L) == 0) {
+                if (*(unsigned char*)c3 == 'D') {
                     nx = ilaenv_(&c__3, "DORGQR", " ", n1, n2, n3, &c_n1, 6L, 1L);
-                }
-                else if (*(unsigned char *)c3 == 'B')
-                {
+                } else if (*(unsigned char*)c3 == 'B') {
                     nx = ilaenv_(&c__3, "DORGQR", " ", n1, n2, n3, &c_n1, 6L, 1L);
                 }
                 /* *          ELSE IF ( C2.EQ.'SH' ) THEN */
@@ -292,23 +236,16 @@ ftnlen opts_len;
             }
             ret_val = nx;
         }
-    }
-    else if (*ispec == 4)
-    {
+    } else if (*ispec == 4) {
         /*        Number of shifts (used by MB03XP). */
         ret_val = ilaenv_(&c__4, "DHSEQR", opts, n1, n2, n3, &c_n1, 6L, opts_len);
-    }
-    else if (*ispec == 8)
-    {
+    } else if (*ispec == 8) {
         /*        Crossover point for multishift (used by MB03XP). */
         ret_val = ilaenv_(&c__8, "DHSEQR", opts, n1, n2, n3, &c_n1, 6L, opts_len);
-    }
-    else
-    {
+    } else {
         /*        Invalid value for ISPEC. */
         ret_val = -1;
     }
     return ret_val;
     /* *** Last line of UE01MD *** */
 } /* ue01md_ */
-

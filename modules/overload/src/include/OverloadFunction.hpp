@@ -24,6 +24,8 @@
 #include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
-    NLSOVERLOAD_IMPEXP ArrayOfVector OverloadFunction(Evaluator *eval, int nLhs, const ArrayOfVector& argIn, const std::string &functionName, bool &bSuccess);
+NLSOVERLOAD_IMPEXP ArrayOfVector
+OverloadFunction(Evaluator* eval, int nLhs, const ArrayOfVector& argIn,
+    const std::string& functionName, bool& bSuccess);
 }
 //=============================================================================

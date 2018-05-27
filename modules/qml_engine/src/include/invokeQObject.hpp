@@ -18,12 +18,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsQml_engine_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsQml_engine_exports.h"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    NLSQML_ENGINE_IMPEXP ArrayOf invokeQObject(ArrayOf A, std::wstring wmethodname, ArrayOfVector params, bool &haveReturnValue);
-    //=============================================================================
-}
+//=============================================================================
+NLSQML_ENGINE_IMPEXP ArrayOf
+invokeQObject(ArrayOf A, std::wstring wmethodname, ArrayOfVector params, bool& haveReturnValue);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

@@ -25,6 +25,6 @@
 #define NLSDYNAMIC_LINK_BUILTIN_IMPEXP __declspec(dllimport)
 #endif
 #else
-#define NLSDYNAMIC_LINK_BUILTIN_IMPEXP __attribute__ ((visibility ("default")))
+#define NLSDYNAMIC_LINK_BUILTIN_IMPEXP __attribute__((visibility("default")))
 #endif
 //=============================================================================

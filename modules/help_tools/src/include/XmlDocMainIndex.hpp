@@ -18,35 +18,46 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "nlsHelp_tools_exports.h"
-#include "Types.hpp"
 #include "QtHelpProject.hpp"
+#include "Types.hpp"
 #include "XmlTarget.hpp"
+#include "nlsHelp_tools_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    class NLSHELP_TOOLS_IMPEXP XmlDocMainIndex {
-    private:
-        std::wstring directoryDestination;
-        std::wstring filenameDestination;
-        std::string utf8stream;
-        std::wstring mainTitle;
-        std::wstring mainModuleShortName;
-        bool isQtHelp;
-        DOCUMENT_OUTPUT outputTarget;
-        void htmlHeader();
-        void htmlOpenTags();
-        void htmlCloseTags();
-        QtHelpProject *qtproject;
-    public:
-        XmlDocMainIndex(std::wstring destdir, std::wstring mainTitle, std::wstring mainModuleShortName, DOCUMENT_OUTPUT outputTarget = DOCUMENT_OUTPUT::HMTL);
-        ~XmlDocMainIndex();
-        std::wstring getFilename();
-        bool writeAsHtml();
-        bool writeAsMarkdown();
-        void appendSection(std::wstring sectionName, std::wstring sectionUrl, wstringVector names, wstringVector urls, wstringVector descriptions);
-    };
-    //=============================================================================
-}
+//=============================================================================
+class NLSHELP_TOOLS_IMPEXP XmlDocMainIndex
+{
+private:
+    std::wstring directoryDestination;
+    std::wstring filenameDestination;
+    std::string utf8stream;
+    std::wstring mainTitle;
+    std::wstring mainModuleShortName;
+    bool isQtHelp;
+    DOCUMENT_OUTPUT outputTarget;
+    void
+    htmlHeader();
+    void
+    htmlOpenTags();
+    void
+    htmlCloseTags();
+    QtHelpProject* qtproject;
+
+public:
+    XmlDocMainIndex(std::wstring destdir, std::wstring mainTitle, std::wstring mainModuleShortName,
+        DOCUMENT_OUTPUT outputTarget = DOCUMENT_OUTPUT::HMTL);
+    ~XmlDocMainIndex();
+    std::wstring
+    getFilename();
+    bool
+    writeAsHtml();
+    bool
+    writeAsMarkdown();
+    void
+    appendSection(std::wstring sectionName, std::wstring sectionUrl, wstringVector names,
+        wstringVector urls, wstringVector descriptions);
+};
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

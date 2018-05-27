@@ -25,6 +25,6 @@
 #define NLSSPARSE_IMPEXP __declspec(dllimport)
 #endif
 #else
-#define NLSSPARSE_IMPEXP __attribute__ ((visibility ("default")))
+#define NLSSPARSE_IMPEXP __attribute__((visibility("default")))
 #endif
 //=============================================================================

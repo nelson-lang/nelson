@@ -16,47 +16,47 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <QtWidgets/QHBoxLayout>
 #include "QtEditPane.h"
+#include "QtHighlighter.h"
 #include "QtLineNumber.h"
 #include "QtTextIndent.h"
-#include "QtHighlighter.h"
+#include <QtWidgets/QHBoxLayout>
 //=============================================================================
 QtEditPane::QtEditPane()
 {
     textEditor = new QtTextEdit();
     completer = new QCompleter(this);
     textEditor->setCompleter(completer);
-    QtLineNumber *tLN = new QtLineNumber(textEditor);
-    QHBoxLayout *layout = new QHBoxLayout;
+    QtLineNumber* tLN = new QtLineNumber(textEditor);
+    QHBoxLayout* layout = new QHBoxLayout;
     layout->addWidget(tLN);
     layout->addWidget(textEditor);
     setLayout(layout);
-    QtTextIndent *ind = new QtTextIndent();
+    QtTextIndent* ind = new QtTextIndent();
     connect(textEditor, SIGNAL(indent()), ind, SLOT(update()));
     highlight = new Highlighter(textEditor->document());
     ind->setDocument(textEditor);
 }
 //=============================================================================
-QtTextEdit* QtEditPane::getEditor()
+QtTextEdit*
+QtEditPane::getEditor()
 {
     return textEditor;
 }
 //=============================================================================
-void QtEditPane::setFileName(QString filename)
+void
+QtEditPane::setFileName(QString filename)
 {
     currentFilename = filename;
-    if (filename.endsWith(".nls") || filename.endsWith(".nlf"))
-    {
+    if (filename.endsWith(".nls") || filename.endsWith(".nlf")) {
         highlight->setEnable(true);
-    }
-    else
-    {
+    } else {
         highlight->setEnable(false);
     }
 }
 //=============================================================================
-QString QtEditPane::getFileName()
+QString
+QtEditPane::getFileName()
 {
     return currentFilename;
 }

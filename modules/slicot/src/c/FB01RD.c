@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,32 +11,34 @@ static integer c__1 = 1;
 static doublereal c_b23 = 1.;
 static integer c__0 = 0;
 
-EXPORTSYMBOL /* Subroutine */ int fb01rd_(jobk, multbq, n, m, p, s, lds, a, lda, b, ldb, q, ldq, c__, ldc, r__, ldr, k, ldk, tol, iwork, dwork, ldwork, info, jobk_len, multbq_len)
-char *jobk, *multbq;
+EXPORTSYMBOL /* Subroutine */ int fb01rd_(jobk, multbq, n, m, p, s, lds, a, lda, b, ldb, q, ldq,
+    c__, ldc, r__, ldr, k, ldk, tol, iwork, dwork, ldwork, info, jobk_len, multbq_len) char *jobk,
+    *multbq;
 integer *n, *m, *p;
-doublereal *s;
-integer *lds;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *q;
-integer *ldq;
-doublereal *c__;
-integer *ldc;
-doublereal *r__;
-integer *ldr;
-doublereal *k;
-integer *ldk;
-doublereal *tol;
-integer *iwork;
-doublereal *dwork;
+doublereal* s;
+integer* lds;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* q;
+integer* ldq;
+doublereal* c__;
+integer* ldc;
+doublereal* r__;
+integer* ldr;
+doublereal* k;
+integer* ldk;
+doublereal* tol;
+integer* iwork;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen jobk_len;
 ftnlen multbq_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, k_dim1, k_offset, q_dim1, q_offset, r_dim1, r_offset, s_dim1, s_offset, i__1, i__2, i__3, i__4;
+    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, k_dim1, k_offset, q_dim1,
+        q_offset, r_dim1, r_offset, s_dim1, s_offset, i__1, i__2, i__3, i__4;
     /* Local variables */
     static integer itau, i__;
     extern /* Subroutine */ int mb02od_(), mb04jd_(), mb04ld_();
@@ -334,87 +336,59 @@ ftnlen multbq_len;
     --dwork;
     /* Function Body */
     pn = *p + *n;
-    n1 = max(1,*n);
+    n1 = max(1, *n);
     *info = 0;
     ljobk = lsame_(jobk, "K", 1L, 1L);
     lmultb = lsame_(multbq, "P", 1L, 1L);
     /*     Test the input scalar arguments. */
-    if (! ljobk && ! lsame_(jobk, "N", 1L, 1L))
-    {
+    if (!ljobk && !lsame_(jobk, "N", 1L, 1L)) {
         *info = -1;
-    }
-    else if (! lmultb && ! lsame_(multbq, "N", 1L, 1L))
-    {
+    } else if (!lmultb && !lsame_(multbq, "N", 1L, 1L)) {
         *info = -2;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -3;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -4;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -5;
-    }
-    else if (*lds < n1)
-    {
+    } else if (*lds < n1) {
         *info = -7;
-    }
-    else if (*lda < n1)
-    {
+    } else if (*lda < n1) {
         *info = -9;
-    }
-    else if (*ldb < n1)
-    {
+    } else if (*ldb < n1) {
         *info = -11;
-    }
-    else if (*ldq < 1 || ! lmultb && *ldq < *m)
-    {
+    } else if (*ldq < 1 || !lmultb && *ldq < *m) {
         *info = -13;
-    }
-    else if (*ldc < max(1,*p))
-    {
+    } else if (*ldc < max(1, *p)) {
         *info = -15;
-    }
-    else if (*ldr < max(1,*p))
-    {
+    } else if (*ldr < max(1, *p)) {
         *info = -17;
-    }
-    else if (*ldk < n1)
-    {
+    } else if (*ldk < n1) {
         *info = -19;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
-        i__1 = 2, i__2 = pn **n + *n, i__1 = max(i__1,i__2), i__2 = pn **n + (*p << 1), i__1 = max(i__1,i__2), i__2 = *n * (*n + *m + 2), i__1 = max(i__1,i__2), i__2 = *p * 3;
+        i__1 = 2, i__2 = pn * *n + *n, i__1 = max(i__1, i__2), i__2 = pn * *n + (*p << 1),
+        i__1 = max(i__1, i__2), i__2 = *n * (*n + *m + 2), i__1 = max(i__1, i__2), i__2 = *p * 3;
         /* Computing MAX */
-        i__3 = 1, i__4 = pn **n + *n, i__3 = max(i__3,i__4), i__4 = pn **n + (*p << 1), i__3 = max(i__3,i__4), i__4 = *n * (*n + *m + 2);
-        if (ljobk && *ldwork < max(i__1,i__2) || ! ljobk && *ldwork < max(i__3,i__4))
-        {
+        i__3 = 1, i__4 = pn * *n + *n, i__3 = max(i__3, i__4), i__4 = pn * *n + (*p << 1),
+        i__3 = max(i__3, i__4), i__4 = *n * (*n + *m + 2);
+        if (ljobk && *ldwork < max(i__1, i__2) || !ljobk && *ldwork < max(i__3, i__4)) {
             *info = -23;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("FB01RD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
-        if (ljobk)
-        {
+    if (*n == 0) {
+        if (ljobk) {
             dwork[1] = 2.;
             dwork[2] = 1.;
-        }
-        else
-        {
+        } else {
             dwork[1] = 1.;
         }
         return 0;
@@ -445,14 +419,14 @@ ftnlen multbq_len;
     /*     code, as well as the preferred amount for good performance. */
     /*     NB refers to the optimal block size for the immediately */
     /*     following subroutine, as returned by ILAENV.) */
-    i__1 = min(*n,*p);
+    i__1 = min(*n, *p);
     dlacpy_("Lower", p, &i__1, &c__[c_offset], ldc, &dwork[1], &pn, 5L);
-    i__1 = min(*n,*p);
+    i__1 = min(*n, *p);
     dlacpy_("Full", n, &i__1, &a[a_offset], lda, &dwork[*p + 1], &pn, 4L);
-    if (*n > *p)
-    {
+    if (*n > *p) {
         i__1 = *n - *p;
-        dlacpy_("Lower", n, &i__1, &a[(*p + 1) * a_dim1 + 1], lda, &dwork[*p * pn + *p + 1], &pn, 5L);
+        dlacpy_(
+            "Lower", n, &i__1, &a[(*p + 1) * a_dim1 + 1], lda, &dwork[*p * pn + *p + 1], &pn, 5L);
     }
     /*             [ C1  0  ] */
     /*     Compute [        ] x S or C1 x S as a product of lower triangular */
@@ -463,44 +437,45 @@ ftnlen multbq_len;
     pl = *n * pn + 1;
     wrkopt = pl + *n - 1;
     i__1 = *n;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         i__2 = *n - i__ + 1;
         dcopy_(&i__2, &s[i__ + i__ * s_dim1], &c__1, &dwork[pl], &c__1);
         i__2 = *n - i__ + 1;
-        dtrmv_("Lower", "No transpose", "Non-unit", &i__2, &dwork[ii], &pn, &dwork[pl], &c__1, 5L, 12L, 8L);
+        dtrmv_("Lower", "No transpose", "Non-unit", &i__2, &dwork[ii], &pn, &dwork[pl], &c__1, 5L,
+            12L, 8L);
         i__2 = *n - i__ + 1;
         dcopy_(&i__2, &dwork[pl], &c__1, &dwork[ii], &c__1);
         ii = ii + pn + 1;
         /* L10: */
     }
     /*     Compute [ A2  A4 ] x S. */
-    dtrmm_("Right", "Lower", "No transpose", "Non-unit", p, n, &c_b23, &s[s_offset], lds, &dwork[*n + 1], &pn, 5L, 5L, 12L, 8L);
+    dtrmm_("Right", "Lower", "No transpose", "Non-unit", p, n, &c_b23, &s[s_offset], lds,
+        &dwork[*n + 1], &pn, 5L, 5L, 12L, 8L);
     /*     Triangularization (2 steps). */
     /*     Step 1: annihilate the matrix C x S (hence C1 x S1, if P <= N). */
     /*     Workspace: need (N+P)*N + 2*P. */
     itau = pl;
     jwork = itau + *p;
-    mb04ld_("Lower", p, n, n, &r__[r_offset], ldr, &dwork[1], &pn, &dwork[*p + 1], &pn, &k[k_offset], ldk, &dwork[itau], &dwork[jwork], 5L);
+    mb04ld_("Lower", p, n, n, &r__[r_offset], ldr, &dwork[1], &pn, &dwork[*p + 1], &pn,
+        &k[k_offset], ldk, &dwork[itau], &dwork[jwork], 5L);
     /* Computing MAX */
-    i__1 = wrkopt, i__2 = pn **n + (*p << 1);
-    wrkopt = max(i__1,i__2);
+    i__1 = wrkopt, i__2 = pn * *n + (*p << 1);
+    wrkopt = max(i__1, i__2);
     /*     Now, the workspace for C x S is no longer needed. */
     /*     Adjust the leading dimension of DWORK, to save space for the */
     /*     following computations, and make room for B x Q. */
     dlacpy_("Full", n, n, &dwork[*p + 1], &pn, &dwork[1], n, 4L);
     i__1 = -(*n);
-    for (i__ = *n * (*n - 1) + 1; i__1 < 0 ? i__ >= 1 : i__ <= 1; i__ += i__1)
-    {
-        dcopy_(n, &dwork[i__], &c__1, &dwork[i__ + *n **m], &c__1);
+    for (i__ = *n * (*n - 1) + 1; i__1 < 0 ? i__ >= 1 : i__ <= 1; i__ += i__1) {
+        dcopy_(n, &dwork[i__], &c__1, &dwork[i__ + *n * *m], &c__1);
         /* L20: */
     }
     /*     Storing B x Q in the (1,1) block of DWORK. */
     /*     Workspace: need N*(M+N). */
     dlacpy_("Full", n, m, &b[b_offset], ldb, &dwork[1], n, 4L);
-    if (! lmultb)
-    {
-        dtrmm_("Right", "Lower", "No transpose", "Non-unit", n, m, &c_b23, &q[q_offset], ldq, &dwork[1], n, 5L, 5L, 12L, 8L);
+    if (!lmultb) {
+        dtrmm_("Right", "Lower", "No transpose", "Non-unit", n, m, &c_b23, &q[q_offset], ldq,
+            &dwork[1], n, 5L, 5L, 12L, 8L);
     }
     /*     Step 2: LQ triangularization of the matrix [ B x Q  A x S ], where */
     /*     A x S was modified at Step 1. */
@@ -512,30 +487,30 @@ ftnlen multbq_len;
     i__1 = *m + *n;
     /* Computing MAX */
     i__3 = *n - *p - 1;
-    i__2 = max(i__3,0);
+    i__2 = max(i__3, 0);
     i__4 = *ldwork - jwork + 1;
-    mb04jd_(n, &i__1, &i__2, &c__0, &dwork[1], n, &dwork[1], n, &dwork[itau], &dwork[jwork], &i__4, info);
+    mb04jd_(n, &i__1, &i__2, &c__0, &dwork[1], n, &dwork[1], n, &dwork[itau], &dwork[jwork], &i__4,
+        info);
     /* Computing MAX */
-    i__1 = wrkopt, i__2 = (integer) dwork[jwork] + jwork - 1;
-    wrkopt = max(i__1,i__2);
+    i__1 = wrkopt, i__2 = (integer)dwork[jwork] + jwork - 1;
+    wrkopt = max(i__1, i__2);
     /*     Output S and K (if needed) and set the optimal workspace */
     /*     dimension (and the reciprocal of the condition number estimate). */
     dlacpy_("Lower", n, n, &dwork[1], n, &s[s_offset], lds, 5L);
-    if (ljobk)
-    {
+    if (ljobk) {
         /*        Compute K. */
         /*        Workspace: need 3*P. */
-        mb02od_("Right", "Lower", "No transpose", "Non-unit", "1-norm", n, p, &c_b23, &r__[r_offset], ldr, &k[k_offset], ldk, &rcond, tol, &iwork[1], &dwork[1], info, 5L, 5L, 12L, 8L, 6L);
-        if (*info == 0)
-        {
+        mb02od_("Right", "Lower", "No transpose", "Non-unit", "1-norm", n, p, &c_b23,
+            &r__[r_offset], ldr, &k[k_offset], ldk, &rcond, tol, &iwork[1], &dwork[1], info, 5L, 5L,
+            12L, 8L, 6L);
+        if (*info == 0) {
             /* Computing MAX */
             i__1 = wrkopt, i__2 = *p * 3;
-            wrkopt = max(i__1,i__2);
+            wrkopt = max(i__1, i__2);
             dwork[2] = rcond;
         }
     }
-    dwork[1] = (doublereal) wrkopt;
+    dwork[1] = (doublereal)wrkopt;
     return 0;
     /* *** Last line of FB01RD *** */
 } /* fb01rd_ */
-

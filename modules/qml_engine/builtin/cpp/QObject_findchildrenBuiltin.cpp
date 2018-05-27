@@ -22,14 +22,14 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::QmlEngineGateway::QObject_findchildrenBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::QmlEngineGateway::QObject_findchildrenBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (!(argIn.size() == 2 || argIn.size() == 3))
-    {
+    if (!(argIn.size() == 2 || argIn.size() == 3)) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOfVector retval;
@@ -37,8 +37,7 @@ ArrayOfVector Nelson::QmlEngineGateway::QObject_findchildrenBuiltin(Evaluator* e
     ArrayOf param2 = argIn[1];
     std::wstring fieldname = param2.getContentAsWideString();
     bool bRecursively = false;
-    if (argIn.size() == 3)
-    {
+    if (argIn.size() == 3) {
         ArrayOf param3 = argIn[2];
         logical l = param3.getContentAsLogicalScalar();
         bRecursively = (l == 1);

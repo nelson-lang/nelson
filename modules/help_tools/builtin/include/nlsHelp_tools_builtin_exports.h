@@ -25,6 +25,6 @@
 #define NLSHELP_TOOLS_BUILTIN_IMPEXP __declspec(dllimport)
 #endif
 #else
-#define NLSHELP_TOOLS_BUILTIN_IMPEXP __attribute__ ((visibility ("default")))
+#define NLSHELP_TOOLS_BUILTIN_IMPEXP __attribute__((visibility("default")))
 #endif
 //=============================================================================

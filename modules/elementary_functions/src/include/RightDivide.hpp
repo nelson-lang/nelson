@@ -18,15 +18,16 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsElementary_functions_exports.h"
 #include "ArrayOf.hpp"
 #include "Exception.hpp"
+#include "nlsElementary_functions_exports.h"
 //=============================================================================
 namespace Nelson {
-    /**
-    * The right divide operation is related to the left divide operation
-    * via: B/A = (A'\B')'.
-    */
-    NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf RightDivide(ArrayOf A, ArrayOf B);
-}
+/**
+ * The right divide operation is related to the left divide operation
+ * via: B/A = (A'\B')'.
+ */
+NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
+RightDivide(ArrayOf A, ArrayOf B);
+} // namespace Nelson
 //=============================================================================

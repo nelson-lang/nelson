@@ -17,22 +17,21 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "audiowriteBuiltin.hpp"
-#include "Error.hpp"
 #include "AudioWrite.hpp"
+#include "Error.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 // audiowrite(filename, y, Fs, ...)
 //=============================================================================
-ArrayOfVector Nelson::AudioGateway::audiowriteBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::AudioGateway::audiowriteBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs != 0)
-    {
+    if (nLhs != 0) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() < 3)
-    {
+    if (argIn.size() < 3) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     std::wstring errorMessage;
@@ -46,43 +45,35 @@ ArrayOfVector Nelson::AudioGateway::audiowriteBuiltin(Evaluator* eval, int nLhs,
     std::wstring Title = L"";
     std::wstring Artist = L"";
     std::wstring Comment = L"";
-    for (size_t i = 3; i < argIn.size(); i += 2)
-    {
-        if (i >= argIn.size() - 1)
-        {
+    for (size_t i = 3; i < argIn.size(); i += 2) {
+        if (i >= argIn.size() - 1) {
             Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
         }
         ArrayOf paramFieldName = argIn[i];
         ArrayOf paramFieldValue = argIn[i + 1];
         std::wstring fieldname = paramFieldName.getContentAsWideString();
         bool validFieldname = false;
-        if (fieldname == L"BitsPerSample")
-        {
+        if (fieldname == L"BitsPerSample") {
             BitsPerSample = paramFieldValue.getContentAsInteger32Scalar();
             validFieldname = true;
         }
-        if (fieldname == L"BitRate")
-        {
+        if (fieldname == L"BitRate") {
             BitRate = paramFieldValue.getContentAsInteger32Scalar();
             validFieldname = true;
         }
-        if (fieldname == L"Title")
-        {
+        if (fieldname == L"Title") {
             Title = paramFieldValue.getContentAsWideString();
             validFieldname = true;
         }
-        if (fieldname == L"Artist")
-        {
+        if (fieldname == L"Artist") {
             Artist = paramFieldValue.getContentAsWideString();
             validFieldname = true;
         }
-        if (fieldname == L"Comment")
-        {
+        if (fieldname == L"Comment") {
             Comment = paramFieldValue.getContentAsWideString();
             validFieldname = true;
         }
-        if (!validFieldname)
-        {
+        if (!validFieldname) {
             wchar_t buffer[4096];
             swprintf(buffer, 4096, std::wstring(ERROR_WRONG_ARGUMENT_X_VALUE).c_str(), i);
             Error(eval, std::wstring(buffer));
@@ -93,8 +84,7 @@ ArrayOfVector Nelson::AudioGateway::audiowriteBuiltin(Evaluator* eval, int nLhs,
     metadata.push_back(Artist);
     metadata.push_back(Comment);
     bool res = AudioWrite(filename, data, fs, metadata, BitsPerSample, BitRate, errorMessage);
-    if (!res)
-    {
+    if (!res) {
         Error(eval, errorMessage);
     }
     return retval;

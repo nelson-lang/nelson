@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,16 +11,17 @@ static integer c__1 = 1;
 static doublereal c_b9 = 1.;
 static doublereal c_b11 = 0.;
 
-EXPORTSYMBOL /* Subroutine */ int tb01wd_(n, m, p, a, lda, b, ldb, c__, ldc, u, ldu, wr, wi, dwork, ldwork, info)
-integer *n, *m, *p;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *u;
-integer *ldu;
+EXPORTSYMBOL /* Subroutine */ int tb01wd_(
+    n, m, p, a, lda, b, ldb, c__, ldc, u, ldu, wr, wi, dwork, ldwork, info) integer *n,
+    *m, *p;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* u;
+integer* ldu;
 doublereal *wr, *wi, *dwork;
 integer *ldwork, *info;
 {
@@ -167,48 +168,31 @@ integer *ldwork, *info;
     /* Function Body */
     *info = 0;
     /*     Check input parameters. */
-    if (*n < 0)
-    {
+    if (*n < 0) {
         *info = -1;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -2;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -3;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -5;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -7;
-    }
-    else if (*ldc < max(1,*p))
-    {
+    } else if (*ldc < max(1, *p)) {
         *info = -9;
-    }
-    else if (*ldu < max(1,*n))
-    {
+    } else if (*ldu < max(1, *n)) {
         *info = -11;
-    }
-    else if (*ldwork < *n * 3)
-    {
+    } else if (*ldwork < *n * 3) {
         *info = -15;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("TB01WD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
+    if (*n == 0) {
         return 0;
     }
     /*     Reduce A to real Schur form using an orthogonal similarity */
@@ -216,55 +200,50 @@ integer *ldwork, *info;
     /*     and compute the eigenvalues of A in (WR,WI). */
     /*     Workspace:  need   3*N; */
     /*                 prefer larger. */
-    dgees_("Vectors", "Not ordered", select_, n, &a[a_offset], lda, &sdim, &wr[1], &wi[1], &u[u_offset], ldu, &dwork[1], ldwork, bwork, info, 7L, 11L);
+    dgees_("Vectors", "Not ordered", select_, n, &a[a_offset], lda, &sdim, &wr[1], &wi[1],
+        &u[u_offset], ldu, &dwork[1], ldwork, bwork, info, 7L, 11L);
     wrkopt = dwork[1];
-    if (*info != 0)
-    {
+    if (*info != 0) {
         return 0;
     }
     /*     Apply the transformation: B <-- U'*B. */
-    if (*ldwork < *n **m)
-    {
+    if (*ldwork < *n * *m) {
         /*        Not enough working space for using DGEMM. */
         i__1 = *m;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             dcopy_(n, &b[i__ * b_dim1 + 1], &c__1, &dwork[1], &c__1);
-            dgemv_("Transpose", n, n, &c_b9, &u[u_offset], ldu, &dwork[1], &c__1, &c_b11, &b[i__ * b_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", n, n, &c_b9, &u[u_offset], ldu, &dwork[1], &c__1, &c_b11,
+                &b[i__ * b_dim1 + 1], &c__1, 9L);
             /* L10: */
         }
-    }
-    else
-    {
+    } else {
         dlacpy_("Full", n, m, &b[b_offset], ldb, &dwork[1], n, 4L);
-        dgemm_("Transpose", "No transpose", n, m, n, &c_b9, &u[u_offset], ldu, &dwork[1], n, &c_b11, &b[b_offset], ldb, 9L, 12L);
+        dgemm_("Transpose", "No transpose", n, m, n, &c_b9, &u[u_offset], ldu, &dwork[1], n, &c_b11,
+            &b[b_offset], ldb, 9L, 12L);
         /* Computing MAX */
-        d__1 = wrkopt, d__2 = (doublereal) (*n **m);
-        wrkopt = max(d__1,d__2);
+        d__1 = wrkopt, d__2 = (doublereal)(*n * *m);
+        wrkopt = max(d__1, d__2);
     }
     /*     Apply the transformation: C <-- C*U. */
-    if (*ldwork < *n **p)
-    {
+    if (*ldwork < *n * *p) {
         /*        Not enough working space for using DGEMM. */
         i__1 = *p;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             dcopy_(n, &c__[i__ + c_dim1], ldc, &dwork[1], &c__1);
-            dgemv_("Transpose", n, n, &c_b9, &u[u_offset], ldu, &dwork[1], &c__1, &c_b11, &c__[i__ + c_dim1], ldc, 9L);
+            dgemv_("Transpose", n, n, &c_b9, &u[u_offset], ldu, &dwork[1], &c__1, &c_b11,
+                &c__[i__ + c_dim1], ldc, 9L);
             /* L20: */
         }
-    }
-    else
-    {
-        ldwp = max(1,*p);
+    } else {
+        ldwp = max(1, *p);
         dlacpy_("Full", p, n, &c__[c_offset], ldc, &dwork[1], &ldwp, 4L);
-        dgemm_("No transpose", "No transpose", p, n, n, &c_b9, &dwork[1], &ldwp, &u[u_offset], ldu, &c_b11, &c__[c_offset], ldc, 12L, 12L);
+        dgemm_("No transpose", "No transpose", p, n, n, &c_b9, &dwork[1], &ldwp, &u[u_offset], ldu,
+            &c_b11, &c__[c_offset], ldc, 12L, 12L);
         /* Computing MAX */
-        d__1 = wrkopt, d__2 = (doublereal) (*n **p);
-        wrkopt = max(d__1,d__2);
+        d__1 = wrkopt, d__2 = (doublereal)(*n * *p);
+        wrkopt = max(d__1, d__2);
     }
     dwork[1] = wrkopt;
     return 0;
     /* *** Last line of TB01WD *** */
 } /* tb01wd_ */
-

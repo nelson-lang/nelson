@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,18 +10,20 @@
 static doublereal c_b13 = 0.;
 static doublereal c_b14 = 1.;
 
-EXPORTSYMBOL /* Subroutine */ int mb04vd_(mode, jobq, jobz, m, n, ranke, a, lda, e, lde, q, ldq, z__, ldz, istair, nblcks, nblcki, imuk, inuk, imuk0, mnei, tol, iwork, info, mode_len, jobq_len, jobz_len)
-char *mode, *jobq, *jobz;
+EXPORTSYMBOL /* Subroutine */ int mb04vd_(mode, jobq, jobz, m, n, ranke, a, lda, e, lde, q, ldq,
+    z__, ldz, istair, nblcks, nblcki, imuk, inuk, imuk0, mnei, tol, iwork, info, mode_len, jobq_len,
+    jobz_len) char *mode,
+    *jobq, *jobz;
 integer *m, *n, *ranke;
-doublereal *a;
-integer *lda;
-doublereal *e;
-integer *lde;
-doublereal *q;
-integer *ldq;
-doublereal *z__;
+doublereal* a;
+integer* lda;
+doublereal* e;
+integer* lde;
+doublereal* q;
+integer* ldq;
+doublereal* z__;
 integer *ldz, *istair, *nblcks, *nblcki, *imuk, *inuk, *imuk0, *mnei;
-doublereal *tol;
+doublereal* tol;
 integer *iwork, *info;
 ftnlen mode_len;
 ftnlen jobq_len;
@@ -324,78 +326,53 @@ ftnlen jobz_len;
     ljobzi = lsame_(jobz, "I", 1L, 1L);
     updatz = ljobzi || lsame_(jobz, "U", 1L, 1L);
     /*     Test the input scalar arguments. */
-    if (! lmodeb && ! lmodet && ! lmodes)
-    {
+    if (!lmodeb && !lmodet && !lmodes) {
         *info = -1;
-    }
-    else if (! updatq && ! lsame_(jobq, "N", 1L, 1L))
-    {
+    } else if (!updatq && !lsame_(jobq, "N", 1L, 1L)) {
         *info = -2;
-    }
-    else if (! updatz && ! lsame_(jobz, "N", 1L, 1L))
-    {
+    } else if (!updatz && !lsame_(jobz, "N", 1L, 1L)) {
         *info = -3;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -4;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -5;
-    }
-    else if (*ranke < 0)
-    {
+    } else if (*ranke < 0) {
         *info = -6;
-    }
-    else if (*lda < max(1,*m))
-    {
+    } else if (*lda < max(1, *m)) {
         *info = -8;
-    }
-    else if (*lde < max(1,*m))
-    {
+    } else if (*lde < max(1, *m)) {
         *info = -10;
-    }
-    else if (! updatq && *ldq < 1 || updatq && *ldq < max(1,*m))
-    {
+    } else if (!updatq && *ldq < 1 || updatq && *ldq < max(1, *m)) {
         *info = -12;
-    }
-    else if (! updatz && *ldz < 1 || updatz && *ldz < max(1,*n))
-    {
+    } else if (!updatz && *ldz < 1 || updatz && *ldz < max(1, *n)) {
         *info = -14;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("MB04VD", &i__1, 6L);
         return 0;
     }
     /*     Initialize Q and Z to the identity matrices, if needed. */
-    if (ljobqi)
-    {
+    if (ljobqi) {
         dlaset_("Full", m, m, &c_b13, &c_b14, &q[q_offset], ldq, 4L);
     }
-    if (ljobzi)
-    {
+    if (ljobzi) {
         dlaset_("Full", n, n, &c_b13, &c_b14, &z__[z_offset], ldz, 4L);
     }
     /*     Quick return if possible. */
     *nblcks = 0;
     *nblcki = 0;
-    if (*n == 0)
-    {
+    if (*n == 0) {
         mnei[1] = 0;
         mnei[2] = 0;
         mnei[3] = 0;
         return 0;
     }
-    if (*m == 0)
-    {
+    if (*m == 0) {
         *nblcks = *n;
         i__1 = *n;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             imuk[i__] = 1;
             inuk[i__] = 0;
             /* L10: */
@@ -406,11 +383,11 @@ ftnlen jobz_len;
         return 0;
     }
     toler = *tol;
-    if (toler <= 0.)
-    {
+    if (toler <= 0.) {
         /* Computing MAX */
-        d__1 = dlange_("M", m, n, &a[a_offset], lda, dwork, 1L), d__2 = dlange_("M", m, n, &e[e_offset], lde, dwork, 1L);
-        toler = dlamch_("Epsilon", 7L) * max(d__1,d__2);
+        d__1 = dlange_("M", m, n, &a[a_offset], lda, dwork, 1L),
+        d__2 = dlange_("M", m, n, &e[e_offset], lde, dwork, 1L);
+        toler = dlamch_("Epsilon", 7L) * max(d__1, d__2);
     }
     /*     A(k) is the submatrix in A that will be row compressed. */
     /*     ISMUK = sum(i=1,..,k) MU(i), ISNUK = sum(i=1,...,k) NU(i), */
@@ -425,8 +402,7 @@ ftnlen jobz_len;
     k = 0;
     /*     Initialization of the arrays INUK and IMUK. */
     i__1 = *m + 1;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         inuk[i__] = -1;
         /* L20: */
     }
@@ -434,8 +410,7 @@ ftnlen jobz_len;
     /*           is possible that M = 1 and NBLCKS = 2. */
     /*           Example sE-A = (0 0 s -1). */
     i__1 = *n;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         imuk[i__] = -1;
         /* L40: */
     }
@@ -443,7 +418,8 @@ ftnlen jobz_len;
     /*     REPEAT */
 L60:
     ++k;
-    mb04tt_(&updatq, &updatz, m, n, &ifira, &ifica, &nca, &a[a_offset], lda, &e[e_offset], lde, &q[q_offset], ldq, &z__[z_offset], ldz, &istair[1], &ranka, &toler, &iwork[1]);
+    mb04tt_(&updatq, &updatz, m, n, &ifira, &ifica, &nca, &a[a_offset], lda, &e[e_offset], lde,
+        &q[q_offset], ldq, &z__[z_offset], ldz, &istair[1], &ranka, &toler, &iwork[1]);
     imuk[k] = nca;
     ismuk += nca;
     inuk[k] = ranka;
@@ -454,20 +430,16 @@ L60:
     /*        of matrix A(k+1). (In case A(k+1) is empty, then JK = N+1.) */
     ifira = isnuk + 1;
     ifica = ismuk + 1;
-    if (ifira > *m)
-    {
+    if (ifira > *m) {
         jk = *n + 1;
-    }
-    else
-    {
+    } else {
         jk = (i__1 = istair[ifira], abs(i__1));
     }
     nra = *m - isnuk;
     nca = jk - 1 - ismuk;
     /*        If NCA > 0 then there can be done some more row compression */
     /*        of matrix A while keeping matrix E in column echelon form. */
-    if (nca > 0)
-    {
+    if (nca > 0) {
         goto L60;
     }
     /*     UNTIL NCA <= 0 */
@@ -478,49 +450,41 @@ L60:
     mnei[1] = isnuk;
     mnei[2] = ismuk;
     mnei[3] = 0;
-    if (lmodeb)
-    {
+    if (lmodeb) {
         return 0;
     }
     /*     Triangularization of the submatrices in A and E. */
-    mb04ty_(&updatq, &updatz, m, n, nblcks, &inuk[1], &imuk[1], &a[a_offset], lda, &e[e_offset], lde, &q[q_offset], ldq, &z__[z_offset], ldz, info);
-    if (*info > 0 || lmodet)
-    {
+    mb04ty_(&updatq, &updatz, m, n, nblcks, &inuk[1], &imuk[1], &a[a_offset], lda, &e[e_offset],
+        lde, &q[q_offset], ldq, &z__[z_offset], ldz, info);
+    if (*info > 0 || lmodet) {
         return 0;
     }
     /*     Save the row dimensions of the diagonal submatrices in pencil */
     /*     sE(eps,inf)-A(eps,inf). */
     i__1 = *nblcks;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         imuk0[i__] = inuk[i__];
         /* L80: */
     }
     /*     Reduction to square submatrices E(k)'s in E. */
-    mb04vx_(&updatq, &updatz, m, n, nblcks, &inuk[1], &imuk[1], &a[a_offset], lda, &e[e_offset], lde, &q[q_offset], ldq, &z__[z_offset], ldz, &mnei[1]);
+    mb04vx_(&updatq, &updatz, m, n, nblcks, &inuk[1], &imuk[1], &a[a_offset], lda, &e[e_offset],
+        lde, &q[q_offset], ldq, &z__[z_offset], ldz, &mnei[1]);
     /*     Determine the dimensions of the inf diagonal submatrices and */
     /*     update block numbers if necessary. */
     first = TRUE_;
     firsti = TRUE_;
     *nblcki = *nblcks;
     k = *nblcks;
-    for (i__ = k; i__ >= 1; --i__)
-    {
+    for (i__ = k; i__ >= 1; --i__) {
         imuk0[i__] -= inuk[i__];
-        if (firsti && imuk0[i__] == 0)
-        {
+        if (firsti && imuk0[i__] == 0) {
             --(*nblcki);
-        }
-        else
-        {
+        } else {
             firsti = FALSE_;
         }
-        if (first && imuk[i__] == 0)
-        {
+        if (first && imuk[i__] == 0) {
             --(*nblcks);
-        }
-        else
-        {
+        } else {
             first = FALSE_;
         }
         /* L100: */
@@ -528,4 +492,3 @@ L60:
     return 0;
     /* *** Last line of MB04VD *** */
 } /* mb04vd_ */
-

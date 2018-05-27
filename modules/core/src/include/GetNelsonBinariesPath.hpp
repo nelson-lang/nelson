@@ -18,11 +18,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "nlsCore_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsCore_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    NLSCORE_IMPEXP std::wstring GetNelsonBinariesPath();
+NLSCORE_IMPEXP std::wstring
+GetNelsonBinariesPath();
 }
 //=============================================================================

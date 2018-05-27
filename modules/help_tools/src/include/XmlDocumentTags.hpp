@@ -32,7 +32,7 @@ namespace Nelson {
 #define LANGUAGE_TAG "language"
 #define TITLE_TAG "title"
 #define KEYWORD_TAG "keyword"
-#define CHAPTER_TAG	"chapter"
+#define CHAPTER_TAG "chapter"
 #define SHORT_DESCRIPTION_TAG "short_description"
 #define COPYRIGHT_TAG "copyright"
 #define SYNTAX_TAG "syntax"
@@ -60,40 +60,40 @@ namespace Nelson {
 #define HISTORY_ITEM_DESCRIPTION_TAG "history_description"
 #define AUTHORS_TAG "authors"
 #define AUTHOR_ITEM_TAG "author_item"
-#define CHAPTER_DESCRIPTION_TAG	"chapter_description"
-#define CHAPTER_TAG	"chapter"
+#define CHAPTER_DESCRIPTION_TAG "chapter_description"
+#define CHAPTER_TAG "chapter"
 #define CHAPTER_INDEX_TAG "chapter_index"
 #define CHAPTER_REF_TAG "chapter_ref"
 #define CHAPTER_REF_DESCRIPTION_TAG "chapter_ref_description"
 #define MODULE_NAME_TAG "module_name"
 #define IMAGE_TAG "img"
 
-    enum XMLDOC_ITEMS_ID
-    {
-        ERROR_ID = -1,
-        XML_COMMENT_TAG_ID = 0,
-        XMLDOC_TAG_ID,
-        LANGUAGE_TAG_ID,
-        TITLE_TAG_ID,
-        KEYWORD_TAG_ID,
-        SHORT_DESCRIPTION_TAG_ID,
-        COPYRIGHT_TAG_ID,
-        SYNTAX_TAG_ID,
-        PARAM_INPUT_TAG_ID,
-        PARAM_OUTPUT_TAG_ID,
-        DESCRIPTION_TAG_ID,
-        USED_FUNCTION_TAG_ID,
-        BIBLIOGRAPHY_TAG_ID,
-        EXAMPLES_TAG_ID,
-        SEE_ALSO_TAG_ID,
-        HISTORY_TAG_ID,
-        AUTHORS_TAG_ID,
-        CHAPTER_TAG_ID,
-        CHAPTER_DESCRIPTION_TAG_ID,
-        CHAPTER_INDEX_TAG_ID,
-        MODULE_NAME_TAG_ID,
-        IMAGE_TAG_ID
-    };
+enum XMLDOC_ITEMS_ID
+{
+    ERROR_ID = -1,
+    XML_COMMENT_TAG_ID = 0,
+    XMLDOC_TAG_ID,
+    LANGUAGE_TAG_ID,
+    TITLE_TAG_ID,
+    KEYWORD_TAG_ID,
+    SHORT_DESCRIPTION_TAG_ID,
+    COPYRIGHT_TAG_ID,
+    SYNTAX_TAG_ID,
+    PARAM_INPUT_TAG_ID,
+    PARAM_OUTPUT_TAG_ID,
+    DESCRIPTION_TAG_ID,
+    USED_FUNCTION_TAG_ID,
+    BIBLIOGRAPHY_TAG_ID,
+    EXAMPLES_TAG_ID,
+    SEE_ALSO_TAG_ID,
+    HISTORY_TAG_ID,
+    AUTHORS_TAG_ID,
+    CHAPTER_TAG_ID,
+    CHAPTER_DESCRIPTION_TAG_ID,
+    CHAPTER_INDEX_TAG_ID,
+    MODULE_NAME_TAG_ID,
+    IMAGE_TAG_ID
+};
 
-}
+} // namespace Nelson
 //=============================================================================

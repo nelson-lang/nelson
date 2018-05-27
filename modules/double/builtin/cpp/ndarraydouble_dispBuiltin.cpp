@@ -21,23 +21,19 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::DoubleGateway::ndarraydouble_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::DoubleGateway::ndarraydouble_dispBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 0)
-    {
+    if (nLhs > 0) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() != 1)
-    {
+    if (argIn.size() != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    else  if (!argIn[0].isNdArrayDoubleType())
-    {
+    } else if (!argIn[0].isNdArrayDoubleType()) {
         Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_DOUBLE_EXPECTED);
-    }
-    else
-    {
+    } else {
         argIn[0].printMe(eval->getPrintLimit(), eval->getInterface()->getTerminalWidth());
     }
     return retval;

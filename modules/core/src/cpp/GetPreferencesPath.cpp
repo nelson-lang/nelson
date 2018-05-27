@@ -17,171 +17,147 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #ifdef _MSC_VER
-#include <Windows.h>
 #include <Shlobj.h>
+#include <Windows.h>
 #else
-#include <unistd.h>
-#include <sys/types.h>
 #include <pwd.h>
+#include <sys/types.h>
+#include <unistd.h>
 #endif
-#include <boost/filesystem.hpp>
 #include "GetPreferencesPath.hpp"
-#include "characters_encoding.hpp"
 #include "GetVariableEnvironment.hpp"
-#include "SetVariableEnvironment.hpp"
 #include "Nelson_VERSION.h"
+#include "SetVariableEnvironment.hpp"
+#include "characters_encoding.hpp"
 #include "i18n.hpp"
+#include <boost/filesystem.hpp>
 //=============================================================================
 using namespace boost::filesystem;
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    static std::wstring preferencesPath = L"";
-    //=============================================================================
-    static std::wstring buildPreferencesPath()
-    {
-        std::wstring prefPath = L"";
+//=============================================================================
+static std::wstring preferencesPath = L"";
+//=============================================================================
+static std::wstring
+buildPreferencesPath()
+{
+    std::wstring prefPath = L"";
 #define NELSON_PREFERENCES_PATH_ENV L"NELSON_PREFERENCES_PATH"
-        std::wstring penv = GetVariableEnvironment(NELSON_PREFERENCES_PATH_ENV, L"");
-        bool bSet = false;
-        if (penv.compare(L"") != 0)
-        {
-            boost::filesystem::path path(penv);
-            try
-            {
-                if (boost::filesystem::is_directory(path))
-                {
-                    prefPath = path.generic_wstring();
-                    bSet = true;
-                }
-            }
-            catch (const boost::filesystem::filesystem_error&)
-            {
-            }
-        }
-        if (!bSet)
-        {
-#ifdef _MSC_VER
-            std::wstring strPath;
-            LPWSTR wszPath = NULL;
-            HRESULT hr = SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, NULL, &wszPath);
-            bool bOK = SUCCEEDED(hr);
-            if (bOK)
-            {
-                strPath = wszPath;
-            }
-            CoTaskMemFree(static_cast<void*>(wszPath));
-            if (bOK)
-            {
-                boost::filesystem::path path_1(strPath);
-                std::wstring NelSonDir = utf8_to_wstring(NELSON_PRODUCT_NAME) + std::wstring(L"\\") + utf8_to_wstring(NELSON_VERSION_STRING);
-                boost::filesystem::path path_2(NelSonDir);
-                boost::filesystem::path path = path_1;
-                path /= path_2;
+    std::wstring penv = GetVariableEnvironment(NELSON_PREFERENCES_PATH_ENV, L"");
+    bool bSet = false;
+    if (penv.compare(L"") != 0) {
+        boost::filesystem::path path(penv);
+        try {
+            if (boost::filesystem::is_directory(path)) {
                 prefPath = path.generic_wstring();
-                try
-                {
-                    if (!boost::filesystem::is_directory(path))
-                    {
-                        try
-                        {
-                            if (!boost::filesystem::create_directories(path))
-                            {
-                                fprintf(stderr, "%s\n", _("Error: we cannot create preferences path.").c_str());
-                                prefPath = L"";
-                            }
-                        }
-                        catch (const boost::filesystem::filesystem_error& e)
-                        {
-                            if (e.code() == boost::system::errc::permission_denied)
-                            {
-                                prefPath = L"";
-                            }
+                bSet = true;
+            }
+        } catch (const boost::filesystem::filesystem_error&) {
+        }
+    }
+    if (!bSet) {
+#ifdef _MSC_VER
+        std::wstring strPath;
+        LPWSTR wszPath = NULL;
+        HRESULT hr = SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, NULL, &wszPath);
+        bool bOK = SUCCEEDED(hr);
+        if (bOK) {
+            strPath = wszPath;
+        }
+        CoTaskMemFree(static_cast<void*>(wszPath));
+        if (bOK) {
+            boost::filesystem::path path_1(strPath);
+            std::wstring NelSonDir = utf8_to_wstring(NELSON_PRODUCT_NAME) + std::wstring(L"\\")
+                + utf8_to_wstring(NELSON_VERSION_STRING);
+            boost::filesystem::path path_2(NelSonDir);
+            boost::filesystem::path path = path_1;
+            path /= path_2;
+            prefPath = path.generic_wstring();
+            try {
+                if (!boost::filesystem::is_directory(path)) {
+                    try {
+                        if (!boost::filesystem::create_directories(path)) {
+                            fprintf(stderr, "%s\n",
+                                _("Error: we cannot create preferences path.").c_str());
                             prefPath = L"";
                         }
+                    } catch (const boost::filesystem::filesystem_error& e) {
+                        if (e.code() == boost::system::errc::permission_denied) {
+                            prefPath = L"";
+                        }
+                        prefPath = L"";
                     }
                 }
-                catch (const boost::filesystem::filesystem_error&)
-                {
-                    prefPath = L"";
-                }
+            } catch (const boost::filesystem::filesystem_error&) {
+                prefPath = L"";
             }
+        }
 #else
-            const char *homedir;
-            if ((homedir = getenv("HOME")) == nullptr)
-            {
-                homedir = getpwuid(getuid())->pw_dir;
-            }
-            if (homedir != nullptr)
-            {
-                std::string NelSonDir = std::string(".") + std::string(NELSON_PRODUCT_NAME) + std::string("/") + std::string(NELSON_VERSION_STRING);
-                boost::filesystem::path path_1(homedir);
-                try
-                {
-                    if (boost::filesystem::is_directory(path_1))
-                    {
-                        boost::filesystem::path path_2(NelSonDir);
-                        boost::filesystem::path path = path_1;
-                        path /= path_2;
-                        prefPath = utf8_to_wstring(path.generic_string());
-                        try
-                        {
-                            if (!boost::filesystem::is_directory(path))
-                            {
-                                try
-                                {
-                                    if (!boost::filesystem::create_directories(path))
-                                    {
-                                        fprintf(stderr, "%s\n", _("Error: we cannot find Nelson preferences path.").c_str());
-                                        prefPath = L"";
-                                    }
-                                }
-                                catch (const boost::filesystem::filesystem_error& e)
-                                {
-                                    if (e.code() == boost::system::errc::permission_denied)
-                                    {
-                                        prefPath = L"";
-                                    }
+        const char* homedir;
+        if ((homedir = getenv("HOME")) == nullptr) {
+            homedir = getpwuid(getuid())->pw_dir;
+        }
+        if (homedir != nullptr) {
+            std::string NelSonDir = std::string(".") + std::string(NELSON_PRODUCT_NAME)
+                + std::string("/") + std::string(NELSON_VERSION_STRING);
+            boost::filesystem::path path_1(homedir);
+            try {
+                if (boost::filesystem::is_directory(path_1)) {
+                    boost::filesystem::path path_2(NelSonDir);
+                    boost::filesystem::path path = path_1;
+                    path /= path_2;
+                    prefPath = utf8_to_wstring(path.generic_string());
+                    try {
+                        if (!boost::filesystem::is_directory(path)) {
+                            try {
+                                if (!boost::filesystem::create_directories(path)) {
+                                    fprintf(stderr, "%s\n",
+                                        _("Error: we cannot find Nelson preferences path.")
+                                            .c_str());
                                     prefPath = L"";
                                 }
+                            } catch (const boost::filesystem::filesystem_error& e) {
+                                if (e.code() == boost::system::errc::permission_denied) {
+                                    prefPath = L"";
+                                }
+                                prefPath = L"";
                             }
                         }
-                        catch (const boost::filesystem::filesystem_error&)
-                        {
-                            prefPath = L"";
-                        }
+                    } catch (const boost::filesystem::filesystem_error&) {
+                        prefPath = L"";
                     }
                 }
-                catch (const boost::filesystem::filesystem_error&)
-                {
-                    prefPath = L"";
-                }
+            } catch (const boost::filesystem::filesystem_error&) {
+                prefPath = L"";
             }
-#endif
-            SetVariableEnvironmentW(NELSON_PREFERENCES_PATH_ENV, prefPath);
         }
-        return prefPath;
+#endif
+        SetVariableEnvironmentW(NELSON_PREFERENCES_PATH_ENV, prefPath);
     }
-    //=============================================================================
-    std::wstring GetPreferencesPath()
-    {
-        return preferencesPath;
-    }
-    //=============================================================================
-    bool ComputePreferencesPath()
-    {
-        preferencesPath = buildPreferencesPath();
-        return (preferencesPath != L"");
-    }
-    //=============================================================================
+    return prefPath;
+}
+//=============================================================================
+std::wstring
+GetPreferencesPath()
+{
+    return preferencesPath;
+}
+//=============================================================================
+bool
+ComputePreferencesPath()
+{
+    preferencesPath = buildPreferencesPath();
+    return (preferencesPath != L"");
+}
+//=============================================================================
 }
 //=============================================================================
 static bool bFirstCall = true;
 //=============================================================================
-std::wstring GetNelsonPreferencesPath()
+std::wstring
+GetNelsonPreferencesPath()
 {
-    if (bFirstCall)
-    {
+    if (bFirstCall) {
         Nelson::ComputePreferencesPath();
         bFirstCall = false;
     }

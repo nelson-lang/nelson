@@ -17,16 +17,15 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NelsonGateway.hpp"
+#include "TextEditor.hpp"
 #include "editorBuiltin.hpp"
 #include "smartindentBuiltin.hpp"
-#include "TextEditor.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"text_editor";
 //=============================================================================
-static const nlsGateway gateway[] =
-{
+static const nlsGateway gateway[] = {
     { "editor", Nelson::TextEditorGateway::editorBuiltin, 0, 0 },
     { "smartindent", Nelson::TextEditorGateway::smartindentBuiltin, 0, -1 },
 };
@@ -35,7 +34,8 @@ NLSGATEWAYFUNC(gateway)
 //=============================================================================
 NLSGATEWAYINFO(gateway)
 //=============================================================================
-static bool finishTextEditorModule(Nelson::Evaluator* eval)
+static bool
+finishTextEditorModule(Nelson::Evaluator* eval)
 {
     closeEditor();
     return true;

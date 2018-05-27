@@ -21,11 +21,11 @@
 #include <string>
 //=============================================================================
 namespace Nelson {
-    typedef enum
-    {
-        QT_HELP,
-        HMTL,
-        MARKDOWN
-    } DOCUMENT_OUTPUT;
+typedef enum
+{
+    QT_HELP,
+    HMTL,
+    MARKDOWN
+} DOCUMENT_OUTPUT;
 }
 //=============================================================================

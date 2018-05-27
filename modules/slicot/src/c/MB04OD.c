@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,17 +9,17 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int mb04od_(uplo, n, m, p, r__, ldr, a, lda, b, ldb, c__, ldc, tau, dwork, uplo_len)
-char *uplo;
+EXPORTSYMBOL /* Subroutine */ int mb04od_(
+    uplo, n, m, p, r__, ldr, a, lda, b, ldb, c__, ldc, tau, dwork, uplo_len) char* uplo;
 integer *n, *m, *p;
-doublereal *r__;
-integer *ldr;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
+doublereal* r__;
+integer* ldr;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
 doublereal *tau, *dwork;
 ftnlen uplo_len;
 {
@@ -159,20 +159,17 @@ ftnlen uplo_len;
     --tau;
     --dwork;
     /* Function Body */
-    if (min(*n,*p) == 0)
-    {
+    if (min(*n, *p) == 0) {
         return 0;
     }
     luplo = lsame_(uplo, "U", 1L, 1L);
-    if (luplo)
-    {
+    if (luplo) {
         i__1 = *n;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             /*           Annihilate the I-th column of A and apply the */
             /*           transformations to the entire block matrix, exploiting */
             /*           its structure. */
-            im = min(i__,*p);
+            im = min(i__, *p);
             i__2 = im + 1;
             dlarfg_(&i__2, &r__[i__ + i__ * r_dim1], &a[i__ * a_dim1 + 1], &c__1, &tau[i__]);
             /*           Compute */
@@ -182,10 +179,10 @@ ftnlen uplo_len;
             /*           [ R(I,I+1:N)    ]    [ R(I,I+1:N)    ]         [ 1 ] */
             /*           [               ] := [               ] - tau * [   ] * w . */
             /*           [ A(1:IM,I+1:N) ]    [ A(1:IM,I+1:N) ]         [ v ] */
-            if (*n - i__ > 0)
-            {
+            if (*n - i__ > 0) {
                 i__2 = *n - i__;
-                mb04oy_(&im, &i__2, &a[i__ * a_dim1 + 1], &tau[i__], &r__[i__ + (i__ + 1) * r_dim1], ldr, &a[(i__ + 1) * a_dim1 + 1], lda, &dwork[1]);
+                mb04oy_(&im, &i__2, &a[i__ * a_dim1 + 1], &tau[i__], &r__[i__ + (i__ + 1) * r_dim1],
+                    ldr, &a[(i__ + 1) * a_dim1 + 1], lda, &dwork[1]);
             }
             /*           Compute */
             /*                           [  B(I,:)   ] */
@@ -194,18 +191,15 @@ ftnlen uplo_len;
             /*           [   B(I,:)  ]    [  B(I,:)   ]         [ 1 ] */
             /*           [           ] := [           ] - tau * [   ] * w. */
             /*           [ C(1:IM,:) ]    [ C(1:IM,:) ]         [ v ] */
-            if (*m > 0)
-            {
-                mb04oy_(&im, m, &a[i__ * a_dim1 + 1], &tau[i__], &b[i__ + b_dim1], ldb, &c__[c_offset], ldc, &dwork[1]);
+            if (*m > 0) {
+                mb04oy_(&im, m, &a[i__ * a_dim1 + 1], &tau[i__], &b[i__ + b_dim1], ldb,
+                    &c__[c_offset], ldc, &dwork[1]);
             }
             /* L10: */
         }
-    }
-    else
-    {
+    } else {
         i__1 = *n - 1;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             /*           Annihilate the I-th column of A and apply the */
             /*           transformations to the first block column, exploiting its */
             /*           structure. */
@@ -219,17 +213,16 @@ ftnlen uplo_len;
             /*           [            ] := [            ] - tau * [   ] * w . */
             /*           [ A(:,I+1:N) ]    [ A(:,I+1:N) ]         [ v ] */
             i__2 = *n - i__;
-            mb04oy_(p, &i__2, &a[i__ * a_dim1 + 1], &tau[i__], &r__[i__ + (i__ + 1) * r_dim1], ldr, &a[(i__ + 1) * a_dim1 + 1], lda, &dwork[1]);
+            mb04oy_(p, &i__2, &a[i__ * a_dim1 + 1], &tau[i__], &r__[i__ + (i__ + 1) * r_dim1], ldr,
+                &a[(i__ + 1) * a_dim1 + 1], lda, &dwork[1]);
             /* L20: */
         }
         i__1 = *p + 1;
         dlarfg_(&i__1, &r__[*n + *n * r_dim1], &a[*n * a_dim1 + 1], &c__1, &tau[*n]);
-        if (*m > 0)
-        {
+        if (*m > 0) {
             /*           Apply the transformations to the second block column. */
             i__1 = *n;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 /*              Compute */
                 /*                              [ B(I,:) ] */
                 /*              w := [ 1 v' ] * [        ], */
@@ -237,7 +230,8 @@ ftnlen uplo_len;
                 /*              [ B(I,:) ]    [ B(I,:) ]         [ 1 ] */
                 /*              [        ] := [        ] - tau * [   ] * w. */
                 /*              [   C    ]    [   C    ]         [ v ] */
-                mb04oy_(p, m, &a[i__ * a_dim1 + 1], &tau[i__], &b[i__ + b_dim1], ldb, &c__[c_offset], ldc, &dwork[1]);
+                mb04oy_(p, m, &a[i__ * a_dim1 + 1], &tau[i__], &b[i__ + b_dim1], ldb,
+                    &c__[c_offset], ldc, &dwork[1]);
                 /* L30: */
             }
         }
@@ -245,4 +239,3 @@ ftnlen uplo_len;
     return 0;
     /* *** Last line of MB04OD *** */
 } /* mb04od_ */
-

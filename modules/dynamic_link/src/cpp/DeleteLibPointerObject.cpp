@@ -21,40 +21,34 @@
 #include "LibPointerObject.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    bool DeleteLibPointerObject(ArrayOf A)
-    {
-        bool res = false;
-        if (A.isHandle())
-        {
-            if (!A.isEmpty())
-            {
-                Dimensions dims = A.getDimensions();
-                nelson_handle *qp = (nelson_handle*)A.getDataPointer();
-                for (size_t k = 0; k < (size_t)dims.getElementCount(); k++)
-                {
-                    nelson_handle hl = qp[k];
-                    HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-                    if (hlObj)
-                    {
-                        if (hlObj->getCategory() != LIBPOINTER_CATEGORY_STR)
-                        {
-                            throw Exception(_W("libpointer handle expected."));
-                        }
-                        LibPointerObject *obj = (LibPointerObject*)hlObj;
-                        delete obj;
-                        HandleManager::getInstance()->removeHandle(hl);
-                        res = true;
+//=============================================================================
+bool
+DeleteLibPointerObject(ArrayOf A)
+{
+    bool res = false;
+    if (A.isHandle()) {
+        if (!A.isEmpty()) {
+            Dimensions dims = A.getDimensions();
+            nelson_handle* qp = (nelson_handle*)A.getDataPointer();
+            for (size_t k = 0; k < (size_t)dims.getElementCount(); k++) {
+                nelson_handle hl = qp[k];
+                HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
+                if (hlObj) {
+                    if (hlObj->getCategory() != LIBPOINTER_CATEGORY_STR) {
+                        throw Exception(_W("libpointer handle expected."));
                     }
+                    LibPointerObject* obj = (LibPointerObject*)hlObj;
+                    delete obj;
+                    HandleManager::getInstance()->removeHandle(hl);
+                    res = true;
                 }
             }
-            else
-            {
-                throw Exception(_W("libpointer valid handle expected."));
-            }
+        } else {
+            throw Exception(_W("libpointer valid handle expected."));
         }
-        return res;
     }
-    //=============================================================================
+    return res;
+}
+//=============================================================================
 }
 //=============================================================================

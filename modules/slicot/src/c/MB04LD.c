@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,17 +11,17 @@ static integer c__1 = 1;
 static doublereal c_b7 = 1.;
 static doublereal c_b12 = 0.;
 
-EXPORTSYMBOL /* Subroutine */ int mb04ld_(uplo, n, m, p, l, ldl, a, lda, b, ldb, c__, ldc, tau, dwork, uplo_len)
-char *uplo;
+EXPORTSYMBOL /* Subroutine */ int mb04ld_(
+    uplo, n, m, p, l, ldl, a, lda, b, ldb, c__, ldc, tau, dwork, uplo_len) char* uplo;
 integer *n, *m, *p;
-doublereal *l;
-integer *ldl;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
+doublereal* l;
+integer* ldl;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
 doublereal *tau, *dwork;
 ftnlen uplo_len;
 {
@@ -160,58 +160,55 @@ ftnlen uplo_len;
     --tau;
     --dwork;
     /* Function Body */
-    if (min(*m,*n) == 0)
-    {
+    if (min(*m, *n) == 0) {
         return 0;
     }
     luplo = lsame_(uplo, "L", 1L, 1L);
     im = *m;
     i__1 = *n;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         /*        Annihilate the I-th row of A and apply the transformations to */
         /*        the entire block matrix, exploiting its structure. */
-        if (luplo)
-        {
-            im = min(i__,*m);
+        if (luplo) {
+            im = min(i__, *m);
         }
         i__2 = im + 1;
         dlarfg_(&i__2, &l[i__ + i__ * l_dim1], &a[i__ + a_dim1], lda, &tau[i__]);
-        if (tau[i__] != 0.)
-        {
+        if (tau[i__] != 0.) {
             /*           [    w   ]    [ L(I+1:N,I) A(I+1:N,1:IM) ]   [ 1 ] */
             /*           [        ] := [                          ] * [   ] */
             /*           [ C(:,I) ]    [      0        B(:,1:IM)  ]   [ v ] */
-            if (i__ < *n)
-            {
+            if (i__ < *n) {
                 i__2 = *n - i__;
                 dcopy_(&i__2, &l[i__ + 1 + i__ * l_dim1], &c__1, &dwork[1], &c__1);
                 i__2 = *n - i__;
-                dgemv_("No transpose", &i__2, &im, &c_b7, &a[i__ + 1 + a_dim1], lda, &a[i__ + a_dim1], lda, &c_b7, &dwork[1], &c__1, 12L);
+                dgemv_("No transpose", &i__2, &im, &c_b7, &a[i__ + 1 + a_dim1], lda,
+                    &a[i__ + a_dim1], lda, &c_b7, &dwork[1], &c__1, 12L);
             }
-            dgemv_("No transpose", p, &im, &c_b7, &b[b_offset], ldb, &a[i__ + a_dim1], lda, &c_b12, &c__[i__ * c_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", p, &im, &c_b7, &b[b_offset], ldb, &a[i__ + a_dim1], lda, &c_b12,
+                &c__[i__ * c_dim1 + 1], &c__1, 12L);
             /*           [ L(I+1:N,I) A(I+1:N,1:IM) ]    [ L(I+1:N,I) A(I+1:N,1:IM) ] */
             /*           [                          ] := [                          ] */
             /*           [   C(:,I)      D(:,1:IM)  ]    [      0        B(:,1:IM)  ] */
             /*                                                 [    w   ] */
             /*                                         - tau * [        ] * [ 1 , v'] */
             /*                                                 [ C(:,I) ] */
-            if (i__ < *n)
-            {
+            if (i__ < *n) {
                 i__2 = *n - i__;
                 d__1 = -tau[i__];
                 daxpy_(&i__2, &d__1, &dwork[1], &c__1, &l[i__ + 1 + i__ * l_dim1], &c__1);
                 i__2 = *n - i__;
                 d__1 = -tau[i__];
-                dger_(&i__2, &im, &d__1, &dwork[1], &c__1, &a[i__ + a_dim1], lda, &a[i__ + 1 + a_dim1], lda);
+                dger_(&i__2, &im, &d__1, &dwork[1], &c__1, &a[i__ + a_dim1], lda,
+                    &a[i__ + 1 + a_dim1], lda);
             }
             d__1 = -tau[i__];
             dscal_(p, &d__1, &c__[i__ * c_dim1 + 1], &c__1);
-            dger_(p, &im, &c_b7, &c__[i__ * c_dim1 + 1], &c__1, &a[i__ + a_dim1], lda, &b[b_offset], ldb);
+            dger_(p, &im, &c_b7, &c__[i__ * c_dim1 + 1], &c__1, &a[i__ + a_dim1], lda, &b[b_offset],
+                ldb);
         }
         /* L10: */
     }
     return 0;
     /* *** Last line of MB04LD *** */
 } /* mb04ld_ */
-

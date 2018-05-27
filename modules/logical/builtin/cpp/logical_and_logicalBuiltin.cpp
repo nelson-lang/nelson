@@ -17,20 +17,20 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "logical_and_logicalBuiltin.hpp"
-#include "Error.hpp"
 #include "AndLogical.hpp"
+#include "Error.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::LogicalGateway::logical_and_logicalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::LogicalGateway::logical_and_logicalBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 2)
-    {
+    if (argIn.size() != 2) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     retval.push_back(AndLogical(argIn[0], argIn[1]));

@@ -18,11 +18,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "nlsString_exports.h"
 #include "Evaluator.hpp"
+#include "nlsString_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    NLSSTRING_IMPEXP bool StringPrintf(std::wstring &result, std::wstring &errormsg, Evaluator *eval, const ArrayOfVector& arg);
+NLSSTRING_IMPEXP bool
+StringPrintf(
+    std::wstring& result, std::wstring& errormsg, Evaluator* eval, const ArrayOfVector& arg);
 }
 //=============================================================================

@@ -18,21 +18,22 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
 #include "nlsInterpreter_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    class NLSINTERPRETER_IMPEXP StackEntry {
-    public:
-        std::string cname;
-        std::string detail;
-        int tokid;
+//=============================================================================
+class NLSINTERPRETER_IMPEXP StackEntry
+{
+public:
+    std::string cname;
+    std::string detail;
+    int tokid;
 
-        StackEntry(std::string cntxt, std::string detail, int id);
-        StackEntry();
-        ~StackEntry();
-    };
-    //=============================================================================
-}
+    StackEntry(std::string cntxt, std::string detail, int id);
+    StackEntry();
+    ~StackEntry();
+};
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

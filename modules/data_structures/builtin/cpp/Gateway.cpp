@@ -33,8 +33,7 @@ using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"data_structures";
 //=============================================================================
-static const nlsGateway gateway[] =
-{
+static const nlsGateway gateway[] = {
     { "struct", Nelson::DataStructuresGateway::structBuiltin, 1, 1 },
     { "struct_disp", Nelson::DataStructuresGateway::struct_dispBuiltin, 0, 1 },
     { "cell_disp", Nelson::DataStructuresGateway::cell_dispBuiltin, 0, 1 },

@@ -33,16 +33,17 @@ using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"double";
 //=============================================================================
-static const nlsGateway gateway[] =
-{
+static const nlsGateway gateway[] = {
     { "double_disp", Nelson::DoubleGateway::double_dispBuiltin, 0, 1 },
     { "ndarraydouble_disp", Nelson::DoubleGateway::ndarraydouble_dispBuiltin, 0, 1 },
     { "double", Nelson::DoubleGateway::doubleBuiltin, 1, 1 },
     { "double_colon_double", Nelson::DoubleGateway::double_colon_doubleBuiltin, 1, 2 },
-    { "colon_double_double_double", Nelson::DoubleGateway::colon_double_double_doubleBuiltin, 1, 3 },
+    { "colon_double_double_double", Nelson::DoubleGateway::colon_double_double_doubleBuiltin, 1,
+        3 },
     { "double_mtimes_double", Nelson::DoubleGateway::double_mtimes_doubleBuiltin, 1, 2 },
     { "double_times_double", Nelson::DoubleGateway::double_times_doubleBuiltin, 1, 2 },
-    { "ndarraydouble_times_ndarraydouble", Nelson::DoubleGateway::double_times_doubleBuiltin, 1, 2 },
+    { "ndarraydouble_times_ndarraydouble", Nelson::DoubleGateway::double_times_doubleBuiltin, 1,
+        2 },
     { "double_times_ndarraydouble", Nelson::DoubleGateway::double_times_doubleBuiltin, 1, 2 },
     { "ndarraydouble_times_double", Nelson::DoubleGateway::double_times_doubleBuiltin, 1, 2 },
     { "double_isequal", Nelson::DoubleGateway::double_isequalBuiltin, 1, 2 },

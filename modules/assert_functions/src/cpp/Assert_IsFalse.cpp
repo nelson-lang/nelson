@@ -20,28 +20,23 @@
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    logical Assert_IsFalse(logical value, std::wstring modifiedmsg, std::wstring &msg)
-    {
-        if (value != 0)
-        {
-            value = (logical)0;
-            if (!modifiedmsg.empty())
-            {
-                msg = modifiedmsg;
-            }
-            else
-            {
-                msg = _W("Assertion failed: found false entry in condition = true.");
-            }
+//=============================================================================
+logical
+Assert_IsFalse(logical value, std::wstring modifiedmsg, std::wstring& msg)
+{
+    if (value != 0) {
+        value = (logical)0;
+        if (!modifiedmsg.empty()) {
+            msg = modifiedmsg;
+        } else {
+            msg = _W("Assertion failed: found false entry in condition = true.");
         }
-        else
-        {
-            value = (logical)1;
-            msg = L"";
-        }
-        return value;
+    } else {
+        value = (logical)1;
+        msg = L"";
     }
-    //=============================================================================
+    return value;
+}
+//=============================================================================
 }
 //=============================================================================

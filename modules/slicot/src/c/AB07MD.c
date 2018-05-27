@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,16 +9,16 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int ab07md_(jobd, n, m, p, a, lda, b, ldb, c__, ldc, d__, ldd, info, jobd_len)
-char *jobd;
+EXPORTSYMBOL /* Subroutine */ int ab07md_(
+    jobd, n, m, p, a, lda, b, ldb, c__, ldc, d__, ldd, info, jobd_len) char* jobd;
 integer *n, *m, *p;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *d__;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* d__;
 integer *ldd, *info;
 ftnlen jobd_len;
 {
@@ -141,99 +141,67 @@ ftnlen jobd_len;
     /* Function Body */
     *info = 0;
     ljobd = lsame_(jobd, "D", 1L, 1L);
-    mplim = max(*m,*p);
-    minmp = min(*m,*p);
+    mplim = max(*m, *p);
+    minmp = min(*m, *p);
     /*     Test the input scalar arguments. */
-    if (! ljobd && ! lsame_(jobd, "Z", 1L, 1L))
-    {
+    if (!ljobd && !lsame_(jobd, "Z", 1L, 1L)) {
         *info = -1;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -2;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -3;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -4;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -6;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -8;
-    }
-    else if (*n > 0 && *ldc < max(1,mplim) || *n == 0 && *ldc < 1)
-    {
+    } else if (*n > 0 && *ldc < max(1, mplim) || *n == 0 && *ldc < 1) {
         *info = -10;
-    }
-    else if (ljobd && *ldd < max(1,mplim) || ! ljobd && *ldd < 1)
-    {
+    } else if (ljobd && *ldd < max(1, mplim) || !ljobd && *ldd < 1) {
         *info = -12;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("AB07MD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (max(*n,minmp) == 0)
-    {
+    if (max(*n, minmp) == 0) {
         return 0;
     }
-    if (*n > 0)
-    {
+    if (*n > 0) {
         /*        Transpose A, if non-scalar. */
         i__1 = *n - 1;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             i__2 = *n - j;
             dswap_(&i__2, &a[j + 1 + j * a_dim1], &c__1, &a[j + (j + 1) * a_dim1], lda);
             /* L10: */
         }
         /*        Replace B by C' and C by B'. */
         i__1 = mplim;
-        for (j = 1; j <= i__1; ++j)
-        {
-            if (j <= minmp)
-            {
+        for (j = 1; j <= i__1; ++j) {
+            if (j <= minmp) {
                 dswap_(n, &b[j * b_dim1 + 1], &c__1, &c__[j + c_dim1], ldc);
-            }
-            else if (j > *p)
-            {
+            } else if (j > *p) {
                 dcopy_(n, &b[j * b_dim1 + 1], &c__1, &c__[j + c_dim1], ldc);
-            }
-            else
-            {
+            } else {
                 dcopy_(n, &c__[j + c_dim1], ldc, &b[j * b_dim1 + 1], &c__1);
             }
             /* L20: */
         }
     }
-    if (ljobd && minmp > 0)
-    {
+    if (ljobd && minmp > 0) {
         /*        Transpose D, if non-scalar. */
         i__1 = mplim;
-        for (j = 1; j <= i__1; ++j)
-        {
-            if (j < minmp)
-            {
+        for (j = 1; j <= i__1; ++j) {
+            if (j < minmp) {
                 i__2 = minmp - j;
                 dswap_(&i__2, &d__[j + 1 + j * d_dim1], &c__1, &d__[j + (j + 1) * d_dim1], ldd);
-            }
-            else if (j > *p)
-            {
+            } else if (j > *p) {
                 dcopy_(p, &d__[j * d_dim1 + 1], &c__1, &d__[j + d_dim1], ldd);
-            }
-            else if (j > *m)
-            {
+            } else if (j > *m) {
                 dcopy_(m, &d__[j + d_dim1], ldd, &d__[j * d_dim1 + 1], &c__1);
             }
             /* L30: */
@@ -242,4 +210,3 @@ ftnlen jobd_len;
     return 0;
     /* *** Last line of AB07MD *** */
 } /* ab07md_ */
-

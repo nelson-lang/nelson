@@ -22,9 +22,9 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace GuiGateway {
-        ArrayOfVector qt_verboseBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    };
+namespace GuiGateway {
+    ArrayOfVector
+    qt_verboseBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 };
+}; // namespace Nelson
 //=============================================================================
-

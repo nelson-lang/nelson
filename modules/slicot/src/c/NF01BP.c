@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,13 +10,13 @@
 static integer c__1 = 1;
 static doublereal c_b53 = 1.;
 
-EXPORTSYMBOL /* Subroutine */ int nf01bp_(cond, n, ipar, lipar, r__, ldr, ipvt, diag, qtb, delta, par, ranks, x, rx, tol, dwork, ldwork, info, cond_len)
-char *cond;
+EXPORTSYMBOL /* Subroutine */ int nf01bp_(cond, n, ipar, lipar, r__, ldr, ipvt, diag, qtb, delta,
+    par, ranks, x, rx, tol, dwork, ldwork, info, cond_len) char* cond;
 integer *n, *ipar, *lipar;
-doublereal *r__;
+doublereal* r__;
 integer *ldr, *ipvt;
 doublereal *diag, *qtb, *delta, *par;
-integer *ranks;
+integer* ranks;
 doublereal *x, *rx, *tol, *dwork;
 integer *ldwork, *info;
 ftnlen cond_len;
@@ -298,143 +298,102 @@ ftnlen cond_len;
     ucond = lsame_(cond, "U", 1L, 1L);
     *info = 0;
     n2 = *n << 1;
-    if (! (econd || ncond || ucond))
-    {
+    if (!(econd || ncond || ucond)) {
         *info = -1;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -2;
-    }
-    else if (*lipar < 4)
-    {
+    } else if (*lipar < 4) {
         *info = -4;
-    }
-    else if (*ldr < max(1,*n))
-    {
+    } else if (*ldr < max(1, *n)) {
         *info = -6;
-    }
-    else if (*delta <= 0.)
-    {
+    } else if (*delta <= 0.) {
         *info = -10;
-    }
-    else if (*par < 0.)
-    {
+    } else if (*par < 0.) {
         *info = -11;
-    }
-    else
-    {
+    } else {
         st = ipar[1];
         bn = ipar[2];
         bsm = ipar[3];
         bsn = ipar[4];
         nths = bn * bsn;
         /* Computing MIN */
-        i__1 = min(st,bn), i__1 = min(i__1,bsm);
-        if (min(i__1,bsn) < 0)
-        {
+        i__1 = min(st, bn), i__1 = min(i__1, bsm);
+        if (min(i__1, bsn) < 0) {
             *info = -3;
-        }
-        else if (*n != nths + st)
-        {
+        } else if (*n != nths + st) {
             *info = -2;
-        }
-        else
-        {
-            if (*n > 0)
-            {
+        } else {
+            if (*n > 0) {
                 dmino = diag[1];
             }
             sing = FALSE_;
             i__1 = *n;
-            for (j = 1; j <= i__1; ++j)
-            {
-                if (diag[j] < dmino)
-                {
+            for (j = 1; j <= i__1; ++j) {
+                if (diag[j] < dmino) {
                     dmino = diag[j];
                 }
                 sing = sing || diag[j] == 0.;
                 /* L10: */
             }
-            if (sing)
-            {
+            if (sing) {
                 *info = -8;
-            }
-            else if (ucond)
-            {
+            } else if (ucond) {
                 badrk = FALSE_;
-                if (bn <= 1 || bsn == 0)
-                {
-                    if (*n > 0)
-                    {
+                if (bn <= 1 || bsn == 0) {
+                    if (*n > 0) {
                         badrk = ranks[1] < 0 || ranks[1] > *n;
                     }
-                }
-                else
-                {
+                } else {
                     rank = 0;
                     i__1 = bn;
-                    for (k = 1; k <= i__1; ++k)
-                    {
+                    for (k = 1; k <= i__1; ++k) {
                         badrk = badrk || ranks[k] < 0 || ranks[k] > bsn;
                         rank += ranks[k];
                         /* L20: */
                     }
-                    if (st > 0)
-                    {
+                    if (st > 0) {
                         badrk = badrk || ranks[bn + 1] < 0 || ranks[bn + 1] > st;
                         rank += ranks[bn + 1];
                     }
                 }
-                if (badrk)
-                {
+                if (badrk) {
                     *info = -12;
                 }
-            }
-            else
-            {
+            } else {
                 jw = n2;
-                if (bn <= 1 || bsn == 0)
-                {
-                    if (econd)
-                    {
+                if (bn <= 1 || bsn == 0) {
+                    if (econd) {
                         jw = *n << 2;
                     }
-                }
-                else
-                {
+                } else {
                     jw = st * nths + jw;
-                    if (econd)
-                    {
-                        jw = (max(bsn,st) << 1) + jw;
+                    if (econd) {
+                        jw = (max(bsn, st) << 1) + jw;
                     }
                 }
-                if (*ldwork < jw)
-                {
+                if (*ldwork < jw) {
                     *info = -17;
                 }
             }
         }
     }
     /*     Return if there are illegal arguments. */
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("NF01BP", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
+    if (*n == 0) {
         *par = 0.;
         return 0;
     }
-    if (bn <= 1 || bsn == 0)
-    {
+    if (bn <= 1 || bsn == 0) {
         /*        Special case: R is just an upper triangular matrix. */
         /*        Workspace: 4*N, if COND =  'E'; */
         /*                   2*N, if COND <> 'E'. */
-        md03by_(cond, n, &r__[r_offset], ldr, &ipvt[1], &diag[1], &qtb[1], delta, par, &ranks[1], &x[1], &rx[1], tol, &dwork[1], ldwork, info, 1L);
+        md03by_(cond, n, &r__[r_offset], ldr, &ipvt[1], &diag[1], &qtb[1], delta, par, &ranks[1],
+            &x[1], &rx[1], tol, &dwork[1], ldwork, info, 1L);
         return 0;
     }
     /*     General case: l > 1 and BSN > 0. */
@@ -446,10 +405,10 @@ ftnlen cond_len;
     /*     Workspace: 2*MAX(BSN,ST), if COND =  'E'; */
     /*                0,             if COND <> 'E'. */
     dcopy_(n, &qtb[1], &c__1, &rx[1], &c__1);
-    nf01br_(cond, "Upper", "No transpose", n, &ipar[1], lipar, &r__[r_offset], ldr, &dwork[1], &dwork[1], &c__1, &rx[1], &ranks[1], tol, &dwork[1], ldwork, info, 1L, 5L, 12L);
+    nf01br_(cond, "Upper", "No transpose", n, &ipar[1], lipar, &r__[r_offset], ldr, &dwork[1],
+        &dwork[1], &c__1, &rx[1], &ranks[1], tol, &dwork[1], ldwork, info, 1L, 5L, 12L);
     i__1 = *n;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         l = ipvt[j];
         x[l] = rx[j];
         /* L30: */
@@ -459,95 +418,75 @@ ftnlen cond_len;
     /*     for acceptance of the Gauss-Newton direction. */
     iter = 0;
     i__1 = *n;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         dwork[j] = diag[j] * x[j];
         /* L40: */
     }
     dxnorm = dnrm2_(n, &dwork[1], &c__1);
     fp = dxnorm - *delta;
-    if (fp > *delta * .1)
-    {
+    if (fp > *delta * .1) {
         /*        Set an appropriate option for estimating the condition of */
         /*        the matrix S. */
-        lds = max(1,st);
+        lds = max(1, st);
         jw = n2 + st * nths;
-        if (ucond)
-        {
-            if (*ldwork >= jw + (max(bsn,st) << 1))
-            {
-                *(unsigned char *)condl = 'E';
-                toldef = (doublereal) (*n) * dlamch_("Epsilon", 7L);
-            }
-            else
-            {
-                *(unsigned char *)condl = 'N';
+        if (ucond) {
+            if (*ldwork >= jw + (max(bsn, st) << 1)) {
+                *(unsigned char*)condl = 'E';
+                toldef = (doublereal)(*n) * dlamch_("Epsilon", 7L);
+            } else {
+                *(unsigned char*)condl = 'N';
                 toldef = *tol;
             }
-        }
-        else
-        {
+        } else {
             rank = 0;
             i__1 = bn;
-            for (k = 1; k <= i__1; ++k)
-            {
+            for (k = 1; k <= i__1; ++k) {
                 rank += ranks[k];
                 /* L50: */
             }
-            if (st > 0)
-            {
+            if (st > 0) {
                 rank += ranks[bn + 1];
             }
-            *(unsigned char *)condl = *(unsigned char *)cond;
+            *(unsigned char*)condl = *(unsigned char*)cond;
             toldef = *tol;
         }
         /*        If the Jacobian is not rank deficient, the Newton */
         /*        step provides a lower bound, PARL, for the zero of */
         /*        the function. Otherwise set this bound to zero. */
-        if (rank == *n)
-        {
+        if (rank == *n) {
             i__1 = *n;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 l = ipvt[j];
                 rx[j] = diag[l] * (dwork[l] / dxnorm);
                 /* L60: */
             }
-            nf01br_("Use ranks", "Upper", "Transpose", n, &ipar[1], lipar, &r__[r_offset], ldr, &dwork[1], &dwork[1], &c__1, &rx[1], &ranks[1], tol, &dwork[1], ldwork, info, 9L, 5L, 9L);
+            nf01br_("Use ranks", "Upper", "Transpose", n, &ipar[1], lipar, &r__[r_offset], ldr,
+                &dwork[1], &dwork[1], &c__1, &rx[1], &ranks[1], tol, &dwork[1], ldwork, info, 9L,
+                5L, 9L);
             temp = dnrm2_(n, &rx[1], &c__1);
             parl = fp / *delta / temp / temp;
             /*           For efficiency, use CONDL = 'U', if possible. */
-            if (! lsame_(condl, "U", 1L, 1L) && dmino > 0.)
-            {
-                *(unsigned char *)condl = 'U';
+            if (!lsame_(condl, "U", 1L, 1L) && dmino > 0.) {
+                *(unsigned char*)condl = 'U';
             }
-        }
-        else
-        {
+        } else {
             parl = 0.;
         }
         ibsn = 0;
         k = 1;
         /*        Calculate an upper bound, PARU, for the zero of the function. */
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             ++ibsn;
-            if (j < nths)
-            {
+            if (j < nths) {
                 sum = ddot_(&ibsn, &r__[k + ibsn * r_dim1], &c__1, &qtb[k], &c__1);
-                if (ibsn == bsn)
-                {
+                if (ibsn == bsn) {
                     ibsn = 0;
                     k += bsn;
                 }
-            }
-            else if (j == nths)
-            {
+            } else if (j == nths) {
                 sum = ddot_(&ibsn, &r__[k + ibsn * r_dim1], &c__1, &qtb[k], &c__1);
-            }
-            else
-            {
+            } else {
                 sum = ddot_(&j, &r__[ibsn * r_dim1 + 1], &c__1, &qtb[1], &c__1);
             }
             l = ipvt[j];
@@ -556,32 +495,28 @@ ftnlen cond_len;
         }
         gnorm = dnrm2_(n, &rx[1], &c__1);
         paru = gnorm / *delta;
-        if (paru == 0.)
-        {
-            paru = dwarf / min(*delta,.1) / .001;
+        if (paru == 0.) {
+            paru = dwarf / min(*delta, .1) / .001;
         }
         /*        If the input PAR lies outside of the interval (PARL,PARU), */
         /*        set PAR to the closer endpoint. */
-        *par = max(*par,parl);
-        *par = min(*par,paru);
-        if (*par == 0.)
-        {
+        *par = max(*par, parl);
+        *par = min(*par, paru);
+        if (*par == 0.) {
             *par = gnorm / dxnorm;
         }
         /*        Beginning of an iteration. */
-L80:
+    L80:
         ++iter;
         /*           Evaluate the function at the current value of PAR. */
-        if (*par == 0.)
-        {
+        if (*par == 0.) {
             /* Computing MAX */
             d__1 = dwarf, d__2 = paru * .001;
-            *par = max(d__1,d__2);
+            *par = max(d__1, d__2);
         }
         temp = sqrt(*par);
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             rx[j] = temp * diag[j];
             /* L90: */
         }
@@ -595,10 +530,10 @@ L80:
         /*           submatrix (S(1:N-ST,N-ST+1:N))' of the matrix S. */
         /*           Workspace: ST*(N-ST) + 2*N,                 if CONDL <> 'E'; */
         /*                      ST*(N-ST) + 2*N + 2*MAX(BSN,ST), if CONDL =  'E'. */
-        nf01bq_(condl, n, &ipar[1], lipar, &r__[r_offset], ldr, &ipvt[1], &rx[1], &qtb[1], &ranks[1], &x[1], &toldef, &dwork[1], ldwork, info, 1L);
+        nf01bq_(condl, n, &ipar[1], lipar, &r__[r_offset], ldr, &ipvt[1], &rx[1], &qtb[1],
+            &ranks[1], &x[1], &toldef, &dwork[1], ldwork, info, 1L);
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             dwork[*n + j] = diag[j] * x[j];
             /* L100: */
         }
@@ -608,69 +543,63 @@ L80:
         /*           If the function is small enough, accept the current value */
         /*           of PAR. Also test for the exceptional cases where PARL */
         /*           is zero or the number of iterations has reached ITMAX. */
-        if (abs(fp) > *delta * .1 && (parl != 0. || fp > temp || temp >= 0.) && iter < 10)
-        {
+        if (abs(fp) > *delta * .1 && (parl != 0. || fp > temp || temp >= 0.) && iter < 10) {
             /*              Compute the Newton correction. */
             i__1 = *n;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 l = ipvt[j];
                 rx[j] = diag[l] * (dwork[*n + l] / dxnorm);
                 /* L110: */
             }
             i__1 = *ldwork - jw;
-            nf01br_("Use ranks", "Lower", "Transpose", n, &ipar[1], lipar, &r__[r_offset], ldr, &dwork[1], &dwork[n2 + 1], &lds, &rx[1], &ranks[1], tol, &dwork[jw], &i__1, info, 9L, 5L, 9L);
+            nf01br_("Use ranks", "Lower", "Transpose", n, &ipar[1], lipar, &r__[r_offset], ldr,
+                &dwork[1], &dwork[n2 + 1], &lds, &rx[1], &ranks[1], tol, &dwork[jw], &i__1, info,
+                9L, 5L, 9L);
             temp = dnrm2_(n, &rx[1], &c__1);
             parc = fp / *delta / temp / temp;
             /*              Depending on the sign of the function, update PARL */
             /*              or PARU. */
-            if (fp > 0.)
-            {
-                parl = max(parl,*par);
-            }
-            else if (fp < 0.)
-            {
-                paru = min(paru,*par);
+            if (fp > 0.) {
+                parl = max(parl, *par);
+            } else if (fp < 0.) {
+                paru = min(paru, *par);
             }
             /*              Compute an improved estimate for PAR. */
             /* Computing MAX */
             d__1 = parl, d__2 = *par + parc;
-            *par = max(d__1,d__2);
+            *par = max(d__1, d__2);
             /*              End of an iteration. */
             goto L80;
         }
     }
     /*     Compute -R*P'*x = -R*z. */
     i__1 = *n;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         l = ipvt[j];
         rx[j] = -x[l];
         /* L120: */
     }
     i__1 = nths;
     i__2 = bsn;
-    for (i__ = 1; i__2 < 0 ? i__ >= i__1 : i__ <= i__1; i__ += i__2)
-    {
-        dtrmv_("Upper", "NoTranspose", "NonUnit", &bsn, &r__[i__ + r_dim1], ldr, &rx[i__], &c__1, 5L, 11L, 7L);
+    for (i__ = 1; i__2 < 0 ? i__ >= i__1 : i__ <= i__1; i__ += i__2) {
+        dtrmv_("Upper", "NoTranspose", "NonUnit", &bsn, &r__[i__ + r_dim1], ldr, &rx[i__], &c__1,
+            5L, 11L, 7L);
         /* L130: */
     }
-    if (st > 0)
-    {
-        dgemv_("NoTranspose", &nths, &st, &c_b53, &r__[(bsn + 1) * r_dim1 + 1], ldr, &rx[nths + 1], &c__1, &c_b53, &rx[1], &c__1, 11L);
-        dtrmv_("Upper", "NoTranspose", "NonUnit", &st, &r__[nths + 1 + (bsn + 1) * r_dim1], ldr, &rx[nths + 1], &c__1, 5L, 11L, 7L);
+    if (st > 0) {
+        dgemv_("NoTranspose", &nths, &st, &c_b53, &r__[(bsn + 1) * r_dim1 + 1], ldr, &rx[nths + 1],
+            &c__1, &c_b53, &rx[1], &c__1, 11L);
+        dtrmv_("Upper", "NoTranspose", "NonUnit", &st, &r__[nths + 1 + (bsn + 1) * r_dim1], ldr,
+            &rx[nths + 1], &c__1, 5L, 11L, 7L);
     }
     /*     Termination. If PAR = 0, set S. */
-    if (iter == 0)
-    {
+    if (iter == 0) {
         *par = 0.;
         i__ = 1;
         i__2 = bn;
-        for (k = 1; k <= i__2; ++k)
-        {
+        for (k = 1; k <= i__2; ++k) {
             i__1 = bsn;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 dwork[i__] = r__[i__ + j * r_dim1];
                 i__3 = bsn - j + 1;
                 dcopy_(&i__3, &r__[i__ + j * r_dim1], ldr, &r__[i__ + j * r_dim1], &c__1);
@@ -679,11 +608,9 @@ L80:
             }
             /* L150: */
         }
-        if (st > 0)
-        {
+        if (st > 0) {
             i__2 = bsn + st;
-            for (j = bsn + 1; j <= i__2; ++j)
-            {
+            for (j = bsn + 1; j <= i__2; ++j) {
                 dcopy_(&nths, &r__[j * r_dim1 + 1], &c__1, &dwork[*n + j - bsn], &st);
                 dwork[i__] = r__[i__ + j * r_dim1];
                 i__1 = bsn + st - j + 1;
@@ -692,12 +619,9 @@ L80:
                 /* L160: */
             }
         }
-    }
-    else
-    {
+    } else {
         i__2 = *n + st * nths;
-        for (k = *n + 1; k <= i__2; ++k)
-        {
+        for (k = *n + 1; k <= i__2; ++k) {
             dwork[k] = dwork[k + *n];
             /* L170: */
         }
@@ -705,4 +629,3 @@ L80:
     return 0;
     /* *** Last line of NF01BP *** */
 } /* nf01bp_ */
-

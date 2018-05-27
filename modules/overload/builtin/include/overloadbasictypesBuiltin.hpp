@@ -22,8 +22,9 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace OverloadGateway {
-        ArrayOfVector overloadbasictypesBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    }
+namespace OverloadGateway {
+    ArrayOfVector
+    overloadbasictypesBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+}
 }
 //=============================================================================

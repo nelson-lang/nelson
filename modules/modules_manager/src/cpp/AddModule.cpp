@@ -16,59 +16,48 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/filesystem.hpp>
 #include "AddModule.hpp"
-#include "characters_encoding.hpp"
-#include "FindDynamicLibraryName.hpp"
+#include "Error.hpp"
 #include "EvaluateScriptFile.hpp"
+#include "FindDynamicLibraryName.hpp"
 #include "ModulesHelpers.hpp"
 #include "ModulesManager.hpp"
-#include "Error.hpp"
+#include "characters_encoding.hpp"
+#include <boost/filesystem.hpp>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    void AddModule(Evaluator* eval, std::wstring modulerootpath, std::wstring moduleshortname)
-    {
-        if (boost::filesystem::is_directory(modulerootpath))
-        {
-            boost::filesystem::path pathmainloader(modulerootpath);
-            pathmainloader += L"/etc/startup.nls";
-            if (boost::filesystem::exists(pathmainloader) && !boost::filesystem::is_directory(pathmainloader))
-            {
-                if (!IsExistingModuleName(moduleshortname) && !IsExistingModulePath(modulerootpath))
-                {
-                    RegisterModule(moduleshortname, modulerootpath);
-                    EvaluateScriptFile(eval, pathmainloader.generic_wstring().c_str());
-                }
-                else
-                {
-                    if ((IsExistingModuleName(moduleshortname) && IsExistingModulePath(modulerootpath)))
-                    {
-                        Error(eval, moduleshortname + _W(": This module is already used."));
+//=============================================================================
+void
+AddModule(Evaluator* eval, std::wstring modulerootpath, std::wstring moduleshortname)
+{
+    if (boost::filesystem::is_directory(modulerootpath)) {
+        boost::filesystem::path pathmainloader(modulerootpath);
+        pathmainloader += L"/etc/startup.nls";
+        if (boost::filesystem::exists(pathmainloader)
+            && !boost::filesystem::is_directory(pathmainloader)) {
+            if (!IsExistingModuleName(moduleshortname) && !IsExistingModulePath(modulerootpath)) {
+                RegisterModule(moduleshortname, modulerootpath);
+                EvaluateScriptFile(eval, pathmainloader.generic_wstring().c_str());
+            } else {
+                if ((IsExistingModuleName(moduleshortname)
+                        && IsExistingModulePath(modulerootpath))) {
+                    Error(eval, moduleshortname + _W(": This module is already used."));
+                } else {
+                    if (IsExistingModuleName(moduleshortname)) {
+                        Error(eval, _W("An existing module with the same name already used."));
                     }
-                    else
-                    {
-                        if (IsExistingModuleName(moduleshortname))
-                        {
-                            Error(eval, _W("An existing module with the same name already used."));
-                        }
-                        if (IsExistingModulePath(modulerootpath))
-                        {
-                            Error(eval, _W("An existing module with the same path already defined."));
-                        }
+                    if (IsExistingModulePath(modulerootpath)) {
+                        Error(eval, _W("An existing module with the same path already defined."));
                     }
                 }
             }
-            else
-            {
-                Error(eval, _W("startup.nls does not exist."));
-            }
+        } else {
+            Error(eval, _W("startup.nls does not exist."));
         }
-        else
-        {
-            Error(eval, _W("An existing module root path expected."));
-        }
+    } else {
+        Error(eval, _W("An existing module root path expected."));
     }
-    //=============================================================================
+}
+//=============================================================================
 }
 //=============================================================================

@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -14,17 +14,17 @@ static integer c__2 = 2;
 static doublereal c_b16 = -1.;
 static integer c__4 = 4;
 
-EXPORTSYMBOL /* Subroutine */ int sg03ay_(trans, n, a, lda, e, lde, x, ldx, scale, info, trans_len)
-char *trans;
-integer *n;
-doublereal *a;
-integer *lda;
-doublereal *e;
-integer *lde;
-doublereal *x;
-integer *ldx;
-doublereal *scale;
-integer *info;
+EXPORTSYMBOL /* Subroutine */ int sg03ay_(
+    trans, n, a, lda, e, lde, x, ldx, scale, info, trans_len) char* trans;
+integer* n;
+doublereal* a;
+integer* lda;
+doublereal* e;
+integer* lde;
+doublereal* x;
+integer* ldx;
+doublereal* scale;
+integer* info;
 ftnlen trans_len;
 {
     /* System generated locals */
@@ -37,11 +37,12 @@ ftnlen trans_len;
     extern /* Subroutine */ int dgemv_(), mb02uu_(), mb02uv_(), dcopy_(), daxpy_();
     static doublereal scale1;
     static integer kb, lb, kh, lh, kl, ll;
-    static doublereal tm[4]	/* was [2][2] */;
+    static doublereal tm[4] /* was [2][2] */;
     static integer dimmat;
     extern /* Subroutine */ int xerbla_();
     static logical notrns;
-    static doublereal ak11, ak12, ak21, ak22, al11, al12, al21, al22, ek11, ek12, ek22, el11, el12, el22, mat[16]	/* was [4][4] */, rhs[4];
+    static doublereal ak11, ak12, ak21, ak22, al11, al12, al21, al22, ek11, ek12, ek22, el11, el12,
+        el22, mat[16] /* was [4][4] */, rhs[4];
     static integer piv1[4], piv2[4];
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
@@ -159,77 +160,54 @@ ftnlen trans_len;
     /* Function Body */
     notrns = lsame_(trans, "N", 1L, 1L);
     /*     Check the scalar input parameters. */
-    if (! (notrns || lsame_(trans, "T", 1L, 1L)))
-    {
+    if (!(notrns || lsame_(trans, "T", 1L, 1L))) {
         *info = -1;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -2;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -4;
-    }
-    else if (*lde < max(1,*n))
-    {
+    } else if (*lde < max(1, *n)) {
         *info = -6;
-    }
-    else if (*ldx < max(1,*n))
-    {
+    } else if (*ldx < max(1, *n)) {
         *info = -8;
-    }
-    else
-    {
+    } else {
         *info = 0;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("SG03AY", &i__1, 6L);
         return 0;
     }
     *scale = 1.;
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
+    if (*n == 0) {
         return 0;
     }
-    if (notrns)
-    {
+    if (notrns) {
         /*        Solve equation (1). */
         /*        Outer Loop. Compute block row X(KL:KH,:). KB denotes the number */
         /*        of rows in this block row. */
         kl = 0;
         kb = 1;
         /*        WHILE ( KL+KB .LE. N ) DO */
-L20:
-        if (kl + kb <= *n)
-        {
+    L20:
+        if (kl + kb <= *n) {
             kl += kb;
-            if (kl == *n)
-            {
+            if (kl == *n) {
                 kb = 1;
-            }
-            else
-            {
-                if (a[kl + 1 + kl * a_dim1] != 0.)
-                {
+            } else {
+                if (a[kl + 1 + kl * a_dim1] != 0.) {
                     kb = 2;
-                }
-                else
-                {
+                } else {
                     kb = 1;
                 }
             }
             kh = kl + kb - 1;
             /*           Copy elements of solution already known by symmetry. */
             /*              X(KL:KH,1:KL-1) = X(1:KL-1,KL:KH)' */
-            if (kl > 1)
-            {
+            if (kl > 1) {
                 i__1 = kh;
-                for (i__ = kl; i__ <= i__1; ++i__)
-                {
+                for (i__ = kl; i__ <= i__1; ++i__) {
                     i__2 = kl - 1;
                     dcopy_(&i__2, &x[i__ * x_dim1 + 1], &c__1, &x[i__ + x_dim1], ldx);
                     /* L40: */
@@ -240,22 +218,15 @@ L20:
             ll = kl - 1;
             lb = 1;
             /*           WHILE ( LL+LB .LE. N ) DO */
-L60:
-            if (ll + lb <= *n)
-            {
+        L60:
+            if (ll + lb <= *n) {
                 ll += lb;
-                if (ll == *n)
-                {
+                if (ll == *n) {
                     lb = 1;
-                }
-                else
-                {
-                    if (a[ll + 1 + ll * a_dim1] != 0.)
-                    {
+                } else {
+                    if (a[ll + 1 + ll * a_dim1] != 0.) {
                         lb = 2;
-                    }
-                    else
-                    {
+                    } else {
                         lb = 1;
                     }
                 }
@@ -265,31 +236,31 @@ L60:
                 /*                    A(KL:KH,KL:LH)'*(X(KL:KH,1:LL-1)*E(1:LL-1,LL:LH)) */
                 /*                 X(KL:LH,LL:LH) = X(KL:LH,LL:LH) - */
                 /*                    E(KL:KH,KL:LH)'*(X(KL:KH,1:LL-1)*A(1:LL-1,LL:LH)) */
-                if (ll > 1)
-                {
+                if (ll > 1) {
                     i__1 = ll - 1;
-                    dgemm_("N", "N", &kb, &lb, &i__1, &c_b11, &x[kl + x_dim1], ldx, &e[ll * e_dim1 + 1], lde, &c_b12, tm, &c__2, 1L, 1L);
+                    dgemm_("N", "N", &kb, &lb, &i__1, &c_b11, &x[kl + x_dim1], ldx,
+                        &e[ll * e_dim1 + 1], lde, &c_b12, tm, &c__2, 1L, 1L);
                     i__1 = lh - kl + 1;
-                    dgemm_("T", "N", &i__1, &lb, &kb, &c_b16, &a[kl + kl * a_dim1], lda, tm, &c__2, &c_b11, &x[kl + ll * x_dim1], ldx, 1L, 1L);
+                    dgemm_("T", "N", &i__1, &lb, &kb, &c_b16, &a[kl + kl * a_dim1], lda, tm, &c__2,
+                        &c_b11, &x[kl + ll * x_dim1], ldx, 1L, 1L);
                     i__1 = ll - 1;
-                    dgemm_("N", "N", &kb, &lb, &i__1, &c_b11, &x[kl + x_dim1], ldx, &a[ll * a_dim1 + 1], lda, &c_b12, tm, &c__2, 1L, 1L);
+                    dgemm_("N", "N", &kb, &lb, &i__1, &c_b11, &x[kl + x_dim1], ldx,
+                        &a[ll * a_dim1 + 1], lda, &c_b12, tm, &c__2, 1L, 1L);
                     i__1 = lh - kh + 1;
-                    dgemm_("T", "N", &i__1, &lb, &kb, &c_b16, &e[kl + kh * e_dim1], lde, tm, &c__2, &c_b11, &x[kh + ll * x_dim1], ldx, 1L, 1L);
-                    if (kb == 2)
-                    {
+                    dgemm_("T", "N", &i__1, &lb, &kb, &c_b16, &e[kl + kh * e_dim1], lde, tm, &c__2,
+                        &c_b11, &x[kh + ll * x_dim1], ldx, 1L, 1L);
+                    if (kb == 2) {
                         d__1 = -e[kl + kl * e_dim1];
                         daxpy_(&lb, &d__1, tm, &c__2, &x[kl + ll * x_dim1], ldx);
                     }
                 }
                 /*              Solve small Sylvester equations of order at most (2,2). */
-                if (kb == 1 && lb == 1)
-                {
+                if (kb == 1 && lb == 1) {
                     dimmat = 1;
-                    mat[0] = e[ll + ll * e_dim1] * a[kl + kl * a_dim1] + a[ll + ll * a_dim1] * e[kl + kl * e_dim1];
+                    mat[0] = e[ll + ll * e_dim1] * a[kl + kl * a_dim1]
+                        + a[ll + ll * a_dim1] * e[kl + kl * e_dim1];
                     rhs[0] = x[kl + ll * x_dim1];
-                }
-                else if (kb == 2 && lb == 1)
-                {
+                } else if (kb == 2 && lb == 1) {
                     dimmat = 2;
                     ak11 = a[kl + kl * a_dim1];
                     ak12 = a[kl + kh * a_dim1];
@@ -306,9 +277,7 @@ L60:
                     mat[5] = el11 * ak22 + al11 * ek22;
                     rhs[0] = x[kl + ll * x_dim1];
                     rhs[1] = x[kh + ll * x_dim1];
-                }
-                else if (kb == 1 && lb == 2)
-                {
+                } else if (kb == 1 && lb == 2) {
                     dimmat = 2;
                     ak11 = a[kl + kl * a_dim1];
                     al11 = a[ll + ll * a_dim1];
@@ -325,9 +294,7 @@ L60:
                     mat[5] = el22 * ak11 + al22 * ek11;
                     rhs[0] = x[kl + ll * x_dim1];
                     rhs[1] = x[kl + lh * x_dim1];
-                }
-                else
-                {
+                } else {
                     dimmat = 4;
                     ak11 = a[kl + kl * a_dim1];
                     ak12 = a[kl + kh * a_dim1];
@@ -360,50 +327,37 @@ L60:
                     mat[11] = el22 * ak12 + al22 * ek12;
                     mat[15] = el22 * ak22 + al22 * ek22;
                     rhs[0] = x[kl + ll * x_dim1];
-                    if (kl == ll)
-                    {
+                    if (kl == ll) {
                         rhs[1] = x[kl + kh * x_dim1];
-                    }
-                    else
-                    {
+                    } else {
                         rhs[1] = x[kh + ll * x_dim1];
                     }
                     rhs[2] = x[kl + lh * x_dim1];
                     rhs[3] = x[kh + lh * x_dim1];
                 }
                 mb02uv_(&dimmat, mat, &c__4, piv1, piv2, &info1);
-                if (info1 != 0)
-                {
+                if (info1 != 0) {
                     *info = 1;
                 }
                 mb02uu_(&dimmat, mat, &c__4, rhs, piv1, piv2, &scale1);
                 /*              Scaling. */
-                if (scale1 != 1.)
-                {
+                if (scale1 != 1.) {
                     i__1 = *n;
-                    for (i__ = 1; i__ <= i__1; ++i__)
-                    {
+                    for (i__ = 1; i__ <= i__1; ++i__) {
                         dscal_(n, &scale1, &x[i__ * x_dim1 + 1], &c__1);
                         /* L80: */
                     }
                     *scale *= scale1;
                 }
-                if (lb == 1 && kb == 1)
-                {
+                if (lb == 1 && kb == 1) {
                     x[kl + ll * x_dim1] = rhs[0];
-                }
-                else if (lb == 1 && kb == 2)
-                {
+                } else if (lb == 1 && kb == 2) {
                     x[kl + ll * x_dim1] = rhs[0];
                     x[kh + ll * x_dim1] = rhs[1];
-                }
-                else if (lb == 2 && kb == 1)
-                {
+                } else if (lb == 2 && kb == 1) {
                     x[kl + ll * x_dim1] = rhs[0];
                     x[kl + lh * x_dim1] = rhs[1];
-                }
-                else
-                {
+                } else {
                     x[kl + ll * x_dim1] = rhs[0];
                     x[kh + ll * x_dim1] = rhs[1];
                     x[kl + lh * x_dim1] = rhs[2];
@@ -414,19 +368,21 @@ L60:
                 /*                    A(KL:KH,KH+1:LH)'*(X(KL:KH,LL:LH)*E(LL:LH,LL:LH)) */
                 /*                 X(KH+1:LH,LL:LH) = X(KH+1:LH,LL:LH) - */
                 /*                    E(KL:KH,KH+1:LH)'*(X(KL:KH,LL:LH)*A(LL:LH,LL:LH)) */
-                if (kl < ll)
-                {
-                    if (lb == 2)
-                    {
-                        dgemv_("N", &kb, &c__2, &c_b11, &x[kl + ll * x_dim1], ldx, &e[ll + lh * e_dim1], &c__1, &c_b12, &tm[2], &c__1, 1L);
+                if (kl < ll) {
+                    if (lb == 2) {
+                        dgemv_("N", &kb, &c__2, &c_b11, &x[kl + ll * x_dim1], ldx,
+                            &e[ll + lh * e_dim1], &c__1, &c_b12, &tm[2], &c__1, 1L);
                     }
                     dcopy_(&kb, &x[kl + ll * x_dim1], &c__1, tm, &c__1);
                     dscal_(&kb, &e[ll + ll * e_dim1], tm, &c__1);
                     i__1 = lh - kh;
-                    dgemm_("T", "N", &i__1, &lb, &kb, &c_b16, &a[kl + (kh + 1) * a_dim1], lda, tm, &c__2, &c_b11, &x[kh + 1 + ll * x_dim1], ldx, 1L, 1L);
-                    dgemm_("N", "N", &kb, &lb, &lb, &c_b11, &x[kl + ll * x_dim1], ldx, &a[ll + ll * a_dim1], lda, &c_b12, tm, &c__2, 1L, 1L);
+                    dgemm_("T", "N", &i__1, &lb, &kb, &c_b16, &a[kl + (kh + 1) * a_dim1], lda, tm,
+                        &c__2, &c_b11, &x[kh + 1 + ll * x_dim1], ldx, 1L, 1L);
+                    dgemm_("N", "N", &kb, &lb, &lb, &c_b11, &x[kl + ll * x_dim1], ldx,
+                        &a[ll + ll * a_dim1], lda, &c_b12, tm, &c__2, 1L, 1L);
                     i__1 = lh - kh;
-                    dgemm_("T", "N", &i__1, &lb, &kb, &c_b16, &e[kl + (kh + 1) * e_dim1], lde, tm, &c__2, &c_b11, &x[kh + 1 + ll * x_dim1], ldx, 1L, 1L);
+                    dgemm_("T", "N", &i__1, &lb, &kb, &c_b16, &e[kl + (kh + 1) * e_dim1], lde, tm,
+                        &c__2, &c_b11, &x[kh + 1 + ll * x_dim1], ldx, 1L, 1L);
                 }
                 goto L60;
             }
@@ -434,43 +390,33 @@ L60:
             goto L20;
         }
         /*        END WHILE 20 */
-    }
-    else
-    {
+    } else {
         /*        Solve equation (2). */
         /*        Outer Loop. Compute block column X(:,LL:LH). LB denotes the */
         /*        number of columns in this block column. */
         ll = *n + 1;
         /*        WHILE ( LL .GT. 1 ) DO */
-L100:
-        if (ll > 1)
-        {
+    L100:
+        if (ll > 1) {
             lh = ll - 1;
-            if (lh == 1)
-            {
+            if (lh == 1) {
                 lb = 1;
-            }
-            else
-            {
-                if (a[ll - 1 + (ll - 2) * a_dim1] != 0.)
-                {
+            } else {
+                if (a[ll - 1 + (ll - 2) * a_dim1] != 0.) {
                     lb = 2;
-                }
-                else
-                {
+                } else {
                     lb = 1;
                 }
             }
             ll -= lb;
             /*           Copy elements of solution already known by symmetry. */
             /*              X(LH+1:N,LL:LH) = X(LL:LH,LH+1:N)' */
-            if (lh < *n)
-            {
+            if (lh < *n) {
                 i__1 = lh;
-                for (i__ = ll; i__ <= i__1; ++i__)
-                {
+                for (i__ = ll; i__ <= i__1; ++i__) {
                     i__2 = *n - lh;
-                    dcopy_(&i__2, &x[i__ + (lh + 1) * x_dim1], ldx, &x[lh + 1 + i__ * x_dim1], &c__1);
+                    dcopy_(
+                        &i__2, &x[i__ + (lh + 1) * x_dim1], ldx, &x[lh + 1 + i__ * x_dim1], &c__1);
                     /* L120: */
                 }
             }
@@ -478,22 +424,15 @@ L100:
             /*           number of rows in this block. */
             kl = lh + 1;
             /*           WHILE ( KL .GT. 1 ) DO */
-L140:
-            if (kl > 1)
-            {
+        L140:
+            if (kl > 1) {
                 kh = kl - 1;
-                if (kh == 1)
-                {
+                if (kh == 1) {
                     kb = 1;
-                }
-                else
-                {
-                    if (a[kl - 1 + (kl - 2) * a_dim1] != 0.)
-                    {
+                } else {
+                    if (a[kl - 1 + (kl - 2) * a_dim1] != 0.) {
                         kb = 2;
-                    }
-                    else
-                    {
+                    } else {
                         kb = 1;
                     }
                 }
@@ -503,31 +442,31 @@ L140:
                 /*                    (A(KL:KH,KH+1:N)*X(KH+1:N,LL:LH))*E(KL:LH,LL:LH)' */
                 /*                 X(KL:KH,KL:LH) = X(KL:KH,KL:LH) - */
                 /*                    (E(KL:KH,KH+1:N)*X(KH+1:N,LL:LH))*A(KL:LH,LL:LH)' */
-                if (kh < *n)
-                {
+                if (kh < *n) {
                     i__1 = *n - kh;
-                    dgemm_("N", "N", &kb, &lb, &i__1, &c_b11, &a[kl + (kh + 1) * a_dim1], lda, &x[kh + 1 + ll * x_dim1], ldx, &c_b12, tm, &c__2, 1L, 1L);
+                    dgemm_("N", "N", &kb, &lb, &i__1, &c_b11, &a[kl + (kh + 1) * a_dim1], lda,
+                        &x[kh + 1 + ll * x_dim1], ldx, &c_b12, tm, &c__2, 1L, 1L);
                     i__1 = ll - kl + 1;
-                    dgemm_("N", "T", &kb, &i__1, &lb, &c_b16, tm, &c__2, &e[kl + ll * e_dim1], lde, &c_b11, &x[kl + kl * x_dim1], ldx, 1L, 1L);
-                    if (lb == 2)
-                    {
+                    dgemm_("N", "T", &kb, &i__1, &lb, &c_b16, tm, &c__2, &e[kl + ll * e_dim1], lde,
+                        &c_b11, &x[kl + kl * x_dim1], ldx, 1L, 1L);
+                    if (lb == 2) {
                         d__1 = -e[lh + lh * e_dim1];
                         daxpy_(&kb, &d__1, &tm[2], &c__1, &x[kl + lh * x_dim1], &c__1);
                     }
                     i__1 = *n - kh;
-                    dgemm_("N", "N", &kb, &lb, &i__1, &c_b11, &e[kl + (kh + 1) * e_dim1], lde, &x[kh + 1 + ll * x_dim1], ldx, &c_b12, tm, &c__2, 1L, 1L);
+                    dgemm_("N", "N", &kb, &lb, &i__1, &c_b11, &e[kl + (kh + 1) * e_dim1], lde,
+                        &x[kh + 1 + ll * x_dim1], ldx, &c_b12, tm, &c__2, 1L, 1L);
                     i__1 = lh - kl + 1;
-                    dgemm_("N", "T", &kb, &i__1, &lb, &c_b16, tm, &c__2, &a[kl + ll * a_dim1], lda, &c_b11, &x[kl + kl * x_dim1], ldx, 1L, 1L);
+                    dgemm_("N", "T", &kb, &i__1, &lb, &c_b16, tm, &c__2, &a[kl + ll * a_dim1], lda,
+                        &c_b11, &x[kl + kl * x_dim1], ldx, 1L, 1L);
                 }
                 /*              Solve small Sylvester equations of order at most (2,2). */
-                if (kb == 1 && lb == 1)
-                {
+                if (kb == 1 && lb == 1) {
                     dimmat = 1;
-                    mat[0] = e[ll + ll * e_dim1] * a[kl + kl * a_dim1] + a[ll + ll * a_dim1] * e[kl + kl * e_dim1];
+                    mat[0] = e[ll + ll * e_dim1] * a[kl + kl * a_dim1]
+                        + a[ll + ll * a_dim1] * e[kl + kl * e_dim1];
                     rhs[0] = x[kl + ll * x_dim1];
-                }
-                else if (kb == 2 && lb == 1)
-                {
+                } else if (kb == 2 && lb == 1) {
                     dimmat = 2;
                     ak11 = a[kl + kl * a_dim1];
                     ak12 = a[kl + kh * a_dim1];
@@ -544,9 +483,7 @@ L140:
                     mat[5] = el11 * ak22 + al11 * ek22;
                     rhs[0] = x[kl + ll * x_dim1];
                     rhs[1] = x[kh + ll * x_dim1];
-                }
-                else if (kb == 1 && lb == 2)
-                {
+                } else if (kb == 1 && lb == 2) {
                     dimmat = 2;
                     ak11 = a[kl + kl * a_dim1];
                     al11 = a[ll + ll * a_dim1];
@@ -563,9 +500,7 @@ L140:
                     mat[5] = el22 * ak11 + al22 * ek11;
                     rhs[0] = x[kl + ll * x_dim1];
                     rhs[1] = x[kl + lh * x_dim1];
-                }
-                else
-                {
+                } else {
                     dimmat = 4;
                     ak11 = a[kl + kl * a_dim1];
                     ak12 = a[kl + kh * a_dim1];
@@ -598,50 +533,37 @@ L140:
                     mat[11] = el22 * ak21;
                     mat[15] = el22 * ak22 + al22 * ek22;
                     rhs[0] = x[kl + ll * x_dim1];
-                    if (kl == ll)
-                    {
+                    if (kl == ll) {
                         rhs[1] = x[kl + kh * x_dim1];
-                    }
-                    else
-                    {
+                    } else {
                         rhs[1] = x[kh + ll * x_dim1];
                     }
                     rhs[2] = x[kl + lh * x_dim1];
                     rhs[3] = x[kh + lh * x_dim1];
                 }
                 mb02uv_(&dimmat, mat, &c__4, piv1, piv2, &info1);
-                if (info1 != 0)
-                {
+                if (info1 != 0) {
                     *info = 1;
                 }
                 mb02uu_(&dimmat, mat, &c__4, rhs, piv1, piv2, &scale1);
                 /*              Scaling. */
-                if (scale1 != 1.)
-                {
+                if (scale1 != 1.) {
                     i__1 = *n;
-                    for (i__ = 1; i__ <= i__1; ++i__)
-                    {
+                    for (i__ = 1; i__ <= i__1; ++i__) {
                         dscal_(n, &scale1, &x[i__ * x_dim1 + 1], &c__1);
                         /* L160: */
                     }
                     *scale *= scale1;
                 }
-                if (lb == 1 && kb == 1)
-                {
+                if (lb == 1 && kb == 1) {
                     x[kl + ll * x_dim1] = rhs[0];
-                }
-                else if (lb == 1 && kb == 2)
-                {
+                } else if (lb == 1 && kb == 2) {
                     x[kl + ll * x_dim1] = rhs[0];
                     x[kh + ll * x_dim1] = rhs[1];
-                }
-                else if (lb == 2 && kb == 1)
-                {
+                } else if (lb == 2 && kb == 1) {
                     x[kl + ll * x_dim1] = rhs[0];
                     x[kl + lh * x_dim1] = rhs[1];
-                }
-                else
-                {
+                } else {
                     x[kl + ll * x_dim1] = rhs[0];
                     x[kh + ll * x_dim1] = rhs[1];
                     x[kl + lh * x_dim1] = rhs[2];
@@ -652,19 +574,21 @@ L140:
                 /*                    (A(KL:KH,KL:KH)*X(KL:KH,LL:LH))*E(KL:LL-1,LL:LH)' */
                 /*                 X(KL:KH,KL:LL-1) = X(KL:KH,KL:LL-1) - */
                 /*                    (E(KL:KH,KL:KH)*X(KL:KH,LL:LH))*A(KL:LL-1,LL:LH)' */
-                if (kl < ll)
-                {
-                    dgemm_("N", "N", &kb, &lb, &kb, &c_b11, &a[kl + kl * a_dim1], lda, &x[kl + ll * x_dim1], ldx, &c_b12, tm, &c__2, 1L, 1L);
+                if (kl < ll) {
+                    dgemm_("N", "N", &kb, &lb, &kb, &c_b11, &a[kl + kl * a_dim1], lda,
+                        &x[kl + ll * x_dim1], ldx, &c_b12, tm, &c__2, 1L, 1L);
                     i__1 = ll - kl;
-                    dgemm_("N", "T", &kb, &i__1, &lb, &c_b16, tm, &c__2, &e[kl + ll * e_dim1], lde, &c_b11, &x[kl + kl * x_dim1], ldx, 1L, 1L);
-                    dgemv_("T", &kb, &lb, &c_b11, &x[kl + ll * x_dim1], ldx, &e[kl + kl * e_dim1], lde, &c_b12, tm, &c__2, 1L);
-                    if (kb == 2)
-                    {
+                    dgemm_("N", "T", &kb, &i__1, &lb, &c_b16, tm, &c__2, &e[kl + ll * e_dim1], lde,
+                        &c_b11, &x[kl + kl * x_dim1], ldx, 1L, 1L);
+                    dgemv_("T", &kb, &lb, &c_b11, &x[kl + ll * x_dim1], ldx, &e[kl + kl * e_dim1],
+                        lde, &c_b12, tm, &c__2, 1L);
+                    if (kb == 2) {
                         dcopy_(&lb, &x[kh + ll * x_dim1], ldx, &tm[1], &c__2);
                         dscal_(&lb, &e[kh + kh * e_dim1], &tm[1], &c__2);
                     }
                     i__1 = ll - kl;
-                    dgemm_("N", "T", &kb, &i__1, &lb, &c_b16, tm, &c__2, &a[kl + ll * a_dim1], lda, &c_b11, &x[kl + kl * x_dim1], ldx, 1L, 1L);
+                    dgemm_("N", "T", &kb, &i__1, &lb, &c_b16, tm, &c__2, &a[kl + ll * a_dim1], lda,
+                        &c_b11, &x[kl + kl * x_dim1], ldx, 1L, 1L);
                 }
                 goto L140;
             }
@@ -676,4 +600,3 @@ L140:
     return 0;
     /* *** Last line of SG03AY *** */
 } /* sg03ay_ */
-

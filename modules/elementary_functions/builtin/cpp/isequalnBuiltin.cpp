@@ -23,40 +23,34 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::ElementaryFunctionsGateway::isequalnBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::ElementaryFunctionsGateway::isequalnBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() < 2)
-    {
+    if (argIn.size() < 2) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    for (size_t k = 1; k < argIn.size(); k++)
-    {
+    for (size_t k = 1; k < argIn.size(); k++) {
         ArrayOfVector v1v2;
         v1v2.push_back(argIn[k - 1]);
         v1v2.push_back(argIn[k]);
         // Call overload if it exists
         bool bSuccess = false;
         retval = OverloadFunction(eval, nLhs, v1v2, "isequaln", bSuccess);
-        if (!bSuccess)
-        {
+        if (!bSuccess) {
             OverloadRequired(eval, v1v2, Nelson::FUNCTION);
         }
         bool res = false;
-        if (retval.size() > 0)
-        {
+        if (retval.size() > 0) {
             res = retval[0].getContentAsLogicalScalar() == 0 ? false : true;
-        }
-        else
-        {
+        } else {
             Error(eval, _W("overload of isequaln must return a logical."));
         }
-        if (!res)
-        {
+        if (!res) {
             return retval;
         }
     }

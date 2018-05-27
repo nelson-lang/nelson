@@ -22,36 +22,30 @@
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
-    bool IsEmptyScriptFile(std::wstring filename)
-    {
-        FILE *fr;
+bool
+IsEmptyScriptFile(std::wstring filename)
+{
+    FILE* fr;
 #ifdef _MSC_VER
-        fr = _wfopen(filename.c_str(), L"rt");
+    fr = _wfopen(filename.c_str(), L"rt");
 #else
-        fr = fopen(wstring_to_utf8(filename).c_str(), "rt");
+    fr = fopen(wstring_to_utf8(filename).c_str(), "rt");
 #endif
-        if (fr)
-        {
-            int ch;
-            while (EOF != (ch = getc(fr)))
-            {
-                if ((ch == ' ') || (ch == '\r') || (ch == '\n'))
-                {
-                }
-                else
-                {
-                    fclose(fr);
-                    return false;
-                }
+    if (fr) {
+        int ch;
+        while (EOF != (ch = getc(fr))) {
+            if ((ch == ' ') || (ch == '\r') || (ch == '\n')) {
+            } else {
+                fclose(fr);
+                return false;
             }
-            fclose(fr);
-            return  true;
         }
-        else
-        {
-            return true;
-        }
-        return false;
+        fclose(fr);
+        return true;
+    } else {
+        return true;
     }
+    return false;
+}
 }
 //=============================================================================

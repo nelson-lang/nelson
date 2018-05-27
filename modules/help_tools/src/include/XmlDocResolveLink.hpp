@@ -18,10 +18,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
 #include "XmlTarget.hpp"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    bool XmlDocResolveLink(const std::wstring &directorysource, const std::wstring &linkname, const std::wstring &currentModuleName, DOCUMENT_OUTPUT outputTarget, const std::wstring &destinationDir, const std::wstring &language, std::wstring &resolvedlink);
+bool
+XmlDocResolveLink(const std::wstring& directorysource, const std::wstring& linkname,
+    const std::wstring& currentModuleName, DOCUMENT_OUTPUT outputTarget,
+    const std::wstring& destinationDir, const std::wstring& language, std::wstring& resolvedlink);
 }
 //=============================================================================

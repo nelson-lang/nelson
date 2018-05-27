@@ -22,29 +22,22 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::SparseGateway::sparselogical_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::SparseGateway::sparselogical_dispBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 0)
-    {
+    if (nLhs > 0) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() != 1)
-    {
+    if (argIn.size() != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    else if (!argIn[0].isSparse())
-    {
+    } else if (!argIn[0].isSparse()) {
         Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_DOUBLE_EXPECTED);
-    }
-    else
-    {
-        if (argIn[0].getDataClass() == NLS_LOGICAL)
-        {
+    } else {
+        if (argIn[0].getDataClass() == NLS_LOGICAL) {
             SparseDisplay(eval, argIn[0]);
-        }
-        else
-        {
+        } else {
             Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_DOUBLE_EXPECTED);
         }
     }

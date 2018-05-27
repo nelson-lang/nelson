@@ -18,11 +18,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsHandle_exports.h"
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
+#include "nlsHandle_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSHANDLE_IMPEXP ArrayOf IsValidHandle(Evaluator *eval, ArrayOf A);
+NLSHANDLE_IMPEXP ArrayOf
+IsValidHandle(Evaluator* eval, ArrayOf A);
 }
 //=============================================================================

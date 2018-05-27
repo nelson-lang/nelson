@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -15,23 +15,24 @@ static integer c__0 = 0;
 static doublereal c_b63 = 100.;
 static doublereal c_b64 = 0.;
 
-EXPORTSYMBOL /* Subroutine */ int ib03bd_(init, nobr, m, l, nsmp, n, nn, itmax1, itmax2, nprint, u, ldu, y, ldy, x, lx, tol1, tol2, iwork, dwork, ldwork, iwarn, info, init_len)
-char *init;
+EXPORTSYMBOL /* Subroutine */ int ib03bd_(init, nobr, m, l, nsmp, n, nn, itmax1, itmax2, nprint, u,
+    ldu, y, ldy, x, lx, tol1, tol2, iwork, dwork, ldwork, iwarn, info, init_len) char* init;
 integer *nobr, *m, *l, *nsmp, *n, *nn, *itmax1, *itmax2, *nprint;
-doublereal *u;
-integer *ldu;
-doublereal *y;
-integer *ldy;
-doublereal *x;
-integer *lx;
+doublereal* u;
+integer* ldu;
+doublereal* y;
+integer* ldy;
+doublereal* x;
+integer* lx;
 doublereal *tol1, *tol2;
-integer *iwork;
-doublereal *dwork;
+integer* iwork;
+doublereal* dwork;
 integer *ldwork, *iwarn, *info;
 ftnlen init_len;
 {
     /* System generated locals */
-    integer u_dim1, u_offset, y_dim1, y_offset, i__1, i__2, i__3, i__4, i__5, i__6, i__7, i__8, i__9, i__10, i__11;
+    integer u_dim1, u_offset, y_dim1, y_offset, i__1, i__2, i__3, i__4, i__5, i__6, i__7, i__8,
+        i__9, i__10, i__11;
     doublereal d__1, d__2;
     /* Local variables */
     static integer ldac, isad;
@@ -465,122 +466,96 @@ ftnlen init_len;
     ml = *m + *l;
     *info = 0;
     *iwarn = 0;
-    if (! (init1 || init2 || lsame_(init, "N", 1L, 1L)))
-    {
+    if (!(init1 || init2 || lsame_(init, "N", 1L, 1L))) {
         *info = -1;
-    }
-    else if (init1 && *nobr <= 0)
-    {
+    } else if (init1 && *nobr <= 0) {
         *info = -2;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -3;
-    }
-    else if (*l < 0 || init1 && *l == 0)
-    {
+    } else if (*l < 0 || init1 && *l == 0) {
         *info = -4;
-    }
-    else if (*nsmp < 0 || init1 && *nsmp < (ml + 1 << 1) **nobr - 1)
-    {
+    } else if (*nsmp < 0 || init1 && *nsmp < (ml + 1 << 1) * *nobr - 1) {
         *info = -5;
-    }
-    else if (*n < 0 && ! init1 || (*n == 0 || *n >= *nobr) && init1)
-    {
+    } else if (*n < 0 && !init1 || (*n == 0 || *n >= *nobr) && init1) {
         *info = -6;
-    }
-    else if (*nn < 0)
-    {
+    } else if (*nn < 0) {
         *info = -7;
-    }
-    else if (init2 && *itmax1 < 0)
-    {
+    } else if (init2 && *itmax1 < 0) {
         *info = -8;
-    }
-    else if (*itmax2 < 0)
-    {
+    } else if (*itmax2 < 0) {
         *info = -9;
-    }
-    else if (*ldu < max(1,*nsmp))
-    {
+    } else if (*ldu < max(1, *nsmp)) {
         *info = -12;
-    }
-    else if (*ldy < max(1,*nsmp))
-    {
+    } else if (*ldy < max(1, *nsmp)) {
         *info = -14;
-    }
-    else
-    {
-        lnol = *l **nobr - *l;
-        mno = *m **nobr;
+    } else {
+        lnol = *l * *nobr - *l;
+        mno = *m * *nobr;
         bsn = *nn * (*l + 2) + 1;
-        nths = bsn **l;
-        nsml = *nsmp **l;
-        if (*n > 0)
-        {
+        nths = bsn * *l;
+        nsml = *nsmp * *l;
+        if (*n > 0) {
             ldac = *n + *l;
             isad = ldac * (*n + *m);
-            n2 = *n **n;
+            n2 = *n * *n;
         }
         /*        Check the workspace size. */
         jwork = 0;
-        if (init1)
-        {
+        if (init1) {
             /*           Workspace for IB01AD. */
-            jwork = (ml << 1) **nobr * ((ml << 1) * (*nobr + 1) + 3) + *l **nobr;
-            if (*n > 0)
-            {
+            jwork = (ml << 1) * *nobr * ((ml << 1) * (*nobr + 1) + 3) + *l * *nobr;
+            if (*n > 0) {
                 /*              Workspace for IB01BD. */
                 /* Computing MAX */
                 /* Computing MAX */
-                i__3 = lnol **n + (*n << 1) + (*m + ml) **nobr + *l, i__4 = (lnol << 1) **n + n2 + (*n << 3), i__3 = max(i__3,i__4), i__4 = *n + (mno + *n << 2) + 1, i__3 = max(i__3,i__4), i__4 = mno + *n * 3 + *l;
-                i__1 = (lnol << 1) **n + (*n << 1), i__2 = lnol **n + n2 + *n * 7, i__1 = max(i__1,i__2), i__2 = *l **nobr **n + max(i__3,i__4);
-                iw1 = max(i__1,i__2);
-                if (*m > 0)
-                {
+                i__3 = lnol * *n + (*n << 1) + (*m + ml) * *nobr + *l,
+                i__4 = (lnol << 1) * *n + n2 + (*n << 3), i__3 = max(i__3, i__4),
+                i__4 = *n + (mno + *n << 2) + 1, i__3 = max(i__3, i__4), i__4 = mno + *n * 3 + *l;
+                i__1 = (lnol << 1) * *n + (*n << 1), i__2 = lnol * *n + n2 + *n * 7,
+                i__1 = max(i__1, i__2), i__2 = *l * *nobr * *n + max(i__3, i__4);
+                iw1 = max(i__1, i__2);
+                if (*m > 0) {
                     /* Computing MAX */
                     /* Computing 2nd power */
                     i__3 = ldac;
                     i__1 = i__3 * i__3, i__2 = (*m << 2) * ldac + 1;
-                    iw2 = *l **nobr **n + mno * ldac * (*m * ldac + 1) + max(i__1,i__2);
-                }
-                else
-                {
+                    iw2 = *l * *nobr * *n + mno * ldac * (*m * ldac + 1) + max(i__1, i__2);
+                } else {
                     iw2 = 0;
                 }
                 /* Computing MAX */
                 /* Computing 2nd power */
-                i__3 = (ml << 1) **nobr;
-                i__1 = jwork, i__2 = i__3 * i__3 + isad + max(iw1,iw2);
-                jwork = max(i__1,i__2);
+                i__3 = (ml << 1) * *nobr;
+                i__1 = jwork, i__2 = i__3 * i__3 + isad + max(iw1, iw2);
+                jwork = max(i__1, i__2);
                 /*              Workspace for IB01CD. */
                 /* Computing MAX */
                 i__1 = n2 << 1, i__2 = *n << 2;
-                iw1 = nsml * (*n + 1) + (*n << 1) + max(i__1,i__2);
+                iw1 = nsml * (*n + 1) + (*n << 1) + max(i__1, i__2);
                 /* Computing MAX */
-                i__1 = *n **l * (*n + 1) + (n2 << 1) + *l **n, i__2 = *n << 2;
-                iw2 = *n * (*n + 1) + (*n << 1) + max(i__1,i__2);
+                i__1 = *n * *l * (*n + 1) + (n2 << 1) + *l * *n, i__2 = *n << 2;
+                iw2 = *n * (*n + 1) + (*n << 1) + max(i__1, i__2);
                 /* Computing MAX */
                 /* Computing MAX */
-                i__3 = *n * 5, i__3 = max(i__3,2), i__4 = min(iw1,iw2);
-                i__1 = jwork, i__2 = isad + 2 + *n * (*n + 1 + ldac + *m) + max(i__3,i__4);
-                jwork = max(i__1,i__2);
+                i__3 = *n * 5, i__3 = max(i__3, 2), i__4 = min(iw1, iw2);
+                i__1 = jwork, i__2 = isad + 2 + *n * (*n + 1 + ldac + *m) + max(i__3, i__4);
+                jwork = max(i__1, i__2);
                 /*              Workspace for TF01MX. */
                 /* Computing MAX */
                 i__1 = jwork, i__2 = nsml + isad + ldac + (*n << 1) + *m;
-                jwork = max(i__1,i__2);
+                jwork = max(i__1, i__2);
                 /*              Workspace for TB01VD. */
                 /* Computing MAX */
                 /* Computing MAX */
                 /* Computing MAX */
-                i__5 = n2 + *n * max(*n,*l) + *n * 6 + min(*n,*l), i__6 = *n **m;
-                i__3 = 1, i__4 = n2 **l + *n **l + *n, i__3 = max(i__3,i__4), i__4 = n2 + max(i__5,i__6);
-                i__1 = jwork, i__2 = nsml + isad + *n + max(i__3,i__4);
-                jwork = max(i__1,i__2);
+                i__5 = n2 + *n * max(*n, *l) + *n * 6 + min(*n, *l), i__6 = *n * *m;
+                i__3 = 1, i__4 = n2 * *l + *n * *l + *n, i__3 = max(i__3, i__4),
+                i__4 = n2 + max(i__5, i__6);
+                i__1 = jwork, i__2 = nsml + isad + *n + max(i__3, i__4);
+                jwork = max(i__1, i__2);
             }
         }
-        if (init2)
-        {
+        if (init2) {
             /*           Workspace for MD03BD (initialization of the nonlinear part). */
             /* Computing MAX */
             /* Computing MAX */
@@ -591,79 +566,65 @@ ftnlen init_len;
             i__9 = bsn;
             /* Computing MAX */
             i__10 = *nsmp + (*nn << 1), i__11 = bsn * 5;
-            i__5 = *nsmp * bsn + max(i__7,i__8), i__6 = i__9 * i__9 + bsn + max(i__10,i__11);
-            i__3 = 4, i__4 = *nsmp + max(i__5,i__6);
-            i__1 = jwork, i__2 = nsml + bsn + max(i__3,i__4);
-            jwork = max(i__1,i__2);
-            if (*n > 0 && ! init1)
-            {
+            i__5 = *nsmp * bsn + max(i__7, i__8), i__6 = i__9 * i__9 + bsn + max(i__10, i__11);
+            i__3 = 4, i__4 = *nsmp + max(i__5, i__6);
+            i__1 = jwork, i__2 = nsml + bsn + max(i__3, i__4);
+            jwork = max(i__1, i__2);
+            if (*n > 0 && !init1) {
                 /*              Workspace for TB01VY. */
                 /* Computing MAX */
                 i__1 = jwork, i__2 = nsml + ldac * ((*n << 1) + *m) + (*n << 1);
-                jwork = max(i__1,i__2);
+                jwork = max(i__1, i__2);
                 /*              Workspace for TF01MX. */
-                if (*m > 0)
-                {
+                if (*m > 0) {
                     iw1 = *n + *m;
-                }
-                else
-                {
+                } else {
                     iw1 = 0;
                 }
                 /* Computing MAX */
                 i__1 = jwork, i__2 = nsml + isad + iw1 + ldac + *n;
-                jwork = max(i__1,i__2);
+                jwork = max(i__1, i__2);
             }
         }
-        if (*n >= 0)
-        {
+        if (*n >= 0) {
             /*           Find the number of parameters. */
-            lths = *n * (ml + 1) + *l **m;
+            lths = *n * (ml + 1) + *l * *m;
             nx = nths + lths;
-            if (*lx < nx)
-            {
+            if (*lx < nx) {
                 *info = -16;
                 i__1 = -(*info);
                 xerbla_("IB03BD", &i__1, 6L);
                 return 0;
             }
             /*           Workspace for MD03BD (whole optimization). */
-            if (*m > 0)
-            {
+            if (*m > 0) {
                 iw1 = ldac + *m;
-            }
-            else
-            {
+            } else {
                 iw1 = *l;
             }
             /* Computing MAX */
             /* Computing MAX */
             i__3 = *n * ldac;
-            i__1 = *nn << 1, i__2 = isad + (*n << 1) + max(i__3,iw1);
-            iw1 = nsml + max(i__1,i__2);
-            if (*l <= 1 || bsn == 0)
-            {
+            i__1 = *nn << 1, i__2 = isad + (*n << 1) + max(i__3, iw1);
+            iw1 = nsml + max(i__1, i__2);
+            if (*l <= 1 || bsn == 0) {
                 iw3 = nx << 2;
                 iw2 = iw3 + 1;
-            }
-            else
-            {
+            } else {
                 /* Computing MAX */
                 i__1 = bsn * 3 + 1;
-                iw2 = bsn + max(i__1,lths);
-                if (*nsmp > bsn)
-                {
+                iw2 = bsn + max(i__1, lths);
+                if (*nsmp > bsn) {
                     /* Computing MAX */
                     i__1 = iw2, i__2 = (lths << 2) + 1;
-                    iw2 = max(i__1,i__2);
-                    if (*nsmp < bsn << 1)
-                    {
+                    iw2 = max(i__1, i__2);
+                    if (*nsmp < bsn << 1) {
                         /* Computing MAX */
                         i__1 = iw2, i__2 = (*nsmp - bsn) * (*l - 1);
-                        iw2 = max(i__1,i__2);
+                        iw2 = max(i__1, i__2);
                     }
                 }
-                iw3 = lths * bsn + (nx << 1) + (max(bsn,lths) << 1);
+                iw3 = lths * bsn + (nx << 1) + (max(bsn, lths) << 1);
             }
             /* Computing MAX */
             /* Computing MAX */
@@ -672,19 +633,18 @@ ftnlen init_len;
             i__7 = nsml + iw1, i__8 = iw2 + nx;
             /* Computing MAX */
             i__9 = nsml + iw1, i__10 = nx + iw3;
-            i__5 = nsml * (bsn + lths) + max(i__7,i__8), i__6 = nx * (bsn + lths) + nx + max(i__9,i__10);
-            i__3 = 4, i__4 = nsml + max(i__5,i__6);
-            i__1 = jwork, i__2 = nsml + nx + max(i__3,i__4);
-            jwork = max(i__1,i__2);
+            i__5 = nsml * (bsn + lths) + max(i__7, i__8),
+            i__6 = nx * (bsn + lths) + nx + max(i__9, i__10);
+            i__3 = 4, i__4 = nsml + max(i__5, i__6);
+            i__1 = jwork, i__2 = nsml + nx + max(i__3, i__4);
+            jwork = max(i__1, i__2);
         }
-        if (*ldwork < jwork)
-        {
+        if (*ldwork < jwork) {
             *info = -21;
-            dwork[1] = (doublereal) jwork;
+            dwork[1] = (doublereal)jwork;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("IB03BD", &i__1, 6L);
         return 0;
@@ -695,8 +655,7 @@ ftnlen init_len;
     ac = z__ + nsml;
     dcopy_(&c__4, &dwork[1], &c__1, seed, &c__1);
     wrkopt = 1;
-    if (init1)
-    {
+    if (init1) {
         /*        Initialize the linear part. */
         /*        If N < 0, the order of the system is determined by IB01AD; */
         /*        otherwise, the given order will be used. */
@@ -707,50 +666,44 @@ ftnlen init_len;
         /*        Integer workspace:  M+L. (If METH = 'N', (M+L)*NOBR.) */
         ns = *n;
         ir = 1;
-        isv = (ml << 1) **nobr;
+        isv = (ml << 1) * *nobr;
         ldr = isv;
-        if (lsame_("N", "M", 1L, 1L))
-        {
+        if (lsame_("N", "M", 1L, 1L)) {
             /* Computing MAX */
             i__1 = ldr, i__2 = mno * 3;
-            ldr = max(i__1,i__2);
+            ldr = max(i__1, i__2);
         }
         isv = ir + ldr * isv;
-        jwork = isv + *l **nobr;
+        jwork = isv + *l * *nobr;
         i__1 = *ldwork - jwork + 1;
-        ib01ad_("M", "F", "N", "O", "N", "N", nobr, m, l, nsmp, &u[u_offset], ldu, &y[y_offset], ldy, n, &dwork[ir], &ldr, &dwork[isv], &c_b20, &c_b20, &iwork[1], &dwork[jwork], &i__1, &iwarnl, &infol, 1L, 1L, 1L, 1L, 1L, 1L);
-        if (infol != 0)
-        {
+        ib01ad_("M", "F", "N", "O", "N", "N", nobr, m, l, nsmp, &u[u_offset], ldu, &y[y_offset],
+            ldy, n, &dwork[ir], &ldr, &dwork[isv], &c_b20, &c_b20, &iwork[1], &dwork[jwork], &i__1,
+            &iwarnl, &infol, 1L, 1L, 1L, 1L, 1L, 1L);
+        if (infol != 0) {
             *info = infol * 100;
             return 0;
         }
-        if (iwarnl != 0)
-        {
+        if (iwarnl != 0) {
             *iwarn = iwarnl * 100;
         }
         /* Computing MAX */
-        i__1 = wrkopt, i__2 = (integer) dwork[jwork] + jwork - 1;
-        wrkopt = max(i__1,i__2);
+        i__1 = wrkopt, i__2 = (integer)dwork[jwork] + jwork - 1;
+        wrkopt = max(i__1, i__2);
         ircnd = 0;
-        if (lsame_("M", "N", 1L, 1L))
-        {
+        if (lsame_("M", "N", 1L, 1L)) {
             ircnd = 2;
             dcopy_(&ircnd, &dwork[jwork + 1], &c__1, rcnd, &c__1);
         }
-        if (ns >= 0)
-        {
+        if (ns >= 0) {
             *n = ns;
-        }
-        else
-        {
+        } else {
             /*           Find the number of parameters. */
             ldac = *n + *l;
             isad = ldac * (*n + *m);
-            n2 = *n **n;
-            lths = *n * (ml + 1) + *l **m;
+            n2 = *n * *n;
+            lths = *n * (ml + 1) + *l * *m;
             nx = nths + lths;
-            if (*lx < nx)
-            {
+            if (*lx < nx) {
                 *lx = nx;
                 *info = -16;
                 i__1 = -(*info);
@@ -760,83 +713,76 @@ ftnlen init_len;
             /*           Workspace for IB01BD. */
             /* Computing MAX */
             /* Computing MAX */
-            i__3 = lnol **n + (*n << 1) + (*m + ml) **nobr + *l, i__4 = (lnol << 1) **n + n2 + (*n << 3), i__3 = max(i__3,i__4), i__4 = *n + (mno + *n << 2) + 1, i__3 = max(i__3,i__4), i__4 = mno + *n * 3 + *l;
-            i__1 = (lnol << 1) **n + (*n << 1), i__2 = lnol **n + n2 + *n * 7, i__1 = max(i__1,i__2), i__2 = *l **nobr **n + max(i__3,i__4);
-            iw1 = max(i__1,i__2);
-            if (*m > 0)
-            {
+            i__3 = lnol * *n + (*n << 1) + (*m + ml) * *nobr + *l,
+            i__4 = (lnol << 1) * *n + n2 + (*n << 3), i__3 = max(i__3, i__4),
+            i__4 = *n + (mno + *n << 2) + 1, i__3 = max(i__3, i__4), i__4 = mno + *n * 3 + *l;
+            i__1 = (lnol << 1) * *n + (*n << 1), i__2 = lnol * *n + n2 + *n * 7,
+            i__1 = max(i__1, i__2), i__2 = *l * *nobr * *n + max(i__3, i__4);
+            iw1 = max(i__1, i__2);
+            if (*m > 0) {
                 /* Computing MAX */
                 /* Computing 2nd power */
                 i__3 = ldac;
                 i__1 = i__3 * i__3, i__2 = (*m << 2) * ldac + 1;
-                iw2 = *l **nobr **n + mno * ldac * (*m * ldac + 1) + max(i__1,i__2);
-            }
-            else
-            {
+                iw2 = *l * *nobr * *n + mno * ldac * (*m * ldac + 1) + max(i__1, i__2);
+            } else {
                 iw2 = 0;
             }
-            jwork = isv + isad + max(iw1,iw2);
+            jwork = isv + isad + max(iw1, iw2);
             /*           Workspace for IB01CD. */
             /* Computing MAX */
             i__1 = n2 << 1, i__2 = *n << 2;
-            iw1 = nsml * (*n + 1) + (*n << 1) + max(i__1,i__2);
+            iw1 = nsml * (*n + 1) + (*n << 1) + max(i__1, i__2);
             /* Computing MAX */
-            i__1 = *n **l * (*n + 1) + (n2 << 1) + *l **n, i__2 = *n << 2;
-            iw2 = *n * (*n + 1) + (*n << 1) + max(i__1,i__2);
+            i__1 = *n * *l * (*n + 1) + (n2 << 1) + *l * *n, i__2 = *n << 2;
+            iw2 = *n * (*n + 1) + (*n << 1) + max(i__1, i__2);
             /* Computing MAX */
             /* Computing MAX */
-            i__3 = *n * 5, i__3 = max(i__3,2), i__4 = min(iw1,iw2);
-            i__1 = jwork, i__2 = isad + 2 + *n * (*n + 1 + ldac + *m) + max(i__3,i__4);
-            jwork = max(i__1,i__2);
+            i__3 = *n * 5, i__3 = max(i__3, 2), i__4 = min(iw1, iw2);
+            i__1 = jwork, i__2 = isad + 2 + *n * (*n + 1 + ldac + *m) + max(i__3, i__4);
+            jwork = max(i__1, i__2);
             /*           Workspace for TF01MX. */
             /* Computing MAX */
             i__1 = jwork, i__2 = nsml + isad + ldac + (*n << 1) + *m;
-            jwork = max(i__1,i__2);
+            jwork = max(i__1, i__2);
             /*           Workspace for TB01VD. */
             /* Computing MAX */
             /* Computing MAX */
             /* Computing MAX */
-            i__5 = n2 + *n * max(*n,*l) + *n * 6 + min(*n,*l), i__6 = *n **m;
-            i__3 = 1, i__4 = n2 **l + *n **l + *n, i__3 = max(i__3,i__4), i__4 = n2 + max(i__5,i__6);
-            i__1 = jwork, i__2 = nsml + isad + *n + max(i__3,i__4);
-            jwork = max(i__1,i__2);
+            i__5 = n2 + *n * max(*n, *l) + *n * 6 + min(*n, *l), i__6 = *n * *m;
+            i__3 = 1, i__4 = n2 * *l + *n * *l + *n, i__3 = max(i__3, i__4),
+            i__4 = n2 + max(i__5, i__6);
+            i__1 = jwork, i__2 = nsml + isad + *n + max(i__3, i__4);
+            jwork = max(i__1, i__2);
             /*           Workspace for MD03BD (whole optimization). */
-            if (*m > 0)
-            {
+            if (*m > 0) {
                 iw1 = ldac + *m;
-            }
-            else
-            {
+            } else {
                 iw1 = *l;
             }
             /* Computing MAX */
             /* Computing MAX */
             i__3 = *n * ldac;
-            i__1 = *nn << 1, i__2 = isad + (*n << 1) + max(i__3,iw1);
-            iw1 = nsml + max(i__1,i__2);
-            if (*l <= 1 || bsn == 0)
-            {
+            i__1 = *nn << 1, i__2 = isad + (*n << 1) + max(i__3, iw1);
+            iw1 = nsml + max(i__1, i__2);
+            if (*l <= 1 || bsn == 0) {
                 iw3 = nx << 2;
                 iw2 = iw3 + 1;
-            }
-            else
-            {
+            } else {
                 /* Computing MAX */
                 i__1 = bsn * 3 + 1;
-                iw2 = bsn + max(i__1,lths);
-                if (*nsmp > bsn)
-                {
+                iw2 = bsn + max(i__1, lths);
+                if (*nsmp > bsn) {
                     /* Computing MAX */
                     i__1 = iw2, i__2 = (lths << 2) + 1;
-                    iw2 = max(i__1,i__2);
-                    if (*nsmp < bsn << 1)
-                    {
+                    iw2 = max(i__1, i__2);
+                    if (*nsmp < bsn << 1) {
                         /* Computing MAX */
                         i__1 = iw2, i__2 = (*nsmp - bsn) * (*l - 1);
-                        iw2 = max(i__1,i__2);
+                        iw2 = max(i__1, i__2);
                     }
                 }
-                iw3 = lths * bsn + (nx << 1) + (max(bsn,lths) << 1);
+                iw3 = lths * bsn + (nx << 1) + (max(bsn, lths) << 1);
             }
             /* Computing MAX */
             /* Computing MAX */
@@ -845,37 +791,34 @@ ftnlen init_len;
             i__7 = nsml + iw1, i__8 = iw2 + nx;
             /* Computing MAX */
             i__9 = nsml + iw1, i__10 = nx + iw3;
-            i__5 = nsml * (bsn + lths) + max(i__7,i__8), i__6 = nx * (bsn + lths) + nx + max(i__9,i__10);
-            i__3 = 4, i__4 = nsml + max(i__5,i__6);
-            i__1 = jwork, i__2 = nsml + nx + max(i__3,i__4);
-            jwork = max(i__1,i__2);
-            if (*ldwork < jwork)
-            {
+            i__5 = nsml * (bsn + lths) + max(i__7, i__8),
+            i__6 = nx * (bsn + lths) + nx + max(i__9, i__10);
+            i__3 = 4, i__4 = nsml + max(i__5, i__6);
+            i__1 = jwork, i__2 = nsml + nx + max(i__3, i__4);
+            jwork = max(i__1, i__2);
+            if (*ldwork < jwork) {
                 *info = -21;
-                dwork[1] = (doublereal) jwork;
+                dwork[1] = (doublereal)jwork;
                 i__1 = -(*info);
                 xerbla_("IB03BD", &i__1, 6L);
                 return 0;
             }
         }
-        bd = ac + ldac **n;
-        ix = bd + ldac **m;
+        bd = ac + ldac * *n;
+        ix = bd + ldac * *m;
         ia = isv;
-        ib = ia + ldac **n;
-        iq = ib + ldac **m;
-        if (lsame_("N", "N", 1L, 1L))
-        {
+        ib = ia + ldac * *n;
+        iq = ib + ldac * *m;
+        if (lsame_("N", "N", 1L, 1L)) {
             iry = iq;
             is = iq;
             ik = iq;
             jwork = iq;
-        }
-        else
-        {
+        } else {
             iry = iq + n2;
-            is = iry + *l **l;
-            ik = is + *n **l;
-            jwork = ik + *n **l;
+            is = iry + *l * *l;
+            ik = is + *n * *l;
+            jwork = ik + *n * *l;
         }
         /*        The workspace needed is defined for the options set above */
         /*        in the PARAMETER statements. */
@@ -893,30 +836,29 @@ ftnlen init_len;
         /*          prefer: larger. */
         /*        Integer workspace:  MAX(M*NOBR+N,M*(N+L)). */
         i__1 = *ldwork - jwork + 1;
-        ib01bd_("C", "A", "N", nobr, n, m, l, nsmp, &dwork[ir], &ldr, &dwork[ia], &ldac, &dwork[ia + *n], &ldac, &dwork[ib], &ldac, &dwork[ib + *n], &ldac, &dwork[iq], n, &dwork[iry], l, &dwork[is], n, &dwork[ik], n, &c_b20, &iwork[1], &dwork[jwork], &i__1, bwork, &iwarnl, &infol, 1L, 1L, 1L);
-        if (infol == -30)
-        {
+        ib01bd_("C", "A", "N", nobr, n, m, l, nsmp, &dwork[ir], &ldr, &dwork[ia], &ldac,
+            &dwork[ia + *n], &ldac, &dwork[ib], &ldac, &dwork[ib + *n], &ldac, &dwork[iq], n,
+            &dwork[iry], l, &dwork[is], n, &dwork[ik], n, &c_b20, &iwork[1], &dwork[jwork], &i__1,
+            bwork, &iwarnl, &infol, 1L, 1L, 1L);
+        if (infol == -30) {
             *info = -21;
             dwork[1] = dwork[jwork];
             i__1 = -(*info);
             xerbla_("IB03BD", &i__1, 6L);
             return 0;
         }
-        if (infol != 0)
-        {
+        if (infol != 0) {
             *info = infol * 100;
             return 0;
         }
-        if (iwarnl != 0)
-        {
+        if (iwarnl != 0) {
             *iwarn = iwarnl * 100;
         }
         /* Computing MAX */
-        i__1 = wrkopt, i__2 = (integer) dwork[jwork] + jwork - 1;
-        wrkopt = max(i__1,i__2);
+        i__1 = wrkopt, i__2 = (integer)dwork[jwork] + jwork - 1;
+        wrkopt = max(i__1, i__2);
         ircndb = 4;
-        if (lsame_("N", "K", 1L, 1L))
-        {
+        if (lsame_("N", "K", 1L, 1L)) {
             ircndb += 8;
         }
         dcopy_(&ircndb, &dwork[jwork + 1], &c__1, &rcnd[ircnd], &c__1);
@@ -925,8 +867,8 @@ ftnlen init_len;
         /*        space, and redefine the pointers. */
         dcopy_(&isad, &dwork[ia], &c__1, &dwork[1], &c__1);
         ia = 1;
-        ib = ia + ldac **n;
-        ix0 = ib + ldac **m;
+        ib = ia + ldac * *n;
+        ix0 = ib + ldac * *m;
         iv = ix0 + *n;
         /*        Compute the initial condition of the system. On normal exit, */
         /*           DWORK(i), i = JWORK+2:JWORK+1+N*N, */
@@ -948,44 +890,39 @@ ftnlen init_len;
         /*        Integer workspace:  N. */
         jwork = iv + n2;
         i__1 = *ldwork - jwork + 1;
-        ib01cd_("X needed", "U", "D", n, m, l, nsmp, &dwork[ia], &ldac, &dwork[ib], &ldac, &dwork[ia + *n], &ldac, &dwork[ib + *n], &ldac, &u[u_offset], ldu, &y[y_offset], ldy, &dwork[ix0], &dwork[iv], n, &c_b20, &iwork[1], &dwork[jwork], &i__1, &iwarnl, &infol, 8L, 1L, 1L);
-        if (infol == -26)
-        {
+        ib01cd_("X needed", "U", "D", n, m, l, nsmp, &dwork[ia], &ldac, &dwork[ib], &ldac,
+            &dwork[ia + *n], &ldac, &dwork[ib + *n], &ldac, &u[u_offset], ldu, &y[y_offset], ldy,
+            &dwork[ix0], &dwork[iv], n, &c_b20, &iwork[1], &dwork[jwork], &i__1, &iwarnl, &infol,
+            8L, 1L, 1L);
+        if (infol == -26) {
             *info = -21;
             dwork[1] = dwork[jwork];
             i__1 = -(*info);
             xerbla_("IB03BD", &i__1, 6L);
             return 0;
         }
-        if (infol == 1)
-        {
+        if (infol == 1) {
             infol = 10;
         }
-        if (infol != 0)
-        {
+        if (infol != 0) {
             *info = infol * 100;
             return 0;
         }
-        if (iwarnl != 0)
-        {
+        if (iwarnl != 0) {
             *iwarn = iwarnl * 100;
         }
         /* Computing MAX */
-        i__1 = wrkopt, i__2 = (integer) dwork[jwork] + jwork - 1;
-        wrkopt = max(i__1,i__2);
+        i__1 = wrkopt, i__2 = (integer)dwork[jwork] + jwork - 1;
+        wrkopt = max(i__1, i__2);
         ++ircnd;
         rcnd[ircnd - 1] = dwork[jwork + 1];
         /*        Now, save the system matrices and x0 in the final location. */
-        if (iv < ac)
-        {
+        if (iv < ac) {
             i__1 = isad + *n;
             dcopy_(&i__1, &dwork[ia], &c__1, &dwork[ac], &c__1);
-        }
-        else
-        {
+        } else {
             i__1 = ac;
-            for (j = ac + isad + *n - 1; j >= i__1; --j)
-            {
+            for (j = ac + isad + *n - 1; j >= i__1; --j) {
                 dwork[j] = dwork[ia + j - ac];
                 /* L10: */
             }
@@ -998,7 +935,8 @@ ftnlen init_len;
         jwork = ix + *n;
         dcopy_(n, &dwork[ix], &c__1, &x[nths + 1], &c__1);
         i__1 = *ldwork - jwork + 1;
-        tf01mx_(n, m, l, nsmp, &dwork[ac], &ldac, &u[u_offset], ldu, &x[nths + 1], &dwork[z__], nsmp, &dwork[jwork], &i__1, info);
+        tf01mx_(n, m, l, nsmp, &dwork[ac], &ldac, &u[u_offset], ldu, &x[nths + 1], &dwork[z__],
+            nsmp, &dwork[jwork], &i__1, info);
         /*        Convert the state-space representation to output normal form. */
         /*        Workspace: */
         /*          need:   NSMP*L + (N + L)*(N + M) + N + */
@@ -1006,41 +944,43 @@ ftnlen init_len;
         /*                      MAX(N*N + N*MAX(N,L) + 6*N + MIN(N,L), N*M)); */
         /*          prefer: larger. */
         i__1 = *ldwork - jwork + 1;
-        tb01vd_("Apply", n, m, l, &dwork[ac], &ldac, &dwork[bd], &ldac, &dwork[ac + *n], &ldac, &dwork[bd + *n], &ldac, &dwork[ix], &x[nths + 1], &lths, &dwork[jwork], &i__1, &infol, 5L);
-        if (infol > 0)
-        {
+        tb01vd_("Apply", n, m, l, &dwork[ac], &ldac, &dwork[bd], &ldac, &dwork[ac + *n], &ldac,
+            &dwork[bd + *n], &ldac, &dwork[ix], &x[nths + 1], &lths, &dwork[jwork], &i__1, &infol,
+            5L);
+        if (infol > 0) {
             *info = infol + 4;
             return 0;
         }
         /* Computing MAX */
-        i__1 = wrkopt, i__2 = (integer) dwork[jwork] + jwork - 1;
-        wrkopt = max(i__1,i__2);
+        i__1 = wrkopt, i__2 = (integer)dwork[jwork] + jwork - 1;
+        wrkopt = max(i__1, i__2);
     }
     lipar = 7;
     iw1 = 0;
     iw2 = 0;
     idiag = ac;
-    if (init2)
-    {
+    if (init2) {
         /*        Initialize the nonlinear part. */
-        if (! init1)
-        {
-            bd = ac + ldac **n;
-            ix = bd + ldac **m;
+        if (!init1) {
+            bd = ac + ldac * *n;
+            ix = bd + ldac * *m;
             /*           Convert the output normal form to state-space model. */
             /*           Workspace: need NSMP*L + (N + L)*(2*N + M) + 2*N. */
             /*           (NSMP*L locations are reserved for the output of the linear */
             /*           part.) */
             jwork = ix + *n;
             i__1 = *ldwork - jwork + 1;
-            tb01vy_("Apply", n, m, l, &x[nths + 1], &lths, &dwork[ac], &ldac, &dwork[bd], &ldac, &dwork[ac + *n], &ldac, &dwork[bd + *n], &ldac, &dwork[ix], &dwork[jwork], &i__1, info, 5L);
+            tb01vy_("Apply", n, m, l, &x[nths + 1], &lths, &dwork[ac], &ldac, &dwork[bd], &ldac,
+                &dwork[ac + *n], &ldac, &dwork[bd + *n], &ldac, &dwork[ix], &dwork[jwork], &i__1,
+                info, 5L);
             /*           Compute the output of the linear part. */
             /*           Workspace: need   NSMP*L + (N + L)*(N + M) + 3*N + M + L, */
             /*                                                              if M > 0; */
             /*                             NSMP*L + (N + L)*N + 2*N + L,    if M = 0; */
             /*                      prefer larger. */
             i__1 = *ldwork - jwork + 1;
-            tf01mx_(n, m, l, nsmp, &dwork[ac], &ldac, &u[u_offset], ldu, &dwork[ix], &dwork[z__], nsmp, &dwork[jwork], &i__1, info);
+            tf01mx_(n, m, l, nsmp, &dwork[ac], &ldac, &u[u_offset], ldu, &dwork[ix], &dwork[z__],
+                nsmp, &dwork[jwork], &i__1, info);
         }
         /*        Optimize the parameters of the nonlinear part. */
         /*        Workspace: */
@@ -1059,46 +999,41 @@ ftnlen init_len;
         ipar[2] = *nn;
         jwork = idiag + bsn;
         i__1 = *l - 1;
-        for (i__ = 0; i__ <= i__1; ++i__)
-        {
+        for (i__ = 0; i__ <= i__1; ++i__) {
             dcopy_(&c__4, seed, &c__1, &dwork[jwork], &c__1);
             i__2 = *ldwork - jwork + 1;
-            md03bd_("Random initialization", "I", "E", nf01be_, md03ba_, md03bb_, nsmp, &bsn, itmax1, &c_b63, nprint, ipar, &lipar, &dwork[z__], nsmp, &y[(i__ + 1) * y_dim1 + 1], ldy, &x[i__ * bsn + 1], &dwork[idiag], &nfev, &njev, tol1, tol1, &c_b64, &c_b64, &iwork[1], &dwork[jwork], &i__2, &iwarnl, &infol, 21L, 1L, 1L);
-            if (infol != 0)
-            {
+            md03bd_("Random initialization", "I", "E", nf01be_, md03ba_, md03bb_, nsmp, &bsn,
+                itmax1, &c_b63, nprint, ipar, &lipar, &dwork[z__], nsmp, &y[(i__ + 1) * y_dim1 + 1],
+                ldy, &x[i__ * bsn + 1], &dwork[idiag], &nfev, &njev, tol1, tol1, &c_b64, &c_b64,
+                &iwork[1], &dwork[jwork], &i__2, &iwarnl, &infol, 21L, 1L, 1L);
+            if (infol != 0) {
                 *info = infol * 10;
                 return 0;
             }
-            if (iwarnl < 0)
-            {
+            if (iwarnl < 0) {
                 *info = infol;
                 *iwarn = iwarnl;
                 goto L50;
-            }
-            else if (iwarnl > 0)
-            {
-                if (*iwarn > 100)
-                {
+            } else if (iwarnl > 0) {
+                if (*iwarn > 100) {
                     /* Computing MAX */
                     i__2 = *iwarn, i__3 = *iwarn / 100 * 100 + iwarnl * 10;
-                    *iwarn = max(i__2,i__3);
-                }
-                else
-                {
+                    *iwarn = max(i__2, i__3);
+                } else {
                     /* Computing MAX */
                     i__2 = *iwarn, i__3 = iwarnl * 10;
-                    *iwarn = max(i__2,i__3);
+                    *iwarn = max(i__2, i__3);
                 }
             }
             /* Computing MAX */
             d__1 = work[0], d__2 = dwork[jwork];
-            work[0] = max(d__1,d__2);
+            work[0] = max(d__1, d__2);
             /* Computing MAX */
             d__1 = work[1], d__2 = dwork[jwork + 1];
-            work[1] = max(d__1,d__2);
+            work[1] = max(d__1, d__2);
             /* Computing MAX */
             d__1 = work[3], d__2 = dwork[jwork + 3];
-            work[3] = max(d__1,d__2);
+            work[3] = max(d__1, d__2);
             work[2] += dwork[jwork + 2];
             iw1 = nfev + iw1;
             iw2 = njev + iw2;
@@ -1136,43 +1071,36 @@ ftnlen init_len;
     ipar[6] = *nn;
     jwork = idiag + nx;
     i__1 = *ldwork - jwork + 1;
-    md03bd_("Given initialization", "I", "E", nf01bf_, nf01bs_, nf01bp_, &nsml, &nx, itmax2, &c_b63, nprint, ipar, &lipar, &u[u_offset], ldu, &y[y_offset], ldy, &x[1], &dwork[idiag], &nfev, &njev, tol2, tol2, &c_b64, &c_b64, &iwork[1], &dwork[jwork], &i__1, &iwarnl, info, 20L, 1L, 1L);
-    if (*info != 0)
-    {
+    md03bd_("Given initialization", "I", "E", nf01bf_, nf01bs_, nf01bp_, &nsml, &nx, itmax2, &c_b63,
+        nprint, ipar, &lipar, &u[u_offset], ldu, &y[y_offset], ldy, &x[1], &dwork[idiag], &nfev,
+        &njev, tol2, tol2, &c_b64, &c_b64, &iwork[1], &dwork[jwork], &i__1, &iwarnl, info, 20L, 1L,
+        1L);
+    if (*info != 0) {
         return 0;
     }
     i__1 = nx + *l;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         iwork[i__ + 3] = iwork[i__];
         /* L40: */
     }
 L50:
     iwork[1] = iw1 + nfev;
     iwork[2] = iw2 + njev;
-    if (iwarnl < 0)
-    {
+    if (iwarnl < 0) {
         *iwarn = iwarnl;
-    }
-    else
-    {
+    } else {
         *iwarn += iwarnl;
     }
     dcopy_(&c__4, &dwork[jwork], &c__1, &dwork[1], &c__1);
-    if (init2)
-    {
+    if (init2) {
         dcopy_(&c__4, work, &c__1, &dwork[5], &c__1);
     }
-    if (init1)
-    {
+    if (init1) {
         iwork[3] = ircnd;
         dcopy_(&ircnd, rcnd, &c__1, &dwork[9], &c__1);
-    }
-    else
-    {
+    } else {
         iwork[3] = 0;
     }
     return 0;
     /* *** Last line of IB03BD *** */
 } /* ib03bd_ */
-

@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,10 +9,9 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int mc01py_(k, rez, imz, p, dwork, info)
-integer *k;
+EXPORTSYMBOL /* Subroutine */ int mc01py_(k, rez, imz, p, dwork, info) integer* k;
 doublereal *rez, *imz, *p, *dwork;
-integer *info;
+integer* info;
 {
     /* System generated locals */
     integer i__1;
@@ -93,8 +92,7 @@ integer *info;
     --imz;
     --rez;
     /* Function Body */
-    if (*k < 0)
-    {
+    if (*k < 0) {
         *info = -1;
         /*        Error return. */
         i__1 = -(*info);
@@ -104,32 +102,24 @@ integer *info;
     /*     Quick return if possible. */
     *info = 0;
     p[1] = 1.;
-    if (*k == 0)
-    {
+    if (*k == 0) {
         return 0;
     }
     i__ = 1;
     /*     WHILE ( I <= K ) DO */
 L20:
-    if (i__ <= *k)
-    {
+    if (i__ <= *k) {
         u = rez[i__];
         v = imz[i__];
         dwork[i__] = 0.;
-        if (v == 0.)
-        {
+        if (v == 0.) {
             d__1 = -u;
             daxpy_(&i__, &d__1, &p[1], &c__1, &dwork[1], &c__1);
-        }
-        else
-        {
-            if (i__ == *k)
-            {
+        } else {
+            if (i__ == *k) {
                 *info = *k;
                 return 0;
-            }
-            else if (u != rez[i__ + 1] || v != -imz[i__ + 1])
-            {
+            } else if (u != rez[i__ + 1] || v != -imz[i__ + 1]) {
                 *info = i__ + 1;
                 return 0;
             }
@@ -152,4 +142,3 @@ L20:
     return 0;
     /* *** Last line of MC01PY *** */
 } /* mc01py_ */
-

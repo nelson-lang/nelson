@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,17 +11,19 @@ static integer c__1 = 1;
 static integer c__3 = 3;
 static integer c__2 = 2;
 
-EXPORTSYMBOL /* Subroutine */ int mb04qb_(tranc, trand, tranq, storev, storew, m, n, k, v, ldv, w, ldw, c__, ldc, d__, ldd, cs, tau, dwork, ldwork, info, tranc_len, trand_len, tranq_len, storev_len, storew_len)
-char *tranc, *trand, *tranq, *storev, *storew;
+EXPORTSYMBOL /* Subroutine */ int mb04qb_(tranc, trand, tranq, storev, storew, m, n, k, v, ldv, w,
+    ldw, c__, ldc, d__, ldd, cs, tau, dwork, ldwork, info, tranc_len, trand_len, tranq_len,
+    storev_len, storew_len) char *tranc,
+    *trand, *tranq, *storev, *storew;
 integer *m, *n, *k;
-doublereal *v;
-integer *ldv;
-doublereal *w;
-integer *ldw;
-doublereal *c__;
-integer *ldc;
-doublereal *d__;
-integer *ldd;
+doublereal* v;
+integer* ldv;
+doublereal* w;
+integer* ldw;
+doublereal* c__;
+integer* ldc;
+doublereal* d__;
+integer* ldd;
 doublereal *cs, *tau, *dwork;
 integer *ldwork, *info;
 ftnlen tranc_len;
@@ -32,7 +34,8 @@ ftnlen storew_len;
 {
     /* System generated locals */
     address a__1[3];
-    integer c_dim1, c_offset, d_dim1, d_offset, v_dim1, v_offset, w_dim1, w_offset, i__1, i__2[3], i__3, i__4;
+    integer c_dim1, c_offset, d_dim1, d_offset, v_dim1, v_offset, w_dim1, w_offset, i__1, i__2[3],
+        i__3, i__4;
     char ch__1[3];
     /* Builtin functions */
     /* Subroutine */ int s_cat();
@@ -242,71 +245,44 @@ ftnlen storew_len;
     ltrd = lsame_(trand, "T", 1L, 1L) || lsame_(trand, "C", 1L, 1L);
     ltrq = lsame_(tranq, "T", 1L, 1L);
     /*     Check the scalar input parameters. */
-    if (! (ltrc || lsame_(tranc, "N", 1L, 1L)))
-    {
+    if (!(ltrc || lsame_(tranc, "N", 1L, 1L))) {
         *info = -1;
-    }
-    else if (! (ltrd || lsame_(trand, "N", 1L, 1L)))
-    {
+    } else if (!(ltrd || lsame_(trand, "N", 1L, 1L))) {
         *info = -2;
-    }
-    else if (! (ltrq || lsame_(tranq, "N", 1L, 1L)))
-    {
+    } else if (!(ltrq || lsame_(tranq, "N", 1L, 1L))) {
         *info = -3;
-    }
-    else if (! (lcolv || lsame_(storev, "R", 1L, 1L)))
-    {
+    } else if (!(lcolv || lsame_(storev, "R", 1L, 1L))) {
         *info = -4;
-    }
-    else if (! (lcolw || lsame_(storew, "R", 1L, 1L)))
-    {
+    } else if (!(lcolw || lsame_(storew, "R", 1L, 1L))) {
         *info = -5;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -6;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -7;
-    }
-    else if (*k < 0 || *k > *m)
-    {
+    } else if (*k < 0 || *k > *m) {
         *info = -8;
-    }
-    else if (lcolv && *ldv < max(1,*m) || ! lcolv && *ldv < max(1,*k))
-    {
+    } else if (lcolv && *ldv < max(1, *m) || !lcolv && *ldv < max(1, *k)) {
         *info = -10;
-    }
-    else if (lcolw && *ldw < max(1,*m) || ! lcolw && *ldw < max(1,*k))
-    {
+    } else if (lcolw && *ldw < max(1, *m) || !lcolw && *ldw < max(1, *k)) {
         *info = -12;
-    }
-    else if (ltrc && *ldc < max(1,*n) || ! ltrc && *ldc < max(1,*m))
-    {
+    } else if (ltrc && *ldc < max(1, *n) || !ltrc && *ldc < max(1, *m)) {
         *info = -14;
-    }
-    else if (ltrd && *ldd < max(1,*n) || ! ltrd && *ldd < max(1,*m))
-    {
+    } else if (ltrd && *ldd < max(1, *n) || !ltrd && *ldd < max(1, *m)) {
         *info = -16;
-    }
-    else if (*ldwork < max(1,*n))
-    {
-        dwork[1] = (doublereal) max(1,*n);
+    } else if (*ldwork < max(1, *n)) {
+        dwork[1] = (doublereal)max(1, *n);
         *info = -20;
     }
     /*     Return if there were illegal values. */
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB04QB", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
     /* Computing MIN */
-    i__1 = min(*k,*m);
-    if (min(i__1,*n) == 0)
-    {
+    i__1 = min(*k, *m);
+    if (min(i__1, *n) == 0) {
         dwork[1] = 1.;
         return 0;
     }
@@ -319,8 +295,7 @@ ftnlen storew_len;
     i__2[2] = 1, a__1[2] = tranq;
     s_cat(ch__1, a__1, i__2, &c__3, 3L);
     nb = ue01md_(&c__1, "MB04QB", ch__1, m, n, k, 6L, 3L);
-    if (nb > 1 && nb < *k)
-    {
+    if (nb > 1 && nb < *k) {
         /*        Determine when to cross over from blocked to unblocked code. */
         /* Computing MAX */
         /* Writing concatenation */
@@ -329,18 +304,17 @@ ftnlen storew_len;
         i__2[2] = 1, a__1[2] = tranq;
         s_cat(ch__1, a__1, i__2, &c__3, 3L);
         i__1 = 0, i__3 = ue01md_(&c__3, "MB04QB", ch__1, m, n, k, 6L, 3L);
-        nx = max(i__1,i__3);
-        if (nx < *k)
-        {
+        nx = max(i__1, i__3);
+        if (nx < *k) {
             /*           Determine if workspace is large enough for blocked code. */
             /* Computing MAX */
             i__1 = wrkopt, i__3 = *n * 9 * nb + nb * 15 * nb;
-            wrkopt = max(i__1,i__3);
-            if (*ldwork < wrkopt)
-            {
+            wrkopt = max(i__1, i__3);
+            if (*ldwork < wrkopt) {
                 /*              Not enough workspace to use optimal NB:  reduce NB and */
                 /*              determine the minimum value of NB. */
-                nb = (integer) ((sqrt((doublereal) (*n * 81 * *n + *ldwork * 60)) - (doublereal) (*n * 9)) / 30.);
+                nb = (integer)(
+                    (sqrt((doublereal)(*n * 81 * *n + *ldwork * 60)) - (doublereal)(*n * 9)) / 30.);
                 /* Computing MAX */
                 /* Writing concatenation */
                 i__2[0] = 1, a__1[0] = tranc;
@@ -348,7 +322,7 @@ ftnlen storew_len;
                 i__2[2] = 1, a__1[2] = tranq;
                 s_cat(ch__1, a__1, i__2, &c__3, 3L);
                 i__1 = 2, i__3 = ue01md_(&c__2, "MB04QB", ch__1, m, n, k, 6L, 3L);
-                nbmin = max(i__1,i__3);
+                nbmin = max(i__1, i__3);
             }
         }
     }
@@ -359,150 +333,127 @@ ftnlen storew_len;
     jc = 1;
     id = 1;
     jd = 1;
-    if (ltrq)
-    {
+    if (ltrq) {
         /*        Use blocked code initially. */
-        if (nb >= nbmin && nb < *k && nx < *k)
-        {
+        if (nb >= nbmin && nb < *k && nx < *k) {
             i__1 = *k - nx;
             i__3 = nb;
-            for (i__ = 1; i__3 < 0 ? i__ >= i__1 : i__ <= i__1; i__ += i__3)
-            {
+            for (i__ = 1; i__3 < 0 ? i__ >= i__1 : i__ <= i__1; i__ += i__3) {
                 /* Computing MIN */
                 i__4 = *k - i__ + 1;
-                ib = min(i__4,nb);
+                ib = min(i__4, nb);
                 /*              Form the triangular factors of the symplectic block */
                 /*              reflector SH. */
                 i__4 = *m - i__ + 1;
-                mb04qf_("Forward", storev, storew, &i__4, &ib, &v[i__ + i__ * v_dim1], ldv, &w[i__ + i__ * w_dim1], ldw, &cs[(i__ << 1) - 1], &tau[i__], &dwork[pdrs], &nb, &dwork[pdt], &nb, &dwork[pdw], 7L, 1L, 1L);
+                mb04qf_("Forward", storev, storew, &i__4, &ib, &v[i__ + i__ * v_dim1], ldv,
+                    &w[i__ + i__ * w_dim1], ldw, &cs[(i__ << 1) - 1], &tau[i__], &dwork[pdrs], &nb,
+                    &dwork[pdt], &nb, &dwork[pdw], 7L, 1L, 1L);
                 /*              Apply SH' to [ op(C)(i:m,:); op(D)(i:m,:) ] from the */
                 /*              left. */
-                if (ltrc)
-                {
+                if (ltrc) {
                     jc = i__;
-                }
-                else
-                {
+                } else {
                     ic = i__;
                 }
-                if (ltrd)
-                {
+                if (ltrd) {
                     jd = i__;
-                }
-                else
-                {
+                } else {
                     id = i__;
                 }
                 i__4 = *m - i__ + 1;
-                mb04qc_("No Structure", tranc, trand, tranq, "Forward", storev, storew, &i__4, n, &ib, &v[i__ + i__ * v_dim1], ldv, &w[i__ + i__ * w_dim1], ldw, &dwork[pdrs], &nb, &dwork[pdt], &nb, &c__[ic + jc * c_dim1], ldc, &d__[id + jd * d_dim1], ldd, &dwork[pdw], 12L, 1L, 1L, 1L, 7L, 1L, 1L);
+                mb04qc_("No Structure", tranc, trand, tranq, "Forward", storev, storew, &i__4, n,
+                    &ib, &v[i__ + i__ * v_dim1], ldv, &w[i__ + i__ * w_dim1], ldw, &dwork[pdrs],
+                    &nb, &dwork[pdt], &nb, &c__[ic + jc * c_dim1], ldc, &d__[id + jd * d_dim1], ldd,
+                    &dwork[pdw], 12L, 1L, 1L, 1L, 7L, 1L, 1L);
                 /* L10: */
             }
-        }
-        else
-        {
+        } else {
             i__ = 1;
         }
         /*        Use unblocked code to update last or only block. */
-        if (i__ <= *k)
-        {
-            if (ltrc)
-            {
+        if (i__ <= *k) {
+            if (ltrc) {
                 jc = i__;
-            }
-            else
-            {
+            } else {
                 ic = i__;
             }
-            if (ltrd)
-            {
+            if (ltrd) {
                 jd = i__;
-            }
-            else
-            {
+            } else {
                 id = i__;
             }
             i__3 = *m - i__ + 1;
             i__1 = *k - i__ + 1;
-            mb04qu_(tranc, trand, tranq, storev, storew, &i__3, n, &i__1, &v[i__ + i__ * v_dim1], ldv, &w[i__ + i__ * w_dim1], ldw, &c__[ic + jc * c_dim1], ldc, &d__[id + jd * d_dim1], ldd, &cs[(i__ << 1) - 1], &tau[i__], &dwork[1], ldwork, &ierr, 1L, 1L, 1L, 1L, 1L);
+            mb04qu_(tranc, trand, tranq, storev, storew, &i__3, n, &i__1, &v[i__ + i__ * v_dim1],
+                ldv, &w[i__ + i__ * w_dim1], ldw, &c__[ic + jc * c_dim1], ldc,
+                &d__[id + jd * d_dim1], ldd, &cs[(i__ << 1) - 1], &tau[i__], &dwork[1], ldwork,
+                &ierr, 1L, 1L, 1L, 1L, 1L);
         }
-    }
-    else
-    {
-        if (nb >= nbmin && nb < *k && nx < *k)
-        {
+    } else {
+        if (nb >= nbmin && nb < *k && nx < *k) {
             /*           Use blocked code after the last block. */
             /*           The first kk columns are handled by the block method. */
             ki = (*k - nx - 1) / nb * nb;
             /* Computing MIN */
             i__3 = *k, i__1 = ki + nb;
-            kk = min(i__3,i__1);
-        }
-        else
-        {
+            kk = min(i__3, i__1);
+        } else {
             kk = 0;
         }
         /*        Use unblocked code for the last or only block. */
-        if (kk < *k)
-        {
-            if (ltrc)
-            {
+        if (kk < *k) {
+            if (ltrc) {
                 jc = kk + 1;
-            }
-            else
-            {
+            } else {
                 ic = kk + 1;
             }
-            if (ltrd)
-            {
+            if (ltrd) {
                 jd = kk + 1;
-            }
-            else
-            {
+            } else {
                 id = kk + 1;
             }
             i__3 = *m - kk;
             i__1 = *k - kk;
-            mb04qu_(tranc, trand, tranq, storev, storew, &i__3, n, &i__1, &v[kk + 1 + (kk + 1) * v_dim1], ldv, &w[kk + 1 + (kk + 1) * w_dim1], ldw, &c__[ic + jc * c_dim1], ldc, &d__[id + jd * d_dim1], ldd, &cs[(kk << 1) + 1], &tau[kk + 1], &dwork[1], ldwork, &ierr, 1L, 1L, 1L, 1L, 1L);
+            mb04qu_(tranc, trand, tranq, storev, storew, &i__3, n, &i__1,
+                &v[kk + 1 + (kk + 1) * v_dim1], ldv, &w[kk + 1 + (kk + 1) * w_dim1], ldw,
+                &c__[ic + jc * c_dim1], ldc, &d__[id + jd * d_dim1], ldd, &cs[(kk << 1) + 1],
+                &tau[kk + 1], &dwork[1], ldwork, &ierr, 1L, 1L, 1L, 1L, 1L);
         }
         /*        Blocked code. */
-        if (kk > 0)
-        {
+        if (kk > 0) {
             i__3 = -nb;
-            for (i__ = ki + 1; i__3 < 0 ? i__ >= 1 : i__ <= 1; i__ += i__3)
-            {
+            for (i__ = ki + 1; i__3 < 0 ? i__ >= 1 : i__ <= 1; i__ += i__3) {
                 /* Computing MIN */
                 i__1 = nb, i__4 = *k - i__ + 1;
-                ib = min(i__1,i__4);
+                ib = min(i__1, i__4);
                 /*              Form the triangular factors of the symplectic block */
                 /*              reflector SH. */
                 i__1 = *m - i__ + 1;
-                mb04qf_("Forward", storev, storew, &i__1, &ib, &v[i__ + i__ * v_dim1], ldv, &w[i__ + i__ * w_dim1], ldw, &cs[(i__ << 1) - 1], &tau[i__], &dwork[pdrs], &nb, &dwork[pdt], &nb, &dwork[pdw], 7L, 1L, 1L);
+                mb04qf_("Forward", storev, storew, &i__1, &ib, &v[i__ + i__ * v_dim1], ldv,
+                    &w[i__ + i__ * w_dim1], ldw, &cs[(i__ << 1) - 1], &tau[i__], &dwork[pdrs], &nb,
+                    &dwork[pdt], &nb, &dwork[pdw], 7L, 1L, 1L);
                 /*              Apply SH to [ op(C)(i:m,:); op(D)(i:m,:) ] from */
                 /*              the left. */
-                if (ltrc)
-                {
+                if (ltrc) {
                     jc = i__;
-                }
-                else
-                {
+                } else {
                     ic = i__;
                 }
-                if (ltrd)
-                {
+                if (ltrd) {
                     jd = i__;
-                }
-                else
-                {
+                } else {
                     id = i__;
                 }
                 i__1 = *m - i__ + 1;
-                mb04qc_("No Structure", tranc, trand, tranq, "Forward", storev, storew, &i__1, n, &ib, &v[i__ + i__ * v_dim1], ldv, &w[i__ + i__ * w_dim1], ldw, &dwork[pdrs], &nb, &dwork[pdt], &nb, &c__[ic + jc * c_dim1], ldc, &d__[id + jd * d_dim1], ldd, &dwork[pdw], 12L, 1L, 1L, 1L, 7L, 1L, 1L);
+                mb04qc_("No Structure", tranc, trand, tranq, "Forward", storev, storew, &i__1, n,
+                    &ib, &v[i__ + i__ * v_dim1], ldv, &w[i__ + i__ * w_dim1], ldw, &dwork[pdrs],
+                    &nb, &dwork[pdt], &nb, &c__[ic + jc * c_dim1], ldc, &d__[id + jd * d_dim1], ldd,
+                    &dwork[pdw], 12L, 1L, 1L, 1L, 7L, 1L, 1L);
                 /* L20: */
             }
         }
     }
-    dwork[1] = (doublereal) wrkopt;
+    dwork[1] = (doublereal)wrkopt;
     return 0;
     /* *** Last line of MB04QB *** */
 } /* mb04qb_ */
-

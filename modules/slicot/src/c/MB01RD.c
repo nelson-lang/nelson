@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -13,16 +13,17 @@ static integer c__0 = 0;
 static doublereal c_b15 = 1.;
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int mb01rd_(uplo, trans, m, n, alpha, beta, r__, ldr, a, lda, x, ldx, dwork, ldwork, info, uplo_len, trans_len)
-char *uplo, *trans;
+EXPORTSYMBOL /* Subroutine */ int mb01rd_(uplo, trans, m, n, alpha, beta, r__, ldr, a, lda, x, ldx,
+    dwork, ldwork, info, uplo_len, trans_len) char *uplo,
+    *trans;
 integer *m, *n;
 doublereal *alpha, *beta, *r__;
-integer *ldr;
-doublereal *a;
-integer *lda;
-doublereal *x;
-integer *ldx;
-doublereal *dwork;
+integer* ldr;
+doublereal* a;
+integer* lda;
+doublereal* x;
+integer* ldx;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen uplo_len;
 ftnlen trans_len;
@@ -208,56 +209,37 @@ ftnlen trans_len;
     *info = 0;
     luplo = lsame_(uplo, "U", 1L, 1L);
     ltrans = lsame_(trans, "T", 1L, 1L) || lsame_(trans, "C", 1L, 1L);
-    if (ltrans)
-    {
+    if (ltrans) {
         nrowa = *n;
         s_copy(ntran, "No transpose", 12L, 12L);
-    }
-    else
-    {
+    } else {
         nrowa = *m;
         s_copy(ntran, "Transpose", 12L, 9L);
     }
-    ldw = max(1,*m);
-    if (! luplo && ! lsame_(uplo, "L", 1L, 1L))
-    {
+    ldw = max(1, *m);
+    if (!luplo && !lsame_(uplo, "L", 1L, 1L)) {
         *info = -1;
-    }
-    else if (! ltrans && ! lsame_(trans, "N", 1L, 1L))
-    {
+    } else if (!ltrans && !lsame_(trans, "N", 1L, 1L)) {
         *info = -2;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -3;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -4;
-    }
-    else if (*ldr < ldw)
-    {
+    } else if (*ldr < ldw) {
         *info = -8;
-    }
-    else if (*lda < max(1,nrowa))
-    {
+    } else if (*lda < max(1, nrowa)) {
         *info = -10;
-    }
-    else if (*ldx < max(1,*n))
-    {
+    } else if (*ldx < max(1, *n)) {
         *info = -12;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
-        i__1 = 1, i__2 = *m **n;
-        if (*beta != 0. && *ldwork < max(i__1,i__2) || *beta == 0. && *ldwork < 1)
-        {
+        i__1 = 1, i__2 = *m * *n;
+        if (*beta != 0. && *ldwork < max(i__1, i__2) || *beta == 0. && *ldwork < 1) {
             *info = -14;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("MB01RD", &i__1, 6L);
@@ -266,22 +248,16 @@ ftnlen trans_len;
     /*     Quick return if possible. */
     i__1 = *ldx + 1;
     dscal_(n, &c_b10, &x[x_offset], &i__1);
-    if (*m == 0)
-    {
+    if (*m == 0) {
         return 0;
     }
-    if (*beta == 0. || *n == 0)
-    {
-        if (*alpha == 0.)
-        {
+    if (*beta == 0. || *n == 0) {
+        if (*alpha == 0.) {
             /*           Special case alpha = 0. */
             dlaset_(uplo, m, m, &c_b11, &c_b11, &r__[r_offset], ldr, 1L);
-        }
-        else
-        {
+        } else {
             /*           Special case beta = 0 or N = 0. */
-            if (*alpha != 1.)
-            {
+            if (*alpha != 1.) {
                 dlascl_(uplo, &c__0, &c__0, &c_b15, alpha, m, m, &r__[r_offset], ldr, info, 1L);
             }
         }
@@ -296,37 +272,29 @@ ftnlen trans_len;
     /*     (Note: Comments in the code beginning "Workspace:" describe the */
     /*     minimal amount of real workspace needed at that point in the */
     /*     code.) */
-    if (ltrans)
-    {
+    if (ltrans) {
         jwork = 1;
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             dcopy_(m, &a[j + a_dim1], lda, &dwork[jwork], &c__1);
             jwork += ldw;
             /* L10: */
         }
-    }
-    else
-    {
+    } else {
         dlacpy_("Full", m, n, &a[a_offset], lda, &dwork[1], &ldw, 4L);
     }
-    dtrmm_("Right", uplo, "No transpose", "Non-unit", m, n, beta, &x[x_offset], ldx, &dwork[1], &ldw, 5L, 1L, 12L, 8L);
+    dtrmm_("Right", uplo, "No transpose", "Non-unit", m, n, beta, &x[x_offset], ldx, &dwork[1],
+        &ldw, 5L, 1L, 12L, 8L);
     /*     Compute Y = alpha*V + W*op( A )' in R. First, set to zero the */
     /*     strictly triangular part of R not specified by UPLO. That part */
     /*     will then contain beta*stri( B ). */
-    if (*alpha != 0.)
-    {
-        if (*m > 1)
-        {
-            if (luplo)
-            {
+    if (*alpha != 0.) {
+        if (*m > 1) {
+            if (luplo) {
                 i__1 = *m - 1;
                 i__2 = *m - 1;
                 dlaset_("Lower", &i__1, &i__2, &c_b11, &c_b11, &r__[r_dim1 + 2], ldr, 5L);
-            }
-            else
-            {
+            } else {
                 i__1 = *m - 1;
                 i__2 = *m - 1;
                 dlaset_("Upper", &i__1, &i__2, &c_b11, &c_b11, &r__[(r_dim1 << 1) + 1], ldr, 5L);
@@ -335,22 +303,18 @@ ftnlen trans_len;
         i__1 = *ldr + 1;
         dscal_(m, &c_b10, &r__[r_offset], &i__1);
     }
-    dgemm_("No transpose", ntran, m, m, n, &c_b15, &dwork[1], &ldw, &a[a_offset], lda, alpha, &r__[r_offset], ldr, 12L, 12L);
+    dgemm_("No transpose", ntran, m, m, n, &c_b15, &dwork[1], &ldw, &a[a_offset], lda, alpha,
+        &r__[r_offset], ldr, 12L, 12L);
     /*     Add the term corresponding to B', with B = op( A )*T*op( A )'. */
-    if (luplo)
-    {
+    if (luplo) {
         i__1 = *m;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             daxpy_(&j, &c_b15, &r__[j + r_dim1], ldr, &r__[j * r_dim1 + 1], &c__1);
             /* L20: */
         }
-    }
-    else
-    {
+    } else {
         i__1 = *m;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             daxpy_(&j, &c_b15, &r__[j * r_dim1 + 1], &c__1, &r__[j + r_dim1], ldr);
             /* L30: */
         }
@@ -358,4 +322,3 @@ ftnlen trans_len;
     return 0;
     /* *** Last line of MB01RD *** */
 } /* mb01rd_ */
-

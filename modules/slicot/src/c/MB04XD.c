@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -13,17 +13,18 @@ static integer c__1 = 1;
 static doublereal c_b22 = 0.;
 static doublereal c_b23 = 1.;
 
-EXPORTSYMBOL /* Subroutine */ int mb04xd_(jobu, jobv, m, n, rank, theta, a, lda, u, ldu, v, ldv, q, inul, tol, reltol, dwork, ldwork, iwarn, info, jobu_len, jobv_len)
-char *jobu, *jobv;
+EXPORTSYMBOL /* Subroutine */ int mb04xd_(jobu, jobv, m, n, rank, theta, a, lda, u, ldu, v, ldv, q,
+    inul, tol, reltol, dwork, ldwork, iwarn, info, jobu_len, jobv_len) char *jobu,
+    *jobv;
 integer *m, *n, *rank;
 doublereal *theta, *a;
-integer *lda;
-doublereal *u;
-integer *ldu;
-doublereal *v;
-integer *ldv;
-doublereal *q;
-logical *inul;
+integer* lda;
+doublereal* u;
+integer* ldu;
+doublereal* v;
+integer* ldv;
+doublereal* q;
+logical* inul;
 doublereal *tol, *reltol, *dwork;
 integer *ldwork, *iwarn, *info;
 ftnlen jobu_len;
@@ -353,8 +354,8 @@ ftnlen jobv_len;
     /* Function Body */
     *iwarn = 0;
     *info = 0;
-    p = min(*m,*n);
-    k = max(*m,*n);
+    p = min(*m, *n);
+    k = max(*m, *n);
     /*     Determine whether U and/or V are/is to be computed. */
     ljobua = lsame_(jobu, "A", 1L, 1L);
     ljobus = lsame_(jobu, "S", 1L, 1L);
@@ -364,84 +365,56 @@ ftnlen jobv_len;
     wantv = ljobva || ljobvs;
     all = ljobua && *m > *n || ljobva && *m < *n;
     qr = *m >= ilaenv_(&c__6, "DGESVD", "NN", m, n, &c__0, &c__0, 6L, 2L);
-    if (qr && wantu)
-    {
+    if (qr && wantu) {
         /* Computing MAX */
         i__1 = *n << 1, i__2 = *n * (*n + 1) / 2;
-        ldw = max(i__1,i__2);
-    }
-    else
-    {
+        ldw = max(i__1, i__2);
+    } else {
         ldw = 0;
     }
-    if (wantu || wantv)
-    {
+    if (wantu || wantv) {
         ldy = (p << 3) - 5;
-    }
-    else
-    {
+    } else {
         ldy = p * 6 - 3;
     }
     /*     Test the input scalar arguments. */
-    if (! wantu && ! lsame_(jobu, "N", 1L, 1L))
-    {
+    if (!wantu && !lsame_(jobu, "N", 1L, 1L)) {
         *info = -1;
-    }
-    else if (! wantv && ! lsame_(jobv, "N", 1L, 1L))
-    {
+    } else if (!wantv && !lsame_(jobv, "N", 1L, 1L)) {
         *info = -2;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -3;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -4;
-    }
-    else if (*rank > p)
-    {
+    } else if (*rank > p) {
         *info = -5;
-    }
-    else if (*rank < 0 && *theta < 0.)
-    {
+    } else if (*rank < 0 && *theta < 0.) {
         *info = -6;
-    }
-    else if (*lda < max(1,*m))
-    {
+    } else if (*lda < max(1, *m)) {
         *info = -8;
-    }
-    else if (! wantu && *ldu < 1 || wantu && *ldu < max(1,*m))
-    {
+    } else if (!wantu && *ldu < 1 || wantu && *ldu < max(1, *m)) {
         *info = -10;
-    }
-    else if (! wantv && *ldv < 1 || wantv && *ldv < max(1,*n))
-    {
+    } else if (!wantv && *ldv < 1 || wantv && *ldv < max(1, *n)) {
         *info = -12;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
         /* Computing MAX */
         i__3 = (p << 1) + k;
-        i__1 = 1, i__2 = ldw + max(i__3,ldy);
-        if (*ldwork < max(i__1,i__2))
-        {
+        i__1 = 1, i__2 = ldw + max(i__3, ldy);
+        if (*ldwork < max(i__1, i__2)) {
             *info = -18;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("MB04XD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (p == 0)
-    {
-        if (*rank >= 0)
-        {
+    if (p == 0) {
+        if (*rank >= 0) {
             *theta = 0.;
         }
         *rank = 0;
@@ -449,26 +422,20 @@ ftnlen jobv_len;
     }
     /*     Initializations. */
     pp1 = p + 1;
-    if (all && ! qr)
-    {
+    if (all && !qr) {
         i__1 = p;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             inul[i__] = FALSE_;
             /* L20: */
         }
         i__1 = k;
-        for (i__ = pp1; i__ <= i__1; ++i__)
-        {
+        for (i__ = pp1; i__ <= i__1; ++i__) {
             inul[i__] = TRUE_;
             /* L40: */
         }
-    }
-    else
-    {
+    } else {
         i__1 = k;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             inul[i__] = FALSE_;
             /* L60: */
         }
@@ -480,8 +447,7 @@ ftnlen jobv_len;
     /*     code, as well as the preferred amount for good performance. */
     /*     NB refers to the optimal block size for the immediately */
     /*     following subroutine, as returned by ILAENV.) */
-    if (qr)
-    {
+    if (qr) {
         /*        1.a.: M is large enough than N; transform A into upper */
         /*              triangular form R by Householder transformations. */
         /*        Workspace: need 2*N;  prefer N + N*NB. */
@@ -489,45 +455,37 @@ ftnlen jobv_len;
         jwork = itau + *n;
         i__1 = *ldwork - jwork + 1;
         dgeqrf_(m, n, &a[a_offset], lda, &dwork[itau], &dwork[jwork], &i__1, info);
-        wrkopt = (integer) dwork[jwork] + jwork - 1;
+        wrkopt = (integer)dwork[jwork] + jwork - 1;
         /*        If (WANTU), store information on the Householder */
         /*        transformations performed on the columns of A in N*(N+1)/2 */
         /*        extra storage locations DWORK(K), for K = 1,2,...,N*(N+1)/2. */
         /*        (The first N locations store the scalar factors of Householder */
         /*        transformations.) */
         /*        Workspace: LDW = max(2*N, N*(N+1)/2). */
-        if (wantu)
-        {
+        if (wantu) {
             ihoush = jwork;
             k = ihoush;
             i__ = *n;
-        }
-        else
-        {
+        } else {
             k = 1;
         }
         i__1 = *n - 1;
-        for (j = 1; j <= i__1; ++j)
-        {
-            if (wantu)
-            {
+        for (j = 1; j <= i__1; ++j) {
+            if (wantu) {
                 --i__;
                 dcopy_(&i__, &a[j + 1 + j * a_dim1], &c__1, &dwork[k], &c__1);
                 k += i__;
             }
             i__2 = *n;
-            for (ij = j + 1; ij <= i__2; ++ij)
-            {
+            for (ij = j + 1; ij <= i__2; ++ij) {
                 a[ij + j * a_dim1] = 0.;
                 /* L80: */
             }
             /* L100: */
         }
         ma = *n;
-        wrkopt = max(wrkopt,k);
-    }
-    else
-    {
+        wrkopt = max(wrkopt, k);
+    } else {
         /*        Workspace: LDW = 0. */
         k = 1;
         ma = *m;
@@ -541,59 +499,45 @@ ftnlen jobv_len;
     itaup = itauq + p;
     jwork = itaup + p;
     i__1 = *ldwork - jwork + 1;
-    dgebrd_(&ma, n, &a[a_offset], lda, &q[1], &q[pp1], &dwork[itauq], &dwork[itaup], &dwork[jwork], &i__1, info);
+    dgebrd_(&ma, n, &a[a_offset], lda, &q[1], &q[pp1], &dwork[itauq], &dwork[itaup], &dwork[jwork],
+        &i__1, info);
     /* Computing MAX */
-    i__1 = wrkopt, i__2 = (integer) dwork[jwork] + jwork - 1;
-    wrkopt = max(i__1,i__2);
+    i__1 = wrkopt, i__2 = (integer)dwork[jwork] + jwork - 1;
+    wrkopt = max(i__1, i__2);
     /*     1.c.: Initialize U (if WANTU) and V (if WANTV) with the identity */
     /*           matrix. */
-    if (wantu)
-    {
-        if (all)
-        {
+    if (wantu) {
+        if (all) {
             ju = *m;
-        }
-        else
-        {
+        } else {
             ju = p;
         }
         dlaset_("Full", m, &ju, &c_b22, &c_b23, &u[u_offset], ldu, 4L);
-        *(unsigned char *)jobuy = 'U';
+        *(unsigned char*)jobuy = 'U';
+    } else {
+        *(unsigned char*)jobuy = 'N';
     }
-    else
-    {
-        *(unsigned char *)jobuy = 'N';
-    }
-    if (wantv)
-    {
-        if (all)
-        {
+    if (wantv) {
+        if (all) {
             jv = *n;
-        }
-        else
-        {
+        } else {
             jv = p;
         }
         dlaset_("Full", n, &jv, &c_b22, &c_b23, &v[v_offset], ldv, 4L);
-        *(unsigned char *)jobvy = 'U';
-    }
-    else
-    {
-        *(unsigned char *)jobvy = 'N';
+        *(unsigned char*)jobvy = 'U';
+    } else {
+        *(unsigned char*)jobvy = 'N';
     }
     /*     If the matrix is lower bidiagonal, rotate to be upper bidiagonal */
     /*     by applying Givens rotations on the left. */
-    if (*m < *n)
-    {
+    if (*m < *n) {
         i__1 = p - 1;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             dlartg_(&q[i__], &q[p + i__], &cs, &sn, &temp);
             q[i__] = temp;
             q[p + i__] = sn * q[i__ + 1];
             q[i__ + 1] = cs * q[i__ + 1];
-            if (wantu)
-            {
+            if (wantu) {
                 /*              Workspace: LDW + 4*min(M,N) - 2. */
                 dwork[jwork + i__ - 1] = cs;
                 dwork[jwork + p + i__ - 2] = sn;
@@ -601,9 +545,9 @@ ftnlen jobv_len;
             /* L120: */
         }
         /*        Update left singular vectors if desired. */
-        if (wantu)
-        {
-            dlasr_("Right", "Variable pivot", "Forward", m, &ju, &dwork[jwork], &dwork[jwork + p - 1], &u[u_offset], ldu, 5L, 14L, 7L);
+        if (wantu) {
+            dlasr_("Right", "Variable pivot", "Forward", m, &ju, &dwork[jwork],
+                &dwork[jwork + p - 1], &u[u_offset], ldu, 5L, 14L, 7L);
         }
     }
     /*     Step 2: Partial diagonalization phase. */
@@ -613,21 +557,18 @@ ftnlen jobv_len;
     /*              Workspace: LDW + 8*min(M,N) - 5, if WANTU or WANTV; */
     /*              Workspace: LDW + 6*min(M,N) - 3, if JOBU = JOBV = 'N'. */
     i__1 = *ldwork - jwork + 1;
-    mb04yd_(jobuy, jobvy, m, n, rank, theta, &q[1], &q[pp1], &u[u_offset], ldu, &v[v_offset], ldv, &inul[1], tol, reltol, &dwork[jwork], &i__1, iwarn, info, 1L, 1L);
-    if (wantu || wantv)
-    {
+    mb04yd_(jobuy, jobvy, m, n, rank, theta, &q[1], &q[pp1], &u[u_offset], ldu, &v[v_offset], ldv,
+        &inul[1], tol, reltol, &dwork[jwork], &i__1, iwarn, info, 1L, 1L);
+    if (wantu || wantv) {
         /* Computing MAX */
         i__1 = wrkopt, i__2 = jwork - 6 + (p << 3);
-        wrkopt = max(i__1,i__2);
-    }
-    else
-    {
+        wrkopt = max(i__1, i__2);
+    } else {
         /* Computing MAX */
         i__1 = wrkopt, i__2 = jwork - 4 + p * 6;
-        wrkopt = max(i__1,i__2);
+        wrkopt = max(i__1, i__2);
     }
-    if (*info > 0)
-    {
+    if (*info > 0) {
         return 0;
     }
     /*     Step 3: Back transformation phase. */
@@ -636,17 +577,15 @@ ftnlen jobv_len;
     /*           tion onto the base vectors associated with the desired */
     /*           bidiagonal submatrices. */
     /*           Workspace: LDW + 2*min(M,N). */
-    mb04xy_(jobu, jobv, &ma, n, &a[a_offset], lda, &dwork[itauq], &dwork[itaup], &u[u_offset], ldu, &v[v_offset], ldv, &inul[1], info, 1L, 1L);
+    mb04xy_(jobu, jobv, &ma, n, &a[a_offset], lda, &dwork[itauq], &dwork[itaup], &u[u_offset], ldu,
+        &v[v_offset], ldv, &inul[1], info, 1L, 1L);
     /*     3.b.: If A was reduced to upper triangular form R and JOBU = 'A' */
     /*           or JOBU = 'S' apply the Householder transformations of the */
     /*           triangularization of A onto the desired base vectors. */
-    if (qr && wantu)
-    {
-        if (all)
-        {
+    if (qr && wantu) {
+        if (all) {
             i__1 = *m;
-            for (i__ = pp1; i__ <= i__1; ++i__)
-            {
+            for (i__ = pp1; i__ <= i__1; ++i__) {
                 inul[i__] = TRUE_;
                 /* L140: */
             }
@@ -654,8 +593,7 @@ ftnlen jobv_len;
         k = ihoush;
         i__ = *n;
         i__1 = *n - 1;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             --i__;
             dcopy_(&i__, &dwork[k], &c__1, &a[j + 1 + j * a_dim1], &c__1);
             k += i__;
@@ -663,12 +601,12 @@ ftnlen jobv_len;
         }
         /*        Workspace: MIN(M,N) + 1. */
         jwork = pp1;
-        mb04xy_(jobu, "No V", m, n, &a[a_offset], lda, &dwork[itau], &dwork[itau], &u[u_offset], ldu, &dwork[jwork], &c__1, &inul[1], info, 1L, 4L);
-        wrkopt = max(wrkopt,pp1);
+        mb04xy_(jobu, "No V", m, n, &a[a_offset], lda, &dwork[itau], &dwork[itau], &u[u_offset],
+            ldu, &dwork[jwork], &c__1, &inul[1], info, 1L, 4L);
+        wrkopt = max(wrkopt, pp1);
     }
     /*     Set the optimal workspace. */
-    dwork[1] = (doublereal) wrkopt;
+    dwork[1] = (doublereal)wrkopt;
     return 0;
     /* *** Last line of MB04XD *** */
 } /* mb04xd_ */
-

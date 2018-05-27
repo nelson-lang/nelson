@@ -22,25 +22,23 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::LocalizationGateway::setlanguageBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::LocalizationGateway::setlanguageBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     wstringVector langs;
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() != 1)
-    {
+    if (argIn.size() != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     std::wstring desiredLang = argIn[0].getContentAsWideString();
-    if (Localization::Instance()->isSupportedLanguage(desiredLang))
-    {
-        retval.push_back(ArrayOf::logicalConstructor(Localization::Instance()->setLanguage(desiredLang, true)));
-    }
-    else
-    {
+    if (Localization::Instance()->isSupportedLanguage(desiredLang)) {
+        retval.push_back(
+            ArrayOf::logicalConstructor(Localization::Instance()->setLanguage(desiredLang, true)));
+    } else {
         retval.push_back(ArrayOf::logicalConstructor(false));
     }
     return retval;

@@ -18,11 +18,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsStream_manager_exports.h"
-#include "FilesManager.hpp"
 #include "ArrayOf.hpp"
+#include "FilesManager.hpp"
+#include "nlsStream_manager_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSSTREAM_MANAGER_IMPEXP bool FileClose(FilesManager *fm, int no);
+NLSSTREAM_MANAGER_IMPEXP bool
+FileClose(FilesManager* fm, int no);
 };
 //=============================================================================

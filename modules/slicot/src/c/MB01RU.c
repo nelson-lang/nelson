@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -13,16 +13,17 @@ static doublereal c_b12 = 1.;
 static doublereal c_b13 = .5;
 static doublereal c_b24 = 2.;
 
-EXPORTSYMBOL /* Subroutine */ int mb01ru_(uplo, trans, m, n, alpha, beta, r__, ldr, a, lda, x, ldx, dwork, ldwork, info, uplo_len, trans_len)
-char *uplo, *trans;
+EXPORTSYMBOL /* Subroutine */ int mb01ru_(uplo, trans, m, n, alpha, beta, r__, ldr, a, lda, x, ldx,
+    dwork, ldwork, info, uplo_len, trans_len) char *uplo,
+    *trans;
 integer *m, *n;
 doublereal *alpha, *beta, *r__;
-integer *ldr;
-doublereal *a;
-integer *lda;
-doublereal *x;
-integer *ldx;
-doublereal *dwork;
+integer* ldr;
+doublereal* a;
+integer* lda;
+doublereal* x;
+integer* ldx;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen uplo_len;
 ftnlen trans_len;
@@ -184,62 +185,40 @@ ftnlen trans_len;
     *info = 0;
     luplo = lsame_(uplo, "U", 1L, 1L);
     ltrans = lsame_(trans, "T", 1L, 1L) || lsame_(trans, "C", 1L, 1L);
-    if (! luplo && ! lsame_(uplo, "L", 1L, 1L))
-    {
+    if (!luplo && !lsame_(uplo, "L", 1L, 1L)) {
         *info = -1;
-    }
-    else if (! ltrans && ! lsame_(trans, "N", 1L, 1L))
-    {
+    } else if (!ltrans && !lsame_(trans, "N", 1L, 1L)) {
         *info = -2;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -3;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -4;
-    }
-    else if (*ldr < max(1,*m))
-    {
+    } else if (*ldr < max(1, *m)) {
         *info = -8;
-    }
-    else if (*lda < 1 || ltrans && *lda < *n || ! ltrans && *lda < *m)
-    {
+    } else if (*lda < 1 || ltrans && *lda < *n || !ltrans && *lda < *m) {
         *info = -10;
-    }
-    else if (*ldx < max(1,*n))
-    {
+    } else if (*ldx < max(1, *n)) {
         *info = -12;
-    }
-    else if (*beta != 0. && *ldwork < *m **n || *beta == 0. && *ldwork < 0)
-    {
+    } else if (*beta != 0. && *ldwork < *m * *n || *beta == 0. && *ldwork < 0) {
         *info = -14;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("MB01RU", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*m == 0)
-    {
+    if (*m == 0) {
         return 0;
     }
-    if (*beta == 0. || *n == 0)
-    {
-        if (*alpha == 0.)
-        {
+    if (*beta == 0. || *n == 0) {
+        if (*alpha == 0.) {
             /*           Special case alpha = 0. */
             dlaset_(uplo, m, m, &c_b8, &c_b8, &r__[r_offset], ldr, 1L);
-        }
-        else
-        {
+        } else {
             /*           Special case beta = 0 or N = 0. */
-            if (*alpha != 1.)
-            {
+            if (*alpha != 1.) {
                 dlascl_(uplo, &c__0, &c__0, &c_b12, alpha, m, m, &r__[r_offset], ldr, info, 1L);
             }
         }
@@ -251,21 +230,21 @@ ftnlen trans_len;
     /*     Workspace: need M*N. */
     i__1 = *ldx + 1;
     dscal_(n, &c_b13, &x[x_offset], &i__1);
-    if (ltrans)
-    {
+    if (ltrans) {
         dlacpy_("Full", n, m, &a[a_offset], lda, &dwork[1], n, 4L);
-        dtrmm_("Left", uplo, "NoTranspose", "Non-unit", n, m, &c_b12, &x[x_offset], ldx, &dwork[1], n, 4L, 1L, 11L, 8L);
-        dsyr2k_(uplo, trans, m, n, beta, &dwork[1], n, &a[a_offset], lda, alpha, &r__[r_offset], ldr, 1L, 1L);
-    }
-    else
-    {
+        dtrmm_("Left", uplo, "NoTranspose", "Non-unit", n, m, &c_b12, &x[x_offset], ldx, &dwork[1],
+            n, 4L, 1L, 11L, 8L);
+        dsyr2k_(uplo, trans, m, n, beta, &dwork[1], n, &a[a_offset], lda, alpha, &r__[r_offset],
+            ldr, 1L, 1L);
+    } else {
         dlacpy_("Full", m, n, &a[a_offset], lda, &dwork[1], m, 4L);
-        dtrmm_("Right", uplo, "NoTranspose", "Non-unit", m, n, &c_b12, &x[x_offset], ldx, &dwork[1], m, 5L, 1L, 11L, 8L);
-        dsyr2k_(uplo, trans, m, n, beta, &dwork[1], m, &a[a_offset], lda, alpha, &r__[r_offset], ldr, 1L, 1L);
+        dtrmm_("Right", uplo, "NoTranspose", "Non-unit", m, n, &c_b12, &x[x_offset], ldx, &dwork[1],
+            m, 5L, 1L, 11L, 8L);
+        dsyr2k_(uplo, trans, m, n, beta, &dwork[1], m, &a[a_offset], lda, alpha, &r__[r_offset],
+            ldr, 1L, 1L);
     }
     i__1 = *ldx + 1;
     dscal_(n, &c_b24, &x[x_offset], &i__1);
     return 0;
     /* *** Last line of MB01RU *** */
 } /* mb01ru_ */
-

@@ -18,24 +18,22 @@
 //=============================================================================
 #include "MPI_Comm_deleteBuiltin.hpp"
 #include "Error.hpp"
-#include "MPI_helpers.hpp"
 #include "MPI_CommHandleObject.hpp"
+#include "MPI_helpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::MpiGateway::MPI_Comm_deleteBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::MpiGateway::MPI_Comm_deleteBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (argIn.size() != 1)
-    {
+    if (argIn.size() != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs != 0)
-    {
+    if (nLhs != 0) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
-    if (param1.isHandle())
-    {
+    if (param1.isHandle()) {
         MPICommHandleDelete(param1);
     }
     ArrayOfVector retval;

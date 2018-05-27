@@ -18,12 +18,14 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "nlsCore_exports.h"
 #include "Evaluator.hpp"
+#include "nlsCore_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    NLSCORE_IMPEXP std::wstring GetCurrentNFilenameW(Evaluator* eval);
-    NLSCORE_IMPEXP std::string GetCurrentNFilenameU(Evaluator* eval);
-}
+NLSCORE_IMPEXP std::wstring
+GetCurrentNFilenameW(Evaluator* eval);
+NLSCORE_IMPEXP std::string
+GetCurrentNFilenameU(Evaluator* eval);
+} // namespace Nelson
 //=============================================================================

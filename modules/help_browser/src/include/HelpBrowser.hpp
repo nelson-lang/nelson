@@ -18,34 +18,52 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsHelp_browser_exports.h"
 #include "Types.hpp"
+#include "nlsHelp_browser_exports.h"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    class NLSHELP_BROWSER_IMPEXP HelpBrowser {
-    public:
-        static HelpBrowser *getInstance();
-        void registerHelpFile(std::wstring filename);
-        void unregisterHelpFile(std::wstring filename);
-        void showDocByName(std::wstring name);
-        void showDocByIdentifier(std::wstring identifier);
-        bool startBrowser(std::wstring &msg);
-        void closeBrowser();
-        void syncBrowser();
-        void sendCommand(const std::wstring &cmd);
-        void destroy();
-        void clearCache();
-        std::wstring getCachePath();
-        wstringVector getAttributes();
-    private:
-        HelpBrowser();
-        HelpBrowser(HelpBrowser const&) {};
-        std::wstring getQhcFilename();
-        std::wstring getQhcPath();
-        static HelpBrowser *m_pInstance;
-        std::wstring getCacheFile();
-    };
-    //=============================================================================
-}
+//=============================================================================
+class NLSHELP_BROWSER_IMPEXP HelpBrowser
+{
+public:
+    static HelpBrowser*
+    getInstance();
+    void
+    registerHelpFile(std::wstring filename);
+    void
+    unregisterHelpFile(std::wstring filename);
+    void
+    showDocByName(std::wstring name);
+    void
+    showDocByIdentifier(std::wstring identifier);
+    bool
+    startBrowser(std::wstring& msg);
+    void
+    closeBrowser();
+    void
+    syncBrowser();
+    void
+    sendCommand(const std::wstring& cmd);
+    void
+    destroy();
+    void
+    clearCache();
+    std::wstring
+    getCachePath();
+    wstringVector
+    getAttributes();
+
+private:
+    HelpBrowser();
+    HelpBrowser(HelpBrowser const&){};
+    std::wstring
+    getQhcFilename();
+    std::wstring
+    getQhcPath();
+    static HelpBrowser* m_pInstance;
+    std::wstring
+    getCacheFile();
+};
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

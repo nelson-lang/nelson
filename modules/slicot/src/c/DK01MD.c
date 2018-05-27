@@ -1,15 +1,14 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-EXPORTSYMBOL /* Subroutine */ int dk01md_(type__, n, a, info, type_len)
-char *type__;
-integer *n;
-doublereal *a;
-integer *info;
+EXPORTSYMBOL /* Subroutine */ int dk01md_(type__, n, a, info, type_len) char* type__;
+integer* n;
+doublereal* a;
+integer* info;
 ftnlen type_len;
 {
     /* System generated locals */
@@ -110,63 +109,47 @@ ftnlen type_len;
     ntype = lsame_(type__, "N", 1L, 1L);
     mntype = mtype || ntype;
     /*     Test the input scalar arguments. */
-    if (! mntype && ! lsame_(type__, "Q", 1L, 1L))
-    {
+    if (!mntype && !lsame_(type__, "Q", 1L, 1L)) {
         *info = -1;
-    }
-    else if (*n <= 0)
-    {
+    } else if (*n <= 0) {
         *info = -2;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("DK01MD", &i__1, 6L);
         return 0;
     }
-    fn = (doublereal) (*n - 1);
-    if (mntype)
-    {
+    fn = (doublereal)(*n - 1);
+    if (mntype) {
         temp = atan(1.) * 4. / fn;
     }
-    if (mtype)
-    {
+    if (mtype) {
         /*        Hamming window. */
         i__1 = *n;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
-            a[i__] *= cos(temp * (doublereal) (i__ - 1)) * .46 + .54;
+        for (i__ = 1; i__ <= i__1; ++i__) {
+            a[i__] *= cos(temp * (doublereal)(i__ - 1)) * .46 + .54;
             /* L10: */
         }
-    }
-    else if (ntype)
-    {
+    } else if (ntype) {
         /*        Hann window. */
         i__1 = *n;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
-            a[i__] = a[i__] * .5 * (cos(temp * (doublereal) (i__ - 1)) + 1.);
+        for (i__ = 1; i__ <= i__1; ++i__) {
+            a[i__] = a[i__] * .5 * (cos(temp * (doublereal)(i__ - 1)) + 1.);
             /* L20: */
         }
-    }
-    else
-    {
+    } else {
         /*        Quadratic window. */
         n1 = (*n - 1) / 2 + 1;
         i__1 = *n;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
-            buf = (doublereal) (i__ - 1) / fn;
+        for (i__ = 1; i__ <= i__1; ++i__) {
+            buf = (doublereal)(i__ - 1) / fn;
             /* Computing 2nd power */
             d__1 = buf;
             temp = d__1 * d__1;
-            if (i__ <= n1)
-            {
+            if (i__ <= n1) {
                 a[i__] = a[i__] * (1. - temp * 2.) * (1. - buf);
-            }
-            else
-            {
+            } else {
                 a[i__] = a[i__] * 2. * (1. - buf * temp);
             }
             /* L30: */
@@ -175,4 +158,3 @@ ftnlen type_len;
     return 0;
     /* *** Last line of DK01MD *** */
 } /* dk01md_ */
-

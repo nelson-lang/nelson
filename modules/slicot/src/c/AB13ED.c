@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -12,10 +12,10 @@ static integer c__1 = 1;
 static doublereal c_b19 = 1.;
 static doublereal c_b20 = 0.;
 
-EXPORTSYMBOL /* Subroutine */ int ab13ed_(n, a, lda, low, high, tol, dwork, ldwork, info)
-integer *n;
-doublereal *a;
-integer *lda;
+EXPORTSYMBOL /* Subroutine */ int ab13ed_(
+    n, a, lda, low, high, tol, dwork, ldwork, info) integer* n;
+doublereal* a;
+integer* lda;
 doublereal *low, *high, *tol, *dwork;
 integer *ldwork, *info;
 {
@@ -35,7 +35,7 @@ integer *ldwork, *info;
     static doublereal dummy[1];
     static integer jwork, n2;
     extern /* Subroutine */ int dsymv_();
-    static doublereal dummy2[1]	/* was [1][1] */;
+    static doublereal dummy2[1] /* was [1][1] */;
     extern /* Subroutine */ int dgebal_();
     extern doublereal dlamch_(), dlange_();
     extern /* Subroutine */ int dlacpy_(), xerbla_(), dhseqr_();
@@ -176,20 +176,14 @@ integer *ldwork, *info;
     /* Function Body */
     *info = 0;
     minwrk = *n * 3 * (*n + 1);
-    if (*n < 0)
-    {
+    if (*n < 0) {
         *info = -1;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -3;
-    }
-    else if (*ldwork < max(1,minwrk))
-    {
+    } else if (*ldwork < max(1, minwrk)) {
         *info = -8;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("AB13ED", &i__1, 6L);
@@ -197,8 +191,7 @@ integer *ldwork, *info;
     }
     /*     Quick return if possible. */
     *low = 0.;
-    if (*n == 0)
-    {
+    if (*n == 0) {
         *high = 0.;
         dwork[1] = 1.;
         return 0;
@@ -207,7 +200,7 @@ integer *ldwork, *info;
     /*     (Note: Comments in the code beginning "Workspace:" describe the */
     /*     minimal amount of real workspace needed at that point in the */
     /*     code, as well as the preferred amount for good performance.) */
-    n2 = *n **n;
+    n2 = *n * *n;
     igf = 1;
     ia2 = igf + n2 + *n;
     iaa = ia2 + n2;
@@ -220,17 +213,16 @@ integer *ldwork, *info;
     /*     precision. */
     sfmn = dlamch_("Safe minimum", 12L);
     seps = sqrt(dlamch_("Epsilon", 7L));
-    tau = max(*tol,seps) + 1.;
+    tau = max(*tol, seps) + 1.;
     anrm = dlange_("Frobenius", n, n, &a[a_offset], lda, &dwork[1], 9L);
     tol1 = seps * anrm;
-    tol2 = tol1 * (doublereal) (*n << 1);
+    tol2 = tol1 * (doublereal)(*n << 1);
     /*     Initialization of the bisection method. */
     *high = anrm;
     /*     WHILE ( HIGH > TAU*MAX( TOL1, LOW ) ) DO */
 L10:
-    if (*high > tau * max(tol1,*low))
-    {
-        sigma = sqrt(*high) * sqrt((max(tol1,*low)));
+    if (*high > tau * max(tol1, *low)) {
+        sigma = sqrt(*high) * sqrt((max(tol1, *low)));
         /*        Set up H(sigma). */
         /*        Workspace: N*(N+1)+2*N*N. */
         dlacpy_("Full", n, n, &a[a_offset], lda, &dwork[iaa], n, 4L);
@@ -241,49 +233,47 @@ L10:
         dcopy_(&i__1, dummy, &c__0, &dwork[igf + 1], &c__1);
         i__1 = ia2 - *n - 2;
         i__2 = *n + 1;
-        for (i__ = igf; i__2 < 0 ? i__ >= i__1 : i__ <= i__1; i__ += i__2)
-        {
+        for (i__ = igf; i__2 < 0 ? i__ >= i__1 : i__ <= i__1; i__ += i__2) {
             i__3 = *n + 1;
             dcopy_(&i__3, &dwork[i__], &c__1, &dwork[i__ + *n + 1], &c__1);
             /* L20: */
         }
         /*        Computation of the eigenvalues by the square reduced algorithm. */
         /*        Workspace: N*(N+1)+2*N*N+2*N. */
-        mb04zd_("No vectors", n, &dwork[iaa], n, &dwork[igf], n, dummy2, &c__1, &dwork[iwk], info, 10L);
+        mb04zd_(
+            "No vectors", n, &dwork[iaa], n, &dwork[igf], n, dummy2, &c__1, &dwork[iwk], info, 10L);
         /*        Form the matrix A*A + F*G. */
         /*        Workspace: need   N*(N+1)+2*N*N+N; */
         /*                   prefer N*(N+1)+3*N*N. */
         jwork = ia2;
-        if (sufwrk)
-        {
+        if (sufwrk) {
             jwork = iwk;
         }
         dlacpy_("Lower", n, n, &dwork[igf], n, &dwork[jwork], n, 5L);
         ma02ed_("Lower", n, &dwork[jwork], n, 5L);
-        if (sufwrk)
-        {
+        if (sufwrk) {
             /*           Use BLAS 3 calculation. */
-            dsymm_("Left", "Upper", n, n, &c_b19, &dwork[igf + *n], n, &dwork[jwork], n, &c_b20, &dwork[ia2], n, 4L, 5L);
-        }
-        else
-        {
+            dsymm_("Left", "Upper", n, n, &c_b19, &dwork[igf + *n], n, &dwork[jwork], n, &c_b20,
+                &dwork[ia2], n, 4L, 5L);
+        } else {
             /*           Use BLAS 2 calculation. */
             i__2 = *n;
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
-                dsymv_("Upper", n, &c_b19, &dwork[igf + *n], n, &dwork[ia2 + *n * (i__ - 1)], &c__1, &c_b20, &dwork[iwk], &c__1, 5L);
+            for (i__ = 1; i__ <= i__2; ++i__) {
+                dsymv_("Upper", n, &c_b19, &dwork[igf + *n], n, &dwork[ia2 + *n * (i__ - 1)], &c__1,
+                    &c_b20, &dwork[iwk], &c__1, 5L);
                 dcopy_(n, &dwork[iwk], &c__1, &dwork[ia2 + *n * (i__ - 1)], &c__1);
                 /* L30: */
             }
         }
-        dgemm_("NoTranspose", "NoTranspose", n, n, n, &c_b19, &dwork[iaa], n, &dwork[iaa], n, &c_b19, &dwork[ia2], n, 11L, 11L);
+        dgemm_("NoTranspose", "NoTranspose", n, n, n, &c_b19, &dwork[iaa], n, &dwork[iaa], n,
+            &c_b19, &dwork[ia2], n, 11L, 11L);
         /*        Find the eigenvalues of A*A + F*G. */
         /*        Workspace: N*(N+1)+N*N+3*N. */
         jwork = iwi + *n;
         dgebal_("Scale", n, &dwork[ia2], n, &ilo, &ihi, &dwork[jwork], &i__, 5L);
-        dhseqr_("Eigenvalues", "NoSchurVectors", n, &ilo, &ihi, &dwork[ia2], n, &dwork[iwr], &dwork[iwi], dummy2, &c__1, &dwork[jwork], n, info, 11L, 14L);
-        if (*info != 0)
-        {
+        dhseqr_("Eigenvalues", "NoSchurVectors", n, &ilo, &ihi, &dwork[ia2], n, &dwork[iwr],
+            &dwork[iwi], dummy2, &c__1, &dwork[jwork], n, info, 11L, 14L);
+        if (*info != 0) {
             *info = 1;
             return 0;
         }
@@ -293,12 +283,10 @@ L10:
         rneg = FALSE_;
         /*        WHILE ( ( DWORK(IWR+i),DWORK(IWI+i) ) not real positive */
         /*                .AND. I < N ) DO */
-L40:
-        if (! rneg && i__ < *n)
-        {
+    L40:
+        if (!rneg && i__ < *n) {
             temp = (d__1 = dwork[iwi + i__], abs(d__1));
-            if (tol1 > sfmn)
-            {
+            if (tol1 > sfmn) {
                 temp /= tol1;
             }
             rneg = dwork[iwr + i__] < 0. && temp <= tol2;
@@ -306,12 +294,9 @@ L40:
             goto L40;
             /*           END WHILE 40 */
         }
-        if (rneg)
-        {
+        if (rneg) {
             *high = sigma;
-        }
-        else
-        {
+        } else {
             *low = sigma;
         }
         goto L10;
@@ -320,7 +305,6 @@ L40:
     /*     Set optimal workspace dimension. */
     /* Computing MAX */
     i__2 = (n2 << 2) + *n;
-    dwork[1] = (doublereal) max(i__2,minwrk);
+    dwork[1] = (doublereal)max(i__2, minwrk);
     /* *** Last line of AB13ED *** */
 } /* ab13ed_ */
-

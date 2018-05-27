@@ -22,8 +22,9 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace StreamGateway {
-        ArrayOfVector fgetsBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    }
+namespace StreamGateway {
+    ArrayOfVector
+    fgetsBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }
+} // namespace Nelson
 //=============================================================================

@@ -22,9 +22,10 @@
 #include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
-    /**
-    * vertcat ([;]).
-    */
-    NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf VertCat(ArrayOf &A, ArrayOf &B, bool mustRaiseError, bool &bSuccess);
+/**
+ * vertcat ([;]).
+ */
+NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
+VertCat(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess);
 }
 //=============================================================================

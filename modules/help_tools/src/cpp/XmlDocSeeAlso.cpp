@@ -17,93 +17,81 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "XmlDocSeeAlso.hpp"
+#include "HtmlTags.hpp"
 #include "XmlDocumentTags.hpp"
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
-#include "HtmlTags.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    XmlDocSeeAlso::XmlDocSeeAlso()
-    {
-        seeAlsoVector.clear();
+//=============================================================================
+XmlDocSeeAlso::XmlDocSeeAlso() { seeAlsoVector.clear(); }
+//=============================================================================
+XmlDocSeeAlso::~XmlDocSeeAlso()
+{
+    for (size_t k = 0; k < seeAlsoVector.size(); k++) {
+        delete seeAlsoVector[k];
+        seeAlsoVector[k] = nullptr;
     }
-    //=============================================================================
-    XmlDocSeeAlso::~XmlDocSeeAlso()
-    {
-        for (size_t k = 0; k < seeAlsoVector.size(); k++)
-        {
-            delete seeAlsoVector[k];
-            seeAlsoVector[k] = nullptr;
-        }
-        seeAlsoVector.clear();
+    seeAlsoVector.clear();
+}
+//=============================================================================
+void
+XmlDocSeeAlso::append(std::wstring name, std::wstring link)
+{
+    XmlDocSeeAlsoItem* item = nullptr;
+    try {
+        item = new XmlDocSeeAlsoItem(name, link);
+    } catch (std::bad_alloc& e) {
+        e;
+        item = nullptr;
     }
-    //=============================================================================
-    void XmlDocSeeAlso::append(std::wstring name, std::wstring link)
-    {
-        XmlDocSeeAlsoItem *item = nullptr;
-        try
-        {
-            item = new XmlDocSeeAlsoItem(name, link);
-        }
-        catch (std::bad_alloc &e)
-        {
-            e;
-            item = nullptr;
-        }
-        if (item)
-        {
-            seeAlsoVector.push_back(item);
+    if (item) {
+        seeAlsoVector.push_back(item);
+    }
+}
+//=============================================================================
+std::wstring
+XmlDocSeeAlso::getItemType()
+{
+    return utf8_to_wstring(SEE_ALSO_TAG);
+}
+//=============================================================================
+bool
+XmlDocSeeAlso::writeAsHtml(std::string& utf8stream)
+{
+    utf8stream = utf8stream + HTML_H3_IN_TAG + _("See also") + HTML_H3_OUT_TAG + "\n";
+    utf8stream = utf8stream + HTML_HR_OUT_TAG + "\n";
+    utf8stream = utf8stream + "\n";
+    utf8stream = utf8stream + HTML_P_IN_TAG + "\n";
+    for (size_t k = 0; k < seeAlsoVector.size(); k++) {
+        seeAlsoVector[k]->writeAsHtml(utf8stream);
+        if (k < seeAlsoVector.size() - 1) {
+            utf8stream = utf8stream + ", ";
+        } else {
+            utf8stream = utf8stream + ".";
         }
     }
-    //=============================================================================
-    std::wstring XmlDocSeeAlso::getItemType()
-    {
-        return utf8_to_wstring(SEE_ALSO_TAG);
-    }
-    //=============================================================================
-    bool XmlDocSeeAlso::writeAsHtml(std::string &utf8stream)
-    {
-        utf8stream = utf8stream + HTML_H3_IN_TAG + _("See also") + HTML_H3_OUT_TAG + "\n";
-        utf8stream = utf8stream + HTML_HR_OUT_TAG + "\n";
-        utf8stream = utf8stream + "\n";
-        utf8stream = utf8stream + HTML_P_IN_TAG + "\n";
-        for (size_t k = 0; k < seeAlsoVector.size(); k++)
-        {
-            seeAlsoVector[k]->writeAsHtml(utf8stream);
-            if (k < seeAlsoVector.size() - 1)
-            {
-                utf8stream = utf8stream + ", ";
-            }
-            else
-            {
-                utf8stream = utf8stream + ".";
-            }
+    utf8stream = utf8stream + HTML_P_OUT_TAG + "\n";
+    utf8stream = utf8stream + "\n";
+    return true;
+}
+//=============================================================================
+bool
+XmlDocSeeAlso::writeAsMarkdown(std::string& utf8stream)
+{
+    utf8stream = utf8stream + "## " + _("See also") + "\n";
+    utf8stream = utf8stream + "\n";
+    for (size_t k = 0; k < seeAlsoVector.size(); k++) {
+        seeAlsoVector[k]->writeAsMarkdown(utf8stream);
+        if (k < seeAlsoVector.size() - 1) {
+            utf8stream = utf8stream + ", ";
+        } else {
+            utf8stream = utf8stream + ".";
         }
-        utf8stream = utf8stream + HTML_P_OUT_TAG + "\n";
-        utf8stream = utf8stream + "\n";
-        return true;
     }
-    //=============================================================================
-    bool XmlDocSeeAlso::writeAsMarkdown(std::string &utf8stream)
-    {
-        utf8stream = utf8stream + "## " + _("See also") + "\n";
-        utf8stream = utf8stream + "\n";
-        for (size_t k = 0; k < seeAlsoVector.size(); k++)
-        {
-            seeAlsoVector[k]->writeAsMarkdown(utf8stream);
-            if (k < seeAlsoVector.size() - 1)
-            {
-                utf8stream = utf8stream + ", ";
-            }
-            else
-            {
-                utf8stream = utf8stream + ".";
-            }
-        }
-        utf8stream = utf8stream + "\n";
-        return true;
-    }
-    //=============================================================================
+    utf8stream = utf8stream + "\n";
+    return true;
+}
+//=============================================================================
 }
 //=============================================================================

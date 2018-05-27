@@ -19,28 +19,29 @@
 #define _SCL_SECURE_NO_WARNINGS
 #define BOOST_UUID_RANDOM_GENERATOR_COMPAT // BOOST 1.67
 //=============================================================================
+#include "CreateGUID.hpp"
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
-#include "CreateGUID.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    std::wstring CreateGUID()
-    {
-        boost::uuids::uuid uuid = boost::uuids::random_generator()();
-        return boost::uuids::to_wstring(uuid);
+//=============================================================================
+std::wstring
+CreateGUID()
+{
+    boost::uuids::uuid uuid = boost::uuids::random_generator()();
+    return boost::uuids::to_wstring(uuid);
+}
+//=============================================================================
+wstringVector
+CreateGUID(size_t nbGUID)
+{
+    wstringVector uuids;
+    for (size_t k = 0; k < nbGUID; k++) {
+        uuids.push_back(CreateGUID());
     }
-    //=============================================================================
-    wstringVector CreateGUID(size_t nbGUID)
-    {
-        wstringVector uuids;
-        for (size_t k = 0; k < nbGUID; k++)
-        {
-            uuids.push_back(CreateGUID());
-        }
-        return uuids;
-    }
-    //=============================================================================
+    return uuids;
+}
+//=============================================================================
 }
 //=============================================================================

@@ -18,28 +18,29 @@
 //=============================================================================
 #include "NelsonGateway.hpp"
 #include "getavailablelanguagesBuiltin.hpp"
-#include "setlanguageBuiltin.hpp"
-#include "getlanguageBuiltin.hpp"
 #include "getdefaultlanguageBuiltin.hpp"
+#include "getlanguageBuiltin.hpp"
+#include "setlanguageBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"localization";
 //=============================================================================
-static const nlsGateway gateway[] =
-{
+static const nlsGateway gateway[] = {
     { "getavailablelanguages", Nelson::LocalizationGateway::getavailablelanguagesBuiltin, 1, 0 },
     { "setlanguage", Nelson::LocalizationGateway::setlanguageBuiltin, 1, 1 },
     { "getlanguage", Nelson::LocalizationGateway::getlanguageBuiltin, 1, 0 },
     { "getdefaultlanguage", Nelson::LocalizationGateway::getdefaultlanguageBuiltin, 1, 0 },
 };
 //=============================================================================
-static bool initializeLocalizationModule(Nelson::Evaluator* eval)
+static bool
+initializeLocalizationModule(Nelson::Evaluator* eval)
 {
     return true;
 }
 //=============================================================================
-static bool finishLocalizationModule(Nelson::Evaluator* eval)
+static bool
+finishLocalizationModule(Nelson::Evaluator* eval)
 {
     return true;
 }
@@ -52,4 +53,3 @@ NLSGATEWAYREMOVEEXTENDED(gateway, (void*)finishLocalizationModule)
 //=============================================================================
 NLSGATEWAYNAME()
 //=============================================================================
-

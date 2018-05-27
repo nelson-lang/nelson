@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,11 +9,12 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int mb03ke_(trana, tranb, isgn, k, m, n, prec, smin, s, a, b, c__, scale, dwork, ldwork, info)
-logical *trana, *tranb;
+EXPORTSYMBOL /* Subroutine */ int mb03ke_(trana, tranb, isgn, k, m, n, prec, smin, s, a, b, c__,
+    scale, dwork, ldwork, info) logical *trana,
+    *tranb;
 integer *isgn, *k, *m, *n;
 doublereal *prec, *smin;
-integer *s;
+integer* s;
 doublereal *a, *b, *c__, *scale, *dwork;
 integer *ldwork, *info;
 {
@@ -185,23 +186,19 @@ integer *ldwork, *info;
     /* Function Body */
     *info = 0;
     lquery = *ldwork == -1;
-    mn = *m **n;
+    mn = *m * *n;
     kmn = *k * mn;
     /* Computing 2nd power */
     i__1 = mn;
     minwrk = ((*k << 2) - 3) * (i__1 * i__1) + kmn;
-    if (! lquery && *ldwork < minwrk)
-    {
+    if (!lquery && *ldwork < minwrk) {
         *info = -21;
     }
     /*     Quick return if possible. */
-    dwork[1] = (doublereal) minwrk;
-    if (lquery)
-    {
+    dwork[1] = (doublereal)minwrk;
+    if (lquery) {
         return 0;
-    }
-    else if (*info != 0)
-    {
+    } else if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB03KE", &i__1, 6L);
         return 0;
@@ -213,12 +210,11 @@ integer *ldwork, *info;
     /*     individual blocks of the matrix Z - storage of each block Z_i,i */
     /*     is compatible with the BLAS. Numerics is stable since excessive */
     /*     pivot growth is avoided. */
-    mm = *m **m;
-    nn = *n **n;
-    sgn = (doublereal) (*isgn);
+    mm = *m * *m;
+    nn = *n * *n;
+    sgn = (doublereal)(*isgn);
     ldw = mn * 3;
-    if (*m == 2 && *n == 2)
-    {
+    if (*m == 2 && *n == 2) {
         mn6 = ldw + ldw;
         mn7 = mn6 + ldw;
         km2 = kmn + kmn;
@@ -234,8 +230,7 @@ integer *ldwork, *info;
     cb = zc + mn * kmn;
     /*     Fill the Z part of the workspace with zeros. */
     i__1 = cb - 1;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         dwork[j] = 0.;
         /* L10: */
     }
@@ -246,51 +241,38 @@ integer *ldwork, *info;
     im1 = *k;
     zi = zd + mn;
     i__1 = *k - 1;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         /*        Build Z_{i,i}, i = 1,...,K-1. */
-        if (s[im1] == -1)
-        {
+        if (s[im1] == -1) {
             ia1 = (im1 - 1) * mm + 1;
             dwork[zi] = a[ia1];
-            if (*m == 2)
-            {
+            if (*m == 2) {
                 ia3 = ia1 + 2;
-                if (! (*trana))
-                {
+                if (!(*trana)) {
                     dwork[zi + 1] = a[ia1 + 1];
                     dwork[zi + ldw] = a[ia3];
-                }
-                else
-                {
+                } else {
                     dwork[zi + 1] = a[ia3];
                     dwork[zi + ldw] = a[ia1 + 1];
                 }
                 dwork[zi + ldw + 1] = a[ia3 + 1];
             }
-            if (*n == 2)
-            {
-                zi2 = zi + (ldw + 1) **m;
+            if (*n == 2) {
+                zi2 = zi + (ldw + 1) * *m;
                 dwork[zi2] = dwork[zi];
-                if (*m == 2)
-                {
+                if (*m == 2) {
                     dwork[zi2 + 1] = dwork[zi + 1];
                     dwork[zi2 + ldw] = dwork[zi + ldw];
                     dwork[zi2 + ldw + 1] = dwork[zi + ldw + 1];
                 }
             }
-        }
-        else
-        {
+        } else {
             ib1 = (im1 - 1) * nn + 1;
             dwork[zi] = sgn * b[ib1];
-            if (! (*tranb))
-            {
-                if (*m == 2)
-                {
+            if (!(*tranb)) {
+                if (*m == 2) {
                     dwork[zi + ldw + 1] = dwork[zi];
-                    if (*n == 2)
-                    {
+                    if (*n == 2) {
                         ib3 = ib1 + 2;
                         dwork[zi + 2] = sgn * b[ib3];
                         dwork[zi + ldw + 3] = dwork[zi + 2];
@@ -299,22 +281,16 @@ integer *ldwork, *info;
                         dwork[zi + mn7 + 1] = dwork[zi + mn6];
                         dwork[zi + mn7 + 3] = dwork[zi + mn6 + 2];
                     }
-                }
-                else if (*n == 2)
-                {
+                } else if (*n == 2) {
                     ib3 = ib1 + 2;
                     dwork[zi + 1] = sgn * b[ib3];
                     dwork[zi + ldw] = sgn * b[ib1 + 1];
                     dwork[zi + ldw + 1] = sgn * b[ib3 + 1];
                 }
-            }
-            else
-            {
-                if (*m == 2)
-                {
+            } else {
+                if (*m == 2) {
                     dwork[zi + ldw + 1] = dwork[zi];
-                    if (*n == 2)
-                    {
+                    if (*n == 2) {
                         ib3 = ib1 + 2;
                         dwork[zi + 2] = sgn * b[ib1 + 1];
                         dwork[zi + ldw + 3] = dwork[zi + 2];
@@ -323,9 +299,7 @@ integer *ldwork, *info;
                         dwork[zi + mn7 + 1] = dwork[zi + mn6];
                         dwork[zi + mn7 + 3] = dwork[zi + mn6 + 2];
                     }
-                }
-                else if (*n == 2)
-                {
+                } else if (*n == 2) {
                     ib3 = ib1 + 2;
                     dwork[zi + 1] = sgn * b[ib1 + 1];
                     dwork[zi + ldw] = sgn * b[ib3];
@@ -335,48 +309,36 @@ integer *ldwork, *info;
         }
         /*        Build Z_{i+1,i}, i = 1,...,K-1. */
         zi += mn;
-        if (s[i__] == 1)
-        {
+        if (s[i__] == 1) {
             ia1 = ixa;
             dwork[zi] = a[ia1];
-            if (*m == 2)
-            {
+            if (*m == 2) {
                 ia3 = ia1 + 2;
-                if (! (*trana))
-                {
+                if (!(*trana)) {
                     dwork[zi + 1] = a[ia1 + 1];
                     dwork[zi + ldw] = a[ia3];
-                }
-                else
-                {
+                } else {
                     dwork[zi + 1] = a[ia3];
                     dwork[zi + ldw] = a[ia1 + 1];
                 }
                 dwork[zi + ldw + 1] = a[ia3 + 1];
             }
-            if (*n == 2)
-            {
-                zi2 = zi + (ldw + 1) **m;
+            if (*n == 2) {
+                zi2 = zi + (ldw + 1) * *m;
                 dwork[zi2] = dwork[zi];
-                if (*m == 2)
-                {
+                if (*m == 2) {
                     dwork[zi2 + 1] = dwork[zi + 1];
                     dwork[zi2 + ldw] = dwork[zi + ldw];
                     dwork[zi2 + ldw + 1] = dwork[zi + ldw + 1];
                 }
             }
-        }
-        else
-        {
+        } else {
             ib1 = ixb;
             dwork[zi] = sgn * b[ib1];
-            if (! (*tranb))
-            {
-                if (*m == 2)
-                {
+            if (!(*tranb)) {
+                if (*m == 2) {
                     dwork[zi + ldw + 1] = dwork[zi];
-                    if (*n == 2)
-                    {
+                    if (*n == 2) {
                         ib3 = ib1 + 2;
                         dwork[zi + 2] = sgn * b[ib3];
                         dwork[zi + ldw + 3] = dwork[zi + 2];
@@ -385,22 +347,16 @@ integer *ldwork, *info;
                         dwork[zi + mn7 + 1] = dwork[zi + mn6];
                         dwork[zi + mn7 + 3] = dwork[zi + mn6 + 2];
                     }
-                }
-                else if (*n == 2)
-                {
+                } else if (*n == 2) {
                     ib3 = ib1 + 2;
                     dwork[zi + 1] = sgn * b[ib3];
                     dwork[zi + ldw] = sgn * b[ib1 + 1];
                     dwork[zi + ldw + 1] = sgn * b[ib3 + 1];
                 }
-            }
-            else
-            {
-                if (*m == 2)
-                {
+            } else {
+                if (*m == 2) {
                     dwork[zi + ldw + 1] = dwork[zi];
-                    if (*n == 2)
-                    {
+                    if (*n == 2) {
                         ib3 = ib1 + 2;
                         dwork[zi + 2] = sgn * b[ib1 + 1];
                         dwork[zi + ldw + 3] = dwork[zi + 2];
@@ -409,9 +365,7 @@ integer *ldwork, *info;
                         dwork[zi + mn7 + 1] = dwork[zi + mn6];
                         dwork[zi + mn7 + 3] = dwork[zi + mn6 + 2];
                     }
-                }
-                else if (*n == 2)
-                {
+                } else if (*n == 2) {
                     ib3 = ib1 + 2;
                     dwork[zi + 1] = sgn * b[ib1 + 1];
                     dwork[zi + ldw] = sgn * b[ib3];
@@ -429,48 +383,36 @@ integer *ldwork, *info;
     ixa -= mm;
     ixb -= nn;
     zi = zc + kmn - mn;
-    if (s[*k - 1] == -1)
-    {
+    if (s[*k - 1] == -1) {
         ia1 = ixa;
         dwork[zi] = a[ia1];
-        if (*m == 2)
-        {
+        if (*m == 2) {
             ia3 = ia1 + 2;
-            if (! (*trana))
-            {
+            if (!(*trana)) {
                 dwork[zi + 1] = a[ia1 + 1];
                 dwork[zi + kmn] = a[ia3];
-            }
-            else
-            {
+            } else {
                 dwork[zi + 1] = a[ia3];
                 dwork[zi + kmn] = a[ia1 + 1];
             }
             dwork[zi + kmn + 1] = a[ia3 + 1];
         }
-        if (*n == 2)
-        {
-            zi2 = zi + (kmn + 1) **m;
+        if (*n == 2) {
+            zi2 = zi + (kmn + 1) * *m;
             dwork[zi2] = dwork[zi];
-            if (*m == 2)
-            {
+            if (*m == 2) {
                 dwork[zi2 + 1] = dwork[zi + 1];
                 dwork[zi2 + kmn] = dwork[zi + kmn];
                 dwork[zi2 + kmn + 1] = dwork[zi + kmn + 1];
             }
         }
-    }
-    else
-    {
+    } else {
         ib1 = ixb;
         dwork[zi] = sgn * b[ib1];
-        if (! (*tranb))
-        {
-            if (*m == 2)
-            {
+        if (!(*tranb)) {
+            if (*m == 2) {
                 dwork[zi + kmn + 1] = dwork[zi];
-                if (*n == 2)
-                {
+                if (*n == 2) {
                     ib3 = ib1 + 2;
                     dwork[zi + 2] = sgn * b[ib3];
                     dwork[zi + kmn + 3] = dwork[zi + 2];
@@ -479,22 +421,16 @@ integer *ldwork, *info;
                     dwork[zi + km3 + 1] = dwork[zi + km2];
                     dwork[zi + km3 + 3] = dwork[zi + km2 + 2];
                 }
-            }
-            else if (*n == 2)
-            {
+            } else if (*n == 2) {
                 ib3 = ib1 + 2;
                 dwork[zi + 1] = sgn * b[ib3];
                 dwork[zi + kmn] = sgn * b[ib1 + 1];
                 dwork[zi + kmn + 1] = sgn * b[ib3 + 1];
             }
-        }
-        else
-        {
-            if (*m == 2)
-            {
+        } else {
+            if (*m == 2) {
                 dwork[zi + kmn + 1] = dwork[zi];
-                if (*n == 2)
-                {
+                if (*n == 2) {
                     ib3 = ib1 + 2;
                     dwork[zi + 2] = sgn * b[ib1 + 1];
                     dwork[zi + kmn + 3] = dwork[zi + 2];
@@ -503,9 +439,7 @@ integer *ldwork, *info;
                     dwork[zi + km3 + 1] = dwork[zi + km2];
                     dwork[zi + km3 + 3] = dwork[zi + km2 + 2];
                 }
-            }
-            else if (*n == 2)
-            {
+            } else if (*n == 2) {
                 ib3 = ib1 + 2;
                 dwork[zi + 1] = sgn * b[ib1 + 1];
                 dwork[zi + kmn] = sgn * b[ib3];
@@ -514,48 +448,36 @@ integer *ldwork, *info;
         }
     }
     /*     Build Z_{1,K}. */
-    if (s[*k] == 1)
-    {
+    if (s[*k] == 1) {
         ia1 += mm;
         dwork[zc] = a[ia1];
-        if (*m == 2)
-        {
+        if (*m == 2) {
             ia3 = ia1 + 2;
-            if (! (*trana))
-            {
+            if (!(*trana)) {
                 dwork[zc + 1] = a[ia1 + 1];
                 dwork[zc + kmn] = a[ia3];
-            }
-            else
-            {
+            } else {
                 dwork[zc + 1] = a[ia3];
                 dwork[zc + kmn] = a[ia1 + 1];
             }
             dwork[zc + kmn + 1] = a[ia3 + 1];
         }
-        if (*n == 2)
-        {
-            zi2 = zc + (kmn + 1) **m;
+        if (*n == 2) {
+            zi2 = zc + (kmn + 1) * *m;
             dwork[zi2] = dwork[zc];
-            if (*m == 2)
-            {
+            if (*m == 2) {
                 dwork[zi2 + 1] = dwork[zc + 1];
                 dwork[zi2 + kmn] = dwork[zc + kmn];
                 dwork[zi2 + kmn + 1] = dwork[zc + kmn + 1];
             }
         }
-    }
-    else
-    {
+    } else {
         ib1 += nn;
         dwork[zc] = sgn * b[ib1];
-        if (! (*tranb))
-        {
-            if (*m == 2)
-            {
+        if (!(*tranb)) {
+            if (*m == 2) {
                 dwork[zc + kmn + 1] = dwork[zc];
-                if (*n == 2)
-                {
+                if (*n == 2) {
                     ib3 = ib1 + 2;
                     dwork[zc + 2] = sgn * b[ib3];
                     dwork[zc + kmn + 3] = dwork[zc + 2];
@@ -564,22 +486,16 @@ integer *ldwork, *info;
                     dwork[zc + km3 + 1] = dwork[zc + km2];
                     dwork[zc + km3 + 3] = dwork[zc + km2 + 2];
                 }
-            }
-            else if (*n == 2)
-            {
+            } else if (*n == 2) {
                 ib3 = ib1 + 2;
                 dwork[zc + 1] = sgn * b[ib3];
                 dwork[zc + kmn] = sgn * b[ib1 + 1];
                 dwork[zc + kmn + 1] = sgn * b[ib3 + 1];
             }
-        }
-        else
-        {
-            if (*m == 2)
-            {
+        } else {
+            if (*m == 2) {
                 dwork[zc + kmn + 1] = dwork[zc];
-                if (*n == 2)
-                {
+                if (*n == 2) {
                     ib3 = ib1 + 2;
                     dwork[zc + 2] = sgn * b[ib1 + 1];
                     dwork[zc + kmn + 3] = dwork[zc + 2];
@@ -588,9 +504,7 @@ integer *ldwork, *info;
                     dwork[zc + km3 + 1] = dwork[zc + km2];
                     dwork[zc + km3 + 3] = dwork[zc + km2 + 2];
                 }
-            }
-            else if (*n == 2)
-            {
+            } else if (*n == 2) {
                 ib3 = ib1 + 2;
                 dwork[zc + 1] = sgn * b[ib1 + 1];
                 dwork[zc + kmn] = sgn * b[ib3];
@@ -601,22 +515,16 @@ integer *ldwork, *info;
     /*     Prepare right hand side in CB. */
     zi = cb + mn;
     i__1 = *k - 1;
-    for (l = 1; l <= i__1; ++l)
-    {
+    for (l = 1; l <= i__1; ++l) {
         ic1 = ixc;
         dwork[zi] = -c__[ic1];
-        if (*m == 1)
-        {
-            if (*n == 2)
-            {
+        if (*m == 1) {
+            if (*n == 2) {
                 dwork[zi + 1] = -c__[ic1 + 1];
             }
-        }
-        else
-        {
+        } else {
             dwork[zi + 1] = -c__[ic1 + 1];
-            if (*n == 2)
-            {
+            if (*n == 2) {
                 dwork[zi + 2] = -c__[ic1 + 2];
                 dwork[zi + 3] = -c__[ic1 + 3];
             }
@@ -628,18 +536,13 @@ integer *ldwork, *info;
     zi = cb;
     ic1 = ixc;
     dwork[zi] = -c__[ic1];
-    if (*m == 1)
-    {
-        if (*n == 2)
-        {
+    if (*m == 1) {
+        if (*n == 2) {
             dwork[zi + 1] = -c__[ic1 + 1];
         }
-    }
-    else
-    {
+    } else {
         dwork[zi + 1] = -c__[ic1 + 1];
-        if (*n == 2)
-        {
+        if (*n == 2) {
             dwork[zi + 2] = -c__[ic1 + 2];
             dwork[zi + 3] = -c__[ic1 + 3];
         }
@@ -668,23 +571,20 @@ integer *ldwork, *info;
     /*     DMIN is the minimum modulus of the final diagonal values. */
     dmin__ = bignum;
     i__1 = kmn - mn;
-    for (l = 1; l <= i__1; ++l)
-    {
+    for (l = 1; l <= i__1; ++l) {
         ++ii;
         zi = zis + (mn << 1);
         len = (mn << 1) - ii + 1;
         /*        REPEAT */
-L40:
+    L40:
         --zi;
         elem = dwork[zi];
-        if (elem == 0.)
-        {
+        if (elem == 0.) {
             --len;
             goto L40;
         }
         /*        UNTIL ELEM.NE.ZERO. */
-        if (len > 1)
-        {
+        if (len > 1) {
             /*           Generate Householder reflection to zero out the current */
             /*           column. The new main diagonal value is stored temporarily */
             /*           in BETA. */
@@ -699,8 +599,7 @@ L40:
             dlarfx_("Left", &len, &i__2, &dwork[zi], &tau, &dwork[zi + ldw], &ldw, &dwork[1], 4L);
             /*           ... then to the corresponding part of */
             /*           [Z_{i,i+1}',Z_{i+1,i+1}']' of size LEN-by-MN ... */
-            if (i__ < *k - 1)
-            {
+            if (i__ < *k - 1) {
                 dlarfx_("Left", &len, &mn, &dwork[zi], &tau, &dwork[zi2], &ldw, &dwork[1], 4L);
             }
             /*           ... next to the corresponding part of */
@@ -712,12 +611,11 @@ L40:
             dwork[zi] = beta;
             /* Computing MIN */
             d__1 = dmin__, d__2 = abs(beta);
-            dmin__ = min(d__1,d__2);
+            dmin__ = min(d__1, d__2);
         }
         zis += ldw;
         ++zi2;
-        if (l % mn == 0)
-        {
+        if (l % mn == 0) {
             ++i__;
             ii = 0;
             zi2 = zd + i__ * mn * ldw;
@@ -728,12 +626,10 @@ L40:
     zi = zc + kmn - mn;
     /*     Z_{K,K} is treated separately. */
     i__1 = kmn;
-    for (l = kmn - mn + 1; l <= i__1; ++l)
-    {
+    for (l = kmn - mn + 1; l <= i__1; ++l) {
         ++ii;
         len = mn - ii + 1;
-        if (len > 1)
-        {
+        if (len > 1) {
             /*           Generate Householder reflection. */
             dlarfg_(&len, &dwork[zi], &dwork[zi + 1], &c__1, &tau);
             beta = dwork[zi];
@@ -747,7 +643,7 @@ L40:
             dwork[zi] = beta;
             /* Computing MIN */
             d__1 = dmin__, d__2 = abs(beta);
-            dmin__ = min(d__1,d__2);
+            dmin__ = min(d__1, d__2);
         }
         zi = zi + kmn + 1;
         /* L60: */
@@ -763,35 +659,30 @@ L40:
     /*             to SPIV. */
     *scale = 1.;
     doscal = FALSE_;
-    dmin__ = max(dmin__,*smin);
+    dmin__ = max(dmin__, *smin);
     /* Computing MAX */
     d__1 = *prec * dmin__;
-    spiv = max(d__1,*smin);
+    spiv = max(d__1, *smin);
     /*     Check for scaling. */
     i__ = idamax_(&kmn, &dwork[cb], &c__1);
     ac = (d__1 = dwork[cb + i__ - 1], abs(d__1));
-    if (*smin * 2. * ac > dmin__)
-    {
+    if (*smin * 2. * ac > dmin__) {
         temp = .5 / ac;
         dscal_(&kmn, &temp, &dwork[cb], &c__1);
         *scale *= temp;
     }
     zi = cb - 1;
     i__1 = kmn - mn + 1;
-    for (i__ = kmn; i__ >= i__1; --i__)
-    {
+    for (i__ = kmn; i__ >= i__1; --i__) {
         ad = (d__1 = dwork[zi], abs(d__1));
         ac = (d__1 = dwork[cb + i__ - 1], abs(d__1));
-        if (ad < spiv)
-        {
+        if (ad < spiv) {
             ad = spiv;
             dwork[zi] = spiv;
         }
         scaloc = 1.;
-        if (ad < 1. && ac > 1.)
-        {
-            if (ac > bignum * ad)
-            {
+        if (ad < 1. && ac > 1.) {
+            if (ac > bignum * ad) {
                 *info = 1;
                 scaloc = bignum * ad / ac;
                 doscal = TRUE_;
@@ -799,8 +690,7 @@ L40:
             }
         }
         temp = dwork[cb + i__ - 1] * scaloc / dwork[zi];
-        if (doscal)
-        {
+        if (doscal) {
             doscal = FALSE_;
             dscal_(&kmn, &scaloc, &dwork[cb], &c__1);
         }
@@ -814,20 +704,16 @@ L40:
     zis = zc - ldw;
     zi = zis + (mn << 1) - 1;
     iz = 0;
-    for (i__ = kmn - mn; i__ >= 1; --i__)
-    {
+    for (i__ = kmn - mn; i__ >= 1; --i__) {
         ad = (d__1 = dwork[zi], abs(d__1));
         ac = (d__1 = dwork[cb + i__ - 1], abs(d__1));
-        if (ad < spiv)
-        {
+        if (ad < spiv) {
             ad = spiv;
             dwork[zi] = spiv;
         }
         scaloc = 1.;
-        if (ad < 1. && ac > 1.)
-        {
-            if (ac > bignum * ad)
-            {
+        if (ad < 1. && ac > 1.) {
+            if (ac > bignum * ad) {
                 *info = 1;
                 scaloc = bignum * ad / ac;
                 doscal = TRUE_;
@@ -835,35 +721,29 @@ L40:
             }
         }
         temp = dwork[cb + i__ - 1] * scaloc / dwork[zi];
-        if (doscal)
-        {
+        if (doscal) {
             doscal = FALSE_;
             dscal_(&kmn, &scaloc, &dwork[cb], &c__1);
         }
         dwork[cb + i__ - 1] = temp;
         len = mn + (i__ - 1) % mn + 1;
         zi2 = zis;
-L80:
-        if (dwork[zi2] == 0.)
-        {
+    L80:
+        if (dwork[zi2] == 0.) {
             --len;
             ++zi2;
             goto L80;
         }
         /* Computing MAX */
         i__1 = 1, i__2 = i__ - len + 1;
-        j = max(i__1,i__2);
+        j = max(i__1, i__2);
         i__1 = i__ - j;
         d__1 = -temp;
         daxpy_(&i__1, &d__1, &dwork[zi - i__ + j], &c__1, &dwork[cb + j - 1], &c__1);
-        if (mn > 1)
-        {
-            if (i__ % mn == 1)
-            {
+        if (mn > 1) {
+            if (i__ % mn == 1) {
                 iz = 1 - mn;
-            }
-            else
-            {
+            } else {
                 iz = 1;
             }
         }
@@ -875,21 +755,15 @@ L80:
     ic1 = 1;
     zi = cb;
     i__1 = *k;
-    for (l = 1; l <= i__1; ++l)
-    {
+    for (l = 1; l <= i__1; ++l) {
         c__[ic1] = dwork[zi];
-        if (*m == 1)
-        {
-            if (*n == 2)
-            {
+        if (*m == 1) {
+            if (*n == 2) {
                 c__[ic1 + 1] = dwork[zi + 1];
             }
-        }
-        else
-        {
+        } else {
             c__[ic1 + 1] = dwork[zi + 1];
-            if (*n == 2)
-            {
+            if (*n == 2) {
                 c__[ic1 + 2] = dwork[zi + 2];
                 c__[ic1 + 3] = dwork[zi + 3];
             }
@@ -899,8 +773,7 @@ L80:
         /* L100: */
     }
     /*     Store the minimal workspace on output. */
-    dwork[1] = (doublereal) minwrk;
+    dwork[1] = (doublereal)minwrk;
     return 0;
     /* *** Last line of MB03KE *** */
 } /* mb03ke_ */
-

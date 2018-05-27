@@ -17,63 +17,51 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "Assert_IsApprox.hpp"
-#include "i18n.hpp"
 #include "Error.hpp"
 #include "Exception.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    bool Assert_IsApprox(Evaluator *eval, ArrayOf computedArray, ArrayOf expectedArray, double precision, std::wstring &msg)
-    {
-        bool bRes = false;
-        Context *context = eval->getContext();
-        FunctionDef *funcDef = nullptr;
-        std::string IsEqualnName = "isapprox";
-        if (context->lookupFunction(IsEqualnName, funcDef))
-        {
-            if ((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION))
-            {
-                ArrayOfVector argInCopy;
-                argInCopy.push_back(computedArray);
-                argInCopy.push_back(expectedArray);
-                argInCopy.push_back(ArrayOf::doubleConstructor(precision));
-                try
-                {
-                    ArrayOfVector resVect = funcDef->evaluateFunction(eval, argInCopy, 1);
-                    if (resVect.size() != 1)
-                    {
-                        Error(eval, _W("isapprox returns more than one output argument."));
-                    }
-                    ArrayOf r = resVect[0];
-                    if (r.isScalar() && r.isLogical())
-                    {
-                        bRes = r.getContentAsLogicalScalar() ? true : false;
-                    }
-                    else
-                    {
-                        Error(eval, _W("isapprox must return an logical."));
-                    }
+//=============================================================================
+bool
+Assert_IsApprox(Evaluator* eval, ArrayOf computedArray, ArrayOf expectedArray, double precision,
+    std::wstring& msg)
+{
+    bool bRes = false;
+    Context* context = eval->getContext();
+    FunctionDef* funcDef = nullptr;
+    std::string IsEqualnName = "isapprox";
+    if (context->lookupFunction(IsEqualnName, funcDef)) {
+        if ((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION)) {
+            ArrayOfVector argInCopy;
+            argInCopy.push_back(computedArray);
+            argInCopy.push_back(expectedArray);
+            argInCopy.push_back(ArrayOf::doubleConstructor(precision));
+            try {
+                ArrayOfVector resVect = funcDef->evaluateFunction(eval, argInCopy, 1);
+                if (resVect.size() != 1) {
+                    Error(eval, _W("isapprox returns more than one output argument."));
                 }
-                catch (Exception)
-                {
-                    throw;
+                ArrayOf r = resVect[0];
+                if (r.isScalar() && r.isLogical()) {
+                    bRes = r.getContentAsLogicalScalar() ? true : false;
+                } else {
+                    Error(eval, _W("isapprox must return an logical."));
                 }
+            } catch (Exception) {
+                throw;
             }
         }
-        else
-        {
-            Error(eval, "isapprox function not found.");
-        }
-        if (!bRes)
-        {
-            msg = _W("Assertion failed: expected and computed values are too different.");
-        }
-        else
-        {
-            msg = L"";
-        }
-        return bRes;
+    } else {
+        Error(eval, "isapprox function not found.");
     }
-    //=============================================================================
+    if (!bRes) {
+        msg = _W("Assertion failed: expected and computed values are too different.");
+    } else {
+        msg = L"";
+    }
+    return bRes;
+}
+//=============================================================================
 }
 //=============================================================================

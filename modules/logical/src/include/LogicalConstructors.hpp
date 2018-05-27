@@ -18,11 +18,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsLogical_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsLogical_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSLOGICAL_IMPEXP ArrayOf TrueConstructor(Dimensions dim, bool bIsSparse = false);
-    NLSLOGICAL_IMPEXP ArrayOf FalseConstructor(Dimensions dim, bool bIsSparse = false);
-}
+NLSLOGICAL_IMPEXP ArrayOf
+TrueConstructor(Dimensions dim, bool bIsSparse = false);
+NLSLOGICAL_IMPEXP ArrayOf
+FalseConstructor(Dimensions dim, bool bIsSparse = false);
+} // namespace Nelson
 //=============================================================================

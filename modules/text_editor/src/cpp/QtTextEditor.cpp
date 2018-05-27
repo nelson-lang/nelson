@@ -1,47 +1,48 @@
-#include <QtCore/QFileInfo>
-#include <QtCore/QTextStream>
-#include <QtCore/QMimeData>
-#include <QtWidgets/QApplication>
-#include <QtWidgets/QAction>
-#include <QtWidgets/QMenuBar>
-#include <QtWidgets/QToolBar>
-#include <QtWidgets/QStatusBar>
-#include <QtWidgets/QFileDialog>
-#include <QtWidgets/QFontDialog>
-#include <QtWidgets/QMessageBox>
-#include <QtWidgets/QInputDialog>
-#include <QtGui/QKeyEvent>
-#include <QtGui/QClipboard>
-#include <QtGui/QTextDocumentFragment>
-#include <QtPrintSupport/QPrinter>
-#include <QtPrintSupport/QPrintDialog>
-#include <QtPrintSupport/QPrintPreviewDialog>
-#include <algorithm>
-#include <boost/algorithm/string.hpp>
 #include "QtTextEditor.h"
-#include "QtLineNumber.h"
-#include "QtTextIndent.h"
-#include "ModulesManager.hpp"
-#include "QStringConverter.hpp"
-#include "QtTranslation.hpp"
-#include "characters_encoding.hpp"
-#include "TextEditorPreferences.hpp"
 #include "ExecuteCommand.hpp"
 #include "GetNelsonPath.hpp"
+#include "ModulesManager.hpp"
+#include "QStringConverter.hpp"
+#include "QtLineNumber.h"
+#include "QtTextIndent.h"
+#include "QtTranslation.hpp"
 #include "SmartIndent.h"
+#include "TextEditorPreferences.hpp"
+#include "characters_encoding.hpp"
+#include <QtCore/QFileInfo>
+#include <QtCore/QMimeData>
+#include <QtCore/QTextStream>
+#include <QtGui/QClipboard>
+#include <QtGui/QKeyEvent>
+#include <QtGui/QTextDocumentFragment>
+#include <QtPrintSupport/QPrintDialog>
+#include <QtPrintSupport/QPrintPreviewDialog>
+#include <QtPrintSupport/QPrinter>
+#include <QtWidgets/QAction>
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QFileDialog>
+#include <QtWidgets/QFontDialog>
+#include <QtWidgets/QInputDialog>
+#include <QtWidgets/QMenuBar>
+#include <QtWidgets/QMessageBox>
+#include <QtWidgets/QStatusBar>
+#include <QtWidgets/QToolBar>
+#include <algorithm>
+#include <boost/algorithm/string.hpp>
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 #define DEFAULT_FILENAME "untitled.nls"
 #define DEFAULT_DELAY_MSG 1500
 //=============================================================================
-QtTextEditor::QtTextEditor(Evaluator *eval)
+QtTextEditor::QtTextEditor(Evaluator* eval)
 {
     setAcceptDrops(true);
     recentFilenames.clear();
     nlsEvaluator = eval;
     textEditorRootPath = Nelson::GetModulePath(L"text_editor");
-    QString fileNameIcon = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/document-open.svg"));
+    QString fileNameIcon = Nelson::wstringToQString(
+        textEditorRootPath + std::wstring(L"/resources/document-open.svg"));
     setWindowIcon(QPixmap(fileNameIcon));
     prevEdit = nullptr;
     tab = new QTabWidget(this);
@@ -57,32 +58,29 @@ QtTextEditor::QtTextEditor(Evaluator *eval)
     addTab();
 }
 //=============================================================================
-void QtTextEditor::loadOrCreateFile(const QString& filename)
+void
+QtTextEditor::loadOrCreateFile(const QString& filename)
 {
-    if (filename.isEmpty())
-    {
+    if (filename.isEmpty()) {
         return;
     }
     QFile ff(filename);
     QFileInfo fileInfo(ff);
     bool isdir = (fileInfo.exists() && fileInfo.isDir());
-    if (isdir)
-    {
+    if (isdir) {
         QString msg = TR("Cannot edit the directory: %1").arg(fileInfo.absoluteFilePath());
         statusBar()->showMessage(msg);
         return;
     }
     bool isfile = (fileInfo.exists() && fileInfo.isFile());
-    if (!isfile)
-    {
+    if (!isfile) {
         if (QMessageBox::question(this, TR("Nelson"),
-                                  TR("File %1 does not exists. Do you want to create it?").arg(fileInfo.absoluteFilePath()),
-                                  QMessageBox::Yes | QMessageBox::Default, QMessageBox::No) == QMessageBox::No)
-        {
+                TR("File %1 does not exists. Do you want to create it?")
+                    .arg(fileInfo.absoluteFilePath()),
+                QMessageBox::Yes | QMessageBox::Default, QMessageBox::No)
+            == QMessageBox::No) {
             return;
-        }
-        else
-        {
+        } else {
             addTabUntitled();
             setCurrentFile(filename);
             return;
@@ -91,27 +89,32 @@ void QtTextEditor::loadOrCreateFile(const QString& filename)
     loadFile(filename);
 }
 //=============================================================================
-void QtTextEditor::createActions()
+void
+QtTextEditor::createActions()
 {
-    QString fileNameIcon = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/document-new.svg"));
+    QString fileNameIcon = Nelson::wstringToQString(
+        textEditorRootPath + std::wstring(L"/resources/document-new.svg"));
     newAction = new QAction(QIcon(fileNameIcon), TR("&New"), this);
     connect(newAction, SIGNAL(triggered()), this, SLOT(addTab()));
-    fileNameIcon = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/document-open.svg"));
+    fileNameIcon = Nelson::wstringToQString(
+        textEditorRootPath + std::wstring(L"/resources/document-open.svg"));
     openAction = new QAction(QIcon(fileNameIcon), TR("&Open"), this);
     connect(openAction, SIGNAL(triggered()), this, SLOT(open()));
-    fileNameIcon = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/document-save.svg"));
+    fileNameIcon = Nelson::wstringToQString(
+        textEditorRootPath + std::wstring(L"/resources/document-save.svg"));
     saveAction = new QAction(QIcon(fileNameIcon), TR("&Save"), this);
     saveAction->setShortcut(Qt::Key_S | Qt::CTRL);
     connect(saveAction, SIGNAL(triggered()), this, SLOT(save()));
-    fileNameIcon = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/document-save-as.svg"));
+    fileNameIcon = Nelson::wstringToQString(
+        textEditorRootPath + std::wstring(L"/resources/document-save-as.svg"));
     saveAsAction = new QAction(QIcon(fileNameIcon), TR("Save &As"), this);
     connect(saveAsAction, SIGNAL(triggered()), this, SLOT(saveAs()));
-    fileNameIcon = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/document-save-all.svg"));
+    fileNameIcon = Nelson::wstringToQString(
+        textEditorRootPath + std::wstring(L"/resources/document-save-all.svg"));
     saveAllAction = new QAction(QIcon(fileNameIcon), TR("Save A&ll"), this);
     saveAllAction->setShortcut(Qt::Key_S | Qt::CTRL | Qt::SHIFT);
     connect(saveAllAction, SIGNAL(triggered()), this, SLOT(saveAll()));
-    for (int i = 0; i < MAX_RECENT_FILES; ++i)
-    {
+    for (int i = 0; i < MAX_RECENT_FILES; ++i) {
         recentFileActions[i] = new QAction(this);
         recentFileActions[i]->setVisible(false);
         connect(recentFileActions[i], SIGNAL(triggered()), this, SLOT(openRecentFile()));
@@ -120,25 +123,32 @@ void QtTextEditor::createActions()
     connect(closeAction, SIGNAL(triggered()), this, SLOT(closeTab()));
     closeAllAction = new QAction(TR("Close &All"), this);
     connect(closeAllAction, SIGNAL(triggered()), this, SLOT(closeAllTabs()));
-    fileNameIcon = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/document-exit.svg"));
+    fileNameIcon = Nelson::wstringToQString(
+        textEditorRootPath + std::wstring(L"/resources/document-exit.svg"));
     quitAction = new QAction(QIcon(fileNameIcon), TR("&Quit Editor"), this);
     saveAllAction->setShortcut(Qt::Key_F4 | Qt::ALT);
     connect(quitAction, SIGNAL(triggered()), this, SLOT(close()));
-    fileNameIcon = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/edit-copy.svg"));
+    fileNameIcon
+        = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/edit-copy.svg"));
     copyAction = new QAction(QIcon(fileNameIcon), TR("&Copy"), this);
-    fileNameIcon = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/edit-cut.svg"));
+    fileNameIcon
+        = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/edit-cut.svg"));
     cutAction = new QAction(QIcon(fileNameIcon), TR("C&ut"), this);
-    fileNameIcon = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/edit-paste.svg"));
+    fileNameIcon
+        = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/edit-paste.svg"));
     pasteAction = new QAction(QIcon(fileNameIcon), TR("&Paste"), this);
-    fileNameIcon = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/edit-undo.svg"));
+    fileNameIcon
+        = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/edit-undo.svg"));
     undoAction = new QAction(QIcon(fileNameIcon), TR("&Undo"), this);
     undoAction->setShortcut(Qt::Key_Z | Qt::CTRL);
     connect(undoAction, SIGNAL(triggered()), this, SLOT(undo()));
-    fileNameIcon = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/edit-redo.svg"));
+    fileNameIcon
+        = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/edit-redo.svg"));
     redoAction = new QAction(QIcon(fileNameIcon), TR("&Redo"), this);
     redoAction->setShortcut(Qt::Key_Y | Qt::CTRL);
     connect(redoAction, SIGNAL(triggered()), this, SLOT(redo()));
-    fileNameIcon = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/format-text-bold.svg"));
+    fileNameIcon = Nelson::wstringToQString(
+        textEditorRootPath + std::wstring(L"/resources/format-text-bold.svg"));
     fontAction = new QAction(QIcon(fileNameIcon), TR("&Font"), this);
     connect(fontAction, SIGNAL(triggered()), this, SLOT(font()));
     copyFullPathAction = new QAction(TR("Copy Full Path"), this);
@@ -152,19 +162,23 @@ void QtTextEditor::createActions()
     gotoLineAction = new QAction(TR("&Go To Line ..."), this);
     gotoLineAction->setShortcut(Qt::Key_G | Qt::CTRL);
     connect(gotoLineAction, SIGNAL(triggered()), this, SLOT(gotoLine()));
-    fileNameIcon = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/run-file-start.svg"));
+    fileNameIcon = Nelson::wstringToQString(
+        textEditorRootPath + std::wstring(L"/resources/run-file-start.svg"));
     runFileAction = new QAction(QIcon(fileNameIcon), TR("&Run file"), this);
     connect(runFileAction, SIGNAL(triggered()), this, SLOT(runFile()));
-    fileNameIcon = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/stop-interpreter.svg"));
+    fileNameIcon = Nelson::wstringToQString(
+        textEditorRootPath + std::wstring(L"/resources/stop-interpreter.svg"));
     stopRunAction = new QAction(QIcon(fileNameIcon), TR("&Stop execution"), this);
     connect(stopRunAction, SIGNAL(triggered()), this, SLOT(stopRun()));
-    fileNameIcon = Nelson::wstringToQString(Nelson::GetRootPath()) + QString("/resources/help-icon.svg");
+    fileNameIcon
+        = Nelson::wstringToQString(Nelson::GetRootPath()) + QString("/resources/help-icon.svg");
     helpOnSelectionAction = new QAction(QIcon(fileNameIcon), TR("Help on Selection"), this);
     connect(helpOnSelectionAction, SIGNAL(triggered()), this, SLOT(helpOnSelection()));
     smartIndentAction = new QAction(TR("Smart Indent"), this);
     smartIndentAction->setShortcut(Qt::Key_I | Qt::CTRL);
     connect(smartIndentAction, SIGNAL(triggered()), this, SLOT(smartIndent()));
-    fileNameIcon = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/document-print.svg"));
+    fileNameIcon = Nelson::wstringToQString(
+        textEditorRootPath + std::wstring(L"/resources/document-print.svg"));
     printAction = new QAction(QIcon(fileNameIcon), TR("Print"), this);
     printAction->setShortcut(Qt::Key_P | Qt::CTRL);
     connect(printAction, SIGNAL(triggered()), this, SLOT(printDocument()));
@@ -172,7 +186,8 @@ void QtTextEditor::createActions()
     connect(evaluateSelectionAction, SIGNAL(triggered()), this, SLOT(evaluateSelection()));
 }
 //=============================================================================
-void QtTextEditor::createMenus()
+void
+QtTextEditor::createMenus()
 {
     fileMenu = menuBar()->addMenu(TR("&File"));
     fileMenu->addAction(newAction);
@@ -187,8 +202,7 @@ void QtTextEditor::createMenus()
     fileMenu->addAction(closeAction);
     fileMenu->addAction(closeAllAction);
     separatorAction = fileMenu->addSeparator();
-    for (int i = 0; i < MAX_RECENT_FILES; ++i)
-    {
+    for (int i = 0; i < MAX_RECENT_FILES; ++i) {
         fileMenu->addAction(recentFileActions[i]);
     }
     fileMenu->addSeparator();
@@ -227,7 +241,8 @@ void QtTextEditor::createMenus()
     contextMenu->addAction(smartIndentAction);
 }
 //=============================================================================
-void QtTextEditor::createToolBars()
+void
+QtTextEditor::createToolBars()
 {
     fileToolBar = addToolBar(TR("File"));
     fileToolBar->addAction(newAction);
@@ -251,62 +266,61 @@ void QtTextEditor::createToolBars()
     editToolBar->addAction(fontAction);
 }
 //=============================================================================
-void QtTextEditor::createStatusBar()
+void
+QtTextEditor::createStatusBar()
 {
     statusBar()->showMessage(TR("Ready"));
 }
 //=============================================================================
-void QtTextEditor::updateRecentFileActions()
+void
+QtTextEditor::updateRecentFileActions()
 {
     int numRecentFiles = std::min((int)recentFilenames.size(), (int)MAX_RECENT_FILES);
-    for (int i = 0; i < numRecentFiles; ++i)
-    {
-        QString text = TR("&%1 %2").arg(i + 1).arg(strippedName(wstringToQString(recentFilenames[i])));
+    for (int i = 0; i < numRecentFiles; ++i) {
+        QString text
+            = TR("&%1 %2").arg(i + 1).arg(strippedName(wstringToQString(recentFilenames[i])));
         recentFileActions[i]->setText(text);
         recentFileActions[i]->setData(wstringToQString(recentFilenames[i]));
         recentFileActions[i]->setVisible(true);
     }
-    for (int j = numRecentFiles; j < MAX_RECENT_FILES; ++j)
-    {
+    for (int j = numRecentFiles; j < MAX_RECENT_FILES; ++j) {
         recentFileActions[j]->setVisible(false);
     }
     separatorAction->setVisible(numRecentFiles > 0);
 }
 //=============================================================================
-bool QtTextEditor::maybeSave()
+bool
+QtTextEditor::maybeSave()
 {
-    if (currentEditor()->document()->isModified())
-    {
+    if (currentEditor()->document()->isModified()) {
         int ret = QMessageBox::warning(this, TR("Nelson"),
-                                       TR("The document %1 has been modified.\nDo you want to save your changes ?").arg(shownName()),
-                                       QMessageBox::Yes | QMessageBox::Default,
-                                       QMessageBox::No,
-                                       QMessageBox::Cancel | QMessageBox::Escape);
-        if (ret == QMessageBox::Yes)
-        {
+            TR("The document %1 has been modified.\nDo you want to save your changes ?")
+                .arg(shownName()),
+            QMessageBox::Yes | QMessageBox::Default, QMessageBox::No,
+            QMessageBox::Cancel | QMessageBox::Escape);
+        if (ret == QMessageBox::Yes) {
             return save();
-        }
-        else if (ret == QMessageBox::Cancel)
-        {
+        } else if (ret == QMessageBox::Cancel) {
             return false;
         }
     }
     return true;
 }
 //=============================================================================
-void QtTextEditor::openRecentFile()
+void
+QtTextEditor::openRecentFile()
 {
-    QAction *action = qobject_cast<QAction *>(sender());
+    QAction* action = qobject_cast<QAction*>(sender());
     QString fileName = action->data().toString();
     loadFile(fileName);
 }
 //=============================================================================
-bool QtTextEditor::saveFile(const QString& filename)
+bool
+QtTextEditor::saveFile(const QString& filename)
 {
     bool res = false;
     QFile file(filename);
-    if (file.open(QFile::WriteOnly | QFile::Text))
-    {
+    if (file.open(QFile::WriteOnly | QFile::Text)) {
         QTextStream out(&file);
         out.setCodec("UTF-8");
         QApplication::setOverrideCursor(Qt::WaitCursor);
@@ -316,45 +330,39 @@ bool QtTextEditor::saveFile(const QString& filename)
         statusBar()->showMessage(TR("File saved"), DEFAULT_DELAY_MSG);
         res = true;
         file.close();
-    }
-    else
-    {
-        QMessageBox::warning(this, TR("Nelson"), TR("Cannot write file %1:\n%2.").arg(filename).arg(file.errorString()));
+    } else {
+        QMessageBox::warning(this, TR("Nelson"),
+            TR("Cannot write file %1:\n%2.").arg(filename).arg(file.errorString()));
         statusBar()->showMessage(TR("File not saved"), DEFAULT_DELAY_MSG);
         res = false;
     }
     return res;
 }
 //=============================================================================
-void QtTextEditor::loadFile(const QString& filename)
+void
+QtTextEditor::loadFile(const QString& filename)
 {
     QFile file(filename);
-    if (!file.open(QFile::ReadOnly | QFile::Text))
-    {
+    if (!file.open(QFile::ReadOnly | QFile::Text)) {
         QMessageBox::warning(this, TR("Nelson"),
-                             TR("Cannot read file %1:\n%2.")
-                             .arg(filename)
-                             .arg(file.errorString()));
+            TR("Cannot read file %1:\n%2.").arg(filename).arg(file.errorString()));
         return;
     }
     // Check for one of the editors that might be editing this file already
-    for (int i = 0; i < tab->count(); i++)
-    {
-        QWidget *widget = tab->widget(i);
-        QtEditPane *editPane = qobject_cast<QtEditPane*>(widget);
-        if (editPane)
-        {
-            if (editPane->getFileName() == filename)
-            {
+    for (int i = 0; i < tab->count(); i++) {
+        QWidget* widget = tab->widget(i);
+        QtEditPane* editPane = qobject_cast<QtEditPane*>(widget);
+        if (editPane) {
+            if (editPane->getFileName() == filename) {
                 tab->setCurrentIndex(i);
                 return;
             }
         }
     }
     addTabUntitled();
-    if (fileWatcher.files().empty())
-    {
-        connect(&fileWatcher, SIGNAL(fileChanged(const QString)), this, SLOT(reloadFile(const QString)));
+    if (fileWatcher.files().empty()) {
+        connect(&fileWatcher, SIGNAL(fileChanged(const QString)), this,
+            SLOT(reloadFile(const QString)));
     }
     fileWatcher.addPath(filename);
     QTextStream in(&file);
@@ -365,52 +373,49 @@ void QtTextEditor::loadFile(const QString& filename)
     QApplication::restoreOverrideCursor();
     setCurrentFile(filename);
     statusBar()->showMessage(TR("File loaded"), DEFAULT_DELAY_MSG);
-    if (filename.endsWith(".nls"))
-    {
+    if (filename.endsWith(".nls")) {
         runFileAction->setEnabled(true);
-    }
-    else
-    {
+    } else {
         runFileAction->setEnabled(false);
     }
     currentEditor()->setFocus();
 }
 //=============================================================================
-void QtTextEditor::setCurrentFile(const QString& filename)
+void
+QtTextEditor::setCurrentFile(const QString& filename)
 {
     setCurrentFilename(filename);
     currentEditor()->document()->setModified(false);
     setWindowModified(false);
     updateTitles();
     std::wstring name = QStringTowstring(filename);
-    recentFilenames.erase(std::remove(recentFilenames.begin(), recentFilenames.end(), name), recentFilenames.end());
+    recentFilenames.erase(
+        std::remove(recentFilenames.begin(), recentFilenames.end(), name), recentFilenames.end());
     recentFilenames.insert(recentFilenames.begin(), name);
-    while (recentFilenames.size() > MAX_RECENT_FILES)
-    {
+    while (recentFilenames.size() > MAX_RECENT_FILES) {
         recentFilenames.pop_back();
     }
     writeSettings();
-    foreach(QWidget *widget, QApplication::topLevelWidgets())
-    {
-        QtTextEditor *tEditor = qobject_cast<QtTextEditor *>(widget);
-        if (tEditor)
-        {
+    foreach (QWidget* widget, QApplication::topLevelWidgets()) {
+        QtTextEditor* tEditor = qobject_cast<QtTextEditor*>(widget);
+        if (tEditor) {
             tEditor->updateRecentFileActions();
         }
     }
 }
 //=============================================================================
-QString QtTextEditor::strippedName(const QString& fullfilename)
+QString
+QtTextEditor::strippedName(const QString& fullfilename)
 {
     return QFileInfo(fullfilename).fileName();
 }
 //=============================================================================
-QtTextEdit *QtTextEditor::currentEditor()
+QtTextEdit*
+QtTextEditor::currentEditor()
 {
-    QWidget *widget = tab->currentWidget();
-    QtEditPane *editPane = qobject_cast<QtEditPane*>(widget);
-    if (!editPane)
-    {
+    QWidget* widget = tab->currentWidget();
+    QtEditPane* editPane = qobject_cast<QtEditPane*>(widget);
+    if (!editPane) {
         addTab();
         widget = tab->currentWidget();
         editPane = qobject_cast<QtEditPane*>(widget);
@@ -418,12 +423,12 @@ QtTextEdit *QtTextEditor::currentEditor()
     return editPane->getEditor();
 }
 //=============================================================================
-void QtTextEditor::setCurrentFilename(QString filename)
+void
+QtTextEditor::setCurrentFilename(QString filename)
 {
-    QWidget *widget = tab->currentWidget();
-    QtEditPane *editPane = qobject_cast<QtEditPane*>(widget);
-    if (!editPane)
-    {
+    QWidget* widget = tab->currentWidget();
+    QtEditPane* editPane = qobject_cast<QtEditPane*>(widget);
+    if (!editPane) {
         addTab();
         widget = tab->currentWidget();
         editPane = qobject_cast<QtEditPane*>(widget);
@@ -431,12 +436,12 @@ void QtTextEditor::setCurrentFilename(QString filename)
     editPane->setFileName(filename);
 }
 //=============================================================================
-QString QtTextEditor::currentFilename()
+QString
+QtTextEditor::currentFilename()
 {
-    QWidget *widget = tab->currentWidget();
-    QtEditPane *editPane = qobject_cast<QtEditPane*>(widget);
-    if (!editPane)
-    {
+    QWidget* widget = tab->currentWidget();
+    QtEditPane* editPane = qobject_cast<QtEditPane*>(widget);
+    if (!editPane) {
         addTab();
         widget = tab->currentWidget();
         editPane = qobject_cast<QtEditPane*>(widget);
@@ -444,35 +449,32 @@ QString QtTextEditor::currentFilename()
     return editPane->getFileName();
 }
 //=============================================================================
-QString QtTextEditor::shownName()
+QString
+QtTextEditor::shownName()
 {
     QString sName;
-    if (currentFilename().isEmpty())
-    {
+    if (currentFilename().isEmpty()) {
         sName = DEFAULT_FILENAME;
-    }
-    else
-    {
+    } else {
         sName = strippedName(currentFilename());
     }
     return sName;
 }
 //=============================================================================
-void QtTextEditor::updateTitles()
+void
+QtTextEditor::updateTitles()
 {
     tab->setTabText(tab->currentIndex(), shownName());
-    if (currentFilename().isEmpty())
-    {
+    if (currentFilename().isEmpty()) {
         setWindowTitle(TR("Nelson Editor"));
-    }
-    else
-    {
+    } else {
         setWindowTitle(QString("%1[*]").arg(currentFilename()) + " - " + TR("Nelson Editor"));
     }
     documentWasModified();
 }
 //=============================================================================
-void QtTextEditor::readSettings()
+void
+QtTextEditor::readSettings()
 {
     QPoint pos;
     QSize size;
@@ -482,29 +484,29 @@ void QtTextEditor::readSettings()
     updateFont();
 }
 //=============================================================================
-void QtTextEditor::writeSettings()
+void
+QtTextEditor::writeSettings()
 {
     TextEditorSavePreferences(m_font, pos(), size(), recentFilenames);
 }
 //=============================================================================
-void QtTextEditor::updateFont()
+void
+QtTextEditor::updateFont()
 {
-    for (int i = 0; i < tab->count(); i++)
-    {
-        QWidget *p = tab->widget(i);
-        QtEditPane *te = qobject_cast<QtEditPane*>(p);
+    for (int i = 0; i < tab->count(); i++) {
+        QWidget* p = tab->widget(i);
+        QtEditPane* te = qobject_cast<QtEditPane*>(p);
         te->setFont(m_font);
     }
 }
 //=============================================================================
-bool QtTextEditor::saveAll()
+bool
+QtTextEditor::saveAll()
 {
     int backupIndex = tab->currentIndex();
-    for (int i = 0; i < tab->count(); i++)
-    {
+    for (int i = 0; i < tab->count(); i++) {
         tab->setCurrentIndex(i);
-        if (currentEditor()->document()->isModified())
-        {
+        if (currentEditor()->document()->isModified()) {
             save();
         }
     }
@@ -512,69 +514,64 @@ bool QtTextEditor::saveAll()
     return true;
 }
 //=============================================================================
-bool QtTextEditor::save()
+bool
+QtTextEditor::save()
 {
     bool res = false;
-    if (!currentFilename().isEmpty())
-    {
+    if (!currentFilename().isEmpty()) {
         lastFilenameSaved = currentFilename();
         res = saveFile(lastFilenameSaved);
-    }
-    else
-    {
+    } else {
         res = saveAs();
     }
     return res;
 }
 //=============================================================================
-bool QtTextEditor::saveAs()
+bool
+QtTextEditor::saveAs()
 {
     bool res = false;
-    QString fileName = QFileDialog::getSaveFileName(this, TR("Save File"),
-                       shownName(), TR("Nelson (*.nls *.nlf)"));
-    if (!fileName.isEmpty())
-    {
-        for (int i = 0; i < tab->count(); i++)
-        {
-            QWidget *w = tab->widget(i);
-            QtEditPane *te = qobject_cast<QtEditPane*>(w);
-            if (te)
-            {
-                if ((te->getFileName() == fileName) && (i != tab->currentIndex()))
-                {
-                    QMessageBox::critical(this, TR("Nelson"), "Cannot save to filename\n " + fileName + "\n as this file is open in another tab.\n  Please close the other tab and\n then repeat the save operation.");
+    QString fileName = QFileDialog::getSaveFileName(
+        this, TR("Save File"), shownName(), TR("Nelson (*.nls *.nlf)"));
+    if (!fileName.isEmpty()) {
+        for (int i = 0; i < tab->count(); i++) {
+            QWidget* w = tab->widget(i);
+            QtEditPane* te = qobject_cast<QtEditPane*>(w);
+            if (te) {
+                if ((te->getFileName() == fileName) && (i != tab->currentIndex())) {
+                    QMessageBox::critical(this, TR("Nelson"),
+                        "Cannot save to filename\n " + fileName
+                            + "\n as this file is open in another tab.\n  Please close the other "
+                              "tab and\n then repeat the save operation.");
                     tab->setCurrentIndex(i);
                     return false;
                 }
             }
         }
         res = saveFile(fileName);
-    }
-    else
-    {
+    } else {
         res = false;
     }
     return res;
 }
 //=============================================================================
-void QtTextEditor::open()
+void
+QtTextEditor::open()
 {
-    if (maybeSave())
-    {
-        QStringList fileNames = QFileDialog::getOpenFileNames(this, TR("Open file ..."), QDir::currentPath(), TR("Nelson (*.nls *.nlf);;Text files (*.txt);;Markdown files (*.md);;All files (*.*)"));
-        for (int k = 0; k < fileNames.size(); k++)
-        {
+    if (maybeSave()) {
+        QStringList fileNames = QFileDialog::getOpenFileNames(this, TR("Open file ..."),
+            QDir::currentPath(),
+            TR("Nelson (*.nls *.nlf);;Text files (*.txt);;Markdown files (*.md);;All files (*.*)"));
+        for (int k = 0; k < fileNames.size(); k++) {
             loadFile(fileNames[k]);
         }
     }
 }
 //=============================================================================
-QtTextEditor::~QtTextEditor()
-{
-    saveAll();
-}
+QtTextEditor::~QtTextEditor() { saveAll(); }
 //=============================================================================
-void QtTextEditor::font()
+void
+QtTextEditor::font()
 {
     bool bOk = false;
     QFont new_font = QFontDialog::getFont(&bOk, m_font, this);
@@ -582,38 +579,33 @@ void QtTextEditor::font()
     updateFont();
 }
 //=============================================================================
-void QtTextEditor::addTabUntitled()
+void
+QtTextEditor::addTabUntitled()
 {
-    QWidget *widget = tab->currentWidget();
-    QtEditPane *editPane = qobject_cast<QtEditPane*>(widget);
-    if (!editPane)
-    {
+    QWidget* widget = tab->currentWidget();
+    QtEditPane* editPane = qobject_cast<QtEditPane*>(widget);
+    if (!editPane) {
         addTab();
-    }
-    else
-    {
+    } else {
         bool foundActive = false;
-        for (int i = 0; i < tab->count(); i++)
-        {
-            if (tab->tabText(i) == DEFAULT_FILENAME)
-            {
+        for (int i = 0; i < tab->count(); i++) {
+            if (tab->tabText(i) == DEFAULT_FILENAME) {
                 foundActive = true;
                 tab->setCurrentIndex(i);
                 break;
             }
         }
-        if (!foundActive)
-        {
+        if (!foundActive) {
             addTab();
         }
     }
 }
 //=============================================================================
-void QtTextEditor::addTab()
+void
+QtTextEditor::addTab()
 {
-    QtEditPane * editPane = new QtEditPane();
-    if (editPane)
-    {
+    QtEditPane* editPane = new QtEditPane();
+    if (editPane) {
         editPane->setFileName(DEFAULT_FILENAME);
         tab->addTab(editPane, DEFAULT_FILENAME);
         tab->setCurrentIndex(tab->count() - 1);
@@ -621,11 +613,11 @@ void QtTextEditor::addTab()
     }
 }
 //=============================================================================
-void QtTextEditor::closeTab()
+void
+QtTextEditor::closeTab()
 {
-    if (maybeSave())
-    {
-        QWidget *p = tab->currentWidget();
+    if (maybeSave()) {
+        QWidget* p = tab->currentWidget();
         tab->removeTab(tab->currentIndex());
         p->deleteLater();
         prevEdit = nullptr;
@@ -633,12 +625,12 @@ void QtTextEditor::closeTab()
     fileWatcher.removePath(currentFilename());
 }
 //=============================================================================
-void QtTextEditor::closeAllTabs()
+void
+QtTextEditor::closeAllTabs()
 {
     int nbTabs = tab->count();
-    for (int i = 0; i < nbTabs; i++)
-    {
-        QWidget *currentWidget = tab->currentWidget();
+    for (int i = 0; i < nbTabs; i++) {
+        QWidget* currentWidget = tab->currentWidget();
         maybeSave();
         tab->removeTab(tab->currentIndex());
         currentWidget->deleteLater();
@@ -647,71 +639,66 @@ void QtTextEditor::closeAllTabs()
     fileWatcher.removePaths(fileWatcher.directories());
 }
 //=============================================================================
-void QtTextEditor::closeTab(int indexTab)
+void
+QtTextEditor::closeTab(int indexTab)
 {
     closeTab();
 }
 //=============================================================================
-void QtTextEditor::tabChanged(int indexTab)
+void
+QtTextEditor::tabChanged(int indexTab)
 {
     disconnect(copyAction, SIGNAL(triggered()), 0, 0);
     connect(cutAction, SIGNAL(triggered()), currentEditor(), SLOT(cut()));
     connect(copyAction, SIGNAL(triggered()), currentEditor(), SLOT(copy()));
     connect(pasteAction, SIGNAL(triggered()), currentEditor(), SLOT(paste()));
-    if (prevEdit)
-    {
+    if (prevEdit) {
         disconnect(prevEdit->document(), SIGNAL(contentsChanged()), 0, 0);
     }
-    connect(currentEditor()->document(), SIGNAL(contentsChanged()), this, SLOT(documentWasModified()));
+    connect(
+        currentEditor()->document(), SIGNAL(contentsChanged()), this, SLOT(documentWasModified()));
     updateTitles();
     prevEdit = currentEditor();
     QString filename = currentFilename();
-    if (filename.endsWith(".nls") || filename.isEmpty())
-    {
+    if (filename.endsWith(".nls") || filename.isEmpty()) {
         runFileAction->setEnabled(true);
-    }
-    else
-    {
+    } else {
         runFileAction->setEnabled(false);
     }
 }
 //=============================================================================
-void QtTextEditor::documentWasModified()
+void
+QtTextEditor::documentWasModified()
 {
     setWindowModified(currentEditor()->document()->isModified());
-    if (currentEditor()->document()->isModified())
-    {
-        QString fileNameIcon = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/document-modified.svg"));
+    if (currentEditor()->document()->isModified()) {
+        QString fileNameIcon = Nelson::wstringToQString(
+            textEditorRootPath + std::wstring(L"/resources/document-modified.svg"));
         tab->setTabIcon(tab->currentIndex(), QIcon(fileNameIcon));
         tab->setTabText(tab->currentIndex(), shownName() + "*");
-    }
-    else
-    {
-        QString fileNameIcon = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/document-new.svg"));
+    } else {
+        QString fileNameIcon = Nelson::wstringToQString(
+            textEditorRootPath + std::wstring(L"/resources/document-new.svg"));
         tab->setTabIcon(tab->currentIndex(), QIcon(fileNameIcon));
         tab->setTabText(tab->currentIndex(), shownName());
     }
 }
 //=============================================================================
-void QtTextEditor::closeEvent(QCloseEvent *event)
+void
+QtTextEditor::closeEvent(QCloseEvent* event)
 {
-    if (!isVisible())
-    {
+    if (!isVisible()) {
         return;
     }
     writeSettings();
     int nbTabs = tab->count();
-    while (nbTabs > 0)
-    {
-        if (maybeSave())
-        {
-            QWidget *p = tab->currentWidget();
+    while (nbTabs > 0) {
+        if (maybeSave()) {
+            QWidget* p = tab->currentWidget();
             tab->removeTab(tab->currentIndex());
             p->deleteLater();
             prevEdit = nullptr;
-        }
-        else
-        {
+        } else {
             event->ignore();
             return;
         }
@@ -720,7 +707,8 @@ void QtTextEditor::closeEvent(QCloseEvent *event)
     event->accept();
 }
 //=============================================================================
-void QtTextEditor::contextMenuEvent(QContextMenuEvent *event)
+void
+QtTextEditor::contextMenuEvent(QContextMenuEvent* event)
 {
     QString selectedText = currentEditor()->textCursor().selectedText();
     selectedText = selectedText.trimmed();
@@ -729,49 +717,53 @@ void QtTextEditor::contextMenuEvent(QContextMenuEvent *event)
     contextMenu->exec(event->globalPos());
 }
 //=============================================================================
-void QtTextEditor::copyFullPath()
+void
+QtTextEditor::copyFullPath()
 {
-    QClipboard *clipboard = QApplication::clipboard();
-    if (!currentFilename().isEmpty())
-    {
+    QClipboard* clipboard = QApplication::clipboard();
+    if (!currentFilename().isEmpty()) {
         QString filename = currentFilename();
 #ifdef _MSC_VER
         filename.replace("/", "\\");
 #endif
         clipboard->setText(filename);
-    }
-    else
-    {
+    } else {
         clipboard->setText(DEFAULT_FILENAME);
     }
 }
 //=============================================================================
-void QtTextEditor::undo()
+void
+QtTextEditor::undo()
 {
     currentEditor()->undo();
 }
 //=============================================================================
-void QtTextEditor::redo()
+void
+QtTextEditor::redo()
 {
     currentEditor()->redo();
 }
 //=============================================================================
-void QtTextEditor::comment()
+void
+QtTextEditor::comment()
 {
     currentEditor()->comment();
 }
 //=============================================================================
-void QtTextEditor::uncomment()
+void
+QtTextEditor::uncomment()
 {
     currentEditor()->uncomment();
 }
 //=============================================================================
-int QtTextEditor::getCurrentLineNumber()
+int
+QtTextEditor::getCurrentLineNumber()
 {
     return currentEditor()->textCursor().blockNumber() + 1;
 }
 //=============================================================================
-bool QtTextEditor::gotoLineNumber(int lineNumber)
+bool
+QtTextEditor::gotoLineNumber(int lineNumber)
 {
     QTextCursor text_cursor(currentEditor()->document()->findBlockByLineNumber(lineNumber - 1));
     text_cursor.movePosition(QTextCursor::StartOfLine);
@@ -779,179 +771,166 @@ bool QtTextEditor::gotoLineNumber(int lineNumber)
     return true;
 }
 //=============================================================================
-void QtTextEditor::gotoLine()
+void
+QtTextEditor::gotoLine()
 {
     bool ok;
-    int line_number = QInputDialog::getInt(this, TR("Go To Line ..."),
-                                           TR("Enter a line number to go to: "), 1, 1, currentEditor()->document()->blockCount(), 1, &ok);
-    if (ok)
-    {
+    int line_number
+        = QInputDialog::getInt(this, TR("Go To Line ..."), TR("Enter a line number to go to: "), 1,
+            1, currentEditor()->document()->blockCount(), 1, &ok);
+    if (ok) {
         gotoLineNumber(line_number);
     }
 }
 //=============================================================================
-void QtTextEditor::runFile()
+void
+QtTextEditor::runFile()
 {
-    if (nlsEvaluator->getInterface()->isAtPrompt())
-    {
-        if (currentEditor()->document()->isModified() || currentEditor()->document()->isEmpty())
-        {
+    if (nlsEvaluator->getInterface()->isAtPrompt()) {
+        if (currentEditor()->document()->isModified() || currentEditor()->document()->isEmpty()) {
             save();
         }
         std::wstring filename = QStringTowstring(currentFilename());
         executeCommand(std::wstring(L"run('") + filename + std::wstring(L"')"));
-    }
-    else
-    {
-        QMessageBox::warning(this, _("Run file ...").c_str(), _("Interpreter currently runs.").c_str());
+    } else {
+        QMessageBox::warning(
+            this, _("Run file ...").c_str(), _("Interpreter currently runs.").c_str());
     }
 }
 //=============================================================================
-void QtTextEditor::stopRun()
+void
+QtTextEditor::stopRun()
 {
-    if (!nlsEvaluator->getInterface()->isAtPrompt())
-    {
+    if (!nlsEvaluator->getInterface()->isAtPrompt()) {
         nlsEvaluator->SetInterruptPending(true);
     }
 }
 //=============================================================================
-void QtTextEditor::helpOnSelection()
+void
+QtTextEditor::helpOnSelection()
 {
     QString selectedText = currentEditor()->textCursor().selectedText();
     selectedText = selectedText.trimmed();
-    if (selectedText.startsWith('\'') && selectedText.endsWith('\''))
-    {
+    if (selectedText.startsWith('\'') && selectedText.endsWith('\'')) {
         selectedText.chop(1);
         selectedText.remove(0, 1);
     }
-    if (!selectedText.isEmpty())
-    {
+    if (!selectedText.isEmpty()) {
         std::wstring text = QStringTowstring(selectedText);
         boost::algorithm::replace_all(text, "'", "\"");
         std::wstring cmd = L"doc('" + text + L"');";
-        try
-        {
+        try {
             nlsEvaluator->evaluateString(Nelson::wstring_to_utf8(cmd), true);
-        }
-        catch (Exception)
-        {
+        } catch (Exception) {
         }
     }
 }
 //=============================================================================
-void QtTextEditor::smartIndent()
+void
+QtTextEditor::smartIndent()
 {
     int indentSize = 2;
     QTextCursor cursor(currentEditor()->textCursor());
     QTextCursor cursorBackup(currentEditor()->textCursor());
     bool noTextSelected = false;
-    if (cursor.selectedText().isEmpty())
-    {
+    if (cursor.selectedText().isEmpty()) {
         noTextSelected = true;
     }
-    if (noTextSelected)
-    {
+    if (noTextSelected) {
         currentEditor()->selectAll();
         cursor = currentEditor()->textCursor();
     }
     ::smartIndent(currentEditor(), indentSize);
-    if (noTextSelected)
-    {
+    if (noTextSelected) {
         currentEditor()->setTextCursor(cursorBackup);
         currentEditor()->setFocus();
     }
 }
 //=============================================================================
-void QtTextEditor::printDocument()
+void
+QtTextEditor::printDocument()
 {
     QPrinter printer;
     printer.setPaperSize(QPrinter::A4);
     printer.setOrientation(QPrinter::Portrait);
-    QPrintPreviewDialog *printPreview = new QPrintPreviewDialog(&printer, this, Qt::WindowCloseButtonHint | Qt::WindowMaximizeButtonHint);
-    if (printPreview != nullptr)
-    {
+    QPrintPreviewDialog* printPreview = new QPrintPreviewDialog(
+        &printer, this, Qt::WindowCloseButtonHint | Qt::WindowMaximizeButtonHint);
+    if (printPreview != nullptr) {
         connect(printPreview, SIGNAL(paintRequested(QPrinter*)), this, SLOT(print(QPrinter*)));
         printPreview->exec();
         delete printPreview;
     }
 }
 //=============================================================================
-void QtTextEditor::print(QPrinter *p)
+void
+QtTextEditor::print(QPrinter* p)
 {
     currentEditor()->print(p);
 }
 //=============================================================================
-void QtTextEditor::evaluateSelection()
+void
+QtTextEditor::evaluateSelection()
 {
     QString selectedText = currentEditor()->textCursor().selectedText();
     selectedText = selectedText.trimmed();
-    if (selectedText.startsWith('\'') && selectedText.endsWith('\''))
-    {
+    if (selectedText.startsWith('\'') && selectedText.endsWith('\'')) {
         selectedText.chop(1);
         selectedText.remove(0, 1);
     }
-    if (!selectedText.isEmpty())
-    {
+    if (!selectedText.isEmpty()) {
         std::wstring text = QStringTowstring(selectedText);
         executeCommand(text);
     }
 }
 //=============================================================================
-void QtTextEditor::dragEnterEvent(QDragEnterEvent *event)
+void
+QtTextEditor::dragEnterEvent(QDragEnterEvent* event)
 {
     event->mimeData()->hasFormat("text/uri-list") ? event->accept() : event->ignore();
 }
 //=============================================================================
-void QtTextEditor::dropEvent(QDropEvent *event)
+void
+QtTextEditor::dropEvent(QDropEvent* event)
 {
-    if (event->mimeData()->hasFormat("text/uri-list"))
-    {
+    if (event->mimeData()->hasFormat("text/uri-list")) {
         QList<QUrl> urls = event->mimeData()->urls();
-        for (int k = 0; k < urls.size(); k++)
-        {
+        for (int k = 0; k < urls.size(); k++) {
             QFileInfo qmake(QString(urls[k].toLocalFile()));
-            if (!urls.isEmpty())
-            {
+            if (!urls.isEmpty()) {
                 loadOrCreateFile(urls[k].toLocalFile());
             }
         }
         event->accept();
-    }
-    else
-    {
+    } else {
         event->ignore();
     }
 }
 //=============================================================================
-void QtTextEditor::reloadFile(const QString filenameModified)
+void
+QtTextEditor::reloadFile(const QString filenameModified)
 {
-    for (int i = 0; i < tab->count(); i++)
-    {
-        QWidget *widget = tab->widget(i);
-        QtEditPane *editPane = qobject_cast<QtEditPane*>(widget);
-        if (editPane)
-        {
-            if (editPane->getFileName() == filenameModified)
-            {
-                if (lastFilenameSaved == filenameModified)
-                {
+    for (int i = 0; i < tab->count(); i++) {
+        QWidget* widget = tab->widget(i);
+        QtEditPane* editPane = qobject_cast<QtEditPane*>(widget);
+        if (editPane) {
+            if (editPane->getFileName() == filenameModified) {
+                if (lastFilenameSaved == filenameModified) {
                     filesModifiedMessageDisplayedList.removeAll(filenameModified);
                     return;
                 }
-                if (filesModifiedMessageDisplayedList.contains(filenameModified))
-                {
+                if (filesModifiedMessageDisplayedList.contains(filenameModified)) {
                     return;
                 }
                 filesModifiedMessageDisplayedList.append(filenameModified);
                 if (QMessageBox::question(this, TR("Nelson"),
-                                          TR("File %1 was modified by an external software.\nDo you want to reopen it?").arg(filenameModified),
-                                          QMessageBox::Yes | QMessageBox::Default, QMessageBox::No) == QMessageBox::No)
-                {
+                        TR("File %1 was modified by an external software.\nDo you want to reopen "
+                           "it?")
+                            .arg(filenameModified),
+                        QMessageBox::Yes | QMessageBox::Default, QMessageBox::No)
+                    == QMessageBox::No) {
                     filesModifiedMessageDisplayedList.removeAll(filenameModified);
                     return;
-                }
-                else
-                {
+                } else {
                     filesModifiedMessageDisplayedList.removeAll(filenameModified);
                     tab->setCurrentIndex(i);
                     closeTab();

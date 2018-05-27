@@ -18,27 +18,31 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <stdio.h>
-#include <string>
 #include "Stream.hpp"
 #include "nlsStream_manager_exports.h"
+#include <stdio.h>
+#include <string>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    class NLSSTREAM_MANAGER_IMPEXP FileStream : public Stream {
-    private:
-        bool autoclose;
-        FILE *fp;
-    public:
-        FileStream(const std::wstring filename, const std::wstring accessmode);
-        FileStream(FILE *afp);
-        // Close the file
-        ~FileStream();
-        // Write a sequence of bytes to the file
-        virtual void writeBytes(const void* data, int len);
-        // Read a sequence of bytes from the file
-        virtual void readBytes(void* data, int len);
-    };
-    //=============================================================================
-}
+//=============================================================================
+class NLSSTREAM_MANAGER_IMPEXP FileStream : public Stream
+{
+private:
+    bool autoclose;
+    FILE* fp;
+
+public:
+    FileStream(const std::wstring filename, const std::wstring accessmode);
+    FileStream(FILE* afp);
+    // Close the file
+    ~FileStream();
+    // Write a sequence of bytes to the file
+    virtual void
+    writeBytes(const void* data, int len);
+    // Read a sequence of bytes from the file
+    virtual void
+    readBytes(void* data, int len);
+};
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

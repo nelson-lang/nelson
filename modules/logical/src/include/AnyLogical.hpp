@@ -18,10 +18,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsLogical_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsLogical_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSLOGICAL_IMPEXP ArrayOf AnyLogical(ArrayOf A, indexType dim = 0);
+NLSLOGICAL_IMPEXP ArrayOf
+AnyLogical(ArrayOf A, indexType dim = 0);
 }
 //=============================================================================

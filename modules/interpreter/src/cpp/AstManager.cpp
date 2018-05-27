@@ -16,139 +16,128 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <algorithm>
 #include "AstManager.hpp"
 #include "NelSonParser.h"
+#include <algorithm>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    static boost::container::vector<ASTPtr> AstUsedVector;
-    //=============================================================================
-    void resetAstBackupPosition()
-    {
-        AstUsedVector.clear();
+//=============================================================================
+static boost::container::vector<ASTPtr> AstUsedVector;
+//=============================================================================
+void
+resetAstBackupPosition()
+{
+    AstUsedVector.clear();
+}
+//=============================================================================
+boost::container::vector<ASTPtr>
+getAstUsed()
+{
+    return AstUsedVector;
+}
+//=============================================================================
+bool
+deleteAst(ASTPtr pt, boost::container::vector<ASTPtr> v)
+{
+    bool bFind = false;
+    boost::container::vector<ASTPtr>::iterator it = std::find(v.begin(), v.end(), pt);
+    if (it != v.end()) {
+        delete pt;
+        v.erase(it);
+        bFind = true;
     }
-    //=============================================================================
-    boost::container::vector<ASTPtr> getAstUsed()
-    {
-        return AstUsedVector;
+    return bFind;
+}
+//=============================================================================
+void
+deleteAstVector(boost::container::vector<ASTPtr> v)
+{
+    for (size_t k = 0; k < v.size(); ++k) {
+        if (v[k]) {
+            delete v[k];
+            v[k] = nullptr;
+        }
     }
-    //=============================================================================
-    bool deleteAst(ASTPtr pt, boost::container::vector<ASTPtr> v)
-    {
-        bool bFind = false;
-        boost::container::vector<ASTPtr>::iterator it = std::find(v.begin(), v.end(), pt);
-        if (it != v.end())
-        {
-            delete pt;
-            v.erase(it);
-            bFind = true;
-        }
-        return bFind;
+    v.clear();
+}
+//=============================================================================
+ASTPtr
+allocateAbstractSyntaxTree(void)
+{
+    ASTPtr p;
+    try {
+        p = new AST();
+        AstUsedVector.push_back(p);
+    } catch (std::bad_alloc) {
+        p = nullptr;
     }
-    //=============================================================================
-    void deleteAstVector(boost::container::vector<ASTPtr> v)
-    {
-        for (size_t k = 0; k < v.size(); ++k)
-        {
-            if (v[k])
-            {
-                delete v[k];
-                v[k] = nullptr;
-            }
-        }
-        v.clear();
+    return p;
+}
+//=============================================================================
+ASTPtr
+allocateAbstractSyntaxTree(NODE_TYPE ntype, const char* name, int context)
+{
+    ASTPtr p;
+    try {
+        p = new AST(ntype, name, context);
+        AstUsedVector.push_back(p);
+    } catch (std::bad_alloc) {
+        p = nullptr;
     }
-    //=============================================================================
-    ASTPtr allocateAbstractSyntaxTree(void)
-    {
-        ASTPtr p;
-        try
-        {
-            p = new AST();
-            AstUsedVector.push_back(p);
-        }
-        catch (std::bad_alloc)
-        {
-            p = nullptr;
-        }
-        return p;
+    return p;
+}
+//=============================================================================
+ASTPtr
+allocateAbstractSyntaxTree(NODE_TYPE ntype, int token, int context)
+{
+    ASTPtr p;
+    try {
+        p = new AST(ntype, token, context);
+        AstUsedVector.push_back(p);
+    } catch (std::bad_alloc) {
+        p = nullptr;
     }
-    //=============================================================================
-    ASTPtr allocateAbstractSyntaxTree(NODE_TYPE ntype, const char* name, int context)
-    {
-        ASTPtr p;
-        try
-        {
-            p = new AST(ntype, name, context);
-            AstUsedVector.push_back(p);
-        }
-        catch (std::bad_alloc)
-        {
-            p = nullptr;
-        }
-        return p;
+    return p;
+}
+//=============================================================================
+ASTPtr
+allocateAbstractSyntaxTree(OP_TYPE op, ASTPtr lt, ASTPtr rt, int context)
+{
+    ASTPtr p;
+    try {
+        p = new AST(op, lt, rt, context);
+        AstUsedVector.push_back(p);
+    } catch (std::bad_alloc) {
+        p = nullptr;
     }
-    //=============================================================================
-    ASTPtr allocateAbstractSyntaxTree(NODE_TYPE ntype, int token, int context)
-    {
-        ASTPtr p;
-        try
-        {
-            p = new AST(ntype, token, context);
-            AstUsedVector.push_back(p);
-        }
-        catch (std::bad_alloc)
-        {
-            p = nullptr;
-        }
-        return p;
+    return p;
+}
+//=============================================================================
+ASTPtr
+allocateAbstractSyntaxTree(OP_TYPE op, ASTPtr lt, ASTPtr md, ASTPtr rt, int context)
+{
+    ASTPtr p;
+    try {
+        p = new AST(op, lt, md, rt, context);
+        AstUsedVector.push_back(p);
+    } catch (std::bad_alloc) {
+        p = nullptr;
     }
-    //=============================================================================
-    ASTPtr allocateAbstractSyntaxTree(OP_TYPE op, ASTPtr lt, ASTPtr rt, int context)
-    {
-        ASTPtr p;
-        try
-        {
-            p = new AST(op, lt, rt, context);
-            AstUsedVector.push_back(p);
-        }
-        catch (std::bad_alloc)
-        {
-            p = nullptr;
-        }
-        return p;
+    return p;
+}
+//=============================================================================
+ASTPtr
+allocateAbstractSyntaxTree(OP_TYPE op, ASTPtr arg, int context)
+{
+    ASTPtr p;
+    try {
+        p = new AST(op, arg, context);
+        AstUsedVector.push_back(p);
+    } catch (std::bad_alloc) {
+        p = nullptr;
     }
-    //=============================================================================
-    ASTPtr allocateAbstractSyntaxTree(OP_TYPE op, ASTPtr lt, ASTPtr md, ASTPtr rt, int context)
-    {
-        ASTPtr p;
-        try
-        {
-            p = new AST(op, lt, md, rt, context);
-            AstUsedVector.push_back(p);
-        }
-        catch (std::bad_alloc)
-        {
-            p = nullptr;
-        }
-        return p;
-    }
-    //=============================================================================
-    ASTPtr allocateAbstractSyntaxTree(OP_TYPE op, ASTPtr arg, int context)
-    {
-        ASTPtr p;
-        try
-        {
-            p = new AST(op, arg, context);
-            AstUsedVector.push_back(p);
-        }
-        catch (std::bad_alloc)
-        {
-            p = nullptr;
-        }
-        return p;
-    }
-    //=============================================================================
+    return p;
+}
+//=============================================================================
 }
 //=============================================================================

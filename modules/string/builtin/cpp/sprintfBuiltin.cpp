@@ -23,61 +23,47 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::StringGateway::sprintfBuiltin(Evaluator * eval, int nLhs, const ArrayOfVector & argIn)
+ArrayOfVector
+Nelson::StringGateway::sprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 2)
-    {
+    if (nLhs > 2) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() == 0)
-    {
+    if (argIn.size() == 0) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     bool bSuccess = false;
     retval = OverloadFunction(eval, nLhs, argIn, "sprintf", bSuccess);
-    if (!bSuccess)
-    {
+    if (!bSuccess) {
         ArrayOf param1 = argIn[0];
-        if (!param1.isString())
-        {
+        if (!param1.isString()) {
             Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
-        if (!param1.isVector())
-        {
+        if (!param1.isVector()) {
             Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
         std::wstring result = L"";
         std::wstring error_message = L"";
         bool bRes = StringPrintf(result, error_message, eval, argIn);
-        if (!bRes)
-        {
-            if (nLhs > 1)
-            {
+        if (!bRes) {
+            if (nLhs > 1) {
                 ArrayOf strArr = ArrayOf::emptyConstructor(Dimensions(1, 0));
                 strArr.promoteType(NLS_CHAR);
                 retval.push_back(strArr);
                 retval.push_back(ArrayOf::stringConstructor(error_message));
-            }
-            else
-            {
+            } else {
                 Error(eval, error_message);
             }
-        }
-        else
-        {
-            if (result == L"")
-            {
+        } else {
+            if (result == L"") {
                 ArrayOf strArr = ArrayOf::emptyConstructor(Dimensions(1, 0));
                 strArr.promoteType(NLS_CHAR);
                 retval.push_back(strArr);
-            }
-            else
-            {
+            } else {
                 retval.push_back(ArrayOf::stringConstructor(result));
             }
-            if (nLhs > 1)
-            {
+            if (nLhs > 1) {
                 retval.push_back(ArrayOf::stringConstructor(L""));
             }
         }

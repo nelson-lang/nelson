@@ -18,11 +18,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsString_exports.h"
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
+#include "nlsString_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSSTRING_IMPEXP void StringDisplay(Evaluator *eval, ArrayOf Var, bool bFromBuiltin = false);
+NLSSTRING_IMPEXP void
+StringDisplay(Evaluator* eval, ArrayOf Var, bool bFromBuiltin = false);
 }
 //=============================================================================

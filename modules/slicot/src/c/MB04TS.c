@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,24 +9,26 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int mb04ts_(trana, tranb, n, ilo, a, lda, b, ldb, g, ldg, q, ldq, csl, csr, taul, taur, dwork, ldwork, info, trana_len, tranb_len)
-char *trana, *tranb;
+EXPORTSYMBOL /* Subroutine */ int mb04ts_(trana, tranb, n, ilo, a, lda, b, ldb, g, ldg, q, ldq, csl,
+    csr, taul, taur, dwork, ldwork, info, trana_len, tranb_len) char *trana,
+    *tranb;
 integer *n, *ilo;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *g;
-integer *ldg;
-doublereal *q;
-integer *ldq;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* g;
+integer* ldg;
+doublereal* q;
+integer* ldq;
 doublereal *csl, *csr, *taul, *taur, *dwork;
 integer *ldwork, *info;
 ftnlen trana_len;
 ftnlen tranb_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, g_dim1, g_offset, q_dim1, q_offset, i__1, i__2, i__3;
+    integer a_dim1, a_offset, b_dim1, b_offset, g_dim1, g_offset, q_dim1, q_offset, i__1, i__2,
+        i__3;
     /* Local variables */
     static logical ltra, ltrb;
     static doublereal temp;
@@ -234,62 +236,41 @@ ftnlen tranb_len;
     *info = 0;
     ltra = lsame_(trana, "T", 1L, 1L) || lsame_(trana, "C", 1L, 1L);
     ltrb = lsame_(tranb, "T", 1L, 1L) || lsame_(tranb, "C", 1L, 1L);
-    if (! ltra && ! lsame_(trana, "N", 1L, 1L))
-    {
+    if (!ltra && !lsame_(trana, "N", 1L, 1L)) {
         *info = -1;
-    }
-    else if (! ltrb && ! lsame_(tranb, "N", 1L, 1L))
-    {
+    } else if (!ltrb && !lsame_(tranb, "N", 1L, 1L)) {
         *info = -2;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -3;
-    }
-    else if (*ilo < 1 || *ilo > max(1,*n))
-    {
+    } else if (*ilo < 1 || *ilo > max(1, *n)) {
         *info = -4;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -6;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -8;
-    }
-    else if (*ldg < max(1,*n))
-    {
+    } else if (*ldg < max(1, *n)) {
         *info = -10;
-    }
-    else if (*ldq < max(1,*n))
-    {
+    } else if (*ldq < max(1, *n)) {
         *info = -12;
-    }
-    else if (*ldwork < max(1,*n))
-    {
-        dwork[1] = (doublereal) max(1,*n);
+    } else if (*ldwork < max(1, *n)) {
+        dwork[1] = (doublereal)max(1, *n);
         *info = -18;
     }
     /*     Return if there were illegal values. */
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB04TS", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
+    if (*n == 0) {
         dwork[1] = 1.;
         return 0;
     }
     i__1 = *n;
-    for (i__ = *ilo; i__ <= i__1; ++i__)
-    {
+    for (i__ = *ilo; i__ <= i__1; ++i__) {
         alpha = q[i__ + i__ * q_dim1];
-        if (i__ < *n)
-        {
+        if (i__ < *n) {
             /*           Generate elementary reflector HU(i) to annihilate Q(i+1:n,i) */
             i__2 = *n - i__ + 1;
             dlarfg_(&i__2, &alpha, &q[i__ + 1 + i__ * q_dim1], &c__1, &nu);
@@ -297,132 +278,124 @@ ftnlen tranb_len;
             q[i__ + i__ * q_dim1] = 1.;
             i__2 = *n - i__ + 1;
             i__3 = *n - i__;
-            dlarf_("Left", &i__2, &i__3, &q[i__ + i__ * q_dim1], &c__1, &nu, &q[i__ + (i__ + 1) * q_dim1], ldq, &dwork[1], 4L);
-            if (ltra)
-            {
+            dlarf_("Left", &i__2, &i__3, &q[i__ + i__ * q_dim1], &c__1, &nu,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &dwork[1], 4L);
+            if (ltra) {
                 i__2 = *n - i__ + 1;
                 i__3 = *n - i__ + 1;
-                dlarf_("Right", &i__2, &i__3, &q[i__ + i__ * q_dim1], &c__1, &nu, &a[i__ + i__ * a_dim1], lda, &dwork[1], 5L);
-            }
-            else
-            {
+                dlarf_("Right", &i__2, &i__3, &q[i__ + i__ * q_dim1], &c__1, &nu,
+                    &a[i__ + i__ * a_dim1], lda, &dwork[1], 5L);
+            } else {
                 i__2 = *n - i__ + 1;
                 i__3 = *n - i__ + 1;
-                dlarf_("Left", &i__2, &i__3, &q[i__ + i__ * q_dim1], &c__1, &nu, &a[i__ + i__ * a_dim1], lda, &dwork[1], 4L);
+                dlarf_("Left", &i__2, &i__3, &q[i__ + i__ * q_dim1], &c__1, &nu,
+                    &a[i__ + i__ * a_dim1], lda, &dwork[1], 4L);
             }
-            if (ltrb)
-            {
+            if (ltrb) {
                 i__2 = *n - i__ + 1;
-                dlarf_("Right", n, &i__2, &q[i__ + i__ * q_dim1], &c__1, &nu, &b[i__ * b_dim1 + 1], ldb, &dwork[1], 5L);
-            }
-            else
-            {
+                dlarf_("Right", n, &i__2, &q[i__ + i__ * q_dim1], &c__1, &nu, &b[i__ * b_dim1 + 1],
+                    ldb, &dwork[1], 5L);
+            } else {
                 i__2 = *n - i__ + 1;
-                dlarf_("Left", &i__2, n, &q[i__ + i__ * q_dim1], &c__1, &nu, &b[i__ + b_dim1], ldb, &dwork[1], 4L);
+                dlarf_("Left", &i__2, n, &q[i__ + i__ * q_dim1], &c__1, &nu, &b[i__ + b_dim1], ldb,
+                    &dwork[1], 4L);
             }
             i__2 = *n - i__ + 1;
-            dlarf_("Left", &i__2, n, &q[i__ + i__ * q_dim1], &c__1, &nu, &g[i__ + g_dim1], ldg, &dwork[1], 4L);
+            dlarf_("Left", &i__2, n, &q[i__ + i__ * q_dim1], &c__1, &nu, &g[i__ + g_dim1], ldg,
+                &dwork[1], 4L);
             q[i__ + i__ * q_dim1] = nu;
-        }
-        else
-        {
+        } else {
             q[i__ + i__ * q_dim1] = 0.;
         }
         /*        Generate symplectic Givens rotator GU(i) to annihilate Q(i,i). */
         temp = a[i__ + i__ * a_dim1];
         dlartg_(&temp, &alpha, &c__, &s, &a[i__ + i__ * a_dim1]);
         /*        Apply G(i) from the left. */
-        if (ltra)
-        {
+        if (ltra) {
             i__2 = *n - i__;
-            drot_(&i__2, &a[i__ + 1 + i__ * a_dim1], &c__1, &q[i__ + (i__ + 1) * q_dim1], ldq, &c__, &s);
-        }
-        else
-        {
+            drot_(&i__2, &a[i__ + 1 + i__ * a_dim1], &c__1, &q[i__ + (i__ + 1) * q_dim1], ldq, &c__,
+                &s);
+        } else {
             i__2 = *n - i__;
-            drot_(&i__2, &a[i__ + (i__ + 1) * a_dim1], lda, &q[i__ + (i__ + 1) * q_dim1], ldq, &c__, &s);
+            drot_(&i__2, &a[i__ + (i__ + 1) * a_dim1], lda, &q[i__ + (i__ + 1) * q_dim1], ldq, &c__,
+                &s);
         }
-        if (ltrb)
-        {
+        if (ltrb) {
             drot_(n, &g[i__ + g_dim1], ldg, &b[i__ * b_dim1 + 1], &c__1, &c__, &s);
-        }
-        else
-        {
+        } else {
             drot_(n, &g[i__ + g_dim1], ldg, &b[i__ + b_dim1], ldb, &c__, &s);
         }
         csl[(i__ << 1) - 1] = c__;
         csl[i__ * 2] = s;
-        if (i__ < *n)
-        {
-            if (ltra)
-            {
+        if (i__ < *n) {
+            if (ltra) {
                 /*              Generate elementary reflector FU(i) to annihilate */
                 /*              A(i,i+1:n). */
                 i__2 = *n - i__ + 1;
-                dlarfg_(&i__2, &a[i__ + i__ * a_dim1], &a[i__ + (i__ + 1) * a_dim1], lda, &taul[i__]);
+                dlarfg_(
+                    &i__2, &a[i__ + i__ * a_dim1], &a[i__ + (i__ + 1) * a_dim1], lda, &taul[i__]);
                 /*              Apply FU(i) from the left. */
                 temp = a[i__ + i__ * a_dim1];
                 a[i__ + i__ * a_dim1] = 1.;
                 i__2 = *n - i__;
                 i__3 = *n - i__ + 1;
-                dlarf_("Right", &i__2, &i__3, &a[i__ + i__ * a_dim1], lda, &taul[i__], &a[i__ + 1 + i__ * a_dim1], lda, &dwork[1], 5L);
+                dlarf_("Right", &i__2, &i__3, &a[i__ + i__ * a_dim1], lda, &taul[i__],
+                    &a[i__ + 1 + i__ * a_dim1], lda, &dwork[1], 5L);
                 i__2 = *n - i__ + 1;
                 i__3 = *n - i__;
-                dlarf_("Left", &i__2, &i__3, &a[i__ + i__ * a_dim1], lda, &taul[i__], &q[i__ + (i__ + 1) * q_dim1], ldq, &dwork[1], 4L);
-                if (ltrb)
-                {
+                dlarf_("Left", &i__2, &i__3, &a[i__ + i__ * a_dim1], lda, &taul[i__],
+                    &q[i__ + (i__ + 1) * q_dim1], ldq, &dwork[1], 4L);
+                if (ltrb) {
                     i__2 = *n - i__ + 1;
-                    dlarf_("Right", n, &i__2, &a[i__ + i__ * a_dim1], lda, &taul[i__], &b[i__ * b_dim1 + 1], ldb, &dwork[1], 5L);
-                }
-                else
-                {
+                    dlarf_("Right", n, &i__2, &a[i__ + i__ * a_dim1], lda, &taul[i__],
+                        &b[i__ * b_dim1 + 1], ldb, &dwork[1], 5L);
+                } else {
                     i__2 = *n - i__ + 1;
-                    dlarf_("Left", &i__2, n, &a[i__ + i__ * a_dim1], lda, &taul[i__], &b[i__ + b_dim1], ldb, &dwork[1], 4L);
+                    dlarf_("Left", &i__2, n, &a[i__ + i__ * a_dim1], lda, &taul[i__],
+                        &b[i__ + b_dim1], ldb, &dwork[1], 4L);
                 }
                 i__2 = *n - i__ + 1;
-                dlarf_("Left", &i__2, n, &a[i__ + i__ * a_dim1], lda, &taul[i__], &g[i__ + g_dim1], ldg, &dwork[1], 4L);
+                dlarf_("Left", &i__2, n, &a[i__ + i__ * a_dim1], lda, &taul[i__], &g[i__ + g_dim1],
+                    ldg, &dwork[1], 4L);
                 a[i__ + i__ * a_dim1] = temp;
-            }
-            else
-            {
+            } else {
                 /*              Generate elementary reflector FU(i) to annihilate */
                 /*              A(i+1:n,i). */
                 i__2 = *n - i__ + 1;
-                dlarfg_(&i__2, &a[i__ + i__ * a_dim1], &a[i__ + 1 + i__ * a_dim1], &c__1, &taul[i__]);
+                dlarfg_(
+                    &i__2, &a[i__ + i__ * a_dim1], &a[i__ + 1 + i__ * a_dim1], &c__1, &taul[i__]);
                 /*              Apply FU(i) from the left. */
                 temp = a[i__ + i__ * a_dim1];
                 a[i__ + i__ * a_dim1] = 1.;
                 i__2 = *n - i__ + 1;
                 i__3 = *n - i__;
-                dlarf_("Left", &i__2, &i__3, &a[i__ + i__ * a_dim1], &c__1, &taul[i__], &a[i__ + (i__ + 1) * a_dim1], lda, &dwork[1], 4L);
+                dlarf_("Left", &i__2, &i__3, &a[i__ + i__ * a_dim1], &c__1, &taul[i__],
+                    &a[i__ + (i__ + 1) * a_dim1], lda, &dwork[1], 4L);
                 i__2 = *n - i__ + 1;
                 i__3 = *n - i__;
-                dlarf_("Left", &i__2, &i__3, &a[i__ + i__ * a_dim1], &c__1, &taul[i__], &q[i__ + (i__ + 1) * q_dim1], ldq, &dwork[1], 4L);
-                if (ltrb)
-                {
+                dlarf_("Left", &i__2, &i__3, &a[i__ + i__ * a_dim1], &c__1, &taul[i__],
+                    &q[i__ + (i__ + 1) * q_dim1], ldq, &dwork[1], 4L);
+                if (ltrb) {
                     i__2 = *n - i__ + 1;
-                    dlarf_("Right", n, &i__2, &a[i__ + i__ * a_dim1], &c__1, &taul[i__], &b[i__ * b_dim1 + 1], ldb, &dwork[1], 5L);
-                }
-                else
-                {
+                    dlarf_("Right", n, &i__2, &a[i__ + i__ * a_dim1], &c__1, &taul[i__],
+                        &b[i__ * b_dim1 + 1], ldb, &dwork[1], 5L);
+                } else {
                     i__2 = *n - i__ + 1;
-                    dlarf_("Left", &i__2, n, &a[i__ + i__ * a_dim1], &c__1, &taul[i__], &b[i__ + b_dim1], ldb, &dwork[1], 4L);
+                    dlarf_("Left", &i__2, n, &a[i__ + i__ * a_dim1], &c__1, &taul[i__],
+                        &b[i__ + b_dim1], ldb, &dwork[1], 4L);
                 }
                 i__2 = *n - i__ + 1;
-                dlarf_("Left", &i__2, n, &a[i__ + i__ * a_dim1], &c__1, &taul[i__], &g[i__ + g_dim1], ldg, &dwork[1], 4L);
+                dlarf_("Left", &i__2, n, &a[i__ + i__ * a_dim1], &c__1, &taul[i__],
+                    &g[i__ + g_dim1], ldg, &dwork[1], 4L);
                 a[i__ + i__ * a_dim1] = temp;
             }
-        }
-        else
-        {
+        } else {
             taul[i__] = 0.;
         }
-        if (i__ < *n)
-        {
+        if (i__ < *n) {
             alpha = q[i__ + (i__ + 1) * q_dim1];
         }
-        if (i__ < *n - 1)
-        {
+        if (i__ < *n - 1) {
             /*           Generate elementary reflector HV(i) to annihilate Q(i,i+2:n) */
             i__2 = *n - i__;
             dlarfg_(&i__2, &alpha, &q[i__ + (i__ + 2) * q_dim1], ldq, &nu);
@@ -430,137 +403,130 @@ ftnlen tranb_len;
             q[i__ + (i__ + 1) * q_dim1] = 1.;
             i__2 = *n - i__;
             i__3 = *n - i__;
-            dlarf_("Right", &i__2, &i__3, &q[i__ + (i__ + 1) * q_dim1], ldq, &nu, &q[i__ + 1 + (i__ + 1) * q_dim1], ldq, &dwork[1], 5L);
-            if (ltra)
-            {
+            dlarf_("Right", &i__2, &i__3, &q[i__ + (i__ + 1) * q_dim1], ldq, &nu,
+                &q[i__ + 1 + (i__ + 1) * q_dim1], ldq, &dwork[1], 5L);
+            if (ltra) {
                 i__2 = *n - i__;
-                dlarf_("Left", &i__2, n, &q[i__ + (i__ + 1) * q_dim1], ldq, &nu, &a[i__ + 1 + a_dim1], lda, &dwork[1], 4L);
-            }
-            else
-            {
+                dlarf_("Left", &i__2, n, &q[i__ + (i__ + 1) * q_dim1], ldq, &nu,
+                    &a[i__ + 1 + a_dim1], lda, &dwork[1], 4L);
+            } else {
                 i__2 = *n - i__;
-                dlarf_("Right", n, &i__2, &q[i__ + (i__ + 1) * q_dim1], ldq, &nu, &a[(i__ + 1) * a_dim1 + 1], lda, &dwork[1], 5L);
+                dlarf_("Right", n, &i__2, &q[i__ + (i__ + 1) * q_dim1], ldq, &nu,
+                    &a[(i__ + 1) * a_dim1 + 1], lda, &dwork[1], 5L);
             }
-            if (ltrb)
-            {
+            if (ltrb) {
                 i__2 = *n - i__;
                 i__3 = *n - i__ + 1;
-                dlarf_("Left", &i__2, &i__3, &q[i__ + (i__ + 1) * q_dim1], ldq, &nu, &b[i__ + 1 + i__ * b_dim1], ldb, &dwork[1], 4L);
-            }
-            else
-            {
+                dlarf_("Left", &i__2, &i__3, &q[i__ + (i__ + 1) * q_dim1], ldq, &nu,
+                    &b[i__ + 1 + i__ * b_dim1], ldb, &dwork[1], 4L);
+            } else {
                 i__2 = *n - i__ + 1;
                 i__3 = *n - i__;
-                dlarf_("Right", &i__2, &i__3, &q[i__ + (i__ + 1) * q_dim1], ldq, &nu, &b[i__ + (i__ + 1) * b_dim1], ldb, &dwork[1], 5L);
+                dlarf_("Right", &i__2, &i__3, &q[i__ + (i__ + 1) * q_dim1], ldq, &nu,
+                    &b[i__ + (i__ + 1) * b_dim1], ldb, &dwork[1], 5L);
             }
             i__2 = *n - i__;
-            dlarf_("Right", n, &i__2, &q[i__ + (i__ + 1) * q_dim1], ldq, &nu, &g[(i__ + 1) * g_dim1 + 1], ldg, &dwork[1], 5L);
+            dlarf_("Right", n, &i__2, &q[i__ + (i__ + 1) * q_dim1], ldq, &nu,
+                &g[(i__ + 1) * g_dim1 + 1], ldg, &dwork[1], 5L);
             q[i__ + (i__ + 1) * q_dim1] = nu;
-        }
-        else if (i__ < *n)
-        {
+        } else if (i__ < *n) {
             q[i__ + (i__ + 1) * q_dim1] = 0.;
         }
-        if (i__ < *n)
-        {
+        if (i__ < *n) {
             /*           Generate symplectic Givens rotator GV(i) to annihilate */
             /*           Q(i,i+1). */
-            if (ltrb)
-            {
+            if (ltrb) {
                 temp = b[i__ + 1 + i__ * b_dim1];
                 dlartg_(&temp, &alpha, &c__, &s, &b[i__ + 1 + i__ * b_dim1]);
                 s = -s;
                 i__2 = *n - i__;
-                drot_(&i__2, &q[i__ + 1 + (i__ + 1) * q_dim1], &c__1, &b[i__ + 1 + (i__ + 1) * b_dim1], ldb, &c__, &s);
-            }
-            else
-            {
+                drot_(&i__2, &q[i__ + 1 + (i__ + 1) * q_dim1], &c__1,
+                    &b[i__ + 1 + (i__ + 1) * b_dim1], ldb, &c__, &s);
+            } else {
                 temp = b[i__ + (i__ + 1) * b_dim1];
                 dlartg_(&temp, &alpha, &c__, &s, &b[i__ + (i__ + 1) * b_dim1]);
                 s = -s;
                 i__2 = *n - i__;
-                drot_(&i__2, &q[i__ + 1 + (i__ + 1) * q_dim1], &c__1, &b[i__ + 1 + (i__ + 1) * b_dim1], &c__1, &c__, &s);
+                drot_(&i__2, &q[i__ + 1 + (i__ + 1) * q_dim1], &c__1,
+                    &b[i__ + 1 + (i__ + 1) * b_dim1], &c__1, &c__, &s);
             }
-            if (ltra)
-            {
+            if (ltra) {
                 drot_(n, &a[i__ + 1 + a_dim1], lda, &g[(i__ + 1) * g_dim1 + 1], &c__1, &c__, &s);
-            }
-            else
-            {
-                drot_(n, &a[(i__ + 1) * a_dim1 + 1], &c__1, &g[(i__ + 1) * g_dim1 + 1], &c__1, &c__, &s);
+            } else {
+                drot_(n, &a[(i__ + 1) * a_dim1 + 1], &c__1, &g[(i__ + 1) * g_dim1 + 1], &c__1, &c__,
+                    &s);
             }
             csr[(i__ << 1) - 1] = c__;
             csr[i__ * 2] = s;
         }
-        if (i__ < *n - 1)
-        {
-            if (ltrb)
-            {
+        if (i__ < *n - 1) {
+            if (ltrb) {
                 /*              Generate elementary reflector FV(i) to annihilate */
                 /*              B(i+2:n,i). */
                 i__2 = *n - i__;
-                dlarfg_(&i__2, &b[i__ + 1 + i__ * b_dim1], &b[i__ + 2 + i__ * b_dim1], &c__1, &taur[i__]);
+                dlarfg_(&i__2, &b[i__ + 1 + i__ * b_dim1], &b[i__ + 2 + i__ * b_dim1], &c__1,
+                    &taur[i__]);
                 /*              Apply FV(i) from the right. */
                 temp = b[i__ + 1 + i__ * b_dim1];
                 b[i__ + 1 + i__ * b_dim1] = 1.;
                 i__2 = *n - i__;
                 i__3 = *n - i__;
-                dlarf_("Left", &i__2, &i__3, &b[i__ + 1 + i__ * b_dim1], &c__1, &taur[i__], &b[i__ + 1 + (i__ + 1) * b_dim1], ldb, &dwork[1], 4L);
+                dlarf_("Left", &i__2, &i__3, &b[i__ + 1 + i__ * b_dim1], &c__1, &taur[i__],
+                    &b[i__ + 1 + (i__ + 1) * b_dim1], ldb, &dwork[1], 4L);
                 i__2 = *n - i__;
                 i__3 = *n - i__;
-                dlarf_("Right", &i__2, &i__3, &b[i__ + 1 + i__ * b_dim1], &c__1, &taur[i__], &q[i__ + 1 + (i__ + 1) * q_dim1], ldq, &dwork[1], 5L);
-                if (ltra)
-                {
+                dlarf_("Right", &i__2, &i__3, &b[i__ + 1 + i__ * b_dim1], &c__1, &taur[i__],
+                    &q[i__ + 1 + (i__ + 1) * q_dim1], ldq, &dwork[1], 5L);
+                if (ltra) {
                     i__2 = *n - i__;
-                    dlarf_("Left", &i__2, n, &b[i__ + 1 + i__ * b_dim1], &c__1, &taur[i__], &a[i__ + 1 + a_dim1], lda, &dwork[1], 4L);
-                }
-                else
-                {
+                    dlarf_("Left", &i__2, n, &b[i__ + 1 + i__ * b_dim1], &c__1, &taur[i__],
+                        &a[i__ + 1 + a_dim1], lda, &dwork[1], 4L);
+                } else {
                     i__2 = *n - i__;
-                    dlarf_("Right", n, &i__2, &b[i__ + 1 + i__ * b_dim1], &c__1, &taur[i__], &a[(i__ + 1) * a_dim1 + 1], lda, &dwork[1], 5L);
+                    dlarf_("Right", n, &i__2, &b[i__ + 1 + i__ * b_dim1], &c__1, &taur[i__],
+                        &a[(i__ + 1) * a_dim1 + 1], lda, &dwork[1], 5L);
                 }
                 i__2 = *n - i__;
-                dlarf_("Right", n, &i__2, &b[i__ + 1 + i__ * b_dim1], &c__1, &taur[i__], &g[(i__ + 1) * g_dim1 + 1], ldg, &dwork[1], 5L);
+                dlarf_("Right", n, &i__2, &b[i__ + 1 + i__ * b_dim1], &c__1, &taur[i__],
+                    &g[(i__ + 1) * g_dim1 + 1], ldg, &dwork[1], 5L);
                 b[i__ + 1 + i__ * b_dim1] = temp;
-            }
-            else
-            {
+            } else {
                 /*              Generate elementary reflector FV(i) to annihilate */
                 /*              B(i,i+2:n). */
                 i__2 = *n - i__;
-                dlarfg_(&i__2, &b[i__ + (i__ + 1) * b_dim1], &b[i__ + (i__ + 2) * b_dim1], ldb, &taur[i__]);
+                dlarfg_(&i__2, &b[i__ + (i__ + 1) * b_dim1], &b[i__ + (i__ + 2) * b_dim1], ldb,
+                    &taur[i__]);
                 /*              Apply FV(i) from the right. */
                 temp = b[i__ + (i__ + 1) * b_dim1];
                 b[i__ + (i__ + 1) * b_dim1] = 1.;
                 i__2 = *n - i__;
                 i__3 = *n - i__;
-                dlarf_("Right", &i__2, &i__3, &b[i__ + (i__ + 1) * b_dim1], ldb, &taur[i__], &b[i__ + 1 + (i__ + 1) * b_dim1], ldb, &dwork[1], 5L);
+                dlarf_("Right", &i__2, &i__3, &b[i__ + (i__ + 1) * b_dim1], ldb, &taur[i__],
+                    &b[i__ + 1 + (i__ + 1) * b_dim1], ldb, &dwork[1], 5L);
                 i__2 = *n - i__;
                 i__3 = *n - i__;
-                dlarf_("Right", &i__2, &i__3, &b[i__ + (i__ + 1) * b_dim1], ldb, &taur[i__], &q[i__ + 1 + (i__ + 1) * q_dim1], ldq, &dwork[1], 5L);
-                if (ltra)
-                {
+                dlarf_("Right", &i__2, &i__3, &b[i__ + (i__ + 1) * b_dim1], ldb, &taur[i__],
+                    &q[i__ + 1 + (i__ + 1) * q_dim1], ldq, &dwork[1], 5L);
+                if (ltra) {
                     i__2 = *n - i__;
-                    dlarf_("Left", &i__2, n, &b[i__ + (i__ + 1) * b_dim1], ldb, &taur[i__], &a[i__ + 1 + a_dim1], lda, &dwork[1], 4L);
-                }
-                else
-                {
+                    dlarf_("Left", &i__2, n, &b[i__ + (i__ + 1) * b_dim1], ldb, &taur[i__],
+                        &a[i__ + 1 + a_dim1], lda, &dwork[1], 4L);
+                } else {
                     i__2 = *n - i__;
-                    dlarf_("Right", n, &i__2, &b[i__ + (i__ + 1) * b_dim1], ldb, &taur[i__], &a[(i__ + 1) * a_dim1 + 1], lda, &dwork[1], 5L);
+                    dlarf_("Right", n, &i__2, &b[i__ + (i__ + 1) * b_dim1], ldb, &taur[i__],
+                        &a[(i__ + 1) * a_dim1 + 1], lda, &dwork[1], 5L);
                 }
                 i__2 = *n - i__;
-                dlarf_("Right", n, &i__2, &b[i__ + (i__ + 1) * b_dim1], ldb, &taur[i__], &g[(i__ + 1) * g_dim1 + 1], ldg, &dwork[1], 5L);
+                dlarf_("Right", n, &i__2, &b[i__ + (i__ + 1) * b_dim1], ldb, &taur[i__],
+                    &g[(i__ + 1) * g_dim1 + 1], ldg, &dwork[1], 5L);
                 b[i__ + (i__ + 1) * b_dim1] = temp;
             }
-        }
-        else if (i__ < *n)
-        {
+        } else if (i__ < *n) {
             taur[i__] = 0.;
         }
         /* L10: */
     }
-    dwork[1] = (doublereal) max(1,*n);
+    dwork[1] = (doublereal)max(1, *n);
     return 0;
     /* *** Last line of MB04TS *** */
 } /* mb04ts_ */
-

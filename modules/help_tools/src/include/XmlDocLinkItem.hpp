@@ -18,25 +18,32 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "nlsHelp_tools_exports.h"
 #include "XmlDocGenericItem.hpp"
+#include "nlsHelp_tools_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    class NLSHELP_TOOLS_IMPEXP XmlDocLinkItem : public XmlDocGenericItem {
-    private:
-        std::wstring _name;
-        std::wstring _link;
-    public:
-        XmlDocLinkItem(std::wstring name, std::wstring link);
-        ~XmlDocLinkItem();
-        std::wstring getName();
-        std::wstring getLink();
-        std::wstring getItemType();
-        bool writeAsHtml(std::string &utf8stream);
-        bool writeAsMarkdown(std::string &utf8stream);
-    };
-    //=============================================================================
-}
+//=============================================================================
+class NLSHELP_TOOLS_IMPEXP XmlDocLinkItem : public XmlDocGenericItem
+{
+private:
+    std::wstring _name;
+    std::wstring _link;
+
+public:
+    XmlDocLinkItem(std::wstring name, std::wstring link);
+    ~XmlDocLinkItem();
+    std::wstring
+    getName();
+    std::wstring
+    getLink();
+    std::wstring
+    getItemType();
+    bool
+    writeAsHtml(std::string& utf8stream);
+    bool
+    writeAsMarkdown(std::string& utf8stream);
+};
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

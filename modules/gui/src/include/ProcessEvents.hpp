@@ -21,11 +21,13 @@
 #include "nlsGui_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSGUI_IMPEXP void ProcessEvents(bool bWaitEvents = false);
+NLSGUI_IMPEXP void
+ProcessEvents(bool bWaitEvents = false);
 }
 //=============================================================================
 extern "C"
 {
-    NLSGUI_IMPEXP void NelSonProcessEvents(bool bWaitEvents = false);
+    NLSGUI_IMPEXP void
+    NelSonProcessEvents(bool bWaitEvents = false);
 }
 //=============================================================================

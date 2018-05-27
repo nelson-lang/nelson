@@ -18,12 +18,14 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsSingle_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsSingle_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSSINGLE_IMPEXP ArrayOf HorzCatSingle(ArrayOf A, ArrayOf B);
-    NLSSINGLE_IMPEXP ArrayOf HorzCatNdArraySingle(ArrayOf A, ArrayOf B);
+NLSSINGLE_IMPEXP ArrayOf
+HorzCatSingle(ArrayOf A, ArrayOf B);
+NLSSINGLE_IMPEXP ArrayOf
+HorzCatNdArraySingle(ArrayOf A, ArrayOf B);
 
-}
+} // namespace Nelson
 //=============================================================================

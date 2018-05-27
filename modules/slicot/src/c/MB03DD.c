@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -14,18 +14,18 @@ static integer c__2 = 2;
 static doublereal c_b54 = 0.;
 static doublereal c_b55 = 1.;
 
-EXPORTSYMBOL /* Subroutine */ int mb03dd_(uplo, n1, n2, prec, a, lda, b, ldb, q1, ldq1, q2, ldq2, dwork, ldwork, info, uplo_len)
-char *uplo;
+EXPORTSYMBOL /* Subroutine */ int mb03dd_(uplo, n1, n2, prec, a, lda, b, ldb, q1, ldq1, q2, ldq2,
+    dwork, ldwork, info, uplo_len) char* uplo;
 integer *n1, *n2;
 doublereal *prec, *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *q1;
-integer *ldq1;
-doublereal *q2;
-integer *ldq2;
-doublereal *dwork;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* q1;
+integer* ldq1;
+doublereal* q2;
+integer* ldq2;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen uplo_len;
 {
@@ -224,13 +224,10 @@ ftnlen uplo_len;
     /*     minimal amount of real workspace needed at that point in the */
     /*     code, as well as the preferred amount for good performance.) */
     m = *n1 + *n2;
-    if (m > 2)
-    {
-        if (! luplo)
-        {
+    if (m > 2) {
+        if (!luplo) {
             /*           Make the pencil upper block triangular. */
-            if (*n1 == 1)
-            {
+            if (*n1 == 1) {
                 dum[0] = a[a_dim1 + 1];
                 dum[1] = a[a_dim1 + 2];
                 a[a_dim1 + 1] = a[(a_dim1 << 1) + 2];
@@ -253,9 +250,7 @@ ftnlen uplo_len;
                 b[b_dim1 * 3 + 3] = dum[0];
                 b[b_dim1 + 3] = 0.;
                 b[(b_dim1 << 1) + 3] = 0.;
-            }
-            else if (*n2 == 1)
-            {
+            } else if (*n2 == 1) {
                 dum[0] = a[(a_dim1 << 1) + 3];
                 dum[1] = a[a_dim1 * 3 + 3];
                 a[a_dim1 * 3 + 2] = a[(a_dim1 << 1) + 1];
@@ -278,12 +273,9 @@ ftnlen uplo_len;
                 b[b_dim1 * 3 + 1] = dum[0];
                 b[b_dim1 + 2] = 0.;
                 b[b_dim1 + 3] = 0.;
-            }
-            else
-            {
+            } else {
                 i__1 = *n1;
-                for (j = 1; j <= i__1; ++j)
-                {
+                for (j = 1; j <= i__1; ++j) {
                     dswap_(n1, &a[j * a_dim1 + 1], &c__1, &a[*n1 + 1 + (*n1 + j) * a_dim1], &c__1);
                     dswap_(n1, &a[(*n1 + j) * a_dim1 + 1], &c__1, &a[*n1 + 1 + j * a_dim1], &c__1);
                     dswap_(n1, &b[j * b_dim1 + 1], &c__1, &b[*n1 + 1 + (*n1 + j) * b_dim1], &c__1);
@@ -302,68 +294,58 @@ ftnlen uplo_len;
         iaev = ievs + *n1 * 3;
         dlacpy_("Full", &m, &m, &a[a_offset], lda, &q1[q1_offset], ldq1, 4L);
         dlacpy_("Full", &m, &m, &b[b_offset], ldb, &q2[q2_offset], ldq2, 4L);
-        if (ltriu)
-        {
+        if (ltriu) {
             /*           Workspace: need   4*N1. */
             i__1 = *ldwork - ievs + 1;
-            dhgeqz_("Eigenvalues", "No Vector", "No Vector", n1, &c__1, n1, &q1[q1_offset], ldq1, &q2[q2_offset], ldq2, &dwork[1], &dwork[*n1 + 1], &dwork[(*n1 << 1) + 1], dum, &c__1, dum, &c__1, &dwork[ievs], &i__1, info, 11L, 9L, 9L);
-        }
-        else
-        {
+            dhgeqz_("Eigenvalues", "No Vector", "No Vector", n1, &c__1, n1, &q1[q1_offset], ldq1,
+                &q2[q2_offset], ldq2, &dwork[1], &dwork[*n1 + 1], &dwork[(*n1 << 1) + 1], dum,
+                &c__1, dum, &c__1, &dwork[ievs], &i__1, info, 11L, 9L, 9L);
+        } else {
             /*           Workspace: need   11*N1; */
             /*                      prefer larger. */
             i__1 = *ldwork - ievs + 1;
-            dggev_("No Vector", "No Vector", n1, &q1[q1_offset], ldq1, &q2[q2_offset], ldq2, &dwork[1], &dwork[*n1 + 1], &dwork[(*n1 << 1) + 1], dum, &c__1, dum, &c__1, &dwork[ievs], &i__1, info, 9L, 9L);
+            dggev_("No Vector", "No Vector", n1, &q1[q1_offset], ldq1, &q2[q2_offset], ldq2,
+                &dwork[1], &dwork[*n1 + 1], &dwork[(*n1 << 1) + 1], dum, &c__1, dum, &c__1,
+                &dwork[ievs], &i__1, info, 9L, 9L);
         }
-        if (*info >= 1 && *info <= *n1)
-        {
+        if (*info >= 1 && *info <= *n1) {
             *info = 1;
             return 0;
-        }
-        else if (*info > *n1)
-        {
+        } else if (*info > *n1) {
             *info = 2;
             return 0;
         }
         itmp = iaev + m * 3;
         i__1 = *n1 * 3;
         dcopy_(&i__1, &dwork[1], &c__1, &dwork[ievs], &c__1);
-        if (ltriu)
-        {
+        if (ltriu) {
             /*           Workspace: need   10*N1 + 4*N2. */
             i__1 = *ldwork - itmp + 1;
-            dhgeqz_("Schur", "Identity", "Identity", &m, &c__1, &m, &a[a_offset], lda, &b[b_offset], ldb, &dwork[iaev], &dwork[iaev + m], &dwork[iaev + (m << 1)], &q2[q2_offset], ldq2, &q1[q1_offset], ldq1, &dwork[itmp], &i__1, info, 5L, 8L, 8L);
-            if (*info >= 1 && *info <= m)
-            {
+            dhgeqz_("Schur", "Identity", "Identity", &m, &c__1, &m, &a[a_offset], lda, &b[b_offset],
+                ldb, &dwork[iaev], &dwork[iaev + m], &dwork[iaev + (m << 1)], &q2[q2_offset], ldq2,
+                &q1[q1_offset], ldq1, &dwork[itmp], &i__1, info, 5L, 8L, 8L);
+            if (*info >= 1 && *info <= m) {
                 *info = 3;
                 return 0;
-            }
-            else if (*info != 0)
-            {
+            } else if (*info != 0) {
                 *info = 4;
                 return 0;
             }
-        }
-        else
-        {
+        } else {
             /*           Workspace: need   16*N1 + 10*N2 + 23; */
             /*                      prefer larger. */
             i__1 = *ldwork - itmp + 1;
-            dgges_("Vectors", "Vectors", "Not sorted", sb02ow_, &m, &a[a_offset], lda, &b[b_offset], ldb, &idum, &dwork[iaev], &dwork[iaev + m], &dwork[iaev + (m << 1)], &q2[q2_offset], ldq2, &q1[q1_offset], ldq1, &dwork[itmp], &i__1, bwork, info, 7L, 7L, 10L);
-            if (*info != 0)
-            {
-                if (*info >= 1 && *info <= m)
-                {
+            dgges_("Vectors", "Vectors", "Not sorted", sb02ow_, &m, &a[a_offset], lda, &b[b_offset],
+                ldb, &idum, &dwork[iaev], &dwork[iaev + m], &dwork[iaev + (m << 1)], &q2[q2_offset],
+                ldq2, &q1[q1_offset], ldq1, &dwork[itmp], &i__1, bwork, info, 7L, 7L, 10L);
+            if (*info != 0) {
+                if (*info >= 1 && *info <= m) {
                     *info = 3;
                     return 0;
-                }
-                else if (*info != m + 2)
-                {
+                } else if (*info != m + 2) {
                     *info = 4;
                     return 0;
-                }
-                else
-                {
+                } else {
                     *info = 0;
                 }
             }
@@ -372,46 +354,46 @@ ftnlen uplo_len;
         tolb = *prec * 10.;
         evsel = 0;
         i__1 = m;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             slct[i__ - 1] = TRUE_;
             /* L20: */
         }
         /*        WHILE( EVSEL.EQ.0 ) DO */
-L30:
-        if (evsel == 0)
-        {
+    L30:
+        if (evsel == 0) {
             cnt = 0;
             out[0] = FALSE_;
             out[1] = FALSE_;
             i__1 = iaev + m - 1;
-            for (i__ = iaev; i__ <= i__1; ++i__)
-            {
-                aevinf = (d__1 = dwork[(m << 1) + i__], abs(d__1)) < *prec * ((d__2 = dwork[i__], abs(d__2)) + (d__3 = dwork[m + i__], abs(d__3)));
+            for (i__ = iaev; i__ <= i__1; ++i__) {
+                aevinf = (d__1 = dwork[(m << 1) + i__], abs(d__1))
+                    < *prec * ((d__2 = dwork[i__], abs(d__2)) + (d__3 = dwork[m + i__], abs(d__3)));
                 i__2 = *n1;
-                for (j = 1; j <= i__2; ++j)
-                {
+                for (j = 1; j <= i__2; ++j) {
                     /*                 Check if an eigenvalue is selected and check if it */
                     /*                 is infinite. */
-                    evinf = (d__1 = dwork[(*n1 << 1) + j], abs(d__1)) < *prec * ((d__2 = dwork[j], abs(d__2)) + (d__3 = dwork[*n1 + j], abs(d__3)));
-                    if ((! evinf || aevinf) && (! aevinf || evinf) && ! out[j - 1])
-                    {
-                        if (! evinf || ! aevinf)
-                        {
-                            adif = (d__1 = dwork[j] / dwork[(*n1 << 1) + j] - dwork[i__] / dwork[(m << 1) + i__], abs(d__1)) + (d__2 = dwork[*n1 + j] / dwork[(*n1 << 1) + j] - dwork[m + i__] / dwork[(m << 1) + i__], abs(d__2));
-                            absev = (d__1 = dwork[j] / dwork[(*n1 << 1) + j], abs(d__1)) + (d__2 = dwork[*n1 + j] / dwork[(*n1 << 1) + j], abs(d__2));
-                            absaev = (d__1 = dwork[i__] / dwork[(m << 1) + i__], abs(d__1)) + (d__2 = dwork[m + i__] / dwork[(m << 1) + i__], abs(d__2));
+                    evinf = (d__1 = dwork[(*n1 << 1) + j], abs(d__1)) < *prec
+                            * ((d__2 = dwork[j], abs(d__2)) + (d__3 = dwork[*n1 + j], abs(d__3)));
+                    if ((!evinf || aevinf) && (!aevinf || evinf) && !out[j - 1]) {
+                        if (!evinf || !aevinf) {
+                            adif = (d__1 = dwork[j] / dwork[(*n1 << 1) + j]
+                                           - dwork[i__] / dwork[(m << 1) + i__],
+                                       abs(d__1))
+                                + (d__2 = dwork[*n1 + j] / dwork[(*n1 << 1) + j]
+                                          - dwork[m + i__] / dwork[(m << 1) + i__],
+                                      abs(d__2));
+                            absev = (d__1 = dwork[j] / dwork[(*n1 << 1) + j], abs(d__1))
+                                + (d__2 = dwork[*n1 + j] / dwork[(*n1 << 1) + j], abs(d__2));
+                            absaev = (d__1 = dwork[i__] / dwork[(m << 1) + i__], abs(d__1))
+                                + (d__2 = dwork[m + i__] / dwork[(m << 1) + i__], abs(d__2));
                             /* Computing MAX */
-                            d__1 = max(tolb,absev);
-                            if (adif <= tol * max(d__1,absaev))
-                            {
+                            d__1 = max(tolb, absev);
+                            if (adif <= tol * max(d__1, absaev)) {
                                 slct[i__ - iaev] = FALSE_;
                                 out[j - 1] = TRUE_;
                                 ++cnt;
                             }
-                        }
-                        else
-                        {
+                        } else {
                             slct[i__ - iaev] = FALSE_;
                             out[j - 1] = TRUE_;
                             ++cnt;
@@ -421,12 +403,9 @@ L30:
                 }
                 /* L50: */
             }
-            if (cnt == *n1)
-            {
+            if (cnt == *n1) {
                 evsel = 1;
-            }
-            else
-            {
+            } else {
                 /*              CNT < N1, too few eigenvalues selected. */
                 tol *= 10.;
                 i__1 = *n1 * 3;
@@ -439,9 +418,10 @@ L30:
         /*                   prefer larger. */
         itmp = m * 3 + 1;
         i__1 = *ldwork - itmp + 1;
-        dtgsen_(&c__0, &c_true, &c_true, slct, &m, &a[a_offset], lda, &b[b_offset], ldb, &dwork[1], &dwork[m + 1], &dwork[(m << 1) + 1], &q2[q2_offset], ldq2, &q1[q1_offset], ldq1, &idum, &tmp, &tmp, dum, &dwork[itmp], &i__1, idm, &c__1, info);
-        if (*info == 1)
-        {
+        dtgsen_(&c__0, &c_true, &c_true, slct, &m, &a[a_offset], lda, &b[b_offset], ldb, &dwork[1],
+            &dwork[m + 1], &dwork[(m << 1) + 1], &q2[q2_offset], ldq2, &q1[q1_offset], ldq1, &idum,
+            &tmp, &tmp, dum, &dwork[itmp], &i__1, idm, &c__1, info);
+        if (*info == 1) {
             *info = 5;
             return 0;
         }
@@ -449,14 +429,11 @@ L30:
         itmp = *n1;
         *n1 = *n2;
         *n2 = itmp;
-        if (! luplo)
-        {
+        if (!luplo) {
             /*           Permute the rows of Q1 and Q2. */
-            if (*n1 == 1)
-            {
+            if (*n1 == 1) {
                 i__1 = m;
-                for (j = 1; j <= i__1; ++j)
-                {
+                for (j = 1; j <= i__1; ++j) {
                     tmp = q1[j * q1_dim1 + 3];
                     q1[j * q1_dim1 + 3] = q1[j * q1_dim1 + 2];
                     q1[j * q1_dim1 + 2] = q1[j * q1_dim1 + 1];
@@ -467,12 +444,9 @@ L30:
                     q2[j * q2_dim1 + 1] = tmp;
                     /* L60: */
                 }
-            }
-            else if (*n2 == 1)
-            {
+            } else if (*n2 == 1) {
                 i__1 = m;
-                for (j = 1; j <= i__1; ++j)
-                {
+                for (j = 1; j <= i__1; ++j) {
                     tmp = q1[j * q1_dim1 + 1];
                     q1[j * q1_dim1 + 1] = q1[j * q1_dim1 + 2];
                     q1[j * q1_dim1 + 2] = q1[j * q1_dim1 + 3];
@@ -483,24 +457,18 @@ L30:
                     q2[j * q2_dim1 + 3] = tmp;
                     /* L70: */
                 }
-            }
-            else
-            {
+            } else {
                 i__1 = m;
-                for (j = 1; j <= i__1; ++j)
-                {
+                for (j = 1; j <= i__1; ++j) {
                     dswap_(n1, &q1[j * q1_dim1 + 1], &c__1, &q1[*n1 + 1 + j * q1_dim1], &c__1);
                     dswap_(n1, &q2[j * q2_dim1 + 1], &c__1, &q2[*n1 + 1 + j * q2_dim1], &c__1);
                     /* L80: */
                 }
             }
         }
-    }
-    else
-    {
+    } else {
         /*        2-by-2 case. */
-        if (! luplo)
-        {
+        if (!luplo) {
             tmp = a[a_dim1 + 1];
             a[a_dim1 + 1] = a[(a_dim1 << 1) + 2];
             a[(a_dim1 << 1) + 2] = tmp;
@@ -513,16 +481,12 @@ L30:
             b[b_dim1 + 2] = 0.;
         }
         g = a[a_dim1 + 1] * b[(b_dim1 << 1) + 2] - a[(a_dim1 << 1) + 2] * b[b_dim1 + 1];
-        if (abs(g) < *prec * 100. * (d__1 = a[a_dim1 + 1] * b[(b_dim1 << 1) + 2], abs(d__1)))
-        {
+        if (abs(g) < *prec * 100. * (d__1 = a[a_dim1 + 1] * b[(b_dim1 << 1) + 2], abs(d__1))) {
             /*           The eigenvalues might be too close to interchange them. */
-            if (luplo)
-            {
+            if (luplo) {
                 dlaset_("Full", &c__2, &c__2, &c_b54, &c_b55, &q1[q1_offset], ldq1, 4L);
                 dlaset_("Full", &c__2, &c__2, &c_b54, &c_b55, &q2[q2_offset], ldq2, 4L);
-            }
-            else
-            {
+            } else {
                 q1[q1_dim1 + 1] = 0.;
                 q1[q1_dim1 + 2] = -1.;
                 q1[(q1_dim1 << 1) + 1] = 1.;
@@ -532,15 +496,13 @@ L30:
                 q2[(q2_dim1 << 1) + 1] = 1.;
                 q2[(q2_dim1 << 1) + 2] = 0.;
             }
-        }
-        else
-        {
-            e = a[(a_dim1 << 1) + 1] * b[(b_dim1 << 1) + 2] - a[(a_dim1 << 1) + 2] * b[(b_dim1 << 1) + 1];
+        } else {
+            e = a[(a_dim1 << 1) + 1] * b[(b_dim1 << 1) + 2]
+                - a[(a_dim1 << 1) + 2] * b[(b_dim1 << 1) + 1];
             dlartg_(&e, &g, &co1, &si1, &tmp);
             e = a[(a_dim1 << 1) + 1] * b[b_dim1 + 1] - a[a_dim1 + 1] * b[(b_dim1 << 1) + 1];
             dlartg_(&e, &g, &co2, &si2, &tmp);
-            if (luplo)
-            {
+            if (luplo) {
                 q1[q1_dim1 + 1] = co1;
                 q1[q1_dim1 + 2] = -si1;
                 q1[(q1_dim1 << 1) + 1] = si1;
@@ -549,9 +511,7 @@ L30:
                 q2[q2_dim1 + 2] = -si2;
                 q2[(q2_dim1 << 1) + 1] = si2;
                 q2[(q2_dim1 << 1) + 2] = co2;
-            }
-            else
-            {
+            } else {
                 q1[q1_dim1 + 1] = -si1;
                 q1[q1_dim1 + 2] = -co1;
                 q1[(q1_dim1 << 1) + 1] = co1;
@@ -566,4 +526,3 @@ L30:
     return 0;
     /* *** Last line of MB03DD *** */
 } /* mb03dd_ */
-

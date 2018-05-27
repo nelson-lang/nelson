@@ -1,12 +1,11 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-logical select_(par1, par2)
-doublereal *par1, *par2;
+logical select_(par1, par2) doublereal *par1, *par2;
 {
     /* System generated locals */
     logical ret_val;
@@ -27,4 +26,3 @@ doublereal *par1, *par2;
     ret_val = TRUE_;
     return ret_val;
 } /* select_ */
-

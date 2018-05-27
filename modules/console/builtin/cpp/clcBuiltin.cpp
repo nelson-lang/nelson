@@ -17,19 +17,18 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "clcBuiltin.hpp"
-#include "Error.hpp"
 #include "ClearConsole.hpp"
+#include "Error.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::ConsoleGateway::clcBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::ConsoleGateway::clcBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (argIn.size() != 0)
-    {
+    if (argIn.size() != 0) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ClearConsole(eval);

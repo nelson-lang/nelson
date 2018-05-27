@@ -1,14 +1,13 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-EXPORTSYMBOL /* Subroutine */ int mc01wd_(dp, p, u1, u2, q, info)
-integer *dp;
+EXPORTSYMBOL /* Subroutine */ int mc01wd_(dp, p, u1, u2, q, info) integer* dp;
 doublereal *p, *u1, *u2, *q;
-integer *info;
+integer* info;
 {
     /* System generated locals */
     integer i__1;
@@ -100,8 +99,7 @@ integer *info;
     --q;
     --p;
     /* Function Body */
-    if (*dp < 0)
-    {
+    if (*dp < 0) {
         *info = -1;
         i__1 = -(*info);
         xerbla_("MC01WD", &i__1, 6L);
@@ -110,15 +108,12 @@ integer *info;
     *info = 0;
     n = *dp + 1;
     q[n] = p[n];
-    if (n > 1)
-    {
+    if (n > 1) {
         b = q[n];
         q[n - 1] = p[n - 1] - *u2 * b;
-        if (n > 2)
-        {
+        if (n > 2) {
             a = q[n - 1];
-            for (i__ = n - 2; i__ >= 1; --i__)
-            {
+            for (i__ = n - 2; i__ >= 1; --i__) {
                 c__ = p[i__] - *u2 * a - *u1 * b;
                 q[i__] = c__;
                 b = a;
@@ -130,4 +125,3 @@ integer *info;
     return 0;
     /* *** Last line of MC01WD *** */
 } /* mc01wd_ */
-

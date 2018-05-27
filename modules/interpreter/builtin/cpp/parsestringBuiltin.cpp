@@ -17,67 +17,51 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "parsestringBuiltin.hpp"
-#include "ParserInterface.hpp"
 #include "Error.hpp"
+#include "ParserInterface.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::InterpreterGateway::parsestringBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::InterpreterGateway::parsestringBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() != 1)
-    {
+    if (argIn.size() != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     std::string command;
-    if (argIn[0].isSingleString())
-    {
+    if (argIn[0].isSingleString()) {
         command = argIn[0].getContentAsCString();
-    }
-    else
-    {
+    } else {
         Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
     ParserState parserState = ParseError;
     Exception previousException(eval->getLastException());
-    try
-    {
+    try {
         parserState = parseString(command + "\n");
-    }
-    catch (const Exception &)
-    {
+    } catch (const Exception&) {
         parserState = ParseError;
         eval->setLastException(previousException);
     }
-    switch (parserState)
-    {
-        case ScriptBlock:
-        {
+    switch (parserState) {
+    case ScriptBlock: {
+        retval.push_back(ArrayOf::stringConstructor("script"));
+    } break;
+    case FuncDef: {
+        MacroFunctionDef* cp = getParsedFunctionDef();
+        if (cp) {
+            retval.push_back(ArrayOf::stringConstructor("function"));
+        } else {
             retval.push_back(ArrayOf::stringConstructor("script"));
         }
-        break;
-        case FuncDef:
-        {
-            MacroFunctionDef *cp = getParsedFunctionDef();
-            if (cp)
-            {
-                retval.push_back(ArrayOf::stringConstructor("function"));
-            }
-            else
-            {
-                retval.push_back(ArrayOf::stringConstructor("script"));
-            }
-        }
-        break;
-        default:
-        {
-            retval.push_back(ArrayOf::stringConstructor("error"));
-        }
-        break;
+    } break;
+    default: {
+        retval.push_back(ArrayOf::stringConstructor("error"));
+    } break;
     }
     return retval;
 }

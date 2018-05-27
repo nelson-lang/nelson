@@ -23,34 +23,31 @@
 #include "CtransposeSparseLogical.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    ArrayOf VertCatSparseLogical(ArrayOf A, ArrayOf B)
-    {
-        ArrayOf C;
-        if (!A.isSparseLogicalType())
-        {
-            throw Exception(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_LOGICAL_EXPECTED);
-        }
-        if (!B.isSparseLogicalType())
-        {
-            throw Exception(ERROR_WRONG_ARGUMENT_2_TYPE_SPARSE_LOGICAL_EXPECTED);
-        }
-        if (A.isEmpty(false))
-        {
-            ArrayOf C(B);
-            return C;
-        }
-        if (B.isEmpty(false))
-        {
-            ArrayOf C(A);
-            return C;
-        }
-        A = CtransposeSparseLogical(A);
-        B = CtransposeSparseLogical(B);
-        C = HorzCatSparseLogical(A, B);
-        C = CtransposeSparseLogical(C);
+//=============================================================================
+ArrayOf
+VertCatSparseLogical(ArrayOf A, ArrayOf B)
+{
+    ArrayOf C;
+    if (!A.isSparseLogicalType()) {
+        throw Exception(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_LOGICAL_EXPECTED);
+    }
+    if (!B.isSparseLogicalType()) {
+        throw Exception(ERROR_WRONG_ARGUMENT_2_TYPE_SPARSE_LOGICAL_EXPECTED);
+    }
+    if (A.isEmpty(false)) {
+        ArrayOf C(B);
         return C;
     }
-    //=============================================================================
+    if (B.isEmpty(false)) {
+        ArrayOf C(A);
+        return C;
+    }
+    A = CtransposeSparseLogical(A);
+    B = CtransposeSparseLogical(B);
+    C = HorzCatSparseLogical(A, B);
+    C = CtransposeSparseLogical(C);
+    return C;
+}
+//=============================================================================
 }
 //=============================================================================

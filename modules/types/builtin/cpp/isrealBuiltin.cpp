@@ -22,25 +22,22 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::TypeGateway::isrealBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::TypeGateway::isrealBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() != 1)
-    {
+    if (argIn.size() != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     bool bSuccess = false;
     retval = OverloadFunction(eval, nLhs, argIn, "isreal", bSuccess);
-    if (!bSuccess)
-    {
+    if (!bSuccess) {
         ArrayOf arg = argIn[0];
         bool bRes = arg.allReal();
-        if (arg.isComplex() && bRes && !arg.isEmpty(true))
-        {
+        if (arg.isComplex() && bRes && !arg.isEmpty(true)) {
             bRes = false;
         }
         retval.push_back(ArrayOf::logicalConstructor(bRes));

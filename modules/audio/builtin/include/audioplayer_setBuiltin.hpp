@@ -22,8 +22,9 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace AudioGateway {
-        ArrayOfVector audioplayer_setBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    }
+namespace AudioGateway {
+    ArrayOfVector
+    audioplayer_setBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }
+} // namespace Nelson
 //=============================================================================

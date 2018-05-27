@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,13 +9,13 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int tb04bv_(order, p, m, md, ign, ldign, igd, ldigd, gn, gd, d__, ldd, tol, info, order_len)
-char *order;
+EXPORTSYMBOL /* Subroutine */ int tb04bv_(
+    order, p, m, md, ign, ldign, igd, ldigd, gn, gd, d__, ldd, tol, info, order_len) char* order;
 integer *p, *m, *md, *ign, *ldign, *igd, *ldigd;
 doublereal *gn, *gd, *d__;
-integer *ldd;
-doublereal *tol;
-integer *info;
+integer* ldd;
+doublereal* tol;
+integer* info;
 ftnlen order_len;
 {
     /* System generated locals */
@@ -167,81 +167,56 @@ ftnlen order_len;
     /* Function Body */
     *info = 0;
     ascend = lsame_(order, "I", 1L, 1L);
-    if (! ascend && ! lsame_(order, "D", 1L, 1L))
-    {
+    if (!ascend && !lsame_(order, "D", 1L, 1L)) {
         *info = -1;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -2;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -3;
-    }
-    else if (*md < 1)
-    {
+    } else if (*md < 1) {
         *info = -4;
-    }
-    else if (*ldign < max(1,*p))
-    {
+    } else if (*ldign < max(1, *p)) {
         *info = -6;
-    }
-    else if (*ldigd < max(1,*p))
-    {
+    } else if (*ldigd < max(1, *p)) {
         *info = -8;
-    }
-    else if (*ldd < max(1,*p))
-    {
+    } else if (*ldd < max(1, *p)) {
         *info = -12;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("TB04BV", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (min(*p,*m) == 0)
-    {
+    if (min(*p, *m) == 0) {
         return 0;
     }
     /*     Prepare the computation of the default tolerance. */
     toldef = *tol;
-    if (toldef <= 0.)
-    {
+    if (toldef <= 0.) {
         eps = dlamch_("Epsilon", 7L);
     }
     k = 1;
-    if (ascend)
-    {
+    if (ascend) {
         /*        Polynomial coefficients are stored in increasing order. */
         i__1 = *m;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             i__2 = *p;
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
+            for (i__ = 1; i__ <= i__2; ++i__) {
                 nn = ign[i__ + j * ign_dim1];
                 nd = igd[i__ + j * igd_dim1];
-                if (nn > nd)
-                {
+                if (nn > nd) {
                     /*                 Error return: the transfer function matrix is */
                     /*                               not proper. */
                     *info = 1;
                     return 0;
-                }
-                else if (nn < nd || nd == 0 && gn[k] == 0.)
-                {
+                } else if (nn < nd || nd == 0 && gn[k] == 0.) {
                     d__[i__ + j * d_dim1] = 0.;
-                }
-                else
-                {
+                } else {
                     /*                 Here NN = ND. */
                     kk = k + nn;
-                    if (gd[kk] == 0.)
-                    {
+                    if (gd[kk] == 0.) {
                         /*                    Error return: the denominator is null. */
                         *info = 2;
                         return 0;
@@ -249,27 +224,24 @@ ftnlen order_len;
                     dij = gn[kk] / gd[kk];
                     d__[i__ + j * d_dim1] = dij;
                     gn[kk] = 0.;
-                    if (nn > 0)
-                    {
+                    if (nn > 0) {
                         d__1 = -dij;
                         daxpy_(&nn, &d__1, &gd[k], &c__1, &gn[k], &c__1);
-                        if (*tol <= 0.)
-                        {
-                            toldef = (doublereal) nn * eps * (d__1 = gn[idamax_(&nn, &gn[k], &c__1)], abs(d__1));
+                        if (*tol <= 0.) {
+                            toldef = (doublereal)nn * eps
+                                * (d__1 = gn[idamax_(&nn, &gn[k], &c__1)], abs(d__1));
                         }
                         km = nn;
                         i__3 = km;
-                        for (ii = 1; ii <= i__3; ++ii)
-                        {
+                        for (ii = 1; ii <= i__3; ++ii) {
                             --kk;
                             --nn;
-                            if ((d__1 = gn[kk], abs(d__1)) > toldef)
-                            {
+                            if ((d__1 = gn[kk], abs(d__1)) > toldef) {
                                 goto L20;
                             }
                             /* L10: */
                         }
-L20:
+                    L20:
                         ign[i__ + j * ign_dim1] = nn;
                     }
                 }
@@ -278,35 +250,25 @@ L20:
             }
             /* L40: */
         }
-    }
-    else
-    {
+    } else {
         /*        Polynomial coefficients are stored in decreasing order. */
         i__1 = *m;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             i__2 = *p;
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
+            for (i__ = 1; i__ <= i__2; ++i__) {
                 nn = ign[i__ + j * ign_dim1];
                 nd = igd[i__ + j * igd_dim1];
-                if (nn > nd)
-                {
+                if (nn > nd) {
                     /*                 Error return: the transfer function matrix is */
                     /*                               not proper. */
                     *info = 1;
                     return 0;
-                }
-                else if (nn < nd || nd == 0 && gn[k] == 0.)
-                {
+                } else if (nn < nd || nd == 0 && gn[k] == 0.) {
                     d__[i__ + j * d_dim1] = 0.;
-                }
-                else
-                {
+                } else {
                     /*                 Here NN = ND. */
                     kk = k;
-                    if (gd[kk] == 0.)
-                    {
+                    if (gd[kk] == 0.) {
                         /*                    Error return: the denominator is null. */
                         *info = 2;
                         return 0;
@@ -314,31 +276,27 @@ L20:
                     dij = gn[kk] / gd[kk];
                     d__[i__ + j * d_dim1] = dij;
                     gn[kk] = 0.;
-                    if (nn > 0)
-                    {
+                    if (nn > 0) {
                         d__1 = -dij;
                         daxpy_(&nn, &d__1, &gd[k + 1], &c__1, &gn[k + 1], &c__1);
-                        if (*tol <= 0.)
-                        {
-                            toldef = (doublereal) nn * eps * (d__1 = gn[idamax_(&nn, &gn[k + 1], &c__1)], abs(d__1));
+                        if (*tol <= 0.) {
+                            toldef = (doublereal)nn * eps
+                                * (d__1 = gn[idamax_(&nn, &gn[k + 1], &c__1)], abs(d__1));
                         }
                         km = nn;
                         i__3 = km;
-                        for (ii = 1; ii <= i__3; ++ii)
-                        {
+                        for (ii = 1; ii <= i__3; ++ii) {
                             ++kk;
                             --nn;
-                            if ((d__1 = gn[kk], abs(d__1)) > toldef)
-                            {
+                            if ((d__1 = gn[kk], abs(d__1)) > toldef) {
                                 goto L60;
                             }
                             /* L50: */
                         }
-L60:
+                    L60:
                         ign[i__ + j * ign_dim1] = nn;
                         i__3 = nn;
-                        for (ii = 0; ii <= i__3; ++ii)
-                        {
+                        for (ii = 0; ii <= i__3; ++ii) {
                             gn[k + ii] = gn[kk + ii];
                             /* L70: */
                         }
@@ -353,4 +311,3 @@ L60:
     return 0;
     /* *** Last line of TB04BV *** */
 } /* tb04bv_ */
-

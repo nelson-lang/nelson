@@ -18,11 +18,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsInteger_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsInteger_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSINTEGER_IMPEXP ArrayOf HorzCatInteger(ArrayOf A, ArrayOf B);
-    NLSINTEGER_IMPEXP ArrayOf HorzCatNdArrayInteger(ArrayOf A, ArrayOf B);
-}
+NLSINTEGER_IMPEXP ArrayOf
+HorzCatInteger(ArrayOf A, ArrayOf B);
+NLSINTEGER_IMPEXP ArrayOf
+HorzCatNdArrayInteger(ArrayOf A, ArrayOf B);
+} // namespace Nelson
 //=============================================================================

@@ -19,14 +19,16 @@
 #include "StringPrintf.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    bool StringPrintf(std::wstring &result, std::wstring &errormsg, Evaluator *eval, const ArrayOfVector& arg)
-    {
-        bool bRes = false;
-        result = L"";
-        errormsg = L"";
-        return bRes;
-    }
-    //=============================================================================
+//=============================================================================
+bool
+StringPrintf(
+    std::wstring& result, std::wstring& errormsg, Evaluator* eval, const ArrayOfVector& arg)
+{
+    bool bRes = false;
+    result = L"";
+    errormsg = L"";
+    return bRes;
+}
+//=============================================================================
 }
 //=============================================================================

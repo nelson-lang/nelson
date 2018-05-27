@@ -1,37 +1,40 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-EXPORTSYMBOL /* Subroutine */ int sb10ed_(n, m, np, ncon, nmeas, a, lda, b, ldb, c__, ldc, d__, ldd, ak, ldak, bk, ldbk, ck, ldck, dk, lddk, rcond, tol, iwork, dwork, ldwork, bwork, info)
-integer *n, *m, *np, *ncon, *nmeas;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *d__;
-integer *ldd;
-doublereal *ak;
-integer *ldak;
-doublereal *bk;
-integer *ldbk;
-doublereal *ck;
-integer *ldck;
-doublereal *dk;
-integer *lddk;
+EXPORTSYMBOL /* Subroutine */ int sb10ed_(n, m, np, ncon, nmeas, a, lda, b, ldb, c__, ldc, d__, ldd,
+    ak, ldak, bk, ldbk, ck, ldck, dk, lddk, rcond, tol, iwork, dwork, ldwork, bwork,
+    info) integer *n,
+    *m, *np, *ncon, *nmeas;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* d__;
+integer* ldd;
+doublereal* ak;
+integer* ldak;
+doublereal* bk;
+integer* ldbk;
+doublereal* ck;
+integer* ldck;
+doublereal* dk;
+integer* lddk;
 doublereal *rcond, *tol;
-integer *iwork;
-doublereal *dwork;
-integer *ldwork;
-logical *bwork;
-integer *info;
+integer* iwork;
+doublereal* dwork;
+integer* ldwork;
+logical* bwork;
+integer* info;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, ak_dim1, ak_offset, b_dim1, b_offset, bk_dim1, bk_offset, c_dim1, c_offset, ck_dim1, ck_offset, d_dim1, d_offset, dk_dim1, dk_offset, i__1, i__2, i__3, i__4;
+    integer a_dim1, a_offset, ak_dim1, ak_offset, b_dim1, b_offset, bk_dim1, bk_offset, c_dim1,
+        c_offset, ck_dim1, ck_offset, d_dim1, d_offset, dk_dim1, dk_offset, i__1, i__2, i__3, i__4;
     /* Builtin functions */
     double sqrt();
     /* Local variables */
@@ -42,7 +45,8 @@ integer *info;
     extern doublereal dlamch_();
     static integer nl;
     extern /* Subroutine */ int dlacpy_(), xerbla_();
-    static integer lwamax, minwrk, m2l, np1, np2, lw1, lw2, lw3, lw4, lw5, lw6, iwc, iwd, nlp, npl, iwx, iwy;
+    static integer lwamax, minwrk, m2l, np1, np2, lw1, lw2, lw3, lw4, lw5, lw6, iwc, iwd, nlp, npl,
+        iwx, iwy;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */
@@ -299,103 +303,76 @@ integer *info;
     m2 = *ncon;
     np1 = *np - *nmeas;
     np2 = *nmeas;
-    nl = max(1,*n);
-    npl = max(1,*np);
-    m2l = max(1,m2);
-    nlp = max(1,np2);
+    nl = max(1, *n);
+    npl = max(1, *np);
+    m2l = max(1, m2);
+    nlp = max(1, np2);
     *info = 0;
-    if (*n < 0)
-    {
+    if (*n < 0) {
         *info = -1;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -2;
-    }
-    else if (*np < 0)
-    {
+    } else if (*np < 0) {
         *info = -3;
-    }
-    else if (*ncon < 0 || m1 < 0 || m2 > np1)
-    {
+    } else if (*ncon < 0 || m1 < 0 || m2 > np1) {
         *info = -4;
-    }
-    else if (*nmeas < 0 || np1 < 0 || np2 > m1)
-    {
+    } else if (*nmeas < 0 || np1 < 0 || np2 > m1) {
         *info = -5;
-    }
-    else if (*lda < nl)
-    {
+    } else if (*lda < nl) {
         *info = -7;
-    }
-    else if (*ldb < nl)
-    {
+    } else if (*ldb < nl) {
         *info = -9;
-    }
-    else if (*ldc < npl)
-    {
+    } else if (*ldc < npl) {
         *info = -11;
-    }
-    else if (*ldd < npl)
-    {
+    } else if (*ldd < npl) {
         *info = -13;
-    }
-    else if (*ldak < nl)
-    {
+    } else if (*ldak < nl) {
         *info = -15;
-    }
-    else if (*ldbk < nl)
-    {
+    } else if (*ldbk < nl) {
         *info = -17;
-    }
-    else if (*ldck < m2l)
-    {
+    } else if (*ldck < m2l) {
         *info = -19;
-    }
-    else if (*lddk < m2l)
-    {
+    } else if (*lddk < m2l) {
         *info = -21;
-    }
-    else
-    {
+    } else {
         /*        Compute workspace. */
         /* Computing MAX */
         i__1 = (*n + m2) * 3 + *n + np1, i__2 = (*n + m2) * 5;
-        lw1 = (*n + np1 + 1) * (*n + m2) + max(i__1,i__2);
+        lw1 = (*n + np1 + 1) * (*n + m2) + max(i__1, i__2);
         /* Computing MAX */
         i__1 = (*n + np2) * 3 + *n + m1, i__2 = (*n + np2) * 5;
-        lw2 = (*n + np2) * (*n + m1 + 1) + max(i__1,i__2);
+        lw2 = (*n + np2) * (*n + m1 + 1) + max(i__1, i__2);
         /* Computing MAX */
-        i__1 = np1 * max(*n,m1), i__2 = m2 * 3 + np1, i__1 = max(i__1,i__2), i__2 = m2 * 5;
-        lw3 = m2 + np1 * np1 + max(i__1,i__2);
+        i__1 = np1 * max(*n, m1), i__2 = m2 * 3 + np1, i__1 = max(i__1, i__2), i__2 = m2 * 5;
+        lw3 = m2 + np1 * np1 + max(i__1, i__2);
         /* Computing MAX */
-        i__1 = max(*n,np1) * m1, i__2 = np2 * 3 + m1, i__1 = max(i__1,i__2), i__2 = np2 * 5;
-        lw4 = np2 + m1 * m1 + max(i__1,i__2);
+        i__1 = max(*n, np1) * m1, i__2 = np2 * 3 + m1, i__1 = max(i__1, i__2), i__2 = np2 * 5;
+        lw4 = np2 + m1 * m1 + max(i__1, i__2);
         /* Computing MAX */
         /* Computing MAX */
         i__3 = *n * 14 + 23, i__4 = *n << 4;
-        i__1 = 1, i__2 = *n * 14 * *n + *n * 6 + max(i__3,i__4), i__1 = max(i__1,i__2), i__2 = m2 * (*n + m2 + max(3,m1)), i__1 = max(i__1,i__2), i__2 = np2 * (*n + np2 + 3);
-        lw5 = (*n << 1) **n + max(i__1,i__2);
+        i__1 = 1, i__2 = *n * 14 * *n + *n * 6 + max(i__3, i__4), i__1 = max(i__1, i__2),
+        i__2 = m2 * (*n + m2 + max(3, m1)), i__1 = max(i__1, i__2), i__2 = np2 * (*n + np2 + 3);
+        lw5 = (*n << 1) * *n + max(i__1, i__2);
         /* Computing MAX */
-        i__1 = *n * m2, i__2 = *n * np2, i__1 = max(i__1,i__2), i__2 = m2 * np2, i__1 = max(i__1,i__2), i__2 = m2 * m2 + (m2 << 2);
-        lw6 = max(i__1,i__2);
+        i__1 = *n * m2, i__2 = *n * np2, i__1 = max(i__1, i__2), i__2 = m2 * np2,
+        i__1 = max(i__1, i__2), i__2 = m2 * m2 + (m2 << 2);
+        lw6 = max(i__1, i__2);
         /* Computing MAX */
-        i__1 = max(1,lw1), i__1 = max(i__1,lw2), i__1 = max(i__1,lw3), i__1 = max(i__1,lw4), i__1 = max(i__1,lw5);
-        minwrk = *n **m + *np * (*n + *m) + m2 * m2 + np2 * np2 + max(i__1,lw6);
-        if (*ldwork < minwrk)
-        {
+        i__1 = max(1, lw1), i__1 = max(i__1, lw2), i__1 = max(i__1, lw3), i__1 = max(i__1, lw4),
+        i__1 = max(i__1, lw5);
+        minwrk = *n * *m + *np * (*n + *m) + m2 * m2 + np2 * np2 + max(i__1, lw6);
+        if (*ldwork < minwrk) {
             *info = -26;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("SB10ED", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0 && max(m2,np2) == 0)
-    {
+    if (*n == 0 && max(m2, np2) == 0) {
         rcond[1] = 1.;
         rcond[2] = 1.;
         rcond[3] = 1.;
@@ -407,15 +384,14 @@ integer *info;
         return 0;
     }
     toll = *tol;
-    if (toll <= 0.)
-    {
+    if (toll <= 0.) {
         /*        Set the default value of the tolerance for rank tests. */
         toll = sqrt(dlamch_("Epsilon", 7L));
     }
     /*     Workspace usage. */
-    iwc = *n **m + 1;
-    iwd = iwc + *np **n;
-    iwtu = iwd + *np **m;
+    iwc = *n * *m + 1;
+    iwd = iwc + *np * *n;
+    iwtu = iwd + *np * *m;
     iwty = iwtu + m2 * m2;
     iwrk = iwty + np2 * np2;
     dlacpy_("Full", n, m, &b[b_offset], ldb, &dwork[1], &nl, 4L);
@@ -428,50 +404,51 @@ integer *info;
     /*     assumptions (A3) and (A4), for the frequency w = 0, the */
     /*     next SB10PD routine call uses A - I. */
     i__1 = *n;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         a[i__ + i__ * a_dim1] += -1.;
         /* L10: */
     }
     i__1 = *ldwork - iwrk + 1;
-    sb10pd_(n, m, np, ncon, nmeas, &a[a_offset], lda, &dwork[1], &nl, &dwork[iwc], &npl, &dwork[iwd], &npl, &dwork[iwtu], &m2l, &dwork[iwty], &nlp, &rcond[1], &toll, &dwork[iwrk], &i__1, &info2);
+    sb10pd_(n, m, np, ncon, nmeas, &a[a_offset], lda, &dwork[1], &nl, &dwork[iwc], &npl,
+        &dwork[iwd], &npl, &dwork[iwtu], &m2l, &dwork[iwty], &nlp, &rcond[1], &toll, &dwork[iwrk],
+        &i__1, &info2);
     i__1 = *n;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         a[i__ + i__ * a_dim1] += 1.;
         /* L20: */
     }
-    if (info2 > 0)
-    {
+    if (info2 > 0) {
         *info = info2;
         return 0;
     }
-    lwamax = (integer) dwork[iwrk] + iwrk - 1;
+    lwamax = (integer)dwork[iwrk] + iwrk - 1;
     iwx = iwrk;
-    iwy = iwx + *n **n;
-    iwrk = iwy + *n **n;
+    iwy = iwx + *n * *n;
+    iwrk = iwy + *n * *n;
     /*     Compute the optimal H2 controller for the normalized system. */
     i__1 = *ldwork - iwrk + 1;
-    sb10sd_(n, m, np, ncon, nmeas, &a[a_offset], lda, &dwork[1], &nl, &dwork[iwc], &npl, &dwork[iwd], &npl, &ak[ak_offset], ldak, &bk[bk_offset], ldbk, &ck[ck_offset], ldck, &dk[dk_offset], lddk, &dwork[iwx], &nl, &dwork[iwy], &nl, &rcond[3], &toll, &iwork[1], &dwork[iwrk], &i__1, &bwork[1], &info2);
-    if (info2 > 0)
-    {
+    sb10sd_(n, m, np, ncon, nmeas, &a[a_offset], lda, &dwork[1], &nl, &dwork[iwc], &npl,
+        &dwork[iwd], &npl, &ak[ak_offset], ldak, &bk[bk_offset], ldbk, &ck[ck_offset], ldck,
+        &dk[dk_offset], lddk, &dwork[iwx], &nl, &dwork[iwy], &nl, &rcond[3], &toll, &iwork[1],
+        &dwork[iwrk], &i__1, &bwork[1], &info2);
+    if (info2 > 0) {
         *info = info2 + 5;
         return 0;
     }
     /* Computing MAX */
-    i__1 = (integer) dwork[iwrk] + iwrk - 1;
-    lwamax = max(i__1,lwamax);
+    i__1 = (integer)dwork[iwrk] + iwrk - 1;
+    lwamax = max(i__1, lwamax);
     iwrk = iwx;
     /*     Compute the H2 optimal controller for the original system. */
     i__1 = *ldwork - iwrk + 1;
-    sb10td_(n, m, np, ncon, nmeas, &dwork[iwd], &npl, &dwork[iwtu], &m2l, &dwork[iwty], &nlp, &ak[ak_offset], ldak, &bk[bk_offset], ldbk, &ck[ck_offset], ldck, &dk[dk_offset], lddk, &rcond[7], &toll, &iwork[1], &dwork[iwrk], &i__1, &info2);
-    if (info2 > 0)
-    {
+    sb10td_(n, m, np, ncon, nmeas, &dwork[iwd], &npl, &dwork[iwtu], &m2l, &dwork[iwty], &nlp,
+        &ak[ak_offset], ldak, &bk[bk_offset], ldbk, &ck[ck_offset], ldck, &dk[dk_offset], lddk,
+        &rcond[7], &toll, &iwork[1], &dwork[iwrk], &i__1, &info2);
+    if (info2 > 0) {
         *info = 10;
         return 0;
     }
-    dwork[1] = (doublereal) lwamax;
+    dwork[1] = (doublereal)lwamax;
     return 0;
     /* *** Last line of SB10ED *** */
 } /* sb10ed_ */
-

@@ -22,8 +22,9 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace SingleGateway {
-        ArrayOfVector colon_single_single_singleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    }
+namespace SingleGateway {
+    ArrayOfVector
+    colon_single_single_singleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }
+} // namespace Nelson
 //=============================================================================

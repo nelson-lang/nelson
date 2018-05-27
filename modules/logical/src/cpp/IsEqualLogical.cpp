@@ -19,29 +19,26 @@
 #include "IsEqualLogical.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    bool logical_isequal(ArrayOf a, ArrayOf b)
-    {
-        if (a.getDataClass() == NLS_LOGICAL && b.getDataClass() == NLS_LOGICAL)
-        {
-            Dimensions dimsA = a.getDimensions();
-            Dimensions dimsB = b.getDimensions();
-            if (dimsA.equals(dimsB))
-            {
-                logical *ptrA = (logical*)a.getDataPointer();
-                logical *ptrB = (logical*)b.getDataPointer();
-                for (indexType k = 0; k < dimsA.getElementCount(); k++)
-                {
-                    if (ptrA[k] != ptrB[k])
-                    {
-                        return false;
-                    }
+//=============================================================================
+bool
+logical_isequal(ArrayOf a, ArrayOf b)
+{
+    if (a.getDataClass() == NLS_LOGICAL && b.getDataClass() == NLS_LOGICAL) {
+        Dimensions dimsA = a.getDimensions();
+        Dimensions dimsB = b.getDimensions();
+        if (dimsA.equals(dimsB)) {
+            logical* ptrA = (logical*)a.getDataPointer();
+            logical* ptrB = (logical*)b.getDataPointer();
+            for (indexType k = 0; k < dimsA.getElementCount(); k++) {
+                if (ptrA[k] != ptrB[k]) {
+                    return false;
                 }
-                return true;
             }
+            return true;
         }
-        return false;
     }
-    //=============================================================================
+    return false;
+}
+//=============================================================================
 }
 //=============================================================================

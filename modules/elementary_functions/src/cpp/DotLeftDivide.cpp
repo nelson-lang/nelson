@@ -21,14 +21,15 @@
 #include "MatrixCheck.hpp"
 //=============================================================================
 namespace Nelson {
-    ArrayOf DotLeftDivide(ArrayOf A, ArrayOf B)
-    {
-        // Process the two arguments through the type check and dimension checks...
-        VectorCheck(A, B, ".\\");
-        Class commonClass = FindCommonType(A, B, true);
-        A.promoteType(commonClass);
-        B.promoteType(commonClass);
-        return DotRightDivide(B, A);
-    }
+ArrayOf
+DotLeftDivide(ArrayOf A, ArrayOf B)
+{
+    // Process the two arguments through the type check and dimension checks...
+    VectorCheck(A, B, ".\\");
+    Class commonClass = FindCommonType(A, B, true);
+    A.promoteType(commonClass);
+    B.promoteType(commonClass);
+    return DotRightDivide(B, A);
+}
 }
 //=============================================================================

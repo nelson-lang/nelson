@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,19 +10,21 @@
 static integer c__1 = 1;
 static doublereal c_b8 = 0.;
 
-EXPORTSYMBOL /* Subroutine */ int mc03md_(rp1, cp1, cp2, dp1, dp2, dp3, alpha, p1, ldp11, ldp12, p2, ldp21, ldp22, p3, ldp31, ldp32, dwork, info)
-integer *rp1, *cp1, *cp2, *dp1, *dp2, *dp3;
+EXPORTSYMBOL /* Subroutine */ int mc03md_(rp1, cp1, cp2, dp1, dp2, dp3, alpha, p1, ldp11, ldp12, p2,
+    ldp21, ldp22, p3, ldp31, ldp32, dwork, info) integer *rp1,
+    *cp1, *cp2, *dp1, *dp2, *dp3;
 doublereal *alpha, *p1;
 integer *ldp11, *ldp12;
-doublereal *p2;
+doublereal* p2;
 integer *ldp21, *ldp22;
-doublereal *p3;
+doublereal* p3;
 integer *ldp31, *ldp32;
-doublereal *dwork;
-integer *info;
+doublereal* dwork;
+integer* info;
 {
     /* System generated locals */
-    integer p1_dim1, p1_dim2, p1_offset, p2_dim1, p2_dim2, p2_offset, p3_dim1, p3_dim2, p3_offset, i__1, i__2, i__3, i__4;
+    integer p1_dim1, p1_dim2, p1_offset, p2_dim1, p2_dim2, p2_offset, p3_dim1, p3_dim2, p3_offset,
+        i__1, i__2, i__3, i__4;
     /* Local variables */
     extern doublereal ddot_();
     static integer dpol3, e, h__, i__, j, k;
@@ -198,98 +200,67 @@ integer *info;
     --dwork;
     /* Function Body */
     *info = 0;
-    if (*rp1 < 0)
-    {
+    if (*rp1 < 0) {
         *info = -1;
-    }
-    else if (*cp1 < 0)
-    {
+    } else if (*cp1 < 0) {
         *info = -2;
-    }
-    else if (*cp2 < 0)
-    {
+    } else if (*cp2 < 0) {
         *info = -3;
-    }
-    else if (*dp1 < -1)
-    {
+    } else if (*dp1 < -1) {
         *info = -4;
-    }
-    else if (*dp2 < -1)
-    {
+    } else if (*dp2 < -1) {
         *info = -5;
-    }
-    else if (*dp3 < -1)
-    {
+    } else if (*dp3 < -1) {
         *info = -6;
-    }
-    else if (*dp1 == -1 && *ldp11 < 1 || *dp1 >= 0 && *ldp11 < max(1,*rp1))
-    {
+    } else if (*dp1 == -1 && *ldp11 < 1 || *dp1 >= 0 && *ldp11 < max(1, *rp1)) {
         *info = -9;
-    }
-    else if (*dp1 == -1 && *ldp12 < 1 || *dp1 >= 0 && *ldp12 < max(1,*cp1))
-    {
+    } else if (*dp1 == -1 && *ldp12 < 1 || *dp1 >= 0 && *ldp12 < max(1, *cp1)) {
         *info = -10;
-    }
-    else if (*dp2 == -1 && *ldp21 < 1 || *dp2 >= 0 && *ldp21 < max(1,*cp1))
-    {
+    } else if (*dp2 == -1 && *ldp21 < 1 || *dp2 >= 0 && *ldp21 < max(1, *cp1)) {
         *info = -12;
-    }
-    else if (*dp2 == -1 && *ldp22 < 1 || *dp2 >= 0 && *ldp22 < max(1,*cp2))
-    {
+    } else if (*dp2 == -1 && *ldp22 < 1 || *dp2 >= 0 && *ldp22 < max(1, *cp2)) {
         *info = -13;
-    }
-    else if (*ldp31 < max(1,*rp1))
-    {
+    } else if (*ldp31 < max(1, *rp1)) {
         *info = -15;
-    }
-    else if (*ldp32 < max(1,*cp2))
-    {
+    } else if (*ldp32 < max(1, *cp2)) {
         *info = -16;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("MC03MD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*rp1 == 0 || *cp2 == 0)
-    {
+    if (*rp1 == 0 || *cp2 == 0) {
         return 0;
     }
-    if (*alpha == 0.)
-    {
+    if (*alpha == 0.) {
         *dp3 = -1;
     }
-    if (*dp3 >= 0)
-    {
+    if (*dp3 >= 0) {
         /*        P3(x) := ALPHA * P3(x). */
         i__1 = *dp3 + 1;
-        for (k = 1; k <= i__1; ++k)
-        {
+        for (k = 1; k <= i__1; ++k) {
             i__2 = *cp2;
-            for (j = 1; j <= i__2; ++j)
-            {
+            for (j = 1; j <= i__2; ++j) {
                 dscal_(rp1, alpha, &p3[(j + k * p3_dim2) * p3_dim1 + 1], &c__1);
                 /* L20: */
             }
             /* L40: */
         }
     }
-    if (*dp1 == -1 || *dp2 == -1 || *cp1 == 0)
-    {
+    if (*dp1 == -1 || *dp2 == -1 || *cp1 == 0) {
         return 0;
     }
     /*     Neither of P1(x) and P2(x) is the zero polynomial. */
     dpol3 = *dp1 + *dp2;
-    if (dpol3 > *dp3)
-    {
+    if (dpol3 > *dp3) {
         /*        Initialize the additional part of P3(x) to zero. */
         i__1 = dpol3 + 1;
-        for (k = *dp3 + 2; k <= i__1; ++k)
-        {
-            dlaset_("Full", rp1, cp2, &c_b8, &c_b8, &p3[(k * p3_dim2 + 1) * p3_dim1 + 1], ldp31, 4L);
+        for (k = *dp3 + 2; k <= i__1; ++k) {
+            dlaset_(
+                "Full", rp1, cp2, &c_b8, &c_b8, &p3[(k * p3_dim2 + 1) * p3_dim1 + 1], ldp31, 4L);
             /* L80: */
         }
         *dp3 = dpol3;
@@ -301,20 +272,19 @@ integer *info;
     /*                                                 k+i-2 */
     /*     the (j,h)-th element of the coefficient of x      of P3(x). */
     i__1 = *dp1 + 1;
-    for (k = 1; k <= i__1; ++k)
-    {
+    for (k = 1; k <= i__1; ++k) {
         i__2 = *rp1;
-        for (j = 1; j <= i__2; ++j)
-        {
+        for (j = 1; j <= i__2; ++j) {
             dcopy_(cp1, &p1[j + (k * p1_dim2 + 1) * p1_dim1], ldp11, &dwork[1], &c__1);
             i__3 = *dp2 + 1;
-            for (i__ = 1; i__ <= i__3; ++i__)
-            {
+            for (i__ = 1; i__ <= i__3; ++i__) {
                 e = k + i__ - 1;
                 i__4 = *cp2;
-                for (h__ = 1; h__ <= i__4; ++h__)
-                {
-                    p3[j + (h__ + e * p3_dim2) * p3_dim1] = ddot_(cp1, &dwork[1], &c__1, &p2[(h__ + i__ * p2_dim2) * p2_dim1 + 1], &c__1) + p3[j + (h__ + e * p3_dim2) * p3_dim1];
+                for (h__ = 1; h__ <= i__4; ++h__) {
+                    p3[j + (h__ + e * p3_dim2) * p3_dim1]
+                        = ddot_(cp1, &dwork[1], &c__1, &p2[(h__ + i__ * p2_dim2) * p2_dim1 + 1],
+                              &c__1)
+                        + p3[j + (h__ + e * p3_dim2) * p3_dim1];
                     /* L100: */
                 }
                 /* L120: */
@@ -327,25 +297,20 @@ integer *info;
     cfzero = TRUE_;
     /*     WHILE ( DP3 >= 0 and CFZERO ) DO */
 L180:
-    if (*dp3 >= 0 && cfzero)
-    {
+    if (*dp3 >= 0 && cfzero) {
         dpol3 = *dp3 + 1;
         i__1 = *cp2;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             i__2 = *rp1;
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
-                if (p3[i__ + (j + dpol3 * p3_dim2) * p3_dim1] != 0.)
-                {
+            for (i__ = 1; i__ <= i__2; ++i__) {
+                if (p3[i__ + (j + dpol3 * p3_dim2) * p3_dim1] != 0.) {
                     cfzero = FALSE_;
                 }
                 /* L200: */
             }
             /* L220: */
         }
-        if (cfzero)
-        {
+        if (cfzero) {
             --(*dp3);
         }
         goto L180;
@@ -354,4 +319,3 @@ L180:
     return 0;
     /* *** Last line of MC03MD *** */
 } /* mc03md_ */
-

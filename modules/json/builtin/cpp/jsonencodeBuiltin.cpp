@@ -23,31 +23,27 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::JsonGateway::jsonencodeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::JsonGateway::jsonencodeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (!((argIn.size() == 1 || argIn.size() == 3)))
-    {
+    if (!((argIn.size() == 1 || argIn.size() == 3))) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     // Call overload if it exists
     bool bSuccess = false;
     retval = OverloadFunction(eval, nLhs, argIn, "jsonencode", bSuccess);
-    if (!bSuccess)
-    {
+    if (!bSuccess) {
         bool convertNanInf = false;
         ArrayOf param1 = argIn[0];
-        if (argIn.size() == 3)
-        {
+        if (argIn.size() == 3) {
             ArrayOf param2 = argIn[1];
             ArrayOf param3 = argIn[2];
             std::wstring fieldname = param2.getContentAsWideString();
-            if (fieldname != L"ConvertInfAndNaN")
-            {
+            if (fieldname != L"ConvertInfAndNaN") {
                 Error(eval, _W("Wrong value for argument #2: 'ConvertInfAndNaN' expected."));
             }
             logical fieldvalue = param3.getContentAsLogicalScalar();
@@ -55,8 +51,7 @@ ArrayOfVector Nelson::JsonGateway::jsonencodeBuiltin(Evaluator* eval, int nLhs, 
         }
         std::wstring errorMessage;
         ArrayOf res = jsonEncode(param1, convertNanInf, errorMessage);
-        if (!errorMessage.empty())
-        {
+        if (!errorMessage.empty()) {
             Error(eval, errorMessage);
         }
         retval.push_back(res);

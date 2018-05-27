@@ -25,22 +25,20 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::SparseGateway::IJVBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::SparseGateway::IJVBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 6)
-    {
+    if (nLhs > 6) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() != 1)
-    {
+    if (argIn.size() != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     // Call overload if it exists
     bool bSuccess = false;
     retval = OverloadFunction(eval, nLhs, argIn, "IJV", bSuccess);
-    if (!bSuccess)
-    {
+    if (!bSuccess) {
         ArrayOf A(argIn[0]);
         ArrayOf I;
         ArrayOf J;
@@ -50,24 +48,19 @@ ArrayOfVector Nelson::SparseGateway::IJVBuiltin(Evaluator* eval, int nLhs, const
         ArrayOf NNZ;
         SparseToIJV(A, I, J, V, M, N, NNZ);
         retval.push_back(I);
-        if (nLhs > 1)
-        {
+        if (nLhs > 1) {
             retval.push_back(J);
         }
-        if (nLhs > 2)
-        {
+        if (nLhs > 2) {
             retval.push_back(V);
         }
-        if (nLhs > 3)
-        {
+        if (nLhs > 3) {
             retval.push_back(M);
         }
-        if (nLhs > 4)
-        {
+        if (nLhs > 4) {
             retval.push_back(N);
         }
-        if (nLhs > 5)
-        {
+        if (nLhs > 5) {
             retval.push_back(NNZ);
         }
     }

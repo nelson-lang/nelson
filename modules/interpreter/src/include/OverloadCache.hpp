@@ -22,20 +22,23 @@
 #include "FunctionDef.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace Overloading {
-        //=============================================================================
-        typedef enum
-        {
-            UNARY,
-            BINARY,
-            TRINARY
-        } OverloadClass;
-        //=============================================================================
-        NLSINTERPRETER_IMPEXP std::string getPreviousCachedFunctionName(OverloadClass oclass);
-        NLSINTERPRETER_IMPEXP void setCachedFunction(OverloadClass oclass, std::string functionName, FunctionDef *funcptr);
-        NLSINTERPRETER_IMPEXP FunctionDef * getPreviousCachedFunctionDefinition(OverloadClass oclass);
-        NLSINTERPRETER_IMPEXP void clearPreviousCachedFunctionDefinition();
-    }
+namespace Overloading {
+    //=============================================================================
+    typedef enum
+    {
+        UNARY,
+        BINARY,
+        TRINARY
+    } OverloadClass;
+    //=============================================================================
+    NLSINTERPRETER_IMPEXP std::string
+    getPreviousCachedFunctionName(OverloadClass oclass);
+    NLSINTERPRETER_IMPEXP void
+    setCachedFunction(OverloadClass oclass, std::string functionName, FunctionDef* funcptr);
+    NLSINTERPRETER_IMPEXP FunctionDef*
+    getPreviousCachedFunctionDefinition(OverloadClass oclass);
+    NLSINTERPRETER_IMPEXP void
+    clearPreviousCachedFunctionDefinition();
+}
 }
 //=============================================================================
-

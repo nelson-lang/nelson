@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -18,17 +18,18 @@ static logical c_false = FALSE_;
 static integer c__1 = 1;
 static doublereal c_b89 = -1.;
 
-EXPORTSYMBOL /* Subroutine */ int mb03xp_(job, compq, compz, n, ilo, ihi, a, lda, b, ldb, q, ldq, z__, ldz, alphar, alphai, beta, dwork, ldwork, info, job_len, compq_len, compz_len)
-char *job, *compq, *compz;
+EXPORTSYMBOL /* Subroutine */ int mb03xp_(job, compq, compz, n, ilo, ihi, a, lda, b, ldb, q, ldq,
+    z__, ldz, alphar, alphai, beta, dwork, ldwork, info, job_len, compq_len, compz_len) char *job,
+    *compq, *compz;
 integer *n, *ilo, *ihi;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *q;
-integer *ldq;
-doublereal *z__;
-integer *ldz;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* q;
+integer* ldq;
+doublereal* z__;
+integer* ldz;
 doublereal *alphar, *alphai, *beta, *dwork;
 integer *ldwork, *info;
 ftnlen job_len;
@@ -37,7 +38,8 @@ ftnlen compz_len;
 {
     /* System generated locals */
     address a__1[2];
-    integer a_dim1, a_offset, b_dim1, b_offset, q_dim1, q_offset, z_dim1, z_offset, i__1, i__2, i__3[2], i__4, i__5;
+    integer a_dim1, a_offset, b_dim1, b_offset, q_dim1, q_offset, z_dim1, z_offset, i__1, i__2,
+        i__3[2], i__4, i__5;
     doublereal d__1, d__2;
     char ch__1[2];
     /* Builtin functions */
@@ -63,7 +65,7 @@ ftnlen compz_len;
     extern /* Subroutine */ int dtrmv_();
     static logical wantz;
     extern /* Subroutine */ int dlabad_();
-    static doublereal as[225]	/* was [15][15] */, bs[225]	/* was [15][15] */;
+    static doublereal as[225] /* was [15][15] */, bs[225] /* was [15][15] */;
     static integer kk, nh;
     extern doublereal dlamch_();
     extern /* Subroutine */ int dlarfg_();
@@ -273,104 +275,70 @@ ftnlen compz_len;
     wantz = initz || lsame_(compz, "V", 1L, 1L);
     /*     Check the scalar input parameters. */
     *info = 0;
-    if (! lsame_(job, "E", 1L, 1L) && ! wantt)
-    {
+    if (!lsame_(job, "E", 1L, 1L) && !wantt) {
         *info = -1;
-    }
-    else if (! lsame_(compq, "N", 1L, 1L) && ! wantq)
-    {
+    } else if (!lsame_(compq, "N", 1L, 1L) && !wantq) {
         *info = -2;
-    }
-    else if (! lsame_(compz, "N", 1L, 1L) && ! wantz)
-    {
+    } else if (!lsame_(compz, "N", 1L, 1L) && !wantz) {
         *info = -3;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -4;
-    }
-    else if (*ilo < 1 || *ilo > max(1,*n))
-    {
+    } else if (*ilo < 1 || *ilo > max(1, *n)) {
         *info = -5;
-    }
-    else if (*ihi < min(*ilo,*n) || *ihi > *n)
-    {
+    } else if (*ihi < min(*ilo, *n) || *ihi > *n) {
         *info = -6;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -8;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -10;
-    }
-    else if (*ldq < 1 || wantq && *ldq < *n)
-    {
+    } else if (*ldq < 1 || wantq && *ldq < *n) {
         *info = -12;
-    }
-    else if (*ldz < 1 || wantz && *ldz < *n)
-    {
+    } else if (*ldz < 1 || wantz && *ldz < *n) {
         *info = -14;
-    }
-    else if (*ldwork < max(1,*n))
-    {
-        dwork[1] = (doublereal) max(1,*n);
+    } else if (*ldwork < max(1, *n)) {
+        dwork[1] = (doublereal)max(1, *n);
         *info = -19;
     }
     /*     Return if there were illegal values. */
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB03XP", &i__1, 6L);
         return 0;
     }
     /*     Initialize Q and Z, if necessary. */
-    if (initq)
-    {
+    if (initq) {
         dlaset_("All", n, n, &c_b12, &c_b13, &q[q_offset], ldq, 3L);
     }
-    if (initz)
-    {
+    if (initz) {
         dlaset_("All", n, n, &c_b12, &c_b13, &z__[z_offset], ldz, 3L);
     }
     /*     Store isolated eigenvalues and standardize B. */
     /*     FOR I = [1:ILO-1, IHI+1:N] */
     i__ = 1;
 L10:
-    if (i__ == *ilo)
-    {
+    if (i__ == *ilo) {
         i__ = *ihi + 1;
     }
-    if (i__ <= *n)
-    {
-        if (b[i__ + i__ * b_dim1] < 0.)
-        {
-            if (wantt)
-            {
+    if (i__ <= *n) {
+        if (b[i__ + i__ * b_dim1] < 0.) {
+            if (wantt) {
                 i__1 = i__;
-                for (k = *ilo; k <= i__1; ++k)
-                {
+                for (k = *ilo; k <= i__1; ++k) {
                     b[k + i__ * b_dim1] = -b[k + i__ * b_dim1];
                     /* L20: */
                 }
                 i__1 = *ihi;
-                for (k = i__; k <= i__1; ++k)
-                {
+                for (k = i__; k <= i__1; ++k) {
                     a[i__ + k * a_dim1] = -a[i__ + k * a_dim1];
                     /* L30: */
                 }
-            }
-            else
-            {
+            } else {
                 b[i__ + i__ * b_dim1] = -b[i__ + i__ * b_dim1];
                 a[i__ + i__ * a_dim1] = -a[i__ + i__ * a_dim1];
             }
-            if (wantq)
-            {
+            if (wantq) {
                 i__1 = *ihi;
-                for (k = *ilo; k <= i__1; ++k)
-                {
+                for (k = *ilo; k <= i__1; ++k) {
                     q[k + i__ * q_dim1] = -q[k + i__ * q_dim1];
                     /* L40: */
                 }
@@ -384,30 +352,25 @@ L10:
         goto L10;
     }
     /*     Quick return if possible. */
-    if (*n == 0 || *ilo == *ihi + 1)
-    {
+    if (*n == 0 || *ilo == *ihi + 1) {
         dwork[1] = 1.;
         return 0;
     }
     /*     Set rows and coloms ILO to IHI of B (A) to zero below the first */
     /*     (sub)diagonal. */
     i__1 = *ihi - 2;
-    for (j = *ilo; j <= i__1; ++j)
-    {
+    for (j = *ilo; j <= i__1; ++j) {
         i__2 = *n;
-        for (i__ = j + 2; i__ <= i__2; ++i__)
-        {
+        for (i__ = j + 2; i__ <= i__2; ++i__) {
             a[i__ + j * a_dim1] = 0.;
             /* L50: */
         }
         /* L60: */
     }
     i__1 = *ihi - 1;
-    for (j = *ilo; j <= i__1; ++j)
-    {
+    for (j = *ilo; j <= i__1; ++j) {
         i__2 = *n;
-        for (i__ = j + 1; i__ <= i__2; ++i__)
-        {
+        for (i__ = j + 1; i__ <= i__2; ++i__) {
             b[i__ + j * b_dim1] = 0.;
             /* L70: */
         }
@@ -415,8 +378,7 @@ L10:
     }
     nh = *ihi - *ilo + 1;
     /*     Suboptimal choice of the number of shifts. */
-    if (wantq)
-    {
+    if (wantq) {
         /* Writing concatenation */
         i__3[0] = 1, a__1[0] = job;
         i__3[1] = 1, a__1[1] = compq;
@@ -427,9 +389,7 @@ L10:
         i__3[1] = 1, a__1[1] = compq;
         s_cat(ch__1, a__1, i__3, &c__2, 2L);
         maxb = ue01md_(&c__8, "MB03XP", ch__1, n, ilo, ihi, 6L, 2L);
-    }
-    else
-    {
+    } else {
         /* Writing concatenation */
         i__3[0] = 1, a__1[0] = job;
         i__3[1] = 1, a__1[1] = compz;
@@ -441,16 +401,17 @@ L10:
         s_cat(ch__1, a__1, i__3, &c__2, 2L);
         maxb = ue01md_(&c__8, "MB03XP", ch__1, n, ilo, ihi, 6L, 2L);
     }
-    if (ns <= 2 || ns > nh || maxb >= nh)
-    {
+    if (ns <= 2 || ns > nh || maxb >= nh) {
         /*        Standard double-shift product QR. */
-        mb03yd_(&wantt, &wantq, &wantz, n, ilo, ihi, ilo, ihi, &a[a_offset], lda, &b[b_offset], ldb, &q[q_offset], ldq, &z__[z_offset], ldz, &alphar[1], &alphai[1], &beta[1], &dwork[1], ldwork, info);
+        mb03yd_(&wantt, &wantq, &wantz, n, ilo, ihi, ilo, ihi, &a[a_offset], lda, &b[b_offset], ldb,
+            &q[q_offset], ldq, &z__[z_offset], ldz, &alphar[1], &alphai[1], &beta[1], &dwork[1],
+            ldwork, info);
         return 0;
     }
-    maxb = max(3,maxb);
+    maxb = max(3, maxb);
     /* Computing MIN */
-    i__1 = min(ns,maxb);
-    ns = min(i__1,15);
+    i__1 = min(ns, maxb);
+    ns = min(i__1, 15);
     /*     Set machine-dependent constants for the stopping criterion. */
     /*     If max(norm(A),norm(B)) <= sqrt(OVFL), then overflow should not */
     /*     occur. */
@@ -458,11 +419,10 @@ L10:
     ovfl = 1. / unfl;
     dlabad_(&unfl, &ovfl);
     ulp = dlamch_("Precision", 9L);
-    smlnum = unfl * ((doublereal) nh / ulp);
+    smlnum = unfl * ((doublereal)nh / ulp);
     /*     I1 and I2 are the indices of the first rows and last columns of */
     /*     A and B to which transformations must be applied. */
-    if (wantt)
-    {
+    if (wantt) {
         i1 = 1;
         i2 = *n;
     }
@@ -478,138 +438,120 @@ L10:
     i__ = *ihi;
 L90:
     l = *ilo;
-    if (i__ < *ilo)
-    {
+    if (i__ < *ilo) {
         goto L210;
     }
     i__1 = itn;
-    for (its = 0; its <= i__1; ++its)
-    {
+    for (its = 0; its <= i__1; ++its) {
         dum += (*ihi - *ilo) * (*ihi - *ilo);
         /*        Look for deflations in A. */
         i__2 = l + 1;
-        for (k = i__; k >= i__2; --k)
-        {
-            tst = (d__1 = a[k - 1 + (k - 1) * a_dim1], abs(d__1)) + (d__2 = a[k + k * a_dim1], abs(d__2));
-            if (tst == 0.)
-            {
+        for (k = i__; k >= i__2; --k) {
+            tst = (d__1 = a[k - 1 + (k - 1) * a_dim1], abs(d__1))
+                + (d__2 = a[k + k * a_dim1], abs(d__2));
+            if (tst == 0.) {
                 i__4 = i__ - l + 1;
                 tst = dlanhs_("1", &i__4, &a[l + l * a_dim1], lda, &dwork[1], 1L);
             }
             /* Computing MAX */
             d__2 = ulp * tst;
-            if ((d__1 = a[k + (k - 1) * a_dim1], abs(d__1)) <= max(d__2,smlnum))
-            {
+            if ((d__1 = a[k + (k - 1) * a_dim1], abs(d__1)) <= max(d__2, smlnum)) {
                 goto L110;
             }
             /* L100: */
         }
-L110:
+    L110:
         /*        Look for deflation in B if problem size is greater than 1. */
-        if (i__ - k >= 1)
-        {
+        if (i__ - k >= 1) {
             i__2 = k;
-            for (kk = i__; kk >= i__2; --kk)
-            {
-                if (kk == i__)
-                {
+            for (kk = i__; kk >= i__2; --kk) {
+                if (kk == i__) {
                     tst = (d__1 = b[kk - 1 + kk * b_dim1], abs(d__1));
-                }
-                else if (kk == k)
-                {
+                } else if (kk == k) {
                     tst = (d__1 = b[kk + (kk + 1) * b_dim1], abs(d__1));
+                } else {
+                    tst = (d__1 = b[kk - 1 + kk * b_dim1], abs(d__1))
+                        + (d__2 = b[kk + (kk + 1) * b_dim1], abs(d__2));
                 }
-                else
-                {
-                    tst = (d__1 = b[kk - 1 + kk * b_dim1], abs(d__1)) + (d__2 = b[kk + (kk + 1) * b_dim1], abs(d__2));
-                }
-                if (tst == 0.)
-                {
+                if (tst == 0.) {
                     i__4 = i__ - k + 1;
                     tst = dlanhs_("1", &i__4, &b[k + k * b_dim1], ldb, &dwork[1], 1L);
                 }
                 /* Computing MAX */
                 d__2 = ulp * tst;
-                if ((d__1 = b[kk + kk * b_dim1], abs(d__1)) <= max(d__2,smlnum))
-                {
+                if ((d__1 = b[kk + kk * b_dim1], abs(d__1)) <= max(d__2, smlnum)) {
                     goto L130;
                 }
                 /* L120: */
             }
-        }
-        else
-        {
+        } else {
             kk = k - 1;
         }
-L130:
-        if (kk >= k)
-        {
+    L130:
+        if (kk >= k) {
             /*           B has an element close to zero at position (KK,KK). */
             b[kk + kk * b_dim1] = 0.;
-            mb03ya_(&wantt, &wantq, &wantz, n, &k, &i__, ilo, ihi, &kk, &a[a_offset], lda, &b[b_offset], ldb, &q[q_offset], ldq, &z__[z_offset], ldz, info);
+            mb03ya_(&wantt, &wantq, &wantz, n, &k, &i__, ilo, ihi, &kk, &a[a_offset], lda,
+                &b[b_offset], ldb, &q[q_offset], ldq, &z__[z_offset], ldz, info);
             k = kk + 1;
         }
         l = k;
-        if (l > *ilo)
-        {
+        if (l > *ilo) {
             /*           A(L,L-1) is negligible. */
             a[l + (l - 1) * a_dim1] = 0.;
         }
         /*        Exit from loop if a submatrix of order <= MAXB has split off. */
-        if (l >= i__ - maxb + 1)
-        {
+        if (l >= i__ - maxb + 1) {
             goto L200;
         }
         /*        The active submatrices are now in rows and columns L:I. */
-        if (! wantt)
-        {
+        if (!wantt) {
             i1 = l;
             i2 = i__;
         }
-        if (its == 10 || its == 20)
-        {
+        if (its == 10 || its == 20) {
             /*           Exceptional shift. The first column of the shift polynomial */
             /*           is a pseudo-random vector. */
             i__2 = ns + 1;
             dlarnv_(&c__3, iseed, &i__2, v);
-        }
-        else
-        {
+        } else {
             /*           Use eigenvalues of trailing submatrix as shifts. */
-            dlacpy_("Full", &ns, &ns, &a[i__ - ns + 1 + (i__ - ns + 1) * a_dim1], lda, as, &c__15, 4L);
-            dlacpy_("Full", &ns, &ns, &b[i__ - ns + 1 + (i__ - ns + 1) * b_dim1], ldb, bs, &c__15, 4L);
-            mb03yd_(&c_false, &c_false, &c_false, &ns, &c__1, &ns, &c__1, &ns, as, &c__15, bs, &c__15, &q[q_offset], ldq, &z__[z_offset], ldz, &alphar[i__ - ns + 1], &alphai[i__ - ns + 1], &beta[i__ - ns + 1], &dwork[1], ldwork, &ierr);
+            dlacpy_(
+                "Full", &ns, &ns, &a[i__ - ns + 1 + (i__ - ns + 1) * a_dim1], lda, as, &c__15, 4L);
+            dlacpy_(
+                "Full", &ns, &ns, &b[i__ - ns + 1 + (i__ - ns + 1) * b_dim1], ldb, bs, &c__15, 4L);
+            mb03yd_(&c_false, &c_false, &c_false, &ns, &c__1, &ns, &c__1, &ns, as, &c__15, bs,
+                &c__15, &q[q_offset], ldq, &z__[z_offset], ldz, &alphar[i__ - ns + 1],
+                &alphai[i__ - ns + 1], &beta[i__ - ns + 1], &dwork[1], ldwork, &ierr);
         }
         /*        Compute the nonzero elements of the first column of */
         /*        (A*B-w(1)) (A*B-w(2)) .. (A*B-w(ns)). */
         v[0] = 1.;
         nv = 1;
         /*        WHILE NV <= NS */
-L140:
-        if (nv <= ns)
-        {
-            if (nv == ns || as[nv + 1 + nv * 15 - 16] == 0.)
-            {
+    L140:
+        if (nv <= ns) {
+            if (nv == ns || as[nv + 1 + nv * 15 - 16] == 0.) {
                 /*              Real shift. */
                 v[nv] = 0.;
                 pv2 = nv + 2;
                 dcopy_(&nv, v, &c__1, &v[pv2 - 1], &c__1);
-                dtrmv_("Upper", "No transpose", "No unit diagonal", &nv, &b[l + l * b_dim1], ldb, &v[pv2 - 1], &c__1, 5L, 12L, 16L);
+                dtrmv_("Upper", "No transpose", "No unit diagonal", &nv, &b[l + l * b_dim1], ldb,
+                    &v[pv2 - 1], &c__1, 5L, 12L, 16L);
                 dscal_(&nv, &bs[nv + nv * 15 - 16], v, &c__1);
                 i__2 = (nv << 1) + 1;
                 itemp = idamax_(&i__2, v, &c__1);
                 /* Computing MAX */
                 d__2 = (d__1 = v[itemp - 1], abs(d__1));
-                temp = 1. / max(d__2,smlnum);
+                temp = 1. / max(d__2, smlnum);
                 i__2 = (nv << 1) + 1;
                 dscal_(&i__2, &temp, v, &c__1);
                 i__2 = nv + 1;
                 d__1 = -as[nv + nv * 15 - 16];
-                dgemv_("No transpose", &i__2, &nv, &c_b13, &a[l + l * a_dim1], lda, &v[pv2 - 1], &c__1, &d__1, v, &c__1, 12L);
+                dgemv_("No transpose", &i__2, &nv, &c_b13, &a[l + l * a_dim1], lda, &v[pv2 - 1],
+                    &c__1, &d__1, v, &c__1, 12L);
                 ++nv;
-            }
-            else
-            {
+            } else {
                 /*              Double shift using a product formulation of the shift */
                 /*              polynomial [2]. */
                 v[nv] = 0.;
@@ -621,23 +563,25 @@ L140:
                 i__2 = nv + 1;
                 dcopy_(&i__2, v, &c__1, &v[pv3 - 1], &c__1);
                 dscal_(&nv, &bs[nv + 1 + (nv + 1) * 15 - 16], &v[pv2 - 1], &c__1);
-                dtrmv_("Upper", "No transpose", "No unit diagonal", &nv, &b[l + l * b_dim1], ldb, &v[pv3 - 1], &c__1, 5L, 12L, 16L);
+                dtrmv_("Upper", "No transpose", "No unit diagonal", &nv, &b[l + l * b_dim1], ldb,
+                    &v[pv3 - 1], &c__1, 5L, 12L, 16L);
                 i__2 = (nv << 1) + 3;
                 itemp = idamax_(&i__2, &v[pv2 - 1], &c__1);
                 /* Computing MAX */
                 d__2 = (d__1 = v[pv2 + itemp - 2], abs(d__1));
-                temp = 1. / max(d__2,smlnum);
+                temp = 1. / max(d__2, smlnum);
                 i__2 = (nv << 1) + 3;
                 dscal_(&i__2, &temp, &v[pv2 - 1], &c__1);
                 dcopy_(&nv, &v[pv2 - 1], &c__1, v, &c__1);
                 i__2 = nv + 1;
-                dgemv_("No transpose", &i__2, &nv, &c_b89, &a[l + l * a_dim1], lda, &v[pv3 - 1], &c__1, &as[nv + 1 + (nv + 1) * 15 - 16], &v[pv2 - 1], &c__1, 12L);
+                dgemv_("No transpose", &i__2, &nv, &c_b89, &a[l + l * a_dim1], lda, &v[pv3 - 1],
+                    &c__1, &as[nv + 1 + (nv + 1) * 15 - 16], &v[pv2 - 1], &c__1, 12L);
                 dscal_(&nv, &as[nv + (nv + 1) * 15 - 16], v, &c__1);
                 i__2 = (nv << 1) + 3;
                 itemp = idamax_(&i__2, v, &c__1);
                 /* Computing MAX */
                 d__2 = (d__1 = v[itemp - 1], abs(d__1));
-                temp = 1. / max(d__2,smlnum);
+                temp = 1. / max(d__2, smlnum);
                 i__2 = (nv << 1) + 3;
                 dscal_(&i__2, &temp, v, &c__1);
                 d__1 = -as[nv + 1 + nv * 15 - 16];
@@ -648,40 +592,38 @@ L140:
                 itemp = idamax_(&i__2, v, &c__1);
                 /* Computing MAX */
                 d__2 = (d__1 = v[itemp - 1], abs(d__1));
-                temp = 1. / max(d__2,smlnum);
+                temp = 1. / max(d__2, smlnum);
                 i__2 = (nv << 1) + 3;
                 dscal_(&i__2, &temp, v, &c__1);
                 i__2 = nv + 1;
                 dscal_(&i__2, &bs[nv + nv * 15 - 16], v, &c__1);
                 i__2 = nv + 1;
-                dtrmv_("Upper", "No transpose", "No unit diagonal", &i__2, &b[l + l * b_dim1], ldb, &v[pv2 - 1], &c__1, 5L, 12L, 16L);
+                dtrmv_("Upper", "No transpose", "No unit diagonal", &i__2, &b[l + l * b_dim1], ldb,
+                    &v[pv2 - 1], &c__1, 5L, 12L, 16L);
                 i__2 = (nv << 1) + 3;
                 itemp = idamax_(&i__2, v, &c__1);
                 /* Computing MAX */
                 d__2 = (d__1 = v[itemp - 1], abs(d__1));
-                temp = 1. / max(d__2,smlnum);
+                temp = 1. / max(d__2, smlnum);
                 i__2 = (nv << 1) + 3;
                 dscal_(&i__2, &temp, v, &c__1);
                 i__2 = nv + 2;
                 i__4 = nv + 1;
-                dgemv_("No transpose", &i__2, &i__4, &c_b89, &a[l + l * a_dim1], lda, &v[pv2 - 1], &c__1, &c_b13, v, &c__1, 12L);
+                dgemv_("No transpose", &i__2, &i__4, &c_b89, &a[l + l * a_dim1], lda, &v[pv2 - 1],
+                    &c__1, &c_b13, v, &c__1, 12L);
                 nv += 2;
             }
             itemp = idamax_(&nv, v, &c__1);
             temp = (d__1 = v[itemp - 1], abs(d__1));
-            if (temp == 0.)
-            {
+            if (temp == 0.) {
                 v[0] = 1.;
                 i__2 = nv;
-                for (k = 2; k <= i__2; ++k)
-                {
+                for (k = 2; k <= i__2; ++k) {
                     v[k - 1] = 0.;
                     /* L150: */
                 }
-            }
-            else
-            {
-                temp = max(temp,smlnum);
+            } else {
+                temp = max(temp, smlnum);
                 d__1 = 1. / temp;
                 dscal_(&nv, &d__1, v, &c__1);
             }
@@ -691,22 +633,18 @@ L140:
         /*        Multi-shift product QR step. */
         pv2 = ns + 2;
         i__2 = i__ - 1;
-        for (k = l; k <= i__2; ++k)
-        {
+        for (k = l; k <= i__2; ++k) {
             /* Computing MIN */
             i__4 = ns + 1, i__5 = i__ - k + 1;
-            nr = min(i__4,i__5);
-            if (k > l)
-            {
+            nr = min(i__4, i__5);
+            if (k > l) {
                 dcopy_(&nr, &a[k + (k - 1) * a_dim1], &c__1, v, &c__1);
             }
             dlarfg_(&nr, v, &v[1], &c__1, &tauv);
-            if (k > l)
-            {
+            if (k > l) {
                 a[k + (k - 1) * a_dim1] = v[0];
                 i__4 = i__;
-                for (kk = k + 1; kk <= i__4; ++kk)
-                {
+                for (kk = k + 1; kk <= i__4; ++kk) {
                     a[kk + (k - 1) * a_dim1] = 0.;
                     /* L160: */
                 }
@@ -716,15 +654,14 @@ L140:
             v[0] = 1.;
             /* Computing MIN */
             i__5 = k + ns;
-            i__4 = min(i__5,i__) - i1 + 1;
+            i__4 = min(i__5, i__) - i1 + 1;
             dlarfx_("Right", &i__4, &nr, v, &tauv, &b[i1 + k * b_dim1], ldb, &dwork[1], 5L);
             /*           Annihilate the introduced nonzeros in the K-th column. */
             dcopy_(&nr, &b[k + k * b_dim1], &c__1, &v[pv2 - 1], &c__1);
             dlarfg_(&nr, &v[pv2 - 1], &v[pv2], &c__1, &tauw);
             b[k + k * b_dim1] = v[pv2 - 1];
             i__4 = i__;
-            for (kk = k + 1; kk <= i__4; ++kk)
-            {
+            for (kk = k + 1; kk <= i__4; ++kk) {
                 b[kk + k * b_dim1] = 0.;
                 /* L170: */
             }
@@ -732,7 +669,8 @@ L140:
             /*           Apply reflector W from the left to transform the rows of the */
             /*           matrix B in columns K+1:I2. */
             i__4 = i2 - k;
-            dlarfx_("Left", &nr, &i__4, &v[pv2 - 1], &tauw, &b[k + (k + 1) * b_dim1], ldb, &dwork[1], 4L);
+            dlarfx_("Left", &nr, &i__4, &v[pv2 - 1], &tauw, &b[k + (k + 1) * b_dim1], ldb,
+                &dwork[1], 4L);
             /*           Apply reflector V from the left to transform the rows of the */
             /*           matrix A in columns K:I2. */
             i__4 = i2 - k + 1;
@@ -741,16 +679,16 @@ L140:
             /*           the matrix A in rows I1:min(K+NS,I). */
             /* Computing MIN */
             i__5 = k + ns + 1;
-            i__4 = min(i__5,i__) - i1 + 1;
-            dlarfx_("Right", &i__4, &nr, &v[pv2 - 1], &tauw, &a[i1 + k * a_dim1], lda, &dwork[1], 5L);
+            i__4 = min(i__5, i__) - i1 + 1;
+            dlarfx_(
+                "Right", &i__4, &nr, &v[pv2 - 1], &tauw, &a[i1 + k * a_dim1], lda, &dwork[1], 5L);
             /*           Accumulate transformations in the matrices Q and Z. */
-            if (wantq)
-            {
+            if (wantq) {
                 dlarfx_("Right", &nh, &nr, v, &tauv, &q[*ilo + k * q_dim1], ldq, &dwork[1], 5L);
             }
-            if (wantz)
-            {
-                dlarfx_("Right", &nh, &nr, &v[pv2 - 1], &tauw, &z__[*ilo + k * z_dim1], ldz, &dwork[1], 5L);
+            if (wantz) {
+                dlarfx_("Right", &nh, &nr, &v[pv2 - 1], &tauw, &z__[*ilo + k * z_dim1], ldz,
+                    &dwork[1], 5L);
             }
             /* L180: */
         }
@@ -762,17 +700,17 @@ L140:
 L200:
     /*     Submatrix of order <= MAXB has split off. Use double-shift */
     /*     periodic QR algorithm. */
-    mb03yd_(&wantt, &wantq, &wantz, n, &l, &i__, ilo, ihi, &a[a_offset], lda, &b[b_offset], ldb, &q[q_offset], ldq, &z__[z_offset], ldz, &alphar[1], &alphai[1], &beta[1], &dwork[1], ldwork, info);
-    if (*info > 0)
-    {
+    mb03yd_(&wantt, &wantq, &wantz, n, &l, &i__, ilo, ihi, &a[a_offset], lda, &b[b_offset], ldb,
+        &q[q_offset], ldq, &z__[z_offset], ldz, &alphar[1], &alphai[1], &beta[1], &dwork[1], ldwork,
+        info);
+    if (*info > 0) {
         return 0;
     }
     itn -= its;
     i__ = l - 1;
     goto L90;
 L210:
-    dwork[1] = (doublereal) max(1,*n);
+    dwork[1] = (doublereal)max(1, *n);
     return 0;
     /* *** Last line of MB03XP *** */
 } /* mb03xp_ */
-

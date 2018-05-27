@@ -22,8 +22,9 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace FilesFoldersGateway {
-        ArrayOfVector rmfileBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    }
+namespace FilesFoldersGateway {
+    ArrayOfVector
+    rmfileBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }
+} // namespace Nelson
 //=============================================================================

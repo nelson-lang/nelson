@@ -18,29 +18,28 @@
 //=============================================================================
 #include "libpointer_ispropBuiltin.hpp"
 #include "Error.hpp"
-#include "LibPointerObject.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
+#include "LibPointerObject.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::DynamicLinkGateway::libpointer_ispropBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::DynamicLinkGateway::libpointer_ispropBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (argIn.size() !=  2)
-    {
+    if (argIn.size() != 2) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
     ArrayOfVector retval;
-    if (param1.getHandleCategory() != LIBPOINTER_CATEGORY_STR)
-    {
+    if (param1.getHandleCategory() != LIBPOINTER_CATEGORY_STR) {
         Error(eval, _W("libpointer handle expected."));
     }
-    LibPointerObject *objLibPointer = (LibPointerObject *)param1.getContentAsHandleScalar();
+    LibPointerObject* objLibPointer = (LibPointerObject*)param1.getContentAsHandleScalar();
     ArrayOf param2 = argIn[1];
     std::wstring propertyName = param2.getContentAsWideString();
     retval.push_back(ArrayOf::logicalConstructor(objLibPointer->isProperty(propertyName)));

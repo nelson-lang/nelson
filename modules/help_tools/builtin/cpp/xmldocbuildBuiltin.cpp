@@ -16,105 +16,84 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
 #include "xmldocbuildBuiltin.hpp"
 #include "Error.hpp"
-#include "XmlDocDocument.hpp"
-#include "characters_encoding.hpp"
-#include "XmlDocDirectory.hpp"
 #include "IsDirectory.hpp"
+#include "XmlDocDirectory.hpp"
+#include "XmlDocDocument.hpp"
 #include "XmlDocListOfDirectories.hpp"
 #include "XmlTarget.hpp"
+#include "characters_encoding.hpp"
+#include <boost/filesystem.hpp>
+#include <boost/filesystem/path.hpp>
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 // xmldocbuild(source_dirs, destination_dir, main_title, export_format, overwrite)
-ArrayOfVector Nelson::HelpToolsGateway::xmldocbuildBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::HelpToolsGateway::xmldocbuildBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 5)
-    {
+    if (argIn.size() != 5) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf argSourceDirs = argIn[0];
     wstringVector listOfDirectories;
-    if (argSourceDirs.isSingleString())
-    {
+    if (argSourceDirs.isSingleString()) {
         std::wstring dir = argSourceDirs.getContentAsWideString();
         listOfDirectories.push_back(dir);
-    }
-    else if (argSourceDirs.isCell())
-    {
+    } else if (argSourceDirs.isCell()) {
         listOfDirectories = argSourceDirs.getContentAsWideStringVector(true);
-    }
-    else
-    {
+    } else {
         Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_CELL_OF_STRINGS_EXPECTED);
     }
-    for (size_t k = 0; k < listOfDirectories.size(); k++)
-    {
-        if (!IsDirectory(listOfDirectories[k]))
-        {
+    for (size_t k = 0; k < listOfDirectories.size(); k++) {
+        if (!IsDirectory(listOfDirectories[k])) {
             Error(eval, _W("Existing directory expected."));
         }
     }
     ArrayOf argDestinationDir = argIn[1];
     std::wstring dstDirectory = argDestinationDir.getContentAsWideString();
-    if (!IsDirectory(dstDirectory))
-    {
+    if (!IsDirectory(dstDirectory)) {
         Error(eval, _W("Existing directory expected."));
     }
     ArrayOf argMainTitle = argIn[2];
     std::wstring mainTitle = argMainTitle.getContentAsWideString();
     ArrayOf argExportFormat = argIn[3];
     std::wstring exportFormat = argExportFormat.getContentAsWideString();
-    if ((exportFormat != L"help") && (exportFormat != L"html") && (exportFormat != L"md"))
-    {
+    if ((exportFormat != L"help") && (exportFormat != L"html") && (exportFormat != L"md")) {
         Error(eval, _W("format not supported: 'help', 'html' or 'md' expected."));
     }
     DOCUMENT_OUTPUT outputTarget;
-    if (exportFormat == L"help")
-    {
+    if (exportFormat == L"help") {
         outputTarget = DOCUMENT_OUTPUT::QT_HELP;
     }
-    if (exportFormat == L"html")
-    {
+    if (exportFormat == L"html") {
         outputTarget = DOCUMENT_OUTPUT::HMTL;
     }
-    if (exportFormat == L"md")
-    {
+    if (exportFormat == L"md") {
         outputTarget = DOCUMENT_OUTPUT::MARKDOWN;
     }
     ArrayOf argOverwrite = argIn[4];
     logical forceOverwrite = argOverwrite.getContentAsLogicalScalar();
-    XmlDocListOfDirectories xmlDirs(listOfDirectories, dstDirectory, mainTitle, forceOverwrite ? true : false, outputTarget);
-    if (xmlDirs.read())
-    {
+    XmlDocListOfDirectories xmlDirs(
+        listOfDirectories, dstDirectory, mainTitle, forceOverwrite ? true : false, outputTarget);
+    if (xmlDirs.read()) {
         std::wstring outputModuleName = xmlDirs.getOutputHelpBasename();
-        try
-        {
-            if (outputTarget == DOCUMENT_OUTPUT::MARKDOWN)
-            {
+        try {
+            if (outputTarget == DOCUMENT_OUTPUT::MARKDOWN) {
                 xmlDirs.writeAsMarkdown();
-            }
-            else
-            {
+            } else {
                 xmlDirs.writeAsHtml();
             }
-        }
-        catch (Exception &e)
-        {
+        } catch (Exception& e) {
             Error(eval, e.getMessage());
         }
         retval.push_back(ArrayOf::stringConstructor(outputModuleName));
-    }
-    else
-    {
+    } else {
         Error(eval, xmlDirs.getLastError());
     }
     return retval;

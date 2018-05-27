@@ -17,11 +17,11 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "modulepathBuiltin.hpp"
+#include "Error.hpp"
 #include "Exception.hpp"
+#include "ModulePath.hpp"
 #include "ModulesHelpers.hpp"
 #include "ModulesManager.hpp"
-#include "ModulePath.hpp"
-#include "Error.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -33,7 +33,9 @@ using namespace Nelson;
 #define STR_OPTION_TESTS L"tests"
 
 //=============================================================================
-ArrayOfVector Nelson::ModulesManagerGateway::modulepathBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::ModulesManagerGateway::modulepathBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     // st = modulepath('existing_module')
     // return a struct with different paths of an existing module (shortname)
@@ -42,85 +44,60 @@ ArrayOfVector Nelson::ModulesManagerGateway::modulepathBuiltin(Evaluator* eval, 
     // p = modulepath('path', 'module short name', 'root')
     // p = modulepath('path', 'module short name', 'builtin')
     ArrayOfVector retval;
-    if ((argIn.size() != 1) && (argIn.size() != 3))
-    {
+    if ((argIn.size() != 1) && (argIn.size() != 3)) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() == 1)
-    {
+    if (argIn.size() == 1) {
         std::wstring moduleshortname = L"";
-        if (argIn[0].isSingleString())
-        {
+        if (argIn[0].isSingleString()) {
             moduleshortname = argIn[0].getContentAsWideString();
-        }
-        else
-        {
+        } else {
             Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
-        if (IsExistingModuleName(moduleshortname))
-        {
+        if (IsExistingModuleName(moduleshortname)) {
             retval.push_back(ArrayOf::stringConstructor(GetModulePath(moduleshortname)));
-        }
-        else
-        {
+        } else {
             Error(eval, _W("invalid module name."));
         }
-    }
-    else // argIn.size() == 3
+    } else // argIn.size() == 3
     {
         std::wstring modulerootpath = L"";
         std::wstring moduleshortname = L"";
         std::wstring option = L"";
-        if (argIn[0].isSingleString())
-        {
+        if (argIn[0].isSingleString()) {
             modulerootpath = argIn[0].getContentAsWideString();
-        }
-        else
-        {
+        } else {
             Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
-        if (argIn[1].isSingleString())
-        {
+        if (argIn[1].isSingleString()) {
             moduleshortname = argIn[1].getContentAsWideString();
-        }
-        else
-        {
+        } else {
             Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
         }
-        if (argIn[2].isSingleString())
-        {
+        if (argIn[2].isSingleString()) {
             option = argIn[2].getContentAsWideString();
-        }
-        else
-        {
+        } else {
             Error(eval, ERROR_WRONG_ARGUMENT_3_TYPE_STRING_EXPECTED);
         }
-        if (option.compare(STR_OPTION_ETC) == 0)
-        {
-            retval.push_back(ArrayOf::stringConstructor(ModulePath(modulerootpath, moduleshortname, GET_ETC_PATH)));
-        }
-        else if (option.compare(STR_OPTION_BIN) == 0)
-        {
-            retval.push_back(ArrayOf::stringConstructor(ModulePath(modulerootpath, moduleshortname, GET_BINARY_PATH)));
-        }
-        else if (option.compare(STR_OPTION_ROOT) == 0)
-        {
-            retval.push_back(ArrayOf::stringConstructor(ModulePath(modulerootpath, moduleshortname, GET_ROOT_PATH)));
-        }
-        else if (option.compare(STR_OPTION_BUILTIN) == 0)
-        {
-            retval.push_back(ArrayOf::stringConstructor(ModulePath(modulerootpath, moduleshortname, GET_DYNLIB_FULLPATH)));
-        }
-        else if (option.compare(STR_OPTION_SCRIPTS) == 0)
-        {
-            retval.push_back(ArrayOf::stringConstructor(ModulePath(modulerootpath, moduleshortname, GET_SCRIPT_PATH)));
-        }
-        else
-        {
+        if (option.compare(STR_OPTION_ETC) == 0) {
+            retval.push_back(ArrayOf::stringConstructor(
+                ModulePath(modulerootpath, moduleshortname, GET_ETC_PATH)));
+        } else if (option.compare(STR_OPTION_BIN) == 0) {
+            retval.push_back(ArrayOf::stringConstructor(
+                ModulePath(modulerootpath, moduleshortname, GET_BINARY_PATH)));
+        } else if (option.compare(STR_OPTION_ROOT) == 0) {
+            retval.push_back(ArrayOf::stringConstructor(
+                ModulePath(modulerootpath, moduleshortname, GET_ROOT_PATH)));
+        } else if (option.compare(STR_OPTION_BUILTIN) == 0) {
+            retval.push_back(ArrayOf::stringConstructor(
+                ModulePath(modulerootpath, moduleshortname, GET_DYNLIB_FULLPATH)));
+        } else if (option.compare(STR_OPTION_SCRIPTS) == 0) {
+            retval.push_back(ArrayOf::stringConstructor(
+                ModulePath(modulerootpath, moduleshortname, GET_SCRIPT_PATH)));
+        } else {
             Error(eval, _W("Argument #3 must be a valid option."));
         }
     }

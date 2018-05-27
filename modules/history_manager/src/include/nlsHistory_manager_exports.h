@@ -25,6 +25,6 @@
 #define NLSHISTORY_MANAGER_IMPEXP __declspec(dllimport)
 #endif
 #else
-#define NLSHISTORY_MANAGER_IMPEXP __attribute__ ((visibility ("default")))
+#define NLSHISTORY_MANAGER_IMPEXP __attribute__((visibility("default")))
 #endif
 //=============================================================================

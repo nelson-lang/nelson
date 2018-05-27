@@ -22,8 +22,9 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace TypeGateway {
-        ArrayOfVector isint64Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    }
+namespace TypeGateway {
+    ArrayOfVector
+    isint64Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }
+} // namespace Nelson
 //=============================================================================

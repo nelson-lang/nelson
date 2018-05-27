@@ -22,9 +22,10 @@
 #include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
-    /**
-    * horzcat ([,]).
-    */
-    NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf HorzCat(ArrayOf &A, ArrayOf &B, bool mustRaiseError, bool &bSuccess);
+/**
+ * horzcat ([,]).
+ */
+NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
+HorzCat(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess);
 }
 //=============================================================================

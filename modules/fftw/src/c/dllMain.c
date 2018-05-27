@@ -16,26 +16,26 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <Windows.h>
 #include "nlsConfig.h"
+#include <Windows.h>
 //=============================================================================
-#pragma comment(lib, CAT_3_STRINGS("boost_system-" , BOOST_TARGET , ".lib"))
-#pragma comment(lib, CAT_3_STRINGS("boost_filesystem-" , BOOST_TARGET , ".lib"))
+#pragma comment(lib, CAT_3_STRINGS("boost_system-", BOOST_TARGET, ".lib"))
+#pragma comment(lib, CAT_3_STRINGS("boost_filesystem-", BOOST_TARGET, ".lib"))
 #pragma comment(lib, "libfftw3-3.lib")
 #pragma comment(lib, "libfftw3f-3.lib")
 //=============================================================================
-int WINAPI DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)
+int WINAPI
+DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)
 {
-    switch (reason)
-    {
-        case DLL_PROCESS_ATTACH:
-            break;
-        case DLL_PROCESS_DETACH:
-            break;
-        case DLL_THREAD_ATTACH:
-            break;
-        case DLL_THREAD_DETACH:
-            break;
+    switch (reason) {
+    case DLL_PROCESS_ATTACH:
+        break;
+    case DLL_PROCESS_DETACH:
+        break;
+    case DLL_THREAD_ATTACH:
+        break;
+    case DLL_THREAD_DETACH:
+        break;
     }
     return 1;
 }

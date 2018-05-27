@@ -35,8 +35,7 @@ using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"integer";
 //=============================================================================
-static const nlsGateway gateway[] =
-{
+static const nlsGateway gateway[] = {
     { "int8", Nelson::IntegerGateway::int8Builtin, 1, 1 },
     { "int16", Nelson::IntegerGateway::int16Builtin, 1, 1 },
     { "int32", Nelson::IntegerGateway::int32Builtin, 1, 1 },

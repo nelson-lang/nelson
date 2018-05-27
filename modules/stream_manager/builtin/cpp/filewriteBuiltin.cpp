@@ -16,28 +16,27 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/algorithm/string/predicate.hpp>
-#include <boost/algorithm/string.hpp>
-#include <sstream>
-#include <fstream>
-#include <iostream>
 #include "filewriteBuiltin.hpp"
 #include "Error.hpp"
 #include "characters_encoding.hpp"
+#include <boost/algorithm/string.hpp>
+#include <boost/algorithm/string/predicate.hpp>
+#include <fstream>
+#include <iostream>
+#include <sstream>
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 // filewrite(filename, txt [, eol])
 // eol == 'native' (system default), 'pc' ("\r\n"), 'unix' ("\n")
-ArrayOfVector Nelson::StreamGateway::filewriteBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::StreamGateway::filewriteBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() < 2 || argIn.size() > 3)
-    {
+    if (argIn.size() < 2 || argIn.size() > 3) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs != 0)
-    {
+    if (nLhs != 0) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
@@ -49,23 +48,17 @@ ArrayOfVector Nelson::StreamGateway::filewriteBuiltin(Evaluator* eval, int nLhs,
 #else
     eol = L"\n";
 #endif
-    if (argIn.size() == 3)
-    {
+    if (argIn.size() == 3) {
         ArrayOf param3 = argIn[2];
         std::wstring str = param3.getContentAsWideString();
-        if (str == L"native" || str == L"pc" || str == L"unix")
-        {
-            if (str == L"pc")
-            {
+        if (str == L"native" || str == L"pc" || str == L"unix") {
+            if (str == L"pc") {
                 eol = L"\r\n";
             }
-            if (str == L"unix")
-            {
+            if (str == L"unix") {
                 eol = L"\n";
             }
-        }
-        else
-        {
+        } else {
             Error(eval, _W("Wrong value for #3 argument."));
         }
     }
@@ -75,17 +68,14 @@ ArrayOfVector Nelson::StreamGateway::filewriteBuiltin(Evaluator* eval, int nLhs,
 #else
     std::wofstream wof(wstring_to_utf8(filename), std::ios::trunc | std::ios::binary);
 #endif
-    if (!wof.is_open())
-    {
+    if (!wof.is_open()) {
         Error(eval, _W("Cannot open file."));
     }
-    for (std::wstring line : lines)
-    {
+    for (std::wstring line : lines) {
         boost::replace_all(line, L"\r\n", L"\n");
         boost::replace_all(line, L"\n", eol);
         wof << line;
-        if (!boost::algorithm::ends_with(line, eol))
-        {
+        if (!boost::algorithm::ends_with(line, eol)) {
             wof << eol;
         }
     }

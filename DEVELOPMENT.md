@@ -289,3 +289,19 @@ You can also see [.travis.yml](https://github.com/Nelson-numerical-software/nels
     
     start build with VS 2017 
 
+
+### Indent C/C++ code
+
+* on Macos X and Linux, you need to install clang-format > 3.8. On root directory:
+
+```
+make clang-format
+```
+
+* on Windows, go to /tools/clang_format directory
+
+```
+clang_format.bat
+```
+
+Indentation uses webkit coding style see .clang-format

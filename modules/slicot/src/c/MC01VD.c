@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,9 +9,9 @@
 
 static doublereal c_b4 = 1.;
 
-EXPORTSYMBOL /* Subroutine */ int mc01vd_(a, b, c__, z1re, z1im, z2re, z2im, info)
-doublereal *a, *b, *c__, *z1re, *z1im, *z2re, *z2im;
-integer *info;
+EXPORTSYMBOL /* Subroutine */ int mc01vd_(a, b, c__, z1re, z1im, z2re, z2im, info) doublereal *a,
+    *b, *c__, *z1re, *z1im, *z2re, *z2im;
+integer* info;
 {
     /* System generated locals */
     integer i__1;
@@ -115,52 +115,36 @@ integer *info;
     /*     .. Executable Statements .. */
     /*     Detect special cases. */
     *info = 0;
-    beta = (integer) dlamch_("Base", 4L);
+    beta = (integer)dlamch_("Base", 4L);
     sfmin = dlamch_("Safe minimum", 12L);
     big = 1. / sfmin;
-    if (*a == 0.)
-    {
-        if (*b == 0.)
-        {
+    if (*a == 0.) {
+        if (*b == 0.) {
             *info = 1;
-        }
-        else
-        {
+        } else {
             ovflow = FALSE_;
             *z2re = 0.;
-            if (*c__ != 0.)
-            {
+            if (*c__ != 0.) {
                 absb = abs(*b);
-                if (absb >= 1.)
-                {
-                    if (abs(*c__) >= absb * sfmin)
-                    {
+                if (absb >= 1.) {
+                    if (abs(*c__) >= absb * sfmin) {
                         *z2re = -(*c__) / *b;
                     }
-                }
-                else
-                {
-                    if (abs(*c__) <= absb * big)
-                    {
+                } else {
+                    if (abs(*c__) <= absb * big) {
                         *z2re = -(*c__) / *b;
-                    }
-                    else
-                    {
+                    } else {
                         ovflow = TRUE_;
                         *z2re = big;
-                        if (d_sign(&c_b4, b) * d_sign(&c_b4, c__) > 0.)
-                        {
+                        if (d_sign(&c_b4, b) * d_sign(&c_b4, c__) > 0.) {
                             *z2re = -big;
                         }
                     }
                 }
             }
-            if (ovflow)
-            {
+            if (ovflow) {
                 *info = 1;
-            }
-            else
-            {
+            } else {
                 *z1re = big;
                 *z1im = 0.;
                 *z2im = 0.;
@@ -169,35 +153,25 @@ integer *info;
         }
         return 0;
     }
-    if (*c__ == 0.)
-    {
+    if (*c__ == 0.) {
         ovflow = FALSE_;
         *z1re = 0.;
-        if (*b != 0.)
-        {
+        if (*b != 0.) {
             absa = abs(*a);
-            if (absa >= 1.)
-            {
-                if (abs(*b) >= absa * sfmin)
-                {
+            if (absa >= 1.) {
+                if (abs(*b) >= absa * sfmin) {
                     *z1re = -(*b) / *a;
                 }
-            }
-            else
-            {
-                if (abs(*b) <= absa * big)
-                {
+            } else {
+                if (abs(*b) <= absa * big) {
                     *z1re = -(*b) / *a;
-                }
-                else
-                {
+                } else {
                     ovflow = TRUE_;
                     *z1re = big;
                 }
             }
         }
-        if (ovflow)
-        {
+        if (ovflow) {
             *info = 3;
         }
         *z1im = 0.;
@@ -206,46 +180,32 @@ integer *info;
         return 0;
     }
     /*     A and C are non-zero. */
-    if (*b == 0.)
-    {
+    if (*b == 0.) {
         ovflow = FALSE_;
         absc = sqrt((abs(*c__)));
         absa = sqrt((abs(*a)));
         w = 0.;
-        if (absa >= 1.)
-        {
-            if (absc >= absa * sfmin)
-            {
+        if (absa >= 1.) {
+            if (absc >= absa * sfmin) {
                 w = absc / absa;
             }
-        }
-        else
-        {
-            if (absc <= absa * big)
-            {
+        } else {
+            if (absc <= absa * big) {
                 w = absc / absa;
-            }
-            else
-            {
+            } else {
                 ovflow = TRUE_;
                 w = big;
             }
         }
-        if (ovflow)
-        {
+        if (ovflow) {
             *info = 4;
-        }
-        else
-        {
-            if (d_sign(&c_b4, a) * d_sign(&c_b4, c__) > 0.)
-            {
+        } else {
+            if (d_sign(&c_b4, a) * d_sign(&c_b4, c__) > 0.) {
                 *z1re = 0.;
                 *z2re = 0.;
                 *z1im = w;
                 *z2im = -w;
-            }
-            else
-            {
+            } else {
                 *z1re = w;
                 *z2re = -w;
                 *z1im = 0.;
@@ -262,17 +222,14 @@ integer *info;
     /*     D = MD * BETA**ED. */
     eaplec = ea + ec;
     eb2 = eb << 1;
-    if (eaplec > eb2)
-    {
+    if (eaplec > eb2) {
         d__1 = mb * mb;
         i__1 = eb2 - eaplec;
         mc01sy_(&d__1, &i__1, &beta, &w, &ovflow);
         w -= ma * 4. * mc;
         mc01sw_(&w, &beta, &md, &ed);
         ed += eaplec;
-    }
-    else
-    {
+    } else {
         d__1 = ma * 4. * mc;
         i__1 = eaplec - eb2;
         mc01sy_(&d__1, &i__1, &beta, &w, &ovflow);
@@ -280,32 +237,24 @@ integer *info;
         mc01sw_(&w, &beta, &md, &ed);
         ed += eb2;
     }
-    if (ed % 2 != 0)
-    {
+    if (ed % 2 != 0) {
         ++ed;
         md /= beta;
     }
     /*     Complex roots. */
-    if (md < 0.)
-    {
+    if (md < 0.) {
         d__1 = -mb / (ma * 2);
         i__1 = eb - ea;
         mc01sy_(&d__1, &i__1, &beta, z1re, &ovflow);
-        if (ovflow)
-        {
+        if (ovflow) {
             *info = 4;
-        }
-        else
-        {
+        } else {
             d__1 = sqrt(-md) / (ma * 2);
             i__1 = ed / 2 - ea;
             mc01sy_(&d__1, &i__1, &beta, z1im, &ovflow);
-            if (ovflow)
-            {
+            if (ovflow) {
                 *info = 4;
-            }
-            else
-            {
+            } else {
                 *z2re = *z1re;
                 *z2im = -(*z1im);
             }
@@ -315,8 +264,7 @@ integer *info;
     /*     Real roots. */
     md = sqrt(md);
     ed /= 2;
-    if (ed > eb)
-    {
+    if (ed > eb) {
         d__1 = abs(mb);
         i__1 = eb - ed;
         mc01sy_(&d__1, &i__1, &beta, &w, &ovflow);
@@ -324,25 +272,21 @@ integer *info;
         m1 = -d_sign(&c_b4, &mb) * w / (ma * 2);
         i__1 = ed - ea;
         mc01sy_(&m1, &i__1, &beta, z1re, &ovflow);
-        if (ovflow)
-        {
+        if (ovflow) {
             *z1re = big;
             *info = 3;
         }
         m2 = -d_sign(&c_b4, &mb) * 2 * mc / w;
         i__1 = ec - ed;
         mc01sy_(&m2, &i__1, &beta, z2re, &ovflow);
-    }
-    else
-    {
+    } else {
         i__1 = ed - eb;
         mc01sy_(&md, &i__1, &beta, &w, &ovflow);
         w += abs(mb);
         m1 = -d_sign(&c_b4, &mb) * w / (ma * 2);
         i__1 = eb - ea;
         mc01sy_(&m1, &i__1, &beta, z1re, &ovflow);
-        if (ovflow)
-        {
+        if (ovflow) {
             *z1re = big;
             *info = 3;
         }
@@ -355,4 +299,3 @@ integer *info;
     return 0;
     /* *** Last line of MC01VD *** */
 } /* mc01vd_ */
-

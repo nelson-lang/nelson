@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -12,14 +12,15 @@ static doublereal c_b10 = 0.;
 static doublereal c_b33 = 1.;
 static integer c__0 = 0;
 
-EXPORTSYMBOL /* Subroutine */ int mb01uw_(side, trans, m, n, alpha, h__, ldh, a, lda, dwork, ldwork, info, side_len, trans_len)
-char *side, *trans;
+EXPORTSYMBOL /* Subroutine */ int mb01uw_(side, trans, m, n, alpha, h__, ldh, a, lda, dwork, ldwork,
+    info, side_len, trans_len) char *side,
+    *trans;
 integer *m, *n;
 doublereal *alpha, *h__;
-integer *ldh;
-doublereal *a;
-integer *lda;
-doublereal *dwork;
+integer* ldh;
+doublereal* a;
+integer* lda;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen side_len;
 ftnlen trans_len;
@@ -147,118 +148,89 @@ ftnlen trans_len;
     *info = 0;
     lside = lsame_(side, "L", 1L, 1L);
     ltrans = lsame_(trans, "T", 1L, 1L) || lsame_(trans, "C", 1L, 1L);
-    if (! lside && ! lsame_(side, "R", 1L, 1L))
-    {
+    if (!lside && !lsame_(side, "R", 1L, 1L)) {
         *info = -1;
-    }
-    else if (! ltrans && ! lsame_(trans, "N", 1L, 1L))
-    {
+    } else if (!ltrans && !lsame_(trans, "N", 1L, 1L)) {
         *info = -2;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -3;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -4;
-    }
-    else if (*ldh < 1 || lside && *ldh < *m || ! lside && *ldh < *n)
-    {
+    } else if (*ldh < 1 || lside && *ldh < *m || !lside && *ldh < *n) {
         *info = -7;
-    }
-    else if (*lda < max(1,*m))
-    {
+    } else if (*lda < max(1, *m)) {
         *info = -9;
-    }
-    else if (*ldwork < 0 || *alpha != 0. && min(*m,*n) > 0 && (lside && *ldwork < *m - 1 || ! lside && *ldwork < *n - 1))
-    {
+    } else if (*ldwork < 0
+        || *alpha != 0. && min(*m, *n) > 0
+            && (lside && *ldwork < *m - 1 || !lside && *ldwork < *n - 1)) {
         *info = -11;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("MB01UW", &i__1, 6L);
         return 0;
     }
     /*     Quick return, if possible. */
-    if (min(*m,*n) == 0)
-    {
+    if (min(*m, *n) == 0) {
         return 0;
-    }
-    else if (lside)
-    {
-        if (*m == 1)
-        {
+    } else if (lside) {
+        if (*m == 1) {
             d__1 = *alpha * h__[h_dim1 + 1];
             dscal_(n, &d__1, &a[a_offset], lda);
             return 0;
         }
-    }
-    else
-    {
-        if (*n == 1)
-        {
+    } else {
+        if (*n == 1) {
             d__1 = *alpha * h__[h_dim1 + 1];
             dscal_(m, &d__1, &a[a_offset], &c__1);
             return 0;
         }
     }
-    if (*alpha == 0.)
-    {
+    if (*alpha == 0.) {
         /*        Set A to zero and return. */
         dlaset_("Full", m, n, &c_b10, &c_b10, &a[a_offset], lda, 4L);
         return 0;
     }
-    if (*ldwork >= *m **n)
-    {
+    if (*ldwork >= *m * *n) {
         /*        Enough workspace for a fast BLAS 3 calculation. */
         /*        Save A in the workspace and compute one of the matrix products */
         /*          A : = alpha*op( triu( H ) ) * A, or */
         /*          A : = alpha*A * op( triu( H ) ), */
         /*        involving the upper triangle of H. */
         dlacpy_("Full", m, n, &a[a_offset], lda, &dwork[1], m, 4L);
-        dtrmm_(side, "Upper", trans, "Non-unit", m, n, alpha, &h__[h_offset], ldh, &a[a_offset], lda, 1L, 5L, 1L, 8L);
+        dtrmm_(side, "Upper", trans, "Non-unit", m, n, alpha, &h__[h_offset], ldh, &a[a_offset],
+            lda, 1L, 5L, 1L, 8L);
         /*        Add the contribution of the subdiagonal of H. */
         /*        If SIDE = 'L', the subdiagonal of H is swapped with the */
         /*        corresponding elements in the first column of H, and the */
         /*        calculations are organized for column operations. */
-        if (lside)
-        {
-            if (*m > 2)
-            {
+        if (lside) {
+            if (*m > 2) {
                 i__1 = *m - 2;
                 i__2 = *ldh + 1;
                 dswap_(&i__1, &h__[(h_dim1 << 1) + 3], &i__2, &h__[h_dim1 + 3], &c__1);
             }
-            if (ltrans)
-            {
+            if (ltrans) {
                 jw = 1;
                 i__1 = *n;
-                for (j = 1; j <= i__1; ++j)
-                {
+                for (j = 1; j <= i__1; ++j) {
                     ++jw;
                     i__2 = *m - 1;
-                    for (i__ = 1; i__ <= i__2; ++i__)
-                    {
+                    for (i__ = 1; i__ <= i__2; ++i__) {
                         a[i__ + j * a_dim1] += *alpha * h__[i__ + 1 + h_dim1] * dwork[jw];
                         ++jw;
                         /* L10: */
                     }
                     /* L20: */
                 }
-            }
-            else
-            {
+            } else {
                 jw = 0;
                 i__1 = *n;
-                for (j = 1; j <= i__1; ++j)
-                {
+                for (j = 1; j <= i__1; ++j) {
                     ++jw;
                     i__2 = *m;
-                    for (i__ = 2; i__ <= i__2; ++i__)
-                    {
+                    for (i__ = 2; i__ <= i__2; ++i__) {
                         a[i__ + j * a_dim1] += *alpha * h__[i__ + h_dim1] * dwork[jw];
                         ++jw;
                         /* L30: */
@@ -266,38 +238,28 @@ ftnlen trans_len;
                     /* L40: */
                 }
             }
-            if (*m > 2)
-            {
+            if (*m > 2) {
                 i__1 = *m - 2;
                 i__2 = *ldh + 1;
                 dswap_(&i__1, &h__[(h_dim1 << 1) + 3], &i__2, &h__[h_dim1 + 3], &c__1);
             }
-        }
-        else
-        {
-            if (ltrans)
-            {
+        } else {
+            if (ltrans) {
                 jw = 1;
                 i__1 = *n - 1;
-                for (j = 1; j <= i__1; ++j)
-                {
-                    if (h__[j + 1 + j * h_dim1] != 0.)
-                    {
+                for (j = 1; j <= i__1; ++j) {
+                    if (h__[j + 1 + j * h_dim1] != 0.) {
                         d__1 = *alpha * h__[j + 1 + j * h_dim1];
                         daxpy_(m, &d__1, &dwork[jw], &c__1, &a[(j + 1) * a_dim1 + 1], &c__1);
                     }
                     jw += *m;
                     /* L50: */
                 }
-            }
-            else
-            {
+            } else {
                 jw = *m + 1;
                 i__1 = *n - 1;
-                for (j = 1; j <= i__1; ++j)
-                {
-                    if (h__[j + 1 + j * h_dim1] != 0.)
-                    {
+                for (j = 1; j <= i__1; ++j) {
+                    if (h__[j + 1 + j * h_dim1] != 0.) {
                         d__1 = *alpha * h__[j + 1 + j * h_dim1];
                         daxpy_(m, &d__1, &dwork[jw], &c__1, &a[j * a_dim1 + 1], &c__1);
                     }
@@ -306,132 +268,111 @@ ftnlen trans_len;
                 }
             }
         }
-    }
-    else
-    {
+    } else {
         /*        Use a BLAS 2 calculation. */
-        if (lside)
-        {
-            if (*m > 2)
-            {
+        if (lside) {
+            if (*m > 2) {
                 i__1 = *m - 2;
                 i__2 = *ldh + 1;
                 dswap_(&i__1, &h__[(h_dim1 << 1) + 3], &i__2, &h__[h_dim1 + 3], &c__1);
             }
-            if (ltrans)
-            {
+            if (ltrans) {
                 i__1 = *n;
-                for (j = 1; j <= i__1; ++j)
-                {
+                for (j = 1; j <= i__1; ++j) {
                     /*                 Compute the contribution of the subdiagonal of H to */
                     /*                 the j-th column of the product. */
                     i__2 = *m - 1;
-                    for (i__ = 1; i__ <= i__2; ++i__)
-                    {
+                    for (i__ = 1; i__ <= i__2; ++i__) {
                         dwork[i__] = h__[i__ + 1 + h_dim1] * a[i__ + 1 + j * a_dim1];
                         /* L70: */
                     }
                     /*                 Multiply the upper triangle of H by the j-th column */
                     /*                 of A, and add to the above result. */
-                    dtrmv_("Upper", trans, "Non-unit", m, &h__[h_offset], ldh, &a[j * a_dim1 + 1], &c__1, 5L, 1L, 8L);
+                    dtrmv_("Upper", trans, "Non-unit", m, &h__[h_offset], ldh, &a[j * a_dim1 + 1],
+                        &c__1, 5L, 1L, 8L);
                     i__2 = *m - 1;
                     daxpy_(&i__2, &c_b33, &dwork[1], &c__1, &a[j * a_dim1 + 1], &c__1);
                     /* L80: */
                 }
-            }
-            else
-            {
+            } else {
                 i__1 = *n;
-                for (j = 1; j <= i__1; ++j)
-                {
+                for (j = 1; j <= i__1; ++j) {
                     /*                 Compute the contribution of the subdiagonal of H to */
                     /*                 the j-th column of the product. */
                     i__2 = *m - 1;
-                    for (i__ = 1; i__ <= i__2; ++i__)
-                    {
+                    for (i__ = 1; i__ <= i__2; ++i__) {
                         dwork[i__] = h__[i__ + 1 + h_dim1] * a[i__ + j * a_dim1];
                         /* L90: */
                     }
                     /*                 Multiply the upper triangle of H by the j-th column */
                     /*                 of A, and add to the above result. */
-                    dtrmv_("Upper", trans, "Non-unit", m, &h__[h_offset], ldh, &a[j * a_dim1 + 1], &c__1, 5L, 1L, 8L);
+                    dtrmv_("Upper", trans, "Non-unit", m, &h__[h_offset], ldh, &a[j * a_dim1 + 1],
+                        &c__1, 5L, 1L, 8L);
                     i__2 = *m - 1;
                     daxpy_(&i__2, &c_b33, &dwork[1], &c__1, &a[j * a_dim1 + 2], &c__1);
                     /* L100: */
                 }
             }
-            if (*m > 2)
-            {
+            if (*m > 2) {
                 i__1 = *m - 2;
                 i__2 = *ldh + 1;
                 dswap_(&i__1, &h__[(h_dim1 << 1) + 3], &i__2, &h__[h_dim1 + 3], &c__1);
             }
-        }
-        else
-        {
+        } else {
             /*           Below, row-wise calculations are used for A. */
-            if (*n > 2)
-            {
+            if (*n > 2) {
                 i__1 = *n - 2;
                 i__2 = *ldh + 1;
                 dswap_(&i__1, &h__[(h_dim1 << 1) + 3], &i__2, &h__[h_dim1 + 3], &c__1);
             }
-            if (ltrans)
-            {
+            if (ltrans) {
                 i__1 = *m;
-                for (i__ = 1; i__ <= i__1; ++i__)
-                {
+                for (i__ = 1; i__ <= i__1; ++i__) {
                     /*                 Compute the contribution of the subdiagonal of H to */
                     /*                 the i-th row of the product. */
                     i__2 = *n - 1;
-                    for (j = 1; j <= i__2; ++j)
-                    {
+                    for (j = 1; j <= i__2; ++j) {
                         dwork[j] = a[i__ + j * a_dim1] * h__[j + 1 + h_dim1];
                         /* L110: */
                     }
                     /*                 Multiply the i-th row of A by the upper triangle of H, */
                     /*                 and add to the above result. */
-                    dtrmv_("Upper", "NoTranspose", "Non-unit", n, &h__[h_offset], ldh, &a[i__ + a_dim1], lda, 5L, 11L, 8L);
+                    dtrmv_("Upper", "NoTranspose", "Non-unit", n, &h__[h_offset], ldh,
+                        &a[i__ + a_dim1], lda, 5L, 11L, 8L);
                     i__2 = *n - 1;
                     daxpy_(&i__2, &c_b33, &dwork[1], &c__1, &a[i__ + (a_dim1 << 1)], lda);
                     /* L120: */
                 }
-            }
-            else
-            {
+            } else {
                 i__1 = *m;
-                for (i__ = 1; i__ <= i__1; ++i__)
-                {
+                for (i__ = 1; i__ <= i__1; ++i__) {
                     /*                 Compute the contribution of the subdiagonal of H to */
                     /*                 the i-th row of the product. */
                     i__2 = *n - 1;
-                    for (j = 1; j <= i__2; ++j)
-                    {
+                    for (j = 1; j <= i__2; ++j) {
                         dwork[j] = a[i__ + (j + 1) * a_dim1] * h__[j + 1 + h_dim1];
                         /* L130: */
                     }
                     /*                 Multiply the i-th row of A by the upper triangle of H, */
                     /*                 and add to the above result. */
-                    dtrmv_("Upper", "Transpose", "Non-unit", n, &h__[h_offset], ldh, &a[i__ + a_dim1], lda, 5L, 9L, 8L);
+                    dtrmv_("Upper", "Transpose", "Non-unit", n, &h__[h_offset], ldh,
+                        &a[i__ + a_dim1], lda, 5L, 9L, 8L);
                     i__2 = *n - 1;
                     daxpy_(&i__2, &c_b33, &dwork[1], &c__1, &a[i__ + a_dim1], lda);
                     /* L140: */
                 }
             }
-            if (*n > 2)
-            {
+            if (*n > 2) {
                 i__1 = *n - 2;
                 i__2 = *ldh + 1;
                 dswap_(&i__1, &h__[(h_dim1 << 1) + 3], &i__2, &h__[h_dim1 + 3], &c__1);
             }
         }
         /*        Scale the result by alpha. */
-        if (*alpha != 1.)
-        {
+        if (*alpha != 1.) {
             dlascl_("General", &c__0, &c__0, &c_b33, alpha, m, n, &a[a_offset], lda, info, 7L);
         }
     }
     return 0;
     /* *** Last line of MB01UW *** */
 } /* mb01uw_ */
-

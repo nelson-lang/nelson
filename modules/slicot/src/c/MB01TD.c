@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,14 +10,13 @@
 static integer c__1 = 1;
 static doublereal c_b10 = 1.;
 
-EXPORTSYMBOL /* Subroutine */ int mb01td_(n, a, lda, b, ldb, dwork, info)
-integer *n;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *dwork;
-integer *info;
+EXPORTSYMBOL /* Subroutine */ int mb01td_(n, a, lda, b, ldb, dwork, info) integer* n;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* dwork;
+integer* info;
 {
     /* System generated locals */
     integer a_dim1, a_offset, b_dim1, b_offset, i__1, i__2, i__3;
@@ -102,51 +101,36 @@ integer *info;
     --dwork;
     /* Function Body */
     *info = 0;
-    if (*n < 0)
-    {
+    if (*n < 0) {
         *info = -1;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -3;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -5;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("MB01TD", &i__1, 6L);
         return 0;
     }
     /*     Quick return, if possible. */
-    if (*n == 0)
-    {
+    if (*n == 0) {
         return 0;
-    }
-    else if (*n == 1)
-    {
+    } else if (*n == 1) {
         b[b_dim1 + 1] = a[a_dim1 + 1] * b[b_dim1 + 1];
         return 0;
     }
     /*     Test the upper quasi-triangular structure of A and B for identity. */
     i__1 = *n - 1;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
-        if (a[i__ + 1 + i__ * a_dim1] == 0.)
-        {
-            if (b[i__ + 1 + i__ * b_dim1] != 0.)
-            {
+    for (i__ = 1; i__ <= i__1; ++i__) {
+        if (a[i__ + 1 + i__ * a_dim1] == 0.) {
+            if (b[i__ + 1 + i__ * b_dim1] != 0.) {
                 *info = 1;
                 return 0;
             }
-        }
-        else if (i__ < *n - 1)
-        {
-            if (a[i__ + 2 + (i__ + 1) * a_dim1] != 0.)
-            {
+        } else if (i__ < *n - 1) {
+            if (a[i__ + 2 + (i__ + 1) * a_dim1] != 0.) {
                 *info = 1;
                 return 0;
             }
@@ -154,29 +138,27 @@ integer *info;
         /* L10: */
     }
     i__1 = *n;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         /* Computing MIN */
         i__2 = j + 1;
-        jmin = min(i__2,*n);
+        jmin = min(i__2, *n);
         /* Computing MIN */
         i__2 = jmin, i__3 = *n - 1;
-        jmnm = min(i__2,i__3);
+        jmnm = min(i__2, i__3);
         /*        Compute the contribution of the subdiagonal of A to the */
         /*        j-th column of the product. */
         i__2 = jmnm;
-        for (i__ = 1; i__ <= i__2; ++i__)
-        {
+        for (i__ = 1; i__ <= i__2; ++i__) {
             dwork[i__] = a[i__ + 1 + i__ * a_dim1] * b[i__ + j * b_dim1];
             /* L20: */
         }
         /*        Multiply the upper triangle of A by the j-th column of B, */
         /*        and add to the above result. */
-        dtrmv_("Upper", "No transpose", "Non-unit", &jmin, &a[a_offset], lda, &b[j * b_dim1 + 1], &c__1, 5L, 12L, 8L);
+        dtrmv_("Upper", "No transpose", "Non-unit", &jmin, &a[a_offset], lda, &b[j * b_dim1 + 1],
+            &c__1, 5L, 12L, 8L);
         daxpy_(&jmnm, &c_b10, &dwork[1], &c__1, &b[j * b_dim1 + 2], &c__1);
         /* L30: */
     }
     return 0;
     /* *** Last line of MB01TD *** */
 } /* mb01td_ */
-

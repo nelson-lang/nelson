@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,12 +9,12 @@
 
 static doublereal c_b11 = 1.;
 
-EXPORTSYMBOL /* Subroutine */ int mb02rd_(trans, n, nrhs, h__, ldh, ipiv, b, ldb, info, trans_len)
-char *trans;
+EXPORTSYMBOL /* Subroutine */ int mb02rd_(
+    trans, n, nrhs, h__, ldh, ipiv, b, ldb, info, trans_len) char* trans;
 integer *n, *nrhs;
-doublereal *h__;
+doublereal* h__;
 integer *ldh, *ipiv;
-doublereal *b;
+doublereal* b;
 integer *ldb, *info;
 ftnlen trans_len;
 {
@@ -117,39 +117,27 @@ ftnlen trans_len;
     /* Function Body */
     *info = 0;
     notran = lsame_(trans, "N", 1L, 1L);
-    if (! notran && ! lsame_(trans, "T", 1L, 1L) && ! lsame_(trans, "C", 1L, 1L))
-    {
+    if (!notran && !lsame_(trans, "T", 1L, 1L) && !lsame_(trans, "C", 1L, 1L)) {
         *info = -1;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -2;
-    }
-    else if (*nrhs < 0)
-    {
+    } else if (*nrhs < 0) {
         *info = -3;
-    }
-    else if (*ldh < max(1,*n))
-    {
+    } else if (*ldh < max(1, *n)) {
         *info = -5;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -8;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB02RD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0 || *nrhs == 0)
-    {
+    if (*n == 0 || *nrhs == 0) {
         return 0;
     }
-    if (notran)
-    {
+    if (notran) {
         /*        Solve H * X = B. */
         /*        Solve L * X = B, overwriting B with X. */
         /*        L is represented as a product of permutations and unit lower */
@@ -157,11 +145,9 @@ ftnlen trans_len;
         /*        where each transformation L(i) is a rank-one modification of */
         /*        the identity matrix. */
         i__1 = *n - 1;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             jp = ipiv[j];
-            if (jp != j)
-            {
+            if (jp != j) {
                 dswap_(nrhs, &b[jp + b_dim1], ldb, &b[j + b_dim1], ldb);
             }
             d__1 = -h__[j + 1 + j * h_dim1];
@@ -169,21 +155,19 @@ ftnlen trans_len;
             /* L10: */
         }
         /*        Solve U * X = B, overwriting B with X. */
-        dtrsm_("Left", "Upper", "No transpose", "Non-unit", n, nrhs, &c_b11, &h__[h_offset], ldh, &b[b_offset], ldb, 4L, 5L, 12L, 8L);
-    }
-    else
-    {
+        dtrsm_("Left", "Upper", "No transpose", "Non-unit", n, nrhs, &c_b11, &h__[h_offset], ldh,
+            &b[b_offset], ldb, 4L, 5L, 12L, 8L);
+    } else {
         /*        Solve H' * X = B. */
         /*        Solve U' * X = B, overwriting B with X. */
-        dtrsm_("Left", "Upper", "Transpose", "Non-unit", n, nrhs, &c_b11, &h__[h_offset], ldh, &b[b_offset], ldb, 4L, 5L, 9L, 8L);
+        dtrsm_("Left", "Upper", "Transpose", "Non-unit", n, nrhs, &c_b11, &h__[h_offset], ldh,
+            &b[b_offset], ldb, 4L, 5L, 9L, 8L);
         /*        Solve L' * X = B, overwriting B with X. */
-        for (j = *n - 1; j >= 1; --j)
-        {
+        for (j = *n - 1; j >= 1; --j) {
             d__1 = -h__[j + 1 + j * h_dim1];
             daxpy_(nrhs, &d__1, &b[j + 1 + b_dim1], ldb, &b[j + b_dim1], ldb);
             jp = ipiv[j];
-            if (jp != j)
-            {
+            if (jp != j) {
                 dswap_(nrhs, &b[jp + b_dim1], ldb, &b[j + b_dim1], ldb);
             }
             /* L20: */
@@ -192,4 +176,3 @@ ftnlen trans_len;
     return 0;
     /* *** Last line of MB02RD *** */
 } /* mb02rd_ */
-

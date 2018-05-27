@@ -25,6 +25,6 @@
 #define NLSASSERT_FUNCTIONS_IMPEXP __declspec(dllimport)
 #endif
 #else
-#define NLSASSERT_FUNCTIONS_IMPEXP __attribute__ ((visibility ("default")))
+#define NLSASSERT_FUNCTIONS_IMPEXP __attribute__((visibility("default")))
 #endif
 //=============================================================================

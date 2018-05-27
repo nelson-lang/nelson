@@ -18,10 +18,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsTypes_exports.h"
 #include "Types.hpp"
+#include "nlsTypes_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSTYPES_IMPEXP Class StringToClass(std::wstring classname);
+NLSTYPES_IMPEXP Class
+StringToClass(std::wstring classname);
 }
 //=============================================================================

@@ -18,12 +18,14 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "nlsOs_functions_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsOs_functions_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    NLSOS_FUNCTIONS_IMPEXP ArrayOf SystemCommand(const std::wstring &command, int &ierr);
-    NLSOS_FUNCTIONS_IMPEXP std::wstring SystemCommandW(const std::wstring &command, int &ierr);
-}
+NLSOS_FUNCTIONS_IMPEXP ArrayOf
+SystemCommand(const std::wstring& command, int& ierr);
+NLSOS_FUNCTIONS_IMPEXP std::wstring
+SystemCommandW(const std::wstring& command, int& ierr);
+} // namespace Nelson
 //=============================================================================

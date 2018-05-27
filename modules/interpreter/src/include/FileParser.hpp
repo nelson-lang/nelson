@@ -18,13 +18,17 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
 #include "nlsInterpreter_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    NLSINTERPRETER_IMPEXP void setParserFilename(const std::string &filename);
-    NLSINTERPRETER_IMPEXP void setParserFilename(const std::wstring &filename);
-    NLSINTERPRETER_IMPEXP std::string getParserFilenameU();
-    NLSINTERPRETER_IMPEXP std::wstring getParserFilenameW();
-}
+NLSINTERPRETER_IMPEXP void
+setParserFilename(const std::string& filename);
+NLSINTERPRETER_IMPEXP void
+setParserFilename(const std::wstring& filename);
+NLSINTERPRETER_IMPEXP std::string
+getParserFilenameU();
+NLSINTERPRETER_IMPEXP std::wstring
+getParserFilenameW();
+} // namespace Nelson
 //=============================================================================

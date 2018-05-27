@@ -18,11 +18,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "nlsOs_functions_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsOs_functions_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    NLSOS_FUNCTIONS_IMPEXP std::wstring GetVariableEnvironment(std::wstring envVarName, std::wstring defaultValue = L"");
+NLSOS_FUNCTIONS_IMPEXP std::wstring
+GetVariableEnvironment(std::wstring envVarName, std::wstring defaultValue = L"");
 }
 //=============================================================================

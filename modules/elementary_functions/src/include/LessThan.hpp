@@ -23,9 +23,10 @@
 #include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
-    /**
-    * Element-wise compare (lt) of two arrays.
-    */
-    NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf LessThan(ArrayOf &A, ArrayOf &B, bool mustRaiseError, bool &bSuccess);
+/**
+ * Element-wise compare (lt) of two arrays.
+ */
+NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
+LessThan(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess);
 }
 //=============================================================================

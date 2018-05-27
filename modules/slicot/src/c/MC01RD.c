@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,10 +11,10 @@ static integer c__1 = 1;
 static integer c__0 = 0;
 static integer c_n1 = -1;
 
-EXPORTSYMBOL /* Subroutine */ int mc01rd_(dp1, dp2, dp3, alpha, p1, p2, p3, info)
-integer *dp1, *dp2, *dp3;
+EXPORTSYMBOL /* Subroutine */ int mc01rd_(dp1, dp2, dp3, alpha, p1, p2, p3, info) integer *dp1,
+    *dp2, *dp3;
 doublereal *alpha, *p1, *p2, *p3;
-integer *info;
+integer* info;
 {
     /* System generated locals */
     integer i__1, i__2;
@@ -139,20 +139,14 @@ integer *info;
     --p1;
     /* Function Body */
     *info = 0;
-    if (*dp1 < -1)
-    {
+    if (*dp1 < -1) {
         *info = -1;
-    }
-    else if (*dp2 < -1)
-    {
+    } else if (*dp2 < -1) {
         *info = -2;
-    }
-    else if (*dp3 < -1)
-    {
+    } else if (*dp3 < -1) {
         *info = -3;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("MC01RD", &i__1, 6L);
@@ -163,10 +157,8 @@ integer *info;
     d1 = *dp1;
     /*     WHILE ( D1 >= 0 and P1(D1+1) = 0 ) DO */
 L20:
-    if (d1 >= 0)
-    {
-        if (p1[d1 + 1] == 0.)
-        {
+    if (d1 >= 0) {
+        if (p1[d1 + 1] == 0.) {
             --d1;
             goto L20;
         }
@@ -175,29 +167,22 @@ L20:
     d2 = *dp2;
     /*     WHILE ( D2 >= 0 and P2(D2+1) = 0 ) DO */
 L40:
-    if (d2 >= 0)
-    {
-        if (p2[d2 + 1] == 0.)
-        {
+    if (d2 >= 0) {
+        if (p2[d2 + 1] == 0.) {
             --d2;
             goto L40;
         }
     }
     /*     END WHILE 40 */
-    if (*alpha == 0.)
-    {
+    if (*alpha == 0.) {
         d3 = -1;
-    }
-    else
-    {
+    } else {
         d3 = *dp3;
     }
     /*     WHILE ( D3 >= 0 and P3(D3+1) = 0 ) DO */
 L60:
-    if (d3 >= 0)
-    {
-        if (p3[d3 + 1] == 0.)
-        {
+    if (d3 >= 0) {
+        if (p3[d3 + 1] == 0.) {
             --d3;
             goto L60;
         }
@@ -206,58 +191,45 @@ L60:
     /*     Computation of P3(x) := ALPHA * P3(x). */
     i__1 = d3 + 1;
     dscal_(&i__1, alpha, &p3[1], &c__1);
-    if (d1 == -1 || d2 == -1)
-    {
+    if (d1 == -1 || d2 == -1) {
         *dp3 = d3;
         return 0;
     }
     /*     P1(x) and P2(x) are non-zero polynomials. */
     dsum = d1 + d2;
-    dmax__ = max(d1,d2);
+    dmax__ = max(d1, d2);
     dmin__ = dsum - dmax__;
-    if (d3 < dsum)
-    {
+    if (d3 < dsum) {
         p3[d3 + 2] = 0.;
         i__1 = dsum - d3 - 1;
         dcopy_(&i__1, &p3[d3 + 2], &c__0, &p3[d3 + 3], &c__1);
         d3 = dsum;
     }
-    if (d1 == 0 || d2 == 0)
-    {
+    if (d1 == 0 || d2 == 0) {
         /*        D1 or D2 is zero. */
-        if (d1 != 0)
-        {
+        if (d1 != 0) {
             i__1 = d1 + 1;
             daxpy_(&i__1, &p2[1], &p1[1], &c__1, &p3[1], &c__1);
-        }
-        else
-        {
+        } else {
             i__1 = d2 + 1;
             daxpy_(&i__1, &p1[1], &p2[1], &c__1, &p3[1], &c__1);
         }
-    }
-    else
-    {
+    } else {
         /*        D1 and D2 are both nonzero. */
         /*        First part of the computation. */
         i__1 = dmin__ + 1;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             p3[i__] += ddot_(&i__, &p1[1], &c__1, &p2[1], &c_n1);
             /* L80: */
         }
         /*        Second part of the computation. */
         i__1 = dmax__ + 1;
-        for (i__ = dmin__ + 2; i__ <= i__1; ++i__)
-        {
-            if (d1 > d2)
-            {
+        for (i__ = dmin__ + 2; i__ <= i__1; ++i__) {
+            if (d1 > d2) {
                 k = i__ - d2;
                 i__2 = dmin__ + 1;
                 p3[i__] += ddot_(&i__2, &p1[k], &c__1, &p2[1], &c_n1);
-            }
-            else
-            {
+            } else {
                 k = i__ - d1;
                 i__2 = dmin__ + 1;
                 p3[i__] += ddot_(&i__2, &p2[k], &c_n1, &p1[1], &c__1);
@@ -267,17 +239,13 @@ L60:
         /*        Third part of the computation. */
         e3 = dsum + 2;
         i__1 = dsum + 1;
-        for (i__ = dmax__ + 2; i__ <= i__1; ++i__)
-        {
+        for (i__ = dmax__ + 2; i__ <= i__1; ++i__) {
             j = e3 - i__;
             k = i__ - dmin__;
             l = i__ - dmax__;
-            if (d1 > d2)
-            {
+            if (d1 > d2) {
                 p3[i__] += ddot_(&j, &p1[k], &c__1, &p2[l], &c_n1);
-            }
-            else
-            {
+            } else {
                 p3[i__] += ddot_(&j, &p1[l], &c_n1, &p2[k], &c__1);
             }
             /* L120: */
@@ -286,10 +254,8 @@ L60:
     /*     Computation of the exact degree of P3(x). */
     /*     WHILE ( D3 >= 0 and P3(D3+1) = 0 ) DO */
 L140:
-    if (d3 >= 0)
-    {
-        if (p3[d3 + 1] == 0.)
-        {
+    if (d3 >= 0) {
+        if (p3[d3 + 1] == 0.) {
             --d3;
             goto L140;
         }
@@ -299,4 +265,3 @@ L140:
     return 0;
     /* *** Last line of MC01RD *** */
 } /* mc01rd_ */
-

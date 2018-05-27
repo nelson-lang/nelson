@@ -23,6 +23,7 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    NLSINTERPRETER_IMPEXP ArrayOf VertCatOperator(Evaluator *eval, const ArrayOfVector &v);
+NLSINTERPRETER_IMPEXP ArrayOf
+VertCatOperator(Evaluator* eval, const ArrayOfVector& v);
 }
 //=============================================================================

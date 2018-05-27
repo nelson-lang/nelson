@@ -22,48 +22,36 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::CoreGateway::evalinBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::CoreGateway::evalinBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (argIn.size() != 2)
-    {
+    if (argIn.size() != 2) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     SCOPE_LEVEL scope;
     std::wstring command;
     std::wstring catchCommand;
-    if (argIn[0].isSingleString())
-    {
+    if (argIn[0].isSingleString()) {
         std::wstring scopeName = argIn[0].getContentAsWideString();
-        if (scopeName == L"caller" || scopeName == L"base" || scopeName == L"local")
-        {
-            if (scopeName == L"caller")
-            {
+        if (scopeName == L"caller" || scopeName == L"base" || scopeName == L"local") {
+            if (scopeName == L"caller") {
                 scope = SCOPE_LEVEL::CALLER_SCOPE;
             }
-            if (scopeName == L"base")
-            {
+            if (scopeName == L"base") {
                 scope = SCOPE_LEVEL::BASE_SCOPE;
             }
-            if (scopeName == L"local")
-            {
+            if (scopeName == L"local") {
                 scope = SCOPE_LEVEL::LOCAL_SCOPE;
             }
-        }
-        else
-        {
+        } else {
             Error(eval, _W("Argument #1 : 'base', 'local' or 'caller' expected."));
         }
-    }
-    else
-    {
+    } else {
         Error(eval, _W("#1 string expected."));
     }
-    if (argIn[1].isSingleString())
-    {
+    if (argIn[1].isSingleString()) {
         command = argIn[1].getContentAsWideString();
-    }
-    else
-    {
+    } else {
         Error(eval, _W("#2 string expected."));
     }
     return EvaluateInCommand(eval, nLhs, scope, command);

@@ -21,6 +21,8 @@
 #include <string>
 //=============================================================================
 namespace Nelson {
-    bool XmlDocCheckIfLinkExists(const std::wstring &directorysource, const std::wstring &linkname, const std::wstring &language);
+bool
+XmlDocCheckIfLinkExists(const std::wstring& directorysource, const std::wstring& linkname,
+    const std::wstring& language);
 }
 //=============================================================================

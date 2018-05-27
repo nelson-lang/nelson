@@ -18,10 +18,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsLinear_algebra_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsLinear_algebra_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSLINEAR_ALGEBRA_IMPEXP ArrayOf TraceMatrix(ArrayOf A);
+NLSLINEAR_ALGEBRA_IMPEXP ArrayOf
+TraceMatrix(ArrayOf A);
 }
 //=============================================================================

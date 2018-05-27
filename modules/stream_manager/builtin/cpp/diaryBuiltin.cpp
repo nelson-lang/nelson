@@ -23,177 +23,116 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::StreamGateway::diaryBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::StreamGateway::diaryBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     // Call overload if it exists
-    if (argIn.size() >= 1)
-    {
+    if (argIn.size() >= 1) {
         bool bSuccess = false;
         retval = OverloadFunction(eval, nLhs, argIn, "diary", bSuccess);
-        if (bSuccess)
-        {
+        if (bSuccess) {
             return retval;
         }
     }
-    Interface *io = eval->getInterface();
-    if (argIn.size() == 1)
-    {
-        if (argIn[0].isSingleString())
-        {
+    Interface* io = eval->getInterface();
+    if (argIn.size() == 1) {
+        if (argIn[0].isSingleString()) {
             std::wstring param = argIn[0].getContentAsWideString();
-            if (param.compare(L"on") == 0)
-            {
-                if (nLhs != 0)
-                {
+            if (param.compare(L"on") == 0) {
+                if (nLhs != 0) {
                     Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
                 }
                 io->diary.setState(true);
-            }
-            else if (param.compare(L"off") == 0)
-            {
-                if (nLhs != 0)
-                {
+            } else if (param.compare(L"off") == 0) {
+                if (nLhs != 0) {
                     Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
                 }
                 io->diary.setState(false);
-            }
-            else
-            {
-                if (nLhs != 0)
-                {
+            } else {
+                if (nLhs != 0) {
                     Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
                 }
                 bool bRes = io->diary.SetFilename(param);
-                if (!bRes)
-                {
+                if (!bRes) {
                     Error(eval, _W("Error using diary."));
                 }
             }
-        }
-        else
-        {
+        } else {
             Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
-    }
-    else if (argIn.size() == 0)
-    {
-        if (nLhs != 0)
-        {
+    } else if (argIn.size() == 0) {
+        if (nLhs != 0) {
             Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         }
         io->diary.toggle();
-    }
-    else if (argIn.size() == 2)
-    {
+    } else if (argIn.size() == 2) {
         // get
-        if ((argIn[0].isSingleString()) && (argIn[1].isSingleString()))
-        {
+        if ((argIn[0].isSingleString()) && (argIn[1].isSingleString())) {
             bool bLhs = (nLhs == 0) || (nLhs == 1);
-            if (!bLhs)
-            {
+            if (!bLhs) {
                 Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }
             std::wstring param1 = argIn[0].getContentAsWideString();
-            if (param1.compare(L"get") != 0)
-            {
+            if (param1.compare(L"get") != 0) {
                 Error(eval, _W("#1 Argument \'get\' expected."));
             }
             std::wstring param2 = argIn[1].getContentAsWideString();
-            if (param2.compare(L"Diary") == 0)
-            {
-                if (io->diary.getState())
-                {
+            if (param2.compare(L"Diary") == 0) {
+                if (io->diary.getState()) {
                     retval.push_back(ArrayOf::stringConstructor("on"));
-                }
-                else
-                {
+                } else {
                     retval.push_back(ArrayOf::stringConstructor("off"));
                 }
-            }
-            else if (param2.compare(L"DiaryFile") == 0)
-            {
+            } else if (param2.compare(L"DiaryFile") == 0) {
                 retval.push_back(ArrayOf::stringConstructor(io->diary.getFilename()));
-            }
-            else
-            {
+            } else {
                 Error(eval, _W("#2 Argument \'Diary\' or \'DiaryFile\' expected."));
             }
-        }
-        else
-        {
-            if (!argIn[0].isSingleString())
-            {
+        } else {
+            if (!argIn[0].isSingleString()) {
                 Error(eval, _W("#1 Argument \'get\' expected."));
-            }
-            else
-            {
+            } else {
                 Error(eval, _W("#2 Argument \'Diary\' or \'DiaryFile\' expected."));
             }
         }
-    }
-    else if (argIn.size() == 3)
-    {
-        if ((argIn[0].isSingleString()) &&
-                (argIn[1].isSingleString()) &&
-                (argIn[2].isSingleString()) )
-        {
+    } else if (argIn.size() == 3) {
+        if ((argIn[0].isSingleString()) && (argIn[1].isSingleString())
+            && (argIn[2].isSingleString())) {
             std::wstring param1 = argIn[0].getContentAsWideString();
-            if (param1.compare(L"set") != 0)
-            {
+            if (param1.compare(L"set") != 0) {
                 Error(eval, _W("#1 Argument \'set\' expected."));
             }
             std::wstring param3 = argIn[2].getContentAsWideString();
             std::wstring param2 = argIn[1].getContentAsWideString();
-            if (param2.compare(L"Diary") == 0)
-            {
-                if ((param3.compare(L"off") == 0) || (param3.compare(L"on") == 0))
-                {
-                    if (param3.compare(L"off") == 0)
-                    {
+            if (param2.compare(L"Diary") == 0) {
+                if ((param3.compare(L"off") == 0) || (param3.compare(L"on") == 0)) {
+                    if (param3.compare(L"off") == 0) {
                         io->diary.setState(false);
-                    }
-                    else
-                    {
+                    } else {
                         io->diary.setState(true);
                     }
-                }
-                else
-                {
+                } else {
                     Error(eval, _W("#3 Argument \'on\' or \'off\' expected."));
                 }
-            }
-            else if (param2.compare(L"DiaryFile") == 0)
-            {
+            } else if (param2.compare(L"DiaryFile") == 0) {
                 bool bRes = io->diary.SetFilename(param3);
-                if (!bRes)
-                {
+                if (!bRes) {
                     Error(eval, _W("Error using diary."));
                 }
-            }
-            else
-            {
+            } else {
                 Error(eval, _W("#2 Argument \'Diary\' or \'DiaryFile\' expected."));
             }
-        }
-        else
-        {
-            if (!argIn[0].isSingleString())
-            {
+        } else {
+            if (!argIn[0].isSingleString()) {
                 Error(eval, _W("#1 Argument \'set\' expected."));
-            }
-            else if (!argIn[1].isSingleString())
-            {
+            } else if (!argIn[1].isSingleString()) {
                 Error(eval, _W("#2 Argument \'Diary\' or \'DiaryFile\' expected."));
-            }
-            else
-            {
+            } else {
                 Error(eval, _W("#3 Argument a string expected."));
             }
         }
-    }
-    else
-    {
+    } else {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     return retval;

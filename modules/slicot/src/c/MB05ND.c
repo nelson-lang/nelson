@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,17 +11,17 @@ static doublereal c_b4 = 0.;
 static doublereal c_b11 = 1.;
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int mb05nd_(n, delta, a, lda, ex, ldex, exint, ldexin, tol, iwork, dwork, ldwork, info)
-integer *n;
+EXPORTSYMBOL /* Subroutine */ int mb05nd_(
+    n, delta, a, lda, ex, ldex, exint, ldexin, tol, iwork, dwork, ldwork, info) integer* n;
 doublereal *delta, *a;
-integer *lda;
-doublereal *ex;
-integer *ldex;
-doublereal *exint;
-integer *ldexin;
-doublereal *tol;
-integer *iwork;
-doublereal *dwork;
+integer* lda;
+doublereal* ex;
+integer* ldex;
+doublereal* exint;
+integer* ldexin;
+doublereal* tol;
+integer* iwork;
+doublereal* dwork;
 integer *ldwork, *info;
 {
     /* System generated locals */
@@ -176,35 +176,25 @@ integer *ldwork, *info;
     --dwork;
     /* Function Body */
     *info = 0;
-    nn = *n **n;
+    nn = *n * *n;
     /*     Test the input scalar arguments. */
-    if (*n < 0)
-    {
+    if (*n < 0) {
         *info = -1;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -4;
-    }
-    else if (*ldex < max(1,*n))
-    {
+    } else if (*ldex < max(1, *n)) {
         *info = -6;
-    }
-    else if (*ldexin < max(1,*n))
-    {
+    } else if (*ldexin < max(1, *n)) {
         *info = -8;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
         i__1 = 1, i__2 = nn + *n;
-        if (*ldwork < max(i__1,i__2))
-        {
+        if (*ldwork < max(i__1, i__2)) {
             *info = -12;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("MB05ND", &i__1, 6L);
@@ -212,26 +202,20 @@ integer *ldwork, *info;
     }
     /*     Quick return if possible. */
     dwork[1] = 1.;
-    if (*n == 0)
-    {
+    if (*n == 0) {
         return 0;
     }
     dlaset_("Full", n, n, &c_b4, &c_b4, &ex[ex_offset], ldex, 4L);
     dlaset_("Full", n, n, &c_b4, &c_b4, &exint[exint_offset], ldexin, 4L);
-    if (*delta == 0.)
-    {
+    if (*delta == 0.) {
         dlaset_("Upper", n, n, &c_b4, &c_b11, &ex[ex_offset], ldex, 5L);
         return 0;
     }
-    if (*n == 1)
-    {
+    if (*n == 1) {
         ex[ex_dim1 + 1] = exp(*delta * a[a_dim1 + 1]);
-        if (a[a_dim1 + 1] == 0.)
-        {
+        if (a[a_dim1 + 1] == 0.) {
             exint[exint_dim1 + 1] = *delta;
-        }
-        else
-        {
+        } else {
             exint[exint_dim1 + 1] = 1. / a[a_dim1 + 1] * ex[ex_dim1 + 1] - 1. / a[a_dim1 + 1];
         }
         return 0;
@@ -241,8 +225,7 @@ integer *ldwork, *info;
     small = dlamch_("Safe minimum", 12L) / eps;
     /*     First calculate the Frobenius norm of A, and the scaling factor. */
     fnorm = *delta * dlange_("Frobenius", n, n, &a[a_offset], lda, &dwork[1], 9L);
-    if (fnorm > sqrt(1. / small))
-    {
+    if (fnorm > sqrt(1. / small)) {
         *info = *n + 1;
         return 0;
     }
@@ -250,8 +233,7 @@ integer *ldwork, *info;
     delsc = *delta;
     /*     WHILE ( FNORM >= HALF ) DO */
 L20:
-    if (fnorm >= .5)
-    {
+    if (fnorm >= .5) {
         ++jscal;
         delsc *= .5;
         fnorm *= .5;
@@ -270,15 +252,14 @@ L20:
     err = *delta / delsc * (d__1 * d__1) / 4.8;
     /*     WHILE ( ERR > TOL*( 2*IQ + 3 - FNORM )/1.64 and QMAX >= EPS ) DO */
 L40:
-    if (err > *tol * ((doublereal) ((iq << 1) + 3) - fnorm) / 1.64)
-    {
+    if (err > *tol * ((doublereal)((iq << 1) + 3) - fnorm) / 1.64) {
         ++iq;
-        qmax = qmax * (doublereal) (iq + 1) * fnorm / (doublereal) ((iq << 1) * ((iq << 1) + 1));
-        if (qmax >= eps)
-        {
+        qmax = qmax * (doublereal)(iq + 1) * fnorm / (doublereal)((iq << 1) * ((iq << 1) + 1));
+        if (qmax >= eps) {
             /* Computing 2nd power */
             i__1 = (iq << 1) + 3;
-            err = err * fnorm2 * (doublereal) ((iq << 1) + 5) / (doublereal) (i__1 * i__1 * ((iq << 1) + 4));
+            err = err * fnorm2 * (doublereal)((iq << 1) + 5)
+                / (doublereal)(i__1 * i__1 * ((iq << 1) + 4));
             goto L40;
         }
     }
@@ -287,16 +268,14 @@ L40:
     /*                EXINT (to contain the numerator) and */
     /*                EX    (to contain the denominator). */
     i2iq1 = (iq << 1) + 1;
-    f2iq1 = (doublereal) i2iq1;
-    coeffd = -((doublereal) iq) / f2iq1;
+    f2iq1 = (doublereal)i2iq1;
+    coeffd = -((doublereal)iq) / f2iq1;
     coeffn = .5 / f2iq1;
     ij = 1;
     i__1 = *n;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         i__2 = *n;
-        for (i__ = 1; i__ <= i__2; ++i__)
-        {
+        for (i__ = 1; i__ <= i__2; ++i__) {
             dwork[ij] = delsc * a[i__ + j * a_dim1];
             exint[i__ + j * exint_dim1] = coeffn * dwork[ij];
             ex[i__ + j * ex_dim1] = coeffd * dwork[ij];
@@ -308,41 +287,34 @@ L40:
         /* L80: */
     }
     i__1 = iq;
-    for (kk = 2; kk <= i__1; ++kk)
-    {
+    for (kk = 2; kk <= i__1; ++kk) {
         /*        Calculate the next power of  A*DELSC,  and update the numerator */
         /*        and denominator. */
-        coeffd = -coeffd * (doublereal) (iq + 1 - kk) / (doublereal) (kk * (i2iq1 + 1 - kk));
-        if (kk % 2 == 0)
-        {
-            coeffn = coeffd / (doublereal) (kk + 1);
-        }
-        else
-        {
-            coeffn = -coeffd / (doublereal) (i2iq1 - kk);
+        coeffd = -coeffd * (doublereal)(iq + 1 - kk) / (doublereal)(kk * (i2iq1 + 1 - kk));
+        if (kk % 2 == 0) {
+            coeffn = coeffd / (doublereal)(kk + 1);
+        } else {
+            coeffn = -coeffd / (doublereal)(i2iq1 - kk);
         }
         ij = 1;
-        if (*ldwork >= nn << 1)
-        {
+        if (*ldwork >= nn << 1) {
             /*           Enough space for a BLAS 3 calculation. */
-            dgemm_("No transpose", "No transpose", n, n, n, &delsc, &a[a_offset], lda, &dwork[1], n, &c_b4, &dwork[nn + 1], n, 12L, 12L);
+            dgemm_("No transpose", "No transpose", n, n, n, &delsc, &a[a_offset], lda, &dwork[1], n,
+                &c_b4, &dwork[nn + 1], n, 12L, 12L);
             dcopy_(&nn, &dwork[nn + 1], &c__1, &dwork[1], &c__1);
             i__2 = *n;
-            for (j = 1; j <= i__2; ++j)
-            {
+            for (j = 1; j <= i__2; ++j) {
                 daxpy_(n, &coeffn, &dwork[ij], &c__1, &exint[j * exint_dim1 + 1], &c__1);
                 daxpy_(n, &coeffd, &dwork[ij], &c__1, &ex[j * ex_dim1 + 1], &c__1);
                 ij += *n;
                 /* L100: */
             }
-        }
-        else
-        {
+        } else {
             /*           Not enough space for a BLAS 3 calculation. Use BLAS 2. */
             i__2 = *n;
-            for (j = 1; j <= i__2; ++j)
-            {
-                dgemv_("No transpose", n, n, &c_b11, &a[a_offset], lda, &dwork[ij], &c__1, &c_b4, &dwork[nn + 1], &c__1, 12L);
+            for (j = 1; j <= i__2; ++j) {
+                dgemv_("No transpose", n, n, &c_b11, &a[a_offset], lda, &dwork[ij], &c__1, &c_b4,
+                    &dwork[nn + 1], &c__1, 12L);
                 dcopy_(n, &dwork[nn + 1], &c__1, &dwork[ij], &c__1);
                 dscal_(n, &delsc, &dwork[ij], &c__1);
                 daxpy_(n, &coeffn, &dwork[ij], &c__1, &exint[j * exint_dim1 + 1], &c__1);
@@ -357,22 +329,20 @@ L40:
     /*     Solve the set of N systems of linear equations for the columns of */
     /*     EXINT  using the LU factorization of EX. */
     dgesv_(n, n, &ex[ex_offset], ldex, &iwork[1], &exint[exint_offset], ldexin, info);
-    if (*info != 0)
-    {
+    if (*info != 0) {
         return 0;
     }
     /*     Now we can form EX from EXINT using the formula: */
     /*     EX = EXINT * A  +  I */
     i__1 = *n;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         dscal_(n, &delsc, &exint[j * exint_dim1 + 1], &c__1);
         /* L160: */
     }
-    dgemm_("No transpose", "No transpose", n, n, n, &c_b11, &exint[exint_offset], ldexin, &a[a_offset], lda, &c_b4, &ex[ex_offset], ldex, 12L, 12L);
+    dgemm_("No transpose", "No transpose", n, n, n, &c_b11, &exint[exint_offset], ldexin,
+        &a[a_offset], lda, &c_b4, &ex[ex_offset], ldex, 12L, 12L);
     i__1 = *n;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         ex[j + j * ex_dim1] += 1.;
         /* L180: */
     }
@@ -382,16 +352,16 @@ L40:
     /*     EX(2t) = EX(t) * EX(t) */
     /*     DWORK  is used to accumulate products. */
     i__1 = jscal;
-    for (l = 1; l <= i__1; ++l)
-    {
+    for (l = 1; l <= i__1; ++l) {
         dlacpy_("Full", n, n, &exint[exint_offset], ldexin, &dwork[1], n, 4L);
-        dgemm_("No transpose", "No transpose", n, n, n, &c_b11, &dwork[1], n, &ex[ex_offset], ldex, &c_b11, &exint[exint_offset], ldexin, 12L, 12L);
+        dgemm_("No transpose", "No transpose", n, n, n, &c_b11, &dwork[1], n, &ex[ex_offset], ldex,
+            &c_b11, &exint[exint_offset], ldexin, 12L, 12L);
         dlacpy_("Full", n, n, &ex[ex_offset], ldex, &dwork[1], n, 4L);
-        dgemm_("No transpose", "No transpose", n, n, n, &c_b11, &dwork[1], n, &dwork[1], n, &c_b4, &ex[ex_offset], ldex, 12L, 12L);
+        dgemm_("No transpose", "No transpose", n, n, n, &c_b11, &dwork[1], n, &dwork[1], n, &c_b4,
+            &ex[ex_offset], ldex, 12L, 12L);
         /* L200: */
     }
-    dwork[1] = (doublereal) (nn << 1);
+    dwork[1] = (doublereal)(nn << 1);
     return 0;
     /* *** Last line of MB05ND *** */
 } /* mb05nd_ */
-

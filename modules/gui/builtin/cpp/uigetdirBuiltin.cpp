@@ -22,49 +22,37 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::GuiGateway::uigetdirBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::GuiGateway::uigetdirBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() > 2)
-    {
+    if (argIn.size() > 2) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     std::wstring pathSelected;
     std::wstring pathOrigin;
     std::wstring title;
-    if (argIn.size() > 0)
-    {
-        if (argIn[0].isSingleString())
-        {
+    if (argIn.size() > 0) {
+        if (argIn[0].isSingleString()) {
             pathOrigin = argIn[0].getContentAsWideString();
-        }
-        else
-        {
+        } else {
             Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
     }
-    if (argIn.size() > 1)
-    {
-        if (argIn[1].isSingleString())
-        {
-            title= argIn[1].getContentAsWideString();
-        }
-        else
-        {
+    if (argIn.size() > 1) {
+        if (argIn[1].isSingleString()) {
+            title = argIn[1].getContentAsWideString();
+        } else {
             Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
         }
     }
     bool bCancelled = UiGetDirectory(pathOrigin, title, pathSelected);
-    if (bCancelled)
-    {
+    if (bCancelled) {
         retval.push_back(ArrayOf::doubleConstructor(0));
-    }
-    else
-    {
+    } else {
         retval.push_back(ArrayOf::stringConstructor(pathSelected));
     }
     return retval;

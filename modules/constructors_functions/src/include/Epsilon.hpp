@@ -18,11 +18,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsConstructors_functions_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsConstructors_functions_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSCONSTRUCTORS_FUNCTIONS_IMPEXP double Epsilon(double X = 1.0);
-    NLSCONSTRUCTORS_FUNCTIONS_IMPEXP single Epsilon(single X = 1.0);
-}
+NLSCONSTRUCTORS_FUNCTIONS_IMPEXP double
+Epsilon(double X = 1.0);
+NLSCONSTRUCTORS_FUNCTIONS_IMPEXP single
+Epsilon(single X = 1.0);
+} // namespace Nelson
 //=============================================================================

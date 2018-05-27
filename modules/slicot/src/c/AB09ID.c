@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,36 +9,40 @@
 
 static doublereal c_b31 = 0.;
 
-EXPORTSYMBOL /* Subroutine */ int ab09id_(dico, jobc, jobo, job, weight, equil, ordsel, n, m, p, nv, pv, nw, mw, nr, alpha, alphac, alphao, a, lda, b, ldb, c__, ldc, d__, ldd, av, ldav, bv, ldbv, cv, ldcv, dv, lddv, aw, ldaw, bw, ldbw, cw, ldcw, dw, lddw, ns, hsv, tol1, tol2, iwork, dwork, ldwork, iwarn, info, dico_len, jobc_len, jobo_len, job_len, weight_len, equil_len, ordsel_len)
-char *dico, *jobc, *jobo, *job, *weight, *equil, *ordsel;
+EXPORTSYMBOL /* Subroutine */ int ab09id_(dico, jobc, jobo, job, weight, equil, ordsel, n, m, p, nv,
+    pv, nw, mw, nr, alpha, alphac, alphao, a, lda, b, ldb, c__, ldc, d__, ldd, av, ldav, bv, ldbv,
+    cv, ldcv, dv, lddv, aw, ldaw, bw, ldbw, cw, ldcw, dw, lddw, ns, hsv, tol1, tol2, iwork, dwork,
+    ldwork, iwarn, info, dico_len, jobc_len, jobo_len, job_len, weight_len, equil_len,
+    ordsel_len) char *dico,
+    *jobc, *jobo, *job, *weight, *equil, *ordsel;
 integer *n, *m, *p, *nv, *pv, *nw, *mw, *nr;
 doublereal *alpha, *alphac, *alphao, *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *d__;
-integer *ldd;
-doublereal *av;
-integer *ldav;
-doublereal *bv;
-integer *ldbv;
-doublereal *cv;
-integer *ldcv;
-doublereal *dv;
-integer *lddv;
-doublereal *aw;
-integer *ldaw;
-doublereal *bw;
-integer *ldbw;
-doublereal *cw;
-integer *ldcw;
-doublereal *dw;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* d__;
+integer* ldd;
+doublereal* av;
+integer* ldav;
+doublereal* bv;
+integer* ldbv;
+doublereal* cv;
+integer* ldcv;
+doublereal* dv;
+integer* lddv;
+doublereal* aw;
+integer* ldaw;
+doublereal* bw;
+integer* ldbw;
+doublereal* cw;
+integer* ldcw;
+doublereal* dw;
 integer *lddw, *ns;
 doublereal *hsv, *tol1, *tol2;
-integer *iwork;
-doublereal *dwork;
+integer* iwork;
+doublereal* dwork;
 integer *ldwork, *iwarn, *info;
 ftnlen dico_len;
 ftnlen jobc_len;
@@ -49,7 +53,10 @@ ftnlen equil_len;
 ftnlen ordsel_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, av_dim1, av_offset, aw_dim1, aw_offset, b_dim1, b_offset, bv_dim1, bv_offset, bw_dim1, bw_offset, c_dim1, c_offset, cv_dim1, cv_offset, cw_dim1, cw_offset, d_dim1, d_offset, dv_dim1, dv_offset, dw_dim1, dw_offset, i__1, i__2, i__3, i__4, i__5, i__6;
+    integer a_dim1, a_offset, av_dim1, av_offset, aw_dim1, aw_offset, b_dim1, b_offset, bv_dim1,
+        bv_offset, bw_dim1, bw_offset, c_dim1, c_offset, cv_dim1, cv_offset, cw_dim1, cw_offset,
+        d_dim1, d_offset, dv_dim1, dv_offset, dw_dim1, dw_offset, i__1, i__2, i__3, i__4, i__5,
+        i__6;
     /* Builtin functions */
     double sqrt();
     /* Local variables */
@@ -638,216 +645,139 @@ ftnlen ordsel_len;
     rightw = lsame_(weight, "R", 1L, 1L) || lsame_(weight, "B", 1L, 1L);
     frwght = leftw || rightw;
     lw = 1;
-    nn = *n **n;
+    nn = *n * *n;
     nnv = *n + *nv;
     nnw = *n + *nw;
-    ppv = max(*p,*pv);
-    if (leftw && *pv > 0)
-    {
+    ppv = max(*p, *pv);
+    if (leftw && *pv > 0) {
         /* Computing MAX */
-        i__1 = lw, i__2 = nnv * (nnv + max(nnv,*pv) + 5);
-        lw = max(i__1,i__2);
-    }
-    else
-    {
+        i__1 = lw, i__2 = nnv * (nnv + max(nnv, *pv) + 5);
+        lw = max(i__1, i__2);
+    } else {
         /* Computing MAX */
         i__1 = lw, i__2 = *n * (*p + 5);
-        lw = max(i__1,i__2);
+        lw = max(i__1, i__2);
     }
-    if (rightw && *mw > 0)
-    {
+    if (rightw && *mw > 0) {
         /* Computing MAX */
-        i__1 = lw, i__2 = nnw * (nnw + max(nnw,*mw) + 5);
-        lw = max(i__1,i__2);
-    }
-    else
-    {
+        i__1 = lw, i__2 = nnw * (nnw + max(nnw, *mw) + 5);
+        lw = max(i__1, i__2);
+    } else {
         /* Computing MAX */
         i__1 = lw, i__2 = *n * (*m + 5);
-        lw = max(i__1,i__2);
+        lw = max(i__1, i__2);
     }
     /* Computing MAX */
-    i__1 = lw, i__2 = (nn << 1) + *n * 5, i__1 = max(i__1,i__2), i__2 = *n * max(*m,*p);
-    lw = (nn << 1) + max(i__1,i__2);
-    if (leftw && *nv > 0)
-    {
+    i__1 = lw, i__2 = (nn << 1) + *n * 5, i__1 = max(i__1, i__2), i__2 = *n * max(*m, *p);
+    lw = (nn << 1) + max(i__1, i__2);
+    if (leftw && *nv > 0) {
         /* Computing MAX */
-        i__1 = *nv * (*nv + 5), i__2 = *pv * (*pv + 2), i__1 = max(i__1,i__2), i__2 = ppv << 2;
-        lcf = *pv * (*nv + *pv) + *pv **nv + max(i__1,i__2);
-        if (*pv == *p)
-        {
+        i__1 = *nv * (*nv + 5), i__2 = *pv * (*pv + 2), i__1 = max(i__1, i__2), i__2 = ppv << 2;
+        lcf = *pv * (*nv + *pv) + *pv * *nv + max(i__1, i__2);
+        if (*pv == *p) {
             /* Computing MAX */
             /* Computing MAX */
             i__3 = *nv, i__4 = *p * 3;
-            i__1 = max(lw,lcf), i__2 = *nv + max(i__3,i__4);
-            lw = max(i__1,i__2);
-        }
-        else
-        {
+            i__1 = max(lw, lcf), i__2 = *nv + max(i__3, i__4);
+            lw = max(i__1, i__2);
+        } else {
             /* Computing MAX */
             /* Computing MAX */
             /* Computing MAX */
             i__5 = *nv, i__6 = ppv * 3;
-            i__3 = lcf, i__4 = *nv + max(i__5,i__6);
-            i__1 = lw, i__2 = ppv * ((*nv << 1) + ppv) + max(i__3,i__4);
-            lw = max(i__1,i__2);
+            i__3 = lcf, i__4 = *nv + max(i__5, i__6);
+            i__1 = lw, i__2 = ppv * ((*nv << 1) + ppv) + max(i__3, i__4);
+            lw = max(i__1, i__2);
         }
     }
-    if (rightw && *nw > 0)
-    {
-        if (*mw == *m)
-        {
+    if (rightw && *nw > 0) {
+        if (*mw == *m) {
             /* Computing MAX */
             /* Computing MAX */
             i__3 = *nw, i__4 = *m * 3;
-            i__1 = lw, i__2 = *nw + max(i__3,i__4);
-            lw = max(i__1,i__2);
-        }
-        else
-        {
+            i__1 = lw, i__2 = *nw + max(i__3, i__4);
+            lw = max(i__1, i__2);
+        } else {
             /* Computing MAX */
             /* Computing MAX */
-            i__3 = *nw, i__4 = *m * 3, i__3 = max(i__3,i__4), i__4 = *mw * 3;
-            i__1 = lw, i__2 = (*nw << 1) * max(*m,*mw) + *nw + max(i__3,i__4);
-            lw = max(i__1,i__2);
+            i__3 = *nw, i__4 = *m * 3, i__3 = max(i__3, i__4), i__4 = *mw * 3;
+            i__1 = lw, i__2 = (*nw << 1) * max(*m, *mw) + *nw + max(i__3, i__4);
+            lw = max(i__1, i__2);
         }
         /* Computing MAX */
         /* Computing MAX */
-        i__3 = *nw * (*nw + 5), i__4 = *mw * (*mw + 2), i__3 = max(i__3,i__4), i__4 = *mw << 2, i__3 = max(i__3,i__4), i__4 = *m << 2;
-        i__1 = lw, i__2 = *mw * (*nw + *mw) + max(i__3,i__4);
-        lw = max(i__1,i__2);
+        i__3 = *nw * (*nw + 5), i__4 = *mw * (*mw + 2), i__3 = max(i__3, i__4), i__4 = *mw << 2,
+        i__3 = max(i__3, i__4), i__4 = *m << 2;
+        i__1 = lw, i__2 = *mw * (*nw + *mw) + max(i__3, i__4);
+        lw = max(i__1, i__2);
     }
     /*     Check the input scalar arguments. */
-    if (! (lsame_(dico, "C", 1L, 1L) || discr))
-    {
+    if (!(lsame_(dico, "C", 1L, 1L) || discr)) {
         *info = -1;
-    }
-    else if (! (lsame_(jobc, "S", 1L, 1L) || lsame_(jobc, "E", 1L, 1L)))
-    {
+    } else if (!(lsame_(jobc, "S", 1L, 1L) || lsame_(jobc, "E", 1L, 1L))) {
         *info = -2;
-    }
-    else if (! (lsame_(jobo, "S", 1L, 1L) || lsame_(jobo, "E", 1L, 1L)))
-    {
+    } else if (!(lsame_(jobo, "S", 1L, 1L) || lsame_(jobo, "E", 1L, 1L))) {
         *info = -3;
-    }
-    else if (! (bta || spa))
-    {
+    } else if (!(bta || spa)) {
         *info = -4;
-    }
-    else if (! (frwght || lsame_(weight, "N", 1L, 1L)))
-    {
+    } else if (!(frwght || lsame_(weight, "N", 1L, 1L))) {
         *info = -5;
-    }
-    else if (! (scale || lsame_(equil, "N", 1L, 1L)))
-    {
+    } else if (!(scale || lsame_(equil, "N", 1L, 1L))) {
         *info = -6;
-    }
-    else if (! (fixord || lsame_(ordsel, "A", 1L, 1L)))
-    {
+    } else if (!(fixord || lsame_(ordsel, "A", 1L, 1L))) {
         *info = -7;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -8;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -9;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -10;
-    }
-    else if (*nv < 0)
-    {
+    } else if (*nv < 0) {
         *info = -11;
-    }
-    else if (*pv < 0)
-    {
+    } else if (*pv < 0) {
         *info = -12;
-    }
-    else if (*nw < 0)
-    {
+    } else if (*nw < 0) {
         *info = -13;
-    }
-    else if (*mw < 0)
-    {
+    } else if (*mw < 0) {
         *info = -14;
-    }
-    else if (fixord && (*nr < 0 || *nr > *n))
-    {
+    } else if (fixord && (*nr < 0 || *nr > *n)) {
         *info = -15;
-    }
-    else if (discr && (*alpha < 0. || *alpha > 1.) || ! discr && *alpha > 0.)
-    {
+    } else if (discr && (*alpha < 0. || *alpha > 1.) || !discr && *alpha > 0.) {
         *info = -16;
-    }
-    else if (abs(*alphac) > 1.)
-    {
+    } else if (abs(*alphac) > 1.) {
         *info = -17;
-    }
-    else if (abs(*alphao) > 1.)
-    {
+    } else if (abs(*alphao) > 1.) {
         *info = -18;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -20;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -22;
-    }
-    else if (*ldc < max(1,*p))
-    {
+    } else if (*ldc < max(1, *p)) {
         *info = -24;
-    }
-    else if (*ldd < max(1,*p))
-    {
+    } else if (*ldd < max(1, *p)) {
         *info = -26;
-    }
-    else if (*ldav < 1 || leftw && *ldav < *nv)
-    {
+    } else if (*ldav < 1 || leftw && *ldav < *nv) {
         *info = -28;
-    }
-    else if (*ldbv < 1 || leftw && *ldbv < *nv)
-    {
+    } else if (*ldbv < 1 || leftw && *ldbv < *nv) {
         *info = -30;
-    }
-    else if (*ldcv < 1 || leftw && *ldcv < *pv)
-    {
+    } else if (*ldcv < 1 || leftw && *ldcv < *pv) {
         *info = -32;
-    }
-    else if (*lddv < 1 || leftw && *lddv < *pv)
-    {
+    } else if (*lddv < 1 || leftw && *lddv < *pv) {
         *info = -34;
-    }
-    else if (*ldaw < 1 || rightw && *ldaw < *nw)
-    {
+    } else if (*ldaw < 1 || rightw && *ldaw < *nw) {
         *info = -36;
-    }
-    else if (*ldbw < 1 || rightw && *ldbw < *nw)
-    {
+    } else if (*ldbw < 1 || rightw && *ldbw < *nw) {
         *info = -38;
-    }
-    else if (*ldcw < 1 || rightw && *ldcw < *m)
-    {
+    } else if (*ldcw < 1 || rightw && *ldcw < *m) {
         *info = -40;
-    }
-    else if (*lddw < 1 || rightw && *lddw < *m)
-    {
+    } else if (*lddw < 1 || rightw && *lddw < *m) {
         *info = -42;
-    }
-    else if (*tol2 > 0. && ! fixord && *tol2 > *tol1)
-    {
+    } else if (*tol2 > 0. && !fixord && *tol2 > *tol1) {
         *info = -46;
-    }
-    else if (*ldwork < lw)
-    {
+    } else if (*ldwork < lw) {
         *info = -49;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("AB09ID", &i__1, 6L);
@@ -855,9 +785,8 @@ ftnlen ordsel_len;
     }
     /*     Quick return if possible. */
     /* Computing MIN */
-    i__1 = min(*n,*m);
-    if (min(i__1,*p) == 0)
-    {
+    i__1 = min(*n, *m);
+    if (min(i__1, *p) == 0) {
         *nr = 0;
         *ns = 0;
         iwork[1] = 0;
@@ -866,28 +795,23 @@ ftnlen ordsel_len;
         dwork[1] = 1.;
         return 0;
     }
-    if (scale)
-    {
+    if (scale) {
         /*        Scale simultaneously the matrices A, B and C: */
         /*        A <- inv(D)*A*D, B <- inv(D)*B and C <- C*D, where D is a */
         /*        diagonal matrix. */
         /*        Workspace: N. */
         maxred = 100.;
-        tb01id_("All", n, m, p, &maxred, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, &dwork[1], info, 3L);
+        tb01id_("All", n, m, p, &maxred, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc,
+            &dwork[1], info, 3L);
     }
     /*     Correct the value of ALPHA to ensure stability. */
     alpwrk = *alpha;
-    if (discr)
-    {
-        if (*alpha == 1.)
-        {
+    if (discr) {
+        if (*alpha == 1.) {
             alpwrk = 1. - sqrt(dlamch_("E", 1L));
         }
-    }
-    else
-    {
-        if (*alpha == 0.)
-        {
+    } else {
+        if (*alpha == 0.) {
             alpwrk = -sqrt(dlamch_("E", 1L));
         }
     }
@@ -904,50 +828,42 @@ ftnlen ordsel_len;
     /*     Additional workspace:  need   3*N; */
     /*                            prefer larger. */
     i__1 = *ldwork - kw + 1;
-    tb01kd_(dico, "Unstable", "General", n, m, p, &alpwrk, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, &nu, &dwork[ku], n, &dwork[kl], &dwork[ki], &dwork[kw], &i__1, &ierr, 1L, 8L, 7L);
-    if (ierr != 0)
-    {
-        if (ierr != 3)
-        {
+    tb01kd_(dico, "Unstable", "General", n, m, p, &alpwrk, &a[a_offset], lda, &b[b_offset], ldb,
+        &c__[c_offset], ldc, &nu, &dwork[ku], n, &dwork[kl], &dwork[ki], &dwork[kw], &i__1, &ierr,
+        1L, 8L, 7L);
+    if (ierr != 0) {
+        if (ierr != 3) {
             *info = 1;
-        }
-        else
-        {
+        } else {
             *info = 2;
         }
         return 0;
     }
-    wrkopt = (integer) dwork[kw] + kw - 1;
+    wrkopt = (integer)dwork[kw] + kw - 1;
     /*     Determine NRA, the desired order for the reduction of stable part. */
     iwarnl = 0;
     *ns = *n - nu;
-    if (fixord)
-    {
+    if (fixord) {
         /* Computing MAX */
         i__1 = 0, i__2 = *nr - nu;
-        nra = max(i__1,i__2);
-        if (*nr < nu)
-        {
+        nra = max(i__1, i__2);
+        if (*nr < nu) {
             iwarnl = 3;
         }
-    }
-    else
-    {
+    } else {
         nra = 0;
     }
     /*     Finish if only unstable part is present. */
-    if (*ns == 0)
-    {
+    if (*ns == 0) {
         *nr = nu;
-        dwork[1] = (doublereal) wrkopt;
+        dwork[1] = (doublereal)wrkopt;
         iwork[1] = 0;
         iwork[2] = *nv;
         iwork[3] = *nw;
         return 0;
     }
     nvr = *nv;
-    if (leftw && *nv > 0)
-    {
+    if (leftw && *nv > 0) {
         /*        Compute a left-coprime factorization with inner denominator */
         /*        of a minimal realization of V. The resulting AV is in */
         /*        real Schur form. */
@@ -962,59 +878,59 @@ ftnlen ordsel_len;
         /*                                             PV*(PV+2),4*PV,4*P ) ); */
         /*                                  prefer larger; */
         /*                          integer NV + MAX(P,PV). */
-        if (*p == *pv)
-        {
+        if (*p == *pv) {
             kw = 1;
-            tb01pd_("Minimal", "Scale", nv, p, pv, &av[av_offset], ldav, &bv[bv_offset], ldbv, &cv[cv_offset], ldcv, &nvr, &c_b31, &iwork[1], &dwork[1], ldwork, info, 7L, 5L);
+            tb01pd_("Minimal", "Scale", nv, p, pv, &av[av_offset], ldav, &bv[bv_offset], ldbv,
+                &cv[cv_offset], ldcv, &nvr, &c_b31, &iwork[1], &dwork[1], ldwork, info, 7L, 5L);
             /* Computing MAX */
-            i__1 = wrkopt, i__2 = (integer) dwork[kw] + kw - 1;
-            wrkopt = max(i__1,i__2);
+            i__1 = wrkopt, i__2 = (integer)dwork[kw] + kw - 1;
+            wrkopt = max(i__1, i__2);
             kbr = 1;
             kdr = kbr + *pv * nvr;
-            kw = kdr + *pv **pv;
-            i__1 = max(1,nvr);
+            kw = kdr + *pv * *pv;
+            i__1 = max(1, nvr);
             i__2 = *ldwork - kw + 1;
-            sb08cd_(dico, &nvr, p, pv, &av[av_offset], ldav, &bv[bv_offset], ldbv, &cv[cv_offset], ldcv, &dv[dv_offset], lddv, &nnq, &nnr, &dwork[kbr], &i__1, &dwork[kdr], pv, &c_b31, &dwork[kw], &i__2, iwarn, &ierr, 1L);
-        }
-        else
-        {
-            ldw = max(*p,*pv);
+            sb08cd_(dico, &nvr, p, pv, &av[av_offset], ldav, &bv[bv_offset], ldbv, &cv[cv_offset],
+                ldcv, &dv[dv_offset], lddv, &nnq, &nnr, &dwork[kbr], &i__1, &dwork[kdr], pv, &c_b31,
+                &dwork[kw], &i__2, iwarn, &ierr, 1L);
+        } else {
+            ldw = max(*p, *pv);
             kbv = 1;
             kcv = kbv + *nv * ldw;
             kw = kcv + *nv * ldw;
             dlacpy_("Full", nv, p, &bv[bv_offset], ldbv, &dwork[kbv], nv, 4L);
             dlacpy_("Full", pv, nv, &cv[cv_offset], ldcv, &dwork[kcv], &ldw, 4L);
             i__1 = *ldwork - kw + 1;
-            tb01pd_("Minimal", "Scale", nv, p, pv, &av[av_offset], ldav, &dwork[kbv], nv, &dwork[kcv], &ldw, &nvr, &c_b31, &iwork[1], &dwork[kw], &i__1, info, 7L, 5L);
+            tb01pd_("Minimal", "Scale", nv, p, pv, &av[av_offset], ldav, &dwork[kbv], nv,
+                &dwork[kcv], &ldw, &nvr, &c_b31, &iwork[1], &dwork[kw], &i__1, info, 7L, 5L);
             kdv = kw;
             kbr = kdv + ldw * ldw;
             kdr = kbr + *pv * nvr;
-            kw = kdr + *pv **pv;
+            kw = kdr + *pv * *pv;
             dlacpy_("Full", pv, p, &dv[dv_offset], lddv, &dwork[kdv], &ldw, 4L);
-            i__1 = max(1,nvr);
+            i__1 = max(1, nvr);
             i__2 = *ldwork - kw + 1;
-            sb08cd_(dico, &nvr, p, pv, &av[av_offset], ldav, &dwork[kbv], nv, &dwork[kcv], &ldw, &dwork[kdv], &ldw, &nnq, &nnr, &dwork[kbr], &i__1, &dwork[kdr], pv, &c_b31, &dwork[kw], &i__2, iwarn, &ierr, 1L);
+            sb08cd_(dico, &nvr, p, pv, &av[av_offset], ldav, &dwork[kbv], nv, &dwork[kcv], &ldw,
+                &dwork[kdv], &ldw, &nnq, &nnr, &dwork[kbr], &i__1, &dwork[kdr], pv, &c_b31,
+                &dwork[kw], &i__2, iwarn, &ierr, 1L);
             dlacpy_("Full", &nvr, p, &dwork[kbv], nv, &bv[bv_offset], ldbv, 4L);
             dlacpy_("Full", pv, &nvr, &dwork[kcv], &ldw, &cv[cv_offset], ldcv, 4L);
             dlacpy_("Full", pv, p, &dwork[kdv], &ldw, &dv[dv_offset], lddv, 4L);
         }
-        if (ierr != 0)
-        {
+        if (ierr != 0) {
             *info = ierr + 2;
             return 0;
         }
         nvr = nnq;
         /* Computing MAX */
-        i__1 = wrkopt, i__2 = (integer) dwork[kw] + kw - 1;
-        wrkopt = max(i__1,i__2);
-        if (*iwarn > 0)
-        {
+        i__1 = wrkopt, i__2 = (integer)dwork[kw] + kw - 1;
+        wrkopt = max(i__1, i__2);
+        if (*iwarn > 0) {
             *iwarn += 10;
         }
     }
     nwr = *nw;
-    if (rightw && *nw > 0)
-    {
+    if (rightw && *nw > 0) {
         /*        Compute a minimal realization of W. */
         /*        Workspace needed:   real  LW+MAX(1, NW + MAX(NW, 3*M, 3*MW)); */
         /*                                  where */
@@ -1022,53 +938,51 @@ ftnlen ordsel_len;
         /*                                  LW = 2*NW*MAX(M,MW), otherwise; */
         /*                                  prefer larger; */
         /*                          integer NW + MAX(M,MW). */
-        if (*m == *mw)
-        {
+        if (*m == *mw) {
             kw = 1;
-            tb01pd_("Minimal", "Scale", nw, mw, m, &aw[aw_offset], ldaw, &bw[bw_offset], ldbw, &cw[cw_offset], ldcw, &nwr, &c_b31, &iwork[1], &dwork[1], ldwork, info, 7L, 5L);
-        }
-        else
-        {
-            ldw = max(*m,*mw);
+            tb01pd_("Minimal", "Scale", nw, mw, m, &aw[aw_offset], ldaw, &bw[bw_offset], ldbw,
+                &cw[cw_offset], ldcw, &nwr, &c_b31, &iwork[1], &dwork[1], ldwork, info, 7L, 5L);
+        } else {
+            ldw = max(*m, *mw);
             kbw = 1;
             kcw = kbw + *nw * ldw;
             kw = kcw + *nw * ldw;
             dlacpy_("Full", nw, mw, &bw[bw_offset], ldbw, &dwork[kbw], nw, 4L);
             dlacpy_("Full", m, nw, &cw[cw_offset], ldcw, &dwork[kcw], &ldw, 4L);
             i__1 = *ldwork - kw + 1;
-            tb01pd_("Minimal", "Scale", nw, mw, m, &aw[aw_offset], ldaw, &dwork[kbw], nw, &dwork[kcw], &ldw, &nwr, &c_b31, &iwork[1], &dwork[kw], &i__1, info, 7L, 5L);
+            tb01pd_("Minimal", "Scale", nw, mw, m, &aw[aw_offset], ldaw, &dwork[kbw], nw,
+                &dwork[kcw], &ldw, &nwr, &c_b31, &iwork[1], &dwork[kw], &i__1, info, 7L, 5L);
             dlacpy_("Full", &nwr, mw, &dwork[kbw], nw, &bw[bw_offset], ldbw, 4L);
             dlacpy_("Full", m, &nwr, &dwork[kcw], &ldw, &cw[cw_offset], ldcw, 4L);
         }
         /* Computing MAX */
-        i__1 = wrkopt, i__2 = (integer) dwork[kw] + kw - 1;
-        wrkopt = max(i__1,i__2);
+        i__1 = wrkopt, i__2 = (integer)dwork[kw] + kw - 1;
+        wrkopt = max(i__1, i__2);
     }
-    if (rightw && nwr > 0)
-    {
+    if (rightw && nwr > 0) {
         /*        Compute a right-coprime factorization with inner denominator */
         /*        of the minimal realization of W. The resulting AW is in */
         /*        real Schur form. */
         /*        Workspace needed:  MW*(NW+MW) + */
         /*                           MAX( 1, NW*(NW+5), MW*(MW+2), 4*MW, 4*M ); */
         /*                           prefer larger. */
-        ldw = max(1,*mw);
+        ldw = max(1, *mw);
         kcr = 1;
         kdr = kcr + nwr * ldw;
         kw = kdr + *mw * ldw;
         i__1 = *ldwork - kw + 1;
-        sb08dd_(dico, &nwr, mw, m, &aw[aw_offset], ldaw, &bw[bw_offset], ldbw, &cw[cw_offset], ldcw, &dw[dw_offset], lddw, &nnq, &nnr, &dwork[kcr], &ldw, &dwork[kdr], &ldw, &c_b31, &dwork[kw], &i__1, iwarn, &ierr, 1L);
-        if (ierr != 0)
-        {
+        sb08dd_(dico, &nwr, mw, m, &aw[aw_offset], ldaw, &bw[bw_offset], ldbw, &cw[cw_offset], ldcw,
+            &dw[dw_offset], lddw, &nnq, &nnr, &dwork[kcr], &ldw, &dwork[kdr], &ldw, &c_b31,
+            &dwork[kw], &i__1, iwarn, &ierr, 1L);
+        if (ierr != 0) {
             *info = ierr + 5;
             return 0;
         }
         nwr = nnq;
         /* Computing MAX */
-        i__1 = wrkopt, i__2 = (integer) dwork[kw] + kw - 1;
-        wrkopt = max(i__1,i__2);
-        if (*iwarn > 0)
-        {
+        i__1 = wrkopt, i__2 = (integer)dwork[kw] + kw - 1;
+        wrkopt = max(i__1, i__2);
+        if (*iwarn > 0) {
             *iwarn += 10;
         }
     }
@@ -1089,33 +1003,37 @@ ftnlen ordsel_len;
     /*             LRIGHT = N*(M+5) if WEIGHT = 'L' or 'N' or  MW = 0. */
     /*                        prefer larger. */
     i__1 = *ldwork - kw + 1;
-    ab09iy_(dico, jobc, jobo, weight, ns, m, p, &nvr, pv, &nwr, mw, alphac, alphao, &a[nu1 + nu1 * a_dim1], lda, &b[nu1 + b_dim1], ldb, &c__[nu1 * c_dim1 + 1], ldc, &av[av_offset], ldav, &bv[bv_offset], ldbv, &cv[cv_offset], ldcv, &dv[dv_offset], lddv, &aw[aw_offset], ldaw, &bw[bw_offset], ldbw, &cw[cw_offset], ldcw, &dw[dw_offset], lddw, &scalec, &scaleo, &dwork[kti], n, &dwork[kt], n, &dwork[kw], &i__1, &ierr, 1L, 1L, 1L, 1L);
-    if (ierr != 0)
-    {
+    ab09iy_(dico, jobc, jobo, weight, ns, m, p, &nvr, pv, &nwr, mw, alphac, alphao,
+        &a[nu1 + nu1 * a_dim1], lda, &b[nu1 + b_dim1], ldb, &c__[nu1 * c_dim1 + 1], ldc,
+        &av[av_offset], ldav, &bv[bv_offset], ldbv, &cv[cv_offset], ldcv, &dv[dv_offset], lddv,
+        &aw[aw_offset], ldaw, &bw[bw_offset], ldbw, &cw[cw_offset], ldcw, &dw[dw_offset], lddw,
+        &scalec, &scaleo, &dwork[kti], n, &dwork[kt], n, &dwork[kw], &i__1, &ierr, 1L, 1L, 1L, 1L);
+    if (ierr != 0) {
         *info = 9;
         return 0;
     }
     /* Computing MAX */
-    i__1 = wrkopt, i__2 = (integer) dwork[kw] + kw - 1;
-    wrkopt = max(i__1,i__2);
+    i__1 = wrkopt, i__2 = (integer)dwork[kw] + kw - 1;
+    wrkopt = max(i__1, i__2);
     /*     Compute a BTA or SPA of the stable part. */
     /*     Real workspace:  need  2*N*N + MAX( 1, 2*N*N+5*N, N*MAX(M,P) ). */
     i__1 = *ldwork - kw + 1;
-    ab09ix_(dico, job, "Schur", ordsel, ns, m, p, &nra, &scalec, &scaleo, &a[nu1 + nu1 * a_dim1], lda, &b[nu1 + b_dim1], ldb, &c__[nu1 * c_dim1 + 1], ldc, &d__[d_offset], ldd, &dwork[kti], n, &dwork[kt], n, &nmr, &hsv[1], tol1, tol2, &iwork[1], &dwork[kw], &i__1, iwarn, &ierr, 1L, 1L, 5L, 1L);
-    *iwarn = max(*iwarn,iwarnl);
-    if (ierr != 0)
-    {
+    ab09ix_(dico, job, "Schur", ordsel, ns, m, p, &nra, &scalec, &scaleo, &a[nu1 + nu1 * a_dim1],
+        lda, &b[nu1 + b_dim1], ldb, &c__[nu1 * c_dim1 + 1], ldc, &d__[d_offset], ldd, &dwork[kti],
+        n, &dwork[kt], n, &nmr, &hsv[1], tol1, tol2, &iwork[1], &dwork[kw], &i__1, iwarn, &ierr, 1L,
+        1L, 5L, 1L);
+    *iwarn = max(*iwarn, iwarnl);
+    if (ierr != 0) {
         *info = 10;
         return 0;
     }
     *nr = nra + nu;
     /* Computing MAX */
-    i__1 = wrkopt, i__2 = (integer) dwork[kw] + kw - 1;
-    dwork[1] = (doublereal) max(i__1,i__2);
+    i__1 = wrkopt, i__2 = (integer)dwork[kw] + kw - 1;
+    dwork[1] = (doublereal)max(i__1, i__2);
     iwork[1] = nmr;
     iwork[2] = nvr;
     iwork[3] = nwr;
     return 0;
     /* *** Last line of AB09ID *** */
 } /* ab09id_ */
-

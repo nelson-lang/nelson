@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,16 +10,17 @@
 static integer c__3 = 3;
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int sb03mv_(ltran, lupper, t, ldt, b, ldb, scale, x, ldx, xnorm, info)
-logical *ltran, *lupper;
-doublereal *t;
-integer *ldt;
-doublereal *b;
-integer *ldb;
+EXPORTSYMBOL /* Subroutine */ int sb03mv_(
+    ltran, lupper, t, ldt, b, ldb, scale, x, ldx, xnorm, info) logical *ltran,
+    *lupper;
+doublereal* t;
+integer* ldt;
+doublereal* b;
+integer* ldb;
 doublereal *scale, *x;
-integer *ldx;
-doublereal *xnorm;
-integer *info;
+integer* ldx;
+doublereal* xnorm;
+integer* info;
 {
     /* System generated locals */
     integer b_dim1, b_offset, t_dim1, t_offset, x_dim1, x_offset;
@@ -30,7 +31,7 @@ integer *info;
     static doublereal xmax;
     static integer ipsv, jpsv, i__, j, k;
     extern /* Subroutine */ int dswap_();
-    static doublereal t9[9]	/* was [3][3] */;
+    static doublereal t9[9] /* was [3][3] */;
     extern doublereal dlamch_();
     static integer ip, jp;
     static doublereal smlnum, eps, tmp[3];
@@ -162,52 +163,45 @@ integer *info;
     /*     Solve equivalent 3-by-3 system using complete pivoting. */
     /*     Set pivots less than SMIN to SMIN. */
     /* Computing MAX */
-    d__5 = (d__1 = t[t_dim1 + 1], abs(d__1)), d__6 = (d__2 = t[(t_dim1 << 1) + 1], abs(d__2)), d__5 = max(d__5,d__6), d__6 = (d__3 = t[t_dim1 + 2], abs(d__3)), d__5 = max(d__5,d__6), d__6 = (d__4 = t[(t_dim1 << 1) + 2], abs(d__4));
-    smin = max(d__5,d__6);
+    d__5 = (d__1 = t[t_dim1 + 1], abs(d__1)), d__6 = (d__2 = t[(t_dim1 << 1) + 1], abs(d__2)),
+    d__5 = max(d__5, d__6), d__6 = (d__3 = t[t_dim1 + 2], abs(d__3)), d__5 = max(d__5, d__6),
+    d__6 = (d__4 = t[(t_dim1 << 1) + 2], abs(d__4));
+    smin = max(d__5, d__6);
     /* Computing MAX */
     d__1 = eps * smin;
-    smin = max(d__1,smlnum);
+    smin = max(d__1, smlnum);
     t9[0] = t[t_dim1 + 1] * t[t_dim1 + 1] - 1.;
     t9[4] = t[t_dim1 + 1] * t[(t_dim1 << 1) + 2] + t[(t_dim1 << 1) + 1] * t[t_dim1 + 2] - 1.;
     t9[8] = t[(t_dim1 << 1) + 2] * t[(t_dim1 << 1) + 2] - 1.;
-    if (*ltran)
-    {
+    if (*ltran) {
         t9[3] = t[t_dim1 + 1] * t[(t_dim1 << 1) + 1] + t[t_dim1 + 1] * t[(t_dim1 << 1) + 1];
         t9[6] = t[(t_dim1 << 1) + 1] * t[(t_dim1 << 1) + 1];
         t9[1] = t[t_dim1 + 1] * t[t_dim1 + 2];
         t9[7] = t[(t_dim1 << 1) + 1] * t[(t_dim1 << 1) + 2];
         t9[2] = t[t_dim1 + 2] * t[t_dim1 + 2];
         t9[5] = t[t_dim1 + 2] * t[(t_dim1 << 1) + 2] + t[t_dim1 + 2] * t[(t_dim1 << 1) + 2];
-    }
-    else
-    {
+    } else {
         t9[3] = t[t_dim1 + 1] * t[t_dim1 + 2] + t[t_dim1 + 1] * t[t_dim1 + 2];
         t9[6] = t[t_dim1 + 2] * t[t_dim1 + 2];
         t9[1] = t[t_dim1 + 1] * t[(t_dim1 << 1) + 1];
         t9[7] = t[t_dim1 + 2] * t[(t_dim1 << 1) + 2];
         t9[2] = t[(t_dim1 << 1) + 1] * t[(t_dim1 << 1) + 1];
-        t9[5] = t[(t_dim1 << 1) + 1] * t[(t_dim1 << 1) + 2] + t[(t_dim1 << 1) + 1] * t[(t_dim1 << 1) + 2];
+        t9[5] = t[(t_dim1 << 1) + 1] * t[(t_dim1 << 1) + 2]
+            + t[(t_dim1 << 1) + 1] * t[(t_dim1 << 1) + 2];
     }
     btmp[0] = b[b_dim1 + 1];
-    if (*lupper)
-    {
+    if (*lupper) {
         btmp[1] = b[(b_dim1 << 1) + 1];
-    }
-    else
-    {
+    } else {
         btmp[1] = b[b_dim1 + 2];
     }
     btmp[2] = b[(b_dim1 << 1) + 2];
     /*     Perform elimination. */
-    for (i__ = 1; i__ <= 2; ++i__)
-    {
+    for (i__ = 1; i__ <= 2; ++i__) {
         xmax = 0.;
-        for (ip = i__; ip <= 3; ++ip)
-        {
-            for (jp = i__; jp <= 3; ++jp)
-            {
-                if ((d__1 = t9[ip + jp * 3 - 4], abs(d__1)) >= xmax)
-                {
+        for (ip = i__; ip <= 3; ++ip) {
+            for (jp = i__; jp <= 3; ++jp) {
+                if ((d__1 = t9[ip + jp * 3 - 4], abs(d__1)) >= xmax) {
                     xmax = (d__1 = t9[ip + jp * 3 - 4], abs(d__1));
                     ipsv = ip;
                     jpsv = jp;
@@ -216,29 +210,24 @@ integer *info;
             }
             /* L20: */
         }
-        if (ipsv != i__)
-        {
+        if (ipsv != i__) {
             dswap_(&c__3, &t9[ipsv - 1], &c__3, &t9[i__ - 1], &c__3);
             temp = btmp[i__ - 1];
             btmp[i__ - 1] = btmp[ipsv - 1];
             btmp[ipsv - 1] = temp;
         }
-        if (jpsv != i__)
-        {
+        if (jpsv != i__) {
             dswap_(&c__3, &t9[jpsv * 3 - 3], &c__1, &t9[i__ * 3 - 3], &c__1);
         }
         jpiv[i__ - 1] = jpsv;
-        if ((d__1 = t9[i__ + i__ * 3 - 4], abs(d__1)) < smin)
-        {
+        if ((d__1 = t9[i__ + i__ * 3 - 4], abs(d__1)) < smin) {
             *info = 1;
             t9[i__ + i__ * 3 - 4] = smin;
         }
-        for (j = i__ + 1; j <= 3; ++j)
-        {
+        for (j = i__ + 1; j <= 3; ++j) {
             t9[j + i__ * 3 - 4] /= t9[i__ + i__ * 3 - 4];
             btmp[j - 1] -= t9[j + i__ * 3 - 4] * btmp[i__ - 1];
-            for (k = i__ + 1; k <= 3; ++k)
-            {
+            for (k = i__ + 1; k <= 3; ++k) {
                 t9[j + k * 3 - 4] -= t9[j + i__ * 3 - 4] * t9[i__ + k * 3 - 4];
                 /* L30: */
             }
@@ -246,36 +235,31 @@ integer *info;
         }
         /* L50: */
     }
-    if (abs(t9[8]) < smin)
-    {
+    if (abs(t9[8]) < smin) {
         t9[8] = smin;
     }
     *scale = 1.;
-    if (smlnum * 4. * abs(btmp[0]) > abs(t9[0]) || smlnum * 4. * abs(btmp[1]) > abs(t9[4]) || smlnum * 4. * abs(btmp[2]) > abs(t9[8]))
-    {
+    if (smlnum * 4. * abs(btmp[0]) > abs(t9[0]) || smlnum * 4. * abs(btmp[1]) > abs(t9[4])
+        || smlnum * 4. * abs(btmp[2]) > abs(t9[8])) {
         /* Computing MAX */
-        d__1 = abs(btmp[0]), d__2 = abs(btmp[1]), d__1 = max(d__1,d__2), d__2 = abs(btmp[2]);
-        *scale = .25 / max(d__1,d__2);
+        d__1 = abs(btmp[0]), d__2 = abs(btmp[1]), d__1 = max(d__1, d__2), d__2 = abs(btmp[2]);
+        *scale = .25 / max(d__1, d__2);
         btmp[0] *= *scale;
         btmp[1] *= *scale;
         btmp[2] *= *scale;
     }
-    for (i__ = 1; i__ <= 3; ++i__)
-    {
+    for (i__ = 1; i__ <= 3; ++i__) {
         k = 4 - i__;
         temp = 1. / t9[k + k * 3 - 4];
         tmp[k - 1] = btmp[k - 1] * temp;
-        for (j = k + 1; j <= 3; ++j)
-        {
+        for (j = k + 1; j <= 3; ++j) {
             tmp[k - 1] -= temp * t9[k + j * 3 - 4] * tmp[j - 1];
             /* L60: */
         }
         /* L70: */
     }
-    for (i__ = 1; i__ <= 2; ++i__)
-    {
-        if (jpiv[3 - i__ - 1] != 3 - i__)
-        {
+    for (i__ = 1; i__ <= 2; ++i__) {
+        if (jpiv[3 - i__ - 1] != 3 - i__) {
             temp = tmp[3 - i__ - 1];
             tmp[3 - i__ - 1] = tmp[jpiv[3 - i__ - 1] - 1];
             tmp[jpiv[3 - i__ - 1] - 1] = temp;
@@ -283,19 +267,15 @@ integer *info;
         /* L80: */
     }
     x[x_dim1 + 1] = tmp[0];
-    if (*lupper)
-    {
+    if (*lupper) {
         x[(x_dim1 << 1) + 1] = tmp[1];
-    }
-    else
-    {
+    } else {
         x[x_dim1 + 2] = tmp[1];
     }
     x[(x_dim1 << 1) + 2] = tmp[2];
     /* Computing MAX */
     d__1 = abs(tmp[0]) + abs(tmp[1]), d__2 = abs(tmp[1]) + abs(tmp[2]);
-    *xnorm = max(d__1,d__2);
+    *xnorm = max(d__1, d__2);
     return 0;
     /* *** Last line of SB03MV *** */
 } /* sb03mv_ */
-

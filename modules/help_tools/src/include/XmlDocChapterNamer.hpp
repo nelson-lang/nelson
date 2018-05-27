@@ -18,10 +18,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
 #include "nlsHelp_tools_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    std::wstring XmlDocChapterNamer(const std::wstring &dstDirectory);
+std::wstring
+XmlDocChapterNamer(const std::wstring& dstDirectory);
 }
 //=============================================================================

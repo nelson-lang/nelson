@@ -23,27 +23,23 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::ElementaryFunctionsGateway::complexBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::ElementaryFunctionsGateway::complexBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if ((argIn.size() > 2) || (argIn.size() == 0))
-    {
+    if ((argIn.size() > 2) || (argIn.size() == 0)) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool bSuccess = false;
     retval = OverloadFunction(eval, nLhs, argIn, "complex", bSuccess);
-    if (!bSuccess)
-    {
-        if (argIn.size() == 1)
-        {
+    if (!bSuccess) {
+        if (argIn.size() == 1) {
             retval.push_back(ComplexConstructor(argIn[0]));
-        }
-        else
-        {
+        } else {
             retval.push_back(ComplexConstructor(argIn[0], argIn[1]));
         }
     }

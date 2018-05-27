@@ -18,12 +18,15 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsAudio_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsAudio_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSAUDIO_IMPEXP bool initializeAudio();
-    NLSAUDIO_IMPEXP bool terminateAudio();
-    NLSAUDIO_IMPEXP ArrayOf audioDevInfo();
-}
+NLSAUDIO_IMPEXP bool
+initializeAudio();
+NLSAUDIO_IMPEXP bool
+terminateAudio();
+NLSAUDIO_IMPEXP ArrayOf
+audioDevInfo();
+} // namespace Nelson
 //=============================================================================

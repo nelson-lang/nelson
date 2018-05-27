@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,15 +9,16 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int sb04my_(n, m, ind, a, lda, b, ldb, c__, ldc, d__, ipr, info)
-integer *n, *m, *ind;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *d__;
+EXPORTSYMBOL /* Subroutine */ int sb04my_(
+    n, m, ind, a, lda, b, ldb, c__, ldc, d__, ipr, info) integer *n,
+    *m, *ind;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* d__;
 integer *ipr, *info;
 {
     /* System generated locals */
@@ -118,8 +119,7 @@ integer *ipr, *info;
     --ipr;
     /* Function Body */
     i__1 = *n;
-    for (i__ = *ind + 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = *ind + 1; i__ <= i__1; ++i__) {
         d__1 = -b[*ind + i__ * b_dim1];
         daxpy_(m, &d__1, &c__[i__ * c_dim1 + 1], &c__1, &c__[*ind * c_dim1 + 1], &c__1);
         /* L20: */
@@ -130,14 +130,12 @@ integer *ipr, *info;
     k = *m;
     /*     Construct the linear algebraic system of order M. */
     i__1 = *m;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         j = m1 - k;
         dcopy_(&k, &a[i__ + j * a_dim1], lda, &d__[k2], &c__1);
         k1 = k2;
         k2 += k;
-        if (i__ > 1)
-        {
+        if (i__ > 1) {
             ++k1;
             --k;
         }
@@ -149,15 +147,11 @@ integer *ipr, *info;
     }
     /*     Solve the linear algebraic system and store the solution in C. */
     sb04mw_(m, &d__[1], &ipr[1], info);
-    if (*info != 0)
-    {
+    if (*info != 0) {
         *info = *ind;
-    }
-    else
-    {
+    } else {
         i__1 = *m;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             c__[i__ + *ind * c_dim1] = d__[ipr[i__]];
             /* L60: */
         }
@@ -165,4 +159,3 @@ integer *ipr, *info;
     return 0;
     /* *** Last line of SB04MY *** */
 } /* sb04my_ */
-

@@ -18,50 +18,66 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
+#include "RandomInterface.hpp"
+#include "nlsRandom_exports.h"
+#include <boost/container/vector.hpp>
 #include <boost/random.hpp>
 #include <boost/random/variate_generator.hpp>
-#include <boost/container/vector.hpp>
-#include "nlsRandom_exports.h"
-#include "RandomInterface.hpp"
+#include <string>
 //=============================================================================
 // http://www.boost.org/doc/libs/1_57_0/doc/html/boost_random/reference.html#boost_random.reference.generators
 // http://www.boost.org/doc/libs/1_57_0/doc/html/boost_random/reference.html#boost_random.reference.distributions
 namespace Nelson {
-    class NLSRANDOM_IMPEXP RandomMersenneTwister64 : public RandomInterface {
+class NLSRANDOM_IMPEXP RandomMersenneTwister64 : public RandomInterface
+{
 
-    private:
-        void *generator = nullptr;
-        uint64 seed = 0;
-        boost::mt19937_64 mersenneTwister64;
-        boost::variate_generator<boost::mt19937_64&, boost::uniform_real<> > *uniform_real_generator;
-        boost::variate_generator<boost::mt19937_64&, boost::random::uniform_int_distribution<> > *uniform_int_generator;
-        boost::variate_generator<boost::mt19937_64&, boost::normal_distribution<> > *normal_real_generator;
-    public:
-        RandomMersenneTwister64();
-        ~RandomMersenneTwister64();
+private:
+    void* generator = nullptr;
+    uint64 seed = 0;
+    boost::mt19937_64 mersenneTwister64;
+    boost::variate_generator<boost::mt19937_64&, boost::uniform_real<>>* uniform_real_generator;
+    boost::variate_generator<boost::mt19937_64&, boost::random::uniform_int_distribution<>>*
+        uniform_int_generator;
+    boost::variate_generator<boost::mt19937_64&, boost::normal_distribution<>>*
+        normal_real_generator;
 
-        std::wstring getGeneratorName();
+public:
+    RandomMersenneTwister64();
+    ~RandomMersenneTwister64();
 
-        void setSeed(uint64 _seed);
-        uint64 getSeed();
+    std::wstring
+    getGeneratorName();
 
+    void
+    setSeed(uint64 _seed);
+    uint64
+    getSeed();
 
-        double getValueAsDouble(RNG_DISTRIBUTION_TYPE _type = RNG_DISTRIBUTION_UNIFORM_REAL);
-        single getValueAsSingle(RNG_DISTRIBUTION_TYPE _type = RNG_DISTRIBUTION_UNIFORM_REAL);
+    double
+    getValueAsDouble(RNG_DISTRIBUTION_TYPE _type = RNG_DISTRIBUTION_UNIFORM_REAL);
+    single
+    getValueAsSingle(RNG_DISTRIBUTION_TYPE _type = RNG_DISTRIBUTION_UNIFORM_REAL);
 
-        void getValuesAsDouble(double *ar, indexType nbElements, indexType lastDim, RNG_DISTRIBUTION_TYPE _type = RNG_DISTRIBUTION_UNIFORM_REAL);
-        void getValuesAsSingle(single *ar, indexType nbElements, indexType lastDim, RNG_DISTRIBUTION_TYPE _type = RNG_DISTRIBUTION_UNIFORM_REAL);
+    void
+    getValuesAsDouble(double* ar, indexType nbElements, indexType lastDim,
+        RNG_DISTRIBUTION_TYPE _type = RNG_DISTRIBUTION_UNIFORM_REAL);
+    void
+    getValuesAsSingle(single* ar, indexType nbElements, indexType lastDim,
+        RNG_DISTRIBUTION_TYPE _type = RNG_DISTRIBUTION_UNIFORM_REAL);
 
-        boost::container::vector<uint64> getState();
-        void setState(boost::container::vector<uint64>_state);
-        void setState(uint64 *_state, size_t len);
-        size_t getStateSize();
+    boost::container::vector<uint64>
+    getState();
+    void
+    setState(boost::container::vector<uint64> _state);
+    void
+    setState(uint64* _state, size_t len);
+    size_t
+    getStateSize();
 
-        void setMinMaxUniformIntDistribution(int _min, int _max);
-        void getMinMaxUniformIntDistribution(int &_min, int &_max);
-
-    };
-}
+    void
+    setMinMaxUniformIntDistribution(int _min, int _max);
+    void
+    getMinMaxUniformIntDistribution(int& _min, int& _max);
+};
+} // namespace Nelson
 //=============================================================================
-

@@ -18,55 +18,49 @@
 //=============================================================================
 #include <boost/filesystem.hpp>
 using namespace boost::filesystem;
-#include "characters_encoding.hpp"
 #include "ChangeDirectory.hpp"
 #include "Exception.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    ArrayOf Cd(std::wstring newpath)
-    {
-        path previous_pwd = current_path();
-        try
-        {
-            current_path(newpath);
-        }
-        catch (boost::filesystem::filesystem_error &e)
-        {
-            e.what();
-            throw Exception(_W("Cannot change directory: '") + newpath + L"'.");
-        }
-        return ArrayOf::stringConstructor(previous_pwd.generic_wstring());
+//=============================================================================
+ArrayOf
+Cd(std::wstring newpath)
+{
+    path previous_pwd = current_path();
+    try {
+        current_path(newpath);
+    } catch (boost::filesystem::filesystem_error& e) {
+        e.what();
+        throw Exception(_W("Cannot change directory: '") + newpath + L"'.");
     }
-    //=============================================================================
-    ArrayOf Cd(std::string newpath)
-    {
-        path previous_pwd = current_path();
-        try
-        {
-            current_path(newpath);
-        }
-        catch (boost::filesystem::filesystem_error &e)
-        {
-            e.what();
-            throw Exception(_("Cannot change directory '") + newpath + "'.");
-        }
-        return ArrayOf::stringConstructor(previous_pwd.generic_string());
+    return ArrayOf::stringConstructor(previous_pwd.generic_wstring());
+}
+//=============================================================================
+ArrayOf
+Cd(std::string newpath)
+{
+    path previous_pwd = current_path();
+    try {
+        current_path(newpath);
+    } catch (boost::filesystem::filesystem_error& e) {
+        e.what();
+        throw Exception(_("Cannot change directory '") + newpath + "'.");
     }
-    //=============================================================================
-    bool ChangeDirectory(std::wstring newpath)
-    {
-        try
-        {
-            current_path(newpath);
-        }
-        catch (boost::filesystem::filesystem_error &e)
-        {
-            e.what();
-            return false;
-        }
-        return true;
+    return ArrayOf::stringConstructor(previous_pwd.generic_string());
+}
+//=============================================================================
+bool
+ChangeDirectory(std::wstring newpath)
+{
+    try {
+        current_path(newpath);
+    } catch (boost::filesystem::filesystem_error& e) {
+        e.what();
+        return false;
     }
-    //=============================================================================
+    return true;
+}
+//=============================================================================
 }
 //=============================================================================

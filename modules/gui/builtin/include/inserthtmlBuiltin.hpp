@@ -22,9 +22,9 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace GuiGateway {
-        ArrayOfVector inserthtmlBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    };
+namespace GuiGateway {
+    ArrayOfVector
+    inserthtmlBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 };
+}; // namespace Nelson
 //=============================================================================
-

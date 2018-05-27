@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,25 +10,27 @@
 static doublereal c_b7 = -1.;
 static doublereal c_b8 = 1.;
 
-EXPORTSYMBOL /* Subroutine */ int sb08gd_(n, m, p, a, lda, b, ldb, c__, ldc, d__, ldd, br, ldbr, dr, lddr, iwork, dwork, info)
-integer *n, *m, *p;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *d__;
-integer *ldd;
-doublereal *br;
-integer *ldbr;
-doublereal *dr;
+EXPORTSYMBOL /* Subroutine */ int sb08gd_(
+    n, m, p, a, lda, b, ldb, c__, ldc, d__, ldd, br, ldbr, dr, lddr, iwork, dwork, info) integer *n,
+    *m, *p;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* d__;
+integer* ldd;
+doublereal* br;
+integer* ldbr;
+doublereal* dr;
 integer *lddr, *iwork;
-doublereal *dwork;
-integer *info;
+doublereal* dwork;
+integer* info;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, br_dim1, br_offset, c_dim1, c_offset, d_dim1, d_offset, dr_dim1, dr_offset, i__1;
+    integer a_dim1, a_offset, b_dim1, b_offset, br_dim1, br_offset, c_dim1, c_offset, d_dim1,
+        d_offset, dr_dim1, dr_offset, i__1;
     /* Local variables */
     extern /* Subroutine */ int dgemm_();
     static doublereal rcond;
@@ -179,60 +181,40 @@ integer *info;
     /* Function Body */
     *info = 0;
     /*     Check the scalar input parameters. */
-    if (*n < 0)
-    {
+    if (*n < 0) {
         *info = -1;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -2;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -3;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -5;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -7;
-    }
-    else if (*ldc < max(1,*p))
-    {
+    } else if (*ldc < max(1, *p)) {
         *info = -9;
-    }
-    else if (*ldd < max(1,*p))
-    {
+    } else if (*ldd < max(1, *p)) {
         *info = -11;
-    }
-    else if (*ldbr < max(1,*n))
-    {
+    } else if (*ldbr < max(1, *n)) {
         *info = -13;
-    }
-    else if (*lddr < max(1,*p))
-    {
+    } else if (*lddr < max(1, *p)) {
         *info = -15;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("SB08GD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*p == 0)
-    {
+    if (*p == 0) {
         dwork[1] = 1.;
         return 0;
     }
     /*     Factor the matrix  DR.  First, compute the 1-norm. */
     drnorm = dlange_("1-norm", p, p, &dr[dr_offset], lddr, &dwork[1], 6L);
     dgetrf_(p, p, &dr[dr_offset], lddr, &iwork[1], info);
-    if (*info != 0)
-    {
+    if (*info != 0) {
         *info = 1;
         dwork[1] = 0.;
         return 0;
@@ -242,22 +224,22 @@ integer *info;
     dgetrs_("NoTranspose", p, n, &dr[dr_offset], lddr, &iwork[1], &c__[c_offset], ldc, info, 11L);
     /*                              -1 */
     /*     Compute A = AQR - BR * DR  * CQR. */
-    dgemm_("NoTranspose", "NoTranspose", n, n, p, &c_b7, &br[br_offset], ldbr, &c__[c_offset], ldc, &c_b8, &a[a_offset], lda, 11L, 11L);
+    dgemm_("NoTranspose", "NoTranspose", n, n, p, &c_b7, &br[br_offset], ldbr, &c__[c_offset], ldc,
+        &c_b8, &a[a_offset], lda, 11L, 11L);
     /*                   -1 */
     /*     Compute D = DR  * DQ. */
     dgetrs_("NoTranspose", p, m, &dr[dr_offset], lddr, &iwork[1], &d__[d_offset], ldd, info, 11L);
     /*                             -1 */
     /*     Compute B = BQ - BR * DR  * DQ. */
-    dgemm_("NoTranspose", "NoTranspose", n, m, p, &c_b7, &br[br_offset], ldbr, &d__[d_offset], ldd, &c_b8, &b[b_offset], ldb, 11L, 11L);
+    dgemm_("NoTranspose", "NoTranspose", n, m, p, &c_b7, &br[br_offset], ldbr, &d__[d_offset], ldd,
+        &c_b8, &b[b_offset], ldb, 11L, 11L);
     /*     Estimate the reciprocal condition number of DR. */
     /*     Workspace  4*P. */
     dgecon_("1-norm", p, &dr[dr_offset], lddr, &drnorm, &rcond, &dwork[1], &iwork[1], info, 6L);
-    if (rcond <= dlamch_("Epsilon", 7L))
-    {
+    if (rcond <= dlamch_("Epsilon", 7L)) {
         *info = 2;
     }
     dwork[1] = rcond;
     return 0;
     /* *** Last line of SB08GD *** */
 } /* sb08gd_ */
-

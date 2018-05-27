@@ -19,53 +19,50 @@
 #include "IntegerIsEqual.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    template <class T>
-    bool IntegerIsEqualTemplate(ArrayOf A, ArrayOf B)
-    {
-        T *ptrA = (T*)A.getDataPointer();
-        T *ptrB = (T*)B.getDataPointer();
-        for (indexType k = 0; k < A.getDimensions().getElementCount(); k++)
-        {
-            if (ptrA[k] != ptrB[k])
-            {
-                return false;
+//=============================================================================
+template <class T>
+bool
+IntegerIsEqualTemplate(ArrayOf A, ArrayOf B)
+{
+    T* ptrA = (T*)A.getDataPointer();
+    T* ptrB = (T*)B.getDataPointer();
+    for (indexType k = 0; k < A.getDimensions().getElementCount(); k++) {
+        if (ptrA[k] != ptrB[k]) {
+            return false;
+        }
+    }
+    return true;
+}
+//=============================================================================
+bool
+IntegerIsEqual(ArrayOf A, ArrayOf B)
+{
+    if (A.getDataClass() == B.getDataClass()) {
+        Dimensions dimsA = A.getDimensions();
+        Dimensions dimsB = B.getDimensions();
+        if (dimsA.equals(dimsB)) {
+            switch (A.getDataClass()) {
+            case NLS_INT8:
+                return IntegerIsEqualTemplate<int8>(A, B);
+            case NLS_INT16:
+                return IntegerIsEqualTemplate<int16>(A, B);
+            case NLS_INT32:
+                return IntegerIsEqualTemplate<int32>(A, B);
+            case NLS_INT64:
+                return IntegerIsEqualTemplate<int64>(A, B);
+            case NLS_UINT8:
+                return IntegerIsEqualTemplate<uint8>(A, B);
+            case NLS_UINT16:
+                return IntegerIsEqualTemplate<uint16>(A, B);
+            case NLS_UINT32:
+                return IntegerIsEqualTemplate<uint32>(A, B);
+            case NLS_UINT64:
+                return IntegerIsEqualTemplate<uint64>(A, B);
             }
         }
-        return true;
     }
-    //=============================================================================
-    bool IntegerIsEqual(ArrayOf A, ArrayOf B)
-    {
-        if (A.getDataClass() == B.getDataClass())
-        {
-            Dimensions dimsA = A.getDimensions();
-            Dimensions dimsB = B.getDimensions();
-            if (dimsA.equals(dimsB))
-            {
-                switch (A.getDataClass())
-                {
-                    case NLS_INT8:
-                        return IntegerIsEqualTemplate<int8>(A, B);
-                    case NLS_INT16:
-                        return IntegerIsEqualTemplate<int16>(A, B);
-                    case NLS_INT32:
-                        return IntegerIsEqualTemplate<int32>(A, B);
-                    case NLS_INT64:
-                        return IntegerIsEqualTemplate<int64>(A, B);
-                    case NLS_UINT8:
-                        return IntegerIsEqualTemplate<uint8>(A, B);
-                    case NLS_UINT16:
-                        return IntegerIsEqualTemplate<uint16>(A, B);
-                    case NLS_UINT32:
-                        return IntegerIsEqualTemplate<uint32>(A, B);
-                    case NLS_UINT64:
-                        return IntegerIsEqualTemplate<uint64>(A, B);
-                }
-            }
-        }
-        return false;
-    }
-    //=============================================================================
+    return false;
+}
+//=============================================================================
 }
 //=============================================================================

@@ -21,52 +21,44 @@
 #include "SparseDynamicFunctions.hpp"
 //=============================================================================
 namespace Nelson {
-    ArrayOf TrueConstructor(Dimensions dim, bool bIsSparse)
-    {
-        ArrayOf res;
-        if (bIsSparse)
-        {
-            if (dim.getLength() > 2)
-            {
-                throw Exception(_W("N-dimensional sparse arrays are not supported."));
-            }
-            else
-            {
-                void *pLogicalSparse = LogicalSparseMatrixConstructorDynamicFunction(dim.getRows(), dim.getColumns(), (logical)1);
-                res = ArrayOf(NLS_LOGICAL, dim, (void*)pLogicalSparse, true);
-            }
+ArrayOf
+TrueConstructor(Dimensions dim, bool bIsSparse)
+{
+    ArrayOf res;
+    if (bIsSparse) {
+        if (dim.getLength() > 2) {
+            throw Exception(_W("N-dimensional sparse arrays are not supported."));
+        } else {
+            void* pLogicalSparse = LogicalSparseMatrixConstructorDynamicFunction(
+                dim.getRows(), dim.getColumns(), (logical)1);
+            res = ArrayOf(NLS_LOGICAL, dim, (void*)pLogicalSparse, true);
         }
-        else
-        {
-            logical *pLogical = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, dim.getElementCount());
-            memset(pLogical, 1, sizeof(logical) * dim.getElementCount());
-            res = ArrayOf(NLS_LOGICAL, dim, (void*)pLogical, false);
-        }
-        return res;
+    } else {
+        logical* pLogical = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, dim.getElementCount());
+        memset(pLogical, 1, sizeof(logical) * dim.getElementCount());
+        res = ArrayOf(NLS_LOGICAL, dim, (void*)pLogical, false);
     }
-    //=============================================================================
-    ArrayOf FalseConstructor(Dimensions dim, bool bIsSparse)
-    {
-        ArrayOf res;
-        if (bIsSparse)
-        {
-            if (dim.getLength() > 2)
-            {
-                throw Exception(_W("N-dimensional sparse arrays are not supported."));
-            }
-            else
-            {
-                void *pLogicalSparse = LogicalSparseMatrixConstructorDynamicFunction(dim.getRows(), dim.getColumns(), (logical)0);
-                res = ArrayOf(NLS_LOGICAL, dim, (void*)pLogicalSparse, true);
-            }
+    return res;
+}
+//=============================================================================
+ArrayOf
+FalseConstructor(Dimensions dim, bool bIsSparse)
+{
+    ArrayOf res;
+    if (bIsSparse) {
+        if (dim.getLength() > 2) {
+            throw Exception(_W("N-dimensional sparse arrays are not supported."));
+        } else {
+            void* pLogicalSparse = LogicalSparseMatrixConstructorDynamicFunction(
+                dim.getRows(), dim.getColumns(), (logical)0);
+            res = ArrayOf(NLS_LOGICAL, dim, (void*)pLogicalSparse, true);
         }
-        else
-        {
-            logical *pLogical = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, dim.getElementCount());
-            res = ArrayOf(NLS_LOGICAL, dim, (void*)pLogical, false);
-        }
-        return res;
+    } else {
+        logical* pLogical = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, dim.getElementCount());
+        res = ArrayOf(NLS_LOGICAL, dim, (void*)pLogical, false);
     }
-    //=============================================================================
+    return res;
+}
+//=============================================================================
 }
 //=============================================================================

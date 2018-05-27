@@ -19,45 +19,48 @@
 #ifdef _MSC_VER
 #include <Windows.h>
 #endif
-#include <stdio.h>
-#include <iostream>
 #include "Beep.hpp"
+#include <iostream>
+#include <stdio.h>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    static bool beepOn = true;
-    //=============================================================================
-    bool setBeepOn()
-    {
-        bool previous = beepOn;
-        beepOn = true;
-        return previous;
-    }
-    //=============================================================================
-    bool setBeepOff()
-    {
-        bool previous = beepOn;
-        beepOn = false;
-        return previous;
-    }
-    //=============================================================================
-    bool getBeepState()
-    {
-        return beepOn;
-    }
-    //=============================================================================
-    bool beep()
-    {
-        if (beepOn)
-        {
+//=============================================================================
+static bool beepOn = true;
+//=============================================================================
+bool
+setBeepOn()
+{
+    bool previous = beepOn;
+    beepOn = true;
+    return previous;
+}
+//=============================================================================
+bool
+setBeepOff()
+{
+    bool previous = beepOn;
+    beepOn = false;
+    return previous;
+}
+//=============================================================================
+bool
+getBeepState()
+{
+    return beepOn;
+}
+//=============================================================================
+bool
+beep()
+{
+    if (beepOn) {
 #ifdef _MSC_VER
-            MessageBeep((UINT)-1);
+        MessageBeep((UINT)-1);
 #else
-            std::cout << "\a" << std::flush;
+        std::cout << "\a" << std::flush;
 #endif
-        }
-        return false;
     }
-    //=============================================================================
+    return false;
+}
+//=============================================================================
 }
 //=============================================================================

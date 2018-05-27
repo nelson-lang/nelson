@@ -22,27 +22,26 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::TestsManagerGateway::test_parsetagsBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::TestsManagerGateway::test_parsetagsBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 1)
-    {
+    if (argIn.size() != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     TestTags tags;
     ArrayOf param1 = argIn[0];
     std::wstring value = param1.getContentAsWideString();
     std::wstring msg;
-    if (!ParseTags(eval, value, tags, msg))
-    {
+    if (!ParseTags(eval, value, tags, msg)) {
         Error(eval, msg);
     }
     wstringVector fieldnames;
-    ArrayOfVector  fieldvalues;
+    ArrayOfVector fieldvalues;
     fieldnames.push_back(L"not_fixed");
     fieldvalues.push_back(ArrayOf::logicalConstructor(tags.isNotFixed()));
     fieldnames.push_back(L"interactive_test");

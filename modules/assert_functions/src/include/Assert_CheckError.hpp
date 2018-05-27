@@ -18,11 +18,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "nlsAssert_functions_exports.h"
 #include "Evaluator.hpp"
+#include "nlsAssert_functions_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    NLSASSERT_FUNCTIONS_IMPEXP bool Assert_CheckError(Evaluator *eval, const std::wstring &command, const std::wstring &expectedmsg, std::wstring &msg);
+NLSASSERT_FUNCTIONS_IMPEXP bool
+Assert_CheckError(Evaluator* eval, const std::wstring& command, const std::wstring& expectedmsg,
+    std::wstring& msg);
 }
 //=============================================================================

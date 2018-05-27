@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,28 +9,30 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int mb02cv_(typeg, strucg, k, n, p, q, nb, rnk, a1, lda1, a2, lda2, b, ldb, f1, ldf1, f2, ldf2, g, ldg, cs, dwork, ldwork, info, typeg_len, strucg_len)
-char *typeg, *strucg;
+EXPORTSYMBOL /* Subroutine */ int mb02cv_(typeg, strucg, k, n, p, q, nb, rnk, a1, lda1, a2, lda2, b,
+    ldb, f1, ldf1, f2, ldf2, g, ldg, cs, dwork, ldwork, info, typeg_len, strucg_len) char *typeg,
+    *strucg;
 integer *k, *n, *p, *q, *nb, *rnk;
-doublereal *a1;
-integer *lda1;
-doublereal *a2;
-integer *lda2;
-doublereal *b;
-integer *ldb;
-doublereal *f1;
-integer *ldf1;
-doublereal *f2;
-integer *ldf2;
-doublereal *g;
-integer *ldg;
+doublereal* a1;
+integer* lda1;
+doublereal* a2;
+integer* lda2;
+doublereal* b;
+integer* ldb;
+doublereal* f1;
+integer* ldf1;
+doublereal* f2;
+integer* ldf2;
+doublereal* g;
+integer* ldg;
 doublereal *cs, *dwork;
 integer *ldwork, *info;
 ftnlen typeg_len;
 ftnlen strucg_len;
 {
     /* System generated locals */
-    integer a1_dim1, a1_offset, a2_dim1, a2_offset, b_dim1, b_offset, f1_dim1, f1_offset, f2_dim1, f2_offset, g_dim1, g_offset, i__1, i__2, i__3, i__4, i__5, i__6;
+    integer a1_dim1, a1_offset, a2_dim1, a2_offset, b_dim1, b_offset, f1_dim1, f1_offset, f2_dim1,
+        f2_offset, g_dim1, g_offset, i__1, i__2, i__3, i__4, i__5, i__6;
     doublereal d__1;
     /* Local variables */
     static doublereal beta;
@@ -280,142 +282,103 @@ ftnlen strucg_len;
     *info = 0;
     /* Computing MAX */
     i__1 = 0, i__2 = *p - *k;
-    col2 = max(i__1,i__2);
+    col2 = max(i__1, i__2);
     lrdef = lsame_(typeg, "D", 1L, 1L);
     lcol = lsame_(typeg, "C", 1L, 1L);
     ltri = lsame_(strucg, "T", 1L, 1L);
-    if (lrdef)
-    {
-        wrkmin = max(1,*n);
-    }
-    else
-    {
-        if (*nb >= 1)
-        {
+    if (lrdef) {
+        wrkmin = max(1, *n);
+    } else {
+        if (*nb >= 1) {
             /* Computing MAX */
-            i__1 = 1, i__2 = (*n + *k) **nb;
-            wrkmin = max(i__1,i__2);
-        }
-        else
-        {
-            wrkmin = max(1,*n);
+            i__1 = 1, i__2 = (*n + *k) * *nb;
+            wrkmin = max(i__1, i__2);
+        } else {
+            wrkmin = max(1, *n);
         }
     }
     /*     Check the scalar input parameters. */
-    if (! (lcol || lrdef || lsame_(typeg, "R", 1L, 1L)))
-    {
+    if (!(lcol || lrdef || lsame_(typeg, "R", 1L, 1L))) {
         *info = -1;
-    }
-    else if (! (ltri || lsame_(strucg, "N", 1L, 1L)))
-    {
+    } else if (!(ltri || lsame_(strucg, "N", 1L, 1L))) {
         *info = -2;
-    }
-    else if (*k < 0)
-    {
+    } else if (*k < 0) {
         *info = -3;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -4;
-    }
-    else if (*p < *k)
-    {
+    } else if (*p < *k) {
         *info = -5;
-    }
-    else if (*q < 0 || lrdef && *q < *k)
-    {
+    } else if (*q < 0 || lrdef && *q < *k) {
         *info = -6;
-    }
-    else if (lrdef && (*rnk < 0 || *rnk > *k))
-    {
+    } else if (lrdef && (*rnk < 0 || *rnk > *k)) {
         *info = -8;
-    }
-    else if (*lda1 < 1 || lrdef && *lda1 < *k)
-    {
+    } else if (*lda1 < 1 || lrdef && *lda1 < *k) {
         *info = -10;
-    }
-    else if (*p == *k && *lda2 < 1 || *p > *k && (lrdef || lcol) && *lda2 < max(1,*k) || *p > *k && ! (lrdef || lcol) && *lda2 < *p - *k)
-    {
+    } else if (*p == *k && *lda2 < 1 || *p > *k && (lrdef || lcol) && *lda2 < max(1, *k)
+        || *p > *k && !(lrdef || lcol) && *lda2 < *p - *k) {
         *info = -12;
-    }
-    else if (*q == 0 && *ldb < 1 || *q > 0 && (lrdef || lcol) && *ldb < max(1,*k) || *q > 0 && ! (lrdef || lcol) && *ldb < *q)
-    {
+    } else if (*q == 0 && *ldb < 1 || *q > 0 && (lrdef || lcol) && *ldb < max(1, *k)
+        || *q > 0 && !(lrdef || lcol) && *ldb < *q) {
         *info = -14;
-    }
-    else if ((lrdef || lcol) && *ldf1 < max(1,*n))
-    {
+    } else if ((lrdef || lcol) && *ldf1 < max(1, *n)) {
         *info = -16;
-    }
-    else if (! (lrdef || lcol) && *ldf1 < max(1,*k))
-    {
+    } else if (!(lrdef || lcol) && *ldf1 < max(1, *k)) {
         *info = -16;
-    }
-    else if (*p == *k && *ldf2 < 1 || *p > *k && (lrdef || lcol) && *ldf2 < max(1,*n) || *p > *k && ! (lrdef || lcol) && *ldf2 < *p - *k)
-    {
+    } else if (*p == *k && *ldf2 < 1 || *p > *k && (lrdef || lcol) && *ldf2 < max(1, *n)
+        || *p > *k && !(lrdef || lcol) && *ldf2 < *p - *k) {
         *info = -18;
-    }
-    else if (*q == 0 && *ldg < 1 || *q > 0 && (lrdef || lcol) && *ldg < max(1,*n) || *q > 0 && ! (lrdef || lcol) && *ldg < *q)
-    {
+    } else if (*q == 0 && *ldg < 1 || *q > 0 && (lrdef || lcol) && *ldg < max(1, *n)
+        || *q > 0 && !(lrdef || lcol) && *ldg < *q) {
         *info = -20;
-    }
-    else if (*ldwork < wrkmin)
-    {
-        dwork[1] = (doublereal) wrkmin;
+    } else if (*ldwork < wrkmin) {
+        dwork[1] = (doublereal)wrkmin;
         *info = -23;
     }
     /*     Return if there were illegal values. */
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB02CV", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (min(*k,*n) == 0 || ! lrdef && *q == 0 && *p == *k)
-    {
+    if (min(*k, *n) == 0 || !lrdef && *q == 0 && *p == *k) {
         return 0;
     }
-    if (lrdef)
-    {
+    if (lrdef) {
         /*        Deficient generator. */
-        if (col2 == 0)
-        {
+        if (col2 == 0) {
             pst2 = *k << 1;
-        }
-        else
-        {
+        } else {
             pst2 = *k << 2;
         }
         i__1 = *rnk;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             /*           Apply elementary reflectors. */
-            if (col2 > 1)
-            {
+            if (col2 > 1) {
                 tau = a2[i__ + a2_dim1];
                 a2[i__ + a2_dim1] = 1.;
-                dlarf_("Right", n, &col2, &a2[i__ + a2_dim1], lda2, &tau, &f2[f2_offset], ldf2, &dwork[1], 5L);
+                dlarf_("Right", n, &col2, &a2[i__ + a2_dim1], lda2, &tau, &f2[f2_offset], ldf2,
+                    &dwork[1], 5L);
                 a2[i__ + a2_dim1] = tau;
             }
-            if (*k > i__)
-            {
+            if (*k > i__) {
                 alpha = a1[i__ + i__ * a1_dim1];
                 a1[i__ + i__ * a1_dim1] = 1.;
                 i__2 = *k - i__ + 1;
-                dlarf_("Right", n, &i__2, &a1[i__ + i__ * a1_dim1], lda1, &cs[pst2 + i__], &f1[i__ * f1_dim1 + 1], ldf1, &dwork[1], 5L);
+                dlarf_("Right", n, &i__2, &a1[i__ + i__ * a1_dim1], lda1, &cs[pst2 + i__],
+                    &f1[i__ * f1_dim1 + 1], ldf1, &dwork[1], 5L);
                 a1[i__ + i__ * a1_dim1] = alpha;
             }
-            if (col2 > 0)
-            {
+            if (col2 > 0) {
                 c__ = cs[(*k << 1) + (i__ << 1) - 1];
                 s = cs[(*k << 1) + (i__ << 1)];
                 drot_(n, &f1[i__ * f1_dim1 + 1], &c__1, &f2[f2_offset], &c__1, &c__, &s);
             }
-            if (*q > 1)
-            {
+            if (*q > 1) {
                 tau = b[i__ + b_dim1];
                 b[i__ + b_dim1] = 1.;
-                dlarf_("Right", n, q, &b[i__ + b_dim1], ldb, &tau, &g[g_offset], ldg, &dwork[1], 5L);
+                dlarf_(
+                    "Right", n, q, &b[i__ + b_dim1], ldb, &tau, &g[g_offset], ldg, &dwork[1], 5L);
                 b[i__ + b_dim1] = tau;
             }
             /*           Apply hyperbolic rotation. */
@@ -433,96 +396,87 @@ ftnlen strucg_len;
         len = *q;
         pos = 1;
         i__1 = *k;
-        for (j = *rnk + 1; j <= i__1; ++j)
-        {
+        for (j = *rnk + 1; j <= i__1; ++j) {
             /*           Apply the reductions working on singular rows. */
-            if (col2 > 1)
-            {
+            if (col2 > 1) {
                 tau = a2[j + a2_dim1];
                 a2[j + a2_dim1] = 1.;
-                dlarf_("Right", n, &col2, &a2[j + a2_dim1], lda2, &tau, &f2[f2_offset], ldf2, &dwork[1], 5L);
+                dlarf_("Right", n, &col2, &a2[j + a2_dim1], lda2, &tau, &f2[f2_offset], ldf2,
+                    &dwork[1], 5L);
                 a2[j + a2_dim1] = tau;
             }
-            if (*k > j)
-            {
+            if (*k > j) {
                 alpha = a1[j + j * a1_dim1];
                 a1[j + j * a1_dim1] = 1.;
                 i__2 = *k - j + 1;
-                dlarf_("Right", n, &i__2, &a1[j + j * a1_dim1], lda1, &cs[pst2 + j], &f1[j * f1_dim1 + 1], ldf1, &dwork[1], 5L);
+                dlarf_("Right", n, &i__2, &a1[j + j * a1_dim1], lda1, &cs[pst2 + j],
+                    &f1[j * f1_dim1 + 1], ldf1, &dwork[1], 5L);
                 a1[j + j * a1_dim1] = alpha;
             }
-            if (col2 > 0)
-            {
+            if (col2 > 0) {
                 c__ = cs[(*k << 1) + (j << 1) - 1];
                 s = cs[(*k << 1) + (j << 1)];
                 drot_(n, &f1[j * f1_dim1 + 1], &c__1, &f2[f2_offset], &c__1, &c__, &s);
             }
-            if (len > 1)
-            {
+            if (len > 1) {
                 beta = b[j + pos * b_dim1];
                 b[j + pos * b_dim1] = 1.;
-                dlarf_("Right", n, &len, &b[j + pos * b_dim1], ldb, &cs[(j << 1) - 1], &g[pos * g_dim1 + 1], ldg, &dwork[1], 5L);
+                dlarf_("Right", n, &len, &b[j + pos * b_dim1], ldb, &cs[(j << 1) - 1],
+                    &g[pos * g_dim1 + 1], ldg, &dwork[1], 5L);
                 b[j + pos * b_dim1] = beta;
             }
             --len;
             ++pos;
             /* L20: */
         }
-    }
-    else if (lcol)
-    {
+    } else if (lcol) {
         /*        Column oriented and not deficient generator. */
         /*        Apply an LQ like hyperbolic/orthogonal blocked decomposition. */
-        if (ltri)
-        {
+        if (ltri) {
             /* Computing MAX */
             i__1 = *n - *k;
-            len = max(i__1,0);
-        }
-        else
-        {
+            len = max(i__1, 0);
+        } else {
             len = *n;
         }
-        if (col2 > 0)
-        {
-            nbl = min(col2,*nb);
-            if (nbl > 0)
-            {
+        if (col2 > 0) {
+            nbl = min(col2, *nb);
+            if (nbl > 0) {
                 /*              Blocked version. */
                 i__1 = *k - nbl + 1;
                 i__2 = nbl;
-                for (i__ = 1; i__2 < 0 ? i__ >= i__1 : i__ <= i__1; i__ += i__2)
-                {
+                for (i__ = 1; i__2 < 0 ? i__ >= i__1 : i__ <= i__1; i__ += i__2) {
                     /* Computing MIN */
                     i__3 = *k - i__ + 1;
-                    ib = min(i__3,nbl);
+                    ib = min(i__3, nbl);
                     i__3 = *n + *k;
-                    dlarft_("Forward", "Rowwise", &col2, &ib, &a2[i__ + a2_dim1], lda2, &cs[(*k << 2) + i__], &dwork[1], &i__3, 7L, 7L);
+                    dlarft_("Forward", "Rowwise", &col2, &ib, &a2[i__ + a2_dim1], lda2,
+                        &cs[(*k << 2) + i__], &dwork[1], &i__3, 7L, 7L);
                     i__3 = *n + *k;
                     i__4 = *n + *k;
-                    dlarfb_("Right", "No Transpose", "Forward", "Rowwise", &len, &col2, &ib, &a2[i__ + a2_dim1], lda2, &dwork[1], &i__3, &f2[f2_offset], ldf2, &dwork[ib + 1], &i__4, 5L, 12L, 7L, 7L);
+                    dlarfb_("Right", "No Transpose", "Forward", "Rowwise", &len, &col2, &ib,
+                        &a2[i__ + a2_dim1], lda2, &dwork[1], &i__3, &f2[f2_offset], ldf2,
+                        &dwork[ib + 1], &i__4, 5L, 12L, 7L, 7L);
                     i__3 = i__ + ib - 1;
-                    for (j = i__; j <= i__3; ++j)
-                    {
+                    for (j = i__; j <= i__3; ++j) {
                         tau = a2[j + a2_dim1];
                         a2[j + a2_dim1] = 1.;
                         /* Computing MIN */
                         i__5 = col2, i__6 = j - i__ + 1;
-                        i__4 = min(i__5,i__6);
-                        dlarf_("Right", &len, &i__4, &a2[j + a2_dim1], lda2, &tau, &f2[f2_offset], ldf2, &dwork[1], 5L);
+                        i__4 = min(i__5, i__6);
+                        dlarf_("Right", &len, &i__4, &a2[j + a2_dim1], lda2, &tau, &f2[f2_offset],
+                            ldf2, &dwork[1], 5L);
                         a2[j + a2_dim1] = tau;
                         c__ = cs[(*k << 1) + (j << 1) - 1];
                         s = cs[(*k << 1) + (j << 1)];
                         drot_(&len, &f1[j * f1_dim1 + 1], &c__1, &f2[f2_offset], &c__1, &c__, &s);
-                        if (ltri)
-                        {
+                        if (ltri) {
                             ++len;
                             temp = f1[len + j * f1_dim1];
                             f1[len + j * f1_dim1] = c__ * temp;
                             f2[len + f2_dim1] = -s * temp;
                             i__4 = col2;
-                            for (jj = 2; jj <= i__4; ++jj)
-                            {
+                            for (jj = 2; jj <= i__4; ++jj) {
                                 f2[len + jj * f2_dim1] = 0.;
                                 /* L30: */
                             }
@@ -531,34 +485,29 @@ ftnlen strucg_len;
                     }
                     /* L50: */
                 }
-            }
-            else
-            {
+            } else {
                 i__ = 1;
             }
             /*           Unblocked version for the last or only block. */
             i__2 = *k;
-            for (j = i__; j <= i__2; ++j)
-            {
-                if (col2 > 1)
-                {
+            for (j = i__; j <= i__2; ++j) {
+                if (col2 > 1) {
                     tau = a2[j + a2_dim1];
                     a2[j + a2_dim1] = 1.;
-                    dlarf_("Right", &len, &col2, &a2[j + a2_dim1], lda2, &tau, &f2[f2_offset], ldf2, &dwork[1], 5L);
+                    dlarf_("Right", &len, &col2, &a2[j + a2_dim1], lda2, &tau, &f2[f2_offset], ldf2,
+                        &dwork[1], 5L);
                     a2[j + a2_dim1] = tau;
                 }
                 c__ = cs[(*k << 1) + (j << 1) - 1];
                 s = cs[(*k << 1) + (j << 1)];
                 drot_(&len, &f1[j * f1_dim1 + 1], &c__1, &f2[f2_offset], &c__1, &c__, &s);
-                if (ltri)
-                {
+                if (ltri) {
                     ++len;
                     temp = f1[len + j * f1_dim1];
                     f1[len + j * f1_dim1] = c__ * temp;
                     f2[len + f2_dim1] = -s * temp;
                     i__1 = col2;
-                    for (jj = 2; jj <= i__1; ++jj)
-                    {
+                    for (jj = 2; jj <= i__1; ++jj) {
                         f2[len + jj * f2_dim1] = 0.;
                         /* L60: */
                     }
@@ -566,42 +515,38 @@ ftnlen strucg_len;
                 /* L70: */
             }
             pst2 = *k * 5;
-        }
-        else
-        {
+        } else {
             pst2 = *k << 1;
         }
-        if (ltri)
-        {
+        if (ltri) {
             len = *n - *k;
-        }
-        else
-        {
+        } else {
             len = *n;
         }
-        nbl = min(*q,*nb);
-        if (nbl > 0)
-        {
+        nbl = min(*q, *nb);
+        if (nbl > 0) {
             /*           Blocked version. */
             i__2 = *k - nbl + 1;
             i__1 = nbl;
-            for (i__ = 1; i__1 < 0 ? i__ >= i__2 : i__ <= i__2; i__ += i__1)
-            {
+            for (i__ = 1; i__1 < 0 ? i__ >= i__2 : i__ <= i__2; i__ += i__1) {
                 /* Computing MIN */
                 i__3 = *k - i__ + 1;
-                ib = min(i__3,nbl);
+                ib = min(i__3, nbl);
                 i__3 = *n + *k;
-                dlarft_("Forward", "Rowwise", q, &ib, &b[i__ + b_dim1], ldb, &cs[pst2 + i__], &dwork[1], &i__3, 7L, 7L);
+                dlarft_("Forward", "Rowwise", q, &ib, &b[i__ + b_dim1], ldb, &cs[pst2 + i__],
+                    &dwork[1], &i__3, 7L, 7L);
                 i__3 = *n + *k;
                 i__4 = *n + *k;
-                dlarfb_("Right", "NonTranspose", "Forward", "Rowwise", &len, q, &ib, &b[i__ + b_dim1], ldb, &dwork[1], &i__3, &g[g_offset], ldg, &dwork[ib + 1], &i__4, 5L, 12L, 7L, 7L);
+                dlarfb_("Right", "NonTranspose", "Forward", "Rowwise", &len, q, &ib,
+                    &b[i__ + b_dim1], ldb, &dwork[1], &i__3, &g[g_offset], ldg, &dwork[ib + 1],
+                    &i__4, 5L, 12L, 7L, 7L);
                 i__3 = i__ + ib - 1;
-                for (j = i__; j <= i__3; ++j)
-                {
+                for (j = i__; j <= i__3; ++j) {
                     tau = b[j + b_dim1];
                     b[j + b_dim1] = 1.;
                     i__4 = j - i__ + 1;
-                    dlarf_("Right", &len, &i__4, &b[j + b_dim1], ldb, &tau, &g[g_offset], ldg, &dwork[1], 5L);
+                    dlarf_("Right", &len, &i__4, &b[j + b_dim1], ldb, &tau, &g[g_offset], ldg,
+                        &dwork[1], 5L);
                     b[j + b_dim1] = tau;
                     /*                 Apply hyperbolic rotation. */
                     c__ = cs[(j << 1) - 1];
@@ -613,14 +558,12 @@ ftnlen strucg_len;
                     dscal_(&len, &c__, &g[g_offset], &c__1);
                     d__1 = -s;
                     daxpy_(&len, &d__1, &f1[j * f1_dim1 + 1], &c__1, &g[g_offset], &c__1);
-                    if (ltri)
-                    {
+                    if (ltri) {
                         ++len;
                         g[len + g_dim1] = -s / c__ * f1[len + j * f1_dim1];
                         f1[len + j * f1_dim1] /= c__;
                         i__4 = *q;
-                        for (jj = 2; jj <= i__4; ++jj)
-                        {
+                        for (jj = 2; jj <= i__4; ++jj) {
                             g[len + jj * g_dim1] = 0.;
                             /* L80: */
                         }
@@ -629,24 +572,20 @@ ftnlen strucg_len;
                 }
                 /* L100: */
             }
-        }
-        else
-        {
+        } else {
             i__ = 1;
         }
         /*        Unblocked version for the last or only block. */
         i__1 = *k;
-        for (j = i__; j <= i__1; ++j)
-        {
-            if (*q > 1)
-            {
+        for (j = i__; j <= i__1; ++j) {
+            if (*q > 1) {
                 tau = b[j + b_dim1];
                 b[j + b_dim1] = 1.;
-                dlarf_("Right", &len, q, &b[j + b_dim1], ldb, &tau, &g[g_offset], ldg, &dwork[1], 5L);
+                dlarf_(
+                    "Right", &len, q, &b[j + b_dim1], ldb, &tau, &g[g_offset], ldg, &dwork[1], 5L);
                 b[j + b_dim1] = tau;
             }
-            if (*q > 0)
-            {
+            if (*q > 0) {
                 /*              Apply hyperbolic rotation. */
                 c__ = cs[(j << 1) - 1];
                 s = cs[j * 2];
@@ -657,14 +596,12 @@ ftnlen strucg_len;
                 dscal_(&len, &c__, &g[g_offset], &c__1);
                 d__1 = -s;
                 daxpy_(&len, &d__1, &f1[j * f1_dim1 + 1], &c__1, &g[g_offset], &c__1);
-                if (ltri)
-                {
+                if (ltri) {
                     ++len;
                     g[len + g_dim1] = -s / c__ * f1[len + j * f1_dim1];
                     f1[len + j * f1_dim1] /= c__;
                     i__2 = *q;
-                    for (jj = 2; jj <= i__2; ++jj)
-                    {
+                    for (jj = 2; jj <= i__2; ++jj) {
                         g[len + jj * g_dim1] = 0.;
                         /* L110: */
                     }
@@ -672,60 +609,53 @@ ftnlen strucg_len;
             }
             /* L120: */
         }
-    }
-    else
-    {
+    } else {
         /*        Row oriented and not deficient generator. */
-        if (ltri)
-        {
+        if (ltri) {
             /* Computing MAX */
             i__1 = *n - *k;
-            len = max(i__1,0);
-        }
-        else
-        {
+            len = max(i__1, 0);
+        } else {
             len = *n;
         }
-        if (col2 > 0)
-        {
-            nbl = min(*nb,col2);
-            if (nbl > 0)
-            {
+        if (col2 > 0) {
+            nbl = min(*nb, col2);
+            if (nbl > 0) {
                 /*              Blocked version. */
                 i__1 = *k - nbl + 1;
                 i__2 = nbl;
-                for (i__ = 1; i__2 < 0 ? i__ >= i__1 : i__ <= i__1; i__ += i__2)
-                {
+                for (i__ = 1; i__2 < 0 ? i__ >= i__1 : i__ <= i__1; i__ += i__2) {
                     /* Computing MIN */
                     i__3 = *k - i__ + 1;
-                    ib = min(i__3,nbl);
+                    ib = min(i__3, nbl);
                     i__3 = *n + *k;
-                    dlarft_("Forward", "Columnwise", &col2, &ib, &a2[i__ * a2_dim1 + 1], lda2, &cs[(*k << 2) + i__], &dwork[1], &i__3, 7L, 10L);
+                    dlarft_("Forward", "Columnwise", &col2, &ib, &a2[i__ * a2_dim1 + 1], lda2,
+                        &cs[(*k << 2) + i__], &dwork[1], &i__3, 7L, 10L);
                     i__3 = *n + *k;
                     i__4 = *n + *k;
-                    dlarfb_("Left", "Transpose", "Forward", "Columnwise", &col2, &len, &ib, &a2[i__ * a2_dim1 + 1], lda2, &dwork[1], &i__3, &f2[f2_offset], ldf2, &dwork[ib + 1], &i__4, 4L, 9L, 7L, 10L);
+                    dlarfb_("Left", "Transpose", "Forward", "Columnwise", &col2, &len, &ib,
+                        &a2[i__ * a2_dim1 + 1], lda2, &dwork[1], &i__3, &f2[f2_offset], ldf2,
+                        &dwork[ib + 1], &i__4, 4L, 9L, 7L, 10L);
                     i__3 = i__ + ib - 1;
-                    for (j = i__; j <= i__3; ++j)
-                    {
+                    for (j = i__; j <= i__3; ++j) {
                         tau = a2[j * a2_dim1 + 1];
                         a2[j * a2_dim1 + 1] = 1.;
                         /* Computing MIN */
                         i__5 = col2, i__6 = j - i__ + 1;
-                        i__4 = min(i__5,i__6);
-                        dlarf_("Left", &i__4, &len, &a2[j * a2_dim1 + 1], &c__1, &tau, &f2[f2_offset], ldf2, &dwork[1], 4L);
+                        i__4 = min(i__5, i__6);
+                        dlarf_("Left", &i__4, &len, &a2[j * a2_dim1 + 1], &c__1, &tau,
+                            &f2[f2_offset], ldf2, &dwork[1], 4L);
                         a2[j * a2_dim1 + 1] = tau;
                         c__ = cs[(*k << 1) + (j << 1) - 1];
                         s = cs[(*k << 1) + (j << 1)];
                         drot_(&len, &f1[j + f1_dim1], ldf1, &f2[f2_offset], ldf2, &c__, &s);
-                        if (ltri)
-                        {
+                        if (ltri) {
                             ++len;
                             temp = f1[j + len * f1_dim1];
                             f1[j + len * f1_dim1] = c__ * temp;
                             f2[len * f2_dim1 + 1] = -s * temp;
                             i__4 = col2;
-                            for (jj = 2; jj <= i__4; ++jj)
-                            {
+                            for (jj = 2; jj <= i__4; ++jj) {
                                 f2[jj + len * f2_dim1] = 0.;
                                 /* L130: */
                             }
@@ -734,34 +664,29 @@ ftnlen strucg_len;
                     }
                     /* L150: */
                 }
-            }
-            else
-            {
+            } else {
                 i__ = 1;
             }
             /*           Unblocked version for the last or only block. */
             i__2 = *k;
-            for (j = i__; j <= i__2; ++j)
-            {
-                if (col2 > 1)
-                {
+            for (j = i__; j <= i__2; ++j) {
+                if (col2 > 1) {
                     tau = a2[j * a2_dim1 + 1];
                     a2[j * a2_dim1 + 1] = 1.;
-                    dlarf_("Left", &col2, &len, &a2[j * a2_dim1 + 1], &c__1, &tau, &f2[f2_offset], ldf2, &dwork[1], 4L);
+                    dlarf_("Left", &col2, &len, &a2[j * a2_dim1 + 1], &c__1, &tau, &f2[f2_offset],
+                        ldf2, &dwork[1], 4L);
                     a2[j * a2_dim1 + 1] = tau;
                 }
                 c__ = cs[(*k << 1) + (j << 1) - 1];
                 s = cs[(*k << 1) + (j << 1)];
                 drot_(&len, &f1[j + f1_dim1], ldf1, &f2[f2_offset], ldf2, &c__, &s);
-                if (ltri)
-                {
+                if (ltri) {
                     ++len;
                     temp = f1[j + len * f1_dim1];
                     f1[j + len * f1_dim1] = c__ * temp;
                     f2[len * f2_dim1 + 1] = -s * temp;
                     i__1 = col2;
-                    for (jj = 2; jj <= i__1; ++jj)
-                    {
+                    for (jj = 2; jj <= i__1; ++jj) {
                         f2[jj + len * f2_dim1] = 0.;
                         /* L160: */
                     }
@@ -769,42 +694,38 @@ ftnlen strucg_len;
                 /* L170: */
             }
             pst2 = *k * 5;
-        }
-        else
-        {
+        } else {
             pst2 = *k << 1;
         }
-        if (ltri)
-        {
+        if (ltri) {
             len = *n - *k;
-        }
-        else
-        {
+        } else {
             len = *n;
         }
-        nbl = min(*q,*nb);
-        if (nbl > 0)
-        {
+        nbl = min(*q, *nb);
+        if (nbl > 0) {
             /*           Blocked version. */
             i__2 = *k - nbl + 1;
             i__1 = nbl;
-            for (i__ = 1; i__1 < 0 ? i__ >= i__2 : i__ <= i__2; i__ += i__1)
-            {
+            for (i__ = 1; i__1 < 0 ? i__ >= i__2 : i__ <= i__2; i__ += i__1) {
                 /* Computing MIN */
                 i__3 = *k - i__ + 1;
-                ib = min(i__3,nbl);
+                ib = min(i__3, nbl);
                 i__3 = *n + *k;
-                dlarft_("Forward", "Columnwise", q, &ib, &b[i__ * b_dim1 + 1], ldb, &cs[pst2 + i__], &dwork[1], &i__3, 7L, 10L);
+                dlarft_("Forward", "Columnwise", q, &ib, &b[i__ * b_dim1 + 1], ldb, &cs[pst2 + i__],
+                    &dwork[1], &i__3, 7L, 10L);
                 i__3 = *n + *k;
                 i__4 = *n + *k;
-                dlarfb_("Left", "Transpose", "Forward", "Columnwise", q, &len, &ib, &b[i__ * b_dim1 + 1], ldb, &dwork[1], &i__3, &g[g_offset], ldg, &dwork[ib + 1], &i__4, 4L, 9L, 7L, 10L);
+                dlarfb_("Left", "Transpose", "Forward", "Columnwise", q, &len, &ib,
+                    &b[i__ * b_dim1 + 1], ldb, &dwork[1], &i__3, &g[g_offset], ldg, &dwork[ib + 1],
+                    &i__4, 4L, 9L, 7L, 10L);
                 i__3 = i__ + ib - 1;
-                for (j = i__; j <= i__3; ++j)
-                {
+                for (j = i__; j <= i__3; ++j) {
                     tau = b[j * b_dim1 + 1];
                     b[j * b_dim1 + 1] = 1.;
                     i__4 = j - i__ + 1;
-                    dlarf_("Left", &i__4, &len, &b[j * b_dim1 + 1], &c__1, &tau, &g[g_offset], ldg, &dwork[1], 4L);
+                    dlarf_("Left", &i__4, &len, &b[j * b_dim1 + 1], &c__1, &tau, &g[g_offset], ldg,
+                        &dwork[1], 4L);
                     b[j * b_dim1 + 1] = tau;
                     /*                 Apply hyperbolic rotation. */
                     c__ = cs[(j << 1) - 1];
@@ -816,14 +737,12 @@ ftnlen strucg_len;
                     dscal_(&len, &c__, &g[g_offset], ldg);
                     d__1 = -s;
                     daxpy_(&len, &d__1, &f1[j + f1_dim1], ldf1, &g[g_offset], ldg);
-                    if (ltri)
-                    {
+                    if (ltri) {
                         ++len;
                         g[len * g_dim1 + 1] = -s / c__ * f1[j + len * f1_dim1];
                         f1[j + len * f1_dim1] /= c__;
                         i__4 = *q;
-                        for (jj = 2; jj <= i__4; ++jj)
-                        {
+                        for (jj = 2; jj <= i__4; ++jj) {
                             g[jj + len * g_dim1] = 0.;
                             /* L180: */
                         }
@@ -832,24 +751,20 @@ ftnlen strucg_len;
                 }
                 /* L200: */
             }
-        }
-        else
-        {
+        } else {
             i__ = 1;
         }
         /*        Unblocked version for the last or only block. */
         i__1 = *k;
-        for (j = i__; j <= i__1; ++j)
-        {
-            if (*q > 1)
-            {
+        for (j = i__; j <= i__1; ++j) {
+            if (*q > 1) {
                 tau = b[j * b_dim1 + 1];
                 b[j * b_dim1 + 1] = 1.;
-                dlarf_("Left", q, &len, &b[j * b_dim1 + 1], &c__1, &tau, &g[g_offset], ldg, &dwork[1], 4L);
+                dlarf_("Left", q, &len, &b[j * b_dim1 + 1], &c__1, &tau, &g[g_offset], ldg,
+                    &dwork[1], 4L);
                 b[j * b_dim1 + 1] = tau;
             }
-            if (*q > 0)
-            {
+            if (*q > 0) {
                 /*              Apply hyperbolic rotation. */
                 c__ = cs[(j << 1) - 1];
                 s = cs[j * 2];
@@ -860,14 +775,12 @@ ftnlen strucg_len;
                 dscal_(&len, &c__, &g[g_offset], ldg);
                 d__1 = -s;
                 daxpy_(&len, &d__1, &f1[j + f1_dim1], ldf1, &g[g_offset], ldg);
-                if (ltri)
-                {
+                if (ltri) {
                     ++len;
                     g[len * g_dim1 + 1] = -s / c__ * f1[j + len * f1_dim1];
                     f1[j + len * f1_dim1] /= c__;
                     i__2 = *q;
-                    for (jj = 2; jj <= i__2; ++jj)
-                    {
+                    for (jj = 2; jj <= i__2; ++jj) {
                         g[jj + len * g_dim1] = 0.;
                         /* L210: */
                     }
@@ -878,4 +791,3 @@ ftnlen strucg_len;
     }
     /* *** Last line of MB02CV *** */
 } /* mb02cv_ */
-

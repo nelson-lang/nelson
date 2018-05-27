@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,12 +9,11 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int mb04gd_(m, n, a, lda, jpvt, tau, dwork, info)
-integer *m, *n;
-doublereal *a;
+EXPORTSYMBOL /* Subroutine */ int mb04gd_(m, n, a, lda, jpvt, tau, dwork, info) integer *m, *n;
+doublereal* a;
 integer *lda, *jpvt;
 doublereal *tau, *dwork;
-integer *info;
+integer* info;
 {
     /* System generated locals */
     integer a_dim1, a_offset, i__1, i__2;
@@ -139,45 +138,32 @@ integer *info;
     --dwork;
     /* Function Body */
     *info = 0;
-    if (*m < 0)
-    {
+    if (*m < 0) {
         *info = -1;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -2;
-    }
-    else if (*lda < max(1,*m))
-    {
+    } else if (*lda < max(1, *m)) {
         *info = -4;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB04GD", &i__1, 6L);
         return 0;
     }
-    k = min(*m,*n);
+    k = min(*m, *n);
     /*     Move non-free rows bottom. */
     itemp = *m;
-    for (i__ = *m; i__ >= 1; --i__)
-    {
-        if (jpvt[i__] != 0)
-        {
-            if (i__ != itemp)
-            {
+    for (i__ = *m; i__ >= 1; --i__) {
+        if (jpvt[i__] != 0) {
+            if (i__ != itemp) {
                 dswap_(n, &a[i__ + a_dim1], lda, &a[itemp + a_dim1], lda);
                 jpvt[i__] = jpvt[itemp];
                 jpvt[itemp] = i__;
-            }
-            else
-            {
+            } else {
                 jpvt[i__] = i__;
             }
             --itemp;
-        }
-        else
-        {
+        } else {
             jpvt[i__] = i__;
         }
         /* L10: */
@@ -185,35 +171,31 @@ integer *info;
     nfree = *m - itemp;
     tolz = sqrt(dlamch_("Epsilon", 7L));
     /*     Compute the RQ factorization and update remaining rows. */
-    if (nfree > 0)
-    {
-        ma = min(nfree,*n);
+    if (nfree > 0) {
+        ma = min(nfree, *n);
         dgerq2_(&ma, n, &a[*m - ma + 1 + a_dim1], lda, &tau[k - ma + 1], &dwork[1], info);
         i__1 = *m - ma;
-        dormr2_("Right", "Transpose", &i__1, n, &ma, &a[*m - ma + 1 + a_dim1], lda, &tau[k - ma + 1], &a[a_offset], lda, &dwork[1], info, 5L, 9L);
+        dormr2_("Right", "Transpose", &i__1, n, &ma, &a[*m - ma + 1 + a_dim1], lda,
+            &tau[k - ma + 1], &a[a_offset], lda, &dwork[1], info, 5L, 9L);
     }
-    if (nfree < k)
-    {
+    if (nfree < k) {
         /*        Initialize partial row norms. The first ITEMP elements of */
         /*        DWORK store the exact row norms. (Here, ITEMP is the number of */
         /*        free rows, which have been permuted to be the first ones.) */
         i__1 = itemp;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             i__2 = *n - nfree;
             dwork[i__] = dnrm2_(&i__2, &a[i__ + a_dim1], lda);
             dwork[*m + i__] = dwork[i__];
             /* L20: */
         }
         /*        Compute factorization. */
-        for (i__ = k - nfree; i__ >= 1; --i__)
-        {
+        for (i__ = k - nfree; i__ >= 1; --i__) {
             /*           Determine ith pivot row and swap if necessary. */
             mki = *m - k + i__;
             nki = *n - k + i__;
             pvt = idamax_(&mki, &dwork[1], &c__1);
-            if (pvt != mki)
-            {
+            if (pvt != mki) {
                 dswap_(n, &a[pvt + a_dim1], lda, &a[mki + a_dim1], lda);
                 itemp = jpvt[pvt];
                 jpvt[pvt] = jpvt[mki];
@@ -228,29 +210,25 @@ integer *info;
             aii = a[mki + nki * a_dim1];
             a[mki + nki * a_dim1] = 1.;
             i__1 = mki - 1;
-            dlarf_("Right", &i__1, &nki, &a[mki + a_dim1], lda, &tau[i__], &a[a_offset], lda, &dwork[(*m << 1) + 1], 5L);
+            dlarf_("Right", &i__1, &nki, &a[mki + a_dim1], lda, &tau[i__], &a[a_offset], lda,
+                &dwork[(*m << 1) + 1], 5L);
             a[mki + nki * a_dim1] = aii;
             /*           Update partial row norms. */
             i__1 = mki - 1;
-            for (j = 1; j <= i__1; ++j)
-            {
-                if (dwork[j] != 0.)
-                {
+            for (j = 1; j <= i__1; ++j) {
+                if (dwork[j] != 0.) {
                     temp = (d__1 = a[j + nki * a_dim1], abs(d__1)) / dwork[j];
                     /* Computing MAX */
                     d__1 = (temp + 1.) * (1. - temp);
-                    temp = max(d__1,0.);
+                    temp = max(d__1, 0.);
                     /* Computing 2nd power */
                     d__1 = dwork[j] / dwork[*m + j];
                     temp2 = temp * (d__1 * d__1);
-                    if (temp2 <= tolz)
-                    {
+                    if (temp2 <= tolz) {
                         i__2 = nki - 1;
                         dwork[j] = dnrm2_(&i__2, &a[j + a_dim1], lda);
                         dwork[*m + j] = dwork[j];
-                    }
-                    else
-                    {
+                    } else {
                         dwork[j] *= sqrt(temp);
                     }
                 }
@@ -262,4 +240,3 @@ integer *info;
     return 0;
     /* *** Last line of MB04GD *** */
 } /* mb04gd_ */
-

@@ -1,17 +1,18 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-EXPORTSYMBOL /* Subroutine */ int md03ba_(n, ipar, lipar, fnorm, j, ldj, e, jnorms, gnorm, ipvt, dwork, ldwork, info)
-integer *n, *ipar, *lipar;
+EXPORTSYMBOL /* Subroutine */ int md03ba_(
+    n, ipar, lipar, fnorm, j, ldj, e, jnorms, gnorm, ipvt, dwork, ldwork, info) integer *n,
+    *ipar, *lipar;
 doublereal *fnorm, *j;
-integer *ldj;
+integer* ldj;
 doublereal *e, *jnorms, *gnorm;
-integer *ipvt;
-doublereal *dwork;
+integer* ipvt;
+doublereal* dwork;
 integer *ldwork, *info;
 {
     extern /* Subroutine */ int md03bx_();
@@ -123,8 +124,8 @@ integer *ldwork, *info;
     --j;
     --ipar;
     /* Function Body */
-    md03bx_(&ipar[1], n, fnorm, &j[1], ldj, &e[1], &jnorms[1], gnorm, &ipvt[1], &dwork[1], ldwork, info);
+    md03bx_(&ipar[1], n, fnorm, &j[1], ldj, &e[1], &jnorms[1], gnorm, &ipvt[1], &dwork[1], ldwork,
+        info);
     return 0;
     /* *** Last line of MD03BA *** */
 } /* md03ba_ */
-

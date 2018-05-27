@@ -153,6 +153,7 @@ bin/macosx64/nelson-gui
 /tools/buildhelp/win32/Debug
 /tools/buildhelp/Release
 /tools/buildhelp/Debug
+/tools/clang_format/clang-format.exe
 *.plog
 *.i-*
 .vs/

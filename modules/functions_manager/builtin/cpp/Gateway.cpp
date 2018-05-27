@@ -17,27 +17,26 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NelsonGateway.hpp"
-#include "whichBuiltin.hpp"
-#include "builtinBuiltin.hpp"
-#include "fevalBuiltin.hpp"
-#include "macroargsBuiltin.hpp"
-#include "clearfunBuiltin.hpp"
-#include "whatBuiltin.hpp"
 #include "addpathBuiltin.hpp"
-#include "rmpathBuiltin.hpp"
-#include "pathBuiltin.hpp"
-#include "restoredefaultpathBuiltin.hpp"
-#include "rehashBuiltin.hpp"
-#include "userpathBuiltin.hpp"
+#include "builtinBuiltin.hpp"
+#include "clearfunBuiltin.hpp"
+#include "fevalBuiltin.hpp"
 #include "isbuiltinBuiltin.hpp"
 #include "ismacroBuiltin.hpp"
+#include "macroargsBuiltin.hpp"
+#include "pathBuiltin.hpp"
+#include "rehashBuiltin.hpp"
+#include "restoredefaultpathBuiltin.hpp"
+#include "rmpathBuiltin.hpp"
+#include "userpathBuiltin.hpp"
+#include "whatBuiltin.hpp"
+#include "whichBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"functions_manager";
 //=============================================================================
-static const nlsGateway gateway[] =
-{
+static const nlsGateway gateway[] = {
     { "which", Nelson::FunctionsGateway::whichBuiltin, 1, 1 },
     { "macroargs", Nelson::FunctionsGateway::macroargsBuiltin, 2, 1 },
     { "builtin", Nelson::FunctionsGateway::builtinBuiltin, -1, -1 },

@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,15 +10,14 @@
 static integer c__1 = 1;
 static doublereal c_b15 = 1.;
 
-EXPORTSYMBOL /* Subroutine */ int mb04ny_(m, n, v, incv, tau, a, lda, b, ldb, dwork)
-integer *m, *n;
-doublereal *v;
-integer *incv;
+EXPORTSYMBOL /* Subroutine */ int mb04ny_(m, n, v, incv, tau, a, lda, b, ldb, dwork) integer *m, *n;
+doublereal* v;
+integer* incv;
 doublereal *tau, *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *dwork;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* dwork;
 {
     /* System generated locals */
     integer a_dim1, a_offset, b_dim1, b_offset, i__1;
@@ -113,38 +112,37 @@ doublereal *dwork;
     b -= b_offset;
     --dwork;
     /* Function Body */
-    if (*tau == 0.)
-    {
+    if (*tau == 0.) {
         return 0;
     }
     /*     Form  C * H, where H has order n+1. */
-    switch ((int)(*n + 1))
-    {
-        case 1:
-            goto L10;
-        case 2:
-            goto L30;
-        case 3:
-            goto L50;
-        case 4:
-            goto L70;
-        case 5:
-            goto L90;
-        case 6:
-            goto L110;
-        case 7:
-            goto L130;
-        case 8:
-            goto L150;
-        case 9:
-            goto L170;
-        case 10:
-            goto L190;
+    switch ((int)(*n + 1)) {
+    case 1:
+        goto L10;
+    case 2:
+        goto L30;
+    case 3:
+        goto L50;
+    case 4:
+        goto L70;
+    case 5:
+        goto L90;
+    case 6:
+        goto L110;
+    case 7:
+        goto L130;
+    case 8:
+        goto L150;
+    case 9:
+        goto L170;
+    case 10:
+        goto L190;
     }
     /*     Code for general N. Compute */
     /*     w := C*u,  C := C - tau * w * u'. */
     dcopy_(m, &a[a_offset], &c__1, &dwork[1], &c__1);
-    dgemv_("No transpose", m, n, &c_b15, &b[b_offset], ldb, &v[1], incv, &c_b15, &dwork[1], &c__1, 12L);
+    dgemv_("No transpose", m, n, &c_b15, &b[b_offset], ldb, &v[1], incv, &c_b15, &dwork[1], &c__1,
+        12L);
     d__1 = -(*tau);
     daxpy_(m, &d__1, &dwork[1], &c__1, &a[a_offset], &c__1);
     d__1 = -(*tau);
@@ -154,8 +152,7 @@ L10:
     /*     Special code for 1 x 1 Householder */
     t1 = 1. - *tau;
     i__1 = *m;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         a[j + a_dim1] = t1 * a[j + a_dim1];
         /* L20: */
     }
@@ -163,17 +160,15 @@ L10:
 L30:
     /*     Special code for 2 x 2 Householder */
     iv = 1;
-    if (*incv < 0)
-    {
-        iv = (-(*n) + 1) **incv + 1;
+    if (*incv < 0) {
+        iv = (-(*n) + 1) * *incv + 1;
     }
     v1 = v[iv];
     t1 = *tau * v1;
     i__1 = *m;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         sum = a[j + a_dim1] + v1 * b[j + b_dim1];
-        a[j + a_dim1] -= sum **tau;
+        a[j + a_dim1] -= sum * *tau;
         b[j + b_dim1] -= sum * t1;
         /* L40: */
     }
@@ -181,9 +176,8 @@ L30:
 L50:
     /*     Special code for 3 x 3 Householder */
     iv = 1;
-    if (*incv < 0)
-    {
-        iv = (-(*n) + 1) **incv + 1;
+    if (*incv < 0) {
+        iv = (-(*n) + 1) * *incv + 1;
     }
     v1 = v[iv];
     t1 = *tau * v1;
@@ -191,10 +185,9 @@ L50:
     v2 = v[iv];
     t2 = *tau * v2;
     i__1 = *m;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         sum = a[j + a_dim1] + v1 * b[j + b_dim1] + v2 * b[j + (b_dim1 << 1)];
-        a[j + a_dim1] -= sum **tau;
+        a[j + a_dim1] -= sum * *tau;
         b[j + b_dim1] -= sum * t1;
         b[j + (b_dim1 << 1)] -= sum * t2;
         /* L60: */
@@ -203,9 +196,8 @@ L50:
 L70:
     /*     Special code for 4 x 4 Householder */
     iv = 1;
-    if (*incv < 0)
-    {
-        iv = (-(*n) + 1) **incv + 1;
+    if (*incv < 0) {
+        iv = (-(*n) + 1) * *incv + 1;
     }
     v1 = v[iv];
     t1 = *tau * v1;
@@ -216,10 +208,10 @@ L70:
     v3 = v[iv];
     t3 = *tau * v3;
     i__1 = *m;
-    for (j = 1; j <= i__1; ++j)
-    {
-        sum = a[j + a_dim1] + v1 * b[j + b_dim1] + v2 * b[j + (b_dim1 << 1)] + v3 * b[j + b_dim1 * 3];
-        a[j + a_dim1] -= sum **tau;
+    for (j = 1; j <= i__1; ++j) {
+        sum = a[j + a_dim1] + v1 * b[j + b_dim1] + v2 * b[j + (b_dim1 << 1)]
+            + v3 * b[j + b_dim1 * 3];
+        a[j + a_dim1] -= sum * *tau;
         b[j + b_dim1] -= sum * t1;
         b[j + (b_dim1 << 1)] -= sum * t2;
         b[j + b_dim1 * 3] -= sum * t3;
@@ -229,9 +221,8 @@ L70:
 L90:
     /*     Special code for 5 x 5 Householder */
     iv = 1;
-    if (*incv < 0)
-    {
-        iv = (-(*n) + 1) **incv + 1;
+    if (*incv < 0) {
+        iv = (-(*n) + 1) * *incv + 1;
     }
     v1 = v[iv];
     t1 = *tau * v1;
@@ -245,10 +236,10 @@ L90:
     v4 = v[iv];
     t4 = *tau * v4;
     i__1 = *m;
-    for (j = 1; j <= i__1; ++j)
-    {
-        sum = a[j + a_dim1] + v1 * b[j + b_dim1] + v2 * b[j + (b_dim1 << 1)] + v3 * b[j + b_dim1 * 3] + v4 * b[j + (b_dim1 << 2)];
-        a[j + a_dim1] -= sum **tau;
+    for (j = 1; j <= i__1; ++j) {
+        sum = a[j + a_dim1] + v1 * b[j + b_dim1] + v2 * b[j + (b_dim1 << 1)]
+            + v3 * b[j + b_dim1 * 3] + v4 * b[j + (b_dim1 << 2)];
+        a[j + a_dim1] -= sum * *tau;
         b[j + b_dim1] -= sum * t1;
         b[j + (b_dim1 << 1)] -= sum * t2;
         b[j + b_dim1 * 3] -= sum * t3;
@@ -259,9 +250,8 @@ L90:
 L110:
     /*     Special code for 6 x 6 Householder */
     iv = 1;
-    if (*incv < 0)
-    {
-        iv = (-(*n) + 1) **incv + 1;
+    if (*incv < 0) {
+        iv = (-(*n) + 1) * *incv + 1;
     }
     v1 = v[iv];
     t1 = *tau * v1;
@@ -278,10 +268,10 @@ L110:
     v5 = v[iv];
     t5 = *tau * v5;
     i__1 = *m;
-    for (j = 1; j <= i__1; ++j)
-    {
-        sum = a[j + a_dim1] + v1 * b[j + b_dim1] + v2 * b[j + (b_dim1 << 1)] + v3 * b[j + b_dim1 * 3] + v4 * b[j + (b_dim1 << 2)] + v5 * b[j + b_dim1 * 5];
-        a[j + a_dim1] -= sum **tau;
+    for (j = 1; j <= i__1; ++j) {
+        sum = a[j + a_dim1] + v1 * b[j + b_dim1] + v2 * b[j + (b_dim1 << 1)]
+            + v3 * b[j + b_dim1 * 3] + v4 * b[j + (b_dim1 << 2)] + v5 * b[j + b_dim1 * 5];
+        a[j + a_dim1] -= sum * *tau;
         b[j + b_dim1] -= sum * t1;
         b[j + (b_dim1 << 1)] -= sum * t2;
         b[j + b_dim1 * 3] -= sum * t3;
@@ -293,9 +283,8 @@ L110:
 L130:
     /*     Special code for 7 x 7 Householder */
     iv = 1;
-    if (*incv < 0)
-    {
-        iv = (-(*n) + 1) **incv + 1;
+    if (*incv < 0) {
+        iv = (-(*n) + 1) * *incv + 1;
     }
     v1 = v[iv];
     t1 = *tau * v1;
@@ -315,10 +304,11 @@ L130:
     v6 = v[iv];
     t6 = *tau * v6;
     i__1 = *m;
-    for (j = 1; j <= i__1; ++j)
-    {
-        sum = a[j + a_dim1] + v1 * b[j + b_dim1] + v2 * b[j + (b_dim1 << 1)] + v3 * b[j + b_dim1 * 3] + v4 * b[j + (b_dim1 << 2)] + v5 * b[j + b_dim1 * 5] + v6 * b[j + b_dim1 * 6];
-        a[j + a_dim1] -= sum **tau;
+    for (j = 1; j <= i__1; ++j) {
+        sum = a[j + a_dim1] + v1 * b[j + b_dim1] + v2 * b[j + (b_dim1 << 1)]
+            + v3 * b[j + b_dim1 * 3] + v4 * b[j + (b_dim1 << 2)] + v5 * b[j + b_dim1 * 5]
+            + v6 * b[j + b_dim1 * 6];
+        a[j + a_dim1] -= sum * *tau;
         b[j + b_dim1] -= sum * t1;
         b[j + (b_dim1 << 1)] -= sum * t2;
         b[j + b_dim1 * 3] -= sum * t3;
@@ -331,9 +321,8 @@ L130:
 L150:
     /*     Special code for 8 x 8 Householder */
     iv = 1;
-    if (*incv < 0)
-    {
-        iv = (-(*n) + 1) **incv + 1;
+    if (*incv < 0) {
+        iv = (-(*n) + 1) * *incv + 1;
     }
     v1 = v[iv];
     t1 = *tau * v1;
@@ -356,10 +345,11 @@ L150:
     v7 = v[iv];
     t7 = *tau * v7;
     i__1 = *m;
-    for (j = 1; j <= i__1; ++j)
-    {
-        sum = a[j + a_dim1] + v1 * b[j + b_dim1] + v2 * b[j + (b_dim1 << 1)] + v3 * b[j + b_dim1 * 3] + v4 * b[j + (b_dim1 << 2)] + v5 * b[j + b_dim1 * 5] + v6 * b[j + b_dim1 * 6] + v7 * b[j + b_dim1 * 7];
-        a[j + a_dim1] -= sum **tau;
+    for (j = 1; j <= i__1; ++j) {
+        sum = a[j + a_dim1] + v1 * b[j + b_dim1] + v2 * b[j + (b_dim1 << 1)]
+            + v3 * b[j + b_dim1 * 3] + v4 * b[j + (b_dim1 << 2)] + v5 * b[j + b_dim1 * 5]
+            + v6 * b[j + b_dim1 * 6] + v7 * b[j + b_dim1 * 7];
+        a[j + a_dim1] -= sum * *tau;
         b[j + b_dim1] -= sum * t1;
         b[j + (b_dim1 << 1)] -= sum * t2;
         b[j + b_dim1 * 3] -= sum * t3;
@@ -373,9 +363,8 @@ L150:
 L170:
     /*     Special code for 9 x 9 Householder */
     iv = 1;
-    if (*incv < 0)
-    {
-        iv = (-(*n) + 1) **incv + 1;
+    if (*incv < 0) {
+        iv = (-(*n) + 1) * *incv + 1;
     }
     v1 = v[iv];
     t1 = *tau * v1;
@@ -401,10 +390,11 @@ L170:
     v8 = v[iv];
     t8 = *tau * v8;
     i__1 = *m;
-    for (j = 1; j <= i__1; ++j)
-    {
-        sum = a[j + a_dim1] + v1 * b[j + b_dim1] + v2 * b[j + (b_dim1 << 1)] + v3 * b[j + b_dim1 * 3] + v4 * b[j + (b_dim1 << 2)] + v5 * b[j + b_dim1 * 5] + v6 * b[j + b_dim1 * 6] + v7 * b[j + b_dim1 * 7] + v8 * b[j + (b_dim1 << 3)];
-        a[j + a_dim1] -= sum **tau;
+    for (j = 1; j <= i__1; ++j) {
+        sum = a[j + a_dim1] + v1 * b[j + b_dim1] + v2 * b[j + (b_dim1 << 1)]
+            + v3 * b[j + b_dim1 * 3] + v4 * b[j + (b_dim1 << 2)] + v5 * b[j + b_dim1 * 5]
+            + v6 * b[j + b_dim1 * 6] + v7 * b[j + b_dim1 * 7] + v8 * b[j + (b_dim1 << 3)];
+        a[j + a_dim1] -= sum * *tau;
         b[j + b_dim1] -= sum * t1;
         b[j + (b_dim1 << 1)] -= sum * t2;
         b[j + b_dim1 * 3] -= sum * t3;
@@ -419,9 +409,8 @@ L170:
 L190:
     /*     Special code for 10 x 10 Householder */
     iv = 1;
-    if (*incv < 0)
-    {
-        iv = (-(*n) + 1) **incv + 1;
+    if (*incv < 0) {
+        iv = (-(*n) + 1) * *incv + 1;
     }
     v1 = v[iv];
     t1 = *tau * v1;
@@ -450,10 +439,12 @@ L190:
     v9 = v[iv];
     t9 = *tau * v9;
     i__1 = *m;
-    for (j = 1; j <= i__1; ++j)
-    {
-        sum = a[j + a_dim1] + v1 * b[j + b_dim1] + v2 * b[j + (b_dim1 << 1)] + v3 * b[j + b_dim1 * 3] + v4 * b[j + (b_dim1 << 2)] + v5 * b[j + b_dim1 * 5] + v6 * b[j + b_dim1 * 6] + v7 * b[j + b_dim1 * 7] + v8 * b[j + (b_dim1 << 3)] + v9 * b[j + b_dim1 * 9];
-        a[j + a_dim1] -= sum **tau;
+    for (j = 1; j <= i__1; ++j) {
+        sum = a[j + a_dim1] + v1 * b[j + b_dim1] + v2 * b[j + (b_dim1 << 1)]
+            + v3 * b[j + b_dim1 * 3] + v4 * b[j + (b_dim1 << 2)] + v5 * b[j + b_dim1 * 5]
+            + v6 * b[j + b_dim1 * 6] + v7 * b[j + b_dim1 * 7] + v8 * b[j + (b_dim1 << 3)]
+            + v9 * b[j + b_dim1 * 9];
+        a[j + a_dim1] -= sum * *tau;
         b[j + b_dim1] -= sum * t1;
         b[j + (b_dim1 << 1)] -= sum * t2;
         b[j + b_dim1 * 3] -= sum * t3;
@@ -469,4 +460,3 @@ L210:
     return 0;
     /* *** Last line of MB04NY *** */
 } /* mb04ny_ */
-

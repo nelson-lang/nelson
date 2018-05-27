@@ -1,17 +1,18 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-EXPORTSYMBOL /* Subroutine */ int mb01kd_(uplo, trans, n, k, alpha, a, lda, b, ldb, beta, c__, ldc, info, uplo_len, trans_len)
-char *uplo, *trans;
+EXPORTSYMBOL /* Subroutine */ int mb01kd_(
+    uplo, trans, n, k, alpha, a, lda, b, ldb, beta, c__, ldc, info, uplo_len, trans_len) char *uplo,
+    *trans;
 integer *n, *k;
 doublereal *alpha, *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
+integer* lda;
+doublereal* b;
+integer* ldb;
 doublereal *beta, *c__;
 integer *ldc, *info;
 ftnlen uplo_len;
@@ -155,104 +156,71 @@ ftnlen trans_len;
     lup = lsame_(uplo, "U", 1L, 1L);
     ltran = lsame_(trans, "T", 1L, 1L) || lsame_(trans, "C", 1L, 1L);
     /*     Check the scalar input parameters. */
-    if (! (lup || lsame_(uplo, "L", 1L, 1L)))
-    {
+    if (!(lup || lsame_(uplo, "L", 1L, 1L))) {
         *info = -1;
-    }
-    else if (! (ltran || lsame_(trans, "N", 1L, 1L)))
-    {
+    } else if (!(ltran || lsame_(trans, "N", 1L, 1L))) {
         *info = -2;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -3;
-    }
-    else if (*k < 0)
-    {
+    } else if (*k < 0) {
         *info = -4;
-    }
-    else if (! ltran && *lda < *n || *lda < 1 || ltran && *lda < *k)
-    {
+    } else if (!ltran && *lda < *n || *lda < 1 || ltran && *lda < *k) {
         *info = -7;
-    }
-    else if (! ltran && *ldb < *n || *ldb < 1 || ltran && *ldb < *k)
-    {
+    } else if (!ltran && *ldb < *n || *ldb < 1 || ltran && *ldb < *k) {
         *info = -9;
-    }
-    else if (*ldc < max(1,*n))
-    {
+    } else if (*ldc < max(1, *n)) {
         *info = -12;
     }
     /*     Return if there were illegal values. */
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB01KD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n <= 1 || (*alpha == 0. || *k == 0) && *beta == 1.)
-    {
+    if (*n <= 1 || (*alpha == 0. || *k == 0) && *beta == 1.) {
         return 0;
     }
     /*     Special case ALPHA = 0. */
-    if (*alpha == 0.)
-    {
-        if (lup)
-        {
-            if (*beta == 0.)
-            {
+    if (*alpha == 0.) {
+        if (lup) {
+            if (*beta == 0.) {
                 i__1 = *n;
-                for (j = 2; j <= i__1; ++j)
-                {
+                for (j = 2; j <= i__1; ++j) {
                     i__2 = j - 1;
-                    for (i__ = 1; i__ <= i__2; ++i__)
-                    {
+                    for (i__ = 1; i__ <= i__2; ++i__) {
                         c__[i__ + j * c_dim1] = 0.;
                         /* L10: */
                     }
                     /* L20: */
                 }
-            }
-            else
-            {
+            } else {
                 i__1 = *n;
-                for (j = 2; j <= i__1; ++j)
-                {
+                for (j = 2; j <= i__1; ++j) {
                     i__2 = j - 1;
-                    for (i__ = 1; i__ <= i__2; ++i__)
-                    {
+                    for (i__ = 1; i__ <= i__2; ++i__) {
                         c__[i__ + j * c_dim1] = *beta * c__[i__ + j * c_dim1];
                         /* L30: */
                     }
                     /* L40: */
                 }
             }
-        }
-        else
-        {
-            if (*beta == 0.)
-            {
+        } else {
+            if (*beta == 0.) {
                 i__1 = *n - 1;
-                for (j = 1; j <= i__1; ++j)
-                {
+                for (j = 1; j <= i__1; ++j) {
                     i__2 = *n;
-                    for (i__ = j + 1; i__ <= i__2; ++i__)
-                    {
+                    for (i__ = j + 1; i__ <= i__2; ++i__) {
                         c__[i__ + j * c_dim1] = 0.;
                         /* L50: */
                     }
                     /* L60: */
                 }
-            }
-            else
-            {
+            } else {
                 i__1 = *n - 1;
-                for (j = 1; j <= i__1; ++j)
-                {
+                for (j = 1; j <= i__1; ++j) {
                     i__2 = *n;
-                    for (i__ = j + 1; i__ <= i__2; ++i__)
-                    {
+                    for (i__ = j + 1; i__ <= i__2; ++i__) {
                         c__[i__ + j * c_dim1] = *beta * c__[i__ + j * c_dim1];
                         /* L70: */
                     }
@@ -263,43 +231,33 @@ ftnlen trans_len;
         return 0;
     }
     /*     Normal case. */
-    if (! ltran)
-    {
+    if (!ltran) {
         /*        Update C := alpha*A*B' - alpha*B*A' + beta*C. */
-        if (lup)
-        {
+        if (lup) {
             i__1 = *n;
-            for (j = 2; j <= i__1; ++j)
-            {
-                if (*beta == 0.)
-                {
+            for (j = 2; j <= i__1; ++j) {
+                if (*beta == 0.) {
                     i__2 = j - 1;
-                    for (i__ = 1; i__ <= i__2; ++i__)
-                    {
+                    for (i__ = 1; i__ <= i__2; ++i__) {
                         c__[i__ + j * c_dim1] = 0.;
                         /* L90: */
                     }
-                }
-                else if (*beta != 1.)
-                {
+                } else if (*beta != 1.) {
                     i__2 = j - 1;
-                    for (i__ = 1; i__ <= i__2; ++i__)
-                    {
+                    for (i__ = 1; i__ <= i__2; ++i__) {
                         c__[i__ + j * c_dim1] = *beta * c__[i__ + j * c_dim1];
                         /* L100: */
                     }
                 }
                 i__2 = *k;
-                for (l = 1; l <= i__2; ++l)
-                {
-                    if (a[j + l * a_dim1] != 0. || b[j + l * b_dim1] != 0.)
-                    {
+                for (l = 1; l <= i__2; ++l) {
+                    if (a[j + l * a_dim1] != 0. || b[j + l * b_dim1] != 0.) {
                         temp1 = *alpha * b[j + l * b_dim1];
                         temp2 = *alpha * a[j + l * a_dim1];
                         i__3 = j - 1;
-                        for (i__ = 1; i__ <= i__3; ++i__)
-                        {
-                            c__[i__ + j * c_dim1] = c__[i__ + j * c_dim1] + a[i__ + l * a_dim1] * temp1 - b[i__ + l * b_dim1] * temp2;
+                        for (i__ = 1; i__ <= i__3; ++i__) {
+                            c__[i__ + j * c_dim1] = c__[i__ + j * c_dim1]
+                                + a[i__ + l * a_dim1] * temp1 - b[i__ + l * b_dim1] * temp2;
                             /* L110: */
                         }
                     }
@@ -307,41 +265,31 @@ ftnlen trans_len;
                 }
                 /* L130: */
             }
-        }
-        else
-        {
+        } else {
             i__1 = *n - 1;
-            for (j = 1; j <= i__1; ++j)
-            {
-                if (*beta == 0.)
-                {
+            for (j = 1; j <= i__1; ++j) {
+                if (*beta == 0.) {
                     i__2 = *n;
-                    for (i__ = j + 1; i__ <= i__2; ++i__)
-                    {
+                    for (i__ = j + 1; i__ <= i__2; ++i__) {
                         c__[i__ + j * c_dim1] = 0.;
                         /* L140: */
                     }
-                }
-                else if (*beta != 1.)
-                {
+                } else if (*beta != 1.) {
                     i__2 = *n;
-                    for (i__ = j + 1; i__ <= i__2; ++i__)
-                    {
+                    for (i__ = j + 1; i__ <= i__2; ++i__) {
                         c__[i__ + j * c_dim1] = *beta * c__[i__ + j * c_dim1];
                         /* L150: */
                     }
                 }
                 i__2 = *k;
-                for (l = 1; l <= i__2; ++l)
-                {
-                    if (a[j + l * a_dim1] != 0. || b[j + l * b_dim1] != 0.)
-                    {
+                for (l = 1; l <= i__2; ++l) {
+                    if (a[j + l * a_dim1] != 0. || b[j + l * b_dim1] != 0.) {
                         temp1 = *alpha * b[j + l * b_dim1];
                         temp2 = *alpha * a[j + l * a_dim1];
                         i__3 = *n;
-                        for (i__ = j + 1; i__ <= i__3; ++i__)
-                        {
-                            c__[i__ + j * c_dim1] = c__[i__ + j * c_dim1] + a[i__ + l * a_dim1] * temp1 - b[i__ + l * b_dim1] * temp2;
+                        for (i__ = j + 1; i__ <= i__3; ++i__) {
+                            c__[i__ + j * c_dim1] = c__[i__ + j * c_dim1]
+                                + a[i__ + l * a_dim1] * temp1 - b[i__ + l * b_dim1] * temp2;
                             /* L160: */
                         }
                     }
@@ -350,64 +298,49 @@ ftnlen trans_len;
                 /* L180: */
             }
         }
-    }
-    else
-    {
+    } else {
         /*        Update C := alpha*A'*B - alpha*B'*A + beta*C. */
-        if (lup)
-        {
+        if (lup) {
             i__1 = *n;
-            for (j = 2; j <= i__1; ++j)
-            {
+            for (j = 2; j <= i__1; ++j) {
                 i__2 = j - 1;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = 1; i__ <= i__2; ++i__) {
                     temp1 = 0.;
                     temp2 = 0.;
                     i__3 = *k;
-                    for (l = 1; l <= i__3; ++l)
-                    {
+                    for (l = 1; l <= i__3; ++l) {
                         temp1 += a[l + i__ * a_dim1] * b[l + j * b_dim1];
                         temp2 += b[l + i__ * b_dim1] * a[l + j * a_dim1];
                         /* L190: */
                     }
-                    if (*beta == 0.)
-                    {
+                    if (*beta == 0.) {
                         c__[i__ + j * c_dim1] = *alpha * temp1 - *alpha * temp2;
-                    }
-                    else
-                    {
-                        c__[i__ + j * c_dim1] = *beta * c__[i__ + j * c_dim1] + *alpha * temp1 - *alpha * temp2;
+                    } else {
+                        c__[i__ + j * c_dim1]
+                            = *beta * c__[i__ + j * c_dim1] + *alpha * temp1 - *alpha * temp2;
                     }
                     /* L200: */
                 }
                 /* L210: */
             }
-        }
-        else
-        {
+        } else {
             i__1 = *n - 1;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 i__2 = *n;
-                for (i__ = j + 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = j + 1; i__ <= i__2; ++i__) {
                     temp1 = 0.;
                     temp2 = 0.;
                     i__3 = *k;
-                    for (l = 1; l <= i__3; ++l)
-                    {
+                    for (l = 1; l <= i__3; ++l) {
                         temp1 += a[l + i__ * a_dim1] * b[l + j * b_dim1];
                         temp2 += b[l + i__ * b_dim1] * a[l + j * a_dim1];
                         /* L220: */
                     }
-                    if (*beta == 0.)
-                    {
+                    if (*beta == 0.) {
                         c__[i__ + j * c_dim1] = *alpha * temp1 - *alpha * temp2;
-                    }
-                    else
-                    {
-                        c__[i__ + j * c_dim1] = *beta * c__[i__ + j * c_dim1] + *alpha * temp1 - *alpha * temp2;
+                    } else {
+                        c__[i__ + j * c_dim1]
+                            = *beta * c__[i__ + j * c_dim1] + *alpha * temp1 - *alpha * temp2;
                     }
                     /* L230: */
                 }
@@ -418,4 +351,3 @@ ftnlen trans_len;
     return 0;
     /* *** Last line of MB01KD *** */
 } /* mb01kd_ */
-

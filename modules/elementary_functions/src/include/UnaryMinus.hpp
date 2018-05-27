@@ -23,9 +23,10 @@
 #include "ClassName.hpp"
 //=============================================================================
 namespace Nelson {
-    /**
-    * C = -A
-    */
-    NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf UnaryMinus(ArrayOf &A, bool mustRaiseError, bool &bSuccess);
+/**
+ * C = -A
+ */
+NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
+UnaryMinus(ArrayOf& A, bool mustRaiseError, bool& bSuccess);
 }
 //=============================================================================

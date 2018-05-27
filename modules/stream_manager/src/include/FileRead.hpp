@@ -18,15 +18,16 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "nlsStream_manager_exports.h"
-#include "File.hpp"
 #include "ArrayOf.hpp"
 #include "Endian.hpp"
 #include "Evaluator.hpp"
+#include "File.hpp"
+#include "nlsStream_manager_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    NLSSTREAM_MANAGER_IMPEXP ArrayOf FileRead(Evaluator *eval, File *fp, int64 sizeToRead, Class classPrecision, size_t skip, bool bIsLittleEndian, int &sizeReallyRead);
+NLSSTREAM_MANAGER_IMPEXP ArrayOf
+FileRead(Evaluator* eval, File* fp, int64 sizeToRead, Class classPrecision, size_t skip,
+    bool bIsLittleEndian, int& sizeReallyRead);
 };
 //=============================================================================
-

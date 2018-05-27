@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,31 +9,34 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int tg01id_(jobobs, compq, compz, n, m, p, a, lda, e, lde, b, ldb, c__, ldc, q, ldq, z__, ldz, nobsv, niuobs, nlblck, ctau, tol, iwork, dwork, info, jobobs_len, compq_len, compz_len)
-char *jobobs, *compq, *compz;
+EXPORTSYMBOL /* Subroutine */ int tg01id_(jobobs, compq, compz, n, m, p, a, lda, e, lde, b, ldb,
+    c__, ldc, q, ldq, z__, ldz, nobsv, niuobs, nlblck, ctau, tol, iwork, dwork, info, jobobs_len,
+    compq_len, compz_len) char *jobobs,
+    *compq, *compz;
 integer *n, *m, *p;
-doublereal *a;
-integer *lda;
-doublereal *e;
-integer *lde;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *q;
-integer *ldq;
-doublereal *z__;
+doublereal* a;
+integer* lda;
+doublereal* e;
+integer* lde;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* q;
+integer* ldq;
+doublereal* z__;
 integer *ldz, *nobsv, *niuobs, *nlblck, *ctau;
-doublereal *tol;
-integer *iwork;
-doublereal *dwork;
-integer *info;
+doublereal* tol;
+integer* iwork;
+doublereal* dwork;
+integer* info;
 ftnlen jobobs_len;
 ftnlen compq_len;
 ftnlen compz_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, e_dim1, e_offset, q_dim1, q_offset, z_dim1, z_offset, i__1, i__2, i__3;
+    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, e_dim1, e_offset, q_dim1,
+        q_offset, z_dim1, z_offset, i__1, i__2, i__3;
     /* Local variables */
     static char jobq[1], jobz[1];
     extern /* Subroutine */ int ma02bd_(), ma02cd_();
@@ -400,237 +403,170 @@ ftnlen compz_len;
     --iwork;
     --dwork;
     /* Function Body */
-    if (lsame_(jobobs, "O", 1L, 1L))
-    {
+    if (lsame_(jobobs, "O", 1L, 1L)) {
         finobs = TRUE_;
         infobs = TRUE_;
-    }
-    else if (lsame_(jobobs, "F", 1L, 1L))
-    {
+    } else if (lsame_(jobobs, "F", 1L, 1L)) {
         finobs = TRUE_;
         infobs = FALSE_;
-    }
-    else if (lsame_(jobobs, "I", 1L, 1L))
-    {
+    } else if (lsame_(jobobs, "I", 1L, 1L)) {
         finobs = FALSE_;
         infobs = TRUE_;
-    }
-    else
-    {
+    } else {
         finobs = FALSE_;
         infobs = FALSE_;
     }
     /*     Decode COMPQ. */
-    if (lsame_(compq, "N", 1L, 1L))
-    {
+    if (lsame_(compq, "N", 1L, 1L)) {
         ilq = FALSE_;
         icompq = 1;
-    }
-    else if (lsame_(compq, "U", 1L, 1L))
-    {
+    } else if (lsame_(compq, "U", 1L, 1L)) {
         ilq = TRUE_;
         icompq = 2;
-    }
-    else if (lsame_(compq, "I", 1L, 1L))
-    {
+    } else if (lsame_(compq, "I", 1L, 1L)) {
         ilq = TRUE_;
         icompq = 3;
-    }
-    else
-    {
+    } else {
         icompq = 0;
     }
     /*     Decode COMPZ. */
-    if (lsame_(compz, "N", 1L, 1L))
-    {
+    if (lsame_(compz, "N", 1L, 1L)) {
         ilz = FALSE_;
         icompz = 1;
-    }
-    else if (lsame_(compz, "U", 1L, 1L))
-    {
+    } else if (lsame_(compz, "U", 1L, 1L)) {
         ilz = TRUE_;
         icompz = 2;
-    }
-    else if (lsame_(compz, "I", 1L, 1L))
-    {
+    } else if (lsame_(compz, "I", 1L, 1L)) {
         ilz = TRUE_;
         icompz = 3;
-    }
-    else
-    {
+    } else {
         icompz = 0;
     }
     /*     Test the input scalar parameters. */
     *info = 0;
-    if (! finobs && ! infobs)
-    {
+    if (!finobs && !infobs) {
         *info = -1;
-    }
-    else if (icompq <= 0)
-    {
+    } else if (icompq <= 0) {
         *info = -2;
-    }
-    else if (icompz <= 0)
-    {
+    } else if (icompz <= 0) {
         *info = -3;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -4;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -5;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -6;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -8;
-    }
-    else if (*lde < max(1,*n))
-    {
+    } else if (*lde < max(1, *n)) {
         *info = -10;
-    }
-    else if (*ldb < 1 || *m > 0 && *ldb < *n)
-    {
+    } else if (*ldb < 1 || *m > 0 && *ldb < *n) {
         *info = -12;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
-        i__1 = max(1,*m);
-        if (*ldc < max(i__1,*p))
-        {
+        i__1 = max(1, *m);
+        if (*ldc < max(i__1, *p)) {
             *info = -14;
-        }
-        else if (ilq && *ldq < *n || *ldq < 1)
-        {
+        } else if (ilq && *ldq < *n || *ldq < 1) {
             *info = -16;
-        }
-        else if (ilz && *ldz < *n || *ldz < 1)
-        {
+        } else if (ilz && *ldz < *n || *ldz < 1) {
             *info = -18;
-        }
-        else if (*tol >= 1.)
-        {
+        } else if (*tol >= 1.) {
             *info = -23;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("TG01ID", &i__1, 6L);
         return 0;
     }
-    *(unsigned char *)jobq = *(unsigned char *)compq;
-    *(unsigned char *)jobz = *(unsigned char *)compz;
+    *(unsigned char*)jobq = *(unsigned char*)compq;
+    *(unsigned char*)jobz = *(unsigned char*)compz;
     /*     Build the dual system. */
-    ab07md_("Z", n, m, p, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, dum, &c__1, info, 1L);
+    ab07md_("Z", n, m, p, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, dum, &c__1,
+        info, 1L);
     i__1 = *n;
-    for (i__ = 2; i__ <= i__1; ++i__)
-    {
+    for (i__ = 2; i__ <= i__1; ++i__) {
         i__2 = i__ - 1;
         dswap_(&i__2, &e[i__ + e_dim1], lde, &e[i__ * e_dim1 + 1], &c__1);
         /* L10: */
     }
-    if (finobs)
-    {
+    if (finobs) {
         /*        Perform finite observability form reduction. */
         /* Computing MAX */
         i__2 = 0, i__3 = *n - 1;
-        i__1 = max(i__2,i__3);
-        tg01hx_(jobz, jobq, n, n, p, m, n, &i__1, &a[a_offset], lda, &e[e_offset], lde, &b[b_offset], ldb, &c__[c_offset], ldc, &z__[z_offset], ldz, &q[q_offset], ldq, &nr, nlblck, &ctau[1], tol, &iwork[1], &dwork[1], info, 1L, 1L);
-        if (*nlblck > 1)
-        {
+        i__1 = max(i__2, i__3);
+        tg01hx_(jobz, jobq, n, n, p, m, n, &i__1, &a[a_offset], lda, &e[e_offset], lde,
+            &b[b_offset], ldb, &c__[c_offset], ldc, &z__[z_offset], ldz, &q[q_offset], ldq, &nr,
+            nlblck, &ctau[1], tol, &iwork[1], &dwork[1], info, 1L, 1L);
+        if (*nlblck > 1) {
             lba = ctau[1] + ctau[2] - 1;
-        }
-        else if (*nlblck == 1)
-        {
+        } else if (*nlblck == 1) {
             lba = ctau[1] - 1;
-        }
-        else
-        {
+        } else {
             lba = 0;
         }
-        if (ilq)
-        {
-            *(unsigned char *)jobq = 'U';
+        if (ilq) {
+            *(unsigned char*)jobq = 'U';
         }
-        if (ilz)
-        {
-            *(unsigned char *)jobz = 'U';
+        if (ilz) {
+            *(unsigned char*)jobz = 'U';
         }
         lbe = 0;
-    }
-    else
-    {
+    } else {
         nr = *n;
         /* Computing MAX */
         i__1 = 0, i__2 = *n - 1;
-        lba = max(i__1,i__2);
+        lba = max(i__1, i__2);
         lbe = lba;
     }
-    if (infobs)
-    {
+    if (infobs) {
         /*        Perform infinite observability form reduction. */
-        tg01hx_(jobz, jobq, n, n, p, m, &nr, &lba, &e[e_offset], lde, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, &z__[z_offset], ldz, &q[q_offset], ldq, nobsv, nlblck, &ctau[1], tol, &iwork[1], &dwork[1], info, 1L, 1L);
-        if (finobs)
-        {
+        tg01hx_(jobz, jobq, n, n, p, m, &nr, &lba, &e[e_offset], lde, &a[a_offset], lda,
+            &b[b_offset], ldb, &c__[c_offset], ldc, &z__[z_offset], ldz, &q[q_offset], ldq, nobsv,
+            nlblck, &ctau[1], tol, &iwork[1], &dwork[1], info, 1L, 1L);
+        if (finobs) {
             *niuobs = nr - *nobsv;
-        }
-        else
-        {
+        } else {
             *niuobs = 0;
         }
-        if (*nlblck > 1)
-        {
+        if (*nlblck > 1) {
             lbe = ctau[1] + ctau[2] - 1;
-        }
-        else if (*nlblck == 1)
-        {
+        } else if (*nlblck == 1) {
             lbe = ctau[1] - 1;
-        }
-        else
-        {
+        } else {
             lbe = 0;
         }
         lba = 0;
-    }
-    else
-    {
+    } else {
         *nobsv = nr;
         *niuobs = 0;
     }
     /*     Compute the pertransposed dual system exploiting matrix shapes. */
     /* Computing MAX */
-    i__1 = lba, i__2 = *niuobs - 1, i__1 = max(i__1,i__2), i__2 = *n - *nobsv - *niuobs - 1;
-    lba = max(i__1,i__2);
-    if (*p == 0 || nr == 0)
-    {
+    i__1 = lba, i__2 = *niuobs - 1, i__1 = max(i__1, i__2), i__2 = *n - *nobsv - *niuobs - 1;
+    lba = max(i__1, i__2);
+    if (*p == 0 || nr == 0) {
         /* Computing MAX */
         i__1 = 0, i__2 = *n - 1;
-        lbe = max(i__1,i__2);
+        lbe = max(i__1, i__2);
     }
     /* Computing MAX */
     i__2 = 0, i__3 = *n - 1;
-    i__1 = max(i__2,i__3);
-    tb01xd_("Z", n, p, m, &lba, &i__1, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, dum, &c__1, info, 1L);
+    i__1 = max(i__2, i__3);
+    tb01xd_("Z", n, p, m, &lba, &i__1, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc,
+        dum, &c__1, info, 1L);
     /* Computing MAX */
     i__2 = 0, i__3 = *n - 1;
-    i__1 = max(i__2,i__3);
+    i__1 = max(i__2, i__3);
     ma02cd_(n, &lbe, &i__1, &e[e_offset], lde);
-    if (ilz)
-    {
+    if (ilz) {
         ma02bd_("Right", n, n, &z__[z_offset], ldz, 5L);
     }
-    if (ilq)
-    {
+    if (ilq) {
         ma02bd_("Right", n, n, &q[q_offset], ldq, 5L);
     }
     return 0;
     /* *** Last line of TG01ID *** */
 } /* tg01id_ */
-

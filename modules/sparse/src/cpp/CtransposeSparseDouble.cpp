@@ -16,61 +16,54 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include "CtransposeSparseDouble.hpp"
 #include <Eigen/Dense>
 #include <Eigen/Sparse>
-#include "CtransposeSparseDouble.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    ArrayOf CtransposeSparseDouble(ArrayOf A)
-    {
-        ArrayOf C;
-        if (A.isEmpty())
-        {
-            Dimensions dimsC(A.getDimensions().getColumns(), A.getDimensions().getRows());
-            C = ArrayOf(NLS_DOUBLE, dimsC, (void*)nullptr, true);
-        }
-        else
-        {
-            if (A.isComplex())
-            {
-                Eigen::SparseMatrix<doublecomplex, 0, signedIndexType> *spMatA = (Eigen::SparseMatrix<doublecomplex, 0, signedIndexType> *)A.getSparseDataPointer();
-                Eigen::SparseMatrix<doublecomplex, 0, signedIndexType> *spMatC;
-                try
-                {
-                    spMatC = new Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>(spMatA->cols(), spMatA->rows());
-                }
-                catch (std::bad_alloc &e)
-                {
-                    e.what();
-                    spMatC = nullptr;
-                    throw Exception(ERROR_MEMORY_ALLOCATION);
-                }
-                *spMatC = spMatA->adjoint();
-                Dimensions dimsC = Dimensions(spMatC->rows(), spMatC->cols());
-                C = ArrayOf(NLS_DCOMPLEX, dimsC, (void*)spMatC, true);
+//=============================================================================
+ArrayOf
+CtransposeSparseDouble(ArrayOf A)
+{
+    ArrayOf C;
+    if (A.isEmpty()) {
+        Dimensions dimsC(A.getDimensions().getColumns(), A.getDimensions().getRows());
+        C = ArrayOf(NLS_DOUBLE, dimsC, (void*)nullptr, true);
+    } else {
+        if (A.isComplex()) {
+            Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>* spMatA
+                = (Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>*)A.getSparseDataPointer();
+            Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>* spMatC;
+            try {
+                spMatC = new Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>(
+                    spMatA->cols(), spMatA->rows());
+            } catch (std::bad_alloc& e) {
+                e.what();
+                spMatC = nullptr;
+                throw Exception(ERROR_MEMORY_ALLOCATION);
             }
-            else
-            {
-                Eigen::SparseMatrix<double, 0, signedIndexType> *spMatA = (Eigen::SparseMatrix<double, 0, signedIndexType> *)A.getSparseDataPointer();
-                Eigen::SparseMatrix<double, 0, signedIndexType> *spMatC;
-                try
-                {
-                    spMatC = new Eigen::SparseMatrix<double, 0, signedIndexType>(spMatA->cols(), spMatA->rows());
-                }
-                catch (std::bad_alloc &e)
-                {
-                    e.what();
-                    spMatC = nullptr;
-                    throw Exception(ERROR_MEMORY_ALLOCATION);
-                }
-                *spMatC = spMatA->adjoint();
-                Dimensions dimsC = Dimensions(spMatC->rows(), spMatC->cols());
-                C = ArrayOf(NLS_DOUBLE, dimsC, (void*)spMatC, true);
+            *spMatC = spMatA->adjoint();
+            Dimensions dimsC = Dimensions(spMatC->rows(), spMatC->cols());
+            C = ArrayOf(NLS_DCOMPLEX, dimsC, (void*)spMatC, true);
+        } else {
+            Eigen::SparseMatrix<double, 0, signedIndexType>* spMatA
+                = (Eigen::SparseMatrix<double, 0, signedIndexType>*)A.getSparseDataPointer();
+            Eigen::SparseMatrix<double, 0, signedIndexType>* spMatC;
+            try {
+                spMatC = new Eigen::SparseMatrix<double, 0, signedIndexType>(
+                    spMatA->cols(), spMatA->rows());
+            } catch (std::bad_alloc& e) {
+                e.what();
+                spMatC = nullptr;
+                throw Exception(ERROR_MEMORY_ALLOCATION);
             }
+            *spMatC = spMatA->adjoint();
+            Dimensions dimsC = Dimensions(spMatC->rows(), spMatC->cols());
+            C = ArrayOf(NLS_DOUBLE, dimsC, (void*)spMatC, true);
         }
-        return C;
     }
-    //=============================================================================
+    return C;
+}
+//=============================================================================
 }
 //=============================================================================

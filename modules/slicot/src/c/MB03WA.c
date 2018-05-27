@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -14,16 +14,17 @@ static integer c__2 = 2;
 static doublereal c_b42 = 1.;
 static doublereal c_b48 = -1.;
 
-EXPORTSYMBOL /* Subroutine */ int mb03wa_(wantq, wantz, n1, n2, a, lda, b, ldb, q, ldq, z__, ldz, info)
-logical *wantq, *wantz;
+EXPORTSYMBOL /* Subroutine */ int mb03wa_(
+    wantq, wantz, n1, n2, a, lda, b, ldb, q, ldq, z__, ldz, info) logical *wantq,
+    *wantz;
 integer *n1, *n2;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *q;
-integer *ldq;
-doublereal *z__;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* q;
+integer* ldq;
+doublereal* z__;
 integer *ldz, *info;
 {
     /* System generated locals */
@@ -35,24 +36,24 @@ integer *ldz, *info;
     static logical weak;
     static doublereal ddum, taul[4], dsum;
     extern /* Subroutine */ int drot_();
-    static doublereal taur[4], scpy[16]	/* was [4][4] */, tcpy[16]	/* was [4][4] */, f, g;
+    static doublereal taur[4], scpy[16] /* was [4][4] */, tcpy[16] /* was [4][4] */, f, g;
     static integer i__, m;
-    static doublereal s[16]	/* was [4][4] */, t[16]	/* was [4][4] */;
+    static doublereal s[16] /* was [4][4] */, t[16] /* was [4][4] */;
     extern /* Subroutine */ int dscal_();
     static doublereal scale, bqra21, brqa21;
     extern /* Subroutine */ int dgemm_();
-    static doublereal licop[16]	/* was [4][4] */;
+    static doublereal licop[16] /* was [4][4] */;
     static integer linfo;
-    static doublereal ircop[16]	/* was [4][4] */;
+    static doublereal ircop[16] /* was [4][4] */;
     extern /* Subroutine */ int mb03yt_();
     static doublereal dnorm;
     extern /* Subroutine */ int sb04ow_();
     static doublereal dwork[32];
     static integer iwork[4];
     extern /* Subroutine */ int dgeqr2_(), dgerq2_(), dorg2r_(), dorgr2_(), dorm2r_(), dormr2_();
-    static doublereal be[2], ai[2], ar[2], sa, sb, li[16]	/* was [4][4] */;
+    static doublereal be[2], ai[2], ar[2], sa, sb, li[16] /* was [4][4] */;
     extern doublereal dlamch_();
-    static doublereal dscale, ir[16]	/* was [4][4] */, ss, ws;
+    static doublereal dscale, ir[16] /* was [4][4] */, ss, ws;
     extern /* Subroutine */ int dlacpy_(), dlartg_(), dlaset_(), dlassq_();
     static logical dtrong;
     static doublereal thresh, smlnum, eps;
@@ -196,8 +197,7 @@ integer *ldz, *info;
     *info = 0;
     /*     Quick return if possible. */
     /*     For efficiency, the arguments are not checked. */
-    if (*n1 <= 0 || *n2 <= 0)
-    {
+    if (*n1 <= 0 || *n2 <= 0) {
         return 0;
     }
     m = *n1 + *n2;
@@ -222,9 +222,8 @@ integer *ldz, *info;
     dnorm = dscale * sqrt(dsum);
     /* Computing MAX */
     d__1 = eps * 10. * dnorm;
-    thresh = max(d__1,smlnum);
-    if (m == 2)
-    {
+    thresh = max(d__1, smlnum);
+    if (m == 2) {
         /*        CASE 1: Swap 1-by-1 and 1-by-1 blocks. */
         /*        Compute orthogonal QL and RQ that swap 1-by-1 and 1-by-1 blocks */
         /*        using Givens rotations and perform the swap tentatively. */
@@ -237,12 +236,9 @@ integer *ldz, *info;
         ir[5] = ir[0];
         drot_(&c__2, s, &c__1, &s[4], &c__1, ir, &ir[1]);
         drot_(&c__2, t, &c__4, &t[1], &c__4, ir, &ir[1]);
-        if (sa >= sb)
-        {
+        if (sa >= sb) {
             dlartg_(s, &s[1], li, &li[1], &ddum);
-        }
-        else
-        {
+        } else {
             dlartg_(&t[5], &t[1], li, &li[1], &ddum);
             li[1] = -li[1];
         }
@@ -254,30 +250,31 @@ integer *ldz, *info;
         /*           |S21| + |T21| <= O(EPS * F-norm((S, T))). */
         ws = abs(s[1]) + abs(t[1]);
         weak = ws <= thresh;
-        if (! weak)
-        {
+        if (!weak) {
             goto L50;
         }
-        if (TRUE_)
-        {
+        if (TRUE_) {
             /*           Strong stability test: */
             /*             F-norm((A-QL'*S*QR, B-QR'*T*QL)) <= O(EPS*F-norm((A,B))). */
             dlacpy_("Full", &m, &m, &a[a_offset], lda, &dwork[m * m], &m, 4L);
-            dgemm_("No Transpose", "No Transpose", &m, &m, &m, &c_b42, li, &c__4, s, &c__4, &c_b5, dwork, &m, 12L, 12L);
-            dgemm_("No Transpose", "Transpose", &m, &m, &m, &c_b48, dwork, &m, ir, &c__4, &c_b42, &dwork[m * m], &m, 12L, 9L);
+            dgemm_("No Transpose", "No Transpose", &m, &m, &m, &c_b42, li, &c__4, s, &c__4, &c_b5,
+                dwork, &m, 12L, 12L);
+            dgemm_("No Transpose", "Transpose", &m, &m, &m, &c_b48, dwork, &m, ir, &c__4, &c_b42,
+                &dwork[m * m], &m, 12L, 9L);
             dscale = 0.;
             dsum = 1.;
             i__1 = m * m;
             dlassq_(&i__1, &dwork[m * m], &c__1, &dscale, &dsum);
             dlacpy_("Full", &m, &m, &b[b_offset], ldb, &dwork[m * m], &m, 4L);
-            dgemm_("No Transpose", "No Transpose", &m, &m, &m, &c_b42, ir, &c__4, t, &c__4, &c_b5, dwork, &m, 12L, 12L);
-            dgemm_("No Transpose", "Transpose", &m, &m, &m, &c_b48, dwork, &m, li, &c__4, &c_b42, &dwork[m * m], &m, 12L, 9L);
+            dgemm_("No Transpose", "No Transpose", &m, &m, &m, &c_b42, ir, &c__4, t, &c__4, &c_b5,
+                dwork, &m, 12L, 12L);
+            dgemm_("No Transpose", "Transpose", &m, &m, &m, &c_b48, dwork, &m, li, &c__4, &c_b42,
+                &dwork[m * m], &m, 12L, 9L);
             i__1 = m * m;
             dlassq_(&i__1, &dwork[m * m], &c__1, &dscale, &dsum);
             ss = dscale * sqrt(dsum);
             dtrong = ss <= thresh;
-            if (! dtrong)
-            {
+            if (!dtrong) {
                 goto L50;
             }
         }
@@ -288,19 +285,15 @@ integer *ldz, *info;
         a[a_dim1 + 2] = 0.;
         b[b_dim1 + 2] = 0.;
         /*        Accumulate transformations into Q and Z if requested. */
-        if (*wantq)
-        {
+        if (*wantq) {
             drot_(&c__2, &q[q_dim1 + 1], &c__1, &q[(q_dim1 << 1) + 1], &c__1, li, &li[1]);
         }
-        if (*wantz)
-        {
+        if (*wantz) {
             drot_(&c__2, &z__[z_dim1 + 1], &c__1, &z__[(z_dim1 << 1) + 1], &c__1, ir, &ir[1]);
         }
         /*        Exit with INFO = 0 if swap was successfully performed. */
         return 0;
-    }
-    else
-    {
+    } else {
         /*        CASE 2: Swap 1-by-1 and 2-by-2 blocks, or 2-by-2 */
         /*                and 2-by-2 blocks. */
         /*        Solve the periodic Sylvester equation */
@@ -308,10 +301,12 @@ integer *ldz, *info;
         /*                 T11 * L - R * T22 = SCALE * T12 */
         /*        for R and L. Solutions in IR and LI. */
         dlacpy_("Full", n1, n2, &t[(*n1 + 1 << 2) - 4], &c__4, li, &c__4, 4L);
-        dlacpy_("Full", n1, n2, &s[(*n1 + 1 << 2) - 4], &c__4, &ir[*n2 + 1 + (*n1 + 1 << 2) - 5], &c__4, 4L);
-        sb04ow_(n1, n2, s, &c__4, &s[*n1 + 1 + (*n1 + 1 << 2) - 5], &c__4, &ir[*n2 + 1 + (*n1 + 1 << 2) - 5], &c__4, t, &c__4, &t[*n1 + 1 + (*n1 + 1 << 2) - 5], &c__4, li, &c__4, &scale, iwork, &linfo);
-        if (linfo != 0)
-        {
+        dlacpy_("Full", n1, n2, &s[(*n1 + 1 << 2) - 4], &c__4, &ir[*n2 + 1 + (*n1 + 1 << 2) - 5],
+            &c__4, 4L);
+        sb04ow_(n1, n2, s, &c__4, &s[*n1 + 1 + (*n1 + 1 << 2) - 5], &c__4,
+            &ir[*n2 + 1 + (*n1 + 1 << 2) - 5], &c__4, t, &c__4, &t[*n1 + 1 + (*n1 + 1 << 2) - 5],
+            &c__4, li, &c__4, &scale, iwork, &linfo);
+        if (linfo != 0) {
             goto L50;
         }
         /*        Compute orthogonal matrix QL: */
@@ -321,8 +316,7 @@ integer *ldz, *info;
         /*                    LI =  [      -L              ]. */
         /*                          [ SCALE * identity(N2) ] */
         i__1 = *n2;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             dscal_(n1, &c_b48, &li[(i__ << 2) - 4], &c__1);
             li[*n1 + i__ + (i__ << 2) - 5] = scale;
             /* L10: */
@@ -333,18 +327,21 @@ integer *ldz, *info;
         /*                    IR * RQ' =   [ 0  TR], */
         /*         where IR = [ SCALE * identity(N1), R ]. */
         i__1 = *n1;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             ir[*n2 + i__ + (i__ << 2) - 5] = scale;
             /* L20: */
         }
         dgerq2_(n1, &m, &ir[*n2], &c__4, taur, dwork, &linfo);
         dorgr2_(&m, &m, n1, ir, &c__4, taur, dwork, &linfo);
         /*        Perform the swapping tentatively: */
-        dgemm_("Transpose", "No Transpose", &m, &m, &m, &c_b42, li, &c__4, s, &c__4, &c_b5, dwork, &m, 9L, 12L);
-        dgemm_("No Transpose", "Transpose", &m, &m, &m, &c_b42, dwork, &m, ir, &c__4, &c_b5, s, &c__4, 12L, 9L);
-        dgemm_("No Transpose", "No Transpose", &m, &m, &m, &c_b42, ir, &c__4, t, &c__4, &c_b5, dwork, &m, 12L, 12L);
-        dgemm_("No Transpose", "No Transpose", &m, &m, &m, &c_b42, dwork, &m, li, &c__4, &c_b5, t, &c__4, 12L, 12L);
+        dgemm_("Transpose", "No Transpose", &m, &m, &m, &c_b42, li, &c__4, s, &c__4, &c_b5, dwork,
+            &m, 9L, 12L);
+        dgemm_("No Transpose", "Transpose", &m, &m, &m, &c_b42, dwork, &m, ir, &c__4, &c_b5, s,
+            &c__4, 12L, 9L);
+        dgemm_("No Transpose", "No Transpose", &m, &m, &m, &c_b42, ir, &c__4, t, &c__4, &c_b5,
+            dwork, &m, 12L, 12L);
+        dgemm_("No Transpose", "No Transpose", &m, &m, &m, &c_b42, dwork, &m, li, &c__4, &c_b5, t,
+            &c__4, 12L, 12L);
         dlacpy_("All", &m, &m, s, &c__4, scpy, &c__4, 3L);
         dlacpy_("All", &m, &m, t, &c__4, tcpy, &c__4, 3L);
         dlacpy_("All", &m, &m, ir, &c__4, ircop, &c__4, 3L);
@@ -352,14 +349,14 @@ integer *ldz, *info;
         /*        Triangularize the B-part by a QR factorization. */
         /*        Apply transformation (from left) to A-part, giving S. */
         dgeqr2_(&m, &m, t, &c__4, taur, dwork, &linfo);
-        dorm2r_("Right", "No Transpose", &m, &m, &m, t, &c__4, taur, s, &c__4, dwork, &linfo, 5L, 12L);
+        dorm2r_(
+            "Right", "No Transpose", &m, &m, &m, t, &c__4, taur, s, &c__4, dwork, &linfo, 5L, 12L);
         dorm2r_("Left", "Transpose", &m, &m, &m, t, &c__4, taur, ir, &c__4, dwork, &linfo, 4L, 9L);
         /*        Compute F-norm(S21) in BRQA21. (T21 is 0.) */
         dscale = 0.;
         dsum = 1.;
         i__1 = *n2;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             dlassq_(n1, &s[*n2 + 1 + (i__ << 2) - 5], &c__1, &dscale, &dsum);
             /* L30: */
         }
@@ -367,14 +364,15 @@ integer *ldz, *info;
         /*        Triangularize the B-part by an RQ factorization. */
         /*        Apply transformation (from right) to A-part, giving S. */
         dgerq2_(&m, &m, tcpy, &c__4, taul, dwork, &linfo);
-        dormr2_("Left", "No Transpose", &m, &m, &m, tcpy, &c__4, taul, scpy, &c__4, dwork, &linfo, 4L, 12L);
-        dormr2_("Right", "Transpose", &m, &m, &m, tcpy, &c__4, taul, licop, &c__4, dwork, &linfo, 5L, 9L);
+        dormr2_("Left", "No Transpose", &m, &m, &m, tcpy, &c__4, taul, scpy, &c__4, dwork, &linfo,
+            4L, 12L);
+        dormr2_("Right", "Transpose", &m, &m, &m, tcpy, &c__4, taul, licop, &c__4, dwork, &linfo,
+            5L, 9L);
         /*        Compute F-norm(S21) in BQRA21. (T21 is 0.) */
         dscale = 0.;
         dsum = 1.;
         i__1 = *n2;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             dlassq_(n1, &scpy[*n2 + 1 + (i__ << 2) - 5], &c__1, &dscale, &dsum);
             /* L40: */
         }
@@ -382,41 +380,40 @@ integer *ldz, *info;
         /*        Decide which method to use. */
         /*          Weak stability test: */
         /*             F-norm(S21) <= O(EPS * F-norm((S, T))) */
-        if (bqra21 <= brqa21 && bqra21 <= thresh)
-        {
+        if (bqra21 <= brqa21 && bqra21 <= thresh) {
             dlacpy_("All", &m, &m, scpy, &c__4, s, &c__4, 3L);
             dlacpy_("All", &m, &m, tcpy, &c__4, t, &c__4, 3L);
             dlacpy_("All", &m, &m, ircop, &c__4, ir, &c__4, 3L);
             dlacpy_("All", &m, &m, licop, &c__4, li, &c__4, 3L);
-        }
-        else if (brqa21 >= thresh)
-        {
+        } else if (brqa21 >= thresh) {
             goto L50;
         }
         /*        Set lower triangle of B-part to zero */
         i__1 = m - 1;
         i__2 = m - 1;
         dlaset_("Lower", &i__1, &i__2, &c_b5, &c_b5, &t[1], &c__4, 5L);
-        if (TRUE_)
-        {
+        if (TRUE_) {
             /*           Strong stability test: */
             /*              F-norm((A-QL*S*QR', B-QR*T*QL')) <= O(EPS*F-norm((A,B))) */
             dlacpy_("All", &m, &m, &a[a_offset], lda, &dwork[m * m], &m, 3L);
-            dgemm_("No Transpose", "No Transpose", &m, &m, &m, &c_b42, li, &c__4, s, &c__4, &c_b5, dwork, &m, 12L, 12L);
-            dgemm_("No Transpose", "No Transpose", &m, &m, &m, &c_b48, dwork, &m, ir, &c__4, &c_b42, &dwork[m * m], &m, 12L, 12L);
+            dgemm_("No Transpose", "No Transpose", &m, &m, &m, &c_b42, li, &c__4, s, &c__4, &c_b5,
+                dwork, &m, 12L, 12L);
+            dgemm_("No Transpose", "No Transpose", &m, &m, &m, &c_b48, dwork, &m, ir, &c__4, &c_b42,
+                &dwork[m * m], &m, 12L, 12L);
             dscale = 0.;
             dsum = 1.;
             i__1 = m * m;
             dlassq_(&i__1, &dwork[m * m], &c__1, &dscale, &dsum);
             dlacpy_("All", &m, &m, &b[b_offset], ldb, &dwork[m * m], &m, 3L);
-            dgemm_("Transpose", "No Transpose", &m, &m, &m, &c_b42, ir, &c__4, t, &c__4, &c_b5, dwork, &m, 9L, 12L);
-            dgemm_("No Transpose", "Transpose", &m, &m, &m, &c_b48, dwork, &m, li, &c__4, &c_b42, &dwork[m * m], &m, 12L, 9L);
+            dgemm_("Transpose", "No Transpose", &m, &m, &m, &c_b42, ir, &c__4, t, &c__4, &c_b5,
+                dwork, &m, 9L, 12L);
+            dgemm_("No Transpose", "Transpose", &m, &m, &m, &c_b48, dwork, &m, li, &c__4, &c_b42,
+                &dwork[m * m], &m, 12L, 9L);
             i__1 = m * m;
             dlassq_(&i__1, &dwork[m * m], &c__1, &dscale, &dsum);
             ss = dscale * sqrt(dsum);
             dtrong = ss <= thresh;
-            if (! dtrong)
-            {
+            if (!dtrong) {
                 goto L50;
             }
         }
@@ -431,8 +428,7 @@ integer *ldz, *info;
         dlaset_("All", &m, &m, &c_b5, &c_b5, dwork, &m, 3L);
         dwork[0] = 1.;
         t[0] = 1.;
-        if (*n2 > 1)
-        {
+        if (*n2 > 1) {
             mb03yt_(&a[a_offset], lda, &b[b_offset], ldb, ar, ai, be, dwork, &dwork[1], t, &t[1]);
             dwork[m] = -dwork[1];
             dwork[m + 1] = dwork[0];
@@ -441,35 +437,42 @@ integer *ldz, *info;
         }
         dwork[m * m - 1] = 1.;
         t[m + (m << 2) - 5] = 1.;
-        if (*n1 > 1)
-        {
-            mb03yt_(&a[*n2 + 1 + (*n2 + 1) * a_dim1], lda, &b[*n2 + 1 + (*n2 + 1) * b_dim1], ldb, taur, taul, &dwork[m * m], &dwork[*n2 * m + *n2], &dwork[*n2 * m + *n2 + 1], &t[*n2 + 1 + (*n2 + 1 << 2) - 5], &t[m + (m - 1 << 2) - 5]);
+        if (*n1 > 1) {
+            mb03yt_(&a[*n2 + 1 + (*n2 + 1) * a_dim1], lda, &b[*n2 + 1 + (*n2 + 1) * b_dim1], ldb,
+                taur, taul, &dwork[m * m], &dwork[*n2 * m + *n2], &dwork[*n2 * m + *n2 + 1],
+                &t[*n2 + 1 + (*n2 + 1 << 2) - 5], &t[m + (m - 1 << 2) - 5]);
             dwork[m * m - 1] = dwork[*n2 * m + *n2];
             dwork[m * m - 2] = -dwork[*n2 * m + *n2 + 1];
             t[m + (m << 2) - 5] = t[*n2 + 1 + (*n2 + 1 << 2) - 5];
             t[m - 1 + (m << 2) - 5] = -t[m + (m - 1 << 2) - 5];
         }
-        dgemm_("Transpose", "No Transpose", n2, n1, n2, &c_b42, dwork, &m, &a[(*n2 + 1) * a_dim1 + 1], lda, &c_b5, &dwork[m * m], n2, 9L, 12L);
+        dgemm_("Transpose", "No Transpose", n2, n1, n2, &c_b42, dwork, &m,
+            &a[(*n2 + 1) * a_dim1 + 1], lda, &c_b5, &dwork[m * m], n2, 9L, 12L);
         dlacpy_("All", n2, n1, &dwork[m * m], n2, &a[(*n2 + 1) * a_dim1 + 1], lda, 3L);
-        dgemm_("Transpose", "No Transpose", n2, n1, n2, &c_b42, t, &c__4, &b[(*n2 + 1) * b_dim1 + 1], ldb, &c_b5, &dwork[m * m], n2, 9L, 12L);
+        dgemm_("Transpose", "No Transpose", n2, n1, n2, &c_b42, t, &c__4,
+            &b[(*n2 + 1) * b_dim1 + 1], ldb, &c_b5, &dwork[m * m], n2, 9L, 12L);
         dlacpy_("All", n2, n1, &dwork[m * m], n2, &b[(*n2 + 1) * b_dim1 + 1], ldb, 3L);
-        dgemm_("No Transpose", "No Transpose", &m, &m, &m, &c_b42, li, &c__4, dwork, &m, &c_b5, &dwork[m * m], &m, 12L, 12L);
+        dgemm_("No Transpose", "No Transpose", &m, &m, &m, &c_b42, li, &c__4, dwork, &m, &c_b5,
+            &dwork[m * m], &m, 12L, 12L);
         dlacpy_("All", &m, &m, &dwork[m * m], &m, li, &c__4, 3L);
-        dgemm_("No Transpose", "No Transpose", n2, n1, n1, &c_b42, &a[(*n2 + 1) * a_dim1 + 1], lda, &t[*n2 + 1 + (*n2 + 1 << 2) - 5], &c__4, &c_b5, &dwork[m * m], &m, 12L, 12L);
+        dgemm_("No Transpose", "No Transpose", n2, n1, n1, &c_b42, &a[(*n2 + 1) * a_dim1 + 1], lda,
+            &t[*n2 + 1 + (*n2 + 1 << 2) - 5], &c__4, &c_b5, &dwork[m * m], &m, 12L, 12L);
         dlacpy_("All", n2, n1, &dwork[m * m], &m, &a[(*n2 + 1) * a_dim1 + 1], lda, 3L);
-        dgemm_("No Transpose", "No Transpose", n2, n1, n1, &c_b42, &b[(*n2 + 1) * b_dim1 + 1], ldb, &dwork[*n2 * m + *n2], &m, &c_b5, &dwork[m * m], &m, 12L, 12L);
+        dgemm_("No Transpose", "No Transpose", n2, n1, n1, &c_b42, &b[(*n2 + 1) * b_dim1 + 1], ldb,
+            &dwork[*n2 * m + *n2], &m, &c_b5, &dwork[m * m], &m, 12L, 12L);
         dlacpy_("All", n2, n1, &dwork[m * m], &m, &b[(*n2 + 1) * b_dim1 + 1], ldb, 3L);
-        dgemm_("Transpose", "No Transpose", &m, &m, &m, &c_b42, t, &c__4, ir, &c__4, &c_b5, dwork, &m, 9L, 12L);
+        dgemm_("Transpose", "No Transpose", &m, &m, &m, &c_b42, t, &c__4, ir, &c__4, &c_b5, dwork,
+            &m, 9L, 12L);
         dlacpy_("All", &m, &m, dwork, &m, ir, &c__4, 3L);
         /*        Accumulate transformations into Q and Z if requested. */
-        if (*wantq)
-        {
-            dgemm_("No Transpose", "No Transpose", &m, &m, &m, &c_b42, &q[q_offset], ldq, li, &c__4, &c_b5, dwork, &m, 12L, 12L);
+        if (*wantq) {
+            dgemm_("No Transpose", "No Transpose", &m, &m, &m, &c_b42, &q[q_offset], ldq, li, &c__4,
+                &c_b5, dwork, &m, 12L, 12L);
             dlacpy_("All", &m, &m, dwork, &m, &q[q_offset], ldq, 3L);
         }
-        if (*wantz)
-        {
-            dgemm_("No Transpose", "Transpose", &m, &m, &m, &c_b42, &z__[z_offset], ldz, ir, &c__4, &c_b5, dwork, &m, 12L, 9L);
+        if (*wantz) {
+            dgemm_("No Transpose", "Transpose", &m, &m, &m, &c_b42, &z__[z_offset], ldz, ir, &c__4,
+                &c_b5, dwork, &m, 12L, 9L);
             dlacpy_("Full", &m, &m, dwork, &m, &z__[z_offset], ldz, 4L);
         }
         /*        Exit with INFO = 0 if swap was successfully performed. */
@@ -481,4 +484,3 @@ L50:
     return 0;
     /* *** Last line of MB03WA *** */
 } /* mb03wa_ */
-

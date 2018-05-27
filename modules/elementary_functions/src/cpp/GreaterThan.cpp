@@ -22,144 +22,111 @@
 #include "ClassName.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    template <class T>
-    void greaterThanReal(indexType N, logical* C, const T*A, int stride1, const T*B,
-                         int stride2)
-    {
-        indexType m = 0, p = 0;
+//=============================================================================
+template <class T>
+void
+greaterThanReal(indexType N, logical* C, const T* A, int stride1, const T* B, int stride2)
+{
+    indexType m = 0, p = 0;
 #if defined(__NLS_WITH_OPENMP)
-        #pragma omp parallel for
+#pragma omp parallel for
 #endif
-        for (indexType i = 0; i < N; i++)
-        {
-            C[i] = (A[m] > B[p]) ? logical(1) : logical(0);
-            m += stride1;
-            p += stride2;
+    for (indexType i = 0; i < N; i++) {
+        C[i] = (A[m] > B[p]) ? logical(1) : logical(0);
+        m += stride1;
+        p += stride2;
+    }
+}
+//=============================================================================
+template <class T>
+void
+greaterThanComplex(indexType N, logical* C, const T* A, int stride1, const T* B, int stride2)
+{
+    indexType m = 0, p = 0;
+#if defined(__NLS_WITH_OPENMP)
+#pragma omp parallel for
+#endif
+    for (indexType i = 0; i < N; i++) {
+        C[i] = (complex_abs<T>(A[2 * m], A[2 * m + 1]) > complex_abs<T>(B[2 * p], B[2 * p + 1]))
+            ? logical(1)
+            : logical(0);
+        m += stride1;
+        p += stride2;
+    }
+}
+//=============================================================================
+ArrayOf
+GreaterThan(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess)
+{
+    VectorCheck(A, B, ">");
+    if (A.isSparse() || B.isSparse()) {
+        std::string overload = ClassName(A) + "_gt_" + ClassName(B);
+        throw Exception(_("function") + " " + overload + " " + _("undefined."));
+    }
+    Class classCommon = FindCommonType(A, B, false);
+    try {
+        A.promoteType(classCommon);
+        B.promoteType(classCommon);
+    } catch (Exception) {
+        if (mustRaiseError) {
+            throw;
+        } else {
+            bSuccess = false;
+            return ArrayOf();
         }
     }
-    //=============================================================================
-    template <class T>
-    void greaterThanComplex(indexType N, logical* C, const T*A, int stride1,
-                            const T*B, int stride2)
-    {
-        indexType m = 0, p = 0;
-#if defined(__NLS_WITH_OPENMP)
-        #pragma omp parallel for
-#endif
-        for (indexType i = 0; i < N; i++)
-        {
-            C[i] = (complex_abs<T>(A[2 * m], A[2 * m + 1]) >
-                    complex_abs<T>(B[2 * p], B[2 * p + 1])) ? logical(1) : logical(0);
-            m += stride1;
-            p += stride2;
-        }
+    int Astride, Bstride;
+    indexType Clen = 0;
+    Dimensions Cdim;
+    if (A.isScalar()) {
+        Astride = 0;
+        Bstride = 1;
+        Cdim = B.getDimensions();
+    } else if (B.isScalar()) {
+        Astride = 1;
+        Bstride = 0;
+        Cdim = A.getDimensions();
+    } else {
+        Astride = 1;
+        Bstride = 1;
+        Cdim = A.getDimensions();
     }
-    //=============================================================================
-    ArrayOf GreaterThan(ArrayOf &A, ArrayOf &B, bool mustRaiseError, bool &bSuccess)
-    {
-        VectorCheck(A, B, ">");
-        if (A.isSparse() || B.isSparse())
-        {
+    Clen = Cdim.getElementCount();
+    void* Cp = new_with_exception<logical>(Clen);
+    switch (B.getDataClass()) {
+    case NLS_INT64: {
+        greaterThanReal<int64>(Clen, (logical*)Cp, (int64*)A.getDataPointer(), Astride,
+            (int64*)B.getDataPointer(), Bstride);
+    } break;
+    case NLS_SINGLE: {
+        greaterThanReal<single>(Clen, (logical*)Cp, (single*)A.getDataPointer(), Astride,
+            (single*)B.getDataPointer(), Bstride);
+    } break;
+    case NLS_DOUBLE: {
+        greaterThanReal<double>(Clen, (logical*)Cp, (double*)A.getDataPointer(), Astride,
+            (double*)B.getDataPointer(), Bstride);
+    } break;
+    case NLS_SCOMPLEX: {
+        greaterThanComplex<single>(Clen, (logical*)Cp, (single*)A.getDataPointer(), Astride,
+            (single*)B.getDataPointer(), Bstride);
+    } break;
+    case NLS_DCOMPLEX: {
+        greaterThanComplex<double>(Clen, (logical*)Cp, (double*)A.getDataPointer(), Astride,
+            (double*)B.getDataPointer(), Bstride);
+    } break;
+    default: {
+        if (mustRaiseError) {
             std::string overload = ClassName(A) + "_gt_" + ClassName(B);
             throw Exception(_("function") + " " + overload + " " + _("undefined."));
+        } else {
+            bSuccess = false;
+            return ArrayOf();
         }
-        Class classCommon = FindCommonType(A, B, false);
-        try
-        {
-            A.promoteType(classCommon);
-            B.promoteType(classCommon);
-        }
-        catch (Exception)
-        {
-            if (mustRaiseError)
-            {
-                throw;
-            }
-            else
-            {
-                bSuccess = false;
-                return ArrayOf();
-            }
-        }
-        int Astride, Bstride;
-        indexType Clen = 0;
-        Dimensions Cdim;
-        if (A.isScalar())
-        {
-            Astride = 0;
-            Bstride = 1;
-            Cdim = B.getDimensions();
-        }
-        else if (B.isScalar())
-        {
-            Astride = 1;
-            Bstride = 0;
-            Cdim = A.getDimensions();
-        }
-        else
-        {
-            Astride = 1;
-            Bstride = 1;
-            Cdim = A.getDimensions();
-        }
-        Clen = Cdim.getElementCount();
-        void *Cp = new_with_exception<logical>(Clen);
-        switch (B.getDataClass())
-        {
-            case NLS_INT64:
-            {
-                greaterThanReal<int64>(Clen, (logical*)Cp,
-                                       (int64*)A.getDataPointer(), Astride,
-                                       (int64*)B.getDataPointer(), Bstride);
-            }
-            break;
-            case NLS_SINGLE:
-            {
-                greaterThanReal<single>(Clen, (logical*)Cp,
-                                        (single*)A.getDataPointer(), Astride,
-                                        (single*)B.getDataPointer(), Bstride);
-            }
-            break;
-            case NLS_DOUBLE:
-            {
-                greaterThanReal<double>(Clen, (logical*)Cp,
-                                        (double*)A.getDataPointer(), Astride,
-                                        (double*)B.getDataPointer(), Bstride);
-            }
-            break;
-            case NLS_SCOMPLEX:
-            {
-                greaterThanComplex<single>(Clen, (logical*)Cp,
-                                           (single*)A.getDataPointer(), Astride,
-                                           (single*)B.getDataPointer(), Bstride);
-            }
-            break;
-            case NLS_DCOMPLEX:
-            {
-                greaterThanComplex<double>(Clen, (logical*)Cp,
-                                           (double*)A.getDataPointer(), Astride,
-                                           (double*)B.getDataPointer(), Bstride);
-            }
-            break;
-            default:
-            {
-                if (mustRaiseError)
-                {
-                    std::string overload = ClassName(A) + "_gt_" + ClassName(B);
-                    throw Exception(_("function") + " " + overload + " " + _("undefined."));
-                }
-                else
-                {
-                    bSuccess = false;
-                    return ArrayOf();
-                }
-            }
-            break;
-        }
-        bSuccess = true;
-        return ArrayOf(NLS_LOGICAL, Cdim, Cp);
+    } break;
     }
-    //=============================================================================
+    bSuccess = true;
+    return ArrayOf(NLS_LOGICAL, Cdim, Cp);
+}
+//=============================================================================
 }
 //=============================================================================

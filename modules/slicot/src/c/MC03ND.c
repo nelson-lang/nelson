@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,21 +10,23 @@
 static doublereal c_b13 = 0.;
 static doublereal c_b19 = 1.;
 
-EXPORTSYMBOL /* Subroutine */ int mc03nd_(mp, np, dp, p, ldp1, ldp2, dk, gam, nullsp, ldnull, ker, ldker1, ldker2, tol, iwork, dwork, ldwork, info)
-integer *mp, *np, *dp;
-doublereal *p;
+EXPORTSYMBOL /* Subroutine */ int mc03nd_(mp, np, dp, p, ldp1, ldp2, dk, gam, nullsp, ldnull, ker,
+    ldker1, ldker2, tol, iwork, dwork, ldwork, info) integer *mp,
+    *np, *dp;
+doublereal* p;
 integer *ldp1, *ldp2, *dk, *gam;
-doublereal *nullsp;
-integer *ldnull;
-doublereal *ker;
+doublereal* nullsp;
+integer* ldnull;
+doublereal* ker;
 integer *ldker1, *ldker2;
-doublereal *tol;
-integer *iwork;
-doublereal *dwork;
+doublereal* tol;
+integer* iwork;
+doublereal* dwork;
 integer *ldwork, *info;
 {
     /* System generated locals */
-    integer ker_dim1, ker_dim2, ker_offset, nullsp_dim1, nullsp_offset, p_dim1, p_dim2, p_offset, i__1, i__2;
+    integer ker_dim1, ker_dim2, ker_offset, nullsp_dim1, nullsp_offset, p_dim1, p_dim2, p_offset,
+        i__1, i__2;
     doublereal d__1, d__2;
     /* Builtin functions */
     double sqrt();
@@ -260,56 +262,37 @@ integer *ldwork, *info;
     --iwork;
     --dwork;
     /* Function Body */
-    m = *dp **mp;
+    m = *dp * *mp;
     h__ = m - *mp;
     n = h__ + *np;
     *info = 0;
-    if (*mp < 0)
-    {
+    if (*mp < 0) {
         *info = -1;
-    }
-    else if (*np < 0)
-    {
+    } else if (*np < 0) {
         *info = -2;
-    }
-    else if (*dp <= 0)
-    {
+    } else if (*dp <= 0) {
         *info = -3;
-    }
-    else if (*ldp1 < max(1,*mp))
-    {
+    } else if (*ldp1 < max(1, *mp)) {
         *info = -5;
-    }
-    else if (*ldp2 < max(1,*np))
-    {
+    } else if (*ldp2 < max(1, *np)) {
         *info = -6;
-    }
-    else if (*ldnull < max(1,*np))
-    {
+    } else if (*ldnull < max(1, *np)) {
         *info = -10;
-    }
-    else if (*ldker1 < max(1,*np))
-    {
+    } else if (*ldker1 < max(1, *np)) {
         *info = -12;
-    }
-    else if (*ldker2 < max(1,*np))
-    {
+    } else if (*ldker2 < max(1, *np)) {
         *info = -13;
-    }
-    else if (*ldwork < n * (m * n + (m + n << 1)))
-    {
+    } else if (*ldwork < n * (m * n + (m + n << 1))) {
         *info = -17;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("MC03ND", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*mp == 0 || *np == 0)
-    {
+    if (*mp == 0 || *np == 0) {
         *dk = -1;
         return 0;
     }
@@ -323,18 +306,19 @@ integer *ldwork, *info;
     mc03nx_(mp, np, dp, &p[p_offset], ldp1, ldp2, &dwork[jworka], &m, &dwork[jworke], &m);
     /*     Computation of the tolerance. */
     /* Computing MAX */
-    d__1 = dlange_("F", &m, np, &dwork[jworke + h__ * m], &m, &dwork[1], 1L), d__2 = dlange_("F", mp, np, &p[p_offset], ldp1, &dwork[1], 1L);
-    toler = max(d__1,d__2);
-    d__1 = sqrt((doublereal) h__);
+    d__1 = dlange_("F", &m, np, &dwork[jworke + h__ * m], &m, &dwork[1], 1L),
+    d__2 = dlange_("F", mp, np, &p[p_offset], ldp1, &dwork[1], 1L);
+    toler = max(d__1, d__2);
+    d__1 = sqrt((doublereal)h__);
     toler = dlamch_("Epsilon", 7L) * 10. * dlapy2_(&toler, &d__1);
-    if (toler <= *tol)
-    {
+    if (toler <= *tol) {
         toler = *tol;
     }
     /*     Reduction of E to column echelon form E0 = Q' x E x Z and */
     /*     transformation of A, A0 = Q' x A x Z. */
     /*     Workspace:  2*M*N + N*N + max(M,N). */
-    mb04ud_("No Q", "Identity Z", &m, &n, &dwork[jworka], &m, &dwork[jworke], &m, &dwork[jworkq], &m, &dwork[jworkz], &n, &ranke, &iwork[1], &toler, &dwork[jworkv], info, 4L, 10L);
+    mb04ud_("No Q", "Identity Z", &m, &n, &dwork[jworka], &m, &dwork[jworke], &m, &dwork[jworkq],
+        &m, &dwork[jworkz], &n, &ranke, &iwork[1], &toler, &dwork[jworkv], info, 4L, 10L);
     /*     The contents of ISTAIR is transferred from MB04UD to MB04VD by */
     /*     IWORK(i), i=1,...,M. */
     /*     In the sequel the arrays IMUK and INUK are part of IWORK, namely: */
@@ -345,21 +329,21 @@ integer *ldwork, *info;
     muk = m + 1;
     /* Computing MAX */
     i__1 = n, i__2 = m + 1;
-    nuk = muk + max(i__1,i__2);
+    nuk = muk + max(i__1, i__2);
     /* Computing MAX */
     i__1 = n, i__2 = m + 1;
-    tail = nuk + max(i__1,i__2);
-    mb04vd_("Separation", "No Q", "Update Z", &m, &n, &ranke, &dwork[jworka], &m, &dwork[jworke], &m, &dwork[jworkq], &m, &dwork[jworkz], &n, &iwork[1], &nblcks, &nblcki, &iwork[muk], &iwork[nuk], &iwork[tail], mnei, &toler, &iwork[tail], info, 10L, 4L, 8L);
-    if (*info > 0)
-    {
+    tail = nuk + max(i__1, i__2);
+    mb04vd_("Separation", "No Q", "Update Z", &m, &n, &ranke, &dwork[jworka], &m, &dwork[jworke],
+        &m, &dwork[jworkq], &m, &dwork[jworkz], &n, &iwork[1], &nblcks, &nblcki, &iwork[muk],
+        &iwork[nuk], &iwork[tail], mnei, &toler, &iwork[tail], info, 10L, 4L, 8L);
+    if (*info > 0) {
         /*        Incorrect rank decisions. */
         *info += nblcks;
         return 0;
     }
     /*     If NBLCKS < 1, or the column dimension of s*E(eps) - A(eps) is */
     /*     zero, then there is no right nullspace. */
-    if (nblcks < 1 || mnei[1] == 0)
-    {
+    if (nblcks < 1 || mnei[1] == 0) {
         *dk = -1;
         return 0;
     }
@@ -370,9 +354,9 @@ integer *ldwork, *info;
     /*     Determine a minimal basis VEPS(s) for the right nullspace of the */
     /*     pencil s*E(eps)-A(eps) associated with the polynomial matrix P(s). */
     /*     Workspace:  2*M*N + N*N + N*N*(M+1). */
-    mc03ny_(&nblcks, &nra, &nca, &dwork[jworka], &m, &dwork[jworke], &m, &iwork[muk], &iwork[nuk], &dwork[jworkv], &n, info);
-    if (*info > 0)
-    {
+    mc03ny_(&nblcks, &nra, &nca, &dwork[jworka], &m, &dwork[jworke], &m, &iwork[muk], &iwork[nuk],
+        &dwork[jworkv], &n, info);
+    if (*info > 0) {
         return 0;
     }
     ncv = iwork[muk] - iwork[nuk];
@@ -380,8 +364,7 @@ integer *ldwork, *info;
     iwork[1] = 0;
     iwork[tail] = iwork[muk];
     i__1 = nblcks;
-    for (i__ = 2; i__ <= i__1; ++i__)
-    {
+    for (i__ = 2; i__ <= i__1; ++i__) {
         idiff = iwork[muk + i__ - 1] - iwork[nuk + i__ - 1];
         gam[i__] = idiff;
         iwork[i__] = ncv;
@@ -402,15 +385,15 @@ integer *ldwork, *info;
     /*     array NULLSP. */
     vc1 = 1;
     i__1 = nblcks;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         vr2 = iwork[tail + i__ - 1];
         i__2 = i__;
-        for (j = 1; j <= i__2; ++j)
-        {
+        for (j = 1; j <= i__2; ++j) {
             /*           Multiplication of Z(H+1:N,1:VR2) with V.i,j-1 stored in */
             /*           VEPS(1:VR2,VC1:VC1+GAM(I)-1). */
-            dgemm_("No transpose", "No transpose", np, &gam[i__], &vr2, &c_b19, &dwork[jworkz + h__], &n, &dwork[jworkv + (vc1 - 1) * n], &n, &c_b13, &nullsp[vc1 * nullsp_dim1 + 1], ldnull, 12L, 12L);
+            dgemm_("No transpose", "No transpose", np, &gam[i__], &vr2, &c_b19,
+                &dwork[jworkz + h__], &n, &dwork[jworkv + (vc1 - 1) * n], &n, &c_b13,
+                &nullsp[vc1 * nullsp_dim1 + 1], ldnull, 12L, 12L);
             vc1 += gam[i__];
             vr2 -= iwork[muk + i__ - j];
             /* L40: */
@@ -422,10 +405,10 @@ integer *ldwork, *info;
     /*     of P(s). */
     sgamk = 1;
     i__1 = nblcks;
-    for (k = 1; k <= i__1; ++k)
-    {
+    for (k = 1; k <= i__1; ++k) {
         i__2 = sgamk - 1;
-        dlaset_("Full", np, &i__2, &c_b13, &c_b13, &ker[(k * ker_dim2 + 1) * ker_dim1 + 1], ldker1, 4L);
+        dlaset_(
+            "Full", np, &i__2, &c_b13, &c_b13, &ker[(k * ker_dim2 + 1) * ker_dim1 + 1], ldker1, 4L);
         ifir = sgamk;
         /*        Copy the appropriate columns of NULLSP into KER(k). */
         /*        SGAMK = 1 + SUM(i=1,..,k-1) GAM(i), is the first nontrivial */
@@ -434,11 +417,11 @@ integer *ldwork, *info;
         /*        in the set of columns copied for a value of J. */
         /*        VC1 is the first column of NULLSP to be copied. */
         i__2 = nblcks;
-        for (j = k; j <= i__2; ++j)
-        {
+        for (j = k; j <= i__2; ++j) {
             gamj = gam[j];
             vc1 = iwork[j] + (k - 1) * gamj + 1;
-            dlacpy_("Full", np, &gamj, &nullsp[vc1 * nullsp_dim1 + 1], ldnull, &ker[(ifir + k * ker_dim2) * ker_dim1 + 1], ldker1, 4L);
+            dlacpy_("Full", np, &gamj, &nullsp[vc1 * nullsp_dim1 + 1], ldnull,
+                &ker[(ifir + k * ker_dim2) * ker_dim1 + 1], ldker1, 4L);
             ifir += gamj;
             /* L80: */
         }
@@ -448,4 +431,3 @@ integer *ldwork, *info;
     return 0;
     /* *** Last line of MC03ND *** */
 } /* mc03nd_ */
-

@@ -23,9 +23,10 @@
 #include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
-    /**
-    * Element-wise compare (eq) of two arrays: C = (A == B).
-    */
-    NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf Equals(ArrayOf &A, ArrayOf &B, bool mustRaiseError, bool &bSuccess);
+/**
+ * Element-wise compare (eq) of two arrays: C = (A == B).
+ */
+NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
+Equals(ArrayOf& A, ArrayOf& B, bool mustRaiseError, bool& bSuccess);
 }
 //=============================================================================

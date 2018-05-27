@@ -22,28 +22,30 @@
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    wstringVector VariableCompleter(std::wstring prefix)
-    {
-        wstringVector res;
-        Evaluator *eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
-        if (eval)
-        {
-            stringVector variables = eval->getContext()->getGlobalScope()->getVariablesList(true);
-            stringVector variablesCurrentScope = eval->getContext()->getCurrentScope()->getVariablesList(true);
-            variables.insert(variables.end(), variablesCurrentScope.begin(), variablesCurrentScope.end());
-            stringVector variablesBaseScope = eval->getContext()->getBaseScope()->getVariablesList(true);
-            variables.insert(variables.end(), variablesBaseScope.begin(), variablesBaseScope.end());
-            std::sort(variables.begin(), variables.end());
-            variables.erase(std::unique(variables.begin(), variables.end()), variables.end());
-            res.reserve(variables.size());
-            for (size_t k = 0; k < variables.size(); k++)
-            {
-                res.push_back(utf8_to_wstring(variables[k]));
-            }
+//=============================================================================
+wstringVector
+VariableCompleter(std::wstring prefix)
+{
+    wstringVector res;
+    Evaluator* eval = (Evaluator*)GetNelsonMainEvaluatorDynamicFunction();
+    if (eval) {
+        stringVector variables = eval->getContext()->getGlobalScope()->getVariablesList(true);
+        stringVector variablesCurrentScope
+            = eval->getContext()->getCurrentScope()->getVariablesList(true);
+        variables.insert(
+            variables.end(), variablesCurrentScope.begin(), variablesCurrentScope.end());
+        stringVector variablesBaseScope
+            = eval->getContext()->getBaseScope()->getVariablesList(true);
+        variables.insert(variables.end(), variablesBaseScope.begin(), variablesBaseScope.end());
+        std::sort(variables.begin(), variables.end());
+        variables.erase(std::unique(variables.begin(), variables.end()), variables.end());
+        res.reserve(variables.size());
+        for (size_t k = 0; k < variables.size(); k++) {
+            res.push_back(utf8_to_wstring(variables[k]));
         }
-        return res;
     }
-    //=============================================================================
+    return res;
+}
+//=============================================================================
 };
 //=============================================================================

@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,24 +11,26 @@ static integer c__1 = 1;
 static doublereal c_b11 = 1.;
 static doublereal c_b12 = 0.;
 
-EXPORTSYMBOL /* Subroutine */ int sb04md_(n, m, a, lda, b, ldb, c__, ldc, z__, ldz, iwork, dwork, ldwork, info)
-integer *n, *m;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *z__;
+EXPORTSYMBOL /* Subroutine */ int sb04md_(
+    n, m, a, lda, b, ldb, c__, ldc, z__, ldz, iwork, dwork, ldwork, info) integer *n,
+    *m;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* z__;
 integer *ldz, *iwork;
-doublereal *dwork;
+doublereal* dwork;
 integer *ldwork, *info;
 {
     /* System generated locals */
     integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, z_dim1, z_offset, i__1, i__2;
     /* Local variables */
     static integer ieig, sdim, itau, i__, ifail;
-    extern /* Subroutine */ int dgees_(), dgemm_(), dgemv_(), sb04mu_(), dcopy_(), dswap_(), sb04my_();
+    extern /* Subroutine */ int dgees_(), dgemm_(), dgemv_(), sb04mu_(), dcopy_(), dswap_(),
+        sb04my_();
     static logical bwork[1];
     static integer jwork;
     extern /* Subroutine */ int dgehrd_(), dlacpy_(), xerbla_();
@@ -168,49 +170,35 @@ integer *ldwork, *info;
     /* Function Body */
     *info = 0;
     /*     Test the input scalar arguments. */
-    if (*n < 0)
-    {
+    if (*n < 0) {
         *info = -1;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -2;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -4;
-    }
-    else if (*ldb < max(1,*m))
-    {
+    } else if (*ldb < max(1, *m)) {
         *info = -6;
-    }
-    else if (*ldc < max(1,*n))
-    {
+    } else if (*ldc < max(1, *n)) {
         *info = -8;
-    }
-    else if (*ldz < max(1,*m))
-    {
+    } else if (*ldz < max(1, *m)) {
         *info = -10;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
-        i__1 = 1, i__2 = (*n << 1) **n + (*n << 3), i__1 = max(i__1,i__2), i__2 = *m * 5, i__1 = max(i__1,i__2), i__2 = *n + *m;
-        if (*ldwork < max(i__1,i__2))
-        {
+        i__1 = 1, i__2 = (*n << 1) * *n + (*n << 3), i__1 = max(i__1, i__2), i__2 = *m * 5,
+        i__1 = max(i__1, i__2), i__2 = *n + *m;
+        if (*ldwork < max(i__1, i__2)) {
             *info = -13;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("SB04MD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0 || *m == 0)
-    {
+    if (*n == 0 || *m == 0) {
         dwork[1] = 1.;
         return 0;
     }
@@ -226,8 +214,7 @@ integer *ldwork, *info;
     /*     NB refers to the optimal block size for the immediately */
     /*     following subroutine, as returned by ILAENV.) */
     i__1 = *m;
-    for (i__ = 2; i__ <= i__1; ++i__)
-    {
+    for (i__ = 2; i__ <= i__1; ++i__) {
         i__2 = i__ - 1;
         dswap_(&i__2, &b[i__ * b_dim1 + 1], &c__1, &b[i__ + b_dim1], ldb);
         /* L20: */
@@ -237,14 +224,14 @@ integer *ldwork, *info;
     ieig = *m + 1;
     jwork = ieig + *m;
     i__1 = *ldwork - jwork + 1;
-    dgees_("Vectors", "Not ordered", &select, m, &b[b_offset], ldb, &sdim, &dwork[1], &dwork[ieig], &z__[z_offset], ldz, &dwork[jwork], &i__1, bwork, info, 7L, 11L);
-    if (*info != 0)
-    {
+    dgees_("Vectors", "Not ordered", &select, m, &b[b_offset], ldb, &sdim, &dwork[1], &dwork[ieig],
+        &z__[z_offset], ldz, &dwork[jwork], &i__1, bwork, info, 7L, 11L);
+    if (*info != 0) {
         return 0;
     }
     /* Computing MAX */
-    i__1 = wrkopt, i__2 = (integer) dwork[jwork] + jwork - 1;
-    wrkopt = max(i__1,i__2);
+    i__1 = wrkopt, i__2 = (integer)dwork[jwork] + jwork - 1;
+    wrkopt = max(i__1, i__2);
     /*     Workspace:  need   2*N; */
     /*                 prefer N + N*NB. */
     itau = 2;
@@ -252,104 +239,96 @@ integer *ldwork, *info;
     i__1 = *ldwork - jwork + 1;
     dgehrd_(n, &ilo, &ihi, &a[a_offset], lda, &dwork[itau], &dwork[jwork], &i__1, &ifail);
     /* Computing MAX */
-    i__1 = wrkopt, i__2 = (integer) dwork[jwork] + jwork - 1;
-    wrkopt = max(i__1,i__2);
+    i__1 = wrkopt, i__2 = (integer)dwork[jwork] + jwork - 1;
+    wrkopt = max(i__1, i__2);
     /*     Step 2 : Form  F = ( U' * C ) * Z.  Use BLAS 3, if enough space. */
     /*     Workspace:  need   N + M; */
     /*                 prefer N + M*NB. */
     i__1 = *ldwork - jwork + 1;
-    dormhr_("Left", "Transpose", n, m, &ilo, &ihi, &a[a_offset], lda, &dwork[itau], &c__[c_offset], ldc, &dwork[jwork], &i__1, &ifail, 4L, 9L);
+    dormhr_("Left", "Transpose", n, m, &ilo, &ihi, &a[a_offset], lda, &dwork[itau], &c__[c_offset],
+        ldc, &dwork[jwork], &i__1, &ifail, 4L, 9L);
     /* Computing MAX */
-    i__1 = wrkopt, i__2 = (integer) dwork[jwork] + jwork - 1;
-    wrkopt = max(i__1,i__2);
-    if (*ldwork >= jwork - 1 + *n **m)
-    {
-        dgemm_("No transpose", "No transpose", n, m, m, &c_b11, &c__[c_offset], ldc, &z__[z_offset], ldz, &c_b12, &dwork[jwork], n, 12L, 12L);
+    i__1 = wrkopt, i__2 = (integer)dwork[jwork] + jwork - 1;
+    wrkopt = max(i__1, i__2);
+    if (*ldwork >= jwork - 1 + *n * *m) {
+        dgemm_("No transpose", "No transpose", n, m, m, &c_b11, &c__[c_offset], ldc, &z__[z_offset],
+            ldz, &c_b12, &dwork[jwork], n, 12L, 12L);
         dlacpy_("Full", n, m, &dwork[jwork], n, &c__[c_offset], ldc, 4L);
         /* Computing MAX */
-        i__1 = wrkopt, i__2 = jwork - 1 + *n **m;
-        wrkopt = max(i__1,i__2);
-    }
-    else
-    {
+        i__1 = wrkopt, i__2 = jwork - 1 + *n * *m;
+        wrkopt = max(i__1, i__2);
+    } else {
         i__1 = *n;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
-            dgemv_("Transpose", m, m, &c_b11, &z__[z_offset], ldz, &c__[i__ + c_dim1], ldc, &c_b12, &dwork[jwork], &c__1, 9L);
+        for (i__ = 1; i__ <= i__1; ++i__) {
+            dgemv_("Transpose", m, m, &c_b11, &z__[z_offset], ldz, &c__[i__ + c_dim1], ldc, &c_b12,
+                &dwork[jwork], &c__1, 9L);
             dcopy_(m, &dwork[jwork], &c__1, &c__[i__ + c_dim1], ldc);
             /* L40: */
         }
     }
     ind = *m;
 L60:
-    if (ind > 1)
-    {
+    if (ind > 1) {
         /*        Step 3 : Solve  H * Y + Y * S' = F  for  Y. */
-        if (b[ind + (ind - 1) * b_dim1] == 0.)
-        {
+        if (b[ind + (ind - 1) * b_dim1] == 0.) {
             /*           Solve a special linear algebraic system of order N. */
             /*           Workspace:  N*(N+1)/2 + 3*N. */
-            sb04my_(m, n, &ind, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, &dwork[jwork], &iwork[1], info);
-            if (*info != 0)
-            {
+            sb04my_(m, n, &ind, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc,
+                &dwork[jwork], &iwork[1], info);
+            if (*info != 0) {
                 *info += *m;
                 return 0;
             }
             /* Computing MAX */
             i__1 = wrkopt, i__2 = jwork + *n * (*n + 1) / 2 + (*n << 1) - 1;
-            wrkopt = max(i__1,i__2);
+            wrkopt = max(i__1, i__2);
             --ind;
-        }
-        else
-        {
+        } else {
             /*           Solve a special linear algebraic system of order 2*N. */
             /*           Workspace:  2*N*N + 8*N; */
-            sb04mu_(m, n, &ind, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, &dwork[jwork], &iwork[1], info);
-            if (*info != 0)
-            {
+            sb04mu_(m, n, &ind, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc,
+                &dwork[jwork], &iwork[1], info);
+            if (*info != 0) {
                 *info += *m;
                 return 0;
             }
             /* Computing MAX */
-            i__1 = wrkopt, i__2 = jwork + (*n << 1) **n + *n * 7 - 1;
-            wrkopt = max(i__1,i__2);
+            i__1 = wrkopt, i__2 = jwork + (*n << 1) * *n + *n * 7 - 1;
+            wrkopt = max(i__1, i__2);
             ind += -2;
         }
         goto L60;
-    }
-    else if (ind == 1)
-    {
+    } else if (ind == 1) {
         /*        Solve a special linear algebraic system of order N. */
         /*        Workspace:  N*(N+1)/2 + 3*N; */
-        sb04my_(m, n, &ind, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, &dwork[jwork], &iwork[1], info);
-        if (*info != 0)
-        {
+        sb04my_(m, n, &ind, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc,
+            &dwork[jwork], &iwork[1], info);
+        if (*info != 0) {
             *info += *m;
             return 0;
         }
         /* Computing MAX */
         i__1 = wrkopt, i__2 = jwork + *n * (*n + 1) / 2 + (*n << 1) - 1;
-        wrkopt = max(i__1,i__2);
+        wrkopt = max(i__1, i__2);
     }
     /*     Step 4 : Form  C = ( U * Y ) * Z'.  Use BLAS 3, if enough space. */
     /*     Workspace:  need   N + M; */
     /*                 prefer N + M*NB. */
     i__1 = *ldwork - jwork + 1;
-    dormhr_("Left", "No transpose", n, m, &ilo, &ihi, &a[a_offset], lda, &dwork[itau], &c__[c_offset], ldc, &dwork[jwork], &i__1, &ifail, 4L, 12L);
+    dormhr_("Left", "No transpose", n, m, &ilo, &ihi, &a[a_offset], lda, &dwork[itau],
+        &c__[c_offset], ldc, &dwork[jwork], &i__1, &ifail, 4L, 12L);
     /* Computing MAX */
-    i__1 = wrkopt, i__2 = (integer) dwork[jwork] + jwork - 1;
-    wrkopt = max(i__1,i__2);
-    if (*ldwork >= jwork - 1 + *n **m)
-    {
-        dgemm_("No transpose", "Transpose", n, m, m, &c_b11, &c__[c_offset], ldc, &z__[z_offset], ldz, &c_b12, &dwork[jwork], n, 12L, 9L);
+    i__1 = wrkopt, i__2 = (integer)dwork[jwork] + jwork - 1;
+    wrkopt = max(i__1, i__2);
+    if (*ldwork >= jwork - 1 + *n * *m) {
+        dgemm_("No transpose", "Transpose", n, m, m, &c_b11, &c__[c_offset], ldc, &z__[z_offset],
+            ldz, &c_b12, &dwork[jwork], n, 12L, 9L);
         dlacpy_("Full", n, m, &dwork[jwork], n, &c__[c_offset], ldc, 4L);
-    }
-    else
-    {
+    } else {
         i__1 = *n;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
-            dgemv_("No transpose", m, m, &c_b11, &z__[z_offset], ldz, &c__[i__ + c_dim1], ldc, &c_b12, &dwork[jwork], &c__1, 12L);
+        for (i__ = 1; i__ <= i__1; ++i__) {
+            dgemv_("No transpose", m, m, &c_b11, &z__[z_offset], ldz, &c__[i__ + c_dim1], ldc,
+                &c_b12, &dwork[jwork], &c__1, 12L);
             dcopy_(m, &dwork[jwork], &c__1, &c__[i__ + c_dim1], ldc);
             /* L80: */
         }
@@ -357,4 +336,3 @@ L60:
     return 0;
     /* *** Last line of SB04MD *** */
 } /* sb04md_ */
-

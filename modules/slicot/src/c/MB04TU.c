@@ -1,16 +1,15 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-EXPORTSYMBOL /* Subroutine */ int mb04tu_(n, x, incx, y, incy, c__, s)
-integer *n;
-doublereal *x;
-integer *incx;
-doublereal *y;
-integer *incy;
+EXPORTSYMBOL /* Subroutine */ int mb04tu_(n, x, incx, y, incy, c__, s) integer* n;
+doublereal* x;
+integer* incx;
+doublereal* y;
+integer* incy;
 doublereal *c__, *s;
 {
     /* System generated locals */
@@ -60,26 +59,21 @@ doublereal *c__, *s;
     --y;
     --x;
     /* Function Body */
-    if (*n <= 0)
-    {
+    if (*n <= 0) {
         return 0;
     }
-    if (*incx != 1 || *incy != 1)
-    {
+    if (*incx != 1 || *incy != 1) {
         /*        Code for unequal increments or equal increments not equal to 1. */
         ix = 1;
         iy = 1;
-        if (*incx < 0)
-        {
-            ix = (-(*n) + 1) **incx + 1;
+        if (*incx < 0) {
+            ix = (-(*n) + 1) * *incx + 1;
         }
-        if (*incy < 0)
-        {
-            iy = (-(*n) + 1) **incy + 1;
+        if (*incy < 0) {
+            iy = (-(*n) + 1) * *incy + 1;
         }
         i__1 = *n;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             dtemp = *c__ * y[iy] - *s * x[ix];
             y[iy] = *c__ * x[ix] + *s * y[iy];
             x[ix] = dtemp;
@@ -87,13 +81,10 @@ doublereal *c__, *s;
             iy += *incy;
             /* L20: */
         }
-    }
-    else
-    {
+    } else {
         /*        Code for both increments equal to 1. */
         i__1 = *n;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             dtemp = *c__ * y[i__] - *s * x[i__];
             y[i__] = *c__ * x[i__] + *s * y[i__];
             x[i__] = dtemp;
@@ -103,4 +94,3 @@ doublereal *c__, *s;
     return 0;
     /* *** Last line of MB04TU *** */
 } /* mb04tu_ */
-

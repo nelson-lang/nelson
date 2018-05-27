@@ -1,15 +1,14 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-EXPORTSYMBOL /* Subroutine */ int dg01nd_(indi, n, xr, xi, info, indi_len)
-char *indi;
-integer *n;
+EXPORTSYMBOL /* Subroutine */ int dg01nd_(indi, n, xr, xi, info, indi_len) char* indi;
+integer* n;
 doublereal *xr, *xi;
-integer *info;
+integer* info;
 ftnlen indi_len;
 {
     /* System generated locals */
@@ -169,48 +168,38 @@ ftnlen indi_len;
     *info = 0;
     lindi = lsame_(indi, "D", 1L, 1L);
     /*     Test the input scalar arguments. */
-    if (! lindi && ! lsame_(indi, "I", 1L, 1L))
-    {
+    if (!lindi && !lsame_(indi, "I", 1L, 1L)) {
         *info = -1;
-    }
-    else
-    {
+    } else {
         j = 0;
-        if (*n >= 2)
-        {
+        if (*n >= 2) {
             j = *n;
             /*           WHILE ( MOD( J, 2 ).EQ.0 ) DO */
-L10:
-            if (j % 2 == 0)
-            {
+        L10:
+            if (j % 2 == 0) {
                 j /= 2;
                 goto L10;
             }
             /*           END WHILE 10 */
         }
-        if (j != 1)
-        {
+        if (j != 1) {
             *info = -2;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("DG01ND", &i__1, 6L);
         return 0;
     }
     /*     Compute the Fourier transform of Z = (XR,XI). */
-    if (! lindi)
-    {
+    if (!lindi) {
         dg01ny_(indi, n, &xr[1], &xi[1], 1L);
     }
     dg01md_(indi, n, &xr[1], &xi[1], info, 1L);
-    if (lindi)
-    {
+    if (lindi) {
         dg01ny_(indi, n, &xr[1], &xi[1], 1L);
     }
     return 0;
     /* *** Last line of DG01ND *** */
 } /* dg01nd_ */
-

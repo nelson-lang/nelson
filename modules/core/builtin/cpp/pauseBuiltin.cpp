@@ -28,156 +28,107 @@ using namespace Nelson;
 //=============================================================================
 static bool pauseOn = true;
 //=============================================================================
-ArrayOfVector Nelson::CoreGateway::pauseBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::CoreGateway::pauseBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() > 1)
-    {
+    if (argIn.size() > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (argIn.size() == 0)
-    {
-        if (nLhs == 1)
-        {
-            if (pauseOn)
-            {
+    if (argIn.size() == 0) {
+        if (nLhs == 1) {
+            if (pauseOn) {
                 retval.push_back(ArrayOf::stringConstructor(L"on"));
-            }
-            else
-            {
+            } else {
                 retval.push_back(ArrayOf::stringConstructor(L"off"));
             }
             return retval;
         }
-        Interface *io = eval->getInterface();
-        if (io)
-        {
+        Interface* io = eval->getInterface();
+        if (io) {
             io->getInput(L"");
         }
-    }
-    else
-    {
+    } else {
         ArrayOf param1 = argIn[0];
-        if (param1.isSingleString())
-        {
+        if (param1.isSingleString()) {
             std::wstring arg1Value = param1.getContentAsWideString();
-            if (arg1Value == L"on" || arg1Value == L"off" || arg1Value == L"query")
-            {
+            if (arg1Value == L"on" || arg1Value == L"off" || arg1Value == L"query") {
                 bool previousValue = pauseOn;
-                if (arg1Value == L"on")
-                {
+                if (arg1Value == L"on") {
                     pauseOn = true;
-                    if (nLhs == 1)
-                    {
-                        if (previousValue)
-                        {
+                    if (nLhs == 1) {
+                        if (previousValue) {
                             retval.push_back(ArrayOf::stringConstructor(L"on"));
-                        }
-                        else
-                        {
+                        } else {
                             retval.push_back(ArrayOf::stringConstructor(L"off"));
                         }
                         return retval;
                     }
-                }
-                else if (arg1Value == L"off")
-                {
+                } else if (arg1Value == L"off") {
                     pauseOn = false;
-                    if (nLhs == 1)
-                    {
-                        if (previousValue)
-                        {
+                    if (nLhs == 1) {
+                        if (previousValue) {
                             retval.push_back(ArrayOf::stringConstructor(L"on"));
-                        }
-                        else
-                        {
+                        } else {
                             retval.push_back(ArrayOf::stringConstructor(L"off"));
                         }
                         return retval;
                     }
-                }
-                else
-                {
-                    if (pauseOn)
-                    {
+                } else {
+                    if (pauseOn) {
                         retval.push_back(ArrayOf::stringConstructor(L"on"));
-                    }
-                    else
-                    {
+                    } else {
                         retval.push_back(ArrayOf::stringConstructor(L"off"));
                     }
                     return retval;
                 }
-            }
-            else
-            {
+            } else {
                 Error(eval, ERROR_WRONG_ARGUMENT_1_VALUE);
             }
-        }
-        else if (param1.isNumeric())
-        {
-            if (nLhs == 1)
-            {
-                if (pauseOn)
-                {
+        } else if (param1.isNumeric()) {
+            if (nLhs == 1) {
+                if (pauseOn) {
                     retval.push_back(ArrayOf::stringConstructor(L"on"));
-                }
-                else
-                {
+                } else {
                     retval.push_back(ArrayOf::stringConstructor(L"off"));
                 }
                 return retval;
-            }
-            else
-            {
+            } else {
                 double val = param1.getContentAsDoubleScalar();
-                if (!pauseOn)
-                {
+                if (!pauseOn) {
                     return retval;
                 }
-                if (std::isinf(val))
-                {
-                    while (!eval->GetInterruptPending())
-                    {
+                if (std::isinf(val)) {
+                    while (!eval->GetInterruptPending()) {
                         boost::this_thread::sleep_for(boost::chrono::milliseconds(uint64(10)));
-                        if (eval->haveEventsLoop())
-                        {
+                        if (eval->haveEventsLoop()) {
                             ProcessEventsDynamicFunctionWithoutWait();
                         }
                     }
-                }
-                else if (std::isnan(val))
-                {
-                }
-                else
-                {
-                    boost::chrono::nanoseconds begin_time = boost::chrono::high_resolution_clock::now().time_since_epoch();
+                } else if (std::isnan(val)) {
+                } else {
+                    boost::chrono::nanoseconds begin_time
+                        = boost::chrono::high_resolution_clock::now().time_since_epoch();
                     bool bContinue = true;
-                    do
-                    {
+                    do {
                         boost::this_thread::sleep_for(boost::chrono::nanoseconds(uint64(10)));
-                        boost::chrono::nanoseconds current_time = boost::chrono::high_resolution_clock::now().time_since_epoch();
+                        boost::chrono::nanoseconds current_time
+                            = boost::chrono::high_resolution_clock::now().time_since_epoch();
                         boost::chrono::nanoseconds difftime = (current_time - begin_time);
-                        bContinue = !(difftime.count() > int64(val*1e9));
-                        if (eval->haveEventsLoop())
-                        {
+                        bContinue = !(difftime.count() > int64(val * 1e9));
+                        if (eval->haveEventsLoop()) {
                             ProcessEventsDynamicFunctionWithoutWait();
                         }
-                    }
-                    while (!eval->GetInterruptPending() && (bContinue == true));
+                    } while (!eval->GetInterruptPending() && (bContinue == true));
                 }
             }
-        }
-        else
-        {
+        } else {
             bool bSuccess = false;
             retval = OverloadFunction(eval, nLhs, argIn, "pause", bSuccess);
-            if (!bSuccess)
-            {
+            if (!bSuccess) {
                 OverloadRequired(eval, argIn, Nelson::UNARY);
             }
         }

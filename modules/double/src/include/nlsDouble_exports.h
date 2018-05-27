@@ -25,6 +25,6 @@
 #define NLSDOUBLE_IMPEXP __declspec(dllimport)
 #endif
 #else
-#define NLSDOUBLE_IMPEXP __attribute__ ((visibility ("default")))
+#define NLSDOUBLE_IMPEXP __attribute__((visibility("default")))
 #endif
 //=============================================================================

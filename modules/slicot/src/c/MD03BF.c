@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,21 +9,23 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int md03bf_(iflag, m, n, ipar, lipar, dpar1, ldpar1, dpar2, ldpar2, x, nfevl, e, j, ldj, dwork, ldwork, info)
-integer *iflag, *m, *n, *ipar, *lipar;
-doublereal *dpar1;
-integer *ldpar1;
-doublereal *dpar2;
-integer *ldpar2;
-doublereal *x;
-integer *nfevl;
+EXPORTSYMBOL /* Subroutine */ int md03bf_(iflag, m, n, ipar, lipar, dpar1, ldpar1, dpar2, ldpar2, x,
+    nfevl, e, j, ldj, dwork, ldwork, info) integer *iflag,
+    *m, *n, *ipar, *lipar;
+doublereal* dpar1;
+integer* ldpar1;
+doublereal* dpar2;
+integer* ldpar2;
+doublereal* x;
+integer* nfevl;
 doublereal *e, *j;
-integer *ldj;
-doublereal *dwork;
+integer* ldj;
+doublereal* dwork;
 integer *ldwork, *info;
 {
     /* Initialized data */
-    static doublereal y[15] = { .14,.18,.22,.25,.29,.32,.35,.39,.37,.58,.73,.96,1.34,2.1,4.39 };
+    static doublereal y[15]
+        = { .14, .18, .22, .25, .29, .32, .35, .39, .37, .58, .73, .96, 1.34, 2.1, 4.39 };
     /* System generated locals */
     integer j_dim1, j_offset;
     doublereal d__1;
@@ -75,38 +77,27 @@ integer *ldwork, *info;
     /* Function Body */
     /*     .. Executable Statements .. */
     *info = 0;
-    if (*iflag == 1)
-    {
+    if (*iflag == 1) {
         /*        Compute the error function values. */
-        for (i__ = 1; i__ <= 15; ++i__)
-        {
-            tmp1 = (doublereal) i__;
-            tmp2 = (doublereal) (16 - i__);
-            if (i__ > 8)
-            {
+        for (i__ = 1; i__ <= 15; ++i__) {
+            tmp1 = (doublereal)i__;
+            tmp2 = (doublereal)(16 - i__);
+            if (i__ > 8) {
                 tmp3 = tmp2;
-            }
-            else
-            {
+            } else {
                 tmp3 = tmp1;
             }
             e[i__] = y[i__ - 1] - (x[1] + tmp1 / (x[2] * tmp2 + x[3] * tmp3));
             /* L10: */
         }
-    }
-    else if (*iflag == 2)
-    {
+    } else if (*iflag == 2) {
         /*        Compute the Jacobian. */
-        for (i__ = 1; i__ <= 15; ++i__)
-        {
-            tmp1 = (doublereal) i__;
-            tmp2 = (doublereal) (16 - i__);
-            if (i__ > 8)
-            {
+        for (i__ = 1; i__ <= 15; ++i__) {
+            tmp1 = (doublereal)i__;
+            tmp2 = (doublereal)(16 - i__);
+            if (i__ > 8) {
                 tmp3 = tmp2;
-            }
-            else
-            {
+            } else {
                 tmp3 = tmp1;
             }
             /* Computing 2nd power */
@@ -118,27 +109,22 @@ integer *ldwork, *info;
             /* L30: */
         }
         *nfevl = 0;
-    }
-    else if (*iflag == 3)
-    {
+    } else if (*iflag == 3) {
         /*        Set the parameter LDJ, the length of the array J, and the sizes */
         /*        of the workspace for FCN (IFLAG = 1 or 2), MD03BA and MD03BB. */
         *ldj = *m;
-        ipar[1] = *m **n;
+        ipar[1] = *m * *n;
         ipar[2] = 0;
         ipar[3] = 0;
         ipar[4] = (*n << 2) + 1;
         ipar[5] = *n << 2;
-    }
-    else if (*iflag == 0)
-    {
+    } else if (*iflag == 0) {
         /*        Special call for printing intermediate results. */
         err = dnrm2_(m, &e[1], &c__1);
         s_wsfe(&io___8);
-        do_fio(&c__1, (char *)&err, (ftnlen)sizeof(doublereal));
+        do_fio(&c__1, (char*)&err, (ftnlen)sizeof(doublereal));
         e_wsfe();
     }
     return 0;
     /* *** Last line of MD03BF *** */
 } /* md03bf_ */
-

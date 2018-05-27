@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,37 +11,41 @@ static integer c__1 = 1;
 static doublereal c_b7 = 1.;
 static doublereal c_b9 = 0.;
 
-EXPORTSYMBOL /* Subroutine */ int mb03xu_(ltra, ltrb, n, k, nb, a, lda, b, ldb, g, ldg, q, ldq, xa, ldxa, xb, ldxb, xg, ldxg, xq, ldxq, ya, ldya, yb, ldyb, yg, ldyg, yq, ldyq, csl, csr, taul, taur, dwork)
-logical *ltra, *ltrb;
+EXPORTSYMBOL /* Subroutine */ int mb03xu_(ltra, ltrb, n, k, nb, a, lda, b, ldb, g, ldg, q, ldq, xa,
+    ldxa, xb, ldxb, xg, ldxg, xq, ldxq, ya, ldya, yb, ldyb, yg, ldyg, yq, ldyq, csl, csr, taul,
+    taur, dwork) logical *ltra,
+    *ltrb;
 integer *n, *k, *nb;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *g;
-integer *ldg;
-doublereal *q;
-integer *ldq;
-doublereal *xa;
-integer *ldxa;
-doublereal *xb;
-integer *ldxb;
-doublereal *xg;
-integer *ldxg;
-doublereal *xq;
-integer *ldxq;
-doublereal *ya;
-integer *ldya;
-doublereal *yb;
-integer *ldyb;
-doublereal *yg;
-integer *ldyg;
-doublereal *yq;
-integer *ldyq;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* g;
+integer* ldg;
+doublereal* q;
+integer* ldq;
+doublereal* xa;
+integer* ldxa;
+doublereal* xb;
+integer* ldxb;
+doublereal* xg;
+integer* ldxg;
+doublereal* xq;
+integer* ldxq;
+doublereal* ya;
+integer* ldya;
+doublereal* yb;
+integer* ldyb;
+doublereal* yg;
+integer* ldyg;
+doublereal* yq;
+integer* ldyq;
 doublereal *csl, *csr, *taul, *taur, *dwork;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, g_dim1, g_offset, q_dim1, q_offset, xa_dim1, xa_offset, xb_dim1, xb_offset, xg_dim1, xg_offset, xq_dim1, xq_offset, ya_dim1, ya_offset, yb_dim1, yb_offset, yg_dim1, yg_offset, yq_dim1, yq_offset, i__1, i__2, i__3;
+    integer a_dim1, a_offset, b_dim1, b_offset, g_dim1, g_offset, q_dim1, q_offset, xa_dim1,
+        xa_offset, xb_dim1, xb_offset, xg_dim1, xg_offset, xq_dim1, xq_offset, ya_dim1, ya_offset,
+        yb_dim1, yb_offset, yg_dim1, yg_offset, yq_dim1, yq_offset, i__1, i__2, i__3;
     doublereal d__1;
     /* Local variables */
     extern doublereal ddot_();
@@ -308,298 +312,381 @@ doublereal *csl, *csr, *taul, *taur, *dwork;
     --taur;
     --dwork;
     /* Function Body */
-    if (*n + *k <= 0)
-    {
+    if (*n + *k <= 0) {
         return 0;
     }
     nb1 = *nb + 1;
     nb2 = *nb + *nb;
     nb3 = nb2 + *nb;
     pdw = nb3 + *nb + 1;
-    if (*ltra && *ltrb)
-    {
+    if (*ltra && *ltrb) {
         i__1 = *nb;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             /*           Transform first row/column of A and Q. See routine MB04TS. */
             alpha = q[i__ + i__ * q_dim1];
             i__2 = *n - i__ + 1;
             dlarfg_(&i__2, &alpha, &q[i__ + 1 + i__ * q_dim1], &c__1, &tauq);
             q[i__ + i__ * q_dim1] = 1.;
             i__2 = *n - i__ + 1;
-            temp = -tauq * ddot_(&i__2, &q[i__ + i__ * q_dim1], &c__1, &a[i__ + (*k + i__) * a_dim1], lda);
+            temp = -tauq
+                * ddot_(&i__2, &q[i__ + i__ * q_dim1], &c__1, &a[i__ + (*k + i__) * a_dim1], lda);
             i__2 = *n - i__ + 1;
             daxpy_(&i__2, &temp, &q[i__ + i__ * q_dim1], &c__1, &a[i__ + (*k + i__) * a_dim1], lda);
             temp = a[i__ + (*k + i__) * a_dim1];
             dlartg_(&temp, &alpha, &c__, &s, &a[i__ + (*k + i__) * a_dim1]);
             i__2 = *n - i__ + 1;
-            dlarfg_(&i__2, &a[i__ + (*k + i__) * a_dim1], &a[i__ + (*k + i__ + 1) * a_dim1], lda, &taul[i__]);
+            dlarfg_(&i__2, &a[i__ + (*k + i__) * a_dim1], &a[i__ + (*k + i__ + 1) * a_dim1], lda,
+                &taul[i__]);
             temp = a[i__ + (*k + i__) * a_dim1];
             a[i__ + (*k + i__) * a_dim1] = 1.;
             /*           Update XQ with first Householder reflection. */
             i__2 = *n - i__ + 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[i__ + (i__ + 1) * q_dim1], ldq, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xq[i__ + 1 + i__ * xq_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[i__ + (i__ + 1) * q_dim1], ldq,
+                &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xq[i__ + 1 + i__ * xq_dim1], &c__1, 9L);
             i__2 = *n - i__ + 1;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[i__ + q_dim1], ldq, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &dwork[1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[i__ + q_dim1], ldq, &q[i__ + i__ * q_dim1],
+                &c__1, &c_b9, &dwork[1], &c__1, 9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xq[i__ + 1 + xq_dim1], ldxq, &dwork[1], &c__1, &c_b7, &xq[i__ + 1 + i__ * xq_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xq[i__ + 1 + xq_dim1], ldxq, &dwork[1],
+                &c__1, &c_b7, &xq[i__ + 1 + i__ * xq_dim1], &c__1, 12L);
             i__2 = i__ - 1;
             i__3 = *n - i__ + 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &a[(*k + i__) * a_dim1 + 1], lda, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &dwork[*nb + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &a[(*k + i__) * a_dim1 + 1], lda,
+                &q[i__ + i__ * q_dim1], &c__1, &c_b9, &dwork[*nb + 1], &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xq[i__ + 1 + nb1 * xq_dim1], ldxq, &dwork[*nb + 1], &c__1, &c_b7, &xq[i__ + 1 + i__ * xq_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xq[i__ + 1 + nb1 * xq_dim1], ldxq,
+                &dwork[*nb + 1], &c__1, &c_b7, &xq[i__ + 1 + i__ * xq_dim1], &c__1, 12L);
             i__2 = *n - i__ + 1;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yq[i__ + yq_dim1], ldyq, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xq[i__ * xq_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yq[i__ + yq_dim1], ldyq,
+                &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xq[i__ * xq_dim1 + 1], &c__1, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &xq[i__ * xq_dim1 + 1], &c__1, &c_b7, &xq[i__ + 1 + i__ * xq_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq,
+                &xq[i__ * xq_dim1 + 1], &c__1, &c_b7, &xq[i__ + 1 + i__ * xq_dim1], &c__1, 9L);
             i__2 = *n - i__ + 1;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yq[i__ + nb1 * yq_dim1], ldyq, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xq[(i__ + *nb) * xq_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yq[i__ + nb1 * yq_dim1], ldyq,
+                &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xq[(i__ + *nb) * xq_dim1 + 1], &c__1, 9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + b_dim1], ldb, &xq[(i__ + *nb) * xq_dim1 + 1], &c__1, &c_b7, &xq[i__ + 1 + i__ * xq_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + b_dim1], ldb,
+                &xq[(i__ + *nb) * xq_dim1 + 1], &c__1, &c_b7, &xq[i__ + 1 + i__ * xq_dim1], &c__1,
+                12L);
             i__2 = *n - i__;
             d__1 = -tauq;
             dscal_(&i__2, &d__1, &xq[i__ + 1 + i__ * xq_dim1], &c__1);
             /*           Update Q(i,i+1:n). */
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &xq[i__ + 1 + xq_dim1], ldxq, &q[i__ + q_dim1], ldq, &c_b7, &q[i__ + (i__ + 1) * q_dim1], ldq, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &xq[i__ + 1 + xq_dim1], ldxq,
+                &q[i__ + q_dim1], ldq, &c_b7, &q[i__ + (i__ + 1) * q_dim1], ldq, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xq[i__ + 1 + nb1 * xq_dim1], ldxq, &a[(*k + i__) * a_dim1 + 1], &c__1, &c_b7, &q[i__ + (i__ + 1) * q_dim1], ldq, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xq[i__ + 1 + nb1 * xq_dim1], ldxq,
+                &a[(*k + i__) * a_dim1 + 1], &c__1, &c_b7, &q[i__ + (i__ + 1) * q_dim1], ldq, 12L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &yq[i__ + yq_dim1], ldyq, &c_b7, &q[i__ + (i__ + 1) * q_dim1], ldq, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq,
+                &yq[i__ + yq_dim1], ldyq, &c_b7, &q[i__ + (i__ + 1) * q_dim1], ldq, 9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + b_dim1], ldb, &yq[i__ + nb1 * yq_dim1], ldyq, &c_b7, &q[i__ + (i__ + 1) * q_dim1], ldq, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + b_dim1], ldb,
+                &yq[i__ + nb1 * yq_dim1], ldyq, &c_b7, &q[i__ + (i__ + 1) * q_dim1], ldq, 12L);
             /*           Update XA with first Householder reflection. */
             i__2 = *n - i__;
             i__3 = *n - i__ + 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &a[i__ + 1 + (*k + i__) * a_dim1], lda, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xa[i__ + 1 + i__ * xa_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &a[i__ + 1 + (*k + i__) * a_dim1], lda,
+                &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xa[i__ + 1 + i__ * xa_dim1], &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xa[i__ + 1 + xa_dim1], ldxa, &dwork[1], &c__1, &c_b7, &xa[i__ + 1 + i__ * xa_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xa[i__ + 1 + xa_dim1], ldxa, &dwork[1],
+                &c__1, &c_b7, &xa[i__ + 1 + i__ * xa_dim1], &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xa[i__ + 1 + nb1 * xa_dim1], ldxa, &dwork[*nb + 1], &c__1, &c_b7, &xa[i__ + 1 + i__ * xa_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xa[i__ + 1 + nb1 * xa_dim1], ldxa,
+                &dwork[*nb + 1], &c__1, &c_b7, &xa[i__ + 1 + i__ * xa_dim1], &c__1, 12L);
             i__2 = *n - i__ + 1;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &ya[*k + i__ + ya_dim1], ldya, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xa[i__ * xa_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &ya[*k + i__ + ya_dim1], ldya,
+                &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xa[i__ * xa_dim1 + 1], &c__1, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &xa[i__ * xa_dim1 + 1], &c__1, &c_b7, &xa[i__ + 1 + i__ * xa_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq,
+                &xa[i__ * xa_dim1 + 1], &c__1, &c_b7, &xa[i__ + 1 + i__ * xa_dim1], &c__1, 9L);
             i__2 = *n - i__ + 1;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &ya[*k + i__ + nb1 * ya_dim1], ldya, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xa[i__ * xa_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &ya[*k + i__ + nb1 * ya_dim1], ldya,
+                &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xa[i__ * xa_dim1 + 1], &c__1, 9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + b_dim1], ldb, &xa[i__ * xa_dim1 + 1], &c__1, &c_b7, &xa[i__ + 1 + i__ * xa_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + b_dim1], ldb,
+                &xa[i__ * xa_dim1 + 1], &c__1, &c_b7, &xa[i__ + 1 + i__ * xa_dim1], &c__1, 12L);
             i__2 = *n - i__;
             d__1 = -tauq;
             dscal_(&i__2, &d__1, &xa[i__ + 1 + i__ * xa_dim1], &c__1);
             /*           Update A(i+1:n,k+i). */
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &xa[i__ + 1 + xa_dim1], ldxa, &q[i__ + q_dim1], ldq, &c_b7, &a[i__ + 1 + (*k + i__) * a_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &xa[i__ + 1 + xa_dim1], ldxa,
+                &q[i__ + q_dim1], ldq, &c_b7, &a[i__ + 1 + (*k + i__) * a_dim1], &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xa[i__ + 1 + nb1 * xa_dim1], ldxa, &a[(*k + i__) * a_dim1 + 1], &c__1, &c_b7, &a[i__ + 1 + (*k + i__) * a_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xa[i__ + 1 + nb1 * xa_dim1], ldxa,
+                &a[(*k + i__) * a_dim1 + 1], &c__1, &c_b7, &a[i__ + 1 + (*k + i__) * a_dim1], &c__1,
+                12L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &ya[*k + i__ + ya_dim1], ldya, &c_b7, &a[i__ + 1 + (*k + i__) * a_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq,
+                &ya[*k + i__ + ya_dim1], ldya, &c_b7, &a[i__ + 1 + (*k + i__) * a_dim1], &c__1, 9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + b_dim1], ldb, &ya[*k + i__ + nb1 * ya_dim1], ldya, &c_b7, &a[i__ + 1 + (*k + i__) * a_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + b_dim1], ldb,
+                &ya[*k + i__ + nb1 * ya_dim1], ldya, &c_b7, &a[i__ + 1 + (*k + i__) * a_dim1],
+                &c__1, 12L);
             /*           Apply rotation to [ A(i+1:n,k+i)'; Q(i,i+1:n) ]. */
             i__2 = *n - i__;
-            drot_(&i__2, &a[i__ + 1 + (*k + i__) * a_dim1], &c__1, &q[i__ + (i__ + 1) * q_dim1], ldq, &c__, &s);
+            drot_(&i__2, &a[i__ + 1 + (*k + i__) * a_dim1], &c__1, &q[i__ + (i__ + 1) * q_dim1],
+                ldq, &c__, &s);
             /*           Update XQ with second Householder reflection. */
             i__2 = *n - i__ + 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[i__ + (i__ + 1) * q_dim1], ldq, &a[i__ + (*k + i__) * a_dim1], lda, &c_b9, &xq[i__ + 1 + (i__ + *nb) * xq_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[i__ + (i__ + 1) * q_dim1], ldq,
+                &a[i__ + (*k + i__) * a_dim1], lda, &c_b9, &xq[i__ + 1 + (i__ + *nb) * xq_dim1],
+                &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &a[i__ + (*k + i__ + 1) * a_dim1], lda, &c_b9, &dwork[nb2 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq,
+                &a[i__ + (*k + i__ + 1) * a_dim1], lda, &c_b9, &dwork[nb2 + 1], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &xq[i__ + 1 + xq_dim1], ldxq, &dwork[nb2 + 1], &c__1, &c_b7, &xq[i__ + 1 + (i__ + *nb) * xq_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &xq[i__ + 1 + xq_dim1], ldxq,
+                &dwork[nb2 + 1], &c__1, &c_b7, &xq[i__ + 1 + (i__ + *nb) * xq_dim1], &c__1, 12L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &a[(*k + i__ + 1) * a_dim1 + 1], lda, &a[i__ + (*k + i__ + 1) * a_dim1], lda, &c_b9, &dwork[nb3 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &a[(*k + i__ + 1) * a_dim1 + 1], lda,
+                &a[i__ + (*k + i__ + 1) * a_dim1], lda, &c_b9, &dwork[nb3 + 1], &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xq[i__ + 1 + nb1 * xq_dim1], ldxq, &dwork[nb3 + 1], &c__1, &c_b7, &xq[i__ + 1 + (i__ + *nb) * xq_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xq[i__ + 1 + nb1 * xq_dim1], ldxq,
+                &dwork[nb3 + 1], &c__1, &c_b7, &xq[i__ + 1 + (i__ + *nb) * xq_dim1], &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yq[i__ + 1 + yq_dim1], ldyq, &a[i__ + (*k + i__ + 1) * a_dim1], lda, &c_b9, &xq[(i__ + *nb) * xq_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yq[i__ + 1 + yq_dim1], ldyq,
+                &a[i__ + (*k + i__ + 1) * a_dim1], lda, &c_b9, &xq[(i__ + *nb) * xq_dim1 + 1],
+                &c__1, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &xq[(i__ + *nb) * xq_dim1 + 1], &c__1, &c_b7, &xq[i__ + 1 + (i__ + *nb) * xq_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq,
+                &xq[(i__ + *nb) * xq_dim1 + 1], &c__1, &c_b7, &xq[i__ + 1 + (i__ + *nb) * xq_dim1],
+                &c__1, 9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yq[i__ + 1 + nb1 * yq_dim1], ldyq, &a[i__ + (*k + i__ + 1) * a_dim1], lda, &c_b9, &xq[(i__ + *nb) * xq_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yq[i__ + 1 + nb1 * yq_dim1], ldyq,
+                &a[i__ + (*k + i__ + 1) * a_dim1], lda, &c_b9, &xq[(i__ + *nb) * xq_dim1 + 1],
+                &c__1, 9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + b_dim1], ldb, &xq[(i__ + *nb) * xq_dim1 + 1], &c__1, &c_b7, &xq[i__ + 1 + (i__ + *nb) * xq_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + b_dim1], ldb,
+                &xq[(i__ + *nb) * xq_dim1 + 1], &c__1, &c_b7, &xq[i__ + 1 + (i__ + *nb) * xq_dim1],
+                &c__1, 12L);
             i__2 = *n - i__;
             d__1 = -taul[i__];
             dscal_(&i__2, &d__1, &xq[i__ + 1 + (i__ + *nb) * xq_dim1], &c__1);
             /*           Update Q(i,i+1:n). */
             i__2 = *n - i__;
-            daxpy_(&i__2, &c_b7, &xq[i__ + 1 + (i__ + *nb) * xq_dim1], &c__1, &q[i__ + (i__ + 1) * q_dim1], ldq);
+            daxpy_(&i__2, &c_b7, &xq[i__ + 1 + (i__ + *nb) * xq_dim1], &c__1,
+                &q[i__ + (i__ + 1) * q_dim1], ldq);
             /*           Update XA with second Householder reflection. */
             i__2 = *n - i__;
             i__3 = *n - i__ + 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &a[i__ + 1 + (*k + i__) * a_dim1], lda, &a[i__ + (*k + i__) * a_dim1], lda, &c_b9, &xa[i__ + 1 + (i__ + *nb) * xa_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &a[i__ + 1 + (*k + i__) * a_dim1], lda,
+                &a[i__ + (*k + i__) * a_dim1], lda, &c_b9, &xa[i__ + 1 + (i__ + *nb) * xa_dim1],
+                &c__1, 12L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &xa[i__ + 1 + xa_dim1], ldxa, &dwork[nb2 + 1], &c__1, &c_b7, &xa[i__ + 1 + (i__ + *nb) * xa_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &xa[i__ + 1 + xa_dim1], ldxa,
+                &dwork[nb2 + 1], &c__1, &c_b7, &xa[i__ + 1 + (i__ + *nb) * xa_dim1], &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xa[i__ + 1 + nb1 * xa_dim1], ldxa, &dwork[nb3 + 1], &c__1, &c_b7, &xa[i__ + 1 + (i__ + *nb) * xa_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xa[i__ + 1 + nb1 * xa_dim1], ldxa,
+                &dwork[nb3 + 1], &c__1, &c_b7, &xa[i__ + 1 + (i__ + *nb) * xa_dim1], &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &ya[*k + i__ + 1 + ya_dim1], ldya, &a[i__ + (*k + i__ + 1) * a_dim1], lda, &c_b9, &xa[(i__ + *nb) * xa_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &ya[*k + i__ + 1 + ya_dim1], ldya,
+                &a[i__ + (*k + i__ + 1) * a_dim1], lda, &c_b9, &xa[(i__ + *nb) * xa_dim1 + 1],
+                &c__1, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &xa[(i__ + *nb) * xa_dim1 + 1], &c__1, &c_b7, &xa[i__ + 1 + (i__ + *nb) * xa_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq,
+                &xa[(i__ + *nb) * xa_dim1 + 1], &c__1, &c_b7, &xa[i__ + 1 + (i__ + *nb) * xa_dim1],
+                &c__1, 9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &ya[*k + i__ + 1 + nb1 * ya_dim1], ldya, &a[i__ + (*k + i__ + 1) * a_dim1], lda, &c_b9, &xa[(i__ + *nb) * xa_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &ya[*k + i__ + 1 + nb1 * ya_dim1], ldya,
+                &a[i__ + (*k + i__ + 1) * a_dim1], lda, &c_b9, &xa[(i__ + *nb) * xa_dim1 + 1],
+                &c__1, 9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + b_dim1], ldb, &xa[(i__ + *nb) * xa_dim1 + 1], &c__1, &c_b7, &xa[i__ + 1 + (i__ + *nb) * xa_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + b_dim1], ldb,
+                &xa[(i__ + *nb) * xa_dim1 + 1], &c__1, &c_b7, &xa[i__ + 1 + (i__ + *nb) * xa_dim1],
+                &c__1, 12L);
             i__2 = *n - i__;
             d__1 = -taul[i__];
             dscal_(&i__2, &d__1, &xa[i__ + 1 + (i__ + *nb) * xa_dim1], &c__1);
             /*           Update A(i+1:n,k+i). */
             i__2 = *n - i__;
-            daxpy_(&i__2, &c_b7, &xa[i__ + 1 + (i__ + *nb) * xa_dim1], &c__1, &a[i__ + 1 + (*k + i__) * a_dim1], &c__1);
+            daxpy_(&i__2, &c_b7, &xa[i__ + 1 + (i__ + *nb) * xa_dim1], &c__1,
+                &a[i__ + 1 + (*k + i__) * a_dim1], &c__1);
             /*           Update XG with first Householder reflection. */
             i__2 = *n - i__ + 1;
             i__3 = *k + *n;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &g[*k + i__ + g_dim1], ldg, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xg[i__ * xg_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &g[*k + i__ + g_dim1], ldg,
+                &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xg[i__ * xg_dim1 + 1], &c__1, 9L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xg[xg_offset], ldxg, &dwork[1], &c__1, &c_b7, &xg[i__ * xg_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xg[xg_offset], ldxg, &dwork[1], &c__1,
+                &c_b7, &xg[i__ * xg_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xg[nb1 * xg_dim1 + 1], ldxg, &dwork[*nb + 1], &c__1, &c_b7, &xg[i__ * xg_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xg[nb1 * xg_dim1 + 1], ldxg,
+                &dwork[*nb + 1], &c__1, &c_b7, &xg[i__ * xg_dim1 + 1], &c__1, 12L);
             i__2 = *n - i__ + 1;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yg[*k + i__ + yg_dim1], ldyg, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yg[*k + i__ + yg_dim1], ldyg,
+                &q[i__ + i__ * q_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &dwork[pdw], &c__1, &c_b7, &xg[*k + i__ + 1 + i__ * xg_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &dwork[pdw],
+                &c__1, &c_b7, &xg[*k + i__ + 1 + i__ * xg_dim1], &c__1, 9L);
             i__2 = *n - i__ + 1;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yg[*k + i__ + nb1 * yg_dim1], ldyg, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yg[*k + i__ + nb1 * yg_dim1], ldyg,
+                &q[i__ + i__ * q_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + b_dim1], ldb, &dwork[pdw], &c__1, &c_b7, &xg[*k + i__ + 1 + i__ * xg_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + b_dim1], ldb, &dwork[pdw],
+                &c__1, &c_b7, &xg[*k + i__ + 1 + i__ * xg_dim1], &c__1, 12L);
             i__2 = *k + *n;
             d__1 = -tauq;
             dscal_(&i__2, &d__1, &xg[i__ * xg_dim1 + 1], &c__1);
             /*           Update G(k+i,:). */
             i__2 = *k + *n;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &xg[xg_offset], ldxg, &q[i__ + q_dim1], ldq, &c_b7, &g[*k + i__ + g_dim1], ldg, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &xg[xg_offset], ldxg, &q[i__ + q_dim1], ldq,
+                &c_b7, &g[*k + i__ + g_dim1], ldg, 12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xg[nb1 * xg_dim1 + 1], ldxg, &a[(*k + i__) * a_dim1 + 1], &c__1, &c_b7, &g[*k + i__ + g_dim1], ldg, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xg[nb1 * xg_dim1 + 1], ldxg,
+                &a[(*k + i__) * a_dim1 + 1], &c__1, &c_b7, &g[*k + i__ + g_dim1], ldg, 12L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &yg[*k + i__ + yg_dim1], ldyg, &c_b7, &g[*k + i__ + (*k + i__ + 1) * g_dim1], ldg, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq,
+                &yg[*k + i__ + yg_dim1], ldyg, &c_b7, &g[*k + i__ + (*k + i__ + 1) * g_dim1], ldg,
+                9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + b_dim1], ldb, &yg[*k + i__ + nb1 * yg_dim1], ldyg, &c_b7, &g[*k + i__ + (*k + i__ + 1) * g_dim1], ldg, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + b_dim1], ldb,
+                &yg[*k + i__ + nb1 * yg_dim1], ldyg, &c_b7, &g[*k + i__ + (*k + i__ + 1) * g_dim1],
+                ldg, 12L);
             /*           Update XB with first Householder reflection. */
             i__2 = *k + *n;
             i__3 = *n - i__ + 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &b[i__ * b_dim1 + 1], ldb, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xb[i__ * xb_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &b[i__ * b_dim1 + 1], ldb,
+                &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xb[i__ * xb_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xb[xb_offset], ldxb, &dwork[1], &c__1, &c_b7, &xb[i__ * xb_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xb[xb_offset], ldxb, &dwork[1], &c__1,
+                &c_b7, &xb[i__ * xb_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xb[nb1 * xb_dim1 + 1], ldxb, &dwork[*nb + 1], &c__1, &c_b7, &xb[i__ * xb_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xb[nb1 * xb_dim1 + 1], ldxb,
+                &dwork[*nb + 1], &c__1, &c_b7, &xb[i__ * xb_dim1 + 1], &c__1, 12L);
             i__2 = *n - i__ + 1;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yb[i__ + yb_dim1], ldyb, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yb[i__ + yb_dim1], ldyb,
+                &q[i__ + i__ * q_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &dwork[pdw], &c__1, &c_b7, &xb[*k + i__ + 1 + i__ * xb_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &dwork[pdw],
+                &c__1, &c_b7, &xb[*k + i__ + 1 + i__ * xb_dim1], &c__1, 9L);
             i__2 = *n - i__ + 1;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yb[i__ + nb1 * yb_dim1], ldyb, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yb[i__ + nb1 * yb_dim1], ldyb,
+                &q[i__ + i__ * q_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + b_dim1], ldb, &dwork[pdw], &c__1, &c_b7, &xb[*k + i__ + 1 + i__ * xb_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + b_dim1], ldb, &dwork[pdw],
+                &c__1, &c_b7, &xb[*k + i__ + 1 + i__ * xb_dim1], &c__1, 12L);
             i__2 = *k + *n;
             d__1 = -tauq;
             dscal_(&i__2, &d__1, &xb[i__ * xb_dim1 + 1], &c__1);
             /*           Update B(:,i). */
             i__2 = *k + *n;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &xb[xb_offset], ldxb, &q[i__ + q_dim1], ldq, &c_b7, &b[i__ * b_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &xb[xb_offset], ldxb, &q[i__ + q_dim1], ldq,
+                &c_b7, &b[i__ * b_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xb[nb1 * xb_dim1 + 1], ldxb, &a[(*k + i__) * a_dim1 + 1], &c__1, &c_b7, &b[i__ * b_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xb[nb1 * xb_dim1 + 1], ldxb,
+                &a[(*k + i__) * a_dim1 + 1], &c__1, &c_b7, &b[i__ * b_dim1 + 1], &c__1, 12L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &yb[i__ + yb_dim1], ldyb, &c_b7, &b[*k + i__ + 1 + i__ * b_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq,
+                &yb[i__ + yb_dim1], ldyb, &c_b7, &b[*k + i__ + 1 + i__ * b_dim1], &c__1, 9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + b_dim1], ldb, &yb[i__ + nb1 * yb_dim1], ldyb, &c_b7, &b[*k + i__ + 1 + i__ * b_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + b_dim1], ldb,
+                &yb[i__ + nb1 * yb_dim1], ldyb, &c_b7, &b[*k + i__ + 1 + i__ * b_dim1], &c__1, 12L);
             /*           Apply rotation to [ G(k+i,:); B(:,i)' ]. */
             i__2 = *k + *n;
             drot_(&i__2, &g[*k + i__ + g_dim1], ldg, &b[i__ * b_dim1 + 1], &c__1, &c__, &s);
             i__2 = i__ - 1;
-            for (j = 1; j <= i__2; ++j)
-            {
+            for (j = 1; j <= i__2; ++j) {
                 yg[*k + i__ + j * yg_dim1] = 0.;
                 /* L10: */
             }
             i__2 = i__ - 1;
-            for (j = 1; j <= i__2; ++j)
-            {
+            for (j = 1; j <= i__2; ++j) {
                 yg[*k + i__ + (*nb + j) * yg_dim1] = 0.;
                 /* L20: */
             }
             i__2 = i__ - 1;
-            for (j = 1; j <= i__2; ++j)
-            {
+            for (j = 1; j <= i__2; ++j) {
                 ya[*k + i__ + j * ya_dim1] = 0.;
                 /* L30: */
             }
             i__2 = i__ - 1;
-            for (j = 1; j <= i__2; ++j)
-            {
+            for (j = 1; j <= i__2; ++j) {
                 ya[*k + i__ + (*nb + j) * ya_dim1] = 0.;
                 /* L40: */
             }
             /*           Update XG with second Householder reflection. */
             i__2 = *n - i__ + 1;
             i__3 = *k + *n;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &g[*k + i__ + g_dim1], ldg, &a[i__ + (*k + i__) * a_dim1], lda, &c_b9, &xg[(i__ + *nb) * xg_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &g[*k + i__ + g_dim1], ldg,
+                &a[i__ + (*k + i__) * a_dim1], lda, &c_b9, &xg[(i__ + *nb) * xg_dim1 + 1], &c__1,
+                9L);
             i__2 = *k + *n;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &xg[xg_offset], ldxg, &dwork[nb2 + 1], &c__1, &c_b7, &xg[(i__ + *nb) * xg_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &xg[xg_offset], ldxg, &dwork[nb2 + 1], &c__1,
+                &c_b7, &xg[(i__ + *nb) * xg_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xg[nb1 * xg_dim1 + 1], ldxg, &dwork[nb3 + 1], &c__1, &c_b7, &xg[(i__ + *nb) * xg_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xg[nb1 * xg_dim1 + 1], ldxg,
+                &dwork[nb3 + 1], &c__1, &c_b7, &xg[(i__ + *nb) * xg_dim1 + 1], &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yg[*k + i__ + 1 + yg_dim1], ldyg, &a[i__ + (*k + i__ + 1) * a_dim1], lda, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yg[*k + i__ + 1 + yg_dim1], ldyg,
+                &a[i__ + (*k + i__ + 1) * a_dim1], lda, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &dwork[pdw], &c__1, &c_b7, &xg[*k + i__ + 1 + (i__ + *nb) * xg_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &dwork[pdw],
+                &c__1, &c_b7, &xg[*k + i__ + 1 + (i__ + *nb) * xg_dim1], &c__1, 9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yg[*k + i__ + 1 + nb1 * yg_dim1], ldyg, &a[i__ + (*k + i__ + 1) * a_dim1], lda, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yg[*k + i__ + 1 + nb1 * yg_dim1], ldyg,
+                &a[i__ + (*k + i__ + 1) * a_dim1], lda, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + b_dim1], ldb, &dwork[pdw], &c__1, &c_b7, &xg[*k + i__ + 1 + (i__ + *nb) * xg_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + b_dim1], ldb, &dwork[pdw],
+                &c__1, &c_b7, &xg[*k + i__ + 1 + (i__ + *nb) * xg_dim1], &c__1, 12L);
             i__2 = *k + *n;
             d__1 = -taul[i__];
             dscal_(&i__2, &d__1, &xg[(i__ + *nb) * xg_dim1 + 1], &c__1);
@@ -609,30 +696,39 @@ doublereal *csl, *csr, *taul, *taur, *dwork;
             /*           Update XB with second Householder reflection. */
             i__2 = *k + *n;
             i__3 = *n - i__ + 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &b[i__ * b_dim1 + 1], ldb, &a[i__ + (*k + i__) * a_dim1], lda, &c_b9, &xb[(i__ + *nb) * xb_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &b[i__ * b_dim1 + 1], ldb,
+                &a[i__ + (*k + i__) * a_dim1], lda, &c_b9, &xb[(i__ + *nb) * xb_dim1 + 1], &c__1,
+                12L);
             i__2 = *k + *n;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &xb[xb_offset], ldxb, &dwork[nb2 + 1], &c__1, &c_b7, &xb[(i__ + *nb) * xb_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &xb[xb_offset], ldxb, &dwork[nb2 + 1], &c__1,
+                &c_b7, &xb[(i__ + *nb) * xb_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xb[nb1 * xb_dim1 + 1], ldxb, &dwork[nb3 + 1], &c__1, &c_b7, &xb[(i__ + *nb) * xb_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xb[nb1 * xb_dim1 + 1], ldxb,
+                &dwork[nb3 + 1], &c__1, &c_b7, &xb[(i__ + *nb) * xb_dim1 + 1], &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yb[i__ + 1 + yb_dim1], ldyb, &a[i__ + (*k + i__ + 1) * a_dim1], lda, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yb[i__ + 1 + yb_dim1], ldyb,
+                &a[i__ + (*k + i__ + 1) * a_dim1], lda, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &dwork[pdw], &c__1, &c_b7, &xb[*k + i__ + 1 + (i__ + *nb) * xb_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &dwork[pdw],
+                &c__1, &c_b7, &xb[*k + i__ + 1 + (i__ + *nb) * xb_dim1], &c__1, 9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yb[i__ + 1 + nb1 * yb_dim1], ldyb, &a[i__ + (*k + i__ + 1) * a_dim1], lda, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yb[i__ + 1 + nb1 * yb_dim1], ldyb,
+                &a[i__ + (*k + i__ + 1) * a_dim1], lda, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + b_dim1], ldb, &dwork[pdw], &c__1, &c_b7, &xb[*k + i__ + 1 + (i__ + *nb) * xb_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + b_dim1], ldb, &dwork[pdw],
+                &c__1, &c_b7, &xb[*k + i__ + 1 + (i__ + *nb) * xb_dim1], &c__1, 12L);
             i__2 = *k + *n;
             d__1 = -taul[i__];
             dscal_(&i__2, &d__1, &xb[(i__ + *nb) * xb_dim1 + 1], &c__1);
             /*           Update B(:,i). */
             i__2 = *k + *n;
-            daxpy_(&i__2, &c_b7, &xb[(i__ + *nb) * xb_dim1 + 1], &c__1, &b[i__ * b_dim1 + 1], &c__1);
+            daxpy_(
+                &i__2, &c_b7, &xb[(i__ + *nb) * xb_dim1 + 1], &c__1, &b[i__ * b_dim1 + 1], &c__1);
             a[i__ + (*k + i__) * a_dim1] = temp;
             q[i__ + i__ * q_dim1] = tauq;
             csl[(i__ << 1) - 1] = c__;
@@ -643,244 +739,340 @@ doublereal *csl, *csr, *taul, *taur, *dwork;
             dlarfg_(&i__2, &alpha, &q[i__ + (i__ + 2) * q_dim1], ldq, &tauq);
             q[i__ + (i__ + 1) * q_dim1] = 1.;
             i__2 = *n - i__;
-            temp = -tauq * ddot_(&i__2, &q[i__ + (i__ + 1) * q_dim1], ldq, &b[*k + i__ + 1 + i__ * b_dim1], &c__1);
+            temp = -tauq
+                * ddot_(&i__2, &q[i__ + (i__ + 1) * q_dim1], ldq, &b[*k + i__ + 1 + i__ * b_dim1],
+                      &c__1);
             i__2 = *n - i__;
-            daxpy_(&i__2, &temp, &q[i__ + (i__ + 1) * q_dim1], ldq, &b[*k + i__ + 1 + i__ * b_dim1], &c__1);
+            daxpy_(&i__2, &temp, &q[i__ + (i__ + 1) * q_dim1], ldq, &b[*k + i__ + 1 + i__ * b_dim1],
+                &c__1);
             temp = b[*k + i__ + 1 + i__ * b_dim1];
             dlartg_(&temp, &alpha, &c__, &s, &b[*k + i__ + 1 + i__ * b_dim1]);
             s = -s;
             i__2 = *n - i__;
-            dlarfg_(&i__2, &b[*k + i__ + 1 + i__ * b_dim1], &b[*k + i__ + 2 + i__ * b_dim1], &c__1, &taur[i__]);
+            dlarfg_(&i__2, &b[*k + i__ + 1 + i__ * b_dim1], &b[*k + i__ + 2 + i__ * b_dim1], &c__1,
+                &taur[i__]);
             temp = b[*k + i__ + 1 + i__ * b_dim1];
             b[*k + i__ + 1 + i__ * b_dim1] = 1.;
             /*           Update YB with first Householder reflection. */
             i__2 = *n - i__;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + (i__ + 1) * b_dim1], ldb, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yb[i__ + 1 + i__ * yb_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + (i__ + 1) * b_dim1], ldb,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yb[i__ + 1 + i__ * yb_dim1], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xb[*k + i__ + 1 + xb_dim1], ldxb, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yb[i__ * yb_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xb[*k + i__ + 1 + xb_dim1], ldxb,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yb[i__ * yb_dim1 + 1], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &yb[i__ * yb_dim1 + 1], &c__1, &c_b7, &yb[i__ + 1 + i__ * yb_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq,
+                &yb[i__ * yb_dim1 + 1], &c__1, &c_b7, &yb[i__ + 1 + i__ * yb_dim1], &c__1, 12L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xb[*k + i__ + 1 + nb1 * xb_dim1], ldxb, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yb[i__ * yb_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xb[*k + i__ + 1 + nb1 * xb_dim1], ldxb,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yb[i__ * yb_dim1 + 1], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__, &i__2, &c_b7, &a[(*k + i__ + 1) * a_dim1 + 1], lda, &yb[i__ * yb_dim1 + 1], &c__1, &c_b7, &yb[i__ + 1 + i__ * yb_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__, &i__2, &c_b7, &a[(*k + i__ + 1) * a_dim1 + 1], lda,
+                &yb[i__ * yb_dim1 + 1], &c__1, &c_b7, &yb[i__ + 1 + i__ * yb_dim1], &c__1, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &dwork[1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &dwork[1], &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yb[i__ + 1 + yb_dim1], ldyb, &dwork[1], &c__1, &c_b7, &yb[i__ + 1 + i__ * yb_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yb[i__ + 1 + yb_dim1], ldyb, &dwork[1],
+                &c__1, &c_b7, &yb[i__ + 1 + i__ * yb_dim1], &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + b_dim1], ldb, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &dwork[*nb + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + b_dim1], ldb,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &dwork[*nb + 1], &c__1, 9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yb[i__ + 1 + nb1 * yb_dim1], ldyb, &dwork[*nb + 1], &c__1, &c_b7, &yb[i__ + 1 + i__ * yb_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yb[i__ + 1 + nb1 * yb_dim1], ldyb,
+                &dwork[*nb + 1], &c__1, &c_b7, &yb[i__ + 1 + i__ * yb_dim1], &c__1, 12L);
             i__2 = *n - i__;
             d__1 = -tauq;
             dscal_(&i__2, &d__1, &yb[i__ + 1 + i__ * yb_dim1], &c__1);
             /*           Update B(k+i+1,i+1:n). */
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &xb[*k + i__ + 1 + xb_dim1], ldxb, &c_b7, &b[*k + i__ + 1 + (i__ + 1) * b_dim1], ldb, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq,
+                &xb[*k + i__ + 1 + xb_dim1], ldxb, &c_b7, &b[*k + i__ + 1 + (i__ + 1) * b_dim1],
+                ldb, 12L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__, &i__2, &c_b7, &a[(*k + i__ + 1) * a_dim1 + 1], lda, &xb[*k + i__ + 1 + nb1 * xb_dim1], ldxb, &c_b7, &b[*k + i__ + 1 + (i__ + 1) * b_dim1], ldb, 9L);
+            dgemv_("Transpose", &i__, &i__2, &c_b7, &a[(*k + i__ + 1) * a_dim1 + 1], lda,
+                &xb[*k + i__ + 1 + nb1 * xb_dim1], ldxb, &c_b7,
+                &b[*k + i__ + 1 + (i__ + 1) * b_dim1], ldb, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &yb[i__ + 1 + yb_dim1], ldyb, &q[(i__ + 1) * q_dim1 + 1], &c__1, &c_b7, &b[*k + i__ + 1 + (i__ + 1) * b_dim1], ldb, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &yb[i__ + 1 + yb_dim1], ldyb,
+                &q[(i__ + 1) * q_dim1 + 1], &c__1, &c_b7, &b[*k + i__ + 1 + (i__ + 1) * b_dim1],
+                ldb, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yb[i__ + 1 + nb1 * yb_dim1], ldyb, &b[*k + i__ + 1 + b_dim1], ldb, &c_b7, &b[*k + i__ + 1 + (i__ + 1) * b_dim1], ldb, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yb[i__ + 1 + nb1 * yb_dim1], ldyb,
+                &b[*k + i__ + 1 + b_dim1], ldb, &c_b7, &b[*k + i__ + 1 + (i__ + 1) * b_dim1], ldb,
+                12L);
             /*           Update YQ with first Householder reflection. */
             i__2 = *n - i__;
             i__3 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &q[i__ + 1 + (i__ + 1) * q_dim1], ldq, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yq[i__ + 1 + i__ * yq_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &q[i__ + 1 + (i__ + 1) * q_dim1], ldq,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yq[i__ + 1 + i__ * yq_dim1], &c__1, 12L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xq[i__ + 1 + xq_dim1], ldxq, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yq[i__ * yq_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xq[i__ + 1 + xq_dim1], ldxq,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yq[i__ * yq_dim1 + 1], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &yq[i__ * yq_dim1 + 1], &c__1, &c_b7, &yq[i__ + 1 + i__ * yq_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq,
+                &yq[i__ * yq_dim1 + 1], &c__1, &c_b7, &yq[i__ + 1 + i__ * yq_dim1], &c__1, 12L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xq[i__ + 1 + nb1 * xq_dim1], ldxq, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yq[i__ * yq_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xq[i__ + 1 + nb1 * xq_dim1], ldxq,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yq[i__ * yq_dim1 + 1], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__, &i__2, &c_b7, &a[(*k + i__ + 1) * a_dim1 + 1], lda, &yq[i__ * yq_dim1 + 1], &c__1, &c_b7, &yq[i__ + 1 + i__ * yq_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__, &i__2, &c_b7, &a[(*k + i__ + 1) * a_dim1 + 1], lda,
+                &yq[i__ * yq_dim1 + 1], &c__1, &c_b7, &yq[i__ + 1 + i__ * yq_dim1], &c__1, 9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yq[i__ + 1 + yq_dim1], ldyq, &dwork[1], &c__1, &c_b7, &yq[i__ + 1 + i__ * yq_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yq[i__ + 1 + yq_dim1], ldyq, &dwork[1],
+                &c__1, &c_b7, &yq[i__ + 1 + i__ * yq_dim1], &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yq[i__ + 1 + nb1 * yq_dim1], ldyq, &dwork[*nb + 1], &c__1, &c_b7, &yq[i__ + 1 + i__ * yq_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yq[i__ + 1 + nb1 * yq_dim1], ldyq,
+                &dwork[*nb + 1], &c__1, &c_b7, &yq[i__ + 1 + i__ * yq_dim1], &c__1, 12L);
             i__2 = *n - i__;
             d__1 = -tauq;
             dscal_(&i__2, &d__1, &yq[i__ + 1 + i__ * yq_dim1], &c__1);
             /*           Update Q(i+1:n,i+1). */
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &xq[i__ + 1 + xq_dim1], ldxq, &c_b7, &q[i__ + 1 + (i__ + 1) * q_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq,
+                &xq[i__ + 1 + xq_dim1], ldxq, &c_b7, &q[i__ + 1 + (i__ + 1) * q_dim1], &c__1, 12L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__, &i__2, &c_b7, &a[(*k + i__ + 1) * a_dim1 + 1], lda, &xq[i__ + 1 + nb1 * xq_dim1], ldxq, &c_b7, &q[i__ + 1 + (i__ + 1) * q_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__, &i__2, &c_b7, &a[(*k + i__ + 1) * a_dim1 + 1], lda,
+                &xq[i__ + 1 + nb1 * xq_dim1], ldxq, &c_b7, &q[i__ + 1 + (i__ + 1) * q_dim1], &c__1,
+                9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &yq[i__ + 1 + yq_dim1], ldyq, &q[(i__ + 1) * q_dim1 + 1], &c__1, &c_b7, &q[i__ + 1 + (i__ + 1) * q_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &yq[i__ + 1 + yq_dim1], ldyq,
+                &q[(i__ + 1) * q_dim1 + 1], &c__1, &c_b7, &q[i__ + 1 + (i__ + 1) * q_dim1], &c__1,
+                12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yq[i__ + 1 + nb1 * yq_dim1], ldyq, &b[*k + i__ + 1 + b_dim1], ldb, &c_b7, &q[i__ + 1 + (i__ + 1) * q_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yq[i__ + 1 + nb1 * yq_dim1], ldyq,
+                &b[*k + i__ + 1 + b_dim1], ldb, &c_b7, &q[i__ + 1 + (i__ + 1) * q_dim1], &c__1,
+                12L);
             /*           Apply rotation to [ Q(i+1:n,i+1), B(k+i+1,i+1:n)' ]. */
             i__2 = *n - i__;
-            drot_(&i__2, &q[i__ + 1 + (i__ + 1) * q_dim1], &c__1, &b[*k + i__ + 1 + (i__ + 1) * b_dim1], ldb, &c__, &s);
+            drot_(&i__2, &q[i__ + 1 + (i__ + 1) * q_dim1], &c__1,
+                &b[*k + i__ + 1 + (i__ + 1) * b_dim1], ldb, &c__, &s);
             i__2 = i__;
-            for (j = 1; j <= i__2; ++j)
-            {
+            for (j = 1; j <= i__2; ++j) {
                 xb[*k + i__ + 1 + j * xb_dim1] = 0.;
                 /* L50: */
             }
             i__2 = i__;
-            for (j = 1; j <= i__2; ++j)
-            {
+            for (j = 1; j <= i__2; ++j) {
                 xb[*k + i__ + 1 + (*nb + j) * xb_dim1] = 0.;
                 /* L60: */
             }
             /*           Update YB with second Householder reflection. */
             i__2 = *n - i__;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + (i__ + 1) * b_dim1], ldb, &b[*k + i__ + 1 + i__ * b_dim1], &c__1, &c_b9, &yb[i__ + 1 + (i__ + *nb) * yb_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + (i__ + 1) * b_dim1], ldb,
+                &b[*k + i__ + 1 + i__ * b_dim1], &c__1, &c_b9, &yb[i__ + 1 + (i__ + *nb) * yb_dim1],
+                &c__1, 9L);
             i__2 = *n - i__ - 1;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xb[*k + i__ + 2 + xb_dim1], ldxb, &b[*k + i__ + 2 + i__ * b_dim1], &c__1, &c_b9, &yb[(i__ + *nb) * yb_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xb[*k + i__ + 2 + xb_dim1], ldxb,
+                &b[*k + i__ + 2 + i__ * b_dim1], &c__1, &c_b9, &yb[(i__ + *nb) * yb_dim1 + 1],
+                &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &yb[(i__ + *nb) * yb_dim1 + 1], &c__1, &c_b7, &yb[i__ + 1 + (i__ + *nb) * yb_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq,
+                &yb[(i__ + *nb) * yb_dim1 + 1], &c__1, &c_b7, &yb[i__ + 1 + (i__ + *nb) * yb_dim1],
+                &c__1, 12L);
             i__2 = *n - i__ - 1;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xb[*k + i__ + 2 + nb1 * xb_dim1], ldxb, &b[*k + i__ + 2 + i__ * b_dim1], &c__1, &c_b9, &yb[(i__ + *nb) * yb_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xb[*k + i__ + 2 + nb1 * xb_dim1], ldxb,
+                &b[*k + i__ + 2 + i__ * b_dim1], &c__1, &c_b9, &yb[(i__ + *nb) * yb_dim1 + 1],
+                &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__, &i__2, &c_b7, &a[(*k + i__ + 1) * a_dim1 + 1], lda, &yb[(i__ + *nb) * yb_dim1 + 1], &c__1, &c_b7, &yb[i__ + 1 + (i__ + *nb) * yb_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__, &i__2, &c_b7, &a[(*k + i__ + 1) * a_dim1 + 1], lda,
+                &yb[(i__ + *nb) * yb_dim1 + 1], &c__1, &c_b7, &yb[i__ + 1 + (i__ + *nb) * yb_dim1],
+                &c__1, 9L);
             i__2 = *n - i__ - 1;
-            dgemv_("No transpose", &i__, &i__2, &c_b7, &q[(i__ + 2) * q_dim1 + 1], ldq, &b[*k + i__ + 2 + i__ * b_dim1], &c__1, &c_b9, &dwork[nb2 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__, &i__2, &c_b7, &q[(i__ + 2) * q_dim1 + 1], ldq,
+                &b[*k + i__ + 2 + i__ * b_dim1], &c__1, &c_b9, &dwork[nb2 + 1], &c__1, 12L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &yb[i__ + 1 + yb_dim1], ldyb, &dwork[nb2 + 1], &c__1, &c_b7, &yb[i__ + 1 + (i__ + *nb) * yb_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &yb[i__ + 1 + yb_dim1], ldyb,
+                &dwork[nb2 + 1], &c__1, &c_b7, &yb[i__ + 1 + (i__ + *nb) * yb_dim1], &c__1, 12L);
             i__2 = *n - i__ - 1;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 2 + b_dim1], ldq, &b[*k + i__ + 2 + i__ * b_dim1], &c__1, &c_b9, &dwork[nb3 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 2 + b_dim1], ldq,
+                &b[*k + i__ + 2 + i__ * b_dim1], &c__1, &c_b9, &dwork[nb3 + 1], &c__1, 9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yb[i__ + 1 + nb1 * yb_dim1], ldyb, &dwork[nb3 + 1], &c__1, &c_b7, &yb[i__ + 1 + (i__ + *nb) * yb_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yb[i__ + 1 + nb1 * yb_dim1], ldyb,
+                &dwork[nb3 + 1], &c__1, &c_b7, &yb[i__ + 1 + (i__ + *nb) * yb_dim1], &c__1, 12L);
             i__2 = *n - i__;
             d__1 = -taur[i__];
             dscal_(&i__2, &d__1, &yb[i__ + 1 + (i__ + *nb) * yb_dim1], &c__1);
             /*           Update B(k+i+1,i+1:n). */
             i__2 = *n - i__;
-            daxpy_(&i__2, &c_b7, &yb[i__ + 1 + (i__ + *nb) * yb_dim1], &c__1, &b[*k + i__ + 1 + (i__ + 1) * b_dim1], ldb);
+            daxpy_(&i__2, &c_b7, &yb[i__ + 1 + (i__ + *nb) * yb_dim1], &c__1,
+                &b[*k + i__ + 1 + (i__ + 1) * b_dim1], ldb);
             /*           Update YQ with second Householder reflection. */
             i__2 = *n - i__;
             i__3 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &q[i__ + 1 + (i__ + 1) * q_dim1], ldq, &b[*k + i__ + 1 + i__ * b_dim1], &c__1, &c_b9, &yq[i__ + 1 + (i__ + *nb) * yq_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &q[i__ + 1 + (i__ + 1) * q_dim1], ldq,
+                &b[*k + i__ + 1 + i__ * b_dim1], &c__1, &c_b9, &yq[i__ + 1 + (i__ + *nb) * yq_dim1],
+                &c__1, 12L);
             i__2 = *n - i__ - 1;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xq[i__ + 2 + xq_dim1], ldxq, &b[*k + i__ + 2 + i__ * b_dim1], &c__1, &c_b9, &yq[(i__ + *nb) * yq_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xq[i__ + 2 + xq_dim1], ldxq,
+                &b[*k + i__ + 2 + i__ * b_dim1], &c__1, &c_b9, &yq[(i__ + *nb) * yq_dim1 + 1],
+                &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &yq[(i__ + *nb) * yq_dim1 + 1], &c__1, &c_b7, &yq[i__ + 1 + (i__ + *nb) * yq_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq,
+                &yq[(i__ + *nb) * yq_dim1 + 1], &c__1, &c_b7, &yq[i__ + 1 + (i__ + *nb) * yq_dim1],
+                &c__1, 12L);
             i__2 = *n - i__ - 1;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xq[i__ + 2 + nb1 * xq_dim1], ldxq, &b[*k + i__ + 2 + i__ * b_dim1], &c__1, &c_b9, &yq[(i__ + *nb) * yq_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xq[i__ + 2 + nb1 * xq_dim1], ldxq,
+                &b[*k + i__ + 2 + i__ * b_dim1], &c__1, &c_b9, &yq[(i__ + *nb) * yq_dim1 + 1],
+                &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__, &i__2, &c_b7, &a[(*k + i__ + 1) * a_dim1 + 1], lda, &yq[(i__ + *nb) * yq_dim1 + 1], &c__1, &c_b7, &yq[i__ + 1 + (i__ + *nb) * yq_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__, &i__2, &c_b7, &a[(*k + i__ + 1) * a_dim1 + 1], lda,
+                &yq[(i__ + *nb) * yq_dim1 + 1], &c__1, &c_b7, &yq[i__ + 1 + (i__ + *nb) * yq_dim1],
+                &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &yq[i__ + 1 + yq_dim1], ldyq, &dwork[nb2 + 1], &c__1, &c_b7, &yq[i__ + 1 + (i__ + *nb) * yq_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &yq[i__ + 1 + yq_dim1], ldyq,
+                &dwork[nb2 + 1], &c__1, &c_b7, &yq[i__ + 1 + (i__ + *nb) * yq_dim1], &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yq[i__ + 1 + nb1 * yq_dim1], ldyq, &dwork[nb3 + 1], &c__1, &c_b7, &yq[i__ + 1 + (i__ + *nb) * yq_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yq[i__ + 1 + nb1 * yq_dim1], ldyq,
+                &dwork[nb3 + 1], &c__1, &c_b7, &yq[i__ + 1 + (i__ + *nb) * yq_dim1], &c__1, 12L);
             i__2 = *n - i__;
             d__1 = -taur[i__];
             dscal_(&i__2, &d__1, &yq[i__ + 1 + (i__ + *nb) * yq_dim1], &c__1);
             /*           Update Q(i+1:n,i+1). */
             i__2 = *n - i__;
-            daxpy_(&i__2, &c_b7, &yq[i__ + 1 + (i__ + *nb) * yq_dim1], &c__1, &q[i__ + 1 + (i__ + 1) * q_dim1], &c__1);
+            daxpy_(&i__2, &c_b7, &yq[i__ + 1 + (i__ + *nb) * yq_dim1], &c__1,
+                &q[i__ + 1 + (i__ + 1) * q_dim1], &c__1);
             /*           Update YA with first Householder reflection. */
             i__2 = *n - i__;
             i__3 = *k + *n;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &a[i__ + 1 + a_dim1], lda, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &ya[i__ * ya_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &a[i__ + 1 + a_dim1], lda,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &ya[i__ * ya_dim1 + 1], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xa[i__ + 1 + xa_dim1], ldxa, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xa[i__ + 1 + xa_dim1], ldxa,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &dwork[pdw], &c__1, &c_b7, &ya[*k + i__ + 1 + i__ * ya_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &dwork[pdw],
+                &c__1, &c_b7, &ya[*k + i__ + 1 + i__ * ya_dim1], &c__1, 12L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xa[i__ + 1 + nb1 * xa_dim1], ldxa, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xa[i__ + 1 + nb1 * xa_dim1], ldxa,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__, &i__2, &c_b7, &a[(*k + i__ + 1) * a_dim1 + 1], lda, &dwork[pdw], &c__1, &c_b7, &ya[*k + i__ + 1 + i__ * ya_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__, &i__2, &c_b7, &a[(*k + i__ + 1) * a_dim1 + 1], lda,
+                &dwork[pdw], &c__1, &c_b7, &ya[*k + i__ + 1 + i__ * ya_dim1], &c__1, 9L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &ya[ya_offset], ldya, &dwork[1], &c__1, &c_b7, &ya[i__ * ya_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &ya[ya_offset], ldya, &dwork[1], &c__1,
+                &c_b7, &ya[i__ * ya_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &ya[nb1 * ya_dim1 + 1], ldya, &dwork[*nb + 1], &c__1, &c_b7, &ya[i__ * ya_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &ya[nb1 * ya_dim1 + 1], ldya,
+                &dwork[*nb + 1], &c__1, &c_b7, &ya[i__ * ya_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             d__1 = -tauq;
             dscal_(&i__2, &d__1, &ya[i__ * ya_dim1 + 1], &c__1);
             /*           Update A(i+1,1:k+n). */
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &xa[i__ + 1 + xa_dim1], ldxa, &c_b7, &a[i__ + 1 + (*k + i__ + 1) * a_dim1], lda, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq,
+                &xa[i__ + 1 + xa_dim1], ldxa, &c_b7, &a[i__ + 1 + (*k + i__ + 1) * a_dim1], lda,
+                12L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__, &i__2, &c_b7, &a[(*k + i__ + 1) * a_dim1 + 1], lda, &xa[i__ + 1 + nb1 * xa_dim1], ldxa, &c_b7, &a[i__ + 1 + (*k + i__ + 1) * a_dim1], lda, 9L);
+            dgemv_("Transpose", &i__, &i__2, &c_b7, &a[(*k + i__ + 1) * a_dim1 + 1], lda,
+                &xa[i__ + 1 + nb1 * xa_dim1], ldxa, &c_b7, &a[i__ + 1 + (*k + i__ + 1) * a_dim1],
+                lda, 9L);
             i__2 = *k + *n;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &ya[ya_offset], ldya, &q[(i__ + 1) * q_dim1 + 1], &c__1, &c_b7, &a[i__ + 1 + a_dim1], lda, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &ya[ya_offset], ldya,
+                &q[(i__ + 1) * q_dim1 + 1], &c__1, &c_b7, &a[i__ + 1 + a_dim1], lda, 12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &ya[nb1 * ya_dim1 + 1], ldya, &b[*k + i__ + 1 + b_dim1], ldb, &c_b7, &a[i__ + 1 + a_dim1], lda, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &ya[nb1 * ya_dim1 + 1], ldya,
+                &b[*k + i__ + 1 + b_dim1], ldb, &c_b7, &a[i__ + 1 + a_dim1], lda, 12L);
             /*           Update YG with first Householder reflection. */
             i__2 = *k + *n;
             i__3 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &g[(*k + i__ + 1) * g_dim1 + 1], ldg, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yg[i__ * yg_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &g[(*k + i__ + 1) * g_dim1 + 1], ldg,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yg[i__ * yg_dim1 + 1], &c__1, 12L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xg[*k + i__ + 1 + xg_dim1], ldxg, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xg[*k + i__ + 1 + xg_dim1], ldxg,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &dwork[pdw], &c__1, &c_b7, &yg[*k + i__ + 1 + i__ * yg_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &dwork[pdw],
+                &c__1, &c_b7, &yg[*k + i__ + 1 + i__ * yg_dim1], &c__1, 12L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xg[*k + i__ + 1 + nb1 * xg_dim1], ldxg, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xg[*k + i__ + 1 + nb1 * xg_dim1], ldxg,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__, &i__2, &c_b7, &a[(*k + i__ + 1) * a_dim1 + 1], lda, &dwork[pdw], &c__1, &c_b7, &yg[*k + i__ + 1 + i__ * yg_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__, &i__2, &c_b7, &a[(*k + i__ + 1) * a_dim1 + 1], lda,
+                &dwork[pdw], &c__1, &c_b7, &yg[*k + i__ + 1 + i__ * yg_dim1], &c__1, 9L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yg[yg_offset], ldyg, &dwork[1], &c__1, &c_b7, &yg[i__ * yg_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yg[yg_offset], ldyg, &dwork[1], &c__1,
+                &c_b7, &yg[i__ * yg_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yg[nb1 * yg_dim1 + 1], ldyg, &dwork[*nb + 1], &c__1, &c_b7, &yg[i__ * yg_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yg[nb1 * yg_dim1 + 1], ldyg,
+                &dwork[*nb + 1], &c__1, &c_b7, &yg[i__ * yg_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             d__1 = -tauq;
             dscal_(&i__2, &d__1, &yg[i__ * yg_dim1 + 1], &c__1);
             /*           Update G(1:k+n,k+i+1). */
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &xg[*k + i__ + 1 + xg_dim1], ldxg, &c_b7, &g[*k + i__ + 1 + (*k + i__ + 1) * g_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq,
+                &xg[*k + i__ + 1 + xg_dim1], ldxg, &c_b7,
+                &g[*k + i__ + 1 + (*k + i__ + 1) * g_dim1], &c__1, 12L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__, &i__2, &c_b7, &a[(*k + i__ + 1) * a_dim1 + 1], lda, &xg[*k + i__ + 1 + nb1 * xg_dim1], ldxg, &c_b7, &g[*k + i__ + 1 + (*k + i__ + 1) * g_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__, &i__2, &c_b7, &a[(*k + i__ + 1) * a_dim1 + 1], lda,
+                &xg[*k + i__ + 1 + nb1 * xg_dim1], ldxg, &c_b7,
+                &g[*k + i__ + 1 + (*k + i__ + 1) * g_dim1], &c__1, 9L);
             i__2 = *k + *n;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &yg[yg_offset], ldyg, &q[(i__ + 1) * q_dim1 + 1], &c__1, &c_b7, &g[(*k + i__ + 1) * g_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &yg[yg_offset], ldyg,
+                &q[(i__ + 1) * q_dim1 + 1], &c__1, &c_b7, &g[(*k + i__ + 1) * g_dim1 + 1], &c__1,
+                12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yg[nb1 * yg_dim1 + 1], ldyg, &b[*k + i__ + 1 + b_dim1], ldb, &c_b7, &g[(*k + i__ + 1) * g_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yg[nb1 * yg_dim1 + 1], ldyg,
+                &b[*k + i__ + 1 + b_dim1], ldb, &c_b7, &g[(*k + i__ + 1) * g_dim1 + 1], &c__1, 12L);
             i__2 = i__;
-            for (j = 1; j <= i__2; ++j)
-            {
+            for (j = 1; j <= i__2; ++j) {
                 xg[*k + i__ + 1 + j * xg_dim1] = 0.;
                 /* L70: */
             }
             i__2 = i__;
-            for (j = 1; j <= i__2; ++j)
-            {
+            for (j = 1; j <= i__2; ++j) {
                 xg[*k + i__ + 1 + (*nb + j) * xg_dim1] = 0.;
                 /* L80: */
             }
             /*           Apply rotation to [ A(i+1,1:k+n)', G(1:k+n,k+i+1) ]. */
             i__2 = *k + *n;
-            drot_(&i__2, &a[i__ + 1 + a_dim1], lda, &g[(*k + i__ + 1) * g_dim1 + 1], &c__1, &c__, &s);
+            drot_(
+                &i__2, &a[i__ + 1 + a_dim1], lda, &g[(*k + i__ + 1) * g_dim1 + 1], &c__1, &c__, &s);
             /*           Update YA with second Householder reflection. */
             i__2 = *n - i__;
             i__3 = *k + *n;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &a[i__ + 1 + a_dim1], lda, &b[*k + i__ + 1 + i__ * b_dim1], &c__1, &c_b9, &ya[(i__ + *nb) * ya_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &a[i__ + 1 + a_dim1], lda,
+                &b[*k + i__ + 1 + i__ * b_dim1], &c__1, &c_b9, &ya[(i__ + *nb) * ya_dim1 + 1],
+                &c__1, 9L);
             i__2 = *n - i__ - 1;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xa[i__ + 2 + xa_dim1], ldxa, &b[*k + i__ + 2 + i__ * b_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xa[i__ + 2 + xa_dim1], ldxa,
+                &b[*k + i__ + 2 + i__ * b_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &dwork[pdw], &c__1, &c_b7, &ya[*k + i__ + 1 + (i__ + *nb) * ya_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &dwork[pdw],
+                &c__1, &c_b7, &ya[*k + i__ + 1 + (i__ + *nb) * ya_dim1], &c__1, 12L);
             i__2 = *n - i__ - 1;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xa[i__ + 2 + nb1 * xa_dim1], ldxa, &b[*k + i__ + 2 + i__ * b_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xa[i__ + 2 + nb1 * xa_dim1], ldxa,
+                &b[*k + i__ + 2 + i__ * b_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__, &i__2, &c_b7, &a[(*k + i__ + 1) * a_dim1 + 1], lda, &dwork[pdw], &c__1, &c_b7, &ya[*k + i__ + 1 + (i__ + *nb) * ya_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__, &i__2, &c_b7, &a[(*k + i__ + 1) * a_dim1 + 1], lda,
+                &dwork[pdw], &c__1, &c_b7, &ya[*k + i__ + 1 + (i__ + *nb) * ya_dim1], &c__1, 9L);
             i__2 = *k + *n;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &ya[ya_offset], ldya, &dwork[nb2 + 1], &c__1, &c_b7, &ya[(i__ + *nb) * ya_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &ya[ya_offset], ldya, &dwork[nb2 + 1], &c__1,
+                &c_b7, &ya[(i__ + *nb) * ya_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &ya[nb1 * ya_dim1 + 1], ldya, &dwork[nb3 + 1], &c__1, &c_b7, &ya[(i__ + *nb) * ya_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &ya[nb1 * ya_dim1 + 1], ldya,
+                &dwork[nb3 + 1], &c__1, &c_b7, &ya[(i__ + *nb) * ya_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             d__1 = -taur[i__];
             dscal_(&i__2, &d__1, &ya[(i__ + *nb) * ya_dim1 + 1], &c__1);
@@ -890,317 +1082,409 @@ doublereal *csl, *csr, *taul, *taur, *dwork;
             /*           Update YG with second Householder reflection. */
             i__2 = *k + *n;
             i__3 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &g[(*k + i__ + 1) * g_dim1 + 1], ldg, &b[*k + i__ + 1 + i__ * b_dim1], &c__1, &c_b9, &yg[(i__ + *nb) * yg_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &g[(*k + i__ + 1) * g_dim1 + 1], ldg,
+                &b[*k + i__ + 1 + i__ * b_dim1], &c__1, &c_b9, &yg[(i__ + *nb) * yg_dim1 + 1],
+                &c__1, 12L);
             i__2 = *n - i__ - 1;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xg[*k + i__ + 2 + xg_dim1], ldxg, &b[*k + i__ + 2 + i__ * b_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xg[*k + i__ + 2 + xg_dim1], ldxg,
+                &b[*k + i__ + 2 + i__ * b_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &dwork[pdw], &c__1, &c_b7, &yg[*k + i__ + 1 + (i__ + *nb) * yg_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &dwork[pdw],
+                &c__1, &c_b7, &yg[*k + i__ + 1 + (i__ + *nb) * yg_dim1], &c__1, 12L);
             i__2 = *n - i__ - 1;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xg[*k + i__ + 2 + nb1 * xg_dim1], ldxg, &b[*k + i__ + 2 + i__ * b_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xg[*k + i__ + 2 + nb1 * xg_dim1], ldxg,
+                &b[*k + i__ + 2 + i__ * b_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__, &i__2, &c_b7, &a[(*k + i__ + 1) * a_dim1 + 1], lda, &dwork[pdw], &c__1, &c_b7, &yg[*k + i__ + 1 + (i__ + *nb) * yg_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__, &i__2, &c_b7, &a[(*k + i__ + 1) * a_dim1 + 1], lda,
+                &dwork[pdw], &c__1, &c_b7, &yg[*k + i__ + 1 + (i__ + *nb) * yg_dim1], &c__1, 9L);
             i__2 = *k + *n;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &yg[yg_offset], ldyg, &dwork[nb2 + 1], &c__1, &c_b7, &yg[(i__ + *nb) * yg_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &yg[yg_offset], ldyg, &dwork[nb2 + 1], &c__1,
+                &c_b7, &yg[(i__ + *nb) * yg_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yg[nb1 * yg_dim1 + 1], ldyg, &dwork[nb3 + 1], &c__1, &c_b7, &yg[(i__ + *nb) * yg_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yg[nb1 * yg_dim1 + 1], ldyg,
+                &dwork[nb3 + 1], &c__1, &c_b7, &yg[(i__ + *nb) * yg_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             d__1 = -taur[i__];
             dscal_(&i__2, &d__1, &yg[(i__ + *nb) * yg_dim1 + 1], &c__1);
             /*           Update G(1:k+n,k+i+1). */
             i__2 = *k + *n;
-            daxpy_(&i__2, &c_b7, &yg[(i__ + *nb) * yg_dim1 + 1], &c__1, &g[(*k + i__ + 1) * g_dim1 + 1], &c__1);
+            daxpy_(&i__2, &c_b7, &yg[(i__ + *nb) * yg_dim1 + 1], &c__1,
+                &g[(*k + i__ + 1) * g_dim1 + 1], &c__1);
             b[*k + i__ + 1 + i__ * b_dim1] = temp;
             q[i__ + (i__ + 1) * q_dim1] = tauq;
             csr[(i__ << 1) - 1] = c__;
             csr[i__ * 2] = s;
             /* L90: */
         }
-    }
-    else if (*ltra)
-    {
+    } else if (*ltra) {
         i__1 = *nb;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             /*           Transform first row/column of A and Q. See routine MB04TS. */
             alpha = q[i__ + i__ * q_dim1];
             i__2 = *n - i__ + 1;
             dlarfg_(&i__2, &alpha, &q[i__ + 1 + i__ * q_dim1], &c__1, &tauq);
             q[i__ + i__ * q_dim1] = 1.;
             i__2 = *n - i__ + 1;
-            temp = -tauq * ddot_(&i__2, &q[i__ + i__ * q_dim1], &c__1, &a[i__ + (*k + i__) * a_dim1], lda);
+            temp = -tauq
+                * ddot_(&i__2, &q[i__ + i__ * q_dim1], &c__1, &a[i__ + (*k + i__) * a_dim1], lda);
             i__2 = *n - i__ + 1;
             daxpy_(&i__2, &temp, &q[i__ + i__ * q_dim1], &c__1, &a[i__ + (*k + i__) * a_dim1], lda);
             temp = a[i__ + (*k + i__) * a_dim1];
             dlartg_(&temp, &alpha, &c__, &s, &a[i__ + (*k + i__) * a_dim1]);
             i__2 = *n - i__ + 1;
-            dlarfg_(&i__2, &a[i__ + (*k + i__) * a_dim1], &a[i__ + (*k + i__ + 1) * a_dim1], lda, &taul[i__]);
+            dlarfg_(&i__2, &a[i__ + (*k + i__) * a_dim1], &a[i__ + (*k + i__ + 1) * a_dim1], lda,
+                &taul[i__]);
             temp = a[i__ + (*k + i__) * a_dim1];
             a[i__ + (*k + i__) * a_dim1] = 1.;
             /*           Update XQ with first Householder reflection. */
             i__2 = *n - i__ + 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[i__ + (i__ + 1) * q_dim1], ldq, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xq[i__ + 1 + i__ * xq_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[i__ + (i__ + 1) * q_dim1], ldq,
+                &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xq[i__ + 1 + i__ * xq_dim1], &c__1, 9L);
             i__2 = *n - i__ + 1;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[i__ + q_dim1], ldq, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &dwork[1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[i__ + q_dim1], ldq, &q[i__ + i__ * q_dim1],
+                &c__1, &c_b9, &dwork[1], &c__1, 9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xq[i__ + 1 + xq_dim1], ldxq, &dwork[1], &c__1, &c_b7, &xq[i__ + 1 + i__ * xq_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xq[i__ + 1 + xq_dim1], ldxq, &dwork[1],
+                &c__1, &c_b7, &xq[i__ + 1 + i__ * xq_dim1], &c__1, 12L);
             i__2 = i__ - 1;
             i__3 = *n - i__ + 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &a[(*k + i__) * a_dim1 + 1], lda, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &dwork[*nb + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &a[(*k + i__) * a_dim1 + 1], lda,
+                &q[i__ + i__ * q_dim1], &c__1, &c_b9, &dwork[*nb + 1], &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xq[i__ + 1 + nb1 * xq_dim1], ldxq, &dwork[*nb + 1], &c__1, &c_b7, &xq[i__ + 1 + i__ * xq_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xq[i__ + 1 + nb1 * xq_dim1], ldxq,
+                &dwork[*nb + 1], &c__1, &c_b7, &xq[i__ + 1 + i__ * xq_dim1], &c__1, 12L);
             i__2 = *n - i__ + 1;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yq[i__ + yq_dim1], ldyq, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xq[i__ * xq_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yq[i__ + yq_dim1], ldyq,
+                &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xq[i__ * xq_dim1 + 1], &c__1, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &xq[i__ * xq_dim1 + 1], &c__1, &c_b7, &xq[i__ + 1 + i__ * xq_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq,
+                &xq[i__ * xq_dim1 + 1], &c__1, &c_b7, &xq[i__ + 1 + i__ * xq_dim1], &c__1, 9L);
             i__2 = *n - i__ + 1;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yq[i__ + nb1 * yq_dim1], ldyq, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xq[(i__ + *nb) * xq_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yq[i__ + nb1 * yq_dim1], ldyq,
+                &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xq[(i__ + *nb) * xq_dim1 + 1], &c__1, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 1) * b_dim1 + 1], ldb, &xq[(i__ + *nb) * xq_dim1 + 1], &c__1, &c_b7, &xq[i__ + 1 + i__ * xq_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 1) * b_dim1 + 1], ldb,
+                &xq[(i__ + *nb) * xq_dim1 + 1], &c__1, &c_b7, &xq[i__ + 1 + i__ * xq_dim1], &c__1,
+                9L);
             i__2 = *n - i__;
             d__1 = -tauq;
             dscal_(&i__2, &d__1, &xq[i__ + 1 + i__ * xq_dim1], &c__1);
             /*           Update Q(i,i+1:n). */
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &xq[i__ + 1 + xq_dim1], ldxq, &q[i__ + q_dim1], ldq, &c_b7, &q[i__ + (i__ + 1) * q_dim1], ldq, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &xq[i__ + 1 + xq_dim1], ldxq,
+                &q[i__ + q_dim1], ldq, &c_b7, &q[i__ + (i__ + 1) * q_dim1], ldq, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xq[i__ + 1 + nb1 * xq_dim1], ldxq, &a[(*k + i__) * a_dim1 + 1], &c__1, &c_b7, &q[i__ + (i__ + 1) * q_dim1], ldq, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xq[i__ + 1 + nb1 * xq_dim1], ldxq,
+                &a[(*k + i__) * a_dim1 + 1], &c__1, &c_b7, &q[i__ + (i__ + 1) * q_dim1], ldq, 12L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &yq[i__ + yq_dim1], ldyq, &c_b7, &q[i__ + (i__ + 1) * q_dim1], ldq, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq,
+                &yq[i__ + yq_dim1], ldyq, &c_b7, &q[i__ + (i__ + 1) * q_dim1], ldq, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 1) * b_dim1 + 1], ldb, &yq[i__ + nb1 * yq_dim1], ldyq, &c_b7, &q[i__ + (i__ + 1) * q_dim1], ldq, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 1) * b_dim1 + 1], ldb,
+                &yq[i__ + nb1 * yq_dim1], ldyq, &c_b7, &q[i__ + (i__ + 1) * q_dim1], ldq, 9L);
             /*           Update XA with first Householder reflection. */
             i__2 = *n - i__;
             i__3 = *n - i__ + 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &a[i__ + 1 + (*k + i__) * a_dim1], lda, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xa[i__ + 1 + i__ * xa_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &a[i__ + 1 + (*k + i__) * a_dim1], lda,
+                &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xa[i__ + 1 + i__ * xa_dim1], &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xa[i__ + 1 + xa_dim1], ldxa, &dwork[1], &c__1, &c_b7, &xa[i__ + 1 + i__ * xa_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xa[i__ + 1 + xa_dim1], ldxa, &dwork[1],
+                &c__1, &c_b7, &xa[i__ + 1 + i__ * xa_dim1], &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xa[i__ + 1 + nb1 * xa_dim1], ldxa, &dwork[*nb + 1], &c__1, &c_b7, &xa[i__ + 1 + i__ * xa_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xa[i__ + 1 + nb1 * xa_dim1], ldxa,
+                &dwork[*nb + 1], &c__1, &c_b7, &xa[i__ + 1 + i__ * xa_dim1], &c__1, 12L);
             i__2 = *n - i__ + 1;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &ya[*k + i__ + ya_dim1], ldya, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xa[i__ * xa_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &ya[*k + i__ + ya_dim1], ldya,
+                &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xa[i__ * xa_dim1 + 1], &c__1, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &xa[i__ * xa_dim1 + 1], &c__1, &c_b7, &xa[i__ + 1 + i__ * xa_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq,
+                &xa[i__ * xa_dim1 + 1], &c__1, &c_b7, &xa[i__ + 1 + i__ * xa_dim1], &c__1, 9L);
             i__2 = *n - i__ + 1;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &ya[*k + i__ + nb1 * ya_dim1], ldya, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xa[i__ * xa_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &ya[*k + i__ + nb1 * ya_dim1], ldya,
+                &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xa[i__ * xa_dim1 + 1], &c__1, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 1) * b_dim1 + 1], ldb, &xa[i__ * xa_dim1 + 1], &c__1, &c_b7, &xa[i__ + 1 + i__ * xa_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 1) * b_dim1 + 1], ldb,
+                &xa[i__ * xa_dim1 + 1], &c__1, &c_b7, &xa[i__ + 1 + i__ * xa_dim1], &c__1, 9L);
             i__2 = *n - i__;
             d__1 = -tauq;
             dscal_(&i__2, &d__1, &xa[i__ + 1 + i__ * xa_dim1], &c__1);
             /*           Update A(i+1:n,k+i). */
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &xa[i__ + 1 + xa_dim1], ldxa, &q[i__ + q_dim1], ldq, &c_b7, &a[i__ + 1 + (*k + i__) * a_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &xa[i__ + 1 + xa_dim1], ldxa,
+                &q[i__ + q_dim1], ldq, &c_b7, &a[i__ + 1 + (*k + i__) * a_dim1], &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xa[i__ + 1 + nb1 * xa_dim1], ldxa, &a[(*k + i__) * a_dim1 + 1], &c__1, &c_b7, &a[i__ + 1 + (*k + i__) * a_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xa[i__ + 1 + nb1 * xa_dim1], ldxa,
+                &a[(*k + i__) * a_dim1 + 1], &c__1, &c_b7, &a[i__ + 1 + (*k + i__) * a_dim1], &c__1,
+                12L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &ya[*k + i__ + ya_dim1], ldya, &c_b7, &a[i__ + 1 + (*k + i__) * a_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq,
+                &ya[*k + i__ + ya_dim1], ldya, &c_b7, &a[i__ + 1 + (*k + i__) * a_dim1], &c__1, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 1) * b_dim1 + 1], ldb, &ya[*k + i__ + nb1 * ya_dim1], ldya, &c_b7, &a[i__ + 1 + (*k + i__) * a_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 1) * b_dim1 + 1], ldb,
+                &ya[*k + i__ + nb1 * ya_dim1], ldya, &c_b7, &a[i__ + 1 + (*k + i__) * a_dim1],
+                &c__1, 9L);
             /*           Apply rotation to [ A(i+1:n,k+i)'; Q(i,i+1:n) ]. */
             i__2 = *n - i__;
-            drot_(&i__2, &a[i__ + 1 + (*k + i__) * a_dim1], &c__1, &q[i__ + (i__ + 1) * q_dim1], ldq, &c__, &s);
+            drot_(&i__2, &a[i__ + 1 + (*k + i__) * a_dim1], &c__1, &q[i__ + (i__ + 1) * q_dim1],
+                ldq, &c__, &s);
             /*           Update XQ with second Householder reflection. */
             i__2 = *n - i__ + 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[i__ + (i__ + 1) * q_dim1], ldq, &a[i__ + (*k + i__) * a_dim1], lda, &c_b9, &xq[i__ + 1 + (i__ + *nb) * xq_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[i__ + (i__ + 1) * q_dim1], ldq,
+                &a[i__ + (*k + i__) * a_dim1], lda, &c_b9, &xq[i__ + 1 + (i__ + *nb) * xq_dim1],
+                &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &a[i__ + (*k + i__ + 1) * a_dim1], lda, &c_b9, &dwork[nb2 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq,
+                &a[i__ + (*k + i__ + 1) * a_dim1], lda, &c_b9, &dwork[nb2 + 1], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &xq[i__ + 1 + xq_dim1], ldxq, &dwork[nb2 + 1], &c__1, &c_b7, &xq[i__ + 1 + (i__ + *nb) * xq_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &xq[i__ + 1 + xq_dim1], ldxq,
+                &dwork[nb2 + 1], &c__1, &c_b7, &xq[i__ + 1 + (i__ + *nb) * xq_dim1], &c__1, 12L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &a[(*k + i__ + 1) * a_dim1 + 1], lda, &a[i__ + (*k + i__ + 1) * a_dim1], lda, &c_b9, &dwork[nb3 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &a[(*k + i__ + 1) * a_dim1 + 1], lda,
+                &a[i__ + (*k + i__ + 1) * a_dim1], lda, &c_b9, &dwork[nb3 + 1], &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xq[i__ + 1 + nb1 * xq_dim1], ldxq, &dwork[nb3 + 1], &c__1, &c_b7, &xq[i__ + 1 + (i__ + *nb) * xq_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xq[i__ + 1 + nb1 * xq_dim1], ldxq,
+                &dwork[nb3 + 1], &c__1, &c_b7, &xq[i__ + 1 + (i__ + *nb) * xq_dim1], &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yq[i__ + 1 + yq_dim1], ldyq, &a[i__ + (*k + i__ + 1) * a_dim1], lda, &c_b9, &xq[(i__ + *nb) * xq_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yq[i__ + 1 + yq_dim1], ldyq,
+                &a[i__ + (*k + i__ + 1) * a_dim1], lda, &c_b9, &xq[(i__ + *nb) * xq_dim1 + 1],
+                &c__1, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &xq[(i__ + *nb) * xq_dim1 + 1], &c__1, &c_b7, &xq[i__ + 1 + (i__ + *nb) * xq_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq,
+                &xq[(i__ + *nb) * xq_dim1 + 1], &c__1, &c_b7, &xq[i__ + 1 + (i__ + *nb) * xq_dim1],
+                &c__1, 9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yq[i__ + 1 + nb1 * yq_dim1], ldyq, &a[i__ + (*k + i__ + 1) * a_dim1], lda, &c_b9, &xq[(i__ + *nb) * xq_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yq[i__ + 1 + nb1 * yq_dim1], ldyq,
+                &a[i__ + (*k + i__ + 1) * a_dim1], lda, &c_b9, &xq[(i__ + *nb) * xq_dim1 + 1],
+                &c__1, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 1) * b_dim1 + 1], ldb, &xq[(i__ + *nb) * xq_dim1 + 1], &c__1, &c_b7, &xq[i__ + 1 + (i__ + *nb) * xq_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 1) * b_dim1 + 1], ldb,
+                &xq[(i__ + *nb) * xq_dim1 + 1], &c__1, &c_b7, &xq[i__ + 1 + (i__ + *nb) * xq_dim1],
+                &c__1, 9L);
             i__2 = *n - i__;
             d__1 = -taul[i__];
             dscal_(&i__2, &d__1, &xq[i__ + 1 + (i__ + *nb) * xq_dim1], &c__1);
             /*           Update Q(i,i+1:n). */
             i__2 = *n - i__;
-            daxpy_(&i__2, &c_b7, &xq[i__ + 1 + (i__ + *nb) * xq_dim1], &c__1, &q[i__ + (i__ + 1) * q_dim1], ldq);
+            daxpy_(&i__2, &c_b7, &xq[i__ + 1 + (i__ + *nb) * xq_dim1], &c__1,
+                &q[i__ + (i__ + 1) * q_dim1], ldq);
             /*           Update XA with second Householder reflection. */
             i__2 = *n - i__;
             i__3 = *n - i__ + 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &a[i__ + 1 + (*k + i__) * a_dim1], lda, &a[i__ + (*k + i__) * a_dim1], lda, &c_b9, &xa[i__ + 1 + (i__ + *nb) * xa_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &a[i__ + 1 + (*k + i__) * a_dim1], lda,
+                &a[i__ + (*k + i__) * a_dim1], lda, &c_b9, &xa[i__ + 1 + (i__ + *nb) * xa_dim1],
+                &c__1, 12L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &xa[i__ + 1 + xa_dim1], ldxa, &dwork[nb2 + 1], &c__1, &c_b7, &xa[i__ + 1 + (i__ + *nb) * xa_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &xa[i__ + 1 + xa_dim1], ldxa,
+                &dwork[nb2 + 1], &c__1, &c_b7, &xa[i__ + 1 + (i__ + *nb) * xa_dim1], &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xa[i__ + 1 + nb1 * xa_dim1], ldxa, &dwork[nb3 + 1], &c__1, &c_b7, &xa[i__ + 1 + (i__ + *nb) * xa_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xa[i__ + 1 + nb1 * xa_dim1], ldxa,
+                &dwork[nb3 + 1], &c__1, &c_b7, &xa[i__ + 1 + (i__ + *nb) * xa_dim1], &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &ya[*k + i__ + 1 + ya_dim1], ldya, &a[i__ + (*k + i__ + 1) * a_dim1], lda, &c_b9, &xa[(i__ + *nb) * xa_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &ya[*k + i__ + 1 + ya_dim1], ldya,
+                &a[i__ + (*k + i__ + 1) * a_dim1], lda, &c_b9, &xa[(i__ + *nb) * xa_dim1 + 1],
+                &c__1, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &xa[(i__ + *nb) * xa_dim1 + 1], &c__1, &c_b7, &xa[i__ + 1 + (i__ + *nb) * xa_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq,
+                &xa[(i__ + *nb) * xa_dim1 + 1], &c__1, &c_b7, &xa[i__ + 1 + (i__ + *nb) * xa_dim1],
+                &c__1, 9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &ya[*k + i__ + 1 + nb1 * ya_dim1], ldya, &a[i__ + (*k + i__ + 1) * a_dim1], lda, &c_b9, &xa[(i__ + *nb) * xa_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &ya[*k + i__ + 1 + nb1 * ya_dim1], ldya,
+                &a[i__ + (*k + i__ + 1) * a_dim1], lda, &c_b9, &xa[(i__ + *nb) * xa_dim1 + 1],
+                &c__1, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 1) * b_dim1 + 1], ldb, &xa[(i__ + *nb) * xa_dim1 + 1], &c__1, &c_b7, &xa[i__ + 1 + (i__ + *nb) * xa_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 1) * b_dim1 + 1], ldb,
+                &xa[(i__ + *nb) * xa_dim1 + 1], &c__1, &c_b7, &xa[i__ + 1 + (i__ + *nb) * xa_dim1],
+                &c__1, 9L);
             i__2 = *n - i__;
             d__1 = -taul[i__];
             dscal_(&i__2, &d__1, &xa[i__ + 1 + (i__ + *nb) * xa_dim1], &c__1);
             /*           Update A(i+1:n,k+i). */
             i__2 = *n - i__;
-            daxpy_(&i__2, &c_b7, &xa[i__ + 1 + (i__ + *nb) * xa_dim1], &c__1, &a[i__ + 1 + (*k + i__) * a_dim1], &c__1);
+            daxpy_(&i__2, &c_b7, &xa[i__ + 1 + (i__ + *nb) * xa_dim1], &c__1,
+                &a[i__ + 1 + (*k + i__) * a_dim1], &c__1);
             /*           Update XG with first Householder reflection. */
             i__2 = *n - i__ + 1;
             i__3 = *k + *n;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &g[*k + i__ + g_dim1], ldg, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xg[i__ * xg_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &g[*k + i__ + g_dim1], ldg,
+                &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xg[i__ * xg_dim1 + 1], &c__1, 9L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xg[xg_offset], ldxg, &dwork[1], &c__1, &c_b7, &xg[i__ * xg_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xg[xg_offset], ldxg, &dwork[1], &c__1,
+                &c_b7, &xg[i__ * xg_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xg[nb1 * xg_dim1 + 1], ldxg, &dwork[*nb + 1], &c__1, &c_b7, &xg[i__ * xg_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xg[nb1 * xg_dim1 + 1], ldxg,
+                &dwork[*nb + 1], &c__1, &c_b7, &xg[i__ * xg_dim1 + 1], &c__1, 12L);
             i__2 = *n - i__ + 1;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yg[*k + i__ + yg_dim1], ldyg, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yg[*k + i__ + yg_dim1], ldyg,
+                &q[i__ + i__ * q_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &dwork[pdw], &c__1, &c_b7, &xg[*k + i__ + 1 + i__ * xg_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &dwork[pdw],
+                &c__1, &c_b7, &xg[*k + i__ + 1 + i__ * xg_dim1], &c__1, 9L);
             i__2 = *n - i__ + 1;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yg[*k + i__ + nb1 * yg_dim1], ldyg, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yg[*k + i__ + nb1 * yg_dim1], ldyg,
+                &q[i__ + i__ * q_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 1) * b_dim1 + 1], ldb, &dwork[pdw], &c__1, &c_b7, &xg[*k + i__ + 1 + i__ * xg_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 1) * b_dim1 + 1], ldb,
+                &dwork[pdw], &c__1, &c_b7, &xg[*k + i__ + 1 + i__ * xg_dim1], &c__1, 9L);
             i__2 = *k + *n;
             d__1 = -tauq;
             dscal_(&i__2, &d__1, &xg[i__ * xg_dim1 + 1], &c__1);
             /*           Update G(k+i,:). */
             i__2 = *k + *n;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &xg[xg_offset], ldxg, &q[i__ + q_dim1], ldq, &c_b7, &g[*k + i__ + g_dim1], ldg, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &xg[xg_offset], ldxg, &q[i__ + q_dim1], ldq,
+                &c_b7, &g[*k + i__ + g_dim1], ldg, 12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xg[nb1 * xg_dim1 + 1], ldxg, &a[(*k + i__) * a_dim1 + 1], &c__1, &c_b7, &g[*k + i__ + g_dim1], ldg, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xg[nb1 * xg_dim1 + 1], ldxg,
+                &a[(*k + i__) * a_dim1 + 1], &c__1, &c_b7, &g[*k + i__ + g_dim1], ldg, 12L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &yg[*k + i__ + yg_dim1], ldyg, &c_b7, &g[*k + i__ + (*k + i__ + 1) * g_dim1], ldg, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq,
+                &yg[*k + i__ + yg_dim1], ldyg, &c_b7, &g[*k + i__ + (*k + i__ + 1) * g_dim1], ldg,
+                9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 1) * b_dim1 + 1], ldb, &yg[*k + i__ + nb1 * yg_dim1], ldyg, &c_b7, &g[*k + i__ + (*k + i__ + 1) * g_dim1], ldg, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 1) * b_dim1 + 1], ldb,
+                &yg[*k + i__ + nb1 * yg_dim1], ldyg, &c_b7, &g[*k + i__ + (*k + i__ + 1) * g_dim1],
+                ldg, 9L);
             /*           Update XB with first Householder reflection. */
             i__2 = *n - i__ + 1;
             i__3 = *k + *n;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[i__ + b_dim1], ldb, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xb[i__ * xb_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[i__ + b_dim1], ldb, &q[i__ + i__ * q_dim1],
+                &c__1, &c_b9, &xb[i__ * xb_dim1 + 1], &c__1, 9L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xb[xb_offset], ldxb, &dwork[1], &c__1, &c_b7, &xb[i__ * xb_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xb[xb_offset], ldxb, &dwork[1], &c__1,
+                &c_b7, &xb[i__ * xb_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xb[nb1 * xb_dim1 + 1], ldxb, &dwork[*nb + 1], &c__1, &c_b7, &xb[i__ * xb_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xb[nb1 * xb_dim1 + 1], ldxb,
+                &dwork[*nb + 1], &c__1, &c_b7, &xb[i__ * xb_dim1 + 1], &c__1, 12L);
             i__2 = *n - i__ + 1;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yb[i__ + yb_dim1], ldyb, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yb[i__ + yb_dim1], ldyb,
+                &q[i__ + i__ * q_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &dwork[pdw], &c__1, &c_b7, &xb[*k + i__ + 1 + i__ * xb_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &dwork[pdw],
+                &c__1, &c_b7, &xb[*k + i__ + 1 + i__ * xb_dim1], &c__1, 9L);
             i__2 = *n - i__ + 1;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yb[i__ + nb1 * yb_dim1], ldyb, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yb[i__ + nb1 * yb_dim1], ldyb,
+                &q[i__ + i__ * q_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 1) * b_dim1 + 1], ldb, &dwork[pdw], &c__1, &c_b7, &xb[*k + i__ + 1 + i__ * xb_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 1) * b_dim1 + 1], ldb,
+                &dwork[pdw], &c__1, &c_b7, &xb[*k + i__ + 1 + i__ * xb_dim1], &c__1, 9L);
             i__2 = *k + *n;
             d__1 = -tauq;
             dscal_(&i__2, &d__1, &xb[i__ * xb_dim1 + 1], &c__1);
             /*           Update B(i,:). */
             i__2 = *k + *n;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &xb[xb_offset], ldxb, &q[i__ + q_dim1], ldq, &c_b7, &b[i__ + b_dim1], ldb, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &xb[xb_offset], ldxb, &q[i__ + q_dim1], ldq,
+                &c_b7, &b[i__ + b_dim1], ldb, 12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xb[nb1 * xb_dim1 + 1], ldxb, &a[(*k + i__) * a_dim1 + 1], &c__1, &c_b7, &b[i__ + b_dim1], ldb, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xb[nb1 * xb_dim1 + 1], ldxb,
+                &a[(*k + i__) * a_dim1 + 1], &c__1, &c_b7, &b[i__ + b_dim1], ldb, 12L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &yb[i__ + yb_dim1], ldyb, &c_b7, &b[i__ + (*k + i__ + 1) * b_dim1], ldb, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq,
+                &yb[i__ + yb_dim1], ldyb, &c_b7, &b[i__ + (*k + i__ + 1) * b_dim1], ldb, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 1) * b_dim1 + 1], ldb, &yb[i__ + nb1 * yb_dim1], ldyb, &c_b7, &b[i__ + (*k + i__ + 1) * b_dim1], ldb, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 1) * b_dim1 + 1], ldb,
+                &yb[i__ + nb1 * yb_dim1], ldyb, &c_b7, &b[i__ + (*k + i__ + 1) * b_dim1], ldb, 9L);
             /*           Apply rotation to [ G(k+i,:); B(i,:) ]. */
             i__2 = *k + *n;
             drot_(&i__2, &g[*k + i__ + g_dim1], ldg, &b[i__ + b_dim1], ldb, &c__, &s);
             i__2 = i__ - 1;
-            for (j = 1; j <= i__2; ++j)
-            {
+            for (j = 1; j <= i__2; ++j) {
                 yg[*k + i__ + j * yg_dim1] = 0.;
                 /* L100: */
             }
             i__2 = i__ - 1;
-            for (j = 1; j <= i__2; ++j)
-            {
+            for (j = 1; j <= i__2; ++j) {
                 yg[*k + i__ + (*nb + j) * yg_dim1] = 0.;
                 /* L110: */
             }
             i__2 = i__ - 1;
-            for (j = 1; j <= i__2; ++j)
-            {
+            for (j = 1; j <= i__2; ++j) {
                 ya[*k + i__ + j * ya_dim1] = 0.;
                 /* L120: */
             }
             i__2 = i__ - 1;
-            for (j = 1; j <= i__2; ++j)
-            {
+            for (j = 1; j <= i__2; ++j) {
                 ya[*k + i__ + (*nb + j) * ya_dim1] = 0.;
                 /* L130: */
             }
             /*           Update XG with second Householder reflection. */
             i__2 = *n - i__ + 1;
             i__3 = *k + *n;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &g[*k + i__ + g_dim1], ldg, &a[i__ + (*k + i__) * a_dim1], lda, &c_b9, &xg[(i__ + *nb) * xg_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &g[*k + i__ + g_dim1], ldg,
+                &a[i__ + (*k + i__) * a_dim1], lda, &c_b9, &xg[(i__ + *nb) * xg_dim1 + 1], &c__1,
+                9L);
             i__2 = *k + *n;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &xg[xg_offset], ldxg, &dwork[nb2 + 1], &c__1, &c_b7, &xg[(i__ + *nb) * xg_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &xg[xg_offset], ldxg, &dwork[nb2 + 1], &c__1,
+                &c_b7, &xg[(i__ + *nb) * xg_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xg[nb1 * xg_dim1 + 1], ldxg, &dwork[nb3 + 1], &c__1, &c_b7, &xg[(i__ + *nb) * xg_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xg[nb1 * xg_dim1 + 1], ldxg,
+                &dwork[nb3 + 1], &c__1, &c_b7, &xg[(i__ + *nb) * xg_dim1 + 1], &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yg[*k + i__ + 1 + yg_dim1], ldyg, &a[i__ + (*k + i__ + 1) * a_dim1], lda, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yg[*k + i__ + 1 + yg_dim1], ldyg,
+                &a[i__ + (*k + i__ + 1) * a_dim1], lda, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &dwork[pdw], &c__1, &c_b7, &xg[*k + i__ + 1 + (i__ + *nb) * xg_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &dwork[pdw],
+                &c__1, &c_b7, &xg[*k + i__ + 1 + (i__ + *nb) * xg_dim1], &c__1, 9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yg[*k + i__ + 1 + nb1 * yg_dim1], ldyg, &a[i__ + (*k + i__ + 1) * a_dim1], lda, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yg[*k + i__ + 1 + nb1 * yg_dim1], ldyg,
+                &a[i__ + (*k + i__ + 1) * a_dim1], lda, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 1) * b_dim1 + 1], ldb, &dwork[pdw], &c__1, &c_b7, &xg[*k + i__ + 1 + (i__ + *nb) * xg_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 1) * b_dim1 + 1], ldb,
+                &dwork[pdw], &c__1, &c_b7, &xg[*k + i__ + 1 + (i__ + *nb) * xg_dim1], &c__1, 9L);
             i__2 = *k + *n;
             d__1 = -taul[i__];
             dscal_(&i__2, &d__1, &xg[(i__ + *nb) * xg_dim1 + 1], &c__1);
@@ -1210,24 +1494,32 @@ doublereal *csl, *csr, *taul, *taur, *dwork;
             /*           Update XB with second Householder reflection. */
             i__2 = *n - i__ + 1;
             i__3 = *k + *n;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[i__ + b_dim1], ldb, &a[i__ + (*k + i__) * a_dim1], lda, &c_b9, &xb[(i__ + *nb) * xb_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[i__ + b_dim1], ldb,
+                &a[i__ + (*k + i__) * a_dim1], lda, &c_b9, &xb[(i__ + *nb) * xb_dim1 + 1], &c__1,
+                9L);
             i__2 = *k + *n;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &xb[xb_offset], ldxb, &dwork[nb2 + 1], &c__1, &c_b7, &xb[(i__ + *nb) * xb_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &xb[xb_offset], ldxb, &dwork[nb2 + 1], &c__1,
+                &c_b7, &xb[(i__ + *nb) * xb_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xb[nb1 * xb_dim1 + 1], ldxb, &dwork[nb3 + 1], &c__1, &c_b7, &xb[(i__ + *nb) * xb_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xb[nb1 * xb_dim1 + 1], ldxb,
+                &dwork[nb3 + 1], &c__1, &c_b7, &xb[(i__ + *nb) * xb_dim1 + 1], &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yb[i__ + 1 + yb_dim1], ldyb, &a[i__ + (*k + i__ + 1) * a_dim1], lda, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yb[i__ + 1 + yb_dim1], ldyb,
+                &a[i__ + (*k + i__ + 1) * a_dim1], lda, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &dwork[pdw], &c__1, &c_b7, &xb[*k + i__ + 1 + (i__ + *nb) * xb_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &dwork[pdw],
+                &c__1, &c_b7, &xb[*k + i__ + 1 + (i__ + *nb) * xb_dim1], &c__1, 9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yb[i__ + 1 + nb1 * yb_dim1], ldyb, &a[i__ + (*k + i__ + 1) * a_dim1], lda, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yb[i__ + 1 + nb1 * yb_dim1], ldyb,
+                &a[i__ + (*k + i__ + 1) * a_dim1], lda, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 1) * b_dim1 + 1], ldb, &dwork[pdw], &c__1, &c_b7, &xb[*k + i__ + 1 + (i__ + *nb) * xb_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 1) * b_dim1 + 1], ldb,
+                &dwork[pdw], &c__1, &c_b7, &xb[*k + i__ + 1 + (i__ + *nb) * xb_dim1], &c__1, 9L);
             i__2 = *k + *n;
             d__1 = -taul[i__];
             dscal_(&i__2, &d__1, &xb[(i__ + *nb) * xb_dim1 + 1], &c__1);
@@ -1244,244 +1536,341 @@ doublereal *csl, *csr, *taul, *taur, *dwork;
             dlarfg_(&i__2, &alpha, &q[i__ + (i__ + 2) * q_dim1], ldq, &tauq);
             q[i__ + (i__ + 1) * q_dim1] = 1.;
             i__2 = *n - i__;
-            temp = -tauq * ddot_(&i__2, &q[i__ + (i__ + 1) * q_dim1], ldq, &b[i__ + (*k + i__ + 1) * b_dim1], ldb);
+            temp = -tauq
+                * ddot_(&i__2, &q[i__ + (i__ + 1) * q_dim1], ldq, &b[i__ + (*k + i__ + 1) * b_dim1],
+                      ldb);
             i__2 = *n - i__;
-            daxpy_(&i__2, &temp, &q[i__ + (i__ + 1) * q_dim1], ldq, &b[i__ + (*k + i__ + 1) * b_dim1], ldb);
+            daxpy_(&i__2, &temp, &q[i__ + (i__ + 1) * q_dim1], ldq,
+                &b[i__ + (*k + i__ + 1) * b_dim1], ldb);
             temp = b[i__ + (*k + i__ + 1) * b_dim1];
             dlartg_(&temp, &alpha, &c__, &s, &b[i__ + (*k + i__ + 1) * b_dim1]);
             s = -s;
             i__2 = *n - i__;
-            dlarfg_(&i__2, &b[i__ + (*k + i__ + 1) * b_dim1], &b[i__ + (*k + i__ + 2) * b_dim1], ldb, &taur[i__]);
+            dlarfg_(&i__2, &b[i__ + (*k + i__ + 1) * b_dim1], &b[i__ + (*k + i__ + 2) * b_dim1],
+                ldb, &taur[i__]);
             temp = b[i__ + (*k + i__ + 1) * b_dim1];
             b[i__ + (*k + i__ + 1) * b_dim1] = 1.;
             /*           Update YB with first Householder reflection. */
             i__2 = *n - i__;
             i__3 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &b[i__ + 1 + (*k + i__ + 1) * b_dim1], ldb, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yb[i__ + 1 + i__ * yb_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &b[i__ + 1 + (*k + i__ + 1) * b_dim1], ldb,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yb[i__ + 1 + i__ * yb_dim1], &c__1, 12L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xb[*k + i__ + 1 + xb_dim1], ldxb, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yb[i__ * yb_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xb[*k + i__ + 1 + xb_dim1], ldxb,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yb[i__ * yb_dim1 + 1], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &yb[i__ * yb_dim1 + 1], &c__1, &c_b7, &yb[i__ + 1 + i__ * yb_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq,
+                &yb[i__ * yb_dim1 + 1], &c__1, &c_b7, &yb[i__ + 1 + i__ * yb_dim1], &c__1, 12L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xb[*k + i__ + 1 + nb1 * xb_dim1], ldxb, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yb[i__ * yb_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xb[*k + i__ + 1 + nb1 * xb_dim1], ldxb,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yb[i__ * yb_dim1 + 1], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__, &i__2, &c_b7, &a[(*k + i__ + 1) * a_dim1 + 1], lda, &yb[i__ * yb_dim1 + 1], &c__1, &c_b7, &yb[i__ + 1 + i__ * yb_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__, &i__2, &c_b7, &a[(*k + i__ + 1) * a_dim1 + 1], lda,
+                &yb[i__ * yb_dim1 + 1], &c__1, &c_b7, &yb[i__ + 1 + i__ * yb_dim1], &c__1, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &dwork[1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &dwork[1], &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yb[i__ + 1 + yb_dim1], ldyb, &dwork[1], &c__1, &c_b7, &yb[i__ + 1 + i__ * yb_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yb[i__ + 1 + yb_dim1], ldyb, &dwork[1],
+                &c__1, &c_b7, &yb[i__ + 1 + i__ * yb_dim1], &c__1, 12L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 1) * b_dim1 + 1], ldb, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &dwork[*nb + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 1) * b_dim1 + 1], ldb,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &dwork[*nb + 1], &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yb[i__ + 1 + nb1 * yb_dim1], ldyb, &dwork[*nb + 1], &c__1, &c_b7, &yb[i__ + 1 + i__ * yb_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yb[i__ + 1 + nb1 * yb_dim1], ldyb,
+                &dwork[*nb + 1], &c__1, &c_b7, &yb[i__ + 1 + i__ * yb_dim1], &c__1, 12L);
             i__2 = *n - i__;
             d__1 = -tauq;
             dscal_(&i__2, &d__1, &yb[i__ + 1 + i__ * yb_dim1], &c__1);
             /*           Update B(i+1:n,k+i+1). */
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &xb[*k + i__ + 1 + xb_dim1], ldxb, &c_b7, &b[i__ + 1 + (*k + i__ + 1) * b_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq,
+                &xb[*k + i__ + 1 + xb_dim1], ldxb, &c_b7, &b[i__ + 1 + (*k + i__ + 1) * b_dim1],
+                &c__1, 12L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__, &i__2, &c_b7, &a[(*k + i__ + 1) * a_dim1 + 1], lda, &xb[*k + i__ + 1 + nb1 * xb_dim1], ldxb, &c_b7, &b[i__ + 1 + (*k + i__ + 1) * b_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__, &i__2, &c_b7, &a[(*k + i__ + 1) * a_dim1 + 1], lda,
+                &xb[*k + i__ + 1 + nb1 * xb_dim1], ldxb, &c_b7,
+                &b[i__ + 1 + (*k + i__ + 1) * b_dim1], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &yb[i__ + 1 + yb_dim1], ldyb, &q[(i__ + 1) * q_dim1 + 1], &c__1, &c_b7, &b[i__ + 1 + (*k + i__ + 1) * b_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &yb[i__ + 1 + yb_dim1], ldyb,
+                &q[(i__ + 1) * q_dim1 + 1], &c__1, &c_b7, &b[i__ + 1 + (*k + i__ + 1) * b_dim1],
+                &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yb[i__ + 1 + nb1 * yb_dim1], ldyb, &b[(*k + i__ + 1) * b_dim1 + 1], &c__1, &c_b7, &b[i__ + 1 + (*k + i__ + 1) * b_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yb[i__ + 1 + nb1 * yb_dim1], ldyb,
+                &b[(*k + i__ + 1) * b_dim1 + 1], &c__1, &c_b7,
+                &b[i__ + 1 + (*k + i__ + 1) * b_dim1], &c__1, 12L);
             /*           Update YQ with first Householder reflection. */
             i__2 = *n - i__;
             i__3 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &q[i__ + 1 + (i__ + 1) * q_dim1], ldq, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yq[i__ + 1 + i__ * yq_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &q[i__ + 1 + (i__ + 1) * q_dim1], ldq,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yq[i__ + 1 + i__ * yq_dim1], &c__1, 12L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xq[i__ + 1 + xq_dim1], ldxq, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yq[i__ * yq_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xq[i__ + 1 + xq_dim1], ldxq,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yq[i__ * yq_dim1 + 1], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &yq[i__ * yq_dim1 + 1], &c__1, &c_b7, &yq[i__ + 1 + i__ * yq_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq,
+                &yq[i__ * yq_dim1 + 1], &c__1, &c_b7, &yq[i__ + 1 + i__ * yq_dim1], &c__1, 12L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xq[i__ + 1 + nb1 * xq_dim1], ldxq, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yq[i__ * yq_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xq[i__ + 1 + nb1 * xq_dim1], ldxq,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yq[i__ * yq_dim1 + 1], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__, &i__2, &c_b7, &a[(*k + i__ + 1) * a_dim1 + 1], lda, &yq[i__ * yq_dim1 + 1], &c__1, &c_b7, &yq[i__ + 1 + i__ * yq_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__, &i__2, &c_b7, &a[(*k + i__ + 1) * a_dim1 + 1], lda,
+                &yq[i__ * yq_dim1 + 1], &c__1, &c_b7, &yq[i__ + 1 + i__ * yq_dim1], &c__1, 9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yq[i__ + 1 + yq_dim1], ldyq, &dwork[1], &c__1, &c_b7, &yq[i__ + 1 + i__ * yq_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yq[i__ + 1 + yq_dim1], ldyq, &dwork[1],
+                &c__1, &c_b7, &yq[i__ + 1 + i__ * yq_dim1], &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yq[i__ + 1 + nb1 * yq_dim1], ldyq, &dwork[*nb + 1], &c__1, &c_b7, &yq[i__ + 1 + i__ * yq_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yq[i__ + 1 + nb1 * yq_dim1], ldyq,
+                &dwork[*nb + 1], &c__1, &c_b7, &yq[i__ + 1 + i__ * yq_dim1], &c__1, 12L);
             i__2 = *n - i__;
             d__1 = -tauq;
             dscal_(&i__2, &d__1, &yq[i__ + 1 + i__ * yq_dim1], &c__1);
             /*           Update Q(i+1:n,i+1). */
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &xq[i__ + 1 + xq_dim1], ldxq, &c_b7, &q[i__ + 1 + (i__ + 1) * q_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq,
+                &xq[i__ + 1 + xq_dim1], ldxq, &c_b7, &q[i__ + 1 + (i__ + 1) * q_dim1], &c__1, 12L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__, &i__2, &c_b7, &a[(*k + i__ + 1) * a_dim1 + 1], lda, &xq[i__ + 1 + nb1 * xq_dim1], ldxq, &c_b7, &q[i__ + 1 + (i__ + 1) * q_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__, &i__2, &c_b7, &a[(*k + i__ + 1) * a_dim1 + 1], lda,
+                &xq[i__ + 1 + nb1 * xq_dim1], ldxq, &c_b7, &q[i__ + 1 + (i__ + 1) * q_dim1], &c__1,
+                9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &yq[i__ + 1 + yq_dim1], ldyq, &q[(i__ + 1) * q_dim1 + 1], &c__1, &c_b7, &q[i__ + 1 + (i__ + 1) * q_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &yq[i__ + 1 + yq_dim1], ldyq,
+                &q[(i__ + 1) * q_dim1 + 1], &c__1, &c_b7, &q[i__ + 1 + (i__ + 1) * q_dim1], &c__1,
+                12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yq[i__ + 1 + nb1 * yq_dim1], ldyq, &b[(*k + i__ + 1) * b_dim1 + 1], &c__1, &c_b7, &q[i__ + 1 + (i__ + 1) * q_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yq[i__ + 1 + nb1 * yq_dim1], ldyq,
+                &b[(*k + i__ + 1) * b_dim1 + 1], &c__1, &c_b7, &q[i__ + 1 + (i__ + 1) * q_dim1],
+                &c__1, 12L);
             /*           Apply rotation to [ Q(i+1:n,i+1), B(i+1:n,k+i+1) ]. */
             i__2 = *n - i__;
-            drot_(&i__2, &q[i__ + 1 + (i__ + 1) * q_dim1], &c__1, &b[i__ + 1 + (*k + i__ + 1) * b_dim1], &c__1, &c__, &s);
+            drot_(&i__2, &q[i__ + 1 + (i__ + 1) * q_dim1], &c__1,
+                &b[i__ + 1 + (*k + i__ + 1) * b_dim1], &c__1, &c__, &s);
             i__2 = i__;
-            for (j = 1; j <= i__2; ++j)
-            {
+            for (j = 1; j <= i__2; ++j) {
                 xb[*k + i__ + 1 + j * xb_dim1] = 0.;
                 /* L140: */
             }
             i__2 = i__;
-            for (j = 1; j <= i__2; ++j)
-            {
+            for (j = 1; j <= i__2; ++j) {
                 xb[*k + i__ + 1 + (*nb + j) * xb_dim1] = 0.;
                 /* L150: */
             }
             /*           Update YB with second Householder reflection. */
             i__2 = *n - i__;
             i__3 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &b[i__ + 1 + (*k + i__ + 1) * b_dim1], ldb, &b[i__ + (*k + i__ + 1) * b_dim1], ldb, &c_b9, &yb[i__ + 1 + (i__ + *nb) * yb_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &b[i__ + 1 + (*k + i__ + 1) * b_dim1], ldb,
+                &b[i__ + (*k + i__ + 1) * b_dim1], ldb, &c_b9, &yb[i__ + 1 + (i__ + *nb) * yb_dim1],
+                &c__1, 12L);
             i__2 = *n - i__ - 1;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xb[*k + i__ + 2 + xb_dim1], ldxb, &b[i__ + (*k + i__ + 2) * b_dim1], ldb, &c_b9, &yb[(i__ + *nb) * yb_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xb[*k + i__ + 2 + xb_dim1], ldxb,
+                &b[i__ + (*k + i__ + 2) * b_dim1], ldb, &c_b9, &yb[(i__ + *nb) * yb_dim1 + 1],
+                &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &yb[(i__ + *nb) * yb_dim1 + 1], &c__1, &c_b7, &yb[i__ + 1 + (i__ + *nb) * yb_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq,
+                &yb[(i__ + *nb) * yb_dim1 + 1], &c__1, &c_b7, &yb[i__ + 1 + (i__ + *nb) * yb_dim1],
+                &c__1, 12L);
             i__2 = *n - i__ - 1;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xb[*k + i__ + 2 + nb1 * xb_dim1], ldxb, &b[i__ + (*k + i__ + 2) * b_dim1], ldb, &c_b9, &yb[(i__ + *nb) * yb_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xb[*k + i__ + 2 + nb1 * xb_dim1], ldxb,
+                &b[i__ + (*k + i__ + 2) * b_dim1], ldb, &c_b9, &yb[(i__ + *nb) * yb_dim1 + 1],
+                &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__, &i__2, &c_b7, &a[(*k + i__ + 1) * a_dim1 + 1], lda, &yb[(i__ + *nb) * yb_dim1 + 1], &c__1, &c_b7, &yb[i__ + 1 + (i__ + *nb) * yb_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__, &i__2, &c_b7, &a[(*k + i__ + 1) * a_dim1 + 1], lda,
+                &yb[(i__ + *nb) * yb_dim1 + 1], &c__1, &c_b7, &yb[i__ + 1 + (i__ + *nb) * yb_dim1],
+                &c__1, 9L);
             i__2 = *n - i__ - 1;
-            dgemv_("No transpose", &i__, &i__2, &c_b7, &q[(i__ + 2) * q_dim1 + 1], ldq, &b[i__ + (*k + i__ + 2) * b_dim1], ldb, &c_b9, &dwork[nb2 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__, &i__2, &c_b7, &q[(i__ + 2) * q_dim1 + 1], ldq,
+                &b[i__ + (*k + i__ + 2) * b_dim1], ldb, &c_b9, &dwork[nb2 + 1], &c__1, 12L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &yb[i__ + 1 + yb_dim1], ldyb, &dwork[nb2 + 1], &c__1, &c_b7, &yb[i__ + 1 + (i__ + *nb) * yb_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &yb[i__ + 1 + yb_dim1], ldyb,
+                &dwork[nb2 + 1], &c__1, &c_b7, &yb[i__ + 1 + (i__ + *nb) * yb_dim1], &c__1, 12L);
             i__2 = i__ - 1;
             i__3 = *n - i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 2) * b_dim1 + 1], ldq, &b[i__ + (*k + i__ + 2) * b_dim1], ldb, &c_b9, &dwork[nb3 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 2) * b_dim1 + 1], ldq,
+                &b[i__ + (*k + i__ + 2) * b_dim1], ldb, &c_b9, &dwork[nb3 + 1], &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yb[i__ + 1 + nb1 * yb_dim1], ldyb, &dwork[nb3 + 1], &c__1, &c_b7, &yb[i__ + 1 + (i__ + *nb) * yb_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yb[i__ + 1 + nb1 * yb_dim1], ldyb,
+                &dwork[nb3 + 1], &c__1, &c_b7, &yb[i__ + 1 + (i__ + *nb) * yb_dim1], &c__1, 12L);
             i__2 = *n - i__;
             d__1 = -taur[i__];
             dscal_(&i__2, &d__1, &yb[i__ + 1 + (i__ + *nb) * yb_dim1], &c__1);
             /*           Update B(i+1:n,k+i+1). */
             i__2 = *n - i__;
-            daxpy_(&i__2, &c_b7, &yb[i__ + 1 + (i__ + *nb) * yb_dim1], &c__1, &b[i__ + 1 + (*k + i__ + 1) * b_dim1], &c__1);
+            daxpy_(&i__2, &c_b7, &yb[i__ + 1 + (i__ + *nb) * yb_dim1], &c__1,
+                &b[i__ + 1 + (*k + i__ + 1) * b_dim1], &c__1);
             /*           Update YQ with second Householder reflection. */
             i__2 = *n - i__;
             i__3 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &q[i__ + 1 + (i__ + 1) * q_dim1], ldq, &b[i__ + (*k + i__ + 1) * b_dim1], ldb, &c_b9, &yq[i__ + 1 + (i__ + *nb) * yq_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &q[i__ + 1 + (i__ + 1) * q_dim1], ldq,
+                &b[i__ + (*k + i__ + 1) * b_dim1], ldb, &c_b9, &yq[i__ + 1 + (i__ + *nb) * yq_dim1],
+                &c__1, 12L);
             i__2 = *n - i__ - 1;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xq[i__ + 2 + xq_dim1], ldxq, &b[i__ + (*k + i__ + 2) * b_dim1], ldb, &c_b9, &yq[(i__ + *nb) * yq_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xq[i__ + 2 + xq_dim1], ldxq,
+                &b[i__ + (*k + i__ + 2) * b_dim1], ldb, &c_b9, &yq[(i__ + *nb) * yq_dim1 + 1],
+                &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &yq[(i__ + *nb) * yq_dim1 + 1], &c__1, &c_b7, &yq[i__ + 1 + (i__ + *nb) * yq_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq,
+                &yq[(i__ + *nb) * yq_dim1 + 1], &c__1, &c_b7, &yq[i__ + 1 + (i__ + *nb) * yq_dim1],
+                &c__1, 12L);
             i__2 = *n - i__ - 1;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xq[i__ + 2 + nb1 * xq_dim1], ldxq, &b[i__ + (*k + i__ + 2) * b_dim1], ldb, &c_b9, &yq[(i__ + *nb) * yq_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xq[i__ + 2 + nb1 * xq_dim1], ldxq,
+                &b[i__ + (*k + i__ + 2) * b_dim1], ldb, &c_b9, &yq[(i__ + *nb) * yq_dim1 + 1],
+                &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__, &i__2, &c_b7, &a[(*k + i__ + 1) * a_dim1 + 1], lda, &yq[(i__ + *nb) * yq_dim1 + 1], &c__1, &c_b7, &yq[i__ + 1 + (i__ + *nb) * yq_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__, &i__2, &c_b7, &a[(*k + i__ + 1) * a_dim1 + 1], lda,
+                &yq[(i__ + *nb) * yq_dim1 + 1], &c__1, &c_b7, &yq[i__ + 1 + (i__ + *nb) * yq_dim1],
+                &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &yq[i__ + 1 + yq_dim1], ldyq, &dwork[nb2 + 1], &c__1, &c_b7, &yq[i__ + 1 + (i__ + *nb) * yq_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &yq[i__ + 1 + yq_dim1], ldyq,
+                &dwork[nb2 + 1], &c__1, &c_b7, &yq[i__ + 1 + (i__ + *nb) * yq_dim1], &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yq[i__ + 1 + nb1 * yq_dim1], ldyq, &dwork[nb3 + 1], &c__1, &c_b7, &yq[i__ + 1 + (i__ + *nb) * yq_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yq[i__ + 1 + nb1 * yq_dim1], ldyq,
+                &dwork[nb3 + 1], &c__1, &c_b7, &yq[i__ + 1 + (i__ + *nb) * yq_dim1], &c__1, 12L);
             i__2 = *n - i__;
             d__1 = -taur[i__];
             dscal_(&i__2, &d__1, &yq[i__ + 1 + (i__ + *nb) * yq_dim1], &c__1);
             /*           Update Q(i+1:n,i+1). */
             i__2 = *n - i__;
-            daxpy_(&i__2, &c_b7, &yq[i__ + 1 + (i__ + *nb) * yq_dim1], &c__1, &q[i__ + 1 + (i__ + 1) * q_dim1], &c__1);
+            daxpy_(&i__2, &c_b7, &yq[i__ + 1 + (i__ + *nb) * yq_dim1], &c__1,
+                &q[i__ + 1 + (i__ + 1) * q_dim1], &c__1);
             /*           Update YA with first Householder reflection. */
             i__2 = *n - i__;
             i__3 = *k + *n;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &a[i__ + 1 + a_dim1], lda, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &ya[i__ * ya_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &a[i__ + 1 + a_dim1], lda,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &ya[i__ * ya_dim1 + 1], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xa[i__ + 1 + xa_dim1], ldxa, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xa[i__ + 1 + xa_dim1], ldxa,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &dwork[pdw], &c__1, &c_b7, &ya[*k + i__ + 1 + i__ * ya_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &dwork[pdw],
+                &c__1, &c_b7, &ya[*k + i__ + 1 + i__ * ya_dim1], &c__1, 12L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xa[i__ + 1 + nb1 * xa_dim1], ldxa, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xa[i__ + 1 + nb1 * xa_dim1], ldxa,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__, &i__2, &c_b7, &a[(*k + i__ + 1) * a_dim1 + 1], lda, &dwork[pdw], &c__1, &c_b7, &ya[*k + i__ + 1 + i__ * ya_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__, &i__2, &c_b7, &a[(*k + i__ + 1) * a_dim1 + 1], lda,
+                &dwork[pdw], &c__1, &c_b7, &ya[*k + i__ + 1 + i__ * ya_dim1], &c__1, 9L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &ya[ya_offset], ldya, &dwork[1], &c__1, &c_b7, &ya[i__ * ya_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &ya[ya_offset], ldya, &dwork[1], &c__1,
+                &c_b7, &ya[i__ * ya_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &ya[nb1 * ya_dim1 + 1], ldya, &dwork[*nb + 1], &c__1, &c_b7, &ya[i__ * ya_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &ya[nb1 * ya_dim1 + 1], ldya,
+                &dwork[*nb + 1], &c__1, &c_b7, &ya[i__ * ya_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             d__1 = -tauq;
             dscal_(&i__2, &d__1, &ya[i__ * ya_dim1 + 1], &c__1);
             /*           Update A(i+1,1:k+n). */
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &xa[i__ + 1 + xa_dim1], ldxa, &c_b7, &a[i__ + 1 + (*k + i__ + 1) * a_dim1], lda, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq,
+                &xa[i__ + 1 + xa_dim1], ldxa, &c_b7, &a[i__ + 1 + (*k + i__ + 1) * a_dim1], lda,
+                12L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__, &i__2, &c_b7, &a[(*k + i__ + 1) * a_dim1 + 1], lda, &xa[i__ + 1 + nb1 * xa_dim1], ldxa, &c_b7, &a[i__ + 1 + (*k + i__ + 1) * a_dim1], lda, 9L);
+            dgemv_("Transpose", &i__, &i__2, &c_b7, &a[(*k + i__ + 1) * a_dim1 + 1], lda,
+                &xa[i__ + 1 + nb1 * xa_dim1], ldxa, &c_b7, &a[i__ + 1 + (*k + i__ + 1) * a_dim1],
+                lda, 9L);
             i__2 = *k + *n;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &ya[ya_offset], ldya, &q[(i__ + 1) * q_dim1 + 1], &c__1, &c_b7, &a[i__ + 1 + a_dim1], lda, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &ya[ya_offset], ldya,
+                &q[(i__ + 1) * q_dim1 + 1], &c__1, &c_b7, &a[i__ + 1 + a_dim1], lda, 12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &ya[nb1 * ya_dim1 + 1], ldya, &b[(*k + i__ + 1) * b_dim1 + 1], &c__1, &c_b7, &a[i__ + 1 + a_dim1], lda, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &ya[nb1 * ya_dim1 + 1], ldya,
+                &b[(*k + i__ + 1) * b_dim1 + 1], &c__1, &c_b7, &a[i__ + 1 + a_dim1], lda, 12L);
             /*           Update YG with first Householder reflection. */
             i__2 = *k + *n;
             i__3 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &g[(*k + i__ + 1) * g_dim1 + 1], ldg, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yg[i__ * yg_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &g[(*k + i__ + 1) * g_dim1 + 1], ldg,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yg[i__ * yg_dim1 + 1], &c__1, 12L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xg[*k + i__ + 1 + xg_dim1], ldxg, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xg[*k + i__ + 1 + xg_dim1], ldxg,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &dwork[pdw], &c__1, &c_b7, &yg[*k + i__ + 1 + i__ * yg_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &dwork[pdw],
+                &c__1, &c_b7, &yg[*k + i__ + 1 + i__ * yg_dim1], &c__1, 12L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xg[*k + i__ + 1 + nb1 * xg_dim1], ldxg, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xg[*k + i__ + 1 + nb1 * xg_dim1], ldxg,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__, &i__2, &c_b7, &a[(*k + i__ + 1) * a_dim1 + 1], lda, &dwork[pdw], &c__1, &c_b7, &yg[*k + i__ + 1 + i__ * yg_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__, &i__2, &c_b7, &a[(*k + i__ + 1) * a_dim1 + 1], lda,
+                &dwork[pdw], &c__1, &c_b7, &yg[*k + i__ + 1 + i__ * yg_dim1], &c__1, 9L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yg[yg_offset], ldyg, &dwork[1], &c__1, &c_b7, &yg[i__ * yg_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yg[yg_offset], ldyg, &dwork[1], &c__1,
+                &c_b7, &yg[i__ * yg_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yg[nb1 * yg_dim1 + 1], ldyg, &dwork[*nb + 1], &c__1, &c_b7, &yg[i__ * yg_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yg[nb1 * yg_dim1 + 1], ldyg,
+                &dwork[*nb + 1], &c__1, &c_b7, &yg[i__ * yg_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             d__1 = -tauq;
             dscal_(&i__2, &d__1, &yg[i__ * yg_dim1 + 1], &c__1);
             /*           Update G(1:k+n,k+i+1). */
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &xg[*k + i__ + 1 + xg_dim1], ldxg, &c_b7, &g[*k + i__ + 1 + (*k + i__ + 1) * g_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq,
+                &xg[*k + i__ + 1 + xg_dim1], ldxg, &c_b7,
+                &g[*k + i__ + 1 + (*k + i__ + 1) * g_dim1], &c__1, 12L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__, &i__2, &c_b7, &a[(*k + i__ + 1) * a_dim1 + 1], lda, &xg[*k + i__ + 1 + nb1 * xg_dim1], ldxg, &c_b7, &g[*k + i__ + 1 + (*k + i__ + 1) * g_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__, &i__2, &c_b7, &a[(*k + i__ + 1) * a_dim1 + 1], lda,
+                &xg[*k + i__ + 1 + nb1 * xg_dim1], ldxg, &c_b7,
+                &g[*k + i__ + 1 + (*k + i__ + 1) * g_dim1], &c__1, 9L);
             i__2 = *k + *n;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &yg[yg_offset], ldyg, &q[(i__ + 1) * q_dim1 + 1], &c__1, &c_b7, &g[(*k + i__ + 1) * g_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &yg[yg_offset], ldyg,
+                &q[(i__ + 1) * q_dim1 + 1], &c__1, &c_b7, &g[(*k + i__ + 1) * g_dim1 + 1], &c__1,
+                12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yg[nb1 * yg_dim1 + 1], ldyg, &b[(*k + i__ + 1) * b_dim1 + 1], &c__1, &c_b7, &g[(*k + i__ + 1) * g_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yg[nb1 * yg_dim1 + 1], ldyg,
+                &b[(*k + i__ + 1) * b_dim1 + 1], &c__1, &c_b7, &g[(*k + i__ + 1) * g_dim1 + 1],
+                &c__1, 12L);
             i__2 = i__;
-            for (j = 1; j <= i__2; ++j)
-            {
+            for (j = 1; j <= i__2; ++j) {
                 xg[*k + i__ + 1 + j * xg_dim1] = 0.;
                 /* L160: */
             }
             i__2 = i__;
-            for (j = 1; j <= i__2; ++j)
-            {
+            for (j = 1; j <= i__2; ++j) {
                 xg[*k + i__ + 1 + (*nb + j) * xg_dim1] = 0.;
                 /* L170: */
             }
             /*           Apply rotation to [ A(i+1,1:k+n)', G(1:k+n,k+i+1) ]. */
             i__2 = *k + *n;
-            drot_(&i__2, &a[i__ + 1 + a_dim1], lda, &g[(*k + i__ + 1) * g_dim1 + 1], &c__1, &c__, &s);
+            drot_(
+                &i__2, &a[i__ + 1 + a_dim1], lda, &g[(*k + i__ + 1) * g_dim1 + 1], &c__1, &c__, &s);
             /*           Update YA with second Householder reflection. */
             i__2 = *n - i__;
             i__3 = *k + *n;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &a[i__ + 1 + a_dim1], lda, &b[i__ + (*k + i__ + 1) * b_dim1], ldb, &c_b9, &ya[(i__ + *nb) * ya_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &a[i__ + 1 + a_dim1], lda,
+                &b[i__ + (*k + i__ + 1) * b_dim1], ldb, &c_b9, &ya[(i__ + *nb) * ya_dim1 + 1],
+                &c__1, 9L);
             i__2 = *n - i__ - 1;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xa[i__ + 2 + xa_dim1], ldxa, &b[i__ + (*k + i__ + 2) * b_dim1], ldb, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xa[i__ + 2 + xa_dim1], ldxa,
+                &b[i__ + (*k + i__ + 2) * b_dim1], ldb, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &dwork[pdw], &c__1, &c_b7, &ya[*k + i__ + 1 + (i__ + *nb) * ya_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &dwork[pdw],
+                &c__1, &c_b7, &ya[*k + i__ + 1 + (i__ + *nb) * ya_dim1], &c__1, 12L);
             i__2 = *n - i__ - 1;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xa[i__ + 2 + nb1 * xa_dim1], ldxa, &b[i__ + (*k + i__ + 2) * b_dim1], ldb, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xa[i__ + 2 + nb1 * xa_dim1], ldxa,
+                &b[i__ + (*k + i__ + 2) * b_dim1], ldb, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__, &i__2, &c_b7, &a[(*k + i__ + 1) * a_dim1 + 1], lda, &dwork[pdw], &c__1, &c_b7, &ya[*k + i__ + 1 + (i__ + *nb) * ya_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__, &i__2, &c_b7, &a[(*k + i__ + 1) * a_dim1 + 1], lda,
+                &dwork[pdw], &c__1, &c_b7, &ya[*k + i__ + 1 + (i__ + *nb) * ya_dim1], &c__1, 9L);
             i__2 = *k + *n;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &ya[ya_offset], ldya, &dwork[nb2 + 1], &c__1, &c_b7, &ya[(i__ + *nb) * ya_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &ya[ya_offset], ldya, &dwork[nb2 + 1], &c__1,
+                &c_b7, &ya[(i__ + *nb) * ya_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &ya[nb1 * ya_dim1 + 1], ldya, &dwork[nb3 + 1], &c__1, &c_b7, &ya[(i__ + *nb) * ya_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &ya[nb1 * ya_dim1 + 1], ldya,
+                &dwork[nb3 + 1], &c__1, &c_b7, &ya[(i__ + *nb) * ya_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             d__1 = -taur[i__];
             dscal_(&i__2, &d__1, &ya[(i__ + *nb) * ya_dim1 + 1], &c__1);
@@ -1491,317 +1880,408 @@ doublereal *csl, *csr, *taul, *taur, *dwork;
             /*           Update YG with second Householder reflection. */
             i__2 = *k + *n;
             i__3 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &g[(*k + i__ + 1) * g_dim1 + 1], ldg, &b[i__ + (*k + i__ + 1) * b_dim1], ldb, &c_b9, &yg[(i__ + *nb) * yg_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &g[(*k + i__ + 1) * g_dim1 + 1], ldg,
+                &b[i__ + (*k + i__ + 1) * b_dim1], ldb, &c_b9, &yg[(i__ + *nb) * yg_dim1 + 1],
+                &c__1, 12L);
             i__2 = *n - i__ - 1;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xg[*k + i__ + 2 + xg_dim1], ldxg, &b[i__ + (*k + i__ + 2) * b_dim1], ldb, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xg[*k + i__ + 2 + xg_dim1], ldxg,
+                &b[i__ + (*k + i__ + 2) * b_dim1], ldb, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &dwork[pdw], &c__1, &c_b7, &yg[*k + i__ + 1 + (i__ + *nb) * yg_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &dwork[pdw],
+                &c__1, &c_b7, &yg[*k + i__ + 1 + (i__ + *nb) * yg_dim1], &c__1, 12L);
             i__2 = *n - i__ - 1;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xg[*k + i__ + 2 + nb1 * xg_dim1], ldxg, &b[i__ + (*k + i__ + 2) * b_dim1], ldb, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xg[*k + i__ + 2 + nb1 * xg_dim1], ldxg,
+                &b[i__ + (*k + i__ + 2) * b_dim1], ldb, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__, &i__2, &c_b7, &a[(*k + i__ + 1) * a_dim1 + 1], lda, &dwork[pdw], &c__1, &c_b7, &yg[*k + i__ + 1 + (i__ + *nb) * yg_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__, &i__2, &c_b7, &a[(*k + i__ + 1) * a_dim1 + 1], lda,
+                &dwork[pdw], &c__1, &c_b7, &yg[*k + i__ + 1 + (i__ + *nb) * yg_dim1], &c__1, 9L);
             i__2 = *k + *n;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &yg[yg_offset], ldyg, &dwork[nb2 + 1], &c__1, &c_b7, &yg[(i__ + *nb) * yg_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &yg[yg_offset], ldyg, &dwork[nb2 + 1], &c__1,
+                &c_b7, &yg[(i__ + *nb) * yg_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yg[nb1 * yg_dim1 + 1], ldyg, &dwork[nb3 + 1], &c__1, &c_b7, &yg[(i__ + *nb) * yg_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yg[nb1 * yg_dim1 + 1], ldyg,
+                &dwork[nb3 + 1], &c__1, &c_b7, &yg[(i__ + *nb) * yg_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             d__1 = -taur[i__];
             dscal_(&i__2, &d__1, &yg[(i__ + *nb) * yg_dim1 + 1], &c__1);
             /*           Update G(1:k+n,k+i+1). */
             i__2 = *k + *n;
-            daxpy_(&i__2, &c_b7, &yg[(i__ + *nb) * yg_dim1 + 1], &c__1, &g[(*k + i__ + 1) * g_dim1 + 1], &c__1);
+            daxpy_(&i__2, &c_b7, &yg[(i__ + *nb) * yg_dim1 + 1], &c__1,
+                &g[(*k + i__ + 1) * g_dim1 + 1], &c__1);
             b[i__ + (*k + i__ + 1) * b_dim1] = temp;
             q[i__ + (i__ + 1) * q_dim1] = tauq;
             csr[(i__ << 1) - 1] = c__;
             csr[i__ * 2] = s;
             /* L180: */
         }
-    }
-    else if (*ltrb)
-    {
+    } else if (*ltrb) {
         i__1 = *nb;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             /*           Transform first columns of A and Q. See routine MB04TS. */
             alpha = q[i__ + i__ * q_dim1];
             i__2 = *n - i__ + 1;
             dlarfg_(&i__2, &alpha, &q[i__ + 1 + i__ * q_dim1], &c__1, &tauq);
             q[i__ + i__ * q_dim1] = 1.;
             i__2 = *n - i__ + 1;
-            temp = -tauq * ddot_(&i__2, &q[i__ + i__ * q_dim1], &c__1, &a[*k + i__ + i__ * a_dim1], &c__1);
+            temp = -tauq
+                * ddot_(&i__2, &q[i__ + i__ * q_dim1], &c__1, &a[*k + i__ + i__ * a_dim1], &c__1);
             i__2 = *n - i__ + 1;
             daxpy_(&i__2, &temp, &q[i__ + i__ * q_dim1], &c__1, &a[*k + i__ + i__ * a_dim1], &c__1);
             temp = a[*k + i__ + i__ * a_dim1];
             dlartg_(&temp, &alpha, &c__, &s, &a[*k + i__ + i__ * a_dim1]);
             i__2 = *n - i__ + 1;
-            dlarfg_(&i__2, &a[*k + i__ + i__ * a_dim1], &a[*k + i__ + 1 + i__ * a_dim1], &c__1, &taul[i__]);
+            dlarfg_(&i__2, &a[*k + i__ + i__ * a_dim1], &a[*k + i__ + 1 + i__ * a_dim1], &c__1,
+                &taul[i__]);
             temp = a[*k + i__ + i__ * a_dim1];
             a[*k + i__ + i__ * a_dim1] = 1.;
             /*           Update XQ with first Householder reflection. */
             i__2 = *n - i__ + 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[i__ + (i__ + 1) * q_dim1], ldq, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xq[i__ + 1 + i__ * xq_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[i__ + (i__ + 1) * q_dim1], ldq,
+                &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xq[i__ + 1 + i__ * xq_dim1], &c__1, 9L);
             i__2 = *n - i__ + 1;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[i__ + q_dim1], ldq, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &dwork[1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[i__ + q_dim1], ldq, &q[i__ + i__ * q_dim1],
+                &c__1, &c_b9, &dwork[1], &c__1, 9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xq[i__ + 1 + xq_dim1], ldxq, &dwork[1], &c__1, &c_b7, &xq[i__ + 1 + i__ * xq_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xq[i__ + 1 + xq_dim1], ldxq, &dwork[1],
+                &c__1, &c_b7, &xq[i__ + 1 + i__ * xq_dim1], &c__1, 12L);
             i__2 = *n - i__ + 1;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &a[*k + i__ + a_dim1], lda, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &dwork[*nb + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &a[*k + i__ + a_dim1], lda,
+                &q[i__ + i__ * q_dim1], &c__1, &c_b9, &dwork[*nb + 1], &c__1, 9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xq[i__ + 1 + nb1 * xq_dim1], ldxq, &dwork[*nb + 1], &c__1, &c_b7, &xq[i__ + 1 + i__ * xq_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xq[i__ + 1 + nb1 * xq_dim1], ldxq,
+                &dwork[*nb + 1], &c__1, &c_b7, &xq[i__ + 1 + i__ * xq_dim1], &c__1, 12L);
             i__2 = *n - i__ + 1;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yq[i__ + yq_dim1], ldyq, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xq[i__ * xq_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yq[i__ + yq_dim1], ldyq,
+                &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xq[i__ * xq_dim1 + 1], &c__1, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &xq[i__ * xq_dim1 + 1], &c__1, &c_b7, &xq[i__ + 1 + i__ * xq_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq,
+                &xq[i__ * xq_dim1 + 1], &c__1, &c_b7, &xq[i__ + 1 + i__ * xq_dim1], &c__1, 9L);
             i__2 = *n - i__ + 1;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yq[i__ + nb1 * yq_dim1], ldyq, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xq[(i__ + *nb) * xq_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yq[i__ + nb1 * yq_dim1], ldyq,
+                &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xq[(i__ + *nb) * xq_dim1 + 1], &c__1, 9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No Transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + b_dim1], ldb, &xq[(i__ + *nb) * xq_dim1 + 1], &c__1, &c_b7, &xq[i__ + 1 + i__ * xq_dim1], &c__1, 12L);
+            dgemv_("No Transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + b_dim1], ldb,
+                &xq[(i__ + *nb) * xq_dim1 + 1], &c__1, &c_b7, &xq[i__ + 1 + i__ * xq_dim1], &c__1,
+                12L);
             i__2 = *n - i__;
             d__1 = -tauq;
             dscal_(&i__2, &d__1, &xq[i__ + 1 + i__ * xq_dim1], &c__1);
             /*           Update Q(i,i+1:n). */
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &xq[i__ + 1 + xq_dim1], ldxq, &q[i__ + q_dim1], ldq, &c_b7, &q[i__ + (i__ + 1) * q_dim1], ldq, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &xq[i__ + 1 + xq_dim1], ldxq,
+                &q[i__ + q_dim1], ldq, &c_b7, &q[i__ + (i__ + 1) * q_dim1], ldq, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xq[i__ + 1 + nb1 * xq_dim1], ldxq, &a[*k + i__ + a_dim1], lda, &c_b7, &q[i__ + (i__ + 1) * q_dim1], ldq, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xq[i__ + 1 + nb1 * xq_dim1], ldxq,
+                &a[*k + i__ + a_dim1], lda, &c_b7, &q[i__ + (i__ + 1) * q_dim1], ldq, 12L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &yq[i__ + yq_dim1], ldyq, &c_b7, &q[i__ + (i__ + 1) * q_dim1], ldq, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq,
+                &yq[i__ + yq_dim1], ldyq, &c_b7, &q[i__ + (i__ + 1) * q_dim1], ldq, 9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No Transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + b_dim1], ldb, &yq[i__ + nb1 * yq_dim1], ldyq, &c_b7, &q[i__ + (i__ + 1) * q_dim1], ldq, 12L);
+            dgemv_("No Transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + b_dim1], ldb,
+                &yq[i__ + nb1 * yq_dim1], ldyq, &c_b7, &q[i__ + (i__ + 1) * q_dim1], ldq, 12L);
             /*           Update XA with first Householder reflection. */
             i__2 = *n - i__ + 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &a[*k + i__ + (i__ + 1) * a_dim1], lda, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xa[i__ + 1 + i__ * xa_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &a[*k + i__ + (i__ + 1) * a_dim1], lda,
+                &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xa[i__ + 1 + i__ * xa_dim1], &c__1, 9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xa[i__ + 1 + xa_dim1], ldxa, &dwork[1], &c__1, &c_b7, &xa[i__ + 1 + i__ * xa_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xa[i__ + 1 + xa_dim1], ldxa, &dwork[1],
+                &c__1, &c_b7, &xa[i__ + 1 + i__ * xa_dim1], &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xa[i__ + 1 + nb1 * xa_dim1], ldxa, &dwork[*nb + 1], &c__1, &c_b7, &xa[i__ + 1 + i__ * xa_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xa[i__ + 1 + nb1 * xa_dim1], ldxa,
+                &dwork[*nb + 1], &c__1, &c_b7, &xa[i__ + 1 + i__ * xa_dim1], &c__1, 12L);
             i__2 = *n - i__ + 1;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &ya[*k + i__ + ya_dim1], ldya, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xa[i__ * xa_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &ya[*k + i__ + ya_dim1], ldya,
+                &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xa[i__ * xa_dim1 + 1], &c__1, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &xa[i__ * xa_dim1 + 1], &c__1, &c_b7, &xa[i__ + 1 + i__ * xa_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq,
+                &xa[i__ * xa_dim1 + 1], &c__1, &c_b7, &xa[i__ + 1 + i__ * xa_dim1], &c__1, 9L);
             i__2 = *n - i__ + 1;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &ya[*k + i__ + nb1 * ya_dim1], ldya, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xa[i__ * xa_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &ya[*k + i__ + nb1 * ya_dim1], ldya,
+                &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xa[i__ * xa_dim1 + 1], &c__1, 9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No Transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + b_dim1], ldb, &xa[i__ * xa_dim1 + 1], &c__1, &c_b7, &xa[i__ + 1 + i__ * xa_dim1], &c__1, 12L);
+            dgemv_("No Transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + b_dim1], ldb,
+                &xa[i__ * xa_dim1 + 1], &c__1, &c_b7, &xa[i__ + 1 + i__ * xa_dim1], &c__1, 12L);
             i__2 = *n - i__;
             d__1 = -tauq;
             dscal_(&i__2, &d__1, &xa[i__ + 1 + i__ * xa_dim1], &c__1);
             /*           Update A(k+i,i+1:n). */
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &xa[i__ + 1 + xa_dim1], ldxa, &q[i__ + q_dim1], ldq, &c_b7, &a[*k + i__ + (i__ + 1) * a_dim1], lda, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &xa[i__ + 1 + xa_dim1], ldxa,
+                &q[i__ + q_dim1], ldq, &c_b7, &a[*k + i__ + (i__ + 1) * a_dim1], lda, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xa[i__ + 1 + nb1 * xa_dim1], ldxa, &a[*k + i__ + a_dim1], lda, &c_b7, &a[*k + i__ + (i__ + 1) * a_dim1], lda, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xa[i__ + 1 + nb1 * xa_dim1], ldxa,
+                &a[*k + i__ + a_dim1], lda, &c_b7, &a[*k + i__ + (i__ + 1) * a_dim1], lda, 12L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &ya[*k + i__ + ya_dim1], ldya, &c_b7, &a[*k + i__ + (i__ + 1) * a_dim1], lda, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq,
+                &ya[*k + i__ + ya_dim1], ldya, &c_b7, &a[*k + i__ + (i__ + 1) * a_dim1], lda, 9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No Transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + b_dim1], ldb, &ya[*k + i__ + nb1 * ya_dim1], ldya, &c_b7, &a[*k + i__ + (i__ + 1) * a_dim1], lda, 12L);
+            dgemv_("No Transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + b_dim1], ldb,
+                &ya[*k + i__ + nb1 * ya_dim1], ldya, &c_b7, &a[*k + i__ + (i__ + 1) * a_dim1], lda,
+                12L);
             /*           Apply rotation to [ A(k+i,i+1:n); Q(i,i+1:n) ]. */
             i__2 = *n - i__;
-            drot_(&i__2, &a[*k + i__ + (i__ + 1) * a_dim1], lda, &q[i__ + (i__ + 1) * q_dim1], ldq, &c__, &s);
+            drot_(&i__2, &a[*k + i__ + (i__ + 1) * a_dim1], lda, &q[i__ + (i__ + 1) * q_dim1], ldq,
+                &c__, &s);
             /*           Update XQ with second Householder reflection. */
             i__2 = *n - i__ + 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[i__ + (i__ + 1) * q_dim1], ldq, &a[*k + i__ + i__ * a_dim1], &c__1, &c_b9, &xq[i__ + 1 + (i__ + *nb) * xq_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[i__ + (i__ + 1) * q_dim1], ldq,
+                &a[*k + i__ + i__ * a_dim1], &c__1, &c_b9, &xq[i__ + 1 + (i__ + *nb) * xq_dim1],
+                &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &a[*k + i__ + 1 + i__ * a_dim1], &c__1, &c_b9, &dwork[nb2 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq,
+                &a[*k + i__ + 1 + i__ * a_dim1], &c__1, &c_b9, &dwork[nb2 + 1], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &xq[i__ + 1 + xq_dim1], ldxq, &dwork[nb2 + 1], &c__1, &c_b7, &xq[i__ + 1 + (i__ + *nb) * xq_dim1], &c__1, 12L);
-            i__2 = *n - i__;
-            i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &a[*k + i__ + 1 + a_dim1], lda, &a[*k + i__ + 1 + i__ * a_dim1], &c__1, &c_b9, &dwork[nb3 + 1], &c__1, 9L);
-            i__2 = *n - i__;
-            i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xq[i__ + 1 + nb1 * xq_dim1], ldxq, &dwork[nb3 + 1], &c__1, &c_b7, &xq[i__ + 1 + (i__ + *nb) * xq_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &xq[i__ + 1 + xq_dim1], ldxq,
+                &dwork[nb2 + 1], &c__1, &c_b7, &xq[i__ + 1 + (i__ + *nb) * xq_dim1], &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yq[i__ + 1 + yq_dim1], ldyq, &a[*k + i__ + 1 + i__ * a_dim1], &c__1, &c_b9, &xq[(i__ + *nb) * xq_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &a[*k + i__ + 1 + a_dim1], lda,
+                &a[*k + i__ + 1 + i__ * a_dim1], &c__1, &c_b9, &dwork[nb3 + 1], &c__1, 9L);
+            i__2 = *n - i__;
+            i__3 = i__ - 1;
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xq[i__ + 1 + nb1 * xq_dim1], ldxq,
+                &dwork[nb3 + 1], &c__1, &c_b7, &xq[i__ + 1 + (i__ + *nb) * xq_dim1], &c__1, 12L);
+            i__2 = *n - i__;
+            i__3 = i__ - 1;
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yq[i__ + 1 + yq_dim1], ldyq,
+                &a[*k + i__ + 1 + i__ * a_dim1], &c__1, &c_b9, &xq[(i__ + *nb) * xq_dim1 + 1],
+                &c__1, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &xq[(i__ + *nb) * xq_dim1 + 1], &c__1, &c_b7, &xq[i__ + 1 + (i__ + *nb) * xq_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq,
+                &xq[(i__ + *nb) * xq_dim1 + 1], &c__1, &c_b7, &xq[i__ + 1 + (i__ + *nb) * xq_dim1],
+                &c__1, 9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yq[i__ + 1 + nb1 * yq_dim1], ldyq, &a[*k + i__ + 1 + i__ * a_dim1], &c__1, &c_b9, &xq[(i__ + *nb) * xq_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yq[i__ + 1 + nb1 * yq_dim1], ldyq,
+                &a[*k + i__ + 1 + i__ * a_dim1], &c__1, &c_b9, &xq[(i__ + *nb) * xq_dim1 + 1],
+                &c__1, 9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No Transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + b_dim1], ldb, &xq[(i__ + *nb) * xq_dim1 + 1], &c__1, &c_b7, &xq[i__ + 1 + (i__ + *nb) * xq_dim1], &c__1, 12L);
+            dgemv_("No Transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + b_dim1], ldb,
+                &xq[(i__ + *nb) * xq_dim1 + 1], &c__1, &c_b7, &xq[i__ + 1 + (i__ + *nb) * xq_dim1],
+                &c__1, 12L);
             i__2 = *n - i__;
             d__1 = -taul[i__];
             dscal_(&i__2, &d__1, &xq[i__ + 1 + (i__ + *nb) * xq_dim1], &c__1);
             /*           Update Q(i,i+1:n). */
             i__2 = *n - i__;
-            daxpy_(&i__2, &c_b7, &xq[i__ + 1 + (i__ + *nb) * xq_dim1], &c__1, &q[i__ + (i__ + 1) * q_dim1], ldq);
+            daxpy_(&i__2, &c_b7, &xq[i__ + 1 + (i__ + *nb) * xq_dim1], &c__1,
+                &q[i__ + (i__ + 1) * q_dim1], ldq);
             /*           Update XA with second Householder reflection. */
             i__2 = *n - i__ + 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &a[*k + i__ + (i__ + 1) * a_dim1], lda, &a[*k + i__ + i__ * a_dim1], &c__1, &c_b9, &xa[i__ + 1 + (i__ + *nb) * xa_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &a[*k + i__ + (i__ + 1) * a_dim1], lda,
+                &a[*k + i__ + i__ * a_dim1], &c__1, &c_b9, &xa[i__ + 1 + (i__ + *nb) * xa_dim1],
+                &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &xa[i__ + 1 + xa_dim1], ldxa, &dwork[nb2 + 1], &c__1, &c_b7, &xa[i__ + 1 + (i__ + *nb) * xa_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &xa[i__ + 1 + xa_dim1], ldxa,
+                &dwork[nb2 + 1], &c__1, &c_b7, &xa[i__ + 1 + (i__ + *nb) * xa_dim1], &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xa[i__ + 1 + nb1 * xa_dim1], ldxa, &dwork[nb3 + 1], &c__1, &c_b7, &xa[i__ + 1 + (i__ + *nb) * xa_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xa[i__ + 1 + nb1 * xa_dim1], ldxa,
+                &dwork[nb3 + 1], &c__1, &c_b7, &xa[i__ + 1 + (i__ + *nb) * xa_dim1], &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &ya[*k + i__ + 1 + ya_dim1], ldya, &a[*k + i__ + 1 + i__ * a_dim1], &c__1, &c_b9, &xa[(i__ + *nb) * xa_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &ya[*k + i__ + 1 + ya_dim1], ldya,
+                &a[*k + i__ + 1 + i__ * a_dim1], &c__1, &c_b9, &xa[(i__ + *nb) * xa_dim1 + 1],
+                &c__1, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &xa[(i__ + *nb) * xa_dim1 + 1], &c__1, &c_b7, &xa[i__ + 1 + (i__ + *nb) * xa_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq,
+                &xa[(i__ + *nb) * xa_dim1 + 1], &c__1, &c_b7, &xa[i__ + 1 + (i__ + *nb) * xa_dim1],
+                &c__1, 9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &ya[*k + i__ + 1 + nb1 * ya_dim1], ldya, &a[*k + i__ + 1 + i__ * a_dim1], &c__1, &c_b9, &xa[(i__ + *nb) * xa_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &ya[*k + i__ + 1 + nb1 * ya_dim1], ldya,
+                &a[*k + i__ + 1 + i__ * a_dim1], &c__1, &c_b9, &xa[(i__ + *nb) * xa_dim1 + 1],
+                &c__1, 9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No Transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + b_dim1], ldb, &xa[(i__ + *nb) * xa_dim1 + 1], &c__1, &c_b7, &xa[i__ + 1 + (i__ + *nb) * xa_dim1], &c__1, 12L);
+            dgemv_("No Transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + b_dim1], ldb,
+                &xa[(i__ + *nb) * xa_dim1 + 1], &c__1, &c_b7, &xa[i__ + 1 + (i__ + *nb) * xa_dim1],
+                &c__1, 12L);
             i__2 = *n - i__;
             d__1 = -taul[i__];
             dscal_(&i__2, &d__1, &xa[i__ + 1 + (i__ + *nb) * xa_dim1], &c__1);
             /*           Update A(k+i,i+1:n). */
             i__2 = *n - i__;
-            daxpy_(&i__2, &c_b7, &xa[i__ + 1 + (i__ + *nb) * xa_dim1], &c__1, &a[*k + i__ + (i__ + 1) * a_dim1], lda);
+            daxpy_(&i__2, &c_b7, &xa[i__ + 1 + (i__ + *nb) * xa_dim1], &c__1,
+                &a[*k + i__ + (i__ + 1) * a_dim1], lda);
             /*           Update XG with first Householder reflection. */
             i__2 = *n - i__ + 1;
             i__3 = *k + *n;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &g[*k + i__ + g_dim1], ldg, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xg[i__ * xg_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &g[*k + i__ + g_dim1], ldg,
+                &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xg[i__ * xg_dim1 + 1], &c__1, 9L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xg[xg_offset], ldxg, &dwork[1], &c__1, &c_b7, &xg[i__ * xg_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xg[xg_offset], ldxg, &dwork[1], &c__1,
+                &c_b7, &xg[i__ * xg_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xg[nb1 * xg_dim1 + 1], ldxg, &dwork[*nb + 1], &c__1, &c_b7, &xg[i__ * xg_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xg[nb1 * xg_dim1 + 1], ldxg,
+                &dwork[*nb + 1], &c__1, &c_b7, &xg[i__ * xg_dim1 + 1], &c__1, 12L);
             i__2 = *n - i__ + 1;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yg[*k + i__ + yg_dim1], ldyg, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yg[*k + i__ + yg_dim1], ldyg,
+                &q[i__ + i__ * q_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &dwork[pdw], &c__1, &c_b7, &xg[*k + i__ + 1 + i__ * xg_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &dwork[pdw],
+                &c__1, &c_b7, &xg[*k + i__ + 1 + i__ * xg_dim1], &c__1, 9L);
             i__2 = *n - i__ + 1;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yg[*k + i__ + nb1 * yg_dim1], ldyg, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yg[*k + i__ + nb1 * yg_dim1], ldyg,
+                &q[i__ + i__ * q_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No Transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + b_dim1], ldb, &dwork[pdw], &c__1, &c_b7, &xg[*k + i__ + 1 + i__ * xg_dim1], &c__1, 12L);
+            dgemv_("No Transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + b_dim1], ldb, &dwork[pdw],
+                &c__1, &c_b7, &xg[*k + i__ + 1 + i__ * xg_dim1], &c__1, 12L);
             i__2 = *k + *n;
             d__1 = -tauq;
             dscal_(&i__2, &d__1, &xg[i__ * xg_dim1 + 1], &c__1);
             /*           Update G(k+i,:). */
             i__2 = *k + *n;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &xg[xg_offset], ldxg, &q[i__ + q_dim1], ldq, &c_b7, &g[*k + i__ + g_dim1], ldg, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &xg[xg_offset], ldxg, &q[i__ + q_dim1], ldq,
+                &c_b7, &g[*k + i__ + g_dim1], ldg, 12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xg[nb1 * xg_dim1 + 1], ldxg, &a[*k + i__ + a_dim1], lda, &c_b7, &g[*k + i__ + g_dim1], ldg, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xg[nb1 * xg_dim1 + 1], ldxg,
+                &a[*k + i__ + a_dim1], lda, &c_b7, &g[*k + i__ + g_dim1], ldg, 12L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &yg[*k + i__ + yg_dim1], ldyg, &c_b7, &g[*k + i__ + (*k + i__ + 1) * g_dim1], ldg, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq,
+                &yg[*k + i__ + yg_dim1], ldyg, &c_b7, &g[*k + i__ + (*k + i__ + 1) * g_dim1], ldg,
+                9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No Transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + b_dim1], ldb, &yg[*k + i__ + nb1 * yg_dim1], ldyg, &c_b7, &g[*k + i__ + (*k + i__ + 1) * g_dim1], ldg, 12L);
+            dgemv_("No Transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + b_dim1], ldb,
+                &yg[*k + i__ + nb1 * yg_dim1], ldyg, &c_b7, &g[*k + i__ + (*k + i__ + 1) * g_dim1],
+                ldg, 12L);
             /*           Update XB with first Householder reflection. */
             i__2 = *k + *n;
             i__3 = *n - i__ + 1;
-            dgemv_("No Transpose", &i__2, &i__3, &c_b7, &b[i__ * b_dim1 + 1], ldb, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xb[i__ * xb_dim1 + 1], &c__1, 12L);
+            dgemv_("No Transpose", &i__2, &i__3, &c_b7, &b[i__ * b_dim1 + 1], ldb,
+                &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xb[i__ * xb_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xb[xb_offset], ldxb, &dwork[1], &c__1, &c_b7, &xb[i__ * xb_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xb[xb_offset], ldxb, &dwork[1], &c__1,
+                &c_b7, &xb[i__ * xb_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xb[nb1 * xb_dim1 + 1], ldxb, &dwork[*nb + 1], &c__1, &c_b7, &xb[i__ * xb_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xb[nb1 * xb_dim1 + 1], ldxb,
+                &dwork[*nb + 1], &c__1, &c_b7, &xb[i__ * xb_dim1 + 1], &c__1, 12L);
             i__2 = *n - i__ + 1;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yb[i__ + yb_dim1], ldyb, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yb[i__ + yb_dim1], ldyb,
+                &q[i__ + i__ * q_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &dwork[pdw], &c__1, &c_b7, &xb[*k + i__ + 1 + i__ * xb_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &dwork[pdw],
+                &c__1, &c_b7, &xb[*k + i__ + 1 + i__ * xb_dim1], &c__1, 9L);
             i__2 = *n - i__ + 1;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yb[i__ + nb1 * yb_dim1], ldyb, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yb[i__ + nb1 * yb_dim1], ldyb,
+                &q[i__ + i__ * q_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No Transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + b_dim1], ldb, &dwork[pdw], &c__1, &c_b7, &xb[*k + i__ + 1 + i__ * xb_dim1], &c__1, 12L);
+            dgemv_("No Transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + b_dim1], ldb, &dwork[pdw],
+                &c__1, &c_b7, &xb[*k + i__ + 1 + i__ * xb_dim1], &c__1, 12L);
             i__2 = *k + *n;
             d__1 = -tauq;
             dscal_(&i__2, &d__1, &xb[i__ * xb_dim1 + 1], &c__1);
             /*           Update B(:,i). */
             i__2 = *k + *n;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &xb[xb_offset], ldxb, &q[i__ + q_dim1], ldq, &c_b7, &b[i__ * b_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &xb[xb_offset], ldxb, &q[i__ + q_dim1], ldq,
+                &c_b7, &b[i__ * b_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xb[nb1 * xb_dim1 + 1], ldxb, &a[*k + i__ + a_dim1], lda, &c_b7, &b[i__ * b_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xb[nb1 * xb_dim1 + 1], ldxb,
+                &a[*k + i__ + a_dim1], lda, &c_b7, &b[i__ * b_dim1 + 1], &c__1, 12L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &yb[i__ + yb_dim1], ldyb, &c_b7, &b[*k + i__ + 1 + i__ * b_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq,
+                &yb[i__ + yb_dim1], ldyb, &c_b7, &b[*k + i__ + 1 + i__ * b_dim1], &c__1, 9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No Transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + b_dim1], ldb, &yb[i__ + nb1 * yb_dim1], ldyb, &c_b7, &b[*k + i__ + 1 + i__ * b_dim1], &c__1, 12L);
+            dgemv_("No Transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + b_dim1], ldb,
+                &yb[i__ + nb1 * yb_dim1], ldyb, &c_b7, &b[*k + i__ + 1 + i__ * b_dim1], &c__1, 12L);
             /*           Apply rotation to [ G(k+i,:); B(:,i)' ]. */
             i__2 = *k + *n;
             drot_(&i__2, &g[*k + i__ + g_dim1], ldg, &b[i__ * b_dim1 + 1], &c__1, &c__, &s);
             i__2 = i__ - 1;
-            for (j = 1; j <= i__2; ++j)
-            {
+            for (j = 1; j <= i__2; ++j) {
                 yg[*k + i__ + j * yg_dim1] = 0.;
                 /* L190: */
             }
             i__2 = i__ - 1;
-            for (j = 1; j <= i__2; ++j)
-            {
+            for (j = 1; j <= i__2; ++j) {
                 yg[*k + i__ + (*nb + j) * yg_dim1] = 0.;
                 /* L200: */
             }
             i__2 = i__ - 1;
-            for (j = 1; j <= i__2; ++j)
-            {
+            for (j = 1; j <= i__2; ++j) {
                 ya[*k + i__ + j * ya_dim1] = 0.;
                 /* L210: */
             }
             i__2 = i__ - 1;
-            for (j = 1; j <= i__2; ++j)
-            {
+            for (j = 1; j <= i__2; ++j) {
                 ya[*k + i__ + (*nb + j) * ya_dim1] = 0.;
                 /* L220: */
             }
             /*           Update XG with second Householder reflection. */
             i__2 = *n - i__ + 1;
             i__3 = *k + *n;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &g[*k + i__ + g_dim1], ldg, &a[*k + i__ + i__ * a_dim1], &c__1, &c_b9, &xg[(i__ + *nb) * xg_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &g[*k + i__ + g_dim1], ldg,
+                &a[*k + i__ + i__ * a_dim1], &c__1, &c_b9, &xg[(i__ + *nb) * xg_dim1 + 1], &c__1,
+                9L);
             i__2 = *k + *n;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &xg[xg_offset], ldxg, &dwork[nb2 + 1], &c__1, &c_b7, &xg[(i__ + *nb) * xg_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &xg[xg_offset], ldxg, &dwork[nb2 + 1], &c__1,
+                &c_b7, &xg[(i__ + *nb) * xg_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xg[nb1 * xg_dim1 + 1], ldxg, &dwork[nb3 + 1], &c__1, &c_b7, &xg[(i__ + *nb) * xg_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xg[nb1 * xg_dim1 + 1], ldxg,
+                &dwork[nb3 + 1], &c__1, &c_b7, &xg[(i__ + *nb) * xg_dim1 + 1], &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yg[*k + i__ + 1 + yg_dim1], ldyg, &a[*k + i__ + 1 + i__ * a_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yg[*k + i__ + 1 + yg_dim1], ldyg,
+                &a[*k + i__ + 1 + i__ * a_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &dwork[pdw], &c__1, &c_b7, &xg[*k + i__ + 1 + (i__ + *nb) * xg_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &dwork[pdw],
+                &c__1, &c_b7, &xg[*k + i__ + 1 + (i__ + *nb) * xg_dim1], &c__1, 9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yg[*k + i__ + 1 + nb1 * yg_dim1], ldyg, &a[*k + i__ + 1 + i__ * a_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yg[*k + i__ + 1 + nb1 * yg_dim1], ldyg,
+                &a[*k + i__ + 1 + i__ * a_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No Transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + b_dim1], ldb, &dwork[pdw], &c__1, &c_b7, &xg[*k + i__ + 1 + (i__ + *nb) * xg_dim1], &c__1, 12L);
+            dgemv_("No Transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + b_dim1], ldb, &dwork[pdw],
+                &c__1, &c_b7, &xg[*k + i__ + 1 + (i__ + *nb) * xg_dim1], &c__1, 12L);
             i__2 = *k + *n;
             d__1 = -taul[i__];
             dscal_(&i__2, &d__1, &xg[(i__ + *nb) * xg_dim1 + 1], &c__1);
@@ -1811,30 +2291,39 @@ doublereal *csl, *csr, *taul, *taur, *dwork;
             /*           Update XB with second Householder reflection. */
             i__2 = *k + *n;
             i__3 = *n - i__ + 1;
-            dgemv_("No Transpose", &i__2, &i__3, &c_b7, &b[i__ * b_dim1 + 1], ldb, &a[*k + i__ + i__ * a_dim1], &c__1, &c_b9, &xb[(i__ + *nb) * xb_dim1 + 1], &c__1, 12L);
+            dgemv_("No Transpose", &i__2, &i__3, &c_b7, &b[i__ * b_dim1 + 1], ldb,
+                &a[*k + i__ + i__ * a_dim1], &c__1, &c_b9, &xb[(i__ + *nb) * xb_dim1 + 1], &c__1,
+                12L);
             i__2 = *k + *n;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &xb[xb_offset], ldxb, &dwork[nb2 + 1], &c__1, &c_b7, &xb[(i__ + *nb) * xb_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &xb[xb_offset], ldxb, &dwork[nb2 + 1], &c__1,
+                &c_b7, &xb[(i__ + *nb) * xb_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xb[nb1 * xb_dim1 + 1], ldxb, &dwork[nb3 + 1], &c__1, &c_b7, &xb[(i__ + *nb) * xb_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xb[nb1 * xb_dim1 + 1], ldxb,
+                &dwork[nb3 + 1], &c__1, &c_b7, &xb[(i__ + *nb) * xb_dim1 + 1], &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yb[i__ + 1 + yb_dim1], ldyb, &a[*k + i__ + 1 + i__ * a_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yb[i__ + 1 + yb_dim1], ldyb,
+                &a[*k + i__ + 1 + i__ * a_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &dwork[pdw], &c__1, &c_b7, &xb[*k + i__ + 1 + (i__ + *nb) * xb_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &dwork[pdw],
+                &c__1, &c_b7, &xb[*k + i__ + 1 + (i__ + *nb) * xb_dim1], &c__1, 9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yb[i__ + 1 + nb1 * yb_dim1], ldyb, &a[*k + i__ + 1 + i__ * a_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yb[i__ + 1 + nb1 * yb_dim1], ldyb,
+                &a[*k + i__ + 1 + i__ * a_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No Transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + b_dim1], ldb, &dwork[pdw], &c__1, &c_b7, &xb[*k + i__ + 1 + (i__ + *nb) * xb_dim1], &c__1, 12L);
+            dgemv_("No Transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + b_dim1], ldb, &dwork[pdw],
+                &c__1, &c_b7, &xb[*k + i__ + 1 + (i__ + *nb) * xb_dim1], &c__1, 12L);
             i__2 = *k + *n;
             d__1 = -taul[i__];
             dscal_(&i__2, &d__1, &xb[(i__ + *nb) * xb_dim1 + 1], &c__1);
             /*           Update B(:,i). */
             i__2 = *k + *n;
-            daxpy_(&i__2, &c_b7, &xb[(i__ + *nb) * xb_dim1 + 1], &c__1, &b[i__ * b_dim1 + 1], &c__1);
+            daxpy_(
+                &i__2, &c_b7, &xb[(i__ + *nb) * xb_dim1 + 1], &c__1, &b[i__ * b_dim1 + 1], &c__1);
             a[*k + i__ + i__ * a_dim1] = temp;
             q[i__ + i__ * q_dim1] = tauq;
             csl[(i__ << 1) - 1] = c__;
@@ -1845,564 +2334,752 @@ doublereal *csl, *csr, *taul, *taur, *dwork;
             dlarfg_(&i__2, &alpha, &q[i__ + (i__ + 2) * q_dim1], ldq, &tauq);
             q[i__ + (i__ + 1) * q_dim1] = 1.;
             i__2 = *n - i__;
-            temp = -tauq * ddot_(&i__2, &q[i__ + (i__ + 1) * q_dim1], ldq, &b[*k + i__ + 1 + i__ * b_dim1], &c__1);
+            temp = -tauq
+                * ddot_(&i__2, &q[i__ + (i__ + 1) * q_dim1], ldq, &b[*k + i__ + 1 + i__ * b_dim1],
+                      &c__1);
             i__2 = *n - i__;
-            daxpy_(&i__2, &temp, &q[i__ + (i__ + 1) * q_dim1], ldq, &b[*k + i__ + 1 + i__ * b_dim1], &c__1);
+            daxpy_(&i__2, &temp, &q[i__ + (i__ + 1) * q_dim1], ldq, &b[*k + i__ + 1 + i__ * b_dim1],
+                &c__1);
             temp = b[*k + i__ + 1 + i__ * b_dim1];
             dlartg_(&temp, &alpha, &c__, &s, &b[*k + i__ + 1 + i__ * b_dim1]);
             s = -s;
             i__2 = *n - i__;
-            dlarfg_(&i__2, &b[*k + i__ + 1 + i__ * b_dim1], &b[*k + i__ + 2 + i__ * b_dim1], &c__1, &taur[i__]);
+            dlarfg_(&i__2, &b[*k + i__ + 1 + i__ * b_dim1], &b[*k + i__ + 2 + i__ * b_dim1], &c__1,
+                &taur[i__]);
             temp = b[*k + i__ + 1 + i__ * b_dim1];
             b[*k + i__ + 1 + i__ * b_dim1] = 1.;
             /*           Update YB with first Householder reflection. */
             i__2 = *n - i__;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + (i__ + 1) * b_dim1], ldb, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yb[i__ + 1 + i__ * yb_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + (i__ + 1) * b_dim1], ldb,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yb[i__ + 1 + i__ * yb_dim1], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xb[*k + i__ + 1 + xb_dim1], ldxb, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yb[i__ * yb_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xb[*k + i__ + 1 + xb_dim1], ldxb,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yb[i__ * yb_dim1 + 1], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &yb[i__ * yb_dim1 + 1], &c__1, &c_b7, &yb[i__ + 1 + i__ * yb_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq,
+                &yb[i__ * yb_dim1 + 1], &c__1, &c_b7, &yb[i__ + 1 + i__ * yb_dim1], &c__1, 12L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xb[*k + i__ + 1 + nb1 * xb_dim1], ldxb, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yb[i__ * yb_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xb[*k + i__ + 1 + nb1 * xb_dim1], ldxb,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yb[i__ * yb_dim1 + 1], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &a[*k + i__ + 1 + a_dim1], lda, &yb[i__ * yb_dim1 + 1], &c__1, &c_b7, &yb[i__ + 1 + i__ * yb_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &a[*k + i__ + 1 + a_dim1], lda,
+                &yb[i__ * yb_dim1 + 1], &c__1, &c_b7, &yb[i__ + 1 + i__ * yb_dim1], &c__1, 12L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &dwork[1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &dwork[1], &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yb[i__ + 1 + yb_dim1], ldyb, &dwork[1], &c__1, &c_b7, &yb[i__ + 1 + i__ * yb_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yb[i__ + 1 + yb_dim1], ldyb, &dwork[1],
+                &c__1, &c_b7, &yb[i__ + 1 + i__ * yb_dim1], &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + b_dim1], ldb, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &dwork[*nb + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + b_dim1], ldb,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &dwork[*nb + 1], &c__1, 9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yb[i__ + 1 + nb1 * yb_dim1], ldyb, &dwork[*nb + 1], &c__1, &c_b7, &yb[i__ + 1 + i__ * yb_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yb[i__ + 1 + nb1 * yb_dim1], ldyb,
+                &dwork[*nb + 1], &c__1, &c_b7, &yb[i__ + 1 + i__ * yb_dim1], &c__1, 12L);
             i__2 = *n - i__;
             d__1 = -tauq;
             dscal_(&i__2, &d__1, &yb[i__ + 1 + i__ * yb_dim1], &c__1);
             /*           Update B(k+i+1,i+1:n). */
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &xb[*k + i__ + 1 + xb_dim1], ldxb, &c_b7, &b[*k + i__ + 1 + (i__ + 1) * b_dim1], ldb, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq,
+                &xb[*k + i__ + 1 + xb_dim1], ldxb, &c_b7, &b[*k + i__ + 1 + (i__ + 1) * b_dim1],
+                ldb, 12L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &a[*k + i__ + 1 + a_dim1], lda, &xb[*k + i__ + 1 + nb1 * xb_dim1], ldxb, &c_b7, &b[*k + i__ + 1 + (i__ + 1) * b_dim1], ldb, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &a[*k + i__ + 1 + a_dim1], lda,
+                &xb[*k + i__ + 1 + nb1 * xb_dim1], ldxb, &c_b7,
+                &b[*k + i__ + 1 + (i__ + 1) * b_dim1], ldb, 12L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &yb[i__ + 1 + yb_dim1], ldyb, &q[(i__ + 1) * q_dim1 + 1], &c__1, &c_b7, &b[*k + i__ + 1 + (i__ + 1) * b_dim1], ldb, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &yb[i__ + 1 + yb_dim1], ldyb,
+                &q[(i__ + 1) * q_dim1 + 1], &c__1, &c_b7, &b[*k + i__ + 1 + (i__ + 1) * b_dim1],
+                ldb, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yb[i__ + 1 + nb1 * yb_dim1], ldyb, &b[*k + i__ + 1 + b_dim1], ldb, &c_b7, &b[*k + i__ + 1 + (i__ + 1) * b_dim1], ldb, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yb[i__ + 1 + nb1 * yb_dim1], ldyb,
+                &b[*k + i__ + 1 + b_dim1], ldb, &c_b7, &b[*k + i__ + 1 + (i__ + 1) * b_dim1], ldb,
+                12L);
             /*           Update YQ with first Householder reflection. */
             i__2 = *n - i__;
             i__3 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &q[i__ + 1 + (i__ + 1) * q_dim1], ldq, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yq[i__ + 1 + i__ * yq_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &q[i__ + 1 + (i__ + 1) * q_dim1], ldq,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yq[i__ + 1 + i__ * yq_dim1], &c__1, 12L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xq[i__ + 1 + xq_dim1], ldxq, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yq[i__ * yq_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xq[i__ + 1 + xq_dim1], ldxq,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yq[i__ * yq_dim1 + 1], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &yq[i__ * yq_dim1 + 1], &c__1, &c_b7, &yq[i__ + 1 + i__ * yq_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq,
+                &yq[i__ * yq_dim1 + 1], &c__1, &c_b7, &yq[i__ + 1 + i__ * yq_dim1], &c__1, 12L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xq[i__ + 1 + nb1 * xq_dim1], ldxq, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yq[i__ * yq_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xq[i__ + 1 + nb1 * xq_dim1], ldxq,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yq[i__ * yq_dim1 + 1], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &a[*k + i__ + 1 + a_dim1], lda, &yq[i__ * yq_dim1 + 1], &c__1, &c_b7, &yq[i__ + 1 + i__ * yq_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &a[*k + i__ + 1 + a_dim1], lda,
+                &yq[i__ * yq_dim1 + 1], &c__1, &c_b7, &yq[i__ + 1 + i__ * yq_dim1], &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yq[i__ + 1 + yq_dim1], ldyq, &dwork[1], &c__1, &c_b7, &yq[i__ + 1 + i__ * yq_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yq[i__ + 1 + yq_dim1], ldyq, &dwork[1],
+                &c__1, &c_b7, &yq[i__ + 1 + i__ * yq_dim1], &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yq[i__ + 1 + nb1 * yq_dim1], ldyq, &dwork[*nb + 1], &c__1, &c_b7, &yq[i__ + 1 + i__ * yq_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yq[i__ + 1 + nb1 * yq_dim1], ldyq,
+                &dwork[*nb + 1], &c__1, &c_b7, &yq[i__ + 1 + i__ * yq_dim1], &c__1, 12L);
             i__2 = *n - i__;
             d__1 = -tauq;
             dscal_(&i__2, &d__1, &yq[i__ + 1 + i__ * yq_dim1], &c__1);
             /*           Update Q(i+1:n,i+1). */
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &xq[i__ + 1 + xq_dim1], ldxq, &c_b7, &q[i__ + 1 + (i__ + 1) * q_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq,
+                &xq[i__ + 1 + xq_dim1], ldxq, &c_b7, &q[i__ + 1 + (i__ + 1) * q_dim1], &c__1, 12L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &a[*k + i__ + 1 + a_dim1], lda, &xq[i__ + 1 + nb1 * xq_dim1], ldxq, &c_b7, &q[i__ + 1 + (i__ + 1) * q_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &a[*k + i__ + 1 + a_dim1], lda,
+                &xq[i__ + 1 + nb1 * xq_dim1], ldxq, &c_b7, &q[i__ + 1 + (i__ + 1) * q_dim1], &c__1,
+                12L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &yq[i__ + 1 + yq_dim1], ldyq, &q[(i__ + 1) * q_dim1 + 1], &c__1, &c_b7, &q[i__ + 1 + (i__ + 1) * q_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &yq[i__ + 1 + yq_dim1], ldyq,
+                &q[(i__ + 1) * q_dim1 + 1], &c__1, &c_b7, &q[i__ + 1 + (i__ + 1) * q_dim1], &c__1,
+                12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yq[i__ + 1 + nb1 * yq_dim1], ldyq, &b[*k + i__ + 1 + b_dim1], ldb, &c_b7, &q[i__ + 1 + (i__ + 1) * q_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yq[i__ + 1 + nb1 * yq_dim1], ldyq,
+                &b[*k + i__ + 1 + b_dim1], ldb, &c_b7, &q[i__ + 1 + (i__ + 1) * q_dim1], &c__1,
+                12L);
             /*           Apply rotation to [ Q(i+1:n,i+1), B(k+i+1,i+1:n)' ]. */
             i__2 = *n - i__;
-            drot_(&i__2, &q[i__ + 1 + (i__ + 1) * q_dim1], &c__1, &b[*k + i__ + 1 + (i__ + 1) * b_dim1], ldb, &c__, &s);
+            drot_(&i__2, &q[i__ + 1 + (i__ + 1) * q_dim1], &c__1,
+                &b[*k + i__ + 1 + (i__ + 1) * b_dim1], ldb, &c__, &s);
             i__2 = i__;
-            for (j = 1; j <= i__2; ++j)
-            {
+            for (j = 1; j <= i__2; ++j) {
                 xb[*k + i__ + 1 + j * xb_dim1] = 0.;
                 /* L230: */
             }
             i__2 = i__;
-            for (j = 1; j <= i__2; ++j)
-            {
+            for (j = 1; j <= i__2; ++j) {
                 xb[*k + i__ + 1 + (*nb + j) * xb_dim1] = 0.;
                 /* L240: */
             }
             /*           Update YB with second Householder reflection. */
             i__2 = *n - i__;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + (i__ + 1) * b_dim1], ldb, &b[*k + i__ + 1 + i__ * b_dim1], &c__1, &c_b9, &yb[i__ + 1 + (i__ + *nb) * yb_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 1 + (i__ + 1) * b_dim1], ldb,
+                &b[*k + i__ + 1 + i__ * b_dim1], &c__1, &c_b9, &yb[i__ + 1 + (i__ + *nb) * yb_dim1],
+                &c__1, 9L);
             i__2 = *n - i__ - 1;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xb[*k + i__ + 2 + xb_dim1], ldxb, &b[*k + i__ + 2 + i__ * b_dim1], &c__1, &c_b9, &yb[(i__ + *nb) * yb_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xb[*k + i__ + 2 + xb_dim1], ldxb,
+                &b[*k + i__ + 2 + i__ * b_dim1], &c__1, &c_b9, &yb[(i__ + *nb) * yb_dim1 + 1],
+                &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &yb[(i__ + *nb) * yb_dim1 + 1], &c__1, &c_b7, &yb[i__ + 1 + (i__ + *nb) * yb_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq,
+                &yb[(i__ + *nb) * yb_dim1 + 1], &c__1, &c_b7, &yb[i__ + 1 + (i__ + *nb) * yb_dim1],
+                &c__1, 12L);
             i__2 = *n - i__ - 1;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xb[*k + i__ + 2 + nb1 * xb_dim1], ldxb, &b[*k + i__ + 2 + i__ * b_dim1], &c__1, &c_b9, &yb[(i__ + *nb) * yb_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xb[*k + i__ + 2 + nb1 * xb_dim1], ldxb,
+                &b[*k + i__ + 2 + i__ * b_dim1], &c__1, &c_b9, &yb[(i__ + *nb) * yb_dim1 + 1],
+                &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &a[*k + i__ + 1 + a_dim1], lda, &yb[(i__ + *nb) * yb_dim1 + 1], &c__1, &c_b7, &yb[i__ + 1 + (i__ + *nb) * yb_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &a[*k + i__ + 1 + a_dim1], lda,
+                &yb[(i__ + *nb) * yb_dim1 + 1], &c__1, &c_b7, &yb[i__ + 1 + (i__ + *nb) * yb_dim1],
+                &c__1, 12L);
             i__2 = *n - i__ - 1;
-            dgemv_("No transpose", &i__, &i__2, &c_b7, &q[(i__ + 2) * q_dim1 + 1], ldq, &b[*k + i__ + 2 + i__ * b_dim1], &c__1, &c_b9, &dwork[nb2 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__, &i__2, &c_b7, &q[(i__ + 2) * q_dim1 + 1], ldq,
+                &b[*k + i__ + 2 + i__ * b_dim1], &c__1, &c_b9, &dwork[nb2 + 1], &c__1, 12L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &yb[i__ + 1 + yb_dim1], ldyb, &dwork[nb2 + 1], &c__1, &c_b7, &yb[i__ + 1 + (i__ + *nb) * yb_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &yb[i__ + 1 + yb_dim1], ldyb,
+                &dwork[nb2 + 1], &c__1, &c_b7, &yb[i__ + 1 + (i__ + *nb) * yb_dim1], &c__1, 12L);
             i__2 = *n - i__ - 1;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 2 + b_dim1], ldq, &b[*k + i__ + 2 + i__ * b_dim1], &c__1, &c_b9, &dwork[nb3 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[*k + i__ + 2 + b_dim1], ldq,
+                &b[*k + i__ + 2 + i__ * b_dim1], &c__1, &c_b9, &dwork[nb3 + 1], &c__1, 9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yb[i__ + 1 + nb1 * yb_dim1], ldyb, &dwork[nb3 + 1], &c__1, &c_b7, &yb[i__ + 1 + (i__ + *nb) * yb_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yb[i__ + 1 + nb1 * yb_dim1], ldyb,
+                &dwork[nb3 + 1], &c__1, &c_b7, &yb[i__ + 1 + (i__ + *nb) * yb_dim1], &c__1, 12L);
             i__2 = *n - i__;
             d__1 = -taur[i__];
             dscal_(&i__2, &d__1, &yb[i__ + 1 + (i__ + *nb) * yb_dim1], &c__1);
             /*           Update B(k+i+1,i+1:n). */
             i__2 = *n - i__;
-            daxpy_(&i__2, &c_b7, &yb[i__ + 1 + (i__ + *nb) * yb_dim1], &c__1, &b[*k + i__ + 1 + (i__ + 1) * b_dim1], ldb);
+            daxpy_(&i__2, &c_b7, &yb[i__ + 1 + (i__ + *nb) * yb_dim1], &c__1,
+                &b[*k + i__ + 1 + (i__ + 1) * b_dim1], ldb);
             /*           Update YQ with second Householder reflection. */
             i__2 = *n - i__;
             i__3 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &q[i__ + 1 + (i__ + 1) * q_dim1], ldq, &b[*k + i__ + 1 + i__ * b_dim1], &c__1, &c_b9, &yq[i__ + 1 + (i__ + *nb) * yq_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &q[i__ + 1 + (i__ + 1) * q_dim1], ldq,
+                &b[*k + i__ + 1 + i__ * b_dim1], &c__1, &c_b9, &yq[i__ + 1 + (i__ + *nb) * yq_dim1],
+                &c__1, 12L);
             i__2 = *n - i__ - 1;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xq[i__ + 2 + xq_dim1], ldxq, &b[*k + i__ + 2 + i__ * b_dim1], &c__1, &c_b9, &yq[(i__ + *nb) * yq_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xq[i__ + 2 + xq_dim1], ldxq,
+                &b[*k + i__ + 2 + i__ * b_dim1], &c__1, &c_b9, &yq[(i__ + *nb) * yq_dim1 + 1],
+                &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &yq[(i__ + *nb) * yq_dim1 + 1], &c__1, &c_b7, &yq[i__ + 1 + (i__ + *nb) * yq_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq,
+                &yq[(i__ + *nb) * yq_dim1 + 1], &c__1, &c_b7, &yq[i__ + 1 + (i__ + *nb) * yq_dim1],
+                &c__1, 12L);
             i__2 = *n - i__ - 1;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xq[i__ + 2 + nb1 * xq_dim1], ldxq, &b[*k + i__ + 2 + i__ * b_dim1], &c__1, &c_b9, &yq[(i__ + *nb) * yq_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xq[i__ + 2 + nb1 * xq_dim1], ldxq,
+                &b[*k + i__ + 2 + i__ * b_dim1], &c__1, &c_b9, &yq[(i__ + *nb) * yq_dim1 + 1],
+                &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &a[*k + i__ + 1 + a_dim1], lda, &yq[(i__ + *nb) * yq_dim1 + 1], &c__1, &c_b7, &yq[i__ + 1 + (i__ + *nb) * yq_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &a[*k + i__ + 1 + a_dim1], lda,
+                &yq[(i__ + *nb) * yq_dim1 + 1], &c__1, &c_b7, &yq[i__ + 1 + (i__ + *nb) * yq_dim1],
+                &c__1, 12L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &yq[i__ + 1 + yq_dim1], ldyq, &dwork[nb2 + 1], &c__1, &c_b7, &yq[i__ + 1 + (i__ + *nb) * yq_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &yq[i__ + 1 + yq_dim1], ldyq,
+                &dwork[nb2 + 1], &c__1, &c_b7, &yq[i__ + 1 + (i__ + *nb) * yq_dim1], &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yq[i__ + 1 + nb1 * yq_dim1], ldyq, &dwork[nb3 + 1], &c__1, &c_b7, &yq[i__ + 1 + (i__ + *nb) * yq_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yq[i__ + 1 + nb1 * yq_dim1], ldyq,
+                &dwork[nb3 + 1], &c__1, &c_b7, &yq[i__ + 1 + (i__ + *nb) * yq_dim1], &c__1, 12L);
             i__2 = *n - i__;
             d__1 = -taur[i__];
             dscal_(&i__2, &d__1, &yq[i__ + 1 + (i__ + *nb) * yq_dim1], &c__1);
             /*           Update Q(i+1:n,i+1). */
             i__2 = *n - i__;
-            daxpy_(&i__2, &c_b7, &yq[i__ + 1 + (i__ + *nb) * yq_dim1], &c__1, &q[i__ + 1 + (i__ + 1) * q_dim1], &c__1);
+            daxpy_(&i__2, &c_b7, &yq[i__ + 1 + (i__ + *nb) * yq_dim1], &c__1,
+                &q[i__ + 1 + (i__ + 1) * q_dim1], &c__1);
             /*           Update YA with first Householder reflection. */
             i__2 = *k + *n;
             i__3 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &a[(i__ + 1) * a_dim1 + 1], lda, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &ya[i__ * ya_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &a[(i__ + 1) * a_dim1 + 1], lda,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &ya[i__ * ya_dim1 + 1], &c__1, 12L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xa[i__ + 1 + xa_dim1], ldxa, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xa[i__ + 1 + xa_dim1], ldxa,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &dwork[pdw], &c__1, &c_b7, &ya[*k + i__ + 1 + i__ * ya_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &dwork[pdw],
+                &c__1, &c_b7, &ya[*k + i__ + 1 + i__ * ya_dim1], &c__1, 12L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xa[i__ + 1 + nb1 * xa_dim1], ldxa, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xa[i__ + 1 + nb1 * xa_dim1], ldxa,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &a[*k + i__ + 1 + a_dim1], lda, &dwork[pdw], &c__1, &c_b7, &ya[*k + i__ + 1 + i__ * ya_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &a[*k + i__ + 1 + a_dim1], lda, &dwork[pdw],
+                &c__1, &c_b7, &ya[*k + i__ + 1 + i__ * ya_dim1], &c__1, 12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &ya[ya_offset], ldya, &dwork[1], &c__1, &c_b7, &ya[i__ * ya_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &ya[ya_offset], ldya, &dwork[1], &c__1,
+                &c_b7, &ya[i__ * ya_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &ya[nb1 * ya_dim1 + 1], ldya, &dwork[*nb + 1], &c__1, &c_b7, &ya[i__ * ya_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &ya[nb1 * ya_dim1 + 1], ldya,
+                &dwork[*nb + 1], &c__1, &c_b7, &ya[i__ * ya_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             d__1 = -tauq;
             dscal_(&i__2, &d__1, &ya[i__ * ya_dim1 + 1], &c__1);
             /*           Update A(1:k+n,i+1). */
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &xa[i__ + 1 + xa_dim1], ldxa, &c_b7, &a[*k + i__ + 1 + (i__ + 1) * a_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq,
+                &xa[i__ + 1 + xa_dim1], ldxa, &c_b7, &a[*k + i__ + 1 + (i__ + 1) * a_dim1], &c__1,
+                12L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &a[*k + i__ + 1 + a_dim1], lda, &xa[i__ + 1 + nb1 * xa_dim1], ldxa, &c_b7, &a[*k + i__ + 1 + (i__ + 1) * a_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &a[*k + i__ + 1 + a_dim1], lda,
+                &xa[i__ + 1 + nb1 * xa_dim1], ldxa, &c_b7, &a[*k + i__ + 1 + (i__ + 1) * a_dim1],
+                &c__1, 12L);
             i__2 = *k + *n;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &ya[ya_offset], ldya, &q[(i__ + 1) * q_dim1 + 1], &c__1, &c_b7, &a[(i__ + 1) * a_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &ya[ya_offset], ldya,
+                &q[(i__ + 1) * q_dim1 + 1], &c__1, &c_b7, &a[(i__ + 1) * a_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &ya[nb1 * ya_dim1 + 1], ldya, &b[*k + i__ + 1 + b_dim1], ldb, &c_b7, &a[(i__ + 1) * a_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &ya[nb1 * ya_dim1 + 1], ldya,
+                &b[*k + i__ + 1 + b_dim1], ldb, &c_b7, &a[(i__ + 1) * a_dim1 + 1], &c__1, 12L);
             /*           Update YG with first Householder reflection. */
             i__2 = *k + *n;
             i__3 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &g[(*k + i__ + 1) * g_dim1 + 1], ldg, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yg[i__ * yg_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &g[(*k + i__ + 1) * g_dim1 + 1], ldg,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yg[i__ * yg_dim1 + 1], &c__1, 12L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xg[*k + i__ + 1 + xg_dim1], ldxg, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xg[*k + i__ + 1 + xg_dim1], ldxg,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &dwork[pdw], &c__1, &c_b7, &yg[*k + i__ + 1 + i__ * yg_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &dwork[pdw],
+                &c__1, &c_b7, &yg[*k + i__ + 1 + i__ * yg_dim1], &c__1, 12L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xg[*k + i__ + 1 + nb1 * xg_dim1], ldxg, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xg[*k + i__ + 1 + nb1 * xg_dim1], ldxg,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &a[*k + i__ + 1 + a_dim1], lda, &dwork[pdw], &c__1, &c_b7, &yg[*k + i__ + 1 + i__ * yg_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &a[*k + i__ + 1 + a_dim1], lda, &dwork[pdw],
+                &c__1, &c_b7, &yg[*k + i__ + 1 + i__ * yg_dim1], &c__1, 12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yg[yg_offset], ldyg, &dwork[1], &c__1, &c_b7, &yg[i__ * yg_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yg[yg_offset], ldyg, &dwork[1], &c__1,
+                &c_b7, &yg[i__ * yg_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yg[nb1 * yg_dim1 + 1], ldyg, &dwork[*nb + 1], &c__1, &c_b7, &yg[i__ * yg_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yg[nb1 * yg_dim1 + 1], ldyg,
+                &dwork[*nb + 1], &c__1, &c_b7, &yg[i__ * yg_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             d__1 = -tauq;
             dscal_(&i__2, &d__1, &yg[i__ * yg_dim1 + 1], &c__1);
             /*           Update G(1:k+n,k+i+1). */
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &xg[*k + i__ + 1 + xg_dim1], ldxg, &c_b7, &g[*k + i__ + 1 + (*k + i__ + 1) * g_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq,
+                &xg[*k + i__ + 1 + xg_dim1], ldxg, &c_b7,
+                &g[*k + i__ + 1 + (*k + i__ + 1) * g_dim1], &c__1, 12L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &a[*k + i__ + 1 + a_dim1], lda, &xg[*k + i__ + 1 + nb1 * xg_dim1], ldxg, &c_b7, &g[*k + i__ + 1 + (*k + i__ + 1) * g_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &a[*k + i__ + 1 + a_dim1], lda,
+                &xg[*k + i__ + 1 + nb1 * xg_dim1], ldxg, &c_b7,
+                &g[*k + i__ + 1 + (*k + i__ + 1) * g_dim1], &c__1, 12L);
             i__2 = *k + *n;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &yg[yg_offset], ldyg, &q[(i__ + 1) * q_dim1 + 1], &c__1, &c_b7, &g[(*k + i__ + 1) * g_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &yg[yg_offset], ldyg,
+                &q[(i__ + 1) * q_dim1 + 1], &c__1, &c_b7, &g[(*k + i__ + 1) * g_dim1 + 1], &c__1,
+                12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yg[nb1 * yg_dim1 + 1], ldyg, &b[*k + i__ + 1 + b_dim1], ldb, &c_b7, &g[(*k + i__ + 1) * g_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yg[nb1 * yg_dim1 + 1], ldyg,
+                &b[*k + i__ + 1 + b_dim1], ldb, &c_b7, &g[(*k + i__ + 1) * g_dim1 + 1], &c__1, 12L);
             i__2 = i__;
-            for (j = 1; j <= i__2; ++j)
-            {
+            for (j = 1; j <= i__2; ++j) {
                 xg[*k + i__ + 1 + j * xg_dim1] = 0.;
                 /* L250: */
             }
             i__2 = i__;
-            for (j = 1; j <= i__2; ++j)
-            {
+            for (j = 1; j <= i__2; ++j) {
                 xg[*k + i__ + 1 + (*nb + j) * xg_dim1] = 0.;
                 /* L260: */
             }
             /*           Apply rotation to [ A(1:k+n,i+1), G(1:k+n,k+i+1) ]. */
             i__2 = *k + *n;
-            drot_(&i__2, &a[(i__ + 1) * a_dim1 + 1], &c__1, &g[(*k + i__ + 1) * g_dim1 + 1], &c__1, &c__, &s);
+            drot_(&i__2, &a[(i__ + 1) * a_dim1 + 1], &c__1, &g[(*k + i__ + 1) * g_dim1 + 1], &c__1,
+                &c__, &s);
             /*           Update YA with second Householder reflection. */
             i__2 = *k + *n;
             i__3 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &a[(i__ + 1) * a_dim1 + 1], lda, &b[*k + i__ + 1 + i__ * b_dim1], &c__1, &c_b9, &ya[(i__ + *nb) * ya_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &a[(i__ + 1) * a_dim1 + 1], lda,
+                &b[*k + i__ + 1 + i__ * b_dim1], &c__1, &c_b9, &ya[(i__ + *nb) * ya_dim1 + 1],
+                &c__1, 12L);
             i__2 = *n - i__ - 1;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xa[i__ + 2 + xa_dim1], ldxa, &b[*k + i__ + 2 + i__ * b_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xa[i__ + 2 + xa_dim1], ldxa,
+                &b[*k + i__ + 2 + i__ * b_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &dwork[pdw], &c__1, &c_b7, &ya[*k + i__ + 1 + (i__ + *nb) * ya_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &dwork[pdw],
+                &c__1, &c_b7, &ya[*k + i__ + 1 + (i__ + *nb) * ya_dim1], &c__1, 12L);
             i__2 = *n - i__ - 1;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xa[i__ + 2 + nb1 * xa_dim1], ldxa, &b[*k + i__ + 2 + i__ * b_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xa[i__ + 2 + nb1 * xa_dim1], ldxa,
+                &b[*k + i__ + 2 + i__ * b_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &a[*k + i__ + 1 + a_dim1], lda, &dwork[pdw], &c__1, &c_b7, &ya[*k + i__ + 1 + (i__ + *nb) * ya_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &a[*k + i__ + 1 + a_dim1], lda, &dwork[pdw],
+                &c__1, &c_b7, &ya[*k + i__ + 1 + (i__ + *nb) * ya_dim1], &c__1, 12L);
             i__2 = *k + *n;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &ya[ya_offset], ldya, &dwork[nb2 + 1], &c__1, &c_b7, &ya[(i__ + *nb) * ya_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &ya[ya_offset], ldya, &dwork[nb2 + 1], &c__1,
+                &c_b7, &ya[(i__ + *nb) * ya_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &ya[nb1 * ya_dim1 + 1], ldya, &dwork[nb3 + 1], &c__1, &c_b7, &ya[(i__ + *nb) * ya_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &ya[nb1 * ya_dim1 + 1], ldya,
+                &dwork[nb3 + 1], &c__1, &c_b7, &ya[(i__ + *nb) * ya_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             d__1 = -taur[i__];
             dscal_(&i__2, &d__1, &ya[(i__ + *nb) * ya_dim1 + 1], &c__1);
             /*           Update A(1:k+n,i+1). */
             i__2 = *k + *n;
-            daxpy_(&i__2, &c_b7, &ya[(i__ + *nb) * ya_dim1 + 1], &c__1, &a[(i__ + 1) * a_dim1 + 1], &c__1);
+            daxpy_(&i__2, &c_b7, &ya[(i__ + *nb) * ya_dim1 + 1], &c__1, &a[(i__ + 1) * a_dim1 + 1],
+                &c__1);
             /*           Update YG with second Householder reflection. */
             i__2 = *k + *n;
             i__3 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &g[(*k + i__ + 1) * g_dim1 + 1], ldg, &b[*k + i__ + 1 + i__ * b_dim1], &c__1, &c_b9, &yg[(i__ + *nb) * yg_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &g[(*k + i__ + 1) * g_dim1 + 1], ldg,
+                &b[*k + i__ + 1 + i__ * b_dim1], &c__1, &c_b9, &yg[(i__ + *nb) * yg_dim1 + 1],
+                &c__1, 12L);
             i__2 = *n - i__ - 1;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xg[*k + i__ + 2 + xg_dim1], ldxg, &b[*k + i__ + 2 + i__ * b_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xg[*k + i__ + 2 + xg_dim1], ldxg,
+                &b[*k + i__ + 2 + i__ * b_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &dwork[pdw], &c__1, &c_b7, &yg[*k + i__ + 1 + (i__ + *nb) * yg_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &dwork[pdw],
+                &c__1, &c_b7, &yg[*k + i__ + 1 + (i__ + *nb) * yg_dim1], &c__1, 12L);
             i__2 = *n - i__ - 1;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xg[*k + i__ + 2 + nb1 * xg_dim1], ldxg, &b[*k + i__ + 2 + i__ * b_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xg[*k + i__ + 2 + nb1 * xg_dim1], ldxg,
+                &b[*k + i__ + 2 + i__ * b_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &a[*k + i__ + 1 + a_dim1], lda, &dwork[pdw], &c__1, &c_b7, &yg[*k + i__ + 1 + (i__ + *nb) * yg_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &a[*k + i__ + 1 + a_dim1], lda, &dwork[pdw],
+                &c__1, &c_b7, &yg[*k + i__ + 1 + (i__ + *nb) * yg_dim1], &c__1, 12L);
             i__2 = *k + *n;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &yg[yg_offset], ldyg, &dwork[nb2 + 1], &c__1, &c_b7, &yg[(i__ + *nb) * yg_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &yg[yg_offset], ldyg, &dwork[nb2 + 1], &c__1,
+                &c_b7, &yg[(i__ + *nb) * yg_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yg[nb1 * yg_dim1 + 1], ldyg, &dwork[nb3 + 1], &c__1, &c_b7, &yg[(i__ + *nb) * yg_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yg[nb1 * yg_dim1 + 1], ldyg,
+                &dwork[nb3 + 1], &c__1, &c_b7, &yg[(i__ + *nb) * yg_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             d__1 = -taur[i__];
             dscal_(&i__2, &d__1, &yg[(i__ + *nb) * yg_dim1 + 1], &c__1);
             /*           Update G(1:k+n,k+i+1). */
             i__2 = *k + *n;
-            daxpy_(&i__2, &c_b7, &yg[(i__ + *nb) * yg_dim1 + 1], &c__1, &g[(*k + i__ + 1) * g_dim1 + 1], &c__1);
+            daxpy_(&i__2, &c_b7, &yg[(i__ + *nb) * yg_dim1 + 1], &c__1,
+                &g[(*k + i__ + 1) * g_dim1 + 1], &c__1);
             b[*k + i__ + 1 + i__ * b_dim1] = temp;
             q[i__ + (i__ + 1) * q_dim1] = tauq;
             csr[(i__ << 1) - 1] = c__;
             csr[i__ * 2] = s;
             /* L270: */
         }
-    }
-    else
-    {
+    } else {
         i__1 = *nb;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             /*           Transform first columns of A and Q. See routine MB04TS. */
             alpha = q[i__ + i__ * q_dim1];
             i__2 = *n - i__ + 1;
             dlarfg_(&i__2, &alpha, &q[i__ + 1 + i__ * q_dim1], &c__1, &tauq);
             q[i__ + i__ * q_dim1] = 1.;
             i__2 = *n - i__ + 1;
-            temp = -tauq * ddot_(&i__2, &q[i__ + i__ * q_dim1], &c__1, &a[*k + i__ + i__ * a_dim1], &c__1);
+            temp = -tauq
+                * ddot_(&i__2, &q[i__ + i__ * q_dim1], &c__1, &a[*k + i__ + i__ * a_dim1], &c__1);
             i__2 = *n - i__ + 1;
             daxpy_(&i__2, &temp, &q[i__ + i__ * q_dim1], &c__1, &a[*k + i__ + i__ * a_dim1], &c__1);
             temp = a[*k + i__ + i__ * a_dim1];
             dlartg_(&temp, &alpha, &c__, &s, &a[*k + i__ + i__ * a_dim1]);
             i__2 = *n - i__ + 1;
-            dlarfg_(&i__2, &a[*k + i__ + i__ * a_dim1], &a[*k + i__ + 1 + i__ * a_dim1], &c__1, &taul[i__]);
+            dlarfg_(&i__2, &a[*k + i__ + i__ * a_dim1], &a[*k + i__ + 1 + i__ * a_dim1], &c__1,
+                &taul[i__]);
             temp = a[*k + i__ + i__ * a_dim1];
             a[*k + i__ + i__ * a_dim1] = 1.;
             /*           Update XQ with first Householder reflection. */
             i__2 = *n - i__ + 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[i__ + (i__ + 1) * q_dim1], ldq, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xq[i__ + 1 + i__ * xq_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[i__ + (i__ + 1) * q_dim1], ldq,
+                &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xq[i__ + 1 + i__ * xq_dim1], &c__1, 9L);
             i__2 = *n - i__ + 1;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[i__ + q_dim1], ldq, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &dwork[1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[i__ + q_dim1], ldq, &q[i__ + i__ * q_dim1],
+                &c__1, &c_b9, &dwork[1], &c__1, 9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xq[i__ + 1 + xq_dim1], ldxq, &dwork[1], &c__1, &c_b7, &xq[i__ + 1 + i__ * xq_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xq[i__ + 1 + xq_dim1], ldxq, &dwork[1],
+                &c__1, &c_b7, &xq[i__ + 1 + i__ * xq_dim1], &c__1, 12L);
             i__2 = *n - i__ + 1;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &a[*k + i__ + a_dim1], lda, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &dwork[*nb + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &a[*k + i__ + a_dim1], lda,
+                &q[i__ + i__ * q_dim1], &c__1, &c_b9, &dwork[*nb + 1], &c__1, 9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xq[i__ + 1 + nb1 * xq_dim1], ldxq, &dwork[*nb + 1], &c__1, &c_b7, &xq[i__ + 1 + i__ * xq_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xq[i__ + 1 + nb1 * xq_dim1], ldxq,
+                &dwork[*nb + 1], &c__1, &c_b7, &xq[i__ + 1 + i__ * xq_dim1], &c__1, 12L);
             i__2 = *n - i__ + 1;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yq[i__ + yq_dim1], ldyq, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xq[i__ * xq_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yq[i__ + yq_dim1], ldyq,
+                &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xq[i__ * xq_dim1 + 1], &c__1, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &xq[i__ * xq_dim1 + 1], &c__1, &c_b7, &xq[i__ + 1 + i__ * xq_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq,
+                &xq[i__ * xq_dim1 + 1], &c__1, &c_b7, &xq[i__ + 1 + i__ * xq_dim1], &c__1, 9L);
             i__2 = *n - i__ + 1;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yq[i__ + nb1 * yq_dim1], ldyq, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xq[(i__ + *nb) * xq_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yq[i__ + nb1 * yq_dim1], ldyq,
+                &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xq[(i__ + *nb) * xq_dim1 + 1], &c__1, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 1) * b_dim1 + 1], ldb, &xq[(i__ + *nb) * xq_dim1 + 1], &c__1, &c_b7, &xq[i__ + 1 + i__ * xq_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 1) * b_dim1 + 1], ldb,
+                &xq[(i__ + *nb) * xq_dim1 + 1], &c__1, &c_b7, &xq[i__ + 1 + i__ * xq_dim1], &c__1,
+                9L);
             i__2 = *n - i__;
             d__1 = -tauq;
             dscal_(&i__2, &d__1, &xq[i__ + 1 + i__ * xq_dim1], &c__1);
             /*           Update Q(i,i+1:n). */
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &xq[i__ + 1 + xq_dim1], ldxq, &q[i__ + q_dim1], ldq, &c_b7, &q[i__ + (i__ + 1) * q_dim1], ldq, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &xq[i__ + 1 + xq_dim1], ldxq,
+                &q[i__ + q_dim1], ldq, &c_b7, &q[i__ + (i__ + 1) * q_dim1], ldq, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xq[i__ + 1 + nb1 * xq_dim1], ldxq, &a[*k + i__ + a_dim1], lda, &c_b7, &q[i__ + (i__ + 1) * q_dim1], ldq, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xq[i__ + 1 + nb1 * xq_dim1], ldxq,
+                &a[*k + i__ + a_dim1], lda, &c_b7, &q[i__ + (i__ + 1) * q_dim1], ldq, 12L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &yq[i__ + yq_dim1], ldyq, &c_b7, &q[i__ + (i__ + 1) * q_dim1], ldq, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq,
+                &yq[i__ + yq_dim1], ldyq, &c_b7, &q[i__ + (i__ + 1) * q_dim1], ldq, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 1) * b_dim1 + 1], ldb, &yq[i__ + nb1 * yq_dim1], ldyq, &c_b7, &q[i__ + (i__ + 1) * q_dim1], ldq, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 1) * b_dim1 + 1], ldb,
+                &yq[i__ + nb1 * yq_dim1], ldyq, &c_b7, &q[i__ + (i__ + 1) * q_dim1], ldq, 9L);
             /*           Update XA with first Householder reflection. */
             i__2 = *n - i__ + 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &a[*k + i__ + (i__ + 1) * a_dim1], lda, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xa[i__ + 1 + i__ * xa_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &a[*k + i__ + (i__ + 1) * a_dim1], lda,
+                &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xa[i__ + 1 + i__ * xa_dim1], &c__1, 9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xa[i__ + 1 + xa_dim1], ldxa, &dwork[1], &c__1, &c_b7, &xa[i__ + 1 + i__ * xa_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xa[i__ + 1 + xa_dim1], ldxa, &dwork[1],
+                &c__1, &c_b7, &xa[i__ + 1 + i__ * xa_dim1], &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xa[i__ + 1 + nb1 * xa_dim1], ldxa, &dwork[*nb + 1], &c__1, &c_b7, &xa[i__ + 1 + i__ * xa_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xa[i__ + 1 + nb1 * xa_dim1], ldxa,
+                &dwork[*nb + 1], &c__1, &c_b7, &xa[i__ + 1 + i__ * xa_dim1], &c__1, 12L);
             i__2 = *n - i__ + 1;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &ya[*k + i__ + ya_dim1], ldya, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xa[i__ * xa_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &ya[*k + i__ + ya_dim1], ldya,
+                &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xa[i__ * xa_dim1 + 1], &c__1, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &xa[i__ * xa_dim1 + 1], &c__1, &c_b7, &xa[i__ + 1 + i__ * xa_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq,
+                &xa[i__ * xa_dim1 + 1], &c__1, &c_b7, &xa[i__ + 1 + i__ * xa_dim1], &c__1, 9L);
             i__2 = *n - i__ + 1;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &ya[*k + i__ + nb1 * ya_dim1], ldya, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xa[i__ * xa_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &ya[*k + i__ + nb1 * ya_dim1], ldya,
+                &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xa[i__ * xa_dim1 + 1], &c__1, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 1) * b_dim1 + 1], ldb, &xa[i__ * xa_dim1 + 1], &c__1, &c_b7, &xa[i__ + 1 + i__ * xa_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 1) * b_dim1 + 1], ldb,
+                &xa[i__ * xa_dim1 + 1], &c__1, &c_b7, &xa[i__ + 1 + i__ * xa_dim1], &c__1, 9L);
             i__2 = *n - i__;
             d__1 = -tauq;
             dscal_(&i__2, &d__1, &xa[i__ + 1 + i__ * xa_dim1], &c__1);
             /*           Update A(k+i,i+1:n). */
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &xa[i__ + 1 + xa_dim1], ldxa, &q[i__ + q_dim1], ldq, &c_b7, &a[*k + i__ + (i__ + 1) * a_dim1], lda, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &xa[i__ + 1 + xa_dim1], ldxa,
+                &q[i__ + q_dim1], ldq, &c_b7, &a[*k + i__ + (i__ + 1) * a_dim1], lda, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xa[i__ + 1 + nb1 * xa_dim1], ldxa, &a[*k + i__ + a_dim1], lda, &c_b7, &a[*k + i__ + (i__ + 1) * a_dim1], lda, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xa[i__ + 1 + nb1 * xa_dim1], ldxa,
+                &a[*k + i__ + a_dim1], lda, &c_b7, &a[*k + i__ + (i__ + 1) * a_dim1], lda, 12L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &ya[*k + i__ + ya_dim1], ldya, &c_b7, &a[*k + i__ + (i__ + 1) * a_dim1], lda, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq,
+                &ya[*k + i__ + ya_dim1], ldya, &c_b7, &a[*k + i__ + (i__ + 1) * a_dim1], lda, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 1) * b_dim1 + 1], ldb, &ya[*k + i__ + nb1 * ya_dim1], ldya, &c_b7, &a[*k + i__ + (i__ + 1) * a_dim1], lda, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 1) * b_dim1 + 1], ldb,
+                &ya[*k + i__ + nb1 * ya_dim1], ldya, &c_b7, &a[*k + i__ + (i__ + 1) * a_dim1], lda,
+                9L);
             /*           Apply rotation to [ A(k+i,i+1:n); Q(i,i+1:n) ]. */
             i__2 = *n - i__;
-            drot_(&i__2, &a[*k + i__ + (i__ + 1) * a_dim1], lda, &q[i__ + (i__ + 1) * q_dim1], ldq, &c__, &s);
+            drot_(&i__2, &a[*k + i__ + (i__ + 1) * a_dim1], lda, &q[i__ + (i__ + 1) * q_dim1], ldq,
+                &c__, &s);
             /*           Update XQ with second Householder reflection. */
             i__2 = *n - i__ + 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[i__ + (i__ + 1) * q_dim1], ldq, &a[*k + i__ + i__ * a_dim1], &c__1, &c_b9, &xq[i__ + 1 + (i__ + *nb) * xq_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[i__ + (i__ + 1) * q_dim1], ldq,
+                &a[*k + i__ + i__ * a_dim1], &c__1, &c_b9, &xq[i__ + 1 + (i__ + *nb) * xq_dim1],
+                &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &a[*k + i__ + 1 + i__ * a_dim1], &c__1, &c_b9, &dwork[nb2 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq,
+                &a[*k + i__ + 1 + i__ * a_dim1], &c__1, &c_b9, &dwork[nb2 + 1], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &xq[i__ + 1 + xq_dim1], ldxq, &dwork[nb2 + 1], &c__1, &c_b7, &xq[i__ + 1 + (i__ + *nb) * xq_dim1], &c__1, 12L);
-            i__2 = *n - i__;
-            i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &a[*k + i__ + 1 + a_dim1], lda, &a[*k + i__ + 1 + i__ * a_dim1], &c__1, &c_b9, &dwork[nb3 + 1], &c__1, 9L);
-            i__2 = *n - i__;
-            i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xq[i__ + 1 + nb1 * xq_dim1], ldxq, &dwork[nb3 + 1], &c__1, &c_b7, &xq[i__ + 1 + (i__ + *nb) * xq_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &xq[i__ + 1 + xq_dim1], ldxq,
+                &dwork[nb2 + 1], &c__1, &c_b7, &xq[i__ + 1 + (i__ + *nb) * xq_dim1], &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yq[i__ + 1 + yq_dim1], ldyq, &a[*k + i__ + 1 + i__ * a_dim1], &c__1, &c_b9, &xq[(i__ + *nb) * xq_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &a[*k + i__ + 1 + a_dim1], lda,
+                &a[*k + i__ + 1 + i__ * a_dim1], &c__1, &c_b9, &dwork[nb3 + 1], &c__1, 9L);
+            i__2 = *n - i__;
+            i__3 = i__ - 1;
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xq[i__ + 1 + nb1 * xq_dim1], ldxq,
+                &dwork[nb3 + 1], &c__1, &c_b7, &xq[i__ + 1 + (i__ + *nb) * xq_dim1], &c__1, 12L);
+            i__2 = *n - i__;
+            i__3 = i__ - 1;
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yq[i__ + 1 + yq_dim1], ldyq,
+                &a[*k + i__ + 1 + i__ * a_dim1], &c__1, &c_b9, &xq[(i__ + *nb) * xq_dim1 + 1],
+                &c__1, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &xq[(i__ + *nb) * xq_dim1 + 1], &c__1, &c_b7, &xq[i__ + 1 + (i__ + *nb) * xq_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq,
+                &xq[(i__ + *nb) * xq_dim1 + 1], &c__1, &c_b7, &xq[i__ + 1 + (i__ + *nb) * xq_dim1],
+                &c__1, 9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yq[i__ + 1 + nb1 * yq_dim1], ldyq, &a[*k + i__ + 1 + i__ * a_dim1], &c__1, &c_b9, &xq[(i__ + *nb) * xq_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yq[i__ + 1 + nb1 * yq_dim1], ldyq,
+                &a[*k + i__ + 1 + i__ * a_dim1], &c__1, &c_b9, &xq[(i__ + *nb) * xq_dim1 + 1],
+                &c__1, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 1) * b_dim1 + 1], ldb, &xq[(i__ + *nb) * xq_dim1 + 1], &c__1, &c_b7, &xq[i__ + 1 + (i__ + *nb) * xq_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 1) * b_dim1 + 1], ldb,
+                &xq[(i__ + *nb) * xq_dim1 + 1], &c__1, &c_b7, &xq[i__ + 1 + (i__ + *nb) * xq_dim1],
+                &c__1, 9L);
             i__2 = *n - i__;
             d__1 = -taul[i__];
             dscal_(&i__2, &d__1, &xq[i__ + 1 + (i__ + *nb) * xq_dim1], &c__1);
             /*           Update Q(i,i+1:n). */
             i__2 = *n - i__;
-            daxpy_(&i__2, &c_b7, &xq[i__ + 1 + (i__ + *nb) * xq_dim1], &c__1, &q[i__ + (i__ + 1) * q_dim1], ldq);
+            daxpy_(&i__2, &c_b7, &xq[i__ + 1 + (i__ + *nb) * xq_dim1], &c__1,
+                &q[i__ + (i__ + 1) * q_dim1], ldq);
             /*           Update XA with second Householder reflection. */
             i__2 = *n - i__ + 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &a[*k + i__ + (i__ + 1) * a_dim1], lda, &a[*k + i__ + i__ * a_dim1], &c__1, &c_b9, &xa[i__ + 1 + (i__ + *nb) * xa_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &a[*k + i__ + (i__ + 1) * a_dim1], lda,
+                &a[*k + i__ + i__ * a_dim1], &c__1, &c_b9, &xa[i__ + 1 + (i__ + *nb) * xa_dim1],
+                &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &xa[i__ + 1 + xa_dim1], ldxa, &dwork[nb2 + 1], &c__1, &c_b7, &xa[i__ + 1 + (i__ + *nb) * xa_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &xa[i__ + 1 + xa_dim1], ldxa,
+                &dwork[nb2 + 1], &c__1, &c_b7, &xa[i__ + 1 + (i__ + *nb) * xa_dim1], &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xa[i__ + 1 + nb1 * xa_dim1], ldxa, &dwork[nb3 + 1], &c__1, &c_b7, &xa[i__ + 1 + (i__ + *nb) * xa_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xa[i__ + 1 + nb1 * xa_dim1], ldxa,
+                &dwork[nb3 + 1], &c__1, &c_b7, &xa[i__ + 1 + (i__ + *nb) * xa_dim1], &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &ya[*k + i__ + 1 + ya_dim1], ldya, &a[*k + i__ + 1 + i__ * a_dim1], &c__1, &c_b9, &xa[(i__ + *nb) * xa_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &ya[*k + i__ + 1 + ya_dim1], ldya,
+                &a[*k + i__ + 1 + i__ * a_dim1], &c__1, &c_b9, &xa[(i__ + *nb) * xa_dim1 + 1],
+                &c__1, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &xa[(i__ + *nb) * xa_dim1 + 1], &c__1, &c_b7, &xa[i__ + 1 + (i__ + *nb) * xa_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq,
+                &xa[(i__ + *nb) * xa_dim1 + 1], &c__1, &c_b7, &xa[i__ + 1 + (i__ + *nb) * xa_dim1],
+                &c__1, 9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &ya[*k + i__ + 1 + nb1 * ya_dim1], ldya, &a[*k + i__ + 1 + i__ * a_dim1], &c__1, &c_b9, &xa[(i__ + *nb) * xa_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &ya[*k + i__ + 1 + nb1 * ya_dim1], ldya,
+                &a[*k + i__ + 1 + i__ * a_dim1], &c__1, &c_b9, &xa[(i__ + *nb) * xa_dim1 + 1],
+                &c__1, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 1) * b_dim1 + 1], ldb, &xa[(i__ + *nb) * xa_dim1 + 1], &c__1, &c_b7, &xa[i__ + 1 + (i__ + *nb) * xa_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 1) * b_dim1 + 1], ldb,
+                &xa[(i__ + *nb) * xa_dim1 + 1], &c__1, &c_b7, &xa[i__ + 1 + (i__ + *nb) * xa_dim1],
+                &c__1, 9L);
             i__2 = *n - i__;
             d__1 = -taul[i__];
             dscal_(&i__2, &d__1, &xa[i__ + 1 + (i__ + *nb) * xa_dim1], &c__1);
             /*           Update A(k+i,i+1:n). */
             i__2 = *n - i__;
-            daxpy_(&i__2, &c_b7, &xa[i__ + 1 + (i__ + *nb) * xa_dim1], &c__1, &a[*k + i__ + (i__ + 1) * a_dim1], lda);
+            daxpy_(&i__2, &c_b7, &xa[i__ + 1 + (i__ + *nb) * xa_dim1], &c__1,
+                &a[*k + i__ + (i__ + 1) * a_dim1], lda);
             /*           Update XG with first Householder reflection. */
             i__2 = *n - i__ + 1;
             i__3 = *k + *n;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &g[*k + i__ + g_dim1], ldg, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xg[i__ * xg_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &g[*k + i__ + g_dim1], ldg,
+                &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xg[i__ * xg_dim1 + 1], &c__1, 9L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xg[xg_offset], ldxg, &dwork[1], &c__1, &c_b7, &xg[i__ * xg_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xg[xg_offset], ldxg, &dwork[1], &c__1,
+                &c_b7, &xg[i__ * xg_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xg[nb1 * xg_dim1 + 1], ldxg, &dwork[*nb + 1], &c__1, &c_b7, &xg[i__ * xg_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xg[nb1 * xg_dim1 + 1], ldxg,
+                &dwork[*nb + 1], &c__1, &c_b7, &xg[i__ * xg_dim1 + 1], &c__1, 12L);
             i__2 = *n - i__ + 1;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yg[*k + i__ + yg_dim1], ldyg, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yg[*k + i__ + yg_dim1], ldyg,
+                &q[i__ + i__ * q_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &dwork[pdw], &c__1, &c_b7, &xg[*k + i__ + 1 + i__ * xg_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &dwork[pdw],
+                &c__1, &c_b7, &xg[*k + i__ + 1 + i__ * xg_dim1], &c__1, 9L);
             i__2 = *n - i__ + 1;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yg[*k + i__ + nb1 * yg_dim1], ldyg, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yg[*k + i__ + nb1 * yg_dim1], ldyg,
+                &q[i__ + i__ * q_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 1) * b_dim1 + 1], ldb, &dwork[pdw], &c__1, &c_b7, &xg[*k + i__ + 1 + i__ * xg_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 1) * b_dim1 + 1], ldb,
+                &dwork[pdw], &c__1, &c_b7, &xg[*k + i__ + 1 + i__ * xg_dim1], &c__1, 9L);
             i__2 = *k + *n;
             d__1 = -tauq;
             dscal_(&i__2, &d__1, &xg[i__ * xg_dim1 + 1], &c__1);
             /*           Update G(k+i,:). */
             i__2 = *k + *n;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &xg[xg_offset], ldxg, &q[i__ + q_dim1], ldq, &c_b7, &g[*k + i__ + g_dim1], ldg, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &xg[xg_offset], ldxg, &q[i__ + q_dim1], ldq,
+                &c_b7, &g[*k + i__ + g_dim1], ldg, 12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xg[nb1 * xg_dim1 + 1], ldxg, &a[*k + i__ + a_dim1], lda, &c_b7, &g[*k + i__ + g_dim1], ldg, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xg[nb1 * xg_dim1 + 1], ldxg,
+                &a[*k + i__ + a_dim1], lda, &c_b7, &g[*k + i__ + g_dim1], ldg, 12L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &yg[*k + i__ + yg_dim1], ldyg, &c_b7, &g[*k + i__ + (*k + i__ + 1) * g_dim1], ldg, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq,
+                &yg[*k + i__ + yg_dim1], ldyg, &c_b7, &g[*k + i__ + (*k + i__ + 1) * g_dim1], ldg,
+                9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 1) * b_dim1 + 1], ldb, &yg[*k + i__ + nb1 * yg_dim1], ldyg, &c_b7, &g[*k + i__ + (*k + i__ + 1) * g_dim1], ldg, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 1) * b_dim1 + 1], ldb,
+                &yg[*k + i__ + nb1 * yg_dim1], ldyg, &c_b7, &g[*k + i__ + (*k + i__ + 1) * g_dim1],
+                ldg, 9L);
             /*           Update XB with first Householder reflection. */
             i__2 = *n - i__ + 1;
             i__3 = *k + *n;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[i__ + b_dim1], ldb, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &xb[i__ * xb_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[i__ + b_dim1], ldb, &q[i__ + i__ * q_dim1],
+                &c__1, &c_b9, &xb[i__ * xb_dim1 + 1], &c__1, 9L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xb[xb_offset], ldxb, &dwork[1], &c__1, &c_b7, &xb[i__ * xb_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xb[xb_offset], ldxb, &dwork[1], &c__1,
+                &c_b7, &xb[i__ * xb_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xb[nb1 * xb_dim1 + 1], ldxb, &dwork[*nb + 1], &c__1, &c_b7, &xb[i__ * xb_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xb[nb1 * xb_dim1 + 1], ldxb,
+                &dwork[*nb + 1], &c__1, &c_b7, &xb[i__ * xb_dim1 + 1], &c__1, 12L);
             i__2 = *n - i__ + 1;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yb[i__ + yb_dim1], ldyb, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yb[i__ + yb_dim1], ldyb,
+                &q[i__ + i__ * q_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &dwork[pdw], &c__1, &c_b7, &xb[*k + i__ + 1 + i__ * xb_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &dwork[pdw],
+                &c__1, &c_b7, &xb[*k + i__ + 1 + i__ * xb_dim1], &c__1, 9L);
             i__2 = *n - i__ + 1;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yb[i__ + nb1 * yb_dim1], ldyb, &q[i__ + i__ * q_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yb[i__ + nb1 * yb_dim1], ldyb,
+                &q[i__ + i__ * q_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 1) * b_dim1 + 1], ldb, &dwork[pdw], &c__1, &c_b7, &xb[*k + i__ + 1 + i__ * xb_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 1) * b_dim1 + 1], ldb,
+                &dwork[pdw], &c__1, &c_b7, &xb[*k + i__ + 1 + i__ * xb_dim1], &c__1, 9L);
             i__2 = *k + *n;
             d__1 = -tauq;
             dscal_(&i__2, &d__1, &xb[i__ * xb_dim1 + 1], &c__1);
             /*           Update B(i,:). */
             i__2 = *k + *n;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &xb[xb_offset], ldxb, &q[i__ + q_dim1], ldq, &c_b7, &b[i__ + b_dim1], ldb, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &xb[xb_offset], ldxb, &q[i__ + q_dim1], ldq,
+                &c_b7, &b[i__ + b_dim1], ldb, 12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xb[nb1 * xb_dim1 + 1], ldxb, &a[*k + i__ + a_dim1], lda, &c_b7, &b[i__ + b_dim1], ldb, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xb[nb1 * xb_dim1 + 1], ldxb,
+                &a[*k + i__ + a_dim1], lda, &c_b7, &b[i__ + b_dim1], ldb, 12L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &yb[i__ + yb_dim1], ldyb, &c_b7, &b[i__ + (*k + i__ + 1) * b_dim1], ldb, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq,
+                &yb[i__ + yb_dim1], ldyb, &c_b7, &b[i__ + (*k + i__ + 1) * b_dim1], ldb, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 1) * b_dim1 + 1], ldb, &yb[i__ + nb1 * yb_dim1], ldyb, &c_b7, &b[i__ + (*k + i__ + 1) * b_dim1], ldb, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 1) * b_dim1 + 1], ldb,
+                &yb[i__ + nb1 * yb_dim1], ldyb, &c_b7, &b[i__ + (*k + i__ + 1) * b_dim1], ldb, 9L);
             /*           Apply rotation to [ G(k+i,:); B(i,:) ]. */
             i__2 = *k + *n;
             drot_(&i__2, &g[*k + i__ + g_dim1], ldg, &b[i__ + b_dim1], ldb, &c__, &s);
             i__2 = i__ - 1;
-            for (j = 1; j <= i__2; ++j)
-            {
+            for (j = 1; j <= i__2; ++j) {
                 yg[*k + i__ + j * yg_dim1] = 0.;
                 /* L280: */
             }
             i__2 = i__ - 1;
-            for (j = 1; j <= i__2; ++j)
-            {
+            for (j = 1; j <= i__2; ++j) {
                 yg[*k + i__ + (*nb + j) * yg_dim1] = 0.;
                 /* L290: */
             }
             i__2 = i__ - 1;
-            for (j = 1; j <= i__2; ++j)
-            {
+            for (j = 1; j <= i__2; ++j) {
                 ya[*k + i__ + j * ya_dim1] = 0.;
                 /* L300: */
             }
             i__2 = i__ - 1;
-            for (j = 1; j <= i__2; ++j)
-            {
+            for (j = 1; j <= i__2; ++j) {
                 ya[*k + i__ + (*nb + j) * ya_dim1] = 0.;
                 /* L310: */
             }
             /*           Update XG with second Householder reflection. */
             i__2 = *n - i__ + 1;
             i__3 = *k + *n;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &g[*k + i__ + g_dim1], ldg, &a[*k + i__ + i__ * a_dim1], &c__1, &c_b9, &xg[(i__ + *nb) * xg_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &g[*k + i__ + g_dim1], ldg,
+                &a[*k + i__ + i__ * a_dim1], &c__1, &c_b9, &xg[(i__ + *nb) * xg_dim1 + 1], &c__1,
+                9L);
             i__2 = *k + *n;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &xg[xg_offset], ldxg, &dwork[nb2 + 1], &c__1, &c_b7, &xg[(i__ + *nb) * xg_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &xg[xg_offset], ldxg, &dwork[nb2 + 1], &c__1,
+                &c_b7, &xg[(i__ + *nb) * xg_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xg[nb1 * xg_dim1 + 1], ldxg, &dwork[nb3 + 1], &c__1, &c_b7, &xg[(i__ + *nb) * xg_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xg[nb1 * xg_dim1 + 1], ldxg,
+                &dwork[nb3 + 1], &c__1, &c_b7, &xg[(i__ + *nb) * xg_dim1 + 1], &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yg[*k + i__ + 1 + yg_dim1], ldyg, &a[*k + i__ + 1 + i__ * a_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yg[*k + i__ + 1 + yg_dim1], ldyg,
+                &a[*k + i__ + 1 + i__ * a_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &dwork[pdw], &c__1, &c_b7, &xg[*k + i__ + 1 + (i__ + *nb) * xg_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &dwork[pdw],
+                &c__1, &c_b7, &xg[*k + i__ + 1 + (i__ + *nb) * xg_dim1], &c__1, 9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yg[*k + i__ + 1 + nb1 * yg_dim1], ldyg, &a[*k + i__ + 1 + i__ * a_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yg[*k + i__ + 1 + nb1 * yg_dim1], ldyg,
+                &a[*k + i__ + 1 + i__ * a_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 1) * b_dim1 + 1], ldb, &dwork[pdw], &c__1, &c_b7, &xg[*k + i__ + 1 + (i__ + *nb) * xg_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 1) * b_dim1 + 1], ldb,
+                &dwork[pdw], &c__1, &c_b7, &xg[*k + i__ + 1 + (i__ + *nb) * xg_dim1], &c__1, 9L);
             i__2 = *k + *n;
             d__1 = -taul[i__];
             dscal_(&i__2, &d__1, &xg[(i__ + *nb) * xg_dim1 + 1], &c__1);
@@ -2412,24 +3089,32 @@ doublereal *csl, *csr, *taul, *taur, *dwork;
             /*           Update XB with second Householder reflection. */
             i__2 = *n - i__ + 1;
             i__3 = *k + *n;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[i__ + b_dim1], ldb, &a[*k + i__ + i__ * a_dim1], &c__1, &c_b9, &xb[(i__ + *nb) * xb_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[i__ + b_dim1], ldb,
+                &a[*k + i__ + i__ * a_dim1], &c__1, &c_b9, &xb[(i__ + *nb) * xb_dim1 + 1], &c__1,
+                9L);
             i__2 = *k + *n;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &xb[xb_offset], ldxb, &dwork[nb2 + 1], &c__1, &c_b7, &xb[(i__ + *nb) * xb_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &xb[xb_offset], ldxb, &dwork[nb2 + 1], &c__1,
+                &c_b7, &xb[(i__ + *nb) * xb_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xb[nb1 * xb_dim1 + 1], ldxb, &dwork[nb3 + 1], &c__1, &c_b7, &xb[(i__ + *nb) * xb_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &xb[nb1 * xb_dim1 + 1], ldxb,
+                &dwork[nb3 + 1], &c__1, &c_b7, &xb[(i__ + *nb) * xb_dim1 + 1], &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yb[i__ + 1 + yb_dim1], ldyb, &a[*k + i__ + 1 + i__ * a_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yb[i__ + 1 + yb_dim1], ldyb,
+                &a[*k + i__ + 1 + i__ * a_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &dwork[pdw], &c__1, &c_b7, &xb[*k + i__ + 1 + (i__ + *nb) * xb_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &dwork[pdw],
+                &c__1, &c_b7, &xb[*k + i__ + 1 + (i__ + *nb) * xb_dim1], &c__1, 9L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yb[i__ + 1 + nb1 * yb_dim1], ldyb, &a[*k + i__ + 1 + i__ * a_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &yb[i__ + 1 + nb1 * yb_dim1], ldyb,
+                &a[*k + i__ + 1 + i__ * a_dim1], &c__1, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 1) * b_dim1 + 1], ldb, &dwork[pdw], &c__1, &c_b7, &xb[*k + i__ + 1 + (i__ + *nb) * xb_dim1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 1) * b_dim1 + 1], ldb,
+                &dwork[pdw], &c__1, &c_b7, &xb[*k + i__ + 1 + (i__ + *nb) * xb_dim1], &c__1, 9L);
             i__2 = *k + *n;
             d__1 = -taul[i__];
             dscal_(&i__2, &d__1, &xb[(i__ + *nb) * xb_dim1 + 1], &c__1);
@@ -2446,273 +3131,381 @@ doublereal *csl, *csr, *taul, *taur, *dwork;
             dlarfg_(&i__2, &alpha, &q[i__ + (i__ + 2) * q_dim1], ldq, &tauq);
             q[i__ + (i__ + 1) * q_dim1] = 1.;
             i__2 = *n - i__;
-            temp = -tauq * ddot_(&i__2, &q[i__ + (i__ + 1) * q_dim1], ldq, &b[i__ + (*k + i__ + 1) * b_dim1], ldb);
+            temp = -tauq
+                * ddot_(&i__2, &q[i__ + (i__ + 1) * q_dim1], ldq, &b[i__ + (*k + i__ + 1) * b_dim1],
+                      ldb);
             i__2 = *n - i__;
-            daxpy_(&i__2, &temp, &q[i__ + (i__ + 1) * q_dim1], ldq, &b[i__ + (*k + i__ + 1) * b_dim1], ldb);
+            daxpy_(&i__2, &temp, &q[i__ + (i__ + 1) * q_dim1], ldq,
+                &b[i__ + (*k + i__ + 1) * b_dim1], ldb);
             temp = b[i__ + (*k + i__ + 1) * b_dim1];
             dlartg_(&temp, &alpha, &c__, &s, &b[i__ + (*k + i__ + 1) * b_dim1]);
             s = -s;
             i__2 = *n - i__;
-            dlarfg_(&i__2, &b[i__ + (*k + i__ + 1) * b_dim1], &b[i__ + (*k + i__ + 2) * b_dim1], ldb, &taur[i__]);
+            dlarfg_(&i__2, &b[i__ + (*k + i__ + 1) * b_dim1], &b[i__ + (*k + i__ + 2) * b_dim1],
+                ldb, &taur[i__]);
             temp = b[i__ + (*k + i__ + 1) * b_dim1];
             b[i__ + (*k + i__ + 1) * b_dim1] = 1.;
             /*           Update YB with first Householder reflection. */
             i__2 = *n - i__;
             i__3 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &b[i__ + 1 + (*k + i__ + 1) * b_dim1], ldb, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yb[i__ + 1 + i__ * yb_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &b[i__ + 1 + (*k + i__ + 1) * b_dim1], ldb,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yb[i__ + 1 + i__ * yb_dim1], &c__1, 12L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xb[*k + i__ + 1 + xb_dim1], ldxb, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yb[i__ * yb_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xb[*k + i__ + 1 + xb_dim1], ldxb,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yb[i__ * yb_dim1 + 1], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &yb[i__ * yb_dim1 + 1], &c__1, &c_b7, &yb[i__ + 1 + i__ * yb_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq,
+                &yb[i__ * yb_dim1 + 1], &c__1, &c_b7, &yb[i__ + 1 + i__ * yb_dim1], &c__1, 12L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xb[*k + i__ + 1 + nb1 * xb_dim1], ldxb, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yb[i__ * yb_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xb[*k + i__ + 1 + nb1 * xb_dim1], ldxb,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yb[i__ * yb_dim1 + 1], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &a[*k + i__ + 1 + a_dim1], lda, &yb[i__ * yb_dim1 + 1], &c__1, &c_b7, &yb[i__ + 1 + i__ * yb_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &a[*k + i__ + 1 + a_dim1], lda,
+                &yb[i__ * yb_dim1 + 1], &c__1, &c_b7, &yb[i__ + 1 + i__ * yb_dim1], &c__1, 12L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &dwork[1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &q[(i__ + 1) * q_dim1 + 1], ldq,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &dwork[1], &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yb[i__ + 1 + yb_dim1], ldyb, &dwork[1], &c__1, &c_b7, &yb[i__ + 1 + i__ * yb_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yb[i__ + 1 + yb_dim1], ldyb, &dwork[1],
+                &c__1, &c_b7, &yb[i__ + 1 + i__ * yb_dim1], &c__1, 12L);
             i__2 = i__ - 1;
             i__3 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 1) * b_dim1 + 1], ldb, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &dwork[*nb + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 1) * b_dim1 + 1], ldb,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &dwork[*nb + 1], &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yb[i__ + 1 + nb1 * yb_dim1], ldyb, &dwork[*nb + 1], &c__1, &c_b7, &yb[i__ + 1 + i__ * yb_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yb[i__ + 1 + nb1 * yb_dim1], ldyb,
+                &dwork[*nb + 1], &c__1, &c_b7, &yb[i__ + 1 + i__ * yb_dim1], &c__1, 12L);
             i__2 = *n - i__;
             d__1 = -tauq;
             dscal_(&i__2, &d__1, &yb[i__ + 1 + i__ * yb_dim1], &c__1);
             /*           Update B(i+1:n,k+i+1). */
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &xb[*k + i__ + 1 + xb_dim1], ldxb, &c_b7, &b[i__ + 1 + (*k + i__ + 1) * b_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq,
+                &xb[*k + i__ + 1 + xb_dim1], ldxb, &c_b7, &b[i__ + 1 + (*k + i__ + 1) * b_dim1],
+                &c__1, 12L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &a[*k + i__ + 1 + a_dim1], lda, &xb[*k + i__ + 1 + nb1 * xb_dim1], ldxb, &c_b7, &b[i__ + 1 + (*k + i__ + 1) * b_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &a[*k + i__ + 1 + a_dim1], lda,
+                &xb[*k + i__ + 1 + nb1 * xb_dim1], ldxb, &c_b7,
+                &b[i__ + 1 + (*k + i__ + 1) * b_dim1], &c__1, 12L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &yb[i__ + 1 + yb_dim1], ldyb, &q[(i__ + 1) * q_dim1 + 1], &c__1, &c_b7, &b[i__ + 1 + (*k + i__ + 1) * b_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &yb[i__ + 1 + yb_dim1], ldyb,
+                &q[(i__ + 1) * q_dim1 + 1], &c__1, &c_b7, &b[i__ + 1 + (*k + i__ + 1) * b_dim1],
+                &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yb[i__ + 1 + nb1 * yb_dim1], ldyb, &b[(*k + i__ + 1) * b_dim1 + 1], &c__1, &c_b7, &b[i__ + 1 + (*k + i__ + 1) * b_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yb[i__ + 1 + nb1 * yb_dim1], ldyb,
+                &b[(*k + i__ + 1) * b_dim1 + 1], &c__1, &c_b7,
+                &b[i__ + 1 + (*k + i__ + 1) * b_dim1], &c__1, 12L);
             /*           Update YQ with first Householder reflection. */
             i__2 = *n - i__;
             i__3 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &q[i__ + 1 + (i__ + 1) * q_dim1], ldq, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yq[i__ + 1 + i__ * yq_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &q[i__ + 1 + (i__ + 1) * q_dim1], ldq,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yq[i__ + 1 + i__ * yq_dim1], &c__1, 12L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xq[i__ + 1 + xq_dim1], ldxq, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yq[i__ * yq_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xq[i__ + 1 + xq_dim1], ldxq,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yq[i__ * yq_dim1 + 1], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &yq[i__ * yq_dim1 + 1], &c__1, &c_b7, &yq[i__ + 1 + i__ * yq_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq,
+                &yq[i__ * yq_dim1 + 1], &c__1, &c_b7, &yq[i__ + 1 + i__ * yq_dim1], &c__1, 12L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xq[i__ + 1 + nb1 * xq_dim1], ldxq, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yq[i__ * yq_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xq[i__ + 1 + nb1 * xq_dim1], ldxq,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yq[i__ * yq_dim1 + 1], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &a[*k + i__ + 1 + a_dim1], lda, &yq[i__ * yq_dim1 + 1], &c__1, &c_b7, &yq[i__ + 1 + i__ * yq_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &a[*k + i__ + 1 + a_dim1], lda,
+                &yq[i__ * yq_dim1 + 1], &c__1, &c_b7, &yq[i__ + 1 + i__ * yq_dim1], &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yq[i__ + 1 + yq_dim1], ldyq, &dwork[1], &c__1, &c_b7, &yq[i__ + 1 + i__ * yq_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yq[i__ + 1 + yq_dim1], ldyq, &dwork[1],
+                &c__1, &c_b7, &yq[i__ + 1 + i__ * yq_dim1], &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yq[i__ + 1 + nb1 * yq_dim1], ldyq, &dwork[*nb + 1], &c__1, &c_b7, &yq[i__ + 1 + i__ * yq_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yq[i__ + 1 + nb1 * yq_dim1], ldyq,
+                &dwork[*nb + 1], &c__1, &c_b7, &yq[i__ + 1 + i__ * yq_dim1], &c__1, 12L);
             i__2 = *n - i__;
             d__1 = -tauq;
             dscal_(&i__2, &d__1, &yq[i__ + 1 + i__ * yq_dim1], &c__1);
             /*           Update Q(i+1:n,i+1). */
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &xq[i__ + 1 + xq_dim1], ldxq, &c_b7, &q[i__ + 1 + (i__ + 1) * q_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq,
+                &xq[i__ + 1 + xq_dim1], ldxq, &c_b7, &q[i__ + 1 + (i__ + 1) * q_dim1], &c__1, 12L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &a[*k + i__ + 1 + a_dim1], lda, &xq[i__ + 1 + nb1 * xq_dim1], ldxq, &c_b7, &q[i__ + 1 + (i__ + 1) * q_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &a[*k + i__ + 1 + a_dim1], lda,
+                &xq[i__ + 1 + nb1 * xq_dim1], ldxq, &c_b7, &q[i__ + 1 + (i__ + 1) * q_dim1], &c__1,
+                12L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &yq[i__ + 1 + yq_dim1], ldyq, &q[(i__ + 1) * q_dim1 + 1], &c__1, &c_b7, &q[i__ + 1 + (i__ + 1) * q_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &yq[i__ + 1 + yq_dim1], ldyq,
+                &q[(i__ + 1) * q_dim1 + 1], &c__1, &c_b7, &q[i__ + 1 + (i__ + 1) * q_dim1], &c__1,
+                12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yq[i__ + 1 + nb1 * yq_dim1], ldyq, &b[(*k + i__ + 1) * b_dim1 + 1], &c__1, &c_b7, &q[i__ + 1 + (i__ + 1) * q_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yq[i__ + 1 + nb1 * yq_dim1], ldyq,
+                &b[(*k + i__ + 1) * b_dim1 + 1], &c__1, &c_b7, &q[i__ + 1 + (i__ + 1) * q_dim1],
+                &c__1, 12L);
             /*           Apply rotation to [ Q(i+1:n,i+1), B(i+1:n,k+i+1) ]. */
             i__2 = *n - i__;
-            drot_(&i__2, &q[i__ + 1 + (i__ + 1) * q_dim1], &c__1, &b[i__ + 1 + (*k + i__ + 1) * b_dim1], &c__1, &c__, &s);
+            drot_(&i__2, &q[i__ + 1 + (i__ + 1) * q_dim1], &c__1,
+                &b[i__ + 1 + (*k + i__ + 1) * b_dim1], &c__1, &c__, &s);
             i__2 = i__;
-            for (j = 1; j <= i__2; ++j)
-            {
+            for (j = 1; j <= i__2; ++j) {
                 xb[*k + i__ + 1 + j * xb_dim1] = 0.;
                 /* L320: */
             }
             i__2 = i__;
-            for (j = 1; j <= i__2; ++j)
-            {
+            for (j = 1; j <= i__2; ++j) {
                 xb[*k + i__ + 1 + (*nb + j) * xb_dim1] = 0.;
                 /* L330: */
             }
             /*           Update YB with second Householder reflection. */
             i__2 = *n - i__;
             i__3 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &b[i__ + 1 + (*k + i__ + 1) * b_dim1], ldb, &b[i__ + (*k + i__ + 1) * b_dim1], ldb, &c_b9, &yb[i__ + 1 + (i__ + *nb) * yb_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &b[i__ + 1 + (*k + i__ + 1) * b_dim1], ldb,
+                &b[i__ + (*k + i__ + 1) * b_dim1], ldb, &c_b9, &yb[i__ + 1 + (i__ + *nb) * yb_dim1],
+                &c__1, 12L);
             i__2 = *n - i__ - 1;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xb[*k + i__ + 2 + xb_dim1], ldxb, &b[i__ + (*k + i__ + 2) * b_dim1], ldb, &c_b9, &yb[(i__ + *nb) * yb_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xb[*k + i__ + 2 + xb_dim1], ldxb,
+                &b[i__ + (*k + i__ + 2) * b_dim1], ldb, &c_b9, &yb[(i__ + *nb) * yb_dim1 + 1],
+                &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &yb[(i__ + *nb) * yb_dim1 + 1], &c__1, &c_b7, &yb[i__ + 1 + (i__ + *nb) * yb_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq,
+                &yb[(i__ + *nb) * yb_dim1 + 1], &c__1, &c_b7, &yb[i__ + 1 + (i__ + *nb) * yb_dim1],
+                &c__1, 12L);
             i__2 = *n - i__ - 1;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xb[*k + i__ + 2 + nb1 * xb_dim1], ldxb, &b[i__ + (*k + i__ + 2) * b_dim1], ldb, &c_b9, &yb[(i__ + *nb) * yb_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xb[*k + i__ + 2 + nb1 * xb_dim1], ldxb,
+                &b[i__ + (*k + i__ + 2) * b_dim1], ldb, &c_b9, &yb[(i__ + *nb) * yb_dim1 + 1],
+                &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &a[*k + i__ + 1 + a_dim1], lda, &yb[(i__ + *nb) * yb_dim1 + 1], &c__1, &c_b7, &yb[i__ + 1 + (i__ + *nb) * yb_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &a[*k + i__ + 1 + a_dim1], lda,
+                &yb[(i__ + *nb) * yb_dim1 + 1], &c__1, &c_b7, &yb[i__ + 1 + (i__ + *nb) * yb_dim1],
+                &c__1, 12L);
             i__2 = *n - i__ - 1;
-            dgemv_("No transpose", &i__, &i__2, &c_b7, &q[(i__ + 2) * q_dim1 + 1], ldq, &b[i__ + (*k + i__ + 2) * b_dim1], ldb, &c_b9, &dwork[nb2 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__, &i__2, &c_b7, &q[(i__ + 2) * q_dim1 + 1], ldq,
+                &b[i__ + (*k + i__ + 2) * b_dim1], ldb, &c_b9, &dwork[nb2 + 1], &c__1, 12L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &yb[i__ + 1 + yb_dim1], ldyb, &dwork[nb2 + 1], &c__1, &c_b7, &yb[i__ + 1 + (i__ + *nb) * yb_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &yb[i__ + 1 + yb_dim1], ldyb,
+                &dwork[nb2 + 1], &c__1, &c_b7, &yb[i__ + 1 + (i__ + *nb) * yb_dim1], &c__1, 12L);
             i__2 = i__ - 1;
             i__3 = *n - i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 2) * b_dim1 + 1], ldq, &b[i__ + (*k + i__ + 2) * b_dim1], ldb, &c_b9, &dwork[nb3 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &b[(*k + i__ + 2) * b_dim1 + 1], ldq,
+                &b[i__ + (*k + i__ + 2) * b_dim1], ldb, &c_b9, &dwork[nb3 + 1], &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yb[i__ + 1 + nb1 * yb_dim1], ldyb, &dwork[nb3 + 1], &c__1, &c_b7, &yb[i__ + 1 + (i__ + *nb) * yb_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yb[i__ + 1 + nb1 * yb_dim1], ldyb,
+                &dwork[nb3 + 1], &c__1, &c_b7, &yb[i__ + 1 + (i__ + *nb) * yb_dim1], &c__1, 12L);
             i__2 = *n - i__;
             d__1 = -taur[i__];
             dscal_(&i__2, &d__1, &yb[i__ + 1 + (i__ + *nb) * yb_dim1], &c__1);
             /*           Update B(i+1:n,k+i+1). */
             i__2 = *n - i__;
-            daxpy_(&i__2, &c_b7, &yb[i__ + 1 + (i__ + *nb) * yb_dim1], &c__1, &b[i__ + 1 + (*k + i__ + 1) * b_dim1], &c__1);
+            daxpy_(&i__2, &c_b7, &yb[i__ + 1 + (i__ + *nb) * yb_dim1], &c__1,
+                &b[i__ + 1 + (*k + i__ + 1) * b_dim1], &c__1);
             /*           Update YQ with second Householder reflection. */
             i__2 = *n - i__;
             i__3 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &q[i__ + 1 + (i__ + 1) * q_dim1], ldq, &b[i__ + (*k + i__ + 1) * b_dim1], ldb, &c_b9, &yq[i__ + 1 + (i__ + *nb) * yq_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &q[i__ + 1 + (i__ + 1) * q_dim1], ldq,
+                &b[i__ + (*k + i__ + 1) * b_dim1], ldb, &c_b9, &yq[i__ + 1 + (i__ + *nb) * yq_dim1],
+                &c__1, 12L);
             i__2 = *n - i__ - 1;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xq[i__ + 2 + xq_dim1], ldxq, &b[i__ + (*k + i__ + 2) * b_dim1], ldb, &c_b9, &yq[(i__ + *nb) * yq_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xq[i__ + 2 + xq_dim1], ldxq,
+                &b[i__ + (*k + i__ + 2) * b_dim1], ldb, &c_b9, &yq[(i__ + *nb) * yq_dim1 + 1],
+                &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &yq[(i__ + *nb) * yq_dim1 + 1], &c__1, &c_b7, &yq[i__ + 1 + (i__ + *nb) * yq_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq,
+                &yq[(i__ + *nb) * yq_dim1 + 1], &c__1, &c_b7, &yq[i__ + 1 + (i__ + *nb) * yq_dim1],
+                &c__1, 12L);
             i__2 = *n - i__ - 1;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xq[i__ + 2 + nb1 * xq_dim1], ldxq, &b[i__ + (*k + i__ + 2) * b_dim1], ldb, &c_b9, &yq[(i__ + *nb) * yq_dim1 + 1], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xq[i__ + 2 + nb1 * xq_dim1], ldxq,
+                &b[i__ + (*k + i__ + 2) * b_dim1], ldb, &c_b9, &yq[(i__ + *nb) * yq_dim1 + 1],
+                &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &a[*k + i__ + 1 + a_dim1], lda, &yq[(i__ + *nb) * yq_dim1 + 1], &c__1, &c_b7, &yq[i__ + 1 + (i__ + *nb) * yq_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &a[*k + i__ + 1 + a_dim1], lda,
+                &yq[(i__ + *nb) * yq_dim1 + 1], &c__1, &c_b7, &yq[i__ + 1 + (i__ + *nb) * yq_dim1],
+                &c__1, 12L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &yq[i__ + 1 + yq_dim1], ldyq, &dwork[nb2 + 1], &c__1, &c_b7, &yq[i__ + 1 + (i__ + *nb) * yq_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &yq[i__ + 1 + yq_dim1], ldyq,
+                &dwork[nb2 + 1], &c__1, &c_b7, &yq[i__ + 1 + (i__ + *nb) * yq_dim1], &c__1, 12L);
             i__2 = *n - i__;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yq[i__ + 1 + nb1 * yq_dim1], ldyq, &dwork[nb3 + 1], &c__1, &c_b7, &yq[i__ + 1 + (i__ + *nb) * yq_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yq[i__ + 1 + nb1 * yq_dim1], ldyq,
+                &dwork[nb3 + 1], &c__1, &c_b7, &yq[i__ + 1 + (i__ + *nb) * yq_dim1], &c__1, 12L);
             i__2 = *n - i__;
             d__1 = -taur[i__];
             dscal_(&i__2, &d__1, &yq[i__ + 1 + (i__ + *nb) * yq_dim1], &c__1);
             /*           Update Q(i+1:n,i+1). */
             i__2 = *n - i__;
-            daxpy_(&i__2, &c_b7, &yq[i__ + 1 + (i__ + *nb) * yq_dim1], &c__1, &q[i__ + 1 + (i__ + 1) * q_dim1], &c__1);
+            daxpy_(&i__2, &c_b7, &yq[i__ + 1 + (i__ + *nb) * yq_dim1], &c__1,
+                &q[i__ + 1 + (i__ + 1) * q_dim1], &c__1);
             /*           Update YA with first Householder reflection. */
             i__2 = *k + *n;
             i__3 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &a[(i__ + 1) * a_dim1 + 1], lda, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &ya[i__ * ya_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &a[(i__ + 1) * a_dim1 + 1], lda,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &ya[i__ * ya_dim1 + 1], &c__1, 12L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xa[i__ + 1 + xa_dim1], ldxa, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xa[i__ + 1 + xa_dim1], ldxa,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &dwork[pdw], &c__1, &c_b7, &ya[*k + i__ + 1 + i__ * ya_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &dwork[pdw],
+                &c__1, &c_b7, &ya[*k + i__ + 1 + i__ * ya_dim1], &c__1, 12L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xa[i__ + 1 + nb1 * xa_dim1], ldxa, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xa[i__ + 1 + nb1 * xa_dim1], ldxa,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &a[*k + i__ + 1 + a_dim1], lda, &dwork[pdw], &c__1, &c_b7, &ya[*k + i__ + 1 + i__ * ya_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &a[*k + i__ + 1 + a_dim1], lda, &dwork[pdw],
+                &c__1, &c_b7, &ya[*k + i__ + 1 + i__ * ya_dim1], &c__1, 12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &ya[ya_offset], ldya, &dwork[1], &c__1, &c_b7, &ya[i__ * ya_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &ya[ya_offset], ldya, &dwork[1], &c__1,
+                &c_b7, &ya[i__ * ya_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &ya[nb1 * ya_dim1 + 1], ldya, &dwork[*nb + 1], &c__1, &c_b7, &ya[i__ * ya_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &ya[nb1 * ya_dim1 + 1], ldya,
+                &dwork[*nb + 1], &c__1, &c_b7, &ya[i__ * ya_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             d__1 = -tauq;
             dscal_(&i__2, &d__1, &ya[i__ * ya_dim1 + 1], &c__1);
             /*           Update A(1:k+n,i+1). */
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &xa[i__ + 1 + xa_dim1], ldxa, &c_b7, &a[*k + i__ + 1 + (i__ + 1) * a_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq,
+                &xa[i__ + 1 + xa_dim1], ldxa, &c_b7, &a[*k + i__ + 1 + (i__ + 1) * a_dim1], &c__1,
+                12L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &a[*k + i__ + 1 + a_dim1], lda, &xa[i__ + 1 + nb1 * xa_dim1], ldxa, &c_b7, &a[*k + i__ + 1 + (i__ + 1) * a_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &a[*k + i__ + 1 + a_dim1], lda,
+                &xa[i__ + 1 + nb1 * xa_dim1], ldxa, &c_b7, &a[*k + i__ + 1 + (i__ + 1) * a_dim1],
+                &c__1, 12L);
             i__2 = *k + *n;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &ya[ya_offset], ldya, &q[(i__ + 1) * q_dim1 + 1], &c__1, &c_b7, &a[(i__ + 1) * a_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &ya[ya_offset], ldya,
+                &q[(i__ + 1) * q_dim1 + 1], &c__1, &c_b7, &a[(i__ + 1) * a_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &ya[nb1 * ya_dim1 + 1], ldya, &b[(*k + i__ + 1) * b_dim1 + 1], &c__1, &c_b7, &a[(i__ + 1) * a_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &ya[nb1 * ya_dim1 + 1], ldya,
+                &b[(*k + i__ + 1) * b_dim1 + 1], &c__1, &c_b7, &a[(i__ + 1) * a_dim1 + 1], &c__1,
+                12L);
             /*           Update YG with first Householder reflection. */
             i__2 = *k + *n;
             i__3 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &g[(*k + i__ + 1) * g_dim1 + 1], ldg, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yg[i__ * yg_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &g[(*k + i__ + 1) * g_dim1 + 1], ldg,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &yg[i__ * yg_dim1 + 1], &c__1, 12L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xg[*k + i__ + 1 + xg_dim1], ldxg, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xg[*k + i__ + 1 + xg_dim1], ldxg,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &dwork[pdw], &c__1, &c_b7, &yg[*k + i__ + 1 + i__ * yg_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &dwork[pdw],
+                &c__1, &c_b7, &yg[*k + i__ + 1 + i__ * yg_dim1], &c__1, 12L);
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xg[*k + i__ + 1 + nb1 * xg_dim1], ldxg, &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xg[*k + i__ + 1 + nb1 * xg_dim1], ldxg,
+                &q[i__ + (i__ + 1) * q_dim1], ldq, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &a[*k + i__ + 1 + a_dim1], lda, &dwork[pdw], &c__1, &c_b7, &yg[*k + i__ + 1 + i__ * yg_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &a[*k + i__ + 1 + a_dim1], lda, &dwork[pdw],
+                &c__1, &c_b7, &yg[*k + i__ + 1 + i__ * yg_dim1], &c__1, 12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yg[yg_offset], ldyg, &dwork[1], &c__1, &c_b7, &yg[i__ * yg_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yg[yg_offset], ldyg, &dwork[1], &c__1,
+                &c_b7, &yg[i__ * yg_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yg[nb1 * yg_dim1 + 1], ldyg, &dwork[*nb + 1], &c__1, &c_b7, &yg[i__ * yg_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yg[nb1 * yg_dim1 + 1], ldyg,
+                &dwork[*nb + 1], &c__1, &c_b7, &yg[i__ * yg_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             d__1 = -tauq;
             dscal_(&i__2, &d__1, &yg[i__ * yg_dim1 + 1], &c__1);
             /*           Update G(1:k+n,k+i+1). */
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &xg[*k + i__ + 1 + xg_dim1], ldxg, &c_b7, &g[*k + i__ + 1 + (*k + i__ + 1) * g_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq,
+                &xg[*k + i__ + 1 + xg_dim1], ldxg, &c_b7,
+                &g[*k + i__ + 1 + (*k + i__ + 1) * g_dim1], &c__1, 12L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &a[*k + i__ + 1 + a_dim1], lda, &xg[*k + i__ + 1 + nb1 * xg_dim1], ldxg, &c_b7, &g[*k + i__ + 1 + (*k + i__ + 1) * g_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &a[*k + i__ + 1 + a_dim1], lda,
+                &xg[*k + i__ + 1 + nb1 * xg_dim1], ldxg, &c_b7,
+                &g[*k + i__ + 1 + (*k + i__ + 1) * g_dim1], &c__1, 12L);
             i__2 = *k + *n;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &yg[yg_offset], ldyg, &q[(i__ + 1) * q_dim1 + 1], &c__1, &c_b7, &g[(*k + i__ + 1) * g_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &yg[yg_offset], ldyg,
+                &q[(i__ + 1) * q_dim1 + 1], &c__1, &c_b7, &g[(*k + i__ + 1) * g_dim1 + 1], &c__1,
+                12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yg[nb1 * yg_dim1 + 1], ldyg, &b[(*k + i__ + 1) * b_dim1 + 1], &c__1, &c_b7, &g[(*k + i__ + 1) * g_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yg[nb1 * yg_dim1 + 1], ldyg,
+                &b[(*k + i__ + 1) * b_dim1 + 1], &c__1, &c_b7, &g[(*k + i__ + 1) * g_dim1 + 1],
+                &c__1, 12L);
             i__2 = i__;
-            for (j = 1; j <= i__2; ++j)
-            {
+            for (j = 1; j <= i__2; ++j) {
                 xg[*k + i__ + 1 + j * xg_dim1] = 0.;
                 /* L340: */
             }
             i__2 = i__;
-            for (j = 1; j <= i__2; ++j)
-            {
+            for (j = 1; j <= i__2; ++j) {
                 xg[*k + i__ + 1 + (*nb + j) * xg_dim1] = 0.;
                 /* L350: */
             }
             /*           Apply rotation to [ A(1:k+n,i+1), G(1:k+n,k+i+1) ]. */
             i__2 = *k + *n;
-            drot_(&i__2, &a[(i__ + 1) * a_dim1 + 1], &c__1, &g[(*k + i__ + 1) * g_dim1 + 1], &c__1, &c__, &s);
+            drot_(&i__2, &a[(i__ + 1) * a_dim1 + 1], &c__1, &g[(*k + i__ + 1) * g_dim1 + 1], &c__1,
+                &c__, &s);
             /*           Update YA with second Householder reflection. */
             i__2 = *k + *n;
             i__3 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &a[(i__ + 1) * a_dim1 + 1], lda, &b[i__ + (*k + i__ + 1) * b_dim1], ldb, &c_b9, &ya[(i__ + *nb) * ya_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &a[(i__ + 1) * a_dim1 + 1], lda,
+                &b[i__ + (*k + i__ + 1) * b_dim1], ldb, &c_b9, &ya[(i__ + *nb) * ya_dim1 + 1],
+                &c__1, 12L);
             i__2 = *n - i__ - 1;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xa[i__ + 2 + xa_dim1], ldxa, &b[i__ + (*k + i__ + 2) * b_dim1], ldb, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xa[i__ + 2 + xa_dim1], ldxa,
+                &b[i__ + (*k + i__ + 2) * b_dim1], ldb, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &dwork[pdw], &c__1, &c_b7, &ya[*k + i__ + 1 + (i__ + *nb) * ya_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &dwork[pdw],
+                &c__1, &c_b7, &ya[*k + i__ + 1 + (i__ + *nb) * ya_dim1], &c__1, 12L);
             i__2 = *n - i__ - 1;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xa[i__ + 2 + nb1 * xa_dim1], ldxa, &b[i__ + (*k + i__ + 2) * b_dim1], ldb, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xa[i__ + 2 + nb1 * xa_dim1], ldxa,
+                &b[i__ + (*k + i__ + 2) * b_dim1], ldb, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &a[*k + i__ + 1 + a_dim1], lda, &dwork[pdw], &c__1, &c_b7, &ya[*k + i__ + 1 + (i__ + *nb) * ya_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &a[*k + i__ + 1 + a_dim1], lda, &dwork[pdw],
+                &c__1, &c_b7, &ya[*k + i__ + 1 + (i__ + *nb) * ya_dim1], &c__1, 12L);
             i__2 = *k + *n;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &ya[ya_offset], ldya, &dwork[nb2 + 1], &c__1, &c_b7, &ya[(i__ + *nb) * ya_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &ya[ya_offset], ldya, &dwork[nb2 + 1], &c__1,
+                &c_b7, &ya[(i__ + *nb) * ya_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &ya[nb1 * ya_dim1 + 1], ldya, &dwork[nb3 + 1], &c__1, &c_b7, &ya[(i__ + *nb) * ya_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &ya[nb1 * ya_dim1 + 1], ldya,
+                &dwork[nb3 + 1], &c__1, &c_b7, &ya[(i__ + *nb) * ya_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             d__1 = -taur[i__];
             dscal_(&i__2, &d__1, &ya[(i__ + *nb) * ya_dim1 + 1], &c__1);
             /*           Update A(1:k+n,i+1). */
             i__2 = *k + *n;
-            daxpy_(&i__2, &c_b7, &ya[(i__ + *nb) * ya_dim1 + 1], &c__1, &a[(i__ + 1) * a_dim1 + 1], &c__1);
+            daxpy_(&i__2, &c_b7, &ya[(i__ + *nb) * ya_dim1 + 1], &c__1, &a[(i__ + 1) * a_dim1 + 1],
+                &c__1);
             /*           Update YG with second Householder reflection. */
             i__2 = *k + *n;
             i__3 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &g[(*k + i__ + 1) * g_dim1 + 1], ldg, &b[i__ + (*k + i__ + 1) * b_dim1], ldb, &c_b9, &yg[(i__ + *nb) * yg_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &g[(*k + i__ + 1) * g_dim1 + 1], ldg,
+                &b[i__ + (*k + i__ + 1) * b_dim1], ldb, &c_b9, &yg[(i__ + *nb) * yg_dim1 + 1],
+                &c__1, 12L);
             i__2 = *n - i__ - 1;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xg[*k + i__ + 2 + xg_dim1], ldxg, &b[i__ + (*k + i__ + 2) * b_dim1], ldb, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xg[*k + i__ + 2 + xg_dim1], ldxg,
+                &b[i__ + (*k + i__ + 2) * b_dim1], ldb, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &dwork[pdw], &c__1, &c_b7, &yg[*k + i__ + 1 + (i__ + *nb) * yg_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &q[i__ + 1 + q_dim1], ldq, &dwork[pdw],
+                &c__1, &c_b7, &yg[*k + i__ + 1 + (i__ + *nb) * yg_dim1], &c__1, 12L);
             i__2 = *n - i__ - 1;
-            dgemv_("Transpose", &i__2, &i__, &c_b7, &xg[*k + i__ + 2 + nb1 * xg_dim1], ldxg, &b[i__ + (*k + i__ + 2) * b_dim1], ldb, &c_b9, &dwork[pdw], &c__1, 9L);
+            dgemv_("Transpose", &i__2, &i__, &c_b7, &xg[*k + i__ + 2 + nb1 * xg_dim1], ldxg,
+                &b[i__ + (*k + i__ + 2) * b_dim1], ldb, &c_b9, &dwork[pdw], &c__1, 9L);
             i__2 = *n - i__;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &a[*k + i__ + 1 + a_dim1], lda, &dwork[pdw], &c__1, &c_b7, &yg[*k + i__ + 1 + (i__ + *nb) * yg_dim1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &a[*k + i__ + 1 + a_dim1], lda, &dwork[pdw],
+                &c__1, &c_b7, &yg[*k + i__ + 1 + (i__ + *nb) * yg_dim1], &c__1, 12L);
             i__2 = *k + *n;
-            dgemv_("No transpose", &i__2, &i__, &c_b7, &yg[yg_offset], ldyg, &dwork[nb2 + 1], &c__1, &c_b7, &yg[(i__ + *nb) * yg_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__, &c_b7, &yg[yg_offset], ldyg, &dwork[nb2 + 1], &c__1,
+                &c_b7, &yg[(i__ + *nb) * yg_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             i__3 = i__ - 1;
-            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yg[nb1 * yg_dim1 + 1], ldyg, &dwork[nb3 + 1], &c__1, &c_b7, &yg[(i__ + *nb) * yg_dim1 + 1], &c__1, 12L);
+            dgemv_("No transpose", &i__2, &i__3, &c_b7, &yg[nb1 * yg_dim1 + 1], ldyg,
+                &dwork[nb3 + 1], &c__1, &c_b7, &yg[(i__ + *nb) * yg_dim1 + 1], &c__1, 12L);
             i__2 = *k + *n;
             d__1 = -taur[i__];
             dscal_(&i__2, &d__1, &yg[(i__ + *nb) * yg_dim1 + 1], &c__1);
             /*           Update G(1:k+n,k+i+1). */
             i__2 = *k + *n;
-            daxpy_(&i__2, &c_b7, &yg[(i__ + *nb) * yg_dim1 + 1], &c__1, &g[(*k + i__ + 1) * g_dim1 + 1], &c__1);
+            daxpy_(&i__2, &c_b7, &yg[(i__ + *nb) * yg_dim1 + 1], &c__1,
+                &g[(*k + i__ + 1) * g_dim1 + 1], &c__1);
             b[i__ + (*k + i__ + 1) * b_dim1] = temp;
             q[i__ + (i__ + 1) * q_dim1] = tauq;
             csr[(i__ << 1) - 1] = c__;
@@ -2723,4 +3516,3 @@ doublereal *csl, *csr, *taul, *taur, *dwork;
     return 0;
     /* *** Last line of MB03XU *** */
 } /* mb03xu_ */
-

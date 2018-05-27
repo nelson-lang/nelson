@@ -23,15 +23,14 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-static ArrayOfVector strncmpBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn, bool bCaseSensitive)
+static ArrayOfVector
+strncmpBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn, bool bCaseSensitive)
 {
     ArrayOfVector retval;
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() != 3)
-    {
+    if (argIn.size() != 3) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     ArrayOf A = argIn[0];
@@ -40,27 +39,25 @@ static ArrayOfVector strncmpBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
     indexType len = C.getContentAsScalarIndex(false);
     // Call overload if it exists
     bool bSuccess = false;
-    if (bCaseSensitive)
-    {
+    if (bCaseSensitive) {
         retval = OverloadFunction(eval, nLhs, argIn, "strncmp", bSuccess);
-    }
-    else
-    {
+    } else {
         retval = OverloadFunction(eval, nLhs, argIn, "strncmpi", bSuccess);
     }
-    if (!bSuccess)
-    {
+    if (!bSuccess) {
         retval.push_back(StringCompare(A, B, bCaseSensitive, len));
     }
     return retval;
 }
 //=============================================================================
-ArrayOfVector Nelson::StringGateway::strncmpBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::StringGateway::strncmpBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     return ::strncmpBuiltin(eval, nLhs, argIn, true);
 }
 //=============================================================================
-ArrayOfVector Nelson::StringGateway::strncmpiBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::StringGateway::strncmpiBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     return ::strncmpBuiltin(eval, nLhs, argIn, false);
 }

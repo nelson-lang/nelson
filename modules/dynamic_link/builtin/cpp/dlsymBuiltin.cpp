@@ -17,16 +17,16 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "dlsymBuiltin.hpp"
-#include "Error.hpp"
 #include "CreateDynamicLinkLibraryObject.hpp"
+#include "Error.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::DynamicLinkGateway::dlsymBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::DynamicLinkGateway::dlsymBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 4)
-    {
+    if (argIn.size() != 4) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
@@ -36,7 +36,8 @@ ArrayOfVector Nelson::DynamicLinkGateway::dlsymBuiltin(Evaluator* eval, int nLhs
     std::wstring returnTypeString = param3.getContentAsWideString();
     ArrayOf param4 = argIn[3];
     wstringVector argumentsString = param4.getContentAsWideStringVector(true);
-    retval.push_back(createDynamicLinkSymbolObject(param1, symbolName, returnTypeString, argumentsString));
+    retval.push_back(
+        createDynamicLinkSymbolObject(param1, symbolName, returnTypeString, argumentsString));
     return retval;
 }
 //=============================================================================

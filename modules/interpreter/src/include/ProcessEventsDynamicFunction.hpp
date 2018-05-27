@@ -21,11 +21,14 @@
 #include "nlsInterpreter_exports.h"
 //=============================================================================
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
-//=============================================================================
-NLSINTERPRETER_IMPEXP void ProcessEventsDynamicFunctionWithoutWait();
-NLSINTERPRETER_IMPEXP void ProcessEventsDynamicFunctionWait();
+    //=============================================================================
+    NLSINTERPRETER_IMPEXP void
+    ProcessEventsDynamicFunctionWithoutWait();
+    NLSINTERPRETER_IMPEXP void
+    ProcessEventsDynamicFunctionWait();
 //=============================================================================
 #ifdef __cplusplus
 }

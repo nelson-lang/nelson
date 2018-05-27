@@ -18,12 +18,14 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include "nlsGui_exports.h"
 #include <QtCore/QString>
 #include <string>
-#include "nlsGui_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSGUI_IMPEXP std::wstring QStringTowstring(QString qstr);
-    NLSGUI_IMPEXP QString wstringToQString(std::wstring wstr);
-}
+NLSGUI_IMPEXP std::wstring
+QStringTowstring(QString qstr);
+NLSGUI_IMPEXP QString
+wstringToQString(std::wstring wstr);
+} // namespace Nelson
 //=============================================================================

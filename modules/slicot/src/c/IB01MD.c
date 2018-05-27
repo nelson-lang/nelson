@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -14,16 +14,18 @@ static doublereal c_b29 = 1.;
 static doublereal c_b207 = 0.;
 static integer c__0 = 0;
 
-EXPORTSYMBOL /* Subroutine */ int ib01md_(meth, alg, batch, conct, nobr, m, l, nsmp, u, ldu, y, ldy, r__, ldr, iwork, dwork, ldwork, iwarn, info, meth_len, alg_len, batch_len, conct_len)
-char *meth, *alg, *batch, *conct;
+EXPORTSYMBOL /* Subroutine */ int ib01md_(meth, alg, batch, conct, nobr, m, l, nsmp, u, ldu, y, ldy,
+    r__, ldr, iwork, dwork, ldwork, iwarn, info, meth_len, alg_len, batch_len, conct_len) char *meth
+    ,
+    *alg, *batch, *conct;
 integer *nobr, *m, *l, *nsmp;
-doublereal *u;
-integer *ldu;
-doublereal *y;
-integer *ldy;
-doublereal *r__;
+doublereal* u;
+integer* ldu;
+doublereal* y;
+integer* ldy;
+doublereal* r__;
 integer *ldr, *iwork;
-doublereal *dwork;
+doublereal* dwork;
 integer *ldwork, *iwarn, *info;
 ftnlen meth_len;
 ftnlen alg_len;
@@ -379,16 +381,13 @@ ftnlen conct_len;
     first = lsame_(batch, "F", 1L, 1L) || onebch;
     interm = lsame_(batch, "I", 1L, 1L);
     last = lsame_(batch, "L", 1L, 1L) || onebch;
-    if (! onebch)
-    {
+    if (!onebch) {
         connec = lsame_(conct, "C", 1L, 1L);
-    }
-    else
-    {
+    } else {
         connec = FALSE_;
     }
-    mnobr = *m **nobr;
-    lnobr = *l **nobr;
+    mnobr = *m * *nobr;
+    lnobr = *l * *nobr;
     lmnobr = lnobr + mnobr;
     mmnobr = mnobr + mnobr;
     nobrm1 = *nobr - 1;
@@ -397,8 +396,7 @@ ftnlen conct_len;
     *iwarn = 0;
     *info = 0;
     ierr = 0;
-    if (first)
-    {
+    if (first) {
         icycle = 1;
         maxwrk = 1;
         nsmpsm = 0;
@@ -406,57 +404,33 @@ ftnlen conct_len;
     nsmpsm += *nsmp;
     nr = lmnobr + lmnobr;
     /*     Check the scalar input parameters. */
-    if (! (moesp || n4sid))
-    {
+    if (!(moesp || n4sid)) {
         *info = -1;
-    }
-    else if (! (fqralg || qralg || chalg))
-    {
+    } else if (!(fqralg || qralg || chalg)) {
         *info = -2;
-    }
-    else if (! (first || interm || last))
-    {
+    } else if (!(first || interm || last)) {
         *info = -3;
-    }
-    else if (! onebch)
-    {
-        if (! (connec || lsame_(conct, "N", 1L, 1L)))
-        {
+    } else if (!onebch) {
+        if (!(connec || lsame_(conct, "N", 1L, 1L))) {
             *info = -4;
         }
     }
-    if (*info == 0)
-    {
-        if (*nobr <= 0)
-        {
+    if (*info == 0) {
+        if (*nobr <= 0) {
             *info = -5;
-        }
-        else if (*m < 0)
-        {
+        } else if (*m < 0) {
             *info = -6;
-        }
-        else if (*l <= 0)
-        {
+        } else if (*l <= 0) {
             *info = -7;
-        }
-        else if (*nsmp < nobr2 || last && nsmpsm < nr + nobr21)
-        {
+        } else if (*nsmp < nobr2 || last && nsmpsm < nr + nobr21) {
             *info = -8;
-        }
-        else if (*ldu < 1 || *m > 0 && *ldu < *nsmp)
-        {
+        } else if (*ldu < 1 || *m > 0 && *ldu < *nsmp) {
             *info = -10;
-        }
-        else if (*ldy < *nsmp)
-        {
+        } else if (*ldy < *nsmp) {
             *info = -12;
-        }
-        else if (*ldr < nr)
-        {
+        } else if (*ldr < nr) {
             *info = -14;
-        }
-        else
-        {
+        } else {
             /*           Compute workspace. */
             /*           (Note: Comments in the code beginning "Workspace:" describe */
             /*           the minimal amount of workspace needed at that point in the */
@@ -464,89 +438,62 @@ ftnlen conct_len;
             /*           NB refers to the optimal block size for the immediately */
             /*           following subroutine, as returned by ILAENV.) */
             ns = *nsmp - nobr21;
-            if (chalg)
-            {
-                if (! onebch && connec)
-                {
+            if (chalg) {
+                if (!onebch && connec) {
                     minwrk = nr - *m - *l << 1;
-                }
-                else
-                {
+                } else {
                     minwrk = 1;
                 }
-            }
-            else if (fqralg)
-            {
-                if (! onebch && connec)
-                {
+            } else if (fqralg) {
+                if (!onebch && connec) {
                     minwrk = nr * (*m + *l + 3);
-                }
-                else if (first || interm)
-                {
+                } else if (first || interm) {
                     minwrk = nr * (*m + *l + 1);
-                }
-                else
-                {
+                } else {
                     minwrk = (nr << 1) * (*m + *l + 1) + nr;
                 }
-            }
-            else
-            {
+            } else {
                 minwrk = nr << 1;
                 maxwrk = nr + nr * ilaenv_(&c__1, "DGEQRF", " ", &ns, &nr, &c_n1, &c_n1, 6L, 1L);
-                if (first)
-                {
-                    if (*ldr < ns)
-                    {
+                if (first) {
+                    if (*ldr < ns) {
                         minwrk += nr;
                         maxwrk = ns * nr + maxwrk;
                     }
-                }
-                else
-                {
-                    if (connec)
-                    {
+                } else {
+                    if (connec) {
                         minwrk *= *nobr + 1;
-                    }
-                    else
-                    {
+                    } else {
                         minwrk += nr;
                     }
                     maxwrk = ns * nr + maxwrk;
                 }
             }
-            maxwrk = max(minwrk,maxwrk);
-            if (*ldwork < minwrk)
-            {
+            maxwrk = max(minwrk, maxwrk);
+            if (*ldwork < minwrk) {
                 *info = -17;
-                dwork[1] = (doublereal) minwrk;
+                dwork[1] = (doublereal)minwrk;
             }
         }
     }
     /*     Return if there are illegal arguments. */
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("IB01MD", &i__1, 6L);
         return 0;
     }
-    if (chalg)
-    {
+    if (chalg) {
         /*        Compute the  R  factor from a Cholesky factorization of the */
         /*        input-output data correlation matrix. */
         /*        Set the parameters for constructing the correlations of the */
         /*        current block. */
         ldrwrk = (nobr2 << 1) - 2;
-        if (first)
-        {
+        if (first) {
             upd = 0.;
-        }
-        else
-        {
+        } else {
             upd = 1.;
         }
-        if (! first && connec)
-        {
+        if (!first && connec) {
             /*           Restore the saved (M+L)*(2*NOBR-1) "connection" elements of */
             /*           U  and  Y  into their appropriate position in sequential */
             /*           processing. The process is performed column-wise, in */
@@ -555,10 +502,8 @@ ftnlen conct_len;
             irev = nr - *m - *l - nobr21 + 1;
             icol = (nr - *m - *l << 1) - ldrwrk + 1;
             i__1 = *m + *l;
-            for (j = 2; j <= i__1; ++j)
-            {
-                for (i__ = nobr21 - 1; i__ >= 0; --i__)
-                {
+            for (j = 2; j <= i__1; ++j) {
+                for (i__ = nobr21 - 1; i__ >= 0; --i__) {
                     dwork[icol + i__] = dwork[irev + i__];
                     /* L5: */
                 }
@@ -566,14 +511,13 @@ ftnlen conct_len;
                 icol -= ldrwrk;
                 /* L10: */
             }
-            if (*m > 0)
-            {
+            if (*m > 0) {
                 dlacpy_("Full", &nobr21, m, &u[u_offset], ldu, &dwork[nobr2], &ldrwrk, 4L);
             }
-            dlacpy_("Full", &nobr21, l, &y[y_offset], ldy, &dwork[ldrwrk **m + nobr2], &ldrwrk, 4L);
+            dlacpy_(
+                "Full", &nobr21, l, &y[y_offset], ldy, &dwork[ldrwrk * *m + nobr2], &ldrwrk, 4L);
         }
-        if (*m > 0)
-        {
+        if (*m > 0) {
             /*           Let  Guu(i,j) = Guu0(i,j) + u_i*u_j' + u_(i+1)*u_(j+1)' + */
             /*                                 ... + u_(i+NS-1)*u_(j+NS-1)', */
             /*           where  u_i'  is the i-th row of  U,  j = 1 : 2s,  i = 1 : j, */
@@ -590,125 +534,120 @@ ftnlen conct_len;
             /*           formula */
             /*           Guu(i+1,j+1) = Guu0(i+1,j+1) - Guu0(i,j) + Guu(i,j) + */
             /*                                 u_(i+NS)*u_(j+NS)' - u_i*u_j'. */
-            if (! first)
-            {
+            if (!first) {
                 /*              Subtract the contribution of the previous block of data */
                 /*              in sequential processing. The columns must be processed */
                 /*              in backward order. */
-                for (i__ = nobr21 **m; i__ >= 1; --i__)
-                {
-                    daxpy_(&i__, &c_b24, &r__[i__ * r_dim1 + 1], &c__1, &r__[*m + 1 + (*m + i__) * r_dim1], &c__1);
+                for (i__ = nobr21 * *m; i__ >= 1; --i__) {
+                    daxpy_(&i__, &c_b24, &r__[i__ * r_dim1 + 1], &c__1,
+                        &r__[*m + 1 + (*m + i__) * r_dim1], &c__1);
                     /* L20: */
                 }
             }
             /*           Compute/update  Guu(1,1). */
-            if (! first && connec)
-            {
-                dsyrk_("Upper", "Transpose", m, &nobr21, &c_b29, &dwork[1], &ldrwrk, &upd, &r__[r_offset], ldr, 5L, 9L);
+            if (!first && connec) {
+                dsyrk_("Upper", "Transpose", m, &nobr21, &c_b29, &dwork[1], &ldrwrk, &upd,
+                    &r__[r_offset], ldr, 5L, 9L);
             }
-            dsyrk_("Upper", "Transpose", m, &ns, &c_b29, &u[u_offset], ldu, &upd, &r__[r_offset], ldr, 5L, 9L);
+            dsyrk_("Upper", "Transpose", m, &ns, &c_b29, &u[u_offset], ldu, &upd, &r__[r_offset],
+                ldr, 5L, 9L);
             jd = 1;
-            if (first || ! connec)
-            {
+            if (first || !connec) {
                 i__1 = nobr2;
-                for (j = 2; j <= i__1; ++j)
-                {
+                for (j = 2; j <= i__1; ++j) {
                     jd += *m;
                     id = *m + 1;
                     /*                 Compute/update  Guu(1,j). */
-                    dgemm_("Transpose", "NoTranspose", m, m, &ns, &c_b29, &u[u_offset], ldu, &u[j + u_dim1], ldu, &upd, &r__[jd * r_dim1 + 1], ldr, 9L, 11L);
+                    dgemm_("Transpose", "NoTranspose", m, m, &ns, &c_b29, &u[u_offset], ldu,
+                        &u[j + u_dim1], ldu, &upd, &r__[jd * r_dim1 + 1], ldr, 9L, 11L);
                     /*                 Compute/update  Guu(2:j,j), exploiting the */
                     /*                 block-Hankel structure. */
-                    if (first)
-                    {
+                    if (first) {
                         i__2 = jd - 1;
-                        for (i__ = jd - *m; i__ <= i__2; ++i__)
-                        {
-                            dcopy_(&i__, &r__[i__ * r_dim1 + 1], &c__1, &r__[*m + 1 + (*m + i__) * r_dim1], &c__1);
+                        for (i__ = jd - *m; i__ <= i__2; ++i__) {
+                            dcopy_(&i__, &r__[i__ * r_dim1 + 1], &c__1,
+                                &r__[*m + 1 + (*m + i__) * r_dim1], &c__1);
                             /* L30: */
                         }
-                    }
-                    else
-                    {
+                    } else {
                         i__2 = jd - 1;
-                        for (i__ = jd - *m; i__ <= i__2; ++i__)
-                        {
-                            daxpy_(&i__, &c_b29, &r__[i__ * r_dim1 + 1], &c__1, &r__[*m + 1 + (*m + i__) * r_dim1], &c__1);
+                        for (i__ = jd - *m; i__ <= i__2; ++i__) {
+                            daxpy_(&i__, &c_b29, &r__[i__ * r_dim1 + 1], &c__1,
+                                &r__[*m + 1 + (*m + i__) * r_dim1], &c__1);
                             /* L40: */
                         }
                     }
                     i__2 = j - 1;
-                    for (i__ = 2; i__ <= i__2; ++i__)
-                    {
-                        dger_(m, m, &c_b29, &u[ns + i__ - 1 + u_dim1], ldu, &u[ns + j - 1 + u_dim1], ldu, &r__[id + jd * r_dim1], ldr);
-                        dger_(m, m, &c_b24, &u[i__ - 1 + u_dim1], ldu, &u[j - 1 + u_dim1], ldu, &r__[id + jd * r_dim1], ldr);
+                    for (i__ = 2; i__ <= i__2; ++i__) {
+                        dger_(m, m, &c_b29, &u[ns + i__ - 1 + u_dim1], ldu, &u[ns + j - 1 + u_dim1],
+                            ldu, &r__[id + jd * r_dim1], ldr);
+                        dger_(m, m, &c_b24, &u[i__ - 1 + u_dim1], ldu, &u[j - 1 + u_dim1], ldu,
+                            &r__[id + jd * r_dim1], ldr);
                         id += *m;
                         /* L50: */
                     }
                     i__2 = *m;
-                    for (i__ = 1; i__ <= i__2; ++i__)
-                    {
-                        daxpy_(&i__, &u[ns + j - 1 + i__ * u_dim1], &u[ns + j - 1 + u_dim1], ldu, &r__[jd + (jd + i__ - 1) * r_dim1], &c__1);
+                    for (i__ = 1; i__ <= i__2; ++i__) {
+                        daxpy_(&i__, &u[ns + j - 1 + i__ * u_dim1], &u[ns + j - 1 + u_dim1], ldu,
+                            &r__[jd + (jd + i__ - 1) * r_dim1], &c__1);
                         d__1 = -u[j - 1 + i__ * u_dim1];
-                        daxpy_(&i__, &d__1, &u[j - 1 + u_dim1], ldu, &r__[jd + (jd + i__ - 1) * r_dim1], &c__1);
+                        daxpy_(&i__, &d__1, &u[j - 1 + u_dim1], ldu,
+                            &r__[jd + (jd + i__ - 1) * r_dim1], &c__1);
                         /* L60: */
                     }
                     /* L70: */
                 }
-            }
-            else
-            {
+            } else {
                 i__1 = nobr2;
-                for (j = 2; j <= i__1; ++j)
-                {
+                for (j = 2; j <= i__1; ++j) {
                     jd += *m;
                     id = *m + 1;
                     /*                 Compute/update  Guu(1,j)  for sequential processing */
                     /*                 with connected blocks. */
-                    dgemm_("Transpose", "NoTranspose", m, m, &nobr21, &c_b29, &dwork[1], &ldrwrk, &dwork[j], &ldrwrk, &upd, &r__[jd * r_dim1 + 1], ldr, 9L, 11L);
-                    dgemm_("Transpose", "NoTranspose", m, m, &ns, &c_b29, &u[u_offset], ldu, &u[j + u_dim1], ldu, &c_b29, &r__[jd * r_dim1 + 1], ldr, 9L, 11L);
+                    dgemm_("Transpose", "NoTranspose", m, m, &nobr21, &c_b29, &dwork[1], &ldrwrk,
+                        &dwork[j], &ldrwrk, &upd, &r__[jd * r_dim1 + 1], ldr, 9L, 11L);
+                    dgemm_("Transpose", "NoTranspose", m, m, &ns, &c_b29, &u[u_offset], ldu,
+                        &u[j + u_dim1], ldu, &c_b29, &r__[jd * r_dim1 + 1], ldr, 9L, 11L);
                     /*                 Compute/update  Guu(2:j,j)  for sequential processing */
                     /*                 with connected blocks, exploiting the block-Hankel */
                     /*                 structure. */
-                    if (first)
-                    {
+                    if (first) {
                         i__2 = jd - 1;
-                        for (i__ = jd - *m; i__ <= i__2; ++i__)
-                        {
-                            dcopy_(&i__, &r__[i__ * r_dim1 + 1], &c__1, &r__[*m + 1 + (*m + i__) * r_dim1], &c__1);
+                        for (i__ = jd - *m; i__ <= i__2; ++i__) {
+                            dcopy_(&i__, &r__[i__ * r_dim1 + 1], &c__1,
+                                &r__[*m + 1 + (*m + i__) * r_dim1], &c__1);
                             /* L80: */
                         }
-                    }
-                    else
-                    {
+                    } else {
                         i__2 = jd - 1;
-                        for (i__ = jd - *m; i__ <= i__2; ++i__)
-                        {
-                            daxpy_(&i__, &c_b29, &r__[i__ * r_dim1 + 1], &c__1, &r__[*m + 1 + (*m + i__) * r_dim1], &c__1);
+                        for (i__ = jd - *m; i__ <= i__2; ++i__) {
+                            daxpy_(&i__, &c_b29, &r__[i__ * r_dim1 + 1], &c__1,
+                                &r__[*m + 1 + (*m + i__) * r_dim1], &c__1);
                             /* L90: */
                         }
                     }
                     i__2 = j - 1;
-                    for (i__ = 2; i__ <= i__2; ++i__)
-                    {
-                        dger_(m, m, &c_b29, &u[ns + i__ - 1 + u_dim1], ldu, &u[ns + j - 1 + u_dim1], ldu, &r__[id + jd * r_dim1], ldr);
-                        dger_(m, m, &c_b24, &dwork[i__ - 1], &ldrwrk, &dwork[j - 1], &ldrwrk, &r__[id + jd * r_dim1], ldr);
+                    for (i__ = 2; i__ <= i__2; ++i__) {
+                        dger_(m, m, &c_b29, &u[ns + i__ - 1 + u_dim1], ldu, &u[ns + j - 1 + u_dim1],
+                            ldu, &r__[id + jd * r_dim1], ldr);
+                        dger_(m, m, &c_b24, &dwork[i__ - 1], &ldrwrk, &dwork[j - 1], &ldrwrk,
+                            &r__[id + jd * r_dim1], ldr);
                         id += *m;
                         /* L100: */
                     }
                     i__2 = *m;
-                    for (i__ = 1; i__ <= i__2; ++i__)
-                    {
-                        daxpy_(&i__, &u[ns + j - 1 + i__ * u_dim1], &u[ns + j - 1 + u_dim1], ldu, &r__[jd + (jd + i__ - 1) * r_dim1], &c__1);
+                    for (i__ = 1; i__ <= i__2; ++i__) {
+                        daxpy_(&i__, &u[ns + j - 1 + i__ * u_dim1], &u[ns + j - 1 + u_dim1], ldu,
+                            &r__[jd + (jd + i__ - 1) * r_dim1], &c__1);
                         d__1 = -dwork[(i__ - 1) * ldrwrk + j - 1];
-                        daxpy_(&i__, &d__1, &dwork[j - 1], &ldrwrk, &r__[jd + (jd + i__ - 1) * r_dim1], &c__1);
+                        daxpy_(&i__, &d__1, &dwork[j - 1], &ldrwrk,
+                            &r__[jd + (jd + i__ - 1) * r_dim1], &c__1);
                         /* L110: */
                     }
                     /* L120: */
                 }
             }
-            if (last && moesp)
-            {
+            if (last && moesp) {
                 /*              Interchange past and future parts for MOESP algorithm. */
                 /*              (Only the upper triangular parts are interchanged, and */
                 /*              the (1,2) part is transposed in-situ.) */
@@ -716,11 +655,12 @@ ftnlen conct_len;
                 r__[r_dim1 + 1] = r__[mnobr + 1 + (mnobr + 1) * r_dim1];
                 r__[mnobr + 1 + (mnobr + 1) * r_dim1] = temp;
                 i__1 = mnobr;
-                for (j = 2; j <= i__1; ++j)
-                {
-                    dswap_(&j, &r__[j * r_dim1 + 1], &c__1, &r__[mnobr + 1 + (mnobr + j) * r_dim1], &c__1);
+                for (j = 2; j <= i__1; ++j) {
+                    dswap_(&j, &r__[j * r_dim1 + 1], &c__1, &r__[mnobr + 1 + (mnobr + j) * r_dim1],
+                        &c__1);
                     i__2 = j - 1;
-                    dswap_(&i__2, &r__[(mnobr + j) * r_dim1 + 1], &c__1, &r__[j + (mnobr + 1) * r_dim1], ldr);
+                    dswap_(&i__2, &r__[(mnobr + j) * r_dim1 + 1], &c__1,
+                        &r__[j + (mnobr + 1) * r_dim1], ldr);
                     /* L130: */
                 }
             }
@@ -739,130 +679,124 @@ ftnlen conct_len;
             /*           Guy(i+1,j+1) = Guy0(i+1,j+1) - Guy0(i,j) + Guy(i,j) + */
             /*                                 u_(i+NS)*y(j+NS)' - u_i*y_j'. */
             ii = mmnobr - *m;
-            if (! first)
-            {
+            if (!first) {
                 /*              Subtract the contribution of the previous block of data */
                 /*              in sequential processing. The columns must be processed */
                 /*              in backward order. */
                 i__1 = mmnobr + 1;
-                for (i__ = nr - *l; i__ >= i__1; --i__)
-                {
-                    daxpy_(&ii, &c_b24, &r__[i__ * r_dim1 + 1], &c__1, &r__[*m + 1 + (*l + i__) * r_dim1], &c__1);
+                for (i__ = nr - *l; i__ >= i__1; --i__) {
+                    daxpy_(&ii, &c_b24, &r__[i__ * r_dim1 + 1], &c__1,
+                        &r__[*m + 1 + (*l + i__) * r_dim1], &c__1);
                     /* L140: */
                 }
             }
             /*           Compute/update the first block-column of  Guy,  Guy(i,1). */
-            if (first || ! connec)
-            {
+            if (first || !connec) {
                 i__1 = nobr2;
-                for (i__ = 1; i__ <= i__1; ++i__)
-                {
-                    dgemm_("Transpose", "NoTranspose", m, l, &ns, &c_b29, &u[i__ + u_dim1], ldu, &y[y_offset], ldy, &upd, &r__[(i__ - 1) **m + 1 + (mmnobr + 1) * r_dim1], ldr, 9L, 11L);
+                for (i__ = 1; i__ <= i__1; ++i__) {
+                    dgemm_("Transpose", "NoTranspose", m, l, &ns, &c_b29, &u[i__ + u_dim1], ldu,
+                        &y[y_offset], ldy, &upd, &r__[(i__ - 1) * *m + 1 + (mmnobr + 1) * r_dim1],
+                        ldr, 9L, 11L);
                     /* L150: */
                 }
-            }
-            else
-            {
+            } else {
                 i__1 = nobr2;
-                for (i__ = 1; i__ <= i__1; ++i__)
-                {
-                    dgemm_("Transpose", "NoTranspose", m, l, &nobr21, &c_b29, &dwork[i__], &ldrwrk, &dwork[ldrwrk **m + 1], &ldrwrk, &upd, &r__[(i__ - 1) **m + 1 + (mmnobr + 1) * r_dim1], ldr, 9L, 11L);
-                    dgemm_("Transpose", "NoTranspose", m, l, &ns, &c_b29, &u[i__ + u_dim1], ldu, &y[y_offset], ldy, &c_b29, &r__[(i__ - 1) **m + 1 + (mmnobr + 1) * r_dim1], ldr, 9L, 11L);
+                for (i__ = 1; i__ <= i__1; ++i__) {
+                    dgemm_("Transpose", "NoTranspose", m, l, &nobr21, &c_b29, &dwork[i__], &ldrwrk,
+                        &dwork[ldrwrk * *m + 1], &ldrwrk, &upd,
+                        &r__[(i__ - 1) * *m + 1 + (mmnobr + 1) * r_dim1], ldr, 9L, 11L);
+                    dgemm_("Transpose", "NoTranspose", m, l, &ns, &c_b29, &u[i__ + u_dim1], ldu,
+                        &y[y_offset], ldy, &c_b29, &r__[(i__ - 1) * *m + 1 + (mmnobr + 1) * r_dim1],
+                        ldr, 9L, 11L);
                     /* L160: */
                 }
             }
             jd = mmnobr + 1;
-            if (first || ! connec)
-            {
+            if (first || !connec) {
                 i__1 = nobr2;
-                for (j = 2; j <= i__1; ++j)
-                {
+                for (j = 2; j <= i__1; ++j) {
                     jd += *l;
                     id = *m + 1;
                     /*                 Compute/update  Guy(1,j). */
-                    dgemm_("Transpose", "NoTranspose", m, l, &ns, &c_b29, &u[u_offset], ldu, &y[j + y_dim1], ldy, &upd, &r__[jd * r_dim1 + 1], ldr, 9L, 11L);
+                    dgemm_("Transpose", "NoTranspose", m, l, &ns, &c_b29, &u[u_offset], ldu,
+                        &y[j + y_dim1], ldy, &upd, &r__[jd * r_dim1 + 1], ldr, 9L, 11L);
                     /*                 Compute/update  Guy(2:2*s,j), exploiting the */
                     /*                 block-Hankel structure. */
-                    if (first)
-                    {
+                    if (first) {
                         i__2 = jd - 1;
-                        for (i__ = jd - *l; i__ <= i__2; ++i__)
-                        {
-                            dcopy_(&ii, &r__[i__ * r_dim1 + 1], &c__1, &r__[*m + 1 + (*l + i__) * r_dim1], &c__1);
+                        for (i__ = jd - *l; i__ <= i__2; ++i__) {
+                            dcopy_(&ii, &r__[i__ * r_dim1 + 1], &c__1,
+                                &r__[*m + 1 + (*l + i__) * r_dim1], &c__1);
                             /* L170: */
                         }
-                    }
-                    else
-                    {
+                    } else {
                         i__2 = jd - 1;
-                        for (i__ = jd - *l; i__ <= i__2; ++i__)
-                        {
-                            daxpy_(&ii, &c_b29, &r__[i__ * r_dim1 + 1], &c__1, &r__[*m + 1 + (*l + i__) * r_dim1], &c__1);
+                        for (i__ = jd - *l; i__ <= i__2; ++i__) {
+                            daxpy_(&ii, &c_b29, &r__[i__ * r_dim1 + 1], &c__1,
+                                &r__[*m + 1 + (*l + i__) * r_dim1], &c__1);
                             /* L180: */
                         }
                     }
                     i__2 = nobr2;
-                    for (i__ = 2; i__ <= i__2; ++i__)
-                    {
-                        dger_(m, l, &c_b29, &u[ns + i__ - 1 + u_dim1], ldu, &y[ns + j - 1 + y_dim1], ldy, &r__[id + jd * r_dim1], ldr);
-                        dger_(m, l, &c_b24, &u[i__ - 1 + u_dim1], ldu, &y[j - 1 + y_dim1], ldy, &r__[id + jd * r_dim1], ldr);
+                    for (i__ = 2; i__ <= i__2; ++i__) {
+                        dger_(m, l, &c_b29, &u[ns + i__ - 1 + u_dim1], ldu, &y[ns + j - 1 + y_dim1],
+                            ldy, &r__[id + jd * r_dim1], ldr);
+                        dger_(m, l, &c_b24, &u[i__ - 1 + u_dim1], ldu, &y[j - 1 + y_dim1], ldy,
+                            &r__[id + jd * r_dim1], ldr);
                         id += *m;
                         /* L190: */
                     }
                     /* L200: */
                 }
-            }
-            else
-            {
+            } else {
                 i__1 = nobr2;
-                for (j = 2; j <= i__1; ++j)
-                {
+                for (j = 2; j <= i__1; ++j) {
                     jd += *l;
                     id = *m + 1;
                     /*                 Compute/update  Guy(1,j)  for sequential processing */
                     /*                 with connected blocks. */
-                    dgemm_("Transpose", "NoTranspose", m, l, &nobr21, &c_b29, &dwork[1], &ldrwrk, &dwork[ldrwrk **m + j], &ldrwrk, &upd, &r__[jd * r_dim1 + 1], ldr, 9L, 11L);
-                    dgemm_("Transpose", "NoTranspose", m, l, &ns, &c_b29, &u[u_offset], ldu, &y[j + y_dim1], ldy, &c_b29, &r__[jd * r_dim1 + 1], ldr, 9L, 11L);
+                    dgemm_("Transpose", "NoTranspose", m, l, &nobr21, &c_b29, &dwork[1], &ldrwrk,
+                        &dwork[ldrwrk * *m + j], &ldrwrk, &upd, &r__[jd * r_dim1 + 1], ldr, 9L,
+                        11L);
+                    dgemm_("Transpose", "NoTranspose", m, l, &ns, &c_b29, &u[u_offset], ldu,
+                        &y[j + y_dim1], ldy, &c_b29, &r__[jd * r_dim1 + 1], ldr, 9L, 11L);
                     /*                 Compute/update  Guy(2:2*s,j)  for sequential */
                     /*                 processing with connected blocks, exploiting the */
                     /*                 block-Hankel structure. */
-                    if (first)
-                    {
+                    if (first) {
                         i__2 = jd - 1;
-                        for (i__ = jd - *l; i__ <= i__2; ++i__)
-                        {
-                            dcopy_(&ii, &r__[i__ * r_dim1 + 1], &c__1, &r__[*m + 1 + (*l + i__) * r_dim1], &c__1);
+                        for (i__ = jd - *l; i__ <= i__2; ++i__) {
+                            dcopy_(&ii, &r__[i__ * r_dim1 + 1], &c__1,
+                                &r__[*m + 1 + (*l + i__) * r_dim1], &c__1);
                             /* L210: */
                         }
-                    }
-                    else
-                    {
+                    } else {
                         i__2 = jd - 1;
-                        for (i__ = jd - *l; i__ <= i__2; ++i__)
-                        {
-                            daxpy_(&ii, &c_b29, &r__[i__ * r_dim1 + 1], &c__1, &r__[*m + 1 + (*l + i__) * r_dim1], &c__1);
+                        for (i__ = jd - *l; i__ <= i__2; ++i__) {
+                            daxpy_(&ii, &c_b29, &r__[i__ * r_dim1 + 1], &c__1,
+                                &r__[*m + 1 + (*l + i__) * r_dim1], &c__1);
                             /* L220: */
                         }
                     }
                     i__2 = nobr2;
-                    for (i__ = 2; i__ <= i__2; ++i__)
-                    {
-                        dger_(m, l, &c_b29, &u[ns + i__ - 1 + u_dim1], ldu, &y[ns + j - 1 + y_dim1], ldy, &r__[id + jd * r_dim1], ldr);
-                        dger_(m, l, &c_b24, &dwork[i__ - 1], &ldrwrk, &dwork[ldrwrk **m + j - 1], &ldrwrk, &r__[id + jd * r_dim1], ldr);
+                    for (i__ = 2; i__ <= i__2; ++i__) {
+                        dger_(m, l, &c_b29, &u[ns + i__ - 1 + u_dim1], ldu, &y[ns + j - 1 + y_dim1],
+                            ldy, &r__[id + jd * r_dim1], ldr);
+                        dger_(m, l, &c_b24, &dwork[i__ - 1], &ldrwrk, &dwork[ldrwrk * *m + j - 1],
+                            &ldrwrk, &r__[id + jd * r_dim1], ldr);
                         id += *m;
                         /* L230: */
                     }
                     /* L240: */
                 }
             }
-            if (last && moesp)
-            {
+            if (last && moesp) {
                 /*              Interchange past and future parts of U-Y correlations */
                 /*              for MOESP algorithm. */
                 i__1 = nr;
-                for (j = mmnobr + 1; j <= i__1; ++j)
-                {
-                    dswap_(&mnobr, &r__[j * r_dim1 + 1], &c__1, &r__[mnobr + 1 + j * r_dim1], &c__1);
+                for (j = mmnobr + 1; j <= i__1; ++j) {
+                    dswap_(
+                        &mnobr, &r__[j * r_dim1 + 1], &c__1, &r__[mnobr + 1 + j * r_dim1], &c__1);
                     /* L250: */
                 }
             }
@@ -883,205 +817,188 @@ ftnlen conct_len;
         /*        Gyy(i+1,j+1) = Gyy0(i+1,j+1) - Gyy0(i,j) + Gyy(i,j) + */
         /*                              y_(i+NS)*y_(j+NS)' - y_i*y_j'. */
         jd = mmnobr + 1;
-        if (! first)
-        {
+        if (!first) {
             /*           Subtract the contribution of the previous block of data */
             /*           in sequential processing. The columns must be processed in */
             /*           backward order. */
             i__1 = mmnobr + 1;
-            for (i__ = nr - *l; i__ >= i__1; --i__)
-            {
+            for (i__ = nr - *l; i__ >= i__1; --i__) {
                 i__2 = i__ - mmnobr;
-                daxpy_(&i__2, &c_b24, &r__[jd + i__ * r_dim1], &c__1, &r__[jd + *l + (*l + i__) * r_dim1], &c__1);
+                daxpy_(&i__2, &c_b24, &r__[jd + i__ * r_dim1], &c__1,
+                    &r__[jd + *l + (*l + i__) * r_dim1], &c__1);
                 /* L260: */
             }
         }
         /*        Compute/update  Gyy(1,1). */
-        if (! first && connec)
-        {
-            dsyrk_("Upper", "Transpose", l, &nobr21, &c_b29, &dwork[ldrwrk **m + 1], &ldrwrk, &upd, &r__[jd + jd * r_dim1], ldr, 5L, 9L);
+        if (!first && connec) {
+            dsyrk_("Upper", "Transpose", l, &nobr21, &c_b29, &dwork[ldrwrk * *m + 1], &ldrwrk, &upd,
+                &r__[jd + jd * r_dim1], ldr, 5L, 9L);
         }
-        dsyrk_("Upper", "Transpose", l, &ns, &c_b29, &y[y_offset], ldy, &upd, &r__[jd + jd * r_dim1], ldr, 5L, 9L);
-        if (first || ! connec)
-        {
+        dsyrk_("Upper", "Transpose", l, &ns, &c_b29, &y[y_offset], ldy, &upd,
+            &r__[jd + jd * r_dim1], ldr, 5L, 9L);
+        if (first || !connec) {
             i__1 = nobr2;
-            for (j = 2; j <= i__1; ++j)
-            {
+            for (j = 2; j <= i__1; ++j) {
                 jd += *l;
                 id = mmnobr + *l + 1;
                 /*              Compute/update  Gyy(1,j). */
-                dgemm_("Transpose", "NoTranspose", l, l, &ns, &c_b29, &y[y_offset], ldy, &y[j + y_dim1], ldy, &upd, &r__[mmnobr + 1 + jd * r_dim1], ldr, 9L, 11L);
+                dgemm_("Transpose", "NoTranspose", l, l, &ns, &c_b29, &y[y_offset], ldy,
+                    &y[j + y_dim1], ldy, &upd, &r__[mmnobr + 1 + jd * r_dim1], ldr, 9L, 11L);
                 /*              Compute/update  Gyy(2:j,j), exploiting the block-Hankel */
                 /*              structure. */
-                if (first)
-                {
+                if (first) {
                     i__2 = jd - 1;
-                    for (i__ = jd - *l; i__ <= i__2; ++i__)
-                    {
+                    for (i__ = jd - *l; i__ <= i__2; ++i__) {
                         i__3 = i__ - mmnobr;
-                        dcopy_(&i__3, &r__[mmnobr + 1 + i__ * r_dim1], &c__1, &r__[mmnobr + *l + 1 + (*l + i__) * r_dim1], &c__1);
+                        dcopy_(&i__3, &r__[mmnobr + 1 + i__ * r_dim1], &c__1,
+                            &r__[mmnobr + *l + 1 + (*l + i__) * r_dim1], &c__1);
                         /* L270: */
                     }
-                }
-                else
-                {
+                } else {
                     i__2 = jd - 1;
-                    for (i__ = jd - *l; i__ <= i__2; ++i__)
-                    {
+                    for (i__ = jd - *l; i__ <= i__2; ++i__) {
                         i__3 = i__ - mmnobr;
-                        daxpy_(&i__3, &c_b29, &r__[mmnobr + 1 + i__ * r_dim1], &c__1, &r__[mmnobr + *l + 1 + (*l + i__) * r_dim1], &c__1);
+                        daxpy_(&i__3, &c_b29, &r__[mmnobr + 1 + i__ * r_dim1], &c__1,
+                            &r__[mmnobr + *l + 1 + (*l + i__) * r_dim1], &c__1);
                         /* L280: */
                     }
                 }
                 i__2 = j - 1;
-                for (i__ = 2; i__ <= i__2; ++i__)
-                {
-                    dger_(l, l, &c_b29, &y[ns + i__ - 1 + y_dim1], ldy, &y[ns + j - 1 + y_dim1], ldy, &r__[id + jd * r_dim1], ldr);
-                    dger_(l, l, &c_b24, &y[i__ - 1 + y_dim1], ldy, &y[j - 1 + y_dim1], ldy, &r__[id + jd * r_dim1], ldr);
+                for (i__ = 2; i__ <= i__2; ++i__) {
+                    dger_(l, l, &c_b29, &y[ns + i__ - 1 + y_dim1], ldy, &y[ns + j - 1 + y_dim1],
+                        ldy, &r__[id + jd * r_dim1], ldr);
+                    dger_(l, l, &c_b24, &y[i__ - 1 + y_dim1], ldy, &y[j - 1 + y_dim1], ldy,
+                        &r__[id + jd * r_dim1], ldr);
                     id += *l;
                     /* L290: */
                 }
                 i__2 = *l;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
-                    daxpy_(&i__, &y[ns + j - 1 + i__ * y_dim1], &y[ns + j - 1 + y_dim1], ldy, &r__[jd + (jd + i__ - 1) * r_dim1], &c__1);
+                for (i__ = 1; i__ <= i__2; ++i__) {
+                    daxpy_(&i__, &y[ns + j - 1 + i__ * y_dim1], &y[ns + j - 1 + y_dim1], ldy,
+                        &r__[jd + (jd + i__ - 1) * r_dim1], &c__1);
                     d__1 = -y[j - 1 + i__ * y_dim1];
-                    daxpy_(&i__, &d__1, &y[j - 1 + y_dim1], ldy, &r__[jd + (jd + i__ - 1) * r_dim1], &c__1);
+                    daxpy_(&i__, &d__1, &y[j - 1 + y_dim1], ldy, &r__[jd + (jd + i__ - 1) * r_dim1],
+                        &c__1);
                     /* L300: */
                 }
                 /* L310: */
             }
-        }
-        else
-        {
+        } else {
             i__1 = nobr2;
-            for (j = 2; j <= i__1; ++j)
-            {
+            for (j = 2; j <= i__1; ++j) {
                 jd += *l;
                 id = mmnobr + *l + 1;
                 /*              Compute/update  Gyy(1,j)  for sequential processing with */
                 /*              connected blocks. */
-                dgemm_("Transpose", "NoTranspose", l, l, &nobr21, &c_b29, &dwork[ldrwrk **m + 1], &ldrwrk, &dwork[ldrwrk **m + j], &ldrwrk, &upd, &r__[mmnobr + 1 + jd * r_dim1], ldr, 9L, 11L);
-                dgemm_("Transpose", "NoTranspose", l, l, &ns, &c_b29, &y[y_offset], ldy, &y[j + y_dim1], ldy, &c_b29, &r__[mmnobr + 1 + jd * r_dim1], ldr, 9L, 11L);
+                dgemm_("Transpose", "NoTranspose", l, l, &nobr21, &c_b29, &dwork[ldrwrk * *m + 1],
+                    &ldrwrk, &dwork[ldrwrk * *m + j], &ldrwrk, &upd, &r__[mmnobr + 1 + jd * r_dim1],
+                    ldr, 9L, 11L);
+                dgemm_("Transpose", "NoTranspose", l, l, &ns, &c_b29, &y[y_offset], ldy,
+                    &y[j + y_dim1], ldy, &c_b29, &r__[mmnobr + 1 + jd * r_dim1], ldr, 9L, 11L);
                 /*              Compute/update  Gyy(2:j,j)  for sequential processing */
                 /*              with connected blocks, exploiting the block-Hankel */
                 /*              structure. */
-                if (first)
-                {
+                if (first) {
                     i__2 = jd - 1;
-                    for (i__ = jd - *l; i__ <= i__2; ++i__)
-                    {
+                    for (i__ = jd - *l; i__ <= i__2; ++i__) {
                         i__3 = i__ - mmnobr;
-                        dcopy_(&i__3, &r__[mmnobr + 1 + i__ * r_dim1], &c__1, &r__[mmnobr + *l + 1 + (*l + i__) * r_dim1], &c__1);
+                        dcopy_(&i__3, &r__[mmnobr + 1 + i__ * r_dim1], &c__1,
+                            &r__[mmnobr + *l + 1 + (*l + i__) * r_dim1], &c__1);
                         /* L320: */
                     }
-                }
-                else
-                {
+                } else {
                     i__2 = jd - 1;
-                    for (i__ = jd - *l; i__ <= i__2; ++i__)
-                    {
+                    for (i__ = jd - *l; i__ <= i__2; ++i__) {
                         i__3 = i__ - mmnobr;
-                        daxpy_(&i__3, &c_b29, &r__[mmnobr + 1 + i__ * r_dim1], &c__1, &r__[mmnobr + *l + 1 + (*l + i__) * r_dim1], &c__1);
+                        daxpy_(&i__3, &c_b29, &r__[mmnobr + 1 + i__ * r_dim1], &c__1,
+                            &r__[mmnobr + *l + 1 + (*l + i__) * r_dim1], &c__1);
                         /* L330: */
                     }
                 }
                 i__2 = j - 1;
-                for (i__ = 2; i__ <= i__2; ++i__)
-                {
-                    dger_(l, l, &c_b29, &y[ns + i__ - 1 + y_dim1], ldy, &y[ns + j - 1 + y_dim1], ldy, &r__[id + jd * r_dim1], ldr);
-                    dger_(l, l, &c_b24, &dwork[ldrwrk **m + i__ - 1], &ldrwrk, &dwork[ldrwrk **m + j - 1], &ldrwrk, &r__[id + jd * r_dim1], ldr);
+                for (i__ = 2; i__ <= i__2; ++i__) {
+                    dger_(l, l, &c_b29, &y[ns + i__ - 1 + y_dim1], ldy, &y[ns + j - 1 + y_dim1],
+                        ldy, &r__[id + jd * r_dim1], ldr);
+                    dger_(l, l, &c_b24, &dwork[ldrwrk * *m + i__ - 1], &ldrwrk,
+                        &dwork[ldrwrk * *m + j - 1], &ldrwrk, &r__[id + jd * r_dim1], ldr);
                     id += *l;
                     /* L340: */
                 }
                 i__2 = *l;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
-                    daxpy_(&i__, &y[ns + j - 1 + i__ * y_dim1], &y[ns + j - 1 + y_dim1], ldy, &r__[jd + (jd + i__ - 1) * r_dim1], &c__1);
+                for (i__ = 1; i__ <= i__2; ++i__) {
+                    daxpy_(&i__, &y[ns + j - 1 + i__ * y_dim1], &y[ns + j - 1 + y_dim1], ldy,
+                        &r__[jd + (jd + i__ - 1) * r_dim1], &c__1);
                     d__1 = -dwork[ldrwrk * (*m + i__ - 1) + j - 1];
-                    daxpy_(&i__, &d__1, &dwork[ldrwrk **m + j - 1], &ldrwrk, &r__[jd + (jd + i__ - 1) * r_dim1], &c__1);
+                    daxpy_(&i__, &d__1, &dwork[ldrwrk * *m + j - 1], &ldrwrk,
+                        &r__[jd + (jd + i__ - 1) * r_dim1], &c__1);
                     /* L350: */
                 }
                 /* L360: */
             }
         }
-        if (! last)
-        {
-            if (connec)
-            {
+        if (!last) {
+            if (connec) {
                 /*              For sequential processing with connected data blocks, */
                 /*              save the remaining ("connection") elements of  U  and  Y */
                 /*              in the first  (M+L)*(2*NOBR-1)  locations of  DWORK. */
-                if (*m > 0)
-                {
+                if (*m > 0) {
                     dlacpy_("Full", &nobr21, m, &u[ns + 1 + u_dim1], ldu, &dwork[1], &nobr21, 4L);
                 }
-                dlacpy_("Full", &nobr21, l, &y[ns + 1 + y_dim1], ldy, &dwork[mmnobr - *m + 1], &nobr21, 4L);
+                dlacpy_("Full", &nobr21, l, &y[ns + 1 + y_dim1], ldy, &dwork[mmnobr - *m + 1],
+                    &nobr21, 4L);
             }
             /*           Return to get new data. */
             ++icycle;
-            if (icycle > 100)
-            {
+            if (icycle > 100) {
                 *iwarn = 1;
             }
             return 0;
-        }
-        else
-        {
+        } else {
             /*           Try to compute the Cholesky factor of the correlation */
             /*           matrix. */
             dpotrf_("Upper", &nr, &r__[r_offset], ldr, &ierr, 5L);
             goto L370;
         }
-    }
-    else if (fqralg)
-    {
+    } else if (fqralg) {
         /*        Compute the  R  factor from a fast QR factorization of the */
         /*        input-output data correlation matrix. */
-        ib01my_(meth, batch, conct, nobr, m, l, nsmp, &u[u_offset], ldu, &y[y_offset], ldy, &r__[r_offset], ldr, &iwork[1], &dwork[1], ldwork, iwarn, &ierr, 1L, 1L, 1L);
-        if (! last)
-        {
+        ib01my_(meth, batch, conct, nobr, m, l, nsmp, &u[u_offset], ldu, &y[y_offset], ldy,
+            &r__[r_offset], ldr, &iwork[1], &dwork[1], ldwork, iwarn, &ierr, 1L, 1L, 1L);
+        if (!last) {
             return 0;
         }
         /* Computing MAX */
-        i__1 = maxwrk, i__2 = (integer) dwork[1];
-        maxwrk = max(i__1,i__2);
+        i__1 = maxwrk, i__2 = (integer)dwork[1];
+        maxwrk = max(i__1, i__2);
     }
 L370:
-    if (ierr != 0)
-    {
+    if (ierr != 0) {
         /*        Error return from a fast factorization algorithm of the */
         /*        input-output data correlation matrix. */
-        if (onebch)
-        {
+        if (onebch) {
             qralg = TRUE_;
             *iwarn = 2;
             minwrk = nr << 1;
             maxwrk = nr + nr * ilaenv_(&c__1, "DGEQRF", " ", &ns, &nr, &c_n1, &c_n1, 6L, 1L);
-            if (*ldr < ns)
-            {
+            if (*ldr < ns) {
                 minwrk += nr;
                 maxwrk = ns * nr + maxwrk;
             }
-            maxwrk = max(minwrk,maxwrk);
-            if (*ldwork < minwrk)
-            {
+            maxwrk = max(minwrk, maxwrk);
+            if (*ldwork < minwrk) {
                 *info = -17;
                 /*              Return: Not enough workspace. */
-                dwork[1] = (doublereal) minwrk;
+                dwork[1] = (doublereal)minwrk;
                 i__1 = -(*info);
                 xerbla_("IB01MD", &i__1, 6L);
                 return 0;
             }
-        }
-        else
-        {
+        } else {
             *info = 1;
             return 0;
         }
     }
-    if (qralg)
-    {
+    if (qralg) {
         /*        Compute the  R  factor from a QR factorization of the matrix  H */
         /*        of concatenated block Hankel matrices. */
         /*        Construct the matrix  H. */
@@ -1099,52 +1016,40 @@ L370:
         ncycle = 1;
         nslast = *nsmp;
         linr = FALSE_;
-        if (first)
-        {
+        if (first) {
             linr = *ldr >= ns;
             ldrwrk = ns;
-        }
-        else if (connec)
-        {
+        } else if (connec) {
             ldrwrk = *nsmp;
-        }
-        else
-        {
+        } else {
             ldrwrk = ns;
         }
         inicyc = 1;
-        if (! linr)
-        {
-            if (ldrwmx < ldrwrk)
-            {
+        if (!linr) {
+            if (ldrwmx < ldrwrk) {
                 /*              Not enough working space for doing a single inner cycle. */
                 /*              NCYCLE inner cycles are to be performed for the current */
                 /*              data block using the working space. */
                 ncycle = ldrwrk / ldrwmx;
                 nslast = ldrwrk % ldrwmx;
-                if (nslast != 0)
-                {
+                if (nslast != 0) {
                     ++ncycle;
-                }
-                else
-                {
+                } else {
                     nslast = ldrwmx;
                 }
                 ldrwrk = ldrwmx;
                 ns = ldrwrk;
-                if (first)
-                {
+                if (first) {
                     inicyc = 2;
                 }
             }
             mldrw = *m * ldrwrk;
             lldrw = *l * ldrwrk;
-            inu = mldrw **nobr + 1;
+            inu = mldrw * *nobr + 1;
             iny = mldrw * nobr2 + 1;
         }
         /*        Process the data given at the current call. */
-        if (! first && connec)
-        {
+        if (!first && connec) {
             /*           Restore the saved (M+L)*(2*NOBR-1) "connection" elements of */
             /*           U  and  Y  into their appropriate position in sequential */
             /*           processing. The process is performed column-wise, in */
@@ -1152,10 +1057,8 @@ L370:
             irev = nr - *m - *l - nobr21 + 1;
             icol = iny + lldrw - ldrwrk;
             i__1 = *l;
-            for (j = 1; j <= i__1; ++j)
-            {
-                for (i__ = nobr21 - 1; i__ >= 0; --i__)
-                {
+            for (j = 1; j <= i__1; ++j) {
+                for (i__ = nobr21 - 1; i__ >= 0; --i__) {
                     dwork[icol + i__] = dwork[irev + i__];
                     /* L375: */
                 }
@@ -1163,19 +1066,14 @@ L370:
                 icol -= ldrwrk;
                 /* L380: */
             }
-            if (moesp)
-            {
+            if (moesp) {
                 icol = inu + mldrw - ldrwrk;
-            }
-            else
-            {
+            } else {
                 icol = mldrw - ldrwrk + 1;
             }
             i__1 = *m;
-            for (j = 1; j <= i__1; ++j)
-            {
-                for (i__ = nobr21 - 1; i__ >= 0; --i__)
-                {
+            for (j = 1; j <= i__1; ++j) {
+                for (i__ = nobr21 - 1; i__ >= 0; --i__) {
                     dwork[icol + i__] = dwork[irev + i__];
                     /* L385: */
                 }
@@ -1183,51 +1081,44 @@ L370:
                 icol -= ldrwrk;
                 /* L390: */
             }
-            if (moesp)
-            {
+            if (moesp) {
                 dlacpy_("Full", &nobrm1, m, &dwork[inu + *nobr], &ldrwrk, &dwork[1], &ldrwrk, 4L);
             }
         }
         /*        Data compression using QR factorization. */
-        if (first)
-        {
+        if (first) {
             /*           Non-sequential data processing or first block in */
             /*           sequential data processing: */
             /*           Use the general QR factorization algorithm. */
-            if (linr)
-            {
+            if (linr) {
                 /*              Put the input-output data in the array  R. */
-                if (*m > 0)
-                {
-                    if (moesp)
-                    {
+                if (*m > 0) {
+                    if (moesp) {
                         i__1 = *nobr;
-                        for (i__ = 1; i__ <= i__1; ++i__)
-                        {
-                            dlacpy_("Full", &ns, m, &u[*nobr + i__ + u_dim1], ldu, &r__[(*m * (i__ - 1) + 1) * r_dim1 + 1], ldr, 4L);
+                        for (i__ = 1; i__ <= i__1; ++i__) {
+                            dlacpy_("Full", &ns, m, &u[*nobr + i__ + u_dim1], ldu,
+                                &r__[(*m * (i__ - 1) + 1) * r_dim1 + 1], ldr, 4L);
                             /* L400: */
                         }
                         i__1 = *nobr;
-                        for (i__ = 1; i__ <= i__1; ++i__)
-                        {
-                            dlacpy_("Full", &ns, m, &u[i__ + u_dim1], ldu, &r__[(mnobr + *m * (i__ - 1) + 1) * r_dim1 + 1], ldr, 4L);
+                        for (i__ = 1; i__ <= i__1; ++i__) {
+                            dlacpy_("Full", &ns, m, &u[i__ + u_dim1], ldu,
+                                &r__[(mnobr + *m * (i__ - 1) + 1) * r_dim1 + 1], ldr, 4L);
                             /* L410: */
                         }
-                    }
-                    else
-                    {
+                    } else {
                         i__1 = nobr2;
-                        for (i__ = 1; i__ <= i__1; ++i__)
-                        {
-                            dlacpy_("Full", &ns, m, &u[i__ + u_dim1], ldu, &r__[(*m * (i__ - 1) + 1) * r_dim1 + 1], ldr, 4L);
+                        for (i__ = 1; i__ <= i__1; ++i__) {
+                            dlacpy_("Full", &ns, m, &u[i__ + u_dim1], ldu,
+                                &r__[(*m * (i__ - 1) + 1) * r_dim1 + 1], ldr, 4L);
                             /* L420: */
                         }
                     }
                 }
                 i__1 = nobr2;
-                for (i__ = 1; i__ <= i__1; ++i__)
-                {
-                    dlacpy_("Full", &ns, l, &y[i__ + y_dim1], ldy, &r__[(mmnobr + *l * (i__ - 1) + 1) * r_dim1 + 1], ldr, 4L);
+                for (i__ = 1; i__ <= i__1; ++i__) {
+                    dlacpy_("Full", &ns, l, &y[i__ + y_dim1], ldy,
+                        &r__[(mmnobr + *l * (i__ - 1) + 1) * r_dim1 + 1], ldr, 4L);
                     /* L430: */
                 }
                 /*              Workspace: need   4*(M+L)*NOBR, */
@@ -1236,37 +1127,31 @@ L370:
                 jwork = itau + nr;
                 i__1 = *ldwork - jwork + 1;
                 dgeqrf_(&ns, &nr, &r__[r_offset], ldr, &dwork[itau], &dwork[jwork], &i__1, &ierr);
-            }
-            else
-            {
+            } else {
                 /*              Put the input-output data in the array  DWORK. */
-                if (*m > 0)
-                {
+                if (*m > 0) {
                     ishftu = 1;
-                    if (moesp)
-                    {
+                    if (moesp) {
                         ishft2 = inu;
                         i__1 = *nobr;
-                        for (i__ = 1; i__ <= i__1; ++i__)
-                        {
-                            dlacpy_("Full", &ns, m, &u[*nobr + i__ + u_dim1], ldu, &dwork[ishftu], &ldrwrk, 4L);
+                        for (i__ = 1; i__ <= i__1; ++i__) {
+                            dlacpy_("Full", &ns, m, &u[*nobr + i__ + u_dim1], ldu, &dwork[ishftu],
+                                &ldrwrk, 4L);
                             ishftu += mldrw;
                             /* L440: */
                         }
                         i__1 = *nobr;
-                        for (i__ = 1; i__ <= i__1; ++i__)
-                        {
-                            dlacpy_("Full", &ns, m, &u[i__ + u_dim1], ldu, &dwork[ishft2], &ldrwrk, 4L);
+                        for (i__ = 1; i__ <= i__1; ++i__) {
+                            dlacpy_(
+                                "Full", &ns, m, &u[i__ + u_dim1], ldu, &dwork[ishft2], &ldrwrk, 4L);
                             ishft2 += mldrw;
                             /* L450: */
                         }
-                    }
-                    else
-                    {
+                    } else {
                         i__1 = nobr2;
-                        for (i__ = 1; i__ <= i__1; ++i__)
-                        {
-                            dlacpy_("Full", &ns, m, &u[i__ + u_dim1], ldu, &dwork[ishftu], &ldrwrk, 4L);
+                        for (i__ = 1; i__ <= i__1; ++i__) {
+                            dlacpy_(
+                                "Full", &ns, m, &u[i__ + u_dim1], ldu, &dwork[ishftu], &ldrwrk, 4L);
                             ishftu += mldrw;
                             /* L460: */
                         }
@@ -1274,8 +1159,7 @@ L370:
                 }
                 ishfty = iny;
                 i__1 = nobr2;
-                for (i__ = 1; i__ <= i__1; ++i__)
-                {
+                for (i__ = 1; i__ <= i__1; ++i__) {
                     dlacpy_("Full", &ns, l, &y[i__ + y_dim1], ldy, &dwork[ishfty], &ldrwrk, 4L);
                     ishfty += lldrw;
                     /* L470: */
@@ -1290,80 +1174,68 @@ L370:
                 jwork = itau + nr;
                 i__1 = *ldwork - jwork + 1;
                 dgeqrf_(&ns, &nr, &dwork[1], &ldrwrk, &dwork[itau], &dwork[jwork], &i__1, &ierr);
-                i__1 = min(ns,nr);
+                i__1 = min(ns, nr);
                 dlacpy_("Upper ", &i__1, &nr, &dwork[1], &ldrwrk, &r__[r_offset], ldr, 6L);
             }
-            if (ns < nr)
-            {
+            if (ns < nr) {
                 i__1 = nr - ns;
                 i__2 = nr - ns;
-                dlaset_("Upper ", &i__1, &i__2, &c_b207, &c_b207, &r__[ns + 1 + (ns + 1) * r_dim1], ldr, 6L);
+                dlaset_("Upper ", &i__1, &i__2, &c_b207, &c_b207, &r__[ns + 1 + (ns + 1) * r_dim1],
+                    ldr, 6L);
             }
             initi += ns;
         }
-        if (ncycle > 1 || ! first)
-        {
+        if (ncycle > 1 || !first) {
             /*           Remaining segments of the first data block or */
             /*           remaining segments/blocks in sequential data processing: */
             /*           Use a structure-exploiting QR factorization algorithm. */
             nsl = ldrwrk;
-            if (! connec)
-            {
+            if (!connec) {
                 nsl = ns;
             }
             itau = ldrwrk * nr + 1;
             jwork = itau + nr;
             i__1 = ncycle;
-            for (nicycl = inicyc; nicycl <= i__1; ++nicycl)
-            {
+            for (nicycl = inicyc; nicycl <= i__1; ++nicycl) {
                 /*              INIT  denotes the beginning row where new data are put. */
-                if (connec && nicycl == 1)
-                {
+                if (connec && nicycl == 1) {
                     init = nobr2;
-                }
-                else
-                {
+                } else {
                     init = 1;
                 }
-                if (ncycle > 1 && nicycl == ncycle)
-                {
+                if (ncycle > 1 && nicycl == ncycle) {
                     /*                 Last samples in the last data segment of a block. */
                     ns = nslast;
                     nsl = nslast;
                 }
                 /*              Put the input-output data in the array  DWORK. */
                 nsf = ns;
-                if (init > 1 && ncycle > 1)
-                {
+                if (init > 1 && ncycle > 1) {
                     nsf -= nobr21;
                 }
-                if (*m > 0)
-                {
+                if (*m > 0) {
                     ishftu = init;
-                    if (moesp)
-                    {
+                    if (moesp) {
                         ishft2 = init + inu - 1;
                         i__2 = *nobr;
-                        for (i__ = 1; i__ <= i__2; ++i__)
-                        {
-                            dlacpy_("Full", &nsf, m, &u[initi + *nobr + i__ + u_dim1], ldu, &dwork[ishftu], &ldrwrk, 4L);
+                        for (i__ = 1; i__ <= i__2; ++i__) {
+                            dlacpy_("Full", &nsf, m, &u[initi + *nobr + i__ + u_dim1], ldu,
+                                &dwork[ishftu], &ldrwrk, 4L);
                             ishftu += mldrw;
                             /* L480: */
                         }
                         i__2 = *nobr;
-                        for (i__ = 1; i__ <= i__2; ++i__)
-                        {
-                            dlacpy_("Full", &nsf, m, &u[initi + i__ + u_dim1], ldu, &dwork[ishft2], &ldrwrk, 4L);
+                        for (i__ = 1; i__ <= i__2; ++i__) {
+                            dlacpy_("Full", &nsf, m, &u[initi + i__ + u_dim1], ldu, &dwork[ishft2],
+                                &ldrwrk, 4L);
                             ishft2 += mldrw;
                             /* L490: */
                         }
-                    }
-                    else
-                    {
+                    } else {
                         i__2 = nobr2;
-                        for (i__ = 1; i__ <= i__2; ++i__)
-                        {
-                            dlacpy_("Full", &nsf, m, &u[initi + i__ + u_dim1], ldu, &dwork[ishftu], &ldrwrk, 4L);
+                        for (i__ = 1; i__ <= i__2; ++i__) {
+                            dlacpy_("Full", &nsf, m, &u[initi + i__ + u_dim1], ldu, &dwork[ishftu],
+                                &ldrwrk, 4L);
                             ishftu += mldrw;
                             /* L500: */
                         }
@@ -1371,49 +1243,43 @@ L370:
                 }
                 ishfty = init + iny - 1;
                 i__2 = nobr2;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
-                    dlacpy_("Full", &nsf, l, &y[initi + i__ + y_dim1], ldy, &dwork[ishfty], &ldrwrk, 4L);
+                for (i__ = 1; i__ <= i__2; ++i__) {
+                    dlacpy_("Full", &nsf, l, &y[initi + i__ + y_dim1], ldy, &dwork[ishfty], &ldrwrk,
+                        4L);
                     ishfty += lldrw;
                     /* L510: */
                 }
-                if (init > 1)
-                {
+                if (init > 1) {
                     /*                 Prepare the connection to the previous block of data */
                     /*                 in sequential processing. */
-                    if (moesp && *m > 0)
-                    {
+                    if (moesp && *m > 0) {
                         dlacpy_("Full", nobr, m, &u[u_offset], ldu, &dwork[*nobr], &ldrwrk, 4L);
                     }
                     /*                 Shift the elements from the connection to the previous */
                     /*                 block of data in sequential processing. */
-                    if (*m > 0)
-                    {
+                    if (*m > 0) {
                         ishftu = mldrw + 1;
-                        if (moesp)
-                        {
+                        if (moesp) {
                             ishft2 = mldrw + inu;
                             i__2 = nobrm1;
-                            for (i__ = 1; i__ <= i__2; ++i__)
-                            {
-                                dlacpy_("Full", &nobr21, m, &dwork[ishftu - mldrw + 1], &ldrwrk, &dwork[ishftu], &ldrwrk, 4L);
+                            for (i__ = 1; i__ <= i__2; ++i__) {
+                                dlacpy_("Full", &nobr21, m, &dwork[ishftu - mldrw + 1], &ldrwrk,
+                                    &dwork[ishftu], &ldrwrk, 4L);
                                 ishftu += mldrw;
                                 /* L520: */
                             }
                             i__2 = nobrm1;
-                            for (i__ = 1; i__ <= i__2; ++i__)
-                            {
-                                dlacpy_("Full", &nobr21, m, &dwork[ishft2 - mldrw + 1], &ldrwrk, &dwork[ishft2], &ldrwrk, 4L);
+                            for (i__ = 1; i__ <= i__2; ++i__) {
+                                dlacpy_("Full", &nobr21, m, &dwork[ishft2 - mldrw + 1], &ldrwrk,
+                                    &dwork[ishft2], &ldrwrk, 4L);
                                 ishft2 += mldrw;
                                 /* L530: */
                             }
-                        }
-                        else
-                        {
+                        } else {
                             i__2 = nobr21;
-                            for (i__ = 1; i__ <= i__2; ++i__)
-                            {
-                                dlacpy_("Full", &nobr21, m, &dwork[ishftu - mldrw + 1], &ldrwrk, &dwork[ishftu], &ldrwrk, 4L);
+                            for (i__ = 1; i__ <= i__2; ++i__) {
+                                dlacpy_("Full", &nobr21, m, &dwork[ishftu - mldrw + 1], &ldrwrk,
+                                    &dwork[ishftu], &ldrwrk, 4L);
                                 ishftu += mldrw;
                                 /* L540: */
                             }
@@ -1421,36 +1287,35 @@ L370:
                     }
                     ishfty = lldrw + iny;
                     i__2 = nobr21;
-                    for (i__ = 1; i__ <= i__2; ++i__)
-                    {
-                        dlacpy_("Full", &nobr21, l, &dwork[ishfty - lldrw + 1], &ldrwrk, &dwork[ishfty], &ldrwrk, 4L);
+                    for (i__ = 1; i__ <= i__2; ++i__) {
+                        dlacpy_("Full", &nobr21, l, &dwork[ishfty - lldrw + 1], &ldrwrk,
+                            &dwork[ishfty], &ldrwrk, 4L);
                         ishfty += lldrw;
                         /* L550: */
                     }
                 }
                 /*              Workspace: need LDRWRK*2*(M+L)*NOBR + 4*(M+L)*NOBR. */
-                mb04od_("Full", &nr, &c__0, &nsl, &r__[r_offset], ldr, &dwork[1], &ldrwrk, dum, &nr, dum, &nr, &dwork[itau], &dwork[jwork], 4L);
+                mb04od_("Full", &nr, &c__0, &nsl, &r__[r_offset], ldr, &dwork[1], &ldrwrk, dum, &nr,
+                    dum, &nr, &dwork[itau], &dwork[jwork], 4L);
                 initi += nsf;
                 /* L560: */
             }
         }
-        if (! last)
-        {
-            if (connec)
-            {
+        if (!last) {
+            if (connec) {
                 /*              For sequential processing with connected data blocks, */
                 /*              save the remaining ("connection") elements of  U  and  Y */
                 /*              in the first  (M+L)*(2*NOBR-1)  locations of  DWORK. */
-                if (*m > 0)
-                {
-                    dlacpy_("Full", &nobr21, m, &u[initi + 1 + u_dim1], ldu, &dwork[1], &nobr21, 4L);
+                if (*m > 0) {
+                    dlacpy_(
+                        "Full", &nobr21, m, &u[initi + 1 + u_dim1], ldu, &dwork[1], &nobr21, 4L);
                 }
-                dlacpy_("Full", &nobr21, l, &y[initi + 1 + y_dim1], ldy, &dwork[mmnobr - *m + 1], &nobr21, 4L);
+                dlacpy_("Full", &nobr21, l, &y[initi + 1 + y_dim1], ldy, &dwork[mmnobr - *m + 1],
+                    &nobr21, 4L);
             }
             /*           Return to get new data. */
             ++icycle;
-            if (icycle <= 100)
-            {
+            if (icycle <= 100) {
                 return 0;
             }
             *iwarn = 1;
@@ -1458,9 +1323,8 @@ L370:
         }
     }
     /*     Return optimal workspace in  DWORK(1). */
-    dwork[1] = (doublereal) maxwrk;
-    if (last)
-    {
+    dwork[1] = (doublereal)maxwrk;
+    if (last) {
         icycle = 1;
         maxwrk = 1;
         nsmpsm = 0;
@@ -1468,4 +1332,3 @@ L370:
     return 0;
     /* *** Last line of IB01MD *** */
 } /* ib01md_ */
-

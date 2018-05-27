@@ -23,21 +23,19 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::AudioGateway::playBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::AudioGateway::playBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs != 0)
-    {
+    if (nLhs != 0) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() < 1 || argIn.size() > 2)
-    {
+    if (argIn.size() < 1 || argIn.size() > 2) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     bool bSuccess = false;
     retval = OverloadFunction(eval, nLhs, argIn, "play", bSuccess);
-    if (!bSuccess)
-    {
+    if (!bSuccess) {
         OverloadRequired(eval, argIn, Nelson::UNARY);
     }
     return retval;

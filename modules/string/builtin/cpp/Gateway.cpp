@@ -43,8 +43,7 @@ using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"string";
 //=============================================================================
-static const nlsGateway gateway[] =
-{
+static const nlsGateway gateway[] = {
     { "char", Nelson::StringGateway::charBuiltin, 1, -1 },
     { "strcmp", Nelson::StringGateway::strcmpBuiltin, 1, 2 },
     { "strcmpi", Nelson::StringGateway::strcmpiBuiltin, 1, 2 },
@@ -58,7 +57,7 @@ static const nlsGateway gateway[] =
     { "strfind", Nelson::StringGateway::strfindBuiltin, 1, 2 },
     { "char_isequal", Nelson::StringGateway::char_isequalBuiltin, 1, 2 },
     { "char_isequaln", Nelson::StringGateway::char_isequalBuiltin, 1, 2 },
-    { "sprintf", Nelson::StringGateway::sprintfBuiltin, 2, -1},
+    { "sprintf", Nelson::StringGateway::sprintfBuiltin, 2, -1 },
     { "int2str", Nelson::StringGateway::int2strBuiltin, 1, 1 },
     { "str2double", Nelson::StringGateway::str2doubleBuiltin, 1, 1 },
     { "mat2str", Nelson::StringGateway::mat2strBuiltin, 1, -2 },

@@ -17,47 +17,45 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "RandNormal.hpp"
-#include "RandomInterface.hpp"
 #include "Error.hpp"
+#include "RandomInterface.hpp"
 //=============================================================================
 namespace Nelson {
-    ArrayOf RandNormal(Evaluator *eval, Class cl)
-    {
-        Dimensions dims(1, 1);
-        return RandNormal(eval, dims, cl);
+ArrayOf
+RandNormal(Evaluator* eval, Class cl)
+{
+    Dimensions dims(1, 1);
+    return RandNormal(eval, dims, cl);
+}
+//=============================================================================
+ArrayOf
+RandNormal(Evaluator* eval, Dimensions dims, Class cl)
+{
+    dims.simplify();
+    if (eval->RandomEngine == nullptr) {
+        Error(eval, _W("random engine not initialized."));
     }
-    //=============================================================================
-    ArrayOf RandNormal(Evaluator *eval, Dimensions dims, Class cl)
-    {
-        dims.simplify();
-        if (eval->RandomEngine == nullptr)
-        {
-            Error(eval, _W("random engine not initialized."));
-        }
-        RandomInterface *randEngine = (RandomInterface *)eval->RandomEngine;
-        switch (cl)
-        {
-            case NLS_SINGLE:
-            {
-                indexType nbElements = dims.getElementCount();
-                single * mat = (single*)ArrayOf::allocateArrayOf(cl, nbElements, Nelson::stringVector(), false);
-                randEngine->getValuesAsSingle(mat, nbElements, dims.getColumns(), RNG_DISTRIBUTION_NORMAL);
-                return ArrayOf(cl, dims, mat, false);
-            }
-            break;
-            case NLS_DOUBLE:
-            {
-                indexType nbElements = dims.getElementCount();
-                double * mat = (double*)ArrayOf::allocateArrayOf(cl, nbElements, Nelson::stringVector(), false);
-                randEngine->getValuesAsDouble(mat, nbElements, dims.getColumns(), RNG_DISTRIBUTION_NORMAL);
-                return ArrayOf(cl, dims, mat, false);
-            }
-            break;
-            default:
-                Error(eval, ERROR_TYPE_NOT_SUPPORTED);
-        }
-        return ArrayOf();
+    RandomInterface* randEngine = (RandomInterface*)eval->RandomEngine;
+    switch (cl) {
+    case NLS_SINGLE: {
+        indexType nbElements = dims.getElementCount();
+        single* mat
+            = (single*)ArrayOf::allocateArrayOf(cl, nbElements, Nelson::stringVector(), false);
+        randEngine->getValuesAsSingle(mat, nbElements, dims.getColumns(), RNG_DISTRIBUTION_NORMAL);
+        return ArrayOf(cl, dims, mat, false);
+    } break;
+    case NLS_DOUBLE: {
+        indexType nbElements = dims.getElementCount();
+        double* mat
+            = (double*)ArrayOf::allocateArrayOf(cl, nbElements, Nelson::stringVector(), false);
+        randEngine->getValuesAsDouble(mat, nbElements, dims.getColumns(), RNG_DISTRIBUTION_NORMAL);
+        return ArrayOf(cl, dims, mat, false);
+    } break;
+    default:
+        Error(eval, ERROR_TYPE_NOT_SUPPORTED);
     }
-    //=============================================================================
+    return ArrayOf();
+}
+//=============================================================================
 }
 //=============================================================================

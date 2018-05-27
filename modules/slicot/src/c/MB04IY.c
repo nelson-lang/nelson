@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,14 +9,15 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int mb04iy_(side, trans, n, m, k, p, a, lda, tau, c__, ldc, dwork, ldwork, info, side_len, trans_len)
-char *side, *trans;
+EXPORTSYMBOL /* Subroutine */ int mb04iy_(side, trans, n, m, k, p, a, lda, tau, c__, ldc, dwork,
+    ldwork, info, side_len, trans_len) char *side,
+    *trans;
 integer *n, *m, *k, *p;
-doublereal *a;
-integer *lda;
+doublereal* a;
+integer* lda;
 doublereal *tau, *c__;
-integer *ldc;
-doublereal *dwork;
+integer* ldc;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen side_len;
 ftnlen trans_len;
@@ -152,51 +153,32 @@ ftnlen trans_len;
     *info = 0;
     left = lsame_(side, "L", 1L, 1L);
     tran = lsame_(trans, "T", 1L, 1L);
-    if (! left && ! lsame_(side, "R", 1L, 1L))
-    {
+    if (!left && !lsame_(side, "R", 1L, 1L)) {
         *info = -1;
-    }
-    else if (! tran && ! lsame_(trans, "N", 1L, 1L))
-    {
+    } else if (!tran && !lsame_(trans, "N", 1L, 1L)) {
         *info = -2;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -3;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -4;
-    }
-    else if (*k < 0 || left && *k > *n || ! left && *k > *m)
-    {
+    } else if (*k < 0 || left && *k > *n || !left && *k > *m) {
         *info = -5;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -6;
-    }
-    else if (left && *lda < max(1,*n) || ! left && *lda < max(1,*m))
-    {
+    } else if (left && *lda < max(1, *n) || !left && *lda < max(1, *m)) {
         *info = -8;
-    }
-    else if (*ldc < max(1,*n))
-    {
+    } else if (*ldc < max(1, *n)) {
         *info = -11;
-    }
-    else if (left && *ldwork < max(1,*m) || ! left && *ldwork < max(1,*n))
-    {
+    } else if (left && *ldwork < max(1, *m) || !left && *ldwork < max(1, *n)) {
         *info = -13;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB04IY", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*m == 0 || *n == 0 || *k == 0 || left && *n < *p || ! left && *m < *p)
-    {
+    if (*m == 0 || *n == 0 || *k == 0 || left && *n < *p || !left && *m < *p) {
         dwork[1] = 1.;
         return 0;
     }
@@ -205,105 +187,98 @@ ftnlen trans_len;
     /*     code, as well as the preferred amount for good performance. */
     /*     NB refers to the optimal block size for the immediately */
     /*     following subroutine, as returned by ILAENV.) */
-    if (left)
-    {
-        wrkopt = (doublereal) (*m);
-        if (tran)
-        {
-            i__1 = min(*k,*p);
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+    if (left) {
+        wrkopt = (doublereal)(*m);
+        if (tran) {
+            i__1 = min(*k, *p);
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 /*              Apply H(i) to C(i:i+n-p-1,1:m), from the left. */
                 /*              Workspace: need M. */
                 aii = a[i__ + i__ * a_dim1];
                 a[i__ + i__ * a_dim1] = 1.;
                 i__2 = *n - *p;
-                dlarf_(side, &i__2, m, &a[i__ + i__ * a_dim1], &c__1, &tau[i__], &c__[i__ + c_dim1], ldc, &dwork[1], 1L);
+                dlarf_(side, &i__2, m, &a[i__ + i__ * a_dim1], &c__1, &tau[i__], &c__[i__ + c_dim1],
+                    ldc, &dwork[1], 1L);
                 a[i__ + i__ * a_dim1] = aii;
                 /* L10: */
             }
-            if (*p <= min(*n,*k))
-            {
+            if (*p <= min(*n, *k)) {
                 /*              Apply H(i) to C, i = p+1:k, from the left. */
                 /*              Workspace: need M;  prefer M*NB. */
                 i__1 = *n - *p;
                 i__2 = *k - *p;
-                dormqr_(side, trans, &i__1, m, &i__2, &a[*p + 1 + (*p + 1) * a_dim1], lda, &tau[*p + 1], &c__[*p + 1 + c_dim1], ldc, &dwork[1], ldwork, &i__, 1L, 1L);
-                wrkopt = max(wrkopt,dwork[1]);
+                dormqr_(side, trans, &i__1, m, &i__2, &a[*p + 1 + (*p + 1) * a_dim1], lda,
+                    &tau[*p + 1], &c__[*p + 1 + c_dim1], ldc, &dwork[1], ldwork, &i__, 1L, 1L);
+                wrkopt = max(wrkopt, dwork[1]);
             }
-        }
-        else
-        {
-            if (*p <= min(*n,*k))
-            {
+        } else {
+            if (*p <= min(*n, *k)) {
                 /*              Apply H(i) to C, i = k:p+1:-1, from the left. */
                 /*              Workspace: need M;  prefer M*NB. */
                 i__1 = *n - *p;
                 i__2 = *k - *p;
-                dormqr_(side, trans, &i__1, m, &i__2, &a[*p + 1 + (*p + 1) * a_dim1], lda, &tau[*p + 1], &c__[*p + 1 + c_dim1], ldc, &dwork[1], ldwork, &i__, 1L, 1L);
-                wrkopt = max(wrkopt,dwork[1]);
+                dormqr_(side, trans, &i__1, m, &i__2, &a[*p + 1 + (*p + 1) * a_dim1], lda,
+                    &tau[*p + 1], &c__[*p + 1 + c_dim1], ldc, &dwork[1], ldwork, &i__, 1L, 1L);
+                wrkopt = max(wrkopt, dwork[1]);
             }
-            for (i__ = min(*k,*p); i__ >= 1; --i__)
-            {
+            for (i__ = min(*k, *p); i__ >= 1; --i__) {
                 /*              Apply H(i) to C(i:i+n-p-1,1:m), from the left. */
                 /*              Workspace: need M. */
                 aii = a[i__ + i__ * a_dim1];
                 a[i__ + i__ * a_dim1] = 1.;
                 i__1 = *n - *p;
-                dlarf_(side, &i__1, m, &a[i__ + i__ * a_dim1], &c__1, &tau[i__], &c__[i__ + c_dim1], ldc, &dwork[1], 1L);
+                dlarf_(side, &i__1, m, &a[i__ + i__ * a_dim1], &c__1, &tau[i__], &c__[i__ + c_dim1],
+                    ldc, &dwork[1], 1L);
                 a[i__ + i__ * a_dim1] = aii;
                 /* L20: */
             }
         }
-    }
-    else
-    {
-        wrkopt = (doublereal) (*n);
-        if (tran)
-        {
-            if (*p <= min(*m,*k))
-            {
+    } else {
+        wrkopt = (doublereal)(*n);
+        if (tran) {
+            if (*p <= min(*m, *k)) {
                 /*              Apply H(i) to C, i = k:p+1:-1, from the right. */
                 /*              Workspace: need N;  prefer N*NB. */
                 i__1 = *m - *p;
                 i__2 = *k - *p;
-                dormqr_(side, trans, n, &i__1, &i__2, &a[*p + 1 + (*p + 1) * a_dim1], lda, &tau[*p + 1], &c__[(*p + 1) * c_dim1 + 1], ldc, &dwork[1], ldwork, &i__, 1L, 1L);
-                wrkopt = max(wrkopt,dwork[1]);
+                dormqr_(side, trans, n, &i__1, &i__2, &a[*p + 1 + (*p + 1) * a_dim1], lda,
+                    &tau[*p + 1], &c__[(*p + 1) * c_dim1 + 1], ldc, &dwork[1], ldwork, &i__, 1L,
+                    1L);
+                wrkopt = max(wrkopt, dwork[1]);
             }
-            for (i__ = min(*k,*p); i__ >= 1; --i__)
-            {
+            for (i__ = min(*k, *p); i__ >= 1; --i__) {
                 /*              Apply H(i) to C(1:n,i:i+m-p-1), from the right. */
                 /*              Workspace: need N. */
                 aii = a[i__ + i__ * a_dim1];
                 a[i__ + i__ * a_dim1] = 1.;
                 i__1 = *m - *p;
-                dlarf_(side, n, &i__1, &a[i__ + i__ * a_dim1], &c__1, &tau[i__], &c__[i__ * c_dim1 + 1], ldc, &dwork[1], 1L);
+                dlarf_(side, n, &i__1, &a[i__ + i__ * a_dim1], &c__1, &tau[i__],
+                    &c__[i__ * c_dim1 + 1], ldc, &dwork[1], 1L);
                 a[i__ + i__ * a_dim1] = aii;
                 /* L30: */
             }
-        }
-        else
-        {
-            i__1 = min(*k,*p);
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+        } else {
+            i__1 = min(*k, *p);
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 /*              Apply H(i) to C(1:n,i:i+m-p-1), from the right. */
                 /*              Workspace: need N. */
                 aii = a[i__ + i__ * a_dim1];
                 a[i__ + i__ * a_dim1] = 1.;
                 i__2 = *m - *p;
-                dlarf_(side, n, &i__2, &a[i__ + i__ * a_dim1], &c__1, &tau[i__], &c__[i__ * c_dim1 + 1], ldc, &dwork[1], 1L);
+                dlarf_(side, n, &i__2, &a[i__ + i__ * a_dim1], &c__1, &tau[i__],
+                    &c__[i__ * c_dim1 + 1], ldc, &dwork[1], 1L);
                 a[i__ + i__ * a_dim1] = aii;
                 /* L40: */
             }
-            if (*p <= min(*m,*k))
-            {
+            if (*p <= min(*m, *k)) {
                 /*              Apply H(i) to C, i = p+1:k, from the right. */
                 /*              Workspace: need N;  prefer N*NB. */
                 i__1 = *m - *p;
                 i__2 = *k - *p;
-                dormqr_(side, trans, n, &i__1, &i__2, &a[*p + 1 + (*p + 1) * a_dim1], lda, &tau[*p + 1], &c__[(*p + 1) * c_dim1 + 1], ldc, &dwork[1], ldwork, &i__, 1L, 1L);
-                wrkopt = max(wrkopt,dwork[1]);
+                dormqr_(side, trans, n, &i__1, &i__2, &a[*p + 1 + (*p + 1) * a_dim1], lda,
+                    &tau[*p + 1], &c__[(*p + 1) * c_dim1 + 1], ldc, &dwork[1], ldwork, &i__, 1L,
+                    1L);
+                wrkopt = max(wrkopt, dwork[1]);
             }
         }
     }
@@ -311,4 +286,3 @@ ftnlen trans_len;
     return 0;
     /* *** Last line of MB04IY *** */
 } /* mb04iy_ */
-

@@ -1,15 +1,15 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-EXPORTSYMBOL /* Subroutine */ int dg01od_(scr, wght, n, a, w, info, scr_len, wght_len)
-char *scr, *wght;
-integer *n;
+EXPORTSYMBOL /* Subroutine */ int dg01od_(scr, wght, n, a, w, info, scr_len, wght_len) char *scr,
+    *wght;
+integer* n;
 doublereal *a, *w;
-integer *info;
+integer* info;
 ftnlen scr_len;
 ftnlen wght_len;
 {
@@ -116,61 +116,47 @@ ftnlen wght_len;
     lscr = lsame_(scr, "I", 1L, 1L) || lsame_(scr, "O", 1L, 1L);
     lwght = lsame_(wght, "A", 1L, 1L);
     /*     Test the input scalar arguments. */
-    if (! (lfwd || lscr))
-    {
+    if (!(lfwd || lscr)) {
         *info = -1;
-    }
-    else if (! lwght && ! lsame_(wght, "N", 1L, 1L))
-    {
+    } else if (!lwght && !lsame_(wght, "N", 1L, 1L)) {
         *info = -2;
-    }
-    else
-    {
+    } else {
         m = 0;
         j = 0;
-        if (*n >= 1)
-        {
+        if (*n >= 1) {
             j = *n;
             /*           WHILE ( MOD( J, 2 ).EQ.0 ) DO */
-L10:
-            if (j % 2 == 0)
-            {
+        L10:
+            if (j % 2 == 0) {
                 j /= 2;
                 ++m;
                 goto L10;
             }
             /*           END WHILE 10 */
-            if (j != 1)
-            {
+            if (j != 1) {
                 *info = -3;
             }
-        }
-        else if (*n < 0)
-        {
+        } else if (*n < 0) {
             *info = -3;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("DG01OD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n <= 1)
-    {
+    if (*n <= 1) {
         return 0;
     }
-    if (! lwght)
-    {
+    if (!lwght) {
         /*        Compute the long weight vector via subvector scaling. */
         r1 = 1;
         len = 1;
-        th = atan(1.) * 4. / (doublereal) (*n);
+        th = atan(1.) * 4. / (doublereal)(*n);
         i__1 = m - 2;
-        for (l = 1; l <= i__1; ++l)
-        {
+        for (l = 1; l <= i__1; ++l) {
             len <<= 1;
             th *= 2.;
             cf = cos(th);
@@ -179,8 +165,7 @@ L10:
             w[r1 + 1] = sf;
             r1 += 2;
             i__2 = len - 2;
-            for (i__ = 1; i__ <= i__2; i__ += 2)
-            {
+            for (i__ = 1; i__ <= i__2; i__ += 2) {
                 w[r1] = cf * w[i__] - sf * w[i__ + 1];
                 w[r1 + 1] = sf * w[i__] + cf * w[i__ + 1];
                 r1 += 2;
@@ -190,11 +175,9 @@ L10:
         }
         p1 = 3;
         q1 = r1 - 2;
-        for (l = m - 2; l >= 1; --l)
-        {
+        for (l = m - 2; l >= 1; --l) {
             i__1 = q1;
-            for (i__ = p1; i__ <= i__1; i__ += 4)
-            {
+            for (i__ = p1; i__ <= i__1; i__ += 4) {
                 w[r1] = w[i__];
                 w[r1 + 1] = w[i__ + 1];
                 r1 += 2;
@@ -204,30 +187,25 @@ L10:
             q1 = r1 - 2;
             /* L50: */
         }
-        *(unsigned char *)wght = 'A';
+        *(unsigned char*)wght = 'A';
     }
-    if (lfwd && ! lscr)
-    {
+    if (lfwd && !lscr) {
         /*        Inplace shuffling of data. */
         j = 1;
         i__1 = *n;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
-            if (j > i__)
-            {
+        for (i__ = 1; i__ <= i__1; ++i__) {
+            if (j > i__) {
                 t1 = a[i__];
                 a[i__] = a[j];
                 a[j] = t1;
             }
             l = *n / 2;
             /*           REPEAT */
-L60:
-            if (j > l)
-            {
+        L60:
+            if (j > l) {
                 j -= l;
                 l /= 2;
-                if (l >= 2)
-                {
+                if (l >= 2) {
                     goto L60;
                 }
             }
@@ -236,12 +214,10 @@ L60:
             /* L70: */
         }
     }
-    if (lfwd)
-    {
+    if (lfwd) {
         /*        Compute Hartley transform with butterfly operators. */
         i__1 = *n;
-        for (j = 2; j <= i__1; j += 2)
-        {
+        for (j = 2; j <= i__1; j += 2) {
             t1 = a[j];
             a[j] = a[j - 1] - t1;
             a[j - 1] += t1;
@@ -250,16 +226,14 @@ L60:
         len = 1;
         wpos = *n - (m << 1) + 1;
         i__1 = m - 1;
-        for (l = 1; l <= i__1; ++l)
-        {
+        for (l = 1; l <= i__1; ++l) {
             len <<= 1;
             p2 = 1;
             q2 = len + 1;
             r2 = len / 2 + 1;
             s2 = r2 + q2 - 1;
             i__2 = *n / (len << 1) - 1;
-            for (i__ = 0; i__ <= i__2; ++i__)
-            {
+            for (i__ = 0; i__ <= i__2; ++i__) {
                 t1 = a[q2];
                 a[q2] = a[p2] - t1;
                 a[p2] += t1;
@@ -271,8 +245,7 @@ L60:
                 r1 = q1 - 2;
                 s1 = r1 + len;
                 i__3 = wpos + len - 3;
-                for (j = wpos; j <= i__3; j += 2)
-                {
+                for (j = wpos; j <= i__3; j += 2) {
                     cf = w[j];
                     sf = w[j + 1];
                     t1 = cf * a[q1] + sf * a[s1];
@@ -296,22 +269,18 @@ L60:
             wpos = wpos - (len << 1) + 2;
             /* L140: */
         }
-    }
-    else
-    {
+    } else {
         /*        Compute Hartley transform with transposed butterfly operators. */
         wpos = 1;
         len = *n;
-        for (l = m - 1; l >= 1; --l)
-        {
+        for (l = m - 1; l >= 1; --l) {
             len /= 2;
             p2 = 1;
             q2 = len + 1;
             r2 = len / 2 + 1;
             s2 = r2 + q2 - 1;
             i__1 = *n / (len << 1) - 1;
-            for (i__ = 0; i__ <= i__1; ++i__)
-            {
+            for (i__ = 0; i__ <= i__1; ++i__) {
                 t1 = a[q2];
                 a[q2] = a[p2] - t1;
                 a[p2] += t1;
@@ -323,8 +292,7 @@ L60:
                 r1 = q1 - 2;
                 s1 = r1 + len;
                 i__2 = wpos + len - 3;
-                for (j = wpos; j <= i__2; j += 2)
-                {
+                for (j = wpos; j <= i__2; j += 2) {
                     cf = w[j];
                     sf = w[j + 1];
                     t1 = a[p1] - a[q1];
@@ -349,8 +317,7 @@ L60:
             /* L230: */
         }
         i__1 = *n;
-        for (j = 2; j <= i__1; j += 2)
-        {
+        for (j = 2; j <= i__1; j += 2) {
             t1 = a[j];
             a[j] = a[j - 1] - t1;
             a[j - 1] += t1;
@@ -360,4 +327,3 @@ L60:
     return 0;
     /* *** Last line of DG01OD *** */
 } /* dg01od_ */
-

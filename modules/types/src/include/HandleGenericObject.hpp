@@ -18,31 +18,40 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
 #include "nlsTypes_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    class NLSTYPES_IMPEXP HandleGenericObject {
-    private:
-        std::wstring category;
-        void *ptr;
-        bool _isScoped;
-    public:
-        HandleGenericObject(std::wstring _category, void *_ptr, bool isScoped);
-        virtual ~HandleGenericObject() {};
-        std::wstring getCategory();
-        void setPointer(void *_ptr);
-        void *getPointer();
-        bool isScoped();
-        virtual bool isProperty(std::wstring propertyName) {
-            return false;
-        };
-        virtual bool isMethod(std::wstring methodName) {
-            return false;
-        };
+//=============================================================================
+class NLSTYPES_IMPEXP HandleGenericObject
+{
+private:
+    std::wstring category;
+    void* ptr;
+    bool _isScoped;
 
+public:
+    HandleGenericObject(std::wstring _category, void* _ptr, bool isScoped);
+    virtual ~HandleGenericObject(){};
+    std::wstring
+    getCategory();
+    void
+    setPointer(void* _ptr);
+    void*
+    getPointer();
+    bool
+    isScoped();
+    virtual bool
+    isProperty(std::wstring propertyName)
+    {
+        return false;
     };
-    //=============================================================================
-}
+    virtual bool
+    isMethod(std::wstring methodName)
+    {
+        return false;
+    };
+};
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

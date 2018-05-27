@@ -17,56 +17,47 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "audioplayer_propertiesBuiltin.hpp"
+#include "AudioplayerObject.hpp"
 #include "Error.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
-#include "AudioplayerObject.hpp"
 #include "ToCellString.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::AudioGateway::audioplayer_propertiesBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::AudioGateway::audioplayer_propertiesBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() != 1)
-    {
+    if (argIn.size() != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
-    if (param1.getHandleCategory() != AUDIOPLAYER_CATEGORY_STR)
-    {
+    if (param1.getHandleCategory() != AUDIOPLAYER_CATEGORY_STR) {
         Error(eval, _W("audioplayer handle expected."));
     }
-    AudioplayerObject *objPlayer = (AudioplayerObject *)param1.getContentAsHandleScalar();
+    AudioplayerObject* objPlayer = (AudioplayerObject*)param1.getContentAsHandleScalar();
     wstringVector fieldnames = objPlayer->fieldnames();
-    if (nLhs == 0)
-    {
-        Interface *io = eval->getInterface();
-        if (io)
-        {
+    if (nLhs == 0) {
+        Interface* io = eval->getInterface();
+        if (io) {
             std::wstring msg;
-            if (fieldnames.size() == 0)
-            {
+            if (fieldnames.size() == 0) {
                 msg = _W("No property for class: audioplayer.") + L"\n";
-            }
-            else
-            {
+            } else {
                 msg = _W("Properties for class: audioplayer:") + L"\n\n";
-                for (size_t k = 0; k < fieldnames.size(); k++)
-                {
+                for (size_t k = 0; k < fieldnames.size(); k++) {
                     msg = msg + std::wstring(L"\t") + fieldnames[k] + std::wstring(L"\n");
                 }
                 msg = msg + std::wstring(L"\n");
             }
             io->outputMessage(msg);
         }
-    }
-    else
-    {
+    } else {
         retval.push_back(ToCellStringAsColumn(fieldnames));
     }
     return retval;

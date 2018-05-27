@@ -17,45 +17,37 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "macroargsBuiltin.hpp"
-#include "MacroArguments.hpp"
 #include "Error.hpp"
+#include "MacroArguments.hpp"
 #include "ToCellString.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::FunctionsGateway::macroargsBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::FunctionsGateway::macroargsBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 2)
-    {
+    if (nLhs > 2) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() != 1)
-    {
+    if (argIn.size() != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     std::wstring wfunctionname;
-    if (argIn[0].isSingleString())
-    {
+    if (argIn[0].isSingleString()) {
         wfunctionname = argIn[0].getContentAsWideString();
-    }
-    else
-    {
+    } else {
         Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
     wstringVector Inputs;
     wstringVector Outputs;
     bool bOK = MacroArguments(eval, wfunctionname, Inputs, Outputs);
-    if (bOK)
-    {
+    if (bOK) {
         retval.push_back(ToCellStringAsColumn(Inputs));
-        if (nLhs > 1)
-        {
+        if (nLhs > 1) {
             retval.push_back(ToCellStringAsColumn(Outputs));
         }
-    }
-    else
-    {
+    } else {
         Error(eval, _W("function macro name not found."));
     }
     return retval;

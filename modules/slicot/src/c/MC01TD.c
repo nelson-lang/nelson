@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,13 +11,13 @@ static integer c__1 = 1;
 static integer c_n1 = -1;
 static doublereal c_b18 = 1.;
 
-EXPORTSYMBOL /* Subroutine */ int mc01td_(dico, dp, p, stable, nz, dwork, iwarn, info, dico_len)
-char *dico;
-integer *dp;
-doublereal *p;
-logical *stable;
-integer *nz;
-doublereal *dwork;
+EXPORTSYMBOL /* Subroutine */ int mc01td_(
+    dico, dp, p, stable, nz, dwork, iwarn, info, dico_len) char* dico;
+integer* dp;
+doublereal* p;
+logical* stable;
+integer* nz;
+doublereal* dwork;
 integer *iwarn, *info;
 ftnlen dico_len;
 {
@@ -165,16 +165,12 @@ ftnlen dico_len;
     *info = 0;
     dicoc = lsame_(dico, "C", 1L, 1L);
     /*     Test the input scalar arguments. */
-    if (! dicoc && ! lsame_(dico, "D", 1L, 1L))
-    {
+    if (!dicoc && !lsame_(dico, "D", 1L, 1L)) {
         *info = -1;
-    }
-    else if (*dp < 0)
-    {
+    } else if (*dp < 0) {
         *info = -2;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("MC01TD", &i__1, 6L);
@@ -182,24 +178,20 @@ ftnlen dico_len;
     }
     /*     WHILE (DP >= 0 and P(DP+1) = 0 ) DO */
 L20:
-    if (*dp >= 0)
-    {
-        if (p[*dp + 1] == 0.)
-        {
+    if (*dp >= 0) {
+        if (p[*dp + 1] == 0.) {
             --(*dp);
             ++(*iwarn);
             goto L20;
         }
     }
     /*     END WHILE 20 */
-    if (*dp == -1)
-    {
+    if (*dp == -1) {
         *info = 1;
         return 0;
     }
     /*     P(x) is not the zero polynomial and its degree is exactly DP. */
-    if (dicoc)
-    {
+    if (dicoc) {
         /*        Continuous-time case. */
         /*        Compute the Routh coefficients and the number of sign changes. */
         i__1 = *dp + 1;
@@ -207,23 +199,17 @@ L20:
         *nz = 0;
         k = *dp;
         /*        WHILE ( K > 0 and DWORK(K) non-zero) DO */
-L40:
-        if (k > 0)
-        {
-            if (dwork[k] == 0.)
-            {
+    L40:
+        if (k > 0) {
+            if (dwork[k] == 0.) {
                 *info = 2;
-            }
-            else
-            {
+            } else {
                 alpha = dwork[k + 1] / dwork[k];
-                if (alpha < 0.)
-                {
+                if (alpha < 0.) {
                     ++(*nz);
                 }
                 --k;
-                for (i__ = k; i__ >= 2; i__ += -2)
-                {
+                for (i__ = k; i__ >= 2; i__ += -2) {
                     dwork[i__] -= alpha * dwork[i__ - 1];
                     /* L60: */
                 }
@@ -231,9 +217,7 @@ L40:
             }
         }
         /*        END WHILE 40 */
-    }
-    else
-    {
+    } else {
         /*        Discrete-time case. */
         /*        To apply [3], section 6.8, on the reciprocal of polynomial */
         /*        P(x) the elements of the array P are copied in DWORK in */
@@ -250,41 +234,32 @@ L40:
         *nz = 0;
         k = 1;
         /*        WHILE ( K <= DP and DWORK(K) non-zero ) DO */
-L80:
-        if (k <= *dp && *info == 0)
-        {
+    L80:
+        if (k <= *dp && *info == 0) {
             /*                                        K */
             /*           Compute the coefficients of T P(x). */
             k1 = *dp - k + 2;
             k2 = *dp + 2;
             alpha = dwork[k - 1 + idamax_(&k1, &dwork[k], &c__1)];
-            if (alpha == 0.)
-            {
+            if (alpha == 0.) {
                 *info = 2;
-            }
-            else
-            {
+            } else {
                 dcopy_(&k1, &dwork[k], &c__1, &dwork[k2], &c__1);
                 drscl_(&k1, &alpha, &dwork[k2], &c__1);
                 p1 = dwork[k2];
                 pk1 = dwork[k2 + k1 - 1];
                 i__1 = k1 - 1;
-                for (i__ = 1; i__ <= i__1; ++i__)
-                {
+                for (i__ = 1; i__ <= i__1; ++i__) {
                     dwork[k + i__] = p1 * dwork[*dp + 1 + i__] - pk1 * dwork[k2 + k1 - i__];
                     /* L100: */
                 }
                 /*              Compute the number of unstable zeros. */
                 ++k;
-                if (dwork[k] == 0.)
-                {
+                if (dwork[k] == 0.) {
                     *info = 2;
-                }
-                else
-                {
-                    signum = (integer) (signum * d_sign(&c_b18, &dwork[k]));
-                    if ((doublereal) signum < 0.)
-                    {
+                } else {
+                    signum = (integer)(signum * d_sign(&c_b18, &dwork[k]));
+                    if ((doublereal)signum < 0.) {
                         ++(*nz);
                     }
                 }
@@ -293,15 +268,11 @@ L80:
             /*           END WHILE 80 */
         }
     }
-    if (*info == 0 && *nz == 0)
-    {
+    if (*info == 0 && *nz == 0) {
         *stable = TRUE_;
-    }
-    else
-    {
+    } else {
         *stable = FALSE_;
     }
     return 0;
     /* *** Last line of MC01TD *** */
 } /* mc01td_ */
-

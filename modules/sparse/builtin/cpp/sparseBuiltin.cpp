@@ -26,32 +26,29 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-static ArrayOfVector sparseBuiltinOneRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+static ArrayOfVector
+sparseBuiltinOneRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     // Call overload if it exists
     bool bSuccess = false;
     retval = OverloadFunction(eval, nLhs, argIn, "sparse", bSuccess);
-    if (!bSuccess)
-    {
+    if (!bSuccess) {
         ArrayOf A(argIn[0]);
-        if (A.isSparse() ||
-                (A.is2D() &&
-                 ((A.getDataClass() == NLS_DOUBLE) ||
-                  (A.getDataClass() == NLS_DCOMPLEX) ||
-                  (A.getDataClass() == NLS_LOGICAL))))
-        {
+        if (A.isSparse()
+            || (A.is2D()
+                   && ((A.getDataClass() == NLS_DOUBLE) || (A.getDataClass() == NLS_DCOMPLEX)
+                          || (A.getDataClass() == NLS_LOGICAL)))) {
             retval.push_back(SparseConstructor(A));
-        }
-        else
-        {
+        } else {
             retval.push_back(OverloadUnaryOperator(eval, A, "sparse"));
         }
     }
     return retval;
 }
 //=============================================================================
-static ArrayOfVector sparseBuiltinTwoRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+static ArrayOfVector
+sparseBuiltinTwoRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     /*
     S = sparse(m, n)
@@ -65,32 +62,32 @@ static ArrayOfVector sparseBuiltinTwoRhs(Evaluator* eval, int nLhs, const ArrayO
     return retval;
 }
 //=============================================================================
-static ArrayOfVector sparseBuiltinThreeRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+static ArrayOfVector
+sparseBuiltinThreeRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     ArrayOf I(argIn[0]);
     ArrayOf J(argIn[1]);
     ArrayOf V(argIn[2]);
-    if ((V.getDataClass() == NLS_DOUBLE || V.getDataClass() == NLS_DCOMPLEX || V.getDataClass() == NLS_LOGICAL) && !V.isSparse())
-    {
-        if (I.isVector() && J.isVector() && V.isVector() || I.isScalar() && J.isScalar() && V.isScalar())
-        {
+    if ((V.getDataClass() == NLS_DOUBLE || V.getDataClass() == NLS_DCOMPLEX
+            || V.getDataClass() == NLS_LOGICAL)
+        && !V.isSparse()) {
+        if (I.isVector() && J.isVector() && V.isVector()
+            || I.isScalar() && J.isScalar() && V.isScalar()) {
             retval.push_back(SparseConstructor(I, J, V));
+        } else {
+            Error(eval,
+                _W("in I, J, V format, all three vectors must be the same size or be scalars."));
         }
-        else
-        {
-            Error(eval, _W("in I, J, V format, all three vectors must be the same size or be scalars."));
-        }
-    }
-    else
-    {
+    } else {
         ArrayOf r = OverloadUnaryOperator(eval, argIn[2], "sparse");
         retval.push_back(r);
     }
     return retval;
 }
 //=============================================================================
-static ArrayOfVector sparseBuiltinFiveOrSixRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+static ArrayOfVector
+sparseBuiltinFiveOrSixRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     /*
     S = sparse(i, j, v, m, n)
@@ -105,53 +102,45 @@ static ArrayOfVector sparseBuiltinFiveOrSixRhs(Evaluator* eval, int nLhs, const 
     indexType m = M.getContentAsScalarIndex();
     indexType n = N.getContentAsScalarIndex();
     indexType nnz = 0;
-    if (argIn.size() == 6)
-    {
+    if (argIn.size() == 6) {
         ArrayOf NNZ(argIn[5]);
         nnz = NNZ.getContentAsScalarIndex(false);
     }
-    if ((V.getDataClass() == NLS_DOUBLE || V.getDataClass() == NLS_DCOMPLEX || V.getDataClass() == NLS_LOGICAL) && !V.isSparse())
-    {
-        if (argIn.size() == 6)
-        {
+    if ((V.getDataClass() == NLS_DOUBLE || V.getDataClass() == NLS_DCOMPLEX
+            || V.getDataClass() == NLS_LOGICAL)
+        && !V.isSparse()) {
+        if (argIn.size() == 6) {
             retval.push_back(SparseConstructor(I, J, V, m, n, nnz));
-        }
-        else
-        {
+        } else {
             retval.push_back(SparseConstructor(I, J, V, m, n));
         }
-    }
-    else
-    {
+    } else {
         ArrayOf r = OverloadUnaryOperator(eval, argIn[2], "sparse");
         retval.push_back(r);
     }
     return retval;
 }
 //=============================================================================
-ArrayOfVector Nelson::SparseGateway::sparseBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::SparseGateway::sparseBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    switch (argIn.size())
-    {
-        case 1:
-            return sparseBuiltinOneRhs(eval, nLhs, argIn);
-        case 2:
-            return sparseBuiltinTwoRhs(eval, nLhs, argIn);
-        case 3:
-            return sparseBuiltinThreeRhs(eval, nLhs, argIn);
-        case 5:
-        case 6:
-            return sparseBuiltinFiveOrSixRhs(eval, nLhs, argIn);
-        default:
-        {
-            Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-        }
-        break;
+    switch (argIn.size()) {
+    case 1:
+        return sparseBuiltinOneRhs(eval, nLhs, argIn);
+    case 2:
+        return sparseBuiltinTwoRhs(eval, nLhs, argIn);
+    case 3:
+        return sparseBuiltinThreeRhs(eval, nLhs, argIn);
+    case 5:
+    case 6:
+        return sparseBuiltinFiveOrSixRhs(eval, nLhs, argIn);
+    default: {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    } break;
     }
     return retval;
 }

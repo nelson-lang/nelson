@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -14,15 +14,16 @@ static doublereal c_b47 = 1.;
 static integer c__3 = 3;
 static integer c__0 = 0;
 
-EXPORTSYMBOL /* Subroutine */ int sb03ot_(discr, ltrans, n, s, lds, r__, ldr, scale, dwork, info)
-logical *discr, *ltrans;
-integer *n;
-doublereal *s;
-integer *lds;
-doublereal *r__;
-integer *ldr;
+EXPORTSYMBOL /* Subroutine */ int sb03ot_(
+    discr, ltrans, n, s, lds, r__, ldr, scale, dwork, info) logical *discr,
+    *ltrans;
+integer* n;
+doublereal* s;
+integer* lds;
+doublereal* r__;
+integer* ldr;
 doublereal *scale, *dwork;
-integer *info;
+integer* info;
 {
     /* System generated locals */
     integer r_dim1, r_offset, s_dim1, s_offset, i__1;
@@ -34,10 +35,10 @@ integer *info;
     static logical cont;
     static doublereal temp, smin;
     static logical tbyt;
-    static doublereal a[4]	/* was [2][2] */, b[4]	/* was [2][2] */;
+    static doublereal a[4] /* was [2][2] */, b[4] /* was [2][2] */;
     static integer j, k;
     extern /* Subroutine */ int mb04nd_();
-    static doublereal alpha, u[4]	/* was [2][2] */;
+    static doublereal alpha, u[4] /* was [2][2] */;
     extern /* Subroutine */ int dscal_(), mb04od_();
     static integer infom;
     extern /* Subroutine */ int sb03or_(), dcopy_(), dswap_(), sb03oy_(), dtrmm_();
@@ -214,20 +215,14 @@ integer *info;
     /* Function Body */
     *info = 0;
     /*     Test the input scalar arguments. */
-    if (*n < 0)
-    {
+    if (*n < 0) {
         *info = -3;
-    }
-    else if (*lds < max(1,*n))
-    {
+    } else if (*lds < max(1, *n)) {
         *info = -5;
-    }
-    else if (*ldr < max(1,*n))
-    {
+    } else if (*ldr < max(1, *n)) {
         *info = -7;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("SB03OT", &i__1, 6L);
@@ -235,8 +230,7 @@ integer *info;
     }
     *scale = 1.;
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
+    if (*n == 0) {
         return 0;
     }
     /*     Set constants to control overflow. */
@@ -244,53 +238,43 @@ integer *info;
     smlnum = dlamch_("S", 1L);
     bignum = 1. / smlnum;
     dlabad_(&smlnum, &bignum);
-    smlnum = smlnum * (doublereal) (*n **n) / eps;
+    smlnum = smlnum * (doublereal)(*n * *n) / eps;
     bignum = 1. / smlnum;
     /* Computing MAX */
     d__1 = smlnum, d__2 = eps * dlanhs_("Max", n, &s[s_offset], lds, &dwork[1], 3L);
-    smin = max(d__1,d__2);
+    smin = max(d__1, d__2);
     infom = 0;
     /*     Start the solution. Most of the comments refer to notation and */
     /*     equations in sections 5 and 10 of the second reference above. */
     /*     Determine whether or not the current block is two-by-two. */
     /*     K gives the position of the start of the current block and */
     /*     TBYT is true if the block is two-by-two. */
-    cont = ! (*discr);
+    cont = !(*discr);
     isgn = 1;
-    if (! (*ltrans))
-    {
+    if (!(*ltrans)) {
         /*        Case op(M) = M. */
         kount = 1;
-L10:
+    L10:
         /*        WHILE( KOUNT.LE.N )LOOP */
-        if (kount <= *n)
-        {
+        if (kount <= *n) {
             k = kount;
-            if (kount >= *n)
-            {
+            if (kount >= *n) {
                 tbyt = FALSE_;
                 ++kount;
-            }
-            else if (s[k + 1 + k * s_dim1] == 0.)
-            {
+            } else if (s[k + 1 + k * s_dim1] == 0.) {
                 tbyt = FALSE_;
                 ++kount;
-            }
-            else
-            {
+            } else {
                 tbyt = TRUE_;
-                if (k + 1 < *n)
-                {
-                    if (s[k + 2 + (k + 1) * s_dim1] != 0.)
-                    {
+                if (k + 1 < *n) {
+                    if (s[k + 2 + (k + 1) * s_dim1] != 0.) {
                         *info = 3;
                         return 0;
                     }
                 }
                 kount += 2;
             }
-            if (tbyt)
-            {
+            if (tbyt) {
                 /*              Solve the two-by-two Lyapunov equation (6.1) or (10.19), */
                 /*              using the routine SB03OY. */
                 b[0] = s[k + k * s_dim1];
@@ -301,16 +285,13 @@ L10:
                 u[2] = r__[k + (k + 1) * r_dim1];
                 u[3] = r__[k + 1 + (k + 1) * r_dim1];
                 sb03oy_(discr, ltrans, &isgn, b, &c__2, u, &c__2, a, &c__2, &scaloc, info);
-                if (*info > 1)
-                {
+                if (*info > 1) {
                     return 0;
                 }
-                infom = max(*info,infom);
-                if (scaloc != 1.)
-                {
+                infom = max(*info, infom);
+                if (scaloc != 1.) {
                     i__1 = *n;
-                    for (j = 1; j <= i__1; ++j)
-                    {
+                    for (j = 1; j <= i__1; ++j) {
                         dscal_(&j, &scaloc, &r__[j * r_dim1 + 1], &c__1);
                         /* L20: */
                     }
@@ -325,8 +306,7 @@ L10:
                 /*              and returns scaled alpha in  A.  ksize is the order of */
                 /*              the remainder of  S.  k1, k2 and k3  point to the start */
                 /*              of vectors in  DWORK. */
-                if (kount <= *n)
-                {
+                if (kount <= *n) {
                     ksize = *n - k - 1;
                     k1 = ksize + 1;
                     k2 = ksize + k1;
@@ -337,36 +317,35 @@ L10:
                     /*                 DWORK( 2*( n - k - 1 ) ). */
                     dcopy_(&ksize, &r__[k + (k + 2) * r_dim1], ldr, &dwork[1], &c__1);
                     dcopy_(&ksize, &r__[k + 1 + (k + 2) * r_dim1], ldr, &dwork[k1], &c__1);
-                    dtrmm_("Right", "Upper", "No transpose", "Non-unit", &ksize, &c__2, &c_b19, a, &c__2, &dwork[1], &ksize, 5L, 5L, 12L, 8L);
-                    if (cont)
-                    {
+                    dtrmm_("Right", "Upper", "No transpose", "Non-unit", &ksize, &c__2, &c_b19, a,
+                        &c__2, &dwork[1], &ksize, 5L, 5L, 12L, 8L);
+                    if (cont) {
                         d__1 = -r__[k + k * r_dim1];
                         daxpy_(&ksize, &d__1, &s[k + (k + 2) * s_dim1], lds, &dwork[1], &c__1);
                         d__1 = -r__[k + (k + 1) * r_dim1];
                         daxpy_(&ksize, &d__1, &s[k + 1 + (k + 2) * s_dim1], lds, &dwork[1], &c__1);
                         d__1 = -r__[k + 1 + (k + 1) * r_dim1];
                         daxpy_(&ksize, &d__1, &s[k + 1 + (k + 2) * s_dim1], lds, &dwork[k1], &c__1);
-                    }
-                    else
-                    {
+                    } else {
                         d__1 = -r__[k + k * r_dim1] * b[0];
                         daxpy_(&ksize, &d__1, &s[k + (k + 2) * s_dim1], lds, &dwork[1], &c__1);
-                        d__1 = -(r__[k + (k + 1) * r_dim1] * b[0] + r__[k + 1 + (k + 1) * r_dim1] * b[1]);
+                        d__1 = -(r__[k + (k + 1) * r_dim1] * b[0]
+                            + r__[k + 1 + (k + 1) * r_dim1] * b[1]);
                         daxpy_(&ksize, &d__1, &s[k + 1 + (k + 2) * s_dim1], lds, &dwork[1], &c__1);
                         d__1 = -r__[k + k * r_dim1] * b[2];
                         daxpy_(&ksize, &d__1, &s[k + (k + 2) * s_dim1], lds, &dwork[k1], &c__1);
-                        d__1 = -(r__[k + (k + 1) * r_dim1] * b[2] + r__[k + 1 + (k + 1) * r_dim1] * b[3]);
+                        d__1 = -(r__[k + (k + 1) * r_dim1] * b[2]
+                            + r__[k + 1 + (k + 1) * r_dim1] * b[3]);
                         daxpy_(&ksize, &d__1, &s[k + 1 + (k + 2) * s_dim1], lds, &dwork[k1], &c__1);
                     }
                     /*                 SB03OR  solves the Sylvester equations. The solution */
                     /*                 is overwritten on DWORK. */
-                    sb03or_(discr, ltrans, &ksize, &c__2, &s[k + 2 + (k + 2) * s_dim1], lds, b, &c__2, &dwork[1], &ksize, &scaloc, info);
-                    infom = max(*info,infom);
-                    if (scaloc != 1.)
-                    {
+                    sb03or_(discr, ltrans, &ksize, &c__2, &s[k + 2 + (k + 2) * s_dim1], lds, b,
+                        &c__2, &dwork[1], &ksize, &scaloc, info);
+                    infom = max(*info, infom);
+                    if (scaloc != 1.) {
                         i__1 = *n;
-                        for (j = 1; j <= i__1; ++j)
-                        {
+                        for (j = 1; j <= i__1; ++j) {
                             dscal_(&j, &scaloc, &r__[j * r_dim1 + 1], &c__1);
                             /* L30: */
                         }
@@ -379,8 +358,7 @@ L10:
                     /*                 Now form the matrix  Rhat  of equation (6.4) or */
                     /*                 (10.22). Note that (10.22) is incorrect, so here we */
                     /*                 implement a corrected version of (10.22). */
-                    if (cont)
-                    {
+                    if (cont) {
                         /*                    Swap the two rows of R with DWORK. */
                         dswap_(&ksize, &dwork[1], &c__1, &r__[k + (k + 2) * r_dim1], ldr);
                         dswap_(&ksize, &dwork[k1], &c__1, &r__[k + 1 + (k + 2) * r_dim1], ldr);
@@ -392,22 +370,19 @@ L10:
                         /*                    2nd column: */
                         d__1 = -a[3];
                         daxpy_(&ksize, &d__1, &dwork[k3], &c__1, &dwork[k1], &c__1);
-                    }
-                    else
-                    {
+                    } else {
                         /*                    Form  v = S1'*u + s*u11', overwriting  v  on DWORK. */
                         /*                    Compute  S1'*u,  first multiplying by the */
                         /*                    triangular part of  S1. */
-                        dtrmm_("Left", "Upper", "Transpose", "Non-unit", &ksize, &c__2, &c_b47, &s[k + 2 + (k + 2) * s_dim1], lds, &dwork[1], &ksize, 4L, 5L, 9L, 8L);
+                        dtrmm_("Left", "Upper", "Transpose", "Non-unit", &ksize, &c__2, &c_b47,
+                            &s[k + 2 + (k + 2) * s_dim1], lds, &dwork[1], &ksize, 4L, 5L, 9L, 8L);
                         /*                    Then multiply by the subdiagonal of  S1  and add in */
                         /*                    to the above result. */
                         j1 = k1;
                         j2 = k + 2;
                         i__1 = ksize - 1;
-                        for (j = 1; j <= i__1; ++j)
-                        {
-                            if (s[j2 + 1 + j2 * s_dim1] != 0.)
-                            {
+                        for (j = 1; j <= i__1; ++j) {
+                            if (s[j2 + 1 + j2 * s_dim1] != 0.) {
                                 dwork[j] = s[j2 + 1 + j2 * s_dim1] * dwork[k2 + j] + dwork[j];
                                 dwork[j1] = s[j2 + 1 + j2 * s_dim1] * dwork[k3 + j] + dwork[j1];
                             }
@@ -416,9 +391,12 @@ L10:
                             /* L40: */
                         }
                         /*                    Add in s*u11'. */
-                        daxpy_(&ksize, &r__[k + k * r_dim1], &s[k + (k + 2) * s_dim1], lds, &dwork[1], &c__1);
-                        daxpy_(&ksize, &r__[k + (k + 1) * r_dim1], &s[k + 1 + (k + 2) * s_dim1], lds, &dwork[1], &c__1);
-                        daxpy_(&ksize, &r__[k + 1 + (k + 1) * r_dim1], &s[k + 1 + (k + 2) * s_dim1], lds, &dwork[k1], &c__1);
+                        daxpy_(&ksize, &r__[k + k * r_dim1], &s[k + (k + 2) * s_dim1], lds,
+                            &dwork[1], &c__1);
+                        daxpy_(&ksize, &r__[k + (k + 1) * r_dim1], &s[k + 1 + (k + 2) * s_dim1],
+                            lds, &dwork[1], &c__1);
+                        daxpy_(&ksize, &r__[k + 1 + (k + 1) * r_dim1], &s[k + 1 + (k + 2) * s_dim1],
+                            lds, &dwork[k1], &c__1);
                         /*                    Next recover r from R, swapping r with u. */
                         dswap_(&ksize, &dwork[k2], &c__1, &r__[k + (k + 2) * r_dim1], ldr);
                         dswap_(&ksize, &dwork[k3], &c__1, &r__[k + 1 + (k + 2) * r_dim1], ldr);
@@ -448,8 +426,7 @@ L10:
                         j2 = k2;
                         j3 = k3;
                         i__1 = ksize;
-                        for (j = 1; j <= i__1; ++j)
-                        {
+                        for (j = 1; j <= i__1; ++j) {
                             sum = dwork[j2] + v1 * dwork[j] + v2 * dwork[j1];
                             d1 = dwork[j] - sum * t1;
                             d2 = dwork[j1] - sum * t2;
@@ -467,54 +444,44 @@ L10:
                     dcopy_(&ksize, &dwork[k1], &c__1, &dwork[k3], &c__1);
                     dcopy_(&ksize, &dwork[k3], &c__1, &dwork[2], &c__2);
                     dcopy_(&ksize, &dwork[k2], &c__1, &dwork[1], &c__2);
-                    mb04od_("Full", &ksize, &c__0, &c__2, &r__[k + 2 + (k + 2) * r_dim1], ldr, &dwork[1], &c__2, &dwork[1], &c__1, &dwork[1], &c__1, &dwork[k2], &dwork[k3], 4L);
+                    mb04od_("Full", &ksize, &c__0, &c__2, &r__[k + 2 + (k + 2) * r_dim1], ldr,
+                        &dwork[1], &c__2, &dwork[1], &c__1, &dwork[1], &c__1, &dwork[k2],
+                        &dwork[k3], 4L);
                 }
-            }
-            else
-            {
+            } else {
                 /*              1-by-1 block. */
                 /*              Make sure S is stable or convergent and find u11 in */
                 /*              equation (5.13) or (10.15). */
-                if (*discr)
-                {
+                if (*discr) {
                     absskk = (d__1 = s[k + k * s_dim1], abs(d__1));
-                    if (absskk - 1. >= 0.)
-                    {
+                    if (absskk - 1. >= 0.) {
                         *info = 2;
                         return 0;
                     }
                     temp = sqrt((1. - absskk) * (absskk + 1.));
-                }
-                else
-                {
-                    if (s[k + k * s_dim1] >= 0.)
-                    {
+                } else {
+                    if (s[k + k * s_dim1] >= 0.) {
                         *info = 2;
                         return 0;
                     }
                     temp = sqrt((d__1 = s[k + k * s_dim1] * 2., abs(d__1)));
                 }
                 scaloc = 1.;
-                if (temp < smin)
-                {
+                if (temp < smin) {
                     temp = smin;
                     infom = 1;
                 }
                 dr = (d__1 = r__[k + k * r_dim1], abs(d__1));
-                if (temp < 1. && dr > 1.)
-                {
-                    if (dr > bignum * temp)
-                    {
+                if (temp < 1. && dr > 1.) {
+                    if (dr > bignum * temp) {
                         scaloc = 1. / dr;
                     }
                 }
                 alpha = d_sign(&temp, &r__[k + k * r_dim1]);
                 r__[k + k * r_dim1] /= alpha;
-                if (scaloc != 1.)
-                {
+                if (scaloc != 1.) {
                     i__1 = *n;
-                    for (j = 1; j <= i__1; ++j)
-                    {
+                    for (j = 1; j <= i__1; ++j) {
                         dscal_(&j, &scaloc, &r__[j * r_dim1 + 1], &c__1);
                         /* L60: */
                     }
@@ -524,8 +491,7 @@ L10:
                 /*              equation (5.14) or (10.16).  ksize is the order of the */
                 /*              remainder of  S.  k1 and k2 point to the start of vectors */
                 /*              in  DWORK. */
-                if (kount <= *n)
-                {
+                if (kount <= *n) {
                     ksize = *n - k;
                     k1 = ksize + 1;
                     k2 = ksize + k1;
@@ -534,25 +500,21 @@ L10:
                     dcopy_(&ksize, &r__[k + (k + 1) * r_dim1], ldr, &dwork[1], &c__1);
                     d__1 = -alpha;
                     dscal_(&ksize, &d__1, &dwork[1], &c__1);
-                    if (cont)
-                    {
+                    if (cont) {
                         d__1 = -r__[k + k * r_dim1];
                         daxpy_(&ksize, &d__1, &s[k + (k + 1) * s_dim1], lds, &dwork[1], &c__1);
-                    }
-                    else
-                    {
+                    } else {
                         d__1 = -s[k + k * s_dim1] * r__[k + k * r_dim1];
                         daxpy_(&ksize, &d__1, &s[k + (k + 1) * s_dim1], lds, &dwork[1], &c__1);
                     }
                     /*                 SB03OR solves the Sylvester equations. The solution is */
                     /*                 overwritten on  DWORK. */
-                    sb03or_(discr, ltrans, &ksize, &c__1, &s[k + 1 + (k + 1) * s_dim1], lds, &s[k + k * s_dim1], &c__1, &dwork[1], &ksize, &scaloc, info);
-                    infom = max(*info,infom);
-                    if (scaloc != 1.)
-                    {
+                    sb03or_(discr, ltrans, &ksize, &c__1, &s[k + 1 + (k + 1) * s_dim1], lds,
+                        &s[k + k * s_dim1], &c__1, &dwork[1], &ksize, &scaloc, info);
+                    infom = max(*info, infom);
+                    if (scaloc != 1.) {
                         i__1 = *n;
-                        for (j = 1; j <= i__1; ++j)
-                        {
+                        for (j = 1; j <= i__1; ++j) {
                             dscal_(&j, &scaloc, &r__[j * r_dim1 + 1], &c__1);
                             /* L70: */
                         }
@@ -566,13 +528,10 @@ L10:
                     /*                 Now form the matrix  Rhat  of equation (5.15) or */
                     /*                 (10.17), first computing  y  in  DWORK,  and then */
                     /*                 updating  R1. */
-                    if (cont)
-                    {
+                    if (cont) {
                         d__1 = -alpha;
                         daxpy_(&ksize, &d__1, &dwork[k1], &c__1, &dwork[1], &c__1);
-                    }
-                    else
-                    {
+                    } else {
                         /*                    First form  lambda( 1 )*r  and then add in */
                         /*                    alpha*u11*s. */
                         d__1 = -s[k + k * s_dim1];
@@ -584,60 +543,51 @@ L10:
                         /*                    of  S1,  and add the result in DWORK. */
                         j1 = k + 1;
                         i__1 = ksize - 1;
-                        for (j = 1; j <= i__1; ++j)
-                        {
-                            if (s[j1 + 1 + j1 * s_dim1] != 0.)
-                            {
-                                dwork[j] = alpha * s[j1 + 1 + j1 * s_dim1] * dwork[k1 + j] + dwork[j];
+                        for (j = 1; j <= i__1; ++j) {
+                            if (s[j1 + 1 + j1 * s_dim1] != 0.) {
+                                dwork[j]
+                                    = alpha * s[j1 + 1 + j1 * s_dim1] * dwork[k1 + j] + dwork[j];
                             }
                             ++j1;
                             /* L80: */
                         }
-                        dtrmv_("Upper", "Transpose", "Non-unit", &ksize, &s[k + 1 + (k + 1) * s_dim1], lds, &dwork[k1], &c__1, 5L, 9L, 8L);
+                        dtrmv_("Upper", "Transpose", "Non-unit", &ksize,
+                            &s[k + 1 + (k + 1) * s_dim1], lds, &dwork[k1], &c__1, 5L, 9L, 8L);
                         daxpy_(&ksize, &alpha, &dwork[k1], &c__1, &dwork[1], &c__1);
                     }
-                    mb04od_("Full", &ksize, &c__0, &c__1, &r__[k + 1 + (k + 1) * r_dim1], ldr, &dwork[1], &c__1, &dwork[1], &c__1, &dwork[1], &c__1, &dwork[k2], &dwork[k1], 4L);
+                    mb04od_("Full", &ksize, &c__0, &c__1, &r__[k + 1 + (k + 1) * r_dim1], ldr,
+                        &dwork[1], &c__1, &dwork[1], &c__1, &dwork[1], &c__1, &dwork[k2],
+                        &dwork[k1], 4L);
                 }
             }
             goto L10;
         }
         /*        END WHILE 10 */
-    }
-    else
-    {
+    } else {
         /*        Case op(M) = M'. */
         kount = *n;
-L90:
+    L90:
         /*        WHILE( KOUNT.GE.1 )LOOP */
-        if (kount >= 1)
-        {
+        if (kount >= 1) {
             k = kount;
-            if (kount == 1)
-            {
+            if (kount == 1) {
                 tbyt = FALSE_;
                 --kount;
-            }
-            else if (s[k + (k - 1) * s_dim1] == 0.)
-            {
+            } else if (s[k + (k - 1) * s_dim1] == 0.) {
                 tbyt = FALSE_;
                 --kount;
-            }
-            else
-            {
+            } else {
                 tbyt = TRUE_;
                 --k;
-                if (k > 1)
-                {
-                    if (s[k + (k - 1) * s_dim1] != 0.)
-                    {
+                if (k > 1) {
+                    if (s[k + (k - 1) * s_dim1] != 0.) {
                         *info = 3;
                         return 0;
                     }
                 }
                 kount += -2;
             }
-            if (tbyt)
-            {
+            if (tbyt) {
                 /*              Solve the two-by-two Lyapunov equation corresponding to */
                 /*              (6.1) or (10.19), using the routine SB03OY. */
                 b[0] = s[k + k * s_dim1];
@@ -648,16 +598,13 @@ L90:
                 u[2] = r__[k + (k + 1) * r_dim1];
                 u[3] = r__[k + 1 + (k + 1) * r_dim1];
                 sb03oy_(discr, ltrans, &isgn, b, &c__2, u, &c__2, a, &c__2, &scaloc, info);
-                if (*info > 1)
-                {
+                if (*info > 1) {
                     return 0;
                 }
-                infom = max(*info,infom);
-                if (scaloc != 1.)
-                {
+                infom = max(*info, infom);
+                if (scaloc != 1.) {
                     i__1 = *n;
-                    for (j = 1; j <= i__1; ++j)
-                    {
+                    for (j = 1; j <= i__1; ++j) {
                         dscal_(&j, &scaloc, &r__[j * r_dim1 + 1], &c__1);
                         /* L100: */
                     }
@@ -672,8 +619,7 @@ L90:
                 /*              and returns scaled alpha, alpha = inv( u11 )*r11, in  A. */
                 /*              ksize is the order of the remainder leading part of  S. */
                 /*              k1, k2 and k3 point to the start of vectors in  DWORK. */
-                if (kount >= 1)
-                {
+                if (kount >= 1) {
                     ksize = k - 1;
                     k1 = ksize + 1;
                     k2 = ksize + k1;
@@ -684,18 +630,16 @@ L90:
                     /*                 DWORK( 2*( k - 1 ) ). */
                     dcopy_(&ksize, &r__[k * r_dim1 + 1], &c__1, &dwork[1], &c__1);
                     dcopy_(&ksize, &r__[(k + 1) * r_dim1 + 1], &c__1, &dwork[k1], &c__1);
-                    dtrmm_("Right", "Upper", "Transpose", "Non-unit", &ksize, &c__2, &c_b19, a, &c__2, &dwork[1], &ksize, 5L, 5L, 9L, 8L);
-                    if (cont)
-                    {
+                    dtrmm_("Right", "Upper", "Transpose", "Non-unit", &ksize, &c__2, &c_b19, a,
+                        &c__2, &dwork[1], &ksize, 5L, 5L, 9L, 8L);
+                    if (cont) {
                         d__1 = -r__[k + k * r_dim1];
                         daxpy_(&ksize, &d__1, &s[k * s_dim1 + 1], &c__1, &dwork[1], &c__1);
                         d__1 = -r__[k + (k + 1) * r_dim1];
                         daxpy_(&ksize, &d__1, &s[k * s_dim1 + 1], &c__1, &dwork[k1], &c__1);
                         d__1 = -r__[k + 1 + (k + 1) * r_dim1];
                         daxpy_(&ksize, &d__1, &s[(k + 1) * s_dim1 + 1], &c__1, &dwork[k1], &c__1);
-                    }
-                    else
-                    {
+                    } else {
                         d__1 = -(r__[k + k * r_dim1] * b[0] + r__[k + (k + 1) * r_dim1] * b[2]);
                         daxpy_(&ksize, &d__1, &s[k * s_dim1 + 1], &c__1, &dwork[1], &c__1);
                         d__1 = -r__[k + 1 + (k + 1) * r_dim1] * b[2];
@@ -707,13 +651,12 @@ L90:
                     }
                     /*                 SB03OR  solves the Sylvester equations. The solution */
                     /*                 is overwritten on DWORK. */
-                    sb03or_(discr, ltrans, &ksize, &c__2, &s[s_offset], lds, b, &c__2, &dwork[1], &ksize, &scaloc, info);
-                    infom = max(*info,infom);
-                    if (scaloc != 1.)
-                    {
+                    sb03or_(discr, ltrans, &ksize, &c__2, &s[s_offset], lds, b, &c__2, &dwork[1],
+                        &ksize, &scaloc, info);
+                    infom = max(*info, infom);
+                    if (scaloc != 1.) {
                         i__1 = *n;
-                        for (j = 1; j <= i__1; ++j)
-                        {
+                        for (j = 1; j <= i__1; ++j) {
                             dscal_(&j, &scaloc, &r__[j * r_dim1 + 1], &c__1);
                             /* L110: */
                         }
@@ -725,8 +668,7 @@ L90:
                     dcopy_(&i__1, &dwork[1], &c__1, &dwork[k2], &c__1);
                     /*                 Now form the matrix  Rhat  of equation corresponding */
                     /*                 to (6.4) or (10.22) (corrected version). */
-                    if (cont)
-                    {
+                    if (cont) {
                         /*                    Swap the two columns of R with DWORK. */
                         dswap_(&ksize, &dwork[1], &c__1, &r__[k * r_dim1 + 1], &c__1);
                         dswap_(&ksize, &dwork[k1], &c__1, &r__[(k + 1) * r_dim1 + 1], &c__1);
@@ -738,31 +680,31 @@ L90:
                         daxpy_(&ksize, &d__1, &dwork[k2], &c__1, &dwork[k1], &c__1);
                         d__1 = -a[3];
                         daxpy_(&ksize, &d__1, &dwork[k3], &c__1, &dwork[k1], &c__1);
-                    }
-                    else
-                    {
+                    } else {
                         /*                    Form  v = S1*u + s*u11, overwriting  v  on DWORK. */
                         /*                    Compute  S1*u,  first multiplying by the triangular */
                         /*                    part of  S1. */
-                        dtrmm_("Left", "Upper", "No transpose", "Non-unit", &ksize, &c__2, &c_b47, &s[s_offset], lds, &dwork[1], &ksize, 4L, 5L, 12L, 8L);
+                        dtrmm_("Left", "Upper", "No transpose", "Non-unit", &ksize, &c__2, &c_b47,
+                            &s[s_offset], lds, &dwork[1], &ksize, 4L, 5L, 12L, 8L);
                         /*                    Then multiply by the subdiagonal of  S1  and add in */
                         /*                    to the above result. */
                         j1 = k1;
                         i__1 = ksize;
-                        for (j = 2; j <= i__1; ++j)
-                        {
+                        for (j = 2; j <= i__1; ++j) {
                             ++j1;
-                            if (s[j + (j - 1) * s_dim1] != 0.)
-                            {
+                            if (s[j + (j - 1) * s_dim1] != 0.) {
                                 dwork[j] = s[j + (j - 1) * s_dim1] * dwork[k2 + j - 2] + dwork[j];
                                 dwork[j1] = s[j + (j - 1) * s_dim1] * dwork[k3 + j - 2] + dwork[j1];
                             }
                             /* L120: */
                         }
                         /*                    Add in s*u11. */
-                        daxpy_(&ksize, &r__[k + k * r_dim1], &s[k * s_dim1 + 1], &c__1, &dwork[1], &c__1);
-                        daxpy_(&ksize, &r__[k + (k + 1) * r_dim1], &s[k * s_dim1 + 1], &c__1, &dwork[k1], &c__1);
-                        daxpy_(&ksize, &r__[k + 1 + (k + 1) * r_dim1], &s[(k + 1) * s_dim1 + 1], &c__1, &dwork[k1], &c__1);
+                        daxpy_(&ksize, &r__[k + k * r_dim1], &s[k * s_dim1 + 1], &c__1, &dwork[1],
+                            &c__1);
+                        daxpy_(&ksize, &r__[k + (k + 1) * r_dim1], &s[k * s_dim1 + 1], &c__1,
+                            &dwork[k1], &c__1);
+                        daxpy_(&ksize, &r__[k + 1 + (k + 1) * r_dim1], &s[(k + 1) * s_dim1 + 1],
+                            &c__1, &dwork[k1], &c__1);
                         /*                    Next recover r from R, swapping r with u. */
                         dswap_(&ksize, &dwork[k2], &c__1, &r__[k * r_dim1 + 1], &c__1);
                         dswap_(&ksize, &dwork[k3], &c__1, &r__[(k + 1) * r_dim1 + 1], &c__1);
@@ -793,8 +735,7 @@ L90:
                         j2 = k2;
                         j3 = k3;
                         i__1 = ksize;
-                        for (j = 1; j <= i__1; ++j)
-                        {
+                        for (j = 1; j <= i__1; ++j) {
                             sum = dwork[j3] + v1 * dwork[j] + v2 * dwork[j1];
                             d1 = dwork[j] - sum * t1;
                             d2 = dwork[j1] - sum * t2;
@@ -808,54 +749,43 @@ L90:
                         }
                     }
                     /*                 Now update  R1  to give  Rhat. */
-                    mb04nd_("Full", &ksize, &c__0, &c__2, &r__[r_offset], ldr, &dwork[1], &ksize, &dwork[1], &c__1, &dwork[1], &c__1, &dwork[k2], &dwork[k3], 4L);
+                    mb04nd_("Full", &ksize, &c__0, &c__2, &r__[r_offset], ldr, &dwork[1], &ksize,
+                        &dwork[1], &c__1, &dwork[1], &c__1, &dwork[k2], &dwork[k3], 4L);
                 }
-            }
-            else
-            {
+            } else {
                 /*              1-by-1 block. */
                 /*              Make sure S is stable or convergent and find u11 in */
                 /*              equation corresponding to (5.13) or (10.15). */
-                if (*discr)
-                {
+                if (*discr) {
                     absskk = (d__1 = s[k + k * s_dim1], abs(d__1));
-                    if (absskk - 1. >= 0.)
-                    {
+                    if (absskk - 1. >= 0.) {
                         *info = 2;
                         return 0;
                     }
                     temp = sqrt((1. - absskk) * (absskk + 1.));
-                }
-                else
-                {
-                    if (s[k + k * s_dim1] >= 0.)
-                    {
+                } else {
+                    if (s[k + k * s_dim1] >= 0.) {
                         *info = 2;
                         return 0;
                     }
                     temp = sqrt((d__1 = s[k + k * s_dim1] * 2., abs(d__1)));
                 }
                 scaloc = 1.;
-                if (temp < smin)
-                {
+                if (temp < smin) {
                     temp = smin;
                     infom = 1;
                 }
                 dr = (d__1 = r__[k + k * r_dim1], abs(d__1));
-                if (temp < 1. && dr > 1.)
-                {
-                    if (dr > bignum * temp)
-                    {
+                if (temp < 1. && dr > 1.) {
+                    if (dr > bignum * temp) {
                         scaloc = 1. / dr;
                     }
                 }
                 alpha = d_sign(&temp, &r__[k + k * r_dim1]);
                 r__[k + k * r_dim1] /= alpha;
-                if (scaloc != 1.)
-                {
+                if (scaloc != 1.) {
                     i__1 = *n;
-                    for (j = 1; j <= i__1; ++j)
-                    {
+                    for (j = 1; j <= i__1; ++j) {
                         dscal_(&j, &scaloc, &r__[j * r_dim1 + 1], &c__1);
                         /* L140: */
                     }
@@ -865,8 +795,7 @@ L90:
                 /*              equation corresponding to (5.14) or (10.16).  ksize is */
                 /*              the order of the remainder leading part of  S.  k1 and k2 */
                 /*              point to the start of vectors in  DWORK. */
-                if (kount >= 1)
-                {
+                if (kount >= 1) {
                     ksize = k - 1;
                     k1 = ksize + 1;
                     k2 = ksize + k1;
@@ -875,25 +804,21 @@ L90:
                     dcopy_(&ksize, &r__[k * r_dim1 + 1], &c__1, &dwork[1], &c__1);
                     d__1 = -alpha;
                     dscal_(&ksize, &d__1, &dwork[1], &c__1);
-                    if (cont)
-                    {
+                    if (cont) {
                         d__1 = -r__[k + k * r_dim1];
                         daxpy_(&ksize, &d__1, &s[k * s_dim1 + 1], &c__1, &dwork[1], &c__1);
-                    }
-                    else
-                    {
+                    } else {
                         d__1 = -s[k + k * s_dim1] * r__[k + k * r_dim1];
                         daxpy_(&ksize, &d__1, &s[k * s_dim1 + 1], &c__1, &dwork[1], &c__1);
                     }
                     /*                 SB03OR solves the Sylvester equations. The solution is */
                     /*                 overwritten on  DWORK. */
-                    sb03or_(discr, ltrans, &ksize, &c__1, &s[s_offset], lds, &s[k + k * s_dim1], &c__1, &dwork[1], &ksize, &scaloc, info);
-                    infom = max(*info,infom);
-                    if (scaloc != 1.)
-                    {
+                    sb03or_(discr, ltrans, &ksize, &c__1, &s[s_offset], lds, &s[k + k * s_dim1],
+                        &c__1, &dwork[1], &ksize, &scaloc, info);
+                    infom = max(*info, infom);
+                    if (scaloc != 1.) {
                         i__1 = *n;
-                        for (j = 1; j <= i__1; ++j)
-                        {
+                        for (j = 1; j <= i__1; ++j) {
                             dscal_(&j, &scaloc, &r__[j * r_dim1 + 1], &c__1);
                             /* L150: */
                         }
@@ -907,13 +832,10 @@ L90:
                     /*                 Now form the matrix  Rhat  of equation corresponding */
                     /*                 to (5.15) or (10.17), first computing  y  in  DWORK, */
                     /*                 and then updating  R1. */
-                    if (cont)
-                    {
+                    if (cont) {
                         d__1 = -alpha;
                         daxpy_(&ksize, &d__1, &dwork[k1], &c__1, &dwork[1], &c__1);
-                    }
-                    else
-                    {
+                    } else {
                         /*                    First form  lambda( 1 )*r  and then add in */
                         /*                    alpha*u11*s. */
                         d__1 = -s[k + k * s_dim1];
@@ -924,18 +846,19 @@ L90:
                         /*                    sub-diagonal of  S1  and then the triangular part */
                         /*                    of  S1,  and add the result in DWORK. */
                         i__1 = ksize;
-                        for (j = 2; j <= i__1; ++j)
-                        {
-                            if (s[j + (j - 1) * s_dim1] != 0.)
-                            {
-                                dwork[j] = alpha * s[j + (j - 1) * s_dim1] * dwork[k1 + j - 2] + dwork[j];
+                        for (j = 2; j <= i__1; ++j) {
+                            if (s[j + (j - 1) * s_dim1] != 0.) {
+                                dwork[j] = alpha * s[j + (j - 1) * s_dim1] * dwork[k1 + j - 2]
+                                    + dwork[j];
                             }
                             /* L160: */
                         }
-                        dtrmv_("Upper", "No transpose", "Non-unit", &ksize, &s[s_offset], lds, &dwork[k1], &c__1, 5L, 12L, 8L);
+                        dtrmv_("Upper", "No transpose", "Non-unit", &ksize, &s[s_offset], lds,
+                            &dwork[k1], &c__1, 5L, 12L, 8L);
                         daxpy_(&ksize, &alpha, &dwork[k1], &c__1, &dwork[1], &c__1);
                     }
-                    mb04nd_("Full", &ksize, &c__0, &c__1, &r__[r_offset], ldr, &dwork[1], &ksize, &dwork[1], &c__1, &dwork[1], &c__1, &dwork[k2], &dwork[k1], 4L);
+                    mb04nd_("Full", &ksize, &c__0, &c__1, &r__[r_offset], ldr, &dwork[1], &ksize,
+                        &dwork[1], &c__1, &dwork[1], &c__1, &dwork[k2], &dwork[k1], 4L);
                 }
             }
             goto L90;
@@ -946,4 +869,3 @@ L90:
     return 0;
     /* *** Last line of SB03OT *** */
 } /* sb03ot_ */
-

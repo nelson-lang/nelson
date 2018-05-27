@@ -18,32 +18,44 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <boost/unordered_map.hpp>
-#include <string>
-#include "Types.hpp"
 #include "FileFunc.hpp"
 #include "FileWatcherManager.hpp"
+#include "Types.hpp"
+#include <boost/unordered_map.hpp>
+#include <string>
 //=============================================================================
 namespace Nelson {
-    class PathFunc {
-    public:
-        PathFunc(const std::wstring path);
-        ~PathFunc();
-        wstringVector getFunctionsName(std::wstring prefix = L"");
-        wstringVector getFunctionsFilename();
-        std::wstring getPath();
-        void rehash();
-        bool findFuncName(const std::wstring functionName, std::wstring &filename);
-        bool findFuncName(const std::wstring functionName, FileFunc **ff);
-        bool findFuncByHash(size_t hashid, std::wstring &functionName);
+class PathFunc
+{
+public:
+    PathFunc(const std::wstring path);
+    ~PathFunc();
+    wstringVector
+    getFunctionsName(std::wstring prefix = L"");
+    wstringVector
+    getFunctionsFilename();
+    std::wstring
+    getPath();
+    void
+    rehash();
+    bool
+    findFuncName(const std::wstring functionName, std::wstring& filename);
+    bool
+    findFuncName(const std::wstring functionName, FileFunc** ff);
+    bool
+    findFuncByHash(size_t hashid, std::wstring& functionName);
 
-    private:
-        boost::unordered_map<std::wstring, FileFunc *> mapFiles;
-        std::wstring _path;
-        bool isSupportedFuncFilename(std::wstring name);
-        std::wstring uniformizePathName(std::wstring pathname);
-        bool comparePathname(std::wstring path1, std::wstring path2);
-        bool isdir(std::wstring path);
-    };
-}
+private:
+    boost::unordered_map<std::wstring, FileFunc*> mapFiles;
+    std::wstring _path;
+    bool
+    isSupportedFuncFilename(std::wstring name);
+    std::wstring
+    uniformizePathName(std::wstring pathname);
+    bool
+    comparePathname(std::wstring path1, std::wstring path2);
+    bool
+    isdir(std::wstring path);
+};
+} // namespace Nelson
 //=============================================================================

@@ -22,22 +22,22 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::QmlEngineGateway::qml_evaluatefileBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::QmlEngineGateway::qml_evaluatefileBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (argIn.size() != 1)
-    {
+    if (argIn.size() != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
     ArrayOfVector retval;
     bool bWithOuput;
-    ArrayOf res = QmlEngine::getInstance()->evaluateFile(param1.getContentAsWideString(), bWithOuput);
-    if (bWithOuput)
-    {
+    ArrayOf res
+        = QmlEngine::getInstance()->evaluateFile(param1.getContentAsWideString(), bWithOuput);
+    if (bWithOuput) {
         retval.push_back(res);
     }
     return retval;

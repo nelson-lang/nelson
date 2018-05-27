@@ -25,6 +25,7 @@ using namespace Nelson;
 //=============================================================================
 extern "C"
 {
-    NLSENGINE_IMPEXP bool StartNelsonMainScript(Evaluator* eval);
+    NLSENGINE_IMPEXP bool
+    StartNelsonMainScript(Evaluator* eval);
 }
 //=============================================================================

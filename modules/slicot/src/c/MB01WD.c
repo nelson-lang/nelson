@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -12,14 +12,15 @@ static integer c__0 = 0;
 static doublereal c_b16 = 1.;
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int mb01wd_(dico, uplo, trans, hess, n, alpha, beta, r__, ldr, a, lda, t, ldt, info, dico_len, uplo_len, trans_len, hess_len)
-char *dico, *uplo, *trans, *hess;
-integer *n;
+EXPORTSYMBOL /* Subroutine */ int mb01wd_(dico, uplo, trans, hess, n, alpha, beta, r__, ldr, a, lda,
+    t, ldt, info, dico_len, uplo_len, trans_len, hess_len) char *dico,
+    *uplo, *trans, *hess;
+integer* n;
 doublereal *alpha, *beta, *r__;
-integer *ldr;
-doublereal *a;
-integer *lda;
-doublereal *t;
+integer* ldr;
+doublereal* a;
+integer* lda;
+doublereal* t;
 integer *ldt, *info;
 ftnlen dico_len;
 ftnlen uplo_len;
@@ -187,62 +188,40 @@ ftnlen hess_len;
     upper = lsame_(uplo, "U", 1L, 1L);
     transp = lsame_(trans, "T", 1L, 1L) || lsame_(trans, "C", 1L, 1L);
     reduc = lsame_(hess, "H", 1L, 1L);
-    if (! (discr || lsame_(dico, "C", 1L, 1L)))
-    {
+    if (!(discr || lsame_(dico, "C", 1L, 1L))) {
         *info = -1;
-    }
-    else if (! (upper || lsame_(uplo, "L", 1L, 1L)))
-    {
+    } else if (!(upper || lsame_(uplo, "L", 1L, 1L))) {
         *info = -2;
-    }
-    else if (! (transp || lsame_(trans, "N", 1L, 1L)))
-    {
+    } else if (!(transp || lsame_(trans, "N", 1L, 1L))) {
         *info = -3;
-    }
-    else if (! (reduc || lsame_(hess, "F", 1L, 1L)))
-    {
+    } else if (!(reduc || lsame_(hess, "F", 1L, 1L))) {
         *info = -4;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -5;
-    }
-    else if (*ldr < max(1,*n))
-    {
+    } else if (*ldr < max(1, *n)) {
         *info = -9;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -11;
-    }
-    else if (*ldt < max(1,*n))
-    {
+    } else if (*ldt < max(1, *n)) {
         *info = -13;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("MB01WD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
+    if (*n == 0) {
         return 0;
     }
-    if (*alpha == 0.)
-    {
-        if (*beta == 0.)
-        {
+    if (*alpha == 0.) {
+        if (*beta == 0.) {
             /*           Special case when both alpha = 0 and beta = 0. */
             dlaset_(uplo, n, n, &c_b12, &c_b12, &r__[r_offset], ldr, 1L);
-        }
-        else
-        {
+        } else {
             /*           Special case alpha = 0. */
-            if (*beta != 1.)
-            {
+            if (*beta != 1.) {
                 dlascl_(uplo, &c__0, &c__0, &c_b16, beta, n, n, &r__[r_offset], ldr, &info2, 1L);
             }
         }
@@ -251,118 +230,93 @@ ftnlen hess_len;
     /*     General case: alpha <> 0. */
     /*     Compute (in A) T*A, if TRANS = 'N', or */
     /*                    A*T, otherwise. */
-    if (transp)
-    {
-        *(unsigned char *)side = 'R';
-        *(unsigned char *)negtra = 'N';
+    if (transp) {
+        *(unsigned char*)side = 'R';
+        *(unsigned char*)negtra = 'N';
+    } else {
+        *(unsigned char*)side = 'L';
+        *(unsigned char*)negtra = 'T';
     }
-    else
-    {
-        *(unsigned char *)side = 'L';
-        *(unsigned char *)negtra = 'T';
+    if (reduc && *n > 2) {
+        mb01zd_(side, uplo, "NoTranspose", "Non-unit", n, n, &c__1, &c_b16, &t[t_offset], ldt,
+            &a[a_offset], lda, &info2, 1L, 1L, 11L, 8L);
+    } else {
+        dtrmm_(side, uplo, "NoTranspose", "Non-unit", n, n, &c_b16, &t[t_offset], ldt, &a[a_offset],
+            lda, 1L, 1L, 11L, 8L);
     }
-    if (reduc && *n > 2)
-    {
-        mb01zd_(side, uplo, "NoTranspose", "Non-unit", n, n, &c__1, &c_b16, &t[t_offset], ldt, &a[a_offset], lda, &info2, 1L, 1L, 11L, 8L);
-    }
-    else
-    {
-        dtrmm_(side, uplo, "NoTranspose", "Non-unit", n, n, &c_b16, &t[t_offset], ldt, &a[a_offset], lda, 1L, 1L, 11L, 8L);
-    }
-    if (! discr)
-    {
+    if (!discr) {
         /*        Compute (in A) alpha*T'*T*A, if TRANS = 'N', or */
         /*                       alpha*A*T*T', otherwise. */
-        if (reduc && *n > 2)
-        {
-            mb01zd_(side, uplo, "Transpose", "Non-unit", n, n, &c__1, alpha, &t[t_offset], ldt, &a[a_offset], lda, &info2, 1L, 1L, 9L, 8L);
-        }
-        else
-        {
-            dtrmm_(side, uplo, "Transpose", "Non-unit", n, n, alpha, &t[t_offset], ldt, &a[a_offset], lda, 1L, 1L, 9L, 8L);
+        if (reduc && *n > 2) {
+            mb01zd_(side, uplo, "Transpose", "Non-unit", n, n, &c__1, alpha, &t[t_offset], ldt,
+                &a[a_offset], lda, &info2, 1L, 1L, 9L, 8L);
+        } else {
+            dtrmm_(side, uplo, "Transpose", "Non-unit", n, n, alpha, &t[t_offset], ldt,
+                &a[a_offset], lda, 1L, 1L, 9L, 8L);
         }
         /*        Compute the required triangle of the result, using symmetry. */
-        if (upper)
-        {
-            if (*beta == 0.)
-            {
+        if (upper) {
+            if (*beta == 0.) {
                 i__1 = *n;
-                for (j = 1; j <= i__1; ++j)
-                {
+                for (j = 1; j <= i__1; ++j) {
                     i__2 = j;
-                    for (i__ = 1; i__ <= i__2; ++i__)
-                    {
+                    for (i__ = 1; i__ <= i__2; ++i__) {
                         r__[i__ + j * r_dim1] = a[i__ + j * a_dim1] + a[j + i__ * a_dim1];
                         /* L10: */
                     }
                     /* L20: */
                 }
-            }
-            else
-            {
+            } else {
                 i__1 = *n;
-                for (j = 1; j <= i__1; ++j)
-                {
+                for (j = 1; j <= i__1; ++j) {
                     i__2 = j;
-                    for (i__ = 1; i__ <= i__2; ++i__)
-                    {
-                        r__[i__ + j * r_dim1] = a[i__ + j * a_dim1] + a[j + i__ * a_dim1] + *beta * r__[i__ + j * r_dim1];
+                    for (i__ = 1; i__ <= i__2; ++i__) {
+                        r__[i__ + j * r_dim1] = a[i__ + j * a_dim1] + a[j + i__ * a_dim1]
+                            + *beta * r__[i__ + j * r_dim1];
                         /* L30: */
                     }
                     /* L40: */
                 }
             }
-        }
-        else
-        {
-            if (*beta == 0.)
-            {
+        } else {
+            if (*beta == 0.) {
                 i__1 = *n;
-                for (j = 1; j <= i__1; ++j)
-                {
+                for (j = 1; j <= i__1; ++j) {
                     i__2 = *n;
-                    for (i__ = j; i__ <= i__2; ++i__)
-                    {
+                    for (i__ = j; i__ <= i__2; ++i__) {
                         r__[i__ + j * r_dim1] = a[i__ + j * a_dim1] + a[j + i__ * a_dim1];
                         /* L50: */
                     }
                     /* L60: */
                 }
-            }
-            else
-            {
+            } else {
                 i__1 = *n;
-                for (j = 1; j <= i__1; ++j)
-                {
+                for (j = 1; j <= i__1; ++j) {
                     i__2 = *n;
-                    for (i__ = j; i__ <= i__2; ++i__)
-                    {
-                        r__[i__ + j * r_dim1] = a[i__ + j * a_dim1] + a[j + i__ * a_dim1] + *beta * r__[i__ + j * r_dim1];
+                    for (i__ = j; i__ <= i__2; ++i__) {
+                        r__[i__ + j * r_dim1] = a[i__ + j * a_dim1] + a[j + i__ * a_dim1]
+                            + *beta * r__[i__ + j * r_dim1];
                         /* L70: */
                     }
                     /* L80: */
                 }
             }
         }
-    }
-    else
-    {
+    } else {
         /*        Compute (in R) alpha*A'*T'*T*A + beta*R, if TRANS = 'N', or */
         /*                       alpha*A*T*T'*A' + beta*R, otherwise. */
-        if (reduc && *n > 2)
-        {
-            mb01yd_(uplo, negtra, n, n, &c__1, alpha, beta, &a[a_offset], lda, &r__[r_offset], ldr, &info2, 1L, 1L);
-        }
-        else
-        {
+        if (reduc && *n > 2) {
+            mb01yd_(uplo, negtra, n, n, &c__1, alpha, beta, &a[a_offset], lda, &r__[r_offset], ldr,
+                &info2, 1L, 1L);
+        } else {
             dsyrk_(uplo, negtra, n, n, alpha, &a[a_offset], lda, beta, &r__[r_offset], ldr, 1L, 1L);
         }
         /*        Compute (in R) -alpha*T'*T + R, if TRANS = 'N', or */
         /*                       -alpha*T*T' + R, otherwise. */
         d__1 = -(*alpha);
-        mb01yd_(uplo, negtra, n, n, &c__0, &d__1, &c_b16, &t[t_offset], ldt, &r__[r_offset], ldr, &info2, 1L, 1L);
+        mb01yd_(uplo, negtra, n, n, &c__0, &d__1, &c_b16, &t[t_offset], ldt, &r__[r_offset], ldr,
+            &info2, 1L, 1L);
     }
     return 0;
     /* *** Last line of MB01WD *** */
 } /* mb01wd_ */
-

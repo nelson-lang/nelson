@@ -25,6 +25,6 @@
 #define NLSMODULES_MANAGER_IMPEXP __declspec(dllimport)
 #endif
 #else
-#define NLSMODULES_MANAGER_IMPEXP __attribute__ ((visibility ("default")))
+#define NLSMODULES_MANAGER_IMPEXP __attribute__((visibility("default")))
 #endif
 //=============================================================================

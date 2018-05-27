@@ -65,7 +65,10 @@ configure_file (
   )
 ENDIF()
 #============================================================================== 
+include(Clang-cxx-dev-tools)
+#============================================================================== 
 include(CheckCXXCompilerFlag)
+#============================================================================== 
 CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
 if(COMPILER_SUPPORTS_CXX11)
   set(CMAKE_CXX_STANDARD 11)

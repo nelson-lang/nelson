@@ -25,6 +25,6 @@
 #define NLSAUDIO_IMPEXP __declspec(dllimport)
 #endif
 #else
-#define NLSAUDIO_IMPEXP __attribute__ ((visibility ("default")))
+#define NLSAUDIO_IMPEXP __attribute__((visibility("default")))
 #endif
 //=============================================================================

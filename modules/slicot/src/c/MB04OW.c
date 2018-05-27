@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,20 +9,21 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int mb04ow_(m, n, p, a, lda, t, ldt, x, incx, b, ldb, c__, ldc, d__, incd)
-integer *m, *n, *p;
-doublereal *a;
-integer *lda;
-doublereal *t;
-integer *ldt;
-doublereal *x;
-integer *incx;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *d__;
-integer *incd;
+EXPORTSYMBOL /* Subroutine */ int mb04ow_(
+    m, n, p, a, lda, t, ldt, x, incx, b, ldb, c__, ldc, d__, incd) integer *m,
+    *n, *p;
+doublereal* a;
+integer* lda;
+doublereal* t;
+integer* ldt;
+doublereal* x;
+integer* incx;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* d__;
+integer* incd;
 {
     /* System generated locals */
     integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, t_dim1, t_offset, i__1, i__2;
@@ -163,22 +164,18 @@ integer *incd;
     --d__;
     /* Function Body */
     mn = *m + *n;
-    if (*incx > 1)
-    {
+    if (*incx > 1) {
         /*        Code for increment INCX > 1. */
         ix = 1;
-        if (*m > 0)
-        {
+        if (*m > 0) {
             i__1 = *m - 1;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 dlartg_(&a[i__ + i__ * a_dim1], &x[ix], &ci, &si, &temp);
                 a[i__ + i__ * a_dim1] = temp;
                 ix += *incx;
                 i__2 = mn - i__;
                 drot_(&i__2, &a[i__ + (i__ + 1) * a_dim1], lda, &x[ix], incx, &ci, &si);
-                if (*p > 0)
-                {
+                if (*p > 0) {
                     drot_(p, &b[i__ + b_dim1], ldb, &d__[1], incd, &ci, &si);
                 }
                 /* L10: */
@@ -186,89 +183,72 @@ integer *incd;
             dlartg_(&a[*m + *m * a_dim1], &x[ix], &ci, &si, &temp);
             a[*m + *m * a_dim1] = temp;
             ix += *incx;
-            if (*n > 0)
-            {
+            if (*n > 0) {
                 drot_(n, &a[*m + (*m + 1) * a_dim1], lda, &x[ix], incx, &ci, &si);
             }
-            if (*p > 0)
-            {
+            if (*p > 0) {
                 drot_(p, &b[*m + b_dim1], ldb, &d__[1], incd, &ci, &si);
             }
         }
-        if (*n > 0)
-        {
+        if (*n > 0) {
             i__1 = *n - 1;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 dlartg_(&t[i__ + i__ * t_dim1], &x[ix], &ci, &si, &temp);
                 t[i__ + i__ * t_dim1] = temp;
                 ix += *incx;
                 i__2 = *n - i__;
                 drot_(&i__2, &t[i__ + (i__ + 1) * t_dim1], ldt, &x[ix], incx, &ci, &si);
-                if (*p > 0)
-                {
+                if (*p > 0) {
                     drot_(p, &c__[i__ + c_dim1], ldc, &d__[1], incd, &ci, &si);
                 }
                 /* L20: */
             }
             dlartg_(&t[*n + *n * t_dim1], &x[ix], &ci, &si, &temp);
             t[*n + *n * t_dim1] = temp;
-            if (*p > 0)
-            {
+            if (*p > 0) {
                 drot_(p, &c__[*n + c_dim1], ldc, &d__[1], incd, &ci, &si);
             }
         }
-    }
-    else if (*incx == 1)
-    {
+    } else if (*incx == 1) {
         /*        Code for increment INCX = 1. */
-        if (*m > 0)
-        {
+        if (*m > 0) {
             i__1 = *m - 1;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 dlartg_(&a[i__ + i__ * a_dim1], &x[i__], &ci, &si, &temp);
                 a[i__ + i__ * a_dim1] = temp;
                 i__2 = mn - i__;
                 drot_(&i__2, &a[i__ + (i__ + 1) * a_dim1], lda, &x[i__ + 1], &c__1, &ci, &si);
-                if (*p > 0)
-                {
+                if (*p > 0) {
                     drot_(p, &b[i__ + b_dim1], ldb, &d__[1], incd, &ci, &si);
                 }
                 /* L30: */
             }
             dlartg_(&a[*m + *m * a_dim1], &x[*m], &ci, &si, &temp);
             a[*m + *m * a_dim1] = temp;
-            if (*n > 0)
-            {
+            if (*n > 0) {
                 drot_(n, &a[*m + (*m + 1) * a_dim1], lda, &x[*m + 1], &c__1, &ci, &si);
             }
-            if (*p > 0)
-            {
+            if (*p > 0) {
                 drot_(p, &b[*m + b_dim1], ldb, &d__[1], incd, &ci, &si);
             }
         }
-        if (*n > 0)
-        {
+        if (*n > 0) {
             ix = *m + 1;
             i__1 = *n - 1;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 dlartg_(&t[i__ + i__ * t_dim1], &x[ix], &ci, &si, &temp);
                 t[i__ + i__ * t_dim1] = temp;
                 ++ix;
                 i__2 = *n - i__;
                 drot_(&i__2, &t[i__ + (i__ + 1) * t_dim1], ldt, &x[ix], &c__1, &ci, &si);
-                if (*p > 0)
-                {
+                if (*p > 0) {
                     drot_(p, &c__[i__ + c_dim1], ldc, &d__[1], incd, &ci, &si);
                 }
                 /* L40: */
             }
             dlartg_(&t[*n + *n * t_dim1], &x[ix], &ci, &si, &temp);
             t[*n + *n * t_dim1] = temp;
-            if (*p > 0)
-            {
+            if (*p > 0) {
                 drot_(p, &c__[*n + c_dim1], ldc, &d__[1], incd, &ci, &si);
             }
         }
@@ -276,4 +256,3 @@ integer *incd;
     return 0;
     /* *** Last line of MB04OW *** */
 } /* mb04ow_ */
-

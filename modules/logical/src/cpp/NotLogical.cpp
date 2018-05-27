@@ -19,34 +19,28 @@
 #include "NotLogical.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    ArrayOf NotLogical(ArrayOf A)
-    {
-        ArrayOf C;
-        if (A.getDataClass() == NLS_LOGICAL)
-        {
-            size_t Alen(A.getLength());
-            logical *Cp = new_with_exception<logical>(Alen);
-            C = ArrayOf(NLS_LOGICAL, A.getDimensions(), Cp);
-            logical *Ap = (logical*)A.getDataPointer();
-            for (size_t i = 0; i < Alen; i++)
-            {
-                if (Ap[i] == 0)
-                {
-                    Cp[i] = 1;
-                }
-                else
-                {
-                    Cp[i] = 0;
-                }
+//=============================================================================
+ArrayOf
+NotLogical(ArrayOf A)
+{
+    ArrayOf C;
+    if (A.getDataClass() == NLS_LOGICAL) {
+        size_t Alen(A.getLength());
+        logical* Cp = new_with_exception<logical>(Alen);
+        C = ArrayOf(NLS_LOGICAL, A.getDimensions(), Cp);
+        logical* Ap = (logical*)A.getDataPointer();
+        for (size_t i = 0; i < Alen; i++) {
+            if (Ap[i] == 0) {
+                Cp[i] = 1;
+            } else {
+                Cp[i] = 0;
             }
         }
-        else
-        {
-            throw Exception(_W("Invalid type."));
-        }
-        return C;
+    } else {
+        throw Exception(_W("Invalid type."));
     }
-    //=============================================================================
+    return C;
+}
+//=============================================================================
 }
 //=============================================================================

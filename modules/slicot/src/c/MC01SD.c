@@ -1,15 +1,14 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-EXPORTSYMBOL /* Subroutine */ int mc01sd_(dp, p, s, t, mant, e, iwork, info)
-integer *dp;
-doublereal *p;
+EXPORTSYMBOL /* Subroutine */ int mc01sd_(dp, p, s, t, mant, e, iwork, info) integer* dp;
+doublereal* p;
 integer *s, *t;
-doublereal *mant;
+doublereal* mant;
 integer *e, *iwork, *info;
 {
     /* System generated locals */
@@ -136,8 +135,7 @@ integer *e, *iwork, *info;
     --mant;
     --p;
     /* Function Body */
-    if (*dp < 0)
-    {
+    if (*dp < 0) {
         *info = -1;
         /*        Error return. */
         i__1 = -(*info);
@@ -148,47 +146,39 @@ integer *e, *iwork, *info;
     lb = 1;
     /*     WHILE ( LB <= DP+1 and P(LB) = 0 ) DO */
 L20:
-    if (lb <= *dp + 1)
-    {
-        if (p[lb] == 0.)
-        {
+    if (lb <= *dp + 1) {
+        if (p[lb] == 0.) {
             ++lb;
             goto L20;
         }
     }
     /*     END WHILE 20 */
     /*     LB = MIN( i: P(i) non-zero). */
-    if (lb == *dp + 2)
-    {
+    if (lb == *dp + 2) {
         *info = 1;
         return 0;
     }
     ub = *dp + 1;
     /*     WHILE ( P(UB) = 0 ) DO */
 L40:
-    if (p[ub] == 0.)
-    {
+    if (p[ub] == 0.) {
         --ub;
         goto L40;
     }
     /*     END WHILE 40 */
     /*     UB = MAX(i: P(i) non-zero). */
-    beta = (integer) dlamch_("Base", 4L);
+    beta = (integer)dlamch_("Base", 4L);
     i__1 = *dp + 1;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         mc01sw_(&p[i__], &beta, &mant[i__], &e[i__]);
         /* L60: */
     }
     /*     First prescaling. */
     m = e[lb];
-    if (m != 0)
-    {
+    if (m != 0) {
         i__1 = ub;
-        for (i__ = lb; i__ <= i__1; ++i__)
-        {
-            if (mant[i__] != 0.)
-            {
+        for (i__ = lb; i__ <= i__1; ++i__) {
+            if (mant[i__] != 0.) {
                 e[i__] -= m;
             }
             /* L80: */
@@ -196,16 +186,13 @@ L40:
     }
     *s = -m;
     /*     Second prescaling. */
-    if (ub > 1)
-    {
-        d__1 = (doublereal) e[ub] / (doublereal) (ub - 1);
+    if (ub > 1) {
+        d__1 = (doublereal)e[ub] / (doublereal)(ub - 1);
         m = i_dnnt(&d__1);
     }
     i__1 = ub;
-    for (i__ = lb; i__ <= i__1; ++i__)
-    {
-        if (mant[i__] != 0.)
-        {
+    for (i__ = lb; i__ <= i__1; ++i__) {
+        if (mant[i__] != 0.) {
             e[i__] -= m * (i__ - 1);
         }
         /* L100: */
@@ -214,50 +201,40 @@ L40:
     v0 = mc01sx_(&lb, &ub, &e[1], &mant[1]);
     j = 1;
     i__1 = ub;
-    for (i__ = lb; i__ <= i__1; ++i__)
-    {
-        if (mant[i__] != 0.)
-        {
+    for (i__ = lb; i__ <= i__1; ++i__) {
+        if (mant[i__] != 0.) {
             iwork[i__] = e[i__] + (i__ - 1);
         }
         /* L120: */
     }
     v1 = mc01sx_(&lb, &ub, &iwork[1], &mant[1]);
     dv = v1 - v0;
-    if (dv != 0)
-    {
-        if (dv > 0)
-        {
+    if (dv != 0) {
+        if (dv > 0) {
             j = 0;
             inc = -1;
             v1 = v0;
             dv = -dv;
             i__1 = ub;
-            for (i__ = lb; i__ <= i__1; ++i__)
-            {
+            for (i__ = lb; i__ <= i__1; ++i__) {
                 iwork[i__] = e[i__];
                 /* L130: */
             }
-        }
-        else
-        {
+        } else {
             inc = 1;
         }
         /*        WHILE ( DV < 0 ) DO */
-L140:
-        if (dv < 0)
-        {
+    L140:
+        if (dv < 0) {
             v0 = v1;
             i__1 = ub;
-            for (i__ = lb; i__ <= i__1; ++i__)
-            {
+            for (i__ = lb; i__ <= i__1; ++i__) {
                 e[i__] = iwork[i__];
                 /* L150: */
             }
             j += inc;
             i__1 = ub;
-            for (i__ = lb; i__ <= i__1; ++i__)
-            {
+            for (i__ = lb; i__ <= i__1; ++i__) {
                 iwork[i__] = e[i__] + inc * (i__ - 1);
                 /* L160: */
             }
@@ -270,12 +247,10 @@ L140:
     }
     /*     Evaluation of the output parameters. */
     i__1 = ub;
-    for (i__ = lb; i__ <= i__1; ++i__)
-    {
+    for (i__ = lb; i__ <= i__1; ++i__) {
         mc01sy_(&mant[i__], &e[i__], &beta, &p[i__], &ovflow);
         /* L180: */
     }
     return 0;
     /* *** Last line of MC01SD *** */
 } /* mc01sd_ */
-

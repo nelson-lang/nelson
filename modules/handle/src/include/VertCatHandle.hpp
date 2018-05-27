@@ -18,10 +18,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsHandle_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsHandle_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSHANDLE_IMPEXP ArrayOf VertCatHandle(ArrayOf A, ArrayOf B);
+NLSHANDLE_IMPEXP ArrayOf
+VertCatHandle(ArrayOf A, ArrayOf B);
 }
 //=============================================================================

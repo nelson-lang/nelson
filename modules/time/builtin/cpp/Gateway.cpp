@@ -16,24 +16,23 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "ticBuiltin.hpp"
-#include "tocBuiltin.hpp"
-#include "sleepBuiltin.hpp"
+#include "Evaluator.hpp"
+#include "NelsonGateway.hpp"
 #include "calendarBuiltin.hpp"
-#include "nowBuiltin.hpp"
 #include "clockBuiltin.hpp"
 #include "cputimeBuiltin.hpp"
 #include "datenumBuiltin.hpp"
 #include "datevecBuiltin.hpp"
-#include "NelsonGateway.hpp"
-#include "Evaluator.hpp"
+#include "nowBuiltin.hpp"
+#include "sleepBuiltin.hpp"
+#include "ticBuiltin.hpp"
+#include "tocBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"time";
 //=============================================================================
-static const nlsGateway gateway[] =
-{
+static const nlsGateway gateway[] = {
     { "tic", Nelson::TimeGateway::ticBuiltin, 0, 0 },
     { "toc", Nelson::TimeGateway::tocBuiltin, 1, 0 },
     { "calendar", Nelson::TimeGateway::calendarBuiltin, 1, 2 },

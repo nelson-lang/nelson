@@ -22,8 +22,9 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace OsFunctionsGateway {
-        ArrayOfVector getenvBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    }
+namespace OsFunctionsGateway {
+    ArrayOfVector
+    getenvBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }
+} // namespace Nelson
 //=============================================================================

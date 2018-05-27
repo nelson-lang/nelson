@@ -19,12 +19,14 @@
 #include "QStringConverter.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
-std::wstring Nelson::QStringTowstring(QString qstr)
+std::wstring
+Nelson::QStringTowstring(QString qstr)
 {
     return Nelson::utf8_to_wstring(qstr.toUtf8().constData());
 }
 //=============================================================================
-QString Nelson::wstringToQString(std::wstring wstr)
+QString
+Nelson::wstringToQString(std::wstring wstr)
 {
     return QString::fromUtf8(Nelson::wstring_to_utf8(wstr).c_str());
 }

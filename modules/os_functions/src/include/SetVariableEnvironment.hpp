@@ -18,11 +18,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
 #include "nlsOs_functions_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    NLSOS_FUNCTIONS_IMPEXP bool SetVariableEnvironmentW(std::wstring envVarName, std::wstring Value = L"");
-    NLSOS_FUNCTIONS_IMPEXP bool SetVariableEnvironmentU(std::string envVarName, std::string Value = "");
-}
+NLSOS_FUNCTIONS_IMPEXP bool
+SetVariableEnvironmentW(std::wstring envVarName, std::wstring Value = L"");
+NLSOS_FUNCTIONS_IMPEXP bool
+SetVariableEnvironmentU(std::string envVarName, std::string Value = "");
+} // namespace Nelson
 //=============================================================================

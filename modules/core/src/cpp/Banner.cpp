@@ -19,16 +19,17 @@
 #include "Banner.hpp"
 //=============================================================================
 namespace Nelson {
-    void Banner(Evaluator* eval)
-    {
-        Interface *io = eval->getInterface();
-        io->outputMessage(L"\n");
-        io->outputMessage(L"     __     _  __\n");
-        io->outputMessage(L"  /\\ \\ \\___| |/ _\\ ___  _ __\n");
-        io->outputMessage(L" /  \\/ / _ | |\\ \\ / _ \\| '_ \\\n");
-        io->outputMessage(L"/ /\\  |  __| |_\\ | (_) | | | |\n");
-        io->outputMessage(L"\\_\\ \\/ \\___|_|\\__/\\___/|_| |_|\n");
-    }
-    //=============================================================================
+void
+Banner(Evaluator* eval)
+{
+    Interface* io = eval->getInterface();
+    io->outputMessage(L"\n");
+    io->outputMessage(L"     __     _  __\n");
+    io->outputMessage(L"  /\\ \\ \\___| |/ _\\ ___  _ __\n");
+    io->outputMessage(L" /  \\/ / _ | |\\ \\ / _ \\| '_ \\\n");
+    io->outputMessage(L"/ /\\  |  __| |_\\ | (_) | | | |\n");
+    io->outputMessage(L"\\_\\ \\/ \\___|_|\\__/\\___/|_| |_|\n");
+}
+//=============================================================================
 }
 //=============================================================================

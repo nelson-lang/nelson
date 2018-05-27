@@ -1,16 +1,16 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-EXPORTSYMBOL /* Subroutine */ int ib01od_(ctrl, nobr, l, sv, n, tol, iwarn, info, ctrl_len)
-char *ctrl;
+EXPORTSYMBOL /* Subroutine */ int ib01od_(
+    ctrl, nobr, l, sv, n, tol, iwarn, info, ctrl_len) char* ctrl;
 integer *nobr, *l;
-doublereal *sv;
-integer *n;
-doublereal *tol;
+doublereal* sv;
+integer* n;
+doublereal* tol;
 integer *iwarn, *info;
 ftnlen ctrl_len;
 {
@@ -119,74 +119,55 @@ ftnlen ctrl_len;
     --sv;
     /* Function Body */
     contrl = lsame_(ctrl, "C", 1L, 1L);
-    lnobr = *l **nobr;
+    lnobr = *l * *nobr;
     *iwarn = 0;
     *info = 0;
-    if (! (contrl || lsame_(ctrl, "N", 1L, 1L)))
-    {
+    if (!(contrl || lsame_(ctrl, "N", 1L, 1L))) {
         *info = -1;
-    }
-    else if (*nobr <= 0)
-    {
+    } else if (*nobr <= 0) {
         *info = -2;
-    }
-    else if (*l <= 0)
-    {
+    } else if (*l <= 0) {
         *info = -3;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("IB01OD", &i__1, 6L);
         return 0;
     }
     /*     Set  TOL  if necessay. */
     toll = *tol;
-    if (toll == 0.)
-    {
-        toll = dlamch_("Precision", 9L) * sv[1] * (doublereal) (*nobr);
+    if (toll == 0.) {
+        toll = dlamch_("Precision", 9L) * sv[1] * (doublereal)(*nobr);
     }
     /*     Obtain the system order. */
     *n = 0;
-    if (sv[1] != 0.)
-    {
+    if (sv[1] != 0.) {
         *n = *nobr;
-        if (toll >= 0.)
-        {
+        if (toll >= 0.) {
             /*           Estimate  n  based on the tolerance  TOLL. */
             i__1 = *nobr - 1;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
-                if (sv[i__ + 1] < toll)
-                {
+            for (i__ = 1; i__ <= i__1; ++i__) {
+                if (sv[i__ + 1] < toll) {
                     *n = i__;
                     goto L30;
                 }
                 /* L10: */
             }
-        }
-        else
-        {
+        } else {
             /*           Estimate  n  based on the largest logarithmic gap between */
             /*           two consecutive singular values. */
             gap = 0.;
             i__1 = *nobr - 1;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 rnrm = sv[i__ + 1];
-                if (rnrm != 0.)
-                {
+                if (rnrm != 0.) {
                     rnrm = d_lg10(&sv[i__]) - d_lg10(&rnrm);
-                    if (rnrm > gap)
-                    {
+                    if (rnrm > gap) {
                         gap = rnrm;
                         *n = i__;
                     }
-                }
-                else
-                {
-                    if (gap == 0.)
-                    {
+                } else {
+                    if (gap == 0.) {
                         *n = i__;
                     }
                     goto L30;
@@ -196,14 +177,12 @@ ftnlen ctrl_len;
         }
     }
 L30:
-    if (*n == 0)
-    {
+    if (*n == 0) {
         /*        Return with  N = 0  if all singular values are zero. */
         *iwarn = 3;
         return 0;
     }
-    if (contrl)
-    {
+    if (contrl) {
         /*        Ask confirmation of the system order. */
         i__1 = *nobr - 1;
         ib01oy_(&lnobr, &i__1, n, &sv[1], &ierr);
@@ -211,4 +190,3 @@ L30:
     return 0;
     /* *** Last line of IB01OD *** */
 } /* ib01od_ */
-

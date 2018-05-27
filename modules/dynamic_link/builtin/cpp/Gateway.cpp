@@ -18,51 +18,50 @@
 //=============================================================================
 #include "NelsonGateway.hpp"
 #include "addgatewayBuiltin.hpp"
-#include "removegatewayBuiltin.hpp"
-#include "gatewayinfoBuiltin.hpp"
-#include "dlopenBuiltin.hpp"
-#include "dlcloseBuiltin.hpp"
-#include "dlsymBuiltin.hpp"
-#include "dllibinfoBuiltin.hpp"
-#include "dllib_usedBuiltin.hpp"
-#include "dllib_dispBuiltin.hpp"
-#include "dllib_getBuiltin.hpp"
-#include "dllib_ispropBuiltin.hpp"
-#include "dllib_ismethodBuiltin.hpp"
-#include "dllib_fieldnamesBuiltin.hpp"
-#include "dllib_isvalidBuiltin.hpp"
-#include "dlsym_dispBuiltin.hpp"
-#include "dlsym_getBuiltin.hpp"
-#include "dlsym_ispropBuiltin.hpp"
-#include "dlsym_ismethodBuiltin.hpp"
-#include "dlsym_fieldnamesBuiltin.hpp"
-#include "dlsym_deleteBuiltin.hpp"
-#include "dlsym_usedBuiltin.hpp"
-#include "dlsym_isvalidBuiltin.hpp"
 #include "dlcallBuiltin.hpp"
+#include "dlcloseBuiltin.hpp"
+#include "dllib_dispBuiltin.hpp"
+#include "dllib_fieldnamesBuiltin.hpp"
+#include "dllib_getBuiltin.hpp"
+#include "dllib_ismethodBuiltin.hpp"
+#include "dllib_ispropBuiltin.hpp"
+#include "dllib_isvalidBuiltin.hpp"
+#include "dllib_usedBuiltin.hpp"
+#include "dllibinfoBuiltin.hpp"
+#include "dlopenBuiltin.hpp"
+#include "dlsymBuiltin.hpp"
+#include "dlsym_deleteBuiltin.hpp"
+#include "dlsym_dispBuiltin.hpp"
+#include "dlsym_fieldnamesBuiltin.hpp"
+#include "dlsym_getBuiltin.hpp"
+#include "dlsym_ismethodBuiltin.hpp"
+#include "dlsym_ispropBuiltin.hpp"
+#include "dlsym_isvalidBuiltin.hpp"
+#include "dlsym_usedBuiltin.hpp"
+#include "gatewayinfoBuiltin.hpp"
 #include "getdynlibextBuiltin.hpp"
+#include "isNullBuiltin.hpp"
 #include "libpointerBuiltin.hpp"
+#include "libpointer_deleteBuiltin.hpp"
 #include "libpointer_dispBuiltin.hpp"
-#include "libpointer_isNullBuiltin.hpp"
-#include "libpointer_reshapeBuiltin.hpp"
+#include "libpointer_fieldnamesBuiltin.hpp"
 #include "libpointer_getBuiltin.hpp"
+#include "libpointer_isNullBuiltin.hpp"
 #include "libpointer_ismethodBuiltin.hpp"
 #include "libpointer_ispropBuiltin.hpp"
+#include "libpointer_isvalidBuiltin.hpp"
 #include "libpointer_plusBuiltin.hpp"
+#include "libpointer_reshapeBuiltin.hpp"
 #include "libpointer_setdatatypeBuiltin.hpp"
 #include "libpointer_usedBuiltin.hpp"
-#include "libpointer_deleteBuiltin.hpp"
-#include "libpointer_fieldnamesBuiltin.hpp"
-#include "libpointer_isvalidBuiltin.hpp"
-#include "isNullBuiltin.hpp"
+#include "removegatewayBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"dynamic_link";
 //=============================================================================
-static const nlsGateway gateway[] =
-{
-    { "addgateway", Nelson::DynamicLinkGateway::addgatewayBuiltin, 0, 1 },
+static const nlsGateway gateway[] = { { "addgateway", Nelson::DynamicLinkGateway::addgatewayBuiltin,
+                                          0, 1 },
     { "removegateway", Nelson::DynamicLinkGateway::removegatewayBuiltin, 0, 1 },
     { "gatewayinfo", Nelson::DynamicLinkGateway::gatewayinfoBuiltin, 2, 1 },
     { "dlopen", Nelson::DynamicLinkGateway::dlopenBuiltin, 1, 1 },
@@ -100,8 +99,7 @@ static const nlsGateway gateway[] =
     { "libpointer_fieldnames", Nelson::DynamicLinkGateway::libpointer_fieldnamesBuiltin, 1, 1 },
     { "libpointer_isvalid", Nelson::DynamicLinkGateway::libpointer_isvalidBuiltin, 1, 1 },
     { "isNull", Nelson::DynamicLinkGateway::isNullBuiltin, 1, 1 },
-    { "getdynlibext", Nelson::DynamicLinkGateway::getdynlibextBuiltin, 1, 0 }
-};
+    { "getdynlibext", Nelson::DynamicLinkGateway::getdynlibextBuiltin, 1, 0 } };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)
 //=============================================================================

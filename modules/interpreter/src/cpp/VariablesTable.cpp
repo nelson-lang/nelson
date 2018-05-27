@@ -16,138 +16,129 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <algorithm>
 #include "VariablesTable.hpp"
+#include <algorithm>
 //=============================================================================
-#define SYMTAB 4096*2
+#define SYMTAB 4096 * 2
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    VariablesTable::VariablesTable()
-    {
-        //variablesMap.reserve(SYMTAB);
-        //lockedVariables.reserve(SYMTAB);
+//=============================================================================
+VariablesTable::VariablesTable()
+{
+    // variablesMap.reserve(SYMTAB);
+    // lockedVariables.reserve(SYMTAB);
+}
+//=============================================================================
+VariablesTable::~VariablesTable()
+{
+    variablesMap.clear();
+    lockedVariables.clear();
+}
+//=============================================================================
+bool
+VariablesTable::findVariable(const key_type& key, value_type& dest)
+{
+    boost::unordered_map<key_type, value_type>::iterator it = variablesMap.find(key);
+    if (it != variablesMap.end()) {
+        dest = it->second;
+        return true;
     }
-    //=============================================================================
-    VariablesTable::~VariablesTable()
-    {
-        variablesMap.clear();
-        lockedVariables.clear();
+    return false;
+}
+//=============================================================================
+bool
+VariablesTable::isVariable(const key_type& key)
+{
+    if (variablesMap.count(key) > 0) {
+        return true;
     }
-    //=============================================================================
-    bool VariablesTable::findVariable(const key_type& key, value_type& dest)
-    {
-        boost::unordered_map<key_type, value_type>::iterator it = variablesMap.find(key);
-        if (it != variablesMap.end())
-        {
-            dest = it->second;
+    return false;
+}
+//=============================================================================
+bool
+VariablesTable::deleteVariable(const key_type& key)
+{
+    if (!isLockedVariable(key)) {
+        if (isVariable(key)) {
+            variablesMap.erase(key);
             return true;
         }
-        return false;
     }
-    //=============================================================================
-    bool VariablesTable::isVariable(const key_type& key)
-    {
-        if (variablesMap.count(key) > 0)
-        {
-            return true;
-        }
-        return false;
-    }
-    //=============================================================================
-    bool VariablesTable::deleteVariable(const key_type& key)
-    {
-        if (!isLockedVariable(key))
-        {
-            if (isVariable(key))
-            {
-                variablesMap.erase(key);
-                return true;
-            }
-        }
-        return false;
-    }
-    //=============================================================================
-    bool VariablesTable::insertVariable(const key_type& key, const value_type& val)
-    {
-        if (lockedVariables.empty())
-        {
+    return false;
+}
+//=============================================================================
+bool
+VariablesTable::insertVariable(const key_type& key, const value_type& val)
+{
+    if (lockedVariables.empty()) {
+        variablesMap[key] = val;
+        return true;
+    } else {
+        // insert only in a not locked variable
+        if (!isLockedVariable(key)) {
             variablesMap[key] = val;
             return true;
         }
-        else
-        {
-            // insert only in a not locked variable
-            if (!isLockedVariable(key))
-            {
-                variablesMap[key] = val;
-                return true;
-            }
-        }
-        return false;
     }
-    //=============================================================================
-    stringVector VariablesTable::getVariablesList(bool withPersistent)
-    {
-        stringVector retlist;
-        for (auto it = variablesMap.begin(); it != variablesMap.end(); ++it)
-        {
-            if (!withPersistent)
-            {
-                if (it->first.at(0) != '_')
-                {
-                    retlist.push_back(it->first);
-                }
-            }
-            else
-            {
+    return false;
+}
+//=============================================================================
+stringVector
+VariablesTable::getVariablesList(bool withPersistent)
+{
+    stringVector retlist;
+    for (auto it = variablesMap.begin(); it != variablesMap.end(); ++it) {
+        if (!withPersistent) {
+            if (it->first.at(0) != '_') {
                 retlist.push_back(it->first);
             }
+        } else {
+            retlist.push_back(it->first);
         }
-        return retlist;
     }
-    //=============================================================================
-    bool VariablesTable::isLockedVariable(std::string key)
-    {
-        if (!lockedVariables.empty())
-        {
-            return (std::find(lockedVariables.begin(), lockedVariables.end(), key) != lockedVariables.end());
+    return retlist;
+}
+//=============================================================================
+bool
+VariablesTable::isLockedVariable(std::string key)
+{
+    if (!lockedVariables.empty()) {
+        return (std::find(lockedVariables.begin(), lockedVariables.end(), key)
+            != lockedVariables.end());
+    }
+    return false;
+}
+//=============================================================================
+bool
+VariablesTable::lockVariable(std::string key)
+{
+    if (!isLockedVariable(key)) {
+        // ans cannot be locked
+        if (key != "ans") {
+            lockedVariables.push_back(key);
         }
-        return false;
+        return true;
+    } else {
+        return true;
     }
-    //=============================================================================
-    bool VariablesTable::lockVariable(std::string key)
-    {
-        if (!isLockedVariable(key))
-        {
-            // ans cannot be locked
-            if (key != "ans")
-            {
-                lockedVariables.push_back(key);
-            }
-            return true;
-        }
-        else
-        {
-            return true;
-        }
-        return false;
+    return false;
+}
+//=============================================================================
+bool
+VariablesTable::unlockVariable(std::string key)
+{
+    if (isLockedVariable(key)) {
+        lockedVariables.erase(std::find(lockedVariables.begin(), lockedVariables.end(), key));
+        return true;
     }
-    //=============================================================================
-    bool VariablesTable::unlockVariable(std::string key)
-    {
-        if (isLockedVariable(key))
-        {
-            lockedVariables.erase(std::find(lockedVariables.begin(), lockedVariables.end(), key));
-            return true;
-        }
-        return false;
-    }
-    //=============================================================================
-    stringVector VariablesTable::getLockedVariables()
-    {
-        return lockedVariables;
-    }
-    //=============================================================================
+    return false;
+}
+//=============================================================================
+stringVector
+VariablesTable::getLockedVariables()
+{
+    return lockedVariables;
+}
+//=============================================================================
 }
 //=============================================================================

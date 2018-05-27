@@ -16,38 +16,35 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <QtWidgets/QApplication>
-#include <QtCore/QTime>
 #include "ProcessEvents.hpp"
+#include <QtCore/QTime>
+#include <QtWidgets/QApplication>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    static QTime timerLoopEvents;
-    static bool doOnce = true;
-    //=============================================================================
-    void ProcessEvents(bool bWaitEvents)
-    {
-        if (doOnce)
-        {
-            doOnce = false;
-            timerLoopEvents.start();
-        }
-        if (timerLoopEvents.elapsed() > 20)
-        {
-            timerLoopEvents.restart();
-            if (bWaitEvents)
-            {
-                qApp->processEvents(QEventLoop::WaitForMoreEvents);
-            }
-            else
-            {
-                qApp->processEvents(QEventLoop::AllEvents);
-            }
+//=============================================================================
+static QTime timerLoopEvents;
+static bool doOnce = true;
+//=============================================================================
+void
+ProcessEvents(bool bWaitEvents)
+{
+    if (doOnce) {
+        doOnce = false;
+        timerLoopEvents.start();
+    }
+    if (timerLoopEvents.elapsed() > 20) {
+        timerLoopEvents.restart();
+        if (bWaitEvents) {
+            qApp->processEvents(QEventLoop::WaitForMoreEvents);
+        } else {
+            qApp->processEvents(QEventLoop::AllEvents);
         }
     }
 }
+}
 //=============================================================================
-void NelSonProcessEvents(bool bTimed)
+void
+NelSonProcessEvents(bool bTimed)
 {
     Nelson::ProcessEvents(bTimed);
 }

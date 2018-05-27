@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -12,33 +12,34 @@ static doublereal c_b6 = 1.;
 static integer c__1 = 1;
 static integer c__5 = 5;
 
-EXPORTSYMBOL /* Subroutine */ int bd01ad_(def, nr, dpar, ipar, vec, n, m, p, e, lde, a, lda, b, ldb, c__, ldc, d__, ldd, note, dwork, ldwork, info, def_len, note_len)
-char *def;
-integer *nr;
-doublereal *dpar;
-integer *ipar;
-logical *vec;
+EXPORTSYMBOL /* Subroutine */ int bd01ad_(def, nr, dpar, ipar, vec, n, m, p, e, lde, a, lda, b, ldb,
+    c__, ldc, d__, ldd, note, dwork, ldwork, info, def_len, note_len) char* def;
+integer* nr;
+doublereal* dpar;
+integer* ipar;
+logical* vec;
 integer *n, *m, *p;
-doublereal *e;
-integer *lde;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *d__;
-integer *ldd;
-char *note;
-doublereal *dwork;
+doublereal* e;
+integer* lde;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* d__;
+integer* ldd;
+char* note;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen def_len;
 ftnlen note_len;
 {
     /* Initialized data */
-    static logical vecdef[8] = { TRUE_,TRUE_,TRUE_,FALSE_,TRUE_,TRUE_,TRUE_,FALSE_ };
+    static logical vecdef[8] = { TRUE_, TRUE_, TRUE_, FALSE_, TRUE_, TRUE_, TRUE_, FALSE_ };
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, e_dim1, e_offset, i__1, i__2;
+    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, e_dim1,
+        e_offset, i__1, i__2;
     doublereal d__1, d__2;
     olist o__1;
     cllist cl__1;
@@ -268,41 +269,32 @@ ftnlen note_len;
     /* Function Body */
     /*     .. Executable Statements .. */
     *info = 0;
-    for (i__ = 1; i__ <= 8; ++i__)
-    {
+    for (i__ = 1; i__ <= 8; ++i__) {
         vec[i__] = vecdef[i__ - 1];
         /* L10: */
     }
-    if (nr[1] == 1)
-    {
-        if (nr[2] == 1)
-        {
+    if (nr[1] == 1) {
+        if (nr[2] == 1) {
             s_copy(note, "Laub 1979, Ex.1", 70L, 15L);
             *n = 2;
             *m = 1;
             *p = 2;
-            if (*lde < *n)
-            {
+            if (*lde < *n) {
                 *info = -10;
             }
-            if (*lda < *n)
-            {
+            if (*lda < *n) {
                 *info = -12;
             }
-            if (*ldb < *n)
-            {
+            if (*ldb < *n) {
                 *info = -14;
             }
-            if (*ldc < *p)
-            {
+            if (*ldc < *p) {
                 *info = -16;
             }
-            if (*ldd < *p)
-            {
+            if (*ldd < *p) {
                 *info = -18;
             }
-            if (*info != 0)
-            {
+            if (*info != 0) {
                 return 0;
             }
             dlaset_("A", n, n, &c_b5, &c_b6, &e[e_offset], lde, 1L);
@@ -312,35 +304,27 @@ ftnlen note_len;
             b[b_dim1 + 2] = 1.;
             dlaset_("A", p, n, &c_b5, &c_b6, &c__[c_offset], ldc, 1L);
             dlaset_("A", p, m, &c_b5, &c_b5, &d__[d_offset], ldd, 1L);
-        }
-        else if (nr[2] == 2)
-        {
+        } else if (nr[2] == 2) {
             s_copy(note, "Laub 1979, Ex.2: uncontrollable-unobservable data", 70L, 49L);
             *n = 2;
             *m = 1;
             *p = 1;
-            if (*lde < *n)
-            {
+            if (*lde < *n) {
                 *info = -10;
             }
-            if (*lda < *n)
-            {
+            if (*lda < *n) {
                 *info = -12;
             }
-            if (*ldb < *n)
-            {
+            if (*ldb < *n) {
                 *info = -14;
             }
-            if (*ldc < *p)
-            {
+            if (*ldc < *p) {
                 *info = -16;
             }
-            if (*ldd < *p)
-            {
+            if (*ldd < *p) {
                 *info = -18;
             }
-            if (*info != 0)
-            {
+            if (*info != 0) {
                 return 0;
             }
             dlaset_("A", n, n, &c_b5, &c_b6, &e[e_offset], lde, 1L);
@@ -353,170 +337,130 @@ ftnlen note_len;
             c__[c_dim1 + 1] = 3.;
             c__[(c_dim1 << 1) + 1] = 2.;
             dlaset_("A", p, m, &c_b5, &c_b5, &d__[d_offset], ldd, 1L);
-        }
-        else if (nr[2] == 3)
-        {
+        } else if (nr[2] == 3) {
             s_copy(note, "Beale/Shafai 1989: model of L-1011 aircraft", 70L, 43L);
             *n = 4;
             *m = 2;
             *p = 4;
-            if (*lde < *n)
-            {
+            if (*lde < *n) {
                 *info = -10;
             }
-            if (*lda < *n)
-            {
+            if (*lda < *n) {
                 *info = -12;
             }
-            if (*ldb < *n)
-            {
+            if (*ldb < *n) {
                 *info = -14;
             }
-            if (*ldc < *p)
-            {
+            if (*ldc < *p) {
                 *info = -16;
             }
-            if (*ldd < *p)
-            {
+            if (*ldd < *p) {
                 *info = -18;
             }
-            if (*info != 0)
-            {
+            if (*info != 0) {
                 return 0;
             }
             dlaset_("A", n, n, &c_b5, &c_b6, &e[e_offset], lde, 1L);
             dlaset_("A", p, n, &c_b5, &c_b6, &c__[c_offset], ldc, 1L);
             dlaset_("A", p, m, &c_b5, &c_b5, &d__[d_offset], ldd, 1L);
-        }
-        else if (nr[2] == 4)
-        {
+        } else if (nr[2] == 4) {
             s_copy(note, "Bhattacharyya et al. 1983: binary distillation column", 70L, 53L);
             *n = 8;
             *m = 2;
             *p = 8;
-            if (*lde < *n)
-            {
+            if (*lde < *n) {
                 *info = -10;
             }
-            if (*lda < *n)
-            {
+            if (*lda < *n) {
                 *info = -12;
             }
-            if (*ldb < *n)
-            {
+            if (*ldb < *n) {
                 *info = -14;
             }
-            if (*ldc < *p)
-            {
+            if (*ldc < *p) {
                 *info = -16;
             }
-            if (*ldd < *p)
-            {
+            if (*ldd < *p) {
                 *info = -18;
             }
-            if (*info != 0)
-            {
+            if (*info != 0) {
                 return 0;
             }
             dlaset_("A", n, n, &c_b5, &c_b6, &e[e_offset], lde, 1L);
             dlaset_("A", p, n, &c_b5, &c_b6, &c__[c_offset], ldc, 1L);
             dlaset_("A", p, m, &c_b5, &c_b5, &d__[d_offset], ldd, 1L);
-        }
-        else if (nr[2] == 5)
-        {
+        } else if (nr[2] == 5) {
             s_copy(note, "Patnaik et al. 1980: tubular ammonia reactor", 70L, 44L);
             *n = 9;
             *m = 3;
             *p = 9;
-            if (*lde < *n)
-            {
+            if (*lde < *n) {
                 *info = -10;
             }
-            if (*lda < *n)
-            {
+            if (*lda < *n) {
                 *info = -12;
             }
-            if (*ldb < *n)
-            {
+            if (*ldb < *n) {
                 *info = -14;
             }
-            if (*ldc < *p)
-            {
+            if (*ldc < *p) {
                 *info = -16;
             }
-            if (*ldd < *p)
-            {
+            if (*ldd < *p) {
                 *info = -18;
             }
-            if (*info != 0)
-            {
+            if (*info != 0) {
                 return 0;
             }
             dlaset_("A", n, n, &c_b5, &c_b6, &e[e_offset], lde, 1L);
             dlaset_("A", p, n, &c_b5, &c_b6, &c__[c_offset], ldc, 1L);
             dlaset_("A", p, m, &c_b5, &c_b5, &d__[d_offset], ldd, 1L);
-        }
-        else if (nr[2] == 6)
-        {
+        } else if (nr[2] == 6) {
             s_copy(note, "Davison/Gesing 1978: J-100 jet engine", 70L, 37L);
             *n = 30;
             *m = 3;
             *p = 5;
-            if (*lde < *n)
-            {
+            if (*lde < *n) {
                 *info = -10;
             }
-            if (*lda < *n)
-            {
+            if (*lda < *n) {
                 *info = -12;
             }
-            if (*ldb < *n)
-            {
+            if (*ldb < *n) {
                 *info = -14;
             }
-            if (*ldc < *p)
-            {
+            if (*ldc < *p) {
                 *info = -16;
             }
-            if (*ldd < *p)
-            {
+            if (*ldd < *p) {
                 *info = -18;
             }
-            if (*info != 0)
-            {
+            if (*info != 0) {
                 return 0;
             }
             dlaset_("A", n, n, &c_b5, &c_b6, &e[e_offset], lde, 1L);
             dlaset_("A", p, m, &c_b5, &c_b5, &d__[d_offset], ldd, 1L);
-        }
-        else if (nr[2] == 7)
-        {
+        } else if (nr[2] == 7) {
             s_copy(note, "Davison 1967: binary distillation column", 70L, 40L);
             *n = 11;
             *m = 3;
             *p = 3;
-            if (*lde < *n)
-            {
+            if (*lde < *n) {
                 *info = -10;
             }
-            if (*lda < *n)
-            {
+            if (*lda < *n) {
                 *info = -12;
             }
-            if (*ldb < *n)
-            {
+            if (*ldb < *n) {
                 *info = -14;
             }
-            if (*ldc < *p)
-            {
+            if (*ldc < *p) {
                 *info = -16;
             }
-            if (*ldd < *p)
-            {
+            if (*ldd < *p) {
                 *info = -18;
             }
-            if (*info != 0)
-            {
+            if (*info != 0) {
                 return 0;
             }
             dlaset_("A", n, n, &c_b5, &c_b6, &e[e_offset], lde, 1L);
@@ -525,35 +469,27 @@ ftnlen note_len;
             c__[c_dim1 * 10 + 1] = 1.;
             c__[c_dim1 * 11 + 3] = 1.;
             dlaset_("A", p, m, &c_b5, &c_b5, &d__[d_offset], ldd, 1L);
-        }
-        else if (nr[2] == 8)
-        {
+        } else if (nr[2] == 8) {
             s_copy(note, "Chien/Ergin/Ling/Lee 1958: drum boiler", 70L, 38L);
             *n = 9;
             *m = 3;
             *p = 2;
-            if (*lde < *n)
-            {
+            if (*lde < *n) {
                 *info = -10;
             }
-            if (*lda < *n)
-            {
+            if (*lda < *n) {
                 *info = -12;
             }
-            if (*ldb < *n)
-            {
+            if (*ldb < *n) {
                 *info = -14;
             }
-            if (*ldc < *p)
-            {
+            if (*ldc < *p) {
                 *info = -16;
             }
-            if (*ldd < *p)
-            {
+            if (*ldd < *p) {
                 *info = -18;
             }
-            if (*info != 0)
-            {
+            if (*info != 0) {
                 return 0;
             }
             dlaset_("A", n, n, &c_b5, &c_b6, &e[e_offset], lde, 1L);
@@ -561,85 +497,66 @@ ftnlen note_len;
             c__[c_dim1 * 6 + 1] = 1.;
             c__[c_dim1 * 9 + 2] = 1.;
             dlaset_("A", p, m, &c_b5, &c_b5, &d__[d_offset], ldd, 1L);
-        }
-        else if (nr[2] == 9)
-        {
+        } else if (nr[2] == 9) {
             s_copy(note, "Ly, Gangsaas 1981: B-767 airplane", 70L, 33L);
             *n = 55;
             *m = 2;
             *p = 2;
-            if (*lde < *n)
-            {
+            if (*lde < *n) {
                 *info = -10;
             }
-            if (*lda < *n)
-            {
+            if (*lda < *n) {
                 *info = -12;
             }
-            if (*ldb < *n)
-            {
+            if (*ldb < *n) {
                 *info = -14;
             }
-            if (*ldc < *p)
-            {
+            if (*ldc < *p) {
                 *info = -16;
             }
-            if (*ldd < *p)
-            {
+            if (*ldd < *p) {
                 *info = -18;
             }
-            if (*info != 0)
-            {
+            if (*info != 0) {
                 return 0;
             }
             dlaset_("A", n, n, &c_b5, &c_b6, &e[e_offset], lde, 1L);
             dlaset_("A", p, m, &c_b5, &c_b5, &d__[d_offset], ldd, 1L);
-        }
-        else if (nr[2] == 10)
-        {
+        } else if (nr[2] == 10) {
             s_copy(note, "control surface servo for an underwater vehicle", 70L, 47L);
             *n = 8;
             *m = 2;
             *p = 1;
-            if (*lde < *n)
-            {
+            if (*lde < *n) {
                 *info = -10;
             }
-            if (*lda < *n)
-            {
+            if (*lda < *n) {
                 *info = -12;
             }
-            if (*ldb < *n)
-            {
+            if (*ldb < *n) {
                 *info = -14;
             }
-            if (*ldc < *p)
-            {
+            if (*ldc < *p) {
                 *info = -16;
             }
-            if (*ldd < *p)
-            {
+            if (*ldd < *p) {
                 *info = -18;
             }
-            if (*info != 0)
-            {
+            if (*info != 0) {
                 return 0;
             }
             dlaset_("A", n, n, &c_b5, &c_b6, &e[e_offset], lde, 1L);
             dlaset_("A", p, n, &c_b5, &c_b5, &c__[c_offset], ldc, 1L);
             c__[c_dim1 * 7 + 1] = 1.;
             dlaset_("A", p, m, &c_b5, &c_b5, &d__[d_offset], ldd, 1L);
-        }
-        else
-        {
+        } else {
             *info = -2;
         }
-        if (nr[2] >= 3 && nr[2] <= 10)
-        {
+        if (nr[2] >= 3 && nr[2] <= 10) {
             /*         .. loading data files */
             s_wsfi(&io___4);
             do_fio(&c__1, "BD011", 5L);
-            do_fio(&c__1, (char *)&nr[2], (ftnlen)sizeof(integer));
+            do_fio(&c__1, (char*)&nr[2], (ftnlen)sizeof(integer));
             do_fio(&c__1, ".dat", 4L);
             e_wsfi();
             o__1.oerr = 1;
@@ -652,85 +569,69 @@ ftnlen note_len;
             o__1.ofm = 0;
             o__1.oblnk = 0;
             status = f_open(&o__1);
-            if (status != 0)
-            {
+            if (status != 0) {
                 *info = 1;
-            }
-            else
-            {
+            } else {
                 i__1 = *n;
-                for (i__ = 1; i__ <= i__1; ++i__)
-                {
+                for (i__ = 1; i__ <= i__1; ++i__) {
                     status = s_rsle(&io___6);
-                    if (status != 0)
-                    {
+                    if (status != 0) {
                         goto L100001;
                     }
                     i__2 = *n;
-                    for (j = 1; j <= i__2; ++j)
-                    {
-                        status = do_lio(&c__5, &c__1, (char *)&a[i__ + j * a_dim1], (ftnlen)sizeof(doublereal));
-                        if (status != 0)
-                        {
+                    for (j = 1; j <= i__2; ++j) {
+                        status = do_lio(
+                            &c__5, &c__1, (char*)&a[i__ + j * a_dim1], (ftnlen)sizeof(doublereal));
+                        if (status != 0) {
                             goto L100001;
                         }
                     }
                     status = e_rsle();
-L100001:
-                    if (status != 0)
-                    {
+                L100001:
+                    if (status != 0) {
                         *info = 1;
                     }
                     /* L110: */
                 }
                 i__1 = *n;
-                for (i__ = 1; i__ <= i__1; ++i__)
-                {
+                for (i__ = 1; i__ <= i__1; ++i__) {
                     status = s_rsle(&io___8);
-                    if (status != 0)
-                    {
+                    if (status != 0) {
                         goto L100002;
                     }
                     i__2 = *m;
-                    for (j = 1; j <= i__2; ++j)
-                    {
-                        status = do_lio(&c__5, &c__1, (char *)&b[i__ + j * b_dim1], (ftnlen)sizeof(doublereal));
-                        if (status != 0)
-                        {
+                    for (j = 1; j <= i__2; ++j) {
+                        status = do_lio(
+                            &c__5, &c__1, (char*)&b[i__ + j * b_dim1], (ftnlen)sizeof(doublereal));
+                        if (status != 0) {
                             goto L100002;
                         }
                     }
                     status = e_rsle();
-L100002:
-                    if (status != 0)
-                    {
+                L100002:
+                    if (status != 0) {
                         *info = 1;
                     }
                     /* L120: */
                 }
-                if (nr[2] == 6 || nr[2] == 9)
-                {
+                if (nr[2] == 6 || nr[2] == 9) {
                     i__1 = *p;
-                    for (i__ = 1; i__ <= i__1; ++i__)
-                    {
+                    for (i__ = 1; i__ <= i__1; ++i__) {
                         status = s_rsle(&io___9);
-                        if (status != 0)
-                        {
+                        if (status != 0) {
                             goto L100003;
                         }
                         i__2 = *n;
-                        for (j = 1; j <= i__2; ++j)
-                        {
-                            status = do_lio(&c__5, &c__1, (char *)&c__[i__ + j * c_dim1], (ftnlen)sizeof(doublereal));
-                            if (status != 0)
-                            {
+                        for (j = 1; j <= i__2; ++j) {
+                            status = do_lio(&c__5, &c__1, (char*)&c__[i__ + j * c_dim1],
+                                (ftnlen)sizeof(doublereal));
+                            if (status != 0) {
                                 goto L100003;
                             }
                         }
                         status = e_rsle();
-L100003:
-                        if (status != 0)
-                        {
+                    L100003:
+                        if (status != 0) {
                             *info = 1;
                         }
                         /* L130: */
@@ -742,50 +643,38 @@ L100003:
             cl__1.csta = 0;
             f_clos(&cl__1);
         }
-    }
-    else if (nr[1] == 2)
-    {
-        if (! (lsame_(def, "D", 1L, 1L) || lsame_(def, "N", 1L, 1L)))
-        {
+    } else if (nr[1] == 2) {
+        if (!(lsame_(def, "D", 1L, 1L) || lsame_(def, "N", 1L, 1L))) {
             *info = -1;
             return 0;
         }
-        if (nr[2] == 1)
-        {
+        if (nr[2] == 1) {
             s_copy(note, "Chow/Kokotovic 1976: magnetic tape control system", 70L, 49L);
-            if (lsame_(def, "D", 1L, 1L))
-            {
+            if (lsame_(def, "D", 1L, 1L)) {
                 dpar[1] = 1e-6;
             }
-            if (dpar[1] == 0.)
-            {
+            if (dpar[1] == 0.) {
                 *info = -3;
             }
             *n = 4;
             *m = 1;
             *p = 2;
-            if (*lde < *n)
-            {
+            if (*lde < *n) {
                 *info = -10;
             }
-            if (*lda < *n)
-            {
+            if (*lda < *n) {
                 *info = -12;
             }
-            if (*ldb < *n)
-            {
+            if (*ldb < *n) {
                 *info = -14;
             }
-            if (*ldc < *p)
-            {
+            if (*ldc < *p) {
                 *info = -16;
             }
-            if (*ldd < *p)
-            {
+            if (*ldd < *p) {
                 *info = -18;
             }
-            if (*info != 0)
-            {
+            if (*info != 0) {
                 return 0;
             }
             dlaset_("A", n, n, &c_b5, &c_b6, &e[e_offset], lde, 1L);
@@ -802,39 +691,30 @@ L100003:
             c__[c_dim1 + 1] = 1.;
             c__[c_dim1 * 3 + 2] = 1.;
             dlaset_("A", p, m, &c_b5, &c_b5, &d__[d_offset], ldd, 1L);
-        }
-        else if (nr[2] == 2)
-        {
+        } else if (nr[2] == 2) {
             s_copy(note, "Arnold/Laub 1984", 70L, 16L);
-            if (lsame_(def, "D", 1L, 1L))
-            {
+            if (lsame_(def, "D", 1L, 1L)) {
                 dpar[1] = 1e-6;
             }
             *n = 4;
             *m = 1;
             *p = 1;
-            if (*lde < *n)
-            {
+            if (*lde < *n) {
                 *info = -10;
             }
-            if (*lda < *n)
-            {
+            if (*lda < *n) {
                 *info = -12;
             }
-            if (*ldb < *n)
-            {
+            if (*ldb < *n) {
                 *info = -14;
             }
-            if (*ldc < *p)
-            {
+            if (*ldc < *p) {
                 *info = -16;
             }
-            if (*ldd < *p)
-            {
+            if (*ldd < *p) {
                 *info = -18;
             }
-            if (*info != 0)
-            {
+            if (*info != 0) {
                 return 0;
             }
             dlaset_("A", n, n, &c_b5, &c_b6, &e[e_offset], lde, 1L);
@@ -848,43 +728,33 @@ L100003:
             dlaset_("A", n, m, &c_b6, &c_b6, &b[b_offset], ldb, 1L);
             dlaset_("A", p, n, &c_b6, &c_b6, &c__[c_offset], ldc, 1L);
             d__[d_dim1 + 1] = 0.;
-        }
-        else if (nr[2] == 3)
-        {
+        } else if (nr[2] == 3) {
             s_copy(note, "Vertical acceleration of a rigid guided missile", 70L, 47L);
-            if (lsame_(def, "D", 1L, 1L))
-            {
+            if (lsame_(def, "D", 1L, 1L)) {
                 ipar[1] = 1;
             }
-            if (ipar[1] < 1 || ipar[1] > 10)
-            {
+            if (ipar[1] < 1 || ipar[1] > 10) {
                 *info = -4;
             }
             *n = 3;
             *m = 1;
             *p = 1;
-            if (*lde < *n)
-            {
+            if (*lde < *n) {
                 *info = -10;
             }
-            if (*lda < *n)
-            {
+            if (*lda < *n) {
                 *info = -12;
             }
-            if (*ldb < *n)
-            {
+            if (*ldb < *n) {
                 *info = -14;
             }
-            if (*ldc < *p)
-            {
+            if (*ldc < *p) {
                 *info = -16;
             }
-            if (*ldd < *p)
-            {
+            if (*ldd < *p) {
                 *info = -18;
             }
-            if (*info != 0)
-            {
+            if (*info != 0) {
                 return 0;
             }
             dlaset_("A", n, n, &c_b5, &c_b6, &e[e_offset], lde, 1L);
@@ -904,73 +774,60 @@ L100003:
             o__1.ofm = 0;
             o__1.oblnk = 0;
             status = f_open(&o__1);
-            if (status != 0)
-            {
+            if (status != 0) {
                 *info = 1;
-            }
-            else
-            {
+            } else {
                 i__1 = ipar[1];
-                for (i__ = 1; i__ <= i__1; ++i__)
-                {
+                for (i__ = 1; i__ <= i__1; ++i__) {
                     status = s_rsle(&io___10);
-                    if (status != 0)
-                    {
+                    if (status != 0) {
                         goto L100004;
                     }
                     i__2 = *n;
-                    for (j = 1; j <= i__2; ++j)
-                    {
-                        status = do_lio(&c__5, &c__1, (char *)&a[j * a_dim1 + 1], (ftnlen)sizeof(doublereal));
-                        if (status != 0)
-                        {
+                    for (j = 1; j <= i__2; ++j) {
+                        status = do_lio(
+                            &c__5, &c__1, (char*)&a[j * a_dim1 + 1], (ftnlen)sizeof(doublereal));
+                        if (status != 0) {
                             goto L100004;
                         }
                     }
                     status = e_rsle();
-L100004:
-                    if (status != 0)
-                    {
+                L100004:
+                    if (status != 0) {
                         *info = 1;
                     }
                     status = s_rsle(&io___11);
-                    if (status != 0)
-                    {
+                    if (status != 0) {
                         goto L100005;
                     }
                     i__2 = *n;
-                    for (j = 2; j <= i__2; ++j)
-                    {
-                        status = do_lio(&c__5, &c__1, (char *)&a[j * a_dim1 + 2], (ftnlen)sizeof(doublereal));
-                        if (status != 0)
-                        {
+                    for (j = 2; j <= i__2; ++j) {
+                        status = do_lio(
+                            &c__5, &c__1, (char*)&a[j * a_dim1 + 2], (ftnlen)sizeof(doublereal));
+                        if (status != 0) {
                             goto L100005;
                         }
                     }
                     status = e_rsle();
-L100005:
-                    if (status != 0)
-                    {
+                L100005:
+                    if (status != 0) {
                         *info = 1;
                     }
                     status = s_rsle(&io___12);
-                    if (status != 0)
-                    {
+                    if (status != 0) {
                         goto L100006;
                     }
                     i__2 = *n;
-                    for (j = 1; j <= i__2; ++j)
-                    {
-                        status = do_lio(&c__5, &c__1, (char *)&c__[j * c_dim1 + 1], (ftnlen)sizeof(doublereal));
-                        if (status != 0)
-                        {
+                    for (j = 1; j <= i__2; ++j) {
+                        status = do_lio(
+                            &c__5, &c__1, (char*)&c__[j * c_dim1 + 1], (ftnlen)sizeof(doublereal));
+                        if (status != 0) {
                             goto L100006;
                         }
                     }
                     status = e_rsle();
-L100006:
-                    if (status != 0)
-                    {
+                L100006:
+                    if (status != 0) {
                         *info = 1;
                     }
                     /* L210: */
@@ -980,12 +837,9 @@ L100006:
             cl__1.cunit = 1;
             cl__1.csta = 0;
             f_clos(&cl__1);
-        }
-        else if (nr[2] == 4)
-        {
+        } else if (nr[2] == 4) {
             s_copy(note, "Senning 1980: hydraulic positioning system", 70L, 42L);
-            if (lsame_(def, "D", 1L, 1L))
-            {
+            if (lsame_(def, "D", 1L, 1L)) {
                 dpar[1] = 1.4e4;
                 dpar[2] = .1287;
                 dpar[3] = .15;
@@ -994,35 +848,31 @@ L100006:
                 dpar[6] = .24;
                 dpar[7] = 10.75;
             }
-            if (dpar[1] <= 9e3 || dpar[1] >= 1.6e4 || (dpar[2] <= .05 || dpar[2] >= .3) || (dpar[3] <= .05 || dpar[3] >= 5.) || (dpar[4] <= 0. || dpar[4] >= .05) || (dpar[5] <= 1.03e-4 || dpar[5] >= .0035) || (dpar[6] <= .001 || dpar[6] >= 15.) || (dpar[7] <= 10.5 || dpar[7] >= 11.1))
-            {
+            if (dpar[1] <= 9e3 || dpar[1] >= 1.6e4 || (dpar[2] <= .05 || dpar[2] >= .3)
+                || (dpar[3] <= .05 || dpar[3] >= 5.) || (dpar[4] <= 0. || dpar[4] >= .05)
+                || (dpar[5] <= 1.03e-4 || dpar[5] >= .0035) || (dpar[6] <= .001 || dpar[6] >= 15.)
+                || (dpar[7] <= 10.5 || dpar[7] >= 11.1)) {
                 *info = -3;
             }
             *n = 3;
             *m = 1;
             *p = 1;
-            if (*lde < *n)
-            {
+            if (*lde < *n) {
                 *info = -10;
             }
-            if (*lda < *n)
-            {
+            if (*lda < *n) {
                 *info = -12;
             }
-            if (*ldb < *n)
-            {
+            if (*ldb < *n) {
                 *info = -14;
             }
-            if (*ldc < *p)
-            {
+            if (*ldc < *p) {
                 *info = -16;
             }
-            if (*ldd < *p)
-            {
+            if (*ldd < *p) {
                 *info = -18;
             }
-            if (*info != 0)
-            {
+            if (*info != 0) {
                 return 0;
             }
             dlaset_("A", n, n, &c_b5, &c_b6, &e[e_offset], lde, 1L);
@@ -1036,56 +886,43 @@ L100006:
             b[b_dim1 + 3] = dpar[1] * -4. / 874.;
             dlaset_("A", p, n, &c_b5, &c_b6, &c__[c_offset], ldc, 1L);
             d__[d_dim1 + 1] = 0.;
-        }
-        else if (nr[2] == 5)
-        {
+        } else if (nr[2] == 5) {
             s_copy(note, "Kwakernaak/Westdyk 1985: cascade of inverted pendula", 70L, 52L);
-            if (lsame_(def, "D", 1L, 1L))
-            {
+            if (lsame_(def, "D", 1L, 1L)) {
                 ipar[1] = 1;
             }
-            if (ipar[1] < 1 || ipar[1] > 7)
-            {
+            if (ipar[1] < 1 || ipar[1] > 7) {
                 *info = -4;
             }
-            if (ipar[1] <= 6)
-            {
+            if (ipar[1] <= 6) {
                 *m = ipar[1];
-            }
-            else
-            {
+            } else {
                 *m = 10;
             }
             *n = *m << 1;
             *p = *m;
-            if (*lde < *n)
-            {
+            if (*lde < *n) {
                 *info = -10;
             }
-            if (*lda < *n)
-            {
+            if (*lda < *n) {
                 *info = -12;
             }
-            if (*ldb < *n)
-            {
+            if (*ldb < *n) {
                 *info = -14;
             }
-            if (*ldc < *p)
-            {
+            if (*ldc < *p) {
                 *info = -16;
             }
-            if (*ldd < *p)
-            {
+            if (*ldd < *p) {
                 *info = -18;
             }
-            if (*info != 0)
-            {
+            if (*info != 0) {
                 return 0;
             }
             dlaset_("A", n, n, &c_b5, &c_b6, &e[e_offset], lde, 1L);
             s_wsfi(&io___13);
             do_fio(&c__1, "BD01205", 7L);
-            do_fio(&c__1, (char *)&ipar[1], (ftnlen)sizeof(integer));
+            do_fio(&c__1, (char*)&ipar[1], (ftnlen)sizeof(integer));
             do_fio(&c__1, ".dat", 4L);
             e_wsfi();
             o__1.oerr = 1;
@@ -1098,83 +935,68 @@ L100006:
             o__1.ofm = 0;
             o__1.oblnk = 0;
             status = f_open(&o__1);
-            if (status != 0)
-            {
+            if (status != 0) {
                 *info = 1;
-            }
-            else
-            {
+            } else {
                 i__1 = *n;
-                for (i__ = 1; i__ <= i__1; ++i__)
-                {
+                for (i__ = 1; i__ <= i__1; ++i__) {
                     status = s_rsle(&io___14);
-                    if (status != 0)
-                    {
+                    if (status != 0) {
                         goto L100007;
                     }
                     i__2 = *n;
-                    for (j = 1; j <= i__2; ++j)
-                    {
-                        status = do_lio(&c__5, &c__1, (char *)&a[i__ + j * a_dim1], (ftnlen)sizeof(doublereal));
-                        if (status != 0)
-                        {
+                    for (j = 1; j <= i__2; ++j) {
+                        status = do_lio(
+                            &c__5, &c__1, (char*)&a[i__ + j * a_dim1], (ftnlen)sizeof(doublereal));
+                        if (status != 0) {
                             goto L100007;
                         }
                     }
                     status = e_rsle();
-L100007:
-                    if (status != 0)
-                    {
+                L100007:
+                    if (status != 0) {
                         *info = 1;
                     }
                     /* L220: */
                 }
                 i__1 = *n;
-                for (i__ = 1; i__ <= i__1; ++i__)
-                {
+                for (i__ = 1; i__ <= i__1; ++i__) {
                     status = s_rsle(&io___15);
-                    if (status != 0)
-                    {
+                    if (status != 0) {
                         goto L100008;
                     }
                     i__2 = *m;
-                    for (j = 1; j <= i__2; ++j)
-                    {
-                        status = do_lio(&c__5, &c__1, (char *)&b[i__ + j * b_dim1], (ftnlen)sizeof(doublereal));
-                        if (status != 0)
-                        {
+                    for (j = 1; j <= i__2; ++j) {
+                        status = do_lio(
+                            &c__5, &c__1, (char*)&b[i__ + j * b_dim1], (ftnlen)sizeof(doublereal));
+                        if (status != 0) {
                             goto L100008;
                         }
                     }
                     status = e_rsle();
-L100008:
-                    if (status != 0)
-                    {
+                L100008:
+                    if (status != 0) {
                         *info = 1;
                     }
                     /* L230: */
                 }
                 i__1 = *p;
-                for (i__ = 1; i__ <= i__1; ++i__)
-                {
+                for (i__ = 1; i__ <= i__1; ++i__) {
                     status = s_rsle(&io___16);
-                    if (status != 0)
-                    {
+                    if (status != 0) {
                         goto L100009;
                     }
                     i__2 = *n;
-                    for (j = 1; j <= i__2; ++j)
-                    {
-                        status = do_lio(&c__5, &c__1, (char *)&c__[i__ + j * c_dim1], (ftnlen)sizeof(doublereal));
-                        if (status != 0)
-                        {
+                    for (j = 1; j <= i__2; ++j) {
+                        status = do_lio(&c__5, &c__1, (char*)&c__[i__ + j * c_dim1],
+                            (ftnlen)sizeof(doublereal));
+                        if (status != 0) {
                             goto L100009;
                         }
                     }
                     status = e_rsle();
-L100009:
-                    if (status != 0)
-                    {
+                L100009:
+                    if (status != 0) {
                         *info = 1;
                     }
                     /* L240: */
@@ -1185,43 +1007,33 @@ L100009:
             cl__1.csta = 0;
             f_clos(&cl__1);
             dlaset_("A", p, m, &c_b5, &c_b5, &d__[d_offset], ldd, 1L);
-        }
-        else if (nr[2] == 6)
-        {
+        } else if (nr[2] == 6) {
             s_copy(note, "Kallstrom/Astrom 1981: regulation of a ship heading", 70L, 51L);
-            if (lsame_(def, "D", 1L, 1L))
-            {
+            if (lsame_(def, "D", 1L, 1L)) {
                 ipar[1] = 1;
             }
-            if (ipar[1] < 1 || ipar[1] > 5)
-            {
+            if (ipar[1] < 1 || ipar[1] > 5) {
                 *info = -4;
             }
             *n = 3;
             *m = 1;
             *p = 1;
-            if (*lde < *n)
-            {
+            if (*lde < *n) {
                 *info = -10;
             }
-            if (*lda < *n)
-            {
+            if (*lda < *n) {
                 *info = -12;
             }
-            if (*ldb < *n)
-            {
+            if (*ldb < *n) {
                 *info = -14;
             }
-            if (*ldc < *p)
-            {
+            if (*ldc < *p) {
                 *info = -16;
             }
-            if (*ldd < *p)
-            {
+            if (*ldd < *p) {
                 *info = -18;
             }
-            if (*info != 0)
-            {
+            if (*info != 0) {
                 return 0;
             }
             dlaset_("A", n, n, &c_b5, &c_b6, &e[e_offset], lde, 1L);
@@ -1241,70 +1053,57 @@ L100009:
             o__1.ofm = 0;
             o__1.oblnk = 0;
             status = f_open(&o__1);
-            if (status != 0)
-            {
+            if (status != 0) {
                 *info = 1;
-            }
-            else
-            {
+            } else {
                 i__1 = ipar[1];
-                for (i__ = 1; i__ <= i__1; ++i__)
-                {
+                for (i__ = 1; i__ <= i__1; ++i__) {
                     status = s_rsle(&io___17);
-                    if (status != 0)
-                    {
+                    if (status != 0) {
                         goto L100010;
                     }
-                    for (j = 1; j <= 2; ++j)
-                    {
-                        status = do_lio(&c__5, &c__1, (char *)&a[j * a_dim1 + 1], (ftnlen)sizeof(doublereal));
-                        if (status != 0)
-                        {
+                    for (j = 1; j <= 2; ++j) {
+                        status = do_lio(
+                            &c__5, &c__1, (char*)&a[j * a_dim1 + 1], (ftnlen)sizeof(doublereal));
+                        if (status != 0) {
                             goto L100010;
                         }
                     }
                     status = e_rsle();
-L100010:
-                    if (status != 0)
-                    {
+                L100010:
+                    if (status != 0) {
                         *info = 1;
                     }
                     status = s_rsle(&io___18);
-                    if (status != 0)
-                    {
+                    if (status != 0) {
                         goto L100011;
                     }
-                    for (j = 1; j <= 2; ++j)
-                    {
-                        status = do_lio(&c__5, &c__1, (char *)&a[j * a_dim1 + 2], (ftnlen)sizeof(doublereal));
-                        if (status != 0)
-                        {
+                    for (j = 1; j <= 2; ++j) {
+                        status = do_lio(
+                            &c__5, &c__1, (char*)&a[j * a_dim1 + 2], (ftnlen)sizeof(doublereal));
+                        if (status != 0) {
                             goto L100011;
                         }
                     }
                     status = e_rsle();
-L100011:
-                    if (status != 0)
-                    {
+                L100011:
+                    if (status != 0) {
                         *info = 1;
                     }
                     status = s_rsle(&io___19);
-                    if (status != 0)
-                    {
+                    if (status != 0) {
                         goto L100012;
                     }
-                    for (j = 1; j <= 2; ++j)
-                    {
-                        status = do_lio(&c__5, &c__1, (char *)&b[j + b_dim1], (ftnlen)sizeof(doublereal));
-                        if (status != 0)
-                        {
+                    for (j = 1; j <= 2; ++j) {
+                        status = do_lio(
+                            &c__5, &c__1, (char*)&b[j + b_dim1], (ftnlen)sizeof(doublereal));
+                        if (status != 0) {
                             goto L100012;
                         }
                     }
                     status = e_rsle();
-L100012:
-                    if (status != 0)
-                    {
+                L100012:
+                    if (status != 0) {
                         *info = 1;
                     }
                     /* L250: */
@@ -1314,48 +1113,37 @@ L100012:
             cl__1.cunit = 1;
             cl__1.csta = 0;
             f_clos(&cl__1);
-        }
-        else if (nr[2] == 7)
-        {
+        } else if (nr[2] == 7) {
             s_copy(note, "Ackermann 1989: track-guided bus", 70L, 32L);
-            if (lsame_(def, "D", 1L, 1L))
-            {
+            if (lsame_(def, "D", 1L, 1L)) {
                 dpar[1] = 15.;
                 dpar[2] = 10.;
             }
-            if (dpar[1] < 9.95 || dpar[1] > 16.)
-            {
+            if (dpar[1] < 9.95 || dpar[1] > 16.) {
                 *info = -3;
             }
-            if (dpar[1] < 1. || dpar[1] > 20.)
-            {
+            if (dpar[1] < 1. || dpar[1] > 20.) {
                 *info = -3;
             }
             *n = 5;
             *m = 1;
             *p = 1;
-            if (*lde < *n)
-            {
+            if (*lde < *n) {
                 *info = -10;
             }
-            if (*lda < *n)
-            {
+            if (*lda < *n) {
                 *info = -12;
             }
-            if (*ldb < *n)
-            {
+            if (*ldb < *n) {
                 *info = -14;
             }
-            if (*ldc < *p)
-            {
+            if (*ldc < *p) {
                 *info = -16;
             }
-            if (*ldd < *p)
-            {
+            if (*ldd < *p) {
                 *info = -18;
             }
-            if (*info != 0)
-            {
+            if (*info != 0) {
                 return 0;
             }
             dlaset_("A", n, n, &c_b5, &c_b6, &e[e_offset], lde, 1L);
@@ -1377,55 +1165,41 @@ L100012:
             c__[c_dim1 * 3 + 1] = 1.;
             c__[(c_dim1 << 2) + 1] = 6.12;
             d__[d_dim1 + 1] = 0.;
-        }
-        else
-        {
+        } else {
             *info = -2;
         }
-    }
-    else if (nr[1] == 3)
-    {
-        if (! (lsame_(def, "D", 1L, 1L) || lsame_(def, "N", 1L, 1L)))
-        {
+    } else if (nr[1] == 3) {
+        if (!(lsame_(def, "D", 1L, 1L) || lsame_(def, "N", 1L, 1L))) {
             *info = -1;
             return 0;
         }
-        if (nr[2] == 1)
-        {
+        if (nr[2] == 1) {
             s_copy(note, "Laub 1979, Ex.4: string of high speed vehicles", 70L, 46L);
-            if (lsame_(def, "D", 1L, 1L))
-            {
+            if (lsame_(def, "D", 1L, 1L)) {
                 ipar[1] = 20;
             }
-            if (ipar[1] < 2)
-            {
+            if (ipar[1] < 2) {
                 *info = -4;
             }
             *n = (ipar[1] << 1) - 1;
             *m = ipar[1];
             *p = ipar[1] - 1;
-            if (*lde < *n)
-            {
+            if (*lde < *n) {
                 *info = -10;
             }
-            if (*lda < *n)
-            {
+            if (*lda < *n) {
                 *info = -12;
             }
-            if (*ldb < *n)
-            {
+            if (*ldb < *n) {
                 *info = -14;
             }
-            if (*ldc < *p)
-            {
+            if (*ldc < *p) {
                 *info = -16;
             }
-            if (*ldd < *p)
-            {
+            if (*ldd < *p) {
                 *info = -18;
             }
-            if (*info != 0)
-            {
+            if (*info != 0) {
                 return 0;
             }
             dlaset_("A", n, n, &c_b5, &c_b6, &e[e_offset], lde, 1L);
@@ -1433,15 +1207,11 @@ L100012:
             dlaset_("A", n, m, &c_b5, &c_b5, &b[b_offset], ldb, 1L);
             dlaset_("A", p, n, &c_b5, &c_b5, &c__[c_offset], ldc, 1L);
             i__1 = *n;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
-                if (i__ % 2 == 1)
-                {
+            for (i__ = 1; i__ <= i__1; ++i__) {
+                if (i__ % 2 == 1) {
                     a[i__ + i__ * a_dim1] = -1.;
                     b[i__ + (i__ + 1) / 2 * b_dim1] = 1.;
-                }
-                else
-                {
+                } else {
                     a[i__ + (i__ - 1) * a_dim1] = 1.;
                     a[i__ + (i__ + 1) * a_dim1] = -1.;
                     c__[i__ / 2 + i__ * c_dim1] = 1.;
@@ -1449,53 +1219,42 @@ L100012:
                 /* L310: */
             }
             dlaset_("A", p, m, &c_b5, &c_b5, &d__[d_offset], ldd, 1L);
-        }
-        else if (nr[2] == 2)
-        {
+        } else if (nr[2] == 2) {
             s_copy(note, "Hodel et al. 1996: heat flow in a thin rod", 70L, 42L);
-            if (lsame_(def, "D", 1L, 1L))
-            {
+            if (lsame_(def, "D", 1L, 1L)) {
                 ipar[1] = 100;
             }
-            if (ipar[1] < 1)
-            {
+            if (ipar[1] < 1) {
                 *info = -4;
             }
             *n = ipar[1];
             *m = 1;
             *p = *n;
-            if (*lde < *n)
-            {
+            if (*lde < *n) {
                 *info = -10;
             }
-            if (*lda < *n)
-            {
+            if (*lda < *n) {
                 *info = -12;
             }
-            if (*ldb < *n)
-            {
+            if (*ldb < *n) {
                 *info = -14;
             }
-            if (*ldc < *p)
-            {
+            if (*ldc < *p) {
                 *info = -16;
             }
-            if (*ldd < *p)
-            {
+            if (*ldd < *p) {
                 *info = -18;
             }
-            if (*info != 0)
-            {
+            if (*info != 0) {
                 return 0;
             }
-            temp = (doublereal) (*n + 1);
+            temp = (doublereal)(*n + 1);
             dlaset_("A", n, n, &c_b5, &c_b6, &e[e_offset], lde, 1L);
             d__1 = temp * -2.;
             dlaset_("A", n, n, &c_b5, &d__1, &a[a_offset], lda, 1L);
             a[a_dim1 + 1] = -temp;
             i__1 = *n - 1;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 a[i__ + (i__ + 1) * a_dim1] = temp;
                 a[i__ + 1 + i__ * a_dim1] = temp;
                 /* L320: */
@@ -1504,43 +1263,33 @@ L100012:
             b[*n + b_dim1] = temp;
             dlaset_("A", p, n, &c_b5, &c_b6, &c__[c_offset], ldc, 1L);
             dlaset_("A", p, m, &c_b5, &c_b5, &d__[d_offset], ldd, 1L);
-        }
-        else if (nr[2] == 3)
-        {
+        } else if (nr[2] == 3) {
             s_copy(note, "Laub 1979, Ex.6", 70L, 15L);
-            if (lsame_(def, "D", 1L, 1L))
-            {
+            if (lsame_(def, "D", 1L, 1L)) {
                 ipar[1] = 21;
             }
-            if (ipar[1] < 1)
-            {
+            if (ipar[1] < 1) {
                 *info = -4;
             }
             *n = ipar[1];
             *m = 1;
             *p = 1;
-            if (*lde < *n)
-            {
+            if (*lde < *n) {
                 *info = -10;
             }
-            if (*lda < *n)
-            {
+            if (*lda < *n) {
                 *info = -12;
             }
-            if (*ldb < *n)
-            {
+            if (*ldb < *n) {
                 *info = -14;
             }
-            if (*ldc < *p)
-            {
+            if (*ldc < *p) {
                 *info = -16;
             }
-            if (*ldd < *p)
-            {
+            if (*ldd < *p) {
                 *info = -18;
             }
-            if (*info != 0)
-            {
+            if (*info != 0) {
                 return 0;
             }
             dlaset_("A", n, n, &c_b5, &c_b6, &e[e_offset], lde, 1L);
@@ -1553,47 +1302,36 @@ L100012:
             dlaset_("A", p, n, &c_b5, &c_b5, &c__[c_offset], ldc, 1L);
             c__[c_dim1 + 1] = 1.;
             dlaset_("A", p, m, &c_b5, &c_b5, &d__[d_offset], ldd, 1L);
-        }
-        else if (nr[2] == 4)
-        {
+        } else if (nr[2] == 4) {
             s_copy(note, "Lang/Penzl 1994: rotating axle", 70L, 30L);
-            if (lsame_(def, "D", 1L, 1L))
-            {
+            if (lsame_(def, "D", 1L, 1L)) {
                 ipar[1] = 211;
             }
-            if (ipar[1] < 1 || ipar[1] > 211)
-            {
+            if (ipar[1] < 1 || ipar[1] > 211) {
                 *info = -4;
             }
             *n = (ipar[1] << 1) - 1;
             *m = ipar[1];
             *p = ipar[1];
-            if (*lde < *n)
-            {
+            if (*lde < *n) {
                 *info = -10;
             }
-            if (*lda < *n)
-            {
+            if (*lda < *n) {
                 *info = -12;
             }
-            if (*ldb < *n)
-            {
+            if (*ldb < *n) {
                 *info = -14;
             }
-            if (*ldc < *p)
-            {
+            if (*ldc < *p) {
                 *info = -16;
             }
-            if (*ldd < *p)
-            {
+            if (*ldd < *p) {
                 *info = -18;
             }
-            if (*ldwork < *m << 2)
-            {
+            if (*ldwork < *m << 2) {
                 *info = -21;
             }
-            if (*info != 0)
-            {
+            if (*info != 0) {
                 return 0;
             }
             o__1.oerr = 1;
@@ -1606,29 +1344,22 @@ L100012:
             o__1.ofm = 0;
             o__1.oblnk = 0;
             status = f_open(&o__1);
-            if (status != 0)
-            {
+            if (status != 0) {
                 *info = 1;
-            }
-            else
-            {
+            } else {
                 i__1 = *m << 2;
-                for (i__ = 1; i__ <= i__1; ++i__)
-                {
+                for (i__ = 1; i__ <= i__1; ++i__) {
                     status = s_rsle(&io___21);
-                    if (status != 0)
-                    {
+                    if (status != 0) {
                         goto L100013;
                     }
-                    status = do_lio(&c__5, &c__1, (char *)&dwork[i__], (ftnlen)sizeof(doublereal));
-                    if (status != 0)
-                    {
+                    status = do_lio(&c__5, &c__1, (char*)&dwork[i__], (ftnlen)sizeof(doublereal));
+                    if (status != 0) {
                         goto L100013;
                     }
                     status = e_rsle();
-L100013:
-                    if (status != 0)
-                    {
+                L100013:
+                    if (status != 0) {
                         *info = 1;
                     }
                     /* L330: */
@@ -1638,31 +1369,24 @@ L100013:
             cl__1.cunit = 1;
             cl__1.csta = 0;
             f_clos(&cl__1);
-            if (*info != 0)
-            {
+            if (*info != 0) {
                 return 0;
             }
             dlaset_("A", n, n, &c_b5, &c_b6, &e[e_offset], lde, 1L);
             e[e_dim1 + 1] = dwork[1];
             i__1 = *m;
-            for (i__ = 2; i__ <= i__1; ++i__)
-            {
+            for (i__ = 2; i__ <= i__1; ++i__) {
                 e[i__ + (i__ - 1) * e_dim1] = dwork[(i__ - 2 << 2) + 1];
                 e[i__ + i__ * e_dim1] = -dwork[(i__ - 1 << 2) + 1];
                 /* L340: */
             }
             e[*m + *m * e_dim1] = -e[*m + *m * e_dim1];
-            for (i__ = *m - 1; i__ >= 1; --i__)
-            {
+            for (i__ = *m - 1; i__ >= 1; --i__) {
                 i__1 = *m;
-                for (j = i__; j <= i__1; ++j)
-                {
-                    if (i__ == 1)
-                    {
+                for (j = i__; j <= i__1; ++j) {
+                    if (i__ == 1) {
                         e[j + i__ * e_dim1] -= e[j + (i__ + 1) * e_dim1];
-                    }
-                    else
-                    {
+                    } else {
                         e[j + i__ * e_dim1] = e[j + (i__ + 1) * e_dim1] - e[j + i__ * e_dim1];
                     }
                     /* L345: */
@@ -1671,20 +1395,18 @@ L100013:
             }
             dlaset_("A", n, n, &c_b5, &c_b5, &a[a_offset], lda, 1L);
             i__1 = *m;
-            for (i__ = 2; i__ <= i__1; ++i__)
-            {
+            for (i__ = 2; i__ <= i__1; ++i__) {
                 a[i__ - 1 + i__ * a_dim1] = dwork[(i__ - 2 << 2) + 3];
                 a[i__ + i__ * a_dim1] = dwork[(i__ - 2 << 2) + 3] * -2. - dwork[(i__ - 1 << 2) + 2];
                 a[i__ + a_dim1] = dwork[(i__ - 1 << 2) + 2] - dwork[(i__ - 2 << 2) + 2];
                 a[i__ - 1 + (*m + i__ - 1) * a_dim1] = dwork[(i__ - 1) * 4];
                 a[i__ + (*m + i__ - 1) * a_dim1] = dwork[(i__ - 1) * 4] * -2.;
-                if (i__ < *m)
-                {
+                if (i__ < *m) {
                     a[i__ + 1 + i__ * a_dim1] = dwork[(i__ - 2 << 2) + 3];
                     i__2 = *m;
-                    for (j = i__ + 1; j <= i__2; ++j)
-                    {
-                        a[j + i__ * a_dim1] = a[j + i__ * a_dim1] + dwork[(j - 2 << 2) + 2] - dwork[(j - 1 << 2) + 2];
+                    for (j = i__ + 1; j <= i__2; ++j) {
+                        a[j + i__ * a_dim1] = a[j + i__ * a_dim1] + dwork[(j - 2 << 2) + 2]
+                            - dwork[(j - 1 << 2) + 2];
                         /* L355: */
                     }
                     a[i__ + 1 + (*m + i__ - 1) * a_dim1] = dwork[(i__ - 1) * 4];
@@ -1700,8 +1422,7 @@ L100013:
             dlaset_("A", n, m, &c_b5, &c_b5, &b[b_offset], ldb, 1L);
             dlaset_("A", p, n, &c_b5, &c_b5, &c__[c_offset], ldc, 1L);
             i__1 = *m;
-            for (i__ = 2; i__ <= i__1; ++i__)
-            {
+            for (i__ = 2; i__ <= i__1; ++i__) {
                 b[i__ + i__ * b_dim1] = -1.;
                 b[i__ + (i__ - 1) * b_dim1] = 1.;
                 c__[i__ + i__ * c_dim1] = dwork[(i__ - 2 << 2) + 3];
@@ -1711,24 +1432,17 @@ L100013:
             b[b_dim1 + 1] = 1.;
             c__[c_dim1 + 1] = 1.;
             dlaset_("A", p, m, &c_b5, &c_b5, &d__[d_offset], ldd, 1L);
-        }
-        else
-        {
+        } else {
             *info = -2;
         }
-    }
-    else if (nr[1] == 4)
-    {
-        if (! (lsame_(def, "D", 1L, 1L) || lsame_(def, "N", 1L, 1L)))
-        {
+    } else if (nr[1] == 4) {
+        if (!(lsame_(def, "D", 1L, 1L) || lsame_(def, "N", 1L, 1L))) {
             *info = -1;
             return 0;
         }
-        if (nr[2] == 1)
-        {
+        if (nr[2] == 1) {
             s_copy(note, "Rosen/Wang 1995: control of 1-dim. heat flow", 70L, 44L);
-            if (lsame_(def, "D", 1L, 1L))
-            {
+            if (lsame_(def, "D", 1L, 1L)) {
                 ipar[1] = 100;
                 dpar[1] = .01;
                 dpar[2] = 1.;
@@ -1738,39 +1452,32 @@ L100013:
                 dpar[6] = .2;
                 dpar[7] = .3;
             }
-            if (ipar[1] < 2)
-            {
+            if (ipar[1] < 2) {
                 *info = -4;
             }
             *n = ipar[1];
             *m = 1;
             *p = 1;
-            if (*lde < *n)
-            {
+            if (*lde < *n) {
                 *info = -10;
             }
-            if (*lda < *n)
-            {
+            if (*lda < *n) {
                 *info = -12;
             }
-            if (*ldb < *n)
-            {
+            if (*ldb < *n) {
                 *info = -14;
             }
-            if (*ldc < *p)
-            {
+            if (*ldc < *p) {
                 *info = -16;
             }
-            if (*ldd < *p)
-            {
+            if (*ldd < *p) {
                 *info = -18;
             }
-            if (*info != 0)
-            {
+            if (*info != 0) {
                 return 0;
             }
             vec[4] = TRUE_;
-            appind = (doublereal) (*n + 1);
+            appind = (doublereal)(*n + 1);
             ttemp = -dpar[1] * appind;
             temp = 1 / (appind * 6.);
             d__1 = temp * 4.;
@@ -1778,8 +1485,7 @@ L100013:
             d__1 = ttemp * 2.;
             dlaset_("A", n, n, &c_b5, &d__1, &a[a_offset], lda, 1L);
             i__1 = *n - 1;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 a[i__ + 1 + i__ * a_dim1] = -ttemp;
                 a[i__ + (i__ + 1) * a_dim1] = -ttemp;
                 e[i__ + 1 + i__ * e_dim1] = temp;
@@ -1787,82 +1493,71 @@ L100013:
                 /* L410: */
             }
             i__1 = *n;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 /* Computing MAX */
-                d__1 = (doublereal) (i__ - 1) / appind;
-                b1 = max(d__1,dpar[4]);
+                d__1 = (doublereal)(i__ - 1) / appind;
+                b1 = max(d__1, dpar[4]);
                 /* Computing MIN */
-                d__1 = (doublereal) (i__ + 1) / appind;
-                b2 = min(d__1,dpar[5]);
+                d__1 = (doublereal)(i__ + 1) / appind;
+                b2 = min(d__1, dpar[5]);
                 /* Computing MAX */
-                d__1 = (doublereal) (i__ - 1) / appind;
-                c1 = max(d__1,dpar[6]);
+                d__1 = (doublereal)(i__ - 1) / appind;
+                c1 = max(d__1, dpar[6]);
                 /* Computing MIN */
-                d__1 = (doublereal) (i__ + 1) / appind;
-                c2 = min(d__1,dpar[7]);
-                if (b1 >= b2)
-                {
+                d__1 = (doublereal)(i__ + 1) / appind;
+                c2 = min(d__1, dpar[7]);
+                if (b1 >= b2) {
                     b[i__ + b_dim1] = 0.;
-                }
-                else
-                {
+                } else {
                     b[i__ + b_dim1] = b2 - b1;
                     /* Computing MIN */
-                    d__1 = b2, d__2 = (doublereal) i__ / appind;
-                    temp = min(d__1,d__2);
-                    if (b1 < temp)
-                    {
+                    d__1 = b2, d__2 = (doublereal)i__ / appind;
+                    temp = min(d__1, d__2);
+                    if (b1 < temp) {
                         /* Computing 2nd power */
                         d__1 = temp;
                         /* Computing 2nd power */
                         d__2 = b1;
                         b[i__ + b_dim1] += appind * (d__1 * d__1 - d__2 * d__2) / 2.;
-                        b[i__ + b_dim1] += (doublereal) i__ * (b1 - temp);
+                        b[i__ + b_dim1] += (doublereal)i__ * (b1 - temp);
                     }
                     /* Computing MAX */
-                    d__1 = b1, d__2 = (doublereal) i__ / appind;
-                    temp = max(d__1,d__2);
-                    if (temp < b2)
-                    {
+                    d__1 = b1, d__2 = (doublereal)i__ / appind;
+                    temp = max(d__1, d__2);
+                    if (temp < b2) {
                         /* Computing 2nd power */
                         d__1 = b2;
                         /* Computing 2nd power */
                         d__2 = temp;
                         b[i__ + b_dim1] -= appind * (d__1 * d__1 - d__2 * d__2) / 2.;
-                        b[i__ + b_dim1] -= (doublereal) i__ * (temp - b2);
+                        b[i__ + b_dim1] -= (doublereal)i__ * (temp - b2);
                     }
                 }
-                if (c1 >= c2)
-                {
+                if (c1 >= c2) {
                     c__[i__ * c_dim1 + 1] = 0.;
-                }
-                else
-                {
+                } else {
                     c__[i__ * c_dim1 + 1] = c2 - c1;
                     /* Computing MIN */
-                    d__1 = c2, d__2 = (doublereal) i__ / appind;
-                    temp = min(d__1,d__2);
-                    if (c1 < temp)
-                    {
+                    d__1 = c2, d__2 = (doublereal)i__ / appind;
+                    temp = min(d__1, d__2);
+                    if (c1 < temp) {
                         /* Computing 2nd power */
                         d__1 = temp;
                         /* Computing 2nd power */
                         d__2 = c1;
                         c__[i__ * c_dim1 + 1] += appind * (d__1 * d__1 - d__2 * d__2) / 2.;
-                        c__[i__ * c_dim1 + 1] += (doublereal) i__ * (c1 - temp);
+                        c__[i__ * c_dim1 + 1] += (doublereal)i__ * (c1 - temp);
                     }
                     /* Computing MAX */
-                    d__1 = c1, d__2 = (doublereal) i__ / appind;
-                    temp = max(d__1,d__2);
-                    if (temp < c2)
-                    {
+                    d__1 = c1, d__2 = (doublereal)i__ / appind;
+                    temp = max(d__1, d__2);
+                    if (temp < c2) {
                         /* Computing 2nd power */
                         d__1 = c2;
                         /* Computing 2nd power */
                         d__2 = temp;
                         c__[i__ * c_dim1 + 1] -= appind * (d__1 * d__1 - d__2 * d__2) / 2.;
-                        c__[i__ * c_dim1 + 1] -= (doublereal) i__ * (temp - c2);
+                        c__[i__ * c_dim1 + 1] -= (doublereal)i__ * (temp - c2);
                     }
                 }
                 /* L420: */
@@ -1870,47 +1565,37 @@ L100013:
             dscal_(n, &dpar[2], &b[b_dim1 + 1], &c__1);
             dscal_(n, &dpar[3], &c__[c_dim1 + 1], ldc);
             dlaset_("A", p, m, &c_b5, &c_b5, &d__[d_offset], ldd, 1L);
-        }
-        else if (nr[2] == 2)
-        {
+        } else if (nr[2] == 2) {
             s_copy(note, "Hench et al. 1995: coupled springs, dashpots, masses", 70L, 52L);
-            if (lsame_(def, "D", 1L, 1L))
-            {
+            if (lsame_(def, "D", 1L, 1L)) {
                 ipar[1] = 30;
                 dpar[1] = 4.;
                 dpar[2] = 4.;
                 dpar[3] = 1.;
             }
-            if (ipar[1] < 2)
-            {
+            if (ipar[1] < 2) {
                 *info = -4;
             }
             l = ipar[1];
             *n = l << 1;
             *m = 2;
             *p = l << 1;
-            if (*lde < *n)
-            {
+            if (*lde < *n) {
                 *info = -10;
             }
-            if (*lda < *n)
-            {
+            if (*lda < *n) {
                 *info = -12;
             }
-            if (*ldb < *n)
-            {
+            if (*ldb < *n) {
                 *info = -14;
             }
-            if (*ldc < *p)
-            {
+            if (*ldc < *p) {
                 *info = -16;
             }
-            if (*ldd < *p)
-            {
+            if (*ldd < *p) {
                 *info = -18;
             }
-            if (*info != 0)
-            {
+            if (*info != 0) {
                 return 0;
             }
             vec[4] = TRUE_;
@@ -1918,17 +1603,14 @@ L100013:
             dlaset_("A", n, n, &c_b5, &c_b5, &a[a_offset], lda, 1L);
             temp = dpar[3] * -2.;
             i__1 = l;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 e[i__ + i__ * e_dim1] = 1.;
                 a[i__ + (i__ + l) * a_dim1] = 1.;
                 a[i__ + l + (i__ + l) * a_dim1] = -dpar[2];
-                if (i__ < l)
-                {
+                if (i__ < l) {
                     a[i__ + l + (i__ + 1) * a_dim1] = dpar[3];
                     a[i__ + l + 1 + i__ * a_dim1] = dpar[3];
-                    if (i__ > 1)
-                    {
+                    if (i__ > 1) {
                         a[i__ + l + i__ * a_dim1] = temp;
                     }
                 }
@@ -1941,17 +1623,12 @@ L100013:
             b[*n + (b_dim1 << 1)] = -1.;
             dlaset_("A", p, n, &c_b5, &c_b6, &c__[c_offset], ldc, 1L);
             dlaset_("A", p, m, &c_b5, &c_b5, &d__[d_offset], ldd, 1L);
-        }
-        else
-        {
+        } else {
             *info = -2;
         }
-    }
-    else
-    {
+    } else {
         *info = -2;
     }
     return 0;
     /* *** Last Line of BD01AD *** */
 } /* bd01ad_ */
-

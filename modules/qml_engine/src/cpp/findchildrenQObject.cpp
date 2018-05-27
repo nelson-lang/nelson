@@ -16,67 +16,57 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <QtQml/QQmlComponent>
 #include "findchildrenQObject.hpp"
 #include "HandleManager.hpp"
-#include "QmlHandleObject.hpp"
 #include "QStringConverter.hpp"
+#include "QmlHandleObject.hpp"
+#include <QtQml/QQmlComponent>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    ArrayOf findchildrenQObject(ArrayOf H, std::wstring fieldname, bool bRecursively)
-    {
-        ArrayOf res = ArrayOf::emptyConstructor(Dimensions(0, 0));
-        res.promoteType(NLS_HANDLE);
-        HandleGenericObject *hlObj = H.getContentAsHandleScalar();
-        if (hlObj->getCategory() != QOBJECT_CATEGORY_STR)
-        {
-            throw Exception(_W("QObject handle expected."));
-        }
-        QmlHandleObject *qmlhandleobj = (QmlHandleObject *)hlObj;
-        void *ptr = qmlhandleobj->getPointer();
-        if (ptr == nullptr)
-        {
-            throw Exception(_W("QObject valid handle expected."));
-        }
-        QObject *qobj = (QObject *)ptr;
-        Qt::FindChildOption option = Qt::FindDirectChildrenOnly;
-        if (bRecursively)
-        {
-            option = Qt::FindChildrenRecursively;
-        }
-        QList<QObject *> qobjfound = qobj->findChildren<QObject*>(wstringToQString(fieldname), option);
-        if (qobjfound.size() > 0)
-        {
-            Dimensions dims(1, qobjfound.size());
-            nelson_handle *nh = (nelson_handle*)ArrayOf::allocateArrayOf(NLS_HANDLE, qobjfound.size());
-            for (int k = 0; k < qobjfound.size(); k++)
-            {
-                nelson_handle nh_found = HandleManager::getInstance()->findByPointerValue(qobjfound[k]);
-                if (nh_found != -1)
-                {
-                    nh[k] = nh_found;
-                }
-                else
-                {
-                    QmlHandleObject * qmlHandle = nullptr;
-                    try
-                    {
-                        qmlHandle = new QmlHandleObject(qobjfound[k]);
-                    }
-                    catch (std::bad_alloc &e)
-                    {
-                        e.what();
-                        qmlHandle = nullptr;
-                        throw Exception(ERROR_MEMORY_ALLOCATION);
-                    }
-                    nh[k] = HandleManager::getInstance()->addHandle(qmlHandle);
-                }
-            }
-            res = ArrayOf(NLS_HANDLE, dims, (void *)nh);
-        }
-        return res;
+//=============================================================================
+ArrayOf
+findchildrenQObject(ArrayOf H, std::wstring fieldname, bool bRecursively)
+{
+    ArrayOf res = ArrayOf::emptyConstructor(Dimensions(0, 0));
+    res.promoteType(NLS_HANDLE);
+    HandleGenericObject* hlObj = H.getContentAsHandleScalar();
+    if (hlObj->getCategory() != QOBJECT_CATEGORY_STR) {
+        throw Exception(_W("QObject handle expected."));
     }
-    //=============================================================================
+    QmlHandleObject* qmlhandleobj = (QmlHandleObject*)hlObj;
+    void* ptr = qmlhandleobj->getPointer();
+    if (ptr == nullptr) {
+        throw Exception(_W("QObject valid handle expected."));
+    }
+    QObject* qobj = (QObject*)ptr;
+    Qt::FindChildOption option = Qt::FindDirectChildrenOnly;
+    if (bRecursively) {
+        option = Qt::FindChildrenRecursively;
+    }
+    QList<QObject*> qobjfound = qobj->findChildren<QObject*>(wstringToQString(fieldname), option);
+    if (qobjfound.size() > 0) {
+        Dimensions dims(1, qobjfound.size());
+        nelson_handle* nh = (nelson_handle*)ArrayOf::allocateArrayOf(NLS_HANDLE, qobjfound.size());
+        for (int k = 0; k < qobjfound.size(); k++) {
+            nelson_handle nh_found = HandleManager::getInstance()->findByPointerValue(qobjfound[k]);
+            if (nh_found != -1) {
+                nh[k] = nh_found;
+            } else {
+                QmlHandleObject* qmlHandle = nullptr;
+                try {
+                    qmlHandle = new QmlHandleObject(qobjfound[k]);
+                } catch (std::bad_alloc& e) {
+                    e.what();
+                    qmlHandle = nullptr;
+                    throw Exception(ERROR_MEMORY_ALLOCATION);
+                }
+                nh[k] = HandleManager::getInstance()->addHandle(qmlHandle);
+            }
+        }
+        res = ArrayOf(NLS_HANDLE, dims, (void*)nh);
+    }
+    return res;
+}
+//=============================================================================
 }
 //=============================================================================
