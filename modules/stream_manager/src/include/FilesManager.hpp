@@ -18,40 +18,58 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include <boost/container/vector.hpp>
-#include "Types.hpp"
-#include "nlsStream_manager_exports.h"
 #include "File.hpp"
 #include "Interface.hpp"
+#include "Types.hpp"
+#include "nlsStream_manager_exports.h"
+#include <boost/container/vector.hpp>
+#include <string>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    class NLSSTREAM_MANAGER_IMPEXP FilesManager {
-    private:
-        boost::container::vector<File *> userFiles;
-        int getAvailableFileID();
-    public:
-        FilesManager(Interface *io = nullptr);
-        ~FilesManager();
-        bool isOpened(std::wstring filenameToSearch);
-        bool isOpened(int fileID);
-        bool isStdIn(int fileID);
-        bool isStdOut(int fileID);
-        bool isStdErr(int fileID);
-        bool isStdStream(int fileID);
-        int addFile(File *userfile);
-
-        // file also closed when you removeFile
-        bool removeFile(int no);
-        wstringVector getFilenames();
-        wstringVector getMode();
-        boost::container::vector<uint64> getIDs();
-        File *getFile(int no);
-        File *getFile(std::wstring filename);
-        void *getFilePointer(int no);
-        size_t getNumberOfFiles();
-    };
-    //=============================================================================
-}
 //=============================================================================
+class NLSSTREAM_MANAGER_IMPEXP FilesManager
+{
+private:
+    boost::container::vector<File*> userFiles;
+    int
+    getAvailableFileID();
+
+public:
+    FilesManager(Interface* io = nullptr);
+    ~FilesManager();
+    bool
+    isOpened(std::wstring filenameToSearch);
+    bool
+    isOpened(int fileID);
+    bool
+    isStdIn(int fileID);
+    bool
+    isStdOut(int fileID);
+    bool
+    isStdErr(int fileID);
+    bool
+    isStdStream(int fileID);
+    int
+    addFile(File* userfile);
+
+    // file also closed when you removeFile
+    bool
+    removeFile(int no);
+    wstringVector
+    getFilenames();
+    wstringVector
+    getMode();
+    boost::container::vector<uint64>
+    getIDs();
+    File*
+    getFile(int no);
+    File*
+    getFile(std::wstring filename);
+    void*
+    getFilePointer(int no);
+    size_t
+    getNumberOfFiles();
+};
+//=============================================================================
+} // namespace Nelson
+  //=============================================================================

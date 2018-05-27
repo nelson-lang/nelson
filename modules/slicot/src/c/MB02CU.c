@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,14 +9,14 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int mb02cu_(typeg, k, p, q, nb, a1, lda1, a2, lda2, b, ldb, rnk, ipvt, cs, tol, dwork, ldwork, info, typeg_len)
-char *typeg;
+EXPORTSYMBOL /* Subroutine */ int mb02cu_(typeg, k, p, q, nb, a1, lda1, a2, lda2, b, ldb, rnk, ipvt,
+    cs, tol, dwork, ldwork, info, typeg_len) char* typeg;
 integer *k, *p, *q, *nb;
-doublereal *a1;
-integer *lda1;
-doublereal *a2;
-integer *lda2;
-doublereal *b;
+doublereal* a1;
+integer* lda1;
+doublereal* a2;
+integer* lda2;
+doublereal* b;
 integer *ldb, *rnk, *ipvt;
 doublereal *cs, *tol, *dwork;
 integer *ldwork, *info;
@@ -263,93 +263,68 @@ ftnlen typeg_len;
     col2 = *p - *k;
     lrdef = lsame_(typeg, "D", 1L, 1L);
     lcol = lsame_(typeg, "C", 1L, 1L);
-    if (lrdef)
-    {
+    if (lrdef) {
         /* Computing MAX */
         i__1 = 1, i__2 = *k << 2;
-        wrkmin = max(i__1,i__2);
-    }
-    else
-    {
+        wrkmin = max(i__1, i__2);
+    } else {
         /* Computing MAX */
-        i__1 = 1, i__2 = *nb **k, i__1 = max(i__1,i__2);
-        wrkmin = max(i__1,*k);
+        i__1 = 1, i__2 = *nb * *k, i__1 = max(i__1, i__2);
+        wrkmin = max(i__1, *k);
     }
     /*     Check the scalar input parameters. */
-    if (! (lcol || lrdef || lsame_(typeg, "R", 1L, 1L)))
-    {
+    if (!(lcol || lrdef || lsame_(typeg, "R", 1L, 1L))) {
         *info = -1;
-    }
-    else if (*k < 0)
-    {
+    } else if (*k < 0) {
         *info = -2;
-    }
-    else if (*p < *k)
-    {
+    } else if (*p < *k) {
         *info = -3;
-    }
-    else if (*q < 0 || lrdef && *q < *k)
-    {
+    } else if (*q < 0 || lrdef && *q < *k) {
         *info = -4;
-    }
-    else if (*lda1 < max(1,*k))
-    {
+    } else if (*lda1 < max(1, *k)) {
         *info = -7;
-    }
-    else if (*p == *k && *lda2 < 1 || *p > *k && (lrdef || lcol) && *lda2 < max(1,*k) || *p > *k && ! (lrdef || lcol) && *lda2 < *p - *k)
-    {
+    } else if (*p == *k && *lda2 < 1 || *p > *k && (lrdef || lcol) && *lda2 < max(1, *k)
+        || *p > *k && !(lrdef || lcol) && *lda2 < *p - *k) {
         *info = -9;
-    }
-    else if (*q == 0 && *ldb < 1 || *q > 0 && (lrdef || lcol) && *ldb < max(1,*k) || *q > 0 && ! (lrdef || lcol) && *ldb < *q)
-    {
+    } else if (*q == 0 && *ldb < 1 || *q > 0 && (lrdef || lcol) && *ldb < max(1, *k)
+        || *q > 0 && !(lrdef || lcol) && *ldb < *q) {
         *info = -11;
-    }
-    else if (*ldwork < wrkmin)
-    {
-        dwork[1] = (doublereal) wrkmin;
+    } else if (*ldwork < wrkmin) {
+        dwork[1] = (doublereal)wrkmin;
         *info = -17;
     }
     /*     Return if there were illegal values. */
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB02CU", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*k == 0 || ! lrdef && *q == 0 && *p == *k)
-    {
-        if (lrdef)
-        {
+    if (*k == 0 || !lrdef && *q == 0 && *p == *k) {
+        if (lrdef) {
             *rnk = 0;
         }
         return 0;
     }
     tolz = sqrt(dlamch_("Epsilon", 7L));
-    if (lrdef)
-    {
+    if (lrdef) {
         /*        Deficient generator. */
-        if (col2 == 0)
-        {
+        if (col2 == 0) {
             pst2 = *k << 1;
-        }
-        else
-        {
+        } else {
             pst2 = *k << 2;
         }
         /*        Initialize partial hyperbolic row norms. */
         *rnk = 0;
         phv = *k * 3;
         i__1 = *k;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             ipvt[i__] = i__;
             dwork[i__] = dnrm2_(k, &a1[i__ + a1_dim1], lda1);
             /* L10: */
         }
         i__1 = *k;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             d__1 = dnrm2_(&col2, &a2[i__ + a2_dim1], lda2);
             dwork[i__] = dlapy2_(&dwork[i__], &d__1);
             dwork[i__ + *k] = dwork[i__];
@@ -357,16 +332,14 @@ ftnlen typeg_len;
         }
         pdw = *k << 1;
         i__1 = *k;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             ++pdw;
             dwork[pdw] = dnrm2_(q, &b[i__ + b_dim1], ldb);
             /* L30: */
         }
         /*        Compute factorization. */
         i__1 = *k;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             /*           Determine pivot row and swap if necessary. */
             pdw = i__;
             alpha = (d__1 = dwork[pdw], abs(d__1));
@@ -376,16 +349,14 @@ ftnlen typeg_len;
             dmax__ = d_sign(&d__2, &d__3);
             imax = i__;
             i__2 = *k - i__;
-            for (j = 1; j <= i__2; ++j)
-            {
+            for (j = 1; j <= i__2; ++j) {
                 ++pdw;
                 alpha = (d__1 = dwork[pdw], abs(d__1));
                 beta = (d__1 = dwork[pdw + (*k << 1)], abs(d__1));
                 d__2 = sqrt((d__1 = alpha - beta, abs(d__1))) * sqrt(alpha + beta);
                 d__3 = alpha - beta;
                 temp = d_sign(&d__2, &d__3);
-                if (temp > dmax__)
-                {
+                if (temp > dmax__) {
                     imax = i__ + j;
                     dmax__ = temp;
                 }
@@ -393,11 +364,9 @@ ftnlen typeg_len;
             }
             /*           Proceed with the reduction if the hyperbolic norm is */
             /*           beyond the threshold. */
-            if (dmax__ > *tol)
-            {
+            if (dmax__ > *tol) {
                 pvt = imax;
-                if (pvt != i__)
-                {
+                if (pvt != i__) {
                     dswap_(k, &a1[pvt + a1_dim1], lda1, &a1[i__ + a1_dim1], lda1);
                     dswap_(&col2, &a2[pvt + a2_dim1], lda2, &a2[i__ + a2_dim1], lda2);
                     dswap_(q, &b[pvt + b_dim1], ldb, &b[i__ + b_dim1], ldb);
@@ -409,134 +378,115 @@ ftnlen typeg_len;
                     dwork[(*k << 1) + pvt] = dwork[(*k << 1) + i__];
                 }
                 /*              Generate and apply elementary reflectors. */
-                if (col2 > 1)
-                {
+                if (col2 > 1) {
                     dlarfg_(&col2, &a2[i__ + a2_dim1], &a2[i__ + (a2_dim1 << 1)], lda2, &tau2);
                     alpha2 = a2[i__ + a2_dim1];
-                    if (*k > i__)
-                    {
+                    if (*k > i__) {
                         a2[i__ + a2_dim1] = 1.;
                         i__2 = *k - i__;
-                        dlarf_("Right", &i__2, &col2, &a2[i__ + a2_dim1], lda2, &tau2, &a2[i__ + 1 + a2_dim1], lda2, &dwork[phv + 1], 5L);
+                        dlarf_("Right", &i__2, &col2, &a2[i__ + a2_dim1], lda2, &tau2,
+                            &a2[i__ + 1 + a2_dim1], lda2, &dwork[phv + 1], 5L);
                     }
                     a2[i__ + a2_dim1] = tau2;
-                }
-                else if (col2 > 0)
-                {
+                } else if (col2 > 0) {
                     alpha2 = a2[i__ + a2_dim1];
                     a2[i__ + a2_dim1] = 0.;
                 }
-                if (*k > i__)
-                {
+                if (*k > i__) {
                     i__2 = *k - i__ + 1;
-                    dlarfg_(&i__2, &a1[i__ + i__ * a1_dim1], &a1[i__ + (i__ + 1) * a1_dim1], lda1, &tau1);
+                    dlarfg_(&i__2, &a1[i__ + i__ * a1_dim1], &a1[i__ + (i__ + 1) * a1_dim1], lda1,
+                        &tau1);
                     alpha = a1[i__ + i__ * a1_dim1];
                     a1[i__ + i__ * a1_dim1] = 1.;
                     i__2 = *k - i__;
                     i__3 = *k - i__ + 1;
-                    dlarf_("Right", &i__2, &i__3, &a1[i__ + i__ * a1_dim1], lda1, &tau1, &a1[i__ + 1 + i__ * a1_dim1], lda1, &dwork[phv + 1], 5L);
+                    dlarf_("Right", &i__2, &i__3, &a1[i__ + i__ * a1_dim1], lda1, &tau1,
+                        &a1[i__ + 1 + i__ * a1_dim1], lda1, &dwork[phv + 1], 5L);
                     cs[pst2 + i__] = tau1;
-                }
-                else
-                {
+                } else {
                     alpha = a1[i__ + i__ * a1_dim1];
                 }
-                if (col2 > 0)
-                {
+                if (col2 > 0) {
                     temp = alpha;
                     dlartg_(&temp, &alpha2, &c__, &s, &alpha);
-                    if (*k > i__)
-                    {
+                    if (*k > i__) {
                         i__2 = *k - i__;
-                        drot_(&i__2, &a1[i__ + 1 + i__ * a1_dim1], &c__1, &a2[i__ + 1 + a2_dim1], &c__1, &c__, &s);
+                        drot_(&i__2, &a1[i__ + 1 + i__ * a1_dim1], &c__1, &a2[i__ + 1 + a2_dim1],
+                            &c__1, &c__, &s);
                     }
                     cs[(*k << 1) + (i__ << 1) - 1] = c__;
                     cs[(*k << 1) + (i__ << 1)] = s;
                 }
                 a1[i__ + i__ * a1_dim1] = alpha;
-                if (*q > 1)
-                {
+                if (*q > 1) {
                     dlarfg_(q, &b[i__ + b_dim1], &b[i__ + (b_dim1 << 1)], ldb, &tau2);
                     beta = b[i__ + b_dim1];
-                    if (*k > i__)
-                    {
+                    if (*k > i__) {
                         b[i__ + b_dim1] = 1.;
                         i__2 = *k - i__;
-                        dlarf_("Right", &i__2, q, &b[i__ + b_dim1], ldb, &tau2, &b[i__ + 1 + b_dim1], ldb, &dwork[phv + 1], 5L);
+                        dlarf_("Right", &i__2, q, &b[i__ + b_dim1], ldb, &tau2,
+                            &b[i__ + 1 + b_dim1], ldb, &dwork[phv + 1], 5L);
                     }
                     b[i__ + b_dim1] = tau2;
-                }
-                else if (*q > 0)
-                {
+                } else if (*q > 0) {
                     beta = b[i__ + b_dim1];
                     b[i__ + b_dim1] = 0.;
-                }
-                else
-                {
+                } else {
                     beta = 0.;
                 }
                 /*              Create hyperbolic Givens rotation. */
                 ma02fd_(&a1[i__ + i__ * a1_dim1], &beta, &c__, &s, &ierr);
-                if (ierr != 0)
-                {
+                if (ierr != 0) {
                     /*                 Error return:  This should not happen. */
                     *info = 1;
                     return 0;
                 }
                 /*              Apply hyperbolic rotation. */
-                if (*k > i__)
-                {
+                if (*k > i__) {
                     i__2 = *k - i__;
                     d__1 = 1. / c__;
                     dscal_(&i__2, &d__1, &a1[i__ + 1 + i__ * a1_dim1], &c__1);
                     i__2 = *k - i__;
                     d__1 = -s / c__;
-                    daxpy_(&i__2, &d__1, &b[i__ + 1 + b_dim1], &c__1, &a1[i__ + 1 + i__ * a1_dim1], &c__1);
+                    daxpy_(&i__2, &d__1, &b[i__ + 1 + b_dim1], &c__1, &a1[i__ + 1 + i__ * a1_dim1],
+                        &c__1);
                     i__2 = *k - i__;
                     dscal_(&i__2, &c__, &b[i__ + 1 + b_dim1], &c__1);
                     i__2 = *k - i__;
                     d__1 = -s;
-                    daxpy_(&i__2, &d__1, &a1[i__ + 1 + i__ * a1_dim1], &c__1, &b[i__ + 1 + b_dim1], &c__1);
+                    daxpy_(&i__2, &d__1, &a1[i__ + 1 + i__ * a1_dim1], &c__1, &b[i__ + 1 + b_dim1],
+                        &c__1);
                 }
                 cs[(i__ << 1) - 1] = c__;
                 cs[i__ * 2] = s;
                 /*              Downdate the norms in A1. */
                 i__2 = *k;
-                for (j = i__ + 1; j <= i__2; ++j)
-                {
+                for (j = i__ + 1; j <= i__2; ++j) {
                     temp = (d__1 = a1[j + i__ * a1_dim1], abs(d__1)) / dwork[j];
                     /* Computing MAX */
                     d__1 = (temp + 1.) * (1. - temp);
-                    temp = max(d__1,0.);
+                    temp = max(d__1, 0.);
                     /* Computing 2nd power */
                     d__1 = dwork[j] / dwork[*k + j];
                     temp2 = temp * (d__1 * d__1);
-                    if (temp2 <= tolz)
-                    {
+                    if (temp2 <= tolz) {
                         i__3 = *k - i__;
                         d__1 = dnrm2_(&i__3, &a1[j + (i__ + 1) * a1_dim1], lda1);
                         d__2 = dnrm2_(&col2, &a2[j + a2_dim1], lda2);
                         dwork[j] = dlapy2_(&d__1, &d__2);
                         dwork[*k + j] = dwork[j];
                         dwork[(*k << 1) + j] = dnrm2_(q, &b[j + b_dim1], ldb);
-                    }
-                    else
-                    {
-                        if (temp >= 0.)
-                        {
+                    } else {
+                        if (temp >= 0.) {
                             dwork[j] *= sqrt(temp);
-                        }
-                        else
-                        {
+                        } else {
                             dwork[j] = -dwork[j] * sqrt(-temp);
                         }
                     }
                     /* L50: */
                 }
                 ++(*rnk);
-            }
-            else if (abs(dmax__) < *tol)
-            {
+            } else if (abs(dmax__) < *tol) {
                 /*              Displacement is positive semidefinite. */
                 /*              Do an LQ decomposition with pivoting of the leftover */
                 /*              negative part to find diagonal elements with almost zero */
@@ -544,8 +494,7 @@ ftnlen typeg_len;
                 /*              generator. */
                 /*              Initialize norms. */
                 i__2 = *k;
-                for (j = i__; j <= i__2; ++j)
-                {
+                for (j = i__; j <= i__2; ++j) {
                     dwork[j] = dnrm2_(q, &b[j + b_dim1], ldb);
                     dwork[j + *k] = dwork[j];
                     /* L60: */
@@ -553,14 +502,12 @@ ftnlen typeg_len;
                 len = *q;
                 pos = 1;
                 i__2 = *k;
-                for (j = i__; j <= i__2; ++j)
-                {
+                for (j = i__; j <= i__2; ++j) {
                     /*                 Generate and apply elementary reflectors. */
                     i__3 = *k - j + 1;
                     pvt = j - 1 + idamax_(&i__3, &dwork[j], &c__1);
                     /*                 Swap rows if necessary. */
-                    if (pvt != j)
-                    {
+                    if (pvt != j) {
                         dswap_(k, &a1[pvt + a1_dim1], lda1, &a1[j + a1_dim1], lda1);
                         dswap_(&col2, &a2[pvt + a2_dim1], lda2, &a2[j + a2_dim1], lda2);
                         dswap_(q, &b[pvt + b_dim1], ldb, &b[j + b_dim1], ldb);
@@ -571,94 +518,80 @@ ftnlen typeg_len;
                         dwork[*k + pvt] = dwork[*k + j];
                     }
                     /*                 Annihilate second part of the positive generators. */
-                    if (col2 > 1)
-                    {
+                    if (col2 > 1) {
                         dlarfg_(&col2, &a2[j + a2_dim1], &a2[j + (a2_dim1 << 1)], lda2, &tau2);
                         alpha2 = a2[j + a2_dim1];
-                        if (*k > j)
-                        {
+                        if (*k > j) {
                             a2[j + a2_dim1] = 1.;
                             i__3 = *k - j;
-                            dlarf_("Right", &i__3, &col2, &a2[j + a2_dim1], lda2, &tau2, &a2[j + 1 + a2_dim1], lda2, &dwork[phv + 1], 5L);
+                            dlarf_("Right", &i__3, &col2, &a2[j + a2_dim1], lda2, &tau2,
+                                &a2[j + 1 + a2_dim1], lda2, &dwork[phv + 1], 5L);
                         }
                         a2[j + a2_dim1] = tau2;
-                    }
-                    else if (col2 > 0)
-                    {
+                    } else if (col2 > 0) {
                         alpha2 = a2[j + a2_dim1];
                         a2[j + a2_dim1] = 0.;
                     }
                     /*                 Transform first part of the positive generators to */
                     /*                 lower triangular form. */
-                    if (*k > j)
-                    {
+                    if (*k > j) {
                         i__3 = *k - j + 1;
-                        dlarfg_(&i__3, &a1[j + j * a1_dim1], &a1[j + (j + 1) * a1_dim1], lda1, &tau1);
+                        dlarfg_(
+                            &i__3, &a1[j + j * a1_dim1], &a1[j + (j + 1) * a1_dim1], lda1, &tau1);
                         alpha = a1[j + j * a1_dim1];
                         a1[j + j * a1_dim1] = 1.;
                         i__3 = *k - j;
                         i__4 = *k - j + 1;
-                        dlarf_("Right", &i__3, &i__4, &a1[j + j * a1_dim1], lda1, &tau1, &a1[j + 1 + j * a1_dim1], lda1, &dwork[phv + 1], 5L);
+                        dlarf_("Right", &i__3, &i__4, &a1[j + j * a1_dim1], lda1, &tau1,
+                            &a1[j + 1 + j * a1_dim1], lda1, &dwork[phv + 1], 5L);
                         cs[pst2 + j] = tau1;
-                    }
-                    else
-                    {
+                    } else {
                         alpha = a1[j + j * a1_dim1];
                     }
-                    if (col2 > 0)
-                    {
+                    if (col2 > 0) {
                         temp = alpha;
                         dlartg_(&temp, &alpha2, &c__, &s, &alpha);
-                        if (*k > j)
-                        {
+                        if (*k > j) {
                             i__3 = *k - j;
-                            drot_(&i__3, &a1[j + 1 + j * a1_dim1], &c__1, &a2[j + 1 + a2_dim1], &c__1, &c__, &s);
+                            drot_(&i__3, &a1[j + 1 + j * a1_dim1], &c__1, &a2[j + 1 + a2_dim1],
+                                &c__1, &c__, &s);
                         }
                         cs[(*k << 1) + (j << 1) - 1] = c__;
                         cs[(*k << 1) + (j << 1)] = s;
                     }
                     a1[j + j * a1_dim1] = alpha;
                     /*                 Transform negative part to lower triangular form. */
-                    if (len > 1)
-                    {
+                    if (len > 1) {
                         dlarfg_(&len, &b[j + pos * b_dim1], &b[j + (pos + 1) * b_dim1], ldb, &tau2);
                         beta = b[j + pos * b_dim1];
-                        if (*k > j)
-                        {
+                        if (*k > j) {
                             b[j + pos * b_dim1] = 1.;
                             i__3 = *k - j;
-                            dlarf_("Right", &i__3, &len, &b[j + pos * b_dim1], ldb, &tau2, &b[j + 1 + pos * b_dim1], ldb, &dwork[phv + 1], 5L);
+                            dlarf_("Right", &i__3, &len, &b[j + pos * b_dim1], ldb, &tau2,
+                                &b[j + 1 + pos * b_dim1], ldb, &dwork[phv + 1], 5L);
                         }
                         b[j + pos * b_dim1] = beta;
                         cs[(j << 1) - 1] = tau2;
                     }
                     /*                 Downdate the norms of the rows in the negative part. */
                     i__3 = *k;
-                    for (jj = j + 1; jj <= i__3; ++jj)
-                    {
-                        if (dwork[jj] != 0.)
-                        {
+                    for (jj = j + 1; jj <= i__3; ++jj) {
+                        if (dwork[jj] != 0.) {
                             temp = (d__1 = b[jj + pos * b_dim1], abs(d__1)) / dwork[jj];
                             /* Computing MAX */
                             d__1 = (temp + 1.) * (1. - temp);
-                            temp = max(d__1,0.);
+                            temp = max(d__1, 0.);
                             /* Computing 2nd power */
                             d__1 = dwork[jj] / dwork[*k + jj];
                             temp2 = temp * (d__1 * d__1);
-                            if (temp2 <= tolz)
-                            {
+                            if (temp2 <= tolz) {
                                 i__4 = len - 1;
                                 dwork[jj] = dnrm2_(&i__4, &b[jj + (pos + 1) * b_dim1], ldb);
                                 dwork[*k + jj] = dwork[jj];
-                            }
-                            else
-                            {
-                                if (temp >= 0.)
-                                {
+                            } else {
+                                if (temp >= 0.) {
                                     dwork[jj] *= sqrt(temp);
-                                }
-                                else
-                                {
+                                } else {
                                     dwork[jj] = -dwork[jj] * sqrt(-temp);
                                 }
                             }
@@ -670,9 +603,7 @@ ftnlen typeg_len;
                     /* L80: */
                 }
                 return 0;
-            }
-            else
-            {
+            } else {
                 /*              Error return: */
                 /*              Displacement is indefinite. */
                 /*              Due to roundoff error, positive semidefiniteness is */
@@ -684,61 +615,55 @@ ftnlen typeg_len;
             }
             /* L90: */
         }
-    }
-    else if (lcol)
-    {
+    } else if (lcol) {
         /*        Column oriented and not deficient generator. */
         /*        Apply an LQ like hyperbolic/orthogonal blocked decomposition. */
-        if (col2 > 0)
-        {
-            nbl = min(col2,*nb);
-            if (nbl > 0)
-            {
+        if (col2 > 0) {
+            nbl = min(col2, *nb);
+            if (nbl > 0) {
                 /*              Blocked version. */
                 i__1 = *k - nbl + 1;
                 i__2 = nbl;
-                for (i__ = 1; i__2 < 0 ? i__ >= i__1 : i__ <= i__1; i__ += i__2)
-                {
+                for (i__ = 1; i__2 < 0 ? i__ >= i__1 : i__ <= i__1; i__ += i__2) {
                     /* Computing MIN */
                     i__3 = *k - i__ + 1;
-                    ib = min(i__3,nbl);
-                    dgelq2_(&ib, &col2, &a2[i__ + a2_dim1], lda2, &cs[(*k << 2) + i__], &dwork[1], &ierr);
-                    if (i__ + ib <= *k)
-                    {
-                        dlarft_("Forward", "Rowwise", &col2, &ib, &a2[i__ + a2_dim1], lda2, &cs[(*k << 2) + i__], &dwork[1], k, 7L, 7L);
+                    ib = min(i__3, nbl);
+                    dgelq2_(&ib, &col2, &a2[i__ + a2_dim1], lda2, &cs[(*k << 2) + i__], &dwork[1],
+                        &ierr);
+                    if (i__ + ib <= *k) {
+                        dlarft_("Forward", "Rowwise", &col2, &ib, &a2[i__ + a2_dim1], lda2,
+                            &cs[(*k << 2) + i__], &dwork[1], k, 7L, 7L);
                         i__3 = *k - i__ - ib + 1;
-                        dlarfb_("Right", "No Transpose", "Forward", "Rowwise", &i__3, &col2, &ib, &a2[i__ + a2_dim1], lda2, &dwork[1], k, &a2[i__ + ib + a2_dim1], lda2, &dwork[ib + 1], k, 5L, 12L, 7L, 7L);
+                        dlarfb_("Right", "No Transpose", "Forward", "Rowwise", &i__3, &col2, &ib,
+                            &a2[i__ + a2_dim1], lda2, &dwork[1], k, &a2[i__ + ib + a2_dim1], lda2,
+                            &dwork[ib + 1], k, 5L, 12L, 7L, 7L);
                     }
                     /*                 Annihilate the remaining parts of A2. */
                     i__3 = i__ + ib - 1;
-                    for (j = i__; j <= i__3; ++j)
-                    {
-                        if (col2 > 1)
-                        {
+                    for (j = i__; j <= i__3; ++j) {
+                        if (col2 > 1) {
                             /* Computing MIN */
                             i__4 = col2, i__5 = j - i__ + 1;
-                            len = min(i__4,i__5);
+                            len = min(i__4, i__5);
                             dlarfg_(&len, &a2[j + a2_dim1], &a2[j + (a2_dim1 << 1)], lda2, &tau2);
                             alpha2 = a2[j + a2_dim1];
-                            if (*k > j)
-                            {
+                            if (*k > j) {
                                 a2[j + a2_dim1] = 1.;
                                 i__4 = *k - j;
-                                dlarf_("Right", &i__4, &len, &a2[j + a2_dim1], lda2, &tau2, &a2[j + 1 + a2_dim1], lda2, &dwork[1], 5L);
+                                dlarf_("Right", &i__4, &len, &a2[j + a2_dim1], lda2, &tau2,
+                                    &a2[j + 1 + a2_dim1], lda2, &dwork[1], 5L);
                             }
                             a2[j + a2_dim1] = tau2;
-                        }
-                        else
-                        {
+                        } else {
                             alpha2 = a2[j + a2_dim1];
                             a2[j + a2_dim1] = 0.;
                         }
                         alpha = a1[j + j * a1_dim1];
                         dlartg_(&alpha, &alpha2, &c__, &s, &a1[j + j * a1_dim1]);
-                        if (*k > j)
-                        {
+                        if (*k > j) {
                             i__4 = *k - j;
-                            drot_(&i__4, &a1[j + 1 + j * a1_dim1], &c__1, &a2[j + 1 + a2_dim1], &c__1, &c__, &s);
+                            drot_(&i__4, &a1[j + 1 + j * a1_dim1], &c__1, &a2[j + 1 + a2_dim1],
+                                &c__1, &c__, &s);
                         }
                         cs[(*k << 1) + (j << 1) - 1] = c__;
                         cs[(*k << 1) + (j << 1)] = s;
@@ -746,113 +671,101 @@ ftnlen typeg_len;
                     }
                     /* L110: */
                 }
-            }
-            else
-            {
+            } else {
                 i__ = 1;
             }
             /*           Unblocked version for the last or only block. */
             i__2 = *k;
-            for (j = i__; j <= i__2; ++j)
-            {
-                if (col2 > 1)
-                {
+            for (j = i__; j <= i__2; ++j) {
+                if (col2 > 1) {
                     dlarfg_(&col2, &a2[j + a2_dim1], &a2[j + (a2_dim1 << 1)], lda2, &tau2);
                     alpha2 = a2[j + a2_dim1];
-                    if (*k > j)
-                    {
+                    if (*k > j) {
                         a2[j + a2_dim1] = 1.;
                         i__1 = *k - j;
-                        dlarf_("Right", &i__1, &col2, &a2[j + a2_dim1], lda2, &tau2, &a2[j + 1 + a2_dim1], lda2, &dwork[1], 5L);
+                        dlarf_("Right", &i__1, &col2, &a2[j + a2_dim1], lda2, &tau2,
+                            &a2[j + 1 + a2_dim1], lda2, &dwork[1], 5L);
                     }
                     a2[j + a2_dim1] = tau2;
-                }
-                else
-                {
+                } else {
                     alpha2 = a2[j + a2_dim1];
                     a2[j + a2_dim1] = 0.;
                 }
                 alpha = a1[j + j * a1_dim1];
                 dlartg_(&alpha, &alpha2, &c__, &s, &a1[j + j * a1_dim1]);
-                if (*k > j)
-                {
+                if (*k > j) {
                     i__1 = *k - j;
-                    drot_(&i__1, &a1[j + 1 + j * a1_dim1], &c__1, &a2[j + 1 + a2_dim1], &c__1, &c__, &s);
+                    drot_(&i__1, &a1[j + 1 + j * a1_dim1], &c__1, &a2[j + 1 + a2_dim1], &c__1, &c__,
+                        &s);
                 }
                 cs[(*k << 1) + (j << 1) - 1] = c__;
                 cs[(*k << 1) + (j << 1)] = s;
                 /* L120: */
             }
             pst2 = *k * 5;
-        }
-        else
-        {
+        } else {
             pst2 = *k << 1;
         }
         /*        Annihilate B with hyperbolic transformations. */
-        nbl = min(*nb,*q);
-        if (nbl > 0)
-        {
+        nbl = min(*nb, *q);
+        if (nbl > 0) {
             /*           Blocked version. */
             i__2 = *k - nbl + 1;
             i__1 = nbl;
-            for (i__ = 1; i__1 < 0 ? i__ >= i__2 : i__ <= i__2; i__ += i__1)
-            {
+            for (i__ = 1; i__1 < 0 ? i__ >= i__2 : i__ <= i__2; i__ += i__1) {
                 /* Computing MIN */
                 i__3 = *k - i__ + 1;
-                ib = min(i__3,nbl);
+                ib = min(i__3, nbl);
                 dgelq2_(&ib, q, &b[i__ + b_dim1], ldb, &cs[pst2 + i__], &dwork[1], &ierr);
-                if (i__ + ib <= *k)
-                {
-                    dlarft_("Forward", "Rowwise", q, &ib, &b[i__ + b_dim1], ldb, &cs[pst2 + i__], &dwork[1], k, 7L, 7L);
+                if (i__ + ib <= *k) {
+                    dlarft_("Forward", "Rowwise", q, &ib, &b[i__ + b_dim1], ldb, &cs[pst2 + i__],
+                        &dwork[1], k, 7L, 7L);
                     i__3 = *k - i__ - ib + 1;
-                    dlarfb_("Right", "No Transpose", "Forward", "Rowwise", &i__3, q, &ib, &b[i__ + b_dim1], ldb, &dwork[1], k, &b[i__ + ib + b_dim1], ldb, &dwork[ib + 1], k, 5L, 12L, 7L, 7L);
+                    dlarfb_("Right", "No Transpose", "Forward", "Rowwise", &i__3, q, &ib,
+                        &b[i__ + b_dim1], ldb, &dwork[1], k, &b[i__ + ib + b_dim1], ldb,
+                        &dwork[ib + 1], k, 5L, 12L, 7L, 7L);
                 }
                 /*              Annihilate the remaining parts of B. */
                 i__3 = i__ + ib - 1;
-                for (j = i__; j <= i__3; ++j)
-                {
-                    if (*q > 1)
-                    {
+                for (j = i__; j <= i__3; ++j) {
+                    if (*q > 1) {
                         i__4 = j - i__ + 1;
                         dlarfg_(&i__4, &b[j + b_dim1], &b[j + (b_dim1 << 1)], ldb, &tau2);
                         alpha2 = b[j + b_dim1];
-                        if (*k > j)
-                        {
+                        if (*k > j) {
                             b[j + b_dim1] = 1.;
                             i__4 = *k - j;
                             i__5 = j - i__ + 1;
-                            dlarf_("Right", &i__4, &i__5, &b[j + b_dim1], ldb, &tau2, &b[j + 1 + b_dim1], ldb, &dwork[1], 5L);
+                            dlarf_("Right", &i__4, &i__5, &b[j + b_dim1], ldb, &tau2,
+                                &b[j + 1 + b_dim1], ldb, &dwork[1], 5L);
                         }
                         b[j + b_dim1] = tau2;
-                    }
-                    else
-                    {
+                    } else {
                         alpha2 = b[j + b_dim1];
                         b[j + b_dim1] = 0.;
                     }
                     /*                 Create hyperbolic rotation. */
                     ma02fd_(&a1[j + j * a1_dim1], &alpha2, &c__, &s, &ierr);
-                    if (ierr != 0)
-                    {
+                    if (ierr != 0) {
                         /*                    Error return:  The matrix is not positive definite. */
                         *info = 1;
                         return 0;
                     }
                     /*                 Apply hyperbolic rotation. */
-                    if (*k > j)
-                    {
+                    if (*k > j) {
                         i__4 = *k - j;
                         d__1 = 1. / c__;
                         dscal_(&i__4, &d__1, &a1[j + 1 + j * a1_dim1], &c__1);
                         i__4 = *k - j;
                         d__1 = -s / c__;
-                        daxpy_(&i__4, &d__1, &b[j + 1 + b_dim1], &c__1, &a1[j + 1 + j * a1_dim1], &c__1);
+                        daxpy_(&i__4, &d__1, &b[j + 1 + b_dim1], &c__1, &a1[j + 1 + j * a1_dim1],
+                            &c__1);
                         i__4 = *k - j;
                         dscal_(&i__4, &c__, &b[j + 1 + b_dim1], &c__1);
                         i__4 = *k - j;
                         d__1 = -s;
-                        daxpy_(&i__4, &d__1, &a1[j + 1 + j * a1_dim1], &c__1, &b[j + 1 + b_dim1], &c__1);
+                        daxpy_(&i__4, &d__1, &a1[j + 1 + j * a1_dim1], &c__1, &b[j + 1 + b_dim1],
+                            &c__1);
                     }
                     cs[(j << 1) - 1] = c__;
                     cs[j * 2] = s;
@@ -860,116 +773,104 @@ ftnlen typeg_len;
                 }
                 /* L140: */
             }
-        }
-        else
-        {
+        } else {
             i__ = 1;
         }
         /*        Unblocked version for the last or only block. */
         i__1 = *k;
-        for (j = i__; j <= i__1; ++j)
-        {
-            if (*q > 1)
-            {
+        for (j = i__; j <= i__1; ++j) {
+            if (*q > 1) {
                 dlarfg_(q, &b[j + b_dim1], &b[j + (b_dim1 << 1)], ldb, &tau2);
                 alpha2 = b[j + b_dim1];
-                if (*k > j)
-                {
+                if (*k > j) {
                     b[j + b_dim1] = 1.;
                     i__2 = *k - j;
-                    dlarf_("Right", &i__2, q, &b[j + b_dim1], ldb, &tau2, &b[j + 1 + b_dim1], ldb, &dwork[1], 5L);
+                    dlarf_("Right", &i__2, q, &b[j + b_dim1], ldb, &tau2, &b[j + 1 + b_dim1], ldb,
+                        &dwork[1], 5L);
                 }
                 b[j + b_dim1] = tau2;
-            }
-            else if (*q > 0)
-            {
+            } else if (*q > 0) {
                 alpha2 = b[j + b_dim1];
                 b[j + b_dim1] = 0.;
             }
-            if (*q > 0)
-            {
+            if (*q > 0) {
                 /*              Create hyperbolic rotation. */
                 ma02fd_(&a1[j + j * a1_dim1], &alpha2, &c__, &s, &ierr);
-                if (ierr != 0)
-                {
+                if (ierr != 0) {
                     /*                 Error return:  The matrix is not positive definite. */
                     *info = 1;
                     return 0;
                 }
                 /*              Apply hyperbolic rotation. */
-                if (*k > j)
-                {
+                if (*k > j) {
                     i__2 = *k - j;
                     d__1 = 1. / c__;
                     dscal_(&i__2, &d__1, &a1[j + 1 + j * a1_dim1], &c__1);
                     i__2 = *k - j;
                     d__1 = -s / c__;
-                    daxpy_(&i__2, &d__1, &b[j + 1 + b_dim1], &c__1, &a1[j + 1 + j * a1_dim1], &c__1);
+                    daxpy_(
+                        &i__2, &d__1, &b[j + 1 + b_dim1], &c__1, &a1[j + 1 + j * a1_dim1], &c__1);
                     i__2 = *k - j;
                     dscal_(&i__2, &c__, &b[j + 1 + b_dim1], &c__1);
                     i__2 = *k - j;
                     d__1 = -s;
-                    daxpy_(&i__2, &d__1, &a1[j + 1 + j * a1_dim1], &c__1, &b[j + 1 + b_dim1], &c__1);
+                    daxpy_(
+                        &i__2, &d__1, &a1[j + 1 + j * a1_dim1], &c__1, &b[j + 1 + b_dim1], &c__1);
                 }
                 cs[(j << 1) - 1] = c__;
                 cs[j * 2] = s;
             }
             /* L150: */
         }
-    }
-    else
-    {
+    } else {
         /*        Row oriented and not deficient generator. */
-        if (col2 > 0)
-        {
-            nbl = min(*nb,col2);
-            if (nbl > 0)
-            {
+        if (col2 > 0) {
+            nbl = min(*nb, col2);
+            if (nbl > 0) {
                 /*              Blocked version. */
                 i__1 = *k - nbl + 1;
                 i__2 = nbl;
-                for (i__ = 1; i__2 < 0 ? i__ >= i__1 : i__ <= i__1; i__ += i__2)
-                {
+                for (i__ = 1; i__2 < 0 ? i__ >= i__1 : i__ <= i__1; i__ += i__2) {
                     /* Computing MIN */
                     i__3 = *k - i__ + 1;
-                    ib = min(i__3,nbl);
-                    dgeqr2_(&col2, &ib, &a2[i__ * a2_dim1 + 1], lda2, &cs[(*k << 2) + i__], &dwork[1], &ierr);
-                    if (i__ + ib <= *k)
-                    {
-                        dlarft_("Forward", "Columnwise", &col2, &ib, &a2[i__ * a2_dim1 + 1], lda2, &cs[(*k << 2) + i__], &dwork[1], k, 7L, 10L);
+                    ib = min(i__3, nbl);
+                    dgeqr2_(&col2, &ib, &a2[i__ * a2_dim1 + 1], lda2, &cs[(*k << 2) + i__],
+                        &dwork[1], &ierr);
+                    if (i__ + ib <= *k) {
+                        dlarft_("Forward", "Columnwise", &col2, &ib, &a2[i__ * a2_dim1 + 1], lda2,
+                            &cs[(*k << 2) + i__], &dwork[1], k, 7L, 10L);
                         i__3 = *k - i__ - ib + 1;
-                        dlarfb_("Left", "Transpose", "Forward", "Columnwise", &col2, &i__3, &ib, &a2[i__ * a2_dim1 + 1], lda2, &dwork[1], k, &a2[(i__ + ib) * a2_dim1 + 1], lda2, &dwork[ib + 1], k, 4L, 9L, 7L, 10L);
+                        dlarfb_("Left", "Transpose", "Forward", "Columnwise", &col2, &i__3, &ib,
+                            &a2[i__ * a2_dim1 + 1], lda2, &dwork[1], k,
+                            &a2[(i__ + ib) * a2_dim1 + 1], lda2, &dwork[ib + 1], k, 4L, 9L, 7L,
+                            10L);
                     }
                     /*                 Annihilate the remaining parts of A2. */
                     i__3 = i__ + ib - 1;
-                    for (j = i__; j <= i__3; ++j)
-                    {
-                        if (col2 > 1)
-                        {
+                    for (j = i__; j <= i__3; ++j) {
+                        if (col2 > 1) {
                             /* Computing MIN */
                             i__4 = col2, i__5 = j - i__ + 1;
-                            len = min(i__4,i__5);
+                            len = min(i__4, i__5);
                             dlarfg_(&len, &a2[j * a2_dim1 + 1], &a2[j * a2_dim1 + 2], &c__1, &tau2);
                             alpha2 = a2[j * a2_dim1 + 1];
-                            if (*k > j)
-                            {
+                            if (*k > j) {
                                 a2[j * a2_dim1 + 1] = 1.;
                                 i__4 = *k - j;
-                                dlarf_("Left", &len, &i__4, &a2[j * a2_dim1 + 1], &c__1, &tau2, &a2[(j + 1) * a2_dim1 + 1], lda2, &dwork[1], 4L);
+                                dlarf_("Left", &len, &i__4, &a2[j * a2_dim1 + 1], &c__1, &tau2,
+                                    &a2[(j + 1) * a2_dim1 + 1], lda2, &dwork[1], 4L);
                             }
                             a2[j * a2_dim1 + 1] = tau2;
-                        }
-                        else
-                        {
+                        } else {
                             alpha2 = a2[j * a2_dim1 + 1];
                             a2[j * a2_dim1 + 1] = 0.;
                         }
                         alpha = a1[j + j * a1_dim1];
                         dlartg_(&alpha, &alpha2, &c__, &s, &a1[j + j * a1_dim1]);
-                        if (*k > j)
-                        {
+                        if (*k > j) {
                             i__4 = *k - j;
-                            drot_(&i__4, &a1[j + (j + 1) * a1_dim1], lda1, &a2[(j + 1) * a2_dim1 + 1], lda2, &c__, &s);
+                            drot_(&i__4, &a1[j + (j + 1) * a1_dim1], lda1,
+                                &a2[(j + 1) * a2_dim1 + 1], lda2, &c__, &s);
                         }
                         cs[(*k << 1) + (j << 1) - 1] = c__;
                         cs[(*k << 1) + (j << 1)] = s;
@@ -977,113 +878,101 @@ ftnlen typeg_len;
                     }
                     /* L170: */
                 }
-            }
-            else
-            {
+            } else {
                 i__ = 1;
             }
             /*           Unblocked version for the last or only block. */
             i__2 = *k;
-            for (j = i__; j <= i__2; ++j)
-            {
-                if (col2 > 1)
-                {
+            for (j = i__; j <= i__2; ++j) {
+                if (col2 > 1) {
                     dlarfg_(&col2, &a2[j * a2_dim1 + 1], &a2[j * a2_dim1 + 2], &c__1, &tau2);
                     alpha2 = a2[j * a2_dim1 + 1];
-                    if (*k > j)
-                    {
+                    if (*k > j) {
                         a2[j * a2_dim1 + 1] = 1.;
                         i__1 = *k - j;
-                        dlarf_("Left", &col2, &i__1, &a2[j * a2_dim1 + 1], &c__1, &tau2, &a2[(j + 1) * a2_dim1 + 1], lda2, &dwork[1], 4L);
+                        dlarf_("Left", &col2, &i__1, &a2[j * a2_dim1 + 1], &c__1, &tau2,
+                            &a2[(j + 1) * a2_dim1 + 1], lda2, &dwork[1], 4L);
                     }
                     a2[j * a2_dim1 + 1] = tau2;
-                }
-                else
-                {
+                } else {
                     alpha2 = a2[j * a2_dim1 + 1];
                     a2[j * a2_dim1 + 1] = 0.;
                 }
                 alpha = a1[j + j * a1_dim1];
                 dlartg_(&alpha, &alpha2, &c__, &s, &a1[j + j * a1_dim1]);
-                if (*k > j)
-                {
+                if (*k > j) {
                     i__1 = *k - j;
-                    drot_(&i__1, &a1[j + (j + 1) * a1_dim1], lda1, &a2[(j + 1) * a2_dim1 + 1], lda2, &c__, &s);
+                    drot_(&i__1, &a1[j + (j + 1) * a1_dim1], lda1, &a2[(j + 1) * a2_dim1 + 1], lda2,
+                        &c__, &s);
                 }
                 cs[(*k << 1) + (j << 1) - 1] = c__;
                 cs[(*k << 1) + (j << 1)] = s;
                 /* L180: */
             }
             pst2 = *k * 5;
-        }
-        else
-        {
+        } else {
             pst2 = *k << 1;
         }
         /*        Annihilate B with hyperbolic transformations. */
-        nbl = min(*nb,*q);
-        if (nbl > 0)
-        {
+        nbl = min(*nb, *q);
+        if (nbl > 0) {
             /*           Blocked version. */
             i__2 = *k - nbl + 1;
             i__1 = nbl;
-            for (i__ = 1; i__1 < 0 ? i__ >= i__2 : i__ <= i__2; i__ += i__1)
-            {
+            for (i__ = 1; i__1 < 0 ? i__ >= i__2 : i__ <= i__2; i__ += i__1) {
                 /* Computing MIN */
                 i__3 = *k - i__ + 1;
-                ib = min(i__3,nbl);
+                ib = min(i__3, nbl);
                 dgeqr2_(q, &ib, &b[i__ * b_dim1 + 1], ldb, &cs[pst2 + i__], &dwork[1], &ierr);
-                if (i__ + ib <= *k)
-                {
-                    dlarft_("Forward", "Columnwise", q, &ib, &b[i__ * b_dim1 + 1], ldb, &cs[pst2 + i__], &dwork[1], k, 7L, 10L);
+                if (i__ + ib <= *k) {
+                    dlarft_("Forward", "Columnwise", q, &ib, &b[i__ * b_dim1 + 1], ldb,
+                        &cs[pst2 + i__], &dwork[1], k, 7L, 10L);
                     i__3 = *k - i__ - ib + 1;
-                    dlarfb_("Left", "Transpose", "Forward", "Columnwise", q, &i__3, &ib, &b[i__ * b_dim1 + 1], ldb, &dwork[1], k, &b[(i__ + ib) * b_dim1 + 1], ldb, &dwork[ib + 1], k, 4L, 9L, 7L, 10L);
+                    dlarfb_("Left", "Transpose", "Forward", "Columnwise", q, &i__3, &ib,
+                        &b[i__ * b_dim1 + 1], ldb, &dwork[1], k, &b[(i__ + ib) * b_dim1 + 1], ldb,
+                        &dwork[ib + 1], k, 4L, 9L, 7L, 10L);
                 }
                 /*              Annihilate the remaining parts of B. */
                 i__3 = i__ + ib - 1;
-                for (j = i__; j <= i__3; ++j)
-                {
-                    if (*q > 1)
-                    {
+                for (j = i__; j <= i__3; ++j) {
+                    if (*q > 1) {
                         i__4 = j - i__ + 1;
                         dlarfg_(&i__4, &b[j * b_dim1 + 1], &b[j * b_dim1 + 2], &c__1, &tau2);
                         alpha2 = b[j * b_dim1 + 1];
-                        if (*k > j)
-                        {
+                        if (*k > j) {
                             b[j * b_dim1 + 1] = 1.;
                             i__4 = j - i__ + 1;
                             i__5 = *k - j;
-                            dlarf_("Left", &i__4, &i__5, &b[j * b_dim1 + 1], &c__1, &tau2, &b[(j + 1) * b_dim1 + 1], ldb, &dwork[1], 4L);
+                            dlarf_("Left", &i__4, &i__5, &b[j * b_dim1 + 1], &c__1, &tau2,
+                                &b[(j + 1) * b_dim1 + 1], ldb, &dwork[1], 4L);
                         }
                         b[j * b_dim1 + 1] = tau2;
-                    }
-                    else
-                    {
+                    } else {
                         alpha2 = b[j * b_dim1 + 1];
                         b[j * b_dim1 + 1] = 0.;
                     }
                     /*                 Create hyperbolic rotation. */
                     ma02fd_(&a1[j + j * a1_dim1], &alpha2, &c__, &s, &ierr);
-                    if (ierr != 0)
-                    {
+                    if (ierr != 0) {
                         /*                    Error return:  The matrix is not positive definite. */
                         *info = 1;
                         return 0;
                     }
                     /*                 Apply hyperbolic rotation. */
-                    if (*k > j)
-                    {
+                    if (*k > j) {
                         i__4 = *k - j;
                         d__1 = 1. / c__;
                         dscal_(&i__4, &d__1, &a1[j + (j + 1) * a1_dim1], lda1);
                         i__4 = *k - j;
                         d__1 = -s / c__;
-                        daxpy_(&i__4, &d__1, &b[(j + 1) * b_dim1 + 1], ldb, &a1[j + (j + 1) * a1_dim1], lda1);
+                        daxpy_(&i__4, &d__1, &b[(j + 1) * b_dim1 + 1], ldb,
+                            &a1[j + (j + 1) * a1_dim1], lda1);
                         i__4 = *k - j;
                         dscal_(&i__4, &c__, &b[(j + 1) * b_dim1 + 1], ldb);
                         i__4 = *k - j;
                         d__1 = -s;
-                        daxpy_(&i__4, &d__1, &a1[j + (j + 1) * a1_dim1], lda1, &b[(j + 1) * b_dim1 + 1], ldb);
+                        daxpy_(&i__4, &d__1, &a1[j + (j + 1) * a1_dim1], lda1,
+                            &b[(j + 1) * b_dim1 + 1], ldb);
                     }
                     cs[(j << 1) - 1] = c__;
                     cs[j * 2] = s;
@@ -1091,56 +980,49 @@ ftnlen typeg_len;
                 }
                 /* L200: */
             }
-        }
-        else
-        {
+        } else {
             i__ = 1;
         }
         /*        Unblocked version for the last or only block. */
         i__1 = *k;
-        for (j = i__; j <= i__1; ++j)
-        {
-            if (*q > 1)
-            {
+        for (j = i__; j <= i__1; ++j) {
+            if (*q > 1) {
                 dlarfg_(q, &b[j * b_dim1 + 1], &b[j * b_dim1 + 2], &c__1, &tau2);
                 alpha2 = b[j * b_dim1 + 1];
-                if (*k > j)
-                {
+                if (*k > j) {
                     b[j * b_dim1 + 1] = 1.;
                     i__2 = *k - j;
-                    dlarf_("Left", q, &i__2, &b[j * b_dim1 + 1], &c__1, &tau2, &b[(j + 1) * b_dim1 + 1], ldb, &dwork[1], 4L);
+                    dlarf_("Left", q, &i__2, &b[j * b_dim1 + 1], &c__1, &tau2,
+                        &b[(j + 1) * b_dim1 + 1], ldb, &dwork[1], 4L);
                 }
                 b[j * b_dim1 + 1] = tau2;
-            }
-            else if (*q > 0)
-            {
+            } else if (*q > 0) {
                 alpha2 = b[j * b_dim1 + 1];
                 b[j * b_dim1 + 1] = 0.;
             }
-            if (*q > 0)
-            {
+            if (*q > 0) {
                 /*              Create hyperbolic rotation. */
                 ma02fd_(&a1[j + j * a1_dim1], &alpha2, &c__, &s, &ierr);
-                if (ierr != 0)
-                {
+                if (ierr != 0) {
                     /*                 Error return:  The matrix is not positive definite. */
                     *info = 1;
                     return 0;
                 }
                 /*              Apply hyperbolic rotation. */
-                if (*k > j)
-                {
+                if (*k > j) {
                     i__2 = *k - j;
                     d__1 = 1. / c__;
                     dscal_(&i__2, &d__1, &a1[j + (j + 1) * a1_dim1], lda1);
                     i__2 = *k - j;
                     d__1 = -s / c__;
-                    daxpy_(&i__2, &d__1, &b[(j + 1) * b_dim1 + 1], ldb, &a1[j + (j + 1) * a1_dim1], lda1);
+                    daxpy_(&i__2, &d__1, &b[(j + 1) * b_dim1 + 1], ldb, &a1[j + (j + 1) * a1_dim1],
+                        lda1);
                     i__2 = *k - j;
                     dscal_(&i__2, &c__, &b[(j + 1) * b_dim1 + 1], ldb);
                     i__2 = *k - j;
                     d__1 = -s;
-                    daxpy_(&i__2, &d__1, &a1[j + (j + 1) * a1_dim1], lda1, &b[(j + 1) * b_dim1 + 1], ldb);
+                    daxpy_(&i__2, &d__1, &a1[j + (j + 1) * a1_dim1], lda1, &b[(j + 1) * b_dim1 + 1],
+                        ldb);
                 }
                 cs[(j << 1) - 1] = c__;
                 cs[j * 2] = s;
@@ -1150,4 +1032,3 @@ ftnlen typeg_len;
     }
     /* *** Last line of MB02CU *** */
 } /* mb02cu_ */
-

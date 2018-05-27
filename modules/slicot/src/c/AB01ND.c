@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -13,18 +13,18 @@ static integer c__1 = 1;
 static integer c__0 = 0;
 static logical c_false = FALSE_;
 
-EXPORTSYMBOL /* Subroutine */ int ab01nd_(jobz, n, m, a, lda, b, ldb, ncont, indcon, nblk, z__, ldz, tau, tol, iwork, dwork, ldwork, info, jobz_len)
-char *jobz;
+EXPORTSYMBOL /* Subroutine */ int ab01nd_(jobz, n, m, a, lda, b, ldb, ncont, indcon, nblk, z__, ldz,
+    tau, tol, iwork, dwork, ldwork, info, jobz_len) char* jobz;
 integer *n, *m;
-doublereal *a;
-integer *lda;
-doublereal *b;
+doublereal* a;
+integer* lda;
+doublereal* b;
 integer *ldb, *ncont, *indcon, *nblk;
-doublereal *z__;
-integer *ldz;
+doublereal* z__;
+integer* ldz;
 doublereal *tau, *tol;
-integer *iwork;
-doublereal *dwork;
+integer* iwork;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen jobz_len;
 {
@@ -252,41 +252,27 @@ ftnlen jobz_len;
     ljobi = lsame_(jobz, "I", 1L, 1L);
     ljobz = ljobf || ljobi;
     /*     Test the input scalar arguments. */
-    if (! ljobz && ! lsame_(jobz, "N", 1L, 1L))
-    {
+    if (!ljobz && !lsame_(jobz, "N", 1L, 1L)) {
         *info = -1;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -2;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -3;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -5;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -7;
-    }
-    else if (*ldz < 1 || ljobz && *ldz < *n)
-    {
+    } else if (*ldz < 1 || ljobz && *ldz < *n) {
         *info = -12;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
-        i__1 = max(1,*n), i__2 = *m * 3;
-        if (*ldwork < max(i__1,i__2))
-        {
+        i__1 = max(1, *n), i__2 = *m * 3;
+        if (*ldwork < max(i__1, i__2)) {
             *info = -17;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("AB01ND", &i__1, 6L);
@@ -295,16 +281,11 @@ ftnlen jobz_len;
     *ncont = 0;
     *indcon = 0;
     /*     Quick return if possible. */
-    if (min(*n,*m) == 0)
-    {
-        if (*n > 0)
-        {
-            if (ljobi)
-            {
+    if (min(*n, *m) == 0) {
+        if (*n > 0) {
+            if (ljobi) {
                 dlaset_("Full", n, n, &c_b7, &c_b8, &z__[z_offset], ldz, 4L);
-            }
-            else if (ljobf)
-            {
+            } else if (ljobf) {
                 dlaset_("Full", n, n, &c_b7, &c_b7, &z__[z_offset], ldz, 4L);
                 dlaset_("Full", n, &c__1, &c_b7, &c_b7, &tau[1], n, 4L);
             }
@@ -316,14 +297,10 @@ ftnlen jobz_len;
     anorm = dlange_("M", n, n, &a[a_offset], lda, &dwork[1], 1L);
     bnorm = dlange_("M", n, m, &b[b_offset], ldb, &dwork[1], 1L);
     /*     Return if matrix B is zero. */
-    if (bnorm == 0.)
-    {
-        if (ljobi)
-        {
+    if (bnorm == 0.) {
+        if (ljobi) {
             dlaset_("Full", n, n, &c_b7, &c_b8, &z__[z_offset], ldz, 4L);
-        }
-        else if (ljobf)
-        {
+        } else if (ljobf) {
             dlaset_("Full", n, n, &c_b7, &c_b7, &z__[z_offset], ldz, 4L);
             dlaset_("Full", n, &c__1, &c_b7, &c_b7, &tau[1], n, 4L);
         }
@@ -331,17 +308,18 @@ ftnlen jobz_len;
         return 0;
     }
     /*     Scale (if needed) the matrices A and B. */
-    mb01pd_("Scale", "G", n, n, &c__0, &c__0, &anorm, &c__0, &nblk[1], &a[a_offset], lda, info, 5L, 1L);
-    mb01pd_("Scale", "G", n, m, &c__0, &c__0, &bnorm, &c__0, &nblk[1], &b[b_offset], ldb, info, 5L, 1L);
+    mb01pd_(
+        "Scale", "G", n, n, &c__0, &c__0, &anorm, &c__0, &nblk[1], &a[a_offset], lda, info, 5L, 1L);
+    mb01pd_(
+        "Scale", "G", n, m, &c__0, &c__0, &bnorm, &c__0, &nblk[1], &b[b_offset], ldb, info, 5L, 1L);
     /*     Compute the Frobenius norm of [ B  A ] (used for rank estimation). */
     d__1 = dlange_("F", n, m, &b[b_offset], ldb, &dwork[1], 1L);
     d__2 = dlange_("F", n, n, &a[a_offset], lda, &dwork[1], 1L);
     fnrm = dlapy2_(&d__1, &d__2);
     toldef = *tol;
-    if (toldef <= 0.)
-    {
+    if (toldef <= 0.) {
         /*        Use the default tolerance in controllability determination. */
-        toldef = (doublereal) (*n **n) * dlamch_("EPSILON", 7L);
+        toldef = (doublereal)(*n * *n) * dlamch_("EPSILON", 7L);
     }
     wrkopt = 1;
     ni = 0;
@@ -359,9 +337,9 @@ L10:
     /*        The calculation is performed in NCRT rows of B starting from */
     /*        the row IQR (initialized to 1 and then set to rank(B)+1). */
     /*        Workspace: 3*MCRT. */
-    mb03oy_(&ncrt, &mcrt, &b[iqr + b_dim1], ldb, &toldef, &fnrm, &rank, sval, &iwork[1], &tau[itau], &dwork[1], info);
-    if (rank != 0)
-    {
+    mb03oy_(&ncrt, &mcrt, &b[iqr + b_dim1], ldb, &toldef, &fnrm, &rank, sval, &iwork[1], &tau[itau],
+        &dwork[1], info);
+    if (rank != 0) {
         nj = ni;
         ni = *ncont;
         *ncont += rank;
@@ -371,100 +349,92 @@ L10:
         /*           and block column of A by Q' and Q, respectively. */
         /*           Workspace: need   NCRT; */
         /*                      prefer NCRT*NB. */
-        dormqr_("Left", "Transpose", &ncrt, &ncrt, &rank, &b[iqr + b_dim1], ldb, &tau[itau], &a[ni + 1 + (ni + 1) * a_dim1], lda, &dwork[1], ldwork, info, 4L, 9L);
+        dormqr_("Left", "Transpose", &ncrt, &ncrt, &rank, &b[iqr + b_dim1], ldb, &tau[itau],
+            &a[ni + 1 + (ni + 1) * a_dim1], lda, &dwork[1], ldwork, info, 4L, 9L);
         /* Computing MAX */
-        i__1 = wrkopt, i__2 = (integer) dwork[1];
-        wrkopt = max(i__1,i__2);
+        i__1 = wrkopt, i__2 = (integer)dwork[1];
+        wrkopt = max(i__1, i__2);
         /*           Workspace: need   N; */
         /*                      prefer N*NB. */
-        dormqr_("Right", "No transpose", n, &ncrt, &rank, &b[iqr + b_dim1], ldb, &tau[itau], &a[(ni + 1) * a_dim1 + 1], lda, &dwork[1], ldwork, info, 5L, 12L);
+        dormqr_("Right", "No transpose", n, &ncrt, &rank, &b[iqr + b_dim1], ldb, &tau[itau],
+            &a[(ni + 1) * a_dim1 + 1], lda, &dwork[1], ldwork, info, 5L, 12L);
         /* Computing MAX */
-        i__1 = wrkopt, i__2 = (integer) dwork[1];
-        wrkopt = max(i__1,i__2);
+        i__1 = wrkopt, i__2 = (integer)dwork[1];
+        wrkopt = max(i__1, i__2);
         /*           If required, save transformations. */
-        if (ljobz && ncrt > 1)
-        {
+        if (ljobz && ncrt > 1) {
             i__1 = ncrt - 1;
             /* Computing MIN */
             i__3 = rank, i__4 = ncrt - 1;
-            i__2 = min(i__3,i__4);
-            dlacpy_("L", &i__1, &i__2, &b[iqr + 1 + b_dim1], ldb, &z__[ni + 2 + itau * z_dim1], ldz, 1L);
+            i__2 = min(i__3, i__4);
+            dlacpy_("L", &i__1, &i__2, &b[iqr + 1 + b_dim1], ldb, &z__[ni + 2 + itau * z_dim1], ldz,
+                1L);
         }
         /*           Zero the subdiagonal elements of the current matrix. */
-        if (rank > 1)
-        {
+        if (rank > 1) {
             i__1 = rank - 1;
             i__2 = rank - 1;
             dlaset_("L", &i__1, &i__2, &c_b7, &c_b7, &b[iqr + 1 + b_dim1], ldb, 1L);
         }
         /*           Backward permutation of the columns of B or A. */
-        if (*indcon == 1)
-        {
+        if (*indcon == 1) {
             dlapmt_(&c_false, &rank, m, &b[iqr + b_dim1], ldb, &iwork[1]);
             iqr = rank + 1;
-        }
-        else
-        {
+        } else {
             i__1 = mcrt;
-            for (j = 1; j <= i__1; ++j)
-            {
-                dcopy_(&rank, &b[iqr + j * b_dim1], &c__1, &a[ni + 1 + (nj + iwork[j]) * a_dim1], &c__1);
+            for (j = 1; j <= i__1; ++j) {
+                dcopy_(&rank, &b[iqr + j * b_dim1], &c__1, &a[ni + 1 + (nj + iwork[j]) * a_dim1],
+                    &c__1);
                 /* L20: */
             }
         }
         itau += rank;
-        if (rank != ncrt)
-        {
+        if (rank != ncrt) {
             mcrt = rank;
             ncrt -= rank;
-            dlacpy_("G", &ncrt, &mcrt, &a[*ncont + 1 + (ni + 1) * a_dim1], lda, &b[iqr + b_dim1], ldb, 1L);
+            dlacpy_("G", &ncrt, &mcrt, &a[*ncont + 1 + (ni + 1) * a_dim1], lda, &b[iqr + b_dim1],
+                ldb, 1L);
             dlaset_("G", &ncrt, &mcrt, &c_b7, &c_b7, &a[*ncont + 1 + (ni + 1) * a_dim1], lda, 1L);
             goto L10;
         }
     }
     /*     If required, accumulate transformations. */
     /*     Workspace: need N;  prefer N*NB. */
-    if (ljobi)
-    {
+    if (ljobi) {
         /* Computing MAX */
         i__2 = 1, i__3 = itau - 1;
-        i__1 = max(i__2,i__3);
+        i__1 = max(i__2, i__3);
         dorgqr_(n, n, &i__1, &z__[z_offset], ldz, &tau[1], &dwork[1], ldwork, info);
         /* Computing MAX */
-        i__1 = wrkopt, i__2 = (integer) dwork[1];
-        wrkopt = max(i__1,i__2);
+        i__1 = wrkopt, i__2 = (integer)dwork[1];
+        wrkopt = max(i__1, i__2);
     }
     /*     Annihilate the trailing blocks of B. */
-    if (*n >= iqr)
-    {
+    if (*n >= iqr) {
         i__1 = *n - iqr + 1;
         dlaset_("G", &i__1, m, &c_b7, &c_b7, &b[iqr + b_dim1], ldb, 1L);
     }
     /*     Annihilate the trailing elements of TAU, if JOBZ = 'F'. */
-    if (ljobf)
-    {
+    if (ljobf) {
         i__1 = *n;
-        for (j = itau; j <= i__1; ++j)
-        {
+        for (j = itau; j <= i__1; ++j) {
             tau[j] = 0.;
             /* L30: */
         }
     }
     /*     Undo scaling of A and B. */
-    if (*indcon < *n)
-    {
+    if (*indcon < *n) {
         nbl = *indcon + 1;
         nblk[nbl] = *n - *ncont;
-    }
-    else
-    {
+    } else {
         nbl = 0;
     }
-    mb01pd_("Undo", "H", n, n, &c__0, &c__0, &anorm, &nbl, &nblk[1], &a[a_offset], lda, info, 4L, 1L);
-    mb01pd_("Undo", "G", &nblk[1], m, &c__0, &c__0, &bnorm, &c__0, &nblk[1], &b[b_offset], ldb, info, 4L, 1L);
+    mb01pd_(
+        "Undo", "H", n, n, &c__0, &c__0, &anorm, &nbl, &nblk[1], &a[a_offset], lda, info, 4L, 1L);
+    mb01pd_("Undo", "G", &nblk[1], m, &c__0, &c__0, &bnorm, &c__0, &nblk[1], &b[b_offset], ldb,
+        info, 4L, 1L);
     /*     Set optimal workspace dimension. */
-    dwork[1] = (doublereal) wrkopt;
+    dwork[1] = (doublereal)wrkopt;
     return 0;
     /* *** Last line of AB01ND *** */
 } /* ab01nd_ */
-

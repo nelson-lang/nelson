@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -14,17 +14,17 @@ static doublereal c_b21 = 0.;
 static doublereal c_b26 = 1.;
 static integer c__4 = 4;
 
-EXPORTSYMBOL /* Subroutine */ int sg03bv_(trans, n, a, lda, e, lde, b, ldb, scale, dwork, info, trans_len)
-char *trans;
-integer *n;
-doublereal *a;
-integer *lda;
-doublereal *e;
-integer *lde;
-doublereal *b;
-integer *ldb;
+EXPORTSYMBOL /* Subroutine */ int sg03bv_(
+    trans, n, a, lda, e, lde, b, ldb, scale, dwork, info, trans_len) char* trans;
+integer* n;
+doublereal* a;
+integer* lda;
+doublereal* e;
+integer* lde;
+doublereal* b;
+integer* ldb;
 doublereal *scale, *dwork;
-integer *info;
+integer* info;
 ftnlen trans_len;
 {
     /* System generated locals */
@@ -45,11 +45,11 @@ ftnlen trans_len;
     extern logical lsame_();
     extern /* Subroutine */ int sg03bw_(), sg03bx_(), dcopy_(), drotg_(), dtrmm_();
     static integer uiipt;
-    static doublereal m1[4]	/* was [2][2] */, m2[4]	/* was [2][2] */, scale1, delta1;
+    static doublereal m1[4] /* was [2][2] */, m2[4] /* was [2][2] */, scale1, delta1;
     extern /* Subroutine */ int dlabad_();
     static integer kb, kh, kl;
     extern doublereal dlamch_();
-    static doublereal ui[4]	/* was [2][2] */, tm[4]	/* was [2][2] */;
+    static doublereal ui[4] /* was [2][2] */, tm[4] /* was [2][2] */;
     extern /* Subroutine */ int dlacpy_(), dlaset_(), xerbla_();
     static doublereal bignum, smlnum;
     static logical notrns;
@@ -249,40 +249,27 @@ ftnlen trans_len;
     /* Function Body */
     notrns = lsame_(trans, "N", 1L, 1L);
     /*     Check the scalar input parameters. */
-    if (! (notrns || lsame_(trans, "T", 1L, 1L)))
-    {
+    if (!(notrns || lsame_(trans, "T", 1L, 1L))) {
         *info = -1;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -2;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -4;
-    }
-    else if (*lde < max(1,*n))
-    {
+    } else if (*lde < max(1, *n)) {
         *info = -6;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -8;
-    }
-    else
-    {
+    } else {
         *info = 0;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("SG03BV", &i__1, 6L);
         return 0;
     }
     *scale = 1.;
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
+    if (*n == 0) {
         return 0;
     }
     /*     Set constants to control overflow. */
@@ -296,31 +283,23 @@ ftnlen trans_len;
     wpt = (*n << 1) - 1;
     ypt = (*n << 2) - 3;
     ldws = *n - 1;
-    if (notrns)
-    {
+    if (notrns) {
         /*        Solve equation (1). */
         /*        Main Loop. Compute block row U(KL:KH,KL:N). KB denotes the */
         /*        number of rows in this block row. */
         kh = 0;
         /*        WHILE ( KH .LT. N ) DO */
-L20:
-        if (kh < *n)
-        {
+    L20:
+        if (kh < *n) {
             kl = kh + 1;
-            if (kl == *n)
-            {
+            if (kl == *n) {
                 kh = *n;
                 kb = 1;
-            }
-            else
-            {
-                if (a[kl + 1 + kl * a_dim1] == 0.)
-                {
+            } else {
+                if (a[kl + 1 + kl * a_dim1] == 0.) {
                     kh = kl;
                     kb = 1;
-                }
-                else
-                {
+                } else {
                     kh = kl + 1;
                     kb = 2;
                 }
@@ -328,23 +307,19 @@ L20:
             /*           STEP I: Compute block U(KL:KH,KL:KH) and the auxiliary */
             /*                   matrices M1 and M2. (For the moment the result */
             /*                   U(KL:KH,KL:KH) is stored in UI). */
-            if (kb == 1)
-            {
+            if (kb == 1) {
                 delta1 = a[kl + kl * a_dim1] * -2. * e[kl + kl * e_dim1];
-                if (delta1 <= 0.)
-                {
+                if (delta1 <= 0.) {
                     *info = 3;
                     return 0;
                 }
                 delta1 = sqrt(delta1);
                 z__ = (d__1 = b[kl + kl * b_dim1], abs(d__1)) * 2. * smlnum;
-                if (z__ > delta1)
-                {
+                if (z__ > delta1) {
                     scale1 = delta1 / z__;
-                    *scale = scale1 **scale;
+                    *scale = scale1 * *scale;
                     i__1 = *n;
-                    for (i__ = 1; i__ <= i__1; ++i__)
-                    {
+                    for (i__ = 1; i__ <= i__1; ++i__) {
                         dscal_(&i__, &scale1, &b[i__ * b_dim1 + 1], &c__1);
                         /* L40: */
                     }
@@ -352,55 +327,54 @@ L20:
                 ui[0] = b[kl + kl * b_dim1] / delta1;
                 m1[0] = a[kl + kl * a_dim1] / e[kl + kl * e_dim1];
                 m2[0] = delta1 / e[kl + kl * e_dim1];
-            }
-            else
-            {
+            } else {
                 /*              If a pair of complex conjugate eigenvalues occurs, apply */
                 /*              (complex) Hammarling algorithm for the 2-by-2 problem. */
-                sg03bx_("C", "N", &a[kl + kl * a_dim1], lda, &e[kl + kl * e_dim1], lde, &b[kl + kl * b_dim1], ldb, ui, &c__2, &scale1, m1, &c__2, m2, &c__2, &info1, 1L, 1L);
-                if (info1 != 0)
-                {
+                sg03bx_("C", "N", &a[kl + kl * a_dim1], lda, &e[kl + kl * e_dim1], lde,
+                    &b[kl + kl * b_dim1], ldb, ui, &c__2, &scale1, m1, &c__2, m2, &c__2, &info1, 1L,
+                    1L);
+                if (info1 != 0) {
                     *info = info1;
                     return 0;
                 }
-                if (scale1 != 1.)
-                {
-                    *scale = scale1 **scale;
+                if (scale1 != 1.) {
+                    *scale = scale1 * *scale;
                     i__1 = *n;
-                    for (i__ = 1; i__ <= i__1; ++i__)
-                    {
+                    for (i__ = 1; i__ <= i__1; ++i__) {
                         dscal_(&i__, &scale1, &b[i__ * b_dim1 + 1], &c__1);
                         /* L60: */
                     }
                 }
             }
-            if (kh < *n)
-            {
+            if (kh < *n) {
                 /*              STEP II: Compute U(KL:KH,KH+1:N) by solving a generalized */
                 /*                       Sylvester equation. (For the moment the result */
                 /*                       U(KL:KH,KH+1:N) is stored in the workspace.) */
                 /*              Form right hand side of the Sylvester equation. */
                 i__1 = *n - kh;
-                dgemm_("T", "N", &i__1, &kb, &kb, &c_b19, &b[kl + (kh + 1) * b_dim1], ldb, m2, &c__2, &c_b21, &dwork[uiipt], &ldws, 1L, 1L);
+                dgemm_("T", "N", &i__1, &kb, &kb, &c_b19, &b[kl + (kh + 1) * b_dim1], ldb, m2,
+                    &c__2, &c_b21, &dwork[uiipt], &ldws, 1L, 1L);
                 i__1 = *n - kh;
-                dgemm_("T", "T", &i__1, &kb, &kb, &c_b19, &a[kl + (kh + 1) * a_dim1], lda, ui, &c__2, &c_b26, &dwork[uiipt], &ldws, 1L, 1L);
-                dgemm_("T", "N", &kb, &kb, &kb, &c_b26, ui, &c__2, m1, &c__2, &c_b21, tm, &c__2, 1L, 1L);
+                dgemm_("T", "T", &i__1, &kb, &kb, &c_b19, &a[kl + (kh + 1) * a_dim1], lda, ui,
+                    &c__2, &c_b26, &dwork[uiipt], &ldws, 1L, 1L);
+                dgemm_("T", "N", &kb, &kb, &kb, &c_b26, ui, &c__2, m1, &c__2, &c_b21, tm, &c__2, 1L,
+                    1L);
                 i__1 = *n - kh;
-                dgemm_("T", "N", &i__1, &kb, &kb, &c_b19, &e[kl + (kh + 1) * e_dim1], lde, tm, &c__2, &c_b26, &dwork[uiipt], &ldws, 1L, 1L);
+                dgemm_("T", "N", &i__1, &kb, &kb, &c_b19, &e[kl + (kh + 1) * e_dim1], lde, tm,
+                    &c__2, &c_b26, &dwork[uiipt], &ldws, 1L, 1L);
                 /*              Solve generalized Sylvester equation. */
                 dlaset_("A", &kb, &kb, &c_b21, &c_b26, tm, &c__2, 1L);
                 i__1 = *n - kh;
-                sg03bw_("N", &i__1, &kb, &a[kh + 1 + (kh + 1) * a_dim1], lda, tm, &c__2, &e[kh + 1 + (kh + 1) * e_dim1], lde, m1, &c__2, &dwork[uiipt], &ldws, &scale1, &info1, 1L);
-                if (info1 != 0)
-                {
+                sg03bw_("N", &i__1, &kb, &a[kh + 1 + (kh + 1) * a_dim1], lda, tm, &c__2,
+                    &e[kh + 1 + (kh + 1) * e_dim1], lde, m1, &c__2, &dwork[uiipt], &ldws, &scale1,
+                    &info1, 1L);
+                if (info1 != 0) {
                     *info = 1;
                 }
-                if (scale1 != 1.)
-                {
-                    *scale = scale1 **scale;
+                if (scale1 != 1.) {
+                    *scale = scale1 * *scale;
                     i__1 = *n;
-                    for (i__ = 1; i__ <= i__1; ++i__)
-                    {
+                    for (i__ = 1; i__ <= i__1; ++i__) {
                         dscal_(&i__, &scale1, &b[i__ * b_dim1 + 1], &c__1);
                         /* L80: */
                     }
@@ -414,18 +388,21 @@ L20:
                 i__1 = *n - kh;
                 dlacpy_("A", &i__1, &kb, &dwork[uiipt], &ldws, &dwork[wpt], &ldws, 1L);
                 i__1 = *n - kh;
-                dtrmm_("L", "U", "T", "N", &i__1, &kb, &c_b26, &e[kh + 1 + (kh + 1) * e_dim1], lde, &dwork[wpt], &ldws, 1L, 1L, 1L, 1L);
+                dtrmm_("L", "U", "T", "N", &i__1, &kb, &c_b26, &e[kh + 1 + (kh + 1) * e_dim1], lde,
+                    &dwork[wpt], &ldws, 1L, 1L, 1L, 1L);
                 i__1 = *n - kh;
-                dgemm_("T", "T", &i__1, &kb, &kb, &c_b26, &e[kl + (kh + 1) * e_dim1], lde, ui, &c__2, &c_b26, &dwork[wpt], &ldws, 1L, 1L);
+                dgemm_("T", "T", &i__1, &kb, &kb, &c_b26, &e[kl + (kh + 1) * e_dim1], lde, ui,
+                    &c__2, &c_b26, &dwork[wpt], &ldws, 1L, 1L);
                 i__1 = kh;
-                for (i__ = kl; i__ <= i__1; ++i__)
-                {
+                for (i__ = kl; i__ <= i__1; ++i__) {
                     i__2 = *n - kh;
-                    dcopy_(&i__2, &b[i__ + (kh + 1) * b_dim1], ldb, &dwork[ypt + ldws * (i__ - kl)], &c__1);
+                    dcopy_(&i__2, &b[i__ + (kh + 1) * b_dim1], ldb, &dwork[ypt + ldws * (i__ - kl)],
+                        &c__1);
                     /* L100: */
                 }
                 i__1 = *n - kh;
-                dgemm_("N", "T", &i__1, &kb, &kb, &c_b19, &dwork[wpt], &ldws, m2, &c__2, &c_b26, &dwork[ypt], &ldws, 1L, 1L);
+                dgemm_("N", "T", &i__1, &kb, &kb, &c_b19, &dwork[wpt], &ldws, m2, &c__2, &c_b26,
+                    &dwork[ypt], &ldws, 1L, 1L);
                 /*              Overwrite B(KH+1:N,KH+1:N) with the triangular matrix */
                 /*              from the QR-factorization of the (N-KH+KB)-by-(N-KH) */
                 /*              matrix */
@@ -433,26 +410,23 @@ L20:
                 /*                          (                    ) */
                 /*                          (       Y**T         ) . */
                 i__1 = kb;
-                for (j = 1; j <= i__1; ++j)
-                {
+                for (j = 1; j <= i__1; ++j) {
                     i__2 = *n - kh;
-                    for (i__ = 1; i__ <= i__2; ++i__)
-                    {
+                    for (i__ = 1; i__ <= i__2; ++i__) {
                         x = b[kh + i__ + (kh + i__) * b_dim1];
                         z__ = dwork[ypt + i__ - 1 + (j - 1) * ldws];
                         drotg_(&x, &z__, &c__, &s);
                         i__3 = *n - kh - i__ + 1;
-                        drot_(&i__3, &b[kh + i__ + (kh + i__) * b_dim1], ldb, &dwork[ypt + i__ - 1 + (j - 1) * ldws], &c__1, &c__, &s);
+                        drot_(&i__3, &b[kh + i__ + (kh + i__) * b_dim1], ldb,
+                            &dwork[ypt + i__ - 1 + (j - 1) * ldws], &c__1, &c__, &s);
                         /* L120: */
                     }
                     /* L140: */
                 }
                 /*              Make main diagonal elements of B(KH+1:N,KH+1:N) positive. */
                 i__1 = *n;
-                for (i__ = kh + 1; i__ <= i__1; ++i__)
-                {
-                    if (b[i__ + i__ * b_dim1] < 0.)
-                    {
+                for (i__ = kh + 1; i__ <= i__1; ++i__) {
+                    if (b[i__ + i__ * b_dim1] < 0.) {
                         i__2 = *n - i__ + 1;
                         dscal_(&i__2, &c_b19, &b[i__ + i__ * b_dim1], ldb);
                     }
@@ -461,10 +435,10 @@ L20:
                 /*              Overwrite right hand side with the part of the solution */
                 /*              computed in step II. */
                 i__1 = kh;
-                for (j = kl; j <= i__1; ++j)
-                {
+                for (j = kl; j <= i__1; ++j) {
                     i__2 = *n - kh;
-                    dcopy_(&i__2, &dwork[uiipt + (j - kl) * ldws], &c__1, &b[j + (kh + 1) * b_dim1], ldb);
+                    dcopy_(&i__2, &dwork[uiipt + (j - kl) * ldws], &c__1, &b[j + (kh + 1) * b_dim1],
+                        ldb);
                     /* L180: */
                 }
             }
@@ -474,32 +448,23 @@ L20:
             goto L20;
         }
         /*        END WHILE 20 */
-    }
-    else
-    {
+    } else {
         /*        Solve equation (2). */
         /*        Main Loop. Compute block column U(1:KH,KL:KH). KB denotes the */
         /*        number of columns in this block column. */
         kl = *n + 1;
         /*        WHILE ( KL .GT. 1 ) DO */
-L200:
-        if (kl > 1)
-        {
+    L200:
+        if (kl > 1) {
             kh = kl - 1;
-            if (kh == 1)
-            {
+            if (kh == 1) {
                 kl = 1;
                 kb = 1;
-            }
-            else
-            {
-                if (a[kh + (kh - 1) * a_dim1] == 0.)
-                {
+            } else {
+                if (a[kh + (kh - 1) * a_dim1] == 0.) {
                     kl = kh;
                     kb = 1;
-                }
-                else
-                {
+                } else {
                     kl = kh - 1;
                     kb = 2;
                 }
@@ -507,23 +472,19 @@ L200:
             /*           STEP I: Compute block U(KL:KH,KL:KH) and the auxiliary */
             /*                   matrices M1 and M2. (For the moment the result */
             /*                   U(KL:KH,KL:KH) is stored in UI). */
-            if (kb == 1)
-            {
+            if (kb == 1) {
                 delta1 = a[kl + kl * a_dim1] * -2. * e[kl + kl * e_dim1];
-                if (delta1 <= 0.)
-                {
+                if (delta1 <= 0.) {
                     *info = 3;
                     return 0;
                 }
                 delta1 = sqrt(delta1);
                 z__ = (d__1 = b[kl + kl * b_dim1], abs(d__1)) * 2. * smlnum;
-                if (z__ > delta1)
-                {
+                if (z__ > delta1) {
                     scale1 = delta1 / z__;
-                    *scale = scale1 **scale;
+                    *scale = scale1 * *scale;
                     i__1 = *n;
-                    for (i__ = 1; i__ <= i__1; ++i__)
-                    {
+                    for (i__ = 1; i__ <= i__1; ++i__) {
                         dscal_(&i__, &scale1, &b[i__ * b_dim1 + 1], &c__1);
                         /* L220: */
                     }
@@ -531,55 +492,53 @@ L200:
                 ui[0] = b[kl + kl * b_dim1] / delta1;
                 m1[0] = a[kl + kl * a_dim1] / e[kl + kl * e_dim1];
                 m2[0] = delta1 / e[kl + kl * e_dim1];
-            }
-            else
-            {
+            } else {
                 /*              If a pair of complex conjugate eigenvalues occurs, apply */
                 /*              (complex) Hammarling algorithm for the 2-by-2 problem. */
-                sg03bx_("C", "T", &a[kl + kl * a_dim1], lda, &e[kl + kl * e_dim1], lde, &b[kl + kl * b_dim1], ldb, ui, &c__2, &scale1, m1, &c__2, m2, &c__2, &info1, 1L, 1L);
-                if (info1 != 0)
-                {
+                sg03bx_("C", "T", &a[kl + kl * a_dim1], lda, &e[kl + kl * e_dim1], lde,
+                    &b[kl + kl * b_dim1], ldb, ui, &c__2, &scale1, m1, &c__2, m2, &c__2, &info1, 1L,
+                    1L);
+                if (info1 != 0) {
                     *info = info1;
                     return 0;
                 }
-                if (scale1 != 1.)
-                {
-                    *scale = scale1 **scale;
+                if (scale1 != 1.) {
+                    *scale = scale1 * *scale;
                     i__1 = *n;
-                    for (i__ = 1; i__ <= i__1; ++i__)
-                    {
+                    for (i__ = 1; i__ <= i__1; ++i__) {
                         dscal_(&i__, &scale1, &b[i__ * b_dim1 + 1], &c__1);
                         /* L240: */
                     }
                 }
             }
-            if (kl > 1)
-            {
+            if (kl > 1) {
                 /*              STEP II: Compute U(1:KL-1,KL:KH) by solving a generalized */
                 /*                       Sylvester equation. (For the moment the result */
                 /*                       U(1:KL-1,KL:KH) is stored in the workspace.) */
                 /*              Form right hand side of the Sylvester equation. */
                 i__1 = kl - 1;
-                dgemm_("N", "T", &i__1, &kb, &kb, &c_b19, &b[kl * b_dim1 + 1], ldb, m2, &c__2, &c_b21, &dwork[uiipt], &ldws, 1L, 1L);
+                dgemm_("N", "T", &i__1, &kb, &kb, &c_b19, &b[kl * b_dim1 + 1], ldb, m2, &c__2,
+                    &c_b21, &dwork[uiipt], &ldws, 1L, 1L);
                 i__1 = kl - 1;
-                dgemm_("N", "N", &i__1, &kb, &kb, &c_b19, &a[kl * a_dim1 + 1], lda, ui, &c__2, &c_b26, &dwork[uiipt], &ldws, 1L, 1L);
-                dgemm_("N", "T", &kb, &kb, &kb, &c_b26, ui, &c__2, m1, &c__2, &c_b21, tm, &c__2, 1L, 1L);
+                dgemm_("N", "N", &i__1, &kb, &kb, &c_b19, &a[kl * a_dim1 + 1], lda, ui, &c__2,
+                    &c_b26, &dwork[uiipt], &ldws, 1L, 1L);
+                dgemm_("N", "T", &kb, &kb, &kb, &c_b26, ui, &c__2, m1, &c__2, &c_b21, tm, &c__2, 1L,
+                    1L);
                 i__1 = kl - 1;
-                dgemm_("N", "N", &i__1, &kb, &kb, &c_b19, &e[kl * e_dim1 + 1], lde, tm, &c__2, &c_b26, &dwork[uiipt], &ldws, 1L, 1L);
+                dgemm_("N", "N", &i__1, &kb, &kb, &c_b19, &e[kl * e_dim1 + 1], lde, tm, &c__2,
+                    &c_b26, &dwork[uiipt], &ldws, 1L, 1L);
                 /*              Solve generalized Sylvester equation. */
                 dlaset_("A", &kb, &kb, &c_b21, &c_b26, tm, &c__2, 1L);
                 i__1 = kl - 1;
-                sg03bw_("T", &i__1, &kb, &a[a_offset], lda, tm, &c__2, &e[e_offset], lde, m1, &c__2, &dwork[uiipt], &ldws, &scale1, &info1, 1L);
-                if (info1 != 0)
-                {
+                sg03bw_("T", &i__1, &kb, &a[a_offset], lda, tm, &c__2, &e[e_offset], lde, m1, &c__2,
+                    &dwork[uiipt], &ldws, &scale1, &info1, 1L);
+                if (info1 != 0) {
                     *info = 1;
                 }
-                if (scale1 != 1.)
-                {
-                    *scale = scale1 **scale;
+                if (scale1 != 1.) {
+                    *scale = scale1 * *scale;
                     i__1 = *n;
-                    for (i__ = 1; i__ <= i__1; ++i__)
-                    {
+                    for (i__ = 1; i__ <= i__1; ++i__) {
                         dscal_(&i__, &scale1, &b[i__ * b_dim1 + 1], &c__1);
                         /* L260: */
                     }
@@ -593,37 +552,37 @@ L200:
                 i__1 = kl - 1;
                 dlacpy_("A", &i__1, &kb, &dwork[uiipt], &ldws, &dwork[wpt], &ldws, 1L);
                 i__1 = kl - 1;
-                dtrmm_("L", "U", "N", "N", &i__1, &kb, &c_b26, &e[e_dim1 + 1], lde, &dwork[wpt], &ldws, 1L, 1L, 1L, 1L);
+                dtrmm_("L", "U", "N", "N", &i__1, &kb, &c_b26, &e[e_dim1 + 1], lde, &dwork[wpt],
+                    &ldws, 1L, 1L, 1L, 1L);
                 i__1 = kl - 1;
-                dgemm_("N", "N", &i__1, &kb, &kb, &c_b26, &e[kl * e_dim1 + 1], lde, ui, &c__2, &c_b26, &dwork[wpt], &ldws, 1L, 1L);
+                dgemm_("N", "N", &i__1, &kb, &kb, &c_b26, &e[kl * e_dim1 + 1], lde, ui, &c__2,
+                    &c_b26, &dwork[wpt], &ldws, 1L, 1L);
                 i__1 = kl - 1;
                 dlacpy_("A", &i__1, &kb, &b[kl * b_dim1 + 1], ldb, &dwork[ypt], &ldws, 1L);
                 i__1 = kl - 1;
-                dgemm_("N", "N", &i__1, &kb, &kb, &c_b19, &dwork[wpt], &ldws, m2, &c__2, &c_b26, &dwork[ypt], &ldws, 1L, 1L);
+                dgemm_("N", "N", &i__1, &kb, &kb, &c_b19, &dwork[wpt], &ldws, m2, &c__2, &c_b26,
+                    &dwork[ypt], &ldws, 1L, 1L);
                 /*              Overwrite B(1:KL-1,1:KL-1) with the triangular matrix */
                 /*              from the RQ-factorization of the (KL-1)-by-KH matrix */
                 /*                          (                        ) */
                 /*                          (  B(1:KL-1,1:KL-1)   Y  ) */
                 /*                          (                        ). */
                 i__1 = kb;
-                for (j = 1; j <= i__1; ++j)
-                {
-                    for (i__ = kl - 1; i__ >= 1; --i__)
-                    {
+                for (j = 1; j <= i__1; ++j) {
+                    for (i__ = kl - 1; i__ >= 1; --i__) {
                         x = b[i__ + i__ * b_dim1];
                         z__ = dwork[ypt + i__ - 1 + (j - 1) * ldws];
                         drotg_(&x, &z__, &c__, &s);
-                        drot_(&i__, &b[i__ * b_dim1 + 1], &c__1, &dwork[ypt + (j - 1) * ldws], &c__1, &c__, &s);
+                        drot_(&i__, &b[i__ * b_dim1 + 1], &c__1, &dwork[ypt + (j - 1) * ldws],
+                            &c__1, &c__, &s);
                         /* L280: */
                     }
                     /* L300: */
                 }
                 /*              Make main diagonal elements of B(1:KL-1,1:KL-1) positive. */
                 i__1 = kl - 1;
-                for (i__ = 1; i__ <= i__1; ++i__)
-                {
-                    if (b[i__ + i__ * b_dim1] < 0.)
-                    {
+                for (i__ = 1; i__ <= i__1; ++i__) {
+                    if (b[i__ + i__ * b_dim1] < 0.) {
                         dscal_(&i__, &c_b19, &b[i__ * b_dim1 + 1], &c__1);
                     }
                     /* L320: */
@@ -643,4 +602,3 @@ L200:
     return 0;
     /* *** Last line of SG03BV *** */
 } /* sg03bv_ */
-

@@ -18,14 +18,18 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "nlsMemory_manager_exports.h"
 #include "Evaluator.hpp"
+#include "nlsMemory_manager_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    NLSMEMORY_MANAGER_IMPEXP bool ClearGlobalVariable(Evaluator* eval, std::wstring variable);
-    NLSMEMORY_MANAGER_IMPEXP bool ClearGlobalVariable(Evaluator* eval, std::string variable);
-    NLSMEMORY_MANAGER_IMPEXP bool ClearAllGlobalVariables(Evaluator* eval);
-    NLSMEMORY_MANAGER_IMPEXP bool ClearAllPersistentVariables(Evaluator* eval);
-}
+NLSMEMORY_MANAGER_IMPEXP bool
+ClearGlobalVariable(Evaluator* eval, std::wstring variable);
+NLSMEMORY_MANAGER_IMPEXP bool
+ClearGlobalVariable(Evaluator* eval, std::string variable);
+NLSMEMORY_MANAGER_IMPEXP bool
+ClearAllGlobalVariables(Evaluator* eval);
+NLSMEMORY_MANAGER_IMPEXP bool
+ClearAllPersistentVariables(Evaluator* eval);
+} // namespace Nelson
 //=============================================================================

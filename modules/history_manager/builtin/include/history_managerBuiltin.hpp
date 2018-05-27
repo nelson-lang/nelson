@@ -22,9 +22,9 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace HistoryManagerGateway {
-        ArrayOfVector history_managerBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    };
+namespace HistoryManagerGateway {
+    ArrayOfVector
+    history_managerBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 };
+}; // namespace Nelson
 //=============================================================================
-

@@ -16,33 +16,30 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
 #include "IsFile.hpp"
 #include "Exception.hpp"
+#include <boost/filesystem.hpp>
+#include <boost/filesystem/path.hpp>
 //=============================================================================
 using namespace boost::filesystem;
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    bool IsFile(std::wstring str)
-    {
-        boost::filesystem::path data_dir(str);
-        bool bRes = false;
-        try
-        {
-            bRes = boost::filesystem::exists(data_dir) && !boost::filesystem::is_directory(data_dir);
+//=============================================================================
+bool
+IsFile(std::wstring str)
+{
+    boost::filesystem::path data_dir(str);
+    bool bRes = false;
+    try {
+        bRes = boost::filesystem::exists(data_dir) && !boost::filesystem::is_directory(data_dir);
+    } catch (const boost::filesystem::filesystem_error& e) {
+        if (e.code() == boost::system::errc::permission_denied) {
+            throw Exception(_W("Permission denied."));
         }
-        catch (const boost::filesystem::filesystem_error& e)
-        {
-            if (e.code() == boost::system::errc::permission_denied)
-            {
-                throw Exception(_W("Permission denied."));
-            }
-            bRes = false;
-        }
-        return bRes;
+        bRes = false;
     }
-    //=============================================================================
+    return bRes;
+}
+//=============================================================================
 }
 //=============================================================================

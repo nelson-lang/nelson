@@ -18,10 +18,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsCore_exports.h"
 #include "Evaluator.hpp"
+#include "nlsCore_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSCORE_IMPEXP void Banner(Evaluator* eval);
+NLSCORE_IMPEXP void
+Banner(Evaluator* eval);
 }
 //=============================================================================

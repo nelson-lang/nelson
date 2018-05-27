@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,18 +9,20 @@
 
 static doublereal c_b20 = 0.;
 
-EXPORTSYMBOL /* Subroutine */ int ab09fd_(dico, jobcf, fact, jobmr, equil, ordsel, n, m, p, nr, alpha, a, lda, b, ldb, c__, ldc, nq, hsv, tol1, tol2, iwork, dwork, ldwork, iwarn, info, dico_len, jobcf_len, fact_len, jobmr_len, equil_len, ordsel_len)
-char *dico, *jobcf, *fact, *jobmr, *equil, *ordsel;
+EXPORTSYMBOL /* Subroutine */ int ab09fd_(dico, jobcf, fact, jobmr, equil, ordsel, n, m, p, nr,
+    alpha, a, lda, b, ldb, c__, ldc, nq, hsv, tol1, tol2, iwork, dwork, ldwork, iwarn, info,
+    dico_len, jobcf_len, fact_len, jobmr_len, equil_len, ordsel_len) char *dico,
+    *jobcf, *fact, *jobmr, *equil, *ordsel;
 integer *n, *m, *p, *nr;
 doublereal *alpha, *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
 integer *ldc, *nq;
 doublereal *hsv, *tol1, *tol2;
-integer *iwork;
-doublereal *dwork;
+integer* iwork;
+doublereal* dwork;
 integer *ldwork, *iwarn, *info;
 ftnlen dico_len;
 ftnlen jobcf_len;
@@ -34,7 +36,8 @@ ftnlen ordsel_len;
     /* Local variables */
     static logical left;
     static integer ierr;
-    extern /* Subroutine */ int ab09ax_(), sb08cd_(), sb08dd_(), sb08ed_(), sb08fd_(), sb08gd_(), sb08hd_(), tb01id_();
+    extern /* Subroutine */ int ab09ax_(), sb08cd_(), sb08dd_(), sb08ed_(), sb08fd_(), sb08gd_(),
+        sb08hd_(), tb01id_();
     static logical stabd;
     extern logical lsame_();
     static logical discr;
@@ -329,90 +332,63 @@ ftnlen ordsel_len;
     fixord = lsame_(ordsel, "F", 1L, 1L);
     left = lsame_(jobcf, "L", 1L, 1L);
     stabd = lsame_(fact, "S", 1L, 1L);
-    maxmp = max(*m,*p);
+    maxmp = max(*m, *p);
     /* Computing MAX */
     i__1 = *n, i__2 = *m + *p;
-    lwr = (*n << 1) **n + *n * (max(i__1,i__2) + 5) + *n * (*n + 1) / 2;
+    lwr = (*n << 1) * *n + *n * (max(i__1, i__2) + 5) + *n * (*n + 1) / 2;
     lw1 = *n * ((maxmp << 1) + *p) + maxmp * (maxmp + *p);
     /* Computing MAX */
     /* Computing MAX */
-    i__2 = *n * (*n + 5), i__3 = *p * (*p + 2), i__2 = max(i__2,i__3), i__3 = *p << 2, i__2 = max(i__2,i__3), i__3 = *m << 2;
-    i__1 = *n **p + max(i__2,i__3);
-    lw2 = lw1 + max(i__1,lwr);
+    i__2 = *n * (*n + 5), i__3 = *p * (*p + 2), i__2 = max(i__2, i__3), i__3 = *p << 2,
+    i__2 = max(i__2, i__3), i__3 = *m << 2;
+    i__1 = *n * *p + max(i__2, i__3);
+    lw2 = lw1 + max(i__1, lwr);
     /* Computing MAX */
     /* Computing MAX */
-    i__2 = *n * (*n + 5), i__3 = *p * 5, i__2 = max(i__2,i__3), i__3 = *m << 2;
-    i__1 = *n **p + max(i__2,i__3);
-    lw1 += max(i__1,lwr);
+    i__2 = *n * (*n + 5), i__3 = *p * 5, i__2 = max(i__2, i__3), i__3 = *m << 2;
+    i__1 = *n * *p + max(i__2, i__3);
+    lw1 += max(i__1, lwr);
     /* Computing MAX */
-    i__1 = *m * 5, i__2 = *p << 2, i__1 = max(i__1,i__2);
-    lw3 = (*n + *m) * (*m + *p) + max(i__1,lwr);
+    i__1 = *m * 5, i__2 = *p << 2, i__1 = max(i__1, i__2);
+    lw3 = (*n + *m) * (*m + *p) + max(i__1, lwr);
     /* Computing MAX */
-    i__1 = *m * (*m + 2), i__2 = *m << 2, i__1 = max(i__1,i__2), i__2 = *p << 2, i__1 = max(i__1,i__2);
-    lw4 = (*n + *m) * (*m + *p) + max(i__1,lwr);
+    i__1 = *m * (*m + 2), i__2 = *m << 2, i__1 = max(i__1, i__2), i__2 = *p << 2,
+    i__1 = max(i__1, i__2);
+    lw4 = (*n + *m) * (*m + *p) + max(i__1, lwr);
     /*     Test the input scalar arguments. */
-    if (! (lsame_(dico, "C", 1L, 1L) || discr))
-    {
+    if (!(lsame_(dico, "C", 1L, 1L) || discr)) {
         *info = -1;
-    }
-    else if (! (left || lsame_(jobcf, "R", 1L, 1L)))
-    {
+    } else if (!(left || lsame_(jobcf, "R", 1L, 1L))) {
         *info = -2;
-    }
-    else if (! (stabd || lsame_(fact, "I", 1L, 1L)))
-    {
+    } else if (!(stabd || lsame_(fact, "I", 1L, 1L))) {
         *info = -3;
-    }
-    else if (! (lsame_(jobmr, "B", 1L, 1L) || lsame_(jobmr, "N", 1L, 1L)))
-    {
+    } else if (!(lsame_(jobmr, "B", 1L, 1L) || lsame_(jobmr, "N", 1L, 1L))) {
         *info = -4;
-    }
-    else if (! (lsame_(equil, "S", 1L, 1L) || lsame_(equil, "N", 1L, 1L)))
-    {
+    } else if (!(lsame_(equil, "S", 1L, 1L) || lsame_(equil, "N", 1L, 1L))) {
         *info = -5;
-    }
-    else if (! (fixord || lsame_(ordsel, "A", 1L, 1L)))
-    {
+    } else if (!(fixord || lsame_(ordsel, "A", 1L, 1L))) {
         *info = -6;
-    }
-    else if (stabd && (! discr && *alpha >= 0. || discr && (*alpha < 0. || *alpha >= 1.)))
-    {
+    } else if (stabd && (!discr && *alpha >= 0. || discr && (*alpha < 0. || *alpha >= 1.))) {
         *info = -7;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -8;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -9;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -10;
-    }
-    else if (fixord && (*nr < 0 || *nr > *n))
-    {
+    } else if (fixord && (*nr < 0 || *nr > *n)) {
         *info = -11;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -13;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -15;
-    }
-    else if (*ldc < max(1,*p))
-    {
+    } else if (*ldc < max(1, *p)) {
         *info = -17;
-    }
-    else if (*ldwork < 1 || stabd && left && *ldwork < lw1 || ! stabd && left && *ldwork < lw2 || stabd && ! left && *ldwork < lw3 || ! stabd && ! left && *ldwork < lw4)
-    {
+    } else if (*ldwork < 1 || stabd && left && *ldwork < lw1 || !stabd && left && *ldwork < lw2
+        || stabd && !left && *ldwork < lw3 || !stabd && !left && *ldwork < lw4) {
         *info = -24;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("AB09FD", &i__1, 6L);
@@ -420,77 +396,73 @@ ftnlen ordsel_len;
     }
     /*     Quick return if possible. */
     /* Computing MIN */
-    i__1 = min(*n,*m);
-    if (min(i__1,*p) == 0 || fixord && *nr == 0)
-    {
+    i__1 = min(*n, *m);
+    if (min(i__1, *p) == 0 || fixord && *nr == 0) {
         *nr = 0;
         *nq = 0;
         dwork[1] = 1.;
         return 0;
     }
-    if (lsame_(equil, "S", 1L, 1L))
-    {
+    if (lsame_(equil, "S", 1L, 1L)) {
         /*        Scale simultaneously the matrices A, B and C: */
         /*        A <- inv(D)*A*D,  B <- inv(D)*B and C <- C*D, where D is a */
         /*        diagonal matrix. */
         maxred = 100.;
-        tb01id_("A", n, m, p, &maxred, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, &dwork[1], info, 1L);
+        tb01id_("A", n, m, p, &maxred, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc,
+            &dwork[1], info, 1L);
     }
     /*     Perform the coprime factor model reduction procedure. */
     kd = 1;
-    if (left)
-    {
+    if (left) {
         /*                           -1 */
         /*        Compute a LCF G = R  *Q. */
         mp = *m + *p;
         kdr = kd + maxmp * maxmp;
-        kc = kdr + maxmp **p;
-        kb = kc + maxmp **n;
+        kc = kdr + maxmp * *p;
+        kb = kc + maxmp * *n;
         kbr = kb + *n * maxmp;
-        kw = kbr + *n **p;
+        kw = kbr + *n * *p;
         lwr = *ldwork - kw + 1;
         dlacpy_("Full", n, m, &b[b_offset], ldb, &dwork[kb], n, 4L);
         dlacpy_("Full", p, n, &c__[c_offset], ldc, &dwork[kc], &maxmp, 4L);
         dlaset_("Full", p, m, &c_b20, &c_b20, &dwork[kd], &maxmp, 4L);
-        if (stabd)
-        {
+        if (stabd) {
             /*           Compute a LCF with prescribed stability degree. */
             /*           Workspace needed:      N*(2*MAX(M,P)+P) + */
             /*                                  MAX(M,P)*(MAX(M,P)+P); */
             /*           Additional workspace:  need   N*P+MAX(N*(N+5),5*P,4*M); */
             /*                                  prefer larger. */
-            sb08ed_(dico, n, m, p, alpha, &a[a_offset], lda, &dwork[kb], n, &dwork[kc], &maxmp, &dwork[kd], &maxmp, nq, &ndr, &dwork[kbr], n, &dwork[kdr], &maxmp, tol2, &dwork[kw], &lwr, iwarn, info, 1L);
-        }
-        else
-        {
+            sb08ed_(dico, n, m, p, alpha, &a[a_offset], lda, &dwork[kb], n, &dwork[kc], &maxmp,
+                &dwork[kd], &maxmp, nq, &ndr, &dwork[kbr], n, &dwork[kdr], &maxmp, tol2, &dwork[kw],
+                &lwr, iwarn, info, 1L);
+        } else {
             /*           Compute a LCF with inner denominator. */
             /*           Workspace needed:      N*(2*MAX(M,P)+P) + */
             /*                                  MAX(M,P)*(MAX(M,P)+P); */
             /*           Additional workspace:  need   N*P + */
             /*                                         MAX(N*(N+5),P*(P+2),4*P,4*M). */
             /*                                  prefer larger; */
-            sb08cd_(dico, n, m, p, &a[a_offset], lda, &dwork[kb], n, &dwork[kc], &maxmp, &dwork[kd], &maxmp, nq, &ndr, &dwork[kbr], n, &dwork[kdr], &maxmp, tol2, &dwork[kw], &lwr, iwarn, info, 1L);
+            sb08cd_(dico, n, m, p, &a[a_offset], lda, &dwork[kb], n, &dwork[kc], &maxmp, &dwork[kd],
+                &maxmp, nq, &ndr, &dwork[kbr], n, &dwork[kdr], &maxmp, tol2, &dwork[kw], &lwr,
+                iwarn, info, 1L);
         }
         *iwarn *= 10;
-        if (*info != 0)
-        {
+        if (*info != 0) {
             return 0;
         }
-        wrkopt = (integer) dwork[kw] + kw - 1;
-        if (*nq == 0)
-        {
+        wrkopt = (integer)dwork[kw] + kw - 1;
+        if (*nq == 0) {
             *nr = 0;
-            dwork[1] = (doublereal) wrkopt;
+            dwork[1] = (doublereal)wrkopt;
             return 0;
         }
-        if (maxmp > *m)
-        {
+        if (maxmp > *m) {
             /*           Form the matrices ( BQ, BR ) and ( DQ, DR ) in consecutive */
             /*           columns (see SLICOT Library routines SB08CD/SB08ED). */
             kbt = kbr;
-            kbr = kb + *n **m;
+            kbr = kb + *n * *m;
             kdt = kdr;
-            kdr = kd + maxmp **m;
+            kdr = kd + maxmp * *m;
             dlacpy_("Full", nq, p, &dwork[kbt], n, &dwork[kbr], n, 4L);
             dlacpy_("Full", p, p, &dwork[kdt], &maxmp, &dwork[kdr], &maxmp, 4L);
         }
@@ -500,68 +472,67 @@ ftnlen ordsel_len;
         /*        Additional workspace:  need   N*(MAX(N,M+P)+5) + N*(N+1)/2; */
         /*                               prefer larger. */
         kt = kw;
-        kti = kt + *nq **nq;
-        kw = kti + *nq **nq;
+        kti = kt + *nq * *nq;
+        kw = kti + *nq * *nq;
         i__1 = *ldwork - kw + 1;
-        ab09ax_(dico, jobmr, ordsel, nq, &mp, p, nr, &a[a_offset], lda, &dwork[kb], n, &dwork[kc], &maxmp, &hsv[1], &dwork[kt], n, &dwork[kti], n, tol1, &iwork[1], &dwork[kw], &i__1, &iwarnk, &ierr, 1L, 1L, 1L);
+        ab09ax_(dico, jobmr, ordsel, nq, &mp, p, nr, &a[a_offset], lda, &dwork[kb], n, &dwork[kc],
+            &maxmp, &hsv[1], &dwork[kt], n, &dwork[kti], n, tol1, &iwork[1], &dwork[kw], &i__1,
+            &iwarnk, &ierr, 1L, 1L, 1L);
         *iwarn += iwarnk;
-        if (ierr != 0)
-        {
+        if (ierr != 0) {
             *info = 4;
             return 0;
         }
         /* Computing MAX */
-        i__1 = wrkopt, i__2 = (integer) dwork[kw] + kw - 1;
-        wrkopt = max(i__1,i__2);
+        i__1 = wrkopt, i__2 = (integer)dwork[kw] + kw - 1;
+        wrkopt = max(i__1, i__2);
         /*                                                -1 */
         /*        Compute the reduced order system Gr = Rr  *Qr. */
         /*        Workspace needed:      N*(2*MAX(M,P)+P) + */
         /*                               MAX(M,P)*(MAX(M,P)+P); */
         /*        Additional workspace:  need   4*P. */
         kw = kt;
-        sb08gd_(nr, m, p, &a[a_offset], lda, &dwork[kb], n, &dwork[kc], &maxmp, &dwork[kd], &maxmp, &dwork[kbr], n, &dwork[kdr], &maxmp, &iwork[1], &dwork[kw], info);
+        sb08gd_(nr, m, p, &a[a_offset], lda, &dwork[kb], n, &dwork[kc], &maxmp, &dwork[kd], &maxmp,
+            &dwork[kbr], n, &dwork[kdr], &maxmp, &iwork[1], &dwork[kw], info);
         /*        Copy the reduced system matrices Br and Cr to B and C. */
         dlacpy_("Full", nr, m, &dwork[kb], n, &b[b_offset], ldb, 4L);
         dlacpy_("Full", p, nr, &dwork[kc], &maxmp, &c__[c_offset], ldc, 4L);
-    }
-    else
-    {
+    } else {
         /*                             -1 */
         /*        Compute a RCF G = Q*R  . */
         pm = *p + *m;
         kdr = kd + *p;
-        kc = kd + pm **m;
+        kc = kd + pm * *m;
         kcr = kc + *p;
-        kw = kc + pm **n;
+        kw = kc + pm * *n;
         lwr = *ldwork - kw + 1;
         dlacpy_("Full", p, n, &c__[c_offset], ldc, &dwork[kc], &pm, 4L);
         dlaset_("Full", p, m, &c_b20, &c_b20, &dwork[kd], &pm, 4L);
-        if (stabd)
-        {
+        if (stabd) {
             /*           Compute a RCF with prescribed stability degree. */
             /*           Workspace needed:      (N+M)*(M+P); */
             /*           Additional workspace:  need   MAX( N*(N+5), 5*M, 4*P ); */
             /*                                  prefer larger. */
-            sb08fd_(dico, n, m, p, alpha, &a[a_offset], lda, &b[b_offset], ldb, &dwork[kc], &pm, &dwork[kd], &pm, nq, &ndr, &dwork[kcr], &pm, &dwork[kdr], &pm, tol2, &dwork[kw], &lwr, iwarn, info, 1L);
-        }
-        else
-        {
+            sb08fd_(dico, n, m, p, alpha, &a[a_offset], lda, &b[b_offset], ldb, &dwork[kc], &pm,
+                &dwork[kd], &pm, nq, &ndr, &dwork[kcr], &pm, &dwork[kdr], &pm, tol2, &dwork[kw],
+                &lwr, iwarn, info, 1L);
+        } else {
             /*           Compute a RCF with inner denominator. */
             /*           Workspace needed:      (N+M)*(M+P); */
             /*           Additional workspace:  need   MAX(N*(N+5),M*(M+2),4*M,4*P); */
             /*                                  prefer larger. */
-            sb08dd_(dico, n, m, p, &a[a_offset], lda, &b[b_offset], ldb, &dwork[kc], &pm, &dwork[kd], &pm, nq, &ndr, &dwork[kcr], &pm, &dwork[kdr], &pm, tol2, &dwork[kw], &lwr, iwarn, info, 1L);
+            sb08dd_(dico, n, m, p, &a[a_offset], lda, &b[b_offset], ldb, &dwork[kc], &pm,
+                &dwork[kd], &pm, nq, &ndr, &dwork[kcr], &pm, &dwork[kdr], &pm, tol2, &dwork[kw],
+                &lwr, iwarn, info, 1L);
         }
         *iwarn *= 10;
-        if (*info != 0)
-        {
+        if (*info != 0) {
             return 0;
         }
-        wrkopt = (integer) dwork[kw] + kw - 1;
-        if (*nq == 0)
-        {
+        wrkopt = (integer)dwork[kw] + kw - 1;
+        if (*nq == 0) {
             *nr = 0;
-            dwork[1] = (doublereal) wrkopt;
+            dwork[1] = (doublereal)wrkopt;
             return 0;
         }
         /*                                   ( Q )              ( Qr ) */
@@ -570,30 +541,31 @@ ftnlen ordsel_len;
         /*        Additional workspace:  need   N*(MAX(N,M+P)+5) + N*(N+1)/2; */
         /*                               prefer larger. */
         kt = kw;
-        kti = kt + *nq **nq;
-        kw = kti + *nq **nq;
+        kti = kt + *nq * *nq;
+        kw = kti + *nq * *nq;
         i__1 = *ldwork - kw + 1;
-        ab09ax_(dico, jobmr, ordsel, nq, m, &pm, nr, &a[a_offset], lda, &b[b_offset], ldb, &dwork[kc], &pm, &hsv[1], &dwork[kt], n, &dwork[kti], n, tol1, &iwork[1], &dwork[kw], &i__1, &iwarnk, &ierr, 1L, 1L, 1L);
+        ab09ax_(dico, jobmr, ordsel, nq, m, &pm, nr, &a[a_offset], lda, &b[b_offset], ldb,
+            &dwork[kc], &pm, &hsv[1], &dwork[kt], n, &dwork[kti], n, tol1, &iwork[1], &dwork[kw],
+            &i__1, &iwarnk, &ierr, 1L, 1L, 1L);
         *iwarn += iwarnk;
-        if (ierr != 0)
-        {
+        if (ierr != 0) {
             *info = 4;
             return 0;
         }
         /* Computing MAX */
-        i__1 = wrkopt, i__2 = (integer) dwork[kw] + kw - 1;
-        wrkopt = max(i__1,i__2);
+        i__1 = wrkopt, i__2 = (integer)dwork[kw] + kw - 1;
+        wrkopt = max(i__1, i__2);
         /*                                                   -1 */
         /*        Compute the reduced order system Gr = Qr*Rr  . */
         /*        Workspace needed:      (N+M)*(M+P); */
         /*        Additional workspace:  need 4*M. */
         kw = kt;
-        sb08hd_(nr, m, p, &a[a_offset], lda, &b[b_offset], ldb, &dwork[kc], &pm, &dwork[kd], &pm, &dwork[kcr], &pm, &dwork[kdr], &pm, &iwork[1], &dwork[kw], info);
+        sb08hd_(nr, m, p, &a[a_offset], lda, &b[b_offset], ldb, &dwork[kc], &pm, &dwork[kd], &pm,
+            &dwork[kcr], &pm, &dwork[kdr], &pm, &iwork[1], &dwork[kw], info);
         /*        Copy the reduced system matrix Cr to C. */
         dlacpy_("Full", p, nr, &dwork[kc], &pm, &c__[c_offset], ldc, 4L);
     }
-    dwork[1] = (doublereal) wrkopt;
+    dwork[1] = (doublereal)wrkopt;
     return 0;
     /* *** Last line of AB09FD *** */
 } /* ab09fd_ */
-

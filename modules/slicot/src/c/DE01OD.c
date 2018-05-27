@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,11 +9,10 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int de01od_(conv, n, a, b, info, conv_len)
-char *conv;
-integer *n;
+EXPORTSYMBOL /* Subroutine */ int de01od_(conv, n, a, b, info, conv_len) char* conv;
+integer* n;
 doublereal *a, *b;
-integer *info;
+integer* info;
 ftnlen conv_len;
 {
     /* System generated locals */
@@ -103,32 +102,25 @@ ftnlen conv_len;
     *info = 0;
     lconv = lsame_(conv, "C", 1L, 1L);
     /*     Test the input scalar arguments. */
-    if (! lconv && ! lsame_(conv, "D", 1L, 1L))
-    {
+    if (!lconv && !lsame_(conv, "D", 1L, 1L)) {
         *info = -1;
-    }
-    else
-    {
+    } else {
         j = 0;
-        if (*n >= 2)
-        {
+        if (*n >= 2) {
             j = *n;
             /*           WHILE ( MOD( J, 2 ).EQ.0 ) DO */
-L10:
-            if (j % 2 == 0)
-            {
+        L10:
+            if (j % 2 == 0) {
                 j /= 2;
                 goto L10;
             }
             /*           END WHILE 10 */
         }
-        if (j != 1)
-        {
+        if (j != 1) {
             *info = -2;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("DE01OD", &i__1, 6L);
@@ -136,26 +128,19 @@ L10:
     }
     /*     Fourier transform. */
     dg01md_("Direct", n, &a[1], &b[1], info, 6L);
-    if (lconv)
-    {
+    if (lconv) {
         ast = a[1] * b[1];
-    }
-    else
-    {
-        if (b[1] == 0.)
-        {
+    } else {
+        if (b[1] == 0.) {
             ast = 0.;
-        }
-        else
-        {
+        } else {
             ast = a[1] / b[1];
         }
     }
     nd2p1 = *n / 2 + 1;
     j = nd2p1;
     i__1 = *n;
-    for (kj = nd2p1; kj <= i__1; ++kj)
-    {
+    for (kj = nd2p1; kj <= i__1; ++kj) {
         /*        Components of the transform of function A. */
         ac = (a[j] + a[kj]) * .5;
         as = (b[j] - b[kj]) * .5;
@@ -164,22 +149,16 @@ L10:
         bs = (a[kj] - a[j]) * .5;
         /*        Deconvolution by complex division if CONV = 'D'; */
         /*        Convolution by complex multiplication if CONV = 'C'. */
-        if (lconv)
-        {
+        if (lconv) {
             cr = ac * bc - as * bs;
             ci = as * bc + ac * bs;
-        }
-        else
-        {
+        } else {
             /* Computing MAX */
             d__1 = abs(bc), d__2 = abs(bs);
-            if (max(d__1,d__2) == 0.)
-            {
+            if (max(d__1, d__2) == 0.) {
                 cr = 0.;
                 ci = 0.;
-            }
-            else
-            {
+            } else {
                 dladiv_(&ac, &as, &bc, &bs, &cr, &ci);
             }
         }
@@ -194,9 +173,8 @@ L10:
     b[1] = 0.;
     /*     Inverse Fourier transform. */
     dg01md_("Inverse", n, &a[1], &b[1], info, 7L);
-    d__1 = 1. / (doublereal) (*n);
+    d__1 = 1. / (doublereal)(*n);
     dscal_(n, &d__1, &a[1], &c__1);
     return 0;
     /* *** Last line of DE01OD *** */
 } /* de01od_ */
-

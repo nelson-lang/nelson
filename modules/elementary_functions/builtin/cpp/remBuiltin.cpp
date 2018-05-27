@@ -23,21 +23,20 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::ElementaryFunctionsGateway::remBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::ElementaryFunctionsGateway::remBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 2)
-    {
+    if (argIn.size() != 2) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool bSuccess = false;
     retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
-    if (!bSuccess)
-    {
+    if (!bSuccess) {
         retval.push_back(Remainder(argIn[0], argIn[1]));
     }
     return retval;

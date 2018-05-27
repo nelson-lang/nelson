@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,33 +11,37 @@ static doublereal c_b5 = 0.;
 static doublereal c_b8 = 1.;
 static doublereal c_b17 = -1.;
 
-EXPORTSYMBOL /* Subroutine */ int sb10qd_(n, m, np, ncon, nmeas, gamma, a, lda, b, ldb, c__, ldc, d__, ldd, f, ldf, h__, ldh, x, ldx, y, ldy, xycond, iwork, dwork, ldwork, bwork, info)
-integer *n, *m, *np, *ncon, *nmeas;
+EXPORTSYMBOL /* Subroutine */ int sb10qd_(n, m, np, ncon, nmeas, gamma, a, lda, b, ldb, c__, ldc,
+    d__, ldd, f, ldf, h__, ldh, x, ldx, y, ldy, xycond, iwork, dwork, ldwork, bwork,
+    info) integer *n,
+    *m, *np, *ncon, *nmeas;
 doublereal *gamma, *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *d__;
-integer *ldd;
-doublereal *f;
-integer *ldf;
-doublereal *h__;
-integer *ldh;
-doublereal *x;
-integer *ldx;
-doublereal *y;
-integer *ldy;
-doublereal *xycond;
-integer *iwork;
-doublereal *dwork;
-integer *ldwork;
-logical *bwork;
-integer *info;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* d__;
+integer* ldd;
+doublereal* f;
+integer* ldf;
+doublereal* h__;
+integer* ldh;
+doublereal* x;
+integer* ldx;
+doublereal* y;
+integer* ldy;
+doublereal* xycond;
+integer* iwork;
+doublereal* dwork;
+integer* ldwork;
+logical* bwork;
+integer* info;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, f_dim1, f_offset, h_dim1, h_offset, x_dim1, x_offset, y_dim1, y_offset, i__1, i__2, i__3, i__4, i__5, i__6, i__7, i__8, i__9, i__10;
+    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, f_dim1,
+        f_offset, h_dim1, h_offset, x_dim1, x_offset, y_dim1, y_offset, i__1, i__2, i__3, i__4,
+        i__5, i__6, i__7, i__8, i__9, i__10;
     doublereal d__1;
     /* Local variables */
     static doublereal ferr;
@@ -274,92 +278,61 @@ integer *info;
     m2 = *ncon;
     np1 = *np - *nmeas;
     np2 = *nmeas;
-    nn = *n **n;
+    nn = *n * *n;
     *info = 0;
-    if (*n < 0)
-    {
+    if (*n < 0) {
         *info = -1;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -2;
-    }
-    else if (*np < 0)
-    {
+    } else if (*np < 0) {
         *info = -3;
-    }
-    else if (*ncon < 0 || m1 < 0 || m2 > np1)
-    {
+    } else if (*ncon < 0 || m1 < 0 || m2 > np1) {
         *info = -4;
-    }
-    else if (*nmeas < 0 || np1 < 0 || np2 > m1)
-    {
+    } else if (*nmeas < 0 || np1 < 0 || np2 > m1) {
         *info = -5;
-    }
-    else if (*gamma < 0.)
-    {
+    } else if (*gamma < 0.) {
         *info = -6;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -8;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -10;
-    }
-    else if (*ldc < max(1,*np))
-    {
+    } else if (*ldc < max(1, *np)) {
         *info = -12;
-    }
-    else if (*ldd < max(1,*np))
-    {
+    } else if (*ldd < max(1, *np)) {
         *info = -14;
-    }
-    else if (*ldf < max(1,*m))
-    {
+    } else if (*ldf < max(1, *m)) {
         *info = -16;
-    }
-    else if (*ldh < max(1,*n))
-    {
+    } else if (*ldh < max(1, *n)) {
         *info = -18;
-    }
-    else if (*ldx < max(1,*n))
-    {
+    } else if (*ldx < max(1, *n)) {
         *info = -20;
-    }
-    else if (*ldy < max(1,*n))
-    {
+    } else if (*ldy < max(1, *n)) {
         *info = -22;
-    }
-    else
-    {
+    } else {
         /*        Compute workspace. */
         /* Computing MAX */
         /* Computing MAX */
         /* Computing MAX */
-        i__5 = *n **m, i__6 = nn * 10 + *n * 12 + 5;
-        i__3 = m1 << 1, i__4 = nn * 3 + max(i__5,i__6);
+        i__5 = *n * *m, i__6 = nn * 10 + *n * 12 + 5;
+        i__3 = m1 << 1, i__4 = nn * 3 + max(i__5, i__6);
         /* Computing MAX */
         /* Computing MAX */
-        i__9 = *n **np, i__10 = nn * 10 + *n * 12 + 5;
-        i__7 = np1 << 1, i__8 = nn * 3 + max(i__9,i__10);
-        i__1 = 1, i__2 = *m **m + max(i__3,i__4), i__1 = max(i__1,i__2), i__2 = *np **np + max(i__7,i__8);
-        minwrk = max(i__1,i__2);
-        if (*ldwork < minwrk)
-        {
+        i__9 = *n * *np, i__10 = nn * 10 + *n * 12 + 5;
+        i__7 = np1 << 1, i__8 = nn * 3 + max(i__9, i__10);
+        i__1 = 1, i__2 = *m * *m + max(i__3, i__4), i__1 = max(i__1, i__2),
+        i__2 = *np * *np + max(i__7, i__8);
+        minwrk = max(i__1, i__2);
+        if (*ldwork < minwrk) {
             *info = -26;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("SB10QD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0 || *m == 0 || *np == 0 || m1 == 0 || m2 == 0 || np1 == 0 || np2 == 0)
-    {
+    if (*n == 0 || *m == 0 || *np == 0 || m1 == 0 || m2 == 0 || np1 == 0 || np2 == 0) {
         xycond[1] = 1.;
         xycond[2] = 1.;
         dwork[1] = 1.;
@@ -371,16 +344,15 @@ integer *info;
     /*     Get the machine precision. */
     eps = dlamch_("Epsilon", 7L);
     /*     Workspace usage. */
-    iwa = *m **m + 1;
+    iwa = *m * *m + 1;
     iwq = iwa + nn;
     iwg = iwq + nn;
     iw2 = iwg + nn;
     /*     Compute |D1111'||D1111 D1112| - gamma^2*Im1 . */
     /*             |D1112'| */
-    d__1 = -(*gamma) **gamma;
+    d__1 = -(*gamma) * *gamma;
     dlaset_("L", &m1, &m1, &c_b5, &d__1, &dwork[1], m, 1L);
-    if (nd1 > 0)
-    {
+    if (nd1 > 0) {
         dsyrk_("L", "T", &m1, &nd1, &c_b8, &d__[d_offset], ldd, &c_b8, &dwork[1], m, 1L, 1L);
     }
     /*     Compute inv(|D1111'|*|D1111 D1112| - gamma^2*Im1) . */
@@ -389,15 +361,14 @@ integer *info;
     anorm = dlansy_("I", "L", &m1, &dwork[1], m, &dwork[iwrk], 1L, 1L);
     i__1 = *ldwork - iwrk + 1;
     dsytrf_("L", &m1, &dwork[1], m, &iwork[1], &dwork[iwrk], &i__1, &info2, 1L);
-    if (info2 > 0)
-    {
+    if (info2 > 0) {
         *info = 1;
         return 0;
     }
-    lwamax = (integer) dwork[iwrk] + iwrk - 1;
-    dsycon_("L", &m1, &dwork[1], m, &iwork[1], &anorm, &rcond, &dwork[iwrk], &iwork[m1 + 1], &info2, 1L);
-    if (rcond < eps)
-    {
+    lwamax = (integer)dwork[iwrk] + iwrk - 1;
+    dsycon_("L", &m1, &dwork[1], m, &iwork[1], &anorm, &rcond, &dwork[iwrk], &iwork[m1 + 1], &info2,
+        1L);
+    if (rcond < eps) {
         *info = 1;
         return 0;
     }
@@ -405,36 +376,39 @@ integer *info;
     dsytri_("L", &m1, &dwork[1], m, &iwork[1], &dwork[iwrk], &info2, 1L);
     /*     Compute -|D1121 D1122|*inv(|D1111'|*|D1111 D1112| - gamma^2*Im1) . */
     /*                                |D1112'| */
-    dsymm_("R", "L", &m2, &m1, &c_b17, &dwork[1], m, &d__[nd1 + 1 + d_dim1], ldd, &c_b5, &dwork[m1 + 1], m, 1L, 1L);
+    dsymm_("R", "L", &m2, &m1, &c_b17, &dwork[1], m, &d__[nd1 + 1 + d_dim1], ldd, &c_b5,
+        &dwork[m1 + 1], m, 1L, 1L);
     /*     Compute |D1121 D1122|*inv(|D1111'|*|D1111 D1112| - */
     /*                               |D1112'| */
     /*                  gamma^2*Im1)*|D1121'| + Im2 . */
     /*                               |D1122'| */
     dlaset_("Lower", &m2, &m2, &c_b5, &c_b8, &dwork[m1 * (*m + 1) + 1], m, 5L);
-    mb01rx_("Right", "Lower", "Transpose", &m2, &m1, &c_b8, &c_b17, &dwork[m1 * (*m + 1) + 1], m, &d__[nd1 + 1 + d_dim1], ldd, &dwork[m1 + 1], m, &info2, 5L, 5L, 9L);
+    mb01rx_("Right", "Lower", "Transpose", &m2, &m1, &c_b8, &c_b17, &dwork[m1 * (*m + 1) + 1], m,
+        &d__[nd1 + 1 + d_dim1], ldd, &dwork[m1 + 1], m, &info2, 5L, 5L, 9L);
     /*     Compute D11'*C1 . */
-    dgemm_("T", "N", &m1, n, &np1, &c_b8, &d__[d_offset], ldd, &c__[c_offset], ldc, &c_b5, &dwork[iw2], m, 1L, 1L);
+    dgemm_("T", "N", &m1, n, &np1, &c_b8, &d__[d_offset], ldd, &c__[c_offset], ldc, &c_b5,
+        &dwork[iw2], m, 1L, 1L);
     /*     Compute D1D'*C1 . */
     dlacpy_("Full", &m2, n, &c__[nd1 + 1 + c_dim1], ldc, &dwork[iw2 + m1], m, 4L);
     /*     Compute inv(R)*D1D'*C1 in F . */
     dsymm_("L", "L", m, n, &c_b8, &dwork[1], m, &dwork[iw2], m, &c_b5, &f[f_offset], ldf, 1L, 1L);
     /*     Compute Ax = A - B*inv(R)*D1D'*C1 . */
     dlacpy_("Full", n, n, &a[a_offset], lda, &dwork[iwa], n, 4L);
-    dgemm_("N", "N", n, n, m, &c_b17, &b[b_offset], ldb, &f[f_offset], ldf, &c_b8, &dwork[iwa], n, 1L, 1L);
+    dgemm_("N", "N", n, n, m, &c_b17, &b[b_offset], ldb, &f[f_offset], ldf, &c_b8, &dwork[iwa], n,
+        1L, 1L);
     /*     Compute Cx = C1'*C1 - C1'*D1D*inv(R)*D1D'*C1 . */
-    if (nd1 == 0)
-    {
+    if (nd1 == 0) {
         dlaset_("L", n, n, &c_b5, &c_b5, &dwork[iwq], n, 1L);
-    }
-    else
-    {
+    } else {
         dsyrk_("L", "T", n, &np1, &c_b8, &c__[c_offset], ldc, &c_b5, &dwork[iwq], n, 1L, 1L);
-        mb01rx_("Left", "Lower", "Transpose", n, m, &c_b8, &c_b17, &dwork[iwq], n, &dwork[iw2], m, &f[f_offset], ldf, &info2, 4L, 5L, 9L);
+        mb01rx_("Left", "Lower", "Transpose", n, m, &c_b8, &c_b17, &dwork[iwq], n, &dwork[iw2], m,
+            &f[f_offset], ldf, &info2, 4L, 5L, 9L);
     }
     /*     Compute Dx = B*inv(R)*B' . */
     iwrk = iw2;
-    i__1 = *m **n;
-    mb01ru_("Lower", "NoTranspose", n, m, &c_b5, &c_b8, &dwork[iwg], n, &b[b_offset], ldb, &dwork[1], m, &dwork[iwrk], &i__1, &info2, 5L, 11L);
+    i__1 = *m * *n;
+    mb01ru_("Lower", "NoTranspose", n, m, &c_b5, &c_b8, &dwork[iwg], n, &b[b_offset], ldb,
+        &dwork[1], m, &dwork[iwrk], &i__1, &info2, 5L, 11L);
     /*     Solution of the Riccati equation Ax'*X + X*Ax + Cx - X*Dx*X = 0 . */
     /*     Workspace:  need   M*M + 13*N*N + 12*N + 5; */
     /*                 prefer larger. */
@@ -445,30 +419,34 @@ integer *info;
     iws = iwi + n2;
     iwrk = iws + (nn << 2);
     i__1 = *ldwork - iwrk + 1;
-    sb02rd_("All", "Continuous", "NotUsed", "NoTranspose", "Lower", "GeneralScaling", "Stable", "NotFactored", "Original", n, &dwork[iwa], n, &dwork[iwt], n, &dwork[iwv], n, &dwork[iwg], n, &dwork[iwq], n, &x[x_offset], ldx, &sep, &xycond[1], &ferr, &dwork[iwr], &dwork[iwi], &dwork[iws], &n2, &iwork[1], &dwork[iwrk], &i__1, &bwork[1], &info2, 3L, 10L, 7L, 11L, 5L, 14L, 6L, 11L, 8L);
-    if (info2 > 0)
-    {
+    sb02rd_("All", "Continuous", "NotUsed", "NoTranspose", "Lower", "GeneralScaling", "Stable",
+        "NotFactored", "Original", n, &dwork[iwa], n, &dwork[iwt], n, &dwork[iwv], n, &dwork[iwg],
+        n, &dwork[iwq], n, &x[x_offset], ldx, &sep, &xycond[1], &ferr, &dwork[iwr], &dwork[iwi],
+        &dwork[iws], &n2, &iwork[1], &dwork[iwrk], &i__1, &bwork[1], &info2, 3L, 10L, 7L, 11L, 5L,
+        14L, 6L, 11L, 8L);
+    if (info2 > 0) {
         *info = 2;
         return 0;
     }
     /* Computing MAX */
-    i__1 = (integer) dwork[iwrk] + iwrk - 1;
-    lwamax = max(i__1,lwamax);
+    i__1 = (integer)dwork[iwrk] + iwrk - 1;
+    lwamax = max(i__1, lwamax);
     /*     Compute F = -inv(R)*|D1D'*C1 + B'*X| . */
     iwrk = iw2;
-    dgemm_("T", "N", m, n, n, &c_b8, &b[b_offset], ldb, &x[x_offset], ldx, &c_b5, &dwork[iwrk], m, 1L, 1L);
-    dsymm_("L", "L", m, n, &c_b17, &dwork[1], m, &dwork[iwrk], m, &c_b17, &f[f_offset], ldf, 1L, 1L);
+    dgemm_("T", "N", m, n, n, &c_b8, &b[b_offset], ldb, &x[x_offset], ldx, &c_b5, &dwork[iwrk], m,
+        1L, 1L);
+    dsymm_(
+        "L", "L", m, n, &c_b17, &dwork[1], m, &dwork[iwrk], m, &c_b17, &f[f_offset], ldf, 1L, 1L);
     /*     Workspace usage. */
-    iwa = *np **np + 1;
+    iwa = *np * *np + 1;
     iwq = iwa + nn;
     iwg = iwq + nn;
     iw2 = iwg + nn;
     /*     Compute |D1111|*|D1111' D1121'| - gamma^2*Inp1 . */
     /*             |D1121| */
-    d__1 = -(*gamma) **gamma;
+    d__1 = -(*gamma) * *gamma;
     dlaset_("U", &np1, &np1, &c_b5, &d__1, &dwork[1], np, 1L);
-    if (nd2 > 0)
-    {
+    if (nd2 > 0) {
         dsyrk_("U", "N", &np1, &nd2, &c_b8, &d__[d_offset], ldd, &c_b8, &dwork[1], np, 1L, 1L);
     }
     /*     Compute inv(|D1111|*|D1111' D1121'| - gamma^2*Inp1) . */
@@ -477,17 +455,16 @@ integer *info;
     anorm = dlansy_("I", "U", &np1, &dwork[1], np, &dwork[iwrk], 1L, 1L);
     i__1 = *ldwork - iwrk + 1;
     dsytrf_("U", &np1, &dwork[1], np, &iwork[1], &dwork[iwrk], &i__1, &info2, 1L);
-    if (info2 > 0)
-    {
+    if (info2 > 0) {
         *info = 1;
         return 0;
     }
     /* Computing MAX */
-    i__1 = (integer) dwork[iwrk] + iwrk - 1;
-    lwamax = max(i__1,lwamax);
-    dsycon_("U", &np1, &dwork[1], np, &iwork[1], &anorm, &rcond, &dwork[iwrk], &iwork[np1 + 1], &info2, 1L);
-    if (rcond < eps)
-    {
+    i__1 = (integer)dwork[iwrk] + iwrk - 1;
+    lwamax = max(i__1, lwamax);
+    dsycon_("U", &np1, &dwork[1], np, &iwork[1], &anorm, &rcond, &dwork[iwrk], &iwork[np1 + 1],
+        &info2, 1L);
+    if (rcond < eps) {
         *info = 1;
         return 0;
     }
@@ -495,36 +472,40 @@ integer *info;
     dsytri_("U", &np1, &dwork[1], np, &iwork[1], &dwork[iwrk], &info2, 1L);
     /*     Compute -inv(|D1111||D1111' D1121'| - gamma^2*Inp1)*|D1112| . */
     /*                  |D1121|                                |D1122| */
-    dsymm_("L", "U", &np1, &np2, &c_b17, &dwork[1], np, &d__[(nd2 + 1) * d_dim1 + 1], ldd, &c_b5, &dwork[np1 **np + 1], np, 1L, 1L);
+    dsymm_("L", "U", &np1, &np2, &c_b17, &dwork[1], np, &d__[(nd2 + 1) * d_dim1 + 1], ldd, &c_b5,
+        &dwork[np1 * *np + 1], np, 1L, 1L);
     /*     Compute [D1112' D1122']*inv(|D1111||D1111' D1121'| - */
     /*                                 |D1121| */
     /*                gamma^2*Inp1)*|D1112| + Inp2 . */
     /*                              |D1122| */
     dlaset_("Full", &np2, &np2, &c_b5, &c_b8, &dwork[np1 * (*np + 1) + 1], np, 4L);
-    mb01rx_("Left", "Upper", "Transpose", &np2, &np1, &c_b8, &c_b17, &dwork[np1 * (*np + 1) + 1], np, &d__[(nd2 + 1) * d_dim1 + 1], ldd, &dwork[np1 **np + 1], np, &info2, 4L, 5L, 9L);
+    mb01rx_("Left", "Upper", "Transpose", &np2, &np1, &c_b8, &c_b17, &dwork[np1 * (*np + 1) + 1],
+        np, &d__[(nd2 + 1) * d_dim1 + 1], ldd, &dwork[np1 * *np + 1], np, &info2, 4L, 5L, 9L);
     /*     Compute B1*D11' . */
-    dgemm_("N", "T", n, &np1, &m1, &c_b8, &b[b_offset], ldb, &d__[d_offset], ldd, &c_b5, &dwork[iw2], n, 1L, 1L);
+    dgemm_("N", "T", n, &np1, &m1, &c_b8, &b[b_offset], ldb, &d__[d_offset], ldd, &c_b5,
+        &dwork[iw2], n, 1L, 1L);
     /*     Compute B1*DD1' . */
-    dlacpy_("Full", n, &np2, &b[(nd2 + 1) * b_dim1 + 1], ldb, &dwork[iw2 + np1 **n], n, 4L);
+    dlacpy_("Full", n, &np2, &b[(nd2 + 1) * b_dim1 + 1], ldb, &dwork[iw2 + np1 * *n], n, 4L);
     /*     Compute B1*DD1'*inv(RT) in H . */
-    dsymm_("R", "U", n, np, &c_b8, &dwork[1], np, &dwork[iw2], n, &c_b5, &h__[h_offset], ldh, 1L, 1L);
+    dsymm_(
+        "R", "U", n, np, &c_b8, &dwork[1], np, &dwork[iw2], n, &c_b5, &h__[h_offset], ldh, 1L, 1L);
     /*     Compute Ay = A - B1*DD1'*inv(RT)*C . */
     dlacpy_("Full", n, n, &a[a_offset], lda, &dwork[iwa], n, 4L);
-    dgemm_("N", "N", n, n, np, &c_b17, &h__[h_offset], ldh, &c__[c_offset], ldc, &c_b8, &dwork[iwa], n, 1L, 1L);
+    dgemm_("N", "N", n, n, np, &c_b17, &h__[h_offset], ldh, &c__[c_offset], ldc, &c_b8, &dwork[iwa],
+        n, 1L, 1L);
     /*     Compute Cy = B1*B1' - B1*DD1'*inv(RT)*DD1*B1' . */
-    if (nd2 == 0)
-    {
+    if (nd2 == 0) {
         dlaset_("U", n, n, &c_b5, &c_b5, &dwork[iwq], n, 1L);
-    }
-    else
-    {
+    } else {
         dsyrk_("U", "N", n, &m1, &c_b8, &b[b_offset], ldb, &c_b5, &dwork[iwq], n, 1L, 1L);
-        mb01rx_("Right", "Upper", "Transpose", n, np, &c_b8, &c_b17, &dwork[iwq], n, &h__[h_offset], ldh, &dwork[iw2], n, &info2, 5L, 5L, 9L);
+        mb01rx_("Right", "Upper", "Transpose", n, np, &c_b8, &c_b17, &dwork[iwq], n, &h__[h_offset],
+            ldh, &dwork[iw2], n, &info2, 5L, 5L, 9L);
     }
     /*     Compute Dy = C'*inv(RT)*C . */
     iwrk = iw2;
-    i__1 = *n **np;
-    mb01ru_("Upper", "Transpose", n, np, &c_b5, &c_b8, &dwork[iwg], n, &c__[c_offset], ldc, &dwork[1], np, &dwork[iwrk], &i__1, &info2, 5L, 9L);
+    i__1 = *n * *np;
+    mb01ru_("Upper", "Transpose", n, np, &c_b5, &c_b8, &dwork[iwg], n, &c__[c_offset], ldc,
+        &dwork[1], np, &dwork[iwrk], &i__1, &info2, 5L, 9L);
     /*     Solution of the Riccati equation Ay*Y + Y*Ay' + Cy - Y*Dy*Y = 0 . */
     /*     Workspace:  need   NP*NP + 13*N*N + 12*N + 5; */
     /*                 prefer larger. */
@@ -535,21 +516,25 @@ integer *info;
     iws = iwi + n2;
     iwrk = iws + (nn << 2);
     i__1 = *ldwork - iwrk + 1;
-    sb02rd_("All", "Continuous", "NotUsed", "Transpose", "Upper", "GeneralScaling", "Stable", "NotFactored", "Original", n, &dwork[iwa], n, &dwork[iwt], n, &dwork[iwv], n, &dwork[iwg], n, &dwork[iwq], n, &y[y_offset], ldy, &sep, &xycond[2], &ferr, &dwork[iwr], &dwork[iwi], &dwork[iws], &n2, &iwork[1], &dwork[iwrk], &i__1, &bwork[1], &info2, 3L, 10L, 7L, 9L, 5L, 14L, 6L, 11L, 8L);
-    if (info2 > 0)
-    {
+    sb02rd_("All", "Continuous", "NotUsed", "Transpose", "Upper", "GeneralScaling", "Stable",
+        "NotFactored", "Original", n, &dwork[iwa], n, &dwork[iwt], n, &dwork[iwv], n, &dwork[iwg],
+        n, &dwork[iwq], n, &y[y_offset], ldy, &sep, &xycond[2], &ferr, &dwork[iwr], &dwork[iwi],
+        &dwork[iws], &n2, &iwork[1], &dwork[iwrk], &i__1, &bwork[1], &info2, 3L, 10L, 7L, 9L, 5L,
+        14L, 6L, 11L, 8L);
+    if (info2 > 0) {
         *info = 3;
         return 0;
     }
     /* Computing MAX */
-    i__1 = (integer) dwork[iwrk] + iwrk - 1;
-    lwamax = max(i__1,lwamax);
+    i__1 = (integer)dwork[iwrk] + iwrk - 1;
+    lwamax = max(i__1, lwamax);
     /*     Compute H = -|B1*DD1' + Y*C'|*inv(RT) . */
     iwrk = iw2;
-    dgemm_("N", "T", n, np, n, &c_b8, &y[y_offset], ldy, &c__[c_offset], ldc, &c_b5, &dwork[iwrk], n, 1L, 1L);
-    dsymm_("R", "U", n, np, &c_b17, &dwork[1], np, &dwork[iwrk], n, &c_b17, &h__[h_offset], ldh, 1L, 1L);
-    dwork[1] = (doublereal) lwamax;
+    dgemm_("N", "T", n, np, n, &c_b8, &y[y_offset], ldy, &c__[c_offset], ldc, &c_b5, &dwork[iwrk],
+        n, 1L, 1L);
+    dsymm_("R", "U", n, np, &c_b17, &dwork[1], np, &dwork[iwrk], n, &c_b17, &h__[h_offset], ldh, 1L,
+        1L);
+    dwork[1] = (doublereal)lwamax;
     return 0;
     /* *** Last line of SB10QD *** */
 } /* sb10qd_ */
-

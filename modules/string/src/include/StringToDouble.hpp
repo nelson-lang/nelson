@@ -16,19 +16,20 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <string>
 #include "nlsString_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
+//=============================================================================
 #define NanString L"NaN"
 #define InfString L"Inf"
 #define NegInfString L"-Inf"
 #define PosInfString L"+Inf"
 #define NegNanString L"-NaN" /* no sense but it can be used */
 #define PosNanString L"+NaN" /* no sense but it can be used */
-    //=============================================================================
-    NLSSTRING_IMPEXP double stringToDouble(const std::wstring &str, bool &wasConverted);
-    //=============================================================================
-}
+//=============================================================================
+NLSSTRING_IMPEXP double
+stringToDouble(const std::wstring& str, bool& wasConverted);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

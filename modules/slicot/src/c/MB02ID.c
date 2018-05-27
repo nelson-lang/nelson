@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -14,23 +14,24 @@ static integer c__1 = 1;
 static integer c_n1 = -1;
 static integer c__2 = 2;
 
-EXPORTSYMBOL /* Subroutine */ int mb02id_(job, k, l, m, n, rb, rc, tc, ldtc, tr, ldtr, b, ldb, c__, ldc, dwork, ldwork, info, job_len)
-char *job;
+EXPORTSYMBOL /* Subroutine */ int mb02id_(job, k, l, m, n, rb, rc, tc, ldtc, tr, ldtr, b, ldb, c__,
+    ldc, dwork, ldwork, info, job_len) char* job;
 integer *k, *l, *m, *n, *rb, *rc;
-doublereal *tc;
-integer *ldtc;
-doublereal *tr;
-integer *ldtr;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *dwork;
+doublereal* tc;
+integer* ldtc;
+doublereal* tr;
+integer* ldtr;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen job_len;
 {
     /* System generated locals */
-    integer b_dim1, b_offset, c_dim1, c_offset, tc_dim1, tc_offset, tr_dim1, tr_offset, i__1, i__2, i__3, i__4, i__5, i__6, i__7, i__8, i__9, i__10, i__11, i__12;
+    integer b_dim1, b_offset, c_dim1, c_offset, tc_dim1, tc_offset, tr_dim1, tr_offset, i__1, i__2,
+        i__3, i__4, i__5, i__6, i__7, i__8, i__9, i__10, i__11, i__12;
     /* Local variables */
     static integer ierr, ipvt[1];
     extern /* Subroutine */ int ma02ad_();
@@ -220,236 +221,204 @@ ftnlen job_len;
     compo = lsame_(job, "O", 1L, 1L) || lsame_(job, "A", 1L, 1L);
     compu = lsame_(job, "U", 1L, 1L) || lsame_(job, "A", 1L, 1L);
     /* Computing MAX */
-    i__1 = (*n << 1) **l * (*l + *k) + (*n + 6) **l, i__2 = (*n **l + *m **k + 1) **l + *m **k;
-    x = max(i__1,i__2);
-    y = *n **m **k **l + *n **l;
-    if (min(*m,*n) == 1)
-    {
+    i__1 = (*n << 1) * *l * (*l + *k) + (*n + 6) * *l,
+    i__2 = (*n * *l + *m * *k + 1) * *l + *m * *k;
+    x = max(i__1, i__2);
+    y = *n * *m * *k * *l + *n * *l;
+    if (min(*m, *n) == 1) {
         /* Computing MAX */
-        i__1 = *m **k;
-        wrkmin = max(i__1,1);
-        if (compo)
-        {
-            wrkmin = max(wrkmin,*rb);
+        i__1 = *m * *k;
+        wrkmin = max(i__1, 1);
+        if (compo) {
+            wrkmin = max(wrkmin, *rb);
         }
-        if (compu)
-        {
-            wrkmin = max(wrkmin,*rc);
+        if (compu) {
+            wrkmin = max(wrkmin, *rc);
         }
         /* Computing MAX */
         i__1 = y + wrkmin;
-        wrkmin = max(i__1,1);
-    }
-    else
-    {
+        wrkmin = max(i__1, 1);
+    } else {
         wrkmin = x;
-        if (compo)
-        {
+        if (compo) {
             /* Computing MAX */
-            i__1 = wrkmin, i__2 = *n **l **rb + 1;
-            wrkmin = max(i__1,i__2);
+            i__1 = wrkmin, i__2 = *n * *l * *rb + 1;
+            wrkmin = max(i__1, i__2);
         }
-        if (compu)
-        {
+        if (compu) {
             /* Computing MAX */
-            i__1 = wrkmin, i__2 = *n **l **rc + 1;
-            wrkmin = max(i__1,i__2);
+            i__1 = wrkmin, i__2 = *n * *l * *rc + 1;
+            wrkmin = max(i__1, i__2);
         }
     }
     wrkopt = 1;
     /*     Check the scalar input parameters. */
-    if (! (compo || compu))
-    {
+    if (!(compo || compu)) {
         *info = -1;
-    }
-    else if (*k < 0)
-    {
+    } else if (*k < 0) {
         *info = -2;
-    }
-    else if (*l < 0)
-    {
+    } else if (*l < 0) {
         *info = -3;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -4;
-    }
-    else if (*n < 0 || *n **l > *m **k)
-    {
+    } else if (*n < 0 || *n * *l > *m * *k) {
         *info = -5;
-    }
-    else if (compo && *rb < 0)
-    {
+    } else if (compo && *rb < 0) {
         *info = -6;
-    }
-    else if (compu && *rc < 0)
-    {
+    } else if (compu && *rc < 0) {
         *info = -7;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
-        i__1 = 1, i__2 = *m **k;
-        if (*ldtc < max(i__1,i__2))
-        {
+        i__1 = 1, i__2 = *m * *k;
+        if (*ldtc < max(i__1, i__2)) {
             *info = -9;
-        }
-        else if (*ldtr < max(1,*k))
-        {
+        } else if (*ldtr < max(1, *k)) {
             *info = -11;
-        }
-        else if (*ldb < 1 || compo && *ldb < *m **k)
-        {
+        } else if (*ldb < 1 || compo && *ldb < *m * *k) {
             *info = -13;
-        }
-        else if (*ldc < 1 || compu && *ldc < *m **k)
-        {
+        } else if (*ldc < 1 || compu && *ldc < *m * *k) {
             *info = -15;
-        }
-        else if (*ldwork < wrkmin)
-        {
-            dwork[1] = (doublereal) wrkmin;
+        } else if (*ldwork < wrkmin) {
+            dwork[1] = (doublereal)wrkmin;
             *info = -17;
         }
     }
     /*     Return if there were illegal values. */
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB02ID", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
     /* Computing MIN */
-    i__1 = *n **l;
-    if (compo && min(i__1,*rb) == 0)
-    {
+    i__1 = *n * *l;
+    if (compo && min(i__1, *rb) == 0) {
         compo = FALSE_;
     }
     /* Computing MIN */
-    i__1 = *n **l;
-    if (compu && min(i__1,*rc) == 0)
-    {
-        i__1 = *m **k;
+    i__1 = *n * *l;
+    if (compu && min(i__1, *rc) == 0) {
+        i__1 = *m * *k;
         dlaset_("Full", &i__1, rc, &c_b8, &c_b8, &c__[c_offset], ldc, 4L);
         compu = FALSE_;
     }
-    if (! (compo || compu))
-    {
+    if (!(compo || compu)) {
         dwork[1] = 1.;
         return 0;
     }
     /*     Check cases M = 1 or N = 1. */
-    if (min(*m,*n) == 1)
-    {
-        pdw = *k **l **m **n;
-        if (compo)
-        {
-            i__1 = *m **k;
-            i__2 = *m **k;
+    if (min(*m, *n) == 1) {
+        pdw = *k * *l * *m * *n;
+        if (compo) {
+            i__1 = *m * *k;
+            i__2 = *m * *k;
             dlacpy_("All", &i__1, l, &tc[tc_offset], ldtc, &dwork[1], &i__2, 3L);
-            i__1 = (*n - 1) **l;
-            i__2 = *m **k;
-            dlacpy_("All", k, &i__1, &tr[tr_offset], ldtr, &dwork[*k **l + 1], &i__2, 3L);
-            i__1 = *m **k;
-            i__2 = *n **l;
-            i__3 = *m **k;
+            i__1 = (*n - 1) * *l;
+            i__2 = *m * *k;
+            dlacpy_("All", k, &i__1, &tr[tr_offset], ldtr, &dwork[*k * *l + 1], &i__2, 3L);
+            i__1 = *m * *k;
+            i__2 = *n * *l;
+            i__3 = *m * *k;
             i__4 = *ldwork - pdw;
-            dgels_("NonTranspose", &i__1, &i__2, rb, &dwork[1], &i__3, &b[b_offset], ldb, &dwork[pdw + 1], &i__4, &ierr, 12L);
+            dgels_("NonTranspose", &i__1, &i__2, rb, &dwork[1], &i__3, &b[b_offset], ldb,
+                &dwork[pdw + 1], &i__4, &ierr, 12L);
             /* Computing MAX */
-            i__1 = wrkopt, i__2 = (integer) dwork[pdw + 1] + pdw;
-            wrkopt = max(i__1,i__2);
+            i__1 = wrkopt, i__2 = (integer)dwork[pdw + 1] + pdw;
+            wrkopt = max(i__1, i__2);
         }
-        if (compu)
-        {
-            i__1 = *m **k;
-            i__2 = *m **k;
+        if (compu) {
+            i__1 = *m * *k;
+            i__2 = *m * *k;
             dlacpy_("All", &i__1, l, &tc[tc_offset], ldtc, &dwork[1], &i__2, 3L);
-            i__1 = (*n - 1) **l;
-            i__2 = *m **k;
-            dlacpy_("All", k, &i__1, &tr[tr_offset], ldtr, &dwork[*k **l + 1], &i__2, 3L);
-            i__1 = *m **k;
-            i__2 = *n **l;
-            i__3 = *m **k;
+            i__1 = (*n - 1) * *l;
+            i__2 = *m * *k;
+            dlacpy_("All", k, &i__1, &tr[tr_offset], ldtr, &dwork[*k * *l + 1], &i__2, 3L);
+            i__1 = *m * *k;
+            i__2 = *n * *l;
+            i__3 = *m * *k;
             i__4 = *ldwork - pdw;
-            dgels_("Transpose", &i__1, &i__2, rc, &dwork[1], &i__3, &c__[c_offset], ldc, &dwork[pdw + 1], &i__4, &ierr, 9L);
+            dgels_("Transpose", &i__1, &i__2, rc, &dwork[1], &i__3, &c__[c_offset], ldc,
+                &dwork[pdw + 1], &i__4, &ierr, 9L);
             /* Computing MAX */
-            i__1 = wrkopt, i__2 = (integer) dwork[pdw + 1] + pdw;
-            wrkopt = max(i__1,i__2);
+            i__1 = wrkopt, i__2 = (integer)dwork[pdw + 1] + pdw;
+            wrkopt = max(i__1, i__2);
         }
-        dwork[1] = (doublereal) wrkopt;
+        dwork[1] = (doublereal)wrkopt;
         return 0;
     }
     /*     Step 1:  Compute the generator. */
-    if (compo)
-    {
-        i__1 = *n **l;
-        i__2 = *ldwork - *n **l **rb;
-        mb02kd_("Column", "Transpose", k, l, m, n, rb, &c_b18, &c_b8, &tc[tc_offset], ldtc, &tr[tr_offset], ldtr, &b[b_offset], ldb, &dwork[1], &i__1, &dwork[*n **l **rb + 1], &i__2, &ierr, 6L, 9L);
+    if (compo) {
+        i__1 = *n * *l;
+        i__2 = *ldwork - *n * *l * *rb;
+        mb02kd_("Column", "Transpose", k, l, m, n, rb, &c_b18, &c_b8, &tc[tc_offset], ldtc,
+            &tr[tr_offset], ldtr, &b[b_offset], ldb, &dwork[1], &i__1, &dwork[*n * *l * *rb + 1],
+            &i__2, &ierr, 6L, 9L);
         /* Computing MAX */
-        i__1 = wrkopt, i__2 = (integer) dwork[*n **l **rb + 1] + *n **l **rb;
-        wrkopt = max(i__1,i__2);
-        i__1 = *n **l;
-        i__2 = *n **l;
+        i__1 = wrkopt, i__2 = (integer)dwork[*n * *l * *rb + 1] + *n * *l * *rb;
+        wrkopt = max(i__1, i__2);
+        i__1 = *n * *l;
+        i__2 = *n * *l;
         dlacpy_("All", &i__1, rb, &dwork[1], &i__2, &b[b_offset], ldb, 3L);
     }
-    pdw = *n **l **l + 1;
-    i__1 = *m **k;
-    i__2 = *m **k;
+    pdw = *n * *l * *l + 1;
+    i__1 = *m * *k;
+    i__2 = *m * *k;
     dlacpy_("All", &i__1, l, &tc[tc_offset], ldtc, &dwork[pdw], &i__2, 3L);
-    i__1 = *m **k;
-    i__2 = *m **k;
-    i__3 = *ldwork - pdw - (*m **k + 1) **l - 1;
-    dgeqrf_(&i__1, l, &dwork[pdw], &i__2, &dwork[pdw + *m **k **l], &dwork[pdw + (*m **k + 1) **l], &i__3, &ierr);
+    i__1 = *m * *k;
+    i__2 = *m * *k;
+    i__3 = *ldwork - pdw - (*m * *k + 1) * *l - 1;
+    dgeqrf_(&i__1, l, &dwork[pdw], &i__2, &dwork[pdw + *m * *k * *l],
+        &dwork[pdw + (*m * *k + 1) * *l], &i__3, &ierr);
     /* Computing MAX */
-    i__1 = wrkopt, i__2 = (integer) dwork[pdw + (*m **k + 1) **l] + pdw + (*m **k + 1) **l - 1;
-    wrkopt = max(i__1,i__2);
-    i__1 = pdw + *m **k **l - 1;
-    i__2 = *m **k + 1;
-    for (i__ = pdw; i__2 < 0 ? i__ >= i__1 : i__ <= i__1; i__ += i__2)
-    {
-        if (dwork[i__] == 0.)
-        {
+    i__1 = wrkopt, i__2 = (integer)dwork[pdw + (*m * *k + 1) * *l] + pdw + (*m * *k + 1) * *l - 1;
+    wrkopt = max(i__1, i__2);
+    i__1 = pdw + *m * *k * *l - 1;
+    i__2 = *m * *k + 1;
+    for (i__ = pdw; i__2 < 0 ? i__ >= i__1 : i__ <= i__1; i__ += i__2) {
+        if (dwork[i__] == 0.) {
             *info = 1;
             return 0;
         }
         /* L10: */
     }
-    i__2 = *m **k;
-    i__1 = *n **l;
+    i__2 = *m * *k;
+    i__1 = *n * *l;
     ma02ad_("Upper", l, l, &dwork[pdw], &i__2, &dwork[1], &i__1, 5L);
-    i__2 = *m **k;
-    i__1 = *m **k;
-    i__3 = *ldwork - pdw - (*m **k + 1) **l - 1;
-    dorgqr_(&i__2, l, l, &dwork[pdw], &i__1, &dwork[pdw + *m **k **l], &dwork[pdw + (*m **k + 1) **l], &i__3, &ierr);
+    i__2 = *m * *k;
+    i__1 = *m * *k;
+    i__3 = *ldwork - pdw - (*m * *k + 1) * *l - 1;
+    dorgqr_(&i__2, l, l, &dwork[pdw], &i__1, &dwork[pdw + *m * *k * *l],
+        &dwork[pdw + (*m * *k + 1) * *l], &i__3, &ierr);
     /* Computing MAX */
-    i__2 = wrkopt, i__1 = (integer) dwork[pdw + (*m **k + 1) **l] + pdw + (*m **k + 1) **l - 1;
-    wrkopt = max(i__2,i__1);
+    i__2 = wrkopt, i__1 = (integer)dwork[pdw + (*m * *k + 1) * *l] + pdw + (*m * *k + 1) * *l - 1;
+    wrkopt = max(i__2, i__1);
     i__2 = *n - 1;
-    i__1 = *m **k;
-    i__3 = *n **l;
-    i__4 = *ldwork - pdw - *m **k **l + 1;
-    mb02kd_("Row", "Transpose", k, l, m, &i__2, l, &c_b18, &c_b8, &tc[tc_offset], ldtc, &tr[tr_offset], ldtr, &dwork[pdw], &i__1, &dwork[*l + 1], &i__3, &dwork[pdw + *m **k **l], &i__4, &ierr, 3L, 9L);
+    i__1 = *m * *k;
+    i__3 = *n * *l;
+    i__4 = *ldwork - pdw - *m * *k * *l + 1;
+    mb02kd_("Row", "Transpose", k, l, m, &i__2, l, &c_b18, &c_b8, &tc[tc_offset], ldtc,
+        &tr[tr_offset], ldtr, &dwork[pdw], &i__1, &dwork[*l + 1], &i__3, &dwork[pdw + *m * *k * *l],
+        &i__4, &ierr, 3L, 9L);
     /* Computing MAX */
-    i__2 = wrkopt, i__1 = (integer) dwork[pdw + *m **k **l] + pdw + *m **k **l - 1;
-    wrkopt = max(i__2,i__1);
-    ppr = *n **l **l + 1;
-    pnr = *n **l * (*l + *k) + 1;
-    i__2 = (*n - 1) **l;
-    i__1 = *n **l;
+    i__2 = wrkopt, i__1 = (integer)dwork[pdw + *m * *k * *l] + pdw + *m * *k * *l - 1;
+    wrkopt = max(i__2, i__1);
+    ppr = *n * *l * *l + 1;
+    pnr = *n * *l * (*l + *k) + 1;
+    i__2 = (*n - 1) * *l;
+    i__1 = *n * *l;
     ma02ad_("All", k, &i__2, &tr[tr_offset], ldtr, &dwork[ppr + *l], &i__1, 3L);
-    i__2 = (*n - 1) **l;
-    i__1 = *n **l;
-    i__3 = *n **l;
+    i__2 = (*n - 1) * *l;
+    i__1 = *n * *l;
+    i__3 = *n * *l;
     dlacpy_("All", &i__2, l, &dwork[*l + 1], &i__1, &dwork[pnr + *l], &i__3, 3L);
-    pt = (*m - 1) **k + 1;
-    pdw = pnr + *n **l **l + *l;
+    pt = (*m - 1) * *k + 1;
+    pdw = pnr + *n * *l * *l + *l;
     /* Computing MIN */
     i__1 = *m, i__3 = *n - 1;
-    i__2 = min(i__1,i__3);
-    for (i__ = 1; i__ <= i__2; ++i__)
-    {
-        i__1 = *n **l;
+    i__2 = min(i__1, i__3);
+    for (i__ = 1; i__ <= i__2; ++i__) {
+        i__1 = *n * *l;
         ma02ad_("All", k, l, &tc[pt + tc_dim1], ldtc, &dwork[pdw], &i__1, 3L);
         pt -= *k;
         pdw += *l;
@@ -457,101 +426,101 @@ ftnlen job_len;
     }
     pt = 1;
     i__2 = *n - 1;
-    for (i__ = *m + 1; i__ <= i__2; ++i__)
-    {
-        i__1 = *n **l;
+    for (i__ = *m + 1; i__ <= i__2; ++i__) {
+        i__1 = *n * *l;
         ma02ad_("All", k, l, &tr[pt * tr_dim1 + 1], ldtr, &dwork[pdw], &i__1, 3L);
         pt += *l;
         pdw += *l;
         /* L40: */
     }
-    if (compo)
-    {
+    if (compo) {
         /*        Apply the first reduction step to T'*B. */
-        i__2 = *n **l;
-        dtrsm_("Left", "Lower", "NonTranspose", "NonUnit", l, rb, &c_b18, &dwork[1], &i__2, &b[b_offset], ldb, 4L, 5L, 12L, 7L);
-        i__2 = (*n - 1) **l;
-        i__1 = *n **l;
-        dgemm_("NoTranspose", "NoTranspose", &i__2, rb, l, &c_b18, &dwork[*l + 1], &i__1, &b[b_offset], ldb, &c_b42, &b[*l + 1 + b_dim1], ldb, 11L, 11L);
-        i__2 = *n **l;
-        dtrsm_("Left", "Lower", "Transpose", "NonUnit", l, rb, &c_b18, &dwork[1], &i__2, &b[b_offset], ldb, 4L, 5L, 9L, 7L);
+        i__2 = *n * *l;
+        dtrsm_("Left", "Lower", "NonTranspose", "NonUnit", l, rb, &c_b18, &dwork[1], &i__2,
+            &b[b_offset], ldb, 4L, 5L, 12L, 7L);
+        i__2 = (*n - 1) * *l;
+        i__1 = *n * *l;
+        dgemm_("NoTranspose", "NoTranspose", &i__2, rb, l, &c_b18, &dwork[*l + 1], &i__1,
+            &b[b_offset], ldb, &c_b42, &b[*l + 1 + b_dim1], ldb, 11L, 11L);
+        i__2 = *n * *l;
+        dtrsm_("Left", "Lower", "Transpose", "NonUnit", l, rb, &c_b18, &dwork[1], &i__2,
+            &b[b_offset], ldb, 4L, 5L, 9L, 7L);
     }
-    if (compu)
-    {
+    if (compu) {
         /*        Apply the first reduction step to C. */
-        i__2 = *n **l;
-        dtrsm_("Left", "Lower", "NonTranspose", "NonUnit", l, rc, &c_b18, &dwork[1], &i__2, &c__[c_offset], ldc, 4L, 5L, 12L, 7L);
-        i__2 = (*n - 1) **l;
-        i__1 = *n **l;
-        dgemm_("NoTranspose", "NoTranspose", &i__2, rc, l, &c_b18, &dwork[*l + 1], &i__1, &c__[c_offset], ldc, &c_b42, &c__[*l + 1 + c_dim1], ldc, 11L, 11L);
-        i__2 = *n **l;
-        dtrsm_("Left", "Lower", "Transpose", "NonUnit", l, rc, &c_b18, &dwork[1], &i__2, &c__[c_offset], ldc, 4L, 5L, 9L, 7L);
+        i__2 = *n * *l;
+        dtrsm_("Left", "Lower", "NonTranspose", "NonUnit", l, rc, &c_b18, &dwork[1], &i__2,
+            &c__[c_offset], ldc, 4L, 5L, 12L, 7L);
+        i__2 = (*n - 1) * *l;
+        i__1 = *n * *l;
+        dgemm_("NoTranspose", "NoTranspose", &i__2, rc, l, &c_b18, &dwork[*l + 1], &i__1,
+            &c__[c_offset], ldc, &c_b42, &c__[*l + 1 + c_dim1], ldc, 11L, 11L);
+        i__2 = *n * *l;
+        dtrsm_("Left", "Lower", "Transpose", "NonUnit", l, rc, &c_b18, &dwork[1], &i__2,
+            &c__[c_offset], ldc, 4L, 5L, 9L, 7L);
     }
-    pdi = (*n - 1) **l + 1;
-    i__2 = *n **l;
-    i__1 = *n **l;
+    pdi = (*n - 1) * *l + 1;
+    i__2 = *n * *l;
+    i__1 = *n * *l;
     dlacpy_("Lower", l, l, &dwork[1], &i__2, &dwork[pdi], &i__1, 5L);
-    i__2 = *n **l;
+    i__2 = *n * *l;
     dtrtri_("Lower", "NonUnit", l, &dwork[pdi], &i__2, &ierr, 5L, 7L);
     i__2 = *l - 1;
-    i__1 = *n **l;
-    i__3 = *n **l;
-    ma02ad_("Lower", &i__2, l, &dwork[pdi + 1], &i__1, &dwork[((*n << 1) - 1) **l + 1], &i__3, 5L);
+    i__1 = *n * *l;
+    i__3 = *n * *l;
+    ma02ad_("Lower", &i__2, l, &dwork[pdi + 1], &i__1, &dwork[((*n << 1) - 1) * *l + 1], &i__3, 5L);
     i__2 = *l - 1;
-    i__1 = *n **l;
+    i__1 = *n * *l;
     dlaset_("Lower", &i__2, l, &c_b8, &c_b8, &dwork[pdi + 1], &i__1, 5L);
-    i__2 = *n **l;
-    i__1 = *n **l;
+    i__2 = *n * *l;
+    i__1 = *n * *l;
     dlacpy_("Upper", l, l, &dwork[pdi], &i__2, &dwork[pnr], &i__1, 5L);
     i__2 = *l - 1;
-    i__1 = *n **l;
+    i__1 = *n * *l;
     dlaset_("Lower", &i__2, l, &c_b8, &c_b8, &dwork[pnr + 1], &i__1, 5L);
-    i__2 = *n **l;
+    i__2 = *n * *l;
     dlaset_("All", l, k, &c_b8, &c_b8, &dwork[ppr], &i__2, 3L);
-    i__2 = *n **l;
-    dlaset_("All", l, k, &c_b8, &c_b8, &dwork[pnr + *n **l **l], &i__2, 3L);
+    i__2 = *n * *l;
+    dlaset_("All", l, k, &c_b8, &c_b8, &dwork[pnr + *n * *l * *l], &i__2, 3L);
     ppi = ppr;
     ppr += *l;
     pni = pnr;
     pnr += *l;
-    pdw = (*n << 1) **l * (*l + *k) + 1;
-    len = (*n - 1) **l;
+    pdw = (*n << 1) * *l * (*l + *k) + 1;
+    len = (*n - 1) * *l;
     /*     Determine block size for the involved block Householder */
     /*     transformations. */
     /* Computing MIN */
-    i__1 = *n **l;
+    i__1 = *n * *l;
     i__2 = ilaenv_(&c__1, "DGELQF", " ", &i__1, l, &c_n1, &c_n1, 6L, 1L);
-    nb = min(i__2,*l);
+    nb = min(i__2, *l);
     kk = pdw + *l * 6 - 1;
     /* Computing MAX */
-    i__2 = wrkopt, i__1 = kk + *n **l * nb;
-    wrkopt = max(i__2,i__1);
+    i__2 = wrkopt, i__1 = kk + *n * *l * nb;
+    wrkopt = max(i__2, i__1);
     kk = *ldwork - kk;
-    if (kk < *n **l * nb)
-    {
-        nb = kk / (*n **l);
+    if (kk < *n * *l * nb) {
+        nb = kk / (*n * *l);
     }
     /* Computing MAX */
-    i__3 = *n **l;
+    i__3 = *n * *l;
     i__2 = 2, i__1 = ilaenv_(&c__2, "DGELQF", " ", &i__3, l, &c_n1, &c_n1, 6L, 1L);
-    nbmin = max(i__2,i__1);
-    if (nb < nbmin)
-    {
+    nbmin = max(i__2, i__1);
+    if (nb < nbmin) {
         nb = 0;
     }
-    i__2 = *n **l;
+    i__2 = *n * *l;
     i__1 = *l;
-    for (i__ = *l + 1; i__1 < 0 ? i__ >= i__2 : i__ <= i__2; i__ += i__1)
-    {
+    for (i__ = *l + 1; i__1 < 0 ? i__ >= i__2 : i__ <= i__2; i__ += i__1) {
         i__3 = *l + *k;
         i__4 = *l + *k;
-        i__5 = *n **l;
-        i__6 = *n **l;
-        i__7 = *n **l;
+        i__5 = *n * *l;
+        i__6 = *n * *l;
+        i__7 = *n * *l;
         i__8 = *ldwork - pdw - *l * 6 + 1;
-        mb02cu_("Column", l, &i__3, &i__4, &nb, &dwork[1], &i__5, &dwork[ppr], &i__6, &dwork[pnr], &i__7, &rnk, ipvt, &dwork[pdw], &c_b8, &dwork[pdw + *l * 6], &i__8, &ierr, 6L);
-        if (ierr != 0)
-        {
+        mb02cu_("Column", l, &i__3, &i__4, &nb, &dwork[1], &i__5, &dwork[ppr], &i__6, &dwork[pnr],
+            &i__7, &rnk, ipvt, &dwork[pdw], &c_b8, &dwork[pdw + *l * 6], &i__8, &ierr, 6L);
+        if (ierr != 0) {
             /*           Error return:  The rank condition is (numerically) not */
             /*                          satisfied. */
             *info = 1;
@@ -560,89 +529,95 @@ ftnlen job_len;
         i__3 = len - *l;
         i__4 = *l + *k;
         i__5 = *l + *k;
-        i__6 = *n **l;
-        i__7 = *n **l;
-        i__8 = *n **l;
-        i__9 = *n **l;
-        i__10 = *n **l;
-        i__11 = *n **l;
+        i__6 = *n * *l;
+        i__7 = *n * *l;
+        i__8 = *n * *l;
+        i__9 = *n * *l;
+        i__10 = *n * *l;
+        i__11 = *n * *l;
         i__12 = *ldwork - pdw - *l * 6 + 1;
-        mb02cv_("Column", "NoStructure", l, &i__3, &i__4, &i__5, &nb, &c_n1, &dwork[1], &i__6, &dwork[ppr], &i__7, &dwork[pnr], &i__8, &dwork[*l + 1], &i__9, &dwork[ppr + *l], &i__10, &dwork[pnr + *l], &i__11, &dwork[pdw], &dwork[pdw + *l * 6], &i__12, &ierr, 6L, 11L);
+        mb02cv_("Column", "NoStructure", l, &i__3, &i__4, &i__5, &nb, &c_n1, &dwork[1], &i__6,
+            &dwork[ppr], &i__7, &dwork[pnr], &i__8, &dwork[*l + 1], &i__9, &dwork[ppr + *l], &i__10,
+            &dwork[pnr + *l], &i__11, &dwork[pdw], &dwork[pdw + *l * 6], &i__12, &ierr, 6L, 11L);
         pdi -= *l;
-        if (compo)
-        {
+        if (compo) {
             /*           Block Gaussian elimination to B. */
-            i__3 = *n **l;
-            dtrsm_("Left", "Lower", "NonTranspose", "NonUnit", l, rb, &c_b42, &dwork[1], &i__3, &b[i__ + b_dim1], ldb, 4L, 5L, 12L, 7L);
-            if (len > *l)
-            {
+            i__3 = *n * *l;
+            dtrsm_("Left", "Lower", "NonTranspose", "NonUnit", l, rb, &c_b42, &dwork[1], &i__3,
+                &b[i__ + b_dim1], ldb, 4L, 5L, 12L, 7L);
+            if (len > *l) {
                 i__3 = len - *l;
-                i__4 = *n **l;
-                dgemm_("NonTranspose", "NonTranspose", &i__3, rb, l, &c_b18, &dwork[*l + 1], &i__4, &b[i__ + b_dim1], ldb, &c_b18, &b[i__ + *l + b_dim1], ldb, 12L, 12L);
+                i__4 = *n * *l;
+                dgemm_("NonTranspose", "NonTranspose", &i__3, rb, l, &c_b18, &dwork[*l + 1], &i__4,
+                    &b[i__ + b_dim1], ldb, &c_b18, &b[i__ + *l + b_dim1], ldb, 12L, 12L);
             }
         }
-        if (compu)
-        {
+        if (compu) {
             /*           Block Gaussian elimination to C. */
-            i__3 = *n **l;
-            dtrsm_("Left", "Lower", "NonTranspose", "NonUnit", l, rc, &c_b42, &dwork[1], &i__3, &c__[i__ + c_dim1], ldc, 4L, 5L, 12L, 7L);
-            if (len > *l)
-            {
+            i__3 = *n * *l;
+            dtrsm_("Left", "Lower", "NonTranspose", "NonUnit", l, rc, &c_b42, &dwork[1], &i__3,
+                &c__[i__ + c_dim1], ldc, 4L, 5L, 12L, 7L);
+            if (len > *l) {
                 i__3 = len - *l;
-                i__4 = *n **l;
-                dgemm_("NonTranspose", "NonTranspose", &i__3, rc, l, &c_b18, &dwork[*l + 1], &i__4, &c__[i__ + c_dim1], ldc, &c_b18, &c__[i__ + *l + c_dim1], ldc, 12L, 12L);
+                i__4 = *n * *l;
+                dgemm_("NonTranspose", "NonTranspose", &i__3, rc, l, &c_b18, &dwork[*l + 1], &i__4,
+                    &c__[i__ + c_dim1], ldc, &c_b18, &c__[i__ + *l + c_dim1], ldc, 12L, 12L);
             }
         }
-        i__3 = *n **l;
+        i__3 = *n * *l;
         dlaset_("All", l, l, &c_b8, &c_b8, &dwork[pdi], &i__3, 3L);
         i__3 = i__ + *l - 1;
         i__4 = *l + *k;
         i__5 = *l + *k;
-        i__6 = *n **l;
-        i__7 = *n **l;
-        i__8 = *n **l;
-        i__9 = *n **l;
-        i__10 = *n **l;
-        i__11 = *n **l;
+        i__6 = *n * *l;
+        i__7 = *n * *l;
+        i__8 = *n * *l;
+        i__9 = *n * *l;
+        i__10 = *n * *l;
+        i__11 = *n * *l;
         i__12 = *ldwork - pdw - *l * 6 + 1;
-        mb02cv_("Column", "Triangular", l, &i__3, &i__4, &i__5, &nb, &c_n1, &dwork[1], &i__6, &dwork[ppr], &i__7, &dwork[pnr], &i__8, &dwork[pdi], &i__9, &dwork[ppi], &i__10, &dwork[pni], &i__11, &dwork[pdw], &dwork[pdw + *l * 6], &i__12, &ierr, 6L, 10L);
-        if (compo)
-        {
+        mb02cv_("Column", "Triangular", l, &i__3, &i__4, &i__5, &nb, &c_n1, &dwork[1], &i__6,
+            &dwork[ppr], &i__7, &dwork[pnr], &i__8, &dwork[pdi], &i__9, &dwork[ppi], &i__10,
+            &dwork[pni], &i__11, &dwork[pdw], &dwork[pdw + *l * 6], &i__12, &ierr, 6L, 10L);
+        if (compo) {
             /*           Apply block Gaussian elimination to B. */
             i__3 = i__ - 1;
-            i__4 = *n **l;
-            dgemm_("NoTranspose", "NoTranspose", &i__3, rb, l, &c_b18, &dwork[pdi], &i__4, &b[i__ + b_dim1], ldb, &c_b18, &b[b_offset], ldb, 11L, 11L);
-            i__3 = *n **l;
-            dtrmm_("Left", "Upper", "NonTranspose", "NonUnit", l, rb, &c_b18, &dwork[(*n - 1) **l + 1], &i__3, &b[i__ + b_dim1], ldb, 4L, 5L, 12L, 7L);
+            i__4 = *n * *l;
+            dgemm_("NoTranspose", "NoTranspose", &i__3, rb, l, &c_b18, &dwork[pdi], &i__4,
+                &b[i__ + b_dim1], ldb, &c_b18, &b[b_offset], ldb, 11L, 11L);
+            i__3 = *n * *l;
+            dtrmm_("Left", "Upper", "NonTranspose", "NonUnit", l, rb, &c_b18,
+                &dwork[(*n - 1) * *l + 1], &i__3, &b[i__ + b_dim1], ldb, 4L, 5L, 12L, 7L);
         }
-        if (compu)
-        {
+        if (compu) {
             /*           Apply block Gaussian elimination to C. */
             i__3 = i__ - 1;
-            i__4 = *n **l;
-            dgemm_("NonTranspose", "NonTranspose", &i__3, rc, l, &c_b18, &dwork[pdi], &i__4, &c__[i__ + c_dim1], ldc, &c_b18, &c__[c_offset], ldc, 12L, 12L);
-            i__3 = *n **l;
-            dtrmm_("Left", "Upper", "NonTranspose", "NonUnit", l, rc, &c_b18, &dwork[(*n - 1) **l + 1], &i__3, &c__[i__ + c_dim1], ldc, 4L, 5L, 12L, 7L);
+            i__4 = *n * *l;
+            dgemm_("NonTranspose", "NonTranspose", &i__3, rc, l, &c_b18, &dwork[pdi], &i__4,
+                &c__[i__ + c_dim1], ldc, &c_b18, &c__[c_offset], ldc, 12L, 12L);
+            i__3 = *n * *l;
+            dtrmm_("Left", "Upper", "NonTranspose", "NonUnit", l, rc, &c_b18,
+                &dwork[(*n - 1) * *l + 1], &i__3, &c__[i__ + c_dim1], ldc, 4L, 5L, 12L, 7L);
         }
         len -= *l;
         pnr += *l;
         ppr += *l;
         /* L50: */
     }
-    if (compu)
-    {
-        i__1 = *m **k;
-        i__2 = *ldwork - *m **k **rc;
-        mb02kd_("Column", "NonTranspose", k, l, m, n, rc, &c_b18, &c_b8, &tc[tc_offset], ldtc, &tr[tr_offset], ldtr, &c__[c_offset], ldc, &dwork[1], &i__1, &dwork[*m **k **rc + 1], &i__2, &ierr, 6L, 12L);
+    if (compu) {
+        i__1 = *m * *k;
+        i__2 = *ldwork - *m * *k * *rc;
+        mb02kd_("Column", "NonTranspose", k, l, m, n, rc, &c_b18, &c_b8, &tc[tc_offset], ldtc,
+            &tr[tr_offset], ldtr, &c__[c_offset], ldc, &dwork[1], &i__1, &dwork[*m * *k * *rc + 1],
+            &i__2, &ierr, 6L, 12L);
         /* Computing MAX */
-        i__1 = wrkopt, i__2 = (integer) dwork[*m **k **rc + 1] + *m **k **rc;
-        wrkopt = max(i__1,i__2);
-        i__1 = *m **k;
-        i__2 = *m **k;
+        i__1 = wrkopt, i__2 = (integer)dwork[*m * *k * *rc + 1] + *m * *k * *rc;
+        wrkopt = max(i__1, i__2);
+        i__1 = *m * *k;
+        i__2 = *m * *k;
         dlacpy_("All", &i__1, rc, &dwork[1], &i__2, &c__[c_offset], ldc, 3L);
     }
-    dwork[1] = (doublereal) wrkopt;
+    dwork[1] = (doublereal)wrkopt;
     return 0;
     /* *** Last line of MB02ID *** */
 } /* mb02id_ */
-

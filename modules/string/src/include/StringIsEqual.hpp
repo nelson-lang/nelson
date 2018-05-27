@@ -18,10 +18,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsString_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsString_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSSTRING_IMPEXP bool StringIsEqual(ArrayOf A, ArrayOf B);
+NLSSTRING_IMPEXP bool
+StringIsEqual(ArrayOf A, ArrayOf B);
 }
 //=============================================================================

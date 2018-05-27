@@ -1,14 +1,13 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-integer mb03nd_(n, theta, q2, e2, pivmin, info)
-integer *n;
+integer mb03nd_(n, theta, q2, e2, pivmin, info) integer* n;
 doublereal *theta, *q2, *e2, *pivmin;
-integer *info;
+integer* info;
 {
     /* System generated locals */
     integer ret_val = 0, i__1;
@@ -146,8 +145,7 @@ integer *info;
     --q2;
     /* Function Body */
     *info = 0;
-    if (*n < 0)
-    {
+    if (*n < 0) {
         *info = -1;
         /*        Error return. */
         i__1 = -(*info);
@@ -155,52 +153,42 @@ integer *info;
         return ret_val;
     }
     /*     Quick return if possible. */
-    if (*n == 0 || *theta < 0.)
-    {
+    if (*n == 0 || *theta < 0.) {
         ret_val = 0;
         return ret_val;
     }
     numeig = *n;
     t = -(*theta);
     r__ = t;
-    if (abs(r__) < *pivmin)
-    {
+    if (abs(r__) < *pivmin) {
         r__ = -(*pivmin);
     }
     i__1 = *n - 1;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         r__ = t - q2[j] / r__;
-        if (abs(r__) < *pivmin)
-        {
+        if (abs(r__) < *pivmin) {
             r__ = -(*pivmin);
         }
-        if (r__ > 0.)
-        {
+        if (r__ > 0.) {
             --numeig;
         }
         r__ = t - e2[j] / r__;
-        if (abs(r__) < *pivmin)
-        {
+        if (abs(r__) < *pivmin) {
             r__ = -(*pivmin);
         }
-        if (r__ > 0.)
-        {
+        if (r__ > 0.) {
             --numeig;
         }
         /* L20: */
     }
     r__ = t - q2[*n] / r__;
-    if (abs(r__) < *pivmin)
-    {
+    if (abs(r__) < *pivmin) {
         r__ = -(*pivmin);
     }
-    if (r__ > 0.)
-    {
+    if (r__ > 0.) {
         --numeig;
     }
     ret_val = numeig;
     return ret_val;
     /* *** Last line of MB03ND *** */
 } /* mb03nd_ */
-

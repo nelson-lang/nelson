@@ -25,6 +25,6 @@
 #define NLSDATA_STRUCTURES_IMPEXP __declspec(dllimport)
 #endif
 #else
-#define NLSDATA_STRUCTURES_IMPEXP __attribute__ ((visibility ("default")))
+#define NLSDATA_STRUCTURES_IMPEXP __attribute__((visibility("default")))
 #endif
 //=============================================================================

@@ -1,24 +1,24 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-EXPORTSYMBOL /* Subroutine */ int mb02uw_(ltrans, n, m, par, a, lda, b, ldb, scale, iwarn)
-logical *ltrans;
+EXPORTSYMBOL /* Subroutine */ int mb02uw_(
+    ltrans, n, m, par, a, lda, b, ldb, scale, iwarn) logical* ltrans;
 integer *n, *m;
 doublereal *par, *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *scale;
-integer *iwarn;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* scale;
+integer* iwarn;
 {
     /* Initialized data */
-    static logical zswap[4] = { FALSE_,FALSE_,TRUE_,TRUE_ };
-    static logical rswap[4] = { FALSE_,TRUE_,FALSE_,TRUE_ };
-    static integer ipivot[16]	/* was [4][4] */ = { 1,2,3,4,2,1,4,3,3,4,1,2,4,3,2,1 };
+    static logical zswap[4] = { FALSE_, FALSE_, TRUE_, TRUE_ };
+    static logical rswap[4] = { FALSE_, TRUE_, FALSE_, TRUE_ };
+    static integer ipivot[16] /* was [4][4] */ = { 1, 2, 3, 4, 2, 1, 4, 3, 3, 4, 1, 2, 4, 3, 2, 1 };
     /* System generated locals */
     integer a_dim1, a_offset, b_dim1, b_offset, i__1, i__2;
     doublereal d__1, d__2, d__3;
@@ -150,51 +150,41 @@ integer *iwarn;
     bignum = 1. / smlnum;
     /*     Standard initializations. */
     *scale = 1.;
-    if (*n == 1)
-    {
+    if (*n == 1) {
         /*        1-by-1  (i.e., scalar) systems  C X = B. */
         cs = a[a_dim1 + 1];
         cmax = abs(cs);
         /* Computing MAX */
-        d__1 = max(smin,smlnum), d__2 = eps * cmax;
-        smini = max(d__1,d__2);
+        d__1 = max(smin, smlnum), d__2 = eps * cmax;
+        smini = max(d__1, d__2);
         /*        If | C | < SMINI, use C = SMINI. */
-        if (cmax < smini)
-        {
+        if (cmax < smini) {
             cs = smini;
             cmax = smini;
             *iwarn = 1;
         }
         /*        Check scaling for  X = B / C. */
         bnorm = (d__1 = b[idamax_(m, &b[b_offset], ldb) * b_dim1 + 1], abs(d__1));
-        if (cmax < 1. && bnorm > 1.)
-        {
-            if (bnorm > bignum * cmax)
-            {
+        if (cmax < 1. && bnorm > 1.) {
+            if (bnorm > bignum * cmax) {
                 *scale = 1. / bnorm;
             }
         }
         /*        Compute X. */
         i__1 = *m;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
-            b[i__ * b_dim1 + 1] = b[i__ * b_dim1 + 1] **scale / cs;
+        for (i__ = 1; i__ <= i__1; ++i__) {
+            b[i__ * b_dim1 + 1] = b[i__ * b_dim1 + 1] * *scale / cs;
             /* L10: */
         }
-    }
-    else
-    {
+    } else {
         /*        2x2 systems. */
         /*        Compute C = A  (or  A'). */
         c__[0] = a[a_dim1 + 1];
         c__[3] = a[(a_dim1 << 1) + 2];
-        if (*ltrans)
-        {
+        if (*ltrans) {
             c__[2] = a[a_dim1 + 2];
             c__[1] = a[(a_dim1 << 1) + 1];
-        }
-        else
-        {
+        } else {
             c__[1] = a[a_dim1 + 2];
             c__[2] = a[(a_dim1 << 1) + 1];
         }
@@ -202,32 +192,26 @@ integer *iwarn;
         /*        Find the largest element in C. */
         cmax = 0.;
         icmax = 0;
-        for (j = 1; j <= 4; ++j)
-        {
-            if ((d__1 = cv[j - 1], abs(d__1)) > cmax)
-            {
+        for (j = 1; j <= 4; ++j) {
+            if ((d__1 = cv[j - 1], abs(d__1)) > cmax) {
                 cmax = (d__1 = cv[j - 1], abs(d__1));
                 icmax = j;
             }
             /* L20: */
         }
         /* Computing MAX */
-        d__1 = max(smin,smlnum), d__2 = eps * cmax;
-        smini = max(d__1,d__2);
+        d__1 = max(smin, smlnum), d__2 = eps * cmax;
+        smini = max(d__1, d__2);
         /*        If norm(C) < SMINI, use SMINI*identity. */
-        if (cmax < smini)
-        {
-            if (smini < 1. && bnorm > 1.)
-            {
-                if (bnorm > bignum * smini)
-                {
+        if (cmax < smini) {
+            if (smini < 1. && bnorm > 1.) {
+                if (bnorm > bignum * smini) {
                     *scale = 1. / bnorm;
                 }
             }
             temp = *scale / smini;
             i__1 = *m;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 b[i__ * b_dim1 + 1] = temp * b[i__ * b_dim1 + 1];
                 b[i__ * b_dim1 + 2] = temp * b[i__ * b_dim1 + 2];
                 /* L30: */
@@ -244,72 +228,58 @@ integer *iwarn;
         l21 = u11r * c21;
         u22 = c22 - u12 * l21;
         /*        If smaller pivot < SMINI, use SMINI. */
-        if (abs(u22) < smini)
-        {
+        if (abs(u22) < smini) {
             u22 = smini;
             *iwarn = 1;
         }
         scalep = 1.;
         i__1 = *m;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
-            if (rswap[icmax - 1])
-            {
+        for (i__ = 1; i__ <= i__1; ++i__) {
+            if (rswap[icmax - 1]) {
                 b1 = b[i__ * b_dim1 + 2];
                 b2 = b[i__ * b_dim1 + 1];
-            }
-            else
-            {
+            } else {
                 b1 = b[i__ * b_dim1 + 1];
                 b2 = b[i__ * b_dim1 + 2];
             }
             b2 -= l21 * b1;
             /* Computing MAX */
             d__2 = (d__1 = b1 * (u22 * u11r), abs(d__1)), d__3 = abs(b2);
-            bbnd = max(d__2,d__3);
-            if (bbnd > 1. && abs(u22) < 1.)
-            {
-                if (bbnd >= bignum * abs(u22))
-                {
+            bbnd = max(d__2, d__3);
+            if (bbnd > 1. && abs(u22) < 1.) {
+                if (bbnd >= bignum * abs(u22)) {
                     *scale = 1. / bbnd;
                 }
             }
-            *scale = min(*scale,scalep);
-            if (*scale < scalep)
-            {
+            *scale = min(*scale, scalep);
+            if (*scale < scalep) {
                 scalep = *scale / scalep;
                 i__2 = i__ - 1;
-                for (j = 1; j <= i__2; ++j)
-                {
+                for (j = 1; j <= i__2; ++j) {
                     b[j * b_dim1 + 1] *= scalep;
                     b[j * b_dim1 + 2] *= scalep;
                     /* L40: */
                 }
             }
-            x2 = b2 **scale / u22;
+            x2 = b2 * *scale / u22;
             x1 = *scale * b1 * u11r - x2 * (u11r * u12);
-            if (zswap[icmax - 1])
-            {
+            if (zswap[icmax - 1]) {
                 b[i__ * b_dim1 + 1] = x2;
                 b[i__ * b_dim1 + 2] = x1;
-            }
-            else
-            {
+            } else {
                 b[i__ * b_dim1 + 1] = x1;
                 b[i__ * b_dim1 + 2] = x2;
             }
             /* Computing MAX */
             d__1 = abs(x1), d__2 = abs(x2);
-            xnorm = max(d__1,d__2);
+            xnorm = max(d__1, d__2);
             /*           Further scaling if  norm(A) norm(X) > overflow. */
-            if (xnorm > 1. && cmax > 1.)
-            {
-                if (xnorm > bignum / cmax)
-                {
+            if (xnorm > 1. && cmax > 1.) {
+                if (xnorm > bignum / cmax) {
                     temp = cmax / bignum;
                     b[i__ * b_dim1 + 1] = temp * b[i__ * b_dim1 + 1];
                     b[i__ * b_dim1 + 2] = temp * b[i__ * b_dim1 + 2];
-                    *scale = temp **scale;
+                    *scale = temp * *scale;
                 }
             }
             scalep = *scale;
@@ -322,5 +292,3 @@ integer *iwarn;
 
 #undef cv
 #undef c__
-
-

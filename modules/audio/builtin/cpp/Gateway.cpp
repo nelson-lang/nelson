@@ -18,40 +18,39 @@
 //=============================================================================
 #include "AudioHelpers.hpp"
 #include "NelsonGateway.hpp"
+#include "audiodevinfoBuiltin.hpp"
+#include "audioinfoBuiltin.hpp"
+#include "audiometadataBuiltin.hpp"
+#include "audioplayerBuiltin.hpp"
+#include "audioplayer_deleteBuiltin.hpp"
+#include "audioplayer_dispBuiltin.hpp"
+#include "audioplayer_fieldnamesBuiltin.hpp"
+#include "audioplayer_getBuiltin.hpp"
+#include "audioplayer_ismethodBuiltin.hpp"
+#include "audioplayer_ispropBuiltin.hpp"
+#include "audioplayer_isvalidBuiltin.hpp"
+#include "audioplayer_pauseBuiltin.hpp"
+#include "audioplayer_playBuiltin.hpp"
+#include "audioplayer_playblockingBuiltin.hpp"
+#include "audioplayer_propertiesBuiltin.hpp"
+#include "audioplayer_resumeBuiltin.hpp"
+#include "audioplayer_setBuiltin.hpp"
+#include "audioplayer_stopBuiltin.hpp"
+#include "audioplayer_usedBuiltin.hpp"
+#include "audioreadBuiltin.hpp"
+#include "audiosupportedformatsBuiltin.hpp"
+#include "audiowriteBuiltin.hpp"
 #include "beepBuiltin.hpp"
 #include "playBuiltin.hpp"
 #include "playblockingBuiltin.hpp"
 #include "resumeBuiltin.hpp"
 #include "stopBuiltin.hpp"
-#include "audiodevinfoBuiltin.hpp"
-#include "audioplayerBuiltin.hpp"
-#include "audioplayer_setBuiltin.hpp"
-#include "audioplayer_getBuiltin.hpp"
-#include "audioplayer_dispBuiltin.hpp"
-#include "audioplayer_deleteBuiltin.hpp"
-#include "audioplayer_usedBuiltin.hpp"
-#include "audioplayer_fieldnamesBuiltin.hpp"
-#include "audioplayer_propertiesBuiltin.hpp"
-#include "audioplayer_playBuiltin.hpp"
-#include "audioplayer_playblockingBuiltin.hpp"
-#include "audioplayer_pauseBuiltin.hpp"
-#include "audioplayer_resumeBuiltin.hpp"
-#include "audioplayer_stopBuiltin.hpp"
-#include "audioplayer_isvalidBuiltin.hpp"
-#include "audioplayer_ispropBuiltin.hpp"
-#include "audioplayer_ismethodBuiltin.hpp"
-#include "audioreadBuiltin.hpp"
-#include "audiowriteBuiltin.hpp"
-#include "audioinfoBuiltin.hpp"
-#include "audiometadataBuiltin.hpp"
-#include "audiosupportedformatsBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"audio";
 //=============================================================================
-static const nlsGateway gateway[] =
-{
+static const nlsGateway gateway[] = {
     { "audiodevinfo", Nelson::AudioGateway::audiodevinfoBuiltin, 1, -1 },
     { "audioplayer", Nelson::AudioGateway::audioplayerBuiltin, 1, -1 },
     { "audioplayer_disp", Nelson::AudioGateway::audioplayer_dispBuiltin, 0, 1 },
@@ -81,13 +80,15 @@ static const nlsGateway gateway[] =
     { "audiowrite", Nelson::AudioGateway::audiowriteBuiltin, 0, -3 },
 };
 //=============================================================================
-static bool initializeAudioModule(Nelson::Evaluator* eval)
+static bool
+initializeAudioModule(Nelson::Evaluator* eval)
 {
     initializeAudio();
     return true;
 }
 //=============================================================================
-static bool finishAudioModule(Nelson::Evaluator* eval)
+static bool
+finishAudioModule(Nelson::Evaluator* eval)
 {
     terminateAudio();
     return true;

@@ -17,55 +17,62 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "XmlDocHistoryItem.hpp"
-#include "characters_encoding.hpp"
-#include "XmlDocumentTags.hpp"
 #include "HtmlTags.hpp"
+#include "XmlDocumentTags.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
-    XmlDocHistoryItem::XmlDocHistoryItem(std::wstring version, std::wstring description)
-    {
-        this->_version = version;
-        this->_description = description;
-    }
-    //=============================================================================
-    XmlDocHistoryItem::~XmlDocHistoryItem()
-    {
-        this->_version = L"";
-        this->_description = L"";
-    }
-    //=============================================================================
-    std::wstring XmlDocHistoryItem::getVersion()
-    {
-        return this->_version;
-    }
-    //=============================================================================
-    std::wstring XmlDocHistoryItem::getDescription()
-    {
-        return this->_description;
-    }
-    //=============================================================================
-    std::wstring XmlDocHistoryItem::getItemType()
-    {
-        return  utf8_to_wstring(HISTORY_TAG);
-    }
-    //=============================================================================
-    bool XmlDocHistoryItem::writeAsHtml(std::string &utf8stream)
-    {
-        utf8stream = utf8stream + HTML_TR_IN_TAG + "\n";
-        utf8stream = utf8stream + "\t" + HTML_TD_IN_TAG + wstring_to_utf8(this->_version) + HTML_TD_OUT_TAG + "\n";
-        utf8stream = utf8stream + "\t" + HTML_TD_IN_TAG + wstring_to_utf8(this->_description) + HTML_TD_OUT_TAG + "\n";
-        utf8stream = utf8stream + HTML_TR_OUT_TAG + "\n";
-        utf8stream = utf8stream + "\n";
-        return true;
-    }
-    //=============================================================================
-    bool XmlDocHistoryItem::writeAsMarkdown(std::string &utf8stream)
-    {
-        utf8stream = utf8stream + "|" + wstring_to_utf8(this->_version);
-        utf8stream = utf8stream + "|" + wstring_to_utf8(this->_description) + "|" +"\n";
-        utf8stream = utf8stream + "\n";
-        return true;
-    }
-    //=============================================================================
+XmlDocHistoryItem::XmlDocHistoryItem(std::wstring version, std::wstring description)
+{
+    this->_version = version;
+    this->_description = description;
+}
+//=============================================================================
+XmlDocHistoryItem::~XmlDocHistoryItem()
+{
+    this->_version = L"";
+    this->_description = L"";
+}
+//=============================================================================
+std::wstring
+XmlDocHistoryItem::getVersion()
+{
+    return this->_version;
+}
+//=============================================================================
+std::wstring
+XmlDocHistoryItem::getDescription()
+{
+    return this->_description;
+}
+//=============================================================================
+std::wstring
+XmlDocHistoryItem::getItemType()
+{
+    return utf8_to_wstring(HISTORY_TAG);
+}
+//=============================================================================
+bool
+XmlDocHistoryItem::writeAsHtml(std::string& utf8stream)
+{
+    utf8stream = utf8stream + HTML_TR_IN_TAG + "\n";
+    utf8stream = utf8stream + "\t" + HTML_TD_IN_TAG + wstring_to_utf8(this->_version)
+        + HTML_TD_OUT_TAG + "\n";
+    utf8stream = utf8stream + "\t" + HTML_TD_IN_TAG + wstring_to_utf8(this->_description)
+        + HTML_TD_OUT_TAG + "\n";
+    utf8stream = utf8stream + HTML_TR_OUT_TAG + "\n";
+    utf8stream = utf8stream + "\n";
+    return true;
+}
+//=============================================================================
+bool
+XmlDocHistoryItem::writeAsMarkdown(std::string& utf8stream)
+{
+    utf8stream = utf8stream + "|" + wstring_to_utf8(this->_version);
+    utf8stream = utf8stream + "|" + wstring_to_utf8(this->_description) + "|" + "\n";
+    utf8stream = utf8stream + "\n";
+    return true;
+}
+//=============================================================================
 }
 //=============================================================================

@@ -21,104 +21,93 @@
 #include "SparseDynamicFunctions.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    const bool ArrayOf::isSparse() const
-    {
-        return (dp->sparse);
+//=============================================================================
+const bool
+ArrayOf::isSparse() const
+{
+    return (dp->sparse);
+}
+//=============================================================================
+const bool
+ArrayOf::isSparseDouble() const
+{
+    return (dp->dataClass == NLS_DOUBLE || dp->dataClass == NLS_DCOMPLEX) && (dp->sparse);
+}
+//=============================================================================
+const bool
+ArrayOf::isSparseLogical() const
+{
+    return (dp->dataClass == NLS_LOGICAL) && (dp->sparse);
+}
+//=============================================================================
+const void*
+ArrayOf::getSparseDataPointer() const
+{
+    if (dp) {
+        return dp->getData();
+    } else {
+        return nullptr;
     }
-    //=============================================================================
-    const bool ArrayOf::isSparseDouble() const
-    {
-        return (dp->dataClass == NLS_DOUBLE || dp->dataClass == NLS_DCOMPLEX) && (dp->sparse);
+}
+//=============================================================================
+void
+ArrayOf::makeDense()
+{
+    if (!isSparse()) {
+        return;
     }
-    //=============================================================================
-    const bool ArrayOf::isSparseLogical() const
-    {
-        return (dp->dataClass == NLS_LOGICAL) && (dp->sparse);
+    if (isEmpty()) {
+        dp->sparse = false;
+        return;
     }
-    //=============================================================================
-    const void *ArrayOf::getSparseDataPointer() const
-    {
-        if (dp)
-        {
-            return dp->getData();
-        }
-        else
-        {
-            return nullptr;
-        }
+    ensureSingleOwner();
+    dp = dp->putData(dp->dataClass, dp->dimensions,
+        MakeDenseArrayOfDynamicFunction(
+            dp->dataClass, dp->dimensions[0], dp->dimensions[1], dp->getData()),
+        false, dp->fieldNames);
+}
+//=============================================================================
+indexType
+ArrayOf::getNonzeros() const
+{
+    if (!isSparse()) {
+        return (dp->dimensions.getElementCount());
     }
-    //=============================================================================
-    void ArrayOf::makeDense()
-    {
-        if (!isSparse())
-        {
-            return;
-        }
-        if (isEmpty())
-        {
-            dp->sparse = false;
-            return;
-        }
+    if (isEmpty()) {
+        return 0;
+    }
+    return CountNonzerosDynamicFunction(
+        dp->dataClass, dp->dimensions[0], dp->dimensions[1], dp->getData());
+}
+//=============================================================================
+void
+ArrayOf::makeSparse()
+{
+    if (!is2D()) {
+        throw Exception(_W("Cannot make n-dimensional arrays sparse."));
+    }
+    if (isEmpty()) {
+        dp = dp->putData(dp->dataClass, dp->dimensions, NULL, true, dp->fieldNames);
+        return;
+    }
+    if (isReferenceType() || isString()) {
+        throw Exception(_W("Cannot make strings or reference types sparse."));
+    }
+    if (isSparse()) {
+        return;
+    }
+    if ((dp->dataClass == NLS_DOUBLE) || (dp->dataClass == NLS_DCOMPLEX)
+        || (dp->dataClass == NLS_LOGICAL)) {
         ensureSingleOwner();
-        dp = dp->putData(dp->dataClass, dp->dimensions,
-                         MakeDenseArrayOfDynamicFunction(dp->dataClass,
-                                 dp->dimensions[0],
-                                 dp->dimensions[1],
-                                 dp->getData()),
-                         false,
-                         dp->fieldNames);
+    } else {
+        throw Exception(_W("Cannot make sparse."));
     }
-    //=============================================================================
-    indexType ArrayOf::getNonzeros() const
-    {
-        if (!isSparse())
-        {
-            return (dp->dimensions.getElementCount());
-        }
-        if (isEmpty())
-        {
-            return 0;
-        }
-        return CountNonzerosDynamicFunction(dp->dataClass, dp->dimensions[0], dp->dimensions[1],
-                                            dp->getData());
-    }
-    //=============================================================================
-    void ArrayOf::makeSparse()
-    {
-        if (!is2D())
-        {
-            throw Exception(_W("Cannot make n-dimensional arrays sparse."));
-        }
-        if (isEmpty())
-        {
-            dp = dp->putData(dp->dataClass, dp->dimensions, NULL, true, dp->fieldNames);
-            return;
-        }
-        if (isReferenceType() || isString())
-        {
-            throw Exception(_W("Cannot make strings or reference types sparse."));
-        }
-        if (isSparse())
-        {
-            return;
-        }
-        if ((dp->dataClass == NLS_DOUBLE) ||
-                (dp->dataClass == NLS_DCOMPLEX) ||
-                (dp->dataClass == NLS_LOGICAL))
-        {
-            ensureSingleOwner();
-        }
-        else
-        {
-            throw Exception(_W("Cannot make sparse."));
-        }
-        dp = dp->putData(dp->dataClass, dp->dimensions,
-                         MakeSparseArrayOfDynamicFunction(dp->dataClass, dp->dimensions[0], dp->dimensions[1], dp->getData()),
-                         true,
-                         dp->fieldNames);
-    }
-    //=============================================================================
+    dp = dp->putData(dp->dataClass, dp->dimensions,
+        MakeSparseArrayOfDynamicFunction(
+            dp->dataClass, dp->dimensions[0], dp->dimensions[1], dp->getData()),
+        true, dp->fieldNames);
+}
+//=============================================================================
 
 }
 //=============================================================================

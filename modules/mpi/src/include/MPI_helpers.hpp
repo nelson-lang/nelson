@@ -18,18 +18,26 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <mpi.h>
-#include "nlsMpi_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsMpi_exports.h"
+#include <mpi.h>
 //=============================================================================
 namespace Nelson {
-    NLSMPI_IMPEXP int initializeMPI();
-    NLSMPI_IMPEXP void packMPI(ArrayOf &A, void *buffer, int bufsize, int *packpos, MPI_Comm comm);
-    NLSMPI_IMPEXP ArrayOf unpackMPI(void *buffer, int bufsize, int *packpos, MPI_Comm comm);
-    NLSMPI_IMPEXP int getArrayOfFootPrint(ArrayOf &A, MPI_Comm comm);
-    NLSMPI_IMPEXP int getCanonicalSize(int count, MPI_Datatype atype, MPI_Comm comm);
-    NLSMPI_IMPEXP std::string getMpiLibraryVersion();
-    NLSMPI_IMPEXP MPI_Op stringToMpiOp(std::wstring op_str);
-    NLSMPI_IMPEXP std::string getMpiCommName(MPI_Comm comm);
-}
+NLSMPI_IMPEXP int
+initializeMPI();
+NLSMPI_IMPEXP void
+packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm);
+NLSMPI_IMPEXP ArrayOf
+unpackMPI(void* buffer, int bufsize, int* packpos, MPI_Comm comm);
+NLSMPI_IMPEXP int
+getArrayOfFootPrint(ArrayOf& A, MPI_Comm comm);
+NLSMPI_IMPEXP int
+getCanonicalSize(int count, MPI_Datatype atype, MPI_Comm comm);
+NLSMPI_IMPEXP std::string
+getMpiLibraryVersion();
+NLSMPI_IMPEXP MPI_Op
+stringToMpiOp(std::wstring op_str);
+NLSMPI_IMPEXP std::string
+getMpiCommName(MPI_Comm comm);
+} // namespace Nelson
 //=============================================================================

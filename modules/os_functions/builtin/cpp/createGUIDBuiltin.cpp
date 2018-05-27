@@ -17,38 +17,31 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "createGUIDBuiltin.hpp"
-#include "Error.hpp"
 #include "CreateGUID.hpp"
+#include "Error.hpp"
 #include "ToCellString.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::OsFunctionsGateway::createGUIDBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::OsFunctionsGateway::createGUIDBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (argIn.size() > 1)
-    {
+    if (argIn.size() > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOfVector retval;
-    if (argIn.size() == 0)
-    {
+    if (argIn.size() == 0) {
         retval.push_back(ArrayOf::stringConstructor(CreateGUID()));
-    }
-    else
-    {
+    } else {
         ArrayOf arg1 = argIn[0];
-        if (arg1.isNumeric())
-        {
+        if (arg1.isNumeric()) {
             indexType idx = arg1.getContentAsScalarIndex();
             wstringVector strs = CreateGUID((size_t)idx);
             retval.push_back(ToCellStringAsColumn(strs));
-        }
-        else
-        {
+        } else {
             Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_DOUBLE_EXPECTED);
         }
     }

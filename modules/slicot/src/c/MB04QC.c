@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -12,22 +12,24 @@ static doublereal c_b22 = 1.;
 static doublereal c_b53 = 0.;
 static doublereal c_b367 = -1.;
 
-EXPORTSYMBOL /* Subroutine */ int mb04qc_(struct__, trana, tranb, tranq, direct, storev, storew, m, n, k, v, ldv, w, ldw, rs, ldrs, t, ldt, a, lda, b, ldb, dwork, struct_len, trana_len, tranb_len, tranq_len, direct_len, storev_len, storew_len)
-char *struct__, *trana, *tranb, *tranq, *direct, *storev, *storew;
+EXPORTSYMBOL /* Subroutine */ int mb04qc_(struct__, trana, tranb, tranq, direct, storev, storew, m,
+    n, k, v, ldv, w, ldw, rs, ldrs, t, ldt, a, lda, b, ldb, dwork, struct_len, trana_len, tranb_len,
+    tranq_len, direct_len, storev_len, storew_len) char *struct__,
+    *trana, *tranb, *tranq, *direct, *storev, *storew;
 integer *m, *n, *k;
-doublereal *v;
-integer *ldv;
-doublereal *w;
-integer *ldw;
-doublereal *rs;
-integer *ldrs;
-doublereal *t;
-integer *ldt;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *dwork;
+doublereal* v;
+integer* ldv;
+doublereal* w;
+integer* ldw;
+doublereal* rs;
+integer* ldrs;
+doublereal* t;
+integer* ldt;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* dwork;
 ftnlen struct_len;
 ftnlen trana_len;
 ftnlen tranb_len;
@@ -37,7 +39,8 @@ ftnlen storev_len;
 ftnlen storew_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, rs_dim1, rs_offset, t_dim1, t_offset, v_dim1, v_offset, w_dim1, w_offset, i__1;
+    integer a_dim1, a_offset, b_dim1, b_offset, rs_dim1, rs_offset, t_dim1, t_offset, v_dim1,
+        v_offset, w_dim1, w_offset, i__1;
     /* Local variables */
     static logical la1b1;
     static doublereal fact;
@@ -48,7 +51,8 @@ ftnlen storew_len;
     static integer itemp;
     static logical lcolv, lcolw;
     extern /* Subroutine */ int dcopy_(), dtrmm_(), daxpy_(), dlaset_();
-    static integer pr1, pr2, pr3, ps1, ps2, ps3, pt11, pt12, pt13, pt21, pt22, pt23, pt31, pt32, pt33, pdw1, pdw2, pdw3, pdw4, pdw5, pdw6, pdw7, pdw8, pdw9;
+    static integer pr1, pr2, pr3, ps1, ps2, ps3, pt11, pt12, pt13, pt21, pt22, pt23, pt31, pt32,
+        pt33, pdw1, pdw2, pdw3, pdw4, pdw5, pdw6, pdw7, pdw8, pdw9;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */
@@ -230,8 +234,7 @@ ftnlen storew_len;
     b -= b_offset;
     --dwork;
     /* Function Body */
-    if (*m <= 0 || *n <= 0)
-    {
+    if (*m <= 0 || *n <= 0) {
         return 0;
     }
     la1b1 = lsame_(struct__, "N", 1L, 1L);
@@ -256,619 +259,576 @@ ftnlen storew_len;
     pt32 = pt31 + *k;
     pt33 = pt32 + *k;
     pdw1 = 1;
-    pdw2 = pdw1 + *n **k;
-    pdw3 = pdw2 + *n **k;
-    pdw4 = pdw3 + *n **k;
-    pdw5 = pdw4 + *n **k;
-    pdw6 = pdw5 + *n **k;
-    pdw7 = pdw6 + *n **k;
-    pdw8 = pdw7 + *n **k;
-    pdw9 = pdw8 + *n **k;
+    pdw2 = pdw1 + *n * *k;
+    pdw3 = pdw2 + *n * *k;
+    pdw4 = pdw3 + *n * *k;
+    pdw5 = pdw4 + *n * *k;
+    pdw6 = pdw5 + *n * *k;
+    pdw7 = pdw6 + *n * *k;
+    pdw8 = pdw7 + *n * *k;
+    pdw9 = pdw8 + *n * *k;
     /*     Update the matrix A. */
-    if (la1b1)
-    {
+    if (la1b1) {
         /*        NZ1) DW7 := A1' */
-        if (ltra)
-        {
+        if (ltra) {
             i__1 = *k;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
-                dcopy_(n, &a[i__ * a_dim1 + 1], &c__1, &dwork[pdw7 + (i__ - 1) **n], &c__1);
+            for (i__ = 1; i__ <= i__1; ++i__) {
+                dcopy_(n, &a[i__ * a_dim1 + 1], &c__1, &dwork[pdw7 + (i__ - 1) * *n], &c__1);
                 /* L10: */
             }
-        }
-        else
-        {
+        } else {
             i__1 = *n;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 dcopy_(k, &a[i__ * a_dim1 + 1], &c__1, &dwork[pdw7 + i__ - 1], n);
                 /* L20: */
             }
         }
         /*        NZ2) DW1 := DW7*W1 */
-        i__1 = *n **k;
+        i__1 = *n * *k;
         dcopy_(&i__1, &dwork[pdw7], &c__1, &dwork[pdw1], &c__1);
-        if (lcolw)
-        {
-            dtrmm_("Right", "Lower", "No transpose", "Unit", n, k, &c_b22, &w[w_offset], ldw, &dwork[pdw1], n, 5L, 5L, 12L, 4L);
-        }
-        else
-        {
-            dtrmm_("Right", "Upper", "Transpose", "Unit", n, k, &c_b22, &w[w_offset], ldw, &dwork[pdw1], n, 5L, 5L, 9L, 4L);
+        if (lcolw) {
+            dtrmm_("Right", "Lower", "No transpose", "Unit", n, k, &c_b22, &w[w_offset], ldw,
+                &dwork[pdw1], n, 5L, 5L, 12L, 4L);
+        } else {
+            dtrmm_("Right", "Upper", "Transpose", "Unit", n, k, &c_b22, &w[w_offset], ldw,
+                &dwork[pdw1], n, 5L, 5L, 9L, 4L);
         }
         /*        NZ3) DW2 := DW7*V1 */
-        i__1 = *n **k;
+        i__1 = *n * *k;
         dcopy_(&i__1, &dwork[pdw7], &c__1, &dwork[pdw2], &c__1);
-        if (lcolv)
-        {
-            dtrmm_("Right", "Lower", "No transpose", "Unit", n, k, &c_b22, &v[v_offset], ldv, &dwork[pdw2], n, 5L, 5L, 12L, 4L);
-        }
-        else
-        {
-            dtrmm_("Right", "Upper", "Transpose", "Unit", n, k, &c_b22, &v[v_offset], ldv, &dwork[pdw2], n, 5L, 5L, 9L, 4L);
+        if (lcolv) {
+            dtrmm_("Right", "Lower", "No transpose", "Unit", n, k, &c_b22, &v[v_offset], ldv,
+                &dwork[pdw2], n, 5L, 5L, 12L, 4L);
+        } else {
+            dtrmm_("Right", "Upper", "Transpose", "Unit", n, k, &c_b22, &v[v_offset], ldv,
+                &dwork[pdw2], n, 5L, 5L, 9L, 4L);
         }
         fact = 1.;
-    }
-    else
-    {
+    } else {
         fact = 0.;
     }
     /*     1) DW1 := A2'*W2 */
-    if (*m > *k)
-    {
-        if (ltra && lcolw)
-        {
+    if (*m > *k) {
+        if (ltra && lcolw) {
             i__1 = *m - *k;
-            dgemm_("No Transpose", "No Transpose", n, k, &i__1, &c_b22, &a[(*k + 1) * a_dim1 + 1], lda, &w[*k + 1 + w_dim1], ldw, &fact, &dwork[pdw1], n, 12L, 12L);
-        }
-        else if (ltra)
-        {
+            dgemm_("No Transpose", "No Transpose", n, k, &i__1, &c_b22, &a[(*k + 1) * a_dim1 + 1],
+                lda, &w[*k + 1 + w_dim1], ldw, &fact, &dwork[pdw1], n, 12L, 12L);
+        } else if (ltra) {
             i__1 = *m - *k;
-            dgemm_("No Transpose", "Transpose", n, k, &i__1, &c_b22, &a[(*k + 1) * a_dim1 + 1], lda, &w[(*k + 1) * w_dim1 + 1], ldw, &fact, &dwork[pdw1], n, 12L, 9L);
-        }
-        else if (lcolw)
-        {
+            dgemm_("No Transpose", "Transpose", n, k, &i__1, &c_b22, &a[(*k + 1) * a_dim1 + 1], lda,
+                &w[(*k + 1) * w_dim1 + 1], ldw, &fact, &dwork[pdw1], n, 12L, 9L);
+        } else if (lcolw) {
             i__1 = *m - *k;
-            dgemm_("Transpose", "No Transpose", n, k, &i__1, &c_b22, &a[*k + 1 + a_dim1], lda, &w[*k + 1 + w_dim1], ldw, &fact, &dwork[pdw1], n, 9L, 12L);
-        }
-        else
-        {
+            dgemm_("Transpose", "No Transpose", n, k, &i__1, &c_b22, &a[*k + 1 + a_dim1], lda,
+                &w[*k + 1 + w_dim1], ldw, &fact, &dwork[pdw1], n, 9L, 12L);
+        } else {
             i__1 = *m - *k;
-            dgemm_("Transpose", "Transpose", n, k, &i__1, &c_b22, &a[*k + 1 + a_dim1], lda, &w[(*k + 1) * w_dim1 + 1], ldw, &fact, &dwork[pdw1], n, 9L, 9L);
+            dgemm_("Transpose", "Transpose", n, k, &i__1, &c_b22, &a[*k + 1 + a_dim1], lda,
+                &w[(*k + 1) * w_dim1 + 1], ldw, &fact, &dwork[pdw1], n, 9L, 9L);
         }
-    }
-    else if (! la1b1)
-    {
+    } else if (!la1b1) {
         dlaset_("All", n, k, &c_b53, &c_b53, &dwork[pdw1], n, 3L);
     }
     /*     2) DW2 := A2'*V2 */
-    if (*m > *k)
-    {
-        if (ltra && lcolv)
-        {
+    if (*m > *k) {
+        if (ltra && lcolv) {
             i__1 = *m - *k;
-            dgemm_("No Transpose", "No Transpose", n, k, &i__1, &c_b22, &a[(*k + 1) * a_dim1 + 1], lda, &v[*k + 1 + v_dim1], ldv, &fact, &dwork[pdw2], n, 12L, 12L);
-        }
-        else if (ltra)
-        {
+            dgemm_("No Transpose", "No Transpose", n, k, &i__1, &c_b22, &a[(*k + 1) * a_dim1 + 1],
+                lda, &v[*k + 1 + v_dim1], ldv, &fact, &dwork[pdw2], n, 12L, 12L);
+        } else if (ltra) {
             i__1 = *m - *k;
-            dgemm_("No Transpose", "Transpose", n, k, &i__1, &c_b22, &a[(*k + 1) * a_dim1 + 1], lda, &v[(*k + 1) * v_dim1 + 1], ldv, &fact, &dwork[pdw2], n, 12L, 9L);
-        }
-        else if (lcolv)
-        {
+            dgemm_("No Transpose", "Transpose", n, k, &i__1, &c_b22, &a[(*k + 1) * a_dim1 + 1], lda,
+                &v[(*k + 1) * v_dim1 + 1], ldv, &fact, &dwork[pdw2], n, 12L, 9L);
+        } else if (lcolv) {
             i__1 = *m - *k;
-            dgemm_("Transpose", "No Transpose", n, k, &i__1, &c_b22, &a[*k + 1 + a_dim1], lda, &v[*k + 1 + v_dim1], ldv, &fact, &dwork[pdw2], n, 9L, 12L);
-        }
-        else
-        {
+            dgemm_("Transpose", "No Transpose", n, k, &i__1, &c_b22, &a[*k + 1 + a_dim1], lda,
+                &v[*k + 1 + v_dim1], ldv, &fact, &dwork[pdw2], n, 9L, 12L);
+        } else {
             i__1 = *m - *k;
-            dgemm_("Transpose", "Transpose", n, k, &i__1, &c_b22, &a[*k + 1 + a_dim1], lda, &v[(*k + 1) * v_dim1 + 1], ldv, &fact, &dwork[pdw2], n, 9L, 9L);
+            dgemm_("Transpose", "Transpose", n, k, &i__1, &c_b22, &a[*k + 1 + a_dim1], lda,
+                &v[(*k + 1) * v_dim1 + 1], ldv, &fact, &dwork[pdw2], n, 9L, 9L);
         }
-    }
-    else if (! la1b1)
-    {
+    } else if (!la1b1) {
         dlaset_("All", n, k, &c_b53, &c_b53, &dwork[pdw2], n, 3L);
     }
-    if (ltrq)
-    {
+    if (ltrq) {
         /*        3) DW3 := DW1*T11 */
-        i__1 = *n **k;
+        i__1 = *n * *k;
         dcopy_(&i__1, &dwork[pdw1], &c__1, &dwork[pdw3], &c__1);
-        dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, k, &c_b22, &t[pt11 * t_dim1 + 1], ldt, &dwork[pdw3], n, 5L, 5L, 12L, 8L);
+        dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, k, &c_b22, &t[pt11 * t_dim1 + 1],
+            ldt, &dwork[pdw3], n, 5L, 5L, 12L, 8L);
         /*        4) DW4 := DW2*T31 */
         i__1 = *n * (*k - 1);
         dcopy_(&i__1, &dwork[pdw2], &c__1, &dwork[pdw4], &c__1);
         i__1 = *k - 1;
-        dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, &i__1, &c_b22, &t[(pt31 + 1) * t_dim1 + 1], ldt, &dwork[pdw4], n, 5L, 5L, 12L, 8L);
+        dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, &i__1, &c_b22,
+            &t[(pt31 + 1) * t_dim1 + 1], ldt, &dwork[pdw4], n, 5L, 5L, 12L, 8L);
         /*        5) DW3 := DW3 + DW4 */
         i__1 = *n * (*k - 1);
         daxpy_(&i__1, &c_b22, &dwork[pdw4], &c__1, &dwork[pdw3 + *n], &c__1);
-        if (la1b1)
-        {
+        if (la1b1) {
             /*           NZ4) DW8 := DW7*T21 */
             i__1 = *n * (*k - 1);
             dcopy_(&i__1, &dwork[pdw7], &c__1, &dwork[pdw8], &c__1);
             i__1 = *k - 1;
-            dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, &i__1, &c_b22, &t[(pt21 + 1) * t_dim1 + 1], ldt, &dwork[pdw8], n, 5L, 5L, 12L, 8L);
+            dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, &i__1, &c_b22,
+                &t[(pt21 + 1) * t_dim1 + 1], ldt, &dwork[pdw8], n, 5L, 5L, 12L, 8L);
             /*           NZ5) DW3 := DW3 + DW8 */
             i__1 = *n * (*k - 1);
             daxpy_(&i__1, &c_b22, &dwork[pdw8], &c__1, &dwork[pdw3 + *n], &c__1);
         }
         /*        6) DW4 := DW1*T12 */
-        i__1 = *n **k;
+        i__1 = *n * *k;
         dcopy_(&i__1, &dwork[pdw1], &c__1, &dwork[pdw4], &c__1);
-        dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, k, &c_b22, &t[pt12 * t_dim1 + 1], ldt, &dwork[pdw4], n, 5L, 5L, 12L, 8L);
+        dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, k, &c_b22, &t[pt12 * t_dim1 + 1],
+            ldt, &dwork[pdw4], n, 5L, 5L, 12L, 8L);
         /*        7) DW5 := DW2*T32 */
         i__1 = *n * (*k - 1);
         dcopy_(&i__1, &dwork[pdw2], &c__1, &dwork[pdw5], &c__1);
         i__1 = *k - 1;
-        dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, &i__1, &c_b22, &t[(pt32 + 1) * t_dim1 + 1], ldt, &dwork[pdw5], n, 5L, 5L, 12L, 8L);
+        dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, &i__1, &c_b22,
+            &t[(pt32 + 1) * t_dim1 + 1], ldt, &dwork[pdw5], n, 5L, 5L, 12L, 8L);
         /*        8) DW4 := DW4 + DW5 */
         i__1 = *n * (*k - 1);
         daxpy_(&i__1, &c_b22, &dwork[pdw5], &c__1, &dwork[pdw4 + *n], &c__1);
-        if (la1b1)
-        {
+        if (la1b1) {
             /*           NZ6) DW8 := DW7*T22 */
-            i__1 = *n **k;
+            i__1 = *n * *k;
             dcopy_(&i__1, &dwork[pdw7], &c__1, &dwork[pdw8], &c__1);
-            dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, k, &c_b22, &t[pt22 * t_dim1 + 1], ldt, &dwork[pdw8], n, 5L, 5L, 12L, 8L);
+            dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, k, &c_b22,
+                &t[pt22 * t_dim1 + 1], ldt, &dwork[pdw8], n, 5L, 5L, 12L, 8L);
             /*           NZ7) DW4 := DW4 + DW8 */
-            i__1 = *n **k;
+            i__1 = *n * *k;
             daxpy_(&i__1, &c_b22, &dwork[pdw8], &c__1, &dwork[pdw4], &c__1);
         }
         /*        9) DW5 := DW2*T33 */
-        i__1 = *n **k;
+        i__1 = *n * *k;
         dcopy_(&i__1, &dwork[pdw2], &c__1, &dwork[pdw5], &c__1);
-        dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, k, &c_b22, &t[pt33 * t_dim1 + 1], ldt, &dwork[pdw5], n, 5L, 5L, 12L, 8L);
+        dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, k, &c_b22, &t[pt33 * t_dim1 + 1],
+            ldt, &dwork[pdw5], n, 5L, 5L, 12L, 8L);
         /*        10) DW6 := DW1*T13 */
-        i__1 = *n **k;
+        i__1 = *n * *k;
         dcopy_(&i__1, &dwork[pdw1], &c__1, &dwork[pdw6], &c__1);
-        dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, k, &c_b22, &t[pt13 * t_dim1 + 1], ldt, &dwork[pdw6], n, 5L, 5L, 12L, 8L);
+        dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, k, &c_b22, &t[pt13 * t_dim1 + 1],
+            ldt, &dwork[pdw6], n, 5L, 5L, 12L, 8L);
         /*        11) DW5 := DW5 + DW6 */
-        i__1 = *n **k;
+        i__1 = *n * *k;
         daxpy_(&i__1, &c_b22, &dwork[pdw6], &c__1, &dwork[pdw5], &c__1);
-        if (la1b1)
-        {
+        if (la1b1) {
             /*           NZ8) DW8 := DW7*T23 */
-            i__1 = *n **k;
+            i__1 = *n * *k;
             dcopy_(&i__1, &dwork[pdw7], &c__1, &dwork[pdw8], &c__1);
-            dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, k, &c_b22, &t[pt23 * t_dim1 + 1], ldt, &dwork[pdw8], n, 5L, 5L, 12L, 8L);
+            dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, k, &c_b22,
+                &t[pt23 * t_dim1 + 1], ldt, &dwork[pdw8], n, 5L, 5L, 12L, 8L);
             /*           NZ9) DW5 := DW5 + DW8 */
-            i__1 = *n **k;
+            i__1 = *n * *k;
             daxpy_(&i__1, &c_b22, &dwork[pdw8], &c__1, &dwork[pdw5], &c__1);
         }
         /*        12) DW1 := DW1*R1 */
-        dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, k, &c_b22, &rs[pr1 * rs_dim1 + 1], ldrs, &dwork[pdw1], n, 5L, 5L, 12L, 8L);
+        dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, k, &c_b22, &rs[pr1 * rs_dim1 + 1],
+            ldrs, &dwork[pdw1], n, 5L, 5L, 12L, 8L);
         /*        13) DW2 := DW2*R3 */
         i__1 = *k - 1;
-        dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, &i__1, &c_b22, &rs[(pr3 + 1) * rs_dim1 + 1], ldrs, &dwork[pdw2], n, 5L, 5L, 12L, 8L);
+        dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, &i__1, &c_b22,
+            &rs[(pr3 + 1) * rs_dim1 + 1], ldrs, &dwork[pdw2], n, 5L, 5L, 12L, 8L);
         /*        14) DW1 := DW1 + DW2 */
         i__1 = *n * (*k - 1);
         daxpy_(&i__1, &c_b22, &dwork[pdw2], &c__1, &dwork[pdw1 + *n], &c__1);
-        if (la1b1)
-        {
+        if (la1b1) {
             /*           NZ10) DW7 := DW7*R2 */
-            dtrmm_("Right", "Upper", "No Transpose", "Unit", n, k, &c_b22, &rs[pr2 * rs_dim1 + 1], ldrs, &dwork[pdw7], n, 5L, 5L, 12L, 4L);
+            dtrmm_("Right", "Upper", "No Transpose", "Unit", n, k, &c_b22, &rs[pr2 * rs_dim1 + 1],
+                ldrs, &dwork[pdw7], n, 5L, 5L, 12L, 4L);
             /*           NZ11) DW1 := DW1 + DW7 */
-            i__1 = *n **k;
+            i__1 = *n * *k;
             daxpy_(&i__1, &c_b22, &dwork[pdw7], &c__1, &dwork[pdw1], &c__1);
         }
         /*        Swap Pointers PDW1 <-> PDW2 */
         itemp = pdw2;
         pdw2 = pdw1;
         pdw1 = itemp;
-    }
-    else
-    {
+    } else {
         /*        3) DW3 := DW1*T11' */
-        i__1 = *n **k;
+        i__1 = *n * *k;
         dcopy_(&i__1, &dwork[pdw1], &c__1, &dwork[pdw3], &c__1);
-        dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, k, &c_b22, &t[pt11 * t_dim1 + 1], ldt, &dwork[pdw3], n, 5L, 5L, 9L, 8L);
+        dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, k, &c_b22, &t[pt11 * t_dim1 + 1], ldt,
+            &dwork[pdw3], n, 5L, 5L, 9L, 8L);
         /*        4) DW4 := DW2*T13' */
-        i__1 = *n **k;
+        i__1 = *n * *k;
         dcopy_(&i__1, &dwork[pdw2], &c__1, &dwork[pdw4], &c__1);
-        dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, k, &c_b22, &t[pt13 * t_dim1 + 1], ldt, &dwork[pdw4], n, 5L, 5L, 9L, 8L);
+        dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, k, &c_b22, &t[pt13 * t_dim1 + 1], ldt,
+            &dwork[pdw4], n, 5L, 5L, 9L, 8L);
         /*        5) DW3 := DW3 + DW4 */
-        i__1 = *n **k;
+        i__1 = *n * *k;
         daxpy_(&i__1, &c_b22, &dwork[pdw4], &c__1, &dwork[pdw3], &c__1);
-        if (la1b1)
-        {
+        if (la1b1) {
             /*           NZ4) DW8 := DW7*T12' */
-            i__1 = *n **k;
+            i__1 = *n * *k;
             dcopy_(&i__1, &dwork[pdw7], &c__1, &dwork[pdw8], &c__1);
-            dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, k, &c_b22, &t[pt12 * t_dim1 + 1], ldt, &dwork[pdw8], n, 5L, 5L, 9L, 8L);
+            dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, k, &c_b22, &t[pt12 * t_dim1 + 1],
+                ldt, &dwork[pdw8], n, 5L, 5L, 9L, 8L);
             /*           NZ5) DW3 := DW3 + DW8 */
-            i__1 = *n **k;
+            i__1 = *n * *k;
             daxpy_(&i__1, &c_b22, &dwork[pdw8], &c__1, &dwork[pdw3], &c__1);
         }
         /*        6) DW4 := DW2*T23' */
-        i__1 = *n **k;
+        i__1 = *n * *k;
         dcopy_(&i__1, &dwork[pdw2], &c__1, &dwork[pdw4], &c__1);
-        dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, k, &c_b22, &t[pt23 * t_dim1 + 1], ldt, &dwork[pdw4], n, 5L, 5L, 9L, 8L);
+        dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, k, &c_b22, &t[pt23 * t_dim1 + 1], ldt,
+            &dwork[pdw4], n, 5L, 5L, 9L, 8L);
         /*        7) DW5 := DW1*T21' */
         i__1 = *n * (*k - 1);
         dcopy_(&i__1, &dwork[pdw1 + *n], &c__1, &dwork[pdw5], &c__1);
         i__1 = *k - 1;
-        dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, &i__1, &c_b22, &t[(pt21 + 1) * t_dim1 + 1], ldt, &dwork[pdw5], n, 5L, 5L, 9L, 8L);
+        dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, &i__1, &c_b22,
+            &t[(pt21 + 1) * t_dim1 + 1], ldt, &dwork[pdw5], n, 5L, 5L, 9L, 8L);
         /*        8) DW4 := DW4 + DW5 */
         i__1 = *n * (*k - 1);
         daxpy_(&i__1, &c_b22, &dwork[pdw5], &c__1, &dwork[pdw4], &c__1);
-        if (la1b1)
-        {
+        if (la1b1) {
             /*           NZ6) DW8 := DW7*T22' */
-            i__1 = *n **k;
+            i__1 = *n * *k;
             dcopy_(&i__1, &dwork[pdw7], &c__1, &dwork[pdw8], &c__1);
-            dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, k, &c_b22, &t[pt22 * t_dim1 + 1], ldt, &dwork[pdw8], n, 5L, 5L, 9L, 8L);
+            dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, k, &c_b22, &t[pt22 * t_dim1 + 1],
+                ldt, &dwork[pdw8], n, 5L, 5L, 9L, 8L);
             /*           NZ7) DW4 := DW4 + DW8 */
-            i__1 = *n **k;
+            i__1 = *n * *k;
             daxpy_(&i__1, &c_b22, &dwork[pdw8], &c__1, &dwork[pdw4], &c__1);
         }
         /*        9) DW5 := DW2*T33' */
-        i__1 = *n **k;
+        i__1 = *n * *k;
         dcopy_(&i__1, &dwork[pdw2], &c__1, &dwork[pdw5], &c__1);
-        dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, k, &c_b22, &t[pt33 * t_dim1 + 1], ldt, &dwork[pdw5], n, 5L, 5L, 9L, 8L);
+        dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, k, &c_b22, &t[pt33 * t_dim1 + 1], ldt,
+            &dwork[pdw5], n, 5L, 5L, 9L, 8L);
         /*        10) DW6 := DW1*T31' */
         i__1 = *n * (*k - 1);
         dcopy_(&i__1, &dwork[pdw1 + *n], &c__1, &dwork[pdw6], &c__1);
         i__1 = *k - 1;
-        dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, &i__1, &c_b22, &t[(pt31 + 1) * t_dim1 + 1], ldt, &dwork[pdw6], n, 5L, 5L, 9L, 8L);
+        dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, &i__1, &c_b22,
+            &t[(pt31 + 1) * t_dim1 + 1], ldt, &dwork[pdw6], n, 5L, 5L, 9L, 8L);
         /*        11) DW5 := DW5 + DW6 */
         i__1 = *n * (*k - 1);
         daxpy_(&i__1, &c_b22, &dwork[pdw6], &c__1, &dwork[pdw5], &c__1);
-        if (la1b1)
-        {
+        if (la1b1) {
             /*           NZ8) DW8 := DW7*T32' */
             i__1 = *n * (*k - 1);
             dcopy_(&i__1, &dwork[pdw7 + *n], &c__1, &dwork[pdw8], &c__1);
             i__1 = *k - 1;
-            dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, &i__1, &c_b22, &t[(pt32 + 1) * t_dim1 + 1], ldt, &dwork[pdw8], n, 5L, 5L, 9L, 8L);
+            dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, &i__1, &c_b22,
+                &t[(pt32 + 1) * t_dim1 + 1], ldt, &dwork[pdw8], n, 5L, 5L, 9L, 8L);
             /*           NZ9) DW5 := DW5 + DW8 */
             i__1 = *n * (*k - 1);
             daxpy_(&i__1, &c_b22, &dwork[pdw8], &c__1, &dwork[pdw5], &c__1);
         }
         /*        12) DW1 := DW1*S1' */
         i__1 = *k - 1;
-        dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, &i__1, &c_b22, &rs[(ps1 + 1) * rs_dim1 + 1], ldrs, &dwork[pdw1 + *n], n, 5L, 5L, 9L, 8L);
+        dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, &i__1, &c_b22,
+            &rs[(ps1 + 1) * rs_dim1 + 1], ldrs, &dwork[pdw1 + *n], n, 5L, 5L, 9L, 8L);
         /*        13) DW2 := DW2*S3' */
-        dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, k, &c_b22, &rs[ps3 * rs_dim1 + 1], ldrs, &dwork[pdw2], n, 5L, 5L, 9L, 8L);
+        dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, k, &c_b22, &rs[ps3 * rs_dim1 + 1],
+            ldrs, &dwork[pdw2], n, 5L, 5L, 9L, 8L);
         /*        14) DW2 := DW1 + DW2 */
         i__1 = *n * (*k - 1);
         daxpy_(&i__1, &c_b22, &dwork[pdw1 + *n], &c__1, &dwork[pdw2], &c__1);
-        if (la1b1)
-        {
+        if (la1b1) {
             /*           NZ10) DW7 := DW7*S2' */
-            dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, k, &c_b22, &rs[ps2 * rs_dim1 + 1], ldrs, &dwork[pdw7], n, 5L, 5L, 9L, 8L);
+            dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, k, &c_b22, &rs[ps2 * rs_dim1 + 1],
+                ldrs, &dwork[pdw7], n, 5L, 5L, 9L, 8L);
             /*           NZ11) DW2 := DW2 + DW7 */
-            i__1 = *n **k;
+            i__1 = *n * *k;
             daxpy_(&i__1, &c_b22, &dwork[pdw7], &c__1, &dwork[pdw2], &c__1);
         }
     }
-    if (la1b1)
-    {
+    if (la1b1) {
         /*        NZ12) DW9 := B1' */
-        if (ltrb)
-        {
+        if (ltrb) {
             i__1 = *k;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
-                dcopy_(n, &b[i__ * b_dim1 + 1], &c__1, &dwork[pdw9 + (i__ - 1) **n], &c__1);
+            for (i__ = 1; i__ <= i__1; ++i__) {
+                dcopy_(n, &b[i__ * b_dim1 + 1], &c__1, &dwork[pdw9 + (i__ - 1) * *n], &c__1);
                 /* L30: */
             }
-        }
-        else
-        {
+        } else {
             i__1 = *n;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 dcopy_(k, &b[i__ * b_dim1 + 1], &c__1, &dwork[pdw9 + i__ - 1], n);
                 /* L40: */
             }
         }
         /*        NZ13) DW1 := DW9*W1 */
-        i__1 = *n **k;
+        i__1 = *n * *k;
         dcopy_(&i__1, &dwork[pdw9], &c__1, &dwork[pdw1], &c__1);
-        if (lcolw)
-        {
-            dtrmm_("Right", "Lower", "No transpose", "Unit", n, k, &c_b22, &w[w_offset], ldw, &dwork[pdw1], n, 5L, 5L, 12L, 4L);
-        }
-        else
-        {
-            dtrmm_("Right", "Upper", "Transpose", "Unit", n, k, &c_b22, &w[w_offset], ldw, &dwork[pdw1], n, 5L, 5L, 9L, 4L);
+        if (lcolw) {
+            dtrmm_("Right", "Lower", "No transpose", "Unit", n, k, &c_b22, &w[w_offset], ldw,
+                &dwork[pdw1], n, 5L, 5L, 12L, 4L);
+        } else {
+            dtrmm_("Right", "Upper", "Transpose", "Unit", n, k, &c_b22, &w[w_offset], ldw,
+                &dwork[pdw1], n, 5L, 5L, 9L, 4L);
         }
         /*        NZ14) DW6 := DW9*V1 */
-        i__1 = *n **k;
+        i__1 = *n * *k;
         dcopy_(&i__1, &dwork[pdw9], &c__1, &dwork[pdw6], &c__1);
-        if (lcolv)
-        {
-            dtrmm_("Right", "Lower", "No transpose", "Unit", n, k, &c_b22, &v[v_offset], ldv, &dwork[pdw6], n, 5L, 5L, 12L, 4L);
-        }
-        else
-        {
-            dtrmm_("Right", "Upper", "Transpose", "Unit", n, k, &c_b22, &v[v_offset], ldv, &dwork[pdw6], n, 5L, 5L, 9L, 4L);
+        if (lcolv) {
+            dtrmm_("Right", "Lower", "No transpose", "Unit", n, k, &c_b22, &v[v_offset], ldv,
+                &dwork[pdw6], n, 5L, 5L, 12L, 4L);
+        } else {
+            dtrmm_("Right", "Upper", "Transpose", "Unit", n, k, &c_b22, &v[v_offset], ldv,
+                &dwork[pdw6], n, 5L, 5L, 9L, 4L);
         }
     }
     /*     15) DW1 := B2'*W2 */
-    if (*m > *k)
-    {
-        if (ltrb && lcolw)
-        {
+    if (*m > *k) {
+        if (ltrb && lcolw) {
             i__1 = *m - *k;
-            dgemm_("No Transpose", "No Transpose", n, k, &i__1, &c_b22, &b[(*k + 1) * b_dim1 + 1], ldb, &w[*k + 1 + w_dim1], ldw, &fact, &dwork[pdw1], n, 12L, 12L);
-        }
-        else if (ltrb)
-        {
+            dgemm_("No Transpose", "No Transpose", n, k, &i__1, &c_b22, &b[(*k + 1) * b_dim1 + 1],
+                ldb, &w[*k + 1 + w_dim1], ldw, &fact, &dwork[pdw1], n, 12L, 12L);
+        } else if (ltrb) {
             /*           Critical Position */
             i__1 = *m - *k;
-            dgemm_("No Transpose", "Transpose", n, k, &i__1, &c_b22, &b[(*k + 1) * b_dim1 + 1], ldb, &w[(*k + 1) * w_dim1 + 1], ldw, &fact, &dwork[pdw1], n, 12L, 9L);
-        }
-        else if (lcolw)
-        {
+            dgemm_("No Transpose", "Transpose", n, k, &i__1, &c_b22, &b[(*k + 1) * b_dim1 + 1], ldb,
+                &w[(*k + 1) * w_dim1 + 1], ldw, &fact, &dwork[pdw1], n, 12L, 9L);
+        } else if (lcolw) {
             i__1 = *m - *k;
-            dgemm_("Transpose", "No Transpose", n, k, &i__1, &c_b22, &b[*k + 1 + b_dim1], ldb, &w[*k + 1 + w_dim1], ldw, &fact, &dwork[pdw1], n, 9L, 12L);
-        }
-        else
-        {
+            dgemm_("Transpose", "No Transpose", n, k, &i__1, &c_b22, &b[*k + 1 + b_dim1], ldb,
+                &w[*k + 1 + w_dim1], ldw, &fact, &dwork[pdw1], n, 9L, 12L);
+        } else {
             i__1 = *m - *k;
-            dgemm_("Transpose", "Transpose", n, k, &i__1, &c_b22, &b[*k + 1 + b_dim1], ldb, &w[(*k + 1) * w_dim1 + 1], ldw, &fact, &dwork[pdw1], n, 9L, 9L);
+            dgemm_("Transpose", "Transpose", n, k, &i__1, &c_b22, &b[*k + 1 + b_dim1], ldb,
+                &w[(*k + 1) * w_dim1 + 1], ldw, &fact, &dwork[pdw1], n, 9L, 9L);
         }
-    }
-    else if (! la1b1)
-    {
+    } else if (!la1b1) {
         dlaset_("All", n, k, &c_b53, &c_b53, &dwork[pdw1], n, 3L);
     }
     /*     16) DW6 := B2'*V2 */
-    if (*m > *k)
-    {
-        if (ltrb && lcolv)
-        {
+    if (*m > *k) {
+        if (ltrb && lcolv) {
             i__1 = *m - *k;
-            dgemm_("No Transpose", "No Transpose", n, k, &i__1, &c_b22, &b[(*k + 1) * b_dim1 + 1], ldb, &v[*k + 1 + v_dim1], ldv, &fact, &dwork[pdw6], n, 12L, 12L);
-        }
-        else if (ltrb)
-        {
+            dgemm_("No Transpose", "No Transpose", n, k, &i__1, &c_b22, &b[(*k + 1) * b_dim1 + 1],
+                ldb, &v[*k + 1 + v_dim1], ldv, &fact, &dwork[pdw6], n, 12L, 12L);
+        } else if (ltrb) {
             i__1 = *m - *k;
-            dgemm_("No Transpose", "Transpose", n, k, &i__1, &c_b22, &b[(*k + 1) * b_dim1 + 1], ldb, &v[(*k + 1) * v_dim1 + 1], ldv, &fact, &dwork[pdw6], n, 12L, 9L);
-        }
-        else if (lcolv)
-        {
+            dgemm_("No Transpose", "Transpose", n, k, &i__1, &c_b22, &b[(*k + 1) * b_dim1 + 1], ldb,
+                &v[(*k + 1) * v_dim1 + 1], ldv, &fact, &dwork[pdw6], n, 12L, 9L);
+        } else if (lcolv) {
             i__1 = *m - *k;
-            dgemm_("Transpose", "No Transpose", n, k, &i__1, &c_b22, &b[*k + 1 + b_dim1], ldb, &v[*k + 1 + v_dim1], ldv, &fact, &dwork[pdw6], n, 9L, 12L);
-        }
-        else
-        {
+            dgemm_("Transpose", "No Transpose", n, k, &i__1, &c_b22, &b[*k + 1 + b_dim1], ldb,
+                &v[*k + 1 + v_dim1], ldv, &fact, &dwork[pdw6], n, 9L, 12L);
+        } else {
             i__1 = *m - *k;
-            dgemm_("Transpose", "Transpose", n, k, &i__1, &c_b22, &b[*k + 1 + b_dim1], ldb, &v[(*k + 1) * v_dim1 + 1], ldv, &fact, &dwork[pdw6], n, 9L, 9L);
+            dgemm_("Transpose", "Transpose", n, k, &i__1, &c_b22, &b[*k + 1 + b_dim1], ldb,
+                &v[(*k + 1) * v_dim1 + 1], ldv, &fact, &dwork[pdw6], n, 9L, 9L);
         }
-    }
-    else if (! la1b1)
-    {
+    } else if (!la1b1) {
         dlaset_("All", n, k, &c_b53, &c_b53, &dwork[pdw6], n, 3L);
     }
-    if (ltrq)
-    {
+    if (ltrq) {
         /*        17) DW7 := DW1*R1 */
-        i__1 = *n **k;
+        i__1 = *n * *k;
         dcopy_(&i__1, &dwork[pdw1], &c__1, &dwork[pdw7], &c__1);
-        dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, k, &c_b22, &rs[pr1 * rs_dim1 + 1], ldrs, &dwork[pdw7], n, 5L, 5L, 12L, 8L);
+        dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, k, &c_b22, &rs[pr1 * rs_dim1 + 1],
+            ldrs, &dwork[pdw7], n, 5L, 5L, 12L, 8L);
         /*        18) DW8 := DW6*R3 */
         i__1 = *n * (*k - 1);
         dcopy_(&i__1, &dwork[pdw6], &c__1, &dwork[pdw8], &c__1);
         i__1 = *k - 1;
-        dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, &i__1, &c_b22, &rs[(pr3 + 1) * rs_dim1 + 1], ldrs, &dwork[pdw8], n, 5L, 5L, 12L, 8L);
+        dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, &i__1, &c_b22,
+            &rs[(pr3 + 1) * rs_dim1 + 1], ldrs, &dwork[pdw8], n, 5L, 5L, 12L, 8L);
         /*        19) DW7 := DW7 + DW8 */
         i__1 = *n * (*k - 1);
         daxpy_(&i__1, &c_b22, &dwork[pdw8], &c__1, &dwork[pdw7 + *n], &c__1);
-        if (la1b1)
-        {
+        if (la1b1) {
             /*           NZ15) DW8 := DW9*R2 */
-            i__1 = *n **k;
+            i__1 = *n * *k;
             dcopy_(&i__1, &dwork[pdw9], &c__1, &dwork[pdw8], &c__1);
-            dtrmm_("Right", "Upper", "No Transpose", "Unit", n, k, &c_b22, &rs[pr2 * rs_dim1 + 1], ldrs, &dwork[pdw8], n, 5L, 5L, 12L, 4L);
+            dtrmm_("Right", "Upper", "No Transpose", "Unit", n, k, &c_b22, &rs[pr2 * rs_dim1 + 1],
+                ldrs, &dwork[pdw8], n, 5L, 5L, 12L, 4L);
             /*           NZ16) DW7 := DW7 + DW8 */
-            i__1 = *n **k;
+            i__1 = *n * *k;
             daxpy_(&i__1, &c_b22, &dwork[pdw8], &c__1, &dwork[pdw7], &c__1);
         }
         /*        20) DW8 := DW7*S1 */
         i__1 = *n * (*k - 1);
         dcopy_(&i__1, &dwork[pdw7], &c__1, &dwork[pdw8], &c__1);
         i__1 = *k - 1;
-        dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, &i__1, &c_b22, &rs[(ps1 + 1) * rs_dim1 + 1], ldrs, &dwork[pdw8], n, 5L, 5L, 12L, 8L);
+        dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, &i__1, &c_b22,
+            &rs[(ps1 + 1) * rs_dim1 + 1], ldrs, &dwork[pdw8], n, 5L, 5L, 12L, 8L);
         /*        21) DW3 := DW3 - DW8 */
         i__1 = *n * (*k - 1);
         daxpy_(&i__1, &c_b367, &dwork[pdw8], &c__1, &dwork[pdw3 + *n], &c__1);
         /*        22) DW8 := DW7*S3 */
-        i__1 = *n **k;
+        i__1 = *n * *k;
         dcopy_(&i__1, &dwork[pdw7], &c__1, &dwork[pdw8], &c__1);
-        dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, k, &c_b22, &rs[ps3 * rs_dim1 + 1], ldrs, &dwork[pdw8], n, 5L, 5L, 12L, 8L);
+        dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, k, &c_b22, &rs[ps3 * rs_dim1 + 1],
+            ldrs, &dwork[pdw8], n, 5L, 5L, 12L, 8L);
         /*        23) DW5 := DW5 - DW8 */
-        i__1 = *n **k;
+        i__1 = *n * *k;
         daxpy_(&i__1, &c_b367, &dwork[pdw8], &c__1, &dwork[pdw5], &c__1);
         /*        24) DW7 := DW7*S2 */
-        dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, k, &c_b367, &rs[ps2 * rs_dim1 + 1], ldrs, &dwork[pdw7], n, 5L, 5L, 12L, 8L);
-    }
-    else
-    {
+        dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, k, &c_b367, &rs[ps2 * rs_dim1 + 1],
+            ldrs, &dwork[pdw7], n, 5L, 5L, 12L, 8L);
+    } else {
         /*        17) DW7 := DW6*S3' */
-        i__1 = *n **k;
+        i__1 = *n * *k;
         dcopy_(&i__1, &dwork[pdw6], &c__1, &dwork[pdw7], &c__1);
-        dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, k, &c_b22, &rs[ps3 * rs_dim1 + 1], ldrs, &dwork[pdw7], n, 5L, 5L, 9L, 8L);
+        dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, k, &c_b22, &rs[ps3 * rs_dim1 + 1],
+            ldrs, &dwork[pdw7], n, 5L, 5L, 9L, 8L);
         /*        18) DW8 := DW1*S1' */
         i__1 = *n * (*k - 1);
         dcopy_(&i__1, &dwork[pdw1 + *n], &c__1, &dwork[pdw8], &c__1);
         i__1 = *k - 1;
-        dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, &i__1, &c_b22, &rs[(ps1 + 1) * rs_dim1 + 1], ldrs, &dwork[pdw8], n, 5L, 5L, 9L, 8L);
+        dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, &i__1, &c_b22,
+            &rs[(ps1 + 1) * rs_dim1 + 1], ldrs, &dwork[pdw8], n, 5L, 5L, 9L, 8L);
         /*        19) DW7 := DW7 + DW8 */
         i__1 = *n * (*k - 1);
         daxpy_(&i__1, &c_b22, &dwork[pdw8], &c__1, &dwork[pdw7], &c__1);
-        if (la1b1)
-        {
+        if (la1b1) {
             /*           NZ15) DW8 := DW9*S2' */
-            i__1 = *n **k;
+            i__1 = *n * *k;
             dcopy_(&i__1, &dwork[pdw9], &c__1, &dwork[pdw8], &c__1);
-            dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, k, &c_b22, &rs[ps2 * rs_dim1 + 1], ldrs, &dwork[pdw8], n, 5L, 5L, 9L, 8L);
+            dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, k, &c_b22, &rs[ps2 * rs_dim1 + 1],
+                ldrs, &dwork[pdw8], n, 5L, 5L, 9L, 8L);
             /*           NZ16) DW7 := DW7 + DW8 */
-            i__1 = *n **k;
+            i__1 = *n * *k;
             daxpy_(&i__1, &c_b22, &dwork[pdw8], &c__1, &dwork[pdw7], &c__1);
         }
         /*        20) DW8 := DW7*R1' */
-        i__1 = *n **k;
+        i__1 = *n * *k;
         dcopy_(&i__1, &dwork[pdw7], &c__1, &dwork[pdw8], &c__1);
-        dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, k, &c_b22, &rs[pr1 * rs_dim1 + 1], ldrs, &dwork[pdw8], n, 5L, 5L, 9L, 8L);
+        dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, k, &c_b22, &rs[pr1 * rs_dim1 + 1],
+            ldrs, &dwork[pdw8], n, 5L, 5L, 9L, 8L);
         /*        21) DW3 := DW3 + DW8 */
-        i__1 = *n **k;
+        i__1 = *n * *k;
         daxpy_(&i__1, &c_b22, &dwork[pdw8], &c__1, &dwork[pdw3], &c__1);
         /*        22) DW8 := DW7*R3' */
         i__1 = *n * (*k - 1);
         dcopy_(&i__1, &dwork[pdw7 + *n], &c__1, &dwork[pdw8], &c__1);
         i__1 = *k - 1;
-        dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, &i__1, &c_b22, &rs[(pr3 + 1) * rs_dim1 + 1], ldrs, &dwork[pdw8], n, 5L, 5L, 9L, 8L);
+        dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, &i__1, &c_b22,
+            &rs[(pr3 + 1) * rs_dim1 + 1], ldrs, &dwork[pdw8], n, 5L, 5L, 9L, 8L);
         /*        23) DW5 := DW5 + DW8 */
         i__1 = *n * (*k - 1);
         daxpy_(&i__1, &c_b22, &dwork[pdw8], &c__1, &dwork[pdw5], &c__1);
         /*        24) DW7 := DW7*R2' */
-        dtrmm_("Right", "Upper", "Transpose", "Unit", n, k, &c_b22, &rs[pr2 * rs_dim1 + 1], ldrs, &dwork[pdw7], n, 5L, 5L, 9L, 4L);
+        dtrmm_("Right", "Upper", "Transpose", "Unit", n, k, &c_b22, &rs[pr2 * rs_dim1 + 1], ldrs,
+            &dwork[pdw7], n, 5L, 5L, 9L, 4L);
     }
     /*     25) A2 := A2 + W2*DW3' */
-    if (*m > *k)
-    {
-        if (ltra && lcolw)
-        {
+    if (*m > *k) {
+        if (ltra && lcolw) {
             i__1 = *m - *k;
-            dgemm_("No Transpose", "Transpose", n, &i__1, k, &c_b22, &dwork[pdw3], n, &w[*k + 1 + w_dim1], ldw, &c_b22, &a[(*k + 1) * a_dim1 + 1], lda, 12L, 9L);
-        }
-        else if (ltra)
-        {
+            dgemm_("No Transpose", "Transpose", n, &i__1, k, &c_b22, &dwork[pdw3], n,
+                &w[*k + 1 + w_dim1], ldw, &c_b22, &a[(*k + 1) * a_dim1 + 1], lda, 12L, 9L);
+        } else if (ltra) {
             i__1 = *m - *k;
-            dgemm_("No Transpose", "No Transpose", n, &i__1, k, &c_b22, &dwork[pdw3], n, &w[(*k + 1) * w_dim1 + 1], ldw, &c_b22, &a[(*k + 1) * a_dim1 + 1], lda, 12L, 12L);
-        }
-        else if (lcolw)
-        {
+            dgemm_("No Transpose", "No Transpose", n, &i__1, k, &c_b22, &dwork[pdw3], n,
+                &w[(*k + 1) * w_dim1 + 1], ldw, &c_b22, &a[(*k + 1) * a_dim1 + 1], lda, 12L, 12L);
+        } else if (lcolw) {
             i__1 = *m - *k;
-            dgemm_("No Transpose", "Transpose", &i__1, n, k, &c_b22, &w[*k + 1 + w_dim1], ldw, &dwork[pdw3], n, &c_b22, &a[*k + 1 + a_dim1], lda, 12L, 9L);
-        }
-        else
-        {
+            dgemm_("No Transpose", "Transpose", &i__1, n, k, &c_b22, &w[*k + 1 + w_dim1], ldw,
+                &dwork[pdw3], n, &c_b22, &a[*k + 1 + a_dim1], lda, 12L, 9L);
+        } else {
             i__1 = *m - *k;
-            dgemm_("Transpose", "Transpose", &i__1, n, k, &c_b22, &w[(*k + 1) * w_dim1 + 1], ldw, &dwork[pdw3], n, &c_b22, &a[*k + 1 + a_dim1], lda, 9L, 9L);
+            dgemm_("Transpose", "Transpose", &i__1, n, k, &c_b22, &w[(*k + 1) * w_dim1 + 1], ldw,
+                &dwork[pdw3], n, &c_b22, &a[*k + 1 + a_dim1], lda, 9L, 9L);
         }
     }
     /*     26) A2 := A2 + V2*DW5' */
-    if (*m > *k)
-    {
-        if (ltra && lcolv)
-        {
+    if (*m > *k) {
+        if (ltra && lcolv) {
             i__1 = *m - *k;
-            dgemm_("No Transpose", "Transpose", n, &i__1, k, &c_b22, &dwork[pdw5], n, &v[*k + 1 + v_dim1], ldv, &c_b22, &a[(*k + 1) * a_dim1 + 1], lda, 12L, 9L);
-        }
-        else if (ltra)
-        {
+            dgemm_("No Transpose", "Transpose", n, &i__1, k, &c_b22, &dwork[pdw5], n,
+                &v[*k + 1 + v_dim1], ldv, &c_b22, &a[(*k + 1) * a_dim1 + 1], lda, 12L, 9L);
+        } else if (ltra) {
             i__1 = *m - *k;
-            dgemm_("No Transpose", "No Transpose", n, &i__1, k, &c_b22, &dwork[pdw5], n, &v[(*k + 1) * v_dim1 + 1], ldv, &c_b22, &a[(*k + 1) * a_dim1 + 1], lda, 12L, 12L);
-        }
-        else if (lcolv)
-        {
+            dgemm_("No Transpose", "No Transpose", n, &i__1, k, &c_b22, &dwork[pdw5], n,
+                &v[(*k + 1) * v_dim1 + 1], ldv, &c_b22, &a[(*k + 1) * a_dim1 + 1], lda, 12L, 12L);
+        } else if (lcolv) {
             i__1 = *m - *k;
-            dgemm_("No Transpose", "Transpose", &i__1, n, k, &c_b22, &v[*k + 1 + v_dim1], ldv, &dwork[pdw5], n, &c_b22, &a[*k + 1 + a_dim1], lda, 12L, 9L);
-        }
-        else
-        {
+            dgemm_("No Transpose", "Transpose", &i__1, n, k, &c_b22, &v[*k + 1 + v_dim1], ldv,
+                &dwork[pdw5], n, &c_b22, &a[*k + 1 + a_dim1], lda, 12L, 9L);
+        } else {
             i__1 = *m - *k;
-            dgemm_("Transpose", "Transpose", &i__1, n, k, &c_b22, &v[(*k + 1) * v_dim1 + 1], ldv, &dwork[pdw5], n, &c_b22, &a[*k + 1 + a_dim1], lda, 9L, 9L);
+            dgemm_("Transpose", "Transpose", &i__1, n, k, &c_b22, &v[(*k + 1) * v_dim1 + 1], ldv,
+                &dwork[pdw5], n, &c_b22, &a[*k + 1 + a_dim1], lda, 9L, 9L);
         }
     }
     /*     27) DW4 := DW4 + DW7 */
-    i__1 = *n **k;
+    i__1 = *n * *k;
     daxpy_(&i__1, &c_b22, &dwork[pdw7], &c__1, &dwork[pdw4], &c__1);
     /*     28) DW3 := DW3*W1' */
-    if (lcolw)
-    {
-        dtrmm_("Right", "Lower", "Transpose", "Unit", n, k, &c_b22, &w[w_offset], ldw, &dwork[pdw3], n, 5L, 5L, 9L, 4L);
-    }
-    else
-    {
-        dtrmm_("Right", "Upper", "No Transpose", "Unit", n, k, &c_b22, &w[w_offset], ldw, &dwork[pdw3], n, 5L, 5L, 12L, 4L);
+    if (lcolw) {
+        dtrmm_("Right", "Lower", "Transpose", "Unit", n, k, &c_b22, &w[w_offset], ldw, &dwork[pdw3],
+            n, 5L, 5L, 9L, 4L);
+    } else {
+        dtrmm_("Right", "Upper", "No Transpose", "Unit", n, k, &c_b22, &w[w_offset], ldw,
+            &dwork[pdw3], n, 5L, 5L, 12L, 4L);
     }
     /*     29) DW4 := DW4 + DW3 */
-    i__1 = *n **k;
+    i__1 = *n * *k;
     daxpy_(&i__1, &c_b22, &dwork[pdw3], &c__1, &dwork[pdw4], &c__1);
     /*     30) DW5 := DW5*V1' */
-    if (lcolv)
-    {
-        dtrmm_("Right", "Lower", "Transpose", "Unit", n, k, &c_b22, &v[v_offset], ldv, &dwork[pdw5], n, 5L, 5L, 9L, 4L);
-    }
-    else
-    {
-        dtrmm_("Right", "Upper", "No Transpose", "Unit", n, k, &c_b22, &v[v_offset], ldv, &dwork[pdw5], n, 5L, 5L, 12L, 4L);
+    if (lcolv) {
+        dtrmm_("Right", "Lower", "Transpose", "Unit", n, k, &c_b22, &v[v_offset], ldv, &dwork[pdw5],
+            n, 5L, 5L, 9L, 4L);
+    } else {
+        dtrmm_("Right", "Upper", "No Transpose", "Unit", n, k, &c_b22, &v[v_offset], ldv,
+            &dwork[pdw5], n, 5L, 5L, 12L, 4L);
     }
     /*     31) DW4 := DW4 + DW5 */
-    i__1 = *n **k;
+    i__1 = *n * *k;
     daxpy_(&i__1, &c_b22, &dwork[pdw5], &c__1, &dwork[pdw4], &c__1);
     /*     32) A1 := A1 + DW4' */
-    if (la1b1)
-    {
-        if (ltra)
-        {
+    if (la1b1) {
+        if (ltra) {
             i__1 = *k;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
-                daxpy_(n, &c_b22, &dwork[pdw4 + (i__ - 1) **n], &c__1, &a[i__ * a_dim1 + 1], &c__1);
+            for (i__ = 1; i__ <= i__1; ++i__) {
+                daxpy_(
+                    n, &c_b22, &dwork[pdw4 + (i__ - 1) * *n], &c__1, &a[i__ * a_dim1 + 1], &c__1);
                 /* L50: */
             }
-        }
-        else
-        {
+        } else {
             i__1 = *n;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 daxpy_(k, &c_b22, &dwork[pdw4 + i__ - 1], n, &a[i__ * a_dim1 + 1], &c__1);
                 /* L60: */
             }
         }
-    }
-    else
-    {
-        if (ltra)
-        {
+    } else {
+        if (ltra) {
             i__1 = *k;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
-                dcopy_(n, &dwork[pdw4 + (i__ - 1) **n], &c__1, &a[i__ * a_dim1 + 1], &c__1);
+            for (i__ = 1; i__ <= i__1; ++i__) {
+                dcopy_(n, &dwork[pdw4 + (i__ - 1) * *n], &c__1, &a[i__ * a_dim1 + 1], &c__1);
                 /* L70: */
             }
-        }
-        else
-        {
+        } else {
             i__1 = *n;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 dcopy_(k, &dwork[pdw4 + i__ - 1], n, &a[i__ * a_dim1 + 1], &c__1);
                 /* L80: */
             }
         }
     }
     /*     Update the matrix B. */
-    if (ltrq)
-    {
+    if (ltrq) {
         /*        33) DW3 := DW1*T11 */
-        i__1 = *n **k;
+        i__1 = *n * *k;
         dcopy_(&i__1, &dwork[pdw1], &c__1, &dwork[pdw3], &c__1);
-        dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, k, &c_b22, &t[pt11 * t_dim1 + 1], ldt, &dwork[pdw3], n, 5L, 5L, 12L, 8L);
+        dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, k, &c_b22, &t[pt11 * t_dim1 + 1],
+            ldt, &dwork[pdw3], n, 5L, 5L, 12L, 8L);
         /*        34) DW4 := DW6*T31 */
         i__1 = *n * (*k - 1);
         dcopy_(&i__1, &dwork[pdw6], &c__1, &dwork[pdw4], &c__1);
         i__1 = *k - 1;
-        dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, &i__1, &c_b22, &t[(pt31 + 1) * t_dim1 + 1], ldt, &dwork[pdw4], n, 5L, 5L, 12L, 8L);
+        dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, &i__1, &c_b22,
+            &t[(pt31 + 1) * t_dim1 + 1], ldt, &dwork[pdw4], n, 5L, 5L, 12L, 8L);
         /*        35) DW3 := DW3 + DW4 */
         i__1 = *n * (*k - 1);
         daxpy_(&i__1, &c_b22, &dwork[pdw4], &c__1, &dwork[pdw3 + *n], &c__1);
-        if (la1b1)
-        {
+        if (la1b1) {
             /*           NZ17) DW8 := DW9*T21 */
             i__1 = *n * (*k - 1);
             dcopy_(&i__1, &dwork[pdw9], &c__1, &dwork[pdw8], &c__1);
             i__1 = *k - 1;
-            dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, &i__1, &c_b22, &t[(pt21 + 1) * t_dim1 + 1], ldt, &dwork[pdw8], n, 5L, 5L, 12L, 8L);
+            dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, &i__1, &c_b22,
+                &t[(pt21 + 1) * t_dim1 + 1], ldt, &dwork[pdw8], n, 5L, 5L, 12L, 8L);
             /*           NZ18) DW3 := DW3 + DW8 */
             i__1 = *n * (*k - 1);
             daxpy_(&i__1, &c_b22, &dwork[pdw8], &c__1, &dwork[pdw3 + *n], &c__1);
@@ -877,253 +837,245 @@ ftnlen storew_len;
         i__1 = *n * (*k - 1);
         dcopy_(&i__1, &dwork[pdw2], &c__1, &dwork[pdw4], &c__1);
         i__1 = *k - 1;
-        dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, &i__1, &c_b22, &rs[(ps1 + 1) * rs_dim1 + 1], ldrs, &dwork[pdw4], n, 5L, 5L, 12L, 8L);
+        dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, &i__1, &c_b22,
+            &rs[(ps1 + 1) * rs_dim1 + 1], ldrs, &dwork[pdw4], n, 5L, 5L, 12L, 8L);
         /*        37) DW3 := DW3 + DW4 */
         i__1 = *n * (*k - 1);
         daxpy_(&i__1, &c_b22, &dwork[pdw4], &c__1, &dwork[pdw3 + *n], &c__1);
         /*        38) DW4 := DW1*T12 */
-        i__1 = *n **k;
+        i__1 = *n * *k;
         dcopy_(&i__1, &dwork[pdw1], &c__1, &dwork[pdw4], &c__1);
-        dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, k, &c_b22, &t[pt12 * t_dim1 + 1], ldt, &dwork[pdw4], n, 5L, 5L, 12L, 8L);
+        dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, k, &c_b22, &t[pt12 * t_dim1 + 1],
+            ldt, &dwork[pdw4], n, 5L, 5L, 12L, 8L);
         /*        38) DW5 := DW6*T32 */
         i__1 = *n * (*k - 1);
         dcopy_(&i__1, &dwork[pdw6], &c__1, &dwork[pdw5], &c__1);
         i__1 = *k - 1;
-        dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, &i__1, &c_b22, &t[(pt32 + 1) * t_dim1 + 1], ldt, &dwork[pdw5], n, 5L, 5L, 12L, 8L);
+        dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, &i__1, &c_b22,
+            &t[(pt32 + 1) * t_dim1 + 1], ldt, &dwork[pdw5], n, 5L, 5L, 12L, 8L);
         /*        40) DW4 := DW4 + DW5 */
         i__1 = *n * (*k - 1);
         daxpy_(&i__1, &c_b22, &dwork[pdw5], &c__1, &dwork[pdw4 + *n], &c__1);
-        if (la1b1)
-        {
+        if (la1b1) {
             /*           NZ19) DW8 := DW9*T22 */
-            i__1 = *n **k;
+            i__1 = *n * *k;
             dcopy_(&i__1, &dwork[pdw9], &c__1, &dwork[pdw8], &c__1);
-            dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, k, &c_b22, &t[pt22 * t_dim1 + 1], ldt, &dwork[pdw8], n, 5L, 5L, 12L, 8L);
+            dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, k, &c_b22,
+                &t[pt22 * t_dim1 + 1], ldt, &dwork[pdw8], n, 5L, 5L, 12L, 8L);
             /*           NZ20) DW4 := DW4 + DW8 */
-            i__1 = *n **k;
+            i__1 = *n * *k;
             daxpy_(&i__1, &c_b22, &dwork[pdw8], &c__1, &dwork[pdw4], &c__1);
         }
         /*        41) DW5 := DW2*S2 */
-        i__1 = *n **k;
+        i__1 = *n * *k;
         dcopy_(&i__1, &dwork[pdw2], &c__1, &dwork[pdw5], &c__1);
-        dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, k, &c_b22, &rs[ps2 * rs_dim1 + 1], ldrs, &dwork[pdw5], n, 5L, 5L, 12L, 8L);
+        dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, k, &c_b22, &rs[ps2 * rs_dim1 + 1],
+            ldrs, &dwork[pdw5], n, 5L, 5L, 12L, 8L);
         /*        42) DW4 := DW4 + DW5 */
-        i__1 = *n **k;
+        i__1 = *n * *k;
         daxpy_(&i__1, &c_b22, &dwork[pdw5], &c__1, &dwork[pdw4], &c__1);
         /*        43) DW6 := DW6*T33 */
-        dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, k, &c_b22, &t[pt33 * t_dim1 + 1], ldt, &dwork[pdw6], n, 5L, 5L, 12L, 8L);
+        dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, k, &c_b22, &t[pt33 * t_dim1 + 1],
+            ldt, &dwork[pdw6], n, 5L, 5L, 12L, 8L);
         /*        44) DW1 := DW1*T13 */
-        dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, k, &c_b22, &t[pt13 * t_dim1 + 1], ldt, &dwork[pdw1], n, 5L, 5L, 12L, 8L);
+        dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, k, &c_b22, &t[pt13 * t_dim1 + 1],
+            ldt, &dwork[pdw1], n, 5L, 5L, 12L, 8L);
         /*        45) DW6 := DW6 + DW1 */
-        i__1 = *n **k;
+        i__1 = *n * *k;
         daxpy_(&i__1, &c_b22, &dwork[pdw1], &c__1, &dwork[pdw6], &c__1);
-        if (la1b1)
-        {
+        if (la1b1) {
             /*           NZ19) DW9 := DW9*T23 */
-            dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, k, &c_b22, &t[pt23 * t_dim1 + 1], ldt, &dwork[pdw9], n, 5L, 5L, 12L, 8L);
+            dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, k, &c_b22,
+                &t[pt23 * t_dim1 + 1], ldt, &dwork[pdw9], n, 5L, 5L, 12L, 8L);
             /*           NZ20) DW6 := DW6 + DW9 */
-            i__1 = *n **k;
+            i__1 = *n * *k;
             daxpy_(&i__1, &c_b22, &dwork[pdw9], &c__1, &dwork[pdw6], &c__1);
         }
         /*        46) DW2 := DW2*S3 */
-        dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, k, &c_b22, &rs[ps3 * rs_dim1 + 1], ldrs, &dwork[pdw2], n, 5L, 5L, 12L, 8L);
+        dtrmm_("Right", "Upper", "No Transpose", "Non-Unit", n, k, &c_b22, &rs[ps3 * rs_dim1 + 1],
+            ldrs, &dwork[pdw2], n, 5L, 5L, 12L, 8L);
         /*        45) DW6 := DW6 + DW2 */
-        i__1 = *n **k;
+        i__1 = *n * *k;
         daxpy_(&i__1, &c_b22, &dwork[pdw2], &c__1, &dwork[pdw6], &c__1);
-    }
-    else
-    {
+    } else {
         /*        33) DW3 := DW1*T11' */
-        i__1 = *n **k;
+        i__1 = *n * *k;
         dcopy_(&i__1, &dwork[pdw1], &c__1, &dwork[pdw3], &c__1);
-        dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, k, &c_b22, &t[pt11 * t_dim1 + 1], ldt, &dwork[pdw3], n, 5L, 5L, 9L, 8L);
+        dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, k, &c_b22, &t[pt11 * t_dim1 + 1], ldt,
+            &dwork[pdw3], n, 5L, 5L, 9L, 8L);
         /*        34) DW4 := DW6*T13' */
-        i__1 = *n **k;
+        i__1 = *n * *k;
         dcopy_(&i__1, &dwork[pdw6], &c__1, &dwork[pdw4], &c__1);
-        dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, k, &c_b22, &t[pt13 * t_dim1 + 1], ldt, &dwork[pdw4], n, 5L, 5L, 9L, 8L);
+        dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, k, &c_b22, &t[pt13 * t_dim1 + 1], ldt,
+            &dwork[pdw4], n, 5L, 5L, 9L, 8L);
         /*        35) DW3 := DW3 + DW4 */
-        i__1 = *n **k;
+        i__1 = *n * *k;
         daxpy_(&i__1, &c_b22, &dwork[pdw4], &c__1, &dwork[pdw3], &c__1);
-        if (la1b1)
-        {
+        if (la1b1) {
             /*           NZ17) DW8 := DW9*T12' */
-            i__1 = *n **k;
+            i__1 = *n * *k;
             dcopy_(&i__1, &dwork[pdw9], &c__1, &dwork[pdw8], &c__1);
-            dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, k, &c_b22, &t[pt12 * t_dim1 + 1], ldt, &dwork[pdw8], n, 5L, 5L, 9L, 8L);
+            dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, k, &c_b22, &t[pt12 * t_dim1 + 1],
+                ldt, &dwork[pdw8], n, 5L, 5L, 9L, 8L);
             /*           NZ18) DW3 := DW3 + DW8 */
-            i__1 = *n **k;
+            i__1 = *n * *k;
             daxpy_(&i__1, &c_b22, &dwork[pdw8], &c__1, &dwork[pdw3], &c__1);
         }
         /*        36) DW4 := DW2*R1' */
-        i__1 = *n **k;
+        i__1 = *n * *k;
         dcopy_(&i__1, &dwork[pdw2], &c__1, &dwork[pdw4], &c__1);
-        dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, k, &c_b22, &rs[pr1 * rs_dim1 + 1], ldrs, &dwork[pdw4], n, 5L, 5L, 9L, 8L);
+        dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, k, &c_b22, &rs[pr1 * rs_dim1 + 1],
+            ldrs, &dwork[pdw4], n, 5L, 5L, 9L, 8L);
         /*        37) DW3 := DW3 - DW4 */
-        i__1 = *n **k;
+        i__1 = *n * *k;
         daxpy_(&i__1, &c_b367, &dwork[pdw4], &c__1, &dwork[pdw3], &c__1);
         /*        38) DW4 := DW6*T23' */
-        i__1 = *n **k;
+        i__1 = *n * *k;
         dcopy_(&i__1, &dwork[pdw6], &c__1, &dwork[pdw4], &c__1);
-        dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, k, &c_b22, &t[pt23 * t_dim1 + 1], ldt, &dwork[pdw4], n, 5L, 5L, 9L, 8L);
+        dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, k, &c_b22, &t[pt23 * t_dim1 + 1], ldt,
+            &dwork[pdw4], n, 5L, 5L, 9L, 8L);
         /*        39) DW5 := DW1*T21' */
         i__1 = *n * (*k - 1);
         dcopy_(&i__1, &dwork[pdw1 + *n], &c__1, &dwork[pdw5], &c__1);
         i__1 = *k - 1;
-        dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, &i__1, &c_b22, &t[(pt21 + 1) * t_dim1 + 1], ldt, &dwork[pdw5], n, 5L, 5L, 9L, 8L);
+        dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, &i__1, &c_b22,
+            &t[(pt21 + 1) * t_dim1 + 1], ldt, &dwork[pdw5], n, 5L, 5L, 9L, 8L);
         /*        40) DW4 := DW4 + DW5 */
         i__1 = *n * (*k - 1);
         daxpy_(&i__1, &c_b22, &dwork[pdw5], &c__1, &dwork[pdw4], &c__1);
-        if (la1b1)
-        {
+        if (la1b1) {
             /*           NZ19) DW8 := DW9*T22' */
-            i__1 = *n **k;
+            i__1 = *n * *k;
             dcopy_(&i__1, &dwork[pdw9], &c__1, &dwork[pdw8], &c__1);
-            dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, k, &c_b22, &t[pt22 * t_dim1 + 1], ldt, &dwork[pdw8], n, 5L, 5L, 9L, 8L);
+            dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, k, &c_b22, &t[pt22 * t_dim1 + 1],
+                ldt, &dwork[pdw8], n, 5L, 5L, 9L, 8L);
             /*           NZ20) DW4 := DW4 + DW8 */
-            i__1 = *n **k;
+            i__1 = *n * *k;
             daxpy_(&i__1, &c_b22, &dwork[pdw8], &c__1, &dwork[pdw4], &c__1);
         }
         /*        41) DW5 := DW2*R2' */
-        i__1 = *n **k;
+        i__1 = *n * *k;
         dcopy_(&i__1, &dwork[pdw2], &c__1, &dwork[pdw5], &c__1);
-        dtrmm_("Right", "Upper", "Transpose", "Unit", n, k, &c_b22, &rs[pr2 * rs_dim1 + 1], ldrs, &dwork[pdw5], n, 5L, 5L, 9L, 4L);
+        dtrmm_("Right", "Upper", "Transpose", "Unit", n, k, &c_b22, &rs[pr2 * rs_dim1 + 1], ldrs,
+            &dwork[pdw5], n, 5L, 5L, 9L, 4L);
         /*        42) DW4 := DW4 - DW5 */
-        i__1 = *n **k;
+        i__1 = *n * *k;
         daxpy_(&i__1, &c_b367, &dwork[pdw5], &c__1, &dwork[pdw4], &c__1);
         /*        43) DW6 := DW6*T33' */
-        dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, k, &c_b22, &t[pt33 * t_dim1 + 1], ldt, &dwork[pdw6], n, 5L, 5L, 9L, 8L);
+        dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, k, &c_b22, &t[pt33 * t_dim1 + 1], ldt,
+            &dwork[pdw6], n, 5L, 5L, 9L, 8L);
         /*        44) DW1 := DW1*T31' */
         i__1 = *k - 1;
-        dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, &i__1, &c_b22, &t[(pt31 + 1) * t_dim1 + 1], ldt, &dwork[pdw1 + *n], n, 5L, 5L, 9L, 8L);
+        dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, &i__1, &c_b22,
+            &t[(pt31 + 1) * t_dim1 + 1], ldt, &dwork[pdw1 + *n], n, 5L, 5L, 9L, 8L);
         /*        45) DW6 := DW6 + DW1 */
         i__1 = *n * (*k - 1);
         daxpy_(&i__1, &c_b22, &dwork[pdw1 + *n], &c__1, &dwork[pdw6], &c__1);
-        if (la1b1)
-        {
+        if (la1b1) {
             /*           NZ19) DW9 := DW9*T32' */
             i__1 = *k - 1;
-            dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, &i__1, &c_b22, &t[(pt32 + 1) * t_dim1 + 1], ldt, &dwork[pdw9 + *n], n, 5L, 5L, 9L, 8L);
+            dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, &i__1, &c_b22,
+                &t[(pt32 + 1) * t_dim1 + 1], ldt, &dwork[pdw9 + *n], n, 5L, 5L, 9L, 8L);
             /*           NZ20) DW6 := DW6 + DW9 */
             i__1 = *n * (*k - 1);
             daxpy_(&i__1, &c_b22, &dwork[pdw9 + *n], &c__1, &dwork[pdw6], &c__1);
         }
         /*        46) DW2 := DW2*R3' */
         i__1 = *k - 1;
-        dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, &i__1, &c_b22, &rs[(pr3 + 1) * rs_dim1 + 1], ldrs, &dwork[pdw2 + *n], n, 5L, 5L, 9L, 8L);
+        dtrmm_("Right", "Upper", "Transpose", "Non-Unit", n, &i__1, &c_b22,
+            &rs[(pr3 + 1) * rs_dim1 + 1], ldrs, &dwork[pdw2 + *n], n, 5L, 5L, 9L, 8L);
         /*        45) DW6 := DW6 - DW2 */
         i__1 = *n * (*k - 1);
         daxpy_(&i__1, &c_b367, &dwork[pdw2 + *n], &c__1, &dwork[pdw6], &c__1);
     }
     /*     46) B2 := B2 + W2*DW3' */
-    if (*m > *k)
-    {
-        if (ltrb && lcolw)
-        {
+    if (*m > *k) {
+        if (ltrb && lcolw) {
             i__1 = *m - *k;
-            dgemm_("No Transpose", "Transpose", n, &i__1, k, &c_b22, &dwork[pdw3], n, &w[*k + 1 + w_dim1], ldw, &c_b22, &b[(*k + 1) * b_dim1 + 1], ldb, 12L, 9L);
-        }
-        else if (ltrb)
-        {
+            dgemm_("No Transpose", "Transpose", n, &i__1, k, &c_b22, &dwork[pdw3], n,
+                &w[*k + 1 + w_dim1], ldw, &c_b22, &b[(*k + 1) * b_dim1 + 1], ldb, 12L, 9L);
+        } else if (ltrb) {
             i__1 = *m - *k;
-            dgemm_("No Transpose", "No Transpose", n, &i__1, k, &c_b22, &dwork[pdw3], n, &w[(*k + 1) * w_dim1 + 1], ldw, &c_b22, &b[(*k + 1) * b_dim1 + 1], ldb, 12L, 12L);
-        }
-        else if (lcolw)
-        {
+            dgemm_("No Transpose", "No Transpose", n, &i__1, k, &c_b22, &dwork[pdw3], n,
+                &w[(*k + 1) * w_dim1 + 1], ldw, &c_b22, &b[(*k + 1) * b_dim1 + 1], ldb, 12L, 12L);
+        } else if (lcolw) {
             i__1 = *m - *k;
-            dgemm_("No Transpose", "Transpose", &i__1, n, k, &c_b22, &w[*k + 1 + w_dim1], ldw, &dwork[pdw3], n, &c_b22, &b[*k + 1 + b_dim1], ldb, 12L, 9L);
-        }
-        else
-        {
+            dgemm_("No Transpose", "Transpose", &i__1, n, k, &c_b22, &w[*k + 1 + w_dim1], ldw,
+                &dwork[pdw3], n, &c_b22, &b[*k + 1 + b_dim1], ldb, 12L, 9L);
+        } else {
             i__1 = *m - *k;
-            dgemm_("Transpose", "Transpose", &i__1, n, k, &c_b22, &w[(*k + 1) * w_dim1 + 1], ldw, &dwork[pdw3], n, &c_b22, &b[*k + 1 + b_dim1], ldb, 9L, 9L);
+            dgemm_("Transpose", "Transpose", &i__1, n, k, &c_b22, &w[(*k + 1) * w_dim1 + 1], ldw,
+                &dwork[pdw3], n, &c_b22, &b[*k + 1 + b_dim1], ldb, 9L, 9L);
         }
     }
     /*     47) B2 := B2 + V2*DW6' */
-    if (*m > *k)
-    {
-        if (ltrb && lcolv)
-        {
+    if (*m > *k) {
+        if (ltrb && lcolv) {
             i__1 = *m - *k;
-            dgemm_("No Transpose", "Transpose", n, &i__1, k, &c_b22, &dwork[pdw6], n, &v[*k + 1 + v_dim1], ldv, &c_b22, &b[(*k + 1) * b_dim1 + 1], ldb, 12L, 9L);
-        }
-        else if (ltrb)
-        {
+            dgemm_("No Transpose", "Transpose", n, &i__1, k, &c_b22, &dwork[pdw6], n,
+                &v[*k + 1 + v_dim1], ldv, &c_b22, &b[(*k + 1) * b_dim1 + 1], ldb, 12L, 9L);
+        } else if (ltrb) {
             i__1 = *m - *k;
-            dgemm_("No Transpose", "No Transpose", n, &i__1, k, &c_b22, &dwork[pdw6], n, &v[(*k + 1) * v_dim1 + 1], ldv, &c_b22, &b[(*k + 1) * b_dim1 + 1], ldb, 12L, 12L);
-        }
-        else if (lcolv)
-        {
+            dgemm_("No Transpose", "No Transpose", n, &i__1, k, &c_b22, &dwork[pdw6], n,
+                &v[(*k + 1) * v_dim1 + 1], ldv, &c_b22, &b[(*k + 1) * b_dim1 + 1], ldb, 12L, 12L);
+        } else if (lcolv) {
             i__1 = *m - *k;
-            dgemm_("No Transpose", "Transpose", &i__1, n, k, &c_b22, &v[*k + 1 + v_dim1], ldv, &dwork[pdw6], n, &c_b22, &b[*k + 1 + b_dim1], ldb, 12L, 9L);
-        }
-        else
-        {
+            dgemm_("No Transpose", "Transpose", &i__1, n, k, &c_b22, &v[*k + 1 + v_dim1], ldv,
+                &dwork[pdw6], n, &c_b22, &b[*k + 1 + b_dim1], ldb, 12L, 9L);
+        } else {
             i__1 = *m - *k;
-            dgemm_("Transpose", "Transpose", &i__1, n, k, &c_b22, &v[(*k + 1) * v_dim1 + 1], ldv, &dwork[pdw6], n, &c_b22, &b[*k + 1 + b_dim1], ldb, 9L, 9L);
+            dgemm_("Transpose", "Transpose", &i__1, n, k, &c_b22, &v[(*k + 1) * v_dim1 + 1], ldv,
+                &dwork[pdw6], n, &c_b22, &b[*k + 1 + b_dim1], ldb, 9L, 9L);
         }
     }
     /*     48) DW3 := DW3*W1' */
-    if (lcolw)
-    {
-        dtrmm_("Right", "Lower", "Transpose", "Unit", n, k, &c_b22, &w[w_offset], ldw, &dwork[pdw3], n, 5L, 5L, 9L, 4L);
-    }
-    else
-    {
-        dtrmm_("Right", "Upper", "No Transpose", "Unit", n, k, &c_b22, &w[w_offset], ldw, &dwork[pdw3], n, 5L, 5L, 12L, 4L);
+    if (lcolw) {
+        dtrmm_("Right", "Lower", "Transpose", "Unit", n, k, &c_b22, &w[w_offset], ldw, &dwork[pdw3],
+            n, 5L, 5L, 9L, 4L);
+    } else {
+        dtrmm_("Right", "Upper", "No Transpose", "Unit", n, k, &c_b22, &w[w_offset], ldw,
+            &dwork[pdw3], n, 5L, 5L, 12L, 4L);
     }
     /*     49) DW4 := DW4 + DW3 */
-    i__1 = *n **k;
+    i__1 = *n * *k;
     daxpy_(&i__1, &c_b22, &dwork[pdw3], &c__1, &dwork[pdw4], &c__1);
     /*     50) DW6 := DW6*V1' */
-    if (lcolv)
-    {
-        dtrmm_("Right", "Lower", "Transpose", "Unit", n, k, &c_b22, &v[v_offset], ldv, &dwork[pdw6], n, 5L, 5L, 9L, 4L);
-    }
-    else
-    {
-        dtrmm_("Right", "Upper", "No Transpose", "Unit", n, k, &c_b22, &v[v_offset], ldv, &dwork[pdw6], n, 5L, 5L, 12L, 4L);
+    if (lcolv) {
+        dtrmm_("Right", "Lower", "Transpose", "Unit", n, k, &c_b22, &v[v_offset], ldv, &dwork[pdw6],
+            n, 5L, 5L, 9L, 4L);
+    } else {
+        dtrmm_("Right", "Upper", "No Transpose", "Unit", n, k, &c_b22, &v[v_offset], ldv,
+            &dwork[pdw6], n, 5L, 5L, 12L, 4L);
     }
     /*     51) DW4 := DW4 + DW6 */
-    i__1 = *n **k;
+    i__1 = *n * *k;
     daxpy_(&i__1, &c_b22, &dwork[pdw6], &c__1, &dwork[pdw4], &c__1);
     /*     52) B1 := B1 + DW4' */
-    if (la1b1)
-    {
-        if (ltrb)
-        {
+    if (la1b1) {
+        if (ltrb) {
             i__1 = *k;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
-                daxpy_(n, &c_b22, &dwork[pdw4 + (i__ - 1) **n], &c__1, &b[i__ * b_dim1 + 1], &c__1);
+            for (i__ = 1; i__ <= i__1; ++i__) {
+                daxpy_(
+                    n, &c_b22, &dwork[pdw4 + (i__ - 1) * *n], &c__1, &b[i__ * b_dim1 + 1], &c__1);
                 /* L90: */
             }
-        }
-        else
-        {
+        } else {
             i__1 = *n;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 daxpy_(k, &c_b22, &dwork[pdw4 + i__ - 1], n, &b[i__ * b_dim1 + 1], &c__1);
                 /* L100: */
             }
         }
-    }
-    else
-    {
-        if (ltrb)
-        {
+    } else {
+        if (ltrb) {
             i__1 = *k;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
-                dcopy_(n, &dwork[pdw4 + (i__ - 1) **n], &c__1, &b[i__ * b_dim1 + 1], &c__1);
+            for (i__ = 1; i__ <= i__1; ++i__) {
+                dcopy_(n, &dwork[pdw4 + (i__ - 1) * *n], &c__1, &b[i__ * b_dim1 + 1], &c__1);
                 /* L110: */
             }
-        }
-        else
-        {
+        } else {
             i__1 = *n;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 dcopy_(k, &dwork[pdw4 + i__ - 1], n, &b[i__ * b_dim1 + 1], &c__1);
                 /* L120: */
             }
@@ -1132,4 +1084,3 @@ ftnlen storew_len;
     return 0;
     /* *** Last line of MB04QC *** */
 } /* mb04qc_ */
-

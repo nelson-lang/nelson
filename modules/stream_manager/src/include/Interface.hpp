@@ -38,47 +38,71 @@
 
 #pragma once
 
-#include <string>
-#include "nlsStream_manager_exports.h"
 #include "Diary.hpp"
+#include "nlsStream_manager_exports.h"
+#include <string>
 
 namespace Nelson {
-    class NLSSTREAM_MANAGER_IMPEXP Interface {
-    public:
-        Diary diary;
-        Interface();
-        virtual ~Interface() = 0;
-        /**
-         *  Get a line of input from the user with the
-         *  given prompt.
-         */
-        virtual std::string getLine(std::string prompt) = 0;
-        virtual std::wstring getLine(std::wstring prompt) = 0;
-        virtual std::wstring getInput(std::wstring prompt) = 0;
+class NLSSTREAM_MANAGER_IMPEXP Interface
+{
+public:
+    Diary diary;
+    Interface();
+    virtual ~Interface() = 0;
+    /**
+     *  Get a line of input from the user with the
+     *  given prompt.
+     */
+    virtual std::string
+    getLine(std::string prompt)
+        = 0;
+    virtual std::wstring
+    getLine(std::wstring prompt)
+        = 0;
+    virtual std::wstring
+    getInput(std::wstring prompt)
+        = 0;
 
+    /**
+     *  Return the width of the current "terminal" in
+     *  characters.
+     */
+    virtual size_t
+    getTerminalWidth()
+        = 0;
+    /**
+     *  Output the following text message.
+     */
+    virtual void
+    outputMessage(std::string msg)
+        = 0;
+    virtual void
+    outputMessage(std::wstring msg)
+        = 0;
+    /**
+     *  Output the following error message.
+     */
+    virtual void
+    errorMessage(std::string msg)
+        = 0;
+    virtual void
+    errorMessage(std::wstring msg)
+        = 0;
+    /**
+     *  Output the following warning message.
+     */
+    virtual void
+    warningMessage(std::string msg)
+        = 0;
+    virtual void
+    warningMessage(std::wstring msg)
+        = 0;
 
-        /**
-         *  Return the width of the current "terminal" in
-         *  characters.
-         */
-        virtual size_t getTerminalWidth() = 0;
-        /**
-         *  Output the following text message.
-         */
-        virtual void outputMessage(std::string msg) = 0;
-        virtual void outputMessage(std::wstring msg) = 0;
-        /**
-         *  Output the following error message.
-         */
-        virtual void errorMessage(std::string msg) = 0;
-        virtual void errorMessage(std::wstring msg) = 0;
-        /**
-         *  Output the following warning message.
-         */
-        virtual void warningMessage(std::string msg) = 0;
-        virtual void warningMessage(std::wstring msg) = 0;
-
-        virtual void clearTerminal() = 0;
-        virtual bool isAtPrompt() = 0;
-    };
-}
+    virtual void
+    clearTerminal()
+        = 0;
+    virtual bool
+    isAtPrompt()
+        = 0;
+};
+} // namespace Nelson

@@ -18,25 +18,31 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include <boost/container/vector.hpp>
-#include "nlsHelp_tools_exports.h"
-#include "XmlDocGenericItem.hpp"
 #include "XmlDocChapterRefItem.hpp"
+#include "XmlDocGenericItem.hpp"
+#include "nlsHelp_tools_exports.h"
+#include <boost/container/vector.hpp>
+#include <string>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    class NLSHELP_TOOLS_IMPEXP XmlDocChapterIndexItem : public XmlDocGenericItem {
-    private:
-        boost::container::vector<XmlDocChapterRefItem *> chapterRefVector;
-    public:
-        XmlDocChapterIndexItem();
-        ~XmlDocChapterIndexItem();
-        std::wstring getItemType();
-        bool append(std::wstring linkname, std::wstring linkurl, std::wstring description);
-        bool writeAsHtml(std::string &utf8stream);
-        bool writeAsMarkdown(std::string &utf8stream);
-    };
-    //=============================================================================
-}
+//=============================================================================
+class NLSHELP_TOOLS_IMPEXP XmlDocChapterIndexItem : public XmlDocGenericItem
+{
+private:
+    boost::container::vector<XmlDocChapterRefItem*> chapterRefVector;
+
+public:
+    XmlDocChapterIndexItem();
+    ~XmlDocChapterIndexItem();
+    std::wstring
+    getItemType();
+    bool
+    append(std::wstring linkname, std::wstring linkurl, std::wstring description);
+    bool
+    writeAsHtml(std::string& utf8stream);
+    bool
+    writeAsMarkdown(std::string& utf8stream);
+};
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

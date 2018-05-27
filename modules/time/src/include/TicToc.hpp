@@ -22,8 +22,11 @@
 #include "nlsTime_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSTIME_IMPEXP bool Tic(Evaluator* eval);
-    NLSTIME_IMPEXP bool Toc(Evaluator* eval, double &tValue);
-    NLSTIME_IMPEXP bool Toc(uint64 t, double &tValue);
-}
+NLSTIME_IMPEXP bool
+Tic(Evaluator* eval);
+NLSTIME_IMPEXP bool
+Toc(Evaluator* eval, double& tValue);
+NLSTIME_IMPEXP bool
+Toc(uint64 t, double& tValue);
+} // namespace Nelson
 //=============================================================================

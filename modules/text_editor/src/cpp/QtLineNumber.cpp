@@ -16,23 +16,24 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <QtGui/QTextBlock>
-#include <QtGui/QPainter>
+#include "QtLineNumber.h"
 #include <QtCore/QRectF>
+#include <QtGui/QPainter>
+#include <QtGui/QTextBlock>
 #include <QtGui/QTextLayout>
 #include <QtWidgets/QScrollBar>
-#include "QtLineNumber.h"
 //=============================================================================
-QtLineNumber::QtLineNumber(QtTextEdit *editor) : QWidget(), tEditor(editor)
+QtLineNumber::QtLineNumber(QtTextEdit* editor) : QWidget(), tEditor(editor)
 {
     setFixedWidth(fontMetrics().width(QLatin1String("0000") + 5));
-    connect((QTextEdit*)tEditor->document()->documentLayout(), SIGNAL(update(const QRectF &)),
-            this, SLOT(update()));
-    connect((QTextEdit*)tEditor->verticalScrollBar(), SIGNAL(valueChanged(int)),
-            this, SLOT(update()));
+    connect((QTextEdit*)tEditor->document()->documentLayout(), SIGNAL(update(const QRectF&)), this,
+        SLOT(update()));
+    connect(
+        (QTextEdit*)tEditor->verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(update()));
 }
 //=============================================================================
-void QtLineNumber::paintEvent(QPaintEvent *paintEvent)
+void
+QtLineNumber::paintEvent(QPaintEvent* paintEvent)
 {
     int contentsY = tEditor->verticalScrollBar()->value();
     qreal pageBottom = contentsY + tEditor->viewport()->height();
@@ -41,18 +42,15 @@ void QtLineNumber::paintEvent(QPaintEvent *paintEvent)
     const QFontMetrics fm = fontMetrics();
     const int ascent = fontMetrics().ascent() + 1; // height = ascent + descent + 1
     QPainter p(this);
-    for (QTextBlock block = tEditor->document()->begin();
-            block.isValid(); block = block.next(), ++lineNumber)
-    {
-        QTextLayout *layout = block.layout();
+    for (QTextBlock block = tEditor->document()->begin(); block.isValid();
+         block = block.next(), ++lineNumber) {
+        QTextLayout* layout = block.layout();
         const QRectF boundingRect = layout->boundingRect();
         QPointF position = layout->position();
-        if (position.y() + boundingRect.height() < contentsY)
-        {
+        if (position.y() + boundingRect.height() < contentsY) {
             continue;
         }
-        if (position.y() > pageBottom)
-        {
+        if (position.y() > pageBottom) {
             break;
         }
         const QString txt = QString::number(lineNumber);

@@ -22,15 +22,15 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-static ArrayOfVector integer_vertcat_integerBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn, Class intclass)
+static ArrayOfVector
+integer_vertcat_integerBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn, Class intclass)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 2)
-    {
+    if (argIn.size() != 2) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf A = argIn[0];
@@ -39,42 +39,58 @@ static ArrayOfVector integer_vertcat_integerBuiltin(Evaluator* eval, int nLhs, c
     return retval;
 }
 //=============================================================================
-ArrayOfVector Nelson::IntegerGateway::int8_vertcat_int8Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::IntegerGateway::int8_vertcat_int8Builtin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     return integer_vertcat_integerBuiltin(eval, nLhs, argIn, NLS_INT8);
 }
 //=============================================================================
-ArrayOfVector Nelson::IntegerGateway::int16_vertcat_int16Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::IntegerGateway::int16_vertcat_int16Builtin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     return integer_vertcat_integerBuiltin(eval, nLhs, argIn, NLS_INT16);
 }
 //=============================================================================
-ArrayOfVector Nelson::IntegerGateway::int32_vertcat_int32Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::IntegerGateway::int32_vertcat_int32Builtin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     return integer_vertcat_integerBuiltin(eval, nLhs, argIn, NLS_INT32);
 }
 //=============================================================================
-ArrayOfVector Nelson::IntegerGateway::int64_vertcat_int64Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::IntegerGateway::int64_vertcat_int64Builtin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     return integer_vertcat_integerBuiltin(eval, nLhs, argIn, NLS_INT64);
 }
 //=============================================================================
-ArrayOfVector Nelson::IntegerGateway::uint8_vertcat_uint8Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::IntegerGateway::uint8_vertcat_uint8Builtin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     return integer_vertcat_integerBuiltin(eval, nLhs, argIn, NLS_UINT8);
 }
 //=============================================================================
-ArrayOfVector Nelson::IntegerGateway::uint16_vertcat_uint16Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::IntegerGateway::uint16_vertcat_uint16Builtin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     return integer_vertcat_integerBuiltin(eval, nLhs, argIn, NLS_UINT16);
 }
 //=============================================================================
-ArrayOfVector Nelson::IntegerGateway::uint32_vertcat_uint32Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::IntegerGateway::uint32_vertcat_uint32Builtin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     return integer_vertcat_integerBuiltin(eval, nLhs, argIn, NLS_UINT32);
 }
 //=============================================================================
-ArrayOfVector Nelson::IntegerGateway::uint64_vertcat_uint64Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::IntegerGateway::uint64_vertcat_uint64Builtin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     return integer_vertcat_integerBuiltin(eval, nLhs, argIn, NLS_UINT64);
 }

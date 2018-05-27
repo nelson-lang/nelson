@@ -18,11 +18,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsElementary_functions_exports.h"
 #include "ArrayOf.hpp"
 #include "Exception.hpp"
+#include "nlsElementary_functions_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf IsInf(ArrayOf A);
+NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
+IsInf(ArrayOf A);
 }
 //=============================================================================

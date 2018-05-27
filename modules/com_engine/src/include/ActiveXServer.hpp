@@ -18,14 +18,18 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsCom_engine_exports.h"
-#include "ComHandleObject.hpp"
 #include "ArrayOf.hpp"
+#include "ComHandleObject.hpp"
+#include "nlsCom_engine_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSCOM_ENGINE_IMPEXP ComHandleObject *ActiveXServer(std::wstring progId, std::wstring machine);
-    NLSCOM_ENGINE_IMPEXP ComHandleObject *GetRunningActiveXServer(std::wstring progId);
-    NLSCOM_ENGINE_IMPEXP ArrayOf ActiveXContolList();
-    NLSCOM_ENGINE_IMPEXP ArrayOf ActiveXServerList();
-}
+NLSCOM_ENGINE_IMPEXP ComHandleObject*
+ActiveXServer(std::wstring progId, std::wstring machine);
+NLSCOM_ENGINE_IMPEXP ComHandleObject*
+GetRunningActiveXServer(std::wstring progId);
+NLSCOM_ENGINE_IMPEXP ArrayOf
+ActiveXContolList();
+NLSCOM_ENGINE_IMPEXP ArrayOf
+ActiveXServerList();
+} // namespace Nelson
 //=============================================================================

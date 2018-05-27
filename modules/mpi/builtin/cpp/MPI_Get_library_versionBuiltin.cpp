@@ -16,21 +16,21 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "Error.hpp"
 #include "MPI_Get_library_versionBuiltin.hpp"
+#include "Error.hpp"
 #include "MPI_helpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::MpiGateway::MPI_Get_library_versionBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::MpiGateway::MPI_Get_library_versionBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 0)
-    {
+    if (argIn.size() != 0) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     retval.push_back(ArrayOf::stringConstructor(getMpiLibraryVersion()));

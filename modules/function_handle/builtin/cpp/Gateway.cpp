@@ -17,28 +17,31 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NelsonGateway.hpp"
-#include "str2funcBuiltin.hpp"
 #include "func2strBuiltin.hpp"
 #include "function_handle_dispBuiltin.hpp"
 #include "function_handle_extractionBuiltin.hpp"
 #include "function_handle_fieldnamesBuiltin.hpp"
-#include "isfunction_handleBuiltin.hpp"
 #include "function_handle_isequalBuiltin.hpp"
+#include "isfunction_handleBuiltin.hpp"
+#include "str2funcBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"function_handle";
 //=============================================================================
-static const nlsGateway gateway[] =
-{
+static const nlsGateway gateway[] = {
     { "str2func", Nelson::FunctionHandleGateway::str2funcBuiltin, 1, 1 },
     { "func2str", Nelson::FunctionHandleGateway::func2strBuiltin, 1, 1 },
     { "function_handle_disp", Nelson::FunctionHandleGateway::function_handle_dispBuiltin, 0, 1 },
     { "isfunction_handle", Nelson::FunctionHandleGateway::isfunction_handleBuiltin, 1, 1 },
-    { "function_handle_extraction", Nelson::FunctionHandleGateway::function_handle_extractionBuiltin, -1, -1 },
-    { "function_handle_fieldnames", Nelson::FunctionHandleGateway::function_handle_fieldnamesBuiltin, 1, 1 },
-    { "function_handle_isequal", Nelson::FunctionHandleGateway::function_handle_isequalBuiltin, 1, 2 },
-    { "function_handle_isequaln", Nelson::FunctionHandleGateway::function_handle_isequalBuiltin, 1, 2 }
+    { "function_handle_extraction",
+        Nelson::FunctionHandleGateway::function_handle_extractionBuiltin, -1, -1 },
+    { "function_handle_fieldnames",
+        Nelson::FunctionHandleGateway::function_handle_fieldnamesBuiltin, 1, 1 },
+    { "function_handle_isequal", Nelson::FunctionHandleGateway::function_handle_isequalBuiltin, 1,
+        2 },
+    { "function_handle_isequaln", Nelson::FunctionHandleGateway::function_handle_isequalBuiltin, 1,
+        2 }
 
 };
 //=============================================================================

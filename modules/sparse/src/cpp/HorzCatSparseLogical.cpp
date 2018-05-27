@@ -16,61 +16,56 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include "HorzCatSparseLogical.hpp"
 #include <Eigen/Dense>
 #include <Eigen/Sparse>
-#include "HorzCatSparseLogical.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    ArrayOf HorzCatSparseLogical(ArrayOf A, ArrayOf B)
-    {
-        ArrayOf C;
-        if (!A.isSparseLogical())
-        {
-            throw Exception(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_LOGICAL_EXPECTED);
-        }
-        if (!B.isSparseLogical())
-        {
-            throw Exception(ERROR_WRONG_ARGUMENT_2_TYPE_SPARSE_LOGICAL_EXPECTED);
-        }
-        if (A.isEmpty(false))
-        {
-            ArrayOf C(B);
-            return C;
-        }
-        if (B.isEmpty(false))
-        {
-            ArrayOf C(A);
-            return C;
-        }
-        Dimensions dimsA = A.getDimensions();
-        Dimensions dimsB = B.getDimensions();
-        if (dimsA.getRows() != dimsB.getRows())
-        {
-            throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
-        }
-        Eigen::SparseMatrix<logical, 0, signedIndexType> *spMatA = (Eigen::SparseMatrix<logical, 0, signedIndexType> *)A.getSparseDataPointer();
-        Eigen::SparseMatrix<logical, 0, signedIndexType> *spMatB = (Eigen::SparseMatrix<logical, 0, signedIndexType> *)B.getSparseDataPointer();
-        Eigen::SparseMatrix<logical, 0, signedIndexType> *spMatC;
-        indexType newColumnsSize = dimsA.getColumns() + dimsB.getColumns();
-        indexType newRowsSize = dimsA.getRows();
-        indexType newSize = newColumnsSize * newRowsSize;
-        Dimensions dimsC = Dimensions(newRowsSize, newColumnsSize);
-        try
-        {
-            spMatC = new Eigen::SparseMatrix<logical, 0, signedIndexType>(newRowsSize, newColumnsSize);
-        }
-        catch (std::bad_alloc &e)
-        {
-            e.what();
-            spMatC = nullptr;
-            throw Exception(ERROR_MEMORY_ALLOCATION);
-        }
-        spMatC->middleCols(0, spMatA->cols()) = *spMatA;
-        spMatC->middleCols(spMatA->cols(), spMatB->cols()) = *spMatB;
-        C = ArrayOf(NLS_LOGICAL, dimsC, (void*)spMatC, true);
+//=============================================================================
+ArrayOf
+HorzCatSparseLogical(ArrayOf A, ArrayOf B)
+{
+    ArrayOf C;
+    if (!A.isSparseLogical()) {
+        throw Exception(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_LOGICAL_EXPECTED);
+    }
+    if (!B.isSparseLogical()) {
+        throw Exception(ERROR_WRONG_ARGUMENT_2_TYPE_SPARSE_LOGICAL_EXPECTED);
+    }
+    if (A.isEmpty(false)) {
+        ArrayOf C(B);
         return C;
     }
-    //=============================================================================
+    if (B.isEmpty(false)) {
+        ArrayOf C(A);
+        return C;
+    }
+    Dimensions dimsA = A.getDimensions();
+    Dimensions dimsB = B.getDimensions();
+    if (dimsA.getRows() != dimsB.getRows()) {
+        throw Exception(ERROR_DIMENSIONS_NOT_CONSISTENT);
+    }
+    Eigen::SparseMatrix<logical, 0, signedIndexType>* spMatA
+        = (Eigen::SparseMatrix<logical, 0, signedIndexType>*)A.getSparseDataPointer();
+    Eigen::SparseMatrix<logical, 0, signedIndexType>* spMatB
+        = (Eigen::SparseMatrix<logical, 0, signedIndexType>*)B.getSparseDataPointer();
+    Eigen::SparseMatrix<logical, 0, signedIndexType>* spMatC;
+    indexType newColumnsSize = dimsA.getColumns() + dimsB.getColumns();
+    indexType newRowsSize = dimsA.getRows();
+    indexType newSize = newColumnsSize * newRowsSize;
+    Dimensions dimsC = Dimensions(newRowsSize, newColumnsSize);
+    try {
+        spMatC = new Eigen::SparseMatrix<logical, 0, signedIndexType>(newRowsSize, newColumnsSize);
+    } catch (std::bad_alloc& e) {
+        e.what();
+        spMatC = nullptr;
+        throw Exception(ERROR_MEMORY_ALLOCATION);
+    }
+    spMatC->middleCols(0, spMatA->cols()) = *spMatA;
+    spMatC->middleCols(spMatA->cols(), spMatB->cols()) = *spMatB;
+    C = ArrayOf(NLS_LOGICAL, dimsC, (void*)spMatC, true);
+    return C;
+}
+//=============================================================================
 }
 //=============================================================================

@@ -16,37 +16,37 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <Windows.h>
 #include "ismethodComHandleObject.hpp"
+#include "ComHandleObject.hpp"
+#include "ComHelpers.hpp"
 #include "Exception.hpp"
 #include "HandleManager.hpp"
-#include "ComHandleObject.hpp"
 #include "characters_encoding.hpp"
-#include "ComHelpers.hpp"
+#include <Windows.h>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    bool ismethodComHandleObject(ComHandleObject *comhandleobj, const std::wstring &methodname)
-    {
-        void *ptr = comhandleobj->getPointer();
-        if (ptr == nullptr)
-        {
-            throw Exception(_W("COM valid handle expected."));
-        }
-        VARIANT *pVariant = (VARIANT *)ptr;
-        return isMethodCom(pVariant->pdispVal, methodname);
+//=============================================================================
+bool
+ismethodComHandleObject(ComHandleObject* comhandleobj, const std::wstring& methodname)
+{
+    void* ptr = comhandleobj->getPointer();
+    if (ptr == nullptr) {
+        throw Exception(_W("COM valid handle expected."));
     }
-    //=============================================================================
-    ArrayOf ismethodComHandleObject(ArrayOf A, const std::wstring &methodname)
-    {
-        if (A.getHandleCategory() != COM_CATEGORY_STR)
-        {
-            throw Exception(_W("COM handle expected."));
-        }
-        ComHandleObject *comhandleobj = (ComHandleObject *)A.getContentAsHandleScalar();
-        bool res = ismethodComHandleObject(comhandleobj, methodname);
-        return ArrayOf::logicalConstructor(res);
+    VARIANT* pVariant = (VARIANT*)ptr;
+    return isMethodCom(pVariant->pdispVal, methodname);
+}
+//=============================================================================
+ArrayOf
+ismethodComHandleObject(ArrayOf A, const std::wstring& methodname)
+{
+    if (A.getHandleCategory() != COM_CATEGORY_STR) {
+        throw Exception(_W("COM handle expected."));
     }
-    //=============================================================================
+    ComHandleObject* comhandleobj = (ComHandleObject*)A.getContentAsHandleScalar();
+    bool res = ismethodComHandleObject(comhandleobj, methodname);
+    return ArrayOf::logicalConstructor(res);
+}
+//=============================================================================
 }
 //=============================================================================

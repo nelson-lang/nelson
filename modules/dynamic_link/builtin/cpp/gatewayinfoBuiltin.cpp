@@ -23,36 +23,30 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::DynamicLinkGateway::gatewayinfoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::DynamicLinkGateway::gatewayinfoBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 1)
-    {
+    if (argIn.size() != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 2)
-    {
+    if (nLhs > 2) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn[0].isSingleString())
-    {
+    if (argIn[0].isSingleString()) {
         std::wstring dynlibName = argIn[0].getContentAsWideString();
         std::wstring moduleName = L"";
         stringVector builtinList;
         std::wstring errorMessage = L"";
         bool bRes = GatewayInfo(dynlibName, moduleName, builtinList, errorMessage);
-        if (bRes)
-        {
+        if (bRes) {
             retval.push_back(ArrayOf::stringConstructor(moduleName));
             retval.push_back(ToCellStringAsColumn(builtinList));
-        }
-        else
-        {
+        } else {
             Error(eval, errorMessage);
         }
-    }
-    else
-    {
+    } else {
         Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
     return retval;

@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -12,15 +12,16 @@ static doublereal c_b5 = 0.;
 static integer c__1 = 1;
 static integer c__0 = 0;
 
-EXPORTSYMBOL /* Subroutine */ int nf01bw_(n, ipar, lipar, dpar, ldpar, j, ldj, x, incx, dwork, ldwork, info)
-integer *n, *ipar, *lipar;
-doublereal *dpar;
-integer *ldpar;
-doublereal *j;
-integer *ldj;
-doublereal *x;
-integer *incx;
-doublereal *dwork;
+EXPORTSYMBOL /* Subroutine */ int nf01bw_(
+    n, ipar, lipar, dpar, ldpar, j, ldj, x, incx, dwork, ldwork, info) integer *n,
+    *ipar, *lipar;
+doublereal* dpar;
+integer* ldpar;
+doublereal* j;
+integer* ldj;
+doublereal* x;
+integer* incx;
+doublereal* dwork;
 integer *ldwork, *info;
 {
     /* System generated locals */
@@ -139,111 +140,88 @@ integer *ldwork, *info;
     --dwork;
     /* Function Body */
     *info = 0;
-    if (*n < 0)
-    {
+    if (*n < 0) {
         *info = -1;
-    }
-    else if (*lipar < 4)
-    {
+    } else if (*lipar < 4) {
         *info = -3;
-    }
-    else if (*ldpar < 1)
-    {
+    } else if (*ldpar < 1) {
         *info = -5;
-    }
-    else if (*incx < 1)
-    {
+    } else if (*incx < 1) {
         *info = -9;
-    }
-    else
-    {
+    } else {
         st = ipar[1];
         bn = ipar[2];
         bsm = ipar[3];
         bsn = ipar[4];
         nths = bn * bsn;
-        if (bn > 1)
-        {
+        if (bn > 1) {
             m = bn * bsm;
-        }
-        else
-        {
+        } else {
             m = bsm;
         }
         /* Computing MIN */
-        i__1 = min(st,bn), i__1 = min(i__1,bsm);
-        if (min(i__1,bsn) < 0)
-        {
+        i__1 = min(st, bn), i__1 = min(i__1, bsm);
+        if (min(i__1, bsn) < 0) {
             *info = -2;
-        }
-        else if (*n != nths + st)
-        {
+        } else if (*n != nths + st) {
             *info = -1;
-        }
-        else if (*ldj < max(1,m))
-        {
+        } else if (*ldj < max(1, m)) {
             *info = -7;
-        }
-        else if (*ldwork < m)
-        {
+        } else if (*ldwork < m) {
             *info = -11;
         }
     }
     /*     Return if there are illegal arguments. */
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("NF01BW", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
+    if (*n == 0) {
         return 0;
     }
     c__ = dpar[1];
-    if (m == 0)
-    {
+    if (m == 0) {
         /*        Special case, void Jacobian: x <-- c*x. */
         dscal_(n, &c__, &x[1], incx);
         return 0;
     }
-    if (bn <= 1 || bsn == 0)
-    {
+    if (bn <= 1 || bsn == 0) {
         /*        Special case, l <= 1 or BSN = 0: the Jacobian is represented */
         /*        as a full matrix. Adapted code from NF01BX is included in-line. */
-        dgemv_("NoTranspose", &m, n, &c_b4, &j[j_offset], ldj, &x[1], incx, &c_b5, &dwork[1], &c__1, 11L);
-        dgemv_("Transpose", &m, n, &c_b4, &j[j_offset], ldj, &dwork[1], &c__1, &c__, &x[1], incx, 9L);
+        dgemv_("NoTranspose", &m, n, &c_b4, &j[j_offset], ldj, &x[1], incx, &c_b5, &dwork[1], &c__1,
+            11L);
+        dgemv_(
+            "Transpose", &m, n, &c_b4, &j[j_offset], ldj, &dwork[1], &c__1, &c__, &x[1], incx, 9L);
         return 0;
     }
     /*     General case: l > 1, BSN > 0, BSM > 0. */
     jl = bsn + 1;
-    ix = bsn **incx;
+    ix = bsn * *incx;
     xl = bn * ix + 1;
-    if (st > 0)
-    {
-        dgemv_("NoTranspose", &m, &st, &c_b4, &j[jl * j_dim1 + 1], ldj, &x[xl], incx, &c_b5, &dwork[1], &c__1, 11L);
-    }
-    else
-    {
+    if (st > 0) {
+        dgemv_("NoTranspose", &m, &st, &c_b4, &j[jl * j_dim1 + 1], ldj, &x[xl], incx, &c_b5,
+            &dwork[1], &c__1, 11L);
+    } else {
         dwork[1] = 0.;
         dcopy_(&m, &dwork[1], &c__0, &dwork[1], &c__1);
     }
     ibsn = 1;
     i__1 = m;
     i__2 = bsm;
-    for (ibsm = 1; i__2 < 0 ? ibsm >= i__1 : ibsm <= i__1; ibsm += i__2)
-    {
-        dgemv_("NoTranspose", &bsm, &bsn, &c_b4, &j[ibsm + j_dim1], ldj, &x[ibsn], incx, &c_b4, &dwork[ibsm], &c__1, 11L);
-        dgemv_("Transpose", &bsm, &bsn, &c_b4, &j[ibsm + j_dim1], ldj, &dwork[ibsm], &c__1, &c__, &x[ibsn], incx, 9L);
+    for (ibsm = 1; i__2 < 0 ? ibsm >= i__1 : ibsm <= i__1; ibsm += i__2) {
+        dgemv_("NoTranspose", &bsm, &bsn, &c_b4, &j[ibsm + j_dim1], ldj, &x[ibsn], incx, &c_b4,
+            &dwork[ibsm], &c__1, 11L);
+        dgemv_("Transpose", &bsm, &bsn, &c_b4, &j[ibsm + j_dim1], ldj, &dwork[ibsm], &c__1, &c__,
+            &x[ibsn], incx, 9L);
         ibsn += ix;
         /* L10: */
     }
-    if (st > 0)
-    {
-        dgemv_("Transpose", &m, &st, &c_b4, &j[jl * j_dim1 + 1], ldj, &dwork[1], &c__1, &c__, &x[xl], incx, 9L);
+    if (st > 0) {
+        dgemv_("Transpose", &m, &st, &c_b4, &j[jl * j_dim1 + 1], ldj, &dwork[1], &c__1, &c__,
+            &x[xl], incx, 9L);
     }
     return 0;
     /* *** Last line of NF01BW *** */
 } /* nf01bw_ */
-

@@ -17,25 +17,23 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "handle_deleteBuiltin.hpp"
-#include "HandleDelete.hpp"
 #include "Error.hpp"
+#include "HandleDelete.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::HandleGateway::handle_deleteBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::HandleGateway::handle_deleteBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 1)
-    {
+    if (argIn.size() != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs != 0)
-    {
+    if (nLhs != 0) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
-    if (!param1.isHandle())
-    {
+    if (!param1.isHandle()) {
         Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED);
     }
     HandleDelete(eval, param1);

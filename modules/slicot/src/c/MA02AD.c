@@ -1,17 +1,16 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-EXPORTSYMBOL /* Subroutine */ int ma02ad_(job, m, n, a, lda, b, ldb, job_len)
-char *job;
+EXPORTSYMBOL /* Subroutine */ int ma02ad_(job, m, n, a, lda, b, ldb, job_len) char* job;
 integer *m, *n;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
 ftnlen job_len;
 {
     /* System generated locals */
@@ -79,42 +78,31 @@ ftnlen job_len;
     b_offset = b_dim1 + 1;
     b -= b_offset;
     /* Function Body */
-    if (lsame_(job, "U", 1L, 1L))
-    {
+    if (lsame_(job, "U", 1L, 1L)) {
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
-            i__2 = min(j,*m);
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
+        for (j = 1; j <= i__1; ++j) {
+            i__2 = min(j, *m);
+            for (i__ = 1; i__ <= i__2; ++i__) {
                 b[j + i__ * b_dim1] = a[i__ + j * a_dim1];
                 /* L10: */
             }
             /* L20: */
         }
-    }
-    else if (lsame_(job, "L", 1L, 1L))
-    {
+    } else if (lsame_(job, "L", 1L, 1L)) {
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             i__2 = *m;
-            for (i__ = j; i__ <= i__2; ++i__)
-            {
+            for (i__ = j; i__ <= i__2; ++i__) {
                 b[j + i__ * b_dim1] = a[i__ + j * a_dim1];
                 /* L30: */
             }
             /* L40: */
         }
-    }
-    else
-    {
+    } else {
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             i__2 = *m;
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
+            for (i__ = 1; i__ <= i__2; ++i__) {
                 b[j + i__ * b_dim1] = a[i__ + j * a_dim1];
                 /* L50: */
             }
@@ -124,4 +112,3 @@ ftnlen job_len;
     return 0;
     /* *** Last line of MA02AD *** */
 } /* ma02ad_ */
-

@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -13,25 +13,26 @@ static doublereal c_b42 = 0.;
 static doublereal c_b93 = -.5;
 static doublereal c_b96 = -1.;
 
-EXPORTSYMBOL /* Subroutine */ int tb01vd_(apply, n, m, l, a, lda, b, ldb, c__, ldc, d__, ldd, x0, theta, ltheta, dwork, ldwork, info, apply_len)
-char *apply;
+EXPORTSYMBOL /* Subroutine */ int tb01vd_(apply, n, m, l, a, lda, b, ldb, c__, ldc, d__, ldd, x0,
+    theta, ltheta, dwork, ldwork, info, apply_len) char* apply;
 integer *n, *m, *l;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *d__;
-integer *ldd;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* d__;
+integer* ldd;
 doublereal *x0, *theta;
-integer *ltheta;
-doublereal *dwork;
+integer* ltheta;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen apply_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, i__1, i__2, i__3, i__4;
+    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, i__1, i__2,
+        i__3, i__4;
     doublereal d__1;
     /* Builtin functions */
     double atan(), tan();
@@ -220,79 +221,55 @@ ftnlen apply_len;
     /* Function Body */
     lapply = lsame_(apply, "A", 1L, 1L);
     *info = 0;
-    if (! (lapply || lsame_(apply, "N", 1L, 1L)))
-    {
+    if (!(lapply || lsame_(apply, "N", 1L, 1L))) {
         *info = -1;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -2;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -3;
-    }
-    else if (*l < 0)
-    {
+    } else if (*l < 0) {
         *info = -4;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -6;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -8;
-    }
-    else if (*ldc < max(1,*l))
-    {
+    } else if (*ldc < max(1, *l)) {
         *info = -10;
-    }
-    else if (*ldd < max(1,*l))
-    {
+    } else if (*ldd < max(1, *l)) {
         *info = -12;
-    }
-    else if (*ltheta < *n * (*m + *l + 1) + *l **m)
-    {
+    } else if (*ltheta < *n * (*m + *l + 1) + *l * *m) {
         *info = -15;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
         /* Computing MAX */
-        i__3 = *n * (*n + max(*n,*l) + 6) + min(*n,*l), i__4 = *n **m;
-        i__1 = 1, i__2 = *n **n **l + *n **l + *n, i__1 = max(i__1,i__2), i__2 = *n **n + max(i__3,i__4);
-        if (*ldwork < max(i__1,i__2))
-        {
+        i__3 = *n * (*n + max(*n, *l) + 6) + min(*n, *l), i__4 = *n * *m;
+        i__1 = 1, i__2 = *n * *n * *l + *n * *l + *n, i__1 = max(i__1, i__2),
+        i__2 = *n * *n + max(i__3, i__4);
+        if (*ldwork < max(i__1, i__2)) {
             *info = -17;
         }
     }
     /*     Return if there are illegal arguments. */
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("TB01VD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
     /* Computing MAX */
-    i__1 = max(*n,*m);
-    if (max(i__1,*l) == 0)
-    {
+    i__1 = max(*n, *m);
+    if (max(i__1, *l) == 0) {
         dwork[1] = 1.;
         return 0;
-    }
-    else if (*n == 0)
-    {
-        i__1 = max(1,*l);
+    } else if (*n == 0) {
+        i__1 = max(1, *l);
         dlacpy_("Full", l, m, &d__[d_offset], ldd, &theta[1], &i__1, 4L);
         dwork[1] = 1.;
         return 0;
-    }
-    else if (*l == 0)
-    {
+    } else if (*l == 0) {
         dlacpy_("Full", n, m, &b[b_offset], ldb, &theta[1], n, 4L);
-        dcopy_(n, &x0[1], &c__1, &theta[*n **m + 1], &c__1);
+        dcopy_(n, &x0[1], &c__1, &theta[*n * *m + 1], &c__1);
         dwork[1] = 1.;
         return 0;
     }
@@ -311,163 +288,163 @@ ftnlen apply_len;
     /*     Workspace: need   N*(2*N + MAX(N,L) + 6) + MIN(N,L). */
     /*                prefer larger. */
     /*     Initialize the indices in the workspace. */
-    ldt = max(*n,*l);
+    ldt = max(*n, *l);
     ca = 1;
     ia = 1;
-    it = ia + *n **n;
-    iu = it + ldt **n;
-    iwr = iu + *n **n;
+    it = ia + *n * *n;
+    iu = it + ldt * *n;
+    iwr = iu + *n * *n;
     iwi = iwr + *n;
     jwork = iwi + *n;
     dlacpy_("Full", n, n, &a[a_offset], lda, &dwork[ia], n, 4L);
     dlacpy_("Full", l, n, &c__[c_offset], ldc, &dwork[it], &ldt, 4L);
     i__1 = *ldwork - jwork + 1;
-    sb03od_("Discrete", "NotFactored", "NoTranspose", n, l, &dwork[ia], n, &dwork[iu], n, &dwork[it], &ldt, &scale, &dwork[iwr], &dwork[iwi], &dwork[jwork], &i__1, info, 8L, 11L, 11L);
-    if (*info != 0)
-    {
-        if (*info == 6)
-        {
+    sb03od_("Discrete", "NotFactored", "NoTranspose", n, l, &dwork[ia], n, &dwork[iu], n,
+        &dwork[it], &ldt, &scale, &dwork[iwr], &dwork[iwi], &dwork[jwork], &i__1, info, 8L, 11L,
+        11L);
+    if (*info != 0) {
+        if (*info == 6) {
             *info = 3;
-        }
-        else
-        {
+        } else {
             *info = 2;
         }
         return 0;
     }
-    wrkopt = (integer) dwork[jwork] + jwork - 1;
-    if (scale == 0.)
-    {
+    wrkopt = (integer)dwork[jwork] + jwork - 1;
+    if (scale == 0.) {
         *info = 1;
         return 0;
     }
     /*     Compute A = T*A*T^(-1). */
-    dtrmm_("Left", "Upper", "NoTranspose", "NonUnit", n, n, &c_b18, &dwork[it], &ldt, &a[a_offset], lda, 4L, 5L, 11L, 7L);
-    dtrsm_("Right", "Upper", "NoTranspose", "NonUnit", n, n, &c_b18, &dwork[it], &ldt, &a[a_offset], lda, 5L, 5L, 11L, 7L);
-    if (*m > 0)
-    {
+    dtrmm_("Left", "Upper", "NoTranspose", "NonUnit", n, n, &c_b18, &dwork[it], &ldt, &a[a_offset],
+        lda, 4L, 5L, 11L, 7L);
+    dtrsm_("Right", "Upper", "NoTranspose", "NonUnit", n, n, &c_b18, &dwork[it], &ldt, &a[a_offset],
+        lda, 5L, 5L, 11L, 7L);
+    if (*m > 0) {
         /*        Compute B = (1/scale)*T*B. */
         d__1 = 1. / scale;
-        dtrmm_("Left", "Upper", "NoTranspose", "NonUnit", n, m, &d__1, &dwork[it], &ldt, &b[b_offset], ldb, 4L, 5L, 11L, 7L);
+        dtrmm_("Left", "Upper", "NoTranspose", "NonUnit", n, m, &d__1, &dwork[it], &ldt,
+            &b[b_offset], ldb, 4L, 5L, 11L, 7L);
     }
     /*     Compute x0 = (1/scale)*T*x0. */
     dtrmv_("Upper", "NoTranspose", "NonUnit", n, &dwork[it], &ldt, &x0[1], &c__1, 5L, 11L, 7L);
     d__1 = 1. / scale;
     dscal_(n, &d__1, &x0[1], &c__1);
     /*     Compute C = scale*C*T^(-1). */
-    dtrsm_("Right", "Upper", "NoTranspose", "NonUnit", l, n, &scale, &dwork[it], &ldt, &c__[c_offset], ldc, 5L, 5L, 11L, 7L);
+    dtrsm_("Right", "Upper", "NoTranspose", "NonUnit", l, n, &scale, &dwork[it], &ldt,
+        &c__[c_offset], ldc, 5L, 5L, 11L, 7L);
     /*     Now, the system has been transformed to the output normal form. */
     /*     Build the transposed observability matrix in DWORK(CA) and compute */
     /*     its QR factorization. */
     ma02ad_("Full", l, n, &c__[c_offset], ldc, &dwork[ca], n, 4L);
     i__1 = *n - 1;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
-        dgemm_("Transpose", "NoTranspose", n, l, n, &c_b18, &a[a_offset], lda, &dwork[ca + (i__ - 1) **n **l], n, &c_b42, &dwork[ca + i__ **n **l], n, 9L, 11L);
+    for (i__ = 1; i__ <= i__1; ++i__) {
+        dgemm_("Transpose", "NoTranspose", n, l, n, &c_b18, &a[a_offset], lda,
+            &dwork[ca + (i__ - 1) * *n * *l], n, &c_b42, &dwork[ca + i__ * *n * *l], n, 9L, 11L);
         /* L10: */
     }
     /*     Compute the QR factorization. */
     /*     Workspace: need   N*N*L + N + L*N. */
     /*                prefer N*N*L + N + NB*L*N. */
-    itau = ca + *n **n **l;
+    itau = ca + *n * *n * *l;
     jwork = itau + *n;
-    i__1 = *l **n;
+    i__1 = *l * *n;
     i__2 = *ldwork - jwork + 1;
     dgeqrf_(n, &i__1, &dwork[ca], n, &dwork[itau], &dwork[jwork], &i__2, info);
     /* Computing MAX */
-    i__1 = wrkopt, i__2 = (integer) dwork[jwork] + jwork - 1;
-    wrkopt = max(i__1,i__2);
+    i__1 = wrkopt, i__2 = (integer)dwork[jwork] + jwork - 1;
+    wrkopt = max(i__1, i__2);
     /*     Compute Q such that R has all diagonal elements nonnegative. */
     /*     Only the first N*N part of R is needed. Move the details */
     /*     of the QR factorization process, to gain memory and efficiency. */
     /*     Workspace: need   2*N*N + 2*N. */
     /*                prefer 2*N*N + N + NB*N. */
-    ir = *n **n + 1;
-    if (*l != 2)
-    {
-        dcopy_(n, &dwork[itau], &c__1, &dwork[ir + *n **n], &c__1);
+    ir = *n * *n + 1;
+    if (*l != 2) {
+        dcopy_(n, &dwork[itau], &c__1, &dwork[ir + *n * *n], &c__1);
     }
     dlacpy_("Lower", n, n, &dwork[ca], n, &dwork[ir], n, 5L);
-    itau = ir + *n **n;
+    itau = ir + *n * *n;
     jwork = itau + *n;
     iq = 1;
     dlaset_("Full", n, n, &c_b42, &c_b18, &dwork[iq], n, 4L);
     i__1 = *n;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
-        if (dwork[ir + (i__ - 1) * (*n + 1)] < 0.)
-        {
+    for (i__ = 1; i__ <= i__1; ++i__) {
+        if (dwork[ir + (i__ - 1) * (*n + 1)] < 0.) {
             dwork[iq + (i__ - 1) * (*n + 1)] = -1.;
         }
         /* L20: */
     }
     i__1 = *ldwork - jwork + 1;
-    dormqr_("Left", "NoTranspose", n, n, n, &dwork[ir], n, &dwork[itau], &dwork[iq], n, &dwork[jwork], &i__1, info, 4L, 11L);
+    dormqr_("Left", "NoTranspose", n, n, n, &dwork[ir], n, &dwork[itau], &dwork[iq], n,
+        &dwork[jwork], &i__1, info, 4L, 11L);
     /* Computing MAX */
-    i__1 = wrkopt, i__2 = (integer) dwork[jwork] + jwork - 1;
-    wrkopt = max(i__1,i__2);
+    i__1 = wrkopt, i__2 = (integer)dwork[jwork] + jwork - 1;
+    wrkopt = max(i__1, i__2);
     jwork = ir;
     /*     Now, the transformation matrix Q is in DWORK(IQ). */
     /*     Compute A = Q'*A*Q. */
-    dgemm_("Transpose", "NoTranspose", n, n, n, &c_b18, &dwork[iq], n, &a[a_offset], lda, &c_b42, &dwork[jwork], n, 9L, 11L);
-    dgemm_("NoTranspose", "NoTranspose", n, n, n, &c_b18, &dwork[jwork], n, &dwork[iq], n, &c_b42, &a[a_offset], lda, 11L, 11L);
-    if (*m > 0)
-    {
+    dgemm_("Transpose", "NoTranspose", n, n, n, &c_b18, &dwork[iq], n, &a[a_offset], lda, &c_b42,
+        &dwork[jwork], n, 9L, 11L);
+    dgemm_("NoTranspose", "NoTranspose", n, n, n, &c_b18, &dwork[jwork], n, &dwork[iq], n, &c_b42,
+        &a[a_offset], lda, 11L, 11L);
+    if (*m > 0) {
         /*        Compute B = Q'*B. */
         /*        Workspace: need   N*N + N*M. */
         dlacpy_("Full", n, m, &b[b_offset], ldb, &dwork[jwork], n, 4L);
-        dgemm_("Transpose", "NoTranspose", n, m, n, &c_b18, &dwork[iq], n, &dwork[jwork], n, &c_b42, &b[b_offset], ldb, 9L, 11L);
+        dgemm_("Transpose", "NoTranspose", n, m, n, &c_b18, &dwork[iq], n, &dwork[jwork], n, &c_b42,
+            &b[b_offset], ldb, 9L, 11L);
     }
     /*     Compute C = C*Q. */
     /*     Workspace: need   N*N + N*L. */
     dlacpy_("Full", l, n, &c__[c_offset], ldc, &dwork[jwork], l, 4L);
-    dgemm_("NoTranspose", "NoTranspose", l, n, n, &c_b18, &dwork[jwork], l, &dwork[iq], n, &c_b42, &c__[c_offset], ldc, 11L, 11L);
+    dgemm_("NoTranspose", "NoTranspose", l, n, n, &c_b18, &dwork[jwork], l, &dwork[iq], n, &c_b42,
+        &c__[c_offset], ldc, 11L, 11L);
     /*     Compute x0 = Q'*x0. */
     dcopy_(n, &x0[1], &c__1, &dwork[jwork], &c__1);
-    dgemv_("Transpose", n, n, &c_b18, &dwork[iq], n, &dwork[jwork], &c__1, &c_b42, &x0[1], &c__1, 9L);
+    dgemv_(
+        "Transpose", n, n, &c_b18, &dwork[iq], n, &dwork[jwork], &c__1, &c_b42, &x0[1], &c__1, 9L);
     /*     Now, copy C and A into the workspace to make it easier to read out */
     /*     the corresponding part of THETA, and to apply the transformations. */
     ldca = *n + *l;
     i__1 = *n;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         dcopy_(l, &c__[i__ * c_dim1 + 1], &c__1, &dwork[ca + (i__ - 1) * ldca], &c__1);
         dcopy_(n, &a[i__ * a_dim1 + 1], &c__1, &dwork[ca + *l + (i__ - 1) * ldca], &c__1);
         /* L30: */
     }
-    jwork = ca + ldca **n;
+    jwork = ca + ldca * *n;
     /*     The parameters characterizing A and C are extracted in this loop. */
     /*     Workspace: need   N*(N + L + 1). */
     i__1 = *n;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
-        dcopy_(l, &dwork[ca + 1 + (*n - i__) * (ldca + 1)], &c__1, &theta[(i__ - 1) **l + 1], &c__1);
+    for (i__ = 1; i__ <= i__1; ++i__) {
+        dcopy_(
+            l, &dwork[ca + 1 + (*n - i__) * (ldca + 1)], &c__1, &theta[(i__ - 1) * *l + 1], &c__1);
         ri = dwork[ca + (*n - i__) * (ldca + 1)];
-        ti = dnrm2_(l, &theta[(i__ - 1) **l + 1], &c__1);
+        ti = dnrm2_(l, &theta[(i__ - 1) * *l + 1], &c__1);
         /*        Multiply the part of [C; A] which will be currently transformed */
         /*        with Ui = [ -THETAi, Si; RI, THETAi' ] from the left, without */
         /*        storing Ui. Ui has the size (L+1)-by-(L+1). */
-        dgemv_("Transpose", l, n, &c_b18, &dwork[ca + *n - i__ + 1], &ldca, &theta[(i__ - 1) **l + 1], &c__1, &c_b42, &dwork[jwork], &c__1, 9L);
-        if (ti > 0.)
-        {
+        dgemv_("Transpose", l, n, &c_b18, &dwork[ca + *n - i__ + 1], &ldca,
+            &theta[(i__ - 1) * *l + 1], &c__1, &c_b42, &dwork[jwork], &c__1, 9L);
+        if (ti > 0.) {
             d__1 = (ri - 1.) / ti / ti;
-            dger_(l, n, &d__1, &theta[(i__ - 1) **l + 1], &c__1, &dwork[jwork], &c__1, &dwork[ca + *n - i__ + 1], &ldca);
-        }
-        else
-        {
+            dger_(l, n, &d__1, &theta[(i__ - 1) * *l + 1], &c__1, &dwork[jwork], &c__1,
+                &dwork[ca + *n - i__ + 1], &ldca);
+        } else {
             /*           The call below is for the limiting case. */
-            dger_(l, n, &c_b93, &theta[(i__ - 1) **l + 1], &c__1, &dwork[jwork], &c__1, &dwork[ca + *n - i__ + 1], &ldca);
+            dger_(l, n, &c_b93, &theta[(i__ - 1) * *l + 1], &c__1, &dwork[jwork], &c__1,
+                &dwork[ca + *n - i__ + 1], &ldca);
         }
-        dger_(l, n, &c_b96, &theta[(i__ - 1) **l + 1], &c__1, &dwork[ca + *n - i__], &ldca, &dwork[ca + *n - i__ + 1], &ldca);
+        dger_(l, n, &c_b96, &theta[(i__ - 1) * *l + 1], &c__1, &dwork[ca + *n - i__], &ldca,
+            &dwork[ca + *n - i__ + 1], &ldca);
         daxpy_(n, &ri, &dwork[ca + *n - i__], &ldca, &dwork[jwork], &c__1);
         /*        Move these results to their appropriate locations. */
         i__2 = *n;
-        for (j = 1; j <= i__2; ++j)
-        {
+        for (j = 1; j <= i__2; ++j) {
             in = ca + *n - i__ + (j - 1) * ldca;
             i__3 = in + *l;
-            for (k = in + 1; k <= i__3; ++k)
-            {
+            for (k = in + 1; k <= i__3; ++k) {
                 dwork[k - 1] = dwork[k];
                 /* L40: */
             }
@@ -476,24 +453,21 @@ ftnlen apply_len;
         }
         /*        Now, apply the bijective mapping, which allows to get rid */
         /*        of the constraint norm(THETAi) < 1. */
-        if (lapply && ti != 0.)
-        {
+        if (lapply && ti != 0.) {
             d__1 = tan(ti * piby2) / ti;
-            dscal_(l, &d__1, &theta[(i__ - 1) **l + 1], &c__1);
+            dscal_(l, &d__1, &theta[(i__ - 1) * *l + 1], &c__1);
         }
         /* L60: */
     }
-    if (*m > 0)
-    {
+    if (*m > 0) {
         /*        The next part of THETA is B. */
-        dlacpy_("Full", n, m, &b[b_offset], ldb, &theta[*n **l + 1], n, 4L);
+        dlacpy_("Full", n, m, &b[b_offset], ldb, &theta[*n * *l + 1], n, 4L);
         /*        Copy the matrix D. */
         dlacpy_("Full", l, m, &d__[d_offset], ldd, &theta[*n * (*l + *m) + 1], l, 4L);
     }
     /*     Copy the initial state x0. */
-    dcopy_(n, &x0[1], &c__1, &theta[*n * (*l + *m) + *l **m + 1], &c__1);
-    dwork[1] = (doublereal) wrkopt;
+    dcopy_(n, &x0[1], &c__1, &theta[*n * (*l + *m) + *l * *m + 1], &c__1);
+    dwork[1] = (doublereal)wrkopt;
     return 0;
     /* *** Last line of TB01VD *** */
 } /* tb01vd_ */
-

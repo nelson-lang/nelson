@@ -1,31 +1,34 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-EXPORTSYMBOL /* Subroutine */ int ab09cd_(dico, equil, ordsel, n, m, p, nr, a, lda, b, ldb, c__, ldc, d__, ldd, hsv, tol1, tol2, iwork, dwork, ldwork, iwarn, info, dico_len, equil_len, ordsel_len)
-char *dico, *equil, *ordsel;
+EXPORTSYMBOL /* Subroutine */ int ab09cd_(dico, equil, ordsel, n, m, p, nr, a, lda, b, ldb, c__,
+    ldc, d__, ldd, hsv, tol1, tol2, iwork, dwork, ldwork, iwarn, info, dico_len, equil_len,
+    ordsel_len) char *dico,
+    *equil, *ordsel;
 integer *n, *m, *p, *nr;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *d__;
-integer *ldd;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* d__;
+integer* ldd;
 doublereal *hsv, *tol1, *tol2;
-integer *iwork;
-doublereal *dwork;
+integer* iwork;
+doublereal* dwork;
 integer *ldwork, *iwarn, *info;
 ftnlen dico_len;
 ftnlen equil_len;
 ftnlen ordsel_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, i__1, i__2, i__3, i__4, i__5;
+    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, i__1, i__2,
+        i__3, i__4, i__5;
     /* Local variables */
     static integer ierr;
     extern /* Subroutine */ int tb01id_(), ab09cx_();
@@ -256,69 +259,44 @@ ftnlen ordsel_len;
     *iwarn = 0;
     fixord = lsame_(ordsel, "F", 1L, 1L);
     /*     Check the input scalar arguments. */
-    if (! (lsame_(dico, "C", 1L, 1L) || lsame_(dico, "D", 1L, 1L)))
-    {
+    if (!(lsame_(dico, "C", 1L, 1L) || lsame_(dico, "D", 1L, 1L))) {
         *info = -1;
-    }
-    else if (! (lsame_(equil, "S", 1L, 1L) || lsame_(equil, "N", 1L, 1L)))
-    {
+    } else if (!(lsame_(equil, "S", 1L, 1L) || lsame_(equil, "N", 1L, 1L))) {
         *info = -2;
-    }
-    else if (! (fixord || lsame_(ordsel, "A", 1L, 1L)))
-    {
+    } else if (!(fixord || lsame_(ordsel, "A", 1L, 1L))) {
         *info = -3;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -4;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -5;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -6;
-    }
-    else if (fixord && (*nr < 0 || *nr > *n))
-    {
+    } else if (fixord && (*nr < 0 || *nr > *n)) {
         *info = -7;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -9;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -11;
-    }
-    else if (*ldc < max(1,*p))
-    {
+    } else if (*ldc < max(1, *p)) {
         *info = -13;
-    }
-    else if (*ldd < max(1,*p))
-    {
+    } else if (*ldd < max(1, *p)) {
         *info = -15;
-    }
-    else if (*tol2 > 0. && *tol2 > *tol1)
-    {
+    } else if (*tol2 > 0. && *tol2 > *tol1) {
         *info = -18;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
         /* Computing MAX */
-        i__3 = max(*n,*m);
+        i__3 = max(*n, *m);
         /* Computing MAX */
-        i__4 = *m * 3 + 1, i__5 = min(*n,*m) + *p;
-        i__1 = *n * ((*n << 1) + max(i__3,*p) + 5) + *n * (*n + 1) / 2, i__2 = *n * (*m + *p + 2) + (*m << 1) **p + min(*n,*m) + max(i__4,i__5);
-        if (*ldwork < max(i__1,i__2))
-        {
+        i__4 = *m * 3 + 1, i__5 = min(*n, *m) + *p;
+        i__1 = *n * ((*n << 1) + max(i__3, *p) + 5) + *n * (*n + 1) / 2,
+        i__2 = *n * (*m + *p + 2) + (*m << 1) * *p + min(*n, *m) + max(i__4, i__5);
+        if (*ldwork < max(i__1, i__2)) {
             *info = -21;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("AB09CD", &i__1, 6L);
@@ -326,45 +304,44 @@ ftnlen ordsel_len;
     }
     /*     Quick return if possible. */
     /* Computing MIN */
-    i__1 = min(*n,*m);
-    if (min(i__1,*p) == 0)
-    {
+    i__1 = min(*n, *m);
+    if (min(i__1, *p) == 0) {
         *nr = 0;
         iwork[1] = 0;
         dwork[1] = 1.;
         return 0;
     }
-    if (lsame_(equil, "S", 1L, 1L))
-    {
+    if (lsame_(equil, "S", 1L, 1L)) {
         /*        Scale simultaneously the matrices A, B and C: */
         /*        A <- inv(D)*A*D, B <- inv(D)*B and C <- C*D, where D is a */
         /*        diagonal matrix. */
         maxred = 100.;
-        tb01id_("All", n, m, p, &maxred, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, &dwork[1], info, 3L);
+        tb01id_("All", n, m, p, &maxred, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc,
+            &dwork[1], info, 3L);
     }
     /*     Reduce A to the real Schur form using an orthogonal similarity */
     /*     transformation A <- T'*A*T and apply the transformation to B */
     /*     and C: B <- T'*B and C <- C*T. */
     kt = 1;
-    kl = kt + *n **n;
+    kl = kt + *n * *n;
     ki = kl + *n;
     kw = ki + *n;
     i__1 = *ldwork - kw + 1;
-    tb01wd_(n, m, p, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, &dwork[kt], n, &dwork[kl], &dwork[ki], &dwork[kw], &i__1, &ierr);
-    if (ierr != 0)
-    {
+    tb01wd_(n, m, p, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, &dwork[kt], n,
+        &dwork[kl], &dwork[ki], &dwork[kw], &i__1, &ierr);
+    if (ierr != 0) {
         *info = 1;
         return 0;
     }
-    wrkopt = dwork[kw] + (doublereal) (kw - 1);
-    ab09cx_(dico, ordsel, n, m, p, nr, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, &d__[d_offset], ldd, &hsv[1], tol1, tol2, &iwork[1], &dwork[1], ldwork, iwarn, &ierr, 1L, 1L);
-    if (ierr != 0)
-    {
+    wrkopt = dwork[kw] + (doublereal)(kw - 1);
+    ab09cx_(dico, ordsel, n, m, p, nr, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc,
+        &d__[d_offset], ldd, &hsv[1], tol1, tol2, &iwork[1], &dwork[1], ldwork, iwarn, &ierr, 1L,
+        1L);
+    if (ierr != 0) {
         *info = ierr + 1;
         return 0;
     }
-    dwork[1] = max(wrkopt,dwork[1]);
+    dwork[1] = max(wrkopt, dwork[1]);
     return 0;
     /* *** Last line of AB09CD *** */
 } /* ab09cd_ */
-

@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -14,29 +14,32 @@ static doublereal c_b35 = 1.;
 static integer c__0 = 0;
 static doublereal c_b65 = 0.;
 
-EXPORTSYMBOL /* Subroutine */ int mb03ld_(compq, orth, n, a, lda, de, ldde, b, ldb, fg, ldfg, neig, q, ldq, alphar, alphai, beta, bwork, iwork, liwork, dwork, ldwork, info, compq_len, orth_len)
-char *compq, *orth;
-integer *n;
-doublereal *a;
-integer *lda;
-doublereal *de;
-integer *ldde;
-doublereal *b;
-integer *ldb;
-doublereal *fg;
+EXPORTSYMBOL /* Subroutine */ int mb03ld_(compq, orth, n, a, lda, de, ldde, b, ldb, fg, ldfg, neig,
+    q, ldq, alphar, alphai, beta, bwork, iwork, liwork, dwork, ldwork, info, compq_len,
+    orth_len) char *compq,
+    *orth;
+integer* n;
+doublereal* a;
+integer* lda;
+doublereal* de;
+integer* ldde;
+doublereal* b;
+integer* ldb;
+doublereal* fg;
 integer *ldfg, *neig;
-doublereal *q;
-integer *ldq;
+doublereal* q;
+integer* ldq;
 doublereal *alphar, *alphai, *beta;
-logical *bwork;
+logical* bwork;
 integer *iwork, *liwork;
-doublereal *dwork;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen compq_len;
 ftnlen orth_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, de_dim1, de_offset, fg_dim1, fg_offset, q_dim1, q_offset, i__1, i__2, i__3;
+    integer a_dim1, a_offset, b_dim1, b_offset, de_dim1, de_offset, fg_dim1, fg_offset, q_dim1,
+        q_offset, i__1, i__2, i__3;
     doublereal d__1;
     /* Builtin functions */
     /* Subroutine */ int s_copy();
@@ -326,131 +329,94 @@ ftnlen orth_len;
     /* Function Body */
     m = *n / 2;
     n2 = *n << 1;
-    nn = *n **n;
+    nn = *n * *n;
     mm = m * m;
     *neig = 0;
     liniq = lsame_(compq, "C", 1L, 1L);
-    if (liniq)
-    {
+    if (liniq) {
         qr = lsame_(orth, "Q", 1L, 1L);
         qrp = lsame_(orth, "P", 1L, 1L);
         svd = lsame_(orth, "S", 1L, 1L);
     }
     /* Computing MAX */
     i__1 = m + 32, i__2 = n2 + 1;
-    miniw = max(i__1,i__2);
-    if (*n == 0)
-    {
+    miniw = max(i__1, i__2);
+    if (*n == 0) {
         mindw = 1;
-    }
-    else if (liniq)
-    {
+    } else if (liniq) {
         /* Computing MAX */
-        i__1 = (*n << 3) + 32, i__2 = m + 168, i__1 = max(i__1,i__2);
-        mindw = (nn << 3) + max(i__1,272);
-    }
-    else
-    {
+        i__1 = (*n << 3) + 32, i__2 = m + 168, i__1 = max(i__1, i__2);
+        mindw = (nn << 3) + max(i__1, 272);
+    } else {
         /* Computing 2nd power */
         i__1 = m;
-        mindw = i__1 * i__1 * 3 + (nn << 1) + max(*n,32);
+        mindw = i__1 * i__1 * 3 + (nn << 1) + max(*n, 32);
     }
     lquery = *ldwork == -1;
     /*     Test the input arguments. */
     *info = 0;
-    if (! (lsame_(compq, "N", 1L, 1L) || liniq))
-    {
+    if (!(lsame_(compq, "N", 1L, 1L) || liniq)) {
         *info = -1;
-    }
-    else if (liniq && ! (qr || qrp || svd))
-    {
+    } else if (liniq && !(qr || qrp || svd)) {
         *info = -2;
-    }
-    else if (*n < 0 || *n % 2 != 0)
-    {
+    } else if (*n < 0 || *n % 2 != 0) {
         *info = -3;
-    }
-    else if (*lda < max(1,m))
-    {
+    } else if (*lda < max(1, m)) {
         *info = -5;
-    }
-    else if (*ldde < max(1,m))
-    {
+    } else if (*ldde < max(1, m)) {
         *info = -7;
-    }
-    else if (*ldb < max(1,m))
-    {
+    } else if (*ldb < max(1, m)) {
         *info = -9;
-    }
-    else if (*ldfg < max(1,m))
-    {
+    } else if (*ldfg < max(1, m)) {
         *info = -11;
-    }
-    else if (*ldq < 1 || liniq && *ldq < n2)
-    {
+    } else if (*ldq < 1 || liniq && *ldq < n2) {
         *info = -14;
-    }
-    else if (*liwork < miniw)
-    {
+    } else if (*liwork < miniw) {
         iwork[1] = miniw;
         *info = -20;
-    }
-    else if (! lquery && *ldwork < mindw)
-    {
-        dwork[1] = (doublereal) mindw;
+    } else if (!lquery && *ldwork < mindw) {
+        dwork[1] = (doublereal)mindw;
         *info = -22;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB03LD", &i__1, 6L);
         return 0;
-    }
-    else if (*n > 0)
-    {
+    } else if (*n > 0) {
         /*        Compute optimal workspace. */
-        if (liniq)
-        {
-            mb04hd_("I", "I", n, &dwork[1], n, &dwork[1], n, &dwork[1], n, &dwork[1], n, &bwork[1], &iwork[1], liwork, dum, &c_n1, info, 1L, 1L);
-            if (svd)
-            {
-                dgesvd_("O", "N", n, n, &q[q_offset], ldq, &dwork[1], &dwork[1], ldq, &dwork[1], &c__1, &dum[1], &c_n1, info, 1L, 1L);
-                j = *n + (integer) dum[1];
-            }
-            else
-            {
-                if (qr)
-                {
+        if (liniq) {
+            mb04hd_("I", "I", n, &dwork[1], n, &dwork[1], n, &dwork[1], n, &dwork[1], n, &bwork[1],
+                &iwork[1], liwork, dum, &c_n1, info, 1L, 1L);
+            if (svd) {
+                dgesvd_("O", "N", n, n, &q[q_offset], ldq, &dwork[1], &dwork[1], ldq, &dwork[1],
+                    &c__1, &dum[1], &c_n1, info, 1L, 1L);
+                j = *n + (integer)dum[1];
+            } else {
+                if (qr) {
                     dgeqrf_(n, &m, &q[q_offset], ldq, &dwork[1], &dum[1], &c_n1, info);
                     j = m;
-                }
-                else
-                {
+                } else {
                     dgeqp3_(n, n, &q[q_offset], ldq, &iwork[1], &dwork[1], &dum[1], &c_n1, info);
                     j = *n;
                 }
                 dorgqr_(n, &j, &j, &q[q_offset], ldq, &dwork[1], &dum[2], &c_n1, info);
                 /* Computing MAX */
-                i__1 = (integer) dum[1], i__2 = (integer) dum[2];
-                j += max(i__1,i__2);
+                i__1 = (integer)dum[1], i__2 = (integer)dum[2];
+                j += max(i__1, i__2);
             }
             /* Computing MAX */
-            i__1 = mindw, i__2 = nn * 6 + (integer) dum[0], i__1 = max(i__1,i__2);
-            optdw = max(i__1,j);
-        }
-        else
-        {
+            i__1 = mindw, i__2 = nn * 6 + (integer)dum[0], i__1 = max(i__1, i__2);
+            optdw = max(i__1, j);
+        } else {
             optdw = mindw;
         }
-        if (lquery)
-        {
-            dwork[1] = (doublereal) optdw;
+        if (lquery) {
+            dwork[1] = (doublereal)optdw;
             return 0;
         }
     }
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
+    if (*n == 0) {
         iwork[1] = 1;
         dwork[1] = 1.;
         return 0;
@@ -464,41 +430,39 @@ ftnlen orth_len;
     /*                                w1 = 2*N**2, if COMPQ = 'C'; */
     /*                                w1 = 3*M**2, if COMPQ = 'N'. */
     /*     Integer workspace:  need   M + 12. */
-    if (liniq)
-    {
+    if (liniq) {
         s_copy(cmpq, "Initialize", 14L, 10L);
         iq1 = 1;
         iq2 = iq1 + nn;
         iwrk = iq2 + nn;
-        if (m % 4 == 0)
-        {
+        if (m % 4 == 0) {
             ic2 = m / 4;
-        }
-        else
-        {
+        } else {
             ic2 = m / 4 + 1;
         }
         ib = (ic2 << 1) + 1;
         ++ic2;
         i__1 = *ldwork - iwrk + 1;
-        mb04bd_("Triangularize", cmpq, cmpq, n, &a[a_offset], lda, &de[de_offset], ldde, &b[b_offset], ldb, &fg[fg_offset], ldfg, &dwork[iq1], n, &dwork[iq2], n, &q[ib * q_dim1 + 1], &m, &q[ifo * q_dim1 + 1], &m, &q[ic2 * q_dim1 + 1], &m, &alphar[1], &alphai[1], &beta[1], &iwork[1], liwork, &dwork[iwrk], &i__1, info, 13L, 14L, 14L);
-    }
-    else
-    {
+        mb04bd_("Triangularize", cmpq, cmpq, n, &a[a_offset], lda, &de[de_offset], ldde,
+            &b[b_offset], ldb, &fg[fg_offset], ldfg, &dwork[iq1], n, &dwork[iq2], n,
+            &q[ib * q_dim1 + 1], &m, &q[ifo * q_dim1 + 1], &m, &q[ic2 * q_dim1 + 1], &m, &alphar[1],
+            &alphai[1], &beta[1], &iwork[1], liwork, &dwork[iwrk], &i__1, info, 13L, 14L, 14L);
+    } else {
         s_copy(cmpq, "No Computation", 14L, 14L);
         ib = ifo + mm;
         ic2 = ib + mm;
         iwrk = ic2 + mm;
         i__1 = *ldwork - iwrk + 1;
-        mb04bd_("Triangularize", cmpq, cmpq, n, &a[a_offset], lda, &de[de_offset], ldde, &b[b_offset], ldb, &fg[fg_offset], ldfg, &dwork[1], n, &dwork[1], n, &dwork[ib], &m, &dwork[ifo], &m, &dwork[ic2], &m, &alphar[1], &alphai[1], &beta[1], &iwork[1], liwork, &dwork[iwrk], &i__1, info, 13L, 14L, 14L);
+        mb04bd_("Triangularize", cmpq, cmpq, n, &a[a_offset], lda, &de[de_offset], ldde,
+            &b[b_offset], ldb, &fg[fg_offset], ldfg, &dwork[1], n, &dwork[1], n, &dwork[ib], &m,
+            &dwork[ifo], &m, &dwork[ic2], &m, &alphar[1], &alphai[1], &beta[1], &iwork[1], liwork,
+            &dwork[iwrk], &i__1, info, 13L, 14L, 14L);
     }
-    if (*info > 0)
-    {
+    if (*info > 0) {
         *info = 1;
         return 0;
     }
-    if (! liniq)
-    {
+    if (!liniq) {
         ma02ad_("Upper", &m, &m, &dwork[ic2], &m, &de[de_offset], ldde, 5L);
         i__1 = m - 1;
         i__2 = m + 1;
@@ -526,11 +490,10 @@ ftnlen orth_len;
     dlacpy_("Full", &m, &m, &q[ic2 * q_dim1 + 1], &m, &dwork[ih11 + m], n, 4L);
     dlacpy_("Full", &m, &m, &b[b_offset], ldb, &dwork[ih11 + nm], n, 4L);
     i__1 = *ldwork - iwrk + 1;
-    mb04hd_(cmpq, cmpq, n, &dwork[is11], n, &dwork[ih11], n, &dwork[iq3], n, &dwork[iq4], n, &bwork[1], &iwork[1], liwork, &dwork[iwrk], &i__1, info, 14L, 14L);
-    if (*info > 0)
-    {
-        if (*info > 2)
-        {
+    mb04hd_(cmpq, cmpq, n, &dwork[is11], n, &dwork[ih11], n, &dwork[iq3], n, &dwork[iq4], n,
+        &bwork[1], &iwork[1], liwork, &dwork[iwrk], &i__1, info, 14L, 14L);
+    if (*info > 0) {
+        if (*info > 2) {
             *info = 2;
         }
         return 0;
@@ -543,8 +506,7 @@ ftnlen orth_len;
     is12 = iwrk;
     ih12 = is12 + nn;
     iwrk = ih12;
-    if (m > 1)
-    {
+    if (m > 1) {
         /*                                                   [ Qa  Qc ] */
         /*        Compute Qa'*Do*Qc + Qb'*Fo*Qd, where Q4 =: [        ], */
         /*                                                   [ Qb  Qd ] */
@@ -555,9 +517,11 @@ ftnlen orth_len;
         i__1 = m - 1;
         dlacpy_("Full", &i__1, &m, &dwork[iq4 + nm], n, &q[ib * q_dim1 + 2], &m, 4L);
         i__1 = m - 1;
-        dtrmm_("Left", "Upper", "No Transpose", "Non-Unit", &i__1, &m, &c_b35, &de[de_dim1 * 3 + 1], ldde, &dwork[is12], &m, 4L, 5L, 12L, 8L);
+        dtrmm_("Left", "Upper", "No Transpose", "Non-Unit", &i__1, &m, &c_b35, &de[de_dim1 * 3 + 1],
+            ldde, &dwork[is12], &m, 4L, 5L, 12L, 8L);
         i__1 = m - 1;
-        dtrmm_("Left", "Upper", "Transpose", "Non-Unit", &i__1, &m, &c_b25, &de[de_dim1 * 3 + 1], ldde, &q[ib * q_dim1 + 2], &m, 4L, 5L, 9L, 8L);
+        dtrmm_("Left", "Upper", "Transpose", "Non-Unit", &i__1, &m, &c_b25, &de[de_dim1 * 3 + 1],
+            ldde, &q[ib * q_dim1 + 2], &m, 4L, 5L, 9L, 8L);
         dum[0] = 0.;
         dcopy_(&m, dum, &c__0, &dwork[is12 + m - 1], &m);
         dcopy_(&m, dum, &c__0, &q[ib * q_dim1 + 1], &m);
@@ -567,53 +531,67 @@ ftnlen orth_len;
         i__1 = m - 1;
         dlacpy_("Full", &i__1, &m, &dwork[iq4 + nmm], n, &q[ib * q_dim1 + 2], &m, 4L);
         i__1 = m - 1;
-        dtrmm_("Left", "Upper", "No Transpose", "Non-Unit", &i__1, &m, &c_b35, &q[m + 1 + ifo * q_dim1], &m, &dwork[iwrk], &m, 4L, 5L, 12L, 8L);
+        dtrmm_("Left", "Upper", "No Transpose", "Non-Unit", &i__1, &m, &c_b35,
+            &q[m + 1 + ifo * q_dim1], &m, &dwork[iwrk], &m, 4L, 5L, 12L, 8L);
         i__1 = m - 1;
-        dtrmm_("Left", "Upper", "Transpose", "Non-Unit", &i__1, &m, &c_b25, &q[m + 1 + ifo * q_dim1], &m, &q[ib * q_dim1 + 2], &m, 4L, 5L, 9L, 8L);
+        dtrmm_("Left", "Upper", "Transpose", "Non-Unit", &i__1, &m, &c_b25,
+            &q[m + 1 + ifo * q_dim1], &m, &q[ib * q_dim1 + 2], &m, 4L, 5L, 9L, 8L);
         dcopy_(&m, dum, &c__0, &dwork[iwrk + m - 1], &m);
         daxpy_(&mm, &c_b35, &q[ib * q_dim1 + 1], &c__1, &dwork[iwrk], &c__1);
-        dgemm_("Transpose", "No Transpose", &m, &m, &m, &c_b35, &dwork[iq4], n, &dwork[is12], &m, &c_b65, &dwork[is12 + nm], n, 9L, 12L);
-        dgemm_("Transpose", "No Transpose", &m, &m, &m, &c_b35, &dwork[iq4 + m], n, &dwork[iwrk], &m, &c_b35, &dwork[is12 + nm], n, 9L, 12L);
+        dgemm_("Transpose", "No Transpose", &m, &m, &m, &c_b35, &dwork[iq4], n, &dwork[is12], &m,
+            &c_b65, &dwork[is12 + nm], n, 9L, 12L);
+        dgemm_("Transpose", "No Transpose", &m, &m, &m, &c_b35, &dwork[iq4 + m], n, &dwork[iwrk],
+            &m, &c_b35, &dwork[is12 + nm], n, 9L, 12L);
         /*        Compute Qa'*Do*Qa + Qb'*Fo*Qb. */
         i__1 = *ldwork - iwrk + 1;
-        mb01ld_("Upper", "Transpose", &m, &m, &c_b65, &c_b35, &dwork[is12], n, &dwork[iq4], n, &de[(de_dim1 << 1) + 1], ldde, &dwork[iwrk], &i__1, info, 5L, 9L);
+        mb01ld_("Upper", "Transpose", &m, &m, &c_b65, &c_b35, &dwork[is12], n, &dwork[iq4], n,
+            &de[(de_dim1 << 1) + 1], ldde, &dwork[iwrk], &i__1, info, 5L, 9L);
         i__1 = *ldwork - iwrk + 1;
-        mb01ld_("Upper", "Transpose", &m, &m, &c_b35, &c_b35, &dwork[is12], n, &dwork[iq4 + m], n, &q[ifo * q_dim1 + 1], &m, &dwork[iwrk], &i__1, info, 5L, 9L);
+        mb01ld_("Upper", "Transpose", &m, &m, &c_b35, &c_b35, &dwork[is12], n, &dwork[iq4 + m], n,
+            &q[ifo * q_dim1 + 1], &m, &dwork[iwrk], &i__1, info, 5L, 9L);
         /*        Compute Qc'*Do*Qc + Qd'*Fo*Qd. */
         i__1 = *ldwork - iwrk + 1;
-        mb01ld_("Upper", "Transpose", &m, &m, &c_b65, &c_b35, &dwork[is12 + nmm], n, &dwork[iq4 + nm], n, &de[(de_dim1 << 1) + 1], ldde, &dwork[iwrk], &i__1, info, 5L, 9L);
+        mb01ld_("Upper", "Transpose", &m, &m, &c_b65, &c_b35, &dwork[is12 + nmm], n,
+            &dwork[iq4 + nm], n, &de[(de_dim1 << 1) + 1], ldde, &dwork[iwrk], &i__1, info, 5L, 9L);
         i__1 = *ldwork - iwrk + 1;
-        mb01ld_("Upper", "Transpose", &m, &m, &c_b35, &c_b35, &dwork[is12 + nmm], n, &dwork[iq4 + nmm], n, &q[ifo * q_dim1 + 1], &m, &dwork[iwrk], &i__1, info, 5L, 9L);
+        mb01ld_("Upper", "Transpose", &m, &m, &c_b35, &c_b35, &dwork[is12 + nmm], n,
+            &dwork[iq4 + nmm], n, &q[ifo * q_dim1 + 1], &m, &dwork[iwrk], &i__1, info, 5L, 9L);
     }
     /*     Compute Qb'*Vo'*Qc + Qa'*Vo*Qd. */
     /*     Real workspace:     need   w1 + w2 + w3, where */
     /*                                w3 = 2*N**2. */
-    dgemm_("Transpose", "No Transpose", &m, &m, &m, &c_b35, &fg[(fg_dim1 << 1) + 1], ldfg, &dwork[iq4 + nm], n, &c_b65, &q[ifo * q_dim1 + 1], &m, 9L, 12L);
-    dgemm_("Transpose", "No Transpose", &m, &m, &m, &c_b35, &dwork[iq4 + m], n, &q[ifo * q_dim1 + 1], &m, &c_b65, &dwork[ih12 + nm], n, 9L, 12L);
-    dgemm_("Transpose", "No Transpose", &m, &m, &m, &c_b35, &dwork[iq4], n, &fg[(fg_dim1 << 1) + 1], ldfg, &c_b65, &dwork[ih12], &m, 9L, 12L);
-    dgemm_("No Transpose", "No Transpose", &m, &m, &m, &c_b35, &dwork[ih12], &m, &dwork[iq4 + nmm], n, &c_b65, &dwork[ih12 + nmm], n, 12L, 12L);
+    dgemm_("Transpose", "No Transpose", &m, &m, &m, &c_b35, &fg[(fg_dim1 << 1) + 1], ldfg,
+        &dwork[iq4 + nm], n, &c_b65, &q[ifo * q_dim1 + 1], &m, 9L, 12L);
+    dgemm_("Transpose", "No Transpose", &m, &m, &m, &c_b35, &dwork[iq4 + m], n,
+        &q[ifo * q_dim1 + 1], &m, &c_b65, &dwork[ih12 + nm], n, 9L, 12L);
+    dgemm_("Transpose", "No Transpose", &m, &m, &m, &c_b35, &dwork[iq4], n, &fg[(fg_dim1 << 1) + 1],
+        ldfg, &c_b65, &dwork[ih12], &m, 9L, 12L);
+    dgemm_("No Transpose", "No Transpose", &m, &m, &m, &c_b35, &dwork[ih12], &m, &dwork[iq4 + nmm],
+        n, &c_b65, &dwork[ih12 + nmm], n, 12L, 12L);
     i__1 = m;
-    for (j = 1; j <= i__1; ++j)
-    {
-        daxpy_(&m, &c_b35, &dwork[ih12 + (m + j - 1) **n + m], &c__1, &dwork[ih12 + (m + j - 1) **n], &c__1);
+    for (j = 1; j <= i__1; ++j) {
+        daxpy_(&m, &c_b35, &dwork[ih12 + (m + j - 1) * *n + m], &c__1,
+            &dwork[ih12 + (m + j - 1) * *n], &c__1);
         /* L10: */
     }
     /*     Compute the upper triangle of Qa'*Vo*Qb + (Qa'*Vo*Qb)'. */
-    dgemm_("Transpose", "No Transpose", &m, &m, &m, &c_b35, &dwork[iq4], n, &fg[(fg_dim1 << 1) + 1], ldfg, &c_b65, &q[ifo * q_dim1 + 1], &m, 9L, 12L);
-    dgemm_("No Transpose", "No Transpose", &m, &m, &m, &c_b35, &q[ifo * q_dim1 + 1], &m, &dwork[iq4 + m], n, &c_b65, &dwork[ih12], n, 12L, 12L);
+    dgemm_("Transpose", "No Transpose", &m, &m, &m, &c_b35, &dwork[iq4], n, &fg[(fg_dim1 << 1) + 1],
+        ldfg, &c_b65, &q[ifo * q_dim1 + 1], &m, 9L, 12L);
+    dgemm_("No Transpose", "No Transpose", &m, &m, &m, &c_b35, &q[ifo * q_dim1 + 1], &m,
+        &dwork[iq4 + m], n, &c_b65, &dwork[ih12], n, 12L, 12L);
     i__1 = m;
-    for (j = 1; j <= i__1; ++j)
-    {
-        daxpy_(&j, &c_b35, &dwork[ih12 + j - 1], n, &dwork[ih12 + (j - 1) **n], &c__1);
+    for (j = 1; j <= i__1; ++j) {
+        daxpy_(&j, &c_b35, &dwork[ih12 + j - 1], n, &dwork[ih12 + (j - 1) * *n], &c__1);
         /* L20: */
     }
     /*     Compute the upper triangle of Qc'*Vo*Qd + (Qc'*Vo*Qd)'. */
-    dgemm_("Transpose", "No Transpose", &m, &m, &m, &c_b35, &dwork[iq4 + nm], n, &fg[(fg_dim1 << 1) + 1], ldfg, &c_b65, &q[ifo * q_dim1 + 1], &m, 9L, 12L);
-    dgemm_("No Transpose", "No Transpose", &m, &m, &m, &c_b35, &q[ifo * q_dim1 + 1], &m, &dwork[iq4 + nmm], n, &c_b65, &dwork[ih12 + nmm], n, 12L, 12L);
+    dgemm_("Transpose", "No Transpose", &m, &m, &m, &c_b35, &dwork[iq4 + nm], n,
+        &fg[(fg_dim1 << 1) + 1], ldfg, &c_b65, &q[ifo * q_dim1 + 1], &m, 9L, 12L);
+    dgemm_("No Transpose", "No Transpose", &m, &m, &m, &c_b35, &q[ifo * q_dim1 + 1], &m,
+        &dwork[iq4 + nmm], n, &c_b65, &dwork[ih12 + nmm], n, 12L, 12L);
     i__1 = m;
-    for (j = 1; j <= i__1; ++j)
-    {
-        daxpy_(&j, &c_b35, &dwork[ih12 + nmm + j - 1], n, &dwork[ih12 + nmm + (j - 1) **n], &c__1);
+    for (j = 1; j <= i__1; ++j) {
+        daxpy_(&j, &c_b35, &dwork[ih12 + nmm + j - 1], n, &dwork[ih12 + nmm + (j - 1) * *n], &c__1);
         /* L30: */
     }
     /*     Return C2out. */
@@ -630,9 +608,9 @@ ftnlen orth_len;
     /*     Integer workspace:  need   2*N + 1. */
     iwrk = ih12 + nn;
     i__1 = *ldwork - iwrk + 1;
-    mb03jd_(cmpq, &n2, &dwork[is11], n, &dwork[is12], n, &dwork[ih11], n, &dwork[ih12], n, &q[q_offset], ldq, neig, &iwork[1], liwork, &dwork[iwrk], &i__1, info, 14L);
-    if (*info > 0)
-    {
+    mb03jd_(cmpq, &n2, &dwork[is11], n, &dwork[is12], n, &dwork[ih11], n, &dwork[ih12], n,
+        &q[q_offset], ldq, neig, &iwork[1], liwork, &dwork[iwrk], &i__1, info, 14L);
+    if (*info > 0) {
         ++(*info);
         return 0;
     }
@@ -641,64 +619,60 @@ ftnlen orth_len;
     /*     Real workspace:     need   w2 + 3*N**2, if ORTH = 'QR'. */
     /*                                w2 + 4*N**2, otherwise. */
     iwrk = is11;
-    if (qr)
-    {
+    if (qr) {
         *neig /= 2;
     }
     /*     Compute [ J*Q1*J' Q2 ]. */
     dlacpy_("Full", &m, &m, &dwork[iq1 + nmm], n, &dwork[iwrk], n, 4L);
     dlacpy_("Full", &m, &m, &dwork[iq1 + nm], n, &dwork[iwrk + m], n, 4L);
     i__1 = m;
-    for (j = 1; j <= i__1; ++j)
-    {
-        dscal_(&m, &c_b25, &dwork[iwrk + m + (j - 1) **n], &c__1);
+    for (j = 1; j <= i__1; ++j) {
+        dscal_(&m, &c_b25, &dwork[iwrk + m + (j - 1) * *n], &c__1);
         /* L40: */
     }
     dlacpy_("Full", &m, &m, &dwork[iq1 + m], n, &dwork[iwrk + nm], n, 4L);
     i__1 = m;
-    for (j = 1; j <= i__1; ++j)
-    {
-        dscal_(&m, &c_b25, &dwork[iwrk + nm + (j - 1) **n], &c__1);
+    for (j = 1; j <= i__1; ++j) {
+        dscal_(&m, &c_b25, &dwork[iwrk + nm + (j - 1) * *n], &c__1);
         /* L50: */
     }
     dlacpy_("Full", &m, &m, &dwork[iq1], n, &dwork[iwrk + nmm], n, 4L);
     dlacpy_("Full", n, n, &dwork[iq2], n, &dwork[iwrk + nn], n, 4L);
     /*     Compute the first NEIG columns of P*[ Q3  0; 0 Q4 ]*Q. */
     irt = iwrk + *n * n2;
-    dgemm_("No Transpose", "No Transpose", &m, neig, n, &c_b35, &dwork[iq3], n, &q[q_offset], ldq, &c_b65, &dwork[irt], &n2, 12L, 12L);
-    dgemm_("No Transpose", "No Transpose", &m, neig, n, &c_b35, &dwork[iq4], n, &q[*n + 1 + q_dim1], ldq, &c_b65, &dwork[irt + m], &n2, 12L, 12L);
-    dgemm_("No Transpose", "No Transpose", &m, neig, n, &c_b35, &dwork[iq3 + m], n, &q[q_offset], ldq, &c_b65, &dwork[irt + *n], &n2, 12L, 12L);
-    dgemm_("No Transpose", "No Transpose", &m, neig, n, &c_b35, &dwork[iq4 + m], n, &q[*n + 1 + q_dim1], ldq, &c_b65, &dwork[irt + *n + m], &n2, 12L, 12L);
+    dgemm_("No Transpose", "No Transpose", &m, neig, n, &c_b35, &dwork[iq3], n, &q[q_offset], ldq,
+        &c_b65, &dwork[irt], &n2, 12L, 12L);
+    dgemm_("No Transpose", "No Transpose", &m, neig, n, &c_b35, &dwork[iq4], n, &q[*n + 1 + q_dim1],
+        ldq, &c_b65, &dwork[irt + m], &n2, 12L, 12L);
+    dgemm_("No Transpose", "No Transpose", &m, neig, n, &c_b35, &dwork[iq3 + m], n, &q[q_offset],
+        ldq, &c_b65, &dwork[irt + *n], &n2, 12L, 12L);
+    dgemm_("No Transpose", "No Transpose", &m, neig, n, &c_b35, &dwork[iq4 + m], n,
+        &q[*n + 1 + q_dim1], ldq, &c_b65, &dwork[irt + *n + m], &n2, 12L, 12L);
     /*     Compute the deflating subspace. */
     d__1 = sqrt(2.) / 2.;
-    dgemm_("No Transpose", "No Transpose", n, neig, &n2, &d__1, &dwork[iwrk], n, &dwork[irt], &n2, &c_b65, &q[q_offset], ldq, 12L, 12L);
+    dgemm_("No Transpose", "No Transpose", n, neig, &n2, &d__1, &dwork[iwrk], n, &dwork[irt], &n2,
+        &c_b65, &q[q_offset], ldq, 12L, 12L);
     /*     Orthogonalize the basis given in Q(1:n,1:neig). */
     iwrk = *neig + 1;
-    if (svd)
-    {
+    if (svd) {
         /*        Real workspace:     need   N + MAX(1,5*M); */
         /*                            prefer larger. */
         i__1 = *ldwork - iwrk + 1;
-        dgesvd_("Overwrite", "No V", n, neig, &q[q_offset], ldq, &dwork[1], &dwork[1], &c__1, &dwork[1], &c__1, &dwork[iwrk], &i__1, info, 9L, 4L);
+        dgesvd_("Overwrite", "No V", n, neig, &q[q_offset], ldq, &dwork[1], &dwork[1], &c__1,
+            &dwork[1], &c__1, &dwork[iwrk], &i__1, info, 9L, 4L);
         *neig /= 2;
-    }
-    else
-    {
-        if (qr)
-        {
+    } else {
+        if (qr) {
             /*           Real workspace:     need   N; */
             /*                               prefer M+M*NB, where NB is the optimal */
             /*                                              blocksize. */
             i__1 = *ldwork - iwrk + 1;
             dgeqrf_(n, neig, &q[q_offset], ldq, &dwork[1], &dwork[iwrk], &i__1, info);
-        }
-        else
-        {
+        } else {
             /*           Real workspace:     need   4*N+1; */
             /*                               prefer 3*N+(N+1)*NB. */
             i__1 = *neig;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 iwork[j] = 0;
                 /* L60: */
             }
@@ -709,13 +683,11 @@ ftnlen orth_len;
         /*                            prefer NEIG + NEIG*NB. */
         i__1 = *ldwork - iwrk + 1;
         dorgqr_(n, neig, neig, &q[q_offset], ldq, &dwork[1], &dwork[iwrk], &i__1, info);
-        if (qrp)
-        {
+        if (qrp) {
             *neig /= 2;
         }
     }
-    dwork[1] = (doublereal) optdw;
+    dwork[1] = (doublereal)optdw;
     return 0;
     /* *** Last line of MB03LD *** */
 } /* mb03ld_ */
-

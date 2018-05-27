@@ -17,50 +17,43 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "double_lt_doubleBuiltin.hpp"
-#include "LtDouble.hpp"
 #include "Error.hpp"
+#include "LtDouble.hpp"
 #include "MatrixCheck.hpp"
 #include "OverloadBinaryOperator.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::DoubleGateway::double_lt_doubleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::DoubleGateway::double_lt_doubleBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (argIn.size() != 2)
-    {
+    if (argIn.size() != 2) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
-    if (!(SameSizeCheck(A.getDimensions(), B.getDimensions()) || A.isScalar() || B.isScalar()))
-    {
+    if (!(SameSizeCheck(A.getDimensions(), B.getDimensions()) || A.isScalar() || B.isScalar())) {
         Error(eval, _W("Size mismatch on arguments to arithmetic operator ") + L"<");
     }
-    if (!A.isDoubleType() || !B.isDoubleType())
-    {
+    if (!A.isDoubleType() || !B.isDoubleType()) {
         Error(eval, ERROR_WRONG_ARGUMENTS_TYPE_DOUBLE_EXPECTED);
     }
-    if (A.isSparse() || B.isSparse())
-    {
+    if (A.isSparse() || B.isSparse()) {
         Error(eval, ERROR_WRONG_ARGUMENTS_SIZE_FULL_MATRIX_EXPECTED);
     }
-    if (!A.is2D() || !B.is2D())
-    {
+    if (!A.is2D() || !B.is2D()) {
         Error(eval, ERROR_WRONG_ARGUMENTS_SIZE_2D_MATRIX_EXPECTED);
     }
     ArrayOfVector retval;
     ArrayOf res;
-    if (A.isComplex() || B.isComplex())
-    {
+    if (A.isComplex() || B.isComplex()) {
         bool bSuccess = false;
         res = OverloadBinaryOperator(eval, A, B, "lt", bSuccess, "dcomplex_lt_dcomplex");
-        if (!bSuccess)
-        {
+        if (!bSuccess) {
             Error(eval, _W("complex comparaison not defined."));
         }
-    }
-    else
-    {
+    } else {
         res = double_lt_double(A, B);
     }
     retval.push_back(res);

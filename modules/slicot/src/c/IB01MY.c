@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -12,16 +12,17 @@ static doublereal c_b18 = 1.;
 static integer c__0 = 0;
 static doublereal c_b111 = 0.;
 
-EXPORTSYMBOL /* Subroutine */ int ib01my_(meth, batch, conct, nobr, m, l, nsmp, u, ldu, y, ldy, r__, ldr, iwork, dwork, ldwork, iwarn, info, meth_len, batch_len, conct_len)
-char *meth, *batch, *conct;
+EXPORTSYMBOL /* Subroutine */ int ib01my_(meth, batch, conct, nobr, m, l, nsmp, u, ldu, y, ldy, r__,
+    ldr, iwork, dwork, ldwork, iwarn, info, meth_len, batch_len, conct_len) char *meth,
+    *batch, *conct;
 integer *nobr, *m, *l, *nsmp;
-doublereal *u;
-integer *ldu;
-doublereal *y;
-integer *ldy;
-doublereal *r__;
+doublereal* u;
+integer* ldu;
+doublereal* y;
+integer* ldy;
+doublereal* r__;
 integer *ldr, *iwork;
-doublereal *dwork;
+doublereal* dwork;
 integer *ldwork, *iwarn, *info;
 ftnlen meth_len;
 ftnlen batch_len;
@@ -291,24 +292,20 @@ ftnlen conct_len;
     first = lsame_(batch, "F", 1L, 1L) || onebch;
     interm = lsame_(batch, "I", 1L, 1L);
     last = lsame_(batch, "L", 1L, 1L) || onebch;
-    if (! onebch)
-    {
+    if (!onebch) {
         connec = lsame_(conct, "C", 1L, 1L);
-    }
-    else
-    {
+    } else {
         connec = FALSE_;
     }
-    mnobr = *m **nobr;
-    lnobr = *l **nobr;
+    mnobr = *m * *nobr;
+    lnobr = *l * *nobr;
     mmnobr = mnobr + mnobr;
     llnobr = lnobr + lnobr;
     nobr2 = *nobr << 1;
     nobr21 = nobr2 - 1;
     *iwarn = 0;
     *info = 0;
-    if (first)
-    {
+    if (first) {
         icycle = 1;
         maxwrk = 1;
         nsmpsm = 0;
@@ -316,82 +313,52 @@ ftnlen conct_len;
     nsmpsm += *nsmp;
     nr = mmnobr + llnobr;
     /*     Check the scalar input parameters. */
-    if (! (moesp || n4sid))
-    {
+    if (!(moesp || n4sid)) {
         *info = -1;
-    }
-    else if (! (first || interm || last))
-    {
+    } else if (!(first || interm || last)) {
         *info = -2;
-    }
-    else if (! onebch)
-    {
-        if (! (connec || lsame_(conct, "N", 1L, 1L)))
-        {
+    } else if (!onebch) {
+        if (!(connec || lsame_(conct, "N", 1L, 1L))) {
             *info = -3;
         }
     }
-    if (*info == 0)
-    {
-        if (*nobr <= 0)
-        {
+    if (*info == 0) {
+        if (*nobr <= 0) {
             *info = -4;
-        }
-        else if (*m < 0)
-        {
+        } else if (*m < 0) {
             *info = -5;
-        }
-        else if (*l <= 0)
-        {
+        } else if (*l <= 0) {
             *info = -6;
-        }
-        else if (*nsmp < nobr2 || last && nsmpsm < nr + nobr21)
-        {
+        } else if (*nsmp < nobr2 || last && nsmpsm < nr + nobr21) {
             *info = -7;
-        }
-        else if (*ldu < 1 || *m > 0 && *ldu < *nsmp)
-        {
+        } else if (*ldu < 1 || *m > 0 && *ldu < *nsmp) {
             *info = -9;
-        }
-        else if (*ldy < *nsmp)
-        {
+        } else if (*ldy < *nsmp) {
             *info = -11;
-        }
-        else if (*ldr < nr)
-        {
+        } else if (*ldr < nr) {
             *info = -13;
-        }
-        else
-        {
+        } else {
             /*           Compute workspace. */
             /*           NRG is the number of positive (or negative) generators. */
             nrg = *m + *l + 1;
-            if (! onebch && connec)
-            {
+            if (!onebch && connec) {
                 minwrk = nr * (nrg + 2);
-            }
-            else if (first || interm)
-            {
+            } else if (first || interm) {
                 minwrk = nr * nrg;
-            }
-            else
-            {
+            } else {
                 minwrk = (nr << 1) * nrg + nr;
             }
-            maxwrk = max(minwrk,maxwrk);
-            if (*ldwork < minwrk)
-            {
+            maxwrk = max(minwrk, maxwrk);
+            if (*ldwork < minwrk) {
                 *info = -16;
             }
         }
     }
     /*     Return if there are illegal arguments. */
-    if (*info != 0)
-    {
+    if (*info != 0) {
         nsmpsm = 0;
-        if (*info == -16)
-        {
-            dwork[1] = (doublereal) minwrk;
+        if (*info == -16) {
+            dwork[1] = (doublereal)minwrk;
         }
         i__1 = -(*info);
         xerbla_("IB01MY", &i__1, 6L);
@@ -422,12 +389,9 @@ ftnlen conct_len;
     mnrg = *m * nrg;
     lnrg = *l * nrg;
     ldrwrk = nobr2 << 1;
-    if (first)
-    {
+    if (first) {
         upd = 0.;
-    }
-    else
-    {
+    } else {
         upd = 1.;
     }
     dum[0] = 0.;
@@ -435,8 +399,7 @@ ftnlen conct_len;
     ipy = ipg + *m;
     ing = ipg + nrg * nr;
     iconn = ing;
-    if (! first && connec)
-    {
+    if (!first && connec) {
         /*        Restore the saved (M+L)*2*NOBR "connection" elements of */
         /*        U  and  Y  into their appropriate position in sequential */
         /*        processing. The process is performed column-wise, in */
@@ -446,21 +409,19 @@ ftnlen conct_len;
         irev = iconn + nr;
         icol = iconn + (nr << 1);
         i__1 = *m + *l;
-        for (i__ = 2; i__ <= i__1; ++i__)
-        {
+        for (i__ = 2; i__ <= i__1; ++i__) {
             irev -= nobr2;
             icol -= ldrwrk;
             dcopy_(&nobr2, &dwork[irev], &c__1, &dwork[icol], &c__1);
             /* L10: */
         }
-        if (*m > 0)
-        {
+        if (*m > 0) {
             dlacpy_("Full", &nobr2, m, &u[u_offset], ldu, &dwork[iconn + nobr2], &ldrwrk, 4L);
         }
-        dlacpy_("Full", &nobr2, l, &y[y_offset], ldy, &dwork[iconn + ldrwrk **m + nobr2], &ldrwrk, 4L);
+        dlacpy_(
+            "Full", &nobr2, l, &y[y_offset], ldy, &dwork[iconn + ldrwrk * *m + nobr2], &ldrwrk, 4L);
     }
-    if (*m > 0)
-    {
+    if (*m > 0) {
         /*        Let  Guu(i,j) = Guu0(i,j) + u_i*u_j' + u_(i+1)*u_(j+1)' + */
         /*                              ... + u_(i+NSM-1)*u_(j+NSM-1)', */
         /*        where  u_i'  is the i-th row of  U,  j = 1 : 2s,  i = 1 : j, */
@@ -470,34 +431,34 @@ ftnlen conct_len;
         /*        Guu(i,j)  is  m-by-m,  and  Guu(j,j)  is symmetric. The */
         /*        submatrices of the first block-row, Guu(1,j), are needed only. */
         /*        Compute/update  Guu(1,1). */
-        if (! first && connec)
-        {
-            dsyrk_("Upper", "Transpose", m, &nobr2, &c_b18, &dwork[iconn], &ldrwrk, &upd, &dwork[ipg], &nrg, 5L, 9L);
+        if (!first && connec) {
+            dsyrk_("Upper", "Transpose", m, &nobr2, &c_b18, &dwork[iconn], &ldrwrk, &upd,
+                &dwork[ipg], &nrg, 5L, 9L);
         }
-        dsyrk_("Upper", "Transpose", m, &nsm, &c_b18, &u[u_offset], ldu, &upd, &dwork[ipg], &nrg, 5L, 9L);
+        dsyrk_("Upper", "Transpose", m, &nsm, &c_b18, &u[u_offset], ldu, &upd, &dwork[ipg], &nrg,
+            5L, 9L);
         ma02ed_("Upper", m, &dwork[ipg], &nrg, 5L);
         jd = 1;
-        if (first || ! connec)
-        {
+        if (first || !connec) {
             i__1 = nobr2;
-            for (j = 2; j <= i__1; ++j)
-            {
+            for (j = 2; j <= i__1; ++j) {
                 jd += *m;
                 /*              Compute/update  Guu(1,j). */
-                dgemm_("Transpose", "NoTranspose", m, m, &nsm, &c_b18, &u[u_offset], ldu, &u[j + u_dim1], ldu, &upd, &dwork[ipg + (jd - 1) * nrg], &nrg, 9L, 11L);
+                dgemm_("Transpose", "NoTranspose", m, m, &nsm, &c_b18, &u[u_offset], ldu,
+                    &u[j + u_dim1], ldu, &upd, &dwork[ipg + (jd - 1) * nrg], &nrg, 9L, 11L);
                 /* L20: */
             }
-        }
-        else
-        {
+        } else {
             i__1 = nobr2;
-            for (j = 2; j <= i__1; ++j)
-            {
+            for (j = 2; j <= i__1; ++j) {
                 jd += *m;
                 /*              Compute/update  Guu(1,j)  for sequential processing */
                 /*              with connected blocks. */
-                dgemm_("Transpose", "NoTranspose", m, m, &nobr2, &c_b18, &dwork[iconn], &ldrwrk, &dwork[iconn + j - 1], &ldrwrk, &upd, &dwork[ipg + (jd - 1) * nrg], &nrg, 9L, 11L);
-                dgemm_("Transpose", "NoTranspose", m, m, &nsm, &c_b18, &u[u_offset], ldu, &u[j + u_dim1], ldu, &c_b18, &dwork[ipg + (jd - 1) * nrg], &nrg, 9L, 11L);
+                dgemm_("Transpose", "NoTranspose", m, m, &nobr2, &c_b18, &dwork[iconn], &ldrwrk,
+                    &dwork[iconn + j - 1], &ldrwrk, &upd, &dwork[ipg + (jd - 1) * nrg], &nrg, 9L,
+                    11L);
+                dgemm_("Transpose", "NoTranspose", m, m, &nsm, &c_b18, &u[u_offset], ldu,
+                    &u[j + u_dim1], ldu, &c_b18, &dwork[ipg + (jd - 1) * nrg], &nrg, 9L, 11L);
                 /* L30: */
             }
         }
@@ -512,26 +473,25 @@ ftnlen conct_len;
         /*        of the submatrices of the first block-column, i.e., Gyu(1,j), */
         /*        are needed only. */
         jd = mmnobr + 1;
-        if (first || ! connec)
-        {
+        if (first || !connec) {
             i__1 = nobr2;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 /*              Compute/update  Guy(1,j). */
-                dgemm_("Transpose", "NoTranspose", m, l, &nsm, &c_b18, &u[u_offset], ldu, &y[j + y_dim1], ldy, &upd, &dwork[ipg + (jd - 1) * nrg], &nrg, 9L, 11L);
+                dgemm_("Transpose", "NoTranspose", m, l, &nsm, &c_b18, &u[u_offset], ldu,
+                    &y[j + y_dim1], ldy, &upd, &dwork[ipg + (jd - 1) * nrg], &nrg, 9L, 11L);
                 jd += *l;
                 /* L40: */
             }
-        }
-        else
-        {
+        } else {
             i__1 = nobr2;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 /*              Compute/update  Guy(1,j)  for sequential processing */
                 /*              with connected blocks. */
-                dgemm_("Transpose", "NoTranspose", m, l, &nobr2, &c_b18, &dwork[iconn], &ldrwrk, &dwork[iconn + ldrwrk **m + j - 1], &ldrwrk, &upd, &dwork[ipg + (jd - 1) * nrg], &nrg, 9L, 11L);
-                dgemm_("Transpose", "NoTranspose", m, l, &nsm, &c_b18, &u[u_offset], ldu, &y[j + y_dim1], ldy, &c_b18, &dwork[ipg + (jd - 1) * nrg], &nrg, 9L, 11L);
+                dgemm_("Transpose", "NoTranspose", m, l, &nobr2, &c_b18, &dwork[iconn], &ldrwrk,
+                    &dwork[iconn + ldrwrk * *m + j - 1], &ldrwrk, &upd,
+                    &dwork[ipg + (jd - 1) * nrg], &nrg, 9L, 11L);
+                dgemm_("Transpose", "NoTranspose", m, l, &nsm, &c_b18, &u[u_offset], ldu,
+                    &y[j + y_dim1], ldy, &c_b18, &dwork[ipg + (jd - 1) * nrg], &nrg, 9L, 11L);
                 jd += *l;
                 /* L50: */
             }
@@ -540,33 +500,31 @@ ftnlen conct_len;
         /*        Transpose  Guy(1,1)  in the first block of the  Y  part of the */
         /*        "positive" generators. */
         i__1 = *l;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             dcopy_(m, &dwork[ipg + (mmnobr + j - 1) * nrg], &c__1, &dwork[ipy + j - 1], &nrg);
             /* L60: */
         }
         jd = 1;
-        if (first || ! connec)
-        {
+        if (first || !connec) {
             i__1 = nobr2;
-            for (j = 2; j <= i__1; ++j)
-            {
+            for (j = 2; j <= i__1; ++j) {
                 jd += *m;
                 /*              Compute/update  Gyu(1,j). */
-                dgemm_("Transpose", "NoTranspose", l, m, &nsm, &c_b18, &y[y_offset], ldy, &u[j + u_dim1], ldu, &upd, &dwork[ipy + (jd - 1) * nrg], &nrg, 9L, 11L);
+                dgemm_("Transpose", "NoTranspose", l, m, &nsm, &c_b18, &y[y_offset], ldy,
+                    &u[j + u_dim1], ldu, &upd, &dwork[ipy + (jd - 1) * nrg], &nrg, 9L, 11L);
                 /* L70: */
             }
-        }
-        else
-        {
+        } else {
             i__1 = nobr2;
-            for (j = 2; j <= i__1; ++j)
-            {
+            for (j = 2; j <= i__1; ++j) {
                 jd += *m;
                 /*              Compute/update  Gyu(1,j)  for sequential processing */
                 /*              with connected blocks. */
-                dgemm_("Transpose", "NoTranspose", l, m, &nobr2, &c_b18, &dwork[iconn + ldrwrk **m], &ldrwrk, &dwork[iconn + j - 1], &ldrwrk, &upd, &dwork[ipy + (jd - 1) * nrg], &nrg, 9L, 11L);
-                dgemm_("Transpose", "NoTranspose", l, m, &nsm, &c_b18, &y[y_offset], ldy, &u[j + u_dim1], ldu, &c_b18, &dwork[ipy + (jd - 1) * nrg], &nrg, 9L, 11L);
+                dgemm_("Transpose", "NoTranspose", l, m, &nobr2, &c_b18,
+                    &dwork[iconn + ldrwrk * *m], &ldrwrk, &dwork[iconn + j - 1], &ldrwrk, &upd,
+                    &dwork[ipy + (jd - 1) * nrg], &nrg, 9L, 11L);
+                dgemm_("Transpose", "NoTranspose", l, m, &nsm, &c_b18, &y[y_offset], ldy,
+                    &u[j + u_dim1], ldu, &c_b18, &dwork[ipy + (jd - 1) * nrg], &nrg, 9L, 11L);
                 /* L80: */
             }
         }
@@ -581,51 +539,47 @@ ftnlen conct_len;
     /*     block-row, Gyy(1,j), are needed only. */
     jd = mmnobr + 1;
     /*     Compute/update  Gyy(1,1). */
-    if (! first && connec)
-    {
-        dsyrk_("Upper", "Transpose", l, &nobr2, &c_b18, &dwork[iconn + ldrwrk **m], &ldrwrk, &upd, &dwork[ipy + mmnobr * nrg], &nrg, 5L, 9L);
+    if (!first && connec) {
+        dsyrk_("Upper", "Transpose", l, &nobr2, &c_b18, &dwork[iconn + ldrwrk * *m], &ldrwrk, &upd,
+            &dwork[ipy + mmnobr * nrg], &nrg, 5L, 9L);
     }
-    dsyrk_("Upper", "Transpose", l, &nsm, &c_b18, &y[y_offset], ldy, &upd, &dwork[ipy + mmnobr * nrg], &nrg, 5L, 9L);
+    dsyrk_("Upper", "Transpose", l, &nsm, &c_b18, &y[y_offset], ldy, &upd,
+        &dwork[ipy + mmnobr * nrg], &nrg, 5L, 9L);
     ma02ed_("Upper", l, &dwork[ipy + mmnobr * nrg], &nrg, 5L);
-    if (first || ! connec)
-    {
+    if (first || !connec) {
         i__1 = nobr2;
-        for (j = 2; j <= i__1; ++j)
-        {
+        for (j = 2; j <= i__1; ++j) {
             jd += *l;
             /*           Compute/update  Gyy(1,j). */
-            dgemm_("Transpose", "NoTranspose", l, l, &nsm, &c_b18, &y[y_offset], ldy, &y[j + y_dim1], ldy, &upd, &dwork[ipy + (jd - 1) * nrg], &nrg, 9L, 11L);
+            dgemm_("Transpose", "NoTranspose", l, l, &nsm, &c_b18, &y[y_offset], ldy,
+                &y[j + y_dim1], ldy, &upd, &dwork[ipy + (jd - 1) * nrg], &nrg, 9L, 11L);
             /* L90: */
         }
-    }
-    else
-    {
+    } else {
         i__1 = nobr2;
-        for (j = 2; j <= i__1; ++j)
-        {
+        for (j = 2; j <= i__1; ++j) {
             jd += *l;
             /*           Compute/update  Gyy(1,j)  for sequential processing with */
             /*           connected blocks. */
-            dgemm_("Transpose", "NoTranspose", l, l, &nobr2, &c_b18, &dwork[iconn + ldrwrk **m], &ldrwrk, &dwork[iconn + ldrwrk **m + j - 1], &ldrwrk, &upd, &dwork[ipy + (jd - 1) * nrg], &nrg, 9L, 11L);
-            dgemm_("Transpose", "NoTranspose", l, l, &nsm, &c_b18, &y[y_offset], ldy, &y[j + y_dim1], ldy, &c_b18, &dwork[ipy + (jd - 1) * nrg], &nrg, 9L, 11L);
+            dgemm_("Transpose", "NoTranspose", l, l, &nobr2, &c_b18, &dwork[iconn + ldrwrk * *m],
+                &ldrwrk, &dwork[iconn + ldrwrk * *m + j - 1], &ldrwrk, &upd,
+                &dwork[ipy + (jd - 1) * nrg], &nrg, 9L, 11L);
+            dgemm_("Transpose", "NoTranspose", l, l, &nsm, &c_b18, &y[y_offset], ldy,
+                &y[j + y_dim1], ldy, &c_b18, &dwork[ipy + (jd - 1) * nrg], &nrg, 9L, 11L);
             /* L100: */
         }
     }
-    if (! last)
-    {
-        if (first)
-        {
+    if (!last) {
+        if (first) {
             /*           For sequential processing, save the first 2*NOBR-1 rows of */
             /*           the first block of  U  and  Y  in the appropriate */
             /*           (M+L)*(2*NOBR-1) locations of  DWORK  starting at (1+M)*NRG. */
             /*           These will be used to construct the last negative generator. */
             jd = nrg;
-            if (*m > 0)
-            {
+            if (*m > 0) {
                 dcopy_(m, dum, &c__0, &dwork[jd], &nrg);
                 i__1 = nobr21;
-                for (j = 1; j <= i__1; ++j)
-                {
+                for (j = 1; j <= i__1; ++j) {
                     jd += mnrg;
                     dcopy_(m, &u[j + u_dim1], ldu, &dwork[jd], &nrg);
                     /* L110: */
@@ -634,34 +588,29 @@ ftnlen conct_len;
             }
             dcopy_(l, dum, &c__0, &dwork[jd], &nrg);
             i__1 = nobr21;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 jd += lnrg;
                 dcopy_(l, &y[j + y_dim1], ldy, &dwork[jd], &nrg);
                 /* L120: */
             }
         }
-        if (connec)
-        {
+        if (connec) {
             /*           For sequential processing with connected data blocks, */
             /*           save the remaining ("connection") elements of  U  and  Y */
             /*           in (M+L)*2*NOBR locations of  DWORK  starting at ICONN. */
-            if (*m > 0)
-            {
+            if (*m > 0) {
                 dlacpy_("Full", &nobr2, m, &u[ns + u_dim1], ldu, &dwork[iconn], &nobr2, 4L);
             }
             dlacpy_("Full", &nobr2, l, &y[ns + y_dim1], ldy, &dwork[iconn + mmnobr], &nobr2, 4L);
         }
         /*        Return to get new data. */
         ++icycle;
-        if (icycle > 100)
-        {
+        if (icycle > 100) {
             *iwarn = 1;
         }
         return 0;
     }
-    if (last)
-    {
+    if (last) {
         /*        Try to compute the R factor. */
         /*        Scale the first M+L positive generators and set the first */
         /*        M+L negative generators. */
@@ -672,28 +621,22 @@ ftnlen conct_len;
         i__1 = nrg + 1;
         dcopy_(l, &dwork[ipy + mmnobr * nrg], &i__1, &dwork[jwork + *m], &c__1);
         i__1 = *m + *l;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             i__2 = *m + *l;
             iwork[i__] = idamax_(&i__2, &dwork[jwork], &c__1);
             dwork[jwork + iwork[i__] - 1] = 0.;
             /* L130: */
         }
         i__1 = *m + *l;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             imax = iwork[i__];
-            if (imax <= *m)
-            {
+            if (imax <= *m) {
                 icol = imax;
-            }
-            else
-            {
+            } else {
                 icol = mmnobr - *m + imax;
             }
             beta = sqrt((d__1 = dwork[ipg + imax - 1 + (icol - 1) * nrg], abs(d__1)));
-            if (beta == 0.)
-            {
+            if (beta == 0.) {
                 /*              Error exit. */
                 *info = 1;
                 return 0;
@@ -704,46 +647,38 @@ ftnlen conct_len;
             dwork[ipg + imax - 1 + (icol - 1) * nrg] = beta;
             dwork[ing + imax - 1 + (icol - 1) * nrg] = 0.;
             i__2 = *m + *l;
-            for (j = i__ + 1; j <= i__2; ++j)
-            {
+            for (j = i__ + 1; j <= i__2; ++j) {
                 dwork[ipg + iwork[j] - 1 + (icol - 1) * nrg] = 0.;
                 /* L140: */
             }
             /* L150: */
         }
         /*        Compute the last two generators. */
-        if (! first)
-        {
+        if (!first) {
             /*           For sequential processing, move the stored last negative */
             /*           generator. */
             dcopy_(&nr, &dwork[nrg], &nrg, &dwork[ing + nrg - 1], &nrg);
         }
         jd = nrg;
-        if (*m > 0)
-        {
+        if (*m > 0) {
             i__1 = *nsmp;
-            for (j = ns; j <= i__1; ++j)
-            {
+            for (j = ns; j <= i__1; ++j) {
                 dcopy_(m, &u[j + u_dim1], ldu, &dwork[jd], &nrg);
                 jd += mnrg;
                 /* L160: */
             }
         }
         i__1 = *nsmp;
-        for (j = ns; j <= i__1; ++j)
-        {
+        for (j = ns; j <= i__1; ++j) {
             dcopy_(l, &y[j + y_dim1], ldy, &dwork[jd], &nrg);
             jd += lnrg;
             /* L170: */
         }
-        if (first)
-        {
-            if (*m > 0)
-            {
+        if (first) {
+            if (*m > 0) {
                 dcopy_(m, dum, &c__0, &dwork[jd], &nrg);
                 i__1 = nobr21;
-                for (j = 1; j <= i__1; ++j)
-                {
+                for (j = 1; j <= i__1; ++j) {
                     jd += mnrg;
                     dcopy_(m, &u[j + u_dim1], ldu, &dwork[jd], &nrg);
                     /* L180: */
@@ -752,8 +687,7 @@ ftnlen conct_len;
             }
             dcopy_(l, dum, &c__0, &dwork[jd], &nrg);
             i__1 = nobr21;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 jd += lnrg;
                 dcopy_(l, &y[j + y_dim1], ldy, &dwork[jd], &nrg);
                 /* L190: */
@@ -761,8 +695,7 @@ ftnlen conct_len;
         }
         itau = jwork;
         ipgc = ipg + mmnobr * nrg;
-        if (*m > 0)
-        {
+        if (*m > 0) {
             /*           Process the input part of the generators. */
             jwork = itau + *m;
             /*           Reduce the first M columns of the matrix G1 of positive */
@@ -773,37 +706,37 @@ ftnlen conct_len;
             i__1 = *ldwork - jwork + 1;
             dgeqrf_(&nrg, m, &dwork[ipg], &nrg, &dwork[itau], &dwork[jwork], &i__1, &ierr);
             /* Computing MAX */
-            i__1 = maxwrk, i__2 = (integer) dwork[jwork] + jwork - 1;
-            maxwrk = max(i__1,i__2);
+            i__1 = maxwrk, i__2 = (integer)dwork[jwork] + jwork - 1;
+            maxwrk = max(i__1, i__2);
             /*           Workspace: need   (M+L)*4*NOBR*(M+L+1)+(M+L)*2*NOBR; */
             /*                      prefer (M+L)*4*NOBR*(M+L+1)+M+ */
             /*                                                 ((M+L)*2*NOBR-M)*NB. */
             i__1 = nr - *m;
             i__2 = *ldwork - jwork + 1;
-            dormqr_("Left", "Transpose", &nrg, &i__1, m, &dwork[ipg], &nrg, &dwork[itau], &dwork[ipg + mnrg], &nrg, &dwork[jwork], &i__2, &ierr, 4L, 9L);
+            dormqr_("Left", "Transpose", &nrg, &i__1, m, &dwork[ipg], &nrg, &dwork[itau],
+                &dwork[ipg + mnrg], &nrg, &dwork[jwork], &i__2, &ierr, 4L, 9L);
             /* Computing MAX */
-            i__1 = maxwrk, i__2 = (integer) dwork[jwork] + jwork - 1;
-            maxwrk = max(i__1,i__2);
+            i__1 = maxwrk, i__2 = (integer)dwork[jwork] + jwork - 1;
+            maxwrk = max(i__1, i__2);
             /*           Annihilate, column by column, the first M columns of the */
             /*           matrix G2 of negative generators, using Householder */
             /*           transformations and modified hyperbolic plane rotations. */
             /*           In the DLARF calls, ITAU is a pointer to the workspace */
             /*           array. */
             i__1 = *m;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 dlarfg_(&nrg, &dwork[ingc], &dwork[ingc + 1], &c__1, &tau);
                 beta = dwork[ingc];
                 dwork[ingc] = 1.;
                 ingp = ingc + nrg;
                 i__2 = nr - j;
-                dlarf_("Left", &nrg, &i__2, &dwork[ingc], &c__1, &tau, &dwork[ingp], &nrg, &dwork[itau], 4L);
+                dlarf_("Left", &nrg, &i__2, &dwork[ingc], &c__1, &tau, &dwork[ingp], &nrg,
+                    &dwork[itau], 4L);
                 dwork[ingc] = beta;
                 /*              Compute the coefficients of the modified hyperbolic */
                 /*              rotation. */
                 ma02fd_(&dwork[ipg + (j - 1) * (nrg + 1)], &dwork[ingc], &cs, &sn, &ierr);
-                if (ierr != 0)
-                {
+                if (ierr != 0) {
                     /*                 Error return: the matrix H'*H is not (numerically) */
                     /*                 positive definite. */
                     *info = 1;
@@ -811,9 +744,9 @@ ftnlen conct_len;
                 }
                 i__2 = (nr - 1) * nrg;
                 i__3 = nrg;
-                for (i__ = j * nrg; i__3 < 0 ? i__ >= i__2 : i__ <= i__2; i__ += i__3)
-                {
-                    dwork[ipg + j - 1 + i__] = (dwork[ipg + j - 1 + i__] - sn * dwork[ing + i__]) / cs;
+                for (i__ = j * nrg; i__3 < 0 ? i__ >= i__2 : i__ <= i__2; i__ += i__3) {
+                    dwork[ipg + j - 1 + i__]
+                        = (dwork[ipg + j - 1 + i__] - sn * dwork[ing + i__]) / cs;
                     dwork[ing + i__] = -sn * dwork[ipg + j - 1 + i__] + cs * dwork[ing + i__];
                     /* L200: */
                 }
@@ -825,15 +758,13 @@ ftnlen conct_len;
             dlacpy_("Upper", m, &nr, &dwork[ipg], &nrg, &r__[r_offset], ldr, 5L);
             i__1 = mnrg;
             i__3 = -mnrg;
-            for (i__ = (mmnobr - *m) * nrg; i__3 < 0 ? i__ >= i__1 : i__ <= i__1; i__ += i__3)
-            {
+            for (i__ = (mmnobr - *m) * nrg; i__3 < 0 ? i__ >= i__1 : i__ <= i__1; i__ += i__3) {
                 dlacpy_("Full", m, m, &dwork[ipg + i__ - mnrg], &nrg, &dwork[ipg + i__], &nrg, 4L);
                 /* L220: */
             }
             i__3 = (mmnobr + *l) * nrg;
             i__1 = -lnrg;
-            for (i__ = (nr - *l) * nrg; i__1 < 0 ? i__ >= i__3 : i__ <= i__3; i__ += i__1)
-            {
+            for (i__ = (nr - *l) * nrg; i__1 < 0 ? i__ >= i__3 : i__ <= i__3; i__ += i__1) {
                 dlacpy_("Full", m, l, &dwork[ipg + i__ - lnrg], &nrg, &dwork[ipg + i__], &nrg, 4L);
                 /* L230: */
             }
@@ -843,27 +774,27 @@ ftnlen conct_len;
             jds = mnrg;
             icol = *m;
             i__1 = nobr2;
-            for (k = 2; k <= i__1; ++k)
-            {
+            for (k = 2; k <= i__1; ++k) {
                 i__3 = nr - icol - *m;
                 i__2 = *l + 1;
-                mb04od_("Full", m, &i__3, &i__2, &dwork[ipg + jds], &nrg, &dwork[ipy + jds], &nrg, &dwork[ipg + jds + mnrg], &nrg, &dwork[ipy + jds + mnrg], &nrg, &dwork[itau], &dwork[jwork], 4L);
+                mb04od_("Full", m, &i__3, &i__2, &dwork[ipg + jds], &nrg, &dwork[ipy + jds], &nrg,
+                    &dwork[ipg + jds + mnrg], &nrg, &dwork[ipy + jds + mnrg], &nrg, &dwork[itau],
+                    &dwork[jwork], 4L);
                 i__3 = *m;
-                for (j = 1; j <= i__3; ++j)
-                {
+                for (j = 1; j <= i__3; ++j) {
                     icj = icol + j;
                     dlarfg_(&nrg, &dwork[ingc], &dwork[ingc + 1], &c__1, &tau);
                     beta = dwork[ingc];
                     dwork[ingc] = 1.;
                     ingp = ingc + nrg;
                     i__2 = nr - icj;
-                    dlarf_("Left", &nrg, &i__2, &dwork[ingc], &c__1, &tau, &dwork[ingp], &nrg, &dwork[itau], 4L);
+                    dlarf_("Left", &nrg, &i__2, &dwork[ingc], &c__1, &tau, &dwork[ingp], &nrg,
+                        &dwork[itau], 4L);
                     dwork[ingc] = beta;
                     /*                 Compute the coefficients of the modified hyperbolic */
                     /*                 rotation. */
                     ma02fd_(&dwork[ipg + j - 1 + (icj - 1) * nrg], &dwork[ingc], &cs, &sn, &ierr);
-                    if (ierr != 0)
-                    {
+                    if (ierr != 0) {
                         /*                    Error return: the matrix H'*H is not (numerically) */
                         /*                    positive definite. */
                         *info = 1;
@@ -871,9 +802,9 @@ ftnlen conct_len;
                     }
                     i__2 = (nr - 1) * nrg;
                     i__4 = nrg;
-                    for (i__ = icj * nrg; i__4 < 0 ? i__ >= i__2 : i__ <= i__2; i__ += i__4)
-                    {
-                        dwork[ipg + j - 1 + i__] = (dwork[ipg + j - 1 + i__] - sn * dwork[ing + i__]) / cs;
+                    for (i__ = icj * nrg; i__4 < 0 ? i__ >= i__2 : i__ <= i__2; i__ += i__4) {
+                        dwork[ipg + j - 1 + i__]
+                            = (dwork[ipg + j - 1 + i__] - sn * dwork[ing + i__]) / cs;
                         dwork[ing + i__] = -sn * dwork[ipg + j - 1 + i__] + cs * dwork[ing + i__];
                         /* L240: */
                     }
@@ -883,20 +814,21 @@ ftnlen conct_len;
                 /*              Save one block row of R, and shift the generators for the */
                 /*              calculation of the following row. */
                 i__3 = nr - icol;
-                dlacpy_("Upper", m, &i__3, &dwork[ipg + jds], &nrg, &r__[icol + 1 + (icol + 1) * r_dim1], ldr, 5L);
+                dlacpy_("Upper", m, &i__3, &dwork[ipg + jds], &nrg,
+                    &r__[icol + 1 + (icol + 1) * r_dim1], ldr, 5L);
                 icol += *m;
                 i__3 = icol * nrg;
                 i__4 = -mnrg;
-                for (i__ = (mmnobr - *m) * nrg; i__4 < 0 ? i__ >= i__3 : i__ <= i__3; i__ += i__4)
-                {
-                    dlacpy_("Full", m, m, &dwork[ipg + i__ - mnrg], &nrg, &dwork[ipg + i__], &nrg, 4L);
+                for (i__ = (mmnobr - *m) * nrg; i__4 < 0 ? i__ >= i__3 : i__ <= i__3; i__ += i__4) {
+                    dlacpy_(
+                        "Full", m, m, &dwork[ipg + i__ - mnrg], &nrg, &dwork[ipg + i__], &nrg, 4L);
                     /* L260: */
                 }
                 i__4 = (mmnobr + *l) * nrg;
                 i__3 = -lnrg;
-                for (i__ = (nr - *l) * nrg; i__3 < 0 ? i__ >= i__4 : i__ <= i__4; i__ += i__3)
-                {
-                    dlacpy_("Full", m, l, &dwork[ipg + i__ - lnrg], &nrg, &dwork[ipg + i__], &nrg, 4L);
+                for (i__ = (nr - *l) * nrg; i__3 < 0 ? i__ >= i__4 : i__ <= i__4; i__ += i__3) {
+                    dlacpy_(
+                        "Full", m, l, &dwork[ipg + i__ - lnrg], &nrg, &dwork[ipg + i__], &nrg, 4L);
                     /* L270: */
                 }
                 dlaset_("Full", m, l, &c_b111, &c_b111, &dwork[ipgc], &nrg, 4L);
@@ -914,34 +846,34 @@ ftnlen conct_len;
         i__1 = *ldwork - jwork + 1;
         dgeqrf_(&nrg, l, &dwork[ipgc], &nrg, &dwork[itau], &dwork[jwork], &i__1, &ierr);
         /* Computing MAX */
-        i__1 = maxwrk, i__3 = (integer) dwork[jwork] + jwork - 1;
-        maxwrk = max(i__1,i__3);
+        i__1 = maxwrk, i__3 = (integer)dwork[jwork] + jwork - 1;
+        maxwrk = max(i__1, i__3);
         /*        Workspace: need   (M+L)*4*NOBR*(M+L+1)+L*2*NOBR; */
         /*                   prefer (M+L)*4*NOBR*(M+L+1)+L+(L*2*NOBR-L)*NB. */
         i__1 = llnobr - *l;
         i__3 = *ldwork - jwork + 1;
-        dormqr_("Left", "Transpose", &nrg, &i__1, l, &dwork[ipgc], &nrg, &dwork[itau], &dwork[ipgc + lnrg], &nrg, &dwork[jwork], &i__3, &ierr, 4L, 9L);
+        dormqr_("Left", "Transpose", &nrg, &i__1, l, &dwork[ipgc], &nrg, &dwork[itau],
+            &dwork[ipgc + lnrg], &nrg, &dwork[jwork], &i__3, &ierr, 4L, 9L);
         /* Computing MAX */
-        i__1 = maxwrk, i__3 = (integer) dwork[jwork] + jwork - 1;
-        maxwrk = max(i__1,i__3);
+        i__1 = maxwrk, i__3 = (integer)dwork[jwork] + jwork - 1;
+        maxwrk = max(i__1, i__3);
         /*        Annihilate, column by column, the first L columns of the */
         /*        output part of the matrix G2 of negative generators, using */
         /*        Householder transformations and modified hyperbolic rotations. */
         i__1 = *l;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             dlarfg_(&nrg, &dwork[ingc], &dwork[ingc + 1], &c__1, &tau);
             beta = dwork[ingc];
             dwork[ingc] = 1.;
             ingp = ingc + nrg;
             i__3 = llnobr - j;
-            dlarf_("Left", &nrg, &i__3, &dwork[ingc], &c__1, &tau, &dwork[ingp], &nrg, &dwork[itau], 4L);
+            dlarf_("Left", &nrg, &i__3, &dwork[ingc], &c__1, &tau, &dwork[ingp], &nrg, &dwork[itau],
+                4L);
             dwork[ingc] = beta;
             /*           Compute the coefficients of the modified hyperbolic */
             /*           rotation. */
             ma02fd_(&dwork[ipgc + (j - 1) * (nrg + 1)], &dwork[ingc], &cs, &sn, &ierr);
-            if (ierr != 0)
-            {
+            if (ierr != 0) {
                 /*              Error return: the matrix H'*H is not (numerically) */
                 /*              positive definite. */
                 *info = 1;
@@ -949,8 +881,7 @@ ftnlen conct_len;
             }
             i__3 = (nr - 1) * nrg;
             i__4 = nrg;
-            for (i__ = (j + mmnobr) * nrg; i__4 < 0 ? i__ >= i__3 : i__ <= i__3; i__ += i__4)
-            {
+            for (i__ = (j + mmnobr) * nrg; i__4 < 0 ? i__ >= i__3 : i__ <= i__3; i__ += i__4) {
                 dwork[ipg + j - 1 + i__] = (dwork[ipg + j - 1 + i__] - sn * dwork[ing + i__]) / cs;
                 dwork[ing + i__] = -sn * dwork[ipg + j - 1 + i__] + cs * dwork[ing + i__];
                 /* L290: */
@@ -960,11 +891,11 @@ ftnlen conct_len;
         }
         /*        Save one block row of R, and shift the generators for the */
         /*        calculation of the following row. */
-        dlacpy_("Upper", l, &llnobr, &dwork[ipgc], &nrg, &r__[mmnobr + 1 + (mmnobr + 1) * r_dim1], ldr, 5L);
+        dlacpy_("Upper", l, &llnobr, &dwork[ipgc], &nrg, &r__[mmnobr + 1 + (mmnobr + 1) * r_dim1],
+            ldr, 5L);
         i__1 = (mmnobr + *l) * nrg;
         i__4 = -lnrg;
-        for (i__ = (nr - *l) * nrg; i__4 < 0 ? i__ >= i__1 : i__ <= i__1; i__ += i__4)
-        {
+        for (i__ = (nr - *l) * nrg; i__4 < 0 ? i__ >= i__1 : i__ <= i__1; i__ += i__4) {
             dlacpy_("Full", l, l, &dwork[ipg + i__ - lnrg], &nrg, &dwork[ipg + i__], &nrg, 4L);
             /* L310: */
         }
@@ -973,27 +904,27 @@ ftnlen conct_len;
         jds = lnrg;
         icol = *l;
         i__4 = nobr2;
-        for (k = 2; k <= i__4; ++k)
-        {
+        for (k = 2; k <= i__4; ++k) {
             i__1 = llnobr - icol - *l;
             i__3 = *m + 1;
-            mb04od_("Full", l, &i__1, &i__3, &dwork[ipgc + jds], &nrg, &dwork[ipgc + *l + jds], &nrg, &dwork[ipgc + jds + lnrg], &nrg, &dwork[ipgc + *l + jds + lnrg], &nrg, &dwork[itau], &dwork[jwork], 4L);
+            mb04od_("Full", l, &i__1, &i__3, &dwork[ipgc + jds], &nrg, &dwork[ipgc + *l + jds],
+                &nrg, &dwork[ipgc + jds + lnrg], &nrg, &dwork[ipgc + *l + jds + lnrg], &nrg,
+                &dwork[itau], &dwork[jwork], 4L);
             i__1 = *l;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 icj = icol + j;
                 dlarfg_(&nrg, &dwork[ingc], &dwork[ingc + 1], &c__1, &tau);
                 beta = dwork[ingc];
                 dwork[ingc] = 1.;
                 ingp = ingc + nrg;
                 i__3 = llnobr - icj;
-                dlarf_("Left", &nrg, &i__3, &dwork[ingc], &c__1, &tau, &dwork[ingp], &nrg, &dwork[itau], 4L);
+                dlarf_("Left", &nrg, &i__3, &dwork[ingc], &c__1, &tau, &dwork[ingp], &nrg,
+                    &dwork[itau], 4L);
                 dwork[ingc] = beta;
                 /*              Compute the coefficients of the modified hyperbolic */
                 /*              rotation. */
                 ma02fd_(&dwork[ipgc + j - 1 + (icj - 1) * nrg], &dwork[ingc], &cs, &sn, &ierr);
-                if (ierr != 0)
-                {
+                if (ierr != 0) {
                     /*                 Error return: the matrix H'*H is not (numerically) */
                     /*                 positive definite. */
                     *info = 1;
@@ -1001,9 +932,10 @@ ftnlen conct_len;
                 }
                 i__3 = (nr - 1) * nrg;
                 i__2 = nrg;
-                for (i__ = (icj + mmnobr) * nrg; i__2 < 0 ? i__ >= i__3 : i__ <= i__3; i__ += i__2)
-                {
-                    dwork[ipg + j - 1 + i__] = (dwork[ipg + j - 1 + i__] - sn * dwork[ing + i__]) / cs;
+                for (i__ = (icj + mmnobr) * nrg; i__2 < 0 ? i__ >= i__3 : i__ <= i__3;
+                     i__ += i__2) {
+                    dwork[ipg + j - 1 + i__]
+                        = (dwork[ipg + j - 1 + i__] - sn * dwork[ing + i__]) / cs;
                     dwork[ing + i__] = -sn * dwork[ipg + j - 1 + i__] + cs * dwork[ing + i__];
                     /* L320: */
                 }
@@ -1013,11 +945,11 @@ ftnlen conct_len;
             /*           Save one block row of R, and shift the generators for the */
             /*           calculation of the following row. */
             i__1 = llnobr - icol;
-            dlacpy_("Upper", l, &i__1, &dwork[ipgc + jds], &nrg, &r__[mmnobr + icol + 1 + (mmnobr + icol + 1) * r_dim1], ldr, 5L);
+            dlacpy_("Upper", l, &i__1, &dwork[ipgc + jds], &nrg,
+                &r__[mmnobr + icol + 1 + (mmnobr + icol + 1) * r_dim1], ldr, 5L);
             i__1 = (mmnobr + icol) * nrg;
             i__2 = -lnrg;
-            for (i__ = (nr - *l) * nrg; i__2 < 0 ? i__ >= i__1 : i__ <= i__1; i__ += i__2)
-            {
+            for (i__ = (nr - *l) * nrg; i__2 < 0 ? i__ >= i__1 : i__ <= i__1; i__ += i__2) {
                 dlacpy_("Full", l, l, &dwork[ipg + i__ - lnrg], &nrg, &dwork[ipg + i__], &nrg, 4L);
                 /* L340: */
             }
@@ -1025,18 +957,17 @@ ftnlen conct_len;
             jds += lnrg;
             /* L350: */
         }
-        if (moesp && *m > 0)
-        {
+        if (moesp && *m > 0) {
             /*           For the MOESP algorithm, interchange the past and future */
             /*           input parts of the R factor, and compute the new R factor */
             /*           using a specialized QR factorization.  A tailored fast */
             /*           QR factorization for the MOESP algorithm could be slightly */
             /*           more efficient. */
             i__4 = mnobr;
-            for (j = 1; j <= i__4; ++j)
-            {
+            for (j = 1; j <= i__4; ++j) {
                 dswap_(&j, &r__[j * r_dim1 + 1], &c__1, &r__[(mnobr + j) * r_dim1 + 1], &c__1);
-                dcopy_(&mnobr, &r__[j + 1 + (mnobr + j) * r_dim1], &c__1, &r__[j + 1 + j * r_dim1], &c__1);
+                dcopy_(&mnobr, &r__[j + 1 + (mnobr + j) * r_dim1], &c__1, &r__[j + 1 + j * r_dim1],
+                    &c__1);
                 i__2 = mmnobr - j;
                 dcopy_(&i__2, dum, &c__0, &r__[j + 1 + (mnobr + j) * r_dim1], &c__1);
                 /* L360: */
@@ -1049,18 +980,18 @@ ftnlen conct_len;
             jwork = itau + mmnobr;
             i__4 = mnobr - 1;
             i__2 = *ldwork - jwork + 1;
-            mb04id_(&mmnobr, &mmnobr, &i__4, &llnobr, &r__[r_offset], ldr, &r__[(mmnobr + 1) * r_dim1 + 1], ldr, &dwork[itau], &dwork[jwork], &i__2, &ierr);
+            mb04id_(&mmnobr, &mmnobr, &i__4, &llnobr, &r__[r_offset], ldr,
+                &r__[(mmnobr + 1) * r_dim1 + 1], ldr, &dwork[itau], &dwork[jwork], &i__2, &ierr);
             /* Computing MAX */
-            i__4 = maxwrk, i__2 = (integer) dwork[jwork] + jwork - 1;
-            maxwrk = max(i__4,i__2);
+            i__4 = maxwrk, i__2 = (integer)dwork[jwork] + jwork - 1;
+            maxwrk = max(i__4, i__2);
         }
     }
     nsmpsm = 0;
     icycle = 1;
     /*     Return optimal workspace in  DWORK(1). */
-    dwork[1] = (doublereal) maxwrk;
+    dwork[1] = (doublereal)maxwrk;
     maxwrk = 1;
     return 0;
     /* *** Last line of IB01MY *** */
 } /* ib01my_ */
-

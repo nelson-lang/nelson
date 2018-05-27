@@ -1,17 +1,17 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-EXPORTSYMBOL /* Subroutine */ int md03bb_(cond, n, ipar, lipar, r__, ldr, ipvt, diag, qtb, delta, par, ranks, x, rx, tol, dwork, ldwork, info, cond_len)
-char *cond;
+EXPORTSYMBOL /* Subroutine */ int md03bb_(cond, n, ipar, lipar, r__, ldr, ipvt, diag, qtb, delta,
+    par, ranks, x, rx, tol, dwork, ldwork, info, cond_len) char* cond;
 integer *n, *ipar, *lipar;
-doublereal *r__;
+doublereal* r__;
 integer *ldr, *ipvt;
 doublereal *diag, *qtb, *delta, *par;
-integer *ranks;
+integer* ranks;
 doublereal *x, *rx, *tol, *dwork;
 integer *ldwork, *info;
 ftnlen cond_len;
@@ -168,8 +168,8 @@ ftnlen cond_len;
     --rx;
     --dwork;
     /* Function Body */
-    md03by_(cond, n, &r__[r_offset], ldr, &ipvt[1], &diag[1], &qtb[1], delta, par, &ranks[1], &x[1], &rx[1], tol, &dwork[1], ldwork, info, 1L);
+    md03by_(cond, n, &r__[r_offset], ldr, &ipvt[1], &diag[1], &qtb[1], delta, par, &ranks[1], &x[1],
+        &rx[1], tol, &dwork[1], ldwork, info, 1L);
     return 0;
     /* *** Last line of MD03BB *** */
 } /* md03bb_ */
-

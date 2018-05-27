@@ -20,46 +20,38 @@
 #include <boost/container/vector.hpp>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    ArrayOf StringFind(std::wstring A, std::wstring B)
-    {
-        ArrayOf res;
-        boost::container::vector<double> vectorRes;
-        std::string::size_type found = std::string::npos;
-        if (B != L"")
-        {
-            size_t start = 0;
-            while (1)
-            {
-                found = A.find(B, start);
-                if (found != std::string::npos)
-                {
-                    vectorRes.push_back((double)(found + 1));
-                    start = found + 1;
-                }
-                else
-                {
-                    break;
-                }
+//=============================================================================
+ArrayOf
+StringFind(std::wstring A, std::wstring B)
+{
+    ArrayOf res;
+    boost::container::vector<double> vectorRes;
+    std::string::size_type found = std::string::npos;
+    if (B != L"") {
+        size_t start = 0;
+        while (1) {
+            found = A.find(B, start);
+            if (found != std::string::npos) {
+                vectorRes.push_back((double)(found + 1));
+                start = found + 1;
+            } else {
+                break;
             }
         }
-        if (vectorRes.empty())
-        {
-            res = ArrayOf::emptyConstructor();
-        }
-        else
-        {
-            size_t Clen = vectorRes.size();
-            double *Cp = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, Clen);
-            Dimensions dimC(1, Clen);
-            for (size_t k = 0; k < Clen; k++)
-            {
-                Cp[k] = vectorRes[k];
-            }
-            res = ArrayOf(NLS_DOUBLE, dimC, Cp);
-        }
-        return res;
     }
-    //=============================================================================
+    if (vectorRes.empty()) {
+        res = ArrayOf::emptyConstructor();
+    } else {
+        size_t Clen = vectorRes.size();
+        double* Cp = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, Clen);
+        Dimensions dimC(1, Clen);
+        for (size_t k = 0; k < Clen; k++) {
+            Cp[k] = vectorRes[k];
+        }
+        res = ArrayOf(NLS_DOUBLE, dimC, Cp);
+    }
+    return res;
+}
+//=============================================================================
 }
 //=============================================================================

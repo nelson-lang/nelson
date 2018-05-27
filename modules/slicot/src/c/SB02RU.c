@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -12,18 +12,19 @@ static doublereal c_b33 = 0.;
 static doublereal c_b34 = 1.;
 static doublereal c_b57 = -1.;
 
-EXPORTSYMBOL /* Subroutine */ int sb02ru_(dico, hinv, trana, uplo, n, a, lda, g, ldg, q, ldq, s, lds, iwork, dwork, ldwork, info, dico_len, hinv_len, trana_len, uplo_len)
-char *dico, *hinv, *trana, *uplo;
-integer *n;
-doublereal *a;
-integer *lda;
-doublereal *g;
-integer *ldg;
-doublereal *q;
-integer *ldq;
-doublereal *s;
+EXPORTSYMBOL /* Subroutine */ int sb02ru_(dico, hinv, trana, uplo, n, a, lda, g, ldg, q, ldq, s,
+    lds, iwork, dwork, ldwork, info, dico_len, hinv_len, trana_len, uplo_len) char *dico,
+    *hinv, *trana, *uplo;
+integer* n;
+doublereal* a;
+integer* lda;
+doublereal* g;
+integer* ldg;
+doublereal* q;
+integer* ldq;
+doublereal* s;
 integer *lds, *iwork;
-doublereal *dwork;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen dico_len;
 ftnlen hinv_len;
@@ -225,74 +226,49 @@ ftnlen uplo_len;
     discr = lsame_(dico, "D", 1L, 1L);
     luplo = lsame_(uplo, "U", 1L, 1L);
     notrna = lsame_(trana, "N", 1L, 1L);
-    if (discr)
-    {
+    if (discr) {
         lhinv = lsame_(hinv, "D", 1L, 1L);
     }
     /*     Test the input scalar arguments. */
-    if (! discr && ! lsame_(dico, "C", 1L, 1L))
-    {
+    if (!discr && !lsame_(dico, "C", 1L, 1L)) {
         *info = -1;
-    }
-    else if (discr)
-    {
-        if (! lhinv && ! lsame_(hinv, "I", 1L, 1L))
-        {
+    } else if (discr) {
+        if (!lhinv && !lsame_(hinv, "I", 1L, 1L)) {
             *info = -2;
         }
-    }
-    else if (*info == 0)
-    {
-        if (! notrna && ! lsame_(trana, "T", 1L, 1L) && ! lsame_(trana, "C", 1L, 1L))
-        {
+    } else if (*info == 0) {
+        if (!notrna && !lsame_(trana, "T", 1L, 1L) && !lsame_(trana, "C", 1L, 1L)) {
             *info = -3;
-        }
-        else if (! luplo && ! lsame_(uplo, "L", 1L, 1L))
-        {
+        } else if (!luplo && !lsame_(uplo, "L", 1L, 1L)) {
             *info = -4;
-        }
-        else if (*n < 0)
-        {
+        } else if (*n < 0) {
             *info = -5;
-        }
-        else if (*lda < max(1,*n))
-        {
+        } else if (*lda < max(1, *n)) {
             *info = -7;
-        }
-        else if (*ldg < max(1,*n))
-        {
+        } else if (*ldg < max(1, *n)) {
             *info = -9;
-        }
-        else if (*ldq < max(1,*n))
-        {
+        } else if (*ldq < max(1, *n)) {
             *info = -11;
-        }
-        else if (*lds < max(1,n2))
-        {
+        } else if (*lds < max(1, n2)) {
             *info = -13;
-        }
-        else /* if(complicated condition) */
+        } else /* if(complicated condition) */
         {
             /* Computing MAX */
             i__1 = 2, i__2 = *n * 6;
-            if (*ldwork < 0 || discr && *ldwork < max(i__1,i__2))
-            {
+            if (*ldwork < 0 || discr && *ldwork < max(i__1, i__2)) {
                 *info = -16;
             }
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("SB02RU", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
-        if (discr)
-        {
+    if (*n == 0) {
+        if (discr) {
             dwork[1] = 1.;
             dwork[2] = 1.;
         }
@@ -300,48 +276,36 @@ ftnlen uplo_len;
     }
     /*     The code tries to exploit data locality as much as possible, */
     /*     assuming that LDS is greater than LDA, LDQ, and/or LDG. */
-    if (! discr)
-    {
+    if (!discr) {
         /*        Continuous-time case: Construct Hamiltonian matrix column-wise. */
         /*        Copy op(A) in S(1:N,1:N), and construct full Q */
         /*        in S(N+1:2*N,1:N) and change the sign. */
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
-            if (notrna)
-            {
+        for (j = 1; j <= i__1; ++j) {
+            if (notrna) {
                 dcopy_(n, &a[j * a_dim1 + 1], &c__1, &s[j * s_dim1 + 1], &c__1);
-            }
-            else
-            {
+            } else {
                 dcopy_(n, &a[j + a_dim1], lda, &s[j * s_dim1 + 1], &c__1);
             }
-            if (luplo)
-            {
+            if (luplo) {
                 i__2 = j;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = 1; i__ <= i__2; ++i__) {
                     s[*n + i__ + j * s_dim1] = -q[i__ + j * q_dim1];
                     /* L20: */
                 }
                 i__2 = *n;
-                for (i__ = j + 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = j + 1; i__ <= i__2; ++i__) {
                     s[*n + i__ + j * s_dim1] = -q[j + i__ * q_dim1];
                     /* L40: */
                 }
-            }
-            else
-            {
+            } else {
                 i__2 = j - 1;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = 1; i__ <= i__2; ++i__) {
                     s[*n + i__ + j * s_dim1] = -q[j + i__ * q_dim1];
                     /* L60: */
                 }
                 i__2 = *n;
-                for (i__ = j; i__ <= i__2; ++i__)
-                {
+                for (i__ = j; i__ <= i__2; ++i__) {
                     s[*n + i__ + j * s_dim1] = -q[i__ + j * q_dim1];
                     /* L80: */
                 }
@@ -351,62 +315,47 @@ ftnlen uplo_len;
         /*        Construct full G in S(1:N,N+1:2*N) and change the sign, and */
         /*        construct -op(A)' in S(N+1:2*N,N+1:2*N). */
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             nj = *n + j;
-            if (luplo)
-            {
+            if (luplo) {
                 i__2 = j;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = 1; i__ <= i__2; ++i__) {
                     s[i__ + nj * s_dim1] = -g[i__ + j * g_dim1];
                     /* L120: */
                 }
                 i__2 = *n;
-                for (i__ = j + 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = j + 1; i__ <= i__2; ++i__) {
                     s[i__ + nj * s_dim1] = -g[j + i__ * g_dim1];
                     /* L140: */
                 }
-            }
-            else
-            {
+            } else {
                 i__2 = j - 1;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = 1; i__ <= i__2; ++i__) {
                     s[i__ + nj * s_dim1] = -g[j + i__ * g_dim1];
                     /* L160: */
                 }
                 i__2 = *n;
-                for (i__ = j; i__ <= i__2; ++i__)
-                {
+                for (i__ = j; i__ <= i__2; ++i__) {
                     s[i__ + nj * s_dim1] = -g[i__ + j * g_dim1];
                     /* L180: */
                 }
             }
-            if (notrna)
-            {
+            if (notrna) {
                 i__2 = *n;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = 1; i__ <= i__2; ++i__) {
                     s[*n + i__ + nj * s_dim1] = -a[j + i__ * a_dim1];
                     /* L200: */
                 }
-            }
-            else
-            {
+            } else {
                 i__2 = *n;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = 1; i__ <= i__2; ++i__) {
                     s[*n + i__ + nj * s_dim1] = -a[i__ + j * a_dim1];
                     /* L220: */
                 }
             }
             /* L240: */
         }
-    }
-    else
-    {
+    } else {
         /*        Discrete-time case: Construct the symplectic matrix (2) or (3). */
         /*        Fill in the remaining triangles of the symmetric matrices Q */
         /*        and G. */
@@ -414,36 +363,32 @@ ftnlen uplo_len;
         ma02ed_(uplo, n, &g[g_offset], ldg, 1L);
         /*        Prepare the construction of S in (2) or (3). */
         np1 = *n + 1;
-        if (notrna)
-        {
-            *(unsigned char *)tranat = 'T';
-        }
-        else
-        {
-            *(unsigned char *)tranat = 'N';
+        if (notrna) {
+            *(unsigned char*)tranat = 'T';
+        } else {
+            *(unsigned char*)tranat = 'N';
         }
         /*        Solve  op(A)'*X = Q  in  S(N+1:2*N,1:N),  using the LU */
         /*        factorization of  op(A),  obtained in  S(1:N,1:N),  and */
         /*        iterative refinement. No equilibration of  A  is used. */
         /*        Workspace:  6*N. */
-        mb02pd_("No equilibration", tranat, n, n, &a[a_offset], lda, &s[s_offset], lds, &iwork[1], equed, &dwork[1], &dwork[1], &q[q_offset], ldq, &s[np1 + s_dim1], lds, &rcond, &dwork[1], &dwork[np1], &iwork[np1], &dwork[n2 + 1], info, 16L, 1L, 1L);
+        mb02pd_("No equilibration", tranat, n, n, &a[a_offset], lda, &s[s_offset], lds, &iwork[1],
+            equed, &dwork[1], &dwork[1], &q[q_offset], ldq, &s[np1 + s_dim1], lds, &rcond,
+            &dwork[1], &dwork[np1], &iwork[np1], &dwork[n2 + 1], info, 16L, 1L, 1L);
         /*        Return if the matrix is exactly singular or singular to */
         /*        working precision. */
-        if (*info > 0)
-        {
+        if (*info > 0) {
             dwork[1] = rcond;
             dwork[2] = dwork[n2 + 1];
             return 0;
         }
         rconda = rcond;
         pivotg = dwork[n2 + 1];
-        if (lhinv)
-        {
+        if (lhinv) {
             /*           Complete the construction of S in (2). */
             /*           Transpose  X  in-situ. */
             i__1 = *n - 1;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 i__2 = *n - j;
                 dswap_(&i__2, &s[np1 + j + j * s_dim1], &c__1, &s[*n + j + (j + 1) * s_dim1], lds);
                 /* L260: */
@@ -452,36 +397,34 @@ ftnlen uplo_len;
             /*           factorization of  op(A),  computed in  S(1:N,1:N),  and */
             /*           iterative refinement. */
             dlaset_("Full", n, n, &c_b33, &c_b34, &s[np1 * s_dim1 + 1], lds, 4L);
-            mb02pd_("Factored", trana, n, n, &a[a_offset], lda, &s[s_offset], lds, &iwork[1], equed, &dwork[1], &dwork[1], &s[np1 * s_dim1 + 1], lds, &s[np1 + np1 * s_dim1], lds, &rcond, &dwork[1], &dwork[np1], &iwork[np1], &dwork[n2 + 1], info, 8L, 1L, 1L);
+            mb02pd_("Factored", trana, n, n, &a[a_offset], lda, &s[s_offset], lds, &iwork[1], equed,
+                &dwork[1], &dwork[1], &s[np1 * s_dim1 + 1], lds, &s[np1 + np1 * s_dim1], lds,
+                &rcond, &dwork[1], &dwork[np1], &iwork[np1], &dwork[n2 + 1], info, 8L, 1L, 1L);
             /*           Solve  op(A)*X = G  in  S(1:N,N+1:2*N),  using the LU */
             /*           factorization of  op(A),  computed in  S(1:N,1:N),  and */
             /*           iterative refinement. */
-            mb02pd_("Factored", trana, n, n, &a[a_offset], lda, &s[s_offset], lds, &iwork[1], equed, &dwork[1], &dwork[1], &g[g_offset], ldg, &s[np1 * s_dim1 + 1], lds, &rcond, &dwork[1], &dwork[np1], &iwork[np1], &dwork[n2 + 1], info, 8L, 1L, 1L);
+            mb02pd_("Factored", trana, n, n, &a[a_offset], lda, &s[s_offset], lds, &iwork[1], equed,
+                &dwork[1], &dwork[1], &g[g_offset], ldg, &s[np1 * s_dim1 + 1], lds, &rcond,
+                &dwork[1], &dwork[np1], &iwork[np1], &dwork[n2 + 1], info, 8L, 1L, 1L);
             /*                      -1 */
             /*           Copy  op(A)    from  S(N+1:2*N,N+1:2*N)  in  S(1:N,1:N). */
             dlacpy_("Full", n, n, &s[np1 + np1 * s_dim1], lds, &s[s_offset], lds, 4L);
             /*                                    -1 */
             /*           Compute  op(A)' + Q*op(A)  *G  in  S(N+1:2*N,N+1:2*N). */
-            if (notrna)
-            {
+            if (notrna) {
                 ma02ad_("Full", n, n, &a[a_offset], lda, &s[np1 + np1 * s_dim1], lds, 4L);
-            }
-            else
-            {
+            } else {
                 dlacpy_("Full", n, n, &a[a_offset], lda, &s[np1 + np1 * s_dim1], lds, 4L);
             }
-            dgemm_("No transpose", "No transpose", n, n, n, &c_b34, &q[q_offset], ldq, &s[np1 * s_dim1 + 1], lds, &c_b34, &s[np1 + np1 * s_dim1], lds, 12L, 12L);
-        }
-        else
-        {
+            dgemm_("No transpose", "No transpose", n, n, n, &c_b34, &q[q_offset], ldq,
+                &s[np1 * s_dim1 + 1], lds, &c_b34, &s[np1 + np1 * s_dim1], lds, 12L, 12L);
+        } else {
             /*           Complete the construction of S in (3). */
             /*           Change the sign of  X. */
             i__1 = *n;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 i__2 = n2;
-                for (i__ = np1; i__ <= i__2; ++i__)
-                {
+                for (i__ = np1; i__ <= i__2; ++i__) {
                     s[i__ + j * s_dim1] = -s[i__ + j * s_dim1];
                     /* L280: */
                 }
@@ -491,18 +434,20 @@ ftnlen uplo_len;
             /*           factorization of  op(A),  computed in  S(1:N,1:N),  and */
             /*           iterative refinement. */
             dlaset_("Full", n, n, &c_b33, &c_b34, &s[np1 * s_dim1 + 1], lds, 4L);
-            mb02pd_("Factored", tranat, n, n, &a[a_offset], lda, &s[s_offset], lds, &iwork[1], equed, &dwork[1], &dwork[1], &s[np1 * s_dim1 + 1], lds, &s[np1 + np1 * s_dim1], lds, &rcond, &dwork[1], &dwork[np1], &iwork[np1], &dwork[n2 + 1], info, 8L, 1L, 1L);
+            mb02pd_("Factored", tranat, n, n, &a[a_offset], lda, &s[s_offset], lds, &iwork[1],
+                equed, &dwork[1], &dwork[1], &s[np1 * s_dim1 + 1], lds, &s[np1 + np1 * s_dim1], lds,
+                &rcond, &dwork[1], &dwork[np1], &iwork[np1], &dwork[n2 + 1], info, 8L, 1L, 1L);
             /*           Solve  op(A)*X' = -G  in  S(1:N,N+1:2*N),  using the LU */
             /*           factorization of  op(A),  obtained in  S(1:N,1:N),  and */
             /*           iterative refinement. */
-            mb02pd_("Factored", trana, n, n, &a[a_offset], lda, &s[s_offset], lds, &iwork[1], equed, &dwork[1], &dwork[1], &g[g_offset], ldg, &s[np1 * s_dim1 + 1], lds, &rcond, &dwork[1], &dwork[np1], &iwork[np1], &dwork[n2 + 1], info, 8L, 1L, 1L);
+            mb02pd_("Factored", trana, n, n, &a[a_offset], lda, &s[s_offset], lds, &iwork[1], equed,
+                &dwork[1], &dwork[1], &g[g_offset], ldg, &s[np1 * s_dim1 + 1], lds, &rcond,
+                &dwork[1], &dwork[np1], &iwork[np1], &dwork[n2 + 1], info, 8L, 1L, 1L);
             /*           Change the sign of  X  and transpose it in-situ. */
             i__1 = n2;
-            for (j = np1; j <= i__1; ++j)
-            {
+            for (j = np1; j <= i__1; ++j) {
                 i__2 = *n;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = 1; i__ <= i__2; ++i__) {
                     temp = -s[i__ + j * s_dim1];
                     s[i__ + j * s_dim1] = -s[j - *n + (i__ + *n) * s_dim1];
                     s[j - *n + (i__ + *n) * s_dim1] = temp;
@@ -512,15 +457,13 @@ ftnlen uplo_len;
             }
             /*                                   -T */
             /*           Compute  op(A) + G*op(A)  *Q  in  S(1:N,1:N). */
-            if (notrna)
-            {
+            if (notrna) {
                 dlacpy_("Full", n, n, &a[a_offset], lda, &s[s_offset], lds, 4L);
-            }
-            else
-            {
+            } else {
                 ma02ad_("Full", n, n, &a[a_offset], lda, &s[s_offset], lds, 4L);
             }
-            dgemm_("No transpose", "No transpose", n, n, n, &c_b57, &g[g_offset], ldg, &s[np1 + s_dim1], lds, &c_b34, &s[s_offset], lds, 12L, 12L);
+            dgemm_("No transpose", "No transpose", n, n, n, &c_b57, &g[g_offset], ldg,
+                &s[np1 + s_dim1], lds, &c_b34, &s[s_offset], lds, 12L, 12L);
         }
         dwork[1] = rconda;
         dwork[2] = pivotg;
@@ -528,4 +471,3 @@ ftnlen uplo_len;
     return 0;
     /* *** Last line of SB02RU *** */
 } /* sb02ru_ */
-

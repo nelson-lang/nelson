@@ -21,70 +21,103 @@
 #include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    class Option {
-    public:
-        Option(std::wstring fullOption, std::wstring shortOption, std::wstring description, bool bMultiple, bool bWithFieldValue);
-        ~Option();
-        std::wstring getFullOption();
-        std::wstring getShortOption();
-        std::wstring getDescription();
-        std::wstring getFullDescription();
+//=============================================================================
+class Option
+{
+public:
+    Option(std::wstring fullOption, std::wstring shortOption, std::wstring description,
+        bool bMultiple, bool bWithFieldValue);
+    ~Option();
+    std::wstring
+    getFullOption();
+    std::wstring
+    getShortOption();
+    std::wstring
+    getDescription();
+    std::wstring
+    getFullDescription();
 
-        bool isMultiple();
-        bool withFieldValue();
-        bool isSameFieldname(std::wstring name);
+    bool
+    isMultiple();
+    bool
+    withFieldValue();
+    bool
+    isSameFieldname(std::wstring name);
 
-    private:
-        std::wstring _fullOption;
-        std::wstring _shortOption;
-        std::wstring _description;
-        bool _bMultiple;
-        bool _bWithFieldValue;
-    };
-    //=============================================================================
-    class ProgramOptions {
-    public:
-        ProgramOptions(wstringVector args);
-        ~ProgramOptions();
-        bool isValid();
-        std::wstring getErrorMessage();
-        std::wstring getFileToExecute();
-        std::wstring getCommandToExecute();
-        std::wstring getOptionsHelp();
-        std::wstring getLanguage();
-        uint64 getTimeout();
-        wstringVector getFilesToOpen();
-        bool haveOptionsHelp();
-        bool haveVersion();
-        bool haveFileToExecute();
-        bool haveCommandToExecute();
-        bool haveLanguage();
-        bool haveNoStartup();
-        bool haveNoUserStartup();
-        bool haveQuietMode();
-        bool haveTimeout();
-        bool haveOpenFiles();
-    private:
-        bool parse();
-        bool parseOption(Option op, bool &bFind);
-        bool parseOptionWithValue(Option op, bool &bFind, std::wstring &value);
-        bool parseOptionWithValues(Option op, wstringVector &values);
-        bool _isvalid;
-        bool _ishelp;
-        bool _isversion;
-        bool _startup;
-        bool _userstartup;
-        bool _quietmode;
-        std::wstring _error;
-        std::wstring _file;
-        std::wstring _command;
-        std::wstring _options;
-        std::wstring _lang;
-        uint64 _timeout;
-        wstringVector _args;
-        wstringVector _filesToOpen;
-    };
-    //=============================================================================
-}
+private:
+    std::wstring _fullOption;
+    std::wstring _shortOption;
+    std::wstring _description;
+    bool _bMultiple;
+    bool _bWithFieldValue;
+};
+//=============================================================================
+class ProgramOptions
+{
+public:
+    ProgramOptions(wstringVector args);
+    ~ProgramOptions();
+    bool
+    isValid();
+    std::wstring
+    getErrorMessage();
+    std::wstring
+    getFileToExecute();
+    std::wstring
+    getCommandToExecute();
+    std::wstring
+    getOptionsHelp();
+    std::wstring
+    getLanguage();
+    uint64
+    getTimeout();
+    wstringVector
+    getFilesToOpen();
+    bool
+    haveOptionsHelp();
+    bool
+    haveVersion();
+    bool
+    haveFileToExecute();
+    bool
+    haveCommandToExecute();
+    bool
+    haveLanguage();
+    bool
+    haveNoStartup();
+    bool
+    haveNoUserStartup();
+    bool
+    haveQuietMode();
+    bool
+    haveTimeout();
+    bool
+    haveOpenFiles();
+
+private:
+    bool
+    parse();
+    bool
+    parseOption(Option op, bool& bFind);
+    bool
+    parseOptionWithValue(Option op, bool& bFind, std::wstring& value);
+    bool
+    parseOptionWithValues(Option op, wstringVector& values);
+    bool _isvalid;
+    bool _ishelp;
+    bool _isversion;
+    bool _startup;
+    bool _userstartup;
+    bool _quietmode;
+    std::wstring _error;
+    std::wstring _file;
+    std::wstring _command;
+    std::wstring _options;
+    std::wstring _lang;
+    uint64 _timeout;
+    wstringVector _args;
+    wstringVector _filesToOpen;
+};
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

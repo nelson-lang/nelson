@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,14 +11,15 @@ static integer c__1 = 1;
 static doublereal c_b23 = 1.;
 static doublereal c_b25 = 0.;
 
-EXPORTSYMBOL /* Subroutine */ int sb01md_(ncont, n, a, lda, b, wr, wi, z__, ldz, g, dwork, info)
-integer *ncont, *n;
-doublereal *a;
-integer *lda;
+EXPORTSYMBOL /* Subroutine */ int sb01md_(
+    ncont, n, a, lda, b, wr, wi, z__, ldz, g, dwork, info) integer *ncont,
+    *n;
+doublereal* a;
+integer* lda;
 doublereal *b, *wr, *wi, *z__;
-integer *ldz;
+integer* ldz;
 doublereal *g, *dwork;
-integer *info;
+integer* info;
 {
     /* System generated locals */
     integer a_dim1, a_offset, z_dim1, z_offset, i__1, i__2;
@@ -166,41 +167,30 @@ integer *info;
     /* Function Body */
     *info = 0;
     /*     Test the input scalar arguments. */
-    if (*ncont < 0)
-    {
+    if (*ncont < 0) {
         *info = -1;
-    }
-    else if (*n < *ncont)
-    {
+    } else if (*n < *ncont) {
         *info = -2;
-    }
-    else if (*lda < max(1,*ncont))
-    {
+    } else if (*lda < max(1, *ncont)) {
         *info = -4;
-    }
-    else if (*ldz < max(1,*n))
-    {
+    } else if (*ldz < max(1, *n)) {
         *info = -9;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return */
         i__1 = -(*info);
         xerbla_("SB01MD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*ncont == 0 || *n == 0)
-    {
+    if (*ncont == 0 || *n == 0) {
         return 0;
     }
     /*     Return if the system is not complete controllable. */
-    if (b[1] == 0.)
-    {
+    if (b[1] == 0.) {
         return 0;
     }
-    if (*ncont == 1)
-    {
+    if (*ncont == 1) {
         /*        1-by-1 case. */
         p = a[a_dim1 + 1] - wr[1];
         a[a_dim1 + 1] = wr[1];
@@ -219,14 +209,11 @@ L20:
     ++l;
     ++ll;
     compl = dwork[ncont2 + l] != 0.;
-    if (l != *ncont)
-    {
+    if (l != *ncont) {
         lp1 = l + 1;
         nl = *ncont - l;
-        if (ll != 2)
-        {
-            if (compl)
-            {
+        if (ll != 2) {
+            if (compl) {
                 /*              Compute complex eigenvector. */
                 dwork[*ncont] = 1.;
                 dwork[ncont2] = 1.;
@@ -236,74 +223,68 @@ L20:
                 dwork[ncont2 + l] = 1.;
                 dwork[ncont2 + lp1] = q;
                 i__1 = lp1;
-                for (i__ = *ncont; i__ >= i__1; --i__)
-                {
+                for (i__ = *ncont; i__ >= i__1; --i__) {
                     im1 = i__ - 1;
                     i__2 = *ncont - im1;
-                    dwork[im1] = (p * dwork[i__] + q * dwork[*ncont + i__] - ddot_(&i__2, &a[i__ + i__ * a_dim1], lda, &dwork[i__], &c__1)) / a[i__ + im1 * a_dim1];
+                    dwork[im1]
+                        = (p * dwork[i__] + q * dwork[*ncont + i__]
+                              - ddot_(&i__2, &a[i__ + i__ * a_dim1], lda, &dwork[i__], &c__1))
+                        / a[i__ + im1 * a_dim1];
                     i__2 = *ncont - im1;
-                    dwork[*ncont + im1] = (p * dwork[*ncont + i__] + dwork[i__] - ddot_(&i__2, &a[i__ + i__ * a_dim1], lda, &dwork[*ncont + i__], &c__1)) / a[i__ + im1 * a_dim1];
+                    dwork[*ncont + im1] = (p * dwork[*ncont + i__] + dwork[i__]
+                                              - ddot_(&i__2, &a[i__ + i__ * a_dim1], lda,
+                                                    &dwork[*ncont + i__], &c__1))
+                        / a[i__ + im1 * a_dim1];
                     /* L40: */
                 }
-            }
-            else
-            {
+            } else {
                 /*              Compute real eigenvector. */
                 dwork[*ncont] = 1.;
                 p = wr[l];
                 i__1 = lp1;
-                for (i__ = *ncont; i__ >= i__1; --i__)
-                {
+                for (i__ = *ncont; i__ >= i__1; --i__) {
                     im1 = i__ - 1;
                     i__2 = *ncont - im1;
-                    dwork[im1] = (p * dwork[i__] - ddot_(&i__2, &a[i__ + i__ * a_dim1], lda, &dwork[i__], &c__1)) / a[i__ + im1 * a_dim1];
+                    dwork[im1]
+                        = (p * dwork[i__]
+                              - ddot_(&i__2, &a[i__ + i__ * a_dim1], lda, &dwork[i__], &c__1))
+                        / a[i__ + im1 * a_dim1];
                     /* L60: */
                 }
             }
         }
         /*        Transform eigenvector. */
         i__1 = l;
-        for (k = *ncont - 1; k >= i__1; --k)
-        {
-            if (ll != 2)
-            {
+        for (k = *ncont - 1; k >= i__1; --k) {
+            if (ll != 2) {
                 r__ = dwork[k];
                 s = dwork[k + 1];
-            }
-            else
-            {
+            } else {
                 r__ = dwork[*ncont + k];
                 s = dwork[*ncont + k + 1];
             }
             dlartg_(&r__, &s, &p, &q, &t);
             dwork[k] = t;
-            if (ll != 2)
-            {
+            if (ll != 2) {
                 /* Computing MAX */
                 i__2 = k - 1;
-                nj = max(i__2,l);
-            }
-            else
-            {
+                nj = max(i__2, l);
+            } else {
                 dwork[*ncont + k] = t;
                 nj = l - 1;
             }
             /*           Transform  A. */
             i__2 = *ncont - nj + 1;
             drot_(&i__2, &a[k + nj * a_dim1], lda, &a[k + 1 + nj * a_dim1], lda, &p, &q);
-            if (compl && ll == 1)
-            {
+            if (compl&&ll == 1) {
                 ni = *ncont;
-            }
-            else
-            {
+            } else {
                 /* Computing MIN */
                 i__2 = k + 2;
-                ni = min(i__2,*ncont);
+                ni = min(i__2, *ncont);
             }
             drot_(&ni, &a[k * a_dim1 + 1], &c__1, &a[(k + 1) * a_dim1 + 1], &c__1, &p, &q);
-            if (k == l)
-            {
+            if (k == l) {
                 /*              Transform  B. */
                 t = b[k];
                 b[k] = p * t;
@@ -311,8 +292,7 @@ L20:
             }
             /*           Accumulate transformations. */
             drot_(ncont, &z__[k * z_dim1 + 1], &c__1, &z__[(k + 1) * z_dim1 + 1], &c__1, &p, &q);
-            if (compl && ll != 2)
-            {
+            if (compl&&ll != 2) {
                 t = dwork[*ncont + k];
                 dwork[*ncont + k] = p * t + q * dwork[*ncont + k + 1];
                 dwork[*ncont + k + 1] = p * dwork[*ncont + k + 1] - q * t;
@@ -320,55 +300,43 @@ L20:
             /* L80: */
         }
     }
-    if (! compl)
-    {
+    if (!compl) {
         /*        Find one element of  G. */
         k = l;
         r__ = b[l];
-        if (l != *ncont)
-        {
-            if ((d__1 = b[lp1], abs(d__1)) > (d__2 = b[l], abs(d__2)))
-            {
+        if (l != *ncont) {
+            if ((d__1 = b[lp1], abs(d__1)) > (d__2 = b[l], abs(d__2))) {
                 k = lp1;
                 r__ = b[lp1];
             }
         }
         p = a[k + l * a_dim1];
-        if (k == l)
-        {
+        if (k == l) {
             p -= wr[l];
         }
         p /= r__;
         d__1 = -p;
         daxpy_(&lp1, &d__1, &b[1], &c__1, &a[l * a_dim1 + 1], &c__1);
         g[l] = p / b1;
-        if (l != *ncont)
-        {
+        if (l != *ncont) {
             ll = 0;
             goto L20;
         }
-    }
-    else if (ll == 1)
-    {
+    } else if (ll == 1) {
         goto L20;
-    }
-    else
-    {
+    } else {
         /*        Find two elements of  G. */
         k = l;
         r__ = b[l];
-        if (l != *ncont)
-        {
-            if ((d__1 = b[lp1], abs(d__1)) > (d__2 = b[l], abs(d__2)))
-            {
+        if (l != *ncont) {
+            if ((d__1 = b[lp1], abs(d__1)) > (d__2 = b[l], abs(d__2))) {
                 k = lp1;
                 r__ = b[lp1];
             }
         }
         p = a[k + (l - 1) * a_dim1];
         q = a[k + l * a_dim1];
-        if (k == l)
-        {
+        if (k == l) {
             p -= dwork[*ncont + l] / dwork[l - 1] * dwork[ncont2 + l];
             q = q - wr[l] + dwork[*ncont + l - 1] / dwork[l - 1] * dwork[ncont2 + l];
         }
@@ -380,19 +348,18 @@ L20:
         daxpy_(&lp1, &d__1, &b[1], &c__1, &a[l * a_dim1 + 1], &c__1);
         g[l - 1] = p / b1;
         g[l] = q / b1;
-        if (l != *ncont)
-        {
+        if (l != *ncont) {
             ll = 0;
             goto L20;
         }
     }
     /*     Transform  G. */
-    dgemv_("No transpose", ncont, ncont, &c_b23, &z__[z_offset], ldz, &g[1], &c__1, &c_b25, &dwork[1], &c__1, 12L);
+    dgemv_("No transpose", ncont, ncont, &c_b23, &z__[z_offset], ldz, &g[1], &c__1, &c_b25,
+        &dwork[1], &c__1, 12L);
     dcopy_(ncont, &dwork[1], &c__1, &g[1], &c__1);
     dscal_(ncont, &b1, &b[1], &c__1);
     /*     Annihilate A after the first subdiagonal. */
-    if (*ncont > 2)
-    {
+    if (*ncont > 2) {
         i__1 = *ncont - 2;
         i__2 = *ncont - 2;
         dlaset_("Lower", &i__1, &i__2, &c_b25, &c_b25, &a[a_dim1 + 3], lda, 5L);
@@ -400,4 +367,3 @@ L20:
     return 0;
     /* *** Last line of SB01MD *** */
 } /* sb01md_ */
-

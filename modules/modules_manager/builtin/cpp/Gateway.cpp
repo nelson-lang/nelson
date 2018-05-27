@@ -17,26 +17,24 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NelsonGateway.hpp"
-#include "modulepathBuiltin.hpp"
 #include "addmoduleBuiltin.hpp"
 #include "getmodulesBuiltin.hpp"
-#include "removemoduleBuiltin.hpp"
 #include "ismoduleBuiltin.hpp"
+#include "modulepathBuiltin.hpp"
+#include "removemoduleBuiltin.hpp"
 #include "requiremoduleBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"modules_manager";
 //=============================================================================
-static const nlsGateway gateway[] =
-{
-    { "removemodule", Nelson::ModulesManagerGateway::removemoduleBuiltin, 0, 1 },
-    { "addmodule", Nelson::ModulesManagerGateway::addmoduleBuiltin, 0, 2 },
-    { "modulepath", Nelson::ModulesManagerGateway::modulepathBuiltin, 1, 3 },
-    { "getmodules", Nelson::ModulesManagerGateway::getmodulesBuiltin, 1, 2 },
-    { "ismodule", Nelson::ModulesManagerGateway::ismoduleBuiltin, 1, 1 },
-    { "requiremodule", Nelson::ModulesManagerGateway::requiremoduleBuiltin, 1, 1 }
-};
+static const nlsGateway gateway[]
+    = { { "removemodule", Nelson::ModulesManagerGateway::removemoduleBuiltin, 0, 1 },
+          { "addmodule", Nelson::ModulesManagerGateway::addmoduleBuiltin, 0, 2 },
+          { "modulepath", Nelson::ModulesManagerGateway::modulepathBuiltin, 1, 3 },
+          { "getmodules", Nelson::ModulesManagerGateway::getmodulesBuiltin, 1, 2 },
+          { "ismodule", Nelson::ModulesManagerGateway::ismoduleBuiltin, 1, 1 },
+          { "requiremodule", Nelson::ModulesManagerGateway::requiremoduleBuiltin, 1, 1 } };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)
 //=============================================================================

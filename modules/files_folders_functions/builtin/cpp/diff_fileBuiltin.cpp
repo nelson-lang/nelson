@@ -18,20 +18,19 @@
 //=============================================================================
 #include "diff_fileBuiltin.hpp"
 #include "Error.hpp"
-#include "IsFile.hpp"
 #include "FileDiff.hpp"
+#include "IsFile.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::FilesFoldersGateway::diff_fileBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::FilesFoldersGateway::diff_fileBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() < 2 || argIn.size() > 3)
-    {
+    if (argIn.size() < 2 || argIn.size() > 3) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
@@ -39,8 +38,7 @@ ArrayOfVector Nelson::FilesFoldersGateway::diff_fileBuiltin(Evaluator* eval, int
     logical eolCompare = true;
     std::wstring filename1 = param1.getContentAsWideString();
     std::wstring filename2 = param2.getContentAsWideString();
-    if (argIn.size() == 3)
-    {
+    if (argIn.size() == 3) {
         ArrayOf param3 = argIn[2];
         eolCompare = param3.getContentAsLogicalScalar();
     }

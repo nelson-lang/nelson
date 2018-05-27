@@ -1,29 +1,29 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
 /* Table of constant values */
 
-static doublecomplex c_b1 = {0.,0.};
-static doublecomplex c_b2 = {1.,0.};
+static doublecomplex c_b1 = { 0., 0. };
+static doublecomplex c_b2 = { 1., 0. };
 static integer c__1 = 1;
 static doublereal c_b11 = 1.;
 static doublereal c_b15 = 0.;
 static doublereal c_b136 = 2.;
 
-EXPORTSYMBOL /* Subroutine */ int ab13md_(fact, n, z__, ldz, m, nblock, itype, x, bound, d__, g, iwork, dwork, ldwork, zwork, lzwork, info, fact_len)
-char *fact;
-integer *n;
-doublecomplex *z__;
+EXPORTSYMBOL /* Subroutine */ int ab13md_(fact, n, z__, ldz, m, nblock, itype, x, bound, d__, g,
+    iwork, dwork, ldwork, zwork, lzwork, info, fact_len) char* fact;
+integer* n;
+doublecomplex* z__;
 integer *ldz, *m, *nblock, *itype;
 doublereal *x, *bound, *d__, *g;
-integer *iwork;
-doublereal *dwork;
-integer *ldwork;
-doublecomplex *zwork;
+integer* iwork;
+doublereal* dwork;
+integer* ldwork;
+doublecomplex* zwork;
 integer *lzwork, *info;
 ftnlen fact_len;
 {
@@ -81,7 +81,9 @@ ftnlen fact_len;
     static integer iw2, iw3, iw4, iw5, iw6, iw7, iw8, iw9, iz2, iz3, iz4, iz5, iz6, iz7, iz8, iz9;
     static doublereal rowsum;
     extern /* Subroutine */ int dsytrs_();
-    static integer iw10, iw11, iw12, iw13, iw14, iw15, iw16, iw17, iw18, iw19, iw20, iw21, iw22, iw23, iw24, iw25, iw26, iw27, iw28, iw29, iw30, iw31, iw32, iw33, iz10, iz11, iz12, iz13, iz14, iz15, iz16, iz17, iz18, iz19, iz20, iz21, iz22, iz23, iz24, lwa, lza;
+    static integer iw10, iw11, iw12, iw13, iw14, iw15, iw16, iw17, iw18, iw19, iw20, iw21, iw22,
+        iw23, iw24, iw25, iw26, iw27, iw28, iw29, iw30, iw31, iw32, iw33, iz10, iz11, iz12, iz13,
+        iz14, iz15, iz16, iz17, iz18, iz19, iz20, iz21, iz22, iz23, iz24, lwa, lza;
     static doublereal eps, phi, rat, tau, tol;
     static logical pos;
     static doublereal tol2, tol3, tol4, tol5;
@@ -235,37 +237,25 @@ ftnlen fact_len;
     --dwork;
     --zwork;
     /* Function Body */
-    minwrk = (*n << 1) **n **m - *n **n + *m * 9 * *m + *n **m + *n * 11 + *m * 33 - 11;
-    minzrk = *n * 6 * *n **m + *n * 12 * *n + *m * 6 + *n * 6 - 3;
+    minwrk = (*n << 1) * *n * *m - *n * *n + *m * 9 * *m + *n * *m + *n * 11 + *m * 33 - 11;
+    minzrk = *n * 6 * *n * *m + *n * 12 * *n + *m * 6 + *n * 6 - 3;
     /*     Decode and Test input parameters. */
     *info = 0;
     xfact = lsame_(fact, "F", 1L, 1L);
-    if (! xfact && ! lsame_(fact, "N", 1L, 1L))
-    {
+    if (!xfact && !lsame_(fact, "N", 1L, 1L)) {
         *info = -1;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -2;
-    }
-    else if (*ldz < max(1,*n))
-    {
+    } else if (*ldz < max(1, *n)) {
         *info = -4;
-    }
-    else if (*m < 1)
-    {
+    } else if (*m < 1) {
         *info = -5;
-    }
-    else if (*ldwork < minwrk)
-    {
+    } else if (*ldwork < minwrk) {
         *info = -14;
-    }
-    else if (*lzwork < minzrk)
-    {
+    } else if (*lzwork < minzrk) {
         *info = -16;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("AB13MD", &i__1, 6L);
         return 0;
@@ -274,36 +264,29 @@ ftnlen fact_len;
     isum = 0;
     mr = 0;
     i__1 = *m;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
-        if (nblock[i__] < 1)
-        {
+    for (i__ = 1; i__ <= i__1; ++i__) {
+        if (nblock[i__] < 1) {
             *info = 1;
             return 0;
         }
-        if (itype[i__] == 1 && nblock[i__] > 1)
-        {
+        if (itype[i__] == 1 && nblock[i__] > 1) {
             *info = 3;
             return 0;
         }
         nsum += nblock[i__];
-        if (itype[i__] == 1)
-        {
+        if (itype[i__] == 1) {
             ++mr;
         }
-        if (itype[i__] == 1 || itype[i__] == 2)
-        {
+        if (itype[i__] == 1 || itype[i__] == 2) {
             ++isum;
         }
         /* L10: */
     }
-    if (nsum != *n)
-    {
+    if (nsum != *n) {
         *info = 2;
         return 0;
     }
-    if (isum != *m)
-    {
+    if (isum != *m) {
         *info = 4;
         return 0;
     }
@@ -315,8 +298,7 @@ ftnlen fact_len;
     dlaset_("Full", n, &c__1, &c_b15, &c_b15, &g[1], n, 4L);
     /*     Quick return if possible. */
     znorm = zlange_("F", n, n, &z__[z_offset], ldz, &dwork[1], 1L);
-    if (znorm == 0.)
-    {
+    if (znorm == 0.) {
         *bound = 0.;
         dwork[1] = 1.;
         zwork[1].r = 1., zwork[1].i = 0.;
@@ -325,29 +307,25 @@ ftnlen fact_len;
     /*     Copy Z into ZWORK. */
     zlacpy_("Full", n, n, &z__[z_offset], ldz, &zwork[1], n, 4L);
     /*     Exact bound for the case NBLOCK( 1 ) = N. */
-    if (nblock[1] == *n)
-    {
-        if (itype[1] == 1)
-        {
+    if (nblock[1] == *n) {
+        if (itype[1] == 1) {
             /*           1-by-1 real block. */
             *bound = 0.;
             dwork[1] = 1.;
             zwork[1].r = 1., zwork[1].i = 0.;
-        }
-        else
-        {
+        } else {
             /*           N-by-N complex block. */
-            zgesvd_("N", "N", n, n, &zwork[1], n, &dwork[1], &zwork[1], &c__1, &zwork[1], &c__1, &zwork[*n **n + 1], lzwork, &dwork[*n + 1], &info2, 1L, 1L);
-            if (info2 > 0)
-            {
+            zgesvd_("N", "N", n, n, &zwork[1], n, &dwork[1], &zwork[1], &c__1, &zwork[1], &c__1,
+                &zwork[*n * *n + 1], lzwork, &dwork[*n + 1], &info2, 1L, 1L);
+            if (info2 > 0) {
                 *info = 6;
                 return 0;
             }
             *bound = dwork[1];
-            i__1 = *n **n + 1;
-            lza = *n **n + (integer) zwork[i__1].r;
-            dwork[1] = (doublereal) (*n * 5);
-            z__1.r = (doublereal) lza, z__1.i = 0.;
+            i__1 = *n * *n + 1;
+            lza = *n * *n + (integer)zwork[i__1].r;
+            dwork[1] = (doublereal)(*n * 5);
+            z__1.r = (doublereal)lza, z__1.i = 0.;
             zwork[1].r = z__1.r, zwork[1].i = z__1.i;
         }
         return 0;
@@ -362,7 +340,7 @@ ftnlen fact_len;
     tol5 = .001;
     regpar = eps * 1e3;
     /*     Real workspace usage. */
-    iw2 = *m **m;
+    iw2 = *m * *m;
     iw3 = iw2 + *m;
     iw4 = iw3 + *n;
     iw5 = iw4 + *m;
@@ -370,7 +348,7 @@ ftnlen fact_len;
     iw7 = iw6 + *n;
     iw8 = iw7 + *n;
     iw9 = iw8 + *n * (*m - 1);
-    iw10 = iw9 + *n **n * mt;
+    iw10 = iw9 + *n * *n * mt;
     iw11 = iw10 + mt;
     iw12 = iw11 + mt * mt;
     iw13 = iw12 + *n;
@@ -396,147 +374,132 @@ ftnlen fact_len;
     iw33 = iw32 + mt;
     iwrk = iw33 + mt + 1;
     /*     Double complex workspace usage. */
-    iz2 = *n **n;
-    iz3 = iz2 + *n **n;
-    iz4 = iz3 + *n **n;
-    iz5 = iz4 + *n **n;
-    iz6 = iz5 + *n **n;
-    iz7 = iz6 + *n **n * mt;
-    iz8 = iz7 + *n **n;
-    iz9 = iz8 + *n **n;
-    iz10 = iz9 + *n **n;
+    iz2 = *n * *n;
+    iz3 = iz2 + *n * *n;
+    iz4 = iz3 + *n * *n;
+    iz5 = iz4 + *n * *n;
+    iz6 = iz5 + *n * *n;
+    iz7 = iz6 + *n * *n * mt;
+    iz8 = iz7 + *n * *n;
+    iz9 = iz8 + *n * *n;
+    iz10 = iz9 + *n * *n;
     iz11 = iz10 + mt;
-    iz12 = iz11 + *n **n;
+    iz12 = iz11 + *n * *n;
     iz13 = iz12 + *n;
-    iz14 = iz13 + *n **n;
+    iz14 = iz13 + *n * *n;
     iz15 = iz14 + *n;
-    iz16 = iz15 + *n **n;
+    iz16 = iz15 + *n * *n;
     iz17 = iz16 + *n;
-    iz18 = iz17 + *n **n;
-    iz19 = iz18 + *n **n * mt;
+    iz18 = iz17 + *n * *n;
+    iz19 = iz18 + *n * *n * mt;
     iz20 = iz19 + mt;
-    iz21 = iz20 + *n **n * mt;
-    iz22 = iz21 + *n **n;
-    iz23 = iz22 + *n **n;
-    iz24 = iz23 + *n **n;
+    iz21 = iz20 + *n * *n * mt;
+    iz22 = iz21 + *n * *n;
+    iz23 = iz22 + *n * *n;
+    iz24 = iz23 + *n * *n;
     izwrk = iz24 + mt;
     /*     Compute the cumulative sums of blocks dimensions. */
     iwork[1] = 0;
     i__1 = *m + 1;
-    for (i__ = 2; i__ <= i__1; ++i__)
-    {
+    for (i__ = 2; i__ <= i__1; ++i__) {
         iwork[i__] = iwork[i__ - 1] + nblock[i__ - 1];
         /* L20: */
     }
     /*     Find Osborne scaling if initial scaling is not given. */
-    if (! xfact)
-    {
+    if (!xfact) {
         dlaset_("Full", m, m, &c_b15, &c_b15, &dwork[1], m, 4L);
         dlaset_("Full", m, &c__1, &c_b11, &c_b11, &dwork[iw2 + 1], m, 4L);
         znorm = zlange_("F", n, n, &zwork[1], n, &dwork[1], 1L);
         i__1 = *m;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             i__2 = *m;
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
-                if (i__ != j)
-                {
+            for (i__ = 1; i__ <= i__2; ++i__) {
+                if (i__ != j) {
                     i__3 = iwork[i__ + 1] - iwork[i__];
                     i__4 = iwork[j + 1] - iwork[j];
-                    zlacpy_("Full", &i__3, &i__4, &z__[iwork[i__] + 1 + (iwork[j] + 1) * z_dim1], ldz, &zwork[iz2 + 1], n, 4L);
+                    zlacpy_("Full", &i__3, &i__4, &z__[iwork[i__] + 1 + (iwork[j] + 1) * z_dim1],
+                        ldz, &zwork[iz2 + 1], n, 4L);
                     i__3 = iwork[i__ + 1] - iwork[i__];
                     i__4 = iwork[j + 1] - iwork[j];
                     i__5 = *lzwork - izwrk;
-                    zgesvd_("N", "N", &i__3, &i__4, &zwork[iz2 + 1], n, &dwork[iw3 + 1], &zwork[1], &c__1, &zwork[1], &c__1, &zwork[izwrk + 1], &i__5, &dwork[iwrk + 1], &info2, 1L, 1L);
-                    if (info2 > 0)
-                    {
+                    zgesvd_("N", "N", &i__3, &i__4, &zwork[iz2 + 1], n, &dwork[iw3 + 1], &zwork[1],
+                        &c__1, &zwork[1], &c__1, &zwork[izwrk + 1], &i__5, &dwork[iwrk + 1], &info2,
+                        1L, 1L);
+                    if (info2 > 0) {
                         *info = 6;
                         return 0;
                     }
                     i__3 = izwrk + 1;
-                    lza = (integer) zwork[i__3].r;
-                    lzamax = max(lza,lzamax);
+                    lza = (integer)zwork[i__3].r;
+                    lzamax = max(lza, lzamax);
                     znorm2 = dwork[iw3 + 1];
-                    dwork[i__ + (j - 1) **m] = znorm2 + znorm * tol2;
+                    dwork[i__ + (j - 1) * *m] = znorm2 + znorm * tol2;
                 }
                 /* L30: */
             }
             /* L40: */
         }
         dlaset_("Full", m, &c__1, &c_b15, &c_b15, &dwork[iw4 + 1], m, 4L);
-L50:
+    L50:
         i__1 = *m;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             dwork[iw5 + i__] = dwork[iw4 + i__] - 1.;
             /* L60: */
         }
         hnorm = dlange_("F", m, &c__1, &dwork[iw5 + 1], m, &dwork[1], 1L);
-        if (hnorm <= tol2)
-        {
+        if (hnorm <= tol2) {
             goto L120;
         }
         i__1 = *m;
-        for (k = 1; k <= i__1; ++k)
-        {
+        for (k = 1; k <= i__1; ++k) {
             colsum = 0.;
             i__2 = *m;
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
-                colsum += dwork[i__ + (k - 1) **m];
+            for (i__ = 1; i__ <= i__2; ++i__) {
+                colsum += dwork[i__ + (k - 1) * *m];
                 /* L70: */
             }
             rowsum = 0.;
             i__2 = *m;
-            for (j = 1; j <= i__2; ++j)
-            {
-                rowsum += dwork[k + (j - 1) **m];
+            for (j = 1; j <= i__2; ++j) {
+                rowsum += dwork[k + (j - 1) * *m];
                 /* L80: */
             }
             rat = sqrt(colsum / rowsum);
             dwork[iw4 + k] = rat;
             i__2 = *m;
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
-                dwork[i__ + (k - 1) **m] /= rat;
+            for (i__ = 1; i__ <= i__2; ++i__) {
+                dwork[i__ + (k - 1) * *m] /= rat;
                 /* L90: */
             }
             i__2 = *m;
-            for (j = 1; j <= i__2; ++j)
-            {
-                dwork[k + (j - 1) **m] *= rat;
+            for (j = 1; j <= i__2; ++j) {
+                dwork[k + (j - 1) * *m] *= rat;
                 /* L100: */
             }
             dwork[iw2 + k] *= rat;
             /* L110: */
         }
         goto L50;
-L120:
+    L120:
         scale = 1. / dwork[iw2 + 1];
         dscal_(m, &scale, &dwork[iw2 + 1], &c__1);
-    }
-    else
-    {
+    } else {
         dwork[iw2 + 1] = 1.;
         i__1 = *m;
-        for (i__ = 2; i__ <= i__1; ++i__)
-        {
+        for (i__ = 2; i__ <= i__1; ++i__) {
             dwork[iw2 + i__] = sqrt(x[i__ - 1]);
             /* L130: */
         }
     }
     i__1 = *m;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         i__2 = *m;
-        for (i__ = 1; i__ <= i__2; ++i__)
-        {
-            if (i__ != j)
-            {
+        for (i__ = 1; i__ <= i__2; ++i__) {
+            if (i__ != j) {
                 i__3 = iwork[i__ + 1] - iwork[i__];
                 i__4 = iwork[j + 1] - iwork[j];
-                zlascl_("G", m, m, &dwork[iw2 + j], &dwork[iw2 + i__], &i__3, &i__4, &zwork[iwork[i__] + 1 + iwork[j] **n], n, &info2, 1L);
+                zlascl_("G", m, m, &dwork[iw2 + j], &dwork[iw2 + i__], &i__3, &i__4,
+                    &zwork[iwork[i__] + 1 + iwork[j] * *n], n, &info2, 1L);
             }
             /* L140: */
         }
@@ -545,156 +508,141 @@ L120:
     /*     Scale Z by its 2-norm. */
     zlacpy_("Full", n, n, &zwork[1], n, &zwork[iz2 + 1], n, 4L);
     i__1 = *lzwork - izwrk;
-    zgesvd_("N", "N", n, n, &zwork[iz2 + 1], n, &dwork[iw3 + 1], &zwork[1], &c__1, &zwork[1], &c__1, &zwork[izwrk + 1], &i__1, &dwork[iwrk + 1], &info2, 1L, 1L);
-    if (info2 > 0)
-    {
+    zgesvd_("N", "N", n, n, &zwork[iz2 + 1], n, &dwork[iw3 + 1], &zwork[1], &c__1, &zwork[1], &c__1,
+        &zwork[izwrk + 1], &i__1, &dwork[iwrk + 1], &info2, 1L, 1L);
+    if (info2 > 0) {
         *info = 6;
         return 0;
     }
     i__1 = izwrk + 1;
-    lza = (integer) zwork[i__1].r;
-    lzamax = max(lza,lzamax);
+    lza = (integer)zwork[i__1].r;
+    lzamax = max(lza, lzamax);
     znorm = dwork[iw3 + 1];
     zlascl_("G", m, m, &znorm, &c_b11, n, n, &zwork[1], n, &info2, 1L);
     /*     Set BB. */
-    i__1 = *n **n;
-    i__2 = *n **n;
+    i__1 = *n * *n;
+    i__2 = *n * *n;
     dlaset_("Full", &i__1, &mt, &c_b15, &c_b15, &dwork[iw9 + 1], &i__2, 4L);
     /*     Set P. */
     i__1 = nblock[1];
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         dwork[iw6 + i__] = 1.;
         /* L160: */
     }
     i__1 = *n;
-    for (i__ = nblock[1] + 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = nblock[1] + 1; i__ <= i__1; ++i__) {
         dwork[iw6 + i__] = 0.;
         /* L170: */
     }
     /*     Compute P*Z. */
     i__1 = *n;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         i__2 = *n;
-        for (i__ = 1; i__ <= i__2; ++i__)
-        {
-            i__3 = iz3 + i__ + (j - 1) **n;
+        for (i__ = 1; i__ <= i__2; ++i__) {
+            i__3 = iz3 + i__ + (j - 1) * *n;
             i__4 = iw6 + i__;
             z__2.r = dwork[i__4], z__2.i = 0.;
-            i__5 = i__ + (j - 1) **n;
-            z__1.r = z__2.r * zwork[i__5].r - z__2.i * zwork[i__5].i, z__1.i = z__2.r * zwork[i__5].i + z__2.i * zwork[i__5].r;
+            i__5 = i__ + (j - 1) * *n;
+            z__1.r = z__2.r * zwork[i__5].r - z__2.i * zwork[i__5].i,
+            z__1.i = z__2.r * zwork[i__5].i + z__2.i * zwork[i__5].r;
             zwork[i__3].r = z__1.r, zwork[i__3].i = z__1.i;
             /* L180: */
         }
         /* L190: */
     }
     /*     Compute Z'*P*Z. */
-    zgemm_("C", "N", n, n, n, &c_b2, &zwork[1], n, &zwork[iz3 + 1], n, &c_b1, &zwork[iz4 + 1], n, 1L, 1L);
+    zgemm_("C", "N", n, n, n, &c_b2, &zwork[1], n, &zwork[iz3 + 1], n, &c_b1, &zwork[iz4 + 1], n,
+        1L, 1L);
     /*     Copy Z'*P*Z into A0. */
     zlacpy_("Full", n, n, &zwork[iz4 + 1], n, &zwork[iz5 + 1], n, 4L);
     /*     Copy diag(P) into B0d. */
     dcopy_(n, &dwork[iw6 + 1], &c__1, &dwork[iw7 + 1], &c__1);
     i__1 = *m;
-    for (k = 2; k <= i__1; ++k)
-    {
+    for (k = 2; k <= i__1; ++k) {
         /*        Set P. */
         i__2 = iwork[k];
-        for (i__ = 1; i__ <= i__2; ++i__)
-        {
+        for (i__ = 1; i__ <= i__2; ++i__) {
             dwork[iw6 + i__] = 0.;
             /* L200: */
         }
         i__2 = iwork[k] + nblock[k];
-        for (i__ = iwork[k] + 1; i__ <= i__2; ++i__)
-        {
+        for (i__ = iwork[k] + 1; i__ <= i__2; ++i__) {
             dwork[iw6 + i__] = 1.;
             /* L210: */
         }
-        if (k < *m)
-        {
+        if (k < *m) {
             i__2 = *n;
-            for (i__ = iwork[k + 1] + 1; i__ <= i__2; ++i__)
-            {
+            for (i__ = iwork[k + 1] + 1; i__ <= i__2; ++i__) {
                 dwork[iw6 + i__] = 0.;
                 /* L220: */
             }
         }
         /*        Compute P*Z. */
         i__2 = *n;
-        for (j = 1; j <= i__2; ++j)
-        {
+        for (j = 1; j <= i__2; ++j) {
             i__3 = *n;
-            for (i__ = 1; i__ <= i__3; ++i__)
-            {
-                i__4 = iz3 + i__ + (j - 1) **n;
+            for (i__ = 1; i__ <= i__3; ++i__) {
+                i__4 = iz3 + i__ + (j - 1) * *n;
                 i__5 = iw6 + i__;
                 z__2.r = dwork[i__5], z__2.i = 0.;
-                i__6 = i__ + (j - 1) **n;
-                z__1.r = z__2.r * zwork[i__6].r - z__2.i * zwork[i__6].i, z__1.i = z__2.r * zwork[i__6].i + z__2.i * zwork[i__6].r;
+                i__6 = i__ + (j - 1) * *n;
+                z__1.r = z__2.r * zwork[i__6].r - z__2.i * zwork[i__6].i,
+                z__1.i = z__2.r * zwork[i__6].i + z__2.i * zwork[i__6].r;
                 zwork[i__4].r = z__1.r, zwork[i__4].i = z__1.i;
                 /* L230: */
             }
             /* L240: */
         }
         /*        Compute t = Z'*P*Z. */
-        zgemm_("C", "N", n, n, n, &c_b2, &zwork[1], n, &zwork[iz3 + 1], n, &c_b1, &zwork[iz4 + 1], n, 1L, 1L);
+        zgemm_("C", "N", n, n, n, &c_b2, &zwork[1], n, &zwork[iz3 + 1], n, &c_b1, &zwork[iz4 + 1],
+            n, 1L, 1L);
         /*        Copy t(:) into the (k-1)-th column of AA. */
-        i__2 = *n **n;
-        zcopy_(&i__2, &zwork[iz4 + 1], &c__1, &zwork[iz6 + 1 + (k - 2) **n **n], &c__1);
+        i__2 = *n * *n;
+        zcopy_(&i__2, &zwork[iz4 + 1], &c__1, &zwork[iz6 + 1 + (k - 2) * *n * *n], &c__1);
         /*        Copy diag(P) into the (k-1)-th column of BBd. */
-        dcopy_(n, &dwork[iw6 + 1], &c__1, &dwork[iw8 + 1 + (k - 2) **n], &c__1);
+        dcopy_(n, &dwork[iw6 + 1], &c__1, &dwork[iw8 + 1 + (k - 2) * *n], &c__1);
         /*        Copy P(:) into the (k-1)-th column of BB. */
         i__2 = *n;
-        for (i__ = 1; i__ <= i__2; ++i__)
-        {
-            dwork[iw9 + i__ + (i__ - 1) **n + (k - 2) **n **n] = dwork[iw6 + i__];
+        for (i__ = 1; i__ <= i__2; ++i__) {
+            dwork[iw9 + i__ + (i__ - 1) * *n + (k - 2) * *n * *n] = dwork[iw6 + i__];
             /* L260: */
         }
         /* L270: */
     }
     l = 0;
     i__1 = *m;
-    for (k = 1; k <= i__1; ++k)
-    {
-        if (itype[k] == 1)
-        {
+    for (k = 1; k <= i__1; ++k) {
+        if (itype[k] == 1) {
             ++l;
             /*           Set P. */
             i__2 = iwork[k];
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
+            for (i__ = 1; i__ <= i__2; ++i__) {
                 dwork[iw6 + i__] = 0.;
                 /* L280: */
             }
             i__2 = iwork[k] + nblock[k];
-            for (i__ = iwork[k] + 1; i__ <= i__2; ++i__)
-            {
+            for (i__ = iwork[k] + 1; i__ <= i__2; ++i__) {
                 dwork[iw6 + i__] = 1.;
                 /* L290: */
             }
-            if (k < *m)
-            {
+            if (k < *m) {
                 i__2 = *n;
-                for (i__ = iwork[k + 1] + 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = iwork[k + 1] + 1; i__ <= i__2; ++i__) {
                     dwork[iw6 + i__] = 0.;
                     /* L300: */
                 }
             }
             /*           Compute P*Z. */
             i__2 = *n;
-            for (j = 1; j <= i__2; ++j)
-            {
+            for (j = 1; j <= i__2; ++j) {
                 i__3 = *n;
-                for (i__ = 1; i__ <= i__3; ++i__)
-                {
-                    i__4 = iz3 + i__ + (j - 1) **n;
+                for (i__ = 1; i__ <= i__3; ++i__) {
+                    i__4 = iz3 + i__ + (j - 1) * *n;
                     i__5 = iw6 + i__;
                     z__2.r = dwork[i__5], z__2.i = 0.;
-                    i__6 = i__ + (j - 1) **n;
-                    z__1.r = z__2.r * zwork[i__6].r - z__2.i * zwork[i__6].i, z__1.i = z__2.r * zwork[i__6].i + z__2.i * zwork[i__6].r;
+                    i__6 = i__ + (j - 1) * *n;
+                    z__1.r = z__2.r * zwork[i__6].r - z__2.i * zwork[i__6].i,
+                    z__1.i = z__2.r * zwork[i__6].i + z__2.i * zwork[i__6].r;
                     zwork[i__4].r = z__1.r, zwork[i__4].i = z__1.i;
                     /* L310: */
                 }
@@ -702,21 +650,19 @@ L120:
             }
             /*           Compute t = sqrt(-1)*( P*Z - Z'*P ). */
             i__2 = *n;
-            for (j = 1; j <= i__2; ++j)
-            {
+            for (j = 1; j <= i__2; ++j) {
                 i__3 = j;
-                for (i__ = 1; i__ <= i__3; ++i__)
-                {
-                    i__4 = iz3 + i__ + (j - 1) **n;
+                for (i__ = 1; i__ <= i__3; ++i__) {
+                    i__4 = iz3 + i__ + (j - 1) * *n;
                     tempij.r = zwork[i__4].r, tempij.i = zwork[i__4].i;
-                    i__4 = iz3 + j + (i__ - 1) **n;
+                    i__4 = iz3 + j + (i__ - 1) * *n;
                     tempji.r = zwork[i__4].r, tempji.i = zwork[i__4].i;
-                    i__4 = iz4 + i__ + (j - 1) **n;
+                    i__4 = iz4 + i__ + (j - 1) * *n;
                     d_cnjg(&z__3, &tempji);
                     z__2.r = tempij.r - z__3.r, z__2.i = tempij.i - z__3.i;
                     z__1.r = z__2.r * 0. - z__2.i * 1., z__1.i = z__2.i * 0. + z__2.r * 1.;
                     zwork[i__4].r = z__1.r, zwork[i__4].i = z__1.i;
-                    i__4 = iz4 + j + (i__ - 1) **n;
+                    i__4 = iz4 + j + (i__ - 1) * *n;
                     d_cnjg(&z__3, &tempij);
                     z__2.r = tempji.r - z__3.r, z__2.i = tempji.i - z__3.i;
                     z__1.r = z__2.r * 0. - z__2.i * 1., z__1.i = z__2.i * 0. + z__2.r * 1.;
@@ -726,37 +672,29 @@ L120:
                 /* L340: */
             }
             /*           Copy t(:) into the (m-1+l)-th column of AA. */
-            i__2 = *n **n;
-            zcopy_(&i__2, &zwork[iz4 + 1], &c__1, &zwork[iz6 + 1 + (*m - 2 + l) **n **n], &c__1);
+            i__2 = *n * *n;
+            zcopy_(&i__2, &zwork[iz4 + 1], &c__1, &zwork[iz6 + 1 + (*m - 2 + l) * *n * *n], &c__1);
         }
         /* L350: */
     }
     /*     Set initial X. */
     i__1 = *m - 1;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         x[i__] = 1.;
         /* L360: */
     }
-    if (mr > 0)
-    {
-        if (! xfact)
-        {
+    if (mr > 0) {
+        if (!xfact) {
             i__1 = mr;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 x[*m - 1 + i__] = 0.;
                 /* L370: */
             }
-        }
-        else
-        {
+        } else {
             l = 0;
             i__1 = *m;
-            for (k = 1; k <= i__1; ++k)
-            {
-                if (itype[k] == 1)
-                {
+            for (k = 1; k <= i__1; ++k) {
+                if (itype[k] == 1) {
                     ++l;
                     /* Computing 2nd power */
                     d__1 = dwork[iw2 + k];
@@ -777,41 +715,40 @@ L390:
     ++iter;
     /*        Compute A(:) = A0 + AA*x. */
     i__1 = mt;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         i__2 = iz10 + i__;
         i__3 = i__;
         z__1.r = x[i__3], z__1.i = 0.;
         zwork[i__2].r = z__1.r, zwork[i__2].i = z__1.i;
         /* L400: */
     }
-    i__1 = *n **n;
+    i__1 = *n * *n;
     zcopy_(&i__1, &zwork[iz5 + 1], &c__1, &zwork[iz7 + 1], &c__1);
-    i__1 = *n **n;
-    i__2 = *n **n;
-    zgemv_("N", &i__1, &mt, &c_b2, &zwork[iz6 + 1], &i__2, &zwork[iz10 + 1], &c__1, &c_b2, &zwork[iz7 + 1], &c__1, 1L);
+    i__1 = *n * *n;
+    i__2 = *n * *n;
+    zgemv_("N", &i__1, &mt, &c_b2, &zwork[iz6 + 1], &i__2, &zwork[iz10 + 1], &c__1, &c_b2,
+        &zwork[iz7 + 1], &c__1, 1L);
     /*        Compute diag( Binv ). */
     dcopy_(n, &dwork[iw7 + 1], &c__1, &dwork[iw12 + 1], &c__1);
     i__1 = *m - 1;
-    dgemv_("N", n, &i__1, &c_b11, &dwork[iw8 + 1], n, &x[1], &c__1, &c_b11, &dwork[iw12 + 1], &c__1, 1L);
+    dgemv_("N", n, &i__1, &c_b11, &dwork[iw8 + 1], n, &x[1], &c__1, &c_b11, &dwork[iw12 + 1], &c__1,
+        1L);
     i__1 = *n;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         dwork[iw12 + i__] = 1. / dwork[iw12 + i__];
         /* L410: */
     }
     /*        Compute Binv*A. */
     i__1 = *n;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         i__2 = *n;
-        for (i__ = 1; i__ <= i__2; ++i__)
-        {
-            i__3 = iz11 + i__ + (j - 1) **n;
+        for (i__ = 1; i__ <= i__2; ++i__) {
+            i__3 = iz11 + i__ + (j - 1) * *n;
             i__4 = iw12 + i__;
             z__2.r = dwork[i__4], z__2.i = 0.;
-            i__5 = iz7 + i__ + (j - 1) **n;
-            z__1.r = z__2.r * zwork[i__5].r - z__2.i * zwork[i__5].i, z__1.i = z__2.r * zwork[i__5].i + z__2.i * zwork[i__5].r;
+            i__5 = iz7 + i__ + (j - 1) * *n;
+            z__1.r = z__2.r * zwork[i__5].r - z__2.i * zwork[i__5].i,
+            z__1.i = z__2.r * zwork[i__5].i + z__2.i * zwork[i__5].r;
             zwork[i__3].r = z__1.r, zwork[i__3].i = z__1.i;
             /* L420: */
         }
@@ -819,25 +756,22 @@ L390:
     }
     /*        Compute eig( Binv*A ). */
     i__1 = *lzwork - izwrk;
-    zgees_("N", "N", select_, n, &zwork[iz11 + 1], n, &sdim, &zwork[iz12 + 1], &zwork[1], n, &zwork[izwrk + 1], &i__1, &dwork[iwrk + 1], bwork, &info2, 1L, 1L);
-    if (info2 > 0)
-    {
+    zgees_("N", "N", select_, n, &zwork[iz11 + 1], n, &sdim, &zwork[iz12 + 1], &zwork[1], n,
+        &zwork[izwrk + 1], &i__1, &dwork[iwrk + 1], bwork, &info2, 1L, 1L);
+    if (info2 > 0) {
         *info = 6;
         return 0;
     }
     i__1 = izwrk + 1;
-    lza = (integer) zwork[i__1].r;
-    lzamax = max(lza,lzamax);
+    lza = (integer)zwork[i__1].r;
+    lzamax = max(lza, lzamax);
     i__1 = iz12 + 1;
     e = zwork[i__1].r;
-    if (*n > 1)
-    {
+    if (*n > 1) {
         i__1 = *n;
-        for (i__ = 2; i__ <= i__1; ++i__)
-        {
+        for (i__ = 2; i__ <= i__1; ++i__) {
             i__2 = iz12 + i__;
-            if (zwork[i__2].r > e)
-            {
+            if (zwork[i__2].r > e) {
                 i__3 = iz12 + i__;
                 e = zwork[i__3].r;
             }
@@ -845,100 +779,81 @@ L390:
         }
     }
     /*        Set tau. */
-    if (mr > 0)
-    {
+    if (mr > 0) {
         snorm = (d__1 = x[*m], abs(d__1));
-        if (mr > 1)
-        {
+        if (mr > 1) {
             i__1 = mt;
-            for (i__ = *m + 1; i__ <= i__1; ++i__)
-            {
-                if ((d__1 = x[i__], abs(d__1)) > snorm)
-                {
+            for (i__ = *m + 1; i__ <= i__1; ++i__) {
+                if ((d__1 = x[i__], abs(d__1)) > snorm) {
                     snorm = (d__2 = x[i__], abs(d__2));
                 }
                 /* L450: */
             }
         }
-        if (snorm > 40.)
-        {
+        if (snorm > 40.) {
             tau = 100.;
-        }
-        else if (snorm > 8.)
-        {
+        } else if (snorm > 8.) {
             tau = 50.;
-        }
-        else if (snorm > 4.)
-        {
+        } else if (snorm > 4.) {
             tau = 10.;
-        }
-        else if (snorm > 1.)
-        {
+        } else if (snorm > 1.) {
             tau = 5.;
-        }
-        else
-        {
+        } else {
             tau = 2.;
         }
     }
-    if (iter == 0)
-    {
+    if (iter == 0) {
         dlambd = e + .001;
-    }
-    else
-    {
+    } else {
         dwork[iw13 + 1] = e;
         dcopy_(&mt, &x[1], &c__1, &dwork[iw13 + 2], &c__1);
         dlambd = dwork[iw13 + 1] * .98999999999999999 + dwork[iw14 + 1] * .01;
         dcopy_(&mt, &dwork[iw13 + 2], &c__1, &dwork[iw18 + 1], &c__1);
         dcopy_(&mt, &dwork[iw14 + 2], &c__1, &dwork[iw19 + 1], &c__1);
         l = 0;
-L460:
+    L460:
         i__1 = mt;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
-            x[i__] = (1. - .01 / pow_di(&c_b136, &l)) * dwork[iw18 + i__] + .01 / pow_di(&c_b136, &l) * dwork[iw19 + i__];
+        for (i__ = 1; i__ <= i__1; ++i__) {
+            x[i__] = (1. - .01 / pow_di(&c_b136, &l)) * dwork[iw18 + i__]
+                + .01 / pow_di(&c_b136, &l) * dwork[iw19 + i__];
             /* L470: */
         }
         /*           Compute At(:) = A0 + AA*x. */
         i__1 = mt;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             i__2 = iz10 + i__;
             i__3 = i__;
             z__1.r = x[i__3], z__1.i = 0.;
             zwork[i__2].r = z__1.r, zwork[i__2].i = z__1.i;
             /* L480: */
         }
-        i__1 = *n **n;
+        i__1 = *n * *n;
         zcopy_(&i__1, &zwork[iz5 + 1], &c__1, &zwork[iz9 + 1], &c__1);
-        i__1 = *n **n;
-        i__2 = *n **n;
-        zgemv_("N", &i__1, &mt, &c_b2, &zwork[iz6 + 1], &i__2, &zwork[iz10 + 1], &c__1, &c_b2, &zwork[iz9 + 1], &c__1, 1L);
+        i__1 = *n * *n;
+        i__2 = *n * *n;
+        zgemv_("N", &i__1, &mt, &c_b2, &zwork[iz6 + 1], &i__2, &zwork[iz10 + 1], &c__1, &c_b2,
+            &zwork[iz9 + 1], &c__1, 1L);
         /*           Compute diag(Bt). */
         dcopy_(n, &dwork[iw7 + 1], &c__1, &dwork[iw21 + 1], &c__1);
         i__1 = *m - 1;
-        dgemv_("N", n, &i__1, &c_b11, &dwork[iw8 + 1], n, &x[1], &c__1, &c_b11, &dwork[iw21 + 1], &c__1, 1L);
+        dgemv_("N", n, &i__1, &c_b11, &dwork[iw8 + 1], n, &x[1], &c__1, &c_b11, &dwork[iw21 + 1],
+            &c__1, 1L);
         /*           Compute W. */
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             i__2 = *n;
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
-                if (i__ == j)
-                {
-                    i__3 = iz13 + i__ + (i__ - 1) **n;
-                    d__1 = (dwork[iw14 + 1] - dwork[iw13 + 1]) * 1e-4 / 2. - dlambd * dwork[iw21 + i__];
+            for (i__ = 1; i__ <= i__2; ++i__) {
+                if (i__ == j) {
+                    i__3 = iz13 + i__ + (i__ - 1) * *n;
+                    d__1 = (dwork[iw14 + 1] - dwork[iw13 + 1]) * 1e-4 / 2.
+                        - dlambd * dwork[iw21 + i__];
                     z__2.r = d__1, z__2.i = 0.;
-                    i__4 = iz9 + i__ + (i__ - 1) **n;
+                    i__4 = iz9 + i__ + (i__ - 1) * *n;
                     z__1.r = z__2.r + zwork[i__4].r, z__1.i = z__2.i + zwork[i__4].i;
                     zwork[i__3].r = z__1.r, zwork[i__3].i = z__1.i;
-                }
-                else
-                {
-                    i__3 = iz13 + i__ + (j - 1) **n;
-                    i__4 = iz9 + i__ + (j - 1) **n;
+                } else {
+                    i__3 = iz13 + i__ + (j - 1) * *n;
+                    i__4 = iz9 + i__ + (j - 1) * *n;
                     zwork[i__3].r = zwork[i__4].r, zwork[i__3].i = zwork[i__4].i;
                 }
                 /* L490: */
@@ -947,37 +862,31 @@ L460:
         }
         /*           Compute eig( W ). */
         i__1 = *lzwork - izwrk;
-        zgees_("N", "N", select_, n, &zwork[iz13 + 1], n, &sdim, &zwork[iz14 + 1], &zwork[1], n, &zwork[izwrk + 1], &i__1, &dwork[iwrk + 1], bwork, &info2, 1L, 1L);
-        if (info2 > 0)
-        {
+        zgees_("N", "N", select_, n, &zwork[iz13 + 1], n, &sdim, &zwork[iz14 + 1], &zwork[1], n,
+            &zwork[izwrk + 1], &i__1, &dwork[iwrk + 1], bwork, &info2, 1L, 1L);
+        if (info2 > 0) {
             *info = 6;
             return 0;
         }
         i__1 = izwrk + 1;
-        lza = (integer) zwork[i__1].r;
-        lzamax = max(lza,lzamax);
+        lza = (integer)zwork[i__1].r;
+        lzamax = max(lza, lzamax);
         i__1 = iz14 + 1;
         emax = zwork[i__1].r;
-        if (*n > 1)
-        {
+        if (*n > 1) {
             i__1 = *n;
-            for (i__ = 2; i__ <= i__1; ++i__)
-            {
+            for (i__ = 2; i__ <= i__1; ++i__) {
                 i__2 = iz14 + i__;
-                if (zwork[i__2].r > emax)
-                {
+                if (zwork[i__2].r > emax) {
                     i__3 = iz14 + i__;
                     emax = zwork[i__3].r;
                 }
                 /* L510: */
             }
         }
-        if (emax <= 0.)
-        {
+        if (emax <= 0.) {
             goto L515;
-        }
-        else
-        {
+        } else {
             ++l;
             goto L460;
         }
@@ -986,12 +895,10 @@ L460:
 L515:
     dwork[iw13 + 1] = dlambd;
     dcopy_(&mt, &x[1], &c__1, &dwork[iw13 + 2], &c__1);
-    if (svlam - dlambd < tol)
-    {
-        *bound = sqrt((max(e,0.))) * znorm;
+    if (svlam - dlambd < tol) {
+        *bound = sqrt((max(e, 0.))) * znorm;
         i__1 = *m - 1;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             /* Computing 2nd power */
             d__1 = dwork[iw2 + i__ + 1];
             x[i__] *= d__1 * d__1;
@@ -999,24 +906,22 @@ L515:
         }
         /*           Compute sqrt( x ). */
         i__1 = *m - 1;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             dwork[iw20 + i__] = sqrt(x[i__]);
             /* L530: */
         }
         /*           Compute diag( D ). */
         dcopy_(n, &dwork[iw7 + 1], &c__1, &d__[1], &c__1);
         i__1 = *m - 1;
-        dgemv_("N", n, &i__1, &c_b11, &dwork[iw8 + 1], n, &dwork[iw20 + 1], &c__1, &c_b11, &d__[1], &c__1, 1L);
+        dgemv_("N", n, &i__1, &c_b11, &dwork[iw8 + 1], n, &dwork[iw20 + 1], &c__1, &c_b11, &d__[1],
+            &c__1, 1L);
         /*           Compute diag( G ). */
         j = 0;
         l = 0;
         i__1 = *m;
-        for (k = 1; k <= i__1; ++k)
-        {
+        for (k = 1; k <= i__1; ++k) {
             j += nblock[k];
-            if (itype[k] == 1)
-            {
+            if (itype[k] == 1) {
                 ++l;
                 /* Computing 2nd power */
                 d__1 = dwork[iw2 + k];
@@ -1026,63 +931,57 @@ L515:
             /* L540: */
         }
         dscal_(n, &znorm, &g[1], &c__1);
-        dwork[1] = (doublereal) (minwrk - *n * 5 + lwamax);
+        dwork[1] = (doublereal)(minwrk - *n * 5 + lwamax);
         i__1 = minzrk - *n * 3 + lzamax;
-        z__1.r = (doublereal) i__1, z__1.i = 0.;
+        z__1.r = (doublereal)i__1, z__1.i = 0.;
         zwork[1].r = z__1.r, zwork[1].i = z__1.i;
         return 0;
     }
     svlam = dlambd;
     i__1 = *m;
-    for (k = 1; k <= i__1; ++k)
-    {
+    for (k = 1; k <= i__1; ++k) {
         /*           Store xD. */
         i__2 = *m - 1;
         dcopy_(&i__2, &x[1], &c__1, &dwork[iw22 + 1], &c__1);
-        if (mr > 0)
-        {
+        if (mr > 0) {
             /*              Store xG. */
             dcopy_(&mr, &x[*m], &c__1, &dwork[iw23 + 1], &c__1);
         }
         /*           Compute A(:) = A0 + AA*x. */
         i__2 = mt;
-        for (i__ = 1; i__ <= i__2; ++i__)
-        {
+        for (i__ = 1; i__ <= i__2; ++i__) {
             i__3 = iz10 + i__;
             i__4 = i__;
             z__1.r = x[i__4], z__1.i = 0.;
             zwork[i__3].r = z__1.r, zwork[i__3].i = z__1.i;
             /* L550: */
         }
-        i__2 = *n **n;
+        i__2 = *n * *n;
         zcopy_(&i__2, &zwork[iz5 + 1], &c__1, &zwork[iz7 + 1], &c__1);
-        i__2 = *n **n;
-        i__3 = *n **n;
-        zgemv_("N", &i__2, &mt, &c_b2, &zwork[iz6 + 1], &i__3, &zwork[iz10 + 1], &c__1, &c_b2, &zwork[iz7 + 1], &c__1, 1L);
+        i__2 = *n * *n;
+        i__3 = *n * *n;
+        zgemv_("N", &i__2, &mt, &c_b2, &zwork[iz6 + 1], &i__3, &zwork[iz10 + 1], &c__1, &c_b2,
+            &zwork[iz7 + 1], &c__1, 1L);
         /*           Compute B = B0d + BBd*xD. */
         dcopy_(n, &dwork[iw7 + 1], &c__1, &dwork[iw24 + 1], &c__1);
         i__2 = *m - 1;
-        dgemv_("N", n, &i__2, &c_b11, &dwork[iw8 + 1], n, &dwork[iw22 + 1], &c__1, &c_b11, &dwork[iw24 + 1], &c__1, 1L);
+        dgemv_("N", n, &i__2, &c_b11, &dwork[iw8 + 1], n, &dwork[iw22 + 1], &c__1, &c_b11,
+            &dwork[iw24 + 1], &c__1, 1L);
         /*           Compute F. */
         i__2 = *n;
-        for (j = 1; j <= i__2; ++j)
-        {
+        for (j = 1; j <= i__2; ++j) {
             i__3 = *n;
-            for (i__ = 1; i__ <= i__3; ++i__)
-            {
-                if (i__ == j)
-                {
-                    i__4 = iz15 + i__ + (i__ - 1) **n;
+            for (i__ = 1; i__ <= i__3; ++i__) {
+                if (i__ == j) {
+                    i__4 = iz15 + i__ + (i__ - 1) * *n;
                     d__1 = dlambd * dwork[iw24 + i__];
                     z__2.r = d__1, z__2.i = 0.;
-                    i__5 = iz7 + i__ + (i__ - 1) **n;
+                    i__5 = iz7 + i__ + (i__ - 1) * *n;
                     z__1.r = z__2.r - zwork[i__5].r, z__1.i = z__2.i - zwork[i__5].i;
                     zwork[i__4].r = z__1.r, zwork[i__4].i = z__1.i;
-                }
-                else
-                {
-                    i__4 = iz15 + i__ + (j - 1) **n;
-                    i__5 = iz7 + i__ + (j - 1) **n;
+                } else {
+                    i__4 = iz15 + i__ + (j - 1) * *n;
+                    i__5 = iz7 + i__ + (j - 1) * *n;
                     z__1.r = -zwork[i__5].r, z__1.i = -zwork[i__5].i;
                     zwork[i__4].r = z__1.r, zwork[i__4].i = z__1.i;
                 }
@@ -1093,49 +992,45 @@ L515:
         zlacpy_("Full", n, n, &zwork[iz15 + 1], n, &zwork[iz17 + 1], n, 4L);
         /*           Compute det( F ). */
         i__2 = *lzwork - izwrk;
-        zgees_("N", "N", select_, n, &zwork[iz15 + 1], n, &sdim, &zwork[iz16 + 1], &zwork[1], n, &zwork[izwrk + 1], &i__2, &dwork[iwrk + 1], bwork, &info2, 1L, 1L);
-        if (info2 > 0)
-        {
+        zgees_("N", "N", select_, n, &zwork[iz15 + 1], n, &sdim, &zwork[iz16 + 1], &zwork[1], n,
+            &zwork[izwrk + 1], &i__2, &dwork[iwrk + 1], bwork, &info2, 1L, 1L);
+        if (info2 > 0) {
             *info = 6;
             return 0;
         }
         i__2 = izwrk + 1;
-        lza = (integer) zwork[i__2].r;
-        lzamax = max(lza,lzamax);
+        lza = (integer)zwork[i__2].r;
+        lzamax = max(lza, lzamax);
         detf.r = 1., detf.i = 0.;
         i__2 = *n;
-        for (i__ = 1; i__ <= i__2; ++i__)
-        {
+        for (i__ = 1; i__ <= i__2; ++i__) {
             i__3 = iz16 + i__;
-            z__1.r = detf.r * zwork[i__3].r - detf.i * zwork[i__3].i, z__1.i = detf.r * zwork[i__3].i + detf.i * zwork[i__3].r;
+            z__1.r = detf.r * zwork[i__3].r - detf.i * zwork[i__3].i,
+            z__1.i = detf.r * zwork[i__3].i + detf.i * zwork[i__3].r;
             detf.r = z__1.r, detf.i = z__1.i;
             /* L560: */
         }
         /*           Compute Finv. */
         zgetrf_(n, n, &zwork[iz17 + 1], n, &iwork[1], &info2);
-        if (info2 > 0)
-        {
+        if (info2 > 0) {
             *info = 5;
             return 0;
         }
         i__2 = *ldwork - iwrk;
         zgetri_(n, &zwork[iz17 + 1], n, &iwork[1], &zwork[izwrk + 1], &i__2, &info2);
         i__2 = izwrk + 1;
-        lza = (integer) zwork[i__2].r;
-        lzamax = max(lza,lzamax);
+        lza = (integer)zwork[i__2].r;
+        lzamax = max(lza, lzamax);
         /*           Compute phi. */
         i__2 = *m - 1;
-        for (i__ = 1; i__ <= i__2; ++i__)
-        {
+        for (i__ = 1; i__ <= i__2; ++i__) {
             dwork[iw25 + i__] = dwork[iw22 + i__] - .01;
             dwork[iw25 + *m - 1 + i__] = 100. - dwork[iw22 + i__];
             /* L570: */
         }
-        if (mr > 0)
-        {
+        if (mr > 0) {
             i__2 = mr;
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
+            for (i__ = 1; i__ <= i__2; ++i__) {
                 dwork[iw25 + (*m - 1 << 1) + i__] = dwork[iw23 + i__] + tau;
                 dwork[iw25 + (*m - 1 << 1) + mr + i__] = tau - dwork[iw23 + i__];
                 /* L580: */
@@ -1143,55 +1038,49 @@ L515:
         }
         prod = 1.;
         i__2 = mt << 1;
-        for (i__ = 1; i__ <= i__2; ++i__)
-        {
+        for (i__ = 1; i__ <= i__2; ++i__) {
             prod *= dwork[iw25 + i__];
             /* L590: */
         }
         temp = detf.r;
-        if (temp < eps)
-        {
+        if (temp < eps) {
             temp = eps;
         }
         phi = -log(temp) - log(prod);
         /*           Compute g. */
         i__2 = mt;
-        for (j = 1; j <= i__2; ++j)
-        {
-            i__3 = *n **n;
-            for (i__ = 1; i__ <= i__3; ++i__)
-            {
-                i__4 = iz18 + i__ + (j - 1) **n **n;
-                d__1 = dlambd * dwork[iw9 + i__ + (j - 1) **n **n];
+        for (j = 1; j <= i__2; ++j) {
+            i__3 = *n * *n;
+            for (i__ = 1; i__ <= i__3; ++i__) {
+                i__4 = iz18 + i__ + (j - 1) * *n * *n;
+                d__1 = dlambd * dwork[iw9 + i__ + (j - 1) * *n * *n];
                 z__2.r = d__1, z__2.i = 0.;
-                i__5 = iz6 + i__ + (j - 1) **n **n;
+                i__5 = iz6 + i__ + (j - 1) * *n * *n;
                 z__1.r = z__2.r - zwork[i__5].r, z__1.i = z__2.i - zwork[i__5].i;
                 zwork[i__4].r = z__1.r, zwork[i__4].i = z__1.i;
                 /* L600: */
             }
             /* L610: */
         }
-        i__2 = *n **n;
-        i__3 = *n **n;
-        zgemv_("C", &i__2, &mt, &c_b2, &zwork[iz18 + 1], &i__3, &zwork[iz17 + 1], &c__1, &c_b1, &zwork[iz19 + 1], &c__1, 1L);
+        i__2 = *n * *n;
+        i__3 = *n * *n;
+        zgemv_("C", &i__2, &mt, &c_b2, &zwork[iz18 + 1], &i__3, &zwork[iz17 + 1], &c__1, &c_b1,
+            &zwork[iz19 + 1], &c__1, 1L);
         i__2 = *m - 1;
-        for (i__ = 1; i__ <= i__2; ++i__)
-        {
+        for (i__ = 1; i__ <= i__2; ++i__) {
             dwork[iw26 + i__] = 1. / (dwork[iw22 + i__] - .01) - 1. / (100. - dwork[iw22 + i__]);
             /* L620: */
         }
-        if (mr > 0)
-        {
+        if (mr > 0) {
             i__2 = mr;
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
-                dwork[iw26 + *m - 1 + i__] = 1. / (dwork[iw23 + i__] + tau) - 1. / (tau - dwork[iw23 + i__]);
+            for (i__ = 1; i__ <= i__2; ++i__) {
+                dwork[iw26 + *m - 1 + i__]
+                    = 1. / (dwork[iw23 + i__] + tau) - 1. / (tau - dwork[iw23 + i__]);
                 /* L630: */
             }
         }
         i__2 = mt;
-        for (i__ = 1; i__ <= i__2; ++i__)
-        {
+        for (i__ = 1; i__ <= i__2; ++i__) {
             i__3 = iz19 + i__;
             dwork[iw26 + i__] = -zwork[i__3].r - dwork[iw26 + i__];
             /* L640: */
@@ -1200,14 +1089,14 @@ L515:
         dlacpy_("Full", &mt, &mt, &dwork[iw11 + 1], &mt, &dwork[iw31 + 1], &mt, 4L);
         dcopy_(&mt, &dwork[iw26 + 1], &c__1, &dwork[iw27 + 1], &c__1);
         i__2 = *ldwork - iwrk;
-        dsysv_("U", &mt, &c__1, &dwork[iw31 + 1], &mt, &iwork[1], &dwork[iw27 + 1], &mt, &dwork[iwrk + 1], &i__2, &info2, 1L);
-        if (info2 > 0)
-        {
+        dsysv_("U", &mt, &c__1, &dwork[iw31 + 1], &mt, &iwork[1], &dwork[iw27 + 1], &mt,
+            &dwork[iwrk + 1], &i__2, &info2, 1L);
+        if (info2 > 0) {
             *info = 5;
             return 0;
         }
-        lwa = (integer) dwork[iwrk + 1];
-        lwamax = max(lwa,lwamax);
+        lwa = (integer)dwork[iwrk + 1];
+        lwamax = max(lwa, lwamax);
         stsize = 1.;
         /*           Store hD. */
         i__2 = *m - 1;
@@ -1215,163 +1104,131 @@ L515:
         /*           Determine stepsize. */
         l = 0;
         i__2 = *m - 1;
-        for (i__ = 1; i__ <= i__2; ++i__)
-        {
-            if (dwork[iw28 + i__] > 0.)
-            {
+        for (i__ = 1; i__ <= i__2; ++i__) {
+            if (dwork[iw28 + i__] > 0.) {
                 ++l;
-                if (l == 1)
-                {
+                if (l == 1) {
                     temp = (dwork[iw22 + i__] - .01) / dwork[iw28 + i__];
-                }
-                else
-                {
+                } else {
                     /* Computing MIN */
                     d__1 = temp, d__2 = (dwork[iw22 + i__] - .01) / dwork[iw28 + i__];
-                    temp = min(d__1,d__2);
+                    temp = min(d__1, d__2);
                 }
             }
             /* L650: */
         }
-        if (l > 0)
-        {
-            stsize = min(stsize,temp);
+        if (l > 0) {
+            stsize = min(stsize, temp);
         }
         l = 0;
         i__2 = *m - 1;
-        for (i__ = 1; i__ <= i__2; ++i__)
-        {
-            if (dwork[iw28 + i__] < 0.)
-            {
+        for (i__ = 1; i__ <= i__2; ++i__) {
+            if (dwork[iw28 + i__] < 0.) {
                 ++l;
-                if (l == 1)
-                {
+                if (l == 1) {
                     temp = (100. - dwork[iw22 + i__]) / (-dwork[iw28 + i__]);
-                }
-                else
-                {
+                } else {
                     /* Computing MIN */
                     d__1 = temp, d__2 = (100. - dwork[iw22 + i__]) / (-dwork[iw28 + i__]);
-                    temp = min(d__1,d__2);
+                    temp = min(d__1, d__2);
                 }
             }
             /* L660: */
         }
-        if (l > 0)
-        {
-            stsize = min(stsize,temp);
+        if (l > 0) {
+            stsize = min(stsize, temp);
         }
-        if (mr > 0)
-        {
+        if (mr > 0) {
             /*              Store hG. */
             dcopy_(&mr, &dwork[iw27 + *m], &c__1, &dwork[iw29 + 1], &c__1);
             /*              Determine stepsize. */
             l = 0;
             i__2 = mr;
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
-                if (dwork[iw29 + i__] > 0.)
-                {
+            for (i__ = 1; i__ <= i__2; ++i__) {
+                if (dwork[iw29 + i__] > 0.) {
                     ++l;
-                    if (l == 1)
-                    {
+                    if (l == 1) {
                         temp = (dwork[iw23 + i__] + tau) / dwork[iw29 + i__];
-                    }
-                    else
-                    {
+                    } else {
                         /* Computing MIN */
                         d__1 = temp, d__2 = (dwork[iw23 + i__] + tau) / dwork[iw29 + i__];
-                        temp = min(d__1,d__2);
+                        temp = min(d__1, d__2);
                     }
                 }
                 /* L670: */
             }
-            if (l > 0)
-            {
-                stsize = min(stsize,temp);
+            if (l > 0) {
+                stsize = min(stsize, temp);
             }
             l = 0;
             i__2 = mr;
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
-                if (dwork[iw29 + i__] < 0.)
-                {
+            for (i__ = 1; i__ <= i__2; ++i__) {
+                if (dwork[iw29 + i__] < 0.) {
                     ++l;
-                    if (l == 1)
-                    {
+                    if (l == 1) {
                         temp = (tau - dwork[iw23 + i__]) / (-dwork[iw29 + i__]);
-                    }
-                    else
-                    {
+                    } else {
                         /* Computing MIN */
                         d__1 = temp, d__2 = (tau - dwork[iw23 + i__]) / (-dwork[iw29 + i__]);
-                        temp = min(d__1,d__2);
+                        temp = min(d__1, d__2);
                     }
                 }
                 /* L680: */
             }
         }
-        if (l > 0)
-        {
-            stsize = min(stsize,temp);
+        if (l > 0) {
+            stsize = min(stsize, temp);
         }
         stsize *= .9;
-        if (stsize >= tol4)
-        {
+        if (stsize >= tol4) {
             /*              Compute x_new. */
             i__2 = mt;
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
+            for (i__ = 1; i__ <= i__2; ++i__) {
                 dwork[iw20 + i__] = x[i__] - stsize * dwork[iw27 + i__];
                 /* L700: */
             }
             /*              Store xD. */
             i__2 = *m - 1;
             dcopy_(&i__2, &dwork[iw20 + 1], &c__1, &dwork[iw22 + 1], &c__1);
-            if (mr > 0)
-            {
+            if (mr > 0) {
                 /*                 Store xG. */
                 dcopy_(&mr, &dwork[iw20 + *m], &c__1, &dwork[iw23 + 1], &c__1);
             }
             /*              Compute A(:) = A0 + AA*x_new. */
             i__2 = mt;
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
+            for (i__ = 1; i__ <= i__2; ++i__) {
                 i__3 = iz10 + i__;
                 i__4 = iw20 + i__;
                 z__1.r = dwork[i__4], z__1.i = 0.;
                 zwork[i__3].r = z__1.r, zwork[i__3].i = z__1.i;
                 /* L710: */
             }
-            i__2 = *n **n;
+            i__2 = *n * *n;
             zcopy_(&i__2, &zwork[iz5 + 1], &c__1, &zwork[iz7 + 1], &c__1);
-            i__2 = *n **n;
-            i__3 = *n **n;
-            zgemv_("N", &i__2, &mt, &c_b2, &zwork[iz6 + 1], &i__3, &zwork[iz10 + 1], &c__1, &c_b2, &zwork[iz7 + 1], &c__1, 1L);
+            i__2 = *n * *n;
+            i__3 = *n * *n;
+            zgemv_("N", &i__2, &mt, &c_b2, &zwork[iz6 + 1], &i__3, &zwork[iz10 + 1], &c__1, &c_b2,
+                &zwork[iz7 + 1], &c__1, 1L);
             /*              Compute B = B0d + BBd*xD. */
             dcopy_(n, &dwork[iw7 + 1], &c__1, &dwork[iw24 + 1], &c__1);
             i__2 = *m - 1;
-            dgemv_("N", n, &i__2, &c_b11, &dwork[iw8 + 1], n, &dwork[iw22 + 1], &c__1, &c_b11, &dwork[iw24 + 1], &c__1, 1L);
+            dgemv_("N", n, &i__2, &c_b11, &dwork[iw8 + 1], n, &dwork[iw22 + 1], &c__1, &c_b11,
+                &dwork[iw24 + 1], &c__1, 1L);
             /*              Compute lambda*diag(B) - A. */
             i__2 = *n;
-            for (j = 1; j <= i__2; ++j)
-            {
+            for (j = 1; j <= i__2; ++j) {
                 i__3 = *n;
-                for (i__ = 1; i__ <= i__3; ++i__)
-                {
-                    if (i__ == j)
-                    {
-                        i__4 = iz15 + i__ + (i__ - 1) **n;
+                for (i__ = 1; i__ <= i__3; ++i__) {
+                    if (i__ == j) {
+                        i__4 = iz15 + i__ + (i__ - 1) * *n;
                         d__1 = dlambd * dwork[iw24 + i__];
                         z__2.r = d__1, z__2.i = 0.;
-                        i__5 = iz7 + i__ + (i__ - 1) **n;
+                        i__5 = iz7 + i__ + (i__ - 1) * *n;
                         z__1.r = z__2.r - zwork[i__5].r, z__1.i = z__2.i - zwork[i__5].i;
                         zwork[i__4].r = z__1.r, zwork[i__4].i = z__1.i;
-                    }
-                    else
-                    {
-                        i__4 = iz15 + i__ + (j - 1) **n;
-                        i__5 = iz7 + i__ + (j - 1) **n;
+                    } else {
+                        i__4 = iz15 + i__ + (j - 1) * *n;
+                        i__5 = iz7 + i__ + (j - 1) * *n;
                         z__1.r = -zwork[i__5].r, z__1.i = -zwork[i__5].i;
                         zwork[i__4].r = z__1.r, zwork[i__4].i = z__1.i;
                     }
@@ -1381,25 +1238,22 @@ L515:
             }
             /*              Compute eig( lambda*diag(B)-A ). */
             i__2 = *lzwork - izwrk;
-            zgees_("N", "N", select_, n, &zwork[iz15 + 1], n, &sdim, &zwork[iz16 + 1], &zwork[1], n, &zwork[izwrk + 1], &i__2, &dwork[iwrk + 1], bwork, &info2, 1L, 1L);
-            if (info2 > 0)
-            {
+            zgees_("N", "N", select_, n, &zwork[iz15 + 1], n, &sdim, &zwork[iz16 + 1], &zwork[1], n,
+                &zwork[izwrk + 1], &i__2, &dwork[iwrk + 1], bwork, &info2, 1L, 1L);
+            if (info2 > 0) {
                 *info = 6;
                 return 0;
             }
             i__2 = izwrk + 1;
-            lza = (integer) zwork[i__2].r;
-            lzamax = max(lza,lzamax);
+            lza = (integer)zwork[i__2].r;
+            lzamax = max(lza, lzamax);
             i__2 = iz16 + 1;
             emin = zwork[i__2].r;
-            if (*n > 1)
-            {
+            if (*n > 1) {
                 i__2 = *n;
-                for (i__ = 2; i__ <= i__2; ++i__)
-                {
+                for (i__ = 2; i__ <= i__2; ++i__) {
                     i__3 = iz16 + i__;
-                    if (zwork[i__3].r < emin)
-                    {
+                    if (zwork[i__3].r < emin) {
                         i__4 = iz16 + i__;
                         emin = zwork[i__4].r;
                     }
@@ -1407,24 +1261,20 @@ L515:
                 }
             }
             i__2 = *n;
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
+            for (i__ = 1; i__ <= i__2; ++i__) {
                 i__3 = iz16 + i__;
                 dwork[iw30 + i__] = zwork[i__3].r;
                 /* L750: */
             }
             i__2 = *m - 1;
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
+            for (i__ = 1; i__ <= i__2; ++i__) {
                 dwork[iw30 + *n + i__] = dwork[iw22 + i__] - .01;
                 dwork[iw30 + *n + *m - 1 + i__] = 100. - dwork[iw22 + i__];
                 /* L760: */
             }
-            if (mr > 0)
-            {
+            if (mr > 0) {
                 i__2 = mr;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = 1; i__ <= i__2; ++i__) {
                     dwork[iw30 + *n + (*m - 1 << 1) + i__] = dwork[iw23 + i__] + tau;
                     dwork[iw30 + *n + (*m - 1 << 1) + mr + i__] = tau - dwork[iw23 + i__];
                     /* L770: */
@@ -1432,22 +1282,17 @@ L515:
             }
             prod = 1.;
             i__2 = *n + (mt << 1);
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
+            for (i__ = 1; i__ <= i__2; ++i__) {
                 prod *= dwork[iw30 + i__];
                 /* L780: */
             }
-            if (emin <= 0. || -log(prod) >= phi)
-            {
+            if (emin <= 0. || -log(prod) >= phi) {
                 stsize /= 10.;
-            }
-            else
-            {
+            } else {
                 dcopy_(&mt, &dwork[iw20 + 1], &c__1, &x[1], &c__1);
             }
         }
-        if (stsize < tol4)
-        {
+        if (stsize < tol4) {
             goto L810;
         }
         /* L800: */
@@ -1456,50 +1301,45 @@ L810:
     /*           Store xD. */
     i__1 = *m - 1;
     dcopy_(&i__1, &x[1], &c__1, &dwork[iw22 + 1], &c__1);
-    if (mr > 0)
-    {
+    if (mr > 0) {
         /*              Store xG. */
         dcopy_(&mr, &x[*m], &c__1, &dwork[iw23 + 1], &c__1);
     }
     /*           Compute A(:) = A0 + AA*x. */
     i__1 = mt;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         i__2 = iz10 + i__;
         i__3 = i__;
         z__1.r = x[i__3], z__1.i = 0.;
         zwork[i__2].r = z__1.r, zwork[i__2].i = z__1.i;
         /* L820: */
     }
-    i__1 = *n **n;
+    i__1 = *n * *n;
     zcopy_(&i__1, &zwork[iz5 + 1], &c__1, &zwork[iz7 + 1], &c__1);
-    i__1 = *n **n;
-    i__2 = *n **n;
-    zgemv_("N", &i__1, &mt, &c_b2, &zwork[iz6 + 1], &i__2, &zwork[iz10 + 1], &c__1, &c_b2, &zwork[iz7 + 1], &c__1, 1L);
+    i__1 = *n * *n;
+    i__2 = *n * *n;
+    zgemv_("N", &i__1, &mt, &c_b2, &zwork[iz6 + 1], &i__2, &zwork[iz10 + 1], &c__1, &c_b2,
+        &zwork[iz7 + 1], &c__1, 1L);
     /*           Compute diag( B ) = B0d + BBd*xD. */
     dcopy_(n, &dwork[iw7 + 1], &c__1, &dwork[iw24 + 1], &c__1);
     i__1 = *m - 1;
-    dgemv_("N", n, &i__1, &c_b11, &dwork[iw8 + 1], n, &dwork[iw22 + 1], &c__1, &c_b11, &dwork[iw24 + 1], &c__1, 1L);
+    dgemv_("N", n, &i__1, &c_b11, &dwork[iw8 + 1], n, &dwork[iw22 + 1], &c__1, &c_b11,
+        &dwork[iw24 + 1], &c__1, 1L);
     /*           Compute F. */
     i__1 = *n;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         i__2 = *n;
-        for (i__ = 1; i__ <= i__2; ++i__)
-        {
-            if (i__ == j)
-            {
-                i__3 = iz15 + i__ + (i__ - 1) **n;
+        for (i__ = 1; i__ <= i__2; ++i__) {
+            if (i__ == j) {
+                i__3 = iz15 + i__ + (i__ - 1) * *n;
                 d__1 = dlambd * dwork[iw24 + i__];
                 z__2.r = d__1, z__2.i = 0.;
-                i__4 = iz7 + i__ + (i__ - 1) **n;
+                i__4 = iz7 + i__ + (i__ - 1) * *n;
                 z__1.r = z__2.r - zwork[i__4].r, z__1.i = z__2.i - zwork[i__4].i;
                 zwork[i__3].r = z__1.r, zwork[i__3].i = z__1.i;
-            }
-            else
-            {
-                i__3 = iz15 + i__ + (j - 1) **n;
-                i__4 = iz7 + i__ + (j - 1) **n;
+            } else {
+                i__3 = iz15 + i__ + (j - 1) * *n;
+                i__4 = iz7 + i__ + (j - 1) * *n;
                 z__1.r = -zwork[i__4].r, z__1.i = -zwork[i__4].i;
                 zwork[i__3].r = z__1.r, zwork[i__3].i = z__1.i;
             }
@@ -1510,49 +1350,45 @@ L810:
     zlacpy_("Full", n, n, &zwork[iz15 + 1], n, &zwork[iz17 + 1], n, 4L);
     /*           Compute det( F ). */
     i__1 = *lzwork - izwrk;
-    zgees_("N", "N", select_, n, &zwork[iz15 + 1], n, &sdim, &zwork[iz16 + 1], &zwork[1], n, &zwork[izwrk + 1], &i__1, &dwork[iwrk + 1], bwork, &info2, 1L, 1L);
-    if (info2 > 0)
-    {
+    zgees_("N", "N", select_, n, &zwork[iz15 + 1], n, &sdim, &zwork[iz16 + 1], &zwork[1], n,
+        &zwork[izwrk + 1], &i__1, &dwork[iwrk + 1], bwork, &info2, 1L, 1L);
+    if (info2 > 0) {
         *info = 6;
         return 0;
     }
     i__1 = izwrk + 1;
-    lza = (integer) zwork[i__1].r;
-    lzamax = max(lza,lzamax);
+    lza = (integer)zwork[i__1].r;
+    lzamax = max(lza, lzamax);
     detf.r = 1., detf.i = 0.;
     i__1 = *n;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         i__2 = iz16 + i__;
-        z__1.r = detf.r * zwork[i__2].r - detf.i * zwork[i__2].i, z__1.i = detf.r * zwork[i__2].i + detf.i * zwork[i__2].r;
+        z__1.r = detf.r * zwork[i__2].r - detf.i * zwork[i__2].i,
+        z__1.i = detf.r * zwork[i__2].i + detf.i * zwork[i__2].r;
         detf.r = z__1.r, detf.i = z__1.i;
         /* L850: */
     }
     /*           Compute Finv. */
     zgetrf_(n, n, &zwork[iz17 + 1], n, &iwork[1], &info2);
-    if (info2 > 0)
-    {
+    if (info2 > 0) {
         *info = 5;
         return 0;
     }
     i__1 = *ldwork - iwrk;
     zgetri_(n, &zwork[iz17 + 1], n, &iwork[1], &zwork[izwrk + 1], &i__1, &info2);
     i__1 = izwrk + 1;
-    lza = (integer) zwork[i__1].r;
-    lzamax = max(lza,lzamax);
+    lza = (integer)zwork[i__1].r;
+    lzamax = max(lza, lzamax);
     /*           Compute the barrier function. */
     i__1 = *m - 1;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         dwork[iw25 + i__] = dwork[iw22 + i__] - .01;
         dwork[iw25 + *m - 1 + i__] = 100. - dwork[iw22 + i__];
         /* L860: */
     }
-    if (mr > 0)
-    {
+    if (mr > 0) {
         i__1 = mr;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             dwork[iw25 + (*m - 1 << 1) + i__] = dwork[iw23 + i__] + tau;
             dwork[iw25 + (*m - 1 << 1) + mr + i__] = tau - dwork[iw23 + i__];
             /* L870: */
@@ -1560,87 +1396,79 @@ L810:
     }
     prod = 1.;
     i__1 = mt << 1;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         prod *= dwork[iw25 + i__];
         /* L880: */
     }
     temp = detf.r;
-    if (temp < eps)
-    {
+    if (temp < eps) {
         temp = eps;
     }
     phi = -log(temp) - log(prod);
     /*           Compute the gradient of the barrier function. */
     i__1 = mt;
-    for (j = 1; j <= i__1; ++j)
-    {
-        i__2 = *n **n;
-        for (i__ = 1; i__ <= i__2; ++i__)
-        {
-            i__3 = iz18 + i__ + (j - 1) **n **n;
-            d__1 = dlambd * dwork[iw9 + i__ + (j - 1) **n **n];
+    for (j = 1; j <= i__1; ++j) {
+        i__2 = *n * *n;
+        for (i__ = 1; i__ <= i__2; ++i__) {
+            i__3 = iz18 + i__ + (j - 1) * *n * *n;
+            d__1 = dlambd * dwork[iw9 + i__ + (j - 1) * *n * *n];
             z__2.r = d__1, z__2.i = 0.;
-            i__4 = iz6 + i__ + (j - 1) **n **n;
+            i__4 = iz6 + i__ + (j - 1) * *n * *n;
             z__1.r = z__2.r - zwork[i__4].r, z__1.i = z__2.i - zwork[i__4].i;
             zwork[i__3].r = z__1.r, zwork[i__3].i = z__1.i;
             /* L890: */
         }
         /* L900: */
     }
-    i__1 = *n **n;
-    i__2 = *n **n;
-    zgemv_("C", &i__1, &mt, &c_b2, &zwork[iz18 + 1], &i__2, &zwork[iz17 + 1], &c__1, &c_b1, &zwork[iz19 + 1], &c__1, 1L);
+    i__1 = *n * *n;
+    i__2 = *n * *n;
+    zgemv_("C", &i__1, &mt, &c_b2, &zwork[iz18 + 1], &i__2, &zwork[iz17 + 1], &c__1, &c_b1,
+        &zwork[iz19 + 1], &c__1, 1L);
     i__1 = *m - 1;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         dwork[iw26 + i__] = 1. / (dwork[iw22 + i__] - .01) - 1. / (100. - dwork[iw22 + i__]);
         /* L910: */
     }
-    if (mr > 0)
-    {
+    if (mr > 0) {
         i__1 = mr;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
-            dwork[iw26 + *m - 1 + i__] = 1. / (dwork[iw23 + i__] + tau) - 1. / (tau - dwork[iw23 + i__]);
+        for (i__ = 1; i__ <= i__1; ++i__) {
+            dwork[iw26 + *m - 1 + i__]
+                = 1. / (dwork[iw23 + i__] + tau) - 1. / (tau - dwork[iw23 + i__]);
             /* L920: */
         }
     }
     i__1 = mt;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         i__2 = iz19 + i__;
         dwork[iw26 + i__] = -zwork[i__2].r - dwork[iw26 + i__];
         /* L925: */
     }
     /*           Compute the Hessian of the barrier function. */
     i__1 = *n * mt;
-    zgemm_("N", "N", n, &i__1, n, &c_b2, &zwork[iz17 + 1], n, &zwork[iz18 + 1], n, &c_b1, &zwork[iz20 + 1], n, 1L, 1L);
+    zgemm_("N", "N", n, &i__1, n, &c_b2, &zwork[iz17 + 1], n, &zwork[iz18 + 1], n, &c_b1,
+        &zwork[iz20 + 1], n, 1L, 1L);
     dlaset_("Full", &mt, &mt, &c_b15, &c_b15, &dwork[iw11 + 1], &mt, 4L);
     i__1 = mt;
-    for (k = 1; k <= i__1; ++k)
-    {
-        i__2 = *n **n;
-        zcopy_(&i__2, &zwork[iz20 + 1 + (k - 1) **n **n], &c__1, &zwork[iz22 + 1], &c__1);
+    for (k = 1; k <= i__1; ++k) {
+        i__2 = *n * *n;
+        zcopy_(&i__2, &zwork[iz20 + 1 + (k - 1) * *n * *n], &c__1, &zwork[iz22 + 1], &c__1);
         i__2 = *n;
-        for (j = 1; j <= i__2; ++j)
-        {
+        for (j = 1; j <= i__2; ++j) {
             i__3 = *n;
-            for (i__ = 1; i__ <= i__3; ++i__)
-            {
-                i__4 = iz23 + i__ + (j - 1) **n;
-                d_cnjg(&z__1, &zwork[iz22 + j + (i__ - 1) **n]);
+            for (i__ = 1; i__ <= i__3; ++i__) {
+                i__4 = iz23 + i__ + (j - 1) * *n;
+                d_cnjg(&z__1, &zwork[iz22 + j + (i__ - 1) * *n]);
                 zwork[i__4].r = z__1.r, zwork[i__4].i = z__1.i;
                 /* L930: */
             }
             /* L940: */
         }
-        i__2 = *n **n;
-        i__3 = *n **n;
-        zgemv_("C", &i__2, &k, &c_b2, &zwork[iz20 + 1], &i__3, &zwork[iz23 + 1], &c__1, &c_b1, &zwork[iz24 + 1], &c__1, 1L);
+        i__2 = *n * *n;
+        i__3 = *n * *n;
+        zgemv_("C", &i__2, &k, &c_b2, &zwork[iz20 + 1], &i__3, &zwork[iz23 + 1], &c__1, &c_b1,
+            &zwork[iz24 + 1], &c__1, 1L);
         i__2 = k;
-        for (j = 1; j <= i__2; ++j)
-        {
+        for (j = 1; j <= i__2; ++j) {
             d_cnjg(&z__1, &zwork[iz24 + j]);
             dwork[iw11 + k + (j - 1) * mt] = z__1.r;
             /* L950: */
@@ -1648,8 +1476,7 @@ L810:
         /* L960: */
     }
     i__1 = *m - 1;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         /* Computing 2nd power */
         d__1 = dwork[iw22 + i__] - .01;
         /* Computing 2nd power */
@@ -1657,11 +1484,9 @@ L810:
         dwork[iw10 + i__] = 1. / (d__1 * d__1) + 1. / (d__2 * d__2);
         /* L970: */
     }
-    if (mr > 0)
-    {
+    if (mr > 0) {
         i__1 = mr;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             /* Computing 2nd power */
             d__1 = dwork[iw23 + i__] + tau;
             /* Computing 2nd power */
@@ -1671,19 +1496,15 @@ L810:
         }
     }
     i__1 = mt;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         dwork[iw11 + i__ + (i__ - 1) * mt] += dwork[iw10 + i__];
         /* L990: */
     }
     i__1 = mt;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         i__2 = j;
-        for (i__ = 1; i__ <= i__2; ++i__)
-        {
-            if (i__ != j)
-            {
+        for (i__ = 1; i__ <= i__2; ++i__) {
+            if (i__ != j) {
                 t1 = dwork[iw11 + i__ + (j - 1) * mt];
                 t2 = dwork[iw11 + j + (i__ - 1) * mt];
                 dwork[iw11 + i__ + (j - 1) * mt] = t1 + t2;
@@ -1701,19 +1522,17 @@ L1110:
     hnorm1 = dlange_("1", &mt, &mt, &dwork[iw31 + 1], &mt, &dwork[1], 1L);
     i__1 = *ldwork - iwrk;
     dsytrf_("U", &mt, &dwork[iw31 + 1], &mt, &iwork[1], &dwork[iwrk + 1], &i__1, &info2, 1L);
-    if (info2 > 0)
-    {
+    if (info2 > 0) {
         *info = 5;
         return 0;
     }
-    lwa = (integer) dwork[iwrk + 1];
-    lwamax = max(lwa,lwamax);
-    dsycon_("U", &mt, &dwork[iw31 + 1], &mt, &iwork[1], &hnorm1, &rcond, &dwork[iwrk + 1], &iwork[mt + 1], &info2, 1L);
-    if (rcond < tol3)
-    {
+    lwa = (integer)dwork[iwrk + 1];
+    lwamax = max(lwa, lwamax);
+    dsycon_("U", &mt, &dwork[iw31 + 1], &mt, &iwork[1], &hnorm1, &rcond, &dwork[iwrk + 1],
+        &iwork[mt + 1], &info2, 1L);
+    if (rcond < tol3) {
         i__1 = mt;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             dwork[iw11 + i__ + (i__ - 1) * mt] += hnorm * regpar;
             /* L1120: */
         }
@@ -1725,58 +1544,52 @@ L1110:
     /*           Check if x-h satisfies the Goldstein test. */
     gtest = FALSE_;
     i__1 = mt;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         dwork[iw20 + i__] = x[i__] - dwork[iw27 + i__];
         /* L1130: */
     }
     /*           Store xD. */
     i__1 = *m - 1;
     dcopy_(&i__1, &dwork[iw20 + 1], &c__1, &dwork[iw22 + 1], &c__1);
-    if (mr > 0)
-    {
+    if (mr > 0) {
         /*              Store xG. */
         dcopy_(&mr, &dwork[iw20 + *m], &c__1, &dwork[iw23 + 1], &c__1);
     }
     /*           Compute A(:) = A0 + AA*x_new. */
     i__1 = mt;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         i__2 = iz10 + i__;
         i__3 = iw20 + i__;
         z__1.r = dwork[i__3], z__1.i = 0.;
         zwork[i__2].r = z__1.r, zwork[i__2].i = z__1.i;
         /* L1140: */
     }
-    i__1 = *n **n;
+    i__1 = *n * *n;
     zcopy_(&i__1, &zwork[iz5 + 1], &c__1, &zwork[iz7 + 1], &c__1);
-    i__1 = *n **n;
-    i__2 = *n **n;
-    zgemv_("N", &i__1, &mt, &c_b2, &zwork[iz6 + 1], &i__2, &zwork[iz10 + 1], &c__1, &c_b2, &zwork[iz7 + 1], &c__1, 1L);
+    i__1 = *n * *n;
+    i__2 = *n * *n;
+    zgemv_("N", &i__1, &mt, &c_b2, &zwork[iz6 + 1], &i__2, &zwork[iz10 + 1], &c__1, &c_b2,
+        &zwork[iz7 + 1], &c__1, 1L);
     /*           Compute diag( B ) = B0d + BBd*xD. */
     dcopy_(n, &dwork[iw7 + 1], &c__1, &dwork[iw24 + 1], &c__1);
     i__1 = *m - 1;
-    dgemv_("N", n, &i__1, &c_b11, &dwork[iw8 + 1], n, &dwork[iw22 + 1], &c__1, &c_b11, &dwork[iw24 + 1], &c__1, 1L);
+    dgemv_("N", n, &i__1, &c_b11, &dwork[iw8 + 1], n, &dwork[iw22 + 1], &c__1, &c_b11,
+        &dwork[iw24 + 1], &c__1, 1L);
     /*           Compute lambda*diag(B) - A. */
     i__1 = *n;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         i__2 = *n;
-        for (i__ = 1; i__ <= i__2; ++i__)
-        {
-            if (i__ == j)
-            {
-                i__3 = iz15 + i__ + (i__ - 1) **n;
+        for (i__ = 1; i__ <= i__2; ++i__) {
+            if (i__ == j) {
+                i__3 = iz15 + i__ + (i__ - 1) * *n;
                 d__1 = dlambd * dwork[iw24 + i__];
                 z__2.r = d__1, z__2.i = 0.;
-                i__4 = iz7 + i__ + (i__ - 1) **n;
+                i__4 = iz7 + i__ + (i__ - 1) * *n;
                 z__1.r = z__2.r - zwork[i__4].r, z__1.i = z__2.i - zwork[i__4].i;
                 zwork[i__3].r = z__1.r, zwork[i__3].i = z__1.i;
-            }
-            else
-            {
-                i__3 = iz15 + i__ + (j - 1) **n;
-                i__4 = iz7 + i__ + (j - 1) **n;
+            } else {
+                i__3 = iz15 + i__ + (j - 1) * *n;
+                i__4 = iz7 + i__ + (j - 1) * *n;
                 z__1.r = -zwork[i__4].r, z__1.i = -zwork[i__4].i;
                 zwork[i__3].r = z__1.r, zwork[i__3].i = z__1.i;
             }
@@ -1786,34 +1599,30 @@ L1110:
     }
     /*           Compute eig( lambda*diag(B)-A ). */
     i__1 = *lzwork - izwrk;
-    zgees_("N", "N", select_, n, &zwork[iz15 + 1], n, &sdim, &zwork[iz16 + 1], &zwork[1], n, &zwork[izwrk + 1], &i__1, &dwork[iwrk + 1], bwork, &info2, 1L, 1L);
-    if (info2 > 0)
-    {
+    zgees_("N", "N", select_, n, &zwork[iz15 + 1], n, &sdim, &zwork[iz16 + 1], &zwork[1], n,
+        &zwork[izwrk + 1], &i__1, &dwork[iwrk + 1], bwork, &info2, 1L, 1L);
+    if (info2 > 0) {
         *info = 6;
         return 0;
     }
     i__1 = izwrk + 1;
-    lza = (integer) zwork[i__1].r;
-    lzamax = max(lza,lzamax);
+    lza = (integer)zwork[i__1].r;
+    lzamax = max(lza, lzamax);
     i__1 = *n;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         i__2 = iz16 + i__;
         dwork[iw30 + i__] = zwork[i__2].r;
         /* L1190: */
     }
     i__1 = *m - 1;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         dwork[iw30 + *n + i__] = dwork[iw22 + i__] - .01;
         dwork[iw30 + *n + *m - 1 + i__] = 100. - dwork[iw22 + i__];
         /* L1200: */
     }
-    if (mr > 0)
-    {
+    if (mr > 0) {
         i__1 = mr;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             dwork[iw30 + *n + (*m - 1 << 1) + i__] = dwork[iw23 + i__] + tau;
             dwork[iw30 + *n + (*m - 1 << 1) + mr + i__] = tau - dwork[iw23 + i__];
             /* L1210: */
@@ -1821,33 +1630,26 @@ L1110:
     }
     emin = dwork[iw30 + 1];
     i__1 = *n + (mt << 1);
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
-        if (dwork[iw30 + i__] < emin)
-        {
+    for (i__ = 1; i__ <= i__1; ++i__) {
+        if (dwork[iw30 + i__] < emin) {
             emin = dwork[iw30 + i__];
         }
         /* L1220: */
     }
-    if (emin <= 0.)
-    {
+    if (emin <= 0.) {
         gtest = FALSE_;
-    }
-    else
-    {
+    } else {
         pp = ddot_(&mt, &dwork[iw26 + 1], &c__1, &dwork[iw27 + 1], &c__1);
         prod = 1.;
         i__1 = *n + (mt << 1);
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             prod *= dwork[iw30 + i__];
             /* L1230: */
         }
         t1 = -log(prod);
         t2 = phi - pp * .01;
         t3 = phi - pp * .9;
-        if (t1 >= t3 && t1 < t2)
-        {
+        if (t1 >= t3 && t1 < t2) {
             gtest = TRUE_;
         }
     }
@@ -1855,27 +1657,21 @@ L1110:
     /*           Nesterov-Nemirovsky's stepsize length. */
     pp = ddot_(&mt, &dwork[iw26 + 1], &c__1, &dwork[iw27 + 1], &c__1);
     delta = sqrt(pp);
-    if (gtest || delta <= .25)
-    {
+    if (gtest || delta <= .25) {
         i__1 = mt;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             x[i__] -= dwork[iw27 + i__];
             /* L1240: */
         }
-    }
-    else
-    {
+    } else {
         i__1 = mt;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             x[i__] -= dwork[iw27 + i__] / (delta + 1.);
             /* L1250: */
         }
     }
     /*           Analytic center is found if delta is sufficiently small. */
-    if (delta < tol5)
-    {
+    if (delta < tol5) {
         goto L1260;
     }
     goto L810;
@@ -1888,27 +1684,25 @@ L1260:
     dcopy_(&i__1, &dwork[iw14 + 1], &c__1, &dwork[iw15 + 1], &c__1);
     /*        Compute Fb. */
     i__1 = *n;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         i__2 = *n;
-        for (i__ = 1; i__ <= i__2; ++i__)
-        {
-            i__3 = iz21 + i__ + (j - 1) **n;
+        for (i__ = 1; i__ <= i__2; ++i__) {
+            i__3 = iz21 + i__ + (j - 1) * *n;
             i__4 = iw24 + i__;
             z__2.r = dwork[i__4], z__2.i = 0.;
-            d_cnjg(&z__3, &zwork[iz17 + j + (i__ - 1) **n]);
+            d_cnjg(&z__3, &zwork[iz17 + j + (i__ - 1) * *n]);
             z__1.r = z__2.r * z__3.r - z__2.i * z__3.i, z__1.i = z__2.r * z__3.i + z__2.i * z__3.r;
             zwork[i__3].r = z__1.r, zwork[i__3].i = z__1.i;
             /* L1270: */
         }
         /* L1280: */
     }
-    i__1 = *n **n;
-    i__2 = *n **n;
-    zgemv_("C", &i__1, &mt, &c_b2, &zwork[iz20 + 1], &i__2, &zwork[iz21 + 1], &c__1, &c_b1, &zwork[iz24 + 1], &c__1, 1L);
+    i__1 = *n * *n;
+    i__2 = *n * *n;
+    zgemv_("C", &i__1, &mt, &c_b2, &zwork[iz20 + 1], &i__2, &zwork[iz21 + 1], &c__1, &c_b1,
+        &zwork[iz24 + 1], &c__1, 1L);
     i__1 = mt;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         i__2 = iz24 + i__;
         dwork[iw32 + i__] = zwork[i__2].r;
         /* L1300: */
@@ -1916,71 +1710,65 @@ L1260:
     /*        Compute h1. */
     dlacpy_("Full", &mt, &mt, &dwork[iw11 + 1], &mt, &dwork[iw31 + 1], &mt, 4L);
     i__1 = *ldwork - iwrk;
-    dsysv_("U", &mt, &c__1, &dwork[iw31 + 1], &mt, &iwork[1], &dwork[iw32 + 1], &mt, &dwork[iwrk + 1], &i__1, &info2, 1L);
-    if (info2 > 0)
-    {
+    dsysv_("U", &mt, &c__1, &dwork[iw31 + 1], &mt, &iwork[1], &dwork[iw32 + 1], &mt,
+        &dwork[iwrk + 1], &i__1, &info2, 1L);
+    if (info2 > 0) {
         *info = 5;
         return 0;
     }
-    lwa = (integer) dwork[iwrk + 1];
-    lwamax = max(lwa,lwamax);
+    lwa = (integer)dwork[iwrk + 1];
+    lwamax = max(lwa, lwamax);
     /*        Compute hn. */
     hn = dlange_("F", &mt, &c__1, &dwork[iw32 + 1], &mt, &dwork[1], 1L);
     /*        Compute y. */
     dwork[iw13 + 1] = dlambd - c__ / hn;
     i__1 = mt;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         dwork[iw13 + 1 + i__] = x[i__] + c__ * dwork[iw32 + i__] / hn;
         /* L1310: */
     }
     /*        Store xD. */
     i__1 = *m - 1;
     dcopy_(&i__1, &dwork[iw13 + 2], &c__1, &dwork[iw22 + 1], &c__1);
-    if (mr > 0)
-    {
+    if (mr > 0) {
         /*           Store xG. */
         dcopy_(&mr, &dwork[iw13 + *m + 1], &c__1, &dwork[iw23 + 1], &c__1);
     }
     /*        Compute A(:) = A0 + AA*y(2:mt+1). */
     i__1 = mt;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         i__2 = iz10 + i__;
         i__3 = iw13 + 1 + i__;
         z__1.r = dwork[i__3], z__1.i = 0.;
         zwork[i__2].r = z__1.r, zwork[i__2].i = z__1.i;
         /* L1320: */
     }
-    i__1 = *n **n;
+    i__1 = *n * *n;
     zcopy_(&i__1, &zwork[iz5 + 1], &c__1, &zwork[iz7 + 1], &c__1);
-    i__1 = *n **n;
-    i__2 = *n **n;
-    zgemv_("N", &i__1, &mt, &c_b2, &zwork[iz6 + 1], &i__2, &zwork[iz10 + 1], &c__1, &c_b2, &zwork[iz7 + 1], &c__1, 1L);
+    i__1 = *n * *n;
+    i__2 = *n * *n;
+    zgemv_("N", &i__1, &mt, &c_b2, &zwork[iz6 + 1], &i__2, &zwork[iz10 + 1], &c__1, &c_b2,
+        &zwork[iz7 + 1], &c__1, 1L);
     /*        Compute B = B0d + BBd*xD. */
     dcopy_(n, &dwork[iw7 + 1], &c__1, &dwork[iw24 + 1], &c__1);
     i__1 = *m - 1;
-    dgemv_("N", n, &i__1, &c_b11, &dwork[iw8 + 1], n, &dwork[iw22 + 1], &c__1, &c_b11, &dwork[iw24 + 1], &c__1, 1L);
+    dgemv_("N", n, &i__1, &c_b11, &dwork[iw8 + 1], n, &dwork[iw22 + 1], &c__1, &c_b11,
+        &dwork[iw24 + 1], &c__1, 1L);
     /*        Compute y(1)*diag(B) - A. */
     i__1 = *n;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         i__2 = *n;
-        for (i__ = 1; i__ <= i__2; ++i__)
-        {
-            if (i__ == j)
-            {
-                i__3 = iz15 + i__ + (i__ - 1) **n;
+        for (i__ = 1; i__ <= i__2; ++i__) {
+            if (i__ == j) {
+                i__3 = iz15 + i__ + (i__ - 1) * *n;
                 d__1 = dwork[iw13 + 1] * dwork[iw24 + i__];
                 z__2.r = d__1, z__2.i = 0.;
-                i__4 = iz7 + i__ + (i__ - 1) **n;
+                i__4 = iz7 + i__ + (i__ - 1) * *n;
                 z__1.r = z__2.r - zwork[i__4].r, z__1.i = z__2.i - zwork[i__4].i;
                 zwork[i__3].r = z__1.r, zwork[i__3].i = z__1.i;
-            }
-            else
-            {
-                i__3 = iz15 + i__ + (j - 1) **n;
-                i__4 = iz7 + i__ + (j - 1) **n;
+            } else {
+                i__3 = iz15 + i__ + (j - 1) * *n;
+                i__4 = iz7 + i__ + (j - 1) * *n;
                 z__1.r = -zwork[i__4].r, z__1.i = -zwork[i__4].i;
                 zwork[i__3].r = z__1.r, zwork[i__3].i = z__1.i;
             }
@@ -1990,25 +1778,22 @@ L1260:
     }
     /*        Compute eig( y(1)*diag(B)-A ). */
     i__1 = *lzwork - izwrk;
-    zgees_("N", "N", select_, n, &zwork[iz15 + 1], n, &sdim, &zwork[iz16 + 1], &zwork[1], n, &zwork[izwrk + 1], &i__1, &dwork[iwrk + 1], bwork, &info2, 1L, 1L);
-    if (info2 > 0)
-    {
+    zgees_("N", "N", select_, n, &zwork[iz15 + 1], n, &sdim, &zwork[iz16 + 1], &zwork[1], n,
+        &zwork[izwrk + 1], &i__1, &dwork[iwrk + 1], bwork, &info2, 1L, 1L);
+    if (info2 > 0) {
         *info = 6;
         return 0;
     }
     i__1 = izwrk + 1;
-    lza = (integer) zwork[i__1].r;
-    lzamax = max(lza,lzamax);
+    lza = (integer)zwork[i__1].r;
+    lzamax = max(lza, lzamax);
     i__1 = iz16 + 1;
     emin = zwork[i__1].r;
-    if (*n > 1)
-    {
+    if (*n > 1) {
         i__1 = *n;
-        for (i__ = 2; i__ <= i__1; ++i__)
-        {
+        for (i__ = 2; i__ <= i__1; ++i__) {
             i__2 = iz16 + i__;
-            if (zwork[i__2].r < emin)
-            {
+            if (zwork[i__2].r < emin) {
                 i__3 = iz16 + i__;
                 emin = zwork[i__3].r;
             }
@@ -2017,17 +1802,14 @@ L1260:
     }
     pos = TRUE_;
     i__1 = *m - 1;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         dwork[iw25 + i__] = dwork[iw22 + i__] - .01;
         dwork[iw25 + *m - 1 + i__] = 100. - dwork[iw22 + i__];
         /* L1360: */
     }
-    if (mr > 0)
-    {
+    if (mr > 0) {
         i__1 = mr;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             dwork[iw25 + (*m - 1 << 1) + i__] = dwork[iw23 + i__] + tau;
             dwork[iw25 + (*m - 1 << 1) + mr + i__] = tau - dwork[iw23 + i__];
             /* L1370: */
@@ -2035,81 +1817,71 @@ L1260:
     }
     temp = dwork[iw25 + 1];
     i__1 = mt << 1;
-    for (i__ = 2; i__ <= i__1; ++i__)
-    {
-        if (dwork[iw25 + i__] < temp)
-        {
+    for (i__ = 2; i__ <= i__1; ++i__) {
+        if (dwork[iw25 + i__] < temp) {
             temp = dwork[iw25 + i__];
         }
         /* L1380: */
     }
-    if (temp <= 0. || emin <= 0.)
-    {
+    if (temp <= 0. || emin <= 0.) {
         pos = FALSE_;
     }
 L1390:
-    if (pos)
-    {
+    if (pos) {
         /*           Set y2 = y. */
         i__1 = mt + 1;
         dcopy_(&i__1, &dwork[iw13 + 1], &c__1, &dwork[iw17 + 1], &c__1);
         /*           Compute y = y + 1.5*( y - yw ). */
         i__1 = mt + 1;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             dwork[iw13 + i__] += (dwork[iw13 + i__] - dwork[iw15 + i__]) * 1.5;
             /* L1400: */
         }
         /*           Store xD. */
         i__1 = *m - 1;
         dcopy_(&i__1, &dwork[iw13 + 2], &c__1, &dwork[iw22 + 1], &c__1);
-        if (mr > 0)
-        {
+        if (mr > 0) {
             /*              Store xG. */
             dcopy_(&mr, &dwork[iw13 + *m + 1], &c__1, &dwork[iw23 + 1], &c__1);
         }
         /*           Compute A(:) = A0 + AA*y(2:mt+1). */
         i__1 = mt;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             i__2 = iz10 + i__;
             i__3 = iw13 + 1 + i__;
             z__1.r = dwork[i__3], z__1.i = 0.;
             zwork[i__2].r = z__1.r, zwork[i__2].i = z__1.i;
             /* L1420: */
         }
-        i__1 = *n **n;
+        i__1 = *n * *n;
         zcopy_(&i__1, &zwork[iz5 + 1], &c__1, &zwork[iz7 + 1], &c__1);
-        i__1 = *n **n;
-        i__2 = *n **n;
-        zgemv_("N", &i__1, &mt, &c_b2, &zwork[iz6 + 1], &i__2, &zwork[iz10 + 1], &c__1, &c_b2, &zwork[iz7 + 1], &c__1, 1L);
+        i__1 = *n * *n;
+        i__2 = *n * *n;
+        zgemv_("N", &i__1, &mt, &c_b2, &zwork[iz6 + 1], &i__2, &zwork[iz10 + 1], &c__1, &c_b2,
+            &zwork[iz7 + 1], &c__1, 1L);
         /*           Compute diag( B ) = B0d + BBd*xD. */
         dcopy_(n, &dwork[iw7 + 1], &c__1, &dwork[iw24 + 1], &c__1);
         i__1 = *m - 1;
-        dgemv_("N", n, &i__1, &c_b11, &dwork[iw8 + 1], n, &dwork[iw22 + 1], &c__1, &c_b11, &dwork[iw24 + 1], &c__1, 1L);
+        dgemv_("N", n, &i__1, &c_b11, &dwork[iw8 + 1], n, &dwork[iw22 + 1], &c__1, &c_b11,
+            &dwork[iw24 + 1], &c__1, 1L);
         /*           Set yw = y2. */
         i__1 = mt + 1;
         dcopy_(&i__1, &dwork[iw17 + 1], &c__1, &dwork[iw15 + 1], &c__1);
         /*           Compute y(1)*diag(B) - A. */
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             i__2 = *n;
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
-                if (i__ == j)
-                {
-                    i__3 = iz15 + i__ + (i__ - 1) **n;
+            for (i__ = 1; i__ <= i__2; ++i__) {
+                if (i__ == j) {
+                    i__3 = iz15 + i__ + (i__ - 1) * *n;
                     d__1 = dwork[iw13 + 1] * dwork[iw24 + i__];
                     z__2.r = d__1, z__2.i = 0.;
-                    i__4 = iz7 + i__ + (i__ - 1) **n;
+                    i__4 = iz7 + i__ + (i__ - 1) * *n;
                     z__1.r = z__2.r - zwork[i__4].r, z__1.i = z__2.i - zwork[i__4].i;
                     zwork[i__3].r = z__1.r, zwork[i__3].i = z__1.i;
-                }
-                else
-                {
-                    i__3 = iz15 + i__ + (j - 1) **n;
-                    i__4 = iz7 + i__ + (j - 1) **n;
+                } else {
+                    i__3 = iz15 + i__ + (j - 1) * *n;
+                    i__4 = iz7 + i__ + (j - 1) * *n;
                     z__1.r = -zwork[i__4].r, z__1.i = -zwork[i__4].i;
                     zwork[i__3].r = z__1.r, zwork[i__3].i = z__1.i;
                 }
@@ -2119,25 +1891,22 @@ L1390:
         }
         /*           Compute eig( y(1)*diag(B)-A ). */
         i__1 = *lzwork - izwrk;
-        zgees_("N", "N", select_, n, &zwork[iz15 + 1], n, &sdim, &zwork[iz16 + 1], &zwork[1], n, &zwork[izwrk + 1], &i__1, &dwork[iwrk + 1], bwork, &info2, 1L, 1L);
-        if (info2 > 0)
-        {
+        zgees_("N", "N", select_, n, &zwork[iz15 + 1], n, &sdim, &zwork[iz16 + 1], &zwork[1], n,
+            &zwork[izwrk + 1], &i__1, &dwork[iwrk + 1], bwork, &info2, 1L, 1L);
+        if (info2 > 0) {
             *info = 6;
             return 0;
         }
         i__1 = izwrk + 1;
-        lza = (integer) zwork[i__1].r;
-        lzamax = max(lza,lzamax);
+        lza = (integer)zwork[i__1].r;
+        lzamax = max(lza, lzamax);
         i__1 = iz16 + 1;
         emin = zwork[i__1].r;
-        if (*n > 1)
-        {
+        if (*n > 1) {
             i__1 = *n;
-            for (i__ = 2; i__ <= i__1; ++i__)
-            {
+            for (i__ = 2; i__ <= i__1; ++i__) {
                 i__2 = iz16 + i__;
-                if (zwork[i__2].r < emin)
-                {
+                if (zwork[i__2].r < emin) {
                     i__3 = iz16 + i__;
                     emin = zwork[i__3].r;
                 }
@@ -2146,17 +1915,14 @@ L1390:
         }
         pos = TRUE_;
         i__1 = *m - 1;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             dwork[iw25 + i__] = dwork[iw22 + i__] - .01;
             dwork[iw25 + *m - 1 + i__] = 100. - dwork[iw22 + i__];
             /* L1460: */
         }
-        if (mr > 0)
-        {
+        if (mr > 0) {
             i__1 = mr;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 dwork[iw25 + (*m - 1 << 1) + i__] = dwork[iw23 + i__] + tau;
                 dwork[iw25 + (*m - 1 << 1) + mr + i__] = tau - dwork[iw23 + i__];
                 /* L1470: */
@@ -2164,16 +1930,13 @@ L1390:
         }
         temp = dwork[iw25 + 1];
         i__1 = mt << 1;
-        for (i__ = 2; i__ <= i__1; ++i__)
-        {
-            if (dwork[iw25 + i__] < temp)
-            {
+        for (i__ = 2; i__ <= i__1; ++i__) {
+            if (dwork[iw25 + i__] < temp) {
                 temp = dwork[iw25 + i__];
             }
             /* L1480: */
         }
-        if (temp <= 0. || emin <= 0.)
-        {
+        if (temp <= 0. || emin <= 0.) {
             pos = FALSE_;
         }
         goto L1390;
@@ -2181,58 +1944,52 @@ L1390:
 L1490:
     /*        Set y1 = ( y + yw ) / 2. */
     i__1 = mt + 1;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         dwork[iw16 + i__] = (dwork[iw13 + i__] + dwork[iw15 + i__]) / 2.;
         /* L1500: */
     }
     /*        Store xD. */
     i__1 = *m - 1;
     dcopy_(&i__1, &dwork[iw16 + 2], &c__1, &dwork[iw22 + 1], &c__1);
-    if (mr > 0)
-    {
+    if (mr > 0) {
         /*           Store xG. */
         dcopy_(&mr, &dwork[iw16 + *m + 1], &c__1, &dwork[iw23 + 1], &c__1);
     }
     /*        Compute A(:) = A0 + AA*y1(2:mt+1). */
     i__1 = mt;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         i__2 = iz10 + i__;
         i__3 = iw16 + 1 + i__;
         z__1.r = dwork[i__3], z__1.i = 0.;
         zwork[i__2].r = z__1.r, zwork[i__2].i = z__1.i;
         /* L1510: */
     }
-    i__1 = *n **n;
+    i__1 = *n * *n;
     zcopy_(&i__1, &zwork[iz5 + 1], &c__1, &zwork[iz7 + 1], &c__1);
-    i__1 = *n **n;
-    i__2 = *n **n;
-    zgemv_("N", &i__1, &mt, &c_b2, &zwork[iz6 + 1], &i__2, &zwork[iz10 + 1], &c__1, &c_b2, &zwork[iz7 + 1], &c__1, 1L);
+    i__1 = *n * *n;
+    i__2 = *n * *n;
+    zgemv_("N", &i__1, &mt, &c_b2, &zwork[iz6 + 1], &i__2, &zwork[iz10 + 1], &c__1, &c_b2,
+        &zwork[iz7 + 1], &c__1, 1L);
     /*        Compute diag( B ) = B0d + BBd*xD. */
     dcopy_(n, &dwork[iw7 + 1], &c__1, &dwork[iw24 + 1], &c__1);
     i__1 = *m - 1;
-    dgemv_("N", n, &i__1, &c_b11, &dwork[iw8 + 1], n, &dwork[iw22 + 1], &c__1, &c_b11, &dwork[iw24 + 1], &c__1, 1L);
+    dgemv_("N", n, &i__1, &c_b11, &dwork[iw8 + 1], n, &dwork[iw22 + 1], &c__1, &c_b11,
+        &dwork[iw24 + 1], &c__1, 1L);
     /*        Compute y1(1)*diag(B) - A. */
     i__1 = *n;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         i__2 = *n;
-        for (i__ = 1; i__ <= i__2; ++i__)
-        {
-            if (i__ == j)
-            {
-                i__3 = iz15 + i__ + (i__ - 1) **n;
+        for (i__ = 1; i__ <= i__2; ++i__) {
+            if (i__ == j) {
+                i__3 = iz15 + i__ + (i__ - 1) * *n;
                 d__1 = dwork[iw16 + 1] * dwork[iw24 + i__];
                 z__2.r = d__1, z__2.i = 0.;
-                i__4 = iz7 + i__ + (i__ - 1) **n;
+                i__4 = iz7 + i__ + (i__ - 1) * *n;
                 z__1.r = z__2.r - zwork[i__4].r, z__1.i = z__2.i - zwork[i__4].i;
                 zwork[i__3].r = z__1.r, zwork[i__3].i = z__1.i;
-            }
-            else
-            {
-                i__3 = iz15 + i__ + (j - 1) **n;
-                i__4 = iz7 + i__ + (j - 1) **n;
+            } else {
+                i__3 = iz15 + i__ + (j - 1) * *n;
+                i__4 = iz7 + i__ + (j - 1) * *n;
                 z__1.r = -zwork[i__4].r, z__1.i = -zwork[i__4].i;
                 zwork[i__3].r = z__1.r, zwork[i__3].i = z__1.i;
             }
@@ -2242,25 +1999,22 @@ L1490:
     }
     /*        Compute eig( y1(1)*diag(B)-A ). */
     i__1 = *lzwork - izwrk;
-    zgees_("N", "N", select_, n, &zwork[iz15 + 1], n, &sdim, &zwork[iz16 + 1], &zwork[1], n, &zwork[izwrk + 1], &i__1, &dwork[iwrk + 1], bwork, &info2, 1L, 1L);
-    if (info2 > 0)
-    {
+    zgees_("N", "N", select_, n, &zwork[iz15 + 1], n, &sdim, &zwork[iz16 + 1], &zwork[1], n,
+        &zwork[izwrk + 1], &i__1, &dwork[iwrk + 1], bwork, &info2, 1L, 1L);
+    if (info2 > 0) {
         *info = 6;
         return 0;
     }
     i__1 = izwrk + 1;
-    lza = (integer) zwork[i__1].r;
-    lzamax = max(lza,lzamax);
+    lza = (integer)zwork[i__1].r;
+    lzamax = max(lza, lzamax);
     i__1 = iz16 + 1;
     emin = zwork[i__1].r;
-    if (*n > 1)
-    {
+    if (*n > 1) {
         i__1 = *n;
-        for (i__ = 2; i__ <= i__1; ++i__)
-        {
+        for (i__ = 2; i__ <= i__1; ++i__) {
             i__2 = iz16 + i__;
-            if (zwork[i__2].r < emin)
-            {
+            if (zwork[i__2].r < emin) {
                 i__3 = iz16 + i__;
                 emin = zwork[i__3].r;
             }
@@ -2269,17 +2023,14 @@ L1490:
     }
     pos = TRUE_;
     i__1 = *m - 1;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         dwork[iw25 + i__] = dwork[iw22 + i__] - .01;
         dwork[iw25 + *m - 1 + i__] = 100. - dwork[iw22 + i__];
         /* L1550: */
     }
-    if (mr > 0)
-    {
+    if (mr > 0) {
         i__1 = mr;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             dwork[iw25 + (*m - 1 << 1) + i__] = dwork[iw23 + i__] + tau;
             dwork[iw25 + (*m - 1 << 1) + mr + i__] = tau - dwork[iw23 + i__];
             /* L1560: */
@@ -2287,33 +2038,26 @@ L1490:
     }
     temp = dwork[iw25 + 1];
     i__1 = mt << 1;
-    for (i__ = 2; i__ <= i__1; ++i__)
-    {
-        if (dwork[iw25 + i__] < temp)
-        {
+    for (i__ = 2; i__ <= i__1; ++i__) {
+        if (dwork[iw25 + i__] < temp) {
             temp = dwork[iw25 + i__];
         }
         /* L1570: */
     }
-    if (temp <= 0. || emin <= 0.)
-    {
+    if (temp <= 0. || emin <= 0.) {
         pos = FALSE_;
     }
-    if (pos)
-    {
+    if (pos) {
         /*           Set yw = y1. */
         i__1 = mt + 1;
         dcopy_(&i__1, &dwork[iw16 + 1], &c__1, &dwork[iw15 + 1], &c__1);
-    }
-    else
-    {
+    } else {
         /*           Set y = y1. */
         i__1 = mt + 1;
         dcopy_(&i__1, &dwork[iw16 + 1], &c__1, &dwork[iw13 + 1], &c__1);
     }
     i__1 = mt + 1;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         dwork[iw33 + i__] = dwork[iw13 + i__] - dwork[iw15 + i__];
         /* L1580: */
     }
@@ -2321,24 +2065,21 @@ L1490:
     i__2 = mt + 1;
     ynorm1 = dlange_("F", &i__1, &c__1, &dwork[iw33 + 1], &i__2, &dwork[1], 1L);
     i__1 = mt + 1;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         dwork[iw33 + i__] = dwork[iw13 + i__] - dwork[iw14 + i__];
         /* L1590: */
     }
     i__1 = mt + 1;
     i__2 = mt + 1;
     ynorm2 = dlange_("F", &i__1, &c__1, &dwork[iw33 + 1], &i__2, &dwork[1], 1L);
-    if (ynorm1 < ynorm2 * .01)
-    {
+    if (ynorm1 < ynorm2 * .01) {
         goto L1600;
     }
     goto L1490;
     /*        Compute c. */
 L1600:
     i__1 = mt + 1;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         dwork[iw33 + i__] = dwork[iw15 + i__] - dwork[iw14 + i__];
         /* L1610: */
     }
@@ -2350,4 +2091,3 @@ L1600:
     goto L390;
     /* *** Last line of AB13MD *** */
 } /* ab13md_ */
-

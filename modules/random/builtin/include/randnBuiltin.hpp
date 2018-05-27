@@ -22,8 +22,9 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace RandomGateway {
-        ArrayOfVector randnBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    }
+namespace RandomGateway {
+    ArrayOfVector
+    randnBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }
+} // namespace Nelson
 //=============================================================================

@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,23 +10,24 @@
 static doublereal c_b7 = 0.;
 static doublereal c_b8 = 1.;
 
-EXPORTSYMBOL /* Subroutine */ int tg01dd_(compz, l, n, p, a, lda, e, lde, c__, ldc, z__, ldz, dwork, ldwork, info, compz_len)
-char *compz;
+EXPORTSYMBOL /* Subroutine */ int tg01dd_(
+    compz, l, n, p, a, lda, e, lde, c__, ldc, z__, ldz, dwork, ldwork, info, compz_len) char* compz;
 integer *l, *n, *p;
-doublereal *a;
-integer *lda;
-doublereal *e;
-integer *lde;
-doublereal *c__;
-integer *ldc;
-doublereal *z__;
-integer *ldz;
-doublereal *dwork;
+doublereal* a;
+integer* lda;
+doublereal* e;
+integer* lde;
+doublereal* c__;
+integer* ldc;
+doublereal* z__;
+integer* ldz;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen compz_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, c_dim1, c_offset, e_dim1, e_offset, z_dim1, z_offset, i__1, i__2, i__3;
+    integer a_dim1, a_offset, c_dim1, c_offset, e_dim1, e_offset, z_dim1, z_offset, i__1, i__2,
+        i__3;
     /* Local variables */
     extern logical lsame_();
     static integer ln;
@@ -176,143 +177,112 @@ ftnlen compz_len;
     z__ -= z_offset;
     --dwork;
     /* Function Body */
-    if (lsame_(compz, "N", 1L, 1L))
-    {
+    if (lsame_(compz, "N", 1L, 1L)) {
         ilz = FALSE_;
         icompz = 1;
-    }
-    else if (lsame_(compz, "U", 1L, 1L))
-    {
+    } else if (lsame_(compz, "U", 1L, 1L)) {
         ilz = TRUE_;
         icompz = 2;
-    }
-    else if (lsame_(compz, "I", 1L, 1L))
-    {
+    } else if (lsame_(compz, "I", 1L, 1L)) {
         ilz = TRUE_;
         icompz = 3;
-    }
-    else
-    {
+    } else {
         icompz = 0;
     }
     /*     Test the input parameters. */
     *info = 0;
     /* Computing MAX */
     /* Computing MAX */
-    i__3 = max(*l,*n);
-    i__1 = 1, i__2 = min(*l,*n) + max(i__3,*p);
-    wrkopt = max(i__1,i__2);
-    if (icompz == 0)
-    {
+    i__3 = max(*l, *n);
+    i__1 = 1, i__2 = min(*l, *n) + max(i__3, *p);
+    wrkopt = max(i__1, i__2);
+    if (icompz == 0) {
         *info = -1;
-    }
-    else if (*l < 0)
-    {
+    } else if (*l < 0) {
         *info = -2;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -3;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -4;
-    }
-    else if (*lda < max(1,*l))
-    {
+    } else if (*lda < max(1, *l)) {
         *info = -6;
-    }
-    else if (*lde < max(1,*l))
-    {
+    } else if (*lde < max(1, *l)) {
         *info = -8;
-    }
-    else if (*ldc < max(1,*p))
-    {
+    } else if (*ldc < max(1, *p)) {
         *info = -10;
-    }
-    else if (ilz && *ldz < *n || *ldz < 1)
-    {
+    } else if (ilz && *ldz < *n || *ldz < 1) {
         *info = -12;
-    }
-    else if (*ldwork < wrkopt)
-    {
+    } else if (*ldwork < wrkopt) {
         *info = -14;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("TG01DD", &i__1, 6L);
         return 0;
     }
     /*     Initialize Q if necessary. */
-    if (icompz == 3)
-    {
+    if (icompz == 3) {
         dlaset_("Full", n, n, &c_b7, &c_b8, &z__[z_offset], ldz, 4L);
     }
     /*     Quick return if possible. */
-    if (*l == 0 || *n == 0)
-    {
+    if (*l == 0 || *n == 0) {
         dwork[1] = 1.;
         return 0;
     }
-    ln = min(*l,*n);
+    ln = min(*l, *n);
     /*     Compute the RQ decomposition of E, E = R*Z. */
     /*     Workspace: need   MIN(L,N) + L; */
     /*                prefer MIN(L,N) + L*NB. */
     i__1 = *ldwork - ln;
     dgerqf_(l, n, &e[e_offset], lde, &dwork[1], &dwork[ln + 1], &i__1, info);
     /* Computing MAX */
-    i__1 = wrkopt, i__2 = (integer) dwork[ln + 1] + ln;
-    wrkopt = max(i__1,i__2);
+    i__1 = wrkopt, i__2 = (integer)dwork[ln + 1] + ln;
+    wrkopt = max(i__1, i__2);
     /*     Apply transformation on the rest of matrices. */
     /*     A <--  A * Z'. */
     /*     Workspace: need   MIN(L,N) + L; */
     /*                prefer MIN(L,N) + L*NB. */
     i__1 = *ldwork - ln;
-    dormrq_("Right", "Transpose", l, n, &ln, &e[*l - ln + 1 + e_dim1], lde, &dwork[1], &a[a_offset], lda, &dwork[ln + 1], &i__1, info, 5L, 9L);
+    dormrq_("Right", "Transpose", l, n, &ln, &e[*l - ln + 1 + e_dim1], lde, &dwork[1], &a[a_offset],
+        lda, &dwork[ln + 1], &i__1, info, 5L, 9L);
     /* Computing MAX */
-    i__1 = wrkopt, i__2 = (integer) dwork[ln + 1] + ln;
-    wrkopt = max(i__1,i__2);
+    i__1 = wrkopt, i__2 = (integer)dwork[ln + 1] + ln;
+    wrkopt = max(i__1, i__2);
     /*     C <-- C * Z'. */
     /*     Workspace: need   MIN(L,N) + P; */
     /*                prefer MIN(L,N) + P*NB. */
     i__1 = *ldwork - ln;
-    dormrq_("Right", "Transpose", p, n, &ln, &e[*l - ln + 1 + e_dim1], lde, &dwork[1], &c__[c_offset], ldc, &dwork[ln + 1], &i__1, info, 5L, 9L);
+    dormrq_("Right", "Transpose", p, n, &ln, &e[*l - ln + 1 + e_dim1], lde, &dwork[1],
+        &c__[c_offset], ldc, &dwork[ln + 1], &i__1, info, 5L, 9L);
     /* Computing MAX */
-    i__1 = wrkopt, i__2 = (integer) dwork[ln + 1] + ln;
-    wrkopt = max(i__1,i__2);
+    i__1 = wrkopt, i__2 = (integer)dwork[ln + 1] + ln;
+    wrkopt = max(i__1, i__2);
     /*     Z <-- Z1 * Z'. */
     /*     Workspace: need   MIN(L,N) + N; */
     /*                prefer MIN(L,N) + N*NB. */
-    if (ilz)
-    {
+    if (ilz) {
         i__1 = *ldwork - ln;
-        dormrq_("Right", "Transpose", n, n, &ln, &e[*l - ln + 1 + e_dim1], lde, &dwork[1], &z__[z_offset], ldz, &dwork[ln + 1], &i__1, info, 5L, 9L);
+        dormrq_("Right", "Transpose", n, n, &ln, &e[*l - ln + 1 + e_dim1], lde, &dwork[1],
+            &z__[z_offset], ldz, &dwork[ln + 1], &i__1, info, 5L, 9L);
         /* Computing MAX */
-        i__1 = wrkopt, i__2 = (integer) dwork[ln + 1] + ln;
-        wrkopt = max(i__1,i__2);
+        i__1 = wrkopt, i__2 = (integer)dwork[ln + 1] + ln;
+        wrkopt = max(i__1, i__2);
     }
     /*     Set lower triangle of E to zero. */
-    if (*l < *n)
-    {
+    if (*l < *n) {
         i__1 = *n - *l;
         dlaset_("Full", l, &i__1, &c_b7, &c_b7, &e[e_offset], lde, 4L);
-        if (*l >= 2)
-        {
+        if (*l >= 2) {
             i__1 = *l - 1;
             dlaset_("Lower", &i__1, l, &c_b7, &c_b7, &e[(*n - *l + 1) * e_dim1 + 2], lde, 5L);
         }
-    }
-    else
-    {
-        if (*n >= 2)
-        {
+    } else {
+        if (*n >= 2) {
             i__1 = *n - 1;
             dlaset_("Lower", &i__1, n, &c_b7, &c_b7, &e[*l - *n + 2 + e_dim1], lde, 5L);
         }
     }
-    dwork[1] = (doublereal) wrkopt;
+    dwork[1] = (doublereal)wrkopt;
     return 0;
     /* *** Last line of TG01DD *** */
 } /* tg01dd_ */
-

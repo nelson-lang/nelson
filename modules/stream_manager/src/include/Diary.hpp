@@ -18,30 +18,38 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
 #include "nlsStream_manager_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    class NLSSTREAM_MANAGER_IMPEXP Diary {
-    private:
+//=============================================================================
+class NLSSTREAM_MANAGER_IMPEXP Diary
+{
+private:
 #ifdef _MSC_VER
 #pragma warning(disable : 4251)
 #endif
-        std::wstring diaryFilename;
-        bool bState;
-    public:
-        Diary();
-        ~Diary();
-        bool SetFilename(std::wstring wFilename);
-        std::wstring getFilename();
-        void writeMessage(std::string msg);
-        void writeMessage(std::wstring msg);
-        bool getState();
-        bool setState(bool bNewState);
-        void toggle();
+    std::wstring diaryFilename;
+    bool bState;
 
-    };
-    //=============================================================================
-}
-//===========================================
+public:
+    Diary();
+    ~Diary();
+    bool
+    SetFilename(std::wstring wFilename);
+    std::wstring
+    getFilename();
+    void
+    writeMessage(std::string msg);
+    void
+    writeMessage(std::wstring msg);
+    bool
+    getState();
+    bool
+    setState(bool bNewState);
+    void
+    toggle();
+};
+//=============================================================================
+} // namespace Nelson
+  //===========================================

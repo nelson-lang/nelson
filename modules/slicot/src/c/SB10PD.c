@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,25 +11,27 @@ static integer c__1 = 1;
 static doublereal c_b27 = 1.;
 static doublereal c_b28 = 0.;
 
-EXPORTSYMBOL /* Subroutine */ int sb10pd_(n, m, np, ncon, nmeas, a, lda, b, ldb, c__, ldc, d__, ldd, tu, ldtu, ty, ldty, rcond, tol, dwork, ldwork, info)
-integer *n, *m, *np, *ncon, *nmeas;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *d__;
-integer *ldd;
-doublereal *tu;
-integer *ldtu;
-doublereal *ty;
-integer *ldty;
+EXPORTSYMBOL /* Subroutine */ int sb10pd_(n, m, np, ncon, nmeas, a, lda, b, ldb, c__, ldc, d__, ldd,
+    tu, ldtu, ty, ldty, rcond, tol, dwork, ldwork, info) integer *n,
+    *m, *np, *ncon, *nmeas;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* d__;
+integer* ldd;
+doublereal* tu;
+integer* ldtu;
+doublereal* ty;
+integer* ldty;
 doublereal *rcond, *tol, *dwork;
 integer *ldwork, *info;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, tu_dim1, tu_offset, ty_dim1, ty_offset, i__1, i__2, i__3, i__4, i__5, i__6, i__7, i__8, i__9, i__10;
+    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, tu_dim1,
+        tu_offset, ty_dim1, ty_offset, i__1, i__2, i__3, i__4, i__5, i__6, i__7, i__8, i__9, i__10;
     doublereal d__1;
     /* Builtin functions */
     double sqrt();
@@ -240,52 +242,29 @@ integer *ldwork, *info;
     np1 = *np - *nmeas;
     np2 = *nmeas;
     *info = 0;
-    if (*n < 0)
-    {
+    if (*n < 0) {
         *info = -1;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -2;
-    }
-    else if (*np < 0)
-    {
+    } else if (*np < 0) {
         *info = -3;
-    }
-    else if (*ncon < 0 || m1 < 0 || m2 > np1)
-    {
+    } else if (*ncon < 0 || m1 < 0 || m2 > np1) {
         *info = -4;
-    }
-    else if (*nmeas < 0 || np1 < 0 || np2 > m1)
-    {
+    } else if (*nmeas < 0 || np1 < 0 || np2 > m1) {
         *info = -5;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -7;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -9;
-    }
-    else if (*ldc < max(1,*np))
-    {
+    } else if (*ldc < max(1, *np)) {
         *info = -11;
-    }
-    else if (*ldd < max(1,*np))
-    {
+    } else if (*ldd < max(1, *np)) {
         *info = -13;
-    }
-    else if (*ldtu < max(1,m2))
-    {
+    } else if (*ldtu < max(1, m2)) {
         *info = -15;
-    }
-    else if (*ldty < max(1,np2))
-    {
+    } else if (*ldty < max(1, np2)) {
         *info = -17;
-    }
-    else
-    {
+    } else {
         /*        Compute workspace. */
         /* Computing MAX */
         /* Computing MAX */
@@ -293,25 +272,25 @@ integer *ldwork, *info;
         /* Computing MAX */
         i__5 = (*n + np2) * 3 + *n + m1, i__6 = (*n + np2) * 5;
         /* Computing MAX */
-        i__7 = np1 * max(*n,m1), i__8 = m2 * 3 + np1, i__7 = max(i__7,i__8), i__8 = m2 * 5;
+        i__7 = np1 * max(*n, m1), i__8 = m2 * 3 + np1, i__7 = max(i__7, i__8), i__8 = m2 * 5;
         /* Computing MAX */
-        i__9 = max(*n,np1) * m1, i__10 = np2 * 3 + m1, i__9 = max(i__9,i__10), i__10 = np2 * 5;
-        i__1 = 1, i__2 = (*n + np1 + 1) * (*n + m2) + max(i__3,i__4), i__1 = max(i__1,i__2), i__2 = (*n + np2) * (*n + m1 + 1) + max(i__5,i__6), i__1 = max(i__1,i__2), i__2 = m2 + np1 * np1 + max(i__7,i__8), i__1 = max(i__1,i__2), i__2 = np2 + m1 * m1 + max(i__9,i__10);
-        minwrk = max(i__1,i__2);
-        if (*ldwork < minwrk)
-        {
+        i__9 = max(*n, np1) * m1, i__10 = np2 * 3 + m1, i__9 = max(i__9, i__10), i__10 = np2 * 5;
+        i__1 = 1, i__2 = (*n + np1 + 1) * (*n + m2) + max(i__3, i__4), i__1 = max(i__1, i__2),
+        i__2 = (*n + np2) * (*n + m1 + 1) + max(i__5, i__6), i__1 = max(i__1, i__2),
+        i__2 = m2 + np1 * np1 + max(i__7, i__8), i__1 = max(i__1, i__2),
+        i__2 = np2 + m1 * m1 + max(i__9, i__10);
+        minwrk = max(i__1, i__2);
+        if (*ldwork < minwrk) {
             *info = -21;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("SB10PD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0 || *m == 0 || *np == 0 || m1 == 0 || m2 == 0 || np1 == 0 || np2 == 0)
-    {
+    if (*n == 0 || *m == 0 || *np == 0 || m1 == 0 || m2 == 0 || np1 == 0 || np2 == 0) {
         rcond[1] = 1.;
         rcond[2] = 1.;
         dwork[1] = 1.;
@@ -321,8 +300,7 @@ integer *ldwork, *info;
     nd2 = m1 - np2;
     eps = dlamch_("Epsilon", 7L);
     toll = *tol;
-    if (toll <= 0.)
-    {
+    if (toll <= 0.) {
         /*        Set the default value of the tolerance for condition tests. */
         toll = sqrt(eps);
     }
@@ -338,25 +316,26 @@ integer *ldwork, *info;
     i__1 = *n + np1;
     dlacpy_("Full", &np1, n, &c__[c_offset], ldc, &dwork[iext + *n], &i__1, 4L);
     i__1 = *n + np1;
-    dlacpy_("Full", n, &m2, &b[(m1 + 1) * b_dim1 + 1], ldb, &dwork[iext + (*n + np1) **n], &i__1, 4L);
+    dlacpy_(
+        "Full", n, &m2, &b[(m1 + 1) * b_dim1 + 1], ldb, &dwork[iext + (*n + np1) * *n], &i__1, 4L);
     i__1 = *n + np1;
-    dlacpy_("Full", &np1, &m2, &d__[(m1 + 1) * d_dim1 + 1], ldd, &dwork[iext + (*n + np1) **n + *n], &i__1, 4L);
+    dlacpy_("Full", &np1, &m2, &d__[(m1 + 1) * d_dim1 + 1], ldd,
+        &dwork[iext + (*n + np1) * *n + *n], &i__1, 4L);
     i__1 = *n + np1;
     i__2 = *n + m2;
     i__3 = *n + np1;
     i__4 = *ldwork - iwrk + 1;
-    dgesvd_("N", "N", &i__1, &i__2, &dwork[iext], &i__3, &dwork[1], &tu[tu_offset], ldtu, &ty[ty_offset], ldty, &dwork[iwrk], &i__4, &info2, 1L, 1L);
-    if (info2 != 0)
-    {
+    dgesvd_("N", "N", &i__1, &i__2, &dwork[iext], &i__3, &dwork[1], &tu[tu_offset], ldtu,
+        &ty[ty_offset], ldty, &dwork[iwrk], &i__4, &info2, 1L, 1L);
+    if (info2 != 0) {
         *info = 5;
         return 0;
     }
-    if (dwork[*n + m2] / dwork[1] <= eps)
-    {
+    if (dwork[*n + m2] / dwork[1] <= eps) {
         *info = 1;
         return 0;
     }
-    lwamax = (integer) dwork[iwrk] + iwrk - 1;
+    lwamax = (integer)dwork[iwrk] + iwrk - 1;
     /*     Determine if |A-jwI  B1 | has full row rank at w = 0. */
     /*                  |  C2   D21| */
     /*     Workspace:  need   (N+NP2)*(N+M1+1) + */
@@ -369,27 +348,27 @@ integer *ldwork, *info;
     i__1 = *n + np2;
     dlacpy_("Full", &np2, n, &c__[np1 + 1 + c_dim1], ldc, &dwork[iext + *n], &i__1, 4L);
     i__1 = *n + np2;
-    dlacpy_("Full", n, &m1, &b[b_offset], ldb, &dwork[iext + (*n + np2) **n], &i__1, 4L);
+    dlacpy_("Full", n, &m1, &b[b_offset], ldb, &dwork[iext + (*n + np2) * *n], &i__1, 4L);
     i__1 = *n + np2;
-    dlacpy_("Full", &np2, &m1, &d__[np1 + 1 + d_dim1], ldd, &dwork[iext + (*n + np2) **n + *n], &i__1, 4L);
+    dlacpy_("Full", &np2, &m1, &d__[np1 + 1 + d_dim1], ldd, &dwork[iext + (*n + np2) * *n + *n],
+        &i__1, 4L);
     i__1 = *n + np2;
     i__2 = *n + m1;
     i__3 = *n + np2;
     i__4 = *ldwork - iwrk + 1;
-    dgesvd_("N", "N", &i__1, &i__2, &dwork[iext], &i__3, &dwork[1], &tu[tu_offset], ldtu, &ty[ty_offset], ldty, &dwork[iwrk], &i__4, &info2, 1L, 1L);
-    if (info2 != 0)
-    {
+    dgesvd_("N", "N", &i__1, &i__2, &dwork[iext], &i__3, &dwork[1], &tu[tu_offset], ldtu,
+        &ty[ty_offset], ldty, &dwork[iwrk], &i__4, &info2, 1L, 1L);
+    if (info2 != 0) {
         *info = 5;
         return 0;
     }
-    if (dwork[*n + np2] / dwork[1] <= eps)
-    {
+    if (dwork[*n + np2] / dwork[1] <= eps) {
         *info = 2;
         return 0;
     }
     /* Computing MAX */
-    i__1 = (integer) dwork[iwrk] + iwrk - 1;
-    lwamax = max(i__1,lwamax);
+    i__1 = (integer)dwork[iwrk] + iwrk - 1;
+    lwamax = max(i__1, lwamax);
     /*     Determine SVD of D12, D12 = U12 S12 V12', and check if D12 has */
     /*     full column rank. V12' is stored in TU. */
     /*     Workspace:  need   M2 + NP1*NP1 + max(3*M2+NP1,5*M2); */
@@ -397,57 +376,56 @@ integer *ldwork, *info;
     iq = m2 + 1;
     iwrk = iq + np1 * np1;
     i__1 = *ldwork - iwrk + 1;
-    dgesvd_("A", "A", &np1, &m2, &d__[(m1 + 1) * d_dim1 + 1], ldd, &dwork[1], &dwork[iq], &np1, &tu[tu_offset], ldtu, &dwork[iwrk], &i__1, &info2, 1L, 1L);
-    if (info2 != 0)
-    {
+    dgesvd_("A", "A", &np1, &m2, &d__[(m1 + 1) * d_dim1 + 1], ldd, &dwork[1], &dwork[iq], &np1,
+        &tu[tu_offset], ldtu, &dwork[iwrk], &i__1, &info2, 1L, 1L);
+    if (info2 != 0) {
         *info = 5;
         return 0;
     }
     rcond[1] = dwork[m2] / dwork[1];
-    if (rcond[1] <= toll)
-    {
+    if (rcond[1] <= toll) {
         rcond[2] = 0.;
         *info = 3;
         return 0;
     }
     /* Computing MAX */
-    i__1 = (integer) dwork[iwrk] + iwrk - 1;
-    lwamax = max(i__1,lwamax);
+    i__1 = (integer)dwork[iwrk] + iwrk - 1;
+    lwamax = max(i__1, lwamax);
     /*     Determine Q12. */
-    if (nd1 > 0)
-    {
+    if (nd1 > 0) {
         dlacpy_("Full", &np1, &m2, &dwork[iq], &np1, &d__[(m1 + 1) * d_dim1 + 1], ldd, 4L);
         dlacpy_("Full", &np1, &nd1, &dwork[iq + np1 * m2], &np1, &dwork[iq], &np1, 4L);
-        dlacpy_("Full", &np1, &m2, &d__[(m1 + 1) * d_dim1 + 1], ldd, &dwork[iq + np1 * nd1], &np1, 4L);
+        dlacpy_(
+            "Full", &np1, &m2, &d__[(m1 + 1) * d_dim1 + 1], ldd, &dwork[iq + np1 * nd1], &np1, 4L);
     }
     /*     Determine Tu by transposing in-situ and scaling. */
     i__1 = m2 - 1;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         dswap_(&j, &tu[j + 1 + tu_dim1], ldtu, &tu[(j + 1) * tu_dim1 + 1], &c__1);
         /* L10: */
     }
     i__1 = m2;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         d__1 = 1. / dwork[j];
         dscal_(&m2, &d__1, &tu[j * tu_dim1 + 1], &c__1);
         /* L20: */
     }
     /*     Determine C1 =: Q12'*C1. */
     /*     Workspace:  M2 + NP1*NP1 + NP1*N. */
-    dgemm_("T", "N", &np1, n, &np1, &c_b27, &dwork[iq], &np1, &c__[c_offset], ldc, &c_b28, &dwork[iwrk], &np1, 1L, 1L);
+    dgemm_("T", "N", &np1, n, &np1, &c_b27, &dwork[iq], &np1, &c__[c_offset], ldc, &c_b28,
+        &dwork[iwrk], &np1, 1L, 1L);
     dlacpy_("Full", &np1, n, &dwork[iwrk], &np1, &c__[c_offset], ldc, 4L);
     /* Computing MAX */
-    i__1 = iwrk + np1 **n - 1;
-    lwamax = max(i__1,lwamax);
+    i__1 = iwrk + np1 * *n - 1;
+    lwamax = max(i__1, lwamax);
     /*     Determine D11 =: Q12'*D11. */
     /*     Workspace:  M2 + NP1*NP1 + NP1*M1. */
-    dgemm_("T", "N", &np1, &m1, &np1, &c_b27, &dwork[iq], &np1, &d__[d_offset], ldd, &c_b28, &dwork[iwrk], &np1, 1L, 1L);
+    dgemm_("T", "N", &np1, &m1, &np1, &c_b27, &dwork[iq], &np1, &d__[d_offset], ldd, &c_b28,
+        &dwork[iwrk], &np1, 1L, 1L);
     dlacpy_("Full", &np1, &m1, &dwork[iwrk], &np1, &d__[d_offset], ldd, 4L);
     /* Computing MAX */
     i__1 = iwrk + np1 * m1 - 1;
-    lwamax = max(i__1,lwamax);
+    lwamax = max(i__1, lwamax);
     /*     Determine SVD of D21, D21 = U21 S21 V21', and check if D21 has */
     /*     full row rank. U21 is stored in TY. */
     /*     Workspace:  need   NP2 + M1*M1 + max(3*NP2+M1,5*NP2); */
@@ -455,69 +433,68 @@ integer *ldwork, *info;
     iq = np2 + 1;
     iwrk = iq + m1 * m1;
     i__1 = *ldwork - iwrk + 1;
-    dgesvd_("A", "A", &np2, &m1, &d__[np1 + 1 + d_dim1], ldd, &dwork[1], &ty[ty_offset], ldty, &dwork[iq], &m1, &dwork[iwrk], &i__1, &info2, 1L, 1L);
-    if (info2 != 0)
-    {
+    dgesvd_("A", "A", &np2, &m1, &d__[np1 + 1 + d_dim1], ldd, &dwork[1], &ty[ty_offset], ldty,
+        &dwork[iq], &m1, &dwork[iwrk], &i__1, &info2, 1L, 1L);
+    if (info2 != 0) {
         *info = 5;
         return 0;
     }
     rcond[2] = dwork[np2] / dwork[1];
-    if (rcond[2] <= toll)
-    {
+    if (rcond[2] <= toll) {
         *info = 4;
         return 0;
     }
     /* Computing MAX */
-    i__1 = (integer) dwork[iwrk] + iwrk - 1;
-    lwamax = max(i__1,lwamax);
+    i__1 = (integer)dwork[iwrk] + iwrk - 1;
+    lwamax = max(i__1, lwamax);
     /*     Determine Q21. */
-    if (nd2 > 0)
-    {
+    if (nd2 > 0) {
         dlacpy_("Full", &np2, &m1, &dwork[iq], &m1, &d__[np1 + 1 + d_dim1], ldd, 4L);
         dlacpy_("Full", &nd2, &m1, &dwork[iq + np2], &m1, &dwork[iq], &m1, 4L);
         dlacpy_("Full", &np2, &m1, &d__[np1 + 1 + d_dim1], ldd, &dwork[iq + nd2], &m1, 4L);
     }
     /*     Determine Ty by scaling and transposing in-situ. */
     i__1 = np2;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         d__1 = 1. / dwork[j];
         dscal_(&np2, &d__1, &ty[j * ty_dim1 + 1], &c__1);
         /* L30: */
     }
     i__1 = np2 - 1;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         dswap_(&j, &ty[j + 1 + ty_dim1], ldty, &ty[(j + 1) * ty_dim1 + 1], &c__1);
         /* L40: */
     }
     /*     Determine B1 =: B1*Q21'. */
     /*     Workspace:  NP2 + M1*M1 + N*M1. */
-    dgemm_("N", "T", n, &m1, &m1, &c_b27, &b[b_offset], ldb, &dwork[iq], &m1, &c_b28, &dwork[iwrk], n, 1L, 1L);
+    dgemm_("N", "T", n, &m1, &m1, &c_b27, &b[b_offset], ldb, &dwork[iq], &m1, &c_b28, &dwork[iwrk],
+        n, 1L, 1L);
     dlacpy_("Full", n, &m1, &dwork[iwrk], n, &b[b_offset], ldb, 4L);
     /* Computing MAX */
     i__1 = iwrk + *n * m1 - 1;
-    lwamax = max(i__1,lwamax);
+    lwamax = max(i__1, lwamax);
     /*     Determine D11 =: D11*Q21'. */
     /*     Workspace:  NP2 + M1*M1 + NP1*M1. */
-    dgemm_("N", "T", &np1, &m1, &m1, &c_b27, &d__[d_offset], ldd, &dwork[iq], &m1, &c_b28, &dwork[iwrk], &np1, 1L, 1L);
+    dgemm_("N", "T", &np1, &m1, &m1, &c_b27, &d__[d_offset], ldd, &dwork[iq], &m1, &c_b28,
+        &dwork[iwrk], &np1, 1L, 1L);
     dlacpy_("Full", &np1, &m1, &dwork[iwrk], &np1, &d__[d_offset], ldd, 4L);
     /* Computing MAX */
     i__1 = iwrk + np1 * m1 - 1;
-    lwamax = max(i__1,lwamax);
+    lwamax = max(i__1, lwamax);
     /*     Determine B2 =: B2*Tu. */
     /*     Workspace:  N*M2. */
-    dgemm_("N", "N", n, &m2, &m2, &c_b27, &b[(m1 + 1) * b_dim1 + 1], ldb, &tu[tu_offset], ldtu, &c_b28, &dwork[1], n, 1L, 1L);
+    dgemm_("N", "N", n, &m2, &m2, &c_b27, &b[(m1 + 1) * b_dim1 + 1], ldb, &tu[tu_offset], ldtu,
+        &c_b28, &dwork[1], n, 1L, 1L);
     dlacpy_("Full", n, &m2, &dwork[1], n, &b[(m1 + 1) * b_dim1 + 1], ldb, 4L);
     /*     Determine C2 =: Ty*C2. */
     /*     Workspace:  NP2*N. */
-    dgemm_("N", "N", &np2, n, &np2, &c_b27, &ty[ty_offset], ldty, &c__[np1 + 1 + c_dim1], ldc, &c_b28, &dwork[1], &np2, 1L, 1L);
+    dgemm_("N", "N", &np2, n, &np2, &c_b27, &ty[ty_offset], ldty, &c__[np1 + 1 + c_dim1], ldc,
+        &c_b28, &dwork[1], &np2, 1L, 1L);
     dlacpy_("Full", &np2, n, &dwork[1], &np2, &c__[np1 + 1 + c_dim1], ldc, 4L);
     /* Computing MAX */
-    i__1 = *n * max(m2,np2);
-    lwamax = max(i__1,lwamax);
-    dwork[1] = (doublereal) lwamax;
+    i__1 = *n * max(m2, np2);
+    lwamax = max(i__1, lwamax);
+    dwork[1] = (doublereal)lwamax;
     return 0;
     /* *** Last line of SB10PD *** */
 } /* sb10pd_ */
-

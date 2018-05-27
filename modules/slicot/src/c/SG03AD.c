@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,22 +11,24 @@ static doublereal c_b20 = 0.;
 static doublereal c_b21 = 1.;
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int sg03ad_(dico, job, fact, trans, uplo, n, a, lda, e, lde, q, ldq, z__, ldz, x, ldx, scale, sep, ferr, alphar, alphai, beta, iwork, dwork, ldwork, info, dico_len, job_len, fact_len, trans_len, uplo_len)
-char *dico, *job, *fact, *trans, *uplo;
-integer *n;
-doublereal *a;
-integer *lda;
-doublereal *e;
-integer *lde;
-doublereal *q;
-integer *ldq;
-doublereal *z__;
-integer *ldz;
-doublereal *x;
-integer *ldx;
+EXPORTSYMBOL /* Subroutine */ int sg03ad_(dico, job, fact, trans, uplo, n, a, lda, e, lde, q, ldq,
+    z__, ldz, x, ldx, scale, sep, ferr, alphar, alphai, beta, iwork, dwork, ldwork, info, dico_len,
+    job_len, fact_len, trans_len, uplo_len) char *dico,
+    *job, *fact, *trans, *uplo;
+integer* n;
+doublereal* a;
+integer* lda;
+doublereal* e;
+integer* lde;
+doublereal* q;
+integer* ldq;
+doublereal* z__;
+integer* ldz;
+doublereal* x;
+integer* ldx;
 doublereal *scale, *sep, *ferr, *alphar, *alphai, *beta;
-integer *iwork;
-doublereal *dwork;
+integer* iwork;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen dico_len;
 ftnlen job_len;
@@ -35,7 +37,8 @@ ftnlen trans_len;
 ftnlen uplo_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, e_dim1, e_offset, q_dim1, q_offset, x_dim1, x_offset, z_dim1, z_offset, i__1, i__2, i__3;
+    integer a_dim1, a_offset, e_dim1, e_offset, q_dim1, q_offset, x_dim1, x_offset, z_dim1,
+        z_offset, i__1, i__2, i__3;
     doublereal d__1, d__2;
     /* Local variables */
     static integer kase, info1;
@@ -380,198 +383,144 @@ ftnlen uplo_len;
     istran = lsame_(trans, "T", 1L, 1L);
     isuppr = lsame_(uplo, "U", 1L, 1L);
     /*     Check the scalar input parameters. */
-    if (! (isdisc || lsame_(dico, "C", 1L, 1L)))
-    {
+    if (!(isdisc || lsame_(dico, "C", 1L, 1L))) {
         *info = -1;
-    }
-    else if (! (wantx || wantsp || wantbh))
-    {
+    } else if (!(wantx || wantsp || wantbh)) {
         *info = -2;
-    }
-    else if (! (isfact || lsame_(fact, "N", 1L, 1L)))
-    {
+    } else if (!(isfact || lsame_(fact, "N", 1L, 1L))) {
         *info = -3;
-    }
-    else if (! (istran || lsame_(trans, "N", 1L, 1L)))
-    {
+    } else if (!(istran || lsame_(trans, "N", 1L, 1L))) {
         *info = -4;
-    }
-    else if (! (isuppr || lsame_(uplo, "L", 1L, 1L)))
-    {
+    } else if (!(isuppr || lsame_(uplo, "L", 1L, 1L))) {
         *info = -5;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -6;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -8;
-    }
-    else if (*lde < max(1,*n))
-    {
+    } else if (*lde < max(1, *n)) {
         *info = -10;
-    }
-    else if (*ldq < max(1,*n))
-    {
+    } else if (*ldq < max(1, *n)) {
         *info = -12;
-    }
-    else if (*ldz < max(1,*n))
-    {
+    } else if (*ldz < max(1, *n)) {
         *info = -14;
-    }
-    else if (*ldx < max(1,*n))
-    {
+    } else if (*ldx < max(1, *n)) {
         *info = -16;
-    }
-    else
-    {
+    } else {
         *info = 0;
     }
-    if (*info == 0)
-    {
+    if (*info == 0) {
         /*        Compute minimal workspace. */
-        if (wantx)
-        {
-            if (isfact)
-            {
-                minwrk = max(*n,1);
-            }
-            else
-            {
+        if (wantx) {
+            if (isfact) {
+                minwrk = max(*n, 1);
+            } else {
                 /* Computing MAX */
                 i__1 = *n << 2;
-                minwrk = max(i__1,1);
+                minwrk = max(i__1, 1);
+            }
+        } else {
+            if (isfact) {
+                /* Computing MAX */
+                i__1 = (*n << 1) * *n;
+                minwrk = max(i__1, 1);
+            } else {
+                /* Computing MAX */
+                i__1 = (*n << 1) * *n, i__2 = *n << 2, i__1 = max(i__1, i__2);
+                minwrk = max(i__1, 1);
             }
         }
-        else
-        {
-            if (isfact)
-            {
-                /* Computing MAX */
-                i__1 = (*n << 1) **n;
-                minwrk = max(i__1,1);
-            }
-            else
-            {
-                /* Computing MAX */
-                i__1 = (*n << 1) **n, i__2 = *n << 2, i__1 = max(i__1,i__2);
-                minwrk = max(i__1,1);
-            }
-        }
-        if (minwrk > *ldwork)
-        {
+        if (minwrk > *ldwork) {
             *info = -25;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("SG03AD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
+    if (*n == 0) {
         *scale = 1.;
-        if (! wantx)
-        {
+        if (!wantx) {
             *sep = 0.;
         }
-        if (wantbh)
-        {
+        if (wantbh) {
             *ferr = 0.;
         }
         dwork[1] = 1.;
         return 0;
     }
-    if (isfact)
-    {
+    if (isfact) {
         /*        Make sure the upper Hessenberg part of A is quasitriangular. */
         i__1 = *n - 2;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
-            if (a[i__ + 1 + i__ * a_dim1] != 0. && a[i__ + 2 + (i__ + 1) * a_dim1] != 0.)
-            {
+        for (i__ = 1; i__ <= i__1; ++i__) {
+            if (a[i__ + 1 + i__ * a_dim1] != 0. && a[i__ + 2 + (i__ + 1) * a_dim1] != 0.) {
                 *info = 1;
                 return 0;
             }
             /* L20: */
         }
     }
-    if (! isfact)
-    {
+    if (!isfact) {
         /*        Reduce A - lambda * E to generalized Schur form. */
         /*           A := Q**T * A * Z   (upper quasitriangular) */
         /*           E := Q**T * E * Z   (upper triangular) */
         /*        ( Workspace: >= MAX(1,4*N) ) */
-        dgegs_("Vectors", "Vectors", n, &a[a_offset], lda, &e[e_offset], lde, &alphar[1], &alphai[1], &beta[1], &q[q_offset], ldq, &z__[z_offset], ldz, &dwork[1], ldwork, &info1, 7L, 7L);
-        if (info1 != 0)
-        {
+        dgegs_("Vectors", "Vectors", n, &a[a_offset], lda, &e[e_offset], lde, &alphar[1],
+            &alphai[1], &beta[1], &q[q_offset], ldq, &z__[z_offset], ldz, &dwork[1], ldwork, &info1,
+            7L, 7L);
+        if (info1 != 0) {
             *info = 2;
             return 0;
         }
-        optwrk = (integer) dwork[1];
-    }
-    else
-    {
+        optwrk = (integer)dwork[1];
+    } else {
         optwrk = minwrk;
     }
-    if (wantbh || wantx)
-    {
+    if (wantbh || wantx) {
         /*        Transform right hand side. */
         /*           X := Z**T * X * Z  or  X := Q**T * X * Q */
         /*        Use BLAS 3 if there is enough workspace. Otherwise, use BLAS 2. */
         /*        ( Workspace: >= N ) */
-        if (*ldwork < *n **n)
-        {
-            if (istran)
-            {
-                mb01rw_(uplo, "Transpose", n, n, &x[x_offset], ldx, &q[q_offset], ldq, &dwork[1], &info1, 1L, 9L);
+        if (*ldwork < *n * *n) {
+            if (istran) {
+                mb01rw_(uplo, "Transpose", n, n, &x[x_offset], ldx, &q[q_offset], ldq, &dwork[1],
+                    &info1, 1L, 9L);
+            } else {
+                mb01rw_(uplo, "Transpose", n, n, &x[x_offset], ldx, &z__[z_offset], ldz, &dwork[1],
+                    &info1, 1L, 9L);
             }
-            else
-            {
-                mb01rw_(uplo, "Transpose", n, n, &x[x_offset], ldx, &z__[z_offset], ldz, &dwork[1], &info1, 1L, 9L);
-            }
-        }
-        else
-        {
-            if (istran)
-            {
-                mb01rd_(uplo, "Transpose", n, n, &c_b20, &c_b21, &x[x_offset], ldx, &q[q_offset], ldq, &x[x_offset], ldx, &dwork[1], ldwork, info, 1L, 9L);
-            }
-            else
-            {
-                mb01rd_(uplo, "Transpose", n, n, &c_b20, &c_b21, &x[x_offset], ldx, &z__[z_offset], ldz, &x[x_offset], ldx, &dwork[1], ldwork, info, 1L, 9L);
+        } else {
+            if (istran) {
+                mb01rd_(uplo, "Transpose", n, n, &c_b20, &c_b21, &x[x_offset], ldx, &q[q_offset],
+                    ldq, &x[x_offset], ldx, &dwork[1], ldwork, info, 1L, 9L);
+            } else {
+                mb01rd_(uplo, "Transpose", n, n, &c_b20, &c_b21, &x[x_offset], ldx, &z__[z_offset],
+                    ldz, &x[x_offset], ldx, &dwork[1], ldwork, info, 1L, 9L);
             }
         }
-        if (! isuppr)
-        {
+        if (!isuppr) {
             i__1 = *n - 1;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 i__2 = *n - i__;
                 dcopy_(&i__2, &x[i__ + 1 + i__ * x_dim1], &c__1, &x[i__ + (i__ + 1) * x_dim1], ldx);
                 /* L40: */
             }
         }
         /* Computing MAX */
-        i__1 = optwrk, i__2 = *n **n;
-        optwrk = max(i__1,i__2);
+        i__1 = optwrk, i__2 = *n * *n;
+        optwrk = max(i__1, i__2);
         /*        Solve reduced generalized Lyapunov equation. */
-        if (isdisc)
-        {
-            sg03ax_(trans, n, &a[a_offset], lda, &e[e_offset], lde, &x[x_offset], ldx, scale, &info1, 1L);
-            if (info1 != 0)
-            {
+        if (isdisc) {
+            sg03ax_(trans, n, &a[a_offset], lda, &e[e_offset], lde, &x[x_offset], ldx, scale,
+                &info1, 1L);
+            if (info1 != 0) {
                 *info = 3;
             }
-        }
-        else
-        {
-            sg03ay_(trans, n, &a[a_offset], lda, &e[e_offset], lde, &x[x_offset], ldx, scale, &info1, 1L);
-            if (info1 != 0)
-            {
+        } else {
+            sg03ay_(trans, n, &a[a_offset], lda, &e[e_offset], lde, &x[x_offset], ldx, scale,
+                &info1, 1L);
+            if (info1 != 0) {
                 *info = 4;
             }
         }
@@ -579,69 +528,55 @@ ftnlen uplo_len;
         /*           X := Q * X * Q**T  or  X := Z * X * Z**T. */
         /*        Use BLAS 3 if there is enough workspace. Otherwise, use BLAS 2. */
         /*        ( Workspace: >= N ) */
-        if (*ldwork < *n **n)
-        {
-            if (istran)
-            {
-                mb01rw_("Upper", "NoTranspose", n, n, &x[x_offset], ldx, &z__[z_offset], ldz, &dwork[1], &info1, 5L, 11L);
+        if (*ldwork < *n * *n) {
+            if (istran) {
+                mb01rw_("Upper", "NoTranspose", n, n, &x[x_offset], ldx, &z__[z_offset], ldz,
+                    &dwork[1], &info1, 5L, 11L);
+            } else {
+                mb01rw_("Upper", "NoTranspose", n, n, &x[x_offset], ldx, &q[q_offset], ldq,
+                    &dwork[1], &info1, 5L, 11L);
             }
-            else
-            {
-                mb01rw_("Upper", "NoTranspose", n, n, &x[x_offset], ldx, &q[q_offset], ldq, &dwork[1], &info1, 5L, 11L);
-            }
-        }
-        else
-        {
-            if (istran)
-            {
-                mb01rd_("Upper", "NoTranspose", n, n, &c_b20, &c_b21, &x[x_offset], ldx, &z__[z_offset], ldz, &x[x_offset], ldx, &dwork[1], ldwork, info, 5L, 11L);
-            }
-            else
-            {
-                mb01rd_("Upper", "NoTranspose", n, n, &c_b20, &c_b21, &x[x_offset], ldx, &q[q_offset], ldq, &x[x_offset], ldx, &dwork[1], ldwork, info, 5L, 11L);
+        } else {
+            if (istran) {
+                mb01rd_("Upper", "NoTranspose", n, n, &c_b20, &c_b21, &x[x_offset], ldx,
+                    &z__[z_offset], ldz, &x[x_offset], ldx, &dwork[1], ldwork, info, 5L, 11L);
+            } else {
+                mb01rd_("Upper", "NoTranspose", n, n, &c_b20, &c_b21, &x[x_offset], ldx,
+                    &q[q_offset], ldq, &x[x_offset], ldx, &dwork[1], ldwork, info, 5L, 11L);
             }
         }
         i__1 = *n - 1;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             i__2 = *n - i__;
             dcopy_(&i__2, &x[i__ + (i__ + 1) * x_dim1], ldx, &x[i__ + 1 + i__ * x_dim1], &c__1);
             /* L60: */
         }
     }
-    if (wantbh || wantsp)
-    {
+    if (wantbh || wantsp) {
         /*        Estimate the 1-norm of the inverse Kronecker product matrix */
         /*        belonging to the reduced generalized Lyapunov equation. */
         /*        ( Workspace: 2*N*N ) */
         est = 0.;
         kase = 0;
-L80:
-        i__1 = *n **n;
-        dlacon_(&i__1, &dwork[*n **n + 1], &dwork[1], &iwork[1], &est, &kase);
-        if (kase != 0)
-        {
-            if (kase == 1 && ! istran || kase != 1 && istran)
-            {
-                *(unsigned char *)etrans = 'N';
+    L80:
+        i__1 = *n * *n;
+        dlacon_(&i__1, &dwork[*n * *n + 1], &dwork[1], &iwork[1], &est, &kase);
+        if (kase != 0) {
+            if (kase == 1 && !istran || kase != 1 && istran) {
+                *(unsigned char*)etrans = 'N';
+            } else {
+                *(unsigned char*)etrans = 'T';
             }
-            else
-            {
-                *(unsigned char *)etrans = 'T';
-            }
-            if (isdisc)
-            {
-                sg03ax_(etrans, n, &a[a_offset], lda, &e[e_offset], lde, &dwork[1], n, &scale1, &info1, 1L);
-                if (info1 != 0)
-                {
+            if (isdisc) {
+                sg03ax_(etrans, n, &a[a_offset], lda, &e[e_offset], lde, &dwork[1], n, &scale1,
+                    &info1, 1L);
+                if (info1 != 0) {
                     *info = 3;
                 }
-            }
-            else
-            {
-                sg03ay_(etrans, n, &a[a_offset], lda, &e[e_offset], lde, &dwork[1], n, &scale1, &info1, 1L);
-                if (info1 != 0)
-                {
+            } else {
+                sg03ay_(etrans, n, &a[a_offset], lda, &e[e_offset], lde, &dwork[1], n, &scale1,
+                    &info1, 1L);
+                if (info1 != 0) {
                     *info = 4;
                 }
             }
@@ -651,36 +586,30 @@ L80:
     }
     /*     Estimate the relative forward error. */
     /*     ( Workspace: 2*N ) */
-    if (wantbh)
-    {
+    if (wantbh) {
         eps = dlamch_("Precision", 9L);
         i__1 = *n;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             /* Computing MIN */
             i__3 = i__ + 1;
-            i__2 = min(i__3,*n);
+            i__2 = min(i__3, *n);
             dwork[i__] = dnrm2_(&i__2, &a[i__ * a_dim1 + 1], &c__1);
             dwork[*n + i__] = dnrm2_(&i__, &e[i__ * e_dim1 + 1], &c__1);
             /* L100: */
         }
         norma = dnrm2_(n, &dwork[1], &c__1);
         norme = dnrm2_(n, &dwork[*n + 1], &c__1);
-        if (isdisc)
-        {
+        if (isdisc) {
             /* Computing 2nd power */
             d__1 = norma;
             /* Computing 2nd power */
             d__2 = norme;
             *ferr = (d__1 * d__1 + d__2 * d__2) * eps / *sep;
-        }
-        else
-        {
+        } else {
             *ferr = norma * 2. * norme * eps / *sep;
         }
     }
-    dwork[1] = (doublereal) max(optwrk,minwrk);
+    dwork[1] = (doublereal)max(optwrk, minwrk);
     return 0;
     /* *** Last line of SG03AD *** */
 } /* sg03ad_ */
-

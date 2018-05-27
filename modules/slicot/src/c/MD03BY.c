@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,13 +11,13 @@ static doublereal c_b10 = 0.;
 static integer c__1 = 1;
 static integer c__0 = 0;
 
-EXPORTSYMBOL /* Subroutine */ int md03by_(cond, n, r__, ldr, ipvt, diag, qtb, delta, par, rank, x, rx, tol, dwork, ldwork, info, cond_len)
-char *cond;
-integer *n;
-doublereal *r__;
+EXPORTSYMBOL /* Subroutine */ int md03by_(cond, n, r__, ldr, ipvt, diag, qtb, delta, par, rank, x,
+    rx, tol, dwork, ldwork, info, cond_len) char* cond;
+integer* n;
+doublereal* r__;
 integer *ldr, *ipvt;
 doublereal *diag, *qtb, *delta, *par;
-integer *rank;
+integer* rank;
 doublereal *x, *rx, *tol, *dwork;
 integer *ldwork, *info;
 ftnlen cond_len;
@@ -218,63 +218,43 @@ ftnlen cond_len;
     ncond = lsame_(cond, "N", 1L, 1L);
     ucond = lsame_(cond, "U", 1L, 1L);
     *info = 0;
-    if (! (econd || ncond || ucond))
-    {
+    if (!(econd || ncond || ucond)) {
         *info = -1;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -2;
-    }
-    else if (*ldr < max(1,*n))
-    {
+    } else if (*ldr < max(1, *n)) {
         *info = -4;
-    }
-    else if (*delta <= 0.)
-    {
+    } else if (*delta <= 0.) {
         *info = -8;
-    }
-    else if (*par < 0.)
-    {
+    } else if (*par < 0.) {
         *info = -9;
-    }
-    else if (ucond && (*rank < 0 || *rank > *n))
-    {
+    } else if (ucond && (*rank < 0 || *rank > *n)) {
         *info = -10;
-    }
-    else if (*ldwork < *n << 1 || econd && *ldwork < *n << 2)
-    {
+    } else if (*ldwork < *n << 1 || econd && *ldwork < *n << 2) {
         *info = -15;
-    }
-    else if (*n > 0)
-    {
+    } else if (*n > 0) {
         dmino = diag[1];
         sing = FALSE_;
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
-            if (diag[j] < dmino)
-            {
+        for (j = 1; j <= i__1; ++j) {
+            if (diag[j] < dmino) {
                 dmino = diag[j];
             }
             sing = sing || diag[j] == 0.;
             /* L10: */
         }
-        if (sing)
-        {
+        if (sing) {
             *info = -6;
         }
     }
     /*     Return if there are illegal arguments. */
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MD03BY", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
+    if (*n == 0) {
         *par = 0.;
         *rank = 0;
         return 0;
@@ -283,28 +263,23 @@ ftnlen cond_len;
     dwarf = dlamch_("Underflow", 9L);
     n2 = *n;
     /*     Estimate the rank of R, if required. */
-    if (econd)
-    {
+    if (econd) {
         n2 = *n << 1;
         temp = *tol;
-        if (temp <= 0.)
-        {
+        if (temp <= 0.) {
             /*           Use the default tolerance in rank determination. */
-            temp = (doublereal) (*n) * dlamch_("Epsilon", 7L);
+            temp = (doublereal)(*n) * dlamch_("Epsilon", 7L);
         }
         /*        Estimate the reciprocal condition number of R and set the rank. */
         /*        Workspace: 2*N. */
-        mb03od_("No QR", n, n, &r__[r_offset], ldr, &ipvt[1], &temp, &c_b10, &dwork[1], rank, dum, &dwork[1], ldwork, info, 5L);
-    }
-    else if (ncond)
-    {
+        mb03od_("No QR", n, n, &r__[r_offset], ldr, &ipvt[1], &temp, &c_b10, &dwork[1], rank, dum,
+            &dwork[1], ldwork, info, 5L);
+    } else if (ncond) {
         j = 1;
-L20:
-        if (r__[j + j * r_dim1] != 0.)
-        {
+    L20:
+        if (r__[j + j * r_dim1] != 0.) {
             ++j;
-            if (j <= *n)
-            {
+            if (j <= *n) {
                 goto L20;
             }
         }
@@ -315,15 +290,14 @@ L20:
     /*     The array RX is used as workspace. */
     dcopy_(rank, &qtb[1], &c__1, &rx[1], &c__1);
     dum[0] = 0.;
-    if (*rank < *n)
-    {
+    if (*rank < *n) {
         i__1 = *n - *rank;
         dcopy_(&i__1, dum, &c__0, &rx[*rank + 1], &c__1);
     }
-    dtrsv_("Upper", "No transpose", "Non unit", rank, &r__[r_offset], ldr, &rx[1], &c__1, 5L, 12L, 8L);
+    dtrsv_(
+        "Upper", "No transpose", "Non unit", rank, &r__[r_offset], ldr, &rx[1], &c__1, 5L, 12L, 8L);
     i__1 = *n;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         l = ipvt[j];
         x[l] = rx[j];
         /* L30: */
@@ -333,96 +307,79 @@ L20:
     /*     for acceptance of the Gauss-Newton direction. */
     iter = 0;
     i__1 = *n;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         dwork[j] = diag[j] * x[j];
         /* L40: */
     }
     dxnorm = dnrm2_(n, &dwork[1], &c__1);
     fp = dxnorm - *delta;
-    if (fp > *delta * .1)
-    {
+    if (fp > *delta * .1) {
         /*        Set an appropriate option for estimating the condition of */
         /*        the matrix S. */
-        if (ucond)
-        {
-            if (*ldwork >= *n << 2)
-            {
-                *(unsigned char *)condl = 'E';
-                toldef = (doublereal) (*n) * dlamch_("Epsilon", 7L);
-            }
-            else
-            {
-                *(unsigned char *)condl = 'N';
+        if (ucond) {
+            if (*ldwork >= *n << 2) {
+                *(unsigned char*)condl = 'E';
+                toldef = (doublereal)(*n) * dlamch_("Epsilon", 7L);
+            } else {
+                *(unsigned char*)condl = 'N';
                 toldef = *tol;
             }
-        }
-        else
-        {
-            *(unsigned char *)condl = *(unsigned char *)cond;
+        } else {
+            *(unsigned char*)condl = *(unsigned char*)cond;
             toldef = *tol;
         }
         /*        If the Jacobian is not rank deficient, the Newton */
         /*        step provides a lower bound, PARL, for the zero of */
         /*        the function. Otherwise set this bound to zero. */
-        if (*rank == *n)
-        {
+        if (*rank == *n) {
             i__1 = *n;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 l = ipvt[j];
                 rx[j] = diag[l] * (dwork[l] / dxnorm);
                 /* L50: */
             }
-            dtrsv_("Upper", "Transpose", "Non unit", n, &r__[r_offset], ldr, &rx[1], &c__1, 5L, 9L, 8L);
+            dtrsv_("Upper", "Transpose", "Non unit", n, &r__[r_offset], ldr, &rx[1], &c__1, 5L, 9L,
+                8L);
             temp = dnrm2_(n, &rx[1], &c__1);
             parl = fp / *delta / temp / temp;
             /*           For efficiency, use CONDL = 'U', if possible. */
-            if (! lsame_(condl, "U", 1L, 1L) && dmino > 0.)
-            {
-                *(unsigned char *)condl = 'U';
+            if (!lsame_(condl, "U", 1L, 1L) && dmino > 0.) {
+                *(unsigned char*)condl = 'U';
             }
-        }
-        else
-        {
+        } else {
             parl = 0.;
         }
         /*        Calculate an upper bound, PARU, for the zero of the function. */
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             l = ipvt[j];
             rx[j] = ddot_(&j, &r__[j * r_dim1 + 1], &c__1, &qtb[1], &c__1) / diag[l];
             /* L60: */
         }
         gnorm = dnrm2_(n, &rx[1], &c__1);
         paru = gnorm / *delta;
-        if (paru == 0.)
-        {
-            paru = dwarf / min(*delta,.1) / .001;
+        if (paru == 0.) {
+            paru = dwarf / min(*delta, .1) / .001;
         }
         /*        If the input PAR lies outside of the interval (PARL,PARU), */
         /*        set PAR to the closer endpoint. */
-        *par = max(*par,parl);
-        *par = min(*par,paru);
-        if (*par == 0.)
-        {
+        *par = max(*par, parl);
+        *par = min(*par, paru);
+        if (*par == 0.) {
             *par = gnorm / dxnorm;
         }
         /*        Beginning of an iteration. */
-L70:
+    L70:
         ++iter;
         /*           Evaluate the function at the current value of PAR. */
-        if (*par == 0.)
-        {
+        if (*par == 0.) {
             /* Computing MAX */
             d__1 = dwarf, d__2 = paru * .001;
-            *par = max(d__1,d__2);
+            *par = max(d__1, d__2);
         }
         temp = sqrt(*par);
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             rx[j] = temp * diag[j];
             /* L80: */
         }
@@ -433,10 +390,10 @@ L70:
         /*           The vector z is preserved if COND = 'E'. */
         /*           Workspace:   4*N, if CONDL =  'E'; */
         /*                        2*N, if CONDL <> 'E'. */
-        mb02yd_(condl, n, &r__[r_offset], ldr, &ipvt[1], &rx[1], &qtb[1], rank, &x[1], &toldef, &dwork[1], ldwork, info, 1L);
+        mb02yd_(condl, n, &r__[r_offset], ldr, &ipvt[1], &rx[1], &qtb[1], rank, &x[1], &toldef,
+            &dwork[1], ldwork, info, 1L);
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             dwork[n2 + j] = diag[j] * x[j];
             /* L90: */
         }
@@ -446,62 +403,53 @@ L70:
         /*           If the function is small enough, accept the current value */
         /*           of PAR. Also test for the exceptional cases where PARL */
         /*           is zero or the number of iterations has reached ITMAX. */
-        if (abs(fp) > *delta * .1 && (parl != 0. || fp > temp || temp >= 0.) && iter < 10)
-        {
+        if (abs(fp) > *delta * .1 && (parl != 0. || fp > temp || temp >= 0.) && iter < 10) {
             /*              Compute the Newton correction. */
             i__1 = *rank;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 l = ipvt[j];
                 rx[j] = diag[l] * (dwork[n2 + l] / dxnorm);
                 /* L100: */
             }
-            if (*rank < *n)
-            {
+            if (*rank < *n) {
                 i__1 = *n - *rank;
                 dcopy_(&i__1, dum, &c__0, &rx[*rank + 1], &c__1);
             }
             i__1 = *ldr + 1;
             dswap_(n, &r__[r_offset], &i__1, &dwork[1], &c__1);
-            dtrsv_("Lower", "No transpose", "Non Unit", rank, &r__[r_offset], ldr, &rx[1], &c__1, 5L, 12L, 8L);
+            dtrsv_("Lower", "No transpose", "Non Unit", rank, &r__[r_offset], ldr, &rx[1], &c__1,
+                5L, 12L, 8L);
             i__1 = *ldr + 1;
             dswap_(n, &r__[r_offset], &i__1, &dwork[1], &c__1);
             temp = dnrm2_(rank, &rx[1], &c__1);
             parc = fp / *delta / temp / temp;
             /*              Depending on the sign of the function, update PARL */
             /*              or PARU. */
-            if (fp > 0.)
-            {
-                parl = max(parl,*par);
-            }
-            else if (fp < 0.)
-            {
-                paru = min(paru,*par);
+            if (fp > 0.) {
+                parl = max(parl, *par);
+            } else if (fp < 0.) {
+                paru = min(paru, *par);
             }
             /*              Compute an improved estimate for PAR. */
             /* Computing MAX */
             d__1 = parl, d__2 = *par + parc;
-            *par = max(d__1,d__2);
+            *par = max(d__1, d__2);
             /*              End of an iteration. */
             goto L70;
         }
     }
     /*     Compute -R*P'*x = -R*z. */
-    if (econd && iter > 0)
-    {
+    if (econd && iter > 0) {
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             rx[j] = -dwork[*n + j];
             /* L110: */
         }
-        dtrmv_("Upper", "NoTranspose", "NonUnit", n, &r__[r_offset], ldr, &rx[1], &c__1, 5L, 11L, 7L);
-    }
-    else
-    {
+        dtrmv_(
+            "Upper", "NoTranspose", "NonUnit", n, &r__[r_offset], ldr, &rx[1], &c__1, 5L, 11L, 7L);
+    } else {
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             rx[j] = 0.;
             l = ipvt[j];
             d__1 = -x[l];
@@ -510,12 +458,10 @@ L70:
         }
     }
     /*     Termination. If PAR = 0, set S. */
-    if (iter == 0)
-    {
+    if (iter == 0) {
         *par = 0.;
         i__1 = *n - 1;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             dwork[j] = r__[j + j * r_dim1];
             i__2 = *n - j;
             dcopy_(&i__2, &r__[j + (j + 1) * r_dim1], ldr, &r__[j + 1 + j * r_dim1], &c__1);
@@ -526,4 +472,3 @@ L70:
     return 0;
     /* *** Last line of MD03BY *** */
 } /* md03by_ */
-

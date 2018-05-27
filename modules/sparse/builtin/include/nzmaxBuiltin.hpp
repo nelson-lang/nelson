@@ -22,8 +22,9 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace SparseGateway {
-        ArrayOfVector nzmaxBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    }
+namespace SparseGateway {
+    ArrayOfVector
+    nzmaxBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }
+} // namespace Nelson
 //=============================================================================

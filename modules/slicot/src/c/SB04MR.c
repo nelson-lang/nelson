@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,9 +9,8 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int sb04mr_(m, d__, ipr, info)
-integer *m;
-doublereal *d__;
+EXPORTSYMBOL /* Subroutine */ int sb04mr_(m, d__, ipr, info) integer* m;
+doublereal* d__;
 integer *ipr, *info;
 {
     /* System generated locals */
@@ -102,15 +101,13 @@ integer *ipr, *info;
     m1 = *m;
     i1 = 1;
     i__1 = *m;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         ++mpi;
         ++iprm;
         ipr[mpi] = i1;
         ipr[i__] = iprm;
         i1 += m1;
-        if (i__ >= 3)
-        {
+        if (i__ >= 3) {
             --m1;
         }
         /* L20: */
@@ -119,27 +116,23 @@ integer *ipr, *info;
     mpi1 = *m + 1;
     /*     Reduce to upper triangular form. */
     i__1 = m1;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         mpi = mpi1;
         ++mpi1;
         iprm = ipr[mpi];
         d1 = d__[iprm];
         i1 = 2;
-        if (i__ == m1)
-        {
+        if (i__ == m1) {
             i1 = 1;
         }
         mpi2 = mpi + i1;
         l = 0;
         dmax__ = abs(d1);
         i__2 = mpi2;
-        for (j = mpi1; j <= i__2; ++j)
-        {
+        for (j = mpi1; j <= i__2; ++j) {
             d2 = d__[ipr[j]];
             d3 = abs(d2);
-            if (d3 > dmax__)
-            {
+            if (d3 > dmax__) {
                 dmax__ = d3;
                 d1 = d2;
                 l = j - mpi;
@@ -147,13 +140,11 @@ integer *ipr, *info;
             /* L40: */
         }
         /*        Check singularity. */
-        if (dmax__ == 0.)
-        {
+        if (dmax__ == 0.) {
             *info = 1;
             return 0;
         }
-        if (l > 0)
-        {
+        if (l > 0) {
             /*           Permute the row indices. */
             k = iprm;
             j = mpi + l;
@@ -170,8 +161,7 @@ integer *ipr, *info;
         i2 = i__;
         d3 = d__[ipr[i__]];
         i__2 = mpi2;
-        for (j = mpi1; j <= i__2; ++j)
-        {
+        for (j = mpi1; j <= i__2; ++j) {
             ++i2;
             iprm1 = ipr[j];
             dmax__ = -d__[iprm1] / d1;
@@ -181,8 +171,7 @@ integer *ipr, *info;
             /* L60: */
         }
         ++ipr[mpi1];
-        if (i__ != m1)
-        {
+        if (i__ != m1) {
             ++ipr[mpi2];
         }
         /* L80: */
@@ -190,22 +179,19 @@ integer *ipr, *info;
     mpi = *m + *m;
     iprm = ipr[mpi];
     /*     Check singularity. */
-    if (d__[iprm] == 0.)
-    {
+    if (d__[iprm] == 0.) {
         *info = 1;
         return 0;
     }
     /*     Back substitution. */
     d__[ipr[*m]] /= d__[iprm];
-    for (i__ = m1; i__ >= 1; --i__)
-    {
+    for (i__ = m1; i__ >= 1; --i__) {
         --mpi;
         iprm = ipr[mpi];
         iprm1 = iprm;
         dmax__ = 0.;
         i__1 = *m;
-        for (k = i__ + 1; k <= i__1; ++k)
-        {
+        for (k = i__ + 1; k <= i__1; ++k) {
             ++iprm1;
             dmax__ += d__[ipr[k]] * d__[iprm1];
             /* L100: */
@@ -216,4 +202,3 @@ integer *ipr, *info;
     return 0;
     /* *** Last line of SB04MR *** */
 } /* sb04mr_ */
-

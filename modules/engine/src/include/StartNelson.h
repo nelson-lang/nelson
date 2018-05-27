@@ -18,9 +18,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsEngine_exports.h"
 #include "NelSon_engine_mode.h"
+#include "nlsEngine_exports.h"
 //=============================================================================
-NLSENGINE_IMPEXP int StartNelson(int argc, char *argv[], NELSON_ENGINE_MODE _mode);
-NLSENGINE_IMPEXP int StartNelson(int argc, wchar_t *argv[], NELSON_ENGINE_MODE _mode);
+NLSENGINE_IMPEXP int
+StartNelson(int argc, char* argv[], NELSON_ENGINE_MODE _mode);
+NLSENGINE_IMPEXP int
+StartNelson(int argc, wchar_t* argv[], NELSON_ENGINE_MODE _mode);
 //=============================================================================

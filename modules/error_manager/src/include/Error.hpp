@@ -19,18 +19,23 @@
 #pragma once
 //=============================================================================
 #include "Evaluator.hpp"
+#include "Exception.hpp"
+#include "Messages.hpp"
 #include "nlsError_manager_exports.h"
 #include <string>
-#include "Messages.hpp"
-#include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    NLSERROR_MANAGER_IMPEXP void Error(Evaluator *eval, const std::wstring &msg);
-    NLSERROR_MANAGER_IMPEXP void Error(Evaluator *eval, const std::wstring &msg, const std::wstring &functionname);
-    NLSERROR_MANAGER_IMPEXP void Error(Evaluator *eval, const std::string &msg);
-    NLSERROR_MANAGER_IMPEXP void Error(Evaluator *eval, const std::string &msg, const std::string &functionname);
-    NLSERROR_MANAGER_IMPEXP void updateError(Evaluator *eval, Exception &e);
-    //=============================================================================
-}
+//=============================================================================
+NLSERROR_MANAGER_IMPEXP void
+Error(Evaluator* eval, const std::wstring& msg);
+NLSERROR_MANAGER_IMPEXP void
+Error(Evaluator* eval, const std::wstring& msg, const std::wstring& functionname);
+NLSERROR_MANAGER_IMPEXP void
+Error(Evaluator* eval, const std::string& msg);
+NLSERROR_MANAGER_IMPEXP void
+Error(Evaluator* eval, const std::string& msg, const std::string& functionname);
+NLSERROR_MANAGER_IMPEXP void
+updateError(Evaluator* eval, Exception& e);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

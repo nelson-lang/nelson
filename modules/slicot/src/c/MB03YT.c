@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,11 +10,11 @@
 static integer c__2 = 2;
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int mb03yt_(a, lda, b, ldb, alphar, alphai, beta, csl, snl, csr, snr)
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
+EXPORTSYMBOL /* Subroutine */ int mb03yt_(
+    a, lda, b, ldb, alphar, alphai, beta, csl, snl, csr, snr) doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
 doublereal *alphar, *alphai, *beta, *csl, *snl, *csr, *snr;
 {
     /* System generated locals */
@@ -126,22 +126,25 @@ doublereal *alphar, *alphai, *beta, *csl, *snl, *csr, *snr;
     ulp = dlamch_("P", 1L);
     /*     Scale A. */
     /* Computing MAX */
-    d__5 = (d__1 = a[a_dim1 + 1], abs(d__1)) + (d__2 = a[a_dim1 + 2], abs(d__2)), d__6 = (d__3 = a[(a_dim1 << 1) + 1], abs(d__3)) + (d__4 = a[(a_dim1 << 1) + 2], abs(d__4)), d__5 = max(d__5,d__6);
-    anorm = max(d__5,safmin);
+    d__5 = (d__1 = a[a_dim1 + 1], abs(d__1)) + (d__2 = a[a_dim1 + 2], abs(d__2)),
+    d__6 = (d__3 = a[(a_dim1 << 1) + 1], abs(d__3)) + (d__4 = a[(a_dim1 << 1) + 2], abs(d__4)),
+    d__5 = max(d__5, d__6);
+    anorm = max(d__5, safmin);
     a[a_dim1 + 1] /= anorm;
     a[(a_dim1 << 1) + 1] /= anorm;
     a[a_dim1 + 2] /= anorm;
     a[(a_dim1 << 1) + 2] /= anorm;
     /*     Scale B. */
     /* Computing MAX */
-    d__4 = (d__1 = b[b_dim1 + 1], abs(d__1)), d__5 = (d__2 = b[(b_dim1 << 1) + 1], abs(d__2)) + (d__3 = b[(b_dim1 << 1) + 2], abs(d__3)), d__4 = max(d__4,d__5);
-    bnorm = max(d__4,safmin);
+    d__4 = (d__1 = b[b_dim1 + 1], abs(d__1)),
+    d__5 = (d__2 = b[(b_dim1 << 1) + 1], abs(d__2)) + (d__3 = b[(b_dim1 << 1) + 2], abs(d__3)),
+    d__4 = max(d__4, d__5);
+    bnorm = max(d__4, safmin);
     b[b_dim1 + 1] /= bnorm;
     b[(b_dim1 << 1) + 1] /= bnorm;
     b[(b_dim1 << 1) + 2] /= bnorm;
     /*     Check if A can be deflated. */
-    if ((d__1 = a[a_dim1 + 2], abs(d__1)) <= ulp)
-    {
+    if ((d__1 = a[a_dim1 + 2], abs(d__1)) <= ulp) {
         *csl = 1.;
         *snl = 0.;
         *csr = 1.;
@@ -150,9 +153,7 @@ doublereal *alphar, *alphai, *beta, *csl, *snl, *csr, *snr;
         a[a_dim1 + 2] = 0.;
         b[b_dim1 + 2] = 0.;
         /*     Check if B is singular. */
-    }
-    else if ((d__1 = b[b_dim1 + 1], abs(d__1)) <= ulp)
-    {
+    } else if ((d__1 = b[b_dim1 + 1], abs(d__1)) <= ulp) {
         dlartg_(&a[(a_dim1 << 1) + 2], &a[a_dim1 + 2], csr, snr, &t);
         *snr = -(*snr);
         drot_(&c__2, &a[a_dim1 + 1], &c__1, &a[(a_dim1 << 1) + 1], &c__1, csr, snr);
@@ -163,9 +164,7 @@ doublereal *alphar, *alphai, *beta, *csl, *snl, *csr, *snr;
         a[a_dim1 + 2] = 0.;
         b[b_dim1 + 1] = 0.;
         b[b_dim1 + 2] = 0.;
-    }
-    else if ((d__1 = b[(b_dim1 << 1) + 2], abs(d__1)) <= ulp)
-    {
+    } else if ((d__1 = b[(b_dim1 << 1) + 2], abs(d__1)) <= ulp) {
         dlartg_(&a[a_dim1 + 1], &a[a_dim1 + 2], csl, snl, &r__);
         *csr = 1.;
         *snr = 0.;
@@ -175,17 +174,14 @@ doublereal *alphar, *alphai, *beta, *csl, *snl, *csr, *snr;
         a[a_dim1 + 2] = 0.;
         b[b_dim1 + 2] = 0.;
         b[(b_dim1 << 1) + 2] = 0.;
-    }
-    else
-    {
+    } else {
         /*        B is nonsingular, first compute the eigenvalues of A / adj(B). */
         r__ = b[b_dim1 + 1];
         b[b_dim1 + 1] = b[(b_dim1 << 1) + 2];
         b[(b_dim1 << 1) + 2] = r__;
         b[(b_dim1 << 1) + 1] = -b[(b_dim1 << 1) + 1];
         dlag2_(&a[a_offset], lda, &b[b_offset], ldb, &safmin, &scale1, &scale2, &wr1, &wr2, &wi);
-        if (wi == 0.)
-        {
+        if (wi == 0.) {
             /*           Two real eigenvalues, compute s*A-w*B. */
             h1 = scale1 * a[a_dim1 + 1] - wr1 * b[b_dim1 + 1];
             h2 = scale1 * a[(a_dim1 << 1) + 1] - wr1 * b[(b_dim1 << 1) + 1];
@@ -193,14 +189,11 @@ doublereal *alphar, *alphai, *beta, *csl, *snl, *csr, *snr;
             rr = dlapy2_(&h1, &h2);
             d__1 = scale1 * a[a_dim1 + 2];
             qq = dlapy2_(&d__1, &h3);
-            if (rr > qq)
-            {
+            if (rr > qq) {
                 /*              Find right rotation matrix to zero 1,1 element of */
                 /*              (sA - wB). */
                 dlartg_(&h2, &h1, csr, snr, &t);
-            }
-            else
-            {
+            } else {
                 /*              Find right rotation matrix to zero 2,1 element of */
                 /*              (sA - wB). */
                 d__1 = scale1 * a[a_dim1 + 2];
@@ -211,18 +204,17 @@ doublereal *alphar, *alphai, *beta, *csl, *snl, *csr, *snr;
             drot_(&c__2, &b[b_dim1 + 1], &c__1, &b[(b_dim1 << 1) + 1], &c__1, csr, snr);
             /*           Compute inf norms of A and B. */
             /* Computing MAX */
-            d__5 = (d__1 = a[a_dim1 + 1], abs(d__1)) + (d__2 = a[(a_dim1 << 1) + 1], abs(d__2)), d__6 = (d__3 = a[a_dim1 + 2], abs(d__3)) + (d__4 = a[(a_dim1 << 1) + 2], abs(d__4));
-            h1 = max(d__5,d__6);
+            d__5 = (d__1 = a[a_dim1 + 1], abs(d__1)) + (d__2 = a[(a_dim1 << 1) + 1], abs(d__2)),
+            d__6 = (d__3 = a[a_dim1 + 2], abs(d__3)) + (d__4 = a[(a_dim1 << 1) + 2], abs(d__4));
+            h1 = max(d__5, d__6);
             /* Computing MAX */
-            d__5 = (d__1 = b[b_dim1 + 1], abs(d__1)) + (d__2 = b[(b_dim1 << 1) + 1], abs(d__2)), d__6 = (d__3 = b[b_dim1 + 2], abs(d__3)) + (d__4 = b[(b_dim1 << 1) + 2], abs(d__4));
-            h2 = max(d__5,d__6);
-            if (scale1 * h1 >= abs(wr1) * h2)
-            {
+            d__5 = (d__1 = b[b_dim1 + 1], abs(d__1)) + (d__2 = b[(b_dim1 << 1) + 1], abs(d__2)),
+            d__6 = (d__3 = b[b_dim1 + 2], abs(d__3)) + (d__4 = b[(b_dim1 << 1) + 2], abs(d__4));
+            h2 = max(d__5, d__6);
+            if (scale1 * h1 >= abs(wr1) * h2) {
                 /*              Find left rotation matrix Q to zero out B(2,1). */
                 dlartg_(&b[b_dim1 + 1], &b[b_dim1 + 2], csl, snl, &r__);
-            }
-            else
-            {
+            } else {
                 /*              Find left rotation matrix Q to zero out A(2,1). */
                 dlartg_(&a[a_dim1 + 1], &a[a_dim1 + 2], csl, snl, &r__);
             }
@@ -235,16 +227,15 @@ doublereal *alphar, *alphai, *beta, *csl, *snl, *csr, *snr;
             b[b_dim1 + 1] = b[(b_dim1 << 1) + 2];
             b[(b_dim1 << 1) + 2] = r__;
             b[(b_dim1 << 1) + 1] = -b[(b_dim1 << 1) + 1];
-        }
-        else
-        {
+        } else {
             /*           A pair of complex conjugate eigenvalues: */
             /*           first compute the SVD of the matrix adj(B). */
             r__ = b[b_dim1 + 1];
             b[b_dim1 + 1] = b[(b_dim1 << 1) + 2];
             b[(b_dim1 << 1) + 2] = r__;
             b[(b_dim1 << 1) + 1] = -b[(b_dim1 << 1) + 1];
-            dlasv2_(&b[b_dim1 + 1], &b[(b_dim1 << 1) + 1], &b[(b_dim1 << 1) + 2], &r__, &t, snl, csl, snr, csr);
+            dlasv2_(&b[b_dim1 + 1], &b[(b_dim1 << 1) + 1], &b[(b_dim1 << 1) + 2], &r__, &t, snl,
+                csl, snr, csr);
             /*           Form (A,B) := Q(A,adj(B))Z' where Q is left rotation matrix */
             /*           and Z is right rotation matrix computed from DLASV2. */
             drot_(&c__2, &a[a_dim1 + 1], lda, &a[a_dim1 + 2], lda, csl, snl);
@@ -266,27 +257,22 @@ doublereal *alphar, *alphai, *beta, *csl, *snl, *csr, *snr;
     b[b_dim1 + 2] = bnorm * b[b_dim1 + 2];
     b[(b_dim1 << 1) + 1] = bnorm * b[(b_dim1 << 1) + 1];
     b[(b_dim1 << 1) + 2] = bnorm * b[(b_dim1 << 1) + 2];
-    if (wi == 0.)
-    {
+    if (wi == 0.) {
         alphar[1] = a[a_dim1 + 1];
         alphar[2] = a[(a_dim1 << 1) + 2];
         alphai[1] = 0.;
         alphai[2] = 0.;
         beta[1] = b[b_dim1 + 1];
         beta[2] = b[(b_dim1 << 1) + 2];
-    }
-    else
-    {
+    } else {
         wr1 = anorm * wr1;
         wi = anorm * wi;
-        if (abs(wr1) > 1. || wi > 1.)
-        {
+        if (abs(wr1) > 1. || wi > 1.) {
             wr1 *= r__;
             wi *= r__;
             r__ = 1.;
         }
-        if (abs(wr1) > 1. || abs(wi) > 1.)
-        {
+        if (abs(wr1) > 1. || abs(wi) > 1.) {
             wr1 *= t;
             wi *= t;
             t = 1.;
@@ -301,4 +287,3 @@ doublereal *alphar, *alphai, *beta, *csl, *snl, *csr, *snr;
     return 0;
     /* *** Last line of MB03YT *** */
 } /* mb03yt_ */
-

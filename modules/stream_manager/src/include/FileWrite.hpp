@@ -18,25 +18,26 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "nlsStream_manager_exports.h"
-#include "File.hpp"
 #include "ArrayOf.hpp"
 #include "Endian.hpp"
 #include "Evaluator.hpp"
+#include "File.hpp"
+#include "nlsStream_manager_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    typedef enum
-    {
-        FWRITE_NO_ERROR,
-        FWRITE_DATA_TYPE_NOT_SUPPORTED,
-        FWRITE_FILE_DESTINATION_NOT_SUPPORTED,
-        FWRITE_ALLOCATION_MEMORY,
-        FWRITE_INVALID_FILE,
-        FWRITE_ENDIAN_CONVERSION_NOT_SUPPORTED
-    } FWRITE_ERROR_TYPE;
+typedef enum
+{
+    FWRITE_NO_ERROR,
+    FWRITE_DATA_TYPE_NOT_SUPPORTED,
+    FWRITE_FILE_DESTINATION_NOT_SUPPORTED,
+    FWRITE_ALLOCATION_MEMORY,
+    FWRITE_INVALID_FILE,
+    FWRITE_ENDIAN_CONVERSION_NOT_SUPPORTED
+} FWRITE_ERROR_TYPE;
 
-    NLSSTREAM_MANAGER_IMPEXP FWRITE_ERROR_TYPE FileWrite(Evaluator *eval, File *fp, ArrayOf src, Class destClass, size_t skip,  bool bIsLittleEndian, int &sizeWritten);
-};
+NLSSTREAM_MANAGER_IMPEXP FWRITE_ERROR_TYPE
+FileWrite(Evaluator* eval, File* fp, ArrayOf src, Class destClass, size_t skip,
+    bool bIsLittleEndian, int& sizeWritten);
+}; // namespace Nelson
 //=============================================================================
-

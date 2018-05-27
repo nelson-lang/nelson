@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -12,17 +12,18 @@ static doublereal c_b7 = 0.;
 static doublereal c_b10 = -1.;
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int tb03ay_(nr, a, lda, indblk, nblk, vcoeff, ldvco1, ldvco2, pcoeff, ldpco1, ldpco2, info)
-integer *nr;
-doublereal *a;
+EXPORTSYMBOL /* Subroutine */ int tb03ay_(
+    nr, a, lda, indblk, nblk, vcoeff, ldvco1, ldvco2, pcoeff, ldpco1, ldpco2, info) integer* nr;
+doublereal* a;
 integer *lda, *indblk, *nblk;
-doublereal *vcoeff;
+doublereal* vcoeff;
 integer *ldvco1, *ldvco2;
-doublereal *pcoeff;
+doublereal* pcoeff;
 integer *ldpco1, *ldpco2, *info;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, pcoeff_dim1, pcoeff_dim2, pcoeff_offset, vcoeff_dim1, vcoeff_dim2, vcoeff_offset, i__1, i__2, i__3;
+    integer a_dim1, a_offset, pcoeff_dim1, pcoeff_dim2, pcoeff_offset, vcoeff_dim1, vcoeff_dim2,
+        vcoeff_offset, i__1, i__2, i__3;
     /* Local variables */
     static integer ioff, joff, ncol, nrow, i__, j, k, l;
     extern /* Subroutine */ int dscal_(), dgemm_(), daxpy_(), dtrsm_();
@@ -94,8 +95,7 @@ integer *ldpco1, *ldpco2, *info;
     joff = *nr;
     /*     Calculate each column block V:LWORK-1(s) of V(s) in turn. */
     i__1 = *indblk;
-    for (l = 1; l <= i__1; ++l)
-    {
+    for (l = 1; l <= i__1; ++l) {
         lwork = inplus - l;
         /*        Determine number of columns of V:LWORK(s) & its position in V. */
         ncol = nblk[lwork];
@@ -107,46 +107,43 @@ integer *ldpco1, *ldpco2, *info;
         /*        Calculate W(s) and store (temporarily) in top left part */
         /*        of P(s). */
         i__2 = inplus;
-        for (k = lwork + 1; k <= i__2; ++k)
-        {
+        for (k = lwork + 1; k <= i__2; ++k) {
             nrow = nblk[k - 1];
             lstop += nrow;
             i__3 = lstop - lstart + 1;
-            dgemm_("No transpose", "No transpose", &nrow, &ncol, &i__3, &c_b6, &vcoeff[(lstart + k * vcoeff_dim2) * vcoeff_dim1 + 1], ldvco1, &a[lstart + (joff + 1) * a_dim1], lda, &c_b7, &pcoeff[(k * pcoeff_dim2 + 1) * pcoeff_dim1 + 1], ldpco1, 12L, 12L);
+            dgemm_("No transpose", "No transpose", &nrow, &ncol, &i__3, &c_b6,
+                &vcoeff[(lstart + k * vcoeff_dim2) * vcoeff_dim1 + 1], ldvco1,
+                &a[lstart + (joff + 1) * a_dim1], lda, &c_b7,
+                &pcoeff[(k * pcoeff_dim2 + 1) * pcoeff_dim1 + 1], ldpco1, 12L, 12L);
             /* L10: */
         }
         /*        Replace W(s) by Wbar(s) = s * V:L(s) - W(s). */
         nrow = ncol;
         i__2 = *indblk;
-        for (k = lwork; k <= i__2; ++k)
-        {
+        for (k = lwork; k <= i__2; ++k) {
             kplus = k + 1;
             i__3 = ncol;
-            for (j = 1; j <= i__3; ++j)
-            {
+            for (j = 1; j <= i__3; ++j) {
                 dscal_(&nrow, &c_b10, &pcoeff[(j + k * pcoeff_dim2) * pcoeff_dim1 + 1], &c__1);
-                daxpy_(&nrow, &c_b6, &vcoeff[(joff + j + kplus * vcoeff_dim2) * vcoeff_dim1 + 1], &c__1, &pcoeff[(j + k * pcoeff_dim2) * pcoeff_dim1 + 1], &c__1);
+                daxpy_(&nrow, &c_b6, &vcoeff[(joff + j + kplus * vcoeff_dim2) * vcoeff_dim1 + 1],
+                    &c__1, &pcoeff[(j + k * pcoeff_dim2) * pcoeff_dim1 + 1], &c__1);
                 /* L20: */
             }
             nrow = nblk[k];
             /* L30: */
         }
         i__2 = ncol;
-        for (j = 1; j <= i__2; ++j)
-        {
+        for (j = 1; j <= i__2; ++j) {
             dscal_(&nrow, &c_b10, &pcoeff[(j + inplus * pcoeff_dim2) * pcoeff_dim1 + 1], &c__1);
             /* L40: */
         }
-        if (lwork != 1)
-        {
+        if (lwork != 1) {
             /*           If not final stage, use the upper triangular R (from A) */
             /*           to calculate V:L-1(s), finally storing this new block. */
             ioff = joff - nblk[lwork - 1];
             i__2 = ncol;
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
-                if (a[ioff + i__ + (joff + i__) * a_dim1] == 0.)
-                {
+            for (i__ = 1; i__ <= i__2; ++i__) {
+                if (a[ioff + i__ + (joff + i__) * a_dim1] == 0.) {
                     /*                 Error return. */
                     *info = i__;
                     return 0;
@@ -155,10 +152,13 @@ integer *ldpco1, *ldpco2, *info;
             }
             nrow = nblk[lwork];
             i__2 = inplus;
-            for (k = lwork; k <= i__2; ++k)
-            {
-                dlacpy_("Full", &nrow, &ncol, &pcoeff[(k * pcoeff_dim2 + 1) * pcoeff_dim1 + 1], ldpco1, &vcoeff[(ioff + 1 + k * vcoeff_dim2) * vcoeff_dim1 + 1], ldvco1, 4L);
-                dtrsm_("Right", "Upper", "No Transpose", "Non-unit", &nrow, &ncol, &c_b6, &a[ioff + 1 + (joff + 1) * a_dim1], lda, &vcoeff[(ioff + 1 + k * vcoeff_dim2) * vcoeff_dim1 + 1], ldvco1, 5L, 5L, 12L, 8L);
+            for (k = lwork; k <= i__2; ++k) {
+                dlacpy_("Full", &nrow, &ncol, &pcoeff[(k * pcoeff_dim2 + 1) * pcoeff_dim1 + 1],
+                    ldpco1, &vcoeff[(ioff + 1 + k * vcoeff_dim2) * vcoeff_dim1 + 1], ldvco1, 4L);
+                dtrsm_("Right", "Upper", "No Transpose", "Non-unit", &nrow, &ncol, &c_b6,
+                    &a[ioff + 1 + (joff + 1) * a_dim1], lda,
+                    &vcoeff[(ioff + 1 + k * vcoeff_dim2) * vcoeff_dim1 + 1], ldvco1, 5L, 5L, 12L,
+                    8L);
                 nrow = nblk[k];
                 /* L60: */
             }
@@ -168,4 +168,3 @@ integer *ldpco1, *ldpco2, *info;
     return 0;
     /* *** Last line of TB03AY *** */
 } /* tb03ay_ */
-

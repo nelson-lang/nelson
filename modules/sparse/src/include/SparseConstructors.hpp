@@ -18,14 +18,19 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsSparse_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsSparse_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSSPARSE_IMPEXP ArrayOf SparseConstructor(indexType m, indexType n);
-    NLSSPARSE_IMPEXP ArrayOf SparseConstructor(ArrayOf a);
-    NLSSPARSE_IMPEXP ArrayOf SparseConstructor(ArrayOf I, ArrayOf J, ArrayOf V);
-    NLSSPARSE_IMPEXP ArrayOf SparseConstructor(ArrayOf I, ArrayOf J, ArrayOf V, indexType m, indexType n);
-    NLSSPARSE_IMPEXP ArrayOf SparseConstructor(ArrayOf I, ArrayOf J, ArrayOf V, indexType m, indexType n, indexType nnz);
-}
+NLSSPARSE_IMPEXP ArrayOf
+SparseConstructor(indexType m, indexType n);
+NLSSPARSE_IMPEXP ArrayOf
+SparseConstructor(ArrayOf a);
+NLSSPARSE_IMPEXP ArrayOf
+SparseConstructor(ArrayOf I, ArrayOf J, ArrayOf V);
+NLSSPARSE_IMPEXP ArrayOf
+SparseConstructor(ArrayOf I, ArrayOf J, ArrayOf V, indexType m, indexType n);
+NLSSPARSE_IMPEXP ArrayOf
+SparseConstructor(ArrayOf I, ArrayOf J, ArrayOf V, indexType m, indexType n, indexType nnz);
+} // namespace Nelson
 //=============================================================================

@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,13 +9,12 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int mb02uu_(n, a, lda, rhs, ipiv, jpiv, scale)
-integer *n;
-doublereal *a;
-integer *lda;
-doublereal *rhs;
+EXPORTSYMBOL /* Subroutine */ int mb02uu_(n, a, lda, rhs, ipiv, jpiv, scale) integer* n;
+doublereal* a;
+integer* lda;
+doublereal* rhs;
 integer *ipiv, *jpiv;
-doublereal *scale;
+doublereal* scale;
 {
     /* System generated locals */
     integer a_dim1, a_offset, i__1, i__2;
@@ -103,11 +102,9 @@ doublereal *scale;
     dlabad_(&smlnum, &bignum);
     /*     Apply permutations IPIV to RHS. */
     i__1 = *n - 1;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         ip = ipiv[i__];
-        if (ip != i__)
-        {
+        if (ip != i__) {
             temp = rhs[i__];
             rhs[i__] = rhs[ip];
             rhs[ip] = temp;
@@ -116,8 +113,7 @@ doublereal *scale;
     }
     /*     Solve for L part. */
     i__1 = *n - 1;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         i__2 = *n - i__;
         d__1 = -rhs[i__];
         daxpy_(&i__2, &d__1, &a[i__ + 1 + i__ * a_dim1], &c__1, &rhs[i__ + 1], &c__1);
@@ -125,41 +121,34 @@ doublereal *scale;
     }
     /*     Solve for U part. */
     /*     Check for scaling. */
-    factor = (doublereal) (*n) * 2.;
+    factor = (doublereal)(*n) * 2.;
     i__ = 1;
 L60:
-    if (factor * smlnum * (d__1 = rhs[i__], abs(d__1)) <= (d__2 = a[i__ + i__ * a_dim1], abs(d__2)))
-    {
+    if (factor * smlnum * (d__1 = rhs[i__], abs(d__1))
+        <= (d__2 = a[i__ + i__ * a_dim1], abs(d__2))) {
         ++i__;
-        if (i__ <= *n)
-        {
+        if (i__ <= *n) {
             goto L60;
         }
         *scale = 1.;
-    }
-    else
-    {
+    } else {
         *scale = 1. / factor / (d__1 = rhs[idamax_(n, &rhs[1], &c__1)], abs(d__1));
         dscal_(n, scale, &rhs[1], &c__1);
     }
-    for (i__ = *n; i__ >= 1; --i__)
-    {
+    for (i__ = *n; i__ >= 1; --i__) {
         temp = 1. / a[i__ + i__ * a_dim1];
         rhs[i__] *= temp;
         i__1 = *n;
-        for (j = i__ + 1; j <= i__1; ++j)
-        {
+        for (j = i__ + 1; j <= i__1; ++j) {
             rhs[i__] -= rhs[j] * (a[i__ + j * a_dim1] * temp);
             /* L80: */
         }
         /* L100: */
     }
     /*     Apply permutations JPIV to the solution (RHS). */
-    for (i__ = *n - 1; i__ >= 1; --i__)
-    {
+    for (i__ = *n - 1; i__ >= 1; --i__) {
         ip = jpiv[i__];
-        if (ip != i__)
-        {
+        if (ip != i__) {
             temp = rhs[i__];
             rhs[i__] = rhs[ip];
             rhs[ip] = temp;
@@ -169,4 +158,3 @@ L60:
     return 0;
     /* *** Last line of MB02UU *** */
 } /* mb02uu_ */
-

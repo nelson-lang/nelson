@@ -23,19 +23,16 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::ElementaryFunctionsGateway::colonBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::ElementaryFunctionsGateway::colonBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() == 2)
-    {
+    if (argIn.size() == 2) {
         retval.push_back(OverloadBinaryOperator(eval, argIn[0], argIn[1], "colon"));
-    }
-    else if (argIn.size() == 3)
-    {
+    } else if (argIn.size() == 3) {
         retval.push_back(OverloadTrinaryOperator(eval, argIn[0], argIn[1], argIn[2], "colon"));
-    }
-    else
-    {
+    } else {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     return retval;

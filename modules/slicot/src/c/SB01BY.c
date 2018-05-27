@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,10 +11,9 @@ static integer c__1 = 1;
 static doublereal c_b4 = 0.;
 static integer c__2 = 2;
 
-EXPORTSYMBOL /* Subroutine */ int sb01by_(n, m, s, p, a, b, f, tol, dwork, info)
-integer *n, *m;
+EXPORTSYMBOL /* Subroutine */ int sb01by_(n, m, s, p, a, b, f, tol, dwork, info) integer *n, *m;
 doublereal *s, *p, *a, *b, *f, *tol, *dwork;
-integer *info;
+integer* info;
 {
     /* System generated locals */
     integer a_dim1, a_offset, b_dim1, b_offset, f_dim1, f_offset, i__1;
@@ -132,26 +131,23 @@ integer *info;
     --dwork;
     /* Function Body */
     *info = 0;
-    if (*n == 1)
-    {
+    if (*n == 1) {
         /*        The case N = 1. */
-        if (*m > 1)
-        {
+        if (*m > 1) {
             dlarfg_(m, &b[b_dim1 + 1], &b[(b_dim1 << 1) + 1], n, &tau1);
         }
         b1 = b[b_dim1 + 1];
-        if (abs(b1) <= *tol)
-        {
+        if (abs(b1) <= *tol) {
             /*           The pair (A,B) is uncontrollable. */
             *info = 1;
             return 0;
         }
         f[f_dim1 + 1] = (*s - a[a_dim1 + 1]) / b1;
-        if (*m > 1)
-        {
+        if (*m > 1) {
             i__1 = *m - 1;
             dlaset_("Full", &i__1, &c__1, &c_b4, &c_b4, &f[f_dim1 + 2], m, 4L);
-            dlatzm_("Left", m, n, &b[(b_dim1 << 1) + 1], n, &tau1, &f[f_dim1 + 1], &f[f_dim1 + 2], m, &dwork[1], 4L);
+            dlatzm_("Left", m, n, &b[(b_dim1 << 1) + 1], n, &tau1, &f[f_dim1 + 1], &f[f_dim1 + 2],
+                m, &dwork[1], 4L);
         }
         return 0;
     }
@@ -168,24 +164,21 @@ integer *info;
     /*     with ABS(B1) >= ABS(B2). */
     /*     Reduce first B to the lower bidiagonal form  ( B1  0  ... 0 ). */
     /*                                                  ( B21 B2 ... 0 ) */
-    if (*m == 1)
-    {
+    if (*m == 1) {
         /*        Initialization for the case M = 1; no reduction required. */
         b1 = b[b_dim1 + 1];
         b21 = b[b_dim1 + 2];
         b2 = 0.;
-    }
-    else
-    {
+    } else {
         /*        Postmultiply B with elementary Householder reflectors H1 */
         /*        and H2. */
         dlarfg_(m, &b[b_dim1 + 1], &b[(b_dim1 << 1) + 1], n, &tau1);
         i__1 = *n - 1;
-        dlatzm_("Right", &i__1, m, &b[(b_dim1 << 1) + 1], n, &tau1, &b[b_dim1 + 2], &b[(b_dim1 << 1) + 2], n, &dwork[1], 5L);
+        dlatzm_("Right", &i__1, m, &b[(b_dim1 << 1) + 1], n, &tau1, &b[b_dim1 + 2],
+            &b[(b_dim1 << 1) + 2], n, &dwork[1], 5L);
         b1 = b[b_dim1 + 1];
         b21 = b[b_dim1 + 2];
-        if (*m > 2)
-        {
+        if (*m > 2) {
             i__1 = *m - 1;
             dlarfg_(&i__1, &b[(b_dim1 << 1) + 2], &b[b_dim1 * 3 + 2], n, &tau2);
         }
@@ -208,16 +201,13 @@ integer *info;
     /*     Compute the rank of B and check the controllability of the */
     /*     pair (A,B). */
     ir = 0;
-    if (abs(b2) > *tol)
-    {
+    if (abs(b2) > *tol) {
         ++ir;
     }
-    if (abs(b1) > *tol)
-    {
+    if (abs(b1) > *tol) {
         ++ir;
     }
-    if (ir == 0 || ir == 1 && (d__1 = a[a_dim1 + 2], abs(d__1)) <= *tol)
-    {
+    if (ir == 0 || ir == 1 && (d__1 = a[a_dim1 + 2], abs(d__1)) <= *tol) {
         f[f_dim1 + 1] = cu;
         f[(f_dim1 << 1) + 1] = -su;
         /*        The pair (A,B) is uncontrollable. */
@@ -226,19 +216,17 @@ integer *info;
     }
     /*     Compute F1 which assigns N poles for the reduced pair (A1,G1). */
     x = dlamc3_(&b1, &b2);
-    if (x == b1)
-    {
+    if (x == b1) {
         /*        Rank one G1. */
         f[f_dim1 + 1] = (*s - (a[a_dim1 + 1] + a[(a_dim1 << 1) + 2])) / b1;
-        f[(f_dim1 << 1) + 1] = -(a[(a_dim1 << 1) + 2] * (a[(a_dim1 << 1) + 2] - *s) + a[a_dim1 + 2] * a[(a_dim1 << 1) + 1] + *p) / a[a_dim1 + 2] / b1;
-        if (*m > 1)
-        {
+        f[(f_dim1 << 1) + 1] = -(a[(a_dim1 << 1) + 2] * (a[(a_dim1 << 1) + 2] - *s)
+                                   + a[a_dim1 + 2] * a[(a_dim1 << 1) + 1] + *p)
+            / a[a_dim1 + 2] / b1;
+        if (*m > 1) {
             f[f_dim1 + 2] = 0.;
             f[(f_dim1 << 1) + 2] = 0.;
         }
-    }
-    else
-    {
+    } else {
         /*        Rank two G1. */
         z__ = (*s - (a[a_dim1 + 1] + a[(a_dim1 << 1) + 2])) / (b1 * b1 + b2 * b2);
         f[f_dim1 + 1] = b1 * z__;
@@ -247,12 +235,9 @@ integer *info;
         /*        selection. */
         x = a[a_dim1 + 1] + b1 * f[f_dim1 + 1];
         c__ = x * (*s - x) - *p;
-        if (c__ >= 0.)
-        {
+        if (c__ >= 0.) {
             sig = 1.;
-        }
-        else
-        {
+        } else {
             sig = -1.;
         }
         s12 = b1 / b2;
@@ -262,12 +247,10 @@ integer *info;
         c21 = sig * s12 * c__;
         c22 = a[(a_dim1 << 1) + 1] - sig * s12 * a[a_dim1 + 2];
         dlanv2_(&c11, &c12, &c21, &c22, &wr, &wi, &wr1, &wi1, &cs, &sn);
-        if ((d__1 = wr - a[(a_dim1 << 1) + 1], abs(d__1)) > (d__2 = wr1 - a[(a_dim1 << 1) + 1], abs(d__2)))
-        {
+        if ((d__1 = wr - a[(a_dim1 << 1) + 1], abs(d__1))
+            > (d__2 = wr1 - a[(a_dim1 << 1) + 1], abs(d__2))) {
             r__ = wr1;
-        }
-        else
-        {
+        } else {
             r__ = wr;
         }
         /*        Perform Newton iteration to solve the equation for minimum. */
@@ -278,38 +261,33 @@ integer *info;
         dc0 = c1;
         dc2 = c3 * 3.;
         dc3 = c4 * 4.;
-        for (j = 1; j <= 10; ++j)
-        {
+        for (j = 1; j <= 10; ++j) {
             x = c0 + r__ * (c1 + r__ * r__ * (c3 + r__ * c4));
             y = dc0 + r__ * r__ * (dc2 + r__ * dc3);
-            if (y == 0.)
-            {
+            if (y == 0.) {
                 goto L20;
             }
             rn = r__ - x / y;
             absr = abs(r__);
             diffr = (d__1 = r__ - rn, abs(d__1));
             z__ = dlamc3_(&absr, &diffr);
-            if (z__ == absr)
-            {
+            if (z__ == absr) {
                 goto L20;
             }
             r__ = rn;
             /* L10: */
         }
-L20:
-        if (r__ == 0.)
-        {
+    L20:
+        if (r__ == 0.) {
             r__ = dlamch_("Epsilon", 7L);
         }
         f[(f_dim1 << 1) + 1] = (r__ - a[(a_dim1 << 1) + 1]) / b1;
         f[f_dim1 + 2] = (c__ / r__ - a[a_dim1 + 2]) / b2;
     }
     /*     Back-transform F1. Compute first F1*U'. */
-    i__1 = min(*m,2);
+    i__1 = min(*m, 2);
     drot_(&i__1, &f[f_dim1 + 1], &c__1, &f[(f_dim1 << 1) + 1], &c__1, &cu, &su);
-    if (*m == 1)
-    {
+    if (*m == 1) {
         return 0;
     }
     /*     Compute V'*F1. */
@@ -317,19 +295,18 @@ L20:
     /*               ( F1 ) */
     /*     Form  F = (    ) . */
     /*               ( 0  ) */
-    if (*m > *n)
-    {
+    if (*m > *n) {
         i__1 = *m - *n;
         dlaset_("Full", &i__1, n, &c_b4, &c_b4, &f[*n + 1 + f_dim1], m, 4L);
     }
     /*     Compute H1*H2*F. */
-    if (*m > 2)
-    {
+    if (*m > 2) {
         i__1 = *m - 1;
-        dlatzm_("Left", &i__1, n, &b[b_dim1 * 3 + 2], n, &tau2, &f[f_dim1 + 2], &f[f_dim1 + 3], m, &dwork[1], 4L);
+        dlatzm_("Left", &i__1, n, &b[b_dim1 * 3 + 2], n, &tau2, &f[f_dim1 + 2], &f[f_dim1 + 3], m,
+            &dwork[1], 4L);
     }
-    dlatzm_("Left", m, n, &b[(b_dim1 << 1) + 1], n, &tau1, &f[f_dim1 + 1], &f[f_dim1 + 2], m, &dwork[1], 4L);
+    dlatzm_("Left", m, n, &b[(b_dim1 << 1) + 1], n, &tau1, &f[f_dim1 + 1], &f[f_dim1 + 2], m,
+        &dwork[1], 4L);
     return 0;
     /* *** Last line of SB01BY *** */
 } /* sb01by_ */
-

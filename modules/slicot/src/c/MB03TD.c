@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,21 +10,22 @@
 static integer c__1 = 1;
 static integer c__2 = 2;
 
-EXPORTSYMBOL /* Subroutine */ int mb03td_(typ, compu, select, lower, n, a, lda, g, ldg, u1, ldu1, u2, ldu2, wr, wi, m, dwork, ldwork, info, typ_len, compu_len)
-char *typ, *compu;
+EXPORTSYMBOL /* Subroutine */ int mb03td_(typ, compu, select, lower, n, a, lda, g, ldg, u1, ldu1,
+    u2, ldu2, wr, wi, m, dwork, ldwork, info, typ_len, compu_len) char *typ,
+    *compu;
 logical *select, *lower;
-integer *n;
-doublereal *a;
-integer *lda;
-doublereal *g;
-integer *ldg;
-doublereal *u1;
-integer *ldu1;
-doublereal *u2;
-integer *ldu2;
+integer* n;
+doublereal* a;
+integer* lda;
+doublereal* g;
+integer* ldg;
+doublereal* u1;
+integer* ldu1;
+doublereal* u2;
+integer* ldu2;
 doublereal *wr, *wi;
-integer *m;
-doublereal *dwork;
+integer* m;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen typ_len;
 ftnlen compu_len;
@@ -253,44 +254,28 @@ ftnlen compu_len;
     /* Function Body */
     isham = lsame_(typ, "H", 1L, 1L);
     wantu = lsame_(compu, "U", 1L, 1L);
-    wrkmin = max(1,*n);
+    wrkmin = max(1, *n);
     *info = 0;
-    if (! isham && ! lsame_(typ, "S", 1L, 1L))
-    {
+    if (!isham && !lsame_(typ, "S", 1L, 1L)) {
         *info = -1;
-    }
-    else if (! wantu && ! lsame_(compu, "N", 1L, 1L))
-    {
+    } else if (!wantu && !lsame_(compu, "N", 1L, 1L)) {
         *info = -2;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -5;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -7;
-    }
-    else if (*ldg < max(1,*n))
-    {
+    } else if (*ldg < max(1, *n)) {
         *info = -9;
-    }
-    else if (*ldu1 < 1 || wantu && *ldu1 < *n)
-    {
+    } else if (*ldu1 < 1 || wantu && *ldu1 < *n) {
         *info = -11;
-    }
-    else if (*ldu2 < 1 || wantu && *ldu2 < *n)
-    {
+    } else if (*ldu2 < 1 || wantu && *ldu2 < *n) {
         *info = -13;
-    }
-    else if (*ldwork < wrkmin)
-    {
+    } else if (*ldwork < wrkmin) {
         *info = -18;
-        dwork[1] = (doublereal) wrkmin;
+        dwork[1] = (doublereal)wrkmin;
     }
     /*     Return if there were illegal values. */
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB03TD", &i__1, 6L);
         return 0;
@@ -299,36 +284,23 @@ ftnlen compu_len;
     *m = 0;
     pair = FALSE_;
     i__1 = *n;
-    for (k = 1; k <= i__1; ++k)
-    {
-        if (pair)
-        {
+    for (k = 1; k <= i__1; ++k) {
+        if (pair) {
             pair = FALSE_;
-        }
-        else
-        {
-            if (k < *n)
-            {
-                if (a[k + 1 + k * a_dim1] == 0.)
-                {
-                    if (select[k])
-                    {
+        } else {
+            if (k < *n) {
+                if (a[k + 1 + k * a_dim1] == 0.) {
+                    if (select[k]) {
                         ++(*m);
                     }
-                }
-                else
-                {
+                } else {
                     pair = TRUE_;
-                    if (select[k] || select[k + 1])
-                    {
+                    if (select[k] || select[k + 1]) {
                         *m += 2;
                     }
                 }
-            }
-            else
-            {
-                if (select[*n])
-                {
+            } else {
+                if (select[*n]) {
                     ++(*m);
                 }
             }
@@ -336,8 +308,7 @@ ftnlen compu_len;
         /* L10: */
     }
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
+    if (*n == 0) {
         dwork[1] = 1.;
         return 0;
     }
@@ -345,303 +316,266 @@ ftnlen compu_len;
     ks = 0;
     pair = FALSE_;
     i__1 = *n;
-    for (k = 1; k <= i__1; ++k)
-    {
-        if (pair)
-        {
+    for (k = 1; k <= i__1; ++k) {
+        if (pair) {
             pair = FALSE_;
-        }
-        else
-        {
+        } else {
             swap = select[k];
             flow = lower[k];
-            if (k < *n)
-            {
-                if (a[k + 1 + k * a_dim1] != 0.)
-                {
+            if (k < *n) {
+                if (a[k + 1 + k * a_dim1] != 0.) {
                     pair = TRUE_;
                     swap = swap || select[k + 1];
                     flow = flow || lower[k + 1];
                 }
             }
-            if (pair)
-            {
+            if (pair) {
                 nbf = 2;
-            }
-            else
-            {
+            } else {
                 nbf = 1;
             }
-            if (swap)
-            {
+            if (swap) {
                 ++ks;
-                if (flow)
-                {
+                if (flow) {
                     /*                 Step 1: Swap the K-th block to position N. */
                     ifst = k;
                     ilst = *n;
                     nbl = 1;
-                    if (ilst > 1)
-                    {
-                        if (a[ilst + (ilst - 1) * a_dim1] != 0.)
-                        {
+                    if (ilst > 1) {
+                        if (a[ilst + (ilst - 1) * a_dim1] != 0.) {
                             --ilst;
                             nbl = 2;
                         }
                     }
                     /*                 Update ILST. */
-                    if (nbf == 2 && nbl == 1)
-                    {
+                    if (nbf == 2 && nbl == 1) {
                         --ilst;
                     }
-                    if (nbf == 1 && nbl == 2)
-                    {
+                    if (nbf == 1 && nbl == 2) {
                         ++ilst;
                     }
-                    if (ilst == ifst)
-                    {
+                    if (ilst == ifst) {
                         goto L30;
                     }
                     here = ifst;
-L20:
+                L20:
                     /*                 Swap block with next one below. */
-                    if (nbf == 1 || nbf == 2)
-                    {
+                    if (nbf == 1 || nbf == 2) {
                         /*                    Current block is either 1-by-1 or 2-by-2. */
                         nbnext = 1;
-                        if (here + nbf + 1 <= *n)
-                        {
-                            if (a[here + nbf + 1 + (here + nbf) * a_dim1] != 0.)
-                            {
+                        if (here + nbf + 1 <= *n) {
+                            if (a[here + nbf + 1 + (here + nbf) * a_dim1] != 0.) {
                                 nbnext = 2;
                             }
                         }
-                        mb03ts_(&isham, &wantu, n, &a[a_offset], lda, &g[g_offset], ldg, &u1[u1_offset], ldu1, &u2[u2_offset], ldu2, &here, &nbf, &nbnext, &dwork[1], &ierr);
-                        if (ierr != 0)
-                        {
+                        mb03ts_(&isham, &wantu, n, &a[a_offset], lda, &g[g_offset], ldg,
+                            &u1[u1_offset], ldu1, &u2[u2_offset], ldu2, &here, &nbf, &nbnext,
+                            &dwork[1], &ierr);
+                        if (ierr != 0) {
                             *info = 1;
                             goto L70;
                         }
                         here += nbnext;
                         /*                    Test if 2-by-2 block breaks into two 1-by-1 blocks. */
-                        if (nbf == 2)
-                        {
-                            if (a[here + 1 + here * a_dim1] == 0.)
-                            {
+                        if (nbf == 2) {
+                            if (a[here + 1 + here * a_dim1] == 0.) {
                                 nbf = 3;
                             }
                         }
-                    }
-                    else
-                    {
+                    } else {
                         /*                    Current block consists of two 1-by-1 blocks each of */
                         /*                    which must be swapped individually. */
                         nbnext = 1;
-                        if (here + 3 <= *n)
-                        {
-                            if (a[here + 3 + (here + 2) * a_dim1] != 0.)
-                            {
+                        if (here + 3 <= *n) {
+                            if (a[here + 3 + (here + 2) * a_dim1] != 0.) {
                                 nbnext = 2;
                             }
                         }
                         i__2 = here + 1;
-                        mb03ts_(&isham, &wantu, n, &a[a_offset], lda, &g[g_offset], ldg, &u1[u1_offset], ldu1, &u2[u2_offset], ldu2, &i__2, &c__1, &nbnext, &dwork[1], &ierr);
-                        if (ierr != 0)
-                        {
+                        mb03ts_(&isham, &wantu, n, &a[a_offset], lda, &g[g_offset], ldg,
+                            &u1[u1_offset], ldu1, &u2[u2_offset], ldu2, &i__2, &c__1, &nbnext,
+                            &dwork[1], &ierr);
+                        if (ierr != 0) {
                             *info = 1;
                             goto L70;
                         }
-                        if (nbnext == 1)
-                        {
-                            /*                       Swap two 1-by-1 blocks, no problems possible. */
-                            mb03ts_(&isham, &wantu, n, &a[a_offset], lda, &g[g_offset], ldg, &u1[u1_offset], ldu1, &u2[u2_offset], ldu2, &here, &c__1, &nbnext, &dwork[1], &ierr);
+                        if (nbnext == 1) {
+                            /*                       Swap two 1-by-1 blocks, no problems possible.
+                             */
+                            mb03ts_(&isham, &wantu, n, &a[a_offset], lda, &g[g_offset], ldg,
+                                &u1[u1_offset], ldu1, &u2[u2_offset], ldu2, &here, &c__1, &nbnext,
+                                &dwork[1], &ierr);
                             ++here;
-                        }
-                        else
-                        {
+                        } else {
                             /*                       Recompute NBNEXT in case 2 by 2 split. */
-                            if (a[here + 2 + (here + 1) * a_dim1] == 0.)
-                            {
+                            if (a[here + 2 + (here + 1) * a_dim1] == 0.) {
                                 nbnext = 1;
                             }
-                            if (nbnext == 2)
-                            {
+                            if (nbnext == 2) {
                                 /*                          2-by-2 block did not split */
-                                mb03ts_(&isham, &wantu, n, &a[a_offset], lda, &g[g_offset], ldg, &u1[u1_offset], ldu1, &u2[u2_offset], ldu2, &here, &c__1, &nbnext, &dwork[1], &ierr);
-                                if (ierr != 0)
-                                {
+                                mb03ts_(&isham, &wantu, n, &a[a_offset], lda, &g[g_offset], ldg,
+                                    &u1[u1_offset], ldu1, &u2[u2_offset], ldu2, &here, &c__1,
+                                    &nbnext, &dwork[1], &ierr);
+                                if (ierr != 0) {
                                     *info = 1;
                                     goto L70;
                                 }
                                 here += 2;
-                            }
-                            else
-                            {
+                            } else {
                                 /*                          2-by-2 block did split */
-                                mb03ts_(&isham, &wantu, n, &a[a_offset], lda, &g[g_offset], ldg, &u1[u1_offset], ldu1, &u2[u2_offset], ldu2, &here, &c__1, &c__1, &dwork[1], &ierr);
+                                mb03ts_(&isham, &wantu, n, &a[a_offset], lda, &g[g_offset], ldg,
+                                    &u1[u1_offset], ldu1, &u2[u2_offset], ldu2, &here, &c__1, &c__1,
+                                    &dwork[1], &ierr);
                                 i__2 = here + 1;
-                                mb03ts_(&isham, &wantu, n, &a[a_offset], lda, &g[g_offset], ldg, &u1[u1_offset], ldu1, &u2[u2_offset], ldu2, &i__2, &c__1, &c__1, &dwork[1], &ierr);
+                                mb03ts_(&isham, &wantu, n, &a[a_offset], lda, &g[g_offset], ldg,
+                                    &u1[u1_offset], ldu1, &u2[u2_offset], ldu2, &i__2, &c__1, &c__1,
+                                    &dwork[1], &ierr);
                                 here += 2;
                             }
                         }
                     }
-                    if (here < ilst)
-                    {
+                    if (here < ilst) {
                         goto L20;
                     }
-L30:
+                L30:
                     /*                 Step 2: Apply an orthogonal symplectic transformation */
                     /*                         to swap the last blocks in A and -A' (or A'). */
-                    if (nbf == 1)
-                    {
+                    if (nbf == 1) {
                         /*                    Exchange columns/rows N <-> 2*N. No problems */
                         /*                    possible. */
-                        mb03ts_(&isham, &wantu, n, &a[a_offset], lda, &g[g_offset], ldg, &u1[u1_offset], ldu1, &u2[u2_offset], ldu2, n, &c__1, &c__1, &dwork[1], &ierr);
-                    }
-                    else if (nbf == 2)
-                    {
+                        mb03ts_(&isham, &wantu, n, &a[a_offset], lda, &g[g_offset], ldg,
+                            &u1[u1_offset], ldu1, &u2[u2_offset], ldu2, n, &c__1, &c__1, &dwork[1],
+                            &ierr);
+                    } else if (nbf == 2) {
                         /*                    Swap last block with its equivalent by an */
                         /*                    orthogonal symplectic transformation. */
                         i__2 = *n - 1;
-                        mb03ts_(&isham, &wantu, n, &a[a_offset], lda, &g[g_offset], ldg, &u1[u1_offset], ldu1, &u2[u2_offset], ldu2, &i__2, &c__2, &c__2, &dwork[1], &ierr);
-                        if (ierr != 0)
-                        {
+                        mb03ts_(&isham, &wantu, n, &a[a_offset], lda, &g[g_offset], ldg,
+                            &u1[u1_offset], ldu1, &u2[u2_offset], ldu2, &i__2, &c__2, &c__2,
+                            &dwork[1], &ierr);
+                        if (ierr != 0) {
                             *info = 1;
                             goto L70;
                         }
                         /*                    Test if 2-by-2 block breaks into two 1-by-1 blocks. */
-                        if (a[*n - 1 + *n * a_dim1] == 0.)
-                        {
+                        if (a[*n - 1 + *n * a_dim1] == 0.) {
                             nbf = 3;
                         }
-                    }
-                    else
-                    {
+                    } else {
                         /*                    Block did split. Swap (N-1)-th and N-th elements */
                         /*                    consecutively by symplectic generalized */
                         /*                    permutations and one rotation. */
-                        mb03ts_(&isham, &wantu, n, &a[a_offset], lda, &g[g_offset], ldg, &u1[u1_offset], ldu1, &u2[u2_offset], ldu2, n, &c__1, &c__1, &dwork[1], &ierr);
+                        mb03ts_(&isham, &wantu, n, &a[a_offset], lda, &g[g_offset], ldg,
+                            &u1[u1_offset], ldu1, &u2[u2_offset], ldu2, n, &c__1, &c__1, &dwork[1],
+                            &ierr);
                         i__2 = *n - 1;
-                        mb03ts_(&isham, &wantu, n, &a[a_offset], lda, &g[g_offset], ldg, &u1[u1_offset], ldu1, &u2[u2_offset], ldu2, &i__2, &c__1, &c__1, &dwork[1], &ierr);
-                        mb03ts_(&isham, &wantu, n, &a[a_offset], lda, &g[g_offset], ldg, &u1[u1_offset], ldu1, &u2[u2_offset], ldu2, n, &c__1, &c__1, &dwork[1], &ierr);
+                        mb03ts_(&isham, &wantu, n, &a[a_offset], lda, &g[g_offset], ldg,
+                            &u1[u1_offset], ldu1, &u2[u2_offset], ldu2, &i__2, &c__1, &c__1,
+                            &dwork[1], &ierr);
+                        mb03ts_(&isham, &wantu, n, &a[a_offset], lda, &g[g_offset], ldg,
+                            &u1[u1_offset], ldu1, &u2[u2_offset], ldu2, n, &c__1, &c__1, &dwork[1],
+                            &ierr);
                     }
                     ifst = *n;
-                    if (pair)
-                    {
+                    if (pair) {
                         ifst = *n - 1;
                     }
-                }
-                else
-                {
+                } else {
                     ifst = k;
                 }
                 /*              Step 3: Swap the K-th / N-th block to position KS. */
                 ilst = ks;
                 nbl = 1;
-                if (ilst > 1)
-                {
-                    if (a[ilst + (ilst - 1) * a_dim1] != 0.)
-                    {
+                if (ilst > 1) {
+                    if (a[ilst + (ilst - 1) * a_dim1] != 0.) {
                         --ilst;
                         nbl = 2;
                     }
                 }
-                if (ilst == ifst)
-                {
+                if (ilst == ifst) {
                     goto L50;
                 }
                 here = ifst;
-L40:
+            L40:
                 /*              Swap block with next one above. */
-                if (nbf == 1 || nbf == 2)
-                {
+                if (nbf == 1 || nbf == 2) {
                     /*                 Current block either 1 by 1 or 2 by 2. */
                     nbnext = 1;
-                    if (here >= 3)
-                    {
-                        if (a[here - 1 + (here - 2) * a_dim1] != 0.)
-                        {
+                    if (here >= 3) {
+                        if (a[here - 1 + (here - 2) * a_dim1] != 0.) {
                             nbnext = 2;
                         }
                     }
                     i__2 = here - nbnext;
-                    mb03ts_(&isham, &wantu, n, &a[a_offset], lda, &g[g_offset], ldg, &u1[u1_offset], ldu1, &u2[u2_offset], ldu2, &i__2, &nbnext, &nbf, &dwork[1], &ierr);
-                    if (ierr != 0)
-                    {
+                    mb03ts_(&isham, &wantu, n, &a[a_offset], lda, &g[g_offset], ldg, &u1[u1_offset],
+                        ldu1, &u2[u2_offset], ldu2, &i__2, &nbnext, &nbf, &dwork[1], &ierr);
+                    if (ierr != 0) {
                         *info = 1;
                         goto L70;
                     }
                     here -= nbnext;
                     /*                 Test if 2-by-2 block breaks into two 1-by-1 blocks. */
-                    if (nbf == 2)
-                    {
-                        if (a[here + 1 + here * a_dim1] == 0.)
-                        {
+                    if (nbf == 2) {
+                        if (a[here + 1 + here * a_dim1] == 0.) {
                             nbf = 3;
                         }
                     }
-                }
-                else
-                {
+                } else {
                     /*                 Current block consists of two 1 by 1 blocks each of */
                     /*                 which must be swapped individually. */
                     nbnext = 1;
-                    if (here >= 3)
-                    {
-                        if (a[here - 1 + (here - 2) * a_dim1] != 0.)
-                        {
+                    if (here >= 3) {
+                        if (a[here - 1 + (here - 2) * a_dim1] != 0.) {
                             nbnext = 2;
                         }
                     }
                     i__2 = here - nbnext;
-                    mb03ts_(&isham, &wantu, n, &a[a_offset], lda, &g[g_offset], ldg, &u1[u1_offset], ldu1, &u2[u2_offset], ldu2, &i__2, &nbnext, &c__1, &dwork[1], &ierr);
-                    if (ierr != 0)
-                    {
+                    mb03ts_(&isham, &wantu, n, &a[a_offset], lda, &g[g_offset], ldg, &u1[u1_offset],
+                        ldu1, &u2[u2_offset], ldu2, &i__2, &nbnext, &c__1, &dwork[1], &ierr);
+                    if (ierr != 0) {
                         *info = 1;
                         goto L70;
                     }
-                    if (nbnext == 1)
-                    {
+                    if (nbnext == 1) {
                         /*                    Swap two 1-by-1 blocks, no problems possible. */
-                        mb03ts_(&isham, &wantu, n, &a[a_offset], lda, &g[g_offset], ldg, &u1[u1_offset], ldu1, &u2[u2_offset], ldu2, &here, &nbnext, &c__1, &dwork[1], &ierr);
+                        mb03ts_(&isham, &wantu, n, &a[a_offset], lda, &g[g_offset], ldg,
+                            &u1[u1_offset], ldu1, &u2[u2_offset], ldu2, &here, &nbnext, &c__1,
+                            &dwork[1], &ierr);
                         --here;
-                    }
-                    else
-                    {
+                    } else {
                         /*                    Recompute NBNEXT in case 2-by-2 split. */
-                        if (a[here + (here - 1) * a_dim1] == 0.)
-                        {
+                        if (a[here + (here - 1) * a_dim1] == 0.) {
                             nbnext = 1;
                         }
-                        if (nbnext == 2)
-                        {
+                        if (nbnext == 2) {
                             /*                       2-by-2 block did not split */
                             i__2 = here - 1;
-                            mb03ts_(&isham, &wantu, n, &a[a_offset], lda, &g[g_offset], ldg, &u1[u1_offset], ldu1, &u2[u2_offset], ldu2, &i__2, &c__2, &c__1, &dwork[1], &ierr);
-                            if (ierr != 0)
-                            {
+                            mb03ts_(&isham, &wantu, n, &a[a_offset], lda, &g[g_offset], ldg,
+                                &u1[u1_offset], ldu1, &u2[u2_offset], ldu2, &i__2, &c__2, &c__1,
+                                &dwork[1], &ierr);
+                            if (ierr != 0) {
                                 *info = 1;
                                 goto L70;
                             }
                             here += -2;
-                        }
-                        else
-                        {
+                        } else {
                             /*                       2-by-2 block did split */
-                            mb03ts_(&isham, &wantu, n, &a[a_offset], lda, &g[g_offset], ldg, &u1[u1_offset], ldu1, &u2[u2_offset], ldu2, &here, &c__1, &c__1, &dwork[1], &ierr);
+                            mb03ts_(&isham, &wantu, n, &a[a_offset], lda, &g[g_offset], ldg,
+                                &u1[u1_offset], ldu1, &u2[u2_offset], ldu2, &here, &c__1, &c__1,
+                                &dwork[1], &ierr);
                             i__2 = here - 1;
-                            mb03ts_(&isham, &wantu, n, &a[a_offset], lda, &g[g_offset], ldg, &u1[u1_offset], ldu1, &u2[u2_offset], ldu2, &i__2, &c__1, &c__1, &dwork[1], &ierr);
+                            mb03ts_(&isham, &wantu, n, &a[a_offset], lda, &g[g_offset], ldg,
+                                &u1[u1_offset], ldu1, &u2[u2_offset], ldu2, &i__2, &c__1, &c__1,
+                                &dwork[1], &ierr);
                             here += -2;
                         }
                     }
                 }
-                if (here > ilst)
-                {
+                if (here > ilst) {
                     goto L40;
                 }
-L50:
-                if (pair)
-                {
+            L50:
+                if (pair) {
                     ++ks;
                 }
             }
@@ -651,24 +585,21 @@ L50:
 L70:
     /*     Store eigenvalues. */
     i__1 = *n;
-    for (k = 1; k <= i__1; ++k)
-    {
+    for (k = 1; k <= i__1; ++k) {
         wr[k] = a[k + k * a_dim1];
         wi[k] = 0.;
         /* L80: */
     }
     i__1 = *n - 1;
-    for (k = 1; k <= i__1; ++k)
-    {
-        if (a[k + 1 + k * a_dim1] != 0.)
-        {
-            wi[k] = sqrt((d__1 = a[k + (k + 1) * a_dim1], abs(d__1))) * sqrt((d__2 = a[k + 1 + k * a_dim1], abs(d__2)));
+    for (k = 1; k <= i__1; ++k) {
+        if (a[k + 1 + k * a_dim1] != 0.) {
+            wi[k] = sqrt((d__1 = a[k + (k + 1) * a_dim1], abs(d__1)))
+                * sqrt((d__2 = a[k + 1 + k * a_dim1], abs(d__2)));
             wi[k + 1] = -wi[k];
         }
         /* L90: */
     }
-    dwork[1] = (doublereal) wrkmin;
+    dwork[1] = (doublereal)wrkmin;
     return 0;
     /* *** Last line of MB03TD *** */
 } /* mb03td_ */
-

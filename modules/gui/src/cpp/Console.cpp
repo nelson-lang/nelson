@@ -17,13 +17,12 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #if _MSC_VER
-#define  _CRT_SECURE_NO_WARNINGS
-#include <stdio.h>
-#include <shlwapi.h>
+#define _CRT_SECURE_NO_WARNINGS
 #include <fcntl.h>
+#include <io.h>
+#include <shlwapi.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <io.h>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #define dup _dup
@@ -34,34 +33,34 @@
 #include "Console.hpp"
 //===================================================================================
 namespace Nelson {
-    //===================================================================================
-    bool CreateConsole(void)
-    {
-        bool res = false;
+//===================================================================================
+bool
+CreateConsole(void)
+{
+    bool res = false;
 #if _MSC_VER
-        if (AllocConsole())
-        {
-            HWND hNelSonConsole = GetConsoleWindow();
-            FILE *fpCONIN = freopen("CONIN$", "r", stdin);
-            FILE *fpCONOUT = freopen("CONOUT$", "w", stdout);
-            FILE *fpCONERR = freopen("CONOUT$", "w", stderr);
-            if (hNelSonConsole)
-            {
-                ShowWindow(hNelSonConsole, SW_HIDE);
-            }
-            res = true;
+    if (AllocConsole()) {
+        HWND hNelSonConsole = GetConsoleWindow();
+        FILE* fpCONIN = freopen("CONIN$", "r", stdin);
+        FILE* fpCONOUT = freopen("CONOUT$", "w", stdout);
+        FILE* fpCONERR = freopen("CONOUT$", "w", stderr);
+        if (hNelSonConsole) {
+            ShowWindow(hNelSonConsole, SW_HIDE);
         }
-#endif
-        return res;
+        res = true;
     }
-    //===================================================================================
-    bool DestroyConsole(void)
-    {
+#endif
+    return res;
+}
+//===================================================================================
+bool
+DestroyConsole(void)
+{
 #if _MSC_VER
-        return FreeConsole() ? true : false;
+    return FreeConsole() ? true : false;
 #endif
-        return false;
-    }
-    //===================================================================================
+    return false;
+}
+//===================================================================================
 }
 //===================================================================================

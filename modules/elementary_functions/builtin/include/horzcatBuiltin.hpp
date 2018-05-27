@@ -22,7 +22,8 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace ElementaryFunctionsGateway {
-        ArrayOfVector horzcatBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    }
-}//=============================================================================
+namespace ElementaryFunctionsGateway {
+    ArrayOfVector
+    horzcatBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+}
+} // namespace Nelson

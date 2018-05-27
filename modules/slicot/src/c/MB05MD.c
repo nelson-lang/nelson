@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -12,18 +12,18 @@ static integer c__1 = 1;
 static integer c__2 = 2;
 static doublereal c_b40 = 0.;
 
-EXPORTSYMBOL /* Subroutine */ int mb05md_(balanc, n, delta, a, lda, v, ldv, y, ldy, valr, vali, iwork, dwork, ldwork, info, balanc_len)
-char *balanc;
-integer *n;
+EXPORTSYMBOL /* Subroutine */ int mb05md_(balanc, n, delta, a, lda, v, ldv, y, ldy, valr, vali,
+    iwork, dwork, ldwork, info, balanc_len) char* balanc;
+integer* n;
 doublereal *delta, *a;
-integer *lda;
-doublereal *v;
-integer *ldv;
-doublereal *y;
-integer *ldy;
+integer* lda;
+doublereal* v;
+integer* ldv;
+doublereal* y;
+integer* ldy;
 doublereal *valr, *vali;
-integer *iwork;
-doublereal *dwork;
+integer* iwork;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen balanc_len;
 {
@@ -44,7 +44,7 @@ ftnlen balanc_len;
     extern /* Subroutine */ int dtrsm_(), dgebak_();
     extern doublereal dlamch_();
     extern /* Subroutine */ int dlacpy_(), xerbla_(), dtrcon_();
-    static doublereal wrkopt, tmp[4]	/* was [2][2] */;
+    static doublereal wrkopt, tmp[4] /* was [2][2] */;
     /*     SLICOT RELEASE 5.0. */
     /*     Copyright (c) 2002-2010 NICONET e.V. */
     /*     This program is free software: you can redistribute it and/or */
@@ -209,45 +209,32 @@ ftnlen balanc_len;
     /* Function Body */
     *info = 0;
     scale = lsame_(balanc, "S", 1L, 1L);
-    if (! (lsame_(balanc, "N", 1L, 1L) || scale))
-    {
+    if (!(lsame_(balanc, "N", 1L, 1L) || scale)) {
         *info = -1;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -2;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -5;
-    }
-    else if (*ldv < max(1,*n))
-    {
+    } else if (*ldv < max(1, *n)) {
         *info = -7;
-    }
-    else if (*ldy < max(1,*n))
-    {
+    } else if (*ldy < max(1, *n)) {
         *info = -9;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
         i__1 = 1, i__2 = *n << 2;
-        if (*ldwork < max(i__1,i__2))
-        {
+        if (*ldwork < max(i__1, i__2)) {
             *info = -14;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("MB05MD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
+    if (*n == 0) {
         dwork[1] = 1.;
         return 0;
     }
@@ -260,63 +247,57 @@ ftnlen balanc_len;
     /*     nonsymmetric matrix A; optionally, compute a balancing */
     /*     transformation. */
     /*     Workspace:  need: 4*N. */
-    mb05my_(balanc, n, &a[a_offset], lda, &valr[1], &vali[1], &v[v_offset], ldv, &y[y_offset], ldy, &dwork[1], ldwork, info, 1L);
-    if (*info > 0)
-    {
+    mb05my_(balanc, n, &a[a_offset], lda, &valr[1], &vali[1], &v[v_offset], ldv, &y[y_offset], ldy,
+        &dwork[1], ldwork, info, 1L);
+    if (*info > 0) {
         return 0;
     }
     wrkopt = dwork[1];
-    if (scale)
-    {
+    if (scale) {
         i__1 = *n;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             dwork[i__] = dwork[i__ + 1];
             /* L10: */
         }
     }
     /*     Exit with INFO = N + 1 if V is exactly singular. */
     i__1 = *n;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
-        if (v[i__ + i__ * v_dim1] == 0.)
-        {
+    for (i__ = 1; i__ <= i__1; ++i__) {
+        if (v[i__ + i__ * v_dim1] == 0.) {
             *info = *n + 1;
             return 0;
         }
         /* L20: */
     }
     /*     Compute the reciprocal condition number of the triangular matrix. */
-    dtrcon_("1-norm", "Upper", "Non unit", n, &v[v_offset], ldv, &rcond, &dwork[*n + 1], &iwork[1], info, 6L, 5L, 8L);
+    dtrcon_("1-norm", "Upper", "Non unit", n, &v[v_offset], ldv, &rcond, &dwork[*n + 1], &iwork[1],
+        info, 6L, 5L, 8L);
     /*     Return if the matrix is singular to working precision. */
-    if (rcond < dlamch_("Epsilon", 7L))
-    {
+    if (rcond < dlamch_("Epsilon", 7L)) {
         dwork[2] = rcond;
         *info = *n + 2;
         return 0;
     }
     /*     Compute the right eigenvector matrix (temporarily) in A. */
     dlacpy_("Full", n, n, &y[y_offset], ldy, &a[a_offset], lda, 4L);
-    dtrmm_("Right", "Upper", "No transpose", "Non unit", n, n, &c_b16, &v[v_offset], ldv, &a[a_offset], lda, 5L, 5L, 12L, 8L);
-    if (scale)
-    {
+    dtrmm_("Right", "Upper", "No transpose", "Non unit", n, n, &c_b16, &v[v_offset], ldv,
+        &a[a_offset], lda, 5L, 5L, 12L, 8L);
+    if (scale) {
         dgebak_(balanc, "Right", n, &c__1, n, &dwork[1], n, &a[a_offset], lda, info, 1L, 5L);
     }
     /*     Compute the inverse of the right eigenvector matrix, by solving */
     /*     a set of linear systems, V * X = Y' (if BALANC = 'N'). */
     i__1 = *n;
-    for (i__ = 2; i__ <= i__1; ++i__)
-    {
+    for (i__ = 2; i__ <= i__1; ++i__) {
         i__2 = i__ - 1;
         dswap_(&i__2, &y[i__ + y_dim1], ldy, &y[i__ * y_dim1 + 1], &c__1);
         /* L40: */
     }
-    dtrsm_("Left", "Upper", "No transpose", "Non unit", n, n, &c_b16, &v[v_offset], ldv, &y[y_offset], ldy, 4L, 5L, 12L, 8L);
-    if (scale)
-    {
+    dtrsm_("Left", "Upper", "No transpose", "Non unit", n, n, &c_b16, &v[v_offset], ldv,
+        &y[y_offset], ldy, 4L, 5L, 12L, 8L);
+    if (scale) {
         i__1 = *n;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             tempr = 1. / dwork[i__];
             dscal_(n, &tempr, &y[i__ * y_dim1 + 1], &c__1);
             /* L60: */
@@ -333,34 +314,31 @@ ftnlen balanc_len;
     /*     REPEAT */
 L80:
     ++i__;
-    if (vali[i__] == 0.)
-    {
-        tempr = exp(valr[i__] **delta);
+    if (vali[i__] == 0.) {
+        tempr = exp(valr[i__] * *delta);
         dscal_(n, &tempr, &y[i__ + y_dim1], ldy);
-    }
-    else
-    {
-        tempr = valr[i__] **delta;
-        tempi = vali[i__] **delta;
+    } else {
+        tempr = valr[i__] * *delta;
+        tempi = vali[i__] * *delta;
         tmp[0] = cos(tempi) * exp(tempr);
         tmp[2] = sin(tempi) * exp(tempr);
         tmp[1] = -tmp[2];
         tmp[3] = tmp[0];
         dlacpy_("Full", &c__2, n, &y[i__ + y_dim1], ldy, &dwork[1], &c__2, 4L);
-        dgemm_("No transpose", "No transpose", &c__2, n, &c__2, &c_b16, tmp, &c__2, &dwork[1], &c__2, &c_b40, &y[i__ + y_dim1], ldy, 12L, 12L);
+        dgemm_("No transpose", "No transpose", &c__2, n, &c__2, &c_b16, tmp, &c__2, &dwork[1],
+            &c__2, &c_b40, &y[i__ + y_dim1], ldy, 12L, 12L);
         ++i__;
     }
-    if (i__ < *n)
-    {
+    if (i__ < *n) {
         goto L80;
     }
     /*     UNTIL I = N. */
     /*     Compute the matrix exponential as the product V * Y. */
-    dgemm_("No transpose", "No transpose", n, n, n, &c_b16, &v[v_offset], ldv, &y[y_offset], ldy, &c_b40, &a[a_offset], lda, 12L, 12L);
+    dgemm_("No transpose", "No transpose", n, n, n, &c_b16, &v[v_offset], ldv, &y[y_offset], ldy,
+        &c_b40, &a[a_offset], lda, 12L, 12L);
     /*     Set optimal workspace dimension and reciprocal condition number. */
     dwork[1] = wrkopt;
     dwork[2] = rcond;
     return 0;
     /* *** Last line of MB05MD *** */
 } /* mb05md_ */
-

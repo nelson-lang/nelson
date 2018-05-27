@@ -18,15 +18,19 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
 #include "nlsHistory_manager_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    namespace History {
-        NLSHISTORY_MANAGER_IMPEXP bool addLine(std::wstring line);
-        NLSHISTORY_MANAGER_IMPEXP bool setToken(std::wstring line);
-        NLSHISTORY_MANAGER_IMPEXP std::wstring getNextLine(void);
-        NLSHISTORY_MANAGER_IMPEXP std::wstring getPreviousLine(void);
-    }
-}
+namespace History {
+    NLSHISTORY_MANAGER_IMPEXP bool
+    addLine(std::wstring line);
+    NLSHISTORY_MANAGER_IMPEXP bool
+    setToken(std::wstring line);
+    NLSHISTORY_MANAGER_IMPEXP std::wstring
+    getNextLine(void);
+    NLSHISTORY_MANAGER_IMPEXP std::wstring
+    getPreviousLine(void);
+} // namespace History
+} // namespace Nelson
 //=============================================================================

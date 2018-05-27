@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,29 +10,33 @@
 static integer c__1 = 1;
 static doublereal c_b19 = 1.;
 
-EXPORTSYMBOL /* Subroutine */ int tb04ay_(n, mwork, pwork, a, lda, b, ldb, c__, ldc, d__, ldd, ncont, indexd, dcoeff, lddcoe, ucoeff, lduco1, lduco2, at, n1, tau, tol1, tol2, iwork, dwork, ldwork, info)
-integer *n, *mwork, *pwork;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *d__;
+EXPORTSYMBOL /* Subroutine */ int tb04ay_(n, mwork, pwork, a, lda, b, ldb, c__, ldc, d__, ldd,
+    ncont, indexd, dcoeff, lddcoe, ucoeff, lduco1, lduco2, at, n1, tau, tol1, tol2, iwork, dwork,
+    ldwork, info) integer *n,
+    *mwork, *pwork;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* d__;
 integer *ldd, *ncont, *indexd;
-doublereal *dcoeff;
-integer *lddcoe;
-doublereal *ucoeff;
+doublereal* dcoeff;
+integer* lddcoe;
+doublereal* ucoeff;
 integer *lduco1, *lduco2;
-doublereal *at;
-integer *n1;
+doublereal* at;
+integer* n1;
 doublereal *tau, *tol1, *tol2;
-integer *iwork;
-doublereal *dwork;
+integer* iwork;
+doublereal* dwork;
 integer *ldwork, *info;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, at_dim1, at_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, dcoeff_dim1, dcoeff_offset, ucoeff_dim1, ucoeff_dim2, ucoeff_offset, i__1, i__2, i__3, i__4, i__5;
+    integer a_dim1, a_offset, at_dim1, at_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1,
+        d_offset, dcoeff_dim1, dcoeff_offset, ucoeff_dim1, ucoeff_dim2, ucoeff_offset, i__1, i__2,
+        i__3, i__4, i__5;
     /* Local variables */
     extern doublereal ddot_();
     static integer maxm;
@@ -115,23 +119,23 @@ integer *ldwork, *info;
     --iwork;
     --dwork;
     /* Function Body */
-    tb01ud_("No Z", n, mwork, pwork, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, ncont, &indcon, &iwork[1], &at[at_offset], &c__1, &tau[1], tol2, &iwork[*n + 1], &dwork[1], ldwork, info, 4L);
-    wrkopt = (integer) dwork[1];
+    tb01ud_("No Z", n, mwork, pwork, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc,
+        ncont, &indcon, &iwork[1], &at[at_offset], &c__1, &tau[1], tol2, &iwork[*n + 1], &dwork[1],
+        ldwork, info, 4L);
+    wrkopt = (integer)dwork[1];
     is = 1;
     ic = is + *ncont;
     iz = ic;
     ib = ic + *ncont;
-    lwork = ib + *mwork **ncont;
-    maxm = max(1,*mwork);
+    lwork = ib + *mwork * *ncont;
+    maxm = max(1, *mwork);
     /*     Calculate each row of T(s) in turn. */
     i__1 = *pwork;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         /*        Form the dual of I-th NCONT-order MISO subsystem ... */
         dcopy_(ncont, &c__[i__ + c_dim1], ldc, &dwork[ic], &c__1);
         i__2 = *ncont;
-        for (j = 1; j <= i__2; ++j)
-        {
+        for (j = 1; j <= i__2; ++j) {
             dcopy_(ncont, &a[j + a_dim1], lda, &at[j * at_dim1 + 1], &c__1);
             dcopy_(mwork, &b[j + b_dim1], ldb, &dwork[(j - 1) * maxm + ib], &c__1);
             /* L10: */
@@ -140,43 +144,41 @@ integer *ldwork, *info;
         /*        state-space realization for row I. */
         /*        Workspace: MWORK*NCONT + 2*NCONT + MAX(NCONT,MWORK). */
         i__2 = *ldwork - lwork + 1;
-        tb01zd_("No Z", ncont, mwork, &at[at_offset], n1, &dwork[ic], &dwork[ib], &maxm, &nminl, &dwork[iz], &c__1, &tau[1], tol1, &dwork[lwork], &i__2, info, 4L);
+        tb01zd_("No Z", ncont, mwork, &at[at_offset], n1, &dwork[ic], &dwork[ib], &maxm, &nminl,
+            &dwork[iz], &c__1, &tau[1], tol1, &dwork[lwork], &i__2, info, 4L);
         /* Computing MAX */
-        i__2 = wrkopt, i__3 = (integer) dwork[lwork] + lwork - 1;
-        wrkopt = max(i__2,i__3);
+        i__2 = wrkopt, i__3 = (integer)dwork[lwork] + lwork - 1;
+        wrkopt = max(i__2, i__3);
         /*        Store degree of (monic) denominator, and leading coefficient */
         /*        vector of numerator. */
         indexd[i__] = nminl;
         dcoeff[i__ + dcoeff_dim1] = 1.;
-        dcopy_(mwork, &d__[i__ + d_dim1], ldd, &ucoeff[i__ + (ucoeff_dim2 + 1) * ucoeff_dim1], lduco1);
-        if (nminl == 1)
-        {
+        dcopy_(
+            mwork, &d__[i__ + d_dim1], ldd, &ucoeff[i__ + (ucoeff_dim2 + 1) * ucoeff_dim1], lduco1);
+        if (nminl == 1) {
             /*           Finish off numerator, denominator for simple case NMINL=1. */
             temp = -at[at_dim1 + 1];
             dcoeff[i__ + (dcoeff_dim1 << 1)] = temp;
-            dcopy_(mwork, &d__[i__ + d_dim1], ldd, &ucoeff[i__ + ((ucoeff_dim2 << 1) + 1) * ucoeff_dim1], lduco1);
+            dcopy_(mwork, &d__[i__ + d_dim1], ldd,
+                &ucoeff[i__ + ((ucoeff_dim2 << 1) + 1) * ucoeff_dim1], lduco1);
             dscal_(mwork, &temp, &ucoeff[i__ + ((ucoeff_dim2 << 1) + 1) * ucoeff_dim1], lduco1);
-            daxpy_(mwork, &dwork[ic], &dwork[ib], &c__1, &ucoeff[i__ + ((ucoeff_dim2 << 1) + 1) * ucoeff_dim1], lduco1);
-        }
-        else if (nminl > 1)
-        {
+            daxpy_(mwork, &dwork[ic], &dwork[ib], &c__1,
+                &ucoeff[i__ + ((ucoeff_dim2 << 1) + 1) * ucoeff_dim1], lduco1);
+        } else if (nminl > 1) {
             /*           Set up factors for scaling upper triangle of AT ... */
             i__2 = nminl - 1;
             i__3 = *n1 + 1;
             dcopy_(&i__2, &at[at_dim1 + 2], &i__3, &dwork[ic + 1], &c__1);
             nplus = nminl + 1;
             i__2 = is + nminl - 1;
-            for (l = is; l <= i__2; ++l)
-            {
+            for (l = is; l <= i__2; ++l) {
                 dwork[l] = 1.;
                 /* L20: */
             }
             /*           and scale it, row by row, starting with row NMINL. */
-            for (jwork = nminl; jwork >= 1; --jwork)
-            {
+            for (jwork = nminl; jwork >= 1; --jwork) {
                 i__2 = nminl;
-                for (j = jwork; j <= i__2; ++j)
-                {
+                for (j = jwork; j <= i__2; ++j) {
                     at[jwork + j * at_dim1] = dwork[is + j - 1] * at[jwork + j * at_dim1];
                     /* L30: */
                 }
@@ -188,32 +190,29 @@ integer *ldwork, *info;
             /*           Calculate each monic polynomial V:JWORK(s) in turn: */
             /*           K-th coefficient stored as AT(IV,K-1). */
             i__2 = nminl;
-            for (iv = 2; iv <= i__2; ++iv)
-            {
+            for (iv = 2; iv <= i__2; ++iv) {
                 jwork = nplus - iv;
                 iwplus = jwork + 1;
                 ivmin1 = iv - 1;
                 /*              Set up coefficients due to leading 1's of existing */
                 /*              V:I(s)'s. */
                 i__3 = ivmin1;
-                for (k = 1; k <= i__3; ++k)
-                {
+                for (k = 1; k <= i__3; ++k) {
                     at[iv + k * at_dim1] = -at[iwplus + (jwork + k) * at_dim1];
                     /* L50: */
                 }
-                if (iv != 2)
-                {
+                if (iv != 2) {
                     /*                 Then add contribution from s * V:JWORK+1(s) term. */
                     i__3 = iv - 2;
                     daxpy_(&i__3, &c_b19, &at[ivmin1 + at_dim1], n1, &at[iv + at_dim1], n1);
                     /*                 Finally, add effect of lower coefficients of existing */
                     /*                 V:I(s)'s. */
                     i__3 = ivmin1;
-                    for (k = 2; k <= i__3; ++k)
-                    {
+                    for (k = 2; k <= i__3; ++k) {
                         i__4 = k - 1;
                         i__5 = -(*n1 + 1);
-                        at[iv + k * at_dim1] -= ddot_(&i__4, &at[iwplus + (jwork + 1) * at_dim1], n1, &at[iv - k + 1 + at_dim1], &i__5);
+                        at[iv + k * at_dim1] -= ddot_(&i__4, &at[iwplus + (jwork + 1) * at_dim1],
+                            n1, &at[iv - k + 1 + at_dim1], &i__5);
                         /* L60: */
                     }
                 }
@@ -221,26 +220,25 @@ integer *ldwork, *info;
             }
             /*           Determine denominator polynomial D(s) as if it were V:0(s). */
             i__2 = nplus;
-            for (k = 2; k <= i__2; ++k)
-            {
+            for (k = 2; k <= i__2; ++k) {
                 dcoeff[i__ + k * dcoeff_dim1] = -at[(k - 1) * at_dim1 + 1];
                 /* L80: */
             }
             i__2 = nminl - 1;
-            daxpy_(&i__2, &c_b19, &at[nminl + at_dim1], n1, &dcoeff[i__ + (dcoeff_dim1 << 1)], lddcoe);
+            daxpy_(
+                &i__2, &c_b19, &at[nminl + at_dim1], n1, &dcoeff[i__ + (dcoeff_dim1 << 1)], lddcoe);
             i__2 = nplus;
-            for (k = 3; k <= i__2; ++k)
-            {
+            for (k = 3; k <= i__2; ++k) {
                 i__3 = k - 2;
                 i__4 = -(*n1 + 1);
-                dcoeff[i__ + k * dcoeff_dim1] -= ddot_(&i__3, &at[at_offset], n1, &at[nminl - k + 3 + at_dim1], &i__4);
+                dcoeff[i__ + k * dcoeff_dim1]
+                    -= ddot_(&i__3, &at[at_offset], n1, &at[nminl - k + 3 + at_dim1], &i__4);
                 /* L90: */
             }
             /*           Scale (B' * Z), stored in DWORK(IB). */
             ibi = ib;
             i__2 = nminl;
-            for (l = 1; l <= i__2; ++l)
-            {
+            for (l = 1; l <= i__2; ++l) {
                 dscal_(mwork, &dwork[is + l - 1], &dwork[ibi], &c__1);
                 ibi += maxm;
                 /* L100: */
@@ -250,23 +248,23 @@ integer *ldwork, *info;
             /*           1's of V(s). */
             ibi = ib;
             i__2 = nplus;
-            for (k = 2; k <= i__2; ++k)
-            {
-                dcopy_(mwork, &dwork[ibi], &c__1, &ucoeff[i__ + (k * ucoeff_dim2 + 1) * ucoeff_dim1], lduco1);
-                daxpy_(mwork, &dcoeff[i__ + k * dcoeff_dim1], &d__[i__ + d_dim1], ldd, &ucoeff[i__ + (k * ucoeff_dim2 + 1) * ucoeff_dim1], lduco1);
+            for (k = 2; k <= i__2; ++k) {
+                dcopy_(mwork, &dwork[ibi], &c__1,
+                    &ucoeff[i__ + (k * ucoeff_dim2 + 1) * ucoeff_dim1], lduco1);
+                daxpy_(mwork, &dcoeff[i__ + k * dcoeff_dim1], &d__[i__ + d_dim1], ldd,
+                    &ucoeff[i__ + (k * ucoeff_dim2 + 1) * ucoeff_dim1], lduco1);
                 ibi += maxm;
                 /* L110: */
             }
             /*           Add contribution from lower coefficients of V(s). */
             i__2 = nplus;
-            for (k = 3; k <= i__2; ++k)
-            {
+            for (k = 3; k <= i__2; ++k) {
                 i__3 = *mwork;
-                for (j = 1; j <= i__3; ++j)
-                {
+                for (j = 1; j <= i__3; ++j) {
                     i__4 = k - 2;
                     i__5 = -(*n1 + 1);
-                    ucoeff[i__ + (j + k * ucoeff_dim2) * ucoeff_dim1] += ddot_(&i__4, &at[nminl - k + 3 + at_dim1], &i__5, &dwork[ib + j - 1], &maxm);
+                    ucoeff[i__ + (j + k * ucoeff_dim2) * ucoeff_dim1] += ddot_(
+                        &i__4, &at[nminl - k + 3 + at_dim1], &i__5, &dwork[ib + j - 1], &maxm);
                     /* L120: */
                 }
                 /* L130: */
@@ -275,8 +273,7 @@ integer *ldwork, *info;
         /* L140: */
     }
     /*     Set optimal workspace dimension. */
-    dwork[1] = (doublereal) wrkopt;
+    dwork[1] = (doublereal)wrkopt;
     return 0;
     /* *** Last line of TB04AY *** */
 } /* tb04ay_ */
-

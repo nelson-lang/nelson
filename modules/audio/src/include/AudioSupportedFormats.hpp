@@ -18,10 +18,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsAudio_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsAudio_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSAUDIO_IMPEXP ArrayOf AudioSupportedFormats();
+NLSAUDIO_IMPEXP ArrayOf
+AudioSupportedFormats();
 }
 //=============================================================================

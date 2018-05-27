@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -12,18 +12,18 @@ static doublereal c_b10 = 1.;
 static integer c__0 = 0;
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int ab04md_(type__, n, m, p, alpha, beta, a, lda, b, ldb, c__, ldc, d__, ldd, iwork, dwork, ldwork, info, type_len)
-char *type__;
+EXPORTSYMBOL /* Subroutine */ int ab04md_(type__, n, m, p, alpha, beta, a, lda, b, ldb, c__, ldc,
+    d__, ldd, iwork, dwork, ldwork, info, type_len) char* type__;
 integer *n, *m, *p;
 doublereal *alpha, *beta, *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *d__;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* d__;
 integer *ldd, *iwork;
-doublereal *dwork;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen type_len;
 {
@@ -210,52 +210,30 @@ ftnlen type_len;
     *info = 0;
     ltype = lsame_(type__, "D", 1L, 1L);
     /*     Test the input scalar arguments. */
-    if (! ltype && ! lsame_(type__, "C", 1L, 1L))
-    {
+    if (!ltype && !lsame_(type__, "C", 1L, 1L)) {
         *info = -1;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -2;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -3;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -4;
-    }
-    else if (*alpha == 0.)
-    {
+    } else if (*alpha == 0.) {
         *info = -5;
-    }
-    else if (*beta == 0.)
-    {
+    } else if (*beta == 0.) {
         *info = -6;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -8;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -10;
-    }
-    else if (*ldc < max(1,*p))
-    {
+    } else if (*ldc < max(1, *p)) {
         *info = -12;
-    }
-    else if (*ldd < max(1,*p))
-    {
+    } else if (*ldd < max(1, *p)) {
         *info = -14;
-    }
-    else if (*ldwork < max(1,*n))
-    {
+    } else if (*ldwork < max(1, *n)) {
         *info = -17;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("AB04MD", &i__1, 6L);
@@ -263,9 +241,8 @@ ftnlen type_len;
     }
     /*     Quick return if possible. */
     /* Computing MAX */
-    i__1 = max(*n,*m);
-    if (max(i__1,*p) == 0)
-    {
+    i__1 = max(*n, *m);
+    if (max(i__1, *p) == 0) {
         return 0;
     }
     /*     (Note: Comments in the code beginning "Workspace:" describe the */
@@ -273,14 +250,11 @@ ftnlen type_len;
     /*     code, as well as the preferred amount for good performance. */
     /*     NB refers to the optimal block size for the immediately */
     /*     following subroutine, as returned by ILAENV.) */
-    if (ltype)
-    {
+    if (ltype) {
         /*        Discrete-time to continuous-time with (ALPHA, BETA). */
         palpha = *alpha;
         pbeta = *beta;
-    }
-    else
-    {
+    } else {
         /*        Continuous-time to discrete-time with (ALPHA, BETA) is */
         /*        equivalent with discrete-time to continuous-time with */
         /*        (-BETA, -ALPHA), if B and C change the sign. */
@@ -293,21 +267,16 @@ ftnlen type_len;
     /*                          -1 */
     /*     Compute (alpha*I + A)  . */
     i__1 = *n;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         a[i__ + i__ * a_dim1] += palpha;
         /* L10: */
     }
     dgetrf_(n, n, &a[a_offset], lda, &iwork[1], info);
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
-        if (ltype)
-        {
+        if (ltype) {
             *info = 1;
-        }
-        else
-        {
+        } else {
             *info = 2;
         }
         return 0;
@@ -317,19 +286,20 @@ ftnlen type_len;
     dgetrs_("No transpose", n, m, &a[a_offset], lda, &iwork[1], &b[b_offset], ldb, info, 12L);
     /*                               -1 */
     /*     Compute  D - C*(alpha*I+A)  *B. */
-    dgemm_("No transpose", "No transpose", p, m, n, &c_b9, &c__[c_offset], ldc, &b[b_offset], ldb, &c_b10, &d__[d_offset], ldd, 12L, 12L);
+    dgemm_("No transpose", "No transpose", p, m, n, &c_b9, &c__[c_offset], ldc, &b[b_offset], ldb,
+        &c_b10, &d__[d_offset], ldd, 12L, 12L);
     /*     Scale B by  sqrt(2*alpha*beta). */
     dlascl_("General", &c__0, &c__0, &c_b10, &sqrab2, n, m, &b[b_offset], ldb, info, 7L);
     /*                                                -1 */
     /*     Compute  sqrt(2*alpha*beta)*C*(alpha*I + A)  . */
-    dtrsm_("Right", "Upper", "No transpose", "Non-unit", p, n, &sqrab2, &a[a_offset], lda, &c__[c_offset], ldc, 5L, 5L, 12L, 8L);
-    dtrsm_("Right", "Lower", "No transpose", "Unit", p, n, &c_b10, &a[a_offset], lda, &c__[c_offset], ldc, 5L, 5L, 12L, 4L);
+    dtrsm_("Right", "Upper", "No transpose", "Non-unit", p, n, &sqrab2, &a[a_offset], lda,
+        &c__[c_offset], ldc, 5L, 5L, 12L, 8L);
+    dtrsm_("Right", "Lower", "No transpose", "Unit", p, n, &c_b10, &a[a_offset], lda,
+        &c__[c_offset], ldc, 5L, 5L, 12L, 4L);
     /*     Apply column interchanges to the solution matrix. */
-    for (i__ = *n - 1; i__ >= 1; --i__)
-    {
+    for (i__ = *n - 1; i__ >= 1; --i__) {
         ip = iwork[i__];
-        if (ip != i__)
-        {
+        if (ip != i__) {
             dswap_(p, &c__[i__ * c_dim1 + 1], &c__1, &c__[ip * c_dim1 + 1], &c__1);
         }
         /* L20: */
@@ -341,8 +311,7 @@ ftnlen type_len;
     /*     Workspace: need N;  prefer N*NB. */
     dgetri_(n, &a[a_offset], lda, &iwork[1], &dwork[1], ldwork, info);
     i__1 = *n;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         d__1 = -ab2;
         dscal_(n, &d__1, &a[i__ * a_dim1 + 1], &c__1);
         a[i__ + i__ * a_dim1] += pbeta;
@@ -351,4 +320,3 @@ ftnlen type_len;
     return 0;
     /* *** Last line of AB04MD *** */
 } /* ab04md_ */
-

@@ -28,7 +28,7 @@
 #define NLS_INDEX_TYPE_64
 #endif
 
-#define CAT_3_STRINGS(a, b, c) a ## b ## c
+#define CAT_3_STRINGS(a, b, c) a##b##c
 #ifdef _MSC_VER
 #ifdef _DEBUG
 #ifdef _WIN64

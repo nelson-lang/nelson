@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,35 +11,38 @@ static doublereal c_b5 = 1.;
 static doublereal c_b6 = 0.;
 static doublereal c_b22 = -1.;
 
-EXPORTSYMBOL /* Subroutine */ int sb10wd_(n, m, np, ncon, nmeas, a, lda, b, ldb, c__, ldc, d__, ldd, f, ldf, h__, ldh, tu, ldtu, ty, ldty, ak, ldak, bk, ldbk, ck, ldck, dk, lddk, info)
-integer *n, *m, *np, *ncon, *nmeas;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *d__;
-integer *ldd;
-doublereal *f;
-integer *ldf;
-doublereal *h__;
-integer *ldh;
-doublereal *tu;
-integer *ldtu;
-doublereal *ty;
-integer *ldty;
-doublereal *ak;
-integer *ldak;
-doublereal *bk;
-integer *ldbk;
-doublereal *ck;
-integer *ldck;
-doublereal *dk;
+EXPORTSYMBOL /* Subroutine */ int sb10wd_(n, m, np, ncon, nmeas, a, lda, b, ldb, c__, ldc, d__, ldd,
+    f, ldf, h__, ldh, tu, ldtu, ty, ldty, ak, ldak, bk, ldbk, ck, ldck, dk, lddk, info) integer *n,
+    *m, *np, *ncon, *nmeas;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* d__;
+integer* ldd;
+doublereal* f;
+integer* ldf;
+doublereal* h__;
+integer* ldh;
+doublereal* tu;
+integer* ldtu;
+doublereal* ty;
+integer* ldty;
+doublereal* ak;
+integer* ldak;
+doublereal* bk;
+integer* ldbk;
+doublereal* ck;
+integer* ldck;
+doublereal* dk;
 integer *lddk, *info;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, ak_dim1, ak_offset, b_dim1, b_offset, bk_dim1, bk_offset, c_dim1, c_offset, ck_dim1, ck_offset, d_dim1, d_offset, dk_dim1, dk_offset, f_dim1, f_offset, h_dim1, h_offset, tu_dim1, tu_offset, ty_dim1, ty_offset, i__1;
+    integer a_dim1, a_offset, ak_dim1, ak_offset, b_dim1, b_offset, bk_dim1, bk_offset, c_dim1,
+        c_offset, ck_dim1, ck_offset, d_dim1, d_offset, dk_dim1, dk_offset, f_dim1, f_offset,
+        h_dim1, h_offset, tu_dim1, tu_offset, ty_dim1, ty_offset, i__1;
     /* Local variables */
     extern /* Subroutine */ int dgemm_();
     static integer m1, m2;
@@ -230,99 +233,69 @@ integer *lddk, *info;
     np1 = *np - *nmeas;
     np2 = *nmeas;
     *info = 0;
-    if (*n < 0)
-    {
+    if (*n < 0) {
         *info = -1;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -2;
-    }
-    else if (*np < 0)
-    {
+    } else if (*np < 0) {
         *info = -3;
-    }
-    else if (*ncon < 0 || m1 < 0 || m2 > np1)
-    {
+    } else if (*ncon < 0 || m1 < 0 || m2 > np1) {
         *info = -4;
-    }
-    else if (*nmeas < 0 || np1 < 0 || np2 > m1)
-    {
+    } else if (*nmeas < 0 || np1 < 0 || np2 > m1) {
         *info = -5;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -7;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -9;
-    }
-    else if (*ldc < max(1,*np))
-    {
+    } else if (*ldc < max(1, *np)) {
         *info = -11;
-    }
-    else if (*ldd < max(1,*np))
-    {
+    } else if (*ldd < max(1, *np)) {
         *info = -13;
-    }
-    else if (*ldf < max(1,m2))
-    {
+    } else if (*ldf < max(1, m2)) {
         *info = -15;
-    }
-    else if (*ldh < max(1,*n))
-    {
+    } else if (*ldh < max(1, *n)) {
         *info = -17;
-    }
-    else if (*ldtu < max(1,m2))
-    {
+    } else if (*ldtu < max(1, m2)) {
         *info = -19;
-    }
-    else if (*ldty < max(1,np2))
-    {
+    } else if (*ldty < max(1, np2)) {
         *info = -21;
-    }
-    else if (*ldak < max(1,*n))
-    {
+    } else if (*ldak < max(1, *n)) {
         *info = -23;
-    }
-    else if (*ldbk < max(1,*n))
-    {
+    } else if (*ldbk < max(1, *n)) {
         *info = -25;
-    }
-    else if (*ldck < max(1,m2))
-    {
+    } else if (*ldck < max(1, m2)) {
         *info = -27;
-    }
-    else if (*lddk < max(1,m2))
-    {
+    } else if (*lddk < max(1, m2)) {
         *info = -29;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("SB10WD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0 || *m == 0 || *np == 0 || m1 == 0 || m2 == 0 || np1 == 0 || np2 == 0)
-    {
+    if (*n == 0 || *m == 0 || *np == 0 || m1 == 0 || m2 == 0 || np1 == 0 || np2 == 0) {
         return 0;
     }
     /*     Compute the transpose of D22*F . BK is used as workspace. */
-    dgemm_("T", "T", n, &np2, &m2, &c_b5, &f[f_offset], ldf, &d__[np1 + 1 + (m1 + 1) * d_dim1], ldd, &c_b6, &bk[bk_offset], ldbk, 1L, 1L);
+    dgemm_("T", "T", n, &np2, &m2, &c_b5, &f[f_offset], ldf, &d__[np1 + 1 + (m1 + 1) * d_dim1], ldd,
+        &c_b6, &bk[bk_offset], ldbk, 1L, 1L);
     /*     Find AK = A + H*C2 + B2*F + H*D22*F . */
     dlacpy_("Full", n, n, &a[a_offset], lda, &ak[ak_offset], ldak, 4L);
-    dgemm_("N", "N", n, n, &np2, &c_b5, &h__[h_offset], ldh, &c__[np1 + 1 + c_dim1], ldc, &c_b5, &ak[ak_offset], ldak, 1L, 1L);
-    dgemm_("N", "N", n, n, &m2, &c_b5, &b[(m1 + 1) * b_dim1 + 1], ldb, &f[f_offset], ldf, &c_b5, &ak[ak_offset], ldak, 1L, 1L);
-    dgemm_("N", "T", n, n, &np2, &c_b5, &h__[h_offset], ldh, &bk[bk_offset], ldbk, &c_b5, &ak[ak_offset], ldak, 1L, 1L);
+    dgemm_("N", "N", n, n, &np2, &c_b5, &h__[h_offset], ldh, &c__[np1 + 1 + c_dim1], ldc, &c_b5,
+        &ak[ak_offset], ldak, 1L, 1L);
+    dgemm_("N", "N", n, n, &m2, &c_b5, &b[(m1 + 1) * b_dim1 + 1], ldb, &f[f_offset], ldf, &c_b5,
+        &ak[ak_offset], ldak, 1L, 1L);
+    dgemm_("N", "T", n, n, &np2, &c_b5, &h__[h_offset], ldh, &bk[bk_offset], ldbk, &c_b5,
+        &ak[ak_offset], ldak, 1L, 1L);
     /*     Find BK = -H*Ty . */
-    dgemm_("N", "N", n, &np2, &np2, &c_b22, &h__[h_offset], ldh, &ty[ty_offset], ldty, &c_b6, &bk[bk_offset], ldbk, 1L, 1L);
+    dgemm_("N", "N", n, &np2, &np2, &c_b22, &h__[h_offset], ldh, &ty[ty_offset], ldty, &c_b6,
+        &bk[bk_offset], ldbk, 1L, 1L);
     /*     Find CK = Tu*F . */
-    dgemm_("N", "N", &m2, n, &m2, &c_b5, &tu[tu_offset], ldtu, &f[f_offset], ldf, &c_b6, &ck[ck_offset], ldck, 1L, 1L);
+    dgemm_("N", "N", &m2, n, &m2, &c_b5, &tu[tu_offset], ldtu, &f[f_offset], ldf, &c_b6,
+        &ck[ck_offset], ldck, 1L, 1L);
     /*     Find DK . */
     dlaset_("Full", &m2, &np2, &c_b6, &c_b6, &dk[dk_offset], lddk, 4L);
     return 0;
     /* *** Last line of SB10WD *** */
 } /* sb10wd_ */
-

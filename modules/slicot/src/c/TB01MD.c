@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,17 +11,18 @@ static doublereal c_b9 = 0.;
 static doublereal c_b10 = 1.;
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int tb01md_(jobu, uplo, n, m, a, lda, b, ldb, u, ldu, dwork, info, jobu_len, uplo_len)
-char *jobu, *uplo;
+EXPORTSYMBOL /* Subroutine */ int tb01md_(
+    jobu, uplo, n, m, a, lda, b, ldb, u, ldu, dwork, info, jobu_len, uplo_len) char *jobu,
+    *uplo;
 integer *n, *m;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *u;
-integer *ldu;
-doublereal *dwork;
-integer *info;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* u;
+integer* ldu;
+doublereal* dwork;
+integer* info;
 ftnlen jobu_len;
 ftnlen uplo_len;
 {
@@ -190,68 +191,48 @@ ftnlen uplo_len;
     ljobi = lsame_(jobu, "I", 1L, 1L);
     ljoba = ljobi || lsame_(jobu, "U", 1L, 1L);
     /*     Test the input scalar arguments. */
-    if (! ljoba && ! lsame_(jobu, "N", 1L, 1L))
-    {
+    if (!ljoba && !lsame_(jobu, "N", 1L, 1L)) {
         *info = -1;
-    }
-    else if (! luplo && ! lsame_(uplo, "L", 1L, 1L))
-    {
+    } else if (!luplo && !lsame_(uplo, "L", 1L, 1L)) {
         *info = -2;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -3;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -4;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -6;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -8;
-    }
-    else if (! ljoba && *ldu < 1 || ljoba && *ldu < max(1,*n))
-    {
+    } else if (!ljoba && *ldu < 1 || ljoba && *ldu < max(1, *n)) {
         *info = -10;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return */
         i__1 = -(*info);
         xerbla_("TB01MD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0 || *m == 0)
-    {
+    if (*n == 0 || *m == 0) {
         return 0;
     }
     m1 = *m + 1;
     n1 = *n - 1;
-    if (ljobi)
-    {
+    if (ljobi) {
         /*        Initialize U to the identity matrix. */
         dlaset_("Full", n, n, &c_b9, &c_b10, &u[u_offset], ldu, 4L);
     }
     /*     Perform transformations involving both B and A. */
-    i__1 = min(*m,n1);
-    for (j = 1; j <= i__1; ++j)
-    {
+    i__1 = min(*m, n1);
+    for (j = 1; j <= i__1; ++j) {
         nj = *n - j;
-        if (luplo)
-        {
+        if (luplo) {
             par1 = j;
             par2 = j;
             par3 = j + 1;
             par4 = *m;
             par5 = *n;
-        }
-        else
-        {
+        } else {
             par1 = *m - j + 1;
             par2 = nj + 1;
             par3 = 1;
@@ -262,46 +243,43 @@ ftnlen uplo_len;
         dlarfg_(&i__2, &b[par2 + par1 * b_dim1], &b[par3 + par1 * b_dim1], &c__1, &dz);
         /*        Update A. */
         i__2 = nj + 1;
-        dlatzm_("Left", &i__2, n, &b[par3 + par1 * b_dim1], &c__1, &dz, &a[par2 + a_dim1], &a[par3 + a_dim1], lda, &dwork[1], 4L);
+        dlatzm_("Left", &i__2, n, &b[par3 + par1 * b_dim1], &c__1, &dz, &a[par2 + a_dim1],
+            &a[par3 + a_dim1], lda, &dwork[1], 4L);
         i__2 = nj + 1;
-        dlatzm_("Right", n, &i__2, &b[par3 + par1 * b_dim1], &c__1, &dz, &a[par2 * a_dim1 + 1], &a[par3 * a_dim1 + 1], lda, &dwork[1], 5L);
-        if (ljoba)
-        {
+        dlatzm_("Right", n, &i__2, &b[par3 + par1 * b_dim1], &c__1, &dz, &a[par2 * a_dim1 + 1],
+            &a[par3 * a_dim1 + 1], lda, &dwork[1], 5L);
+        if (ljoba) {
             /*           Update U. */
             i__2 = nj + 1;
-            dlatzm_("Right", n, &i__2, &b[par3 + par1 * b_dim1], &c__1, &dz, &u[par2 * u_dim1 + 1], &u[par3 * u_dim1 + 1], ldu, &dwork[1], 5L);
+            dlatzm_("Right", n, &i__2, &b[par3 + par1 * b_dim1], &c__1, &dz, &u[par2 * u_dim1 + 1],
+                &u[par3 * u_dim1 + 1], ldu, &dwork[1], 5L);
         }
-        if (j != *m)
-        {
+        if (j != *m) {
             /*           Update B */
             i__2 = nj + 1;
             i__3 = par4 - par3 + 1;
-            dlatzm_("Left", &i__2, &i__3, &b[par3 + par1 * b_dim1], &c__1, &dz, &b[par2 + par3 * b_dim1], &b[par3 + par3 * b_dim1], ldb, &dwork[1], 4L);
+            dlatzm_("Left", &i__2, &i__3, &b[par3 + par1 * b_dim1], &c__1, &dz,
+                &b[par2 + par3 * b_dim1], &b[par3 + par3 * b_dim1], ldb, &dwork[1], 4L);
         }
         i__2 = par5;
-        for (ii = par3; ii <= i__2; ++ii)
-        {
+        for (ii = par3; ii <= i__2; ++ii) {
             b[ii + par1 * b_dim1] = 0.;
             /* L10: */
         }
         /* L20: */
     }
     i__1 = n1;
-    for (j = m1; j <= i__1; ++j)
-    {
+    for (j = m1; j <= i__1; ++j) {
         /*        Perform next transformations only involving A. */
         nj = *n - j;
-        if (luplo)
-        {
+        if (luplo) {
             par1 = j - *m;
             par2 = j;
             par3 = j + 1;
             par4 = *n;
             par5 = j - *m + 1;
             par6 = *n;
-        }
-        else
-        {
+        } else {
             par1 = *n + m1 - j;
             par2 = nj + 1;
             par3 = 1;
@@ -314,18 +292,19 @@ ftnlen uplo_len;
         /*        Update A. */
         i__2 = nj + 1;
         i__3 = par6 - par5 + 1;
-        dlatzm_("Left", &i__2, &i__3, &a[par3 + par1 * a_dim1], &c__1, &dz, &a[par2 + par5 * a_dim1], &a[par3 + par5 * a_dim1], lda, &dwork[1], 4L);
+        dlatzm_("Left", &i__2, &i__3, &a[par3 + par1 * a_dim1], &c__1, &dz,
+            &a[par2 + par5 * a_dim1], &a[par3 + par5 * a_dim1], lda, &dwork[1], 4L);
         i__2 = nj + 1;
-        dlatzm_("Right", n, &i__2, &a[par3 + par1 * a_dim1], &c__1, &dz, &a[par2 * a_dim1 + 1], &a[par3 * a_dim1 + 1], lda, &dwork[1], 5L);
-        if (ljoba)
-        {
+        dlatzm_("Right", n, &i__2, &a[par3 + par1 * a_dim1], &c__1, &dz, &a[par2 * a_dim1 + 1],
+            &a[par3 * a_dim1 + 1], lda, &dwork[1], 5L);
+        if (ljoba) {
             /*           Update U. */
             i__2 = nj + 1;
-            dlatzm_("Right", n, &i__2, &a[par3 + par1 * a_dim1], &c__1, &dz, &u[par2 * u_dim1 + 1], &u[par3 * u_dim1 + 1], ldu, &dwork[1], 5L);
+            dlatzm_("Right", n, &i__2, &a[par3 + par1 * a_dim1], &c__1, &dz, &u[par2 * u_dim1 + 1],
+                &u[par3 * u_dim1 + 1], ldu, &dwork[1], 5L);
         }
         i__2 = par4;
-        for (ii = par3; ii <= i__2; ++ii)
-        {
+        for (ii = par3; ii <= i__2; ++ii) {
             a[ii + par1 * a_dim1] = 0.;
             /* L30: */
         }
@@ -334,4 +313,3 @@ ftnlen uplo_len;
     return 0;
     /* *** Last line of TB01MD *** */
 } /* tb01md_ */
-

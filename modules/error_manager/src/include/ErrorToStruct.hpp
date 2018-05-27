@@ -22,49 +22,43 @@
 #include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    ArrayOf ErrorToStruct(Exception e)
-    {
-        ArrayOf result;
-        wstringVector fieldnames;
-        ArrayOfVector  fieldvalues;
-        fieldnames.push_back(L"file");
-        fieldnames.push_back(L"name");
-        fieldnames.push_back(L"line");
-        ArrayOf stack;
-        if (e.isEmpty())
-        {
-            Dimensions dims(0, 1);
-            stack = ArrayOf::emptyStructConstructor(fieldnames, dims);
+//=============================================================================
+ArrayOf
+ErrorToStruct(Exception e)
+{
+    ArrayOf result;
+    wstringVector fieldnames;
+    ArrayOfVector fieldvalues;
+    fieldnames.push_back(L"file");
+    fieldnames.push_back(L"name");
+    fieldnames.push_back(L"line");
+    ArrayOf stack;
+    if (e.isEmpty()) {
+        Dimensions dims(0, 1);
+        stack = ArrayOf::emptyStructConstructor(fieldnames, dims);
+    } else {
+        if ((e.getFilename() == L"") || (e.getFilename() == L"EvaluateScript")
+            || (e.getFunctionName() == L"") || (e.getLine() == -1)) {
+            Dimensions dim(0, 1);
+            stack = ArrayOf::emptyStructConstructor(fieldnames, dim);
+        } else {
+            fieldvalues.push_back(ArrayOf::stringConstructor(e.getFilename()));
+            fieldvalues.push_back(ArrayOf::stringConstructor(e.getFunctionName()));
+            fieldvalues.push_back(ArrayOf::doubleConstructor(e.getLine()));
+            stack = ArrayOf::structConstructor(fieldnames, fieldvalues);
         }
-        else
-        {
-            if ((e.getFilename() == L"") || (e.getFilename() == L"EvaluateScript") ||
-                    (e.getFunctionName() == L"") ||
-                    (e.getLine() == -1))
-            {
-                Dimensions dim(0, 1);
-                stack = ArrayOf::emptyStructConstructor(fieldnames, dim);
-            }
-            else
-            {
-                fieldvalues.push_back(ArrayOf::stringConstructor(e.getFilename()));
-                fieldvalues.push_back(ArrayOf::stringConstructor(e.getFunctionName()));
-                fieldvalues.push_back(ArrayOf::doubleConstructor(e.getLine()));
-                stack = ArrayOf::structConstructor(fieldnames, fieldvalues);
-            }
-        }
-        fieldnames.clear();
-        fieldnames.push_back(L"message");
-        fieldnames.push_back(L"identifier");
-        fieldnames.push_back(L"stack");
-        fieldvalues.clear();
-        fieldvalues.push_back(ArrayOf::stringConstructor(e.getMessage()));
-        fieldvalues.push_back(ArrayOf::stringConstructor(e.getIdentifier()));
-        fieldvalues.push_back(stack);
-        result = ArrayOf::structConstructor(fieldnames, fieldvalues);
-        return result;
     }
-    //=============================================================================
+    fieldnames.clear();
+    fieldnames.push_back(L"message");
+    fieldnames.push_back(L"identifier");
+    fieldnames.push_back(L"stack");
+    fieldvalues.clear();
+    fieldvalues.push_back(ArrayOf::stringConstructor(e.getMessage()));
+    fieldvalues.push_back(ArrayOf::stringConstructor(e.getIdentifier()));
+    fieldvalues.push_back(stack);
+    result = ArrayOf::structConstructor(fieldnames, fieldvalues);
+    return result;
 }
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

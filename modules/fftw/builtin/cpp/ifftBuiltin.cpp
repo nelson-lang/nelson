@@ -18,96 +18,76 @@
 //=============================================================================
 #include "ifftBuiltin.hpp"
 #include "Error.hpp"
-#include "OverloadFunction.hpp"
 #include "InverseFft.hpp"
+#include "OverloadFunction.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-static ArrayOfVector ifftBuiltinPrivate(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+static ArrayOfVector
+ifftBuiltinPrivate(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf res;
-    if (argIn.size() < 1 || argIn.size() > 3)
-    {
+    if (argIn.size() < 1 || argIn.size() > 3) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     ArrayOf X = argIn[0];
-    switch (argIn.size())
-    {
-        case 1:
-        {
-            // ifft(X)
+    switch (argIn.size()) {
+    case 1: {
+        // ifft(X)
+        res = InverseFft(X);
+    } break;
+    case 2: {
+        ArrayOf N = argIn[1];
+        if (N.isNumeric() && N.isEmpty()) {
+            // ifft(X, []);
             res = InverseFft(X);
+        } else {
+            // ifft(X, n)
+            indexType n = N.getContentAsScalarIndex(false);
+            res = InverseFft(X, n);
         }
-        break;
-        case 2:
-        {
-            ArrayOf N = argIn[1];
-            if (N.isNumeric() && N.isEmpty())
-            {
-                // ifft(X, []);
-                res = InverseFft(X);
+    } break;
+    case 3: {
+        // ifft(X, n, dim)
+        ArrayOf N = argIn[1];
+        ArrayOf DIM = argIn[2];
+        indexType n;
+        indexType dim = DIM.getContentAsScalarIndex(false);
+        if (N.isNumeric() && N.isEmpty()) {
+            // fft(X, [], dim)
+            if (X.isScalar()) {
+                n = 1;
+            } else {
+                n = X.getDimensionLength((int)dim - 1);
             }
-            else
-            {
-                // ifft(X, n)
-                indexType n = N.getContentAsScalarIndex(false);
-                res = InverseFft(X, n);
-            }
+        } else {
+            n = N.getContentAsScalarIndex(false);
         }
-        break;
-        case 3:
-        {
-            // ifft(X, n, dim)
-            ArrayOf N = argIn[1];
-            ArrayOf DIM = argIn[2];
-            indexType n;
-            indexType dim = DIM.getContentAsScalarIndex(false);
-            if (N.isNumeric() && N.isEmpty())
-            {
-                // fft(X, [], dim)
-                if (X.isScalar())
-                {
-                    n = 1;
-                }
-                else
-                {
-                    n = X.getDimensionLength((int)dim - 1);
-                }
-            }
-            else
-            {
-                n = N.getContentAsScalarIndex(false);
-            }
-            res = InverseFft(X, n, dim - 1);
-        }
-        break;
-        default:
-        {
-            Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-        }
-        break;
+        res = InverseFft(X, n, dim - 1);
+    } break;
+    default: {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    } break;
     }
     retval.push_back(res);
     return retval;
 }
 //=============================================================================
-ArrayOfVector Nelson::FftwGateway::ifftBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::FftwGateway::ifftBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() < 1)
-    {
+    if (argIn.size() < 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     // Call overload if it exists
     bool bSuccess = false;
     retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
-    if (!bSuccess)
-    {
+    if (!bSuccess) {
         retval = ifftBuiltinPrivate(eval, nLhs, argIn);
     }
     return retval;

@@ -16,32 +16,42 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/container/vector.hpp>
-#include "nlsInterpreter_exports.h"
 #include "AST.hpp"
+#include "nlsInterpreter_exports.h"
+#include <boost/container/vector.hpp>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    ASTPtr allocateAbstractSyntaxTree(void);
-    //=============================================================================
-    ASTPtr allocateAbstractSyntaxTree(NODE_TYPE ntype, const char* name, int context);
-    //=============================================================================
-    ASTPtr allocateAbstractSyntaxTree(NODE_TYPE ntype, int token, int context);
-    //=============================================================================
-    ASTPtr allocateAbstractSyntaxTree(OP_TYPE op, ASTPtr lt, ASTPtr rt, int context);
-    //=============================================================================
-    ASTPtr allocateAbstractSyntaxTree(OP_TYPE op, ASTPtr lt, ASTPtr md, ASTPtr rt, int context);
-    //=============================================================================
-    ASTPtr allocateAbstractSyntaxTree(OP_TYPE op, ASTPtr arg, int context);
-    //=============================================================================
-    NLSINTERPRETER_IMPEXP void resetAstBackupPosition();
-    //=============================================================================
-    NLSINTERPRETER_IMPEXP boost::container::vector<ASTPtr> getAstUsed();
-    //=============================================================================
-    NLSINTERPRETER_IMPEXP bool deleteAst(ASTPtr pt, boost::container::vector<ASTPtr> v);
-    //=============================================================================
-    NLSINTERPRETER_IMPEXP void deleteAstVector(boost::container::vector<ASTPtr> v);
-    //=============================================================================
+//=============================================================================
+ASTPtr
+allocateAbstractSyntaxTree(void);
+//=============================================================================
+ASTPtr
+allocateAbstractSyntaxTree(NODE_TYPE ntype, const char* name, int context);
+//=============================================================================
+ASTPtr
+allocateAbstractSyntaxTree(NODE_TYPE ntype, int token, int context);
+//=============================================================================
+ASTPtr
+allocateAbstractSyntaxTree(OP_TYPE op, ASTPtr lt, ASTPtr rt, int context);
+//=============================================================================
+ASTPtr
+allocateAbstractSyntaxTree(OP_TYPE op, ASTPtr lt, ASTPtr md, ASTPtr rt, int context);
+//=============================================================================
+ASTPtr
+allocateAbstractSyntaxTree(OP_TYPE op, ASTPtr arg, int context);
+//=============================================================================
+NLSINTERPRETER_IMPEXP void
+resetAstBackupPosition();
+//=============================================================================
+NLSINTERPRETER_IMPEXP boost::container::vector<ASTPtr>
+getAstUsed();
+//=============================================================================
+NLSINTERPRETER_IMPEXP bool
+deleteAst(ASTPtr pt, boost::container::vector<ASTPtr> v);
+//=============================================================================
+NLSINTERPRETER_IMPEXP void
+deleteAstVector(boost::container::vector<ASTPtr> v);
+//=============================================================================
 
-}
+} // namespace Nelson
 //=============================================================================

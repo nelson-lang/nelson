@@ -16,32 +16,30 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/filesystem.hpp>
 #include "RelativePath.hpp"
+#include <boost/filesystem.hpp>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    std::wstring RelativePath(std::wstring path1, std::wstring path2, bool &bSuccess)
-    {
+//=============================================================================
+std::wstring
+RelativePath(std::wstring path1, std::wstring path2, bool& bSuccess)
+{
+    bSuccess = false;
+    boost::filesystem::path pathOne(path1);
+    boost::filesystem::path pathTwo(path2);
+    boost::filesystem::path relativepath;
+    pathOne = pathOne.lexically_normal();
+    pathTwo = pathTwo.lexically_normal();
+    relativepath = pathTwo.lexically_relative(pathOne);
+    std::wstring result = relativepath.generic_wstring();
+    if (result == L"") {
+        result = pathTwo.generic_wstring();
         bSuccess = false;
-        boost::filesystem::path pathOne(path1);
-        boost::filesystem::path pathTwo(path2);
-        boost::filesystem::path relativepath;
-        pathOne = pathOne.lexically_normal();
-        pathTwo = pathTwo.lexically_normal();
-        relativepath = pathTwo.lexically_relative(pathOne);
-        std::wstring result = relativepath.generic_wstring();
-        if (result == L"")
-        {
-            result = pathTwo.generic_wstring();
-            bSuccess = false;
-        }
-        else
-        {
-            bSuccess = true;
-        }
-        return result;
+    } else {
+        bSuccess = true;
     }
-    //=============================================================================
+    return result;
+}
+//=============================================================================
 }
 //=============================================================================

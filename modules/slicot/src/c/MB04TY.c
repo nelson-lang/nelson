@@ -1,20 +1,21 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-EXPORTSYMBOL /* Subroutine */ int mb04ty_(updatq, updatz, m, n, nblcks, inuk, imuk, a, lda, e, lde, q, ldq, z__, ldz, info)
-logical *updatq, *updatz;
+EXPORTSYMBOL /* Subroutine */ int mb04ty_(updatq, updatz, m, n, nblcks, inuk, imuk, a, lda, e, lde,
+    q, ldq, z__, ldz, info) logical *updatq,
+    *updatz;
 integer *m, *n, *nblcks, *inuk, *imuk;
-doublereal *a;
-integer *lda;
-doublereal *e;
-integer *lde;
-doublereal *q;
-integer *ldq;
-doublereal *z__;
+doublereal* a;
+integer* lda;
+doublereal* e;
+integer* lde;
+doublereal* q;
+integer* ldq;
+doublereal* z__;
 integer *ldz, *info;
 {
     /* System generated locals */
@@ -168,8 +169,7 @@ integer *ldz, *info;
     z__ -= z_offset;
     /* Function Body */
     *info = 0;
-    if (*m <= 0 || *n <= 0)
-    {
+    if (*m <= 0 || *n <= 0) {
         return 0;
     }
     /*     ISMUK  = sum(i=1,...,k) MU(i), */
@@ -177,16 +177,14 @@ integer *ldz, *info;
     ismuk = 0;
     isnuk1 = 0;
     i__1 = *nblcks;
-    for (k = 1; k <= i__1; ++k)
-    {
+    for (k = 1; k <= i__1; ++k) {
         ismuk += imuk[k];
         isnuk1 += inuk[k];
         /* L20: */
     }
     /*     Note:  ISNUK1 has not yet the correct value. */
     mukp1 = 0;
-    for (k = *nblcks; k >= 1; --k)
-    {
+    for (k = *nblcks; k >= 1; --k) {
         muk = imuk[k];
         nuk = inuk[k];
         isnuk1 -= nuk;
@@ -198,21 +196,21 @@ integer *ldz, *info;
         /*        Reduce E(k) to upper triangular form using Givens */
         /*        transformations on rows only. Apply the same transformations */
         /*        to the rows of A(k). */
-        if (mukp1 > nuk)
-        {
+        if (mukp1 > nuk) {
             *info = 1;
             return 0;
         }
-        mb04tw_(updatq, m, n, &nuk, &mukp1, &ifire, &ifice, &ifica, &a[a_offset], lda, &e[e_offset], lde, &q[q_offset], ldq);
+        mb04tw_(updatq, m, n, &nuk, &mukp1, &ifire, &ifice, &ifica, &a[a_offset], lda, &e[e_offset],
+            lde, &q[q_offset], ldq);
         /*        Reduce A(k) to upper triangular form using Givens */
         /*        transformations on columns only. Apply the same transformations */
         /*        to the columns in the E-matrix. */
-        if (nuk > muk)
-        {
+        if (nuk > muk) {
             *info = 2;
             return 0;
         }
-        mb04tv_(updatz, n, &nuk, &muk, &ifire, &ifica, &a[a_offset], lda, &e[e_offset], lde, &z__[z_offset], ldz);
+        mb04tv_(updatz, n, &nuk, &muk, &ifire, &ifica, &a[a_offset], lda, &e[e_offset], lde,
+            &z__[z_offset], ldz);
         ismuk -= muk;
         mukp1 = muk;
         /* L40: */
@@ -220,4 +218,3 @@ integer *ldz, *info;
     return 0;
     /* *** Last line of MB04TY *** */
 } /* mb04ty_ */
-

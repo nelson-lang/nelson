@@ -17,24 +17,22 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "double_uminusBuiltin.hpp"
-#include "UminusDouble.hpp"
 #include "Error.hpp"
+#include "UminusDouble.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::DoubleGateway::double_uminusBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::DoubleGateway::double_uminusBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 1)
-    {
+    if (argIn.size() != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs != 1)
-    {
+    if (nLhs != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (!argIn[0].isDoubleType())
-    {
+    if (!argIn[0].isDoubleType()) {
         Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_DOUBLE_EXPECTED);
     }
     retval.push_back(double_uminus(argIn[0]));

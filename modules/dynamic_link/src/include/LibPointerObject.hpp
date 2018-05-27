@@ -19,55 +19,67 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 #include "HandleGenericObject.hpp"
 #include "nlsDynamic_link_exports.h"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
+//=============================================================================
 #define LIBPOINTER_CATEGORY_STR L"libpointer"
-    //=============================================================================
-    class NLSDYNAMIC_LINK_IMPEXP LibPointerObject : public HandleGenericObject {
-    public:
-        LibPointerObject();
-        LibPointerObject(std::wstring DataType);
-        LibPointerObject(std::wstring DataType, ArrayOf Value);
-        LibPointerObject(void *pointer);
-        LibPointerObject(void *pointer,
-                         std::wstring DataType,
-                         Class currentType);
+//=============================================================================
+class NLSDYNAMIC_LINK_IMPEXP LibPointerObject : public HandleGenericObject
+{
+public:
+    LibPointerObject();
+    LibPointerObject(std::wstring DataType);
+    LibPointerObject(std::wstring DataType, ArrayOf Value);
+    LibPointerObject(void* pointer);
+    LibPointerObject(void* pointer, std::wstring DataType, Class currentType);
 
-        ~LibPointerObject();
+    ~LibPointerObject();
 
-        void disp(Evaluator *eval);
-        void *getPointer();
-        bool get(std::wstring propertyName, ArrayOf &res);
-        void get(ArrayOf &res);
-        wstringVector fieldnames();
-        bool isProperty(std::wstring propertyName);
-        bool isMethod(std::wstring methodName);
+    void
+    disp(Evaluator* eval);
+    void*
+    getPointer();
+    bool
+    get(std::wstring propertyName, ArrayOf& res);
+    void
+    get(ArrayOf& res);
+    wstringVector
+    fieldnames();
+    bool
+    isProperty(std::wstring propertyName);
+    bool
+    isMethod(std::wstring methodName);
 
-        bool isWriteableProperty(std::wstring propertyName);
-        bool isNull();
-        LibPointerObject *plus(indexType offset);
-        void reshape(indexType dimX, indexType dimY);
-        std::wstring getDataType();
-        void setDataType(std::wstring dataType);
+    bool
+    isWriteableProperty(std::wstring propertyName);
+    bool
+    isNull();
+    LibPointerObject*
+    plus(indexType offset);
+    void
+    reshape(indexType dimX, indexType dimY);
+    std::wstring
+    getDataType();
+    void
+    setDataType(std::wstring dataType);
 
-    private:
-        wstringVector _propertiesNames;
-        wstringVector _methodsNames;
-        void initializeCommon();
+private:
+    wstringVector _propertiesNames;
+    wstringVector _methodsNames;
+    void
+    initializeCommon();
 
-        std::wstring _DataType;
-        void *_voidPointer;
-        long int _dimX;
-        long int _dimY;
-        Class _currentType;
-        long int _initialDimX;
-        long int _initialDimY;
-
-    };
-    //=============================================================================
-}
+    std::wstring _DataType;
+    void* _voidPointer;
+    long int _dimX;
+    long int _dimY;
+    Class _currentType;
+    long int _initialDimX;
+    long int _initialDimY;
+};
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

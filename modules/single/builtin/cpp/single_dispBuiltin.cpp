@@ -17,28 +17,23 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "single_dispBuiltin.hpp"
-#include "SingleDisplay.hpp"
 #include "Error.hpp"
+#include "SingleDisplay.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::SingleGateway::single_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::SingleGateway::single_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 0)
-    {
+    if (nLhs > 0) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() != 1)
-    {
+    if (argIn.size() != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    else if (!argIn[0].isSingleType() || argIn[0].isSparse())
-    {
+    } else if (!argIn[0].isSingleType() || argIn[0].isSparse()) {
         Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_SINGLE_EXPECTED);
-    }
-    else
-    {
+    } else {
         SingleDisplay(eval, argIn[0]);
     }
     return retval;

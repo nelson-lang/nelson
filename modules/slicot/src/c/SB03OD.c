@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,15 +11,16 @@ static doublereal c_b10 = 0.;
 static integer c__1 = 1;
 static doublereal c_b22 = 1.;
 
-EXPORTSYMBOL /* Subroutine */ int sb03od_(dico, fact, trans, n, m, a, lda, q, ldq, b, ldb, scale, wr, wi, dwork, ldwork, info, dico_len, fact_len, trans_len)
-char *dico, *fact, *trans;
+EXPORTSYMBOL /* Subroutine */ int sb03od_(dico, fact, trans, n, m, a, lda, q, ldq, b, ldb, scale,
+    wr, wi, dwork, ldwork, info, dico_len, fact_len, trans_len) char *dico,
+    *fact, *trans;
 integer *n, *m;
-doublereal *a;
-integer *lda;
-doublereal *q;
-integer *ldq;
-doublereal *b;
-integer *ldb;
+doublereal* a;
+integer* lda;
+doublereal* q;
+integer* ldq;
+doublereal* b;
+integer* ldb;
 doublereal *scale, *wr, *wi, *dwork;
 integer *ldwork, *info;
 ftnlen dico_len;
@@ -338,61 +339,41 @@ ftnlen trans_len;
     cont = lsame_(dico, "C", 1L, 1L);
     nofact = lsame_(fact, "N", 1L, 1L);
     ltrans = lsame_(trans, "T", 1L, 1L);
-    minmn = min(*m,*n);
+    minmn = min(*m, *n);
     *info = 0;
-    if (! cont && ! lsame_(dico, "D", 1L, 1L))
-    {
+    if (!cont && !lsame_(dico, "D", 1L, 1L)) {
         *info = -1;
-    }
-    else if (! nofact && ! lsame_(fact, "F", 1L, 1L))
-    {
+    } else if (!nofact && !lsame_(fact, "F", 1L, 1L)) {
         *info = -2;
-    }
-    else if (! ltrans && ! lsame_(trans, "N", 1L, 1L))
-    {
+    } else if (!ltrans && !lsame_(trans, "N", 1L, 1L)) {
         *info = -3;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -4;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -5;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -7;
-    }
-    else if (*ldq < max(1,*n))
-    {
+    } else if (*ldq < max(1, *n)) {
         *info = -9;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
-        i__1 = max(1,*n);
-        if (*ldb < max(1,*n) || *ldb < max(i__1,*m) && ! ltrans)
-        {
+        i__1 = max(1, *n);
+        if (*ldb < max(1, *n) || *ldb < max(i__1, *m) && !ltrans) {
             *info = -11;
-        }
-        else if (*ldwork < 1 || *m > 0 && *ldwork < (*n << 2) + minmn)
-        {
+        } else if (*ldwork < 1 || *m > 0 && *ldwork < (*n << 2) + minmn) {
             *info = -16;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("SB03OD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (minmn == 0)
-    {
-        if (*m == 0)
-        {
+    if (minmn == 0) {
+        if (*m == 0) {
             dlaset_("Full", n, n, &c_b10, &c_b10, &b[b_offset], ldb, 4L);
         }
         *scale = 1.;
@@ -405,54 +386,43 @@ ftnlen trans_len;
     /*     code, as well as the preferred amount for good performance. */
     /*     NB refers to the optimal block size for the immediately */
     /*     following subroutine, as returned by ILAENV.) */
-    if (nofact)
-    {
+    if (nofact) {
         /*        Find the Schur factorization of A,   A = Q*S*Q'. */
         /*        Workspace:  need   3*N; */
         /*                    prefer larger. */
-        dgees_("Vectors", "Not ordered", select_, n, &a[a_offset], lda, &sdim, &wr[1], &wi[1], &q[q_offset], ldq, &dwork[1], ldwork, bwork, &inform__, 7L, 11L);
-        if (inform__ != 0)
-        {
+        dgees_("Vectors", "Not ordered", select_, n, &a[a_offset], lda, &sdim, &wr[1], &wi[1],
+            &q[q_offset], ldq, &dwork[1], ldwork, bwork, &inform__, 7L, 11L);
+        if (inform__ != 0) {
             *info = 6;
             return 0;
         }
-        wrkopt = (integer) dwork[1];
+        wrkopt = (integer)dwork[1];
         /*        Check the eigenvalues for stability. */
-        if (cont)
-        {
+        if (cont) {
             emax = wr[1];
             i__1 = *n;
-            for (j = 2; j <= i__1; ++j)
-            {
-                if (wr[j] > emax)
-                {
+            for (j = 2; j <= i__1; ++j) {
+                if (wr[j] > emax) {
                     emax = wr[j];
                 }
                 /* L20: */
             }
-        }
-        else
-        {
+        } else {
             emax = dlapy2_(&wr[1], &wi[1]);
             i__1 = *n;
-            for (j = 2; j <= i__1; ++j)
-            {
+            for (j = 2; j <= i__1; ++j) {
                 temp = dlapy2_(&wr[j], &wi[j]);
-                if (temp > emax)
-                {
+                if (temp > emax) {
                     emax = temp;
                 }
                 /* L40: */
             }
         }
-        if (cont && emax >= 0. || ! cont && emax >= 1.)
-        {
+        if (cont && emax >= 0. || !cont && emax >= 1.) {
             *info = 2;
             return 0;
         }
-    }
-    else
-    {
+    } else {
         wrkopt = 0;
     }
     /*     Perform the QR or RQ factorization of B, */
@@ -467,13 +437,13 @@ ftnlen trans_len;
     /*                 prefer MIN(M,N) + N*NB. */
     itau = 1;
     jwork = itau + minmn;
-    if (ltrans)
-    {
+    if (ltrans) {
         i__1 = *ldwork - jwork + 1;
         dgerqf_(n, m, &b[b_offset], ldb, &dwork[itau], &dwork[jwork], &i__1, &ifail);
         /* Computing MAX */
-        i__1 = wrkopt, i__2 = (integer) dwork[jwork] + jwork - 1, i__1 = max(i__1,i__2), i__2 = minmn **n;
-        wrkopt = max(i__1,i__2);
+        i__1 = wrkopt, i__2 = (integer)dwork[jwork] + jwork - 1, i__1 = max(i__1, i__2),
+        i__2 = minmn * *n;
+        wrkopt = max(i__1, i__2);
         jwork = itau;
         /*        Form in B */
         /*        _      _              _         _   _                    _ */
@@ -482,44 +452,41 @@ ftnlen trans_len;
         /*        Use a BLAS 3 operation if enough workspace, and BLAS 2, */
         /*                   _ */
         /*        otherwise: B is formed column by column. */
-        if (*ldwork >= jwork + minmn **n - 1)
-        {
+        if (*ldwork >= jwork + minmn * *n - 1) {
             k = jwork;
             i__1 = minmn;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 dcopy_(n, &q[*n - minmn + i__ + q_dim1], ldq, &dwork[k], &c__1);
                 k += *n;
                 /* L60: */
             }
-            dtrmm_("Right", "Upper", "No transpose", "Non-unit", n, &minmn, &c_b22, &b[*n - minmn + 1 + (*m - minmn + 1) * b_dim1], ldb, &dwork[jwork], n, 5L, 5L, 12L, 8L);
-            if (*m < *n)
-            {
+            dtrmm_("Right", "Upper", "No transpose", "Non-unit", n, &minmn, &c_b22,
+                &b[*n - minmn + 1 + (*m - minmn + 1) * b_dim1], ldb, &dwork[jwork], n, 5L, 5L, 12L,
+                8L);
+            if (*m < *n) {
                 i__1 = *n - *m;
-                dgemm_("Transpose", "No transpose", n, m, &i__1, &c_b22, &q[q_offset], ldq, &b[b_offset], ldb, &c_b22, &dwork[jwork], n, 9L, 12L);
+                dgemm_("Transpose", "No transpose", n, m, &i__1, &c_b22, &q[q_offset], ldq,
+                    &b[b_offset], ldb, &c_b22, &dwork[jwork], n, 9L, 12L);
             }
             dlacpy_("Full", n, &minmn, &dwork[jwork], n, &b[b_offset], ldb, 4L);
-        }
-        else
-        {
+        } else {
             ne = *n - minmn;
             i__1 = minmn;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 ++ne;
                 dcopy_(&ne, &b[(*m - minmn + j) * b_dim1 + 1], &c__1, &dwork[jwork], &c__1);
-                dgemv_("Transpose", &ne, n, &c_b22, &q[q_offset], ldq, &dwork[jwork], &c__1, &c_b10, &b[j * b_dim1 + 1], &c__1, 9L);
+                dgemv_("Transpose", &ne, n, &c_b22, &q[q_offset], ldq, &dwork[jwork], &c__1, &c_b10,
+                    &b[j * b_dim1 + 1], &c__1, 9L);
                 /* L80: */
             }
         }
-    }
-    else
-    {
+    } else {
         i__1 = *ldwork - jwork + 1;
         dgeqrf_(m, n, &b[b_offset], ldb, &dwork[itau], &dwork[jwork], &i__1, &ifail);
         /* Computing MAX */
-        i__1 = wrkopt, i__2 = (integer) dwork[jwork] + jwork - 1, i__1 = max(i__1,i__2), i__2 = minmn **n;
-        wrkopt = max(i__1,i__2);
+        i__1 = wrkopt, i__2 = (integer)dwork[jwork] + jwork - 1, i__1 = max(i__1, i__2),
+        i__2 = minmn * *n;
+        wrkopt = max(i__1, i__2);
         jwork = itau;
         /*        Form in B */
         /*        _    _               _      _  _                    _ */
@@ -528,27 +495,26 @@ ftnlen trans_len;
         /*        Use a BLAS 3 operation if enough workspace, and BLAS 2, */
         /*                   _ */
         /*        otherwise: B is formed row by row. */
-        if (*ldwork >= jwork + minmn **n - 1)
-        {
+        if (*ldwork >= jwork + minmn * *n - 1) {
             dlacpy_("Full", &minmn, n, &q[q_offset], ldq, &dwork[jwork], &minmn, 4L);
-            dtrmm_("Left", "Upper", "No transpose", "Non-unit", &minmn, n, &c_b22, &b[b_offset], ldb, &dwork[jwork], &minmn, 4L, 5L, 12L, 8L);
-            if (*m < *n)
-            {
+            dtrmm_("Left", "Upper", "No transpose", "Non-unit", &minmn, n, &c_b22, &b[b_offset],
+                ldb, &dwork[jwork], &minmn, 4L, 5L, 12L, 8L);
+            if (*m < *n) {
                 i__1 = *n - *m;
-                dgemm_("No transpose", "No transpose", m, n, &i__1, &c_b22, &b[(*m + 1) * b_dim1 + 1], ldb, &q[*m + 1 + q_dim1], ldq, &c_b22, &dwork[jwork], &minmn, 12L, 12L);
+                dgemm_("No transpose", "No transpose", m, n, &i__1, &c_b22,
+                    &b[(*m + 1) * b_dim1 + 1], ldb, &q[*m + 1 + q_dim1], ldq, &c_b22, &dwork[jwork],
+                    &minmn, 12L, 12L);
             }
             dlacpy_("Full", &minmn, n, &dwork[jwork], &minmn, &b[b_offset], ldb, 4L);
-        }
-        else
-        {
+        } else {
             /* Computing MAX */
             i__1 = 0, i__2 = *n - *m;
-            ne = minmn + max(i__1,i__2);
+            ne = minmn + max(i__1, i__2);
             i__1 = minmn;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 dcopy_(&ne, &b[j + j * b_dim1], ldb, &dwork[jwork], &c__1);
-                dgemv_("Transpose", &ne, n, &c_b22, &q[j + q_dim1], ldq, &dwork[jwork], &c__1, &c_b10, &b[j + b_dim1], ldb, 9L);
+                dgemv_("Transpose", &ne, n, &c_b22, &q[j + q_dim1], ldq, &dwork[jwork], &c__1,
+                    &c_b10, &b[j + b_dim1], ldb, 9L);
                 --ne;
                 /* L100: */
             }
@@ -563,69 +529,61 @@ ftnlen trans_len;
     /*     op(S)'*op(U)'*op(U)*op(S) - op(U)'*op(U) = -scale *op(B)'*op(B) */
     /*     Workspace:  need   MIN(M,N) + 4*N; */
     /*                 prefer larger. */
-    L__1 = ! cont;
+    L__1 = !cont;
     i__1 = *ldwork - jwork + 1;
-    sb03ou_(&L__1, &ltrans, n, &minmn, &a[a_offset], lda, &b[b_offset], ldb, &dwork[itau], &b[b_offset], ldb, scale, &dwork[jwork], &i__1, info);
-    if (*info > 1)
-    {
+    sb03ou_(&L__1, &ltrans, n, &minmn, &a[a_offset], lda, &b[b_offset], ldb, &dwork[itau],
+        &b[b_offset], ldb, scale, &dwork[jwork], &i__1, info);
+    if (*info > 1) {
         ++(*info);
         return 0;
     }
     /* Computing MAX */
-    i__1 = wrkopt, i__2 = (integer) dwork[jwork] + jwork - 1;
-    wrkopt = max(i__1,i__2);
+    i__1 = wrkopt, i__2 = (integer)dwork[jwork] + jwork - 1;
+    wrkopt = max(i__1, i__2);
     jwork = itau;
     /*     Form   U :=  U*Q' or U := Q*U in the array B. */
     /*     Use a BLAS 3 operation if enough workspace, and BLAS 2, otherwise. */
     /*     Workspace:  need   N; */
     /*                 prefer N*N; */
-    if (*ldwork >= jwork + *n **n - 1)
-    {
-        if (ltrans)
-        {
+    if (*ldwork >= jwork + *n * *n - 1) {
+        if (ltrans) {
             dlacpy_("Full", n, n, &q[q_offset], ldq, &dwork[jwork], n, 4L);
-            dtrmm_("Right", "Upper", "No transpose", "Non-unit", n, n, &c_b22, &b[b_offset], ldb, &dwork[jwork], n, 5L, 5L, 12L, 8L);
-        }
-        else
-        {
+            dtrmm_("Right", "Upper", "No transpose", "Non-unit", n, n, &c_b22, &b[b_offset], ldb,
+                &dwork[jwork], n, 5L, 5L, 12L, 8L);
+        } else {
             k = jwork;
             i__1 = *n;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 dcopy_(n, &q[i__ * q_dim1 + 1], &c__1, &dwork[k], n);
                 ++k;
                 /* L120: */
             }
-            dtrmm_("Left", "Upper", "No transpose", "Non-unit", n, n, &c_b22, &b[b_offset], ldb, &dwork[jwork], n, 4L, 5L, 12L, 8L);
+            dtrmm_("Left", "Upper", "No transpose", "Non-unit", n, n, &c_b22, &b[b_offset], ldb,
+                &dwork[jwork], n, 4L, 5L, 12L, 8L);
         }
         dlacpy_("Full", n, n, &dwork[jwork], n, &b[b_offset], ldb, 4L);
         /* Computing MAX */
-        i__1 = wrkopt, i__2 = jwork + *n **n - 1;
-        wrkopt = max(i__1,i__2);
-    }
-    else
-    {
-        if (ltrans)
-        {
+        i__1 = wrkopt, i__2 = jwork + *n * *n - 1;
+        wrkopt = max(i__1, i__2);
+    } else {
+        if (ltrans) {
             /*           U is formed column by column ( U := Q*U ). */
             i__1 = *n;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 dcopy_(&i__, &b[i__ * b_dim1 + 1], &c__1, &dwork[jwork], &c__1);
-                dgemv_("No transpose", n, &i__, &c_b22, &q[q_offset], ldq, &dwork[jwork], &c__1, &c_b10, &b[i__ * b_dim1 + 1], &c__1, 12L);
+                dgemv_("No transpose", n, &i__, &c_b22, &q[q_offset], ldq, &dwork[jwork], &c__1,
+                    &c_b10, &b[i__ * b_dim1 + 1], &c__1, 12L);
                 /* L140: */
             }
-        }
-        else
-        {
+        } else {
             /*           U is formed row by row ( U' := Q*U' ). */
             i__1 = *n;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 i__2 = *n - i__ + 1;
                 dcopy_(&i__2, &b[i__ + i__ * b_dim1], ldb, &dwork[jwork], &c__1);
                 i__2 = *n - i__ + 1;
-                dgemv_("No transpose", n, &i__2, &c_b22, &q[i__ * q_dim1 + 1], ldq, &dwork[jwork], &c__1, &c_b10, &b[i__ + b_dim1], ldb, 12L);
+                dgemv_("No transpose", n, &i__2, &c_b22, &q[i__ * q_dim1 + 1], ldq, &dwork[jwork],
+                    &c__1, &c_b10, &b[i__ + b_dim1], ldb, 12L);
                 /* L160: */
             }
         }
@@ -635,50 +593,38 @@ ftnlen trans_len;
     /*     Workspace:  need   2*N; */
     /*                 prefer N + N*NB; */
     jwork = itau + *n;
-    if (ltrans)
-    {
+    if (ltrans) {
         i__1 = *ldwork - jwork + 1;
         dgerqf_(n, n, &b[b_offset], ldb, &dwork[itau], &dwork[jwork], &i__1, &ifail);
-    }
-    else
-    {
+    } else {
         i__1 = *ldwork - jwork + 1;
         dgeqrf_(n, n, &b[b_offset], ldb, &dwork[itau], &dwork[jwork], &i__1, &ifail);
     }
     /* Computing MAX */
-    i__1 = wrkopt, i__2 = (integer) dwork[jwork] + jwork - 1;
-    wrkopt = max(i__1,i__2);
+    i__1 = wrkopt, i__2 = (integer)dwork[jwork] + jwork - 1;
+    wrkopt = max(i__1, i__2);
     /*     Make the diagonal elements of U non-negative. */
-    if (ltrans)
-    {
+    if (ltrans) {
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
-            if (b[j + j * b_dim1] < 0.)
-            {
+        for (j = 1; j <= i__1; ++j) {
+            if (b[j + j * b_dim1] < 0.) {
                 i__2 = j;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = 1; i__ <= i__2; ++i__) {
                     b[i__ + j * b_dim1] = -b[i__ + j * b_dim1];
                     /* L180: */
                 }
             }
             /* L200: */
         }
-    }
-    else
-    {
+    } else {
         k = jwork;
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             dwork[k] = b[j + j * b_dim1];
             l = jwork;
             i__2 = j;
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
-                if (dwork[l] < 0.)
-                {
+            for (i__ = 1; i__ <= i__2; ++i__) {
+                if (dwork[l] < 0.) {
                     b[i__ + j * b_dim1] = -b[i__ + j * b_dim1];
                 }
                 ++l;
@@ -688,15 +634,13 @@ ftnlen trans_len;
             /* L240: */
         }
     }
-    if (*n > 1)
-    {
+    if (*n > 1) {
         i__1 = *n - 1;
         i__2 = *n - 1;
         dlaset_("Lower", &i__1, &i__2, &c_b10, &c_b10, &b[b_dim1 + 2], ldb, 5L);
     }
     /*     Set the optimal workspace. */
-    dwork[1] = (doublereal) wrkopt;
+    dwork[1] = (doublereal)wrkopt;
     return 0;
     /* *** Last line of SB03OD *** */
 } /* sb03od_ */
-

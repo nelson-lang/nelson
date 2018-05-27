@@ -1,38 +1,40 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
 /* Table of constant values */
 
-static doublecomplex c_b1 = {1.,0.};
+static doublecomplex c_b1 = { 1., 0. };
 static doublereal c_b16 = -1.;
 static doublereal c_b17 = 1.;
 static doublereal c_b38 = 0.;
 
-doublereal ab13cd_(n, m, np, a, lda, b, ldb, c__, ldc, d__, ldd, tol, iwork, dwork, ldwork, cwork, lcwork, bwork, info)
-integer *n, *m, *np;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *d__;
-integer *ldd;
-doublereal *tol;
-integer *iwork;
-doublereal *dwork;
-integer *ldwork;
-doublecomplex *cwork;
-integer *lcwork;
-logical *bwork;
-integer *info;
+doublereal ab13cd_(n, m, np, a, lda, b, ldb, c__, ldc, d__, ldd, tol, iwork, dwork, ldwork, cwork,
+    lcwork, bwork, info) integer *n,
+    *m, *np;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* d__;
+integer* ldd;
+doublereal* tol;
+integer* iwork;
+doublereal* dwork;
+integer* ldwork;
+doublecomplex* cwork;
+integer* lcwork;
+logical* bwork;
+integer* info;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, i__1, i__2, i__3, i__4, i__5;
+    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, i__1, i__2,
+        i__3, i__4, i__5;
     doublereal ret_val = 0., d__1, d__2;
     doublecomplex z__1, z__2;
     /* Local variables */
@@ -210,82 +212,66 @@ integer *info;
     --bwork;
     /* Function Body */
     *info = 0;
-    if (*n < 0)
-    {
+    if (*n < 0) {
         *info = -1;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -2;
-    }
-    else if (*np < 0)
-    {
+    } else if (*np < 0) {
         *info = -3;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -5;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -7;
-    }
-    else if (*ldc < max(1,*np))
-    {
+    } else if (*ldc < max(1, *np)) {
         *info = -9;
-    }
-    else if (*ldd < max(1,*np))
-    {
+    } else if (*ldd < max(1, *np)) {
         *info = -11;
     }
     /*     Compute workspace. */
     /* Computing MAX */
-    i__1 = 2, i__2 = (*n << 2) **n + (*m << 1) **m + *m * 3 * *n + *m **np + (*n + *np << 1) **np + *n * 10 + max(*m,*np) * 6;
-    minwrk = max(i__1,i__2);
-    if (*ldwork < minwrk)
-    {
+    i__1 = 2,
+    i__2 = (*n << 2) * *n + (*m << 1) * *m + *m * 3 * *n + *m * *np + (*n + *np << 1) * *np
+        + *n * 10 + max(*m, *np) * 6;
+    minwrk = max(i__1, i__2);
+    if (*ldwork < minwrk) {
         *info = -15;
     }
     /* Computing MAX */
-    i__1 = 1, i__2 = (*n + *m) * (*n + *np) + max(*m,*np) * 3;
-    mincwr = max(i__1,i__2);
-    if (*lcwork < mincwr)
-    {
+    i__1 = 1, i__2 = (*n + *m) * (*n + *np) + max(*m, *np) * 3;
+    mincwr = max(i__1, i__2);
+    if (*lcwork < mincwr) {
         *info = -17;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("AB13CD", &i__1, 6L);
         return ret_val;
     }
     /*     Quick return if possible. */
-    if (*m == 0 || *np == 0)
-    {
+    if (*m == 0 || *np == 0) {
         return ret_val;
     }
     /*     Workspace usage. */
     iw2 = *n;
     iw3 = iw2 + *n;
-    iw4 = iw3 + *n **n;
-    iw5 = iw4 + *n **m;
-    iw6 = iw5 + *np **m;
-    iwrk = iw6 + min(*np,*m);
+    iw4 = iw3 + *n * *n;
+    iw5 = iw4 + *n * *m;
+    iw6 = iw5 + *np * *m;
+    iwrk = iw6 + min(*np, *m);
     /*     Determine the maximum singular value of G(infinity) = D . */
     dlacpy_("Full", np, m, &d__[d_offset], ldd, &dwork[iw5 + 1], np, 4L);
     i__1 = *ldwork - iwrk;
-    dgesvd_("N", "N", np, m, &dwork[iw5 + 1], np, &dwork[iw6 + 1], &dwork[1], np, &dwork[1], m, &dwork[iwrk + 1], &i__1, &info2, 1L, 1L);
-    if (info2 > 0)
-    {
+    dgesvd_("N", "N", np, m, &dwork[iw5 + 1], np, &dwork[iw6 + 1], &dwork[1], np, &dwork[1], m,
+        &dwork[iwrk + 1], &i__1, &info2, 1L, 1L);
+    if (info2 > 0) {
         *info = 4;
         return ret_val;
     }
     gammal = dwork[iw6 + 1];
     fpeak = 1e30;
-    lwamax = (integer) dwork[iwrk + 1] + iwrk;
+    lwamax = (integer)dwork[iwrk + 1] + iwrk;
     /*     Quick return if N = 0 . */
-    if (*n == 0)
-    {
+    if (*n == 0) {
         ret_val = gammal;
         dwork[1] = 2.;
         dwork[2] = 0.;
@@ -295,81 +281,70 @@ integer *info;
     /*     Stability check. */
     dlacpy_("Full", n, n, &a[a_offset], lda, &dwork[iw3 + 1], n, 4L);
     i__1 = *ldwork - iwrk;
-    dgees_("N", "S", sb02mv_, n, &dwork[iw3 + 1], n, &sdim, &dwork[1], &dwork[iw2 + 1], &dwork[1], n, &dwork[iwrk + 1], &i__1, &bwork[1], &info2, 1L, 1L);
-    if (info2 > 0)
-    {
+    dgees_("N", "S", sb02mv_, n, &dwork[iw3 + 1], n, &sdim, &dwork[1], &dwork[iw2 + 1], &dwork[1],
+        n, &dwork[iwrk + 1], &i__1, &bwork[1], &info2, 1L, 1L);
+    if (info2 > 0) {
         *info = 3;
         return ret_val;
     }
-    if (sdim < *n)
-    {
+    if (sdim < *n) {
         *info = 1;
         return ret_val;
     }
     /* Computing MAX */
-    i__1 = (integer) dwork[iwrk + 1] + iwrk;
-    lwamax = max(i__1,lwamax);
+    i__1 = (integer)dwork[iwrk + 1] + iwrk;
+    lwamax = max(i__1, lwamax);
     /*     Determine the maximum singular value of G(0) = -C*inv(A)*B + D . */
     dlacpy_("Full", n, n, &a[a_offset], lda, &dwork[iw3 + 1], n, 4L);
     dlacpy_("Full", n, m, &b[b_offset], ldb, &dwork[iw4 + 1], n, 4L);
     dlacpy_("Full", np, m, &d__[d_offset], ldd, &dwork[iw5 + 1], np, 4L);
     dgesv_(n, m, &dwork[iw3 + 1], n, &iwork[1], &dwork[iw4 + 1], n, &info2);
-    if (info2 > 0)
-    {
+    if (info2 > 0) {
         *info = 1;
         return ret_val;
     }
-    dgemm_("N", "N", np, m, n, &c_b16, &c__[c_offset], ldc, &dwork[iw4 + 1], n, &c_b17, &dwork[iw5 + 1], np, 1L, 1L);
+    dgemm_("N", "N", np, m, n, &c_b16, &c__[c_offset], ldc, &dwork[iw4 + 1], n, &c_b17,
+        &dwork[iw5 + 1], np, 1L, 1L);
     i__1 = *ldwork - iwrk;
-    dgesvd_("N", "N", np, m, &dwork[iw5 + 1], np, &dwork[iw6 + 1], &dwork[1], np, &dwork[1], m, &dwork[iwrk + 1], &i__1, &info2, 1L, 1L);
-    if (info2 > 0)
-    {
+    dgesvd_("N", "N", np, m, &dwork[iw5 + 1], np, &dwork[iw6 + 1], &dwork[1], np, &dwork[1], m,
+        &dwork[iwrk + 1], &i__1, &info2, 1L, 1L);
+    if (info2 > 0) {
         *info = 4;
         return ret_val;
     }
-    if (gammal < dwork[iw6 + 1])
-    {
+    if (gammal < dwork[iw6 + 1]) {
         gammal = dwork[iw6 + 1];
         fpeak = 0.;
     }
     /* Computing MAX */
-    i__1 = (integer) dwork[iwrk + 1] + iwrk;
-    lwamax = max(i__1,lwamax);
+    i__1 = (integer)dwork[iwrk + 1] + iwrk;
+    lwamax = max(i__1, lwamax);
     /*     Find a frequency which is close to the peak frequency. */
     complx = FALSE_;
     i__1 = *n;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
-        if (dwork[iw2 + i__] != 0.)
-        {
+    for (i__ = 1; i__ <= i__1; ++i__) {
+        if (dwork[iw2 + i__] != 0.) {
             complx = TRUE_;
         }
         /* L10: */
     }
-    if (! complx)
-    {
+    if (!complx) {
         wrmin = abs(dwork[1]);
         i__1 = *n;
-        for (i__ = 2; i__ <= i__1; ++i__)
-        {
-            if (wrmin > (d__1 = dwork[i__], abs(d__1)))
-            {
+        for (i__ = 2; i__ <= i__1; ++i__) {
+            if (wrmin > (d__1 = dwork[i__], abs(d__1))) {
                 wrmin = (d__2 = dwork[i__], abs(d__2));
             }
             /* L20: */
         }
         omega = wrmin;
-    }
-    else
-    {
+    } else {
         ratmax = 0.;
         i__1 = *n;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             den = dlapy2_(&dwork[i__], &dwork[iw2 + i__]);
             rat = (d__1 = dwork[iw2 + i__] / dwork[i__] / den, abs(d__1));
-            if (ratmax < rat)
-            {
+            if (ratmax < rat) {
                 ratmax = rat;
                 wimax = den;
             }
@@ -378,24 +353,22 @@ integer *info;
         omega = wimax;
     }
     /*     Workspace usage. */
-    icw2 = *n **n;
-    icw3 = icw2 + *n **m;
-    icw4 = icw3 + *np **n;
-    icwrk = icw4 + *np **m;
+    icw2 = *n * *n;
+    icw3 = icw2 + *n * *m;
+    icw4 = icw3 + *np * *n;
+    icwrk = icw4 + *np * *m;
     /*     Determine the maximum singular value of */
     /*     G(omega) = C*inv(j*omega*In - A)*B + D . */
     i__1 = *n;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         i__2 = *n;
-        for (i__ = 1; i__ <= i__2; ++i__)
-        {
-            i__3 = i__ + (j - 1) **n;
+        for (i__ = 1; i__ <= i__2; ++i__) {
+            i__3 = i__ + (j - 1) * *n;
             d__1 = -a[i__ + j * a_dim1];
             cwork[i__3].r = d__1, cwork[i__3].i = 0.;
             /* L40: */
         }
-        i__2 = j + (j - 1) **n;
+        i__2 = j + (j - 1) * *n;
         z__2.r = omega * 0., z__2.i = omega * 1.;
         i__3 = j + j * a_dim1;
         z__1.r = z__2.r - a[i__3], z__1.i = z__2.i;
@@ -403,12 +376,10 @@ integer *info;
         /* L50: */
     }
     i__1 = *m;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         i__2 = *n;
-        for (i__ = 1; i__ <= i__2; ++i__)
-        {
-            i__3 = icw2 + i__ + (j - 1) **n;
+        for (i__ = 1; i__ <= i__2; ++i__) {
+            i__3 = icw2 + i__ + (j - 1) * *n;
             i__4 = i__ + j * b_dim1;
             cwork[i__3].r = b[i__4], cwork[i__3].i = 0.;
             /* L60: */
@@ -416,12 +387,10 @@ integer *info;
         /* L70: */
     }
     i__1 = *n;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         i__2 = *np;
-        for (i__ = 1; i__ <= i__2; ++i__)
-        {
-            i__3 = icw3 + i__ + (j - 1) **np;
+        for (i__ = 1; i__ <= i__2; ++i__) {
+            i__3 = icw3 + i__ + (j - 1) * *np;
             i__4 = i__ + j * c_dim1;
             cwork[i__3].r = c__[i__4], cwork[i__3].i = 0.;
             /* L80: */
@@ -429,12 +398,10 @@ integer *info;
         /* L90: */
     }
     i__1 = *m;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         i__2 = *np;
-        for (i__ = 1; i__ <= i__2; ++i__)
-        {
-            i__3 = icw4 + i__ + (j - 1) **np;
+        for (i__ = 1; i__ <= i__2; ++i__) {
+            i__3 = icw4 + i__ + (j - 1) * *np;
             i__4 = i__ + j * d_dim1;
             cwork[i__3].r = d__[i__4], cwork[i__3].i = 0.;
             /* L100: */
@@ -442,41 +409,41 @@ integer *info;
         /* L110: */
     }
     zgesv_(n, m, &cwork[1], n, &iwork[1], &cwork[icw2 + 1], n, &info2);
-    if (info2 > 0)
-    {
+    if (info2 > 0) {
         *info = 1;
         return ret_val;
     }
-    zgemm_("N", "N", np, m, n, &c_b1, &cwork[icw3 + 1], np, &cwork[icw2 + 1], n, &c_b1, &cwork[icw4 + 1], np, 1L, 1L);
+    zgemm_("N", "N", np, m, n, &c_b1, &cwork[icw3 + 1], np, &cwork[icw2 + 1], n, &c_b1,
+        &cwork[icw4 + 1], np, 1L, 1L);
     i__1 = *lcwork - icwrk;
-    zgesvd_("N", "N", np, m, &cwork[icw4 + 1], np, &dwork[iw6 + 1], &cwork[1], np, &cwork[1], m, &cwork[icwrk + 1], &i__1, &dwork[iwrk + 1], &info2, 1L, 1L);
-    if (info2 > 0)
-    {
+    zgesvd_("N", "N", np, m, &cwork[icw4 + 1], np, &dwork[iw6 + 1], &cwork[1], np, &cwork[1], m,
+        &cwork[icwrk + 1], &i__1, &dwork[iwrk + 1], &info2, 1L, 1L);
+    if (info2 > 0) {
         *info = 4;
         return ret_val;
     }
-    if (gammal < dwork[iw6 + 1])
-    {
+    if (gammal < dwork[iw6 + 1]) {
         gammal = dwork[iw6 + 1];
         fpeak = omega;
     }
     i__1 = icwrk + 1;
-    lcwamx = (integer) cwork[i__1].r + icwrk;
+    lcwamx = (integer)cwork[i__1].r + icwrk;
     /*     Workspace usage. */
-    iw2 = *m **n;
-    iw3 = iw2 + *m **m;
-    iw4 = iw3 + *np **np;
-    iw5 = iw4 + *m **m;
-    iw6 = iw5 + *m **n;
-    iw7 = iw6 + *m **n;
-    iw8 = iw7 + *np **np;
-    iw9 = iw8 + *np **n;
-    iw10 = iw9 + (*n << 2) **n;
+    iw2 = *m * *n;
+    iw3 = iw2 + *m * *m;
+    iw4 = iw3 + *np * *np;
+    iw5 = iw4 + *m * *m;
+    iw6 = iw5 + *m * *n;
+    iw7 = iw6 + *m * *n;
+    iw8 = iw7 + *np * *np;
+    iw9 = iw8 + *np * *n;
+    iw10 = iw9 + (*n << 2) * *n;
     iw11 = iw10 + (*n << 1);
     iw12 = iw11 + (*n << 1);
-    iwrk = iw12 + min(*np,*m);
+    iwrk = iw12 + min(*np, *m);
     /*     Compute D'*C . */
-    dgemm_("T", "N", m, n, np, &c_b17, &d__[d_offset], ldd, &c__[c_offset], ldc, &c_b38, &dwork[1], m, 1L, 1L);
+    dgemm_("T", "N", m, n, np, &c_b17, &d__[d_offset], ldd, &c__[c_offset], ldc, &c_b38, &dwork[1],
+        m, 1L, 1L);
     /*     Compute D'*D . */
     dsyrk_("U", "T", m, np, &c_b17, &d__[d_offset], ldd, &c_b38, &dwork[iw2 + 1], m, 1L, 1L);
     /*     Compute D*D' . */
@@ -485,44 +452,38 @@ integer *info;
     iter = 0;
 L120:
     ++iter;
-    if (iter > 10)
-    {
+    if (iter > 10) {
         *info = 2;
         return ret_val;
     }
     gamma = (*tol * 2. + 1.) * gammal;
     /*     Compute R = GAMMA^2*Im - D'*D . */
     i__1 = *m;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         i__2 = j;
-        for (i__ = 1; i__ <= i__2; ++i__)
-        {
-            dwork[iw4 + i__ + (j - 1) **m] = -dwork[iw2 + i__ + (j - 1) **m];
+        for (i__ = 1; i__ <= i__2; ++i__) {
+            dwork[iw4 + i__ + (j - 1) * *m] = -dwork[iw2 + i__ + (j - 1) * *m];
             /* L130: */
         }
         /* Computing 2nd power */
         d__1 = gamma;
-        dwork[iw4 + j + (j - 1) **m] = d__1 * d__1 - dwork[iw2 + j + (j - 1) **m];
+        dwork[iw4 + j + (j - 1) * *m] = d__1 * d__1 - dwork[iw2 + j + (j - 1) * *m];
         /* L140: */
     }
     /*     Compute inv(R)*D'*C . */
     dlacpy_("Full", m, n, &dwork[1], m, &dwork[iw5 + 1], m, 4L);
     dpotrf_("U", m, &dwork[iw4 + 1], m, &info2, 1L);
-    if (info2 > 0)
-    {
+    if (info2 > 0) {
         *info = 2;
         return ret_val;
     }
     dpotrs_("U", m, n, &dwork[iw4 + 1], m, &dwork[iw5 + 1], m, &info2, 1L);
     /*     Compute inv(R)*B' . */
     i__1 = *n;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         i__2 = *m;
-        for (i__ = 1; i__ <= i__2; ++i__)
-        {
-            dwork[iw6 + i__ + (j - 1) **m] = b[j + i__ * b_dim1];
+        for (i__ = 1; i__ <= i__2; ++i__) {
+            dwork[iw6 + i__ + (j - 1) * *m] = b[j + i__ * b_dim1];
             /* L150: */
         }
         /* L160: */
@@ -530,24 +491,21 @@ L120:
     dpotrs_("U", m, n, &dwork[iw4 + 1], m, &dwork[iw6 + 1], m, &info2, 1L);
     /*     Compute S = GAMMA^2*Ip - D*D' . */
     i__1 = *np;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         i__2 = j;
-        for (i__ = 1; i__ <= i__2; ++i__)
-        {
-            dwork[iw7 + i__ + (j - 1) **np] = -dwork[iw3 + i__ + (j - 1) **np];
+        for (i__ = 1; i__ <= i__2; ++i__) {
+            dwork[iw7 + i__ + (j - 1) * *np] = -dwork[iw3 + i__ + (j - 1) * *np];
             /* L170: */
         }
         /* Computing 2nd power */
         d__1 = gamma;
-        dwork[iw7 + j + (j - 1) **np] = d__1 * d__1 - dwork[iw3 + j + (j - 1) **np];
+        dwork[iw7 + j + (j - 1) * *np] = d__1 * d__1 - dwork[iw3 + j + (j - 1) * *np];
         /* L180: */
     }
     /*     Compute inv(S)*C . */
     dlacpy_("Full", np, n, &c__[c_offset], ldc, &dwork[iw8 + 1], np, 4L);
     dposv_("U", np, n, &dwork[iw7 + 1], np, &dwork[iw8 + 1], np, &info2, 1L);
-    if (info2 > 0)
-    {
+    if (info2 > 0) {
         *info = 2;
         return ret_val;
     }
@@ -555,23 +513,25 @@ L120:
     i__1 = *n << 1;
     dlacpy_("Full", n, n, &a[a_offset], lda, &dwork[iw9 + 1], &i__1, 4L);
     i__1 = *n << 1;
-    dgemm_("N", "N", n, n, m, &c_b17, &b[b_offset], ldb, &dwork[iw5 + 1], m, &c_b17, &dwork[iw9 + 1], &i__1, 1L, 1L);
+    dgemm_("N", "N", n, n, m, &c_b17, &b[b_offset], ldb, &dwork[iw5 + 1], m, &c_b17,
+        &dwork[iw9 + 1], &i__1, 1L, 1L);
     d__1 = -gamma;
     i__1 = *n << 1;
-    mb01rx_("Left", "Upper", "Transpose", n, np, &c_b38, &d__1, &dwork[iw9 + *n + 1], &i__1, &c__[c_offset], ldc, &dwork[iw8 + 1], np, &info2, 4L, 5L, 9L);
+    mb01rx_("Left", "Upper", "Transpose", n, np, &c_b38, &d__1, &dwork[iw9 + *n + 1], &i__1,
+        &c__[c_offset], ldc, &dwork[iw8 + 1], np, &info2, 4L, 5L, 9L);
     i__1 = *n << 1;
     ma02ed_("Upper", n, &dwork[iw9 + *n + 1], &i__1, 5L);
     i__1 = *n << 1;
-    mb01rx_("Left", "Upper", "NoTranspose", n, m, &c_b38, &gamma, &dwork[iw9 + (*n << 1) **n + 1], &i__1, &b[b_offset], ldb, &dwork[iw6 + 1], m, &info2, 4L, 5L, 11L);
+    mb01rx_("Left", "Upper", "NoTranspose", n, m, &c_b38, &gamma, &dwork[iw9 + (*n << 1) * *n + 1],
+        &i__1, &b[b_offset], ldb, &dwork[iw6 + 1], m, &info2, 4L, 5L, 11L);
     i__1 = *n << 1;
-    ma02ed_("Upper", n, &dwork[iw9 + (*n << 1) **n + 1], &i__1, 5L);
+    ma02ed_("Upper", n, &dwork[iw9 + (*n << 1) * *n + 1], &i__1, 5L);
     i__1 = *n;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         i__2 = *n;
-        for (i__ = 1; i__ <= i__2; ++i__)
-        {
-            dwork[iw9 + (*n << 1) **n + *n + i__ + (j - 1 << 1) **n] = -dwork[iw9 + j + (i__ - 1 << 1) **n];
+        for (i__ = 1; i__ <= i__2; ++i__) {
+            dwork[iw9 + (*n << 1) * *n + *n + i__ + (j - 1 << 1) * *n]
+                = -dwork[iw9 + j + (i__ - 1 << 1) * *n];
             /* L190: */
         }
         /* L200: */
@@ -581,68 +541,58 @@ L120:
     i__2 = *n << 1;
     i__3 = *n << 1;
     i__4 = *ldwork - iwrk;
-    dgees_("N", "S", sb02cx_, &i__1, &dwork[iw9 + 1], &i__2, &sdim, &dwork[iw10 + 1], &dwork[iw11 + 1], &dwork[1], &i__3, &dwork[iwrk + 1], &i__4, &bwork[1], &info2, 1L, 1L);
-    if (info2 > 0)
-    {
+    dgees_("N", "S", sb02cx_, &i__1, &dwork[iw9 + 1], &i__2, &sdim, &dwork[iw10 + 1],
+        &dwork[iw11 + 1], &dwork[1], &i__3, &dwork[iwrk + 1], &i__4, &bwork[1], &info2, 1L, 1L);
+    if (info2 > 0) {
         *info = 3;
         return ret_val;
     }
     /* Computing MAX */
-    i__1 = (integer) dwork[iwrk + 1] + iwrk;
-    lwamax = max(i__1,lwamax);
-    if (sdim == 0)
-    {
+    i__1 = (integer)dwork[iwrk + 1] + iwrk;
+    lwamax = max(i__1, lwamax);
+    if (sdim == 0) {
         gammau = gamma;
         goto L330;
     }
     /*     Store the positive imaginary parts. */
     j = 0;
     i__1 = sdim - 1;
-    for (i__ = 1; i__ <= i__1; i__ += 2)
-    {
+    for (i__ = 1; i__ <= i__1; i__ += 2) {
         ++j;
         dwork[iw10 + j] = dwork[iw11 + i__];
         /* L210: */
     }
     k = j;
-    if (k >= 2)
-    {
+    if (k >= 2) {
         /*        Reorder the imaginary parts. */
         i__1 = k - 1;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             i__2 = k;
-            for (l = j + 1; l <= i__2; ++l)
-            {
-                if (dwork[iw10 + j] <= dwork[iw10 + l])
-                {
+            for (l = j + 1; l <= i__2; ++l) {
+                if (dwork[iw10 + j] <= dwork[iw10 + l]) {
                     goto L220;
                 }
                 temp = dwork[iw10 + j];
                 dwork[iw10 + j] = dwork[iw10 + l];
                 dwork[iw10 + l] = temp;
-L220:
-                ;
+            L220:;
             }
             /* L230: */
         }
         /*        Determine the next frequency. */
         i__1 = k - 1;
-        for (l = 1; l <= i__1; ++l)
-        {
+        for (l = 1; l <= i__1; ++l) {
             omega = (dwork[iw10 + l] + dwork[iw10 + l + 1]) / 2.;
             i__2 = *n;
-            for (j = 1; j <= i__2; ++j)
-            {
+            for (j = 1; j <= i__2; ++j) {
                 i__3 = *n;
-                for (i__ = 1; i__ <= i__3; ++i__)
-                {
-                    i__4 = i__ + (j - 1) **n;
+                for (i__ = 1; i__ <= i__3; ++i__) {
+                    i__4 = i__ + (j - 1) * *n;
                     d__1 = -a[i__ + j * a_dim1];
                     cwork[i__4].r = d__1, cwork[i__4].i = 0.;
                     /* L240: */
                 }
-                i__3 = j + (j - 1) **n;
+                i__3 = j + (j - 1) * *n;
                 z__2.r = omega * 0., z__2.i = omega * 1.;
                 i__4 = j + j * a_dim1;
                 z__1.r = z__2.r - a[i__4], z__1.i = z__2.i;
@@ -650,12 +600,10 @@ L220:
                 /* L250: */
             }
             i__2 = *m;
-            for (j = 1; j <= i__2; ++j)
-            {
+            for (j = 1; j <= i__2; ++j) {
                 i__3 = *n;
-                for (i__ = 1; i__ <= i__3; ++i__)
-                {
-                    i__4 = icw2 + i__ + (j - 1) **n;
+                for (i__ = 1; i__ <= i__3; ++i__) {
+                    i__4 = icw2 + i__ + (j - 1) * *n;
                     i__5 = i__ + j * b_dim1;
                     cwork[i__4].r = b[i__5], cwork[i__4].i = 0.;
                     /* L260: */
@@ -663,12 +611,10 @@ L220:
                 /* L270: */
             }
             i__2 = *n;
-            for (j = 1; j <= i__2; ++j)
-            {
+            for (j = 1; j <= i__2; ++j) {
                 i__3 = *np;
-                for (i__ = 1; i__ <= i__3; ++i__)
-                {
-                    i__4 = icw3 + i__ + (j - 1) **np;
+                for (i__ = 1; i__ <= i__3; ++i__) {
+                    i__4 = icw3 + i__ + (j - 1) * *np;
                     i__5 = i__ + j * c_dim1;
                     cwork[i__4].r = c__[i__5], cwork[i__4].i = 0.;
                     /* L280: */
@@ -676,12 +622,10 @@ L220:
                 /* L290: */
             }
             i__2 = *m;
-            for (j = 1; j <= i__2; ++j)
-            {
+            for (j = 1; j <= i__2; ++j) {
                 i__3 = *np;
-                for (i__ = 1; i__ <= i__3; ++i__)
-                {
-                    i__4 = icw4 + i__ + (j - 1) **np;
+                for (i__ = 1; i__ <= i__3; ++i__) {
+                    i__4 = icw4 + i__ + (j - 1) * *np;
                     i__5 = i__ + j * d_dim1;
                     cwork[i__4].r = d__[i__5], cwork[i__4].i = 0.;
                     /* L300: */
@@ -689,38 +633,36 @@ L220:
                 /* L310: */
             }
             zgesv_(n, m, &cwork[1], n, &iwork[1], &cwork[icw2 + 1], n, &info2);
-            if (info2 > 0)
-            {
+            if (info2 > 0) {
                 *info = 1;
                 return ret_val;
             }
-            zgemm_("N", "N", np, m, n, &c_b1, &cwork[icw3 + 1], np, &cwork[icw2 + 1], n, &c_b1, &cwork[icw4 + 1], np, 1L, 1L);
+            zgemm_("N", "N", np, m, n, &c_b1, &cwork[icw3 + 1], np, &cwork[icw2 + 1], n, &c_b1,
+                &cwork[icw4 + 1], np, 1L, 1L);
             i__2 = *lcwork - icwrk;
-            zgesvd_("N", "N", np, m, &cwork[icw4 + 1], np, &dwork[iw6 + 1], &cwork[1], np, &cwork[1], m, &cwork[icwrk + 1], &i__2, &dwork[iwrk + 1], &info2, 1L, 1L);
-            if (info2 > 0)
-            {
+            zgesvd_("N", "N", np, m, &cwork[icw4 + 1], np, &dwork[iw6 + 1], &cwork[1], np,
+                &cwork[1], m, &cwork[icwrk + 1], &i__2, &dwork[iwrk + 1], &info2, 1L, 1L);
+            if (info2 > 0) {
                 *info = 4;
                 return ret_val;
             }
-            if (gammal < dwork[iw6 + 1])
-            {
+            if (gammal < dwork[iw6 + 1]) {
                 gammal = dwork[iw6 + 1];
                 fpeak = omega;
             }
             /* Computing MAX */
             i__3 = icwrk + 1;
-            i__2 = (integer) cwork[i__3].r + icwrk;
-            lcwamx = max(i__2,lcwamx);
+            i__2 = (integer)cwork[i__3].r + icwrk;
+            lcwamx = max(i__2, lcwamx);
             /* L320: */
         }
     }
     goto L120;
 L330:
     ret_val = (gammal + gammau) / 2.;
-    dwork[1] = (doublereal) lwamax;
+    dwork[1] = (doublereal)lwamax;
     dwork[2] = fpeak;
-    cwork[1].r = (doublereal) lcwamx, cwork[1].i = 0.;
+    cwork[1].r = (doublereal)lcwamx, cwork[1].i = 0.;
     return ret_val;
     /* *** End of AB13CD *** */
 } /* ab13cd_ */
-

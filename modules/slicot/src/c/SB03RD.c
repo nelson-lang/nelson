@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,18 +11,19 @@ static doublereal c_b15 = 0.;
 static doublereal c_b16 = 1.;
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int sb03rd_(job, fact, trana, n, a, lda, u, ldu, c__, ldc, scale, sep, ferr, wr, wi, iwork, dwork, ldwork, info, job_len, fact_len, trana_len)
-char *job, *fact, *trana;
-integer *n;
-doublereal *a;
-integer *lda;
-doublereal *u;
-integer *ldu;
-doublereal *c__;
-integer *ldc;
+EXPORTSYMBOL /* Subroutine */ int sb03rd_(job, fact, trana, n, a, lda, u, ldu, c__, ldc, scale, sep,
+    ferr, wr, wi, iwork, dwork, ldwork, info, job_len, fact_len, trana_len) char *job,
+    *fact, *trana;
+integer* n;
+doublereal* a;
+integer* lda;
+doublereal* u;
+integer* ldu;
+doublereal* c__;
+integer* ldc;
 doublereal *scale, *sep, *ferr, *wr, *wi;
-integer *iwork;
-doublereal *dwork;
+integer* iwork;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen job_len;
 ftnlen fact_len;
@@ -255,164 +256,126 @@ ftnlen trana_len;
     nofact = lsame_(fact, "N", 1L, 1L);
     nota = lsame_(trana, "N", 1L, 1L);
     *info = 0;
-    if (! wantsp && ! wantbh && ! wantx)
-    {
+    if (!wantsp && !wantbh && !wantx) {
         *info = -1;
-    }
-    else if (! nofact && ! lsame_(fact, "F", 1L, 1L))
-    {
+    } else if (!nofact && !lsame_(fact, "F", 1L, 1L)) {
         *info = -2;
-    }
-    else if (! nota && ! lsame_(trana, "T", 1L, 1L) && ! lsame_(trana, "C", 1L, 1L))
-    {
+    } else if (!nota && !lsame_(trana, "T", 1L, 1L) && !lsame_(trana, "C", 1L, 1L)) {
         *info = -3;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -4;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -6;
-    }
-    else if (*ldu < max(1,*n))
-    {
+    } else if (*ldu < max(1, *n)) {
         *info = -8;
-    }
-    else if (wantsp && *ldc < 1 || ! wantsp && *ldc < max(1,*n))
-    {
+    } else if (wantsp && *ldc < 1 || !wantsp && *ldc < max(1, *n)) {
         *info = -10;
     }
     /*     Compute workspace. */
-    if (wantx)
-    {
-        if (nofact)
-        {
+    if (wantx) {
+        if (nofact) {
             /* Computing MAX */
-            i__1 = *n **n, i__2 = *n * 3;
-            minwrk = max(i__1,i__2);
+            i__1 = *n * *n, i__2 = *n * 3;
+            minwrk = max(i__1, i__2);
+        } else {
+            minwrk = *n * *n;
         }
-        else
-        {
-            minwrk = *n **n;
+    } else {
+        if (nofact) {
+            /* Computing MAX */
+            i__1 = (*n << 1) * *n, i__2 = *n * 3;
+            minwrk = max(i__1, i__2);
+        } else {
+            minwrk = (*n << 1) * *n;
         }
     }
-    else
-    {
-        if (nofact)
-        {
-            /* Computing MAX */
-            i__1 = (*n << 1) **n, i__2 = *n * 3;
-            minwrk = max(i__1,i__2);
-        }
-        else
-        {
-            minwrk = (*n << 1) **n;
-        }
-    }
-    if (*ldwork < max(1,minwrk))
-    {
+    if (*ldwork < max(1, minwrk)) {
         *info = -18;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("SB03RD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
+    if (*n == 0) {
         *scale = 1.;
-        if (wantbh)
-        {
+        if (wantbh) {
             *ferr = 0.;
         }
         dwork[1] = 1.;
         return 0;
     }
     lwa = 0;
-    if (nofact)
-    {
+    if (nofact) {
         /*        Compute the Schur factorization of A. */
         /*        Workspace:  need   3*N; */
         /*                    prefer larger. */
-        dgees_("Vectors", "Not ordered", select_, n, &a[a_offset], lda, &sdim, &wr[1], &wi[1], &u[u_offset], ldu, &dwork[1], ldwork, bwork, info, 7L, 11L);
-        if (*info > 0)
-        {
+        dgees_("Vectors", "Not ordered", select_, n, &a[a_offset], lda, &sdim, &wr[1], &wi[1],
+            &u[u_offset], ldu, &dwork[1], ldwork, bwork, info, 7L, 11L);
+        if (*info > 0) {
             return 0;
         }
-        lwa = (integer) dwork[1];
+        lwa = (integer)dwork[1];
     }
-    if (! wantsp)
-    {
+    if (!wantsp) {
         /*        Transform the right-hand side. */
         /*        Workspace:  need   N*N. */
-        *(unsigned char *)uplo = 'U';
-        mb01rd_(uplo, "Transpose", n, n, &c_b15, &c_b16, &c__[c_offset], ldc, &u[u_offset], ldu, &c__[c_offset], ldc, &dwork[1], ldwork, info, 1L, 9L);
+        *(unsigned char*)uplo = 'U';
+        mb01rd_(uplo, "Transpose", n, n, &c_b15, &c_b16, &c__[c_offset], ldc, &u[u_offset], ldu,
+            &c__[c_offset], ldc, &dwork[1], ldwork, info, 1L, 9L);
         i__1 = *n;
-        for (i__ = 2; i__ <= i__1; ++i__)
-        {
+        for (i__ = 2; i__ <= i__1; ++i__) {
             i__2 = i__ - 1;
             dcopy_(&i__2, &c__[i__ * c_dim1 + 1], &c__1, &c__[i__ + c_dim1], ldc);
             /* L10: */
         }
         /*        Solve the transformed equation. */
         sb03my_(trana, n, &a[a_offset], lda, &c__[c_offset], ldc, scale, info, 1L);
-        if (*info > 0)
-        {
+        if (*info > 0) {
             *info = *n + 1;
         }
         /*        Transform back the solution. */
-        mb01rd_(uplo, "No transpose", n, n, &c_b15, &c_b16, &c__[c_offset], ldc, &u[u_offset], ldu, &c__[c_offset], ldc, &dwork[1], ldwork, info, 1L, 12L);
+        mb01rd_(uplo, "No transpose", n, n, &c_b15, &c_b16, &c__[c_offset], ldc, &u[u_offset], ldu,
+            &c__[c_offset], ldc, &dwork[1], ldwork, info, 1L, 12L);
         i__1 = *n;
-        for (i__ = 2; i__ <= i__1; ++i__)
-        {
+        for (i__ = 2; i__ <= i__1; ++i__) {
             i__2 = i__ - 1;
             dcopy_(&i__2, &c__[i__ * c_dim1 + 1], &c__1, &c__[i__ + c_dim1], ldc);
             /* L20: */
         }
     }
-    if (! wantx)
-    {
+    if (!wantx) {
         /*        Estimate sep(op(A),-op(A)'). */
         /*        Workspace:  2*N*N. */
-        if (nota)
-        {
-            *(unsigned char *)notra = 'T';
-        }
-        else
-        {
-            *(unsigned char *)notra = 'N';
+        if (nota) {
+            *(unsigned char*)notra = 'T';
+        } else {
+            *(unsigned char*)notra = 'N';
         }
         est = 0.;
         kase = 0;
         /*        REPEAT */
-L30:
-        i__1 = *n **n;
-        dlacon_(&i__1, &dwork[*n **n + 1], &dwork[1], &iwork[1], &est, &kase);
-        if (kase != 0)
-        {
-            if (kase == 1)
-            {
+    L30:
+        i__1 = *n * *n;
+        dlacon_(&i__1, &dwork[*n * *n + 1], &dwork[1], &iwork[1], &est, &kase);
+        if (kase != 0) {
+            if (kase == 1) {
                 sb03my_(trana, n, &a[a_offset], lda, &dwork[1], n, &scalef, &ierr, 1L);
-            }
-            else
-            {
+            } else {
                 sb03my_(notra, n, &a[a_offset], lda, &dwork[1], n, &scalef, &ierr, 1L);
             }
             goto L30;
         }
         /*        UNTIL KASE = 0 */
         *sep = scalef / est;
-        if (wantbh)
-        {
+        if (wantbh) {
             /*           Compute the estimate of the relative error. */
-            *ferr = dlamch_("Precision", 9L) * dlanhs_("Frobenius", n, &a[a_offset], lda, &dwork[1], 9L) / *sep;
+            *ferr = dlamch_("Precision", 9L)
+                * dlanhs_("Frobenius", n, &a[a_offset], lda, &dwork[1], 9L) / *sep;
         }
     }
-    dwork[1] = (doublereal) max(lwa,minwrk);
+    dwork[1] = (doublereal)max(lwa, minwrk);
     return 0;
     /* *** Last line of SB03RD *** */
 } /* sb03rd_ */
-

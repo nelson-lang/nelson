@@ -18,35 +18,29 @@
 //=============================================================================
 #include "cosBuiltin.hpp"
 #include "Error.hpp"
-#include "TrigonometricFunctions.hpp"
 #include "OverloadFunction.hpp"
 #include "OverloadRequired.hpp"
+#include "TrigonometricFunctions.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::TrigonometricGateway::cosBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::TrigonometricGateway::cosBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() != 1)
-    {
+    if (argIn.size() != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     // Call overload if it exists
     bool bSuccess = false;
     retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
-    if (!bSuccess)
-    {
-        if ((argIn[0].getDataClass() == NLS_STRUCT_ARRAY) ||
-                (argIn[0].getDataClass() == NLS_CELL_ARRAY) ||
-                argIn[0].isSparse() ||
-                argIn[0].isLogical() ||
-                argIn[0].isString() ||
-                argIn[0].isIntegerType())
-        {
+    if (!bSuccess) {
+        if ((argIn[0].getDataClass() == NLS_STRUCT_ARRAY)
+            || (argIn[0].getDataClass() == NLS_CELL_ARRAY) || argIn[0].isSparse()
+            || argIn[0].isLogical() || argIn[0].isString() || argIn[0].isIntegerType()) {
             OverloadRequired(eval, argIn, Nelson::FUNCTION);
         }
         retval.push_back(Cos(argIn[0]));

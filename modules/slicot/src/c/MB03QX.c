@@ -1,16 +1,15 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-EXPORTSYMBOL /* Subroutine */ int mb03qx_(n, t, ldt, wr, wi, info)
-integer *n;
-doublereal *t;
-integer *ldt;
+EXPORTSYMBOL /* Subroutine */ int mb03qx_(n, t, ldt, wr, wi, info) integer* n;
+doublereal* t;
+integer* ldt;
 doublereal *wr, *wi;
-integer *info;
+integer* info;
 {
     /* System generated locals */
     integer t_dim1, t_offset, i__1;
@@ -73,16 +72,12 @@ integer *info;
     /* Function Body */
     *info = 0;
     /*     Test the input scalar arguments. */
-    if (*n < 0)
-    {
+    if (*n < 0) {
         *info = -1;
-    }
-    else if (*ldt < max(1,*n))
-    {
+    } else if (*ldt < max(1, *n)) {
         *info = -3;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("MB03QX", &i__1, 6L);
@@ -90,16 +85,12 @@ integer *info;
     }
     inext = 1;
     i__1 = *n;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
-        if (i__ < inext)
-        {
+    for (i__ = 1; i__ <= i__1; ++i__) {
+        if (i__ < inext) {
             goto L10;
         }
-        if (i__ != *n)
-        {
-            if (t[i__ + 1 + i__ * t_dim1] != 0.)
-            {
+        if (i__ != *n) {
+            if (t[i__ + 1 + i__ * t_dim1] != 0.) {
                 /*              A pair of eigenvalues. */
                 inext = i__ + 2;
                 i1 = i__ + 1;
@@ -115,10 +106,8 @@ integer *info;
         inext = i__ + 1;
         wr[i__] = t[i__ + i__ * t_dim1];
         wi[i__] = 0.;
-L10:
-        ;
+    L10:;
     }
     return 0;
     /* *** Last line of MB03QX *** */
 } /* mb03qx_ */
-

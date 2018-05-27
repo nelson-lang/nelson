@@ -18,85 +18,120 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "nlsHistory_manager_exports.h"
 #include "Types.hpp"
+#include "nlsHistory_manager_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    class NLSHISTORY_MANAGER_IMPEXP HistoryManager {
-        //=============================================================================
-    private:
-        wstringVector commands;
-        std::wstring filename;
-        std::wstring token;
-        int64 token_position;
-        wstringVector tokens_found;
-        bool bEmptyLineAtNextState;
-        bool copyPreviousFile(std::wstring filename);
-        size_t saveLastNCommands;
-        size_t saveAfterNCommands;
-        size_t nbCommands;
-        bool bAllowDuplicatedLines;
-        bool bRemoveExit;
-        bool detectExit(std::wstring line);
-        bool bSaveEnabled;
-        //=============================================================================
-    public:
-        HistoryManager();
-        ~HistoryManager();
-
-        bool appendLine(std::wstring line);
-        bool appendLines(wstringVector lines);
-
-        bool remove(size_t pos);
-        bool remove(size_t firstpos, size_t lastpos);
-
-        std::wstring getFirstLine(void);
-        std::wstring getLastLine(void);
-
-        std::wstring getPreviousLine(void);
-        std::wstring getNextLine(void);
-
-        bool loadFromFile(std::wstring filename);
-        bool loadFromFile();
-
-        bool saveToFile(std::wstring filename);
-        bool saveToFile();
-
-
-        bool setFilename(std::wstring filename);
-        std::wstring getFilename();
-
-        bool clear(bool bWithHeader);
-
-        bool setToken(std::wstring token);
-
-        size_t getNumberOfLines(void);
-        std::wstring getNthLine(size_t N);
-
-        bool appendHeader();
-
-        wstringVector get();
-        std::wstring get(size_t pos);
-        wstringVector get(size_t firstpos, size_t lastpos);
-
-        void setLastNCommandsSize(size_t newsize);
-        size_t getLastNCommandsSize(void);
-
-        void setSaveAfterNCommands(size_t nLines);
-        size_t getSaveAfterNCommands(void);
-
-        void setAllowDuplicatedLines(bool bAllow = true);
-        bool getAllowDuplicatedLines(void);
-
-        void setRemoveExit(bool bRemove);
-        bool getRemoveExit();
-
-        size_t getCurrentSize();
-
-        void setSaveEnabled(bool bSave);
-        bool getSaveEnabled();
-    };
+class NLSHISTORY_MANAGER_IMPEXP HistoryManager
+{
     //=============================================================================
-}
+private:
+    wstringVector commands;
+    std::wstring filename;
+    std::wstring token;
+    int64 token_position;
+    wstringVector tokens_found;
+    bool bEmptyLineAtNextState;
+    bool
+    copyPreviousFile(std::wstring filename);
+    size_t saveLastNCommands;
+    size_t saveAfterNCommands;
+    size_t nbCommands;
+    bool bAllowDuplicatedLines;
+    bool bRemoveExit;
+    bool
+    detectExit(std::wstring line);
+    bool bSaveEnabled;
+    //=============================================================================
+public:
+    HistoryManager();
+    ~HistoryManager();
+
+    bool
+    appendLine(std::wstring line);
+    bool
+    appendLines(wstringVector lines);
+
+    bool
+    remove(size_t pos);
+    bool
+    remove(size_t firstpos, size_t lastpos);
+
+    std::wstring
+    getFirstLine(void);
+    std::wstring
+    getLastLine(void);
+
+    std::wstring
+    getPreviousLine(void);
+    std::wstring
+    getNextLine(void);
+
+    bool
+    loadFromFile(std::wstring filename);
+    bool
+    loadFromFile();
+
+    bool
+    saveToFile(std::wstring filename);
+    bool
+    saveToFile();
+
+    bool
+    setFilename(std::wstring filename);
+    std::wstring
+    getFilename();
+
+    bool
+    clear(bool bWithHeader);
+
+    bool
+    setToken(std::wstring token);
+
+    size_t
+    getNumberOfLines(void);
+    std::wstring
+    getNthLine(size_t N);
+
+    bool
+    appendHeader();
+
+    wstringVector
+    get();
+    std::wstring
+    get(size_t pos);
+    wstringVector
+    get(size_t firstpos, size_t lastpos);
+
+    void
+    setLastNCommandsSize(size_t newsize);
+    size_t
+    getLastNCommandsSize(void);
+
+    void
+    setSaveAfterNCommands(size_t nLines);
+    size_t
+    getSaveAfterNCommands(void);
+
+    void
+    setAllowDuplicatedLines(bool bAllow = true);
+    bool
+    getAllowDuplicatedLines(void);
+
+    void
+    setRemoveExit(bool bRemove);
+    bool
+    getRemoveExit();
+
+    size_t
+    getCurrentSize();
+
+    void
+    setSaveEnabled(bool bSave);
+    bool
+    getSaveEnabled();
+};
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

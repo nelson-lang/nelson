@@ -22,21 +22,19 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::TypeGateway::isstructBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::TypeGateway::isstructBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() != 1)
-    {
+    if (argIn.size() != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     bool bSuccess = false;
     retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
-    if (!bSuccess)
-    {
+    if (!bSuccess) {
         ArrayOf paramOne = argIn[0];
         bool bRes = paramOne.isStruct();
         retval.push_back(ArrayOf::logicalConstructor(bRes));

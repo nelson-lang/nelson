@@ -18,10 +18,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsDouble_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsDouble_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSDOUBLE_IMPEXP bool double_isequal(ArrayOf a, ArrayOf b);
+NLSDOUBLE_IMPEXP bool
+double_isequal(ArrayOf a, ArrayOf b);
 }
 //=============================================================================

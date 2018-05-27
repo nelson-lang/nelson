@@ -24,69 +24,49 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::CoreGateway::execstrBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::CoreGateway::execstrBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     bool bErrorCatch = false;
-    if (argIn.size() == 0 || argIn.size() > 2)
-    {
+    if (argIn.size() == 0 || argIn.size() > 2) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     std::wstring line;
-    if (argIn[0].isSingleString())
-    {
+    if (argIn[0].isSingleString()) {
         line = argIn[0].getContentAsWideString();
-    }
-    else
-    {
+    } else {
         Error(eval, _W("#1 string expected."));
     }
-    if (argIn.size() > 1)
-    {
-        if (argIn[1].isSingleString())
-        {
+    if (argIn.size() > 1) {
+        if (argIn[1].isSingleString()) {
             std::wstring catchstr;
             catchstr = argIn[1].getContentAsWideString();
-            if ((catchstr.compare(L"errcatch") == 0) || (catchstr.compare(L"nocatch") == 0))
-            {
-                if (catchstr.compare(L"errcatch") == 0)
-                {
+            if ((catchstr.compare(L"errcatch") == 0) || (catchstr.compare(L"nocatch") == 0)) {
+                if (catchstr.compare(L"errcatch") == 0) {
                     bErrorCatch = true;
-                }
-                else
-                {
+                } else {
                     bErrorCatch = false;
                 }
-            }
-            else
-            {
+            } else {
                 Error(eval, _W("#2 'errcatch' or 'nocatch' expected."));
             }
-        }
-        else
-        {
+        } else {
             Error(eval, _W("#2 string expected."));
         }
     }
-    if (bErrorCatch)
-    {
+    if (bErrorCatch) {
         bool bRes = true;
-        try
-        {
+        try {
             EvaluateCommand(eval, line, true);
-        }
-        catch (const Exception &)
-        {
+        } catch (const Exception&) {
             bRes = false;
         }
         retval.push_back(ArrayOf::logicalConstructor(bRes));
-    }
-    else
-    {
+    } else {
         EvaluateCommand(eval, line, false);
     }
     return retval;

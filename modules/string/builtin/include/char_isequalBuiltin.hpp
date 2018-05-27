@@ -22,8 +22,9 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace StringGateway {
-        ArrayOfVector char_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    }
+namespace StringGateway {
+    ArrayOfVector
+    char_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }
+} // namespace Nelson
 //=============================================================================

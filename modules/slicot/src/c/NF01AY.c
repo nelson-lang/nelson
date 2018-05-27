@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -13,15 +13,16 @@ static integer c__0 = 0;
 static integer c__1 = 1;
 static doublereal c_b17 = 1.;
 
-EXPORTSYMBOL /* Subroutine */ int nf01ay_(nsmp, nz, l, ipar, lipar, wb, lwb, z__, ldz, y, ldy, dwork, ldwork, info)
-integer *nsmp, *nz, *l, *ipar, *lipar;
-doublereal *wb;
-integer *lwb;
-doublereal *z__;
-integer *ldz;
-doublereal *y;
-integer *ldy;
-doublereal *dwork;
+EXPORTSYMBOL /* Subroutine */ int nf01ay_(
+    nsmp, nz, l, ipar, lipar, wb, lwb, z__, ldz, y, ldy, dwork, ldwork, info) integer *nsmp,
+    *nz, *l, *ipar, *lipar;
+doublereal* wb;
+integer* lwb;
+doublereal* z__;
+integer* ldz;
+doublereal* y;
+integer* ldy;
+doublereal* dwork;
 integer *ldwork, *info;
 {
     /* System generated locals */
@@ -151,52 +152,33 @@ integer *ldwork, *info;
     *info = 0;
     nn = ipar[1];
     ldwb = nn * (*nz + 2) + 1;
-    if (*nsmp < 0)
-    {
+    if (*nsmp < 0) {
         *info = -1;
-    }
-    else if (*nz < 0)
-    {
+    } else if (*nz < 0) {
         *info = -2;
-    }
-    else if (*l < 0)
-    {
+    } else if (*l < 0) {
         *info = -3;
-    }
-    else if (nn < 0)
-    {
+    } else if (nn < 0) {
         *info = -4;
-    }
-    else if (*lipar < 1)
-    {
+    } else if (*lipar < 1) {
         *info = -5;
-    }
-    else if (*lwb < ldwb **l)
-    {
+    } else if (*lwb < ldwb * *l) {
         *info = -7;
-    }
-    else if (*ldz < max(1,*nsmp))
-    {
+    } else if (*ldz < max(1, *nsmp)) {
         *info = -9;
-    }
-    else if (*ldy < max(1,*nsmp))
-    {
+    } else if (*ldy < max(1, *nsmp)) {
         *info = -11;
-    }
-    else if (*ldwork < nn << 1)
-    {
+    } else if (*ldwork < nn << 1) {
         *info = -13;
     }
     /*     Return if there are illegal arguments. */
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("NF01AY", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (min(*nsmp,*l) == 0)
-    {
+    if (min(*nsmp, *l) == 0) {
         return 0;
     }
     /*     Set parameters to avoid overflows and increase accuracy for */
@@ -209,63 +191,47 @@ integer *ldwork, *info;
     ws = *nz * nn + 1;
     ib = ws + nn - 1;
     lk = 0;
-    if (min(*nz,nn) == 0)
-    {
+    if (min(*nz, nn) == 0) {
         nv = 2;
-    }
-    else
-    {
+    } else {
         nv = (*ldwork - nn) / nn;
     }
-    if (nv > 2)
-    {
+    if (nv > 2) {
         mf = *nsmp / nv * nv;
         last = *nsmp % nv != 0;
         /*        Some BLAS 3 calculations can be used. */
         i__1 = *l - 1;
-        for (k = 0; k <= i__1; ++k)
-        {
+        for (k = 0; k <= i__1; ++k) {
             tmp = wb[ib + nn + 1 + lk];
             i__2 = nn;
-            for (j = 1; j <= i__2; ++j)
-            {
+            for (j = 1; j <= i__2; ++j) {
                 dwork[j] = wb[ib + j + lk] * 2.;
                 /* L10: */
             }
             i__2 = mf;
             i__3 = nv;
-            for (i__ = 1; i__3 < 0 ? i__ >= i__2 : i__ <= i__2; i__ += i__3)
-            {
+            for (i__ = 1; i__3 < 0 ? i__ >= i__2 : i__ <= i__2; i__ += i__3) {
                 /*              Compute -2*[w1 w2 ... wn]'*Z', where */
                 /*              Z = [z(i)';...; z(i+NV-1)']. */
-                dgemm_("Transpose", "Transpose", &nn, &nv, nz, &c_b10, &wb[lk + 1], nz, &z__[i__ + z_dim1], ldz, &c_b11, &dwork[nn + 1], &nn, 9L, 9L);
+                dgemm_("Transpose", "Transpose", &nn, &nv, nz, &c_b10, &wb[lk + 1], nz,
+                    &z__[i__ + z_dim1], ldz, &c_b11, &dwork[nn + 1], &nn, 9L, 9L);
                 lj = nn;
                 i__4 = nv;
-                for (m = 1; m <= i__4; ++m)
-                {
+                for (m = 1; m <= i__4; ++m) {
                     i__5 = nn;
-                    for (j = 1; j <= i__5; ++j)
-                    {
+                    for (j = 1; j <= i__5; ++j) {
                         /*                    Compute tanh(wj'*z(i) + bj), j = 1:n. */
                         ++lj;
                         df = dwork[lj] - dwork[j];
-                        if (abs(df) >= bignum)
-                        {
-                            if (df > 0.)
-                            {
+                        if (abs(df) >= bignum) {
+                            if (df > 0.) {
                                 dwork[lj] = -1.;
-                            }
-                            else
-                            {
+                            } else {
                                 dwork[lj] = 1.;
                             }
-                        }
-                        else if (abs(df) <= smlnum)
-                        {
+                        } else if (abs(df) <= smlnum) {
                             dwork[lj] = 0.;
-                        }
-                        else
-                        {
+                        } else {
                             dwork[lj] = 2. / (exp(df) + 1.) - 1.;
                         }
                         /* L20: */
@@ -274,45 +240,37 @@ integer *ldwork, *info;
                 }
                 y[i__ + (k + 1) * y_dim1] = tmp;
                 i__4 = nv - 1;
-                dcopy_(&i__4, &y[i__ + (k + 1) * y_dim1], &c__0, &y[i__ + 1 + (k + 1) * y_dim1], &c__1);
-                dgemv_("Transpose", &nn, &nv, &c_b17, &dwork[nn + 1], &nn, &wb[ws + lk], &c__1, &c_b17, &y[i__ + (k + 1) * y_dim1], &c__1, 9L);
+                dcopy_(&i__4, &y[i__ + (k + 1) * y_dim1], &c__0, &y[i__ + 1 + (k + 1) * y_dim1],
+                    &c__1);
+                dgemv_("Transpose", &nn, &nv, &c_b17, &dwork[nn + 1], &nn, &wb[ws + lk], &c__1,
+                    &c_b17, &y[i__ + (k + 1) * y_dim1], &c__1, 9L);
                 /* L40: */
             }
-            if (last)
-            {
+            if (last) {
                 /*              Process the last samples. */
                 nv = *nsmp - mf;
                 i__ = mf + 1;
                 /*              Compute -2*[w1 w2 ... wn]'*Z', where */
                 /*              Z = [z(i)';...; z(NSMP)']. */
-                dgemm_("Transpose", "Transpose", &nn, &nv, nz, &c_b10, &wb[lk + 1], nz, &z__[i__ + z_dim1], ldz, &c_b11, &dwork[nn + 1], &nn, 9L, 9L);
+                dgemm_("Transpose", "Transpose", &nn, &nv, nz, &c_b10, &wb[lk + 1], nz,
+                    &z__[i__ + z_dim1], ldz, &c_b11, &dwork[nn + 1], &nn, 9L, 9L);
                 lj = nn;
                 i__3 = nv;
-                for (m = 1; m <= i__3; ++m)
-                {
+                for (m = 1; m <= i__3; ++m) {
                     i__2 = nn;
-                    for (j = 1; j <= i__2; ++j)
-                    {
+                    for (j = 1; j <= i__2; ++j) {
                         /*                    Compute tanh(wj'*z(i) + bj), j = 1:n. */
                         ++lj;
                         df = dwork[lj] - dwork[j];
-                        if (abs(df) >= bignum)
-                        {
-                            if (df > 0.)
-                            {
+                        if (abs(df) >= bignum) {
+                            if (df > 0.) {
                                 dwork[lj] = -1.;
-                            }
-                            else
-                            {
+                            } else {
                                 dwork[lj] = 1.;
                             }
-                        }
-                        else if (abs(df) <= smlnum)
-                        {
+                        } else if (abs(df) <= smlnum) {
                             dwork[lj] = 0.;
-                        }
-                        else
-                        {
+                        } else {
                             dwork[lj] = 2. / (exp(df) + 1.) - 1.;
                         }
                         /* L50: */
@@ -320,70 +278,56 @@ integer *ldwork, *info;
                     /* L60: */
                 }
                 y[i__ + (k + 1) * y_dim1] = tmp;
-                if (nv > 1)
-                {
+                if (nv > 1) {
                     i__3 = nv - 1;
-                    dcopy_(&i__3, &y[i__ + (k + 1) * y_dim1], &c__0, &y[i__ + 1 + (k + 1) * y_dim1], &c__1);
+                    dcopy_(&i__3, &y[i__ + (k + 1) * y_dim1], &c__0, &y[i__ + 1 + (k + 1) * y_dim1],
+                        &c__1);
                 }
-                dgemv_("Transpose", &nn, &nv, &c_b17, &dwork[nn + 1], &nn, &wb[ws + lk], &c__1, &c_b17, &y[i__ + (k + 1) * y_dim1], &c__1, 9L);
+                dgemv_("Transpose", &nn, &nv, &c_b17, &dwork[nn + 1], &nn, &wb[ws + lk], &c__1,
+                    &c_b17, &y[i__ + (k + 1) * y_dim1], &c__1, 9L);
             }
             lk += ldwb;
             /* L70: */
         }
-    }
-    else
-    {
+    } else {
         /*        BLAS 2 calculations only can be used. */
         i__1 = *l - 1;
-        for (k = 0; k <= i__1; ++k)
-        {
+        for (k = 0; k <= i__1; ++k) {
             tmp = wb[ib + nn + 1 + lk];
             i__3 = nn;
-            for (j = 1; j <= i__3; ++j)
-            {
+            for (j = 1; j <= i__3; ++j) {
                 dwork[j] = wb[ib + j + lk] * 2.;
                 /* L80: */
             }
             i__3 = *nsmp;
-            for (i__ = 1; i__ <= i__3; ++i__)
-            {
+            for (i__ = 1; i__ <= i__3; ++i__) {
                 /*              Compute -2*[w1 w2 ... wn]'*z(i). */
-                if (*nz == 0)
-                {
+                if (*nz == 0) {
                     dwork[nn + 1] = 0.;
                     dcopy_(&nn, &dwork[nn + 1], &c__0, &dwork[nn + 1], &c__1);
-                }
-                else
-                {
-                    dgemv_("Transpose", nz, &nn, &c_b10, &wb[lk + 1], nz, &z__[i__ + z_dim1], ldz, &c_b11, &dwork[nn + 1], &c__1, 9L);
+                } else {
+                    dgemv_("Transpose", nz, &nn, &c_b10, &wb[lk + 1], nz, &z__[i__ + z_dim1], ldz,
+                        &c_b11, &dwork[nn + 1], &c__1, 9L);
                 }
                 i__2 = nn << 1;
-                for (j = nn + 1; j <= i__2; ++j)
-                {
+                for (j = nn + 1; j <= i__2; ++j) {
                     /*                 Compute tanh(wj'*z(i) + bj), j = 1:n. */
                     df = dwork[j] - dwork[j - nn];
-                    if (abs(df) >= bignum)
-                    {
-                        if (df > 0.)
-                        {
+                    if (abs(df) >= bignum) {
+                        if (df > 0.) {
                             dwork[j] = -1.;
-                        }
-                        else
-                        {
+                        } else {
                             dwork[j] = 1.;
                         }
-                    }
-                    else if (abs(df) <= smlnum)
-                    {
+                    } else if (abs(df) <= smlnum) {
                         dwork[j] = 0.;
-                    }
-                    else
-                    {
+                    } else {
                         dwork[j] = 2. / (exp(df) + 1.) - 1.;
                     }
                     /* L90: */
                 }
-                y[i__ + (k + 1) * y_dim1] = ddot_(&nn, &wb[ws + lk], &c__1, &dwork[nn + 1], &c__1) + tmp;
+                y[i__ + (k + 1) * y_dim1]
+                    = ddot_(&nn, &wb[ws + lk], &c__1, &dwork[nn + 1], &c__1) + tmp;
                 /* L100: */
             }
             lk += ldwb;
@@ -393,4 +337,3 @@ integer *ldwork, *info;
     return 0;
     /* *** Last line of NF01AY *** */
 } /* nf01ay_ */
-

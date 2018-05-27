@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -13,16 +13,17 @@ static doublereal c_b12 = 1.;
 static integer c__1 = 1;
 static doublereal c_b27 = -1.;
 
-EXPORTSYMBOL /* Subroutine */ int mb01ld_(uplo, trans, m, n, alpha, beta, r__, ldr, a, lda, x, ldx, dwork, ldwork, info, uplo_len, trans_len)
-char *uplo, *trans;
+EXPORTSYMBOL /* Subroutine */ int mb01ld_(uplo, trans, m, n, alpha, beta, r__, ldr, a, lda, x, ldx,
+    dwork, ldwork, info, uplo_len, trans_len) char *uplo,
+    *trans;
 integer *m, *n;
 doublereal *alpha, *beta, *r__;
-integer *ldr;
-doublereal *a;
-integer *lda;
-doublereal *x;
-integer *ldx;
-doublereal *dwork;
+integer* ldr;
+doublereal* a;
+integer* lda;
+doublereal* x;
+integer* ldx;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen uplo_len;
 ftnlen trans_len;
@@ -199,85 +200,60 @@ ftnlen trans_len;
     upper = lsame_(uplo, "U", 1L, 1L);
     nottra = lsame_(trans, "N", 1L, 1L);
     ltrans = lsame_(trans, "T", 1L, 1L) || lsame_(trans, "C", 1L, 1L);
-    if (! upper && ! lsame_(uplo, "L", 1L, 1L))
-    {
+    if (!upper && !lsame_(uplo, "L", 1L, 1L)) {
         *info = -1;
-    }
-    else if (! nottra && ! ltrans)
-    {
+    } else if (!nottra && !ltrans) {
         *info = -2;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -3;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -4;
-    }
-    else if (*ldr < max(1,*m))
-    {
+    } else if (*ldr < max(1, *m)) {
         *info = -8;
-    }
-    else if (*lda < 1 || ltrans && *lda < *n || nottra && *lda < *m)
-    {
+    } else if (*lda < 1 || ltrans && *lda < *n || nottra && *lda < *m) {
         *info = -10;
-    }
-    else if (*ldx < max(1,*n) || *ldx < *m && upper && *ldwork < *m * (*n - 1))
-    {
+    } else if (*ldx < max(1, *n) || *ldx < *m && upper && *ldwork < *m * (*n - 1)) {
         *info = -12;
-    }
-    else if (*ldwork < 0 || *beta != 0. && *m > 1 && *n > 1 && *ldwork < *n)
-    {
+    } else if (*ldwork < 0 || *beta != 0. && *m > 1 && *n > 1 && *ldwork < *n) {
         *info = -14;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("MB01LD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*m <= 0)
-    {
+    if (*m <= 0) {
         return 0;
     }
-    m2 = min(2,*m);
-    if (*beta == 0. || *n <= 1)
-    {
-        if (upper)
-        {
+    m2 = min(2, *m);
+    if (*beta == 0. || *n <= 1) {
+        if (upper) {
             i__ = 1;
             j = m2;
-        }
-        else
-        {
+        } else {
             i__ = m2;
             j = 1;
         }
-        if (*alpha == 0.)
-        {
+        if (*alpha == 0.) {
             /*           Special case alpha = 0. */
             i__1 = *m - 1;
             i__2 = *m - 1;
             dlaset_(uplo, &i__1, &i__2, &c_b8, &c_b8, &r__[i__ + j * r_dim1], ldr, 1L);
-        }
-        else
-        {
+        } else {
             /*           Special case beta = 0 or N <= 1. */
-            if (*alpha != 1.)
-            {
+            if (*alpha != 1.) {
                 i__1 = *m - 1;
                 i__2 = *m - 1;
-                dlascl_(uplo, &c__0, &c__0, &c_b12, alpha, &i__1, &i__2, &r__[i__ + j * r_dim1], ldr, info, 1L);
+                dlascl_(uplo, &c__0, &c__0, &c_b12, alpha, &i__1, &i__2, &r__[i__ + j * r_dim1],
+                    ldr, info, 1L);
             }
         }
         return 0;
     }
     /*     General case: beta <> 0. */
-    if (*ldwork >= *m * (*n - 1))
-    {
+    if (*ldwork >= *m * (*n - 1)) {
         /*        Use a BLAS 3 like implementation. */
         /*        Compute W = A*T or W = T*A in DWORK, and apply the updating */
         /*        formula (see METHOD section). Note that column 1 (if */
@@ -286,50 +262,43 @@ ftnlen trans_len;
         /*        row 1 (if UPLO = 'L') is zero in the second case, and it is not */
         /*        stored. */
         /*        Workspace: need M*(N-1). */
-        if (upper)
-        {
+        if (upper) {
             i__ = 1;
             j = m2;
-        }
-        else
-        {
+        } else {
             i__ = m2;
             j = 1;
         }
-        if (nottra)
-        {
+        if (nottra) {
             i__1 = *n - 1;
             dlacpy_("Full", m, &i__1, &a[i__ * a_dim1 + 1], lda, &dwork[1], m, 4L);
             i__1 = *n - 1;
-            dtrmm_("Right", uplo, "NoTranspose", "Non-unit", m, &i__1, &c_b12, &x[i__ + j * x_dim1], ldx, &dwork[1], m, 5L, 1L, 11L, 8L);
+            dtrmm_("Right", uplo, "NoTranspose", "Non-unit", m, &i__1, &c_b12, &x[i__ + j * x_dim1],
+                ldx, &dwork[1], m, 5L, 1L, 11L, 8L);
             i__1 = *n - 1;
-            mb01kd_(uplo, trans, m, &i__1, beta, &dwork[1], m, &a[j * a_dim1 + 1], lda, alpha, &r__[r_offset], ldr, info, 1L, 1L);
-        }
-        else
-        {
+            mb01kd_(uplo, trans, m, &i__1, beta, &dwork[1], m, &a[j * a_dim1 + 1], lda, alpha,
+                &r__[r_offset], ldr, info, 1L, 1L);
+        } else {
             i__1 = *n - 1;
             i__2 = *n - 1;
             dlacpy_("Full", &i__1, m, &a[j + a_dim1], lda, &dwork[1], &i__2, 4L);
             i__1 = *n - 1;
             i__2 = *n - 1;
-            dtrmm_("Left", uplo, "NoTranspose", "Non-unit", &i__1, m, &c_b12, &x[i__ + j * x_dim1], ldx, &dwork[1], &i__2, 4L, 1L, 11L, 8L);
+            dtrmm_("Left", uplo, "NoTranspose", "Non-unit", &i__1, m, &c_b12, &x[i__ + j * x_dim1],
+                ldx, &dwork[1], &i__2, 4L, 1L, 11L, 8L);
             i__1 = *n - 1;
             i__2 = *n - 1;
-            mb01kd_(uplo, trans, m, &i__1, beta, &a[i__ + a_dim1], lda, &dwork[1], &i__2, alpha, &r__[r_offset], ldr, info, 1L, 1L);
+            mb01kd_(uplo, trans, m, &i__1, beta, &a[i__ + a_dim1], lda, &dwork[1], &i__2, alpha,
+                &r__[r_offset], ldr, info, 1L, 1L);
         }
-    }
-    else
-    {
+    } else {
         /*        Use a BLAS 2 implementation. */
-        if (nottra)
-        {
+        if (nottra) {
             /*           Compute A*X*A'. */
-            if (upper)
-            {
+            if (upper) {
                 /*              Compute A*X in X (M-by-N). */
                 i__1 = *n - 1;
-                for (j = 1; j <= i__1; ++j)
-                {
+                for (j = 1; j <= i__1; ++j) {
                     i__2 = j - 1;
                     dcopy_(&i__2, &x[j * x_dim1 + 1], &c__1, &dwork[1], &c__1);
                     dwork[j] = 0.;
@@ -337,30 +306,29 @@ ftnlen trans_len;
                     dcopy_(&i__2, &x[j + (j + 1) * x_dim1], ldx, &dwork[j + 1], &c__1);
                     i__2 = *n - j;
                     dscal_(&i__2, &c_b27, &dwork[j + 1], &c__1);
-                    dgemv_(trans, m, n, &c_b12, &a[a_offset], lda, &dwork[1], &c__1, &c_b8, &x[j * x_dim1 + 1], &c__1, 1L);
+                    dgemv_(trans, m, n, &c_b12, &a[a_offset], lda, &dwork[1], &c__1, &c_b8,
+                        &x[j * x_dim1 + 1], &c__1, 1L);
                     /* L10: */
                 }
                 i__1 = *n - 1;
                 dcopy_(&i__1, &x[*n * x_dim1 + 1], &c__1, &dwork[1], &c__1);
                 i__1 = *n - 1;
-                dgemv_(trans, m, &i__1, &c_b12, &a[a_offset], lda, &dwork[1], &c__1, &c_b8, &x[*n * x_dim1 + 1], &c__1, 1L);
+                dgemv_(trans, m, &i__1, &c_b12, &a[a_offset], lda, &dwork[1], &c__1, &c_b8,
+                    &x[*n * x_dim1 + 1], &c__1, 1L);
                 /*              Compute alpha*striu( R ) + beta*striu( X*A' ) in the */
                 /*              strictly upper triangular part of R. */
                 i__1 = *m - 1;
-                for (i__ = 1; i__ <= i__1; ++i__)
-                {
+                for (i__ = 1; i__ <= i__1; ++i__) {
                     dcopy_(n, &x[i__ + x_dim1], ldx, &dwork[1], &c__1);
                     i__2 = *m - i__;
-                    dgemv_(trans, &i__2, n, beta, &a[i__ + 1 + a_dim1], lda, &dwork[1], &c__1, alpha, &r__[i__ + (i__ + 1) * r_dim1], ldr, 1L);
+                    dgemv_(trans, &i__2, n, beta, &a[i__ + 1 + a_dim1], lda, &dwork[1], &c__1,
+                        alpha, &r__[i__ + (i__ + 1) * r_dim1], ldr, 1L);
                     /* L20: */
                 }
-            }
-            else
-            {
+            } else {
                 /*              Compute X*A' in X (N-by-M). */
                 i__1 = *n - 1;
-                for (i__ = 1; i__ <= i__1; ++i__)
-                {
+                for (i__ = 1; i__ <= i__1; ++i__) {
                     i__2 = i__ - 1;
                     dcopy_(&i__2, &x[i__ + x_dim1], ldx, &dwork[1], &c__1);
                     dwork[i__] = 0.;
@@ -368,34 +336,32 @@ ftnlen trans_len;
                     dcopy_(&i__2, &x[i__ + 1 + i__ * x_dim1], &c__1, &dwork[i__ + 1], &c__1);
                     i__2 = *n - i__;
                     dscal_(&i__2, &c_b27, &dwork[i__ + 1], &c__1);
-                    dgemv_(trans, m, n, &c_b12, &a[a_offset], lda, &dwork[1], &c__1, &c_b8, &x[i__ + x_dim1], ldx, 1L);
+                    dgemv_(trans, m, n, &c_b12, &a[a_offset], lda, &dwork[1], &c__1, &c_b8,
+                        &x[i__ + x_dim1], ldx, 1L);
                     /* L30: */
                 }
                 i__1 = *n - 1;
                 dcopy_(&i__1, &x[*n + x_dim1], ldx, &dwork[1], &c__1);
                 i__1 = *n - 1;
-                dgemv_(trans, m, &i__1, &c_b12, &a[a_offset], lda, &dwork[1], &c__1, &c_b8, &x[*n + x_dim1], ldx, 1L);
+                dgemv_(trans, m, &i__1, &c_b12, &a[a_offset], lda, &dwork[1], &c__1, &c_b8,
+                    &x[*n + x_dim1], ldx, 1L);
                 /*              Compute alpha*stril( R ) + beta*stril( A*X ) in the */
                 /*              strictly lower triangular part of R. */
                 i__1 = *m - 1;
-                for (j = 1; j <= i__1; ++j)
-                {
+                for (j = 1; j <= i__1; ++j) {
                     dcopy_(n, &x[j * x_dim1 + 1], &c__1, &dwork[1], &c__1);
                     i__2 = *m - j;
-                    dgemv_(trans, &i__2, n, beta, &a[j + 1 + a_dim1], lda, &dwork[1], &c__1, alpha, &r__[j + 1 + j * r_dim1], &c__1, 1L);
+                    dgemv_(trans, &i__2, n, beta, &a[j + 1 + a_dim1], lda, &dwork[1], &c__1, alpha,
+                        &r__[j + 1 + j * r_dim1], &c__1, 1L);
                     /* L40: */
                 }
             }
-        }
-        else
-        {
+        } else {
             /*           Compute A'*X*A. */
-            if (upper)
-            {
+            if (upper) {
                 /*              Compute A'*X in X (M-by-N). */
                 i__1 = *n - 1;
-                for (j = 1; j <= i__1; ++j)
-                {
+                for (j = 1; j <= i__1; ++j) {
                     i__2 = j - 1;
                     dcopy_(&i__2, &x[j * x_dim1 + 1], &c__1, &dwork[1], &c__1);
                     dwork[j] = 0.;
@@ -403,30 +369,29 @@ ftnlen trans_len;
                     dcopy_(&i__2, &x[j + (j + 1) * x_dim1], ldx, &dwork[j + 1], &c__1);
                     i__2 = *n - j;
                     dscal_(&i__2, &c_b27, &dwork[j + 1], &c__1);
-                    dgemv_(trans, n, m, &c_b12, &a[a_offset], lda, &dwork[1], &c__1, &c_b8, &x[j * x_dim1 + 1], &c__1, 1L);
+                    dgemv_(trans, n, m, &c_b12, &a[a_offset], lda, &dwork[1], &c__1, &c_b8,
+                        &x[j * x_dim1 + 1], &c__1, 1L);
                     /* L50: */
                 }
                 i__1 = *n - 1;
                 dcopy_(&i__1, &x[*n * x_dim1 + 1], &c__1, &dwork[1], &c__1);
                 i__1 = *n - 1;
-                dgemv_(trans, &i__1, m, &c_b12, &a[a_offset], lda, &dwork[1], &c__1, &c_b8, &x[*n * x_dim1 + 1], &c__1, 1L);
+                dgemv_(trans, &i__1, m, &c_b12, &a[a_offset], lda, &dwork[1], &c__1, &c_b8,
+                    &x[*n * x_dim1 + 1], &c__1, 1L);
                 /*              Compute alpha*striu( R ) + beta*striu( X*A ) in the */
                 /*              strictly upper triangular part of R. */
                 i__1 = *m - 1;
-                for (i__ = 1; i__ <= i__1; ++i__)
-                {
+                for (i__ = 1; i__ <= i__1; ++i__) {
                     dcopy_(n, &x[i__ + x_dim1], ldx, &dwork[1], &c__1);
                     i__2 = *m - i__;
-                    dgemv_(trans, n, &i__2, beta, &a[(i__ + 1) * a_dim1 + 1], lda, &dwork[1], &c__1, alpha, &r__[i__ + (i__ + 1) * r_dim1], ldr, 1L);
+                    dgemv_(trans, n, &i__2, beta, &a[(i__ + 1) * a_dim1 + 1], lda, &dwork[1], &c__1,
+                        alpha, &r__[i__ + (i__ + 1) * r_dim1], ldr, 1L);
                     /* L60: */
                 }
-            }
-            else
-            {
+            } else {
                 /*              Compute X*A in X (N-by-M). */
                 i__1 = *n - 1;
-                for (i__ = 1; i__ <= i__1; ++i__)
-                {
+                for (i__ = 1; i__ <= i__1; ++i__) {
                     i__2 = i__ - 1;
                     dcopy_(&i__2, &x[i__ + x_dim1], ldx, &dwork[1], &c__1);
                     dwork[i__] = 0.;
@@ -434,21 +399,23 @@ ftnlen trans_len;
                     dcopy_(&i__2, &x[i__ + 1 + i__ * x_dim1], &c__1, &dwork[i__ + 1], &c__1);
                     i__2 = *n - i__;
                     dscal_(&i__2, &c_b27, &dwork[i__ + 1], &c__1);
-                    dgemv_(trans, n, m, &c_b12, &a[a_offset], lda, &dwork[1], &c__1, &c_b8, &x[i__ + x_dim1], ldx, 1L);
+                    dgemv_(trans, n, m, &c_b12, &a[a_offset], lda, &dwork[1], &c__1, &c_b8,
+                        &x[i__ + x_dim1], ldx, 1L);
                     /* L70: */
                 }
                 i__1 = *n - 1;
                 dcopy_(&i__1, &x[*n + x_dim1], ldx, &dwork[1], &c__1);
                 i__1 = *n - 1;
-                dgemv_(trans, &i__1, m, &c_b12, &a[a_offset], lda, &dwork[1], &c__1, &c_b8, &x[*n + x_dim1], ldx, 1L);
+                dgemv_(trans, &i__1, m, &c_b12, &a[a_offset], lda, &dwork[1], &c__1, &c_b8,
+                    &x[*n + x_dim1], ldx, 1L);
                 /*              Compute alpha*stril( R ) + beta*stril( A'*X ) in the */
                 /*              strictly lower triangular part of R. */
                 i__1 = *m - 1;
-                for (j = 1; j <= i__1; ++j)
-                {
+                for (j = 1; j <= i__1; ++j) {
                     dcopy_(n, &x[j * x_dim1 + 1], &c__1, &dwork[1], &c__1);
                     i__2 = *m - j;
-                    dgemv_(trans, n, &i__2, beta, &a[(j + 1) * a_dim1 + 1], lda, &dwork[1], &c__1, alpha, &r__[j + 1 + j * r_dim1], &c__1, 1L);
+                    dgemv_(trans, n, &i__2, beta, &a[(j + 1) * a_dim1 + 1], lda, &dwork[1], &c__1,
+                        alpha, &r__[j + 1 + j * r_dim1], &c__1, 1L);
                     /* L80: */
                 }
             }
@@ -457,4 +424,3 @@ ftnlen trans_len;
     return 0;
     /* *** Last line of MB01LD *** */
 } /* mb01ld_ */
-

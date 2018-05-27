@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -12,30 +12,33 @@ static doublereal c_b11 = 1.;
 static integer c__1 = 1;
 static integer c__2 = 2;
 
-EXPORTSYMBOL /* Subroutine */ int tg01hx_(compq, compz, l, n, m, p, n1, lbe, a, lda, e, lde, b, ldb, c__, ldc, q, ldq, z__, ldz, nr, nrblck, rtau, tol, iwork, dwork, info, compq_len, compz_len)
-char *compq, *compz;
+EXPORTSYMBOL /* Subroutine */ int tg01hx_(compq, compz, l, n, m, p, n1, lbe, a, lda, e, lde, b, ldb,
+    c__, ldc, q, ldq, z__, ldz, nr, nrblck, rtau, tol, iwork, dwork, info, compq_len,
+    compz_len) char *compq,
+    *compz;
 integer *l, *n, *m, *p, *n1, *lbe;
-doublereal *a;
-integer *lda;
-doublereal *e;
-integer *lde;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *q;
-integer *ldq;
-doublereal *z__;
+doublereal* a;
+integer* lda;
+doublereal* e;
+integer* lde;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* q;
+integer* ldq;
+doublereal* z__;
 integer *ldz, *nr, *nrblck, *rtau;
-doublereal *tol;
-integer *iwork;
-doublereal *dwork;
-integer *info;
+doublereal* tol;
+integer* iwork;
+doublereal* dwork;
+integer* info;
 ftnlen compq_len;
 ftnlen compz_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, e_dim1, e_offset, q_dim1, q_offset, z_dim1, z_offset, i__1, i__2, i__3;
+    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, e_dim1, e_offset, q_dim1,
+        q_offset, z_dim1, z_offset, i__1, i__2, i__3;
     doublereal d__1, d__2;
     /* Builtin functions */
     double sqrt();
@@ -347,133 +350,86 @@ ftnlen compz_len;
     --iwork;
     --dwork;
     /* Function Body */
-    if (lsame_(compq, "N", 1L, 1L))
-    {
+    if (lsame_(compq, "N", 1L, 1L)) {
         ilq = FALSE_;
         icompq = 1;
-    }
-    else if (lsame_(compq, "U", 1L, 1L))
-    {
+    } else if (lsame_(compq, "U", 1L, 1L)) {
         ilq = TRUE_;
         icompq = 2;
-    }
-    else if (lsame_(compq, "I", 1L, 1L))
-    {
+    } else if (lsame_(compq, "I", 1L, 1L)) {
         ilq = TRUE_;
         icompq = 3;
-    }
-    else
-    {
+    } else {
         icompq = 0;
     }
     /*     Decode COMPZ. */
-    if (lsame_(compz, "N", 1L, 1L))
-    {
+    if (lsame_(compz, "N", 1L, 1L)) {
         ilz = FALSE_;
         icompz = 1;
-    }
-    else if (lsame_(compz, "U", 1L, 1L))
-    {
+    } else if (lsame_(compz, "U", 1L, 1L)) {
         ilz = TRUE_;
         icompz = 2;
-    }
-    else if (lsame_(compz, "I", 1L, 1L))
-    {
+    } else if (lsame_(compz, "I", 1L, 1L)) {
         ilz = TRUE_;
         icompz = 3;
-    }
-    else
-    {
+    } else {
         icompz = 0;
     }
     /*     Test the input scalar parameters. */
     *info = 0;
-    if (icompq <= 0)
-    {
+    if (icompq <= 0) {
         *info = -1;
-    }
-    else if (icompz <= 0)
-    {
+    } else if (icompz <= 0) {
         *info = -2;
-    }
-    else if (*l < 0)
-    {
+    } else if (*l < 0) {
         *info = -3;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -4;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -5;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -6;
-    }
-    else if (*n1 < 0 || *n1 > min(*l,*n))
-    {
+    } else if (*n1 < 0 || *n1 > min(*l, *n)) {
         *info = -7;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
         i__1 = 0, i__2 = *n1 - 1;
-        if (*lbe < 0 || *lbe > max(i__1,i__2))
-        {
+        if (*lbe < 0 || *lbe > max(i__1, i__2)) {
             *info = -8;
-        }
-        else if (*lda < max(1,*l))
-        {
+        } else if (*lda < max(1, *l)) {
             *info = -10;
-        }
-        else if (*lde < max(1,*l))
-        {
+        } else if (*lde < max(1, *l)) {
             *info = -12;
-        }
-        else if (*ldb < max(1,*l))
-        {
+        } else if (*ldb < max(1, *l)) {
             *info = -14;
-        }
-        else if (*ldc < max(1,*p))
-        {
+        } else if (*ldc < max(1, *p)) {
             *info = -16;
-        }
-        else if (ilq && *ldq < *l || *ldq < 1)
-        {
+        } else if (ilq && *ldq < *l || *ldq < 1) {
             *info = -18;
-        }
-        else if (ilz && *ldz < *n || *ldz < 1)
-        {
+        } else if (ilz && *ldz < *n || *ldz < 1) {
             *info = -20;
-        }
-        else if (*tol >= 1.)
-        {
+        } else if (*tol >= 1.) {
             *info = -24;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("TG01HX", &i__1, 6L);
         return 0;
     }
     /*     Initialize Q and Z if necessary. */
-    if (icompq == 3)
-    {
+    if (icompq == 3) {
         dlaset_("Full", l, l, &c_b10, &c_b11, &q[q_offset], ldq, 4L);
     }
-    if (icompz == 3)
-    {
+    if (icompz == 3) {
         dlaset_("Full", n, n, &c_b10, &c_b11, &z__[z_offset], ldz, 4L);
     }
     /*     Initialize output variables. */
     *nr = 0;
     *nrblck = 0;
     /*     Quick return if possible. */
-    if (*m == 0 || *n1 == 0)
-    {
+    if (*m == 0 || *n1 == 0) {
         return 0;
     }
     tolz = sqrt(dlamch_("Epsilon", 7L));
@@ -482,46 +438,44 @@ ftnlen compz_len;
     d__2 = dlange_("F", l, n, &a[a_offset], lda, &dwork[1], 1L);
     svlmax = dlapy2_(&d__1, &d__2);
     rcond = *tol;
-    if (rcond <= 0.)
-    {
+    if (rcond <= 0.) {
         /*        Use the default tolerance in controllability determination. */
-        rcond = (doublereal) (*l **n) * dlamch_("EPSILON", 7L);
+        rcond = (doublereal)(*l * *n) * dlamch_("EPSILON", 7L);
     }
-    if (svlmax < rcond)
-    {
+    if (svlmax < rcond) {
         svlmax = 1.;
     }
     /*     Reduce E to upper triangular form if necessary. */
-    if (*lbe > 0)
-    {
+    if (*lbe > 0) {
         i__1 = *n1 - 1;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             /*           Generate elementary reflector H(i) to annihilate */
             /*           E(i+1:i+lbe,i). */
             /* Computing MIN */
             i__2 = *lbe, i__3 = *n1 - i__;
-            k = min(i__2,i__3) + 1;
+            k = min(i__2, i__3) + 1;
             dlarfg_(&k, &e[i__ + i__ * e_dim1], &e[i__ + 1 + i__ * e_dim1], &c__1, &tt);
             t = e[i__ + i__ * e_dim1];
             e[i__ + i__ * e_dim1] = 1.;
             /*           Apply H(i) to E(i:n1,i+1:n) from the left. */
             i__2 = *n - i__;
-            dlarf_("Left", &k, &i__2, &e[i__ + i__ * e_dim1], &c__1, &tt, &e[i__ + (i__ + 1) * e_dim1], lde, &dwork[1], 4L);
+            dlarf_("Left", &k, &i__2, &e[i__ + i__ * e_dim1], &c__1, &tt,
+                &e[i__ + (i__ + 1) * e_dim1], lde, &dwork[1], 4L);
             /*           Apply H(i) to A(i:n1,1:n) from the left. */
-            dlarf_("Left", &k, n, &e[i__ + i__ * e_dim1], &c__1, &tt, &a[i__ + a_dim1], lda, &dwork[1], 4L);
+            dlarf_("Left", &k, n, &e[i__ + i__ * e_dim1], &c__1, &tt, &a[i__ + a_dim1], lda,
+                &dwork[1], 4L);
             /*           Apply H(i) to B(i:n1,1:m) from the left. */
-            dlarf_("Left", &k, m, &e[i__ + i__ * e_dim1], &c__1, &tt, &b[i__ + b_dim1], ldb, &dwork[1], 4L);
-            if (ilq)
-            {
+            dlarf_("Left", &k, m, &e[i__ + i__ * e_dim1], &c__1, &tt, &b[i__ + b_dim1], ldb,
+                &dwork[1], 4L);
+            if (ilq) {
                 /*              Apply H(i) to Q(1:l,i:n1) from the right. */
-                dlarf_("Right", l, &k, &e[i__ + i__ * e_dim1], &c__1, &tt, &q[i__ * q_dim1 + 1], ldq, &dwork[1], 5L);
+                dlarf_("Right", l, &k, &e[i__ + i__ * e_dim1], &c__1, &tt, &q[i__ * q_dim1 + 1],
+                    ldq, &dwork[1], 5L);
             }
             e[i__ + i__ * e_dim1] = t;
             /* L10: */
         }
-        if (*n1 > 1)
-        {
+        if (*n1 > 1) {
             i__1 = *n1 - 1;
             i__2 = *n1 - 1;
             dlaset_("Lower", &i__1, &i__2, &c_b10, &c_b10, &e[e_dim1 + 2], lde, 5L);
@@ -535,16 +489,15 @@ ftnlen compz_len;
 L20:
     ++(*nrblck);
     rank = 0;
-    if (nf > 0)
-    {
+    if (nf > 0) {
         /*        IROW will point to the current pivot line in B, */
         /*        ICOL+1 will point to the first active columns of A. */
         icol = ic + tauim1;
         irow = *nr;
         nr1 = *nr + 1;
-        if (*nr > 0)
-        {
-            dlacpy_("Full", &nf, &tauim1, &a[nr1 + (ic + 1) * a_dim1], lda, &b[nr1 + b_dim1], ldb, 4L);
+        if (*nr > 0) {
+            dlacpy_(
+                "Full", &nf, &tauim1, &a[nr1 + (ic + 1) * a_dim1], lda, &b[nr1 + b_dim1], ldb, 4L);
         }
         /*        Perform QR-decomposition with column pivoting on the current B */
         /*        while keeping E upper triangular. */
@@ -552,31 +505,26 @@ L20:
         /*        iterations the NF-by-TAUIM1 matrix delimited by rows */
         /*        NR + 1 to N1 and columns IC + 1 to IC + TAUIM1 of A. */
         /*        The rank of current B is computed in RANK. */
-        if (tauim1 > 1)
-        {
+        if (tauim1 > 1) {
             /*           Compute column norms. */
             i__1 = tauim1;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 dwork[j] = dnrm2_(&nf, &b[nr1 + j * b_dim1], &c__1);
                 dwork[*m + j] = dwork[j];
                 iwork[j] = j;
                 /* L30: */
             }
         }
-        mn = min(nf,tauim1);
-L40:
-        if (rank < mn)
-        {
+        mn = min(nf, tauim1);
+    L40:
+        if (rank < mn) {
             j = rank + 1;
             ++irow;
             /*           Pivot if necessary. */
-            if (j != tauim1)
-            {
+            if (j != tauim1) {
                 i__1 = tauim1 - j + 1;
                 k = j - 1 + idamax_(&i__1, &dwork[j], &c__1);
-                if (k != j)
-                {
+                if (k != j) {
                     dswap_(&nf, &b[nr1 + j * b_dim1], &c__1, &b[nr1 + k * b_dim1], &c__1);
                     i__ = iwork[k];
                     iwork[k] = iwork[j];
@@ -587,47 +535,47 @@ L40:
             }
             /*           Zero elements below the current diagonal element of B. */
             i__1 = irow;
-            for (i__ = *n1 - 1; i__ >= i__1; --i__)
-            {
+            for (i__ = *n1 - 1; i__ >= i__1; --i__) {
                 /*              Rotate rows I and I+1 to zero B(I+1,J). */
                 t = b[i__ + j * b_dim1];
                 dlartg_(&t, &b[i__ + 1 + j * b_dim1], &co, &si, &b[i__ + j * b_dim1]);
                 b[i__ + 1 + j * b_dim1] = 0.;
                 i__2 = *n - i__ + 1;
-                drot_(&i__2, &e[i__ + i__ * e_dim1], lde, &e[i__ + 1 + i__ * e_dim1], lde, &co, &si);
-                if (j < tauim1)
-                {
+                drot_(
+                    &i__2, &e[i__ + i__ * e_dim1], lde, &e[i__ + 1 + i__ * e_dim1], lde, &co, &si);
+                if (j < tauim1) {
                     i__2 = tauim1 - j;
-                    drot_(&i__2, &b[i__ + (j + 1) * b_dim1], ldb, &b[i__ + 1 + (j + 1) * b_dim1], ldb, &co, &si);
+                    drot_(&i__2, &b[i__ + (j + 1) * b_dim1], ldb, &b[i__ + 1 + (j + 1) * b_dim1],
+                        ldb, &co, &si);
                 }
                 i__2 = *n - icol;
-                drot_(&i__2, &a[i__ + (icol + 1) * a_dim1], lda, &a[i__ + 1 + (icol + 1) * a_dim1], lda, &co, &si);
-                if (ilq)
-                {
-                    drot_(l, &q[i__ * q_dim1 + 1], &c__1, &q[(i__ + 1) * q_dim1 + 1], &c__1, &co, &si);
+                drot_(&i__2, &a[i__ + (icol + 1) * a_dim1], lda, &a[i__ + 1 + (icol + 1) * a_dim1],
+                    lda, &co, &si);
+                if (ilq) {
+                    drot_(l, &q[i__ * q_dim1 + 1], &c__1, &q[(i__ + 1) * q_dim1 + 1], &c__1, &co,
+                        &si);
                 }
                 /*              Rotate columns I, I+1 to zero E(I+1,I). */
                 t = e[i__ + 1 + (i__ + 1) * e_dim1];
                 dlartg_(&t, &e[i__ + 1 + i__ * e_dim1], &co, &si, &e[i__ + 1 + (i__ + 1) * e_dim1]);
                 e[i__ + 1 + i__ * e_dim1] = 0.;
-                drot_(&i__, &e[(i__ + 1) * e_dim1 + 1], &c__1, &e[i__ * e_dim1 + 1], &c__1, &co, &si);
+                drot_(
+                    &i__, &e[(i__ + 1) * e_dim1 + 1], &c__1, &e[i__ * e_dim1 + 1], &c__1, &co, &si);
                 drot_(n1, &a[(i__ + 1) * a_dim1 + 1], &c__1, &a[i__ * a_dim1 + 1], &c__1, &co, &si);
-                if (ilz)
-                {
-                    drot_(n, &z__[(i__ + 1) * z_dim1 + 1], &c__1, &z__[i__ * z_dim1 + 1], &c__1, &co, &si);
+                if (ilz) {
+                    drot_(n, &z__[(i__ + 1) * z_dim1 + 1], &c__1, &z__[i__ * z_dim1 + 1], &c__1,
+                        &co, &si);
                 }
-                if (withc)
-                {
-                    drot_(p, &c__[(i__ + 1) * c_dim1 + 1], &c__1, &c__[i__ * c_dim1 + 1], &c__1, &co, &si);
+                if (withc) {
+                    drot_(p, &c__[(i__ + 1) * c_dim1 + 1], &c__1, &c__[i__ * c_dim1 + 1], &c__1,
+                        &co, &si);
                 }
                 /* L50: */
             }
-            if (rank == 0)
-            {
+            if (rank == 0) {
                 /*              Initialize; exit if matrix is zero (RANK = 0). */
                 smax = (d__1 = b[nr1 + b_dim1], abs(d__1));
-                if (smax == 0.)
-                {
+                if (smax == 0.) {
                     goto L80;
                 }
                 smin = smax;
@@ -635,45 +583,36 @@ L40:
                 sminpr = smin;
                 c1 = 1.;
                 c2 = 1.;
-            }
-            else
-            {
+            } else {
                 /*              One step of incremental condition estimation. */
-                dlaic1_(&c__2, &rank, &dwork[ismin], &smin, &b[nr1 + j * b_dim1], &b[irow + j * b_dim1], &sminpr, &s1, &c1);
-                dlaic1_(&c__1, &rank, &dwork[ismax], &smax, &b[nr1 + j * b_dim1], &b[irow + j * b_dim1], &smaxpr, &s2, &c2);
+                dlaic1_(&c__2, &rank, &dwork[ismin], &smin, &b[nr1 + j * b_dim1],
+                    &b[irow + j * b_dim1], &sminpr, &s1, &c1);
+                dlaic1_(&c__1, &rank, &dwork[ismax], &smax, &b[nr1 + j * b_dim1],
+                    &b[irow + j * b_dim1], &smaxpr, &s2, &c2);
             }
             /*           Check the rank; finish the loop if rank loss occurs. */
-            if (svlmax * rcond <= smaxpr)
-            {
-                if (svlmax * rcond <= sminpr)
-                {
-                    if (smaxpr * rcond <= sminpr)
-                    {
+            if (svlmax * rcond <= smaxpr) {
+                if (svlmax * rcond <= sminpr) {
+                    if (smaxpr * rcond <= sminpr) {
                         /*                    Finish the loop if last row. */
-                        if (irow == *n1)
-                        {
+                        if (irow == *n1) {
                             ++rank;
                             goto L80;
                         }
                         /*                    Update partial column norms. */
                         i__1 = tauim1;
-                        for (i__ = j + 1; i__ <= i__1; ++i__)
-                        {
-                            if (dwork[i__] != 0.)
-                            {
+                        for (i__ = j + 1; i__ <= i__1; ++i__) {
+                            if (dwork[i__] != 0.) {
                                 t = (d__1 = b[irow + i__ * b_dim1], abs(d__1)) / dwork[i__];
                                 /* Computing MAX */
                                 d__1 = (t + 1.) * (1. - t);
-                                t = max(d__1,0.);
+                                t = max(d__1, 0.);
                                 /* Computing 2nd power */
                                 d__1 = dwork[i__] / dwork[*m + i__];
                                 tt = t * (d__1 * d__1);
-                                if (tt > tolz)
-                                {
+                                if (tt > tolz) {
                                     dwork[i__] *= sqrt(t);
-                                }
-                                else
-                                {
+                                } else {
                                     i__2 = nf - j;
                                     dwork[i__] = dnrm2_(&i__2, &b[irow + 1 + i__ * b_dim1], &c__1);
                                     dwork[*m + i__] = dwork[i__];
@@ -682,8 +621,7 @@ L40:
                             /* L60: */
                         }
                         i__1 = rank;
-                        for (i__ = 1; i__ <= i__1; ++i__)
-                        {
+                        for (i__ = 1; i__ <= i__1; ++i__) {
                             dwork[ismin + i__ - 1] = s1 * dwork[ismin + i__ - 1];
                             dwork[ismax + i__ - 1] = s2 * dwork[ismax + i__ - 1];
                             /* L70: */
@@ -697,8 +635,7 @@ L40:
                     }
                 }
             }
-            if (*nr > 0)
-            {
+            if (*nr > 0) {
                 i__1 = *n1 - irow + 1;
                 i__2 = tauim1 - j + 1;
                 dlaset_("Full", &i__1, &i__2, &c_b10, &c_b10, &b[irow + j * b_dim1], ldb, 4L);
@@ -707,22 +644,17 @@ L40:
         }
     }
 L80:
-    if (rank > 0)
-    {
+    if (rank > 0) {
         rtau[*nrblck] = rank;
         /*        Back permute interchanged columns. */
-        if (tauim1 > 1)
-        {
+        if (tauim1 > 1) {
             i__1 = tauim1;
-            for (j = 1; j <= i__1; ++j)
-            {
-                if (iwork[j] > 0)
-                {
+            for (j = 1; j <= i__1; ++j) {
+                if (iwork[j] > 0) {
                     k = iwork[j];
                     iwork[j] = -k;
-L90:
-                    if (k != j)
-                    {
+                L90:
+                    if (k != j) {
                         dswap_(&rank, &b[nr1 + j * b_dim1], &c__1, &b[nr1 + k * b_dim1], &c__1);
                         iwork[k] = -iwork[k];
                         k = -iwork[k];
@@ -733,32 +665,25 @@ L90:
             }
         }
     }
-    if (*nr > 0)
-    {
+    if (*nr > 0) {
         dlacpy_("Full", &nf, &tauim1, &b[nr1 + b_dim1], ldb, &a[nr1 + (ic + 1) * a_dim1], lda, 4L);
     }
-    if (rank > 0)
-    {
+    if (rank > 0) {
         *nr += rank;
         nf -= rank;
         ic += tauim1;
         tauim1 = rank;
         goto L20;
-    }
-    else
-    {
+    } else {
         --(*nrblck);
     }
-    if (*nrblck > 0)
-    {
+    if (*nrblck > 0) {
         rank = rtau[1];
     }
-    if (rank < *n1)
-    {
+    if (rank < *n1) {
         i__1 = *n1 - rank;
         dlaset_("Full", &i__1, m, &c_b10, &c_b10, &b[rank + 1 + b_dim1], ldb, 4L);
     }
     return 0;
     /* *** Last line of TG01HX *** */
 } /* tg01hx_ */
-

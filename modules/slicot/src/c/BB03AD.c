@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -13,35 +13,36 @@ static integer c__1 = 1;
 static doublereal c_b84 = -1.;
 static doublereal c_b132 = 2.;
 
-EXPORTSYMBOL /* Subroutine */ int bb03ad_(def, nr, dpar, ipar, vec, n, m, e, lde, a, lda, y, ldy, b, ldb, x, ldx, u, ldu, note, dwork, ldwork, info, def_len, note_len)
-char *def;
-integer *nr;
-doublereal *dpar;
-integer *ipar;
-logical *vec;
+EXPORTSYMBOL /* Subroutine */ int bb03ad_(def, nr, dpar, ipar, vec, n, m, e, lde, a, lda, y, ldy, b,
+    ldb, x, ldx, u, ldu, note, dwork, ldwork, info, def_len, note_len) char* def;
+integer* nr;
+doublereal* dpar;
+integer* ipar;
+logical* vec;
 integer *n, *m;
-doublereal *e;
-integer *lde;
-doublereal *a;
-integer *lda;
-doublereal *y;
-integer *ldy;
-doublereal *b;
-integer *ldb;
-doublereal *x;
-integer *ldx;
-doublereal *u;
-integer *ldu;
-char *note;
-doublereal *dwork;
+doublereal* e;
+integer* lde;
+doublereal* a;
+integer* lda;
+doublereal* y;
+integer* ldy;
+doublereal* b;
+integer* ldb;
+doublereal* x;
+integer* ldx;
+doublereal* u;
+integer* ldu;
+char* note;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen def_len;
 ftnlen note_len;
 {
     /* Initialized data */
-    static logical vecdef[8] = { TRUE_,TRUE_,FALSE_,TRUE_,TRUE_,FALSE_,FALSE_,FALSE_ };
+    static logical vecdef[8] = { TRUE_, TRUE_, FALSE_, TRUE_, TRUE_, FALSE_, FALSE_, FALSE_ };
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, e_dim1, e_offset, u_dim1, u_offset, x_dim1, x_offset, y_dim1, y_offset, i__1, i__2, i__3;
+    integer a_dim1, a_offset, b_dim1, b_offset, e_dim1, e_offset, u_dim1, u_offset, x_dim1,
+        x_offset, y_dim1, y_offset, i__1, i__2, i__3;
     doublereal d__1, d__2;
     /* Builtin functions */
     /* Subroutine */ int s_copy();
@@ -256,114 +257,100 @@ ftnlen note_len;
     /* Function Body */
     /*     .. Executable Statements .. */
     *info = 0;
-    for (i__ = 1; i__ <= 8; ++i__)
-    {
+    for (i__ = 1; i__ <= 8; ++i__) {
         vec[i__] = vecdef[i__ - 1];
         /* L10: */
     }
-    if (nr[1] == 4)
-    {
-        if (! (lsame_(def, "D", 1L, 1L) || lsame_(def, "N", 1L, 1L)))
-        {
+    if (nr[1] == 4) {
+        if (!(lsame_(def, "D", 1L, 1L) || lsame_(def, "N", 1L, 1L))) {
             *info = -1;
             return 0;
         }
-        if (nr[2] == 1)
-        {
+        if (nr[2] == 1) {
             s_copy(note, "CTLEX: Example 4.1", 70L, 18L);
-            if (lsame_(def, "D", 1L, 1L))
-            {
+            if (lsame_(def, "D", 1L, 1L)) {
                 ipar[1] = 10;
                 dpar[1] = 1.5;
                 dpar[2] = 1.5;
             }
-            if (dpar[1] <= 1. || dpar[2] <= 1.)
-            {
+            if (dpar[1] <= 1. || dpar[2] <= 1.) {
                 *info = -3;
             }
-            if (ipar[1] < 2)
-            {
+            if (ipar[1] < 2) {
                 *info = -4;
             }
             *n = ipar[1];
             *m = 1;
-            if (*lde < *n)
-            {
+            if (*lde < *n) {
                 *info = -9;
             }
-            if (*lda < *n)
-            {
+            if (*lda < *n) {
                 *info = -11;
             }
-            if (*ldy < *n)
-            {
+            if (*ldy < *n) {
                 *info = -13;
             }
-            if (*ldb < *m)
-            {
+            if (*ldb < *m) {
                 *info = -15;
             }
-            if (*ldx < *n)
-            {
+            if (*ldx < *n) {
                 *info = -17;
             }
-            if (*ldwork < *n << 1)
-            {
+            if (*ldwork < *n << 1) {
                 *info = -22;
             }
-            if (*info != 0)
-            {
+            if (*info != 0) {
                 return 0;
             }
             vec[6] = TRUE_;
             vec[7] = TRUE_;
-            twobyn = 2. / (doublereal) (*n);
+            twobyn = 2. / (doublereal)(*n);
             dlaset_("A", n, n, &c_b8, &c_b9, &e[e_offset], lde, 1L);
             dlaset_("A", n, n, &c_b8, &c_b8, &a[a_offset], lda, 1L);
             dlaset_("A", n, n, &c_b8, &c_b8, &y[y_offset], ldy, 1L);
             dlaset_("A", m, n, &c_b8, &c_b8, &b[b_offset], ldb, 1L);
             dlaset_("A", n, n, &c_b8, &c_b8, &x[x_offset], ldx, 1L);
             i__1 = *n;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 i__2 = j - 1;
                 temp = pow_di(&dpar[1], &i__2);
                 a[j + j * a_dim1] = -temp;
                 dwork[j] = 1.;
                 i__2 = *n;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = 1; i__ <= i__2; ++i__) {
                     i__3 = i__ - 1;
-                    x[i__ + j * x_dim1] = (doublereal) (i__ * j) / (temp + pow_di(&dpar[1], &i__3));
+                    x[i__ + j * x_dim1] = (doublereal)(i__ * j) / (temp + pow_di(&dpar[1], &i__3));
                     /* L20: */
                 }
                 /* L30: */
             }
             /*         H1 * A */
-            dgemv_("T", n, n, &c_b9, &a[a_offset], lda, &dwork[1], &c__1, &c_b8, &dwork[*n + 1], &c__1, 1L);
+            dgemv_("T", n, n, &c_b9, &a[a_offset], lda, &dwork[1], &c__1, &c_b8, &dwork[*n + 1],
+                &c__1, 1L);
             d__1 = -twobyn;
             dger_(n, n, &d__1, &dwork[1], &c__1, &dwork[*n + 1], &c__1, &a[a_offset], lda);
             /*         A * H1 */
-            dgemv_("N", n, n, &c_b9, &a[a_offset], lda, &dwork[1], &c__1, &c_b8, &dwork[*n + 1], &c__1, 1L);
+            dgemv_("N", n, n, &c_b9, &a[a_offset], lda, &dwork[1], &c__1, &c_b8, &dwork[*n + 1],
+                &c__1, 1L);
             d__1 = -twobyn;
             dger_(n, n, &d__1, &dwork[*n + 1], &c__1, &dwork[1], &c__1, &a[a_offset], lda);
             /*         H1 * X */
-            dgemv_("T", n, n, &c_b9, &x[x_offset], ldx, &dwork[1], &c__1, &c_b8, &dwork[*n + 1], &c__1, 1L);
+            dgemv_("T", n, n, &c_b9, &x[x_offset], ldx, &dwork[1], &c__1, &c_b8, &dwork[*n + 1],
+                &c__1, 1L);
             d__1 = -twobyn;
             dger_(n, n, &d__1, &dwork[1], &c__1, &dwork[*n + 1], &c__1, &x[x_offset], ldx);
             /*         X * H1 */
-            dgemv_("N", n, n, &c_b9, &x[x_offset], ldx, &dwork[1], &c__1, &c_b8, &dwork[*n + 1], &c__1, 1L);
+            dgemv_("N", n, n, &c_b9, &x[x_offset], ldx, &dwork[1], &c__1, &c_b8, &dwork[*n + 1],
+                &c__1, 1L);
             d__1 = -twobyn;
             dger_(n, n, &d__1, &dwork[*n + 1], &c__1, &dwork[1], &c__1, &x[x_offset], ldx);
             /*         S A INV(S), INV(S) X INV(S), B INV(S) */
             i__1 = *n;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 i__2 = j - 1;
-                b[j * b_dim1 + 1] = (doublereal) (j - *n - 1) / pow_di(&dpar[2], &i__2);
+                b[j * b_dim1 + 1] = (doublereal)(j - *n - 1) / pow_di(&dpar[2], &i__2);
                 i__2 = *n;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = 1; i__ <= i__2; ++i__) {
                     i__3 = i__ + j - 2;
                     x[i__ + j * x_dim1] /= pow_di(&dpar[2], &i__3);
                     i__3 = i__ - j;
@@ -374,19 +361,23 @@ ftnlen note_len;
                 /* L50: */
             }
             /*         H2 * A */
-            dgemv_("T", n, n, &c_b9, &a[a_offset], lda, &dwork[1], &c__1, &c_b8, &dwork[*n + 1], &c__1, 1L);
+            dgemv_("T", n, n, &c_b9, &a[a_offset], lda, &dwork[1], &c__1, &c_b8, &dwork[*n + 1],
+                &c__1, 1L);
             d__1 = -twobyn;
             dger_(n, n, &d__1, &dwork[1], &c__1, &dwork[*n + 1], &c__1, &a[a_offset], lda);
             /*         A * H2 */
-            dgemv_("N", n, n, &c_b9, &a[a_offset], lda, &dwork[1], &c__1, &c_b8, &dwork[*n + 1], &c__1, 1L);
+            dgemv_("N", n, n, &c_b9, &a[a_offset], lda, &dwork[1], &c__1, &c_b8, &dwork[*n + 1],
+                &c__1, 1L);
             d__1 = -twobyn;
             dger_(n, n, &d__1, &dwork[*n + 1], &c__1, &dwork[1], &c__1, &a[a_offset], lda);
             /*         H2 * X */
-            dgemv_("T", n, n, &c_b9, &x[x_offset], ldx, &dwork[1], &c__1, &c_b8, &dwork[*n + 1], &c__1, 1L);
+            dgemv_("T", n, n, &c_b9, &x[x_offset], ldx, &dwork[1], &c__1, &c_b8, &dwork[*n + 1],
+                &c__1, 1L);
             d__1 = -twobyn;
             dger_(n, n, &d__1, &dwork[1], &c__1, &dwork[*n + 1], &c__1, &x[x_offset], ldx);
             /*         X * H2 */
-            dgemv_("N", n, n, &c_b9, &x[x_offset], ldx, &dwork[1], &c__1, &c_b8, &dwork[*n + 1], &c__1, 1L);
+            dgemv_("N", n, n, &c_b9, &x[x_offset], ldx, &dwork[1], &c__1, &c_b8, &dwork[*n + 1],
+                &c__1, 1L);
             d__1 = -twobyn;
             dger_(n, n, &d__1, &dwork[*n + 1], &c__1, &dwork[1], &c__1, &x[x_offset], ldx);
             /*         B * H2 */
@@ -394,52 +385,41 @@ ftnlen note_len;
             daxpy_(n, &d__1, &dwork[1], &c__1, &b[b_offset], ldb);
             /*         Y = -B' * B */
             dger_(n, n, &c_b84, &b[b_offset], ldb, &b[b_offset], ldb, &y[y_offset], ldy);
-        }
-        else if (nr[2] == 2)
-        {
+        } else if (nr[2] == 2) {
             s_copy(note, "CTLEX: Example 4.2", 70L, 18L);
-            if (lsame_(def, "D", 1L, 1L))
-            {
+            if (lsame_(def, "D", 1L, 1L)) {
                 ipar[1] = 10;
                 dpar[1] = -.5;
                 dpar[2] = 1.5;
             }
-            if (dpar[1] >= 0. || dpar[2] <= 1.)
-            {
+            if (dpar[1] >= 0. || dpar[2] <= 1.) {
                 *info = -3;
             }
-            if (ipar[1] < 2)
-            {
+            if (ipar[1] < 2) {
                 *info = -4;
             }
             *n = ipar[1];
             *m = 1;
-            if (*lde < *n)
-            {
+            if (*lde < *n) {
                 *info = -9;
             }
-            if (*lda < *n)
-            {
+            if (*lda < *n) {
                 *info = -11;
             }
-            if (*ldy < *n)
-            {
+            if (*ldy < *n) {
                 *info = -13;
             }
-            if (*ldb < *m)
-            {
+            if (*ldb < *m) {
                 *info = -15;
             }
-            if (*ldwork < *n << 1)
-            {
+            if (*ldwork < *n << 1) {
                 *info = -22;
             }
-            if (*info != 0)
-            {
+            if (*info != 0) {
                 return 0;
             }
             vec[6] = TRUE_;
-            twobyn = 2. / (doublereal) (*n);
+            twobyn = 2. / (doublereal)(*n);
             dlaset_("A", n, n, &c_b8, &c_b9, &e[e_offset], lde, 1L);
             dlaset_("A", n, n, &c_b8, &dpar[1], &a[a_offset], lda, 1L);
             dlaset_("A", n, n, &c_b8, &c_b8, &y[y_offset], ldy, 1L);
@@ -447,30 +427,29 @@ ftnlen note_len;
             d__2 = 1. - twobyn;
             dlaset_("A", m, n, &d__1, &d__2, &b[b_offset], ldb, 1L);
             i__1 = *n - 1;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 dwork[i__] = 1.;
                 a[i__ + (i__ + 1) * a_dim1] = 1.;
                 /* L60: */
             }
             dwork[*n] = 1.;
             /*         H1 * A */
-            dgemv_("T", n, n, &c_b9, &a[a_offset], lda, &dwork[1], &c__1, &c_b8, &dwork[*n + 1], &c__1, 1L);
+            dgemv_("T", n, n, &c_b9, &a[a_offset], lda, &dwork[1], &c__1, &c_b8, &dwork[*n + 1],
+                &c__1, 1L);
             d__1 = -twobyn;
             dger_(n, n, &d__1, &dwork[1], &c__1, &dwork[*n + 1], &c__1, &a[a_offset], lda);
             /*         A * H1 */
-            dgemv_("N", n, n, &c_b9, &a[a_offset], lda, &dwork[1], &c__1, &c_b8, &dwork[*n + 1], &c__1, 1L);
+            dgemv_("N", n, n, &c_b9, &a[a_offset], lda, &dwork[1], &c__1, &c_b8, &dwork[*n + 1],
+                &c__1, 1L);
             d__1 = -twobyn;
             dger_(n, n, &d__1, &dwork[*n + 1], &c__1, &dwork[1], &c__1, &a[a_offset], lda);
             /*         S A INV(S), B INV(S) */
             i__1 = *n;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 i__2 = j - 1;
                 b[j * b_dim1 + 1] /= pow_di(&dpar[2], &i__2);
                 i__2 = *n;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = 1; i__ <= i__2; ++i__) {
                     i__3 = i__ - j;
                     a[i__ + j * a_dim1] *= pow_di(&dpar[2], &i__3);
                     /* L70: */
@@ -479,11 +458,13 @@ ftnlen note_len;
                 /* L80: */
             }
             /*         H2 * A */
-            dgemv_("T", n, n, &c_b9, &a[a_offset], lda, &dwork[1], &c__1, &c_b8, &dwork[*n + 1], &c__1, 1L);
+            dgemv_("T", n, n, &c_b9, &a[a_offset], lda, &dwork[1], &c__1, &c_b8, &dwork[*n + 1],
+                &c__1, 1L);
             d__1 = -twobyn;
             dger_(n, n, &d__1, &dwork[1], &c__1, &dwork[*n + 1], &c__1, &a[a_offset], lda);
             /*         A * H2 */
-            dgemv_("N", n, n, &c_b9, &a[a_offset], lda, &dwork[1], &c__1, &c_b8, &dwork[*n + 1], &c__1, 1L);
+            dgemv_("N", n, n, &c_b9, &a[a_offset], lda, &dwork[1], &c__1, &c_b8, &dwork[*n + 1],
+                &c__1, 1L);
             d__1 = -twobyn;
             dger_(n, n, &d__1, &dwork[*n + 1], &c__1, &dwork[1], &c__1, &a[a_offset], lda);
             /*         B * H2 */
@@ -491,43 +472,33 @@ ftnlen note_len;
             daxpy_(n, &d__1, &dwork[1], &c__1, &b[b_offset], ldb);
             /*         Y = -B' * B */
             dger_(n, n, &c_b84, &b[b_offset], ldb, &b[b_offset], ldb, &y[y_offset], ldy);
-        }
-        else if (nr[2] == 3)
-        {
+        } else if (nr[2] == 3) {
             s_copy(note, "CTLEX: Example 4.3", 70L, 18L);
-            if (lsame_(def, "D", 1L, 1L))
-            {
+            if (lsame_(def, "D", 1L, 1L)) {
                 ipar[1] = 10;
                 dpar[1] = 10.;
             }
-            if (dpar[1] < 0.)
-            {
+            if (dpar[1] < 0.) {
                 *info = -3;
             }
-            if (ipar[1] < 2)
-            {
+            if (ipar[1] < 2) {
                 *info = -4;
             }
             *n = ipar[1];
             *m = 0;
-            if (*lde < *n)
-            {
+            if (*lde < *n) {
                 *info = -9;
             }
-            if (*lda < *n)
-            {
+            if (*lda < *n) {
                 *info = -11;
             }
-            if (*ldy < *n)
-            {
+            if (*ldy < *n) {
                 *info = -13;
             }
-            if (*ldx < *n)
-            {
+            if (*ldx < *n) {
                 *info = -17;
             }
-            if (*info != 0)
-            {
+            if (*info != 0) {
                 return 0;
             }
             vec[3] = TRUE_;
@@ -540,74 +511,61 @@ ftnlen note_len;
             dlaset_("U", n, n, &c_b9, &c_b8, &a[a_offset], lda, 1L);
             dlaset_("A", n, n, &c_b9, &c_b9, &x[x_offset], ldx, 1L);
             i__1 = *n;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
-                a[i__ + i__ * a_dim1] = (doublereal) (i__ - 1) + temp;
+            for (i__ = 1; i__ <= i__1; ++i__) {
+                a[i__ + i__ * a_dim1] = (doublereal)(i__ - 1) + temp;
                 /* L90: */
             }
             /* Computing 2nd power */
             d__1 = temp;
-            y[y_dim1 + 1] = temp * 2. + (doublereal) (*n - 1) * 2. * (d__1 * d__1);
+            y[y_dim1 + 1] = temp * 2. + (doublereal)(*n - 1) * 2. * (d__1 * d__1);
             /* Computing 2nd power */
             d__1 = temp;
-            ttp1 = (doublereal) (*n + 1) * 2. * temp + 2. - d__1 * d__1;
+            ttp1 = (doublereal)(*n + 1) * 2. * temp + 2. - d__1 * d__1;
             /* Computing 2nd power */
             d__1 = temp;
-            ttm1 = (doublereal) (*n - 1) * 2. * temp + 2. - d__1 * d__1;
+            ttm1 = (doublereal)(*n - 1) * 2. * temp + 2. - d__1 * d__1;
             i__1 = *n;
-            for (i__ = 2; i__ <= i__1; ++i__)
-            {
-                y[i__ + y_dim1] = y[y_dim1 + 1] + (doublereal) (i__ - 1) * ttm1;
+            for (i__ = 2; i__ <= i__1; ++i__) {
+                y[i__ + y_dim1] = y[y_dim1 + 1] + (doublereal)(i__ - 1) * ttm1;
                 /* L100: */
             }
             i__1 = *n;
-            for (j = 2; j <= i__1; ++j)
-            {
+            for (j = 2; j <= i__1; ++j) {
                 i__2 = *n;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
-                    y[i__ + j * y_dim1] = y[i__ + y_dim1] + (doublereal) (j - 1) * (ttp1 - i__ * 4. * temp);
+                for (i__ = 1; i__ <= i__2; ++i__) {
+                    y[i__ + j * y_dim1]
+                        = y[i__ + y_dim1] + (doublereal)(j - 1) * (ttp1 - i__ * 4. * temp);
                     /* L110: */
                 }
                 /* L120: */
             }
-        }
-        else if (nr[2] == 4)
-        {
+        } else if (nr[2] == 4) {
             s_copy(note, "CTLEX: Example 4.4", 70L, 18L);
-            if (lsame_(def, "D", 1L, 1L))
-            {
+            if (lsame_(def, "D", 1L, 1L)) {
                 ipar[1] = 10;
                 dpar[1] = 1.5;
             }
-            if (dpar[1] < 1.)
-            {
+            if (dpar[1] < 1.) {
                 *info = -3;
             }
-            if (ipar[1] < 1)
-            {
+            if (ipar[1] < 1) {
                 *info = -4;
             }
             *n = ipar[1] * 3;
             *m = 1;
-            if (*lde < *n)
-            {
+            if (*lde < *n) {
                 *info = -9;
             }
-            if (*lda < *n)
-            {
+            if (*lda < *n) {
                 *info = -11;
             }
-            if (*ldy < *n)
-            {
+            if (*ldy < *n) {
                 *info = -13;
             }
-            if (*ldb < *m)
-            {
+            if (*ldb < *m) {
                 *info = -15;
             }
-            if (*info != 0)
-            {
+            if (*info != 0) {
                 return 0;
             }
             vec[3] = TRUE_;
@@ -615,14 +573,11 @@ ftnlen note_len;
             dlaset_("A", n, n, &c_b8, &c_b8, &e[e_offset], lde, 1L);
             dlaset_("A", n, n, &c_b8, &c_b8, &a[a_offset], lda, 1L);
             i__1 = ipar[1];
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 temp = -pow_di(&dpar[1], &i__);
                 i__2 = i__ - 1;
-                for (j = 1; j <= i__2; ++j)
-                {
-                    for (k = 0; k <= 2; ++k)
-                    {
+                for (j = 1; j <= i__2; ++j) {
+                    for (k = 0; k <= 2; ++k) {
                         a[*n - i__ * 3 + 3 + (j * 3 - k) * a_dim1] = temp;
                         a[*n - i__ * 3 + 2 + (j * 3 - k) * a_dim1] = temp * 2.;
                         /* L130: */
@@ -637,33 +592,25 @@ ftnlen note_len;
                 /* L150: */
             }
             i__1 = *n;
-            for (j = 1; j <= i__1; ++j)
-            {
-                if (j > 1)
-                {
+            for (j = 1; j <= i__1; ++j) {
+                if (j > 1) {
                     daxpy_(n, &c_b9, &a[j - 1 + a_dim1], lda, &a[j + a_dim1], lda);
                 }
-                b[j * b_dim1 + 1] = (doublereal) j;
+                b[j * b_dim1 + 1] = (doublereal)j;
                 i__2 = *n;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
-                    e[i__ + (*n - j + 1) * e_dim1] = (doublereal) min(i__,j);
-                    y[i__ + j * y_dim1] = -((doublereal) (i__ * j));
+                for (i__ = 1; i__ <= i__2; ++i__) {
+                    e[i__ + (*n - j + 1) * e_dim1] = (doublereal)min(i__, j);
+                    y[i__ + j * y_dim1] = -((doublereal)(i__ * j));
                     /* L160: */
                 }
                 /* L170: */
             }
-        }
-        else
-        {
+        } else {
             *info = -2;
         }
-    }
-    else
-    {
+    } else {
         *info = -2;
     }
     return 0;
     /* *** Last Line of BB03AD *** */
 } /* bb03ad_ */
-

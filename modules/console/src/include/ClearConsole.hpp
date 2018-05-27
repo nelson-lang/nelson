@@ -18,10 +18,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsConsole_exports.h"
 #include "Evaluator.hpp"
+#include "nlsConsole_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSCONSOLE_IMPEXP void ClearConsole(Evaluator *eval);
+NLSCONSOLE_IMPEXP void
+ClearConsole(Evaluator* eval);
 }
 //=============================================================================

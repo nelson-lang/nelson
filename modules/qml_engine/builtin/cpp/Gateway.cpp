@@ -17,46 +17,45 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NelsonGateway.hpp"
-#include "qml_loadfileBuiltin.hpp"
-#include "qml_loadstringBuiltin.hpp"
-#include "qml_evaluatefileBuiltin.hpp"
-#include "qml_evaluatestringBuiltin.hpp"
-#include "qml_clearcomponentcacheBuiltin.hpp"
-#include "qml_collectgarbageBuiltin.hpp"
-#include "qml_importpathlistBuiltin.hpp"
-#include "qml_pluginpathlistBuiltin.hpp"
-#include "qml_offlinestoragepathBuiltin.hpp"
 #include "qml_addimportpathBuiltin.hpp"
 #include "qml_addpluginpathBuiltin.hpp"
-#include "qml_setofflinestoragepathBuiltin.hpp"
+#include "qml_clearcomponentcacheBuiltin.hpp"
+#include "qml_collectgarbageBuiltin.hpp"
 #include "qml_createqquickviewBuiltin.hpp"
+#include "qml_evaluatefileBuiltin.hpp"
+#include "qml_evaluatestringBuiltin.hpp"
+#include "qml_importpathlistBuiltin.hpp"
+#include "qml_loadfileBuiltin.hpp"
+#include "qml_loadstringBuiltin.hpp"
+#include "qml_offlinestoragepathBuiltin.hpp"
+#include "qml_pluginpathlistBuiltin.hpp"
+#include "qml_setofflinestoragepathBuiltin.hpp"
 //=============================================================================
-#include "QObject_undefineBuiltin.hpp"
+#include "QObject_classnameBuiltin.hpp"
 #include "QObject_deleteBuiltin.hpp"
 #include "QObject_dispBuiltin.hpp"
-#include "QObject_getBuiltin.hpp"
-#include "QObject_setBuiltin.hpp"
 #include "QObject_fieldnamesBuiltin.hpp"
-#include "QObject_isvalidBuiltin.hpp"
-#include "QObject_methodsBuiltin.hpp"
+#include "QObject_findchildrenBuiltin.hpp"
+#include "QObject_getBuiltin.hpp"
 #include "QObject_invokeBuiltin.hpp"
-#include "QObject_ispropBuiltin.hpp"
 #include "QObject_ismethodBuiltin.hpp"
-#include "QObject_methodsignatureBuiltin.hpp"
-#include "QObject_propertiesBuiltin.hpp"
+#include "QObject_ispropBuiltin.hpp"
+#include "QObject_isvalidBuiltin.hpp"
 #include "QObject_iswidgettypeBuiltin.hpp"
 #include "QObject_iswindowtypeBuiltin.hpp"
-#include "QObject_classnameBuiltin.hpp"
+#include "QObject_methodsBuiltin.hpp"
+#include "QObject_methodsignatureBuiltin.hpp"
+#include "QObject_propertiesBuiltin.hpp"
 #include "QObject_rootBuiltin.hpp"
-#include "QObject_findchildrenBuiltin.hpp"
+#include "QObject_setBuiltin.hpp"
+#include "QObject_undefineBuiltin.hpp"
 #include "QObject_usedBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"qml_engine";
 //=============================================================================
-static const nlsGateway gateway[] =
-{
+static const nlsGateway gateway[] = {
     { "qml_loadfile", Nelson::QmlEngineGateway::qml_loadfileBuiltin, 1, 1 },
     { "qml_loadstring", Nelson::QmlEngineGateway::qml_loadstringBuiltin, 1, 1 },
     { "qml_evaluatestring", Nelson::QmlEngineGateway::qml_evaluatestringBuiltin, 1, 1 },
@@ -66,7 +65,8 @@ static const nlsGateway gateway[] =
     { "qml_importpathlist", Nelson::QmlEngineGateway::qml_importpathlistBuiltin, 1, 0 },
     { "qml_pluginpathlist", Nelson::QmlEngineGateway::qml_pluginpathlistBuiltin, 1, 0 },
     { "qml_offlinestoragepath", Nelson::QmlEngineGateway::qml_offlinestoragepathBuiltin, 1, 0 },
-    { "qml_setofflinestoragepath", Nelson::QmlEngineGateway::qml_setofflinestoragepathBuiltin, 0, 1 },
+    { "qml_setofflinestoragepath", Nelson::QmlEngineGateway::qml_setofflinestoragepathBuiltin, 0,
+        1 },
     { "qml_addimportpath", Nelson::QmlEngineGateway::qml_addimportpathBuiltin, 0, 1 },
     { "qml_addpluginpath", Nelson::QmlEngineGateway::qml_addpluginpathBuiltin, 0, 1 },
     { "qml_createqquickview", Nelson::QmlEngineGateway::qml_createqquickviewBuiltin, 1, 1 },

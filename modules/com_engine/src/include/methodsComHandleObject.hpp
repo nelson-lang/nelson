@@ -18,14 +18,16 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsCom_engine_exports.h"
 #include "ArrayOf.hpp"
 #include "ComHandleObject.hpp"
+#include "nlsCom_engine_exports.h"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    NLSCOM_ENGINE_IMPEXP void methodsComHandleObject(ArrayOf A, wstringVector &methods);
-    NLSCOM_ENGINE_IMPEXP void methodsComHandleObject(ComHandleObject *comHandle, wstringVector &methods);
-    //=============================================================================
-}
+//=============================================================================
+NLSCOM_ENGINE_IMPEXP void
+methodsComHandleObject(ArrayOf A, wstringVector& methods);
+NLSCOM_ENGINE_IMPEXP void
+methodsComHandleObject(ComHandleObject* comHandle, wstringVector& methods);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

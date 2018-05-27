@@ -20,30 +20,28 @@
 #include "ClassName.hpp"
 //=============================================================================
 namespace Nelson {
-    ArrayOfVector OverloadFunction(Evaluator *eval, int nLhs, const ArrayOfVector& argIn, bool &bSuccess)
-    {
-        std::string functionName = eval->getCurrentFunctionName();
-        if (functionName.compare("") != 0)
-        {
-            if (eval->getOverloadState())
-            {
-                Context *context = eval->getContext();
-                FunctionDef *funcDef = nullptr;
-                std::string OverloadName = ClassName(argIn[0]) + "_" + functionName;
-                if (context->lookupFunction(OverloadName, funcDef))
-                {
-                    if ((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION))
-                    {
-                        bSuccess = true;
-                        ArrayOfVector argInCopy = (ArrayOfVector&)argIn;
-                        return funcDef->evaluateFunction(eval, argInCopy, nLhs);
-                    }
+ArrayOfVector
+OverloadFunction(Evaluator* eval, int nLhs, const ArrayOfVector& argIn, bool& bSuccess)
+{
+    std::string functionName = eval->getCurrentFunctionName();
+    if (functionName.compare("") != 0) {
+        if (eval->getOverloadState()) {
+            Context* context = eval->getContext();
+            FunctionDef* funcDef = nullptr;
+            std::string OverloadName = ClassName(argIn[0]) + "_" + functionName;
+            if (context->lookupFunction(OverloadName, funcDef)) {
+                if ((funcDef->type() == NLS_BUILT_IN_FUNCTION)
+                    || (funcDef->type() == NLS_MACRO_FUNCTION)) {
+                    bSuccess = true;
+                    ArrayOfVector argInCopy = (ArrayOfVector&)argIn;
+                    return funcDef->evaluateFunction(eval, argInCopy, nLhs);
                 }
             }
         }
-        bSuccess = false;
-        return ArrayOfVector();
     }
-    //=============================================================================
+    bSuccess = false;
+    return ArrayOfVector();
+}
+//=============================================================================
 }
 //=============================================================================

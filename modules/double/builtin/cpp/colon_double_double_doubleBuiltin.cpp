@@ -23,17 +23,17 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::DoubleGateway::colon_double_double_doubleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::DoubleGateway::colon_double_double_doubleBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (argIn.size() != 3)
-    {
+    if (argIn.size() != 3) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
     ArrayOf C = argIn[2];
-    if (!A.isDoubleType() || !B.isDoubleType() || !C.isDoubleType())
-    {
+    if (!A.isDoubleType() || !B.isDoubleType() || !C.isDoubleType()) {
         Error(eval, ERROR_WRONG_ARGUMENTS_TYPE_DOUBLE_EXPECTED);
     }
     ArrayOfVector retval;

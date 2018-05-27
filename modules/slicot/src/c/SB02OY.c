@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -12,28 +12,30 @@ static doublereal c_b26 = 1.;
 static doublereal c_b27 = 0.;
 static doublereal c_b46 = -1.;
 
-EXPORTSYMBOL /* Subroutine */ int sb02oy_(type__, dico, jobb, fact, uplo, jobl, jobe, n, m, p, a, lda, b, ldb, q, ldq, r__, ldr, l, ldl, e, lde, af, ldaf, bf, ldbf, tol, iwork, dwork, ldwork, info, type_len, dico_len, jobb_len, fact_len, uplo_len, jobl_len, jobe_len)
-char *type__, *dico, *jobb, *fact, *uplo, *jobl, *jobe;
+EXPORTSYMBOL /* Subroutine */ int sb02oy_(type__, dico, jobb, fact, uplo, jobl, jobe, n, m, p, a,
+    lda, b, ldb, q, ldq, r__, ldr, l, ldl, e, lde, af, ldaf, bf, ldbf, tol, iwork, dwork, ldwork,
+    info, type_len, dico_len, jobb_len, fact_len, uplo_len, jobl_len, jobe_len) char *type__,
+    *dico, *jobb, *fact, *uplo, *jobl, *jobe;
 integer *n, *m, *p;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *q;
-integer *ldq;
-doublereal *r__;
-integer *ldr;
-doublereal *l;
-integer *ldl;
-doublereal *e;
-integer *lde;
-doublereal *af;
-integer *ldaf;
-doublereal *bf;
-integer *ldbf;
-doublereal *tol;
-integer *iwork;
-doublereal *dwork;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* q;
+integer* ldq;
+doublereal* r__;
+integer* ldr;
+doublereal* l;
+integer* ldl;
+doublereal* e;
+integer* lde;
+doublereal* af;
+integer* ldaf;
+doublereal* bf;
+integer* ldbf;
+doublereal* tol;
+integer* iwork;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen type_len;
 ftnlen dico_len;
@@ -44,7 +46,8 @@ ftnlen jobl_len;
 ftnlen jobe_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, af_dim1, af_offset, b_dim1, b_offset, bf_dim1, bf_offset, e_dim1, e_offset, l_dim1, l_offset, q_dim1, q_offset, r_dim1, r_offset, i__1, i__2;
+    integer a_dim1, a_offset, af_dim1, af_offset, b_dim1, b_offset, bf_dim1, bf_offset, e_dim1,
+        e_offset, l_dim1, l_offset, q_dim1, q_offset, r_dim1, r_offset, i__1, i__2;
     /* Local variables */
     static integer itau;
     static logical optc, lfacb;
@@ -368,129 +371,79 @@ ftnlen jobe_len;
     luplo = lsame_(uplo, "U", 1L, 1L);
     ljobe = lsame_(jobe, "I", 1L, 1L);
     n2 = *n + *n;
-    if (ljobb)
-    {
+    if (ljobb) {
         ljobl = lsame_(jobl, "Z", 1L, 1L);
         nm = *n + *m;
         nnm = n2 + *m;
-    }
-    else
-    {
+    } else {
         nm = *n;
         nnm = n2;
     }
     np1 = *n + 1;
     n2p1 = n2 + 1;
     /*     Test the input scalar arguments. */
-    if (! optc && ! lsame_(type__, "S", 1L, 1L))
-    {
+    if (!optc && !lsame_(type__, "S", 1L, 1L)) {
         *info = -1;
-    }
-    else if (! discr && ! lsame_(dico, "C", 1L, 1L))
-    {
+    } else if (!discr && !lsame_(dico, "C", 1L, 1L)) {
         *info = -2;
-    }
-    else if (! ljobb && ! lsame_(jobb, "G", 1L, 1L))
-    {
+    } else if (!ljobb && !lsame_(jobb, "G", 1L, 1L)) {
         *info = -3;
-    }
-    else if (! lfacq && ! lfacr && ! lfacb && ! lfacn)
-    {
+    } else if (!lfacq && !lfacr && !lfacb && !lfacn) {
         *info = -4;
-    }
-    else if (! ljobb || lfacn)
-    {
-        if (! luplo && ! lsame_(uplo, "L", 1L, 1L))
-        {
+    } else if (!ljobb || lfacn) {
+        if (!luplo && !lsame_(uplo, "L", 1L, 1L)) {
             *info = -5;
         }
-    }
-    else if (ljobb)
-    {
-        if (! ljobl && ! lsame_(jobl, "N", 1L, 1L))
-        {
+    } else if (ljobb) {
+        if (!ljobl && !lsame_(jobl, "N", 1L, 1L)) {
             *info = -6;
         }
-    }
-    else if (! ljobe && ! lsame_(jobe, "N", 1L, 1L))
-    {
+    } else if (!ljobe && !lsame_(jobe, "N", 1L, 1L)) {
         *info = -7;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -8;
-    }
-    else if (ljobb)
-    {
-        if (*m < 0)
-        {
+    } else if (ljobb) {
+        if (*m < 0) {
             *info = -9;
         }
-    }
-    else if (! lfacn || ! optc)
-    {
-        if (*p < 0)
-        {
+    } else if (!lfacn || !optc) {
+        if (*p < 0) {
             *info = -10;
-        }
-        else if (ljobb)
-        {
-            if (! optc && *p != *m)
-            {
+        } else if (ljobb) {
+            if (!optc && *p != *m) {
                 *info = -10;
             }
         }
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -12;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -14;
-    }
-    else if ((lfacn || lfacr) && *ldq < max(1,*n) || (lfacq || lfacb) && *ldq < max(1,*p))
-    {
+    } else if ((lfacn || lfacr) && *ldq < max(1, *n) || (lfacq || lfacb) && *ldq < max(1, *p)) {
         *info = -16;
-    }
-    else if (*ldr < 1)
-    {
+    } else if (*ldr < 1) {
         *info = -18;
-    }
-    else if (ljobb)
-    {
-        if ((lfacn || lfacq) && *ldr < *m || (lfacr || lfacb) && *ldr < *p)
-        {
+    } else if (ljobb) {
+        if ((lfacn || lfacq) && *ldr < *m || (lfacr || lfacb) && *ldr < *p) {
             *info = -18;
-        }
-        else if (! ljobl && *ldl < max(1,*n) || ljobl && *ldl < 1)
-        {
+        } else if (!ljobl && *ldl < max(1, *n) || ljobl && *ldl < 1) {
             *info = -20;
         }
     }
-    if (! ljobe && *lde < max(1,*n) || ljobe && *lde < 1)
-    {
+    if (!ljobe && *lde < max(1, *n) || ljobe && *lde < 1) {
         *info = -22;
-    }
-    else if (*ldaf < max(1,nnm))
-    {
+    } else if (*ldaf < max(1, nnm)) {
         *info = -24;
-    }
-    else if ((ljobb || discr || ! ljobe) && *ldbf < nnm || *ldbf < 1)
-    {
+    } else if ((ljobb || discr || !ljobe) && *ldbf < nnm || *ldbf < 1) {
         *info = -26;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
         i__1 = nnm, i__2 = *m * 3;
-        if (ljobb && *ldwork < max(i__1,i__2) || *ldwork < 1)
-        {
+        if (ljobb && *ldwork < max(i__1, i__2) || *ldwork < 1) {
             *info = -30;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("SB02OY", &i__1, 6L);
@@ -498,107 +451,81 @@ ftnlen jobe_len;
     }
     /*     Quick return if possible. */
     dwork[1] = 1.;
-    if (*n == 0)
-    {
+    if (*n == 0) {
         return 0;
     }
     /*     Construct the extended matrices in AF and BF, by block-columns. */
     dlacpy_("Full", n, n, &a[a_offset], lda, &af[af_offset], ldaf, 4L);
-    if (! lfacq && ! lfacb)
-    {
+    if (!lfacq && !lfacb) {
         dlacpy_(uplo, n, n, &q[q_offset], ldq, &af[np1 + af_dim1], ldaf, 1L);
-        if (luplo)
-        {
+        if (luplo) {
             /*           Construct the lower triangle of Q. */
             i__1 = *n - 1;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 i__2 = *n - j;
                 dcopy_(&i__2, &q[j + (j + 1) * q_dim1], ldq, &af[np1 + j + j * af_dim1], &c__1);
                 /* L20: */
             }
-        }
-        else
-        {
+        } else {
             /*           Construct the upper triangle of Q. */
             i__1 = *n;
-            for (j = 2; j <= i__1; ++j)
-            {
+            for (j = 2; j <= i__1; ++j) {
                 i__2 = j - 1;
                 dcopy_(&i__2, &q[j + q_dim1], ldq, &af[np1 + j * af_dim1], &c__1);
                 /* L40: */
             }
         }
-    }
-    else
-    {
-        dsyrk_("Upper", "Transpose", n, p, &c_b26, &q[q_offset], ldq, &c_b27, &af[np1 + af_dim1], ldaf, 5L, 9L);
+    } else {
+        dsyrk_("Upper", "Transpose", n, p, &c_b26, &q[q_offset], ldq, &c_b27, &af[np1 + af_dim1],
+            ldaf, 5L, 9L);
         i__1 = *n;
-        for (j = 2; j <= i__1; ++j)
-        {
+        for (j = 2; j <= i__1; ++j) {
             i__2 = j - 1;
             dcopy_(&i__2, &af[np1 + j * af_dim1], &c__1, &af[*n + j + af_dim1], ldaf);
             /* L60: */
         }
     }
-    if (ljobb)
-    {
-        if (ljobl)
-        {
+    if (ljobb) {
+        if (ljobl) {
             dlaset_("Full", m, n, &c_b27, &c_b27, &af[n2p1 + af_dim1], ldaf, 4L);
-        }
-        else
-        {
+        } else {
             i__1 = *n;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 dcopy_(m, &l[i__ + l_dim1], ldl, &af[n2p1 + i__ * af_dim1], &c__1);
                 /* L80: */
             }
         }
     }
-    if (discr || ljobb)
-    {
+    if (discr || ljobb) {
         dlaset_("Full", n, n, &c_b27, &c_b27, &af[np1 * af_dim1 + 1], ldaf, 4L);
-    }
-    else
-    {
-        if (luplo)
-        {
+    } else {
+        if (luplo) {
             /*           Construct (1,2) block of AF using the upper triangle of G. */
             i__1 = *n;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 i__2 = j;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = 1; i__ <= i__2; ++i__) {
                     af[i__ + (*n + j) * af_dim1] = -b[i__ + j * b_dim1];
                     /* L100: */
                 }
                 i__2 = *n;
-                for (i__ = j + 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = j + 1; i__ <= i__2; ++i__) {
                     af[i__ + (*n + j) * af_dim1] = -b[j + i__ * b_dim1];
                     /* L120: */
                 }
                 /* L140: */
             }
-        }
-        else
-        {
+        } else {
             /*           Construct (1,2) block of AF using the lower triangle of G. */
             i__1 = *n;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 i__2 = j - 1;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = 1; i__ <= i__2; ++i__) {
                     af[i__ + (*n + j) * af_dim1] = -b[j + i__ * b_dim1];
                     /* L160: */
                 }
                 i__2 = *n;
-                for (i__ = j; i__ <= i__2; ++i__)
-                {
+                for (i__ = j; i__ <= i__2; ++i__) {
                     af[i__ + (*n + j) * af_dim1] = -b[i__ + j * b_dim1];
                     /* L180: */
                 }
@@ -606,193 +533,144 @@ ftnlen jobe_len;
             }
         }
     }
-    if (discr)
-    {
-        if (ljobe)
-        {
+    if (discr) {
+        if (ljobe) {
             dlaset_("Full", &nm, n, &c_b27, &c_b46, &af[np1 + np1 * af_dim1], ldaf, 4L);
-        }
-        else
-        {
+        } else {
             i__1 = *n;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 i__2 = *n;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = 1; i__ <= i__2; ++i__) {
                     af[*n + i__ + (*n + j) * af_dim1] = -e[j + i__ * e_dim1];
                     /* L220: */
                 }
                 /* L240: */
             }
-            if (ljobb)
-            {
+            if (ljobb) {
                 dlaset_("Full", m, n, &c_b27, &c_b27, &af[n2p1 + np1 * af_dim1], ldaf, 4L);
             }
         }
-    }
-    else
-    {
+    } else {
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             i__2 = *n;
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
+            for (i__ = 1; i__ <= i__2; ++i__) {
                 af[*n + i__ + (*n + j) * af_dim1] = a[j + i__ * a_dim1];
                 /* L260: */
             }
             /* L280: */
         }
-        if (ljobb)
-        {
-            if (optc)
-            {
+        if (ljobb) {
+            if (optc) {
                 i__1 = *n;
-                for (j = 1; j <= i__1; ++j)
-                {
+                for (j = 1; j <= i__1; ++j) {
                     dcopy_(m, &b[j + b_dim1], ldb, &af[n2p1 + (*n + j) * af_dim1], &c__1);
                     /* L300: */
                 }
-            }
-            else
-            {
+            } else {
                 dlacpy_("Full", p, n, &q[q_offset], ldq, &af[n2p1 + np1 * af_dim1], ldaf, 4L);
             }
         }
     }
-    if (ljobb)
-    {
-        if (optc)
-        {
+    if (ljobb) {
+        if (optc) {
             dlacpy_("Full", n, m, &b[b_offset], ldb, &af[n2p1 * af_dim1 + 1], ldaf, 4L);
-        }
-        else
-        {
+        } else {
             i__1 = *p;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 dcopy_(n, &q[i__ + q_dim1], ldq, &af[(n2 + i__) * af_dim1 + 1], &c__1);
                 /* L320: */
             }
         }
-        if (ljobl)
-        {
+        if (ljobl) {
             dlaset_("Full", n, m, &c_b27, &c_b27, &af[np1 + n2p1 * af_dim1], ldaf, 4L);
-        }
-        else
-        {
+        } else {
             dlacpy_("Full", n, m, &l[l_offset], ldl, &af[np1 + n2p1 * af_dim1], ldaf, 4L);
         }
-        if (! lfacr && ! lfacb)
-        {
+        if (!lfacr && !lfacb) {
             dlacpy_(uplo, m, m, &r__[r_offset], ldr, &af[n2p1 + n2p1 * af_dim1], ldaf, 1L);
-            if (luplo)
-            {
+            if (luplo) {
                 /*              Construct the lower triangle of R. */
                 i__1 = *m - 1;
-                for (j = 1; j <= i__1; ++j)
-                {
+                for (j = 1; j <= i__1; ++j) {
                     i__2 = *m - j;
-                    dcopy_(&i__2, &r__[j + (j + 1) * r_dim1], ldr, &af[n2p1 + j + (n2 + j) * af_dim1], &c__1);
+                    dcopy_(&i__2, &r__[j + (j + 1) * r_dim1], ldr,
+                        &af[n2p1 + j + (n2 + j) * af_dim1], &c__1);
                     /* L340: */
                 }
-            }
-            else
-            {
+            } else {
                 /*              Construct the upper triangle of R. */
                 i__1 = *m;
-                for (j = 2; j <= i__1; ++j)
-                {
+                for (j = 2; j <= i__1; ++j) {
                     i__2 = j - 1;
                     dcopy_(&i__2, &r__[j + r_dim1], ldr, &af[n2p1 + (n2 + j) * af_dim1], &c__1);
                     /* L360: */
                 }
             }
-        }
-        else if (optc)
-        {
-            dsyrk_("Upper", "Transpose", m, p, &c_b26, &r__[r_offset], ldr, &c_b27, &af[n2p1 + n2p1 * af_dim1], ldaf, 5L, 9L);
+        } else if (optc) {
+            dsyrk_("Upper", "Transpose", m, p, &c_b26, &r__[r_offset], ldr, &c_b27,
+                &af[n2p1 + n2p1 * af_dim1], ldaf, 5L, 9L);
             i__1 = *m;
-            for (j = 2; j <= i__1; ++j)
-            {
+            for (j = 2; j <= i__1; ++j) {
                 i__2 = j - 1;
-                dcopy_(&i__2, &af[n2p1 + (n2 + j) * af_dim1], &c__1, &af[n2 + j + n2p1 * af_dim1], ldaf);
+                dcopy_(&i__2, &af[n2p1 + (n2 + j) * af_dim1], &c__1, &af[n2 + j + n2p1 * af_dim1],
+                    ldaf);
                 /* L380: */
             }
-        }
-        else
-        {
+        } else {
             i__1 = *m;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 i__2 = *p;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
-                    af[n2 + i__ + (n2 + j) * af_dim1] = r__[i__ + j * r_dim1] + r__[j + i__ * r_dim1];
+                for (i__ = 1; i__ <= i__2; ++i__) {
+                    af[n2 + i__ + (n2 + j) * af_dim1]
+                        = r__[i__ + j * r_dim1] + r__[j + i__ * r_dim1];
                     /* L400: */
                 }
                 /* L420: */
             }
         }
     }
-    if (! ljobb && ! discr && ljobe)
-    {
+    if (!ljobb && !discr && ljobe) {
         return 0;
     }
     /*     Construct the first two block columns of BF. */
-    if (ljobe)
-    {
+    if (ljobe) {
         i__1 = *n + nm;
         dlaset_("Full", &i__1, n, &c_b27, &c_b26, &bf[bf_offset], ldbf, 4L);
-    }
-    else
-    {
+    } else {
         dlacpy_("Full", n, n, &e[e_offset], lde, &bf[bf_offset], ldbf, 4L);
         dlaset_("Full", &nm, n, &c_b27, &c_b27, &bf[np1 + bf_dim1], ldbf, 4L);
     }
-    if (! discr || ljobb)
-    {
+    if (!discr || ljobb) {
         dlaset_("Full", n, n, &c_b27, &c_b27, &bf[np1 * bf_dim1 + 1], ldbf, 4L);
-    }
-    else
-    {
-        if (luplo)
-        {
+    } else {
+        if (luplo) {
             /*           Construct (1,2) block of BF using the upper triangle of G. */
             i__1 = *n;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 i__2 = j;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = 1; i__ <= i__2; ++i__) {
                     bf[i__ + (*n + j) * bf_dim1] = b[i__ + j * b_dim1];
                     /* L440: */
                 }
                 i__2 = *n;
-                for (i__ = j + 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = j + 1; i__ <= i__2; ++i__) {
                     bf[i__ + (*n + j) * bf_dim1] = b[j + i__ * b_dim1];
                     /* L460: */
                 }
                 /* L480: */
             }
-        }
-        else
-        {
+        } else {
             /*           Construct (1,2) block of BF using the lower triangle of G. */
             i__1 = *n;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 i__2 = j - 1;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = 1; i__ <= i__2; ++i__) {
                     bf[i__ + (*n + j) * bf_dim1] = b[j + i__ * b_dim1];
                     /* L500: */
                 }
                 i__2 = *n;
-                for (i__ = j; i__ <= i__2; ++i__)
-                {
+                for (i__ = j; i__ <= i__2; ++i__) {
                     bf[i__ + (*n + j) * bf_dim1] = b[i__ + j * b_dim1];
                     /* L520: */
                 }
@@ -800,43 +678,32 @@ ftnlen jobe_len;
             }
         }
     }
-    if (discr)
-    {
+    if (discr) {
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             i__2 = *n;
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
+            for (i__ = 1; i__ <= i__2; ++i__) {
                 bf[*n + i__ + (*n + j) * bf_dim1] = -a[j + i__ * a_dim1];
                 /* L560: */
             }
             /* L580: */
         }
-        if (ljobb)
-        {
-            if (optc)
-            {
+        if (ljobb) {
+            if (optc) {
                 i__1 = *n;
-                for (j = 1; j <= i__1; ++j)
-                {
+                for (j = 1; j <= i__1; ++j) {
                     i__2 = *m;
-                    for (i__ = 1; i__ <= i__2; ++i__)
-                    {
+                    for (i__ = 1; i__ <= i__2; ++i__) {
                         bf[n2 + i__ + (*n + j) * bf_dim1] = -b[j + i__ * b_dim1];
                         /* L600: */
                     }
                     /* L620: */
                 }
-            }
-            else
-            {
+            } else {
                 i__1 = *n;
-                for (j = 1; j <= i__1; ++j)
-                {
+                for (j = 1; j <= i__1; ++j) {
                     i__2 = *p;
-                    for (i__ = 1; i__ <= i__2; ++i__)
-                    {
+                    for (i__ = 1; i__ <= i__2; ++i__) {
                         bf[n2 + i__ + (*n + j) * bf_dim1] = -q[i__ + j * q_dim1];
                         /* L640: */
                     }
@@ -844,34 +711,25 @@ ftnlen jobe_len;
                 }
             }
         }
-    }
-    else
-    {
-        if (ljobe)
-        {
+    } else {
+        if (ljobe) {
             dlaset_("Full", &nm, n, &c_b27, &c_b46, &bf[np1 + np1 * bf_dim1], ldbf, 4L);
-        }
-        else
-        {
+        } else {
             i__1 = *n;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 i__2 = *n;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = 1; i__ <= i__2; ++i__) {
                     bf[*n + i__ + (*n + j) * bf_dim1] = -e[j + i__ * e_dim1];
                     /* L680: */
                 }
                 /* L700: */
             }
-            if (ljobb)
-            {
+            if (ljobb) {
                 dlaset_("Full", m, n, &c_b27, &c_b27, &bf[n2p1 + np1 * bf_dim1], ldbf, 4L);
             }
         }
     }
-    if (! ljobb)
-    {
+    if (!ljobb) {
         return 0;
     }
     /*     Compress the pencil lambda x BF - AF, using QL factorization. */
@@ -885,34 +743,34 @@ ftnlen jobe_len;
     jwork = itau + *m;
     i__1 = *ldwork - jwork + 1;
     dgeqlf_(&nnm, m, &af[n2p1 * af_dim1 + 1], ldaf, &dwork[itau], &dwork[jwork], &i__1, info);
-    wrkopt = (integer) dwork[jwork];
+    wrkopt = (integer)dwork[jwork];
     /*     Workspace: need 2*N+M;  prefer M + 2*N*NB. */
     i__1 = *ldwork - jwork + 1;
-    dormql_("Left", "Transpose", &nnm, &n2, m, &af[n2p1 * af_dim1 + 1], ldaf, &dwork[itau], &af[af_offset], ldaf, &dwork[jwork], &i__1, info, 4L, 9L);
+    dormql_("Left", "Transpose", &nnm, &n2, m, &af[n2p1 * af_dim1 + 1], ldaf, &dwork[itau],
+        &af[af_offset], ldaf, &dwork[jwork], &i__1, info, 4L, 9L);
     /* Computing MAX */
-    i__1 = wrkopt, i__2 = (integer) dwork[jwork] + jwork - 1;
-    wrkopt = max(i__1,i__2);
+    i__1 = wrkopt, i__2 = (integer)dwork[jwork] + jwork - 1;
+    wrkopt = max(i__1, i__2);
     i__1 = *ldwork - jwork + 1;
-    dormql_("Left", "Transpose", &nnm, &n2, m, &af[n2p1 * af_dim1 + 1], ldaf, &dwork[itau], &bf[bf_offset], ldbf, &dwork[jwork], &i__1, info, 4L, 9L);
+    dormql_("Left", "Transpose", &nnm, &n2, m, &af[n2p1 * af_dim1 + 1], ldaf, &dwork[itau],
+        &bf[bf_offset], ldbf, &dwork[jwork], &i__1, info, 4L, 9L);
     /*     Check the singularity of the L factor in the QL factorization: */
     /*     if singular, then the extended matrix pencil is also singular. */
     /*     Workspace 3*M. */
     toldef = *tol;
-    if (toldef <= 0.)
-    {
+    if (toldef <= 0.) {
         toldef = dlamch_("Epsilon", 7L);
     }
-    dtrcon_("1-norm", "Lower", "Non unit", m, &af[n2p1 + n2p1 * af_dim1], ldaf, &rcond, &dwork[1], &iwork[1], info, 6L, 5L, 8L);
+    dtrcon_("1-norm", "Lower", "Non unit", m, &af[n2p1 + n2p1 * af_dim1], ldaf, &rcond, &dwork[1],
+        &iwork[1], info, 6L, 5L, 8L);
     /* Computing MAX */
     i__1 = wrkopt, i__2 = *m * 3;
-    wrkopt = max(i__1,i__2);
-    if (rcond <= toldef)
-    {
+    wrkopt = max(i__1, i__2);
+    if (rcond <= toldef) {
         *info = 1;
     }
-    dwork[1] = (doublereal) wrkopt;
+    dwork[1] = (doublereal)wrkopt;
     dwork[2] = rcond;
     return 0;
     /* *** Last line of SB02OY *** */
 } /* sb02oy_ */
-

@@ -17,20 +17,19 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "integer_isequalBuiltin.hpp"
-#include "IntegerIsEqual.hpp"
 #include "Error.hpp"
+#include "IntegerIsEqual.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-static ArrayOfVector isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+static ArrayOfVector
+isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() != 2)
-    {
+    if (argIn.size() != 2) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     bool bRes = IntegerIsEqual(argIn[0], argIn[1]);
@@ -38,82 +37,106 @@ static ArrayOfVector isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
     return retval;
 }
 //=============================================================================
-ArrayOfVector Nelson::IntegerGateway::int8_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::IntegerGateway::int8_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     return isequalBuiltin(eval, nLhs, argIn);
 }
 //=============================================================================
-ArrayOfVector Nelson::IntegerGateway::int16_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::IntegerGateway::int16_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     return isequalBuiltin(eval, nLhs, argIn);
 }
 //=============================================================================
-ArrayOfVector Nelson::IntegerGateway::int32_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::IntegerGateway::int32_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     return isequalBuiltin(eval, nLhs, argIn);
 }
 //=============================================================================
-ArrayOfVector Nelson::IntegerGateway::int64_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::IntegerGateway::int64_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     return isequalBuiltin(eval, nLhs, argIn);
 }
 //=============================================================================
-ArrayOfVector Nelson::IntegerGateway::uint8_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::IntegerGateway::uint8_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     return isequalBuiltin(eval, nLhs, argIn);
 }
 //=============================================================================
-ArrayOfVector Nelson::IntegerGateway::uint16_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::IntegerGateway::uint16_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     return isequalBuiltin(eval, nLhs, argIn);
 }
 //=============================================================================
-ArrayOfVector Nelson::IntegerGateway::uint32_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::IntegerGateway::uint32_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     return isequalBuiltin(eval, nLhs, argIn);
 }
 //=============================================================================
-ArrayOfVector Nelson::IntegerGateway::uint64_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::IntegerGateway::uint64_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     return isequalBuiltin(eval, nLhs, argIn);
 }
 //=============================================================================
-ArrayOfVector Nelson::IntegerGateway::ndarrayint8_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::IntegerGateway::ndarrayint8_isequalBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     return isequalBuiltin(eval, nLhs, argIn);
 }
 //=============================================================================
-ArrayOfVector Nelson::IntegerGateway::ndarrayint16_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::IntegerGateway::ndarrayint16_isequalBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     return isequalBuiltin(eval, nLhs, argIn);
 }
 //=============================================================================
-ArrayOfVector Nelson::IntegerGateway::ndarrayint32_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::IntegerGateway::ndarrayint32_isequalBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     return isequalBuiltin(eval, nLhs, argIn);
 }
 //=============================================================================
-ArrayOfVector Nelson::IntegerGateway::ndarrayint64_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::IntegerGateway::ndarrayint64_isequalBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     return isequalBuiltin(eval, nLhs, argIn);
 }
 //=============================================================================
-ArrayOfVector Nelson::IntegerGateway::ndarrayuint8_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::IntegerGateway::ndarrayuint8_isequalBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     return isequalBuiltin(eval, nLhs, argIn);
 }
 //=============================================================================
-ArrayOfVector Nelson::IntegerGateway::ndarrayuint16_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::IntegerGateway::ndarrayuint16_isequalBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     return isequalBuiltin(eval, nLhs, argIn);
 }
 //=============================================================================
-ArrayOfVector Nelson::IntegerGateway::ndarrayuint32_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::IntegerGateway::ndarrayuint32_isequalBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     return isequalBuiltin(eval, nLhs, argIn);
 }
 //=============================================================================
-ArrayOfVector Nelson::IntegerGateway::ndarrayuint64_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::IntegerGateway::ndarrayuint64_isequalBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     return isequalBuiltin(eval, nLhs, argIn);
 }

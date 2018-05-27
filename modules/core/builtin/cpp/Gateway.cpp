@@ -16,33 +16,32 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include "GetPreferencesPath.hpp"
 #include "NelsonGateway.hpp"
-#include "exitBuiltin.hpp"
-#include "nelsonrootBuiltin.hpp"
-#include "runBuiltin.hpp"
-#include "nfilenameBuiltin.hpp"
-#include "namelengthmaxBuiltin.hpp"
 #include "bannerBuiltin.hpp"
-#include "formatBuiltin.hpp"
-#include "execstrBuiltin.hpp"
+#include "echoBuiltin.hpp"
 #include "evalBuiltin.hpp"
 #include "evalcBuiltin.hpp"
 #include "evalinBuiltin.hpp"
-#include "echoBuiltin.hpp"
-#include "versionBuiltin.hpp"
+#include "execstrBuiltin.hpp"
+#include "exitBuiltin.hpp"
+#include "formatBuiltin.hpp"
+#include "maxNumCompThreadsBuiltin.hpp"
+#include "namelengthmaxBuiltin.hpp"
 #include "narginBuiltin.hpp"
 #include "nargoutBuiltin.hpp"
-#include "prefdirBuiltin.hpp"
-#include "GetPreferencesPath.hpp"
-#include "maxNumCompThreadsBuiltin.hpp"
+#include "nelsonrootBuiltin.hpp"
+#include "nfilenameBuiltin.hpp"
 #include "pauseBuiltin.hpp"
+#include "prefdirBuiltin.hpp"
+#include "runBuiltin.hpp"
+#include "versionBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"core";
 //=============================================================================
-static const nlsGateway gateway[] =
-{
+static const nlsGateway gateway[] = {
     { "exit", Nelson::CoreGateway::exitBuiltin, 0, 1 },
     { "nelsonroot", Nelson::CoreGateway::nelsonrootBuiltin, 1, 0 },
     { "run", Nelson::CoreGateway::runBuiltin, 1, 3 },
@@ -59,19 +58,21 @@ static const nlsGateway gateway[] =
     { "nargin", Nelson::CoreGateway::narginBuiltin, 1, 1 },
     { "nargout", Nelson::CoreGateway::nargoutBuiltin, 1, 1 },
     { "prefdir", Nelson::CoreGateway::prefdirBuiltin, 1, 0 },
-    { "maxNumCompThreads", Nelson::CoreGateway::maxNumCompThreadsBuiltin, 1, -1},
+    { "maxNumCompThreads", Nelson::CoreGateway::maxNumCompThreadsBuiltin, 1, -1 },
     { "pause", Nelson::CoreGateway::pauseBuiltin, 1, 1 },
 };
 //=============================================================================
 NLSGATEWAYNAME()
 //=============================================================================
-static bool initializeCoreModule(Nelson::Evaluator* eval)
+static bool
+initializeCoreModule(Nelson::Evaluator* eval)
 {
     ComputePreferencesPath();
     return true;
 }
 //=============================================================================
-static bool finishCoreModule(Nelson::Evaluator* eval)
+static bool
+finishCoreModule(Nelson::Evaluator* eval)
 {
     return true;
 }

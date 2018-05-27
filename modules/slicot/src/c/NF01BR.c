@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -13,15 +13,16 @@ static integer c__0 = 0;
 static doublereal c_b56 = -1.;
 static doublereal c_b58 = 1.;
 
-EXPORTSYMBOL /* Subroutine */ int nf01br_(cond, uplo, trans, n, ipar, lipar, r__, ldr, sdiag, s, lds, b, ranks, tol, dwork, ldwork, info, cond_len, uplo_len, trans_len)
-char *cond, *uplo, *trans;
+EXPORTSYMBOL /* Subroutine */ int nf01br_(cond, uplo, trans, n, ipar, lipar, r__, ldr, sdiag, s,
+    lds, b, ranks, tol, dwork, ldwork, info, cond_len, uplo_len, trans_len) char *cond,
+    *uplo, *trans;
 integer *n, *ipar, *lipar;
-doublereal *r__;
-integer *ldr;
+doublereal* r__;
+integer* ldr;
 doublereal *sdiag, *s;
-integer *lds;
-doublereal *b;
-integer *ranks;
+integer* lds;
+doublereal* b;
+integer* ranks;
 doublereal *tol, *dwork;
 integer *ldwork, *info;
 ftnlen cond_len;
@@ -267,28 +268,17 @@ ftnlen trans_len;
     lower = lsame_(uplo, "L", 1L, 1L);
     tranr = lsame_(trans, "T", 1L, 1L) || lsame_(trans, "C", 1L, 1L);
     *info = 0;
-    if (! (econd || ncond || lsame_(cond, "U", 1L, 1L)))
-    {
+    if (!(econd || ncond || lsame_(cond, "U", 1L, 1L))) {
         *info = -1;
-    }
-    else if (! (lower || lsame_(uplo, "U", 1L, 1L)))
-    {
+    } else if (!(lower || lsame_(uplo, "U", 1L, 1L))) {
         *info = -2;
-    }
-    else if (! (tranr || lsame_(trans, "N", 1L, 1L)))
-    {
+    } else if (!(tranr || lsame_(trans, "N", 1L, 1L))) {
         *info = -3;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -4;
-    }
-    else if (*lipar < 4)
-    {
+    } else if (*lipar < 4) {
         *info = -6;
-    }
-    else
-    {
+    } else {
         st = ipar[1];
         bn = ipar[2];
         bsm = ipar[3];
@@ -296,156 +286,115 @@ ftnlen trans_len;
         nths = bn * bsn;
         full = bn <= 1 || bsn == 0;
         /* Computing MIN */
-        i__1 = min(st,bn), i__1 = min(i__1,bsm);
-        if (min(i__1,bsn) < 0)
-        {
+        i__1 = min(st, bn), i__1 = min(i__1, bsm);
+        if (min(i__1, bsn) < 0) {
             *info = -5;
-        }
-        else if (*n != nths + st)
-        {
+        } else if (*n != nths + st) {
             *info = -4;
-        }
-        else if (*ldr < max(1,*n))
-        {
+        } else if (*ldr < max(1, *n)) {
             *info = -8;
-        }
-        else if (*lds < 1 || lower && ! full && *lds < st)
-        {
+        } else if (*lds < 1 || lower && !full && *lds < st) {
             *info = -11;
-        }
-        else
-        {
-            if (econd)
-            {
-                if (full)
-                {
+        } else {
+            if (econd) {
+                if (full) {
                     l = *n << 1;
+                } else {
+                    l = max(bsn, st) << 1;
                 }
-                else
-                {
-                    l = max(bsn,st) << 1;
-                }
-            }
-            else
-            {
+            } else {
                 l = 0;
             }
-            if (*ldwork < l)
-            {
+            if (*ldwork < l) {
                 *info = -16;
             }
         }
     }
     /*     Return if there are illegal arguments. */
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("NF01BR", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
+    if (*n == 0) {
         return 0;
     }
-    if (econd)
-    {
+    if (econd) {
         toldef = *tol;
-        if (toldef <= 0.)
-        {
+        if (toldef <= 0.) {
             /*           Use the default tolerance in rank determination. */
-            toldef = (doublereal) (*n) * dlamch_("Epsilon", 7L);
+            toldef = (doublereal)(*n) * dlamch_("Epsilon", 7L);
         }
     }
     nc = bsn + st;
-    if (full)
-    {
+    if (full) {
         /*        Special case: l <= 1 or BSN = 0; R is just an upper triangular */
         /*        matrix. */
-        if (lower)
-        {
+        if (lower) {
             /*           Swap the diagonal elements of R and the elements of SDIAG */
             /*           and, if COND = 'E', swap the upper and lower triangular */
             /*           parts of R, in order to find the numerical rank. */
             i__1 = *ldr + 1;
             dswap_(n, &r__[r_offset], &i__1, &sdiag[1], &c__1);
-            if (econd)
-            {
-                *(unsigned char *)uplol = 'U';
-                *(unsigned char *)transl = *(unsigned char *)trans;
+            if (econd) {
+                *(unsigned char*)uplol = 'U';
+                *(unsigned char*)transl = *(unsigned char*)trans;
                 i__1 = *n;
-                for (j = 1; j <= i__1; ++j)
-                {
+                for (j = 1; j <= i__1; ++j) {
                     i__2 = *n - j + 1;
                     dswap_(&i__2, &r__[j + j * r_dim1], ldr, &r__[j + j * r_dim1], &c__1);
                     /* L10: */
                 }
-            }
-            else
-            {
-                *(unsigned char *)uplol = *(unsigned char *)uplo;
-                if (tranr)
-                {
-                    *(unsigned char *)transl = 'N';
-                }
-                else
-                {
-                    *(unsigned char *)transl = 'T';
+            } else {
+                *(unsigned char*)uplol = *(unsigned char*)uplo;
+                if (tranr) {
+                    *(unsigned char*)transl = 'N';
+                } else {
+                    *(unsigned char*)transl = 'T';
                 }
             }
+        } else {
+            *(unsigned char*)uplol = *(unsigned char*)uplo;
+            *(unsigned char*)transl = *(unsigned char*)trans;
         }
-        else
-        {
-            *(unsigned char *)uplol = *(unsigned char *)uplo;
-            *(unsigned char *)transl = *(unsigned char *)trans;
-        }
-        if (econd)
-        {
+        if (econd) {
             /*           Estimate the reciprocal condition number and set the rank. */
             /*           Workspace: 2*N. */
-            mb03od_("No QR", n, n, &r__[r_offset], ldr, &ipar[1], &toldef, &c_b19, &dwork[1], &rank, dum, &dwork[1], ldwork, info, 5L);
+            mb03od_("No QR", n, n, &r__[r_offset], ldr, &ipar[1], &toldef, &c_b19, &dwork[1], &rank,
+                dum, &dwork[1], ldwork, info, 5L);
             ranks[1] = rank;
-        }
-        else if (ncond)
-        {
+        } else if (ncond) {
             /*           Determine rank(R) by checking zero diagonal entries. */
             rank = *n;
             i__1 = *n;
-            for (j = 1; j <= i__1; ++j)
-            {
-                if (r__[j + j * r_dim1] == 0. && rank == *n)
-                {
+            for (j = 1; j <= i__1; ++j) {
+                if (r__[j + j * r_dim1] == 0. && rank == *n) {
                     rank = j - 1;
                 }
                 /* L20: */
             }
             ranks[1] = rank;
-        }
-        else
-        {
+        } else {
             /*           Use the stored rank. */
             rank = ranks[1];
         }
         /*        Solve R*x = b, or R'*x = b using back or forward substitution. */
         dum[0] = 0.;
-        if (rank < *n)
-        {
+        if (rank < *n) {
             i__1 = *n - rank;
             dcopy_(&i__1, dum, &c__0, &b[rank + 1], &c__1);
         }
         dtrsv_(uplol, transl, "NonUnit", &rank, &r__[r_offset], ldr, &b[1], &c__1, 1L, 1L, 7L);
-        if (lower)
-        {
+        if (lower) {
             /*           Swap the diagonal elements of R and the elements of SDIAG */
             /*           and, if COND = 'E', swap back the upper and lower triangular */
             /*           parts of R. */
             i__1 = *ldr + 1;
             dswap_(n, &r__[r_offset], &i__1, &sdiag[1], &c__1);
-            if (econd)
-            {
+            if (econd) {
                 i__1 = *n;
-                for (j = 1; j <= i__1; ++j)
-                {
+                for (j = 1; j <= i__1; ++j) {
                     i__2 = *n - j + 1;
                     dswap_(&i__2, &r__[j + j * r_dim1], ldr, &r__[j + j * r_dim1], &c__1);
                     /* L30: */
@@ -457,23 +406,19 @@ ftnlen trans_len;
     /*     General case: l > 1 and BSN > 0. */
     i__ = 1;
     l = bn;
-    if (econd)
-    {
+    if (econd) {
         /*        Estimate the reciprocal condition numbers and set the ranks. */
-        if (lower)
-        {
+        if (lower) {
             /*           Swap the diagonal elements of R and the elements of SDIAG */
             /*           and swap the upper and lower triangular parts of R, in order */
             /*           to find the numerical rank. Swap S and the transpose of the */
             /*           rectangular part of the last block column of R. */
             i__1 = bn;
-            for (k = 1; k <= i__1; ++k)
-            {
+            for (k = 1; k <= i__1; ++k) {
                 i__2 = *ldr + 1;
                 dswap_(&bsn, &r__[i__ + r_dim1], &i__2, &sdiag[i__], &c__1);
                 i__2 = bsn;
-                for (j = 1; j <= i__2; ++j)
-                {
+                for (j = 1; j <= i__2; ++j) {
                     i__3 = bsn - j + 1;
                     dswap_(&i__3, &r__[i__ + j * r_dim1], ldr, &r__[i__ + j * r_dim1], &c__1);
                     ++i__;
@@ -481,13 +426,11 @@ ftnlen trans_len;
                 }
                 /* L50: */
             }
-            if (st > 0)
-            {
+            if (st > 0) {
                 i__1 = *ldr + 1;
                 dswap_(&st, &r__[i__ + (bsn + 1) * r_dim1], &i__1, &sdiag[i__], &c__1);
                 i__1 = nc;
-                for (j = bsn + 1; j <= i__1; ++j)
-                {
+                for (j = bsn + 1; j <= i__1; ++j) {
                     dswap_(&nths, &r__[j * r_dim1 + 1], &c__1, &s[j - bsn + s_dim1], lds);
                     i__2 = nc - j + 1;
                     dswap_(&i__2, &r__[i__ + j * r_dim1], ldr, &r__[i__ + j * r_dim1], &c__1);
@@ -500,32 +443,26 @@ ftnlen trans_len;
         /*        Determine rank(R_k) using incremental condition estimation. */
         /*        Workspace 2*MAX(BSN,ST). */
         i__1 = bn;
-        for (k = 1; k <= i__1; ++k)
-        {
-            mb03od_("No QR", &bsn, &bsn, &r__[i1 + r_dim1], ldr, &ipar[1], &toldef, &c_b19, &dwork[1], &ranks[k], dum, &dwork[1], ldwork, info, 5L);
+        for (k = 1; k <= i__1; ++k) {
+            mb03od_("No QR", &bsn, &bsn, &r__[i1 + r_dim1], ldr, &ipar[1], &toldef, &c_b19,
+                &dwork[1], &ranks[k], dum, &dwork[1], ldwork, info, 5L);
             i1 += bsn;
             /* L70: */
         }
-        if (st > 0)
-        {
+        if (st > 0) {
             ++l;
-            mb03od_("No QR", &st, &st, &r__[i1 + (bsn + 1) * r_dim1], ldr, &ipar[1], &toldef, &c_b19, &dwork[1], &ranks[l], dum, &dwork[1], ldwork, info, 5L);
+            mb03od_("No QR", &st, &st, &r__[i1 + (bsn + 1) * r_dim1], ldr, &ipar[1], &toldef,
+                &c_b19, &dwork[1], &ranks[l], dum, &dwork[1], ldwork, info, 5L);
         }
-    }
-    else if (ncond)
-    {
+    } else if (ncond) {
         /*        Determine rank(R_k) by checking zero diagonal entries. */
-        if (lower)
-        {
+        if (lower) {
             i__1 = bn;
-            for (k = 1; k <= i__1; ++k)
-            {
+            for (k = 1; k <= i__1; ++k) {
                 rank = bsn;
                 i__2 = bsn;
-                for (j = 1; j <= i__2; ++j)
-                {
-                    if (sdiag[i__] == 0. && rank == bsn)
-                    {
+                for (j = 1; j <= i__2; ++j) {
+                    if (sdiag[i__] == 0. && rank == bsn) {
                         rank = j - 1;
                     }
                     ++i__;
@@ -534,15 +471,12 @@ ftnlen trans_len;
                 ranks[k] = rank;
                 /* L90: */
             }
-            if (st > 0)
-            {
+            if (st > 0) {
                 ++l;
                 rank = st;
                 i__1 = st;
-                for (j = 1; j <= i__1; ++j)
-                {
-                    if (sdiag[i__] == 0. && rank == st)
-                    {
+                for (j = 1; j <= i__1; ++j) {
+                    if (sdiag[i__] == 0. && rank == st) {
                         rank = j - 1;
                     }
                     ++i__;
@@ -550,18 +484,13 @@ ftnlen trans_len;
                 }
                 ranks[l] = rank;
             }
-        }
-        else
-        {
+        } else {
             i__1 = bn;
-            for (k = 1; k <= i__1; ++k)
-            {
+            for (k = 1; k <= i__1; ++k) {
                 rank = bsn;
                 i__2 = bsn;
-                for (j = 1; j <= i__2; ++j)
-                {
-                    if (r__[i__ + j * r_dim1] == 0. && rank == bsn)
-                    {
+                for (j = 1; j <= i__2; ++j) {
+                    if (r__[i__ + j * r_dim1] == 0. && rank == bsn) {
                         rank = j - 1;
                     }
                     ++i__;
@@ -570,15 +499,12 @@ ftnlen trans_len;
                 ranks[k] = rank;
                 /* L120: */
             }
-            if (st > 0)
-            {
+            if (st > 0) {
                 ++l;
                 rank = st;
                 i__1 = nc;
-                for (j = bsn + 1; j <= i__1; ++j)
-                {
-                    if (r__[i__ + j * r_dim1] == 0. && rank == st)
-                    {
+                for (j = bsn + 1; j <= i__1; ++j) {
+                    if (r__[i__ + j * r_dim1] == 0. && rank == st) {
                         rank = j - bsn - 1;
                     }
                     ++i__;
@@ -587,178 +513,156 @@ ftnlen trans_len;
                 ranks[l] = rank;
             }
         }
-    }
-    else
-    {
+    } else {
         /*        Set the number of elements of RANKS. Then use the stored ranks. */
-        if (st > 0)
-        {
+        if (st > 0) {
             ++l;
         }
     }
     /*     Solve the triangular system for x. If the system is singular, */
     /*     then obtain a basic least squares solution. */
     dum[0] = 0.;
-    if (lower && ! econd)
-    {
-        if (! tranr)
-        {
+    if (lower && !econd) {
+        if (!tranr) {
             /*           Solve R*x = b using back substitution, with R' stored in */
             /*           the arrays R, SDIAG and S. Swap diag(R) and SDIAG. */
             i1 = nths + 1;
-            if (st > 0)
-            {
+            if (st > 0) {
                 rank = ranks[l];
-                if (rank < st)
-                {
+                if (rank < st) {
                     i__1 = st - rank;
                     dcopy_(&i__1, dum, &c__0, &b[i1 + rank], &c__1);
                 }
                 i__1 = *ldr + 1;
                 dswap_(&st, &r__[i1 + (bsn + 1) * r_dim1], &i__1, &sdiag[i1], &c__1);
-                dtrsv_("Lower", "Transpose", "NonUnit", &rank, &r__[i1 + (bsn + 1) * r_dim1], ldr, &b[i1], &c__1, 5L, 9L, 7L);
+                dtrsv_("Lower", "Transpose", "NonUnit", &rank, &r__[i1 + (bsn + 1) * r_dim1], ldr,
+                    &b[i1], &c__1, 5L, 9L, 7L);
                 i__1 = *ldr + 1;
                 dswap_(&st, &r__[i1 + (bsn + 1) * r_dim1], &i__1, &sdiag[i1], &c__1);
-                dgemv_("Transpose", &st, &nths, &c_b56, &s[s_offset], lds, &b[nths + 1], &c__1, &c_b58, &b[1], &c__1, 9L);
+                dgemv_("Transpose", &st, &nths, &c_b56, &s[s_offset], lds, &b[nths + 1], &c__1,
+                    &c_b58, &b[1], &c__1, 9L);
             }
-            for (k = bn; k >= 1; --k)
-            {
+            for (k = bn; k >= 1; --k) {
                 i1 -= bsn;
                 rank = ranks[k];
-                if (rank < bsn)
-                {
+                if (rank < bsn) {
                     i__1 = bsn - rank;
                     dcopy_(&i__1, dum, &c__0, &b[i1 + rank], &c__1);
                 }
                 i__1 = *ldr + 1;
                 dswap_(&bsn, &r__[i1 + r_dim1], &i__1, &sdiag[i1], &c__1);
-                dtrsv_("Lower", "Transpose", "NonUnit", &rank, &r__[i1 + r_dim1], ldr, &b[i1], &c__1, 5L, 9L, 7L);
+                dtrsv_("Lower", "Transpose", "NonUnit", &rank, &r__[i1 + r_dim1], ldr, &b[i1],
+                    &c__1, 5L, 9L, 7L);
                 i__1 = *ldr + 1;
                 dswap_(&bsn, &r__[i1 + r_dim1], &i__1, &sdiag[i1], &c__1);
                 /* L140: */
             }
-        }
-        else
-        {
+        } else {
             /*           Solve R'*x = b using forward substitution, with R' stored in */
             /*           the arrays R, SDIAG and S. Swap diag(R) and SDIAG. */
             i1 = 1;
-            if (tranr)
-            {
-                *(unsigned char *)transl = 'N';
-            }
-            else
-            {
-                *(unsigned char *)transl = 'T';
+            if (tranr) {
+                *(unsigned char*)transl = 'N';
+            } else {
+                *(unsigned char*)transl = 'T';
             }
             i__1 = bn;
-            for (k = 1; k <= i__1; ++k)
-            {
+            for (k = 1; k <= i__1; ++k) {
                 rank = ranks[k];
-                if (rank < bsn)
-                {
+                if (rank < bsn) {
                     i__2 = bsn - rank;
                     dcopy_(&i__2, dum, &c__0, &b[i1 + rank], &c__1);
                 }
                 i__2 = *ldr + 1;
                 dswap_(&bsn, &r__[i1 + r_dim1], &i__2, &sdiag[i1], &c__1);
-                dtrsv_("Lower", transl, "NonUnit", &rank, &r__[i1 + r_dim1], ldr, &b[i1], &c__1, 5L, 1L, 7L);
+                dtrsv_("Lower", transl, "NonUnit", &rank, &r__[i1 + r_dim1], ldr, &b[i1], &c__1, 5L,
+                    1L, 7L);
                 i__2 = *ldr + 1;
                 dswap_(&bsn, &r__[i1 + r_dim1], &i__2, &sdiag[i1], &c__1);
                 i1 += bsn;
                 /* L150: */
             }
-            if (st > 0)
-            {
+            if (st > 0) {
                 rank = ranks[l];
-                if (rank < st)
-                {
+                if (rank < st) {
                     i__1 = st - rank;
                     dcopy_(&i__1, dum, &c__0, &b[i1 + rank], &c__1);
                 }
-                dgemv_("NoTranspose", &st, &nths, &c_b56, &s[s_offset], lds, &b[1], &c__1, &c_b58, &b[i1], &c__1, 11L);
+                dgemv_("NoTranspose", &st, &nths, &c_b56, &s[s_offset], lds, &b[1], &c__1, &c_b58,
+                    &b[i1], &c__1, 11L);
                 i__1 = *ldr + 1;
                 dswap_(&st, &r__[i1 + (bsn + 1) * r_dim1], &i__1, &sdiag[i1], &c__1);
-                dtrsv_("Lower", transl, "NonUnit", &rank, &r__[i1 + (bsn + 1) * r_dim1], ldr, &b[i1], &c__1, 5L, 1L, 7L);
+                dtrsv_("Lower", transl, "NonUnit", &rank, &r__[i1 + (bsn + 1) * r_dim1], ldr,
+                    &b[i1], &c__1, 5L, 1L, 7L);
                 i__1 = *ldr + 1;
                 dswap_(&st, &r__[i1 + (bsn + 1) * r_dim1], &i__1, &sdiag[i1], &c__1);
             }
         }
-    }
-    else
-    {
-        if (! tranr)
-        {
+    } else {
+        if (!tranr) {
             /*           Solve R*x = b using back substitution. */
             i1 = nths + 1;
-            if (st > 0)
-            {
+            if (st > 0) {
                 rank = ranks[l];
-                if (rank < st)
-                {
+                if (rank < st) {
                     i__1 = st - rank;
                     dcopy_(&i__1, dum, &c__0, &b[i1 + rank], &c__1);
                 }
-                dtrsv_("Upper", trans, "NonUnit", &rank, &r__[i1 + (bsn + 1) * r_dim1], ldr, &b[i1], &c__1, 5L, 1L, 7L);
-                dgemv_(trans, &nths, &st, &c_b56, &r__[(bsn + 1) * r_dim1 + 1], ldr, &b[nths + 1], &c__1, &c_b58, &b[1], &c__1, 1L);
+                dtrsv_("Upper", trans, "NonUnit", &rank, &r__[i1 + (bsn + 1) * r_dim1], ldr, &b[i1],
+                    &c__1, 5L, 1L, 7L);
+                dgemv_(trans, &nths, &st, &c_b56, &r__[(bsn + 1) * r_dim1 + 1], ldr, &b[nths + 1],
+                    &c__1, &c_b58, &b[1], &c__1, 1L);
             }
-            for (k = bn; k >= 1; --k)
-            {
+            for (k = bn; k >= 1; --k) {
                 i1 -= bsn;
                 rank = ranks[k];
-                if (rank < bsn)
-                {
+                if (rank < bsn) {
                     i__1 = bsn - rank;
                     dcopy_(&i__1, dum, &c__0, &b[i1 + rank], &c__1);
                 }
-                dtrsv_("Upper", trans, "NonUnit", &rank, &r__[i1 + r_dim1], ldr, &b[i1], &c__1, 5L, 1L, 7L);
+                dtrsv_("Upper", trans, "NonUnit", &rank, &r__[i1 + r_dim1], ldr, &b[i1], &c__1, 5L,
+                    1L, 7L);
                 /* L160: */
             }
-        }
-        else
-        {
+        } else {
             /*           Solve R'*x = b using forward substitution. */
             i1 = 1;
             i__1 = bn;
-            for (k = 1; k <= i__1; ++k)
-            {
+            for (k = 1; k <= i__1; ++k) {
                 rank = ranks[k];
-                if (rank < bsn)
-                {
+                if (rank < bsn) {
                     i__2 = bsn - rank;
                     dcopy_(&i__2, dum, &c__0, &b[i1 + rank], &c__1);
                 }
-                dtrsv_("Upper", trans, "NonUnit", &rank, &r__[i1 + r_dim1], ldr, &b[i1], &c__1, 5L, 1L, 7L);
+                dtrsv_("Upper", trans, "NonUnit", &rank, &r__[i1 + r_dim1], ldr, &b[i1], &c__1, 5L,
+                    1L, 7L);
                 i1 += bsn;
                 /* L170: */
             }
-            if (st > 0)
-            {
+            if (st > 0) {
                 rank = ranks[l];
-                if (rank < st)
-                {
+                if (rank < st) {
                     i__1 = st - rank;
                     dcopy_(&i__1, dum, &c__0, &b[i1 + rank], &c__1);
                 }
-                dgemv_(trans, &nths, &st, &c_b56, &r__[(bsn + 1) * r_dim1 + 1], ldr, &b[1], &c__1, &c_b58, &b[i1], &c__1, 1L);
-                dtrsv_("Upper", trans, "NonUnit", &rank, &r__[i1 + (bsn + 1) * r_dim1], ldr, &b[i1], &c__1, 5L, 1L, 7L);
+                dgemv_(trans, &nths, &st, &c_b56, &r__[(bsn + 1) * r_dim1 + 1], ldr, &b[1], &c__1,
+                    &c_b58, &b[i1], &c__1, 1L);
+                dtrsv_("Upper", trans, "NonUnit", &rank, &r__[i1 + (bsn + 1) * r_dim1], ldr, &b[i1],
+                    &c__1, 5L, 1L, 7L);
             }
         }
     }
-    if (econd && lower)
-    {
+    if (econd && lower) {
         i__ = 1;
         /*        If COND = 'E' and UPLO = 'L', swap the diagonal elements of R */
         /*        and the elements of SDIAG and swap back the upper and lower */
         /*        triangular parts of R, including the part corresponding to S. */
         i__1 = bn;
-        for (k = 1; k <= i__1; ++k)
-        {
+        for (k = 1; k <= i__1; ++k) {
             i__2 = *ldr + 1;
             dswap_(&bsn, &r__[i__ + r_dim1], &i__2, &sdiag[i__], &c__1);
             i__2 = bsn;
-            for (j = 1; j <= i__2; ++j)
-            {
+            for (j = 1; j <= i__2; ++j) {
                 i__3 = bsn - j + 1;
                 dswap_(&i__3, &r__[i__ + j * r_dim1], ldr, &r__[i__ + j * r_dim1], &c__1);
                 ++i__;
@@ -766,13 +670,11 @@ ftnlen trans_len;
             }
             /* L190: */
         }
-        if (st > 0)
-        {
+        if (st > 0) {
             i__1 = *ldr + 1;
             dswap_(&st, &r__[i__ + (bsn + 1) * r_dim1], &i__1, &sdiag[i__], &c__1);
             i__1 = nc;
-            for (j = bsn + 1; j <= i__1; ++j)
-            {
+            for (j = bsn + 1; j <= i__1; ++j) {
                 dswap_(&nths, &r__[j * r_dim1 + 1], &c__1, &s[j - bsn + s_dim1], lds);
                 i__2 = nc - j + 1;
                 dswap_(&i__2, &r__[i__ + j * r_dim1], ldr, &r__[i__ + j * r_dim1], &c__1);
@@ -784,4 +686,3 @@ ftnlen trans_len;
     return 0;
     /* *** Last line of NF01BR *** */
 } /* nf01br_ */
-

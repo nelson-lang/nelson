@@ -22,9 +22,9 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace HelpBrowserGateway {
-        ArrayOfVector helpbrowserBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    };
+namespace HelpBrowserGateway {
+    ArrayOfVector
+    helpbrowserBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 };
+}; // namespace Nelson
 //=============================================================================
-

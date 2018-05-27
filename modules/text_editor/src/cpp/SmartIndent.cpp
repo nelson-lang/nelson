@@ -16,53 +16,53 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
+#include "SmartIndent.hpp"
+#include "QStringConverter.hpp"
+#include "SmartIndent.h"
+#include <QtCore/QFileInfo>
 #include <QtCore/QRegExp>
 #include <QtCore/QStringList>
-#include <QtCore/QFileInfo>
 #include <QtCore/QTextStream>
 #include <QtGui/QTextDocumentFragment>
-#include "SmartIndent.hpp"
-#include "SmartIndent.h"
-#include "QStringConverter.hpp"
 //=============================================================================
-QString setIndentSpace(QString lineToIndent, int leadingSpace)
+QString
+setIndentSpace(QString lineToIndent, int leadingSpace)
 {
     QRegExp whitespace("^\\s*");
     int k;
-    if ((k = lineToIndent.indexOf(whitespace, 0)) != -1)
-    {
+    if ((k = lineToIndent.indexOf(whitespace, 0)) != -1) {
         lineToIndent.remove(0, whitespace.matchedLength());
     }
     lineToIndent = QString(leadingSpace, ' ') + lineToIndent;
     return lineToIndent;
 }
 //=============================================================================
-void removeMatch(QString &line, QRegExp &pattern)
+void
+removeMatch(QString& line, QRegExp& pattern)
 {
     int j = 0;
-    while ((j = line.indexOf(pattern, j)) != -1)
-    {
-        for (int i = 0; i < pattern.matchedLength(); i++)
-        {
+    while ((j = line.indexOf(pattern, j)) != -1) {
+        for (int i = 0; i < pattern.matchedLength(); i++) {
             line.replace(j + i, 1, 'X');
         }
         j += pattern.matchedLength();
     }
 }
 //=============================================================================
-int countMatches(QString line, QRegExp &pattern)
+int
+countMatches(QString line, QRegExp& pattern)
 {
     int matchCount = 0;
     int i = 0;
-    while ((i = line.indexOf(pattern, i)) != -1)
-    {
+    while ((i = line.indexOf(pattern, i)) != -1) {
         matchCount++;
         i += pattern.matchedLength();
     }
     return matchCount;
 }
 //=============================================================================
-QString stripLine(QString line)
+QString
+stripLine(QString line)
 {
     QRegExp literal("\'([^\']*)\'");
     removeMatch(line, literal);
@@ -77,36 +77,34 @@ QString stripLine(QString line)
     return line;
 }
 //=============================================================================
-int computeIndexIncrement(QString a)
+int
+computeIndexIncrement(QString a)
 {
     QRegExp keywordIn("\\b(if|for|function|try|while|switch)\\b");
     QRegExp keywordOut("\\b(end|endfunction)\\b");
     return countMatches(a, keywordIn) - countMatches(a, keywordOut);
 }
 //=============================================================================
-QString smartIndentLine(QString lineToIndent, QStringList previousText, int indentSize)
+QString
+smartIndentLine(QString lineToIndent, QStringList previousText, int indentSize)
 {
     bool continueToRemoveLast = !previousText.empty();
-    while (continueToRemoveLast)
-    {
-        if (previousText.empty())
-        {
+    while (continueToRemoveLast) {
+        if (previousText.empty()) {
             break;
         }
         int idx = previousText.size() - 1;
-        if (idx >= 0)
-        {
+        if (idx >= 0) {
             QString last = previousText[idx];
             QString lastTrimmed = last.trimmed();
-            continueToRemoveLast = (lastTrimmed.isEmpty() || lastTrimmed.at(0) == '%') || ((lastTrimmed.at(0) == '/') && (lastTrimmed.at(1) == '/'));
-            if (continueToRemoveLast)
-            {
+            continueToRemoveLast = (lastTrimmed.isEmpty() || lastTrimmed.at(0) == '%')
+                || ((lastTrimmed.at(0) == '/') && (lastTrimmed.at(1) == '/'));
+            if (continueToRemoveLast) {
                 previousText.removeLast();
             }
         }
     }
-    if (previousText.empty())
-    {
+    if (previousText.empty()) {
         return setIndentSpace(lineToIndent, 0);
     }
     QString last = previousText[previousText.size() - 1];
@@ -114,35 +112,29 @@ QString smartIndentLine(QString lineToIndent, QStringList previousText, int inde
     int indentIncrement = computeIndexIncrement(last);
     QString stripped = stripLine(lineToIndent);
     QRegExp keyword_adjust("^\\s*\\b(endfunction|end|else|elseif|catch)\\b");
-    if (stripped.indexOf(keyword_adjust) >= 0)
-    {
+    if (stripped.indexOf(keyword_adjust) >= 0) {
         indentIncrement--;
     }
-    if (last.indexOf(keyword_adjust) >= 0)
-    {
+    if (last.indexOf(keyword_adjust) >= 0) {
         indentIncrement++;
     }
     QRegExp keyword_case("^\\s*\\b(case|otherwise)\\b");
     QRegExp keyword_switch("^\\s*\\b(switch)\\b");
     QRegExp keyword_end("^\\s*\\b(end)\\b");
-    if (stripped.indexOf(keyword_case) >= 0 && last.indexOf(keyword_switch) < 0)
-    {
+    if (stripped.indexOf(keyword_case) >= 0 && last.indexOf(keyword_switch) < 0) {
         indentIncrement--;
     }
-    if (last.indexOf(keyword_case) >= 0 && stripped.indexOf(keyword_end) < 0)
-    {
+    if (last.indexOf(keyword_case) >= 0 && stripped.indexOf(keyword_end) < 0) {
         indentIncrement++;
     }
     QRegExp function_det("^\\s*\\b(function)\\b");
-    if (stripped.indexOf(function_det) >= 0)
-    {
+    if (stripped.indexOf(function_det) >= 0) {
         return setIndentSpace(lineToIndent, 0);
     }
     QRegExp whitespace("^\\s*");
     int leadingSpace = 0;
     int i = 0;
-    if ((i = last.indexOf(whitespace, 0)) != -1)
-    {
+    if ((i = last.indexOf(whitespace, 0)) != -1) {
         leadingSpace = whitespace.matchedLength();
     }
     leadingSpace += indentIncrement * indentSize;
@@ -150,33 +142,29 @@ QString smartIndentLine(QString lineToIndent, QStringList previousText, int inde
     return setIndentSpace(lineToIndent, leadingSpace);
 }
 //=============================================================================
-void smartIndent(QTextEdit *textEdit, int tabSize)
+void
+smartIndent(QTextEdit* textEdit, int tabSize)
 {
     QTextCursor cursor(textEdit->textCursor());
     QTextCursor line1(cursor);
     QTextCursor line2(cursor);
     int startPos;
-    if (cursor.position() < cursor.anchor())
-    {
+    if (cursor.position() < cursor.anchor()) {
         line2.setPosition(cursor.anchor());
         startPos = cursor.position();
-    }
-    else
-    {
+    } else {
         line1.setPosition(cursor.anchor());
         startPos = cursor.anchor();
     }
     line1.movePosition(QTextCursor::StartOfLine, QTextCursor::MoveAnchor);
     QTextCursor line2Copy(line2);
     line2.movePosition(QTextCursor::StartOfLine, QTextCursor::MoveAnchor);
-    if (line2.position() == line2Copy.position())
-    {
+    if (line2.position() == line2Copy.position()) {
         line2.movePosition(QTextCursor::Up, QTextCursor::MoveAnchor);
     }
     QTextCursor pos(line1);
     pos.beginEditBlock();
-    while (pos.position() < line2.position())
-    {
+    while (pos.position() < line2.position()) {
         pos.movePosition(QTextCursor::StartOfLine, QTextCursor::MoveAnchor);
         pos.movePosition(QTextCursor::Down, QTextCursor::MoveAnchor);
         QTextCursor cursor(pos);
@@ -200,38 +188,35 @@ void smartIndent(QTextEdit *textEdit, int tabSize)
 }
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    void smartIndent(std::wstring filename, int tabsize, bool doBackup)
-    {
-        QFile file(wstringToQString(filename));
-        if (file.open(QFile::ReadOnly | QFile::Text))
-        {
-            QTextStream in(&file);
-            in.setCodec("UTF-8");
-            QString content = in.readAll();
-            file.close();
-            if (doBackup)
-            {
-                std::wstring backupFilename = filename + L".bak";
-                file.copy(wstringToQString(backupFilename));
+//=============================================================================
+void
+smartIndent(std::wstring filename, int tabsize, bool doBackup)
+{
+    QFile file(wstringToQString(filename));
+    if (file.open(QFile::ReadOnly | QFile::Text)) {
+        QTextStream in(&file);
+        in.setCodec("UTF-8");
+        QString content = in.readAll();
+        file.close();
+        if (doBackup) {
+            std::wstring backupFilename = filename + L".bak";
+            file.copy(wstringToQString(backupFilename));
+        }
+        QTextEdit* textEdit = new QTextEdit();
+        if (textEdit) {
+            textEdit->setText(content);
+            textEdit->selectAll();
+            smartIndent(textEdit, tabsize);
+            if (file.open(QFile::WriteOnly | QFile::Text)) {
+                QTextStream out(&file);
+                out.setCodec("UTF-8");
+                out << textEdit->toPlainText();
+                file.close();
             }
-            QTextEdit *textEdit = new QTextEdit();
-            if (textEdit)
-            {
-                textEdit->setText(content);
-                textEdit->selectAll();
-                smartIndent(textEdit, tabsize);
-                if (file.open(QFile::WriteOnly | QFile::Text))
-                {
-                    QTextStream out(&file);
-                    out.setCodec("UTF-8");
-                    out << textEdit->toPlainText();
-                    file.close();
-                }
-                delete textEdit;
-            }
+            delete textEdit;
         }
     }
-    //=============================================================================
+}
+//=============================================================================
 }
 //=============================================================================

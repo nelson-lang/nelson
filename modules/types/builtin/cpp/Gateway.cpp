@@ -18,36 +18,35 @@
 //=============================================================================
 #include "NelsonGateway.hpp"
 #include "classBuiltin.hpp"
-#include "ischarBuiltin.hpp"
+#include "isaBuiltin.hpp"
 #include "iscellBuiltin.hpp"
-#include "isfloatBuiltin.hpp"
+#include "ischarBuiltin.hpp"
+#include "isclassBuiltin.hpp"
 #include "isdoubleBuiltin.hpp"
-#include "issingleBuiltin.hpp"
-#include "isstructBuiltin.hpp"
-#include "isintegerBuiltin.hpp"
-#include "isint8Builtin.hpp"
+#include "isemptyBuiltin.hpp"
+#include "isfloatBuiltin.hpp"
+#include "ishandleBuiltin.hpp"
 #include "isint16Builtin.hpp"
 #include "isint32Builtin.hpp"
 #include "isint64Builtin.hpp"
-#include "isuint8Builtin.hpp"
+#include "isint8Builtin.hpp"
+#include "isintegerBuiltin.hpp"
+#include "islogicalBuiltin.hpp"
+#include "isnumericBuiltin.hpp"
+#include "isrealBuiltin.hpp"
+#include "issingleBuiltin.hpp"
+#include "issparseBuiltin.hpp"
+#include "isstructBuiltin.hpp"
 #include "isuint16Builtin.hpp"
 #include "isuint32Builtin.hpp"
 #include "isuint64Builtin.hpp"
-#include "issparseBuiltin.hpp"
-#include "islogicalBuiltin.hpp"
-#include "isnumericBuiltin.hpp"
-#include "isaBuiltin.hpp"
-#include "isrealBuiltin.hpp"
-#include "isemptyBuiltin.hpp"
-#include "isclassBuiltin.hpp"
-#include "ishandleBuiltin.hpp"
+#include "isuint8Builtin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"types";
 //=============================================================================
-static const nlsGateway gateway[] =
-{
+static const nlsGateway gateway[] = {
     { "class", Nelson::TypeGateway::classBuiltin, 1, 2 },
     { "ischar", Nelson::TypeGateway::ischarBuiltin, 1, 1 },
     { "isfloat", Nelson::TypeGateway::isfloatBuiltin, 1, 1 },

@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,20 +9,22 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int mb03ya_(wantt, wantq, wantz, n, ilo, ihi, iloq, ihiq, pos, a, lda, b, ldb, q, ldq, z__, ldz, info)
-logical *wantt, *wantq, *wantz;
+EXPORTSYMBOL /* Subroutine */ int mb03ya_(wantt, wantq, wantz, n, ilo, ihi, iloq, ihiq, pos, a, lda,
+    b, ldb, q, ldq, z__, ldz, info) logical *wantt,
+    *wantq, *wantz;
 integer *n, *ilo, *ihi, *iloq, *ihiq, *pos;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *q;
-integer *ldq;
-doublereal *z__;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* q;
+integer* ldq;
+doublereal* z__;
 integer *ldz, *info;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, q_dim1, q_offset, z_dim1, z_offset, i__1, i__2, i__3, i__4, i__5, i__6, i__7, i__8;
+    integer a_dim1, a_offset, b_dim1, b_offset, q_dim1, q_offset, z_dim1, z_offset, i__1, i__2,
+        i__3, i__4, i__5, i__6, i__7, i__8;
     /* Local variables */
     static doublereal temp;
     extern /* Subroutine */ int drot_();
@@ -192,72 +194,47 @@ integer *ldz, *info;
     /* Function Body */
     *info = 0;
     nq = *ihiq - *iloq + 1;
-    if (*n < 0)
-    {
+    if (*n < 0) {
         *info = -4;
-    }
-    else if (*ilo < 1 || *ilo > max(1,*n))
-    {
+    } else if (*ilo < 1 || *ilo > max(1, *n)) {
         *info = -5;
-    }
-    else if (*ihi < min(*ilo,*n) || *ihi > *n)
-    {
+    } else if (*ihi < min(*ilo, *n) || *ihi > *n) {
         *info = -6;
-    }
-    else if (*iloq < 1 || *iloq > *ilo)
-    {
+    } else if (*iloq < 1 || *iloq > *ilo) {
         *info = -7;
-    }
-    else if (*ihiq < *ihi || *ihiq > *n)
-    {
+    } else if (*ihiq < *ihi || *ihiq > *n) {
         *info = -8;
-    }
-    else if (*pos < *ilo || *pos > *ihi)
-    {
+    } else if (*pos < *ilo || *pos > *ihi) {
         *info = -9;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -11;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -13;
-    }
-    else if (*ldq < 1 || *wantq && *ldq < *n)
-    {
+    } else if (*ldq < 1 || *wantq && *ldq < *n) {
         *info = -15;
-    }
-    else if (*ldz < 1 || *wantz && *ldz < *n)
-    {
+    } else if (*ldz < 1 || *wantz && *ldz < *n) {
         *info = -17;
     }
     /*     Return if there were illegal values. */
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB03YA", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
+    if (*n == 0) {
         return 0;
     }
-    if (*wantt)
-    {
+    if (*wantt) {
         i1 = 1;
         i2 = *n;
-    }
-    else
-    {
+    } else {
         i1 = *ilo;
         i2 = *ihi;
     }
     /*     Apply a zero-shifted QR step. */
     i__1 = *pos - 1;
-    for (j = *ilo; j <= i__1; ++j)
-    {
+    for (j = *ilo; j <= i__1; ++j) {
         temp = a[j + j * a_dim1];
         dlartg_(&temp, &a[j + 1 + j * a_dim1], &cs, &sn, &a[j + j * a_dim1]);
         a[j + 1 + j * a_dim1] = 0.;
@@ -265,17 +242,16 @@ integer *ldz, *info;
         drot_(&i__2, &a[j + (j + 1) * a_dim1], lda, &a[j + 1 + (j + 1) * a_dim1], lda, &cs, &sn);
         /* Computing MIN */
         i__3 = j, i__4 = *pos - 2;
-        i__2 = min(i__3,i__4) - i1 + 2;
+        i__2 = min(i__3, i__4) - i1 + 2;
         drot_(&i__2, &b[i1 + j * b_dim1], &c__1, &b[i1 + (j + 1) * b_dim1], &c__1, &cs, &sn);
-        if (*wantq)
-        {
-            drot_(&nq, &q[*iloq + j * q_dim1], &c__1, &q[*iloq + (j + 1) * q_dim1], &c__1, &cs, &sn);
+        if (*wantq) {
+            drot_(
+                &nq, &q[*iloq + j * q_dim1], &c__1, &q[*iloq + (j + 1) * q_dim1], &c__1, &cs, &sn);
         }
         /* L10: */
     }
     i__1 = *pos - 2;
-    for (j = *ilo; j <= i__1; ++j)
-    {
+    for (j = *ilo; j <= i__1; ++j) {
         temp = b[j + j * b_dim1];
         dlartg_(&temp, &b[j + 1 + j * b_dim1], &cs, &sn, &b[j + j * b_dim1]);
         b[j + 1 + j * b_dim1] = 0.;
@@ -283,16 +259,15 @@ integer *ldz, *info;
         drot_(&i__2, &b[j + (j + 1) * b_dim1], ldb, &b[j + 1 + (j + 1) * b_dim1], ldb, &cs, &sn);
         i__2 = j - i1 + 2;
         drot_(&i__2, &a[i1 + j * a_dim1], &c__1, &a[i1 + (j + 1) * a_dim1], &c__1, &cs, &sn);
-        if (*wantz)
-        {
-            drot_(&nq, &z__[*iloq + j * z_dim1], &c__1, &z__[*iloq + (j + 1) * z_dim1], &c__1, &cs, &sn);
+        if (*wantz) {
+            drot_(&nq, &z__[*iloq + j * z_dim1], &c__1, &z__[*iloq + (j + 1) * z_dim1], &c__1, &cs,
+                &sn);
         }
         /* L20: */
     }
     /*     Apply a zero-shifted RQ step. */
     i__1 = *pos + 1;
-    for (j = *ihi; j >= i__1; --j)
-    {
+    for (j = *ihi; j >= i__1; --j) {
         temp = a[j + j * a_dim1];
         dlartg_(&temp, &a[j + (j - 1) * a_dim1], &cs, &sn, &a[j + j * a_dim1]);
         a[j + (j - 1) * a_dim1] = 0.;
@@ -301,21 +276,21 @@ integer *ldz, *info;
         drot_(&i__2, &a[i1 + (j - 1) * a_dim1], &c__1, &a[i1 + j * a_dim1], &c__1, &cs, &sn);
         /* Computing MAX */
         i__3 = j - 1, i__4 = *pos + 1;
-        i__2 = i2 - max(i__3,i__4) + 1;
+        i__2 = i2 - max(i__3, i__4) + 1;
         /* Computing MAX */
         i__5 = j - 1, i__6 = *pos + 1;
         /* Computing MAX */
         i__7 = j - 1, i__8 = *pos + 1;
-        drot_(&i__2, &b[j - 1 + max(i__5,i__6) * b_dim1], ldb, &b[j + max(i__7,i__8) * b_dim1], ldb, &cs, &sn);
-        if (*wantz)
-        {
-            drot_(&nq, &z__[*iloq + (j - 1) * z_dim1], &c__1, &z__[*iloq + j * z_dim1], &c__1, &cs, &sn);
+        drot_(&i__2, &b[j - 1 + max(i__5, i__6) * b_dim1], ldb, &b[j + max(i__7, i__8) * b_dim1],
+            ldb, &cs, &sn);
+        if (*wantz) {
+            drot_(&nq, &z__[*iloq + (j - 1) * z_dim1], &c__1, &z__[*iloq + j * z_dim1], &c__1, &cs,
+                &sn);
         }
         /* L30: */
     }
     i__1 = *pos + 2;
-    for (j = *ihi; j >= i__1; --j)
-    {
+    for (j = *ihi; j >= i__1; --j) {
         temp = b[j + j * b_dim1];
         dlartg_(&temp, &b[j + (j - 1) * b_dim1], &cs, &sn, &b[j + j * b_dim1]);
         b[j + (j - 1) * b_dim1] = 0.;
@@ -324,13 +299,12 @@ integer *ldz, *info;
         drot_(&i__2, &b[i1 + (j - 1) * b_dim1], &c__1, &b[i1 + j * b_dim1], &c__1, &cs, &sn);
         i__2 = i2 - j + 2;
         drot_(&i__2, &a[j - 1 + (j - 1) * a_dim1], lda, &a[j + (j - 1) * a_dim1], lda, &cs, &sn);
-        if (*wantq)
-        {
-            drot_(&nq, &q[*iloq + (j - 1) * q_dim1], &c__1, &q[*iloq + j * q_dim1], &c__1, &cs, &sn);
+        if (*wantq) {
+            drot_(
+                &nq, &q[*iloq + (j - 1) * q_dim1], &c__1, &q[*iloq + j * q_dim1], &c__1, &cs, &sn);
         }
         /* L40: */
     }
     return 0;
     /* *** Last line of MB03YA *** */
 } /* mb03ya_ */
-

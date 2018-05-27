@@ -18,15 +18,16 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsElementary_functions_exports.h"
 #include "ArrayOf.hpp"
 #include "Exception.hpp"
+#include "nlsElementary_functions_exports.h"
 //=============================================================================
 namespace Nelson {
-    /**
-    * Element-wise negate.
-    *
-    */
-    NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf Negate(ArrayOf A) throw(Exception);
-}
+/**
+ * Element-wise negate.
+ *
+ */
+NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
+Negate(ArrayOf A) throw(Exception);
+} // namespace Nelson
 //=============================================================================

@@ -16,83 +16,64 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
-#include <QtWidgets/QFileDialog>
-#include <QtCore/QDir>
 #include "UiGetDirectory.hpp"
 #include "QStringConverter.hpp"
+#include <QtCore/QDir>
+#include <QtWidgets/QFileDialog>
+#include <boost/filesystem.hpp>
+#include <boost/filesystem/path.hpp>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    bool UiGetDirectory(std::wstring pathOrigin, std::wstring title, std::wstring &pathSelected)
-    {
-        bool bCancelled = false;
-        QFileDialog *fd = nullptr;
-        if (title.empty())
-        {
-            try
-            {
-                fd = new QFileDialog;
-            }
-            catch (std::bad_alloc)
-            {
-                fd = nullptr;
-            }
+//=============================================================================
+bool
+UiGetDirectory(std::wstring pathOrigin, std::wstring title, std::wstring& pathSelected)
+{
+    bool bCancelled = false;
+    QFileDialog* fd = nullptr;
+    if (title.empty()) {
+        try {
+            fd = new QFileDialog;
+        } catch (std::bad_alloc) {
+            fd = nullptr;
         }
-        else
-        {
-            try
-            {
-                fd = new QFileDialog(0, wstringToQString(title));
-            }
-            catch (std::bad_alloc)
-            {
-                fd = nullptr;
-            }
+    } else {
+        try {
+            fd = new QFileDialog(0, wstringToQString(title));
+        } catch (std::bad_alloc) {
+            fd = nullptr;
         }
-        if (fd)
-        {
-            if (!pathOrigin.empty())
-            {
-                boost::filesystem::path data_dir(pathOrigin);
-                bool bRes = false;
-                try
-                {
-                    bRes = boost::filesystem::is_directory(data_dir);
-                }
-                catch (const boost::filesystem::filesystem_error& e)
-                {
-                    if (e.code() == boost::system::errc::permission_denied)
-                    {
-                    }
-                    bRes = false;
-                }
-                if (!bRes)
-                {
-                    boost::filesystem::path pwd = boost::filesystem::current_path();
-                    pathOrigin =  pwd.generic_wstring();
-                }
-                fd->setDirectory(QDir(wstringToQString(pathOrigin)));
-            }
-            fd->setFileMode(QFileDialog::Directory);
-            fd->setOption(QFileDialog::ShowDirsOnly);
-            fd->setViewMode(QFileDialog::Detail);
-            int resexec = fd->exec();
-            if (resexec == QDialog::Accepted)
-            {
-                QString directory = fd->selectedFiles()[0];
-                bCancelled = false;
-                pathSelected = QStringTowstring(directory);
-            }
-            else
-            {
-                bCancelled = true;
-            }
-        }
-        return bCancelled;
     }
-    //=============================================================================
+    if (fd) {
+        if (!pathOrigin.empty()) {
+            boost::filesystem::path data_dir(pathOrigin);
+            bool bRes = false;
+            try {
+                bRes = boost::filesystem::is_directory(data_dir);
+            } catch (const boost::filesystem::filesystem_error& e) {
+                if (e.code() == boost::system::errc::permission_denied) {
+                }
+                bRes = false;
+            }
+            if (!bRes) {
+                boost::filesystem::path pwd = boost::filesystem::current_path();
+                pathOrigin = pwd.generic_wstring();
+            }
+            fd->setDirectory(QDir(wstringToQString(pathOrigin)));
+        }
+        fd->setFileMode(QFileDialog::Directory);
+        fd->setOption(QFileDialog::ShowDirsOnly);
+        fd->setViewMode(QFileDialog::Detail);
+        int resexec = fd->exec();
+        if (resexec == QDialog::Accepted) {
+            QString directory = fd->selectedFiles()[0];
+            bCancelled = false;
+            pathSelected = QStringTowstring(directory);
+        } else {
+            bCancelled = true;
+        }
+    }
+    return bCancelled;
 }
 //=============================================================================
-
+}
+//=============================================================================

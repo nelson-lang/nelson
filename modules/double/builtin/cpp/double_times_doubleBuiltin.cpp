@@ -17,19 +17,19 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "double_times_doubleBuiltin.hpp"
-#include "timesDouble.hpp"
 #include "Error.hpp"
+#include "timesDouble.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::DoubleGateway::double_times_doubleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::DoubleGateway::double_times_doubleBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (argIn.size() != 2)
-    {
+    if (argIn.size() != 2) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOfVector retval;

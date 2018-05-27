@@ -18,56 +18,44 @@
 //=============================================================================
 #include "fgetlBuiltin.hpp"
 #include "Error.hpp"
-#include "FilesManager.hpp"
 #include "File.hpp"
 #include "FileGetLine.hpp"
+#include "FilesManager.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::StreamGateway::fgetlBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::StreamGateway::fgetlBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 1)
-    {
+    if (argIn.size() != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
-    if (param1.isDoubleType())
-    {
-        FilesManager *fm = (FilesManager *)(eval->FileManager);
-        if (fm == nullptr)
-        {
+    if (param1.isDoubleType()) {
+        FilesManager* fm = (FilesManager*)(eval->FileManager);
+        if (fm == nullptr) {
             Error(eval, _W("Problem with file manager."));
         }
         int32 iValue = (int32)param1.getContentAsDoubleScalar();
-        if (fm->isStdStream(iValue))
-        {
+        if (fm->isStdStream(iValue)) {
             Error(eval, _W("Not implemented for requested file identifier."));
         }
-        if (fm->isOpened(iValue))
-        {
-            File *f = fm->getFile(iValue);
+        if (fm->isOpened(iValue)) {
+            File* f = fm->getFile(iValue);
             std::wstring result;
-            if (FileGetLine(f, -1, false, result))
-            {
+            if (FileGetLine(f, -1, false, result)) {
                 retval.push_back(ArrayOf::stringConstructor(result));
-            }
-            else
-            {
+            } else {
                 retval.push_back(ArrayOf::doubleConstructor(-1));
             }
-        }
-        else
-        {
+        } else {
             Error(eval, _W("Invalid file identifier."));
         }
-    }
-    else
-    {
+    } else {
         Error(eval, _W("Invalid file identifier."));
     }
     return retval;

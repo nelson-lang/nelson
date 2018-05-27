@@ -18,16 +18,20 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <QtWidgets/QWidget>
 #include "QtTextEdit.h"
+#include <QtWidgets/QWidget>
 //=============================================================================
-class QtLineNumber : public QWidget {
+class QtLineNumber : public QWidget
+{
     Q_OBJECT
 public:
-    QtLineNumber(QtTextEdit *editor);
+    QtLineNumber(QtTextEdit* editor);
+
 protected:
-    virtual void paintEvent(QPaintEvent *paintEvent);
+    virtual void
+    paintEvent(QPaintEvent* paintEvent);
+
 private:
-    QtTextEdit *tEditor;
+    QtTextEdit* tEditor;
 };
 //=============================================================================

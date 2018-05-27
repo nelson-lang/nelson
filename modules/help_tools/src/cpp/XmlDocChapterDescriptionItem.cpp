@@ -17,52 +17,55 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "XmlDocChapterDescriptionItem.hpp"
-#include "characters_encoding.hpp"
-#include "XmlDocumentTags.hpp"
 #include "HtmlTags.hpp"
+#include "XmlDocumentTags.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    XmlDocChapterDescriptionItem::XmlDocChapterDescriptionItem(std::wstring description)
-    {
-        this->_description = description;
-    }
-    //=============================================================================
-    XmlDocChapterDescriptionItem::~XmlDocChapterDescriptionItem()
-    {
-        this->_description = L"";
-    }
-    //=============================================================================
-    void XmlDocChapterDescriptionItem::setValue(std::wstring value)
-    {
-        this->_description = value;
-    }
-    //=============================================================================
-    std::wstring XmlDocChapterDescriptionItem::getValue()
-    {
-        return this->_description;
-    }
-    //=============================================================================
-    std::wstring XmlDocChapterDescriptionItem::getItemType()
-    {
-        return utf8_to_wstring(CHAPTER_DESCRIPTION_TAG);
-    }
-    //=============================================================================
-    bool XmlDocChapterDescriptionItem::writeAsHtml(std::string &utf8stream)
-    {
-        utf8stream = utf8stream + HTML_H3_IN_TAG + wstring_to_utf8(_description) + HTML_H3_OUT_TAG + "\n";
-        utf8stream = utf8stream + HTML_HR_OUT_TAG + "\n";
-        utf8stream = utf8stream + "\n";
-        return true;
-    }
-    //=============================================================================
-    bool XmlDocChapterDescriptionItem::writeAsMarkdown(std::string &utf8stream)
-    {
-        utf8stream = utf8stream + "## Description" + "\n";
-        utf8stream = utf8stream + wstring_to_utf8(_description) + "\n";
-        utf8stream = utf8stream + "\n";
-        return true;
-    }
-    //=============================================================================
+//=============================================================================
+XmlDocChapterDescriptionItem::XmlDocChapterDescriptionItem(std::wstring description)
+{
+    this->_description = description;
+}
+//=============================================================================
+XmlDocChapterDescriptionItem::~XmlDocChapterDescriptionItem() { this->_description = L""; }
+//=============================================================================
+void
+XmlDocChapterDescriptionItem::setValue(std::wstring value)
+{
+    this->_description = value;
+}
+//=============================================================================
+std::wstring
+XmlDocChapterDescriptionItem::getValue()
+{
+    return this->_description;
+}
+//=============================================================================
+std::wstring
+XmlDocChapterDescriptionItem::getItemType()
+{
+    return utf8_to_wstring(CHAPTER_DESCRIPTION_TAG);
+}
+//=============================================================================
+bool
+XmlDocChapterDescriptionItem::writeAsHtml(std::string& utf8stream)
+{
+    utf8stream
+        = utf8stream + HTML_H3_IN_TAG + wstring_to_utf8(_description) + HTML_H3_OUT_TAG + "\n";
+    utf8stream = utf8stream + HTML_HR_OUT_TAG + "\n";
+    utf8stream = utf8stream + "\n";
+    return true;
+}
+//=============================================================================
+bool
+XmlDocChapterDescriptionItem::writeAsMarkdown(std::string& utf8stream)
+{
+    utf8stream = utf8stream + "## Description" + "\n";
+    utf8stream = utf8stream + wstring_to_utf8(_description) + "\n";
+    utf8stream = utf8stream + "\n";
+    return true;
+}
+//=============================================================================
 }
 //=============================================================================

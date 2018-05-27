@@ -1,19 +1,19 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-EXPORTSYMBOL /* Subroutine */ int mb01md_(uplo, n, alpha, a, lda, x, incx, beta, y, incy, uplo_len)
-char *uplo;
-integer *n;
+EXPORTSYMBOL /* Subroutine */ int mb01md_(
+    uplo, n, alpha, a, lda, x, incx, beta, y, incy, uplo_len) char* uplo;
+integer* n;
 doublereal *alpha, *a;
-integer *lda;
-doublereal *x;
-integer *incx;
+integer* lda;
+doublereal* x;
+integer* incx;
 doublereal *beta, *y;
-integer *incy;
+integer* incy;
 ftnlen uplo_len;
 {
     /* System generated locals */
@@ -121,98 +121,67 @@ ftnlen uplo_len;
     --y;
     /* Function Body */
     info = 0;
-    if (! lsame_(uplo, "U", 1L, 1L) && ! lsame_(uplo, "L", 1L, 1L))
-    {
+    if (!lsame_(uplo, "U", 1L, 1L) && !lsame_(uplo, "L", 1L, 1L)) {
         info = 1;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         info = 2;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         info = 5;
-    }
-    else if (*incx == 0)
-    {
+    } else if (*incx == 0) {
         info = 7;
-    }
-    else if (*incy == 0)
-    {
+    } else if (*incy == 0) {
         info = 10;
     }
-    if (info != 0)
-    {
+    if (info != 0) {
         xerbla_("MB01MD", &info, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0 || *alpha == 0. && *beta == 1.)
-    {
+    if (*n == 0 || *alpha == 0. && *beta == 1.) {
         return 0;
     }
     /*     Set up the start points in  X  and  Y. */
-    if (*incx > 0)
-    {
+    if (*incx > 0) {
         kx = 1;
+    } else {
+        kx = 1 - (*n - 1) * *incx;
     }
-    else
-    {
-        kx = 1 - (*n - 1) **incx;
-    }
-    if (*incy > 0)
-    {
+    if (*incy > 0) {
         ky = 1;
-    }
-    else
-    {
-        ky = 1 - (*n - 1) **incy;
+    } else {
+        ky = 1 - (*n - 1) * *incy;
     }
     /*     Start the operations. In this version the elements of A are */
     /*     accessed sequentially with one pass through the triangular part */
     /*     of A. */
     /*     First form  y := beta*y. */
-    if (*beta != 1.)
-    {
-        if (*incy == 1)
-        {
-            if (*beta == 0.)
-            {
+    if (*beta != 1.) {
+        if (*incy == 1) {
+            if (*beta == 0.) {
                 i__1 = *n;
-                for (i__ = 1; i__ <= i__1; ++i__)
-                {
+                for (i__ = 1; i__ <= i__1; ++i__) {
                     y[i__] = 0.;
                     /* L10: */
                 }
-            }
-            else
-            {
+            } else {
                 i__1 = *n;
-                for (i__ = 1; i__ <= i__1; ++i__)
-                {
+                for (i__ = 1; i__ <= i__1; ++i__) {
                     y[i__] = *beta * y[i__];
                     /* L20: */
                 }
             }
-        }
-        else
-        {
+        } else {
             iy = ky;
-            if (*beta == 0.)
-            {
+            if (*beta == 0.) {
                 i__1 = *n;
-                for (i__ = 1; i__ <= i__1; ++i__)
-                {
+                for (i__ = 1; i__ <= i__1; ++i__) {
                     y[iy] = 0.;
                     iy += *incy;
                     /* L30: */
                 }
-            }
-            else
-            {
+            } else {
                 i__1 = *n;
-                for (i__ = 1; i__ <= i__1; ++i__)
-                {
+                for (i__ = 1; i__ <= i__1; ++i__) {
                     y[iy] = *beta * y[iy];
                     iy += *incy;
                     /* L40: */
@@ -221,23 +190,18 @@ ftnlen uplo_len;
         }
     }
     /*     Quick return if possible. */
-    if (*alpha == 0.)
-    {
+    if (*alpha == 0.) {
         return 0;
     }
-    if (lsame_(uplo, "U", 1L, 1L))
-    {
+    if (lsame_(uplo, "U", 1L, 1L)) {
         /*        Form y when A is stored in upper triangle. */
-        if (*incx == 1 && *incy == 1)
-        {
+        if (*incx == 1 && *incy == 1) {
             i__1 = *n;
-            for (j = 2; j <= i__1; ++j)
-            {
+            for (j = 2; j <= i__1; ++j) {
                 temp1 = *alpha * x[j];
                 temp2 = 0.;
                 i__2 = j - 1;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = 1; i__ <= i__2; ++i__) {
                     y[i__] += temp1 * a[i__ + j * a_dim1];
                     temp2 += a[i__ + j * a_dim1] * x[i__];
                     /* L50: */
@@ -245,21 +209,17 @@ ftnlen uplo_len;
                 y[j] -= *alpha * temp2;
                 /* L60: */
             }
-        }
-        else
-        {
+        } else {
             jx = kx + *incx;
             jy = ky + *incy;
             i__1 = *n;
-            for (j = 2; j <= i__1; ++j)
-            {
+            for (j = 2; j <= i__1; ++j) {
                 temp1 = *alpha * x[jx];
                 temp2 = 0.;
                 ix = kx;
                 iy = ky;
                 i__2 = j - 1;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = 1; i__ <= i__2; ++i__) {
                     y[iy] += temp1 * a[i__ + j * a_dim1];
                     temp2 += a[i__ + j * a_dim1] * x[ix];
                     ix += *incx;
@@ -272,20 +232,15 @@ ftnlen uplo_len;
                 /* L80: */
             }
         }
-    }
-    else
-    {
+    } else {
         /*        Form y when A is stored in lower triangle. */
-        if (*incx == 1 && *incy == 1)
-        {
+        if (*incx == 1 && *incy == 1) {
             i__1 = *n - 1;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 temp1 = *alpha * x[j];
                 temp2 = 0.;
                 i__2 = *n;
-                for (i__ = j + 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = j + 1; i__ <= i__2; ++i__) {
                     y[i__] += temp1 * a[i__ + j * a_dim1];
                     temp2 += a[i__ + j * a_dim1] * x[i__];
                     /* L90: */
@@ -293,21 +248,17 @@ ftnlen uplo_len;
                 y[j] -= *alpha * temp2;
                 /* L100: */
             }
-        }
-        else
-        {
+        } else {
             jx = kx;
             jy = ky;
             i__1 = *n - 1;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 temp1 = *alpha * x[jx];
                 temp2 = 0.;
                 ix = jx;
                 iy = jy;
                 i__2 = *n;
-                for (i__ = j + 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = j + 1; i__ <= i__2; ++i__) {
                     ix += *incx;
                     iy += *incy;
                     y[iy] += temp1 * a[i__ + j * a_dim1];
@@ -323,4 +274,3 @@ ftnlen uplo_len;
     }
     /* *** Last line of MB01MD *** */
 } /* mb01md_ */
-

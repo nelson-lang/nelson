@@ -16,36 +16,35 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <QtWidgets/QMainWindow>
-#include <QtWidgets/QApplication>
-#include <QtGui/QTextBlock>
-#include <QtGui/QTextDocument>
-#include <QtGui/QTextCursor>
-#include <QtGui/QClipboard>
-#include <QtGui/QKeyEvent>
-#include <QtCore/QMimeData>
-#include <QtGui/QKeyEvent>
-#include <QtGui/QTextImageFormat>
-#include <QtGui/QImageReader>
-#include <QtWidgets/QMenu>
-#include <QtWidgets/QAction>
-#include <QtWidgets/QScrollBar>
-#include <boost/algorithm/string.hpp>
 #include "QtTerminal.h"
-#include "QStringConverter.hpp"
-#include "GetNelsonMainEvaluatorDynamicFunction.hpp"
 #include "Evaluator.hpp"
-#include "ProcessEvents.hpp"
+#include "GetNelsonMainEvaluatorDynamicFunction.hpp"
 #include "GetNelsonPath.hpp"
 #include "NelsonHistory.hpp"
+#include "ProcessEvents.hpp"
+#include "QStringConverter.hpp"
 #include "QtTranslation.hpp"
 #include "characters_encoding.hpp"
+#include <QtCore/QMimeData>
+#include <QtGui/QClipboard>
+#include <QtGui/QImageReader>
+#include <QtGui/QKeyEvent>
+#include <QtGui/QTextBlock>
+#include <QtGui/QTextCursor>
+#include <QtGui/QTextDocument>
+#include <QtGui/QTextImageFormat>
+#include <QtWidgets/QAction>
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QMainWindow>
+#include <QtWidgets/QMenu>
+#include <QtWidgets/QScrollBar>
+#include <boost/algorithm/string.hpp>
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-static Nelson::Evaluator *eval = nullptr;
+static Nelson::Evaluator* eval = nullptr;
 //=============================================================================
-QtTerminal::QtTerminal(QWidget *parent) : QTextBrowser(parent)
+QtTerminal::QtTerminal(QWidget* parent) : QTextBrowser(parent)
 {
     mCommandLineReady = false;
     QLocale us(QLocale::English, QLocale::UnitedStates);
@@ -80,7 +79,8 @@ QtTerminal::QtTerminal(QWidget *parent) : QTextBrowser(parent)
     lineToSend.clear();
     // disable cursor
     setCursorWidth(0);
-    setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextSelectableByKeyboard | Qt::LinksAccessibleByMouse | Qt::LinksAccessibleByKeyboard | Qt::TextEditable);
+    setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextSelectableByKeyboard
+        | Qt::LinksAccessibleByMouse | Qt::LinksAccessibleByKeyboard | Qt::TextEditable);
     setOpenExternalLinks(true);
     mCommandLineReady = true;
     document()->setMaximumBlockCount(0);
@@ -97,58 +97,49 @@ QtTerminal::QtTerminal(QWidget *parent) : QTextBrowser(parent)
 //=============================================================================
 QtTerminal::~QtTerminal()
 {
-    if (cutAction)
-    {
+    if (cutAction) {
         delete cutAction;
         cutAction = nullptr;
     }
-    if (copyAction)
-    {
+    if (copyAction) {
         delete copyAction;
         copyAction = nullptr;
     }
-    if (pasteAction)
-    {
+    if (pasteAction) {
         delete pasteAction;
         pasteAction = nullptr;
     }
-    if (selectAllAction)
-    {
+    if (selectAllAction) {
         delete selectAllAction;
         selectAllAction = nullptr;
     }
-    if (clcAction)
-    {
+    if (clcAction) {
         delete clcAction;
         clcAction = nullptr;
     }
-    if (stopAction)
-    {
+    if (stopAction) {
         delete stopAction;
         stopAction = nullptr;
     }
-    if (contextMenu)
-    {
+    if (contextMenu) {
         delete contextMenu;
         contextMenu = nullptr;
     }
 }
 //=============================================================================
-void QtTerminal::banner()
+void
+QtTerminal::banner()
 {
     mCommandLineReady = false;
     QString nelsonPath = Nelson::wstringToQString(Nelson::GetRootPath());
     QString fileName = nelsonPath + "/resources/banner_nelson.png";
     textCursor().insertBlock();
     QFile qfile(fileName);
-    if (qfile.exists())
-    {
+    if (qfile.exists()) {
         QImageReader reader(fileName);
-        if (reader.canRead())
-        {
+        if (reader.canRead()) {
             QImage image = reader.read();
-            if (!image.isNull())
-            {
+            if (!image.isNull()) {
                 QTextImageFormat imageFormat;
                 imageFormat.setName(fileName);
                 textCursor().insertImage(imageFormat);
@@ -159,12 +150,12 @@ void QtTerminal::banner()
     }
 }
 //=============================================================================
-void QtTerminal::printPrompt(QString prompt)
+void
+QtTerminal::printPrompt(QString prompt)
 {
     mPrompt = prompt;
     QTextCursor cur(document()->lastBlock());
-    if (!document()->lastBlock().text().isEmpty())
-    {
+    if (!document()->lastBlock().text().isEmpty()) {
         cur.movePosition(QTextCursor::EndOfBlock);
         cur.insertBlock();
     }
@@ -177,7 +168,8 @@ void QtTerminal::printPrompt(QString prompt)
     mCommandLineReady = true;
 }
 //=============================================================================
-bool QtTerminal::isInEditionZone()
+bool
+QtTerminal::isInEditionZone()
 {
     QTextBlock qtb = document()->lastBlock();
     int promptp = promptBlock.position();
@@ -185,12 +177,14 @@ bool QtTerminal::isInEditionZone()
     return mCommandLineReady && ((curp - mPrompt.size()) >= promptp);
 }
 //=============================================================================
-void QtTerminal::sendReturnKey()
+void
+QtTerminal::sendReturnKey()
 {
     lineToSend = L"\n";
 }
 //=============================================================================
-std::wstring QtTerminal::getLine(std::wstring prompt)
+std::wstring
+QtTerminal::getLine(std::wstring prompt)
 {
     printPrompt(Nelson::wstringToQString(prompt));
     promptBlock = document()->lastBlock();
@@ -198,35 +192,27 @@ std::wstring QtTerminal::getLine(std::wstring prompt)
     setCursorWidth(QFontMetrics(font()).width(QChar('x')));
     // restore default icon cursor
     QApplication::restoreOverrideCursor();
-    if (eval == nullptr)
-    {
-        void *veval = GetNelsonMainEvaluatorDynamicFunction();
-        eval = (Nelson::Evaluator *)veval;
+    if (eval == nullptr) {
+        void* veval = GetNelsonMainEvaluatorDynamicFunction();
+        eval = (Nelson::Evaluator*)veval;
     }
     bool wasInterruptByAction = false;
-    while (lineToSend.empty())
-    {
+    while (lineToSend.empty()) {
         Nelson::ProcessEvents(true);
-        if (!eval->commandQueue.isEmpty())
-        {
+        if (!eval->commandQueue.isEmpty()) {
             wasInterruptByAction = true;
             break;
         }
     }
     std::wstring line;
-    if (wasInterruptByAction)
-    {
+    if (wasInterruptByAction) {
         clearLine();
         line = L"\n";
-    }
-    else
-    {
+    } else {
         line = lineToSend;
     }
-    if (!wasInterruptByAction)
-    {
-        while (lineToSend.empty())
-        {
+    if (!wasInterruptByAction) {
+        while (lineToSend.empty()) {
             Nelson::ProcessEvents(true);
         }
     }
@@ -239,7 +225,8 @@ std::wstring QtTerminal::getLine(std::wstring prompt)
     return line;
 }
 //=============================================================================
-size_t QtTerminal::getTerminalWidth()
+size_t
+QtTerminal::getTerminalWidth()
 {
     size_t chSize = QFontMetrics(font()).width(QChar('M'));
     QScrollBar* vsb = verticalScrollBar();
@@ -247,29 +234,32 @@ size_t QtTerminal::getTerminalWidth()
     return res;
 }
 //=============================================================================
-void QtTerminal::outputMessage(std::wstring msg)
+void
+QtTerminal::outputMessage(std::wstring msg)
 {
     printMessage(Nelson::wstringToQString(msg), STDOUT_DISP);
     Nelson::ProcessEvents();
 }
 //=============================================================================
-void QtTerminal::errorMessage(std::wstring msg)
+void
+QtTerminal::errorMessage(std::wstring msg)
 {
     printMessage(Nelson::wstringToQString(msg), STDERR_DISP);
     Nelson::ProcessEvents();
 }
 //=============================================================================
-void QtTerminal::warningMessage(std::wstring msg)
+void
+QtTerminal::warningMessage(std::wstring msg)
 {
     printMessage(Nelson::wstringToQString(msg), WARNING_DISP);
     Nelson::ProcessEvents();
 }
 //=============================================================================
-void QtTerminal::clearTerminal()
+void
+QtTerminal::clearTerminal()
 {
     this->clear();
-    if (mCommandLineReady)
-    {
+    if (mCommandLineReady) {
         QTextCursor cur(document()->lastBlock());
         cur.movePosition(QTextCursor::EndOfBlock);
         cur.insertBlock();
@@ -279,115 +269,99 @@ void QtTerminal::clearTerminal()
     }
 }
 //=============================================================================
-bool QtTerminal::handlePreviousCharKeyPress()
+bool
+QtTerminal::handlePreviousCharKeyPress()
 {
     QTextCursor cur = textCursor();
     const int col = cur.columnNumber();
-    if ((promptBlock == cur.block()) && (col == mPrompt.size()))
-    {
+    if ((promptBlock == cur.block()) && (col == mPrompt.size())) {
         return true;
     }
     return false;
 }
 //=============================================================================
-bool QtTerminal::handleBackspaceKeyPress()
+bool
+QtTerminal::handleBackspaceKeyPress()
 {
     QTextCursor cur = textCursor();
     const int col = cur.columnNumber();
-    if ((promptBlock == cur.block()) && (col == mPrompt.size()))
-    {
+    if ((promptBlock == cur.block()) && (col == mPrompt.size())) {
         return true;
     }
     return false;
 }
 //=============================================================================
-bool QtTerminal::handleHomePress()
+bool
+QtTerminal::handleHomePress()
 {
-	if (isInEditionZone())
-	{
-		QTextCursor cursor = QTextCursor(promptBlock);
-		cursor.movePosition(QTextCursor::StartOfBlock);
-		cursor.movePosition(QTextCursor::Right, QTextCursor::MoveAnchor, mPrompt.length());
-		setTextCursor(cursor);
-		return true;
-	}
-	return false;
+    if (isInEditionZone()) {
+        QTextCursor cursor = QTextCursor(promptBlock);
+        cursor.movePosition(QTextCursor::StartOfBlock);
+        cursor.movePosition(QTextCursor::Right, QTextCursor::MoveAnchor, mPrompt.length());
+        setTextCursor(cursor);
+        return true;
+    }
+    return false;
 }
 //=============================================================================
-bool QtTerminal::handleUpKeyPress()
+bool
+QtTerminal::handleUpKeyPress()
 {
     std::wstring line = Nelson::History::getPreviousLine();
     return replaceCurrentCommandLine(line);
 }
 //=============================================================================
-bool QtTerminal::handleDownKeyPress()
+bool
+QtTerminal::handleDownKeyPress()
 {
     std::wstring line = Nelson::History::getNextLine();
     return replaceCurrentCommandLine(line);
 }
 //=============================================================================
-void QtTerminal::sendKeyEvent(QKeyEvent *event)
+void
+QtTerminal::sendKeyEvent(QKeyEvent* event)
 {
     keyPressEvent(event);
 }
 //=============================================================================
-void QtTerminal::keyPressEvent(QKeyEvent *event)
+void
+QtTerminal::keyPressEvent(QKeyEvent* event)
 {
-    if (!isInEditionZone())
-    {
+    if (!isInEditionZone()) {
         QTextCursor cur = textCursor();
         cur.movePosition(QTextCursor::End);
         setTextCursor(cur);
-        if ( (event->key() == Qt::Key_Backspace) ||
-                (event->key() == Qt::Key_Delete) ||
-                event->matches(QKeySequence::MoveToPreviousLine) ||
-                event->matches(QKeySequence::MoveToNextLine)  )
-        {
+        if ((event->key() == Qt::Key_Backspace) || (event->key() == Qt::Key_Delete)
+            || event->matches(QKeySequence::MoveToPreviousLine)
+            || event->matches(QKeySequence::MoveToNextLine)) {
             return;
         }
     }
-	if (event->matches(QKeySequence::MoveToStartOfLine))
-	{
+    if (event->matches(QKeySequence::MoveToStartOfLine)) {
         handleHomePress();
-		return;
-	}
-	else if (event->matches(QKeySequence::MoveToPreviousLine))
-    {
-		handleUpKeyPress();
         return;
-    }
-    else if (event->matches(QKeySequence::MoveToNextLine))
-    {
-		handleDownKeyPress();
+    } else if (event->matches(QKeySequence::MoveToPreviousLine)) {
+        handleUpKeyPress();
         return;
-    }
-    else if (event->matches(QKeySequence::MoveToPreviousChar))
-    {
-        if (handleBackspaceKeyPress())
-        {
+    } else if (event->matches(QKeySequence::MoveToNextLine)) {
+        handleDownKeyPress();
+        return;
+    } else if (event->matches(QKeySequence::MoveToPreviousChar)) {
+        if (handleBackspaceKeyPress()) {
             return;
         }
-    }
-    else if (event->key() == Qt::Key_Backspace)
-    {
-        if (handleBackspaceKeyPress())
-        {
+    } else if (event->key() == Qt::Key_Backspace) {
+        if (handleBackspaceKeyPress()) {
             return;
         }
         updateHistoryToken();
-    }
-    else if (event->key() == Qt::Key_Delete)
-    {
+    } else if (event->key() == Qt::Key_Delete) {
         updateHistoryToken();
-        if (!isInEditionZone())
-        {
+        if (!isInEditionZone()) {
             return;
         }
-    }
-    else if (event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter)
-    {
-        if (isInEditionZone())
-        {
+    } else if (event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter) {
+        if (isInEditionZone()) {
             QString cmd = getCurrentCommandLine();
             lineToSend = Nelson::QStringTowstring(cmd) + L"\n";
             QTextCursor cur(document()->lastBlock());
@@ -396,40 +370,31 @@ void QtTerminal::keyPressEvent(QKeyEvent *event)
             setTextCursor(cur);
         }
         return;
-    }
-    else if (event->matches(QKeySequence::Copy))
-    {
-        if (mCommandLineReady)
-        {
-        }
-        else
-        {
-            if (eval == nullptr)
-            {
-                void *veval = GetNelsonMainEvaluatorDynamicFunction();
-                eval = (Nelson::Evaluator *)veval;
+    } else if (event->matches(QKeySequence::Copy)) {
+        if (mCommandLineReady) {
+        } else {
+            if (eval == nullptr) {
+                void* veval = GetNelsonMainEvaluatorDynamicFunction();
+                eval = (Nelson::Evaluator*)veval;
             }
-            if (eval)
-            {
+            if (eval) {
                 eval->SetInterruptPending(true);
             }
         }
     }
-    if (isInEditionZone())
-    {
+    if (isInEditionZone()) {
         QTextBrowser::keyPressEvent(event);
     }
     updateHistoryToken();
 }
 //=============================================================================
-QString QtTerminal::getCurrentCommandLine()
+QString
+QtTerminal::getCurrentCommandLine()
 {
     QString command;
     QTextBlock curBlock = promptBlock;
-    while (curBlock != document()->lastBlock())
-    {
-        if (!curBlock.isValid())
-        {
+    while (curBlock != document()->lastBlock()) {
+        if (!curBlock.isValid()) {
             command.clear();
             break;
         }
@@ -437,24 +402,22 @@ QString QtTerminal::getCurrentCommandLine()
         command = command.append("\n");
         curBlock = curBlock.next();
     }
-    if (!command.isEmpty())
-    {
+    if (!command.isEmpty()) {
         command = command.append("\n");
     }
     command = command.append(curBlock.text());
     command.replace(QString(QChar(8233)), QString("\n"));
-    if (command.startsWith(mPrompt))
-    {
+    if (command.startsWith(mPrompt)) {
         command.remove(0, mPrompt.length());
     }
-    if (!command.isEmpty())
-    {
+    if (!command.isEmpty()) {
         mCommandLineReady = false;
     }
     return command;
 }
 //=============================================================================
-bool QtTerminal::replaceCurrentCommandLine(std::wstring newline)
+bool
+QtTerminal::replaceCurrentCommandLine(std::wstring newline)
 {
     QTextCursor cursor = textCursor();
     cursor.movePosition(QTextCursor::StartOfLine);
@@ -464,125 +427,114 @@ bool QtTerminal::replaceCurrentCommandLine(std::wstring newline)
     return true;
 }
 //=============================================================================
-void QtTerminal::printNewLine()
+void
+QtTerminal::printNewLine()
 {
     QTextCursor cursor = textCursor();
     cursor.insertBlock();
     setTextCursor(cursor);
 }
 //=============================================================================
-void QtTerminal::printMessage(QString msg, DISP_MODE mode)
+void
+QtTerminal::printMessage(QString msg, DISP_MODE mode)
 {
     mCommandLineReady = false;
     QTextCursor cur(document()->lastBlock());
     QTextCharFormat format = cur.charFormat();
-    switch (mode)
-    {
-        case WARNING_DISP:
-        {
-            format.setForeground(warningColor);
-        }
-        break;
-        case STDOUT_DISP:
-        {
-            format.setForeground(outputColor);
-        }
-        break;
-        case STDERR_DISP:
-        {
-            format.setForeground(errorColor);
-        }
-        break;
-        case STDIN_DISP:
-        {
-            format.setForeground(inputColor);
-        }
-        break;
+    switch (mode) {
+    case WARNING_DISP: {
+        format.setForeground(warningColor);
+    } break;
+    case STDOUT_DISP: {
+        format.setForeground(outputColor);
+    } break;
+    case STDERR_DISP: {
+        format.setForeground(errorColor);
+    } break;
+    case STDIN_DISP: {
+        format.setForeground(inputColor);
+    } break;
     }
     cur.movePosition(QTextCursor::EndOfBlock, QTextCursor::MoveAnchor, 1);
     cur.insertText(msg, format);
     setTextCursor(cur);
 }
 //=============================================================================
-void QtTerminal::closeEvent(QCloseEvent *event)
+void
+QtTerminal::closeEvent(QCloseEvent* event)
 {
-    if (eval == nullptr)
-    {
-        void *veval = GetNelsonMainEvaluatorDynamicFunction();
-        eval = (Nelson::Evaluator *)veval;
+    if (eval == nullptr) {
+        void* veval = GetNelsonMainEvaluatorDynamicFunction();
+        eval = (Nelson::Evaluator*)veval;
     }
-    if (eval)
-    {
+    if (eval) {
         eval->SetInterruptPending(true);
     }
     lineToSend = L"exit";
 }
 //=============================================================================
-void QtTerminal::insertFromMimeData(const QMimeData *source)
+void
+QtTerminal::insertFromMimeData(const QMimeData* source)
 {
-    if (!isInEditionZone())
-    {
+    if (!isInEditionZone()) {
         QTextCursor cur = textCursor();
         cur.movePosition(QTextCursor::End);
         setTextCursor(cur);
     }
-    if (source->hasText())
-    {
+    if (source->hasText()) {
         QTextBrowser::insertPlainText(source->text());
     }
     updateHistoryToken();
 }
 //=============================================================================
-void QtTerminal::insertHtml(std::wstring msg)
+void
+QtTerminal::insertHtml(std::wstring msg)
 {
     textCursor().insertHtml(Nelson::wstringToQString(msg));
     textCursor().insertBlock();
     updateHistoryToken();
 }
 //=============================================================================
-void QtTerminal::cut()
+void
+QtTerminal::cut()
 {
-    if (isInEditionZone())
-    {
+    if (isInEditionZone()) {
         QTextEdit::cut();
         updateHistoryToken();
         return;
     }
 }
 //=============================================================================
-void QtTerminal::copy()
+void
+QtTerminal::copy()
 {
     QTextBrowser::copy();
 }
 //=============================================================================
-void QtTerminal::helpOnSelection()
+void
+QtTerminal::helpOnSelection()
 {
     QTextCursor cur = textCursor();
-    if (cur.hasSelection())
-    {
+    if (cur.hasSelection()) {
         QString textSelected = cur.selectedText();
-        if (!textSelected.isEmpty())
-        {
+        if (!textSelected.isEmpty()) {
             std::wstring text = QStringTowstring(textSelected);
             boost::algorithm::replace_all(text, "'", "\"");
             std::wstring cmd = L"doc('" + text + L"');";
-            void *veval = GetNelsonMainEvaluatorDynamicFunction();
-            Nelson::Evaluator *eval = (Nelson::Evaluator *)veval;
-            try
-            {
+            void* veval = GetNelsonMainEvaluatorDynamicFunction();
+            Nelson::Evaluator* eval = (Nelson::Evaluator*)veval;
+            try {
                 eval->evaluateString(Nelson::wstring_to_utf8(cmd), true);
-            }
-            catch (Exception)
-            {
+            } catch (Exception) {
             }
         }
     }
 }
 //=============================================================================
-void QtTerminal::paste()
+void
+QtTerminal::paste()
 {
-    if (!isInEditionZone())
-    {
+    if (!isInEditionZone()) {
         QTextCursor cur = textCursor();
         cur.movePosition(QTextCursor::End);
         setTextCursor(cur);
@@ -591,18 +543,21 @@ void QtTerminal::paste()
     updateHistoryToken();
 }
 //=============================================================================
-void QtTerminal::selectAll()
+void
+QtTerminal::selectAll()
 {
     QTextBrowser::selectAll();
 }
 //=============================================================================
-void QtTerminal::clc()
+void
+QtTerminal::clc()
 {
     clearTerminal();
     updateHistoryToken();
 }
 //=============================================================================
-void QtTerminal::clearLine()
+void
+QtTerminal::clearLine()
 {
     QTextCursor cursor = textCursor();
     cursor.movePosition(QTextCursor::StartOfLine);
@@ -611,34 +566,29 @@ void QtTerminal::clearLine()
     cursor.insertText(Nelson::wstringToQString(L""));
 }
 //=============================================================================
-void QtTerminal::stopRun()
+void
+QtTerminal::stopRun()
 {
-    if (eval == nullptr)
-    {
-        void *veval = GetNelsonMainEvaluatorDynamicFunction();
-        eval = (Nelson::Evaluator *)veval;
+    if (eval == nullptr) {
+        void* veval = GetNelsonMainEvaluatorDynamicFunction();
+        eval = (Nelson::Evaluator*)veval;
     }
-    if (eval)
-    {
+    if (eval) {
         eval->SetInterruptPending(true);
     }
 }
 //=============================================================================
-void QtTerminal::contextMenuEvent(QContextMenuEvent * event)
+void
+QtTerminal::contextMenuEvent(QContextMenuEvent* event)
 {
-    if (contextMenu == nullptr)
-    {
-        try
-        {
+    if (contextMenu == nullptr) {
+        try {
             contextMenu = new QMenu(this);
-        }
-        catch (std::bad_alloc)
-        {
+        } catch (std::bad_alloc) {
             contextMenu = nullptr;
         }
         QString fileNameIcon;
-        if (helpOnSelectionAction == nullptr)
-        {
+        if (helpOnSelectionAction == nullptr) {
             fileNameIcon = nelsonPath + QString("/resources/help-icon.svg");
             helpOnSelectionAction = new QAction(QIcon(fileNameIcon), TR("Help on Selection"), this);
             helpOnSelectionAction->setShortcuts(QKeySequence::HelpContents);
@@ -646,32 +596,28 @@ void QtTerminal::contextMenuEvent(QContextMenuEvent * event)
             connect(helpOnSelectionAction, SIGNAL(triggered()), this, SLOT(helpOnSelection()));
             contextMenu->addSeparator();
         }
-        if (cutAction == nullptr)
-        {
+        if (cutAction == nullptr) {
             fileNameIcon = nelsonPath + QString("/resources/edit-cut.svg");
             cutAction = new QAction(QIcon(fileNameIcon), TR("Cut"), this);
             cutAction->setShortcut(TR("Ctrl + X"));
             contextMenu->addAction(cutAction);
             connect(cutAction, SIGNAL(triggered()), this, SLOT(cut()));
         }
-        if (copyAction == nullptr)
-        {
+        if (copyAction == nullptr) {
             fileNameIcon = nelsonPath + QString("/resources/edit-copy.svg");
             copyAction = new QAction(QIcon(fileNameIcon), TR("Copy"), this);
             copyAction->setShortcut(TR("Ctrl + Ins"));
             contextMenu->addAction(copyAction);
             connect(copyAction, SIGNAL(triggered()), this, SLOT(copy()));
         }
-        if (pasteAction == nullptr)
-        {
+        if (pasteAction == nullptr) {
             fileNameIcon = nelsonPath + QString("/resources/edit-paste.svg");
             pasteAction = new QAction(QIcon(fileNameIcon), TR("Paste"), this);
             pasteAction->setShortcut(TR("Ctrl + V"));
             contextMenu->addAction(pasteAction);
             connect(pasteAction, SIGNAL(triggered()), this, SLOT(paste()));
         }
-        if (selectAllAction == nullptr)
-        {
+        if (selectAllAction == nullptr) {
             fileNameIcon = nelsonPath + QString("/resources/edit-select-all.svg");
             selectAllAction = new QAction(QIcon(fileNameIcon), TR("Select All"), this);
             selectAllAction->setShortcut(TR("Ctrl + A"));
@@ -679,16 +625,14 @@ void QtTerminal::contextMenuEvent(QContextMenuEvent * event)
             connect(selectAllAction, SIGNAL(triggered()), this, SLOT(selectAll()));
         }
         contextMenu->addSeparator();
-        if (clcAction == nullptr)
-        {
+        if (clcAction == nullptr) {
             fileNameIcon = nelsonPath + QString("/resources/console-clear.svg");
             clcAction = new QAction(QIcon(fileNameIcon), TR("Clear Command Window"), this);
             contextMenu->addAction(clcAction);
             connect(clcAction, SIGNAL(triggered()), this, SLOT(clc()));
         }
         contextMenu->addSeparator();
-        if (stopAction == nullptr)
-        {
+        if (stopAction == nullptr) {
             fileNameIcon = nelsonPath + QString("/resources/stop-interpreter.svg");
             stopAction = new QAction(QIcon(fileNameIcon), TR("Stop execution"), this);
             contextMenu->addSeparator();
@@ -697,72 +641,60 @@ void QtTerminal::contextMenuEvent(QContextMenuEvent * event)
         }
     }
     QTextCursor cur = textCursor();
-    if (cur.hasSelection())
-    {
+    if (cur.hasSelection()) {
         helpOnSelectionAction->setEnabled(true);
-    }
-    else
-    {
+    } else {
         helpOnSelectionAction->setEnabled(false);
     }
-    if (cur.hasSelection() && isInEditionZone())
-    {
+    if (cur.hasSelection() && isInEditionZone()) {
         cutAction->setEnabled(true);
-    }
-    else
-    {
+    } else {
         cutAction->setEnabled(false);
     }
-    if (cur.hasSelection())
-    {
+    if (cur.hasSelection()) {
         copyAction->setEnabled(true);
-    }
-    else
-    {
+    } else {
         copyAction->setEnabled(false);
     }
-    QClipboard *Clipboard = QApplication::clipboard();
+    QClipboard* Clipboard = QApplication::clipboard();
     QString clipboardText = Clipboard->text();
-    if (clipboardText.isEmpty())
-    {
+    if (clipboardText.isEmpty()) {
         pasteAction->setEnabled(false);
-    }
-    else
-    {
+    } else {
         pasteAction->setEnabled(true);
     }
-    if (!isAtPrompt())
-    {
+    if (!isAtPrompt()) {
         stopAction->setVisible(true);
-    }
-    else
-    {
+    } else {
         stopAction->setVisible(false);
     }
     contextMenu->exec(event->globalPos());
 }
 //=============================================================================
-bool QtTerminal::isAtPrompt()
+bool
+QtTerminal::isAtPrompt()
 {
     return mCommandLineReady;
 }
 //=============================================================================
-int QtTerminal::setMaxBlockCount(int newMax)
+int
+QtTerminal::setMaxBlockCount(int newMax)
 {
     int previous = getMaxBlockCount();
     document()->setMaximumBlockCount(newMax);
     return previous;
 }
 //=============================================================================
-int QtTerminal::getMaxBlockCount()
+int
+QtTerminal::getMaxBlockCount()
 {
     return document()->maximumBlockCount();
 }
 //=============================================================================
-bool QtTerminal::updateHistoryToken()
+bool
+QtTerminal::updateHistoryToken()
 {
-    if (isInEditionZone())
-    {
+    if (isInEditionZone()) {
         bool bBackup = mCommandLineReady;
         QString cmd = getCurrentCommandLine();
         mCommandLineReady = bBackup;

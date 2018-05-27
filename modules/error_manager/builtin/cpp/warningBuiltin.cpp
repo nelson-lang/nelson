@@ -17,24 +17,23 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "warningBuiltin.hpp"
+#include "Error.hpp"
 #include "OverloadFunction.hpp"
 #include "Warning.hpp"
-#include "Error.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::ErrorManagerGateway::warningBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::ErrorManagerGateway::warningBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 1)
-    {
+    if (argIn.size() != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     // Call overload if it exists
     bool bSuccess = false;
     retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
-    if (!bSuccess)
-    {
+    if (!bSuccess) {
         std::wstring msg = argIn[0].getContentAsWideString();
         Warning(eval, msg);
     }

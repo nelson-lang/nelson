@@ -18,11 +18,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsLinear_algebra_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsLinear_algebra_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSLINEAR_ALGEBRA_IMPEXP bool IsSymmetric(ArrayOf A, bool skew);
-    NLSLINEAR_ALGEBRA_IMPEXP bool IsSymmetric(ArrayOf A, double tol);
-}
+NLSLINEAR_ALGEBRA_IMPEXP bool
+IsSymmetric(ArrayOf A, bool skew);
+NLSLINEAR_ALGEBRA_IMPEXP bool
+IsSymmetric(ArrayOf A, double tol);
+} // namespace Nelson
 //=============================================================================

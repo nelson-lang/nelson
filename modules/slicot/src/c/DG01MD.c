@@ -1,15 +1,14 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-EXPORTSYMBOL /* Subroutine */ int dg01md_(indi, n, xr, xi, info, indi_len)
-char *indi;
-integer *n;
+EXPORTSYMBOL /* Subroutine */ int dg01md_(indi, n, xr, xi, info, indi_len) char* indi;
+integer* n;
 doublereal *xr, *xi;
-integer *info;
+integer* info;
 ftnlen indi_len;
 {
     /* System generated locals */
@@ -118,32 +117,25 @@ ftnlen indi_len;
     *info = 0;
     lindi = lsame_(indi, "D", 1L, 1L);
     /*     Test the input scalar arguments. */
-    if (! lindi && ! lsame_(indi, "I", 1L, 1L))
-    {
+    if (!lindi && !lsame_(indi, "I", 1L, 1L)) {
         *info = -1;
-    }
-    else
-    {
+    } else {
         j = 0;
-        if (*n >= 2)
-        {
+        if (*n >= 2) {
             j = *n;
             /*           WHILE ( MOD( J, 2 ).EQ.0 ) DO */
-L10:
-            if (j % 2 == 0)
-            {
+        L10:
+            if (j % 2 == 0) {
                 j /= 2;
                 goto L10;
             }
             /*           END WHILE 10 */
         }
-        if (j != 1)
-        {
+        if (j != 1) {
             *info = -2;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("DG01MD", &i__1, 6L);
@@ -152,10 +144,8 @@ L10:
     /*     Inplace shuffling of data. */
     j = 1;
     i__1 = *n;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
-        if (j > i__)
-        {
+    for (i__ = 1; i__ <= i__1; ++i__) {
+        if (j > i__) {
             tr = xr[i__];
             ti = xi[i__];
             xr[i__] = xr[j];
@@ -165,13 +155,11 @@ L10:
         }
         k = *n / 2;
         /*        REPEAT */
-L20:
-        if (j > k)
-        {
+    L20:
+        if (j > k) {
             j -= k;
             k /= 2;
-            if (k >= 2)
-            {
+            if (k >= 2) {
                 goto L20;
             }
         }
@@ -181,29 +169,25 @@ L20:
     }
     /*     Transform by decimation in time. */
     pi2 = atan(1.) * 8.;
-    if (lindi)
-    {
+    if (lindi) {
         pi2 = -pi2;
     }
     i__ = 1;
     /*     WHILE ( I.LT.N ) DO */
 L40:
-    if (i__ < *n)
-    {
+    if (i__ < *n) {
         l = i__ << 1;
-        whelp = pi2 / (doublereal) l;
+        whelp = pi2 / (doublereal)l;
         wstpi = sin(whelp);
         whelp = sin(whelp * .5);
         wstpr = whelp * -2. * whelp;
         wr = 1.;
         wi = 0.;
         i__1 = i__;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             i__2 = *n;
             i__3 = l;
-            for (k = j; i__3 < 0 ? k >= i__2 : k <= i__2; k += i__3)
-            {
+            for (k = j; i__3 < 0 ? k >= i__2 : k <= i__2; k += i__3) {
                 m = k + i__;
                 tr = wr * xr[m] - wi * xi[m];
                 ti = wr * xi[m] + wi * xr[m];
@@ -225,4 +209,3 @@ L40:
     return 0;
     /* *** Last line of DG01MD *** */
 } /* dg01md_ */
-

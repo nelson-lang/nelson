@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,13 +10,13 @@
 static integer c_n1 = -1;
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int tb01yd_(n, m, p, a, lda, b, ldb, c__, ldc, info)
-integer *n, *m, *p;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
+EXPORTSYMBOL /* Subroutine */ int tb01yd_(n, m, p, a, lda, b, ldb, c__, ldc, info) integer *n, *m,
+    *p;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
 integer *ldc, *info;
 {
     /* System generated locals */
@@ -121,69 +121,51 @@ integer *ldc, *info;
     c__ -= c_offset;
     /* Function Body */
     *info = 0;
-    if (*n < 0)
-    {
+    if (*n < 0) {
         *info = -1;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -2;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -3;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -5;
-    }
-    else if (*ldb < 1 || *m > 0 && *ldb < *n)
-    {
+    } else if (*ldb < 1 || *m > 0 && *ldb < *n) {
         *info = -7;
-    }
-    else if (*ldc < max(1,*p))
-    {
+    } else if (*ldc < max(1, *p)) {
         *info = -9;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("TB01YD", &i__1, 6L);
         return 0;
     }
-    if (*n <= 1)
-    {
+    if (*n <= 1) {
         return 0;
     }
     /*     Transform the matrix A. */
     nby2 = *n / 2;
     i__1 = nby2;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         dswap_(n, &a[j * a_dim1 + 1], &c_n1, &a[(*n - j + 1) * a_dim1 + 1], &c__1);
         /* L10: */
     }
-    if (*n % 2 != 0 && *n > 2)
-    {
-        dswap_(&nby2, &a[nby2 + 2 + (nby2 + 1) * a_dim1], &c_n1, &a[(nby2 + 1) * a_dim1 + 1], &c__1);
+    if (*n % 2 != 0 && *n > 2) {
+        dswap_(
+            &nby2, &a[nby2 + 2 + (nby2 + 1) * a_dim1], &c_n1, &a[(nby2 + 1) * a_dim1 + 1], &c__1);
     }
-    if (*m > 0)
-    {
+    if (*m > 0) {
         /*        Transform the matrix B. */
         i__1 = nby2;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             dswap_(m, &b[j + b_dim1], ldb, &b[*n - j + 1 + b_dim1], ldb);
             /* L20: */
         }
     }
-    if (*p > 0)
-    {
+    if (*p > 0) {
         /*        Transform the matrix C. */
         i__1 = nby2;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             dswap_(p, &c__[j * c_dim1 + 1], &c__1, &c__[(*n - j + 1) * c_dim1 + 1], &c__1);
             /* L30: */
         }
@@ -191,4 +173,3 @@ integer *ldc, *info;
     return 0;
     /* *** Last line of TB01YD *** */
 } /* tb01yd_ */
-

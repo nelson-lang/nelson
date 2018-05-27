@@ -19,13 +19,13 @@
 #include "LeftDivide.hpp"
 //=============================================================================
 namespace Nelson {
-    ArrayOf LeftDivide(ArrayOf A, ArrayOf B) throw(Exception)
-    {
-        if (A.isEmpty() || B.isEmpty())
-        {
-            return ArrayOf::emptyConstructor();
-        }
-        throw Exception(_W("LeftDivide currently not implemented in Nelson."));
+ArrayOf
+LeftDivide(ArrayOf A, ArrayOf B) throw(Exception)
+{
+    if (A.isEmpty() || B.isEmpty()) {
+        return ArrayOf::emptyConstructor();
     }
+    throw Exception(_W("LeftDivide currently not implemented in Nelson."));
+}
 }
 //=============================================================================

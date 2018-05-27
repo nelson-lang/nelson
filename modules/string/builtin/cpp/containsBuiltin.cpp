@@ -17,38 +17,34 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "containsBuiltin.hpp"
-#include "StringContains.hpp"
 #include "Error.hpp"
 #include "OverloadFunction.hpp"
+#include "StringContains.hpp"
 #include "StringFormat.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::StringGateway::containsBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::StringGateway::containsBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() != 2 && argIn.size() != 4)
-    {
+    if (argIn.size() != 2 && argIn.size() != 4) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     // Call overload if it exists
     bool bSuccess = false;
     retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
-    if (!bSuccess)
-    {
+    if (!bSuccess) {
         bool bCaseSensitive = true;
         ArrayOf A = argIn[0];
         ArrayOf B = argIn[1];
-        if (argIn.size() == 4)
-        {
+        if (argIn.size() == 4) {
             ArrayOf param3 = argIn[2];
             std::wstring fieldname = param3.getContentAsWideString();
-            if (fieldname != L"IgnoreCase")
-            {
+            if (fieldname != L"IgnoreCase") {
                 Error(eval, StringFormat(ERROR_WRONG_ARGUMENT_X_VALUE.c_str(), 3));
             }
             ArrayOf param4 = argIn[3];

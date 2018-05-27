@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -13,34 +13,37 @@ static integer c__1 = 1;
 static doublereal c_b71 = 0.;
 static doublereal c_b107 = .5;
 
-EXPORTSYMBOL /* Subroutine */ int sg02ad_(dico, jobb, fact, uplo, jobl, scal, sort, acc, n, m, p, a, lda, e, lde, b, ldb, q, ldq, r__, ldr, l, ldl, rcondu, x, ldx, alfar, alfai, beta, s, lds, t, ldt, u, ldu, tol, iwork, dwork, ldwork, bwork, iwarn, info, dico_len, jobb_len, fact_len, uplo_len, jobl_len, scal_len, sort_len, acc_len)
-char *dico, *jobb, *fact, *uplo, *jobl, *scal, *sort, *acc;
+EXPORTSYMBOL /* Subroutine */ int sg02ad_(dico, jobb, fact, uplo, jobl, scal, sort, acc, n, m, p, a,
+    lda, e, lde, b, ldb, q, ldq, r__, ldr, l, ldl, rcondu, x, ldx, alfar, alfai, beta, s, lds, t,
+    ldt, u, ldu, tol, iwork, dwork, ldwork, bwork, iwarn, info, dico_len, jobb_len, fact_len,
+    uplo_len, jobl_len, scal_len, sort_len, acc_len) char *dico,
+    *jobb, *fact, *uplo, *jobl, *scal, *sort, *acc;
 integer *n, *m, *p;
-doublereal *a;
-integer *lda;
-doublereal *e;
-integer *lde;
-doublereal *b;
-integer *ldb;
-doublereal *q;
-integer *ldq;
-doublereal *r__;
-integer *ldr;
-doublereal *l;
-integer *ldl;
+doublereal* a;
+integer* lda;
+doublereal* e;
+integer* lde;
+doublereal* b;
+integer* ldb;
+doublereal* q;
+integer* ldq;
+doublereal* r__;
+integer* ldr;
+doublereal* l;
+integer* ldl;
 doublereal *rcondu, *x;
-integer *ldx;
+integer* ldx;
 doublereal *alfar, *alfai, *beta, *s;
-integer *lds;
-doublereal *t;
-integer *ldt;
-doublereal *u;
-integer *ldu;
-doublereal *tol;
-integer *iwork;
-doublereal *dwork;
-integer *ldwork;
-logical *bwork;
+integer* lds;
+doublereal* t;
+integer* ldt;
+doublereal* u;
+integer* ldu;
+doublereal* tol;
+integer* iwork;
+doublereal* dwork;
+integer* ldwork;
+logical* bwork;
 integer *iwarn, *info;
 ftnlen dico_len;
 ftnlen jobb_len;
@@ -52,7 +55,9 @@ ftnlen sort_len;
 ftnlen acc_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, e_dim1, e_offset, l_dim1, l_offset, q_dim1, q_offset, r_dim1, r_offset, s_dim1, s_offset, t_dim1, t_offset, u_dim1, u_offset, x_dim1, x_offset, i__1, i__2;
+    integer a_dim1, a_offset, b_dim1, b_offset, e_dim1, e_offset, l_dim1, l_offset, q_dim1,
+        q_offset, r_dim1, r_offset, s_dim1, s_offset, t_dim1, t_offset, u_dim1, u_offset, x_dim1,
+        x_offset, i__1, i__2;
     doublereal d__1, d__2, d__3;
     /* Builtin functions */
     double sqrt();
@@ -537,162 +542,106 @@ ftnlen acc_len;
     lsort = lsame_(sort, "S", 1L, 1L);
     refine = lsame_(acc, "R", 1L, 1L);
     nn = *n << 1;
-    if (ljobb)
-    {
+    if (ljobb) {
         ljobl = lsame_(jobl, "Z", 1L, 1L);
         ljobln = lsame_(jobl, "N", 1L, 1L);
         lscal = lsame_(scal, "G", 1L, 1L);
         nnm = nn + *m;
         /* Computing MAX */
         i__1 = nnm, i__2 = *m * 3;
-        ldw = max(i__1,i__2);
-    }
-    else
-    {
+        ldw = max(i__1, i__2);
+    } else {
         lscal = FALSE_;
         nnm = nn;
         ldw = 1;
     }
     np1 = *n + 1;
     /*     Test the input scalar arguments. */
-    if (! discr && ! lsame_(dico, "C", 1L, 1L))
-    {
+    if (!discr && !lsame_(dico, "C", 1L, 1L)) {
         *info = -1;
-    }
-    else if (! ljobb && ! lsame_(jobb, "G", 1L, 1L))
-    {
+    } else if (!ljobb && !lsame_(jobb, "G", 1L, 1L)) {
         *info = -2;
-    }
-    else if (! lfacq && ! lfacr && ! lfacb && ! lfacn)
-    {
+    } else if (!lfacq && !lfacr && !lfacb && !lfacn) {
         *info = -3;
-    }
-    else if (! ljobb || lfacn)
-    {
-        if (! luplo && ! lsame_(uplo, "L", 1L, 1L))
-        {
+    } else if (!ljobb || lfacn) {
+        if (!luplo && !lsame_(uplo, "L", 1L, 1L)) {
             *info = -4;
         }
     }
-    if (*info == 0 && ljobb)
-    {
-        if (! ljobl && ! ljobln)
-        {
+    if (*info == 0 && ljobb) {
+        if (!ljobl && !ljobln) {
             *info = -5;
-        }
-        else if (! lscal && ! lsame_(scal, "N", 1L, 1L))
-        {
+        } else if (!lscal && !lsame_(scal, "N", 1L, 1L)) {
             *info = -6;
         }
     }
-    if (*info == 0)
-    {
-        if (! lsort && ! lsame_(sort, "U", 1L, 1L))
-        {
+    if (*info == 0) {
+        if (!lsort && !lsame_(sort, "U", 1L, 1L)) {
             *info = -7;
-        }
-        else if (! refine && ! lsame_(acc, "N", 1L, 1L))
-        {
+        } else if (!refine && !lsame_(acc, "N", 1L, 1L)) {
             *info = -8;
-        }
-        else if (*n < 0)
-        {
+        } else if (*n < 0) {
             *info = -9;
-        }
-        else if (ljobb)
-        {
-            if (*m < 0)
-            {
+        } else if (ljobb) {
+            if (*m < 0) {
                 *info = -10;
             }
         }
     }
-    if (*info == 0 && ! lfacn)
-    {
-        if (*p < 0)
-        {
+    if (*info == 0 && !lfacn) {
+        if (*p < 0) {
             *info = -11;
         }
     }
-    if (*info == 0)
-    {
-        if (*lda < max(1,*n))
-        {
+    if (*info == 0) {
+        if (*lda < max(1, *n)) {
             *info = -13;
-        }
-        else if (*lde < max(1,*n))
-        {
+        } else if (*lde < max(1, *n)) {
             *info = -15;
-        }
-        else if (*ldb < max(1,*n))
-        {
+        } else if (*ldb < max(1, *n)) {
             *info = -17;
-        }
-        else if ((lfacn || lfacr) && *ldq < max(1,*n) || (lfacq || lfacb) && *ldq < max(1,*p))
-        {
+        } else if ((lfacn || lfacr) && *ldq < max(1, *n) || (lfacq || lfacb) && *ldq < max(1, *p)) {
             *info = -19;
-        }
-        else if (ljobb)
-        {
-            if ((lfacn || lfacq) && *ldr < max(1,*m) || (lfacr || lfacb) && *ldr < max(1,*p))
-            {
+        } else if (ljobb) {
+            if ((lfacn || lfacq) && *ldr < max(1, *m) || (lfacr || lfacb) && *ldr < max(1, *p)) {
                 *info = -21;
-            }
-            else if (ljobln && *ldl < max(1,*n) || ljobl && *ldl < 1)
-            {
+            } else if (ljobln && *ldl < max(1, *n) || ljobl && *ldl < 1) {
                 *info = -23;
             }
-        }
-        else
-        {
-            if (*ldr < 1)
-            {
+        } else {
+            if (*ldr < 1) {
                 *info = -21;
-            }
-            else if (*ldl < 1)
-            {
+            } else if (*ldl < 1) {
                 *info = -23;
             }
         }
     }
-    if (*info == 0)
-    {
-        if (*ldx < max(1,*n))
-        {
+    if (*info == 0) {
+        if (*ldx < max(1, *n)) {
             *info = -26;
-        }
-        else if (*lds < max(1,nnm))
-        {
+        } else if (*lds < max(1, nnm)) {
             *info = -31;
-        }
-        else if (*ldt < max(1,nnm))
-        {
+        } else if (*ldt < max(1, nnm)) {
             *info = -33;
-        }
-        else if (*ldu < max(1,nn))
-        {
+        } else if (*ldu < max(1, nn)) {
             *info = -35;
-        }
-        else /* if(complicated condition) */
+        } else /* if(complicated condition) */
         {
             /* Computing MAX */
-            i__1 = *n * 14 + 23, i__2 = *n << 4, i__1 = max(i__1,i__2);
-            if (*ldwork < max(i__1,ldw))
-            {
+            i__1 = *n * 14 + 23, i__2 = *n << 4, i__1 = max(i__1, i__2);
+            if (*ldwork < max(i__1, ldw)) {
                 *info = -39;
             }
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("SG02AD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
+    if (*n == 0) {
         dwork[1] = 4.;
         dwork[4] = 1.;
         return 0;
@@ -704,8 +653,7 @@ ftnlen acc_len;
     /*     NB refers to the optimal block size for the immediately */
     /*     following subroutine, as returned by ILAENV.) */
     lscal = lscal && ljobb;
-    if (lscal)
-    {
+    if (lscal) {
         /*        Scale the matrices Q, R (or G), and L so that */
         /*           norm(Q) + norm(R) + norm(L) = 1, */
         /*        using the 1-norm. If Q and/or R are factored, the norms of */
@@ -713,159 +661,138 @@ ftnlen acc_len;
         /*        Workspace: need   max(N,M), if FACT = 'N'; */
         /*                          N,        if FACT = 'D'; */
         /*                          M,        if FACT = 'C'. */
-        if (lfacn || lfacr)
-        {
+        if (lfacn || lfacr) {
             scale = dlansy_("1-norm", uplo, n, &q[q_offset], ldq, &dwork[1], 6L, 1L);
-            *(unsigned char *)qtype = *(unsigned char *)uplo;
+            *(unsigned char*)qtype = *(unsigned char*)uplo;
             np = *n;
-        }
-        else
-        {
+        } else {
             scale = dlange_("1-norm", p, n, &q[q_offset], ldq, &dwork[1], 6L);
-            *(unsigned char *)qtype = 'G';
+            *(unsigned char*)qtype = 'G';
             np = *p;
         }
-        if (lfacn || lfacq)
-        {
+        if (lfacn || lfacq) {
             rnorm = dlansy_("1-norm", uplo, m, &r__[r_offset], ldr, &dwork[1], 6L, 1L);
-            *(unsigned char *)rtype = *(unsigned char *)uplo;
+            *(unsigned char*)rtype = *(unsigned char*)uplo;
             mp = *m;
-        }
-        else
-        {
+        } else {
             rnorm = dlange_("1-norm", p, m, &r__[r_offset], ldr, &dwork[1], 6L);
-            *(unsigned char *)rtype = 'G';
+            *(unsigned char*)rtype = 'G';
             mp = *p;
         }
         scale += rnorm;
-        if (ljobln)
-        {
+        if (ljobln) {
             scale += dlange_("1-norm", n, m, &l[l_offset], ldl, &dwork[1], 6L);
         }
-        if (scale == 0.)
-        {
+        if (scale == 0.) {
             scale = 1.;
         }
         dlascl_(qtype, &c__0, &c__0, &scale, &c_b30, &np, n, &q[q_offset], ldq, &info1, 1L);
         dlascl_(rtype, &c__0, &c__0, &scale, &c_b30, &mp, m, &r__[r_offset], ldr, &info1, 1L);
-        if (ljobln)
-        {
+        if (ljobln) {
             dlascl_("G", &c__0, &c__0, &scale, &c_b30, n, m, &l[l_offset], ldl, &info1, 1L);
         }
-    }
-    else
-    {
+    } else {
         scale = 1.;
     }
     /*     Construct the extended matrix pair. */
     /*     Workspace: need   1,                if JOBB = 'G', */
     /*                       max(1,2*N+M,3*M), if JOBB = 'B'; */
     /*                prefer larger. */
-    sb02oy_("Optimal control", dico, jobb, fact, uplo, jobl, "Not identity E", n, m, p, &a[a_offset], lda, &b[b_offset], ldb, &q[q_offset], ldq, &r__[r_offset], ldr, &l[l_offset], ldl, &e[e_offset], lde, &s[s_offset], lds, &t[t_offset], ldt, tol, &iwork[1], &dwork[1], ldwork, info, 15L, 1L, 1L, 1L, 1L, 1L, 14L);
-    if (lscal)
-    {
+    sb02oy_("Optimal control", dico, jobb, fact, uplo, jobl, "Not identity E", n, m, p,
+        &a[a_offset], lda, &b[b_offset], ldb, &q[q_offset], ldq, &r__[r_offset], ldr, &l[l_offset],
+        ldl, &e[e_offset], lde, &s[s_offset], lds, &t[t_offset], ldt, tol, &iwork[1], &dwork[1],
+        ldwork, info, 15L, 1L, 1L, 1L, 1L, 1L, 14L);
+    if (lscal) {
         /*        Undo scaling of the data arrays. */
         dlascl_(qtype, &c__0, &c__0, &c_b30, &scale, &np, n, &q[q_offset], ldq, &info1, 1L);
         dlascl_(rtype, &c__0, &c__0, &c_b30, &scale, &mp, m, &r__[r_offset], ldr, &info1, 1L);
-        if (ljobln)
-        {
+        if (ljobln) {
             dlascl_("G", &c__0, &c__0, &c_b30, &scale, n, m, &l[l_offset], ldl, &info1, 1L);
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         return 0;
     }
-    wrkopt = (integer) dwork[1];
-    if (ljobb)
-    {
+    wrkopt = (integer)dwork[1];
+    if (ljobb) {
         rcondl = dwork[2];
     }
     /*     Workspace: need   max(7*(2*N+1)+16,16*N); */
     /*                prefer larger. */
-    if (discr)
-    {
-        if (lsort)
-        {
+    if (discr) {
+        if (lsort) {
             /*           The natural tendency of the QZ algorithm to get the largest */
             /*           eigenvalues in the leading part of the matrix pair is */
             /*           exploited, by computing the unstable eigenvalues of the */
             /*           permuted matrix pair. */
-            dgges_("No vectors", "Vectors", "Sort", sb02ov_, &nn, &t[t_offset], ldt, &s[s_offset], lds, &ndim, &alfar[1], &alfai[1], &beta[1], &u[u_offset], ldu, &u[u_offset], ldu, &dwork[1], ldwork, &bwork[1], &info1, 10L, 7L, 4L);
+            dgges_("No vectors", "Vectors", "Sort", sb02ov_, &nn, &t[t_offset], ldt, &s[s_offset],
+                lds, &ndim, &alfar[1], &alfai[1], &beta[1], &u[u_offset], ldu, &u[u_offset], ldu,
+                &dwork[1], ldwork, &bwork[1], &info1, 10L, 7L, 4L);
             dswap_(n, &alfar[np1], &c__1, &alfar[1], &c__1);
             dswap_(n, &alfai[np1], &c__1, &alfai[1], &c__1);
             dswap_(n, &beta[np1], &c__1, &beta[1], &c__1);
+        } else {
+            dgges_("No vectors", "Vectors", "Sort", sb02ov_, &nn, &s[s_offset], lds, &t[t_offset],
+                ldt, &ndim, &alfar[1], &alfai[1], &beta[1], &u[u_offset], ldu, &u[u_offset], ldu,
+                &dwork[1], ldwork, &bwork[1], &info1, 10L, 7L, 4L);
         }
-        else
-        {
-            dgges_("No vectors", "Vectors", "Sort", sb02ov_, &nn, &s[s_offset], lds, &t[t_offset], ldt, &ndim, &alfar[1], &alfai[1], &beta[1], &u[u_offset], ldu, &u[u_offset], ldu, &dwork[1], ldwork, &bwork[1], &info1, 10L, 7L, 4L);
+    } else {
+        if (lsort) {
+            dgges_("No vectors", "Vectors", "Sort", sb02ow_, &nn, &s[s_offset], lds, &t[t_offset],
+                ldt, &ndim, &alfar[1], &alfai[1], &beta[1], &u[u_offset], ldu, &u[u_offset], ldu,
+                &dwork[1], ldwork, &bwork[1], &info1, 10L, 7L, 4L);
+        } else {
+            dgges_("No vectors", "Vectors", "Sort", sb02ou_, &nn, &s[s_offset], lds, &t[t_offset],
+                ldt, &ndim, &alfar[1], &alfai[1], &beta[1], &u[u_offset], ldu, &u[u_offset], ldu,
+                &dwork[1], ldwork, &bwork[1], &info1, 10L, 7L, 4L);
         }
     }
-    else
-    {
-        if (lsort)
-        {
-            dgges_("No vectors", "Vectors", "Sort", sb02ow_, &nn, &s[s_offset], lds, &t[t_offset], ldt, &ndim, &alfar[1], &alfai[1], &beta[1], &u[u_offset], ldu, &u[u_offset], ldu, &dwork[1], ldwork, &bwork[1], &info1, 10L, 7L, 4L);
-        }
-        else
-        {
-            dgges_("No vectors", "Vectors", "Sort", sb02ou_, &nn, &s[s_offset], lds, &t[t_offset], ldt, &ndim, &alfar[1], &alfai[1], &beta[1], &u[u_offset], ldu, &u[u_offset], ldu, &dwork[1], ldwork, &bwork[1], &info1, 10L, 7L, 4L);
-        }
-    }
-    if (info1 > 0 && info1 <= nn + 1)
-    {
+    if (info1 > 0 && info1 <= nn + 1) {
         *info = 2;
-    }
-    else if (info1 == nn + 2)
-    {
+    } else if (info1 == nn + 2) {
         *info = 4;
-    }
-    else if (info1 == nn + 3)
-    {
+    } else if (info1 == nn + 3) {
         *info = 3;
-    }
-    else if (ndim != *n)
-    {
+    } else if (ndim != *n) {
         *info = 5;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         return 0;
     }
     /* Computing MAX */
-    i__1 = wrkopt, i__2 = (integer) dwork[1];
-    wrkopt = max(i__1,i__2);
+    i__1 = wrkopt, i__2 = (integer)dwork[1];
+    wrkopt = max(i__1, i__2);
     /*     Take the non-identity matrix E into account and orthogonalize the */
     /*     basis. Use the array X as workspace. */
     /*     Workspace: need   N; */
     /*                prefer N*NB. */
-    dgemm_("No transpose", "No transpose", n, n, n, &c_b30, &e[e_offset], lde, &u[u_offset], ldu, &c_b71, &x[x_offset], ldx, 12L, 12L);
+    dgemm_("No transpose", "No transpose", n, n, n, &c_b30, &e[e_offset], lde, &u[u_offset], ldu,
+        &c_b71, &x[x_offset], ldx, 12L, 12L);
     dlacpy_("Full", n, n, &x[x_offset], ldx, &u[u_offset], ldu, 4L);
     dgeqrf_(&nn, n, &u[u_offset], ldu, &x[x_offset], &dwork[1], ldwork, &info1);
     /* Computing MAX */
-    i__1 = wrkopt, i__2 = (integer) dwork[1];
-    wrkopt = max(i__1,i__2);
+    i__1 = wrkopt, i__2 = (integer)dwork[1];
+    wrkopt = max(i__1, i__2);
     dorgqr_(&nn, n, n, &u[u_offset], ldu, &x[x_offset], &dwork[1], ldwork, &info1);
     /* Computing MAX */
-    i__1 = wrkopt, i__2 = (integer) dwork[1];
-    wrkopt = max(i__1,i__2);
+    i__1 = wrkopt, i__2 = (integer)dwork[1];
+    wrkopt = max(i__1, i__2);
     /*     Check for the symmetry of the solution. The array X is again used */
     /*     as workspace. */
-    dgemm_("Transpose", "No transpose", n, n, n, &c_b30, &u[u_offset], ldu, &u[np1 + u_dim1], ldu, &c_b71, &x[x_offset], ldx, 9L, 12L);
+    dgemm_("Transpose", "No transpose", n, n, n, &c_b30, &u[u_offset], ldu, &u[np1 + u_dim1], ldu,
+        &c_b71, &x[x_offset], ldx, 9L, 12L);
     u12m = 0.;
     asym = 0.;
     i__1 = *n;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         i__2 = *n;
-        for (i__ = 1; i__ <= i__2; ++i__)
-        {
+        for (i__ = 1; i__ <= i__2; ++i__) {
             /* Computing MAX */
             d__2 = u12m, d__3 = (d__1 = x[i__ + j * x_dim1], abs(d__1));
-            u12m = max(d__2,d__3);
+            u12m = max(d__2, d__3);
             /* Computing MAX */
             d__2 = asym, d__3 = (d__1 = x[i__ + j * x_dim1] - x[j + i__ * x_dim1], abs(d__1));
-            asym = max(d__2,d__3);
+            asym = max(d__2, d__3);
             /* L10: */
         }
         /* L20: */
@@ -873,27 +800,23 @@ ftnlen acc_len;
     eps = dlamch_("Epsilon", 7L);
     seps = sqrt(eps);
     asym -= seps;
-    if (asym > u12m * .1)
-    {
+    if (asym > u12m * .1) {
         *info = 6;
         return 0;
-    }
-    else if (asym > seps)
-    {
+    } else if (asym > seps) {
         *iwarn = 1;
     }
     /*     Compute the solution of X*U(1,1) = U(2,1). Use the (2,1) block */
     /*     of S as a workspace for factoring U(1,1). */
-    if (refine)
-    {
+    if (refine) {
         /*        Use LU factorization and iterative refinement for finding X. */
         /*        Workspace:  need   8*N. */
         /*        First transpose U(2,1) in-situ. */
         i__1 = *n - 1;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             i__2 = *n - i__;
-            dswap_(&i__2, &u[*n + i__ + (i__ + 1) * u_dim1], ldu, &u[*n + i__ + 1 + i__ * u_dim1], &c__1);
+            dswap_(&i__2, &u[*n + i__ + (i__ + 1) * u_dim1], ldu, &u[*n + i__ + 1 + i__ * u_dim1],
+                &c__1);
             /* L30: */
         }
         iwr = 1;
@@ -901,35 +824,32 @@ ftnlen acc_len;
         iwf = iwc + *n;
         iwb = iwf + *n;
         iw = iwb + *n;
-        mb02pd_("Equilibrate", "Transpose", n, n, &u[u_offset], ldu, &s[np1 + s_dim1], lds, &iwork[1], equed, &dwork[iwr], &dwork[iwc], &u[np1 + u_dim1], ldu, &x[x_offset], ldx, rcondu, &dwork[iwf], &dwork[iwb], &iwork[np1], &dwork[iw], &info1, 11L, 9L, 1L);
+        mb02pd_("Equilibrate", "Transpose", n, n, &u[u_offset], ldu, &s[np1 + s_dim1], lds,
+            &iwork[1], equed, &dwork[iwr], &dwork[iwc], &u[np1 + u_dim1], ldu, &x[x_offset], ldx,
+            rcondu, &dwork[iwf], &dwork[iwb], &iwork[np1], &dwork[iw], &info1, 11L, 9L, 1L);
         /*        Transpose U(2,1) back in-situ. */
         i__1 = *n - 1;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             i__2 = *n - i__;
-            dswap_(&i__2, &u[*n + i__ + (i__ + 1) * u_dim1], ldu, &u[*n + i__ + 1 + i__ * u_dim1], &c__1);
+            dswap_(&i__2, &u[*n + i__ + (i__ + 1) * u_dim1], ldu, &u[*n + i__ + 1 + i__ * u_dim1],
+                &c__1);
             /* L40: */
         }
-        if (! lsame_(equed, "N", 1L, 1L))
-        {
+        if (!lsame_(equed, "N", 1L, 1L)) {
             /*           Undo the equilibration of U(1,1) and U(2,1). */
             rowequ = lsame_(equed, "R", 1L, 1L) || lsame_(equed, "B", 1L, 1L);
             colequ = lsame_(equed, "C", 1L, 1L) || lsame_(equed, "B", 1L, 1L);
-            if (rowequ)
-            {
+            if (rowequ) {
                 i__1 = *n - 1;
-                for (i__ = 0; i__ <= i__1; ++i__)
-                {
+                for (i__ = 0; i__ <= i__1; ++i__) {
                     dwork[iwr + i__] = 1. / dwork[iwr + i__];
                     /* L50: */
                 }
                 mb01sd_("Row scaling", n, n, &u[u_offset], ldu, &dwork[iwr], &dwork[iwc], 11L);
             }
-            if (colequ)
-            {
+            if (colequ) {
                 i__1 = *n - 1;
-                for (i__ = 0; i__ <= i__1; ++i__)
-                {
+                for (i__ = 0; i__ <= i__1; ++i__) {
                     dwork[iwc + i__] = 1. / dwork[iwc + i__];
                     /* L60: */
                 }
@@ -937,49 +857,43 @@ ftnlen acc_len;
             }
         }
         pivotu = dwork[iw];
-        if (info1 > 0)
-        {
+        if (info1 > 0) {
             /*           Singular matrix. Set INFO and DWORK for error return. */
             *info = 7;
             goto L80;
         }
-    }
-    else
-    {
+    } else {
         /*        Use LU factorization and a standard solution algorithm. */
         dlacpy_("Full", n, n, &u[u_offset], ldu, &s[np1 + s_dim1], lds, 4L);
         dlacpy_("Full", n, n, &u[np1 + u_dim1], ldu, &x[x_offset], ldx, 4L);
         /*        Solve the system X*U(1,1) = U(2,1). */
-        mb02vd_("No Transpose", n, n, &s[np1 + s_dim1], lds, &iwork[1], &x[x_offset], ldx, &info1, 12L);
-        if (info1 != 0)
-        {
+        mb02vd_(
+            "No Transpose", n, n, &s[np1 + s_dim1], lds, &iwork[1], &x[x_offset], ldx, &info1, 12L);
+        if (info1 != 0) {
             *info = 7;
             *rcondu = 0.;
             goto L80;
-        }
-        else
-        {
+        } else {
             /*           Compute the norm of U(1,1). */
             unorm = dlange_("1-norm", n, n, &u[u_offset], ldu, &dwork[1], 6L);
             /*           Estimate the reciprocal condition of U(1,1). */
             /*           Workspace: need 4*N. */
-            dgecon_("1-norm", n, &s[np1 + s_dim1], lds, &unorm, rcondu, &dwork[1], &iwork[np1], info, 6L);
-            if (*rcondu < eps)
-            {
+            dgecon_("1-norm", n, &s[np1 + s_dim1], lds, &unorm, rcondu, &dwork[1], &iwork[np1],
+                info, 6L);
+            if (*rcondu < eps) {
                 /*              Nearly singular matrix. Set IWARN for warning indication. */
                 *iwarn = 1;
             }
             /* Computing MAX */
             i__1 = wrkopt, i__2 = *n << 2;
-            wrkopt = max(i__1,i__2);
+            wrkopt = max(i__1, i__2);
         }
     }
     /*     Set S(2,1) to zero. */
     dlaset_("Full", n, n, &c_b71, &c_b71, &s[np1 + s_dim1], lds, 4L);
     /*     Make sure the solution matrix X is symmetric. */
     i__1 = *n - 1;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         i__2 = *n - i__;
         daxpy_(&i__2, &c_b30, &x[i__ + (i__ + 1) * x_dim1], ldx, &x[i__ + 1 + i__ * x_dim1], &c__1);
         i__2 = *n - i__;
@@ -988,23 +902,19 @@ ftnlen acc_len;
         dcopy_(&i__2, &x[i__ + 1 + i__ * x_dim1], &c__1, &x[i__ + (i__ + 1) * x_dim1], ldx);
         /* L70: */
     }
-    if (lscal)
-    {
+    if (lscal) {
         /*        Undo scaling for the solution X. */
         dlascl_("G", &c__0, &c__0, &c_b30, &scale, n, n, &x[x_offset], ldx, &info1, 1L);
     }
-    dwork[1] = (doublereal) wrkopt;
+    dwork[1] = (doublereal)wrkopt;
 L80:
-    if (ljobb)
-    {
+    if (ljobb) {
         dwork[2] = rcondl;
     }
-    if (refine)
-    {
+    if (refine) {
         dwork[3] = pivotu;
     }
     dwork[4] = scale;
     return 0;
     /* *** Last line of SG02AD *** */
 } /* sg02ad_ */
-

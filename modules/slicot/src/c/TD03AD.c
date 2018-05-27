@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,37 +10,43 @@
 static doublereal c_b12 = 0.;
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int td03ad_(rowcol, leri, equil, m, p, indexd, dcoeff, lddcoe, ucoeff, lduco1, lduco2, nr, a, lda, b, ldb, c__, ldc, d__, ldd, indexp, pcoeff, ldpco1, ldpco2, qcoeff, ldqco1, ldqco2, vcoeff, ldvco1, ldvco2, tol, iwork, dwork, ldwork, info, rowcol_len, leri_len, equil_len)
-char *rowcol, *leri, *equil;
+EXPORTSYMBOL /* Subroutine */ int td03ad_(rowcol, leri, equil, m, p, indexd, dcoeff, lddcoe, ucoeff,
+    lduco1, lduco2, nr, a, lda, b, ldb, c__, ldc, d__, ldd, indexp, pcoeff, ldpco1, ldpco2, qcoeff,
+    ldqco1, ldqco2, vcoeff, ldvco1, ldvco2, tol, iwork, dwork, ldwork, info, rowcol_len, leri_len,
+    equil_len) char *rowcol,
+    *leri, *equil;
 integer *m, *p, *indexd;
-doublereal *dcoeff;
-integer *lddcoe;
-doublereal *ucoeff;
+doublereal* dcoeff;
+integer* lddcoe;
+doublereal* ucoeff;
 integer *lduco1, *lduco2, *nr;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *d__;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* d__;
 integer *ldd, *indexp;
-doublereal *pcoeff;
+doublereal* pcoeff;
 integer *ldpco1, *ldpco2;
-doublereal *qcoeff;
+doublereal* qcoeff;
 integer *ldqco1, *ldqco2;
-doublereal *vcoeff;
+doublereal* vcoeff;
 integer *ldvco1, *ldvco2;
-doublereal *tol;
-integer *iwork;
-doublereal *dwork;
+doublereal* tol;
+integer* iwork;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen rowcol_len;
 ftnlen leri_len;
 ftnlen equil_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, dcoeff_dim1, dcoeff_offset, pcoeff_dim1, pcoeff_dim2, pcoeff_offset, qcoeff_dim1, qcoeff_dim2, qcoeff_offset, ucoeff_dim1, ucoeff_dim2, ucoeff_offset, vcoeff_dim1, vcoeff_dim2, vcoeff_offset, i__1, i__2, i__3, i__4;
+    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, dcoeff_dim1,
+        dcoeff_offset, pcoeff_dim1, pcoeff_dim2, pcoeff_offset, qcoeff_dim1, qcoeff_dim2,
+        qcoeff_offset, ucoeff_dim1, ucoeff_dim2, ucoeff_offset, vcoeff_dim1, vcoeff_dim2,
+        vcoeff_offset, i__1, i__2, i__3, i__4;
     /* Local variables */
     static integer i__, j, k;
     extern /* Subroutine */ int ab07md_();
@@ -360,123 +366,82 @@ ftnlen equil_len;
     lleri = lsame_(leri, "L", 1L, 1L);
     lequil = lsame_(equil, "S", 1L, 1L);
     /*     Test the input scalar arguments. */
-    maxmp = max(*m,*p);
-    mplim = max(1,maxmp);
-    if (lrowco)
-    {
+    maxmp = max(*m, *p);
+    mplim = max(1, maxmp);
+    if (lrowco) {
         /*        Initialization for T(s) given as rows over common denominators. */
         pwork = *p;
         mwork = *m;
-    }
-    else
-    {
+    } else {
         /*        Initialization for T(s) given as columns over common */
         /*        denominators. */
         pwork = *m;
         mwork = *p;
     }
-    if (! lrowco && ! lsame_(rowcol, "C", 1L, 1L))
-    {
+    if (!lrowco && !lsame_(rowcol, "C", 1L, 1L)) {
         *info = -1;
-    }
-    else if (! lleri && ! lsame_(leri, "R", 1L, 1L))
-    {
+    } else if (!lleri && !lsame_(leri, "R", 1L, 1L)) {
         *info = -2;
-    }
-    else if (! lequil && ! lsame_(equil, "N", 1L, 1L))
-    {
+    } else if (!lequil && !lsame_(equil, "N", 1L, 1L)) {
         *info = -3;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -4;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -5;
-    }
-    else if (*lddcoe < max(1,pwork))
-    {
+    } else if (*lddcoe < max(1, pwork)) {
         *info = -8;
-    }
-    else if (*lduco1 < max(1,pwork) || ! lrowco && *lduco1 < mplim)
-    {
+    } else if (*lduco1 < max(1, pwork) || !lrowco && *lduco1 < mplim) {
         *info = -10;
-    }
-    else if (*lduco2 < max(1,mwork) || ! lrowco && *lduco2 < mplim)
-    {
+    } else if (*lduco2 < max(1, mwork) || !lrowco && *lduco2 < mplim) {
         *info = -11;
     }
     n = 0;
-    if (*info == 0)
-    {
+    if (*info == 0) {
         /*        Calculate N, the order of the resulting state-space */
         /*        representation, and the index kdcoef. */
         kdcoef = 0;
         i__1 = pwork;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             /* Computing MAX */
             i__2 = kdcoef, i__3 = indexd[i__];
-            kdcoef = max(i__2,i__3);
+            kdcoef = max(i__2, i__3);
             n += indexd[i__];
             /* L10: */
         }
         ++kdcoef;
-        if (*lda < max(1,n))
-        {
+        if (*lda < max(1, n)) {
             *info = -14;
-        }
-        else if (*ldb < max(1,n))
-        {
+        } else if (*ldb < max(1, n)) {
             *info = -16;
-        }
-        else if (*ldc < mplim)
-        {
+        } else if (*ldc < mplim) {
             *info = -18;
-        }
-        else if (*ldd < mplim)
-        {
+        } else if (*ldd < mplim) {
             *info = -20;
-        }
-        else if (*ldpco1 < pwork)
-        {
+        } else if (*ldpco1 < pwork) {
             *info = -23;
-        }
-        else if (*ldpco2 < pwork)
-        {
+        } else if (*ldpco2 < pwork) {
             *info = -24;
-        }
-        else if (*ldqco1 < max(1,pwork) || ! lleri && *ldqco1 < mplim)
-        {
+        } else if (*ldqco1 < max(1, pwork) || !lleri && *ldqco1 < mplim) {
             *info = -26;
-        }
-        else if (*ldqco2 < max(1,mwork) || ! lleri && *ldqco2 < mplim)
-        {
+        } else if (*ldqco2 < max(1, mwork) || !lleri && *ldqco2 < mplim) {
             *info = -27;
-        }
-        else if (*ldvco1 < max(1,pwork))
-        {
+        } else if (*ldvco1 < max(1, pwork)) {
             *info = -29;
-        }
-        else if (*ldvco2 < max(1,n))
-        {
+        } else if (*ldvco2 < max(1, n)) {
             *info = -30;
-        }
-        else /* if(complicated condition) */
+        } else /* if(complicated condition) */
         {
             /* Computing MAX */
             /* Computing MAX */
             i__3 = n, i__4 = maxmp * 3;
-            i__1 = 1, i__2 = n + max(i__3,i__4), i__1 = max(i__1,i__2), i__2 = pwork * (pwork + 2);
-            if (*ldwork < max(i__1,i__2))
-            {
+            i__1 = 1, i__2 = n + max(i__3, i__4), i__1 = max(i__1, i__2),
+            i__2 = pwork * (pwork + 2);
+            if (*ldwork < max(i__1, i__2)) {
                 *info = -34;
             }
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("TD03AD", &i__1, 6L);
@@ -484,9 +449,8 @@ ftnlen equil_len;
     }
     /*     Quick return if possible. */
     /* Computing MAX */
-    i__1 = max(n,*m);
-    if (max(i__1,*p) == 0)
-    {
+    i__1 = max(n, *m);
+    if (max(i__1, *p) == 0) {
         *nr = 0;
         dwork[1] = 1.;
         return 0;
@@ -494,51 +458,43 @@ ftnlen equil_len;
     /*     IDUAL = 1 iff precisely ROWCOL = 'C' or (exclusively) LERI = 'R', */
     /*     i.e. iff AB07MD call is required before TB03AD. */
     idual = 0;
-    if (! lrowco)
-    {
+    if (!lrowco) {
         idual = 1;
     }
-    if (! lleri)
-    {
+    if (!lleri) {
         ++idual;
     }
-    if (! lrowco)
-    {
+    if (!lrowco) {
         /*        Initialize the remainder of the leading */
         /*        MPLIM-by-MPLIM-by-KDCOEF part of U(s) to zero. */
-        if (*p < *m)
-        {
+        if (*p < *m) {
             i__1 = kdcoef;
-            for (k = 1; k <= i__1; ++k)
-            {
+            for (k = 1; k <= i__1; ++k) {
                 i__2 = *m - *p;
-                dlacpy_("Full", &i__2, &mplim, &c_b12, &c_b12, &ucoeff[*p + 1 + (k * ucoeff_dim2 + 1) * ucoeff_dim1], lduco1, 4L);
+                dlacpy_("Full", &i__2, &mplim, &c_b12, &c_b12,
+                    &ucoeff[*p + 1 + (k * ucoeff_dim2 + 1) * ucoeff_dim1], lduco1, 4L);
                 /* L20: */
             }
-        }
-        else if (*p > *m)
-        {
+        } else if (*p > *m) {
             i__1 = kdcoef;
-            for (k = 1; k <= i__1; ++k)
-            {
+            for (k = 1; k <= i__1; ++k) {
                 i__2 = *p - *m;
-                dlacpy_("Full", &mplim, &i__2, &c_b12, &c_b12, &ucoeff[(*m + 1 + k * ucoeff_dim2) * ucoeff_dim1 + 1], lduco1, 4L);
+                dlacpy_("Full", &mplim, &i__2, &c_b12, &c_b12,
+                    &ucoeff[(*m + 1 + k * ucoeff_dim2) * ucoeff_dim1 + 1], lduco1, 4L);
                 /* L30: */
             }
         }
-        if (mplim != 1)
-        {
+        if (mplim != 1) {
             /*           Non-scalar T(s) factorized by columns: transpose it */
             /*           (i.e. U(s)). */
             jstop = mplim - 1;
             i__1 = kdcoef;
-            for (k = 1; k <= i__1; ++k)
-            {
+            for (k = 1; k <= i__1; ++k) {
                 i__2 = jstop;
-                for (j = 1; j <= i__2; ++j)
-                {
+                for (j = 1; j <= i__2; ++j) {
                     i__3 = mplim - j;
-                    dswap_(&i__3, &ucoeff[j + 1 + (j + k * ucoeff_dim2) * ucoeff_dim1], &c__1, &ucoeff[j + (j + 1 + k * ucoeff_dim2) * ucoeff_dim1], lduco1);
+                    dswap_(&i__3, &ucoeff[j + 1 + (j + k * ucoeff_dim2) * ucoeff_dim1], &c__1,
+                        &ucoeff[j + (j + 1 + k * ucoeff_dim2) * ucoeff_dim1], lduco1);
                     /* L40: */
                 }
                 /* L50: */
@@ -548,16 +504,17 @@ ftnlen equil_len;
     /*     Construct non-minimal state-space representation (by Wolovich's */
     /*     Structure Theorem) which has transfer matrix T(s) or T'(s) as */
     /*     appropriate, */
-    td03ay_(&mwork, &pwork, &indexd[1], &dcoeff[dcoeff_offset], lddcoe, &ucoeff[ucoeff_offset], lduco1, lduco2, &n, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, &d__[d_offset], ldd, info);
-    if (*info > 0)
-    {
+    td03ay_(&mwork, &pwork, &indexd[1], &dcoeff[dcoeff_offset], lddcoe, &ucoeff[ucoeff_offset],
+        lduco1, lduco2, &n, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc,
+        &d__[d_offset], ldd, info);
+    if (*info > 0) {
         return 0;
     }
-    if (idual == 1)
-    {
+    if (idual == 1) {
         /*        and then obtain (MWORK x PWORK) dual of this system if */
         /*        appropriate. */
-        ab07md_("D", &n, &mwork, &pwork, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, &d__[d_offset], ldd, info, 1L);
+        ab07md_("D", &n, &mwork, &pwork, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc,
+            &d__[d_offset], ldd, info, 1L);
         itemp = pwork;
         pwork = mwork;
         mwork = itemp;
@@ -565,48 +522,47 @@ ftnlen equil_len;
     /*     Find left polynomial matrix representation (and minimal */
     /*     state-space representation en route) for the relevant state-space */
     /*     representation ... */
-    tb03ad_("Left", equil, &n, &mwork, &pwork, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, &d__[d_offset], ldd, nr, &indexp[1], &pcoeff[pcoeff_offset], ldpco1, ldpco2, &qcoeff[qcoeff_offset], ldqco1, ldqco2, &vcoeff[vcoeff_offset], ldvco1, ldvco2, tol, &iwork[1], &dwork[1], ldwork, info, 4L, 1L);
-    if (*info > 0)
-    {
+    tb03ad_("Left", equil, &n, &mwork, &pwork, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset],
+        ldc, &d__[d_offset], ldd, nr, &indexp[1], &pcoeff[pcoeff_offset], ldpco1, ldpco2,
+        &qcoeff[qcoeff_offset], ldqco1, ldqco2, &vcoeff[vcoeff_offset], ldvco1, ldvco2, tol,
+        &iwork[1], &dwork[1], ldwork, info, 4L, 1L);
+    if (*info > 0) {
         *info = pwork + *info;
         return 0;
     }
-    if (! lleri)
-    {
+    if (!lleri) {
         /*        and, if a right polynomial matrix representation is required, */
         /*        transpose and reorder (to get a block upper Hessenberg */
         /*        matrix A). */
         k = iwork[1] - 1;
-        if (n >= 2)
-        {
+        if (n >= 2) {
             k += iwork[2];
         }
         i__1 = *nr - 1;
-        tb01xd_("D", nr, &mwork, &pwork, &k, &i__1, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, &d__[d_offset], ldd, info, 1L);
+        tb01xd_("D", nr, &mwork, &pwork, &k, &i__1, &a[a_offset], lda, &b[b_offset], ldb,
+            &c__[c_offset], ldc, &d__[d_offset], ldd, info, 1L);
         kpcoef = 0;
         i__1 = pwork;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             /* Computing MAX */
             i__2 = kpcoef, i__3 = indexp[i__];
-            kpcoef = max(i__2,i__3);
+            kpcoef = max(i__2, i__3);
             /* L60: */
         }
         ++kpcoef;
-        tc01od_("L", &mwork, &pwork, &kpcoef, &pcoeff[pcoeff_offset], ldpco1, ldpco2, &qcoeff[qcoeff_offset], ldqco1, ldqco2, info, 1L);
+        tc01od_("L", &mwork, &pwork, &kpcoef, &pcoeff[pcoeff_offset], ldpco1, ldpco2,
+            &qcoeff[qcoeff_offset], ldqco1, ldqco2, info, 1L);
     }
-    if (! lrowco && mplim != 1)
-    {
+    if (!lrowco && mplim != 1) {
         /*        If non-scalar T(s) originally given by columns, */
         /*        retranspose U(s). */
         i__1 = kdcoef;
-        for (k = 1; k <= i__1; ++k)
-        {
+        for (k = 1; k <= i__1; ++k) {
             i__2 = jstop;
-            for (j = 1; j <= i__2; ++j)
-            {
+            for (j = 1; j <= i__2; ++j) {
                 i__3 = mplim - j;
-                dswap_(&i__3, &ucoeff[j + 1 + (j + k * ucoeff_dim2) * ucoeff_dim1], &c__1, &ucoeff[j + (j + 1 + k * ucoeff_dim2) * ucoeff_dim1], lduco1);
+                dswap_(&i__3, &ucoeff[j + 1 + (j + k * ucoeff_dim2) * ucoeff_dim1], &c__1,
+                    &ucoeff[j + (j + 1 + k * ucoeff_dim2) * ucoeff_dim1], lduco1);
                 /* L70: */
             }
             /* L80: */
@@ -615,4 +571,3 @@ ftnlen equil_len;
     return 0;
     /* *** Last line of TD03AD *** */
 } /* td03ad_ */
-

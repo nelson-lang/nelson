@@ -18,23 +18,22 @@
 //=============================================================================
 #include "doubleBuiltin.hpp"
 #include "Error.hpp"
-#include "ToDouble.hpp"
 #include "OverloadFunction.hpp"
+#include "ToDouble.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::DoubleGateway::doubleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::DoubleGateway::doubleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 1)
-    {
+    if (argIn.size() != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     // Call overload if it exists
     bool bSuccess = false;
     retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
-    if (!bSuccess)
-    {
+    if (!bSuccess) {
         retval.push_back(ToDouble(argIn[0]));
     }
     return retval;

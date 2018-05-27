@@ -18,10 +18,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
 #include "nlsTypes_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    NLSTYPES_IMPEXP bool IsValidFieldname(std::string fieldname);
+NLSTYPES_IMPEXP bool
+IsValidFieldname(std::string fieldname);
 }
 //=============================================================================

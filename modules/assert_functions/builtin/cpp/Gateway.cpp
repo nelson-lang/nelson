@@ -17,18 +17,17 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NelsonGateway.hpp"
-#include "assert_istrueBuiltin.hpp"
-#include "assert_isfalseBuiltin.hpp"
 #include "assert_checkerrorBuiltin.hpp"
-#include "assert_isequalBuiltin.hpp"
 #include "assert_isapproxBuiltin.hpp"
+#include "assert_isequalBuiltin.hpp"
+#include "assert_isfalseBuiltin.hpp"
+#include "assert_istrueBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"assert_functions";
 //=============================================================================
-static const nlsGateway gateway[] =
-{
+static const nlsGateway gateway[] = {
     { "assert_istrue", Nelson::AssertFunctionsGateway::assert_istrueBuiltin, 2, 1 },
     { "assert", Nelson::AssertFunctionsGateway::assert_istrueBuiltin, 2, 1 },
     { "assert_isfalse", Nelson::AssertFunctionsGateway::assert_isfalseBuiltin, 2, 1 },

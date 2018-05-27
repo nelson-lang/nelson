@@ -1,13 +1,13 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
 /* Table of constant values */
 
-static doublecomplex c_b1 = {0.,0.};
+static doublecomplex c_b1 = { 0., 0. };
 static integer c__1 = 1;
 static integer c_n1 = -1;
 static logical c_true = TRUE_;
@@ -15,28 +15,30 @@ static logical c_false = FALSE_;
 static doublereal c_b26 = 0.;
 static integer c__0 = 0;
 
-EXPORTSYMBOL /* Subroutine */ int ag08bz_(equil, l, n, m, p, a, lda, e, lde, b, ldb, c__, ldc, d__, ldd, nfz, nrank, niz, dinfz, nkror, ninfe, nkrol, infz, kronr, infe, kronl, tol, iwork, dwork, zwork, lzwork, info, equil_len)
-char *equil;
+EXPORTSYMBOL /* Subroutine */ int ag08bz_(equil, l, n, m, p, a, lda, e, lde, b, ldb, c__, ldc, d__,
+    ldd, nfz, nrank, niz, dinfz, nkror, ninfe, nkrol, infz, kronr, infe, kronl, tol, iwork, dwork,
+    zwork, lzwork, info, equil_len) char* equil;
 integer *l, *n, *m, *p;
-doublecomplex *a;
-integer *lda;
-doublecomplex *e;
-integer *lde;
-doublecomplex *b;
-integer *ldb;
-doublecomplex *c__;
-integer *ldc;
-doublecomplex *d__;
+doublecomplex* a;
+integer* lda;
+doublecomplex* e;
+integer* lde;
+doublecomplex* b;
+integer* ldb;
+doublecomplex* c__;
+integer* ldc;
+doublecomplex* d__;
 integer *ldd, *nfz, *nrank, *niz, *dinfz, *nkror, *ninfe, *nkrol, *infz, *kronr, *infe, *kronl;
-doublereal *tol;
-integer *iwork;
-doublereal *dwork;
-doublecomplex *zwork;
+doublereal* tol;
+integer* iwork;
+doublereal* dwork;
+doublecomplex* zwork;
 integer *lzwork, *info;
 ftnlen equil_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, e_dim1, e_offset, i__1, i__2, i__3, i__4, i__5, i__6;
+    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, e_dim1,
+        e_offset, i__1, i__2, i__3, i__4, i__5, i__6;
     doublereal d__1, d__2;
     /* Local variables */
     static integer itau, numu, kabcd, i__, j;
@@ -287,117 +289,94 @@ ftnlen equil_len;
     *info = 0;
     /* Computing MAX */
     i__1 = *l + *p, i__2 = *n + *m;
-    ldabcd = max(i__1,i__2);
+    ldabcd = max(i__1, i__2);
     labcd2 = ldabcd * (*n + *m);
     lequil = lsame_(equil, "S", 1L, 1L);
     lquery = *lzwork == -1;
     /*     Test the input scalar arguments. */
-    if (! lequil && ! lsame_(equil, "N", 1L, 1L))
-    {
+    if (!lequil && !lsame_(equil, "N", 1L, 1L)) {
         *info = -1;
-    }
-    else if (*l < 0)
-    {
+    } else if (*l < 0) {
         *info = -2;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -3;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -4;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -5;
-    }
-    else if (*lda < max(1,*l))
-    {
+    } else if (*lda < max(1, *l)) {
         *info = -7;
-    }
-    else if (*lde < max(1,*l))
-    {
+    } else if (*lde < max(1, *l)) {
         *info = -9;
-    }
-    else if (*ldb < 1 || *m > 0 && *ldb < *l)
-    {
+    } else if (*ldb < 1 || *m > 0 && *ldb < *l) {
         *info = -11;
-    }
-    else if (*ldc < max(1,*p))
-    {
+    } else if (*ldc < max(1, *p)) {
         *info = -13;
-    }
-    else if (*ldd < max(1,*p))
-    {
+    } else if (*ldd < max(1, *p)) {
         *info = -15;
-    }
-    else if (*tol >= 1.)
-    {
+    } else if (*tol >= 1.) {
         *info = -27;
-    }
-    else
-    {
+    } else {
         /* Computing MIN */
         i__1 = *l + *p, i__2 = *m + *n;
-        i0 = min(i__1,i__2);
-        i1 = min(*l,*n);
-        ii = min(*m,*p);
+        i0 = min(i__1, i__2);
+        i1 = min(*l, *n);
+        ii = min(*m, *p);
         /* Computing MAX */
         /* Computing MAX */
         /* Computing MAX */
         i__5 = i1, i__6 = (*m + *n) * 3 - 1;
-        i__3 = i0 + max(i__5,i__6), i__4 = (*l + *p) * 3;
-        i__1 = 1, i__2 = labcd2 + max(i__3,i__4);
-        lzw = max(i__1,i__2);
-        if (lquery)
-        {
-            tg01fz_("N", "N", "N", l, n, m, p, &a[a_offset], lda, &e[e_offset], lde, &b[b_offset], ldb, &c__[c_offset], ldc, dum, &c__1, dum, &c__1, &nn, &n2, tol, &iwork[1], &dwork[1], &zwork[1], &c_n1, info, 1L, 1L, 1L);
+        i__3 = i0 + max(i__5, i__6), i__4 = (*l + *p) * 3;
+        i__1 = 1, i__2 = labcd2 + max(i__3, i__4);
+        lzw = max(i__1, i__2);
+        if (lquery) {
+            tg01fz_("N", "N", "N", l, n, m, p, &a[a_offset], lda, &e[e_offset], lde, &b[b_offset],
+                ldb, &c__[c_offset], ldc, dum, &c__1, dum, &c__1, &nn, &n2, tol, &iwork[1],
+                &dwork[1], &zwork[1], &c_n1, info, 1L, 1L, 1L);
             /* Computing MAX */
-            i__1 = lzw, i__2 = (integer) zwork[1].r;
-            wrkopt = max(i__1,i__2);
+            i__1 = lzw, i__2 = (integer)zwork[1].r;
+            wrkopt = max(i__1, i__2);
             svlmax = 0.;
             i__1 = *m + *n;
             i__2 = *p + *l;
             i__3 = ldabcd + i1;
-            ag8byz_(&c_true, &i1, &i__1, &i__2, &svlmax, &zwork[1], &i__3, &e[e_offset], lde, &nu, &mu, niz, dinfz, nkrol, &infz[1], &kronl[1], tol, &iwork[1], &dwork[1], &zwork[1], &c_n1, info);
+            ag8byz_(&c_true, &i1, &i__1, &i__2, &svlmax, &zwork[1], &i__3, &e[e_offset], lde, &nu,
+                &mu, niz, dinfz, nkrol, &infz[1], &kronl[1], tol, &iwork[1], &dwork[1], &zwork[1],
+                &c_n1, info);
             /* Computing MAX */
-            i__1 = wrkopt, i__2 = labcd2 + (integer) zwork[1].r;
-            wrkopt = max(i__1,i__2);
+            i__1 = wrkopt, i__2 = labcd2 + (integer)zwork[1].r;
+            wrkopt = max(i__1, i__2);
             i__1 = *m + *n;
             i__2 = ldabcd + i1;
-            ag8byz_(&c_false, &i1, &ii, &i__1, &svlmax, &zwork[1], &i__2, &e[e_offset], lde, &nu, &mu, niz, dinfz, nkrol, &infz[1], &kronl[1], tol, &iwork[1], &dwork[1], &zwork[1], &c_n1, info);
+            ag8byz_(&c_false, &i1, &ii, &i__1, &svlmax, &zwork[1], &i__2, &e[e_offset], lde, &nu,
+                &mu, niz, dinfz, nkrol, &infz[1], &kronl[1], tol, &iwork[1], &dwork[1], &zwork[1],
+                &c_n1, info);
             /* Computing MAX */
-            i__1 = wrkopt, i__2 = labcd2 + (integer) zwork[1].r;
-            wrkopt = max(i__1,i__2);
+            i__1 = wrkopt, i__2 = labcd2 + (integer)zwork[1].r;
+            wrkopt = max(i__1, i__2);
             i__1 = i1 + ii;
             nb = ilaenv_(&c__1, "ZGERQF", " ", &ii, &i__1, &c_n1, &c_n1, 6L, 1L);
             /* Computing MAX */
             i__1 = wrkopt, i__2 = labcd2 + ii + ii * nb;
-            wrkopt = max(i__1,i__2);
+            wrkopt = max(i__1, i__2);
             /* Computing MIN */
             i__3 = i1 + ii;
             i__1 = 64, i__2 = ilaenv_(&c__1, "ZUNMRQ", "RC", &i1, &i__3, &ii, &c_n1, 6L, 2L);
-            nb = min(i__1,i__2);
+            nb = min(i__1, i__2);
             /* Computing MAX */
             i__1 = wrkopt, i__2 = labcd2 + ii + i1 * nb;
-            wrkopt = max(i__1,i__2);
-        }
-        else if (*lzwork < lzw)
-        {
+            wrkopt = max(i__1, i__2);
+        } else if (*lzwork < lzw) {
             *info = -31;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("AG08BZ", &i__1, 6L);
         return 0;
-    }
-    else if (lquery)
-    {
-        zwork[1].r = (doublereal) wrkopt, zwork[1].i = 0.;
+    } else if (lquery) {
+        zwork[1].r = (doublereal)wrkopt, zwork[1].i = 0.;
         return 0;
     }
     *niz = 0;
@@ -405,9 +384,8 @@ ftnlen equil_len;
     *nkror = 0;
     /*     Quick return if possible. */
     /* Computing MAX */
-    i__1 = max(*l,*n), i__1 = max(i__1,*m);
-    if (max(i__1,*p) == 0)
-    {
+    i__1 = max(*l, *n), i__1 = max(i__1, *m);
+    if (max(i__1, *p) == 0) {
         *nfz = 0;
         *dinfz = 0;
         *ninfe = 0;
@@ -425,9 +403,9 @@ ftnlen equil_len;
     jwork = kabcd + labcd2;
     /*     If required, balance the system pencil. */
     /*     RWorkspace: need   4*(L+N). */
-    if (lequil)
-    {
-        tg01az_("A", l, n, m, p, &c_b26, &a[a_offset], lda, &e[e_offset], lde, &b[b_offset], ldb, &c__[c_offset], ldc, &dwork[1], &dwork[*l + 1], &dwork[*l + *n + 1], info, 1L);
+    if (lequil) {
+        tg01az_("A", l, n, m, p, &c_b26, &a[a_offset], lda, &e[e_offset], lde, &b[b_offset], ldb,
+            &c__[c_offset], ldc, &dwork[1], &dwork[*l + 1], &dwork[*l + *n + 1], info, 1L);
     }
     svlmax = zlange_("Frobenius", l, n, &e[e_offset], lde, &dwork[1], 9L);
     /*     Reduce the system matrix to QR form, */
@@ -439,10 +417,12 @@ ftnlen equil_len;
     /*     RWorkspace: need   2*N. */
     /*     CWorkspace: need   max( 1, N+P, min(L,N)+max(3*N-1,M,L) ); */
     /*                 prefer larger. */
-    tg01fz_("N", "N", "N", l, n, m, p, &a[a_offset], lda, &e[e_offset], lde, &b[b_offset], ldb, &c__[c_offset], ldc, dum, &c__1, dum, &c__1, &nn, &n2, tol, &iwork[1], &dwork[1], &zwork[1], lzwork, info, 1L, 1L, 1L);
+    tg01fz_("N", "N", "N", l, n, m, p, &a[a_offset], lda, &e[e_offset], lde, &b[b_offset], ldb,
+        &c__[c_offset], ldc, dum, &c__1, dum, &c__1, &nn, &n2, tol, &iwork[1], &dwork[1], &zwork[1],
+        lzwork, info, 1L, 1L, 1L);
     /* Computing MAX */
-    i__1 = wrkopt, i__2 = (integer) zwork[1].r;
-    wrkopt = max(i__1,i__2);
+    i__1 = wrkopt, i__2 = (integer)zwork[1].r;
+    wrkopt = max(i__1, i__2);
     /*     Construct the system pencil */
     /*                          MM         NN */
     /*                      ( B1 A12 A11-lambda*E11 ) NN */
@@ -455,21 +435,22 @@ ftnlen equil_len;
     pp = *p + (*l - nn);
     zlacpy_("Full", l, m, &b[b_offset], ldb, &zwork[kabcd], &ldabcd, 4L);
     zlacpy_("Full", p, m, &d__[d_offset], ldd, &zwork[kabcd + *l], &ldabcd, 4L);
-    zlacpy_("Full", l, &n2, &a[(nn + 1) * a_dim1 + 1], lda, &zwork[kabcd + ldabcd **m], &ldabcd, 4L);
-    zlacpy_("Full", p, &n2, &c__[(nn + 1) * c_dim1 + 1], ldc, &zwork[kabcd + ldabcd **m + *l], &ldabcd, 4L);
+    zlacpy_(
+        "Full", l, &n2, &a[(nn + 1) * a_dim1 + 1], lda, &zwork[kabcd + ldabcd * *m], &ldabcd, 4L);
+    zlacpy_("Full", p, &n2, &c__[(nn + 1) * c_dim1 + 1], ldc, &zwork[kabcd + ldabcd * *m + *l],
+        &ldabcd, 4L);
     zlacpy_("Full", l, &nn, &a[a_offset], lda, &zwork[kabcd + ldabcd * mm], &ldabcd, 4L);
     zlacpy_("Full", p, &nn, &c__[c_offset], ldc, &zwork[kabcd + ldabcd * mm + *l], &ldabcd, 4L);
     /*     If required, set tolerance. */
     toler = *tol;
-    if (toler <= 0.)
-    {
-        toler = (doublereal) ((*l + *p) * (*m + *n)) * dlamch_("Precision", 9L);
+    if (toler <= 0.) {
+        toler = (doublereal)((*l + *p) * (*m + *n)) * dlamch_("Precision", 9L);
     }
     /* Computing MAX */
     i__1 = nn + pp;
     i__2 = nn + mm;
     d__1 = svlmax, d__2 = zlange_("Frobenius", &i__1, &i__2, &zwork[kabcd], &ldabcd, &dwork[1], 9L);
-    svlmax = max(d__1,d__2);
+    svlmax = max(d__1, d__2);
     /*     Extract the reduced pencil S2(lambda) */
     /*             ( Bc  Ac-lambda*Ec ) */
     /*             ( Dc      Cc       ) */
@@ -483,11 +464,13 @@ ftnlen equil_len;
     /*                              3*(P+L), 1 ) + LABCD2; */
     /*                 prefer larger. */
     i__1 = *lzwork - jwork + 1;
-    ag8byz_(&c_true, &nn, &mm, &pp, &svlmax, &zwork[kabcd], &ldabcd, &e[e_offset], lde, &nu, &mu, niz, dinfz, nkrol, &infz[1], &kronl[1], &toler, &iwork[1], &dwork[1], &zwork[jwork], &i__1, info);
+    ag8byz_(&c_true, &nn, &mm, &pp, &svlmax, &zwork[kabcd], &ldabcd, &e[e_offset], lde, &nu, &mu,
+        niz, dinfz, nkrol, &infz[1], &kronl[1], &toler, &iwork[1], &dwork[1], &zwork[jwork], &i__1,
+        info);
     /* Computing MAX */
     i__3 = jwork;
-    i__1 = wrkopt, i__2 = (integer) zwork[i__3].r + jwork - 1;
-    wrkopt = max(i__1,i__2);
+    i__1 = wrkopt, i__2 = (integer)zwork[i__3].r + jwork - 1;
+    wrkopt = max(i__1, i__2);
     /*     Set the number of simple (nondynamic) infinite eigenvalues */
     /*     and the normal rank of the system pencil. */
     nsinfe = mu;
@@ -495,21 +478,21 @@ ftnlen equil_len;
     /*     Pertranspose the system. */
     /* Computing MAX */
     i__2 = 0, i__3 = nu - 1;
-    i__1 = max(i__2,i__3);
+    i__1 = max(i__2, i__3);
     /* Computing MAX */
     i__5 = 0, i__6 = nu - 1;
-    i__4 = max(i__5,i__6);
-    tb01xz_("D", &nu, &mm, &mm, &i__1, &i__4, &zwork[kabcd + ldabcd * mm], &ldabcd, &zwork[kabcd], &ldabcd, &zwork[kabcd + ldabcd * mm + nu], &ldabcd, &zwork[kabcd + nu], &ldabcd, info, 1L);
+    i__4 = max(i__5, i__6);
+    tb01xz_("D", &nu, &mm, &mm, &i__1, &i__4, &zwork[kabcd + ldabcd * mm], &ldabcd, &zwork[kabcd],
+        &ldabcd, &zwork[kabcd + ldabcd * mm + nu], &ldabcd, &zwork[kabcd + nu], &ldabcd, info, 1L);
     i__1 = nu + mm;
     ma02bz_("Right", &i__1, &mm, &zwork[kabcd], &ldabcd, 5L);
     i__1 = nu + mm;
     ma02bz_("Left", &mm, &i__1, &zwork[kabcd + nu], &ldabcd, 4L);
     /* Computing MAX */
     i__2 = 0, i__3 = nu - 1;
-    i__1 = max(i__2,i__3);
+    i__1 = max(i__2, i__3);
     ma02cz_(&nu, &c__0, &i__1, &e[e_offset], lde);
-    if (mu != mm)
-    {
+    if (mu != mm) {
         nn = nu;
         pp = mm;
         mm = mu;
@@ -525,14 +508,15 @@ ftnlen equil_len;
         /*        CWorkspace: need   max( 1, 3*(M+N) ) + LABCD2. */
         /*                    prefer larger. */
         i__1 = *lzwork - jwork + 1;
-        ag8byz_(&c_false, &nn, &mm, &pp, &svlmax, &zwork[kabcd], &ldabcd, &e[e_offset], lde, &nu, &mu, &i0, &i1, nkror, &iwork[1], &kronr[1], &toler, &iwork[1], &dwork[1], &zwork[jwork], &i__1, info);
+        ag8byz_(&c_false, &nn, &mm, &pp, &svlmax, &zwork[kabcd], &ldabcd, &e[e_offset], lde, &nu,
+            &mu, &i0, &i1, nkror, &iwork[1], &kronr[1], &toler, &iwork[1], &dwork[1], &zwork[jwork],
+            &i__1, info);
         /* Computing MAX */
         i__3 = jwork;
-        i__1 = wrkopt, i__2 = (integer) zwork[i__3].r + jwork - 1;
-        wrkopt = max(i__1,i__2);
+        i__1 = wrkopt, i__2 = (integer)zwork[i__3].r + jwork - 1;
+        wrkopt = max(i__1, i__2);
     }
-    if (nu != 0)
-    {
+    if (nu != 0) {
         /*        Perform a unitary transformation on the columns of */
         /*                     ( Br Ar-lambda*Er ) */
         /*                     ( Dr     Cr       ) */
@@ -552,16 +536,17 @@ ftnlen equil_len;
         ztzrzf_(&mu, &numu, &zwork[ipd], &ldabcd, &zwork[itau], &zwork[jwork], &i__1, info);
         /* Computing MAX */
         i__3 = jwork;
-        i__1 = wrkopt, i__2 = (integer) zwork[i__3].r + jwork - 1;
-        wrkopt = max(i__1,i__2);
+        i__1 = wrkopt, i__2 = (integer)zwork[i__3].r + jwork - 1;
+        wrkopt = max(i__1, i__2);
         /*        CWorkspace: need   LABCD2 + min(M,P) + min(L,N); */
         /*                    prefer LABCD2 + min(M,P) + min(L,N)*NB. */
         i__1 = *lzwork - jwork + 1;
-        zunmrz_("Right", "Conjugate transpose", &nu, &numu, &mu, &nu, &zwork[ipd], &ldabcd, &zwork[itau], &zwork[kabcd], &ldabcd, &zwork[jwork], &i__1, info, 5L, 19L);
+        zunmrz_("Right", "Conjugate transpose", &nu, &numu, &mu, &nu, &zwork[ipd], &ldabcd,
+            &zwork[itau], &zwork[kabcd], &ldabcd, &zwork[jwork], &i__1, info, 5L, 19L);
         /* Computing MAX */
         i__3 = jwork;
-        i__1 = wrkopt, i__2 = (integer) zwork[i__3].r + jwork - 1;
-        wrkopt = max(i__1,i__2);
+        i__1 = wrkopt, i__2 = (integer)zwork[i__3].r + jwork - 1;
+        wrkopt = max(i__1, i__2);
         /*        Save Af. */
         zlacpy_("Full", &nu, &nu, &zwork[kabcd + ldabcd * mu], &ldabcd, &a[a_offset], lda, 4L);
         /*        Compute Ef by applying the saved transformations from previous */
@@ -569,25 +554,23 @@ ftnlen equil_len;
         zlaset_("Full", &nu, &mu, &c_b1, &c_b1, &zwork[kabcd], &ldabcd, 4L);
         zlacpy_("Full", &nu, &nu, &e[e_offset], lde, &zwork[kabcd + ldabcd * mu], &ldabcd, 4L);
         i__1 = *lzwork - jwork + 1;
-        zunmrz_("Right", "Conjugate transpose", &nu, &numu, &mu, &nu, &zwork[ipd], &ldabcd, &zwork[itau], &zwork[kabcd], &ldabcd, &zwork[jwork], &i__1, info, 5L, 19L);
+        zunmrz_("Right", "Conjugate transpose", &nu, &numu, &mu, &nu, &zwork[ipd], &ldabcd,
+            &zwork[itau], &zwork[kabcd], &ldabcd, &zwork[jwork], &i__1, info, 5L, 19L);
         /*        Save Ef. */
         zlacpy_("Full", &nu, &nu, &zwork[kabcd + ldabcd * mu], &ldabcd, &e[e_offset], lde, 4L);
     }
     *nfz = nu;
     /*     Set right Kronecker indices (column indices). */
     i__1 = *nkror;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         iwork[i__] = kronr[i__];
         /* L10: */
     }
     j = 0;
     i__1 = *nkror;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         i__2 = j + iwork[i__];
-        for (ii = j + 1; ii <= i__2; ++ii)
-        {
+        for (ii = j + 1; ii <= i__2; ++ii) {
             kronr[ii] = i__ - 1;
             /* L20: */
         }
@@ -597,18 +580,15 @@ ftnlen equil_len;
     *nkror = j;
     /*     Set left Kronecker indices (row indices). */
     i__1 = *nkrol;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         iwork[i__] = kronl[i__];
         /* L40: */
     }
     j = 0;
     i__1 = *nkrol;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         i__2 = j + iwork[i__];
-        for (ii = j + 1; ii <= i__2; ++ii)
-        {
+        for (ii = j + 1; ii <= i__2; ++ii) {
             kronl[ii] = i__ - 1;
             /* L50: */
         }
@@ -621,25 +601,21 @@ ftnlen equil_len;
     /*     of order greater than one and the order of Dr. */
     *ninfe = 0;
     i__1 = *dinfz;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         *ninfe += infz[i__];
         /* L70: */
     }
     *ninfe = nsinfe - *ninfe;
     i__1 = *ninfe;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         infe[i__] = 1;
         /* L80: */
     }
     /*     Set the structure of infinite eigenvalues. */
     i__1 = *dinfz;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         i__2 = *ninfe + infz[i__];
-        for (ii = *ninfe + 1; ii <= i__2; ++ii)
-        {
+        for (ii = *ninfe + 1; ii <= i__2; ++ii) {
             infe[ii] = i__ + 1;
             /* L90: */
         }
@@ -647,8 +623,7 @@ ftnlen equil_len;
         /* L100: */
     }
     iwork[1] = nsinfe;
-    zwork[1].r = (doublereal) wrkopt, zwork[1].i = 0.;
+    zwork[1].r = (doublereal)wrkopt, zwork[1].i = 0.;
     return 0;
     /* *** Last line of AG08BZ *** */
 } /* ag08bz_ */
-

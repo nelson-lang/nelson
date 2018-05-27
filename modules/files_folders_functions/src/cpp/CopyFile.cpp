@@ -16,135 +16,113 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/filesystem.hpp>
 #include "CopyFile.hpp"
-#include "IsFile.hpp"
-#include "IsDirectory.hpp"
-#include "characters_encoding.hpp"
 #include "Exception.hpp"
+#include "IsDirectory.hpp"
+#include "IsFile.hpp"
+#include "characters_encoding.hpp"
+#include <boost/filesystem.hpp>
 //=============================================================================
 namespace Nelson {
-    bool CopyFile(std::wstring srcFile, std::wstring destFileOrDirectory, bool bForce, std::wstring &message)
-    {
-        bool bRes = false;
-        message = L"";
-        if (!IsFile(srcFile))
-        {
-            throw Exception(_W("File source does not exist."));
-        }
-        boost::filesystem::path srcPath = srcFile;
-        boost::filesystem::path destPath = destFileOrDirectory;
-        if (IsDirectory(destFileOrDirectory))
-        {
-            destPath = destPath / srcPath.filename();
-        }
-        try
-        {
-            boost::filesystem::copy_file(srcPath, destPath, boost::filesystem::copy_option::overwrite_if_exists);
-            bRes = true;
-        }
-        catch (boost::filesystem::filesystem_error const & e)
-        {
-            bRes = false;
-            boost::system::error_code error_code = e.code();
-            message = utf8_to_wstring(error_code.message());
-        }
-        if (bForce)
-        {
-            if (!bRes)
-            {
-                bRes = true;
-                message = L"";
-            }
-        }
-        return bRes;
+bool
+CopyFile(std::wstring srcFile, std::wstring destFileOrDirectory, bool bForce, std::wstring& message)
+{
+    bool bRes = false;
+    message = L"";
+    if (!IsFile(srcFile)) {
+        throw Exception(_W("File source does not exist."));
     }
-    //=============================================================================
-    bool CopyDirectory(std::wstring srcDir, std::wstring destDir, bool bForce, std::wstring &message)
-    {
-        bool bRes = false;
-        message = L"";
-        if (!IsDirectory(srcDir))
-        {
-            throw Exception(_W("Directory source does not exist."));
+    boost::filesystem::path srcPath = srcFile;
+    boost::filesystem::path destPath = destFileOrDirectory;
+    if (IsDirectory(destFileOrDirectory)) {
+        destPath = destPath / srcPath.filename();
+    }
+    try {
+        boost::filesystem::copy_file(
+            srcPath, destPath, boost::filesystem::copy_option::overwrite_if_exists);
+        bRes = true;
+    } catch (boost::filesystem::filesystem_error const& e) {
+        bRes = false;
+        boost::system::error_code error_code = e.code();
+        message = utf8_to_wstring(error_code.message());
+    }
+    if (bForce) {
+        if (!bRes) {
+            bRes = true;
+            message = L"";
         }
-        if (!IsDirectory(destDir))
-        {
-            throw Exception(_W("Directory destination does not exist."));
+    }
+    return bRes;
+}
+//=============================================================================
+bool
+CopyDirectory(std::wstring srcDir, std::wstring destDir, bool bForce, std::wstring& message)
+{
+    bool bRes = false;
+    message = L"";
+    if (!IsDirectory(srcDir)) {
+        throw Exception(_W("Directory source does not exist."));
+    }
+    if (!IsDirectory(destDir)) {
+        throw Exception(_W("Directory destination does not exist."));
+    }
+    boost::filesystem::path srcPath = srcDir;
+    boost::filesystem::path destPath = destDir;
+    try {
+        boost::filesystem::copy_directory(srcPath, destPath);
+        bRes = true;
+    } catch (boost::filesystem::filesystem_error const& e) {
+        bRes = false;
+        boost::system::error_code error_code = e.code();
+        message = utf8_to_wstring(error_code.message());
+    }
+    if (bForce) {
+        if (!bRes) {
+            bRes = true;
+            message = L"";
         }
-        boost::filesystem::path srcPath = srcDir;
+    }
+    return bRes;
+}
+//=============================================================================
+bool
+CopyFiles(wstringVector srcFiles, std::wstring destDir, bool bForce, std::wstring& message)
+{
+    bool bRes = false;
+    message = L"";
+    for (size_t k = 0; k < srcFiles.size(); k++) {
+        if (!IsFile(srcFiles[k])) {
+            throw Exception(_W("A cell of existing filenames expected."));
+        }
+    }
+    if (!IsDirectory(destDir)) {
+        throw Exception(_W("Directory destination does not exist."));
+    }
+    for (size_t k = 0; k < srcFiles.size(); k++) {
+        boost::filesystem::path srcPath = srcFiles[k];
         boost::filesystem::path destPath = destDir;
-        try
-        {
-            boost::filesystem::copy_directory(srcPath, destPath);
+        destPath = destPath / srcPath.filename();
+        try {
+            boost::filesystem::copy_file(srcPath, destPath);
             bRes = true;
-        }
-        catch (boost::filesystem::filesystem_error const & e)
-        {
+        } catch (boost::filesystem::filesystem_error const& e) {
             bRes = false;
             boost::system::error_code error_code = e.code();
             message = utf8_to_wstring(error_code.message());
         }
-        if (bForce)
-        {
-            if (!bRes)
-            {
+        if (bForce) {
+            if (!bRes) {
                 bRes = true;
                 message = L"";
             }
+        } else {
+            if (!bRes) {
+                return bRes;
+            }
         }
-        return bRes;
     }
-    //=============================================================================
-    bool CopyFiles(wstringVector srcFiles, std::wstring destDir, bool bForce, std::wstring &message)
-    {
-        bool bRes = false;
-        message = L"";
-        for (size_t k = 0; k < srcFiles.size(); k++)
-        {
-            if (!IsFile(srcFiles[k]))
-            {
-                throw Exception(_W("A cell of existing filenames expected."));
-            }
-        }
-        if (!IsDirectory(destDir))
-        {
-            throw Exception(_W("Directory destination does not exist."));
-        }
-        for (size_t k = 0; k < srcFiles.size(); k++)
-        {
-            boost::filesystem::path srcPath = srcFiles[k];
-            boost::filesystem::path destPath = destDir;
-            destPath = destPath / srcPath.filename();
-            try
-            {
-                boost::filesystem::copy_file(srcPath, destPath);
-                bRes = true;
-            }
-            catch (boost::filesystem::filesystem_error const & e)
-            {
-                bRes = false;
-                boost::system::error_code error_code = e.code();
-                message = utf8_to_wstring(error_code.message());
-            }
-            if (bForce)
-            {
-                if (!bRes)
-                {
-                    bRes = true;
-                    message = L"";
-                }
-            }
-            else
-            {
-                if (!bRes)
-                {
-                    return bRes;
-                }
-            }
-        }
-        return bRes;
-    }
-    //=============================================================================
+    return bRes;
+}
+//=============================================================================
 }
 //=============================================================================

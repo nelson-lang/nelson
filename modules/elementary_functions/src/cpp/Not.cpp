@@ -20,22 +20,23 @@
 //=============================================================================
 namespace Nelson {
 
-    void boolean_not(indexType N, logical* C, const logical *A)
-    {
-        for (indexType i = 0; i<N; i++)
-        {
-            C[i] = !A[i];
-        }
+void
+boolean_not(indexType N, logical* C, const logical* A)
+{
+    for (indexType i = 0; i < N; i++) {
+        C[i] = !A[i];
     }
-    ArrayOf Not(ArrayOf A)
-    {
-        ArrayOf C;
-        A.promoteType(NLS_LOGICAL);
-        C = ArrayOf(NLS_LOGICAL, A.getDimensions(), NULL);
-        void *Cp = C.allocateArrayOf(NLS_LOGICAL, A.getLength());
-        boolean_not(A.getLength(), (logical*)Cp, (const logical*)A.getDataPointer());
-        C.setDataPointer(Cp);
-        return C;
-    }
+}
+ArrayOf
+Not(ArrayOf A)
+{
+    ArrayOf C;
+    A.promoteType(NLS_LOGICAL);
+    C = ArrayOf(NLS_LOGICAL, A.getDimensions(), NULL);
+    void* Cp = C.allocateArrayOf(NLS_LOGICAL, A.getLength());
+    boolean_not(A.getLength(), (logical*)Cp, (const logical*)A.getDataPointer());
+    C.setDataPointer(Cp);
+    return C;
+}
 }
 //=============================================================================

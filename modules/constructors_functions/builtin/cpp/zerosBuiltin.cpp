@@ -22,162 +22,127 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::ConstructorsGateway::zerosBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::ConstructorsGateway::zerosBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     Class cl = NLS_DOUBLE;
-    if (argIn.size() == 0)
-    {
+    if (argIn.size() == 0) {
         retval.push_back(Zeros(eval, cl));
-    }
-    else
-    {
+    } else {
         sizeType nRhs = argIn.size();
         bool bCheckClassName = true;
-        if ((int)nRhs - 2 >= 0)
-        {
+        if ((int)nRhs - 2 >= 0) {
             ArrayOf Arg = argIn[argIn.size() - 2];
-            if (Arg.isSingleString())
-            {
+            if (Arg.isSingleString()) {
                 std::wstring paramstr = Arg.getContentAsWideString();
-                if (paramstr == L"like")
-                {
+                if (paramstr == L"like") {
                     ArrayOf lastArg = argIn[argIn.size() - 1];
-                    if (lastArg.isSparse())
-                    {
+                    if (lastArg.isSparse()) {
                         Error(eval, _W("A supported type expected at last argument."));
                     }
-                    switch (lastArg.getDataClass())
-                    {
-                        case NLS_LOGICAL:
-                            cl = NLS_LOGICAL;
-                            break;
-                        case NLS_INT8:
-                            cl = NLS_INT8;
-                            break;
-                        case NLS_UINT8:
-                            cl = NLS_UINT8;
-                            break;
-                        case NLS_INT16:
-                            cl = NLS_INT16;
-                            break;
-                        case NLS_UINT16:
-                            cl = NLS_UINT16;
-                            break;
-                        case NLS_INT32:
-                            cl = NLS_INT32;
-                            break;
-                        case NLS_UINT32:
-                            cl = NLS_UINT32;
-                            break;
-                        case NLS_INT64:
-                            cl = NLS_INT64;
-                            break;
-                        case NLS_UINT64:
-                            cl = NLS_UINT64;
-                            break;
-                        case NLS_DOUBLE:
-                            cl = NLS_DOUBLE;
-                            break;
-                        case NLS_SINGLE:
-                            cl = NLS_SINGLE;
-                            break;
-                        case NLS_DCOMPLEX:
-                            cl = NLS_DCOMPLEX;
-                            break;
-                        case NLS_SCOMPLEX:
-                            cl = NLS_SCOMPLEX;
-                            break;
-                        default:
-                            Error(eval, _W("A supported type expected at last argument."));
-                            break;
+                    switch (lastArg.getDataClass()) {
+                    case NLS_LOGICAL:
+                        cl = NLS_LOGICAL;
+                        break;
+                    case NLS_INT8:
+                        cl = NLS_INT8;
+                        break;
+                    case NLS_UINT8:
+                        cl = NLS_UINT8;
+                        break;
+                    case NLS_INT16:
+                        cl = NLS_INT16;
+                        break;
+                    case NLS_UINT16:
+                        cl = NLS_UINT16;
+                        break;
+                    case NLS_INT32:
+                        cl = NLS_INT32;
+                        break;
+                    case NLS_UINT32:
+                        cl = NLS_UINT32;
+                        break;
+                    case NLS_INT64:
+                        cl = NLS_INT64;
+                        break;
+                    case NLS_UINT64:
+                        cl = NLS_UINT64;
+                        break;
+                    case NLS_DOUBLE:
+                        cl = NLS_DOUBLE;
+                        break;
+                    case NLS_SINGLE:
+                        cl = NLS_SINGLE;
+                        break;
+                    case NLS_DCOMPLEX:
+                        cl = NLS_DCOMPLEX;
+                        break;
+                    case NLS_SCOMPLEX:
+                        cl = NLS_SCOMPLEX;
+                        break;
+                    default:
+                        Error(eval, _W("A supported type expected at last argument."));
+                        break;
                     }
                     nRhs = nRhs - 2;
                     bCheckClassName = false;
-                }
-                else
-                {
+                } else {
                     Error(eval, _W("\'like\' expected at n - 2 argument."));
                 }
             }
         }
         ArrayOf lastArg = argIn[argIn.size() - 1];
-        if (lastArg.isSingleString() && bCheckClassName)
-        {
+        if (lastArg.isSingleString() && bCheckClassName) {
             std::wstring paramstr = lastArg.getContentAsWideString();
-            if (paramstr == L"int8")
-            {
+            if (paramstr == L"int8") {
                 cl = NLS_INT8;
                 nRhs--;
-            }
-            else if (paramstr == L"uint8")
-            {
+            } else if (paramstr == L"uint8") {
                 cl = NLS_UINT8;
                 nRhs--;
-            }
-            else if (paramstr == L"int16")
-            {
+            } else if (paramstr == L"int16") {
                 cl = NLS_INT16;
                 nRhs--;
-            }
-            else if (paramstr == L"uint16")
-            {
+            } else if (paramstr == L"uint16") {
                 cl = NLS_UINT16;
                 nRhs--;
-            }
-            else if (paramstr == L"int32")
-            {
+            } else if (paramstr == L"int32") {
                 cl = NLS_INT32;
                 nRhs--;
-            }
-            else if (paramstr == L"uint32")
-            {
+            } else if (paramstr == L"uint32") {
                 cl = NLS_UINT32;
                 nRhs--;
-            }
-            else if (paramstr == L"int64")
-            {
+            } else if (paramstr == L"int64") {
                 cl = NLS_INT64;
                 nRhs--;
-            }
-            else if (paramstr == L"uint64")
-            {
+            } else if (paramstr == L"uint64") {
                 cl = NLS_UINT64;
                 nRhs--;
-            }
-            else if (paramstr == L"double")
-            {
+            } else if (paramstr == L"double") {
                 cl = NLS_DOUBLE;
                 nRhs--;
-            }
-            else if (paramstr == L"single")
-            {
+            } else if (paramstr == L"single") {
                 cl = NLS_SINGLE;
                 nRhs--;
-            }
-            else
-            {
+            } else {
                 Error(eval, _W("A supported type expected at last argument."));
             }
         }
-        if (nRhs == 0)
-        {
+        if (nRhs == 0) {
             retval.push_back(Zeros(eval, cl));
             return retval;
         }
         Dimensions dims;
-        for (sizeType k = 0; k < nRhs; k++)
-        {
+        for (sizeType k = 0; k < nRhs; k++) {
             ArrayOf param = argIn[k];
             indexType idx = param.getContentAsScalarIndex();
             dims[k] = idx;
         }
-        if (dims.getLength() == 1)
-        {
+        if (dims.getLength() == 1) {
             dims[1] = dims[0];
         }
         retval.push_back(Zeros(eval, dims, cl));

@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,21 +9,21 @@
 
 static doublereal c_b14 = 1.;
 
-EXPORTSYMBOL /* Subroutine */ int ab09dd_(dico, n, m, p, nr, a, lda, b, ldb, c__, ldc, d__, ldd, rcond, iwork, dwork, info, dico_len)
-char *dico;
+EXPORTSYMBOL /* Subroutine */ int ab09dd_(dico, n, m, p, nr, a, lda, b, ldb, c__, ldc, d__, ldd,
+    rcond, iwork, dwork, info, dico_len) char* dico;
 integer *n, *m, *p, *nr;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *d__;
-integer *ldd;
-doublereal *rcond;
-integer *iwork;
-doublereal *dwork;
-integer *info;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* d__;
+integer* ldd;
+doublereal* rcond;
+integer* iwork;
+doublereal* dwork;
+integer* info;
 ftnlen dico_len;
 {
     /* System generated locals */
@@ -166,52 +166,33 @@ ftnlen dico_len;
     /* Function Body */
     *info = 0;
     discr = lsame_(dico, "D", 1L, 1L);
-    if (! (lsame_(dico, "C", 1L, 1L) || discr))
-    {
+    if (!(lsame_(dico, "C", 1L, 1L) || discr)) {
         *info = -1;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -2;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -3;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -4;
-    }
-    else if (*nr < 0 || *nr > *n)
-    {
+    } else if (*nr < 0 || *nr > *n) {
         *info = -5;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -7;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -9;
-    }
-    else if (*ldc < max(1,*p))
-    {
+    } else if (*ldc < max(1, *p)) {
         *info = -11;
-    }
-    else if (*ldd < max(1,*p))
-    {
+    } else if (*ldd < max(1, *p)) {
         *info = -13;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("AB09DD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*nr == *n)
-    {
+    if (*nr == *n) {
         *rcond = 1.;
         return 0;
     }
@@ -220,16 +201,13 @@ ftnlen dico_len;
     /*     Compute: T = -A22   if  DICO = 'C' and */
     /*              T = -A22+I if  DICO = 'D'. */
     i__1 = *n;
-    for (j = k; j <= i__1; ++j)
-    {
+    for (j = k; j <= i__1; ++j) {
         i__2 = *n;
-        for (i__ = k; i__ <= i__2; ++i__)
-        {
+        for (i__ = k; i__ <= i__2; ++i__) {
             a[i__ + j * a_dim1] = -a[i__ + j * a_dim1];
             /* L10: */
         }
-        if (discr)
-        {
+        if (discr) {
             a[j + j * a_dim1] += 1.;
         }
         /* L20: */
@@ -237,34 +215,38 @@ ftnlen dico_len;
     /*     Compute the LU decomposition of T. */
     a22nrm = dlange_("1-norm", &ns, &ns, &a[k + k * a_dim1], lda, &dwork[1], 6L);
     dgetrf_(&ns, &ns, &a[k + k * a_dim1], lda, &iwork[1], info);
-    if (*info > 0)
-    {
+    if (*info > 0) {
         /*        Error return. */
         *rcond = 0.;
         *info = 1;
         return 0;
     }
-    dgecon_("1-norm", &ns, &a[k + k * a_dim1], lda, &a22nrm, rcond, &dwork[1], &iwork[ns + 1], info, 6L);
-    if (*rcond <= dlamch_("E", 1L))
-    {
+    dgecon_("1-norm", &ns, &a[k + k * a_dim1], lda, &a22nrm, rcond, &dwork[1], &iwork[ns + 1], info,
+        6L);
+    if (*rcond <= dlamch_("E", 1L)) {
         /*        Error return. */
         *info = 1;
         return 0;
     }
     /*     Compute A21 <- INV(T)*A21. */
-    dgetrs_("NoTranspose", &ns, nr, &a[k + k * a_dim1], lda, &iwork[1], &a[k + a_dim1], lda, info, 11L);
+    dgetrs_(
+        "NoTranspose", &ns, nr, &a[k + k * a_dim1], lda, &iwork[1], &a[k + a_dim1], lda, info, 11L);
     /*     Compute B2 <- INV(T)*B2. */
-    dgetrs_("NoTranspose", &ns, m, &a[k + k * a_dim1], lda, &iwork[1], &b[k + b_dim1], ldb, info, 11L);
+    dgetrs_(
+        "NoTranspose", &ns, m, &a[k + k * a_dim1], lda, &iwork[1], &b[k + b_dim1], ldb, info, 11L);
     /*     Compute the residualized systems matrices. */
     /*     Ar = A11 + A12*INV(T)*A21. */
-    dgemm_("NoTranspose", "NoTranspose", nr, nr, &ns, &c_b14, &a[k * a_dim1 + 1], lda, &a[k + a_dim1], lda, &c_b14, &a[a_offset], lda, 11L, 11L);
+    dgemm_("NoTranspose", "NoTranspose", nr, nr, &ns, &c_b14, &a[k * a_dim1 + 1], lda,
+        &a[k + a_dim1], lda, &c_b14, &a[a_offset], lda, 11L, 11L);
     /*     Br = B1 + A12*INV(T)*B2. */
-    dgemm_("NoTranspose", "NoTranspose", nr, m, &ns, &c_b14, &a[k * a_dim1 + 1], lda, &b[k + b_dim1], ldb, &c_b14, &b[b_offset], ldb, 11L, 11L);
+    dgemm_("NoTranspose", "NoTranspose", nr, m, &ns, &c_b14, &a[k * a_dim1 + 1], lda,
+        &b[k + b_dim1], ldb, &c_b14, &b[b_offset], ldb, 11L, 11L);
     /*     Cr = C1 + C2*INV(T)*A21. */
-    dgemm_("NoTranspose", "NoTranspose", p, nr, &ns, &c_b14, &c__[k * c_dim1 + 1], ldc, &a[k + a_dim1], lda, &c_b14, &c__[c_offset], ldc, 11L, 11L);
+    dgemm_("NoTranspose", "NoTranspose", p, nr, &ns, &c_b14, &c__[k * c_dim1 + 1], ldc,
+        &a[k + a_dim1], lda, &c_b14, &c__[c_offset], ldc, 11L, 11L);
     /*     Dr = D + C2*INV(T)*B2. */
-    dgemm_("NoTranspose", "NoTranspose", p, m, &ns, &c_b14, &c__[k * c_dim1 + 1], ldc, &b[k + b_dim1], ldb, &c_b14, &d__[d_offset], ldd, 11L, 11L);
+    dgemm_("NoTranspose", "NoTranspose", p, m, &ns, &c_b14, &c__[k * c_dim1 + 1], ldc,
+        &b[k + b_dim1], ldb, &c_b14, &d__[d_offset], ldd, 11L, 11L);
     return 0;
     /* *** Last line of AB09DD *** */
 } /* ab09dd_ */
-

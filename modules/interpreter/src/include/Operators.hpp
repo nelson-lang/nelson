@@ -18,12 +18,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsInterpreter_exports.h"
 #include "Types.hpp"
+#include "nlsInterpreter_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSINTERPRETER_IMPEXP wstringVector GetOperators();
-    NLSINTERPRETER_IMPEXP bool isOperator(std::wstring key);
-}
+NLSINTERPRETER_IMPEXP wstringVector
+GetOperators();
+NLSINTERPRETER_IMPEXP bool
+isOperator(std::wstring key);
+} // namespace Nelson
 //=============================================================================
-

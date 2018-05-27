@@ -1,18 +1,19 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-doublereal ab13ad_(dico, equil, n, m, p, alpha, a, lda, b, ldb, c__, ldc, ns, hsv, dwork, ldwork, info, dico_len, equil_len)
-char *dico, *equil;
+doublereal ab13ad_(dico, equil, n, m, p, alpha, a, lda, b, ldb, c__, ldc, ns, hsv, dwork, ldwork,
+    info, dico_len, equil_len) char *dico,
+    *equil;
 integer *n, *m, *p;
 doublereal *alpha, *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
 integer *ldc, *ns;
 doublereal *hsv, *dwork;
 integer *ldwork, *info;
@@ -212,55 +213,35 @@ ftnlen equil_len;
     *info = 0;
     discr = lsame_(dico, "D", 1L, 1L);
     /*     Test the input scalar arguments. */
-    if (! (lsame_(dico, "C", 1L, 1L) || discr))
-    {
+    if (!(lsame_(dico, "C", 1L, 1L) || discr)) {
         *info = -1;
-    }
-    else if (! (lsame_(equil, "S", 1L, 1L) || lsame_(equil, "N", 1L, 1L)))
-    {
+    } else if (!(lsame_(equil, "S", 1L, 1L) || lsame_(equil, "N", 1L, 1L))) {
         *info = -2;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -3;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -4;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -5;
-    }
-    else if (discr && (*alpha < 0. || *alpha > 1.) || ! discr && *alpha > 0.)
-    {
+    } else if (discr && (*alpha < 0. || *alpha > 1.) || !discr && *alpha > 0.) {
         *info = -6;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -8;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -10;
-    }
-    else if (*ldc < max(1,*p))
-    {
+    } else if (*ldc < max(1, *p)) {
         *info = -12;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
         /* Computing MAX */
-        i__3 = max(*n,*m);
-        i__1 = 1, i__2 = *n * (max(i__3,*p) + 5) + *n * (*n + 1) / 2;
-        if (*ldwork < max(i__1,i__2))
-        {
+        i__3 = max(*n, *m);
+        i__1 = 1, i__2 = *n * (max(i__3, *p) + 5) + *n * (*n + 1) / 2;
+        if (*ldwork < max(i__1, i__2)) {
             *info = -16;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("AB13AD", &i__1, 6L);
@@ -268,42 +249,36 @@ ftnlen equil_len;
     }
     /*     Quick return if possible. */
     /* Computing MIN */
-    i__1 = min(*n,*m);
-    if (min(i__1,*p) == 0)
-    {
+    i__1 = min(*n, *m);
+    if (min(i__1, *p) == 0) {
         *ns = 0;
         ret_val = 0.;
         dwork[1] = 1.;
         return ret_val;
     }
-    if (lsame_(equil, "S", 1L, 1L))
-    {
+    if (lsame_(equil, "S", 1L, 1L)) {
         /*        Scale simultaneously the matrices A, B and C: */
         /*        A <- inv(D)*A*D,  B <- inv(D)*B and C <- C*D, where D is a */
         /*        diagonal matrix. */
         /*        Workspace: N. */
         maxred = 100.;
-        tb01id_("All", n, m, p, &maxred, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, &dwork[1], info, 3L);
+        tb01id_("All", n, m, p, &maxred, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc,
+            &dwork[1], info, 3L);
     }
     /*     Correct the value of ALPHA to ensure stability. */
     alpwrk = *alpha;
-    if (discr)
-    {
-        if (*alpha == 1.)
-        {
+    if (discr) {
+        if (*alpha == 1.) {
             alpwrk = 1. - sqrt(dlamch_("E", 1L));
         }
-    }
-    else
-    {
-        if (*alpha == 0.)
-        {
+    } else {
+        if (*alpha == 0.) {
             alpwrk = -sqrt(dlamch_("E", 1L));
         }
     }
     /*     Allocate working storage. */
     kt = 1;
-    kw1 = *n **n + 1;
+    kw1 = *n * *n + 1;
     kw2 = kw1 + *n;
     kw = kw2 + *n;
     /*     Reduce A to a block diagonal real Schur form, with the */
@@ -314,37 +289,31 @@ ftnlen equil_len;
     /*     Additional workspace:  need   3*N; */
     /*                            prefer larger. */
     i__1 = *ldwork - kw + 1;
-    tb01kd_(dico, "Stable", "General", n, m, p, &alpwrk, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, ns, &dwork[kt], n, &dwork[kw1], &dwork[kw2], &dwork[kw], &i__1, &ierr, 1L, 6L, 7L);
-    if (ierr != 0)
-    {
-        if (ierr != 3)
-        {
+    tb01kd_(dico, "Stable", "General", n, m, p, &alpwrk, &a[a_offset], lda, &b[b_offset], ldb,
+        &c__[c_offset], ldc, ns, &dwork[kt], n, &dwork[kw1], &dwork[kw2], &dwork[kw], &i__1, &ierr,
+        1L, 6L, 7L);
+    if (ierr != 0) {
+        if (ierr != 3) {
             *info = 1;
-        }
-        else
-        {
+        } else {
             *info = 2;
         }
         return ret_val;
     }
-    wrkopt = dwork[kw] + (doublereal) (kw - 1);
-    if (*ns == 0)
-    {
+    wrkopt = dwork[kw] + (doublereal)(kw - 1);
+    if (*ns == 0) {
         ret_val = 0.;
-    }
-    else
-    {
+    } else {
         /*        Workspace:  need   N*(MAX(N,M,P)+5)+N*(N+1)/2; */
         /*                    prefer larger. */
-        ret_val = ab13ax_(dico, ns, m, p, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, &hsv[1], &dwork[1], ldwork, &ierr, 1L);
-        if (ierr != 0)
-        {
+        ret_val = ab13ax_(dico, ns, m, p, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc,
+            &hsv[1], &dwork[1], ldwork, &ierr, 1L);
+        if (ierr != 0) {
             *info = ierr + 2;
             return ret_val;
         }
-        dwork[1] = max(wrkopt,dwork[1]);
+        dwork[1] = max(wrkopt, dwork[1]);
     }
     return ret_val;
     /* *** Last line of AB13AD *** */
 } /* ab13ad_ */
-

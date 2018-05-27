@@ -1,12 +1,11 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-EXPORTSYMBOL /* Subroutine */ int sb03ov_(a, b, c__, s)
-doublereal *a, *b, *c__, *s;
+EXPORTSYMBOL /* Subroutine */ int sb03ov_(a, b, c__, s) doublereal *a, *b, *c__, *s;
 {
     static doublereal d__;
     extern doublereal dlapy3_();
@@ -71,14 +70,11 @@ doublereal *a, *b, *c__, *s;
     --a;
     /* Function Body */
     d__ = dlapy3_(&a[1], &a[2], b);
-    if (d__ == 0.)
-    {
+    if (d__ == 0.) {
         c__[1] = 1.;
         c__[2] = 0.;
         *s = 0.;
-    }
-    else
-    {
+    } else {
         c__[1] = a[1] / d__;
         c__[2] = a[2] / d__;
         *s = *b / d__;
@@ -88,4 +84,3 @@ doublereal *a, *b, *c__, *s;
     return 0;
     /* *** Last line of SB03OV *** */
 } /* sb03ov_ */
-

@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,12 +9,13 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int mb01zd_(side, uplo, transt, diag, m, n, l, alpha, t, ldt, h__, ldh, info, side_len, uplo_len, transt_len, diag_len)
-char *side, *uplo, *transt, *diag;
+EXPORTSYMBOL /* Subroutine */ int mb01zd_(side, uplo, transt, diag, m, n, l, alpha, t, ldt, h__,
+    ldh, info, side_len, uplo_len, transt_len, diag_len) char *side,
+    *uplo, *transt, *diag;
 integer *m, *n, *l;
 doublereal *alpha, *t;
-integer *ldt;
-doublereal *h__;
+integer* ldt;
+doublereal* h__;
 integer *ldh, *info;
 ftnlen side_len;
 ftnlen uplo_len;
@@ -191,99 +192,68 @@ ftnlen diag_len;
     upper = lsame_(uplo, "U", 1L, 1L);
     trans = lsame_(transt, "T", 1L, 1L) || lsame_(transt, "C", 1L, 1L);
     nounit = lsame_(diag, "N", 1L, 1L);
-    if (lside)
-    {
+    if (lside) {
         nrowt = *m;
-    }
-    else
-    {
+    } else {
         nrowt = *n;
     }
-    if (upper)
-    {
+    if (upper) {
         m2 = *m;
-    }
-    else
-    {
+    } else {
         m2 = *n;
     }
     *info = 0;
-    if (! (lside || lsame_(side, "R", 1L, 1L)))
-    {
+    if (!(lside || lsame_(side, "R", 1L, 1L))) {
         *info = -1;
-    }
-    else if (! (upper || lsame_(uplo, "L", 1L, 1L)))
-    {
+    } else if (!(upper || lsame_(uplo, "L", 1L, 1L))) {
         *info = -2;
-    }
-    else if (! (trans || lsame_(transt, "N", 1L, 1L)))
-    {
+    } else if (!(trans || lsame_(transt, "N", 1L, 1L))) {
         *info = -3;
-    }
-    else if (! (nounit || lsame_(diag, "U", 1L, 1L)))
-    {
+    } else if (!(nounit || lsame_(diag, "U", 1L, 1L))) {
         *info = -4;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -5;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -6;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
         i__1 = 0, i__2 = m2 - 1;
-        if (*l < 0 || *l > max(i__1,i__2))
-        {
+        if (*l < 0 || *l > max(i__1, i__2)) {
             *info = -7;
-        }
-        else if (*ldt < max(1,nrowt))
-        {
+        } else if (*ldt < max(1, nrowt)) {
             *info = -10;
-        }
-        else if (*ldh < max(1,*m))
-        {
+        } else if (*ldh < max(1, *m)) {
             *info = -12;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("MB01ZD", &i__1, 6L);
         return 0;
     }
     /*     Quick return, if possible. */
-    if (min(*m,*n) == 0)
-    {
+    if (min(*m, *n) == 0) {
         return 0;
     }
     /*     Also, when alpha = 0. */
-    if (*alpha == 0.)
-    {
+    if (*alpha == 0.) {
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
-            if (upper)
-            {
+        for (j = 1; j <= i__1; ++j) {
+            if (upper) {
                 i1 = 1;
                 /* Computing MIN */
                 i__2 = j + *l;
-                i2 = min(i__2,*m);
-            }
-            else
-            {
+                i2 = min(i__2, *m);
+            } else {
                 /* Computing MAX */
                 i__2 = 1, i__3 = j - *l;
-                i1 = max(i__2,i__3);
+                i1 = max(i__2, i__3);
                 i2 = *m;
             }
             i__2 = i2;
-            for (i__ = i1; i__ <= i__2; ++i__)
-            {
+            for (i__ = i1; i__ <= i__2; ++i__) {
                 h__[i__ + j * h_dim1] = 0.;
                 /* L10: */
             }
@@ -292,28 +262,22 @@ ftnlen diag_len;
         return 0;
     }
     /*     Start the operations. */
-    if (lside)
-    {
-        if (! trans)
-        {
+    if (lside) {
+        if (!trans) {
             /*           Form  H := alpha*T*H. */
-            if (upper)
-            {
+            if (upper) {
                 i__1 = *n;
-                for (j = 1; j <= i__1; ++j)
-                {
+                for (j = 1; j <= i__1; ++j) {
                     /* Computing MIN */
                     i__3 = j + *l;
-                    i__2 = min(i__3,*m);
-                    for (k = 1; k <= i__2; ++k)
-                    {
-                        if (h__[k + j * h_dim1] != 0.)
-                        {
+                    i__2 = min(i__3, *m);
+                    for (k = 1; k <= i__2; ++k) {
+                        if (h__[k + j * h_dim1] != 0.) {
                             temp = *alpha * h__[k + j * h_dim1];
                             i__3 = k - 1;
-                            daxpy_(&i__3, &temp, &t[k * t_dim1 + 1], &c__1, &h__[j * h_dim1 + 1], &c__1);
-                            if (nounit)
-                            {
+                            daxpy_(&i__3, &temp, &t[k * t_dim1 + 1], &c__1, &h__[j * h_dim1 + 1],
+                                &c__1);
+                            if (nounit) {
                                 temp *= t[k + k * t_dim1];
                             }
                             h__[k + j * h_dim1] = temp;
@@ -322,90 +286,72 @@ ftnlen diag_len;
                     }
                     /* L40: */
                 }
-            }
-            else
-            {
+            } else {
                 i__1 = *n;
-                for (j = 1; j <= i__1; ++j)
-                {
+                for (j = 1; j <= i__1; ++j) {
                     /* Computing MAX */
                     i__3 = 1, i__4 = j - *l;
-                    i__2 = max(i__3,i__4);
-                    for (k = *m; k >= i__2; --k)
-                    {
-                        if (h__[k + j * h_dim1] != 0.)
-                        {
+                    i__2 = max(i__3, i__4);
+                    for (k = *m; k >= i__2; --k) {
+                        if (h__[k + j * h_dim1] != 0.) {
                             temp = *alpha * h__[k + j * h_dim1];
                             h__[k + j * h_dim1] = temp;
-                            if (nounit)
-                            {
+                            if (nounit) {
                                 h__[k + j * h_dim1] *= t[k + k * t_dim1];
                             }
                             i__3 = *m - k;
-                            daxpy_(&i__3, &temp, &t[k + 1 + k * t_dim1], &c__1, &h__[k + 1 + j * h_dim1], &c__1);
+                            daxpy_(&i__3, &temp, &t[k + 1 + k * t_dim1], &c__1,
+                                &h__[k + 1 + j * h_dim1], &c__1);
                         }
                         /* L50: */
                     }
                     /* L60: */
                 }
             }
-        }
-        else
-        {
+        } else {
             /*           Form  H := alpha*T'*H. */
-            if (upper)
-            {
+            if (upper) {
                 i__1 = *n;
-                for (j = 1; j <= i__1; ++j)
-                {
+                for (j = 1; j <= i__1; ++j) {
                     i1 = j + *l;
-                    for (i__ = *m; i__ >= 1; --i__)
-                    {
-                        if (i__ > i1)
-                        {
-                            temp = ddot_(&i1, &t[i__ * t_dim1 + 1], &c__1, &h__[j * h_dim1 + 1], &c__1);
-                        }
-                        else
-                        {
+                    for (i__ = *m; i__ >= 1; --i__) {
+                        if (i__ > i1) {
+                            temp = ddot_(
+                                &i1, &t[i__ * t_dim1 + 1], &c__1, &h__[j * h_dim1 + 1], &c__1);
+                        } else {
                             temp = h__[i__ + j * h_dim1];
-                            if (nounit)
-                            {
+                            if (nounit) {
                                 temp *= t[i__ + i__ * t_dim1];
                             }
                             i__2 = i__ - 1;
-                            temp += ddot_(&i__2, &t[i__ * t_dim1 + 1], &c__1, &h__[j * h_dim1 + 1], &c__1);
+                            temp += ddot_(
+                                &i__2, &t[i__ * t_dim1 + 1], &c__1, &h__[j * h_dim1 + 1], &c__1);
                         }
                         h__[i__ + j * h_dim1] = *alpha * temp;
                         /* L70: */
                     }
                     /* L80: */
                 }
-            }
-            else
-            {
+            } else {
                 /* Computing MIN */
                 i__2 = *m + *l;
-                i__1 = min(i__2,*n);
-                for (j = 1; j <= i__1; ++j)
-                {
+                i__1 = min(i__2, *n);
+                for (j = 1; j <= i__1; ++j) {
                     i1 = j - *l;
                     i__2 = *m;
-                    for (i__ = 1; i__ <= i__2; ++i__)
-                    {
-                        if (i__ < i1)
-                        {
+                    for (i__ = 1; i__ <= i__2; ++i__) {
+                        if (i__ < i1) {
                             i__3 = *m - i1 + 1;
-                            temp = ddot_(&i__3, &t[i1 + i__ * t_dim1], &c__1, &h__[i1 + j * h_dim1], &c__1);
-                        }
-                        else
-                        {
+                            temp = ddot_(
+                                &i__3, &t[i1 + i__ * t_dim1], &c__1, &h__[i1 + j * h_dim1], &c__1);
+                        } else {
                             temp = h__[i__ + j * h_dim1];
-                            if (nounit)
-                            {
+                            if (nounit) {
                                 temp *= t[i__ + i__ * t_dim1];
                             }
                             i__3 = *m - i__;
-                            temp += ddot_(&i__3, &t[i__ + 1 + i__ * t_dim1], &c__1, &h__[i__ + 1 + j * h_dim1], &c__1);
+                            temp += ddot_(&i__3, &t[i__ + 1 + i__ * t_dim1], &c__1,
+                                &h__[i__ + 1 + j * h_dim1], &c__1);
                         }
                         h__[i__ + j * h_dim1] = *alpha * temp;
                         /* L90: */
@@ -414,89 +360,73 @@ ftnlen diag_len;
                 }
             }
         }
-    }
-    else
-    {
-        if (! trans)
-        {
+    } else {
+        if (!trans) {
             /*           Form  H := alpha*H*T. */
-            if (upper)
-            {
-                for (j = *n; j >= 1; --j)
-                {
+            if (upper) {
+                for (j = *n; j >= 1; --j) {
                     /* Computing MIN */
                     i__1 = j + *l;
-                    i2 = min(i__1,*m);
+                    i2 = min(i__1, *m);
                     temp = *alpha;
-                    if (nounit)
-                    {
+                    if (nounit) {
                         temp *= t[j + j * t_dim1];
                     }
                     dscal_(&i2, &temp, &h__[j * h_dim1 + 1], &c__1);
                     i__1 = j - 1;
-                    for (k = 1; k <= i__1; ++k)
-                    {
+                    for (k = 1; k <= i__1; ++k) {
                         d__1 = *alpha * t[k + j * t_dim1];
-                        daxpy_(&i2, &d__1, &h__[k * h_dim1 + 1], &c__1, &h__[j * h_dim1 + 1], &c__1);
+                        daxpy_(
+                            &i2, &d__1, &h__[k * h_dim1 + 1], &c__1, &h__[j * h_dim1 + 1], &c__1);
                         /* L110: */
                     }
                     /* L120: */
                 }
-            }
-            else
-            {
+            } else {
                 i__1 = *n;
-                for (j = 1; j <= i__1; ++j)
-                {
+                for (j = 1; j <= i__1; ++j) {
                     /* Computing MAX */
                     i__2 = 1, i__3 = j - *l;
-                    i1 = max(i__2,i__3);
+                    i1 = max(i__2, i__3);
                     temp = *alpha;
-                    if (nounit)
-                    {
+                    if (nounit) {
                         temp *= t[j + j * t_dim1];
                     }
                     i__2 = *m - i1 + 1;
                     dscal_(&i__2, &temp, &h__[i1 + j * h_dim1], &c__1);
                     i__2 = *n;
-                    for (k = j + 1; k <= i__2; ++k)
-                    {
+                    for (k = j + 1; k <= i__2; ++k) {
                         i__3 = *m - i1 + 1;
                         d__1 = *alpha * t[k + j * t_dim1];
-                        daxpy_(&i__3, &d__1, &h__[i1 + k * h_dim1], &c__1, &h__[i1 + j * h_dim1], &c__1);
+                        daxpy_(&i__3, &d__1, &h__[i1 + k * h_dim1], &c__1, &h__[i1 + j * h_dim1],
+                            &c__1);
                         /* L130: */
                     }
                     /* L140: */
                 }
             }
-        }
-        else
-        {
+        } else {
             /*           Form  H := alpha*H*T'. */
-            if (upper)
-            {
+            if (upper) {
                 /* Computing MIN */
                 i__1 = *n + *l;
-                m2 = min(i__1,*m);
+                m2 = min(i__1, *m);
                 i__1 = *n;
-                for (k = 1; k <= i__1; ++k)
-                {
+                for (k = 1; k <= i__1; ++k) {
                     /* Computing MIN */
                     i__2 = k + *l;
-                    i1 = min(i__2,*m);
+                    i1 = min(i__2, *m);
                     /* Computing MIN */
                     i__2 = k + *l;
-                    i2 = min(i__2,m2);
+                    i2 = min(i__2, m2);
                     i__2 = k - 1;
-                    for (j = 1; j <= i__2; ++j)
-                    {
-                        if (t[j + k * t_dim1] != 0.)
-                        {
+                    for (j = 1; j <= i__2; ++j) {
+                        if (t[j + k * t_dim1] != 0.) {
                             temp = *alpha * t[j + k * t_dim1];
-                            daxpy_(&i1, &temp, &h__[k * h_dim1 + 1], &c__1, &h__[j * h_dim1 + 1], &c__1);
+                            daxpy_(&i1, &temp, &h__[k * h_dim1 + 1], &c__1, &h__[j * h_dim1 + 1],
+                                &c__1);
                             i__3 = i2;
-                            for (i__ = i1 + 1; i__ <= i__3; ++i__)
-                            {
+                            for (i__ = i1 + 1; i__ <= i__3; ++i__) {
                                 h__[i__ + j * h_dim1] = temp * h__[i__ + k * h_dim1];
                                 /* L150: */
                             }
@@ -504,41 +434,34 @@ ftnlen diag_len;
                         /* L160: */
                     }
                     temp = *alpha;
-                    if (nounit)
-                    {
+                    if (nounit) {
                         temp *= t[k + k * t_dim1];
                     }
-                    if (temp != 1.)
-                    {
+                    if (temp != 1.) {
                         dscal_(&i2, &temp, &h__[k * h_dim1 + 1], &c__1);
                     }
                     /* L170: */
                 }
-            }
-            else
-            {
-                for (k = *n; k >= 1; --k)
-                {
+            } else {
+                for (k = *n; k >= 1; --k) {
                     /* Computing MAX */
                     i__1 = 1, i__2 = k - *l;
-                    i1 = max(i__1,i__2);
+                    i1 = max(i__1, i__2);
                     /* Computing MAX */
                     i__1 = 1, i__2 = k - *l + 1;
-                    i2 = max(i__1,i__2);
+                    i2 = max(i__1, i__2);
                     /* Computing MIN */
                     i__1 = *m, i__2 = i2 - 1;
-                    m2 = min(i__1,i__2);
+                    m2 = min(i__1, i__2);
                     i__1 = *n;
-                    for (j = k + 1; j <= i__1; ++j)
-                    {
-                        if (t[j + k * t_dim1] != 0.)
-                        {
+                    for (j = k + 1; j <= i__1; ++j) {
+                        if (t[j + k * t_dim1] != 0.) {
                             temp = *alpha * t[j + k * t_dim1];
                             i__2 = *m - i2 + 1;
-                            daxpy_(&i__2, &temp, &h__[i2 + k * h_dim1], &c__1, &h__[i2 + j * h_dim1], &c__1);
+                            daxpy_(&i__2, &temp, &h__[i2 + k * h_dim1], &c__1,
+                                &h__[i2 + j * h_dim1], &c__1);
                             i__2 = m2;
-                            for (i__ = i1; i__ <= i__2; ++i__)
-                            {
+                            for (i__ = i1; i__ <= i__2; ++i__) {
                                 h__[i__ + j * h_dim1] = temp * h__[i__ + k * h_dim1];
                                 /* L180: */
                             }
@@ -546,12 +469,10 @@ ftnlen diag_len;
                         /* L190: */
                     }
                     temp = *alpha;
-                    if (nounit)
-                    {
+                    if (nounit) {
                         temp *= t[k + k * t_dim1];
                     }
-                    if (temp != 1.)
-                    {
+                    if (temp != 1.) {
                         i__1 = *m - i1 + 1;
                         dscal_(&i__1, &temp, &h__[i1 + k * h_dim1], &c__1);
                     }
@@ -563,4 +484,3 @@ ftnlen diag_len;
     return 0;
     /* *** Last line of MB01ZD *** */
 } /* mb01zd_ */
-

@@ -22,8 +22,9 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace JsonGateway {
-        ArrayOfVector jsonprettyprintBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    }
+namespace JsonGateway {
+    ArrayOfVector
+    jsonprettyprintBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }
+} // namespace Nelson
 //=============================================================================

@@ -18,11 +18,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
 #include "Evaluator.hpp"
-#include"nlsCore_exports.h"
+#include "nlsCore_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    NLSCORE_IMPEXP bool IsEmptyScriptFile(std::wstring filename);
+NLSCORE_IMPEXP bool
+IsEmptyScriptFile(std::wstring filename);
 }
 //=============================================================================

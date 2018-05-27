@@ -18,10 +18,10 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <QtGui/QFont>
+#include "Types.hpp"
 #include <QtCore/QPoint>
 #include <QtCore/QSize>
-#include "Types.hpp"
+#include <QtGui/QFont>
 //=============================================================================
 #define TEXT_EDITOR_DEFAULT_POS_X 0
 #define TEXT_EDITOR_DEFAULT_POS_Y 0
@@ -34,6 +34,10 @@
 #endif
 #define TEXT_EDITOR_PREFERENCES_FILENAME "editor.conf"
 //=============================================================================
-bool TextEditorSavePreferences(QFont currentFont, QPoint pos, QSize sz, Nelson::wstringVector recentFiles);
-bool TextEditorLoadPreferences(QFont &currentFont, QPoint &pos, QSize &sz, Nelson::wstringVector &recentFiles);
+bool
+TextEditorSavePreferences(
+    QFont currentFont, QPoint pos, QSize sz, Nelson::wstringVector recentFiles);
+bool
+TextEditorLoadPreferences(
+    QFont& currentFont, QPoint& pos, QSize& sz, Nelson::wstringVector& recentFiles);
 //=============================================================================

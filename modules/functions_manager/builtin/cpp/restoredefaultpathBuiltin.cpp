@@ -16,48 +16,42 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
 #include "restoredefaultpathBuiltin.hpp"
 #include "Error.hpp"
 #include "ModulesManager.hpp"
 #include "PathFuncManager.hpp"
+#include <boost/filesystem.hpp>
+#include <boost/filesystem/path.hpp>
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::FunctionsGateway::restoredefaultpathBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::FunctionsGateway::restoredefaultpathBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs != 0)
-    {
+    if (nLhs != 0) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() != 0)
-    {
+    if (argIn.size() != 0) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     PathFuncManager::getInstance()->clearUserPath();
     PathFuncManager::getInstance()->resetUserPath();
     PathFuncManager::getInstance()->clear();
     wstringVector paths = ModulesManager::Instance().getModulesPathList(false);
-    for (size_t k = 0; k < paths.size(); ++k)
-    {
+    for (size_t k = 0; k < paths.size(); ++k) {
         paths[k] = paths[k] + L"/functions/";
         boost::filesystem::path data_dir(paths[k]);
         bool bRes = false;
-        try
-        {
+        try {
             bRes = boost::filesystem::is_directory(data_dir);
-        }
-        catch (const boost::filesystem::filesystem_error& e)
-        {
-            if (e.code() == boost::system::errc::permission_denied)
-            {
+        } catch (const boost::filesystem::filesystem_error& e) {
+            if (e.code() == boost::system::errc::permission_denied) {
             }
             bRes = false;
         }
-        if (bRes)
-        {
+        if (bRes) {
             PathFuncManager::getInstance()->addPath(paths[k], true);
         }
     }

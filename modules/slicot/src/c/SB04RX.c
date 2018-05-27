@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,14 +11,15 @@ static integer c__2 = 2;
 static doublereal c_b6 = 0.;
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int sb04rx_(rc, ul, m, a, lda, lambd1, lambd2, lambd3, lambd4, d__, tol, iwork, dwork, lddwor, info, rc_len, ul_len)
-char *rc, *ul;
-integer *m;
-doublereal *a;
-integer *lda;
+EXPORTSYMBOL /* Subroutine */ int sb04rx_(rc, ul, m, a, lda, lambd1, lambd2, lambd3, lambd4, d__,
+    tol, iwork, dwork, lddwor, info, rc_len, ul_len) char *rc,
+    *ul;
+integer* m;
+doublereal* a;
+integer* lda;
 doublereal *lambd1, *lambd2, *lambd3, *lambd4, *d__, *tol;
-integer *iwork;
-doublereal *dwork;
+integer* iwork;
+doublereal* dwork;
 integer *lddwor, *info;
 ftnlen rc_len;
 ftnlen ul_len;
@@ -152,21 +153,19 @@ ftnlen ul_len;
     *info = 0;
     /*     For speed, no tests on the input scalar arguments are made. */
     /*     Quick return if possible. */
-    if (*m == 0)
-    {
+    if (*m == 0) {
         return 0;
     }
     m2 = *m << 1;
-    if (lsame_(ul, "U", 1L, 1L))
-    {
+    if (lsame_(ul, "U", 1L, 1L)) {
         i__1 = *m;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             j2 = j << 1;
             /* Computing MIN */
             i__2 = *m, i__3 = j + 1;
-            ml = min(i__2,i__3);
-            dlaset_("Full", &m2, &c__2, &c_b6, &c_b6, &dwork[(j2 - 1) * dwork_dim1 + 1], lddwor, 4L);
+            ml = min(i__2, i__3);
+            dlaset_(
+                "Full", &m2, &c__2, &c_b6, &c_b6, &dwork[(j2 - 1) * dwork_dim1 + 1], lddwor, 4L);
             dcopy_(&ml, &a[j * a_dim1 + 1], &c__1, &dwork[(j2 - 1) * dwork_dim1 + 1], &c__2);
             dscal_(&ml, lambd1, &dwork[(j2 - 1) * dwork_dim1 + 1], &c__2);
             dcopy_(&ml, &a[j * a_dim1 + 1], &c__1, &dwork[(j2 - 1) * dwork_dim1 + 2], &c__2);
@@ -179,105 +178,102 @@ ftnlen ul_len;
             dwork[j2 + j2 * dwork_dim1] += 1.;
             /* L20: */
         }
-        if (lsame_(rc, "R", 1L, 1L))
-        {
-            *(unsigned char *)trans = 'N';
+        if (lsame_(rc, "R", 1L, 1L)) {
+            *(unsigned char*)trans = 'N';
             /*           A is an upper Hessenberg matrix, row transformations. */
             i__1 = m2 - 1;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 mj = m2 - j;
-                if (j % 2 == 1 && j < m2 - 2)
-                {
-                    if (dwork[j + 3 + j * dwork_dim1] != 0.)
-                    {
-                        dlartg_(&dwork[j + 2 + j * dwork_dim1], &dwork[j + 3 + j * dwork_dim1], &c__, &s, &r__);
+                if (j % 2 == 1 && j < m2 - 2) {
+                    if (dwork[j + 3 + j * dwork_dim1] != 0.) {
+                        dlartg_(&dwork[j + 2 + j * dwork_dim1], &dwork[j + 3 + j * dwork_dim1],
+                            &c__, &s, &r__);
                         dwork[j + 2 + j * dwork_dim1] = r__;
                         dwork[j + 3 + j * dwork_dim1] = 0.;
-                        drot_(&mj, &dwork[j + 2 + (j + 1) * dwork_dim1], lddwor, &dwork[j + 3 + (j + 1) * dwork_dim1], lddwor, &c__, &s);
+                        drot_(&mj, &dwork[j + 2 + (j + 1) * dwork_dim1], lddwor,
+                            &dwork[j + 3 + (j + 1) * dwork_dim1], lddwor, &c__, &s);
                         drot_(&c__1, &d__[j + 2], &c__1, &d__[j + 3], &c__1, &c__, &s);
                     }
                 }
-                if (j < m2 - 1)
-                {
-                    if (dwork[j + 2 + j * dwork_dim1] != 0.)
-                    {
-                        dlartg_(&dwork[j + 1 + j * dwork_dim1], &dwork[j + 2 + j * dwork_dim1], &c__, &s, &r__);
+                if (j < m2 - 1) {
+                    if (dwork[j + 2 + j * dwork_dim1] != 0.) {
+                        dlartg_(&dwork[j + 1 + j * dwork_dim1], &dwork[j + 2 + j * dwork_dim1],
+                            &c__, &s, &r__);
                         dwork[j + 1 + j * dwork_dim1] = r__;
                         dwork[j + 2 + j * dwork_dim1] = 0.;
-                        drot_(&mj, &dwork[j + 1 + (j + 1) * dwork_dim1], lddwor, &dwork[j + 2 + (j + 1) * dwork_dim1], lddwor, &c__, &s);
+                        drot_(&mj, &dwork[j + 1 + (j + 1) * dwork_dim1], lddwor,
+                            &dwork[j + 2 + (j + 1) * dwork_dim1], lddwor, &c__, &s);
                         drot_(&c__1, &d__[j + 1], &c__1, &d__[j + 2], &c__1, &c__, &s);
                     }
                 }
-                if (dwork[j + 1 + j * dwork_dim1] != 0.)
-                {
-                    dlartg_(&dwork[j + j * dwork_dim1], &dwork[j + 1 + j * dwork_dim1], &c__, &s, &r__);
+                if (dwork[j + 1 + j * dwork_dim1] != 0.) {
+                    dlartg_(
+                        &dwork[j + j * dwork_dim1], &dwork[j + 1 + j * dwork_dim1], &c__, &s, &r__);
                     dwork[j + j * dwork_dim1] = r__;
                     dwork[j + 1 + j * dwork_dim1] = 0.;
-                    drot_(&mj, &dwork[j + (j + 1) * dwork_dim1], lddwor, &dwork[j + 1 + (j + 1) * dwork_dim1], lddwor, &c__, &s);
+                    drot_(&mj, &dwork[j + (j + 1) * dwork_dim1], lddwor,
+                        &dwork[j + 1 + (j + 1) * dwork_dim1], lddwor, &c__, &s);
                     drot_(&c__1, &d__[j], &c__1, &d__[j + 1], &c__1, &c__, &s);
                 }
                 /* L40: */
             }
-        }
-        else
-        {
-            *(unsigned char *)trans = 'T';
+        } else {
+            *(unsigned char*)trans = 'T';
             /*           A is an upper Hessenberg matrix, column transformations. */
             i__1 = m2 - 1;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 mj = m2 - j;
-                if (j % 2 == 1 && j < m2 - 2)
-                {
-                    if (dwork[mj + 1 + (mj - 2) * dwork_dim1] != 0.)
-                    {
-                        dlartg_(&dwork[mj + 1 + (mj - 1) * dwork_dim1], &dwork[mj + 1 + (mj - 2) * dwork_dim1], &c__, &s, &r__);
+                if (j % 2 == 1 && j < m2 - 2) {
+                    if (dwork[mj + 1 + (mj - 2) * dwork_dim1] != 0.) {
+                        dlartg_(&dwork[mj + 1 + (mj - 1) * dwork_dim1],
+                            &dwork[mj + 1 + (mj - 2) * dwork_dim1], &c__, &s, &r__);
                         dwork[mj + 1 + (mj - 1) * dwork_dim1] = r__;
                         dwork[mj + 1 + (mj - 2) * dwork_dim1] = 0.;
-                        drot_(&mj, &dwork[(mj - 1) * dwork_dim1 + 1], &c__1, &dwork[(mj - 2) * dwork_dim1 + 1], &c__1, &c__, &s);
+                        drot_(&mj, &dwork[(mj - 1) * dwork_dim1 + 1], &c__1,
+                            &dwork[(mj - 2) * dwork_dim1 + 1], &c__1, &c__, &s);
                         drot_(&c__1, &d__[mj - 1], &c__1, &d__[mj - 2], &c__1, &c__, &s);
                     }
                 }
-                if (j < m2 - 1)
-                {
-                    if (dwork[mj + 1 + (mj - 1) * dwork_dim1] != 0.)
-                    {
-                        dlartg_(&dwork[mj + 1 + mj * dwork_dim1], &dwork[mj + 1 + (mj - 1) * dwork_dim1], &c__, &s, &r__);
+                if (j < m2 - 1) {
+                    if (dwork[mj + 1 + (mj - 1) * dwork_dim1] != 0.) {
+                        dlartg_(&dwork[mj + 1 + mj * dwork_dim1],
+                            &dwork[mj + 1 + (mj - 1) * dwork_dim1], &c__, &s, &r__);
                         dwork[mj + 1 + mj * dwork_dim1] = r__;
                         dwork[mj + 1 + (mj - 1) * dwork_dim1] = 0.;
-                        drot_(&mj, &dwork[mj * dwork_dim1 + 1], &c__1, &dwork[(mj - 1) * dwork_dim1 + 1], &c__1, &c__, &s);
+                        drot_(&mj, &dwork[mj * dwork_dim1 + 1], &c__1,
+                            &dwork[(mj - 1) * dwork_dim1 + 1], &c__1, &c__, &s);
                         drot_(&c__1, &d__[mj], &c__1, &d__[mj - 1], &c__1, &c__, &s);
                     }
                 }
-                if (dwork[mj + 1 + mj * dwork_dim1] != 0.)
-                {
-                    dlartg_(&dwork[mj + 1 + (mj + 1) * dwork_dim1], &dwork[mj + 1 + mj * dwork_dim1], &c__, &s, &r__);
+                if (dwork[mj + 1 + mj * dwork_dim1] != 0.) {
+                    dlartg_(&dwork[mj + 1 + (mj + 1) * dwork_dim1],
+                        &dwork[mj + 1 + mj * dwork_dim1], &c__, &s, &r__);
                     dwork[mj + 1 + (mj + 1) * dwork_dim1] = r__;
                     dwork[mj + 1 + mj * dwork_dim1] = 0.;
-                    drot_(&mj, &dwork[(mj + 1) * dwork_dim1 + 1], &c__1, &dwork[mj * dwork_dim1 + 1], &c__1, &c__, &s);
+                    drot_(&mj, &dwork[(mj + 1) * dwork_dim1 + 1], &c__1,
+                        &dwork[mj * dwork_dim1 + 1], &c__1, &c__, &s);
                     drot_(&c__1, &d__[mj + 1], &c__1, &d__[mj], &c__1, &c__, &s);
                 }
                 /* L60: */
             }
         }
-    }
-    else
-    {
+    } else {
         i__1 = *m;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             j2 = j << 1;
             /* Computing MAX */
             i__2 = j - 1;
-            j1 = max(i__2,1);
+            j1 = max(i__2, 1);
             /* Computing MIN */
             i__2 = *m - j + 2;
-            ml = min(i__2,*m);
-            dlaset_("Full", &m2, &c__2, &c_b6, &c_b6, &dwork[(j2 - 1) * dwork_dim1 + 1], lddwor, 4L);
-            dcopy_(&ml, &a[j1 + j * a_dim1], &c__1, &dwork[(j1 << 1) - 1 + (j2 - 1) * dwork_dim1], &c__2);
+            ml = min(i__2, *m);
+            dlaset_(
+                "Full", &m2, &c__2, &c_b6, &c_b6, &dwork[(j2 - 1) * dwork_dim1 + 1], lddwor, 4L);
+            dcopy_(&ml, &a[j1 + j * a_dim1], &c__1, &dwork[(j1 << 1) - 1 + (j2 - 1) * dwork_dim1],
+                &c__2);
             dscal_(&ml, lambd1, &dwork[(j1 << 1) - 1 + (j2 - 1) * dwork_dim1], &c__2);
-            dcopy_(&ml, &a[j1 + j * a_dim1], &c__1, &dwork[(j1 << 1) + (j2 - 1) * dwork_dim1], &c__2);
+            dcopy_(
+                &ml, &a[j1 + j * a_dim1], &c__1, &dwork[(j1 << 1) + (j2 - 1) * dwork_dim1], &c__2);
             dscal_(&ml, lambd3, &dwork[(j1 << 1) + (j2 - 1) * dwork_dim1], &c__2);
             dcopy_(&ml, &a[j1 + j * a_dim1], &c__1, &dwork[(j1 << 1) - 1 + j2 * dwork_dim1], &c__2);
             dscal_(&ml, lambd2, &dwork[(j1 << 1) - 1 + j2 * dwork_dim1], &c__2);
@@ -287,99 +283,94 @@ ftnlen ul_len;
             dwork[j2 + j2 * dwork_dim1] += 1.;
             /* L80: */
         }
-        if (lsame_(rc, "R", 1L, 1L))
-        {
-            *(unsigned char *)trans = 'N';
+        if (lsame_(rc, "R", 1L, 1L)) {
+            *(unsigned char*)trans = 'N';
             /*           A is a lower Hessenberg matrix, row transformations. */
             i__1 = m2 - 1;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 mj = m2 - j;
-                if (j % 2 == 1 && j < m2 - 2)
-                {
-                    if (dwork[mj - 2 + (mj + 1) * dwork_dim1] != 0.)
-                    {
-                        dlartg_(&dwork[mj - 1 + (mj + 1) * dwork_dim1], &dwork[mj - 2 + (mj + 1) * dwork_dim1], &c__, &s, &r__);
+                if (j % 2 == 1 && j < m2 - 2) {
+                    if (dwork[mj - 2 + (mj + 1) * dwork_dim1] != 0.) {
+                        dlartg_(&dwork[mj - 1 + (mj + 1) * dwork_dim1],
+                            &dwork[mj - 2 + (mj + 1) * dwork_dim1], &c__, &s, &r__);
                         dwork[mj - 1 + (mj + 1) * dwork_dim1] = r__;
                         dwork[mj - 2 + (mj + 1) * dwork_dim1] = 0.;
-                        drot_(&mj, &dwork[mj - 1 + dwork_dim1], lddwor, &dwork[mj - 2 + dwork_dim1], lddwor, &c__, &s);
+                        drot_(&mj, &dwork[mj - 1 + dwork_dim1], lddwor, &dwork[mj - 2 + dwork_dim1],
+                            lddwor, &c__, &s);
                         drot_(&c__1, &d__[mj - 1], &c__1, &d__[mj - 2], &c__1, &c__, &s);
                     }
                 }
-                if (j < m2 - 1)
-                {
-                    if (dwork[mj - 1 + (mj + 1) * dwork_dim1] != 0.)
-                    {
-                        dlartg_(&dwork[mj + (mj + 1) * dwork_dim1], &dwork[mj - 1 + (mj + 1) * dwork_dim1], &c__, &s, &r__);
+                if (j < m2 - 1) {
+                    if (dwork[mj - 1 + (mj + 1) * dwork_dim1] != 0.) {
+                        dlartg_(&dwork[mj + (mj + 1) * dwork_dim1],
+                            &dwork[mj - 1 + (mj + 1) * dwork_dim1], &c__, &s, &r__);
                         dwork[mj + (mj + 1) * dwork_dim1] = r__;
                         dwork[mj - 1 + (mj + 1) * dwork_dim1] = 0.;
-                        drot_(&mj, &dwork[mj + dwork_dim1], lddwor, &dwork[mj - 1 + dwork_dim1], lddwor, &c__, &s);
+                        drot_(&mj, &dwork[mj + dwork_dim1], lddwor, &dwork[mj - 1 + dwork_dim1],
+                            lddwor, &c__, &s);
                         drot_(&c__1, &d__[mj], &c__1, &d__[mj - 1], &c__1, &c__, &s);
                     }
                 }
-                if (dwork[mj + (mj + 1) * dwork_dim1] != 0.)
-                {
-                    dlartg_(&dwork[mj + 1 + (mj + 1) * dwork_dim1], &dwork[mj + (mj + 1) * dwork_dim1], &c__, &s, &r__);
+                if (dwork[mj + (mj + 1) * dwork_dim1] != 0.) {
+                    dlartg_(&dwork[mj + 1 + (mj + 1) * dwork_dim1],
+                        &dwork[mj + (mj + 1) * dwork_dim1], &c__, &s, &r__);
                     dwork[mj + 1 + (mj + 1) * dwork_dim1] = r__;
                     dwork[mj + (mj + 1) * dwork_dim1] = 0.;
-                    drot_(&mj, &dwork[mj + 1 + dwork_dim1], lddwor, &dwork[mj + dwork_dim1], lddwor, &c__, &s);
+                    drot_(&mj, &dwork[mj + 1 + dwork_dim1], lddwor, &dwork[mj + dwork_dim1], lddwor,
+                        &c__, &s);
                     drot_(&c__1, &d__[mj + 1], &c__1, &d__[mj], &c__1, &c__, &s);
                 }
                 /* L100: */
             }
-        }
-        else
-        {
-            *(unsigned char *)trans = 'T';
+        } else {
+            *(unsigned char*)trans = 'T';
             /*           A is a lower Hessenberg matrix, column transformations. */
             i__1 = m2 - 1;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 mj = m2 - j;
-                if (j % 2 == 1 && j < m2 - 2)
-                {
-                    if (dwork[j + (j + 3) * dwork_dim1] != 0.)
-                    {
-                        dlartg_(&dwork[j + (j + 2) * dwork_dim1], &dwork[j + (j + 3) * dwork_dim1], &c__, &s, &r__);
+                if (j % 2 == 1 && j < m2 - 2) {
+                    if (dwork[j + (j + 3) * dwork_dim1] != 0.) {
+                        dlartg_(&dwork[j + (j + 2) * dwork_dim1], &dwork[j + (j + 3) * dwork_dim1],
+                            &c__, &s, &r__);
                         dwork[j + (j + 2) * dwork_dim1] = r__;
                         dwork[j + (j + 3) * dwork_dim1] = 0.;
-                        drot_(&mj, &dwork[j + 1 + (j + 2) * dwork_dim1], &c__1, &dwork[j + 1 + (j + 3) * dwork_dim1], &c__1, &c__, &s);
+                        drot_(&mj, &dwork[j + 1 + (j + 2) * dwork_dim1], &c__1,
+                            &dwork[j + 1 + (j + 3) * dwork_dim1], &c__1, &c__, &s);
                         drot_(&c__1, &d__[j + 2], &c__1, &d__[j + 3], &c__1, &c__, &s);
                     }
                 }
-                if (j < m2 - 1)
-                {
-                    if (dwork[j + (j + 2) * dwork_dim1] != 0.)
-                    {
-                        dlartg_(&dwork[j + (j + 1) * dwork_dim1], &dwork[j + (j + 2) * dwork_dim1], &c__, &s, &r__);
+                if (j < m2 - 1) {
+                    if (dwork[j + (j + 2) * dwork_dim1] != 0.) {
+                        dlartg_(&dwork[j + (j + 1) * dwork_dim1], &dwork[j + (j + 2) * dwork_dim1],
+                            &c__, &s, &r__);
                         dwork[j + (j + 1) * dwork_dim1] = r__;
                         dwork[j + (j + 2) * dwork_dim1] = 0.;
-                        drot_(&mj, &dwork[j + 1 + (j + 1) * dwork_dim1], &c__1, &dwork[j + 1 + (j + 2) * dwork_dim1], &c__1, &c__, &s);
+                        drot_(&mj, &dwork[j + 1 + (j + 1) * dwork_dim1], &c__1,
+                            &dwork[j + 1 + (j + 2) * dwork_dim1], &c__1, &c__, &s);
                         drot_(&c__1, &d__[j + 1], &c__1, &d__[j + 2], &c__1, &c__, &s);
                     }
                 }
-                if (dwork[j + (j + 1) * dwork_dim1] != 0.)
-                {
-                    dlartg_(&dwork[j + j * dwork_dim1], &dwork[j + (j + 1) * dwork_dim1], &c__, &s, &r__);
+                if (dwork[j + (j + 1) * dwork_dim1] != 0.) {
+                    dlartg_(&dwork[j + j * dwork_dim1], &dwork[j + (j + 1) * dwork_dim1], &c__, &s,
+                        &r__);
                     dwork[j + j * dwork_dim1] = r__;
                     dwork[j + (j + 1) * dwork_dim1] = 0.;
-                    drot_(&mj, &dwork[j + 1 + j * dwork_dim1], &c__1, &dwork[j + 1 + (j + 1) * dwork_dim1], &c__1, &c__, &s);
+                    drot_(&mj, &dwork[j + 1 + j * dwork_dim1], &c__1,
+                        &dwork[j + 1 + (j + 1) * dwork_dim1], &c__1, &c__, &s);
                     drot_(&c__1, &d__[j], &c__1, &d__[j + 1], &c__1, &c__, &s);
                 }
                 /* L120: */
             }
         }
     }
-    dtrcon_("1-norm", ul, "Non-unit", &m2, &dwork[dwork_offset], lddwor, &rcond, &dwork[(m2 + 1) * dwork_dim1 + 1], &iwork[1], info, 6L, 1L, 8L);
-    if (rcond <= *tol)
-    {
+    dtrcon_("1-norm", ul, "Non-unit", &m2, &dwork[dwork_offset], lddwor, &rcond,
+        &dwork[(m2 + 1) * dwork_dim1 + 1], &iwork[1], info, 6L, 1L, 8L);
+    if (rcond <= *tol) {
         *info = 1;
-    }
-    else
-    {
-        dtrsv_(ul, trans, "Non-unit", &m2, &dwork[dwork_offset], lddwor, &d__[1], &c__1, 1L, 1L, 8L);
+    } else {
+        dtrsv_(
+            ul, trans, "Non-unit", &m2, &dwork[dwork_offset], lddwor, &d__[1], &c__1, 1L, 1L, 8L);
     }
     return 0;
     /* *** Last line of SB04RX *** */
 } /* sb04rx_ */
-

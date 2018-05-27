@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,13 +10,14 @@
 static integer c__1 = 1;
 static logical c_true = TRUE_;
 
-EXPORTSYMBOL /* Subroutine */ int nf01bs_(n, ipar, lipar, fnorm, j, ldj, e, jnorms, gnorm, ipvt, dwork, ldwork, info)
-integer *n, *ipar, *lipar;
+EXPORTSYMBOL /* Subroutine */ int nf01bs_(
+    n, ipar, lipar, fnorm, j, ldj, e, jnorms, gnorm, ipvt, dwork, ldwork, info) integer *n,
+    *ipar, *lipar;
 doublereal *fnorm, *j;
-integer *ldj;
+integer* ldj;
 doublereal *e, *jnorms, *gnorm;
-integer *ipvt;
-doublereal *dwork;
+integer* ipvt;
+doublereal* dwork;
 integer *ldwork, *info;
 {
     /* System generated locals */
@@ -216,99 +217,66 @@ integer *ldwork, *info;
     --ipar;
     /* Function Body */
     *info = 0;
-    if (*n < 0)
-    {
+    if (*n < 0) {
         *info = -1;
-    }
-    else if (*lipar < 4)
-    {
+    } else if (*lipar < 4) {
         *info = -3;
-    }
-    else if (*fnorm < 0.)
-    {
+    } else if (*fnorm < 0.) {
         *info = -4;
-    }
-    else if (*ldj < max(1,*n))
-    {
+    } else if (*ldj < max(1, *n)) {
         *info = -6;
-    }
-    else
-    {
+    } else {
         st = ipar[1];
         bn = ipar[2];
         bsm = ipar[3];
         bsn = ipar[4];
         nths = bn * bsn;
         mmn = bsm - bsn;
-        if (bn > 0)
-        {
+        if (bn > 0) {
             m = bn * bsm;
-        }
-        else
-        {
+        } else {
             m = *n;
         }
         /* Computing MIN */
-        i__1 = min(st,bn), i__1 = min(i__1,bsm);
-        if (min(i__1,bsn) < 0)
-        {
+        i__1 = min(st, bn), i__1 = min(i__1, bsm);
+        if (min(i__1, bsn) < 0) {
             *info = -2;
-        }
-        else if (*n != nths + st)
-        {
+        } else if (*n != nths + st) {
             *info = -1;
-        }
-        else if (m < *n)
-        {
+        } else if (m < *n) {
             *info = -2;
-        }
-        else if (*ldj < max(1,m))
-        {
+        } else if (*ldj < max(1, m)) {
             *info = -6;
-        }
-        else
-        {
-            if (*n == 0)
-            {
+        } else {
+            if (*n == 0) {
                 jwork = 1;
-            }
-            else if (bn <= 1 || bsn == 0)
-            {
-                if (bn <= 1 && bsm == 1 && *n == 1)
-                {
+            } else if (bn <= 1 || bsn == 0) {
+                if (bn <= 1 && bsm == 1 && *n == 1) {
                     jwork = 1;
-                }
-                else
-                {
+                } else {
                     jwork = (*n << 2) + 1;
                 }
-            }
-            else
-            {
+            } else {
                 /* Computing MAX */
                 i__1 = bsn * 3 + 1;
-                jwork = bsn + max(i__1,st);
-                if (bsm > bsn)
-                {
+                jwork = bsn + max(i__1, st);
+                if (bsm > bsn) {
                     /* Computing MAX */
                     i__1 = jwork, i__2 = (st << 2) + 1;
-                    jwork = max(i__1,i__2);
-                    if (bsm < bsn << 1)
-                    {
+                    jwork = max(i__1, i__2);
+                    if (bsm < bsn << 1) {
                         /* Computing MAX */
                         i__1 = jwork, i__2 = mmn * (bn - 1);
-                        jwork = max(i__1,i__2);
+                        jwork = max(i__1, i__2);
                     }
                 }
             }
-            if (*ldwork < jwork)
-            {
+            if (*ldwork < jwork) {
                 *info = -12;
             }
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("NF01BS", &i__1, 6L);
@@ -316,14 +284,12 @@ integer *ldwork, *info;
     }
     /*     Quick return if possible. */
     *gnorm = 0.;
-    if (*n == 0)
-    {
+    if (*n == 0) {
         *ldj = 1;
         dwork[1] = 1.;
         return 0;
     }
-    if (bn <= 1 || bsn == 0)
-    {
+    if (bn <= 1 || bsn == 0) {
         /*        Special case, l <= 1 or BSN = 0: the Jacobian is represented */
         /*        as a full matrix. */
         /*        (Note: Comments in the code beginning "Workspace:" describe the */
@@ -333,14 +299,14 @@ integer *ldwork, *info;
         /*        following subroutine, as returned by ILAENV.) */
         /*        Workspace: need:    4*N + 1; */
         /*                   prefer:  3*N + ( N+1 )*NB. */
-        md03bx_(&m, n, fnorm, &j[1], ldj, &e[1], &jnorms[1], gnorm, &ipvt[1], &dwork[1], ldwork, info);
+        md03bx_(
+            &m, n, fnorm, &j[1], ldj, &e[1], &jnorms[1], gnorm, &ipvt[1], &dwork[1], ldwork, info);
         return 0;
     }
     /*     General case: l > 1 and BSN > 0. */
     /*     Initialize the column pivoting indices. */
     i__1 = *n;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         ipvt[i__] = 0;
         /* L10: */
     }
@@ -352,8 +318,7 @@ integer *ldwork, *info;
     jwork = bsn + 1;
     i__1 = m;
     i__2 = bsm;
-    for (ibsm = 1; i__2 < 0 ? ibsm >= i__1 : ibsm <= i__1; ibsm += i__2)
-    {
+    for (ibsm = 1; i__2 < 0 ? ibsm >= i__1 : ibsm <= i__1; ibsm += i__2) {
         /*        Compute the QR factorization with pivoting of J_k, and apply Q' */
         /*        to the corresponding part of the last block-column and of e. */
         /*        Workspace: need:    4*BSN + 1; */
@@ -361,38 +326,36 @@ integer *ldwork, *info;
         i__3 = *ldwork - jwork + 1;
         dgeqp3_(&bsm, &bsn, &j[ibsm], ldj, &ipvt[ibsn], &dwork[1], &dwork[jwork], &i__3, info);
         /* Computing MAX */
-        i__3 = wrkopt, i__4 = (integer) dwork[jwork] + jwork - 1;
-        wrkopt = max(i__3,i__4);
-        if (ibsm > 1)
-        {
+        i__3 = wrkopt, i__4 = (integer)dwork[jwork] + jwork - 1;
+        wrkopt = max(i__3, i__4);
+        if (ibsm > 1) {
             /*           Adjust the column pivoting indices. */
             i__3 = ibsn + bsn - 1;
-            for (i__ = ibsn; i__ <= i__3; ++i__)
-            {
+            for (i__ = ibsn; i__ <= i__3; ++i__) {
                 ipvt[i__] = ipvt[i__] + ibsn - 1;
                 /* L20: */
             }
         }
-        if (st > 0)
-        {
+        if (st > 0) {
             /*           Workspace: need:    BSN + ST; */
             /*                      prefer:  BSN + ST*NB. */
             i__3 = *ldwork - jwork + 1;
-            dormqr_("Left", "Transpose", &bsm, &st, &bsn, &j[ibsm], ldj, &dwork[1], &j[jl], ldj, &dwork[jwork], &i__3, info, 4L, 9L);
+            dormqr_("Left", "Transpose", &bsm, &st, &bsn, &j[ibsm], ldj, &dwork[1], &j[jl], ldj,
+                &dwork[jwork], &i__3, info, 4L, 9L);
             /* Computing MAX */
-            i__3 = wrkopt, i__4 = (integer) dwork[jwork] + jwork - 1;
-            wrkopt = max(i__3,i__4);
+            i__3 = wrkopt, i__4 = (integer)dwork[jwork] + jwork - 1;
+            wrkopt = max(i__3, i__4);
         }
         /*        Workspace: need:    BSN + 1; */
         /*                   prefer:  BSN + NB. */
         i__3 = *ldwork - jwork + 1;
-        dormqr_("Left", "Transpose", &bsm, &c__1, &bsn, &j[ibsm], ldj, &dwork[1], &e[ibsm], &bsm, &dwork[jwork], &i__3, info, 4L, 9L);
+        dormqr_("Left", "Transpose", &bsm, &c__1, &bsn, &j[ibsm], ldj, &dwork[1], &e[ibsm], &bsm,
+            &dwork[jwork], &i__3, info, 4L, 9L);
         jl += bsm;
         ibsn += bsn;
         /* L30: */
     }
-    if (mmn > 0)
-    {
+    if (mmn > 0) {
         /*        Case BSM > BSN. */
         /*        Compute the original column norms for the first block column */
         /*        of Jc. */
@@ -404,8 +367,7 @@ integer *ldwork, *info;
         ibsm = bsm + 1;
         ibsn = bsn + 1;
         i__2 = bn - 1;
-        for (k = 1; k <= i__2; ++k)
-        {
+        for (k = 1; k <= i__2; ++k) {
             j[ibsn] = j[ibsm];
             l = ipvt[ibsn];
             jnorms[l] = (d__1 = j[ibsn], abs(d__1));
@@ -415,16 +377,13 @@ integer *ldwork, *info;
         }
         ibsn += st;
         i__2 = bsn;
-        for (i__ = 2; i__ <= i__2; ++i__)
-        {
-            ibsm = (i__ - 1) **ldj + 1;
+        for (i__ = 2; i__ <= i__2; ++i__) {
+            ibsm = (i__ - 1) * *ldj + 1;
             jl = i__;
             i__1 = bn;
-            for (k = 1; k <= i__1; ++k)
-            {
+            for (k = 1; k <= i__1; ++k) {
                 i__3 = i__ - 1;
-                for (l = 0; l <= i__3; ++l)
-                {
+                for (l = 0; l <= i__3; ++l) {
                     j[ibsn + l] = j[ibsm + l];
                     /* L45: */
                 }
@@ -441,17 +400,14 @@ integer *ldwork, *info;
         /*        Permute the rows of the second block column of Jc and of */
         /*        the vector e. */
         jl = *ldj * bsn;
-        if (bsm >= bsn << 1)
-        {
+        if (bsm >= bsn << 1) {
             /*           A swap operation can be used. */
             i__2 = st;
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
+            for (i__ = 1; i__ <= i__2; ++i__) {
                 ibsn = bsn + 1;
                 i__1 = m;
                 i__3 = bsm;
-                for (ibsm = bsm + 1; i__3 < 0 ? ibsm >= i__1 : ibsm <= i__1; ibsm += i__3)
-                {
+                for (ibsm = bsm + 1; i__3 < 0 ? ibsm >= i__1 : ibsm <= i__1; ibsm += i__3) {
                     dswap_(&mmn, &j[jl + ibsm], &c__1, &j[jl + ibsn], &c__1);
                     ibsn += bsn;
                     /* L70: */
@@ -463,31 +419,25 @@ integer *ldwork, *info;
             ibsn = bsn + 1;
             i__2 = m;
             i__3 = bsm;
-            for (ibsm = bsm + 1; i__3 < 0 ? ibsm >= i__2 : ibsm <= i__2; ibsm += i__3)
-            {
+            for (ibsm = bsm + 1; i__3 < 0 ? ibsm >= i__2 : ibsm <= i__2; ibsm += i__3) {
                 dswap_(&mmn, &e[ibsm], &c__1, &e[ibsn], &c__1);
                 ibsn += bsn;
                 /* L90: */
             }
-        }
-        else
-        {
+        } else {
             /*           A swap operation cannot be used. */
             /*           Workspace: need:    ( BSM-BSN )*( BN-1 ). */
             i__3 = st;
-            for (i__ = 1; i__ <= i__3; ++i__)
-            {
+            for (i__ = 1; i__ <= i__3; ++i__) {
                 ibsn = bsn + 1;
                 jlm = jl + ibsn;
                 jwork = 1;
                 i__2 = m;
                 i__1 = bsm;
-                for (ibsm = bsm + 1; i__1 < 0 ? ibsm >= i__2 : ibsm <= i__2; ibsm += i__1)
-                {
+                for (ibsm = bsm + 1; i__1 < 0 ? ibsm >= i__2 : ibsm <= i__2; ibsm += i__1) {
                     dcopy_(&mmn, &j[jlm], &c__1, &dwork[jwork], &c__1);
                     i__4 = jl + bsn - 1;
-                    for (k = jl; k <= i__4; ++k)
-                    {
+                    for (k = jl; k <= i__4; ++k) {
                         j[ibsn + k] = j[ibsm + k];
                         /* L105: */
                     }
@@ -507,12 +457,10 @@ integer *ldwork, *info;
             jwork = 1;
             i__3 = m;
             i__1 = bsm;
-            for (ibsm = bsm + 1; i__1 < 0 ? ibsm >= i__3 : ibsm <= i__3; ibsm += i__1)
-            {
+            for (ibsm = bsm + 1; i__1 < 0 ? ibsm >= i__3 : ibsm <= i__3; ibsm += i__1) {
                 dcopy_(&mmn, &e[jlm], &c__1, &dwork[jwork], &c__1);
                 i__2 = bsn - 1;
-                for (k = 0; k <= i__2; ++k)
-                {
+                for (k = 0; k <= i__2; ++k) {
                     e[ibsn + k] = e[ibsm + k];
                     /* L115: */
                 }
@@ -524,8 +472,7 @@ integer *ldwork, *info;
             i__1 = mmn * (bn - 1);
             dcopy_(&i__1, &dwork[1], &c__1, &e[ibsn], &c__1);
         }
-        if (st > 0)
-        {
+        if (st > 0) {
             /*           Compute the QR factorization with pivoting of the submatrix */
             /*           L^2_1:l, and apply Q' to the corresponding part of e. */
             /*           Workspace: need:    4*ST + 1; */
@@ -535,17 +482,17 @@ integer *ldwork, *info;
             jwork = itau + st;
             i__1 = mmn * bn;
             i__3 = *ldwork - jwork + 1;
-            dgeqp3_(&i__1, &st, &j[jl], ldj, &ipvt[nths + 1], &dwork[itau], &dwork[jwork], &i__3, info);
+            dgeqp3_(
+                &i__1, &st, &j[jl], ldj, &ipvt[nths + 1], &dwork[itau], &dwork[jwork], &i__3, info);
             /* Computing MAX */
-            i__1 = wrkopt, i__3 = (integer) dwork[jwork] + jwork - 1;
-            wrkopt = max(i__1,i__3);
+            i__1 = wrkopt, i__3 = (integer)dwork[jwork] + jwork - 1;
+            wrkopt = max(i__1, i__3);
             /*           Permute columns of the upper part of the second block */
             /*           column of Jc. */
             dlapmt_(&c_true, &nths, &st, &j[jl - nths], ldj, &ipvt[nths + 1]);
             /*           Adjust the column pivoting indices. */
             i__1 = *n;
-            for (i__ = nths + 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = nths + 1; i__ <= i__1; ++i__) {
                 ipvt[i__] += nths;
                 /* L130: */
             }
@@ -553,10 +500,11 @@ integer *ldwork, *info;
             /*                      prefer:  ST + NB. */
             i__1 = mmn * bn;
             i__3 = *ldwork - jwork + 1;
-            dormqr_("Left", "Transpose", &i__1, &c__1, &st, &j[jl], ldj, &dwork[itau], &e[ibsn], ldj, &dwork[jwork], &i__3, info, 4L, 9L);
+            dormqr_("Left", "Transpose", &i__1, &c__1, &st, &j[jl], ldj, &dwork[itau], &e[ibsn],
+                ldj, &dwork[jwork], &i__3, info, 4L, 9L);
             /* Computing MAX */
-            i__1 = wrkopt, i__3 = (integer) dwork[jwork] + jwork - 1;
-            wrkopt = max(i__1,i__3);
+            i__1 = wrkopt, i__3 = (integer)dwork[jwork] + jwork - 1;
+            wrkopt = max(i__1, i__3);
             /*           Reshape the second block column of R to have the leading */
             /*           dimension N. */
             ibsn = *n * bsn + 1;
@@ -564,28 +512,23 @@ integer *ldwork, *info;
             /*           Compute the original column norms for the second block */
             /*           column. */
             i__1 = *n;
-            for (i__ = nths + 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = nths + 1; i__ <= i__1; ++i__) {
                 l = ipvt[i__];
                 jnorms[l] = dnrm2_(&i__, &j[ibsn], &c__1);
                 ibsn += *n;
                 /* L140: */
             }
         }
-    }
-    else
-    {
+    } else {
         /*        Case BSM = BSN. */
         /*        Compute the original column norms for the first block column */
         /*        of Jc. */
         ibsn = 1;
         i__1 = bsn;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             jl = i__;
             i__3 = bn;
-            for (k = 1; k <= i__3; ++k)
-            {
+            for (k = 1; k <= i__3; ++k) {
                 l = ipvt[jl];
                 jnorms[l] = dnrm2_(&i__, &j[ibsn], &c__1);
                 ibsn += bsn;
@@ -596,30 +539,25 @@ integer *ldwork, *info;
             /* L160: */
         }
         i__1 = *n;
-        for (i__ = nths + 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = nths + 1; i__ <= i__1; ++i__) {
             ipvt[i__] = i__;
             /* L170: */
         }
     }
     /*     Compute the norm of the scaled gradient. */
-    if (*fnorm != 0.)
-    {
+    if (*fnorm != 0.) {
         i__1 = nths;
         i__3 = bsn;
-        for (ibsn = 1; i__3 < 0 ? ibsn >= i__1 : ibsn <= i__1; ibsn += i__3)
-        {
+        for (ibsn = 1; i__3 < 0 ? ibsn >= i__1 : ibsn <= i__1; ibsn += i__3) {
             ibsni = ibsn;
             i__2 = bsn;
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
+            for (i__ = 1; i__ <= i__2; ++i__) {
                 l = ipvt[ibsn + i__ - 1];
-                if (jnorms[l] != 0.)
-                {
+                if (jnorms[l] != 0.) {
                     sum = ddot_(&i__, &j[ibsni], &c__1, &e[ibsn], &c__1) / *fnorm;
                     /* Computing MAX */
                     d__2 = *gnorm, d__3 = (d__1 = sum / jnorms[l], abs(d__1));
-                    *gnorm = max(d__2,d__3);
+                    *gnorm = max(d__2, d__3);
                 }
                 ibsni += *n;
                 /* L180: */
@@ -628,23 +566,20 @@ integer *ldwork, *info;
         }
         ibsni = *n * bsn + 1;
         i__3 = *n;
-        for (i__ = nths + 1; i__ <= i__3; ++i__)
-        {
+        for (i__ = nths + 1; i__ <= i__3; ++i__) {
             l = ipvt[i__];
-            if (jnorms[l] != 0.)
-            {
+            if (jnorms[l] != 0.) {
                 sum = ddot_(&i__, &j[ibsni], &c__1, &e[1], &c__1) / *fnorm;
                 /* Computing MAX */
                 d__2 = *gnorm, d__3 = (d__1 = sum / jnorms[l], abs(d__1));
-                *gnorm = max(d__2,d__3);
+                *gnorm = max(d__2, d__3);
             }
             ibsni += *n;
             /* L200: */
         }
     }
     *ldj = *n;
-    dwork[1] = (doublereal) wrkopt;
+    dwork[1] = (doublereal)wrkopt;
     return 0;
     /* *** Last line of NF01BS *** */
 } /* nf01bs_ */
-

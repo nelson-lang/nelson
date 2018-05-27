@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,22 +11,24 @@ static doublereal c_b19 = 0.;
 static doublereal c_b24 = 1.;
 static doublereal c_b29 = .66666666666666663;
 
-EXPORTSYMBOL /* Subroutine */ int ab09hd_(dico, job, equil, ordsel, n, m, p, nr, alpha, beta, a, lda, b, ldb, c__, ldc, d__, ldd, ns, hsv, tol1, tol2, iwork, dwork, ldwork, bwork, iwarn, info, dico_len, job_len, equil_len, ordsel_len)
-char *dico, *job, *equil, *ordsel;
+EXPORTSYMBOL /* Subroutine */ int ab09hd_(dico, job, equil, ordsel, n, m, p, nr, alpha, beta, a,
+    lda, b, ldb, c__, ldc, d__, ldd, ns, hsv, tol1, tol2, iwork, dwork, ldwork, bwork, iwarn, info,
+    dico_len, job_len, equil_len, ordsel_len) char *dico,
+    *job, *equil, *ordsel;
 integer *n, *m, *p, *nr;
 doublereal *alpha, *beta, *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *d__;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* d__;
 integer *ldd, *ns;
 doublereal *hsv, *tol1, *tol2;
-integer *iwork;
-doublereal *dwork;
-integer *ldwork;
-logical *bwork;
+integer* iwork;
+doublereal* dwork;
+integer* ldwork;
+logical* bwork;
 integer *iwarn, *info;
 ftnlen dico_len;
 ftnlen job_len;
@@ -34,7 +36,8 @@ ftnlen equil_len;
 ftnlen ordsel_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, i__1, i__2, i__3, i__4, i__5;
+    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, i__1, i__2,
+        i__3, i__4, i__5;
     doublereal d__1, d__2, d__3;
     /* Builtin functions */
     double pow_dd();
@@ -412,88 +415,54 @@ ftnlen ordsel_len;
     bta = lsame_(job, "B", 1L, 1L) || lsame_(job, "F", 1L, 1L);
     spa = lsame_(job, "S", 1L, 1L) || lsame_(job, "P", 1L, 1L);
     mb = *m;
-    if (*beta > 0.)
-    {
+    if (*beta > 0.) {
         mb = *m + *p;
     }
     /* Computing MAX */
     /* Computing MAX */
-    i__3 = max(*n,mb);
+    i__3 = max(*n, mb);
     /* Computing MAX */
     i__4 = *p * (mb + 2), i__5 = *n * 10 * (*n + 1);
-    i__1 = 2, i__2 = *n * (max(i__3,*p) + 5), i__1 = max(i__1,i__2), i__2 = (*n << 1) **p + max(i__4,i__5);
-    lw = (*n << 1) **n + mb * (*n + *p) + max(i__1,i__2);
+    i__1 = 2, i__2 = *n * (max(i__3, *p) + 5), i__1 = max(i__1, i__2),
+    i__2 = (*n << 1) * *p + max(i__4, i__5);
+    lw = (*n << 1) * *n + mb * (*n + *p) + max(i__1, i__2);
     /*     Test the input scalar arguments. */
-    if (! (lsame_(dico, "C", 1L, 1L) || discr))
-    {
+    if (!(lsame_(dico, "C", 1L, 1L) || discr)) {
         *info = -1;
-    }
-    else if (! (bta || spa))
-    {
+    } else if (!(bta || spa)) {
         *info = -2;
-    }
-    else if (! (lequil || lsame_(equil, "N", 1L, 1L)))
-    {
+    } else if (!(lequil || lsame_(equil, "N", 1L, 1L))) {
         *info = -3;
-    }
-    else if (! (fixord || lsame_(ordsel, "A", 1L, 1L)))
-    {
+    } else if (!(fixord || lsame_(ordsel, "A", 1L, 1L))) {
         *info = -4;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -5;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -6;
-    }
-    else if (*p < 0 || *beta == 0. && *p > *m)
-    {
+    } else if (*p < 0 || *beta == 0. && *p > *m) {
         *info = -7;
-    }
-    else if (fixord && (*nr < 0 || *nr > *n))
-    {
+    } else if (fixord && (*nr < 0 || *nr > *n)) {
         *info = -8;
-    }
-    else if (discr && (*alpha < 0. || *alpha > 1.) || ! discr && *alpha > 0.)
-    {
+    } else if (discr && (*alpha < 0. || *alpha > 1.) || !discr && *alpha > 0.) {
         *info = -9;
-    }
-    else if (*beta < 0.)
-    {
+    } else if (*beta < 0.) {
         *info = -10;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -12;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -14;
-    }
-    else if (*ldc < max(1,*p))
-    {
+    } else if (*ldc < max(1, *p)) {
         *info = -16;
-    }
-    else if (*ldd < max(1,*p))
-    {
+    } else if (*ldd < max(1, *p)) {
         *info = -18;
-    }
-    else if (*tol1 >= 1.)
-    {
+    } else if (*tol1 >= 1.) {
         *info = -21;
-    }
-    else if (*tol2 > 0. && ! fixord && *tol2 > *tol1 || *tol2 >= 1.)
-    {
+    } else if (*tol2 > 0. && !fixord && *tol2 > *tol1 || *tol2 >= 1.) {
         *info = -22;
-    }
-    else if (*ldwork < lw)
-    {
+    } else if (*ldwork < lw) {
         *info = -25;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("AB09HD", &i__1, 6L);
@@ -501,9 +470,8 @@ ftnlen ordsel_len;
     }
     /*     Quick return if possible. */
     /* Computing MIN */
-    i__1 = min(*n,*m);
-    if (min(i__1,*p) == 0 || bta && fixord && *nr == 0)
-    {
+    i__1 = min(*n, *m);
+    if (min(i__1, *p) == 0 || bta && fixord && *nr == 0) {
         *nr = 0;
         *ns = 0;
         iwork[1] = 0;
@@ -511,17 +479,17 @@ ftnlen ordsel_len;
         dwork[2] = 1.;
         return 0;
     }
-    if (lequil)
-    {
+    if (lequil) {
         /*        Scale simultaneously the matrices A, B and C: */
         /*        A <- inv(D)*A*D, B <- inv(D)*B and C <- C*D, where D is a */
         /*        diagonal matrix. */
         /*        Workspace: N. */
         maxred = 100.;
-        tb01id_("All", n, m, p, &maxred, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, &dwork[1], info, 3L);
+        tb01id_("All", n, m, p, &maxred, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc,
+            &dwork[1], info, 3L);
     }
     /*     Allocate working storage. */
-    nn = *n **n;
+    nn = *n * *n;
     ku = 1;
     kwr = ku + nn;
     kwi = kwr + *n;
@@ -534,42 +502,35 @@ ftnlen ordsel_len;
     /*     Workspace needed:      N*(N+2); */
     /*     Additional workspace:  need   3*N; */
     /*                            prefer larger. */
-    tb01kd_(dico, "Unstable", "General", n, m, p, alpha, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, &nu, &dwork[ku], n, &dwork[kwr], &dwork[kwi], &dwork[kw], &lwr, &ierr, 1L, 8L, 7L);
-    if (ierr != 0)
-    {
-        if (ierr != 3)
-        {
+    tb01kd_(dico, "Unstable", "General", n, m, p, alpha, &a[a_offset], lda, &b[b_offset], ldb,
+        &c__[c_offset], ldc, &nu, &dwork[ku], n, &dwork[kwr], &dwork[kwi], &dwork[kw], &lwr, &ierr,
+        1L, 8L, 7L);
+    if (ierr != 0) {
+        if (ierr != 3) {
             *info = 1;
-        }
-        else
-        {
+        } else {
             *info = 8;
         }
         return 0;
     }
-    wrkopt = (integer) dwork[kw] + kw - 1;
+    wrkopt = (integer)dwork[kw] + kw - 1;
     iwarnl = 0;
     *ns = *n - nu;
-    if (fixord)
-    {
+    if (fixord) {
         /* Computing MAX */
         i__1 = 0, i__2 = *nr - nu;
-        nra = max(i__1,i__2);
-        if (*nr < nu)
-        {
+        nra = max(i__1, i__2);
+        if (*nr < nu) {
             iwarnl = 3;
         }
-    }
-    else
-    {
+    } else {
         nra = 0;
     }
     /*     Finish if the system is completely unstable. */
-    if (*ns == 0)
-    {
+    if (*ns == 0) {
         *nr = nu;
         iwork[1] = *ns;
-        dwork[1] = (doublereal) wrkopt;
+        dwork[1] = (doublereal)wrkopt;
         dwork[2] = 1.;
         return 0;
     }
@@ -579,27 +540,26 @@ ftnlen ordsel_len;
     kb = 1;
     kd = kb + *n * mb;
     kt = kd + *p * mb;
-    kti = kt + *n **n;
-    kw = kti + *n **n;
+    kti = kt + *n * *n;
+    kw = kti + *n * *n;
     /*     Form [B 0] and [D BETA*I]. */
     dlacpy_("F", ns, m, &b[nu1 + b_dim1], ldb, &dwork[kb], n, 1L);
     dlacpy_("F", p, m, &d__[d_offset], ldd, &dwork[kd], p, 1L);
-    if (*beta > 0.)
-    {
-        dlaset_("F", ns, p, &c_b19, &c_b19, &dwork[kb + *n **m], n, 1L);
-        dlaset_("F", p, p, &c_b19, beta, &dwork[kd + *p **m], p, 1L);
+    if (*beta > 0.) {
+        dlaset_("F", ns, p, &c_b19, &c_b19, &dwork[kb + *n * *m], n, 1L);
+        dlaset_("F", p, p, &c_b19, beta, &dwork[kd + *p * *m], p, 1L);
     }
     /*     For discrete-time case, apply the discrete-to-continuous bilinear */
     /*     transformation to the stable part. */
-    if (discr)
-    {
+    if (discr) {
         /*        Real workspace:    need  N, prefer larger; */
         /*        Integer workspace: need  N. */
         i__1 = *ldwork - kt + 1;
-        ab04md_("Discrete", ns, &mb, p, &c_b24, &c_b24, &a[nu1 + nu1 * a_dim1], lda, &dwork[kb], n, &c__[nu1 * c_dim1 + 1], ldc, &dwork[kd], p, &iwork[1], &dwork[kt], &i__1, &ierr, 8L);
+        ab04md_("Discrete", ns, &mb, p, &c_b24, &c_b24, &a[nu1 + nu1 * a_dim1], lda, &dwork[kb], n,
+            &c__[nu1 * c_dim1 + 1], ldc, &dwork[kd], p, &iwork[1], &dwork[kt], &i__1, &ierr, 8L);
         /* Computing MAX */
-        i__1 = wrkopt, i__2 = (integer) dwork[kt] + kt - 1;
-        wrkopt = max(i__1,i__2);
+        i__1 = wrkopt, i__2 = (integer)dwork[kt] + kt - 1;
+        wrkopt = max(i__1, i__2);
     }
     /*     Compute in DWORK(KTI) and DWORK(KT) the Cholesky factors S and R */
     /*     of the controllability and observability Grammians, respectively. */
@@ -609,14 +569,15 @@ ftnlen ordsel_len;
     /*                        prefer larger. */
     /*     Integer workspace: need  2*N. */
     i__1 = *ldwork - kw + 1;
-    ab09hy_(ns, &mb, p, &a[nu1 + nu1 * a_dim1], lda, &dwork[kb], n, &c__[nu1 * c_dim1 + 1], ldc, &dwork[kd], p, &scalec, &scaleo, &dwork[kti], n, &dwork[kt], n, &iwork[1], &dwork[kw], &i__1, &bwork[1], info);
-    if (*info != 0)
-    {
+    ab09hy_(ns, &mb, p, &a[nu1 + nu1 * a_dim1], lda, &dwork[kb], n, &c__[nu1 * c_dim1 + 1], ldc,
+        &dwork[kd], p, &scalec, &scaleo, &dwork[kti], n, &dwork[kt], n, &iwork[1], &dwork[kw],
+        &i__1, &bwork[1], info);
+    if (*info != 0) {
         return 0;
     }
     /* Computing MAX */
-    i__1 = wrkopt, i__2 = (integer) dwork[kw] + kw - 1;
-    wrkopt = max(i__1,i__2);
+    i__1 = wrkopt, i__2 = (integer)dwork[kw] + kw - 1;
+    wrkopt = max(i__1, i__2);
     ricond = dwork[kw + 1];
     /*     Compute a BTA or SPA of the stable part. */
     /*     Real workspace:  need  2*N*N + MB*(N+P)+ */
@@ -624,42 +585,42 @@ ftnlen ordsel_len;
     epsm = dlamch_("Epsilon", 7L);
     /* Computing MAX */
     d__2 = *tol1, d__3 = *n * epsm;
-    d__1 = max(d__2,d__3);
+    d__1 = max(d__2, d__3);
     i__1 = *ldwork - kw + 1;
-    ab09ix_("C", job, "Schur", ordsel, ns, &mb, p, &nra, &scalec, &scaleo, &a[nu1 + nu1 * a_dim1], lda, &dwork[kb], n, &c__[nu1 * c_dim1 + 1], ldc, &dwork[kd], p, &dwork[kti], n, &dwork[kt], n, &nmr, &hsv[1], &d__1, tol2, &iwork[1], &dwork[kw], &i__1, iwarn, &ierr, 1L, 1L, 5L, 1L);
-    *iwarn = max(*iwarn,iwarnl);
-    if (ierr != 0)
-    {
+    ab09ix_("C", job, "Schur", ordsel, ns, &mb, p, &nra, &scalec, &scaleo, &a[nu1 + nu1 * a_dim1],
+        lda, &dwork[kb], n, &c__[nu1 * c_dim1 + 1], ldc, &dwork[kd], p, &dwork[kti], n, &dwork[kt],
+        n, &nmr, &hsv[1], &d__1, tol2, &iwork[1], &dwork[kw], &i__1, iwarn, &ierr, 1L, 1L, 5L, 1L);
+    *iwarn = max(*iwarn, iwarnl);
+    if (ierr != 0) {
         *info = 7;
         return 0;
     }
     /* Computing MAX */
-    i__1 = wrkopt, i__2 = (integer) dwork[kw] + kw - 1;
-    wrkopt = max(i__1,i__2);
+    i__1 = wrkopt, i__2 = (integer)dwork[kw] + kw - 1;
+    wrkopt = max(i__1, i__2);
     /*     Check if the resulting order is greater than the number of */
     /*     unstable zeros (this check is implicit by looking at Hankel */
     /*     singular values equal to 1). */
-    if (nra < *ns && hsv[nra + 1] >= 1. - pow_dd(&epsm, &c_b29))
-    {
+    if (nra < *ns && hsv[nra + 1] >= 1. - pow_dd(&epsm, &c_b29)) {
         *info = 9;
         return 0;
     }
     /*     For discrete-time case, apply the continuous-to-discrete */
     /*     bilinear transformation. */
-    if (discr)
-    {
-        ab04md_("Continuous", &nra, &mb, p, &c_b24, &c_b24, &a[nu1 + nu1 * a_dim1], lda, &dwork[kb], n, &c__[nu1 * c_dim1 + 1], ldc, &dwork[kd], p, &iwork[1], &dwork[1], ldwork, &ierr, 10L);
+    if (discr) {
+        ab04md_("Continuous", &nra, &mb, p, &c_b24, &c_b24, &a[nu1 + nu1 * a_dim1], lda, &dwork[kb],
+            n, &c__[nu1 * c_dim1 + 1], ldc, &dwork[kd], p, &iwork[1], &dwork[1], ldwork, &ierr,
+            10L);
         /* Computing MAX */
-        i__1 = wrkopt, i__2 = (integer) dwork[1];
-        wrkopt = max(i__1,i__2);
+        i__1 = wrkopt, i__2 = (integer)dwork[1];
+        wrkopt = max(i__1, i__2);
     }
     dlacpy_("F", &nra, m, &dwork[kb], n, &b[nu1 + b_dim1], ldb, 1L);
     dlacpy_("F", p, m, &dwork[kd], p, &d__[d_offset], ldd, 1L);
     *nr = nra + nu;
     iwork[1] = nmr;
-    dwork[1] = (doublereal) wrkopt;
+    dwork[1] = (doublereal)wrkopt;
     dwork[2] = ricond;
     return 0;
     /* *** Last line of AB09HD *** */
 } /* ab09hd_ */
-

@@ -18,13 +18,14 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "nlsTests_manager_exports.h"
-#include "Types.hpp"
-#include "TestTags.hpp"
 #include "Evaluator.hpp"
+#include "TestTags.hpp"
+#include "Types.hpp"
+#include "nlsTests_manager_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    NLSTESTS_MANAGER_IMPEXP bool ParseTags(Evaluator *eval, std::wstring filename, TestTags &options, std::wstring &msg);
+NLSTESTS_MANAGER_IMPEXP bool
+ParseTags(Evaluator* eval, std::wstring filename, TestTags& options, std::wstring& msg);
 }
 //=============================================================================

@@ -22,66 +22,53 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::OsFunctionsGateway::winqueryregBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::OsFunctionsGateway::winqueryregBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
 #ifdef _MSC_VER
-    if (argIn.size() < 2 || argIn.size() > 3)
-    {
+    if (argIn.size() < 2 || argIn.size() > 3) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    switch (argIn.size())
-    {
-        case 2:
-        {
-            std::wstring rootkey = argIn[0].getContentAsWideString();
+    switch (argIn.size()) {
+    case 2: {
+        std::wstring rootkey = argIn[0].getContentAsWideString();
+        std::wstring subkey = argIn[1].getContentAsWideString();
+        if (rootkey == L"name") {
+            Error(eval, _W("'name' argument requires 3 input arguments."));
+        }
+        std::wstring errorMessage;
+        ArrayOf res = windowsQueryRegistryValueName(rootkey, subkey, L"", errorMessage);
+        if (!errorMessage.empty()) {
+            Error(eval, errorMessage);
+        }
+        retval.push_back(res);
+    } break;
+    case 3: {
+        std::wstring errorMessage;
+        ArrayOf res;
+        std::wstring rootkey = argIn[0].getContentAsWideString();
+        if (rootkey == L"name") {
+            rootkey = argIn[1].getContentAsWideString();
+            std::wstring subkey = argIn[2].getContentAsWideString();
+            res = windowsQueryRegistryAllValuesNames(rootkey, subkey, errorMessage);
+        } else {
             std::wstring subkey = argIn[1].getContentAsWideString();
-            if (rootkey == L"name")
-            {
-                Error(eval, _W("'name' argument requires 3 input arguments."));
-            }
-            std::wstring errorMessage;
-            ArrayOf res = windowsQueryRegistryValueName(rootkey, subkey, L"", errorMessage);
-            if (!errorMessage.empty())
-            {
-                Error(eval, errorMessage);
-            }
-            retval.push_back(res);
+            std::wstring valname = argIn[2].getContentAsWideString();
+            res = windowsQueryRegistryValueName(rootkey, subkey, valname, errorMessage);
         }
-        break;
-        case 3:
-        {
-            std::wstring errorMessage;
-            ArrayOf res;
-            std::wstring rootkey = argIn[0].getContentAsWideString();
-            if (rootkey == L"name")
-            {
-                rootkey = argIn[1].getContentAsWideString();
-                std::wstring subkey = argIn[2].getContentAsWideString();
-                res = windowsQueryRegistryAllValuesNames(rootkey, subkey, errorMessage);
-            }
-            else
-            {
-                std::wstring subkey = argIn[1].getContentAsWideString();
-                std::wstring valname = argIn[2].getContentAsWideString();
-                res = windowsQueryRegistryValueName(rootkey, subkey, valname, errorMessage);
-            }
-            if (!errorMessage.empty())
-            {
-                Error(eval, errorMessage);
-            }
-            retval.push_back(res);
+        if (!errorMessage.empty()) {
+            Error(eval, errorMessage);
         }
-        break;
-        default:
-        {
-            Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-        }
-        break;
+        retval.push_back(res);
+    } break;
+    default: {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    } break;
     }
 #else
     Error(eval, _W("Not implemented on this platform."));

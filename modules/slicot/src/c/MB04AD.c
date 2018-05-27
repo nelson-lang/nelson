@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -15,30 +15,33 @@ static doublereal c_b63 = 1.;
 static integer c__0 = 0;
 static integer c__6 = 6;
 
-EXPORTSYMBOL /* Subroutine */ int mb04ad_(job, compq1, compq2, compu1, compu2, n, z__, ldz, h__, ldh, t, ldt, q1, ldq1, q2, ldq2, u11, ldu11, u12, ldu12, u21, ldu21, u22, ldu22, alphar, alphai, beta, iwork, liwork, dwork, ldwork, info, job_len, compq1_len, compq2_len, compu1_len, compu2_len)
-char *job, *compq1, *compq2, *compu1, *compu2;
-integer *n;
-doublereal *z__;
-integer *ldz;
-doublereal *h__;
-integer *ldh;
-doublereal *t;
-integer *ldt;
-doublereal *q1;
-integer *ldq1;
-doublereal *q2;
-integer *ldq2;
-doublereal *u11;
-integer *ldu11;
-doublereal *u12;
-integer *ldu12;
-doublereal *u21;
-integer *ldu21;
-doublereal *u22;
-integer *ldu22;
+EXPORTSYMBOL /* Subroutine */ int mb04ad_(job, compq1, compq2, compu1, compu2, n, z__, ldz, h__,
+    ldh, t, ldt, q1, ldq1, q2, ldq2, u11, ldu11, u12, ldu12, u21, ldu21, u22, ldu22, alphar, alphai,
+    beta, iwork, liwork, dwork, ldwork, info, job_len, compq1_len, compq2_len, compu1_len,
+    compu2_len) char *job,
+    *compq1, *compq2, *compu1, *compu2;
+integer* n;
+doublereal* z__;
+integer* ldz;
+doublereal* h__;
+integer* ldh;
+doublereal* t;
+integer* ldt;
+doublereal* q1;
+integer* ldq1;
+doublereal* q2;
+integer* ldq2;
+doublereal* u11;
+integer* ldu11;
+doublereal* u12;
+integer* ldu12;
+doublereal* u21;
+integer* ldu21;
+doublereal* u22;
+integer* ldu22;
 doublereal *alphar, *alphai, *beta;
 integer *iwork, *liwork;
-doublereal *dwork;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen job_len;
 ftnlen compq1_len;
@@ -47,7 +50,9 @@ ftnlen compu1_len;
 ftnlen compu2_len;
 {
     /* System generated locals */
-    integer h_dim1, h_offset, q1_dim1, q1_offset, q2_dim1, q2_offset, t_dim1, t_offset, u11_dim1, u11_offset, u12_dim1, u12_offset, u21_dim1, u21_offset, u22_dim1, u22_offset, z_dim1, z_offset, i__1, i__2, i__3;
+    integer h_dim1, h_offset, q1_dim1, q1_offset, q2_dim1, q2_offset, t_dim1, t_offset, u11_dim1,
+        u11_offset, u12_dim1, u12_offset, u21_dim1, u21_offset, u22_dim1, u22_offset, z_dim1,
+        z_offset, i__1, i__2, i__3;
     doublereal d__1;
     doublecomplex z__1, z__2;
     /* Builtin functions */
@@ -79,7 +84,8 @@ ftnlen compu2_len;
     extern /* Subroutine */ int dcopy_();
     static integer optdw;
     extern doublereal dlapy2_();
-    static logical lcmpq1, lcmpq2, liniq1, lcmpu1, lcmpu2, liniq2, liniu1, liniu2, lupdq1, lupdq2, lupdu1, lupdu2;
+    static logical lcmpq1, lcmpq2, liniq1, lcmpu1, lcmpu2, liniq2, liniu1, liniu2, lupdq1, lupdq2,
+        lupdu1, lupdu2;
     static integer nb;
     static doublereal co;
     static integer iq, mm;
@@ -424,140 +430,98 @@ ftnlen compu2_len;
     lquery = *ldwork == -1;
     /*     Test the input arguments. */
     *info = 0;
-    if (! (lsame_(job, "E", 1L, 1L) || ltri))
-    {
+    if (!(lsame_(job, "E", 1L, 1L) || ltri)) {
         *info = -1;
-    }
-    else if (! (lsame_(compq1, "N", 1L, 1L) || lcmpq1))
-    {
+    } else if (!(lsame_(compq1, "N", 1L, 1L) || lcmpq1)) {
         *info = -2;
-    }
-    else if (! (lsame_(compq2, "N", 1L, 1L) || lcmpq2))
-    {
+    } else if (!(lsame_(compq2, "N", 1L, 1L) || lcmpq2)) {
         *info = -3;
-    }
-    else if (! (lsame_(compu1, "N", 1L, 1L) || lcmpu1))
-    {
+    } else if (!(lsame_(compu1, "N", 1L, 1L) || lcmpu1)) {
         *info = -4;
-    }
-    else if (! (lsame_(compu2, "N", 1L, 1L) || lcmpu2))
-    {
+    } else if (!(lsame_(compu2, "N", 1L, 1L) || lcmpu2)) {
         *info = -5;
-    }
-    else if (*n < 0 || *n % 2 != 0)
-    {
+    } else if (*n < 0 || *n % 2 != 0) {
         *info = -6;
-    }
-    else if (*ldz < max(1,*n))
-    {
+    } else if (*ldz < max(1, *n)) {
         *info = -8;
-    }
-    else if (*ldh < max(1,*n))
-    {
+    } else if (*ldh < max(1, *n)) {
         *info = -10;
-    }
-    else if (*ldt < max(1,*n))
-    {
+    } else if (*ldt < max(1, *n)) {
         *info = -12;
-    }
-    else if (*ldq1 < 1 || lcmpq1 && *ldq1 < *n)
-    {
+    } else if (*ldq1 < 1 || lcmpq1 && *ldq1 < *n) {
         *info = -14;
-    }
-    else if (*ldq2 < 1 || lcmpq2 && *ldq2 < *n)
-    {
+    } else if (*ldq2 < 1 || lcmpq2 && *ldq2 < *n) {
         *info = -16;
-    }
-    else if (*ldu11 < 1 || lcmpu1 && *ldu11 < m)
-    {
+    } else if (*ldu11 < 1 || lcmpu1 && *ldu11 < m) {
         *info = -18;
-    }
-    else if (*ldu12 < 1 || lcmpu1 && *ldu12 < m)
-    {
+    } else if (*ldu12 < 1 || lcmpu1 && *ldu12 < m) {
         *info = -20;
-    }
-    else if (*ldu21 < 1 || lcmpu2 && *ldu21 < m)
-    {
+    } else if (*ldu21 < 1 || lcmpu2 && *ldu21 < m) {
         *info = -22;
-    }
-    else if (*ldu22 < 1 || lcmpu2 && *ldu22 < m)
-    {
+    } else if (*ldu22 < 1 || lcmpu2 && *ldu22 < m) {
         *info = -24;
-    }
-    else if (*liwork < m + 18)
-    {
+    } else if (*liwork < m + 18) {
         *info = -29;
-    }
-    else
-    {
-        if (ltri || lcmpq1 || lcmpq2 || lcmpu1 || lcmpu2)
-        {
-            mindw = mm * 12 + max(*n,48);
-        }
-        else
-        {
-            mindw = mm * 6 + max(*n,48);
+    } else {
+        if (ltri || lcmpq1 || lcmpq2 || lcmpu1 || lcmpu2) {
+            mindw = mm * 12 + max(*n, 48);
+        } else {
+            mindw = mm * 6 + max(*n, 48);
         }
         iwrk = m;
         /* Computing MIN */
         i__1 = 64, i__2 = ilaenv_(&c__1, "DORMQR", "LT", n, n, &m, &c_n1, 6L, 2L);
-        nb = min(i__1,i__2);
+        nb = min(i__1, i__2);
         /* Computing MAX */
         i__1 = mindw, i__2 = iwrk + *n * nb;
-        optdw = max(i__1,i__2);
+        optdw = max(i__1, i__2);
         nb = ilaenv_(&c__1, "DGERQF", " ", &m, &m, &c_n1, &c_n1, 6L, 1L);
         /* Computing MAX */
         i__1 = optdw, i__2 = iwrk + mm + m * nb;
-        optdw = max(i__1,i__2);
+        optdw = max(i__1, i__2);
         /* Computing MIN */
         i__1 = 64, i__2 = ilaenv_(&c__1, "DORMRQ", "LN", &m, n, &m, &c_n1, 6L, 2L);
-        nb = min(i__1,i__2);
+        nb = min(i__1, i__2);
         /* Computing MAX */
         i__1 = optdw, i__2 = iwrk + m * m + *n * nb;
-        optdw = max(i__1,i__2);
-        if (lcmpq1)
-        {
+        optdw = max(i__1, i__2);
+        if (lcmpq1) {
             /* Computing MIN */
             i__1 = 64, i__2 = ilaenv_(&c__1, "DORMRQ", "RT", n, &m, &m, &c_n1, 6L, 2L);
-            nb = min(i__1,i__2);
+            nb = min(i__1, i__2);
             /* Computing MAX */
             i__1 = optdw, i__2 = iwrk + m * m + *n * nb;
-            optdw = max(i__1,i__2);
+            optdw = max(i__1, i__2);
         }
         nb = ilaenv_(&c__1, "DGEQRF", " ", n, &m, &c_n1, &c_n1, 6L, 1L);
         /* Computing MAX */
-        i__1 = optdw, i__2 = iwrk + m **n + m * nb;
-        optdw = max(i__1,i__2);
+        i__1 = optdw, i__2 = iwrk + m * *n + m * nb;
+        optdw = max(i__1, i__2);
         /* Computing MIN */
         i__1 = 64, i__2 = ilaenv_(&c__1, "DORMQR", "RN", n, n, &m, &c_n1, 6L, 2L);
-        nb = min(i__1,i__2);
+        nb = min(i__1, i__2);
         /* Computing MAX */
-        i__1 = optdw, i__2 = iwrk + m **n + *n * nb;
-        optdw = max(i__1,i__2);
-        if (lcmpq2)
-        {
+        i__1 = optdw, i__2 = iwrk + m * *n + *n * nb;
+        optdw = max(i__1, i__2);
+        if (lcmpq2) {
             /* Computing MIN */
             i__1 = 64, i__2 = ilaenv_(&c__1, "DORMQR", "LN", n, n, &m, &c_n1, 6L, 2L);
-            nb = min(i__1,i__2);
+            nb = min(i__1, i__2);
             /* Computing MAX */
-            i__1 = optdw, i__2 = iwrk + m **n + *n * nb;
-            optdw = max(i__1,i__2);
+            i__1 = optdw, i__2 = iwrk + m * *n + *n * nb;
+            optdw = max(i__1, i__2);
         }
-        if (*ldwork < mindw && ! lquery)
-        {
-            dwork[1] = (doublereal) mindw;
+        if (*ldwork < mindw && !lquery) {
+            dwork[1] = (doublereal)mindw;
             *info = -31;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB04AD", &i__1, 6L);
         return 0;
-    }
-    else if (lquery)
-    {
-        dwork[1] = (doublereal) optdw;
+    } else if (lquery) {
+        dwork[1] = (doublereal)optdw;
         return 0;
     }
     /*     Determine machine constants. */
@@ -567,8 +531,7 @@ ftnlen compu2_len;
     prec = dlamch_("Precision", 9L);
     sqrb = sqrt(base);
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
+    if (*n == 0) {
         dwork[1] = 2.;
         dwork[2] = base;
         return 0;
@@ -578,37 +541,31 @@ ftnlen compu2_len;
     ma02ad_("Full", &m, &m, &z__[m + 1 + (m + 1) * z_dim1], ldz, &t[t_offset], ldt, 4L);
     ma02ad_("Full", &m, &m, &z__[(m + 1) * z_dim1 + 1], ldz, &t[(m + 1) * t_dim1 + 1], ldt, 4L);
     i__1 = m;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         dscal_(&m, &c_b54, &t[(m + i__) * t_dim1 + 1], &c__1);
         /* L10: */
     }
     ma02ad_("Full", &m, &m, &z__[m + 1 + z_dim1], ldz, &t[m + 1 + t_dim1], ldt, 4L);
     i__1 = m;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         dscal_(&m, &c_b54, &t[m + 1 + i__ * t_dim1], &c__1);
         /* L20: */
     }
     ma02ad_("Full", &m, &m, &z__[z_offset], ldz, &t[m + 1 + (m + 1) * t_dim1], ldt, 4L);
-    if (liniq1)
-    {
+    if (liniq1) {
         dlaset_("Full", n, n, &c_b62, &c_b63, &q1[q1_offset], ldq1, 4L);
     }
-    if (liniq2)
-    {
+    if (liniq2) {
         dlaset_("Full", &m, &m, &c_b62, &c_b62, &q2[q2_offset], ldq2, 4L);
         dlaset_("Full", &m, &m, &c_b62, &c_b63, &q2[m + 1 + q2_dim1], ldq2, 4L);
         dlaset_("Full", &m, &m, &c_b62, &c_b63, &q2[(m + 1) * q2_dim1 + 1], ldq2, 4L);
         dlaset_("Full", &m, &m, &c_b62, &c_b62, &q2[m + 1 + (m + 1) * q2_dim1], ldq2, 4L);
     }
-    if (liniu1)
-    {
+    if (liniu1) {
         dlaset_("Full", &m, &m, &c_b62, &c_b63, &u11[u11_offset], ldu11, 4L);
         dlaset_("Full", &m, &m, &c_b62, &c_b62, &u12[u12_offset], ldu12, 4L);
     }
-    if (liniu2)
-    {
+    if (liniu2) {
         dlaset_("Full", &m, &m, &c_b62, &c_b63, &u21[u21_offset], ldu21, 4L);
         dlaset_("Full", &m, &m, &c_b62, &c_b62, &u22[u22_offset], ldu22, 4L);
     }
@@ -633,17 +590,19 @@ ftnlen compu2_len;
     /*     Workspace:    need   IWRK + M - 1; */
     /*                   prefer IWRK + M*NB - 1. */
     i__1 = *ldwork - iwrk + 1;
-    dormqr_("Left", "Transpose", n, &m, &m, &t[t_offset], ldt, &dwork[itau], &t[(m + 1) * t_dim1 + 1], ldt, &dwork[iwrk], &i__1, info, 4L, 9L);
+    dormqr_("Left", "Transpose", n, &m, &m, &t[t_offset], ldt, &dwork[itau],
+        &t[(m + 1) * t_dim1 + 1], ldt, &dwork[iwrk], &i__1, info, 4L, 9L);
     /*     Update H. */
     /*     Workspace:    need   IWRK + N - 1; */
     /*                   prefer IWRK + N*NB - 1. */
     i__1 = *ldwork - iwrk + 1;
-    dormqr_("Left", "Transpose", n, n, &m, &t[t_offset], ldt, &dwork[itau], &h__[h_offset], ldh, &dwork[iwrk], &i__1, info, 4L, 9L);
-    if (lcmpq1)
-    {
+    dormqr_("Left", "Transpose", n, n, &m, &t[t_offset], ldt, &dwork[itau], &h__[h_offset], ldh,
+        &dwork[iwrk], &i__1, info, 4L, 9L);
+    if (lcmpq1) {
         /*        Update Q1. */
         i__1 = *ldwork - iwrk + 1;
-        dormqr_("Right", "No Transpose", n, n, &m, &t[t_offset], ldt, &dwork[itau], &q1[q1_offset], ldq1, &dwork[iwrk], &i__1, info, 5L, 12L);
+        dormqr_("Right", "No Transpose", n, n, &m, &t[t_offset], ldt, &dwork[itau], &q1[q1_offset],
+            ldq1, &dwork[iwrk], &i__1, info, 5L, 12L);
     }
     /*     Set the strictly lower triangular part of [ T11; T21 ] to zero. */
     i__1 = *n - 1;
@@ -658,8 +617,7 @@ ftnlen compu2_len;
     dgerqf_(&m, &m, &dwork[1], &m, &dwork[itau], &dwork[iwrk], &i__1, info);
     ma02ad_("Upper", &m, &m, &dwork[1], &m, &t[m + 1 + (m + 1) * t_dim1], ldt, 5L);
     /*     Set the strictly upper triangular part of T22 to zero. */
-    if (m > 1)
-    {
+    if (m > 1) {
         i__1 = m - 1;
         i__2 = m - 1;
         dlaset_("Upper", &i__1, &i__2, &c_b62, &c_b62, &t[m + 1 + (m + 2) * t_dim1], ldt, 5L);
@@ -668,46 +626,47 @@ ftnlen compu2_len;
     /*     Workspace:    need   IWRK + N - 1; */
     /*                   prefer IWRK + N*NB - 1. */
     i__1 = *ldwork - iwrk + 1;
-    dormrq_("Left", "No Transpose", &m, n, &m, &dwork[1], &m, &dwork[itau], &h__[m + 1 + h_dim1], ldh, &dwork[iwrk], &i__1, info, 4L, 12L);
-    if (lcmpq1)
-    {
+    dormrq_("Left", "No Transpose", &m, n, &m, &dwork[1], &m, &dwork[itau], &h__[m + 1 + h_dim1],
+        ldh, &dwork[iwrk], &i__1, info, 4L, 12L);
+    if (lcmpq1) {
         /*        Update Q1. */
         i__1 = *ldwork - iwrk + 1;
-        dormrq_("Right", "Transpose", n, &m, &m, &dwork[1], &m, &dwork[itau], &q1[(m + 1) * q1_dim1 + 1], ldq1, &dwork[iwrk], &i__1, info, 5L, 9L);
+        dormrq_("Right", "Transpose", n, &m, &m, &dwork[1], &m, &dwork[itau],
+            &q1[(m + 1) * q1_dim1 + 1], ldq1, &dwork[iwrk], &i__1, info, 5L, 9L);
     }
     /*     Perform a QR decomposition, ( Z21  Z22 )' = Q3*R3. */
     /*     Workspace:    need   IWRK + M - 1; */
     /*                   prefer IWRK + M*NB - 1. */
-    itau = m **n + 1;
+    itau = m * *n + 1;
     iwrk = itau + m;
     ma02ad_("Full", &m, n, &z__[m + 1 + z_dim1], ldz, &dwork[1], n, 4L);
     i__1 = *ldwork - iwrk + 1;
     dgeqrf_(n, &m, &dwork[1], n, &dwork[itau], &dwork[iwrk], &i__1, info);
     /*     Update ( Z11  Z12 ). */
     i__1 = *ldwork - iwrk + 1;
-    dormqr_("Right", "No Transpose", &m, n, &m, &dwork[1], n, &dwork[itau], &z__[z_offset], ldz, &dwork[iwrk], &i__1, info, 5L, 12L);
+    dormqr_("Right", "No Transpose", &m, n, &m, &dwork[1], n, &dwork[itau], &z__[z_offset], ldz,
+        &dwork[iwrk], &i__1, info, 5L, 12L);
     ma02ad_("Upper", &m, &m, &dwork[1], n, &z__[m + 1 + (m + 1) * z_dim1], ldz, 5L);
     /*     Set the strictly upper triangular part of Z22 to zero. */
-    if (m > 1)
-    {
+    if (m > 1) {
         i__1 = m - 1;
         i__2 = m - 1;
         dlaset_("Upper", &i__1, &i__2, &c_b62, &c_b62, &z__[m + 1 + (m + 2) * z_dim1], ldz, 5L);
     }
     /*     Update H. */
     i__1 = *ldwork - iwrk + 1;
-    dormqr_("Right", "No Transpose", n, n, &m, &dwork[1], n, &dwork[itau], &h__[h_offset], ldh, &dwork[iwrk], &i__1, info, 5L, 12L);
+    dormqr_("Right", "No Transpose", n, n, &m, &dwork[1], n, &dwork[itau], &h__[h_offset], ldh,
+        &dwork[iwrk], &i__1, info, 5L, 12L);
     i__1 = m;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         dswap_(n, &h__[i__ * h_dim1 + 1], &c__1, &h__[(m + i__) * h_dim1 + 1], &c__1);
         /* L30: */
     }
-    if (lcmpq2)
-    {
+    if (lcmpq2) {
         /*        Update Q2. */
         i__1 = *ldwork - iwrk + 1;
-        dormqr_("Left", "No Transpose", n, n, &m, &dwork[1], n, &dwork[itau], &q2[q2_offset], ldq2, &dwork[iwrk], &i__1, info, 4L, 12L);
+        dormqr_("Left", "No Transpose", n, n, &m, &dwork[1], n, &dwork[itau], &q2[q2_offset], ldq2,
+            &dwork[iwrk], &i__1, info, 4L, 12L);
     }
     /*     Perform an RQ decomposition Z12 = R4*Q4. */
     itau = 1;
@@ -716,19 +675,19 @@ ftnlen compu2_len;
     dgerqf_(&m, &m, &z__[(m + 1) * z_dim1 + 1], ldz, &dwork[itau], &dwork[iwrk], &i__1, info);
     /*     Update H. */
     i__1 = *ldwork - iwrk + 1;
-    dormrq_("Right", "Transpose", n, &m, &m, &z__[(m + 1) * z_dim1 + 1], ldz, &dwork[itau], &h__[h_offset], ldh, &dwork[iwrk], &i__1, info, 5L, 9L);
-    if (lcmpq2)
-    {
+    dormrq_("Right", "Transpose", n, &m, &m, &z__[(m + 1) * z_dim1 + 1], ldz, &dwork[itau],
+        &h__[h_offset], ldh, &dwork[iwrk], &i__1, info, 5L, 9L);
+    if (lcmpq2) {
         /*        Update Q2. */
         i__1 = *ldwork - iwrk + 1;
-        dormrq_("Right", "Transpose", n, &m, &m, &z__[(m + 1) * z_dim1 + 1], ldz, &dwork[itau], &q2[q2_offset], ldq2, &dwork[iwrk], &i__1, info, 5L, 9L);
+        dormrq_("Right", "Transpose", n, &m, &m, &z__[(m + 1) * z_dim1 + 1], ldz, &dwork[itau],
+            &q2[q2_offset], ldq2, &dwork[iwrk], &i__1, info, 5L, 9L);
     }
     /*     Exchange Z11 and Z12 and set the strictly lower triangular part */
     /*     of Z11 to zero. */
     dum[0] = 0.;
     i__1 = m - 1;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         dswap_(&m, &z__[i__ * z_dim1 + 1], &c__1, &z__[(m + i__) * z_dim1 + 1], &c__1);
         i__2 = m - i__;
         dcopy_(&i__2, dum, &c__0, &z__[i__ + 1 + i__ * z_dim1], &c__1);
@@ -737,12 +696,10 @@ ftnlen compu2_len;
     dswap_(&m, &z__[m * z_dim1 + 1], &c__1, &z__[*n * z_dim1 + 1], &c__1);
     /*     STEP 2: Eliminations in H. */
     i__1 = m;
-    for (k = 1; k <= i__1; ++k)
-    {
+    for (k = 1; k <= i__1; ++k) {
         /*        I. Annihilate H(m+k:n-1,k). */
         i__2 = m - 1;
-        for (j = k; j <= i__2; ++j)
-        {
+        for (j = k; j <= i__2; ++j) {
             /*           Determine a Givens rotation to annihilate H(m+j,k) from the */
             /*           left. */
             dlartg_(&h__[m + j + 1 + k * h_dim1], &h__[m + j + k * h_dim1], &co, &si, &tmp1);
@@ -750,31 +707,37 @@ ftnlen compu2_len;
             h__[m + j + 1 + k * h_dim1] = tmp1;
             h__[m + j + k * h_dim1] = 0.;
             i__3 = *n - k;
-            drot_(&i__3, &h__[m + j + 1 + (k + 1) * h_dim1], ldh, &h__[m + j + (k + 1) * h_dim1], ldh, &co, &si);
+            drot_(&i__3, &h__[m + j + 1 + (k + 1) * h_dim1], ldh, &h__[m + j + (k + 1) * h_dim1],
+                ldh, &co, &si);
             /*           Update T. */
             i__3 = j + 1;
-            drot_(&i__3, &t[m + j + 1 + (m + 1) * t_dim1], ldt, &t[m + j + (m + 1) * t_dim1], ldt, &co, &si);
-            if (lcmpq1)
-            {
+            drot_(&i__3, &t[m + j + 1 + (m + 1) * t_dim1], ldt, &t[m + j + (m + 1) * t_dim1], ldt,
+                &co, &si);
+            if (lcmpq1) {
                 /*              Update Q1. */
-                drot_(n, &q1[(m + j + 1) * q1_dim1 + 1], &c__1, &q1[(m + j) * q1_dim1 + 1], &c__1, &co, &si);
+                drot_(n, &q1[(m + j + 1) * q1_dim1 + 1], &c__1, &q1[(m + j) * q1_dim1 + 1], &c__1,
+                    &co, &si);
             }
             /*           Determine a Givens rotation to annihilate T(m+j,m+j+1) from */
             /*           the right. */
-            dlartg_(&t[m + j + (m + j) * t_dim1], &t[m + j + (m + j + 1) * t_dim1], &co, &si, &tmp1);
+            dlartg_(
+                &t[m + j + (m + j) * t_dim1], &t[m + j + (m + j + 1) * t_dim1], &co, &si, &tmp1);
             /*           Update T. */
-            drot_(&m, &t[(m + j) * t_dim1 + 1], &c__1, &t[(m + j + 1) * t_dim1 + 1], &c__1, &co, &si);
+            drot_(
+                &m, &t[(m + j) * t_dim1 + 1], &c__1, &t[(m + j + 1) * t_dim1 + 1], &c__1, &co, &si);
             t[m + j + (m + j) * t_dim1] = tmp1;
             t[m + j + (m + j + 1) * t_dim1] = 0.;
             i__3 = m - j;
-            drot_(&i__3, &t[m + j + 1 + (m + j) * t_dim1], &c__1, &t[m + j + 1 + (m + j + 1) * t_dim1], &c__1, &co, &si);
+            drot_(&i__3, &t[m + j + 1 + (m + j) * t_dim1], &c__1,
+                &t[m + j + 1 + (m + j + 1) * t_dim1], &c__1, &co, &si);
             i__3 = j + 1;
             drot_(&i__3, &t[j * t_dim1 + 1], &c__1, &t[(j + 1) * t_dim1 + 1], &c__1, &co, &si);
-            if (lcmpu1)
-            {
+            if (lcmpu1) {
                 /*              Update U11 and U12. */
-                drot_(&m, &u11[j * u11_dim1 + 1], &c__1, &u11[(j + 1) * u11_dim1 + 1], &c__1, &co, &si);
-                drot_(&m, &u12[j * u12_dim1 + 1], &c__1, &u12[(j + 1) * u12_dim1 + 1], &c__1, &co, &si);
+                drot_(&m, &u11[j * u11_dim1 + 1], &c__1, &u11[(j + 1) * u11_dim1 + 1], &c__1, &co,
+                    &si);
+                drot_(&m, &u12[j * u12_dim1 + 1], &c__1, &u12[(j + 1) * u12_dim1 + 1], &c__1, &co,
+                    &si);
             }
             /*           Determine a Givens rotation to annihilate T(j+1,j) from the */
             /*           left. */
@@ -783,12 +746,12 @@ ftnlen compu2_len;
             t[j + j * t_dim1] = tmp1;
             t[j + 1 + j * t_dim1] = 0.;
             i__3 = *n - j;
-            drot_(&i__3, &t[j + (j + 1) * t_dim1], ldt, &t[j + 1 + (j + 1) * t_dim1], ldt, &co, &si);
+            drot_(
+                &i__3, &t[j + (j + 1) * t_dim1], ldt, &t[j + 1 + (j + 1) * t_dim1], ldt, &co, &si);
             /*           Update H. */
             i__3 = *n - k + 1;
             drot_(&i__3, &h__[j + k * h_dim1], ldh, &h__[j + 1 + k * h_dim1], ldh, &co, &si);
-            if (lcmpq1)
-            {
+            if (lcmpq1) {
                 /*              Update Q1. */
                 drot_(n, &q1[j * q1_dim1 + 1], &c__1, &q1[(j + 1) * q1_dim1 + 1], &c__1, &co, &si);
             }
@@ -806,8 +769,7 @@ ftnlen compu2_len;
         drot_(&m, &t[m + (m + 1) * t_dim1], ldt, &t[*n + (m + 1) * t_dim1], ldt, &co, &si);
         tmp1 = -si * t[m + m * t_dim1];
         t[m + m * t_dim1] = co * t[m + m * t_dim1];
-        if (lcmpq1)
-        {
+        if (lcmpq1) {
             /*           Update Q1. */
             drot_(n, &q1[m * q1_dim1 + 1], &c__1, &q1[*n * q1_dim1 + 1], &c__1, &co, &si);
         }
@@ -817,15 +779,13 @@ ftnlen compu2_len;
         /*        Update T. */
         drot_(&m, &t[*n * t_dim1 + 1], &c__1, &t[m * t_dim1 + 1], &c__1, &co, &si);
         t[*n + *n * t_dim1] = tmp2;
-        if (lcmpu1)
-        {
+        if (lcmpu1) {
             /*           Update U11 and U12. */
             drot_(&m, &u12[m * u12_dim1 + 1], &c__1, &u11[m * u11_dim1 + 1], &c__1, &co, &si);
         }
         /*        III. Annihilate H(k+1:m,k). */
         i__2 = k + 1;
-        for (j = m; j >= i__2; --j)
-        {
+        for (j = m; j >= i__2; --j) {
             /*           Determine a Givens rotation to annihilate H(j,k) from the */
             /*           left. */
             dlartg_(&h__[j - 1 + k * h_dim1], &h__[j + k * h_dim1], &co, &si, &tmp1);
@@ -833,12 +793,13 @@ ftnlen compu2_len;
             h__[j - 1 + k * h_dim1] = tmp1;
             h__[j + k * h_dim1] = 0.;
             i__3 = *n - k;
-            drot_(&i__3, &h__[j - 1 + (k + 1) * h_dim1], ldh, &h__[j + (k + 1) * h_dim1], ldh, &co, &si);
+            drot_(&i__3, &h__[j - 1 + (k + 1) * h_dim1], ldh, &h__[j + (k + 1) * h_dim1], ldh, &co,
+                &si);
             /*           Update T. */
             i__3 = *n - j + 2;
-            drot_(&i__3, &t[j - 1 + (j - 1) * t_dim1], ldt, &t[j + (j - 1) * t_dim1], ldt, &co, &si);
-            if (lcmpq1)
-            {
+            drot_(
+                &i__3, &t[j - 1 + (j - 1) * t_dim1], ldt, &t[j + (j - 1) * t_dim1], ldt, &co, &si);
+            if (lcmpq1) {
                 /*              Update Q1. */
                 drot_(n, &q1[(j - 1) * q1_dim1 + 1], &c__1, &q1[j * q1_dim1 + 1], &c__1, &co, &si);
             }
@@ -846,41 +807,46 @@ ftnlen compu2_len;
             /*           right. */
             dlartg_(&t[j + j * t_dim1], &t[j + (j - 1) * t_dim1], &co, &si, &tmp1);
             /*           Update T. */
-            drot_(&m, &t[(m + j) * t_dim1 + 1], &c__1, &t[(m + j - 1) * t_dim1 + 1], &c__1, &co, &si);
+            drot_(
+                &m, &t[(m + j) * t_dim1 + 1], &c__1, &t[(m + j - 1) * t_dim1 + 1], &c__1, &co, &si);
             i__3 = m - j + 2;
-            drot_(&i__3, &t[m + j - 1 + (m + j) * t_dim1], &c__1, &t[m + j - 1 + (m + j - 1) * t_dim1], &c__1, &co, &si);
+            drot_(&i__3, &t[m + j - 1 + (m + j) * t_dim1], &c__1,
+                &t[m + j - 1 + (m + j - 1) * t_dim1], &c__1, &co, &si);
             t[j + j * t_dim1] = tmp1;
             t[j + (j - 1) * t_dim1] = 0.;
             i__3 = j - 1;
             drot_(&i__3, &t[j * t_dim1 + 1], &c__1, &t[(j - 1) * t_dim1 + 1], &c__1, &co, &si);
-            if (lcmpu1)
-            {
+            if (lcmpu1) {
                 /*              Update U11 and U12. */
-                drot_(&m, &u11[j * u11_dim1 + 1], &c__1, &u11[(j - 1) * u11_dim1 + 1], &c__1, &co, &si);
-                drot_(&m, &u12[j * u12_dim1 + 1], &c__1, &u12[(j - 1) * u12_dim1 + 1], &c__1, &co, &si);
+                drot_(&m, &u11[j * u11_dim1 + 1], &c__1, &u11[(j - 1) * u11_dim1 + 1], &c__1, &co,
+                    &si);
+                drot_(&m, &u12[j * u12_dim1 + 1], &c__1, &u12[(j - 1) * u12_dim1 + 1], &c__1, &co,
+                    &si);
             }
             /*           Determine a Givens rotation to annihilate T(m+j-1,m-j) from */
             /*           the left. */
-            dlartg_(&t[m + j + (m + j) * t_dim1], &t[m + j - 1 + (m + j) * t_dim1], &co, &si, &tmp1);
+            dlartg_(
+                &t[m + j + (m + j) * t_dim1], &t[m + j - 1 + (m + j) * t_dim1], &co, &si, &tmp1);
             /*           Update T. */
             t[m + j + (m + j) * t_dim1] = tmp1;
             t[m + j - 1 + (m + j) * t_dim1] = 0.;
             i__3 = j - 1;
-            drot_(&i__3, &t[m + j + (m + 1) * t_dim1], ldt, &t[m + j - 1 + (m + 1) * t_dim1], ldt, &co, &si);
+            drot_(&i__3, &t[m + j + (m + 1) * t_dim1], ldt, &t[m + j - 1 + (m + 1) * t_dim1], ldt,
+                &co, &si);
             /*           Update H. */
             i__3 = *n - k + 1;
-            drot_(&i__3, &h__[m + j + k * h_dim1], ldh, &h__[m + j - 1 + k * h_dim1], ldh, &co, &si);
-            if (lcmpq1)
-            {
+            drot_(
+                &i__3, &h__[m + j + k * h_dim1], ldh, &h__[m + j - 1 + k * h_dim1], ldh, &co, &si);
+            if (lcmpq1) {
                 /*              Update Q1. */
-                drot_(n, &q1[(m + j) * q1_dim1 + 1], &c__1, &q1[(m + j - 1) * q1_dim1 + 1], &c__1, &co, &si);
+                drot_(n, &q1[(m + j) * q1_dim1 + 1], &c__1, &q1[(m + j - 1) * q1_dim1 + 1], &c__1,
+                    &co, &si);
             }
             /* L60: */
         }
         /*        IV. Annihilate H(m+k,k+1:m-1). */
         i__2 = m - 1;
-        for (j = k + 1; j <= i__2; ++j)
-        {
+        for (j = k + 1; j <= i__2; ++j) {
             /*           Determine a Givens rotation to annihilate H(m+k,j) from the */
             /*           right. */
             dlartg_(&h__[m + k + (j + 1) * h_dim1], &h__[m + k + j * h_dim1], &co, &si, &tmp1);
@@ -889,12 +855,12 @@ ftnlen compu2_len;
             h__[m + k + (j + 1) * h_dim1] = tmp1;
             h__[m + k + j * h_dim1] = 0.;
             i__3 = m - k;
-            drot_(&i__3, &h__[m + k + 1 + (j + 1) * h_dim1], &c__1, &h__[m + k + 1 + j * h_dim1], &c__1, &co, &si);
+            drot_(&i__3, &h__[m + k + 1 + (j + 1) * h_dim1], &c__1, &h__[m + k + 1 + j * h_dim1],
+                &c__1, &co, &si);
             /*           Update Z. */
             i__3 = j + 1;
             drot_(&i__3, &z__[(j + 1) * z_dim1 + 1], &c__1, &z__[j * z_dim1 + 1], &c__1, &co, &si);
-            if (lcmpq2)
-            {
+            if (lcmpq2) {
                 /*              Update Q2. */
                 drot_(n, &q2[(j + 1) * q2_dim1 + 1], &c__1, &q2[j * q2_dim1 + 1], &c__1, &co, &si);
             }
@@ -905,38 +871,45 @@ ftnlen compu2_len;
             z__[j + j * z_dim1] = tmp1;
             z__[j + 1 + j * z_dim1] = 0.;
             i__3 = *n - j;
-            drot_(&i__3, &z__[j + (j + 1) * z_dim1], ldz, &z__[j + 1 + (j + 1) * z_dim1], ldz, &co, &si);
+            drot_(&i__3, &z__[j + (j + 1) * z_dim1], ldz, &z__[j + 1 + (j + 1) * z_dim1], ldz, &co,
+                &si);
             i__3 = j + 1;
-            drot_(&i__3, &z__[m + j + (m + 1) * z_dim1], ldz, &z__[m + j + 1 + (m + 1) * z_dim1], ldz, &co, &si);
-            if (lcmpu2)
-            {
+            drot_(&i__3, &z__[m + j + (m + 1) * z_dim1], ldz, &z__[m + j + 1 + (m + 1) * z_dim1],
+                ldz, &co, &si);
+            if (lcmpu2) {
                 /*              Update U21 and U22. */
-                drot_(&m, &u21[j * u21_dim1 + 1], &c__1, &u21[(j + 1) * u21_dim1 + 1], &c__1, &co, &si);
-                drot_(&m, &u22[j * u22_dim1 + 1], &c__1, &u22[(j + 1) * u22_dim1 + 1], &c__1, &co, &si);
+                drot_(&m, &u21[j * u21_dim1 + 1], &c__1, &u21[(j + 1) * u21_dim1 + 1], &c__1, &co,
+                    &si);
+                drot_(&m, &u22[j * u22_dim1 + 1], &c__1, &u22[(j + 1) * u22_dim1 + 1], &c__1, &co,
+                    &si);
             }
             /*           Determine a Givens rotation to annihilate Z(m+j,m+j+1) from */
             /*           the right. */
-            dlartg_(&z__[m + j + (m + j) * z_dim1], &z__[m + j + (m + j + 1) * z_dim1], &co, &si, &tmp1);
+            dlartg_(&z__[m + j + (m + j) * z_dim1], &z__[m + j + (m + j + 1) * z_dim1], &co, &si,
+                &tmp1);
             /*           Update Z. */
             z__[m + j + (m + j) * z_dim1] = tmp1;
             z__[m + j + (m + j + 1) * z_dim1] = 0.;
-            drot_(&m, &z__[(m + j) * z_dim1 + 1], &c__1, &z__[(m + j + 1) * z_dim1 + 1], &c__1, &co, &si);
+            drot_(&m, &z__[(m + j) * z_dim1 + 1], &c__1, &z__[(m + j + 1) * z_dim1 + 1], &c__1, &co,
+                &si);
             i__3 = m - j;
-            drot_(&i__3, &z__[m + j + 1 + (m + j) * z_dim1], &c__1, &z__[m + j + 1 + (m + j + 1) * z_dim1], &c__1, &co, &si);
+            drot_(&i__3, &z__[m + j + 1 + (m + j) * z_dim1], &c__1,
+                &z__[m + j + 1 + (m + j + 1) * z_dim1], &c__1, &co, &si);
             /*           Update H. */
-            drot_(&m, &h__[(m + j) * h_dim1 + 1], &c__1, &h__[(m + j + 1) * h_dim1 + 1], &c__1, &co, &si);
+            drot_(&m, &h__[(m + j) * h_dim1 + 1], &c__1, &h__[(m + j + 1) * h_dim1 + 1], &c__1, &co,
+                &si);
             i__3 = m - k + 1;
-            drot_(&i__3, &h__[m + k + (m + j) * h_dim1], &c__1, &h__[m + k + (m + j + 1) * h_dim1], &c__1, &co, &si);
-            if (lcmpq2)
-            {
+            drot_(&i__3, &h__[m + k + (m + j) * h_dim1], &c__1, &h__[m + k + (m + j + 1) * h_dim1],
+                &c__1, &co, &si);
+            if (lcmpq2) {
                 /*              Update Q2. */
-                drot_(n, &q2[(m + j) * q2_dim1 + 1], &c__1, &q2[(m + j + 1) * q2_dim1 + 1], &c__1, &co, &si);
+                drot_(n, &q2[(m + j) * q2_dim1 + 1], &c__1, &q2[(m + j + 1) * q2_dim1 + 1], &c__1,
+                    &co, &si);
             }
             /* L70: */
         }
         /*        V. Annihilate H(m+k,m). */
-        if (k < m)
-        {
+        if (k < m) {
             /*           Determine a Givens rotation to annihilate H(m+k,m) from the */
             /*           right. */
             dlartg_(&h__[m + k + *n * h_dim1], &h__[m + k + m * h_dim1], &co, &si, &tmp1);
@@ -945,13 +918,13 @@ ftnlen compu2_len;
             h__[m + k + m * h_dim1] = 0.;
             drot_(&m, &h__[*n * h_dim1 + 1], &c__1, &h__[m * h_dim1 + 1], &c__1, &co, &si);
             i__2 = m - k;
-            drot_(&i__2, &h__[m + k + 1 + *n * h_dim1], &c__1, &h__[m + k + 1 + m * h_dim1], &c__1, &co, &si);
+            drot_(&i__2, &h__[m + k + 1 + *n * h_dim1], &c__1, &h__[m + k + 1 + m * h_dim1], &c__1,
+                &co, &si);
             /*           Update Z. */
             drot_(&m, &z__[*n * z_dim1 + 1], &c__1, &z__[m * z_dim1 + 1], &c__1, &co, &si);
             tmp1 = -si * z__[*n + *n * z_dim1];
             z__[*n + *n * z_dim1] = co * z__[*n + *n * z_dim1];
-            if (lcmpq2)
-            {
+            if (lcmpq2) {
                 /*              Update Q2. */
                 drot_(n, &q2[*n * q2_dim1 + 1], &c__1, &q2[m * q2_dim1 + 1], &c__1, &co, &si);
             }
@@ -961,14 +934,11 @@ ftnlen compu2_len;
             /*           Update Z. */
             drot_(&m, &z__[m + (m + 1) * z_dim1], ldz, &z__[*n + (m + 1) * z_dim1], ldz, &co, &si);
             z__[m + m * z_dim1] = tmp2;
-            if (lcmpu2)
-            {
+            if (lcmpu2) {
                 /*              Update U2. */
                 drot_(&m, &u21[m * u21_dim1 + 1], &c__1, &u22[m * u22_dim1 + 1], &c__1, &co, &si);
             }
-        }
-        else
-        {
+        } else {
             /*           Determine a Givens rotation to annihilate H(n,m) from the */
             /*           left. */
             dlartg_(&h__[m + m * h_dim1], &h__[*n + m * h_dim1], &co, &si, &tmp1);
@@ -979,8 +949,7 @@ ftnlen compu2_len;
             /*           Update T. */
             drot_(&m, &t[m + (m + 1) * t_dim1], ldt, &t[*n + (m + 1) * t_dim1], ldt, &co, &si);
             t[m + m * t_dim1] = co * t[m + m * t_dim1];
-            if (lcmpq1)
-            {
+            if (lcmpq1) {
                 /*              Update Q1. */
                 drot_(n, &q1[m * q1_dim1 + 1], &c__1, &q1[*n * q1_dim1 + 1], &c__1, &co, &si);
             }
@@ -991,49 +960,56 @@ ftnlen compu2_len;
             /*           Update T. */
             drot_(&m, &t[*n * t_dim1 + 1], &c__1, &t[m * t_dim1 + 1], &c__1, &co, &si);
             t[*n + *n * t_dim1] = tmp2;
-            if (lcmpu1)
-            {
+            if (lcmpu1) {
                 /*              Update U1. */
                 drot_(&m, &u12[m * u12_dim1 + 1], &c__1, &u11[m * u11_dim1 + 1], &c__1, &co, &si);
             }
         }
         /*        VI. Annihilate H(m+k,m+k+2:n). */
         i__2 = k + 2;
-        for (j = m; j >= i__2; --j)
-        {
+        for (j = m; j >= i__2; --j) {
             /*           Determine a Givens rotation to annihilate H(m+k,m+j) from */
             /*           the right. */
-            dlartg_(&h__[m + k + (m + j - 1) * h_dim1], &h__[m + k + (m + j) * h_dim1], &co, &si, &tmp1);
+            dlartg_(&h__[m + k + (m + j - 1) * h_dim1], &h__[m + k + (m + j) * h_dim1], &co, &si,
+                &tmp1);
             /*           Update H. */
-            drot_(&m, &h__[(m + j - 1) * h_dim1 + 1], &c__1, &h__[(m + j) * h_dim1 + 1], &c__1, &co, &si);
+            drot_(&m, &h__[(m + j - 1) * h_dim1 + 1], &c__1, &h__[(m + j) * h_dim1 + 1], &c__1, &co,
+                &si);
             h__[m + k + (m + j - 1) * h_dim1] = tmp1;
             h__[m + k + (m + j) * h_dim1] = 0.;
             i__3 = m - k;
-            drot_(&i__3, &h__[m + k + 1 + (m + j - 1) * h_dim1], &c__1, &h__[m + k + 1 + (m + j) * h_dim1], &c__1, &co, &si);
+            drot_(&i__3, &h__[m + k + 1 + (m + j - 1) * h_dim1], &c__1,
+                &h__[m + k + 1 + (m + j) * h_dim1], &c__1, &co, &si);
             /*           Update Z. */
-            drot_(&m, &z__[(m + j - 1) * z_dim1 + 1], &c__1, &z__[(m + j) * z_dim1 + 1], &c__1, &co, &si);
+            drot_(&m, &z__[(m + j - 1) * z_dim1 + 1], &c__1, &z__[(m + j) * z_dim1 + 1], &c__1, &co,
+                &si);
             i__3 = m - j + 2;
-            drot_(&i__3, &z__[m + j - 1 + (m + j - 1) * z_dim1], &c__1, &z__[m + j - 1 + (m + j) * z_dim1], &c__1, &co, &si);
-            if (lcmpq2)
-            {
+            drot_(&i__3, &z__[m + j - 1 + (m + j - 1) * z_dim1], &c__1,
+                &z__[m + j - 1 + (m + j) * z_dim1], &c__1, &co, &si);
+            if (lcmpq2) {
                 /*              Update Q2. */
-                drot_(n, &q2[(m + j - 1) * q2_dim1 + 1], &c__1, &q2[(m + j) * q2_dim1 + 1], &c__1, &co, &si);
+                drot_(n, &q2[(m + j - 1) * q2_dim1 + 1], &c__1, &q2[(m + j) * q2_dim1 + 1], &c__1,
+                    &co, &si);
             }
             /*           Determine a Givens rotation to annihilate Z(m+j-1,m+j) from */
             /*           the left. */
-            dlartg_(&z__[m + j + (m + j) * z_dim1], &z__[m + j - 1 + (m + j) * z_dim1], &co, &si, &tmp1);
+            dlartg_(&z__[m + j + (m + j) * z_dim1], &z__[m + j - 1 + (m + j) * z_dim1], &co, &si,
+                &tmp1);
             /*           Update Z. */
             z__[m + j + (m + j) * z_dim1] = tmp1;
             z__[m + j - 1 + (m + j) * z_dim1] = 0.;
             i__3 = j - 1;
-            drot_(&i__3, &z__[m + j + (m + 1) * z_dim1], ldz, &z__[m + j - 1 + (m + 1) * z_dim1], ldz, &co, &si);
+            drot_(&i__3, &z__[m + j + (m + 1) * z_dim1], ldz, &z__[m + j - 1 + (m + 1) * z_dim1],
+                ldz, &co, &si);
             i__3 = *n - j + 2;
-            drot_(&i__3, &z__[j + (j - 1) * z_dim1], ldz, &z__[j - 1 + (j - 1) * z_dim1], ldz, &co, &si);
-            if (lcmpu2)
-            {
+            drot_(&i__3, &z__[j + (j - 1) * z_dim1], ldz, &z__[j - 1 + (j - 1) * z_dim1], ldz, &co,
+                &si);
+            if (lcmpu2) {
                 /*              Update U2. */
-                drot_(&m, &u21[j * u21_dim1 + 1], &c__1, &u21[(j - 1) * u21_dim1 + 1], &c__1, &co, &si);
-                drot_(&m, &u22[j * u22_dim1 + 1], &c__1, &u22[(j - 1) * u22_dim1 + 1], &c__1, &co, &si);
+                drot_(&m, &u21[j * u21_dim1 + 1], &c__1, &u21[(j - 1) * u21_dim1 + 1], &c__1, &co,
+                    &si);
+                drot_(&m, &u22[j * u22_dim1 + 1], &c__1, &u22[(j - 1) * u22_dim1 + 1], &c__1, &co,
+                    &si);
             }
             /*           Determine a Givens rotation to annihilate Z(j,j-1) from the */
             /*           right. */
@@ -1046,9 +1022,9 @@ ftnlen compu2_len;
             /*           Update H. */
             drot_(&m, &h__[j * h_dim1 + 1], &c__1, &h__[(j - 1) * h_dim1 + 1], &c__1, &co, &si);
             i__3 = m - k + 1;
-            drot_(&i__3, &h__[m + k + j * h_dim1], &c__1, &h__[m + k + (j - 1) * h_dim1], &c__1, &co, &si);
-            if (lcmpq2)
-            {
+            drot_(&i__3, &h__[m + k + j * h_dim1], &c__1, &h__[m + k + (j - 1) * h_dim1], &c__1,
+                &co, &si);
+            if (lcmpq2) {
                 /*              Update Q2. */
                 drot_(n, &q2[j * q2_dim1 + 1], &c__1, &q2[(j - 1) * q2_dim1 + 1], &c__1, &co, &si);
             }
@@ -1063,25 +1039,19 @@ ftnlen compu2_len;
     /*             to upper quasi-triangular form while T11, T22', Z11, Z22', */
     /*             and H11 stay in upper triangular form. */
     /*     Determine mode of computations. */
-    if (ltri || lcmpq1 || lcmpq2 || lcmpu1 || lcmpu2)
-    {
+    if (ltri || lcmpq1 || lcmpq2 || lcmpu1 || lcmpu2) {
         s_copy(cmpq, "Initialize", 16L, 10L);
         iq = 1;
         imat = mm * 6 + 1;
         iwrk = mm * 12 + 1;
-    }
-    else
-    {
+    } else {
         s_copy(cmpq, "No Computation", 16L, 14L);
         imat = 1;
         iwrk = mm * 6 + 1;
     }
-    if (ltri)
-    {
+    if (ltri) {
         s_copy(cmpsc, "Schur Form", 16L, 10L);
-    }
-    else
-    {
+    } else {
         s_copy(cmpsc, "Eigenvalues Only", 16L, 16L);
     }
     /*     Save matrices in structure that is required by MB03BD. */
@@ -1124,14 +1094,13 @@ ftnlen compu2_len;
     /*     Integer workspace:  need   M + 18. */
     i__1 = *liwork - (m + 6);
     i__2 = *ldwork - iwrk + 1;
-    mb03bd_(cmpsc, "Careful", cmpq, idum, &c__6, &m, &c__1, &c__1, &m, &iwork[m + 1], &dwork[imat], &m, &m, &dwork[iq], &m, &m, &alphar[1], &alphai[1], &beta[1], &iwork[1], &iwork[m + 7], &i__1, &dwork[iwrk], &i__2, &iwarn, info, 16L, 7L, 16L);
-    if (iwarn > 0)
-    {
+    mb03bd_(cmpsc, "Careful", cmpq, idum, &c__6, &m, &c__1, &c__1, &m, &iwork[m + 1], &dwork[imat],
+        &m, &m, &dwork[iq], &m, &m, &alphar[1], &alphai[1], &beta[1], &iwork[1], &iwork[m + 7],
+        &i__1, &dwork[iwrk], &i__2, &iwarn, info, 16L, 7L, 16L);
+    if (iwarn > 0) {
         *info = 1;
         return 0;
-    }
-    else if (*info > 0)
-    {
+    } else if (*info > 0) {
         *info = 2;
         return 0;
     }
@@ -1139,8 +1108,7 @@ ftnlen compu2_len;
     /*     These are the eigenvalues with positive real parts or with */
     /*     non-negative imaginary parts, when real parts are zero. */
     i__1 = m;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         i__2 = i__;
         i__3 = i__;
         z__2.r = alphar[i__2], z__2.i = alphai[i__3];
@@ -1149,96 +1117,97 @@ ftnlen compu2_len;
         alphar[i__] = d_imag(&eig);
         alphai[i__] = eig.r;
         tmp2 = prec * dlapy2_(&alphar[i__], &alphai[i__]);
-        if ((d__1 = alphar[i__], abs(d__1)) < tmp2)
-        {
+        if ((d__1 = alphar[i__], abs(d__1)) < tmp2) {
             alphar[i__] = 0.;
-            if (alphai[i__] < 0.)
-            {
+            if (alphai[i__] < 0.) {
                 alphai[i__] = -alphai[i__];
             }
         }
-        if ((d__1 = alphai[i__], abs(d__1)) < tmp2)
-        {
+        if ((d__1 = alphai[i__], abs(d__1)) < tmp2) {
             alphai[i__] = 0.;
-            if (alphar[i__] < 0.)
-            {
+            if (alphar[i__] < 0.) {
                 alphar[i__] = -alphar[i__];
             }
         }
-        if ((doublereal) iwork[i__] >= emin * 2 && (doublereal) iwork[i__] <= emax * 2)
-        {
+        if ((doublereal)iwork[i__] >= emin * 2 && (doublereal)iwork[i__] <= emax * 2) {
             /*           If B = SQRT(BASE**IWORK(i)) is between underflow and */
             /*           overflow threshold, BETA(i) is divided by B. */
             d__1 = iwork[i__] * .5;
             beta[i__] /= pow_dd(&base, &d__1);
             iwork[i__] = 0;
-        }
-        else
-        {
+        } else {
             /*           The eigenvalues are defined by ALPHAR, ALPHAI, BETA, and */
             /*           IWORK, as for the SLICOT Library routine MB03BD. */
             *info = 3;
-            if (iwork[i__] % 2 != 0)
-            {
+            if (iwork[i__] % 2 != 0) {
                 beta[i__] /= sqrb;
             }
             iwork[i__] /= 2;
         }
         /* L100: */
     }
-    if (ltri)
-    {
+    if (ltri) {
         /*        Update H. */
         dlacpy_("Upper", &m, &m, &dwork[imat + mm * 3], &m, &h__[h_offset], ldh, 5L);
         ma02ad_("Full", &m, &m, &dwork[imat], &m, &h__[m + 1 + (m + 1) * h_dim1], ldh, 4L);
-        dgemm_("Transpose", "No Transpose", &m, &m, &m, &c_b63, &dwork[iq + mm * 3], &m, &h__[(m + 1) * h_dim1 + 1], ldh, &c_b62, &dwork[imat], &m, 9L, 12L);
-        dgemm_("No Transpose", "No Transpose", &m, &m, &m, &c_b63, &dwork[imat], &m, &dwork[1], &m, &c_b62, &h__[(m + 1) * h_dim1 + 1], ldh, 12L, 12L);
+        dgemm_("Transpose", "No Transpose", &m, &m, &m, &c_b63, &dwork[iq + mm * 3], &m,
+            &h__[(m + 1) * h_dim1 + 1], ldh, &c_b62, &dwork[imat], &m, 9L, 12L);
+        dgemm_("No Transpose", "No Transpose", &m, &m, &m, &c_b63, &dwork[imat], &m, &dwork[1], &m,
+            &c_b62, &h__[(m + 1) * h_dim1 + 1], ldh, 12L, 12L);
         /*        Update T. */
         dlacpy_("Upper", &m, &m, &dwork[imat + (mm << 1)], &m, &t[t_offset], ldt, 5L);
-        dgemm_("Transpose", "No Transpose", &m, &m, &m, &c_b63, &dwork[iq + mm * 3], &m, &t[(m + 1) * t_dim1 + 1], ldt, &c_b62, &dwork[imat], &m, 9L, 12L);
-        dgemm_("No Transpose", "No Transpose", &m, &m, &m, &c_b63, &dwork[imat], &m, &dwork[iq + (mm << 1)], &m, &c_b62, &t[(m + 1) * t_dim1 + 1], ldt, 12L, 12L);
+        dgemm_("Transpose", "No Transpose", &m, &m, &m, &c_b63, &dwork[iq + mm * 3], &m,
+            &t[(m + 1) * t_dim1 + 1], ldt, &c_b62, &dwork[imat], &m, 9L, 12L);
+        dgemm_("No Transpose", "No Transpose", &m, &m, &m, &c_b63, &dwork[imat], &m,
+            &dwork[iq + (mm << 1)], &m, &c_b62, &t[(m + 1) * t_dim1 + 1], ldt, 12L, 12L);
         ma02ad_("Upper", &m, &m, &dwork[imat + mm], &m, &t[m + 1 + (m + 1) * t_dim1], ldt, 5L);
         /*        Update Z. */
         dlacpy_("Upper", &m, &m, &dwork[imat + (mm << 2)], &m, &z__[z_offset], ldz, 5L);
-        dgemm_("Transpose", "No Transpose", &m, &m, &m, &c_b63, &dwork[iq + mm * 5], &m, &z__[(m + 1) * z_dim1 + 1], ldz, &c_b62, &dwork[imat], &m, 9L, 12L);
-        dgemm_("No Transpose", "No Transpose", &m, &m, &m, &c_b63, &dwork[imat], &m, &dwork[1], &m, &c_b62, &z__[(m + 1) * z_dim1 + 1], ldz, 12L, 12L);
-        ma02ad_("Upper", &m, &m, &dwork[imat + mm * 5], &m, &z__[m + 1 + (m + 1) * z_dim1], ldz, 5L);
-        if (lcmpq1)
-        {
+        dgemm_("Transpose", "No Transpose", &m, &m, &m, &c_b63, &dwork[iq + mm * 5], &m,
+            &z__[(m + 1) * z_dim1 + 1], ldz, &c_b62, &dwork[imat], &m, 9L, 12L);
+        dgemm_("No Transpose", "No Transpose", &m, &m, &m, &c_b63, &dwork[imat], &m, &dwork[1], &m,
+            &c_b62, &z__[(m + 1) * z_dim1 + 1], ldz, 12L, 12L);
+        ma02ad_(
+            "Upper", &m, &m, &dwork[imat + mm * 5], &m, &z__[m + 1 + (m + 1) * z_dim1], ldz, 5L);
+        if (lcmpq1) {
             /*           Update Q1. */
-            dgemm_("No Transpose", "No Transpose", n, &m, &m, &c_b63, &q1[q1_offset], ldq1, &dwork[iq + mm * 3], &m, &c_b62, &dwork[imat], n, 12L, 12L);
+            dgemm_("No Transpose", "No Transpose", n, &m, &m, &c_b63, &q1[q1_offset], ldq1,
+                &dwork[iq + mm * 3], &m, &c_b62, &dwork[imat], n, 12L, 12L);
             dlacpy_("Full", n, &m, &dwork[imat], n, &q1[q1_offset], ldq1, 4L);
-            dgemm_("No Transpose", "No Transpose", n, &m, &m, &c_b63, &q1[(m + 1) * q1_dim1 + 1], ldq1, &dwork[iq + mm], &m, &c_b62, &dwork[imat], n, 12L, 12L);
+            dgemm_("No Transpose", "No Transpose", n, &m, &m, &c_b63, &q1[(m + 1) * q1_dim1 + 1],
+                ldq1, &dwork[iq + mm], &m, &c_b62, &dwork[imat], n, 12L, 12L);
             dlacpy_("Full", n, &m, &dwork[imat], n, &q1[(m + 1) * q1_dim1 + 1], ldq1, 4L);
         }
-        if (lcmpq2)
-        {
+        if (lcmpq2) {
             /*           Update Q2. */
-            dgemm_("No Transpose", "No Transpose", n, &m, &m, &c_b63, &q2[q2_offset], ldq2, &dwork[iq + (mm << 2)], &m, &c_b62, &dwork[imat], n, 12L, 12L);
+            dgemm_("No Transpose", "No Transpose", n, &m, &m, &c_b63, &q2[q2_offset], ldq2,
+                &dwork[iq + (mm << 2)], &m, &c_b62, &dwork[imat], n, 12L, 12L);
             dlacpy_("Full", n, &m, &dwork[imat], n, &q2[q2_offset], ldq2, 4L);
-            dgemm_("No Transpose", "No Transpose", n, &m, &m, &c_b63, &q2[(m + 1) * q2_dim1 + 1], ldq2, &dwork[1], &m, &c_b62, &dwork[imat], n, 12L, 12L);
+            dgemm_("No Transpose", "No Transpose", n, &m, &m, &c_b63, &q2[(m + 1) * q2_dim1 + 1],
+                ldq2, &dwork[1], &m, &c_b62, &dwork[imat], n, 12L, 12L);
             dlacpy_("Full", n, &m, &dwork[imat], n, &q2[(m + 1) * q2_dim1 + 1], ldq2, 4L);
         }
-        if (lcmpu1)
-        {
+        if (lcmpu1) {
             /*           Update U11 and U12. */
-            dgemm_("No Transpose", "No Transpose", &m, &m, &m, &c_b63, &u11[u11_offset], ldu11, &dwork[iq + (mm << 1)], &m, &c_b62, &dwork[imat], &m, 12L, 12L);
+            dgemm_("No Transpose", "No Transpose", &m, &m, &m, &c_b63, &u11[u11_offset], ldu11,
+                &dwork[iq + (mm << 1)], &m, &c_b62, &dwork[imat], &m, 12L, 12L);
             dlacpy_("Full", &m, &m, &dwork[imat], &m, &u11[u11_offset], ldu11, 4L);
-            dgemm_("No Transpose", "No Transpose", &m, &m, &m, &c_b63, &u12[u12_offset], ldu12, &dwork[iq + (mm << 1)], &m, &c_b62, &dwork[imat], &m, 12L, 12L);
+            dgemm_("No Transpose", "No Transpose", &m, &m, &m, &c_b63, &u12[u12_offset], ldu12,
+                &dwork[iq + (mm << 1)], &m, &c_b62, &dwork[imat], &m, 12L, 12L);
             dlacpy_("Full", &m, &m, &dwork[imat], &m, &u12[u12_offset], ldu12, 4L);
         }
-        if (lcmpu2)
-        {
+        if (lcmpu2) {
             /*           Update U21 and U22. */
-            dgemm_("No Transpose", "No Transpose", &m, &m, &m, &c_b63, &u21[u21_offset], ldu21, &dwork[iq + mm * 5], &m, &c_b62, &dwork[imat], &m, 12L, 12L);
+            dgemm_("No Transpose", "No Transpose", &m, &m, &m, &c_b63, &u21[u21_offset], ldu21,
+                &dwork[iq + mm * 5], &m, &c_b62, &dwork[imat], &m, 12L, 12L);
             dlacpy_("Full", &m, &m, &dwork[imat], &m, &u21[u21_offset], ldu21, 4L);
-            dgemm_("No Transpose", "No Transpose", &m, &m, &m, &c_b63, &u22[u22_offset], ldu22, &dwork[iq + mm * 5], &m, &c_b62, &dwork[imat], &m, 12L, 12L);
+            dgemm_("No Transpose", "No Transpose", &m, &m, &m, &c_b63, &u22[u22_offset], ldu22,
+                &dwork[iq + mm * 5], &m, &c_b62, &dwork[imat], &m, 12L, 12L);
             dlacpy_("Full", &m, &m, &dwork[imat], &m, &u22[u22_offset], ldu22, 4L);
         }
     }
-    dwork[1] = (doublereal) optdw;
+    dwork[1] = (doublereal)optdw;
     dwork[2] = base;
     return 0;
     /* *** Last line of MB04AD *** */
 } /* mb04ad_ */
-

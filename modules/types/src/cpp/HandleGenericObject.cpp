@@ -20,41 +20,43 @@
 #include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    HandleGenericObject::HandleGenericObject(std::wstring _category, void *_ptr, bool isScoped)
-    {
-        if (_category.empty())
-        {
-            throw Exception(_W("handle must have a type."));
-        }
-        if (_ptr == nullptr)
-        {
-            throw Exception(_W("handle must have a pointer."));
-        }
-        this->category = _category;
-        this->ptr = _ptr;
-        this->_isScoped = isScoped;
+//=============================================================================
+HandleGenericObject::HandleGenericObject(std::wstring _category, void* _ptr, bool isScoped)
+{
+    if (_category.empty()) {
+        throw Exception(_W("handle must have a type."));
     }
-    //=============================================================================
-    std::wstring HandleGenericObject::getCategory()
-    {
-        return this->category;
+    if (_ptr == nullptr) {
+        throw Exception(_W("handle must have a pointer."));
     }
-    //=============================================================================
-    void HandleGenericObject::setPointer(void *_ptr)
-    {
-        this->ptr = _ptr;
-    }
-    //=============================================================================
-    void *HandleGenericObject::getPointer()
-    {
-        return this->ptr;
-    }
-    //=============================================================================
-    bool HandleGenericObject::isScoped()
-    {
-        return this->_isScoped;
-    }
-    //=============================================================================
+    this->category = _category;
+    this->ptr = _ptr;
+    this->_isScoped = isScoped;
+}
+//=============================================================================
+std::wstring
+HandleGenericObject::getCategory()
+{
+    return this->category;
+}
+//=============================================================================
+void
+HandleGenericObject::setPointer(void* _ptr)
+{
+    this->ptr = _ptr;
+}
+//=============================================================================
+void*
+HandleGenericObject::getPointer()
+{
+    return this->ptr;
+}
+//=============================================================================
+bool
+HandleGenericObject::isScoped()
+{
+    return this->_isScoped;
+}
+//=============================================================================
 }
 //=============================================================================

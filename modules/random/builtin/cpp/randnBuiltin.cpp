@@ -23,133 +23,99 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::RandomGateway::randnBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::RandomGateway::randnBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     Class cl = NLS_DOUBLE;
-    if (argIn.size() == 0)
-    {
+    if (argIn.size() == 0) {
         retval.push_back(RandNormal(eval, cl));
-    }
-    else
-    {
+    } else {
         sizeType nRhs = argIn.size();
         bool bCheckClassName = true;
-        if ((int)nRhs - 2 >= 0)
-        {
+        if ((int)nRhs - 2 >= 0) {
             ArrayOf Arg = argIn[argIn.size() - 2];
-            if (Arg.isSingleString())
-            {
+            if (Arg.isSingleString()) {
                 std::wstring paramstr = Arg.getContentAsWideString();
-                if (paramstr == L"like")
-                {
+                if (paramstr == L"like") {
                     ArrayOf lastArg = argIn[argIn.size() - 1];
-                    switch (lastArg.getDataClass())
-                    {
-                        case NLS_DOUBLE:
-                            cl = NLS_DOUBLE;
-                            break;
-                        case NLS_SINGLE:
-                            cl = NLS_SINGLE;
-                            break;
-                        default:
-                            Error(eval, _W("\'single\' or \'double\' expected at last argument."));
-                            break;
+                    switch (lastArg.getDataClass()) {
+                    case NLS_DOUBLE:
+                        cl = NLS_DOUBLE;
+                        break;
+                    case NLS_SINGLE:
+                        cl = NLS_SINGLE;
+                        break;
+                    default:
+                        Error(eval, _W("\'single\' or \'double\' expected at last argument."));
+                        break;
                     }
                     nRhs = nRhs - 2;
                     bCheckClassName = false;
-                }
-                else
-                {
+                } else {
                     Error(eval, _W("\'like\' expected at n - 2 argument."));
                 }
             }
         }
         ArrayOf lastArg = argIn[argIn.size() - 1];
-        if (lastArg.isSingleString() && bCheckClassName)
-        {
+        if (lastArg.isSingleString() && bCheckClassName) {
             std::wstring paramstr = lastArg.getContentAsWideString();
-            if (paramstr == L"double")
-            {
+            if (paramstr == L"double") {
                 cl = NLS_DOUBLE;
                 nRhs--;
-            }
-            else if (paramstr == L"single")
-            {
+            } else if (paramstr == L"single") {
                 cl = NLS_SINGLE;
                 nRhs--;
-            }
-            else
-            {
+            } else {
                 Error(eval, _W("\'single\' or \'double\' expected at last argument."));
             }
         }
-        if (nRhs == 0)
-        {
+        if (nRhs == 0) {
             retval.push_back(RandNormal(eval, cl));
             return retval;
         }
         Dimensions dims;
-        if (nRhs == 1)
-        {
-            if (argIn[0].isNumeric() && !argIn[0].isSparse())
-            {
-                if (argIn[0].isRowVector())
-                {
-                    if (argIn[0].isEmpty())
-                    {
+        if (nRhs == 1) {
+            if (argIn[0].isNumeric() && !argIn[0].isSparse()) {
+                if (argIn[0].isRowVector()) {
+                    if (argIn[0].isEmpty()) {
                         Error(eval, ERROR_WRONG_ARGUMENT_1_SIZE_ROW_VECTOR_EXPECTED);
                     }
-                    if (argIn[0].getDimensions().getElementCount() < Nelson::maxDims)
-                    {
+                    if (argIn[0].getDimensions().getElementCount() < Nelson::maxDims) {
                         ArrayOf dimVector = argIn[0];
                         dimVector.promoteType(NLS_DOUBLE);
-                        double *ptrValues = (double*)dimVector.getDataPointer();
-                        for (sizeType k = 0; k < argIn[0].getDimensions().getElementCount(); k++)
-                        {
-                            if (ptrValues[k] > 0)
-                            {
+                        double* ptrValues = (double*)dimVector.getDataPointer();
+                        for (sizeType k = 0; k < argIn[0].getDimensions().getElementCount(); k++) {
+                            if (ptrValues[k] > 0) {
                                 dims[k] = (indexType)ptrValues[k];
-                            }
-                            else
-                            {
+                            } else {
                                 dims[k] = 0;
                             }
                         }
-                        if (dims.getLength() == 1)
-                        {
+                        if (dims.getLength() == 1) {
                             dims[1] = dims[0];
                         }
+                    } else {
+                        Error(eval,
+                            _W("Too many dimensions! Current limit is") + L" "
+                                + std::to_wstring(Nelson::maxDims) + L".");
                     }
-                    else
-                    {
-                        Error(eval, _W("Too many dimensions! Current limit is") + L" " + std::to_wstring(Nelson::maxDims) + L".");
-                    }
-                }
-                else
-                {
+                } else {
                     Error(eval, ERROR_WRONG_ARGUMENT_1_SIZE_ROW_VECTOR_EXPECTED);
                 }
-            }
-            else
-            {
+            } else {
                 Error(eval, ERROR_WRONG_ARGUMENT_1_TYPE_NUMERIC_EXPECTED);
             }
-        }
-        else
-        {
-            for (sizeType k = 0; k < nRhs; k++)
-            {
+        } else {
+            for (sizeType k = 0; k < nRhs; k++) {
                 ArrayOf param = argIn[k];
                 indexType idx = param.getContentAsScalarIndex();
                 dims[k] = idx;
             }
-            if (dims.getLength() == 1)
-            {
+            if (dims.getLength() == 1) {
                 dims[1] = dims[0];
             }
         }

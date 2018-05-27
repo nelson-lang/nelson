@@ -18,11 +18,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "nlsOs_functions_exports.h"
 #include "Types.hpp"
+#include "nlsOs_functions_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    NLSOS_FUNCTIONS_IMPEXP wstringVector SearchVariableEnvironmentW(const std::wstring &fileToSearch, const std::wstring &envVarName);
+NLSOS_FUNCTIONS_IMPEXP wstringVector
+SearchVariableEnvironmentW(const std::wstring& fileToSearch, const std::wstring& envVarName);
 }
 //=============================================================================

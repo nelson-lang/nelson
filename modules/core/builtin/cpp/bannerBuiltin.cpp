@@ -17,24 +17,22 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "bannerBuiltin.hpp"
-#include "Error.hpp"
 #include "Banner.hpp"
+#include "Error.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::CoreGateway::bannerBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::CoreGateway::bannerBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() != 0)
-    {
+    if (argIn.size() != 0) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs != 0)
-    {
+    if (nLhs != 0) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     Banner(eval);
     return retval;
 }
 //=============================================================================
-

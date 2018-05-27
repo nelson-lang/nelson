@@ -1,26 +1,28 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-EXPORTSYMBOL /* Subroutine */ int mb02pd_(fact, trans, n, nrhs, a, lda, af, ldaf, ipiv, equed, r__, c__, b, ldb, x, ldx, rcond, ferr, berr, iwork, dwork, info, fact_len, trans_len, equed_len)
-char *fact, *trans;
+EXPORTSYMBOL /* Subroutine */ int mb02pd_(fact, trans, n, nrhs, a, lda, af, ldaf, ipiv, equed, r__,
+    c__, b, ldb, x, ldx, rcond, ferr, berr, iwork, dwork, info, fact_len, trans_len,
+    equed_len) char *fact,
+    *trans;
 integer *n, *nrhs;
-doublereal *a;
-integer *lda;
-doublereal *af;
+doublereal* a;
+integer* lda;
+doublereal* af;
 integer *ldaf, *ipiv;
-char *equed;
+char* equed;
 doublereal *r__, *c__, *b;
-integer *ldb;
-doublereal *x;
-integer *ldx;
+integer* ldb;
+doublereal* x;
+integer* ldx;
 doublereal *rcond, *ferr, *berr;
-integer *iwork;
-doublereal *dwork;
-integer *info;
+integer* iwork;
+doublereal* dwork;
+integer* info;
 ftnlen fact_len;
 ftnlen trans_len;
 ftnlen equed_len;
@@ -332,130 +334,91 @@ ftnlen equed_len;
     nofact = lsame_(fact, "N", 1L, 1L);
     equil = lsame_(fact, "E", 1L, 1L);
     notran = lsame_(trans, "N", 1L, 1L);
-    if (nofact || equil)
-    {
-        *(unsigned char *)equed = 'N';
+    if (nofact || equil) {
+        *(unsigned char*)equed = 'N';
         rowequ = FALSE_;
         colequ = FALSE_;
-    }
-    else
-    {
+    } else {
         rowequ = lsame_(equed, "R", 1L, 1L) || lsame_(equed, "B", 1L, 1L);
         colequ = lsame_(equed, "C", 1L, 1L) || lsame_(equed, "B", 1L, 1L);
         smlnum = dlamch_("Safe minimum", 12L);
         bignum = 1. / smlnum;
     }
     /*     Test the input parameters. */
-    if (! nofact && ! equil && ! lsame_(fact, "F", 1L, 1L))
-    {
+    if (!nofact && !equil && !lsame_(fact, "F", 1L, 1L)) {
         *info = -1;
-    }
-    else if (! notran && ! lsame_(trans, "T", 1L, 1L) && ! lsame_(trans, "C", 1L, 1L))
-    {
+    } else if (!notran && !lsame_(trans, "T", 1L, 1L) && !lsame_(trans, "C", 1L, 1L)) {
         *info = -2;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -3;
-    }
-    else if (*nrhs < 0)
-    {
+    } else if (*nrhs < 0) {
         *info = -4;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -6;
-    }
-    else if (*ldaf < max(1,*n))
-    {
+    } else if (*ldaf < max(1, *n)) {
         *info = -8;
-    }
-    else if (lsame_(fact, "F", 1L, 1L) && ! (rowequ || colequ || lsame_(equed, "N", 1L, 1L)))
-    {
+    } else if (lsame_(fact, "F", 1L, 1L) && !(rowequ || colequ || lsame_(equed, "N", 1L, 1L))) {
         *info = -10;
-    }
-    else
-    {
-        if (rowequ)
-        {
+    } else {
+        if (rowequ) {
             rcmin = bignum;
             rcmax = 0.;
             i__1 = *n;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 /* Computing MIN */
                 d__1 = rcmin, d__2 = r__[j];
-                rcmin = min(d__1,d__2);
+                rcmin = min(d__1, d__2);
                 /* Computing MAX */
                 d__1 = rcmax, d__2 = r__[j];
-                rcmax = max(d__1,d__2);
+                rcmax = max(d__1, d__2);
                 /* L10: */
             }
-            if (rcmin <= 0.)
-            {
+            if (rcmin <= 0.) {
                 *info = -11;
-            }
-            else if (*n > 0)
-            {
-                rowcnd = max(rcmin,smlnum) / min(rcmax,bignum);
-            }
-            else
-            {
+            } else if (*n > 0) {
+                rowcnd = max(rcmin, smlnum) / min(rcmax, bignum);
+            } else {
                 rowcnd = 1.;
             }
         }
-        if (colequ && *info == 0)
-        {
+        if (colequ && *info == 0) {
             rcmin = bignum;
             rcmax = 0.;
             i__1 = *n;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 /* Computing MIN */
                 d__1 = rcmin, d__2 = c__[j];
-                rcmin = min(d__1,d__2);
+                rcmin = min(d__1, d__2);
                 /* Computing MAX */
                 d__1 = rcmax, d__2 = c__[j];
-                rcmax = max(d__1,d__2);
+                rcmax = max(d__1, d__2);
                 /* L20: */
             }
-            if (rcmin <= 0.)
-            {
+            if (rcmin <= 0.) {
                 *info = -12;
-            }
-            else if (*n > 0)
-            {
-                colcnd = max(rcmin,smlnum) / min(rcmax,bignum);
-            }
-            else
-            {
+            } else if (*n > 0) {
+                colcnd = max(rcmin, smlnum) / min(rcmax, bignum);
+            } else {
                 colcnd = 1.;
             }
         }
-        if (*info == 0)
-        {
-            if (*ldb < max(1,*n))
-            {
+        if (*info == 0) {
+            if (*ldb < max(1, *n)) {
                 *info = -14;
-            }
-            else if (*ldx < max(1,*n))
-            {
+            } else if (*ldx < max(1, *n)) {
                 *info = -16;
             }
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB02PD", &i__1, 6L);
         return 0;
     }
-    if (equil)
-    {
+    if (equil) {
         /*        Compute row and column scalings to equilibrate the matrix A. */
         dgeequ_(n, n, &a[a_offset], lda, &r__[1], &c__[1], &rowcnd, &colcnd, &amax, &infequ);
-        if (infequ == 0)
-        {
+        if (infequ == 0) {
             /*           Equilibrate the matrix. */
             dlaqge_(n, n, &a[a_offset], lda, &r__[1], &c__[1], &rowcnd, &colcnd, &amax, equed, 1L);
             rowequ = lsame_(equed, "R", 1L, 1L) || lsame_(equed, "B", 1L, 1L);
@@ -463,56 +426,43 @@ ftnlen equed_len;
         }
     }
     /*     Scale the right hand side. */
-    if (notran)
-    {
-        if (rowequ)
-        {
+    if (notran) {
+        if (rowequ) {
             i__1 = *nrhs;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 i__2 = *n;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = 1; i__ <= i__2; ++i__) {
                     b[i__ + j * b_dim1] = r__[i__] * b[i__ + j * b_dim1];
                     /* L30: */
                 }
                 /* L40: */
             }
         }
-    }
-    else if (colequ)
-    {
+    } else if (colequ) {
         i__1 = *nrhs;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             i__2 = *n;
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
+            for (i__ = 1; i__ <= i__2; ++i__) {
                 b[i__ + j * b_dim1] = c__[i__] * b[i__ + j * b_dim1];
                 /* L50: */
             }
             /* L60: */
         }
     }
-    if (nofact || equil)
-    {
+    if (nofact || equil) {
         /*        Compute the LU factorization of A. */
         dlacpy_("Full", n, n, &a[a_offset], lda, &af[af_offset], ldaf, 4L);
         dgetrf_(n, n, &af[af_offset], ldaf, &ipiv[1], info);
         /*        Return if INFO is non-zero. */
-        if (*info != 0)
-        {
-            if (*info > 0)
-            {
+        if (*info != 0) {
+            if (*info > 0) {
                 /*              Compute the reciprocal pivot growth factor of the */
                 /*              leading rank-deficient INFO columns of A. */
-                rpvgrw = dlantr_("M", "U", "N", info, info, &af[af_offset], ldaf, &dwork[1], 1L, 1L, 1L);
-                if (rpvgrw == 0.)
-                {
+                rpvgrw = dlantr_(
+                    "M", "U", "N", info, info, &af[af_offset], ldaf, &dwork[1], 1L, 1L, 1L);
+                if (rpvgrw == 0.) {
                     rpvgrw = 1.;
-                }
-                else
-                {
+                } else {
                     rpvgrw = dlange_("M", n, info, &a[a_offset], lda, &dwork[1], 1L) / rpvgrw;
                 }
                 dwork[1] = rpvgrw;
@@ -522,29 +472,22 @@ ftnlen equed_len;
         }
         /*        Compute the norm of the matrix A and the */
         /*        reciprocal pivot growth factor RPVGRW. */
-        if (notran)
-        {
-            *(unsigned char *)norm = '1';
-        }
-        else
-        {
-            *(unsigned char *)norm = 'I';
+        if (notran) {
+            *(unsigned char*)norm = '1';
+        } else {
+            *(unsigned char*)norm = 'I';
         }
         anorm = dlange_(norm, n, n, &a[a_offset], lda, &dwork[1], 1L);
         rpvgrw = dlantr_("M", "U", "N", n, n, &af[af_offset], ldaf, &dwork[1], 1L, 1L, 1L);
-        if (rpvgrw == 0.)
-        {
+        if (rpvgrw == 0.) {
             rpvgrw = 1.;
-        }
-        else
-        {
+        } else {
             rpvgrw = dlange_("M", n, n, &a[a_offset], lda, &dwork[1], 1L) / rpvgrw;
         }
         /*        Compute the reciprocal of the condition number of A. */
         dgecon_(norm, n, &af[af_offset], ldaf, &anorm, rcond, &dwork[1], &iwork[1], info, 1L);
         /*        Set INFO = N+1 if the matrix is singular to working precision. */
-        if (*rcond < dlamch_("Epsilon", 7L))
-        {
+        if (*rcond < dlamch_("Epsilon", 7L)) {
             *info = *n + 1;
         }
     }
@@ -553,48 +496,39 @@ ftnlen equed_len;
     dgetrs_(trans, n, nrhs, &af[af_offset], ldaf, &ipiv[1], &x[x_offset], ldx, info, 1L);
     /*     Use iterative refinement to improve the computed solution and */
     /*     compute error bounds and backward error estimates for it. */
-    dgerfs_(trans, n, nrhs, &a[a_offset], lda, &af[af_offset], ldaf, &ipiv[1], &b[b_offset], ldb, &x[x_offset], ldx, &ferr[1], &berr[1], &dwork[1], &iwork[1], info, 1L);
+    dgerfs_(trans, n, nrhs, &a[a_offset], lda, &af[af_offset], ldaf, &ipiv[1], &b[b_offset], ldb,
+        &x[x_offset], ldx, &ferr[1], &berr[1], &dwork[1], &iwork[1], info, 1L);
     /*     Transform the solution matrix X to a solution of the original */
     /*     system. */
-    if (notran)
-    {
-        if (colequ)
-        {
+    if (notran) {
+        if (colequ) {
             i__1 = *nrhs;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 i__2 = *n;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = 1; i__ <= i__2; ++i__) {
                     x[i__ + j * x_dim1] = c__[i__] * x[i__ + j * x_dim1];
                     /* L70: */
                 }
                 /* L80: */
             }
             i__1 = *nrhs;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 ferr[j] /= colcnd;
                 /* L90: */
             }
         }
-    }
-    else if (rowequ)
-    {
+    } else if (rowequ) {
         i__1 = *nrhs;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             i__2 = *n;
-            for (i__ = 1; i__ <= i__2; ++i__)
-            {
+            for (i__ = 1; i__ <= i__2; ++i__) {
                 x[i__ + j * x_dim1] = r__[i__] * x[i__ + j * x_dim1];
                 /* L100: */
             }
             /* L110: */
         }
         i__1 = *nrhs;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             ferr[j] /= rowcnd;
             /* L120: */
         }
@@ -603,4 +537,3 @@ ftnlen equed_len;
     return 0;
     /* *** Last line of MB02PD *** */
 } /* mb02pd_ */
-

@@ -20,49 +20,44 @@
 #include "MatrixCheck.hpp"
 //=============================================================================
 namespace Nelson {
-    void boolean_or(indexType N, logical* C, const logical *A, int Astride,
-                    const logical *B, int Bstride)
-    {
-        indexType m, p;
-        m = 0;
-        p = 0;
-        for (indexType i = 0; i<N; i++)
-        {
-            C[i] = A[m] || B[p];
-            m += Astride;
-            p += Bstride;
-        }
+void
+boolean_or(indexType N, logical* C, const logical* A, int Astride, const logical* B, int Bstride)
+{
+    indexType m, p;
+    m = 0;
+    p = 0;
+    for (indexType i = 0; i < N; i++) {
+        C[i] = A[m] || B[p];
+        m += Astride;
+        p += Bstride;
     }
+}
 
-    ArrayOf Or(ArrayOf A, ArrayOf B)
-    {
-        int Astride, Bstride;
-        indexType Clen = 0;
-        Dimensions Cdim;
-        BoolVectorCheck(A, B, "|");
-        if (A.isScalar())
-        {
-            Astride = 0;
-            Bstride = 1;
-            Cdim = B.getDimensions();
-        }
-        else if (B.isScalar())
-        {
-            Astride = 1;
-            Bstride = 0;
-            Cdim = A.getDimensions();
-        }
-        else
-        {
-            Astride = 1;
-            Bstride = 1;
-            Cdim = A.getDimensions();
-        }
-        Clen = Cdim.getElementCount();
-        void *Cp = ArrayOf::allocateArrayOf(NLS_LOGICAL, Clen);
-        boolean_or(Clen, (logical*)Cp, (const logical*)A.getDataPointer(), Astride,
-                   (const logical*)B.getDataPointer(), Bstride);
-        return ArrayOf(NLS_LOGICAL, Cdim, Cp);
+ArrayOf
+Or(ArrayOf A, ArrayOf B)
+{
+    int Astride, Bstride;
+    indexType Clen = 0;
+    Dimensions Cdim;
+    BoolVectorCheck(A, B, "|");
+    if (A.isScalar()) {
+        Astride = 0;
+        Bstride = 1;
+        Cdim = B.getDimensions();
+    } else if (B.isScalar()) {
+        Astride = 1;
+        Bstride = 0;
+        Cdim = A.getDimensions();
+    } else {
+        Astride = 1;
+        Bstride = 1;
+        Cdim = A.getDimensions();
     }
+    Clen = Cdim.getElementCount();
+    void* Cp = ArrayOf::allocateArrayOf(NLS_LOGICAL, Clen);
+    boolean_or(Clen, (logical*)Cp, (const logical*)A.getDataPointer(), Astride,
+        (const logical*)B.getDataPointer(), Bstride);
+    return ArrayOf(NLS_LOGICAL, Cdim, Cp);
+}
 }
 //=============================================================================

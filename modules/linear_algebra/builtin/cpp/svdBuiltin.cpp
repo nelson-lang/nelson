@@ -24,93 +24,70 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::LinearAlgebraGateway::svdBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::LinearAlgebraGateway::svdBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (!(argIn.size() == 1 || argIn.size() == 2))
-    {
+    if (!(argIn.size() == 1 || argIn.size() == 2)) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 3)
-    {
+    if (nLhs > 3) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     // Call overload if it exists
     bool bSuccess = false;
     retval = OverloadFunction(eval, nLhs, argIn, bSuccess);
-    if (!bSuccess)
-    {
-        if ((argIn[0].getDataClass() == NLS_STRUCT_ARRAY) ||
-                (argIn[0].getDataClass() == NLS_CELL_ARRAY) ||
-                argIn[0].isSparse() ||
-                argIn[0].isLogical() ||
-                argIn[0].isString() ||
-                argIn[0].isIntegerType())
-        {
+    if (!bSuccess) {
+        if ((argIn[0].getDataClass() == NLS_STRUCT_ARRAY)
+            || (argIn[0].getDataClass() == NLS_CELL_ARRAY) || argIn[0].isSparse()
+            || argIn[0].isLogical() || argIn[0].isString() || argIn[0].isIntegerType()) {
             OverloadRequired(eval, argIn, Nelson::FUNCTION);
         }
         SVD_FLAG svdFlag = SVD_FLAG::SVD_DEFAULT;
-        if (argIn.size() == 2)
-        {
+        if (argIn.size() == 2) {
             ArrayOf param2 = argIn[1];
-            if (param2.isSingleString())
-            {
+            if (param2.isSingleString()) {
                 std::wstring paramAsString = param2.getContentAsWideString();
-                if (L"econ" == paramAsString)
-                {
+                if (L"econ" == paramAsString) {
                     svdFlag = SVD_FLAG::SVD_ECON;
-                }
-                else
-                {
+                } else {
                     Error(eval, _W("svd(X, 0) or svd(X, 'econ') expected."));
                 }
-            }
-            else
-            {
+            } else {
                 indexType paramAsIndex = param2.getContentAsScalarIndex(true);
-                if (paramAsIndex == 0)
-                {
+                if (paramAsIndex == 0) {
                     svdFlag = SVD_FLAG::SVD_0;
-                }
-                else
-                {
+                } else {
                     Error(eval, _W("svd(X, 0) or svd(X, 'econ') expected."));
                 }
             }
         }
-        switch (nLhs)
-        {
-            case 0:
-            case 1:
-            {
-                ArrayOf s;
-                SVD(argIn[0], s);
-                retval.push_back(s);
-            }
+        switch (nLhs) {
+        case 0:
+        case 1: {
+            ArrayOf s;
+            SVD(argIn[0], s);
+            retval.push_back(s);
+        } break;
+        case 2: {
+            ArrayOf U;
+            ArrayOf S;
+            SVD(argIn[0], svdFlag, U, S);
+            retval.push_back(U);
+            retval.push_back(S);
+        } break;
+        case 3: {
+            ArrayOf U;
+            ArrayOf S;
+            ArrayOf V;
+            SVD(argIn[0], svdFlag, U, S, V);
+            retval.push_back(U);
+            retval.push_back(S);
+            retval.push_back(V);
+        } break;
+        default:
+            Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             break;
-            case 2:
-            {
-                ArrayOf U;
-                ArrayOf S;
-                SVD(argIn[0], svdFlag, U, S);
-                retval.push_back(U);
-                retval.push_back(S);
-            }
-            break;
-            case 3:
-            {
-                ArrayOf U;
-                ArrayOf S;
-                ArrayOf V;
-                SVD(argIn[0], svdFlag, U, S, V);
-                retval.push_back(U);
-                retval.push_back(S);
-                retval.push_back(V);
-            }
-            break;
-            default:
-                Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-                break;
         }
     }
     return retval;

@@ -18,11 +18,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "nlsAssert_functions_exports.h"
 #include "Types.hpp"
+#include "nlsAssert_functions_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    NLSASSERT_FUNCTIONS_IMPEXP logical Assert_IsTrue(logical value, std::wstring modifiedmsg, std::wstring &msg);
+NLSASSERT_FUNCTIONS_IMPEXP logical
+Assert_IsTrue(logical value, std::wstring modifiedmsg, std::wstring& msg);
 }
 //=============================================================================

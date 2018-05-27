@@ -1,15 +1,15 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-EXPORTSYMBOL /* Subroutine */ int tf01pd_(nh1, nh2, nr, nc, h__, ldh, t, ldt, info)
-integer *nh1, *nh2, *nr, *nc;
-doublereal *h__;
-integer *ldh;
-doublereal *t;
+EXPORTSYMBOL /* Subroutine */ int tf01pd_(nh1, nh2, nr, nc, h__, ldh, t, ldt, info) integer *nh1,
+    *nh2, *nr, *nc;
+doublereal* h__;
+integer* ldh;
+doublereal* t;
 integer *ldt, *info;
 {
     /* System generated locals */
@@ -109,37 +109,25 @@ integer *ldt, *info;
     /* Function Body */
     *info = 0;
     /*     Test the input scalar arguments. */
-    if (*nh1 < 0)
-    {
+    if (*nh1 < 0) {
         *info = -1;
-    }
-    else if (*nh2 < 0)
-    {
+    } else if (*nh2 < 0) {
         *info = -2;
-    }
-    else if (*nr < 0)
-    {
+    } else if (*nr < 0) {
         *info = -3;
-    }
-    else if (*nc < 0)
-    {
+    } else if (*nc < 0) {
         *info = -4;
-    }
-    else if (*ldh < max(1,*nh1))
-    {
+    } else if (*ldh < max(1, *nh1)) {
         *info = -6;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
-        i__1 = 1, i__2 = *nh1 **nr;
-        if (*ldt < max(i__1,i__2))
-        {
+        i__1 = 1, i__2 = *nh1 * *nr;
+        if (*ldt < max(i__1, i__2)) {
             *info = -8;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("TF01PD", &i__1, 6L);
@@ -147,28 +135,26 @@ integer *ldt, *info;
     }
     /*     Quick return if possible. */
     /* Computing MAX */
-    i__1 = max(*nh1,*nh2), i__1 = max(i__1,*nr);
-    if (max(i__1,*nc) == 0)
-    {
+    i__1 = max(*nh1, *nh2), i__1 = max(i__1, *nr);
+    if (max(i__1, *nc) == 0) {
         return 0;
     }
     /*     Construct the last block column of T. */
     ih = 1;
-    nrow = (*nr - 1) **nh1;
-    ncol = (*nc - 1) **nh2 + 1;
+    nrow = (*nr - 1) * *nh1;
+    ncol = (*nc - 1) * *nh2 + 1;
     i__1 = nrow + *nh1;
     i__2 = *nh1;
-    for (it = 1; i__2 < 0 ? it >= i__1 : it <= i__1; it += i__2)
-    {
+    for (it = 1; i__2 < 0 ? it >= i__1 : it <= i__1; it += i__2) {
         dlacpy_("Full", nh1, nh2, &h__[ih * h_dim1 + 1], ldh, &t[it + ncol * t_dim1], ldt, 4L);
         ih += *nh2;
         /* L10: */
     }
     /*     Construct the remaining block columns of T in backward order. */
     i__2 = -(*nh2);
-    for (jt = ncol - *nh2; i__2 < 0 ? jt >= 1 : jt <= 1; jt += i__2)
-    {
-        dlacpy_("Full", &nrow, nh2, &t[*nh1 + 1 + (jt + *nh2) * t_dim1], ldt, &t[jt * t_dim1 + 1], ldt, 4L);
+    for (jt = ncol - *nh2; i__2 < 0 ? jt >= 1 : jt <= 1; jt += i__2) {
+        dlacpy_("Full", &nrow, nh2, &t[*nh1 + 1 + (jt + *nh2) * t_dim1], ldt, &t[jt * t_dim1 + 1],
+            ldt, 4L);
         dlacpy_("Full", nh1, nh2, &h__[ih * h_dim1 + 1], ldh, &t[nrow + 1 + jt * t_dim1], ldt, 4L);
         ih += *nh2;
         /* L20: */
@@ -176,4 +162,3 @@ integer *ldt, *info;
     return 0;
     /* *** Last line of TF01PD *** */
 } /* tf01pd_ */
-

@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -13,24 +13,26 @@ static integer c__0 = 0;
 static integer c__1 = 1;
 static doublereal c_b163 = -1.;
 
-EXPORTSYMBOL /* Subroutine */ int ab13dd_(dico, jobe, equil, jobd, n, m, p, fpeak, a, lda, e, lde, b, ldb, c__, ldc, d__, ldd, gpeak, tol, iwork, dwork, ldwork, cwork, lcwork, info, dico_len, jobe_len, equil_len, jobd_len)
-char *dico, *jobe, *equil, *jobd;
+EXPORTSYMBOL /* Subroutine */ int ab13dd_(dico, jobe, equil, jobd, n, m, p, fpeak, a, lda, e, lde,
+    b, ldb, c__, ldc, d__, ldd, gpeak, tol, iwork, dwork, ldwork, cwork, lcwork, info, dico_len,
+    jobe_len, equil_len, jobd_len) char *dico,
+    *jobe, *equil, *jobd;
 integer *n, *m, *p;
 doublereal *fpeak, *a;
-integer *lda;
-doublereal *e;
-integer *lde;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *d__;
-integer *ldd;
+integer* lda;
+doublereal* e;
+integer* lde;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* d__;
+integer* ldd;
 doublereal *gpeak, *tol;
-integer *iwork;
-doublereal *dwork;
-integer *ldwork;
-doublecomplex *cwork;
+integer* iwork;
+doublereal* dwork;
+integer* ldwork;
+doublecomplex* cwork;
 integer *lcwork, *info;
 ftnlen dico_len;
 ftnlen jobe_len;
@@ -38,7 +40,8 @@ ftnlen equil_len;
 ftnlen jobd_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, e_dim1, e_offset, i__1, i__2, i__3, i__4;
+    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, e_dim1,
+        e_offset, i__1, i__2, i__3, i__4;
     doublereal d__1, d__2, d__3, d__4;
     /* Builtin functions */
     double sqrt(), atan2(), log(), sin(), cos(), atan();
@@ -379,209 +382,146 @@ ftnlen jobd_len;
     --cwork;
     /* Function Body */
     n2 = *n << 1;
-    nn = *n **n;
+    nn = *n * *n;
     pm = *p + *m;
     n2pm = n2 + pm;
-    minpm = min(*p,*m);
+    minpm = min(*p, *m);
     *info = 0;
     discr = lsame_(dico, "D", 1L, 1L);
     fulle = lsame_(jobe, "G", 1L, 1L);
     lequil = lsame_(equil, "S", 1L, 1L);
     withd = lsame_(jobd, "D", 1L, 1L);
-    if (! (discr || lsame_(dico, "C", 1L, 1L)))
-    {
+    if (!(discr || lsame_(dico, "C", 1L, 1L))) {
         *info = -1;
-    }
-    else if (! (fulle || lsame_(jobe, "I", 1L, 1L)))
-    {
+    } else if (!(fulle || lsame_(jobe, "I", 1L, 1L))) {
         *info = -2;
-    }
-    else if (! (lequil || lsame_(equil, "N", 1L, 1L)))
-    {
+    } else if (!(lequil || lsame_(equil, "N", 1L, 1L))) {
         *info = -3;
-    }
-    else if (! (withd || lsame_(jobd, "Z", 1L, 1L)))
-    {
+    } else if (!(withd || lsame_(jobd, "Z", 1L, 1L))) {
         *info = -4;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -5;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -6;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -7;
-    }
-    else if (min(fpeak[1],fpeak[2]) < 0.)
-    {
+    } else if (min(fpeak[1], fpeak[2]) < 0.) {
         *info = -8;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -10;
-    }
-    else if (*lde < 1 || fulle && *lde < *n)
-    {
+    } else if (*lde < 1 || fulle && *lde < *n) {
         *info = -12;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -14;
-    }
-    else if (*ldc < max(1,*p))
-    {
+    } else if (*ldc < max(1, *p)) {
         *info = -16;
-    }
-    else if (*ldd < 1 || withd && *ldd < *p)
-    {
+    } else if (*ldd < 1 || withd && *ldd < *p) {
         *info = -18;
-    }
-    else if (*tol < 0. || *tol >= 1.)
-    {
+    } else if (*tol < 0. || *tol >= 1.) {
         *info = -20;
-    }
-    else
-    {
+    } else {
         bnorm = dlange_("1-norm", n, m, &b[b_offset], ldb, &dwork[1], 6L);
         cnorm = dlange_("1-norm", p, n, &c__[c_offset], ldc, &dwork[1], 6L);
-        nodyn = *n == 0 || min(bnorm,cnorm) == 0.;
+        nodyn = *n == 0 || min(bnorm, cnorm) == 0.;
         usepen = fulle || discr;
         /*        Compute workspace. */
         id = minpm * 6;
         /* Computing MAX */
-        i__1 = (minpm << 2) + max(*p,*m);
-        ic = max(i__1,id);
-        if (minpm == 0)
-        {
+        i__1 = (minpm << 2) + max(*p, *m);
+        ic = max(i__1, id);
+        if (minpm == 0) {
             minwrk = 1;
-        }
-        else if (nodyn)
-        {
-            if (withd)
-            {
-                minwrk = *p **m + ic;
-            }
-            else
-            {
+        } else if (nodyn) {
+            if (withd) {
+                minwrk = *p * *m + ic;
+            } else {
                 minwrk = 1;
             }
-        }
-        else
-        {
-            if (discr)
-            {
+        } else {
+            if (discr) {
                 ib = 0;
                 ie = id;
-            }
-            else
-            {
+            } else {
                 ib = *n * (*n + *m);
-                if (! withd)
-                {
-                    ib += *p **m;
+                if (!withd) {
+                    ib += *p * *m;
                 }
                 ie = ic;
             }
-            if (withd)
-            {
-                ir = *p **m;
-                if (! usepen)
-                {
-                    minwrk = *p **p + *m **m;
+            if (withd) {
+                ir = *p * *m;
+                if (!usepen) {
+                    minwrk = *p * *p + *m * *m;
                     ir += *n * pm;
-                }
-                else
-                {
+                } else {
                     minwrk = 0;
                 }
                 minwrk = minwrk + ir + ic;
                 ir += minpm;
-            }
-            else
-            {
+            } else {
                 ir = 0;
                 minwrk = 0;
             }
             ir += *n * (*n + pm);
-            if (fulle)
-            {
+            if (fulle) {
                 ir += nn;
-                if (lequil)
-                {
+                if (lequil) {
                     /* Computing MAX */
                     i__1 = minwrk, i__2 = ir + *n * 9;
-                    minwrk = max(i__1,i__2);
+                    minwrk = max(i__1, i__2);
                 }
                 /* Computing MAX */
                 /* Computing MAX */
-                i__3 = *m, i__4 = nn << 1, i__3 = max(i__3,i__4), i__4 = *n + ib + ie;
-                i__1 = minwrk, i__2 = ir + (*n << 2) + max(i__3,i__4);
-                minwrk = max(i__1,i__2);
-            }
-            else
-            {
+                i__3 = *m, i__4 = nn << 1, i__3 = max(i__3, i__4), i__4 = *n + ib + ie;
+                i__1 = minwrk, i__2 = ir + (*n << 2) + max(i__3, i__4);
+                minwrk = max(i__1, i__2);
+            } else {
                 /* Computing MAX */
                 /* Computing MAX */
-                i__3 = max(*m,*p), i__4 = nn + n2, i__3 = max(i__3,i__4), i__4 = *n * 3 + ib + ie;
-                i__1 = minwrk, i__2 = ir + *n + max(i__3,i__4);
-                minwrk = max(i__1,i__2);
+                i__3 = max(*m, *p), i__4 = nn + n2, i__3 = max(i__3, i__4), i__4 = *n * 3 + ib + ie;
+                i__1 = minwrk, i__2 = ir + *n + max(i__3, i__4);
+                minwrk = max(i__1, i__2);
             }
             lw = 0;
-            if (! usepen)
-            {
+            if (!usepen) {
                 lw = ir + (nn << 2) + *n * 11;
-                if (withd)
-                {
-                    lw = lw + max(*m,*p) + *n * pm;
+                if (withd) {
+                    lw = lw + max(*m, *p) + *n * pm;
                 }
             }
-            if (usepen || withd)
-            {
+            if (usepen || withd) {
                 /* Computing MAX */
                 /* Computing MAX */
                 i__3 = n2pm + pm, i__4 = nn + n2 << 3;
-                i__1 = lw, i__2 = ir + *n * 6 + n2pm * n2pm + max(i__3,i__4);
-                lw = max(i__1,i__2);
+                i__1 = lw, i__2 = ir + *n * 6 + n2pm * n2pm + max(i__3, i__4);
+                lw = max(i__1, i__2);
             }
             /* Computing MAX */
-            i__1 = max(1,minwrk), i__1 = max(i__1,lw), i__2 = ir + n2 + ie;
-            minwrk = max(i__1,i__2);
+            i__1 = max(1, minwrk), i__1 = max(i__1, lw), i__2 = ir + n2 + ie;
+            minwrk = max(i__1, i__2);
         }
-        if (*ldwork < minwrk)
-        {
+        if (*ldwork < minwrk) {
             *info = -23;
-        }
-        else
-        {
-            if (nodyn)
-            {
+        } else {
+            if (nodyn) {
                 mincwr = 1;
-            }
-            else
-            {
+            } else {
                 /* Computing MAX */
-                i__1 = 1, i__2 = (*n + *m) * (*n + *p) + (minpm << 1) + max(*p,*m);
-                mincwr = max(i__1,i__2);
+                i__1 = 1, i__2 = (*n + *m) * (*n + *p) + (minpm << 1) + max(*p, *m);
+                mincwr = max(i__1, i__2);
             }
-            if (*lcwork < mincwr)
-            {
+            if (*lcwork < mincwr) {
                 *info = -25;
             }
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("AB13DD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*m == 0 || *p == 0)
-    {
+    if (*m == 0 || *p == 0) {
         gpeak[1] = 0.;
         fpeak[1] = 0.;
         gpeak[2] = 1.;
@@ -599,24 +539,20 @@ ftnlen jobd_len;
     /*     NB refers to the optimal block size for the immediately */
     /*     following subroutine, as returned by ILAENV.) */
     id = 1;
-    if (withd)
-    {
-        is = id + *p **m;
-        if (usepen || nodyn)
-        {
+    if (withd) {
+        is = id + *p * *m;
+        if (usepen || nodyn) {
             iu = is + minpm;
             iv = iu;
             iwrk = iv;
-            *(unsigned char *)vect = 'N';
-        }
-        else
-        {
+            *(unsigned char*)vect = 'N';
+        } else {
             ibv = is + minpm;
-            icu = ibv + *n **m;
-            iu = icu + *p **n;
-            iv = iu + *p **p;
-            iwrk = iv + *m **m;
-            *(unsigned char *)vect = 'A';
+            icu = ibv + *n * *m;
+            iu = icu + *p * *n;
+            iv = iu + *p * *p;
+            iwrk = iv + *m * *m;
+            *(unsigned char*)vect = 'A';
         }
         /*        Workspace: need   P*M + MIN(P,M) + V + */
         /*                          MAX( 3*MIN(P,M) + MAX(P,M), 5*MIN(P,M) ), */
@@ -627,39 +563,37 @@ ftnlen jobd_len;
         /*                   prefer larger. */
         dlacpy_("Full", p, m, &d__[d_offset], ldd, &dwork[id], p, 4L);
         i__1 = *ldwork - iwrk + 1;
-        dgesvd_(vect, vect, p, m, &dwork[id], p, &dwork[is], &dwork[iu], p, &dwork[iv], m, &dwork[iwrk], &i__1, &ierr, 1L, 1L);
-        if (ierr > 0)
-        {
+        dgesvd_(vect, vect, p, m, &dwork[id], p, &dwork[is], &dwork[iu], p, &dwork[iv], m,
+            &dwork[iwrk], &i__1, &ierr, 1L, 1L);
+        if (ierr > 0) {
             *info = 3;
             return 0;
         }
         gammal = dwork[is];
-        maxwrk = (integer) dwork[iwrk] + iwrk - 1;
+        maxwrk = (integer)dwork[iwrk] + iwrk - 1;
         /*        Restore D for later calculations. */
         dlacpy_("Full", p, m, &d__[d_offset], ldd, &dwork[id], p, 4L);
-    }
-    else
-    {
+    } else {
         iwrk = 1;
         gammal = 0.;
         maxwrk = 1;
     }
     /*     Quick return if possible. */
-    if (nodyn)
-    {
+    if (nodyn) {
         gpeak[1] = gammal;
         fpeak[1] = 0.;
         gpeak[2] = 1.;
         fpeak[2] = 1.;
-        dwork[1] = (doublereal) maxwrk;
+        dwork[1] = (doublereal)maxwrk;
         cwork[1].r = 1., cwork[1].i = 0.;
         return 0;
     }
-    if (! usepen && withd)
-    {
+    if (!usepen && withd) {
         /*        Standard continuous-time case, D <> 0: Compute B*V and C'*U . */
-        dgemm_("No Transpose", "Transpose", n, m, m, &c_b20, &b[b_offset], ldb, &dwork[iv], m, &c_b21, &dwork[ibv], n, 12L, 9L);
-        dgemm_("Transpose", "No Transpose", n, p, p, &c_b20, &c__[c_offset], ldc, &dwork[iu], p, &c_b21, &dwork[icu], n, 9L, 12L);
+        dgemm_("No Transpose", "Transpose", n, m, m, &c_b20, &b[b_offset], ldb, &dwork[iv], m,
+            &c_b21, &dwork[ibv], n, 12L, 9L);
+        dgemm_("Transpose", "No Transpose", n, p, p, &c_b20, &c__[c_offset], ldc, &dwork[iu], p,
+            &c_b21, &dwork[icu], n, 9L, 12L);
         /*        U and V are no longer needed: free their memory space. */
         /*        Total workspace here: need   P*M + MIN(P,M) + N*(M+P) */
         /*        (JOBE = 'I', DICO = 'C', JOBD = 'D'). */
@@ -679,16 +613,13 @@ ftnlen jobd_len;
     /*                                2*N*N + N*M + P*N + 2*N, if JOBE = 'G'. */
     ia = iwrk;
     ie = ia + nn;
-    if (fulle)
-    {
+    if (fulle) {
         ib = ie + nn;
-    }
-    else
-    {
+    } else {
         ib = ie;
     }
-    ic = ib + *n **m;
-    ir = ic + *p **n;
+    ic = ib + *n * *m;
+    ir = ic + *p * *n;
     ii = ir + *n;
     ibt = ii + *n;
     dlacpy_("Full", n, n, &a[a_offset], lda, &dwork[ia], n, 4L);
@@ -697,22 +628,17 @@ ftnlen jobd_len;
     /*     Scale A if maximum element is outside the range [SMLNUM,BIGNUM]. */
     anrm = dlange_("Max", n, n, &dwork[ia], n, &dwork[1], 3L);
     ilascl = FALSE_;
-    if (anrm > 0. && anrm < smlnum)
-    {
+    if (anrm > 0. && anrm < smlnum) {
         anrmto = smlnum;
         ilascl = TRUE_;
-    }
-    else if (anrm > bignum)
-    {
+    } else if (anrm > bignum) {
         anrmto = bignum;
         ilascl = TRUE_;
     }
-    if (ilascl)
-    {
+    if (ilascl) {
         dlascl_("General", &c__0, &c__0, &anrm, &anrmto, n, n, &dwork[ia], n, &ierr, 7L);
     }
-    if (fulle)
-    {
+    if (fulle) {
         /*        Descriptor system. */
         /*        Additional workspace: need   N. */
         iwrk = ibt + *n;
@@ -721,65 +647,54 @@ ftnlen jobd_len;
         /*        [SMLNUM,BIGNUM]. */
         enrm = dlange_("Max", n, n, &dwork[ie], n, &dwork[1], 3L);
         ilescl = FALSE_;
-        if (enrm > 0. && enrm < smlnum)
-        {
+        if (enrm > 0. && enrm < smlnum) {
             enrmto = smlnum;
             ilescl = TRUE_;
-        }
-        else if (enrm > bignum)
-        {
+        } else if (enrm > bignum) {
             enrmto = bignum;
             ilescl = TRUE_;
-        }
-        else if (enrm == 0.)
-        {
+        } else if (enrm == 0.) {
             /*           Error return: Matrix E is 0. */
             *info = 1;
             return 0;
         }
-        if (ilescl)
-        {
+        if (ilescl) {
             dlascl_("General", &c__0, &c__0, &enrm, &enrmto, n, n, &dwork[ie], n, &ierr, 7L);
         }
         /*        Equilibrate the system, if required. */
         /*        Additional workspace: need   6*N. */
-        if (lequil)
-        {
-            tg01ad_("All", n, n, m, p, &c_b21, &dwork[ia], n, &dwork[ie], n, &dwork[ib], n, &dwork[ic], p, &dwork[ii], &dwork[ir], &dwork[iwrk], &ierr, 3L);
+        if (lequil) {
+            tg01ad_("All", n, n, m, p, &c_b21, &dwork[ia], n, &dwork[ie], n, &dwork[ib], n,
+                &dwork[ic], p, &dwork[ii], &dwork[ir], &dwork[iwrk], &ierr, 3L);
         }
         /*        For efficiency of later calculations, the system (A,E,B,C) is */
         /*        reduced to an equivalent one with the state matrix A in */
         /*        Hessenberg form, and E upper triangular. */
         /*        First, permute (A,E) to make it more nearly triangular. */
-        dggbal_("Permute", n, &dwork[ia], n, &dwork[ie], n, &ilo, &ihi, &dwork[ii], &dwork[ir], &dwork[iwrk], &ierr, 7L);
+        dggbal_("Permute", n, &dwork[ia], n, &dwork[ie], n, &ilo, &ihi, &dwork[ii], &dwork[ir],
+            &dwork[iwrk], &ierr, 7L);
         /*        Apply the permutations to (the copies of) B and C. */
         i__1 = ihi + 1;
-        for (i__ = *n; i__ >= i__1; --i__)
-        {
-            k = (integer) dwork[ii + i__ - 1];
-            if (k != i__)
-            {
+        for (i__ = *n; i__ >= i__1; --i__) {
+            k = (integer)dwork[ii + i__ - 1];
+            if (k != i__) {
                 dswap_(m, &dwork[ib + i__ - 1], n, &dwork[ib + k - 1], n);
             }
-            k = (integer) dwork[ir + i__ - 1];
-            if (k != i__)
-            {
-                dswap_(p, &dwork[ic + (i__ - 1) **p], &c__1, &dwork[ic + (k - 1) **p], &c__1);
+            k = (integer)dwork[ir + i__ - 1];
+            if (k != i__) {
+                dswap_(p, &dwork[ic + (i__ - 1) * *p], &c__1, &dwork[ic + (k - 1) * *p], &c__1);
             }
             /* L10: */
         }
         i__1 = ilo - 1;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
-            k = (integer) dwork[ii + i__ - 1];
-            if (k != i__)
-            {
+        for (i__ = 1; i__ <= i__1; ++i__) {
+            k = (integer)dwork[ii + i__ - 1];
+            if (k != i__) {
                 dswap_(m, &dwork[ib + i__ - 1], n, &dwork[ib + k - 1], n);
             }
-            k = (integer) dwork[ir + i__ - 1];
-            if (k != i__)
-            {
-                dswap_(p, &dwork[ic + (i__ - 1) **p], &c__1, &dwork[ic + (k - 1) **p], &c__1);
+            k = (integer)dwork[ir + i__ - 1];
+            if (k != i__) {
+                dswap_(p, &dwork[ic + (i__ - 1) * *p], &c__1, &dwork[ic + (k - 1) * *p], &c__1);
             }
             /* L20: */
         }
@@ -788,15 +703,17 @@ ftnlen jobd_len;
         /*        Additional workspace: need   N + MAX(N,M); */
         /*                              prefer N + MAX(N,M)*NB. */
         i__1 = *ldwork - iwrk + 1;
-        tg01bd_("General", "No Q", "No Z", n, m, p, &ilo, &ihi, &dwork[ia], n, &dwork[ie], n, &dwork[ib], n, &dwork[ic], p, &dwork[1], &c__1, &dwork[1], &c__1, &dwork[iwrk], &i__1, &ierr, 7L, 4L, 4L);
+        tg01bd_("General", "No Q", "No Z", n, m, p, &ilo, &ihi, &dwork[ia], n, &dwork[ie], n,
+            &dwork[ib], n, &dwork[ic], p, &dwork[1], &c__1, &dwork[1], &c__1, &dwork[iwrk], &i__1,
+            &ierr, 7L, 4L, 4L);
         /* Computing MAX */
-        i__1 = (integer) dwork[iwrk] + iwrk - 1;
-        maxwrk = max(i__1,maxwrk);
+        i__1 = (integer)dwork[iwrk] + iwrk - 1;
+        maxwrk = max(i__1, maxwrk);
         /*        Check whether matrix E is nonsingular. */
         /*        Additional workspace: need   3*N. */
-        dtrcon_("1-norm", "Upper", "Non Unit", n, &dwork[ie], n, &rcond, &dwork[iwrk], &iwork[1], &ierr, 6L, 5L, 8L);
-        if (rcond <= (doublereal) (*n) * 10. * eps)
-        {
+        dtrcon_("1-norm", "Upper", "Non Unit", n, &dwork[ie], n, &rcond, &dwork[iwrk], &iwork[1],
+            &ierr, 6L, 5L, 8L);
+        if (rcond <= (doublereal)(*n) * 10. * eps) {
             /*           Error return: Matrix E is numerically singular. */
             *info = 1;
             return 0;
@@ -811,36 +728,34 @@ ftnlen jobd_len;
         dlacpy_("Full", n, n, &dwork[ia], n, &dwork[ias], n, 4L);
         dlacpy_("Full", n, n, &dwork[ie], n, &dwork[ies], n, 4L);
         i__1 = *ldwork - iwrk + 1;
-        dhgeqz_("Eigenvalues", "No Vectors", "No Vectors", n, &ilo, &ihi, &dwork[ias], n, &dwork[ies], n, &dwork[ir], &dwork[ii], &dwork[ibt], &dwork[1], n, &dwork[1], n, &dwork[iwrk], &i__1, &ierr, 11L, 10L, 10L);
-        if (ierr != 0)
-        {
+        dhgeqz_("Eigenvalues", "No Vectors", "No Vectors", n, &ilo, &ihi, &dwork[ias], n,
+            &dwork[ies], n, &dwork[ir], &dwork[ii], &dwork[ibt], &dwork[1], n, &dwork[1], n,
+            &dwork[iwrk], &i__1, &ierr, 11L, 10L, 10L);
+        if (ierr != 0) {
             *info = 2;
             return 0;
         }
         /* Computing MAX */
-        i__1 = (integer) dwork[iwrk] + iwrk - 1;
-        maxwrk = max(i__1,maxwrk);
+        i__1 = (integer)dwork[iwrk] + iwrk - 1;
+        maxwrk = max(i__1, maxwrk);
         /*        Check if unscaling would cause over/underflow; if so, rescale */
         /*        eigenvalues (DWORK( IR+I-1 ),DWORK( II+I-1 ),DWORK( IBT+I-1 )) */
         /*        so DWORK( IBT+I-1 ) is on the order of E(I,I) and */
         /*        DWORK( IR+I-1 ) and DWORK( II+I-1 ) are on the order of A(I,I). */
-        if (ilascl)
-        {
+        if (ilascl) {
             i__1 = *n;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
-                if (dwork[ii + i__ - 1] != 0.)
-                {
-                    if (dwork[ir + i__ - 1] / safmax > anrmto / anrm || safmin / dwork[ir + i__ - 1] > anrm / anrmto)
-                    {
-                        tm = (d__1 = dwork[ia + (i__ - 1) **n + i__] / dwork[ir + i__ - 1], abs(d__1));
+            for (i__ = 1; i__ <= i__1; ++i__) {
+                if (dwork[ii + i__ - 1] != 0.) {
+                    if (dwork[ir + i__ - 1] / safmax > anrmto / anrm
+                        || safmin / dwork[ir + i__ - 1] > anrm / anrmto) {
+                        tm = (d__1 = dwork[ia + (i__ - 1) * *n + i__] / dwork[ir + i__ - 1],
+                            abs(d__1));
                         dwork[ibt + i__ - 1] *= tm;
                         dwork[ir + i__ - 1] *= tm;
                         dwork[ii + i__ - 1] *= tm;
-                    }
-                    else if (dwork[ii + i__ - 1] / safmax > anrmto / anrm || safmin / dwork[ii + i__ - 1] > anrm / anrmto)
-                    {
-                        tm = (d__1 = dwork[ia + i__ **n + i__] / dwork[ii + i__ - 1], abs(d__1));
+                    } else if (dwork[ii + i__ - 1] / safmax > anrmto / anrm
+                        || safmin / dwork[ii + i__ - 1] > anrm / anrmto) {
+                        tm = (d__1 = dwork[ia + i__ * *n + i__] / dwork[ii + i__ - 1], abs(d__1));
                         dwork[ibt + i__ - 1] *= tm;
                         dwork[ir + i__ - 1] *= tm;
                         dwork[ii + i__ - 1] *= tm;
@@ -849,16 +764,14 @@ ftnlen jobd_len;
                 /* L30: */
             }
         }
-        if (ilescl)
-        {
+        if (ilescl) {
             i__1 = *n;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
-                if (dwork[ii + i__ - 1] != 0.)
-                {
-                    if (dwork[ibt + i__ - 1] / safmax > enrmto / enrm || safmin / dwork[ibt + i__ - 1] > enrm / enrmto)
-                    {
-                        tm = (d__1 = dwork[ie + (i__ - 1) **n + i__] / dwork[ibt + i__ - 1], abs(d__1));
+            for (i__ = 1; i__ <= i__1; ++i__) {
+                if (dwork[ii + i__ - 1] != 0.) {
+                    if (dwork[ibt + i__ - 1] / safmax > enrmto / enrm
+                        || safmin / dwork[ibt + i__ - 1] > enrm / enrmto) {
+                        tm = (d__1 = dwork[ie + (i__ - 1) * *n + i__] / dwork[ibt + i__ - 1],
+                            abs(d__1));
                         dwork[ibt + i__ - 1] *= tm;
                         dwork[ir + i__ - 1] *= tm;
                         dwork[ii + i__ - 1] *= tm;
@@ -868,26 +781,22 @@ ftnlen jobd_len;
             }
         }
         /*        Undo scaling. */
-        if (ilascl)
-        {
+        if (ilascl) {
             dlascl_("Hessenberg", &c__0, &c__0, &anrmto, &anrm, n, n, &dwork[ia], n, &ierr, 10L);
             dlascl_("General", &c__0, &c__0, &anrmto, &anrm, n, &c__1, &dwork[ir], n, &ierr, 7L);
             dlascl_("General", &c__0, &c__0, &anrmto, &anrm, n, &c__1, &dwork[ii], n, &ierr, 7L);
         }
-        if (ilescl)
-        {
+        if (ilescl) {
             dlascl_("Upper", &c__0, &c__0, &enrmto, &enrm, n, n, &dwork[ie], n, &ierr, 5L);
             dlascl_("General", &c__0, &c__0, &enrmto, &enrm, n, &c__1, &dwork[ibt], n, &ierr, 7L);
         }
-    }
-    else
-    {
+    } else {
         /*        Standard state-space system. */
-        if (lequil)
-        {
+        if (lequil) {
             /*           Equilibrate the system. */
             maxred = 100.;
-            tb01id_("All", n, m, p, &maxred, &dwork[ia], n, &dwork[ib], n, &dwork[ic], p, &dwork[ii], &ierr, 3L);
+            tb01id_("All", n, m, p, &maxred, &dwork[ia], n, &dwork[ib], n, &dwork[ic], p,
+                &dwork[ii], &ierr, 3L);
         }
         /*        For efficiency of later calculations, the system (A,B,C) is */
         /*        reduced to a similar one with the state matrix in Hessenberg */
@@ -896,24 +805,20 @@ ftnlen jobd_len;
         /*        and apply the permutations to B and C. */
         dgebal_("Permute", n, &dwork[ia], n, &ilo, &ihi, &dwork[ir], &ierr, 7L);
         i__1 = ihi + 1;
-        for (i__ = *n; i__ >= i__1; --i__)
-        {
-            k = (integer) dwork[ir + i__ - 1];
-            if (k != i__)
-            {
+        for (i__ = *n; i__ >= i__1; --i__) {
+            k = (integer)dwork[ir + i__ - 1];
+            if (k != i__) {
                 dswap_(m, &dwork[ib + i__ - 1], n, &dwork[ib + k - 1], n);
-                dswap_(p, &dwork[ic + (i__ - 1) **p], &c__1, &dwork[ic + (k - 1) **p], &c__1);
+                dswap_(p, &dwork[ic + (i__ - 1) * *p], &c__1, &dwork[ic + (k - 1) * *p], &c__1);
             }
             /* L50: */
         }
         i__1 = ilo - 1;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
-            k = (integer) dwork[ir + i__ - 1];
-            if (k != i__)
-            {
+        for (i__ = 1; i__ <= i__1; ++i__) {
+            k = (integer)dwork[ir + i__ - 1];
+            if (k != i__) {
                 dswap_(m, &dwork[ib + i__ - 1], n, &dwork[ib + k - 1], n);
-                dswap_(p, &dwork[ic + (i__ - 1) **p], &c__1, &dwork[ic + (k - 1) **p], &c__1);
+                dswap_(p, &dwork[ic + (i__ - 1) * *p], &c__1, &dwork[ic + (k - 1) * *p], &c__1);
             }
             /* L60: */
         }
@@ -926,22 +831,24 @@ ftnlen jobd_len;
         i__1 = *ldwork - iwrk + 1;
         dgehrd_(n, &ilo, &ihi, &dwork[ia], n, &dwork[itau], &dwork[iwrk], &i__1, &ierr);
         /* Computing MAX */
-        i__1 = (integer) dwork[iwrk] + iwrk - 1;
-        maxwrk = max(i__1,maxwrk);
+        i__1 = (integer)dwork[iwrk] + iwrk - 1;
+        maxwrk = max(i__1, maxwrk);
         /*        Additional workspace: need   M; */
         /*                              prefer M*NB. */
         i__1 = *ldwork - iwrk + 1;
-        dormhr_("Left", "Transpose", n, m, &ilo, &ihi, &dwork[ia], n, &dwork[itau], &dwork[ib], n, &dwork[iwrk], &i__1, &ierr, 4L, 9L);
+        dormhr_("Left", "Transpose", n, m, &ilo, &ihi, &dwork[ia], n, &dwork[itau], &dwork[ib], n,
+            &dwork[iwrk], &i__1, &ierr, 4L, 9L);
         /* Computing MAX */
-        i__1 = (integer) dwork[iwrk] + iwrk - 1;
-        maxwrk = max(i__1,maxwrk);
+        i__1 = (integer)dwork[iwrk] + iwrk - 1;
+        maxwrk = max(i__1, maxwrk);
         /*        Additional workspace: need   P; */
         /*                              prefer P*NB. */
         i__1 = *ldwork - iwrk + 1;
-        dormhr_("Right", "NoTranspose", p, n, &ilo, &ihi, &dwork[ia], n, &dwork[itau], &dwork[ic], p, &dwork[iwrk], &i__1, &ierr, 5L, 11L);
+        dormhr_("Right", "NoTranspose", p, n, &ilo, &ihi, &dwork[ia], n, &dwork[itau], &dwork[ic],
+            p, &dwork[iwrk], &i__1, &ierr, 5L, 11L);
         /* Computing MAX */
-        i__1 = (integer) dwork[iwrk] + iwrk - 1;
-        maxwrk = max(i__1,maxwrk);
+        i__1 = (integer)dwork[iwrk] + iwrk - 1;
+        maxwrk = max(i__1, maxwrk);
         /*        Compute the eigenvalues. The Hessenberg form is saved for */
         /*        later use. */
         /*        Additional workspace:  need   N*N + N;   (from IBT) */
@@ -950,17 +857,16 @@ ftnlen jobd_len;
         iwrk = ias + nn;
         dlacpy_("Full", n, n, &dwork[ia], n, &dwork[ias], n, 4L);
         i__1 = *ldwork - iwrk + 1;
-        dhseqr_("Eigenvalues", "No Vectors", n, &ilo, &ihi, &dwork[ias], n, &dwork[ir], &dwork[ii], &dwork[1], n, &dwork[iwrk], &i__1, &ierr, 11L, 10L);
-        if (ierr > 0)
-        {
+        dhseqr_("Eigenvalues", "No Vectors", n, &ilo, &ihi, &dwork[ias], n, &dwork[ir], &dwork[ii],
+            &dwork[1], n, &dwork[iwrk], &i__1, &ierr, 11L, 10L);
+        if (ierr > 0) {
             *info = 2;
             return 0;
         }
         /* Computing MAX */
-        i__1 = (integer) dwork[iwrk] + iwrk - 1;
-        maxwrk = max(i__1,maxwrk);
-        if (ilascl)
-        {
+        i__1 = (integer)dwork[iwrk] + iwrk - 1;
+        maxwrk = max(i__1, maxwrk);
+        if (ilascl) {
             /*           Undo scaling for the Hessenberg form of A and eigenvalues. */
             dlascl_("Hessenberg", &c__0, &c__0, &anrmto, &anrm, n, n, &dwork[ia], n, &ierr, 10L);
             dlascl_("General", &c__0, &c__0, &anrmto, &anrm, n, &c__1, &dwork[ir], n, &ierr, 7L);
@@ -975,37 +881,30 @@ ftnlen jobd_len;
     imin = ii;
     wrmin = safmax;
     bound = eps * 1e3;
-    if (discr)
-    {
+    if (discr) {
         gammal = 0.;
         /*        For discrete-time case, compute the logarithm of the non-zero */
         /*        eigenvalues and save their moduli and absolute real parts. */
         /*        (The logarithms are overwritten on the eigenvalues.) */
         /*        Also, find the minimum distance to the unit circle. */
-        if (fulle)
-        {
+        if (fulle) {
             i__1 = *n - 1;
-            for (i__ = 0; i__ <= i__1; ++i__)
-            {
+            for (i__ = 0; i__ <= i__1; ++i__) {
                 tm = dlapy2_(&dwork[ir + i__], &dwork[ii + i__]);
-                if (dwork[ibt + i__] >= 1. || dwork[ibt + i__] < 1. && tm < safmax * dwork[ibt + i__])
-                {
+                if (dwork[ibt + i__] >= 1.
+                    || dwork[ibt + i__] < 1. && tm < safmax * dwork[ibt + i__]) {
                     tm /= dwork[ibt + i__];
-                }
-                else
-                {
+                } else {
                     /*                 The pencil has too large eigenvalues. SAFMAX is used. */
                     tm = safmax;
                 }
-                if (tm != 0.)
-                {
+                if (tm != 0.) {
                     dwork[ii + i__] = atan2(dwork[ii + i__], dwork[ir + i__]);
                     dwork[ir + i__] = log(tm);
                 }
                 dwork[im] = dlapy2_(&dwork[ir + i__], &dwork[ii + i__]);
                 tm = (d__1 = 1. - tm, abs(d__1));
-                if (tm < wrmin)
-                {
+                if (tm < wrmin) {
                     imin = ii + i__;
                     wrmin = tm;
                 }
@@ -1013,22 +912,17 @@ ftnlen jobd_len;
                 dwork[iar + i__] = (d__1 = dwork[ir + i__], abs(d__1));
                 /* L70: */
             }
-        }
-        else
-        {
+        } else {
             i__1 = *n - 1;
-            for (i__ = 0; i__ <= i__1; ++i__)
-            {
+            for (i__ = 0; i__ <= i__1; ++i__) {
                 tm = dlapy2_(&dwork[ir + i__], &dwork[ii + i__]);
-                if (tm != 0.)
-                {
+                if (tm != 0.) {
                     dwork[ii + i__] = atan2(dwork[ii + i__], dwork[ir + i__]);
                     dwork[ir + i__] = log(tm);
                 }
                 dwork[im] = dlapy2_(&dwork[ir + i__], &dwork[ii + i__]);
                 tm = (d__1 = 1. - tm, abs(d__1));
-                if (tm < wrmin)
-                {
+                if (tm < wrmin) {
                     imin = ii + i__;
                     wrmin = tm;
                 }
@@ -1037,67 +931,51 @@ ftnlen jobd_len;
                 /* L80: */
             }
         }
-    }
-    else
-    {
+    } else {
         /*        For continuous-time case, save moduli of eigenvalues and */
         /*        absolute real parts and find the maximum modulus and minimum */
         /*        absolute real part. */
         wmax = 0.;
-        if (fulle)
-        {
+        if (fulle) {
             i__1 = *n - 1;
-            for (i__ = 0; i__ <= i__1; ++i__)
-            {
+            for (i__ = 0; i__ <= i__1; ++i__) {
                 tm = (d__1 = dwork[ir + i__], abs(d__1));
                 dwork[im] = dlapy2_(&dwork[ir + i__], &dwork[ii + i__]);
-                if (dwork[ibt + i__] >= 1. || dwork[ibt + i__] < 1. && dwork[im] < safmax * dwork[ibt + i__])
-                {
+                if (dwork[ibt + i__] >= 1.
+                    || dwork[ibt + i__] < 1. && dwork[im] < safmax * dwork[ibt + i__]) {
                     tm /= dwork[ibt + i__];
                     dwork[im] /= dwork[ibt + i__];
-                }
-                else
-                {
-                    if (tm < safmax * dwork[ibt + i__])
-                    {
+                } else {
+                    if (tm < safmax * dwork[ibt + i__]) {
                         tm /= dwork[ibt + i__];
-                    }
-                    else
-                    {
+                    } else {
                         /*                    The pencil has too large eigenvalues. */
                         /*                    SAFMAX is used. */
                         tm = safmax;
                     }
                     dwork[im] = safmax;
                 }
-                if (tm < wrmin)
-                {
+                if (tm < wrmin) {
                     imin = ii + i__;
                     wrmin = tm;
                 }
                 dwork[iar + i__] = tm;
-                if (dwork[im] > wmax)
-                {
+                if (dwork[im] > wmax) {
                     wmax = dwork[im];
                 }
                 ++im;
                 /* L90: */
             }
-        }
-        else
-        {
+        } else {
             i__1 = *n - 1;
-            for (i__ = 0; i__ <= i__1; ++i__)
-            {
+            for (i__ = 0; i__ <= i__1; ++i__) {
                 tm = (d__1 = dwork[ir + i__], abs(d__1));
-                if (tm < wrmin)
-                {
+                if (tm < wrmin) {
                     imin = ii + i__;
                     wrmin = tm;
                 }
                 dwork[im] = dlapy2_(&dwork[ir + i__], &dwork[ii + i__]);
-                if (dwork[im] > wmax)
-                {
+                if (dwork[im] > wmax) {
                     wmax = dwork[im];
                 }
                 ++im;
@@ -1108,26 +986,21 @@ ftnlen jobd_len;
         bound += eps * wmax;
     }
     im -= *n;
-    if (wrmin < bound)
-    {
+    if (wrmin < bound) {
         /*        The L-infinity norm was found as infinite. */
         gpeak[1] = 1.;
         gpeak[2] = 0.;
         tm = (d__1 = dwork[imin], abs(d__1));
-        if (discr)
-        {
+        if (discr) {
             tm = (d__1 = atan2(sin(tm), cos(tm)), abs(d__1));
         }
         fpeak[1] = tm;
-        if (tm < safmax)
-        {
+        if (tm < safmax) {
             fpeak[2] = 1.;
-        }
-        else
-        {
+        } else {
             fpeak[2] = 0.;
         }
-        dwork[1] = (doublereal) maxwrk;
+        dwork[1] = (doublereal)maxwrk;
         cwork[1].r = 1., cwork[1].i = 0.;
         return 0;
     }
@@ -1153,17 +1026,14 @@ ftnlen jobd_len;
     /*                                              if DICO = 'C'; */
     /*                           LDW2 = 6*MIN(P,M), otherwise. */
     /*                    prefer larger. */
-    if (discr)
-    {
+    if (discr) {
         ias = ia;
         ibs = ib;
         iwrk = iar + *n;
-    }
-    else
-    {
+    } else {
         ias = iar + *n;
         ibs = ias + nn;
-        iwrk = ibs + *n **m;
+        iwrk = ibs + *n * *m;
         dlacpy_("Upper", n, n, &dwork[ia], n, &dwork[ias], n, 5L);
         i__1 = *n - 1;
         i__2 = *n + 1;
@@ -1172,75 +1042,65 @@ ftnlen jobd_len;
         dlacpy_("Full", n, m, &dwork[ib], n, &dwork[ibs], n, 4L);
     }
     i__1 = *ldwork - iwrk + 1;
-    gamma = ab13dx_(dico, jobe, jobd, n, m, p, &c_b21, &dwork[ias], n, &dwork[ie], n, &dwork[ibs], n, &dwork[ic], p, &dwork[id], p, &iwork[1], &dwork[iwrk], &i__1, &cwork[1], lcwork, &ierr, 1L, 1L, 1L);
+    gamma = ab13dx_(dico, jobe, jobd, n, m, p, &c_b21, &dwork[ias], n, &dwork[ie], n, &dwork[ibs],
+        n, &dwork[ic], p, &dwork[id], p, &iwork[1], &dwork[iwrk], &i__1, &cwork[1], lcwork, &ierr,
+        1L, 1L, 1L);
     /* Computing MAX */
-    i__1 = (integer) dwork[iwrk] + iwrk - 1;
-    maxwrk = max(i__1,maxwrk);
-    if (ierr >= 1 && ierr <= *n)
-    {
+    i__1 = (integer)dwork[iwrk] + iwrk - 1;
+    maxwrk = max(i__1, maxwrk);
+    if (ierr >= 1 && ierr <= *n) {
         gpeak[1] = 1.;
         fpeak[1] = 0.;
         gpeak[2] = 0.;
         fpeak[2] = 1.;
         goto L340;
-    }
-    else if (ierr == *n + 1)
-    {
+    } else if (ierr == *n + 1) {
         *info = 3;
         return 0;
     }
     fpeaks = fpeak[1];
     fpeaki = fpeak[2];
-    if (gammal < gamma)
-    {
+    if (gammal < gamma) {
         gammal = gamma;
         fpeak[1] = 0.;
         fpeak[2] = 1.;
-    }
-    else if (! discr)
-    {
+    } else if (!discr) {
         fpeak[1] = 1.;
         fpeak[2] = 0.;
     }
-    maxcwk = (integer) cwork[1].r;
-    if (discr)
-    {
+    maxcwk = (integer)cwork[1].r;
+    if (discr) {
         /*        Try the frequency w = pi. */
         pi = atan(1.) * 4.;
         i__1 = *ldwork - iwrk + 1;
-        gamma = ab13dx_(dico, jobe, jobd, n, m, p, &pi, &dwork[ia], n, &dwork[ie], n, &dwork[ib], n, &dwork[ic], p, &dwork[id], p, &iwork[1], &dwork[iwrk], &i__1, &cwork[1], lcwork, &ierr, 1L, 1L, 1L);
+        gamma = ab13dx_(dico, jobe, jobd, n, m, p, &pi, &dwork[ia], n, &dwork[ie], n, &dwork[ib], n,
+            &dwork[ic], p, &dwork[id], p, &iwork[1], &dwork[iwrk], &i__1, &cwork[1], lcwork, &ierr,
+            1L, 1L, 1L);
         /* Computing MAX */
-        i__1 = (integer) cwork[1].r;
-        maxcwk = max(i__1,maxcwk);
+        i__1 = (integer)cwork[1].r;
+        maxcwk = max(i__1, maxcwk);
         /* Computing MAX */
-        i__1 = (integer) dwork[iwrk] + iwrk - 1;
-        maxwrk = max(i__1,maxwrk);
-        if (ierr >= 1 && ierr <= *n)
-        {
+        i__1 = (integer)dwork[iwrk] + iwrk - 1;
+        maxwrk = max(i__1, maxwrk);
+        if (ierr >= 1 && ierr <= *n) {
             gpeak[1] = 1.;
             fpeak[1] = pi;
             gpeak[2] = 0.;
             fpeak[2] = 1.;
             goto L340;
-        }
-        else if (ierr == *n + 1)
-        {
+        } else if (ierr == *n + 1) {
             *info = 3;
             return 0;
         }
-        if (gammal < gamma)
-        {
+        if (gammal < gamma) {
             gammal = gamma;
             fpeak[1] = pi;
             fpeak[2] = 1.;
         }
-    }
-    else
-    {
+    } else {
         iwrk = ias;
         /*        Restore D, if needed. */
-        if (withd)
-        {
+        if (withd) {
             dlacpy_("Full", p, m, &d__[d_offset], ldd, &dwork[id], p, 4L);
         }
     }
@@ -1249,94 +1109,79 @@ ftnlen jobd_len;
     /*                         prefer larger. */
     /*     Real workspace:     need   LDW2, see above; */
     /*                         prefer larger. */
-    if (min(fpeaks,fpeaki) != 0.)
-    {
+    if (min(fpeaks, fpeaki) != 0.) {
         /*        Compute also the norm at the given (finite) frequency. */
         i__1 = *ldwork - iwrk + 1;
-        gamma = ab13dx_(dico, jobe, jobd, n, m, p, &fpeaks, &dwork[ia], n, &dwork[ie], n, &dwork[ib], n, &dwork[ic], p, &dwork[id], p, &iwork[1], &dwork[iwrk], &i__1, &cwork[1], lcwork, &ierr, 1L, 1L, 1L);
+        gamma = ab13dx_(dico, jobe, jobd, n, m, p, &fpeaks, &dwork[ia], n, &dwork[ie], n,
+            &dwork[ib], n, &dwork[ic], p, &dwork[id], p, &iwork[1], &dwork[iwrk], &i__1, &cwork[1],
+            lcwork, &ierr, 1L, 1L, 1L);
         /* Computing MAX */
-        i__1 = (integer) cwork[1].r;
-        maxcwk = max(i__1,maxcwk);
+        i__1 = (integer)cwork[1].r;
+        maxcwk = max(i__1, maxcwk);
         /* Computing MAX */
-        i__1 = (integer) dwork[iwrk] + iwrk - 1;
-        maxwrk = max(i__1,maxwrk);
-        if (discr)
-        {
+        i__1 = (integer)dwork[iwrk] + iwrk - 1;
+        maxwrk = max(i__1, maxwrk);
+        if (discr) {
             tm = (d__1 = atan2(sin(fpeaks), cos(fpeaks)), abs(d__1));
-        }
-        else
-        {
+        } else {
             tm = fpeaks;
         }
-        if (ierr >= 1 && ierr <= *n)
-        {
+        if (ierr >= 1 && ierr <= *n) {
             gpeak[1] = 1.;
             fpeak[1] = tm;
             gpeak[2] = 0.;
             fpeak[2] = 1.;
             goto L340;
-        }
-        else if (ierr == *n + 1)
-        {
+        } else if (ierr == *n + 1) {
             *info = 3;
             return 0;
         }
-        if (gammal < gamma)
-        {
+        if (gammal < gamma) {
             gammal = gamma;
             fpeak[1] = tm;
             fpeak[2] = 1.;
         }
     }
     i__1 = *n - 1;
-    for (i__ = 0; i__ <= i__1; ++i__)
-    {
-        if (dwork[ii + i__] >= 0. && dwork[im + i__] > 0.)
-        {
-            if (dwork[im + i__] >= 1. || dwork[im + i__] < 1. && dwork[iar + i__] < safmax * dwork[im + i__])
-            {
+    for (i__ = 0; i__ <= i__1; ++i__) {
+        if (dwork[ii + i__] >= 0. && dwork[im + i__] > 0.) {
+            if (dwork[im + i__] >= 1.
+                || dwork[im + i__] < 1. && dwork[iar + i__] < safmax * dwork[im + i__]) {
                 rat = dwork[iar + i__] / dwork[im + i__];
-            }
-            else
-            {
+            } else {
                 rat = 1.;
             }
             /* Computing MAX */
             /* Computing 2nd power */
             d__3 = rat;
             d__1 = .25, d__2 = 1. - d__3 * d__3 * 2.;
-            omega = dwork[im + i__] * sqrt((max(d__1,d__2)));
+            omega = dwork[im + i__] * sqrt((max(d__1, d__2)));
             i__2 = *ldwork - iwrk + 1;
-            gamma = ab13dx_(dico, jobe, jobd, n, m, p, &omega, &dwork[ia], n, &dwork[ie], n, &dwork[ib], n, &dwork[ic], p, &dwork[id], p, &iwork[1], &dwork[iwrk], &i__2, &cwork[1], lcwork, &ierr, 1L, 1L, 1L);
+            gamma = ab13dx_(dico, jobe, jobd, n, m, p, &omega, &dwork[ia], n, &dwork[ie], n,
+                &dwork[ib], n, &dwork[ic], p, &dwork[id], p, &iwork[1], &dwork[iwrk], &i__2,
+                &cwork[1], lcwork, &ierr, 1L, 1L, 1L);
             /* Computing MAX */
-            i__2 = (integer) cwork[1].r;
-            maxcwk = max(i__2,maxcwk);
+            i__2 = (integer)cwork[1].r;
+            maxcwk = max(i__2, maxcwk);
             /* Computing MAX */
-            i__2 = (integer) dwork[iwrk] + iwrk - 1;
-            maxwrk = max(i__2,maxwrk);
-            if (discr)
-            {
+            i__2 = (integer)dwork[iwrk] + iwrk - 1;
+            maxwrk = max(i__2, maxwrk);
+            if (discr) {
                 tm = (d__1 = atan2(sin(omega), cos(omega)), abs(d__1));
-            }
-            else
-            {
+            } else {
                 tm = omega;
             }
-            if (ierr >= 1 && ierr <= *n)
-            {
+            if (ierr >= 1 && ierr <= *n) {
                 gpeak[1] = 1.;
                 fpeak[1] = tm;
                 gpeak[2] = 0.;
                 fpeak[2] = 1.;
                 goto L340;
-            }
-            else if (ierr == *n + 1)
-            {
+            } else if (ierr == *n + 1) {
                 *info = 3;
                 return 0;
             }
-            if (gammal < gamma)
-            {
+            if (gammal < gamma) {
                 gammal = gamma;
                 fpeak[1] = tm;
                 fpeak[2] = 1.;
@@ -1345,8 +1190,7 @@ ftnlen jobd_len;
         /* L110: */
     }
     /*     Return if the lower bound is zero. */
-    if (gammal == 0.)
-    {
+    if (gammal == 0.) {
         gpeak[1] = 0.;
         fpeak[1] = 0.;
         gpeak[2] = 1.;
@@ -1355,8 +1199,7 @@ ftnlen jobd_len;
     }
     /*     Start the modified gamma iteration for the Bruinsma-Steinbuch */
     /*     algorithm. */
-    if (! discr)
-    {
+    if (!discr) {
         rtol = toler * 100.;
     }
     iter = 0;
@@ -1365,20 +1208,16 @@ L120:
     ++iter;
     gamma = (*tol + 1.) * gammal;
     usepen = fulle || discr;
-    if (! usepen && withd)
-    {
+    if (!usepen && withd) {
         /*           Check whether one can use an explicit Hamiltonian matrix: */
         /*           compute */
         /*           min(rcond(GAMMA**2*Im - S'*S), rcond(GAMMA**2*Ip - S*S')). */
         /*           If P = M = 1, then GAMMA**2 - S(1)**2 is used instead. */
-        if (*m != *p)
-        {
+        if (*m != *p) {
             /* Computing 2nd power */
             d__1 = dwork[is] / gamma;
             rcond = 1. - d__1 * d__1;
-        }
-        else if (minpm > 1)
-        {
+        } else if (minpm > 1) {
             /* Computing 2nd power */
             d__1 = gamma;
             /* Computing 2nd power */
@@ -1388,9 +1227,7 @@ L120:
             /* Computing 2nd power */
             d__4 = dwork[is + *p - 1];
             rcond = (d__1 * d__1 - d__2 * d__2) / (d__3 * d__3 - d__4 * d__4);
-        }
-        else
-        {
+        } else {
             /* Computing 2nd power */
             d__1 = gamma;
             /* Computing 2nd power */
@@ -1399,8 +1236,7 @@ L120:
         }
         usepen = rcond < rtol;
     }
-    if (usepen)
-    {
+    if (usepen) {
         /*           Use the QZ algorithm on a pencil. */
         /*           Additional workspace here:  need   6*N.   (from IR) */
         ii = ir + n2;
@@ -1429,14 +1265,11 @@ L120:
         /*           First build [H12; H22]. */
         temp[0] = 0.;
         ih = ih12;
-        if (discr)
-        {
+        if (discr) {
             i__1 = *m;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 i__2 = *n;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = 1; i__ <= i__2; ++i__) {
                     dwork[ih] = b[i__ + j * b_dim1] / bnorm;
                     ++ih;
                     /* L130: */
@@ -1446,8 +1279,7 @@ L120:
                 dwork[ih + *n + j - 1] = 1.;
                 ih = ih + *n + *m;
                 i__2 = *p;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = 1; i__ <= i__2; ++i__) {
                     dwork[ih] = d__[i__ + j * d_dim1] / gamma;
                     ++ih;
                     /* L140: */
@@ -1455,20 +1287,17 @@ L120:
                 /* L150: */
             }
             i__1 = *p;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 dcopy_(n, temp, &c__0, &dwork[ih], &c__1);
                 ih += *n;
                 i__2 = *n;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = 1; i__ <= i__2; ++i__) {
                     dwork[ih] = c__[j + i__ * c_dim1] / bnorm;
                     ++ih;
                     /* L160: */
                 }
                 i__2 = *m;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = 1; i__ <= i__2; ++i__) {
                     dwork[ih] = d__[j + i__ * d_dim1] / gamma;
                     ++ih;
                     /* L170: */
@@ -1478,17 +1307,13 @@ L120:
                 ih += *p;
                 /* L180: */
             }
-        }
-        else
-        {
+        } else {
             i__1 = *p;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 dcopy_(n, temp, &c__0, &dwork[ih], &c__1);
                 ih += *n;
                 i__2 = *n;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = 1; i__ <= i__2; ++i__) {
                     dwork[ih] = c__[j + i__ * c_dim1] / bnorm;
                     ++ih;
                     /* L190: */
@@ -1497,8 +1322,7 @@ L120:
                 dwork[ih + j - 1] = 1.;
                 ih += *p;
                 i__2 = *m;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = 1; i__ <= i__2; ++i__) {
                     dwork[ih] = d__[j + i__ * d_dim1] / gamma;
                     ++ih;
                     /* L200: */
@@ -1506,11 +1330,9 @@ L120:
                 /* L210: */
             }
             i__1 = *m;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 i__2 = *n;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = 1; i__ <= i__2; ++i__) {
                     dwork[ih] = b[i__ + j * b_dim1] / bnorm;
                     ++ih;
                     /* L220: */
@@ -1518,8 +1340,7 @@ L120:
                 dcopy_(n, temp, &c__0, &dwork[ih], &c__1);
                 ih += *n;
                 i__2 = *p;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = 1; i__ <= i__2; ++i__) {
                     dwork[ih] = d__[i__ + j * d_dim1] / gamma;
                     ++ih;
                     /* L230: */
@@ -1541,8 +1362,8 @@ L120:
         i__1 = *ldwork - iwrk + 1;
         dgeqrf_(&n2pm, &pm, &dwork[ih12], &n2pm, &dwork[itau], &dwork[iwrk], &i__1, &ierr);
         /* Computing MAX */
-        i__1 = (integer) dwork[iwrk] + iwrk - 1;
-        maxwrk = max(i__1,maxwrk);
+        i__1 = (integer)dwork[iwrk] + iwrk - 1;
+        maxwrk = max(i__1, maxwrk);
         /*           Apply part of the orthogonal transformation: */
         /*           Q1 = Q(:,P+M+(1:2*N))' to the matrix [H11; H21/GAMMA]. */
         /*           If DICO = 'C', apply Q(1:2*N,P+M+(1:2*N))' to the */
@@ -1557,73 +1378,71 @@ L120:
         i__1 = *ldwork - iwrk + 1;
         dorgqr_(&n2pm, &n2pm, &pm, &dwork[ih12], &n2pm, &dwork[itau], &dwork[iwrk], &i__1, &ierr);
         /* Computing MAX */
-        i__1 = (integer) dwork[iwrk] + iwrk - 1;
-        maxwrk = max(i__1,maxwrk);
+        i__1 = (integer)dwork[iwrk] + iwrk - 1;
+        maxwrk = max(i__1, maxwrk);
         /*           Additional workspace: need   8*N*N. */
         ipa = itau;
         ipe = ipa + (nn << 2);
         iwrk = ipe + (nn << 2);
-        dgemm_("Transpose", "No Transpose", &n2, n, n, &c_b20, &dwork[ih12 + pm * n2pm], &n2pm, &a[a_offset], lda, &c_b21, &dwork[ipa], &n2, 9L, 12L);
-        if (discr)
-        {
+        dgemm_("Transpose", "No Transpose", &n2, n, n, &c_b20, &dwork[ih12 + pm * n2pm], &n2pm,
+            &a[a_offset], lda, &c_b21, &dwork[ipa], &n2, 9L, 12L);
+        if (discr) {
             d__1 = bnorm / gamma;
-            dgemm_("Transpose", "No Transpose", &n2, n, p, &d__1, &dwork[ih12 + pm * n2pm + n2 + *m], &n2pm, &c__[c_offset], ldc, &c_b20, &dwork[ipa], &n2, 9L, 12L);
-            if (fulle)
-            {
-                dgemm_("Transpose", "Transpose", &n2, n, n, &c_b20, &dwork[ih12 + pm * n2pm + *n], &n2pm, &e[e_offset], lde, &c_b21, &dwork[ipa + (nn << 1)], &n2, 9L, 9L);
-            }
-            else
-            {
-                ma02ad_("Full", n, &n2, &dwork[ih12 + pm * n2pm + *n], &n2pm, &dwork[ipa + (nn << 1)], &n2, 4L);
+            dgemm_("Transpose", "No Transpose", &n2, n, p, &d__1,
+                &dwork[ih12 + pm * n2pm + n2 + *m], &n2pm, &c__[c_offset], ldc, &c_b20, &dwork[ipa],
+                &n2, 9L, 12L);
+            if (fulle) {
+                dgemm_("Transpose", "Transpose", &n2, n, n, &c_b20, &dwork[ih12 + pm * n2pm + *n],
+                    &n2pm, &e[e_offset], lde, &c_b21, &dwork[ipa + (nn << 1)], &n2, 9L, 9L);
+            } else {
+                ma02ad_("Full", n, &n2, &dwork[ih12 + pm * n2pm + *n], &n2pm,
+                    &dwork[ipa + (nn << 1)], &n2, 4L);
                 ny = *n;
             }
-        }
-        else
-        {
+        } else {
             d__1 = bnorm / gamma;
-            dgemm_("Transpose", "No Transpose", &n2, n, p, &d__1, &dwork[ih12 + pm * n2pm + n2], &n2pm, &c__[c_offset], ldc, &c_b20, &dwork[ipa], &n2, 9L, 12L);
-            dgemm_("Transpose", "Transpose", &n2, n, n, &c_b163, &dwork[ih12 + pm * n2pm + *n], &n2pm, &a[a_offset], lda, &c_b21, &dwork[ipa + (nn << 1)], &n2, 9L, 9L);
+            dgemm_("Transpose", "No Transpose", &n2, n, p, &d__1, &dwork[ih12 + pm * n2pm + n2],
+                &n2pm, &c__[c_offset], ldc, &c_b20, &dwork[ipa], &n2, 9L, 12L);
+            dgemm_("Transpose", "Transpose", &n2, n, n, &c_b163, &dwork[ih12 + pm * n2pm + *n],
+                &n2pm, &a[a_offset], lda, &c_b21, &dwork[ipa + (nn << 1)], &n2, 9L, 9L);
             d__1 = -bnorm / gamma;
-            dgemm_("Transpose", "Transpose", &n2, n, m, &d__1, &dwork[ih12 + pm * n2pm + n2 + *p], &n2pm, &b[b_offset], ldb, &c_b20, &dwork[ipa + (nn << 1)], &n2, 9L, 9L);
+            dgemm_("Transpose", "Transpose", &n2, n, m, &d__1, &dwork[ih12 + pm * n2pm + n2 + *p],
+                &n2pm, &b[b_offset], ldb, &c_b20, &dwork[ipa + (nn << 1)], &n2, 9L, 9L);
             ny = n2;
         }
-        if (fulle)
-        {
-            dgemm_("Transpose", "No Transpose", &n2, n, n, &c_b20, &dwork[ih12 + pm * n2pm], &n2pm, &e[e_offset], lde, &c_b21, &dwork[ipe], &n2, 9L, 12L);
-        }
-        else
-        {
+        if (fulle) {
+            dgemm_("Transpose", "No Transpose", &n2, n, n, &c_b20, &dwork[ih12 + pm * n2pm], &n2pm,
+                &e[e_offset], lde, &c_b21, &dwork[ipe], &n2, 9L, 12L);
+        } else {
             ma02ad_("Full", &ny, &n2, &dwork[ih12 + pm * n2pm], &n2pm, &dwork[ipe], &n2, 4L);
         }
-        if (discr)
-        {
-            dgemm_("Transpose", "Transpose", &n2, n, n, &c_b20, &dwork[ih12 + pm * n2pm + *n], &n2pm, &a[a_offset], lda, &c_b21, &dwork[ipe + (nn << 1)], &n2, 9L, 9L);
+        if (discr) {
+            dgemm_("Transpose", "Transpose", &n2, n, n, &c_b20, &dwork[ih12 + pm * n2pm + *n],
+                &n2pm, &a[a_offset], lda, &c_b21, &dwork[ipe + (nn << 1)], &n2, 9L, 9L);
             d__1 = bnorm / gamma;
-            dgemm_("Transpose", "Transpose", &n2, n, m, &d__1, &dwork[ih12 + pm * n2pm + n2], &n2pm, &b[b_offset], ldb, &c_b20, &dwork[ipe + (nn << 1)], &n2, 9L, 9L);
-        }
-        else
-        {
-            if (fulle)
-            {
-                dgemm_("Transpose", "Transpose", &n2, n, n, &c_b20, &dwork[ih12 + pm * n2pm + *n], &n2pm, &e[e_offset], lde, &c_b21, &dwork[ipe + (nn << 1)], &n2, 9L, 9L);
+            dgemm_("Transpose", "Transpose", &n2, n, m, &d__1, &dwork[ih12 + pm * n2pm + n2], &n2pm,
+                &b[b_offset], ldb, &c_b20, &dwork[ipe + (nn << 1)], &n2, 9L, 9L);
+        } else {
+            if (fulle) {
+                dgemm_("Transpose", "Transpose", &n2, n, n, &c_b20, &dwork[ih12 + pm * n2pm + *n],
+                    &n2pm, &e[e_offset], lde, &c_b21, &dwork[ipe + (nn << 1)], &n2, 9L, 9L);
             }
         }
         /*           Compute the eigenvalues of the Hamiltonian pencil. */
         /*           Additional workspace: need   16*N; */
         /*                                 prefer larger. */
         i__1 = *ldwork - iwrk + 1;
-        dggev_("No Vectors", "No Vectors", &n2, &dwork[ipa], &n2, &dwork[ipe], &n2, &dwork[ir], &dwork[ii], &dwork[ibt], &dwork[1], &n2, &dwork[1], &n2, &dwork[iwrk], &i__1, &ierr, 10L, 10L);
-        if (ierr > 0)
-        {
+        dggev_("No Vectors", "No Vectors", &n2, &dwork[ipa], &n2, &dwork[ipe], &n2, &dwork[ir],
+            &dwork[ii], &dwork[ibt], &dwork[1], &n2, &dwork[1], &n2, &dwork[iwrk], &i__1, &ierr,
+            10L, 10L);
+        if (ierr > 0) {
             *info = 2;
             return 0;
         }
         /* Computing MAX */
-        i__1 = (integer) dwork[iwrk] + iwrk - 1;
-        maxwrk = max(i__1,maxwrk);
-    }
-    else if (! withd)
-    {
+        i__1 = (integer)dwork[iwrk] + iwrk - 1;
+        maxwrk = max(i__1, maxwrk);
+    } else if (!withd) {
         /*           Standard continuous-time case with D = 0. */
         /*           Form the needed part of the Hamiltonian matrix explicitly: */
         /*              H = H11 - H12*inv(H22)*H21/g. */
@@ -1634,12 +1453,12 @@ L120:
         dlacpy_("Full", n, n, &a[a_offset], lda, &dwork[ih], n, 4L);
         /*           Compute triangles of -C'*C/GAMMA and B*B'/GAMMA. */
         d__1 = -1. / gamma;
-        dsyrk_("Lower", "Transpose", n, p, &d__1, &c__[c_offset], ldc, &c_b21, &dwork[ih12], n, 5L, 9L);
+        dsyrk_("Lower", "Transpose", n, p, &d__1, &c__[c_offset], ldc, &c_b21, &dwork[ih12], n, 5L,
+            9L);
         d__1 = 1. / gamma;
-        dsyrk_("Upper", "No Transpose", n, m, &d__1, &b[b_offset], ldb, &c_b21, &dwork[ih12 + *n], n, 5L, 12L);
-    }
-    else
-    {
+        dsyrk_("Upper", "No Transpose", n, m, &d__1, &b[b_offset], ldb, &c_b21, &dwork[ih12 + *n],
+            n, 5L, 12L);
+    } else {
         /*           Standard continuous-time case with D <> 0 and the SVD of D */
         /*           can be used. Compute explicitly the needed part of the */
         /*           Hamiltonian matrix: */
@@ -1656,8 +1475,7 @@ L120:
         ih12 = ih + nn;
         isl = ih12 + nn + *n;
         i__1 = minpm - 1;
-        for (i__ = 0; i__ <= i__1; ++i__)
-        {
+        for (i__ = 0; i__ <= i__1; ++i__) {
             /* Computing 2nd power */
             d__1 = gamma;
             /* Computing 2nd power */
@@ -1665,28 +1483,27 @@ L120:
             dwork[isl + i__] = 1. / sqrt(d__1 * d__1 - d__2 * d__2);
             /* L250: */
         }
-        if (*m < *p)
-        {
+        if (*m < *p) {
             dwork[isl + *m] = 1. / gamma;
             i__1 = *p - *m - 1;
             dcopy_(&i__1, &dwork[isl + *m], &c__0, &dwork[isl + *m + 1], &c__1);
         }
-        isc = isl + max(*m,*p);
+        isc = isl + max(*m, *p);
         dlacpy_("Full", n, p, &dwork[icu], n, &dwork[isc], n, 4L);
         mb01sd_("Column", n, p, &dwork[isc], n, &dwork[1], &dwork[isl], 6L);
         /*           Compute B1*S' . */
         /*           Additional workspace: need   N*M. */
-        isb = isc + *p **n;
+        isb = isc + *p * *n;
         dlacpy_("Full", n, m, &dwork[ibv], n, &dwork[isb], n, 4L);
         mb01sd_("Column", n, &minpm, &dwork[isb], n, &dwork[1], &dwork[is], 6L);
         /*           Compute B1*S'*sqrt(inv(g^2*Ip-S*S')) . */
         mb01sd_("Column", n, &minpm, &dwork[isb], n, &dwork[1], &dwork[isl], 6L);
         /*           Compute H11 . */
         dlacpy_("Full", n, n, &a[a_offset], lda, &dwork[ih], n, 4L);
-        dgemm_("No Transpose", "Transpose", n, n, &minpm, &c_b20, &dwork[isb], n, &dwork[isc], n, &c_b20, &dwork[ih], n, 12L, 9L);
+        dgemm_("No Transpose", "Transpose", n, n, &minpm, &c_b20, &dwork[isb], n, &dwork[isc], n,
+            &c_b20, &dwork[ih], n, 12L, 9L);
         /*           Compute B1*sqrt(inv(g^2*Im-S'*S)) . */
-        if (*p < *m)
-        {
+        if (*p < *m) {
             dwork[isl + *p] = 1. / gamma;
             i__1 = *m - *p - 1;
             dcopy_(&i__1, &dwork[isl + *p], &c__0, &dwork[isl + *p + 1], &c__1);
@@ -1696,26 +1513,28 @@ L120:
         /*           Compute the lower triangle of H21 and the upper triangle */
         /*           of H12. */
         d__1 = -gamma;
-        dsyrk_("Lower", "No Transpose", n, p, &d__1, &dwork[isc], n, &c_b21, &dwork[ih12], n, 5L, 12L);
-        dsyrk_("Upper", "No Transpose", n, m, &gamma, &dwork[isb], n, &c_b21, &dwork[ih12 + *n], n, 5L, 12L);
+        dsyrk_(
+            "Lower", "No Transpose", n, p, &d__1, &dwork[isc], n, &c_b21, &dwork[ih12], n, 5L, 12L);
+        dsyrk_("Upper", "No Transpose", n, m, &gamma, &dwork[isb], n, &c_b21, &dwork[ih12 + *n], n,
+            5L, 12L);
     }
-    if (! usepen)
-    {
+    if (!usepen) {
         /*           Compute the eigenvalues of the Hamiltonian matrix by the */
         /*           symplectic URV and the periodic Schur decompositions. */
         /*           Additional workspace: need   (2*N+8)*N; */
         /*                                 prefer larger. */
         iwrk = isl + nn;
         i__1 = *ldwork - iwrk - *n + 1;
-        mb03xd_("Both", "Eigenvalues", "No vectors", "No vectors", n, &dwork[ih], n, &dwork[ih12], n, &dwork[isl], n, temp, &c__1, temp, &c__1, temp, &c__1, temp, &c__1, &dwork[ir], &dwork[ii], &ilo, &dwork[iwrk], &dwork[iwrk + *n], &i__1, &ierr, 4L, 11L, 10L, 10L);
-        if (ierr > 0)
-        {
+        mb03xd_("Both", "Eigenvalues", "No vectors", "No vectors", n, &dwork[ih], n, &dwork[ih12],
+            n, &dwork[isl], n, temp, &c__1, temp, &c__1, temp, &c__1, temp, &c__1, &dwork[ir],
+            &dwork[ii], &ilo, &dwork[iwrk], &dwork[iwrk + *n], &i__1, &ierr, 4L, 11L, 10L, 10L);
+        if (ierr > 0) {
             *info = 2;
             return 0;
         }
         /* Computing MAX */
-        i__1 = (integer) dwork[iwrk] + iwrk + *n - 1;
-        maxwrk = max(i__1,maxwrk);
+        i__1 = (integer)dwork[iwrk] + iwrk + *n - 1;
+        maxwrk = max(i__1, maxwrk);
     }
     /*        Detect eigenvalues on the boundary of the stability domain, */
     /*        if any. The test is based on a round-off level of eps*rho(H) */
@@ -1728,82 +1547,61 @@ L120:
     /*        Compute maximum eigenvalue modulus and check the absolute real */
     /*        parts (if DICO = 'C'), or moduli (if DICO = 'D'). */
     wmax = 0.;
-    if (usepen)
-    {
+    if (usepen) {
         /*           Additional workspace: need   2*N, if DICO = 'D';   (from IM) */
         /*                                        0,   if DICO = 'C'. */
         i__1 = n2 - 1;
-        for (i__ = 0; i__ <= i__1; ++i__)
-        {
+        for (i__ = 0; i__ <= i__1; ++i__) {
             tm = dlapy2_(&dwork[ir + i__], &dwork[ii + i__]);
-            if (dwork[ibt + i__] >= 1. || dwork[ibt + i__] < 1. && tm < safmax * dwork[ibt + i__])
-            {
+            if (dwork[ibt + i__] >= 1. || dwork[ibt + i__] < 1. && tm < safmax * dwork[ibt + i__]) {
                 tm /= dwork[ibt + i__];
-            }
-            else
-            {
+            } else {
                 /*                 The pencil has too large eigenvalues. SAFMAX is used. */
                 tm = safmax;
             }
-            wmax = max(wmax,tm);
-            if (discr)
-            {
+            wmax = max(wmax, tm);
+            if (discr) {
                 dwork[im + i__] = tm;
             }
             /* L260: */
         }
-    }
-    else
-    {
+    } else {
         i__1 = *n - 1;
-        for (i__ = 0; i__ <= i__1; ++i__)
-        {
+        for (i__ = 0; i__ <= i__1; ++i__) {
             tm = dlapy2_(&dwork[ir + i__], &dwork[ii + i__]);
-            wmax = max(wmax,tm);
+            wmax = max(wmax, tm);
             /* L270: */
         }
     }
     nei = 0;
-    if (usepen)
-    {
+    if (usepen) {
         i__1 = n2 - 1;
-        for (i__ = 0; i__ <= i__1; ++i__)
-        {
-            if (discr)
-            {
+        for (i__ = 0; i__ <= i__1; ++i__) {
+            if (discr) {
                 tm = (d__1 = 1. - dwork[im + i__], abs(d__1));
-            }
-            else
-            {
+            } else {
                 tm = (d__1 = dwork[ir + i__], abs(d__1));
-                if (dwork[ibt + i__] >= 1. || dwork[ibt + i__] < 1. && tm < safmax * dwork[ibt + i__])
-                {
+                if (dwork[ibt + i__] >= 1.
+                    || dwork[ibt + i__] < 1. && tm < safmax * dwork[ibt + i__]) {
                     tm /= dwork[ibt + i__];
-                }
-                else
-                {
+                } else {
                     /*                    The pencil has too large eigenvalues. */
                     /*                    SAFMAX is used. */
                     tm = safmax;
                 }
             }
-            if (tm <= toler * sqrt(wmax + 100.))
-            {
+            if (tm <= toler * sqrt(wmax + 100.)) {
                 dwork[ir + nei] = dwork[ir + i__] / dwork[ibt + i__];
                 dwork[ii + nei] = dwork[ii + i__] / dwork[ibt + i__];
                 ++nei;
             }
             /* L280: */
         }
-    }
-    else
-    {
+    } else {
         i__1 = *n - 1;
-        for (i__ = 0; i__ <= i__1; ++i__)
-        {
+        for (i__ = 0; i__ <= i__1; ++i__) {
             tm = (d__1 = dwork[ir + i__], abs(d__1));
-            if (tm <= toler * sqrt(wmax + 100.))
-            {
+            if (tm <= toler * sqrt(wmax + 100.)) {
                 dwork[ir + nei] = dwork[ir + i__];
                 dwork[ii + nei] = dwork[ii + i__];
                 ++nei;
@@ -1811,8 +1609,7 @@ L120:
             /* L290: */
         }
     }
-    if (nei == 0)
-    {
+    if (nei == 0) {
         /*           There is no eigenvalue on the boundary of the stability */
         /*           domain for G = ( ONE + TOL )*GAMMAL. The norm was found. */
         gpeak[1] = gammal;
@@ -1822,33 +1619,24 @@ L120:
     /*        Compute the frequencies where the gain G is attained and */
     /*        generate new test frequencies. */
     nws = 0;
-    if (discr)
-    {
+    if (discr) {
         i__1 = nei - 1;
-        for (i__ = 0; i__ <= i__1; ++i__)
-        {
+        for (i__ = 0; i__ <= i__1; ++i__) {
             tm = atan2(dwork[ii + i__], dwork[ir + i__]);
-            dwork[ir + i__] = max(eps,tm);
+            dwork[ir + i__] = max(eps, tm);
             ++nws;
             /* L300: */
         }
-    }
-    else
-    {
+    } else {
         j = 0;
         i__1 = nei - 1;
-        for (i__ = 0; i__ <= i__1; ++i__)
-        {
-            if (dwork[ii + i__] > eps)
-            {
+        for (i__ = 0; i__ <= i__1; ++i__) {
+            if (dwork[ii + i__] > eps) {
                 dwork[ir + nws] = dwork[ii + i__];
                 ++nws;
-            }
-            else if (dwork[ii + i__] == eps)
-            {
+            } else if (dwork[ii + i__] == eps) {
                 ++j;
-                if (j == 1)
-                {
+                if (j == 1) {
                     dwork[ir + nws] = eps;
                     ++nws;
                 }
@@ -1859,25 +1647,19 @@ L120:
     dlasrt_("Increasing", &nws, &dwork[ir], &ierr, 10L);
     lw = 1;
     i__1 = nws - 1;
-    for (i__ = 0; i__ <= i__1; ++i__)
-    {
-        if (dwork[ir + lw - 1] != dwork[ir + i__])
-        {
+    for (i__ = 0; i__ <= i__1; ++i__) {
+        if (dwork[ir + lw - 1] != dwork[ir + i__]) {
             dwork[ir + lw] = dwork[ir + i__];
             ++lw;
         }
         /* L320: */
     }
-    if (lw == 1)
-    {
-        if (iter == 1 && nws >= 1)
-        {
+    if (lw == 1) {
+        if (iter == 1 && nws >= 1) {
             /*              Duplicate the frequency trying to force iteration. */
             dwork[ir + 1] = dwork[ir];
             ++lw;
-        }
-        else
-        {
+        } else {
             /*              The norm was found. */
             gpeak[1] = gammal;
             gpeak[2] = 1.;
@@ -1889,49 +1671,40 @@ L120:
     iwrk = ir + lw;
     gammas = gammal;
     i__1 = lw - 2;
-    for (i__ = 0; i__ <= i__1; ++i__)
-    {
-        if (discr)
-        {
+    for (i__ = 0; i__ <= i__1; ++i__) {
+        if (discr) {
             omega = (dwork[ir + i__] + dwork[ir + i__ + 1]) / 2.;
-        }
-        else
-        {
+        } else {
             omega = sqrt(dwork[ir + i__] * dwork[ir + i__ + 1]);
         }
         /*           Additional workspace:  need   LDW2, see above; */
         /*                                  prefer larger. */
         i__2 = *ldwork - iwrk + 1;
-        gamma = ab13dx_(dico, jobe, jobd, n, m, p, &omega, &dwork[ia], n, &dwork[ie], n, &dwork[ib], n, &dwork[ic], p, &dwork[id], p, &iwork[1], &dwork[iwrk], &i__2, &cwork[1], lcwork, &ierr, 1L, 1L, 1L);
+        gamma = ab13dx_(dico, jobe, jobd, n, m, p, &omega, &dwork[ia], n, &dwork[ie], n, &dwork[ib],
+            n, &dwork[ic], p, &dwork[id], p, &iwork[1], &dwork[iwrk], &i__2, &cwork[1], lcwork,
+            &ierr, 1L, 1L, 1L);
         /* Computing MAX */
-        i__2 = (integer) cwork[1].r;
-        maxcwk = max(i__2,maxcwk);
+        i__2 = (integer)cwork[1].r;
+        maxcwk = max(i__2, maxcwk);
         /* Computing MAX */
-        i__2 = (integer) dwork[iwrk] + iwrk - 1;
-        maxwrk = max(i__2,maxwrk);
-        if (discr)
-        {
+        i__2 = (integer)dwork[iwrk] + iwrk - 1;
+        maxwrk = max(i__2, maxwrk);
+        if (discr) {
             tm = (d__1 = atan2(sin(omega), cos(omega)), abs(d__1));
-        }
-        else
-        {
+        } else {
             tm = omega;
         }
-        if (ierr >= 1 && ierr <= *n)
-        {
+        if (ierr >= 1 && ierr <= *n) {
             gpeak[1] = 1.;
             fpeak[1] = tm;
             gpeak[2] = 0.;
             fpeak[2] = 1.;
             goto L340;
-        }
-        else if (ierr == *n + 1)
-        {
+        } else if (ierr == *n + 1) {
             *info = 3;
             return 0;
         }
-        if (gammal < gamma)
-        {
+        if (gammal < gamma) {
             gammal = gamma;
             fpeak[1] = tm;
             fpeak[2] = 1.;
@@ -1941,26 +1714,21 @@ L120:
     /*        If the lower bound has not been improved, return. (This is a */
     /*        safeguard against undetected modes of Hamiltonian matrix on the */
     /*        boundary of the stability domain.) */
-    if (gammal < gammas * (*tol / 10. + 1.))
-    {
+    if (gammal < gammas * (*tol / 10. + 1.)) {
         gpeak[1] = gammal;
         gpeak[2] = 1.;
         goto L340;
     }
     /*     END WHILE */
-    if (iter <= 30)
-    {
+    if (iter <= 30) {
         goto L120;
-    }
-    else
-    {
+    } else {
         *info = 4;
         return 0;
     }
 L340:
-    dwork[1] = (doublereal) maxwrk;
-    cwork[1].r = (doublereal) maxcwk, cwork[1].i = 0.;
+    dwork[1] = (doublereal)maxwrk;
+    cwork[1].r = (doublereal)maxcwk, cwork[1].i = 0.;
     return 0;
     /* *** Last line of AB13DD *** */
 } /* ab13dd_ */
-

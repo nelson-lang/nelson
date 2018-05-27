@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -14,17 +14,17 @@ static doublereal c_b18 = 1.;
 static integer c__2 = 2;
 static integer c__0 = 0;
 
-EXPORTSYMBOL /* Subroutine */ int mb04zd_(compu, n, a, lda, qg, ldqg, u, ldu, dwork, info, compu_len)
-char *compu;
-integer *n;
-doublereal *a;
-integer *lda;
-doublereal *qg;
-integer *ldqg;
-doublereal *u;
-integer *ldu;
-doublereal *dwork;
-integer *info;
+EXPORTSYMBOL /* Subroutine */ int mb04zd_(
+    compu, n, a, lda, qg, ldqg, u, ldu, dwork, info, compu_len) char* compu;
+integer* n;
+doublereal* a;
+integer* lda;
+doublereal* qg;
+integer* ldqg;
+doublereal* u;
+integer* ldu;
+doublereal* dwork;
+integer* info;
 ftnlen compu_len;
 {
     /* System generated locals */
@@ -37,7 +37,7 @@ ftnlen compu_len;
     static doublereal temp;
     extern /* Subroutine */ int drot_(), dsyr2_();
     static integer j;
-    static doublereal t[4]	/* was [2][2] */, x, y;
+    static doublereal t[4] /* was [2][2] */, x, y;
     static logical accum;
     extern logical lsame_();
     extern /* Subroutine */ int dgemv_(), dcopy_(), daxpy_();
@@ -244,41 +244,29 @@ ftnlen compu_len;
     accum = lsame_(compu, "A", 1L, 1L) || lsame_(compu, "V", 1L, 1L);
     form = lsame_(compu, "F", 1L, 1L) || lsame_(compu, "I", 1L, 1L);
     forget = lsame_(compu, "N", 1L, 1L);
-    if (! accum && ! form && ! forget)
-    {
+    if (!accum && !form && !forget) {
         *info = -1;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -2;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -4;
-    }
-    else if (*ldqg < max(1,*n))
-    {
+    } else if (*ldqg < max(1, *n)) {
         *info = -6;
-    }
-    else if (*ldu < 1 || ! forget && *ldu < max(1,*n))
-    {
+    } else if (*ldu < 1 || !forget && *ldu < max(1, *n)) {
         *info = -8;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB04ZD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
+    if (*n == 0) {
         return 0;
     }
     /*     Transform to square-reduced form. */
     i__1 = *n - 1;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         /*                         T */
         /*        DWORK <- (Q*A - A *Q)(J+1:N,J). */
         i__2 = j - 1;
@@ -286,11 +274,14 @@ ftnlen compu_len;
         i__2 = *n - j + 1;
         dcopy_(&i__2, &qg[j + j * qg_dim1], &c__1, &dwork[*n + j], &c__1);
         i__2 = *n - j;
-        dgemv_("Transpose", n, &i__2, &c_b13, &a[(j + 1) * a_dim1 + 1], lda, &dwork[*n + 1], &c__1, &c_b15, &dwork[j + 1], &c__1, 9L);
+        dgemv_("Transpose", n, &i__2, &c_b13, &a[(j + 1) * a_dim1 + 1], lda, &dwork[*n + 1], &c__1,
+            &c_b15, &dwork[j + 1], &c__1, 9L);
         i__2 = *n - j;
-        dgemv_("NoTranspose", &i__2, &j, &c_b18, &qg[j + 1 + qg_dim1], ldqg, &a[j * a_dim1 + 1], &c__1, &c_b18, &dwork[j + 1], &c__1, 11L);
+        dgemv_("NoTranspose", &i__2, &j, &c_b18, &qg[j + 1 + qg_dim1], ldqg, &a[j * a_dim1 + 1],
+            &c__1, &c_b18, &dwork[j + 1], &c__1, 11L);
         i__2 = *n - j;
-        dsymv_("Lower", &i__2, &c_b18, &qg[j + 1 + (j + 1) * qg_dim1], ldqg, &a[j + 1 + j * a_dim1], &c__1, &c_b18, &dwork[j + 1], &c__1, 5L);
+        dsymv_("Lower", &i__2, &c_b18, &qg[j + 1 + (j + 1) * qg_dim1], ldqg, &a[j + 1 + j * a_dim1],
+            &c__1, &c_b18, &dwork[j + 1], &c__1, 5L);
         /*        Symplectic reflection to zero (H*H)((N+J+2):2N,J). */
         i__2 = *n - j;
         dlarfg_(&i__2, &dwork[j + 1], &dwork[j + 2], &c__1, &tau);
@@ -299,55 +290,65 @@ ftnlen compu_len;
         i__2 = *n - j;
         dlarfx_("Left", &i__2, n, &dwork[j + 1], &tau, &a[j + 1 + a_dim1], lda, &dwork[*n + 1], 4L);
         i__2 = *n - j;
-        dlarfx_("Right", n, &i__2, &dwork[j + 1], &tau, &a[(j + 1) * a_dim1 + 1], lda, &dwork[*n + 1], 5L);
+        dlarfx_("Right", n, &i__2, &dwork[j + 1], &tau, &a[(j + 1) * a_dim1 + 1], lda,
+            &dwork[*n + 1], 5L);
         i__2 = *n - j;
-        dlarfx_("Left", &i__2, &j, &dwork[j + 1], &tau, &qg[j + 1 + qg_dim1], ldqg, &dwork[*n + 1], 4L);
+        dlarfx_(
+            "Left", &i__2, &j, &dwork[j + 1], &tau, &qg[j + 1 + qg_dim1], ldqg, &dwork[*n + 1], 4L);
         i__2 = *n - j;
-        dsymv_("Lower", &i__2, &tau, &qg[j + 1 + (j + 1) * qg_dim1], ldqg, &dwork[j + 1], &c__1, &c_b15, &dwork[*n + j + 1], &c__1, 5L);
-        i__2 = *n - j;
-        i__3 = *n - j;
-        d__1 = -tau * ddot_(&i__3, &dwork[*n + j + 1], &c__1, &dwork[j + 1], &c__1) / 2.;
-        daxpy_(&i__2, &d__1, &dwork[j + 1], &c__1, &dwork[*n + j + 1], &c__1);
-        i__2 = *n - j;
-        dsyr2_("Lower", &i__2, &c_b13, &dwork[j + 1], &c__1, &dwork[*n + j + 1], &c__1, &qg[j + 1 + (j + 1) * qg_dim1], ldqg, 5L);
-        i__2 = *n - j;
-        dlarfx_("Right", &j, &i__2, &dwork[j + 1], &tau, &qg[(j + 2) * qg_dim1 + 1], ldqg, &dwork[*n + 1], 5L);
-        i__2 = *n - j;
-        dsymv_("Upper", &i__2, &tau, &qg[j + 1 + (j + 2) * qg_dim1], ldqg, &dwork[j + 1], &c__1, &c_b15, &dwork[*n + j + 1], &c__1, 5L);
+        dsymv_("Lower", &i__2, &tau, &qg[j + 1 + (j + 1) * qg_dim1], ldqg, &dwork[j + 1], &c__1,
+            &c_b15, &dwork[*n + j + 1], &c__1, 5L);
         i__2 = *n - j;
         i__3 = *n - j;
         d__1 = -tau * ddot_(&i__3, &dwork[*n + j + 1], &c__1, &dwork[j + 1], &c__1) / 2.;
         daxpy_(&i__2, &d__1, &dwork[j + 1], &c__1, &dwork[*n + j + 1], &c__1);
         i__2 = *n - j;
-        dsyr2_("Upper", &i__2, &c_b13, &dwork[j + 1], &c__1, &dwork[*n + j + 1], &c__1, &qg[j + 1 + (j + 2) * qg_dim1], ldqg, 5L);
-        if (form)
-        {
+        dsyr2_("Lower", &i__2, &c_b13, &dwork[j + 1], &c__1, &dwork[*n + j + 1], &c__1,
+            &qg[j + 1 + (j + 1) * qg_dim1], ldqg, 5L);
+        i__2 = *n - j;
+        dlarfx_("Right", &j, &i__2, &dwork[j + 1], &tau, &qg[(j + 2) * qg_dim1 + 1], ldqg,
+            &dwork[*n + 1], 5L);
+        i__2 = *n - j;
+        dsymv_("Upper", &i__2, &tau, &qg[j + 1 + (j + 2) * qg_dim1], ldqg, &dwork[j + 1], &c__1,
+            &c_b15, &dwork[*n + j + 1], &c__1, 5L);
+        i__2 = *n - j;
+        i__3 = *n - j;
+        d__1 = -tau * ddot_(&i__3, &dwork[*n + j + 1], &c__1, &dwork[j + 1], &c__1) / 2.;
+        daxpy_(&i__2, &d__1, &dwork[j + 1], &c__1, &dwork[*n + j + 1], &c__1);
+        i__2 = *n - j;
+        dsyr2_("Upper", &i__2, &c_b13, &dwork[j + 1], &c__1, &dwork[*n + j + 1], &c__1,
+            &qg[j + 1 + (j + 2) * qg_dim1], ldqg, 5L);
+        if (form) {
             /*           Save reflection. */
             i__2 = *n - j;
             dcopy_(&i__2, &dwork[j + 1], &c__1, &u[j + 1 + j * u_dim1], &c__1);
             u[j + 1 + j * u_dim1] = tau;
-        }
-        else if (accum)
-        {
+        } else if (accum) {
             /*           Accumulate reflection. */
             i__2 = *n - j;
-            dlarfx_("Right", n, &i__2, &dwork[j + 1], &tau, &u[(j + 1) * u_dim1 + 1], ldu, &dwork[*n + 1], 5L);
+            dlarfx_("Right", n, &i__2, &dwork[j + 1], &tau, &u[(j + 1) * u_dim1 + 1], ldu,
+                &dwork[*n + 1], 5L);
             i__2 = *n - j;
-            dlarfx_("Right", n, &i__2, &dwork[j + 1], &tau, &u[(*n + j + 1) * u_dim1 + 1], ldu, &dwork[*n + 1], 5L);
+            dlarfx_("Right", n, &i__2, &dwork[j + 1], &tau, &u[(*n + j + 1) * u_dim1 + 1], ldu,
+                &dwork[*n + 1], 5L);
         }
         /*        (X,Y) := ((J+1,J),(N+J+1,J)) component of H*H. */
         i__2 = *n - j;
-        x = ddot_(&j, &qg[(j + 2) * qg_dim1 + 1], &c__1, &qg[j + qg_dim1], ldqg) + ddot_(&i__2, &qg[j + 1 + (j + 2) * qg_dim1], ldqg, &qg[j + 1 + j * qg_dim1], &c__1) + ddot_(n, &a[j + 1 + a_dim1], lda, &a[j * a_dim1 + 1], &c__1);
+        x = ddot_(&j, &qg[(j + 2) * qg_dim1 + 1], &c__1, &qg[j + qg_dim1], ldqg)
+            + ddot_(&i__2, &qg[j + 1 + (j + 2) * qg_dim1], ldqg, &qg[j + 1 + j * qg_dim1], &c__1)
+            + ddot_(n, &a[j + 1 + a_dim1], lda, &a[j * a_dim1 + 1], &c__1);
         /*        Symplectic rotation to zero (H*H)(N+J+1,J). */
         dlartg_(&x, &y, &cosine, &sine, &temp);
         drot_(&j, &a[j + 1 + a_dim1], lda, &qg[j + 1 + qg_dim1], ldqg, &cosine, &sine);
-        drot_(&j, &a[(j + 1) * a_dim1 + 1], &c__1, &qg[(j + 2) * qg_dim1 + 1], &c__1, &cosine, &sine);
-        if (j < *n - 1)
-        {
+        drot_(
+            &j, &a[(j + 1) * a_dim1 + 1], &c__1, &qg[(j + 2) * qg_dim1 + 1], &c__1, &cosine, &sine);
+        if (j < *n - 1) {
             i__2 = *n - j - 1;
-            drot_(&i__2, &a[j + 1 + (j + 2) * a_dim1], lda, &qg[j + 2 + (j + 1) * qg_dim1], &c__1, &cosine, &sine);
+            drot_(&i__2, &a[j + 1 + (j + 2) * a_dim1], lda, &qg[j + 2 + (j + 1) * qg_dim1], &c__1,
+                &cosine, &sine);
             i__2 = *n - j - 1;
-            drot_(&i__2, &a[j + 2 + (j + 1) * a_dim1], &c__1, &qg[j + 1 + (j + 3) * qg_dim1], ldqg, &cosine, &sine);
+            drot_(&i__2, &a[j + 2 + (j + 1) * a_dim1], &c__1, &qg[j + 1 + (j + 3) * qg_dim1], ldqg,
+                &cosine, &sine);
         }
         t[0] = a[j + 1 + (j + 1) * a_dim1];
         t[2] = qg[j + 1 + (j + 2) * qg_dim1];
@@ -358,24 +359,25 @@ ftnlen compu_len;
         a[j + 1 + (j + 1) * a_dim1] = t[0];
         qg[j + 1 + (j + 2) * qg_dim1] = t[2];
         qg[j + 1 + (j + 1) * qg_dim1] = t[1];
-        if (form)
-        {
+        if (form) {
             /*           Save rotation. */
             u[j + j * u_dim1] = cosine;
             u[j + (*n + j) * u_dim1] = sine;
-        }
-        else if (accum)
-        {
+        } else if (accum) {
             /*           Accumulate rotation. */
-            drot_(n, &u[(j + 1) * u_dim1 + 1], &c__1, &u[(*n + j + 1) * u_dim1 + 1], &c__1, &cosine, &sine);
+            drot_(n, &u[(j + 1) * u_dim1 + 1], &c__1, &u[(*n + j + 1) * u_dim1 + 1], &c__1, &cosine,
+                &sine);
         }
         /*        DWORK := (A*A  + G*Q)(J+1:N,J). */
         i__2 = *n - j;
-        dgemv_("NoTranspose", &i__2, n, &c_b18, &a[j + 1 + a_dim1], lda, &a[j * a_dim1 + 1], &c__1, &c_b15, &dwork[j + 1], &c__1, 11L);
+        dgemv_("NoTranspose", &i__2, n, &c_b18, &a[j + 1 + a_dim1], lda, &a[j * a_dim1 + 1], &c__1,
+            &c_b15, &dwork[j + 1], &c__1, 11L);
         i__2 = *n - j;
-        dgemv_("Transpose", &j, &i__2, &c_b18, &qg[(j + 2) * qg_dim1 + 1], ldqg, &qg[j + qg_dim1], ldqg, &c_b18, &dwork[j + 1], &c__1, 9L);
+        dgemv_("Transpose", &j, &i__2, &c_b18, &qg[(j + 2) * qg_dim1 + 1], ldqg, &qg[j + qg_dim1],
+            ldqg, &c_b18, &dwork[j + 1], &c__1, 9L);
         i__2 = *n - j;
-        dsymv_("Upper", &i__2, &c_b18, &qg[j + 1 + (j + 2) * qg_dim1], ldqg, &qg[j + 1 + j * qg_dim1], &c__1, &c_b18, &dwork[j + 1], &c__1, 5L);
+        dsymv_("Upper", &i__2, &c_b18, &qg[j + 1 + (j + 2) * qg_dim1], ldqg,
+            &qg[j + 1 + j * qg_dim1], &c__1, &c_b18, &dwork[j + 1], &c__1, 5L);
         /*        Symplectic reflection to zero (H*H)(J+2:N,J). */
         i__2 = *n - j;
         dlarfg_(&i__2, &dwork[j + 1], &dwork[j + 2], &c__1, &tau);
@@ -383,50 +385,54 @@ ftnlen compu_len;
         i__2 = *n - j;
         dlarfx_("Left", &i__2, n, &dwork[j + 1], &tau, &a[j + 1 + a_dim1], lda, &dwork[*n + 1], 4L);
         i__2 = *n - j;
-        dlarfx_("Right", n, &i__2, &dwork[j + 1], &tau, &a[(j + 1) * a_dim1 + 1], lda, &dwork[*n + 1], 5L);
+        dlarfx_("Right", n, &i__2, &dwork[j + 1], &tau, &a[(j + 1) * a_dim1 + 1], lda,
+            &dwork[*n + 1], 5L);
         i__2 = *n - j;
-        dlarfx_("Left", &i__2, &j, &dwork[j + 1], &tau, &qg[j + 1 + qg_dim1], ldqg, &dwork[*n + 1], 4L);
+        dlarfx_(
+            "Left", &i__2, &j, &dwork[j + 1], &tau, &qg[j + 1 + qg_dim1], ldqg, &dwork[*n + 1], 4L);
         i__2 = *n - j;
-        dsymv_("Lower", &i__2, &tau, &qg[j + 1 + (j + 1) * qg_dim1], ldqg, &dwork[j + 1], &c__1, &c_b15, &dwork[*n + j + 1], &c__1, 5L);
-        i__2 = *n - j;
-        i__3 = *n - j;
-        d__1 = -tau * ddot_(&i__3, &dwork[*n + j + 1], &c__1, &dwork[j + 1], &c__1) / 2.;
-        daxpy_(&i__2, &d__1, &dwork[j + 1], &c__1, &dwork[*n + j + 1], &c__1);
-        i__2 = *n - j;
-        dsyr2_("Lower", &i__2, &c_b13, &dwork[j + 1], &c__1, &dwork[*n + j + 1], &c__1, &qg[j + 1 + (j + 1) * qg_dim1], ldqg, 5L);
-        i__2 = *n - j;
-        dlarfx_("Right", &j, &i__2, &dwork[j + 1], &tau, &qg[(j + 2) * qg_dim1 + 1], ldqg, &dwork[*n + 1], 5L);
-        i__2 = *n - j;
-        dsymv_("Upper", &i__2, &tau, &qg[j + 1 + (j + 2) * qg_dim1], ldqg, &dwork[j + 1], &c__1, &c_b15, &dwork[*n + j + 1], &c__1, 5L);
+        dsymv_("Lower", &i__2, &tau, &qg[j + 1 + (j + 1) * qg_dim1], ldqg, &dwork[j + 1], &c__1,
+            &c_b15, &dwork[*n + j + 1], &c__1, 5L);
         i__2 = *n - j;
         i__3 = *n - j;
         d__1 = -tau * ddot_(&i__3, &dwork[*n + j + 1], &c__1, &dwork[j + 1], &c__1) / 2.;
         daxpy_(&i__2, &d__1, &dwork[j + 1], &c__1, &dwork[*n + j + 1], &c__1);
         i__2 = *n - j;
-        dsyr2_("Upper", &i__2, &c_b13, &dwork[j + 1], &c__1, &dwork[*n + j + 1], &c__1, &qg[j + 1 + (j + 2) * qg_dim1], ldqg, 5L);
-        if (form)
-        {
+        dsyr2_("Lower", &i__2, &c_b13, &dwork[j + 1], &c__1, &dwork[*n + j + 1], &c__1,
+            &qg[j + 1 + (j + 1) * qg_dim1], ldqg, 5L);
+        i__2 = *n - j;
+        dlarfx_("Right", &j, &i__2, &dwork[j + 1], &tau, &qg[(j + 2) * qg_dim1 + 1], ldqg,
+            &dwork[*n + 1], 5L);
+        i__2 = *n - j;
+        dsymv_("Upper", &i__2, &tau, &qg[j + 1 + (j + 2) * qg_dim1], ldqg, &dwork[j + 1], &c__1,
+            &c_b15, &dwork[*n + j + 1], &c__1, 5L);
+        i__2 = *n - j;
+        i__3 = *n - j;
+        d__1 = -tau * ddot_(&i__3, &dwork[*n + j + 1], &c__1, &dwork[j + 1], &c__1) / 2.;
+        daxpy_(&i__2, &d__1, &dwork[j + 1], &c__1, &dwork[*n + j + 1], &c__1);
+        i__2 = *n - j;
+        dsyr2_("Upper", &i__2, &c_b13, &dwork[j + 1], &c__1, &dwork[*n + j + 1], &c__1,
+            &qg[j + 1 + (j + 2) * qg_dim1], ldqg, 5L);
+        if (form) {
             /*           Save reflection. */
             i__2 = *n - j;
             dcopy_(&i__2, &dwork[j + 1], &c__1, &u[j + 1 + (*n + j) * u_dim1], &c__1);
             u[j + 1 + (*n + j) * u_dim1] = tau;
-        }
-        else if (accum)
-        {
+        } else if (accum) {
             /*           Accumulate reflection. */
             i__2 = *n - j;
-            dlarfx_("Right", n, &i__2, &dwork[j + 1], &tau, &u[(j + 1) * u_dim1 + 1], ldu, &dwork[*n + 1], 5L);
+            dlarfx_("Right", n, &i__2, &dwork[j + 1], &tau, &u[(j + 1) * u_dim1 + 1], ldu,
+                &dwork[*n + 1], 5L);
             i__2 = *n - j;
-            dlarfx_("Right", n, &i__2, &dwork[j + 1], &tau, &u[(*n + j + 1) * u_dim1 + 1], ldu, &dwork[*n + 1], 5L);
+            dlarfx_("Right", n, &i__2, &dwork[j + 1], &tau, &u[(*n + j + 1) * u_dim1 + 1], ldu,
+                &dwork[*n + 1], 5L);
         }
         /* L10: */
     }
-    if (form)
-    {
+    if (form) {
         dummy[0] = 0.;
         /*        Form S by accumulating transformations. */
-        for (j = *n - 1; j >= 1; --j)
-        {
+        for (j = *n - 1; j >= 1; --j) {
             /*           Initialize (J+1)st column of S. */
             dcopy_(n, dummy, &c__0, &u[(j + 1) * u_dim1 + 1], &c__1);
             u[j + 1 + (j + 1) * u_dim1] = 1.;
@@ -436,22 +442,27 @@ ftnlen compu_len;
             u[j + 1 + (*n + j) * u_dim1] = 1.;
             i__1 = *n - j;
             i__2 = *n - j;
-            dlarfx_("Left", &i__1, &i__2, &u[j + 1 + (*n + j) * u_dim1], &tau, &u[j + 1 + (j + 1) * u_dim1], ldu, &dwork[*n + 1], 4L);
+            dlarfx_("Left", &i__1, &i__2, &u[j + 1 + (*n + j) * u_dim1], &tau,
+                &u[j + 1 + (j + 1) * u_dim1], ldu, &dwork[*n + 1], 4L);
             i__1 = *n - j;
             i__2 = *n - j;
-            dlarfx_("Left", &i__1, &i__2, &u[j + 1 + (*n + j) * u_dim1], &tau, &u[j + 1 + (*n + j + 1) * u_dim1], ldu, &dwork[*n + 1], 4L);
+            dlarfx_("Left", &i__1, &i__2, &u[j + 1 + (*n + j) * u_dim1], &tau,
+                &u[j + 1 + (*n + j + 1) * u_dim1], ldu, &dwork[*n + 1], 4L);
             /*           Rotation. */
             i__1 = *n - j;
-            drot_(&i__1, &u[j + 1 + (j + 1) * u_dim1], ldu, &u[j + 1 + (*n + j + 1) * u_dim1], ldu, &u[j + j * u_dim1], &u[j + (*n + j) * u_dim1]);
+            drot_(&i__1, &u[j + 1 + (j + 1) * u_dim1], ldu, &u[j + 1 + (*n + j + 1) * u_dim1], ldu,
+                &u[j + j * u_dim1], &u[j + (*n + j) * u_dim1]);
             /*           First reflection. */
             tau = u[j + 1 + j * u_dim1];
             u[j + 1 + j * u_dim1] = 1.;
             i__1 = *n - j;
             i__2 = *n - j;
-            dlarfx_("Left", &i__1, &i__2, &u[j + 1 + j * u_dim1], &tau, &u[j + 1 + (j + 1) * u_dim1], ldu, &dwork[*n + 1], 4L);
+            dlarfx_("Left", &i__1, &i__2, &u[j + 1 + j * u_dim1], &tau,
+                &u[j + 1 + (j + 1) * u_dim1], ldu, &dwork[*n + 1], 4L);
             i__1 = *n - j;
             i__2 = *n - j;
-            dlarfx_("Left", &i__1, &i__2, &u[j + 1 + j * u_dim1], &tau, &u[j + 1 + (*n + j + 1) * u_dim1], ldu, &dwork[*n + 1], 4L);
+            dlarfx_("Left", &i__1, &i__2, &u[j + 1 + j * u_dim1], &tau,
+                &u[j + 1 + (*n + j + 1) * u_dim1], ldu, &dwork[*n + 1], 4L);
             /* L20: */
         }
         /*        The first column is the first column of identity. */
@@ -462,4 +473,3 @@ ftnlen compu_len;
     return 0;
     /*     *** Last line of MB04ZD *** */
 } /* mb04zd_ */
-

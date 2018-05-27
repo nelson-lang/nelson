@@ -18,16 +18,20 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <QtCore/QVariant>
-#include "nlsQml_engine_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsQml_engine_exports.h"
+#include <QtCore/QVariant>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    NLSQML_ENGINE_IMPEXP ArrayOf QVariantToArrayOf(QVariant Q);
-    NLSQML_ENGINE_IMPEXP bool canBeConvertedToArrayOf(QVariant Q);
-    NLSQML_ENGINE_IMPEXP QVariant ArrayOfToQVariant(ArrayOf A, QVariant::Type typeDest);
-    NLSQML_ENGINE_IMPEXP QVariant ArrayOfToQVariant(ArrayOf A);
-    //=============================================================================
-}
+//=============================================================================
+NLSQML_ENGINE_IMPEXP ArrayOf
+QVariantToArrayOf(QVariant Q);
+NLSQML_ENGINE_IMPEXP bool
+canBeConvertedToArrayOf(QVariant Q);
+NLSQML_ENGINE_IMPEXP QVariant
+ArrayOfToQVariant(ArrayOf A, QVariant::Type typeDest);
+NLSQML_ENGINE_IMPEXP QVariant
+ArrayOfToQVariant(ArrayOf A);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

@@ -22,8 +22,9 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace AssertFunctionsGateway {
-        ArrayOfVector assert_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    }
+namespace AssertFunctionsGateway {
+    ArrayOfVector
+    assert_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }
+} // namespace Nelson
 //=============================================================================

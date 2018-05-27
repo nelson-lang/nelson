@@ -17,34 +17,29 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NargOut.hpp"
-#include "characters_encoding.hpp"
 #include "Error.hpp"
 #include "MacroFunctionDef.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    int NargOut(Evaluator* eval, std::wstring functionName)
-    {
-        int nargout = 0;
-        FuncPtr fptr = nullptr;
-        bool bIsFun = eval->lookupFunction(wstring_to_utf8(functionName), fptr);
-        if (bIsFun)
-        {
-            if (fptr->type() == NLS_MACRO_FUNCTION)
-            {
-                nargout = ((MacroFunctionDef*)(fptr))->nargout();
-            }
-            else
-            {
-                nargout = fptr->outputArgCount();
-            }
+//=============================================================================
+int
+NargOut(Evaluator* eval, std::wstring functionName)
+{
+    int nargout = 0;
+    FuncPtr fptr = nullptr;
+    bool bIsFun = eval->lookupFunction(wstring_to_utf8(functionName), fptr);
+    if (bIsFun) {
+        if (fptr->type() == NLS_MACRO_FUNCTION) {
+            nargout = ((MacroFunctionDef*)(fptr))->nargout();
+        } else {
+            nargout = fptr->outputArgCount();
         }
-        else
-        {
-            Error(eval, _W("function not found."));
-        }
-        return nargout;
+    } else {
+        Error(eval, _W("function not found."));
     }
-    //=============================================================================
+    return nargout;
+}
+//=============================================================================
 }
 //=============================================================================

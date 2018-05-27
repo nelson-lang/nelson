@@ -22,10 +22,11 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    namespace StringGateway {
-        ArrayOfVector str2doubleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    }
-    //=============================================================================
+//=============================================================================
+namespace StringGateway {
+    ArrayOfVector
+    str2doubleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

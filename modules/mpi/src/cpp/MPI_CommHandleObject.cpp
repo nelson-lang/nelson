@@ -20,92 +20,75 @@
 #include "HandleManager.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    MPI_CommHandleObject::MPI_CommHandleObject(void *_ptr) : HandleGenericObject(std::wstring(MPI_COMM_CATEGORY_STR), _ptr, false)
-    {
+//=============================================================================
+MPI_CommHandleObject::MPI_CommHandleObject(void* _ptr)
+    : HandleGenericObject(std::wstring(MPI_COMM_CATEGORY_STR), _ptr, false)
+{}
+//=============================================================================
+MPI_CommHandleObject::~MPI_CommHandleObject() {}
+//=============================================================================
+MPI_Comm
+HandleToMpiComm(ArrayOf A)
+{
+    MPI_Comm commReturned = MPI_COMM_NULL;
+    if (A.getHandleCategory() != MPI_COMM_CATEGORY_STR) {
+        throw Exception(_W("MPI_Comm handle expected."));
     }
-    //=============================================================================
-    MPI_CommHandleObject::~MPI_CommHandleObject()
-    {
-    }
-    //=============================================================================
-    MPI_Comm HandleToMpiComm(ArrayOf A)
-    {
-        MPI_Comm commReturned = MPI_COMM_NULL;
-        if (A.getHandleCategory() != MPI_COMM_CATEGORY_STR)
-        {
-            throw Exception(_W("MPI_Comm handle expected."));
-        }
-        MPI_CommHandleObject *mpicommhandleobj = (MPI_CommHandleObject *)A.getContentAsHandleScalar();
-        if (mpicommhandleobj != nullptr)
-        {
-            MPI_CommObject *obj = (MPI_CommObject *)mpicommhandleobj->getPointer();
-            if (obj != nullptr)
-            {
-                commReturned = obj->getComm();
-            }
-            else
-            {
-                throw Exception(_W("MPI_Comm valid handle expected."));
-            }
-        }
-        else
-        {
+    MPI_CommHandleObject* mpicommhandleobj = (MPI_CommHandleObject*)A.getContentAsHandleScalar();
+    if (mpicommhandleobj != nullptr) {
+        MPI_CommObject* obj = (MPI_CommObject*)mpicommhandleobj->getPointer();
+        if (obj != nullptr) {
+            commReturned = obj->getComm();
+        } else {
             throw Exception(_W("MPI_Comm valid handle expected."));
         }
-        return commReturned;
+    } else {
+        throw Exception(_W("MPI_Comm valid handle expected."));
     }
-    //=============================================================================
-    ArrayOf MpiCommToHandle(MPI_Comm mpicomm)
-    {
-        return ArrayOf::handleConstructor(new MPI_CommHandleObject(new MPI_CommObject(mpicomm)));
-    }
-    //=============================================================================
-    bool MPICommHandleDelete(ArrayOf A)
-    {
-        bool res = false;
-        if (A.isHandle())
-        {
-            if (!A.isEmpty())
-            {
-                Dimensions dims = A.getDimensions();
-                nelson_handle *qp = (nelson_handle*)A.getDataPointer();
-                for (size_t k = 0; k < dims.getElementCount(); k++)
-                {
-                    nelson_handle hl = qp[k];
-                    HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-                    if (hlObj)
-                    {
-                        if (hlObj->getCategory() != MPI_COMM_CATEGORY_STR)
-                        {
-                            throw Exception(_W("MPI_Comm handle expected."));
-                        }
-                        MPI_CommHandleObject *mpicommhandleobj = (MPI_CommHandleObject *)hlObj;
-                        if (mpicommhandleobj != nullptr)
-                        {
-                            MPI_CommObject *obj = (MPI_CommObject *)mpicommhandleobj->getPointer();
-                            if (obj != nullptr)
-                            {
-                                delete obj;
-                            }
-                        }
-                        else
-                        {
-                            throw Exception(_W("MPI_Comm valid handle expected."));
-                        }
-                        delete mpicommhandleobj;
-                        HandleManager::getInstance()->removeHandle(hl);
-                        res = true;
+    return commReturned;
+}
+//=============================================================================
+ArrayOf
+MpiCommToHandle(MPI_Comm mpicomm)
+{
+    return ArrayOf::handleConstructor(new MPI_CommHandleObject(new MPI_CommObject(mpicomm)));
+}
+//=============================================================================
+bool
+MPICommHandleDelete(ArrayOf A)
+{
+    bool res = false;
+    if (A.isHandle()) {
+        if (!A.isEmpty()) {
+            Dimensions dims = A.getDimensions();
+            nelson_handle* qp = (nelson_handle*)A.getDataPointer();
+            for (size_t k = 0; k < dims.getElementCount(); k++) {
+                nelson_handle hl = qp[k];
+                HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
+                if (hlObj) {
+                    if (hlObj->getCategory() != MPI_COMM_CATEGORY_STR) {
+                        throw Exception(_W("MPI_Comm handle expected."));
                     }
+                    MPI_CommHandleObject* mpicommhandleobj = (MPI_CommHandleObject*)hlObj;
+                    if (mpicommhandleobj != nullptr) {
+                        MPI_CommObject* obj = (MPI_CommObject*)mpicommhandleobj->getPointer();
+                        if (obj != nullptr) {
+                            delete obj;
+                        }
+                    } else {
+                        throw Exception(_W("MPI_Comm valid handle expected."));
+                    }
+                    delete mpicommhandleobj;
+                    HandleManager::getInstance()->removeHandle(hl);
+                    res = true;
                 }
             }
-            else
-            {
-                throw Exception(_W("MPI_Comm valid handle expected."));
-            }
+        } else {
+            throw Exception(_W("MPI_Comm valid handle expected."));
         }
-        return res;
     }
-    //=============================================================================
+    return res;
+}
+//=============================================================================
 }
 //=============================================================================

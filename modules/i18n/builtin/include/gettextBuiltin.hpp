@@ -22,8 +22,9 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace I18nGateway {
-        ArrayOfVector gettextBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    }
+namespace I18nGateway {
+    ArrayOfVector
+    gettextBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }
+} // namespace Nelson
 //=============================================================================

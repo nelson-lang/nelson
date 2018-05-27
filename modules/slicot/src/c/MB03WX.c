@@ -1,16 +1,15 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-EXPORTSYMBOL /* Subroutine */ int mb03wx_(n, p, t, ldt1, ldt2, wr, wi, info)
-integer *n, *p;
-doublereal *t;
+EXPORTSYMBOL /* Subroutine */ int mb03wx_(n, p, t, ldt1, ldt2, wr, wi, info) integer *n, *p;
+doublereal* t;
 integer *ldt1, *ldt2;
 doublereal *wr, *wi;
-integer *info;
+integer* info;
 {
     /* System generated locals */
     integer t_dim1, t_dim2, t_offset, i__1, i__2;
@@ -93,24 +92,16 @@ integer *info;
     /* Function Body */
     *info = 0;
     /*     Test the input scalar arguments. */
-    if (*n < 0)
-    {
+    if (*n < 0) {
         *info = -1;
-    }
-    else if (*p < 1)
-    {
+    } else if (*p < 1) {
         *info = -2;
-    }
-    else if (*ldt1 < max(1,*n))
-    {
+    } else if (*ldt1 < max(1, *n)) {
         *info = -4;
-    }
-    else if (*ldt2 < max(1,*n))
-    {
+    } else if (*ldt2 < max(1, *n)) {
         *info = -5;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("MB03WX", &i__1, 6L);
@@ -118,16 +109,12 @@ integer *info;
     }
     inext = 1;
     i__1 = *n;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
-        if (i__ < inext)
-        {
+    for (i__ = 1; i__ <= i__1; ++i__) {
+        if (i__ < inext) {
             goto L30;
         }
-        if (i__ != *n)
-        {
-            if (t[i__ + 1 + (i__ + t_dim2) * t_dim1] != 0.)
-            {
+        if (i__ != *n) {
+            if (t[i__ + 1 + (i__ + t_dim2) * t_dim1] != 0.) {
                 /*              A pair of eigenvalues. First compute the corresponding */
                 /*              elements of T(I:I+1,I:I+1). */
                 inext = i__ + 2;
@@ -136,15 +123,16 @@ integer *info;
                 t12 = 0.;
                 t22 = 1.;
                 i__2 = *p;
-                for (j = 2; j <= i__2; ++j)
-                {
+                for (j = 2; j <= i__2; ++j) {
                     t22 *= t[i1 + (i1 + j * t_dim2) * t_dim1];
-                    t12 = t11 * t[i__ + (i1 + j * t_dim2) * t_dim1] + t12 * t[i1 + (i1 + j * t_dim2) * t_dim1];
+                    t12 = t11 * t[i__ + (i1 + j * t_dim2) * t_dim1]
+                        + t12 * t[i1 + (i1 + j * t_dim2) * t_dim1];
                     t11 *= t[i__ + (i__ + j * t_dim2) * t_dim1];
                     /* L10: */
                 }
                 a11 = t[i__ + (i__ + t_dim2) * t_dim1] * t11;
-                a12 = t[i__ + (i__ + t_dim2) * t_dim1] * t12 + t[i__ + (i1 + t_dim2) * t_dim1] * t22;
+                a12 = t[i__ + (i__ + t_dim2) * t_dim1] * t12
+                    + t[i__ + (i1 + t_dim2) * t_dim1] * t22;
                 a21 = t[i1 + (i__ + t_dim2) * t_dim1] * t11;
                 a22 = t[i1 + (i__ + t_dim2) * t_dim1] * t12 + t[i1 + (i1 + t_dim2) * t_dim1] * t22;
                 dlanv2_(&a11, &a12, &a21, &a22, &wr[i__], &wi[i__], &wr[i1], &wi[i1], &cs, &sn);
@@ -155,17 +143,14 @@ integer *info;
         inext = i__ + 1;
         t11 = 1.;
         i__2 = *p;
-        for (j = 1; j <= i__2; ++j)
-        {
+        for (j = 1; j <= i__2; ++j) {
             t11 *= t[i__ + (i__ + j * t_dim2) * t_dim1];
             /* L20: */
         }
         wr[i__] = t11;
         wi[i__] = 0.;
-L30:
-        ;
+    L30:;
     }
     return 0;
     /* *** Last line of MB03WX *** */
 } /* mb03wx_ */
-

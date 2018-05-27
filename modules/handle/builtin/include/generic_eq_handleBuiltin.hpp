@@ -22,8 +22,9 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace HandleGateway {
-        ArrayOfVector generic_eq_handleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    }
+namespace HandleGateway {
+    ArrayOfVector
+    generic_eq_handleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }
+} // namespace Nelson
 //=============================================================================

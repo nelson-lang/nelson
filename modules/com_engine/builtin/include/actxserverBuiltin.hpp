@@ -22,8 +22,9 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace ComEngineGateway {
-        ArrayOfVector actxserverBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    }
+namespace ComEngineGateway {
+    ArrayOfVector
+    actxserverBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }
+} // namespace Nelson
 //=============================================================================

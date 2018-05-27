@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,9 +10,8 @@
 static integer c__1 = 1;
 static doublereal c_b9 = -1.;
 
-EXPORTSYMBOL /* Subroutine */ int mb02uv_(n, a, lda, ipiv, jpiv, info)
-integer *n;
-doublereal *a;
+EXPORTSYMBOL /* Subroutine */ int mb02uv_(n, a, lda, ipiv, jpiv, info) integer* n;
+doublereal* a;
 integer *lda, *ipiv, *jpiv, *info;
 {
     /* System generated locals */
@@ -109,13 +108,10 @@ integer *lda, *ipiv, *jpiv, *info;
     jpv = 1;
     xmax = 0.;
     i__1 = *n;
-    for (jp = 1; jp <= i__1; ++jp)
-    {
+    for (jp = 1; jp <= i__1; ++jp) {
         i__2 = *n;
-        for (ip = 1; ip <= i__2; ++ip)
-        {
-            if ((d__1 = a[ip + jp * a_dim1], abs(d__1)) > xmax)
-            {
+        for (ip = 1; ip <= i__2; ++ip) {
+            if ((d__1 = a[ip + jp * a_dim1], abs(d__1)) > xmax) {
                 xmax = (d__1 = a[ip + jp * a_dim1], abs(d__1));
                 ipv = ip;
                 jpv = jp;
@@ -126,51 +122,44 @@ integer *lda, *ipiv, *jpiv, *info;
     }
     /* Computing MAX */
     d__1 = eps * xmax;
-    smin = max(d__1,smlnum);
+    smin = max(d__1, smlnum);
     /*     Swap rows. */
-    if (ipv != 1)
-    {
+    if (ipv != 1) {
         dswap_(n, &a[ipv + a_dim1], lda, &a[a_dim1 + 1], lda);
     }
     ipiv[1] = ipv;
     /*     Swap columns. */
-    if (jpv != 1)
-    {
+    if (jpv != 1) {
         dswap_(n, &a[jpv * a_dim1 + 1], &c__1, &a[a_dim1 + 1], &c__1);
     }
     jpiv[1] = jpv;
     /*     Check for singularity. */
-    if ((d__1 = a[a_dim1 + 1], abs(d__1)) < smin)
-    {
+    if ((d__1 = a[a_dim1 + 1], abs(d__1)) < smin) {
         *info = 1;
         a[a_dim1 + 1] = smin;
     }
-    if (*n > 1)
-    {
+    if (*n > 1) {
         i__1 = *n - 1;
         d__1 = 1. / a[a_dim1 + 1];
         dscal_(&i__1, &d__1, &a[a_dim1 + 2], &c__1);
         i__1 = *n - 1;
         i__2 = *n - 1;
-        dger_(&i__1, &i__2, &c_b9, &a[a_dim1 + 2], &c__1, &a[(a_dim1 << 1) + 1], lda, &a[(a_dim1 << 1) + 2], lda);
+        dger_(&i__1, &i__2, &c_b9, &a[a_dim1 + 2], &c__1, &a[(a_dim1 << 1) + 1], lda,
+            &a[(a_dim1 << 1) + 2], lda);
     }
     /*     Factorize the rest of A with complete pivoting. */
     /*     Set pivots less than SMIN to SMIN. */
     i__1 = *n - 1;
-    for (i__ = 2; i__ <= i__1; ++i__)
-    {
+    for (i__ = 2; i__ <= i__1; ++i__) {
         /*        Find max element in remaining matrix. */
         ipv = i__;
         jpv = i__;
         xmax = 0.;
         i__2 = *n;
-        for (jp = i__; jp <= i__2; ++jp)
-        {
+        for (jp = i__; jp <= i__2; ++jp) {
             i__3 = *n;
-            for (ip = i__; ip <= i__3; ++ip)
-            {
-                if ((d__1 = a[ip + jp * a_dim1], abs(d__1)) > xmax)
-                {
+            for (ip = i__; ip <= i__3; ++ip) {
+                if ((d__1 = a[ip + jp * a_dim1], abs(d__1)) > xmax) {
                     xmax = (d__1 = a[ip + jp * a_dim1], abs(d__1));
                     ipv = ip;
                     jpv = jp;
@@ -180,20 +169,17 @@ integer *lda, *ipiv, *jpiv, *info;
             /* L80: */
         }
         /*        Swap rows. */
-        if (ipv != i__)
-        {
+        if (ipv != i__) {
             dswap_(n, &a[ipv + a_dim1], lda, &a[i__ + a_dim1], lda);
         }
         ipiv[i__] = ipv;
         /*        Swap columns. */
-        if (jpv != i__)
-        {
+        if (jpv != i__) {
             dswap_(n, &a[jpv * a_dim1 + 1], &c__1, &a[i__ * a_dim1 + 1], &c__1);
         }
         jpiv[i__] = jpv;
         /*        Check for almost singularity. */
-        if ((d__1 = a[i__ + i__ * a_dim1], abs(d__1)) < smin)
-        {
+        if ((d__1 = a[i__ + i__ * a_dim1], abs(d__1)) < smin) {
             *info = i__;
             a[i__ + i__ * a_dim1] = smin;
         }
@@ -202,15 +188,14 @@ integer *lda, *ipiv, *jpiv, *info;
         dscal_(&i__2, &d__1, &a[i__ + 1 + i__ * a_dim1], &c__1);
         i__2 = *n - i__;
         i__3 = *n - i__;
-        dger_(&i__2, &i__3, &c_b9, &a[i__ + 1 + i__ * a_dim1], &c__1, &a[i__ + (i__ + 1) * a_dim1], lda, &a[i__ + 1 + (i__ + 1) * a_dim1], lda);
+        dger_(&i__2, &i__3, &c_b9, &a[i__ + 1 + i__ * a_dim1], &c__1, &a[i__ + (i__ + 1) * a_dim1],
+            lda, &a[i__ + 1 + (i__ + 1) * a_dim1], lda);
         /* L100: */
     }
-    if ((d__1 = a[*n + *n * a_dim1], abs(d__1)) < smin)
-    {
+    if ((d__1 = a[*n + *n * a_dim1], abs(d__1)) < smin) {
         *info = *n;
         a[*n + *n * a_dim1] = smin;
     }
     return 0;
     /* *** Last line of MB02UV *** */
 } /* mb02uv_ */
-

@@ -18,14 +18,21 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include "ArrayOf.hpp"
 #include "Evaluator.hpp"
 #include "nlsInterpreter_exports.h"
-#include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
-    NLSINTERPRETER_IMPEXP ArrayOfVector CallOperatorFunction(Evaluator *eval, const std::string &functionName, ArrayOfVector ArgsIn, size_t nLhs);
-    NLSINTERPRETER_IMPEXP ArrayOfVector CallOperatorFunction(Evaluator *eval, const std::string &functionName, ArrayOf a, size_t nLhs);
-    NLSINTERPRETER_IMPEXP ArrayOfVector CallOperatorFunction(Evaluator *eval, const std::string &functionName, ArrayOf a, ArrayOf b, size_t nLhs);
-    NLSINTERPRETER_IMPEXP ArrayOfVector CallOperatorFunction(Evaluator *eval, const std::string &functionName, ArrayOf a, ArrayOf b, ArrayOf c, size_t nLhs);
-}
-//=============================================================================
+NLSINTERPRETER_IMPEXP ArrayOfVector
+CallOperatorFunction(
+    Evaluator* eval, const std::string& functionName, ArrayOfVector ArgsIn, size_t nLhs);
+NLSINTERPRETER_IMPEXP ArrayOfVector
+CallOperatorFunction(Evaluator* eval, const std::string& functionName, ArrayOf a, size_t nLhs);
+NLSINTERPRETER_IMPEXP ArrayOfVector
+CallOperatorFunction(
+    Evaluator* eval, const std::string& functionName, ArrayOf a, ArrayOf b, size_t nLhs);
+NLSINTERPRETER_IMPEXP ArrayOfVector
+CallOperatorFunction(
+    Evaluator* eval, const std::string& functionName, ArrayOf a, ArrayOf b, ArrayOf c, size_t nLhs);
+} // namespace Nelson
+  //=============================================================================

@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,15 +11,14 @@ static doublereal c_b4 = 1.;
 static doublereal c_b5 = 0.;
 static doublereal c_b27 = -1.;
 
-doublereal ma02jd_(ltran1, ltran2, n, q1, ldq1, q2, ldq2, res, ldres)
-logical *ltran1, *ltran2;
-integer *n;
-doublereal *q1;
-integer *ldq1;
-doublereal *q2;
-integer *ldq2;
-doublereal *res;
-integer *ldres;
+doublereal ma02jd_(ltran1, ltran2, n, q1, ldq1, q2, ldq2, res, ldres) logical *ltran1, *ltran2;
+integer* n;
+doublereal* q1;
+integer* ldq1;
+doublereal* q2;
+integer* ldq2;
+doublereal* res;
+integer* ldres;
 {
     /* System generated locals */
     integer q1_dim1, q1_offset, q2_dim1, q2_offset, res_dim1, res_offset, i__1;
@@ -112,48 +111,46 @@ integer *ldres;
     res_offset = res_dim1 + 1;
     res -= res_offset;
     /* Function Body */
-    if (*ltran1)
-    {
-        dgemm_("No Transpose", "Transpose", n, n, n, &c_b4, &q1[q1_offset], ldq1, &q1[q1_offset], ldq1, &c_b5, &res[res_offset], ldres, 12L, 9L);
+    if (*ltran1) {
+        dgemm_("No Transpose", "Transpose", n, n, n, &c_b4, &q1[q1_offset], ldq1, &q1[q1_offset],
+            ldq1, &c_b5, &res[res_offset], ldres, 12L, 9L);
+    } else {
+        dgemm_("Transpose", "No Transpose", n, n, n, &c_b4, &q1[q1_offset], ldq1, &q1[q1_offset],
+            ldq1, &c_b5, &res[res_offset], ldres, 9L, 12L);
     }
-    else
-    {
-        dgemm_("Transpose", "No Transpose", n, n, n, &c_b4, &q1[q1_offset], ldq1, &q1[q1_offset], ldq1, &c_b5, &res[res_offset], ldres, 9L, 12L);
-    }
-    if (*ltran2)
-    {
-        dgemm_("No Transpose", "Transpose", n, n, n, &c_b4, &q2[q2_offset], ldq2, &q2[q2_offset], ldq2, &c_b4, &res[res_offset], ldres, 12L, 9L);
-    }
-    else
-    {
-        dgemm_("Transpose", "No Transpose", n, n, n, &c_b4, &q2[q2_offset], ldq2, &q2[q2_offset], ldq2, &c_b4, &res[res_offset], ldres, 9L, 12L);
+    if (*ltran2) {
+        dgemm_("No Transpose", "Transpose", n, n, n, &c_b4, &q2[q2_offset], ldq2, &q2[q2_offset],
+            ldq2, &c_b4, &res[res_offset], ldres, 12L, 9L);
+    } else {
+        dgemm_("Transpose", "No Transpose", n, n, n, &c_b4, &q2[q2_offset], ldq2, &q2[q2_offset],
+            ldq2, &c_b4, &res[res_offset], ldres, 9L, 12L);
     }
     i__1 = *n;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         res[i__ + i__ * res_dim1] += -1.;
         /* L10: */
     }
     temp = dlange_("Frobenius", n, n, &res[res_offset], ldres, dummy, 9L);
-    if (*ltran1 && *ltran2)
-    {
-        dgemm_("No Transpose", "Transpose", n, n, n, &c_b4, &q2[q2_offset], ldq2, &q1[q1_offset], ldq1, &c_b5, &res[res_offset], ldres, 12L, 9L);
-        dgemm_("No Transpose", "Transpose", n, n, n, &c_b4, &q1[q1_offset], ldq1, &q2[q2_offset], ldq2, &c_b27, &res[res_offset], ldres, 12L, 9L);
-    }
-    else if (*ltran1)
-    {
-        dgemm_("Transpose", "Transpose", n, n, n, &c_b4, &q2[q2_offset], ldq2, &q1[q1_offset], ldq1, &c_b5, &res[res_offset], ldres, 9L, 9L);
-        dgemm_("No Transpose", "No Transpose", n, n, n, &c_b4, &q1[q1_offset], ldq1, &q2[q2_offset], ldq2, &c_b27, &res[res_offset], ldres, 12L, 12L);
-    }
-    else if (*ltran2)
-    {
-        dgemm_("No Transpose", "No Transpose", n, n, n, &c_b4, &q2[q2_offset], ldq2, &q1[q1_offset], ldq1, &c_b5, &res[res_offset], ldres, 12L, 12L);
-        dgemm_("Transpose", "Transpose", n, n, n, &c_b4, &q1[q1_offset], ldq1, &q2[q2_offset], ldq2, &c_b27, &res[res_offset], ldres, 9L, 9L);
-    }
-    else
-    {
-        dgemm_("Transpose", "No Transpose", n, n, n, &c_b4, &q2[q2_offset], ldq2, &q1[q1_offset], ldq1, &c_b5, &res[res_offset], ldres, 9L, 12L);
-        dgemm_("Transpose", "No Transpose", n, n, n, &c_b4, &q1[q1_offset], ldq1, &q2[q2_offset], ldq2, &c_b27, &res[res_offset], ldres, 9L, 12L);
+    if (*ltran1 && *ltran2) {
+        dgemm_("No Transpose", "Transpose", n, n, n, &c_b4, &q2[q2_offset], ldq2, &q1[q1_offset],
+            ldq1, &c_b5, &res[res_offset], ldres, 12L, 9L);
+        dgemm_("No Transpose", "Transpose", n, n, n, &c_b4, &q1[q1_offset], ldq1, &q2[q2_offset],
+            ldq2, &c_b27, &res[res_offset], ldres, 12L, 9L);
+    } else if (*ltran1) {
+        dgemm_("Transpose", "Transpose", n, n, n, &c_b4, &q2[q2_offset], ldq2, &q1[q1_offset], ldq1,
+            &c_b5, &res[res_offset], ldres, 9L, 9L);
+        dgemm_("No Transpose", "No Transpose", n, n, n, &c_b4, &q1[q1_offset], ldq1, &q2[q2_offset],
+            ldq2, &c_b27, &res[res_offset], ldres, 12L, 12L);
+    } else if (*ltran2) {
+        dgemm_("No Transpose", "No Transpose", n, n, n, &c_b4, &q2[q2_offset], ldq2, &q1[q1_offset],
+            ldq1, &c_b5, &res[res_offset], ldres, 12L, 12L);
+        dgemm_("Transpose", "Transpose", n, n, n, &c_b4, &q1[q1_offset], ldq1, &q2[q2_offset], ldq2,
+            &c_b27, &res[res_offset], ldres, 9L, 9L);
+    } else {
+        dgemm_("Transpose", "No Transpose", n, n, n, &c_b4, &q2[q2_offset], ldq2, &q1[q1_offset],
+            ldq1, &c_b5, &res[res_offset], ldres, 9L, 12L);
+        dgemm_("Transpose", "No Transpose", n, n, n, &c_b4, &q1[q1_offset], ldq1, &q2[q2_offset],
+            ldq2, &c_b27, &res[res_offset], ldres, 9L, 12L);
     }
     d__1 = dlange_("Frobenius", n, n, &res[res_offset], ldres, dummy, 9L);
     temp = dlapy2_(&temp, &d__1);
@@ -161,4 +158,3 @@ integer *ldres;
     return ret_val;
     /* *** Last line of MA02JD *** */
 } /* ma02jd_ */
-

@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,11 +9,10 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int ma02ed_(uplo, n, a, lda, uplo_len)
-char *uplo;
-integer *n;
-doublereal *a;
-integer *lda;
+EXPORTSYMBOL /* Subroutine */ int ma02ed_(uplo, n, a, lda, uplo_len) char* uplo;
+integer* n;
+doublereal* a;
+integer* lda;
 ftnlen uplo_len;
 {
     /* System generated locals */
@@ -75,23 +74,18 @@ ftnlen uplo_len;
     a_offset = a_dim1 + 1;
     a -= a_offset;
     /* Function Body */
-    if (lsame_(uplo, "L", 1L, 1L))
-    {
+    if (lsame_(uplo, "L", 1L, 1L)) {
         /*        Construct the upper triangle of A. */
         i__1 = *n;
-        for (j = 2; j <= i__1; ++j)
-        {
+        for (j = 2; j <= i__1; ++j) {
             i__2 = j - 1;
             dcopy_(&i__2, &a[j + a_dim1], lda, &a[j * a_dim1 + 1], &c__1);
             /* L20: */
         }
-    }
-    else if (lsame_(uplo, "U", 1L, 1L))
-    {
+    } else if (lsame_(uplo, "U", 1L, 1L)) {
         /*        Construct the lower triangle of A. */
         i__1 = *n;
-        for (j = 2; j <= i__1; ++j)
-        {
+        for (j = 2; j <= i__1; ++j) {
             i__2 = j - 1;
             dcopy_(&i__2, &a[j * a_dim1 + 1], &c__1, &a[j + a_dim1], lda);
             /* L40: */
@@ -100,4 +94,3 @@ ftnlen uplo_len;
     return 0;
     /* *** Last line of MA02ED *** */
 } /* ma02ed_ */
-

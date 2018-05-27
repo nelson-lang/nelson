@@ -19,25 +19,27 @@
 #include "ByteCode.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    void CodeToByte(const std::wstring &nlf_filename)
-    {
-    }
-    //=============================================================================
-    void CodeToByte(MacroFunctionDef *fptr, Serialize *s)
-    {
-    }
-    //=============================================================================
-    MacroFunctionDef * ByteToCode(const std::wstring &nlb_filename)
-    {
-        MacroFunctionDef *macro = nullptr;
-        return macro;
-    }
-    //=============================================================================
-    MacroFunctionDef * ByteToCode(Serialize *s)
-    {
-        MacroFunctionDef *macro = nullptr;
-        return macro;
-    }
-    //=============================================================================
+//=============================================================================
+void
+CodeToByte(const std::wstring& nlf_filename)
+{}
+//=============================================================================
+void
+CodeToByte(MacroFunctionDef* fptr, Serialize* s)
+{}
+//=============================================================================
+MacroFunctionDef*
+ByteToCode(const std::wstring& nlb_filename)
+{
+    MacroFunctionDef* macro = nullptr;
+    return macro;
+}
+//=============================================================================
+MacroFunctionDef*
+ByteToCode(Serialize* s)
+{
+    MacroFunctionDef* macro = nullptr;
+    return macro;
+}
+//=============================================================================
 }

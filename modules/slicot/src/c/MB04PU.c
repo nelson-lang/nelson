@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,12 +11,13 @@ static integer c__1 = 1;
 static doublereal c_b7 = 0.;
 static doublereal c_b14 = -1.;
 
-EXPORTSYMBOL /* Subroutine */ int mb04pu_(n, ilo, a, lda, qg, ldqg, cs, tau, dwork, ldwork, info)
-integer *n, *ilo;
-doublereal *a;
-integer *lda;
-doublereal *qg;
-integer *ldqg;
+EXPORTSYMBOL /* Subroutine */ int mb04pu_(
+    n, ilo, a, lda, qg, ldqg, cs, tau, dwork, ldwork, info) integer *n,
+    *ilo;
+doublereal* a;
+integer* lda;
+doublereal* qg;
+integer* ldqg;
 doublereal *cs, *tau, *dwork;
 integer *ldwork, *info;
 {
@@ -168,63 +169,51 @@ integer *ldwork, *info;
     --dwork;
     /* Function Body */
     *info = 0;
-    if (*n < 0)
-    {
+    if (*n < 0) {
         *info = -1;
-    }
-    else if (*ilo < 1 || *ilo > max(1,*n))
-    {
+    } else if (*ilo < 1 || *ilo > max(1, *n)) {
         *info = -2;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -4;
-    }
-    else if (*ldqg < max(1,*n))
-    {
+    } else if (*ldqg < max(1, *n)) {
         *info = -6;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
         i__1 = 1, i__2 = *n - 1;
-        if (*ldwork < max(i__1,i__2))
-        {
+        if (*ldwork < max(i__1, i__2)) {
             /* Computing MAX */
             i__1 = 1, i__2 = *n - 1;
-            dwork[1] = (doublereal) max(i__1,i__2);
+            dwork[1] = (doublereal)max(i__1, i__2);
             *info = -10;
         }
     }
     /*     Return if there were illegal values. */
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB04PU", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n <= *ilo)
-    {
+    if (*n <= *ilo) {
         dwork[1] = 1.;
         return 0;
     }
     i__1 = *n - 1;
-    for (i__ = *ilo; i__ <= i__1; ++i__)
-    {
+    for (i__ = *ilo; i__ <= i__1; ++i__) {
         /*        Generate elementary reflector H(i) to annihilate QG(i+2:n,i). */
         alpha = qg[i__ + 1 + i__ * qg_dim1];
         i__2 = *n - i__;
         /* Computing MIN */
         i__3 = i__ + 2;
-        dlarfg_(&i__2, &alpha, &qg[min(i__3,*n) + i__ * qg_dim1], &c__1, &nu);
-        if (nu != 0.)
-        {
+        dlarfg_(&i__2, &alpha, &qg[min(i__3, *n) + i__ * qg_dim1], &c__1, &nu);
+        if (nu != 0.) {
             qg[i__ + 1 + i__ * qg_dim1] = 1.;
             /*           Apply H(i) from both sides to QG(i+1:n,i+1:n). */
             /*           Compute  x := nu * QG(i+1:n,i+1:n) * v. */
             i__2 = *n - i__;
-            dsymv_("Lower", &i__2, &nu, &qg[i__ + 1 + (i__ + 1) * qg_dim1], ldqg, &qg[i__ + 1 + i__ * qg_dim1], &c__1, &c_b7, &dwork[1], &c__1, 5L);
+            dsymv_("Lower", &i__2, &nu, &qg[i__ + 1 + (i__ + 1) * qg_dim1], ldqg,
+                &qg[i__ + 1 + i__ * qg_dim1], &c__1, &c_b7, &dwork[1], &c__1, 5L);
             /*           Compute  w := x - 1/2 * nu * (x'*v) * v. */
             i__2 = *n - i__;
             mu = nu * -.5 * ddot_(&i__2, &dwork[1], &c__1, &qg[i__ + 1 + i__ * qg_dim1], &c__1);
@@ -233,14 +222,17 @@ integer *ldwork, *info;
             /*           Apply the transformation as a rank-2 update: */
             /*                QG := QG - v * w' - w * v'. */
             i__2 = *n - i__;
-            dsyr2_("Lower", &i__2, &c_b14, &qg[i__ + 1 + i__ * qg_dim1], &c__1, &dwork[1], &c__1, &qg[i__ + 1 + (i__ + 1) * qg_dim1], ldqg, 5L);
+            dsyr2_("Lower", &i__2, &c_b14, &qg[i__ + 1 + i__ * qg_dim1], &c__1, &dwork[1], &c__1,
+                &qg[i__ + 1 + (i__ + 1) * qg_dim1], ldqg, 5L);
             /*           Apply H(i) from the right hand side to QG(1:i,i+2:n+1). */
             i__2 = *n - i__;
-            dlarf_("Right", &i__, &i__2, &qg[i__ + 1 + i__ * qg_dim1], &c__1, &nu, &qg[(i__ + 2) * qg_dim1 + 1], ldqg, &dwork[1], 5L);
+            dlarf_("Right", &i__, &i__2, &qg[i__ + 1 + i__ * qg_dim1], &c__1, &nu,
+                &qg[(i__ + 2) * qg_dim1 + 1], ldqg, &dwork[1], 5L);
             /*           Apply H(i) from both sides to QG(i+1:n,i+2:n+1). */
             /*           Compute  x := nu * QG(i+1:n,i+2:n+1) * v. */
             i__2 = *n - i__;
-            dsymv_("Upper", &i__2, &nu, &qg[i__ + 1 + (i__ + 2) * qg_dim1], ldqg, &qg[i__ + 1 + i__ * qg_dim1], &c__1, &c_b7, &dwork[1], &c__1, 5L);
+            dsymv_("Upper", &i__2, &nu, &qg[i__ + 1 + (i__ + 2) * qg_dim1], ldqg,
+                &qg[i__ + 1 + i__ * qg_dim1], &c__1, &c_b7, &dwork[1], &c__1, 5L);
             /*           Compute  w := x - 1/2 * nu * (x'*v) * v. */
             i__2 = *n - i__;
             mu = nu * -.5 * ddot_(&i__2, &dwork[1], &c__1, &qg[i__ + 1 + i__ * qg_dim1], &c__1);
@@ -249,14 +241,17 @@ integer *ldwork, *info;
             /*           Apply the transformation as a rank-2 update: */
             /*              QG(i+1:n,i+2:n+1) := QG(i+1:n,i+2:n+1) - v * w' - w * v'. */
             i__2 = *n - i__;
-            dsyr2_("Upper", &i__2, &c_b14, &qg[i__ + 1 + i__ * qg_dim1], &c__1, &dwork[1], &c__1, &qg[i__ + 1 + (i__ + 2) * qg_dim1], ldqg, 5L);
+            dsyr2_("Upper", &i__2, &c_b14, &qg[i__ + 1 + i__ * qg_dim1], &c__1, &dwork[1], &c__1,
+                &qg[i__ + 1 + (i__ + 2) * qg_dim1], ldqg, 5L);
             /*           Apply H(i) from the left hand side to A(i+1:n,i:n). */
             i__2 = *n - i__;
             i__3 = *n - i__ + 1;
-            dlarf_("Left", &i__2, &i__3, &qg[i__ + 1 + i__ * qg_dim1], &c__1, &nu, &a[i__ + 1 + i__ * a_dim1], lda, &dwork[1], 4L);
+            dlarf_("Left", &i__2, &i__3, &qg[i__ + 1 + i__ * qg_dim1], &c__1, &nu,
+                &a[i__ + 1 + i__ * a_dim1], lda, &dwork[1], 4L);
             /*           Apply H(i) from the right hand side to A(1:n,i+1:n). */
             i__2 = *n - i__;
-            dlarf_("Right", n, &i__2, &qg[i__ + 1 + i__ * qg_dim1], &c__1, &nu, &a[(i__ + 1) * a_dim1 + 1], lda, &dwork[1], 5L);
+            dlarf_("Right", n, &i__2, &qg[i__ + 1 + i__ * qg_dim1], &c__1, &nu,
+                &a[(i__ + 1) * a_dim1 + 1], lda, &dwork[1], 5L);
         }
         qg[i__ + 1 + i__ * qg_dim1] = nu;
         /*        Generate symplectic Givens rotation G(i) to annihilate */
@@ -265,12 +260,15 @@ integer *ldwork, *info;
         dlartg_(&temp, &alpha, &c__, &s, &a[i__ + 1 + i__ * a_dim1]);
         /*        Apply G(i) to [A(I+1,I+2:N); QG(I+2:N,I+1)']. */
         i__2 = *n - i__ - 1;
-        drot_(&i__2, &a[i__ + 1 + (i__ + 2) * a_dim1], lda, &qg[i__ + 2 + (i__ + 1) * qg_dim1], &c__1, &c__, &s);
+        drot_(&i__2, &a[i__ + 1 + (i__ + 2) * a_dim1], lda, &qg[i__ + 2 + (i__ + 1) * qg_dim1],
+            &c__1, &c__, &s);
         /*        Apply G(i) to [A(1:I,I+1) QG(1:I,I+2)]. */
-        drot_(&i__, &a[(i__ + 1) * a_dim1 + 1], &c__1, &qg[(i__ + 2) * qg_dim1 + 1], &c__1, &c__, &s);
+        drot_(
+            &i__, &a[(i__ + 1) * a_dim1 + 1], &c__1, &qg[(i__ + 2) * qg_dim1 + 1], &c__1, &c__, &s);
         /*        Apply G(i) to [A(I+2:N,I+1) QG(I+1, I+3:N+1)'] from the right. */
         i__2 = *n - i__ - 1;
-        drot_(&i__2, &a[i__ + 2 + (i__ + 1) * a_dim1], &c__1, &qg[i__ + 1 + (i__ + 3) * qg_dim1], ldqg, &c__, &s);
+        drot_(&i__2, &a[i__ + 2 + (i__ + 1) * a_dim1], &c__1, &qg[i__ + 1 + (i__ + 3) * qg_dim1],
+            ldqg, &c__, &s);
         /*        Fix the diagonal part. */
         temp = a[i__ + 1 + (i__ + 1) * a_dim1];
         ttemp = qg[i__ + 1 + (i__ + 2) * qg_dim1];
@@ -288,22 +286,24 @@ integer *ldwork, *info;
         i__2 = *n - i__;
         /* Computing MIN */
         i__3 = i__ + 2;
-        dlarfg_(&i__2, &a[i__ + 1 + i__ * a_dim1], &a[min(i__3,*n) + i__ * a_dim1], &c__1, &nu);
-        if (nu != 0.)
-        {
+        dlarfg_(&i__2, &a[i__ + 1 + i__ * a_dim1], &a[min(i__3, *n) + i__ * a_dim1], &c__1, &nu);
+        if (nu != 0.) {
             temp = a[i__ + 1 + i__ * a_dim1];
             a[i__ + 1 + i__ * a_dim1] = 1.;
             /*           Apply F(i) from the left hand side to A(i+1:n,i+1:n). */
             i__2 = *n - i__;
             i__3 = *n - i__;
-            dlarf_("Left", &i__2, &i__3, &a[i__ + 1 + i__ * a_dim1], &c__1, &nu, &a[i__ + 1 + (i__ + 1) * a_dim1], lda, &dwork[1], 4L);
+            dlarf_("Left", &i__2, &i__3, &a[i__ + 1 + i__ * a_dim1], &c__1, &nu,
+                &a[i__ + 1 + (i__ + 1) * a_dim1], lda, &dwork[1], 4L);
             /*           Apply G(i) from the right hand side to A(1:n,i+1:n). */
             i__2 = *n - i__;
-            dlarf_("Right", n, &i__2, &a[i__ + 1 + i__ * a_dim1], &c__1, &nu, &a[(i__ + 1) * a_dim1 + 1], lda, &dwork[1], 5L);
+            dlarf_("Right", n, &i__2, &a[i__ + 1 + i__ * a_dim1], &c__1, &nu,
+                &a[(i__ + 1) * a_dim1 + 1], lda, &dwork[1], 5L);
             /*           Apply G(i) from both sides to QG(i+1:n,i+1:n). */
             /*           Compute  x := nu * QG(i+1:n,i+1:n) * v. */
             i__2 = *n - i__;
-            dsymv_("Lower", &i__2, &nu, &qg[i__ + 1 + (i__ + 1) * qg_dim1], ldqg, &a[i__ + 1 + i__ * a_dim1], &c__1, &c_b7, &dwork[1], &c__1, 5L);
+            dsymv_("Lower", &i__2, &nu, &qg[i__ + 1 + (i__ + 1) * qg_dim1], ldqg,
+                &a[i__ + 1 + i__ * a_dim1], &c__1, &c_b7, &dwork[1], &c__1, 5L);
             /*           Compute  w := x - 1/2 * tau * (x'*v) * v. */
             i__2 = *n - i__;
             mu = nu * -.5 * ddot_(&i__2, &dwork[1], &c__1, &a[i__ + 1 + i__ * a_dim1], &c__1);
@@ -312,14 +312,17 @@ integer *ldwork, *info;
             /*           Apply the transformation as a rank-2 update: */
             /*                QG := QG - v * w' - w * v'. */
             i__2 = *n - i__;
-            dsyr2_("Lower", &i__2, &c_b14, &a[i__ + 1 + i__ * a_dim1], &c__1, &dwork[1], &c__1, &qg[i__ + 1 + (i__ + 1) * qg_dim1], ldqg, 5L);
+            dsyr2_("Lower", &i__2, &c_b14, &a[i__ + 1 + i__ * a_dim1], &c__1, &dwork[1], &c__1,
+                &qg[i__ + 1 + (i__ + 1) * qg_dim1], ldqg, 5L);
             /*           Apply G(i) from the right hand side to QG(1:i,i+2:n+1). */
             i__2 = *n - i__;
-            dlarf_("Right", &i__, &i__2, &a[i__ + 1 + i__ * a_dim1], &c__1, &nu, &qg[(i__ + 2) * qg_dim1 + 1], ldqg, &dwork[1], 5L);
+            dlarf_("Right", &i__, &i__2, &a[i__ + 1 + i__ * a_dim1], &c__1, &nu,
+                &qg[(i__ + 2) * qg_dim1 + 1], ldqg, &dwork[1], 5L);
             /*           Apply G(i) from both sides to QG(i+1:n,i+2:n+1). */
             /*           Compute  x := nu * QG(i+1:n,i+2:n+1) * v. */
             i__2 = *n - i__;
-            dsymv_("Upper", &i__2, &nu, &qg[i__ + 1 + (i__ + 2) * qg_dim1], ldqg, &a[i__ + 1 + i__ * a_dim1], &c__1, &c_b7, &dwork[1], &c__1, 5L);
+            dsymv_("Upper", &i__2, &nu, &qg[i__ + 1 + (i__ + 2) * qg_dim1], ldqg,
+                &a[i__ + 1 + i__ * a_dim1], &c__1, &c_b7, &dwork[1], &c__1, 5L);
             /*           Compute  w := x - 1/2 * tau * (x'*v) * v. */
             i__2 = *n - i__;
             mu = nu * -.5 * ddot_(&i__2, &dwork[1], &c__1, &a[i__ + 1 + i__ * a_dim1], &c__1);
@@ -328,7 +331,8 @@ integer *ldwork, *info;
             /*           Apply the transformation as a rank-2 update: */
             /*              QG(i+1:n,i+2:n+1) := QG(i+1:n,i+2:n+1) - v * w' - w * v'. */
             i__2 = *n - i__;
-            dsyr2_("Upper", &i__2, &c_b14, &a[i__ + 1 + i__ * a_dim1], &c__1, &dwork[1], &c__1, &qg[i__ + 1 + (i__ + 2) * qg_dim1], ldqg, 5L);
+            dsyr2_("Upper", &i__2, &c_b14, &a[i__ + 1 + i__ * a_dim1], &c__1, &dwork[1], &c__1,
+                &qg[i__ + 1 + (i__ + 2) * qg_dim1], ldqg, 5L);
             a[i__ + 1 + i__ * a_dim1] = temp;
         }
         tau[i__] = nu;
@@ -336,8 +340,7 @@ integer *ldwork, *info;
     }
     /* Computing MAX */
     i__1 = 1, i__2 = *n - 1;
-    dwork[1] = (doublereal) max(i__1,i__2);
+    dwork[1] = (doublereal)max(i__1, i__2);
     return 0;
     /* *** Last line of MB04PU *** */
 } /* mb04pu_ */
-

@@ -38,78 +38,88 @@
 
 #pragma once
 
-#include "nlsInterpreter_exports.h"
 #include "ArrayOf.hpp"
 #include "Interface.hpp"
+#include "nlsInterpreter_exports.h"
 
 namespace Nelson {
 
-    typedef enum
-    {
-        NLS_MACRO_FUNCTION,
-        NLS_BUILT_IN_FUNCTION,
-    } FunctionType;
+typedef enum
+{
+    NLS_MACRO_FUNCTION,
+    NLS_BUILT_IN_FUNCTION,
+} FunctionType;
 
-    class Evaluator;
+class Evaluator;
 
+/** Base class for the function types
+ * A FunctionDef class is a base class for the different types
+ * of function pointers used.  There are three types of functions
+ * available:
+ *    - M-functions - these are functions or scripts written by the
+ *      user in the interpreted language.
+ *    - Built-in functions - these are functions coded in C++ that
+ *      implement functionality too difficult/impossible to do in
+ *      the language itself.
+ * All of these functions have in common a name, a script classification
+ * (is it a script or not), a well defined number of input arguments,
+ * a well defined number of output arguments, and some means of
+ * being evaluated.
+ */
+class NLSINTERPRETER_IMPEXP FunctionDef
+{
+public:
+    size_t hashid;
 
-    /** Base class for the function types
-     * A FunctionDef class is a base class for the different types
-     * of function pointers used.  There are three types of functions
-     * available:
-     *    - M-functions - these are functions or scripts written by the
-     *      user in the interpreted language.
-     *    - Built-in functions - these are functions coded in C++ that
-     *      implement functionality too difficult/impossible to do in
-     *      the language itself.
-     * All of these functions have in common a name, a script classification
-     * (is it a script or not), a well defined number of input arguments,
-     * a well defined number of output arguments, and some means of
-     * being evaluated.
+    /**
+     * The name of the function - must follow identifier rules.
      */
-    class NLSINTERPRETER_IMPEXP FunctionDef {
-    public:
-        size_t hashid;
+    std::string name;
+    /**
+     * The names of the arguments to the fuction (analogous to returnVals).
+     * Should have "varargin" as the last entry for variable argument
+     * functions.
+     */
+    stringVector arguments;
+    /**
+     * The constructor.
+     */
+    FunctionDef();
+    /**
+     * The virtual destructor
+     */
+    virtual ~FunctionDef();
+    /**
+     * The type of the function (NLS_MACRO_FUNCTION, NLS_BUILT_IN_FUNCTION).
+     */
+    virtual const FunctionType
+    type()
+        = 0;
+    /**
+     * Print a description of the function
+     */
+    virtual void
+    printMe(Interface* io)
+        = 0;
+    /**
+     * The number of inputs required by this function (-1 if variable).
+     */
+    virtual int
+    inputArgCount()
+        = 0;
+    /**
+     * The number of outputs returned by this function (-1 if variable).
+     */
+    virtual int
+    outputArgCount()
+        = 0;
+    /**
+     * Evaluate the function and return its output.
+     */
+    virtual ArrayOfVector
+    evaluateFunction(Evaluator*, ArrayOfVector&, int)
+        = 0;
+};
 
-        /**
-         * The name of the function - must follow identifier rules.
-         */
-        std::string name;
-        /**
-         * The names of the arguments to the fuction (analogous to returnVals).
-         * Should have "varargin" as the last entry for variable argument
-         * functions.
-         */
-        stringVector arguments;
-        /**
-         * The constructor.
-         */
-        FunctionDef();
-        /**
-         * The virtual destructor
-         */
-        virtual ~FunctionDef();
-        /**
-         * The type of the function (NLS_MACRO_FUNCTION, NLS_BUILT_IN_FUNCTION).
-         */
-        virtual const FunctionType type() = 0;
-        /**
-         * Print a description of the function
-         */
-        virtual void printMe(Interface* io) = 0;
-        /**
-         * The number of inputs required by this function (-1 if variable).
-         */
-        virtual int inputArgCount() = 0;
-        /**
-         * The number of outputs returned by this function (-1 if variable).
-         */
-        virtual int outputArgCount() = 0;
-        /**
-         * Evaluate the function and return its output.
-         */
-        virtual ArrayOfVector evaluateFunction(Evaluator *, ArrayOfVector& , int) = 0;
-    };
-
-    typedef FunctionDef* FuncPtr;
-}
+typedef FunctionDef* FuncPtr;
+} // namespace Nelson

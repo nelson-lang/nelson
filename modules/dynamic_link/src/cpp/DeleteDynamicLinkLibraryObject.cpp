@@ -17,44 +17,38 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "DeleteDynamicLinkLibraryObject.hpp"
-#include "HandleManager.hpp"
 #include "DynamicLinkLibraryObject.hpp"
+#include "HandleManager.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    bool DeleteDynamicLinkLibraryObject(ArrayOf A)
-    {
-        bool res = false;
-        if (A.isHandle())
-        {
-            if (!A.isEmpty())
-            {
-                Dimensions dims = A.getDimensions();
-                nelson_handle *qp = (nelson_handle*)A.getDataPointer();
-                for (size_t k = 0; k < (size_t)dims.getElementCount(); k++)
-                {
-                    nelson_handle hl = qp[k];
-                    HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-                    if (hlObj)
-                    {
-                        if (hlObj->getCategory() != DLLIB_CATEGORY_STR)
-                        {
-                            throw Exception(_W("dllib handle expected."));
-                        }
-                        DynamicLinkLibraryObject *obj = (DynamicLinkLibraryObject*)hlObj;
-                        delete obj;
-                        HandleManager::getInstance()->removeHandle(hl);
-                        res = true;
+//=============================================================================
+bool
+DeleteDynamicLinkLibraryObject(ArrayOf A)
+{
+    bool res = false;
+    if (A.isHandle()) {
+        if (!A.isEmpty()) {
+            Dimensions dims = A.getDimensions();
+            nelson_handle* qp = (nelson_handle*)A.getDataPointer();
+            for (size_t k = 0; k < (size_t)dims.getElementCount(); k++) {
+                nelson_handle hl = qp[k];
+                HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
+                if (hlObj) {
+                    if (hlObj->getCategory() != DLLIB_CATEGORY_STR) {
+                        throw Exception(_W("dllib handle expected."));
                     }
+                    DynamicLinkLibraryObject* obj = (DynamicLinkLibraryObject*)hlObj;
+                    delete obj;
+                    HandleManager::getInstance()->removeHandle(hl);
+                    res = true;
                 }
             }
-            else
-            {
-                throw Exception(_W("dllib valid handle expected."));
-            }
+        } else {
+            throw Exception(_W("dllib valid handle expected."));
         }
-        return res;
     }
-    //=============================================================================
+    return res;
+}
+//=============================================================================
 }
 //=============================================================================

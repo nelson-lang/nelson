@@ -17,9 +17,9 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "audioplayerBuiltin.hpp"
-#include "Error.hpp"
 #include "AudioHelpers.hpp"
 #include "AudioplayerObject.hpp"
+#include "Error.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -27,68 +27,55 @@ using namespace Nelson;
 // playerObj = audioplayer(Y, Fs, nBits)
 // playerObj = audioplayer(Y, Fs, nBits, ID)
 //=============================================================================
-ArrayOfVector Nelson::AudioGateway::audioplayerBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::AudioGateway::audioplayerBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
     AudioplayerObject* objPlayer = nullptr;
     std::wstring errorMessage = _W("Cannot create audioplayer handle.");
     bool res = false;
-    switch (argIn.size())
-    {
-        case 2:
-        {
-            ArrayOf param2 = argIn[1];
-            int sampleRate = param2.getContentAsInteger32Scalar();
-            objPlayer = new AudioplayerObject();
-            if (objPlayer)
-            {
-                res = objPlayer->setSamples(argIn[0], sampleRate, errorMessage);
-            }
+    switch (argIn.size()) {
+    case 2: {
+        ArrayOf param2 = argIn[1];
+        int sampleRate = param2.getContentAsInteger32Scalar();
+        objPlayer = new AudioplayerObject();
+        if (objPlayer) {
+            res = objPlayer->setSamples(argIn[0], sampleRate, errorMessage);
         }
-        break;
-        case 3:
-        {
-            ArrayOf param2 = argIn[1];
-            int sampleRate = param2.getContentAsInteger32Scalar();
-            ArrayOf param3 = argIn[2];
-            int bitsPerSample = param3.getContentAsInteger32Scalar();
-            objPlayer = new AudioplayerObject();
-            if (objPlayer)
-            {
-                res = objPlayer->setSamples(argIn[0], sampleRate, bitsPerSample, errorMessage);
-            }
+    } break;
+    case 3: {
+        ArrayOf param2 = argIn[1];
+        int sampleRate = param2.getContentAsInteger32Scalar();
+        ArrayOf param3 = argIn[2];
+        int bitsPerSample = param3.getContentAsInteger32Scalar();
+        objPlayer = new AudioplayerObject();
+        if (objPlayer) {
+            res = objPlayer->setSamples(argIn[0], sampleRate, bitsPerSample, errorMessage);
         }
-        break;
-        case 4:
-        {
-            ArrayOf param2 = argIn[1];
-            int sampleRate = param2.getContentAsInteger32Scalar();
-            ArrayOf param3 = argIn[2];
-            int bitsPerSample = param3.getContentAsInteger32Scalar();
-            ArrayOf param4 = argIn[3];
-            int deviceID = param4.getContentAsInteger32Scalar();
-            objPlayer = new AudioplayerObject();
-            if (objPlayer)
-            {
-                res = objPlayer->setSamples(argIn[0], sampleRate, bitsPerSample, deviceID, errorMessage);
-            }
+    } break;
+    case 4: {
+        ArrayOf param2 = argIn[1];
+        int sampleRate = param2.getContentAsInteger32Scalar();
+        ArrayOf param3 = argIn[2];
+        int bitsPerSample = param3.getContentAsInteger32Scalar();
+        ArrayOf param4 = argIn[3];
+        int deviceID = param4.getContentAsInteger32Scalar();
+        objPlayer = new AudioplayerObject();
+        if (objPlayer) {
+            res = objPlayer->setSamples(
+                argIn[0], sampleRate, bitsPerSample, deviceID, errorMessage);
         }
-        break;
-        default:
-        {
-            Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-        }
-        break;
+    } break;
+    default: {
+        Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    } break;
     }
-    if (!res)
-    {
-        if (objPlayer)
-        {
+    if (!res) {
+        if (objPlayer) {
             delete objPlayer;
         }
         Error(eval, errorMessage);

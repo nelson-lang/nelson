@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,21 +9,22 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int tb01xd_(jobd, n, m, p, kl, ku, a, lda, b, ldb, c__, ldc, d__, ldd, info, jobd_len)
-char *jobd;
+EXPORTSYMBOL /* Subroutine */ int tb01xd_(
+    jobd, n, m, p, kl, ku, a, lda, b, ldb, c__, ldc, d__, ldd, info, jobd_len) char* jobd;
 integer *n, *m, *p, *kl, *ku;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *d__;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* d__;
 integer *ldd, *info;
 ftnlen jobd_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, i__1, i__2, i__3;
+    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, i__1, i__2,
+        i__3;
     /* Local variables */
     static integer j;
     static logical ljobd;
@@ -167,120 +168,88 @@ ftnlen jobd_len;
     /* Function Body */
     *info = 0;
     ljobd = lsame_(jobd, "D", 1L, 1L);
-    maxmp = max(*m,*p);
-    minmp = min(*m,*p);
+    maxmp = max(*m, *p);
+    minmp = min(*m, *p);
     nm1 = *n - 1;
-    if (! ljobd && ! lsame_(jobd, "Z", 1L, 1L))
-    {
+    if (!ljobd && !lsame_(jobd, "Z", 1L, 1L)) {
         *info = -1;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -2;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -3;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -4;
-    }
-    else if (*kl < 0 || *kl > max(0,nm1))
-    {
+    } else if (*kl < 0 || *kl > max(0, nm1)) {
         *info = -5;
-    }
-    else if (*ku < 0 || *ku > max(0,nm1))
-    {
+    } else if (*ku < 0 || *ku > max(0, nm1)) {
         *info = -6;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -8;
-    }
-    else if (maxmp > 0 && *ldb < max(1,*n) || minmp == 0 && *ldb < 1)
-    {
+    } else if (maxmp > 0 && *ldb < max(1, *n) || minmp == 0 && *ldb < 1) {
         *info = -10;
-    }
-    else if (*ldc < 1 || *n > 0 && *ldc < maxmp)
-    {
+    } else if (*ldc < 1 || *n > 0 && *ldc < maxmp) {
         *info = -12;
-    }
-    else if (*ldd < 1 || ljobd && *ldd < maxmp)
-    {
+    } else if (*ldd < 1 || ljobd && *ldd < maxmp) {
         *info = -14;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("TB01XD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (ljobd)
-    {
+    if (ljobd) {
         /*        Replace D by D', if non-scalar. */
         i__1 = maxmp;
-        for (j = 1; j <= i__1; ++j)
-        {
-            if (j < minmp)
-            {
+        for (j = 1; j <= i__1; ++j) {
+            if (j < minmp) {
                 i__2 = minmp - j;
                 dswap_(&i__2, &d__[j + 1 + j * d_dim1], &c__1, &d__[j + (j + 1) * d_dim1], ldd);
-            }
-            else if (j > *p)
-            {
+            } else if (j > *p) {
                 dcopy_(p, &d__[j * d_dim1 + 1], &c__1, &d__[j + d_dim1], ldd);
-            }
-            else if (j > *m)
-            {
+            } else if (j > *m) {
                 dcopy_(m, &d__[j + d_dim1], ldd, &d__[j * d_dim1 + 1], &c__1);
             }
             /* L5: */
         }
     }
-    if (*n == 0)
-    {
+    if (*n == 0) {
         return 0;
     }
     /*     Replace matrix A by P*A'*P. */
-    if (*kl == nm1 && *ku == nm1)
-    {
+    if (*kl == nm1 && *ku == nm1) {
         /*        Full matrix A. */
         i__1 = nm1;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             i__2 = *n - j;
             i__3 = -(*lda);
             dswap_(&i__2, &a[j * a_dim1 + 1], &c__1, &a[*n - j + 1 + (j + 1) * a_dim1], &i__3);
             /* L10: */
         }
-    }
-    else
-    {
+    } else {
         /*        Band matrix A. */
         lda1 = *lda + 1;
         /*        Pertranspose the KL subdiagonals. */
         /* Computing MIN */
         i__2 = *kl, i__3 = *n - 2;
-        i__1 = min(i__2,i__3);
-        for (j = 1; j <= i__1; ++j)
-        {
+        i__1 = min(i__2, i__3);
+        for (j = 1; j <= i__1; ++j) {
             j1 = (*n - j) / 2;
             i__2 = -lda1;
-            dswap_(&j1, &a[j + 1 + a_dim1], &lda1, &a[*n - j1 + 1 + (*n - j1 + 1 - j) * a_dim1], &i__2);
+            dswap_(&j1, &a[j + 1 + a_dim1], &lda1, &a[*n - j1 + 1 + (*n - j1 + 1 - j) * a_dim1],
+                &i__2);
             /* L20: */
         }
         /*        Pertranspose the KU superdiagonals. */
         /* Computing MIN */
         i__2 = *ku, i__3 = *n - 2;
-        i__1 = min(i__2,i__3);
-        for (j = 1; j <= i__1; ++j)
-        {
+        i__1 = min(i__2, i__3);
+        for (j = 1; j <= i__1; ++j) {
             j1 = (*n - j) / 2;
             i__2 = -lda1;
-            dswap_(&j1, &a[(j + 1) * a_dim1 + 1], &lda1, &a[*n - j1 + 1 - j + (*n - j1 + 1) * a_dim1], &i__2);
+            dswap_(&j1, &a[(j + 1) * a_dim1 + 1], &lda1,
+                &a[*n - j1 + 1 - j + (*n - j1 + 1) * a_dim1], &i__2);
             /* L30: */
         }
         /*        Pertranspose the diagonal. */
@@ -290,20 +259,14 @@ ftnlen jobd_len;
     }
     /*     Replace matrix B by P*C' and matrix C by B'*P. */
     i__1 = maxmp;
-    for (j = 1; j <= i__1; ++j)
-    {
-        if (j <= minmp)
-        {
+    for (j = 1; j <= i__1; ++j) {
+        if (j <= minmp) {
             i__2 = -(*ldc);
             dswap_(n, &b[j * b_dim1 + 1], &c__1, &c__[j + c_dim1], &i__2);
-        }
-        else if (j > *p)
-        {
+        } else if (j > *p) {
             i__2 = -(*ldc);
             dcopy_(n, &b[j * b_dim1 + 1], &c__1, &c__[j + c_dim1], &i__2);
-        }
-        else
-        {
+        } else {
             i__2 = -(*ldc);
             dcopy_(n, &c__[j + c_dim1], &i__2, &b[j * b_dim1 + 1], &c__1);
         }
@@ -312,4 +275,3 @@ ftnlen jobd_len;
     return 0;
     /* *** Last line of TB01XD *** */
 } /* tb01xd_ */
-

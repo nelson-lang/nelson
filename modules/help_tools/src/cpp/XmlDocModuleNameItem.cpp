@@ -17,46 +17,48 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "XmlDocModuleNameItem.hpp"
-#include "characters_encoding.hpp"
-#include "XmlDocumentTags.hpp"
 #include "HtmlTags.hpp"
+#include "XmlDocumentTags.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    XmlDocModuleNameItem::XmlDocModuleNameItem(std::wstring module_name)
-    {
-        this->_module_name = module_name;
-    }
-    //=============================================================================
-    XmlDocModuleNameItem::~XmlDocModuleNameItem()
-    {
-        this->_module_name = L"";
-    }
-    //=============================================================================
-    void XmlDocModuleNameItem::setValue(std::wstring value)
-    {
-        this->_module_name = value;
-    }
-    //=============================================================================
-    std::wstring XmlDocModuleNameItem::getValue()
-    {
-        return this->_module_name;
-    }
-    //=============================================================================
-    std::wstring XmlDocModuleNameItem::getItemType()
-    {
-        return utf8_to_wstring(MODULE_NAME_TAG);
-    }
-    //=============================================================================
-    bool XmlDocModuleNameItem::writeAsHtml(std::string &utf8stream)
-    {
-        return true;
-    }
-    //=============================================================================
-    bool XmlDocModuleNameItem::writeAsMarkdown(std::string &utf8stream)
-    {
-        return true;
-    }
-    //=============================================================================
+//=============================================================================
+XmlDocModuleNameItem::XmlDocModuleNameItem(std::wstring module_name)
+{
+    this->_module_name = module_name;
+}
+//=============================================================================
+XmlDocModuleNameItem::~XmlDocModuleNameItem() { this->_module_name = L""; }
+//=============================================================================
+void
+XmlDocModuleNameItem::setValue(std::wstring value)
+{
+    this->_module_name = value;
+}
+//=============================================================================
+std::wstring
+XmlDocModuleNameItem::getValue()
+{
+    return this->_module_name;
+}
+//=============================================================================
+std::wstring
+XmlDocModuleNameItem::getItemType()
+{
+    return utf8_to_wstring(MODULE_NAME_TAG);
+}
+//=============================================================================
+bool
+XmlDocModuleNameItem::writeAsHtml(std::string& utf8stream)
+{
+    return true;
+}
+//=============================================================================
+bool
+XmlDocModuleNameItem::writeAsMarkdown(std::string& utf8stream)
+{
+    return true;
+}
+//=============================================================================
 }
 //=============================================================================

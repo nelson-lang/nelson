@@ -25,6 +25,6 @@
 #define NLSLOCALIZATION_BUILTIN_IMPEXP __declspec(dllimport)
 #endif
 #else
-#define NLSLOCALIZATION_BUILTIN_IMPEXP __attribute__ ((visibility ("default")))
+#define NLSLOCALIZATION_BUILTIN_IMPEXP __attribute__((visibility("default")))
 #endif
 //=============================================================================

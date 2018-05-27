@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -13,29 +13,32 @@ static integer c__1 = 1;
 static doublereal c_b31 = 1.;
 static doublereal c_b50 = 0.;
 
-EXPORTSYMBOL /* Subroutine */ int ab09ax_(dico, job, ordsel, n, m, p, nr, a, lda, b, ldb, c__, ldc, hsv, t, ldt, ti, ldti, tol, iwork, dwork, ldwork, iwarn, info, dico_len, job_len, ordsel_len)
-char *dico, *job, *ordsel;
+EXPORTSYMBOL /* Subroutine */ int ab09ax_(dico, job, ordsel, n, m, p, nr, a, lda, b, ldb, c__, ldc,
+    hsv, t, ldt, ti, ldti, tol, iwork, dwork, ldwork, iwarn, info, dico_len, job_len,
+    ordsel_len) char *dico,
+    *job, *ordsel;
 integer *n, *m, *p, *nr;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
 doublereal *hsv, *t;
-integer *ldt;
-doublereal *ti;
-integer *ldti;
-doublereal *tol;
-integer *iwork;
-doublereal *dwork;
+integer* ldt;
+doublereal* ti;
+integer* ldti;
+doublereal* tol;
+integer* iwork;
+doublereal* dwork;
 integer *ldwork, *iwarn, *info;
 ftnlen dico_len;
 ftnlen job_len;
 ftnlen ordsel_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, t_dim1, t_offset, ti_dim1, ti_offset, i__1, i__2, i__3;
+    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, t_dim1, t_offset, ti_dim1,
+        ti_offset, i__1, i__2, i__3;
     doublereal d__1;
     /* Builtin functions */
     double sqrt();
@@ -290,67 +293,41 @@ ftnlen ordsel_len;
     bal = lsame_(job, "B", 1L, 1L);
     fixord = lsame_(ordsel, "F", 1L, 1L);
     /*     Test the input scalar arguments. */
-    if (! (lsame_(dico, "C", 1L, 1L) || discr))
-    {
+    if (!(lsame_(dico, "C", 1L, 1L) || discr)) {
         *info = -1;
-    }
-    else if (! (bal || lsame_(job, "N", 1L, 1L)))
-    {
+    } else if (!(bal || lsame_(job, "N", 1L, 1L))) {
         *info = -2;
-    }
-    else if (! (fixord || lsame_(ordsel, "A", 1L, 1L)))
-    {
+    } else if (!(fixord || lsame_(ordsel, "A", 1L, 1L))) {
         *info = -3;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -4;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -5;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -6;
-    }
-    else if (fixord && (*nr < 0 || *nr > *n))
-    {
+    } else if (fixord && (*nr < 0 || *nr > *n)) {
         *info = -7;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -9;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -11;
-    }
-    else if (*ldc < max(1,*p))
-    {
+    } else if (*ldc < max(1, *p)) {
         *info = -13;
-    }
-    else if (*ldt < max(1,*n))
-    {
+    } else if (*ldt < max(1, *n)) {
         *info = -16;
-    }
-    else if (*ldti < max(1,*n))
-    {
+    } else if (*ldti < max(1, *n)) {
         *info = -18;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
         /* Computing MAX */
-        i__3 = max(*n,*m);
-        i__1 = 1, i__2 = *n * (max(i__3,*p) + 5) + *n * (*n + 1) / 2;
-        if (*ldwork < max(i__1,i__2))
-        {
+        i__3 = max(*n, *m);
+        i__1 = 1, i__2 = *n * (max(i__3, *p) + 5) + *n * (*n + 1) / 2;
+        if (*ldwork < max(i__1, i__2)) {
             *info = -22;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("AB09AX", &i__1, 6L);
@@ -358,20 +335,19 @@ ftnlen ordsel_len;
     }
     /*     Quick return if possible. */
     /* Computing MIN */
-    i__1 = min(*n,*m);
-    if (min(i__1,*p) == 0 || fixord && *nr == 0)
-    {
+    i__1 = min(*n, *m);
+    if (min(i__1, *p) == 0 || fixord && *nr == 0) {
         *nr = 0;
         dwork[1] = 1.;
         return 0;
     }
-    rtol = (doublereal) (*n) * dlamch_("Epsilon", 7L);
+    rtol = (doublereal)(*n) * dlamch_("Epsilon", 7L);
     /*     Allocate N*MAX(N,M,P) and N working storage for the matrices U */
     /*     and TAU, respectively. */
     ku = 1;
     /* Computing MAX */
-    i__1 = max(*n,*m);
-    ktau = ku + *n * max(i__1,*p);
+    i__1 = max(*n, *m);
+    ktau = ku + *n * max(i__1, *p);
     kw = ktau + *n;
     ldw = *ldwork - kw + 1;
     /*     Copy B in U. */
@@ -384,13 +360,13 @@ ftnlen ordsel_len;
     /*     A*(Su*Su')*A' + scalec *B*B' = Su*Su' . */
     /*     Workspace:  need   N*(MAX(N,M,P) + 5); */
     /*                 prefer larger. */
-    sb03ou_(&discr, &c_true, n, m, &a[a_offset], lda, &dwork[ku], n, &dwork[ktau], &ti[ti_offset], ldti, &scalec, &dwork[kw], &ldw, &ierr);
-    if (ierr != 0)
-    {
+    sb03ou_(&discr, &c_true, n, m, &a[a_offset], lda, &dwork[ku], n, &dwork[ktau], &ti[ti_offset],
+        ldti, &scalec, &dwork[kw], &ldw, &ierr);
+    if (ierr != 0) {
         *info = 1;
         return 0;
     }
-    wrkopt = (integer) dwork[kw] + kw - 1;
+    wrkopt = (integer)dwork[kw] + kw - 1;
     /*     Copy C in U. */
     dlacpy_("Full", p, n, &c__[c_offset], ldc, &dwork[ku], p, 4L);
     /*     If DISCR = .FALSE., solve for Ru the Lyapunov equation */
@@ -401,32 +377,30 @@ ftnlen ordsel_len;
     /*     A'*(Ru'*Ru)*A + scaleo  * C'*C = Ru'*Ru . */
     /*     Workspace:  need   N*(MAX(N,M,P) + 5); */
     /*                 prefer larger. */
-    sb03ou_(&discr, &c_false, n, p, &a[a_offset], lda, &dwork[ku], p, &dwork[ktau], &t[t_offset], ldt, &scaleo, &dwork[kw], &ldw, &ierr);
+    sb03ou_(&discr, &c_false, n, p, &a[a_offset], lda, &dwork[ku], p, &dwork[ktau], &t[t_offset],
+        ldt, &scaleo, &dwork[kw], &ldw, &ierr);
     /* Computing MAX */
-    i__1 = wrkopt, i__2 = (integer) dwork[kw] + kw - 1;
-    wrkopt = max(i__1,i__2);
+    i__1 = wrkopt, i__2 = (integer)dwork[kw] + kw - 1;
+    wrkopt = max(i__1, i__2);
     /*     Allocate N*(N+1)/2 (or, if possible, N*N) working storage for the */
     /*     matrix V, a packed (or unpacked) copy of Su, and save Su in V. */
     /*     (The locations for TAU are reused here.) */
     kv = ktau;
-    if (*ldwork - kv + 1 < *n * (*n + 5))
-    {
+    if (*ldwork - kv + 1 < *n * (*n + 5)) {
         packed = TRUE_;
         ma02dd_("Pack", "Upper", n, &ti[ti_offset], ldti, &dwork[kv], 4L, 5L);
         kw = kv + *n * (*n + 1) / 2;
-    }
-    else
-    {
+    } else {
         packed = FALSE_;
         dlacpy_("Upper", n, n, &ti[ti_offset], ldti, &dwork[kv], n, 5L);
-        kw = kv + *n **n;
+        kw = kv + *n * *n;
     }
     /*                               | x x | */
     /*     Compute Ru*Su in the form | 0 x | in TI. */
     i__1 = *n;
-    for (j = 1; j <= i__1; ++j)
-    {
-        dtrmv_("Upper", "NoTranspose", "NonUnit", &j, &t[t_offset], ldt, &ti[j * ti_dim1 + 1], &c__1, 5L, 11L, 7L);
+    for (j = 1; j <= i__1; ++j) {
+        dtrmv_("Upper", "NoTranspose", "NonUnit", &j, &t[t_offset], ldt, &ti[j * ti_dim1 + 1],
+            &c__1, 5L, 11L, 7L);
         /* L10: */
     }
     /*     Compute the singular value decomposition Ru*Su = V*S*UT */
@@ -434,15 +408,15 @@ ftnlen ordsel_len;
     /*     Workspace:  need   N*MAX(N,M,P) + N*(N+1)/2 + 5*N; */
     /*                 prefer larger. */
     i__1 = *ldwork - kw + 1;
-    mb03ud_("Vectors", "Vectors", n, &ti[ti_offset], ldti, &dwork[ku], n, &hsv[1], &dwork[kw], &i__1, &ierr, 7L, 7L);
-    if (ierr != 0)
-    {
+    mb03ud_("Vectors", "Vectors", n, &ti[ti_offset], ldti, &dwork[ku], n, &hsv[1], &dwork[kw],
+        &i__1, &ierr, 7L, 7L);
+    if (ierr != 0) {
         *info = 2;
         return 0;
     }
     /* Computing MAX */
-    i__1 = wrkopt, i__2 = (integer) dwork[kw] + kw - 1;
-    wrkopt = max(i__1,i__2);
+    i__1 = wrkopt, i__2 = (integer)dwork[kw] + kw - 1;
+    wrkopt = max(i__1, i__2);
     /*     Scale singular values. */
     d__1 = 1. / scalec / scaleo;
     dscal_(n, &d__1, &hsv[1], &c__1);
@@ -450,80 +424,65 @@ ftnlen ordsel_len;
     /*     S = diag(S1,S2),  U = [U1,U2] (U' in TI) and V = [V1,V2] (in U). */
     /*     Compute the order of reduced system, as the order of S1. */
     atol = rtol * hsv[1];
-    if (fixord)
-    {
-        if (*nr > 0)
-        {
-            if (hsv[*nr] <= atol)
-            {
+    if (fixord) {
+        if (*nr > 0) {
+            if (hsv[*nr] <= atol) {
                 *nr = 0;
                 *iwarn = 1;
                 fixord = FALSE_;
             }
         }
-    }
-    else
-    {
-        atol = max(*tol,atol);
+    } else {
+        atol = max(*tol, atol);
         *nr = 0;
     }
-    if (! fixord)
-    {
+    if (!fixord) {
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
-            if (hsv[j] <= atol)
-            {
+        for (j = 1; j <= i__1; ++j) {
+            if (hsv[j] <= atol) {
                 goto L30;
             }
             ++(*nr);
             /* L20: */
         }
-L30:
-        ;
+    L30:;
     }
-    if (*nr == 0)
-    {
-        dwork[1] = (doublereal) wrkopt;
+    if (*nr == 0) {
+        dwork[1] = (doublereal)wrkopt;
         return 0;
     }
     /*     Compute the truncation matrices. */
     /*     Compute TI' =  Ru'*V1 in U. */
-    dtrmm_("Left", "Upper", "Transpose", "NonUnit", n, nr, &c_b31, &t[t_offset], ldt, &dwork[ku], n, 4L, 5L, 9L, 7L);
+    dtrmm_("Left", "Upper", "Transpose", "NonUnit", n, nr, &c_b31, &t[t_offset], ldt, &dwork[ku], n,
+        4L, 5L, 9L, 7L);
     /*     Compute T = Su*U1 (with Su packed, if not enough workspace). */
     ma02ad_("Full", nr, n, &ti[ti_offset], ldti, &t[t_offset], ldt, 4L);
-    if (packed)
-    {
+    if (packed) {
         i__1 = *nr;
-        for (j = 1; j <= i__1; ++j)
-        {
-            dtpmv_("Upper", "NoTranspose", "NonUnit", n, &dwork[kv], &t[j * t_dim1 + 1], &c__1, 5L, 11L, 7L);
+        for (j = 1; j <= i__1; ++j) {
+            dtpmv_("Upper", "NoTranspose", "NonUnit", n, &dwork[kv], &t[j * t_dim1 + 1], &c__1, 5L,
+                11L, 7L);
             /* L40: */
         }
+    } else {
+        dtrmm_("Left", "Upper", "NoTranspose", "NonUnit", n, nr, &c_b31, &dwork[kv], n,
+            &t[t_offset], ldt, 4L, 5L, 11L, 7L);
     }
-    else
-    {
-        dtrmm_("Left", "Upper", "NoTranspose", "NonUnit", n, nr, &c_b31, &dwork[kv], n, &t[t_offset], ldt, 4L, 5L, 11L, 7L);
-    }
-    if (bal)
-    {
+    if (bal) {
         ij = ku;
         /*        Square-Root B & T method. */
         /*        Compute the truncation matrices for balancing */
         /*                    -1/2           -1/2 */
         /*                T*S1     and TI'*S1 */
         i__1 = *nr;
-        for (j = 1; j <= i__1; ++j)
-        {
+        for (j = 1; j <= i__1; ++j) {
             temp = 1. / sqrt(hsv[j]);
             dscal_(n, &temp, &t[j * t_dim1 + 1], &c__1);
             dscal_(n, &temp, &dwork[ij], &c__1);
             ij += *n;
             /* L50: */
         }
-    }
-    else
-    {
+    } else {
         /*        Balancing-Free B & T method. */
         /*        Compute orthogonal bases for the images of matrices T and TI'. */
         /*        Workspace:  need   N*MAX(N,M,P) + 2*NR; */
@@ -535,43 +494,45 @@ L30:
         dorgqr_(n, nr, nr, &t[t_offset], ldt, &dwork[ktau], &dwork[kw], &ldw, &ierr);
         dgeqrf_(n, nr, &dwork[ku], n, &dwork[ktau], &dwork[kw], &ldw, &ierr);
         /* Computing MAX */
-        i__1 = wrkopt, i__2 = (integer) dwork[kw] + kw - 1;
-        wrkopt = max(i__1,i__2);
+        i__1 = wrkopt, i__2 = (integer)dwork[kw] + kw - 1;
+        wrkopt = max(i__1, i__2);
         dorgqr_(n, nr, nr, &dwork[ku], n, &dwork[ktau], &dwork[kw], &ldw, &ierr);
         /* Computing MAX */
-        i__1 = wrkopt, i__2 = (integer) dwork[kw] + kw - 1;
-        wrkopt = max(i__1,i__2);
+        i__1 = wrkopt, i__2 = (integer)dwork[kw] + kw - 1;
+        wrkopt = max(i__1, i__2);
     }
     /*     Transpose TI' to obtain TI. */
     ma02ad_("Full", n, nr, &dwork[ku], n, &ti[ti_offset], ldti, 4L);
-    if (! bal)
-    {
+    if (!bal) {
         /*                      -1 */
         /*        Compute (TI*T)  *TI in TI. */
-        dgemm_("NoTranspose", "NoTranspose", nr, nr, n, &c_b31, &ti[ti_offset], ldti, &t[t_offset], ldt, &c_b50, &dwork[ku], n, 11L, 11L);
+        dgemm_("NoTranspose", "NoTranspose", nr, nr, n, &c_b31, &ti[ti_offset], ldti, &t[t_offset],
+            ldt, &c_b50, &dwork[ku], n, 11L, 11L);
         dgetrf_(nr, nr, &dwork[ku], n, &iwork[1], &ierr);
         dgetrs_("NoTranspose", nr, n, &dwork[ku], n, &iwork[1], &ti[ti_offset], ldti, &ierr, 11L);
     }
     /*     Compute TI*A*T (A is in RSF). */
     ij = ku;
     i__1 = *n;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         /* Computing MIN */
         i__2 = j + 1;
-        k = min(i__2,*n);
-        dgemv_("NoTranspose", nr, &k, &c_b31, &ti[ti_offset], ldti, &a[j * a_dim1 + 1], &c__1, &c_b50, &dwork[ij], &c__1, 11L);
+        k = min(i__2, *n);
+        dgemv_("NoTranspose", nr, &k, &c_b31, &ti[ti_offset], ldti, &a[j * a_dim1 + 1], &c__1,
+            &c_b50, &dwork[ij], &c__1, 11L);
         ij += *n;
         /* L60: */
     }
-    dgemm_("NoTranspose", "NoTranspose", nr, nr, n, &c_b31, &dwork[ku], n, &t[t_offset], ldt, &c_b50, &a[a_offset], lda, 11L, 11L);
+    dgemm_("NoTranspose", "NoTranspose", nr, nr, n, &c_b31, &dwork[ku], n, &t[t_offset], ldt,
+        &c_b50, &a[a_offset], lda, 11L, 11L);
     /*     Compute TI*B and C*T. */
     dlacpy_("Full", n, m, &b[b_offset], ldb, &dwork[ku], n, 4L);
-    dgemm_("NoTranspose", "NoTranspose", nr, m, n, &c_b31, &ti[ti_offset], ldti, &dwork[ku], n, &c_b50, &b[b_offset], ldb, 11L, 11L);
+    dgemm_("NoTranspose", "NoTranspose", nr, m, n, &c_b31, &ti[ti_offset], ldti, &dwork[ku], n,
+        &c_b50, &b[b_offset], ldb, 11L, 11L);
     dlacpy_("Full", p, n, &c__[c_offset], ldc, &dwork[ku], p, 4L);
-    dgemm_("NoTranspose", "NoTranspose", p, nr, n, &c_b31, &dwork[ku], p, &t[t_offset], ldt, &c_b50, &c__[c_offset], ldc, 11L, 11L);
-    dwork[1] = (doublereal) wrkopt;
+    dgemm_("NoTranspose", "NoTranspose", p, nr, n, &c_b31, &dwork[ku], p, &t[t_offset], ldt, &c_b50,
+        &c__[c_offset], ldc, 11L, 11L);
+    dwork[1] = (doublereal)wrkopt;
     return 0;
     /* *** Last line of AB09AX *** */
 } /* ab09ax_ */
-

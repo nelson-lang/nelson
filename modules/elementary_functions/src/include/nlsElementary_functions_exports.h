@@ -25,6 +25,6 @@
 #define NLSELEMENTARY_FUNCTIONS_IMPEXP __declspec(dllimport)
 #endif
 #else
-#define NLSELEMENTARY_FUNCTIONS_IMPEXP __attribute__ ((visibility ("default")))
+#define NLSELEMENTARY_FUNCTIONS_IMPEXP __attribute__((visibility("default")))
 #endif
 //=============================================================================

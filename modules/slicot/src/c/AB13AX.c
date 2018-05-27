@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,15 +11,15 @@ static logical c_false = FALSE_;
 static logical c_true = TRUE_;
 static integer c__1 = 1;
 
-doublereal ab13ax_(dico, n, m, p, a, lda, b, ldb, c__, ldc, hsv, dwork, ldwork, info, dico_len)
-char *dico;
+doublereal ab13ax_(
+    dico, n, m, p, a, lda, b, ldb, c__, ldc, hsv, dwork, ldwork, info, dico_len) char* dico;
 integer *n, *m, *p;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
 doublereal *hsv, *dwork;
 integer *ldwork, *info;
 ftnlen dico_len;
@@ -164,47 +164,31 @@ ftnlen dico_len;
     *info = 0;
     discr = lsame_(dico, "D", 1L, 1L);
     /*     Test the input scalar arguments. */
-    if (! (lsame_(dico, "C", 1L, 1L) || discr))
-    {
+    if (!(lsame_(dico, "C", 1L, 1L) || discr)) {
         *info = -1;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -2;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -3;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -4;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -6;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -8;
-    }
-    else if (*ldc < max(1,*p))
-    {
+    } else if (*ldc < max(1, *p)) {
         *info = -10;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
         /* Computing MAX */
-        i__3 = max(*n,*m);
-        i__1 = 1, i__2 = *n * (max(i__3,*p) + 5) + *n * (*n + 1) / 2;
-        if (*ldwork < max(i__1,i__2))
-        {
+        i__3 = max(*n, *m);
+        i__1 = 1, i__2 = *n * (max(i__3, *p) + 5) + *n * (*n + 1) / 2;
+        if (*ldwork < max(i__1, i__2)) {
             *info = -13;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("AB13AX", &i__1, 6L);
@@ -212,9 +196,8 @@ ftnlen dico_len;
     }
     /*     Quick return if possible. */
     /* Computing MIN */
-    i__1 = min(*n,*m);
-    if (min(i__1,*p) == 0)
-    {
+    i__1 = min(*n, *m);
+    if (min(i__1, *p) == 0) {
         ret_val = 0.;
         dwork[1] = 1.;
         return ret_val;
@@ -224,8 +207,8 @@ ftnlen dico_len;
     ku = 1;
     ks = 1;
     /* Computing MAX */
-    i__1 = max(*n,*m);
-    mnmp = max(i__1,*p);
+    i__1 = max(*n, *m);
+    mnmp = max(i__1, *p);
     ktau = ks + *n * mnmp;
     kr = ktau + *n;
     kw = kr;
@@ -241,13 +224,13 @@ ftnlen dico_len;
     /*     Additional workspace:  need   4*N; */
     /*                            prefer larger. */
     i__1 = *ldwork - kw + 1;
-    sb03ou_(&discr, &c_false, n, p, &a[a_offset], lda, &dwork[ku], &mnmp, &dwork[ktau], &dwork[ku], n, &scaleo, &dwork[kw], &i__1, &ierr);
-    if (ierr != 0)
-    {
+    sb03ou_(&discr, &c_false, n, p, &a[a_offset], lda, &dwork[ku], &mnmp, &dwork[ktau], &dwork[ku],
+        n, &scaleo, &dwork[kw], &i__1, &ierr);
+    if (ierr != 0) {
         *info = 1;
         return ret_val;
     }
-    wrkopt = dwork[kw] + (doublereal) (kw - 1);
+    wrkopt = dwork[kw] + (doublereal)(kw - 1);
     /*     Pack the upper triangle of R in DWORK(KR). */
     /*     Workspace needed:      N*(MAX(N,M,P) + 1) + N*(N+1)/2. */
     ma02dd_("Pack", "Upper", n, &dwork[ku], n, &dwork[kr], 4L, 5L);
@@ -264,16 +247,16 @@ ftnlen dico_len;
     /*     Additional workspace:  need   4*N; */
     /*                            prefer larger. */
     i__1 = *ldwork - kw + 1;
-    sb03ou_(&discr, &c_true, n, m, &a[a_offset], lda, &dwork[ks], n, &dwork[ktau], &dwork[ks], n, &scalec, &dwork[kw], &i__1, &ierr);
+    sb03ou_(&discr, &c_true, n, m, &a[a_offset], lda, &dwork[ks], n, &dwork[ktau], &dwork[ks], n,
+        &scalec, &dwork[kw], &i__1, &ierr);
     /* Computing MAX */
-    d__1 = wrkopt, d__2 = dwork[kw] + (doublereal) (kw - 1);
-    wrkopt = max(d__1,d__2);
+    d__1 = wrkopt, d__2 = dwork[kw] + (doublereal)(kw - 1);
+    wrkopt = max(d__1, d__2);
     /*                             | x x | */
     /*     Compute R*S in the form | 0 x | in S. Note that R is packed. */
     j = ks;
     i__1 = *n;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         dtpmv_("Upper", "NoTranspose", "NonUnit", &i__, &dwork[kr], &dwork[j], &c__1, 5L, 11L, 7L);
         j += *n;
         /* L10: */
@@ -284,9 +267,9 @@ ftnlen dico_len;
     /*                            prefer larger. */
     kw = ktau;
     i__1 = *ldwork - kw + 1;
-    mb03ud_("NoVectors", "NoVectors", n, &dwork[ks], n, &dwork[1], &c__1, &hsv[1], &dwork[kw], &i__1, &ierr, 9L, 9L);
-    if (ierr != 0)
-    {
+    mb03ud_("NoVectors", "NoVectors", n, &dwork[ks], n, &dwork[1], &c__1, &hsv[1], &dwork[kw],
+        &i__1, &ierr, 9L, 9L);
+    if (ierr != 0) {
         *info = 2;
         return ret_val;
     }
@@ -295,9 +278,8 @@ ftnlen dico_len;
     dscal_(n, &d__1, &hsv[1], &c__1);
     ret_val = hsv[1];
     /* Computing MAX */
-    d__1 = wrkopt, d__2 = dwork[kw] + (doublereal) (kw - 1);
-    dwork[1] = max(d__1,d__2);
+    d__1 = wrkopt, d__2 = dwork[kw] + (doublereal)(kw - 1);
+    dwork[1] = max(d__1, d__2);
     return ret_val;
     /* *** Last line of AB13AX *** */
 } /* ab13ax_ */
-

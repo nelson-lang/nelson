@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,33 +11,35 @@ static doublereal c_b10 = 0.;
 static doublereal c_b11 = 1.;
 static doublereal c_b24 = -1.;
 
-EXPORTSYMBOL /* Subroutine */ int ag07bd_(jobe, n, m, a, lda, e, lde, b, ldb, c__, ldc, d__, ldd, ai, ldai, ei, ldei, bi, ldbi, ci, ldci, di, lddi, info, jobe_len)
-char *jobe;
+EXPORTSYMBOL /* Subroutine */ int ag07bd_(jobe, n, m, a, lda, e, lde, b, ldb, c__, ldc, d__, ldd,
+    ai, ldai, ei, ldei, bi, ldbi, ci, ldci, di, lddi, info, jobe_len) char* jobe;
 integer *n, *m;
-doublereal *a;
-integer *lda;
-doublereal *e;
-integer *lde;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *d__;
-integer *ldd;
-doublereal *ai;
-integer *ldai;
-doublereal *ei;
-integer *ldei;
-doublereal *bi;
-integer *ldbi;
-doublereal *ci;
-integer *ldci;
-doublereal *di;
+doublereal* a;
+integer* lda;
+doublereal* e;
+integer* lde;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* d__;
+integer* ldd;
+doublereal* ai;
+integer* ldai;
+doublereal* ei;
+integer* ldei;
+doublereal* bi;
+integer* ldbi;
+doublereal* ci;
+integer* ldci;
+doublereal* di;
 integer *lddi, *info;
 ftnlen jobe_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, ai_dim1, ai_offset, b_dim1, b_offset, bi_dim1, bi_offset, c_dim1, c_offset, ci_dim1, ci_offset, d_dim1, d_offset, di_dim1, di_offset, e_dim1, e_offset, ei_dim1, ei_offset, i__1, i__2;
+    integer a_dim1, a_offset, ai_dim1, ai_offset, b_dim1, b_offset, bi_dim1, bi_offset, c_dim1,
+        c_offset, ci_dim1, ci_offset, d_dim1, d_offset, di_dim1, di_offset, e_dim1, e_offset,
+        ei_dim1, ei_offset, i__1, i__2;
     /* Local variables */
     extern logical lsame_();
     static logical unite;
@@ -204,83 +206,56 @@ ftnlen jobe_len;
     *info = 0;
     /*     Test the input scalar arguments. */
     unite = lsame_(jobe, "I", 1L, 1L);
-    if (! (lsame_(jobe, "G", 1L, 1L) || unite))
-    {
+    if (!(lsame_(jobe, "G", 1L, 1L) || unite)) {
         *info = -1;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -2;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -3;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -5;
-    }
-    else if (*lde < 1 || ! unite && *lde < *n)
-    {
+    } else if (*lde < 1 || !unite && *lde < *n) {
         *info = -7;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -9;
-    }
-    else if (*ldc < max(1,*m))
-    {
+    } else if (*ldc < max(1, *m)) {
         *info = -11;
-    }
-    else if (*ldd < max(1,*m))
-    {
+    } else if (*ldd < max(1, *m)) {
         *info = -13;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
         i__1 = 1, i__2 = *n + *m;
-        if (*ldai < max(i__1,i__2))
-        {
+        if (*ldai < max(i__1, i__2)) {
             *info = -15;
-        }
-        else /* if(complicated condition) */
+        } else /* if(complicated condition) */
         {
             /* Computing MAX */
             i__1 = 1, i__2 = *n + *m;
-            if (*ldei < max(i__1,i__2))
-            {
+            if (*ldei < max(i__1, i__2)) {
                 *info = -17;
-            }
-            else /* if(complicated condition) */
+            } else /* if(complicated condition) */
             {
                 /* Computing MAX */
                 i__1 = 1, i__2 = *n + *m;
-                if (*ldbi < max(i__1,i__2))
-                {
+                if (*ldbi < max(i__1, i__2)) {
                     *info = -19;
-                }
-                else if (*ldci < max(1,*m))
-                {
+                } else if (*ldci < max(1, *m)) {
                     *info = -21;
-                }
-                else if (*lddi < max(1,*m))
-                {
+                } else if (*lddi < max(1, *m)) {
                     *info = -23;
                 }
             }
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("AG07BD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*m == 0)
-    {
+    if (*m == 0) {
         return 0;
     }
     /*     Form Ai. */
@@ -289,13 +264,10 @@ ftnlen jobe_len;
     dlacpy_("Full", n, m, &b[b_offset], ldb, &ai[(*n + 1) * ai_dim1 + 1], ldai, 4L);
     dlacpy_("Full", m, m, &d__[d_offset], ldd, &ai[*n + 1 + (*n + 1) * ai_dim1], ldai, 4L);
     /*     Form Ei. */
-    if (unite)
-    {
+    if (unite) {
         i__1 = *n + *m;
         dlaset_("Full", &i__1, n, &c_b10, &c_b11, &ei[ei_offset], ldei, 4L);
-    }
-    else
-    {
+    } else {
         dlacpy_("Full", n, n, &e[e_offset], lde, &ei[ei_offset], ldei, 4L);
         dlaset_("Full", m, n, &c_b10, &c_b10, &ei[*n + 1 + ei_dim1], ldei, 4L);
     }
@@ -312,4 +284,3 @@ ftnlen jobe_len;
     return 0;
     /* *** Last line of AG07BD *** */
 } /* ag07bd_ */
-

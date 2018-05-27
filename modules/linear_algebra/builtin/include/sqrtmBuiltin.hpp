@@ -22,8 +22,9 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace LinearAlgebraGateway {
-        ArrayOfVector sqrtmBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    }
+namespace LinearAlgebraGateway {
+    ArrayOfVector
+    sqrtmBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }
+} // namespace Nelson
 //=============================================================================

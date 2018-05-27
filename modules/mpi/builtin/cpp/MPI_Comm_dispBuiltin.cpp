@@ -16,45 +16,38 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <mpi.h>
 #include "MPI_Comm_dispBuiltin.hpp"
 #include "Error.hpp"
-#include "MPI_CommHandleObject.hpp"
 #include "HandleManager.hpp"
-#include "characters_encoding.hpp"
+#include "MPI_CommHandleObject.hpp"
 #include "MPI_helpers.hpp"
+#include "characters_encoding.hpp"
+#include <mpi.h>
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::MpiGateway::MPI_Comm_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::MpiGateway::MPI_Comm_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs != 0)
-    {
+    if (nLhs != 0) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() != 1)
-    {
+    if (argIn.size() != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     int flagInit = 0;
     MPI_Initialized(&flagInit);
-    if (!flagInit)
-    {
+    if (!flagInit) {
         Error(eval, _W("MPI must be initialized."));
     }
     ArrayOf param1 = argIn[0];
-    if (eval != nullptr)
-    {
-        Interface *io = eval->getInterface();
-        if (io)
-        {
-            if (param1.isHandle())
-            {
-                if (param1.isScalar())
-                {
-                    if (param1.getHandleCategory() != MPI_COMM_CATEGORY_STR)
-                    {
+    if (eval != nullptr) {
+        Interface* io = eval->getInterface();
+        if (io) {
+            if (param1.isHandle()) {
+                if (param1.isScalar()) {
+                    if (param1.getHandleCategory() != MPI_COMM_CATEGORY_STR) {
                         throw Exception(_W("MPI_Comm handle expected."));
                     }
                     Dimensions dimsParam1 = param1.getDimensions();
@@ -62,28 +55,24 @@ ArrayOfVector Nelson::MpiGateway::MPI_Comm_dispBuiltin(Evaluator* eval, int nLhs
                     dimsParam1.printMe(io);
                     io->outputMessage("\n");
                     io->outputMessage("\n");
-                    MPI_CommHandleObject *mpicommhandleobj = (MPI_CommHandleObject *)param1.getContentAsHandleScalar();
-                    if (mpicommhandleobj != nullptr)
-                    {
-                        MPI_CommObject *obj = (MPI_CommObject *)mpicommhandleobj->getPointer();
-                        if (obj != nullptr)
-                        {
-                            std::wstring description = utf8_to_wstring(getMpiCommName(obj->getComm()));
+                    MPI_CommHandleObject* mpicommhandleobj
+                        = (MPI_CommHandleObject*)param1.getContentAsHandleScalar();
+                    if (mpicommhandleobj != nullptr) {
+                        MPI_CommObject* obj = (MPI_CommObject*)mpicommhandleobj->getPointer();
+                        if (obj != nullptr) {
+                            std::wstring description
+                                = utf8_to_wstring(getMpiCommName(obj->getComm()));
                             io->outputMessage(L"    " + _W("Description") + L":    " + description);
                             io->outputMessage("\n");
                         }
                     }
-                }
-                else
-                {
+                } else {
                     Dimensions dimsParam1 = param1.getDimensions();
                     io->outputMessage(L"[MPI_Comm] - size: ");
                     dimsParam1.printMe(io);
                     io->outputMessage("\n");
                 }
-            }
-            else
-            {
+            } else {
                 Error(eval, _W("MPI_Comm handle expected."));
             }
         }

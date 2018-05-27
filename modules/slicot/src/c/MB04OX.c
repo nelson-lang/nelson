@@ -1,16 +1,15 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-EXPORTSYMBOL /* Subroutine */ int mb04ox_(n, a, lda, x, incx)
-integer *n;
-doublereal *a;
-integer *lda;
-doublereal *x;
-integer *incx;
+EXPORTSYMBOL /* Subroutine */ int mb04ox_(n, a, lda, x, incx) integer* n;
+doublereal* a;
+integer* lda;
+doublereal* x;
+integer* incx;
 {
     /* System generated locals */
     integer a_dim1, a_offset, i__1, i__2;
@@ -86,8 +85,7 @@ integer *incx;
     /* Function Body */
     ix = 1;
     i__1 = *n - 1;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         dlartg_(&a[i__ + i__ * a_dim1], &x[ix], &ci, &si, &temp);
         a[i__ + i__ * a_dim1] = temp;
         ix += *incx;
@@ -100,4 +98,3 @@ integer *incx;
     return 0;
     /* *** Last line of MB04OX *** */
 } /* mb04ox_ */
-

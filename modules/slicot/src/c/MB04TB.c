@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -13,17 +13,18 @@ static integer c__2 = 2;
 static integer c__3 = 3;
 static doublereal c_b25 = 1.;
 
-EXPORTSYMBOL /* Subroutine */ int mb04tb_(trana, tranb, n, ilo, a, lda, b, ldb, g, ldg, q, ldq, csl, csr, taul, taur, dwork, ldwork, info, trana_len, tranb_len)
-char *trana, *tranb;
+EXPORTSYMBOL /* Subroutine */ int mb04tb_(trana, tranb, n, ilo, a, lda, b, ldb, g, ldg, q, ldq, csl,
+    csr, taul, taur, dwork, ldwork, info, trana_len, tranb_len) char *trana,
+    *tranb;
 integer *n, *ilo;
-doublereal *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *g;
-integer *ldg;
-doublereal *q;
-integer *ldq;
+doublereal* a;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* g;
+integer* ldg;
+doublereal* q;
+integer* ldq;
 doublereal *csl, *csr, *taul, *taur, *dwork;
 integer *ldwork, *info;
 ftnlen trana_len;
@@ -31,7 +32,8 @@ ftnlen tranb_len;
 {
     /* System generated locals */
     address a__1[2];
-    integer a_dim1, a_offset, b_dim1, b_offset, g_dim1, g_offset, q_dim1, q_offset, i__1, i__2[2], i__3, i__4, i__5;
+    integer a_dim1, a_offset, b_dim1, b_offset, g_dim1, g_offset, q_dim1, q_offset, i__1, i__2[2],
+        i__3, i__4, i__5;
     char ch__1[2];
     /* Builtin functions */
     /* Subroutine */ int s_cat();
@@ -247,46 +249,28 @@ ftnlen tranb_len;
     *info = 0;
     ltra = lsame_(trana, "T", 1L, 1L) || lsame_(trana, "C", 1L, 1L);
     ltrb = lsame_(tranb, "T", 1L, 1L) || lsame_(tranb, "C", 1L, 1L);
-    if (! ltra && ! lsame_(trana, "N", 1L, 1L))
-    {
+    if (!ltra && !lsame_(trana, "N", 1L, 1L)) {
         *info = -1;
-    }
-    else if (! ltrb && ! lsame_(tranb, "N", 1L, 1L))
-    {
+    } else if (!ltrb && !lsame_(tranb, "N", 1L, 1L)) {
         *info = -2;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -3;
-    }
-    else if (*ilo < 1 || *ilo > max(1,*n))
-    {
+    } else if (*ilo < 1 || *ilo > max(1, *n)) {
         *info = -4;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -6;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -8;
-    }
-    else if (*ldg < max(1,*n))
-    {
+    } else if (*ldg < max(1, *n)) {
         *info = -10;
-    }
-    else if (*ldq < max(1,*n))
-    {
+    } else if (*ldq < max(1, *n)) {
         *info = -12;
-    }
-    else if (*ldwork < max(1,*n))
-    {
-        dwork[1] = (doublereal) max(1,*n);
+    } else if (*ldwork < max(1, *n)) {
+        dwork[1] = (doublereal)max(1, *n);
         *info = -18;
     }
     /*     Return if there were illegal values. */
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB04TB", &i__1, 6L);
         return 0;
@@ -294,8 +278,7 @@ ftnlen tranb_len;
     /*     Set elements 1:ILO-1 of CSL, CSR, TAUL and TAUR to their default */
     /*     values. */
     i__1 = *ilo - 1;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         csl[(i__ << 1) - 1] = 1.;
         csl[i__ * 2] = 0.;
         csr[(i__ << 1) - 1] = 1.;
@@ -306,8 +289,7 @@ ftnlen tranb_len;
     }
     /*     Quick return if possible. */
     nh = *n - *ilo + 1;
-    if (nh == 0)
-    {
+    if (nh == 0) {
         dwork[1] = 1.;
         return 0;
     }
@@ -319,8 +301,7 @@ ftnlen tranb_len;
     nb = ue01md_(&c__1, "MB04TB", ch__1, n, ilo, &c_n1, 6L, 2L);
     nbmin = 2;
     wrkopt = *n;
-    if (nb > 1 && nb < nh)
-    {
+    if (nb > 1 && nb < nh) {
         /*        Determine when to cross over from blocked to unblocked code. */
         /* Computing MAX */
         /* Writing concatenation */
@@ -328,13 +309,11 @@ ftnlen tranb_len;
         i__2[1] = 1, a__1[1] = tranb;
         s_cat(ch__1, a__1, i__2, &c__2, 2L);
         i__1 = nb, i__3 = ue01md_(&c__3, "MB04TB", ch__1, n, ilo, &c_n1, 6L, 2L);
-        nx = max(i__1,i__3);
-        if (nx < nh)
-        {
+        nx = max(i__1, i__3);
+        if (nx < nh) {
             /*           Check whether workspace is large enough for blocked code. */
             wrkopt = (*n << 4) * nb + nb * 5;
-            if (*ldwork < wrkopt)
-            {
+            if (*ldwork < wrkopt) {
                 /*              Not enough workspace available. Determine minimum value */
                 /*              of NB, and reduce NB. */
                 /* Computing MAX */
@@ -343,7 +322,7 @@ ftnlen tranb_len;
                 i__2[1] = 1, a__1[1] = tranb;
                 s_cat(ch__1, a__1, i__2, &c__2, 2L);
                 i__1 = 2, i__3 = ue01md_(&c__2, "MB04TB", ch__1, n, ilo, &c_n1, 6L, 2L);
-                nbmin = max(i__1,i__3);
+                nbmin = max(i__1, i__3);
                 nb = *ldwork / ((*n << 4) + 5);
             }
         }
@@ -358,267 +337,386 @@ ftnlen tranb_len;
     pxg = pxa + (nnb << 1);
     pxb = pxg + (nnb << 1);
     pdw = pxb + (nnb << 1);
-    if (nb < nbmin || nb >= nh)
-    {
+    if (nb < nbmin || nb >= nh) {
         /*        Use unblocked code. */
         i__ = *ilo;
-    }
-    else if (ltra && ltrb)
-    {
+    } else if (ltra && ltrb) {
         i__1 = *n - nx - 1;
         i__3 = nb;
-        for (i__ = *ilo; i__3 < 0 ? i__ >= i__1 : i__ <= i__1; i__ += i__3)
-        {
+        for (i__ = *ilo; i__3 < 0 ? i__ >= i__1 : i__ <= i__1; i__ += i__3) {
             /* Computing MIN */
             i__4 = nb, i__5 = *n - i__;
-            ib = min(i__4,i__5);
+            ib = min(i__4, i__5);
             nib = *n * ib;
             /*           Reduce rows and columns i:i+nb-1 to symplectic URV form and */
             /*           return the matrices XA, XB, XG, XQ, YA, YB, YG and YQ which */
             /*           are needed to update the unreduced parts of the matrices. */
             i__4 = *n - i__ + 1;
             i__5 = i__ - 1;
-            mb03xu_(&ltra, &ltrb, &i__4, &i__5, &ib, &a[i__ + a_dim1], lda, &b[i__ * b_dim1 + 1], ldb, &g[g_offset], ldg, &q[i__ + i__ * q_dim1], ldq, &dwork[pxa], n, &dwork[pxb], n, &dwork[pxg], n, &dwork[pxq], n, &dwork[pya], n, &dwork[pyb], n, &dwork[pyg], n, &dwork[pyq], n, &csl[(i__ << 1) - 1], &csr[(i__ << 1) - 1], &taul[i__], &taur[i__], &dwork[pdw]);
+            mb03xu_(&ltra, &ltrb, &i__4, &i__5, &ib, &a[i__ + a_dim1], lda, &b[i__ * b_dim1 + 1],
+                ldb, &g[g_offset], ldg, &q[i__ + i__ * q_dim1], ldq, &dwork[pxa], n, &dwork[pxb], n,
+                &dwork[pxg], n, &dwork[pxq], n, &dwork[pya], n, &dwork[pyb], n, &dwork[pyg], n,
+                &dwork[pyq], n, &csl[(i__ << 1) - 1], &csr[(i__ << 1) - 1], &taul[i__], &taur[i__],
+                &dwork[pdw]);
             /*           Update the submatrix A(i+1+ib:n,1:n). */
             i__4 = *n - i__ - ib;
             i__5 = *n - i__ - ib + 1;
-            dgemm_("No transpose", "Transpose", &i__4, &i__5, &ib, &c_b25, &dwork[pxa + nb + 1], n, &q[i__ + ib + i__ * q_dim1], ldq, &c_b25, &a[i__ + ib + 1 + (i__ + ib) * a_dim1], lda, 12L, 9L);
+            dgemm_("No transpose", "Transpose", &i__4, &i__5, &ib, &c_b25, &dwork[pxa + nb + 1], n,
+                &q[i__ + ib + i__ * q_dim1], ldq, &c_b25, &a[i__ + ib + 1 + (i__ + ib) * a_dim1],
+                lda, 12L, 9L);
             i__4 = *n - i__ - ib;
             i__5 = *n - i__ - ib + 1;
-            dgemm_("No transpose", "No transpose", &i__4, &i__5, &ib, &c_b25, &dwork[pxa + nib + nb + 1], n, &a[i__ + (i__ + ib) * a_dim1], lda, &c_b25, &a[i__ + ib + 1 + (i__ + ib) * a_dim1], lda, 12L, 12L);
+            dgemm_("No transpose", "No transpose", &i__4, &i__5, &ib, &c_b25,
+                &dwork[pxa + nib + nb + 1], n, &a[i__ + (i__ + ib) * a_dim1], lda, &c_b25,
+                &a[i__ + ib + 1 + (i__ + ib) * a_dim1], lda, 12L, 12L);
             i__4 = *n - i__ - ib;
-            dgemm_("Transpose", "Transpose", &i__4, n, &ib, &c_b25, &q[i__ + (i__ + ib + 1) * q_dim1], ldq, &dwork[pya], n, &c_b25, &a[i__ + ib + 1 + a_dim1], lda, 9L, 9L);
+            dgemm_("Transpose", "Transpose", &i__4, n, &ib, &c_b25,
+                &q[i__ + (i__ + ib + 1) * q_dim1], ldq, &dwork[pya], n, &c_b25,
+                &a[i__ + ib + 1 + a_dim1], lda, 9L, 9L);
             i__4 = *n - i__ - ib;
-            dgemm_("No transpose", "Transpose", &i__4, n, &ib, &c_b25, &b[i__ + ib + 1 + i__ * b_dim1], ldb, &dwork[pya + nib], n, &c_b25, &a[i__ + ib + 1 + a_dim1], lda, 12L, 9L);
+            dgemm_("No transpose", "Transpose", &i__4, n, &ib, &c_b25,
+                &b[i__ + ib + 1 + i__ * b_dim1], ldb, &dwork[pya + nib], n, &c_b25,
+                &a[i__ + ib + 1 + a_dim1], lda, 12L, 9L);
             /*           Update the submatrix Q(i+ib:n,i+1+ib:n). */
             i__4 = *n - i__ - ib + 1;
             i__5 = *n - i__ - ib;
-            dgemm_("No transpose", "Transpose", &i__4, &i__5, &ib, &c_b25, &q[i__ + ib + i__ * q_dim1], ldq, &dwork[pxq + nb + 1], n, &c_b25, &q[i__ + ib + (i__ + ib + 1) * q_dim1], ldq, 12L, 9L);
+            dgemm_("No transpose", "Transpose", &i__4, &i__5, &ib, &c_b25,
+                &q[i__ + ib + i__ * q_dim1], ldq, &dwork[pxq + nb + 1], n, &c_b25,
+                &q[i__ + ib + (i__ + ib + 1) * q_dim1], ldq, 12L, 9L);
             i__4 = *n - i__ - ib + 1;
             i__5 = *n - i__ - ib;
-            dgemm_("Transpose", "Transpose", &i__4, &i__5, &ib, &c_b25, &a[i__ + (i__ + ib) * a_dim1], lda, &dwork[pxq + nib + nb + 1], n, &c_b25, &q[i__ + ib + (i__ + ib + 1) * q_dim1], ldq, 9L, 9L);
+            dgemm_("Transpose", "Transpose", &i__4, &i__5, &ib, &c_b25,
+                &a[i__ + (i__ + ib) * a_dim1], lda, &dwork[pxq + nib + nb + 1], n, &c_b25,
+                &q[i__ + ib + (i__ + ib + 1) * q_dim1], ldq, 9L, 9L);
             i__4 = *n - i__ - ib + 1;
             i__5 = *n - i__ - ib;
-            dgemm_("No transpose", "No transpose", &i__4, &i__5, &ib, &c_b25, &dwork[pyq + nb], n, &q[i__ + (i__ + ib + 1) * q_dim1], ldq, &c_b25, &q[i__ + ib + (i__ + ib + 1) * q_dim1], ldq, 12L, 12L);
+            dgemm_("No transpose", "No transpose", &i__4, &i__5, &ib, &c_b25, &dwork[pyq + nb], n,
+                &q[i__ + (i__ + ib + 1) * q_dim1], ldq, &c_b25,
+                &q[i__ + ib + (i__ + ib + 1) * q_dim1], ldq, 12L, 12L);
             i__4 = *n - i__ - ib + 1;
             i__5 = *n - i__ - ib;
-            dgemm_("No transpose", "Transpose", &i__4, &i__5, &ib, &c_b25, &dwork[pyq + nib + nb], n, &b[i__ + ib + 1 + i__ * b_dim1], ldb, &c_b25, &q[i__ + ib + (i__ + ib + 1) * q_dim1], ldq, 12L, 9L);
+            dgemm_("No transpose", "Transpose", &i__4, &i__5, &ib, &c_b25, &dwork[pyq + nib + nb],
+                n, &b[i__ + ib + 1 + i__ * b_dim1], ldb, &c_b25,
+                &q[i__ + ib + (i__ + ib + 1) * q_dim1], ldq, 12L, 9L);
             /*           Update the matrix G. */
             i__4 = *n - i__ - ib + 1;
-            dgemm_("No transpose", "Transpose", &i__4, n, &ib, &c_b25, &q[i__ + ib + i__ * q_dim1], ldq, &dwork[pxg], n, &c_b25, &g[i__ + ib + g_dim1], ldg, 12L, 9L);
+            dgemm_("No transpose", "Transpose", &i__4, n, &ib, &c_b25, &q[i__ + ib + i__ * q_dim1],
+                ldq, &dwork[pxg], n, &c_b25, &g[i__ + ib + g_dim1], ldg, 12L, 9L);
             i__4 = *n - i__ - ib + 1;
-            dgemm_("Transpose", "Transpose", &i__4, n, &ib, &c_b25, &a[i__ + (i__ + ib) * a_dim1], lda, &dwork[pxg + nib], n, &c_b25, &g[i__ + ib + g_dim1], ldg, 9L, 9L);
+            dgemm_("Transpose", "Transpose", &i__4, n, &ib, &c_b25, &a[i__ + (i__ + ib) * a_dim1],
+                lda, &dwork[pxg + nib], n, &c_b25, &g[i__ + ib + g_dim1], ldg, 9L, 9L);
             i__4 = *n - i__ - ib;
-            dgemm_("No transpose", "No transpose", n, &i__4, &ib, &c_b25, &dwork[pyg], n, &q[i__ + (i__ + ib + 1) * q_dim1], ldq, &c_b25, &g[(i__ + ib + 1) * g_dim1 + 1], ldg, 12L, 12L);
+            dgemm_("No transpose", "No transpose", n, &i__4, &ib, &c_b25, &dwork[pyg], n,
+                &q[i__ + (i__ + ib + 1) * q_dim1], ldq, &c_b25, &g[(i__ + ib + 1) * g_dim1 + 1],
+                ldg, 12L, 12L);
             i__4 = *n - i__ - ib;
-            dgemm_("No transpose", "Transpose", n, &i__4, &ib, &c_b25, &dwork[pyg + nib], n, &b[i__ + ib + 1 + i__ * b_dim1], ldb, &c_b25, &g[(i__ + ib + 1) * g_dim1 + 1], ldg, 12L, 9L);
+            dgemm_("No transpose", "Transpose", n, &i__4, &ib, &c_b25, &dwork[pyg + nib], n,
+                &b[i__ + ib + 1 + i__ * b_dim1], ldb, &c_b25, &g[(i__ + ib + 1) * g_dim1 + 1], ldg,
+                12L, 9L);
             /*           Update the submatrix B(1:n,i+ib:n). */
             i__4 = *n - i__ - ib + 1;
-            dgemm_("No transpose", "Transpose", n, &i__4, &ib, &c_b25, &dwork[pxb], n, &q[i__ + ib + i__ * q_dim1], ldq, &c_b25, &b[(i__ + ib) * b_dim1 + 1], ldb, 12L, 9L);
+            dgemm_("No transpose", "Transpose", n, &i__4, &ib, &c_b25, &dwork[pxb], n,
+                &q[i__ + ib + i__ * q_dim1], ldq, &c_b25, &b[(i__ + ib) * b_dim1 + 1], ldb, 12L,
+                9L);
             i__4 = *n - i__ - ib + 1;
-            dgemm_("No transpose", "No transpose", n, &i__4, &ib, &c_b25, &dwork[pxb + nib], n, &a[i__ + (i__ + ib) * a_dim1], lda, &c_b25, &b[(i__ + ib) * b_dim1 + 1], ldb, 12L, 12L);
+            dgemm_("No transpose", "No transpose", n, &i__4, &ib, &c_b25, &dwork[pxb + nib], n,
+                &a[i__ + (i__ + ib) * a_dim1], lda, &c_b25, &b[(i__ + ib) * b_dim1 + 1], ldb, 12L,
+                12L);
             i__4 = *n - i__ - ib;
             i__5 = *n - i__ - ib + 1;
-            dgemm_("Transpose", "Transpose", &i__4, &i__5, &ib, &c_b25, &q[i__ + (i__ + ib + 1) * q_dim1], ldq, &dwork[pyb + nb], n, &c_b25, &b[i__ + ib + 1 + (i__ + ib) * b_dim1], ldb, 9L, 9L);
+            dgemm_("Transpose", "Transpose", &i__4, &i__5, &ib, &c_b25,
+                &q[i__ + (i__ + ib + 1) * q_dim1], ldq, &dwork[pyb + nb], n, &c_b25,
+                &b[i__ + ib + 1 + (i__ + ib) * b_dim1], ldb, 9L, 9L);
             i__4 = *n - i__ - ib;
             i__5 = *n - i__ - ib + 1;
-            dgemm_("No transpose", "Transpose", &i__4, &i__5, &ib, &c_b25, &b[i__ + ib + 1 + i__ * b_dim1], ldb, &dwork[pyb + nib + nb], n, &c_b25, &b[i__ + ib + 1 + (i__ + ib) * b_dim1], ldb, 12L, 9L);
+            dgemm_("No transpose", "Transpose", &i__4, &i__5, &ib, &c_b25,
+                &b[i__ + ib + 1 + i__ * b_dim1], ldb, &dwork[pyb + nib + nb], n, &c_b25,
+                &b[i__ + ib + 1 + (i__ + ib) * b_dim1], ldb, 12L, 9L);
             /* L20: */
         }
-    }
-    else if (ltra)
-    {
+    } else if (ltra) {
         i__3 = *n - nx - 1;
         i__1 = nb;
-        for (i__ = *ilo; i__1 < 0 ? i__ >= i__3 : i__ <= i__3; i__ += i__1)
-        {
+        for (i__ = *ilo; i__1 < 0 ? i__ >= i__3 : i__ <= i__3; i__ += i__1) {
             /* Computing MIN */
             i__4 = nb, i__5 = *n - i__;
-            ib = min(i__4,i__5);
+            ib = min(i__4, i__5);
             nib = *n * ib;
             /*           Reduce rows and columns i:i+nb-1 to symplectic URV form and */
             /*           return the matrices XA, XB, XG, XQ, YA, YB, YG and YQ which */
             /*           are needed to update the unreduced parts of the matrices. */
             i__4 = *n - i__ + 1;
             i__5 = i__ - 1;
-            mb03xu_(&ltra, &ltrb, &i__4, &i__5, &ib, &a[i__ + a_dim1], lda, &b[i__ + b_dim1], ldb, &g[g_offset], ldg, &q[i__ + i__ * q_dim1], ldq, &dwork[pxa], n, &dwork[pxb], n, &dwork[pxg], n, &dwork[pxq], n, &dwork[pya], n, &dwork[pyb], n, &dwork[pyg], n, &dwork[pyq], n, &csl[(i__ << 1) - 1], &csr[(i__ << 1) - 1], &taul[i__], &taur[i__], &dwork[pdw]);
+            mb03xu_(&ltra, &ltrb, &i__4, &i__5, &ib, &a[i__ + a_dim1], lda, &b[i__ + b_dim1], ldb,
+                &g[g_offset], ldg, &q[i__ + i__ * q_dim1], ldq, &dwork[pxa], n, &dwork[pxb], n,
+                &dwork[pxg], n, &dwork[pxq], n, &dwork[pya], n, &dwork[pyb], n, &dwork[pyg], n,
+                &dwork[pyq], n, &csl[(i__ << 1) - 1], &csr[(i__ << 1) - 1], &taul[i__], &taur[i__],
+                &dwork[pdw]);
             /*           Update the submatrix A(i+1+ib:n,1:n). */
             i__4 = *n - i__ - ib;
             i__5 = *n - i__ - ib + 1;
-            dgemm_("No transpose", "Transpose", &i__4, &i__5, &ib, &c_b25, &dwork[pxa + nb + 1], n, &q[i__ + ib + i__ * q_dim1], ldq, &c_b25, &a[i__ + ib + 1 + (i__ + ib) * a_dim1], lda, 12L, 9L);
+            dgemm_("No transpose", "Transpose", &i__4, &i__5, &ib, &c_b25, &dwork[pxa + nb + 1], n,
+                &q[i__ + ib + i__ * q_dim1], ldq, &c_b25, &a[i__ + ib + 1 + (i__ + ib) * a_dim1],
+                lda, 12L, 9L);
             i__4 = *n - i__ - ib;
             i__5 = *n - i__ - ib + 1;
-            dgemm_("No transpose", "No transpose", &i__4, &i__5, &ib, &c_b25, &dwork[pxa + nib + nb + 1], n, &a[i__ + (i__ + ib) * a_dim1], lda, &c_b25, &a[i__ + ib + 1 + (i__ + ib) * a_dim1], lda, 12L, 12L);
+            dgemm_("No transpose", "No transpose", &i__4, &i__5, &ib, &c_b25,
+                &dwork[pxa + nib + nb + 1], n, &a[i__ + (i__ + ib) * a_dim1], lda, &c_b25,
+                &a[i__ + ib + 1 + (i__ + ib) * a_dim1], lda, 12L, 12L);
             i__4 = *n - i__ - ib;
-            dgemm_("Transpose", "Transpose", &i__4, n, &ib, &c_b25, &q[i__ + (i__ + ib + 1) * q_dim1], ldq, &dwork[pya], n, &c_b25, &a[i__ + ib + 1 + a_dim1], lda, 9L, 9L);
+            dgemm_("Transpose", "Transpose", &i__4, n, &ib, &c_b25,
+                &q[i__ + (i__ + ib + 1) * q_dim1], ldq, &dwork[pya], n, &c_b25,
+                &a[i__ + ib + 1 + a_dim1], lda, 9L, 9L);
             i__4 = *n - i__ - ib;
-            dgemm_("Transpose", "Transpose", &i__4, n, &ib, &c_b25, &b[i__ + (i__ + ib + 1) * b_dim1], ldb, &dwork[pya + nib], n, &c_b25, &a[i__ + ib + 1 + a_dim1], lda, 9L, 9L);
+            dgemm_("Transpose", "Transpose", &i__4, n, &ib, &c_b25,
+                &b[i__ + (i__ + ib + 1) * b_dim1], ldb, &dwork[pya + nib], n, &c_b25,
+                &a[i__ + ib + 1 + a_dim1], lda, 9L, 9L);
             /*           Update the submatrix Q(i+ib:n,i+1+ib:n). */
             i__4 = *n - i__ - ib + 1;
             i__5 = *n - i__ - ib;
-            dgemm_("No transpose", "Transpose", &i__4, &i__5, &ib, &c_b25, &q[i__ + ib + i__ * q_dim1], ldq, &dwork[pxq + nb + 1], n, &c_b25, &q[i__ + ib + (i__ + ib + 1) * q_dim1], ldq, 12L, 9L);
+            dgemm_("No transpose", "Transpose", &i__4, &i__5, &ib, &c_b25,
+                &q[i__ + ib + i__ * q_dim1], ldq, &dwork[pxq + nb + 1], n, &c_b25,
+                &q[i__ + ib + (i__ + ib + 1) * q_dim1], ldq, 12L, 9L);
             i__4 = *n - i__ - ib + 1;
             i__5 = *n - i__ - ib;
-            dgemm_("Transpose", "Transpose", &i__4, &i__5, &ib, &c_b25, &a[i__ + (i__ + ib) * a_dim1], lda, &dwork[pxq + nib + nb + 1], n, &c_b25, &q[i__ + ib + (i__ + ib + 1) * q_dim1], ldq, 9L, 9L);
+            dgemm_("Transpose", "Transpose", &i__4, &i__5, &ib, &c_b25,
+                &a[i__ + (i__ + ib) * a_dim1], lda, &dwork[pxq + nib + nb + 1], n, &c_b25,
+                &q[i__ + ib + (i__ + ib + 1) * q_dim1], ldq, 9L, 9L);
             i__4 = *n - i__ - ib + 1;
             i__5 = *n - i__ - ib;
-            dgemm_("No transpose", "No transpose", &i__4, &i__5, &ib, &c_b25, &dwork[pyq + nb], n, &q[i__ + (i__ + ib + 1) * q_dim1], ldq, &c_b25, &q[i__ + ib + (i__ + ib + 1) * q_dim1], ldq, 12L, 12L);
+            dgemm_("No transpose", "No transpose", &i__4, &i__5, &ib, &c_b25, &dwork[pyq + nb], n,
+                &q[i__ + (i__ + ib + 1) * q_dim1], ldq, &c_b25,
+                &q[i__ + ib + (i__ + ib + 1) * q_dim1], ldq, 12L, 12L);
             i__4 = *n - i__ - ib + 1;
             i__5 = *n - i__ - ib;
-            dgemm_("No transpose", "No transpose", &i__4, &i__5, &ib, &c_b25, &dwork[pyq + nib + nb], n, &b[i__ + (i__ + ib + 1) * b_dim1], ldb, &c_b25, &q[i__ + ib + (i__ + ib + 1) * q_dim1], ldq, 12L, 12L);
+            dgemm_("No transpose", "No transpose", &i__4, &i__5, &ib, &c_b25,
+                &dwork[pyq + nib + nb], n, &b[i__ + (i__ + ib + 1) * b_dim1], ldb, &c_b25,
+                &q[i__ + ib + (i__ + ib + 1) * q_dim1], ldq, 12L, 12L);
             /*           Update the matrix G. */
             i__4 = *n - i__ - ib + 1;
-            dgemm_("No transpose", "Transpose", &i__4, n, &ib, &c_b25, &q[i__ + ib + i__ * q_dim1], ldq, &dwork[pxg], n, &c_b25, &g[i__ + ib + g_dim1], ldg, 12L, 9L);
+            dgemm_("No transpose", "Transpose", &i__4, n, &ib, &c_b25, &q[i__ + ib + i__ * q_dim1],
+                ldq, &dwork[pxg], n, &c_b25, &g[i__ + ib + g_dim1], ldg, 12L, 9L);
             i__4 = *n - i__ - ib + 1;
-            dgemm_("Transpose", "Transpose", &i__4, n, &ib, &c_b25, &a[i__ + (i__ + ib) * a_dim1], lda, &dwork[pxg + nib], n, &c_b25, &g[i__ + ib + g_dim1], ldg, 9L, 9L);
+            dgemm_("Transpose", "Transpose", &i__4, n, &ib, &c_b25, &a[i__ + (i__ + ib) * a_dim1],
+                lda, &dwork[pxg + nib], n, &c_b25, &g[i__ + ib + g_dim1], ldg, 9L, 9L);
             i__4 = *n - i__ - ib;
-            dgemm_("No transpose", "No transpose", n, &i__4, &ib, &c_b25, &dwork[pyg], n, &q[i__ + (i__ + ib + 1) * q_dim1], ldq, &c_b25, &g[(i__ + ib + 1) * g_dim1 + 1], ldg, 12L, 12L);
+            dgemm_("No transpose", "No transpose", n, &i__4, &ib, &c_b25, &dwork[pyg], n,
+                &q[i__ + (i__ + ib + 1) * q_dim1], ldq, &c_b25, &g[(i__ + ib + 1) * g_dim1 + 1],
+                ldg, 12L, 12L);
             i__4 = *n - i__ - ib;
-            dgemm_("No transpose", "No transpose", n, &i__4, &ib, &c_b25, &dwork[pyg + nib], n, &b[i__ + (i__ + ib + 1) * b_dim1], ldb, &c_b25, &g[(i__ + ib + 1) * g_dim1 + 1], ldg, 12L, 12L);
+            dgemm_("No transpose", "No transpose", n, &i__4, &ib, &c_b25, &dwork[pyg + nib], n,
+                &b[i__ + (i__ + ib + 1) * b_dim1], ldb, &c_b25, &g[(i__ + ib + 1) * g_dim1 + 1],
+                ldg, 12L, 12L);
             /*           Update the submatrix B(i+ib:n,1:n). */
             i__4 = *n - i__ - ib + 1;
-            dgemm_("No transpose", "Transpose", &i__4, n, &ib, &c_b25, &q[i__ + ib + i__ * q_dim1], ldq, &dwork[pxb], n, &c_b25, &b[i__ + ib + b_dim1], ldb, 12L, 9L);
+            dgemm_("No transpose", "Transpose", &i__4, n, &ib, &c_b25, &q[i__ + ib + i__ * q_dim1],
+                ldq, &dwork[pxb], n, &c_b25, &b[i__ + ib + b_dim1], ldb, 12L, 9L);
             i__4 = *n - i__ - ib + 1;
-            dgemm_("Transpose", "Transpose", &i__4, n, &ib, &c_b25, &a[i__ + (i__ + ib) * a_dim1], lda, &dwork[pxb + nib], n, &c_b25, &b[i__ + ib + b_dim1], ldb, 9L, 9L);
+            dgemm_("Transpose", "Transpose", &i__4, n, &ib, &c_b25, &a[i__ + (i__ + ib) * a_dim1],
+                lda, &dwork[pxb + nib], n, &c_b25, &b[i__ + ib + b_dim1], ldb, 9L, 9L);
             i__4 = *n - i__ - ib + 1;
             i__5 = *n - i__ - ib;
-            dgemm_("No transpose", "No transpose", &i__4, &i__5, &ib, &c_b25, &dwork[pyb + nb], n, &q[i__ + (i__ + ib + 1) * q_dim1], ldq, &c_b25, &b[i__ + ib + (i__ + ib + 1) * b_dim1], ldb, 12L, 12L);
+            dgemm_("No transpose", "No transpose", &i__4, &i__5, &ib, &c_b25, &dwork[pyb + nb], n,
+                &q[i__ + (i__ + ib + 1) * q_dim1], ldq, &c_b25,
+                &b[i__ + ib + (i__ + ib + 1) * b_dim1], ldb, 12L, 12L);
             i__4 = *n - i__ - ib + 1;
             i__5 = *n - i__ - ib;
-            dgemm_("No transpose", "No transpose", &i__4, &i__5, &ib, &c_b25, &dwork[pyb + nib + nb], n, &b[i__ + (i__ + ib + 1) * b_dim1], ldb, &c_b25, &b[i__ + ib + (i__ + ib + 1) * b_dim1], ldb, 12L, 12L);
+            dgemm_("No transpose", "No transpose", &i__4, &i__5, &ib, &c_b25,
+                &dwork[pyb + nib + nb], n, &b[i__ + (i__ + ib + 1) * b_dim1], ldb, &c_b25,
+                &b[i__ + ib + (i__ + ib + 1) * b_dim1], ldb, 12L, 12L);
             /* L30: */
         }
-    }
-    else if (ltrb)
-    {
+    } else if (ltrb) {
         i__1 = *n - nx - 1;
         i__3 = nb;
-        for (i__ = *ilo; i__3 < 0 ? i__ >= i__1 : i__ <= i__1; i__ += i__3)
-        {
+        for (i__ = *ilo; i__3 < 0 ? i__ >= i__1 : i__ <= i__1; i__ += i__3) {
             /* Computing MIN */
             i__4 = nb, i__5 = *n - i__;
-            ib = min(i__4,i__5);
+            ib = min(i__4, i__5);
             nib = *n * ib;
             /*           Reduce rows and columns i:i+nb-1 to symplectic URV form and */
             /*           return the matrices XA, XB, XG, XQ, YA, YB, YG and YQ which */
             /*           are needed to update the unreduced parts of the matrices. */
             i__4 = *n - i__ + 1;
             i__5 = i__ - 1;
-            mb03xu_(&ltra, &ltrb, &i__4, &i__5, &ib, &a[i__ * a_dim1 + 1], lda, &b[i__ * b_dim1 + 1], ldb, &g[g_offset], ldg, &q[i__ + i__ * q_dim1], ldq, &dwork[pxa], n, &dwork[pxb], n, &dwork[pxg], n, &dwork[pxq], n, &dwork[pya], n, &dwork[pyb], n, &dwork[pyg], n, &dwork[pyq], n, &csl[(i__ << 1) - 1], &csr[(i__ << 1) - 1], &taul[i__], &taur[i__], &dwork[pdw]);
+            mb03xu_(&ltra, &ltrb, &i__4, &i__5, &ib, &a[i__ * a_dim1 + 1], lda,
+                &b[i__ * b_dim1 + 1], ldb, &g[g_offset], ldg, &q[i__ + i__ * q_dim1], ldq,
+                &dwork[pxa], n, &dwork[pxb], n, &dwork[pxg], n, &dwork[pxq], n, &dwork[pya], n,
+                &dwork[pyb], n, &dwork[pyg], n, &dwork[pyq], n, &csl[(i__ << 1) - 1],
+                &csr[(i__ << 1) - 1], &taul[i__], &taur[i__], &dwork[pdw]);
             /*           Update the submatrix A(1:n,i+1+ib:n). */
             i__4 = *n - i__ - ib + 1;
             i__5 = *n - i__ - ib;
-            dgemm_("No transpose", "Transpose", &i__4, &i__5, &ib, &c_b25, &q[i__ + ib + i__ * q_dim1], ldq, &dwork[pxa + nb + 1], n, &c_b25, &a[i__ + ib + (i__ + ib + 1) * a_dim1], lda, 12L, 9L);
+            dgemm_("No transpose", "Transpose", &i__4, &i__5, &ib, &c_b25,
+                &q[i__ + ib + i__ * q_dim1], ldq, &dwork[pxa + nb + 1], n, &c_b25,
+                &a[i__ + ib + (i__ + ib + 1) * a_dim1], lda, 12L, 9L);
             i__4 = *n - i__ - ib + 1;
             i__5 = *n - i__ - ib;
-            dgemm_("No transpose", "Transpose", &i__4, &i__5, &ib, &c_b25, &a[i__ + ib + i__ * a_dim1], lda, &dwork[pxa + nib + nb + 1], n, &c_b25, &a[i__ + ib + (i__ + ib + 1) * a_dim1], lda, 12L, 9L);
+            dgemm_("No transpose", "Transpose", &i__4, &i__5, &ib, &c_b25,
+                &a[i__ + ib + i__ * a_dim1], lda, &dwork[pxa + nib + nb + 1], n, &c_b25,
+                &a[i__ + ib + (i__ + ib + 1) * a_dim1], lda, 12L, 9L);
             i__4 = *n - i__ - ib;
-            dgemm_("No transpose", "No transpose", n, &i__4, &ib, &c_b25, &dwork[pya], n, &q[i__ + (i__ + ib + 1) * q_dim1], ldq, &c_b25, &a[(i__ + ib + 1) * a_dim1 + 1], lda, 12L, 12L);
+            dgemm_("No transpose", "No transpose", n, &i__4, &ib, &c_b25, &dwork[pya], n,
+                &q[i__ + (i__ + ib + 1) * q_dim1], ldq, &c_b25, &a[(i__ + ib + 1) * a_dim1 + 1],
+                lda, 12L, 12L);
             i__4 = *n - i__ - ib;
-            dgemm_("No transpose", "Transpose", n, &i__4, &ib, &c_b25, &dwork[pya + nib], n, &b[i__ + ib + 1 + i__ * b_dim1], ldb, &c_b25, &a[(i__ + ib + 1) * a_dim1 + 1], lda, 12L, 9L);
+            dgemm_("No transpose", "Transpose", n, &i__4, &ib, &c_b25, &dwork[pya + nib], n,
+                &b[i__ + ib + 1 + i__ * b_dim1], ldb, &c_b25, &a[(i__ + ib + 1) * a_dim1 + 1], lda,
+                12L, 9L);
             /*           Update the submatrix Q(i+ib:n,i+1+ib:n). */
             i__4 = *n - i__ - ib + 1;
             i__5 = *n - i__ - ib;
-            dgemm_("No transpose", "Transpose", &i__4, &i__5, &ib, &c_b25, &q[i__ + ib + i__ * q_dim1], ldq, &dwork[pxq + nb + 1], n, &c_b25, &q[i__ + ib + (i__ + ib + 1) * q_dim1], ldq, 12L, 9L);
+            dgemm_("No transpose", "Transpose", &i__4, &i__5, &ib, &c_b25,
+                &q[i__ + ib + i__ * q_dim1], ldq, &dwork[pxq + nb + 1], n, &c_b25,
+                &q[i__ + ib + (i__ + ib + 1) * q_dim1], ldq, 12L, 9L);
             i__4 = *n - i__ - ib + 1;
             i__5 = *n - i__ - ib;
-            dgemm_("No transpose", "Transpose", &i__4, &i__5, &ib, &c_b25, &a[i__ + ib + i__ * a_dim1], lda, &dwork[pxq + nib + nb + 1], n, &c_b25, &q[i__ + ib + (i__ + ib + 1) * q_dim1], ldq, 12L, 9L);
+            dgemm_("No transpose", "Transpose", &i__4, &i__5, &ib, &c_b25,
+                &a[i__ + ib + i__ * a_dim1], lda, &dwork[pxq + nib + nb + 1], n, &c_b25,
+                &q[i__ + ib + (i__ + ib + 1) * q_dim1], ldq, 12L, 9L);
             i__4 = *n - i__ - ib + 1;
             i__5 = *n - i__ - ib;
-            dgemm_("No transpose", "No transpose", &i__4, &i__5, &ib, &c_b25, &dwork[pyq + nb], n, &q[i__ + (i__ + ib + 1) * q_dim1], ldq, &c_b25, &q[i__ + ib + (i__ + ib + 1) * q_dim1], ldq, 12L, 12L);
+            dgemm_("No transpose", "No transpose", &i__4, &i__5, &ib, &c_b25, &dwork[pyq + nb], n,
+                &q[i__ + (i__ + ib + 1) * q_dim1], ldq, &c_b25,
+                &q[i__ + ib + (i__ + ib + 1) * q_dim1], ldq, 12L, 12L);
             i__4 = *n - i__ - ib + 1;
             i__5 = *n - i__ - ib;
-            dgemm_("No Transpose", "Transpose", &i__4, &i__5, &ib, &c_b25, &dwork[pyq + nib + nb], n, &b[i__ + ib + 1 + i__ * b_dim1], ldb, &c_b25, &q[i__ + ib + (i__ + ib + 1) * q_dim1], ldq, 12L, 9L);
+            dgemm_("No Transpose", "Transpose", &i__4, &i__5, &ib, &c_b25, &dwork[pyq + nib + nb],
+                n, &b[i__ + ib + 1 + i__ * b_dim1], ldb, &c_b25,
+                &q[i__ + ib + (i__ + ib + 1) * q_dim1], ldq, 12L, 9L);
             /*           Update the matrix G. */
             i__4 = *n - i__ - ib + 1;
-            dgemm_("No transpose", "Transpose", &i__4, n, &ib, &c_b25, &q[i__ + ib + i__ * q_dim1], ldq, &dwork[pxg], n, &c_b25, &g[i__ + ib + g_dim1], ldg, 12L, 9L);
+            dgemm_("No transpose", "Transpose", &i__4, n, &ib, &c_b25, &q[i__ + ib + i__ * q_dim1],
+                ldq, &dwork[pxg], n, &c_b25, &g[i__ + ib + g_dim1], ldg, 12L, 9L);
             i__4 = *n - i__ - ib + 1;
-            dgemm_("No transpose", "Transpose", &i__4, n, &ib, &c_b25, &a[i__ + ib + i__ * a_dim1], lda, &dwork[pxg + nib], n, &c_b25, &g[i__ + ib + g_dim1], ldg, 12L, 9L);
+            dgemm_("No transpose", "Transpose", &i__4, n, &ib, &c_b25, &a[i__ + ib + i__ * a_dim1],
+                lda, &dwork[pxg + nib], n, &c_b25, &g[i__ + ib + g_dim1], ldg, 12L, 9L);
             i__4 = *n - i__ - ib;
-            dgemm_("No transpose", "No transpose", n, &i__4, &ib, &c_b25, &dwork[pyg], n, &q[i__ + (i__ + ib + 1) * q_dim1], ldq, &c_b25, &g[(i__ + ib + 1) * g_dim1 + 1], ldg, 12L, 12L);
+            dgemm_("No transpose", "No transpose", n, &i__4, &ib, &c_b25, &dwork[pyg], n,
+                &q[i__ + (i__ + ib + 1) * q_dim1], ldq, &c_b25, &g[(i__ + ib + 1) * g_dim1 + 1],
+                ldg, 12L, 12L);
             i__4 = *n - i__ - ib;
-            dgemm_("No transpose", "Transpose", n, &i__4, &ib, &c_b25, &dwork[pyg + nib], n, &b[i__ + ib + 1 + i__ * b_dim1], ldb, &c_b25, &g[(i__ + ib + 1) * g_dim1 + 1], ldg, 12L, 9L);
+            dgemm_("No transpose", "Transpose", n, &i__4, &ib, &c_b25, &dwork[pyg + nib], n,
+                &b[i__ + ib + 1 + i__ * b_dim1], ldb, &c_b25, &g[(i__ + ib + 1) * g_dim1 + 1], ldg,
+                12L, 9L);
             /*           Update the submatrix B(1:n,i+ib:n). */
             i__4 = *n - i__ - ib + 1;
-            dgemm_("No transpose", "Transpose", n, &i__4, &ib, &c_b25, &dwork[pxb], n, &q[i__ + ib + i__ * q_dim1], ldq, &c_b25, &b[(i__ + ib) * b_dim1 + 1], ldb, 12L, 9L);
+            dgemm_("No transpose", "Transpose", n, &i__4, &ib, &c_b25, &dwork[pxb], n,
+                &q[i__ + ib + i__ * q_dim1], ldq, &c_b25, &b[(i__ + ib) * b_dim1 + 1], ldb, 12L,
+                9L);
             i__4 = *n - i__ - ib + 1;
-            dgemm_("No transpose", "Transpose", n, &i__4, &ib, &c_b25, &dwork[pxb + nib], n, &a[i__ + ib + i__ * a_dim1], lda, &c_b25, &b[(i__ + ib) * b_dim1 + 1], ldb, 12L, 9L);
+            dgemm_("No transpose", "Transpose", n, &i__4, &ib, &c_b25, &dwork[pxb + nib], n,
+                &a[i__ + ib + i__ * a_dim1], lda, &c_b25, &b[(i__ + ib) * b_dim1 + 1], ldb, 12L,
+                9L);
             i__4 = *n - i__ - ib;
             i__5 = *n - i__ - ib + 1;
-            dgemm_("Transpose", "Transpose", &i__4, &i__5, &ib, &c_b25, &q[i__ + (i__ + ib + 1) * q_dim1], ldq, &dwork[pyb + nb], n, &c_b25, &b[i__ + ib + 1 + (i__ + ib) * b_dim1], ldb, 9L, 9L);
+            dgemm_("Transpose", "Transpose", &i__4, &i__5, &ib, &c_b25,
+                &q[i__ + (i__ + ib + 1) * q_dim1], ldq, &dwork[pyb + nb], n, &c_b25,
+                &b[i__ + ib + 1 + (i__ + ib) * b_dim1], ldb, 9L, 9L);
             i__4 = *n - i__ - ib;
             i__5 = *n - i__ - ib + 1;
-            dgemm_("No transpose", "Transpose", &i__4, &i__5, &ib, &c_b25, &b[i__ + ib + 1 + i__ * b_dim1], ldb, &dwork[pyb + nib + nb], n, &c_b25, &b[i__ + ib + 1 + (i__ + ib) * b_dim1], ldb, 12L, 9L);
+            dgemm_("No transpose", "Transpose", &i__4, &i__5, &ib, &c_b25,
+                &b[i__ + ib + 1 + i__ * b_dim1], ldb, &dwork[pyb + nib + nb], n, &c_b25,
+                &b[i__ + ib + 1 + (i__ + ib) * b_dim1], ldb, 12L, 9L);
             /* L40: */
         }
-    }
-    else
-    {
+    } else {
         i__3 = *n - nx - 1;
         i__1 = nb;
-        for (i__ = *ilo; i__1 < 0 ? i__ >= i__3 : i__ <= i__3; i__ += i__1)
-        {
+        for (i__ = *ilo; i__1 < 0 ? i__ >= i__3 : i__ <= i__3; i__ += i__1) {
             /* Computing MIN */
             i__4 = nb, i__5 = *n - i__;
-            ib = min(i__4,i__5);
+            ib = min(i__4, i__5);
             nib = *n * ib;
             /*           Reduce rows and columns i:i+nb-1 to symplectic URV form and */
             /*           return the matrices XA, XB, XG, XQ, YA, YB, YG and YQ which */
             /*           are needed to update the unreduced parts of the matrices. */
             i__4 = *n - i__ + 1;
             i__5 = i__ - 1;
-            mb03xu_(&ltra, &ltrb, &i__4, &i__5, &ib, &a[i__ * a_dim1 + 1], lda, &b[i__ + b_dim1], ldb, &g[g_offset], ldg, &q[i__ + i__ * q_dim1], ldq, &dwork[pxa], n, &dwork[pxb], n, &dwork[pxg], n, &dwork[pxq], n, &dwork[pya], n, &dwork[pyb], n, &dwork[pyg], n, &dwork[pyq], n, &csl[(i__ << 1) - 1], &csr[(i__ << 1) - 1], &taul[i__], &taur[i__], &dwork[pdw]);
+            mb03xu_(&ltra, &ltrb, &i__4, &i__5, &ib, &a[i__ * a_dim1 + 1], lda, &b[i__ + b_dim1],
+                ldb, &g[g_offset], ldg, &q[i__ + i__ * q_dim1], ldq, &dwork[pxa], n, &dwork[pxb], n,
+                &dwork[pxg], n, &dwork[pxq], n, &dwork[pya], n, &dwork[pyb], n, &dwork[pyg], n,
+                &dwork[pyq], n, &csl[(i__ << 1) - 1], &csr[(i__ << 1) - 1], &taul[i__], &taur[i__],
+                &dwork[pdw]);
             /*           Update the submatrix A(1:n,i+1+ib:n). */
             i__4 = *n - i__ - ib + 1;
             i__5 = *n - i__ - ib;
-            dgemm_("No transpose", "Transpose", &i__4, &i__5, &ib, &c_b25, &q[i__ + ib + i__ * q_dim1], ldq, &dwork[pxa + nb + 1], n, &c_b25, &a[i__ + ib + (i__ + ib + 1) * a_dim1], lda, 12L, 9L);
+            dgemm_("No transpose", "Transpose", &i__4, &i__5, &ib, &c_b25,
+                &q[i__ + ib + i__ * q_dim1], ldq, &dwork[pxa + nb + 1], n, &c_b25,
+                &a[i__ + ib + (i__ + ib + 1) * a_dim1], lda, 12L, 9L);
             i__4 = *n - i__ - ib + 1;
             i__5 = *n - i__ - ib;
-            dgemm_("No transpose", "Transpose", &i__4, &i__5, &ib, &c_b25, &a[i__ + ib + i__ * a_dim1], lda, &dwork[pxa + nib + nb + 1], n, &c_b25, &a[i__ + ib + (i__ + ib + 1) * a_dim1], lda, 12L, 9L);
+            dgemm_("No transpose", "Transpose", &i__4, &i__5, &ib, &c_b25,
+                &a[i__ + ib + i__ * a_dim1], lda, &dwork[pxa + nib + nb + 1], n, &c_b25,
+                &a[i__ + ib + (i__ + ib + 1) * a_dim1], lda, 12L, 9L);
             i__4 = *n - i__ - ib;
-            dgemm_("No transpose", "No transpose", n, &i__4, &ib, &c_b25, &dwork[pya], n, &q[i__ + (i__ + ib + 1) * q_dim1], ldq, &c_b25, &a[(i__ + ib + 1) * a_dim1 + 1], lda, 12L, 12L);
+            dgemm_("No transpose", "No transpose", n, &i__4, &ib, &c_b25, &dwork[pya], n,
+                &q[i__ + (i__ + ib + 1) * q_dim1], ldq, &c_b25, &a[(i__ + ib + 1) * a_dim1 + 1],
+                lda, 12L, 12L);
             i__4 = *n - i__ - ib;
-            dgemm_("No transpose", "No transpose", n, &i__4, &ib, &c_b25, &dwork[pya + nib], n, &b[i__ + (i__ + ib + 1) * b_dim1], ldb, &c_b25, &a[(i__ + ib + 1) * a_dim1 + 1], lda, 12L, 12L);
+            dgemm_("No transpose", "No transpose", n, &i__4, &ib, &c_b25, &dwork[pya + nib], n,
+                &b[i__ + (i__ + ib + 1) * b_dim1], ldb, &c_b25, &a[(i__ + ib + 1) * a_dim1 + 1],
+                lda, 12L, 12L);
             /*           Update the submatrix Q(i+ib:n,i+1+ib:n). */
             i__4 = *n - i__ - ib + 1;
             i__5 = *n - i__ - ib;
-            dgemm_("No transpose", "Transpose", &i__4, &i__5, &ib, &c_b25, &q[i__ + ib + i__ * q_dim1], ldq, &dwork[pxq + nb + 1], n, &c_b25, &q[i__ + ib + (i__ + ib + 1) * q_dim1], ldq, 12L, 9L);
+            dgemm_("No transpose", "Transpose", &i__4, &i__5, &ib, &c_b25,
+                &q[i__ + ib + i__ * q_dim1], ldq, &dwork[pxq + nb + 1], n, &c_b25,
+                &q[i__ + ib + (i__ + ib + 1) * q_dim1], ldq, 12L, 9L);
             i__4 = *n - i__ - ib + 1;
             i__5 = *n - i__ - ib;
-            dgemm_("No transpose", "Transpose", &i__4, &i__5, &ib, &c_b25, &a[i__ + ib + i__ * a_dim1], lda, &dwork[pxq + nib + nb + 1], n, &c_b25, &q[i__ + ib + (i__ + ib + 1) * q_dim1], ldq, 12L, 9L);
+            dgemm_("No transpose", "Transpose", &i__4, &i__5, &ib, &c_b25,
+                &a[i__ + ib + i__ * a_dim1], lda, &dwork[pxq + nib + nb + 1], n, &c_b25,
+                &q[i__ + ib + (i__ + ib + 1) * q_dim1], ldq, 12L, 9L);
             i__4 = *n - i__ - ib + 1;
             i__5 = *n - i__ - ib;
-            dgemm_("No transpose", "No transpose", &i__4, &i__5, &ib, &c_b25, &dwork[pyq + nb], n, &q[i__ + (i__ + ib + 1) * q_dim1], ldq, &c_b25, &q[i__ + ib + (i__ + ib + 1) * q_dim1], ldq, 12L, 12L);
+            dgemm_("No transpose", "No transpose", &i__4, &i__5, &ib, &c_b25, &dwork[pyq + nb], n,
+                &q[i__ + (i__ + ib + 1) * q_dim1], ldq, &c_b25,
+                &q[i__ + ib + (i__ + ib + 1) * q_dim1], ldq, 12L, 12L);
             i__4 = *n - i__ - ib + 1;
             i__5 = *n - i__ - ib;
-            dgemm_("No transpose", "No transpose", &i__4, &i__5, &ib, &c_b25, &dwork[pyq + nib + nb], n, &b[i__ + (i__ + ib + 1) * b_dim1], ldb, &c_b25, &q[i__ + ib + (i__ + ib + 1) * q_dim1], ldq, 12L, 12L);
+            dgemm_("No transpose", "No transpose", &i__4, &i__5, &ib, &c_b25,
+                &dwork[pyq + nib + nb], n, &b[i__ + (i__ + ib + 1) * b_dim1], ldb, &c_b25,
+                &q[i__ + ib + (i__ + ib + 1) * q_dim1], ldq, 12L, 12L);
             /*           Update the matrix G. */
             i__4 = *n - i__ - ib + 1;
-            dgemm_("No transpose", "Transpose", &i__4, n, &ib, &c_b25, &q[i__ + ib + i__ * q_dim1], ldq, &dwork[pxg], n, &c_b25, &g[i__ + ib + g_dim1], ldg, 12L, 9L);
+            dgemm_("No transpose", "Transpose", &i__4, n, &ib, &c_b25, &q[i__ + ib + i__ * q_dim1],
+                ldq, &dwork[pxg], n, &c_b25, &g[i__ + ib + g_dim1], ldg, 12L, 9L);
             i__4 = *n - i__ - ib + 1;
-            dgemm_("No transpose", "Transpose", &i__4, n, &ib, &c_b25, &a[i__ + ib + i__ * a_dim1], lda, &dwork[pxg + nib], n, &c_b25, &g[i__ + ib + g_dim1], ldg, 12L, 9L);
+            dgemm_("No transpose", "Transpose", &i__4, n, &ib, &c_b25, &a[i__ + ib + i__ * a_dim1],
+                lda, &dwork[pxg + nib], n, &c_b25, &g[i__ + ib + g_dim1], ldg, 12L, 9L);
             i__4 = *n - i__ - ib;
-            dgemm_("No transpose", "No transpose", n, &i__4, &ib, &c_b25, &dwork[pyg], n, &q[i__ + (i__ + ib + 1) * q_dim1], ldq, &c_b25, &g[(i__ + ib + 1) * g_dim1 + 1], ldg, 12L, 12L);
+            dgemm_("No transpose", "No transpose", n, &i__4, &ib, &c_b25, &dwork[pyg], n,
+                &q[i__ + (i__ + ib + 1) * q_dim1], ldq, &c_b25, &g[(i__ + ib + 1) * g_dim1 + 1],
+                ldg, 12L, 12L);
             i__4 = *n - i__ - ib;
-            dgemm_("No transpose", "No transpose", n, &i__4, &ib, &c_b25, &dwork[pyg + nib], n, &b[i__ + (i__ + ib + 1) * b_dim1], ldb, &c_b25, &g[(i__ + ib + 1) * g_dim1 + 1], ldg, 12L, 12L);
+            dgemm_("No transpose", "No transpose", n, &i__4, &ib, &c_b25, &dwork[pyg + nib], n,
+                &b[i__ + (i__ + ib + 1) * b_dim1], ldb, &c_b25, &g[(i__ + ib + 1) * g_dim1 + 1],
+                ldg, 12L, 12L);
             /*           Update the submatrix B(i+ib:n,1:n). */
             i__4 = *n - i__ - ib + 1;
-            dgemm_("No transpose", "Transpose", &i__4, n, &ib, &c_b25, &q[i__ + ib + i__ * q_dim1], ldq, &dwork[pxb], n, &c_b25, &b[i__ + ib + b_dim1], ldb, 12L, 9L);
+            dgemm_("No transpose", "Transpose", &i__4, n, &ib, &c_b25, &q[i__ + ib + i__ * q_dim1],
+                ldq, &dwork[pxb], n, &c_b25, &b[i__ + ib + b_dim1], ldb, 12L, 9L);
             i__4 = *n - i__ - ib + 1;
-            dgemm_("No transpose", "Transpose", &i__4, n, &ib, &c_b25, &a[i__ + ib + i__ * a_dim1], lda, &dwork[pxb + nib], n, &c_b25, &b[i__ + ib + b_dim1], ldb, 12L, 9L);
+            dgemm_("No transpose", "Transpose", &i__4, n, &ib, &c_b25, &a[i__ + ib + i__ * a_dim1],
+                lda, &dwork[pxb + nib], n, &c_b25, &b[i__ + ib + b_dim1], ldb, 12L, 9L);
             i__4 = *n - i__ - ib + 1;
             i__5 = *n - i__ - ib;
-            dgemm_("No transpose", "No transpose", &i__4, &i__5, &ib, &c_b25, &dwork[pyb + nb], n, &q[i__ + (i__ + ib + 1) * q_dim1], ldq, &c_b25, &b[i__ + ib + (i__ + ib + 1) * b_dim1], ldb, 12L, 12L);
+            dgemm_("No transpose", "No transpose", &i__4, &i__5, &ib, &c_b25, &dwork[pyb + nb], n,
+                &q[i__ + (i__ + ib + 1) * q_dim1], ldq, &c_b25,
+                &b[i__ + ib + (i__ + ib + 1) * b_dim1], ldb, 12L, 12L);
             i__4 = *n - i__ - ib + 1;
             i__5 = *n - i__ - ib;
-            dgemm_("No transpose", "No transpose", &i__4, &i__5, &ib, &c_b25, &dwork[pyb + nib + nb], n, &b[i__ + (i__ + ib + 1) * b_dim1], ldb, &c_b25, &b[i__ + ib + (i__ + ib + 1) * b_dim1], ldb, 12L, 12L);
+            dgemm_("No transpose", "No transpose", &i__4, &i__5, &ib, &c_b25,
+                &dwork[pyb + nib + nb], n, &b[i__ + (i__ + ib + 1) * b_dim1], ldb, &c_b25,
+                &b[i__ + ib + (i__ + ib + 1) * b_dim1], ldb, 12L, 12L);
             /* L50: */
         }
     }
     /*     Unblocked code to reduce the rest of the matrices. */
-    mb04ts_(trana, tranb, n, &i__, &a[a_offset], lda, &b[b_offset], ldb, &g[g_offset], ldg, &q[q_offset], ldq, &csl[1], &csr[1], &taul[1], &taur[1], &dwork[1], ldwork, &ierr, 1L, 1L);
-    dwork[1] = (doublereal) wrkopt;
+    mb04ts_(trana, tranb, n, &i__, &a[a_offset], lda, &b[b_offset], ldb, &g[g_offset], ldg,
+        &q[q_offset], ldq, &csl[1], &csr[1], &taul[1], &taur[1], &dwork[1], ldwork, &ierr, 1L, 1L);
+    dwork[1] = (doublereal)wrkopt;
     return 0;
     /* *** Last line of MB04TB *** */
 } /* mb04tb_ */
-

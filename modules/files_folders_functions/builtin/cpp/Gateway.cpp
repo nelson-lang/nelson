@@ -17,29 +17,28 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NelsonGateway.hpp"
-#include "pwdBuiltin.hpp"
 #include "cdBuiltin.hpp"
-#include "isdirBuiltin.hpp"
-#include "isfileBuiltin.hpp"
-#include "tempdirBuiltin.hpp"
-#include "userdirBuiltin.hpp"
-#include "dirBuiltin.hpp"
-#include "filepartsBuiltin.hpp"
-#include "mkdirBuiltin.hpp"
-#include "relativepathBuiltin.hpp"
-#include "rmdirBuiltin.hpp"
 #include "copyfileBuiltin.hpp"
 #include "diff_fileBuiltin.hpp"
-#include "rmfileBuiltin.hpp"
-#include "pathsepBuiltin.hpp"
+#include "dirBuiltin.hpp"
+#include "filepartsBuiltin.hpp"
 #include "filesepBuiltin.hpp"
+#include "isdirBuiltin.hpp"
+#include "isfileBuiltin.hpp"
+#include "mkdirBuiltin.hpp"
+#include "pathsepBuiltin.hpp"
+#include "pwdBuiltin.hpp"
+#include "relativepathBuiltin.hpp"
+#include "rmdirBuiltin.hpp"
+#include "rmfileBuiltin.hpp"
+#include "tempdirBuiltin.hpp"
+#include "userdirBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"files_folders_functions";
 //=============================================================================
-static const nlsGateway gateway[] =
-{
+static const nlsGateway gateway[] = {
     { "pwd", Nelson::FilesFoldersGateway::pwdBuiltin, 1, 0 },
     { "tempdir", Nelson::FilesFoldersGateway::tempdirBuiltin, 1, 0 },
     { "userdir", Nelson::FilesFoldersGateway::userdirBuiltin, 1, 0 },

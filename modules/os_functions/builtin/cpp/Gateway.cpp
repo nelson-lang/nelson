@@ -17,15 +17,15 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NelsonGateway.hpp"
-#include "systemBuiltin.hpp"
-#include "getenvBuiltin.hpp"
-#include "setenvBuiltin.hpp"
-#include "ispcBuiltin.hpp"
-#include "ismacBuiltin.hpp"
-#include "isunixBuiltin.hpp"
 #include "computerBuiltin.hpp"
-#include "searchenvBuiltin.hpp"
 #include "createGUIDBuiltin.hpp"
+#include "getenvBuiltin.hpp"
+#include "ismacBuiltin.hpp"
+#include "ispcBuiltin.hpp"
+#include "isunixBuiltin.hpp"
+#include "searchenvBuiltin.hpp"
+#include "setenvBuiltin.hpp"
+#include "systemBuiltin.hpp"
 #include "winopenBuiltin.hpp"
 #include "winqueryregBuiltin.hpp"
 //=============================================================================
@@ -33,8 +33,7 @@ using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"os_functions";
 //=============================================================================
-static const nlsGateway gateway[] =
-{
+static const nlsGateway gateway[] = {
     { "system", Nelson::OsFunctionsGateway::systemBuiltin, 2, 1 },
     { "dos", Nelson::OsFunctionsGateway::systemBuiltin, 2, 1 },
     { "unix", Nelson::OsFunctionsGateway::systemBuiltin, 2, 1 },

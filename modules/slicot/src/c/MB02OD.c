@@ -1,21 +1,23 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-EXPORTSYMBOL /* Subroutine */ int mb02od_(side, uplo, trans, diag, norm, m, n, alpha, a, lda, b, ldb, rcond, tol, iwork, dwork, info, side_len, uplo_len, trans_len, diag_len, norm_len)
-char *side, *uplo, *trans, *diag, *norm;
+EXPORTSYMBOL /* Subroutine */ int mb02od_(side, uplo, trans, diag, norm, m, n, alpha, a, lda, b,
+    ldb, rcond, tol, iwork, dwork, info, side_len, uplo_len, trans_len, diag_len,
+    norm_len) char *side,
+    *uplo, *trans, *diag, *norm;
 integer *m, *n;
 doublereal *alpha, *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
+integer* lda;
+doublereal* b;
+integer* ldb;
 doublereal *rcond, *tol;
-integer *iwork;
-doublereal *dwork;
-integer *info;
+integer* iwork;
+doublereal* dwork;
+integer* info;
 ftnlen side_len;
 ftnlen uplo_len;
 ftnlen trans_len;
@@ -181,79 +183,55 @@ ftnlen norm_len;
     --dwork;
     /* Function Body */
     lside = lsame_(side, "L", 1L, 1L);
-    if (lside)
-    {
+    if (lside) {
         nrowa = *m;
-    }
-    else
-    {
+    } else {
         nrowa = *n;
     }
-    onenrm = *(unsigned char *)norm == '1' || lsame_(norm, "O", 1L, 1L);
+    onenrm = *(unsigned char*)norm == '1' || lsame_(norm, "O", 1L, 1L);
     /*     Test the input scalar arguments. */
     *info = 0;
-    if (! lside && ! lsame_(side, "R", 1L, 1L))
-    {
+    if (!lside && !lsame_(side, "R", 1L, 1L)) {
         *info = -1;
-    }
-    else if (! lsame_(uplo, "U", 1L, 1L) && ! lsame_(uplo, "L", 1L, 1L))
-    {
+    } else if (!lsame_(uplo, "U", 1L, 1L) && !lsame_(uplo, "L", 1L, 1L)) {
         *info = -2;
-    }
-    else if (! lsame_(trans, "N", 1L, 1L) && ! lsame_(trans, "T", 1L, 1L) && ! lsame_(trans, "C", 1L, 1L))
-    {
+    } else if (!lsame_(trans, "N", 1L, 1L) && !lsame_(trans, "T", 1L, 1L)
+        && !lsame_(trans, "C", 1L, 1L)) {
         *info = -3;
-    }
-    else if (! lsame_(diag, "U", 1L, 1L) && ! lsame_(diag, "N", 1L, 1L))
-    {
+    } else if (!lsame_(diag, "U", 1L, 1L) && !lsame_(diag, "N", 1L, 1L)) {
         *info = -4;
-    }
-    else if (! onenrm && ! lsame_(norm, "I", 1L, 1L))
-    {
+    } else if (!onenrm && !lsame_(norm, "I", 1L, 1L)) {
         *info = -5;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -6;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -7;
-    }
-    else if (*lda < max(1,nrowa))
-    {
+    } else if (*lda < max(1, nrowa)) {
         *info = -10;
-    }
-    else if (*ldb < max(1,*m))
-    {
+    } else if (*ldb < max(1, *m)) {
         *info = -12;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB02OD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (nrowa == 0)
-    {
+    if (nrowa == 0) {
         *rcond = 1.;
         return 0;
     }
     toldef = *tol;
-    if (toldef <= 0.)
-    {
-        toldef = (doublereal) (nrowa * nrowa) * dlamch_("Epsilon", 7L);
+    if (toldef <= 0.) {
+        toldef = (doublereal)(nrowa * nrowa) * dlamch_("Epsilon", 7L);
     }
-    dtrcon_(norm, uplo, diag, &nrowa, &a[a_offset], lda, rcond, &dwork[1], &iwork[1], info, 1L, 1L, 1L);
-    if (*rcond > toldef)
-    {
-        dtrsm_(side, uplo, trans, diag, m, n, alpha, &a[a_offset], lda, &b[b_offset], ldb, 1L, 1L, 1L, 1L);
-    }
-    else
-    {
+    dtrcon_(
+        norm, uplo, diag, &nrowa, &a[a_offset], lda, rcond, &dwork[1], &iwork[1], info, 1L, 1L, 1L);
+    if (*rcond > toldef) {
+        dtrsm_(side, uplo, trans, diag, m, n, alpha, &a[a_offset], lda, &b[b_offset], ldb, 1L, 1L,
+            1L, 1L);
+    } else {
         *info = 1;
     }
     /* *** Last line of MB02OD *** */
 } /* mb02od_ */
-

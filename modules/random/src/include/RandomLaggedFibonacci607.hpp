@@ -18,47 +18,65 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
+#include "RandomInterface.hpp"
+#include "nlsRandom_exports.h"
+#include <boost/container/vector.hpp>
 #include <boost/random.hpp>
 #include <boost/random/variate_generator.hpp>
-#include <boost/container/vector.hpp>
-#include "nlsRandom_exports.h"
-#include "RandomInterface.hpp"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    class NLSRANDOM_IMPEXP RandomLaggedFibonacci607 : public RandomInterface {
+class NLSRANDOM_IMPEXP RandomLaggedFibonacci607 : public RandomInterface
+{
 
-    private:
-        void *generator = nullptr;
-        uint32 seed = 0;
-        boost::lagged_fibonacci607 rngLaggedFibonacci607;
-        boost::variate_generator<boost::lagged_fibonacci607&, boost::uniform_real<> > *uniform_real_generator;
-        boost::variate_generator<boost::lagged_fibonacci607&, boost::random::uniform_int_distribution<> > *uniform_int_generator;
-        boost::variate_generator<boost::lagged_fibonacci607&, boost::normal_distribution<> > *normal_real_generator;
+private:
+    void* generator = nullptr;
+    uint32 seed = 0;
+    boost::lagged_fibonacci607 rngLaggedFibonacci607;
+    boost::variate_generator<boost::lagged_fibonacci607&, boost::uniform_real<>>*
+        uniform_real_generator;
+    boost::variate_generator<boost::lagged_fibonacci607&,
+        boost::random::uniform_int_distribution<>>* uniform_int_generator;
+    boost::variate_generator<boost::lagged_fibonacci607&, boost::normal_distribution<>>*
+        normal_real_generator;
 
-    public:
-        RandomLaggedFibonacci607();
-        ~RandomLaggedFibonacci607();
+public:
+    RandomLaggedFibonacci607();
+    ~RandomLaggedFibonacci607();
 
-        std::wstring getGeneratorName();
+    std::wstring
+    getGeneratorName();
 
-        void setSeed(uint32 _seed);
-        uint32 getSeed();
+    void
+    setSeed(uint32 _seed);
+    uint32
+    getSeed();
 
-        double getValueAsDouble(RNG_DISTRIBUTION_TYPE _type = RNG_DISTRIBUTION_UNIFORM_REAL);
-        single getValueAsSingle(RNG_DISTRIBUTION_TYPE _type = RNG_DISTRIBUTION_UNIFORM_REAL);
+    double
+    getValueAsDouble(RNG_DISTRIBUTION_TYPE _type = RNG_DISTRIBUTION_UNIFORM_REAL);
+    single
+    getValueAsSingle(RNG_DISTRIBUTION_TYPE _type = RNG_DISTRIBUTION_UNIFORM_REAL);
 
-        void getValuesAsDouble(double *ar, indexType nbElements, indexType lastDim, RNG_DISTRIBUTION_TYPE _type = RNG_DISTRIBUTION_UNIFORM_REAL);
-        void getValuesAsSingle(single *ar, indexType nbElements, indexType lastDim, RNG_DISTRIBUTION_TYPE _type = RNG_DISTRIBUTION_UNIFORM_REAL);
+    void
+    getValuesAsDouble(double* ar, indexType nbElements, indexType lastDim,
+        RNG_DISTRIBUTION_TYPE _type = RNG_DISTRIBUTION_UNIFORM_REAL);
+    void
+    getValuesAsSingle(single* ar, indexType nbElements, indexType lastDim,
+        RNG_DISTRIBUTION_TYPE _type = RNG_DISTRIBUTION_UNIFORM_REAL);
 
-        boost::container::vector<uint32> getState();
-        void setState(boost::container::vector<uint32>_state);
-        void setState(uint32 *_state, size_t len);
-        size_t getStateSize();
+    boost::container::vector<uint32>
+    getState();
+    void
+    setState(boost::container::vector<uint32> _state);
+    void
+    setState(uint32* _state, size_t len);
+    size_t
+    getStateSize();
 
-        void setMinMaxUniformIntDistribution(int _min, int _max);
-        void getMinMaxUniformIntDistribution(int &_min, int &_max);
-    };
-}
+    void
+    setMinMaxUniformIntDistribution(int _min, int _max);
+    void
+    getMinMaxUniformIntDistribution(int& _min, int& _max);
+};
+} // namespace Nelson
 //=============================================================================
-

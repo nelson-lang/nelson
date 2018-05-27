@@ -1,12 +1,12 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-EXPORTSYMBOL /* Subroutine */ int mb03ba_(k, h__, s, smult, amap, qmap)
-integer *k, *h__, *s, *smult, *amap, *qmap;
+EXPORTSYMBOL /* Subroutine */ int mb03ba_(k, h__, s, smult, amap, qmap) integer *k, *h__, *s,
+    *smult, *amap, *qmap;
 {
     /* System generated locals */
     integer i__1;
@@ -66,47 +66,38 @@ integer *k, *h__, *s, *smult, *amap, *qmap;
     --amap;
     --s;
     /* Function Body */
-    if (s[*h__] == -1)
-    {
+    if (s[*h__] == -1) {
         *smult = -1;
         i__1 = *h__;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             amap[i__] = *h__ - i__ + 1;
             /* L10: */
         }
         i__1 = *k;
-        for (i__ = *h__ + 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = *h__ + 1; i__ <= i__1; ++i__) {
             amap[i__] = *h__ + 1 - i__ + *k;
             /* L20: */
         }
         temp = *h__ % *k + 1;
-        for (i__ = temp; i__ >= 1; --i__)
-        {
+        for (i__ = temp; i__ >= 1; --i__) {
             qmap[temp - i__ + 1] = i__;
             /* L30: */
         }
         i__1 = temp + 1;
-        for (i__ = *k; i__ >= i__1; --i__)
-        {
+        for (i__ = *k; i__ >= i__1; --i__) {
             qmap[temp + *k - i__ + 1] = i__;
             /* L40: */
         }
-    }
-    else
-    {
+    } else {
         *smult = 1;
         i__1 = *k;
-        for (i__ = *h__; i__ <= i__1; ++i__)
-        {
+        for (i__ = *h__; i__ <= i__1; ++i__) {
             amap[i__ - *h__ + 1] = i__;
             qmap[i__ - *h__ + 1] = i__;
             /* L50: */
         }
         i__1 = *h__ - 1;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             amap[*k - *h__ + i__ + 1] = i__;
             qmap[*k - *h__ + i__ + 1] = i__;
             /* L60: */
@@ -115,4 +106,3 @@ integer *k, *h__, *s, *smult, *amap, *qmap;
     return 0;
     /* *** Last line of MB03BA *** */
 } /* mb03ba_ */
-

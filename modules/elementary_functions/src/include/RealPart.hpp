@@ -22,6 +22,7 @@
 #include "nlsElementary_functions_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf RealPart(ArrayOf arrayIn);
+NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
+RealPart(ArrayOf arrayIn);
 }
 //=============================================================================

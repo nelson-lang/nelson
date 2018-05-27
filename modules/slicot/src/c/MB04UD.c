@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,19 +11,20 @@ static doublereal c_b10 = 0.;
 static doublereal c_b11 = 1.;
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int mb04ud_(jobq, jobz, m, n, a, lda, e, lde, q, ldq, z__, ldz, ranke, istair, tol, dwork, info, jobq_len, jobz_len)
-char *jobq, *jobz;
+EXPORTSYMBOL /* Subroutine */ int mb04ud_(jobq, jobz, m, n, a, lda, e, lde, q, ldq, z__, ldz, ranke,
+    istair, tol, dwork, info, jobq_len, jobz_len) char *jobq,
+    *jobz;
 integer *m, *n;
-doublereal *a;
-integer *lda;
-doublereal *e;
-integer *lde;
-doublereal *q;
-integer *ldq;
-doublereal *z__;
+doublereal* a;
+integer* lda;
+doublereal* e;
+integer* lde;
+doublereal* q;
+integer* ldq;
+doublereal* z__;
 integer *ldz, *ranke, *istair;
 doublereal *tol, *dwork;
-integer *info;
+integer* info;
 ftnlen jobq_len;
 ftnlen jobz_len;
 {
@@ -218,71 +219,50 @@ ftnlen jobz_len;
     ljobzi = lsame_(jobz, "I", 1L, 1L);
     updatz = ljobzi || lsame_(jobz, "U", 1L, 1L);
     /*     Test the input scalar arguments. */
-    if (! updatq && ! lsame_(jobq, "N", 1L, 1L))
-    {
+    if (!updatq && !lsame_(jobq, "N", 1L, 1L)) {
         *info = -1;
-    }
-    else if (! updatz && ! lsame_(jobz, "N", 1L, 1L))
-    {
+    } else if (!updatz && !lsame_(jobz, "N", 1L, 1L)) {
         *info = -2;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -3;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -4;
-    }
-    else if (*lda < max(1,*m))
-    {
+    } else if (*lda < max(1, *m)) {
         *info = -6;
-    }
-    else if (*lde < max(1,*m))
-    {
+    } else if (*lde < max(1, *m)) {
         *info = -8;
-    }
-    else if (! updatq && *ldq < 1 || updatq && *ldq < max(1,*m))
-    {
+    } else if (!updatq && *ldq < 1 || updatq && *ldq < max(1, *m)) {
         *info = -10;
-    }
-    else if (! updatz && *ldz < 1 || updatz && *ldz < max(1,*n))
-    {
+    } else if (!updatz && *ldz < 1 || updatz && *ldz < max(1, *n)) {
         *info = -12;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("MB04UD", &i__1, 6L);
         return 0;
     }
     /*     Initialize Q and Z to the identity matrices, if needed. */
-    if (ljobqi)
-    {
+    if (ljobqi) {
         dlaset_("Full", m, m, &c_b10, &c_b11, &q[q_offset], ldq, 4L);
     }
-    if (ljobzi)
-    {
+    if (ljobzi) {
         dlaset_("Full", n, n, &c_b10, &c_b11, &z__[z_offset], ldz, 4L);
     }
     /*     Quick return if possible. */
-    *ranke = min(*m,*n);
-    if (*ranke == 0)
-    {
+    *ranke = min(*m, *n);
+    if (*ranke == 0) {
         return 0;
     }
     toler = *tol;
-    if (toler <= 0.)
-    {
+    if (toler <= 0.) {
         toler = dlamch_("Epsilon", 7L) * dlange_("M", m, n, &e[e_offset], lde, &dwork[1], 1L);
     }
     k = *n;
     lzero = FALSE_;
     /*     WHILE ( ( K > 0 ) AND ( NOT a zero submatrix encountered ) ) DO */
 L20:
-    if (k > 0 && ! lzero)
-    {
+    if (k > 0 && !lzero) {
         /*         Intermediate form of E */
         /*                     <--k--><--n-k-> */
         /*                l=1 |x....x|       | */
@@ -301,36 +281,29 @@ L20:
         mnk = *m - *n + k;
         emxnrm = 0.;
         lk = mnk;
-        for (l = mnk; l >= 1; --l)
-        {
+        for (l = mnk; l >= 1; --l) {
             emx = (d__1 = e[l + idamax_(&k, &e[l + e_dim1], lde) * e_dim1], abs(d__1));
-            if (emx > emxnrm)
-            {
+            if (emx > emxnrm) {
                 emxnrm = emx;
                 lk = l;
             }
             /* L40: */
         }
-        if (emxnrm <= toler)
-        {
+        if (emxnrm <= toler) {
             /*           Set submatrix Ek to zero. */
             dlaset_("Full", &mnk, &k, &c_b10, &c_b10, &e[e_offset], lde, 4L);
             lzero = TRUE_;
             *ranke = *n - k;
-        }
-        else
-        {
+        } else {
             /*           Submatrix Ek is not considered to be identically zero. */
             /*           Check whether rows have to be interchanged. */
-            if (lk != mnk)
-            {
+            if (lk != mnk) {
                 /*              Interchange rows lk and m-n+k in whole A- and E-matrix */
                 /*              and update the row transformation matrix Q, if needed. */
                 /*              (For Q, the number of elements involved is m.) */
                 dswap_(n, &e[lk + e_dim1], lde, &e[mnk + e_dim1], lde);
                 dswap_(n, &a[lk + a_dim1], lda, &a[mnk + a_dim1], lda);
-                if (updatq)
-                {
+                if (updatq) {
                     dswap_(m, &q[lk * q_dim1 + 1], &c__1, &q[mnk * q_dim1 + 1], &c__1);
                 }
             }
@@ -345,11 +318,12 @@ L20:
             emx = e[mnk + k * e_dim1];
             e[mnk + k * e_dim1] = 1.;
             i__1 = mnk - 1;
-            dlarf_("Right", &i__1, &k, &e[mnk + e_dim1], lde, &tau, &e[e_offset], lde, &dwork[1], 5L);
+            dlarf_(
+                "Right", &i__1, &k, &e[mnk + e_dim1], lde, &tau, &e[e_offset], lde, &dwork[1], 5L);
             dlarf_("Right", m, &k, &e[mnk + e_dim1], lde, &tau, &a[a_offset], lda, &dwork[1], 5L);
-            if (updatz)
-            {
-                dlarf_("Right", n, &k, &e[mnk + e_dim1], lde, &tau, &z__[z_offset], ldz, &dwork[1], 5L);
+            if (updatz) {
+                dlarf_("Right", n, &k, &e[mnk + e_dim1], lde, &tau, &z__[z_offset], ldz, &dwork[1],
+                    5L);
             }
             e[mnk + k * e_dim1] = emx;
             dlaset_("Full", &c__1, &km1, &c_b10, &c_b10, &e[mnk + e_dim1], lde, 4L);
@@ -366,19 +340,16 @@ L20:
     /*     ISTAIR(m-k) =   n-k           for k=0,...,rank(E)-1 */
     /*                 = -(n-rank(E)+1)  for k=rank(E),...,m-1. */
     i__1 = *ranke - 1;
-    for (i__ = 0; i__ <= i__1; ++i__)
-    {
+    for (i__ = 0; i__ <= i__1; ++i__) {
         istair[*m - i__] = *n - i__;
         /* L60: */
     }
     nr1 = -(*n - *ranke + 1);
     i__1 = *m - *ranke;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         istair[i__] = nr1;
         /* L80: */
     }
     return 0;
     /* *** Last line of MB04UD *** */
 } /* mb04ud_ */
-

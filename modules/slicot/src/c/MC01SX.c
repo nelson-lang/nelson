@@ -1,13 +1,12 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-integer mc01sx_(lb, ub, e, mant)
-integer *lb, *ub, *e;
-doublereal *mant;
+integer mc01sx_(lb, ub, e, mant) integer *lb, *ub, *e;
+doublereal* mant;
 {
     /* System generated locals */
     integer ret_val, i__1, i__2, i__3;
@@ -51,16 +50,14 @@ doublereal *mant;
     maxe = e[*lb];
     mine = maxe;
     i__1 = *ub;
-    for (j = *lb + 1; j <= i__1; ++j)
-    {
-        if (mant[j] != 0.)
-        {
+    for (j = *lb + 1; j <= i__1; ++j) {
+        if (mant[j] != 0.) {
             /* Computing MAX */
             i__2 = maxe, i__3 = e[j];
-            maxe = max(i__2,i__3);
+            maxe = max(i__2, i__3);
             /* Computing MIN */
             i__2 = mine, i__3 = e[j];
-            mine = min(i__2,i__3);
+            mine = min(i__2, i__3);
         }
         /* L20: */
     }
@@ -68,4 +65,3 @@ doublereal *mant;
     return ret_val;
     /* *** Last line of MC01SX *** */
 } /* mc01sx_ */
-

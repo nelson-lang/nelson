@@ -19,60 +19,58 @@
 #ifdef _MSC_VER
 #include <Windows.h>
 #endif
-#include <stdio.h>
-#include <boost/filesystem.hpp>
 #include "GetNelsonBinariesPath.hpp"
 #include "GetNelsonPath.hpp"
 #include "GetVariableEnvironment.hpp"
 #include "i18n.hpp"
+#include <boost/filesystem.hpp>
+#include <stdio.h>
 //=============================================================================
 using namespace boost::filesystem;
 //=============================================================================
 namespace Nelson {
 
-    //=============================================================================
-    std::wstring GetNelsonBinariesPath()
-    {
+//=============================================================================
+std::wstring
+GetNelsonBinariesPath()
+{
 #define NELSON_BINARIES_PATH_ENV L"NELSON_BINARIES_PATH"
-        std::wstring penv = GetVariableEnvironment(NELSON_BINARIES_PATH_ENV, L"");
-        if (penv.compare(L"") != 0)
-        {
-            boost::filesystem::path path(penv);
-            if (boost::filesystem::is_directory(path))
-            {
-                return path.generic_wstring();
-            }
+    std::wstring penv = GetVariableEnvironment(NELSON_BINARIES_PATH_ENV, L"");
+    if (penv.compare(L"") != 0) {
+        boost::filesystem::path path(penv);
+        if (boost::filesystem::is_directory(path)) {
+            return path.generic_wstring();
         }
-        std::wstring nelsonPath = GetNelsonPath();
-        boost::filesystem::path binpath(nelsonPath);
+    }
+    std::wstring nelsonPath = GetNelsonPath();
+    boost::filesystem::path binpath(nelsonPath);
 #ifdef _MSC_VER
 #ifdef _WIN64
-        binpath += L"/bin/x64";
+    binpath += L"/bin/x64";
 #else
-        binpath += L"/bin/win32";
+    binpath += L"/bin/win32";
 #endif
 #else
 #if defined(__APPLE__) || defined(__MACH__)
 #ifdef __x86_64__
-        binpath += L"/bin/macosx64";
+    binpath += L"/bin/macosx64";
 #else
-        binpath += L"/bin/macosx32";
+    binpath += L"/bin/macosx32";
 #endif
 #else
 #ifdef __x86_64__
-        binpath += L"/bin/linux64";
+    binpath += L"/bin/linux64";
 #else
-        binpath += L"/bin/linux32";
+    binpath += L"/bin/linux32";
 #endif
 #endif
 #endif
-        if (boost::filesystem::is_directory(binpath))
-        {
-            return binpath.generic_wstring();
-        }
-        fprintf(stderr, "%s\n", _("Error: we cannot find Nelson binaries path.").c_str());
-        return std::wstring(L"");
+    if (boost::filesystem::is_directory(binpath)) {
+        return binpath.generic_wstring();
     }
-    //=============================================================================
+    fprintf(stderr, "%s\n", _("Error: we cannot find Nelson binaries path.").c_str());
+    return std::wstring(L"");
+}
+//=============================================================================
 }
 //=============================================================================

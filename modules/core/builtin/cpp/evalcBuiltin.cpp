@@ -23,30 +23,23 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::CoreGateway::evalcBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::CoreGateway::evalcBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (argIn.size() < 1 || argIn.size() > 2)
-    {
+    if (argIn.size() < 1 || argIn.size() > 2) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     std::wstring command;
     std::wstring catchCommand;
-    if (argIn[0].isSingleString())
-    {
+    if (argIn[0].isSingleString()) {
         command = argIn[0].getContentAsWideString();
-    }
-    else
-    {
+    } else {
         Error(eval, _W("#1 string expected."));
     }
-    if (argIn.size() > 1)
-    {
-        if (argIn[1].isSingleString())
-        {
+    if (argIn.size() > 1) {
+        if (argIn[1].isSingleString()) {
             catchCommand = argIn[1].getContentAsWideString();
-        }
-        else
-        {
+        } else {
             Error(eval, _W("#2 string expected."));
         }
     }

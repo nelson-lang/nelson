@@ -18,35 +18,47 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsFftw_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsFftw_exports.h"
 //=============================================================================
 namespace Nelson {
-    enum FftPlannerMethod
-    {
-        UNKNOWN = -1,
-        ESTIMATE,
-        MEASURE,
-        PATIENT,
-        EXHAUSTIVE,
-        HYBRID
-    };
-    //=============================================================================
-    indexType computeDim(const ArrayOf X);
-    ArrayOf scomplexFFTW(const ArrayOf X, indexType n, indexType dim, bool asInverse);
-    ArrayOf dcomplexFFTW(const ArrayOf X, indexType n, indexType dim, bool asInverse);
-    //=============================================================================
-    NLSFFTW_IMPEXP std::wstring getDoubleWisdomInformation();
-    NLSFFTW_IMPEXP std::wstring getSingleWisdomInformation();
-    NLSFFTW_IMPEXP std::wstring getPlannerInformation();
-    //=============================================================================
-    NLSFFTW_IMPEXP bool setDoubleWisdomInformation(std::wstring info);
-    NLSFFTW_IMPEXP bool setSingleWisdomInformation(std::wstring info);
-    NLSFFTW_IMPEXP bool setPlannerInformation(FftPlannerMethod newMethod);
-    //=============================================================================
-    NLSFFTW_IMPEXP void resetDoubleWisdom();
-    NLSFFTW_IMPEXP void resetSingleWisdom();
-    NLSFFTW_IMPEXP void resetPlanner();
-    //=============================================================================
-}
+enum FftPlannerMethod
+{
+    UNKNOWN = -1,
+    ESTIMATE,
+    MEASURE,
+    PATIENT,
+    EXHAUSTIVE,
+    HYBRID
+};
+//=============================================================================
+indexType
+computeDim(const ArrayOf X);
+ArrayOf
+scomplexFFTW(const ArrayOf X, indexType n, indexType dim, bool asInverse);
+ArrayOf
+dcomplexFFTW(const ArrayOf X, indexType n, indexType dim, bool asInverse);
+//=============================================================================
+NLSFFTW_IMPEXP std::wstring
+getDoubleWisdomInformation();
+NLSFFTW_IMPEXP std::wstring
+getSingleWisdomInformation();
+NLSFFTW_IMPEXP std::wstring
+getPlannerInformation();
+//=============================================================================
+NLSFFTW_IMPEXP bool
+setDoubleWisdomInformation(std::wstring info);
+NLSFFTW_IMPEXP bool
+setSingleWisdomInformation(std::wstring info);
+NLSFFTW_IMPEXP bool
+setPlannerInformation(FftPlannerMethod newMethod);
+//=============================================================================
+NLSFFTW_IMPEXP void
+resetDoubleWisdom();
+NLSFFTW_IMPEXP void
+resetSingleWisdom();
+NLSFFTW_IMPEXP void
+resetPlanner();
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

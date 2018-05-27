@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -13,12 +13,12 @@ static integer c__1 = 1;
 static integer c__0 = 0;
 static doublereal c_b25 = 2.;
 
-EXPORTSYMBOL /* Subroutine */ int mb05od_(balanc, n, ndiag, delta, a, lda, mdig, idig, iwork, dwork, ldwork, iwarn, info, balanc_len)
-char *balanc;
+EXPORTSYMBOL /* Subroutine */ int mb05od_(balanc, n, ndiag, delta, a, lda, mdig, idig, iwork, dwork,
+    ldwork, iwarn, info, balanc_len) char* balanc;
 integer *n, *ndiag;
 doublereal *delta, *a;
 integer *lda, *mdig, *idig, *iwork;
-doublereal *dwork;
+doublereal* dwork;
 integer *ldwork, *iwarn, *info;
 ftnlen balanc_len;
 {
@@ -191,28 +191,18 @@ ftnlen balanc_len;
     *info = 0;
     lbals = lsame_(balanc, "S", 1L, 1L);
     /*     Test the input scalar arguments. */
-    if (! (lsame_(balanc, "N", 1L, 1L) || lbals))
-    {
+    if (!(lsame_(balanc, "N", 1L, 1L) || lbals)) {
         *info = -1;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -2;
-    }
-    else if (*ndiag < 1)
-    {
+    } else if (*ndiag < 1) {
         *info = -3;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -6;
-    }
-    else if (*ldwork < 1 || *ldwork < *n * ((*n << 1) + *ndiag + 1) + *ndiag && *n > 1)
-    {
+    } else if (*ldwork < 1 || *ldwork<*n*((*n << 1) + *ndiag + 1) + *ndiag&& * n> 1) {
         *info = -11;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("MB05OD", &i__1, 6L);
@@ -221,104 +211,93 @@ ftnlen balanc_len;
     /*     Quick return if possible. */
     eps = dlamch_("Epsilon", 7L);
     d__1 = 1. / eps;
-    ndec = (integer) (d_lg10(&d__1) + 1.);
-    if (*n == 0)
-    {
+    ndec = (integer)(d_lg10(&d__1) + 1.);
+    if (*n == 0) {
         *mdig = ndec;
         *idig = ndec;
         return 0;
     }
     /*     Set some machine parameters. */
-    base = (integer) dlamch_("Base", 4L);
+    base = (integer)dlamch_("Base", 4L);
     ndecm1 = ndec - 1;
     underf = dlamch_("Underflow", 9L);
     ovrthr = dlamch_("Overflow", 8L);
     ovrth2 = sqrt(ovrthr);
-    if (*delta == 0.)
-    {
+    if (*delta == 0.) {
         /*        The DELTA = 0 case. */
         dlaset_("Full", n, n, &c_b10, &c_b11, &a[a_offset], lda, 4L);
         *mdig = ndecm1;
         *idig = ndecm1;
         return 0;
     }
-    if (*n == 1)
-    {
+    if (*n == 1) {
         /*        The 1-by-1 case. */
-        a[a_dim1 + 1] = exp(a[a_dim1 + 1] **delta);
+        a[a_dim1 + 1] = exp(a[a_dim1 + 1] * *delta);
         *mdig = ndecm1;
         *idig = ndecm1;
         return 0;
     }
     /*     Set pointers for the workspace. */
     jwora1 = 1;
-    jwora2 = jwora1 + *n **n;
-    jwora3 = jwora2 + *n **ndiag;
-    jworv1 = jwora3 + *n **n;
+    jwora2 = jwora1 + *n * *n;
+    jwora3 = jwora2 + *n * *ndiag;
+    jworv1 = jwora3 + *n * *n;
     jworv2 = jworv1 + *n;
     /*     Compute Pade coefficients in DWORK(JWORV2:JWORV2+NDIAG-1). */
     dwork[jworv2] = .5;
     i__1 = *ndiag;
-    for (i__ = 2; i__ <= i__1; ++i__)
-    {
+    for (i__ = 2; i__ <= i__1; ++i__) {
         im1 = i__ - 1;
-        dwork[jworv2 + im1] = dwork[jworv2 + i__ - 2] * (doublereal) (*ndiag - im1) / (doublereal) (i__ * ((*ndiag << 1) - im1));
+        dwork[jworv2 + im1] = dwork[jworv2 + i__ - 2] * (doublereal)(*ndiag - im1)
+            / (doublereal)(i__ * ((*ndiag << 1) - im1));
         /* L20: */
     }
     /* Computing 2nd power */
     d__1 = eps;
     /* Computing 2nd power */
-    d__2 = (doublereal) base;
-    vareps = d__1 * d__1 * ((d__2 * d__2 - 1.) / (log((doublereal) base) * 24.));
-    xn = (doublereal) (*n);
+    d__2 = (doublereal)base;
+    vareps = d__1 * d__1 * ((d__2 * d__2 - 1.) / (log((doublereal)base) * 24.));
+    xn = (doublereal)(*n);
     tr = 0.;
     /*     Apply a translation with the mean of the eigenvalues of A*DELTA. */
     i__1 = *n;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         dscal_(n, delta, &a[i__ * a_dim1 + 1], &c__1);
         tr += a[i__ + i__ * a_dim1];
         /* L40: */
     }
     avgev = tr / xn;
-    if (avgev > log(ovrthr) || avgev < log(underf))
-    {
+    if (avgev > log(ovrthr) || avgev < log(underf)) {
         avgev = 0.;
     }
-    if (avgev != 0.)
-    {
+    if (avgev != 0.) {
         anorm = dlange_("1-norm", n, n, &a[a_offset], lda, &dwork[jwora1], 6L);
         i__1 = *n;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             a[i__ + i__ * a_dim1] -= avgev;
             /* L60: */
         }
         temp = dlange_("1-norm", n, n, &a[a_offset], lda, &dwork[jwora1], 6L);
-        if (temp > anorm * .5)
-        {
+        if (temp > anorm * .5) {
             i__1 = *n;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 a[i__ + i__ * a_dim1] += avgev;
                 /* L80: */
             }
             avgev = 0.;
         }
     }
-    *(unsigned char *)actbal = *(unsigned char *)balanc;
-    if (lbals)
-    {
+    *(unsigned char*)actbal = *(unsigned char*)balanc;
+    if (lbals) {
         /*        Balancing (scaling) has been requested.  First, save A. */
         dlacpy_("Full", n, n, &a[a_offset], lda, &dwork[jwora1], n, 4L);
         maxred = 200.;
         mb04md_(n, &maxred, &a[a_offset], lda, &dwork[jworv1], info);
-        if (maxred < 1.)
-        {
+        if (maxred < 1.) {
             /*           Recover the matrix and reset DWORK(JWORV1,...,JWORV1+N-1) */
             /*           to 1, as no reduction of the norm occured (unlikely event). */
             dlacpy_("Full", n, n, &dwork[jwora1], n, &a[a_offset], lda, 4L);
-            *(unsigned char *)actbal = 'N';
+            *(unsigned char*)actbal = 'N';
             dwork[jworv1] = 1.;
             i__1 = *n - 1;
             dcopy_(&i__1, &dwork[jworv1], &c__0, &dwork[jworv1 + 1], &c__1);
@@ -329,25 +308,21 @@ ftnlen balanc_len;
     /*     so that the resulted matrix has the 1-norm less than 0.5. */
     anorm = dlange_("1-norm", n, n, &a[a_offset], lda, &dwork[jwora1], 6L);
     m = 0;
-    if (anorm >= .5)
-    {
-        mpower = (integer) (log(ovrthr) / log(2.));
-        m = (integer) (log(anorm) / log(2.)) + 1;
-        if (m > mpower)
-        {
+    if (anorm >= .5) {
+        mpower = (integer)(log(ovrthr) / log(2.));
+        m = (integer)(log(anorm) / log(2.)) + 1;
+        if (m > mpower) {
             /*           Error return: The norm of A*DELTA is too large. */
             *info = 1;
             return 0;
         }
         factor = pow_di(&c_b25, &m);
-        if (m + 1 < mpower)
-        {
+        if (m + 1 < mpower) {
             ++m;
             factor *= 2.;
         }
         i__1 = *n;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             d__1 = 1. / factor;
             dscal_(n, &d__1, &a[i__ * a_dim1 + 1], &c__1);
             /* L120: */
@@ -363,34 +338,29 @@ ftnlen balanc_len;
     /*     (A BLAS 3 implementation in forward order, using DGEMM, could */
     /*     possibly be less accurate.) */
     i__1 = *n;
-    for (j = 1; j <= i__1; ++j)
-    {
-        dgemv_("No transpose", n, n, &c_b11, &a[a_offset], lda, &a[j * a_dim1 + 1], &c__1, &c_b10, &dwork[jwora2], &c__1, 12L);
+    for (j = 1; j <= i__1; ++j) {
+        dgemv_("No transpose", n, n, &c_b11, &a[a_offset], lda, &a[j * a_dim1 + 1], &c__1, &c_b10,
+            &dwork[jwora2], &c__1, 12L);
         ik = 0;
         i__2 = ndagm2;
-        for (k = 1; k <= i__2; ++k)
-        {
-            dgemv_("No transpose", n, n, &c_b11, &a[a_offset], lda, &dwork[jwora2 + ik], &c__1, &c_b10, &dwork[jwora2 + ik + *n], &c__1, 12L);
+        for (k = 1; k <= i__2; ++k) {
+            dgemv_("No transpose", n, n, &c_b11, &a[a_offset], lda, &dwork[jwora2 + ik], &c__1,
+                &c_b10, &dwork[jwora2 + ik + *n], &c__1, 12L);
             ik += *n;
             /* L140: */
         }
         i__2 = *n;
-        for (i__ = 1; i__ <= i__2; ++i__)
-        {
+        for (i__ = 1; i__ <= i__2; ++i__) {
             s = 0.;
             u = 0.;
-            ik = ndagm2 **n + i__ - 1;
-            for (k = ndagm1; k >= 1; --k)
-            {
+            ik = ndagm2 * *n + i__ - 1;
+            for (k = ndagm1; k >= 1; --k) {
                 p = dwork[jworv2 + k] * dwork[jwora2 + ik];
                 ik -= *n;
                 s += p;
-                if ((k + 1) % 2 == 0)
-                {
+                if ((k + 1) % 2 == 0) {
                     u += p;
-                }
-                else
-                {
+                } else {
                     u -= p;
                 }
                 /* L160: */
@@ -398,8 +368,7 @@ ftnlen balanc_len;
             p = dwork[jworv2] * a[i__ + j * a_dim1];
             s += p;
             u -= p;
-            if (i__ == j)
-            {
+            if (i__ == j) {
                 s += 1.;
                 u += 1.;
             }
@@ -415,8 +384,7 @@ ftnlen balanc_len;
     /*     approximant should be very well conditioned, no condition estimate */
     /*     is computed. */
     dgetrf_(n, n, &dwork[jwora1], n, &iwork[1], &ifail);
-    if (ifail > 0)
-    {
+    if (ifail > 0) {
         /*        Error return: The matrix is exactly singular. */
         *info = 2;
         return 0;
@@ -426,16 +394,12 @@ ftnlen balanc_len;
     /*     Prepare for the calculation of the accuracy estimates. */
     /*     Note that ANORM here is in the range [1, e]. */
     anorm = dlange_("1-norm", n, n, &a[a_offset], lda, &dwork[jwora1], 6L);
-    if (anorm >= 1.)
-    {
+    if (anorm >= 1.) {
         eabs = (xn * 19. + 47.) * (eps * anorm);
-    }
-    else
-    {
+    } else {
         eabs = (xn * 19. + 47.) * eps * anorm;
     }
-    if (m != 0)
-    {
+    if (m != 0) {
         var = xn * vareps;
         fn = xn * 4. / ((xn + 2.) * (xn + 1.));
         /* Computing 2nd power */
@@ -446,65 +410,50 @@ ftnlen balanc_len;
         /*        Square-up the computed exponential matrix M times, with caution */
         /*        for avoiding overflows. */
         i__1 = m;
-        for (k = 1; k <= i__1; ++k)
-        {
-            if (anorm > ovrth2)
-            {
+        for (k = 1; k <= i__1; ++k) {
+            if (anorm > ovrth2) {
                 /*              The solution could overflow. */
                 d__1 = 1. / anorm;
-                dgemm_("No transpose", "No transpose", n, n, n, &d__1, &a[a_offset], lda, &a[a_offset], lda, &c_b10, &dwork[jwora1], n, 12L, 12L);
+                dgemm_("No transpose", "No transpose", n, n, n, &d__1, &a[a_offset], lda,
+                    &a[a_offset], lda, &c_b10, &dwork[jwora1], n, 12L, 12L);
                 s = dlange_("1-norm", n, n, &dwork[jwora1], n, &dwork[jwora1], 6L);
-                if (anorm <= ovrthr / s)
-                {
+                if (anorm <= ovrthr / s) {
                     dlascl_("General", n, n, &c_b11, &anorm, n, n, &dwork[jwora1], n, info, 7L);
                     temp = ovrthr;
-                }
-                else
-                {
+                } else {
                     /*                 Error return: The solution would overflow. */
                     /*                 This will not happen on most machines, due to the */
                     /*                 selection of M. */
                     *info = 3;
                     return 0;
                 }
-            }
-            else
-            {
-                dgemm_("No transpose", "No transpose", n, n, n, &c_b11, &a[a_offset], lda, &a[a_offset], lda, &c_b10, &dwork[jwora1], n, 12L, 12L);
+            } else {
+                dgemm_("No transpose", "No transpose", n, n, n, &c_b11, &a[a_offset], lda,
+                    &a[a_offset], lda, &c_b10, &dwork[jwora1], n, 12L, 12L);
                 /* Computing 2nd power */
                 d__1 = anorm;
                 temp = d__1 * d__1;
             }
-            if (eabs < 1.)
-            {
+            if (eabs < 1.) {
                 eabs = (anorm * 2. + eabs) * eabs + xn * (eps * temp);
-            }
-            else if (eabs < sqrt(1. - xn * eps + ovrthr / temp) * anorm - anorm)
-            {
+            } else if (eabs < sqrt(1. - xn * eps + ovrthr / temp) * anorm - anorm) {
                 /* Computing 2nd power */
                 d__1 = eabs;
                 eabs = xn * (eps * temp) + anorm * eabs * 2. + d__1 * d__1;
-            }
-            else
-            {
+            } else {
                 eabs = ovrthr;
             }
             tmp1 = fn * var + gn * (temp * vareps);
-            if (tmp1 > ovrthr / temp)
-            {
+            if (tmp1 > ovrthr / temp) {
                 var = ovrthr;
-            }
-            else
-            {
+            } else {
                 var = tmp1 * temp;
             }
             dlacpy_("Full", n, n, &dwork[jwora1], n, &a[a_offset], lda, 4L);
             anorm = dlange_("1-norm", n, n, &a[a_offset], lda, &dwork[jwora1], 6L);
             /* L220: */
         }
-    }
-    else
-    {
+    } else {
         var = xn * 12. * vareps;
     }
     /*     Apply back transformations, if balancing was effectively used. */
@@ -514,107 +463,82 @@ ftnlen balanc_len;
     /*     Compute auxiliary quantities needed for the accuracy estimates. */
     big = 1.;
     small = 1.;
-    if (lbals)
-    {
+    if (lbals) {
         /*        Compute norms of the diagonal scaling matrix and its inverse. */
         i__1 = *n;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             u = dwork[jworv1 + i__ - 1];
-            if (big < u)
-            {
+            if (big < u) {
                 big = u;
             }
-            if (small > u)
-            {
+            if (small > u) {
                 small = u;
             }
             /* L240: */
         }
         sum2d = dnrm2_(n, &dwork[jworv1], &c__1);
-    }
-    else
-    {
+    } else {
         sum2d = sqrt(xn);
     }
     /*     Update the exponential for the initial translation, and update the */
     /*     auxiliary quantities needed for the accuracy estimates. */
     sd2 = sqrt(xn * 8. * vareps) * anorm;
     bd = sqrt(var);
-    ss = max(bd,sd2);
-    bd = min(bd,sd2);
+    ss = max(bd, sd2);
+    bd = min(bd, sd2);
     /* Computing 2nd power */
     d__1 = bd / ss;
     sd2 = ss * sqrt(d__1 * d__1 + 1.);
-    if (sd2 <= 1.)
-    {
+    if (sd2 <= 1.) {
         sd2 = 2. / xn * sum2d * sd2;
-    }
-    else if (sum2d / xn < ovrthr / 2. / sd2)
-    {
+    } else if (sum2d / xn < ovrthr / 2. / sd2) {
         sd2 = 2. / xn * sum2d * sd2;
-    }
-    else
-    {
+    } else {
         sd2 = ovrthr;
     }
-    if (lbals)
-    {
+    if (lbals) {
         size = 0.;
-    }
-    else
-    {
-        if (sd2 < ovrthr - emnorm)
-        {
+    } else {
+        if (sd2 < ovrthr - emnorm) {
             size = emnorm + sd2;
-        }
-        else
-        {
+        } else {
             size = ovrthr;
         }
     }
     i__1 = *n;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         ss = dasum_(n, &a[j * a_dim1 + 1], &c__1);
         dscal_(n, &eavgev, &a[j * a_dim1 + 1], &c__1);
-        if (lbals)
-        {
+        if (lbals) {
             bd = dwork[jworv1 + j - 1];
             /* Computing MAX */
             d__1 = size, d__2 = ss + sd2 / bd;
-            size = max(d__1,d__2);
+            size = max(d__1, d__2);
         }
         /* L260: */
     }
     /*     Set the accuracy estimates and warning errors, if any. */
     rerr = d_lg10(&big) + d_lg10(&eabs) - d_lg10(&small) - d_lg10(&emnorm) - d_lg10(&eps);
-    if (size > emnorm)
-    {
+    if (size > emnorm) {
         d__1 = (size / emnorm - 1.) / eps;
         rerl = d_lg10(&d__1);
-    }
-    else
-    {
+    } else {
         rerl = 0.;
     }
     /* Computing MIN */
-    i__1 = ndec - (integer) (rerr + .5);
-    *mdig = min(i__1,ndecm1);
+    i__1 = ndec - (integer)(rerr + .5);
+    *mdig = min(i__1, ndecm1);
     /* Computing MIN */
-    i__1 = ndec - (integer) (rerl + .5);
-    *idig = min(i__1,ndecm1);
-    if (*mdig <= 0)
-    {
+    i__1 = ndec - (integer)(rerl + .5);
+    *idig = min(i__1, ndecm1);
+    if (*mdig <= 0) {
         *mdig = 0;
         *iwarn = 1;
     }
-    if (*idig <= 0)
-    {
+    if (*idig <= 0) {
         *idig = 0;
         *iwarn = 2;
     }
     return 0;
     /* *** Last line of MB05OD *** */
 } /* mb05od_ */
-

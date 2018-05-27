@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,15 +11,16 @@ static doublereal c_b4 = 1.;
 static doublereal c_b5 = 0.;
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int nf01bx_(n, ipar, lipar, dpar, ldpar, j, ldj, x, incx, dwork, ldwork, info)
-integer *n, *ipar, *lipar;
-doublereal *dpar;
-integer *ldpar;
-doublereal *j;
-integer *ldj;
-doublereal *x;
-integer *incx;
-doublereal *dwork;
+EXPORTSYMBOL /* Subroutine */ int nf01bx_(
+    n, ipar, lipar, dpar, ldpar, j, ldj, x, incx, dwork, ldwork, info) integer *n,
+    *ipar, *lipar;
+doublereal* dpar;
+integer* ldpar;
+doublereal* j;
+integer* ldj;
+doublereal* x;
+integer* incx;
+doublereal* dwork;
 integer *ldwork, *info;
 {
     /* System generated locals */
@@ -117,60 +118,43 @@ integer *ldwork, *info;
     --dwork;
     /* Function Body */
     *info = 0;
-    if (*n < 0)
-    {
+    if (*n < 0) {
         *info = -1;
-    }
-    else if (*lipar < 1)
-    {
+    } else if (*lipar < 1) {
         *info = -3;
-    }
-    else if (*ldpar < 1)
-    {
+    } else if (*ldpar < 1) {
         *info = -5;
-    }
-    else if (*incx == 0)
-    {
+    } else if (*incx == 0) {
         *info = -9;
-    }
-    else
-    {
+    } else {
         m = ipar[1];
-        if (m < 0)
-        {
+        if (m < 0) {
             *info = -2;
-        }
-        else if (*ldj < max(1,m))
-        {
+        } else if (*ldj < max(1, m)) {
             *info = -7;
-        }
-        else if (*ldwork < m)
-        {
+        } else if (*ldwork < m) {
             *info = -11;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("NF01BX", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
+    if (*n == 0) {
         return 0;
     }
     c__ = dpar[1];
-    if (m == 0)
-    {
+    if (m == 0) {
         /*        Special case, void J: x <-- c*x. */
         dscal_(n, &c__, &x[1], incx);
         return 0;
     }
-    dgemv_("NoTranspose", &m, n, &c_b4, &j[j_offset], ldj, &x[1], incx, &c_b5, &dwork[1], &c__1, 11L);
+    dgemv_(
+        "NoTranspose", &m, n, &c_b4, &j[j_offset], ldj, &x[1], incx, &c_b5, &dwork[1], &c__1, 11L);
     dgemv_("Transpose", &m, n, &c_b4, &j[j_offset], ldj, &dwork[1], &c__1, &c__, &x[1], incx, 9L);
     return 0;
     /* *** Last line of NF01BX *** */
 } /* nf01bx_ */
-

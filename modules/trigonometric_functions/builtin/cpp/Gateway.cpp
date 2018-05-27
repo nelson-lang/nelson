@@ -17,23 +17,22 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NelsonGateway.hpp"
-#include "cosBuiltin.hpp"
-#include "sinBuiltin.hpp"
-#include "tanBuiltin.hpp"
-#include "coshBuiltin.hpp"
-#include "sinhBuiltin.hpp"
-#include "tanhBuiltin.hpp"
 #include "acosBuiltin.hpp"
 #include "asinBuiltin.hpp"
 #include "atanBuiltin.hpp"
+#include "cosBuiltin.hpp"
+#include "coshBuiltin.hpp"
 #include "cosmBuiltin.hpp"
+#include "sinBuiltin.hpp"
+#include "sinhBuiltin.hpp"
+#include "tanBuiltin.hpp"
+#include "tanhBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"trigonometric_functions";
 //=============================================================================
-static const nlsGateway gateway[] =
-{
+static const nlsGateway gateway[] = {
     { "cos", Nelson::TrigonometricGateway::cosBuiltin, 1, 1 },
     { "sin", Nelson::TrigonometricGateway::sinBuiltin, 1, 1 },
     { "tan", Nelson::TrigonometricGateway::tanBuiltin, 1, 1 },

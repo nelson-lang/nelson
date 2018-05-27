@@ -1,15 +1,14 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-EXPORTSYMBOL /* Subroutine */ int mc01sy_(m, e, b, a, ovflow)
-doublereal *m;
+EXPORTSYMBOL /* Subroutine */ int mc01sy_(m, e, b, a, ovflow) doublereal* m;
 integer *e, *b;
-doublereal *a;
-logical *ovflow;
+doublereal* a;
+logical* ovflow;
 {
     static doublereal base;
     static integer emin, emax, expon;
@@ -67,21 +66,19 @@ logical *ovflow;
     /*     .. Intrinsic Functions .. */
     /*     .. Executable Statements .. */
     *ovflow = FALSE_;
-    if (*m == 0. || *e == 0)
-    {
+    if (*m == 0. || *e == 0) {
         *a = *m;
         return 0;
     }
     /*     Determination of the mantissa MT and the exponent ET of the */
     /*     standard floating-point representation. */
-    emin = (integer) dlamch_("Minimum exponent", 16L);
-    emax = (integer) dlamch_("Largest exponent", 16L);
+    emin = (integer)dlamch_("Minimum exponent", 16L);
+    emax = (integer)dlamch_("Largest exponent", 16L);
     mt = *m;
     et = *e;
     /*     WHILE ( ABS( MT ) >= B ) DO */
 L20:
-    if (abs(mt) >= (doublereal) (*b))
-    {
+    if (abs(mt) >= (doublereal)(*b)) {
         mt /= *b;
         ++et;
         goto L20;
@@ -89,20 +86,17 @@ L20:
     /*     END WHILE 20 */
     /*     WHILE ( ABS( MT ) < 1 ) DO */
 L40:
-    if (abs(mt) < 1.)
-    {
+    if (abs(mt) < 1.) {
         mt *= *b;
         --et;
         goto L40;
     }
     /*     END WHILE 40 */
-    if (et < emin)
-    {
+    if (et < emin) {
         *a = 0.;
         return 0;
     }
-    if (et >= emax)
-    {
+    if (et >= emax) {
         *ovflow = TRUE_;
         return 0;
     }
@@ -110,22 +104,17 @@ L40:
     /*     M * B**E = A * (BASE)**EXPON */
     expon = abs(et);
     *a = mt;
-    base = (doublereal) (*b);
-    if (et < 0)
-    {
+    base = (doublereal)(*b);
+    if (et < 0) {
         base = 1. / base;
     }
     /*     WHILE ( not EXPON = 0 ) DO */
 L60:
-    if (expon != 0)
-    {
-        if (expon % 2 == 0)
-        {
+    if (expon != 0) {
+        if (expon % 2 == 0) {
             base *= base;
             expon /= 2;
-        }
-        else
-        {
+        } else {
             *a *= base;
             --expon;
         }
@@ -135,4 +124,3 @@ L60:
     return 0;
     /* *** Last line of MC01SY *** */
 } /* mc01sy_ */
-

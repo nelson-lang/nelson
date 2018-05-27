@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -10,10 +10,9 @@
 static integer c__1 = 1;
 static doublereal c_b11 = 1.;
 
-EXPORTSYMBOL /* Subroutine */ int mb01xy_(uplo, n, a, lda, info, uplo_len)
-char *uplo;
-integer *n;
-doublereal *a;
+EXPORTSYMBOL /* Subroutine */ int mb01xy_(uplo, n, a, lda, info, uplo_len) char* uplo;
+integer* n;
+doublereal* a;
 integer *lda, *info;
 ftnlen uplo_len;
 {
@@ -117,64 +116,53 @@ ftnlen uplo_len;
     /* Function Body */
     *info = 0;
     upper = lsame_(uplo, "U", 1L, 1L);
-    if (! upper && ! lsame_(uplo, "L", 1L, 1L))
-    {
+    if (!upper && !lsame_(uplo, "L", 1L, 1L)) {
         *info = -1;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -2;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -4;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("MB01XY", &i__1, 6L);
         return 0;
     }
     /*     Quick return, if possible. */
-    if (*n == 0)
-    {
+    if (*n == 0) {
         return 0;
     }
-    if (upper)
-    {
+    if (upper) {
         /*        Compute the product U' * U. */
         a[*n + *n * a_dim1] = ddot_(n, &a[*n * a_dim1 + 1], &c__1, &a[*n * a_dim1 + 1], &c__1);
-        for (i__ = *n - 1; i__ >= 2; --i__)
-        {
+        for (i__ = *n - 1; i__ >= 2; --i__) {
             aii = a[i__ + i__ * a_dim1];
-            a[i__ + i__ * a_dim1] = ddot_(&i__, &a[i__ * a_dim1 + 1], &c__1, &a[i__ * a_dim1 + 1], &c__1);
+            a[i__ + i__ * a_dim1]
+                = ddot_(&i__, &a[i__ * a_dim1 + 1], &c__1, &a[i__ * a_dim1 + 1], &c__1);
             i__1 = i__ - 1;
             i__2 = *n - i__;
-            dgemv_("Transpose", &i__1, &i__2, &c_b11, &a[(i__ + 1) * a_dim1 + 1], lda, &a[i__ * a_dim1 + 1], &c__1, &aii, &a[i__ + (i__ + 1) * a_dim1], lda, 9L);
+            dgemv_("Transpose", &i__1, &i__2, &c_b11, &a[(i__ + 1) * a_dim1 + 1], lda,
+                &a[i__ * a_dim1 + 1], &c__1, &aii, &a[i__ + (i__ + 1) * a_dim1], lda, 9L);
             /* L10: */
         }
-        if (*n > 1)
-        {
+        if (*n > 1) {
             aii = a[a_dim1 + 1];
             dscal_(n, &aii, &a[a_dim1 + 1], lda);
         }
-    }
-    else
-    {
+    } else {
         /*        Compute the product L * L'. */
         a[*n + *n * a_dim1] = ddot_(n, &a[*n + a_dim1], lda, &a[*n + a_dim1], lda);
-        for (i__ = *n - 1; i__ >= 2; --i__)
-        {
+        for (i__ = *n - 1; i__ >= 2; --i__) {
             aii = a[i__ + i__ * a_dim1];
             a[i__ + i__ * a_dim1] = ddot_(&i__, &a[i__ + a_dim1], lda, &a[i__ + a_dim1], lda);
             i__1 = *n - i__;
             i__2 = i__ - 1;
-            dgemv_("No Transpose", &i__1, &i__2, &c_b11, &a[i__ + 1 + a_dim1], lda, &a[i__ + a_dim1], lda, &aii, &a[i__ + 1 + i__ * a_dim1], &c__1, 12L);
+            dgemv_("No Transpose", &i__1, &i__2, &c_b11, &a[i__ + 1 + a_dim1], lda,
+                &a[i__ + a_dim1], lda, &aii, &a[i__ + 1 + i__ * a_dim1], &c__1, 12L);
             /* L20: */
         }
-        if (*n > 1)
-        {
+        if (*n > 1) {
             aii = a[a_dim1 + 1];
             dscal_(n, &aii, &a[a_dim1 + 1], &c__1);
         }
@@ -182,4 +170,3 @@ ftnlen uplo_len;
     return 0;
     /* *** Last line of MB01XY *** */
 } /* mb01xy_ */
-

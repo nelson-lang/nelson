@@ -18,12 +18,15 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsSingle_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsSingle_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSSINGLE_IMPEXP ArrayOf colon_single(ArrayOf a, ArrayOf b);
-    NLSSINGLE_IMPEXP ArrayOf colon_single(ArrayOf a, ArrayOf b, ArrayOf c);
-    NLSSINGLE_IMPEXP ArrayOf single_colon(single low, single high, single step = 1.0);
-}
+NLSSINGLE_IMPEXP ArrayOf
+colon_single(ArrayOf a, ArrayOf b);
+NLSSINGLE_IMPEXP ArrayOf
+colon_single(ArrayOf a, ArrayOf b, ArrayOf c);
+NLSSINGLE_IMPEXP ArrayOf
+single_colon(single low, single high, single step = 1.0);
+} // namespace Nelson
 //=============================================================================

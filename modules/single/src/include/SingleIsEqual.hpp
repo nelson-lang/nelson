@@ -18,10 +18,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsSingle_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsSingle_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSSINGLE_IMPEXP bool single_isequal(ArrayOf a, ArrayOf b);
+NLSSINGLE_IMPEXP bool
+single_isequal(ArrayOf a, ArrayOf b);
 }
 //=============================================================================

@@ -21,10 +21,12 @@
 #include "nlsInterpreter_exports.h"
 //=============================================================================
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
-//=============================================================================
-NLSINTERPRETER_IMPEXP	void *GetNelsonMainEvaluatorDynamicFunction();
+    //=============================================================================
+    NLSINTERPRETER_IMPEXP void*
+    GetNelsonMainEvaluatorDynamicFunction();
 //=============================================================================
 #ifdef __cplusplus
 }

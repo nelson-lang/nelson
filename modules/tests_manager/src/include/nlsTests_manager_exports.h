@@ -25,6 +25,6 @@
 #define NLSTESTS_MANAGER_IMPEXP __declspec(dllimport)
 #endif
 #else
-#define NLSTESTS_MANAGER_IMPEXP __attribute__ ((visibility ("default")))
+#define NLSTESTS_MANAGER_IMPEXP __attribute__((visibility("default")))
 #endif
 //=============================================================================

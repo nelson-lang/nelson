@@ -16,130 +16,119 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <FileWatcher.h>
-#include <boost/filesystem.hpp>
 #include "FileWatcherManager.hpp"
 #include "PathFuncManager.hpp"
 #include "characters_encoding.hpp"
+#include <FileWatcher.h>
+#include <boost/filesystem.hpp>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    class UpdatePathListener : public FW::FileWatchListener {
-    public:
-        UpdatePathListener() {
-        }
-        void handleFileAction(WatchID watchid,
-                              const FW::String& dir,
-                              const FW::String& filename,
-                              FW::Action action) {
-            switch (action) {
-                case FW::Action::Add: {
-                    boost::filesystem::path pf = boost::filesystem::path(filename);
-                    std::string file_extension = boost::filesystem::extension(pf);
-                    if (file_extension == ".nlf") {
-                        boost::filesystem::path parent_dir = boost::filesystem::path(dir);
-                        PathFuncManager::getInstance()->rehash(parent_dir.generic_wstring());
-                        /*
-                        #ifdef _MSC_VER
-                        printf("Added: %ls\n", filename.c_str());
-                        #else
-                        printf("Added: %s\n", filename.c_str());
-                        #endif
-                        */
-                    }
-                }
-                break;
-                case FW::Action::Delete: {
-                    boost::filesystem::path pf = boost::filesystem::path(filename);
-                    std::string file_extension = boost::filesystem::extension(pf);
-                    if (file_extension == ".nlf") {
-                        boost::filesystem::path parent_dir = boost::filesystem::path(dir);
-                        PathFuncManager::getInstance()->rehash(parent_dir.generic_wstring());
-                        /*
-                        #ifdef _MSC_VER
-                        printf("Delete: %ls\n", filename.c_str());
-                        #else
-                        printf("Delete: %s\n", filename.c_str());
-                        #endif
-                        */
-                    }
-                }
-                break;
-                case FW::Action::Modified:
-                    boost::filesystem::path pf = boost::filesystem::path(filename);
-                    std::string file_extension = boost::filesystem::extension(pf);
-                    if (file_extension == ".nlf") {
-                        /*
-                        #ifdef _MSC_VER
-                        printf("Modified: %ls\n", filename.c_str());
-                        #else
-                        printf("Modified: %s\n", filename.c_str());
-                        #endif
-                        */
-                    }
-                    break;
+//=============================================================================
+class UpdatePathListener : public FW::FileWatchListener
+{
+public:
+    UpdatePathListener() {}
+    void
+    handleFileAction(
+        WatchID watchid, const FW::String& dir, const FW::String& filename, FW::Action action)
+    {
+        switch (action) {
+        case FW::Action::Add: {
+            boost::filesystem::path pf = boost::filesystem::path(filename);
+            std::string file_extension = boost::filesystem::extension(pf);
+            if (file_extension == ".nlf") {
+                boost::filesystem::path parent_dir = boost::filesystem::path(dir);
+                PathFuncManager::getInstance()->rehash(parent_dir.generic_wstring());
+                /*
+                #ifdef _MSC_VER
+                printf("Added: %ls\n", filename.c_str());
+                #else
+                printf("Added: %s\n", filename.c_str());
+                #endif
+                */
             }
+        } break;
+        case FW::Action::Delete: {
+            boost::filesystem::path pf = boost::filesystem::path(filename);
+            std::string file_extension = boost::filesystem::extension(pf);
+            if (file_extension == ".nlf") {
+                boost::filesystem::path parent_dir = boost::filesystem::path(dir);
+                PathFuncManager::getInstance()->rehash(parent_dir.generic_wstring());
+                /*
+                #ifdef _MSC_VER
+                printf("Delete: %ls\n", filename.c_str());
+                #else
+                printf("Delete: %s\n", filename.c_str());
+                #endif
+                */
+            }
+        } break;
+        case FW::Action::Modified:
+            boost::filesystem::path pf = boost::filesystem::path(filename);
+            std::string file_extension = boost::filesystem::extension(pf);
+            if (file_extension == ".nlf") {
+                /*
+                #ifdef _MSC_VER
+                printf("Modified: %ls\n", filename.c_str());
+                #else
+                printf("Modified: %s\n", filename.c_str());
+                #endif
+                */
+            }
+            break;
         }
-    };
-    //=============================================================================
-    FileWatcherManager* FileWatcherManager::m_pInstance = nullptr;
-    //=============================================================================
-    FileWatcherManager::FileWatcherManager()
-    {
-        fileWatcher = (void *)new FW::FileWatcher();
     }
-    //=============================================================================
-    FileWatcherManager *FileWatcherManager::getInstance()
-    {
-        if (m_pInstance == nullptr)
-        {
-            m_pInstance = new FileWatcherManager();
-        }
-        return m_pInstance;
+};
+//=============================================================================
+FileWatcherManager* FileWatcherManager::m_pInstance = nullptr;
+//=============================================================================
+FileWatcherManager::FileWatcherManager() { fileWatcher = (void*)new FW::FileWatcher(); }
+//=============================================================================
+FileWatcherManager*
+FileWatcherManager::getInstance()
+{
+    if (m_pInstance == nullptr) {
+        m_pInstance = new FileWatcherManager();
     }
-    //=============================================================================
-    void FileWatcherManager::addWacth(std::wstring directory)
-    {
-        UpdatePathListener *watcher = new UpdatePathListener();
-        WatchID id = -1;
-        try
-        {
+    return m_pInstance;
+}
+//=============================================================================
+void
+FileWatcherManager::addWacth(std::wstring directory)
+{
+    UpdatePathListener* watcher = new UpdatePathListener();
+    WatchID id = -1;
+    try {
 #ifdef _MSC_VER
-            id = ((FW::FileWatcher *)fileWatcher)->addWatch(directory, watcher);
+        id = ((FW::FileWatcher*)fileWatcher)->addWatch(directory, watcher);
 #else
-            id = ((FW::FileWatcher *)fileWatcher)->addWatch(wstring_to_utf8(directory), watcher);
+        id = ((FW::FileWatcher*)fileWatcher)->addWatch(wstring_to_utf8(directory), watcher);
 #endif
-        }
-        catch (FW::FWException &)
-        {
-        }
+    } catch (FW::FWException&) {
     }
-    //=============================================================================
-    void FileWatcherManager::removeWatch(std::wstring directory)
-    {
-        try
-        {
+}
+//=============================================================================
+void
+FileWatcherManager::removeWatch(std::wstring directory)
+{
+    try {
 #ifdef _MSC_VER
-            ((FW::FileWatcher *)fileWatcher)->removeWatch(directory);
+        ((FW::FileWatcher*)fileWatcher)->removeWatch(directory);
 #else
-            ((FW::FileWatcher *)fileWatcher)->removeWatch(wstring_to_utf8(directory));
+        ((FW::FileWatcher*)fileWatcher)->removeWatch(wstring_to_utf8(directory));
 #endif
-        }
-        catch (FW::FWException &)
-        {
-        }
+    } catch (FW::FWException&) {
     }
-    //=============================================================================
-    void FileWatcherManager::update()
-    {
-        try
-        {
-            ((FW::FileWatcher *)fileWatcher)->update();
-        }
-        catch (FW::FWException &)
-        {
-        }
+}
+//=============================================================================
+void
+FileWatcherManager::update()
+{
+    try {
+        ((FW::FileWatcher*)fileWatcher)->update();
+    } catch (FW::FWException&) {
     }
-    //=============================================================================
+}
+//=============================================================================
 }
 //=============================================================================

@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,15 +9,15 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int mb02td_(norm, n, hnorm, h__, ldh, ipiv, rcond, iwork, dwork, info, norm_len)
-char *norm;
-integer *n;
+EXPORTSYMBOL /* Subroutine */ int mb02td_(
+    norm, n, hnorm, h__, ldh, ipiv, rcond, iwork, dwork, info, norm_len) char* norm;
+integer* n;
 doublereal *hnorm, *h__;
 integer *ldh, *ipiv;
-doublereal *rcond;
-integer *iwork;
-doublereal *dwork;
-integer *info;
+doublereal* rcond;
+integer* iwork;
+doublereal* dwork;
+integer* info;
 ftnlen norm_len;
 {
     /* System generated locals */
@@ -126,67 +126,49 @@ ftnlen norm_len;
     --dwork;
     /* Function Body */
     *info = 0;
-    onenrm = *(unsigned char *)norm == '1' || lsame_(norm, "O", 1L, 1L);
-    if (! onenrm && ! lsame_(norm, "I", 1L, 1L))
-    {
+    onenrm = *(unsigned char*)norm == '1' || lsame_(norm, "O", 1L, 1L);
+    if (!onenrm && !lsame_(norm, "I", 1L, 1L)) {
         *info = -1;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -2;
-    }
-    else if (*hnorm < 0.)
-    {
+    } else if (*hnorm < 0.) {
         *info = -3;
-    }
-    else if (*ldh < max(1,*n))
-    {
+    } else if (*ldh < max(1, *n)) {
         *info = -5;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB02TD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
     *rcond = 0.;
-    if (*n == 0)
-    {
+    if (*n == 0) {
         *rcond = 1.;
         return 0;
-    }
-    else if (*hnorm == 0.)
-    {
+    } else if (*hnorm == 0.) {
         return 0;
     }
     smlnum = dlamch_("Safe minimum", 12L);
     /*     Estimate the norm of inv(H). */
     hinvnm = 0.;
-    *(unsigned char *)normin = 'N';
-    if (onenrm)
-    {
+    *(unsigned char*)normin = 'N';
+    if (onenrm) {
         kase1 = 1;
-    }
-    else
-    {
+    } else {
         kase1 = 2;
     }
     kase = 0;
 L10:
     dlacon_(n, &dwork[*n + 1], &dwork[1], &iwork[1], &hinvnm, &kase);
-    if (kase != 0)
-    {
-        if (kase == kase1)
-        {
+    if (kase != 0) {
+        if (kase == kase1) {
             /*           Multiply by inv(L). */
             i__1 = *n - 1;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 jp = ipiv[j];
                 t = dwork[jp];
-                if (jp != j)
-                {
+                if (jp != j) {
                     dwork[jp] = dwork[j];
                     dwork[j] = t;
                 }
@@ -194,19 +176,17 @@ L10:
                 /* L20: */
             }
             /*           Multiply by inv(U). */
-            dlatrs_("Upper", "No transpose", "Non-unit", normin, n, &h__[h_offset], ldh, &dwork[1], &scale, &dwork[(*n << 1) + 1], info, 5L, 12L, 8L, 1L);
-        }
-        else
-        {
+            dlatrs_("Upper", "No transpose", "Non-unit", normin, n, &h__[h_offset], ldh, &dwork[1],
+                &scale, &dwork[(*n << 1) + 1], info, 5L, 12L, 8L, 1L);
+        } else {
             /*           Multiply by inv(U'). */
-            dlatrs_("Upper", "Transpose", "Non-unit", normin, n, &h__[h_offset], ldh, &dwork[1], &scale, &dwork[(*n << 1) + 1], info, 5L, 9L, 8L, 1L);
+            dlatrs_("Upper", "Transpose", "Non-unit", normin, n, &h__[h_offset], ldh, &dwork[1],
+                &scale, &dwork[(*n << 1) + 1], info, 5L, 9L, 8L, 1L);
             /*           Multiply by inv(L'). */
-            for (j = *n - 1; j >= 1; --j)
-            {
+            for (j = *n - 1; j >= 1; --j) {
                 dwork[j] -= h__[j + 1 + j * h_dim1] * dwork[j + 1];
                 jp = ipiv[j];
-                if (jp != j)
-                {
+                if (jp != j) {
                     t = dwork[jp];
                     dwork[jp] = dwork[j];
                     dwork[j] = t;
@@ -215,12 +195,10 @@ L10:
             }
         }
         /*        Divide X by 1/SCALE if doing so will not cause overflow. */
-        *(unsigned char *)normin = 'Y';
-        if (scale != 1.)
-        {
+        *(unsigned char*)normin = 'Y';
+        if (scale != 1.) {
             ix = idamax_(n, &dwork[1], &c__1);
-            if (scale < (d__1 = dwork[ix], abs(d__1)) * smlnum || scale == 0.)
-            {
+            if (scale < (d__1 = dwork[ix], abs(d__1)) * smlnum || scale == 0.) {
                 goto L40;
             }
             drscl_(n, &scale, &dwork[1], &c__1);
@@ -228,12 +206,10 @@ L10:
         goto L10;
     }
     /*     Compute the estimate of the reciprocal condition number. */
-    if (hinvnm != 0.)
-    {
+    if (hinvnm != 0.) {
         *rcond = 1. / hinvnm / *hnorm;
     }
 L40:
     return 0;
     /* *** Last line of MB02TD *** */
 } /* mb02td_ */
-

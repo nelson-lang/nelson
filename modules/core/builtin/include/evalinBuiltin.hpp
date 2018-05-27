@@ -22,8 +22,9 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace CoreGateway {
-        ArrayOfVector evalinBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    }
+namespace CoreGateway {
+    ArrayOfVector
+    evalinBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }
+} // namespace Nelson
 //=============================================================================

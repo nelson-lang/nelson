@@ -1,19 +1,20 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-EXPORTSYMBOL /* Subroutine */ int nf01ad_(nsmp, m, l, ipar, lipar, x, lx, u, ldu, y, ldy, dwork, ldwork, info)
-integer *nsmp, *m, *l, *ipar, *lipar;
-doublereal *x;
-integer *lx;
-doublereal *u;
-integer *ldu;
-doublereal *y;
-integer *ldy;
-doublereal *dwork;
+EXPORTSYMBOL /* Subroutine */ int nf01ad_(
+    nsmp, m, l, ipar, lipar, x, lx, u, ldu, y, ldy, dwork, ldwork, info) integer *nsmp,
+    *m, *l, *ipar, *lipar;
+doublereal* x;
+integer* lx;
+doublereal* u;
+integer* ldu;
+doublereal* y;
+integer* ldy;
+doublereal* dwork;
 integer *ldwork, *info;
 {
     /* System generated locals */
@@ -137,102 +138,80 @@ integer *ldwork, *info;
     --dwork;
     /* Function Body */
     *info = 0;
-    if (*nsmp < 0)
-    {
+    if (*nsmp < 0) {
         *info = -1;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -2;
-    }
-    else if (*l < 0)
-    {
+    } else if (*l < 0) {
         *info = -3;
-    }
-    else if (*lipar < 2)
-    {
+    } else if (*lipar < 2) {
         *info = -5;
-    }
-    else
-    {
+    } else {
         n = ipar[1];
         nn = ipar[2];
         ldac = n + *l;
-        nths = (nn * (*l + 2) + 1) **l;
-        lths = n * (*m + *l + 1) + *l **m;
-        if (n < 0 || nn < 0)
-        {
+        nths = (nn * (*l + 2) + 1) * *l;
+        lths = n * (*m + *l + 1) + *l * *m;
+        if (n < 0 || nn < 0) {
             *info = -4;
-        }
-        else if (*lx < nths + lths)
-        {
+        } else if (*lx < nths + lths) {
             *info = -7;
-        }
-        else if (*ldu < max(1,*nsmp))
-        {
+        } else if (*ldu < max(1, *nsmp)) {
             *info = -9;
-        }
-        else if (*ldy < max(1,*nsmp))
-        {
+        } else if (*ldy < max(1, *nsmp)) {
             *info = -11;
-        }
-        else
-        {
-            if (*m > 0)
-            {
+        } else {
+            if (*m > 0) {
                 /* Computing MAX */
                 i__1 = n * ldac, i__2 = n + *m + *l;
-                jw = max(i__1,i__2);
-            }
-            else
-            {
+                jw = max(i__1, i__2);
+            } else {
                 /* Computing MAX */
                 i__1 = n * ldac;
-                jw = max(i__1,*l);
+                jw = max(i__1, *l);
             }
             /* Computing MAX */
             i__1 = nn << 1, i__2 = ldac * (n + *m) + (n << 1) + jw;
-            if (*ldwork < *nsmp **l + max(i__1,i__2))
-            {
+            if (*ldwork < *nsmp * *l + max(i__1, i__2)) {
                 *info = -13;
             }
         }
     }
     /*     Return if there are illegal arguments. */
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("NF01AD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (min(*nsmp,*l) == 0)
-    {
+    if (min(*nsmp, *l) == 0) {
         return 0;
     }
     /*     Compute the output of the linear part. */
     /*     Workspace: need   NSMP*L + (N + L)*(N + M) + N + N*(N + L + 1). */
     /*     (NSMP*L locations are reserved for the output of the linear part.) */
     z__ = 1;
-    ac = z__ + *nsmp **l;
+    ac = z__ + *nsmp * *l;
     bd = ac + ldac * n;
-    ix = bd + ldac **m;
+    ix = bd + ldac * *m;
     jw = ix + n;
     i__1 = *ldwork - jw + 1;
-    tb01vy_("Apply", &n, m, l, &x[nths + 1], &lths, &dwork[ac], &ldac, &dwork[bd], &ldac, &dwork[ac + n], &ldac, &dwork[bd + n], &ldac, &dwork[ix], &dwork[jw], &i__1, info, 5L);
+    tb01vy_("Apply", &n, m, l, &x[nths + 1], &lths, &dwork[ac], &ldac, &dwork[bd], &ldac,
+        &dwork[ac + n], &ldac, &dwork[bd + n], &ldac, &dwork[ix], &dwork[jw], &i__1, info, 5L);
     /*     Workspace: need   NSMP*L + (N + L)*(N + M) + 3*N + M + L, if M>0; */
     /*                       NSMP*L + (N + L)*N + 2*N + L,           if M=0; */
     /*                prefer larger. */
     i__1 = *ldwork - jw + 1;
-    tf01mx_(&n, m, l, nsmp, &dwork[ac], &ldac, &u[u_offset], ldu, &dwork[ix], &dwork[z__], nsmp, &dwork[jw], &i__1, info);
+    tf01mx_(&n, m, l, nsmp, &dwork[ac], &ldac, &u[u_offset], ldu, &dwork[ix], &dwork[z__], nsmp,
+        &dwork[jw], &i__1, info);
     /*     Simulate the static nonlinearity. */
     /*     Workspace: need   NSMP*L + 2*NN; */
     /*                prefer larger. */
     jw = ac;
     i__1 = *lipar - 1;
     i__2 = *ldwork - jw + 1;
-    nf01ay_(nsmp, l, l, &ipar[2], &i__1, &x[1], &nths, &dwork[z__], nsmp, &y[y_offset], ldy, &dwork[jw], &i__2, info);
+    nf01ay_(nsmp, l, l, &ipar[2], &i__1, &x[1], &nths, &dwork[z__], nsmp, &y[y_offset], ldy,
+        &dwork[jw], &i__2, info);
     return 0;
     /* *** Last line of NF01AD *** */
 } /* nf01ad_ */
-

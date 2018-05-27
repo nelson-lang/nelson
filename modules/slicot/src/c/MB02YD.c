@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,13 +11,13 @@ static integer c__1 = 1;
 static doublereal c_b19 = 0.;
 static integer c__0 = 0;
 
-EXPORTSYMBOL /* Subroutine */ int mb02yd_(cond, n, r__, ldr, ipvt, diag, qtb, rank, x, tol, dwork, ldwork, info, cond_len)
-char *cond;
-integer *n;
-doublereal *r__;
+EXPORTSYMBOL /* Subroutine */ int mb02yd_(
+    cond, n, r__, ldr, ipvt, diag, qtb, rank, x, tol, dwork, ldwork, info, cond_len) char* cond;
+integer* n;
+doublereal* r__;
 integer *ldr, *ipvt;
 doublereal *diag, *qtb;
-integer *rank;
+integer* rank;
 doublereal *x, *tol, *dwork;
 integer *ldwork, *info;
 ftnlen cond_len;
@@ -189,38 +189,26 @@ ftnlen cond_len;
     ncond = lsame_(cond, "N", 1L, 1L);
     ucond = lsame_(cond, "U", 1L, 1L);
     *info = 0;
-    if (! (econd || ncond || ucond))
-    {
+    if (!(econd || ncond || ucond)) {
         *info = -1;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -2;
-    }
-    else if (*ldr < max(1,*n))
-    {
+    } else if (*ldr < max(1, *n)) {
         *info = -4;
-    }
-    else if (ucond && (*rank < 0 || *rank > *n))
-    {
+    } else if (ucond && (*rank < 0 || *rank > *n)) {
         *info = -8;
-    }
-    else if (*ldwork < *n << 1 || econd && *ldwork < *n << 2)
-    {
+    } else if (*ldwork < *n << 1 || econd && *ldwork < *n << 2) {
         *info = -12;
     }
     /*     Return if there are illegal arguments. */
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB02YD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0)
-    {
-        if (! ucond)
-        {
+    if (*n == 0) {
+        if (!ucond) {
             *rank = 0;
         }
         return 0;
@@ -228,12 +216,10 @@ ftnlen cond_len;
     /*     Copy R and Q'*b to preserve input and initialize S. */
     /*     In particular, save the diagonal elements of R in X. */
     i__1 = *n;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         x[j] = r__[j + j * r_dim1];
         i__2 = *n;
-        for (i__ = j; i__ <= i__2; ++i__)
-        {
+        for (i__ = j; i__ <= i__2; ++i__) {
             r__[i__ + j * r_dim1] = r__[j + i__ * r_dim1];
             /* L10: */
         }
@@ -242,18 +228,15 @@ ftnlen cond_len;
     dcopy_(n, &qtb[1], &c__1, &dwork[*n + 1], &c__1);
     /*     Eliminate the diagonal matrix D using Givens rotations. */
     i__1 = *n;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         /*        Prepare the row of D to be eliminated, locating the */
         /*        diagonal element using P from the QR factorization. */
         l = ipvt[j];
-        if (diag[l] != 0.)
-        {
+        if (diag[l] != 0.) {
             qtbpj = 0.;
             dwork[j] = diag[l];
             i__2 = *n;
-            for (k = j + 1; k <= i__2; ++k)
-            {
+            for (k = j + 1; k <= i__2; ++k) {
                 dwork[k] = 0.;
                 /* L30: */
             }
@@ -261,12 +244,10 @@ ftnlen cond_len;
             /*           a single element of Q'*b beyond the first n, which is */
             /*           initially zero. */
             i__2 = *n;
-            for (k = j; k <= i__2; ++k)
-            {
+            for (k = j; k <= i__2; ++k) {
                 /*              Determine a Givens rotation which eliminates the */
                 /*              appropriate element in the current row of D. */
-                if (dwork[k] != 0.)
-                {
+                if (dwork[k] != 0.) {
                     dlartg_(&r__[k + k * r_dim1], &dwork[k], &cs, &sn, &temp);
                     /*                 Compute the modified diagonal element of R and */
                     /*                 the modified elements of (Q'*b,0). */
@@ -283,26 +264,22 @@ ftnlen cond_len;
         /*        Store the diagonal element of S and, if COND <> 'E', restore */
         /*        the corresponding diagonal element of R. */
         dwork[j] = r__[j + j * r_dim1];
-        if (! econd)
-        {
+        if (!econd) {
             r__[j + j * r_dim1] = x[j];
         }
         /* L50: */
     }
     /*     Solve the triangular system for z. If the system is singular, */
     /*     then obtain a least squares solution. */
-    if (econd)
-    {
+    if (econd) {
         toldef = *tol;
-        if (toldef <= 0.)
-        {
+        if (toldef <= 0.) {
             /*           Use the default tolerance in rank determination. */
-            toldef = (doublereal) (*n) * dlamch_("Epsilon", 7L);
+            toldef = (doublereal)(*n) * dlamch_("Epsilon", 7L);
         }
         /*        Interchange the strict upper and lower triangular parts of R. */
         i__1 = *n;
-        for (j = 2; j <= i__1; ++j)
-        {
+        for (j = 2; j <= i__1; ++j) {
             i__2 = j - 1;
             dswap_(&i__2, &r__[j * r_dim1 + 1], &c__1, &r__[j + r_dim1], ldr);
             /* L60: */
@@ -310,45 +287,38 @@ ftnlen cond_len;
         /*        Estimate the reciprocal condition number of S and set the rank. */
         /*        Additional workspace: 2*N. */
         i__1 = *ldwork - (*n << 1);
-        mb03od_("No QR", n, n, &r__[r_offset], ldr, &ipvt[1], &toldef, &c_b19, &dwork[1], rank, dum, &dwork[(*n << 1) + 1], &i__1, info, 5L);
+        mb03od_("No QR", n, n, &r__[r_offset], ldr, &ipvt[1], &toldef, &c_b19, &dwork[1], rank, dum,
+            &dwork[(*n << 1) + 1], &i__1, info, 5L);
         r__[r_dim1 + 1] = x[1];
         /*        Restore the strict upper and lower triangular parts of R. */
         i__1 = *n;
-        for (j = 2; j <= i__1; ++j)
-        {
+        for (j = 2; j <= i__1; ++j) {
             i__2 = j - 1;
             dswap_(&i__2, &r__[j * r_dim1 + 1], &c__1, &r__[j + r_dim1], ldr);
             r__[j + j * r_dim1] = x[j];
             /* L70: */
         }
-    }
-    else if (ncond)
-    {
+    } else if (ncond) {
         /*        Determine rank(S) by checking zero diagonal entries. */
         *rank = *n;
         i__1 = *n;
-        for (j = 1; j <= i__1; ++j)
-        {
-            if (dwork[j] == 0. && *rank == *n)
-            {
+        for (j = 1; j <= i__1; ++j) {
+            if (dwork[j] == 0. && *rank == *n) {
                 *rank = j - 1;
             }
             /* L80: */
         }
     }
     dum[0] = 0.;
-    if (*rank < *n)
-    {
+    if (*rank < *n) {
         i__1 = *n - *rank;
         dcopy_(&i__1, dum, &c__0, &dwork[*n + *rank + 1], &c__1);
     }
     /*     Solve S*z = c using back substitution. */
-    for (j = *rank; j >= 1; --j)
-    {
+    for (j = *rank; j >= 1; --j) {
         temp = 0.;
         i__1 = *rank;
-        for (i__ = j + 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = j + 1; i__ <= i__1; ++i__) {
             temp += r__[i__ + j * r_dim1] * dwork[*n + i__];
             /* L90: */
         }
@@ -357,8 +327,7 @@ ftnlen cond_len;
     }
     /*     Permute the components of z back to components of x. */
     i__1 = *n;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         l = ipvt[j];
         x[l] = dwork[*n + j];
         /* L110: */
@@ -366,4 +335,3 @@ ftnlen cond_len;
     return 0;
     /* *** Last line of MB02YD *** */
 } /* mb02yd_ */
-

@@ -22,8 +22,9 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace FftwGateway {
-        ArrayOfVector ifftBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    }
+namespace FftwGateway {
+    ArrayOfVector
+    ifftBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }
+} // namespace Nelson
 //=============================================================================

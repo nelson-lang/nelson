@@ -22,8 +22,9 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace InterpreterGateway {
-        ArrayOfVector parsefileBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    }
+namespace InterpreterGateway {
+    ArrayOfVector
+    parsefileBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }
-//=============================================================================
+} // namespace Nelson
+  //=============================================================================

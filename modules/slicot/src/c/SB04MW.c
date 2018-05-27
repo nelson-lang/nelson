@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,9 +9,8 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int sb04mw_(m, d__, ipr, info)
-integer *m;
-doublereal *d__;
+EXPORTSYMBOL /* Subroutine */ int sb04mw_(m, d__, ipr, info) integer* m;
+doublereal* d__;
 integer *ipr, *info;
 {
     /* System generated locals */
@@ -101,15 +100,13 @@ integer *ipr, *info;
     m1 = *m;
     i1 = 1;
     i__1 = *m;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         ++mpi;
         ++iprm;
         ipr[mpi] = i1;
         ipr[i__] = iprm;
         i1 += m1;
-        if (i__ > 1)
-        {
+        if (i__ > 1) {
             --m1;
         }
         /* L20: */
@@ -118,16 +115,14 @@ integer *ipr, *info;
     mpi = *m;
     /*     Reduce to upper triangular form. */
     i__1 = m1;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         i1 = i__ + 1;
         ++mpi;
         iprm = ipr[mpi];
         iprm1 = ipr[mpi + 1];
         d1 = d__[iprm];
         d2 = d__[iprm1];
-        if (abs(d1) <= abs(d2))
-        {
+        if (abs(d1) <= abs(d2)) {
             /*           Permute the row indices. */
             k = iprm;
             ipr[mpi] = iprm1;
@@ -139,8 +134,7 @@ integer *ipr, *info;
             d1 = d2;
         }
         /*        Check singularity. */
-        if (d1 == 0.)
-        {
+        if (d1 == 0.) {
             *info = 1;
             return 0;
         }
@@ -154,23 +148,20 @@ integer *ipr, *info;
         /* L40: */
     }
     /*     Check singularity. */
-    if (d__[ipr[m2]] == 0.)
-    {
+    if (d__[ipr[m2]] == 0.) {
         *info = 1;
         return 0;
     }
     /*     Back substitution. */
     d__[ipr[*m]] /= d__[ipr[m2]];
     mpi = m2;
-    for (i__ = m1; i__ >= 1; --i__)
-    {
+    for (i__ = m1; i__ >= 1; --i__) {
         --mpi;
         iprm = ipr[mpi];
         iprm1 = iprm;
         mult = 0.;
         i__1 = *m;
-        for (i1 = i__ + 1; i1 <= i__1; ++i1)
-        {
+        for (i1 = i__ + 1; i1 <= i__1; ++i1) {
             ++iprm1;
             mult += d__[ipr[i1]] * d__[iprm1];
             /* L60: */
@@ -181,4 +172,3 @@ integer *ipr, *info;
     return 0;
     /* *** Last line of SB04MW *** */
 } /* sb04mw_ */
-

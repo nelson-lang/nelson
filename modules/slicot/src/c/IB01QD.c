@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -16,30 +16,33 @@ static integer c__2 = 2;
 static doublereal c_b113 = .66666666666666663;
 static doublereal c_b130 = -1.;
 
-EXPORTSYMBOL /* Subroutine */ int ib01qd_(jobx0, job, n, m, l, nsmp, a, lda, c__, ldc, u, ldu, y, ldy, x0, b, ldb, d__, ldd, tol, iwork, dwork, ldwork, iwarn, info, jobx0_len, job_len)
-char *jobx0, *job;
+EXPORTSYMBOL /* Subroutine */ int ib01qd_(jobx0, job, n, m, l, nsmp, a, lda, c__, ldc, u, ldu, y,
+    ldy, x0, b, ldb, d__, ldd, tol, iwork, dwork, ldwork, iwarn, info, jobx0_len,
+    job_len) char *jobx0,
+    *job;
 integer *n, *m, *l, *nsmp;
-doublereal *a;
-integer *lda;
-doublereal *c__;
-integer *ldc;
-doublereal *u;
-integer *ldu;
-doublereal *y;
-integer *ldy;
+doublereal* a;
+integer* lda;
+doublereal* c__;
+integer* ldc;
+doublereal* u;
+integer* ldu;
+doublereal* y;
+integer* ldy;
 doublereal *x0, *b;
-integer *ldb;
-doublereal *d__;
-integer *ldd;
-doublereal *tol;
-integer *iwork;
-doublereal *dwork;
+integer* ldb;
+doublereal* d__;
+integer* ldd;
+doublereal* tol;
+integer* iwork;
+doublereal* dwork;
 integer *ldwork, *iwarn, *info;
 ftnlen jobx0_len;
 ftnlen job_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, u_dim1, u_offset, y_dim1, y_offset, i__1, i__2, i__3, i__4, i__5;
+    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, d_offset, u_dim1,
+        u_offset, y_dim1, y_offset, i__1, i__2, i__3, i__4, i__5;
     /* Builtin functions */
     double log();
     integer pow_ii();
@@ -394,81 +397,50 @@ ftnlen job_len;
     withx0 = lsame_(jobx0, "X", 1L, 1L);
     *iwarn = 0;
     *info = 0;
-    lm = *l **m;
-    ln = *l **n;
-    nn = *n **n;
-    nm = *n **m;
+    lm = *l * *m;
+    ln = *l * *n;
+    nn = *n * *n;
+    nm = *n * *m;
     n2m = *n * nm;
     ncol = nm;
-    if (withx0)
-    {
+    if (withx0) {
         ncol += *n;
     }
     minsmp = ncol;
-    if (withd)
-    {
+    if (withd) {
         minsmp += *m;
         iq = minsmp;
-    }
-    else if (! withx0)
-    {
+    } else if (!withx0) {
         iq = minsmp;
         ++minsmp;
-    }
-    else
-    {
+    } else {
         iq = minsmp;
     }
-    if (! (withx0 || lsame_(jobx0, "N", 1L, 1L)))
-    {
+    if (!(withx0 || lsame_(jobx0, "N", 1L, 1L))) {
         *info = -1;
-    }
-    else if (! withb)
-    {
+    } else if (!withb) {
         *info = -2;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -3;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -4;
-    }
-    else if (*l <= 0)
-    {
+    } else if (*l <= 0) {
         *info = -5;
-    }
-    else if (*nsmp < minsmp)
-    {
+    } else if (*nsmp < minsmp) {
         *info = -6;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -8;
-    }
-    else if (*ldc < *l)
-    {
+    } else if (*ldc < *l) {
         *info = -10;
-    }
-    else if (*ldu < 1 || *m > 0 && *ldu < *nsmp)
-    {
+    } else if (*ldu < 1 || *m > 0 && *ldu < *nsmp) {
         *info = -12;
-    }
-    else if (*ldy < max(1,*nsmp))
-    {
+    } else if (*ldy < max(1, *nsmp)) {
         *info = -14;
-    }
-    else if (*ldb < 1 || *ldb < *n && *m > 0)
-    {
+    } else if (*ldb < 1 || *ldb<*n&& * m> 0) {
         *info = -17;
-    }
-    else if (*ldd < 1 || withd && *ldd < *l && *m > 0)
-    {
+    } else if (*ldd < 1 || withd && *ldd<*l&& * m> 0) {
         *info = -19;
-    }
-    else if (*tol > 1.)
-    {
+    } else if (*tol > 1.) {
         *info = -20;
     }
     /*     Compute workspace. */
@@ -477,105 +449,88 @@ ftnlen job_len;
     /*       as well as the preferred amount for good performance. */
     /*       NB refers to the optimal block size for the immediately */
     /*       following subroutine, as returned by ILAENV.) */
-    nsmpl = *nsmp **l;
+    nsmpl = *nsmp * *l;
     iq *= *l;
     ncp1 = ncol + 1;
     isize = nsmpl * ncp1;
-    if (*n > 0 && withx0)
-    {
+    if (*n > 0 && withx0) {
         ic = (nn << 1) + *n;
-    }
-    else
-    {
+    } else {
         ic = 0;
     }
     minwls = ncol * ncp1;
-    if (withd)
-    {
+    if (withd) {
         minwls += lm * ncp1;
     }
-    if (*m > 0 && withd)
-    {
+    if (*m > 0 && withd) {
         /* Computing MAX */
         i__1 = ncol << 1;
-        ia = *m + max(i__1,*m);
-    }
-    else
-    {
+        ia = *m + max(i__1, *m);
+    } else {
         ia = ncol << 1;
     }
-    itau = n2m + max(ic,ia);
-    if (withx0)
-    {
+    itau = n2m + max(ic, ia);
+    if (withx0) {
         itau += ln;
     }
     /* Computing MAX */
-    i__1 = *n + max(ic,ia), i__2 = ncol * 6;
-    ldw2 = isize + max(i__1,i__2);
+    i__1 = *n + max(ic, ia), i__2 = ncol * 6;
+    ldw2 = isize + max(i__1, i__2);
     /* Computing MAX */
     i__1 = iq * ncp1 + itau, i__2 = ncol * 6;
-    ldw3 = minwls + max(i__1,i__2);
-    if (*m > 0 && withd)
-    {
+    ldw3 = minwls + max(i__1, i__2);
+    if (*m > 0 && withd) {
         /* Computing MAX */
-        i__1 = ldw2, i__2 = isize + (*m << 1) **m + *m * 6;
-        ldw2 = max(i__1,i__2);
+        i__1 = ldw2, i__2 = isize + (*m << 1) * *m + *m * 6;
+        ldw2 = max(i__1, i__2);
         /* Computing MAX */
-        i__1 = ldw3, i__2 = minwls + (*m << 1) **m + *m * 6;
-        ldw3 = max(i__1,i__2);
+        i__1 = ldw3, i__2 = minwls + (*m << 1) * *m + *m * 6;
+        ldw3 = max(i__1, i__2);
     }
-    minwrk = min(ldw2,ldw3);
-    minwrk = max(minwrk,2);
-    if (*m > 0 && withd)
-    {
-        minwrk = max(minwrk,3);
+    minwrk = min(ldw2, ldw3);
+    minwrk = max(minwrk, 2);
+    if (*m > 0 && withd) {
+        minwrk = max(minwrk, 3);
     }
-    if (*info == 0 && *ldwork >= minwrk)
-    {
-        if (*m > 0 && withd)
-        {
+    if (*info == 0 && *ldwork >= minwrk) {
+        if (*m > 0 && withd) {
             /* Computing MAX */
             i__3 = *nsmp - *m;
-            i__1 = *m * ilaenv_(&c__1, "DGEQRF", " ", nsmp, m, &c_n1, &c_n1, 6L, 1L), i__2 = ncol + ncol * ilaenv_(&c__1, "DGEQRF", " ", &i__3, &ncol, &c_n1, &c_n1, 6L, 1L);
-            maxwrk = isize + *n + *m + max(i__1,i__2);
+            i__1 = *m * ilaenv_(&c__1, "DGEQRF", " ", nsmp, m, &c_n1, &c_n1, 6L, 1L),
+            i__2 = ncol + ncol * ilaenv_(&c__1, "DGEQRF", " ", &i__3, &ncol, &c_n1, &c_n1, 6L, 1L);
+            maxwrk = isize + *n + *m + max(i__1, i__2);
             /* Computing MAX */
             /* Computing MAX */
             i__5 = *nsmp - *m;
-            i__3 = ncp1 * ilaenv_(&c__1, "DORMQR", "LT", nsmp, &ncp1, m, &c_n1, 6L, 2L), i__4 = ncol + ilaenv_(&c__1, "DORMQR", "LT", &i__5, &c__1, &ncol, &c_n1, 6L, 2L);
-            i__1 = maxwrk, i__2 = isize + *n + *m + max(i__3,i__4);
-            maxwrk = max(i__1,i__2);
-        }
-        else
-        {
+            i__3 = ncp1 * ilaenv_(&c__1, "DORMQR", "LT", nsmp, &ncp1, m, &c_n1, 6L, 2L),
+            i__4 = ncol + ilaenv_(&c__1, "DORMQR", "LT", &i__5, &c__1, &ncol, &c_n1, 6L, 2L);
+            i__1 = maxwrk, i__2 = isize + *n + *m + max(i__3, i__4);
+            maxwrk = max(i__1, i__2);
+        } else {
             /* Computing MAX */
-            i__1 = ncol * ilaenv_(&c__1, "DGEQRF", " ", &nsmpl, &ncol, &c_n1, &c_n1, 6L, 1L), i__2 = ilaenv_(&c__1, "DORMQR", "LT", &nsmpl, &c__1, &ncol, &c_n1, 6L, 2L);
-            maxwrk = isize + *n + ncol + max(i__1,i__2);
+            i__1 = ncol * ilaenv_(&c__1, "DGEQRF", " ", &nsmpl, &ncol, &c_n1, &c_n1, 6L, 1L),
+            i__2 = ilaenv_(&c__1, "DORMQR", "LT", &nsmpl, &c__1, &ncol, &c_n1, 6L, 2L);
+            maxwrk = isize + *n + ncol + max(i__1, i__2);
         }
-        maxwrk = max(maxwrk,minwrk);
+        maxwrk = max(maxwrk, minwrk);
     }
-    if (*info == 0 && *ldwork < minwrk)
-    {
+    if (*info == 0 && *ldwork < minwrk) {
         *info = -23;
-        dwork[1] = (doublereal) minwrk;
+        dwork[1] = (doublereal)minwrk;
     }
     /*     Return if there are illegal arguments. */
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("IB01QD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (max(*n,*m) == 0)
-    {
+    if (max(*n, *m) == 0) {
         dwork[2] = 1.;
-        if (*m > 0 && withd)
-        {
+        if (*m > 0 && withd) {
             dwork[1] = 3.;
             dwork[3] = 1.;
-        }
-        else
-        {
+        } else {
             dwork[1] = 2.;
         }
         return 0;
@@ -587,45 +542,35 @@ ftnlen job_len;
     lddw = (*ldwork - minwls - itau) / ncp1;
     /* Computing MIN */
     i__1 = *nsmp, i__2 = lddw / *l;
-    nobs = min(i__1,i__2);
-    if (*ldwork >= ldw2 || *nsmp <= nobs)
-    {
+    nobs = min(i__1, i__2);
+    if (*ldwork >= ldw2 || *nsmp <= nobs) {
         /*        Enough workspace for solving the problem directly. */
         ncycle = 1;
         nobs = *nsmp;
-        lddw = max(1,nsmpl);
-        if (withd)
-        {
+        lddw = max(1, nsmpl);
+        if (withd) {
             inir = *m + 1;
-        }
-        else
-        {
+        } else {
             inir = 1;
         }
         iny = 1;
         inis = 1;
-    }
-    else
-    {
+    } else {
         /*        NCYCLE > 1  cycles are needed for solving the problem */
         /*        sequentially, taking  NOBS  samples in each cycle (or the */
         /*        remaining samples in the last cycle). */
         lnob = *l * nobs;
-        lddw = max(1,lnob);
+        lddw = max(1, lnob);
         ncycle = *nsmp / nobs;
-        if (*nsmp % nobs != 0)
-        {
+        if (*nsmp % nobs != 0) {
             ++ncycle;
         }
         inir = 1;
         inih = inir + ncol * ncol;
         inis = inih + ncol;
-        if (withd)
-        {
+        if (withd) {
             iny = inis + lm * ncp1;
-        }
-        else
-        {
+        } else {
             iny = inis;
         }
     }
@@ -633,56 +578,40 @@ ftnlen job_len;
     inygam = iny + lddw * nm;
     irhs = iny + lddw * ncol;
     ixinit = irhs + lddw;
-    if (ncyc)
-    {
+    if (ncyc) {
         ic = ixinit + n2m;
-        if (withx0)
-        {
+        if (withx0) {
             ia = ic + ln;
-        }
-        else
-        {
+        } else {
             ia = ic;
         }
-        ldr = max(1,ncol);
+        ldr = max(1, ncol);
         ie = iny;
-    }
-    else
-    {
-        if (withd)
-        {
+    } else {
+        if (withd) {
             inih = irhs + *m;
-        }
-        else
-        {
+        } else {
             inih = irhs;
         }
         ia = ixinit + *n;
         ldr = lddw;
         ie = ixinit;
     }
-    if (*n > 0 && withx0)
-    {
+    if (*n > 0 && withx0) {
         ias = ia + nn;
     }
     itauu = ia;
-    if (withd)
-    {
+    if (withd) {
         itau = itauu + *m;
-    }
-    else
-    {
+    } else {
         itau = itauu;
     }
     dum[0] = 0.;
     i__1 = ncycle;
-    for (icycle = 1; icycle <= i__1; ++icycle)
-    {
+    for (icycle = 1; icycle <= i__1; ++icycle) {
         first = icycle == 1;
-        if (! first)
-        {
-            if (icycle == ncycle)
-            {
+        if (!first) {
+            if (icycle == ncycle) {
                 nobs = *nsmp - (ncycle - 1) * nobs;
                 lnob = *l * nobs;
             }
@@ -702,31 +631,28 @@ ftnlen job_len;
         /*                         w = r*(r+1),       if NCYCLE > 1,  JOB = 'B'; */
         /*                         w = (M*L+r)*(r+1), if NCYCLE > 1,  JOB = 'D'. */
         i__2 = *m;
-        for (j = 1; j <= i__2; ++j)
-        {
+        for (j = 1; j <= i__2; ++j) {
             i__3 = *n;
-            for (i__ = 1; i__ <= i__3; ++i__)
-            {
+            for (i__ = 1; i__ <= i__3; ++i__) {
                 /*                            ij */
                 /*              Compute the  y    trajectory and put the vectorized form */
                 /*              of it in an appropriate column of  DWORK.  To gain in */
                 /*              efficiency, a specialization of SLICOT Library routine */
                 /*              TF01ND is used. */
-                if (first)
-                {
+                if (first) {
                     dcopy_(n, dum, &c__0, &dwork[ixsave], &c__1);
                 }
                 dcopy_(n, &dwork[ixsave], &c__1, &x0[1], &c__1);
                 ini = iy;
                 i__4 = nobs;
-                for (k = 1; k <= i__4; ++k)
-                {
-                    dgemv_("No transpose", l, n, &c_b45, &c__[c_offset], ldc, &x0[1], &c__1, &c_b47, &dwork[iy], &nobs, 12L);
+                for (k = 1; k <= i__4; ++k) {
+                    dgemv_("No transpose", l, n, &c_b45, &c__[c_offset], ldc, &x0[1], &c__1, &c_b47,
+                        &dwork[iy], &nobs, 12L);
                     ++iy;
-                    dtrmv_("Upper", "No transpose", "Non-unit", n, &a[a_offset], lda, &x0[1], &c__1, 5L, 12L, 8L);
+                    dtrmv_("Upper", "No transpose", "Non-unit", n, &a[a_offset], lda, &x0[1], &c__1,
+                        5L, 12L, 8L);
                     i__5 = *n;
-                    for (ix = 2; ix <= i__5; ++ix)
-                    {
+                    for (ix = 2; ix <= i__5; ++ix) {
                         x0[ix] += a[ix + (ix - 1) * a_dim1] * dwork[ixsave + ix - 2];
                         /* L10: */
                     }
@@ -734,8 +660,7 @@ ftnlen job_len;
                     dcopy_(n, &x0[1], &c__1, &dwork[ixsave], &c__1);
                     /* L20: */
                 }
-                if (ncyc)
-                {
+                if (ncyc) {
                     ixsave += *n;
                 }
                 iy = ini + lddw;
@@ -743,8 +668,7 @@ ftnlen job_len;
             }
             /* L40: */
         }
-        if (*n > 0 && withx0)
-        {
+        if (*n > 0 && withx0) {
             /*           Compute the permuted extended observability matrix  Gamma */
             /*                                                                ij */
             /*           in the following  N  columns of  DWORK  (after the  y */
@@ -755,29 +679,23 @@ ftnlen job_len;
             /*                            c = L*N, if NCYCLE > 1. */
             jwork = ias + nn;
             ig = inygam;
-            iexpon = (integer) (log((doublereal) nobs) / log(2.));
+            iexpon = (integer)(log((doublereal)nobs) / log(2.));
             irem = nobs - pow_ii(&c__2, &iexpon);
             power2 = irem == 0;
-            if (! power2)
-            {
+            if (!power2) {
                 ++iexpon;
             }
-            if (first)
-            {
+            if (first) {
                 i__2 = *n;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = 1; i__ <= i__2; ++i__) {
                     dcopy_(l, &c__[i__ * c_dim1 + 1], &c__1, &dwork[ig], &nobs);
                     ig += lddw;
                     /* L50: */
                 }
-            }
-            else
-            {
+            } else {
                 i__2 = ic + ln - 1;
                 i__3 = *l;
-                for (i__ = ic; i__3 < 0 ? i__ >= i__2 : i__ <= i__2; i__ += i__3)
-                {
+                for (i__ = ic; i__3 < 0 ? i__ >= i__2 : i__ <= i__2; i__ += i__3) {
                     dcopy_(l, &dwork[i__], &c__1, &dwork[ig], &nobs);
                     ig += lddw;
                     /* L60: */
@@ -786,8 +704,7 @@ ftnlen job_len;
             /*                                          p */
             /*           Use powers of the matrix  A:  A ,  p = 2**(J-1). */
             dlacpy_("Upper", n, n, &a[a_offset], lda, &dwork[ia], n, 5L);
-            if (*n > 1)
-            {
+            if (*n > 1) {
                 i__3 = *n - 1;
                 i__2 = *lda + 1;
                 i__4 = *n + 1;
@@ -796,41 +713,35 @@ ftnlen job_len;
             i2 = 1;
             nrow = 0;
             i__3 = iexpon;
-            for (j = 1; j <= i__3; ++j)
-            {
+            for (j = 1; j <= i__3; ++j) {
                 igam = inygam;
-                if (j < iexpon || power2)
-                {
+                if (j < iexpon || power2) {
                     nrow = i2;
-                }
-                else
-                {
+                } else {
                     nrow = irem;
                 }
                 i__2 = *l;
-                for (i__ = 1; i__ <= i__2; ++i__)
-                {
+                for (i__ = 1; i__ <= i__2; ++i__) {
                     dlacpy_("Full", &nrow, n, &dwork[igam], &lddw, &dwork[igam + i2], &lddw, 4L);
-                    dtrmm_("Right", "Upper", "No Transpose", "Non Unit", &nrow, n, &c_b45, &dwork[ia], n, &dwork[igam + i2], &lddw, 5L, 5L, 12L, 8L);
+                    dtrmm_("Right", "Upper", "No Transpose", "Non Unit", &nrow, n, &c_b45,
+                        &dwork[ia], n, &dwork[igam + i2], &lddw, 5L, 5L, 12L, 8L);
                     ig = igam;
                     /*                                                                  p */
                     /*                 Compute the contribution of the subdiagonal of  A */
                     /*                 to the product. */
                     i__4 = *n - 1;
-                    for (ix = 1; ix <= i__4; ++ix)
-                    {
-                        daxpy_(&nrow, &dwork[ia + (ix - 1) **n + ix], &dwork[ig + lddw], &c__1, &dwork[ig + i2], &c__1);
+                    for (ix = 1; ix <= i__4; ++ix) {
+                        daxpy_(&nrow, &dwork[ia + (ix - 1) * *n + ix], &dwork[ig + lddw], &c__1,
+                            &dwork[ig + i2], &c__1);
                         ig += lddw;
                         /* L70: */
                     }
                     igam += nobs;
                     /* L80: */
                 }
-                if (j < iexpon)
-                {
+                if (j < iexpon) {
                     dlacpy_("Upper", n, n, &dwork[ia], n, &dwork[ias], n, 5L);
-                    if (*n > 1)
-                    {
+                    if (*n > 1) {
                         i__2 = *n - 1;
                         i__4 = *n + 1;
                         i__5 = *n + 1;
@@ -841,26 +752,25 @@ ftnlen job_len;
                 }
                 /* L90: */
             }
-            if (ncyc && icycle < ncycle)
-            {
+            if (ncyc && icycle < ncycle) {
                 ig = inygam + i2 + nrow - 1;
                 igs = ig;
                 i__3 = ic + ln - 1;
                 i__2 = *l;
-                for (i__ = ic; i__2 < 0 ? i__ >= i__3 : i__ <= i__3; i__ += i__2)
-                {
+                for (i__ = ic; i__2 < 0 ? i__ >= i__3 : i__ <= i__3; i__ += i__2) {
                     dcopy_(l, &dwork[ig], &nobs, &dwork[i__], &c__1);
                     ig += lddw;
                     /* L100: */
                 }
-                dtrmm_("Right", "Upper", "No Transpose", "Non Unit", l, n, &c_b45, &a[a_offset], lda, &dwork[ic], l, 5L, 5L, 12L, 8L);
+                dtrmm_("Right", "Upper", "No Transpose", "Non Unit", l, n, &c_b45, &a[a_offset],
+                    lda, &dwork[ic], l, 5L, 5L, 12L, 8L);
                 ig = igs;
                 /*              Compute the contribution of the subdiagonal of  A  to the */
                 /*              product. */
                 i__2 = *n - 1;
-                for (ix = 1; ix <= i__2; ++ix)
-                {
-                    daxpy_(l, &a[ix + 1 + ix * a_dim1], &dwork[ig + lddw], &nobs, &dwork[ic + (ix - 1) **l], &c__1);
+                for (ix = 1; ix <= i__2; ++ix) {
+                    daxpy_(l, &a[ix + 1 + ix * a_dim1], &dwork[ig + lddw], &nobs,
+                        &dwork[ic + (ix - 1) * *l], &c__1);
                     ig += lddw;
                     /* L110: */
                 }
@@ -870,8 +780,7 @@ ftnlen job_len;
         /*        problem. */
         iy = irhs;
         i__2 = *l;
-        for (k = 1; k <= i__2; ++k)
-        {
+        for (k = 1; k <= i__2; ++k) {
             dcopy_(&nobs, &y[iypnt + k * y_dim1], &c__1, &dwork[iy], &c__1);
             iy += nobs;
             /* L120: */
@@ -882,12 +791,10 @@ ftnlen job_len;
         /*                          x = M,  y = max( 2*r, M ), */
         /*                                             if  JOB = 'D'  and  M > 0, */
         /*                          x = 0,  y = 2*r,   if  JOB = 'B'  or   M = 0. */
-        if (*m > 0 && withd)
-        {
+        if (*m > 0 && withd) {
             /*           Case 1:  D  is requested. */
             jwork = itau;
-            if (first)
-            {
+            if (first) {
                 ini = iny + *m;
                 /*              Compress the first or single segment of  U,  U1 = Q1*R1. */
                 /*              Workspace: need   v + M; */
@@ -899,14 +806,13 @@ ftnlen job_len;
                 /*              Workspace: need   v + r + 1, */
                 /*                         prefer v + (r + 1)*NB. */
                 i__2 = *l;
-                for (k = 1; k <= i__2; ++k)
-                {
+                for (k = 1; k <= i__2; ++k) {
                     i__3 = *ldwork - jwork + 1;
-                    dormqr_("Left", "Transpose", &nobs, &ncp1, m, &u[u_offset], ldu, &dwork[itauu], &dwork[iny + (k - 1) * nobs], &lddw, &dwork[jwork], &i__3, &ierr, 4L, 9L);
+                    dormqr_("Left", "Transpose", &nobs, &ncp1, m, &u[u_offset], ldu, &dwork[itauu],
+                        &dwork[iny + (k - 1) * nobs], &lddw, &dwork[jwork], &i__3, &ierr, 4L, 9L);
                     /* L130: */
                 }
-                if (ncol > 0)
-                {
+                if (ncol > 0) {
                     /*                 Compress the first part of the first data segment of */
                     /*                    ij */
                     /*                 [ y   Gamma ]. */
@@ -915,28 +821,32 @@ ftnlen job_len;
                     jwork = itau + ncol;
                     i__2 = nobs - *m;
                     i__3 = *ldwork - jwork + 1;
-                    dgeqrf_(&i__2, &ncol, &dwork[ini], &lddw, &dwork[itau], &dwork[jwork], &i__3, &ierr);
+                    dgeqrf_(&i__2, &ncol, &dwork[ini], &lddw, &dwork[itau], &dwork[jwork], &i__3,
+                        &ierr);
                     /*                 Apply the transformation to the corresponding right */
                     /*                 hand side part. */
                     /*                 Workspace: need   v + r + 1, */
                     /*                            prefer v + r + NB. */
                     i__2 = nobs - *m;
                     i__3 = *ldwork - jwork + 1;
-                    dormqr_("Left", "Transpose", &i__2, &c__1, &ncol, &dwork[ini], &lddw, &dwork[itau], &dwork[irhs + *m], &lddw, &dwork[jwork], &i__3, &ierr, 4L, 9L);
+                    dormqr_("Left", "Transpose", &i__2, &c__1, &ncol, &dwork[ini], &lddw,
+                        &dwork[itau], &dwork[irhs + *m], &lddw, &dwork[jwork], &i__3, &ierr, 4L,
+                        9L);
                     /*                 Compress the remaining parts of the first data segment */
                     /*                        ij */
                     /*                 of  [ y   Gamma ]. */
                     /*                 Workspace: need   v + r - 1. */
                     i__2 = *l;
-                    for (k = 2; k <= i__2; ++k)
-                    {
+                    for (k = 2; k <= i__2; ++k) {
                         i__3 = nobs - *m;
-                        mb04od_("Full", &ncol, &c__1, &i__3, &dwork[ini], &lddw, &dwork[ini + (k - 1) * nobs], &lddw, &dwork[irhs + *m], &lddw, &dwork[irhs + *m + (k - 1) * nobs], &lddw, &dwork[itau], &dwork[jwork], 4L);
+                        mb04od_("Full", &ncol, &c__1, &i__3, &dwork[ini], &lddw,
+                            &dwork[ini + (k - 1) * nobs], &lddw, &dwork[irhs + *m], &lddw,
+                            &dwork[irhs + *m + (k - 1) * nobs], &lddw, &dwork[itau], &dwork[jwork],
+                            4L);
                         /* L140: */
                     }
                 }
-                if (ncyc)
-                {
+                if (ncyc) {
                     /*                                                   ij */
                     /*                 Save the triangular factor of  [ y   Gamma ],  the */
                     /*                 corresponding right hand side, and the first  M  rows */
@@ -944,82 +854,78 @@ ftnlen job_len;
                     /*                 Workspace: need   v. */
                     dlacpy_("Upper", &ncol, &ncp1, &dwork[ini], &lddw, &dwork[inir], &ldr, 5L);
                     i__2 = *l;
-                    for (k = 1; k <= i__2; ++k)
-                    {
-                        dlacpy_("Full", m, &ncp1, &dwork[iny + (k - 1) * nobs], &lddw, &dwork[inis + (k - 1) **m], &lm, 4L);
+                    for (k = 1; k <= i__2; ++k) {
+                        dlacpy_("Full", m, &ncp1, &dwork[iny + (k - 1) * nobs], &lddw,
+                            &dwork[inis + (k - 1) * *m], &lm, 4L);
                         /* L150: */
                     }
                 }
-            }
-            else
-            {
+            } else {
                 /*              Compress the current data segment of  U,  Ui = Qi*Ri, */
                 /*              i = ICYCLE. */
                 /*              Workspace: need   v + r + 1. */
-                mb04od_("Full", m, &ncp1, &nobs, &u[u_offset], ldu, &u[iupnt + u_dim1], ldu, &dwork[inis], &lm, &dwork[iny], &lddw, &dwork[itauu], &dwork[jwork], 4L);
+                mb04od_("Full", m, &ncp1, &nobs, &u[u_offset], ldu, &u[iupnt + u_dim1], ldu,
+                    &dwork[inis], &lm, &dwork[iny], &lddw, &dwork[itauu], &dwork[jwork], 4L);
                 /*              Apply  diag(Qi')  to the appropriate part of the matrix */
                 /*                 ij */
                 /*              [ y   Gamma Y ]. */
                 /*              Workspace: need   v + r + 1. */
                 i__2 = *l;
-                for (k = 2; k <= i__2; ++k)
-                {
+                for (k = 2; k <= i__2; ++k) {
                     i__3 = *m;
-                    for (ix = 1; ix <= i__3; ++ix)
-                    {
-                        mb04oy_(&nobs, &ncp1, &u[iupnt + ix * u_dim1], &dwork[itauu + ix - 1], &dwork[inis + (k - 1) **m + ix - 1], &lm, &dwork[iny + (k - 1) * nobs], &lddw, &dwork[jwork]);
+                    for (ix = 1; ix <= i__3; ++ix) {
+                        mb04oy_(&nobs, &ncp1, &u[iupnt + ix * u_dim1], &dwork[itauu + ix - 1],
+                            &dwork[inis + (k - 1) * *m + ix - 1], &lm, &dwork[iny + (k - 1) * nobs],
+                            &lddw, &dwork[jwork]);
                         /* L160: */
                     }
                     /* L170: */
                 }
-                if (ncol > 0)
-                {
+                if (ncol > 0) {
                     jwork = itau + ncol;
                     /*                 Compress the current (but not the first) data segment */
                     /*                        ij */
                     /*                 of  [ y   Gamma ]. */
                     /*                 Workspace: need   v + r - 1. */
                     i__2 = *l;
-                    for (k = 1; k <= i__2; ++k)
-                    {
-                        mb04od_("Full", &ncol, &c__1, &nobs, &dwork[inir], &ldr, &dwork[iny + (k - 1) * nobs], &lddw, &dwork[inih], &ldr, &dwork[irhs + (k - 1) * nobs], &lddw, &dwork[itau], &dwork[jwork], 4L);
+                    for (k = 1; k <= i__2; ++k) {
+                        mb04od_("Full", &ncol, &c__1, &nobs, &dwork[inir], &ldr,
+                            &dwork[iny + (k - 1) * nobs], &lddw, &dwork[inih], &ldr,
+                            &dwork[irhs + (k - 1) * nobs], &lddw, &dwork[itau], &dwork[jwork], 4L);
                         /* L180: */
                     }
                 }
             }
-        }
-        else if (ncol > 0)
-        {
+        } else if (ncol > 0) {
             /*           Case 2:  D  is known to be zero. */
             jwork = itau + ncol;
-            if (first)
-            {
+            if (first) {
                 /*              Compress the first or single data segment of */
                 /*                 ij */
                 /*              [ y   Gamma ]. */
                 /*              Workspace: need   v + 2*r, */
                 /*                         prefer v + r + r*NB. */
                 i__2 = *ldwork - jwork + 1;
-                dgeqrf_(&lddw, &ncol, &dwork[iny], &lddw, &dwork[itau], &dwork[jwork], &i__2, &ierr);
+                dgeqrf_(
+                    &lddw, &ncol, &dwork[iny], &lddw, &dwork[itau], &dwork[jwork], &i__2, &ierr);
                 /*              Apply the transformation to the right hand side. */
                 /*              Workspace: need   v + r + 1, */
                 /*                         prefer v + r + NB. */
                 i__2 = *ldwork - jwork + 1;
-                dormqr_("Left", "Transpose", &lddw, &c__1, &ncol, &dwork[iny], &lddw, &dwork[itau], &dwork[irhs], &lddw, &dwork[jwork], &i__2, &ierr, 4L, 9L);
-                if (ncyc)
-                {
+                dormqr_("Left", "Transpose", &lddw, &c__1, &ncol, &dwork[iny], &lddw, &dwork[itau],
+                    &dwork[irhs], &lddw, &dwork[jwork], &i__2, &ierr, 4L, 9L);
+                if (ncyc) {
                     /*                                                   ij */
                     /*                 Save the triangular factor of  [ y   Gamma ]  and the */
                     /*                 corresponding right hand side. */
                     /*                 Workspace: need   v. */
                     dlacpy_("Upper", &ncol, &ncp1, &dwork[iny], &lddw, &dwork[inir], &ldr, 5L);
                 }
-            }
-            else
-            {
+            } else {
                 /*              Compress the current (but not the first) data segment. */
                 /*              Workspace: need   v + r - 1. */
-                mb04od_("Full", &ncol, &c__1, &lnob, &dwork[inir], &ldr, &dwork[iny], &lddw, &dwork[inih], &ldr, &dwork[irhs], &lddw, &dwork[itau], &dwork[jwork], 4L);
+                mb04od_("Full", &ncol, &c__1, &lnob, &dwork[inir], &ldr, &dwork[iny], &lddw,
+                    &dwork[inih], &ldr, &dwork[irhs], &lddw, &dwork[itau], &dwork[jwork], 4L);
             }
         }
         iupnt += nobs;
@@ -1031,21 +937,19 @@ ftnlen job_len;
     /*     Workspace: need  u + 3*r, where */
     /*                      u = t*L*(r + 1), if NCYCLE = 1; */
     /*                      u = w,           if NCYCLE > 1. */
-    dtrcon_("1-norm", "Upper", "No Transpose", &ncol, &dwork[inir], &ldr, &rcond, &dwork[ie], &iwork[1], &ierr, 6L, 5L, 12L);
+    dtrcon_("1-norm", "Upper", "No Transpose", &ncol, &dwork[inir], &ldr, &rcond, &dwork[ie],
+        &iwork[1], &ierr, 6L, 5L, 12L);
     toll = *tol;
-    if (toll <= 0.)
-    {
+    if (toll <= 0.) {
         toll = dlamch_("Precision", 9L);
     }
-    if (rcond <= pow_dd(&toll, &c_b113))
-    {
+    if (rcond <= pow_dd(&toll, &c_b113)) {
         *iwarn = 4;
         /*        The least squares problem is ill-conditioned. */
         /*        Use SVD to solve it. */
         /*        Workspace: need   u + 6*r; */
         /*                   prefer larger. */
-        if (ncol > 1)
-        {
+        if (ncol > 1) {
             i__1 = ncol - 1;
             i__2 = ncol - 1;
             dlaset_("Lower", &i__1, &i__2, &c_b47, &c_b47, &dwork[inir + 1], &ldr, 5L);
@@ -1053,96 +957,86 @@ ftnlen job_len;
         isv = ie;
         jwork = isv + ncol;
         i__1 = *ldwork - jwork + 1;
-        dgelss_(&ncol, &ncol, &c__1, &dwork[inir], &ldr, &dwork[inih], &ldr, &dwork[isv], &toll, &rank, &dwork[jwork], &i__1, &ierr);
-        if (ierr > 0)
-        {
+        dgelss_(&ncol, &ncol, &c__1, &dwork[inir], &ldr, &dwork[inih], &ldr, &dwork[isv], &toll,
+            &rank, &dwork[jwork], &i__1, &ierr);
+        if (ierr > 0) {
             /*           Return if SVD algorithm did not converge. */
             *info = 2;
             return 0;
         }
         /* Computing MAX */
-        i__1 = maxwrk, i__2 = (integer) dwork[jwork] - jwork + 1;
-        maxwrk = max(i__1,i__2);
-    }
-    else
-    {
+        i__1 = maxwrk, i__2 = (integer)dwork[jwork] - jwork + 1;
+        maxwrk = max(i__1, i__2);
+    } else {
         /*        Find the least squares solution using QR decomposition only. */
-        dtrsm_("Left", "Upper", "No Transpose", "Non Unit", &ncol, &c__1, &c_b45, &dwork[inir], &ldr, &dwork[inih], &ldr, 4L, 5L, 12L, 8L);
+        dtrsm_("Left", "Upper", "No Transpose", "Non Unit", &ncol, &c__1, &c_b45, &dwork[inir],
+            &ldr, &dwork[inih], &ldr, 4L, 5L, 12L, 8L);
     }
     /*     Setup the estimated n-by-m input matrix  B,  and the estimated */
     /*     initial state of the system  x0. */
     dlacpy_("Full", n, m, &dwork[inih], n, &b[b_offset], ldb, 4L);
-    if (*n > 0 && withx0)
-    {
+    if (*n > 0 && withx0) {
         dcopy_(n, &dwork[inih + nm], &c__1, &x0[1], &c__1);
-    }
-    else
-    {
+    } else {
         dcopy_(n, dum, &c__0, &x0[1], &c__1);
     }
-    if (*m > 0 && withd)
-    {
+    if (*m > 0 && withd) {
         /*        Compute the estimated l-by-m input/output matrix  D. */
-        if (ncyc)
-        {
+        if (ncyc) {
             irhs = inis + lm * ncol;
-            dgemv_("No Transpose", &lm, &ncol, &c_b130, &dwork[inis], &lm, &dwork[inih], &c__1, &c_b45, &dwork[irhs], &c__1, 12L);
-        }
-        else
-        {
+            dgemv_("No Transpose", &lm, &ncol, &c_b130, &dwork[inis], &lm, &dwork[inih], &c__1,
+                &c_b45, &dwork[irhs], &c__1, 12L);
+        } else {
             i__1 = *l;
-            for (k = 1; k <= i__1; ++k)
-            {
-                dgemv_("No Transpose", m, &ncol, &c_b130, &dwork[inis + (k - 1) * nobs], &lddw, &dwork[inih], &c__1, &c_b45, &dwork[irhs + (k - 1) * nobs], &c__1, 12L);
+            for (k = 1; k <= i__1; ++k) {
+                dgemv_("No Transpose", m, &ncol, &c_b130, &dwork[inis + (k - 1) * nobs], &lddw,
+                    &dwork[inih], &c__1, &c_b45, &dwork[irhs + (k - 1) * nobs], &c__1, 12L);
                 /* L200: */
             }
             i__1 = *l;
-            for (k = 2; k <= i__1; ++k)
-            {
-                dcopy_(m, &dwork[irhs + (k - 1) * nobs], &c__1, &dwork[irhs + (k - 1) **m], &c__1);
+            for (k = 2; k <= i__1; ++k) {
+                dcopy_(m, &dwork[irhs + (k - 1) * nobs], &c__1, &dwork[irhs + (k - 1) * *m], &c__1);
                 /* L210: */
             }
         }
         /*        Estimate the reciprocal condition number of the triangular */
         /*        factor of the QR decomposition of the matrix U. */
         /*        Workspace: need  u + 3*M. */
-        dtrcon_("1-norm", "Upper", "No Transpose", m, &u[u_offset], ldu, &rcondu, &dwork[ie], &iwork[1], &ierr, 6L, 5L, 12L);
-        if (rcondu <= pow_dd(&toll, &c_b113))
-        {
+        dtrcon_("1-norm", "Upper", "No Transpose", m, &u[u_offset], ldu, &rcondu, &dwork[ie],
+            &iwork[1], &ierr, 6L, 5L, 12L);
+        if (rcondu <= pow_dd(&toll, &c_b113)) {
             *iwarn = 4;
             /*           The least squares problem is ill-conditioned. */
             /*           Use SVD to solve it. (QR decomposition of  U  is preserved.) */
             /*           Workspace: need   u + 2*M*M + 6*M; */
             /*                      prefer larger. */
-            iq = ie + *m **m;
-            isv = iq + *m **m;
+            iq = ie + *m * *m;
+            isv = iq + *m * *m;
             jwork = isv + *m;
             dlacpy_("Upper", m, m, &u[u_offset], ldu, &dwork[ie], m, 5L);
             i__1 = *ldwork - jwork + 1;
-            mb02ud_("Not Factored", "Left", "No Transpose", "No Pinv", m, l, &c_b45, &toll, &rank, &dwork[ie], m, &dwork[iq], m, &dwork[isv], &dwork[irhs], m, dum, &c__1, &dwork[jwork], &i__1, &ierr, 12L, 4L, 12L, 7L);
-            if (ierr > 0)
-            {
+            mb02ud_("Not Factored", "Left", "No Transpose", "No Pinv", m, l, &c_b45, &toll, &rank,
+                &dwork[ie], m, &dwork[iq], m, &dwork[isv], &dwork[irhs], m, dum, &c__1,
+                &dwork[jwork], &i__1, &ierr, 12L, 4L, 12L, 7L);
+            if (ierr > 0) {
                 /*              Return if SVD algorithm did not converge. */
                 *info = 2;
                 return 0;
             }
             /* Computing MAX */
-            i__1 = maxwrk, i__2 = (integer) dwork[jwork] - jwork + 1;
-            maxwrk = max(i__1,i__2);
-        }
-        else
-        {
-            dtrsm_("Left", "Upper", "No Transpose", "Non Unit", m, l, &c_b45, &u[u_offset], ldu, &dwork[irhs], m, 4L, 5L, 12L, 8L);
+            i__1 = maxwrk, i__2 = (integer)dwork[jwork] - jwork + 1;
+            maxwrk = max(i__1, i__2);
+        } else {
+            dtrsm_("Left", "Upper", "No Transpose", "Non Unit", m, l, &c_b45, &u[u_offset], ldu,
+                &dwork[irhs], m, 4L, 5L, 12L, 8L);
         }
         ma02ad_("Full", m, l, &dwork[irhs], m, &d__[d_offset], ldd, 4L);
     }
-    dwork[1] = (doublereal) maxwrk;
+    dwork[1] = (doublereal)maxwrk;
     dwork[2] = rcond;
-    if (*m > 0 && withd)
-    {
+    if (*m > 0 && withd) {
         dwork[3] = rcondu;
     }
     return 0;
     /* *** End of IB01QD *** */
 } /* ib01qd_ */
-

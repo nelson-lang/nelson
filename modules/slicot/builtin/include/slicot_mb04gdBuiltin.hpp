@@ -22,8 +22,9 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace SlicotGateway {
-        ArrayOfVector slicot_mb04gdBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    }
+namespace SlicotGateway {
+    ArrayOfVector
+    slicot_mb04gdBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }
+} // namespace Nelson
 //=============================================================================

@@ -16,31 +16,30 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "NelsonGateway.hpp"
 #include "FilesManager.hpp"
+#include "Interface.hpp"
+#include "NelsonGateway.hpp"
 #include "diaryBuiltin.hpp"
-#include "fopenBuiltin.hpp"
+#include "dlmwriteBuiltin.hpp"
 #include "fcloseBuiltin.hpp"
-#include "fwriteBuiltin.hpp"
-#include "freadBuiltin.hpp"
-#include "fprintfBuiltin.hpp"
 #include "fgetlBuiltin.hpp"
 #include "fgetsBuiltin.hpp"
-#include "ftellBuiltin.hpp"
+#include "filereadBuiltin.hpp"
+#include "filewriteBuiltin.hpp"
+#include "fopenBuiltin.hpp"
+#include "fprintfBuiltin.hpp"
+#include "freadBuiltin.hpp"
 #include "frewindBuiltin.hpp"
 #include "fseekBuiltin.hpp"
 #include "fsizeBuiltin.hpp"
-#include "dlmwriteBuiltin.hpp"
-#include "Interface.hpp"
-#include "filereadBuiltin.hpp"
-#include "filewriteBuiltin.hpp"
+#include "ftellBuiltin.hpp"
+#include "fwriteBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"stream_manager";
 //=============================================================================
-static const nlsGateway gateway[] =
-{
+static const nlsGateway gateway[] = {
     { "diary", Nelson::StreamGateway::diaryBuiltin, 1, 1 },
     { "fopen", Nelson::StreamGateway::fopenBuiltin, 2, 2 },
     { "fclose", Nelson::StreamGateway::fcloseBuiltin, 1, 1 },
@@ -58,34 +57,30 @@ static const nlsGateway gateway[] =
     { "filewrite", Nelson::StreamGateway::filewriteBuiltin, 0, 2 },
 };
 //=============================================================================
-static bool initializeModule(Nelson::Evaluator* eval)
+static bool
+initializeModule(Nelson::Evaluator* eval)
 {
-    if (eval->FileManager == nullptr)
-    {
-        Interface *io = eval->getInterface();
-        Nelson::FilesManager *fm;
-        try
-        {
+    if (eval->FileManager == nullptr) {
+        Interface* io = eval->getInterface();
+        Nelson::FilesManager* fm;
+        try {
             fm = new Nelson::FilesManager(io);
-        }
-        catch (std::bad_alloc)
-        {
+        } catch (std::bad_alloc) {
             fm = nullptr;
         }
-        if (fm)
-        {
-            eval->FileManager = (void *)fm;
+        if (fm) {
+            eval->FileManager = (void*)fm;
             return true;
         }
     }
     return false;
 }
 //=============================================================================
-static bool finishModule(Nelson::Evaluator* eval)
+static bool
+finishModule(Nelson::Evaluator* eval)
 {
-    if (eval->FileManager != nullptr)
-    {
-        Nelson::FilesManager *fm = (Nelson::FilesManager*)eval->FileManager;
+    if (eval->FileManager != nullptr) {
+        Nelson::FilesManager* fm = (Nelson::FilesManager*)eval->FileManager;
         delete fm;
         eval->FileManager = nullptr;
         return true;
@@ -101,4 +96,3 @@ NLSGATEWAYREMOVEEXTENDED(gateway, (void*)finishModule)
 //=============================================================================
 NLSGATEWAYNAME()
 //=============================================================================
-

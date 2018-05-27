@@ -18,15 +18,19 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
 #include "ArrayOf.hpp"
 #include "Exception.hpp"
 #include "nlsapi_nelson_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    NLSAPI_NELSON_IMPEXP ArrayOf ToCellStringAsRow(wstringVector vectorStr);
-    NLSAPI_NELSON_IMPEXP ArrayOf ToCellStringAsColumn(wstringVector vectorStr);
-    NLSAPI_NELSON_IMPEXP ArrayOf ToCellStringAsRow(stringVector vectorStr);
-    NLSAPI_NELSON_IMPEXP ArrayOf ToCellStringAsColumn(stringVector vectorStr);
-}
+NLSAPI_NELSON_IMPEXP ArrayOf
+ToCellStringAsRow(wstringVector vectorStr);
+NLSAPI_NELSON_IMPEXP ArrayOf
+ToCellStringAsColumn(wstringVector vectorStr);
+NLSAPI_NELSON_IMPEXP ArrayOf
+ToCellStringAsRow(stringVector vectorStr);
+NLSAPI_NELSON_IMPEXP ArrayOf
+ToCellStringAsColumn(stringVector vectorStr);
+} // namespace Nelson
 //=============================================================================

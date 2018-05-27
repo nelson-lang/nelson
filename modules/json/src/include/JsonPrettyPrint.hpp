@@ -18,10 +18,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsJson_exports.h"
 #include "ArrayOf.hpp"
+#include "nlsJson_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSJSON_IMPEXP ArrayOf jsonPrettyPrint(const std::wstring &stringToPrettify);
+NLSJSON_IMPEXP ArrayOf
+jsonPrettyPrint(const std::wstring& stringToPrettify);
 };
 //=============================================================================

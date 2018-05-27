@@ -16,33 +16,33 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <QtGui/QTextDocumentFragment>
 #include "QtTextIndent.h"
+#include <QtGui/QTextDocumentFragment>
 //=============================================================================
-QtTextIndent::QtTextIndent()
-{
-}
+QtTextIndent::QtTextIndent() {}
 //=============================================================================
-QtTextIndent::~QtTextIndent()
-{
-}
+QtTextIndent::~QtTextIndent() {}
 //=============================================================================
-void QtTextIndent::setDocument(QtTextEdit *te)
+void
+QtTextIndent::setDocument(QtTextEdit* te)
 {
     m_te = te;
 }
 //=============================================================================
-QtTextEdit* QtTextIndent::document() const
+QtTextEdit*
+QtTextIndent::document() const
 {
     return m_te;
 }
 //=============================================================================
-QString indentLine(QString toIndent, QStringList priorText)
+QString
+indentLine(QString toIndent, QStringList priorText)
 {
     return toIndent;
 }
 //=============================================================================
-void QtTextIndent::update()
+void
+QtTextIndent::update()
 {
     QTextCursor cursor(m_te->textCursor());
     QTextCursor save(cursor);

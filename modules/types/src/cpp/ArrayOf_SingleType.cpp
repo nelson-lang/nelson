@@ -20,72 +20,79 @@
 #include "Data.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    /**
-    * Returns TRUE if it is a single type (not ndarray, not sparse)
-    */
-    const bool ArrayOf::isSingleType() const
-    {
-        return (dp->dataClass == NLS_SINGLE) || (dp->dataClass == NLS_SCOMPLEX) && (!dp->sparse) && is2D();
+//=============================================================================
+/**
+ * Returns TRUE if it is a single type (not ndarray, not sparse)
+ */
+const bool
+ArrayOf::isSingleType() const
+{
+    return (dp->dataClass == NLS_SINGLE)
+        || (dp->dataClass == NLS_SCOMPLEX) && (!dp->sparse) && is2D();
+}
+//=============================================================================
+const bool
+ArrayOf::isNdArraySingleType() const
+{
+    return (dp->dataClass == NLS_SINGLE)
+        || (dp->dataClass == NLS_SCOMPLEX) && (!dp->sparse) && !is2D();
+}
+//=============================================================================
+ArrayOf
+ArrayOf::singleConstructor(float aval)
+{
+    Dimensions dim;
+    dim.makeScalar();
+    float* data = (float*)allocateArrayOf(NLS_SINGLE, 1);
+    *data = aval;
+    return ArrayOf(NLS_SINGLE, dim, data);
+}
+//=============================================================================
+ArrayOf
+ArrayOf::singleVectorConstructor(int len)
+{
+    Dimensions dim;
+    dim.makeScalar();
+    dim[1] = len;
+    single* data = (single*)allocateArrayOf(NLS_SINGLE, len);
+    return ArrayOf(NLS_SINGLE, dim, data);
+}
+//=============================================================================
+ArrayOf
+ArrayOf::complexConstructor(float aval, float bval)
+{
+    Dimensions dim;
+    dim.makeScalar();
+    float* data = (float*)allocateArrayOf(NLS_SCOMPLEX, 1);
+    data[0] = aval;
+    data[1] = bval;
+    return ArrayOf(NLS_SCOMPLEX, dim, data);
+}
+//=============================================================================
+single
+ArrayOf::getContentAsSingleScalar()
+{
+    single* qp;
+    if (isComplex() || isReferenceType() || isString()) {
+        throw Exception(_W("Expected a real valued scalar"));
     }
-    //=============================================================================
-    const bool ArrayOf::isNdArraySingleType() const
-    {
-        return (dp->dataClass == NLS_SINGLE) || (dp->dataClass == NLS_SCOMPLEX) && (!dp->sparse) && !is2D();
+    promoteType(NLS_SINGLE);
+    qp = (single*)dp->getData();
+    return (*qp);
+}
+//=============================================================================
+std::complex<single>
+ArrayOf::getContentAsSingleComplexScalar()
+{
+    if (isReferenceType() || isString()) {
+        throw Exception(_W("Expected a real valued scalar"));
     }
-    //=============================================================================
-    ArrayOf ArrayOf::singleConstructor(float aval)
-    {
-        Dimensions dim;
-        dim.makeScalar();
-        float *data = (float *)allocateArrayOf(NLS_SINGLE, 1);
-        *data = aval;
-        return ArrayOf(NLS_SINGLE, dim, data);
-    }
-    //=============================================================================
-    ArrayOf ArrayOf::singleVectorConstructor(int len)
-    {
-        Dimensions dim;
-        dim.makeScalar();
-        dim[1] = len;
-        single *data = (single*)allocateArrayOf(NLS_SINGLE, len);
-        return ArrayOf(NLS_SINGLE, dim, data);
-    }
-    //=============================================================================
-    ArrayOf ArrayOf::complexConstructor(float aval, float bval)
-    {
-        Dimensions dim;
-        dim.makeScalar();
-        float *data = (float *)allocateArrayOf(NLS_SCOMPLEX, 1);
-        data[0] = aval;
-        data[1] = bval;
-        return ArrayOf(NLS_SCOMPLEX, dim, data);
-    }
-    //=============================================================================
-    single ArrayOf::getContentAsSingleScalar()
-    {
-        single *qp;
-        if (isComplex() || isReferenceType() || isString())
-        {
-            throw Exception(_W("Expected a real valued scalar"));
-        }
-        promoteType(NLS_SINGLE);
-        qp = (single*)dp->getData();
-        return (*qp);
-    }
-    //=============================================================================
-    std::complex<single> ArrayOf::getContentAsSingleComplexScalar()
-    {
-        if (isReferenceType() || isString())
-        {
-            throw Exception(_W("Expected a real valued scalar"));
-        }
-        promoteType(NLS_SCOMPLEX);
-        single *qp = (single*)dp->getData();
-        std::complex<single> cx(qp[0], qp[1]);
-        return cx;
-    }
-    //=============================================================================
+    promoteType(NLS_SCOMPLEX);
+    single* qp = (single*)dp->getData();
+    std::complex<single> cx(qp[0], qp[1]);
+    return cx;
+}
+//=============================================================================
 
 }
 //=============================================================================

@@ -18,11 +18,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "nlsFiles_folders_functions_exports.h"
 #include "Types.hpp"
+#include "nlsFiles_folders_functions_exports.h"
+#include <string>
 //=============================================================================
 namespace Nelson {
-    NLSFILES_FOLDERS_FUNCTIONS_IMPEXP bool FileDiff(std::wstring filename1, std::wstring filename2, logical eolcompare, std::wstring &res);
+NLSFILES_FOLDERS_FUNCTIONS_IMPEXP bool
+FileDiff(std::wstring filename1, std::wstring filename2, logical eolcompare, std::wstring& res);
 }
 //=============================================================================

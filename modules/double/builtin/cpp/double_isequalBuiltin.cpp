@@ -17,20 +17,19 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "double_isequalBuiltin.hpp"
-#include "Error.hpp"
 #include "DoubleIsEqual.hpp"
+#include "Error.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::DoubleGateway::double_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::DoubleGateway::double_isequalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() != 2)
-    {
+    if (argIn.size() != 2) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     bool bRes = double_isequal(argIn[0], argIn[1]);

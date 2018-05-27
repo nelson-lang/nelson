@@ -18,11 +18,11 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include <cstdio>
-#include "nlsStream_manager_exports.h"
 #include "File.hpp"
 #include "Types.hpp"
+#include "nlsStream_manager_exports.h"
+#include <cstdio>
+#include <string>
 //=============================================================================
 #if _MSC_VER
 #if defined(_WIN64)
@@ -47,7 +47,7 @@
 #endif
 //=============================================================================
 namespace Nelson {
-    NLSSTREAM_MANAGER_IMPEXP bool FileSeek(File *fp, int64 offset, int origin);
+NLSSTREAM_MANAGER_IMPEXP bool
+FileSeek(File* fp, int64 offset, int origin);
 };
 //=============================================================================
-

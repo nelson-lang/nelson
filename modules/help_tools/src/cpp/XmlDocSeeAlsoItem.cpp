@@ -17,66 +17,66 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "XmlDocSeeAlsoItem.hpp"
-#include "characters_encoding.hpp"
-#include "XmlDocumentTags.hpp"
 #include "HtmlTags.hpp"
+#include "XmlDocumentTags.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    XmlDocSeeAlsoItem::XmlDocSeeAlsoItem(std::wstring name, std::wstring link)
-    {
-        this->link = new XmlDocLinkItem(name, link);
+//=============================================================================
+XmlDocSeeAlsoItem::XmlDocSeeAlsoItem(std::wstring name, std::wstring link)
+{
+    this->link = new XmlDocLinkItem(name, link);
+}
+//=============================================================================
+XmlDocSeeAlsoItem::~XmlDocSeeAlsoItem()
+{
+    if (this->link) {
+        delete this->link;
     }
-    //=============================================================================
-    XmlDocSeeAlsoItem::~XmlDocSeeAlsoItem()
-    {
-        if (this->link)
-        {
-            delete this->link;
-        }
-        this->link = nullptr;
+    this->link = nullptr;
+}
+//=============================================================================
+std::wstring
+XmlDocSeeAlsoItem::getName()
+{
+    if (this->link) {
+        return this->getLink();
     }
-    //=============================================================================
-    std::wstring XmlDocSeeAlsoItem::getName()
-    {
-        if (this->link)
-        {
-            return this->getLink();
-        }
-        return L"";
+    return L"";
+}
+//=============================================================================
+std::wstring
+XmlDocSeeAlsoItem::getLink()
+{
+    if (this->link) {
+        return this->getName();
     }
-    //=============================================================================
-    std::wstring XmlDocSeeAlsoItem::getLink()
-    {
-        if (this->link)
-        {
-            return this->getName();
-        }
-        return L"";
+    return L"";
+}
+//=============================================================================
+std::wstring
+XmlDocSeeAlsoItem::getItemType()
+{
+    return utf8_to_wstring(SEE_ALSO_TAG);
+}
+//=============================================================================
+bool
+XmlDocSeeAlsoItem::writeAsHtml(std::string& utf8stream)
+{
+    if (this->link) {
+        link->writeAsHtml(utf8stream);
     }
-    //=============================================================================
-    std::wstring XmlDocSeeAlsoItem::getItemType()
-    {
-        return  utf8_to_wstring(SEE_ALSO_TAG);
+    return true;
+}
+//=============================================================================
+bool
+XmlDocSeeAlsoItem::writeAsMarkdown(std::string& utf8stream)
+{
+    if (this->link) {
+        link->writeAsMarkdown(utf8stream);
     }
-    //=============================================================================
-    bool XmlDocSeeAlsoItem::writeAsHtml(std::string &utf8stream)
-    {
-        if (this->link)
-        {
-            link->writeAsHtml(utf8stream);
-        }
-        return true;
-    }
-    //=============================================================================
-    bool XmlDocSeeAlsoItem::writeAsMarkdown(std::string &utf8stream)
-    {
-        if (this->link)
-        {
-            link->writeAsMarkdown(utf8stream);
-        }
-        return true;
-    }
-    //=============================================================================
+    return true;
+}
+//=============================================================================
 }
 //=============================================================================

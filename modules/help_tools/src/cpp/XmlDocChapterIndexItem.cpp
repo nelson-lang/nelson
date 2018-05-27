@@ -21,68 +21,63 @@
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    XmlDocChapterIndexItem::XmlDocChapterIndexItem()
-    {
-        chapterRefVector.clear();
+//=============================================================================
+XmlDocChapterIndexItem::XmlDocChapterIndexItem() { chapterRefVector.clear(); }
+//=============================================================================
+XmlDocChapterIndexItem::~XmlDocChapterIndexItem()
+{
+    for (size_t k = 0; k < chapterRefVector.size(); k++) {
+        delete chapterRefVector[k];
+        chapterRefVector[k] = nullptr;
     }
-    //=============================================================================
-    XmlDocChapterIndexItem::~XmlDocChapterIndexItem()
-    {
-        for (size_t k = 0; k < chapterRefVector.size(); k++)
-        {
-            delete chapterRefVector[k];
-            chapterRefVector[k] = nullptr;
-        }
-        chapterRefVector.clear();
+    chapterRefVector.clear();
+}
+//=============================================================================
+std::wstring
+XmlDocChapterIndexItem::getItemType()
+{
+    return utf8_to_wstring(CHAPTER_INDEX_TAG);
+}
+//=============================================================================
+bool
+XmlDocChapterIndexItem::append(
+    std::wstring linkname, std::wstring linkurl, std::wstring description)
+{
+    XmlDocChapterRefItem* item = nullptr;
+    try {
+        item = new XmlDocChapterRefItem(linkname, linkurl, description);
+    } catch (std::bad_alloc& e) {
+        e;
+        item = nullptr;
     }
-    //=============================================================================
-    std::wstring XmlDocChapterIndexItem::getItemType()
-    {
-        return utf8_to_wstring(CHAPTER_INDEX_TAG);
+    if (item) {
+        chapterRefVector.push_back(item);
     }
-    //=============================================================================
-    bool XmlDocChapterIndexItem::append(std::wstring linkname, std::wstring linkurl, std::wstring description)
-    {
-        XmlDocChapterRefItem *item = nullptr;
-        try
-        {
-            item = new XmlDocChapterRefItem(linkname, linkurl, description);
-        }
-        catch (std::bad_alloc &e)
-        {
-            e;
-            item = nullptr;
-        }
-        if (item)
-        {
-            chapterRefVector.push_back(item);
-        }
-        return true;
+    return true;
+}
+//=============================================================================
+bool
+XmlDocChapterIndexItem::writeAsHtml(std::string& utf8stream)
+{
+    utf8stream = utf8stream + "<ul class=\"list-chapter\">" + "\n";
+    for (size_t k = 0; k < chapterRefVector.size(); k++) {
+        chapterRefVector[k]->writeAsHtml(utf8stream);
     }
-    //=============================================================================
-    bool XmlDocChapterIndexItem::writeAsHtml(std::string &utf8stream)
-    {
-        utf8stream = utf8stream + "<ul class=\"list-chapter\">" + "\n";
-        for (size_t k = 0; k < chapterRefVector.size(); k++)
-        {
-            chapterRefVector[k]->writeAsHtml(utf8stream);
-        }
-        utf8stream = utf8stream + "</ul>" + "\n";
-        utf8stream = utf8stream + "\n";
-        return true;
+    utf8stream = utf8stream + "</ul>" + "\n";
+    utf8stream = utf8stream + "\n";
+    return true;
+}
+//=============================================================================
+bool
+XmlDocChapterIndexItem::writeAsMarkdown(std::string& utf8stream)
+{
+    utf8stream = utf8stream + "\n";
+    for (size_t k = 0; k < chapterRefVector.size(); k++) {
+        chapterRefVector[k]->writeAsMarkdown(utf8stream);
     }
-    //=============================================================================
-    bool XmlDocChapterIndexItem::writeAsMarkdown(std::string &utf8stream)
-    {
-        utf8stream = utf8stream + "\n";
-        for (size_t k = 0; k < chapterRefVector.size(); k++)
-        {
-            chapterRefVector[k]->writeAsMarkdown(utf8stream);
-        }
-        utf8stream = utf8stream + "\n";
-        return true;
-    }
-    //=============================================================================
+    utf8stream = utf8stream + "\n";
+    return true;
+}
+//=============================================================================
 }
 //=============================================================================

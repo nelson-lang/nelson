@@ -16,55 +16,48 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <cctype>
-#include <string>
-#include <algorithm>
-#include <boost/algorithm/string.hpp>
 #include "ToLower.hpp"
 #include "Error.hpp"
+#include <algorithm>
+#include <boost/algorithm/string.hpp>
+#include <cctype>
+#include <string>
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    ArrayOf ToLower(Evaluator* eval, ArrayOf A)
-    {
-        ArrayOf res;
-        if (A.isSingleString())
-        {
-            return ArrayOf::stringConstructor(ToLower(A.getContentAsWideString()));
-        }
-        else if (A.getDataClass() == NLS_CELL_ARRAY)
-        {
-            if (A.isEmpty())
-            {
-                return ArrayOf(A);
-            }
-            else
-            {
-                res = ArrayOf(A);
-                res.ensureSingleOwner();
-                ArrayOf *element = (ArrayOf*)(res.getDataPointer());
-                for (indexType k = 0; k < A.getDimensions().getElementCount(); k++)
-                {
-                    if (!element[k].isSingleString())
-                    {
-                        Error(eval, ERROR_TYPE_CELL_OF_STRINGS_EXPECTED);
-                    }
-                    element[k] = ArrayOf::stringConstructor(ToLower(element[k].getContentAsWideString()));
+//=============================================================================
+ArrayOf
+ToLower(Evaluator* eval, ArrayOf A)
+{
+    ArrayOf res;
+    if (A.isSingleString()) {
+        return ArrayOf::stringConstructor(ToLower(A.getContentAsWideString()));
+    } else if (A.getDataClass() == NLS_CELL_ARRAY) {
+        if (A.isEmpty()) {
+            return ArrayOf(A);
+        } else {
+            res = ArrayOf(A);
+            res.ensureSingleOwner();
+            ArrayOf* element = (ArrayOf*)(res.getDataPointer());
+            for (indexType k = 0; k < A.getDimensions().getElementCount(); k++) {
+                if (!element[k].isSingleString()) {
+                    Error(eval, ERROR_TYPE_CELL_OF_STRINGS_EXPECTED);
                 }
-                return res;
+                element[k]
+                    = ArrayOf::stringConstructor(ToLower(element[k].getContentAsWideString()));
             }
+            return res;
         }
-        else
-        {
-            Error(eval, ERROR_TYPE_CELL_OF_STRINGS_EXPECTED);
-        }
-        return res;
+    } else {
+        Error(eval, ERROR_TYPE_CELL_OF_STRINGS_EXPECTED);
     }
-    //=============================================================================
-    std::wstring ToLower(const std::wstring &A)
-    {
-        return boost::to_lower_copy(A);
-    }
-    //=============================================================================
+    return res;
+}
+//=============================================================================
+std::wstring
+ToLower(const std::wstring& A)
+{
+    return boost::to_lower_copy(A);
+}
+//=============================================================================
 }
 //=============================================================================

@@ -1,17 +1,17 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-EXPORTSYMBOL /* Subroutine */ int mb03rx_(jobv, n, kl, ku, a, lda, x, ldx, wr, wi, dwork, jobv_len)
-char *jobv;
+EXPORTSYMBOL /* Subroutine */ int mb03rx_(
+    jobv, n, kl, ku, a, lda, x, ldx, wr, wi, dwork, jobv_len) char* jobv;
 integer *n, *kl, *ku;
-doublereal *a;
-integer *lda;
-doublereal *x;
-integer *ldx;
+doublereal* a;
+integer* lda;
+doublereal* x;
+integer* ldx;
 doublereal *wr, *wi, *dwork;
 ftnlen jobv_len;
 {
@@ -145,31 +145,26 @@ ftnlen jobv_len;
     --wi;
     --dwork;
     /* Function Body */
-    if (*ku > *kl)
-    {
+    if (*ku > *kl) {
         /*        Try to move the block in position (KU,KU) to position (KL,KL). */
         ifst = *ku;
         /*        REPEAT */
-L10:
+    L10:
         ilst = *kl;
         dtrexc_(jobv, n, &a[a_offset], lda, &x[x_offset], ldx, &ifst, &ilst, &dwork[1], &ierr, 1L);
-        if (ierr != 0)
-        {
+        if (ierr != 0) {
             /*           During calculations, two adjacent blocks were too close */
             /*           to swap; the desired block cannot be moved further, but the */
             /*           block above it is suitable and is tried for moving. The */
             /*           number of repeat cycles is usually 1, and at most the number */
             /*           of blocks between the current position and the position KL. */
             ifst = ilst - 1;
-            if (ifst > 1)
-            {
-                if (a[ifst + (ifst - 1) * a_dim1] != 0.)
-                {
+            if (ifst > 1) {
+                if (a[ifst + (ifst - 1) * a_dim1] != 0.) {
                     ifst = ilst - 2;
                 }
             }
-            if (ilst > *kl)
-            {
+            if (ilst > *kl) {
                 goto L10;
             }
         }
@@ -177,38 +172,31 @@ L10:
         /*        Recompute the eigenvalues for the modified part of A. */
         /*        Note that KU must be incremented if the moved block was 2-by-2 */
         /*        and it has been replaced by two 1-by-1 blocks. */
-        if (wi[*ku] != 0.)
-        {
-            if (a[*ku + 1 + *ku * a_dim1] == 0.)
-            {
+        if (wi[*ku] != 0.) {
+            if (a[*ku + 1 + *ku * a_dim1] == 0.) {
                 ++(*ku);
             }
         }
         l = *kl;
         /*        WHILE ( L.LT.KU .OR. ( L.EQ.KU .AND. L.LT.N ) ) DO */
-L20:
-        if (l < *ku || l == *ku && l < *n)
-        {
-            if (a[l + 1 + l * a_dim1] != 0.)
-            {
+    L20:
+        if (l < *ku || l == *ku && l < *n) {
+            if (a[l + 1 + l * a_dim1] != 0.) {
                 /*              A 2x2 block. */
                 wr[l] = a[l + l * a_dim1];
                 wr[l + 1] = wr[l];
-                wi[l] = sqrt((d__1 = a[l + (l + 1) * a_dim1], abs(d__1))) * sqrt((d__2 = a[l + 1 + l * a_dim1], abs(d__2)));
+                wi[l] = sqrt((d__1 = a[l + (l + 1) * a_dim1], abs(d__1)))
+                    * sqrt((d__2 = a[l + 1 + l * a_dim1], abs(d__2)));
                 wi[l + 1] = -wi[l];
                 l += 2;
-            }
-            else
-            {
+            } else {
                 /*              An 1x1 block. */
                 wr[l] = a[l + l * a_dim1];
                 wi[l] = 0.;
                 ++l;
             }
             goto L20;
-        }
-        else if (l == *n)
-        {
+        } else if (l == *n) {
             wr[l] = a[l + l * a_dim1];
             wi[l] = 0.;
         }
@@ -217,4 +205,3 @@ L20:
     return 0;
     /* *** Last line of MB03RX *** */
 } /* mb03rx_ */
-

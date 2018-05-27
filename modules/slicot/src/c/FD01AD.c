@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,9 +9,9 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int fd01ad_(jp, l, lambda, xin, yin, efor, xf, epsbck, cteta, steta, yq, epos, eout, salph, iwarn, info, jp_len)
-char *jp;
-integer *l;
+EXPORTSYMBOL /* Subroutine */ int fd01ad_(jp, l, lambda, xin, yin, efor, xf, epsbck, cteta, steta,
+    yq, epos, eout, salph, iwarn, info, jp_len) char* jp;
+integer* l;
 doublereal *lambda, *xin, *yin, *efor, *xf, *epsbck, *cteta, *steta, *yq, *epos, *eout, *salph;
 integer *iwarn, *info;
 ftnlen jp_len;
@@ -242,20 +242,14 @@ ftnlen jp_len;
     both = lsame_(jp, "B", 1L, 1L);
     *iwarn = 0;
     *info = 0;
-    if (! both && ! lsame_(jp, "P", 1L, 1L))
-    {
+    if (!both && !lsame_(jp, "P", 1L, 1L)) {
         *info = -1;
-    }
-    else if (*l < 1)
-    {
+    } else if (*l < 1) {
         *info = -2;
-    }
-    else if (*lambda <= 0. || *lambda > 1.)
-    {
+    } else if (*lambda <= 0. || *lambda > 1.) {
         *info = -3;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("FD01AD", &i__1, 6L);
@@ -266,9 +260,8 @@ ftnlen jp_len;
     /*     Forward prediction rotations. */
     fnode = *xin;
     i__1 = *l;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
-        xfi = xf[i__] **lambda;
+    for (i__ = 1; i__ <= i__1; ++i__) {
+        xfi = xf[i__] * *lambda;
         xf[i__] = steta[i__] * fnode + cteta[i__] * xfi;
         fnode = cteta[i__] * fnode - steta[i__] * xfi;
         /* L10: */
@@ -277,22 +270,17 @@ ftnlen jp_len;
     /*     Update the square root of the prediction energy. */
     *efor *= *lambda;
     temp = dlapy2_(&fnode, efor);
-    if (temp < eps)
-    {
+    if (temp < eps) {
         fnode = 0.;
         *iwarn = 1;
-    }
-    else
-    {
+    } else {
         fnode = fnode * epsbck[*l + 1] / temp;
     }
     *efor = temp;
     /*     Calculate the reflection coefficients and the backward prediction */
     /*     errors. */
-    for (i__ = *l; i__ >= 1; --i__)
-    {
-        if ((d__1 = xf[i__], abs(d__1)) < eps)
-        {
+    for (i__ = *l; i__ >= 1; --i__) {
+        if ((d__1 = xf[i__], abs(d__1)) < eps) {
             *iwarn = 1;
         }
         dlartg_(&temp, &xf[i__], &ctemp, &salph[i__], &norm);
@@ -306,10 +294,8 @@ ftnlen jp_len;
     norm = dnrm2_(l, &epsbck[1], &c__1);
     temp = sqrt((norm + 1.) * (1. - norm));
     epsbck[*l + 1] = temp;
-    for (i__ = *l; i__ >= 1; --i__)
-    {
-        if ((d__1 = epsbck[i__], abs(d__1)) < eps)
-        {
+    for (i__ = *l; i__ >= 1; --i__) {
+        if ((d__1 = epsbck[i__], abs(d__1)) < eps) {
             *iwarn = 1;
         }
         dlartg_(&temp, &epsbck[i__], &cteta[i__], &steta[i__], &norm);
@@ -317,13 +303,11 @@ ftnlen jp_len;
         /* L30: */
     }
     /*     Joint process section. */
-    if (both)
-    {
+    if (both) {
         fnode = *yin;
         i__1 = *l;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
-            yqi = yq[i__] **lambda;
+        for (i__ = 1; i__ <= i__1; ++i__) {
+            yqi = yq[i__] * *lambda;
             yq[i__] = steta[i__] * fnode + cteta[i__] * yqi;
             fnode = cteta[i__] * fnode - steta[i__] * yqi;
             /* L40: */
@@ -333,4 +317,3 @@ ftnlen jp_len;
     return 0;
     /* *** Last line of FD01AD *** */
 } /* fd01ad_ */
-

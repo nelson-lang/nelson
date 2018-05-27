@@ -25,6 +25,6 @@
 #define NLSTEXT_EDITOR_BUILTIN_IMPEXP __declspec(dllimport)
 #endif
 #else
-#define NLSTEXT_EDITOR_BUILTIN_IMPEXP __attribute__ ((visibility ("default")))
+#define NLSTEXT_EDITOR_BUILTIN_IMPEXP __attribute__((visibility("default")))
 #endif
 //=============================================================================

@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -11,15 +11,16 @@ static integer c__1 = 1;
 static doublereal c_b11 = 1.;
 static doublereal c_b13 = 0.;
 
-EXPORTSYMBOL /* Subroutine */ int mb01rw_(uplo, trans, m, n, a, lda, z__, ldz, dwork, info, uplo_len, trans_len)
-char *uplo, *trans;
+EXPORTSYMBOL /* Subroutine */ int mb01rw_(
+    uplo, trans, m, n, a, lda, z__, ldz, dwork, info, uplo_len, trans_len) char *uplo,
+    *trans;
 integer *m, *n;
-doublereal *a;
-integer *lda;
-doublereal *z__;
-integer *ldz;
-doublereal *dwork;
-integer *info;
+doublereal* a;
+integer* lda;
+doublereal* z__;
+integer* ldz;
+doublereal* dwork;
+integer* info;
 ftnlen uplo_len;
 ftnlen trans_len;
 {
@@ -126,142 +127,120 @@ ftnlen trans_len;
     nottra = lsame_(trans, "N", 1L, 1L);
     upper = lsame_(uplo, "U", 1L, 1L);
     *info = 0;
-    if (! (upper || lsame_(uplo, "L", 1L, 1L)))
-    {
+    if (!(upper || lsame_(uplo, "L", 1L, 1L))) {
         *info = -1;
-    }
-    else if (! (nottra || lsame_(trans, "T", 1L, 1L)))
-    {
+    } else if (!(nottra || lsame_(trans, "T", 1L, 1L))) {
         *info = -2;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -3;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -4;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
-        i__1 = max(1,*m);
-        if (*lda < max(i__1,*n))
-        {
+        i__1 = max(1, *m);
+        if (*lda < max(i__1, *n)) {
             *info = -6;
-        }
-        else if (nottra && *ldz < max(1,*m) || ! nottra && *ldz < max(1,*n))
-        {
+        } else if (nottra && *ldz < max(1, *m) || !nottra && *ldz < max(1, *n)) {
             *info = -8;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB01RW", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0 || *m == 0)
-    {
+    if (*n == 0 || *m == 0) {
         return 0;
     }
-    if (nottra)
-    {
+    if (nottra) {
         /*        Compute Z*A*Z'. */
-        if (upper)
-        {
+        if (upper) {
             /*           Compute Z*A in A (M-by-N). */
             i__1 = *n;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 i__2 = j - 1;
                 dcopy_(&i__2, &a[j * a_dim1 + 1], &c__1, &dwork[1], &c__1);
                 i__2 = *n - j + 1;
                 dcopy_(&i__2, &a[j + j * a_dim1], lda, &dwork[j], &c__1);
-                dgemv_(trans, m, n, &c_b11, &z__[z_offset], ldz, &dwork[1], &c__1, &c_b13, &a[j * a_dim1 + 1], &c__1, 1L);
+                dgemv_(trans, m, n, &c_b11, &z__[z_offset], ldz, &dwork[1], &c__1, &c_b13,
+                    &a[j * a_dim1 + 1], &c__1, 1L);
                 /* L10: */
             }
             /*           Compute A*Z' in the upper triangular part of A. */
             i__1 = *m;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 dcopy_(n, &a[i__ + a_dim1], lda, &dwork[1], &c__1);
                 i__2 = *m - i__ + 1;
-                dgemv_(trans, &i__2, n, &c_b11, &z__[i__ + z_dim1], ldz, &dwork[1], &c__1, &c_b13, &a[i__ + i__ * a_dim1], lda, 1L);
+                dgemv_(trans, &i__2, n, &c_b11, &z__[i__ + z_dim1], ldz, &dwork[1], &c__1, &c_b13,
+                    &a[i__ + i__ * a_dim1], lda, 1L);
                 /* L20: */
             }
-        }
-        else
-        {
+        } else {
             /*           Compute A*Z' in A (N-by-M). */
             i__1 = *n;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 i__2 = i__ - 1;
                 dcopy_(&i__2, &a[i__ + a_dim1], lda, &dwork[1], &c__1);
                 i__2 = *n - i__ + 1;
                 dcopy_(&i__2, &a[i__ + i__ * a_dim1], &c__1, &dwork[i__], &c__1);
-                dgemv_(trans, m, n, &c_b11, &z__[z_offset], ldz, &dwork[1], &c__1, &c_b13, &a[i__ + a_dim1], lda, 1L);
+                dgemv_(trans, m, n, &c_b11, &z__[z_offset], ldz, &dwork[1], &c__1, &c_b13,
+                    &a[i__ + a_dim1], lda, 1L);
                 /* L30: */
             }
             /*           Compute Z*A in the lower triangular part of A. */
             i__1 = *m;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 dcopy_(n, &a[j * a_dim1 + 1], &c__1, &dwork[1], &c__1);
                 i__2 = *m - j + 1;
-                dgemv_(trans, &i__2, n, &c_b11, &z__[j + z_dim1], ldz, &dwork[1], &c__1, &c_b13, &a[j + j * a_dim1], &c__1, 1L);
+                dgemv_(trans, &i__2, n, &c_b11, &z__[j + z_dim1], ldz, &dwork[1], &c__1, &c_b13,
+                    &a[j + j * a_dim1], &c__1, 1L);
                 /* L40: */
             }
         }
-    }
-    else
-    {
+    } else {
         /*        Compute Z'*A*Z. */
-        if (upper)
-        {
+        if (upper) {
             /*           Compute Z'*A in A (M-by-N). */
             i__1 = *n;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 i__2 = j - 1;
                 dcopy_(&i__2, &a[j * a_dim1 + 1], &c__1, &dwork[1], &c__1);
                 i__2 = *n - j + 1;
                 dcopy_(&i__2, &a[j + j * a_dim1], lda, &dwork[j], &c__1);
-                dgemv_(trans, n, m, &c_b11, &z__[z_offset], ldz, &dwork[1], &c__1, &c_b13, &a[j * a_dim1 + 1], &c__1, 1L);
+                dgemv_(trans, n, m, &c_b11, &z__[z_offset], ldz, &dwork[1], &c__1, &c_b13,
+                    &a[j * a_dim1 + 1], &c__1, 1L);
                 /* L50: */
             }
             /*           Compute A*Z in the upper triangular part of A. */
             i__1 = *m;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 dcopy_(n, &a[i__ + a_dim1], lda, &dwork[1], &c__1);
                 i__2 = *m - i__ + 1;
-                dgemv_(trans, n, &i__2, &c_b11, &z__[i__ * z_dim1 + 1], ldz, &dwork[1], &c__1, &c_b13, &a[i__ + i__ * a_dim1], lda, 1L);
+                dgemv_(trans, n, &i__2, &c_b11, &z__[i__ * z_dim1 + 1], ldz, &dwork[1], &c__1,
+                    &c_b13, &a[i__ + i__ * a_dim1], lda, 1L);
                 /* L60: */
             }
-        }
-        else
-        {
+        } else {
             /*           Compute A*Z in A (N-by-M). */
             i__1 = *n;
-            for (i__ = 1; i__ <= i__1; ++i__)
-            {
+            for (i__ = 1; i__ <= i__1; ++i__) {
                 i__2 = i__ - 1;
                 dcopy_(&i__2, &a[i__ + a_dim1], lda, &dwork[1], &c__1);
                 i__2 = *n - i__ + 1;
                 dcopy_(&i__2, &a[i__ + i__ * a_dim1], &c__1, &dwork[i__], &c__1);
-                dgemv_(trans, n, m, &c_b11, &z__[z_offset], ldz, &dwork[1], &c__1, &c_b13, &a[i__ + a_dim1], lda, 1L);
+                dgemv_(trans, n, m, &c_b11, &z__[z_offset], ldz, &dwork[1], &c__1, &c_b13,
+                    &a[i__ + a_dim1], lda, 1L);
                 /* L70: */
             }
             /*           Compute Z'*A in the lower triangular part of A. */
             i__1 = *m;
-            for (j = 1; j <= i__1; ++j)
-            {
+            for (j = 1; j <= i__1; ++j) {
                 dcopy_(n, &a[j * a_dim1 + 1], &c__1, &dwork[1], &c__1);
                 i__2 = *m - j + 1;
-                dgemv_(trans, n, &i__2, &c_b11, &z__[j * z_dim1 + 1], ldz, &dwork[1], &c__1, &c_b13, &a[j + j * a_dim1], &c__1, 1L);
+                dgemv_(trans, n, &i__2, &c_b11, &z__[j * z_dim1 + 1], ldz, &dwork[1], &c__1, &c_b13,
+                    &a[j + j * a_dim1], &c__1, 1L);
                 /* L80: */
             }
         }
@@ -269,4 +248,3 @@ ftnlen trans_len;
     return 0;
     /* *** Last line of MB01RW *** */
 } /* mb01rw_ */
-

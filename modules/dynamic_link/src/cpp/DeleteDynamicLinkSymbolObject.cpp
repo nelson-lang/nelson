@@ -17,44 +17,38 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "DeleteDynamicLinkSymbolObject.hpp"
-#include "HandleManager.hpp"
 #include "DynamicLinkSymbolObject.hpp"
+#include "HandleManager.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    bool DeleteDynamicLinkSymbolObject(ArrayOf A)
-    {
-        bool res = false;
-        if (A.isHandle())
-        {
-            if (!A.isEmpty())
-            {
-                Dimensions dims = A.getDimensions();
-                nelson_handle *qp = (nelson_handle*)A.getDataPointer();
-                for (size_t k = 0; k < (size_t)dims.getElementCount(); k++)
-                {
-                    nelson_handle hl = qp[k];
-                    HandleGenericObject *hlObj = HandleManager::getInstance()->getPointer(hl);
-                    if (hlObj)
-                    {
-                        if (hlObj->getCategory() != DLSYM_CATEGORY_STR)
-                        {
-                            throw Exception(_W("dlsym handle expected."));
-                        }
-                        DynamicLinkSymbolObject *obj = (DynamicLinkSymbolObject*)hlObj;
-                        delete obj;
-                        HandleManager::getInstance()->removeHandle(hl);
-                        res = true;
+//=============================================================================
+bool
+DeleteDynamicLinkSymbolObject(ArrayOf A)
+{
+    bool res = false;
+    if (A.isHandle()) {
+        if (!A.isEmpty()) {
+            Dimensions dims = A.getDimensions();
+            nelson_handle* qp = (nelson_handle*)A.getDataPointer();
+            for (size_t k = 0; k < (size_t)dims.getElementCount(); k++) {
+                nelson_handle hl = qp[k];
+                HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
+                if (hlObj) {
+                    if (hlObj->getCategory() != DLSYM_CATEGORY_STR) {
+                        throw Exception(_W("dlsym handle expected."));
                     }
+                    DynamicLinkSymbolObject* obj = (DynamicLinkSymbolObject*)hlObj;
+                    delete obj;
+                    HandleManager::getInstance()->removeHandle(hl);
+                    res = true;
                 }
             }
-            else
-            {
-                throw Exception(_W("dlsym valid handle expected."));
-            }
+        } else {
+            throw Exception(_W("dlsym valid handle expected."));
         }
-        return res;
     }
-    //=============================================================================
+    return res;
+}
+//=============================================================================
 }
 //=============================================================================

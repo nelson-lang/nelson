@@ -25,6 +25,6 @@
 #define NLSI18N_BUILTIN_IMPEXP __declspec(dllimport)
 #endif
 #else
-#define NLSI18N_BUILTIN_IMPEXP __attribute__ ((visibility ("default")))
+#define NLSI18N_BUILTIN_IMPEXP __attribute__((visibility("default")))
 #endif
 //=============================================================================

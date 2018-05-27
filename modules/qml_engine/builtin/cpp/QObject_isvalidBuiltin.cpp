@@ -17,19 +17,19 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "QObject_isvalidBuiltin.hpp"
-#include "IsValidHandle.hpp"
 #include "Error.hpp"
+#include "IsValidHandle.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::QmlEngineGateway::QObject_isvalidBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::QmlEngineGateway::QObject_isvalidBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    if (argIn.size() != 1)
-    {
+    if (argIn.size() != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOfVector retval;

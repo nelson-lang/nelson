@@ -1,3 +1,9 @@
+Features:
+---------
+
+  * [#128](http://github.com/Nelson-numerical-software/nelson/issues/128): code indented with clang-format (webkit coding style)
+
+
 ## 0.2.5 (2018-05-23)
 
 

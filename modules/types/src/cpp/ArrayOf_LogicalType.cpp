@@ -20,43 +20,46 @@
 #include "Data.hpp"
 //=============================================================================
 namespace Nelson {
-    //=============================================================================
-    const bool ArrayOf::isLogical() const
-    {
-        return (dp->dataClass == NLS_LOGICAL);
+//=============================================================================
+const bool
+ArrayOf::isLogical() const
+{
+    return (dp->dataClass == NLS_LOGICAL);
+}
+//=============================================================================
+const bool
+ArrayOf::isNdArrayLogical() const
+{
+    return (dp->dataClass == NLS_LOGICAL) && !is2D();
+}
+//=============================================================================
+const bool
+ArrayOf::isLogicalSparseType() const
+{
+    return (dp->dataClass == NLS_LOGICAL) && (dp->sparse) && is2D();
+}
+//=============================================================================
+ArrayOf
+ArrayOf::logicalConstructor(bool aval)
+{
+    Dimensions dim;
+    dim.makeScalar();
+    logical* data = (logical*)allocateArrayOf(NLS_LOGICAL, 1);
+    *data = (logical)aval;
+    return ArrayOf(NLS_LOGICAL, dim, data);
+}
+//=============================================================================
+logical
+ArrayOf::getContentAsLogicalScalar() const
+{
+    if (!isLogical()) {
+        throw Exception(ERROR_TYPE_LOGICAL_EXPECTED);
     }
-    //=============================================================================
-    const bool ArrayOf::isNdArrayLogical() const
-    {
-        return (dp->dataClass == NLS_LOGICAL) && !is2D();
+    if (getLength() != 1) {
+        throw Exception(ERROR_SIZE_SCALAR_EXPECTED);
     }
-    //=============================================================================
-    const bool ArrayOf::isLogicalSparseType() const
-    {
-        return (dp->dataClass == NLS_LOGICAL) && (dp->sparse) && is2D();
-    }
-    //=============================================================================
-    ArrayOf ArrayOf::logicalConstructor(bool aval)
-    {
-        Dimensions dim;
-        dim.makeScalar();
-        logical *data = (logical *)allocateArrayOf(NLS_LOGICAL, 1);
-        *data = (logical)aval;
-        return ArrayOf(NLS_LOGICAL, dim, data);
-    }
-    //=============================================================================
-    logical ArrayOf::getContentAsLogicalScalar() const
-    {
-        if (!isLogical())
-        {
-            throw Exception(ERROR_TYPE_LOGICAL_EXPECTED);
-        }
-        if (getLength() != 1)
-        {
-            throw Exception(ERROR_SIZE_SCALAR_EXPECTED);
-        }
-        logical *qp = (logical*)dp->getData();
-        return (*qp);
-    }
+    logical* qp = (logical*)dp->getData();
+    return (*qp);
+}
 }
 //=============================================================================

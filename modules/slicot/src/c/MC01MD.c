@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,12 +9,11 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int mc01md_(dp, alpha, k, p, q, info)
-integer *dp;
-doublereal *alpha;
-integer *k;
+EXPORTSYMBOL /* Subroutine */ int mc01md_(dp, alpha, k, p, q, info) integer* dp;
+doublereal* alpha;
+integer* k;
 doublereal *p, *q;
-integer *info;
+integer* info;
 {
     /* System generated locals */
     integer i__1, i__2;
@@ -110,16 +109,12 @@ integer *info;
     --p;
     /* Function Body */
     *info = 0;
-    if (*dp < 0)
-    {
+    if (*dp < 0) {
         *info = -1;
-    }
-    else if (*k <= 0 || *k > *dp + 1)
-    {
+    } else if (*k <= 0 || *k > *dp + 1) {
         *info = -3;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("MC01MD", &i__1, 6L);
@@ -127,16 +122,13 @@ integer *info;
     }
     i__1 = *dp + 1;
     dcopy_(&i__1, &p[1], &c__1, &q[1], &c__1);
-    if (*dp == 0 || *alpha == 0.)
-    {
+    if (*dp == 0 || *alpha == 0.) {
         return 0;
     }
     i__1 = *k;
-    for (j = 1; j <= i__1; ++j)
-    {
+    for (j = 1; j <= i__1; ++j) {
         i__2 = j;
-        for (i__ = *dp; i__ >= i__2; --i__)
-        {
+        for (i__ = *dp; i__ >= i__2; --i__) {
             q[i__] += *alpha * q[i__ + 1];
             /* L20: */
         }
@@ -145,4 +137,3 @@ integer *info;
     return 0;
     /* *** Last line of MC01MD *** */
 } /* mc01md_ */
-

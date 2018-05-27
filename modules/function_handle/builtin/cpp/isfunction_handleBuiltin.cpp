@@ -17,29 +17,26 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "isfunction_handleBuiltin.hpp"
-#include "StringToFunctionHandle.hpp"
 #include "Error.hpp"
+#include "StringToFunctionHandle.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::FunctionHandleGateway::isfunction_handleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::FunctionHandleGateway::isfunction_handleBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (nLhs > 1)
-    {
+    if (nLhs > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
-    if (argIn.size() != 1)
-    {
+    if (argIn.size() != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     ArrayOf arg1 = argIn[0];
-    if (arg1.isFunctionHandle())
-    {
+    if (arg1.isFunctionHandle()) {
         retval.push_back(ArrayOf::logicalConstructor(true));
-    }
-    else
-    {
+    } else {
         retval.push_back(ArrayOf::logicalConstructor(false));
     }
     return retval;

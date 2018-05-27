@@ -17,25 +17,24 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "assert_isapproxBuiltin.hpp"
-#include "Error.hpp"
 #include "Assert_IsApprox.hpp"
+#include "Error.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::AssertFunctionsGateway::assert_isapproxBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::AssertFunctionsGateway::assert_isapproxBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (!((argIn.size() == 2) || (argIn.size() == 3)))
-    {
+    if (!((argIn.size() == 2) || (argIn.size() == 3))) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    if (nLhs > 2)
-    {
+    if (nLhs > 2) {
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     double precision = 0.;
-    if (argIn.size() == 3)
-    {
+    if (argIn.size() == 3) {
         ArrayOf param3 = argIn[2];
         precision = param3.getContentAsDoubleScalar();
     }
@@ -43,18 +42,13 @@ ArrayOfVector Nelson::AssertFunctionsGateway::assert_isapproxBuiltin(Evaluator* 
     ArrayOf param2 = argIn[1];
     std::wstring msg;
     bool bRes = Assert_IsApprox(eval, param1, param2, precision, msg);
-    if (nLhs == 0)
-    {
-        if (!bRes)
-        {
+    if (nLhs == 0) {
+        if (!bRes) {
             Error(eval, msg);
         }
-    }
-    else
-    {
+    } else {
         retval.push_back(ArrayOf::logicalConstructor(bRes));
-        if (nLhs > 1)
-        {
+        if (nLhs > 1) {
             retval.push_back(ArrayOf::stringConstructor(msg));
         }
     }

@@ -22,8 +22,9 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace DoubleGateway {
-        ArrayOfVector colon_double_double_doubleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    }
+namespace DoubleGateway {
+    ArrayOfVector
+    colon_double_double_doubleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }
+} // namespace Nelson
 //=============================================================================

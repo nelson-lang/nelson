@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,14 +9,14 @@
 
 static doublereal c_b10 = 1.;
 
-EXPORTSYMBOL /* Subroutine */ int mb02fd_(typet, k, n, p, s, t, ldt, r__, ldr, dwork, ldwork, info, typet_len)
-char *typet;
+EXPORTSYMBOL /* Subroutine */ int mb02fd_(
+    typet, k, n, p, s, t, ldt, r__, ldr, dwork, ldwork, info, typet_len) char* typet;
 integer *k, *n, *p, *s;
-doublereal *t;
-integer *ldt;
-doublereal *r__;
-integer *ldr;
-doublereal *dwork;
+doublereal* t;
+integer* ldt;
+doublereal* r__;
+integer* ldr;
+doublereal* dwork;
 integer *ldwork, *info;
 ftnlen typet_len;
 {
@@ -191,193 +191,164 @@ ftnlen typet_len;
     *info = 0;
     isrow = lsame_(typet, "R", 1L, 1L);
     /*     Check the scalar input parameters. */
-    if (! (isrow || lsame_(typet, "C", 1L, 1L)))
-    {
+    if (!(isrow || lsame_(typet, "C", 1L, 1L))) {
         *info = -1;
-    }
-    else if (*k < 0)
-    {
+    } else if (*k < 0) {
         *info = -2;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -3;
-    }
-    else if (*p < 0 || *p > *n)
-    {
+    } else if (*p < 0 || *p > *n) {
         *info = -4;
-    }
-    else if (*s < 0 || *s > *n - *p)
-    {
+    } else if (*s < 0 || *s > *n - *p) {
         *info = -5;
-    }
-    else if (*ldt < 1 || isrow && *ldt < *k || ! isrow && *ldt < (*n - *p) **k)
-    {
+    } else if (*ldt < 1 || isrow && *ldt < *k || !isrow && *ldt < (*n - *p) * *k) {
         *info = -7;
-    }
-    else if (*ldr < 1 || isrow && *p == 0 && *ldr < *s **k || isrow && *p > 0 && *ldr < (*s + 1) **k || ! isrow && *p == 0 && *ldr < *n **k || ! isrow && *p > 0 && *ldr < (*n - *p + 1) **k)
-    {
+    } else if (*ldr < 1 || isrow && *p == 0 && *ldr < *s * *k
+        || isrow && *p > 0 && *ldr < (*s + 1) * *k || !isrow && *p == 0 && *ldr < *n * *k
+        || !isrow && *p > 0 && *ldr < (*n - *p + 1) * *k) {
         *info = -9;
-    }
-    else
-    {
-        if (*p == 0)
-        {
-            countr = (*n + 1) **k;
-        }
-        else
-        {
-            countr = (*n - *p + 2) **k;
+    } else {
+        if (*p == 0) {
+            countr = (*n + 1) * *k;
+        } else {
+            countr = (*n - *p + 2) * *k;
         }
         /* Computing MAX */
         i__1 = countr, i__2 = *k << 2;
-        countr = max(i__1,i__2);
-        if (*ldwork < max(1,countr))
-        {
-            dwork[1] = (doublereal) max(1,countr);
+        countr = max(i__1, i__2);
+        if (*ldwork < max(1, countr)) {
+            dwork[1] = (doublereal)max(1, countr);
             *info = -11;
         }
     }
     /*     Return if there were illegal values. */
-    if (*info != 0)
-    {
+    if (*info != 0) {
         i__1 = -(*info);
         xerbla_("MB02FD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
     /* Computing MIN */
-    i__1 = min(*k,*n);
-    if (min(i__1,*s) == 0)
-    {
+    i__1 = min(*k, *n);
+    if (min(i__1, *s) == 0) {
         dwork[1] = 1.;
         return 0;
     }
     maxwrk = 1;
-    if (isrow)
-    {
-        if (*p == 0)
-        {
+    if (isrow) {
+        if (*p == 0) {
             /*           T is the first block row of a block Toeplitz matrix. */
             /*           Bring T to proper form by triangularizing its first block. */
             dpotrf_("Upper", k, &t[t_offset], ldt, &ierr, 5L);
-            if (ierr != 0)
-            {
+            if (ierr != 0) {
                 /*              Error return:  The matrix is not positive definite. */
                 *info = 1;
                 return 0;
             }
-            if (*n > 1)
-            {
-                i__1 = (*n - 1) **k;
-                dtrsm_("Left", "Upper", "Transpose", "NonUnit", k, &i__1, &c_b10, &t[t_offset], ldt, &t[(*k + 1) * t_dim1 + 1], ldt, 4L, 5L, 9L, 7L);
+            if (*n > 1) {
+                i__1 = (*n - 1) * *k;
+                dtrsm_("Left", "Upper", "Transpose", "NonUnit", k, &i__1, &c_b10, &t[t_offset], ldt,
+                    &t[(*k + 1) * t_dim1 + 1], ldt, 4L, 5L, 9L, 7L);
             }
-            i__1 = *n **k;
+            i__1 = *n * *k;
             dlacpy_("Upper", k, &i__1, &t[t_offset], ldt, &r__[r_offset], ldr, 5L);
-            if (*s == 1)
-            {
+            if (*s == 1) {
                 dwork[1] = 1.;
                 return 0;
             }
             st = 2;
-            countr = (*n - 1) **k;
-        }
-        else
-        {
+            countr = (*n - 1) * *k;
+        } else {
             st = 1;
-            countr = (*n - *p) **k;
+            countr = (*n - *p) * *k;
         }
         startr = 1;
         i__1 = *s;
-        for (i__ = st; i__ <= i__1; ++i__)
-        {
-            dlacpy_("Upper", k, &countr, &r__[startr + startr * r_dim1], ldr, &r__[startr + *k + (startr + *k) * r_dim1], ldr, 5L);
+        for (i__ = st; i__ <= i__1; ++i__) {
+            dlacpy_("Upper", k, &countr, &r__[startr + startr * r_dim1], ldr,
+                &r__[startr + *k + (startr + *k) * r_dim1], ldr, 5L);
             startr += *k;
             countr -= *k;
             i__2 = *k * 3;
             i__3 = *ldwork - *k * 3;
-            mb02cx_("Row", k, k, k, &r__[startr + startr * r_dim1], ldr, &t[startr * t_dim1 + 1], ldt, &dwork[1], &i__2, &dwork[*k * 3 + 1], &i__3, &ierr, 3L);
-            if (ierr != 0)
-            {
+            mb02cx_("Row", k, k, k, &r__[startr + startr * r_dim1], ldr, &t[startr * t_dim1 + 1],
+                ldt, &dwork[1], &i__2, &dwork[*k * 3 + 1], &i__3, &ierr, 3L);
+            if (ierr != 0) {
                 /*              Error return:  The matrix is not positive definite. */
                 *info = 1;
                 return 0;
             }
             /* Computing MAX */
-            i__2 = maxwrk, i__3 = (integer) dwork[*k * 3 + 1] + *k * 3;
-            maxwrk = max(i__2,i__3);
+            i__2 = maxwrk, i__3 = (integer)dwork[*k * 3 + 1] + *k * 3;
+            maxwrk = max(i__2, i__3);
             i__2 = *k * 3;
             i__3 = *ldwork - *k * 3;
-            mb02cy_("Row", "NoStructure", k, k, &countr, k, &r__[startr + (startr + *k) * r_dim1], ldr, &t[(startr + *k) * t_dim1 + 1], ldt, &t[startr * t_dim1 + 1], ldt, &dwork[1], &i__2, &dwork[*k * 3 + 1], &i__3, &ierr, 3L, 11L);
+            mb02cy_("Row", "NoStructure", k, k, &countr, k, &r__[startr + (startr + *k) * r_dim1],
+                ldr, &t[(startr + *k) * t_dim1 + 1], ldt, &t[startr * t_dim1 + 1], ldt, &dwork[1],
+                &i__2, &dwork[*k * 3 + 1], &i__3, &ierr, 3L, 11L);
             /* Computing MAX */
-            i__2 = maxwrk, i__3 = (integer) dwork[*k * 3 + 1] + *k * 3;
-            maxwrk = max(i__2,i__3);
+            i__2 = maxwrk, i__3 = (integer)dwork[*k * 3 + 1] + *k * 3;
+            maxwrk = max(i__2, i__3);
             /* L10: */
         }
-    }
-    else
-    {
-        if (*p == 0)
-        {
+    } else {
+        if (*p == 0) {
             /*           T is the first block column of a block Toeplitz matrix. */
             /*           Bring T to proper form by triangularizing its first block. */
             dpotrf_("Lower", k, &t[t_offset], ldt, &ierr, 5L);
-            if (ierr != 0)
-            {
+            if (ierr != 0) {
                 /*              Error return:  The matrix is not positive definite. */
                 *info = 1;
                 return 0;
             }
-            if (*n > 1)
-            {
-                i__1 = (*n - 1) **k;
-                dtrsm_("Right", "Lower", "Transpose", "NonUnit", &i__1, k, &c_b10, &t[t_offset], ldt, &t[*k + 1 + t_dim1], ldt, 5L, 5L, 9L, 7L);
+            if (*n > 1) {
+                i__1 = (*n - 1) * *k;
+                dtrsm_("Right", "Lower", "Transpose", "NonUnit", &i__1, k, &c_b10, &t[t_offset],
+                    ldt, &t[*k + 1 + t_dim1], ldt, 5L, 5L, 9L, 7L);
             }
-            i__1 = *n **k;
+            i__1 = *n * *k;
             dlacpy_("Lower", &i__1, k, &t[t_offset], ldt, &r__[r_offset], ldr, 5L);
-            if (*s == 1)
-            {
+            if (*s == 1) {
                 dwork[1] = 1.;
                 return 0;
             }
             st = 2;
-            countr = (*n - 1) **k;
-        }
-        else
-        {
+            countr = (*n - 1) * *k;
+        } else {
             st = 1;
-            countr = (*n - *p) **k;
+            countr = (*n - *p) * *k;
         }
         startr = 1;
         i__1 = *s;
-        for (i__ = st; i__ <= i__1; ++i__)
-        {
-            dlacpy_("Lower", &countr, k, &r__[startr + startr * r_dim1], ldr, &r__[startr + *k + (startr + *k) * r_dim1], ldr, 5L);
+        for (i__ = st; i__ <= i__1; ++i__) {
+            dlacpy_("Lower", &countr, k, &r__[startr + startr * r_dim1], ldr,
+                &r__[startr + *k + (startr + *k) * r_dim1], ldr, 5L);
             startr += *k;
             countr -= *k;
             i__2 = *k * 3;
             i__3 = *ldwork - *k * 3;
-            mb02cx_("Column", k, k, k, &r__[startr + startr * r_dim1], ldr, &t[startr + t_dim1], ldt, &dwork[1], &i__2, &dwork[*k * 3 + 1], &i__3, &ierr, 6L);
-            if (ierr != 0)
-            {
+            mb02cx_("Column", k, k, k, &r__[startr + startr * r_dim1], ldr, &t[startr + t_dim1],
+                ldt, &dwork[1], &i__2, &dwork[*k * 3 + 1], &i__3, &ierr, 6L);
+            if (ierr != 0) {
                 /*              Error return:  The matrix is not positive definite. */
                 *info = 1;
                 return 0;
             }
             /* Computing MAX */
-            i__2 = maxwrk, i__3 = (integer) dwork[*k * 3 + 1] + *k * 3;
-            maxwrk = max(i__2,i__3);
+            i__2 = maxwrk, i__3 = (integer)dwork[*k * 3 + 1] + *k * 3;
+            maxwrk = max(i__2, i__3);
             i__2 = *k * 3;
             i__3 = *ldwork - *k * 3;
-            mb02cy_("Column", "NoStructure", k, k, &countr, k, &r__[startr + *k + startr * r_dim1], ldr, &t[startr + *k + t_dim1], ldt, &t[startr + t_dim1], ldt, &dwork[1], &i__2, &dwork[*k * 3 + 1], &i__3, &ierr, 6L, 11L);
+            mb02cy_("Column", "NoStructure", k, k, &countr, k, &r__[startr + *k + startr * r_dim1],
+                ldr, &t[startr + *k + t_dim1], ldt, &t[startr + t_dim1], ldt, &dwork[1], &i__2,
+                &dwork[*k * 3 + 1], &i__3, &ierr, 6L, 11L);
             /* Computing MAX */
-            i__2 = maxwrk, i__3 = (integer) dwork[*k * 3 + 1] + *k * 3;
-            maxwrk = max(i__2,i__3);
+            i__2 = maxwrk, i__3 = (integer)dwork[*k * 3 + 1] + *k * 3;
+            maxwrk = max(i__2, i__3);
             /* L20: */
         }
     }
-    dwork[1] = (doublereal) maxwrk;
+    dwork[1] = (doublereal)maxwrk;
     return 0;
     /* *** Last line of MB02FD *** */
 } /* mb02fd_ */
-

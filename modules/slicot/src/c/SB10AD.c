@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,41 +9,46 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int sb10ad_(job, n, m, np, ncon, nmeas, gamma, a, lda, b, ldb, c__, ldc, d__, ldd, ak, ldak, bk, ldbk, ck, ldck, dk, lddk, ac, ldac, bc, ldbc, cc, ldcc, dc, lddc, rcond, gtol, actol, iwork, liwork, dwork, ldwork, bwork, lbwork, info)
-integer *job, *n, *m, *np, *ncon, *nmeas;
+EXPORTSYMBOL /* Subroutine */ int sb10ad_(job, n, m, np, ncon, nmeas, gamma, a, lda, b, ldb, c__,
+    ldc, d__, ldd, ak, ldak, bk, ldbk, ck, ldck, dk, lddk, ac, ldac, bc, ldbc, cc, ldcc, dc, lddc,
+    rcond, gtol, actol, iwork, liwork, dwork, ldwork, bwork, lbwork, info) integer *job,
+    *n, *m, *np, *ncon, *nmeas;
 doublereal *gamma, *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *d__;
-integer *ldd;
-doublereal *ak;
-integer *ldak;
-doublereal *bk;
-integer *ldbk;
-doublereal *ck;
-integer *ldck;
-doublereal *dk;
-integer *lddk;
-doublereal *ac;
-integer *ldac;
-doublereal *bc;
-integer *ldbc;
-doublereal *cc;
-integer *ldcc;
-doublereal *dc;
-integer *lddc;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* d__;
+integer* ldd;
+doublereal* ak;
+integer* ldak;
+doublereal* bk;
+integer* ldbk;
+doublereal* ck;
+integer* ldck;
+doublereal* dk;
+integer* lddk;
+doublereal* ac;
+integer* ldac;
+doublereal* bc;
+integer* ldbc;
+doublereal* cc;
+integer* ldcc;
+doublereal* dc;
+integer* lddc;
 doublereal *rcond, *gtol, *actol;
 integer *iwork, *liwork;
-doublereal *dwork;
-integer *ldwork;
-logical *bwork;
+doublereal* dwork;
+integer* ldwork;
+logical* bwork;
 integer *lbwork, *info;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, ac_dim1, ac_offset, ak_dim1, ak_offset, b_dim1, b_offset, bc_dim1, bc_offset, bk_dim1, bk_offset, c_dim1, c_offset, cc_dim1, cc_offset, ck_dim1, ck_offset, d_dim1, d_offset, dc_dim1, dc_offset, dk_dim1, dk_offset, i__1, i__2, i__3, i__4, i__5, i__6, i__7, i__8, i__9, i__10;
+    integer a_dim1, a_offset, ac_dim1, ac_offset, ak_dim1, ak_offset, b_dim1, b_offset, bc_dim1,
+        bc_offset, bk_dim1, bk_offset, c_dim1, c_offset, cc_dim1, cc_offset, ck_dim1, ck_offset,
+        d_dim1, d_offset, dc_dim1, dc_offset, dk_dim1, dk_offset, i__1, i__2, i__3, i__4, i__5,
+        i__6, i__7, i__8, i__9, i__10;
     doublereal d__1, d__2;
     /* Builtin functions */
     double sqrt();
@@ -56,7 +61,8 @@ integer *lbwork, *info;
     static doublereal gamabs, mineac, gamamn, gamamx;
     extern /* Subroutine */ int dgesvd_(), dlacpy_(), xerbla_();
     extern logical select_();
-    static integer lwamax, minwrk, np1, np2, lw1, lw2, lw3, lw4, lw5, lw6, lw7, inf, np11, iwc, iwd, iwf, iwh, iwx, iwy, iwd1;
+    static integer lwamax, minwrk, np1, np2, lw1, lw2, lw3, lw4, lw5, lw6, lw7, inf, np11, iwc, iwd,
+        iwf, iwh, iwx, iwy, iwd1;
     static doublereal tol2;
     static integer iws1, iws2;
     /*     SLICOT RELEASE 5.0. */
@@ -405,125 +411,91 @@ integer *lbwork, *info;
     np11 = np1 - m2;
     m11 = m1 - np2;
     *info = 0;
-    if (*job < 1 || *job > 4)
-    {
+    if (*job < 1 || *job > 4) {
         *info = -1;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -2;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -3;
-    }
-    else if (*np < 0)
-    {
+    } else if (*np < 0) {
         *info = -4;
-    }
-    else if (*ncon < 0 || m1 < 0 || m2 > np1)
-    {
+    } else if (*ncon < 0 || m1 < 0 || m2 > np1) {
         *info = -5;
-    }
-    else if (*nmeas < 0 || np1 < 0 || np2 > m1)
-    {
+    } else if (*nmeas < 0 || np1 < 0 || np2 > m1) {
         *info = -6;
-    }
-    else if (*gamma < 0.)
-    {
+    } else if (*gamma < 0.) {
         *info = -7;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -9;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -11;
-    }
-    else if (*ldc < max(1,*np))
-    {
+    } else if (*ldc < max(1, *np)) {
         *info = -13;
-    }
-    else if (*ldd < max(1,*np))
-    {
+    } else if (*ldd < max(1, *np)) {
         *info = -15;
-    }
-    else if (*ldak < max(1,*n))
-    {
+    } else if (*ldak < max(1, *n)) {
         *info = -17;
-    }
-    else if (*ldbk < max(1,*n))
-    {
+    } else if (*ldbk < max(1, *n)) {
         *info = -19;
-    }
-    else if (*ldck < max(1,m2))
-    {
+    } else if (*ldck < max(1, m2)) {
         *info = -21;
-    }
-    else if (*lddk < max(1,m2))
-    {
+    } else if (*lddk < max(1, m2)) {
         *info = -23;
-    }
-    else /* if(complicated condition) */
+    } else /* if(complicated condition) */
     {
         /* Computing MAX */
         i__1 = 1, i__2 = *n << 1;
-        if (*ldac < max(i__1,i__2))
-        {
+        if (*ldac < max(i__1, i__2)) {
             *info = -25;
-        }
-        else /* if(complicated condition) */
+        } else /* if(complicated condition) */
         {
             /* Computing MAX */
             i__1 = 1, i__2 = *n << 1;
-            if (*ldbc < max(i__1,i__2))
-            {
+            if (*ldbc < max(i__1, i__2)) {
                 *info = -27;
-            }
-            else if (*ldcc < max(1,np1))
-            {
+            } else if (*ldcc < max(1, np1)) {
                 *info = -29;
-            }
-            else if (*lddc < max(1,np1))
-            {
+            } else if (*lddc < max(1, np1)) {
                 *info = -31;
-            }
-            else
-            {
+            } else {
                 /*        Compute workspace. */
-                lw1 = *n **m + *np **n + *np **m + m2 * m2 + np2 * np2;
+                lw1 = *n * *m + *np * *n + *np * *m + m2 * m2 + np2 * np2;
                 /* Computing MAX */
                 /* Computing MAX */
                 i__3 = (*n + m2) * 3 + *n + np1, i__4 = (*n + m2) * 5;
                 /* Computing MAX */
                 i__5 = (*n + np2) * 3 + *n + m1, i__6 = (*n + np2) * 5;
                 /* Computing MAX */
-                i__7 = np1 * max(*n,m1), i__8 = m2 * 3 + np1, i__7 = max(i__7,i__8), i__8 = m2 * 5;
+                i__7 = np1 * max(*n, m1), i__8 = m2 * 3 + np1, i__7 = max(i__7, i__8),
+                i__8 = m2 * 5;
                 /* Computing MAX */
-                i__9 = max(*n,np1) * m1, i__10 = np2 * 3 + m1, i__9 = max(i__9,i__10), i__10 = np2 * 5;
-                i__1 = (*n + np1 + 1) * (*n + m2) + max(i__3,i__4), i__2 = (*n + np2) * (*n + m1 + 1) + max(i__5,i__6), i__1 = max(i__1,i__2), i__2 = m2 + np1 * np1 + max(i__7,i__8), i__1 = max(i__1,i__2), i__2 = np2 + m1 * m1 + max(i__9,i__10);
-                lw2 = max(i__1,i__2);
-                /* Computing MAX */
-                /* Computing MAX */
-                i__3 = (min(np11,m1) << 2) + max(np11,m1), i__4 = min(np11,m1) * 6;
-                /* Computing MAX */
-                i__5 = (min(np1,m11) << 2) + max(np1,m11), i__6 = min(np1,m11) * 6;
-                i__1 = np11 * m1 + max(i__3,i__4), i__2 = np1 * m11 + max(i__5,i__6);
-                lw3 = max(i__1,i__2);
-                lw4 = (*m << 1) **m + *np **np + (*m << 1) **n + *m **np + (*n << 1) **np;
-                lw5 = (*n << 1) **n + *m **n + *n **np;
+                i__9 = max(*n, np1) * m1, i__10 = np2 * 3 + m1, i__9 = max(i__9, i__10),
+                i__10 = np2 * 5;
+                i__1 = (*n + np1 + 1) * (*n + m2) + max(i__3, i__4),
+                i__2 = (*n + np2) * (*n + m1 + 1) + max(i__5, i__6), i__1 = max(i__1, i__2),
+                i__2 = m2 + np1 * np1 + max(i__7, i__8), i__1 = max(i__1, i__2),
+                i__2 = np2 + m1 * m1 + max(i__9, i__10);
+                lw2 = max(i__1, i__2);
                 /* Computing MAX */
                 /* Computing MAX */
+                i__3 = (min(np11, m1) << 2) + max(np11, m1), i__4 = min(np11, m1) * 6;
                 /* Computing MAX */
-                i__5 = *n **m, i__6 = *n * 10 * *n + *n * 12 + 5;
-                i__3 = m1 << 1, i__4 = *n * 3 * *n + max(i__5,i__6);
+                i__5 = (min(np1, m11) << 2) + max(np1, m11), i__6 = min(np1, m11) * 6;
+                i__1 = np11 * m1 + max(i__3, i__4), i__2 = np1 * m11 + max(i__5, i__6);
+                lw3 = max(i__1, i__2);
+                lw4 = (*m << 1) * *m + *np * *np + (*m << 1) * *n + *m * *np + (*n << 1) * *np;
+                lw5 = (*n << 1) * *n + *m * *n + *n * *np;
                 /* Computing MAX */
                 /* Computing MAX */
-                i__9 = *n **np, i__10 = *n * 10 * *n + *n * 12 + 5;
-                i__7 = np1 << 1, i__8 = *n * 3 * *n + max(i__9,i__10);
-                i__1 = *m **m + max(i__3,i__4), i__2 = *np **np + max(i__7,i__8);
-                lw6 = max(i__1,i__2);
+                /* Computing MAX */
+                i__5 = *n * *m, i__6 = *n * 10 * *n + *n * 12 + 5;
+                i__3 = m1 << 1, i__4 = *n * 3 * *n + max(i__5, i__6);
+                /* Computing MAX */
+                /* Computing MAX */
+                i__9 = *n * *np, i__10 = *n * 10 * *n + *n * 12 + 5;
+                i__7 = np1 << 1, i__8 = *n * 3 * *n + max(i__9, i__10);
+                i__1 = *m * *m + max(i__3, i__4), i__2 = *np * *np + max(i__7, i__8);
+                lw6 = max(i__1, i__2);
                 /* Computing MAX */
                 /* Computing MAX */
                 i__3 = np11 << 1, i__4 = (np11 + m11) * np2;
@@ -531,45 +503,41 @@ integer *lbwork, *info;
                 i__5 = m11 << 1, i__6 = m11 * m2;
                 /* Computing MAX */
                 /* Computing MAX */
-                i__9 = m2 * m2 + m2 * 3, i__10 = np2 * ((np2 << 1) + m2 + max(np2,*n));
-                i__7 = (*n << 1) * m2, i__8 = m2 * np2 + max(i__9,i__10);
-                i__1 = np11 * np11 + max(i__3,i__4), i__2 = m11 * m11 + max(i__5,i__6), i__1 = max(i__1,i__2), i__2 = *n * 3, i__1 = max(i__1,i__2), i__2 = *n * ((np2 << 1) + m2) + max(i__7,i__8);
-                lw7 = m2 * np2 + np2 * np2 + m2 * m2 + max(i__1,i__2);
+                i__9 = m2 * m2 + m2 * 3, i__10 = np2 * ((np2 << 1) + m2 + max(np2, *n));
+                i__7 = (*n << 1) * m2, i__8 = m2 * np2 + max(i__9, i__10);
+                i__1 = np11 * np11 + max(i__3, i__4), i__2 = m11 * m11 + max(i__5, i__6),
+                i__1 = max(i__1, i__2), i__2 = *n * 3, i__1 = max(i__1, i__2),
+                i__2 = *n * ((np2 << 1) + m2) + max(i__7, i__8);
+                lw7 = m2 * np2 + np2 * np2 + m2 * m2 + max(i__1, i__2);
                 /* Computing MAX */
-                i__1 = max(1,lw2), i__1 = max(i__1,lw3), i__1 = max(i__1,lw4), i__2 = lw5 + max(lw6,lw7);
-                minwrk = lw1 + max(i__1,i__2);
-                if (*ldwork < minwrk)
-                {
+                i__1 = max(1, lw2), i__1 = max(i__1, lw3), i__1 = max(i__1, lw4),
+                i__2 = lw5 + max(lw6, lw7);
+                minwrk = lw1 + max(i__1, i__2);
+                if (*ldwork < minwrk) {
                     *info = -38;
-                }
-                else /* if(complicated condition) */
+                } else /* if(complicated condition) */
                 {
                     /* Computing MAX */
                     /* Computing MAX */
-                    i__3 = max(*n,m1), i__3 = max(i__3,np1), i__3 = max(i__3,m2);
-                    i__1 = max(i__3,np2) << 1, i__2 = *n **n;
-                    if (*liwork < max(i__1,i__2))
-                    {
+                    i__3 = max(*n, m1), i__3 = max(i__3, np1), i__3 = max(i__3, m2);
+                    i__1 = max(i__3, np2) << 1, i__2 = *n * *n;
+                    if (*liwork < max(i__1, i__2)) {
                         *info = -36;
-                    }
-                    else if (*lbwork < *n << 1)
-                    {
+                    } else if (*lbwork < *n << 1) {
                         *info = -40;
                     }
                 }
             }
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("SB10AD", &i__1, 6L);
         return 0;
     }
     /*     Quick return if possible. */
-    if (*n == 0 || *m == 0 || *np == 0 || m1 == 0 || m2 == 0 || np1 == 0 || np2 == 0)
-    {
+    if (*n == 0 || *m == 0 || *np == 0 || m1 == 0 || m2 == 0 || np1 == 0 || np2 == 0) {
         rcond[1] = 1.;
         rcond[2] = 1.;
         rcond[3] = 1.;
@@ -578,20 +546,18 @@ integer *lbwork, *info;
         return 0;
     }
     mode = *job;
-    if (mode > 2)
-    {
+    if (mode > 2) {
         mode = 1;
     }
     gtoll = *gtol;
-    if (gtoll <= 0.)
-    {
+    if (gtoll <= 0.) {
         /*        Set the default value of the tolerance for GAMMA. */
         gtoll = sqrt(dlamch_("Epsilon", 7L));
     }
     /*     Workspace usage 1. */
-    iwc = *n **m + 1;
-    iwd = iwc + *np **n;
-    iwtu = iwd + *np **m;
+    iwc = *n * *m + 1;
+    iwd = iwc + *np * *n;
+    iwtu = iwd + *np * *m;
     iwty = iwtu + m2 * m2;
     iwrk = iwty + np2 * np2;
     dlacpy_("Full", n, m, &b[b_offset], ldb, &dwork[1], n, 4L);
@@ -612,10 +578,10 @@ integer *lbwork, *info;
     /*             LW1 + MAX(1,(N+Q)*(N+Q+6),Q*(Q+MAX(N,Q,5)+1). */
     tol2 = -1.;
     i__1 = *ldwork - iwrk + 1;
-    sb10pd_(n, m, np, ncon, nmeas, &a[a_offset], lda, &dwork[1], n, &dwork[iwc], np, &dwork[iwd], np, &dwork[iwtu], &m2, &dwork[iwty], &np2, &rcond[1], &tol2, &dwork[iwrk], &i__1, &info2);
-    lwamax = (integer) dwork[iwrk] + iwrk - 1;
-    if (info2 != 0)
-    {
+    sb10pd_(n, m, np, ncon, nmeas, &a[a_offset], lda, &dwork[1], n, &dwork[iwc], np, &dwork[iwd],
+        np, &dwork[iwtu], &m2, &dwork[iwty], &np2, &rcond[1], &tol2, &dwork[iwrk], &i__1, &info2);
+    lwamax = (integer)dwork[iwrk] + iwrk - 1;
+    if (info2 != 0) {
         *info = info2;
         return 0;
     }
@@ -630,56 +596,49 @@ integer *lbwork, *info;
     /*     LWS2 = NP1*M11 + MAX(4*MIN(NP1,M11)+MAX(NP1,M11),6*MIN(NP1,M11)) */
     info2 = 0;
     info3 = 0;
-    if (np11 != 0 && m1 != 0)
-    {
-        iwrk = iws1 + min(np11,m1);
+    if (np11 != 0 && m1 != 0) {
+        iwrk = iws1 + min(np11, m1);
         dlacpy_("Full", &np11, &m1, &dwork[iwd], ldd, &dwork[iwd1], &np11, 4L);
         i__1 = *ldwork - iwrk + 1;
-        dgesvd_("N", "N", &np11, &m1, &dwork[iwd1], &np11, &dwork[iws1], &dwork[iws1], &c__1, &dwork[iws1], &c__1, &dwork[iwrk], &i__1, &info2, 1L, 1L);
+        dgesvd_("N", "N", &np11, &m1, &dwork[iwd1], &np11, &dwork[iws1], &dwork[iws1], &c__1,
+            &dwork[iws1], &c__1, &dwork[iwrk], &i__1, &info2, 1L, 1L);
         /* Computing MAX */
-        i__1 = lwamax, i__2 = (integer) dwork[iwrk] + iwrk - 1;
-        lwamax = max(i__1,i__2);
-    }
-    else
-    {
+        i__1 = lwamax, i__2 = (integer)dwork[iwrk] + iwrk - 1;
+        lwamax = max(i__1, i__2);
+    } else {
         dwork[iws1] = 0.;
     }
     iws2 = iwd1 + np1 * m11;
-    if (np1 != 0 && m11 != 0)
-    {
-        iwrk = iws2 + min(np1,m11);
+    if (np1 != 0 && m11 != 0) {
+        iwrk = iws2 + min(np1, m11);
         dlacpy_("Full", &np1, &m11, &dwork[iwd], ldd, &dwork[iwd1], &np1, 4L);
         i__1 = *ldwork - iwrk + 1;
-        dgesvd_("N", "N", &np1, &m11, &dwork[iwd1], &np1, &dwork[iws2], &dwork[iws2], &c__1, &dwork[iws2], &c__1, &dwork[iwrk], &i__1, &info3, 1L, 1L);
+        dgesvd_("N", "N", &np1, &m11, &dwork[iwd1], &np1, &dwork[iws2], &dwork[iws2], &c__1,
+            &dwork[iws2], &c__1, &dwork[iwrk], &i__1, &info3, 1L, 1L);
         /* Computing MAX */
-        i__1 = lwamax, i__2 = (integer) dwork[iwrk] + iwrk - 1;
-        lwamax = max(i__1,i__2);
-    }
-    else
-    {
+        i__1 = lwamax, i__2 = (integer)dwork[iwrk] + iwrk - 1;
+        lwamax = max(i__1, i__2);
+    } else {
         dwork[iws2] = 0.;
     }
     /* Computing MAX */
     d__1 = dwork[iws1], d__2 = dwork[iws2];
-    gamamn = max(d__1,d__2);
-    if (info2 > 0 || info3 > 0)
-    {
+    gamamn = max(d__1, d__2);
+    if (info2 > 0 || info3 > 0) {
         *info = 10;
         return 0;
-    }
-    else if (*gamma <= gamamn)
-    {
+    } else if (*gamma <= gamamn) {
         *info = 6;
         return 0;
     }
     /*     Workspace usage 3. */
     iwx = iwd1;
-    iwy = iwx + *n **n;
-    iwf = iwy + *n **n;
-    iwh = iwf + *m **n;
-    iwrk = iwh + *n **np;
+    iwy = iwx + *n * *n;
+    iwf = iwy + *n * *n;
+    iwh = iwf + *m * *n;
+    iwrk = iwh + *n * *np;
     iwac = iwd1;
-    iwwr = iwac + (*n << 2) **n;
+    iwwr = iwac + (*n << 2) * *n;
     iwwi = iwwr + (*n << 1);
     iwre = iwwi + (*n << 1);
     /*     Prepare some auxiliary variables for the gamma iteration. */
@@ -694,30 +653,35 @@ L10:
     /*        Try to compute the state feedback and output injection */
     /*        matrices for the current GAMMA. */
     i__1 = *ldwork - iwrk + 1;
-    sb10qd_(n, m, np, ncon, nmeas, gamma, &a[a_offset], lda, &dwork[1], n, &dwork[iwc], np, &dwork[iwd], np, &dwork[iwf], m, &dwork[iwh], n, &dwork[iwx], n, &dwork[iwy], n, &rcond[3], &iwork[1], &dwork[iwrk], &i__1, &bwork[1], &info2);
-    if (info2 != 0)
-    {
+    sb10qd_(n, m, np, ncon, nmeas, gamma, &a[a_offset], lda, &dwork[1], n, &dwork[iwc], np,
+        &dwork[iwd], np, &dwork[iwf], m, &dwork[iwh], n, &dwork[iwx], n, &dwork[iwy], n, &rcond[3],
+        &iwork[1], &dwork[iwrk], &i__1, &bwork[1], &info2);
+    if (info2 != 0) {
         goto L30;
     }
     /*        Try to compute the Hinf suboptimal (yet) controller. */
     i__1 = *ldwork - iwrk + 1;
-    sb10rd_(n, m, np, ncon, nmeas, gamma, &a[a_offset], lda, &dwork[1], n, &dwork[iwc], np, &dwork[iwd], np, &dwork[iwf], m, &dwork[iwh], n, &dwork[iwtu], &m2, &dwork[iwty], &np2, &dwork[iwx], n, &dwork[iwy], n, &ak[ak_offset], ldak, &bk[bk_offset], ldbk, &ck[ck_offset], ldck, &dk[dk_offset], lddk, &iwork[1], &dwork[iwrk], &i__1, &info2);
-    if (info2 != 0)
-    {
+    sb10rd_(n, m, np, ncon, nmeas, gamma, &a[a_offset], lda, &dwork[1], n, &dwork[iwc], np,
+        &dwork[iwd], np, &dwork[iwf], m, &dwork[iwh], n, &dwork[iwtu], &m2, &dwork[iwty], &np2,
+        &dwork[iwx], n, &dwork[iwy], n, &ak[ak_offset], ldak, &bk[bk_offset], ldbk, &ck[ck_offset],
+        ldck, &dk[dk_offset], lddk, &iwork[1], &dwork[iwrk], &i__1, &info2);
+    if (info2 != 0) {
         goto L30;
     }
     /*        Compute the closed-loop system. */
     /*        Workspace: need   LW1 + 2*M*M + NP*NP + 2*M*N + M*NP + 2*N*NP; */
     /*                   prefer larger. */
     i__1 = *ldwork - iwd1 + 1;
-    sb10ld_(n, m, np, ncon, nmeas, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, &d__[d_offset], ldd, &ak[ak_offset], ldak, &bk[bk_offset], ldbk, &ck[ck_offset], ldck, &dk[dk_offset], lddk, &ac[ac_offset], ldac, &bc[bc_offset], ldbc, &cc[cc_offset], ldcc, &dc[dc_offset], lddc, &iwork[1], &dwork[iwd1], &i__1, &info2);
-    if (info2 != 0)
-    {
+    sb10ld_(n, m, np, ncon, nmeas, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc,
+        &d__[d_offset], ldd, &ak[ak_offset], ldak, &bk[bk_offset], ldbk, &ck[ck_offset], ldck,
+        &dk[dk_offset], lddk, &ac[ac_offset], ldac, &bc[bc_offset], ldbc, &cc[cc_offset], ldcc,
+        &dc[dc_offset], lddc, &iwork[1], &dwork[iwd1], &i__1, &info2);
+    if (info2 != 0) {
         goto L30;
     }
     /* Computing MAX */
-    i__1 = lwamax, i__2 = (integer) dwork[iwd1] + iwd1 - 1;
-    lwamax = max(i__1,i__2);
+    i__1 = lwamax, i__2 = (integer)dwork[iwd1] + iwd1 - 1;
+    lwamax = max(i__1, i__2);
     /*        Compute the poles of the closed-loop system. */
     /*        Workspace:  need   LW1 + 4*N*N + 4*N + max(1,6*N); */
     /*                    prefer larger. */
@@ -728,62 +692,52 @@ L10:
     i__1 = *n << 1;
     i__2 = *n << 1;
     i__3 = *ldwork - iwre + 1;
-    dgees_("N", "N", select_, &i__1, &dwork[iwac], &i__2, &iwork[1], &dwork[iwwr], &dwork[iwwi], &dwork[iwre], &c__1, &dwork[iwre], &i__3, &bwork[1], &info2, 1L, 1L);
+    dgees_("N", "N", select_, &i__1, &dwork[iwac], &i__2, &iwork[1], &dwork[iwwr], &dwork[iwwi],
+        &dwork[iwre], &c__1, &dwork[iwre], &i__3, &bwork[1], &info2, 1L, 1L);
     /* Computing MAX */
-    i__1 = lwamax, i__2 = (integer) dwork[iwre] + iwre - 1;
-    lwamax = max(i__1,i__2);
+    i__1 = lwamax, i__2 = (integer)dwork[iwre] + iwre - 1;
+    lwamax = max(i__1, i__2);
     /*        Now DWORK(IWWR+I)=Re(Lambda), DWORK(IWWI+I)=Im(Lambda), */
     /*        for I=0,2*N-1. */
     mineac = -1e3;
     i__1 = (*n << 1) - 1;
-    for (i__ = 0; i__ <= i__1; ++i__)
-    {
+    for (i__ = 0; i__ <= i__1; ++i__) {
         /* Computing MAX */
         d__1 = mineac, d__2 = dwork[iwwr + i__];
-        mineac = max(d__1,d__2);
+        mineac = max(d__1, d__2);
         /* L20: */
     }
     /*        Check if the closed-loop system is stable. */
 L30:
-    if (mode == 1)
-    {
-        if (info2 == 0 && mineac < *actol)
-        {
+    if (mode == 1) {
+        if (info2 == 0 && mineac < *actol) {
             gamabs = *gamma;
             *gamma -= stepg;
             inf = 1;
-        }
-        else
-        {
+        } else {
             /* Computing MIN */
             d__1 = *gamma + stepg;
-            *gamma = min(d__1,gamamx);
+            *gamma = min(d__1, gamamx);
         }
-    }
-    else if (mode == 2)
-    {
-        if (info2 == 0 && mineac < *actol)
-        {
+    } else if (mode == 2) {
+        if (info2 == 0 && mineac < *actol) {
             gamabs = *gamma;
             inf = 1;
         }
-        *gamma -= max(.1,gtoll);
+        *gamma -= max(.1, gtoll);
     }
     /*        More iterations? */
-    if (mode == 1 && *job == 3 && stepg * 2. < gtoll)
-    {
+    if (mode == 1 && *job == 3 && stepg * 2. < gtoll) {
         mode = 2;
         *gamma = gamabs;
     }
-    if (*job != 4 && (mode == 1 && stepg * 2. >= gtoll || mode == 2 && *gamma > 0.))
-    {
+    if (*job != 4 && (mode == 1 && stepg * 2. >= gtoll || mode == 2 && *gamma > 0.)) {
         goto L10;
     }
     /*     ############################################################### */
     /*     End of the gamma iteration - Return if no stabilizing controller */
     /*     was found. */
-    if (inf == 0)
-    {
+    if (inf == 0) {
         *info = 12;
         return 0;
     }
@@ -801,12 +755,13 @@ L30:
     /*             An upper bound of the second term after LW1P is */
     /*             max(1,4*Q*Q+max(2*Q,3*N*N + max(2*N*Q,10*N*N+12*N+5))). */
     i__1 = *ldwork - iwrk + 1;
-    sb10qd_(n, m, np, ncon, nmeas, gamma, &a[a_offset], lda, &dwork[1], n, &dwork[iwc], np, &dwork[iwd], np, &dwork[iwf], m, &dwork[iwh], n, &dwork[iwx], n, &dwork[iwy], n, &rcond[3], &iwork[1], &dwork[iwrk], &i__1, &bwork[1], &info2);
+    sb10qd_(n, m, np, ncon, nmeas, gamma, &a[a_offset], lda, &dwork[1], n, &dwork[iwc], np,
+        &dwork[iwd], np, &dwork[iwf], m, &dwork[iwh], n, &dwork[iwx], n, &dwork[iwy], n, &rcond[3],
+        &iwork[1], &dwork[iwrk], &i__1, &bwork[1], &info2);
     /* Computing MAX */
-    i__1 = lwamax, i__2 = (integer) dwork[iwrk] + iwrk - 1;
-    lwamax = max(i__1,i__2);
-    if (info2 > 0)
-    {
+    i__1 = lwamax, i__2 = (integer)dwork[iwrk] + iwrk - 1;
+    lwamax = max(i__1, i__2);
+    if (info2 > 0) {
         *info = info2 + 5;
         return 0;
     }
@@ -825,31 +780,32 @@ L30:
     /*             An upper bound of the second term after LW1P is */
     /*             max( 1, Q*(3*Q + 3*N + max(2*N, 4*Q + max(Q, N)))). */
     i__1 = *ldwork - iwrk + 1;
-    sb10rd_(n, m, np, ncon, nmeas, gamma, &a[a_offset], lda, &dwork[1], n, &dwork[iwc], np, &dwork[iwd], np, &dwork[iwf], m, &dwork[iwh], n, &dwork[iwtu], &m2, &dwork[iwty], &np2, &dwork[iwx], n, &dwork[iwy], n, &ak[ak_offset], ldak, &bk[bk_offset], ldbk, &ck[ck_offset], ldck, &dk[dk_offset], lddk, &iwork[1], &dwork[iwrk], &i__1, &info2);
+    sb10rd_(n, m, np, ncon, nmeas, gamma, &a[a_offset], lda, &dwork[1], n, &dwork[iwc], np,
+        &dwork[iwd], np, &dwork[iwf], m, &dwork[iwh], n, &dwork[iwtu], &m2, &dwork[iwty], &np2,
+        &dwork[iwx], n, &dwork[iwy], n, &ak[ak_offset], ldak, &bk[bk_offset], ldbk, &ck[ck_offset],
+        ldck, &dk[dk_offset], lddk, &iwork[1], &dwork[iwrk], &i__1, &info2);
     /* Computing MAX */
-    i__1 = lwamax, i__2 = (integer) dwork[iwrk] + iwrk - 1;
-    lwamax = max(i__1,i__2);
-    if (info2 == 1)
-    {
+    i__1 = lwamax, i__2 = (integer)dwork[iwrk] + iwrk - 1;
+    lwamax = max(i__1, i__2);
+    if (info2 == 1) {
         *info = 6;
         return 0;
-    }
-    else if (info2 == 2)
-    {
+    } else if (info2 == 2) {
         *info = 9;
         return 0;
     }
     /*     Integer workspace:  need   2*max(NCON,NMEAS). */
     /*     Workspace: need   2*M*M + NP*NP + 2*M*N + M*NP + 2*N*NP; */
     /*                prefer larger. */
-    sb10ld_(n, m, np, ncon, nmeas, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, &d__[d_offset], ldd, &ak[ak_offset], ldak, &bk[bk_offset], ldbk, &ck[ck_offset], ldck, &dk[dk_offset], lddk, &ac[ac_offset], ldac, &bc[bc_offset], ldbc, &cc[cc_offset], ldcc, &dc[dc_offset], lddc, &iwork[1], &dwork[1], ldwork, &info2);
-    if (info2 > 0)
-    {
+    sb10ld_(n, m, np, ncon, nmeas, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc,
+        &d__[d_offset], ldd, &ak[ak_offset], ldak, &bk[bk_offset], ldbk, &ck[ck_offset], ldck,
+        &dk[dk_offset], lddk, &ac[ac_offset], ldac, &bc[bc_offset], ldbc, &cc[cc_offset], ldcc,
+        &dc[dc_offset], lddc, &iwork[1], &dwork[1], ldwork, &info2);
+    if (info2 > 0) {
         *info = 11;
         return 0;
     }
-    dwork[1] = (doublereal) lwamax;
+    dwork[1] = (doublereal)lwamax;
     return 0;
     /* *** Last line of SB10AD *** */
 } /* sb10ad_ */
-

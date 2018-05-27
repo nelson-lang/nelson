@@ -18,50 +18,38 @@
 //=============================================================================
 #include "lasterrorBuiltin.hpp"
 #include "Error.hpp"
-#include "IsErrorStruct.hpp"
 #include "ErrorToStruct.hpp"
+#include "IsErrorStruct.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-ArrayOfVector Nelson::ErrorManagerGateway::lasterrorBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+ArrayOfVector
+Nelson::ErrorManagerGateway::lasterrorBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() > 1)
-    {
+    if (argIn.size() > 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    }
-    else
-    {
-        if (argIn.size() == 1)
-        {
+    } else {
+        if (argIn.size() == 1) {
             ArrayOf arg1 = argIn[0];
-            if (arg1.isSingleString())
-            {
+            if (arg1.isSingleString()) {
                 std::wstring str = arg1.getContentAsWideString();
-                if (str == L"reset")
-                {
+                if (str == L"reset") {
                     eval->setLastException(Exception(L""));
-                }
-                else
-                {
+                } else {
                     Error(eval, _W("Wrong value for #2 input argument.") + _W("'reset' expected."));
                 }
-            }
-            else if (arg1.isStruct())
-            {
+            } else if (arg1.isStruct()) {
                 Exception e(L"");
-                if (IsErrorStruct(arg1, e))
-                {
+                if (IsErrorStruct(arg1, e)) {
                     eval->setLastException(e);
-                }
-                else
-                {
+                } else {
                     Error(eval, ERROR_WRONG_ARGUMENT_2_VALUE);
                 }
-            }
-            else
-            {
-                Error(eval, ERROR_WRONG_ARGUMENT_2_TYPE + _W("a structure or the string 'reset' expected."));
+            } else {
+                Error(eval,
+                    ERROR_WRONG_ARGUMENT_2_TYPE
+                        + _W("a structure or the string 'reset' expected."));
             }
         }
         Exception lasterror = eval->getLastException();

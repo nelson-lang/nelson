@@ -18,12 +18,14 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsString_exports.h"
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
+#include "nlsString_exports.h"
 //=============================================================================
 namespace Nelson {
-    NLSSTRING_IMPEXP ArrayOf ToUpper(Evaluator* eval, ArrayOf A);
-    NLSSTRING_IMPEXP std::wstring ToUpper(const std::wstring &A);
-}
+NLSSTRING_IMPEXP ArrayOf
+ToUpper(Evaluator* eval, ArrayOf A);
+NLSSTRING_IMPEXP std::wstring
+ToUpper(const std::wstring& A);
+} // namespace Nelson
 //=============================================================================

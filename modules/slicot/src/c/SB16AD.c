@@ -1,32 +1,35 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
 
-EXPORTSYMBOL /* Subroutine */ int sb16ad_(dico, jobc, jobo, jobmr, weight, equil, ordsel, n, m, p, nc, ncr, alpha, a, lda, b, ldb, c__, ldc, d__, ldd, ac, ldac, bc, ldbc, cc, ldcc, dc, lddc, ncs, hsvc, tol1, tol2, iwork, dwork, ldwork, iwarn, info, dico_len, jobc_len, jobo_len, jobmr_len, weight_len, equil_len, ordsel_len)
-char *dico, *jobc, *jobo, *jobmr, *weight, *equil, *ordsel;
+EXPORTSYMBOL /* Subroutine */ int sb16ad_(dico, jobc, jobo, jobmr, weight, equil, ordsel, n, m, p,
+    nc, ncr, alpha, a, lda, b, ldb, c__, ldc, d__, ldd, ac, ldac, bc, ldbc, cc, ldcc, dc, lddc, ncs,
+    hsvc, tol1, tol2, iwork, dwork, ldwork, iwarn, info, dico_len, jobc_len, jobo_len, jobmr_len,
+    weight_len, equil_len, ordsel_len) char *dico,
+    *jobc, *jobo, *jobmr, *weight, *equil, *ordsel;
 integer *n, *m, *p, *nc, *ncr;
 doublereal *alpha, *a;
-integer *lda;
-doublereal *b;
-integer *ldb;
-doublereal *c__;
-integer *ldc;
-doublereal *d__;
-integer *ldd;
-doublereal *ac;
-integer *ldac;
-doublereal *bc;
-integer *ldbc;
-doublereal *cc;
-integer *ldcc;
-doublereal *dc;
+integer* lda;
+doublereal* b;
+integer* ldb;
+doublereal* c__;
+integer* ldc;
+doublereal* d__;
+integer* ldd;
+doublereal* ac;
+integer* ldac;
+doublereal* bc;
+integer* ldbc;
+doublereal* cc;
+integer* ldcc;
+doublereal* dc;
 integer *lddc, *ncs;
 doublereal *hsvc, *tol1, *tol2;
-integer *iwork;
-doublereal *dwork;
+integer* iwork;
+doublereal* dwork;
 integer *ldwork, *iwarn, *info;
 ftnlen dico_len;
 ftnlen jobc_len;
@@ -37,7 +40,8 @@ ftnlen equil_len;
 ftnlen ordsel_len;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, ac_dim1, ac_offset, b_dim1, b_offset, bc_dim1, bc_offset, c_dim1, c_offset, cc_dim1, cc_offset, d_dim1, d_offset, dc_dim1, dc_offset, i__1, i__2, i__3;
+    integer a_dim1, a_offset, ac_dim1, ac_offset, b_dim1, b_offset, bc_dim1, bc_offset, c_dim1,
+        c_offset, cc_dim1, cc_offset, d_dim1, d_offset, dc_dim1, dc_offset, i__1, i__2, i__3;
     /* Builtin functions */
     double sqrt();
     /* Local variables */
@@ -481,120 +485,70 @@ ftnlen ordsel_len;
     lw = 1;
     nnc = *n + *nc;
     mp = *m + *p;
-    if (frwght)
-    {
+    if (frwght) {
         /* Computing MAX */
         /* Computing MAX */
-        i__3 = max(nnc,*m);
-        i__1 = nnc * (nnc + max(i__3,*p) + 7), i__2 = mp * (mp + 4);
-        lw = nnc * (nnc + (mp << 1)) + max(i__1,i__2);
-    }
-    else
-    {
-        lw = *nc * (max(*m,*p) + 5);
-        if (lsame_(equil, "S", 1L, 1L))
-        {
-            lw = max(*n,lw);
+        i__3 = max(nnc, *m);
+        i__1 = nnc * (nnc + max(i__3, *p) + 7), i__2 = mp * (mp + 4);
+        lw = nnc * (nnc + (mp << 1)) + max(i__1, i__2);
+    } else {
+        lw = *nc * (max(*m, *p) + 5);
+        if (lsame_(equil, "S", 1L, 1L)) {
+            lw = max(*n, lw);
         }
     }
     /* Computing MAX */
-    i__1 = max(1,lw), i__2 = *nc * ((*nc << 1) + 5);
-    lw = (*nc << 1) **nc + max(i__1,i__2);
+    i__1 = max(1, lw), i__2 = *nc * ((*nc << 1) + 5);
+    lw = (*nc << 1) * *nc + max(i__1, i__2);
     /*     Check the input scalar arguments. */
-    if (! (lsame_(dico, "C", 1L, 1L) || discr))
-    {
+    if (!(lsame_(dico, "C", 1L, 1L) || discr)) {
         *info = -1;
-    }
-    else if (! (lsame_(jobc, "S", 1L, 1L) || lsame_(jobc, "E", 1L, 1L)))
-    {
+    } else if (!(lsame_(jobc, "S", 1L, 1L) || lsame_(jobc, "E", 1L, 1L))) {
         *info = -2;
-    }
-    else if (! (lsame_(jobo, "S", 1L, 1L) || lsame_(jobo, "E", 1L, 1L)))
-    {
+    } else if (!(lsame_(jobo, "S", 1L, 1L) || lsame_(jobo, "E", 1L, 1L))) {
         *info = -3;
-    }
-    else if (! (bta || spa))
-    {
+    } else if (!(bta || spa)) {
         *info = -4;
-    }
-    else if (! (frwght || lsame_(weight, "N", 1L, 1L)))
-    {
+    } else if (!(frwght || lsame_(weight, "N", 1L, 1L))) {
         *info = -5;
-    }
-    else if (! (lsame_(equil, "S", 1L, 1L) || lsame_(equil, "N", 1L, 1L)))
-    {
+    } else if (!(lsame_(equil, "S", 1L, 1L) || lsame_(equil, "N", 1L, 1L))) {
         *info = -6;
-    }
-    else if (! (fixord || lsame_(ordsel, "A", 1L, 1L)))
-    {
+    } else if (!(fixord || lsame_(ordsel, "A", 1L, 1L))) {
         *info = -7;
-    }
-    else if (*n < 0)
-    {
+    } else if (*n < 0) {
         *info = -8;
-    }
-    else if (*m < 0)
-    {
+    } else if (*m < 0) {
         *info = -9;
-    }
-    else if (*p < 0)
-    {
+    } else if (*p < 0) {
         *info = -10;
-    }
-    else if (*nc < 0)
-    {
+    } else if (*nc < 0) {
         *info = -11;
-    }
-    else if (fixord && (*ncr < 0 || *ncr > *nc))
-    {
+    } else if (fixord && (*ncr < 0 || *ncr > *nc)) {
         *info = -12;
-    }
-    else if (discr && (*alpha < 0. || *alpha > 1.) || ! discr && *alpha > 0.)
-    {
+    } else if (discr && (*alpha < 0. || *alpha > 1.) || !discr && *alpha > 0.) {
         *info = -13;
-    }
-    else if (*lda < max(1,*n))
-    {
+    } else if (*lda < max(1, *n)) {
         *info = -15;
-    }
-    else if (*ldb < max(1,*n))
-    {
+    } else if (*ldb < max(1, *n)) {
         *info = -17;
-    }
-    else if (*ldc < max(1,*p))
-    {
+    } else if (*ldc < max(1, *p)) {
         *info = -19;
-    }
-    else if (*ldd < max(1,*p))
-    {
+    } else if (*ldd < max(1, *p)) {
         *info = -21;
-    }
-    else if (*ldac < max(1,*nc))
-    {
+    } else if (*ldac < max(1, *nc)) {
         *info = -23;
-    }
-    else if (*ldbc < max(1,*nc))
-    {
+    } else if (*ldbc < max(1, *nc)) {
         *info = -25;
-    }
-    else if (*ldcc < max(1,*m))
-    {
+    } else if (*ldcc < max(1, *m)) {
         *info = -27;
-    }
-    else if (*lddc < max(1,*m))
-    {
+    } else if (*lddc < max(1, *m)) {
         *info = -29;
-    }
-    else if (*tol2 > 0. && ! fixord && *tol2 > *tol1)
-    {
+    } else if (*tol2 > 0. && !fixord && *tol2 > *tol1) {
         *info = -33;
-    }
-    else if (*ldwork < lw)
-    {
+    } else if (*ldwork < lw) {
         *info = -36;
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("SB16AD", &i__1, 6L);
@@ -602,17 +556,15 @@ ftnlen ordsel_len;
     }
     /*     Quick return if possible. */
     /* Computing MIN */
-    i__1 = min(*nc,*m);
-    if (min(i__1,*p) == 0)
-    {
+    i__1 = min(*nc, *m);
+    if (min(i__1, *p) == 0) {
         *ncr = 0;
         *ncs = 0;
         iwork[1] = 0;
         dwork[1] = 1.;
         return 0;
     }
-    if (lsame_(equil, "S", 1L, 1L))
-    {
+    if (lsame_(equil, "S", 1L, 1L)) {
         /*        Scale simultaneously the matrices A, B and C and AC, BC and CC; */
         /*        A <- inv(T1)*A*T1, B <- inv(T1)*B and C <- C*T1, where T1 is a */
         /*        diagonal matrix; */
@@ -620,23 +572,20 @@ ftnlen ordsel_len;
         /*        is a diagonal matrix. */
         /*        Real workspace: need MAX(N,NC). */
         maxred = 100.;
-        tb01id_("All", n, m, p, &maxred, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, &dwork[1], info, 3L);
+        tb01id_("All", n, m, p, &maxred, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc,
+            &dwork[1], info, 3L);
         maxred = 100.;
-        tb01id_("All", nc, p, m, &maxred, &ac[ac_offset], ldac, &bc[bc_offset], ldbc, &cc[cc_offset], ldcc, &dwork[1], info, 3L);
+        tb01id_("All", nc, p, m, &maxred, &ac[ac_offset], ldac, &bc[bc_offset], ldbc,
+            &cc[cc_offset], ldcc, &dwork[1], info, 3L);
     }
     /*     Correct the value of ALPHA to ensure stability. */
     alpwrk = *alpha;
-    if (discr)
-    {
-        if (*alpha == 1.)
-        {
+    if (discr) {
+        if (*alpha == 1.) {
             alpwrk = 1. - sqrt(dlamch_("E", 1L));
         }
-    }
-    else
-    {
-        if (*alpha == 0.)
-        {
+    } else {
+        if (*alpha == 0.) {
             alpwrk = -sqrt(dlamch_("E", 1L));
         }
     }
@@ -649,54 +598,47 @@ ftnlen ordsel_len;
     /*                 prefer larger. */
     wrkopt = 1;
     ku = 1;
-    kr = ku + *nc **nc;
+    kr = ku + *nc * *nc;
     ki = kr + *nc;
     kw = ki + *nc;
     i__1 = *ldwork - kw + 1;
-    tb01kd_(dico, "Unstable", "General", nc, p, m, &alpwrk, &ac[ac_offset], ldac, &bc[bc_offset], ldbc, &cc[cc_offset], ldcc, &ncu, &dwork[ku], nc, &dwork[kr], &dwork[ki], &dwork[kw], &i__1, &ierr, 1L, 8L, 7L);
-    if (ierr != 0)
-    {
-        if (ierr != 3)
-        {
+    tb01kd_(dico, "Unstable", "General", nc, p, m, &alpwrk, &ac[ac_offset], ldac, &bc[bc_offset],
+        ldbc, &cc[cc_offset], ldcc, &ncu, &dwork[ku], nc, &dwork[kr], &dwork[ki], &dwork[kw], &i__1,
+        &ierr, 1L, 8L, 7L);
+    if (ierr != 0) {
+        if (ierr != 3) {
             *info = 5;
-        }
-        else
-        {
+        } else {
             *info = 6;
         }
         return 0;
     }
     /* Computing MAX */
-    i__1 = wrkopt, i__2 = (integer) dwork[kw] + kw - 1;
-    wrkopt = max(i__1,i__2);
+    i__1 = wrkopt, i__2 = (integer)dwork[kw] + kw - 1;
+    wrkopt = max(i__1, i__2);
     iwarnl = 0;
     *ncs = *nc - ncu;
-    if (fixord)
-    {
+    if (fixord) {
         /* Computing MAX */
         i__1 = 0, i__2 = *ncr - ncu;
-        nra = max(i__1,i__2);
-        if (*ncr < ncu)
-        {
+        nra = max(i__1, i__2);
+        if (*ncr < ncu) {
             iwarnl = 3;
         }
-    }
-    else
-    {
+    } else {
         nra = 0;
     }
     /*     Finish if only unstable part is present. */
-    if (*ncs == 0)
-    {
+    if (*ncs == 0) {
         *ncr = ncu;
         iwork[1] = 0;
-        dwork[1] = (doublereal) wrkopt;
+        dwork[1] = (doublereal)wrkopt;
         return 0;
     }
     /*     Allocate working storage. */
     kt = 1;
-    kti = kt + *nc **nc;
-    kw = kti + *nc **nc;
+    kti = kt + *nc * *nc;
+    kw = kti + *nc * *nc;
     /*     Compute in DWORK(KTI) and DWORK(KT) the Cholesky factors S and R */
     /*     of the frequency-weighted controllability and observability */
     /*     Grammians, respectively. */
@@ -711,14 +653,16 @@ ftnlen ordsel_len;
     /*     Integer workspace:      2*(M+P) if WEIGHT = 'I' or 'O' or 'P'; */
     /*                             0,      if WEIGHT = 'N'. */
     i__1 = *ldwork - kw + 1;
-    sb16ay_(dico, jobc, jobo, weight, n, m, p, nc, ncs, &a[a_offset], lda, &b[b_offset], ldb, &c__[c_offset], ldc, &d__[d_offset], ldd, &ac[ac_offset], ldac, &bc[bc_offset], ldbc, &cc[cc_offset], ldcc, &dc[dc_offset], lddc, &scalec, &scaleo, &dwork[kti], nc, &dwork[kt], nc, &iwork[1], &dwork[kw], &i__1, info, 1L, 1L, 1L, 1L);
-    if (*info != 0)
-    {
+    sb16ay_(dico, jobc, jobo, weight, n, m, p, nc, ncs, &a[a_offset], lda, &b[b_offset], ldb,
+        &c__[c_offset], ldc, &d__[d_offset], ldd, &ac[ac_offset], ldac, &bc[bc_offset], ldbc,
+        &cc[cc_offset], ldcc, &dc[dc_offset], lddc, &scalec, &scaleo, &dwork[kti], nc, &dwork[kt],
+        nc, &iwork[1], &dwork[kw], &i__1, info, 1L, 1L, 1L, 1L);
+    if (*info != 0) {
         return 0;
     }
     /* Computing MAX */
-    i__1 = wrkopt, i__2 = (integer) dwork[kw] + kw - 1;
-    wrkopt = max(i__1,i__2);
+    i__1 = wrkopt, i__2 = (integer)dwork[kw] + kw - 1;
+    wrkopt = max(i__1, i__2);
     /*     Compute a BTA or SPA of the stable part. */
     /*     Real workspace:  need   2*NC*NC + MAX( 1, 2*NC*NC+5*NC, */
     /*                                               NC*MAX(M,P) ); */
@@ -728,19 +672,20 @@ ftnlen ordsel_len;
     /*                             2*NC,  if JOBMR = 'S' or 'P'. */
     ncu1 = ncu + 1;
     i__1 = *ldwork - kw + 1;
-    ab09ix_(dico, jobmr, "Schur", ordsel, ncs, p, m, &nra, &scalec, &scaleo, &ac[ncu1 + ncu1 * ac_dim1], ldac, &bc[ncu1 + bc_dim1], ldbc, &cc[ncu1 * cc_dim1 + 1], ldcc, &dc[dc_offset], lddc, &dwork[kti], nc, &dwork[kt], nc, &nmr, &hsvc[1], tol1, tol2, &iwork[1], &dwork[kw], &i__1, iwarn, &ierr, 1L, 1L, 5L, 1L);
-    *iwarn = max(*iwarn,iwarnl);
-    if (ierr != 0)
-    {
+    ab09ix_(dico, jobmr, "Schur", ordsel, ncs, p, m, &nra, &scalec, &scaleo,
+        &ac[ncu1 + ncu1 * ac_dim1], ldac, &bc[ncu1 + bc_dim1], ldbc, &cc[ncu1 * cc_dim1 + 1], ldcc,
+        &dc[dc_offset], lddc, &dwork[kti], nc, &dwork[kt], nc, &nmr, &hsvc[1], tol1, tol2,
+        &iwork[1], &dwork[kw], &i__1, iwarn, &ierr, 1L, 1L, 5L, 1L);
+    *iwarn = max(*iwarn, iwarnl);
+    if (ierr != 0) {
         *info = 7;
         return 0;
     }
     *ncr = nra + ncu;
     iwork[1] = nmr;
     /* Computing MAX */
-    i__1 = wrkopt, i__2 = (integer) dwork[kw] + kw - 1;
-    dwork[1] = (doublereal) max(i__1,i__2);
+    i__1 = wrkopt, i__2 = (integer)dwork[kw] + kw - 1;
+    dwork[1] = (doublereal)max(i__1, i__2);
     return 0;
     /* *** Last line of SB16AD *** */
 } /* sb16ad_ */
-

@@ -1,6 +1,6 @@
 /* Translated by Nelson f2c (version 20170901).
    You must link the resulting object file with the libraries:
-	-lnlsf2c -lm   (in that order)
+    -lnlsf2c -lm   (in that order)
 */
 
 #include "nelson_f2c.h"
@@ -9,13 +9,14 @@
 
 static integer c__1 = 1;
 
-EXPORTSYMBOL /* Subroutine */ int md03bx_(m, n, fnorm, j, ldj, e, jnorms, gnorm, ipvt, dwork, ldwork, info)
-integer *m, *n;
+EXPORTSYMBOL /* Subroutine */ int md03bx_(
+    m, n, fnorm, j, ldj, e, jnorms, gnorm, ipvt, dwork, ldwork, info) integer *m,
+    *n;
 doublereal *fnorm, *j;
-integer *ldj;
+integer* ldj;
 doublereal *e, *jnorms, *gnorm;
-integer *ipvt;
-doublereal *dwork;
+integer* ipvt;
+doublereal* dwork;
 integer *ldwork, *info;
 {
     /* System generated locals */
@@ -131,39 +132,25 @@ integer *ldwork, *info;
     --j;
     /* Function Body */
     *info = 0;
-    if (*m < 0)
-    {
+    if (*m < 0) {
         *info = -1;
-    }
-    else if (*n < 0 || *m < *n)
-    {
+    } else if (*n < 0 || *m < *n) {
         *info = -2;
-    }
-    else if (*fnorm < 0.)
-    {
+    } else if (*fnorm < 0.) {
         *info = -3;
-    }
-    else if (*ldj < max(1,*m))
-    {
+    } else if (*ldj < max(1, *m)) {
         *info = -5;
-    }
-    else
-    {
-        if (*n == 0 || *m == 1)
-        {
+    } else {
+        if (*n == 0 || *m == 1) {
             jwork = 1;
-        }
-        else
-        {
+        } else {
             jwork = (*n << 2) + 1;
         }
-        if (*ldwork < jwork)
-        {
+        if (*ldwork < jwork) {
             *info = -11;
         }
     }
-    if (*info != 0)
-    {
+    if (*info != 0) {
         /*        Error return. */
         i__1 = -(*info);
         xerbla_("MD03BX", &i__1, 6L);
@@ -171,17 +158,13 @@ integer *ldwork, *info;
     }
     /*     Quick return if possible. */
     *gnorm = 0.;
-    if (*n == 0)
-    {
+    if (*n == 0) {
         *ldj = 1;
         dwork[1] = 1.;
         return 0;
-    }
-    else if (*m == 1)
-    {
+    } else if (*m == 1) {
         jnorms[1] = abs(j[1]);
-        if (*fnorm * j[1] != 0.)
-        {
+        if (*fnorm * j[1] != 0.) {
             *gnorm = (d__1 = e[1] / *fnorm, abs(d__1));
         }
         *ldj = 1;
@@ -191,8 +174,7 @@ integer *ldwork, *info;
     }
     /*     Initialize the column pivoting indices. */
     i__1 = *n;
-    for (i__ = 1; i__ <= i__1; ++i__)
-    {
+    for (i__ = 1; i__ <= i__1; ++i__) {
         ipvt[i__] = 0;
         /* L10: */
     }
@@ -211,52 +193,45 @@ integer *ldwork, *info;
     i__1 = *ldwork - jwork + 1;
     dgeqp3_(m, n, &j[1], ldj, &ipvt[1], &dwork[itau], &dwork[jwork], &i__1, info);
     /* Computing MAX */
-    i__1 = wrkopt, i__2 = (integer) dwork[jwork] + jwork - 1;
-    wrkopt = max(i__1,i__2);
+    i__1 = wrkopt, i__2 = (integer)dwork[jwork] + jwork - 1;
+    wrkopt = max(i__1, i__2);
     /*     Workspace: need:    N + 1; */
     /*                prefer:  N + NB. */
     i__1 = *ldwork - jwork + 1;
-    dormqr_("Left", "Transpose", m, &c__1, n, &j[1], ldj, &dwork[itau], &e[1], m, &dwork[jwork], &i__1, info, 4L, 9L);
+    dormqr_("Left", "Transpose", m, &c__1, n, &j[1], ldj, &dwork[itau], &e[1], m, &dwork[jwork],
+        &i__1, info, 4L, 9L);
     /* Computing MAX */
-    i__1 = wrkopt, i__2 = (integer) dwork[jwork] + jwork - 1;
-    wrkopt = max(i__1,i__2);
-    if (*ldj > *n)
-    {
+    i__1 = wrkopt, i__2 = (integer)dwork[jwork] + jwork - 1;
+    wrkopt = max(i__1, i__2);
+    if (*ldj > *n) {
         /*        Reshape the array J to have the leading dimension N. */
         /*        This destroys the details of the orthogonal matrix Q. */
         dlacpy_("Upper", n, n, &j[1], ldj, &j[1], n, 5L);
         *ldj = *n;
     }
     /*     Compute the norm of the scaled gradient and original column norms. */
-    if (*fnorm != 0.)
-    {
+    if (*fnorm != 0.) {
         i__1 = *n;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             l = ipvt[i__];
-            jnorms[l] = dnrm2_(&i__, &j[(i__ - 1) **ldj + 1], &c__1);
-            if (jnorms[l] != 0.)
-            {
-                sum = ddot_(&i__, &j[(i__ - 1) **ldj + 1], &c__1, &e[1], &c__1) / *fnorm;
+            jnorms[l] = dnrm2_(&i__, &j[(i__ - 1) * *ldj + 1], &c__1);
+            if (jnorms[l] != 0.) {
+                sum = ddot_(&i__, &j[(i__ - 1) * *ldj + 1], &c__1, &e[1], &c__1) / *fnorm;
                 /* Computing MAX */
                 d__2 = *gnorm, d__3 = (d__1 = sum / jnorms[l], abs(d__1));
-                *gnorm = max(d__2,d__3);
+                *gnorm = max(d__2, d__3);
             }
             /* L20: */
         }
-    }
-    else
-    {
+    } else {
         i__1 = *n;
-        for (i__ = 1; i__ <= i__1; ++i__)
-        {
+        for (i__ = 1; i__ <= i__1; ++i__) {
             l = ipvt[i__];
-            jnorms[l] = dnrm2_(&i__, &j[(i__ - 1) **ldj + 1], &c__1);
+            jnorms[l] = dnrm2_(&i__, &j[(i__ - 1) * *ldj + 1], &c__1);
             /* L30: */
         }
     }
-    dwork[1] = (doublereal) wrkopt;
+    dwork[1] = (doublereal)wrkopt;
     return 0;
     /* *** Last line of MD03BX *** */
 } /* md03bx_ */
-

@@ -22,8 +22,9 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace TypeGateway {
-        ArrayOfVector issparseBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    }
+namespace TypeGateway {
+    ArrayOfVector
+    issparseBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }
+} // namespace Nelson
 //=============================================================================

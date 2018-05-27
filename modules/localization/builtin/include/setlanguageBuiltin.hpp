@@ -22,8 +22,9 @@
 #include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
-    namespace LocalizationGateway {
-        ArrayOfVector setlanguageBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-    }
+namespace LocalizationGateway {
+    ArrayOfVector
+    setlanguageBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 }
+} // namespace Nelson
 //=============================================================================
