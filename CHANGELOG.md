@@ -3,6 +3,7 @@
     - plus, minus, eq, ne, gt, ge, le, lt, horzcat, vertcat, uplus, uminus operators
     use by default predefined functions and search if operators are missing.
     - add overloadbasictypes function to change default behavior.
+    - gamma function speed x4 (overloading)
 
 Features:
 ---------
