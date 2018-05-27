@@ -16,16 +16,12 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "nlsConfig.h"
 #include <Windows.h>
+#include "nlsConfig.h"
 //=============================================================================
-#pragma comment(lib, CAT_3_STRINGS("boost_system-", BOOST_TARGET, ".lib"))
-#pragma comment(lib, CAT_3_STRINGS("boost_filesystem-", BOOST_TARGET, ".lib"))
-#ifdef _DEBUG
-#pragma comment(lib, "libffi_d.lib")
-#else
+#pragma comment(lib, CAT_3_STRINGS("boost_system-" , BOOST_TARGET , ".lib"))
+#pragma comment(lib, CAT_3_STRINGS("boost_filesystem-" , BOOST_TARGET , ".lib"))
 #pragma comment(lib, "libffi.lib")
-#endif
 //=============================================================================
 int WINAPI
 DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)

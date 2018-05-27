@@ -4,6 +4,12 @@ Features:
   * [#128](http://github.com/Nelson-numerical-software/nelson/issues/128): code indented with clang-format (webkit coding style)
 
 
+Compilation:
+---------
+
+  * libffi 3.2.1 dll on Windows 32 & 64 bit
+
+
 ## 0.2.5 (2018-05-23)
 
 
