@@ -17,7 +17,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-
+// clang-format off
 //bison -L C -k -o NelSonParser.cpp NelSonParser.yxx
 
 #include <stdio.h>
@@ -673,3 +673,4 @@ namespace Nelson {
     return pstate;
   }
 }
+// clang-format on

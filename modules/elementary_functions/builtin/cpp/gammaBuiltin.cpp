@@ -36,10 +36,9 @@ Nelson::ElementaryFunctionsGateway::gammaBuiltin(
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool bSuccess = false;
-	if (eval->overloadOnBasicTypes)
-	{
+    if (eval->overloadOnBasicTypes) {
         retval = OverloadFunction(eval, nLhs, argIn, "gamma", bSuccess);
-	}
+    }
     if (!bSuccess) {
         if (argIn[0].isSparse() || argIn[0].getDataClass() == NLS_DCOMPLEX
             || argIn[0].getDataClass() == NLS_SCOMPLEX) {
@@ -47,16 +46,14 @@ Nelson::ElementaryFunctionsGateway::gammaBuiltin(
         }
         if (argIn[0].getDataClass() == NLS_DOUBLE || argIn[0].getDataClass() == NLS_SINGLE) {
             retval.push_back(Gamma(argIn[0]));
-		}
-		else
-		{
+        } else {
             retval = OverloadFunction(eval, nLhs, argIn, "gamma", bSuccess);
             if (!bSuccess) {
                 Error(eval,
                     _("Undefined function 'gamma' for input arguments of type") + " '"
                         + ClassName(argIn[0]) + "'.");
-			}
-		}
+            }
+        }
     }
     return retval;
 }

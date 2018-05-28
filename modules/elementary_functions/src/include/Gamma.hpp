@@ -23,6 +23,6 @@
 //=============================================================================
 namespace Nelson {
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-Gamma(const ArrayOf &arrayIn);
+Gamma(const ArrayOf& arrayIn);
 }
 //=============================================================================
