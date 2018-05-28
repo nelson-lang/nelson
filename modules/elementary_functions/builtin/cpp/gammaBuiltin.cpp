@@ -20,6 +20,7 @@
 #include "Error.hpp"
 #include "Gamma.hpp"
 #include "OverloadFunction.hpp"
+#include "ClassName.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -35,9 +36,27 @@ Nelson::ElementaryFunctionsGateway::gammaBuiltin(
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, "gamma", bSuccess);
+	if (eval->overloadOnBasicTypes)
+	{
+        retval = OverloadFunction(eval, nLhs, argIn, "gamma", bSuccess);
+	}
     if (!bSuccess) {
-        retval.push_back(Gamma(argIn[0]));
+        if (argIn[0].isSparse() || argIn[0].getDataClass() == NLS_DCOMPLEX
+            || argIn[0].getDataClass() == NLS_SCOMPLEX) {
+            Error(eval, _W("Input argument must be dense and real."));
+        }
+        if (argIn[0].getDataClass() == NLS_DOUBLE || argIn[0].getDataClass() == NLS_SINGLE) {
+            retval.push_back(Gamma(argIn[0]));
+		}
+		else
+		{
+            retval = OverloadFunction(eval, nLhs, argIn, "gamma", bSuccess);
+            if (!bSuccess) {
+                Error(eval,
+                    _("Undefined function 'gamma' for input arguments of type") + " '"
+                        + ClassName(argIn[0]) + "'.");
+			}
+		}
     }
     return retval;
 }
