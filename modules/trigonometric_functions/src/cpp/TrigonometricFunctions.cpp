@@ -19,548 +19,424 @@
 #include "TrigonometricFunctions.hpp"
 #include "ClassName.hpp"
 #include <Eigen/Dense>
+#include <cmath>
+#include <complex>
+#include <functional>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 ArrayOf
-Cos(ArrayOf A)
+Cos(const ArrayOf& A)
 {
+    ArrayOf R;
     if (A.isEmpty()) {
-        ArrayOf R(A);
+        R = A;
         R.ensureSingleOwner();
         return R;
     }
-    if (A.isSparse()) {
-        throw Exception(
-            _("Undefined function 'cos' for input arguments of type") + " '" + ClassName(A) + "'.");
-    }
     switch (A.getDataClass()) {
-    case NLS_CELL_ARRAY:
-    case NLS_STRUCT_ARRAY:
-    case NLS_LOGICAL:
-    case NLS_UINT8:
-    case NLS_INT8:
-    case NLS_UINT16:
-    case NLS_INT16:
-    case NLS_UINT32:
-    case NLS_INT32:
-    case NLS_UINT64:
-    case NLS_INT64:
-    case NLS_CHAR: {
+    default: {
         throw Exception(
             _("Undefined function 'cos' for input arguments of type") + " '" + ClassName(A) + "'.");
     } break;
     case NLS_SCOMPLEX: {
-        ArrayOf R(A);
-        R.ensureSingleOwner();
+        single* ptrR
+            = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getLength(), stringVector(), false);
         singlecomplex* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
-        singlecomplex* Rz = reinterpret_cast<singlecomplex*>((single*)R.getDataPointer());
+        singlecomplex* Rz = reinterpret_cast<singlecomplex*>(ptrR);
         Eigen::Map<Eigen::MatrixXcf> matA(Az, 1, A.getLength());
-        Eigen::Map<Eigen::MatrixXcf> matR(Rz, 1, R.getLength());
+        Eigen::Map<Eigen::MatrixXcf> matR(Rz, 1, A.getLength());
         matR = matA.array().cos();
+        R = ArrayOf::ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
         if (R.allReal()) {
             R.promoteType(NLS_SINGLE);
         }
-        return R;
-    }
+    } break;
     case NLS_SINGLE: {
-        ArrayOf R(A);
-        R.ensureSingleOwner();
-        // to speed up computations, we use a vector with eigen library and MKL
+        single* ptrR
+            = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, A.getLength(), stringVector(), false);
         Eigen::Map<Eigen::MatrixXf> matA((single*)A.getDataPointer(), 1, A.getLength());
-        Eigen::Map<Eigen::MatrixXf> matR((single*)R.getDataPointer(), 1, R.getLength());
+        Eigen::Map<Eigen::MatrixXf> matR(ptrR, 1, A.getLength());
         matR = matA.array().cos();
-        return R;
+        R = ArrayOf::ArrayOf(NLS_SINGLE, A.getDimensions(), ptrR);
     } break;
     case NLS_DCOMPLEX: {
-        ArrayOf R(A);
-        R.ensureSingleOwner();
+        double* ptrR
+            = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, A.getLength(), stringVector(), false);
         doublecomplex* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
-        doublecomplex* Rz = reinterpret_cast<doublecomplex*>((double*)R.getDataPointer());
+        doublecomplex* Rz = reinterpret_cast<doublecomplex*>((double*)ptrR);
         Eigen::Map<Eigen::MatrixXcd> matA(Az, 1, A.getLength());
-        Eigen::Map<Eigen::MatrixXcd> matR(Rz, 1, R.getLength());
+        Eigen::Map<Eigen::MatrixXcd> matR(Rz, 1, A.getLength());
         matR = matA.array().cos();
+        R = ArrayOf::ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
         if (R.allReal()) {
             R.promoteType(NLS_DOUBLE);
         }
-        return R;
     } break;
     case NLS_DOUBLE: {
-        ArrayOf R(A);
-        R.ensureSingleOwner();
+        double* ptrR
+            = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, A.getLength(), stringVector(), false);
         Eigen::Map<Eigen::MatrixXd> matA((double*)A.getDataPointer(), 1, A.getLength());
-        Eigen::Map<Eigen::MatrixXd> matR((double*)R.getDataPointer(), 1, R.getLength());
+        Eigen::Map<Eigen::MatrixXd> matR((double*)ptrR, 1, A.getLength());
+        R = ArrayOf::ArrayOf(NLS_DOUBLE, A.getDimensions(), ptrR);
         matR = matA.array().cos();
-        return R;
-    } break;
-    default: {
-        throw Exception(_W("Invalid conversion."));
     } break;
     }
-    return ArrayOf();
+    return R;
 }
 //=============================================================================
 ArrayOf
-Sin(ArrayOf A)
+Sin(const ArrayOf& A)
 {
+    ArrayOf R;
     if (A.isEmpty()) {
-        ArrayOf R(A);
+        R = A;
         R.ensureSingleOwner();
         return R;
     }
-    if (A.isSparse()) {
-        throw Exception(
-            _("Undefined function 'sin' for input arguments of type") + " '" + ClassName(A) + "'.");
-    }
     switch (A.getDataClass()) {
-    case NLS_CELL_ARRAY:
-    case NLS_STRUCT_ARRAY:
-    case NLS_LOGICAL:
-    case NLS_UINT8:
-    case NLS_INT8:
-    case NLS_UINT16:
-    case NLS_INT16:
-    case NLS_UINT32:
-    case NLS_INT32:
-    case NLS_UINT64:
-    case NLS_INT64:
-    case NLS_CHAR: {
+    default: {
         throw Exception(
             _("Undefined function 'sin' for input arguments of type") + " '" + ClassName(A) + "'.");
     } break;
     case NLS_SCOMPLEX: {
-        ArrayOf R(A);
-        R.ensureSingleOwner();
+        single* ptrR
+            = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getLength(), stringVector(), false);
         singlecomplex* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
-        singlecomplex* Rz = reinterpret_cast<singlecomplex*>((single*)R.getDataPointer());
+        singlecomplex* Rz = reinterpret_cast<singlecomplex*>((single*)ptrR);
         Eigen::Map<Eigen::MatrixXcf> matA(Az, 1, A.getLength());
-        Eigen::Map<Eigen::MatrixXcf> matR(Rz, 1, R.getLength());
+        Eigen::Map<Eigen::MatrixXcf> matR(Rz, 1, A.getLength());
         matR = matA.array().sin();
+        R = ArrayOf::ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
         if (R.allReal()) {
             R.promoteType(NLS_SINGLE);
         }
-        return R;
-    }
+    } break;
     case NLS_SINGLE: {
-        ArrayOf R(A);
-        R.ensureSingleOwner();
-        // to speed up computations, we use a vector with eigen library and MKL
+        single* ptrR
+            = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, A.getLength(), stringVector(), false);
         Eigen::Map<Eigen::MatrixXf> matA((single*)A.getDataPointer(), 1, A.getLength());
-        Eigen::Map<Eigen::MatrixXf> matR((single*)R.getDataPointer(), 1, R.getLength());
+        Eigen::Map<Eigen::MatrixXf> matR((single*)ptrR, 1, A.getLength());
         matR = matA.array().sin();
-        return R;
+        R = ArrayOf::ArrayOf(NLS_SINGLE, A.getDimensions(), ptrR);
     } break;
     case NLS_DCOMPLEX: {
-        ArrayOf R(A);
-        R.ensureSingleOwner();
+        double* ptrR
+            = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, A.getLength(), stringVector(), false);
         doublecomplex* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
-        doublecomplex* Rz = reinterpret_cast<doublecomplex*>((double*)R.getDataPointer());
+        doublecomplex* Rz = reinterpret_cast<doublecomplex*>((double*)ptrR);
         Eigen::Map<Eigen::MatrixXcd> matA(Az, 1, A.getLength());
-        Eigen::Map<Eigen::MatrixXcd> matR(Rz, 1, R.getLength());
+        Eigen::Map<Eigen::MatrixXcd> matR(Rz, 1, A.getLength());
         matR = matA.array().sin();
+        R = ArrayOf::ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
         if (R.allReal()) {
             R.promoteType(NLS_DOUBLE);
         }
-        return R;
     } break;
     case NLS_DOUBLE: {
-        ArrayOf R(A);
-        R.ensureSingleOwner();
+        double* ptrR
+            = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, A.getLength(), stringVector(), false);
         Eigen::Map<Eigen::MatrixXd> matA((double*)A.getDataPointer(), 1, A.getLength());
-        Eigen::Map<Eigen::MatrixXd> matR((double*)R.getDataPointer(), 1, R.getLength());
+        Eigen::Map<Eigen::MatrixXd> matR((double*)ptrR, 1, A.getLength());
         matR = matA.array().sin();
-        return R;
-    } break;
-    default: {
-        throw Exception(_W("Invalid conversion."));
+        R = ArrayOf::ArrayOf(NLS_DOUBLE, A.getDimensions(), ptrR);
     } break;
     }
-    return ArrayOf();
+    return R;
 }
 //=============================================================================
 ArrayOf
-Tan(ArrayOf A)
+Tan(const ArrayOf& A)
 {
     if (A.isEmpty()) {
         ArrayOf R(A);
         R.ensureSingleOwner();
         return R;
     }
-    if (A.isSparse()) {
-        throw Exception(
-            _("Undefined function 'tan' for input arguments of type") + " '" + ClassName(A) + "'.");
-    }
+    ArrayOf R;
     switch (A.getDataClass()) {
-    case NLS_CELL_ARRAY:
-    case NLS_STRUCT_ARRAY:
-    case NLS_LOGICAL:
-    case NLS_UINT8:
-    case NLS_INT8:
-    case NLS_UINT16:
-    case NLS_INT16:
-    case NLS_UINT32:
-    case NLS_INT32:
-    case NLS_UINT64:
-    case NLS_INT64:
-    case NLS_CHAR: {
+    default: {
         throw Exception(
             _("Undefined function 'tan' for input arguments of type") + " '" + ClassName(A) + "'.");
     } break;
     case NLS_SCOMPLEX: {
-        ArrayOf R(A);
-        R.ensureSingleOwner();
+        single* ptrR
+            = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getLength(), stringVector(), false);
         singlecomplex* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
-        singlecomplex* Rz = reinterpret_cast<singlecomplex*>((single*)R.getDataPointer());
+        singlecomplex* Rz = reinterpret_cast<singlecomplex*>((single*)ptrR);
         Eigen::Map<Eigen::MatrixXcf> matA(Az, 1, A.getLength());
-        Eigen::Map<Eigen::MatrixXcf> matR(Rz, 1, R.getLength());
+        Eigen::Map<Eigen::MatrixXcf> matR(Rz, 1, A.getLength());
         matR = matA.array().tan();
+        R = ArrayOf::ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
         if (R.allReal()) {
             R.promoteType(NLS_SINGLE);
         }
-        return R;
-    }
+    } break;
     case NLS_SINGLE: {
-        ArrayOf R(A);
-        R.ensureSingleOwner();
-        // to speed up computations, we use a vector with eigen library and MKL
+        single* ptrR
+            = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, A.getLength(), stringVector(), false);
         Eigen::Map<Eigen::MatrixXf> matA((single*)A.getDataPointer(), 1, A.getLength());
-        Eigen::Map<Eigen::MatrixXf> matR((single*)R.getDataPointer(), 1, R.getLength());
+        Eigen::Map<Eigen::MatrixXf> matR((single*)ptrR, 1, A.getLength());
         matR = matA.array().tan();
-        return R;
+        R = ArrayOf::ArrayOf(NLS_SINGLE, A.getDimensions(), ptrR);
     } break;
     case NLS_DCOMPLEX: {
-        ArrayOf R(A);
-        R.ensureSingleOwner();
+        double* ptrR
+            = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, A.getLength(), stringVector(), false);
         doublecomplex* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
-        doublecomplex* Rz = reinterpret_cast<doublecomplex*>((double*)R.getDataPointer());
+        doublecomplex* Rz = reinterpret_cast<doublecomplex*>((double*)ptrR);
         Eigen::Map<Eigen::MatrixXcd> matA(Az, 1, A.getLength());
-        Eigen::Map<Eigen::MatrixXcd> matR(Rz, 1, R.getLength());
+        Eigen::Map<Eigen::MatrixXcd> matR(Rz, 1, A.getLength());
         matR = matA.array().tan();
+        R = ArrayOf::ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
         if (R.allReal()) {
             R.promoteType(NLS_DOUBLE);
         }
-        return R;
     } break;
     case NLS_DOUBLE: {
-        ArrayOf R(A);
-        R.ensureSingleOwner();
+        double* ptrR
+            = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, A.getLength(), stringVector(), false);
         Eigen::Map<Eigen::MatrixXd> matA((double*)A.getDataPointer(), 1, A.getLength());
-        Eigen::Map<Eigen::MatrixXd> matR((double*)R.getDataPointer(), 1, R.getLength());
+        Eigen::Map<Eigen::MatrixXd> matR((double*)ptrR, 1, A.getLength());
         matR = matA.array().tan();
-        return R;
-    } break;
-    default: {
-        throw Exception(_W("Invalid conversion."));
+        R = ArrayOf::ArrayOf(NLS_DOUBLE, A.getDimensions(), ptrR);
     } break;
     }
-    return ArrayOf();
+    return R;
 }
 //=============================================================================
 ArrayOf
-Cosh(ArrayOf A)
+Cosh(const ArrayOf& A)
 {
     if (A.isEmpty()) {
         ArrayOf R(A);
         R.ensureSingleOwner();
         return R;
     }
-    if (A.isSparse()) {
-        throw Exception(_("Undefined function 'cosh' for input arguments of type") + " '"
-            + ClassName(A) + "'.");
-    }
+    ArrayOf R;
     switch (A.getDataClass()) {
-    case NLS_CELL_ARRAY:
-    case NLS_STRUCT_ARRAY:
-    case NLS_LOGICAL:
-    case NLS_UINT8:
-    case NLS_INT8:
-    case NLS_UINT16:
-    case NLS_INT16:
-    case NLS_UINT32:
-    case NLS_INT32:
-    case NLS_UINT64:
-    case NLS_INT64:
-    case NLS_CHAR: {
+    default: {
         throw Exception(_("Undefined function 'cosh' for input arguments of type") + " '"
             + ClassName(A) + "'.");
     } break;
-    // cosh not implemented in Eigen, we use std cosh
     case NLS_SCOMPLEX: {
-        ArrayOf R(A);
-        R.ensureSingleOwner();
+        single* ptrR
+            = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getLength(), stringVector(), false);
         singlecomplex* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
-        singlecomplex* Rz = reinterpret_cast<singlecomplex*>((single*)R.getDataPointer());
-#if defined(__NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
-        for (indexType z = 0; z < A.getLength(); z++) {
-            Rz[z] = cosh(Az[z]);
-        }
+        singlecomplex* Rz = reinterpret_cast<singlecomplex*>((single*)ptrR);
+        Eigen::Map<Eigen::MatrixXcf> matA(Az, 1, A.getLength());
+        Eigen::Map<Eigen::MatrixXcf> matR(Rz, 1, A.getLength());
+        matR = matA.array().cosh();
+        R = ArrayOf::ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
         if (R.allReal()) {
             R.promoteType(NLS_SINGLE);
         }
-        return R;
-    }
+    } break;
     case NLS_SINGLE: {
-        ArrayOf R(A);
-        R.ensureSingleOwner();
+        single* ptrR
+            = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, A.getLength(), stringVector(), false);
         single* pA = (single*)A.getDataPointer();
-        single* pR = (single*)R.getDataPointer();
-        for (indexType z = 0; z < A.getLength(); z++) {
-            pR[z] = cosh(pA[z]);
-        }
-        return R;
+        Eigen::Map<Eigen::MatrixXf> matA(pA, 1, A.getLength());
+        Eigen::Map<Eigen::MatrixXf> matR(ptrR, 1, A.getLength());
+        matR = matA.array().cosh();
+        R = ArrayOf::ArrayOf(NLS_SINGLE, A.getDimensions(), ptrR);
     } break;
     case NLS_DCOMPLEX: {
-        ArrayOf R(A);
-        R.ensureSingleOwner();
+        double* ptrR
+            = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, A.getLength(), stringVector(), false);
         doublecomplex* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
-        doublecomplex* Rz = reinterpret_cast<doublecomplex*>((double*)R.getDataPointer());
-#if defined(__NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
-        for (indexType z = 0; z < A.getLength(); z++) {
-            Rz[z] = cosh(Az[z]);
-        }
+        doublecomplex* Rz = reinterpret_cast<doublecomplex*>((double*)ptrR);
+        Eigen::Map<Eigen::MatrixXcd> matA(Az, 1, A.getLength());
+        Eigen::Map<Eigen::MatrixXcd> matR(Rz, 1, A.getLength());
+        matR = matA.array().cosh();
+        R = ArrayOf::ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
         if (R.allReal()) {
             R.promoteType(NLS_DOUBLE);
         }
-        return R;
     } break;
     case NLS_DOUBLE: {
-        ArrayOf R(A);
-        R.ensureSingleOwner();
+        double* ptrR
+            = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, A.getLength(), stringVector(), false);
         double* pA = (double*)A.getDataPointer();
-        double* pR = (double*)R.getDataPointer();
-#if defined(__NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
-        for (indexType z = 0; z < A.getLength(); z++) {
-            pR[z] = cosh(pA[z]);
-        }
-        return R;
-    } break;
-    default: {
-        throw Exception(_W("Invalid conversion."));
+        Eigen::Map<Eigen::MatrixXd> matA(pA, 1, A.getLength());
+        Eigen::Map<Eigen::MatrixXd> matR(ptrR, 1, A.getLength());
+        matR = matA.array().cosh();
+        R = ArrayOf::ArrayOf(NLS_DOUBLE, A.getDimensions(), ptrR);
     } break;
     }
-    return ArrayOf();
+    return R;
 }
 //=============================================================================
 ArrayOf
-Sinh(ArrayOf A)
+Sinh(const ArrayOf& A)
 {
     if (A.isEmpty()) {
         ArrayOf R(A);
         R.ensureSingleOwner();
         return R;
     }
-    if (A.isSparse()) {
-        throw Exception(_("Undefined function 'sinh' for input arguments of type") + " '"
-            + ClassName(A) + "'.");
-    }
+    ArrayOf R;
     switch (A.getDataClass()) {
-    case NLS_CELL_ARRAY:
-    case NLS_STRUCT_ARRAY:
-    case NLS_LOGICAL:
-    case NLS_UINT8:
-    case NLS_INT8:
-    case NLS_UINT16:
-    case NLS_INT16:
-    case NLS_UINT32:
-    case NLS_INT32:
-    case NLS_UINT64:
-    case NLS_INT64:
-    case NLS_CHAR: {
+    default: {
         throw Exception(_("Undefined function 'sinh' for input arguments of type") + " '"
             + ClassName(A) + "'.");
     } break;
-    // sinh not implemented in Eigen, we use std sinh
     case NLS_SCOMPLEX: {
-        ArrayOf R(A);
-        R.ensureSingleOwner();
+        single* ptrR
+            = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getLength(), stringVector(), false);
         singlecomplex* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
-        singlecomplex* Rz = reinterpret_cast<singlecomplex*>((single*)R.getDataPointer());
-#if defined(__NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
-        for (indexType z = 0; z < A.getLength(); z++) {
-            Rz[z] = sinh(Az[z]);
-        }
+        singlecomplex* Rz = reinterpret_cast<singlecomplex*>((single*)ptrR);
+        Eigen::Map<Eigen::MatrixXcf> matA(Az, 1, A.getLength());
+        Eigen::Map<Eigen::MatrixXcf> matR(Rz, 1, A.getLength());
+        matR = matA.array().sinh();
+        R = ArrayOf::ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
         if (R.allReal()) {
             R.promoteType(NLS_SINGLE);
         }
-        return R;
-    }
+    } break;
     case NLS_SINGLE: {
-        ArrayOf R(A);
-        R.ensureSingleOwner();
+        single* ptrR
+            = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, A.getLength(), stringVector(), false);
         single* pA = (single*)A.getDataPointer();
-        single* pR = (single*)R.getDataPointer();
-#if defined(__NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
-        for (indexType z = 0; z < A.getLength(); z++) {
-            pR[z] = sinh(pA[z]);
-        }
-        return R;
+        Eigen::Map<Eigen::MatrixXf> matA(pA, 1, A.getLength());
+        Eigen::Map<Eigen::MatrixXf> matR(ptrR, 1, A.getLength());
+        matR = matA.array().sinh();
+        R = ArrayOf::ArrayOf(NLS_SINGLE, A.getDimensions(), ptrR);
     } break;
     case NLS_DCOMPLEX: {
-        ArrayOf R(A);
-        R.ensureSingleOwner();
+        double* ptrR
+            = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, A.getLength(), stringVector(), false);
         doublecomplex* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
-        doublecomplex* Rz = reinterpret_cast<doublecomplex*>((double*)R.getDataPointer());
-        for (indexType z = 0; z < A.getLength(); z++) {
-            Rz[z] = sinh(Az[z]);
-        }
+        doublecomplex* Rz = reinterpret_cast<doublecomplex*>((double*)ptrR);
+        Eigen::Map<Eigen::MatrixXcd> matA(Az, 1, A.getLength());
+        Eigen::Map<Eigen::MatrixXcd> matR(Rz, 1, A.getLength());
+        matR = matA.array().sinh();
+        R = ArrayOf::ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
         if (R.allReal()) {
             R.promoteType(NLS_DOUBLE);
         }
-        return R;
     } break;
     case NLS_DOUBLE: {
-        ArrayOf R(A);
-        R.ensureSingleOwner();
+        double* ptrR
+            = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, A.getLength(), stringVector(), false);
         double* pA = (double*)A.getDataPointer();
-        double* pR = (double*)R.getDataPointer();
-        for (indexType z = 0; z < A.getLength(); z++) {
-            pR[z] = sinh(pA[z]);
-        }
-        return R;
-    } break;
-    default: {
-        throw Exception(_W("Invalid conversion."));
+        Eigen::Map<Eigen::MatrixXd> matA(pA, 1, A.getLength());
+        Eigen::Map<Eigen::MatrixXd> matR(ptrR, 1, A.getLength());
+        matR = matA.array().sinh();
+        R = ArrayOf::ArrayOf(NLS_DOUBLE, A.getDimensions(), ptrR);
     } break;
     }
-    return ArrayOf();
+    return R;
 }
 //=============================================================================
 ArrayOf
-Tanh(ArrayOf A)
+Tanh(const ArrayOf& A)
 {
     if (A.isEmpty()) {
         ArrayOf R(A);
         R.ensureSingleOwner();
         return R;
     }
-    if (A.isSparse()) {
-        throw Exception(_("Undefined function 'tanh' for input arguments of type") + " '"
-            + ClassName(A) + "'.");
-    }
+    ArrayOf R;
     switch (A.getDataClass()) {
-    case NLS_CELL_ARRAY:
-    case NLS_STRUCT_ARRAY:
-    case NLS_LOGICAL:
-    case NLS_UINT8:
-    case NLS_INT8:
-    case NLS_UINT16:
-    case NLS_INT16:
-    case NLS_UINT32:
-    case NLS_INT32:
-    case NLS_UINT64:
-    case NLS_INT64:
-    case NLS_CHAR: {
+    default: {
         throw Exception(_("Undefined function 'tanh' for input arguments of type") + " '"
             + ClassName(A) + "'.");
     } break;
-    // tanh not implemented in Eigen, we use std tanh
     case NLS_SCOMPLEX: {
-        ArrayOf R(A);
-        R.ensureSingleOwner();
+        single* ptrR
+            = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getLength(), stringVector(), false);
         singlecomplex* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
-        singlecomplex* Rz = reinterpret_cast<singlecomplex*>((single*)R.getDataPointer());
-#if defined(__NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
-        for (indexType z = 0; z < A.getLength(); z++) {
-            Rz[z] = tanh(Az[z]);
-        }
+        singlecomplex* Rz = reinterpret_cast<singlecomplex*>(ptrR);
+        Eigen::Map<Eigen::MatrixXcf> matA(Az, 1, A.getLength());
+        Eigen::Map<Eigen::MatrixXcf> matR(Rz, 1, A.getLength());
+        matR = matA.array().tanh();
+        R = ArrayOf::ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
         if (R.allReal()) {
             R.promoteType(NLS_SINGLE);
         }
-        return R;
-    }
+    } break;
     case NLS_SINGLE: {
-        ArrayOf R(A);
-        R.ensureSingleOwner();
+        single* ptrR
+            = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, A.getLength(), stringVector(), false);
         single* pA = (single*)A.getDataPointer();
-        single* pR = (single*)R.getDataPointer();
-        for (indexType z = 0; z < A.getLength(); z++) {
-            pR[z] = tanh(pA[z]);
-        }
-        return R;
+        Eigen::Map<Eigen::MatrixXf> matA(pA, 1, A.getLength());
+        Eigen::Map<Eigen::MatrixXf> matR(ptrR, 1, A.getLength());
+        matR = matA.array().tanh();
+        R = ArrayOf::ArrayOf(NLS_SINGLE, A.getDimensions(), ptrR);
     } break;
     case NLS_DCOMPLEX: {
-        ArrayOf R(A);
-        R.ensureSingleOwner();
+        double* ptrR
+            = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, A.getLength(), stringVector(), false);
         doublecomplex* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
-        doublecomplex* Rz = reinterpret_cast<doublecomplex*>((double*)R.getDataPointer());
-#if defined(__NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
-        for (indexType z = 0; z < A.getLength(); z++) {
-            Rz[z] = tanh(Az[z]);
-        }
+        doublecomplex* Rz = reinterpret_cast<doublecomplex*>((double*)ptrR);
+        Eigen::Map<Eigen::MatrixXcd> matA(Az, 1, A.getLength());
+        Eigen::Map<Eigen::MatrixXcd> matR(Rz, 1, A.getLength());
+        matR = matA.array().tanh();
+        R = ArrayOf::ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
         if (R.allReal()) {
             R.promoteType(NLS_DOUBLE);
         }
-        return R;
     } break;
     case NLS_DOUBLE: {
-        ArrayOf R(A);
-        R.ensureSingleOwner();
+        double* ptrR
+            = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, A.getLength(), stringVector(), false);
         double* pA = (double*)A.getDataPointer();
-        double* pR = (double*)R.getDataPointer();
-#if defined(__NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
-        for (indexType z = 0; z < A.getLength(); z++) {
-            pR[z] = tanh(pA[z]);
-        }
-        return R;
-    } break;
-    default: {
-        throw Exception(_W("Invalid conversion."));
+        Eigen::Map<Eigen::MatrixXd> matA(pA, 1, A.getLength());
+        Eigen::Map<Eigen::MatrixXd> matR(ptrR, 1, A.getLength());
+        matR = matA.array().tanh();
+        R = ArrayOf::ArrayOf(NLS_DOUBLE, A.getDimensions(), ptrR);
     } break;
     }
-    return ArrayOf();
+    return R;
 }
 //=============================================================================
 ArrayOf
-Acos(ArrayOf A)
+Acos(const ArrayOf& A)
 {
     if (A.isEmpty()) {
         ArrayOf R(A);
         R.ensureSingleOwner();
         return R;
     }
-    if (A.isSparse()) {
-        throw Exception(_("Undefined function 'acos' for input arguments of type") + " '"
-            + ClassName(A) + "'.");
-    }
+    ArrayOf R;
     switch (A.getDataClass()) {
-    case NLS_CELL_ARRAY:
-    case NLS_STRUCT_ARRAY:
-    case NLS_LOGICAL:
-    case NLS_UINT8:
-    case NLS_INT8:
-    case NLS_UINT16:
-    case NLS_INT16:
-    case NLS_UINT32:
-    case NLS_INT32:
-    case NLS_UINT64:
-    case NLS_INT64:
-    case NLS_CHAR: {
+    default: {
         throw Exception(_("Undefined function 'acos' for input arguments of type") + " '"
             + ClassName(A) + "'.");
     } break;
-    case NLS_SINGLE:
+    case NLS_SINGLE: {
+        R = A;
+        single* ptrA = (single*)A.getDataPointer();
+        bool needToConvertAsComplex = false;
+        for (indexType i = 0; i < A.getDimensions().getElementCount(); i++) {
+            if (std::abs(ptrA[i]) > 1) {
+                needToConvertAsComplex = true;
+                break;
+            }
+        }
+        if (needToConvertAsComplex) {
+            R.ensureSingleOwner();
+            R.promoteType(NLS_SCOMPLEX);
+            singlecomplex* Az = reinterpret_cast<singlecomplex*>((single*)R.getDataPointer());
+            singlecomplex* Rz = reinterpret_cast<singlecomplex*>((single*)R.getDataPointer());
+            Eigen::Map<Eigen::MatrixXcf> matA(Az, 1, A.getLength());
+            Eigen::Map<Eigen::MatrixXcf> matR(Rz, 1, R.getLength());
+            matR = matA.array().acos();
+            if (R.allReal()) {
+                R.promoteType(NLS_SINGLE);
+            }
+        } else {
+            R.ensureSingleOwner();
+            Eigen::Map<Eigen::MatrixXf> matA((single*)A.getDataPointer(), 1, A.getLength());
+            Eigen::Map<Eigen::MatrixXf> matR((single*)R.getDataPointer(), 1, R.getLength());
+            matR = matA.array().acos();
+        }
+    } break;
     case NLS_SCOMPLEX: {
-        A.ensureSingleOwner();
-        A.promoteType(NLS_SCOMPLEX);
-        ArrayOf R(A);
+        R = A;
         R.ensureSingleOwner();
-        singlecomplex* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
+        singlecomplex* Az = reinterpret_cast<singlecomplex*>((single*)R.getDataPointer());
         singlecomplex* Rz = reinterpret_cast<singlecomplex*>((single*)R.getDataPointer());
         Eigen::Map<Eigen::MatrixXcf> matA(Az, 1, A.getLength());
         Eigen::Map<Eigen::MatrixXcf> matR(Rz, 1, R.getLength());
@@ -568,15 +444,41 @@ Acos(ArrayOf A)
         if (R.allReal()) {
             R.promoteType(NLS_SINGLE);
         }
-        return R;
-    }
-    case NLS_DOUBLE:
+    } break;
+    case NLS_DOUBLE: {
+        double* ptrA = (double*)A.getDataPointer();
+        bool needToConvertAsComplex = false;
+        for (indexType i = 0; i < A.getDimensions().getElementCount(); i++) {
+            if (std::abs(ptrA[i]) > 1) {
+                needToConvertAsComplex = true;
+                break;
+            }
+        }
+        if (needToConvertAsComplex) {
+            R = A;
+            R.ensureSingleOwner();
+            R.promoteType(NLS_DCOMPLEX);
+            doublecomplex* Az = reinterpret_cast<doublecomplex*>((double*)R.getDataPointer());
+            doublecomplex* Rz = reinterpret_cast<doublecomplex*>((double*)R.getDataPointer());
+            Eigen::Map<Eigen::MatrixXcd> matA(Az, 1, A.getLength());
+            Eigen::Map<Eigen::MatrixXcd> matR(Rz, 1, R.getLength());
+            matR = matA.array().acos();
+            if (R.allReal()) {
+                R.promoteType(NLS_DOUBLE);
+            }
+        } else {
+            double* ptrR = (double*)ArrayOf::allocateArrayOf(
+                NLS_DOUBLE, A.getLength(), stringVector(), false);
+            Eigen::Map<Eigen::MatrixXd> matA((double*)A.getDataPointer(), 1, A.getLength());
+            Eigen::Map<Eigen::MatrixXd> matR(ptrR, 1, A.getLength());
+            matR = matA.array().acos();
+            R = ArrayOf::ArrayOf(NLS_DOUBLE, A.getDimensions(), ptrR);
+        }
+    } break;
     case NLS_DCOMPLEX: {
-        A.ensureSingleOwner();
-        A.promoteType(NLS_DCOMPLEX);
-        ArrayOf R(A);
+        R = A;
         R.ensureSingleOwner();
-        doublecomplex* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
+        doublecomplex* Az = reinterpret_cast<doublecomplex*>((double*)R.getDataPointer());
         doublecomplex* Rz = reinterpret_cast<doublecomplex*>((double*)R.getDataPointer());
         Eigen::Map<Eigen::MatrixXcd> matA(Az, 1, A.getLength());
         Eigen::Map<Eigen::MatrixXcd> matR(Rz, 1, R.getLength());
@@ -584,159 +486,174 @@ Acos(ArrayOf A)
         if (R.allReal()) {
             R.promoteType(NLS_DOUBLE);
         }
-        return R;
-    } break;
-    default: {
-        throw Exception(_W("Invalid conversion."));
     } break;
     }
-    return ArrayOf();
+    return R;
 }
 //=============================================================================
 ArrayOf
-Asin(ArrayOf A)
+Asin(const ArrayOf& A)
 {
     if (A.isEmpty()) {
         ArrayOf R(A);
         R.ensureSingleOwner();
         return R;
     }
-    if (A.isSparse()) {
-        throw Exception(_("Undefined function 'asin' for input arguments of type") + " '"
-            + ClassName(A) + "'.");
-    }
+    ArrayOf R;
     switch (A.getDataClass()) {
-    case NLS_CELL_ARRAY:
-    case NLS_STRUCT_ARRAY:
-    case NLS_LOGICAL:
-    case NLS_UINT8:
-    case NLS_INT8:
-    case NLS_UINT16:
-    case NLS_INT16:
-    case NLS_UINT32:
-    case NLS_INT32:
-    case NLS_UINT64:
-    case NLS_INT64:
-    case NLS_CHAR: {
+    default: {
         throw Exception(_("Undefined function 'asin' for input arguments of type") + " '"
             + ClassName(A) + "'.");
     } break;
-    case NLS_SINGLE:
+    case NLS_SINGLE: {
+        R = A;
+        single* ptrA = (single*)A.getDataPointer();
+        bool needToConvertAsComplex = false;
+        for (indexType i = 0; i < A.getDimensions().getElementCount(); i++) {
+            if (std::abs(ptrA[i]) > 1) {
+                needToConvertAsComplex = true;
+                break;
+            }
+        }
+        if (needToConvertAsComplex) {
+            R.ensureSingleOwner();
+            R.promoteType(NLS_SCOMPLEX);
+            singlecomplex* Az = reinterpret_cast<singlecomplex*>((single*)R.getDataPointer());
+            singlecomplex* Rz = reinterpret_cast<singlecomplex*>((single*)R.getDataPointer());
+            Eigen::Map<Eigen::MatrixXcf> matA(Az, 1, A.getLength());
+            Eigen::Map<Eigen::MatrixXcf> matR(Rz, 1, R.getLength());
+            matR = matA.array().asin();
+            if (R.allReal()) {
+                R.promoteType(NLS_SINGLE);
+            }
+        } else {
+            R.ensureSingleOwner();
+            Eigen::Map<Eigen::MatrixXf> matA((single*)A.getDataPointer(), 1, A.getLength());
+            Eigen::Map<Eigen::MatrixXf> matR((single*)R.getDataPointer(), 1, R.getLength());
+            matR = matA.array().asin();
+        }
+    } break;
     case NLS_SCOMPLEX: {
-        A.ensureSingleOwner();
-        A.promoteType(NLS_SCOMPLEX);
-        ArrayOf R(A);
-        R.ensureSingleOwner();
-        singlecomplex* Az = reinterpret_cast<singlecomplex*>((float*)A.getDataPointer());
-        singlecomplex* Rz = reinterpret_cast<singlecomplex*>((float*)R.getDataPointer());
+        single* ptrR
+            = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getLength(), stringVector(), false);
+        singlecomplex* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
+        singlecomplex* Rz = reinterpret_cast<singlecomplex*>((single*)ptrR);
         Eigen::Map<Eigen::MatrixXcf> matA(Az, 1, A.getLength());
-        Eigen::Map<Eigen::MatrixXcf> matR(Rz, 1, R.getLength());
+        Eigen::Map<Eigen::MatrixXcf> matR(Rz, 1, A.getLength());
         matR = matA.array().asin();
+        R = ArrayOf::ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
         if (R.allReal()) {
             R.promoteType(NLS_SINGLE);
         }
-        return R;
-    }
-    case NLS_DOUBLE:
+    } break;
+    case NLS_DOUBLE: {
+        double* ptrA = (double*)A.getDataPointer();
+        bool needToConvertAsComplex = false;
+        for (indexType i = 0; i < A.getDimensions().getElementCount(); i++) {
+            if (std::fabs(ptrA[i]) > 1) {
+                needToConvertAsComplex = true;
+                break;
+            }
+        }
+        if (needToConvertAsComplex) {
+            R = A;
+            R.ensureSingleOwner();
+            R.promoteType(NLS_DCOMPLEX);
+            doublecomplex* Az = reinterpret_cast<doublecomplex*>((double*)R.getDataPointer());
+            doublecomplex* Rz = reinterpret_cast<doublecomplex*>((double*)R.getDataPointer());
+            Eigen::Map<Eigen::MatrixXcd> matA(Az, 1, A.getLength());
+            Eigen::Map<Eigen::MatrixXcd> matR(Rz, 1, R.getLength());
+            matR = matA.array().asin();
+            if (R.allReal()) {
+                R.promoteType(NLS_DOUBLE);
+            }
+        } else {
+            double* ptrR = (double*)ArrayOf::allocateArrayOf(
+                NLS_DOUBLE, A.getLength(), stringVector(), false);
+            Eigen::Map<Eigen::MatrixXd> matA((double*)A.getDataPointer(), 1, A.getLength());
+            Eigen::Map<Eigen::MatrixXd> matR(ptrR, 1, A.getLength());
+            matR = matA.array().asin();
+            R = ArrayOf::ArrayOf(NLS_DOUBLE, A.getDimensions(), ptrR);
+        }
+    } break;
     case NLS_DCOMPLEX: {
-        A.ensureSingleOwner();
-        A.promoteType(NLS_DCOMPLEX);
-        ArrayOf R(A);
-        R.ensureSingleOwner();
+        double* ptrR
+            = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, A.getLength(), stringVector(), false);
         doublecomplex* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
-        doublecomplex* Rz = reinterpret_cast<doublecomplex*>((double*)R.getDataPointer());
+        doublecomplex* Rz = reinterpret_cast<doublecomplex*>((double*)ptrR);
         Eigen::Map<Eigen::MatrixXcd> matA(Az, 1, A.getLength());
         Eigen::Map<Eigen::MatrixXcd> matR(Rz, 1, R.getLength());
         matR = matA.array().asin();
+        R = ArrayOf::ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
         if (R.allReal()) {
             R.promoteType(NLS_DOUBLE);
         }
-        return R;
-    } break;
-    default: {
-        throw Exception(_W("Invalid conversion."));
     } break;
     }
-    return ArrayOf();
+    return R;
 }
 //=============================================================================
 ArrayOf
-Atan(ArrayOf A)
+Atan(const ArrayOf& A)
 {
     if (A.isEmpty()) {
         ArrayOf R(A);
         R.ensureSingleOwner();
         return R;
     }
-    if (A.isSparse()) {
-        throw Exception(_("Undefined function 'atan' for input arguments of type") + " '"
-            + ClassName(A) + "'.");
-    }
+    ArrayOf R;
     switch (A.getDataClass()) {
-    case NLS_CELL_ARRAY:
-    case NLS_STRUCT_ARRAY:
-    case NLS_LOGICAL:
-    case NLS_UINT8:
-    case NLS_INT8:
-    case NLS_UINT16:
-    case NLS_INT16:
-    case NLS_UINT32:
-    case NLS_INT32:
-    case NLS_UINT64:
-    case NLS_INT64:
-    case NLS_CHAR: {
+    default: {
         throw Exception(_("Undefined function 'atan' for input arguments of type") + " '"
             + ClassName(A) + "'.");
     } break;
-    case NLS_SINGLE:
+    case NLS_SINGLE: {
+        single* ptrR
+            = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, A.getLength(), stringVector(), false);
+        single* pA = (single*)A.getDataPointer();
+        Eigen::Map<Eigen::MatrixXf> matA(pA, 1, A.getLength());
+        Eigen::Map<Eigen::MatrixXf> matR(ptrR, 1, A.getLength());
+        matR = matA.array().atan();
+        R = ArrayOf::ArrayOf(NLS_SINGLE, A.getDimensions(), ptrR);
+    } break;
     case NLS_SCOMPLEX: {
-        if (A.getDataClass() == NLS_SINGLE) {
-            A.ensureSingleOwner();
-            A.promoteType(NLS_SCOMPLEX);
-        }
-        ArrayOf R(A);
-        R.ensureSingleOwner();
-        singlecomplex* Az = reinterpret_cast<singlecomplex*>((float*)A.getDataPointer());
-        singlecomplex* Rz = reinterpret_cast<singlecomplex*>((float*)R.getDataPointer());
-#if defined(__NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
-        for (indexType z = 0; z < A.getLength(); z++) {
-            Rz[z] = atan(Az[z]);
-        }
+        single* ptrR
+            = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.getLength(), stringVector(), false);
+        singlecomplex* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
+        singlecomplex* Rz = reinterpret_cast<singlecomplex*>((single*)ptrR);
+        Eigen::Map<Eigen::MatrixXcf> matA(Az, 1, A.getLength());
+        Eigen::Map<Eigen::MatrixXcf> matR(Rz, 1, A.getLength());
+        matR = matA.array().atan();
+        R = ArrayOf::ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
         if (R.allReal()) {
             R.promoteType(NLS_SINGLE);
         }
-        return R;
-    }
-    case NLS_DOUBLE:
+    } break;
+    case NLS_DOUBLE: {
+        double* ptrR
+            = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, A.getLength(), stringVector(), false);
+        double* pA = (double*)A.getDataPointer();
+        Eigen::Map<Eigen::MatrixXd> matA(pA, 1, A.getLength());
+        Eigen::Map<Eigen::MatrixXd> matR(ptrR, 1, A.getLength());
+        matR = matA.array().atan();
+        R = ArrayOf::ArrayOf(NLS_DOUBLE, A.getDimensions(), ptrR);
+    } break;
     case NLS_DCOMPLEX: {
-        if (A.getDataClass() == NLS_DOUBLE) {
-            A.ensureSingleOwner();
-            A.promoteType(NLS_DCOMPLEX);
-        }
-        ArrayOf R(A);
-        R.ensureSingleOwner();
-        doublecomplex* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
-        doublecomplex* Rz = reinterpret_cast<doublecomplex*>((double*)R.getDataPointer());
-        indexType z = 0;
-#if defined(__NLS_WITH_OPENMP)
-#pragma omp parallel for
-#endif
-        for (z = 0; z < A.getLength(); z++) {
-            Rz[z] = atan(Az[z]);
-        }
+        double* ptrR
+            = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, A.getLength(), stringVector(), false);
+        doublecomplex* Az = reinterpret_cast<doublecomplex*>((double*)R.getDataPointer());
+        doublecomplex* Rz = reinterpret_cast<doublecomplex*>((double*)ptrR);
+        Eigen::Map<Eigen::MatrixXcd> matA(Az, 1, A.getLength());
+        Eigen::Map<Eigen::MatrixXcd> matR(Rz, 1, A.getLength());
+        matR = matA.array().atan();
+        R = ArrayOf::ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
         if (R.allReal()) {
             R.promoteType(NLS_DOUBLE);
         }
-        return R;
-    } break;
-    default: {
-        throw Exception(_W("Invalid conversion."));
     } break;
     }
-    return ArrayOf();
+    return R;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

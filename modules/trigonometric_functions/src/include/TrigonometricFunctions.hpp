@@ -23,24 +23,24 @@
 //=============================================================================
 namespace Nelson {
 NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
-Cos(ArrayOf A);
+Cos(const ArrayOf& A);
 NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
-Sin(ArrayOf A);
+Sin(const ArrayOf& A);
 NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
-Tan(ArrayOf A);
+Tan(const ArrayOf& A);
 
 NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
-Acos(ArrayOf A);
+Acos(const ArrayOf& A);
 NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
-Asin(ArrayOf A);
+Asin(const ArrayOf& A);
 NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
-Atan(ArrayOf A);
+Atan(const ArrayOf& A);
 
 NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
-Cosh(ArrayOf A);
+Cosh(const ArrayOf& A);
 NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
-Sinh(ArrayOf A);
+Sinh(const ArrayOf& A);
 NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
-Tanh(ArrayOf A);
+Tanh(const ArrayOf& A);
 } // namespace Nelson
   //=============================================================================

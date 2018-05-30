@@ -20,7 +20,7 @@
 #include "Error.hpp"
 #include "TrigonometricFunctions.hpp"
 #include "OverloadFunction.hpp"
-#include "OverloadRequired.hpp"
+#include "ClassName.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -34,16 +34,46 @@ Nelson::TrigonometricGateway::tanBuiltin(Evaluator* eval, int nLhs, const ArrayO
     if (argIn.size() != 1) {
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
-    // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, "tan", bSuccess);
+    if (eval->overloadOnBasicTypes) {
+        retval = OverloadFunction(eval, nLhs, argIn, "tan", bSuccess);
+    }
     if (!bSuccess) {
-        if ((argIn[0].getDataClass() == NLS_STRUCT_ARRAY)
-            || (argIn[0].getDataClass() == NLS_CELL_ARRAY) || argIn[0].isSparse()
-            || argIn[0].isLogical() || argIn[0].isString() || argIn[0].isIntegerType()) {
-            OverloadRequired(eval, argIn, Nelson::FUNCTION);
+        if (argIn[0].isSparse()) {
+            retval = OverloadFunction(eval, nLhs, argIn, "tan", bSuccess);
+            if (!bSuccess) {
+                throw Exception(_("Undefined function 'tan' for input arguments of type") + " '"
+                    + ClassName(argIn[0]) + "'.");
+            }
+            return retval;
         }
-        retval.push_back(Tan(argIn[0]));
+        switch (argIn[0].getDataClass()) {
+        default:
+        case NLS_CELL_ARRAY:
+        case NLS_STRUCT_ARRAY:
+        case NLS_LOGICAL:
+        case NLS_UINT8:
+        case NLS_INT8:
+        case NLS_UINT16:
+        case NLS_INT16:
+        case NLS_UINT32:
+        case NLS_INT32:
+        case NLS_UINT64:
+        case NLS_INT64:
+        case NLS_CHAR: {
+            retval = OverloadFunction(eval, nLhs, argIn, "tan", bSuccess);
+            if (!bSuccess) {
+                throw Exception(_("Undefined function 'tan' for input arguments of type") + " '"
+                    + ClassName(argIn[0]) + "'.");
+            }
+        } break;
+        case NLS_SINGLE:
+        case NLS_SCOMPLEX:
+        case NLS_DOUBLE:
+        case NLS_DCOMPLEX: {
+            retval.push_back(Tan(argIn[0]));
+        } break;
+        }
     }
     return retval;
 }

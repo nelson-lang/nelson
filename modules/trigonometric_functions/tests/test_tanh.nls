@@ -46,5 +46,5 @@ assert_isequal(X, REF);
 //=============================================================================
 assert_isequal(tanh([]), []);
 //=============================================================================
-assert_checkerror('tanh(''a'')', [_('function'), ' ', 'char_tanh', ' ', _('undefined.')]);
+assert_checkerror('tanh(''a'')', [_('Undefined function ''tanh'' for input arguments of type '''), class('a'), '''.']);
 //=============================================================================

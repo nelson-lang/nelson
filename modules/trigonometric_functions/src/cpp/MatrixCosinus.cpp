@@ -24,7 +24,7 @@
 namespace Nelson {
 template <class T>
 ArrayOf
-cosmComplex(ArrayOf& A)
+cosmComplex(const ArrayOf& A)
 {
     ArrayOf R(A);
     R.ensureSingleOwner();
@@ -49,7 +49,7 @@ cosmComplex(ArrayOf& A)
 }
 //=============================================================================
 ArrayOf
-MatrixCos(ArrayOf A)
+MatrixCos(const ArrayOf& A)
 {
     if (!A.isSquare()) {
         throw Exception(_("Square matrix expected."));
@@ -59,23 +59,8 @@ MatrixCos(ArrayOf A)
         R.ensureSingleOwner();
         return R;
     }
-    if (A.isSparse()) {
-        throw Exception(_("Undefined function 'cosm' for input arguments of type") + " '"
-            + ClassName(A) + "'.");
-    }
     switch (A.getDataClass()) {
-    case NLS_CELL_ARRAY:
-    case NLS_STRUCT_ARRAY:
-    case NLS_LOGICAL:
-    case NLS_UINT8:
-    case NLS_INT8:
-    case NLS_UINT16:
-    case NLS_INT16:
-    case NLS_UINT32:
-    case NLS_INT32:
-    case NLS_UINT64:
-    case NLS_INT64:
-    case NLS_CHAR: {
+    default: {
         throw Exception(_("Undefined function 'cosm' for input arguments of type") + " '"
             + ClassName(A) + "'.");
     } break;
@@ -87,8 +72,9 @@ MatrixCos(ArrayOf A)
         return R;
     }
     case NLS_SINGLE: {
-        A.promoteType(NLS_SCOMPLEX);
-        ArrayOf R = cosmComplex<single>(A);
+        ArrayOf R(A);
+        R.promoteType(NLS_SCOMPLEX);
+        R = cosmComplex<single>(R);
         R.promoteType(NLS_SINGLE);
         return R;
     } break;
@@ -100,17 +86,15 @@ MatrixCos(ArrayOf A)
         return R;
     } break;
     case NLS_DOUBLE: {
-        A.promoteType(NLS_DCOMPLEX);
-        ArrayOf R = cosmComplex<double>(A);
+        ArrayOf R(A);
+        R.promoteType(NLS_DCOMPLEX);
+        R = cosmComplex<double>(R);
         R.promoteType(NLS_DOUBLE);
         return R;
-    } break;
-    default: {
-        throw Exception(_W("Invalid conversion."));
     } break;
     }
     return ArrayOf();
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================
