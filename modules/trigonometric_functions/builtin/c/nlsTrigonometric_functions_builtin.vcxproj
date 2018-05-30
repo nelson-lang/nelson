@@ -177,8 +177,10 @@
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\sinBuiltin.cpp" />
     <ClCompile Include="..\cpp\sinhBuiltin.cpp" />
+    <ClCompile Include="..\cpp\sinmBuiltin.cpp" />
     <ClCompile Include="..\cpp\tanBuiltin.cpp" />
     <ClCompile Include="..\cpp\tanhBuiltin.cpp" />
+    <ClCompile Include="..\cpp\tanmBuiltin.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
   <ItemGroup>
@@ -214,8 +216,10 @@
     <ClInclude Include="..\include\nlsTrigonometric_functions_builtin_exports.h" />
     <ClInclude Include="..\include\sinBuiltin.hpp" />
     <ClInclude Include="..\include\sinhBuiltin.hpp" />
+    <ClInclude Include="..\include\sinmBuiltin.hpp" />
     <ClInclude Include="..\include\tanBuiltin.hpp" />
     <ClInclude Include="..\include\tanhBuiltin.hpp" />
+    <ClInclude Include="..\include\tanmBuiltin.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\etc\finish.nls" />

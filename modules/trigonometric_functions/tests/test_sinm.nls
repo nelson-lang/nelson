@@ -1,0 +1,65 @@
+//=============================================================================
+// Copyright (c) 2016-2018 Allan CORNET (Nelson)
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// LICENCE_BLOCK_END
+//=============================================================================
+assert_isequal(nargin('sinm'), 1);
+assert_isequal(nargout('sinm'), 1);
+//=============================================================================
+assert_isequal(sinm(NaN), NaN);
+assert_isequal(sinm(-NaN), NaN);
+assert_isequal(sinm(Inf), NaN);
+assert_isequal(sinm(-Inf), NaN);
+//=============================================================================
+x = sinm(0i);
+ref = 0;
+assert_isequal(x, ref);
+//=============================================================================
+X = sinm(zeros(3, 3));
+REF = zeros(3, 3);
+assert_isequal(X, REF);
+//=============================================================================
+assert_isequal(sinm([]), []);
+//=============================================================================
+A = [1,2;3,4];
+R = sinm(A);
+REF = [ -0.4656     -0.1484
+     -0.2226     -0.6882];
+assert_isapprox(R, REF, 1e-4);
+//=============================================================================
+A = single([1,2;3,4]);
+R = sinm(A);
+REF = [ -0.4656     -0.1484
+     -0.2226     -0.6882];
+assert_isapprox(R, REF, 1e-4);
+assert_isequal(class(R), 'single');
+//=============================================================================
+A = [1,2;3,4] + i;
+R = sinm(A);
+REF = [ -1.0832 + 0.3850i,    -1.0001 + 0.5069i;
+    -1.2988 + 0.9096i    -1.9793 + 1.5933i];
+assert_isapprox(R, REF, 1e-4);
+//=============================================================================
+A = single([1,2;3,4] + i);
+R = sinm(A);
+REF = [ -1.0832 + 0.3850i,    -1.0001 + 0.5069i;
+    -1.2988 + 0.9096i    -1.9793 + 1.5933i];
+assert_isapprox(R, REF, 1e-4);
+assert_isequal(class(R), 'single');
+//=============================================================================
+assert_checkerror('sinm([1 , 2])', _('Square matrix expected.'));
+assert_checkerror('sinm(''a'')', [_('Undefined function ''sinm'' for input arguments of type '''), class('a'), '''.']);
+//=============================================================================

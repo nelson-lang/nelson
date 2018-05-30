@@ -22,11 +22,14 @@
 #include "atanBuiltin.hpp"
 #include "cosBuiltin.hpp"
 #include "coshBuiltin.hpp"
-#include "cosmBuiltin.hpp"
 #include "sinBuiltin.hpp"
 #include "sinhBuiltin.hpp"
 #include "tanBuiltin.hpp"
 #include "tanhBuiltin.hpp"
+#include "cosmBuiltin.hpp"
+#include "cosmBuiltin.hpp"
+#include "sinmBuiltin.hpp"
+#include "tanmBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -43,6 +46,8 @@ static const nlsGateway gateway[] = {
     { "asin", Nelson::TrigonometricGateway::asinBuiltin, 1, 1 },
     { "atan", Nelson::TrigonometricGateway::atanBuiltin, 1, 1 },
     { "cosm", Nelson::TrigonometricGateway::cosmBuiltin, 1, 1 },
+    { "sinm", Nelson::TrigonometricGateway::sinmBuiltin, 1, 1 },
+    { "tanm", Nelson::TrigonometricGateway::tanmBuiltin, 1, 1 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

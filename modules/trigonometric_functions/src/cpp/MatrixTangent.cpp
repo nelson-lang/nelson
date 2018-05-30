@@ -16,7 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "MatrixCosinus.hpp"
+#include "MatrixTangent.hpp"
 #include "ClassName.hpp"
 #include "lapack_eigen.hpp"
 #include <Eigen/Dense>
@@ -24,10 +24,9 @@
 namespace Nelson {
 template <class T>
 ArrayOf
-cosmComplex(const ArrayOf& A)
+tanmComplex(const ArrayOf& A)
 {
-    T* ptrR
-        = (T*)ArrayOf::allocateArrayOf(A.getDataClass(), A.getLength(), stringVector(), false);
+    T* ptrR = (T*)ArrayOf::allocateArrayOf(A.getDataClass(), A.getLength(), stringVector(), false);
     std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)A.getDataPointer());
     std::complex<T>* Rz = reinterpret_cast<std::complex<T>*>((T*)ptrR);
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matA(Az,
@@ -35,13 +34,13 @@ cosmComplex(const ArrayOf& A)
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matR(Rz,
         (Eigen::Index)A.getDimensions().getRows(), (Eigen::Index)A.getDimensions().getColumns());
     // [V, D] = eig(A);
-    // cosm = V * diag(cos(diag(D))) * inv(V);
+    // cosm = V * diag(tan(diag(D))) * inv(V);
     Eigen::ComplexEigenSolver<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>>
         solver(matA.template cast<std::complex<T>>());
     auto evects = solver.eigenvectors();
     auto evals = solver.eigenvalues();
     for (indexType i = 0; i < static_cast<indexType>(evals.rows()); ++i) {
-        evals(i) = cos(evals(i));
+        evals(i) = tan(evals(i));
     }
     auto evalsdiag = evals.asDiagonal();
     matR = evects * evalsdiag * evects.inverse();
@@ -49,7 +48,7 @@ cosmComplex(const ArrayOf& A)
 }
 //=============================================================================
 ArrayOf
-MatrixCos(const ArrayOf& A)
+MatrixTan(const ArrayOf& A)
 {
     if (!A.isSquare()) {
         throw Exception(_("Square matrix expected."));
@@ -61,11 +60,11 @@ MatrixCos(const ArrayOf& A)
     }
     switch (A.getDataClass()) {
     default: {
-        throw Exception(_("Undefined function 'cosm' for input arguments of type") + " '"
+        throw Exception(_("Undefined function 'tanm' for input arguments of type") + " '"
             + ClassName(A) + "'.");
     } break;
     case NLS_SCOMPLEX: {
-        ArrayOf R = cosmComplex<single>(A);
+        ArrayOf R = tanmComplex<single>(A);
         if (R.allReal()) {
             R.promoteType(NLS_SINGLE);
         }
@@ -74,12 +73,12 @@ MatrixCos(const ArrayOf& A)
     case NLS_SINGLE: {
         ArrayOf R(A);
         R.promoteType(NLS_SCOMPLEX);
-        R = cosmComplex<single>(R);
+        R = tanmComplex<single>(R);
         R.promoteType(NLS_SINGLE);
         return R;
     } break;
     case NLS_DCOMPLEX: {
-        ArrayOf R = cosmComplex<double>(A);
+        ArrayOf R = tanmComplex<double>(A);
         if (R.allReal()) {
             R.promoteType(NLS_DOUBLE);
         }
@@ -88,7 +87,7 @@ MatrixCos(const ArrayOf& A)
     case NLS_DOUBLE: {
         ArrayOf R(A);
         R.promoteType(NLS_DCOMPLEX);
-        R = cosmComplex<double>(R);
+        R = tanmComplex<double>(R);
         R.promoteType(NLS_DOUBLE);
         return R;
     } break;

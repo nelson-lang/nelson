@@ -171,9 +171,13 @@
     <ClInclude Include="..\..\src\include\nlsTrigonometric_functions_exports.h" />
     <ClInclude Include="..\..\src\include\TrigonometricFunctions.hpp" />
     <ClInclude Include="..\include\MatrixCosinus.hpp" />
+    <ClInclude Include="..\include\MatrixSinus.hpp" />
+    <ClInclude Include="..\include\MatrixTangent.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\MatrixCosinus.cpp" />
+    <ClCompile Include="..\cpp\MatrixSinus.cpp" />
+    <ClCompile Include="..\cpp\MatrixTangent.cpp" />
     <ClCompile Include="..\cpp\TrigonometricFunctions.cpp" />
     <ClCompile Include="dllMain.c" />
   </ItemGroup>
