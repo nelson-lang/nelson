@@ -33,7 +33,9 @@ Nelson::TypeGateway::isint8Builtin(Evaluator* eval, int nLhs, const ArrayOfVecto
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, "isint8", bSuccess);
+    if (eval->overloadOnBasicTypes) {
+        retval = OverloadFunction(eval, nLhs, argIn, "isint8", bSuccess);
+    }
     if (!bSuccess) {
         bool bRes = (argIn[0].getDataClass() == NLS_INT8);
         retval.push_back(ArrayOf::logicalConstructor(bRes));

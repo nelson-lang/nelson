@@ -33,7 +33,9 @@ Nelson::TypeGateway::isintegerBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, "isinteger", bSuccess);
+    if (eval->overloadOnBasicTypes) {
+        retval = OverloadFunction(eval, nLhs, argIn, "isinteger", bSuccess);
+    }
     if (!bSuccess) {
         bool bRes = (argIn[0].getDataClass() == NLS_UINT8 || argIn[0].getDataClass() == NLS_INT8
             || argIn[0].getDataClass() == NLS_UINT16 || argIn[0].getDataClass() == NLS_INT16

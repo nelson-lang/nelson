@@ -33,7 +33,9 @@ Nelson::TypeGateway::isfloatBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, "isfloat", bSuccess);
+    if (eval->overloadOnBasicTypes) {
+        retval = OverloadFunction(eval, nLhs, argIn, "isfloat", bSuccess);
+    }
     if (!bSuccess) {
         bool bRes = (argIn[0].getDataClass() == NLS_DOUBLE
             || argIn[0].getDataClass() == NLS_DCOMPLEX || argIn[0].getDataClass() == NLS_SINGLE

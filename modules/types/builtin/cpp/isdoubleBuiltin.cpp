@@ -33,7 +33,9 @@ Nelson::TypeGateway::isdoubleBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, "isdouble", bSuccess);
+    if (eval->overloadOnBasicTypes) {
+        retval = OverloadFunction(eval, nLhs, argIn, "isdouble", bSuccess);
+    }
     if (!bSuccess) {
         bool bRes
             = (argIn[0].getDataClass() == NLS_DOUBLE || argIn[0].getDataClass() == NLS_DCOMPLEX);

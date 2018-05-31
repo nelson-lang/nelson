@@ -33,7 +33,9 @@ Nelson::TypeGateway::isstructBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, "isstruct", bSuccess);
+    if (eval->overloadOnBasicTypes) {
+        retval = OverloadFunction(eval, nLhs, argIn, "isstruct", bSuccess);
+    }
     if (!bSuccess) {
         ArrayOf paramOne = argIn[0];
         bool bRes = paramOne.isStruct();

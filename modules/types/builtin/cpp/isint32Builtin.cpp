@@ -33,7 +33,9 @@ Nelson::TypeGateway::isint32Builtin(Evaluator* eval, int nLhs, const ArrayOfVect
         Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, "isint32", bSuccess);
+    if (eval->overloadOnBasicTypes) {
+        retval = OverloadFunction(eval, nLhs, argIn, "isint32", bSuccess);
+    }
     if (!bSuccess) {
         bool bRes = (argIn[0].getDataClass() == NLS_INT32);
         retval.push_back(ArrayOf::logicalConstructor(bRes));
