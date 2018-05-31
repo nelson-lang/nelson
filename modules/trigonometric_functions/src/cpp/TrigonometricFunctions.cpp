@@ -47,7 +47,7 @@ Cos(const ArrayOf& A)
         Eigen::Map<Eigen::MatrixXcf> matA(Az, 1, A.getLength());
         Eigen::Map<Eigen::MatrixXcf> matR(Rz, 1, A.getLength());
         matR = matA.array().cos();
-        R = ArrayOf::ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
+        R = ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
         if (R.allReal()) {
             R.promoteType(NLS_SINGLE);
         }
@@ -58,7 +58,7 @@ Cos(const ArrayOf& A)
         Eigen::Map<Eigen::MatrixXf> matA((single*)A.getDataPointer(), 1, A.getLength());
         Eigen::Map<Eigen::MatrixXf> matR(ptrR, 1, A.getLength());
         matR = matA.array().cos();
-        R = ArrayOf::ArrayOf(NLS_SINGLE, A.getDimensions(), ptrR);
+        R = ArrayOf(NLS_SINGLE, A.getDimensions(), ptrR);
     } break;
     case NLS_DCOMPLEX: {
         double* ptrR
@@ -68,7 +68,7 @@ Cos(const ArrayOf& A)
         Eigen::Map<Eigen::MatrixXcd> matA(Az, 1, A.getLength());
         Eigen::Map<Eigen::MatrixXcd> matR(Rz, 1, A.getLength());
         matR = matA.array().cos();
-        R = ArrayOf::ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
+        R = ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
         if (R.allReal()) {
             R.promoteType(NLS_DOUBLE);
         }
@@ -78,7 +78,7 @@ Cos(const ArrayOf& A)
             = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, A.getLength(), stringVector(), false);
         Eigen::Map<Eigen::MatrixXd> matA((double*)A.getDataPointer(), 1, A.getLength());
         Eigen::Map<Eigen::MatrixXd> matR((double*)ptrR, 1, A.getLength());
-        R = ArrayOf::ArrayOf(NLS_DOUBLE, A.getDimensions(), ptrR);
+        R = ArrayOf(NLS_DOUBLE, A.getDimensions(), ptrR);
         matR = matA.array().cos();
     } break;
     }
@@ -107,7 +107,7 @@ Sin(const ArrayOf& A)
         Eigen::Map<Eigen::MatrixXcf> matA(Az, 1, A.getLength());
         Eigen::Map<Eigen::MatrixXcf> matR(Rz, 1, A.getLength());
         matR = matA.array().sin();
-        R = ArrayOf::ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
+        R = ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
         if (R.allReal()) {
             R.promoteType(NLS_SINGLE);
         }
@@ -118,7 +118,7 @@ Sin(const ArrayOf& A)
         Eigen::Map<Eigen::MatrixXf> matA((single*)A.getDataPointer(), 1, A.getLength());
         Eigen::Map<Eigen::MatrixXf> matR((single*)ptrR, 1, A.getLength());
         matR = matA.array().sin();
-        R = ArrayOf::ArrayOf(NLS_SINGLE, A.getDimensions(), ptrR);
+        R = ArrayOf(NLS_SINGLE, A.getDimensions(), ptrR);
     } break;
     case NLS_DCOMPLEX: {
         double* ptrR
@@ -128,7 +128,7 @@ Sin(const ArrayOf& A)
         Eigen::Map<Eigen::MatrixXcd> matA(Az, 1, A.getLength());
         Eigen::Map<Eigen::MatrixXcd> matR(Rz, 1, A.getLength());
         matR = matA.array().sin();
-        R = ArrayOf::ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
+        R = ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
         if (R.allReal()) {
             R.promoteType(NLS_DOUBLE);
         }
@@ -139,7 +139,7 @@ Sin(const ArrayOf& A)
         Eigen::Map<Eigen::MatrixXd> matA((double*)A.getDataPointer(), 1, A.getLength());
         Eigen::Map<Eigen::MatrixXd> matR((double*)ptrR, 1, A.getLength());
         matR = matA.array().sin();
-        R = ArrayOf::ArrayOf(NLS_DOUBLE, A.getDimensions(), ptrR);
+        R = ArrayOf(NLS_DOUBLE, A.getDimensions(), ptrR);
     } break;
     }
     return R;
@@ -167,7 +167,7 @@ Tan(const ArrayOf& A)
         Eigen::Map<Eigen::MatrixXcf> matA(Az, 1, A.getLength());
         Eigen::Map<Eigen::MatrixXcf> matR(Rz, 1, A.getLength());
         matR = matA.array().tan();
-        R = ArrayOf::ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
+        R = ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
         if (R.allReal()) {
             R.promoteType(NLS_SINGLE);
         }
@@ -178,7 +178,7 @@ Tan(const ArrayOf& A)
         Eigen::Map<Eigen::MatrixXf> matA((single*)A.getDataPointer(), 1, A.getLength());
         Eigen::Map<Eigen::MatrixXf> matR((single*)ptrR, 1, A.getLength());
         matR = matA.array().tan();
-        R = ArrayOf::ArrayOf(NLS_SINGLE, A.getDimensions(), ptrR);
+        R = ArrayOf(NLS_SINGLE, A.getDimensions(), ptrR);
     } break;
     case NLS_DCOMPLEX: {
         double* ptrR
@@ -188,7 +188,7 @@ Tan(const ArrayOf& A)
         Eigen::Map<Eigen::MatrixXcd> matA(Az, 1, A.getLength());
         Eigen::Map<Eigen::MatrixXcd> matR(Rz, 1, A.getLength());
         matR = matA.array().tan();
-        R = ArrayOf::ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
+        R = ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
         if (R.allReal()) {
             R.promoteType(NLS_DOUBLE);
         }
@@ -199,7 +199,7 @@ Tan(const ArrayOf& A)
         Eigen::Map<Eigen::MatrixXd> matA((double*)A.getDataPointer(), 1, A.getLength());
         Eigen::Map<Eigen::MatrixXd> matR((double*)ptrR, 1, A.getLength());
         matR = matA.array().tan();
-        R = ArrayOf::ArrayOf(NLS_DOUBLE, A.getDimensions(), ptrR);
+        R = ArrayOf(NLS_DOUBLE, A.getDimensions(), ptrR);
     } break;
     }
     return R;
@@ -227,7 +227,7 @@ Cosh(const ArrayOf& A)
         Eigen::Map<Eigen::MatrixXcf> matA(Az, 1, A.getLength());
         Eigen::Map<Eigen::MatrixXcf> matR(Rz, 1, A.getLength());
         matR = matA.array().cosh();
-        R = ArrayOf::ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
+        R = ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
         if (R.allReal()) {
             R.promoteType(NLS_SINGLE);
         }
@@ -239,7 +239,7 @@ Cosh(const ArrayOf& A)
         Eigen::Map<Eigen::MatrixXf> matA(pA, 1, A.getLength());
         Eigen::Map<Eigen::MatrixXf> matR(ptrR, 1, A.getLength());
         matR = matA.array().cosh();
-        R = ArrayOf::ArrayOf(NLS_SINGLE, A.getDimensions(), ptrR);
+        R = ArrayOf(NLS_SINGLE, A.getDimensions(), ptrR);
     } break;
     case NLS_DCOMPLEX: {
         double* ptrR
@@ -249,7 +249,7 @@ Cosh(const ArrayOf& A)
         Eigen::Map<Eigen::MatrixXcd> matA(Az, 1, A.getLength());
         Eigen::Map<Eigen::MatrixXcd> matR(Rz, 1, A.getLength());
         matR = matA.array().cosh();
-        R = ArrayOf::ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
+        R = ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
         if (R.allReal()) {
             R.promoteType(NLS_DOUBLE);
         }
@@ -261,7 +261,7 @@ Cosh(const ArrayOf& A)
         Eigen::Map<Eigen::MatrixXd> matA(pA, 1, A.getLength());
         Eigen::Map<Eigen::MatrixXd> matR(ptrR, 1, A.getLength());
         matR = matA.array().cosh();
-        R = ArrayOf::ArrayOf(NLS_DOUBLE, A.getDimensions(), ptrR);
+        R = ArrayOf(NLS_DOUBLE, A.getDimensions(), ptrR);
     } break;
     }
     return R;
@@ -289,7 +289,7 @@ Sinh(const ArrayOf& A)
         Eigen::Map<Eigen::MatrixXcf> matA(Az, 1, A.getLength());
         Eigen::Map<Eigen::MatrixXcf> matR(Rz, 1, A.getLength());
         matR = matA.array().sinh();
-        R = ArrayOf::ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
+        R = ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
         if (R.allReal()) {
             R.promoteType(NLS_SINGLE);
         }
@@ -301,7 +301,7 @@ Sinh(const ArrayOf& A)
         Eigen::Map<Eigen::MatrixXf> matA(pA, 1, A.getLength());
         Eigen::Map<Eigen::MatrixXf> matR(ptrR, 1, A.getLength());
         matR = matA.array().sinh();
-        R = ArrayOf::ArrayOf(NLS_SINGLE, A.getDimensions(), ptrR);
+        R = ArrayOf(NLS_SINGLE, A.getDimensions(), ptrR);
     } break;
     case NLS_DCOMPLEX: {
         double* ptrR
@@ -311,7 +311,7 @@ Sinh(const ArrayOf& A)
         Eigen::Map<Eigen::MatrixXcd> matA(Az, 1, A.getLength());
         Eigen::Map<Eigen::MatrixXcd> matR(Rz, 1, A.getLength());
         matR = matA.array().sinh();
-        R = ArrayOf::ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
+        R = ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
         if (R.allReal()) {
             R.promoteType(NLS_DOUBLE);
         }
@@ -323,7 +323,7 @@ Sinh(const ArrayOf& A)
         Eigen::Map<Eigen::MatrixXd> matA(pA, 1, A.getLength());
         Eigen::Map<Eigen::MatrixXd> matR(ptrR, 1, A.getLength());
         matR = matA.array().sinh();
-        R = ArrayOf::ArrayOf(NLS_DOUBLE, A.getDimensions(), ptrR);
+        R = ArrayOf(NLS_DOUBLE, A.getDimensions(), ptrR);
     } break;
     }
     return R;
@@ -351,7 +351,7 @@ Tanh(const ArrayOf& A)
         Eigen::Map<Eigen::MatrixXcf> matA(Az, 1, A.getLength());
         Eigen::Map<Eigen::MatrixXcf> matR(Rz, 1, A.getLength());
         matR = matA.array().tanh();
-        R = ArrayOf::ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
+        R = ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
         if (R.allReal()) {
             R.promoteType(NLS_SINGLE);
         }
@@ -363,7 +363,7 @@ Tanh(const ArrayOf& A)
         Eigen::Map<Eigen::MatrixXf> matA(pA, 1, A.getLength());
         Eigen::Map<Eigen::MatrixXf> matR(ptrR, 1, A.getLength());
         matR = matA.array().tanh();
-        R = ArrayOf::ArrayOf(NLS_SINGLE, A.getDimensions(), ptrR);
+        R = ArrayOf(NLS_SINGLE, A.getDimensions(), ptrR);
     } break;
     case NLS_DCOMPLEX: {
         double* ptrR
@@ -373,7 +373,7 @@ Tanh(const ArrayOf& A)
         Eigen::Map<Eigen::MatrixXcd> matA(Az, 1, A.getLength());
         Eigen::Map<Eigen::MatrixXcd> matR(Rz, 1, A.getLength());
         matR = matA.array().tanh();
-        R = ArrayOf::ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
+        R = ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
         if (R.allReal()) {
             R.promoteType(NLS_DOUBLE);
         }
@@ -385,7 +385,7 @@ Tanh(const ArrayOf& A)
         Eigen::Map<Eigen::MatrixXd> matA(pA, 1, A.getLength());
         Eigen::Map<Eigen::MatrixXd> matR(ptrR, 1, A.getLength());
         matR = matA.array().tanh();
-        R = ArrayOf::ArrayOf(NLS_DOUBLE, A.getDimensions(), ptrR);
+        R = ArrayOf(NLS_DOUBLE, A.getDimensions(), ptrR);
     } break;
     }
     return R;
@@ -472,7 +472,7 @@ Acos(const ArrayOf& A)
             Eigen::Map<Eigen::MatrixXd> matA((double*)A.getDataPointer(), 1, A.getLength());
             Eigen::Map<Eigen::MatrixXd> matR(ptrR, 1, A.getLength());
             matR = matA.array().acos();
-            R = ArrayOf::ArrayOf(NLS_DOUBLE, A.getDimensions(), ptrR);
+            R = ArrayOf(NLS_DOUBLE, A.getDimensions(), ptrR);
         }
     } break;
     case NLS_DCOMPLEX: {
@@ -541,7 +541,7 @@ Asin(const ArrayOf& A)
         Eigen::Map<Eigen::MatrixXcf> matA(Az, 1, A.getLength());
         Eigen::Map<Eigen::MatrixXcf> matR(Rz, 1, A.getLength());
         matR = matA.array().asin();
-        R = ArrayOf::ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
+        R = ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
         if (R.allReal()) {
             R.promoteType(NLS_SINGLE);
         }
@@ -573,7 +573,7 @@ Asin(const ArrayOf& A)
             Eigen::Map<Eigen::MatrixXd> matA((double*)A.getDataPointer(), 1, A.getLength());
             Eigen::Map<Eigen::MatrixXd> matR(ptrR, 1, A.getLength());
             matR = matA.array().asin();
-            R = ArrayOf::ArrayOf(NLS_DOUBLE, A.getDimensions(), ptrR);
+            R = ArrayOf(NLS_DOUBLE, A.getDimensions(), ptrR);
         }
     } break;
     case NLS_DCOMPLEX: {
@@ -584,7 +584,7 @@ Asin(const ArrayOf& A)
         Eigen::Map<Eigen::MatrixXcd> matA(Az, 1, A.getLength());
         Eigen::Map<Eigen::MatrixXcd> matR(Rz, 1, R.getLength());
         matR = matA.array().asin();
-        R = ArrayOf::ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
+        R = ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
         if (R.allReal()) {
             R.promoteType(NLS_DOUBLE);
         }
@@ -614,7 +614,7 @@ Atan(const ArrayOf& A)
         Eigen::Map<Eigen::MatrixXf> matA(pA, 1, A.getLength());
         Eigen::Map<Eigen::MatrixXf> matR(ptrR, 1, A.getLength());
         matR = matA.array().atan();
-        R = ArrayOf::ArrayOf(NLS_SINGLE, A.getDimensions(), ptrR);
+        R = ArrayOf(NLS_SINGLE, A.getDimensions(), ptrR);
     } break;
     case NLS_SCOMPLEX: {
         single* ptrR
@@ -624,7 +624,7 @@ Atan(const ArrayOf& A)
         Eigen::Map<Eigen::MatrixXcf> matA(Az, 1, A.getLength());
         Eigen::Map<Eigen::MatrixXcf> matR(Rz, 1, A.getLength());
         matR = matA.array().atan();
-        R = ArrayOf::ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
+        R = ArrayOf(NLS_SCOMPLEX, A.getDimensions(), ptrR);
         if (R.allReal()) {
             R.promoteType(NLS_SINGLE);
         }
@@ -636,7 +636,7 @@ Atan(const ArrayOf& A)
         Eigen::Map<Eigen::MatrixXd> matA(pA, 1, A.getLength());
         Eigen::Map<Eigen::MatrixXd> matR(ptrR, 1, A.getLength());
         matR = matA.array().atan();
-        R = ArrayOf::ArrayOf(NLS_DOUBLE, A.getDimensions(), ptrR);
+        R = ArrayOf(NLS_DOUBLE, A.getDimensions(), ptrR);
     } break;
     case NLS_DCOMPLEX: {
         double* ptrR
@@ -646,7 +646,7 @@ Atan(const ArrayOf& A)
         Eigen::Map<Eigen::MatrixXcd> matA(Az, 1, A.getLength());
         Eigen::Map<Eigen::MatrixXcd> matR(Rz, 1, A.getLength());
         matR = matA.array().atan();
-        R = ArrayOf::ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
+        R = ArrayOf(NLS_DCOMPLEX, A.getDimensions(), ptrR);
         if (R.allReal()) {
             R.promoteType(NLS_DOUBLE);
         }
