@@ -1,3 +1,5 @@
+  * tanm, sinm builtin added.
+
   * Overload speed optimization:
 
     - plus, minus, eq, ne, gt, ge, le, lt, horzcat, vertcat, uplus, uminus operators
