@@ -20,6 +20,7 @@
 #include "Sleep.hpp"
 #include "Error.hpp"
 #include "OverloadFunction.hpp"
+#include "OverloadRequired.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -35,11 +36,20 @@ Nelson::TimeGateway::sleepBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
     }
     // Call overload if it exists
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, "sleep", bSuccess);
+    if (eval->overloadOnBasicTypes) {
+        retval = OverloadFunction(eval, nLhs, argIn, "sleep", bSuccess);
+    }
     if (!bSuccess) {
         ArrayOf Parameter1 = argIn[0];
-        double dValue = Parameter1.getContentAsDoubleScalar();
-        Sleep(eval, dValue);
+        if (Parameter1.isDoubleType()) {
+            double dValue = Parameter1.getContentAsDoubleScalar();
+            Sleep(eval, dValue);
+        } else {
+            retval = OverloadFunction(eval, nLhs, argIn, "sleep", bSuccess);
+            if (!bSuccess) {
+                OverloadRequired(eval, argIn, OVERLOAD_TYPE::FUNCTION, "sleep");
+			}
+        }
     }
     return retval;
 }

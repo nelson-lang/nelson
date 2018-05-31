@@ -35,7 +35,9 @@ Nelson::TimeGateway::datevecBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
         Error(eval, ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     bool bSuccess = false;
-    retval = OverloadFunction(eval, nLhs, argIn, "datevec", bSuccess);
+    if (eval->overloadOnBasicTypes) {
+        retval = OverloadFunction(eval, nLhs, argIn, "datevec", bSuccess);
+    }
     if (!bSuccess) {
         if (argIn.size() != 1) {
             Error(eval, ERROR_WRONG_NUMBERS_INPUT_ARGS);
@@ -129,7 +131,11 @@ Nelson::TimeGateway::datevecBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
                 }
             }
         } else {
-            Error(eval, ERROR_TYPE_NOT_SUPPORTED);
+            retval = OverloadFunction(eval, nLhs, argIn, "datevec", bSuccess);
+			if (!bSuccess)
+			{
+                Error(eval, ERROR_TYPE_NOT_SUPPORTED);
+            }
         }
     }
     return retval;
