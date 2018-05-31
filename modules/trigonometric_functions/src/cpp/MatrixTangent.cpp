@@ -44,7 +44,7 @@ tanmComplex(const ArrayOf& A)
     }
     auto evalsdiag = evals.asDiagonal();
     matR = evects * evalsdiag * evects.inverse();
-    return ArrayOf::ArrayOf(A.getDataClass(), A.getDimensions(), ptrR);
+    return ArrayOf(A.getDataClass(), A.getDimensions(), ptrR);
 }
 //=============================================================================
 ArrayOf
