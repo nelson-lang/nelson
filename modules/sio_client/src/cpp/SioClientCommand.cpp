@@ -23,102 +23,102 @@
 #include "SioClientListener.hpp"
 //=============================================================================
 namespace Nelson {
-	//=============================================================================
-	SioClientCommand* SioClientCommand::m_pInstance = nullptr;
-	sio::socket::ptr SioClientCommand::_socket = nullptr;
-	//=============================================================================
-	bool SioClientCommand::create(const std::string &ipAddress)
-	{
-		if (!_initialized)
-		{
-			if (!ipAddress.empty())
-			{
-				return createConnection(ipAddress);
-			}
-		}
-		return false;
-	}
-	//=============================================================================
-	bool SioClientCommand::isInitialized()
-	{
-		return _initialized;
-	}
-	//=============================================================================
-	SioClientCommand::SioClientCommand()
-	{
-		_initialized = false;
-	}
-	//=============================================================================
-	bool SioClientCommand::createConnection(const std::string &ipAddress)
-	{
-		if (!ipAddress.empty())
-		{
-			_command = "";
-			_sioClient.set_open_listener(std::bind(&SioClientListener::on_connected, &_sioClientListener));
-			_sioClient.set_close_listener(std::bind(&SioClientListener::on_close, &_sioClientListener, std::placeholders::_1));
-			_sioClient.set_fail_listener(std::bind(&SioClientListener::on_fail, &_sioClientListener));
-			_sioClient.connect(_ipAddress);
-			_ipAddress = ipAddress;
+//=============================================================================
+SioClientCommand* SioClientCommand::m_pInstance = nullptr;
+sio::socket::ptr SioClientCommand::_socket = nullptr;
+//=============================================================================
+bool
+SioClientCommand::create(const std::string& ipAddress)
+{
+    if (!_initialized) {
+        if (!ipAddress.empty()) {
+            return createConnection(ipAddress);
+        }
+    }
+    return false;
+}
+//=============================================================================
+bool
+SioClientCommand::isInitialized()
+{
+    return _initialized;
+}
+//=============================================================================
+SioClientCommand::SioClientCommand() { _initialized = false; }
+//=============================================================================
+bool
+SioClientCommand::createConnection(const std::string& ipAddress)
+{
+    if (!ipAddress.empty()) {
+        _command = "";
+        _sioClient.set_open_listener(
+            std::bind(&SioClientListener::on_connected, &_sioClientListener));
+        _sioClient.set_close_listener(
+            std::bind(&SioClientListener::on_close, &_sioClientListener, std::placeholders::_1));
+        _sioClient.set_fail_listener(std::bind(&SioClientListener::on_fail, &_sioClientListener));
+        _ipAddress = ipAddress;
+        _sioClient.connect(_ipAddress);
 
-			_sioClientListener.lock.lock();
-			if (!_sioClientListener.connection_finish)
-			{
-				_sioClientListener.condition.wait(_sioClientListener.lock);
-			}
+        _sioClientListener.lock.lock();
+        if (!_sioClientListener.connection_finish) {
+            _sioClientListener.condition.wait(_sioClientListener.lock);
+        }
 
-			_sioClientListener.lock.unlock();
-			_socket = _sioClient.socket();
+        _sioClientListener.lock.unlock();
+        _socket = _sioClient.socket();
 
-			_socket->on("command", sio::socket::event_listener_aux([&](std::string const& name, sio::message::ptr const& data, bool isAck, sio::message::list &ack_resp)
-			{
-				_sioClientListener.lock.lock();
-				_command = data->get_map()["data"]->get_string();
-				_sioClientListener.lock.unlock();
-				_socket->emit("command_received");
-			}));
-			_initialized = true;
-			return true;
-		}
-		return false;
-	}
-	//=============================================================================
-	SioClientCommand *SioClientCommand::getInstance()
-	{
-		if (m_pInstance == nullptr)
-		{
-			try
-			{
-				m_pInstance = new SioClientCommand();
-			}
-			catch (std::bad_alloc)
-			{
-				m_pInstance = nullptr;
-			}
-		}
-		return m_pInstance;
-	}
-	//=============================================================================
-	void SioClientCommand::reply(std::string stringToReply)
-	{
-		std::stringstream output;
-		output << stringToReply;
-		sio::message::ptr send_data(sio::object_message::create());
-		std::map<std::string, sio::message::ptr>& map = send_data->get_map();
-		map.insert(std::make_pair("output", sio::string_message::create(output.str())));
-		_socket->emit("reply", send_data);
-	}
-	//=============================================================================
-	std::string SioClientCommand::getCommand()
-	{
-		std::string returnedCommand = _command;
-		_command.clear();
-		return returnedCommand;
-	}
-	//=============================================================================
-	void SioClientCommand::updateCommand(std::string newCommand)
-	{
-		_command = newCommand;
-	}
-	//=============================================================================
+        _socket->on("command",
+            sio::socket::event_listener_aux(
+                [&](std::string const& name, sio::message::ptr const& data, bool isAck,
+                    sio::message::list& ack_resp) {
+                    _sioClientListener.lock.lock();
+                    _command = data->get_map()["data"]->get_string();
+                    _sioClientListener.lock.unlock();
+                    _socket->emit("command_received");
+                }));
+        _initialized = true;
+        return true;
+    }
+    return false;
+}
+//=============================================================================
+SioClientCommand*
+SioClientCommand::getInstance()
+{
+    if (m_pInstance == nullptr) {
+        try {
+            m_pInstance = new SioClientCommand();
+        } catch (std::bad_alloc) {
+            m_pInstance = nullptr;
+        }
+    }
+    return m_pInstance;
+}
+//=============================================================================
+void
+SioClientCommand::reply(std::string stringToReply)
+{
+    std::stringstream output;
+    output << stringToReply;
+    sio::message::ptr send_data(sio::object_message::create());
+    std::map<std::string, sio::message::ptr>& map = send_data->get_map();
+    map.insert(std::make_pair("output", sio::string_message::create(output.str())));
+    _socket->emit("reply", send_data);
+}
+//=============================================================================
+std::string
+SioClientCommand::getCommand()
+{
+    std::string returnedCommand = _command;
+    _command.clear();
+    return returnedCommand;
+}
+//=============================================================================
+void
+SioClientCommand::updateCommand(std::string newCommand)
+{
+    _command = newCommand;
+}
+//=============================================================================
 }
 //=============================================================================

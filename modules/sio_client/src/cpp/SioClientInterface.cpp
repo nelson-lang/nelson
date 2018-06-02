@@ -24,103 +24,106 @@
 #include "SioClientCommand.hpp"
 //=============================================================================
 namespace Nelson {
-	SioClientInterface::SioClientInterface()
-	{
-		atPrompt = false;
-	}
-	//=============================================================================
-	SioClientInterface::~SioClientInterface()
-	{
-
-	}
-	//=============================================================================
-	std::wstring SioClientInterface::getLine(std::wstring prompt)
-	{
-		return getTextLine(prompt, false);
-	}
-	//=============================================================================
-	std::string SioClientInterface::getLine(std::string prompt)
-	{
-		return getTextLine(prompt, false);
-	}
-	//=============================================================================
-	std::wstring SioClientInterface::getInput(std::wstring prompt)
-	{
-		return getTextLine(prompt, true);
-	}
-	//=============================================================================
-	size_t SioClientInterface::getTerminalWidth()
-	{
-		return WIDTH;
-	}
-	//=============================================================================
-	void SioClientInterface::outputMessage(std::wstring msg)
-	{
-		outputMessage(wstring_to_utf8(msg));
-	}
-	//=============================================================================
-	void SioClientInterface::outputMessage(std::string msg)
-	{
-		SioClientCommand::getInstance()->reply(msg);
-	}
-	//=============================================================================
-	void SioClientInterface::errorMessage(std::wstring msg)
-	{
-		errorMessage(wstring_to_utf8(msg));
-	}
-	//=============================================================================
-	void SioClientInterface::errorMessage(std::string msg)
-	{
-		outputMessage(msg);
-	}
-	//=============================================================================
-	void SioClientInterface::warningMessage(std::wstring msg)
-	{
-		warningMessage(wstring_to_utf8(msg));
-	}
-	//=============================================================================
-	void SioClientInterface::warningMessage(std::string msg)
-	{
-		outputMessage(msg);
-	}
-	//=============================================================================
-	void SioClientInterface::clearTerminal()
-	{
-
-	}
-	//=============================================================================
-	bool SioClientInterface::isAtPrompt()
-	{
-		return atPrompt;
-	}
-	//=============================================================================
-	std::wstring SioClientInterface::getTextLine(std::wstring prompt, bool bIsInput)
-	{
-		return utf8_to_wstring(getTextLine(wstring_to_utf8(prompt), bIsInput));
-	}
-	//=============================================================================
-	std::string SioClientInterface::getTextLine(std::string prompt, bool bIsInput)
-	{
-		std::string command;
-		atPrompt = true;
-		outputMessage(prompt);
-		this->diary.writeMessage(prompt);
-		do {
-			boost::this_thread::sleep_for(boost::chrono::milliseconds(10));
-			command = SioClientCommand::getInstance()->getCommand();
-		} while (command.empty());
-		this->diary.writeMessage(command);
-		if (bIsInput)
-		{
-			if (boost::algorithm::ends_with(command, L"\n"))
-			{
-				command.pop_back();
-			}
-		}
-		atPrompt = false;
-		return command;
-	}
-	//=============================================================================
+SioClientInterface::SioClientInterface() { atPrompt = false; }
+//=============================================================================
+SioClientInterface::~SioClientInterface() {}
+//=============================================================================
+std::wstring
+SioClientInterface::getLine(std::wstring prompt)
+{
+    return getTextLine(prompt, false);
 }
 //=============================================================================
-
+std::string
+SioClientInterface::getLine(std::string prompt)
+{
+    return getTextLine(prompt, false);
+}
+//=============================================================================
+std::wstring
+SioClientInterface::getInput(std::wstring prompt)
+{
+    return getTextLine(prompt, true);
+}
+//=============================================================================
+size_t
+SioClientInterface::getTerminalWidth()
+{
+    return WIDTH;
+}
+//=============================================================================
+void
+SioClientInterface::outputMessage(std::wstring msg)
+{
+    outputMessage(wstring_to_utf8(msg));
+}
+//=============================================================================
+void
+SioClientInterface::outputMessage(std::string msg)
+{
+    SioClientCommand::getInstance()->reply(msg);
+}
+//=============================================================================
+void
+SioClientInterface::errorMessage(std::wstring msg)
+{
+    errorMessage(wstring_to_utf8(msg));
+}
+//=============================================================================
+void
+SioClientInterface::errorMessage(std::string msg)
+{
+    outputMessage(msg);
+}
+//=============================================================================
+void
+SioClientInterface::warningMessage(std::wstring msg)
+{
+    warningMessage(wstring_to_utf8(msg));
+}
+//=============================================================================
+void
+SioClientInterface::warningMessage(std::string msg)
+{
+    outputMessage(msg);
+}
+//=============================================================================
+void
+SioClientInterface::clearTerminal()
+{}
+//=============================================================================
+bool
+SioClientInterface::isAtPrompt()
+{
+    return atPrompt;
+}
+//=============================================================================
+std::wstring
+SioClientInterface::getTextLine(std::wstring prompt, bool bIsInput)
+{
+    return utf8_to_wstring(getTextLine(wstring_to_utf8(prompt), bIsInput));
+}
+//=============================================================================
+std::string
+SioClientInterface::getTextLine(std::string prompt, bool bIsInput)
+{
+    std::string command;
+    atPrompt = true;
+    outputMessage(prompt);
+    this->diary.writeMessage(prompt);
+    do {
+        boost::this_thread::sleep_for(boost::chrono::milliseconds(10));
+        command = SioClientCommand::getInstance()->getCommand();
+    } while (command.empty());
+    this->diary.writeMessage(command);
+    if (bIsInput) {
+        if (boost::algorithm::ends_with(command, L"\n")) {
+            command.pop_back();
+        }
+    }
+    atPrompt = false;
+    return command;
+}
+//=============================================================================
+}
+//=============================================================================

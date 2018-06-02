@@ -25,6 +25,6 @@
 #define NLSSIO_CLIENT_IMPEXP __declspec(dllimport)
 #endif
 #else
-#define NLSSIO_CLIENT_IMPEXP __attribute__ ((visibility ("default")))
+#define NLSSIO_CLIENT_IMPEXP __attribute__((visibility("default")))
 #endif
 //=============================================================================

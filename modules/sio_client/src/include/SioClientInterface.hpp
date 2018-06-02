@@ -23,47 +23,62 @@
 #include "Interface.hpp"
 //=============================================================================
 namespace Nelson {
-	class NLSSIO_CLIENT_IMPEXP SioClientInterface : public Interface {
-#define CMD_BUFFER_SIZE 4096*2
+class NLSSIO_CLIENT_IMPEXP SioClientInterface : public Interface
+{
+#define CMD_BUFFER_SIZE 4096 * 2
 #define WIDTH 80
-	public:
-		SioClientInterface();
-		~SioClientInterface();
-		/**
-		*  Get a line of input from the user with the
-		*  given prompt.
-		*/
-		std::wstring getLine(std::wstring prompt);
-		std::string getLine(std::string prompt);
-		std::wstring getInput(std::wstring prompt);
-		/**
-		*  Return the width of the current "terminal" in
-		*  characters.
-		*/
-		size_t getTerminalWidth();
-		/**
-		*  Output the following text message.
-		*/
-		void outputMessage(std::wstring msg);
-		void outputMessage(std::string msg);
-		/**
-		*  Output the following error message.
-		*/
-		void errorMessage(std::wstring msg);
-		void errorMessage(std::string msg);
-		/**
-		*  Output the following warning message.
-		*/
-		void warningMessage(std::wstring msg);
-		void warningMessage(std::string msg);
+public:
+    SioClientInterface();
+    ~SioClientInterface();
+    /**
+     *  Get a line of input from the user with the
+     *  given prompt.
+     */
+    std::wstring
+    getLine(std::wstring prompt);
+    std::string
+    getLine(std::string prompt);
+    std::wstring
+    getInput(std::wstring prompt);
+    /**
+     *  Return the width of the current "terminal" in
+     *  characters.
+     */
+    size_t
+    getTerminalWidth();
+    /**
+     *  Output the following text message.
+     */
+    void
+    outputMessage(std::wstring msg);
+    void
+    outputMessage(std::string msg);
+    /**
+     *  Output the following error message.
+     */
+    void
+    errorMessage(std::wstring msg);
+    void
+    errorMessage(std::string msg);
+    /**
+     *  Output the following warning message.
+     */
+    void
+    warningMessage(std::wstring msg);
+    void
+    warningMessage(std::string msg);
 
-		void clearTerminal();
-		bool isAtPrompt();
+    void
+    clearTerminal();
+    bool
+    isAtPrompt();
 
-	private:
-		std::wstring getTextLine(std::wstring prompt, bool bIsInput);
-		std::string getTextLine(std::string prompt, bool bIsInput);
-		bool atPrompt;
-	};
+private:
+    std::wstring
+    getTextLine(std::wstring prompt, bool bIsInput);
+    std::string
+    getTextLine(std::string prompt, bool bIsInput);
+    bool atPrompt;
+};
 }
 //=============================================================================

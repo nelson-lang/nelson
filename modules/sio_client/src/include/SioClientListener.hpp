@@ -21,15 +21,19 @@
 #include <sio_client.h>
 #include <condition_variable>
 //=============================================================================
-	class SioClientListener {
-	public:
-		SioClientListener();
-		~SioClientListener();
-		void on_fail();
-		void on_connected();
-		void on_close(sio::client::close_reason const &reason);
-		bool connection_finish;
-		std::mutex lock;
-		std::condition_variable_any condition;
-	};
+class SioClientListener
+{
+public:
+    SioClientListener();
+    ~SioClientListener();
+    void
+    on_fail();
+    void
+    on_connected();
+    void
+    on_close(sio::client::close_reason const& reason);
+    bool connection_finish;
+    std::mutex lock;
+    std::condition_variable_any condition;
+};
 //=============================================================================

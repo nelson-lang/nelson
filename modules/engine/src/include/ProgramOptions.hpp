@@ -19,6 +19,7 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
+#include "NelSon_engine_mode.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -55,7 +56,7 @@ private:
 class ProgramOptions
 {
 public:
-    ProgramOptions(wstringVector args);
+    ProgramOptions(wstringVector args, NELSON_ENGINE_MODE mode);
     ~ProgramOptions();
     bool
     isValid();
@@ -69,6 +70,8 @@ public:
     getOptionsHelp();
     std::wstring
     getLanguage();
+    std::wstring
+    getSocketIoUri();
     uint64
     getTimeout();
     wstringVector
@@ -93,6 +96,8 @@ public:
     haveTimeout();
     bool
     haveOpenFiles();
+    bool
+    haveSocketIoUri();
 
 private:
     bool
@@ -114,9 +119,11 @@ private:
     std::wstring _command;
     std::wstring _options;
     std::wstring _lang;
+    std::wstring _socketioUri;
     uint64 _timeout;
     wstringVector _args;
     wstringVector _filesToOpen;
+    NELSON_ENGINE_MODE _mode;
 };
 //=============================================================================
 } // namespace Nelson

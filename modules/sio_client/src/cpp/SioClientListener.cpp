@@ -20,32 +20,29 @@
 #include <string>
 #include "SioClientListener.hpp"
 //=============================================================================
-SioClientListener::SioClientListener() 
+SioClientListener::SioClientListener() { connection_finish = false; }
+//=============================================================================
+SioClientListener::~SioClientListener() { connection_finish = false; }
+//=============================================================================
+void
+SioClientListener::on_fail()
 {
-	connection_finish = false;
+    std::cout << "SioClientListener.on_fail" << std::endl;
 }
 //=============================================================================
-SioClientListener::~SioClientListener()
+void
+SioClientListener::on_connected()
 {
-	connection_finish = false;
+    std::cout << "SioClientListener.on_connected" << std::endl;
+    lock.lock();
+    condition.notify_all();
+    connection_finish = true;
+    lock.unlock();
 }
 //=============================================================================
-void SioClientListener::on_fail()
+void
+SioClientListener::on_close(sio::client::close_reason const& reason)
 {
-	std::cout << "SioClientListener.on_fail" << std::endl;
-}
-//=============================================================================
-void SioClientListener::on_connected()
-{
-	std::cout << "SioClientListener.on_connected" << std::endl;
-	lock.lock();
-	condition.notify_all();
-	connection_finish = true;
-	lock.unlock();
-}
-//=============================================================================
-void SioClientListener::on_close(sio::client::close_reason const & reason)
-{
-	std::cout << "SioClientListener.on_close" << std::endl;
+    std::cout << "SioClientListener.on_close" << std::endl;
 }
 //=============================================================================

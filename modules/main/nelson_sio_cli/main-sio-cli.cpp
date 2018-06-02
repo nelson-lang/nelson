@@ -31,11 +31,11 @@ int main(int argc, char *argv[])
 #endif
     int argCount = 0;
     LPWSTR *szArgList = CommandLineToArgvW(GetCommandLineW(), &argCount);
-    int ierr = StartNelson(argCount, szArgList, NELSON_ENGINE_MODE::BASIC_TERMINAL);
+    int ierr = StartNelson(argCount, szArgList, NELSON_ENGINE_MODE::BASIC_SIO_CLIENT);
     LocalFree(szArgList);
     return ierr;
 #else
-    return StartNelson(argc, argv, NELSON_ENGINE_MODE::BASIC_TERMINAL);
+    return StartNelson(argc, argv, NELSON_ENGINE_MODE::BASIC_SIO_CLIENT);
 #endif
 }
 //=============================================================================

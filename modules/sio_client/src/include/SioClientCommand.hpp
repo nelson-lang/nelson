@@ -25,25 +25,34 @@
 #include "SioClientListener.hpp"
 //=============================================================================
 namespace Nelson {
-	class NLSSIO_CLIENT_IMPEXP SioClientCommand {
-	public:
-		static SioClientCommand *getInstance();
-		void reply(std::string stringToReply);
-		std::string getCommand();
-		void updateCommand(std::string command);
-		bool isInitialized();
-		bool create(const std::string &ipAddress);
-	private:
-		std::string _command;
-		std::string _ipAddress;
-		sio::client _sioClient;
-		SioClientListener _sioClientListener;
-		bool _initialized;
+class NLSSIO_CLIENT_IMPEXP SioClientCommand
+{
+public:
+    static SioClientCommand*
+    getInstance();
+    void
+    reply(std::string stringToReply);
+    std::string
+    getCommand();
+    void
+    updateCommand(std::string command);
+    bool
+    isInitialized();
+    bool
+    create(const std::string& ipAddress);
 
-		SioClientCommand();
-		bool createConnection(const std::string &ipAddress);
-		static SioClientCommand *m_pInstance;
-		static sio::socket::ptr _socket;
-	};
+private:
+    std::string _command;
+    std::string _ipAddress;
+    sio::client _sioClient;
+    SioClientListener _sioClientListener;
+    bool _initialized;
+
+    SioClientCommand();
+    bool
+    createConnection(const std::string& ipAddress);
+    static SioClientCommand* m_pInstance;
+    static sio::socket::ptr _socket;
+};
 }
 //=============================================================================

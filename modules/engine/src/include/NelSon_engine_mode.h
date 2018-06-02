@@ -24,6 +24,8 @@ typedef enum
     ADVANCED_ENGINE,
     BASIC_TERMINAL,
     ADVANCED_TERMINAL,
+    BASIC_SIO_CLIENT,
+    ADVANCED_SIO_CLIENT,
     GUI
 } NELSON_ENGINE_MODE;
 //=============================================================================

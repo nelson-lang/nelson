@@ -46,6 +46,12 @@ Nelson::EngineGateway::getnelsonmodeBuiltin(Evaluator* eval, int nLhs, const Arr
     case ADVANCED_TERMINAL: {
         retval.push_back(ArrayOf::stringConstructor("ADVANCED_TERMINAL"));
     } break;
+    case BASIC_SIO_CLIENT: {
+        retval.push_back(ArrayOf::stringConstructor("BASIC_SIO_CLIENT"));
+    } break;
+    case ADVANCED_SIO_CLIENT: {
+        retval.push_back(ArrayOf::stringConstructor("ADVANCED_SIO_CLIENT"));
+    } break;
     case GUI: {
         retval.push_back(ArrayOf::stringConstructor("GUI"));
     } break;

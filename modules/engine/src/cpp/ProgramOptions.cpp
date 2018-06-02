@@ -101,7 +101,7 @@ Option::isSameFieldname(std::wstring name)
 #endif
 }
 //=============================================================================
-ProgramOptions::ProgramOptions(wstringVector args)
+ProgramOptions::ProgramOptions(wstringVector args, NELSON_ENGINE_MODE mode)
 {
     _ishelp = false;
     _isversion = false;
@@ -113,7 +113,9 @@ ProgramOptions::ProgramOptions(wstringVector args)
     _command = L"";
     _options = L"";
     _lang = L"";
+    _socketioUri = L"";
     _args = args;
+    _mode = mode;
     _isvalid = parse();
 }
 //=============================================================================
@@ -129,6 +131,7 @@ ProgramOptions::~ProgramOptions()
     _file = L"";
     _command = L"";
     _options = L"";
+    _socketioUri = L"";
     _lang = L"";
 }
 //=============================================================================
@@ -235,6 +238,7 @@ ProgramOptions::parse()
     Option commandtoexecuteOption(L"execute", L"e", _W("command to execute"), false, true);
     Option filetoexecuteOption(L"file", L"f", _W("file to execute"), false, true);
     Option languageOption(L"language", L"l", _W("language used in current session"), false, true);
+    Option socketIoOption(L"socketio", L"", _W("socket.io uri address"), false, true);
     Option quietOption(
         L"quiet", L"q", _W("does not print banner and version at startup"), false, false);
     Option timeoutOption(L"timeout", L"", _W("kill nelson process after n seconds"), false, true);
@@ -247,6 +251,9 @@ ProgramOptions::parse()
     _options = _options + commandtoexecuteOption.getFullDescription() + L"\n";
     _options = _options + filetoexecuteOption.getFullDescription() + L"\n";
     _options = _options + languageOption.getFullDescription() + L"\n";
+    if (_mode == NELSON_ENGINE_MODE::BASIC_SIO_CLIENT) {
+        _options = _options + socketIoOption.getFullDescription() + L"\n";
+    }
     _options = _options + quietOption.getFullDescription() + L"\n";
     _options = _options + timeoutOption.getFullDescription() + L"\n";
     _options = _options + openFilesOption.getFullDescription() + L"\n";
@@ -259,6 +266,13 @@ ProgramOptions::parse()
     bRes = bRes && parseOptionWithValue(commandtoexecuteOption, bFind, _command);
     bRes = bRes && parseOptionWithValue(filetoexecuteOption, bFind, _file);
     bRes = bRes && parseOptionWithValue(languageOption, bFind, _lang);
+    if (_mode == NELSON_ENGINE_MODE::BASIC_SIO_CLIENT) {
+        bRes = bRes && parseOptionWithValue(socketIoOption, bFind, _socketioUri);
+        if (!bFind && !_ishelp) {
+            _error = _W("socketio address required.");
+            return false;
+        }
+    }
     std::wstring _timeout_str = L"";
     bRes = bRes && parseOptionWithValue(timeoutOption, bFind, _timeout_str);
     if (bFind) {
@@ -322,6 +336,15 @@ ProgramOptions::haveLanguage()
 {
     if (_isvalid) {
         return !_lang.empty();
+    }
+    return false;
+}
+//=============================================================================
+bool
+ProgramOptions::haveSocketIoUri()
+{
+    if (_isvalid) {
+        return !_socketioUri.empty();
     }
     return false;
 }
@@ -405,6 +428,12 @@ std::wstring
 ProgramOptions::getLanguage()
 {
     return _lang;
+}
+//=============================================================================
+std::wstring
+ProgramOptions::getSocketIoUri()
+{
+    return _socketioUri;
 }
 //=============================================================================
 uint64

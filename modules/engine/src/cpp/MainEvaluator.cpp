@@ -24,6 +24,7 @@
 #else
 #include "BsdTerminal.hpp"
 #endif
+#include "SioClientInterface.hpp"
 #include "AstManager.hpp"
 #include "BuiltInFunctionDefManager.hpp"
 #include "Clear.hpp"
@@ -75,12 +76,23 @@ createMainEvaluator(NELSON_ENGINE_MODE _mode, std::wstring lang)
                 fprintf(stderr, "%s", _("This mode is not yet implemented.\n").c_str());
                 exit(1);
             } break;
+            case BASIC_SIO_CLIENT: {
+                SioClientInterface* nlsTerm = new SioClientInterface();
+                if (nlsTerm) {
+                    mainEvaluator = new Evaluator(context, nlsTerm, _mode);
+                    mainEvaluator->mainGuiObject = nullptr;
+                }
+            } break;
             case BASIC_TERMINAL: {
                 BasicTerminal* nlsTerm = new BasicTerminal();
                 if (nlsTerm) {
                     mainEvaluator = new Evaluator(context, nlsTerm, _mode);
                     mainEvaluator->mainGuiObject = nullptr;
                 }
+            } break;
+            case ADVANCED_SIO_CLIENT: {
+                fprintf(stderr, _("This mode is not yet implemented.\n").c_str());
+                exit(1);
             } break;
             case ADVANCED_TERMINAL: {
                 InitGuiObjectsDynamic();
@@ -131,6 +143,8 @@ destroyMainEvaluator()
         if (io) {
             int engineMode = mainEvaluator->getNelsonEngineMode();
             switch (engineMode) {
+            case ADVANCED_SIO_CLIENT:
+            case BASIC_SIO_CLIENT:
             case BASIC_ENGINE: {
             } break;
             case ADVANCED_ENGINE: {

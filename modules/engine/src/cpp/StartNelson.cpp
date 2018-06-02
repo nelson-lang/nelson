@@ -45,6 +45,7 @@
 #include "StartNelsonUserScript.hpp"
 #include "TimeoutThread.hpp"
 #include "characters_encoding.hpp"
+#include "SioClientCommand.hpp"
 #include <boost/filesystem.hpp>
 #include <boost/program_options.hpp>
 #include <locale.h>
@@ -257,7 +258,7 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
     wstringVector filesToOpen;
     std::wstring lang;
     bool bQuietMode = false;
-    ProgramOptions po(args);
+    ProgramOptions po(args, _mode);
     if (!po.isValid()) {
         ErrorCommandLine(po.getErrorMessage(), _mode);
         return exitCode;
@@ -284,6 +285,12 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
     if (po.haveNoStartup() && po.haveNoUserStartup()) {
         ErrorCommandLineMessage_startup_exclusive(_mode);
         return exitCode;
+    }
+    std::wstring socketIoURI;
+    if (_mode == BASIC_SIO_CLIENT) {
+        if (po.haveSocketIoUri()) {
+            socketIoURI = po.getSocketIoUri();
+        }
     }
     bQuietMode = po.haveQuietMode();
     if (!fileToExecute.empty()) {
@@ -314,6 +321,9 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
             Interface* io = eval->getInterface();
             eval->setLastException(e);
             io->errorMessage(_W("Nelson cannot load base modules.\n"));
+        }
+        if (!socketIoURI.empty()) {
+            SioClientCommand::getInstance()->create(wstring_to_utf8(socketIoURI));
         }
         exitCode = NelsonMainStates(eval, po.haveNoStartup(), po.haveNoUserStartup(),
             commandToExecute, fileToExecute, filesToOpen);
