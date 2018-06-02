@@ -71,6 +71,9 @@ tests_*.json
 /modules/*/*_automoc.cpp
 /modules/gui/nlsGui_automoc.dir
 /modules/*/help/en_US/md/*.html
+/modules/main/nelson_sio_cli/x64
+/modules/main/nelson_sio_cli/Debug
+/modules/main/nelson_sio_cli/Release
 /modules/main/nelson_cli/x64
 /modules/main/nelson_cli/Debug
 /modules/main/nelson_cli/Release

@@ -81,8 +81,15 @@ You can also see [.travis.yml](https://github.com/Nelson-numerical-software/nels
         ./b2 -q -d0 --user-config=user-config.jam headers;
         sudo ./b2 -q -d0 --user-config=user-config.jam cxxflags="-std=c++11 -fPIC" threading=multi link=shared install;
         popd;
-
         ```
+
+    - Get and install socket.io-client-cpp (optional)
+        ```bash
+        git clone https://github.com/Nelson-numerical-software/sio-client-cpp.git
+        cmake .
+        make
+        sudo make install
+        ```    
 
     - Creates Nelson main directory
         ```bash
@@ -155,6 +162,13 @@ You can also see [.travis.yml](https://github.com/Nelson-numerical-software/nels
     - Get sources:
         ```bash
         git clone https://github.com/Nelson-numerical-software/nelson.git
+        ```
+    - Get and install socket.io-client-cpp (optional)
+        ```bash
+        git clone https://github.com/Nelson-numerical-software/sio-client-cpp.git
+        cmake .
+        make
+        sudo make install
         ```
     - Configure the build:
         ```bash

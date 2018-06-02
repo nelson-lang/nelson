@@ -71,8 +71,11 @@ tests_manager
 audio
 mpi
 json
-main
 )
+if (WITH_SIO_CLIENT)
+LIST(APPEND moduleslist sio_client)
+endif()
+LIST(APPEND moduleslist main)
 #==============================================================================	
 FOREACH(mod ${moduleslist})
   INCLUDE_DIRECTORIES("../build/modules/${mod}/includes")

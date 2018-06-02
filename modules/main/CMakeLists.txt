@@ -65,6 +65,23 @@ target_link_libraries(nelson-gui
 nlsEngine
 )
 #==============================================================================
+if (WITH_SIO_CLIENT)
+FILE(
+GLOB
+MAINSIOCLI_SRC
+"${CMAKE_CURRENT_SOURCE_DIR}/nelson_sio_cli/*.cpp"
+)
+#==============================================================================	
+ADD_EXECUTABLE(
+	nelson-sio-cli
+	${MAINSIOCLI_SRC}
+)
+#==============================================================================	
+target_link_libraries(nelson-sio-cli
+nlsEngine
+)
+endif()
+#==============================================================================
 add_custom_target(Name ALL
     COMMAND nelson-cli --quiet --file "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/../../tools/gettext/generatemo.nls"
     DEPENDS nelson-cli
@@ -103,5 +120,8 @@ add_custom_target(tests_minimal
 install(TARGETS nelson-adv-cli RUNTIME DESTINATION ${LIBRARY_OUTPUT})
 install(TARGETS nelson-cli RUNTIME DESTINATION ${LIBRARY_OUTPUT})
 install(TARGETS nelson-gui RUNTIME DESTINATION ${LIBRARY_OUTPUT})
+if (WITH_SIO_CLIENT)
+install(TARGETS nelson-sio-cli RUNTIME DESTINATION ${LIBRARY_OUTPUT})
+endif()
 #==============================================================================
 

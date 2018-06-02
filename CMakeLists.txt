@@ -189,6 +189,16 @@ FIND_PACKAGE(Taglib REQUIRED)
 #============================================================================== 
 find_package(LIBFFI REQUIRED)
 #==============================================================================
+find_library(SIO_CLIENT_LIBRARY NAMES sioclient)
+find_path(SIO_CLIENT_INCLUDE NAMES sio_client.h)
+if (NOT SIO_CLIENT_LIBRARY OR NOT SIO_CLIENT_INCLUDE)
+message(STATUS "sioclient-cpp not found (disabled)")
+set(WITH_SIO_CLIENT FALSE)
+else()
+message(STATUS "Found libsioclient: ${SIO_CLIENT_INCLUDE} ${SIO_CLIENT_LIBRARY}")
+set(WITH_SIO_CLIENT TRUE)
+endif()
+#==============================================================================
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   execute_process(COMMAND brew --prefix libffi
                 OUTPUT_VARIABLE BREW_LIBFFI_PREFIX

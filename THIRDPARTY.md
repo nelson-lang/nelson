@@ -213,3 +213,15 @@ TagLib Audio Meta-Data Library
 
 > https://github.com/taglib/taglib/blob/master/COPYING.LGPL
 LGPL
+
+- Socket.IO C++ Client
+
+C++11 implementation of Socket.IO client
+
+> https://github.com/socketio/socket.io-client-cpp
+
+> https://github.com/Nelson-numerical-software/sio-client-cpp
+
+> https://github.com/llamerada-jp/socket.io-cpp-client-sample
+
+>https://github.com/socketio/socket.io-client-cpp/blob/master/LICENSE (MIT)
